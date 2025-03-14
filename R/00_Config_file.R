@@ -1,7 +1,7 @@
 #----------------------------------------------------------#
 #
 #
-#                     Project name
+#                 Vegetation Co-occurence
 #
 #                     Config file
 #
