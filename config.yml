@@ -1,0 +1,14 @@
+default:
+  target_store: default
+  current_dir: !expr here::here()
+  current_date: !expr Sys.Date()
+  graphical:
+    text_size: 10
+    line_size: 0.1
+    image_width: 16
+    image_height: 12
+    image_units: "cm" 
+project_light:
+  target_store: Data/targets/project_light
+project_full:
+  target_store: Data/targets/project_full

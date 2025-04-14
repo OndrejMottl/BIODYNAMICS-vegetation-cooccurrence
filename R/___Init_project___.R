@@ -86,6 +86,7 @@ if (
 sapply(
   c(
     "assertthat",
+    "config",
     "here",
     "httpgd",
     "janitor",
@@ -93,10 +94,12 @@ sapply(
     "knitr",
     "languageserver",
     "lifecycle",
+    "qs2",
     "renv",
     "remotes",
     "rlang",
     "roxygen2",
+    "targets",
     "tidyverse",
     "usethis",
     "utils"

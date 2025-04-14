@@ -48,3 +48,9 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 .Rproj.user
+
+# Developer files
+R/debug.R
+
+# Target files
+Data/targets/
