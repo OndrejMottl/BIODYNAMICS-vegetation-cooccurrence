@@ -17,15 +17,18 @@
 # Set the current environment
 current_env <- environment()
 
-# set seed
-set.seed(1234)
-
 
 #----------------------------------------------------------#
 # 1. Load packages -----
 #----------------------------------------------------------#
 
-library(here)
+library(
+  "here",
+  quietly = TRUE,
+  warn.conflicts = FALSE,
+  character.only = TRUE,
+  verbose = FALSE
+)
 
 if (
   isFALSE(
@@ -60,31 +63,33 @@ package_list <-
     "knitr",
     "languageserver",
     "lifecycle",
+    "qs2",
     "renv",
     "remotes",
     "rlang",
     "roxygen2",
     "tidyverse",
+    "targets",
     "usethis",
     "utils"
   )
 
 # Attach all packages
-sapply(package_list, library, character.only = TRUE)
+sapply(
+  package_list,
+  function(x) {
+    library(x,
+      quietly = TRUE,
+      warn.conflicts = FALSE,
+      character.only = TRUE,
+      verbose = FALSE
+    )
+  }
+)
 
 
 #----------------------------------------------------------#
-# 2. Define space -----
-#----------------------------------------------------------#
-
-current_date <- Sys.Date()
-
-# project directory is set up by 'here' package, Adjust if needed
-current_dir <- here::here()
-
-
-#----------------------------------------------------------#
-# 3. Load functions -----
+# 2. Load functions -----
 #----------------------------------------------------------#
 
 # get vector of general functions
@@ -107,35 +112,17 @@ if (
 
 
 #----------------------------------------------------------#
-# 4. Authorise the user -----
+# 3. Authorise the user -----
 #----------------------------------------------------------#
 
 # if applicable
 
-#----------------------------------------------------------#
-# 5. Define variables -----
-#----------------------------------------------------------#
-
 
 #----------------------------------------------------------#
-# 6. Graphical options -----
+# 4. Graphical options -----
 #----------------------------------------------------------#
 
-## examples
 # set ggplot output
 ggplot2::theme_set(
   ggplot2::theme_classic()
 )
-
-# define general
-text_size <- 10
-line_size <- 0.1
-
-# define output sizes
-image_width <- 16
-image_height <- 12
-image_units <- "cm"
-
-# define pallets
-
-# define common color
