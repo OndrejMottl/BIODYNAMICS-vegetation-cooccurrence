@@ -14,7 +14,7 @@
 
 
 #----------------------------------------------------------#
-# 1. Load packages -----
+# 1. Setup -----
 #----------------------------------------------------------#
 
 library(here)
@@ -23,8 +23,13 @@ source(
   here::here("R/___setup_project___.R")
 )
 
+
+#----------------------------------------------------------#
+# 2. Run the pipeline -----
+#----------------------------------------------------------#
+
 targets::tar_make(
-  script = here::here("R/02_Main_analyses/run_pipe.R"),
+  script = here::here("R/02_Main_analyses/pipeline.R"),
   store = config::get(
     value = "target_store",
     config =  Sys.getenv("R_CONFIG_ACTIVE"),
@@ -34,7 +39,7 @@ targets::tar_make(
 )
 
 targets::tar_visnetwork(
-  script = here::here("R/02_Main_analyses/run_pipe.R"),
+  script = here::here("R/02_Main_analyses/pipeline.R"),
   store = config::get(
     value = "target_store",
     config =  Sys.getenv("R_CONFIG_ACTIVE"),
