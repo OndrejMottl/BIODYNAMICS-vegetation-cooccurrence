@@ -71,7 +71,8 @@ package_list <-
     "tidyverse",
     "targets",
     "usethis",
-    "utils"
+    "utils",
+    "vaultkeepr"
   )
 
 # Attach all packages
