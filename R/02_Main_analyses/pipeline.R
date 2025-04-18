@@ -58,12 +58,32 @@ list(
   ),
   targets::tar_target(
     name = "data_community",
-    command = get_vegetation_data(data_vegvault_extracted),
+    command = get_community_data(data_vegvault_extracted),
     format = "qs"
   ),
   targets::tar_target(
-    name = "data_community_cleaned",
-    command = replace_na_community_data_with_zeros(data_community),
+    name = "data_community_long",
+    command = make_community_data_long(data_community),
+    format = "qs"
+  ),
+  targets::tar_target(
+    name = "data_sample_ages",
+    command = get_sample_ages(data_vegvault_extracted),
+    format = "qs"
+  ),
+  targets::tar_target(
+    name = "data_community_long_ages",
+    command = add_age_to_community_data(data_community_long, data_sample_ages),
+    format = "qs"
+  ),
+  targets::tar_target(
+    name = "data_community_interpolated",
+    command = interpolate_community_data(
+      data = data_community_long_ages,
+      timestep = get_active_config(
+        value = c("data_processing", "time_step")
+      )
+    ),
     format = "qs"
   )
 )

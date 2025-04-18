@@ -16,6 +16,8 @@ project_light:
     age_lim: !expr c(500, 2000)
     sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
     sel_abiotic_var_name: "bio1"
+  data_processing:
+    time_step: 1000
 project_full:
   target_store: Data/targets/project_full
   vegvault_data:
@@ -24,3 +26,5 @@ project_full:
     age_lim: !expr c(0, 20e3)
     sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
     sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    time_step: 500
