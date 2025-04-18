@@ -51,27 +51,6 @@ targets::tar_make(
 # 3. Save the status of the project -----
 #----------------------------------------------------------#
 
-network_graph <-
-  targets::tar_visnetwork(
-    script = here::here("R/02_Main_analyses/pipeline.R"),
-    store = get_active_config("target_store"),
-    targets_only = TRUE
-  )
-
-visNetwork::visSave(
-  graph = network_graph,
-  file = here::here(
-    "Outputs/Figures/project_status.html"
-  ),
-  background = "white",
-  selfcontained = TRUE
-)
-
-webshot2::webshot(
-  url = here::here(
-    "Outputs/Figures/project_status.html"
-  ),
-  file = here::here(
-    "Outputs/Figures/project_status_static.png"
-  )
+save_progress_visualisation(
+  sel_script = here::here("R/02_Main_analyses/pipeline.R")
 )
