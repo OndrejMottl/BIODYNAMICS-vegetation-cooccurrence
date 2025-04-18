@@ -45,13 +45,25 @@ targets::tar_source(
 
 list(
   targets::tar_target(
-    name = "data_mtgcars",
-    command = mtcars,
+    name = "data_vegvault_extracted",
+    command = extract_data_from_vegvault(
+      path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+      x_lim = get_active_config(value = c("vegvault_data", "x_lim")),
+      y_lim = get_active_config(value = c("vegvault_data", "y_lim")),
+      age_lim = get_active_config(value = c("vegvault_data", "age_lim")),
+      sel_abiotic_var_name = get_active_config(value = c("vegvault_data", "sel_abiotic_var_name")),
+      sel_dataset_type = get_active_config(value = c("vegvault_data", "sel_dataset_type"))
+    ),
     format = "qs",
   ),
   targets::tar_target(
-    name = "data_summary",
-    command = test_function(data_mtgcars),
-    format = "qs",
+    name = "data_community",
+    command = get_vegetation_data(data_vegvault_extracted),
+    format = "qs"
+  ),
+  targets::tar_target(
+    name = "data_community_cleaned",
+    command = replace_na_community_data_with_zeros(data_community),
+    format = "qs"
   )
 )

@@ -71,7 +71,8 @@ package_list <-
     "tidyverse",
     "targets",
     "usethis",
-    "utils"
+    "utils",
+    "vaultkeepr"
   )
 
 # Attach all packages
@@ -112,10 +113,10 @@ if (
 
 
 #----------------------------------------------------------#
-# 3. Authorise the user -----
+# 3. Check the presence of VegVault
 #----------------------------------------------------------#
 
-# if applicable
+check_presence_of_vegvault()
 
 
 #----------------------------------------------------------#

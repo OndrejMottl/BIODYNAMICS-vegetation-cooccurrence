@@ -54,3 +54,6 @@ R/debug.R
 
 # Target files
 Data/targets/
+
+# Large input files. See Data/Input/README.md for more information.
+Data/Input/VegVault.sqlite

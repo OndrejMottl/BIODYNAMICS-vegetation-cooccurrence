@@ -115,6 +115,14 @@ remotes::install_github(
   upgrade = "ask"
 )
 
+# install vaultkeepr from GitHub
+remotes::install_github(
+  repo = "OndrejMottl/vaultkeepr",
+  ref = "HEAD",
+  quiet = FALSE,
+  upgrade = "ask"
+)
+
 #----------------------------------------------------------#
 # Step 4: Save versions of packages -----
 #----------------------------------------------------------#

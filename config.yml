@@ -7,8 +7,20 @@ default:
     line_size: 0.1
     image_width: 16
     image_height: 12
-    image_units: "cm" 
+    image_units: "cm"
 project_light:
   target_store: Data/targets/project_light
+  vegvault_data:
+    x_lim: !expr c(12, 18.9)
+    y_lim: !expr c(48.5, 51.5)
+    age_lim: !expr c(500, 2000)
+    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
+    sel_abiotic_var_name: "bio1"
 project_full:
   target_store: Data/targets/project_full
+  vegvault_data:
+    x_lim: !expr c(-10, 40)
+    y_lim: !expr c(35, 70)
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
