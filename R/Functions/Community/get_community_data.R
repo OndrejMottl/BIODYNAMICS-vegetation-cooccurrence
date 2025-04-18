@@ -1,4 +1,4 @@
-get_vegetation_data <- function(data = NULL) {
+get_community_data <- function(data = NULL) {
   assertthat::assert_that(
     is.data.frame(data),
     msg = "data must be a data frame"
