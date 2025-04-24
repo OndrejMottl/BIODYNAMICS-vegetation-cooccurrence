@@ -1,3 +1,15 @@
+#' @title Replace NA in Community Data with Zeros
+#' @description
+#' Replaces NA values in community data with zeros.
+#' @param data
+#' A data frame. Must contain `dataset_name` and `sample_name` columns, and
+#' at least one taxon column.
+#' @return
+#' A data frame with NA values replaced by zeros.
+#' @details
+#' Converts the data to long format, replaces NA values in `pollen_count`
+#' with zeros, and reshapes it back to wide format.
+#' @export
 replace_na_community_data_with_zeros <- function(data = NULL) {
   assertthat::assert_that(
     is.data.frame(data),
