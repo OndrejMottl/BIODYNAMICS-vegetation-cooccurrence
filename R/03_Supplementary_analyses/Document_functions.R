@@ -27,14 +27,11 @@ purrr::walk(
     pattern = "\\.R$",
     recursive = TRUE
   ),
-  .f = purrr::possibly(
-    .f = ~ document::document(
-      file = .x,
-      check_package = FALSE,
-      working_directory = tempdir(),
-      output_directory = here::here(
-        "R/Functions/Documentation"
-      )
+  .f = ~ document::document(
+    file = .x,
+    check_package = FALSE,
+    output_directory = here::here(
+      "Documentation/Functions"
     )
   )
 )

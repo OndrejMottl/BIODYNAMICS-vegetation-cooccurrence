@@ -1,0 +1,24 @@
+Replace NA in Community Data with Zeros
+
+Description:
+
+     Replaces NA values in community data with zeros.
+
+Usage:
+
+     replace_na_community_data_with_zeros(data = NULL)
+     
+Arguments:
+
+    data: A data frame. Must contain `dataset_name` and `sample_name`
+          columns, and at least one taxon column.
+
+Details:
+
+     Converts the data to long format, replaces NA values in
+     `pollen_count` with zeros, and reshapes it back to wide format.
+
+Value:
+
+     A data frame with NA values replaced by zeros.
+

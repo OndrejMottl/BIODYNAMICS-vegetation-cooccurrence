@@ -1,0 +1,27 @@
+Get Sample Ages
+
+Description:
+
+     Extracts sample ages from a data frame containing dataset and
+     sample info.
+
+Usage:
+
+     get_sample_ages(data = NULL)
+     
+Arguments:
+
+    data: A data frame. Must contain the columns `dataset_name` and
+          `data_samples`.
+
+Details:
+
+     Validates the input data frame, ensures required columns are
+     present, and extracts sample ages by unnesting the `data_samples`
+     column.
+
+Value:
+
+     A data frame with columns `dataset_name`, `sample_name`, and
+     `age`.
+

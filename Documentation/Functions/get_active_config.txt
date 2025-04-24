@@ -1,0 +1,30 @@
+Get Active Configuration Value
+
+Description:
+
+     Retrieves a specific configuration value from a YAML configuration
+     file.
+
+Usage:
+
+     get_active_config(value = NULL, file = here::here("config.yml"))
+     
+Arguments:
+
+   value: A character vector specifying the configuration key(s) to
+          retrieve.
+
+    file: Path to the YAML configuration file (default: "config.yml").
+
+Details:
+
+     Validates input parameters, ensures the file is readable, and
+     retrieves configuration value(s) using `config::get`. Active
+     configuration is set by the `R_CONFIG_ACTIVE` environment
+     variable.
+
+Value:
+
+     Value(s) associated with the specified key(s) in the configuration
+     file.
+

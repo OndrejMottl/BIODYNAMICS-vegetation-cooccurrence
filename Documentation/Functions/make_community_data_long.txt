@@ -1,0 +1,25 @@
+Make Community Data Long
+
+Description:
+
+     Converts community data from wide format to long format.
+
+Usage:
+
+     make_community_data_long(data = NULL)
+     
+Arguments:
+
+    data: A data frame. Must contain `dataset_name` and `sample_name`
+          columns.
+
+Details:
+
+     Uses `tidyr::pivot_longer` to reshape the data, dropping NA values
+     in the process.
+
+Value:
+
+     A data frame in long format with columns `dataset_name`,
+     `sample_name`, `taxon`, and `pollen_count`.
+

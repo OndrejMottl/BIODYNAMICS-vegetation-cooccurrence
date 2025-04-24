@@ -1,0 +1,94 @@
+<!DOCTYPE html><html><head><title>R: Extract Data from VegVault</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>extract_data_from_vegvault</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Data from VegVault</h2>
+
+<h3>Description</h3>
+
+<p>Extracts data from the VegVault SQLite database based on specified
+geographic, temporal, and dataset type constraints.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>extract_data_from_vegvault(
+  path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+  x_lim = NULL,
+  y_lim = NULL,
+  age_lim = NULL,
+  sel_dataset_type = NULL,
+  sel_abiotic_var_name = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="path_to_vegvault">path_to_vegvault</code></td>
+<td>
+<p>A character string specifying the path to the VegVault SQLite database
+(default: &quot;Data/Input/VegVault.sqlite&quot;).</p>
+</td></tr>
+<tr><td><code id="x_lim">x_lim</code></td>
+<td>
+<p>A numeric vector of length 2 specifying the longitude range.</p>
+</td></tr>
+<tr><td><code id="y_lim">y_lim</code></td>
+<td>
+<p>A numeric vector of length 2 specifying the latitude range.</p>
+</td></tr>
+<tr><td><code id="age_lim">age_lim</code></td>
+<td>
+<p>A numeric vector of length 2 specifying the age range.</p>
+</td></tr>
+<tr><td><code id="sel_dataset_type">sel_dataset_type</code></td>
+<td>
+<p>A character vector specifying the dataset types to select.</p>
+</td></tr>
+<tr><td><code id="sel_abiotic_var_name">sel_abiotic_var_name</code></td>
+<td>
+<p>A character vector specifying the abiotic variable names to select.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function performs the following steps:
+</p>
+<p>1. Validates input parameters.
+2. Checks the presence of the VegVault SQLite database.
+3. Accesses the database and filters data based on geographic, temporal,
+and dataset type constraints.
+4. Retrieves abiotic data and taxa information.
+5. Returns the extracted data as a data frame.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame containing the extracted data.
+</p>
+
+</main>
+
+</div>
+</body></html>
+
