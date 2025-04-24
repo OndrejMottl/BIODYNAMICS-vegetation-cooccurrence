@@ -29,7 +29,7 @@ data_covr <-
       full.names = TRUE
     ),
     test_files = list.files(
-      here::here("tests/testthat"),
+      here::here("R/03_Supplementary_analyses/testthat"),
       recursive = TRUE,
       full.names = TRUE
     )
@@ -38,7 +38,7 @@ data_covr <-
 data_covr %>%
   as.data.frame() %>%
   jsonlite::write_json(
-    path = here::here("tests/coverage.json"),
+    path = here::here("Documentation/function_test_coverage.json"),
     auto_unbox = TRUE,
     pretty = TRUE
   )
@@ -56,6 +56,6 @@ covr::report(
       full.names = TRUE
     )
   ),
-  file = here::here("tests/coverage.html"),
+  file = here::here("Documentation/function_test_coverage.html"),
   browse = FALSE
 )
