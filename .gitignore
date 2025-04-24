@@ -50,7 +50,8 @@ rsconnect/
 .Rproj.user
 
 # Developer files
-R/debug.R
+R/.debug.R
+tests/lib/
 
 # Target files
 Data/targets/
