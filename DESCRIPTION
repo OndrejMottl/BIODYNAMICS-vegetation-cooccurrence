@@ -1,4 +1,4 @@
-Package: BIODYNAMICS-vegetation_cooccurrence
+Package: BIODYNAMICS.VegetationCooccurrence
 Title: BUIODYNAMICS: Estimation Co-occurrence Of Vegetation Across Space And Time
 Version: 0.0.0.9000
 Authors@R: 
