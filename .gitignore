@@ -51,7 +51,7 @@ rsconnect/
 
 # Developer files
 R/.debug.R
-Documentation/lib/
+Documentation/Functions_test_coverage/lib/
 
 # Target files
 Data/targets/

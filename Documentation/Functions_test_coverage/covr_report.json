@@ -1,6 +1,6 @@
 [
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/get_community_data.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_community_data.R",
     "functions": "get_community_data",
     "first_line": 20,
     "first_byte": 3,
@@ -13,7 +13,7 @@
     "value": 4
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/get_community_data.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_community_data.R",
     "functions": "get_community_data",
     "first_line": 25,
     "first_byte": 3,
@@ -26,7 +26,7 @@
     "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/get_community_data.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_community_data.R",
     "functions": "get_community_data",
     "first_line": 30,
     "first_byte": 3,
@@ -39,7 +39,7 @@
     "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/get_pollen_sum.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_pollen_sum.R",
     "functions": "get_pollen_sum",
     "first_line": 20,
     "first_byte": 3,
@@ -49,10 +49,10 @@
     "last_column": 12,
     "first_parsed": 20,
     "last_parsed": 24,
-    "value": 0
+    "value": 8
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/make_community_data_long.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/make_community_data_long.R",
     "functions": "make_community_data_long",
     "first_line": 14,
     "first_byte": 3,
@@ -62,10 +62,10 @@
     "last_column": 3,
     "first_parsed": 14,
     "last_parsed": 17,
-    "value": 0
+    "value": 4
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/make_community_data_long.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/make_community_data_long.R",
     "functions": "make_community_data_long",
     "first_line": 19,
     "first_byte": 3,
@@ -75,10 +75,10 @@
     "last_column": 3,
     "first_parsed": 19,
     "last_parsed": 22,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/make_community_data_long.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/make_community_data_long.R",
     "functions": "make_community_data_long",
     "first_line": 24,
     "first_byte": 3,
@@ -88,10 +88,10 @@
     "last_column": 12,
     "first_parsed": 24,
     "last_parsed": 31,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/replace_na_community_data_with_zeros.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/replace_na_community_data_with_zeros.R",
     "functions": "replace_na_community_data_with_zeros",
     "first_line": 14,
     "first_byte": 3,
@@ -101,10 +101,10 @@
     "last_column": 3,
     "first_parsed": 14,
     "last_parsed": 17,
-    "value": 0
+    "value": 4
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/replace_na_community_data_with_zeros.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/replace_na_community_data_with_zeros.R",
     "functions": "replace_na_community_data_with_zeros",
     "first_line": 18,
     "first_byte": 3,
@@ -114,10 +114,10 @@
     "last_column": 3,
     "first_parsed": 18,
     "last_parsed": 21,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/replace_na_community_data_with_zeros.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/replace_na_community_data_with_zeros.R",
     "functions": "replace_na_community_data_with_zeros",
     "first_line": 23,
     "first_byte": 3,
@@ -127,10 +127,10 @@
     "last_column": 3,
     "first_parsed": 23,
     "last_parsed": 27,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/replace_na_community_data_with_zeros.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/replace_na_community_data_with_zeros.R",
     "functions": "replace_na_community_data_with_zeros",
     "first_line": 29,
     "first_byte": 3,
@@ -140,10 +140,10 @@
     "last_column": 12,
     "first_parsed": 29,
     "last_parsed": 42,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Community/transform_to_proportions.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/transform_to_proportions.R",
     "functions": "transform_to_proportions",
     "first_line": 16,
     "first_byte": 3,
@@ -153,10 +153,10 @@
     "last_column": 12,
     "first_parsed": 16,
     "last_parsed": 28,
-    "value": 0
+    "value": 8
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/extract_data_from_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
     "functions": "extract_data_from_vegvault",
     "first_line": 37,
     "first_byte": 3,
@@ -169,7 +169,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/extract_data_from_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
     "functions": "extract_data_from_vegvault",
     "first_line": 39,
     "first_byte": 3,
@@ -182,7 +182,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/extract_data_from_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
     "functions": "extract_data_from_vegvault",
     "first_line": 46,
     "first_byte": 3,
@@ -195,7 +195,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/extract_data_from_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
     "functions": "extract_data_from_vegvault",
     "first_line": 48,
     "first_byte": 3,
@@ -208,7 +208,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/extract_data_from_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
     "functions": "extract_data_from_vegvault",
     "first_line": 53,
     "first_byte": 3,
@@ -221,7 +221,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/extract_data_from_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
     "functions": "extract_data_from_vegvault",
     "first_line": 58,
     "first_byte": 3,
@@ -234,7 +234,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/extract_data_from_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
     "functions": "extract_data_from_vegvault",
     "first_line": 63,
     "first_byte": 3,
@@ -247,7 +247,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/extract_data_from_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
     "functions": "extract_data_from_vegvault",
     "first_line": 68,
     "first_byte": 3,
@@ -260,7 +260,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/extract_data_from_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
     "functions": "extract_data_from_vegvault",
     "first_line": 73,
     "first_byte": 3,
@@ -273,7 +273,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/extract_data_from_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
     "functions": "extract_data_from_vegvault",
     "first_line": 105,
     "first_byte": 3,
@@ -286,7 +286,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/extract_data_from_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
     "functions": "extract_data_from_vegvault",
     "first_line": 112,
     "first_byte": 3,
@@ -299,7 +299,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Time/add_age_to_community_data.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/add_age_to_community_data.R",
     "functions": "add_age_to_community_data",
     "first_line": 17,
     "first_byte": 3,
@@ -309,10 +309,10 @@
     "last_column": 3,
     "first_parsed": 17,
     "last_parsed": 20,
-    "value": 0
+    "value": 4
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Time/add_age_to_community_data.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/add_age_to_community_data.R",
     "functions": "add_age_to_community_data",
     "first_line": 21,
     "first_byte": 3,
@@ -322,10 +322,10 @@
     "last_column": 3,
     "first_parsed": 21,
     "last_parsed": 24,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Time/add_age_to_community_data.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/add_age_to_community_data.R",
     "functions": "add_age_to_community_data",
     "first_line": 26,
     "first_byte": 3,
@@ -335,10 +335,10 @@
     "last_column": 3,
     "first_parsed": 26,
     "last_parsed": 29,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Time/add_age_to_community_data.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/add_age_to_community_data.R",
     "functions": "add_age_to_community_data",
     "first_line": 30,
     "first_byte": 3,
@@ -348,10 +348,10 @@
     "last_column": 3,
     "first_parsed": 30,
     "last_parsed": 33,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Time/add_age_to_community_data.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/add_age_to_community_data.R",
     "functions": "add_age_to_community_data",
     "first_line": 35,
     "first_byte": 3,
@@ -361,10 +361,10 @@
     "last_column": 12,
     "first_parsed": 35,
     "last_parsed": 40,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Time/get_sample_ages.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/get_sample_ages.R",
     "functions": "get_sample_ages",
     "first_line": 13,
     "first_byte": 3,
@@ -374,10 +374,10 @@
     "last_column": 3,
     "first_parsed": 13,
     "last_parsed": 16,
-    "value": 0
+    "value": 4
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Time/get_sample_ages.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/get_sample_ages.R",
     "functions": "get_sample_ages",
     "first_line": 18,
     "first_byte": 3,
@@ -387,10 +387,10 @@
     "last_column": 3,
     "first_parsed": 18,
     "last_parsed": 21,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Time/get_sample_ages.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/get_sample_ages.R",
     "functions": "get_sample_ages",
     "first_line": 23,
     "first_byte": 3,
@@ -400,10 +400,10 @@
     "last_column": 12,
     "first_parsed": 23,
     "last_parsed": 31,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Time/interpolate_community_data.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/interpolate_community_data.R",
     "functions": "interpolate_community_data",
     "first_line": 15,
     "first_byte": 3,
@@ -413,10 +413,10 @@
     "last_column": 12,
     "first_parsed": 15,
     "last_parsed": 18,
-    "value": 0
+    "value": 4
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Time/interpolate_data.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/interpolate_data.R",
     "functions": "interpolate_data",
     "first_line": 39,
     "first_byte": 3,
@@ -426,10 +426,10 @@
     "last_column": 12,
     "first_parsed": 39,
     "last_parsed": 77,
-    "value": 0
+    "value": 8
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
     "functions": "check_presence_of_vegvault",
     "first_line": 14,
     "first_byte": 3,
@@ -439,10 +439,10 @@
     "last_column": 5,
     "first_parsed": 14,
     "last_parsed": 17,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
     "functions": "check_presence_of_vegvault",
     "first_line": 20,
     "first_byte": 5,
@@ -452,10 +452,10 @@
     "last_column": 29,
     "first_parsed": 20,
     "last_parsed": 20,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
     "functions": "check_presence_of_vegvault",
     "first_line": 22,
     "first_byte": 5,
@@ -465,10 +465,10 @@
     "last_column": 5,
     "first_parsed": 22,
     "last_parsed": 28,
-    "value": 0
+    "value": 1
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
     "functions": "check_presence_of_vegvault",
     "first_line": 30,
     "first_byte": 5,
@@ -481,7 +481,20 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Utility/get_active_config.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
+    "functions": "check_presence_of_vegvault",
+    "first_line": 33,
+    "first_byte": 3,
+    "last_line": 33,
+    "last_byte": 26,
+    "first_column": 3,
+    "last_column": 26,
+    "first_parsed": 33,
+    "last_parsed": 33,
+    "value": 1
+  },
+  {
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_active_config.R",
     "functions": "get_active_config",
     "first_line": 18,
     "first_byte": 3,
@@ -491,10 +504,10 @@
     "last_column": 3,
     "first_parsed": 18,
     "last_parsed": 21,
-    "value": 0
+    "value": 3
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Utility/get_active_config.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_active_config.R",
     "functions": "get_active_config",
     "first_line": 23,
     "first_byte": 3,
@@ -504,10 +517,10 @@
     "last_column": 3,
     "first_parsed": 23,
     "last_parsed": 26,
-    "value": 0
+    "value": 2
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Utility/get_active_config.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_active_config.R",
     "functions": "get_active_config",
     "first_line": 28,
     "first_byte": 3,
@@ -517,10 +530,10 @@
     "last_column": 12,
     "first_parsed": 28,
     "last_parsed": 34,
-    "value": 0
+    "value": 1
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Utility/save_progress_visualisation.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/save_progress_visualisation.R",
     "functions": "save_progress_visualisation",
     "first_line": 24,
     "first_byte": 3,
@@ -533,7 +546,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Utility/save_progress_visualisation.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/save_progress_visualisation.R",
     "functions": "save_progress_visualisation",
     "first_line": 32,
     "first_byte": 3,
@@ -546,7 +559,7 @@
     "value": 0
   },
   {
-    "filename": "C:/Users/ondre/Documents/GITHUB/BIODYNAMICS-vegetation-cooccurrence/R/Functions/Utility/save_progress_visualisation.R",
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/save_progress_visualisation.R",
     "functions": "save_progress_visualisation",
     "first_line": 39,
     "first_byte": 3,

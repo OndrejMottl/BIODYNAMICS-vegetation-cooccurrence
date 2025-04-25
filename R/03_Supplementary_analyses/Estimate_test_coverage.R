@@ -29,7 +29,9 @@ data_covr <-
       full.names = TRUE
     ),
     test_files = list.files(
-      here::here("R/03_Supplementary_analyses/testthat"),
+      here::here(
+        "R/03_Supplementary_analyses/testthat"
+      ),
       recursive = TRUE,
       full.names = TRUE
     )
@@ -38,24 +40,30 @@ data_covr <-
 data_covr %>%
   as.data.frame() %>%
   jsonlite::write_json(
-    path = here::here("Documentation/function_test_coverage.json"),
+    path = here::here(
+      "Documentation/Functions_test_coverage/covr_report.json"
+    ),
     auto_unbox = TRUE,
     pretty = TRUE
   )
 
 covr::report(
-  x = covr::file_coverage(
-    source_files = list.files(
-      here::here("R/Functions/"),
-      recursive = TRUE,
-      full.names = TRUE
-    ),
-    test_files = list.files(
-      here::here("tests/testthat"),
-      recursive = TRUE,
-      full.names = TRUE
-    )
+  x = data_covr,
+  file = here::here(
+    "Documentation/Functions_test_coverage/covr_report.html"
   ),
-  file = here::here("Documentation/function_test_coverage.html"),
   browse = FALSE
 )
+
+covr:::tally_coverage(data_covr, by = "line") %>%
+  covr:::percent_coverage(by = "line") %>%
+  round(digits = 2) %>%
+  list(value = .) %>%
+  jsonlite::write_json(
+    x = .,
+    path = here::here(
+      "Documentation/Functions_test_coverage/covr_report_summary.json"
+    ),
+    auto_unbox = TRUE,
+    pretty = TRUE
+  )
