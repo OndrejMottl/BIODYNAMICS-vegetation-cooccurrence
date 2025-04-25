@@ -29,4 +29,6 @@ check_presence_of_vegvault <- function(relative_path = "Data/Input/Vegvault.sqli
 
     return(vegvault_present)
   }
+
+  return(vegvault_present)
 }
