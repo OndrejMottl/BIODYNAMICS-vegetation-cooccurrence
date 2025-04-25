@@ -1,0 +1,27 @@
+Check Presence of VegVault File
+
+Description:
+
+     Checks whether the `VegVault.sqlite` file exists in the specified
+     directory.
+
+Usage:
+
+     check_presence_of_vegvault(relative_path = "Data/Input/Vegvault.sqlite")
+     
+Arguments:
+
+relative_path: Relative path to the `VegVault.sqlite` file (default:
+          "Data/Input/Vegvault.sqlite").
+
+Details:
+
+     Verifies the presence of the `VegVault.sqlite` file. If not found,
+     throws an error with instructions to consult the
+     `Data/Input/README.md` file.
+
+Value:
+
+     Logical value indicating whether the file exists. Stops with an
+     error if the file is not found.
+

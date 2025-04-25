@@ -1,0 +1,29 @@
+Interpolate Community Data
+
+Description:
+
+     Transforms community data to proportions, interpolates it, and
+     returns it.
+
+Usage:
+
+     interpolate_community_data(data, ...)
+     
+Arguments:
+
+    data: A data frame containing community data to be transformed and
+          interpolated.
+
+     ...: Additional arguments passed to the `interpolate_data`
+          function.
+
+Details:
+
+     Transforms data to proportions using `transform_to_proportions`
+     and total pollen count from `get_pollen_sum`. Then interpolates
+     using `interpolate_data`.
+
+Value:
+
+     A data frame with interpolated community data.
+

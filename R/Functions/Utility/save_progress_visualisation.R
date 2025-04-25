@@ -1,5 +1,21 @@
-
-save_progress_visualisation <- function(sel_script,
+#' @title Save Progress Visualisation
+#' @description
+#' Generates a visualisation of project progress and saves it as HTML and PNG.
+#' @param sel_script
+#' The script file to be visualised.
+#' @param output_file
+#' The name of the output file (default: "project_status").
+#' @param output_dir
+#' Directory where the output files will be saved (default: "Outputs/Figures").
+#' @param level_separation
+#' Level separation for the visualisation graph (default: 250).
+#' @details
+#' Uses `targets::tar_visnetwork` to create a network graph and saves it as
+#' HTML using `visNetwork::visSave`. Also generates a static PNG image using
+#' `webshot2::webshot`.
+#' @export
+save_progress_visualisation <- function(
+    sel_script,
     output_file = "project_status",
     output_dir = here::here(
       "Outputs/Figures"

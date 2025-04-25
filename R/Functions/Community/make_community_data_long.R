@@ -1,3 +1,15 @@
+#' @title Make Community Data Long
+#' @description
+#' Converts community data from wide format to long format.
+#' @param data
+#' A data frame. Must contain `dataset_name` and `sample_name` columns.
+#' @return
+#' A data frame in long format with columns `dataset_name`, `sample_name`,
+#' `taxon`, and `pollen_count`.
+#' @details
+#' Uses `tidyr::pivot_longer` to reshape the data, dropping NA values in the
+#' process.
+#' @export
 make_community_data_long <- function(data = NULL) {
   assertthat::assert_that(
     is.data.frame(data),

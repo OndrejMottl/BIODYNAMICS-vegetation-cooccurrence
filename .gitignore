@@ -50,7 +50,8 @@ rsconnect/
 .Rproj.user
 
 # Developer files
-R/debug.R
+R/.debug.R
+Documentation/Functions_test_coverage/lib/
 
 # Target files
 Data/targets/

@@ -1,3 +1,31 @@
+#' @title Interpolate Data
+#' @description
+#' Interpolates data over a specified age range and timestep using a method.
+#' @param data
+#' A data frame containing the data to be interpolated.
+#' @param age_var
+#' Name of the age variable column (default: "age").
+#' @param value_var
+#' Name of the value variable column (default: "pollen_prop").
+#' @param method
+#' Interpolation method to use (default: "linear").
+#' @param rule
+#' Integer specifying the extrapolation rule (default: 1).
+#' @param ties
+#' Function to handle tied values (default: `mean`).
+#' @param age_min
+#' Minimum age for interpolation (default: 0).
+#' @param age_max
+#' Maximum age for interpolation (default: 12000).
+#' @param timestep
+#' Timestep for interpolation (default: 500).
+#' @return
+#' A data frame with interpolated values, including dataset name, taxon, age,
+#' and value columns.
+#' @details
+#' Nests data by dataset and taxon, performs interpolation using `stats::approx`,
+#' and returns the interpolated data in a flat format.
+#' @export
 interpolate_data <- function(
     data,
     age_var = "age",

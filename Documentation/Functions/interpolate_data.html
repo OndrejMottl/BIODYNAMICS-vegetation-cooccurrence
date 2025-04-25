@@ -1,0 +1,102 @@
+<!DOCTYPE html><html><head><title>R: Interpolate Data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>interpolate_data</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpolate Data</h2>
+
+<h3>Description</h3>
+
+<p>Interpolates data over a specified age range and timestep using a method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>interpolate_data(
+  data,
+  age_var = "age",
+  value_var = "pollen_prop",
+  method = "linear",
+  rule = 1,
+  ties = mean,
+  age_min = 0,
+  age_max = 12000,
+  timestep = 500
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="data">data</code></td>
+<td>
+<p>A data frame containing the data to be interpolated.</p>
+</td></tr>
+<tr><td><code id="age_var">age_var</code></td>
+<td>
+<p>Name of the age variable column (default: &quot;age&quot;).</p>
+</td></tr>
+<tr><td><code id="value_var">value_var</code></td>
+<td>
+<p>Name of the value variable column (default: &quot;pollen_prop&quot;).</p>
+</td></tr>
+<tr><td><code id="method">method</code></td>
+<td>
+<p>Interpolation method to use (default: &quot;linear&quot;).</p>
+</td></tr>
+<tr><td><code id="rule">rule</code></td>
+<td>
+<p>Integer specifying the extrapolation rule (default: 1).</p>
+</td></tr>
+<tr><td><code id="ties">ties</code></td>
+<td>
+<p>Function to handle tied values (default: 'mean').</p>
+</td></tr>
+<tr><td><code id="age_min">age_min</code></td>
+<td>
+<p>Minimum age for interpolation (default: 0).</p>
+</td></tr>
+<tr><td><code id="age_max">age_max</code></td>
+<td>
+<p>Maximum age for interpolation (default: 12000).</p>
+</td></tr>
+<tr><td><code id="timestep">timestep</code></td>
+<td>
+<p>Timestep for interpolation (default: 500).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Nests data by dataset and taxon, performs interpolation using 'stats::approx',
+and returns the interpolated data in a flat format.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with interpolated values, including dataset name, taxon, age,
+and value columns.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

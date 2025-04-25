@@ -1,0 +1,50 @@
+Extract Data from VegVault
+
+Description:
+
+     Extracts data from the VegVault SQLite database based on specified
+     geographic, temporal, and dataset type constraints.
+
+Usage:
+
+     extract_data_from_vegvault(
+       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       x_lim = NULL,
+       y_lim = NULL,
+       age_lim = NULL,
+       sel_dataset_type = NULL,
+       sel_abiotic_var_name = NULL
+     )
+     
+Arguments:
+
+path_to_vegvault: A character string specifying the path to the
+          VegVault SQLite database (default:
+          "Data/Input/VegVault.sqlite").
+
+   x_lim: A numeric vector of length 2 specifying the longitude range.
+
+   y_lim: A numeric vector of length 2 specifying the latitude range.
+
+ age_lim: A numeric vector of length 2 specifying the age range.
+
+sel_dataset_type: A character vector specifying the dataset types to
+          select.
+
+sel_abiotic_var_name: A character vector specifying the abiotic
+          variable names to select.
+
+Details:
+
+     The function performs the following steps:
+
+     1. Validates input parameters.  2. Checks the presence of the
+     VegVault SQLite database.  3. Accesses the database and filters
+     data based on geographic, temporal, and dataset type constraints.
+     4. Retrieves abiotic data and taxa information.  5. Returns the
+     extracted data as a data frame.
+
+Value:
+
+     A data frame containing the extracted data.
+

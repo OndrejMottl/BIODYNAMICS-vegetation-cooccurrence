@@ -1,0 +1,52 @@
+Interpolate Data
+
+Description:
+
+     Interpolates data over a specified age range and timestep using a
+     method.
+
+Usage:
+
+     interpolate_data(
+       data,
+       age_var = "age",
+       value_var = "pollen_prop",
+       method = "linear",
+       rule = 1,
+       ties = mean,
+       age_min = 0,
+       age_max = 12000,
+       timestep = 500
+     )
+     
+Arguments:
+
+    data: A data frame containing the data to be interpolated.
+
+ age_var: Name of the age variable column (default: "age").
+
+value_var: Name of the value variable column (default: "pollen_prop").
+
+  method: Interpolation method to use (default: "linear").
+
+    rule: Integer specifying the extrapolation rule (default: 1).
+
+    ties: Function to handle tied values (default: `mean`).
+
+ age_min: Minimum age for interpolation (default: 0).
+
+ age_max: Maximum age for interpolation (default: 12000).
+
+timestep: Timestep for interpolation (default: 500).
+
+Details:
+
+     Nests data by dataset and taxon, performs interpolation using
+     `stats::approx`, and returns the interpolated data in a flat
+     format.
+
+Value:
+
+     A data frame with interpolated values, including dataset name,
+     taxon, age, and value columns.
+
