@@ -1,0 +1,26 @@
+Get Abiotic Data
+
+Description:
+
+     Extracts abiotic data from a data frame containing nested abiotic
+     information.
+
+Usage:
+
+     get_abiotic_data(data = NULL)
+     
+Arguments:
+
+    data: A data frame. Must contain the columns `dataset_name` and
+          `data_abiotic`.
+
+Details:
+
+     Validates the input data frame, ensures required columns are
+     present, and unnests the `data_abiotic` column.
+
+Value:
+
+     A data frame with columns `dataset_name`, `sample_name`,
+     `abiotic_variable_name`, and `abiotic_value`.
+

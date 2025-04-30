@@ -1,0 +1,114 @@
+<!DOCTYPE html><html><head><title>R: Fit HMSC Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>fit_hmsc_model</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit HMSC Model</h2>
+
+<h3>Description</h3>
+
+<p>Fits a Hierarchical Modelling of Species Communities (HMSC) model to
+community and abiotic data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>fit_hmsc_model(
+  data_community = NULL,
+  data_abiotic = NULL,
+  error_family = c("normal", "binomial"),
+  fit_model = TRUE,
+  n_chains = 20,
+  n_samples = 10000,
+  n_thin = 5,
+  n_transient = 2500,
+  n_parallel = 20,
+  n_samples_verbose = 500
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="data_community">data_community</code></td>
+<td>
+<p>A data frame containing community data. Must have the same row names as
+'data_abiotic'.</p>
+</td></tr>
+<tr><td><code id="data_abiotic">data_abiotic</code></td>
+<td>
+<p>A data frame containing abiotic data. Must have the same row names as
+'data_community'.</p>
+</td></tr>
+<tr><td><code id="error_family">error_family</code></td>
+<td>
+<p>A character string specifying the error family. Options are &quot;normal&quot; or
+&quot;binomial&quot; (default: &quot;normal&quot;).</p>
+</td></tr>
+<tr><td><code id="fit_model">fit_model</code></td>
+<td>
+<p>Logical. If 'TRUE', the model is fitted; otherwise, only the model object
+is returned (default: 'TRUE').</p>
+</td></tr>
+<tr><td><code id="n_chains">n_chains</code></td>
+<td>
+<p>Number of MCMC chains (default: 20).</p>
+</td></tr>
+<tr><td><code id="n_samples">n_samples</code></td>
+<td>
+<p>Number of MCMC samples (default: 10,000).</p>
+</td></tr>
+<tr><td><code id="n_thin">n_thin</code></td>
+<td>
+<p>Thinning interval for MCMC samples (default: 5).</p>
+</td></tr>
+<tr><td><code id="n_transient">n_transient</code></td>
+<td>
+<p>Number of transient iterations (default: 2,500).</p>
+</td></tr>
+<tr><td><code id="n_parallel">n_parallel</code></td>
+<td>
+<p>Number of parallel chains (default: 20).</p>
+</td></tr>
+<tr><td><code id="n_samples_verbose">n_samples_verbose</code></td>
+<td>
+<p>Verbosity interval for MCMC sampling (default: 500).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Validates input data, ensures compatibility between community and abiotic
+data, and fits an HMSC model using the specified parameters. If
+'error_family' is &quot;binomial&quot;, the community data is converted to binary
+presence/absence data, and the error family is set to &quot;probit&quot;.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If 'fit_model' is 'TRUE', returns a fitted HMSC model object. Otherwise,
+returns an unfitted HMSC model object.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

@@ -27,7 +27,8 @@ function processMathHTML() {
 <h3>Usage</h3>
 
 <pre><code class='language-R'>interpolate_data(
-  data,
+  data = NULL,
+  by = "dataset_name",
   age_var = "age",
   value_var = "pollen_prop",
   method = "linear",
@@ -93,6 +94,12 @@ and returns the interpolated data in a flat format.
 
 <p>A data frame with interpolated values, including dataset name, taxon, age,
 and value columns.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[stats::approx()]
 </p>
 
 </main>
