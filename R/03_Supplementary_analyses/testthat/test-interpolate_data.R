@@ -51,6 +51,7 @@ testthat::test_that("interpolate_data produces expected results", {
   result <-
     interpolate_data(
       data = data_example,
+      by = c("dataset_name", "taxon"),
       age_min = 0,
       age_max = 1000,
       timestep = 100
