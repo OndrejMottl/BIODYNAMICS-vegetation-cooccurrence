@@ -18,7 +18,9 @@ source(
 
 ### Curent Status
 
-This is the visualization, which represent the current status of the project:
+To see the visualization, which represent the current status of the project, you can go to[this link](https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/)
+
+Or you can see the static version of the project status below:
 
 ![](/Outputs/Figures/project_status_static.png)
 

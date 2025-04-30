@@ -32,13 +32,13 @@ save_progress_visualisation <- function(
 
   visNetwork::visSave(
     graph = network_graph,
-    file = paste0(output_dir, "/", output_file, ".html"),
+    file = here::here("docs/index.html"),
     selfcontained = TRUE,
     background = "white"
   )
 
   webshot2::webshot(
-    url = paste0(output_dir, "/", output_file, ".html"),
+    url = here::here("docs/index.html"),
     file = paste0(output_dir, "/", output_file, "_static.png"),
     vwidth = 992,
     vheight = 744
