@@ -45,14 +45,44 @@ targets::tar_source(
 
 list(
   targets::tar_target(
+    name = "config.vegvault_data",
+    command = list(
+      x_lim = get_active_config(
+        value = c("vegvault_data", "x_lim")
+      ),
+      y_lim = get_active_config(
+        value = c("vegvault_data", "y_lim")
+      ),
+      age_lim = get_active_config(
+        value = c("vegvault_data", "age_lim")
+      ),
+      sel_abiotic_var_name = get_active_config(
+        value = c("vegvault_data", "sel_abiotic_var_name")
+      ),
+      sel_dataset_type = get_active_config(
+        value = c("vegvault_data", "sel_dataset_type")
+      )
+    ),
+    format = "qs"
+  ),
+  targets::tar_target(
+    name = "config.data_processing",
+    command = list(
+      time_step = get_active_config(
+        value = c("data_processing", "time_step")
+      )
+    ),
+    format = "qs"
+  ),
+  targets::tar_target(
     name = "data_vegvault_extracted",
     command = extract_data_from_vegvault(
       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
-      x_lim = get_active_config(value = c("vegvault_data", "x_lim")),
-      y_lim = get_active_config(value = c("vegvault_data", "y_lim")),
-      age_lim = get_active_config(value = c("vegvault_data", "age_lim")),
-      sel_abiotic_var_name = get_active_config(value = c("vegvault_data", "sel_abiotic_var_name")),
-      sel_dataset_type = get_active_config(value = c("vegvault_data", "sel_dataset_type"))
+      x_lim = config.vegvault_data$x_lim,
+      y_lim = config.vegvault_data$y_lim,
+      age_lim = config.vegvault_data$age_lim,
+      sel_abiotic_var_name = config.vegvault_data$sel_abiotic_var_name,
+      sel_dataset_type = config.vegvault_data$sel_dataset_type
     ),
     format = "qs",
   ),
@@ -80,9 +110,7 @@ list(
     name = "data_community_interpolated",
     command = interpolate_community_data(
       data = data_community_long_ages,
-      timestep = get_active_config(
-        value = c("data_processing", "time_step")
-      )
+      timestep = config.data_processing$time_step
     ),
     format = "qs"
   )
