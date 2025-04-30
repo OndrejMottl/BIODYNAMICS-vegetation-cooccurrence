@@ -14,6 +14,6 @@
 interpolate_community_data <- function(data, ...) {
   data %>%
     transform_to_proportions(pollen_sum = get_pollen_sum(data)) %>%
-    interpolate_data(...) %>%
+    interpolate_data(by = c("dataset_name", "taxon"), ...) %>%
     return()
 }
