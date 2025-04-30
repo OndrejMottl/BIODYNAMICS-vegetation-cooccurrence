@@ -196,7 +196,15 @@ list(
     name = "mod_hmsc",
     command = fit_hmsc_model(
       data_community = data_community_to_fit,
-      data_abiotic = data_abiotic_to_fit
+      data_abiotic = data_abiotic_to_fit,
+      error_family = "binomial",
+      fit_model = TRUE,
+      n_chains = parallelly::availableCores() - 1,
+      n_parallel = parallelly::availableCores() - 1,
+      n_samples = 10e3,
+      n_thin = 20,
+      n_transient = 2500,
+      n_samples_verbose = 500
     ),
     format = "qs"
   )
