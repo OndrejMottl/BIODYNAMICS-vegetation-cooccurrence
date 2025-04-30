@@ -13,7 +13,7 @@
 #' Performs a left join between community data and age data using
 #' `dataset_name` and `sample_name` as keys.
 #' @export
-add_age_to_community_data <- function(data_community = NULL, data_ages = NULL) {
+add_age_to_samples <- function(data_community = NULL, data_ages = NULL) {
   assertthat::assert_that(
     is.data.frame(data_community),
     msg = "data_community must be a data frame"
