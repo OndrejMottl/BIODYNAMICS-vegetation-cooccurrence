@@ -8,7 +8,8 @@ Description:
 Usage:
 
      interpolate_data(
-       data,
+       data = NULL,
+       by = "dataset_name",
        age_var = "age",
        value_var = "pollen_prop",
        method = "linear",
@@ -49,4 +50,8 @@ Value:
 
      A data frame with interpolated values, including dataset name,
      taxon, age, and value columns.
+
+See Also:
+
+     [stats::approx()]
 

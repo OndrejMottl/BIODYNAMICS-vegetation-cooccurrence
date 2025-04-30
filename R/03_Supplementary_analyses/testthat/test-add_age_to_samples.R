@@ -1,4 +1,4 @@
-testthat::test_that("add_age_to_community_data returns a data frame", {
+testthat::test_that("add_age_to_samples returns a data frame", {
   data_community <-
     tibble::tibble(
       dataset_name = c(
@@ -22,17 +22,17 @@ testthat::test_that("add_age_to_community_data returns a data frame", {
     )
 
   result <-
-    add_age_to_community_data(data_community, data_ages)
+    add_age_to_samples(data_community, data_ages)
 
   testthat::expect_s3_class(result, "data.frame")
 })
 
-testthat::test_that("add_age_to_community_data handles invalid input", {
-  testthat::expect_error(add_age_to_community_data(NULL, NULL))
-  testthat::expect_error(add_age_to_community_data(123, 456))
+testthat::test_that("add_age_to_samples handles invalid input", {
+  testthat::expect_error(add_age_to_samples(NULL, NULL))
+  testthat::expect_error(add_age_to_samples(123, 456))
 })
 
-testthat::test_that("add_age_to_community_data produces expected results", {
+testthat::test_that("add_age_to_samples produces expected results", {
   data_community <-
     tibble::tibble(
       dataset_name = c(
@@ -56,7 +56,7 @@ testthat::test_that("add_age_to_community_data produces expected results", {
     )
 
   result <-
-    add_age_to_community_data(data_community, data_ages)
+    add_age_to_samples(data_community, data_ages)
 
   testthat::expect_equal(
     colnames(result),

@@ -32,8 +32,9 @@ if (
 ) {
   stop(
     paste(
-      "The default config is active. Please set specific config.",
-      "See `config.yaml` for available options."
+      "The default config is active. Please set specific config.", "\n",
+      "See `config.yaml` for available options.", "\n",
+      "use Sys.setenv(R_CONFIG_ACTIVE = 'XXX') to set the config."
     )
   )
 }
@@ -52,5 +53,7 @@ targets::tar_make(
 #----------------------------------------------------------#
 
 save_progress_visualisation(
-  sel_script = here::here("R/02_Main_analyses/pipeline.R")
+  sel_script = here::here("R/02_Main_analyses/pipeline.R"),
+  targets_only = TRUE,
+  level_separation = 200
 )
