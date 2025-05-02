@@ -311,46 +311,63 @@ list(
   ## Model fitting -----
   #--------------------------------------------------#
   targets::tar_target(
-    description = "Check and prepare the data for fitting",
-    name = "data_to_fit",
-    command = check_and_prepare_data_for_fit(
-      data_community = data_community_to_fit,
-      data_abiotic = data_abiotic_to_fit,
-      data_coords = data_coords
+    description = "Make table with formulas for model fitting",
+    name = "model_formula_table",
+    command = tibble::tribble(
+      ~formula_name, ~formula,
+      "null", "~ 1",
+      "full", "~ ."
     ),
-    format = "qs"
   ),
-  targets::tar_target(
-    description = "Make a random structure for the HMSC model",
-    name = "mod_random_structure",
-    command = get_random_structure_for_model(
-      data = data_to_fit,
-      min_knots_distance = config.data_processing$min_distance_of_gpp_knots
+  tarchetypes::tar_map(
+    values = list(
+      model_formula = c("null", "full")
     ),
-    format = "qs"
-  ),
-  targets::tar_target(
-    description = "make HMSC model",
-    name = "mod_hmsc",
-    command = make_hmsc_model(
-      data_to_fit = data_to_fit,
-      random_structure = mod_random_structure,
-      error_family = "binomial"
+    targets::tar_target(
+      description = "Check and prepare the data for fitting",
+      name = "data_to_fit",
+      command = check_and_prepare_data_for_fit(
+        data_community = data_community_to_fit,
+        data_abiotic = data_abiotic_to_fit,
+        data_coords = data_coords
+      ),
+      format = "qs"
     ),
-    format = "qs"
-  ),
-  targets::tar_target(
-    description = "Fit the HMSC model",
-    name = "mod_hmsc_fitted",
-    command = fit_hmsc_model(
-      mod_hmsc = mod_hmsc,
-      n_chains = parallelly::availableCores() - 1,
-      n_parallel = parallelly::availableCores() - 1,
-      n_samples = config.model_fitting$samples,
-      n_thin = config.model_fitting$thin,
-      n_transient = config.model_fitting$transient,
-      n_samples_verbose = config.model_fitting$samples_verbose
+    targets::tar_target(
+      description = "Make a random structure for the HMSC model",
+      name = "mod_random_structure",
+      command = get_random_structure_for_model(
+        data = data_to_fit,
+        min_knots_distance = config.data_processing$min_distance_of_gpp_knots
+      ),
+      format = "qs"
     ),
-    format = "qs"
+    targets::tar_target(
+      description = "make HMSC model",
+      name = "mod_hmsc",
+      command = make_hmsc_model(
+        data_to_fit = data_to_fit,
+        sel_formula = model_formula_table %>%
+          dplyr::filter(formula_name == model_formula) %>%
+          dplyr::pull(formula),
+        random_structure = mod_random_structure,
+        error_family = "binomial"
+      ),
+      format = "qs"
+    ),
+    targets::tar_target(
+      description = "Fit the HMSC model",
+      name = "mod_hmsc_fitted",
+      command = fit_hmsc_model(
+        mod_hmsc = mod_hmsc,
+        n_chains = parallelly::availableCores() - 1,
+        n_parallel = parallelly::availableCores() - 1,
+        n_samples = config.model_fitting$samples,
+        n_thin = config.model_fitting$thin,
+        n_transient = config.model_fitting$transient,
+        n_samples_verbose = config.model_fitting$samples_verbose
+      ),
+      format = "qs"
+    )
   )
 )
