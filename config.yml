@@ -17,6 +17,7 @@ project_cz:
     sel_abiotic_var_name: !expr c("bio1", "bio12")
   data_processing:
     time_step: 500
+    min_distance_of_gpp_knots: 50
     number_of_taxa: 10
 project_europe:
   target_store: Data/targets/project_europe
@@ -28,4 +29,5 @@ project_europe:
     sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
   data_processing:
     time_step: 500
+    min_distance_of_gpp_knots: 100
     number_of_taxa: Inf

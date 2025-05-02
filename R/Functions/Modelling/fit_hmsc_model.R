@@ -38,6 +38,7 @@
 fit_hmsc_model <- function(
     data_community = NULL,
     data_abiotic = NULL,
+    random_structure = NULL,
     error_family = c("normal", "binomial"),
     fit_model = TRUE,
     # HMSC parameters
@@ -55,11 +56,6 @@ fit_hmsc_model <- function(
   assertthat::assert_that(
     is.data.frame(data_abiotic),
     msg = "data_abiotic must be a data frame"
-  )
-
-  assertthat::assert_that(
-    all(rownames(data_community) == rownames(data_abiotic)),
-    msg = "data_abiotic_to_fit and data_community_to_fit must have the same row names"
   )
 
   error_family <- match.arg(error_family)
@@ -84,11 +80,49 @@ fit_hmsc_model <- function(
     error_family <- "probit"
   }
 
+  study_design <-
+    random_structure %>%
+    purrr::chuck("study_design")
+
+  # make sure that all rownames are the same in all data frames
+
+  vec_shared_rownames <-
+    intersect(
+      rownames(data_community_no_na),
+      rownames(data_abiotic_no_na)
+    ) %>%
+    intersect(
+      rownames(study_design)
+    )
+
+  data_community_to_fit <-
+    data_community_no_na %>%
+    as.data.frame() %>%
+    tibble::rownames_to_column("row_names") %>%
+    dplyr::filter(row_names %in% vec_shared_rownames) %>%
+    tibble::column_to_rownames("row_names")
+
+  data_abiotic_to_fit <-
+    data_abiotic_no_na %>%
+    as.data.frame() %>%
+    tibble::rownames_to_column("row_names") %>%
+    dplyr::filter(row_names %in% vec_shared_rownames) %>%
+    tibble::column_to_rownames("row_names")
+
+  study_design_to_fit <-
+    study_design %>%
+    as.data.frame() %>%
+    tibble::rownames_to_column("row_names") %>%
+    dplyr::filter(row_names %in% vec_shared_rownames) %>%
+    tibble::column_to_rownames("row_names")
+
   mod_hmsc <-
     Hmsc::Hmsc(
-      Y = data_community_no_na,
-      XData = data_abiotic_no_na,
-      distr = error_family
+      Y = data_community_to_fit,
+      XData = data_abiotic_to_fit,
+      distr = error_family,
+      studyDesign = study_design_to_fit,
+      ranLevels = random_structure$random_levels
     )
 
   if (

@@ -129,11 +129,21 @@ list(
     format = "qs"
   ),
   targets::tar_target(
+    description = "Configuration for data processing - minimum distance of GPP knots",
+    name = "config.min_distance_of_gpp_knots",
+    command = get_active_config(
+      value = c("data_processing", "min_distance_of_gpp_knots")
+    ),
+    cue = targets::tar_cue(mode = "always"),
+    format = "qs"
+  ),
+  targets::tar_target(
     description = "Configuration for data processing",
     name = "config.data_processing",
     command = list(
       time_step = config.time_step,
-      number_of_taxa = config.number_of_taxa
+      number_of_taxa = config.number_of_taxa,
+      min_distance_of_gpp_knots = config.min_distance_of_gpp_knots
     ),
     format = "qs"
   ),
@@ -152,6 +162,12 @@ list(
       sel_dataset_type = config.vegvault_data$sel_dataset_type
     ),
     format = "qs",
+  ),
+  targets::tar_target(
+    description = "Get coordinates of the VegVault data",
+    name = "data_coords",
+    command = get_coords(data_vegvault_extracted),
+    format = "qs"
   ),
   #--------------------------------------------------#
   ## Community data -----
@@ -247,11 +263,23 @@ list(
   ## Model fitting -----
   #--------------------------------------------------#
   targets::tar_target(
+    description = "Make a random structure for the HMSC model",
+    name = "mod_random_structure",
+    command = get_random_structure_for_model(
+      data_coords = data_coords,
+      age_lim = config.vegvault_data$age_lim,
+      time_step = config.data_processing$time_step,
+      min_knots_distance = config.data_processing$min_distance_of_gpp_knots
+    ),
+    format = "qs"
+  ),
+  targets::tar_target(
     description = "Fit HMSC model",
     name = "mod_hmsc",
     command = fit_hmsc_model(
       data_community = data_community_to_fit,
       data_abiotic = data_abiotic_to_fit,
+      random_structure = mod_random_structure,
       error_family = "binomial",
       fit_model = TRUE,
       n_chains = parallelly::availableCores() - 1,
