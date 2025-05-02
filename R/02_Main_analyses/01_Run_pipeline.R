@@ -57,5 +57,5 @@ try(
 
 save_progress_visualisation(
   sel_script = here::here("R/02_Main_analyses/pipeline.R"),
-  level_separation = 200
+  level_separation = 300
 )
