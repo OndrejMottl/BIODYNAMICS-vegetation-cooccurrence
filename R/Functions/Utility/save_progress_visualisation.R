@@ -21,12 +21,10 @@ save_progress_visualisation <- function(
       "Outputs/Figures"
     ),
     level_separation = 250) {
-
-
-
   network_graph <-
     targets::tar_visnetwork(
       script = sel_script,
+      outdated = FALSE,
       store = get_active_config("target_store"),
       targets_only = FALSE,
       level_separation = level_separation
@@ -37,6 +35,7 @@ save_progress_visualisation <- function(
       script = sel_script,
       store = get_active_config("target_store"),
       targets_only = TRUE,
+      outdated = FALSE,
       level_separation = level_separation
     )
 
