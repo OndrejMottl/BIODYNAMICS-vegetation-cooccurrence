@@ -1,0 +1,36 @@
+Make HMSC Model
+
+Description:
+
+     Create a Hierarchical Modelling of Species Communities (HMSC)
+     model to fit community and abiotic data.
+
+Usage:
+
+     make_hmsc_model(
+       data_to_fit = NULL,
+       random_structure = NULL,
+       error_family = c("normal", "binomial")
+     )
+     
+Arguments:
+
+data_to_fit: A list containing the community and abiotic data to fit
+          the model.
+
+random_structure: A list containing the random structure for the model,
+          including the study design and random levels.
+
+error_family: A character string specifying the error family. Options
+          are "normal" or "binomial" (default: "normal").
+
+Details:
+
+     If `error_family` is "binomial", the community data is converted
+     to binary presence/absence data, and the error family is set to
+     "probit".
+
+Value:
+
+     returns an unfitted HMSC model object.
+

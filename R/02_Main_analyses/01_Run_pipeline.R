@@ -43,9 +43,12 @@ if (
 # 2. Run the pipeline -----
 #----------------------------------------------------------#
 
-targets::tar_make(
-  script = here::here("R/02_Main_analyses/pipeline.R"),
-  store = get_active_config("target_store")
+try(
+  targets::tar_make(
+    script = here::here("R/02_Main_analyses/pipeline.R"),
+    store = get_active_config("target_store")
+  ),
+  silent = FALSE
 )
 
 #----------------------------------------------------------#
@@ -54,6 +57,5 @@ targets::tar_make(
 
 save_progress_visualisation(
   sel_script = here::here("R/02_Main_analyses/pipeline.R"),
-  targets_only = TRUE,
-  level_separation = 200
+  level_separation = 300
 )

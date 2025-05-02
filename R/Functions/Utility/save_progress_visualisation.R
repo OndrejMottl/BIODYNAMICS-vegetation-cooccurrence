@@ -20,13 +20,22 @@ save_progress_visualisation <- function(
     output_dir = here::here(
       "Outputs/Figures"
     ),
-    level_separation = 250,
-    targets_only = TRUE) {
+    level_separation = 250) {
   network_graph <-
     targets::tar_visnetwork(
       script = sel_script,
+      outdated = FALSE,
       store = get_active_config("target_store"),
-      targets_only = targets_only,
+      targets_only = FALSE,
+      level_separation = level_separation
+    )
+
+  network_graph_static <-
+    targets::tar_visnetwork(
+      script = sel_script,
+      store = get_active_config("target_store"),
+      targets_only = TRUE,
+      outdated = FALSE,
       level_separation = level_separation
     )
 
@@ -37,8 +46,15 @@ save_progress_visualisation <- function(
     background = "white"
   )
 
+  visNetwork::visSave(
+    graph = network_graph_static,
+    file = paste0(output_dir, "/", output_file, "_small.html"),
+    selfcontained = TRUE,
+    background = "white"
+  )
+
   webshot2::webshot(
-    url = here::here("docs/index.html"),
+    url = paste0(output_dir, "/", output_file, "_small.html"),
     file = paste0(output_dir, "/", output_file, "_static.png"),
     vwidth = 992,
     vheight = 744
