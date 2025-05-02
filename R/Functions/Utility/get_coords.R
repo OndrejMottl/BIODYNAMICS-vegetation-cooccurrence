@@ -9,5 +9,6 @@ get_coords <- function(data) {
       "coord_lat"
     ) %>%
     dplyr::distinct() %>%
+    tibble::column_to_rownames("dataset_name") %>%
     return()
 }

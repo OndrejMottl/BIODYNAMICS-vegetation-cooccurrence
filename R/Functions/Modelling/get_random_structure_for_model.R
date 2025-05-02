@@ -1,31 +1,19 @@
-get_random_structure_for_model <- function(data_coords = NULL, age_lim = NULL, time_step = NULL, min_knots_distance = NULL) {
-  data_age <-
-    tibble::tibble(
-      age = seq(
-        from = min(age_lim),
-        to = max(age_lim),
-        by = time_step
-      )
-    )
-
-  data_full_random <-
-    tidyr::expand_grid(
-      data_coords,
-      data_age
-    ) %>%
-    dplyr::mutate(
-      age_factor = as.factor(age),
-      dataset_name_factor = as.factor(dataset_name)
-    )
+get_random_structure_for_model <- function(data = NULL, min_knots_distance = NULL) {
+  `%>%` <- magrittr::`%>%`
 
   data_study_design <-
-    data_full_random %>%
+    data %>%
+    purrr::chuck("data_community_to_fit") %>%
+    tibble::rownames_to_column(var = "row_names") %>%
     dplyr::mutate(
-      row_names = paste0(
-        dataset_name,
-        "__",
-        age
-      )
+      age = get_age_from_rownames(row_names),
+      dataset_name = get_dataset_name_from_rownames(row_names),
+      age_factor = factor(
+        x = age,
+        levels = sort(unique(as.numeric(age))),
+        ordered = TRUE
+      ),
+      dataset_name_factor = as.factor(dataset_name)
     ) %>%
     tibble::column_to_rownames(var = "row_names") %>%
     dplyr::select(
@@ -33,44 +21,37 @@ get_random_structure_for_model <- function(data_coords = NULL, age_lim = NULL, t
       "age" = "age_factor"
     )
 
-  data_coords_clean <-
-    data_coords %>%
-    tibble::column_to_rownames(var = "dataset_name") %>%
-    dplyr::distinct()
-
-  data_random_age <-
-    data_full_random %>%
-    dplyr::distinct(age) %>%
+  data_age <-
+    data %>%
+    purrr::chuck("data_ages_to_fit") %>%
     dplyr::mutate(
-      row_names = age
-    ) %>%
-    tibble::column_to_rownames(var = "row_names")
+      age = as.numeric(age),
+    )
+
+  vec_age <-
+    data_age %>%
+    dplyr::distinct(age) %>%
+    dplyr::pull(age) %>%
+    as.character()
 
   random_level_age <-
     Hmsc::HmscRandomLevel(
-      sData = data_random_age
+      sData = data_age
     )
 
-  vec_random_plots <-
-    data_full_random %>%
-    dplyr::distinct(dataset_name) %>%
-    purrr::chuck("dataset_name")
-
-  random_level_plots <-
-    Hmsc::HmscRandomLevel(
-      units = vec_random_plots
-    )
-
+  data_coords <-
+    data %>%
+    purrr::chuck("data_coords_to_fit")
 
   random_coors_knots <-
     Hmsc::constructKnots(
-      sData = data_coords_clean,
+      sData = data_coords,
       minKnotDist = min_knots_distance
     )
 
   random_level_coords <-
     Hmsc::HmscRandomLevel(
-      sData = data_coords_clean,
+      sData = data_coords,
       sMethod = "GPP",
       sKnot = random_coors_knots
     )
@@ -78,8 +59,7 @@ get_random_structure_for_model <- function(data_coords = NULL, age_lim = NULL, t
   list_random <-
     list(
       "age" = random_level_age,
-      "plots" = random_level_plots,
-      "coords" = random_level_coords
+      "dataset_name" = random_level_coords
     )
 
   list(
