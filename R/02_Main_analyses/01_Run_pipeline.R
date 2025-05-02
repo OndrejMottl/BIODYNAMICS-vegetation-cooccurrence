@@ -54,6 +54,5 @@ targets::tar_make(
 
 save_progress_visualisation(
   sel_script = here::here("R/02_Main_analyses/pipeline.R"),
-  targets_only = TRUE,
   level_separation = 200
 )
