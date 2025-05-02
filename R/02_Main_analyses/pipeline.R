@@ -148,6 +148,54 @@ list(
     format = "qs"
   ),
   #--------------------------------------------------#
+  targets::tar_target(
+    description = "Configuration for model fitting - number of samples",
+    name = "config.n_samples",
+    command = get_active_config(
+      value = c("model_fitting", "samples")
+    ),
+    cue = targets::tar_cue(mode = "always"),
+    format = "qs"
+  ),
+  targets::tar_target(
+    description = "Configuration for model fitting - thin",
+    name = "config.n_thin",
+    command = get_active_config(
+      value = c("model_fitting", "thin")
+    ),
+    cue = targets::tar_cue(mode = "always"),
+    format = "qs"
+  ),
+  targets::tar_target(
+    description = "Configuration for model fitting - transient",
+    name = "config.n_transient",
+    command = get_active_config(
+      value = c("model_fitting", "transient")
+    ),
+    cue = targets::tar_cue(mode = "always"),
+    format = "qs"
+  ),
+  targets::tar_target(
+    description = "Configuration for model fitting - verbose",
+    name = "config.samples_verbose",
+    command = get_active_config(
+      value = c("model_fitting", "samples_verbose")
+    ),
+    cue = targets::tar_cue(mode = "always"),
+    format = "qs"
+  ),
+  targets::tar_target(
+    description = "Configuration for model fitting",
+    name = "config.model_fitting",
+    command = list(
+      samples = config.n_samples,
+      thin = config.n_thin,
+      transient = config.n_transient,
+      samples_verbose = config.samples_verbose
+    ),
+    format = "qs"
+  ),
+  #--------------------------------------------------#
   ## VegVault data -----
   #--------------------------------------------------#
   targets::tar_target(
@@ -263,31 +311,45 @@ list(
   ## Model fitting -----
   #--------------------------------------------------#
   targets::tar_target(
+    description = "Check and prepare the data for fitting",
+    name = "data_to_fit",
+    command = check_and_prepare_data_for_fit(
+      data_community = data_community_to_fit,
+      data_abiotic = data_abiotic_to_fit,
+      data_coords = data_coords
+    ),
+    format = "qs"
+  ),
+  targets::tar_target(
     description = "Make a random structure for the HMSC model",
     name = "mod_random_structure",
     command = get_random_structure_for_model(
-      data_coords = data_coords,
-      age_lim = config.vegvault_data$age_lim,
-      time_step = config.data_processing$time_step,
+      data = data_to_fit,
       min_knots_distance = config.data_processing$min_distance_of_gpp_knots
     ),
     format = "qs"
   ),
   targets::tar_target(
-    description = "Fit HMSC model",
+    description = "make HMSC model",
     name = "mod_hmsc",
-    command = fit_hmsc_model(
-      data_community = data_community_to_fit,
-      data_abiotic = data_abiotic_to_fit,
+    command = make_hmsc_model(
+      data_to_fit = data_to_fit,
       random_structure = mod_random_structure,
-      error_family = "binomial",
-      fit_model = TRUE,
+      error_family = "binomial"
+    ),
+    format = "qs"
+  ),
+  targets::tar_target(
+    description = "Fit the HMSC model",
+    name = "mod_hmsc_fitted",
+    command = fit_hmsc_model(
+      mod_hmsc = mod_hmsc,
       n_chains = parallelly::availableCores() - 1,
       n_parallel = parallelly::availableCores() - 1,
-      n_samples = 10e3,
-      n_thin = 20,
-      n_transient = 2500,
-      n_samples_verbose = 500
+      n_samples = config.model_fitting$samples,
+      n_thin = config.model_fitting$thin,
+      n_transient = config.model_fitting$transient,
+      n_samples_verbose = config.model_fitting$samples_verbose
     ),
     format = "qs"
   )

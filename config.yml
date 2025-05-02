@@ -19,6 +19,11 @@ project_cz:
     time_step: 500
     min_distance_of_gpp_knots: 50
     number_of_taxa: 10
+  model_fitting:
+    samples: 100
+    thin: 1
+    transient: 50 
+    samples_verbose: 50
 project_europe:
   target_store: Data/targets/project_europe
   vegvault_data:
@@ -30,4 +35,9 @@ project_europe:
   data_processing:
     time_step: 500
     min_distance_of_gpp_knots: 100
-    number_of_taxa: Inf
+    number_of_taxa: !expr Inf
+  model_fitting:
+    samples: 500
+    thin: 10
+    transient: 100 
+    samples_verbose: 100
