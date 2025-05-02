@@ -39,6 +39,11 @@ targets::tar_source(
   files = here::here("R/Functions/")
 )
 
+# set seed for reproducibility
+targets::tar_option_set(
+  seed = get_active_config("seed")
+)
+
 #----------------------------------------------------------#
 # 1. Pipe definition -----
 #----------------------------------------------------------#
@@ -48,37 +53,87 @@ list(
   ## Configurations -----
   #--------------------------------------------------#
   targets::tar_target(
-    description = "Configuration for VegVault data extraction",
+    description = "Configuration for VegVault data extraction - xlim",
+    name = "config.x_lim",
+    command = get_active_config(
+      value = c("vegvault_data", "x_lim")
+    ),
+    cue = targets::tar_cue(mode = "always"),
+    format = "qs"
+  ),
+  targets::tar_target(
+    description = "Configuration for VegVault data extraction - ylim",
+    name = "config.y_lim",
+    command = get_active_config(
+      value = c("vegvault_data", "y_lim")
+    ),
+    cue = targets::tar_cue(mode = "always"),
+    format = "qs"
+  ),
+  targets::tar_target(
+    description = "Configuration for VegVault data extraction - agelim",
+    name = "config.age_lim",
+    command = get_active_config(
+      value = c("vegvault_data", "age_lim")
+    ),
+    cue = targets::tar_cue(mode = "always"),
+    format = "qs"
+  ),
+  targets::tar_target(
+    description = "Configuration for VegVault data extraction - abiotic variable name",
+    name = "config.sel_abiotic_var_name",
+    command = get_active_config(
+      value = c("vegvault_data", "sel_abiotic_var_name")
+    ),
+    cue = targets::tar_cue(mode = "always"),
+    format = "qs"
+  ),
+  targets::tar_target(
+    description = "Configuration for VegVault data extraction - dataset type",
+    name = "config.sel_dataset_type",
+    command = get_active_config(
+      value = c("vegvault_data", "sel_dataset_type")
+    ),
+    cue = targets::tar_cue(mode = "always"),
+    format = "qs"
+  ),
+  targets::tar_target(
+    description = "Configuration for VegVault data extraction - dataset type",
     name = "config.vegvault_data",
     command = list(
-      x_lim = get_active_config(
-        value = c("vegvault_data", "x_lim")
-      ),
-      y_lim = get_active_config(
-        value = c("vegvault_data", "y_lim")
-      ),
-      age_lim = get_active_config(
-        value = c("vegvault_data", "age_lim")
-      ),
-      sel_abiotic_var_name = get_active_config(
-        value = c("vegvault_data", "sel_abiotic_var_name")
-      ),
-      sel_dataset_type = get_active_config(
-        value = c("vegvault_data", "sel_dataset_type")
-      )
+      x_lim = config.x_lim,
+      y_lim = config.y_lim,
+      age_lim = config.age_lim,
+      sel_abiotic_var_name = config.sel_abiotic_var_name,
+      sel_dataset_type = config.sel_dataset_type
     ),
+    format = "qs"
+  ),
+  #--------------------------------------------------#
+  targets::tar_target(
+    description = "Configuration for data processing - time step",
+    name = "config.time_step",
+    command = get_active_config(
+      value = c("data_processing", "time_step")
+    ),
+    cue = targets::tar_cue(mode = "always"),
+    format = "qs"
+  ),
+  targets::tar_target(
+    description = "Configuration for data processing - number of taxa",
+    name = "config.number_of_taxa",
+    command = get_active_config(
+      value = c("data_processing", "number_of_taxa")
+    ),
+    cue = targets::tar_cue(mode = "always"),
     format = "qs"
   ),
   targets::tar_target(
     description = "Configuration for data processing",
     name = "config.data_processing",
     command = list(
-      time_step = get_active_config(
-        value = c("data_processing", "time_step")
-      ),
-      number_of_taxa = get_active_config(
-        value = c("data_processing", "number_of_taxa")
-      )
+      time_step = config.time_step,
+      number_of_taxa = config.number_of_taxa
     ),
     format = "qs"
   ),
