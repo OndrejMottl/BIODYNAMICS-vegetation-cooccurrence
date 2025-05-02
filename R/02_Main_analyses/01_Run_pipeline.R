@@ -43,9 +43,12 @@ if (
 # 2. Run the pipeline -----
 #----------------------------------------------------------#
 
-targets::tar_make(
-  script = here::here("R/02_Main_analyses/pipeline.R"),
-  store = get_active_config("target_store")
+try(
+  targets::tar_make(
+    script = here::here("R/02_Main_analyses/pipeline.R"),
+    store = get_active_config("target_store")
+  ),
+  silent = FALSE
 )
 
 #----------------------------------------------------------#
