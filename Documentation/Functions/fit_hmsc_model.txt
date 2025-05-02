@@ -2,19 +2,15 @@ Fit HMSC Model
 
 Description:
 
-     Fits a Hierarchical Modelling of Species Communities (HMSC) model
-     to community and abiotic data.
+     Sample the MCMC process for the HMSC model.
 
 Usage:
 
      fit_hmsc_model(
-       data_community = NULL,
-       data_abiotic = NULL,
-       error_family = c("normal", "binomial"),
-       fit_model = TRUE,
+       mod_hmsc,
        n_chains = 20,
        n_samples = 10000,
-       n_thin = 5,
+       n_thin = 1,
        n_transient = 2500,
        n_parallel = 20,
        n_samples_verbose = 500
@@ -22,17 +18,7 @@ Usage:
      
 Arguments:
 
-data_community: A data frame containing community data. Must have the
-          same row names as `data_abiotic`.
-
-data_abiotic: A data frame containing abiotic data. Must have the same
-          row names as `data_community`.
-
-error_family: A character string specifying the error family. Options
-          are "normal" or "binomial" (default: "normal").
-
-fit_model: Logical. If `TRUE`, the model is fitted; otherwise, only the
-          model object is returned (default: `TRUE`).
+mod_hmsc: An unfitted HMSC model object.
 
 n_chains: Number of MCMC chains (default: 20).
 
@@ -46,16 +32,7 @@ n_parallel: Number of parallel chains (default: 20).
 
 n_samples_verbose: Verbosity interval for MCMC sampling (default: 500).
 
-Details:
-
-     Validates input data, ensures compatibility between community and
-     abiotic data, and fits an HMSC model using the specified
-     parameters. If `error_family` is "binomial", the community data is
-     converted to binary presence/absence data, and the error family is
-     set to "probit".
-
 Value:
 
-     If `fit_model` is `TRUE`, returns a fitted HMSC model object.
-     Otherwise, returns an unfitted HMSC model object.
+     Returns a fitted HMSC model object.
 
