@@ -6,8 +6,8 @@ get_random_structure_for_model <- function(data = NULL, min_knots_distance = NUL
     purrr::chuck("data_community_to_fit") %>%
     tibble::rownames_to_column(var = "row_names") %>%
     dplyr::mutate(
-      age = get_age_from_rownames(row_names),
-      dataset_name = get_dataset_name_from_rownames(row_names),
+      age = get_age_from_string(row_names),
+      dataset_name = get_dataset_name_from_string(row_names),
       age_factor = factor(
         x = age,
         levels = sort(unique(as.numeric(age))),

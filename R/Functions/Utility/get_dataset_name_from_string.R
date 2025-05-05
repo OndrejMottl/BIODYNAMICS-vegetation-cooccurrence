@@ -1,4 +1,4 @@
-get_dataset_name_from_rownames <- function(vec_names) {
+get_dataset_name_from_string <- function(vec_names) {
   vec_names %>%
     # get all values before double "__"
     stringr::str_extract(".*(?=__)") %>%
