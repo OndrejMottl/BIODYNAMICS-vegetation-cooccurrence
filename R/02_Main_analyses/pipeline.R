@@ -340,22 +340,17 @@ list_target_abiotic_data <-
 ## Model fitting -----
 #--------------------------------------------------#
 
-# get the list of expected ages
-data_to_map_age <-
+data_to_map_formula <-
   tibble::tibble(
-    age = seq(
-      from = min(get_active_config(c("vegvault_data", "age_lim"))),
-      to = max(get_active_config(c("vegvault_data", "age_lim"))),
-      by = get_active_config(c("data_processing", "time_step"))
-    ),
-    age_name = paste0("timeslice_", age)
+    model_formula = c("~ 1", "~ ."),
+    formula_name = c("null", "full")
   )
 
-list_models_by_age <-
-  # make a branch for each age
+list_target_models <-
+  # make a branch for each model type (null, full)
   tarchetypes::tar_map(
-    values = data_to_map_age,
-    descriptions = "age_name",
+    values = data_to_map_formula,
+    descriptions = "formula_name",
     targets::tar_target(
       description = "Check and prepare the data for fitting",
       name = "data_to_fit",
@@ -428,33 +423,40 @@ list_models_by_age <-
     )
   )
 
-data_to_map_formula <-
+list_target_models_wiht_summary <-
+  list(
+    list_target_models,
+    tarchetypes::tar_combine(
+      name = "mod_hmsc_fitted_selected",
+      list_target_models[["mod_hmsc_eval"]],
+      command = get_better_model_based_on_fit(!!!.x),
+      format = "qs"
+    )
+  )
+
+# get the list of expected ages
+data_to_map_age <-
   tibble::tibble(
-    model_formula = c("~ 1", "~ ."),
-    formula_name = c("null", "full")
+    age = seq(
+      from = min(get_active_config(c("vegvault_data", "age_lim"))),
+      to = max(get_active_config(c("vegvault_data", "age_lim"))),
+      by = get_active_config(c("data_processing", "time_step"))
+    ),
+    age_name = paste0("timeslice_", age)
   )
 
-
-list_target_models <-
-  # make a branch for each model type (null, full)
+list_models_by_age <-
+  # make a branch for each age
   tarchetypes::tar_map(
-    values = data_to_map_formula,
-    descriptions = "formula_name",
-    list_models_by_age
+    values = data_to_map_age,
+    descriptions = "age_name",
+    list_target_models_wiht_summary
   )
-
-
 
 list(
   list_target_config,
   list_target_vegvault_data,
   list_target_community_data,
   list_target_abiotic_data,
-  list_target_models,
-  tarchetypes::tar_combine(
-    name = "mod_hmsc_fitted_combined",
-    list_target_models,
-    command = list(!!!.x),
-    format = "qs"
-  )
+  list_models_by_age
 )
