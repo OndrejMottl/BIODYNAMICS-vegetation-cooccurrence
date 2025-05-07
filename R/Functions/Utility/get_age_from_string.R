@@ -1,4 +1,4 @@
-get_age_from_rownames <- function(vec_names) {
+get_age_from_string <- function(vec_names) {
   vec_names %>%
     # get all values after "__"
     stringr::str_extract("__(.*)") %>%

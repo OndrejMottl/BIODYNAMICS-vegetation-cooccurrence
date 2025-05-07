@@ -22,8 +22,9 @@ project_cz:
   model_fitting:
     samples: 100
     thin: 1
-    transient: 50 
+    transient: 50
     samples_verbose: 50
+    cross_validation_folds: 2
 project_europe:
   target_store: Data/targets/project_europe
   vegvault_data:
@@ -39,5 +40,6 @@ project_europe:
   model_fitting:
     samples: 500
     thin: 10
-    transient: 100 
+    transient: 100
     samples_verbose: 100
+    cross_validation_folds: 5
