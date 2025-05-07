@@ -423,7 +423,7 @@ list_target_models <-
     )
   )
 
-list_target_models_wiht_summary <-
+list_target_models_with_summary <-
   list(
     list_target_models,
     tarchetypes::tar_combine(
@@ -431,6 +431,20 @@ list_target_models_wiht_summary <-
       list_target_models[["mod_hmsc_eval"]],
       command = get_better_model_based_on_fit(!!!.x),
       format = "qs"
+    ),
+    targets::tar_target(
+      description = "Get species associations",
+      name = "species_associations",
+      command = get_species_association(mod_hmsc_fitted_selected),
+      format = "qs"
+    ),
+    targets::tar_target(
+      description = "Get number of significant associations",
+      name = "number_of_significant_associations",
+      command = get_significant_associations(
+        species_associations,
+        alpha = 0.05
+      )
     )
   )
 
@@ -450,7 +464,94 @@ list_models_by_age <-
   tarchetypes::tar_map(
     values = data_to_map_age,
     descriptions = "age_name",
-    list_target_models_wiht_summary
+    list_target_models_with_summary
+  )
+
+list_target_models_full <-
+  list(
+    targets::tar_target(
+      description = "Check and prepare the data for fitting",
+      name = "data_to_fit",
+      command = check_and_prepare_data_for_fit(
+        data_community = data_community_to_fit,
+        data_abiotic = data_abiotic_to_fit,
+        data_coords = data_coords
+      ),
+      format = "qs"
+    ),
+    targets::tar_target(
+      description = "Make a random structure for the HMSC model",
+      name = "mod_random_structure",
+      command = get_random_structure_for_model(
+        data = data_to_fit,
+        type = c("age", "space"),
+        min_knots_distance = config.data_processing$min_distance_of_gpp_knots
+      ),
+      format = "qs"
+    ),
+    targets::tar_target(
+      description = "make HMSC model",
+      name = "mod_hmsc",
+      command = make_hmsc_model(
+        data_to_fit = data_to_fit,
+        sel_formula = model_formula,
+        random_structure = mod_random_structure,
+        error_family = "binomial"
+      ),
+      format = "qs"
+    ),
+    targets::tar_target(
+      description = "Fit the HMSC model",
+      name = "mod_hmsc_fitted",
+      command = fit_hmsc_model(
+        mod_hmsc = mod_hmsc,
+        n_chains = 4, # parallelly::availableCores() - 1
+        n_parallel = 4, # parallelly::availableCores() - 1
+        n_samples = config.model_fitting$samples,
+        n_thin = config.model_fitting$thin,
+        n_transient = config.model_fitting$transient,
+        n_samples_verbose = config.model_fitting$samples_verbose
+      ),
+      format = "qs"
+    ),
+    targets::tar_target(
+      description = "Predict the model",
+      name = "mod_hmsc_pred",
+      command = Hmsc::computePredictedValues(
+        hM = mod_hmsc_fitted,
+        nChains = length(mod_hmsc_fitted$postList),
+        nParallel = length(mod_hmsc_fitted$postList),
+        partition = Hmsc::createPartition(
+          hM = mod_hmsc_fitted,
+          nfolds = config.model_fitting$cross_validation_folds,
+          column = "dataset_name"
+        )
+      ),
+      format = "qs"
+    ),
+    targets::tar_target(
+      description = "Evaluate the model",
+      name = "mod_hmsc_eval",
+      command = Hmsc::evaluateModelFit(
+        hM = mod_hmsc_fitted,
+        predY = mod_hmsc_pred
+      ),
+      format = "qs"
+    ),
+    targets::tar_target(
+      description = "Get species associations",
+      name = "species_associations",
+      command = get_species_association(mod_hmsc_eval),
+      format = "qs"
+    ),
+    targets::tar_target(
+      description = "Get number of significant associations",
+      name = "number_of_significant_associations",
+      command = get_significant_associations(
+        species_associations,
+        alpha = 0.05
+      )
+    )
   )
 
 list(
@@ -458,5 +559,12 @@ list(
   list_target_vegvault_data,
   list_target_community_data,
   list_target_abiotic_data,
-  list_models_by_age
+  list_models_by_age,
+  tarchetypes::tar_combine(
+    name = "summary_species_associations_by_age",
+    list_models_by_age[["number_of_significant_associations"]],
+    command = list(!!!.x),
+    format = "qs"
+  ),
+  list_target_models_full
 )
