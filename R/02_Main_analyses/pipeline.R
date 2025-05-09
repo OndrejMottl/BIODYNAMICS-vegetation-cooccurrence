@@ -42,14 +42,21 @@ targets::tar_source(
 # set seed for reproducibility
 targets::tar_option_set(
   seed = get_active_config("seed"),
+  format = "qs",
   error = "continue"
 )
+
 
 #----------------------------------------------------------#
 # 1. Pipe definition -----
 #----------------------------------------------------------#
 
+# This section is basically a very complicated target factory.
 
+# This is done to reduce code duplication (several parts of pipe chain repeats).
+#  And mainly to use the `tar_combine` function to combine the results.
+
+# I am avare that this is not the most elegant solution, but it works.
 
 #--------------------------------------------------#
 ## Configurations -----
@@ -62,8 +69,7 @@ list_target_config <-
       command = get_active_config(
         value = c("vegvault_data", "x_lim")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for VegVault data extraction - ylim",
@@ -71,8 +77,7 @@ list_target_config <-
       command = get_active_config(
         value = c("vegvault_data", "y_lim")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for VegVault data extraction - agelim",
@@ -80,8 +85,7 @@ list_target_config <-
       command = get_active_config(
         value = c("vegvault_data", "age_lim")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for VegVault data extraction - abiotic variable name",
@@ -89,8 +93,7 @@ list_target_config <-
       command = get_active_config(
         value = c("vegvault_data", "sel_abiotic_var_name")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for VegVault data extraction - dataset type",
@@ -98,8 +101,7 @@ list_target_config <-
       command = get_active_config(
         value = c("vegvault_data", "sel_dataset_type")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for VegVault data extraction - dataset type",
@@ -110,8 +112,7 @@ list_target_config <-
         age_lim = config.age_lim,
         sel_abiotic_var_name = config.sel_abiotic_var_name,
         sel_dataset_type = config.sel_dataset_type
-      ),
-      format = "qs"
+      )
     ),
     #--------------------------------------------------#
     targets::tar_target(
@@ -120,8 +121,7 @@ list_target_config <-
       command = get_active_config(
         value = c("data_processing", "time_step")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for data processing - number of taxa",
@@ -129,8 +129,7 @@ list_target_config <-
       command = get_active_config(
         value = c("data_processing", "number_of_taxa")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for data processing - minimum distance of GPP knots",
@@ -138,8 +137,7 @@ list_target_config <-
       command = get_active_config(
         value = c("data_processing", "min_distance_of_gpp_knots")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for data processing",
@@ -148,8 +146,7 @@ list_target_config <-
         time_step = config.time_step,
         number_of_taxa = config.number_of_taxa,
         min_distance_of_gpp_knots = config.min_distance_of_gpp_knots
-      ),
-      format = "qs"
+      )
     ),
     #--------------------------------------------------#
     targets::tar_target(
@@ -158,8 +155,7 @@ list_target_config <-
       command = get_active_config(
         value = c("model_fitting", "samples")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for model fitting - thin",
@@ -167,8 +163,7 @@ list_target_config <-
       command = get_active_config(
         value = c("model_fitting", "thin")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for model fitting - transient",
@@ -176,8 +171,7 @@ list_target_config <-
       command = get_active_config(
         value = c("model_fitting", "transient")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for model fitting - verbose",
@@ -185,8 +179,7 @@ list_target_config <-
       command = get_active_config(
         value = c("model_fitting", "samples_verbose")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for model fitting - cross-validation",
@@ -194,8 +187,7 @@ list_target_config <-
       command = get_active_config(
         value = c("model_fitting", "cross_validation_folds")
       ),
-      cue = targets::tar_cue(mode = "always"),
-      format = "qs"
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for model fitting",
@@ -206,10 +198,10 @@ list_target_config <-
         transient = config.n_transient,
         samples_verbose = config.samples_verbose,
         cross_validation_folds = config.cross_validation_folds
-      ),
-      format = "qs"
+      )
     )
   )
+
 
 #--------------------------------------------------#
 ## VegVault data -----
@@ -227,16 +219,15 @@ list_target_vegvault_data <-
         age_lim = config.vegvault_data$age_lim,
         sel_abiotic_var_name = config.vegvault_data$sel_abiotic_var_name,
         sel_dataset_type = config.vegvault_data$sel_dataset_type
-      ),
-      format = "qs",
+      )
     ),
     targets::tar_target(
       description = "Get coordinates of the VegVault data",
       name = "data_coords",
-      command = get_coords(data_vegvault_extracted),
-      format = "qs"
+      command = get_coords(data_vegvault_extracted)
     )
   )
+
 
 #--------------------------------------------------#
 ## Community data -----
@@ -246,26 +237,22 @@ list_target_community_data <-
     targets::tar_target(
       description = "Extract community data",
       name = "data_community",
-      command = get_community_data(data_vegvault_extracted),
-      format = "qs"
+      command = get_community_data(data_vegvault_extracted)
     ),
     targets::tar_target(
       description = "Get community data into long-format",
       name = "data_community_long",
-      command = make_community_data_long(data_community),
-      format = "qs"
+      command = make_community_data_long(data_community)
     ),
     targets::tar_target(
       description = "Get sample ages",
       name = "data_sample_ages",
-      command = get_sample_ages(data_vegvault_extracted),
-      format = "qs"
+      command = get_sample_ages(data_vegvault_extracted)
     ),
     targets::tar_target(
       description = "Add sample ages to community data",
       name = "data_community_long_ages",
-      command = add_age_to_samples(data_community_long, data_sample_ages),
-      format = "qs"
+      command = add_age_to_samples(data_community_long, data_sample_ages)
     ),
     targets::tar_target(
       description = "Interpolate community data to specific time step",
@@ -273,8 +260,7 @@ list_target_community_data <-
       command = interpolate_community_data(
         data = data_community_long_ages,
         timestep = config.data_processing$time_step
-      ),
-      format = "qs"
+      )
     ),
     targets::tar_target(
       description = "Select number of taxa to include",
@@ -282,8 +268,7 @@ list_target_community_data <-
       command = select_n_taxa(
         data = data_community_interpolated,
         n_taxa = config.data_processing$number_of_taxa
-      ),
-      format = "qs"
+      )
     ),
     targets::tar_target(
       description = "Prepare community data for fitting",
@@ -291,10 +276,10 @@ list_target_community_data <-
       command = prepare_data_for_fit(
         data = data_community_subset,
         type = "community"
-      ),
-      format = "qs"
+      )
     )
   )
+
 
 #--------------------------------------------------#
 ## Abiotic data -----
@@ -304,15 +289,13 @@ list_target_abiotic_data <-
     targets::tar_target(
       description = "Extract abiotic data",
       name = "data_abiotic",
-      command = get_abiotic_data(data_vegvault_extracted),
-      format = "qs"
+      command = get_abiotic_data(data_vegvault_extracted)
     ),
     targets::tar_target(
       description = "Add sample ages to abiotic data",
       name = "data_abiotic_ages",
       command = add_age_to_samples(data_abiotic, data_sample_ages) %>%
-        dplyr::select(-sample_name),
-      format = "qs"
+        dplyr::select(-sample_name)
     ),
     targets::tar_target(
       description = "Interpolate abiotic data to specific time step",
@@ -322,8 +305,7 @@ list_target_abiotic_data <-
         value_var = "abiotic_value",
         by = c("dataset_name", "abiotic_variable_name"),
         timestep = config.data_processing$time_step
-      ),
-      format = "qs"
+      )
     ),
     targets::tar_target(
       description = "Prepare abiotic data for fitting",
@@ -331,47 +313,28 @@ list_target_abiotic_data <-
       command = prepare_data_for_fit(
         data = data_abiotic_interpolated,
         type = "abiotic"
-      ),
-      format = "qs"
+      )
     )
   )
+
 
 #--------------------------------------------------#
 ## Model fitting -----
 #--------------------------------------------------#
 
+# get the model formulae to use
 data_to_map_formula <-
   tibble::tibble(
     model_formula = c("~ 1", "~ ."),
     formula_name = c("null", "full")
   )
 
-list_target_models <-
-  # make a branch for each model type (null, full)
-  tarchetypes::tar_map(
-    values = data_to_map_formula,
-    descriptions = "formula_name",
-    targets::tar_target(
-      description = "Check and prepare the data for fitting",
-      name = "data_to_fit",
-      command = check_and_prepare_data_for_fit(
-        data_community = data_community_to_fit,
-        data_abiotic = data_abiotic_to_fit,
-        data_coords = data_coords,
-        subset_age = age
-      ),
-      format = "qs"
-    ),
-    targets::tar_target(
-      description = "Make a random structure for the HMSC model",
-      name = "mod_random_structure",
-      command = get_random_structure_for_model(
-        data = data_to_fit,
-        type = "space",
-        min_knots_distance = config.data_processing$min_distance_of_gpp_knots
-      ),
-      format = "qs"
-    ),
+#----------------------------------------#
+### basic pipe to fit and evaluate the model
+#----------------------------------------#
+
+list_target_fit_and_evaluate <-
+  list(
     targets::tar_target(
       description = "make HMSC model",
       name = "mod_hmsc",
@@ -380,8 +343,7 @@ list_target_models <-
         sel_formula = model_formula,
         random_structure = mod_random_structure,
         error_family = "binomial"
-      ),
-      format = "qs"
+      )
     ),
     targets::tar_target(
       description = "Fit the HMSC model",
@@ -394,8 +356,7 @@ list_target_models <-
         n_thin = config.model_fitting$thin,
         n_transient = config.model_fitting$transient,
         n_samples_verbose = config.model_fitting$samples_verbose
-      ),
-      format = "qs"
+      )
     ),
     targets::tar_target(
       description = "Predict the model",
@@ -409,8 +370,7 @@ list_target_models <-
           nfolds = config.model_fitting$cross_validation_folds,
           column = "dataset_name"
         )
-      ),
-      format = "qs"
+      )
     ),
     targets::tar_target(
       description = "Evaluate the model",
@@ -418,25 +378,41 @@ list_target_models <-
       command = Hmsc::evaluateModelFit(
         hM = mod_hmsc_fitted,
         predY = mod_hmsc_pred
-      ),
-      format = "qs"
+      )
     )
   )
 
-list_target_models_with_summary <-
-  list(
-    list_target_models,
-    tarchetypes::tar_combine(
-      name = "mod_hmsc_fitted_selected",
-      list_target_models[["mod_hmsc_eval"]],
-      command = get_better_model_based_on_fit(!!!.x),
-      format = "qs"
+
+list_target_model_full <-
+  tarchetypes::tar_map(
+    values = data_to_map_formula,
+    descriptions = "formula_name",
+    targets::tar_target(
+      description = "Check and prepare the data for fitting",
+      name = "data_to_fit",
+      command = check_and_prepare_data_for_fit(
+        data_community = data_community_to_fit,
+        data_abiotic = data_abiotic_to_fit,
+        data_coords = data_coords
+      )
     ),
+    targets::tar_target(
+      description = "Make a random structure for the HMSC model",
+      name = "mod_random_structure",
+      command = get_random_structure_for_model(
+        data = data_to_fit,
+        type = c("age", "space"),
+        min_knots_distance = config.data_processing$min_distance_of_gpp_knots
+      )
+    ),
+    list_target_fit_and_evaluate
+  )
+list_target_models_species_associations <-
+  list(
     targets::tar_target(
       description = "Get species associations",
       name = "species_associations",
-      command = get_species_association(mod_hmsc_fitted_selected),
-      format = "qs"
+      command = get_species_association(mod_hmsc_fitted_selected)
     ),
     targets::tar_target(
       description = "Get number of significant associations",
@@ -447,6 +423,22 @@ list_target_models_with_summary <-
       )
     )
   )
+
+list_target_models_full_associations <-
+  list(
+    list_target_model_full,
+    tarchetypes::tar_combine(
+      name = "mod_hmsc_fitted_selected",
+      list_target_model_full[["mod_hmsc_eval"]],
+      command = get_better_model_based_on_fit(!!!.x)
+    ),
+    list_target_models_species_associations
+  )
+
+
+#----------------------------------------#
+### Pipe factory to have a model for each age
+#----------------------------------------#
 
 # get the list of expected ages
 data_to_map_age <-
@@ -459,99 +451,50 @@ data_to_map_age <-
     age_name = paste0("timeslice_", age)
   )
 
-list_models_by_age <-
-  # make a branch for each age
+list_target_models_by_age <-
+  # make a branch for each model type (null, full)
   tarchetypes::tar_map(
-    values = data_to_map_age,
-    descriptions = "age_name",
-    list_target_models_with_summary
-  )
-
-list_target_models_full <-
-  list(
+    values = data_to_map_formula,
+    descriptions = "formula_name",
     targets::tar_target(
       description = "Check and prepare the data for fitting",
       name = "data_to_fit",
       command = check_and_prepare_data_for_fit(
         data_community = data_community_to_fit,
         data_abiotic = data_abiotic_to_fit,
-        data_coords = data_coords
-      ),
-      format = "qs"
+        data_coords = data_coords,
+        subset_age = age
+      )
     ),
     targets::tar_target(
       description = "Make a random structure for the HMSC model",
       name = "mod_random_structure",
       command = get_random_structure_for_model(
         data = data_to_fit,
-        type = c("age", "space"),
+        type = "space",
         min_knots_distance = config.data_processing$min_distance_of_gpp_knots
-      ),
-      format = "qs"
-    ),
-    targets::tar_target(
-      description = "make HMSC model",
-      name = "mod_hmsc",
-      command = make_hmsc_model(
-        data_to_fit = data_to_fit,
-        sel_formula = model_formula,
-        random_structure = mod_random_structure,
-        error_family = "binomial"
-      ),
-      format = "qs"
-    ),
-    targets::tar_target(
-      description = "Fit the HMSC model",
-      name = "mod_hmsc_fitted",
-      command = fit_hmsc_model(
-        mod_hmsc = mod_hmsc,
-        n_chains = 4, # parallelly::availableCores() - 1
-        n_parallel = 4, # parallelly::availableCores() - 1
-        n_samples = config.model_fitting$samples,
-        n_thin = config.model_fitting$thin,
-        n_transient = config.model_fitting$transient,
-        n_samples_verbose = config.model_fitting$samples_verbose
-      ),
-      format = "qs"
-    ),
-    targets::tar_target(
-      description = "Predict the model",
-      name = "mod_hmsc_pred",
-      command = Hmsc::computePredictedValues(
-        hM = mod_hmsc_fitted,
-        nChains = length(mod_hmsc_fitted$postList),
-        nParallel = length(mod_hmsc_fitted$postList),
-        partition = Hmsc::createPartition(
-          hM = mod_hmsc_fitted,
-          nfolds = config.model_fitting$cross_validation_folds,
-          column = "dataset_name"
-        )
-      ),
-      format = "qs"
-    ),
-    targets::tar_target(
-      description = "Evaluate the model",
-      name = "mod_hmsc_eval",
-      command = Hmsc::evaluateModelFit(
-        hM = mod_hmsc_fitted,
-        predY = mod_hmsc_pred
-      ),
-      format = "qs"
-    ),
-    targets::tar_target(
-      description = "Get species associations",
-      name = "species_associations",
-      command = get_species_association(mod_hmsc_eval),
-      format = "qs"
-    ),
-    targets::tar_target(
-      description = "Get number of significant associations",
-      name = "number_of_significant_associations",
-      command = get_significant_associations(
-        species_associations,
-        alpha = 0.05
       )
-    )
+    ),
+    list_target_fit_and_evaluate
+  )
+
+list_target_models_by_age_with_summary <-
+  list(
+    list_target_models_by_age,
+    tarchetypes::tar_combine(
+      name = "mod_hmsc_fitted_selected",
+      list_target_models_by_age[["mod_hmsc_eval"]],
+      command = get_better_model_based_on_fit(!!!.x)
+    ),
+    list_target_models_species_associations
+  )
+
+list_models_by_age <-
+  # make a branch for each age
+  tarchetypes::tar_map(
+    values = data_to_map_age,
+    descriptions = "age_name",
+    list_target_models_by_age_with_summary
   )
 
 list(
@@ -559,12 +502,12 @@ list(
   list_target_vegvault_data,
   list_target_community_data,
   list_target_abiotic_data,
+  list_target_models_full_associations,
   list_models_by_age,
   tarchetypes::tar_combine(
     name = "summary_species_associations_by_age",
     list_models_by_age[["number_of_significant_associations"]],
     command = list(!!!.x),
     format = "qs"
-  ),
-  list_target_models_full
+  )
 )
