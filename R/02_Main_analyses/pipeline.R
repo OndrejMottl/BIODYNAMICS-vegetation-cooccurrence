@@ -375,9 +375,9 @@ list_target_fit_and_evaluate <-
     targets::tar_target(
       description = "Evaluate the model",
       name = "mod_hmsc_eval",
-      command = Hmsc::evaluateModelFit(
-        hM = mod_hmsc_fitted,
-        predY = mod_hmsc_pred
+      command = add_model_evaluation(
+        mod_fitted = mod_hmsc_fitted,
+        data_pred = mod_hmsc_pred
       )
     )
   )
