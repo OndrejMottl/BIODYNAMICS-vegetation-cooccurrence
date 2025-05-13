@@ -428,9 +428,14 @@ list_target_models_full_associations <-
   list(
     list_target_model_full,
     tarchetypes::tar_combine(
-      name = "mod_hmsc_fitted_selected",
+      name = "mod_hmsc_fitted_combined",
       list_target_model_full[["mod_hmsc_eval"]],
-      command = get_better_model_based_on_fit(!!!.x)
+      command = list(!!!.x)
+    ),
+    targets::tar_target(
+      description = "Select either null or full model based on fit",
+      name = "mod_hmsc_fitted_selected",
+      command = get_better_model_based_on_fit(mod_hmsc_fitted_combined)
     ),
     list_target_models_species_associations
   )
@@ -482,9 +487,14 @@ list_target_models_by_age_with_summary <-
   list(
     list_target_models_by_age,
     tarchetypes::tar_combine(
-      name = "mod_hmsc_fitted_selected",
+      name = "mod_hmsc_fitted_combined",
       list_target_models_by_age[["mod_hmsc_eval"]],
-      command = get_better_model_based_on_fit(!!!.x)
+      command = list(!!!.x)
+    ),
+    targets::tar_target(
+      description = "Select either null or full model based on fit",
+      name = "mod_hmsc_fitted_selected",
+      command = get_better_model_based_on_fit(mod_hmsc_fitted_combined)
     ),
     list_target_models_species_associations
   )
