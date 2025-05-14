@@ -20,7 +20,7 @@ get_significant_associations <- function(data_source, alpha = 0.05) {
   )
 
   data_support <-
-    purrr::chuck(data_source, "support")
+    purrr::chuck(data_work, "support")
 
   data_mean <-
     purrr::pluck(data_work, "mean")
@@ -48,10 +48,12 @@ get_significant_associations <- function(data_source, alpha = 0.05) {
   ) *
     vec_data_mean
 
+  n_significant <- sum(vec_significant, na.rm = TRUE)
+
   res <-
     list(
       n_associations = n_values,
-      n_significant = sum(vec_significant, na.rm = TRUE),
+      n_significant = n_significant,
       proportion_significant = n_significant / n_values
     )
 
