@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-05-15">
 
-<title>BIODYNAMICS-vegetation-cooccurrence</title>
+<title>fit_hmsc_model – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,22 +23,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./figures/Logo FOSSILPOL regular - 600ppi.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f5e267a33c17dae46575f87db0f53df7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../figures/Logo FOSSILPOL regular - 600ppi.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-f5e267a33c17dae46575f87db0f53df7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -80,9 +79,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      BIODYNAMICS-vegetation-cooccurrence
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_to_community_data.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/fit_hmsc_model.html">Fit Hmsc Model</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -97,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">BIODYNAMICS-vegetation-cooccurrence</a> 
+      <a href="../../../">BIODYNAMICS-vegetation-cooccurrence</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -109,157 +106,157 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/about.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About the project</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/installation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/installation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Reproducibility</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Documentation</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/documentation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/documentation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Project overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/code_coverage.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/code_coverage.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Code coverage</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Functions</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/add_age_to_community_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/add_age_to_community_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Add Age to Community Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/add_age_to_samples.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/add_age_to_samples.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Add Age to Samples</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/check_presence_of_vegvault.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/check_presence_of_vegvault.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Check Presence of Vegvault</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/extract_data_from_vegvault.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/extract_data_from_vegvault.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Extract Data from Vegvault</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/fit_hmsc_model.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/fit_hmsc_model.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Fit Hmsc Model</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/get_abiotic_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/get_abiotic_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Get Abiotic Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/get_active_config.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/get_active_config.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Get Active Config</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/get_community_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/get_community_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Get Community Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/get_pollen_sum.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/get_pollen_sum.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Get Pollen Sum</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/get_sample_ages.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/get_sample_ages.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Get Sample Ages</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/interpolate_community_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/interpolate_community_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interpolate Community Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/interpolate_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/interpolate_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interpolate Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/make_community_data_long.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/make_community_data_long.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Make Community Data Long</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/make_hmsc_model.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/make_hmsc_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Make Hmsc Model</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/prepare_data_for_fit.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/prepare_data_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prepare Data for Fit</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/replace_na_community_data_with_zeros.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/replace_na_community_data_with_zeros.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Replace Na Community Data with Zeros</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/save_progress_visualisation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/save_progress_visualisation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Save Progress Visualisation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/select_n_taxa.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/select_n_taxa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Select N Taxa</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./website/Documentation/Functions/transform_to_proportions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/transform_to_proportions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Transform to Proportions</span></a>
   </div>
 </li>
@@ -272,55 +269,155 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul class="collapse">
-  <li><a href="#biodynamics---vegetation-co-occurrence" id="toc-biodynamics---vegetation-co-occurrence" class="nav-link active" data-scroll-target="#biodynamics---vegetation-co-occurrence">BIODYNAMICS - Vegetation Co-occurrence</a></li>
-  </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_to_community_data.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/fit_hmsc_model.html">Fit Hmsc Model</a></li></ol></nav></header>
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+
+
+
+
+
+<title>
+R: Fit HMSC Model
+</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js" onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css">
+
+
+<div class="container">
+<main>
+<table style="width: 100%;">
+<tbody><tr>
+<td>
+fit_hmsc_model
+</td>
+<td style="text-align: right;">
+R Documentation
+</td>
+</tr>
+</tbody></table>
+<h2 class="anchored">
+Fit HMSC Model
+</h2>
+<h3 class="anchored">
+Description
+</h3>
+<p>
+Sample the MCMC process for the HMSC model.
+</p>
+<h3 class="anchored">
+Usage
+</h3>
+<pre><code class="language-R">fit_hmsc_model(
+  mod_hmsc,
+  n_chains = 20,
+  n_samples = 10000,
+  n_thin = 1,
+  n_transient = 2500,
+  n_parallel = 20,
+  n_samples_verbose = 500
+)
+</code></pre>
+<h3 class="anchored">
+Arguments
+</h3>
+<table>
+<tbody><tr>
+<td>
+<code id="mod_hmsc">mod_hmsc</code>
+</td>
+<td>
+<p>
+An unfitted HMSC model object.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="n_chains">n_chains</code>
+</td>
+<td>
+<p>
+Number of MCMC chains (default: 20).
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="n_samples">n_samples</code>
+</td>
+<td>
+<p>
+Number of MCMC samples (default: 10,000).
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="n_thin">n_thin</code>
+</td>
+<td>
+<p>
+Thinning interval for MCMC samples (default: 5).
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="n_transient">n_transient</code>
+</td>
+<td>
+<p>
+Number of transient iterations (default: 2,500).
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="n_parallel">n_parallel</code>
+</td>
+<td>
+<p>
+Number of parallel chains (default: 20).
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="n_samples_verbose">n_samples_verbose</code>
+</td>
+<td>
+<p>
+Verbosity interval for MCMC sampling (default: 500).
+</p>
+</td>
+</tr>
+</tbody></table>
+<h3 class="anchored">
+Value
+</h3>
+<p>
+Returns a fitted HMSC model object.
+</p>
+</main>
 </div>
 
 
 
-<div class="quarto-title-meta">
 
-    
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">May 15, 2025</p>
-    </div>
-  </div>
-  
-    <div>
-    <div class="quarto-title-meta-heading">Modified</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date-modified">May 15, 2025</p>
-    </div>
-  </div>
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="biodynamics---vegetation-co-occurrence" class="level1">
-<h1>BIODYNAMICS - Vegetation Co-occurrence</h1>
-<p>This is a project to study the co-occurrence of vegetation across space and time.</p>
-<p>The repo is part of the <a href="https://bit.ly/BIODYNAMICS">BIODYNAMICS</a> project.</p>
-
-
-</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -748,7 +845,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/Functions/fit_hmsc_model.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
