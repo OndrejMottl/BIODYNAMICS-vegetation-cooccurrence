@@ -18,6 +18,7 @@
 #' @export
 make_hmsc_model <- function(
     data_to_fit = NULL,
+    sel_formula = NULL,
     random_structure = NULL,
     error_family = c("normal", "binomial")) {
   assertthat::assert_that(
@@ -52,6 +53,11 @@ make_hmsc_model <- function(
     msg = "error_family must be a character string of length 1"
   )
 
+  assertthat::assert_that(
+    is.character(sel_formula) && length(sel_formula) == 1,
+    msg = "sel_formula must be a character string of length 1"
+  )
+
   if (
     error_family == "binomial"
   ) {
@@ -69,6 +75,7 @@ make_hmsc_model <- function(
     Hmsc::Hmsc(
       Y = data_community,
       XData = data_abiotic,
+      XFormula = as.formula(sel_formula),
       distr = error_family,
       studyDesign = study_design,
       ranLevels = random_structure$random_levels
