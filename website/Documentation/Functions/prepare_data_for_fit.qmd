@@ -1,0 +1,77 @@
+---
+format: html
+---
+
+<html><head><title>R: Prepare Data for Model Fitting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_data_for_fit</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare Data for Model Fitting</h2>
+
+<h3>Description</h3>
+
+<p>Prepares community or abiotic data for model fitting by reshaping it into
+a wide format with appropriate column names.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_data_for_fit(data = NULL, type = c("community", "abiotic"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="data">data</code></td>
+<td>
+<p>A data frame containing the input data. For 'type = &quot;community&quot;', it must
+include columns 'dataset_name', 'age', 'taxon', and 'pollen_prop'. For
+'type = &quot;abiotic&quot;', it must include columns 'dataset_name', 'age',
+'abiotic_variable_name', and 'abiotic_value'.</p>
+</td></tr>
+<tr><td><code id="type">type</code></td>
+<td>
+<p>A character string specifying the type of data to prepare. Must be either
+&quot;community&quot; or &quot;abiotic&quot; (default: &quot;community&quot;).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function validates the input data and reshapes it based on the
+specified 'type'. For community data, it combines 'dataset_name' and 'age'
+into a 'sample_name' column, selects relevant columns, and pivots the data
+to a wide format. For abiotic data, it performs similar steps but uses
+abiotic variable names and values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame in wide format, with 'sample_name' as row names and either
+taxa or abiotic variable names as columns. For community data, missing
+values are filled with 0. For abiotic data, missing values are left as NA.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

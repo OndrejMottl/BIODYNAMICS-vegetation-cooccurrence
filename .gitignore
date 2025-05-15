@@ -46,6 +46,9 @@ po/*~
 rsconnect/
 .Rproj.user
 
+# Quarto files
+/.quarto/
+
 # Developer files
 R/.debug.R
 Documentation/Functions_test_coverage/lib/

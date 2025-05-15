@@ -1,0 +1,28 @@
+---
+date: 2025/05/15
+date-format: long
+date-modified: last-modified
+---
+
+# Reproducibility
+
+## {[renv](https://rstudio.github.io/renv/)}
+
+This project uses the {renv} package to manage dependencies. To install the required packages, run the following command in the R console:
+
+``` r
+renv::restore()
+```
+
+This will install all the packages listed in the `renv.lock` file.
+
+## {[targets](https://docs.ropensci.org/targets/)}
+
+Currently, the project is coded as {[targets](https://docs.ropensci.org/targets/)} pipeline and can be executed using the following command:
+
+```{r}
+#| eval=FALSE
+source(
+  here::here("R/02_Main_analyses/01_Run_pipeline.R")
+)
+```

@@ -1,0 +1,50 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "BIODYNAMICS-vegetation-cooccurrence"
+  page-footer:
+    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+  site-url: https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/
+  repo-url: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence
+  issue-url: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues
+  repo-actions: [source, issue]
+
+  image: figures/Logo%20FOSSILPOL%20regular%20-%20600ppi.png
+  favicon: figures/Logo%20FOSSILPOL%20regular%20-%20600ppi.png
+  back-to-top-navigation: true
+
+  sidebar:
+    pinned: true
+    align: center
+    style: "docked"
+    collapse-level: 1
+    contents:
+
+      - text: "About the project"
+        href: website/about.qmd
+      
+      - text: "Reproducibility"
+        href: website/installation.qmd
+
+      - section: "Documentation"
+        contents:
+          - text: "Project overview"
+            href: website/Documentation/documentation.qmd
+          - text: "Code coverage"
+            href: website/Documentation/code_coverage.qmd
+
+          - section: "Functions"
+            contents: "website/Documentation/Functions/*.qmd"
+
+format:
+  html:
+    theme:
+      - superhero
+    toc: true
+    toc-location: right
+    toc-depth: 2
+
+
+

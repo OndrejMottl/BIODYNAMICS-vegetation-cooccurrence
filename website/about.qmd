@@ -1,0 +1,20 @@
+---
+date: 2025/05/15
+date-format: long
+date-modified: last-modified
+---
+
+# BIODYNAMICS - Vegetation Co-occurrence
+
+![](https://img.shields.io/badge/status-WIP-red) This project is a work in progress. The code is not yet ready!
+
+## Current Status
+
+Here is a preview of the current status of the project status:
+
+<iframe src="/Documentation/Progress/project_status.html" width="100%" height="500px" style="border:none;"></iframe>
+
+Or you can see the simplified static version of the project status below:
+
+![](/Documentation/Progress/project_status_static.png)
+

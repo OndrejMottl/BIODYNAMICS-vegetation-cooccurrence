@@ -96,7 +96,7 @@ sapply(
 # get vector of general functions
 fun_list <-
   list.files(
-    path = "R/Functions/",
+    path = here::here("R/Functions/"),
     pattern = "*.R",
     recursive = TRUE
   )
@@ -106,7 +106,7 @@ if (
   length(fun_list) > 0
 ) {
   sapply(
-    paste0("R/Functions/", fun_list, sep = ""),
+    paste0(here::here("R/Functions"), "/", fun_list, sep = ""),
     source
   )
 }

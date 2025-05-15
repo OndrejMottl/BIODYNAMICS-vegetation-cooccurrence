@@ -39,3 +39,59 @@ purrr::walk(
     quiet = TRUE
   )
 )
+
+
+# Make QUARTO site for each function
+vec_html_files <-
+  list.files(
+    path = here::here("Documentation/Functions"),
+    pattern = "\\.html$",
+    full.names = TRUE,
+    recursive = TRUE
+  )
+
+purrr::walk(
+  .x = vec_html_files,
+  .f = purrr::possibly(
+    .f = ~ {
+      base_name <-
+        fs::path_file(.x)
+
+      # Read the content of the HTML file
+      html_content <-
+        readLines(.x, warn = FALSE)
+
+      # Define the content of the .qmd file
+      qmd_content <-
+        c(
+          "---",
+          "format: html",
+          "---",
+          "",
+          html_content
+        )
+
+      # Remove the first line of the HTML content
+      # (which is the DOCTYPE declaration)
+      qmd_content[5] <-
+        qmd_content[5] %>%
+        stringr::str_remove(
+          pattern = "^<!DOCTYPE html>"
+        )
+
+      # Write the content to a .qmd file
+      writeLines(
+        qmd_content,
+        here::here(
+          "website/Documentation/Functions",
+          paste0(
+            fs::path_ext_remove(base_name),
+            ".qmd"
+          )
+        )
+      )
+    }
+  ),
+  otherwise = NULL,
+  quiet = TRUE
+)
