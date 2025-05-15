@@ -1,7 +1,7 @@
 #----------------------------------------------------------#
 #
 #
-#                 Vegetation Co-occurence
+#                 Vegetation Co-occurrence
 #
 #                   Main {target} pipe
 #
@@ -56,7 +56,7 @@ targets::tar_option_set(
 # This is done to reduce code duplication (several parts of pipe chain repeats).
 #  And mainly to use the `tar_combine` function to combine the results.
 
-# I am avare that this is not the most elegant solution, but it works.
+# I am aware that this is not the most elegant solution, but it works.
 
 #--------------------------------------------------#
 ## Configurations -----
@@ -517,7 +517,6 @@ list(
   tarchetypes::tar_combine(
     name = "summary_species_associations_by_age",
     list_models_by_age[["number_of_significant_associations"]],
-    command = list(!!!.x),
-    format = "qs"
+    command = list(!!!.x)
   )
 )
