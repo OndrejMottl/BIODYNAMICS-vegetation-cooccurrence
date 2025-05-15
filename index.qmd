@@ -1,0 +1,12 @@
+---
+date: 2025/05/15
+date-format: long
+date-modified: last-modified
+---
+
+# BIODYNAMICS - Vegetation Co-occurrence
+
+This is a project to study the co-occurrence of vegetation across space and time. 
+
+The repo is part of the [BIODYNAMICS](https://bit.ly/BIODYNAMICS) project.
+
