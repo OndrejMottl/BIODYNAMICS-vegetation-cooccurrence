@@ -34,8 +34,9 @@ website:
             href: website/Documentation/documentation.qmd
           - text: "Code coverage"
             href: website/Documentation/code_coverage.qmd
-          
-          - section: "Functions"           
+
+          - section: "Functions"
+            contents: "website/Documentation/Functions/*.qmd"
 
 format:
   html:
