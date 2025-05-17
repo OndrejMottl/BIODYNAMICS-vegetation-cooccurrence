@@ -2,55 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/installation.html</loc>
-    <lastmod>2025-05-15T09:08:35.851Z</lastmod>
+    <lastmod>2025-05-17T10:29:45.694Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/select_n_taxa.html</loc>
-    <lastmod>2025-05-15T12:04:41.693Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/replace_na_community_data_with_zeros.html</loc>
-    <lastmod>2025-05-15T12:04:41.693Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/make_hmsc_model.html</loc>
-    <lastmod>2025-05-15T12:04:41.678Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/interpolate_data.html</loc>
-    <lastmod>2025-05-15T12:04:41.678Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_sample_ages.html</loc>
-    <lastmod>2025-05-15T12:04:41.678Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_community_data.html</loc>
-    <lastmod>2025-05-15T12:04:41.678Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_abiotic_data.html</loc>
-    <lastmod>2025-05-15T12:04:41.678Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/extract_data_from_vegvault.html</loc>
-    <lastmod>2025-05-15T12:04:41.675Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.908Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_to_samples.html</loc>
-    <lastmod>2025-05-15T12:04:41.673Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.908Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/documentation.html</loc>
-    <lastmod>2025-05-15T07:44:31.421Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/about.html</loc>
-    <lastmod>2025-05-15T09:26:18.556Z</lastmod>
+    <lastmod>2025-05-17T10:29:44.278Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/index.html</loc>
-    <lastmod>2025-05-15T07:53:23.782Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.908Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/LICENSE.html</loc>
@@ -58,46 +58,46 @@
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/code_coverage.html</loc>
-    <lastmod>2025-05-15T09:58:59.390Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_to_community_data.html</loc>
-    <lastmod>2025-05-15T12:04:41.668Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.908Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/check_presence_of_vegvault.html</loc>
-    <lastmod>2025-05-15T12:04:41.674Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.908Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/fit_hmsc_model.html</loc>
-    <lastmod>2025-05-15T12:04:41.678Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_active_config.html</loc>
-    <lastmod>2025-05-15T12:04:41.678Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_pollen_sum.html</loc>
-    <lastmod>2025-05-15T12:04:41.678Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/interpolate_community_data.html</loc>
-    <lastmod>2025-05-15T12:04:41.678Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/make_community_data_long.html</loc>
-    <lastmod>2025-05-15T12:04:41.678Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/prepare_data_for_fit.html</loc>
-    <lastmod>2025-05-15T12:04:41.678Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/save_progress_visualisation.html</loc>
-    <lastmod>2025-05-15T12:04:41.693Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/transform_to_proportions.html</loc>
-    <lastmod>2025-05-15T12:04:41.695Z</lastmod>
+    <lastmod>2025-05-15T12:09:58.909Z</lastmod>
   </url>
 </urlset>

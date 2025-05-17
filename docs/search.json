@@ -153,7 +153,7 @@
     "href": "website/about.html",
     "title": "BIODYNAMICS - Vegetation Co-occurrence",
     "section": "",
-    "text": "This project is a work in progress. The code is not yet ready!\n\n\nHere is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:",
+    "text": "This is a project to study the co-occurrence of vegetation across space and time.\nThe repo is part of the BIODYNAMICS project.\n This project is a work in progress. The code is not yet ready!\n\n\nThe project is using {config} to set up various “subprojects” within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.\nThe main source of data is VegVault, a database of vegetation plots and abiotic data.\nCurrently, the aim of the project is to estimate number of significant co-occurrences of species in a given area per each time slice (step). The species association are calculated using {HMSC} (Hierarchical Modelling of Species Communities) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining by abiotic variables).\nHere is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:\n\n\n\nThere is a toy subproject with the area of Czech Republic with only using the fossil pollen archive data spanning 0-5000 cal yr BP, while the time step is set to 500 years. The abiotic variables are the bio1 and bio12 (temperature and precipitation). Only 10 most common taxa are used in the analysis. The probabilistic Bayesian model is set to be fitted quickly (100 samples per chain, with a transient of 50 samples and a cross-validation of 2 folds).",
     "crumbs": [
       "About the project"
     ]
@@ -163,7 +163,7 @@
     "href": "website/about.html#current-status",
     "title": "BIODYNAMICS - Vegetation Co-occurrence",
     "section": "",
-    "text": "Here is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:",
+    "text": "The project is using {config} to set up various “subprojects” within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.\nThe main source of data is VegVault, a database of vegetation plots and abiotic data.\nCurrently, the aim of the project is to estimate number of significant co-occurrences of species in a given area per each time slice (step). The species association are calculated using {HMSC} (Hierarchical Modelling of Species Communities) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining by abiotic variables).\nHere is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:\n\n\n\nThere is a toy subproject with the area of Czech Republic with only using the fossil pollen archive data spanning 0-5000 cal yr BP, while the time step is set to 500 years. The abiotic variables are the bio1 and bio12 (temperature and precipitation). Only 10 most common taxa are used in the analysis. The probabilistic Bayesian model is set to be fitted quickly (100 samples per chain, with a transient of 50 samples and a cross-validation of 2 folds).",
     "crumbs": [
       "About the project"
     ]
