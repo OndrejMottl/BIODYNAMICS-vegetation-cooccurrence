@@ -6,9 +6,19 @@ date-modified: last-modified
 
 # BIODYNAMICS - Vegetation Co-occurrence
 
+This is a project to study the co-occurrence of vegetation across space and time. 
+
+The repo is part of the [BIODYNAMICS](https://bit.ly/BIODYNAMICS) project.
+
 ![](https://img.shields.io/badge/status-WIP-red) This project is a work in progress. The code is not yet ready!
 
 ## Current Status
+
+The project is using {[config](https://rstudio.github.io/config/index.html)} to set up various "subprojects" within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.
+
+The main source of data is [VegVault](bit.ly/VegVault), a database of vegetation plots and abiotic data. 
+
+Currently, the aim of the project is to estimate number of significant co-occurrences of species in a given area per each time slice (step). The species association are calculated using {[HMSC](https://www.helsinki.fi/en/researchgroups/statistical-ecology/software/hmsc)} (Hierarchical Modelling of Species Communities) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining by abiotic variables). 
 
 Here is a preview of the current status of the project status:
 
@@ -18,3 +28,36 @@ Or you can see the simplified static version of the project status below:
 
 ![](/Documentation/Progress/project_status_static.png)
 
+### Preliminary Results
+
+There is a toy subproject with the area of Czech Republic with only using the fossil pollen archive data spanning 0-5000 cal yr BP, while the time step is set to 500 years. The abiotic variables are the bio1 and bio12 (temperature and precipitation). Only 10 most common taxa are used in the analysis. The probabilistic Bayesian model is set to be fitted quickly (100 samples per chain, with a transient of 50 samples and a cross-validation of 2 folds).
+
+
+```{r}
+#| label: plot species associations by time step
+#| echo: false
+#| output: true
+#| message: false
+#| warning: false
+#| error: false
+suppressMessages(
+  suppressWarnings({
+    library(targets, warn.conflicts = FALSE)
+    library(ggplot2, warn.conflicts = FALSE)
+    library(here, warn.conflicts = FALSE)
+    here::i_am("website/about.qmd")
+  })
+)
+
+targets::tar_read(
+  name = "plot_species_associations_by_age",
+  store = here::here(
+    config::get(
+      value = "target_store",
+      config = "project_cz",
+      use_parent = FALSE,
+      file = here::here("config.yml")
+    )
+  )
+)
+```
