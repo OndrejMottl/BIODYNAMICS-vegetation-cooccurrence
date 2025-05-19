@@ -1,0 +1,30 @@
+Get Random Structure for Model
+
+Description:
+
+     Constructs the random structure for HMSC models based on age
+     and/or space.
+
+Usage:
+
+     get_random_structure_for_model(
+       data = NULL,
+       type = c("age", "space"),
+       min_knots_distance = NULL
+     )
+     
+Arguments:
+
+    data: A list containing data for model fitting from the function
+          [check_and_prepare_data_for_fit()].
+
+    type: Character vector specifying random effect types ("age",
+          "space").
+
+min_knots_distance: Minimum distance between knots for spatial random
+          effect (optional). Only used if "space" is in `type`.
+
+Value:
+
+     A list describing the random structure for the model.
+

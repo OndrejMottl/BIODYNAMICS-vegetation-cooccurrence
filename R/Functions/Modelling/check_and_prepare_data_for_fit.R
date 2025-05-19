@@ -1,3 +1,19 @@
+#' @title Check and Prepare Data for Model Fitting
+#' @description
+#' Cleans and prepares community, abiotic, and coordinate data for HMSC model
+#' fitting, with optional age subsetting.
+#' @param data_community
+#' Data frame of community data.
+#' @param data_abiotic
+#' Data frame of abiotic data.
+#' @param data_coords
+#' Data frame of coordinates.
+#' @param subset_age
+#' Optional age value to subset data.
+#' @seealso [make_hmsc_model()]
+#' @return
+#' A list of cleaned and prepared data frames for model fitting.
+#' @export
 check_and_prepare_data_for_fit <- function(
     data_community = NULL,
     data_abiotic = NULL,

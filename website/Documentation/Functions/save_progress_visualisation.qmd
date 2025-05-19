@@ -33,7 +33,8 @@ function processMathHTML() {
 <pre><code class='language-R'>save_progress_visualisation(
   sel_script,
   output_file = "project_status",
-  output_dir = here::here("Outputs/Figures"),
+  output_dir = here::here("Documentation/Progress"),
+  background_color = "white",
   level_separation = 250
 )
 </code></pre>
