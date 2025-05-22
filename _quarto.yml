@@ -1,6 +1,10 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - website/Documentation/documentation.qmd
+    - website/Documentation/code_coverage_report.qmd
+    - "*.qmd"
 
 website:
   title: "BIODYNAMICS-vegetation-cooccurrence"
@@ -32,9 +36,6 @@ website:
         contents:
           - text: "Project overview"
             href: website/Documentation/documentation.qmd
-          - text: "Code coverage"
-            href: website/Documentation/code_coverage.qmd
-
           - section: "Functions"
             contents: "website/Documentation/Functions/*.qmd"
 
