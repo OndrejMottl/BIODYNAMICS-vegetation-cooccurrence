@@ -10,7 +10,7 @@
     "last_column": 3,
     "first_parsed": 15,
     "last_parsed": 18,
-    "value": 0
+    "value": 4
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Abiotic/get_abiotic_data.R",
@@ -23,7 +23,7 @@
     "last_column": 3,
     "first_parsed": 20,
     "last_parsed": 23,
-    "value": 0
+    "value": 2
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Abiotic/get_abiotic_data.R",
@@ -36,7 +36,7 @@
     "last_column": 12,
     "first_parsed": 24,
     "last_parsed": 30,
-    "value": 0
+    "value": 2
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_community_data.R",
@@ -192,7 +192,7 @@
     "last_column": 3,
     "first_parsed": 23,
     "last_parsed": 26,
-    "value": 0
+    "value": 11
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/select_n_taxa.R",
@@ -205,7 +205,7 @@
     "last_column": 3,
     "first_parsed": 28,
     "last_parsed": 31,
-    "value": 0
+    "value": 9
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/select_n_taxa.R",
@@ -218,7 +218,7 @@
     "last_column": 3,
     "first_parsed": 33,
     "last_parsed": 41,
-    "value": 0
+    "value": 8
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/select_n_taxa.R",
@@ -231,7 +231,7 @@
     "last_column": 3,
     "first_parsed": 43,
     "last_parsed": 46,
-    "value": 0
+    "value": 6
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/select_n_taxa.R",
@@ -244,7 +244,7 @@
     "last_column": 3,
     "first_parsed": 48,
     "last_parsed": 51,
-    "value": 0
+    "value": 4
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/select_n_taxa.R",
@@ -257,7 +257,7 @@
     "last_column": 22,
     "first_parsed": 54,
     "last_parsed": 63,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/select_n_taxa.R",
@@ -270,7 +270,7 @@
     "last_column": 45,
     "first_parsed": 65,
     "last_parsed": 67,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/select_n_taxa.R",
@@ -283,7 +283,7 @@
     "last_column": 3,
     "first_parsed": 70,
     "last_parsed": 76,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/select_n_taxa.R",
@@ -296,7 +296,7 @@
     "last_column": 13,
     "first_parsed": 78,
     "last_parsed": 78,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/transform_to_proportions.R",
@@ -322,7 +322,7 @@
     "last_column": 26,
     "first_parsed": 37,
     "last_parsed": 37,
-    "value": 0
+    "value": 7
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
@@ -335,7 +335,7 @@
     "last_column": 3,
     "first_parsed": 39,
     "last_parsed": 43,
-    "value": 0
+    "value": 7
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
@@ -348,7 +348,7 @@
     "last_column": 46,
     "first_parsed": 46,
     "last_parsed": 46,
-    "value": 0
+    "value": 7
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
@@ -361,7 +361,7 @@
     "last_column": 3,
     "first_parsed": 48,
     "last_parsed": 51,
-    "value": 0
+    "value": 6
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
@@ -374,7 +374,7 @@
     "last_column": 3,
     "first_parsed": 53,
     "last_parsed": 56,
-    "value": 0
+    "value": 5
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
@@ -387,7 +387,7 @@
     "last_column": 3,
     "first_parsed": 58,
     "last_parsed": 61,
-    "value": 0
+    "value": 4
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
@@ -400,7 +400,7 @@
     "last_column": 3,
     "first_parsed": 63,
     "last_parsed": 66,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
@@ -413,7 +413,7 @@
     "last_column": 3,
     "first_parsed": 68,
     "last_parsed": 71,
-    "value": 0
+    "value": 2
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
@@ -426,7 +426,7 @@
     "last_column": 26,
     "first_parsed": 73,
     "last_parsed": 103,
-    "value": 0
+    "value": 1
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
@@ -439,7 +439,7 @@
     "last_column": 5,
     "first_parsed": 105,
     "last_parsed": 110,
-    "value": 0
+    "value": 1
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R",
@@ -452,7 +452,7 @@
     "last_column": 24,
     "first_parsed": 112,
     "last_parsed": 112,
-    "value": 0
+    "value": 1
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/add_model_evaluation.R",
@@ -530,7 +530,7 @@
     "last_column": 26,
     "first_parsed": 22,
     "last_parsed": 22,
-    "value": 0
+    "value": 13
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -543,7 +543,7 @@
     "last_column": 34,
     "first_parsed": 24,
     "last_parsed": 25,
-    "value": 0
+    "value": 13
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -556,7 +556,7 @@
     "last_column": 32,
     "first_parsed": 27,
     "last_parsed": 28,
-    "value": 0
+    "value": 10
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -569,7 +569,7 @@
     "last_column": 21,
     "first_parsed": 30,
     "last_parsed": 32,
-    "value": 0
+    "value": 7
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -582,7 +582,7 @@
     "last_column": 24,
     "first_parsed": 35,
     "last_parsed": 35,
-    "value": 0
+    "value": 4
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -595,7 +595,7 @@
     "last_column": 25,
     "first_parsed": 37,
     "last_parsed": 41,
-    "value": 0
+    "value": 2
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -608,7 +608,7 @@
     "last_column": 25,
     "first_parsed": 43,
     "last_parsed": 47,
-    "value": 0
+    "value": 2
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -621,7 +621,7 @@
     "last_column": 38,
     "first_parsed": 50,
     "last_parsed": 54,
-    "value": 0
+    "value": 4
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -634,7 +634,7 @@
     "last_column": 38,
     "first_parsed": 56,
     "last_parsed": 60,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -647,7 +647,7 @@
     "last_column": 33,
     "first_parsed": 62,
     "last_parsed": 65,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -660,7 +660,7 @@
     "last_column": 21,
     "first_parsed": 67,
     "last_parsed": 77,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -673,7 +673,7 @@
     "last_column": 43,
     "first_parsed": 79,
     "last_parsed": 89,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -686,7 +686,7 @@
     "last_column": 43,
     "first_parsed": 92,
     "last_parsed": 102,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -699,7 +699,7 @@
     "last_column": 18,
     "first_parsed": 104,
     "last_parsed": 108,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -712,7 +712,7 @@
     "last_column": 43,
     "first_parsed": 110,
     "last_parsed": 115,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -725,7 +725,7 @@
     "last_column": 18,
     "first_parsed": 117,
     "last_parsed": 123,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -738,7 +738,7 @@
     "last_column": 43,
     "first_parsed": 125,
     "last_parsed": 130,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -751,7 +751,7 @@
     "last_column": 5,
     "first_parsed": 132,
     "last_parsed": 138,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_and_prepare_data_for_fit.R",
@@ -764,7 +764,7 @@
     "last_column": 13,
     "first_parsed": 140,
     "last_parsed": 140,
-    "value": 0
+    "value": 3
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/fit_hmsc_model.R",
@@ -1895,7 +1895,7 @@
     "last_column": 25,
     "first_parsed": 11,
     "last_parsed": 13,
-    "value": 0
+    "value": 22
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/add_age_column_from_rownames.R",
@@ -1908,7 +1908,7 @@
     "last_column": 12,
     "first_parsed": 15,
     "last_parsed": 19,
-    "value": 0
+    "value": 18
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/add_dataset_name_column_from_rownames.R",
@@ -1921,7 +1921,7 @@
     "last_column": 34,
     "first_parsed": 11,
     "last_parsed": 13,
-    "value": 0
+    "value": 18
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/add_dataset_name_column_from_rownames.R",
@@ -1934,7 +1934,7 @@
     "last_column": 12,
     "first_parsed": 15,
     "last_parsed": 19,
-    "value": 0
+    "value": 14
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
@@ -1947,7 +1947,7 @@
     "last_column": 5,
     "first_parsed": 14,
     "last_parsed": 17,
-    "value": 2
+    "value": 9
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
@@ -1960,7 +1960,7 @@
     "last_column": 29,
     "first_parsed": 20,
     "last_parsed": 20,
-    "value": 2
+    "value": 9
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
@@ -1973,7 +1973,7 @@
     "last_column": 5,
     "first_parsed": 22,
     "last_parsed": 28,
-    "value": 1
+    "value": 2
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R",
@@ -1999,7 +1999,7 @@
     "last_column": 26,
     "first_parsed": 33,
     "last_parsed": 33,
-    "value": 1
+    "value": 7
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_active_config.R",
@@ -2045,13 +2045,52 @@
     "functions": "get_age_from_string",
     "first_line": 11,
     "first_byte": 3,
-    "last_line": 17,
+    "last_line": 14,
+    "last_byte": 3,
+    "first_column": 3,
+    "last_column": 3,
+    "first_parsed": 11,
+    "last_parsed": 14,
+    "value": 28
+  },
+  {
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_age_from_string.R",
+    "functions": "get_age_from_string",
+    "first_line": 16,
+    "first_byte": 3,
+    "last_line": 19,
+    "last_byte": 3,
+    "first_column": 3,
+    "last_column": 3,
+    "first_parsed": 16,
+    "last_parsed": 19,
+    "value": 24
+  },
+  {
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_age_from_string.R",
+    "functions": "get_age_from_string",
+    "first_line": 21,
+    "first_byte": 3,
+    "last_line": 24,
+    "last_byte": 3,
+    "first_column": 3,
+    "last_column": 3,
+    "first_parsed": 21,
+    "last_parsed": 24,
+    "value": 22
+  },
+  {
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_age_from_string.R",
+    "functions": "get_age_from_string",
+    "first_line": 26,
+    "first_byte": 3,
+    "last_line": 32,
     "last_byte": 12,
     "first_column": 3,
     "last_column": 12,
-    "first_parsed": 11,
-    "last_parsed": 17,
-    "value": 0
+    "first_parsed": 26,
+    "last_parsed": 32,
+    "value": 20
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_coords.R",
@@ -2064,20 +2103,59 @@
     "last_column": 12,
     "first_parsed": 11,
     "last_parsed": 22,
-    "value": 0
+    "value": 5
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_dataset_name_from_string.R",
     "functions": "get_dataset_name_from_string",
     "first_line": 11,
     "first_byte": 3,
-    "last_line": 15,
+    "last_line": 14,
+    "last_byte": 3,
+    "first_column": 3,
+    "last_column": 3,
+    "first_parsed": 11,
+    "last_parsed": 14,
+    "value": 25
+  },
+  {
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_dataset_name_from_string.R",
+    "functions": "get_dataset_name_from_string",
+    "first_line": 16,
+    "first_byte": 3,
+    "last_line": 19,
+    "last_byte": 3,
+    "first_column": 3,
+    "last_column": 3,
+    "first_parsed": 16,
+    "last_parsed": 19,
+    "value": 20
+  },
+  {
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_dataset_name_from_string.R",
+    "functions": "get_dataset_name_from_string",
+    "first_line": 21,
+    "first_byte": 3,
+    "last_line": 24,
+    "last_byte": 3,
+    "first_column": 3,
+    "last_column": 3,
+    "first_parsed": 21,
+    "last_parsed": 24,
+    "value": 19
+  },
+  {
+    "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_dataset_name_from_string.R",
+    "functions": "get_dataset_name_from_string",
+    "first_line": 26,
+    "first_byte": 3,
+    "last_line": 30,
     "last_byte": 12,
     "first_column": 3,
     "last_column": 12,
-    "first_parsed": 11,
-    "last_parsed": 15,
-    "value": 0
+    "first_parsed": 26,
+    "last_parsed": 30,
+    "value": 16
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_data_for_fit.R",
@@ -2090,7 +2168,7 @@
     "last_column": 3,
     "first_parsed": 25,
     "last_parsed": 28,
-    "value": 0
+    "value": 9
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_data_for_fit.R",
@@ -2103,7 +2181,7 @@
     "last_column": 25,
     "first_parsed": 30,
     "last_parsed": 30,
-    "value": 0
+    "value": 7
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_data_for_fit.R",
@@ -2116,7 +2194,7 @@
     "last_column": 3,
     "first_parsed": 32,
     "last_parsed": 35,
-    "value": 0
+    "value": 6
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_data_for_fit.R",
@@ -2129,7 +2207,7 @@
     "last_column": 5,
     "first_parsed": 37,
     "last_parsed": 63,
-    "value": 0
+    "value": 6
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_data_for_fit.R",
@@ -2142,7 +2220,7 @@
     "last_column": 15,
     "first_parsed": 65,
     "last_parsed": 65,
-    "value": 0
+    "value": 4
   },
   {
     "filename": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/save_progress_visualisation.R",
