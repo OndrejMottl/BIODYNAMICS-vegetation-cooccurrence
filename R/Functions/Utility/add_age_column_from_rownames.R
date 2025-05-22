@@ -14,7 +14,7 @@ add_age_column_from_rownames <- function(data) {
 
   data %>%
     dplyr::mutate(
-      age = row_names
+      age = as.numeric(row_names)
     ) %>%
     return()
 }

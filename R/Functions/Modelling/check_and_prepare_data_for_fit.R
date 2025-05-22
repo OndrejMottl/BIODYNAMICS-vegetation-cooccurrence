@@ -124,7 +124,7 @@ check_and_prepare_data_for_fit <- function(
 
   data_ages_to_fit <-
     tibble::tibble(
-      age = vec_age,
+      age = as.numeric(vec_age),
       row_names = age
     ) %>%
     tibble::column_to_rownames("row_names")
