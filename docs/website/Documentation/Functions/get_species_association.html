@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>get_community_data() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>get_species_association() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/get_community_data.html">get_community_data()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/get_species_association.html">get_species_association()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -214,7 +214,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../website/Documentation/Functions/get_community_data.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../website/Documentation/Functions/get_community_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_community_data()</span></a>
   </div>
 </li>
@@ -256,7 +256,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../website/Documentation/Functions/get_species_association.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/get_species_association.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">get_species_association()</span></a>
   </div>
 </li>
@@ -329,9 +329,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/get_community_data.html">get_community_data()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/get_species_association.html">get_species_association()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">get_community_data()</h1>
+<h1 class="title">get_species_association()</h1>
 </div>
 
 
@@ -369,7 +369,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-get_community_data
+get_species_association
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -377,18 +377,18 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Get Community Data
+Compute Species Associations
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-This function processes a data frame containing community data and extracts the relevant columns, unnesting the ‘data_community’ column in the process.
+Computes species associations from a fitted Hmsc model object.
 </p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">get_community_data(data = NULL)
+<pre><code class="language-R">get_species_association(data_sourse)
 </code></pre>
 <h3 class="anchored">
 Arguments
@@ -396,48 +396,26 @@ Arguments
 <table>
 <tbody><tr>
 <td>
-<code id="data">data</code>
+<code id="data_sourse">data_sourse</code>
 </td>
 <td>
 <p>
-A data frame. Must contain the columns ‘dataset_name’ and ‘data_community’.
+A list containing a fitted Hmsc model under the ‘mod’ element. Generally, this is the output of the function get_better_model_based_on_fit()
 </p>
 </td>
 </tr>
 </tbody></table>
 <h3 class="anchored">
-Details
-</h3>
-<p>
-The function performs the following steps:
-</p>
-<ul>
-<li>
-<p>
-Validates that the input is a data frame.
-</p>
-</li>
-<li>
-<p>
-Ensures the presence of the ‘dataset_name’ and ‘data_community’ columns.
-</p>
-</li>
-<li>
-<p>
-Selects the ‘dataset_name’ and ‘data_community’ columns.
-</p>
-</li>
-<li>
-<p>
-Unnests the ‘data_community’ column.
-</p>
-</li>
-</ul>
-<h3 class="anchored">
 Value
 </h3>
 <p>
-A data frame with the ‘dataset_name’ and unnested ‘data_community’ columns.
+A matrix of species associations.
+</p>
+<h3 class="anchored">
+See Also
+</h3>
+<p>
+[get_better_model_based_on_fit()]
 </p>
 </main>
 </div>
@@ -872,7 +850,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/Functions/get_community_data.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/Functions/get_species_association.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

@@ -1,8 +1,9 @@
 ---
 format: html
+title: get_better_model_based_on_fit()
 ---
 
-<html><head><title>R: Select Better Model Based on Fit</title>
+<html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
