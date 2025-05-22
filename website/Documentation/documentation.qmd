@@ -2,4 +2,65 @@
 date: 2025/05/15
 date-format: long
 date-modified: last-modified
+listing: 
+  - id: functions
+    max-description-length: 100
+    fields: [title]
+    contents: "Functions"
+    type: grid
+    grid-item-border: true
 ---
+
+# BIODYNAMICS - Vegetation Co-occurrence
+
+This is a project to study the co-occurrence of vegetation across space and time.
+
+The repo is part of the [BIODYNAMICS](https://bit.ly/BIODYNAMICS) project.
+
+See [detailed description of the project](/website/about.qmd) for more information.
+
+The latest information are always available on the [project website](/index.qmd).
+
+# Functions
+
+This project is coded in [R](https://www.r-project.org/) and uses {[targets](https://docs.ropensci.org/targets/)} pipeline to run the analysis. 
+
+## Documentation of individual functions
+
+Each function used in the project is documented using the [roxygen2](https://roxygen2.r-lib.org/) package. Here we present the list of functions used in the project:
+
+::: {#functions}
+:::
+
+## Code coverage
+
+```{r}
+#| label: estimate_test_coverage
+#| echo: false
+#| output: false
+#| message: false
+#| warning: false
+#| error: false
+
+library(here)
+
+here::i_am("website/Documentation/documentation.qmd")
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
+source(
+  here::here("R/03_Supplementary_analyses/Estimate_test_coverage.R")
+)
+```
+
+
+In order to check issues during the development of the code, we are writing test using the {[testthat](https://testthat.r-lib.org/)} package. Then we are using the {[covr](https://covr.r-lib.org/)} package to check the code coverage. The code coverage is calculated for each function and the overall code coverage is calculated as well.
+
+Current code coverage is: ![](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/main/Documentation/Functions_test_coverage/covr_report_summary.json&query=$.value&label=codecov&color=orange&style=flat-square&suffix=%25)
+
+The full interactive report of the {[covr](https://covr.r-lib.org/)} package can be found here:
+
+<iframe src="/Documentation/Functions_test_coverage/covr_report.html" width="100%" height="500px" style="border:none;"></iframe>
+

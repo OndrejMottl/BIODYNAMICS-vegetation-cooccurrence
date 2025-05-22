@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>transform_to_proportions – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>transform_to_proportions() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_to_community_data.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/transform_to_proportions.html">Transform to Proportions</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/transform_to_proportions.html">transform_to_proportions()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -131,12 +131,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Project overview</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../website/Documentation/code_coverage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Code coverage</span></a>
-  </div>
-</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
@@ -148,116 +142,176 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">add_age_column_from_rownames()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/add_age_to_community_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Add Age to Community Data</span></a>
+ <span class="menu-text">add_age_to_community_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/add_age_to_samples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Add Age to Samples</span></a>
+ <span class="menu-text">add_age_to_samples()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/add_dataset_name_column_from_rownames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">add_dataset_name_column_from_rownames()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/check_and_prepare_data_for_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_and_prepare_data_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/check_presence_of_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Check Presence of Vegvault</span></a>
+ <span class="menu-text">check_presence_of_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/extract_data_from_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Extract Data from Vegvault</span></a>
+ <span class="menu-text">extract_data_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/fit_hmsc_model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Fit Hmsc Model</span></a>
+ <span class="menu-text">fit_hmsc_model()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/get_abiotic_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Get Abiotic Data</span></a>
+ <span class="menu-text">get_abiotic_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/get_active_config.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Get Active Config</span></a>
+ <span class="menu-text">get_active_config()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_age_from_string.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_age_from_string()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_better_model_based_on_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_better_model_based_on_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/get_community_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Get Community Data</span></a>
+ <span class="menu-text">get_community_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_coords.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_coords()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_dataset_name_from_string.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_dataset_name_from_string()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/get_pollen_sum.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Get Pollen Sum</span></a>
+ <span class="menu-text">get_pollen_sum()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_random_structure_for_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_random_structure_for_model()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/get_sample_ages.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Get Sample Ages</span></a>
+ <span class="menu-text">get_sample_ages()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_significant_associations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_significant_associations()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_species_association.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_species_association()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/interpolate_community_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interpolate Community Data</span></a>
+ <span class="menu-text">interpolate_community_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/interpolate_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interpolate Data</span></a>
+ <span class="menu-text">interpolate_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/make_community_data_long.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Make Community Data Long</span></a>
+ <span class="menu-text">make_community_data_long()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/make_hmsc_model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Make Hmsc Model</span></a>
+ <span class="menu-text">make_hmsc_model()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/prepare_data_for_fit.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prepare Data for Fit</span></a>
+ <span class="menu-text">prepare_data_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/replace_na_community_data_with_zeros.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Replace Na Community Data with Zeros</span></a>
+ <span class="menu-text">replace_na_community_data_with_zeros()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/save_progress_visualisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Save Progress Visualisation</span></a>
+ <span class="menu-text">save_progress_visualisation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/select_n_taxa.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Select N Taxa</span></a>
+ <span class="menu-text">select_n_taxa()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/transform_to_proportions.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Transform to Proportions</span></a>
+ <span class="menu-text">transform_to_proportions()</span></a>
   </div>
 </li>
       </ul>
@@ -273,16 +327,29 @@ ul.task-list li input[type="checkbox"] {
         
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_to_community_data.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/transform_to_proportions.html">Transform to Proportions</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/transform_to_proportions.html">transform_to_proportions()</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">transform_to_proportions()</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
 
 
 
 
-
-
-<title>
-R: Transform to Proportions
-</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">

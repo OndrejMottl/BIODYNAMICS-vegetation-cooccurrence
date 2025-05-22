@@ -1,0 +1,20 @@
+Add Dataset Name Column from Row Names
+
+Description:
+
+     Adds a 'dataset_name' column to a data frame by extracting dataset
+     names from row names.
+
+Usage:
+
+     add_dataset_name_column_from_rownames(data)
+     
+Arguments:
+
+    data: A data frame with row names in the format
+          "dataset__something".
+
+Value:
+
+     The input data frame with an added 'dataset_name' column.
+

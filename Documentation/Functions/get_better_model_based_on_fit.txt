@@ -1,0 +1,19 @@
+Select Better Model Based on Fit
+
+Description:
+
+     Compares two models and selects the one with better fit based on
+     Tjur's R2.
+
+Usage:
+
+     get_better_model_based_on_fit(list_models)
+     
+Arguments:
+
+list_models: A list of two fitted model objects.
+
+Value:
+
+     The model object with better fit.
+

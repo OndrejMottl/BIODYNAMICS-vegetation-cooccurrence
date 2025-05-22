@@ -1,3 +1,13 @@
+#' @title Compute Species Associations
+#' @description
+#' Computes species associations from a fitted Hmsc model object.
+#' @param data_sourse
+#' A list containing a fitted Hmsc model under the 'mod' element.
+#' Generally, this is the output of the function get_better_model_based_on_fit()
+#' @return
+#' A matrix of species associations.
+#' @seealso [get_better_model_based_on_fit()]
+#' @export
 get_species_association <- function(data_sourse) {
   assertthat::assert_that(
     is.list(data_sourse),

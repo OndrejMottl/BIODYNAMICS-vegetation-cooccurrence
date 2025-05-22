@@ -1,0 +1,19 @@
+Add Age Column from Row Names
+
+Description:
+
+     Adds an 'age' column to a data frame by extracting age values from
+     row names.
+
+Usage:
+
+     add_age_column_from_rownames(data)
+     
+Arguments:
+
+    data: A data frame with row names in the format "dataset__age".
+
+Value:
+
+     The input data frame with an added 'age' column.
+

@@ -1,3 +1,16 @@
+#' @title Get Significant Species Associations
+#' @description
+#' Identifies significant species associations based on support and mean
+#' values.
+#' @param data_source
+#' A list containing association matrices from a fitted Hmsc model.
+#' Generally, this is the output of the function get_species_association().
+#' @param alpha
+#' Significance level for support threshold (default: 0.05).
+#' @return
+#' A vector of significant association values.
+#' @seealso [get_species_association()]
+#' @export
 get_significant_associations <- function(data_source, alpha = 0.05) {
   assertthat::assert_that(
     is.list(data_source),

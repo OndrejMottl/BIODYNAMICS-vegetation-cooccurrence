@@ -1,0 +1,20 @@
+Get Dataset Coordinates
+
+Description:
+
+     Extracts unique coordinates for each dataset, excluding
+     gridpoints.
+
+Usage:
+
+     get_coords(data)
+     
+Arguments:
+
+    data: A data frame containing columns 'dataset_name', 'coord_long',
+          and 'coord_lat'.
+
+Value:
+
+     A data frame with unique coordinates for each dataset.
+

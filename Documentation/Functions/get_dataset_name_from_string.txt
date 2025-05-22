@@ -1,0 +1,20 @@
+Extract Dataset Name from String
+
+Description:
+
+     Extracts the dataset name from a vector of strings, taking all
+     characters before the double underscore ("__").
+
+Usage:
+
+     get_dataset_name_from_string(vec_names)
+     
+Arguments:
+
+vec_names: A character vector containing names with the format
+          "dataset__something".
+
+Value:
+
+     A character vector of dataset names.
+

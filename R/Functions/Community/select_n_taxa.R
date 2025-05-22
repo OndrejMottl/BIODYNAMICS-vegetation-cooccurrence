@@ -59,7 +59,7 @@ select_n_taxa <- function(
       .groups = "drop",
       n_datasets = dplyr::n()
     ) %>%
-    dplyr::slice_max(n_datasets, n = n_taxa) %>%
+    dplyr::slice_max(n = n_taxa, order_by = n_datasets) %>%
     dplyr::pull(taxon)
 
   res <-
