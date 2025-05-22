@@ -1,10 +1,6 @@
 project:
   type: website
   output-dir: docs
-  render:
-    - website/Documentation/documentation.qmd
-    - website/Documentation/code_coverage_report.qmd
-    - "*.qmd"
 
 website:
   title: "BIODYNAMICS-vegetation-cooccurrence"
