@@ -46,15 +46,23 @@ make_hmsc_model <- function(
     msg = "data_abiotic must be a data frame"
   )
 
-  error_family <- match.arg(error_family)
 
   assertthat::assert_that(
-    is.character(error_family) && length(error_family) == 1,
-    msg = "error_family must be a character string of length 1"
+    is.character(sel_formula),
+    msg = "sel_formula must be a character string "
   )
 
   assertthat::assert_that(
-    is.character(sel_formula) && length(sel_formula) == 1,
+    any(
+      error_family %in% c("normal", "binomial")
+    ),
+    msg = "error_family must be either 'normal' or 'binomial'"
+  )
+
+  error_family <- match.arg(error_family)
+
+  assertthat::assert_that(
+    length(sel_formula) == 1,
     msg = "sel_formula must be a character string of length 1"
   )
 
@@ -66,6 +74,16 @@ make_hmsc_model <- function(
 
     error_family <- "probit"
   }
+
+  assertthat::assert_that(
+    is.list(random_structure),
+    msg = "random_structure must be a list"
+  )
+
+  assertthat::assert_that(
+    all(c("study_design", "random_levels") %in% names(random_structure)),
+    msg = "random_structure must contain study_design and random_levels"
+  )
 
   study_design <-
     random_structure %>%

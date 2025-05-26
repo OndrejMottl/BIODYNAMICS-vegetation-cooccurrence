@@ -17,6 +17,16 @@ get_better_model_based_on_fit <- function(list_models) {
     msg = "list_models must be a list of two models"
   )
 
+  assertthat::assert_that(
+    !is.null(list_models[[1]]),
+    msg = "The first model in list_models must not be NULL"
+  )
+
+  assertthat::assert_that(
+    !is.null(list_models[[2]]),
+    msg = "The second model in list_models must not be NULL"
+  )
+
   mod_null <-
     list_models %>%
     purrr::chuck(1)
