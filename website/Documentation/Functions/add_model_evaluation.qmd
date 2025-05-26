@@ -1,0 +1,69 @@
+---
+format: html
+title: add_model_evaluation()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>add_model_evaluation</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add Model Evaluation</h2>
+
+<h3>Description</h3>
+
+<p>Evaluates a fitted Hmsc model using predicted data and returns a list
+containing the model and its evaluation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>add_model_evaluation(mod_fitted = NULL, data_pred = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="mod_fitted">mod_fitted</code></td>
+<td>
+<p>A fitted Hmsc model object. Must be of class 'Hmsc'.</p>
+</td></tr>
+<tr><td><code id="data_pred">data_pred</code></td>
+<td>
+<p>An array of predicted values. Must be of class 'array'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list with two elements: the fitted model ('mod') and the evaluation
+results ('eval').
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Hmsc::evaluateModelFit
+</p>
+
+</main>
+
+</div>
+</body></html>
+

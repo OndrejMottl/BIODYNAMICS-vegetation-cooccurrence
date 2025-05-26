@@ -1,3 +1,16 @@
+#' @title Get Significant Species Associations
+#' @description
+#' Identifies significant species associations based on support and mean
+#' values for each error level.
+#' @param data_source
+#' A list containing association matrices from a fitted Hmsc model.
+#' Generally, this is the output of the function get_species_association().
+#' @param alpha
+#' Significance level for support threshold (default: 0.05).
+#' @return
+#' A vector of significant association values.
+#' @seealso [get_species_association()]
+#' @export
 get_significant_associations <- function(data_source, alpha = 0.05) {
   assertthat::assert_that(
     is.list(data_source),
@@ -11,51 +24,52 @@ get_significant_associations <- function(data_source, alpha = 0.05) {
     msg = "The support threshold must be a numeric value between 0 and 1."
   )
 
-  data_work <-
-    purrr::pluck(data_source, 1)
-
   assertthat::assert_that(
-    is.list(data_work) && length(data_work) == 2,
-    msg = "The data work must be a list with two elements.F"
+    is.list(data_source) && length(data_source) > 0,
+    msg = "The data source is list and not empty."
   )
 
-  data_support <-
-    purrr::chuck(data_work, "support")
-
-  data_mean <-
-    purrr::pluck(data_work, "mean")
-
-  vec_data_support <-
-    data_support[lower.tri(data_support, diag = FALSE)]
-
-  vec_data_mean <-
-    data_mean[lower.tri(data_mean, diag = FALSE)]
-
   assertthat::assert_that(
-    is.numeric(vec_data_support) && is.numeric(vec_data_mean),
-    msg = "The support and mean values must be numeric vectors."
+    purrr::map_lgl(
+      .x = data_source,
+      .f = ~ is.list(.x) && all(c("mean", "support") %in% names(.x))
+    ) %>%
+      all(),
+    msg = "The data source must contain lists with 'mean' and 'support' matrices."
   )
 
-  n_values <- length(vec_data_support)
+  result <-
+    data_source %>%
+    purrr::map(
+      .f = ~ {
+        vec_data_support <-
+          purrr::pluck(.x, "support") %>%
+          {
+            .[lower.tri(., diag = FALSE)]
+          }
 
-  vec_significant <- (
-    (
-      vec_data_support > support_threshold
-    ) +
-      (
-        vec_data_support < (1 - support_threshold)
-      ) > 0
-  ) *
-    vec_data_mean
+        assertthat::assert_that(
+          is.numeric(vec_data_support),
+          msg = "The support values must be numeric vectors."
+        )
 
-  n_significant <- sum(vec_significant, na.rm = TRUE)
+        n_values <- length(vec_data_support)
 
-  res <-
-    list(
-      n_associations = n_values,
-      n_significant = n_significant,
-      proportion_significant = n_significant / n_values
+        vec_significant <- (
+          (vec_data_support > support_threshold) +
+            ((vec_data_support < (1 - support_threshold)) > 0)
+        )
+
+        n_significant <- sum(vec_significant, na.rm = TRUE)
+
+        res <-
+          list(
+            n_associations = n_values,
+            n_significant = n_significant,
+            proportion_significant = n_significant / n_values
+          )
+      }
     )
 
-  return(res)
+  return(result)
 }

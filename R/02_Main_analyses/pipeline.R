@@ -46,6 +46,8 @@ targets::tar_option_set(
   error = "null"
 )
 
+# set the number of cores to use
+n_cores <- 10
 
 #----------------------------------------------------------#
 # 1. Pipe definition -----
@@ -350,12 +352,21 @@ list_target_fit_and_evaluate <-
       name = "mod_hmsc_fitted",
       command = fit_hmsc_model(
         mod_hmsc = mod_hmsc,
-        n_chains = 4, # parallelly::availableCores() - 1
-        n_parallel = 4, # parallelly::availableCores() - 1
+        n_chains = n_cores,
+        n_parallel = n_cores,
         n_samples = config.model_fitting$samples,
         n_thin = config.model_fitting$thin,
         n_transient = config.model_fitting$transient,
         n_samples_verbose = config.model_fitting$samples_verbose
+      )
+    ),
+    targets::tar_target(
+      description = "Make the partition for cross-validation",
+      name = "mod_hmsc_partition",
+      command = Hmsc::createPartition(
+        hM = mod_hmsc_fitted,
+        nfolds = config.model_fitting$cross_validation_folds,
+        column = "dataset_name"
       )
     ),
     targets::tar_target(
@@ -365,11 +376,7 @@ list_target_fit_and_evaluate <-
         hM = mod_hmsc_fitted,
         nChains = length(mod_hmsc_fitted$postList),
         nParallel = length(mod_hmsc_fitted$postList),
-        partition = Hmsc::createPartition(
-          hM = mod_hmsc_fitted,
-          nfolds = config.model_fitting$cross_validation_folds,
-          column = "dataset_name"
-        )
+        partition = mod_hmsc_partition,
       )
     ),
     targets::tar_target(

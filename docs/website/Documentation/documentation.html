@@ -31,6 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../figures/Logo FOSSILPOL regular - 600ppi.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-listing/list.min.js"></script>
+<script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -67,7 +69,66 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-functions .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      page: 18,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
+      searchColumns: ["listing-title","listing-author","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-functions'] = new List('listing-functions', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -132,12 +193,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Project overview</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../website/Documentation/code_coverage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Code coverage</span></a>
-  </div>
-</li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
@@ -149,116 +204,176 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../website/Documentation/Functions/add_age_to_community_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Add Age to Community Data</span></a>
+  <a href="../../website/Documentation/Functions/add_age_column_from_rownames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">add_age_column_from_rownames()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/add_age_to_samples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Add Age to Samples</span></a>
+ <span class="menu-text">add_age_to_samples()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/add_dataset_name_column_from_rownames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">add_dataset_name_column_from_rownames()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/add_model_evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">add_model_evaluation()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/check_and_prepare_data_for_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_and_prepare_data_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/check_presence_of_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Check Presence of Vegvault</span></a>
+ <span class="menu-text">check_presence_of_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/extract_data_from_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Extract Data from Vegvault</span></a>
+ <span class="menu-text">extract_data_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/fit_hmsc_model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Fit Hmsc Model</span></a>
+ <span class="menu-text">fit_hmsc_model()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/get_abiotic_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Get Abiotic Data</span></a>
+ <span class="menu-text">get_abiotic_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/get_active_config.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Get Active Config</span></a>
+ <span class="menu-text">get_active_config()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_age_from_string.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_age_from_string()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_better_model_based_on_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_better_model_based_on_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/get_community_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Get Community Data</span></a>
+ <span class="menu-text">get_community_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_coords.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_coords()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_dataset_name_from_string.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_dataset_name_from_string()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/get_pollen_sum.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Get Pollen Sum</span></a>
+ <span class="menu-text">get_pollen_sum()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_random_structure_for_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_random_structure_for_model()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/get_sample_ages.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Get Sample Ages</span></a>
+ <span class="menu-text">get_sample_ages()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_significant_associations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_significant_associations()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_species_association.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_species_association()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/interpolate_community_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interpolate Community Data</span></a>
+ <span class="menu-text">interpolate_community_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/interpolate_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interpolate Data</span></a>
+ <span class="menu-text">interpolate_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/make_community_data_long.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Make Community Data Long</span></a>
+ <span class="menu-text">make_community_data_long()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/make_hmsc_model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Make Hmsc Model</span></a>
+ <span class="menu-text">make_hmsc_model()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/prepare_data_for_fit.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prepare Data for Fit</span></a>
+ <span class="menu-text">prepare_data_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/replace_na_community_data_with_zeros.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Replace Na Community Data with Zeros</span></a>
+ <span class="menu-text">replace_na_community_data_with_zeros()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/save_progress_visualisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Save Progress Visualisation</span></a>
+ <span class="menu-text">save_progress_visualisation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/select_n_taxa.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Select N Taxa</span></a>
+ <span class="menu-text">select_n_taxa()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/transform_to_proportions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Transform to Proportions</span></a>
+ <span class="menu-text">transform_to_proportions()</span></a>
   </div>
 </li>
       </ul>
@@ -270,8 +385,19 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#biodynamics---vegetation-co-occurrence" id="toc-biodynamics---vegetation-co-occurrence" class="nav-link active" data-scroll-target="#biodynamics---vegetation-co-occurrence">BIODYNAMICS - Vegetation Co-occurrence</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions">Functions</a>
+  <ul class="collapse">
+  <li><a href="#documentation-of-individual-functions" id="toc-documentation-of-individual-functions" class="nav-link" data-scroll-target="#documentation-of-individual-functions">Documentation of individual functions</a></li>
+  <li><a href="#code-coverage" id="toc-code-coverage" class="nav-link" data-scroll-target="#code-coverage">Code coverage</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/documentation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -295,7 +421,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">May 15, 2025</p>
+      <p class="date-modified">May 22, 2025</p>
     </div>
   </div>
     
@@ -306,8 +432,361 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="biodynamics---vegetation-co-occurrence" class="level1">
+<h1>BIODYNAMICS - Vegetation Co-occurrence</h1>
+<p>This is a project to study the co-occurrence of vegetation across space and time.</p>
+<p>The repo is part of the <a href="https://bit.ly/BIODYNAMICS">BIODYNAMICS</a> project.</p>
+<p>See <a href="../../website/about.html">detailed description of the project</a> for more information.</p>
+<p>The latest information are always available on the <a href="../../index.html">project website</a>.</p>
+</section>
+<section id="functions" class="level1">
+<h1>Functions</h1>
+<p>This project is coded in <a href="https://www.r-project.org/">R</a> and uses {<a href="https://docs.ropensci.org/targets/">targets</a>} pipeline to run the analysis.</p>
+<section id="documentation-of-individual-functions" class="level2">
+<h2 class="anchored" data-anchor-id="documentation-of-individual-functions">Documentation of individual functions</h2>
+<p>Each function used in the project is documented using the <a href="https://roxygen2.r-lib.org/">roxygen2</a> package. Here we present the list of functions used in the project:</p>
+<div id="listing-functions" class="quarto-listing quarto-listing-container-grid">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-listing-file-modified-sort="1748249824861" data-listing-reading-time-sort="1" data-listing-word-count-sort="103">
+<a href="../../website/Documentation/Functions/add_age_column_from_rownames.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+add_age_column_from_rownames()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-listing-file-modified-sort="1748249824869" data-listing-reading-time-sort="1" data-listing-word-count-sort="134">
+<a href="../../website/Documentation/Functions/add_age_to_samples.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+add_age_to_samples()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="2" data-listing-file-modified-sort="1748249824883" data-listing-reading-time-sort="1" data-listing-word-count-sort="104">
+<a href="../../website/Documentation/Functions/add_dataset_name_column_from_rownames.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+add_dataset_name_column_from_rownames()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="3" data-listing-file-modified-sort="1748249824892" data-listing-reading-time-sort="1" data-listing-word-count-sort="123">
+<a href="../../website/Documentation/Functions/add_model_evaluation.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+add_model_evaluation()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="4" data-listing-file-modified-sort="1748249824892" data-listing-reading-time-sort="1" data-listing-word-count-sort="134">
+<a href="../../website/Documentation/Functions/check_and_prepare_data_for_fit.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+check_and_prepare_data_for_fit()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="5" data-listing-file-modified-sort="1748249824892" data-listing-reading-time-sort="1" data-listing-word-count-sort="123">
+<a href="../../website/Documentation/Functions/check_presence_of_vegvault.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+check_presence_of_vegvault()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="6" data-listing-file-modified-sort="1748249824892" data-listing-reading-time-sort="2" data-listing-word-count-sort="218">
+<a href="../../website/Documentation/Functions/extract_data_from_vegvault.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+extract_data_from_vegvault()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="7" data-listing-file-modified-sort="1748249824892" data-listing-reading-time-sort="1" data-listing-word-count-sort="150">
+<a href="../../website/Documentation/Functions/fit_hmsc_model.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+fit_hmsc_model()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="8" data-listing-file-modified-sort="1748249824913" data-listing-reading-time-sort="1" data-listing-word-count-sort="111">
+<a href="../../website/Documentation/Functions/get_abiotic_data.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_abiotic_data()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="9" data-listing-file-modified-sort="1748249824913" data-listing-reading-time-sort="1" data-listing-word-count-sort="130">
+<a href="../../website/Documentation/Functions/get_active_config.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_active_config()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="10" data-listing-file-modified-sort="1748249824928" data-listing-reading-time-sort="1" data-listing-word-count-sort="99">
+<a href="../../website/Documentation/Functions/get_age_from_string.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_age_from_string()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="11" data-listing-file-modified-sort="1748249824928" data-listing-reading-time-sort="1" data-listing-word-count-sort="97">
+<a href="../../website/Documentation/Functions/get_better_model_based_on_fit.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_better_model_based_on_fit()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="12" data-listing-file-modified-sort="1748249824928" data-listing-reading-time-sort="1" data-listing-word-count-sort="139">
+<a href="../../website/Documentation/Functions/get_community_data.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_community_data()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="13" data-listing-file-modified-sort="1748249824928" data-listing-reading-time-sort="1" data-listing-word-count-sort="92">
+<a href="../../website/Documentation/Functions/get_coords.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_coords()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="14" data-listing-file-modified-sort="1748249824928" data-listing-reading-time-sort="1" data-listing-word-count-sort="100">
+<a href="../../website/Documentation/Functions/get_dataset_name_from_string.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_dataset_name_from_string()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="15" data-listing-file-modified-sort="1748249824928" data-listing-reading-time-sort="1" data-listing-word-count-sort="152">
+<a href="../../website/Documentation/Functions/get_pollen_sum.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_pollen_sum()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="16" data-listing-file-modified-sort="1748249824928" data-listing-reading-time-sort="1" data-listing-word-count-sort="136">
+<a href="../../website/Documentation/Functions/get_random_structure_for_model.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_random_structure_for_model()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="17" data-listing-file-modified-sort="1748249824946" data-listing-reading-time-sort="1" data-listing-word-count-sort="117">
+<a href="../../website/Documentation/Functions/get_sample_ages.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_sample_ages()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="18" data-listing-file-modified-sort="1748249824957" data-listing-reading-time-sort="1" data-listing-word-count-sort="112">
+<a href="../../website/Documentation/Functions/get_significant_associations.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_significant_associations()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="19" data-listing-file-modified-sort="1748249824957" data-listing-reading-time-sort="1" data-listing-word-count-sort="103">
+<a href="../../website/Documentation/Functions/get_species_association.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_species_association()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="20" data-listing-file-modified-sort="1748249824973" data-listing-reading-time-sort="1" data-listing-word-count-sort="117">
+<a href="../../website/Documentation/Functions/interpolate_community_data.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+interpolate_community_data()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="21" data-listing-file-modified-sort="1748249824973" data-listing-reading-time-sort="2" data-listing-word-count-sort="211">
+<a href="../../website/Documentation/Functions/interpolate_data.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+interpolate_data()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="22" data-listing-file-modified-sort="1748249824973" data-listing-reading-time-sort="1" data-listing-word-count-sort="110">
+<a href="../../website/Documentation/Functions/make_community_data_long.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+make_community_data_long()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="23" data-listing-file-modified-sort="1748249824989" data-listing-reading-time-sort="1" data-listing-word-count-sort="163">
+<a href="../../website/Documentation/Functions/make_hmsc_model.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+make_hmsc_model()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="24" data-listing-file-modified-sort="1748249825005" data-listing-reading-time-sort="2" data-listing-word-count-sort="222">
+<a href="../../website/Documentation/Functions/prepare_data_for_fit.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+prepare_data_for_fit()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="25" data-listing-file-modified-sort="1748249825007" data-listing-reading-time-sort="1" data-listing-word-count-sort="122">
+<a href="../../website/Documentation/Functions/replace_na_community_data_with_zeros.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+replace_na_community_data_with_zeros()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="26" data-listing-file-modified-sort="1748249825007" data-listing-reading-time-sort="1" data-listing-word-count-sort="150">
+<a href="../../website/Documentation/Functions/save_progress_visualisation.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+save_progress_visualisation()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="27" data-listing-file-modified-sort="1748249825012" data-listing-reading-time-sort="1" data-listing-word-count-sort="172">
+<a href="../../website/Documentation/Functions/select_n_taxa.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+select_n_taxa()
+</h5>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="28" data-listing-file-modified-sort="1748249825048" data-listing-reading-time-sort="1" data-listing-word-count-sort="121">
+<a href="../../website/Documentation/Functions/transform_to_proportions.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+transform_to_proportions()
+</h5>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+<nav id="functions-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
+</div>
+</section>
+<section id="code-coverage" class="level2">
+<h2 class="anchored" data-anchor-id="code-coverage">Code coverage</h2>
+<p>In order to check issues during the development of the code, we are writing test using the {<a href="https://testthat.r-lib.org/">testthat</a>} package. Then we are using the {<a href="https://covr.r-lib.org/">covr</a>} package to check the code coverage. The code coverage is calculated for each function and the overall code coverage is calculated as well.</p>
+<p>Current code coverage is: <img src="https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/main/Documentation/Functions_test_coverage/covr_report_summary.json&amp;query=$.value&amp;label=codecov&amp;color=orange&amp;style=flat-square&amp;suffix=%25" class="img-fluid"></p>
+<p>The full interactive report of the {<a href="https://covr.r-lib.org/">covr</a>} package can be found here:</p>
+<iframe src="../../Documentation/Functions_test_coverage/covr_report.html" width="100%" height="500px" style="border:none;">
+</iframe>
 
 
+
+</section>
+</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -735,7 +1214,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/documentation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/documentation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

@@ -26,6 +26,41 @@ fit_hmsc_model <- function(
     n_transient = 2500,
     n_parallel = 20,
     n_samples_verbose = 500) {
+  assertthat::assert_that(
+    inherits(mod_hmsc, "Hmsc"),
+    msg = "mod_hmsc must be an HMSC model object"
+  )
+
+  assertthat::assert_that(
+    is.numeric(n_chains) && n_chains > 0,
+    msg = "n_chains must be a positive number"
+  )
+
+  assertthat::assert_that(
+    is.numeric(n_samples) && n_samples > 0,
+    msg = "n_samples must be a positive number"
+  )
+
+  assertthat::assert_that(
+    is.numeric(n_thin) && n_thin > 0,
+    msg = "n_thin must be a positive number"
+  )
+
+  assertthat::assert_that(
+    is.numeric(n_transient) && n_transient > 0,
+    msg = "n_transient must be a positive number"
+  )
+
+  assertthat::assert_that(
+    is.numeric(n_parallel) && n_parallel > 0,
+    msg = "n_parallel must be a positive number"
+  )
+
+  assertthat::assert_that(
+    is.numeric(n_samples_verbose) && n_samples_verbose > 0,
+    msg = "n_samples_verbose must be a positive number"
+  )
+
   mod_hmsc_fitted <-
     Hmsc::sampleMcmc(
       mod_hmsc,

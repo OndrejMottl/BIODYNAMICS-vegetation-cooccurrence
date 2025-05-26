@@ -57,6 +57,9 @@ purrr::walk(
       base_name <-
         fs::path_file(.x)
 
+      name_no_ext <-
+        fs::path_ext_remove(base_name)
+
       # Read the content of the HTML file
       html_content <-
         readLines(.x, warn = FALSE)
@@ -66,6 +69,7 @@ purrr::walk(
         c(
           "---",
           "format: html",
+          paste0("title: ", name_no_ext, "()"),
           "---",
           "",
           html_content
@@ -73,10 +77,14 @@ purrr::walk(
 
       # Remove the first line of the HTML content
       # (which is the DOCTYPE declaration)
-      qmd_content[5] <-
-        qmd_content[5] %>%
+      qmd_content[6] <-
+        qmd_content[6] %>%
         stringr::str_remove(
           pattern = "^<!DOCTYPE html>"
+        )  %>% 
+        # remove the <title> div as well
+        stringr::str_remove(
+          pattern = "<title>.*</title>"
         )
 
       # Write the content to a .qmd file

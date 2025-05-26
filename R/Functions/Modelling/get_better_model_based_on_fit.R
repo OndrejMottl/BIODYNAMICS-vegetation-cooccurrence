@@ -1,3 +1,11 @@
+#' @title Select Better Model Based on Fit
+#' @description
+#' Compares two models and selects the one with better fit based on Tjur's R2.
+#' @param list_models
+#' A list of two fitted model objects.
+#' @return
+#' The model object with better fit.
+#' @export
 get_better_model_based_on_fit <- function(list_models) {
   assertthat::assert_that(
     is.list(list_models),
@@ -7,6 +15,16 @@ get_better_model_based_on_fit <- function(list_models) {
   assertthat::assert_that(
     length(list_models) == 2,
     msg = "list_models must be a list of two models"
+  )
+
+  assertthat::assert_that(
+    !is.null(list_models[[1]]),
+    msg = "The first model in list_models must not be NULL"
+  )
+
+  assertthat::assert_that(
+    !is.null(list_models[[2]]),
+    msg = "The second model in list_models must not be NULL"
   )
 
   mod_null <-

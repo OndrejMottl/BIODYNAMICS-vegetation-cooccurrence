@@ -1,0 +1,27 @@
+Get Significant Species Associations
+
+Description:
+
+     Identifies significant species associations based on support and
+     mean values.
+
+Usage:
+
+     get_significant_associations(data_source, alpha = 0.05)
+     
+Arguments:
+
+data_source: A list containing association matrices from a fitted Hmsc
+          model. Generally, this is the output of the function
+          get_species_association().
+
+   alpha: Significance level for support threshold (default: 0.05).
+
+Value:
+
+     A vector of significant association values.
+
+See Also:
+
+     [get_species_association()]
+

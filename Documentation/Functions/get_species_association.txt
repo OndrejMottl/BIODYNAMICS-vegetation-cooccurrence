@@ -1,0 +1,24 @@
+Compute Species Associations
+
+Description:
+
+     Computes species associations from a fitted Hmsc model object.
+
+Usage:
+
+     get_species_association(data_source)
+     
+Arguments:
+
+data_source: A list containing a fitted Hmsc model under the 'mod'
+          element. Generally, this is the output of the function
+          add_model_evaluation() or # get_better_model_based_on_fit()
+
+Value:
+
+     A matrix of species associations.
+
+See Also:
+
+     [add_model_evaluation(), get_better_model_based_on_fit()]
+
