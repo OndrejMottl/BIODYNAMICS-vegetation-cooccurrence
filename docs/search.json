@@ -32,121 +32,217 @@
   {
     "objectID": "website/Documentation/Functions/select_n_taxa.html",
     "href": "website/Documentation/Functions/select_n_taxa.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "select_n_taxa()",
     "section": "",
-    "text": "R: Select N Taxa\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nselect_n_taxa\n\n\nR Documentation\n\n\n\n\nSelect N Taxa\n\n\nDescription\n\n\nSelects the top N taxa based on their occurrence across datasets.\n\n\nUsage\n\nselect_n_taxa(data = NULL, n_taxa = Inf, per = \"dataset_name\")\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the input data. Must include columns \"taxon\" and the column specified in the ‘per’ parameter.\n\n\n\n\n\nn_taxa\n\n\n\nA numeric value specifying the number of taxa to select. Default is Inf.\n\n\n\n\n\nper\n\n\n\nA character string specifying the column name to group by. Default is \"dataset_name\".\n\n\n\n\n\nDetails\n\n\nThe function identifies the most common taxa across datasets by counting their occurrences. It then filters the input data to include only the selected taxa. If no taxa are found, an error is raised.\n\n\nValue\n\n\nA data frame containing the filtered data with the top N taxa.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "select_n_taxa\n\n\nR Documentation\n\n\n\n\nSelect N Taxa\n\n\nDescription\n\n\nSelects the top N taxa based on their occurrence across datasets.\n\n\nUsage\n\nselect_n_taxa(data = NULL, n_taxa = Inf, per = \"dataset_name\")\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the input data. Must include columns \"taxon\" and the column specified in the ‘per’ parameter.\n\n\n\n\n\nn_taxa\n\n\n\nA numeric value specifying the number of taxa to select. Default is Inf.\n\n\n\n\n\nper\n\n\n\nA character string specifying the column name to group by. Default is \"dataset_name\".\n\n\n\n\n\nDetails\n\n\nThe function identifies the most common taxa across datasets by counting their occurrences. It then filters the input data to include only the selected taxa. If no taxa are found, an error is raised.\n\n\nValue\n\n\nA data frame containing the filtered data with the top N taxa.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Select N Taxa"
+      "select_n_taxa()"
     ]
   },
   {
     "objectID": "website/Documentation/Functions/replace_na_community_data_with_zeros.html",
     "href": "website/Documentation/Functions/replace_na_community_data_with_zeros.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "replace_na_community_data_with_zeros()",
     "section": "",
-    "text": "R: Replace NA in Community Data with Zeros\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nreplace_na_community_data_with_zeros\n\n\nR Documentation\n\n\n\n\nReplace NA in Community Data with Zeros\n\n\nDescription\n\n\nReplaces NA values in community data with zeros.\n\n\nUsage\n\nreplace_na_community_data_with_zeros(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain ‘dataset_name’ and ‘sample_name’ columns, and at least one taxon column.\n\n\n\n\n\nDetails\n\n\nConverts the data to long format, replaces NA values in ‘pollen_count’ with zeros, and reshapes it back to wide format.\n\n\nValue\n\n\nA data frame with NA values replaced by zeros.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "replace_na_community_data_with_zeros\n\n\nR Documentation\n\n\n\n\nReplace NA in Community Data with Zeros\n\n\nDescription\n\n\nReplaces NA values in community data with zeros.\n\n\nUsage\n\nreplace_na_community_data_with_zeros(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain ‘dataset_name’ and ‘sample_name’ columns, and at least one taxon column.\n\n\n\n\n\nDetails\n\n\nConverts the data to long format, replaces NA values in ‘pollen_count’ with zeros, and reshapes it back to wide format.\n\n\nValue\n\n\nA data frame with NA values replaced by zeros.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Replace Na Community Data with Zeros"
+      "replace_na_community_data_with_zeros()"
     ]
   },
   {
     "objectID": "website/Documentation/Functions/make_hmsc_model.html",
     "href": "website/Documentation/Functions/make_hmsc_model.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "make_hmsc_model()",
     "section": "",
-    "text": "R: Make HMSC Model\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nmake_hmsc_model\n\n\nR Documentation\n\n\n\n\nMake HMSC Model\n\n\nDescription\n\n\nCreate a Hierarchical Modelling of Species Communities (HMSC) model to fit community and abiotic data.\n\n\nUsage\n\nmake_hmsc_model(\n  data_to_fit = NULL,\n  sel_formula = NULL,\n  random_structure = NULL,\n  error_family = c(\"normal\", \"binomial\")\n)\n\n\nArguments\n\n\n\n\ndata_to_fit\n\n\n\nA list containing the community and abiotic data to fit the model.\n\n\n\n\n\nrandom_structure\n\n\n\nA list containing the random structure for the model, including the study design and random levels.\n\n\n\n\n\nerror_family\n\n\n\nA character string specifying the error family. Options are \"normal\" or \"binomial\" (default: \"normal\").\n\n\n\n\n\nDetails\n\n\nIf ‘error_family’ is \"binomial\", the community data is converted to binary presence/absence data, and the error family is set to \"probit\".\n\n\nValue\n\n\nreturns an unfitted HMSC model object.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "make_hmsc_model\n\n\nR Documentation\n\n\n\n\nMake HMSC Model\n\n\nDescription\n\n\nCreate a Hierarchical Modelling of Species Communities (HMSC) model to fit community and abiotic data.\n\n\nUsage\n\nmake_hmsc_model(\n  data_to_fit = NULL,\n  sel_formula = NULL,\n  random_structure = NULL,\n  error_family = c(\"normal\", \"binomial\")\n)\n\n\nArguments\n\n\n\n\ndata_to_fit\n\n\n\nA list containing the community and abiotic data to fit the model.\n\n\n\n\n\nrandom_structure\n\n\n\nA list containing the random structure for the model, including the study design and random levels.\n\n\n\n\n\nerror_family\n\n\n\nA character string specifying the error family. Options are \"normal\" or \"binomial\" (default: \"normal\").\n\n\n\n\n\nDetails\n\n\nIf ‘error_family’ is \"binomial\", the community data is converted to binary presence/absence data, and the error family is set to \"probit\".\n\n\nValue\n\n\nreturns an unfitted HMSC model object.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Make Hmsc Model"
+      "make_hmsc_model()"
     ]
   },
   {
     "objectID": "website/Documentation/Functions/interpolate_data.html",
     "href": "website/Documentation/Functions/interpolate_data.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "interpolate_data()",
     "section": "",
-    "text": "R: Interpolate Data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ninterpolate_data\n\n\nR Documentation\n\n\n\n\nInterpolate Data\n\n\nDescription\n\n\nInterpolates data over a specified age range and timestep using a method.\n\n\nUsage\n\ninterpolate_data(\n  data = NULL,\n  by = \"dataset_name\",\n  age_var = \"age\",\n  value_var = \"pollen_prop\",\n  method = \"linear\",\n  rule = 1,\n  ties = mean,\n  age_min = 0,\n  age_max = 12000,\n  timestep = 500\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the data to be interpolated.\n\n\n\n\n\nage_var\n\n\n\nName of the age variable column (default: \"age\").\n\n\n\n\n\nvalue_var\n\n\n\nName of the value variable column (default: \"pollen_prop\").\n\n\n\n\n\nmethod\n\n\n\nInterpolation method to use (default: \"linear\").\n\n\n\n\n\nrule\n\n\n\nInteger specifying the extrapolation rule (default: 1).\n\n\n\n\n\nties\n\n\n\nFunction to handle tied values (default: ‘mean’).\n\n\n\n\n\nage_min\n\n\n\nMinimum age for interpolation (default: 0).\n\n\n\n\n\nage_max\n\n\n\nMaximum age for interpolation (default: 12000).\n\n\n\n\n\ntimestep\n\n\n\nTimestep for interpolation (default: 500).\n\n\n\n\n\nDetails\n\n\nNests data by dataset and taxon, performs interpolation using ‘stats::approx’, and returns the interpolated data in a flat format.\n\n\nValue\n\n\nA data frame with interpolated values, including dataset name, taxon, age, and value columns.\n\n\nSee Also\n\n\n[stats::approx()]\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "interpolate_data\n\n\nR Documentation\n\n\n\n\nInterpolate Data\n\n\nDescription\n\n\nInterpolates data over a specified age range and timestep using a method.\n\n\nUsage\n\ninterpolate_data(\n  data = NULL,\n  by = \"dataset_name\",\n  age_var = \"age\",\n  value_var = \"pollen_prop\",\n  method = \"linear\",\n  rule = 1,\n  ties = mean,\n  age_min = 0,\n  age_max = 12000,\n  timestep = 500\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the data to be interpolated.\n\n\n\n\n\nage_var\n\n\n\nName of the age variable column (default: \"age\").\n\n\n\n\n\nvalue_var\n\n\n\nName of the value variable column (default: \"pollen_prop\").\n\n\n\n\n\nmethod\n\n\n\nInterpolation method to use (default: \"linear\").\n\n\n\n\n\nrule\n\n\n\nInteger specifying the extrapolation rule (default: 1).\n\n\n\n\n\nties\n\n\n\nFunction to handle tied values (default: ‘mean’).\n\n\n\n\n\nage_min\n\n\n\nMinimum age for interpolation (default: 0).\n\n\n\n\n\nage_max\n\n\n\nMaximum age for interpolation (default: 12000).\n\n\n\n\n\ntimestep\n\n\n\nTimestep for interpolation (default: 500).\n\n\n\n\n\nDetails\n\n\nNests data by dataset and taxon, performs interpolation using ‘stats::approx’, and returns the interpolated data in a flat format.\n\n\nValue\n\n\nA data frame with interpolated values, including dataset name, taxon, age, and value columns.\n\n\nSee Also\n\n\n[stats::approx()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Interpolate Data"
+      "interpolate_data()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/get_species_association.html",
+    "href": "website/Documentation/Functions/get_species_association.html",
+    "title": "get_species_association()",
+    "section": "",
+    "text": "get_species_association\n\n\nR Documentation\n\n\n\n\nCompute Species Associations\n\n\nDescription\n\n\nComputes species associations from a fitted Hmsc model object.\n\n\nUsage\n\nget_species_association(data_source)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing a fitted Hmsc model under the ‘mod’ element. Generally, this is the output of the function add_model_evaluation() or # get_better_model_based_on_fit()\n\n\n\n\n\nValue\n\n\nA matrix of species associations.\n\n\nSee Also\n\n\n[add_model_evaluation(), get_better_model_based_on_fit()]\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "get_species_association()"
     ]
   },
   {
     "objectID": "website/Documentation/Functions/get_sample_ages.html",
     "href": "website/Documentation/Functions/get_sample_ages.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "get_sample_ages()",
     "section": "",
-    "text": "R: Get Sample Ages\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nget_sample_ages\n\n\nR Documentation\n\n\n\n\nGet Sample Ages\n\n\nDescription\n\n\nExtracts sample ages from a data frame containing dataset and sample info.\n\n\nUsage\n\nget_sample_ages(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_samples’.\n\n\n\n\n\nDetails\n\n\nValidates the input data frame, ensures required columns are present, and extracts sample ages by unnesting the ‘data_samples’ column.\n\n\nValue\n\n\nA data frame with columns ‘dataset_name’, ‘sample_name’, and ‘age’.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_sample_ages\n\n\nR Documentation\n\n\n\n\nGet Sample Ages\n\n\nDescription\n\n\nExtracts sample ages from a data frame containing dataset and sample info.\n\n\nUsage\n\nget_sample_ages(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_samples’.\n\n\n\n\n\nDetails\n\n\nValidates the input data frame, ensures required columns are present, and extracts sample ages by unnesting the ‘data_samples’ column.\n\n\nValue\n\n\nA data frame with columns ‘dataset_name’, ‘sample_name’, and ‘age’.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Get Sample Ages"
+      "get_sample_ages()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_community_data.html",
-    "href": "website/Documentation/Functions/get_community_data.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "objectID": "website/Documentation/Functions/get_pollen_sum.html",
+    "href": "website/Documentation/Functions/get_pollen_sum.html",
+    "title": "get_pollen_sum()",
     "section": "",
-    "text": "R: Get Community Data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nget_community_data\n\n\nR Documentation\n\n\n\n\nGet Community Data\n\n\nDescription\n\n\nThis function processes a data frame containing community data and extracts the relevant columns, unnesting the ‘data_community’ column in the process.\n\n\nUsage\n\nget_community_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_community’.\n\n\n\n\n\nDetails\n\n\nThe function performs the following steps:\n\n\n\n\nValidates that the input is a data frame.\n\n\n\n\nEnsures the presence of the ‘dataset_name’ and ‘data_community’ columns.\n\n\n\n\nSelects the ‘dataset_name’ and ‘data_community’ columns.\n\n\n\n\nUnnests the ‘data_community’ column.\n\n\n\n\nValue\n\n\nA data frame with the ‘dataset_name’ and unnested ‘data_community’ columns.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_pollen_sum\n\n\nR Documentation\n\n\n\n\nCalculate the Total Pollen Count for Each Sample\n\n\nDescription\n\n\nThis function computes the total pollen count for each sample in the provided dataset.\n\n\nUsage\n\nget_pollen_sum(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing at least two columns: ‘sample_name’ (the name or identifier of the sample) and ‘pollen_count’ (the count of pollen for each observation).\n\n\n\n\n\nDetails\n\n\nThe function groups the data by ‘sample_name’, calculates the sum of ‘pollen_count’ for each group, and removes any grouping structure before returning the result. Missing values (‘NA’) in ‘pollen_count’ are ignored.\n\n\nValue\n\n\nA data frame with two columns: ‘sample_name’ and ‘pollen_sum’, where ‘pollen_sum’ is the total pollen count for each sample.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Get Community Data"
+      "get_pollen_sum()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_abiotic_data.html",
-    "href": "website/Documentation/Functions/get_abiotic_data.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "objectID": "website/Documentation/Functions/get_coords.html",
+    "href": "website/Documentation/Functions/get_coords.html",
+    "title": "get_coords()",
     "section": "",
-    "text": "R: Get Abiotic Data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nget_abiotic_data\n\n\nR Documentation\n\n\n\n\nGet Abiotic Data\n\n\nDescription\n\n\nExtracts abiotic data from a data frame containing nested abiotic information.\n\n\nUsage\n\nget_abiotic_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_abiotic’.\n\n\n\n\n\nDetails\n\n\nValidates the input data frame, ensures required columns are present, and unnests the ‘data_abiotic’ column.\n\n\nValue\n\n\nA data frame with columns ‘dataset_name’, ‘sample_name’, ‘abiotic_variable_name’, and ‘abiotic_value’.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_coords\n\n\nR Documentation\n\n\n\n\nGet Dataset Coordinates\n\n\nDescription\n\n\nExtracts unique coordinates for each dataset, excluding gridpoints.\n\n\nUsage\n\nget_coords(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing columns ‘dataset_name’, ‘coord_long’, and ‘coord_lat’.\n\n\n\n\n\nValue\n\n\nA data frame with unique coordinates for each dataset.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Get Abiotic Data"
+      "get_coords()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/extract_data_from_vegvault.html",
-    "href": "website/Documentation/Functions/extract_data_from_vegvault.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "objectID": "website/Documentation/Functions/get_better_model_based_on_fit.html",
+    "href": "website/Documentation/Functions/get_better_model_based_on_fit.html",
+    "title": "get_better_model_based_on_fit()",
     "section": "",
-    "text": "R: Extract Data from VegVault\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nextract_data_from_vegvault\n\n\nR Documentation\n\n\n\n\nExtract Data from VegVault\n\n\nDescription\n\n\nExtracts data from the VegVault SQLite database based on specified geographic, temporal, and dataset type constraints.\n\n\nUsage\n\nextract_data_from_vegvault(\n  path_to_vegvault = here::here(\"Data/Input/VegVault.sqlite\"),\n  x_lim = NULL,\n  y_lim = NULL,\n  age_lim = NULL,\n  sel_dataset_type = NULL,\n  sel_abiotic_var_name = NULL\n)\n\n\nArguments\n\n\n\n\npath_to_vegvault\n\n\n\nA character string specifying the path to the VegVault SQLite database (default: \"Data/Input/VegVault.sqlite\").\n\n\n\n\n\nx_lim\n\n\n\nA numeric vector of length 2 specifying the longitude range.\n\n\n\n\n\ny_lim\n\n\n\nA numeric vector of length 2 specifying the latitude range.\n\n\n\n\n\nage_lim\n\n\n\nA numeric vector of length 2 specifying the age range.\n\n\n\n\n\nsel_dataset_type\n\n\n\nA character vector specifying the dataset types to select.\n\n\n\n\n\nsel_abiotic_var_name\n\n\n\nA character vector specifying the abiotic variable names to select.\n\n\n\n\n\nDetails\n\n\nThe function performs the following steps:\n\n\n\nValidates input parameters.\nChecks the presence of the VegVault SQLite database.\nAccesses the database and filters data based on geographic, temporal, and dataset type constraints.\nRetrieves abiotic data and taxa information.\nReturns the extracted data as a data frame.\n\n\n\nValue\n\n\nA data frame containing the extracted data.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_better_model_based_on_fit\n\n\nR Documentation\n\n\n\n\nSelect Better Model Based on Fit\n\n\nDescription\n\n\nCompares two models and selects the one with better fit based on Tjur’s R2.\n\n\nUsage\n\nget_better_model_based_on_fit(list_models)\n\n\nArguments\n\n\n\n\nlist_models\n\n\n\nA list of two fitted model objects.\n\n\n\n\n\nValue\n\n\nThe model object with better fit.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Extract Data from Vegvault"
+      "get_better_model_based_on_fit()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/get_active_config.html",
+    "href": "website/Documentation/Functions/get_active_config.html",
+    "title": "get_active_config()",
+    "section": "",
+    "text": "get_active_config\n\n\nR Documentation\n\n\n\n\nGet Active Configuration Value\n\n\nDescription\n\n\nRetrieves a specific configuration value from a YAML configuration file.\n\n\nUsage\n\nget_active_config(value = NULL, file = here::here(\"config.yml\"))\n\n\nArguments\n\n\n\n\nvalue\n\n\n\nA character vector specifying the configuration key(s) to retrieve.\n\n\n\n\n\nfile\n\n\n\nPath to the YAML configuration file (default: \"config.yml\").\n\n\n\n\n\nDetails\n\n\nValidates input parameters, ensures the file is readable, and retrieves configuration value(s) using ‘config::get’. Active configuration is set by the ‘R_CONFIG_ACTIVE’ environment variable.\n\n\nValue\n\n\nValue(s) associated with the specified key(s) in the configuration file.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "get_active_config()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/fit_hmsc_model.html",
+    "href": "website/Documentation/Functions/fit_hmsc_model.html",
+    "title": "fit_hmsc_model()",
+    "section": "",
+    "text": "fit_hmsc_model\n\n\nR Documentation\n\n\n\n\nFit HMSC Model\n\n\nDescription\n\n\nSample the MCMC process for the HMSC model.\n\n\nUsage\n\nfit_hmsc_model(\n  mod_hmsc,\n  n_chains = 20,\n  n_samples = 10000,\n  n_thin = 1,\n  n_transient = 2500,\n  n_parallel = 20,\n  n_samples_verbose = 500\n)\n\n\nArguments\n\n\n\n\nmod_hmsc\n\n\n\nAn unfitted HMSC model object.\n\n\n\n\n\nn_chains\n\n\n\nNumber of MCMC chains (default: 20).\n\n\n\n\n\nn_samples\n\n\n\nNumber of MCMC samples (default: 10,000).\n\n\n\n\n\nn_thin\n\n\n\nThinning interval for MCMC samples (default: 5).\n\n\n\n\n\nn_transient\n\n\n\nNumber of transient iterations (default: 2,500).\n\n\n\n\n\nn_parallel\n\n\n\nNumber of parallel chains (default: 20).\n\n\n\n\n\nn_samples_verbose\n\n\n\nVerbosity interval for MCMC sampling (default: 500).\n\n\n\n\n\nValue\n\n\nReturns a fitted HMSC model object.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "fit_hmsc_model()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/check_presence_of_vegvault.html",
+    "href": "website/Documentation/Functions/check_presence_of_vegvault.html",
+    "title": "check_presence_of_vegvault()",
+    "section": "",
+    "text": "check_presence_of_vegvault\n\n\nR Documentation\n\n\n\n\nCheck Presence of VegVault File\n\n\nDescription\n\n\nChecks whether the ‘VegVault.sqlite’ file exists in the specified directory.\n\n\nUsage\n\ncheck_presence_of_vegvault(relative_path = \"Data/Input/Vegvault.sqlite\")\n\n\nArguments\n\n\n\n\nrelative_path\n\n\n\nRelative path to the ‘VegVault.sqlite’ file (default: \"Data/Input/Vegvault.sqlite\").\n\n\n\n\n\nDetails\n\n\nVerifies the presence of the ‘VegVault.sqlite’ file. If not found, throws an error with instructions to consult the ‘Data/Input/README.md’ file.\n\n\nValue\n\n\nLogical value indicating whether the file exists. Stops with an error if the file is not found.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "check_presence_of_vegvault()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/add_model_evaluation.html",
+    "href": "website/Documentation/Functions/add_model_evaluation.html",
+    "title": "add_model_evaluation()",
+    "section": "",
+    "text": "add_model_evaluation\n\n\nR Documentation\n\n\n\n\nAdd Model Evaluation\n\n\nDescription\n\n\nEvaluates a fitted Hmsc model using predicted data and returns a list containing the model and its evaluation.\n\n\nUsage\n\nadd_model_evaluation(mod_fitted = NULL, data_pred = NULL)\n\n\nArguments\n\n\n\n\nmod_fitted\n\n\n\nA fitted Hmsc model object. Must be of class ‘Hmsc’.\n\n\n\n\n\ndata_pred\n\n\n\nAn array of predicted values. Must be of class ‘array’.\n\n\n\n\n\nValue\n\n\nA list with two elements: the fitted model (‘mod’) and the evaluation results (‘eval’).\n\n\nSee Also\n\n\nHmsc::evaluateModelFit\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "add_model_evaluation()"
     ]
   },
   {
     "objectID": "website/Documentation/Functions/add_age_to_samples.html",
     "href": "website/Documentation/Functions/add_age_to_samples.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "add_age_to_samples()",
     "section": "",
-    "text": "R: Add Age to Community Data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nadd_age_to_samples\n\n\nR Documentation\n\n\n\n\nAdd Age to Community Data\n\n\nDescription\n\n\nMerges community data with age data based on dataset and sample names.\n\n\nUsage\n\nadd_age_to_samples(data_community = NULL, data_ages = NULL)\n\n\nArguments\n\n\n\n\ndata_community\n\n\n\nA data frame containing community data. Must include ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\ndata_ages\n\n\n\nA data frame containing age data. Must include ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\nDetails\n\n\nPerforms a left join between community data and age data using ‘dataset_name’ and ‘sample_name’ as keys.\n\n\nValue\n\n\nA data frame with community data merged with the corresponding age data.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "add_age_to_samples\n\n\nR Documentation\n\n\n\n\nAdd Age to Community Data\n\n\nDescription\n\n\nMerges community data with age data based on dataset and sample names.\n\n\nUsage\n\nadd_age_to_samples(data_community = NULL, data_ages = NULL)\n\n\nArguments\n\n\n\n\ndata_community\n\n\n\nA data frame containing community data. Must include ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\ndata_ages\n\n\n\nA data frame containing age data. Must include ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\nDetails\n\n\nPerforms a left join between community data and age data using ‘dataset_name’ and ‘sample_name’ as keys.\n\n\nValue\n\n\nA data frame with community data merged with the corresponding age data.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Add Age to Samples"
+      "add_age_to_samples()"
     ]
   },
   {
     "objectID": "website/Documentation/documentation.html",
     "href": "website/Documentation/documentation.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "BIODYNAMICS - Vegetation Co-occurrence",
     "section": "",
-    "text": "Back to top",
+    "text": "This is a project to study the co-occurrence of vegetation across space and time.\nThe repo is part of the BIODYNAMICS project.\nSee detailed description of the project for more information.\nThe latest information are always available on the project website.",
     "crumbs": [
       "Documentation",
       "Project overview"
     ]
+  },
+  {
+    "objectID": "website/Documentation/documentation.html#documentation-of-individual-functions",
+    "href": "website/Documentation/documentation.html#documentation-of-individual-functions",
+    "title": "BIODYNAMICS - Vegetation Co-occurrence",
+    "section": "Documentation of individual functions",
+    "text": "Documentation of individual functions\nEach function used in the project is documented using the roxygen2 package. Here we present the list of functions used in the project:\n\n\n\n\n\n\n\nadd_age_column_from_rownames()\n\n\n\n\n\n\n\n\n\n\nadd_age_to_samples()\n\n\n\n\n\n\n\n\n\n\nadd_dataset_name_column_from_rownames()\n\n\n\n\n\n\n\n\n\n\nadd_model_evaluation()\n\n\n\n\n\n\n\n\n\n\ncheck_and_prepare_data_for_fit()\n\n\n\n\n\n\n\n\n\n\ncheck_presence_of_vegvault()\n\n\n\n\n\n\n\n\n\n\nextract_data_from_vegvault()\n\n\n\n\n\n\n\n\n\n\nfit_hmsc_model()\n\n\n\n\n\n\n\n\n\n\nget_abiotic_data()\n\n\n\n\n\n\n\n\n\n\nget_active_config()\n\n\n\n\n\n\n\n\n\n\nget_age_from_string()\n\n\n\n\n\n\n\n\n\n\nget_better_model_based_on_fit()\n\n\n\n\n\n\n\n\n\n\nget_community_data()\n\n\n\n\n\n\n\n\n\n\nget_coords()\n\n\n\n\n\n\n\n\n\n\nget_dataset_name_from_string()\n\n\n\n\n\n\n\n\n\n\nget_pollen_sum()\n\n\n\n\n\n\n\n\n\n\nget_random_structure_for_model()\n\n\n\n\n\n\n\n\n\n\nget_sample_ages()\n\n\n\n\n\n\n\n\n\n\nget_significant_associations()\n\n\n\n\n\n\n\n\n\n\nget_species_association()\n\n\n\n\n\n\n\n\n\n\ninterpolate_community_data()\n\n\n\n\n\n\n\n\n\n\ninterpolate_data()\n\n\n\n\n\n\n\n\n\n\nmake_community_data_long()\n\n\n\n\n\n\n\n\n\n\nmake_hmsc_model()\n\n\n\n\n\n\n\n\n\n\nprepare_data_for_fit()\n\n\n\n\n\n\n\n\n\n\nreplace_na_community_data_with_zeros()\n\n\n\n\n\n\n\n\n\n\nsave_progress_visualisation()\n\n\n\n\n\n\n\n\n\n\nselect_n_taxa()\n\n\n\n\n\n\n\n\n\n\ntransform_to_proportions()\n\n\n\n\n\n\n\nNo matching items",
+    "crumbs": [
+      "Documentation",
+      "Project overview"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/documentation.html#code-coverage",
+    "href": "website/Documentation/documentation.html#code-coverage",
+    "title": "BIODYNAMICS - Vegetation Co-occurrence",
+    "section": "Code coverage",
+    "text": "Code coverage\nIn order to check issues during the development of the code, we are writing test using the {testthat} package. Then we are using the {covr} package to check the code coverage. The code coverage is calculated for each function and the overall code coverage is calculated as well.\nCurrent code coverage is: \nThe full interactive report of the {covr} package can be found here:",
+    "crumbs": [
+      "Documentation",
+      "Project overview"
+    ]
+  },
+  {
+    "objectID": "LICENSE.html",
+    "href": "LICENSE.html",
+    "title": "MIT License",
+    "section": "",
+    "text": "MIT License\nCopyright (c) 2025 Ondřeg Motll\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "BIODYNAMICS - Vegetation Co-occurrence",
+    "section": "",
+    "text": "BIODYNAMICS - Vegetation Co-occurrence\nThis is a project to study the co-occurrence of vegetation across space and time.\nThe repo is part of the BIODYNAMICS project.\n\n\n\n\n Back to top"
   },
   {
     "objectID": "website/about.html",
@@ -169,159 +265,183 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "BIODYNAMICS - Vegetation Co-occurrence",
+    "objectID": "website/Documentation/Functions/add_age_column_from_rownames.html",
+    "href": "website/Documentation/Functions/add_age_column_from_rownames.html",
+    "title": "add_age_column_from_rownames()",
     "section": "",
-    "text": "BIODYNAMICS - Vegetation Co-occurrence\nThis is a project to study the co-occurrence of vegetation across space and time.\nThe repo is part of the BIODYNAMICS project.\n\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "LICENSE.html",
-    "href": "LICENSE.html",
-    "title": "MIT License",
-    "section": "",
-    "text": "MIT License\nCopyright (c) 2025 Ondřeg Motll\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "website/Documentation/code_coverage.html",
-    "href": "website/Documentation/code_coverage.html",
-    "title": "Code Coverage",
-    "section": "",
-    "text": "This project uses the {testthat} package to test the functions. As it is not a package, the tests are manually run.\nCurrent code coverage is: \nThe report of the {covr} package can be found in the Documentation/Functions_test_coverage folder.",
-    "crumbs": [
-      "Documentation",
-      "Code coverage"
-    ]
-  },
-  {
-    "objectID": "website/Documentation/code_coverage.html#testing-functions",
-    "href": "website/Documentation/code_coverage.html#testing-functions",
-    "title": "Code Coverage",
-    "section": "",
-    "text": "This project uses the {testthat} package to test the functions. As it is not a package, the tests are manually run.\nCurrent code coverage is: \nThe report of the {covr} package can be found in the Documentation/Functions_test_coverage folder.",
-    "crumbs": [
-      "Documentation",
-      "Code coverage"
-    ]
-  },
-  {
-    "objectID": "website/Documentation/Functions/add_age_to_community_data.html",
-    "href": "website/Documentation/Functions/add_age_to_community_data.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
-    "section": "",
-    "text": "R: Add Age to Community Data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nadd_age_to_community_data\n\n\nR Documentation\n\n\n\n\nAdd Age to Community Data\n\n\nDescription\n\n\nMerges community data with age data based on dataset and sample names.\n\n\nUsage\n\nadd_age_to_community_data(data_community = NULL, data_ages = NULL)\n\n\nArguments\n\n\n\n\ndata_community\n\n\n\nA data frame containing community data. Must include ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\ndata_ages\n\n\n\nA data frame containing age data. Must include ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\nDetails\n\n\nPerforms a left join between community data and age data using ‘dataset_name’ and ‘sample_name’ as keys.\n\n\nValue\n\n\nA data frame with community data merged with the corresponding age data.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "add_age_column_from_rownames\n\n\nR Documentation\n\n\n\n\nAdd Age Column from Row Names\n\n\nDescription\n\n\nAdds an ‘age’ column to a data frame by extracting age values from row names.\n\n\nUsage\n\nadd_age_column_from_rownames(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame with row names in the format \"dataset__age\".\n\n\n\n\n\nValue\n\n\nThe input data frame with an added ‘age’ column.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Add Age to Community Data"
+      "add_age_column_from_rownames()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/check_presence_of_vegvault.html",
-    "href": "website/Documentation/Functions/check_presence_of_vegvault.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "objectID": "website/Documentation/Functions/add_dataset_name_column_from_rownames.html",
+    "href": "website/Documentation/Functions/add_dataset_name_column_from_rownames.html",
+    "title": "add_dataset_name_column_from_rownames()",
     "section": "",
-    "text": "R: Check Presence of VegVault File\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ncheck_presence_of_vegvault\n\n\nR Documentation\n\n\n\n\nCheck Presence of VegVault File\n\n\nDescription\n\n\nChecks whether the ‘VegVault.sqlite’ file exists in the specified directory.\n\n\nUsage\n\ncheck_presence_of_vegvault(relative_path = \"Data/Input/Vegvault.sqlite\")\n\n\nArguments\n\n\n\n\nrelative_path\n\n\n\nRelative path to the ‘VegVault.sqlite’ file (default: \"Data/Input/Vegvault.sqlite\").\n\n\n\n\n\nDetails\n\n\nVerifies the presence of the ‘VegVault.sqlite’ file. If not found, throws an error with instructions to consult the ‘Data/Input/README.md’ file.\n\n\nValue\n\n\nLogical value indicating whether the file exists. Stops with an error if the file is not found.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "add_dataset_name_column_from_rownames\n\n\nR Documentation\n\n\n\n\nAdd Dataset Name Column from Row Names\n\n\nDescription\n\n\nAdds a ‘dataset_name’ column to a data frame by extracting dataset names from row names.\n\n\nUsage\n\nadd_dataset_name_column_from_rownames(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame with row names in the format \"dataset__something\".\n\n\n\n\n\nValue\n\n\nThe input data frame with an added ‘dataset_name’ column.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Check Presence of Vegvault"
+      "add_dataset_name_column_from_rownames()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/fit_hmsc_model.html",
-    "href": "website/Documentation/Functions/fit_hmsc_model.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "objectID": "website/Documentation/Functions/check_and_prepare_data_for_fit.html",
+    "href": "website/Documentation/Functions/check_and_prepare_data_for_fit.html",
+    "title": "check_and_prepare_data_for_fit()",
     "section": "",
-    "text": "R: Fit HMSC Model\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nfit_hmsc_model\n\n\nR Documentation\n\n\n\n\nFit HMSC Model\n\n\nDescription\n\n\nSample the MCMC process for the HMSC model.\n\n\nUsage\n\nfit_hmsc_model(\n  mod_hmsc,\n  n_chains = 20,\n  n_samples = 10000,\n  n_thin = 1,\n  n_transient = 2500,\n  n_parallel = 20,\n  n_samples_verbose = 500\n)\n\n\nArguments\n\n\n\n\nmod_hmsc\n\n\n\nAn unfitted HMSC model object.\n\n\n\n\n\nn_chains\n\n\n\nNumber of MCMC chains (default: 20).\n\n\n\n\n\nn_samples\n\n\n\nNumber of MCMC samples (default: 10,000).\n\n\n\n\n\nn_thin\n\n\n\nThinning interval for MCMC samples (default: 5).\n\n\n\n\n\nn_transient\n\n\n\nNumber of transient iterations (default: 2,500).\n\n\n\n\n\nn_parallel\n\n\n\nNumber of parallel chains (default: 20).\n\n\n\n\n\nn_samples_verbose\n\n\n\nVerbosity interval for MCMC sampling (default: 500).\n\n\n\n\n\nValue\n\n\nReturns a fitted HMSC model object.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "check_and_prepare_data_for_fit\n\n\nR Documentation\n\n\n\n\nCheck and Prepare Data for Model Fitting\n\n\nDescription\n\n\nCleans and prepares community, abiotic, and coordinate data for HMSC model fitting, with optional age subsetting.\n\n\nUsage\n\ncheck_and_prepare_data_for_fit(\n  data_community = NULL,\n  data_abiotic = NULL,\n  data_coords = NULL,\n  subset_age = NULL\n)\n\n\nArguments\n\n\n\n\ndata_community\n\n\n\nData frame of community data.\n\n\n\n\n\ndata_abiotic\n\n\n\nData frame of abiotic data.\n\n\n\n\n\ndata_coords\n\n\n\nData frame of coordinates.\n\n\n\n\n\nsubset_age\n\n\n\nOptional age value to subset data.\n\n\n\n\n\nValue\n\n\nA list of cleaned and prepared data frames for model fitting.\n\n\nSee Also\n\n\n[make_hmsc_model()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Fit Hmsc Model"
+      "check_and_prepare_data_for_fit()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_active_config.html",
-    "href": "website/Documentation/Functions/get_active_config.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "objectID": "website/Documentation/Functions/extract_data_from_vegvault.html",
+    "href": "website/Documentation/Functions/extract_data_from_vegvault.html",
+    "title": "extract_data_from_vegvault()",
     "section": "",
-    "text": "R: Get Active Configuration Value\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nget_active_config\n\n\nR Documentation\n\n\n\n\nGet Active Configuration Value\n\n\nDescription\n\n\nRetrieves a specific configuration value from a YAML configuration file.\n\n\nUsage\n\nget_active_config(value = NULL, file = here::here(\"config.yml\"))\n\n\nArguments\n\n\n\n\nvalue\n\n\n\nA character vector specifying the configuration key(s) to retrieve.\n\n\n\n\n\nfile\n\n\n\nPath to the YAML configuration file (default: \"config.yml\").\n\n\n\n\n\nDetails\n\n\nValidates input parameters, ensures the file is readable, and retrieves configuration value(s) using ‘config::get’. Active configuration is set by the ‘R_CONFIG_ACTIVE’ environment variable.\n\n\nValue\n\n\nValue(s) associated with the specified key(s) in the configuration file.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "extract_data_from_vegvault\n\n\nR Documentation\n\n\n\n\nExtract Data from VegVault\n\n\nDescription\n\n\nExtracts data from the VegVault SQLite database based on specified geographic, temporal, and dataset type constraints.\n\n\nUsage\n\nextract_data_from_vegvault(\n  path_to_vegvault = here::here(\"Data/Input/VegVault.sqlite\"),\n  x_lim = NULL,\n  y_lim = NULL,\n  age_lim = NULL,\n  sel_dataset_type = NULL,\n  sel_abiotic_var_name = NULL\n)\n\n\nArguments\n\n\n\n\npath_to_vegvault\n\n\n\nA character string specifying the path to the VegVault SQLite database (default: \"Data/Input/VegVault.sqlite\").\n\n\n\n\n\nx_lim\n\n\n\nA numeric vector of length 2 specifying the longitude range.\n\n\n\n\n\ny_lim\n\n\n\nA numeric vector of length 2 specifying the latitude range.\n\n\n\n\n\nage_lim\n\n\n\nA numeric vector of length 2 specifying the age range.\n\n\n\n\n\nsel_dataset_type\n\n\n\nA character vector specifying the dataset types to select.\n\n\n\n\n\nsel_abiotic_var_name\n\n\n\nA character vector specifying the abiotic variable names to select.\n\n\n\n\n\nDetails\n\n\nThe function performs the following steps:\n\n\n\nValidates input parameters.\nChecks the presence of the VegVault SQLite database.\nAccesses the database and filters data based on geographic, temporal, and dataset type constraints.\nRetrieves abiotic data and taxa information.\nReturns the extracted data as a data frame.\n\n\n\nValue\n\n\nA data frame containing the extracted data.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Get Active Config"
+      "extract_data_from_vegvault()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_pollen_sum.html",
-    "href": "website/Documentation/Functions/get_pollen_sum.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "objectID": "website/Documentation/Functions/get_abiotic_data.html",
+    "href": "website/Documentation/Functions/get_abiotic_data.html",
+    "title": "get_abiotic_data()",
     "section": "",
-    "text": "R: Calculate the Total Pollen Count for Each Sample\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nget_pollen_sum\n\n\nR Documentation\n\n\n\n\nCalculate the Total Pollen Count for Each Sample\n\n\nDescription\n\n\nThis function computes the total pollen count for each sample in the provided dataset.\n\n\nUsage\n\nget_pollen_sum(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing at least two columns: ‘sample_name’ (the name or identifier of the sample) and ‘pollen_count’ (the count of pollen for each observation).\n\n\n\n\n\nDetails\n\n\nThe function groups the data by ‘sample_name’, calculates the sum of ‘pollen_count’ for each group, and removes any grouping structure before returning the result. Missing values (‘NA’) in ‘pollen_count’ are ignored.\n\n\nValue\n\n\nA data frame with two columns: ‘sample_name’ and ‘pollen_sum’, where ‘pollen_sum’ is the total pollen count for each sample.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_abiotic_data\n\n\nR Documentation\n\n\n\n\nGet Abiotic Data\n\n\nDescription\n\n\nExtracts abiotic data from a data frame containing nested abiotic information.\n\n\nUsage\n\nget_abiotic_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_abiotic’.\n\n\n\n\n\nDetails\n\n\nValidates the input data frame, ensures required columns are present, and unnests the ‘data_abiotic’ column.\n\n\nValue\n\n\nA data frame with columns ‘dataset_name’, ‘sample_name’, ‘abiotic_variable_name’, and ‘abiotic_value’.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Get Pollen Sum"
+      "get_abiotic_data()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/get_age_from_string.html",
+    "href": "website/Documentation/Functions/get_age_from_string.html",
+    "title": "get_age_from_string()",
+    "section": "",
+    "text": "get_age_from_string\n\n\nR Documentation\n\n\n\n\nExtract Age from String\n\n\nDescription\n\n\nExtracts the age value from a vector of strings, taking all characters after the double underscore (\"__\").\n\n\nUsage\n\nget_age_from_string(vec_names)\n\n\nArguments\n\n\n\n\nvec_names\n\n\n\nA character vector containing names with the format \"dataset__age\".\n\n\n\n\n\nValue\n\n\nA character vector of age values.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "get_age_from_string()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/get_community_data.html",
+    "href": "website/Documentation/Functions/get_community_data.html",
+    "title": "get_community_data()",
+    "section": "",
+    "text": "get_community_data\n\n\nR Documentation\n\n\n\n\nGet Community Data\n\n\nDescription\n\n\nThis function processes a data frame containing community data and extracts the relevant columns, unnesting the ‘data_community’ column in the process.\n\n\nUsage\n\nget_community_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_community’.\n\n\n\n\n\nDetails\n\n\nThe function performs the following steps:\n\n\n\n\nValidates that the input is a data frame.\n\n\n\n\nEnsures the presence of the ‘dataset_name’ and ‘data_community’ columns.\n\n\n\n\nSelects the ‘dataset_name’ and ‘data_community’ columns.\n\n\n\n\nUnnests the ‘data_community’ column.\n\n\n\n\nValue\n\n\nA data frame with the ‘dataset_name’ and unnested ‘data_community’ columns.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "get_community_data()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/get_dataset_name_from_string.html",
+    "href": "website/Documentation/Functions/get_dataset_name_from_string.html",
+    "title": "get_dataset_name_from_string()",
+    "section": "",
+    "text": "get_dataset_name_from_string\n\n\nR Documentation\n\n\n\n\nExtract Dataset Name from String\n\n\nDescription\n\n\nExtracts the dataset name from a vector of strings, taking all characters before the double underscore (\"__\").\n\n\nUsage\n\nget_dataset_name_from_string(vec_names)\n\n\nArguments\n\n\n\n\nvec_names\n\n\n\nA character vector containing names with the format \"dataset__something\".\n\n\n\n\n\nValue\n\n\nA character vector of dataset names.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "get_dataset_name_from_string()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/get_random_structure_for_model.html",
+    "href": "website/Documentation/Functions/get_random_structure_for_model.html",
+    "title": "get_random_structure_for_model()",
+    "section": "",
+    "text": "get_random_structure_for_model\n\n\nR Documentation\n\n\n\n\nGet Random Structure for Model\n\n\nDescription\n\n\nConstructs the random structure for HMSC models based on age and/or space.\n\n\nUsage\n\nget_random_structure_for_model(\n  data = NULL,\n  type = c(\"age\", \"space\"),\n  min_knots_distance = NULL\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA list containing data for model fitting from the function [check_and_prepare_data_for_fit()].\n\n\n\n\n\ntype\n\n\n\nCharacter vector specifying random effect types (\"age\", \"space\").\n\n\n\n\n\nmin_knots_distance\n\n\n\nMinimum distance between knots for spatial random effect (optional). Only used if \"space\" is in ‘type’.\n\n\n\n\n\nValue\n\n\nA list describing the random structure for the model.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "get_random_structure_for_model()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/get_significant_associations.html",
+    "href": "website/Documentation/Functions/get_significant_associations.html",
+    "title": "get_significant_associations()",
+    "section": "",
+    "text": "get_significant_associations\n\n\nR Documentation\n\n\n\n\nGet Significant Species Associations\n\n\nDescription\n\n\nIdentifies significant species associations based on support and mean values.\n\n\nUsage\n\nget_significant_associations(data_source, alpha = 0.05)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing association matrices from a fitted Hmsc model. Generally, this is the output of the function get_species_association().\n\n\n\n\n\nalpha\n\n\n\nSignificance level for support threshold (default: 0.05).\n\n\n\n\n\nValue\n\n\nA vector of significant association values.\n\n\nSee Also\n\n\n[get_species_association()]\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "get_significant_associations()"
     ]
   },
   {
     "objectID": "website/Documentation/Functions/interpolate_community_data.html",
     "href": "website/Documentation/Functions/interpolate_community_data.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "interpolate_community_data()",
     "section": "",
-    "text": "R: Interpolate Community Data\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ninterpolate_community_data\n\n\nR Documentation\n\n\n\n\nInterpolate Community Data\n\n\nDescription\n\n\nTransforms community data to proportions, interpolates it, and returns it.\n\n\nUsage\n\ninterpolate_community_data(data, ...)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing community data to be transformed and interpolated.\n\n\n\n\n\n…\n\n\n\nAdditional arguments passed to the ‘interpolate_data’ function.\n\n\n\n\n\nDetails\n\n\nTransforms data to proportions using ‘transform_to_proportions’ and total pollen count from ‘get_pollen_sum’. Then interpolates using ‘interpolate_data’.\n\n\nValue\n\n\nA data frame with interpolated community data.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "interpolate_community_data\n\n\nR Documentation\n\n\n\n\nInterpolate Community Data\n\n\nDescription\n\n\nTransforms community data to proportions, interpolates it, and returns it.\n\n\nUsage\n\ninterpolate_community_data(data, ...)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing community data to be transformed and interpolated.\n\n\n\n\n\n…\n\n\n\nAdditional arguments passed to the ‘interpolate_data’ function.\n\n\n\n\n\nDetails\n\n\nTransforms data to proportions using ‘transform_to_proportions’ and total pollen count from ‘get_pollen_sum’. Then interpolates using ‘interpolate_data’.\n\n\nValue\n\n\nA data frame with interpolated community data.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Interpolate Community Data"
+      "interpolate_community_data()"
     ]
   },
   {
     "objectID": "website/Documentation/Functions/make_community_data_long.html",
     "href": "website/Documentation/Functions/make_community_data_long.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "make_community_data_long()",
     "section": "",
-    "text": "R: Make Community Data Long\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nmake_community_data_long\n\n\nR Documentation\n\n\n\n\nMake Community Data Long\n\n\nDescription\n\n\nConverts community data from wide format to long format.\n\n\nUsage\n\nmake_community_data_long(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\nDetails\n\n\nUses ‘tidyr::pivot_longer’ to reshape the data, dropping NA values in the process.\n\n\nValue\n\n\nA data frame in long format with columns ‘dataset_name’, ‘sample_name’, ‘taxon’, and ‘pollen_count’.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "make_community_data_long\n\n\nR Documentation\n\n\n\n\nMake Community Data Long\n\n\nDescription\n\n\nConverts community data from wide format to long format.\n\n\nUsage\n\nmake_community_data_long(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\nDetails\n\n\nUses ‘tidyr::pivot_longer’ to reshape the data, dropping NA values in the process.\n\n\nValue\n\n\nA data frame in long format with columns ‘dataset_name’, ‘sample_name’, ‘taxon’, and ‘pollen_count’.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Make Community Data Long"
+      "make_community_data_long()"
     ]
   },
   {
     "objectID": "website/Documentation/Functions/prepare_data_for_fit.html",
     "href": "website/Documentation/Functions/prepare_data_for_fit.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "prepare_data_for_fit()",
     "section": "",
-    "text": "R: Prepare Data for Model Fitting\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nprepare_data_for_fit\n\n\nR Documentation\n\n\n\n\nPrepare Data for Model Fitting\n\n\nDescription\n\n\nPrepares community or abiotic data for model fitting by reshaping it into a wide format with appropriate column names.\n\n\nUsage\n\nprepare_data_for_fit(data = NULL, type = c(\"community\", \"abiotic\"))\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the input data. For ‘type = \"community\"’, it must include columns ‘dataset_name’, ‘age’, ‘taxon’, and ‘pollen_prop’. For ‘type = \"abiotic\"’, it must include columns ‘dataset_name’, ‘age’, ‘abiotic_variable_name’, and ‘abiotic_value’.\n\n\n\n\n\ntype\n\n\n\nA character string specifying the type of data to prepare. Must be either \"community\" or \"abiotic\" (default: \"community\").\n\n\n\n\n\nDetails\n\n\nThe function validates the input data and reshapes it based on the specified ‘type’. For community data, it combines ‘dataset_name’ and ‘age’ into a ‘sample_name’ column, selects relevant columns, and pivots the data to a wide format. For abiotic data, it performs similar steps but uses abiotic variable names and values.\n\n\nValue\n\n\nA data frame in wide format, with ‘sample_name’ as row names and either taxa or abiotic variable names as columns. For community data, missing values are filled with 0. For abiotic data, missing values are left as NA.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "prepare_data_for_fit\n\n\nR Documentation\n\n\n\n\nPrepare Data for Model Fitting\n\n\nDescription\n\n\nPrepares community or abiotic data for model fitting by reshaping it into a wide format with appropriate column names.\n\n\nUsage\n\nprepare_data_for_fit(data = NULL, type = c(\"community\", \"abiotic\"))\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the input data. For ‘type = \"community\"’, it must include columns ‘dataset_name’, ‘age’, ‘taxon’, and ‘pollen_prop’. For ‘type = \"abiotic\"’, it must include columns ‘dataset_name’, ‘age’, ‘abiotic_variable_name’, and ‘abiotic_value’.\n\n\n\n\n\ntype\n\n\n\nA character string specifying the type of data to prepare. Must be either \"community\" or \"abiotic\" (default: \"community\").\n\n\n\n\n\nDetails\n\n\nThe function validates the input data and reshapes it based on the specified ‘type’. For community data, it combines ‘dataset_name’ and ‘age’ into a ‘sample_name’ column, selects relevant columns, and pivots the data to a wide format. For abiotic data, it performs similar steps but uses abiotic variable names and values.\n\n\nValue\n\n\nA data frame in wide format, with ‘sample_name’ as row names and either taxa or abiotic variable names as columns. For community data, missing values are filled with 0. For abiotic data, missing values are left as NA.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Prepare Data for Fit"
+      "prepare_data_for_fit()"
     ]
   },
   {
     "objectID": "website/Documentation/Functions/save_progress_visualisation.html",
     "href": "website/Documentation/Functions/save_progress_visualisation.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "save_progress_visualisation()",
     "section": "",
-    "text": "R: Save Progress Visualisation\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsave_progress_visualisation\n\n\nR Documentation\n\n\n\n\nSave Progress Visualisation\n\n\nDescription\n\n\nGenerates a visualisation of project progress and saves it as HTML and PNG.\n\n\nUsage\n\nsave_progress_visualisation(\n  sel_script,\n  output_file = \"project_status\",\n  output_dir = here::here(\"Outputs/Figures\"),\n  level_separation = 250\n)\n\n\nArguments\n\n\n\n\nsel_script\n\n\n\nThe script file to be visualised.\n\n\n\n\n\noutput_file\n\n\n\nThe name of the output file (default: \"project_status\").\n\n\n\n\n\noutput_dir\n\n\n\nDirectory where the output files will be saved (default: \"Outputs/Figures\").\n\n\n\n\n\nlevel_separation\n\n\n\nLevel separation for the visualisation graph (default: 250).\n\n\n\n\n\nDetails\n\n\nUses ‘targets::tar_visnetwork’ to create a network graph and saves it as HTML using ‘visNetwork::visSave’. Also generates a static PNG image using ‘webshot2::webshot’.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "save_progress_visualisation\n\n\nR Documentation\n\n\n\n\nSave Progress Visualisation\n\n\nDescription\n\n\nGenerates a visualisation of project progress and saves it as HTML and PNG.\n\n\nUsage\n\nsave_progress_visualisation(\n  sel_script,\n  output_file = \"project_status\",\n  output_dir = here::here(\"Documentation/Progress\"),\n  background_color = \"white\",\n  level_separation = 250\n)\n\n\nArguments\n\n\n\n\nsel_script\n\n\n\nThe script file to be visualised.\n\n\n\n\n\noutput_file\n\n\n\nThe name of the output file (default: \"project_status\").\n\n\n\n\n\noutput_dir\n\n\n\nDirectory where the output files will be saved (default: \"Outputs/Figures\").\n\n\n\n\n\nlevel_separation\n\n\n\nLevel separation for the visualisation graph (default: 250).\n\n\n\n\n\nDetails\n\n\nUses ‘targets::tar_visnetwork’ to create a network graph and saves it as HTML using ‘visNetwork::visSave’. Also generates a static PNG image using ‘webshot2::webshot’.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Save Progress Visualisation"
+      "save_progress_visualisation()"
     ]
   },
   {
     "objectID": "website/Documentation/Functions/transform_to_proportions.html",
     "href": "website/Documentation/Functions/transform_to_proportions.html",
-    "title": "BIODYNAMICS-vegetation-cooccurrence",
+    "title": "transform_to_proportions()",
     "section": "",
-    "text": "R: Transform to Proportions\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntransform_to_proportions\n\n\nR Documentation\n\n\n\n\nTransform to Proportions\n\n\nDescription\n\n\nTransforms pollen count data into proportions based on total pollen count.\n\n\nUsage\n\ntransform_to_proportions(data = NULL, pollen_sum = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing pollen count data.\n\n\n\n\n\npollen_sum\n\n\n\nA data frame with total pollen counts for each sample.\n\n\n\n\n\nDetails\n\n\nJoins the input data with total pollen counts and calculates proportions using ‘dplyr::mutate’.\n\n\nValue\n\n\nA data frame with pollen proportions, excluding ‘pollen_sum’ and ‘pollen_count’ columns.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "transform_to_proportions\n\n\nR Documentation\n\n\n\n\nTransform to Proportions\n\n\nDescription\n\n\nTransforms pollen count data into proportions based on total pollen count.\n\n\nUsage\n\ntransform_to_proportions(data = NULL, pollen_sum = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing pollen count data.\n\n\n\n\n\npollen_sum\n\n\n\nA data frame with total pollen counts for each sample.\n\n\n\n\n\nDetails\n\n\nJoins the input data with total pollen counts and calculates proportions using ‘dplyr::mutate’.\n\n\nValue\n\n\nA data frame with pollen proportions, excluding ‘pollen_sum’ and ‘pollen_count’ columns.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "Transform to Proportions"
+      "transform_to_proportions()"
     ]
   }
 ]

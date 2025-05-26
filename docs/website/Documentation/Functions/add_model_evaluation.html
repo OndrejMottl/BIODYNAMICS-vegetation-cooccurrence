@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>add_age_to_community_data() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>add_model_evaluation() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_to_community_data.html">add_age_to_community_data()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_model_evaluation.html">add_model_evaluation()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -148,12 +148,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../website/Documentation/Functions/add_age_to_community_data.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">add_age_to_community_data()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/add_age_to_samples.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">add_age_to_samples()</span></a>
   </div>
@@ -162,6 +156,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/add_dataset_name_column_from_rownames.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">add_dataset_name_column_from_rownames()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/add_model_evaluation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">add_model_evaluation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -329,9 +329,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_to_community_data.html">add_age_to_community_data()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_model_evaluation.html">add_model_evaluation()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">add_age_to_community_data()</h1>
+<h1 class="title">add_model_evaluation()</h1>
 </div>
 
 
@@ -369,7 +369,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-add_age_to_community_data
+add_model_evaluation
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -377,18 +377,18 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Add Age to Community Data
+Add Model Evaluation
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-Merges community data with age data based on dataset and sample names.
+Evaluates a fitted Hmsc model using predicted data and returns a list containing the model and its evaluation.
 </p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">add_age_to_community_data(data_community = NULL, data_ages = NULL)
+<pre><code class="language-R">add_model_evaluation(mod_fitted = NULL, data_pred = NULL)
 </code></pre>
 <h3 class="anchored">
 Arguments
@@ -396,36 +396,36 @@ Arguments
 <table>
 <tbody><tr>
 <td>
-<code id="data_community">data_community</code>
+<code id="mod_fitted">mod_fitted</code>
 </td>
 <td>
 <p>
-A data frame containing community data. Must include ‘dataset_name’ and ‘sample_name’ columns.
+A fitted Hmsc model object. Must be of class ‘Hmsc’.
 </p>
 </td>
 </tr>
 <tr>
 <td>
-<code id="data_ages">data_ages</code>
+<code id="data_pred">data_pred</code>
 </td>
 <td>
 <p>
-A data frame containing age data. Must include ‘dataset_name’ and ‘sample_name’ columns.
+An array of predicted values. Must be of class ‘array’.
 </p>
 </td>
 </tr>
 </tbody></table>
 <h3 class="anchored">
-Details
-</h3>
-<p>
-Performs a left join between community data and age data using ‘dataset_name’ and ‘sample_name’ as keys.
-</p>
-<h3 class="anchored">
 Value
 </h3>
 <p>
-A data frame with community data merged with the corresponding age data.
+A list with two elements: the fitted model (‘mod’) and the evaluation results (‘eval’).
+</p>
+<h3 class="anchored">
+See Also
+</h3>
+<p>
+Hmsc::evaluateModelFit
 </p>
 </main>
 </div>
@@ -860,7 +860,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/Functions/add_age_to_community_data.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/Functions/add_model_evaluation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

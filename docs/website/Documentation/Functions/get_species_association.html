@@ -148,12 +148,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../website/Documentation/Functions/add_age_to_community_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">add_age_to_community_data()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/add_age_to_samples.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">add_age_to_samples()</span></a>
   </div>
@@ -162,6 +156,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/add_dataset_name_column_from_rownames.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">add_dataset_name_column_from_rownames()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/add_model_evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">add_model_evaluation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -388,7 +388,7 @@ Computes species associations from a fitted Hmsc model object.
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">get_species_association(data_sourse)
+<pre><code class="language-R">get_species_association(data_source)
 </code></pre>
 <h3 class="anchored">
 Arguments
@@ -396,11 +396,11 @@ Arguments
 <table>
 <tbody><tr>
 <td>
-<code id="data_sourse">data_sourse</code>
+<code id="data_source">data_source</code>
 </td>
 <td>
 <p>
-A list containing a fitted Hmsc model under the ‘mod’ element. Generally, this is the output of the function get_better_model_based_on_fit()
+A list containing a fitted Hmsc model under the ‘mod’ element. Generally, this is the output of the function add_model_evaluation() or # get_better_model_based_on_fit()
 </p>
 </td>
 </tr>
@@ -415,7 +415,7 @@ A matrix of species associations.
 See Also
 </h3>
 <p>
-[get_better_model_based_on_fit()]
+[add_model_evaluation(), get_better_model_based_on_fit()]
 </p>
 </main>
 </div>
