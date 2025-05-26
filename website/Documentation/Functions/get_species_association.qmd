@@ -31,17 +31,18 @@ function processMathHTML() {
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>get_species_association(data_sourse)
+<pre><code class='language-R'>get_species_association(data_source)
 </code></pre>
 
 
 <h3>Arguments</h3>
 
 <table>
-<tr><td><code id="data_sourse">data_sourse</code></td>
+<tr><td><code id="data_source">data_source</code></td>
 <td>
 <p>A list containing a fitted Hmsc model under the 'mod' element.
-Generally, this is the output of the function get_better_model_based_on_fit()</p>
+Generally, this is the output of the function add_model_evaluation() or
+# get_better_model_based_on_fit()</p>
 </td></tr>
 </table>
 
@@ -54,7 +55,7 @@ Generally, this is the output of the function get_better_model_based_on_fit()</p
 
 <h3>See Also</h3>
 
-<p>[get_better_model_based_on_fit()]
+<p>[add_model_evaluation(), get_better_model_based_on_fit()]
 </p>
 
 </main>

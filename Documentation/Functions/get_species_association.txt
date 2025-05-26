@@ -6,13 +6,13 @@ Description:
 
 Usage:
 
-     get_species_association(data_sourse)
+     get_species_association(data_source)
      
 Arguments:
 
-data_sourse: A list containing a fitted Hmsc model under the 'mod'
+data_source: A list containing a fitted Hmsc model under the 'mod'
           element. Generally, this is the output of the function
-          get_better_model_based_on_fit()
+          add_model_evaluation() or # get_better_model_based_on_fit()
 
 Value:
 
@@ -20,5 +20,5 @@ Value:
 
 See Also:
 
-     [get_better_model_based_on_fit()]
+     [add_model_evaluation(), get_better_model_based_on_fit()]
 
