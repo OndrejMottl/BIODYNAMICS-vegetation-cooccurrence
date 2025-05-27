@@ -527,9 +527,10 @@ list(
     command = list(!!!.x)
   ),
   targets::tar_target(
-    description = "Table of significant associations",
+    description = "Table of significant associations by age",
     name = "data_species_associations_by_age",
     command = species_associations_by_age_merged %>%
+      purrr::map("dataset_name") %>%
       purrr::map("proportion_significant") %>%
       unlist() %>%
       purrr::set_names(
@@ -545,17 +546,44 @@ list(
       )
   ),
   targets::tar_target(
+    description = "Table of species associations total",
+    name = "data_species_associations_total",
+    command = number_of_significant_associations %>%
+      purrr::map("proportion_significant") %>%
+      unlist() %>%
+      purrr::set_names(
+        nm = names(.)
+      ) %>%
+      as.data.frame() %>%
+      purrr::set_names("n_sign_assoc") %>%
+      tibble::rownames_to_column("type")
+  ),
+  targets::tar_target(
     description = "Plot of significant associations by age",
     name = "plot_species_associations_by_age",
-    command = ggplot2::ggplot(
-      data = data_species_associations_by_age,
-      mapping = ggplot2::aes(
-        x = age,
-        y = prop_sign_assoc
-      )
-    ) +
-      ggplot2::geom_line() +
-      ggplot2::geom_point() +
+    command = ggplot2::ggplot() +
+      ggplot2::geom_line(
+        data = data_species_associations_by_age,
+        mapping = ggplot2::aes(
+          x = age,
+          y = prop_sign_assoc
+        )
+      ) +
+      ggplot2::geom_point(
+        data = data_species_associations_by_age,
+        mapping = ggplot2::aes(
+          x = age,
+          y = prop_sign_assoc
+        )
+      ) +
+      ggplot2::geom_hline(
+        data = data_species_associations_total,
+        mapping = ggplot2::aes(
+          yintercept = n_sign_assoc,
+          col = type
+        ),
+        linetype = "dashed"
+      ) +
       ggplot2::coord_cartesian(
         ylim = c(0, 1),
       ) +
