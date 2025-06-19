@@ -46,9 +46,6 @@ targets::tar_option_set(
   error = "null"
 )
 
-# set the number of cores to use
-n_cores <- 10
-
 #----------------------------------------------------------#
 # 1. Pipe definition -----
 #----------------------------------------------------------#
@@ -161,6 +158,14 @@ list_target_config <-
     ),
     #--------------------------------------------------#
     targets::tar_target(
+      description = "Configuration for model fitting - n_cores",
+      name = "config.n_cores",
+      command = get_active_config(
+        value = c("model_fitting", "n_cores")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
       description = "Configuration for model fitting - number of samples",
       name = "config.n_samples",
       command = get_active_config(
@@ -204,6 +209,7 @@ list_target_config <-
       description = "Configuration for model fitting",
       name = "config.model_fitting",
       command = list(
+        n_cores = config.n_cores,
         samples = config.n_samples,
         thin = config.n_thin,
         transient = config.n_transient,
@@ -388,8 +394,8 @@ list_target_fit_and_evaluate <-
       name = "mod_hmsc_fitted",
       command = fit_hmsc_model(
         mod_hmsc = mod_hmsc,
-        n_chains = n_cores,
-        n_parallel = n_cores,
+        n_chains = config.model_fitting$n_cores,
+        n_parallel = config.model_fitting$n_cores,
         n_samples = config.model_fitting$samples,
         n_thin = config.model_fitting$thin,
         n_transient = config.model_fitting$transient,
