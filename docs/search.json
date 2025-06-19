@@ -66,15 +66,27 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/interpolate_data.html",
-    "href": "website/Documentation/Functions/interpolate_data.html",
-    "title": "interpolate_data()",
+    "objectID": "website/Documentation/Functions/make_classification_table.html",
+    "href": "website/Documentation/Functions/make_classification_table.html",
+    "title": "make_classification_table()",
     "section": "",
-    "text": "interpolate_data\n\n\nR Documentation\n\n\n\n\nInterpolate Data\n\n\nDescription\n\n\nInterpolates data over a specified age range and timestep using a method.\n\n\nUsage\n\ninterpolate_data(\n  data = NULL,\n  by = \"dataset_name\",\n  age_var = \"age\",\n  value_var = \"pollen_prop\",\n  method = \"linear\",\n  rule = 1,\n  ties = mean,\n  age_min = 0,\n  age_max = 12000,\n  timestep = 500\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the data to be interpolated.\n\n\n\n\n\nage_var\n\n\n\nName of the age variable column (default: \"age\").\n\n\n\n\n\nvalue_var\n\n\n\nName of the value variable column (default: \"pollen_prop\").\n\n\n\n\n\nmethod\n\n\n\nInterpolation method to use (default: \"linear\").\n\n\n\n\n\nrule\n\n\n\nInteger specifying the extrapolation rule (default: 1).\n\n\n\n\n\nties\n\n\n\nFunction to handle tied values (default: ‘mean’).\n\n\n\n\n\nage_min\n\n\n\nMinimum age for interpolation (default: 0).\n\n\n\n\n\nage_max\n\n\n\nMaximum age for interpolation (default: 12000).\n\n\n\n\n\ntimestep\n\n\n\nTimestep for interpolation (default: 500).\n\n\n\n\n\nDetails\n\n\nNests data by dataset and taxon, performs interpolation using ‘stats::approx’, and returns the interpolated data in a flat format.\n\n\nValue\n\n\nA data frame with interpolated values, including dataset name, taxon, age, and value columns.\n\n\nSee Also\n\n\n[stats::approx()]\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "make_classification_table\n\n\nR Documentation\n\n\n\n\nMake Classification Table\n\n\nDescription\n\n\nCreates a wide-format taxonomic classification table from a list of data frames containing taxon names and ranks (e.g., family, genus, species).\n\n\nUsage\n\nmake_classification_table(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA list of data frames, each containing columns ‘sel_name’, ‘rank’, and ‘name’.\n\n\n\n\n\nDetails\n\n\nFilters for relevant taxonomic ranks, removes duplicates, and pivots the table to wide format with one column per rank.\n\n\nValue\n\n\nA data frame in wide format with columns for each taxonomic rank and one row per ‘sel_name’.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "interpolate_data()"
+      "make_classification_table()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/interpolate_community_data.html",
+    "href": "website/Documentation/Functions/interpolate_community_data.html",
+    "title": "interpolate_community_data()",
+    "section": "",
+    "text": "interpolate_community_data\n\n\nR Documentation\n\n\n\n\nInterpolate Community Data\n\n\nDescription\n\n\nTransforms community data to proportions, interpolates it, and returns it.\n\n\nUsage\n\ninterpolate_community_data(data, ...)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing community data to be transformed and interpolated.\n\n\n\n\n\n…\n\n\n\nAdditional arguments passed to the ‘interpolate_data’ function.\n\n\n\n\n\nDetails\n\n\nTransforms data to proportions using ‘transform_to_proportions’ and total pollen count from ‘get_pollen_sum’. Then interpolates using ‘interpolate_data’.\n\n\nValue\n\n\nA data frame with interpolated community data.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "interpolate_community_data()"
     ]
   },
   {
@@ -126,39 +138,51 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_better_model_based_on_fit.html",
-    "href": "website/Documentation/Functions/get_better_model_based_on_fit.html",
-    "title": "get_better_model_based_on_fit()",
+    "objectID": "website/Documentation/Functions/get_community_data.html",
+    "href": "website/Documentation/Functions/get_community_data.html",
+    "title": "get_community_data()",
     "section": "",
-    "text": "get_better_model_based_on_fit\n\n\nR Documentation\n\n\n\n\nSelect Better Model Based on Fit\n\n\nDescription\n\n\nCompares two models and selects the one with better fit based on Tjur’s R2.\n\n\nUsage\n\nget_better_model_based_on_fit(list_models)\n\n\nArguments\n\n\n\n\nlist_models\n\n\n\nA list of two fitted model objects.\n\n\n\n\n\nValue\n\n\nThe model object with better fit.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_community_data\n\n\nR Documentation\n\n\n\n\nGet Community Data\n\n\nDescription\n\n\nThis function processes a data frame containing community data and extracts the relevant columns, unnesting the ‘data_community’ column in the process.\n\n\nUsage\n\nget_community_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_community’.\n\n\n\n\n\nDetails\n\n\nThe function performs the following steps:\n\n\n\n\nValidates that the input is a data frame.\n\n\n\n\nEnsures the presence of the ‘dataset_name’ and ‘data_community’ columns.\n\n\n\n\nSelects the ‘dataset_name’ and ‘data_community’ columns.\n\n\n\n\nUnnests the ‘data_community’ column.\n\n\n\n\nValue\n\n\nA data frame with the ‘dataset_name’ and unnested ‘data_community’ columns.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_better_model_based_on_fit()"
+      "get_community_data()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_active_config.html",
-    "href": "website/Documentation/Functions/get_active_config.html",
-    "title": "get_active_config()",
+    "objectID": "website/Documentation/Functions/get_age_from_string.html",
+    "href": "website/Documentation/Functions/get_age_from_string.html",
+    "title": "get_age_from_string()",
     "section": "",
-    "text": "get_active_config\n\n\nR Documentation\n\n\n\n\nGet Active Configuration Value\n\n\nDescription\n\n\nRetrieves a specific configuration value from a YAML configuration file.\n\n\nUsage\n\nget_active_config(value = NULL, file = here::here(\"config.yml\"))\n\n\nArguments\n\n\n\n\nvalue\n\n\n\nA character vector specifying the configuration key(s) to retrieve.\n\n\n\n\n\nfile\n\n\n\nPath to the YAML configuration file (default: \"config.yml\").\n\n\n\n\n\nDetails\n\n\nValidates input parameters, ensures the file is readable, and retrieves configuration value(s) using ‘config::get’. Active configuration is set by the ‘R_CONFIG_ACTIVE’ environment variable.\n\n\nValue\n\n\nValue(s) associated with the specified key(s) in the configuration file.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_age_from_string\n\n\nR Documentation\n\n\n\n\nExtract Age from String\n\n\nDescription\n\n\nExtracts the age value from a vector of strings, taking all characters after the double underscore (\"__\").\n\n\nUsage\n\nget_age_from_string(vec_names)\n\n\nArguments\n\n\n\n\nvec_names\n\n\n\nA character vector containing names with the format \"dataset__age\".\n\n\n\n\n\nValue\n\n\nA character vector of age values.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_active_config()"
+      "get_age_from_string()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/fit_hmsc_model.html",
-    "href": "website/Documentation/Functions/fit_hmsc_model.html",
-    "title": "fit_hmsc_model()",
+    "objectID": "website/Documentation/Functions/get_abiotic_data.html",
+    "href": "website/Documentation/Functions/get_abiotic_data.html",
+    "title": "get_abiotic_data()",
     "section": "",
-    "text": "fit_hmsc_model\n\n\nR Documentation\n\n\n\n\nFit HMSC Model\n\n\nDescription\n\n\nSample the MCMC process for the HMSC model.\n\n\nUsage\n\nfit_hmsc_model(\n  mod_hmsc,\n  n_chains = 20,\n  n_samples = 10000,\n  n_thin = 1,\n  n_transient = 2500,\n  n_parallel = 20,\n  n_samples_verbose = 500\n)\n\n\nArguments\n\n\n\n\nmod_hmsc\n\n\n\nAn unfitted HMSC model object.\n\n\n\n\n\nn_chains\n\n\n\nNumber of MCMC chains (default: 20).\n\n\n\n\n\nn_samples\n\n\n\nNumber of MCMC samples (default: 10,000).\n\n\n\n\n\nn_thin\n\n\n\nThinning interval for MCMC samples (default: 5).\n\n\n\n\n\nn_transient\n\n\n\nNumber of transient iterations (default: 2,500).\n\n\n\n\n\nn_parallel\n\n\n\nNumber of parallel chains (default: 20).\n\n\n\n\n\nn_samples_verbose\n\n\n\nVerbosity interval for MCMC sampling (default: 500).\n\n\n\n\n\nValue\n\n\nReturns a fitted HMSC model object.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_abiotic_data\n\n\nR Documentation\n\n\n\n\nGet Abiotic Data\n\n\nDescription\n\n\nExtracts abiotic data from a data frame containing nested abiotic information.\n\n\nUsage\n\nget_abiotic_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_abiotic’.\n\n\n\n\n\nDetails\n\n\nValidates the input data frame, ensures required columns are present, and unnests the ‘data_abiotic’ column.\n\n\nValue\n\n\nA data frame with columns ‘dataset_name’, ‘sample_name’, ‘abiotic_variable_name’, and ‘abiotic_value’.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "fit_hmsc_model()"
+      "get_abiotic_data()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/extract_data_from_vegvault.html",
+    "href": "website/Documentation/Functions/extract_data_from_vegvault.html",
+    "title": "extract_data_from_vegvault()",
+    "section": "",
+    "text": "extract_data_from_vegvault\n\n\nR Documentation\n\n\n\n\nExtract Data from VegVault\n\n\nDescription\n\n\nExtracts data from the VegVault SQLite database based on specified geographic, temporal, and dataset type constraints.\n\n\nUsage\n\nextract_data_from_vegvault(\n  path_to_vegvault = here::here(\"Data/Input/VegVault.sqlite\"),\n  x_lim = NULL,\n  y_lim = NULL,\n  age_lim = NULL,\n  sel_dataset_type = NULL,\n  sel_abiotic_var_name = NULL\n)\n\n\nArguments\n\n\n\n\npath_to_vegvault\n\n\n\nA character string specifying the path to the VegVault SQLite database (default: \"Data/Input/VegVault.sqlite\").\n\n\n\n\n\nx_lim\n\n\n\nA numeric vector of length 2 specifying the longitude range.\n\n\n\n\n\ny_lim\n\n\n\nA numeric vector of length 2 specifying the latitude range.\n\n\n\n\n\nage_lim\n\n\n\nA numeric vector of length 2 specifying the age range.\n\n\n\n\n\nsel_dataset_type\n\n\n\nA character vector specifying the dataset types to select.\n\n\n\n\n\nsel_abiotic_var_name\n\n\n\nA character vector specifying the abiotic variable names to select.\n\n\n\n\n\nDetails\n\n\nThe function performs the following steps:\n\n\n\nValidates input parameters.\nChecks the presence of the VegVault SQLite database.\nAccesses the database and filters data based on geographic, temporal, and dataset type constraints.\nRetrieves abiotic data and taxa information.\nReturns the extracted data as a data frame.\n\n\n\nValue\n\n\nA data frame containing the extracted data.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "extract_data_from_vegvault()"
     ]
   },
   {
@@ -213,7 +237,7 @@
     "href": "website/Documentation/documentation.html#documentation-of-individual-functions",
     "title": "BIODYNAMICS - Vegetation Co-occurrence",
     "section": "Documentation of individual functions",
-    "text": "Documentation of individual functions\nEach function used in the project is documented using the roxygen2 package. Here we present the list of functions used in the project:\n\n\n\n\n\n\n\nadd_age_column_from_rownames()\n\n\n\n\n\n\n\n\n\n\nadd_age_to_samples()\n\n\n\n\n\n\n\n\n\n\nadd_dataset_name_column_from_rownames()\n\n\n\n\n\n\n\n\n\n\nadd_model_evaluation()\n\n\n\n\n\n\n\n\n\n\ncheck_and_prepare_data_for_fit()\n\n\n\n\n\n\n\n\n\n\ncheck_presence_of_vegvault()\n\n\n\n\n\n\n\n\n\n\nextract_data_from_vegvault()\n\n\n\n\n\n\n\n\n\n\nfit_hmsc_model()\n\n\n\n\n\n\n\n\n\n\nget_abiotic_data()\n\n\n\n\n\n\n\n\n\n\nget_active_config()\n\n\n\n\n\n\n\n\n\n\nget_age_from_string()\n\n\n\n\n\n\n\n\n\n\nget_better_model_based_on_fit()\n\n\n\n\n\n\n\n\n\n\nget_community_data()\n\n\n\n\n\n\n\n\n\n\nget_coords()\n\n\n\n\n\n\n\n\n\n\nget_dataset_name_from_string()\n\n\n\n\n\n\n\n\n\n\nget_pollen_sum()\n\n\n\n\n\n\n\n\n\n\nget_random_structure_for_model()\n\n\n\n\n\n\n\n\n\n\nget_sample_ages()\n\n\n\n\n\n\n\n\n\n\nget_significant_associations()\n\n\n\n\n\n\n\n\n\n\nget_species_association()\n\n\n\n\n\n\n\n\n\n\ninterpolate_community_data()\n\n\n\n\n\n\n\n\n\n\ninterpolate_data()\n\n\n\n\n\n\n\n\n\n\nmake_community_data_long()\n\n\n\n\n\n\n\n\n\n\nmake_hmsc_model()\n\n\n\n\n\n\n\n\n\n\nprepare_data_for_fit()\n\n\n\n\n\n\n\n\n\n\nreplace_na_community_data_with_zeros()\n\n\n\n\n\n\n\n\n\n\nsave_progress_visualisation()\n\n\n\n\n\n\n\n\n\n\nselect_n_taxa()\n\n\n\n\n\n\n\n\n\n\ntransform_to_proportions()\n\n\n\n\n\n\n\nNo matching items",
+    "text": "Documentation of individual functions\nEach function used in the project is documented using the roxygen2 package. Here we present the list of functions used in the project:\n\n\n\n\n\n\n\nadd_age_column_from_rownames()\n\n\n\n\n\n\n\n\n\n\nadd_age_to_samples()\n\n\n\n\n\n\n\n\n\n\nadd_dataset_name_column_from_rownames()\n\n\n\n\n\n\n\n\n\n\nadd_model_evaluation()\n\n\n\n\n\n\n\n\n\n\ncheck_and_prepare_data_for_fit()\n\n\n\n\n\n\n\n\n\n\ncheck_presence_of_vegvault()\n\n\n\n\n\n\n\n\n\n\nclassify_taxonomic_resolution()\n\n\n\n\n\n\n\n\n\n\nextract_data_from_vegvault()\n\n\n\n\n\n\n\n\n\n\nfit_hmsc_model()\n\n\n\n\n\n\n\n\n\n\nget_abiotic_data()\n\n\n\n\n\n\n\n\n\n\nget_active_config()\n\n\n\n\n\n\n\n\n\n\nget_age_from_string()\n\n\n\n\n\n\n\n\n\n\nget_better_model_based_on_fit()\n\n\n\n\n\n\n\n\n\n\nget_community_data()\n\n\n\n\n\n\n\n\n\n\nget_community_taxa()\n\n\n\n\n\n\n\n\n\n\nget_coords()\n\n\n\n\n\n\n\n\n\n\nget_dataset_name_from_string()\n\n\n\n\n\n\n\n\n\n\nget_pollen_sum()\n\n\n\n\n\n\n\n\n\n\nget_random_structure_for_model()\n\n\n\n\n\n\n\n\n\n\nget_sample_ages()\n\n\n\n\n\n\n\n\n\n\nget_significant_associations()\n\n\n\n\n\n\n\n\n\n\nget_species_association()\n\n\n\n\n\n\n\n\n\n\nget_taxa_classification()\n\n\n\n\n\n\n\n\n\n\ninterpolate_community_data()\n\n\n\n\n\n\n\n\n\n\ninterpolate_data()\n\n\n\n\n\n\n\n\n\n\nmake_classification_table()\n\n\n\n\n\n\n\n\n\n\nmake_community_data_long()\n\n\n\n\n\n\n\n\n\n\nmake_hmsc_model()\n\n\n\n\n\n\n\n\n\n\nprepare_data_for_fit()\n\n\n\n\n\n\n\n\n\n\nreplace_na_community_data_with_zeros()\n\n\n\n\n\n\n\n\n\n\nsave_progress_visualisation()\n\n\n\n\n\n\n\n\n\n\nselect_n_taxa()\n\n\n\n\n\n\n\n\n\n\ntransform_to_proportions()\n\n\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Documentation",
       "Project overview"
@@ -301,51 +325,63 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/extract_data_from_vegvault.html",
-    "href": "website/Documentation/Functions/extract_data_from_vegvault.html",
-    "title": "extract_data_from_vegvault()",
+    "objectID": "website/Documentation/Functions/classify_taxonomic_resolution.html",
+    "href": "website/Documentation/Functions/classify_taxonomic_resolution.html",
+    "title": "classify_taxonomic_resolution()",
     "section": "",
-    "text": "extract_data_from_vegvault\n\n\nR Documentation\n\n\n\n\nExtract Data from VegVault\n\n\nDescription\n\n\nExtracts data from the VegVault SQLite database based on specified geographic, temporal, and dataset type constraints.\n\n\nUsage\n\nextract_data_from_vegvault(\n  path_to_vegvault = here::here(\"Data/Input/VegVault.sqlite\"),\n  x_lim = NULL,\n  y_lim = NULL,\n  age_lim = NULL,\n  sel_dataset_type = NULL,\n  sel_abiotic_var_name = NULL\n)\n\n\nArguments\n\n\n\n\npath_to_vegvault\n\n\n\nA character string specifying the path to the VegVault SQLite database (default: \"Data/Input/VegVault.sqlite\").\n\n\n\n\n\nx_lim\n\n\n\nA numeric vector of length 2 specifying the longitude range.\n\n\n\n\n\ny_lim\n\n\n\nA numeric vector of length 2 specifying the latitude range.\n\n\n\n\n\nage_lim\n\n\n\nA numeric vector of length 2 specifying the age range.\n\n\n\n\n\nsel_dataset_type\n\n\n\nA character vector specifying the dataset types to select.\n\n\n\n\n\nsel_abiotic_var_name\n\n\n\nA character vector specifying the abiotic variable names to select.\n\n\n\n\n\nDetails\n\n\nThe function performs the following steps:\n\n\n\nValidates input parameters.\nChecks the presence of the VegVault SQLite database.\nAccesses the database and filters data based on geographic, temporal, and dataset type constraints.\nRetrieves abiotic data and taxa information.\nReturns the extracted data as a data frame.\n\n\n\nValue\n\n\nA data frame containing the extracted data.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "classify_taxonomic_resolution\n\n\nR Documentation\n\n\n\n\nClassify Taxonomic Resolution\n\n\nDescription\n\n\nClassifies taxa in a data frame to a specified taxonomic resolution (family, genus, or species) using a classification table, and aggregates pollen proportions accordingly.\n\n\nUsage\n\nclassify_taxonomic_resolution(\n  data,\n  data_classification_table,\n  taxonomic_resolution\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing taxon data with columns including ‘taxon’, ‘dataset_name’, ‘age’, and ‘pollen_prop’.\n\n\n\n\n\ndata_classification_table\n\n\n\nA data frame mapping ‘sel_name’ to taxonomic levels (e.g., family, genus, species).\n\n\n\n\n\ntaxonomic_resolution\n\n\n\nA character string specifying the taxonomic resolution to classify to. Must be one of ‘family’, ‘genus’, or ‘species’.\n\n\n\n\n\nDetails\n\n\nPerforms a left join to map taxa to the desired resolution, aggregates pollen proportions, and ensures all dataset_name-age-taxon combinations are present in the output.\n\n\nValue\n\n\nA data frame with taxa classified to the specified resolution and pollen proportions aggregated accordingly. The output preserves all dataset_name and age combinations for true negatives.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "extract_data_from_vegvault()"
+      "classify_taxonomic_resolution()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_abiotic_data.html",
-    "href": "website/Documentation/Functions/get_abiotic_data.html",
-    "title": "get_abiotic_data()",
+    "objectID": "website/Documentation/Functions/fit_hmsc_model.html",
+    "href": "website/Documentation/Functions/fit_hmsc_model.html",
+    "title": "fit_hmsc_model()",
     "section": "",
-    "text": "get_abiotic_data\n\n\nR Documentation\n\n\n\n\nGet Abiotic Data\n\n\nDescription\n\n\nExtracts abiotic data from a data frame containing nested abiotic information.\n\n\nUsage\n\nget_abiotic_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_abiotic’.\n\n\n\n\n\nDetails\n\n\nValidates the input data frame, ensures required columns are present, and unnests the ‘data_abiotic’ column.\n\n\nValue\n\n\nA data frame with columns ‘dataset_name’, ‘sample_name’, ‘abiotic_variable_name’, and ‘abiotic_value’.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "fit_hmsc_model\n\n\nR Documentation\n\n\n\n\nFit HMSC Model\n\n\nDescription\n\n\nSample the MCMC process for the HMSC model.\n\n\nUsage\n\nfit_hmsc_model(\n  mod_hmsc,\n  n_chains = 20,\n  n_samples = 10000,\n  n_thin = 1,\n  n_transient = 2500,\n  n_parallel = 20,\n  n_samples_verbose = 500\n)\n\n\nArguments\n\n\n\n\nmod_hmsc\n\n\n\nAn unfitted HMSC model object.\n\n\n\n\n\nn_chains\n\n\n\nNumber of MCMC chains (default: 20).\n\n\n\n\n\nn_samples\n\n\n\nNumber of MCMC samples (default: 10,000).\n\n\n\n\n\nn_thin\n\n\n\nThinning interval for MCMC samples (default: 5).\n\n\n\n\n\nn_transient\n\n\n\nNumber of transient iterations (default: 2,500).\n\n\n\n\n\nn_parallel\n\n\n\nNumber of parallel chains (default: 20).\n\n\n\n\n\nn_samples_verbose\n\n\n\nVerbosity interval for MCMC sampling (default: 500).\n\n\n\n\n\nValue\n\n\nReturns a fitted HMSC model object.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_abiotic_data()"
+      "fit_hmsc_model()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_age_from_string.html",
-    "href": "website/Documentation/Functions/get_age_from_string.html",
-    "title": "get_age_from_string()",
+    "objectID": "website/Documentation/Functions/get_active_config.html",
+    "href": "website/Documentation/Functions/get_active_config.html",
+    "title": "get_active_config()",
     "section": "",
-    "text": "get_age_from_string\n\n\nR Documentation\n\n\n\n\nExtract Age from String\n\n\nDescription\n\n\nExtracts the age value from a vector of strings, taking all characters after the double underscore (\"__\").\n\n\nUsage\n\nget_age_from_string(vec_names)\n\n\nArguments\n\n\n\n\nvec_names\n\n\n\nA character vector containing names with the format \"dataset__age\".\n\n\n\n\n\nValue\n\n\nA character vector of age values.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_active_config\n\n\nR Documentation\n\n\n\n\nGet Active Configuration Value\n\n\nDescription\n\n\nRetrieves a specific configuration value from a YAML configuration file.\n\n\nUsage\n\nget_active_config(value = NULL, file = here::here(\"config.yml\"))\n\n\nArguments\n\n\n\n\nvalue\n\n\n\nA character vector specifying the configuration key(s) to retrieve.\n\n\n\n\n\nfile\n\n\n\nPath to the YAML configuration file (default: \"config.yml\").\n\n\n\n\n\nDetails\n\n\nValidates input parameters, ensures the file is readable, and retrieves configuration value(s) using ‘config::get’. Active configuration is set by the ‘R_CONFIG_ACTIVE’ environment variable.\n\n\nValue\n\n\nValue(s) associated with the specified key(s) in the configuration file.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_age_from_string()"
+      "get_active_config()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_community_data.html",
-    "href": "website/Documentation/Functions/get_community_data.html",
-    "title": "get_community_data()",
+    "objectID": "website/Documentation/Functions/get_better_model_based_on_fit.html",
+    "href": "website/Documentation/Functions/get_better_model_based_on_fit.html",
+    "title": "get_better_model_based_on_fit()",
     "section": "",
-    "text": "get_community_data\n\n\nR Documentation\n\n\n\n\nGet Community Data\n\n\nDescription\n\n\nThis function processes a data frame containing community data and extracts the relevant columns, unnesting the ‘data_community’ column in the process.\n\n\nUsage\n\nget_community_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_community’.\n\n\n\n\n\nDetails\n\n\nThe function performs the following steps:\n\n\n\n\nValidates that the input is a data frame.\n\n\n\n\nEnsures the presence of the ‘dataset_name’ and ‘data_community’ columns.\n\n\n\n\nSelects the ‘dataset_name’ and ‘data_community’ columns.\n\n\n\n\nUnnests the ‘data_community’ column.\n\n\n\n\nValue\n\n\nA data frame with the ‘dataset_name’ and unnested ‘data_community’ columns.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_better_model_based_on_fit\n\n\nR Documentation\n\n\n\n\nSelect Better Model Based on Fit\n\n\nDescription\n\n\nCompares two models and selects the one with better fit based on Tjur’s R2.\n\n\nUsage\n\nget_better_model_based_on_fit(list_models)\n\n\nArguments\n\n\n\n\nlist_models\n\n\n\nA list of two fitted model objects.\n\n\n\n\n\nValue\n\n\nThe model object with better fit.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_community_data()"
+      "get_better_model_based_on_fit()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/get_community_taxa.html",
+    "href": "website/Documentation/Functions/get_community_taxa.html",
+    "title": "get_community_taxa()",
+    "section": "",
+    "text": "get_community_taxa\n\n\nR Documentation\n\n\n\n\nGet Community Taxa\n\n\nDescription\n\n\nExtracts a vector of unique taxa from a community data frame.\n\n\nUsage\n\nget_community_taxa(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing a ‘taxon’ column.\n\n\n\n\n\nDetails\n\n\nUses dplyr to select distinct values from the ‘taxon’ column and returns them as a vector.\n\n\nValue\n\n\nA character vector of unique taxon names present in the data.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "get_community_taxa()"
     ]
   },
   {
@@ -377,7 +413,7 @@
     "href": "website/Documentation/Functions/get_significant_associations.html",
     "title": "get_significant_associations()",
     "section": "",
-    "text": "get_significant_associations\n\n\nR Documentation\n\n\n\n\nGet Significant Species Associations\n\n\nDescription\n\n\nIdentifies significant species associations based on support and mean values.\n\n\nUsage\n\nget_significant_associations(data_source, alpha = 0.05)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing association matrices from a fitted Hmsc model. Generally, this is the output of the function get_species_association().\n\n\n\n\n\nalpha\n\n\n\nSignificance level for support threshold (default: 0.05).\n\n\n\n\n\nValue\n\n\nA vector of significant association values.\n\n\nSee Also\n\n\n[get_species_association()]\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_significant_associations\n\n\nR Documentation\n\n\n\n\nGet Significant Species Associations\n\n\nDescription\n\n\nIdentifies significant species associations based on support and mean values for each error level.\n\n\nUsage\n\nget_significant_associations(data_source, alpha = 0.05)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing association matrices from a fitted Hmsc model. Generally, this is the output of the function get_species_association().\n\n\n\n\n\nalpha\n\n\n\nSignificance level for support threshold (default: 0.05).\n\n\n\n\n\nValue\n\n\nA vector of significant association values.\n\n\nSee Also\n\n\n[get_species_association()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
@@ -385,15 +421,27 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/interpolate_community_data.html",
-    "href": "website/Documentation/Functions/interpolate_community_data.html",
-    "title": "interpolate_community_data()",
+    "objectID": "website/Documentation/Functions/get_taxa_classification.html",
+    "href": "website/Documentation/Functions/get_taxa_classification.html",
+    "title": "get_taxa_classification()",
     "section": "",
-    "text": "interpolate_community_data\n\n\nR Documentation\n\n\n\n\nInterpolate Community Data\n\n\nDescription\n\n\nTransforms community data to proportions, interpolates it, and returns it.\n\n\nUsage\n\ninterpolate_community_data(data, ...)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing community data to be transformed and interpolated.\n\n\n\n\n\n…\n\n\n\nAdditional arguments passed to the ‘interpolate_data’ function.\n\n\n\n\n\nDetails\n\n\nTransforms data to proportions using ‘transform_to_proportions’ and total pollen count from ‘get_pollen_sum’. Then interpolates using ‘interpolate_data’.\n\n\nValue\n\n\nA data frame with interpolated community data.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_taxa_classification\n\n\nR Documentation\n\n\n\n\nGet Taxa Classification\n\n\nDescription\n\n\nRetrieves taxonomic classification for a vector of taxa using the taxospace package. Filters results to include only plant taxa.\n\n\nUsage\n\nget_taxa_classification(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA character vector of taxon names to classify.\n\n\n\n\n\nDetails\n\n\nUses taxospace::get_classification to retrieve classification. Flags and filters for plant taxa (kingdom Plantae). Returns an empty tibble if no plant taxa found.\n\n\nValue\n\n\nA data frame with columns for selected name, taxonomic name, rank, and id.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "interpolate_community_data()"
+      "get_taxa_classification()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/interpolate_data.html",
+    "href": "website/Documentation/Functions/interpolate_data.html",
+    "title": "interpolate_data()",
+    "section": "",
+    "text": "interpolate_data\n\n\nR Documentation\n\n\n\n\nInterpolate Data\n\n\nDescription\n\n\nInterpolates data over a specified age range and timestep using a method.\n\n\nUsage\n\ninterpolate_data(\n  data = NULL,\n  by = \"dataset_name\",\n  age_var = \"age\",\n  value_var = \"pollen_prop\",\n  method = \"linear\",\n  rule = 1,\n  ties = mean,\n  age_min = 0,\n  age_max = 12000,\n  timestep = 500\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the data to be interpolated.\n\n\n\n\n\nage_var\n\n\n\nName of the age variable column (default: \"age\").\n\n\n\n\n\nvalue_var\n\n\n\nName of the value variable column (default: \"pollen_prop\").\n\n\n\n\n\nmethod\n\n\n\nInterpolation method to use (default: \"linear\").\n\n\n\n\n\nrule\n\n\n\nInteger specifying the extrapolation rule (default: 1).\n\n\n\n\n\nties\n\n\n\nFunction to handle tied values (default: ‘mean’).\n\n\n\n\n\nage_min\n\n\n\nMinimum age for interpolation (default: 0).\n\n\n\n\n\nage_max\n\n\n\nMaximum age for interpolation (default: 12000).\n\n\n\n\n\ntimestep\n\n\n\nTimestep for interpolation (default: 500).\n\n\n\n\n\nDetails\n\n\nNests data by dataset and taxon, performs interpolation using ‘stats::approx’, and returns the interpolated data in a flat format.\n\n\nValue\n\n\nA data frame with interpolated values, including dataset name, taxon, age, and value columns.\n\n\nSee Also\n\n\n[stats::approx()]\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "interpolate_data()"
     ]
   },
   {

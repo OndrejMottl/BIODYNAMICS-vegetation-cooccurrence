@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>save_progress_visualisation() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>make_classification_table() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,7 +79,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/save_progress_visualisation.html">save_progress_visualisation()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/make_classification_table.html">make_classification_table()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -292,7 +292,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../website/Documentation/Functions/make_classification_table.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/make_classification_table.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">make_classification_table()</span></a>
   </div>
 </li>
@@ -322,7 +322,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../website/Documentation/Functions/save_progress_visualisation.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../website/Documentation/Functions/save_progress_visualisation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">save_progress_visualisation()</span></a>
   </div>
 </li>
@@ -353,9 +353,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/save_progress_visualisation.html">save_progress_visualisation()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/make_classification_table.html">make_classification_table()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">save_progress_visualisation()</h1>
+<h1 class="title">make_classification_table()</h1>
 </div>
 
 
@@ -393,7 +393,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-save_progress_visualisation
+make_classification_table
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -401,24 +401,18 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Save Progress Visualisation
+Make Classification Table
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-Generates a visualisation of project progress and saves it as HTML and PNG.
+Creates a wide-format taxonomic classification table from a list of data frames containing taxon names and ranks (e.g., family, genus, species).
 </p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">save_progress_visualisation(
-  sel_script,
-  output_file = "project_status",
-  output_dir = here::here("Documentation/Progress"),
-  background_color = "white",
-  level_separation = 250
-)
+<pre><code class="language-R">make_classification_table(data)
 </code></pre>
 <h3 class="anchored">
 Arguments
@@ -426,41 +420,11 @@ Arguments
 <table role="presentation">
 <tbody><tr>
 <td>
-<code id="sel_script">sel_script</code>
+<code id="data">data</code>
 </td>
 <td>
 <p>
-The script file to be visualised.
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="output_file">output_file</code>
-</td>
-<td>
-<p>
-The name of the output file (default: "project_status").
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="output_dir">output_dir</code>
-</td>
-<td>
-<p>
-Directory where the output files will be saved (default: "Outputs/Figures").
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="level_separation">level_separation</code>
-</td>
-<td>
-<p>
-Level separation for the visualisation graph (default: 250).
+A list of data frames, each containing columns ‘sel_name’, ‘rank’, and ‘name’.
 </p>
 </td>
 </tr>
@@ -469,7 +433,13 @@ Level separation for the visualisation graph (default: 250).
 Details
 </h3>
 <p>
-Uses ‘targets::tar_visnetwork’ to create a network graph and saves it as HTML using ‘visNetwork::visSave’. Also generates a static PNG image using ‘webshot2::webshot’.
+Filters for relevant taxonomic ranks, removes duplicates, and pivots the table to wide format with one column per rank.
+</p>
+<h3 class="anchored">
+Value
+</h3>
+<p>
+A data frame in wide format with columns for each taxonomic rank and one row per ‘sel_name’.
 </p>
 </main>
 </div>
@@ -904,7 +874,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/Functions/save_progress_visualisation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/Functions/make_classification_table.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
