@@ -37,7 +37,7 @@ function processMathHTML() {
 
 <h3>Arguments</h3>
 
-<table>
+<table role = "presentation">
 <tr><td><code id="data_source">data_source</code></td>
 <td>
 <p>A list containing a fitted Hmsc model under the 'mod' element.

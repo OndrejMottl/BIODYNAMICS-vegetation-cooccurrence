@@ -16,10 +16,12 @@ project_cz:
     sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
     sel_abiotic_var_name: !expr c("bio1", "bio12")
   data_processing:
-    time_step: 500
+    taxonomic_resolution: "genus"
+    time_step: 1000
     min_distance_of_gpp_knots: 50
     number_of_taxa: 10
   model_fitting:
+    n_cores: 2
     samples: 100
     thin: 1
     transient: 50
@@ -34,10 +36,12 @@ project_europe:
     sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
     sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
   data_processing:
+    taxonomic_resolution: "genus"
     time_step: 500
     min_distance_of_gpp_knots: 100
     number_of_taxa: !expr Inf
   model_fitting:
+    n_cores: 10
     samples: 500
     thin: 10
     transient: 100

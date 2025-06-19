@@ -1,0 +1,26 @@
+Get Taxa Classification
+
+Description:
+
+     Retrieves taxonomic classification for a vector of taxa using the
+     taxospace package. Filters results to include only plant taxa.
+
+Usage:
+
+     get_taxa_classification(data)
+     
+Arguments:
+
+    data: A character vector of taxon names to classify.
+
+Details:
+
+     Uses taxospace::get_classification to retrieve classification.
+     Flags and filters for plant taxa (kingdom Plantae). Returns an
+     empty tibble if no plant taxa found.
+
+Value:
+
+     A data frame with columns for selected name, taxonomic name, rank,
+     and id.
+

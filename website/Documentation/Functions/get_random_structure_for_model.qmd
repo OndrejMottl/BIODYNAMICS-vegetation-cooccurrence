@@ -41,7 +41,7 @@ function processMathHTML() {
 
 <h3>Arguments</h3>
 
-<table>
+<table role = "presentation">
 <tr><td><code id="data">data</code></td>
 <td>
 <p>A list containing data for model fitting from the function

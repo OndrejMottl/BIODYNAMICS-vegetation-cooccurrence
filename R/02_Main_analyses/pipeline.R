@@ -46,9 +46,6 @@ targets::tar_option_set(
   error = "null"
 )
 
-# set the number of cores to use
-n_cores <- 10
-
 #----------------------------------------------------------#
 # 1. Pipe definition -----
 #----------------------------------------------------------#
@@ -142,15 +139,32 @@ list_target_config <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
+      description = "Configuration for data processing - taxonomic resolution",
+      name = "config.taxonomic_resolution",
+      command = get_active_config(
+        value = c("data_processing", "taxonomic_resolution")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
       description = "Configuration for data processing",
       name = "config.data_processing",
       command = list(
         time_step = config.time_step,
         number_of_taxa = config.number_of_taxa,
+        taxonomic_resolution = config.taxonomic_resolution,
         min_distance_of_gpp_knots = config.min_distance_of_gpp_knots
       )
     ),
     #--------------------------------------------------#
+    targets::tar_target(
+      description = "Configuration for model fitting - n_cores",
+      name = "config.n_cores",
+      command = get_active_config(
+        value = c("model_fitting", "n_cores")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
     targets::tar_target(
       description = "Configuration for model fitting - number of samples",
       name = "config.n_samples",
@@ -195,6 +209,7 @@ list_target_config <-
       description = "Configuration for model fitting",
       name = "config.model_fitting",
       command = list(
+        n_cores = config.n_cores,
         samples = config.n_samples,
         thin = config.n_thin,
         transient = config.n_transient,
@@ -265,10 +280,37 @@ list_target_community_data <-
       )
     ),
     targets::tar_target(
+      description = "Make vector of all taxa in community data",
+      name = "vec_community_taxa",
+      command = get_community_taxa(data_community_long)
+    ),
+    targets::tar_target(
+      description = "Get classification for each taxon",
+      name = "data_community_taxa_classification",
+      command = get_taxa_classification(vec_community_taxa),
+      pattern = map(vec_community_taxa)
+    ),
+    targets::tar_target(
+      description = "Make classification table for community data",
+      name = "data_classification_table",
+      command = make_classification_table(
+        data = data_community_taxa_classification
+      )
+    ),
+    targets::tar_target(
+      description = "Classify community data to specific taxonomic resolution",
+      name = "data_community_classified",
+      command = classify_taxonomic_resolution(
+        data = data_community_interpolated,
+        data_classification_table = data_classification_table,
+        taxonomic_resolution = config.data_processing$taxonomic_resolution
+      )
+    ),
+    targets::tar_target(
       description = "Select number of taxa to include",
       name = "data_community_subset",
       command = select_n_taxa(
-        data = data_community_interpolated,
+        data = data_community_classified,
         n_taxa = config.data_processing$number_of_taxa
       )
     ),
@@ -352,8 +394,8 @@ list_target_fit_and_evaluate <-
       name = "mod_hmsc_fitted",
       command = fit_hmsc_model(
         mod_hmsc = mod_hmsc,
-        n_chains = n_cores,
-        n_parallel = n_cores,
+        n_chains = config.model_fitting$n_cores,
+        n_parallel = config.model_fitting$n_cores,
         n_samples = config.model_fitting$samples,
         n_thin = config.model_fitting$thin,
         n_transient = config.model_fitting$transient,

@@ -1,0 +1,23 @@
+Get Community Taxa
+
+Description:
+
+     Extracts a vector of unique taxa from a community data frame.
+
+Usage:
+
+     get_community_taxa(data)
+     
+Arguments:
+
+    data: A data frame containing a 'taxon' column.
+
+Details:
+
+     Uses dplyr to select distinct values from the 'taxon' column and
+     returns them as a vector.
+
+Value:
+
+     A character vector of unique taxon names present in the data.
+

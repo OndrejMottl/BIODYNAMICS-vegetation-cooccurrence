@@ -1,22 +1,3 @@
-#' @title Select N Taxa
-#' @description
-#' Selects the top N taxa based on their occurrence across datasets.
-#' @param data
-#' A data frame containing the input data. Must include columns "taxon" and
-#' the column specified in the `per` parameter.
-#' @param n_taxa
-#' A numeric value specifying the number of taxa to select. Default is Inf.
-#' @param per
-#' A character string specifying the column name to group by. Default is
-#' "dataset_name".
-#' @return
-#' A data frame containing the filtered data with the top N taxa.
-#' @details
-#' The function identifies the most common taxa across datasets by counting
-#' their occurrences. It then filters the input data to include only the
-#' selected taxa. If no taxa are found, an error is raised.
-#'
-
 testthat::test_that("select_n_taxa() return correct class", {
   set.seed(1234)
   data_dummy <-
