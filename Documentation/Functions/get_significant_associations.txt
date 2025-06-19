@@ -3,7 +3,7 @@ Get Significant Species Associations
 Description:
 
      Identifies significant species associations based on support and
-     mean values.
+     mean values for each error level.
 
 Usage:
 

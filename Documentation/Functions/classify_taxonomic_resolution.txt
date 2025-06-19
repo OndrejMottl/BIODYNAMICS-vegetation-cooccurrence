@@ -1,0 +1,40 @@
+Classify Taxonomic Resolution
+
+Description:
+
+     Classifies taxa in a data frame to a specified taxonomic
+     resolution (family, genus, or species) using a classification
+     table, and aggregates pollen proportions accordingly.
+
+Usage:
+
+     classify_taxonomic_resolution(
+       data,
+       data_classification_table,
+       taxonomic_resolution
+     )
+     
+Arguments:
+
+    data: A data frame containing taxon data with columns including
+          'taxon', 'dataset_name', 'age', and 'pollen_prop'.
+
+data_classification_table: A data frame mapping 'sel_name' to taxonomic
+          levels (e.g., family, genus, species).
+
+taxonomic_resolution: A character string specifying the taxonomic
+          resolution to classify to. Must be one of 'family', 'genus',
+          or 'species'.
+
+Details:
+
+     Performs a left join to map taxa to the desired resolution,
+     aggregates pollen proportions, and ensures all
+     dataset_name-age-taxon combinations are present in the output.
+
+Value:
+
+     A data frame with taxa classified to the specified resolution and
+     pollen proportions aggregated accordingly. The output preserves
+     all dataset_name and age combinations for true negatives.
+

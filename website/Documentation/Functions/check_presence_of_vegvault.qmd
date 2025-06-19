@@ -37,7 +37,7 @@ function processMathHTML() {
 
 <h3>Arguments</h3>
 
-<table>
+<table role = "presentation">
 <tr><td><code id="relative_path">relative_path</code></td>
 <td>
 <p>Relative path to the 'VegVault.sqlite' file (default: &quot;Data/Input/Vegvault.sqlite&quot;).</p>

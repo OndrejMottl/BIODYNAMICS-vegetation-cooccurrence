@@ -38,7 +38,7 @@ from row names.
 
 <h3>Arguments</h3>
 
-<table>
+<table role = "presentation">
 <tr><td><code id="data">data</code></td>
 <td>
 <p>A data frame with row names in the format &quot;dataset__something&quot;.</p>

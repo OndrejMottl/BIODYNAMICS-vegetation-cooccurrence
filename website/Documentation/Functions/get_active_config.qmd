@@ -37,7 +37,7 @@ function processMathHTML() {
 
 <h3>Arguments</h3>
 
-<table>
+<table role = "presentation">
 <tr><td><code id="value">value</code></td>
 <td>
 <p>A character vector specifying the configuration key(s) to retrieve.</p>

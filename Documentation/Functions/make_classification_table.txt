@@ -1,0 +1,27 @@
+Make Classification Table
+
+Description:
+
+     Creates a wide-format taxonomic classification table from a list
+     of data frames containing taxon names and ranks (e.g., family,
+     genus, species).
+
+Usage:
+
+     make_classification_table(data)
+     
+Arguments:
+
+    data: A list of data frames, each containing columns 'sel_name',
+          'rank', and 'name'.
+
+Details:
+
+     Filters for relevant taxonomic ranks, removes duplicates, and
+     pivots the table to wide format with one column per rank.
+
+Value:
+
+     A data frame in wide format with columns for each taxonomic rank
+     and one row per 'sel_name'.
+
