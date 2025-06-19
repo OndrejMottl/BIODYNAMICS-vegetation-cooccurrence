@@ -1,5 +1,22 @@
+#' @title Get Taxa Classification
+#' @description
+#' Retrieves taxonomic classification for a vector of taxa using the
+#' taxospace package. Filters results to include only plant taxa.
+#' @param data A character vector of taxon names to classify.
+#' @return A data frame with columns for selected name, taxonomic name,
+#'   rank, and id.
+#' @details
+#' Uses taxospace::get_classification to retrieve classification. Flags and
+#' filters for plant taxa (kingdom Plantae). Returns an empty tibble if no
+#' plant taxa found.
+#' @export
 get_taxa_classification <- function(data) {
   require(taxospace)
+
+  assertthat::assert_that(
+    is.character(data) && length(data) > 0,
+    msg = "data must be a non-empty character vector"
+  )
 
   res_classification <-
     taxospace::get_classification(

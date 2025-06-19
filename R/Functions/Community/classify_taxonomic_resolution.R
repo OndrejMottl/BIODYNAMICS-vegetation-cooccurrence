@@ -1,7 +1,31 @@
+#' @title Classify Taxonomic Resolution
+#' @description
+#' Classifies taxa in a data frame to a specified taxonomic resolution (family,
+#' genus, or species) using a classification table, and aggregates pollen
+#' proportions accordingly.
+#' @param data A data frame containing taxon data with columns including
+#'   'taxon', 'dataset_name', 'age', and 'pollen_prop'.
+#' @param data_classification_table A data frame mapping 'sel_name' to
+#'   taxonomic levels (e.g., family, genus, species).
+#' @param taxonomic_resolution A character string specifying the taxonomic
+#'   resolution to classify to. Must be one of 'family', 'genus', or 'species'.
+#' @return A data frame with taxa classified to the specified resolution and
+#'   pollen proportions aggregated accordingly. The output preserves all
+#'   dataset_name and age combinations for true negatives.
+#' @details
+#' Performs a left join to map taxa to the desired resolution, aggregates
+#' pollen proportions, and ensures all dataset_name-age-taxon combinations are
+#' present in the output.
+#' @export
 classify_taxonomic_resolution <- function(data, data_classification_table, taxonomic_resolution) {
   assertthat::assert_that(
     is.data.frame(data),
     msg = "data must be a data frame"
+  )
+
+  assertthat::assert_that(
+    all(c("taxon", "dataset_name", "age", "pollen_prop") %in% colnames(data)),
+    msg = "data must contain columns: taxon, dataset_name, age, and pollen_prop"
   )
 
   assertthat::assert_that(
