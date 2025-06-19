@@ -1,39 +1,6 @@
-# Code conventions
+# Biodynamics vegetation co-occurrence project
 
-## Project structure
-
-Each project should be created as a self-contain unit, i.e. a project-oriented workflow. The R project consists of data and codes with individual scripts and functions. All scripts are stored in the `R/` folder, data in `Data` etc.
-
-A default project template can be found [here](https://github.com/OndrejMottl/Project_template).
-
-The default folder structure:
-
-```         
-├─ Data
-|   ├─ Input
-|   ├─ Processed
-|   └─ Temp
-├─ Outputs
-|   ├─ Data
-|   ├─ Figures
-|   └─ Tables
-├─ R
-|   ├─ ___Init_project___.R
-|   ├─ ___setup_project___.R
-|   ├─ 00_Master.R
-|   ├─ 01_Data_processing
-|   |   └─ Run_01.R
-|   ├─ 02_Main_analyses
-|   |   └─ Run_02.R
-|   ├─ 03_Supplementary_analyses
-|   |   └─ Run_03.R
-|   ├─ Functions
-|       └─ example_fc.R
-├─ README.md
-├─ renv
-|   └─ library_list.lock
-└─ [project name].Rproj
-```
+## Code conventions
 
 ### Files & folders
 
@@ -47,8 +14,8 @@ Folders and files can have numbering to guide a user to the sequences of analyse
 
 - Underscore with only the first letter capitalized (Capital_snake_style)
 - File name should contain dates
-    - dates should be in YYYY-MM-DD
-    - see [{RUtilpol}](https://github.com/HOPE-UIB-BIO/R-Utilpol-package) for easy handling of "version control of files"
+  - dates should be in YYYY-MM-DD
+  - see [{RUtilpol}](https://github.com/HOPE-UIB-BIO/R-Utilpol-package) for easy handling of "version control of files"
 
 ##### Temporary file
 
@@ -78,7 +45,7 @@ The configuration file (`___setup_project___`) holds the utmost importance in a 
 
 Each script should be also self-contained. It means that it should start with loading data and finish with saving results. Therefore, each script should be able to be run without having any other data in memory (except for data from `___setup_project___`).
 
-Each script should do just one task (see also [file name](#file-naming)). If it is hard to describe one task, it is better to split the script into several.
+Each script should do just one task (see also file name section). If it is hard to describe one task, it is better to split the script into several.
 
 ## Code
 
@@ -98,8 +65,7 @@ The script header should contain the name of the project, objectives (purpose) o
 
 Example of a header:
 
-```{r}
-#| eval: false
+```r
 #----------------------------------------------------------#
 #
 #
@@ -122,14 +88,13 @@ Empty lines should be placed before each header to separate chunks.
 
 Headings can have various hierarchies:
 
-1.  `#----------------------------------------------------------#`
-2.  `#--------------------------------------------------#`
-3.  `#----------------------------------------#`
+1. `#----------------------------------------------------------#`
+2. `#--------------------------------------------------#`
+3. `#----------------------------------------#`
 
 Example of a header:
 
-```{r}
-#| eval: false
+```r
 #----------------------------------------------------------#
 # Load data -----
 #----------------------------------------------------------#
@@ -139,8 +104,7 @@ Header names can be denoted by numbers, with subsections separated by `*.*`
 
 Example of a numbered header:
 
-```{r}
-#| eval: false
+```r
 #----------------------------------------------------------#
 # 1. Estimate diversity -----
 #----------------------------------------------------------#
@@ -157,8 +121,7 @@ Adding comments to code plays a pivotal role in ensuring reproducibility and pre
 
 Example of a single-line comment:
 
-```{r}
-#| eval: false
+```r
 # This is a comment.
 ```
 
@@ -168,8 +131,7 @@ Multi-line comments should start with a capital letter and the new line should s
 
 Example of a multi-line comment:
 
-```{r}
-#| eval: false
+```r
 # This is a very long comment, where I need to describe
 #    what this code is doing
 ```
@@ -180,25 +142,23 @@ Inline comments should always start with a space.
 
 Example of inline comment:
 
-```{r}
-#| eval: false
+```r
 function(
-	agr = 1 # This is an example of an inline comment
+ agr = 1 # This is an example of an inline comment
 )
 ```
-           
+
 ##### Commenting functions
 
-Function decoration should be placed before each function. See [functions](#functions) for details.
+Function decoration should be placed before each function. See functions section for details.
 
 #### Code width
 
 No line of code should be longer than 80 characters (including comments). Users can visualise the 80 characters line in selected IDER
 
 ### Names of objects and function
-           
-```{r}
-#| eval: false
+
+```r
   "There are only two hard things in Computer Science: cache invalidation and naming things."
 ```
 
@@ -206,19 +166,18 @@ No line of code should be longer than 80 characters (including comments). Users 
 
 Object and function should be using `snake_style`. The `.` in names is somewhat popular but it causes issues with names of methods and should be therefore avoided. The names are preferred to be very descriptive, more expressive and more explicit (note that the default `linter` setting of long names can be disabled).
 
-The names should be nouns and start with the type of object: 
+The names should be nouns and start with the type of object:
 
-- `data_*` - for data 
-	- special subcategory is `table_*` for tables (mainly as an object for reference). Note that all tables can be data but now vice versa. 
-- `list_` - for lists 
-- `vec_` - for vectors 
-- `mod_*` - for statistical model 
+- `data_*` - for data
+  - special subcategory is `table_*` for tables (mainly as an object for reference). Note that all tables can be data but now vice versa.
+- `list_` - for lists
+- `vec_` - for vectors
+- `mod_*` - for statistical model
 - `res_` - special category, which can be used within the function to name an object to be returned (`return(res_*)`).
 
 Examples of good names:
 
-```{r}
-#| eval: false
+```r
 # data
 data_diversity_survey
 
@@ -241,8 +200,7 @@ Names of functions should be verbs and describe the expected functionality.
 
 Examples of good function names
 
-```{r}
-#| eval: false
+```r
 estimate_alpha_diversity()
 
 get_first_value()
@@ -264,14 +222,14 @@ Many of the syntax issues can be checked/fixed by [lintr](https://lintr.r-lib.or
 
 #### Spaces (empty character)
 
-Space (`" "`) should be always placed: 
+Space (`" "`) should be always placed:
 
-- after a comma 
+- after a comma
 - before and after infix operators (`==`, `+`, `-`, `<-`, `~`, etc.)
 
-Exceptions: 
+Exceptions:
 
-- No spaces inside or outside parentheses for regular function calls 
+- No spaces inside or outside parentheses for regular function calls
 - Operators with high precedence should not be surounced by space `:`, `::`, `:::`, `$`, `@`, `[`, `[[`, `^`, unary `-`
 
 #### New line (`↵`)
@@ -284,16 +242,14 @@ A new line should be:
 
 ##### 1. After an object assignment (`<-`)
 
-```{r}
-#| eval: false
+```r
 data_diversity <-
   read_data(...)
 ```
 
 An exception is an assignment of function.
 
-```{r}
-#| eval: false
+```r
 get_data <- function(...) {
   ...
 }
@@ -303,8 +259,7 @@ get_data <- function(...) {
 
 Note that there should be a space before a pipe
 
-```{r}
-#| eval: false
+```r
 data_diversity <-
   get_data() %>%
   transform_to_percentages()
@@ -314,8 +269,7 @@ data_diversity <-
 
 This should be true for both function declaration and usage. The exception is a single argument.
 
-```{r}
-#| eval: false
+```r
 get_data <- function(arg1 = foo,
                      arg2 = here::here()) {
   ...
@@ -344,8 +298,7 @@ Each type of parentheses (brackets) has its own rules:
 
 Examples:
 
-```{r}
-#| eval: false
+```r
 1 + (a + b)
 
 get_data(arg = foo)
@@ -363,8 +316,7 @@ get_data(
 
 Examples:
 
-```{r}
-#| eval: false
+```r
 list_diversity_for_each_plot[[1]]
 
 data_cars[, 2]
@@ -380,8 +332,7 @@ data_cars[, 2]
 
 Examples:
 
-```{r}
-#| eval: false
+```r
 get_data <- function(agr1) {
   ...
 }
@@ -405,16 +356,15 @@ try(
 
 Always use the left assignment `<-`.
 
-Do **NOT** use: 
+Do **NOT** use:
 
-- right assignment (`->`) 
+- right assignment (`->`)
 - equals (`=`)
 
 There should be a new line after the assignment. Note that rarely singe-line
 assignment can be used:
 
-```{r}
-#| eval: false
+```r
 data_diversity <-
   get_data()
 
@@ -433,19 +383,18 @@ For function calls, always state the arguments even though R can have anonymous 
 
 It is preferred to use the Tidyverse version of functions over base ones:
 
-| Base R                 | Better Style, Performance, and Utility    |
+| Base R | Better Style, Performance, and Utility    |
 |------------------------|-------------------------------------------|
-| `read.csv()`           | `readr::read_csv()`                       |
-| `df$some_column`       | `df %>% dplyr::pull(some_column)`         |
+| `read.csv()` | `readr::read_csv()`|
+| `df$some_column` | `df %>% dplyr::pull(some_column)` |
 | `df$some_column = ...` | `df %>% dplyr::mutate(some_column = ...)` |
-| ...                    | ...                                       |
+| ... | ... |
 
 #### Namespace
 
 Always use the full package namespace with a function call. This helps to track the source of function in a script:
 
-```{r}
-#| eval: false
+```r
 data_diversity %>%
   dplyr::mutate(
     beta_diverisity = 0
@@ -454,10 +403,10 @@ data_diversity %>%
 
 #### Creating functions
 
-Specific rules apply for making custom functions: 
+Specific rules apply for making custom functions:
 
-- For naming of functions see [function names](#function-names) 
-- Each function (declaration) should be placed in a separate script named the function. Therefore, there should be only a single function in each function script. 
+- For naming of functions see function names.
+- Each function (declaration) should be placed in a separate script named the function. Therefore, there should be only a single function in each function script.
 - function should always return (`return(res_value)`)
 
 ##### Anonymous functions
@@ -466,8 +415,7 @@ In various instances, it might be better to not create a new function but to use
 
 In that case, the user should use tidle (`~`) for change in map default values in the function:
 
-```{r}
-#| eval: false
+```r
 purrr::map(
   .f = ~ {
     mean(.x)
@@ -477,8 +425,7 @@ purrr::map(
 
 For `purrr::pmap_*()`, the user should use `..1`, `..2`, etc
 
-```{r}
-#| eval: false
+```r
 purrr::pmap(
   .l = list(
     list_1,
@@ -511,7 +458,7 @@ The roxygen2 documentation should be placed before the function declaration but 
 
 ##### Testing Functions
 
-All tests are done using the [testthat](https://testthat.r-lib.org/) package. Each function should have its own test file, which is named after the function (e.g., `test-<function_name>.R`). 
+All tests are done using the [testthat](https://testthat.r-lib.org/) package. Each function should have its own test file, which is named after the function (e.g., `test-<function_name>.R`).
 
 Generally, the function should be tested for:
 
