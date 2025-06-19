@@ -57,7 +57,6 @@ package_list <-
   c(
     "assertthat",
     "here",
-    "httpgd",
     "janitor",
     "jsonlite",
     "knitr",
