@@ -76,7 +76,9 @@ c(
   "pipe_target_abiotic_data.R",
   "pipe_target_model.R",
   "pipe_target_species_associations_model_with_evaluation.R",
-  "pipe_target_slice_by_age.R"
+  "pipe_target_slice_by_age.R",
+  "pipe_target_result_summary_type.R",
+  "pipe_target_result_summary_age.R"
 ) %>%
   rlang::set_names() %>%
   purrr::walk(
@@ -97,43 +99,8 @@ list(
   pipe_target_abiotic_data,
   pipe_target_species_associations,
   pipe_models_by_age,
-  tarchetypes::tar_combine(
-    name = "species_associations_by_age_merged",
-    pipe_models_by_age[["number_of_significant_associations"]],
-    command = list(!!!.x)
-  ),
-  targets::tar_target(
-    description = "Table of significant associations by age",
-    name = "data_species_associations_by_age",
-    command = species_associations_by_age_merged %>%
-      purrr::map("dataset_name") %>%
-      purrr::map("proportion_significant") %>%
-      unlist() %>%
-      purrr::set_names(
-        nm = names(.) %>%
-          stringr::str_extract(., "_timeslice_\\d+") %>%
-          stringr::str_remove(., "_timeslice_")
-      ) %>%
-      as.data.frame() %>%
-      purrr::set_names("prop_sign_assoc") %>%
-      tibble::rownames_to_column("age") %>%
-      dplyr::mutate(
-        age = as.numeric(age)
-      )
-  ),
-  targets::tar_target(
-    description = "Table of species associations total",
-    name = "data_species_associations_total",
-    command = number_of_significant_associations %>%
-      purrr::map("proportion_significant") %>%
-      unlist() %>%
-      purrr::set_names(
-        nm = names(.)
-      ) %>%
-      as.data.frame() %>%
-      purrr::set_names("n_sign_assoc") %>%
-      tibble::rownames_to_column("type")
-  ),
+  pipe_target_result_summary_age,
+  pipe_target_result_summary_type,
   targets::tar_target(
     description = "Plot of significant associations by age",
     name = "plot_species_associations_by_age",
