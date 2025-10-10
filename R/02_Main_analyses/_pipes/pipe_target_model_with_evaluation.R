@@ -50,7 +50,6 @@ pipe_target_model_full <-
   tarchetypes::tar_map(
     values = data_to_map_formula,
     descriptions = "formula_name",
-    pipe_target_model_prep,
     targets::tar_target(
       description = "make HMSC model",
       name = "mod_hmsc",
@@ -67,6 +66,7 @@ pipe_target_model_full <-
 
 pipe_target_model_full_with_evaluation <-
   list(
+    pipe_target_model_prep,
     pipe_target_model_full,
     tarchetypes::tar_combine(
       name = "mod_hmsc_fitted_combined",
