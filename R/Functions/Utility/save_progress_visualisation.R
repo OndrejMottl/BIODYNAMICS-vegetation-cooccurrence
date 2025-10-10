@@ -21,6 +21,7 @@ save_progress_visualisation <- function(
       "Documentation/Progress"
     ),
     background_color = "white",
+    physics = TRUE,
     level_separation = 250) {
   # test to make sure {pandoc} is installed for webshot to work
 
@@ -36,6 +37,7 @@ save_progress_visualisation <- function(
       outdated = FALSE,
       store = get_active_config("target_store"),
       targets_only = FALSE,
+      physics = physics,
       level_separation = level_separation
     )
 
@@ -45,6 +47,7 @@ save_progress_visualisation <- function(
       store = get_active_config("target_store"),
       targets_only = TRUE,
       outdated = FALSE,
+      physics = physics,
       level_separation = level_separation
     )
 
