@@ -74,7 +74,7 @@ pipe_target_models_by_age <-
         min_knots_distance = config.data_processing$min_distance_of_gpp_knots
       )
     ),
-    pipe_target_fit_and_evaluate
+    pipe_target_model_fit
   )
 
 pipe_target_models_by_age_with_summary <-

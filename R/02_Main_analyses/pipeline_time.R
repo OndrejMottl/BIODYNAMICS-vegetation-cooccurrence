@@ -75,7 +75,7 @@ c(
   "pipe_target_community_data.R",
   "pipe_target_abiotic_data.R",
   "pipe_target_model.R",
-  "pipe_target_species_associations.R",
+  "pipe_target_species_associations_model_with_evaluation.R",
   "pipe_target_slice_by_age.R"
 ) %>%
   rlang::set_names() %>%
@@ -95,7 +95,7 @@ list(
   pipe_target_vegvault_data,
   pipe_target_community_data,
   pipe_target_abiotic_data,
-  pipe_target_associations_full,
+  pipe_target_associations_with_evaluation,
   pipe_models_by_age,
   tarchetypes::tar_combine(
     name = "species_associations_by_age_merged",
