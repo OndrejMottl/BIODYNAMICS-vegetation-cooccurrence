@@ -22,6 +22,14 @@ save_progress_visualisation <- function(
     ),
     background_color = "white",
     level_separation = 250) {
+  # test to make sure {pandoc} is installed for webshot to work
+
+  if (
+    is.null(rmarkdown::find_pandoc()$dir)
+  ) {
+    pandoc::pandoc_activate()
+  }
+
   network_graph <-
     targets::tar_visnetwork(
       script = sel_script,
