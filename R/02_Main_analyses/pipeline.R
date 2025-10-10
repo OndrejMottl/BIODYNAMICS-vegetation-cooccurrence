@@ -276,7 +276,9 @@ list_target_community_data <-
       name = "data_community_interpolated",
       command = interpolate_community_data(
         data = data_community_long_ages,
-        timestep = config.data_processing$time_step
+        timestep = config.data_processing$time_step,
+        age_min = min(config.age_lim),
+        age_max = max(config.age_lim)
       )
     ),
     targets::tar_target(
@@ -348,7 +350,9 @@ list_target_abiotic_data <-
         data = data_abiotic_ages,
         value_var = "abiotic_value",
         by = c("dataset_name", "abiotic_variable_name"),
-        timestep = config.data_processing$time_step
+        timestep = config.data_processing$time_step,
+        age_min = min(config.age_lim),
+        age_max = max(config.age_lim)
       )
     ),
     targets::tar_target(
