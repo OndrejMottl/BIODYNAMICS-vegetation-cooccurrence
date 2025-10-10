@@ -10,8 +10,12 @@
 #                         2025
 #
 #----------------------------------------------------------#
-# definition of the main target pipe, which is run in the `Master.R` file
-
+# Definition of the target pipe:
+#   - test each model against null model
+#   - slice data by age
+#   - run models on each slice
+# Note that this script should be executed
+#   by other scripts (eg, `02_Run_pipeline_age.R`).
 
 #----------------------------------------------------------#
 # 0. Setup -----

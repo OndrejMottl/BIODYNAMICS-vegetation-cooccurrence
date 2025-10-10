@@ -45,7 +45,7 @@ if (
 
 try(
   targets::tar_make(
-    script = here::here("R/02_Main_analyses/pipeline.R"),
+    script = here::here("R/02_Main_analyses/pipeline_time.R"),
     store = get_active_config("target_store"),
     reporter = "verbose"
   ),
@@ -57,6 +57,6 @@ try(
 #----------------------------------------------------------#
 
 save_progress_visualisation(
-  sel_script = here::here("R/02_Main_analyses/pipeline.R"),
+  sel_script = here::here("R/02_Main_analyses/pipeline_time.R"),
   level_separation = 300
 )
