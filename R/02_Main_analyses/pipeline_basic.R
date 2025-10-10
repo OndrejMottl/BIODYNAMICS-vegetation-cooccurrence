@@ -73,7 +73,7 @@ c(
   "pipe_target_abiotic_data.R",
   "pipe_target_model_prep.R",
   "pipe_target_model_fit.R",
-  "pipe_target_model_simple.R",
+  "pipe_target_model_with_evaluation.R",
   "pipe_target_species_associations.R"
 ) %>%
   rlang::set_names() %>%
@@ -93,6 +93,6 @@ list(
   pipe_target_vegvault_data,
   pipe_target_community_data,
   pipe_target_abiotic_data,
-  pipe_target_model_simple,
+  pipe_target_model_full_with_evaluation,
   pipe_target_species_associations
 )
