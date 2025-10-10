@@ -50,7 +50,7 @@ suppressMessages(
 )
 
 targets::tar_read(
-  name = "plot_species_associations_by_age",
+  name = "plot_species_associations",
   store = here::here(
     config::get(
       value = "target_store",

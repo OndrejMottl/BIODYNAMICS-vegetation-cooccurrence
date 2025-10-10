@@ -103,7 +103,7 @@ list(
   pipe_target_result_summary_type,
   targets::tar_target(
     description = "Plot of significant associations by age",
-    name = "plot_species_associations_by_age",
+    name = "plot_species_associations",
     command = ggplot2::ggplot() +
       ggplot2::geom_line(
         data = data_species_associations_by_age,
