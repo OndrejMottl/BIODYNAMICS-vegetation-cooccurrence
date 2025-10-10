@@ -74,7 +74,8 @@ c(
   "pipe_target_model_prep.R",
   "pipe_target_model_fit.R",
   "pipe_target_model_with_evaluation.R",
-  "pipe_target_species_associations.R"
+  "pipe_target_species_associations.R",
+  "pipe_target_result_summary_type.R"
 ) %>%
   rlang::set_names() %>%
   purrr::walk(
@@ -94,5 +95,27 @@ list(
   pipe_target_community_data,
   pipe_target_abiotic_data,
   pipe_target_model_full_with_evaluation,
-  pipe_target_species_associations
+  pipe_target_species_associations,
+  pipe_target_result_summary_type,
+  targets::tar_target(
+    description = "Plot of significant associations",
+    name = "plot_species_associations",
+    command = ggplot2::ggplot() +
+      ggplot2::geom_point(
+        data = data_species_associations_total,
+        mapping = ggplot2::aes(
+          y = n_sign_assoc,
+          x = type
+        )
+      ) +
+      ggplot2::coord_cartesian(
+        ylim = c(0, 1),
+      ) +
+      ggplot2::labs(
+        title = "Proportion of significant associations",
+        subtitle = paste("project:", Sys.getenv("R_CONFIG_ACTIVE")),
+        x = "Type of random factor",
+        y = "Proportion of significant associations"
+      )
+  )
 )
