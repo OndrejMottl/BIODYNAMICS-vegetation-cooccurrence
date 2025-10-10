@@ -43,7 +43,7 @@ pipe_target_species_associations <-
     targets::tar_target(
       description = "Get species associations",
       name = "species_associations",
-      command = get_species_association(mod_hmsc_eval)
+      command = get_species_association(mod_hmsc_to_use)
     ),
     targets::tar_target(
       description = "Get number of significant associations",

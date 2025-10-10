@@ -51,5 +51,10 @@ pipe_target_model_simple <-
         error_family = "binomial"
       )
     ),
-    pipe_target_model_fit
+    pipe_target_model_fit,
+    targets::tar_target(
+      description = "A workaround to select the model for species associations",
+      name = "mod_hmsc_to_use",
+      command = mod_hmsc_eval
+    ),
   )

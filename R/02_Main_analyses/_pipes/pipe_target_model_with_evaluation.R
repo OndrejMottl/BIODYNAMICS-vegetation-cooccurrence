@@ -75,7 +75,7 @@ pipe_target_model_full_with_evaluation <-
     ),
     targets::tar_target(
       description = "Select either null or full model based on fit",
-      name = "mod_hmsc_fitted_selected",
+      name = "mod_hmsc_to_use",
       command = get_better_model_based_on_fit(mod_hmsc_fitted_combined)
     )
   )

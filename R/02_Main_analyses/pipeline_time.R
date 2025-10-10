@@ -95,7 +95,7 @@ list(
   pipe_target_vegvault_data,
   pipe_target_community_data,
   pipe_target_abiotic_data,
-  pipe_target_associations_with_evaluation,
+  pipe_target_species_associations,
   pipe_models_by_age,
   tarchetypes::tar_combine(
     name = "species_associations_by_age_merged",
