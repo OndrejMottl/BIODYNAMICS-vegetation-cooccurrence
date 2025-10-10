@@ -56,5 +56,5 @@ pipe_target_model_simple <-
       description = "A workaround to select the model for species associations",
       name = "mod_hmsc_to_use",
       command = mod_hmsc_eval
-    ),
+    )
   )
