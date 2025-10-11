@@ -17,12 +17,12 @@ project_cz:
     sel_abiotic_var_name: !expr c("bio1", "bio12")
   data_processing:
     taxonomic_resolution: "genus"
-    time_step: 1000
+    time_step: 500
     min_distance_of_gpp_knots: 50
-    number_of_taxa: 10
+    number_of_taxa: !expr Inf
   model_fitting:
-    n_cores: 2
-    samples: 100
+    n_cores: 5
+    samples: 1000
     thin: 1
     transient: 50
     samples_verbose: 50
