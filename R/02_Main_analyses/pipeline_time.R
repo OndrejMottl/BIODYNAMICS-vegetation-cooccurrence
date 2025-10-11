@@ -15,7 +15,7 @@
 #   - slice data by age
 #   - run models on each slice
 # Note that this script should be executed
-#   by other scripts (eg, `02_Run_pipeline_age.R`).
+#   by other scripts (eg, `01_Run_pipelines.R`).
 
 #----------------------------------------------------------#
 # 0. Setup -----

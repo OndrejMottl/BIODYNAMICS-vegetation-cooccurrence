@@ -12,7 +12,7 @@
 #----------------------------------------------------------#
 # Definition of the basic target pipe.
 # Note that this script should be executed
-#   by other scripts (eg, `01_Run_pipeline_basic.R`).
+#   by other scripts (eg, `01_Run_pipelines.R`).
 
 #----------------------------------------------------------#
 # 0. Setup -----

@@ -16,6 +16,7 @@
 #' @export
 save_progress_visualisation <- function(
     sel_script,
+    sel_store = get_active_config("target_store"),
     output_file = "project_status",
     output_dir = here::here(
       "Documentation/Progress"
@@ -35,7 +36,7 @@ save_progress_visualisation <- function(
     targets::tar_visnetwork(
       script = sel_script,
       outdated = FALSE,
-      store = get_active_config("target_store"),
+      store = sel_store,
       targets_only = FALSE,
       physics = physics,
       level_separation = level_separation
@@ -44,7 +45,7 @@ save_progress_visualisation <- function(
   network_graph_static <-
     targets::tar_visnetwork(
       script = sel_script,
-      store = get_active_config("target_store"),
+      store = sel_store,
       targets_only = TRUE,
       outdated = FALSE,
       physics = physics,
