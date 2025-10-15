@@ -39,6 +39,27 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
+pipe_target_models_by_age <-
+  list(
+    pipe_target_model_prep_by_age,
+    targets::tar_target(
+      description = "make HMSC model",
+      name = "mod_hmsc",
+      command = make_hmsc_model(
+        data_to_fit = data_to_fit,
+        sel_formula = "~ .",
+        random_structure = mod_random_structure,
+        error_family = "binomial"
+      )
+    ),
+    pipe_target_model_fit,
+    targets::tar_target(
+      description = "A workaround to select the model for species associations",
+      name = "mod_hmsc_to_use",
+      command = mod_hmsc_eval
+    )
+  )
+
 # get the list of expected ages
 data_to_map_age <-
   tibble::tibble(
@@ -50,53 +71,11 @@ data_to_map_age <-
     age_name = paste0("timeslice_", age)
   )
 
-pipe_target_models_by_age <-
-  # make a branch for each model type (null, full)
-  tarchetypes::tar_map(
-    values = data_to_map_formula,
-    descriptions = "formula_name",
-    targets::tar_target(
-      description = "Check and prepare the data for fitting",
-      name = "data_to_fit",
-      command = check_and_prepare_data_for_fit(
-        data_community = data_community_to_fit,
-        data_abiotic = data_abiotic_to_fit,
-        data_coords = data_coords,
-        subset_age = age
-      )
-    ),
-    targets::tar_target(
-      description = "Make a random structure for the HMSC model",
-      name = "mod_random_structure",
-      command = get_random_structure_for_model(
-        data = data_to_fit,
-        type = "space",
-        min_knots_distance = config.data_processing$min_distance_of_gpp_knots
-      )
-    ),
-    pipe_target_model_fit
-  )
-
-pipe_target_models_by_age_with_summary <-
-  list(
-    pipe_target_models_by_age,
-    tarchetypes::tar_combine(
-      name = "mod_hmsc_fitted_combined",
-      pipe_target_models_by_age[["mod_hmsc_eval"]],
-      command = list(!!!.x)
-    ),
-    targets::tar_target(
-      description = "Select either null or full model based on fit",
-      name = "mod_hmsc_to_use",
-      command = get_better_model_based_on_fit(mod_hmsc_fitted_combined)
-    ),
-    pipe_target_species_associations
-  )
-
 pipe_models_by_age <-
   # make a branch for each age
   tarchetypes::tar_map(
     values = data_to_map_age,
     descriptions = "age_name",
-    pipe_target_models_by_age_with_summary
+    pipe_target_models_by_age,
+    pipe_target_species_associations
   )

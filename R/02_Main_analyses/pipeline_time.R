@@ -74,10 +74,10 @@ c(
   "pipe_target_vegvault_data.R",
   "pipe_target_community_data.R",
   "pipe_target_abiotic_data.R",
-  "pipe_target_model.R",
-  "pipe_target_species_associations_model_with_evaluation.R",
+  "pipe_target_model_prep_by_age.R",
+  "pipe_target_model_fit.R",
+  "pipe_target_species_associations.R",
   "pipe_target_slice_by_age.R",
-  "pipe_target_result_summary_type.R",
   "pipe_target_result_summary_age.R"
 ) %>%
   rlang::set_names() %>%
@@ -97,10 +97,8 @@ list(
   pipe_target_vegvault_data,
   pipe_target_community_data,
   pipe_target_abiotic_data,
-  pipe_target_species_associations,
   pipe_models_by_age,
   pipe_target_result_summary_age,
-  pipe_target_result_summary_type,
   targets::tar_target(
     description = "Plot of significant associations by age",
     name = "plot_species_associations",
@@ -118,14 +116,6 @@ list(
           x = age,
           y = prop_sign_assoc
         )
-      ) +
-      ggplot2::geom_hline(
-        data = data_species_associations_total,
-        mapping = ggplot2::aes(
-          yintercept = n_sign_assoc,
-          col = type
-        ),
-        linetype = "dashed"
       ) +
       ggplot2::coord_cartesian(
         ylim = c(0, 1),

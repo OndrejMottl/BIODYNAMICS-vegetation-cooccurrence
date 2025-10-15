@@ -38,16 +38,13 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_species_associations_by_age_merged <-
-  tarchetypes::tar_combine(
-    name = "species_associations_by_age_merged",
-    pipe_models_by_age[["number_of_significant_associations"]],
-    command = list(!!!.x)
-  )
-
 pipe_target_result_summary_age <-
   list(
-    pipe_target_species_associations_by_age_merged,
+    tarchetypes::tar_combine(
+      name = "species_associations_by_age_merged",
+      pipe_models_by_age[["number_of_significant_associations"]],
+      command = list(!!!.x)
+    ),
     targets::tar_target(
       description = "Table of significant associations by age",
       name = "data_species_associations_by_age",
