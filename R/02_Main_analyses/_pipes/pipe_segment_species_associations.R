@@ -3,16 +3,14 @@
 #
 #                 Vegetation Co-occurrence
 #
-#            {target} pipe: Preparation for modelling
+#               {target} pipe: Species associations
 #
 #
 #                       O. Mottl
 #                         2025
 #
 #----------------------------------------------------------#
-# definition of the target pipe
-#   Prepare data and random structure for the HMSC model
-#   for each time slice separately
+# definition of the target pipe, which is created to set up species associations
 
 
 #----------------------------------------------------------#
@@ -40,25 +38,19 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_model_prep_by_age <-
+pipe_segment_species_associations <-
   list(
     targets::tar_target(
-      description = "Check and prepare the data for fitting",
-      name = "data_to_fit",
-      command = check_and_prepare_data_for_fit(
-        data_community = data_community_to_fit,
-        data_abiotic = data_abiotic_to_fit,
-        data_coords = data_coords,
-        subset_age = age
-      )
+      description = "Get species associations",
+      name = "species_associations",
+      command = get_species_association(mod_hmsc_to_use)
     ),
     targets::tar_target(
-      description = "Make a random structure for the HMSC model",
-      name = "mod_random_structure",
-      command = get_random_structure_for_model(
-        data = data_to_fit,
-        type = c("age", "space"),
-        min_knots_distance = config.data_processing$min_distance_of_gpp_knots
+      description = "Get number of significant associations",
+      name = "number_of_significant_associations",
+      command = get_significant_associations(
+        species_associations,
+        alpha = 0.05
       )
     )
   )

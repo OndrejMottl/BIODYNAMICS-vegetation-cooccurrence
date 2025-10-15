@@ -38,7 +38,7 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_vegvault_data <-
+pipe_segment_vegvault_data <-
   list(
     targets::tar_target(
       description = "Extracted data from VegVault",

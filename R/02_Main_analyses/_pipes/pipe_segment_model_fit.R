@@ -38,7 +38,7 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_model_fit <-
+pipe_segment_model_fit <-
   list(
     targets::tar_target(
       description = "Fit the HMSC model",

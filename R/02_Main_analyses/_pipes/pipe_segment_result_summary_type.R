@@ -38,7 +38,7 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_result_summary_type <-
+pipe_segment_result_summary_type <-
   targets::tar_target(
     description = "Table of species associations total",
     name = "data_species_associations_total",

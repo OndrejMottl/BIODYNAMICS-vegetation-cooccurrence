@@ -12,6 +12,7 @@
 #----------------------------------------------------------#
 # definition of the target pipe
 #   Prepare data and random structure for the HMSC model
+#   for each time slice separately
 
 
 #----------------------------------------------------------#
@@ -39,7 +40,7 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_model_prep <-
+pipe_segment_model_prep_by_age <-
   list(
     targets::tar_target(
       description = "Check and prepare the data for fitting",
@@ -47,7 +48,8 @@ pipe_target_model_prep <-
       command = check_and_prepare_data_for_fit(
         data_community = data_community_to_fit,
         data_abiotic = data_abiotic_to_fit,
-        data_coords = data_coords
+        data_coords = data_coords,
+        subset_age = age
       )
     ),
     targets::tar_target(

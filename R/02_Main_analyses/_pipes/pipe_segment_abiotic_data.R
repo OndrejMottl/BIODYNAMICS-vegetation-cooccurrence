@@ -38,7 +38,7 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_abiotic_data <-
+pipe_segment_abiotic_data <-
   list(
     targets::tar_target(
       description = "Extract abiotic data",

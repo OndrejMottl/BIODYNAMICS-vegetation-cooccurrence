@@ -70,15 +70,15 @@ path_pipe_parts <-
 
 # sourcing all pipe parts needs to be done in specific order
 c(
-  "pipe_target_config.R",
-  "pipe_target_vegvault_data.R",
-  "pipe_target_community_data.R",
-  "pipe_target_abiotic_data.R",
-  "pipe_target_model_prep_by_age.R",
-  "pipe_target_model_fit.R",
-  "pipe_target_species_associations.R",
-  "pipe_target_slice_by_age.R",
-  "pipe_target_result_summary_age.R"
+  "pipe_segment_config.R",
+  "pipe_segment_vegvault_data.R",
+  "pipe_segment_community_data.R",
+  "pipe_segment_abiotic_data.R",
+  "pipe_segment_model_prep_by_age.R",
+  "pipe_segment_model_fit.R",
+  "pipe_segment_species_associations.R",
+  "pipe_segment_slice_by_age.R",
+  "pipe_segment_result_summary_age.R"
 ) %>%
   rlang::set_names() %>%
   purrr::walk(
@@ -93,12 +93,12 @@ c(
 #--------------------------------------------------#
 
 list(
-  pipe_target_config,
-  pipe_target_vegvault_data,
-  pipe_target_community_data,
-  pipe_target_abiotic_data,
+  pipe_segment_config,
+  pipe_segment_vegvault_data,
+  pipe_segment_community_data,
+  pipe_segment_abiotic_data,
   pipe_models_by_age,
-  pipe_target_result_summary_age,
+  pipe_segment_result_summary_age,
   targets::tar_target(
     description = "Plot of significant associations by age",
     name = "plot_species_associations",

@@ -38,7 +38,7 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_config <-
+pipe_segment_config <-
   list(
     targets::tar_target(
       description = "Configuration for VegVault data extraction - xlim",

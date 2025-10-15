@@ -67,15 +67,15 @@ path_pipe_parts <-
 
 # sourcing all pipe parts needs to be done in specific order
 c(
-  "pipe_target_config.R",
-  "pipe_target_vegvault_data.R",
-  "pipe_target_community_data.R",
-  "pipe_target_abiotic_data.R",
-  "pipe_target_model_prep.R",
-  "pipe_target_model_fit.R",
-  "pipe_target_model_with_evaluation.R",
-  "pipe_target_species_associations.R",
-  "pipe_target_result_summary_type.R"
+  "pipe_segment_config.R",
+  "pipe_segment_vegvault_data.R",
+  "pipe_segment_community_data.R",
+  "pipe_segment_abiotic_data.R",
+  "pipe_segment_model_prep.R",
+  "pipe_segment_model_fit.R",
+  "pipe_segment_model_with_evaluation.R",
+  "pipe_segment_species_associations.R",
+  "pipe_segment_result_summary_type.R"
 ) %>%
   rlang::set_names() %>%
   purrr::walk(
@@ -90,13 +90,13 @@ c(
 #--------------------------------------------------#
 
 list(
-  pipe_target_config,
-  pipe_target_vegvault_data,
-  pipe_target_community_data,
-  pipe_target_abiotic_data,
-  pipe_target_model_full_with_evaluation,
-  pipe_target_species_associations,
-  pipe_target_result_summary_type,
+  pipe_segment_config,
+  pipe_segment_vegvault_data,
+  pipe_segment_community_data,
+  pipe_segment_abiotic_data,
+  pipe_segment_model_full_with_evaluation,
+  pipe_segment_species_associations,
+  pipe_segment_result_summary_type,
   targets::tar_target(
     description = "Plot of significant associations",
     name = "plot_species_associations",

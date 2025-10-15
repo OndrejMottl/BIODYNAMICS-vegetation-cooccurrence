@@ -37,7 +37,7 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_community_data <-
+pipe_segment_community_data <-
   list(
     targets::tar_target(
       description = "Extract community data",

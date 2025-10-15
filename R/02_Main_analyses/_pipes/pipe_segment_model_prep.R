@@ -3,14 +3,15 @@
 #
 #                 Vegetation Co-occurrence
 #
-#               {target} pipe: Simple model fitting
+#            {target} pipe: Preparation for modelling
 #
 #
 #                       O. Mottl
 #                         2025
 #
 #----------------------------------------------------------#
-# definition of the target pipe, which is created to set up a simple model fitting
+# definition of the target pipe
+#   Prepare data and random structure for the HMSC model
 
 
 #----------------------------------------------------------#
@@ -38,23 +39,24 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_model_simple <-
+pipe_segment_model_prep <-
   list(
-    pipe_target_model_prep,
     targets::tar_target(
-      description = "make HMSC model",
-      name = "mod_hmsc",
-      command = make_hmsc_model(
-        data_to_fit = data_to_fit,
-        sel_formula = "~ .",
-        random_structure = mod_random_structure,
-        error_family = "binomial"
+      description = "Check and prepare the data for fitting",
+      name = "data_to_fit",
+      command = check_and_prepare_data_for_fit(
+        data_community = data_community_to_fit,
+        data_abiotic = data_abiotic_to_fit,
+        data_coords = data_coords
       )
     ),
-    pipe_target_model_fit,
     targets::tar_target(
-      description = "A workaround to select the model for species associations",
-      name = "mod_hmsc_to_use",
-      command = mod_hmsc_eval
+      description = "Make a random structure for the HMSC model",
+      name = "mod_random_structure",
+      command = get_random_structure_for_model(
+        data = data_to_fit,
+        type = c("age", "space"),
+        min_knots_distance = config.data_processing$min_distance_of_gpp_knots
+      )
     )
   )

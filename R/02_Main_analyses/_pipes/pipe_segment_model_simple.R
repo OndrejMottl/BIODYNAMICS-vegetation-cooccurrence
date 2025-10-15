@@ -3,14 +3,14 @@
 #
 #                 Vegetation Co-occurrence
 #
-#               {target} pipe: Species associations
+#               {target} pipe: Simple model fitting
 #
 #
 #                       O. Mottl
 #                         2025
 #
 #----------------------------------------------------------#
-# definition of the target pipe, which is created to set up species associations
+# definition of the target pipe, which is created to set up a simple model fitting
 
 
 #----------------------------------------------------------#
@@ -38,19 +38,23 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_species_associations <-
+pipe_segment_model_simple <-
   list(
+    pipe_segment_model_prep,
     targets::tar_target(
-      description = "Get species associations",
-      name = "species_associations",
-      command = get_species_association(mod_hmsc_to_use)
-    ),
-    targets::tar_target(
-      description = "Get number of significant associations",
-      name = "number_of_significant_associations",
-      command = get_significant_associations(
-        species_associations,
-        alpha = 0.05
+      description = "make HMSC model",
+      name = "mod_hmsc",
+      command = make_hmsc_model(
+        data_to_fit = data_to_fit,
+        sel_formula = "~ .",
+        random_structure = mod_random_structure,
+        error_family = "binomial"
       )
+    ),
+    pipe_segment_model_fit,
+    targets::tar_target(
+      description = "A workaround to select the model for species associations",
+      name = "mod_hmsc_to_use",
+      command = mod_hmsc_eval
     )
   )

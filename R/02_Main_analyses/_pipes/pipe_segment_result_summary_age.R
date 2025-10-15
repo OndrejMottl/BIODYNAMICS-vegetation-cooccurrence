@@ -38,7 +38,7 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_result_summary_age <-
+pipe_segment_result_summary_age <-
   list(
     tarchetypes::tar_combine(
       name = "species_associations_by_age_merged",

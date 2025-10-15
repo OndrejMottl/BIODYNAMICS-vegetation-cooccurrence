@@ -39,9 +39,9 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_target_models_by_age <-
+pipe_segment_models_by_age <-
   list(
-    pipe_target_model_prep_by_age,
+    pipe_segment_model_prep_by_age,
     targets::tar_target(
       description = "make HMSC model",
       name = "mod_hmsc",
@@ -52,7 +52,7 @@ pipe_target_models_by_age <-
         error_family = "binomial"
       )
     ),
-    pipe_target_model_fit,
+    pipe_segment_model_fit,
     targets::tar_target(
       description = "A workaround to select the model for species associations",
       name = "mod_hmsc_to_use",
@@ -76,6 +76,6 @@ pipe_models_by_age <-
   tarchetypes::tar_map(
     values = data_to_map_age,
     descriptions = "age_name",
-    pipe_target_models_by_age,
-    pipe_target_species_associations
+    pipe_segment_models_by_age,
+    pipe_segment_species_associations
   )
