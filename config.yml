@@ -28,9 +28,8 @@ project_cz:
   data_processing:
     taxonomic_resolution: "genus"
     min_distance_of_gpp_knots: 50
-# model_fitting:
-#   samples: 1000
-#   thin: 5
+  model_fitting:
+    n_cores: 24
 project_europe:
   target_store: Data/targets/project_europe
   vegvault_data:
