@@ -123,3 +123,1225 @@ writeLines(
 )
 ```
 
+# BIODYNAMICS
+
+Vegetation Co-occurrence Project
+
+# Basic Pipeline
+
+```{r}
+#| label: setup-pipeline-basic
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+vec_pipelines <- "pipeline_basic"
+
+set_store <-
+  vec_pipelines %>%
+  paste0(
+    get_active_config("target_store"), "/", ., "/"
+  ) %>%
+  here::here()
+```
+
+## Basic Pipeline
+
+<!-- Mermaid 0 --->
+
+```{mermaid}
+flowchart LR
+    Project-.->Pipeline
+    subgraph Project
+    end
+    subgraph Pipeline
+    end
+```
+
+<!-- Mermaid 1 --->
+
+## Basic Pipeline
+
+```{mermaid}
+flowchart LR
+    Config-.->Analyses
+    subgraph Project
+    Config
+    end
+    subgraph Pipeline
+    Analyses
+    end
+```
+
+
+<!-- Mermaid 2 --->
+
+## Basic Pipeline
+
+```{mermaid}
+flowchart LR
+    Config-.->Data
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        Data-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+<!-- Mermaid 3 --->
+
+## Basic Pipeline - Data
+
+```{mermaid}
+flowchart LR
+    Config-.->VegVault
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+<!-- Mermaid 4 --->
+
+## Basic Pipeline -Data
+
+```{mermaid}
+flowchart LR
+    Config-.->VegVault
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Model
+        Data_abiotic-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+
+<!-- Mermaid 5 --->
+
+## Basic Pipeline -Data
+
+```{mermaid}
+flowchart LR
+    Config-.->VegVault
+    Config-.->Data_interpolated
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Data_interpolated
+        Data_abiotic-->Data_interpolated
+        Data_interpolated-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+<!-- Mermaid 6 --->
+
+## Basic Pipeline -Data
+
+```{mermaid}
+flowchart LR
+    Config-.->VegVault
+    Config-.->Classification
+    Config-.->Data_interpolated
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Classification
+        Classification-->Data_harmonised
+        Data_abiotic-->Data_interpolated
+        Data_harmonised-->Data_interpolated
+        Data_interpolated-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+## Basic Pipeline - Model
+
+<!-- Mermaid 7 --->
+
+```{mermaid}
+flowchart LR
+    Config-.->VegVault
+    Config-.->Classification
+    Config-.->Data_interpolated
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Classification
+        Classification-->Data_harmonised
+        Data_abiotic-->Data_interpolated
+        Data_harmonised-->Data_interpolated
+        Data_interpolated-->Model
+        Model-->Model_evaluation
+        Model_evaluation-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+## Basic Pipeline - Model
+
+<!-- Mermaid 8 --->
+
+```{mermaid}
+flowchart LR
+    Config-.->VegVault
+    Config-.->Classification
+    Config-.->Data_interpolated
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Classification
+        Classification-->Data_harmonised
+        Data_abiotic-->Data_interpolated
+        Data_harmonised-->Data_interpolated
+        Data_interpolated-->Model
+        Model-->Model_null
+        Model-->Model_full
+        Model_null-->Model_evaluation
+        Model_full-->Model_evaluation
+        Model_evaluation-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+## Basic Pipeline - {targets}
+
+```{r}
+#| label: target-graph-basic
+#| echo: false
+#| message: false
+#| warning: false
+#| output: false
+plot_target_graph_basic <-
+  targets::tar_visnetwork(
+    script = paste0(
+      "R/02_Main_analyses", "/", vec_pipelines, ".R"
+    ) %>%
+      here::here(),
+    store = set_store,
+    targets_only = TRUE,
+    outdated = FALSE,
+    physics = TRUE,
+    level_separation = 150
+  )
+```
+
+```{r}
+#| label: target-graph-basic-plot;
+#| echo: false
+#| message: false
+#| warning: false
+#| output: true
+plot_target_graph_basic
+```
+
+## "Project" == Czech Republic
+
+```{r}
+#| label: model-validation-setup
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+mod_hmsc_with_eval <-
+  targets::tar_read(
+    name = "mod_hmsc_to_use",
+    store = set_store
+  )
+
+mod_hmsc <-
+  mod_hmsc_with_eval %>%
+  purrr::chuck("mod")
+
+n_samples <- get_active_config(
+  value = c("model_fitting", "samples")
+)
+
+n_validation_folds <- get_active_config(
+  value = c("model_fitting", "cross_validation_folds")
+)
+
+n_cores <- get_active_config(
+  value = c("model_fitting", "n_cores")
+)
+
+n_samples_total <- n_samples * n_cores
+
+
+char_abiotic_vars <-
+  paste(
+    get_active_config(
+      c("vegvault_data", "sel_abiotic_var_name")
+    ),
+    collapse = ", "
+  )
+
+char_taxonomic_resolution <-
+  get_active_config(
+    c("data_processing", "taxonomic_resolution")
+  )
+```
+
+- simple and small
+- used only to test the pipeline
+- Settings:
+  - only paleo data
+  - time extent: 0-5 ka BP
+  - abiotic variables: `r char_abiotic_vars`
+  - taxonomic resolution: `r char_taxonomic_resolution`
+  - model: `r n_cores` chains, `r n_samples` samples per chain (total `r n_samples_total`), `r n_validation_folds` cross-validation folds
+
+# Model validation
+
+## Convergence diagnostics
+
+Terrible model - this is just a toy example
+
+```{r}
+#| label: model-validation-Rhat
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+mod_beta_summary <-
+  Hmsc::convertToCodaObject(mod_hmsc) %>%
+  purrr::chuck("Beta") %>%
+  MCMCvis::MCMCsummary() %>%
+  janitor::clean_names()
+
+mod_beta_summary %>%
+  ggplot2::ggplot(
+    ggplot2::aes(x = rhat)
+  ) +
+  ggplot2::geom_histogram(bins = 30) +
+  ggplot2::theme_minimal() +
+  ggplot2::labs(
+    x = "R-hat values",
+    y = "Count",
+    title = "R-hat values for the beta parameters of the model"
+  ) +
+  ggplot2::geom_vline(xintercept = 1.1, color = "red", linetype = "dashed") +
+  ggplot2::xlim(1, NA)
+```
+
+## Comparison to null model
+
+```{r}
+#| label: model-validation-compare
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+#| cache: true
+mod_hmsc_fitted_combined <-
+  targets::tar_read(
+    name = "mod_hmsc_fitted_combined",
+    store = set_store
+  )
+
+mod_null_waic <-
+  mod_hmsc_fitted_combined %>%
+  purrr::chuck("mod_hmsc_eval_..1_null", "mod") %>%
+  Hmsc::computeWAIC()
+
+mod_full_waic <-
+  mod_hmsc_fitted_combined %>%
+  purrr::chuck("mod_hmsc_eval_..._full", "mod") %>%
+  Hmsc::computeWAIC()
+```
+
+- We are selecting model based on the WAIC value 
+  - there is option to use ThurR2 as well
+  - This is done automatically to selecte NULL vs FULL model.
+
+- NULL: `r round(mod_null_waic, 3)`
+- FULL: `r round(mod_full_waic, 3)`
+
+Let's pretend that the FULL model is the one we want to show here.
+
+## Model exploration - Variation partitioning
+
+```{r}
+#| label: model-validation-varpart-data
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+
+mod_hmsc_full_with_eval <-
+  targets::tar_read(
+    name = "mod_hmsc_eval_..._full",
+    store = set_store
+  )
+
+mod_hmsc_full <-
+  mod_hmsc_full_with_eval %>%
+  purrr::chuck("mod")
+
+data_varpart_plot <-
+  mod_hmsc_full %>%
+  Hmsc::computeVariancePartitioning() %>%
+  purrr::chuck("vals") %>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("factor") %>%
+  tibble::as_tibble() %>%
+  tidyr::pivot_longer(
+    cols = -factor,
+    names_to = "species",
+    values_to = "r2"
+  ) %>%
+  dplyr::mutate(
+    factor = dplyr::case_when(
+      factor == "bio1" ~ "MAT",
+      factor == "bio12" ~ "MAP",
+      factor == "Random: age" ~ "Time",
+      factor == "Random: dataset_name" ~ "Space"
+    )
+  ) %>%
+  dplyr::mutate(
+    factor_simple = dplyr::case_when(
+      .default = factor,
+      factor %in% c("Time", "Space") ~ "Random effects",
+      factor %in% c("MAT", "MAP") ~ "Abiotic variables"
+    )
+  )
+```
+
+```{r}
+#| label: model-validation-varpart-plot-simple
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+data_varpart_plot %>%
+  ggplot2::ggplot(
+    mapping = ggplot2::aes(
+      x = species,
+      y = r2,
+      fill = factor_simple
+    )
+  ) +
+  ggplot2::geom_bar(
+    stat = "identity",
+    position = "fill"
+  ) +
+  ggplot2::coord_flip(
+    ylim = c(0, 1)
+  ) +
+  ggplot2::labs(
+    x = "Species",
+    y = "Proportion of explained variance"
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_text(
+      angle = 90,
+      vjust = 0.5,
+      hjust = 1
+    ),
+    axis.ticks.y = ggplot2::element_blank(),
+    panel.grid.major.y = ggplot2::element_blank()
+  ) +
+  ggplot2::scale_fill_viridis_d()
+```
+
+## Model exploration - Variation partitioning
+
+```{r}
+#| label: model-validation-varpart-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+data_varpart_plot %>%
+  ggplot2::ggplot(
+    mapping = ggplot2::aes(
+      x = species,
+      y = r2,
+      fill = factor
+    )
+  ) +
+  ggplot2::geom_bar(
+    stat = "identity",
+    position = "fill"
+  ) +
+  ggplot2::coord_flip(
+    ylim = c(0, 1)
+  ) +
+  ggplot2::labs(
+    x = "Species",
+    y = "Proportion of explained variance"
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_text(
+      angle = 90,
+      vjust = 0.5,
+      hjust = 1
+    ),
+    axis.ticks.y = ggplot2::element_blank(),
+    panel.grid.major.y = ggplot2::element_blank()
+  ) +
+  ggplot2::scale_fill_viridis_d()
+```
+
+## Model exploration - Effect sizes
+
+How important are the environmental variables in determining species occurrences?
+
+```{r}
+#| label: model-validation-effect-sizes-data
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+
+mod_hmsc_full_coda <-
+  Hmsc::convertToCodaObject(mod_hmsc_full)
+
+vec_all_vars <-
+  mod_hmsc_full_coda %>%
+  purrr::chuck("Beta", 1) %>%
+  colnames()
+
+vec_vars_bio1 <-
+  vec_all_vars[
+    vec_all_vars %>%
+      stringr::str_detect("C2") %>%
+      which()
+  ]
+
+vec_vars_bio12 <-
+  vec_all_vars[
+    vec_all_vars %>%
+      stringr::str_detect("C3") %>%
+      which()
+  ]
+```
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+```{r}
+#| label: model-validation-effect-sizes-1
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+mod_hmsc_full_coda %>%
+  purrr::chuck("Beta") %>%
+  MCMCplot(
+    object = .,
+    ci = c(50, 90),
+    params = vec_vars_bio1,
+    ISB = FALSE,
+    ref_ovl = TRUE,
+    rank = TRUE,
+    main = "Effect sizes for MAT"
+  )
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| label: model-validation-effect-sizes-2
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+mod_hmsc_full_coda %>%
+  purrr::chuck("Beta") %>%
+  MCMCplot(
+    ci = c(50, 90),
+    params = vec_vars_bio12,
+    ISB = FALSE,
+    ref_ovl = TRUE,
+    rank = TRUE,
+    main = "Effect sizes for MAP"
+  )
+```
+
+:::
+
+::::
+
+## Model exploration - Species associations
+
+```{r}
+#| label: species-associations-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+data_species_associations_total <-
+  targets::tar_read(
+    name = "data_species_associations_total",
+    store = set_store
+  )
+
+data_species_associations_total %>%
+  dplyr::filter(
+    type == "dataset_name"
+  ) %>%
+  dplyr::mutate(
+    prop_sign_assoc = n_sign_assoc,
+    percentage_sign_assoc = round(prop_sign_assoc * 100),
+    n_total = 100,
+    n_not_sign_assoc = n_total - percentage_sign_assoc
+  ) %>%
+  dplyr::select(percentage_sign_assoc, n_not_sign_assoc) %>%
+  tidyr::pivot_longer(
+    cols = everything(),
+    names_to = "group",
+    values_to = "value"
+  ) %>%
+  dplyr::mutate(
+    group_name = dplyr::case_when(
+      group == "percentage_sign_assoc" ~ "Significant associations",
+      group == "n_not_sign_assoc" ~ "Non-significant associations"
+    )
+  ) %>%
+  ggplot2::ggplot(
+    mapping = ggplot2::aes(fill = group_name, values = value)
+  ) +
+  ggplot2::coord_equal() +
+  waffle::geom_waffle(
+    n_rows = 10,
+    size = 0.5,
+    colour = "white",
+    flip = TRUE,
+    make_proportional = TRUE
+  ) +
+  ggplot2::guides(
+    fill = ggplot2::guide_legend(
+      ncol = 1
+    )
+  ) +
+  ggplot2::labs(
+    x = NULL,
+    y = NULL,
+    title = "Percentage of significant co-occurrences"
+  ) +
+  ggplot2::theme_void() +
+  ggplot2::theme(
+    legend.title = ggplot2::element_blank(),
+    legend.position = "bottom"
+  )
+```
+
+# Biogeography
+
+```{r}
+#| label: prediction-setup
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+age_lim <-
+  get_active_config(
+    value = c("vegvault_data", "age_lim")
+  )
+
+vec_age_slices <-
+  seq(
+    min(age_lim),
+    max(age_lim),
+    get_active_config(
+      value = c("data_processing", "time_step")
+    )
+  )
+
+x_lim <-
+  get_active_config(
+    value = c("vegvault_data", "x_lim")
+  )
+
+x_lim_max <- max(x_lim, na.rm = TRUE)
+x_lim_min <- min(x_lim, na.rm = TRUE)
+
+y_lim <-
+  get_active_config(
+    value = c("vegvault_data", "y_lim")
+  )
+
+y_lim_max <- max(y_lim, na.rm = TRUE)
+y_lim_min <- min(y_lim, na.rm = TRUE)
+```
+
+```{r}
+#| label: prediction-new-data
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| cache: true
+con <-
+  DBI::dbConnect(
+    RSQLite::SQLite(),
+    here::here("Data/Input/VegVault.sqlite")
+  )
+
+data_gridpoints_raw <-
+  dplyr::tbl(con, "Datasets") %>%
+  dplyr::filter(data_source_type_id == 5) %>%
+  dplyr::filter(
+    coord_long >= x_lim_min &
+      coord_long <= x_lim_max &
+      coord_lat >= y_lim_min &
+      coord_lat <= y_lim_max
+  ) %>%
+  dplyr::inner_join(
+    dplyr::tbl(con, "DatasetSample"),
+    by = "dataset_id"
+  ) %>%
+  dplyr::inner_join(
+    dplyr::tbl(con, "Samples"),
+    by = "sample_id"
+  ) %>%
+  dplyr::inner_join(
+    dplyr::tbl(con, "AbioticData") %>%
+      dplyr::filter(
+        abiotic_variable_id == 1 | # BIO1
+          abiotic_variable_id == 4 # BIO12
+      ),
+    by = "sample_id"
+  ) %>%
+  dplyr::collect()
+
+DBI::dbDisconnect(con)
+
+```
+
+```{r}
+#| label: prediction-new-data-wrangle
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+data_to_predict <-
+  data_gridpoints_raw %>%
+  dplyr::filter(
+    age %in% vec_age_slices
+  ) %>%
+  dplyr::select(
+    dataset_name,
+    coord_long, coord_lat,
+    age,
+    abiotic_variable_id, abiotic_value
+  )
+
+
+data_to_predict_distinct <-
+  data_to_predict %>%
+  tidyr::pivot_wider(
+    names_from = abiotic_variable_id,
+    values_from = abiotic_value,
+    names_prefix = "var_id_"
+  ) %>%
+  dplyr::distinct(coord_long, coord_lat, age, .keep_all = TRUE) %>%
+  dplyr::rename(
+    bio1 = var_id_1,
+    bio12 = var_id_4
+  )
+
+data_to_predict_clim <-
+  data_to_predict_distinct %>%
+  dplyr::select(bio1, bio12) %>%
+  as.data.frame()
+
+
+data_coords <-
+  data_to_predict_distinct %>%
+  dplyr::distinct(dataset_name, coord_long, coord_lat) %>%
+  tibble::column_to_rownames("dataset_name")
+
+random_coors_knots <-
+  Hmsc::constructKnots(
+    sData = data_coords,
+    minKnotDist = get_active_config(
+      c("data_processing", "min_distance_of_gpp_knots")
+    )
+  )
+
+random_level_coords <-
+  Hmsc::HmscRandomLevel(
+    sData = data_coords,
+    sMethod = "GPP",
+    sKnot = random_coors_knots
+  )
+
+data_age <-
+  data_to_predict_distinct %>%
+  dplyr::distinct(age) %>%
+  dplyr::arrange(age) %>%
+  dplyr::mutate(
+    age_rowname = as.character(age)
+  ) %>%
+  tibble::column_to_rownames("age_rowname")
+
+random_level_age <-
+  Hmsc::HmscRandomLevel(
+    sData = data_age
+  )
+
+study_design <-
+  data_to_predict_distinct %>%
+  dplyr::mutate(
+    age_factor = factor(
+      x = age,
+      levels = sort(unique(as.numeric(age))),
+      ordered = TRUE
+    ),
+    dataset_name_factor = as.factor(dataset_name)
+  ) %>%
+  dplyr::select(
+    "dataset_name" = "dataset_name_factor",
+    "age" = "age_factor"
+  ) %>%
+  as.data.frame()
+
+
+```
+
+```{r}
+#| label: prediction-new-data-predict
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| cache: false
+
+# There is an issue with caching here (the file is too large), so I am using manual saving/loading
+
+if (
+  file.exists(
+    here::here("Documentation/Reports/First_report/First_presentation/_presentation_01_temp/data_pred.rds")
+  )
+) {
+  data_pred <-
+    readr::read_rds(
+      here::here("Documentation/Reports/First_report/First_presentation/_presentation_01_temp/data_pred.rds")
+    )
+} else {
+  data_pred <-
+    Hmsc:::predict.Hmsc(
+      object = mod_hmsc_full,
+      XData = data_to_predict_clim,
+      studyDesign = study_design,
+      ranLevels = list(
+        age = random_level_age,
+        dataset_name = random_level_coords
+      ),
+      predictEtaMean = TRUE,
+      expected = TRUE
+    )
+
+  readr::write_rds(
+    x = data_pred,
+    file = here::here("Documentation/Reports/First_report/First_presentation/_presentation_01_temp/data_pred.rds")
+  )
+}
+```
+
+```{r}
+#| label: prediction-new-data-postprocess
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| cache: true
+mean_with_na <- function(x) {
+  mean(x, na.rm = TRUE)
+}
+
+data_pred_avg <-
+  apply(
+    abind::abind(data_pred, along = 3),
+    c(1, 2),
+    FUN = mean_with_na
+  )
+```
+
+```{r}
+#| label: prediction-new-data-get-observed
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+data_to_fit <-
+  targets::tar_read(
+    name = "data_to_fit",
+    store = set_store
+  )
+
+data_taxa_eval <-
+  tibble::tibble(
+    taxon = data_to_fit %>%
+      purrr::chuck("data_community_to_fit") %>%
+      colnames(),
+    mod_hmsc_full_with_eval %>%
+      purrr::chuck("eval") %>%
+      as.data.frame()
+  )
+
+data_observed <-
+  data_to_fit %>%
+  purrr::chuck("data_community_to_fit") %>%
+  add_age_column_from_rownames() %>%
+  add_dataset_name_column_from_rownames() %>%
+  as_tibble() %>%
+  dplyr::left_join(
+    data_to_fit %>%
+      purrr::chuck("data_coords_to_fit") %>%
+      tibble::rownames_to_column("dataset_name"),
+    by = "dataset_name"
+  ) %>%
+  tidyr::pivot_longer(
+    cols = -c(age, dataset_name, coord_long, coord_lat),
+    names_to = "taxon",
+    values_to = "proportion"
+  ) %>%
+  dplyr::mutate(
+    present = ifelse(proportion > 0, "present", "absent")
+  )
+
+data_predicted <-
+  as_tibble(study_design) %>%
+  dplyr::mutate(
+    coord_long = dataset_name %>%
+      stringr::str_remove("geo_") %>%
+      stringr::str_remove("_.*"),
+    coord_lat = dataset_name %>%
+      stringr::str_remove("geo_") %>%
+      stringr::str_remove(".*_"),
+    age = as.numeric(as.character(age))
+  ) %>%
+  dplyr::bind_cols(
+    as_tibble(data_pred_avg)
+  ) %>%
+  tidyr::pivot_longer(
+    cols = -c(dataset_name, coord_lat, coord_long, age),
+    names_to = "taxon",
+    values_to = "pred_value"
+  ) %>%
+  dplyr::select(taxon, coord_long, coord_lat, age, pred_value)
+```
+
+## Single species plot
+
+```{r}
+#| label: prediction-new-data-plot-single-species
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| out-width: "100%"
+#| out-height: "100%"
+#| fig-height: 6
+sel_taxa <- "Fraxinus"
+
+data_observed_sel_taxa <-
+  data_observed %>%
+  dplyr::filter(taxon == sel_taxa)
+
+data_predicted_sel_taxa <-
+  data_predicted %>%
+  dplyr::filter(taxon == sel_taxa)
+
+# Make a plot
+data_predicted_sel_taxa %>%
+  ggplot2::ggplot() +
+  ggplot2::facet_wrap(~age) +
+  ggplot2::geom_tile(
+    mapping = ggplot2::aes(
+      x = as.numeric(coord_long),
+      y = as.numeric(coord_lat),
+      fill = pred_value
+    ),
+    col = NA,
+    alpha = 0.8,
+    linewidth = 0,
+    width = 0.5,
+    height = 0.5
+  ) +
+  ggplot2::borders(
+    "world",
+    fill = NA,
+    colour = "black"
+  ) +
+  ggplot2::geom_point(
+    data = data_observed_sel_taxa,
+    mapping = ggplot2::aes(
+      x = as.numeric(coord_long),
+      y = as.numeric(coord_lat),
+      color = as.factor(present),
+      shape = as.factor(present)
+    ),
+    size = 3,
+    alpha = 0.5
+  ) +
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::scale_color_manual(
+    values = c(
+      "present" = "red",
+      "absent" = "black"
+    )
+  ) +
+  ggplot2::scale_shape_manual(
+    values = c(
+      "present" = 12,
+      "absent" = 13
+    )
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "top",
+    plot.title = ggplot2::element_text(hjust = 0.5),
+    plot.subtitle = ggplot2::element_text(hjust = 0.5)
+  ) +
+  ggplot2::coord_quickmap(
+    xlim = x_lim,
+    ylim = y_lim
+  ) +
+  ggplot2::labs(
+    fill = "Predicted\nprobability of\noccurrence",
+    color = "Observed",
+    shape = "Observed",
+    x = "Longitude",
+    y = "Latitude",
+    title = paste(
+      "Predicted occurrence of",
+      sel_taxa,
+      char_taxonomic_resolution,
+      " for Czechia"
+    ),
+    subtitle = "Each facet is a different time slice",
+    caption = paste(
+      paste(
+        "HMSC model with space (GPP; minimum distance of",
+        get_active_config(
+          c("data_processing", "min_distance_of_gpp_knots")
+        ),
+        ") and age as random effect"
+      ),
+      paste(
+        "Climatic variables:",
+        char_abiotic_vars
+      ),
+      paste(
+        "Model fitted with",
+        n_samples_total,
+        "samples total and",
+        n_validation_folds,
+        "cross-validation folds"
+      ),
+      paste(
+        "Model evaluation:",
+        data_taxa_eval %>%
+          dplyr::filter(taxon == sel_taxa) %>%
+          dplyr::pull(AUC) %>%
+          round(3),
+        "AUC;",
+        data_taxa_eval %>%
+          dplyr::filter(taxon == sel_taxa) %>%
+          dplyr::pull(TjurR2) %>%
+          round(3),
+        "TjurR2;",
+        data_taxa_eval %>%
+          dplyr::filter(taxon == sel_taxa) %>%
+          dplyr::pull(RMSE) %>%
+          round(3),
+        "RMSE"
+      ),
+      sep = "\n"
+    )
+  )
+
+```
+
+## Diversity through time
+
+```{r}
+#| label: prediction-diversity-estimation
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+
+data_predicted_richness <-
+  seq(0.25, 0.75, by = 0.05) %>%
+  rlang::set_names() %>%
+  purrr::map(
+    .f = ~ data_predicted %>%
+      dplyr::mutate(
+        present = ifelse(pred_value >= .x, TRUE, FALSE)
+      ) %>%
+      dplyr::group_by(coord_long, coord_lat, age) %>%
+      dplyr::summarise(
+        richness = sum(present, na.rm = TRUE),
+        .groups = "drop"
+      )
+  ) %>%
+  dplyr::bind_rows(.id = "threshold") %>%
+  dplyr::group_by(coord_long, coord_lat, age) %>%
+  dplyr::summarise(
+    richness_mean = mean(richness, na.rm = TRUE),
+    richness_min = min(richness, na.rm = TRUE),
+    richness_max = max(richness, na.rm = TRUE),
+    richness_range = abs(richness_max - richness_min),
+    richness_sd = sd(richness, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+```{r}
+#| label: prediction-diversity-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| out-width: "100%"
+#| out-height: "100%"
+#| fig-height: 6
+
+data_predicted_richness %>%
+  ggplot2::ggplot() +
+  ggplot2::facet_wrap(~age) +
+  ggplot2::geom_tile(
+    mapping = ggplot2::aes(
+      x = as.numeric(coord_long),
+      y = as.numeric(coord_lat),
+      fill = richness_mean,
+      alpha = 1 / richness_range
+    ),
+    col = NA,
+    linewidth = 0,
+    width = 0.25,
+    height = 0.25
+  ) +
+  ggplot2::borders(
+    "world",
+    fill = NA,
+    colour = "black"
+  ) +
+  ggplot2::scale_fill_viridis_c(
+    limits = c(
+      14,
+      15.5
+    )
+  ) +
+  ggplot2::scale_alpha_continuous(
+    limits = c(0, 1),
+    breaks = seq(0, 1, by = 0.2)
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "top",
+    plot.title = ggplot2::element_text(hjust = 0.5),
+    plot.subtitle = ggplot2::element_text(hjust = 0.5)
+  ) +
+  ggplot2::coord_quickmap(
+    xlim = x_lim,
+    ylim = y_lim
+  ) +
+  ggplot2::labs(
+    fill = "Predicted\nrichness",
+    x = "Longitude",
+    y = "Latitude",
+    alpha = "Prediction confidence",
+    title = paste(
+      "Predicted taxonomic richness for Czechia"
+    ),
+    subtitle = "Each facet is a different time slice",
+    caption = paste(
+      paste(
+        "HMSC model with space (GPP; minimum distance of",
+        get_active_config(
+          c("data_processing", "min_distance_of_gpp_knots")
+        ),
+        ") and age as random effect"
+      ),
+      paste(
+        "Climatic variables:",
+        char_abiotic_vars
+      ),
+      paste(
+        "Model fitted with",
+        n_cores,
+        "chains,",
+        n_samples_total,
+        "samples total,",
+        n_validation_folds,
+        "cross-validation folds"
+      ),
+      sep = "\n"
+    )
+  )
+
+```
