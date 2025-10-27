@@ -1,0 +1,125 @@
+---
+format: 
+  revealjs:
+    slide-number: true
+    theme: [default, custom_theme.scss]
+    preview-links: auto
+    output-file: "presentation_01"
+    output-ext: "html"
+    logo: "../../../../Documentation/Materials/Logos/BIODYNAMICS.png"
+    code-line-numbers: false
+    code-overflow: scroll
+    code-link: false
+    embed-resources: true
+    center-title-slide: false
+    include-in-header: "fonts-include.html"
+    pdf-separate-fragments: false
+---
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+#| eval: true
+library(here)
+
+here::i_am("Documentation/Reports/First_report/First_presentation/_presentation_01.qmd")
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
+library(jsonlite)
+library(Hmsc)
+library(MCMCvis)
+library(tinytable)
+library(waffle)
+library(bipartite)
+
+```
+
+
+```{r}
+#| label: dynamic-theme
+#| include: false
+#| echo: false
+#| eval: true
+#| message: false
+
+# Colors
+colors <-
+  jsonlite::fromJSON(
+    here::here("Documentation/Reports/First_report/First_presentation/colors.json")
+  )
+
+colors_definition <-
+  purrr::imap(
+    .x = colors,
+    .f = ~ {
+      paste0(
+        "$", .y, ": ", unname(.x), ";", "\n",
+        ".reveal .bg-", .y, " { background-color: ", unname(.x), "; }\n",
+        ".text-color-", .y, " { color: ", unname(.x), " !important ; }\n",
+        ".text-background-", .y, " {\n",
+        "background-color: ", unname(.x), ";\n",
+        "padding: $smallMargin;\n",
+        "border-radius: 5px;\n",
+        " }", "\n"
+      )
+    }
+  ) %>%
+  paste(collapse = "\n")
+
+
+writeLines(
+  text = c(
+    "// This file is auto-generated from colors.json. Do not edit directly.",
+    colors_definition
+  ),
+  con = here::here("Documentation/Reports/First_report/First_presentation/_colors.scss")
+)
+
+# Fonts
+
+fonts <-
+  jsonlite::fromJSON(
+    here::here("Documentation/Reports/First_report/First_presentation/fonts.json")
+  )
+
+fonts_definition <-
+  c(
+    paste0('$mainFont: "', fonts$body, '", "Arial", sans-serif !default;\n'),
+    paste0('$headingFont: "', fonts$heading, '", "Courier New", monospace !default;\n'),
+    paste0(
+      ".text-font-body { font-family: $mainFont; }\n",
+      ".text-font-heading { font-family: $headingFont; }\n"
+    ),
+    paste0(
+      "/* Debug font loading - this will help us see if the font is loaded */\n",
+      "@supports (font-family: \"", fonts$heading, "\") {\n",
+      "  .debug-font-loaded::before {\n",
+      "    content: \"", fonts$heading, " font is supported\";\n",
+      "    display: block;\n",
+      "    font-size: 12px;\n",
+      "    color: green;\n",
+      "  }\n",
+      "}\n\n",
+      "/* Force font loading for debugging */\n",
+      ".force-press-start {\n",
+      "  font-family: \"", fonts$heading, "\", monospace !important;\n",
+      "  font-display: swap;\n",
+      "}\n"
+    )
+  )
+
+writeLines(
+  text = c(
+    "// This file is auto-generated from fonts.json. Do not edit directly.",
+    fonts_definition
+  ),
+  con = here::here("Documentation/Reports/First_report/First_presentation/_fonts.scss")
+)
+```
+
