@@ -32,12 +32,25 @@ source(
 )
 
 library(jsonlite)
+library(qrcode)
 library(Hmsc)
 library(MCMCvis)
 library(tinytable)
 library(waffle)
 library(bipartite)
 
+path_to_materials <-
+  here::here("Documentation/Materials")
+
+include_local_figure <- function(data_source) {
+  knitr::include_graphics(
+    path = here::here(
+      path_to_materials,
+      data_source
+    ),
+    error = TRUE
+  )
+}
 ```
 
 
@@ -152,6 +165,7 @@ set_store <-
 <!-- Mermaid 0 --->
 
 ```{mermaid}
+%%| label: mermaid-pipeline-basic-0
 flowchart LR
     Project-.->Pipeline
     subgraph Project
@@ -165,6 +179,7 @@ flowchart LR
 ## Basic Pipeline
 
 ```{mermaid}
+%%| label: mermaid-pipeline-basic-1
 flowchart LR
     Config-.->Analyses
     subgraph Project
@@ -181,6 +196,7 @@ flowchart LR
 ## Basic Pipeline
 
 ```{mermaid}
+%%| label: mermaid-pipeline-basic-2
 flowchart LR
     Config-.->Data
     Config-.->Model
@@ -202,6 +218,7 @@ flowchart LR
 ## Basic Pipeline - Data
 
 ```{mermaid}
+%%| label: mermaid-pipeline-basic-3
 flowchart LR
     Config-.->VegVault
     Config-.->Model
@@ -218,11 +235,237 @@ flowchart LR
     end
 ```
 
-<!-- Mermaid 4 --->
+## VegVault
 
-## Basic Pipeline -Data
+:::::: {.columns}
+
+::::: {.column width="50%"}
+
+```{r}
+#| label: VegVault logo
+include_local_figure("Logos/VegVault_logo.png")
+```
+
+:::::
+
+::::: {.column width="50%" .incremental}
+
+* A global SQLite database linking [interdisciplinary]{.text-background-green .text-bold} **plot-based** vegetation data! 
+* Links to functional **traits**, **climate** variables, and soil properties 
+* Built for exploring **biodiversity** dynamics across [time & space]{.text-background-blue .text-bold}
+* Open Source & [Reproducible]{.text-background-brown .text-bold}
+* 🔗Learn more: [bit.ly/VegVault](https://bit.ly/VegVault)
+
+:::: {.columns}
+
+::: {.column width="30%"}
+:::
+
+::: {.column width="40%"}
+
+```{r}
+#| label: vegvault_qr_code
+qr_vegvault <-
+  qrcode::qr_code(
+    "https://bit.ly/VegVault",
+    ecl = "H"
+  )
+
+qrcode::generate_svg(
+  qrcode = qr_vegvault,
+  file = here::here(
+    path_to_materials,
+    "QR/qr_vegvault.svg"),
+  foreground = colors$black,
+  background = colors$beigeLight
+)
+
+include_local_figure("QR/qr_vegvault.svg")
+```
+
+:::
+
+::: {.column width="30%"}
+:::
+
+::::
+
+:::::
+
+::::::
+
+
+## VegVault - Overview
+
+~110 GB | 32 tables & 87 variables | 480,000+ Datasets | 13M+ Samples  | 110,000+ Taxa | 11M+ Trait values | 8 Abiotic variables
+
+:::: {.columns .fragment}
+
+#### Data sources 
+
+::: {.column width="40%" .incremental}
+
+- 🌿 **Paleoecological records** ([Neotoma]{.text-italic}, [FOSSILPOL]{.text-italic})
+- 🌱 **Contemporary vegetation** ([sPlotOpen]{.text-italic}, [BIEN]{.text-italic})
+- 🌾 **Functional traits** ([BIEN]{.text-italic}, [TRY]{.text-italic})
+- 🌍 **Climate & soil data** ([CHELSA]{.text-italic}, [WoSIS]{.text-italic})  
+:::
+
+::: {.column width="60%"}
+
+```{r}
+#| label: Scheme
+include_local_figure("VegVault/assembly_viz_04.png")
+```
+:::
+
+::::
+
+<!-- Slide 1 -->
+
+## Key Innovations
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::: {.text-size-heading3 .text-bold .fragment fragment-index=1}
+1. **Vegetation** data
+:::
+
+::: {.incremental fragment-index=3}
+
+- Integration of paleo and contemporary data
+- Plot-based vegetation records 
+   + not just species occurrences
+   + true negatives!
+
+:::
+
+:::
+
+::: {.column width="50%" .fragment fragment-index=2}
+
+| Sample ID | Taxa A | Taxa B |
+|---|--------|--------|
+| 1 | 🔬🟡 | 🔬🟡🟡🟡 |
+| 2 | 🟩🌱🌱🌱 | |
+| 3 | 🟩🌱🌱 | 🟩🌱🌱 |
+
+:::
+
+::::
+
+<!-- Slide 2 -->
+
+## Key Innovations
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+::: {.text-size-heading3 .text-bold}
+2. **Abiotic** context
+:::
+
+::: {.incremental fragment-index=1}
+
+- Sample-specific abiotic data
+   + mapped to spatio-temporal grids
+   + paleo and contemporary 
+- Selected variables for vegetation studies
+   + e.g. temperature, precipitation, soil type, etc. 
+
+:::
+
+:::
+
+::: {.column width="40%" .fragment fragment-index=2}
+
+```{r}
+#| label: link of abiotic data spatial example
+include_local_figure("VegVault/plot_abiotic_example_spatial.png")
+```
+:::
+
+::::
+
+:::: {.columns}
+
+::: {.column width="20%"}
+:::
+
+
+::: {.column width="50%" .fragment fragment-index=2}
+```{r}
+#| label: link of abiotic data temporal example
+include_local_figure("VegVault/plot_abiotic_example_temporal.png")
+```
+
+:::
+
+::: {.column width="30%"}
+:::
+
+::::
+
+<!-- Slide 3 -->
+
+## Key Innovations
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::: {.text-size-heading3 .text-bold .fragment fragment-index=1}
+1. **Standardisation**
+:::
+
+::: {.incremental fragment-index=2}
+
+- Trait domains 
+    + pooling of traits across sources
+    + Following [Diaz et al. (2016)]{.text-italic .text-background-green .text-color-white} 
+
+:::
+
+::: {.incremental fragment-index=4}
+
+- Taxonomic harmonisation via GBIF backbone and `{taxospace}`📦  
+   + unified taxonomy across dataset vegetation, fossil pollen and traits
+
+:::
+
+:::
+
+::: {.column width="50%" .fragment fragment-index=3}
+Trait source |Trait name| Trait Domain|
+|---|---|---|
+| BIEN | [leaf nitrogen content per leaf dry mass]{.text-italic} | [Leaf nitrogen content per unit mass]{.text-italic .text-underline} |
+| TRY | [Leaf nitrogen (N) content per leaf dry mass]{.text-italic} | [Leaf nitrogen content per unit mass]{.text-italic .text-underline} |
+
+:::
+
+::::
+
+## Basic Pipeline - Data
 
 ```{mermaid}
+%%| label: mermaid-pipeline-basic-3
+```
+
+<!-- Mermaid 4 --->
+
+## Basic Pipeline - Data
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-4
 flowchart LR
     Config-.->VegVault
     Config-.->Model
@@ -245,9 +488,10 @@ flowchart LR
 
 <!-- Mermaid 5 --->
 
-## Basic Pipeline -Data
+## Basic Pipeline - Data
 
 ```{mermaid}
+%%| label: mermaid-pipeline-basic-5
 flowchart LR
     Config-.->VegVault
     Config-.->Data_interpolated
@@ -271,9 +515,10 @@ flowchart LR
 
 <!-- Mermaid 6 --->
 
-## Basic Pipeline -Data
+## Basic Pipeline - Data
 
 ```{mermaid}
+%%| label: mermaid-pipeline-basic-6
 flowchart LR
     Config-.->VegVault
     Config-.->Classification
@@ -300,9 +545,44 @@ flowchart LR
 
 ## Basic Pipeline - Model
 
+### Hierarchical Modelling of Species Communities (HMSC) 
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="25%" .fragment}
+
+```{r}
+#| label: hmsc-book
+include_local_figure("Hmsc/9781108716789i.jpg")
+```
+
+:::
+
+::: {.column width="75%" .fragment}
+
+```{r}
+#| label: hmsc-viz
+include_local_figure("Hmsc/61506-ele_ms_figures-1_3_4.png.webp")
+```
+
+:::
+
+::::
+
+## Basic Pipeline - Model
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-6
+```
+
+## Basic Pipeline - Model
+
 <!-- Mermaid 7 --->
 
 ```{mermaid}
+%%| label: mermaid-pipeline-basic-7
 flowchart LR
     Config-.->VegVault
     Config-.->Classification
@@ -333,6 +613,7 @@ flowchart LR
 <!-- Mermaid 8 --->
 
 ```{mermaid}
+%%| label: mermaid-pipeline-basic-8
 flowchart LR
     Config-.->VegVault
     Config-.->Classification
@@ -360,6 +641,46 @@ flowchart LR
         Species_associations-->Results
     end
 ```
+
+## R implementation
+
+```{r}
+#| label: extract-codecov
+#| echo: false 
+#| message: false
+#| warning: false
+#| include: false
+
+var_codecov <-
+  jsonlite::fromJSON(
+    here::here("Documentation/Functions_test_coverage/covr_report_summary.json")
+  )  %>% 
+  purrr::chuck("value")
+```
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="30%" .fragment}
+
+```{r}
+#| label: targets-logo
+include_local_figure("Logos/targets_logo.svg")
+```
+:::
+
+::: {.column width="70%" .incremental}
+- The pipeline is implemented using the `{targets}` R package 📦
+- Each step is a function producing _targets_
+  - each function is tested and documented ([example](https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_to_samples.html))
+  - current code coverage: `r var_codecov`%
+- Each pipeline is constructed using _pipe segments_ 
+  - this allows for modular and reusable code (see later slides)
+
+:::
+
+::::
 
 ## Basic Pipeline - {targets}
 
@@ -393,6 +714,8 @@ plot_target_graph_basic
 ```
 
 ## "Project" == Czech Republic
+
+<br>
 
 ```{r}
 #| label: model-validation-setup
@@ -439,6 +762,8 @@ char_taxonomic_resolution <-
   )
 ```
 
+::: {.incremental}
+
 - simple and small
 - used only to test the pipeline
 - Settings:
@@ -448,11 +773,22 @@ char_taxonomic_resolution <-
   - taxonomic resolution: `r char_taxonomic_resolution`
   - model: `r n_cores` chains, `r n_samples` samples per chain (total `r n_samples_total`), `r n_validation_folds` cross-validation folds
 
+:::
+
 # Model validation
+
+<br>
+
+- convergence diagnostics
+- comparison to null model
+- model exploration
+  - variation partitioning
+  - effect sizes
+  - species associations
 
 ## Convergence diagnostics
 
-Terrible model - this is just a toy example
+<br>
 
 ```{r}
 #| label: model-validation-Rhat
@@ -481,6 +817,8 @@ mod_beta_summary %>%
   ggplot2::geom_vline(xintercept = 1.1, color = "red", linetype = "dashed") +
   ggplot2::xlim(1, NA)
 ```
+
+Terrible model - this is just a toy example
 
 ## Comparison to null model
 
@@ -512,12 +850,20 @@ mod_full_waic <-
   - there is option to use ThurR2 as well
   - This is done automatically to selecte NULL vs FULL model.
 
+<br>
+
+::: {.incremental}
 - NULL: `r round(mod_null_waic, 3)`
 - FULL: `r round(mod_full_waic, 3)`
+:::
 
+::: {.fragment}
 Let's pretend that the FULL model is the one we want to show here.
+:::
 
 ## Model exploration - Variation partitioning
+
+<br>
 
 ```{r}
 #| label: model-validation-varpart-data
@@ -605,6 +951,8 @@ data_varpart_plot %>%
 
 ## Model exploration - Variation partitioning
 
+<br>
+
 ```{r}
 #| label: model-validation-varpart-plot
 #| echo: false
@@ -645,7 +993,11 @@ data_varpart_plot %>%
 
 ## Model exploration - Effect sizes
 
-How important are the environmental variables in determining species occurrences?
+<br>
+
+_How important are the environmental variables in determining species occurrences?_
+
+<br>
 
 ```{r}
 #| label: model-validation-effect-sizes-data
@@ -730,6 +1082,11 @@ mod_hmsc_full_coda %>%
 
 ## Model exploration - Species associations
 
+- Which species tend to co-occur more or less often than expected by chance?
+- Based on the residual correlation matrix from the HMSC model
+
+## Model exploration - Species associations
+
 ```{r}
 #| label: species-associations-plot
 #| echo: false
@@ -794,6 +1151,9 @@ data_species_associations_total %>%
 ```
 
 # Biogeography
+
+- We can use the fitted HMSC model to predict species occurrences across space and time
+- eg, predicting the species colonization patterns after the Last Glacial Maximum (LGM)
 
 ```{r}
 #| label: prediction-setup
@@ -1344,4 +1704,396 @@ data_predicted_richness %>%
     )
   )
 
+```
+
+# Time pipeline
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-0
+```
+
+## Time pipeline
+
+```{mermaid}
+%%| label: mermaid-pipeline-time-1
+flowchart LR
+    Czechia-.->Basic_pipeline
+    subgraph Project
+    Czechia
+    end
+    subgraph Pipeline
+    Basic_pipeline
+    end
+```
+
+## Time pipeline
+
+```{mermaid}
+%%| label: mermaid-pipeline-time-2
+flowchart LR
+    Czechia-.->Time_pipeline
+    subgraph Project
+    Czechia
+    end
+    subgraph Pipeline
+    Time_pipeline
+    end
+```
+
+## Time pipeline
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-3
+```
+
+## Time pipeline
+
+```{mermaid}
+%%| label: mermaid-pipeline-time-3
+flowchart LR
+    Config-.->VegVault
+    Config-.->Data_subset
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_subset
+        species_associations_1-->results
+        species_associations_2-->results
+        species_associations_3-->results
+        subgraph Age_slices
+            direction LR
+            Data_subset-->model_age_1
+            Data_subset-->model_age_2
+            Data_subset-->model_age_3
+            model_age_1-->species_associations_1
+            model_age_2-->species_associations_2
+            model_age_3-->species_associations_3
+        end
+end
+```
+
+## Time pipeline
+
+```{mermaid}
+%%| label: mermaid-pipeline-time-4
+flowchart LR
+    Config-.->VegVault
+    Config-.->Classification
+    Config-.->Data_interpolated
+    Config-.->Data_subset
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Classification
+        Classification-->Data_harmonised
+        Data_abiotic-->Data_interpolated
+        Data_harmonised-->Data_interpolated
+        Data_interpolated-->Data_subset
+        species_associations_1-->results
+        species_associations_2-->results
+        species_associations_3-->results
+        subgraph Age_slices
+            direction LR
+            Data_subset-->model_age_1
+            Data_subset-->model_age_2
+            Data_subset-->model_age_3
+            model_age_1-->species_associations_1
+            model_age_2-->species_associations_2
+            model_age_3-->species_associations_3
+        end
+end
+```
+
+## R implementation
+
+```{r}
+#| label: target-graph-time
+#| echo: false
+#| message: false
+#| warning: false
+#| output: false
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+vec_pipelines <- "pipeline_time"
+
+set_store <-
+  vec_pipelines %>%
+  paste0(
+    get_active_config("target_store"), "/", ., "/"
+  ) %>%
+  here::here()
+
+plot_target_graph_time <-
+  targets::tar_visnetwork(
+    script = paste0(
+      "R/02_Main_analyses", "/", vec_pipelines, ".R"
+    ) %>%
+      here::here(),
+    store = set_store,
+    outdated = FALSE,
+    targets_only = TRUE,
+    physics = TRUE,
+    level_separation = 150
+  )
+
+```
+
+
+```{r}
+#| label: target-graph-time-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| output: true
+plot_target_graph_time
+```
+
+
+## Co-occurrences in time slices
+
+```{r}
+#| label: cooccurrence-time-slices-waffle
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+data_species_associations_by_age <-
+  targets::tar_read(
+    name = "data_species_associations_by_age",
+    store = set_store
+  )
+
+data_species_associations_by_age_to_plot <-
+  data_species_associations_by_age %>%
+  dplyr::mutate(
+    percentage_sign_assoc = round(prop_sign_assoc * 100),
+    n_total = 100,
+    n_not_sign_assoc = n_total - percentage_sign_assoc
+  ) %>%
+  dplyr::select(percentage_sign_assoc, n_not_sign_assoc, age) %>%
+  tidyr::pivot_longer(
+    cols = -age,
+    names_to = "group",
+    values_to = "value"
+  ) %>%
+  dplyr::mutate(
+    group_name = dplyr::case_when(
+      group == "percentage_sign_assoc" ~ "Significant associations",
+      group == "n_not_sign_assoc" ~ "Non-significant associations"
+    )
+  ) %>%
+  ggplot2::ggplot(
+    mapping = ggplot2::aes(fill = group_name, values = value)
+  ) +
+  ggplot2::coord_equal() +
+  ggplot2::facet_wrap(~age) +
+  waffle::geom_waffle(
+    n_rows = 10,
+    size = 0.5,
+    colour = "white",
+    flip = TRUE,
+    make_proportional = TRUE
+  ) +
+  ggplot2::guides(
+    fill = ggplot2::guide_legend(
+      ncol = 1
+    )
+  ) +
+  ggplot2::labs(
+    x = NULL,
+    y = NULL,
+    title = "Percentage of significant co-occurrences"
+  ) +
+  ggplot2::theme_void() +
+  ggplot2::theme(
+    legend.title = ggplot2::element_blank(),
+    legend.position = "bottom"
+  )
+  
+```
+
+
+```{r}
+#| label: cooccurrence-time-slices-waffle-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+data_species_associations_by_age_to_plot
+
+```
+
+## Co-occurrences in time slices
+
+```{r}
+#| label: cooccurrence-time-slices-line-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+targets::tar_read(
+  name = "plot_species_associations",
+  store = set_store
+)
+
+```
+
+# Next steps
+
+## Co-occurrences as food webs
+
+We can think about the co-occurrence networks as bipartite networks (e.g., plants and their pollinators), where individual plots are one layer and species are another layer. 
+
+Example of one time slice:
+```{r}
+#| label: cooccurrence-bipartite-setup
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| cache: true
+data_community <-
+  data_to_fit %>%
+  purrr::chuck("data_community_to_fit") %>%
+  add_dataset_name_column_from_rownames() %>%
+  add_age_column_from_rownames() %>%
+  tibble::as_tibble()
+
+data_community_timeslice <-
+  data_community %>%
+  dplyr::filter(age == 2000) %>%
+  dplyr::select(-age) %>%
+  tibble::column_to_rownames("dataset_name")
+
+data_community_timeslice_binary <-
+  data_community_timeslice
+
+data_community_timeslice_binary[data_community_timeslice_binary > 0] <- 1
+
+data_community_timeslice_binary %>%
+  as.matrix() %>%
+  bipartite::plotweb(
+    text_size = 1,
+    sorting = "dec",
+    empty = TRUE,
+    srt = 90,
+    lower_labels = FALSE
+  )
+
+```
+
+## Co-occurrences as food webs
+
+We can then calculate network-level metrics for these bipartite networks.
+
+```{r}
+#| label: cooccurrence-bipartite
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| cache: true
+
+vec_ages <-
+  data_community %>%
+  dplyr::pull(age) %>%
+  unique() %>%
+  sort() %>%
+  rlang::set_names()
+
+list_data_community_binary <-
+  purrr::map(
+    .x = vec_ages,
+    .f = ~ {
+      data_community_timeslice <-
+        data_community %>%
+        dplyr::filter(age == .x) %>%
+        dplyr::select(-age) %>%
+        tibble::column_to_rownames("dataset_name")
+
+      data_community_timeslice_binary <-
+        data_community_timeslice
+
+      data_community_timeslice_binary[data_community_timeslice_binary > 0] <- 1
+
+      data_community_timeslice_binary %>%
+        as.matrix() %>%
+        return()
+    }
+  )
+
+set.seed(1234)
+data_network_metrics <-
+  purrr::map(
+    .progress = TRUE,
+    .x = list_data_community_binary,
+    .f = ~ bipartite::networklevel(.x) %>%
+      as.data.frame() %>%
+      rlang::set_names("value") %>%
+      tibble::rownames_to_column("metric") %>%
+      tidyr::pivot_wider(
+        names_from = metric,
+        values_from = value
+      ) %>%
+      janitor::clean_names()
+  ) %>%
+  dplyr::bind_rows(.id = "age")
+
+```
+
+Here we plot several metrics through time.
+
+```{r}
+#| label: cooccurrence-bipartite-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+data_network_metrics %>%
+  dplyr::select(
+    age,
+    connectance,
+    nestedness,
+    modularity_q
+  ) %>%
+  tidyr::pivot_longer(
+    cols = -age,
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  dplyr::mutate(
+    metric_name = dplyr::case_when(
+      metric == "connectance" ~ "Connectance",
+      metric == "nestedness" ~ "Nestedness",
+      metric == "modularity_q" ~ "Modularity (Q)",
+      TRUE ~ metric
+    )
+  ) %>%
+  ggplot2::ggplot(
+    mapping = ggplot2::aes(
+      x = as.numeric(age),
+      y = value
+    )
+  ) +
+  ggplot2::geom_line() +
+  ggplot2::geom_point() +
+  ggplot2::facet_wrap(~metric_name, scales = "free_y") +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_x_continuous(
+    transform = "reverse"
+  ) +
+  ggplot2::labs(
+    x = "Age (cal yr BP)",
+    y = "Metric value",
+    title = "Selected metrics through time"
+  )
 ```
