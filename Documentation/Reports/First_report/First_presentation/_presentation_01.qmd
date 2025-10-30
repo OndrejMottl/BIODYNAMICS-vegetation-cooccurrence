@@ -136,9 +136,151 @@ writeLines(
 )
 ```
 
-# BIODYNAMICS
+# {.bg-green .text-color-white}
 
-Vegetation Co-occurrence Project
+<br>
+
+:::: {.columns}
+
+::: {.column width="37%"}
+:::
+
+::: {.column width="25%"}
+
+```{r}
+#| label: biodynamics-logo-0
+include_local_figure("Logos/BIODYNAMICS.png")
+```
+
+:::
+
+::: {.column width="37%"}
+:::
+
+::::
+
+<br>
+
+:::: {.r-hstack}
+::: {data-id="box1" style="background: `r colors$white`; width: 120px; height: 15px; margin: 0px;"}
+:::
+
+::: {data-id="box2" style="background: `r colors$pink`; width: 550px; height: 15px; margin: 0px;"}
+:::
+
+::: {data-id="box3" style="background: `r colors$black`; width: 120px; height: 15px; margin: 0px;"}
+:::
+
+::: {data-id="box3" style="background: `r colors$blue`; width: 120px; height: 15px; margin: 0px;"}
+:::
+::::
+
+::: {.text-color-white .text-font-heading .text-size-heading3}
+[BIODYNAMICS]{.text-bold .text-color-black}: Spatio-temporal dynamics of biotic interactions
+:::
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+:::
+
+
+::: {.column width="60%" .text-right .text-color-black .text-size-body}
+[👤](https://ondrejmottl.github.io/)[Ondřej Mottl]{.text-color-white}
+
+[20.11.2025]{.text-color-black}
+
+:::
+
+::::
+
+## BIODYNAMICS
+
+- 3 years project (2023-2025) \[extended to 2026 due to parental leave\]
+- Funded by Czech Science Foundation (GAČR)
+
+### Objectives
+
+::: {.incremental}
+
+1. [Assemble an **interdisciplinary database** that integrates present and past vegetation records with their functional traits and abiotic environments since the Last Glacial Maximum]{.text-color-blue} (✅)
+2. Identify how **biotic interactions** scale up to form and **maintain biodiversity patterns** at various spatial/temporal/taxonomic scales 
+3. [Improve the capacity to **predict global biodiversity patterns** by including scale-dependent information about biotic interactions]{.text-color-blue} (maybe❔)
+
+:::
+
+## Biotic interactions
+
+::: {.incremental}
+
+ - Non-random cooccurrences after accounting for environmental filtering 
+- Can be positive (facilitation) or negative (competition)
+- Are scale dependent (?)
+
+:::
+
+## Scales (3 axes)
+
+::: {.incremental}
+
+- **Spatial**
+  - “_Biotic interactions from individual sites (local) to whole continents (global)_”
+- **Temporal**
+  - “_currently observed changes in biodiversity began millennia ago_”
+- **Taxonomic**
+  - individual taxa
+  - phylogenetically cofound groups
+  - groups occupying different ecological niches (i.e. Functional Types)
+
+:::
+
+## Research questions
+
+1. Is there a **scale dependence** in the  amount of unexplained variation (potentially due to biotic interactions) structuring vegetation?
+
+::: {.incremental}
+
+ - Expectation 1 - Strength of biotic interactions decrease with increasing spatial scale
+ - Expectation 2 - The importance of biotic interaction increase in the periods of large changes (climatic - LGM, anthropogenic - last centuries)
+ - Expectation 3 - low taxonomic resolution show stronger biotic interactions at larger spatial scales (interaction between spatial and taxonomic scale)
+
+:::
+
+## Research questions
+
+2. Can we improve the **predictive capacity** of biodiversity models by including biotic interactions and historical data?
+
+::: {.incremental}
+
+ - Expectation 4 - Including historical data will improve model predictive capacity, especially at large scales
+ - Expectation 5 - Including biotic interactions will improve model predictive capacity, especially at local scales
+
+:::
+
+# Methodological framework
+
+To address the objectives and research questions, I am developing a large code base with modular and reusable **data-analysis pipelines** 
+
+```{r}
+#| label: sjSDM
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+include_local_figure("BIODYNAMICS/sjSDM.png")
+```
+
+The main methodology is Joined Species Distribution Modelling (JSDM), which allows to infer biotic interactions from species cooccurrence patterns after accounting for environmental filtering
+
+::: {.footer}
+[{sjSDM}](https://cran.r-project.org/web/packages/sjSDM/vignettes/sjSDM_Introduction.html)
+:::
+
+## Methodological framework
+
 
 # Basic Pipeline
 
@@ -775,16 +917,15 @@ char_taxonomic_resolution <-
 
 :::
 
-# Model validation
+# Model validation and exploration
 
 <br>
 
 - convergence diagnostics
 - comparison to null model
-- model exploration
-  - variation partitioning
-  - effect sizes
-  - species associations
+- variation partitioning
+- effect sizes
+- species associations
 
 ## Convergence diagnostics
 
@@ -846,7 +987,7 @@ mod_full_waic <-
   Hmsc::computeWAIC()
 ```
 
-- We are selecting model based on the WAIC value 
+- I am selecting model based on the WAIC value 
   - there is option to use ThurR2 as well
   - This is done automatically to selecte NULL vs FULL model.
 
@@ -861,7 +1002,7 @@ mod_full_waic <-
 Let's pretend that the FULL model is the one we want to show here.
 :::
 
-## Model exploration - Variation partitioning
+## Variation partitioning
 
 <br>
 
@@ -949,7 +1090,7 @@ data_varpart_plot %>%
   ggplot2::scale_fill_viridis_d()
 ```
 
-## Model exploration - Variation partitioning
+## Variation partitioning
 
 <br>
 
@@ -991,13 +1132,11 @@ data_varpart_plot %>%
   ggplot2::scale_fill_viridis_d()
 ```
 
-## Model exploration - Effect sizes
+## Effect sizes
 
 <br>
 
 _How important are the environmental variables in determining species occurrences?_
-
-<br>
 
 ```{r}
 #| label: model-validation-effect-sizes-data
@@ -1039,6 +1178,7 @@ vec_vars_bio12 <-
 #| message: false
 #| warning: false
 #| include: true
+#| fig-height: 10
 
 mod_hmsc_full_coda %>%
   purrr::chuck("Beta") %>%
@@ -1063,6 +1203,7 @@ mod_hmsc_full_coda %>%
 #| message: false
 #| warning: false
 #| include: true
+#| fig-height: 10
 
 mod_hmsc_full_coda %>%
   purrr::chuck("Beta") %>%
@@ -1080,12 +1221,21 @@ mod_hmsc_full_coda %>%
 
 ::::
 
-## Model exploration - Species associations
+## Species associations
 
-- Which species tend to co-occur more or less often than expected by chance?
-- Based on the residual correlation matrix from the HMSC model
+<br>
 
-## Model exploration - Species associations
+_Which species tend to co-occur more or less often than expected by chance?_
+
+::: {.fragment}
+
+ - Based on the residual correlation matrix from the HMSC model
+
+::: 
+
+## Species associations
+
+<br>
 
 ```{r}
 #| label: species-associations-plot
@@ -1152,8 +1302,14 @@ data_species_associations_total %>%
 
 # Biogeography
 
-- We can use the fitted HMSC model to predict species occurrences across space and time
+<br>
+
+::: {.incremental}
+
+ - We can use the fitted HMSC model to predict species occurrences across space and time
 - eg, predicting the species colonization patterns after the Last Glacial Maximum (LGM)
+
+:::
 
 ```{r}
 #| label: prediction-setup
@@ -1949,18 +2105,44 @@ targets::tar_read(
 
 # Next steps
 
-## Co-occurrences as food webs
+## Technical improvements
 
-We can think about the co-occurrence networks as bipartite networks (e.g., plants and their pollinators), where individual plots are one layer and species are another layer. 
+::: {.incremental}
 
-Example of one time slice:
+- Move beyond presence-absence data 
+  - use the hurdle model
+- Validate the mode with other framework for JSDM
+  - {spAbundance} or {spOccupancy}
+- Filter out climatic variables based on correlation 
+- Set up HPC at Metacentrum
+
+::: 
+
+## Methodological improvements
+
+::: {.incremental}
+
+- Implement functional traits in the model
+- Implement the functional types classification
+- Get more nuanced understanding of species associations by analysing co-occurrences as bipartite networks (food webs)
+
+:::
+
+## Co-occurrences as bipartite networks
+
+Co-occurrence networks can be seen as bipartite networks 
+- first layer: individual plots
+- second layer: taxa
+
 ```{r}
 #| label: cooccurrence-bipartite-setup
 #| echo: false
 #| message: false
 #| warning: false
-#| include: true
+#| include: false
 #| cache: true
+sel_age <- 2000
+
 data_community <-
   data_to_fit %>%
   purrr::chuck("data_community_to_fit") %>%
@@ -1970,7 +2152,7 @@ data_community <-
 
 data_community_timeslice <-
   data_community %>%
-  dplyr::filter(age == 2000) %>%
+  dplyr::filter(age == sel_age) %>%
   dplyr::select(-age) %>%
   tibble::column_to_rownames("dataset_name")
 
@@ -1978,7 +2160,16 @@ data_community_timeslice_binary <-
   data_community_timeslice
 
 data_community_timeslice_binary[data_community_timeslice_binary > 0] <- 1
+```
 
+Example of time slice `r sel_age ` years BP:
+```{r}
+#| label: cooccurrence-bipartite-example-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| cache: true
 data_community_timeslice_binary %>%
   as.matrix() %>%
   bipartite::plotweb(
@@ -1991,9 +2182,9 @@ data_community_timeslice_binary %>%
 
 ```
 
-## Co-occurrences as food webs
+## Co-occurrences as bipartite networks
 
-We can then calculate network-level metrics for these bipartite networks.
+Calculate network-level metrics for each network:
 
 ```{r}
 #| label: cooccurrence-bipartite
@@ -2050,7 +2241,7 @@ data_network_metrics <-
 
 ```
 
-Here we plot several metrics through time.
+Here I plot several metrics through time.
 
 ```{r}
 #| label: cooccurrence-bipartite-plot
