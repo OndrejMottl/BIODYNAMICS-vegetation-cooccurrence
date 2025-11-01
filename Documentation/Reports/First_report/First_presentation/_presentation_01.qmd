@@ -53,7 +53,6 @@ include_local_figure <- function(data_source) {
 }
 ```
 
-
 ```{r}
 #| label: dynamic-theme
 #| include: false
@@ -212,172 +211,7 @@ include_local_figure("Logos/BIODYNAMICS.png")
 
 :::
 
-## Biotic interactions
-
-::: {.incremental}
-
- - Non-random cooccurrences after accounting for environmental filtering 
-- Can be positive (facilitation) or negative (competition)
-- Are scale dependent (?)
-
-:::
-
-## Scales (3 axes)
-
-::: {.incremental}
-
-- **Spatial**
-  - “_Biotic interactions from individual sites (local) to whole continents (global)_”
-- **Temporal**
-  - “_currently observed changes in biodiversity began millennia ago_”
-- **Taxonomic**
-  - individual taxa
-  - phylogenetically cofound groups
-  - groups occupying different ecological niches (i.e. Functional Types)
-
-:::
-
-## Research questions
-
-1. Is there a **scale dependence** in the  amount of unexplained variation (potentially due to biotic interactions) structuring vegetation?
-
-::: {.incremental}
-
- - Expectation 1 - Strength of biotic interactions decrease with increasing spatial scale
- - Expectation 2 - The importance of biotic interaction increase in the periods of large changes (climatic - LGM, anthropogenic - last centuries)
- - Expectation 3 - low taxonomic resolution show stronger biotic interactions at larger spatial scales (interaction between spatial and taxonomic scale)
-
-:::
-
-## Research questions
-
-2. Can we improve the **predictive capacity** of biodiversity models by including biotic interactions and historical data?
-
-::: {.incremental}
-
- - Expectation 4 - Including historical data will improve model predictive capacity, especially at large scales
- - Expectation 5 - Including biotic interactions will improve model predictive capacity, especially at local scales
-
-:::
-
-# Methodological framework
-
-To address the objectives and research questions, I am developing a large code base with modular and reusable **data-analysis pipelines** 
-
-```{r}
-#| label: sjSDM
-#| echo: false
-#| message: false
-#| warning: false
-#| include: true
-include_local_figure("BIODYNAMICS/sjSDM.png")
-```
-
-The main methodology is Joined Species Distribution Modelling (JSDM), which allows to infer biotic interactions from species cooccurrence patterns after accounting for environmental filtering
-
-::: {.footer}
-[{sjSDM}](https://cran.r-project.org/web/packages/sjSDM/vignettes/sjSDM_Introduction.html)
-:::
-
-## Methodological framework
-
-
-# Basic Pipeline
-
-```{r}
-#| label: setup-pipeline-basic
-#| echo: false
-#| message: false
-#| warning: false
-#| include: false
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
-
-vec_pipelines <- "pipeline_basic"
-
-set_store <-
-  vec_pipelines %>%
-  paste0(
-    get_active_config("target_store"), "/", ., "/"
-  ) %>%
-  here::here()
-```
-
-## Basic Pipeline
-
-<!-- Mermaid 0 --->
-
-```{mermaid}
-%%| label: mermaid-pipeline-basic-0
-flowchart LR
-    Project-.->Pipeline
-    subgraph Project
-    end
-    subgraph Pipeline
-    end
-```
-
-<!-- Mermaid 1 --->
-
-## Basic Pipeline
-
-```{mermaid}
-%%| label: mermaid-pipeline-basic-1
-flowchart LR
-    Config-.->Analyses
-    subgraph Project
-    Config
-    end
-    subgraph Pipeline
-    Analyses
-    end
-```
-
-
-<!-- Mermaid 2 --->
-
-## Basic Pipeline
-
-```{mermaid}
-%%| label: mermaid-pipeline-basic-2
-flowchart LR
-    Config-.->Data
-    Config-.->Model
-    Config-.->Species_associations
-    subgraph Project
-        direction TB
-        Config
-    end
-    subgraph Pipeline
-        direction LR
-        Data-->Model
-        Model-->Species_associations
-        Species_associations-->Results
-    end
-```
-
-<!-- Mermaid 3 --->
-
-## Basic Pipeline - Data
-
-```{mermaid}
-%%| label: mermaid-pipeline-basic-3
-flowchart LR
-    Config-.->VegVault
-    Config-.->Model
-    Config-.->Species_associations
-    subgraph Project
-        direction TB
-        Config
-    end
-    subgraph Pipeline
-        direction LR
-        VegVault-->Model
-        Model-->Species_associations
-        Species_associations-->Results
-    end
-```
-
-## VegVault
+# VegVault
 
 :::::: {.columns}
 
@@ -504,14 +338,12 @@ include_local_figure("VegVault/assembly_viz_04.png")
 
 ## Key Innovations
 
-<br>
-
 :::: {.columns}
 
 ::: {.column width="60%"}
 
 ::: {.text-size-heading3 .text-bold}
-2. **Abiotic** context
+1. **Abiotic** context
 :::
 
 ::: {.incremental fragment-index=1}
@@ -555,6 +387,10 @@ include_local_figure("VegVault/plot_abiotic_example_temporal.png")
 
 ::::
 
+::: {.footer}
+Figures from [VegVault presentation](https://ondrejmottl.github.io/VegVault-Presentation-20250802/)
+:::
+
 <!-- Slide 3 -->
 
 ## Key Innovations
@@ -566,7 +402,7 @@ include_local_figure("VegVault/plot_abiotic_example_temporal.png")
 ::: {.column width="50%"}
 
 ::: {.text-size-heading3 .text-bold .fragment fragment-index=1}
-1. **Standardisation**
+3. **Standardisation**
 :::
 
 ::: {.incremental fragment-index=2}
@@ -596,15 +432,278 @@ Trait source |Trait name| Trait Domain|
 
 ::::
 
+# Biotic interactions
+
+<br>
+
+::: {.incremental}
+
+ - Non-random cooccurrences after accounting for environmental filtering 
+- Can be positive (facilitation) or negative (competition)
+- Are scale dependent (?)
+
+:::
+
+## Scales (3 axes)
+
+<br>
+
+::: {.incremental}
+
+- **Spatial**
+  - “_Biotic interactions from individual sites (local) to whole continents (global)_”
+- **Temporal**
+  - “_currently observed changes in biodiversity began millennia ago_”
+- **Taxonomic**
+  - individual taxa
+  - phylogenetically cofound groups
+  - groups occupying different ecological niches (i.e. Functional Types)
+
+:::
+
+## Research questions
+
+<br>
+
+1. Is there a **scale dependence** in the  amount of unexplained variation (potentially due to biotic interactions) structuring vegetation?
+
+::: {.incremental}
+
+ - Expectation 1 - Strength of biotic interactions decrease with increasing spatial scale
+ - Expectation 2 - The importance of biotic interaction increase in the periods of large changes (climatic - LGM, anthropogenic - last centuries)
+ - Expectation 3 - low taxonomic resolution show stronger biotic interactions at larger spatial scales (interaction between spatial and taxonomic scale)
+
+:::
+
+## Research questions
+
+<br>
+
+2. Can we improve the **predictive capacity** of biodiversity models by including biotic interactions and historical data?
+
+::: {.incremental}
+
+ - Expectation 4 - Including historical data will improve model predictive capacity, especially at large scales
+ - Expectation 5 - Including biotic interactions will improve model predictive capacity, especially at local scales
+
+:::
+
+# Methodological framework
+
+<br>
+
+To address the objectives and research questions, I am developing a large code base with modular and reusable **data-analysis pipelines** 
+
+```{r}
+#| label: sjSDM
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+include_local_figure("BIODYNAMICS/sjSDM.png")
+```
+
+The main methodology is Joined Species Distribution Modelling (JSDM), which allows to infer biotic interactions from species cooccurrence patterns after accounting for environmental filtering
+
+::: {.footer}
+[{sjSDM}](https://cran.r-project.org/web/packages/sjSDM/vignettes/sjSDM_Introduction.html)
+:::
+
+## Hierarchical Modelling of Species Communities (HMSC) 
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="25%" .fragment}
+
+```{r}
+#| label: hmsc-book
+include_local_figure("Hmsc/9781108716789i.jpg")
+```
+
+:::
+
+::: {.column width="75%" .fragment}
+
+```{r}
+#| label: hmsc-viz
+include_local_figure("Hmsc/61506-ele_ms_figures-1_3_4.png.webp")
+```
+
+:::
+
+::::
+
+
+## Methodological framework
+
+```{r}
+#| label: extract-codecov
+#| echo: false 
+#| message: false
+#| warning: false
+#| include: false
+
+var_codecov <-
+  jsonlite::fromJSON(
+    here::here("Documentation/Functions_test_coverage/covr_report_summary.json")
+  )  %>% 
+  purrr::chuck("value")
+```
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+```{r}
+#| label: r-logo
+include_local_figure("Logos/R_logo.svg")
+```
+:::
+
+::: {.column width="50%" .incremental}
+- using [R]{.text-background-blue} for all data processing and analyses
+- functional programming principles for modularity and reusability
+  - everything is a _function_
+  - each function is tested and documented ([example](https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_to_samples.html))
+  - current code coverage: `r var_codecov`%
+:::
+
+::::
+
+# "Project" + Pipeline
+
+<br>
+
+::: {.incremental}
+
+ - to test the individual research questions, I am developing multiple data-analysis _pipelines_
+   - each pipeline is a sequence of data processing and analysis steps
+   - each pipeline is tailored to a specific research question
+- Data and configuration are separated into "project"s
+   - each project corresponds to a specific data subset and configuration settings
+   - e.g. different regions, temporal resolution, taxonomic resolutions, etc.
+
+:::
+
+## Basic Pipeline
+
+<br>
+<br>
+
+```{r}
+#| label: setup-pipeline-basic
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+vec_pipelines <- "pipeline_basic"
+
+set_store <-
+  vec_pipelines %>%
+  paste0(
+    get_active_config("target_store"), "/", ., "/"
+  ) %>%
+  here::here()
+```
+
+## Basic Pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-0
+flowchart LR
+    Project-.->Pipeline
+    subgraph Project
+    end
+    subgraph Pipeline
+    end
+```
+
+## Basic Pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-1
+flowchart LR
+    Config-.->Analyses
+    subgraph Project
+    Config
+    end
+    subgraph Pipeline
+    Analyses
+    end
+```
+
+
+## Basic Pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-2
+flowchart LR
+    Config-.->Data
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        Data-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
 ## Basic Pipeline - Data
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-3
+flowchart LR
+    Config-.->VegVault
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+## Basic Pipeline - Data
+
+<br>
+<br>
 
 ```{mermaid}
 %%| label: mermaid-pipeline-basic-3
 ```
 
-<!-- Mermaid 4 --->
-
 ## Basic Pipeline - Data
+
+<br>
+<br>
 
 ```{mermaid}
 %%| label: mermaid-pipeline-basic-4
@@ -627,10 +726,10 @@ flowchart LR
     end
 ```
 
-
-<!-- Mermaid 5 --->
-
 ## Basic Pipeline - Data
+
+<br>
+<br>
 
 ```{mermaid}
 %%| label: mermaid-pipeline-basic-5
@@ -655,9 +754,10 @@ flowchart LR
     end
 ```
 
-<!-- Mermaid 6 --->
-
 ## Basic Pipeline - Data
+
+<br>
+<br>
 
 ```{mermaid}
 %%| label: mermaid-pipeline-basic-6
@@ -687,33 +787,8 @@ flowchart LR
 
 ## Basic Pipeline - Model
 
-### Hierarchical Modelling of Species Communities (HMSC) 
-
 <br>
-
-:::: {.columns}
-
-::: {.column width="25%" .fragment}
-
-```{r}
-#| label: hmsc-book
-include_local_figure("Hmsc/9781108716789i.jpg")
-```
-
-:::
-
-::: {.column width="75%" .fragment}
-
-```{r}
-#| label: hmsc-viz
-include_local_figure("Hmsc/61506-ele_ms_figures-1_3_4.png.webp")
-```
-
-:::
-
-::::
-
-## Basic Pipeline - Model
+<br>
 
 ```{mermaid}
 %%| label: mermaid-pipeline-basic-6
@@ -721,7 +796,8 @@ include_local_figure("Hmsc/61506-ele_ms_figures-1_3_4.png.webp")
 
 ## Basic Pipeline - Model
 
-<!-- Mermaid 7 --->
+<br>
+<br>
 
 ```{mermaid}
 %%| label: mermaid-pipeline-basic-7
@@ -752,7 +828,8 @@ flowchart LR
 
 ## Basic Pipeline - Model
 
-<!-- Mermaid 8 --->
+<br>
+<br>
 
 ```{mermaid}
 %%| label: mermaid-pipeline-basic-8
@@ -786,20 +863,6 @@ flowchart LR
 
 ## R implementation
 
-```{r}
-#| label: extract-codecov
-#| echo: false 
-#| message: false
-#| warning: false
-#| include: false
-
-var_codecov <-
-  jsonlite::fromJSON(
-    here::here("Documentation/Functions_test_coverage/covr_report_summary.json")
-  )  %>% 
-  purrr::chuck("value")
-```
-
 <br>
 
 :::: {.columns}
@@ -814,11 +877,9 @@ include_local_figure("Logos/targets_logo.svg")
 
 ::: {.column width="70%" .incremental}
 - The pipeline is implemented using the `{targets}` R package 📦
-- Each step is a function producing _targets_
-  - each function is tested and documented ([example](https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_to_samples.html))
-  - current code coverage: `r var_codecov`%
-- Each pipeline is constructed using _pipe segments_ 
-  - this allows for modular and reusable code (see later slides)
+  - Each step is a function producing _targets_
+  - Each pipeline is constructed using _pipe segments_ 
+    - this allows for modular and reusable code (see later slides)
 
 :::
 
@@ -963,6 +1024,8 @@ Terrible model - this is just a toy example
 
 ## Comparison to null model
 
+<br>
+
 ```{r}
 #| label: model-validation-compare
 #| echo: false
@@ -989,7 +1052,7 @@ mod_full_waic <-
 
 - I am selecting model based on the WAIC value 
   - there is option to use ThurR2 as well
-  - This is done automatically to selecte NULL vs FULL model.
+  - This is done automatically to select NULL or FULL model.
 
 <br>
 
@@ -1227,16 +1290,13 @@ mod_hmsc_full_coda %>%
 
 _Which species tend to co-occur more or less often than expected by chance?_
 
-::: {.fragment}
+:::: {.columns}
 
+::: {.column width="30%" .fragment}
  - Based on the residual correlation matrix from the HMSC model
+:::
 
-::: 
-
-## Species associations
-
-<br>
-
+::: {.column width="70%" .fragment}
 ```{r}
 #| label: species-associations-plot
 #| echo: false
@@ -1300,6 +1360,11 @@ data_species_associations_total %>%
   )
 ```
 
+:::
+
+::::
+
+
 # Biogeography
 
 <br>
@@ -1307,7 +1372,7 @@ data_species_associations_total %>%
 ::: {.incremental}
 
  - We can use the fitted HMSC model to predict species occurrences across space and time
-- eg, predicting the species colonization patterns after the Last Glacial Maximum (LGM)
+   - e.g., predicting the species colonization patterns after the Last Glacial Maximum (LGM)
 
 :::
 
@@ -1609,10 +1674,10 @@ data_predicted <-
   dplyr::select(taxon, coord_long, coord_lat, age, pred_value)
 ```
 
-## Single species plot
+## Single taxa plot
 
 ```{r}
-#| label: prediction-new-data-plot-single-species
+#| label: prediction-new-data-plot-single-taxa
 #| echo: false
 #| message: false
 #| warning: false
@@ -1864,11 +1929,17 @@ data_predicted_richness %>%
 
 # Time pipeline
 
+<br>
+<br>
+
 ```{mermaid}
 %%| label: mermaid-pipeline-basic-0
 ```
 
 ## Time pipeline
+
+<br>
+<br>
 
 ```{mermaid}
 %%| label: mermaid-pipeline-time-1
@@ -1884,6 +1955,9 @@ flowchart LR
 
 ## Time pipeline
 
+<br>
+<br>
+
 ```{mermaid}
 %%| label: mermaid-pipeline-time-2
 flowchart LR
@@ -1898,11 +1972,17 @@ flowchart LR
 
 ## Time pipeline
 
+<br>
+<br>
+
 ```{mermaid}
 %%| label: mermaid-pipeline-basic-3
 ```
 
 ## Time pipeline
+
+<br>
+<br>
 
 ```{mermaid}
 %%| label: mermaid-pipeline-time-3
@@ -1932,6 +2012,9 @@ end
 ```
 
 ## Time pipeline
+
+<br>
+<br>
 
 ```{mermaid}
 %%| label: mermaid-pipeline-time-4
@@ -1969,6 +2052,8 @@ end
 ```
 
 ## R implementation
+
+<br>
 
 ```{r}
 #| label: target-graph-time
@@ -2011,8 +2096,9 @@ plot_target_graph_time <-
 plot_target_graph_time
 ```
 
-
 ## Co-occurrences in time slices
+
+<br>
 
 ```{r}
 #| label: cooccurrence-time-slices-waffle
@@ -2076,7 +2162,6 @@ data_species_associations_by_age_to_plot <-
   
 ```
 
-
 ```{r}
 #| label: cooccurrence-time-slices-waffle-plot
 #| echo: false
@@ -2088,6 +2173,8 @@ data_species_associations_by_age_to_plot
 ```
 
 ## Co-occurrences in time slices
+
+<br>
 
 ```{r}
 #| label: cooccurrence-time-slices-line-plot
@@ -2105,23 +2192,33 @@ targets::tar_read(
 
 # Next steps
 
+<br>
+
+_There is so much more to do! Here are some ideas for next steps._
+
 ## Technical improvements
+
+<br>
 
 ::: {.incremental}
 
-- Move beyond presence-absence data 
-  - use the hurdle model
 - Validate the mode with other framework for JSDM
   - {spAbundance} or {spOccupancy}
-- Filter out climatic variables based on correlation 
-- Set up HPC at Metacentrum
+- Filter out climatic variables before fitting (based on correlation)
+- Speed everything up
+  - Set up HPC at Metacentrum
+  - use scalable joint Species Distribution Model ({sjSDM})?
 
 ::: 
 
 ## Methodological improvements
 
+<br>
+
 ::: {.incremental}
 
+- Move beyond presence-absence data 
+  - use the hurdle model
 - Implement functional traits in the model
 - Implement the functional types classification
 - Get more nuanced understanding of species associations by analysing co-occurrences as bipartite networks (food webs)
@@ -2130,9 +2227,14 @@ targets::tar_read(
 
 ## Co-occurrences as bipartite networks
 
-Co-occurrence networks can be seen as bipartite networks 
-- first layer: individual plots
-- second layer: taxa
+<br>
+
+::: {.incremental}
+ - Co-occurrence networks can be seen as bipartite networks 
+  - first layer: individual plots
+  - second layer: taxa
+
+:::
 
 ```{r}
 #| label: cooccurrence-bipartite-setup
@@ -2162,6 +2264,10 @@ data_community_timeslice_binary <-
 data_community_timeslice_binary[data_community_timeslice_binary > 0] <- 1
 ```
 
+## Co-occurrences as bipartite networks
+
+<br>
+
 Example of time slice `r sel_age ` years BP:
 ```{r}
 #| label: cooccurrence-bipartite-example-plot
@@ -2183,6 +2289,8 @@ data_community_timeslice_binary %>%
 ```
 
 ## Co-occurrences as bipartite networks
+
+<br>
 
 Calculate network-level metrics for each network:
 
@@ -2241,8 +2349,6 @@ data_network_metrics <-
 
 ```
 
-Here I plot several metrics through time.
-
 ```{r}
 #| label: cooccurrence-bipartite-plot
 #| echo: false
@@ -2288,3 +2394,58 @@ data_network_metrics %>%
     title = "Selected metrics through time"
   )
 ```
+
+# Open and public {.bg-green}
+
+```{r}
+#| label: generate-urls
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+url_gh <-
+    paste0(
+    "https://github.com/OndrejMottl/",
+    "BIODYNAMICS-vegetation-cooccurrence"
+  )
+```
+
+<br>
+
+Everything shown here is fully open and reproducible! You can find the whole project( inlcuding code and materials for this presentation) on GitHub:
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+<br>
+
+::: {.r-fit-text}
+[😸 Code on GitHub](`r url_gh`)
+
+[![](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+:::
+:::
+
+::: {.column width="30%"}
+```{r}
+#| label: qr_slides
+qr_slides <-
+  qrcode::qr_code(
+    url_gh,
+    ecl = "H"
+  )
+
+qrcode::generate_svg(
+  qrcode = qr_slides,
+  filename = here::here("Documentation/Materials/QR/qr_slides.svg"),
+  foreground = colors['black'],
+  background = colors['green'],
+)
+
+include_local_figure("QR/qr_slides.svg")
+```
+
+:::
+
+::::
