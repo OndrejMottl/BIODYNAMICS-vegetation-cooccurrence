@@ -206,7 +206,7 @@ include_local_figure("Logos/BIODYNAMICS.png")
 ::: {.incremental}
 
 1. [Assemble an **interdisciplinary database** that integrates present and past vegetation records with their functional traits and abiotic environments since the Last Glacial Maximum]{.text-color-blue} (✅)
-2. Identify how **biotic interactions** scale up to form and **maintain biodiversity patterns** at various spatial/temporal/taxonomic scales 
+2. Identify how [**biotic interactions**]{.text-background-pink .text-bold} scale up to form and **maintain biodiversity patterns** at various [spatial/temporal/taxonomic]{.text-background-blue .text-bold} scales 
 3. [Improve the capacity to **predict global biodiversity patterns** by including scale-dependent information about biotic interactions]{.text-color-blue} (maybe❔)
 
 :::
@@ -281,8 +281,8 @@ include_local_figure("QR/qr_vegvault.svg")
 
 ::: {.column width="40%" .incremental}
 
-- 🌿 **Paleoecological records** ([Neotoma]{.text-italic}, [FOSSILPOL]{.text-italic})
-- 🌱 **Contemporary vegetation** ([sPlotOpen]{.text-italic}, [BIEN]{.text-italic})
+- 🌿 [**Paleoecological records**]{.text-background-brown .text-bold} ([Neotoma]{.text-italic}, [FOSSILPOL]{.text-italic})
+- 🌱 [**Contemporary vegetation**]{.text-background-green .text-bold} ([sPlotOpen]{.text-italic}, [BIEN]{.text-italic})
 - 🌾 **Functional traits** ([BIEN]{.text-italic}, [TRY]{.text-italic})
 - 🌍 **Climate & soil data** ([CHELSA]{.text-italic}, [WoSIS]{.text-italic})  
 :::
@@ -314,9 +314,9 @@ include_local_figure("VegVault/assembly_viz_04.png")
 ::: {.incremental fragment-index=3}
 
 - Integration of paleo and contemporary data
-- Plot-based vegetation records 
+- [Plot-based]{.text-background-green .text-bold} vegetation records 
    + not just species occurrences
-   + true negatives!
+   + [true negatives!]{.text-background-pink .text-bold}
 
 :::
 
@@ -348,10 +348,10 @@ include_local_figure("VegVault/assembly_viz_04.png")
 
 ::: {.incremental fragment-index=1}
 
-- Sample-specific abiotic data
+- [Sample-specific]{.text-background-green .text-bold} abiotic data
    + mapped to spatio-temporal grids
    + paleo and contemporary 
-- Selected variables for vegetation studies
+- Selected variables for [vegetation studies]{.text-background-brown .text-bold}
    + e.g. temperature, precipitation, soil type, etc. 
 
 :::
@@ -407,7 +407,7 @@ Figures from [VegVault presentation](https://ondrejmottl.github.io/VegVault-Pres
 
 ::: {.incremental fragment-index=2}
 
-- Trait domains 
+- [Trait domains]{.text-background-blue .text-bold} 
     + pooling of traits across sources
     + Following [Diaz et al. (2016)]{.text-italic .text-background-green .text-color-white} 
 
@@ -415,7 +415,7 @@ Figures from [VegVault presentation](https://ondrejmottl.github.io/VegVault-Pres
 
 ::: {.incremental fragment-index=4}
 
-- Taxonomic harmonisation via GBIF backbone and `{taxospace}`📦  
+- [Taxonomic harmonisation]{.text-background-pink .text-bold} via GBIF backbone and `{taxospace}`📦  
    + unified taxonomy across dataset vegetation, fossil pollen and traits
 
 :::
@@ -438,9 +438,9 @@ Trait source |Trait name| Trait Domain|
 
 ::: {.incremental}
 
- - Non-random cooccurrences after accounting for environmental filtering 
+ - [Non-random cooccurrences]{.text-background-blue .text-bold} after accounting for environmental filtering 
 - Can be positive (facilitation) or negative (competition)
-- Are scale dependent (?)
+- Are [scale dependent]{.text-background-green .text-bold} (?)
 
 :::
 
@@ -465,11 +465,11 @@ Trait source |Trait name| Trait Domain|
 
 <br>
 
-1. Is there a **scale dependence** in the  amount of unexplained variation (potentially due to biotic interactions) structuring vegetation?
+1. Is there a [**scale dependence**]{.text-background-blue .text-bold} in the  amount of unexplained variation (potentially due to biotic interactions) structuring vegetation?
 
 ::: {.incremental}
 
- - Expectation 1 - Strength of biotic interactions decrease with increasing spatial scale
+ - Expectation 1 - Strength of biotic interactions decrease with increasing [spatial scale]{.text-background-green .text-bold}
  - Expectation 2 - The importance of biotic interaction increase in the periods of large changes (climatic - LGM, anthropogenic - last centuries)
  - Expectation 3 - low taxonomic resolution show stronger biotic interactions at larger spatial scales (interaction between spatial and taxonomic scale)
 
@@ -479,11 +479,11 @@ Trait source |Trait name| Trait Domain|
 
 <br>
 
-2. Can we improve the **predictive capacity** of biodiversity models by including biotic interactions and historical data?
+2. Can we improve the [**predictive capacity**]{.text-background-pink .text-bold} of biodiversity models by including biotic interactions and historical data?
 
 ::: {.incremental}
 
- - Expectation 4 - Including historical data will improve model predictive capacity, especially at large scales
+ - Expectation 4 - Including [historical data]{.text-background-brown .text-bold} will improve model predictive capacity, especially at large scales
  - Expectation 5 - Including biotic interactions will improve model predictive capacity, especially at local scales
 
 :::
@@ -492,7 +492,7 @@ Trait source |Trait name| Trait Domain|
 
 <br>
 
-To address the objectives and research questions, I am developing a large code base with modular and reusable **data-analysis pipelines** 
+To address the objectives and research questions, I am developing a large code base with [modular]{.text-background-green .text-bold} and [reusable]{.text-background-blue .text-bold} **data-analysis pipelines** 
 
 ```{r}
 #| label: sjSDM
@@ -503,7 +503,7 @@ To address the objectives and research questions, I am developing a large code b
 include_local_figure("BIODYNAMICS/sjSDM.png")
 ```
 
-The main methodology is Joined Species Distribution Modelling (JSDM), which allows to infer biotic interactions from species cooccurrence patterns after accounting for environmental filtering
+The main methodology is [Joined Species Distribution Modelling]{.text-background-pink .text-bold} (JSDM), which allows to infer biotic interactions from species cooccurrence patterns after accounting for environmental filtering
 
 ::: {.footer}
 [{sjSDM}](https://cran.r-project.org/web/packages/sjSDM/vignettes/sjSDM_Introduction.html)
@@ -566,9 +566,9 @@ include_local_figure("Logos/R_logo.svg")
 
 ::: {.column width="50%" .incremental}
 - using [R]{.text-background-blue} for all data processing and analyses
-- functional programming principles for modularity and reusability
+- [functional programming]{.text-background-green .text-bold} principles for modularity and reusability
   - everything is a _function_
-  - each function is tested and documented ([example](https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_to_samples.html))
+  - each function is [tested and documented]{.text-background-brown .text-bold} ([example](https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_to_samples.html))
   - current code coverage: `r var_codecov`%
 :::
 
@@ -580,10 +580,10 @@ include_local_figure("Logos/R_logo.svg")
 
 ::: {.incremental}
 
- - to test the individual research questions, I am developing multiple data-analysis _pipelines_
+ - to test the individual research questions, I am developing multiple [data-analysis _pipelines_]{.text-background-blue .text-bold}
    - each pipeline is a sequence of data processing and analysis steps
    - each pipeline is tailored to a specific research question
-- Data and configuration are separated into "project"s
+- Data and configuration are separated into ["project"s]{.text-background-green .text-bold}
    - each project corresponds to a specific data subset and configuration settings
    - e.g. different regions, temporal resolution, taxonomic resolutions, etc.
 
@@ -877,8 +877,8 @@ include_local_figure("Logos/targets_logo.svg")
 
 ::: {.column width="70%" .incremental}
 - The pipeline is implemented using the `{targets}` R package 📦
-  - Each step is a function producing _targets_
-  - Each pipeline is constructed using _pipe segments_ 
+  - Each step is a function producing [_targets_]{.text-background-green .text-bold}
+  - Each pipeline is constructed using [_pipe segments_]{.text-background-blue .text-bold} 
     - this allows for modular and reusable code (see later slides)
 
 :::
@@ -970,7 +970,7 @@ char_taxonomic_resolution <-
 - simple and small
 - used only to test the pipeline
 - Settings:
-  - only paleo data
+  - only [paleo data]{.text-background-brown .text-bold}
   - time extent: 0-5 ka BP
   - abiotic variables: `r char_abiotic_vars`
   - taxonomic resolution: `r char_taxonomic_resolution`
@@ -982,9 +982,9 @@ char_taxonomic_resolution <-
 
 <br>
 
-- convergence diagnostics
+- [convergence diagnostics]{.text-background-blue .text-bold}
 - comparison to null model
-- variation partitioning
+- [variation partitioning]{.text-background-green .text-bold}
 - effect sizes
 - species associations
 
@@ -1050,7 +1050,7 @@ mod_full_waic <-
   Hmsc::computeWAIC()
 ```
 
-- I am selecting model based on the WAIC value 
+- I am selecting model based on the [WAIC value]{.text-background-green .text-bold} 
   - there is option to use ThurR2 as well
   - This is done automatically to select NULL or FULL model.
 
@@ -1293,7 +1293,7 @@ _Which species tend to co-occur more or less often than expected by chance?_
 :::: {.columns}
 
 ::: {.column width="30%" .fragment}
- - Based on the residual correlation matrix from the HMSC model
+ - Based on the [residual correlation matrix]{.text-background-blue .text-bold} from the HMSC model
 :::
 
 ::: {.column width="70%" .fragment}
@@ -1371,8 +1371,8 @@ data_species_associations_total %>%
 
 ::: {.incremental}
 
- - We can use the fitted HMSC model to predict species occurrences across space and time
-   - e.g., predicting the species colonization patterns after the Last Glacial Maximum (LGM)
+ - We can use the fitted HMSC model to [predict]{.text-background-green .text-bold} species occurrences across space and time
+   - e.g., predicting the species [colonization patterns]{.text-background-blue .text-bold} after the Last Glacial Maximum (LGM)
 
 :::
 
@@ -2194,7 +2194,7 @@ targets::tar_read(
 
 <br>
 
-_There is so much more to do! Here are some ideas for next steps._
+_There is so much more to do! Here are some ideas for [next steps]{.text-background-blue .text-bold}._
 
 ## Technical improvements
 
@@ -2202,10 +2202,10 @@ _There is so much more to do! Here are some ideas for next steps._
 
 ::: {.incremental}
 
-- Validate the mode with other framework for JSDM
+- Validate the mode with other [framework for JSDM]{.text-background-blue .text-bold}
   - {spAbundance} or {spOccupancy}
 - Filter out climatic variables before fitting (based on correlation)
-- Speed everything up
+- [Speed everything up]{.text-background-green .text-bold}
   - Set up HPC at Metacentrum
   - use scalable joint Species Distribution Model ({sjSDM})?
 
@@ -2218,10 +2218,10 @@ _There is so much more to do! Here are some ideas for next steps._
 ::: {.incremental}
 
 - Move beyond presence-absence data 
-  - use the hurdle model
-- Implement functional traits in the model
+  - use the [hurdle model]{.text-background-blue .text-bold}
+- Implement [functional traits]{.text-background-green .text-bold} in the model
 - Implement the functional types classification
-- Get more nuanced understanding of species associations by analysing co-occurrences as bipartite networks (food webs)
+- Get more nuanced understanding of species associations by analysing co-occurrences as [bipartite networks]{.text-background-brown .text-bold} (food webs)
 
 :::
 
@@ -2230,9 +2230,9 @@ _There is so much more to do! Here are some ideas for next steps._
 <br>
 
 ::: {.incremental}
- - Co-occurrence networks can be seen as bipartite networks 
-  - first layer: individual plots
-  - second layer: taxa
+ - Co-occurrence networks can be seen as [bipartite networks]{.text-background-blue .text-bold} 
+  - first layer: [individual plots]{.text-background-green .text-bold}
+  - second layer: [taxa]{.text-background-brown .text-bold}
 
 :::
 
@@ -2412,7 +2412,7 @@ url_gh <-
 
 <br>
 
-Everything shown here is fully open and reproducible! You can find the whole project( inlcuding code and materials for this presentation) on GitHub:
+Everything shown here is fully [open]{.text-background-blue .text-bold} and [reproducible]{.text-background-brown .text-bold}! You can find the whole project( inlcuding code and materials for this presentation) on GitHub:
 
 :::: {.columns}
 
