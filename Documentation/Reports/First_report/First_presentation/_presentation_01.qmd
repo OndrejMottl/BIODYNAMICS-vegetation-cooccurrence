@@ -1,0 +1,2451 @@
+---
+format: 
+  revealjs:
+    slide-number: true
+    theme: [default, custom_theme.scss]
+    preview-links: auto
+    output-file: "presentation_01"
+    output-ext: "html"
+    logo: "../../../../Documentation/Materials/Logos/BIODYNAMICS.png"
+    code-line-numbers: false
+    code-overflow: scroll
+    code-link: false
+    embed-resources: true
+    center-title-slide: false
+    include-in-header: "fonts-include.html"
+    pdf-separate-fragments: false
+---
+
+```{r}
+#| label: setup
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+#| eval: true
+library(here)
+
+here::i_am("Documentation/Reports/First_report/First_presentation/_presentation_01.qmd")
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
+library(jsonlite)
+library(qrcode)
+library(Hmsc)
+library(MCMCvis)
+library(tinytable)
+library(waffle)
+library(bipartite)
+
+path_to_materials <-
+  here::here("Documentation/Materials")
+
+include_local_figure <- function(data_source) {
+  knitr::include_graphics(
+    path = here::here(
+      path_to_materials,
+      data_source
+    ),
+    error = TRUE
+  )
+}
+```
+
+```{r}
+#| label: dynamic-theme
+#| include: false
+#| echo: false
+#| eval: true
+#| message: false
+
+# Colors
+colors <-
+  jsonlite::fromJSON(
+    here::here("Documentation/Reports/First_report/First_presentation/colors.json")
+  )
+
+colors_definition <-
+  purrr::imap(
+    .x = colors,
+    .f = ~ {
+      paste0(
+        "$", .y, ": ", unname(.x), ";", "\n",
+        ".reveal .bg-", .y, " { background-color: ", unname(.x), "; }\n",
+        ".text-color-", .y, " { color: ", unname(.x), " !important ; }\n",
+        ".text-background-", .y, " {\n",
+        "background-color: ", unname(.x), ";\n",
+        "padding: $smallMargin;\n",
+        "border-radius: 5px;\n",
+        " }", "\n"
+      )
+    }
+  ) %>%
+  paste(collapse = "\n")
+
+
+writeLines(
+  text = c(
+    "// This file is auto-generated from colors.json. Do not edit directly.",
+    colors_definition
+  ),
+  con = here::here("Documentation/Reports/First_report/First_presentation/_colors.scss")
+)
+
+# Fonts
+
+fonts <-
+  jsonlite::fromJSON(
+    here::here("Documentation/Reports/First_report/First_presentation/fonts.json")
+  )
+
+fonts_definition <-
+  c(
+    paste0('$mainFont: "', fonts$body, '", "Arial", sans-serif !default;\n'),
+    paste0('$headingFont: "', fonts$heading, '", "Courier New", monospace !default;\n'),
+    paste0(
+      ".text-font-body { font-family: $mainFont; }\n",
+      ".text-font-heading { font-family: $headingFont; }\n"
+    ),
+    paste0(
+      "/* Debug font loading - this will help us see if the font is loaded */\n",
+      "@supports (font-family: \"", fonts$heading, "\") {\n",
+      "  .debug-font-loaded::before {\n",
+      "    content: \"", fonts$heading, " font is supported\";\n",
+      "    display: block;\n",
+      "    font-size: 12px;\n",
+      "    color: green;\n",
+      "  }\n",
+      "}\n\n",
+      "/* Force font loading for debugging */\n",
+      ".force-press-start {\n",
+      "  font-family: \"", fonts$heading, "\", monospace !important;\n",
+      "  font-display: swap;\n",
+      "}\n"
+    )
+  )
+
+writeLines(
+  text = c(
+    "// This file is auto-generated from fonts.json. Do not edit directly.",
+    fonts_definition
+  ),
+  con = here::here("Documentation/Reports/First_report/First_presentation/_fonts.scss")
+)
+```
+
+# {.bg-green .text-color-white}
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="37%"}
+:::
+
+::: {.column width="25%"}
+
+```{r}
+#| label: biodynamics-logo-0
+include_local_figure("Logos/BIODYNAMICS.png")
+```
+
+:::
+
+::: {.column width="37%"}
+:::
+
+::::
+
+<br>
+
+:::: {.r-hstack}
+::: {data-id="box1" style="background: `r colors$white`; width: 120px; height: 15px; margin: 0px;"}
+:::
+
+::: {data-id="box2" style="background: `r colors$pink`; width: 550px; height: 15px; margin: 0px;"}
+:::
+
+::: {data-id="box3" style="background: `r colors$black`; width: 120px; height: 15px; margin: 0px;"}
+:::
+
+::: {data-id="box3" style="background: `r colors$blue`; width: 120px; height: 15px; margin: 0px;"}
+:::
+::::
+
+::: {.text-color-white .text-font-heading .text-size-heading3}
+[BIODYNAMICS]{.text-bold .text-color-black}: Spatio-temporal dynamics of biotic interactions
+:::
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+:::
+
+
+::: {.column width="60%" .text-right .text-color-black .text-size-body}
+[👤](https://ondrejmottl.github.io/)[Ondřej Mottl]{.text-color-white}
+
+[20.11.2025]{.text-color-black}
+
+:::
+
+::::
+
+## BIODYNAMICS
+
+- 3 years project (2023-2025) \[extended to 2026 due to parental leave\]
+- Funded by Czech Science Foundation (GAČR)
+
+### Objectives
+
+::: {.incremental}
+
+1. [Assemble an **interdisciplinary database** that integrates present and past vegetation records with their functional traits and abiotic environments since the Last Glacial Maximum]{.text-color-blue} (✅)
+2. Identify how [**biotic interactions**]{.text-background-pink .text-bold} scale up to form and **maintain biodiversity patterns** at various [spatial/temporal/taxonomic]{.text-background-blue .text-bold} scales 
+3. [Improve the capacity to **predict global biodiversity patterns** by including scale-dependent information about biotic interactions]{.text-color-blue} (maybe❔)
+
+:::
+
+# VegVault
+
+:::::: {.columns}
+
+::::: {.column width="50%"}
+
+```{r}
+#| label: VegVault logo
+include_local_figure("Logos/VegVault_logo.png")
+```
+
+:::::
+
+::::: {.column width="50%" .incremental}
+
+* A global SQLite database linking [interdisciplinary]{.text-background-green .text-bold} **plot-based** vegetation data! 
+* Links to functional **traits**, **climate** variables, and soil properties 
+* Built for exploring **biodiversity** dynamics across [time & space]{.text-background-blue .text-bold}
+* Open Source & [Reproducible]{.text-background-brown .text-bold}
+* 🔗Learn more: [bit.ly/VegVault](https://bit.ly/VegVault)
+
+:::: {.columns}
+
+::: {.column width="30%"}
+:::
+
+::: {.column width="40%"}
+
+```{r}
+#| label: vegvault_qr_code
+qr_vegvault <-
+  qrcode::qr_code(
+    "https://bit.ly/VegVault",
+    ecl = "H"
+  )
+
+qrcode::generate_svg(
+  qrcode = qr_vegvault,
+  file = here::here(
+    path_to_materials,
+    "QR/qr_vegvault.svg"),
+  foreground = colors$black,
+  background = colors$beigeLight
+)
+
+include_local_figure("QR/qr_vegvault.svg")
+```
+
+:::
+
+::: {.column width="30%"}
+:::
+
+::::
+
+:::::
+
+::::::
+
+
+## VegVault - Overview
+
+~110 GB | 32 tables & 87 variables | 480,000+ Datasets | 13M+ Samples  | 110,000+ Taxa | 11M+ Trait values | 8 Abiotic variables
+
+:::: {.columns .fragment}
+
+#### Data sources 
+
+::: {.column width="40%" .incremental}
+
+- 🌿 [**Paleoecological records**]{.text-background-brown .text-bold} ([Neotoma]{.text-italic}, [FOSSILPOL]{.text-italic})
+- 🌱 [**Contemporary vegetation**]{.text-background-green .text-bold} ([sPlotOpen]{.text-italic}, [BIEN]{.text-italic})
+- 🌾 **Functional traits** ([BIEN]{.text-italic}, [TRY]{.text-italic})
+- 🌍 **Climate & soil data** ([CHELSA]{.text-italic}, [WoSIS]{.text-italic})  
+:::
+
+::: {.column width="60%"}
+
+```{r}
+#| label: Scheme
+include_local_figure("VegVault/assembly_viz_04.png")
+```
+:::
+
+::::
+
+<!-- Slide 1 -->
+
+## Key Innovations
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::: {.text-size-heading3 .text-bold .fragment fragment-index=1}
+1. **Vegetation** data
+:::
+
+::: {.incremental fragment-index=3}
+
+- Integration of paleo and contemporary data
+- [Plot-based]{.text-background-green .text-bold} vegetation records 
+   + not just species occurrences
+   + [true negatives!]{.text-background-pink .text-bold}
+
+:::
+
+:::
+
+::: {.column width="50%" .fragment fragment-index=2}
+
+| Sample ID | Taxa A | Taxa B |
+|---|--------|--------|
+| 1 | 🔬🟡 | 🔬🟡🟡🟡 |
+| 2 | 🟩🌱🌱🌱 | |
+| 3 | 🟩🌱🌱 | 🟩🌱🌱 |
+
+:::
+
+::::
+
+<!-- Slide 2 -->
+
+## Key Innovations
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+::: {.text-size-heading3 .text-bold}
+1. **Abiotic** context
+:::
+
+::: {.incremental fragment-index=1}
+
+- [Sample-specific]{.text-background-green .text-bold} abiotic data
+   + mapped to spatio-temporal grids
+   + paleo and contemporary 
+- Selected variables for [vegetation studies]{.text-background-brown .text-bold}
+   + e.g. temperature, precipitation, soil type, etc. 
+
+:::
+
+:::
+
+::: {.column width="40%" .fragment fragment-index=2}
+
+```{r}
+#| label: link of abiotic data spatial example
+include_local_figure("VegVault/plot_abiotic_example_spatial.png")
+```
+:::
+
+::::
+
+:::: {.columns}
+
+::: {.column width="20%"}
+:::
+
+
+::: {.column width="50%" .fragment fragment-index=2}
+```{r}
+#| label: link of abiotic data temporal example
+include_local_figure("VegVault/plot_abiotic_example_temporal.png")
+```
+
+:::
+
+::: {.column width="30%"}
+:::
+
+::::
+
+::: {.footer}
+Figures from [VegVault presentation](https://ondrejmottl.github.io/VegVault-Presentation-20250802/)
+:::
+
+<!-- Slide 3 -->
+
+## Key Innovations
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::: {.text-size-heading3 .text-bold .fragment fragment-index=1}
+3. **Standardisation**
+:::
+
+::: {.incremental fragment-index=2}
+
+- [Trait domains]{.text-background-blue .text-bold} 
+    + pooling of traits across sources
+    + Following [Diaz et al. (2016)]{.text-italic .text-background-green .text-color-white} 
+
+:::
+
+::: {.incremental fragment-index=4}
+
+- [Taxonomic harmonisation]{.text-background-pink .text-bold} via GBIF backbone and `{taxospace}`📦  
+   + unified taxonomy across dataset vegetation, fossil pollen and traits
+
+:::
+
+:::
+
+::: {.column width="50%" .fragment fragment-index=3}
+Trait source |Trait name| Trait Domain|
+|---|---|---|
+| BIEN | [leaf nitrogen content per leaf dry mass]{.text-italic} | [Leaf nitrogen content per unit mass]{.text-italic .text-underline} |
+| TRY | [Leaf nitrogen (N) content per leaf dry mass]{.text-italic} | [Leaf nitrogen content per unit mass]{.text-italic .text-underline} |
+
+:::
+
+::::
+
+# Biotic interactions
+
+<br>
+
+::: {.incremental}
+
+ - [Non-random cooccurrences]{.text-background-blue .text-bold} after accounting for environmental filtering 
+- Can be positive (facilitation) or negative (competition)
+- Are [scale dependent]{.text-background-green .text-bold} (?)
+
+:::
+
+## Scales (3 axes)
+
+<br>
+
+::: {.incremental}
+
+- **Spatial**
+  - “_Biotic interactions from individual sites (local) to whole continents (global)_”
+- **Temporal**
+  - “_currently observed changes in biodiversity began millennia ago_”
+- **Taxonomic**
+  - individual taxa
+  - phylogenetically cofound groups
+  - groups occupying different ecological niches (i.e. Functional Types)
+
+:::
+
+## Research questions
+
+<br>
+
+1. Is there a [**scale dependence**]{.text-background-blue .text-bold} in the  amount of unexplained variation (potentially due to biotic interactions) structuring vegetation?
+
+::: {.incremental}
+
+ - Expectation 1 - Strength of biotic interactions decrease with increasing [spatial scale]{.text-background-green .text-bold}
+ - Expectation 2 - The importance of biotic interaction increase in the periods of large changes (climatic - LGM, anthropogenic - last centuries)
+ - Expectation 3 - low taxonomic resolution show stronger biotic interactions at larger spatial scales (interaction between spatial and taxonomic scale)
+
+:::
+
+## Research questions
+
+<br>
+
+2. Can we improve the [**predictive capacity**]{.text-background-pink .text-bold} of biodiversity models by including biotic interactions and historical data?
+
+::: {.incremental}
+
+ - Expectation 4 - Including [historical data]{.text-background-brown .text-bold} will improve model predictive capacity, especially at large scales
+ - Expectation 5 - Including biotic interactions will improve model predictive capacity, especially at local scales
+
+:::
+
+# Methodological framework
+
+<br>
+
+To address the objectives and research questions, I am developing a large code base with [modular]{.text-background-green .text-bold} and [reusable]{.text-background-blue .text-bold} **data-analysis pipelines** 
+
+```{r}
+#| label: sjSDM
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+include_local_figure("BIODYNAMICS/sjSDM.png")
+```
+
+The main methodology is [Joined Species Distribution Modelling]{.text-background-pink .text-bold} (JSDM), which allows to infer biotic interactions from species cooccurrence patterns after accounting for environmental filtering
+
+::: {.footer}
+[{sjSDM}](https://cran.r-project.org/web/packages/sjSDM/vignettes/sjSDM_Introduction.html)
+:::
+
+## Hierarchical Modelling of Species Communities (HMSC) 
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="25%" .fragment}
+
+```{r}
+#| label: hmsc-book
+include_local_figure("Hmsc/9781108716789i.jpg")
+```
+
+:::
+
+::: {.column width="75%" .fragment}
+
+```{r}
+#| label: hmsc-viz
+include_local_figure("Hmsc/61506-ele_ms_figures-1_3_4.png.webp")
+```
+
+:::
+
+::::
+
+
+## Methodological framework
+
+```{r}
+#| label: extract-codecov
+#| echo: false 
+#| message: false
+#| warning: false
+#| include: false
+
+var_codecov <-
+  jsonlite::fromJSON(
+    here::here("Documentation/Functions_test_coverage/covr_report_summary.json")
+  )  %>% 
+  purrr::chuck("value")
+```
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+```{r}
+#| label: r-logo
+include_local_figure("Logos/R_logo.svg")
+```
+:::
+
+::: {.column width="50%" .incremental}
+- using [R]{.text-background-blue} for all data processing and analyses
+- [functional programming]{.text-background-green .text-bold} principles for modularity and reusability
+  - everything is a _function_
+  - each function is [tested and documented]{.text-background-brown .text-bold} ([example](https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_to_samples.html))
+  - current code coverage: `r var_codecov`%
+:::
+
+::::
+
+# "Project" + Pipeline
+
+<br>
+
+::: {.incremental}
+
+ - to test the individual research questions, I am developing multiple [data-analysis _pipelines_]{.text-background-blue .text-bold}
+   - each pipeline is a sequence of data processing and analysis steps
+   - each pipeline is tailored to a specific research question
+- Data and configuration are separated into ["project"s]{.text-background-green .text-bold}
+   - each project corresponds to a specific data subset and configuration settings
+   - e.g. different regions, temporal resolution, taxonomic resolutions, etc.
+
+:::
+
+## Basic Pipeline
+
+<br>
+<br>
+
+```{r}
+#| label: setup-pipeline-basic
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+vec_pipelines <- "pipeline_basic"
+
+set_store <-
+  vec_pipelines %>%
+  paste0(
+    get_active_config("target_store"), "/", ., "/"
+  ) %>%
+  here::here()
+```
+
+## Basic Pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-0
+flowchart LR
+    Project-.->Pipeline
+    subgraph Project
+    end
+    subgraph Pipeline
+    end
+```
+
+## Basic Pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-1
+flowchart LR
+    Config-.->Analyses
+    subgraph Project
+    Config
+    end
+    subgraph Pipeline
+    Analyses
+    end
+```
+
+
+## Basic Pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-2
+flowchart LR
+    Config-.->Data
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        Data-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+## Basic Pipeline - Data
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-3
+flowchart LR
+    Config-.->VegVault
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+## Basic Pipeline - Data
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-3
+```
+
+## Basic Pipeline - Data
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-4
+flowchart LR
+    Config-.->VegVault
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Model
+        Data_abiotic-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+## Basic Pipeline - Data
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-5
+flowchart LR
+    Config-.->VegVault
+    Config-.->Data_interpolated
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Data_interpolated
+        Data_abiotic-->Data_interpolated
+        Data_interpolated-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+## Basic Pipeline - Data
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-6
+flowchart LR
+    Config-.->VegVault
+    Config-.->Classification
+    Config-.->Data_interpolated
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Classification
+        Classification-->Data_harmonised
+        Data_abiotic-->Data_interpolated
+        Data_harmonised-->Data_interpolated
+        Data_interpolated-->Model
+        Model-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+## Basic Pipeline - Model
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-6
+```
+
+## Basic Pipeline - Model
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-7
+flowchart LR
+    Config-.->VegVault
+    Config-.->Classification
+    Config-.->Data_interpolated
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Classification
+        Classification-->Data_harmonised
+        Data_abiotic-->Data_interpolated
+        Data_harmonised-->Data_interpolated
+        Data_interpolated-->Model
+        Model-->Model_evaluation
+        Model_evaluation-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+## Basic Pipeline - Model
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-8
+flowchart LR
+    Config-.->VegVault
+    Config-.->Classification
+    Config-.->Data_interpolated
+    Config-.->Model
+    Config-.->Species_associations
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Classification
+        Classification-->Data_harmonised
+        Data_abiotic-->Data_interpolated
+        Data_harmonised-->Data_interpolated
+        Data_interpolated-->Model
+        Model-->Model_null
+        Model-->Model_full
+        Model_null-->Model_evaluation
+        Model_full-->Model_evaluation
+        Model_evaluation-->Species_associations
+        Species_associations-->Results
+    end
+```
+
+## R implementation
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="30%" .fragment}
+
+```{r}
+#| label: targets-logo
+include_local_figure("Logos/targets_logo.svg")
+```
+:::
+
+::: {.column width="70%" .incremental}
+- The pipeline is implemented using the `{targets}` R package 📦
+  - Each step is a function producing [_targets_]{.text-background-green .text-bold}
+  - Each pipeline is constructed using [_pipe segments_]{.text-background-blue .text-bold} 
+    - this allows for modular and reusable code (see later slides)
+
+:::
+
+::::
+
+## Basic Pipeline - {targets}
+
+```{r}
+#| label: target-graph-basic
+#| echo: false
+#| message: false
+#| warning: false
+#| output: false
+plot_target_graph_basic <-
+  targets::tar_visnetwork(
+    script = paste0(
+      "R/02_Main_analyses", "/", vec_pipelines, ".R"
+    ) %>%
+      here::here(),
+    store = set_store,
+    targets_only = TRUE,
+    outdated = FALSE,
+    physics = TRUE,
+    level_separation = 150
+  )
+```
+
+```{r}
+#| label: target-graph-basic-plot;
+#| echo: false
+#| message: false
+#| warning: false
+#| output: true
+plot_target_graph_basic
+```
+
+## "Project" == Czech Republic
+
+<br>
+
+```{r}
+#| label: model-validation-setup
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+mod_hmsc_with_eval <-
+  targets::tar_read(
+    name = "mod_hmsc_to_use",
+    store = set_store
+  )
+
+mod_hmsc <-
+  mod_hmsc_with_eval %>%
+  purrr::chuck("mod")
+
+n_samples <- get_active_config(
+  value = c("model_fitting", "samples")
+)
+
+n_validation_folds <- get_active_config(
+  value = c("model_fitting", "cross_validation_folds")
+)
+
+n_cores <- get_active_config(
+  value = c("model_fitting", "n_cores")
+)
+
+n_samples_total <- n_samples * n_cores
+
+
+char_abiotic_vars <-
+  paste(
+    get_active_config(
+      c("vegvault_data", "sel_abiotic_var_name")
+    ),
+    collapse = ", "
+  )
+
+char_taxonomic_resolution <-
+  get_active_config(
+    c("data_processing", "taxonomic_resolution")
+  )
+```
+
+::: {.incremental}
+
+- simple and small
+- used only to test the pipeline
+- Settings:
+  - only [paleo data]{.text-background-brown .text-bold}
+  - time extent: 0-5 ka BP
+  - abiotic variables: `r char_abiotic_vars`
+  - taxonomic resolution: `r char_taxonomic_resolution`
+  - model: `r n_cores` chains, `r n_samples` samples per chain (total `r n_samples_total`), `r n_validation_folds` cross-validation folds
+
+:::
+
+# Model validation and exploration
+
+<br>
+
+- [convergence diagnostics]{.text-background-blue .text-bold}
+- comparison to null model
+- [variation partitioning]{.text-background-green .text-bold}
+- effect sizes
+- species associations
+
+## Convergence diagnostics
+
+<br>
+
+```{r}
+#| label: model-validation-Rhat
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+mod_beta_summary <-
+  Hmsc::convertToCodaObject(mod_hmsc) %>%
+  purrr::chuck("Beta") %>%
+  MCMCvis::MCMCsummary() %>%
+  janitor::clean_names()
+
+mod_beta_summary %>%
+  ggplot2::ggplot(
+    ggplot2::aes(x = rhat)
+  ) +
+  ggplot2::geom_histogram(bins = 30) +
+  ggplot2::theme_minimal() +
+  ggplot2::labs(
+    x = "R-hat values",
+    y = "Count",
+    title = "R-hat values for the beta parameters of the model"
+  ) +
+  ggplot2::geom_vline(xintercept = 1.1, color = "red", linetype = "dashed") +
+  ggplot2::xlim(1, NA)
+```
+
+Terrible model - this is just a toy example
+
+## Comparison to null model
+
+<br>
+
+```{r}
+#| label: model-validation-compare
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+#| cache: true
+mod_hmsc_fitted_combined <-
+  targets::tar_read(
+    name = "mod_hmsc_fitted_combined",
+    store = set_store
+  )
+
+mod_null_waic <-
+  mod_hmsc_fitted_combined %>%
+  purrr::chuck("mod_hmsc_eval_..1_null", "mod") %>%
+  Hmsc::computeWAIC()
+
+mod_full_waic <-
+  mod_hmsc_fitted_combined %>%
+  purrr::chuck("mod_hmsc_eval_..._full", "mod") %>%
+  Hmsc::computeWAIC()
+```
+
+- I am selecting model based on the [WAIC value]{.text-background-green .text-bold} 
+  - there is option to use ThurR2 as well
+  - This is done automatically to select NULL or FULL model.
+
+<br>
+
+::: {.incremental}
+- NULL: `r round(mod_null_waic, 3)`
+- FULL: `r round(mod_full_waic, 3)`
+:::
+
+::: {.fragment}
+Let's pretend that the FULL model is the one we want to show here.
+:::
+
+## Variation partitioning
+
+<br>
+
+```{r}
+#| label: model-validation-varpart-data
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+
+mod_hmsc_full_with_eval <-
+  targets::tar_read(
+    name = "mod_hmsc_eval_..._full",
+    store = set_store
+  )
+
+mod_hmsc_full <-
+  mod_hmsc_full_with_eval %>%
+  purrr::chuck("mod")
+
+data_varpart_plot <-
+  mod_hmsc_full %>%
+  Hmsc::computeVariancePartitioning() %>%
+  purrr::chuck("vals") %>%
+  as.data.frame() %>%
+  tibble::rownames_to_column("factor") %>%
+  tibble::as_tibble() %>%
+  tidyr::pivot_longer(
+    cols = -factor,
+    names_to = "species",
+    values_to = "r2"
+  ) %>%
+  dplyr::mutate(
+    factor = dplyr::case_when(
+      factor == "bio1" ~ "MAT",
+      factor == "bio12" ~ "MAP",
+      factor == "Random: age" ~ "Time",
+      factor == "Random: dataset_name" ~ "Space"
+    )
+  ) %>%
+  dplyr::mutate(
+    factor_simple = dplyr::case_when(
+      .default = factor,
+      factor %in% c("Time", "Space") ~ "Random effects",
+      factor %in% c("MAT", "MAP") ~ "Abiotic variables"
+    )
+  )
+```
+
+```{r}
+#| label: model-validation-varpart-plot-simple
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+data_varpart_plot %>%
+  ggplot2::ggplot(
+    mapping = ggplot2::aes(
+      x = species,
+      y = r2,
+      fill = factor_simple
+    )
+  ) +
+  ggplot2::geom_bar(
+    stat = "identity",
+    position = "fill"
+  ) +
+  ggplot2::coord_flip(
+    ylim = c(0, 1)
+  ) +
+  ggplot2::labs(
+    x = "Species",
+    y = "Proportion of explained variance"
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_text(
+      angle = 90,
+      vjust = 0.5,
+      hjust = 1
+    ),
+    axis.ticks.y = ggplot2::element_blank(),
+    panel.grid.major.y = ggplot2::element_blank()
+  ) +
+  ggplot2::scale_fill_viridis_d()
+```
+
+## Variation partitioning
+
+<br>
+
+```{r}
+#| label: model-validation-varpart-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+data_varpart_plot %>%
+  ggplot2::ggplot(
+    mapping = ggplot2::aes(
+      x = species,
+      y = r2,
+      fill = factor
+    )
+  ) +
+  ggplot2::geom_bar(
+    stat = "identity",
+    position = "fill"
+  ) +
+  ggplot2::coord_flip(
+    ylim = c(0, 1)
+  ) +
+  ggplot2::labs(
+    x = "Species",
+    y = "Proportion of explained variance"
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_text(
+      angle = 90,
+      vjust = 0.5,
+      hjust = 1
+    ),
+    axis.ticks.y = ggplot2::element_blank(),
+    panel.grid.major.y = ggplot2::element_blank()
+  ) +
+  ggplot2::scale_fill_viridis_d()
+```
+
+## Effect sizes
+
+<br>
+
+_How important are the environmental variables in determining species occurrences?_
+
+```{r}
+#| label: model-validation-effect-sizes-data
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+
+mod_hmsc_full_coda <-
+  Hmsc::convertToCodaObject(mod_hmsc_full)
+
+vec_all_vars <-
+  mod_hmsc_full_coda %>%
+  purrr::chuck("Beta", 1) %>%
+  colnames()
+
+vec_vars_bio1 <-
+  vec_all_vars[
+    vec_all_vars %>%
+      stringr::str_detect("C2") %>%
+      which()
+  ]
+
+vec_vars_bio12 <-
+  vec_all_vars[
+    vec_all_vars %>%
+      stringr::str_detect("C3") %>%
+      which()
+  ]
+```
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+```{r}
+#| label: model-validation-effect-sizes-1
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| fig-height: 10
+
+mod_hmsc_full_coda %>%
+  purrr::chuck("Beta") %>%
+  MCMCplot(
+    object = .,
+    ci = c(50, 90),
+    params = vec_vars_bio1,
+    ISB = FALSE,
+    ref_ovl = TRUE,
+    rank = TRUE,
+    main = "Effect sizes for MAT"
+  )
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| label: model-validation-effect-sizes-2
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| fig-height: 10
+
+mod_hmsc_full_coda %>%
+  purrr::chuck("Beta") %>%
+  MCMCplot(
+    ci = c(50, 90),
+    params = vec_vars_bio12,
+    ISB = FALSE,
+    ref_ovl = TRUE,
+    rank = TRUE,
+    main = "Effect sizes for MAP"
+  )
+```
+
+:::
+
+::::
+
+## Species associations
+
+<br>
+
+_Which species tend to co-occur more or less often than expected by chance?_
+
+:::: {.columns}
+
+::: {.column width="30%" .fragment}
+ - Based on the [residual correlation matrix]{.text-background-blue .text-bold} from the HMSC model
+:::
+
+::: {.column width="70%" .fragment}
+```{r}
+#| label: species-associations-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+data_species_associations_total <-
+  targets::tar_read(
+    name = "data_species_associations_total",
+    store = set_store
+  )
+
+data_species_associations_total %>%
+  dplyr::filter(
+    type == "dataset_name"
+  ) %>%
+  dplyr::mutate(
+    prop_sign_assoc = n_sign_assoc,
+    percentage_sign_assoc = round(prop_sign_assoc * 100),
+    n_total = 100,
+    n_not_sign_assoc = n_total - percentage_sign_assoc
+  ) %>%
+  dplyr::select(percentage_sign_assoc, n_not_sign_assoc) %>%
+  tidyr::pivot_longer(
+    cols = everything(),
+    names_to = "group",
+    values_to = "value"
+  ) %>%
+  dplyr::mutate(
+    group_name = dplyr::case_when(
+      group == "percentage_sign_assoc" ~ "Significant associations",
+      group == "n_not_sign_assoc" ~ "Non-significant associations"
+    )
+  ) %>%
+  ggplot2::ggplot(
+    mapping = ggplot2::aes(fill = group_name, values = value)
+  ) +
+  ggplot2::coord_equal() +
+  waffle::geom_waffle(
+    n_rows = 10,
+    size = 0.5,
+    colour = "white",
+    flip = TRUE,
+    make_proportional = TRUE
+  ) +
+  ggplot2::guides(
+    fill = ggplot2::guide_legend(
+      ncol = 1
+    )
+  ) +
+  ggplot2::labs(
+    x = NULL,
+    y = NULL,
+    title = "Percentage of significant co-occurrences"
+  ) +
+  ggplot2::theme_void() +
+  ggplot2::theme(
+    legend.title = ggplot2::element_blank(),
+    legend.position = "bottom"
+  )
+```
+
+:::
+
+::::
+
+
+# Biogeography
+
+<br>
+
+::: {.incremental}
+
+ - We can use the fitted HMSC model to [predict]{.text-background-green .text-bold} species occurrences across space and time
+   - e.g., predicting the species [colonization patterns]{.text-background-blue .text-bold} after the Last Glacial Maximum (LGM)
+
+:::
+
+```{r}
+#| label: prediction-setup
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+age_lim <-
+  get_active_config(
+    value = c("vegvault_data", "age_lim")
+  )
+
+vec_age_slices <-
+  seq(
+    min(age_lim),
+    max(age_lim),
+    get_active_config(
+      value = c("data_processing", "time_step")
+    )
+  )
+
+x_lim <-
+  get_active_config(
+    value = c("vegvault_data", "x_lim")
+  )
+
+x_lim_max <- max(x_lim, na.rm = TRUE)
+x_lim_min <- min(x_lim, na.rm = TRUE)
+
+y_lim <-
+  get_active_config(
+    value = c("vegvault_data", "y_lim")
+  )
+
+y_lim_max <- max(y_lim, na.rm = TRUE)
+y_lim_min <- min(y_lim, na.rm = TRUE)
+```
+
+```{r}
+#| label: prediction-new-data
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| cache: true
+con <-
+  DBI::dbConnect(
+    RSQLite::SQLite(),
+    here::here("Data/Input/VegVault.sqlite")
+  )
+
+data_gridpoints_raw <-
+  dplyr::tbl(con, "Datasets") %>%
+  dplyr::filter(data_source_type_id == 5) %>%
+  dplyr::filter(
+    coord_long >= x_lim_min &
+      coord_long <= x_lim_max &
+      coord_lat >= y_lim_min &
+      coord_lat <= y_lim_max
+  ) %>%
+  dplyr::inner_join(
+    dplyr::tbl(con, "DatasetSample"),
+    by = "dataset_id"
+  ) %>%
+  dplyr::inner_join(
+    dplyr::tbl(con, "Samples"),
+    by = "sample_id"
+  ) %>%
+  dplyr::inner_join(
+    dplyr::tbl(con, "AbioticData") %>%
+      dplyr::filter(
+        abiotic_variable_id == 1 | # BIO1
+          abiotic_variable_id == 4 # BIO12
+      ),
+    by = "sample_id"
+  ) %>%
+  dplyr::collect()
+
+DBI::dbDisconnect(con)
+
+```
+
+```{r}
+#| label: prediction-new-data-wrangle
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+data_to_predict <-
+  data_gridpoints_raw %>%
+  dplyr::filter(
+    age %in% vec_age_slices
+  ) %>%
+  dplyr::select(
+    dataset_name,
+    coord_long, coord_lat,
+    age,
+    abiotic_variable_id, abiotic_value
+  )
+
+
+data_to_predict_distinct <-
+  data_to_predict %>%
+  tidyr::pivot_wider(
+    names_from = abiotic_variable_id,
+    values_from = abiotic_value,
+    names_prefix = "var_id_"
+  ) %>%
+  dplyr::distinct(coord_long, coord_lat, age, .keep_all = TRUE) %>%
+  dplyr::rename(
+    bio1 = var_id_1,
+    bio12 = var_id_4
+  )
+
+data_to_predict_clim <-
+  data_to_predict_distinct %>%
+  dplyr::select(bio1, bio12) %>%
+  as.data.frame()
+
+
+data_coords <-
+  data_to_predict_distinct %>%
+  dplyr::distinct(dataset_name, coord_long, coord_lat) %>%
+  tibble::column_to_rownames("dataset_name")
+
+random_coors_knots <-
+  Hmsc::constructKnots(
+    sData = data_coords,
+    minKnotDist = get_active_config(
+      c("data_processing", "min_distance_of_gpp_knots")
+    )
+  )
+
+random_level_coords <-
+  Hmsc::HmscRandomLevel(
+    sData = data_coords,
+    sMethod = "GPP",
+    sKnot = random_coors_knots
+  )
+
+data_age <-
+  data_to_predict_distinct %>%
+  dplyr::distinct(age) %>%
+  dplyr::arrange(age) %>%
+  dplyr::mutate(
+    age_rowname = as.character(age)
+  ) %>%
+  tibble::column_to_rownames("age_rowname")
+
+random_level_age <-
+  Hmsc::HmscRandomLevel(
+    sData = data_age
+  )
+
+study_design <-
+  data_to_predict_distinct %>%
+  dplyr::mutate(
+    age_factor = factor(
+      x = age,
+      levels = sort(unique(as.numeric(age))),
+      ordered = TRUE
+    ),
+    dataset_name_factor = as.factor(dataset_name)
+  ) %>%
+  dplyr::select(
+    "dataset_name" = "dataset_name_factor",
+    "age" = "age_factor"
+  ) %>%
+  as.data.frame()
+
+
+```
+
+```{r}
+#| label: prediction-new-data-predict
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| cache: false
+
+# There is an issue with caching here (the file is too large), so I am using manual saving/loading
+
+if (
+  file.exists(
+    here::here("Documentation/Reports/First_report/First_presentation/_presentation_01_temp/data_pred.rds")
+  )
+) {
+  data_pred <-
+    readr::read_rds(
+      here::here("Documentation/Reports/First_report/First_presentation/_presentation_01_temp/data_pred.rds")
+    )
+} else {
+  data_pred <-
+    Hmsc:::predict.Hmsc(
+      object = mod_hmsc_full,
+      XData = data_to_predict_clim,
+      studyDesign = study_design,
+      ranLevels = list(
+        age = random_level_age,
+        dataset_name = random_level_coords
+      ),
+      predictEtaMean = TRUE,
+      expected = TRUE
+    )
+
+  readr::write_rds(
+    x = data_pred,
+    file = here::here("Documentation/Reports/First_report/First_presentation/_presentation_01_temp/data_pred.rds")
+  )
+}
+```
+
+```{r}
+#| label: prediction-new-data-postprocess
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| cache: true
+mean_with_na <- function(x) {
+  mean(x, na.rm = TRUE)
+}
+
+data_pred_avg <-
+  apply(
+    abind::abind(data_pred, along = 3),
+    c(1, 2),
+    FUN = mean_with_na
+  )
+```
+
+```{r}
+#| label: prediction-new-data-get-observed
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+data_to_fit <-
+  targets::tar_read(
+    name = "data_to_fit",
+    store = set_store
+  )
+
+data_taxa_eval <-
+  tibble::tibble(
+    taxon = data_to_fit %>%
+      purrr::chuck("data_community_to_fit") %>%
+      colnames(),
+    mod_hmsc_full_with_eval %>%
+      purrr::chuck("eval") %>%
+      as.data.frame()
+  )
+
+data_observed <-
+  data_to_fit %>%
+  purrr::chuck("data_community_to_fit") %>%
+  add_age_column_from_rownames() %>%
+  add_dataset_name_column_from_rownames() %>%
+  as_tibble() %>%
+  dplyr::left_join(
+    data_to_fit %>%
+      purrr::chuck("data_coords_to_fit") %>%
+      tibble::rownames_to_column("dataset_name"),
+    by = "dataset_name"
+  ) %>%
+  tidyr::pivot_longer(
+    cols = -c(age, dataset_name, coord_long, coord_lat),
+    names_to = "taxon",
+    values_to = "proportion"
+  ) %>%
+  dplyr::mutate(
+    present = ifelse(proportion > 0, "present", "absent")
+  )
+
+data_predicted <-
+  as_tibble(study_design) %>%
+  dplyr::mutate(
+    coord_long = dataset_name %>%
+      stringr::str_remove("geo_") %>%
+      stringr::str_remove("_.*"),
+    coord_lat = dataset_name %>%
+      stringr::str_remove("geo_") %>%
+      stringr::str_remove(".*_"),
+    age = as.numeric(as.character(age))
+  ) %>%
+  dplyr::bind_cols(
+    as_tibble(data_pred_avg)
+  ) %>%
+  tidyr::pivot_longer(
+    cols = -c(dataset_name, coord_lat, coord_long, age),
+    names_to = "taxon",
+    values_to = "pred_value"
+  ) %>%
+  dplyr::select(taxon, coord_long, coord_lat, age, pred_value)
+```
+
+## Single taxa plot
+
+```{r}
+#| label: prediction-new-data-plot-single-taxa
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| out-width: "100%"
+#| out-height: "100%"
+#| fig-height: 6
+sel_taxa <- "Fraxinus"
+
+data_observed_sel_taxa <-
+  data_observed %>%
+  dplyr::filter(taxon == sel_taxa)
+
+data_predicted_sel_taxa <-
+  data_predicted %>%
+  dplyr::filter(taxon == sel_taxa)
+
+# Make a plot
+data_predicted_sel_taxa %>%
+  ggplot2::ggplot() +
+  ggplot2::facet_wrap(~age) +
+  ggplot2::geom_tile(
+    mapping = ggplot2::aes(
+      x = as.numeric(coord_long),
+      y = as.numeric(coord_lat),
+      fill = pred_value
+    ),
+    col = NA,
+    alpha = 0.8,
+    linewidth = 0,
+    width = 0.5,
+    height = 0.5
+  ) +
+  ggplot2::borders(
+    "world",
+    fill = NA,
+    colour = "black"
+  ) +
+  ggplot2::geom_point(
+    data = data_observed_sel_taxa,
+    mapping = ggplot2::aes(
+      x = as.numeric(coord_long),
+      y = as.numeric(coord_lat),
+      color = as.factor(present),
+      shape = as.factor(present)
+    ),
+    size = 3,
+    alpha = 0.5
+  ) +
+  ggplot2::scale_fill_viridis_c() +
+  ggplot2::scale_color_manual(
+    values = c(
+      "present" = "red",
+      "absent" = "black"
+    )
+  ) +
+  ggplot2::scale_shape_manual(
+    values = c(
+      "present" = 12,
+      "absent" = 13
+    )
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "top",
+    plot.title = ggplot2::element_text(hjust = 0.5),
+    plot.subtitle = ggplot2::element_text(hjust = 0.5)
+  ) +
+  ggplot2::coord_quickmap(
+    xlim = x_lim,
+    ylim = y_lim
+  ) +
+  ggplot2::labs(
+    fill = "Predicted\nprobability of\noccurrence",
+    color = "Observed",
+    shape = "Observed",
+    x = "Longitude",
+    y = "Latitude",
+    title = paste(
+      "Predicted occurrence of",
+      sel_taxa,
+      char_taxonomic_resolution,
+      " for Czechia"
+    ),
+    subtitle = "Each facet is a different time slice",
+    caption = paste(
+      paste(
+        "HMSC model with space (GPP; minimum distance of",
+        get_active_config(
+          c("data_processing", "min_distance_of_gpp_knots")
+        ),
+        ") and age as random effect"
+      ),
+      paste(
+        "Climatic variables:",
+        char_abiotic_vars
+      ),
+      paste(
+        "Model fitted with",
+        n_samples_total,
+        "samples total and",
+        n_validation_folds,
+        "cross-validation folds"
+      ),
+      paste(
+        "Model evaluation:",
+        data_taxa_eval %>%
+          dplyr::filter(taxon == sel_taxa) %>%
+          dplyr::pull(AUC) %>%
+          round(3),
+        "AUC;",
+        data_taxa_eval %>%
+          dplyr::filter(taxon == sel_taxa) %>%
+          dplyr::pull(TjurR2) %>%
+          round(3),
+        "TjurR2;",
+        data_taxa_eval %>%
+          dplyr::filter(taxon == sel_taxa) %>%
+          dplyr::pull(RMSE) %>%
+          round(3),
+        "RMSE"
+      ),
+      sep = "\n"
+    )
+  )
+
+```
+
+## Diversity through time
+
+```{r}
+#| label: prediction-diversity-estimation
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+
+data_predicted_richness <-
+  seq(0.25, 0.75, by = 0.05) %>%
+  rlang::set_names() %>%
+  purrr::map(
+    .f = ~ data_predicted %>%
+      dplyr::mutate(
+        present = ifelse(pred_value >= .x, TRUE, FALSE)
+      ) %>%
+      dplyr::group_by(coord_long, coord_lat, age) %>%
+      dplyr::summarise(
+        richness = sum(present, na.rm = TRUE),
+        .groups = "drop"
+      )
+  ) %>%
+  dplyr::bind_rows(.id = "threshold") %>%
+  dplyr::group_by(coord_long, coord_lat, age) %>%
+  dplyr::summarise(
+    richness_mean = mean(richness, na.rm = TRUE),
+    richness_min = min(richness, na.rm = TRUE),
+    richness_max = max(richness, na.rm = TRUE),
+    richness_range = abs(richness_max - richness_min),
+    richness_sd = sd(richness, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+```{r}
+#| label: prediction-diversity-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| out-width: "100%"
+#| out-height: "100%"
+#| fig-height: 6
+
+data_predicted_richness %>%
+  ggplot2::ggplot() +
+  ggplot2::facet_wrap(~age) +
+  ggplot2::geom_tile(
+    mapping = ggplot2::aes(
+      x = as.numeric(coord_long),
+      y = as.numeric(coord_lat),
+      fill = richness_mean,
+      alpha = 1 / richness_range
+    ),
+    col = NA,
+    linewidth = 0,
+    width = 0.25,
+    height = 0.25
+  ) +
+  ggplot2::borders(
+    "world",
+    fill = NA,
+    colour = "black"
+  ) +
+  ggplot2::scale_fill_viridis_c(
+    limits = c(
+      14,
+      15.5
+    )
+  ) +
+  ggplot2::scale_alpha_continuous(
+    limits = c(0, 1),
+    breaks = seq(0, 1, by = 0.2)
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "top",
+    plot.title = ggplot2::element_text(hjust = 0.5),
+    plot.subtitle = ggplot2::element_text(hjust = 0.5)
+  ) +
+  ggplot2::coord_quickmap(
+    xlim = x_lim,
+    ylim = y_lim
+  ) +
+  ggplot2::labs(
+    fill = "Predicted\nrichness",
+    x = "Longitude",
+    y = "Latitude",
+    alpha = "Prediction confidence",
+    title = paste(
+      "Predicted taxonomic richness for Czechia"
+    ),
+    subtitle = "Each facet is a different time slice",
+    caption = paste(
+      paste(
+        "HMSC model with space (GPP; minimum distance of",
+        get_active_config(
+          c("data_processing", "min_distance_of_gpp_knots")
+        ),
+        ") and age as random effect"
+      ),
+      paste(
+        "Climatic variables:",
+        char_abiotic_vars
+      ),
+      paste(
+        "Model fitted with",
+        n_cores,
+        "chains,",
+        n_samples_total,
+        "samples total,",
+        n_validation_folds,
+        "cross-validation folds"
+      ),
+      sep = "\n"
+    )
+  )
+
+```
+
+# Time pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-0
+```
+
+## Time pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-time-1
+flowchart LR
+    Czechia-.->Basic_pipeline
+    subgraph Project
+    Czechia
+    end
+    subgraph Pipeline
+    Basic_pipeline
+    end
+```
+
+## Time pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-time-2
+flowchart LR
+    Czechia-.->Time_pipeline
+    subgraph Project
+    Czechia
+    end
+    subgraph Pipeline
+    Time_pipeline
+    end
+```
+
+## Time pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-basic-3
+```
+
+## Time pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-time-3
+flowchart LR
+    Config-.->VegVault
+    Config-.->Data_subset
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_subset
+        species_associations_1-->results
+        species_associations_2-->results
+        species_associations_3-->results
+        subgraph Age_slices
+            direction LR
+            Data_subset-->model_age_1
+            Data_subset-->model_age_2
+            Data_subset-->model_age_3
+            model_age_1-->species_associations_1
+            model_age_2-->species_associations_2
+            model_age_3-->species_associations_3
+        end
+end
+```
+
+## Time pipeline
+
+<br>
+<br>
+
+```{mermaid}
+%%| label: mermaid-pipeline-time-4
+flowchart LR
+    Config-.->VegVault
+    Config-.->Classification
+    Config-.->Data_interpolated
+    Config-.->Data_subset
+    subgraph Project
+        direction TB
+        Config
+    end
+    subgraph Pipeline
+        direction LR
+        VegVault-->Data_community
+        VegVault-->Data_abiotic
+        Data_community-->Classification
+        Classification-->Data_harmonised
+        Data_abiotic-->Data_interpolated
+        Data_harmonised-->Data_interpolated
+        Data_interpolated-->Data_subset
+        species_associations_1-->results
+        species_associations_2-->results
+        species_associations_3-->results
+        subgraph Age_slices
+            direction LR
+            Data_subset-->model_age_1
+            Data_subset-->model_age_2
+            Data_subset-->model_age_3
+            model_age_1-->species_associations_1
+            model_age_2-->species_associations_2
+            model_age_3-->species_associations_3
+        end
+end
+```
+
+## R implementation
+
+<br>
+
+```{r}
+#| label: target-graph-time
+#| echo: false
+#| message: false
+#| warning: false
+#| output: false
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+vec_pipelines <- "pipeline_time"
+
+set_store <-
+  vec_pipelines %>%
+  paste0(
+    get_active_config("target_store"), "/", ., "/"
+  ) %>%
+  here::here()
+
+plot_target_graph_time <-
+  targets::tar_visnetwork(
+    script = paste0(
+      "R/02_Main_analyses", "/", vec_pipelines, ".R"
+    ) %>%
+      here::here(),
+    store = set_store,
+    outdated = FALSE,
+    targets_only = TRUE,
+    physics = TRUE,
+    level_separation = 150
+  )
+
+```
+
+
+```{r}
+#| label: target-graph-time-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| output: true
+plot_target_graph_time
+```
+
+## Co-occurrences in time slices
+
+<br>
+
+```{r}
+#| label: cooccurrence-time-slices-waffle
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+data_species_associations_by_age <-
+  targets::tar_read(
+    name = "data_species_associations_by_age",
+    store = set_store
+  )
+
+data_species_associations_by_age_to_plot <-
+  data_species_associations_by_age %>%
+  dplyr::mutate(
+    percentage_sign_assoc = round(prop_sign_assoc * 100),
+    n_total = 100,
+    n_not_sign_assoc = n_total - percentage_sign_assoc
+  ) %>%
+  dplyr::select(percentage_sign_assoc, n_not_sign_assoc, age) %>%
+  tidyr::pivot_longer(
+    cols = -age,
+    names_to = "group",
+    values_to = "value"
+  ) %>%
+  dplyr::mutate(
+    group_name = dplyr::case_when(
+      group == "percentage_sign_assoc" ~ "Significant associations",
+      group == "n_not_sign_assoc" ~ "Non-significant associations"
+    )
+  ) %>%
+  ggplot2::ggplot(
+    mapping = ggplot2::aes(fill = group_name, values = value)
+  ) +
+  ggplot2::coord_equal() +
+  ggplot2::facet_wrap(~age) +
+  waffle::geom_waffle(
+    n_rows = 10,
+    size = 0.5,
+    colour = "white",
+    flip = TRUE,
+    make_proportional = TRUE
+  ) +
+  ggplot2::guides(
+    fill = ggplot2::guide_legend(
+      ncol = 1
+    )
+  ) +
+  ggplot2::labs(
+    x = NULL,
+    y = NULL,
+    title = "Percentage of significant co-occurrences"
+  ) +
+  ggplot2::theme_void() +
+  ggplot2::theme(
+    legend.title = ggplot2::element_blank(),
+    legend.position = "bottom"
+  )
+  
+```
+
+```{r}
+#| label: cooccurrence-time-slices-waffle-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+data_species_associations_by_age_to_plot
+
+```
+
+## Co-occurrences in time slices
+
+<br>
+
+```{r}
+#| label: cooccurrence-time-slices-line-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+
+targets::tar_read(
+  name = "plot_species_associations",
+  store = set_store
+)
+
+```
+
+# Next steps
+
+<br>
+
+_There is so much more to do! Here are some ideas for [next steps]{.text-background-blue .text-bold}._
+
+## Technical improvements
+
+<br>
+
+::: {.incremental}
+
+- Validate the mode with other [framework for JSDM]{.text-background-blue .text-bold}
+  - {spAbundance} or {spOccupancy}
+- Filter out climatic variables before fitting (based on correlation)
+- [Speed everything up]{.text-background-green .text-bold}
+  - Set up HPC at Metacentrum
+  - use scalable joint Species Distribution Model ({sjSDM})?
+
+::: 
+
+## Methodological improvements
+
+<br>
+
+::: {.incremental}
+
+- Move beyond presence-absence data 
+  - use the [hurdle model]{.text-background-blue .text-bold}
+- Implement [functional traits]{.text-background-green .text-bold} in the model
+- Implement the functional types classification
+- Get more nuanced understanding of species associations by analysing co-occurrences as [bipartite networks]{.text-background-brown .text-bold} (food webs)
+
+:::
+
+## Co-occurrences as bipartite networks
+
+<br>
+
+::: {.incremental}
+ - Co-occurrence networks can be seen as [bipartite networks]{.text-background-blue .text-bold} 
+  - first layer: [individual plots]{.text-background-green .text-bold}
+  - second layer: [taxa]{.text-background-brown .text-bold}
+
+:::
+
+```{r}
+#| label: cooccurrence-bipartite-setup
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+#| cache: true
+sel_age <- 2000
+
+data_community <-
+  data_to_fit %>%
+  purrr::chuck("data_community_to_fit") %>%
+  add_dataset_name_column_from_rownames() %>%
+  add_age_column_from_rownames() %>%
+  tibble::as_tibble()
+
+data_community_timeslice <-
+  data_community %>%
+  dplyr::filter(age == sel_age) %>%
+  dplyr::select(-age) %>%
+  tibble::column_to_rownames("dataset_name")
+
+data_community_timeslice_binary <-
+  data_community_timeslice
+
+data_community_timeslice_binary[data_community_timeslice_binary > 0] <- 1
+```
+
+## Co-occurrences as bipartite networks
+
+<br>
+
+Example of time slice `r sel_age ` years BP:
+```{r}
+#| label: cooccurrence-bipartite-example-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| cache: true
+data_community_timeslice_binary %>%
+  as.matrix() %>%
+  bipartite::plotweb(
+    text_size = 1,
+    sorting = "dec",
+    empty = TRUE,
+    srt = 90,
+    lower_labels = FALSE
+  )
+
+```
+
+## Co-occurrences as bipartite networks
+
+<br>
+
+Calculate network-level metrics for each network:
+
+```{r}
+#| label: cooccurrence-bipartite
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+#| cache: true
+
+vec_ages <-
+  data_community %>%
+  dplyr::pull(age) %>%
+  unique() %>%
+  sort() %>%
+  rlang::set_names()
+
+list_data_community_binary <-
+  purrr::map(
+    .x = vec_ages,
+    .f = ~ {
+      data_community_timeslice <-
+        data_community %>%
+        dplyr::filter(age == .x) %>%
+        dplyr::select(-age) %>%
+        tibble::column_to_rownames("dataset_name")
+
+      data_community_timeslice_binary <-
+        data_community_timeslice
+
+      data_community_timeslice_binary[data_community_timeslice_binary > 0] <- 1
+
+      data_community_timeslice_binary %>%
+        as.matrix() %>%
+        return()
+    }
+  )
+
+set.seed(1234)
+data_network_metrics <-
+  purrr::map(
+    .progress = TRUE,
+    .x = list_data_community_binary,
+    .f = ~ bipartite::networklevel(.x) %>%
+      as.data.frame() %>%
+      rlang::set_names("value") %>%
+      tibble::rownames_to_column("metric") %>%
+      tidyr::pivot_wider(
+        names_from = metric,
+        values_from = value
+      ) %>%
+      janitor::clean_names()
+  ) %>%
+  dplyr::bind_rows(.id = "age")
+
+```
+
+```{r}
+#| label: cooccurrence-bipartite-plot
+#| echo: false
+#| message: false
+#| warning: false
+#| include: true
+data_network_metrics %>%
+  dplyr::select(
+    age,
+    connectance,
+    nestedness,
+    modularity_q
+  ) %>%
+  tidyr::pivot_longer(
+    cols = -age,
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  dplyr::mutate(
+    metric_name = dplyr::case_when(
+      metric == "connectance" ~ "Connectance",
+      metric == "nestedness" ~ "Nestedness",
+      metric == "modularity_q" ~ "Modularity (Q)",
+      TRUE ~ metric
+    )
+  ) %>%
+  ggplot2::ggplot(
+    mapping = ggplot2::aes(
+      x = as.numeric(age),
+      y = value
+    )
+  ) +
+  ggplot2::geom_line() +
+  ggplot2::geom_point() +
+  ggplot2::facet_wrap(~metric_name, scales = "free_y") +
+  ggplot2::theme_minimal() +
+  ggplot2::scale_x_continuous(
+    transform = "reverse"
+  ) +
+  ggplot2::labs(
+    x = "Age (cal yr BP)",
+    y = "Metric value",
+    title = "Selected metrics through time"
+  )
+```
+
+# Open and public {.bg-green}
+
+```{r}
+#| label: generate-urls
+#| echo: false
+#| message: false
+#| warning: false
+#| include: false
+url_gh <-
+    paste0(
+    "https://github.com/OndrejMottl/",
+    "BIODYNAMICS-vegetation-cooccurrence"
+  )
+```
+
+<br>
+
+Everything shown here is fully [open]{.text-background-blue .text-bold} and [reproducible]{.text-background-brown .text-bold}! You can find the whole project( inlcuding code and materials for this presentation) on GitHub:
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+<br>
+
+::: {.r-fit-text}
+[😸 Code on GitHub](`r url_gh`)
+
+[![](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+:::
+:::
+
+::: {.column width="30%"}
+```{r}
+#| label: qr_slides
+qr_slides <-
+  qrcode::qr_code(
+    url_gh,
+    ecl = "H"
+  )
+
+qrcode::generate_svg(
+  qrcode = qr_slides,
+  filename = here::here("Documentation/Materials/QR/qr_slides.svg"),
+  foreground = colors['black'],
+  background = colors['green'],
+)
+
+include_local_figure("QR/qr_slides.svg")
+```
+
+:::
+
+::::

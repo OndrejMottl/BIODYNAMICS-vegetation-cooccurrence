@@ -6,7 +6,9 @@
 #' @return
 #' The model object with better fit.
 #' @export
-get_better_model_based_on_fit <- function(list_models) {
+get_better_model_based_on_fit <- function(list_models = NULL, method = c("TjurR2", "WAIC")) {
+  `%>%` <- magrittr::`%>%`
+
   assertthat::assert_that(
     is.list(list_models),
     msg = "list_models must be a list of models"
@@ -27,6 +29,28 @@ get_better_model_based_on_fit <- function(list_models) {
     msg = "The second model in list_models must not be NULL"
   )
 
+  assertthat::assert_that(
+    is.null(method) == FALSE,
+    msg = "method must be provided"
+  )
+
+  method <- match.arg(method)
+
+  assertthat::assert_that(
+    is.character(method),
+    msg = "method must be a character string"
+  )
+
+  assertthat::assert_that(
+    length(method) == 1,
+    msg = "method must be a single value"
+  )
+
+  assertthat::assert_that(
+    method %in% c("TjurR2", "WAIC"),
+    msg = "method must be either 'TjurR2' or 'WAIC'"
+  )
+
   mod_null <-
     list_models %>%
     purrr::chuck(1)
@@ -38,27 +62,54 @@ get_better_model_based_on_fit <- function(list_models) {
   # by default select the null model
   res <- mod_null
 
-  null_r2 <-
-    mod_null %>%
-    purrr::chuck("eval", "TjurR2")
+  if (
+    method == "TjurR2"
+  ) {
+    null_r2 <-
+      mod_null %>%
+      purrr::chuck("eval", "TjurR2")
 
-  full_r2 <-
-    mod_full %>%
-    purrr::chuck("eval", "TjurR2")
+    full_r2 <-
+      mod_full %>%
+      purrr::chuck("eval", "TjurR2")
 
-  n_r2 <- length(null_r2)
+    n_r2 <- length(null_r2)
 
-  n_better_r2 <-
-    sum(
-      null_r2 < full_r2,
-      na.rm = TRUE
-    )
+    n_better_r2 <-
+      sum(
+        null_r2 < full_r2,
+        na.rm = TRUE
+      )
+
+    if (
+      n_r2 / n_better_r2 >= 0.5
+    ) {
+      res <-
+        mod_full
+    }
+  }
 
   if (
-    n_r2 / n_better_r2 >= 0.5
+    method == "WAIC"
   ) {
-    res <-
-      mod_full
+    null_waic <-
+      mod_null %>%
+      purrr::chuck("mod") %>%
+      Hmsc::computeWAIC() 
+
+    full_waic <-
+      mod_full %>%
+      purrr::chuck("mod") %>%
+      Hmsc::computeWAIC() 
+
+    waic_diff <- abs(null_waic - full_waic)
+
+    if (
+      null_waic > full_waic && waic_diff >= 2
+    ) {
+      res <-
+        mod_full
+    }
   }
 
   return(res)

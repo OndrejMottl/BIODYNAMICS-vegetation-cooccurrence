@@ -7,6 +7,16 @@ default:
     image_width: 16
     image_height: 12
     image_units: "cm"
+  data_processing:
+    time_step: 500
+    number_of_taxa: !expr Inf
+  model_fitting:
+    n_cores: 5
+    samples: 100
+    thin: 1
+    transient: 50
+    samples_verbose: 50
+    cross_validation_folds: 2
 project_cz:
   target_store: Data/targets/project_cz
   vegvault_data:
@@ -17,16 +27,9 @@ project_cz:
     sel_abiotic_var_name: !expr c("bio1", "bio12")
   data_processing:
     taxonomic_resolution: "genus"
-    time_step: 1000
     min_distance_of_gpp_knots: 50
-    number_of_taxa: 10
   model_fitting:
-    n_cores: 2
-    samples: 100
-    thin: 1
-    transient: 50
-    samples_verbose: 50
-    cross_validation_folds: 2
+    n_cores: 24
 project_europe:
   target_store: Data/targets/project_europe
   vegvault_data:
@@ -37,12 +40,10 @@ project_europe:
     sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
   data_processing:
     taxonomic_resolution: "genus"
-    time_step: 500
     min_distance_of_gpp_knots: 100
-    number_of_taxa: !expr Inf
   model_fitting:
-    n_cores: 10
-    samples: 500
+    n_cores: 12
+    samples: 2500
     thin: 10
     transient: 100
     samples_verbose: 100
