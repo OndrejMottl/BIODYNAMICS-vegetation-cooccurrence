@@ -2449,3 +2449,11 @@ include_local_figure("QR/qr_slides.svg")
 :::
 
 ::::
+
+## Research questions
+
+<br>
+
+1. Is there a [**scale dependence**]{.text-background-blue .text-bold} in the  amount of unexplained variation (potentially due to biotic interactions) structuring vegetation?
+
+2. Can we improve the [**predictive capacity**]{.text-background-pink .text-bold} of biodiversity models by including biotic interactions and historical data?
