@@ -58,3 +58,6 @@ Data/targets/
 
 # Large input files. See Data/Input/README.md for more information.
 Data/Input/VegVault.sqlite
+
+# Temporary data prediction file
+Documentation/Reports/First_report/First_presentation/_presentation_01_temp/

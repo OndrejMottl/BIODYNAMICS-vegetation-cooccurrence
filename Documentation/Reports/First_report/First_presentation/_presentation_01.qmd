@@ -51,6 +51,8 @@ include_local_figure <- function(data_source) {
     error = TRUE
   )
 }
+
+check_presence_of_vegvault()
 ```
 
 ```{r}
@@ -2449,3 +2451,11 @@ include_local_figure("QR/qr_slides.svg")
 :::
 
 ::::
+
+## Research questions
+
+<br>
+
+1. Is there a [**scale dependence**]{.text-background-blue .text-bold} in the  amount of unexplained variation (potentially due to biotic interactions) structuring vegetation?
+
+2. Can we improve the [**predictive capacity**]{.text-background-pink .text-bold} of biodiversity models by including biotic interactions and historical data?
