@@ -67,6 +67,7 @@ package_list <-
     "remotes",
     "rlang",
     "roxygen2",
+    "sjSDM",
     "tidyverse",
     "targets",
     "usethis",
@@ -119,7 +120,14 @@ check_presence_of_vegvault()
 
 
 #----------------------------------------------------------#
-# 4. Graphical options -----
+# 4. verify sjSDM setup -----
+#----------------------------------------------------------#
+
+verify_sjsdm_setup()
+
+
+#----------------------------------------------------------#
+# 5. Graphical options -----
 #----------------------------------------------------------#
 
 # set ggplot output
