@@ -10,7 +10,7 @@
 #' Verifies the presence of the `VegVault.sqlite` file. If not found, throws
 #' an error with instructions to consult the `Data/Input/README.md` file.
 #' @export
-check_presence_of_vegvault <- function(relative_path = "Data/Input/Vegvault.sqlite") {
+check_presence_of_vegvault <- function(relative_path = "Data/Input/VegVault.sqlite") {
   vegvault_present <-
     file.exists(
       here::here(relative_path)
