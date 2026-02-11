@@ -1,467 +1,251 @@
-# Biodynamics vegetation co-occurrence project
+# BIODYNAMICS Vegetation Co-occurrence Project
 
-## Code conventions
+## Overview
 
-### Files & folders
+This project analyzes vegetation co-occurrence patterns using paleoecological and modern vegetation data. The project uses R for data processing, statistical modeling, and visualization.
+
+## Coding Standards
+
+This project follows specific R coding conventions defined in the [R Coding Skill](skills/r-coding.md). Please refer to that document for detailed style guidelines.
+
+## Project Structure
+
+### Files & Folders
 
 Folders and files can have numbering to guide a user to the sequences of analyses. However, this can be added later in the project as it causes various issues with version control.
 
-#### Folders names
+#### Folder Names
 
 - Underscore with only the first letter capitalized (Capital_snake_style)
 
-#### File naming {#file-naming}
+#### File Naming
 
 - Underscore with only the first letter capitalized (Capital_snake_style)
 - File name should contain dates
-  - dates should be in YYYY-MM-DD
-  - see [{RUtilpol}](https://github.com/HOPE-UIB-BIO/R-Utilpol-package) for easy handling of "version control of files"
+  - dates should be in YYYY-MM-DD format
+  - see [{RUtilpol}](https://github.com/HOPE-UIB-BIO/R-Utilpol-package) for easy handling of file version control
 
-##### Temporary file
+##### Temporary Files
 
-- temporary data files should not hold any important information
+- Temporary data files should not hold any important information
 - No links between Temp files and scripts on GitHub
-- `Data/Temp` should Include in `.gitignore`
+- `Data/Temp` should be included in `.gitignore`
 
-#### Safe path
+#### Safe Paths
 
 All paths should be using the [here](https://here.r-lib.org/) package to make sure that they work on all machines.
 
-### Package dependencies
+### Package Dependencies
 
-The [{renv} package](https://rstudio.github.io/renv/articles/renv.html), is an R-packages dependency management, which is set up for reproducibility.
+The [{renv} package](https://rstudio.github.io/renv/articles/renv.html) is used for R package dependency management to ensure reproducibility.
 
-The `___Init_project___.R` script is used for the preparation of all R-packages. Mainly it will install [{RUtilpol}](https://github.com/HOPE-UIB-BIO/R-Utilpol-package) and all dependencies, which is used through the project as version control of files.
+The `___Init_project___.R` script is used for the preparation of all R packages. It will install [{RUtilpol}](https://github.com/HOPE-UIB-BIO/R-Utilpol-package) and all dependencies, which is used throughout the project for version control of files.
 
-### Cascade of R scripts
+### Cascade of R Scripts
 
-This project is constructed using a *script cascade*. This means that the `00_Master.R`, located within `R` folder, executes all scripts within sub-folders of the `R` folder, which in turn, executes all their sub-folders (e.g., `R/01_Data_processing/Run_01.R` executes `R/01_Data_processing/01_full_data_process.R`, `R/01_Data_processing/02_data_overview.R`, `R/01_Data_processing/03_data_ant_counts.R`, …).
+This project is constructed using a *script cascade*. This means that scripts can execute other scripts hierarchically:
 
-### Configuration file
+- The master script in the `R` folder executes scripts within sub-folders
+- Sub-folder scripts (like `R/01_Data_processing/Run_01.R`) can execute their own child scripts
+- This creates a modular, organized workflow
 
-The configuration file (`___setup_project___`) holds the utmost importance in a project. It serves a multitude of essential purposes, such as defining global variables, loading functions, specifying file paths, and more. Every other file within a project should initiate with a reference to the configuration file (e.g., `source("___setup_project___")`), as it aims to minimize repetition and establish an abstraction layer that allows for centralized changes. By declaring paths in the configuration file that are utilized across multiple scripts, the user can simply refer to them by their variable name in the scripts. This approach enables seamless modifications, including renaming variables or transitioning from down-sampled to full data. All you need to do is update the relevant path in one place, and the change will automatically propagate throughout your project.
+Example: `R/01_Data_processing/Run_01.R` executes:
+- `R/01_Data_processing/01_full_data_process.R`
+- `R/01_Data_processing/02_data_overview.R`
+- `R/01_Data_processing/03_data_ant_counts.R`
+- …and so on
 
-### One script per task
+### Configuration File
 
-Each script should be also self-contained. It means that it should start with loading data and finish with saving results. Therefore, each script should be able to be run without having any other data in memory (except for data from `___setup_project___`).
+The configuration file (`___setup_project___.R`) is central to this project. It:
 
-Each script should do just one task (see also file name section). If it is hard to describe one task, it is better to split the script into several.
+- Defines global variables and constants
+- Loads custom functions from the `R/Functions/` directory
+- Specifies file paths for data inputs and outputs
+- Sets up project-wide dependencies
 
-## Code
+**Usage**: Every script should initiate with:
+```r
+source("R/___setup_project___.R")
+```
 
-### Coding style
+This approach:
+- Minimizes code repetition
+- Establishes an abstraction layer for centralized changes
+- Allows path references by variable name
+- Enables easy transitions (e.g., from down-sampled to full data)
 
-My coding style is a combination of various sources ([Tidyverse](https://style.tidyverse.org/index.html), [Google](https://google.github.io/styleguide/Rguide.html), and others). I am adopting it, as I am progressing in my career. However, style should be consistent at least within a single project.
+Update the configuration file once, and changes propagate throughout the project.
 
-### Code (script) structure
+### Pipeline Management with {targets}
 
-One script should serve one purpose and that should be obvious from its name. The script is always partitioned into clearly readable chunks (see below).
+This project uses the [{targets}](https://docs.ropensci.org/targets/) package for reproducible pipeline management. The targets framework ensures:
 
-#### Script annotation (comments)
+- **Reproducibility**: All analyses follow a defined, traceable workflow
+- **Efficiency**: Only out-of-date targets are re-computed when dependencies change
+- **Scalability**: Parallel processing and caching for large-scale analyses
+- **Transparency**: Clear visualization of pipeline dependencies
 
-##### Script header
+#### Pipeline Structure
 
-The script header should contain the name of the project, objectives (purpose) of that script, authors, and rough date (year of the project).
+Pipelines are located in `R/02_Main_analyses/` and organized as:
 
-Example of a header:
+1. **Main Pipeline File** (e.g., `pipeline_basic.R`):
+   - Sources the configuration file
+   - Loads all custom functions using `targets::tar_source()`
+   - Sets global target options (seed, format, error handling)
+   - Combines pipe segments into a complete workflow
+
+2. **Pipe Segments** (`R/02_Main_analyses/_pipes/`):
+   - Modular components defining specific analysis steps
+   - Each segment returns a list of related `targets::tar_target()` calls
+   - Examples: `pipe_segment_community_data.R`, `pipe_segment_model_fit.R`
+
+#### Working with Pipelines
+
+**Running a pipeline**:
+```r
+# Set active configuration (see Configuration Management below)
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+# Run the pipeline
+targets::tar_make()
+```
+
+**Viewing pipeline status**:
+```r
+# Check outdated targets
+targets::tar_outdated()
+
+# Visualize the pipeline network
+targets::tar_visnetwork()
+
+# See metadata for all targets
+targets::tar_meta()
+```
+
+**Reading pipeline outputs**:
+```r
+# Load a specific target
+data_community <- targets::tar_read(data_community)
+```
+
+#### Target Storage
+
+Target outputs are stored in project-specific directories defined in `config.yml`:
+- Default: `_targets/` (when using default configuration)
+- Project-specific: `Data/targets/project_cz/`, `Data/targets/project_europe/`, etc.
+
+### Configuration Management with {config}
+
+This project uses the [{config}](https://rstudio.github.io/config/) package to manage different analysis configurations through the `config.yml` file at the project root.
+
+#### Configuration File Structure
+
+The `config.yml` file contains:
+
+1. **default**: Base configuration inherited by all other configurations
+   - `target_store`: Directory for targets outputs
+   - `seed`: Random seed for reproducibility
+   - `graphical`: Plot settings (sizes, units)
+   - `data_processing`: General processing parameters
+   - `model_fitting`: Model parameters (cores, samples, etc.)
+
+2. **Project-specific configurations** (e.g., `project_cz`, `project_europe`):
+   - Override default settings
+   - Define project-specific parameters (geographic limits, dataset types, etc.)
+   - Each has its own target storage directory
+
+#### Accessing Configuration Values
+
+Use the `get_active_config()` function (wrapper around `config::get()`):
 
 ```r
-#----------------------------------------------------------#
-#
-#
-#                     Project name 
-#
-#                      Script name
-#                      - continue
-#
-#                       Authors 
-#                        Year
-#
-#----------------------------------------------------------#
+# Get a single configuration value
+seed <- get_active_config("seed")
+
+# Get nested configuration values
+time_step <- get_active_config("data_processing")$time_step
 ```
 
-##### Section header
+Configuration values can be used in:
+- Pipeline definitions
+- Target option settings
+- Function arguments throughout the analysis
 
-Each section of a script should begin with a header which consists of a name wrapped by two lines. The name of a header should start with a capital letter. Each header name should be followed by `-----` so that it is automatically picked by IDE as a section header.
+#### Switching Between Configurations
 
-Empty lines should be placed before each header to separate chunks.
-
-Headings can have various hierarchies:
-
-1. `#----------------------------------------------------------#`
-2. `#--------------------------------------------------#`
-3. `#----------------------------------------#`
-
-Example of a header:
+Set the active configuration using the `R_CONFIG_ACTIVE` environment variable:
 
 ```r
-#----------------------------------------------------------#
-# Load data -----
-#----------------------------------------------------------#
+# Set configuration for Czechia project
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+# Set configuration for Europe project  
+Sys.setenv(R_CONFIG_ACTIVE = "project_europe")
+
+# Use default configuration
+Sys.setenv(R_CONFIG_ACTIVE = "default")
 ```
 
-Header names can be denoted by numbers, with subsections separated by `*.*`
+This allows running the same pipeline with different parameters by simply switching the active configuration.
 
-Example of a numbered header:
+### Script Organization
 
-```r
-#----------------------------------------------------------#
-# 1. Estimate diversity -----
-#----------------------------------------------------------#
+Each script should be self-contained:
 
+1. **Source the configuration file**
+2. **Load required data**
+3. **Perform its specific task**
+4. **Save results**
 
-#--------------------------------------------------#
-## 1.1. Fit model -----
-#--------------------------------------------------#
-```
+Each script should do **one task only**. If describing the task requires multiple points, consider splitting into separate scripts.
 
-##### Single-line comments
+## R Coding Conventions
 
-Adding comments to code plays a pivotal role in ensuring reproducibility and preserving code knowledge for future reference. When things change or break, the user will be thankful for comments. There's no need to comment excessively or unnecessarily, but a comment describing what a large or complex chunk of code does is always helpful. The first letter of a comment is capitalized and spaced away from the pound sign (`#`).
+For detailed R coding style guidelines, please refer to the [R Coding Skill](skills/r.md), which includes:
 
-Example of a single-line comment:
+- Script structure and headers
+- Naming conventions for objects, functions, and variables
+- Syntax rules (spacing, new lines, parentheses)
+- Function documentation using roxygen2
+- Testing conventions using testthat
 
-```r
-# This is a comment.
-```
+## Project-Specific Guidelines
 
-##### Multi-line comment
+### Function Organization
 
-Multi-line comments should start with a capital letter and the new line should start with one tab.
+- Each function must be in its own file in `R/Functions/` (or subdirectories)
+- File name must match function name
+- Include roxygen2 documentation
+- Include corresponding test file in appropriate test directory
+- Functions should follow the naming conventions in the R coding skill
 
-Example of a multi-line comment:
+### Data Workflow
 
-```r
-# This is a very long comment, where I need to describe
-#    what this code is doing
-```
+1. **Input data** → `Data/Input/`
+2. **Processed data** → `Data/Processed/`
+3. **Outputs** → `Outputs/Data/` and `Outputs/Tables/`
+4. **Temporary files** → `Data/Temp/` (git-ignored)
+5. **Target stores** → `Data/targets/` (project-specific pipeline outputs)
+   - `Data/targets/project_cz/`
+   - `Data/targets/project_europe/`
+   - Each configuration stores its targets in a separate directory
 
-##### Inline comment
+### Pipeline Organization
 
-Inline comments should always start with a space.
+- **Main pipelines** → `R/02_Main_analyses/`
+  - Master pipeline files (e.g., `pipeline_basic.R`)
+  - Execute complete analysis workflows
+- **Pipe segments** → `R/02_Main_analyses/_pipes/`
+  - Modular pipeline components
+  - Each file defines a specific analysis segment
+  - Combined by main pipeline files
 
-Example of inline comment:
+### Documentation
 
-```r
-function(
- agr = 1 # This is an example of an inline comment
-)
-```
+- Function documentation → Generated to `Documentation/Functions/`
+- Test coverage reports → `Documentation/Functions_test_coverage/`
+- Progress reports → `Documentation/Progress/`
+- Project website → `website/` (rendered to `docs/`)
 
-##### Commenting functions
-
-Function decoration should be placed before each function. See functions section for details.
-
-#### Code width
-
-No line of code should be longer than 80 characters (including comments). Users can visualise the 80 characters line in selected IDER
-
-### Names of objects and function
-
-```r
-  "There are only two hard things in Computer Science: cache invalidation and naming things."
-```
-
-#### Object names
-
-Object and function should be using `snake_style`. The `.` in names is somewhat popular but it causes issues with names of methods and should be therefore avoided. The names are preferred to be very descriptive, more expressive and more explicit (note that the default `linter` setting of long names can be disabled).
-
-The names should be nouns and start with the type of object:
-
-- `data_*` - for data
-  - special subcategory is `table_*` for tables (mainly as an object for reference). Note that all tables can be data but now vice versa.
-- `list_` - for lists
-- `vec_` - for vectors
-- `mod_*` - for statistical model
-- `res_` - special category, which can be used within the function to name an object to be returned (`return(res_*)`).
-
-Examples of good names:
-
-```r
-# data
-data_diversity_survey
-
-# list
-list_diversity_individual_plots
-
-# vector
-vec_region_names
-
-# model
-mod_diversity_linear
-
-# result
-res_estimated_weight
-```
-
-#### Function names {#function-names}
-
-Names of functions should be verbs and describe the expected functionality.
-
-Examples of good function names
-
-```r
-estimate_alpha_diversity()
-
-get_first_value()
-
-tranform_into_character()
-```
-
-##### Internal function
-
-Note that it is possible to start a function with a `"."` (e.g., `.get_reound_value()`) flag internal functions.
-
-#### Column (variable) names in `data.frames`
-
-`snake_style` is preferred for column names in both `data.frames` and `tibbles`. Note that the [janitor](https://sfirke.github.io/janitor/) package can be used to edit this automatically.
-
-### Syntax
-
-Many of the syntax issues can be checked/fixed by [lintr](https://lintr.r-lib.org/) and [styler](https://styler.r-lib.org/index.html) packages, which can be used to automate lots of the tedious aspects.
-
-#### Spaces (empty character)
-
-Space (`" "`) should be always placed:
-
-- after a comma
-- before and after infix operators (`==`, `+`, `-`, `<-`, `~`, etc.)
-
-Exceptions:
-
-- No spaces inside or outside parentheses for regular function calls
-- Operators with high precedence should not be surounced by space `:`, `::`, `:::`, `$`, `@`, `[`, `[[`, `^`, unary `-`
-
-#### New line (`↵`)
-
-I prefer to have code more vertical than horizontal. Therefore, there are quite a lot of new lines.
-
-Usage of a semicolon (`;`) to indicate a new line is not preferred.
-
-A new line should be:
-
-##### 1. After an object assignment (`<-`)
-
-```r
-data_diversity <-
-  read_data(...)
-```
-
-An exception is an assignment of function.
-
-```r
-get_data <- function(...) {
-  ...
-}
-```
-
-##### 2. After a pipe operator (`%>%`)
-
-Note that there should be a space before a pipe
-
-```r
-data_diversity <-
-  get_data() %>%
-  transform_to_percentages()
-```
-
-##### 3. After a function argument
-
-This should be true for both function declaration and usage. The exception is a single argument.
-
-```r
-get_data <- function(arg1 = foo,
-                     arg2 = here::here()) {
-  ...
-}
-
-data_diversity <-
-  get_data(
-    arg1 = foo,
-    arg2 = here::here()
-  )
-
-vec_selected_regions <-
-  get_regions(arg1 = foo)
-
-```
-
-##### 4. Parentheses
-
-Each type of parentheses (brackets) has its own rules:
-
-###### round `( )`
-
-- should not be placed on separate first and last line
-- always space *before* the bracket (*unless* it's a function)
-- new line after start if it is a multi-argument function
-
-Examples:
-
-```r
-1 + (a + b)
-
-get_data(arg = foo)
-
-get_data(
-  agr1 = foo,
-  agr2 = here::here()
-)
-```
-
-###### Square `[ ]`
-
-- Never space before the bracket
-- always space instead of missing value
-
-Examples:
-
-```r
-list_diversity_for_each_plot[[1]]
-
-data_cars[, 2]
-```
-
-###### Curly `{ }`
-
-- Use only for functions and expressions
-- `{` should be the last character on a line and should never be on its own
-- `}` should be the first character on a line
-- Always new brackets after else unless followed by if
-- Not used for chunks of code
-
-Examples:
-
-```r
-get_data <- function(agr1) {
-  ...
-}
-
-if (
-  logical_test
-) {
-  ...
-} else {
-  ...
-}
-
-try(
-  expr = {
-    ...
-  }
-)
-```
-
-#### Assignment
-
-Always use the left assignment `<-`.
-
-Do **NOT** use:
-
-- right assignment (`->`)
-- equals (`=`)
-
-There should be a new line after the assignment. Note that rarely singe-line
-assignment can be used:
-
-```r
-data_diversity <-
-  get_data()
-
-prefered_shape <- "triangle"
-```
-
-#### Logical evaluation
-
-Always use `TRUE` and `FALSE`, instead of `T` and `F`
-
-### Functions {#functions}
-
-For function calls, always state the arguments even though R can have anonymous arguments. The only exception is for functions, where arguments are not known (i.e. `...` argument).
-
-#### Tidyverse
-
-It is preferred to use the Tidyverse version of functions over base ones:
-
-| Base R | Better Style, Performance, and Utility    |
-|------------------------|-------------------------------------------|
-| `read.csv()` | `readr::read_csv()`|
-| `df$some_column` | `df %>% dplyr::pull(some_column)` |
-| `df$some_column = ...` | `df %>% dplyr::mutate(some_column = ...)` |
-| ... | ... |
-
-#### Namespace
-
-Always use the full package namespace with a function call. This helps to track the source of function in a script:
-
-```r
-data_diversity %>%
-  dplyr::mutate(
-    beta_diverisity = 0
-  )
-```
-
-#### Creating functions
-
-Specific rules apply for making custom functions:
-
-- For naming of functions see function names.
-- Each function (declaration) should be placed in a separate script named the function. Therefore, there should be only a single function in each function script.
-- function should always return (`return(res_value)`)
-
-##### Anonymous functions
-
-In various instances, it might be better to not create a new function but to use an anonymous function (e.g. inside of `purrr::map_*()`).
-
-In that case, the user should use tidle (`~`) for change in map default values in the function:
-
-```r
-purrr::map(
-  .f = ~ {
-    mean(.x)
-  }
-)
-```
-
-For `purrr::pmap_*()`, the user should use `..1`, `..2`, etc
-
-```r
-purrr::pmap(
-  .l = list(
-    list_1,
-    list_2,
-    list_3,
-    .f = ~ {
-      ..1 + ..2 + ..3
-    }
-  )
-)
-```
-
-##### Function documentation
-
-Each function should have documentation at the beginning of the function using the [roxygen2](https://roxygen2.r-lib.org/) package. This can be useful also for project-specific functions (not just within the package) as it is easier to transition to a custom package.
-
-The roxygen2 documentation should be placed before the function declaration but keep the line limit of 80 characters. The documentation should be in the following:
-
-```R
-#' @title Title of the function
-#' @description Description of the function
-#' @param arg1 Description of the first argument
-#' @param arg2 Description of the second argument
-#' @param arg3 Description of the third argument
-#' @return Description of the return value
-#' @details Details about the function
-#' @seealso Related functions or references
-#' @export
-```
-
-##### Testing Functions
-
-All tests are done using the [testthat](https://testthat.r-lib.org/) package. Each function should have its own test file, which is named after the function (e.g., `test-<function_name>.R`).
-
-Generally, the function should be tested for:
-
-- output of correct type
-- output of correct data
-- handling of input errors
