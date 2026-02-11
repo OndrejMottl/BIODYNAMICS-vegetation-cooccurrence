@@ -42,19 +42,32 @@ pipe_segment_model_simple <-
   list(
     pipe_segment_model_prep,
     targets::tar_target(
-      description = "make HMSC model",
-      name = "mod_hmsc",
-      command = make_hmsc_model(
+      description = "predictor formulae to use for model fitting",
+      name = "model_formula",
+      command = data_to_fit |>
+        purrr::chuck("data_abiotic_to_fit") |>
+        make_env_formula()
+    ),
+    targets::tar_target(
+      description = "make JSDM model",
+      name = "mod_jsdm",
+      command = fit_jsdm_model(
         data_to_fit = data_to_fit,
-        sel_formula = "~ .",
-        random_structure = mod_random_structure,
-        error_family = "binomial"
+        sel_formula = model_formula,
+        abiotic_method = "linear",
+        spatial_method = "linear",
+        device = "cpu",
+        error_family = "binomial",
+        sampling = config.model_fitting$samples,
+        iter = config.model_fitting$samples,
+        seed = 900723,
+        parallel = config.model_fitting$n_cores,
+        verbose = FALSE
       )
     ),
-    pipe_segment_model_fit,
     targets::tar_target(
-      description = "A workaround to select the model for species associations",
-      name = "mod_hmsc_to_use",
-      command = mod_hmsc_eval
+      description = "a workaround target to use the fitted model in the next steps",
+      name = "mod_jsdm_to_use",
+      command = mod_jsdm
     )
   )

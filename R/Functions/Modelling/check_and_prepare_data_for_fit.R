@@ -19,8 +19,6 @@ check_and_prepare_data_for_fit <- function(
     data_abiotic = NULL,
     data_coords = NULL,
     subset_age = NULL) {
-  `%>%` <- magrittr::`%>%`
-
   data_community_no_na <-
     tidyr::drop_na(data_community)
 
@@ -28,40 +26,40 @@ check_and_prepare_data_for_fit <- function(
     tidyr::drop_na(data_abiotic)
 
   data_coords_no_na <-
-    tidyr::drop_na(data_coords) %>%
+    tidyr::drop_na(data_coords) |>
     dplyr::distinct()
 
   if (
     !is.null(subset_age)
   ) {
     data_community_no_na <-
-      data_community_no_na %>%
-      add_age_column_from_rownames() %>%
-      dplyr::filter(age == subset_age) %>%
+      data_community_no_na |>
+      add_age_column_from_rownames() |>
+      dplyr::filter(age == subset_age) |>
       dplyr::select(-age)
 
     data_abiotic_no_na <-
-      data_abiotic_no_na %>%
-      add_age_column_from_rownames() %>%
-      dplyr::filter(age == subset_age) %>%
+      data_abiotic_no_na |>
+      add_age_column_from_rownames() |>
+      dplyr::filter(age == subset_age) |>
       dplyr::select(-age)
   }
 
   data_community_rownames <-
-    data_community_no_na %>%
-    add_age_column_from_rownames() %>%
-    add_dataset_name_column_from_rownames() %>%
+    data_community_no_na |>
+    add_age_column_from_rownames() |>
+    add_dataset_name_column_from_rownames() |>
     dplyr::distinct(dataset_name, age)
 
   data_abiotic_rownames <-
-    data_abiotic_no_na %>%
-    add_age_column_from_rownames() %>%
-    add_dataset_name_column_from_rownames() %>%
+    data_abiotic_no_na |>
+    add_age_column_from_rownames() |>
+    add_dataset_name_column_from_rownames() |>
     dplyr::distinct(dataset_name, age)
 
   data_coords_rownames <-
-    data_coords_no_na %>%
-    tibble::rownames_to_column("dataset_name") %>%
+    data_coords_no_na |>
+    tibble::rownames_to_column("dataset_name") |>
     dplyr::distinct(dataset_name)
 
   data_intersect <-
@@ -69,71 +67,55 @@ check_and_prepare_data_for_fit <- function(
       data_community_rownames,
       data_abiotic_rownames,
       by = dplyr::join_by(dataset_name, age)
-    ) %>%
+    ) |>
     dplyr::inner_join(
       data_coords_rownames,
       by = dplyr::join_by(dataset_name)
-    ) %>%
+    ) |>
     dplyr::distinct()
 
   data_community_to_fit <-
-    data_community_no_na %>%
-    add_age_column_from_rownames() %>%
-    add_dataset_name_column_from_rownames() %>%
-    tibble::rownames_to_column("row_names") %>%
+    data_community_no_na |>
+    add_age_column_from_rownames() |>
+    add_dataset_name_column_from_rownames() |>
+    tibble::rownames_to_column("row_names") |>
     dplyr::inner_join(
       data_intersect,
       by = dplyr::join_by(dataset_name, age)
-    ) %>%
-    dplyr::select(-dataset_name, -age) %>%
+    ) |>
+    dplyr::select(-dataset_name, -age) |>
     tibble::column_to_rownames("row_names")
 
 
   data_abiotic_to_fit <-
-    data_abiotic_no_na %>%
-    add_age_column_from_rownames() %>%
-    add_dataset_name_column_from_rownames() %>%
-    tibble::rownames_to_column("row_names") %>%
+    data_abiotic_no_na |>
+    add_age_column_from_rownames() |>
+    add_dataset_name_column_from_rownames() |>
+    tibble::rownames_to_column("row_names") |>
     dplyr::inner_join(
       data_intersect,
       by = dplyr::join_by(dataset_name, age)
-    ) %>%
-    dplyr::select(-dataset_name, -age) %>%
+    ) |>
+    dplyr::select(-dataset_name) |>
     tibble::column_to_rownames("row_names")
 
   vec_shared_dataset_names <-
-    data_intersect %>%
-    dplyr::distinct(dataset_name) %>%
-    purrr::chuck("dataset_name") %>%
+    data_intersect |>
+    dplyr::distinct(dataset_name) |>
+    purrr::chuck("dataset_name") |>
     as.character()
 
   data_coords_to_fit <-
-    data_coords_no_na %>%
-    as.data.frame() %>%
-    tibble::rownames_to_column("row_names") %>%
-    dplyr::filter(row_names %in% vec_shared_dataset_names) %>%
-    tibble::column_to_rownames("row_names")
-
-  vec_age <-
-    data_intersect %>%
-    dplyr::distinct(age) %>%
-    purrr::chuck("age") %>%
-    as.numeric() %>%
-    sort() %>%
-    as.character()
-
-  data_ages_to_fit <-
-    tibble::tibble(
-      age = as.numeric(vec_age),
-      row_names = age
-    ) %>%
+    data_coords_no_na |>
+    as.data.frame() |>
+    tibble::rownames_to_column("row_names") |>
+    dplyr::filter(row_names %in% vec_shared_dataset_names) |>
     tibble::column_to_rownames("row_names")
 
   res <-
     list(
-      data_community_to_fit = data_community_to_fit,
+      data_community_to_fit = as.matrix(data_community_to_fit),
       data_abiotic_to_fit = data_abiotic_to_fit,
-      data_ages_to_fit = data_ages_to_fit,
       data_coords_to_fit = data_coords_to_fit
     )
 

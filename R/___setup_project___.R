@@ -123,7 +123,12 @@ check_presence_of_vegvault()
 # 4. verify sjSDM setup -----
 #----------------------------------------------------------#
 
-verify_sjsdm_setup()
+if (
+  isTRUE(interactive())
+) {
+  verify_sjsdm_setup()
+}
+
 
 
 #----------------------------------------------------------#

@@ -31,7 +31,7 @@
 #' \code{\link[sjSDM]{sjSDM}}
 #'
 #' @export
-verify_sjsdm_setup <- function(run_test_model = TRUE) {
+verify_sjsdm_setup <- function(run_test_model = interactive()) {
   # Initialize results list
   results <-
     list(
@@ -43,9 +43,12 @@ verify_sjsdm_setup <- function(run_test_model = TRUE) {
       test_model_ok = FALSE
     )
 
+
   cat("=============================================================\n")
   cat("           sjSDM Setup Verification\n")
   cat("=============================================================\n")
+
+
 
   #----------------------------------------------------------#
   # 1. Check Radian Configuration -----
@@ -53,6 +56,7 @@ verify_sjsdm_setup <- function(run_test_model = TRUE) {
 
   cat("1. Checking Radian Configuration\n")
   cat("   ----------------------------------------\n")
+
 
   radian_path <-
     tryCatch(
@@ -62,13 +66,15 @@ verify_sjsdm_setup <- function(run_test_model = TRUE) {
       error = function(e) NA
     )
 
-  expected_path <- "C:\\Users\\ondre\\AppData\\Local\\r-miniconda\\envs\\r-sjsdm\\Scripts\\radian.exe"
+  expected_path <-
+    "C:\\Users\\ondre\\AppData\\Local\\r-miniconda\\envs\\r-sjsdm\\Scripts\\radian.exe"
 
   if (
     isFALSE(is.na(radian_path)) &&
       grepl("r-sjsdm", radian_path, ignore.case = TRUE)
   ) {
     results$radian_ok <- TRUE
+
     cat("   [OK] Radian is from r-sjsdm environment\n")
     cat("   Path: ", radian_path, "\n")
   } else {
@@ -81,9 +87,11 @@ verify_sjsdm_setup <- function(run_test_model = TRUE) {
 
   cat("\n")
 
+
   #----------------------------------------------------------#
   # 2. Check Python Configuration -----
   #----------------------------------------------------------#
+
 
   cat("2. Checking Python Configuration\n")
   cat("   ----------------------------------------\n")

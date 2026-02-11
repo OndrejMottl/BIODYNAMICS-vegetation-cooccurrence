@@ -49,14 +49,5 @@ pipe_segment_model_prep <-
         data_abiotic = data_abiotic_to_fit,
         data_coords = data_coords
       )
-    ),
-    targets::tar_target(
-      description = "Make a random structure for the HMSC model",
-      name = "mod_random_structure",
-      command = get_random_structure_for_model(
-        data = data_to_fit,
-        type = c("age", "space"),
-        min_knots_distance = config.data_processing$min_distance_of_gpp_knots
-      )
     )
   )
