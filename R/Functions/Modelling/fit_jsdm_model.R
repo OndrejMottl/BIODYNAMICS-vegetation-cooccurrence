@@ -22,6 +22,13 @@
 #' a probit link is used
 #' @param device
 #' Computing device to use. One of "cpu" (default) or "gpu"
+#' @param compute_se
+#' Logical indicating whether to compute standard errors. Default is FALSE.
+#' Note: SE computation may fail with certain model configurations (e.g., DNN,
+#' complex spatial structures) and will produce a warning if it fails.
+#' @param parallel
+#' Number of CPU cores to use for parallel processing.
+#' Only applicable if device = "cpu". Default is 0L (no parallelization).
 #' @param ...
 #' Additional arguments passed to sjSDM::sjSDM
 #' @return
@@ -32,6 +39,11 @@
 #' an interaction term between longitude and latitude coordinates. When
 #' binomial error family is specified, the community data is converted
 #' to binary presence/absence data.
+#'
+#' Standard error computation (`compute_se = TRUE`) may fail with certain
+#' model configurations, particularly when using DNN methods or complex
+#' spatial structures. If SE computation fails, the model will still be
+#' returned with a warning.
 #' @seealso sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN
 #' @export
 fit_jsdm_model <- function(
@@ -41,6 +53,8 @@ fit_jsdm_model <- function(
     spatial_method = c("linear", "DNN"),
     error_family = c("gaussian", "binomial"),
     device = c("cpu", "gpu"),
+    parallel = 0L,
+    compute_se = FALSE,
     ...,
     verbose = FALSE) {
   assertthat::assert_that(
@@ -109,11 +123,30 @@ fit_jsdm_model <- function(
 
   spatial_method <- match.arg(spatial_method)
 
-  spatial <-
-    sjSDM::linear(
-      data = data_spatial,
-      formula = ~ 0 + coord_long:coord_lat
-    )
+  if (
+    spatial_method == "linear"
+  ) {
+    spatial <-
+      sjSDM::linear(
+        data = data_spatial,
+        formula = ~ 0 + coord_long:coord_lat
+      )
+  } else if (
+    spatial_method == "DNN"
+  ) {
+    spatial <-
+      sjSDM::DNN(
+        data = data_spatial,
+        formula = ~ 0 + .
+      )
+  }
+
+  assertthat::assert_that(
+    is.logical(compute_se),
+    length(compute_se) == 1,
+    msg = "compute_se must be a logical value of length 1"
+  )
+
 
   assertthat::assert_that(
     any(
@@ -123,6 +156,21 @@ fit_jsdm_model <- function(
   )
 
   device <- match.arg(device)
+
+  assertthat::assert_that(
+    is.numeric(parallel),
+    length(parallel) == 1,
+    msg = "parallel must be a numeric value of length 1"
+  )
+
+  if (
+    device == "gpu" && parallel > 0L
+  ) {
+    message(
+      "Parallel processing is not supported when device = 'gpu'. Setting parallel to 0L."
+    )
+    parallel <- 0L
+  }
 
   assertthat::assert_that(
     any(
@@ -146,11 +194,16 @@ fit_jsdm_model <- function(
 
     # we need to filter out taxa with no variation in presence/absence,
     #   as these will cause issues with model fitting
+
+    vec_taxa_present <-
+      colSums(data_community) > 0
+    vec_taxa_not_constant_presence <-
+      colSums(data_community) < nrow(data_community)
+
     data_community <-
       data_community[
         ,
-        colSums(data_community) > 0 &
-          colSums(data_community) < nrow(data_community)
+        vec_taxa_present & vec_taxa_not_constant_presence
       ]
 
 
@@ -169,72 +222,70 @@ fit_jsdm_model <- function(
     msg = "verbose must be a logical value of length 1"
   )
 
+  assertthat::assert_that(
+    is.logical(compute_se),
+    length(compute_se) == 1,
+    msg = "compute_se must be a logical value of length 1"
+  )
+
+  assertthat::assert_that(
+    class(sel_formula) == "formula",
+    msg = "sel_formula must be a formula object"
+  )
+
+  # There is an isseu that `sjSDM::linear()` is looking for `sel_formula` in
+  #  the parent environment, but it is not finding it.
+  # To work around this, we will manually assign `sel_formula` to
+  #   the parent environment before calling `sjSDM::linear()`,
+  #   and then remove it from the parent environment after fitting the model.
+
+  current_env <- environment()
+  parent_env <- parent.env(current_env)
+
+  # check if sel_formula is in the parent environment
+  if (!exists("sel_formula", envir = parent_env)) {
+    # add sel_formula to the parent environment
+    assign(
+      "sel_formula",
+      sel_formula,
+      envir = parent_env
+    )
+  }
+
   if (
     abiotic_method == "linear"
   ) {
-    assertthat::assert_that(
-      class(sel_formula) == "formula",
-      msg = "sel_formula must be a formula object"
-    )
-
-    # There is an isseu that `sjSDM::linear()` is looking for `sel_formula` in
-    #  the parent environment, but it is not finding it.
-    # To work around this, we will manually assign `sel_formula` to
-    #   the parent environment before calling `sjSDM::linear()`,
-    #   and then remove it from the parent environment after fitting the model.
-
-    current_env <- environment()
-    parent_env <- parent.env(current_env)
-
-    # check if sel_formula is in the parent environment
-    if (!exists("sel_formula", envir = parent_env)) {
-      # add sel_formula to the parent environment
-      assign(
-        "sel_formula",
-        sel_formula,
-        envir = parent_env
-      )
-    }
-
     sel_biotic <-
       sjSDM::linear(
         data = data_abiotic,
         formula = sel_formula
       )
-
-    mod_sjsdm <-
-      sjSDM::sjSDM(
-        Y = as.matrix(data_community),
-        env = sel_biotic,
-        spatial = spatial,
-        se = FALSE,
-        family = error_family,
-        device = device,
-        verbose = FALSE,
-        ...
-      )
-
-    # remove sel_formula from the parent environment
-    rm(sel_formula, envir = parent_env)
   } else if (
     abiotic_method == "DNN"
   ) {
-    mod_sjsdm <-
-      sjSDM::sjSDM(
-        Y = as.matrix(data_community),
-        env = sjSDM::DNN(data_abiotic),
-        spatial = spatial,
-        se = FALSE,
-        family = error_family,
-        device = device,
-        verbose = FALSE,
-        ...
+    sel_biotic <-
+      sjSDM::DNN(
+        data = data_abiotic,
+        formula = sel_formula
       )
   } else {
     stop("Invalid abiotic_method. Must be 'linear' or 'DNN'.")
   }
 
+  mod_sjsdm <-
+    sjSDM::sjSDM(
+      Y = as.matrix(data_community),
+      env = sel_biotic,
+      spatial = spatial,
+      se = TRUE,
+      family = error_family,
+      device = device,
+      verbose = FALSE,
+      ...
+    )
 
+  # remove sel_formula from the parent environment
+  rm(sel_formula, envir = parent_env)
 
   return(mod_sjsdm)
 }

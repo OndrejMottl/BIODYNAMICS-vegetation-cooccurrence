@@ -56,12 +56,12 @@ pipe_segment_model_simple <-
         sel_formula = model_formula,
         abiotic_method = "linear",
         spatial_method = "linear",
-        device = "cpu",
         error_family = "binomial",
+        device = "gpu",
+        parallel = config.model_fitting$n_cores,
         sampling = config.model_fitting$samples,
         iter = config.model_fitting$samples,
         seed = 900723,
-        parallel = config.model_fitting$n_cores,
         verbose = FALSE
       )
     ),
