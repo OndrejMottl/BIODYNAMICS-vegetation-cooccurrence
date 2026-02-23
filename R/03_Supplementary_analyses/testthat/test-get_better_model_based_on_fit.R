@@ -1,3 +1,5 @@
+testthat::skip("Deprecated: HMSC replaced by sjSDM")
+
 invisible(
   capture.output({
     mod_example_full <-

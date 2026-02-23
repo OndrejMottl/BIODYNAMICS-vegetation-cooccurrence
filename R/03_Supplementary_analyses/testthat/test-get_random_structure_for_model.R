@@ -1,5 +1,7 @@
 # Test get_random_structure_for_model function - only space
 
+testthat::skip("Deprecated: HMSC replaced by sjSDM")
+
 testthat::test_that(
   desc = "get_random_structure_for_model() - only space - correct class",
   code = {

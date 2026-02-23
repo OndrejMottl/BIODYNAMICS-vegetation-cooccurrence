@@ -1,3 +1,5 @@
+testthat::skip("Deprecated: HMSC replaced by sjSDM")
+
 testthat::test_that(
   desc = "return correct class",
   code = {
