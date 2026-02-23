@@ -36,6 +36,8 @@ If your username contains spaces (e.g., "John Doe"), you may encounter conda ins
 
 Miniconda manages Python environments and packages.
 
+#### For Windows
+
 **Download and Install:**
 
 1. Download Miniconda from: <https://docs.conda.io/en/latest/miniconda.html>
@@ -55,12 +57,67 @@ conda --version
 
 Should show something like `conda 24.x.x`
 
+#### For Linux (HPC/RStudio Server)
+
+**Download and Install:**
+
+Open terminal and run:
+
+```bash
+# Download Miniconda installer
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+# Make installer executable
+chmod +x Miniconda3-latest-Linux-x86_64.sh
+
+# Run installer
+bash Miniconda3-latest-Linux-x86_64.sh
+```
+
+**During installation:**
+- Press `ENTER` to review license
+- Type `yes` to accept license terms
+- Press `ENTER` to confirm default location (`~/miniconda3`) or specify custom path
+- Type `yes` when asked "Do you wish to update your shell profile to automatically initialize conda?"
+
+**Activate conda:**
+
+```bash
+# Close and reopen terminal, or run:
+source ~/.bashrc
+
+# Verify installation
+conda --version
+```
+
+Should show something like `conda 24.x.x`
+
+**Note for HPC systems:** If you don't have write permissions to your home directory `.bashrc`, you can initialize conda manually each session:
+
+```bash
+source ~/miniconda3/etc/profile.d/conda.sh
+```
+
+Or add this to your RStudio `.Renviron` file.
+
 ### 2. Create r-sjsdm Conda Environment
 
 Create a dedicated Python environment named **`r-sjsdm`** (required by sjSDM package):
 
+**Windows (PowerShell):**
+
 ```powershell
 # Create environment with Python 3.10 (newer than official docs' 3.7)
+conda create -n r-sjsdm python=3.10 -y
+
+# Activate the environment
+conda activate r-sjsdm
+```
+
+**Linux (Terminal/HPC):**
+
+```bash
+# Create environment with Python 3.10
 conda create -n r-sjsdm python=3.10 -y
 
 # Activate the environment
@@ -77,11 +134,19 @@ PyTorch is the deep learning framework that sjSDM uses. Choose GPU or CPU versio
 
 **First, check if you have NVIDIA GPU:**
 
+Windows:
 ```powershell
 nvidia-smi
 ```
 
-If this shows your GPU information, proceed with GPU installation:
+Linux:
+```bash
+nvidia-smi
+```
+
+If this shows your GPU information, proceed with GPU installation.
+
+**Windows:**
 
 ```powershell
 # Make sure r-sjsdm environment is activated
@@ -91,13 +156,27 @@ conda activate r-sjsdm
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
 ```
 
-**Note:** This downloads ~2.5 GB. For older GPUs, you may need CUDA 11.8:
+**Linux (HPC):**
 
-```powershell
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+```bash
+# Make sure r-sjsdm environment is activated
+conda activate r-sjsdm
+
+# Check CUDA version on your HPC
+nvcc --version  # or: cat /usr/local/cuda/version.txt
+
+# Install PyTorch with CUDA 12.1 (adjust based on your CUDA version)
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+
+# For CUDA 11.8:
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
 ```
 
+**Note:** Downloads ~2.5 GB. Check your HPC's CUDA version and use matching PyTorch.
+
 #### Option B: CPU-Only (No NVIDIA GPU)
+
+**Windows:**
 
 ```powershell
 # Make sure r-sjsdm environment is activated
@@ -107,17 +186,50 @@ conda activate r-sjsdm
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 ```
 
+**Linux:**
+
+```bash
+# Make sure r-sjsdm environment is activated
+conda activate r-sjsdm
+
+# Install PyTorch CPU version
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+```
+
 **Verify PyTorch installation:**
 
+Windows:
 ```powershell
 python -c "import torch; print('PyTorch version:', torch.__version__); print('CUDA available:', torch.cuda.is_available())"
 ```
 
-### 4. Install Radian in r-sjsdm Environment
+Linux:
+```bash
+python -c "import torch; print('PyTorch version:', torch.__version__); print('CUDA available:', torch.cuda.is_available())"
+```
+
+### 4. Install Radian in r-sjsdm Environment (Optional for VS Code)
+
+**Note:** This step is **only needed if you use VS Code**. Skip this section if you're using RStudio/RStudio Server.
 
 Radian is an improved R terminal that works in VS Code:
 
+**Windows:**
+
 ```powershell
+# Make sure r-sjsdm environment is activated
+conda activate r-sjsdm
+
+# Install radian
+pip install -U radian
+
+# Verify radian installation
+radian --version
+```
+
+**Linux (for VS Code users):**
+
+```bash
 # Make sure r-sjsdm environment is activated
 conda activate r-sjsdm
 
@@ -132,26 +244,56 @@ Should show:
 
 ```
 radian version: 0.6.15
-r executable: C:\Program Files\R\R-4.5.1\bin\R
-python executable: C:\Users\ondre\AppData\Local\r-miniconda\envs\r-sjsdm\python.exe
+r executable: /usr/bin/R (or your R path)
+python executable: ~/miniconda3/envs/r-sjsdm/bin/python
 python version: 3.10.x
 ```
 
-### 5. Install sjSDM Python Dependencies
+### 5. Configure R to Use r-sjsdm Environment
 
-sjSDM requires additional Python packages:
+#### For RStudio on Windows
 
-```powershell
-# Make sure r-sjsdm environment is activated
-conda activate r-sjsdm
+Tell R which Python to use by adding `RETICULATE_PYTHON` to the **project-level** `.Renviron` file. This file is read at R startup before any package loads, so no manual configuration is needed in scripts.
 
-# Let sjSDM install its Python dependencies
-# (We'll do this from R in the next step)
+1. Open (or create) `.Renviron` in the project root (same folder as the `.Rproj` file)
+2. Add the following line:
+
+```
+RETICULATE_PYTHON=C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm/python.exe
 ```
 
-### 6. Install sjSDM R Package
+> **Note:** If your conda is installed elsewhere, adjust the path. The project already has a preconfigured `.Renviron` — just restart R.
 
-Open R (or RStudio) and run:
+3. Restart R (`Session → Restart R`) so the variable is picked up
+4. Verify:
+
+```r
+Sys.getenv("RETICULATE_PYTHON")  # should show the path above
+```
+
+#### For RStudio Server (Linux/HPC)
+
+Add to the **project-level** `.Renviron` file:
+
+```
+RETICULATE_PYTHON=~/miniconda3/envs/r-sjsdm/bin/python
+```
+
+or run once globally:
+
+```bash
+echo 'RETICULATE_PYTHON=~/miniconda3/envs/r-sjsdm/bin/python' >> ~/.Renviron
+```
+
+Then restart R.
+
+#### For VS Code with Radian
+
+This will be configured in step 7 (skip if using RStudio).
+
+### 6. Install sjSDM R Package and Python Dependencies
+
+Open R (RStudio, RStudio Server, or VS Code) and run:
 
 ```r
 # Install sjSDM from CRAN
@@ -176,9 +318,11 @@ library(sjSDM)
 # Look for: ✓ torch, ✓ torch_optimizer, ✓ pyro, ✓ madgrad
 ```
 
-### 7. Configure VS Code to Use Radian from r-sjsdm Environment
+### 7. Configure VS Code to Use Radian from r-sjsdm Environment (VS Code Only)
 
-This is the crucial step that makes everything work together.
+**Skip this section if you're using RStudio/RStudio Server.**
+
+This is the crucial step that makes everything work together in VS Code.
 
 **Create Workspace-Specific VS Code Settings:**
 
@@ -186,23 +330,62 @@ This is the crucial step that makes everything work together.
 2. Inside `.vscode`, create or edit `settings.json`
 3. Add this configuration:
 
+**Windows:**
 ```json
 {
   "r.rterm.windows": "C:\\Users\\ondre\\AppData\\Local\\r-miniconda\\envs\\r-sjsdm\\Scripts\\radian.exe"
 }
 ```
 
-**Note:** Adjust the path if your username is different or if conda is installed elsewhere.
+**Linux:**
+```json
+{
+  "r.rterm.linux": "~/miniconda3/envs/r-sjsdm/bin/radian"
+}
+```
+
+**Note:** Adjust the path if your conda is installed elsewhere.
 
 **Why workspace-specific settings?** This configuration only affects this project, allowing other R projects to use different Python environments or Radian versions without conflicts. Your global VS Code settings remain unchanged.
 
 **Why this works:** By configuring VS Code to use Radian from the same conda environment where PyTorch and sjSDM dependencies are installed, both Radian and sjSDM share the same Python environment, eliminating conflicts.
 
-### 8. Restart VS Code
+### 8. Restart R Session (or VS Code)
 
-Close and reopen VS Code completely to apply the new Radian configuration.
+**For RStudio/RStudio Server:**
+- Session → Restart R (so `.Renviron` with `RETICULATE_PYTHON` is read)
+
+**For VS Code:**
+- Close and reopen VS Code completely to apply the new Radian configuration.
 
 ### 9. Verify Complete Installation
+
+**For RStudio/RStudio Server:**
+
+Open R console and run:
+
+```r
+# Confirm Python path is set correctly
+Sys.getenv("RETICULATE_PYTHON")
+# Should show: .../r-sjsdm/python.exe
+
+# Verify Python environment
+reticulate::py_config()
+# Should show path containing r-sjsdm
+
+# Load sjSDM
+library(sjSDM)
+
+# Verify with diagnostic
+install_diagnostic()
+
+# Run full verification (RStudio-aware)
+verify_sjsdm_setup()
+```
+
+> If `py_config()` shows the wrong Python path, make sure `.Renviron` is in the project root and you have restarted R.
+
+**For VS Code:**
 
 Open a new R terminal in VS Code (Terminal → New Terminal → R Terminal) and run:
 
@@ -617,15 +800,13 @@ nvidia-smi
 
 ### Q: Can I use this setup with RStudio?
 
-**A:** Partially. The r-sjsdm conda environment will work in RStudio, but you'll need manual configuration:
+**A:** Yes! Add `RETICULATE_PYTHON` to the project-level `.Renviron` file (already included in this project):
 
-```r
-library(reticulate)
-use_condaenv("r-sjsdm")
-library(sjSDM)
+```
+RETICULATE_PYTHON=C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm/python.exe
 ```
 
-The automatic setup only works with VS Code + Radian.
+Restart R, then `library(sjSDM)` works without any manual configuration in scripts.
 
 ### Q: Will this affect my other R projects?
 
@@ -824,7 +1005,7 @@ Copy all outputs when reporting issues.
 
 ---
 
-**Last Updated:** February 4, 2026  
+**Last Updated:** February 23, 2026  
 **Status:** Tested and working with:
 
 - Windows 11

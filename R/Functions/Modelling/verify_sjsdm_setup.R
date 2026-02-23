@@ -32,6 +32,9 @@
 #'
 #' @export
 verify_sjsdm_setup <- function(run_test_model = interactive()) {
+  # Detect runtime environment
+  in_rstudio <- Sys.getenv("RSTUDIO") == "1"
+
   # Initialize results list
   results <-
     list(
@@ -46,43 +49,75 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
 
   cat("=============================================================\n")
   cat("           sjSDM Setup Verification\n")
+
+  if (in_rstudio) {
+    cat("           Running in: RStudio\n")
+  } else {
+    cat("           Running in: VS Code / Radian\n")
+  }
+
   cat("=============================================================\n")
 
 
 
   #----------------------------------------------------------#
-  # 1. Check Radian Configuration -----
+  # 1. Check Radian / Python environment configuration -----
   #----------------------------------------------------------#
 
-  cat("1. Checking Radian Configuration\n")
-  cat("   ----------------------------------------\n")
+  if (in_rstudio) {
+    cat("1. Checking RStudio Python Configuration\n")
+    cat("   ----------------------------------------\n")
 
+    reticulate_python <- Sys.getenv("RETICULATE_PYTHON")
 
-  radian_path <-
-    tryCatch(
-      expr = {
-        system("where radian", intern = TRUE)[1]
-      },
-      error = function(e) NA
-    )
-
-  expected_path <-
-    "C:\\Users\\ondre\\AppData\\Local\\r-miniconda\\envs\\r-sjsdm\\Scripts\\radian.exe"
-
-  if (
-    isFALSE(is.na(radian_path)) &&
-      grepl("r-sjsdm", radian_path, ignore.case = TRUE)
-  ) {
-    results$radian_ok <- TRUE
-
-    cat("   [OK] Radian is from r-sjsdm environment\n")
-    cat("   Path: ", radian_path, "\n")
+    if (
+      nchar(reticulate_python) > 0 &&
+        grepl("r-sjsdm", reticulate_python, ignore.case = TRUE)
+    ) {
+      results$radian_ok <- TRUE
+      cat("   [OK] RETICULATE_PYTHON points to r-sjsdm environment\n")
+      cat("   Path: ", reticulate_python, "\n")
+    } else if (nchar(reticulate_python) > 0) {
+      cat("   [WARN] RETICULATE_PYTHON is set but not pointing to r-sjsdm\n")
+      cat("   Current: ", reticulate_python, "\n")
+      cat("   Fix: Set RETICULATE_PYTHON in project .Renviron:\n")
+      cat("   RETICULATE_PYTHON=C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm/python.exe\n")
+    } else {
+      cat("   [WARN] RETICULATE_PYTHON not set in .Renviron\n")
+      cat("   sjSDM may not find PyTorch\n")
+      cat("   Fix: Add to project .Renviron file:\n")
+      cat("   RETICULATE_PYTHON=C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm/python.exe\n")
+      cat("   Then restart R\n")
+    }
   } else {
-    cat("   [FAIL] Radian not from r-sjsdm environment\n")
-    cat("   Current: ", radian_path, "\n")
-    cat("   Expected: ", expected_path, "\n")
-    cat("\n   Fix: Update VS Code settings:\n")
-    cat('   "r.rterm.windows": "', expected_path, '"\n', sep = "")
+    cat("1. Checking Radian Configuration\n")
+    cat("   ----------------------------------------\n")
+
+    radian_path <-
+      tryCatch(
+        expr = {
+          system("where radian", intern = TRUE)[1]
+        },
+        error = function(e) NA
+      )
+
+    expected_path <-
+      "C:\\Users\\ondre\\AppData\\Local\\r-miniconda\\envs\\r-sjsdm\\Scripts\\radian.exe"
+
+    if (
+      isFALSE(is.na(radian_path)) &&
+        grepl("r-sjsdm", radian_path, ignore.case = TRUE)
+    ) {
+      results$radian_ok <- TRUE
+      cat("   [OK] Radian is from r-sjsdm environment\n")
+      cat("   Path: ", radian_path, "\n")
+    } else {
+      cat("   [FAIL] Radian not from r-sjsdm environment\n")
+      cat("   Current: ", radian_path, "\n")
+      cat("   Expected: ", expected_path, "\n")
+      cat("\n   Fix: Update VS Code settings:\n")
+      cat('   "r.rterm.windows": "', expected_path, '"\n', sep = "")
+    }
   }
 
   cat("\n")
@@ -297,6 +332,9 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
     results$python_ok &&
       results$pytorch_ok &&
       results$sjsdm_ok
+
+  # In RStudio, radian_ok reflects RETICULATE_PYTHON configuration;
+  # it is informational and doesn't block the critical check.
 
   if (!all_critical_ok) {
     cat("[FAIL] Some critical checks failed\n\n")
