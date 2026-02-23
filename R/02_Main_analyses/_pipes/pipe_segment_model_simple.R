@@ -66,8 +66,15 @@ pipe_segment_model_simple <-
       )
     ),
     targets::tar_target(
+      description = "evaluate JSDM model",
+      name = "model_evaluation",
+      command = evaluate_jsdm(
+        mod_jsdm = mod_to_use
+      )
+    ),
+    targets::tar_target(
       description = "a workaround target to use the fitted model in the next steps",
-      name = "mod_jsdm_to_use",
+      name = "mod_to_use",
       command = mod_jsdm
     )
   )
