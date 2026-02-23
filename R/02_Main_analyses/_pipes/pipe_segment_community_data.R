@@ -99,10 +99,13 @@ pipe_segment_community_data <-
     targets::tar_target(
       description = "Select number of taxa to include",
       name = "data_community_subset",
-      command = select_n_taxa(
+      command = filter_rare_taxa(
         data = data_community_classified,
-        n_taxa = config.data_processing$number_of_taxa
-      )
+        minimal_proportion = config.data_processing$minimal_proportion_of_pollen
+      ) |>
+        select_n_taxa(
+          n_taxa = config.data_processing$number_of_taxa
+        )
     ),
     targets::tar_target(
       description = "Prepare community data for fitting",

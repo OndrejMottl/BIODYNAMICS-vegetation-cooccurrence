@@ -144,6 +144,16 @@ fit_jsdm_model <- function(
     data_community <-
       data_community > 0
 
+    # we need to filter out taxa with no variation in presence/absence,
+    #   as these will cause issues with model fitting
+    data_community <-
+      data_community[
+        ,
+        colSums(data_community) > 0 &
+          colSums(data_community) < nrow(data_community)
+      ]
+
+
     error_family <- binomial("probit")
   } else if (
     error_family == "gaussian"

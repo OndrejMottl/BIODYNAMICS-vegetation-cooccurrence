@@ -22,6 +22,9 @@
 #' abiotic variable names and values.
 #' @export
 prepare_data_for_fit <- function(data = NULL, type = c("community", "abiotic")) {
+  
+  `.data` <- dplyr::.data
+  
   assertthat::assert_that(
     is.data.frame(data),
     msg = "data must be a data frame"
@@ -36,31 +39,33 @@ prepare_data_for_fit <- function(data = NULL, type = c("community", "abiotic")) 
 
   res <-
     switch(type,
-      "community" = data %>%
+      "community" = data |>
         dplyr::mutate(
-          sample_name = paste0(dataset_name, "__", age),
-        ) %>%
-        dplyr::select("sample_name", "taxon", "pollen_prop") %>%
+          sample_name = paste0(.data$dataset_name, "__", .data$age),
+        ) |>
+        dplyr::select("sample_name", "taxon", "pollen_prop") |>
+        tidyr::drop_na("pollen_prop") |>
+        dplyr::filter(.data$pollen_prop > 0) |>
         tidyr::pivot_wider(
           names_from = "taxon",
           values_from = "pollen_prop",
           values_fill = 0
-        ) %>%
+        ) |>
         tibble::column_to_rownames("sample_name"),
-      "abiotic" = data %>%
+      "abiotic" = data |>
         dplyr::mutate(
-          sample_name = paste0(dataset_name, "__", age),
-        ) %>%
+          sample_name = paste0(.data$dataset_name, "__", .data$age),
+        ) |>
         dplyr::select(
           "sample_name", "abiotic_variable_name", "abiotic_value"
-        ) %>%
+        ) |>
         tidyr::pivot_wider(
           names_from = "abiotic_variable_name",
           values_from = "abiotic_value",
           values_fill = NULL
-        ) %>%
+        ) |>
         tibble::column_to_rownames("sample_name")
     )
 
-    return(res)
+  return(res)
 }
