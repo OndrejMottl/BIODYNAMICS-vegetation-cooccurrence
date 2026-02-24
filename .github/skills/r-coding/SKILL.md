@@ -1,3 +1,7 @@
+---
+name: r-coding
+description: Provides R coding conventions and style guidelines for this project, covering script structure, naming conventions, syntax rules, function documentation with roxygen2, and testing with testthat.
+---
 # R Coding Conventions and Style Guide
 
 ## Coding Style
