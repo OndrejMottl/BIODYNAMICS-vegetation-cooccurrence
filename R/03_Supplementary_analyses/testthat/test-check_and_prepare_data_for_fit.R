@@ -72,20 +72,17 @@ testthat::test_that("check_and_prepare_data_for_fit() returns correct data", {
         species1 = c(1, 2),
         species2 = c(4, 5)
       ) %>%
-        tibble::column_to_rownames("row_name"),
+        tibble::column_to_rownames("row_name") |>
+        as.matrix(),
       data_abiotic_to_fit = data.frame(
         row_name = c("dataset1__500", "dataset2__1000"),
         abiotic1 = c(6, 7),
-        abiotic2 = c(9, 10)
-      ) %>%
-        tibble::column_to_rownames("row_name"),
-      data_ages_to_fit = data.frame(
-        row_name = c("500", "1000"),
+        abiotic2 = c(9, 10),
         age = c(500, 1000)
       ) %>%
         tibble::column_to_rownames("row_name"),
       data_coords_to_fit = data.frame(
-        row_name = c("dataset1", "dataset2"),
+        row_name = c("dataset1__500", "dataset2__1000"),
         coord_long = c(10, 11),
         coord_lat = c(13, 14)
       ) %>%
@@ -94,7 +91,6 @@ testthat::test_that("check_and_prepare_data_for_fit() returns correct data", {
 
   testthat::expect_equal(result, expected_result)
 })
-
 
 testthat::test_that("check_and_prepare_data_for_fit() subset ages", {
   data_community_example <-
@@ -109,7 +105,8 @@ testthat::test_that("check_and_prepare_data_for_fit() subset ages", {
     data.frame(
       row_name = c("dataset0__0", "dataset1__500", "dataset2__1000"),
       abiotic1 = c(5, 6, 7),
-      abiotic2 = c(8, 9, 10)
+      abiotic2 = c(8, 9, 10),
+      age = c(0, 500, 1000)
     ) %>%
     tibble::column_to_rownames("row_name")
 
@@ -136,20 +133,17 @@ testthat::test_that("check_and_prepare_data_for_fit() subset ages", {
         species1 = c(1),
         species2 = c(4)
       ) %>%
-        tibble::column_to_rownames("row_name"),
+        tibble::column_to_rownames("row_name") |>
+        as.matrix(),
       data_abiotic_to_fit = data.frame(
         row_name = c("dataset1__500"),
         abiotic1 = c(6),
-        abiotic2 = c(9)
-      ) %>%
-        tibble::column_to_rownames("row_name"),
-      data_ages_to_fit = data.frame(
-        row_name = c("500"),
+        abiotic2 = c(9),
         age = c(500)
       ) %>%
         tibble::column_to_rownames("row_name"),
       data_coords_to_fit = data.frame(
-        row_name = c("dataset1"),
+        row_name = c("dataset1__500"),
         coord_long = c(10),
         coord_lat = c(13)
       ) %>%

@@ -40,9 +40,7 @@ check_and_prepare_data_for_fit <- function(
 
     data_abiotic_no_na <-
       data_abiotic_no_na |>
-      add_age_column_from_rownames() |>
-      dplyr::filter(age == subset_age) |>
-      dplyr::select(-age)
+      dplyr::filter(age == subset_age) 
   }
 
   data_community_rownames <-
