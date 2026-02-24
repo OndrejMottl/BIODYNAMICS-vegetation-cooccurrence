@@ -33,7 +33,11 @@ testthat::test_that("get_taxa_classification() returns correct data", {
 
 testthat::test_that("get_taxa_classification() handles invalid input", {
   testthat::expect_error(get_taxa_classification(NULL))
-  testthat::expect_error(get_taxa_classification("NonExistentTaxon"))
   testthat::expect_error(get_taxa_classification(123))
-  testthat::expect_error(get_taxa_classification(""))
+  testthat::expect_true(
+    get_taxa_classification("NonExistentTaxon") |> nrow() == 0
+  )
+  testthat::expect_true(
+    get_taxa_classification("") |> nrow() == 0
+  )
 })

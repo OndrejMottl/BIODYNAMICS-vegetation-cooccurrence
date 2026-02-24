@@ -283,6 +283,7 @@ test_that("fit_jsdm_model() accepts abiotic_method DNN", {
         data_coords_to_fit = mock_coords
       ),
       abiotic_method = "DNN",
+      sel_formula = as.formula("~ temp"),
       sampling = 5L,
       step_size = 5L
     )
