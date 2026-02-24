@@ -3,16 +3,26 @@
 #' Cleans and prepares community, abiotic, and coordinate data for HMSC model
 #' fitting, with optional age subsetting.
 #' @param data_community
-#' Data frame of community data.
+#' A data frame of community data in wide format, with sample names as row
+#' names in the format "dataset_name__age".
 #' @param data_abiotic
-#' Data frame of abiotic data.
+#' A data frame of abiotic data with sample names as row names in the format
+#' "dataset_name__age", and abiotic variables as columns.
 #' @param data_coords
-#' Data frame of coordinates.
+#' A data frame of spatial coordinates with dataset names as row names and
+#' columns for longitude and latitude.
 #' @param subset_age
-#' Optional age value to subset data.
-#' @seealso [make_hmsc_model()]
+#' Optional numeric value specifying a single age to subset the data.
+#' If NULL (default), all ages are included.
 #' @return
-#' A list of cleaned and prepared data frames for model fitting.
+#' A list with four elements: `data_community_to_fit`, `data_abiotic_to_fit`,
+#' `data_ages_to_fit`, and `data_coords_to_fit`, all aligned to the
+#' intersecting set of datasets and ages.
+#' @details
+#' Drops NA values, optionally subsets by age, and finds the intersection
+#' of samples across community, abiotic, and coordinate data to ensure
+#' all inputs are aligned before model fitting.
+#' @seealso [make_hmsc_model()]
 #' @export
 check_and_prepare_data_for_fit <- function(
     data_community = NULL,

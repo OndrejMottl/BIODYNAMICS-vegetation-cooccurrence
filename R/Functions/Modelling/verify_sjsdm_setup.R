@@ -1,7 +1,7 @@
 #' @title Verify sjSDM Setup
 #'
 #' @description
-#' Comprehensive verifimessageion of sjSDM installation, including Python
+#' Comprehensive verification of sjSDM installation, including Python
 #' environment, PyTorch, CUDA support, and sjSDM functionality.
 #' This function checks that Radian and sjSDM are using the same
 #' Python environment and that all dependencies are properly installed.
@@ -15,7 +15,7 @@
 #' @details
 #' This function performs the following checks:
 #' 1. Radian configuration (correct Python environment)
-#' 2. Python version and lomessageion
+#' 2. Python version and location
 #' 3. PyTorch installation and version
 #' 4. CUDA/GPU availability
 #' 5. sjSDM package installation

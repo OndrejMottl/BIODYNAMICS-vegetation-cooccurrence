@@ -1,20 +1,16 @@
 #' @title Get Community Data
 #' @description
-#' This function processes a data frame containing community data
-#' and extracts the relevant columns, unnesting the `data_community`
-#' column in the process.
-#' @param
-#' data A data frame. Must contain the columns `dataset_name` and
-#'  `data_community`.
+#' Processes a data frame containing community data and extracts the relevant
+#' columns, unnesting the `data_community` column in the process.
+#' @param data
+#' A data frame. Must contain the columns `dataset_name` and
+#' `data_community`.
 #' @return
 #' A data frame with the `dataset_name` and unnested `data_community` columns.
-#' @details The function performs the following steps:
-#'   \itemize{
-#'     \item Validates that the input is a data frame.
-#'     \item Ensures the presence of the `dataset_name` and `data_community` columns.
-#'     \item Selects the `dataset_name` and `data_community` columns.
-#'     \item Unnests the `data_community` column.
-#'   }
+#' @details
+#' Validates that the input is a data frame, ensures the presence of the
+#' `dataset_name` and `data_community` columns, selects those columns, and
+#' unnests the `data_community` column.
 #' @export
 get_community_data <- function(data = NULL) {
   assertthat::assert_that(

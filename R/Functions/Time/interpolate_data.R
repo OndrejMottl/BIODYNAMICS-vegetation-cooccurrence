@@ -3,6 +3,9 @@
 #' Interpolates data over a specified age range and timestep using a method.
 #' @param data
 #' A data frame containing the data to be interpolated.
+#' @param by
+#' A character vector of column name(s) to group by when nesting data for
+#' interpolation (default: "dataset_name").
 #' @param age_var
 #' Name of the age variable column (default: "age").
 #' @param value_var
