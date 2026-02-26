@@ -16,13 +16,21 @@ test_that("fit_jsdm_model() validates data_to_fit must be a list", {
 test_that("fit_jsdm_model() validates data_community must be a matrix", {
   expect_error(
     fit_jsdm_model(
-      data_to_fit = list(data_community_to_fit = "not a matrix")
+      data_to_fit = list(
+        data_community_to_fit = "not a matrix",
+        data_abiotic_to_fit = data.frame(a = 1),
+        data_coords_to_fit = data.frame(a = 1)
+      )
     ),
     "data_community must be a matrix"
   )
   expect_error(
     fit_jsdm_model(
-      data_to_fit = list(data_community_to_fit = data.frame(a = 1))
+      data_to_fit = list(
+        data_community_to_fit = data.frame(a = 1),
+        data_abiotic_to_fit = data.frame(a = 1),
+        data_coords_to_fit = data.frame(a = 1)
+      )
     ),
     "data_community must be a matrix"
   )
@@ -35,7 +43,8 @@ test_that("fit_jsdm_model() validates data_abiotic must be a data.frame", {
     fit_jsdm_model(
       data_to_fit = list(
         data_community_to_fit = as.matrix(mock_community),
-        data_abiotic_to_fit = "not a df"
+        data_abiotic_to_fit = "not a df",
+        data_coords_to_fit = data.frame(a = 1)
       )
     ),
     "data_abiotic must be a data frame"
@@ -44,7 +53,8 @@ test_that("fit_jsdm_model() validates data_abiotic must be a data.frame", {
     fit_jsdm_model(
       data_to_fit = list(
         data_community_to_fit = as.matrix(mock_community),
-        data_abiotic_to_fit = c(1, 2, 3)
+        data_abiotic_to_fit = c(1, 2, 3),
+        data_coords_to_fit = data.frame(a = 1)
       )
     ),
     "data_abiotic must be a data frame"
@@ -67,7 +77,7 @@ test_that("fit_jsdm_model() validates data_spatial must be a data.frame", {
   )
 })
 
-test_that("fit_jsdm_model() validates sel_formula must be a formula object", {
+test_that("fit_jsdm_model() validates sel_abiotic_formula must be a formula object", {
   mock_community <- data.frame(sp1 = c(1, 2, 3), sp2 = c(4, 5, 6))
   mock_abiotic <- data.frame(temp = c(10, 15, 20), precip = c(100, 200, 300))
   mock_coords <- data.frame(coord_long = c(1, 2, 3), coord_lat = c(10, 20, 30))
@@ -79,9 +89,9 @@ test_that("fit_jsdm_model() validates sel_formula must be a formula object", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = 123
+      sel_abiotic_formula = 123
     ),
-    "sel_formula must be a formula object"
+    "sel_abiotic_formula must be a formula object"
   )
   expect_error(
     fit_jsdm_model(
@@ -90,13 +100,13 @@ test_that("fit_jsdm_model() validates sel_formula must be a formula object", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = NULL
+      sel_abiotic_formula = NULL
     ),
-    "sel_formula must be a formula object"
+    "sel_abiotic_formula must be a formula object"
   )
 })
 
-test_that("fit_jsdm_model() validates sel_formula length must be 1", {
+test_that("fit_jsdm_model() validates sel_abiotic_formula length must be 1", {
   mock_community <- data.frame(sp1 = c(1, 2, 3), sp2 = c(4, 5, 6))
   mock_abiotic <- data.frame(temp = c(10, 15, 20), precip = c(100, 200, 300))
   mock_coords <- data.frame(coord_long = c(1, 2, 3), coord_lat = c(10, 20, 30))
@@ -108,9 +118,9 @@ test_that("fit_jsdm_model() validates sel_formula length must be 1", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = c("formula1", "formula2")
+      sel_abiotic_formula = c("formula1", "formula2")
     ),
-    "sel_formula must be a formula object"
+    "sel_abiotic_formula must be a formula object"
   )
   expect_error(
     fit_jsdm_model(
@@ -119,9 +129,9 @@ test_that("fit_jsdm_model() validates sel_formula length must be 1", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = character(0)
+      sel_abiotic_formula = character(0)
     ),
-    "sel_formula must be a formula object"
+    "sel_abiotic_formula must be a formula object"
   )
 })
 
@@ -137,7 +147,7 @@ test_that("fit_jsdm_model() validates abiotic_method options", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = as.formula("~ temp + precip"),
+      sel_abiotic_formula = as.formula("~ temp + precip"),
       abiotic_method = "invalid_method"
     ),
     "abiotic_method must be either 'linear' or 'DNN'"
@@ -156,7 +166,7 @@ test_that("fit_jsdm_model() validates error_family options", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = as.formula("~ temp + precip"),
+      sel_abiotic_formula = as.formula("~ temp + precip"),
       error_family = "poisson"
     ),
     "error_family must be either 'gaussian' or 'binomial'"
@@ -212,7 +222,7 @@ test_that("fit_jsdm_model() returns sjSDM class object with valid inputs", {
       data_abiotic_to_fit = mock_abiotic,
       data_coords_to_fit = mock_coords
     ),
-    sel_formula = as.formula("~ temp + precip"),
+    sel_abiotic_formula = as.formula("~ temp + precip"),
     abiotic_method = "linear",
     spatial_method = "linear",
     error_family = "gaussian",
@@ -250,7 +260,7 @@ test_that("fit_jsdm_model() accepts abiotic_method linear", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = as.formula("~ temp + precip"),
+      sel_abiotic_formula = as.formula("~ temp + precip"),
       abiotic_method = "linear",
       sampling = 5L,
       step_size = 5L
@@ -283,7 +293,7 @@ test_that("fit_jsdm_model() accepts abiotic_method DNN", {
         data_coords_to_fit = mock_coords
       ),
       abiotic_method = "DNN",
-      sel_formula = as.formula("~ temp"),
+      sel_abiotic_formula = as.formula("~ temp"),
       sampling = 5L,
       step_size = 5L
     )
@@ -315,7 +325,7 @@ test_that("fit_jsdm_model() converts binomial to presence/absence", {
       data_abiotic_to_fit = mock_abiotic,
       data_coords_to_fit = mock_coords
     ),
-    sel_formula = as.formula("~ temp + precip"),
+    sel_abiotic_formula = as.formula("~ temp + precip"),
     error_family = "binomial",
     sampling = 5L,
     step_size = 5L
@@ -350,7 +360,7 @@ test_that("fit_jsdm_model() accepts both cpu and gpu device options", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = as.formula("~ temp + precip"),
+      sel_abiotic_formula = as.formula("~ temp + precip"),
       device = "gpu",
       sampling = 5L,
       step_size = 5L
@@ -384,7 +394,7 @@ test_that("fit_jsdm_model() accepts custom sampling parameter", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = as.formula("~ temp + precip"),
+      sel_abiotic_formula = as.formula("~ temp + precip"),
       sampling = 100L,
       step_size = 10L
     )
@@ -414,7 +424,7 @@ test_that("fit_jsdm_model() accepts custom step_size parameter", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = as.formula("~ temp + precip"),
+      sel_abiotic_formula = as.formula("~ temp + precip"),
       sampling = 10L,
       step_size = 25L
     )
@@ -445,7 +455,7 @@ test_that("fit_jsdm_model() handles zero-row data frames", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = as.formula("~ temp + precip"),
+      sel_abiotic_formula = as.formula("~ temp + precip"),
       sampling = 5L,
       step_size = 5L
     )
@@ -478,7 +488,7 @@ test_that("fit_jsdm_model() handles single row data", {
         data_abiotic_to_fit = mock_abiotic,
         data_coords_to_fit = mock_coords
       ),
-      sel_formula = as.formula("~ temp + precip"),
+      sel_abiotic_formula = as.formula("~ temp + precip"),
       sampling = 5L,
       step_size = 5L
     )
@@ -512,7 +522,7 @@ test_that("fit_jsdm_model() returns object consistently", {
       data_abiotic_to_fit = mock_abiotic,
       data_coords_to_fit = mock_coords
     ),
-    sel_formula = as.formula("~ temp + precip"),
+    sel_abiotic_formula = as.formula("~ temp + precip"),
     sampling = 5L,
     step_size = 5L
   )
@@ -524,7 +534,7 @@ test_that("fit_jsdm_model() returns object consistently", {
       data_abiotic_to_fit = mock_abiotic,
       data_coords_to_fit = mock_coords
     ),
-    sel_formula = as.formula("~ temp + precip"),
+    sel_abiotic_formula = as.formula("~ temp + precip"),
     sampling = 5L,
     step_size = 5L
   )
