@@ -13,10 +13,11 @@
 #' @details
 #' The function constructs different formulas based on the presence of an
 #' 'age' column:
-#' - With age: ~ age * (var1 + var2 + ...) - 0 - var1 - var2 - ...
-#' - Without age: ~ var1 + var2 + ... - 0 - var1 - var2 - ...
+#' - With age: ~ (var1 + var2 + ...) * age - age ...
+#' - Without age: ~ var1 + var2 + ...
 #' The formula removes intercept terms and individual variable terms when
 #' interactions are present.
+#' @seealso [check_and_prepare_data_for_fit()]
 #' @export
 make_env_formula <- function(data) {
   assertthat::assert_that(
@@ -51,10 +52,10 @@ make_env_formula <- function(data) {
     formula_text <-
       paste0(
         " ~ ",
-        " age * (",
+       # the expected formula for 2 bio variables is: ~ (bio1 + bio12) * age - age
+        " (",
         paste0(vec_names, collapse = " + "),
-        ") - 0 - ",
-        paste0(vec_names, collapse = " - ")
+        ") * age - age"
       )
   } else {
     formula_text <-
