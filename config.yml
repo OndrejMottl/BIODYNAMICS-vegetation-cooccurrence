@@ -31,6 +31,7 @@ project_cz:
     min_distance_of_gpp_knots: 50
   model_fitting:
     n_cores: 24
+    samples: 1000
 project_europe:
   target_store: Data/targets/project_europe
   vegvault_data:

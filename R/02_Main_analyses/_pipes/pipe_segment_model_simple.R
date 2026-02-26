@@ -53,16 +53,18 @@ pipe_segment_model_simple <-
       name = "mod_jsdm",
       command = fit_jsdm_model(
         data_to_fit = data_to_fit,
-        sel_formula = model_formula,
         abiotic_method = "linear",
-        spatial_method = "linear",
+        sel_abiotic_formula = model_formula,
+        spatial_method = "none",
+        sel_spatial_formula = ~ 0 + coord_long:coord_lat,
         error_family = "binomial",
         device = "gpu",
         parallel = config.model_fitting$n_cores,
         sampling = config.model_fitting$samples,
         iter = config.model_fitting$samples,
         seed = 900723,
-        verbose = FALSE
+        verbose = FALSE,
+        compute_se = TRUE
       )
     ),
     targets::tar_target(
