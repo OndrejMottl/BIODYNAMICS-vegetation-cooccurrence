@@ -45,12 +45,13 @@ check_and_prepare_data_for_fit <- function(
     data_community_no_na <-
       data_community_no_na |>
       add_age_column_from_rownames() |>
-      dplyr::filter(age == subset_age) |>
+      dplyr::filter(age %in% subset_age) |>
       dplyr::select(-age)
 
     data_abiotic_no_na <-
       data_abiotic_no_na |>
-      dplyr::filter(age == subset_age) 
+      add_age_column_from_rownames() |>
+      dplyr::filter(age %in% subset_age)
   }
 
   data_community_rownames <-
