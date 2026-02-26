@@ -41,8 +41,8 @@ evaluate_jsdm <- function(mod_jsdm = NULL) {
   # 1. R-squared metrics
   list_eval$model <-
     c(
-      sjSDM::Rsquared(mod_jsdm, method = "McFadden"),
-      sjSDM::Rsquared(mod_jsdm, method = "Nagelkerke")
+      sjSDM::Rsquared(mod_jsdm, method = "McFadden", verbose = FALSE),
+      sjSDM::Rsquared(mod_jsdm, method = "Nagelkerke", verbose = FALSE)
     ) |>
     rlang::set_names(c("R2-McFadden", "R2-Nagelkerke"))
 
