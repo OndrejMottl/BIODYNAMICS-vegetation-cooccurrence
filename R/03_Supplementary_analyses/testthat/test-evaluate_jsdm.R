@@ -48,7 +48,7 @@ testthat::test_that(
           data_abiotic_to_fit = data_abiotic,
           data_coords_to_fit = data_coords
         ),
-        sel_formula = as.formula("~ temp + precip"),
+        sel_abiotic_formula =as.formula("~ temp + precip"),
         error_family = "binomial",
         sampling = 5L,
         step_size = 5L,
@@ -94,7 +94,7 @@ testthat::test_that(
           data_abiotic_to_fit = data_abiotic,
           data_coords_to_fit = data_coords
         ),
-        sel_formula = as.formula("~ temp + precip"),
+        sel_abiotic_formula =as.formula("~ temp + precip"),
         error_family = "binomial",
         sampling = 5L,
         step_size = 5L,
@@ -145,7 +145,7 @@ testthat::test_that(
           data_abiotic_to_fit = data_abiotic,
           data_coords_to_fit = data_coords
         ),
-        sel_formula = as.formula("~ temp + precip"),
+        sel_abiotic_formula =as.formula("~ temp + precip"),
         error_family = "binomial",
         sampling = 10L,
         step_size = 5L,
@@ -225,7 +225,7 @@ testthat::test_that(
           data_abiotic_to_fit = data_abiotic,
           data_coords_to_fit = data_coords
         ),
-        sel_formula = as.formula("~ temp + precip"),
+        sel_abiotic_formula =as.formula("~ temp + precip"),
         error_family = "gaussian",
         sampling = 5L,
         step_size = 5L,

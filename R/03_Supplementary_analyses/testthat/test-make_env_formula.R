@@ -99,7 +99,7 @@ testthat::test_that(
     res <- make_env_formula(data = data_test)
 
     expected_formula <-
-      as.formula(" ~ age * (temp + precip) - 0 - temp - precip")
+      as.formula(" ~  (temp + precip) * age - age")
 
     testthat::expect_equal(res, expected_formula)
 
@@ -113,7 +113,7 @@ testthat::test_that(
 
     testthat::expect_true(grepl("\\*", formula_text))
 
-    testthat::expect_true(grepl("- 0", formula_text))
+    testthat::expect_true(grepl("- age", formula_text))
   }
 )
 
@@ -135,7 +135,7 @@ testthat::test_that(
 
     res <- make_env_formula(data = data_test)
 
-    expected_formula <- as.formula(" ~ age * (var1) - 0 - var1")
+    expected_formula <- as.formula(" ~ (var1) * age - age")
 
     testthat::expect_equal(res, expected_formula)
   }
@@ -183,7 +183,7 @@ testthat::test_that(
     res <- make_env_formula(data = data_test)
 
     expected_formula <-
-      as.formula(" ~ age * (var1 + var2 + var3) - 0 - var1 - var2 - var3")
+      as.formula(" ~ (var1 + var2 + var3) * age - age")
 
     testthat::expect_equal(res, expected_formula)
 
@@ -315,7 +315,7 @@ testthat::test_that(
 
     formula_text <- deparse(res)
 
-    testthat::expect_false(grepl("- 0", formula_text))
+    testthat::expect_false(grepl("- age", formula_text))
   }
 )
 
