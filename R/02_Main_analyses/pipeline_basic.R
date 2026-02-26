@@ -44,7 +44,7 @@ targets::tar_source(
 targets::tar_option_set(
   seed = get_active_config("seed"),
   format = "qs"
-  # now we need NOT to set the error option to "null" because we want to 
+  # now we need NOT to set the error option to "null" because we want to
   #   see the errors in the pipeline
   # error = "null"
 )
@@ -74,10 +74,8 @@ c(
   "pipe_segment_community_data.R",
   "pipe_segment_abiotic_data.R",
   "pipe_segment_model_prep.R",
-  "pipe_segment_model_fit.R",
-  "pipe_segment_model_simple.R"
-  # "pipe_segment_species_associations.R",
-  # "pipe_segment_result_summary_type.R"
+  "pipe_segment_model_simple.R",
+  "pipe_segment_model_anova.R"
 ) %>%
   rlang::set_names() %>%
   purrr::walk(
@@ -96,7 +94,8 @@ list(
   pipe_segment_vegvault_data,
   pipe_segment_community_data,
   pipe_segment_abiotic_data,
-  pipe_segment_model_simple
+  pipe_segment_model_simple,
+  pipe_segment_model_anova
   # pipe_segment_species_associations,
   # pipe_segment_result_summary_type,
   # targets::tar_target(
