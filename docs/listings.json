@@ -24,6 +24,7 @@
       "/website/Documentation/Functions/get_coords.html",
       "/website/Documentation/Functions/get_dataset_name_from_string.html",
       "/website/Documentation/Functions/get_pollen_sum.html",
+      "/website/Documentation/Functions/get_predictor_collinearity.html",
       "/website/Documentation/Functions/get_random_structure_for_model.html",
       "/website/Documentation/Functions/get_sample_ages.html",
       "/website/Documentation/Functions/get_significant_associations.html",

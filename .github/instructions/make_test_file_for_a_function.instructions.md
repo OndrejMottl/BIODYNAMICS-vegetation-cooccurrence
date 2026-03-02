@@ -10,11 +10,75 @@ You are an expert R developer and testthat user tasked with writing comprehensiv
 
 **IMPORTANT:** All code must follow the project's R coding conventions defined in `.github/instructions/r-coding.instructions.md`. This includes:
 
-- Object naming conventions (snake_case with type prefixes: `data_*`, `vec_*`, `list_*`, `mod_*`)
+- Object naming conventions (snake_case with type prefixes: `data_*`, `vec_*`,
+  `list_*`, `mod_*`)
 - Syntax rules (spaces, new lines, assignment with `<-`)
 - Function namespace usage (`package::function()`)
 - Line width limit (80 characters)
 - Use of `TRUE`/`FALSE` instead of `T`/`F`
+
+### Most-commonly violated rules in test files
+
+These rules are frequently missed — treat them as a checklist before finishing
+any test file:
+
+**1. 80-character line limit applies everywhere**, including `test_that()`
+description strings. If a description would exceed 80 characters, shorten it
+(do **not** break the string with `paste0()` unless truly unavoidable).
+Count the leading spaces + quotes + text + `",` — all of it counts.
+
+**2. Never use `$` to access data frame columns.** The project standards
+explicitly ban `df$column`. Use `dplyr::pull(df, column)` instead:
+
+```r
+# Wrong
+res$abiotic_variable_name
+
+# Correct
+dplyr::pull(res, abiotic_variable_name)
+```
+
+**3. Always use fully-qualified namespaces**, even for base R and testthat
+functions. This is required by the project standard ("Always use the full
+package namespace with a function call").
+
+All `testthat` assertion and block functions must be prefixed with
+`testthat::`:
+
+| Bare call | Namespaced form |
+|-----------|-----------------|
+| `test_that(…)` | `testthat::test_that(…)` |
+| `expect_error(…)` | `testthat::expect_error(…)` |
+| `expect_equal(…)` | `testthat::expect_equal(…)` |
+| `expect_true(…)` | `testthat::expect_true(…)` |
+| `expect_false(…)` | `testthat::expect_false(…)` |
+| `expect_named(…)` | `testthat::expect_named(…)` |
+| `expect_length(…)` | `testthat::expect_length(…)` |
+| `expect_warning(…)` | `testthat::expect_warning(…)` |
+| `expect_message(…)` | `testthat::expect_message(…)` |
+| `expect_s3_class(…)` | `testthat::expect_s3_class(…)` |
+| `expect_type(…)` | `testthat::expect_type(…)` |
+
+Common base R calls that must also be namespaced in test files include:
+
+| Bare call | Namespaced form |
+|-----------|-----------------|
+| `nrow(x)` | `base::nrow(x)` |
+| `ncol(x)` | `base::ncol(x)` |
+| `colnames(x)` | `base::colnames(x)` |
+| `is.data.frame(x)` | `base::is.data.frame(x)` |
+| `all(x)` | `base::all(x)` |
+| `any(x)` | `base::any(x)` |
+| `sort(x)` | `base::sort(x)` |
+| `unique(x)` | `base::unique(x)` |
+| `length(x)` | `base::length(x)` |
+| `seq_along(x)` | `base::seq_along(x)` |
+| `seq_len(n)` | `base::seq_len(n)` |
+| `paste0(...)` | `base::paste0(...)` |
+| `sample(x, n)` | `base::sample(x, n)` |
+| `structure(x, ...)` | `base::structure(x, ...)` |
+| `class(x) <- y` | `base::class(x) <- y` |
+| `character(n)` | `base::character(n)` |
 
 ## Objective
 

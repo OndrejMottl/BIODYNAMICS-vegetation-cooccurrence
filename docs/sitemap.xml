@@ -2,190 +2,194 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/installation.html</loc>
-    <lastmod>2026-03-02T07:54:50.205Z</lastmod>
+    <lastmod>2026-03-02T09:48:33.761Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/transform_to_proportions.html</loc>
-    <lastmod>2026-03-02T07:36:12.195Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.095Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/save_progress_visualisation.html</loc>
-    <lastmod>2026-03-02T07:36:12.166Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.092Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/replace_na_community_data_with_zeros.html</loc>
-    <lastmod>2026-03-02T07:36:12.126Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.091Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/make_hmsc_model.html</loc>
-    <lastmod>2026-03-02T07:36:12.095Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.089Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/make_community_data_long.html</loc>
-    <lastmod>2026-03-02T07:36:12.066Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.087Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/interpolate_data.html</loc>
-    <lastmod>2026-03-02T07:36:12.039Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.086Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_taxa_classification.html</loc>
-    <lastmod>2026-03-02T07:36:12.010Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.083Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_significant_associations.html</loc>
-    <lastmod>2026-03-02T07:36:11.975Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.082Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_random_structure_for_model.html</loc>
-    <lastmod>2026-03-02T07:36:11.947Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.080Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_dataset_name_from_string.html</loc>
-    <lastmod>2026-03-02T07:36:11.909Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_pollen_sum.html</loc>
+    <lastmod>2026-03-02T10:26:23.079Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_community_taxa.html</loc>
-    <lastmod>2026-03-02T07:36:11.856Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_coords.html</loc>
+    <lastmod>2026-03-02T10:26:23.076Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_better_model_based_on_fit.html</loc>
-    <lastmod>2026-03-02T07:36:11.825Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_community_data.html</loc>
+    <lastmod>2026-03-02T10:26:23.075Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_age_from_string.html</loc>
-    <lastmod>2026-03-02T07:36:11.790Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_anova.html</loc>
+    <lastmod>2026-03-02T10:26:23.073Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_abiotic_data.html</loc>
-    <lastmod>2026-03-02T07:36:11.737Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_active_config.html</loc>
+    <lastmod>2026-03-02T10:26:23.071Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/fit_hmsc_model.html</loc>
-    <lastmod>2026-03-02T07:36:11.709Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/fit_jsdm_model.html</loc>
+    <lastmod>2026-03-02T10:26:23.070Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/extract_data_from_vegvault.html</loc>
-    <lastmod>2026-03-02T07:36:11.676Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/filter_rare_taxa.html</loc>
+    <lastmod>2026-03-02T10:26:23.068Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/classify_taxonomic_resolution.html</loc>
-    <lastmod>2026-03-02T07:36:11.645Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/evaluate_jsdm.html</loc>
+    <lastmod>2026-03-02T10:26:23.066Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/check_and_prepare_data_for_fit.html</loc>
-    <lastmod>2026-03-02T07:36:11.612Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/check_presence_of_vegvault.html</loc>
+    <lastmod>2026-03-02T10:26:23.064Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_dataset_name_column_from_rownames.html</loc>
-    <lastmod>2026-03-02T07:36:11.585Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_model_evaluation.html</loc>
+    <lastmod>2026-03-02T10:26:23.061Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_column_from_rownames.html</loc>
-    <lastmod>2026-03-02T07:36:11.544Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/about.html</loc>
-    <lastmod>2026-03-02T07:57:50.393Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/index.html</loc>
-    <lastmod>2025-05-15T12:09:58.908Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Materials/sjSDM_installation_guide.html</loc>
-    <lastmod>2026-02-23T12:04:07.399Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Reports/First_report/outline.html</loc>
-    <lastmod>2025-11-04T08:44:47.644Z</lastmod>
-  </url>
-  <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/LICENSE.html</loc>
-    <lastmod>2025-04-25T12:21:23.993Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_to_samples.html</loc>
+    <lastmod>2026-03-02T10:26:23.060Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/documentation.html</loc>
     <lastmod>2026-03-02T09:19:41.864Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_to_samples.html</loc>
-    <lastmod>2026-03-02T07:36:11.569Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/LICENSE.html</loc>
+    <lastmod>2025-04-25T12:21:23.993Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_model_evaluation.html</loc>
-    <lastmod>2026-03-02T07:36:11.599Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Reports/First_report/outline.html</loc>
+    <lastmod>2025-11-04T08:44:47.644Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/check_presence_of_vegvault.html</loc>
-    <lastmod>2026-03-02T07:36:11.630Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Materials/sjSDM_installation_guide.html</loc>
+    <lastmod>2026-03-02T09:48:33.328Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/evaluate_jsdm.html</loc>
-    <lastmod>2026-03-02T07:36:11.665Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/index.html</loc>
+    <lastmod>2025-05-15T12:09:58.908Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/filter_rare_taxa.html</loc>
-    <lastmod>2026-03-02T07:36:11.697Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/about.html</loc>
+    <lastmod>2026-03-02T09:48:33.574Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/fit_jsdm_model.html</loc>
-    <lastmod>2026-03-02T07:36:11.724Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_age_column_from_rownames.html</loc>
+    <lastmod>2026-03-02T10:26:23.053Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_active_config.html</loc>
-    <lastmod>2026-03-02T07:36:11.757Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/add_dataset_name_column_from_rownames.html</loc>
+    <lastmod>2026-03-02T10:26:23.060Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_anova.html</loc>
-    <lastmod>2026-03-02T07:36:11.809Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/check_and_prepare_data_for_fit.html</loc>
+    <lastmod>2026-03-02T10:26:23.063Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_community_data.html</loc>
-    <lastmod>2026-03-02T07:36:11.842Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/classify_taxonomic_resolution.html</loc>
+    <lastmod>2026-03-02T10:26:23.064Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_coords.html</loc>
-    <lastmod>2026-03-02T07:36:11.884Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/extract_data_from_vegvault.html</loc>
+    <lastmod>2026-03-02T10:26:23.067Z</lastmod>
   </url>
   <url>
-    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_pollen_sum.html</loc>
-    <lastmod>2026-03-02T07:36:11.930Z</lastmod>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/fit_hmsc_model.html</loc>
+    <lastmod>2026-03-02T10:26:23.069Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_abiotic_data.html</loc>
+    <lastmod>2026-03-02T10:26:23.071Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_age_from_string.html</loc>
+    <lastmod>2026-03-02T10:26:23.072Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_better_model_based_on_fit.html</loc>
+    <lastmod>2026-03-02T10:26:23.074Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_community_taxa.html</loc>
+    <lastmod>2026-03-02T10:26:23.075Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_dataset_name_from_string.html</loc>
+    <lastmod>2026-03-02T10:26:23.078Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_predictor_collinearity.html</loc>
+    <lastmod>2026-03-02T10:26:23.080Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_sample_ages.html</loc>
-    <lastmod>2026-03-02T07:36:11.954Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.081Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/get_species_association.html</loc>
-    <lastmod>2026-03-02T07:36:11.995Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.082Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/interpolate_community_data.html</loc>
-    <lastmod>2026-03-02T07:36:12.025Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.085Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/make_classification_table.html</loc>
-    <lastmod>2026-03-02T07:36:12.055Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.086Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/make_env_formula.html</loc>
-    <lastmod>2026-03-02T07:36:12.084Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.088Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/prepare_data_for_fit.html</loc>
-    <lastmod>2026-03-02T07:36:12.115Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.090Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/run_pipeline.html</loc>
-    <lastmod>2026-03-02T07:36:12.146Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.092Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/select_n_taxa.html</loc>
-    <lastmod>2026-03-02T07:36:12.179Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.093Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/website/Documentation/Functions/verify_sjsdm_setup.html</loc>
-    <lastmod>2026-03-02T07:36:12.215Z</lastmod>
+    <lastmod>2026-03-02T10:26:23.095Z</lastmod>
   </url>
 </urlset>

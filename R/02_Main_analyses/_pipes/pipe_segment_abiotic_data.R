@@ -52,10 +52,23 @@ pipe_segment_abiotic_data <-
         dplyr::select(-sample_name)
     ),
     targets::tar_target(
+      description = "Check collinearity of abiotic predictors",
+      name = "abiotic_collinearity",
+      command = get_predictor_collinearity(data_abiotic_ages)
+    ),
+    targets::tar_target(
+      description = "Select non-collinear abiotic predictors",
+      name = "data_abiotic_selected",
+      command = select_non_collinear_predictors(
+        data_source = data_abiotic_ages,
+        collinearity_res = abiotic_collinearity
+      )
+    ),
+    targets::tar_target(
       description = "Interpolate abiotic data to specific time step",
       name = "data_abiotic_interpolated",
       command = interpolate_data(
-        data = data_abiotic_ages,
+        data = data_abiotic_selected,
         value_var = "abiotic_value",
         by = c("dataset_name", "abiotic_variable_name"),
         timestep = config.data_processing$time_step,

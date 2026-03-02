@@ -86,6 +86,7 @@ if (
 sapply(
   c(
     "assertthat",
+    "collinear",
     "config",
     "here",
     "httpgd",
