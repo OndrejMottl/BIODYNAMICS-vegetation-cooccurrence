@@ -18,7 +18,13 @@ The project is using {[config](https://rstudio.github.io/config/index.html)} to 
 
 The main source of data is [VegVault](bit.ly/VegVault), a database of vegetation plots and abiotic data. 
 
-Currently, the aim of the project is to estimate number of significant co-occurrences of species in a given area per each time slice (step). The species association are calculated using {[HMSC](https://www.helsinki.fi/en/researchgroups/statistical-ecology/software/hmsc)} (Hierarchical Modelling of Species Communities) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining by abiotic variables). 
+Currently, the aim of the project is to estimate the number of significant co-occurrences of species in a given area per each time slice (step). The species associations are calculated using {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)} (Scalable Joint Species Distribution Models) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining for abiotic variables).
+
+### Framework migration: HMSC → sjSDM
+
+The project was originally developed using {[HMSC](https://www.helsinki.fi/en/researchgroups/statistical-ecology/software/hmsc)} (Hierarchical Modelling of Species Communities). However, HMSC relies on MCMC sampling, which did not scale well to the size of the data used in this project — fitting times became prohibitively long as the number of sites, taxa, and time slices increased. The project is therefore being **fully reworked to use {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)}**, which uses stochastic gradient descent and GPU acceleration to achieve substantial performance gains while retaining the joint species distribution modelling framework.
+
+> **⚠️ TO BE DONE:** The **spatial random effect** component has not yet been implemented in the new sjSDM pipeline. Accounting for spatial autocorrelation is a planned next step and will be added once the core abiotic-constrained association pipeline is stable.
 
 Here is a preview of the current status of the project status:
 
@@ -30,11 +36,12 @@ Or you can see the simplified static version of the project status below:
 
 ### Preliminary Results
 
-There is a toy subproject with the area of Czech Republic with only using the fossil pollen archive data spanning 0-5000 cal yr BP, while the time step is set to 500 years. The abiotic variables are the bio1 and bio12 (temperature and precipitation). Only 10 most common taxa are used in the analysis. The probabilistic Bayesian model is set to be fitted quickly (100 samples per chain, with a transient of 50 samples and a cross-validation of 2 folds).
+> **🔄 In progress:** The pipeline has been migrated from {HMSC} to {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)} and is actively being developed. Results below reflect the current state of the new pipeline and will be updated as the workflow stabilises.
 
+There is a toy sub-project with the area of Czech Republic using only the fossil pollen archive data spanning 0–5,000 cal yr BP, with a time step of 500 years. The abiotic variables are bio1 and bio12 (mean annual temperature and annual precipitation). Only the 10 most common taxa are used in the analysis. The sjSDM model is fitted with linear abiotic effects and no explicit spatial random effect.
 
 ```{r}
-#| label: plot species associations by time step
+#| label: plot-species-associations
 #| echo: false
 #| output: true
 #| message: false
@@ -43,21 +50,25 @@ There is a toy subproject with the area of Czech Republic with only using the fo
 suppressMessages(
   suppressWarnings({
     library(targets, warn.conflicts = FALSE)
-    library(ggplot2, warn.conflicts = FALSE)
     library(here, warn.conflicts = FALSE)
     here::i_am("website/about.qmd")
   })
 )
 
-targets::tar_read(
-  name = "plot_species_associations",
-  store = here::here(
+set_store <-
+  paste0(
     config::get(
       value = "target_store",
       config = "project_cz",
       use_parent = FALSE,
       file = here::here("config.yml")
-    )
-  )
+    ),
+    "/", "pipeline_basic", "/"
+  ) |>
+  here::here()
+
+targets::tar_read(
+  name = "plot_species_associations",
+  store = set_store
 )
 ```
