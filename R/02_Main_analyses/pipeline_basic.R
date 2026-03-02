@@ -35,9 +35,20 @@ suppressMessages(
   )
 )
 
-# load all functions
+# load all functions (exclude _outdated)
+vec_fun_files <-
+  list.files(
+    path = here::here("R/Functions/"),
+    pattern = "*.R",
+    recursive = TRUE,
+    full.names = TRUE
+  ) %>%
+  purrr::discard(
+    ~ stringr::str_detect(.x, "_outdated")
+  )
+
 targets::tar_source(
-  files = here::here("R/Functions/")
+  files = vec_fun_files
 )
 
 # set seed for reproducibility

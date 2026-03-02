@@ -27,14 +27,22 @@ data_covr <-
       here::here("R/Functions/"),
       recursive = TRUE,
       full.names = TRUE
-    ),
+    ) %>%
+      purrr::discard(
+        # Exclude outdated functions (e.g. HMSC-based)
+        ~ stringr::str_detect(.x, "_outdated")
+      ),
     test_files = list.files(
       here::here(
         "R/03_Supplementary_analyses/testthat"
       ),
       recursive = TRUE,
       full.names = TRUE
-    )
+    ) %>%
+      purrr::discard(
+        # Exclude outdated tests (e.g. HMSC-based)
+        ~ stringr::str_detect(.x, "_outdated")
+      )
   )
 
 data_covr %>%
