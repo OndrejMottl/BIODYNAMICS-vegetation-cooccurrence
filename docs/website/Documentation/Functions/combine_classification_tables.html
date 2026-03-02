@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>transform_to_proportions() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>combine_classification_tables() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -81,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/transform_to_proportions.html">transform_to_proportions()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/combine_classification_tables.html">combine_classification_tables()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -192,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../website/Documentation/Functions/combine_classification_tables.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../website/Documentation/Functions/combine_classification_tables.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">combine_classification_tables()</span></a>
   </div>
 </li>
@@ -402,7 +402,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../website/Documentation/Functions/transform_to_proportions.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../website/Documentation/Functions/transform_to_proportions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">transform_to_proportions()</span></a>
   </div>
 </li>
@@ -427,9 +427,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/transform_to_proportions.html">transform_to_proportions()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../website/Documentation/documentation.html">Documentation</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../website/Documentation/Functions/combine_classification_tables.html">combine_classification_tables()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">transform_to_proportions()</h1>
+<h1 class="title">combine_classification_tables()</h1>
 </div>
 
 
@@ -467,7 +467,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-transform_to_proportions
+combine_classification_tables
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -475,18 +475,21 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Transform to Proportions
+Combine automatic and auxiliary classification tables
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-Transforms pollen count data into proportions based on total pollen count.
+Merges the automatically generated classification table with a manually curated auxiliary table. When the same ‘sel_name’ entry exists in both tables the auxiliary (manual) row takes priority, overriding the automatic classification entirely.
 </p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">transform_to_proportions(data = NULL, pollen_sum = NULL)
+<pre><code class="language-R">combine_classification_tables(
+  data_classification_table,
+  data_aux_classification_table
+)
 </code></pre>
 <h3 class="anchored">
 Arguments
@@ -494,21 +497,21 @@ Arguments
 <table role="presentation">
 <tbody><tr>
 <td>
-<code id="data">data</code>
+<code id="data_classification_table">data_classification_table</code>
 </td>
 <td>
 <p>
-A data frame containing pollen count data.
+A data frame produced by ‘make_classification_table()’ with columns ‘sel_name’, ‘family’, ‘genus’, and ‘species’.
 </p>
 </td>
 </tr>
 <tr>
 <td>
-<code id="pollen_sum">pollen_sum</code>
+<code id="data_aux_classification_table">data_aux_classification_table</code>
 </td>
 <td>
 <p>
-A data frame with total pollen counts for each sample.
+A data frame produced by ‘get_aux_classification_table()’ with columns ‘sel_name’, ‘family’, ‘genus’, and ‘species’. May be an empty tibble (zero rows) when no manual overrides exist.
 </p>
 </td>
 </tr>
@@ -517,13 +520,19 @@ A data frame with total pollen counts for each sample.
 Details
 </h3>
 <p>
-Joins the input data with total pollen counts and calculates proportions using ‘dplyr::mutate’.
+Binding is performed by placing auxiliary rows before automatic rows and then retaining the first occurrence of each ‘sel_name’ via ‘dplyr::distinct()’. This guarantees that manual classifications always win regardless of their relative completeness.
 </p>
 <h3 class="anchored">
 Value
 </h3>
 <p>
-A data frame with pollen proportions, excluding ‘pollen_sum’ and ‘pollen_count’ columns.
+A tibble with columns ‘sel_name’, ‘family’, ‘genus’, and ‘species’ containing all unique taxa from both inputs. Manual entries override automatic ones on ‘sel_name’ collision.
+</p>
+<h3 class="anchored">
+See Also
+</h3>
+<p>
+[get_aux_classification_table()], [make_classification_table()], [classify_taxonomic_resolution()]
 </p>
 </main>
 </div>
@@ -941,7 +950,7 @@ A data frame with pollen proportions, excluding ‘pollen_sum’ and ‘pollen_c
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/Functions/transform_to_proportions.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/website/Documentation/Functions/combine_classification_tables.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

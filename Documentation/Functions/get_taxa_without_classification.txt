@@ -1,0 +1,40 @@
+Get taxa without classification
+
+Description:
+
+     Identifies taxa from a community vector that are absent from a
+     classification table. Returns the names of taxa that do not have a
+     matching entry in the `sel_name` column of the classification
+     table.
+
+Usage:
+
+     get_taxa_without_classification(vec_community_taxa, data_classification_table)
+     
+Arguments:
+
+vec_community_taxa: A non-empty character vector of taxon names present
+          in the community data.
+
+data_classification_table: A data frame containing a `sel_name` column
+          with unique taxon names used for classification lookup. Must
+          not contain duplicate values in `sel_name`.
+
+Details:
+
+     Uses `dplyr::anti_join()` to find taxa present in
+     `vec_community_taxa` but absent from the `sel_name` column of
+     `data_classification_table`. Duplicate entries in
+     `vec_community_taxa` are collapsed before the comparison, so each
+     unclassified taxon appears only once in the output.
+
+Value:
+
+     A character vector of taxon names from `vec_community_taxa` that
+     are not found in `data_classification_table$sel_name`. Returns an
+     empty character vector if all taxa are classified.
+
+See Also:
+
+     [classify_taxonomic_resolution()]
+
