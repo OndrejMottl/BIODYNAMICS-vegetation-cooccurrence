@@ -9,7 +9,7 @@ description: This file contains instructions for using the `roxygen2` package in
 
 The goal is to make make sure all functions in the project are documented using the `roxygen2` package. Each function is stored in a separate script. All such scripts are stored within [R/Functions/](../R/Functions/) folder. There are several subfolders, but the documentation should be created for all functions recursively.
 
-**IMPORTANT:** All code and documentation must follow the project's R coding conventions defined in `.github/skills/r.md`, including:
+**IMPORTANT:** All code and documentation must follow the project's R coding conventions defined in `.github/instructions/r-coding.instructions.md`, including:
 - 80 character line limit for all lines (including roxygen comments)
 - Function naming conventions (verbs, snake_case)
 - Proper spacing and formatting

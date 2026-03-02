@@ -8,7 +8,8 @@ applyTo: '**/R/Functions/', '**/R/03_Supplementary_analyses/testthat'
 
 You are an expert R developer and testthat user tasked with writing comprehensive test suites.
 
-**IMPORTANT:** All code must follow the project's R coding conventions defined in `.github/skills/r.md`. This includes:
+**IMPORTANT:** All code must follow the project's R coding conventions defined in `.github/instructions/r-coding.instructions.md`. This includes:
+
 - Object naming conventions (snake_case with type prefixes: `data_*`, `vec_*`, `list_*`, `mod_*`)
 - Syntax rules (spaces, new lines, assignment with `<-`)
 - Function namespace usage (`package::function()`)
@@ -22,12 +23,14 @@ Write a COMPLETE testthat test file for a single R function. You will receive on
 ## Test File Organization
 
 **Workflow:**
+
 1. **Identify all functions** in `R/Functions/` (recursively search all subdirectories for function declarations)
 2. **Check for existing tests** in `R/03_Supplementary_analyses/testthat` directory
 3. **Create missing test files** named as `test-function_name.R` (e.g., `get_data()` → `test-get_data.R`)
 
 **File structure:**
-- Start with `library(testthat)`
+
+- **No script header** — test files must NOT start with the project-level script header block (the `#--...#` banner). Start the file directly with the first `test_that()` block or a section header.
 - Assume the function is already available (do NOT redefine or source it)
 - Use multiple `test_that()` blocks grouped logically
 - Name tests descriptively: `"function_name() validates input types"`, `"function_name() handles NA values"`
@@ -37,6 +40,7 @@ Write a COMPLETE testthat test file for a single R function. You will receive on
 **CRITICAL:** Your tests should capture the *intended* behavior, not reproduce potentially incorrect current behavior.
 
 **Inference hierarchy:**
+
 1. **Primary sources** (highest priority):
    - Function name (assume descriptive and meaningful)
    - Argument names and default values
@@ -58,11 +62,13 @@ Write a COMPLETE testthat test file for a single R function. You will receive on
 Test each argument systematically:
 
 **Valid inputs (happy path):**
+
 - At least one valid example where all arguments are correct
 - For data.frames/lists: verify correct column/element names are accepted
 - For constrained arguments: test that valid values (length, range, choices, flags) work without error
 
 **Invalid inputs (error handling):**
+
 - Wrong class/type for each argument
 - Wrong or missing names in data.frames/named vectors
 - Wrong length (vector when scalar expected, or vice versa)
@@ -70,6 +76,7 @@ Test each argument systematically:
 - Use `expect_error()` with regex to match error messages where implementation uses `stop()` or `stopifnot()`
 
 **Special values:**
+
 - Test `NA`, `NaN`, `Inf`, `-Inf`, `NULL`, empty vectors, zero-row data.frames where relevant
 - Use `expect_error()` if these should be rejected, or verify defined behavior (e.g., NA propagation)
 
@@ -78,15 +85,18 @@ Test each argument systematically:
 Using valid inputs, verify:
 
 **Type and class:**
+
 - Use `expect_s3_class()`, `expect_type()`, `expect_true(is.data.frame(...))`, etc.
 - Align expectations with function name (e.g., `*_df()` should return data.frame/tibble)
 
 **Names and dimensions:**
+
 - For vectors/lists: `expect_named()`, `expect_length()`
 - For data.frames: check `nrow()`, `ncol()`, `colnames()`
 - Ensure all fields suggested by name/comments are present and correctly named
 
 **Multiple output modes:**
+
 - If arguments control output format (e.g., `return`, `summary`, `wide`/`long`, `as_list`), test each mode
 - Verify each returns expected type and structure
 
@@ -95,29 +105,34 @@ Using valid inputs, verify:
 Test that the function does what its name and comments promise:
 
 **Hand-checkable examples:**
+
 - Build small, simple inputs (tiny vectors/data.frames)
 - Compute expected results manually using base R within the test
 - Compare with `expect_equal()` (exact) or `expect_equal(..., tolerance = 1e-8)` (floating-point)
 
 **Behavioral invariants:**
 If the name suggests properties, test them directly:
+
 - **Sorted:** `expect_true(!is.unsorted(result))`
 - **Unique:** `expect_equal(length(unique(result)), length(result))`
 - **Probabilities:** `expect_true(all(result >= 0 & result <= 1))`, `expect_equal(sum(result), 1, tolerance = 1e-8)`
 - **Monotonicity, preserved totals, matching sums**, etc.
 
 **Argument combinations:**
+
 - Test varying method flags (`method = "A"` vs `"B"`)
 - Toggle logical switches
 - Provide vs omit optional arguments
 - Ensure behavior matches intended semantics (e.g., "weighted" vs "unweighted")
 
 **Edge cases:**
+
 - Boundary values: min/max, single-row data, single group, all-equal values
 - Realistic edges: duplicates, unbalanced groups, rare factor levels
 - Verify sensible behavior guided by function name/comments
 
 **Randomness:**
+
 - If function uses randomness, wrap calls in `set.seed(900723)` for reproducibility
 - Always use `set.seed(900723)` as the standard seed value for this project
 - Under fixed seed with same inputs, results should be stable
@@ -125,19 +140,23 @@ If the name suggests properties, test them directly:
 ### 4. Side Effects and Messages
 
 **Warnings:**
+
 - Use `expect_warning()` for inputs that should trigger warnings (deprecated arguments, coercions)
 - Match part of the warning message if possible
 
 **Messages:**
+
 - Use `expect_message()` if function prints progress/information
 
 **Side effects:**
+
 - If function writes files or modifies state, use `tempdir()` or `withr` patterns
 - Ensure side effects occur only when intended
 
 ### 5. Performance and Scalability
 
 For functions intended for larger data:
+
 - Include at least one test with moderately large input (1000–10000 rows)
 - Verify:
   - Function runs without error
@@ -147,6 +166,7 @@ For functions intended for larger data:
 ### 6. Tidyverse / NSE Compatibility
 
 If function uses non-standard evaluation (NSE) or tidyverse programming (`{{ }}`, `enquo`, `!!`, dplyr, rlang):
+
 - Test usage with bare column names (`col = x`)
 - Test behavior when columns are renamed
 - Verify clear failure when required columns are missing
@@ -157,6 +177,7 @@ If function uses non-standard evaluation (NSE) or tidyverse programming (`{{ }}`
 ## Style and Formatting Rules
 
 **CRITICAL: Follow R Coding Conventions** (`.github/skills/r.md`):
+
 - Use `snake_case` for all object names with type prefixes where applicable
 - Assignment with `<-` (never `=` or `->`)
 - Use `TRUE`/`FALSE` (never `T`/`F`)
@@ -166,20 +187,45 @@ If function uses non-standard evaluation (NSE) or tidyverse programming (`{{ }}`
 - Vertical code style with new lines after assignment and pipes
 
 **Dependencies:**
+
 - Use only base R and testthat (plus packages the function clearly depends on)
 - Load required packages with `library()` at the top
 
 **Precise expectations:**
+
 - Prefer specific assertions: `expect_equal()`, `expect_error()`, `expect_warning()`, `expect_message()`, `expect_named()`
 - Avoid generic `expect_true()` where more specific assertion exists
 
 **Logical grouping:**
+
 - Group expectations within `test_that()` blocks by purpose: inputs, outputs, functionality, edge cases, messages/warnings
 
 **No extra output:**
+
 - Do NOT print anything, use `cat()`, or include explanatory prose
 - Do NOT include comments or text outside R code
 - Return ONLY the R code for the test file
+
+---
+
+## After Editing a Test File
+
+**MANDATORY:** After creating or modifying any test file in
+`R/03_Supplementary_analyses/testthat/`, immediately run that test file to
+verify all tests pass. Use:
+
+```r
+testthat::test_file(
+  here::here(
+    "R/03_Supplementary_analyses/testthat/test-<function_name>.R"
+  )
+)
+```
+
+Do not consider the task complete until the test run produces **no failures and
+no errors**. Warnings are acceptable only if they are expected and intentional.
+If any test fails after an edit, fix the test (or the function) before
+finishing.
 
 ---
 

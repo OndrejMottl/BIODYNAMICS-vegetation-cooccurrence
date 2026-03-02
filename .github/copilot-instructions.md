@@ -6,7 +6,7 @@ This project analyzes vegetation co-occurrence patterns using paleoecological an
 
 ## Coding Standards
 
-This project follows specific R coding conventions defined in the [R Coding Skill](skills/r-coding.md). Please refer to that document for detailed style guidelines.
+This project follows specific R coding conventions defined in the [R Coding Instructions](instructions/r-coding.instructions.md). Please refer to that document for detailed style guidelines.
 
 ## Project Structure
 
@@ -203,13 +203,63 @@ Each script should do **one task only**. If describing the task requires multipl
 
 ## R Coding Conventions
 
-For detailed R coding style guidelines, please refer to the [R Coding Skill](skills/r.md), which includes:
+For detailed R coding style guidelines, please refer to the [R Coding Instructions](instructions/r-coding.instructions.md), which includes:
 
 - Script structure and headers
 - Naming conventions for objects, functions, and variables
 - Syntax rules (spacing, new lines, parentheses)
 - Function documentation using roxygen2
 - Testing conventions using testthat
+
+## Debugging Workflow
+
+For the standard approach to diagnosing and fixing bugs, please refer to the [Debugging Instructions](instructions/debugging.instructions.md).
+
+The workflow in brief:
+
+1. **Reproduce** the bug in a minimal `Data/Temp/debug_<topic>.R` script
+2. **Run** with `Rscript` in a clean terminal (redirect output to file)
+3. **Probe** environments / call patterns until root cause is confirmed
+4. **Fix** the source file with an explanatory comment
+5. **Clean up** all temp debug files with `Remove-Item`
+6. **Run the targeted test** for the changed function:
+
+```r
+testthat::test_file(
+  here::here(
+    "R/03_Supplementary_analyses/testthat/test-<function_name>.R"
+  )
+)
+```
+
+7. **Run the full test suite** — all tests must pass:
+
+```r
+testthat::test_dir(
+  here::here("R/03_Supplementary_analyses/testthat")
+)
+```
+
+8. **Verify** end-to-end by running the full pipeline without errors:
+
+```r
+library(here)
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
+# Set specific config active
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+# Basic pipeline
+run_pipeline(
+  sel_script = "R/02_Main_analyses/pipeline_basic.R",
+  level_separation = 100
+)
+```
+
+**A bug fix is not complete until steps 6, 7, and 8 both pass without errors.**
 
 ## Project-Specific Guidelines
 
@@ -220,6 +270,22 @@ For detailed R coding style guidelines, please refer to the [R Coding Skill](ski
 - Include roxygen2 documentation
 - Include corresponding test file in appropriate test directory
 - Functions should follow the naming conventions in the R coding skill
+
+**Whenever any function in `R/Functions/` is created or edited, immediately
+update its roxygen2 documentation block** to reflect the current arguments,
+return value, and behaviour. Follow the template in
+[instructions/make_roxygen2_documentation.instructions.md](instructions/make_roxygen2_documentation.instructions.md).
+Do not wait to be asked — treat documentation as part of every function edit.
+
+**After the function has been edited and its documentation updated, launch a
+subagent** with the full contents of
+[instructions/make_test_file_for_a_function.instructions.md](instructions/make_test_file_for_a_function.instructions.md)
+and the current function source as context. The subagent's sole task is to
+review and improve the existing test file for that function (or create one if
+it does not yet exist) at
+`R/03_Supplementary_analyses/testthat/test-<function_name>.R`.
+Do not wait to be asked — treat test improvement as part of every function
+edit, alongside documentation.
 
 ### Data Workflow
 

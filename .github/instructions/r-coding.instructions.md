@@ -1,20 +1,29 @@
 ---
-name: r-coding
-description: Provides R coding conventions and style guidelines for this project, covering script structure, naming conventions, syntax rules, function documentation with roxygen2, and testing with testthat.
+applyTo: "**/*.R"
+description: >
+  R coding conventions and style guidelines for this project, covering
+  script structure, naming conventions, syntax rules, function documentation
+  with roxygen2, and testing with testthat.
 ---
+
 # R Coding Conventions and Style Guide
 
 ## Coding Style
 
-This coding style is a combination of various sources ([Tidyverse](https://style.tidyverse.org/index.html), [Google](https://google.github.io/styleguide/Rguide.html), and others). Style should be consistent within a project.
+This coding style is a combination of various sources
+([Tidyverse](https://style.tidyverse.org/index.html),
+[Google](https://google.github.io/styleguide/Rguide.html), and others).
+Style should be consistent within a project.
 
 ## Script Structure
 
-One script should serve one purpose and that should be obvious from its name. Scripts are always partitioned into clearly readable chunks.
+One script should serve one purpose and that should be obvious from its name.
+Scripts are always partitioned into clearly readable chunks.
 
 ### Script Header
 
-The script header should contain the name of the project, objectives (purpose) of that script, authors, and rough date (year of the project).
+The script header should contain the name of the project, objectives (purpose)
+of that script, authors, and rough date (year of the project).
 
 Example of a header:
 
@@ -35,7 +44,10 @@ Example of a header:
 
 ### Section Headers
 
-Each section of a script should begin with a header which consists of a name wrapped by two lines. The name of a header should start with a capital letter. Each header name should be followed by `-----` so that it is automatically picked by IDE as a section header.
+Each section of a script should begin with a header which consists of a name
+wrapped by two lines. The name of a header should start with a capital letter.
+Each header name should be followed by `-----` so that it is automatically
+picked by IDE as a section header.
 
 Empty lines should be placed before each header to separate chunks.
 
@@ -72,7 +84,12 @@ Example of a numbered header:
 
 #### Single-line comments
 
-Adding comments to code plays a pivotal role in ensuring reproducibility and preserving code knowledge for future reference. When things change or break, the user will be thankful for comments. There's no need to comment excessively or unnecessarily, but a comment describing what a large or complex chunk of code does is always helpful. The first letter of a comment is capitalized and spaced away from the pound sign (`#`).
+Adding comments to code plays a pivotal role in ensuring reproducibility and
+preserving code knowledge for future reference. When things change or break,
+the user will be thankful for comments. There's no need to comment excessively
+or unnecessarily, but a comment describing what a large or complex chunk of
+code does is always helpful. The first letter of a comment is capitalized and
+spaced away from the pound sign (`#`).
 
 Example of a single-line comment:
 
@@ -82,7 +99,8 @@ Example of a single-line comment:
 
 #### Multi-line comment
 
-Multi-line comments should start with a capital letter and the new line should start with one tab.
+Multi-line comments should start with a capital letter and the new line should
+start with one tab.
 
 Example of a multi-line comment:
 
@@ -105,26 +123,33 @@ function(
 
 ### Code Width
 
-No line of code should be longer than 80 characters (including comments). Users can visualise the 80 characters line in selected IDE.
+No line of code should be longer than 80 characters (including comments).
+Users can visualise the 80 characters line in selected IDE.
 
 ## Naming Conventions
 
 ```r
-"There are only two hard things in Computer Science: cache invalidation and naming things."
+"There are only two hard things in Computer Science:
+ cache invalidation and naming things."
 ```
 
 ### Object Names
 
-Objects and functions should use `snake_style`. The `.` in names is somewhat popular but it causes issues with names of methods and should be therefore avoided. The names are preferred to be very descriptive, more expressive and more explicit.
+Objects and functions should use `snake_style`. The `.` in names is somewhat
+popular but it causes issues with names of methods and should be therefore
+avoided. The names are preferred to be very descriptive, more expressive and
+more explicit.
 
 The names should be nouns and start with the type of object:
 
 - `data_*` - for data
-  - special subcategory is `table_*` for tables (mainly as an object for reference). Note that all tables can be data but not vice versa.
+  - special subcategory is `table_*` for tables (mainly as an object for
+    reference). Note that all tables can be data but not vice versa.
 - `list_` - for lists
 - `vec_` - for vectors
 - `mod_*` - for statistical model
-- `res_` - special category, which can be used within the function to name an object to be returned (`return(res_*)`).
+- `res_` - special category, which can be used within the function to name an
+  object to be returned (`return(res_*)`).
 
 Examples of good names:
 
@@ -161,15 +186,21 @@ transform_into_character()
 
 #### Internal Functions
 
-It is possible to start a function with a `"."` (e.g., `.get_round_value()`) to flag internal functions.
+It is possible to start a function with a `"."` (e.g., `.get_round_value()`)
+to flag internal functions.
 
 ### Column (Variable) Names in Data Frames
 
-`snake_style` is preferred for column names in both `data.frames` and `tibbles`. Note that the [janitor](https://sfirke.github.io/janitor/) package can be used to edit this automatically.
+`snake_style` is preferred for column names in both `data.frames` and
+`tibbles`. Note that the [janitor](https://sfirke.github.io/janitor/) package
+can be used to edit this automatically.
 
 ## Syntax
 
-Many of the syntax issues can be checked/fixed by [lintr](https://lintr.r-lib.org/) and [styler](https://styler.r-lib.org/index.html) packages, which can be used to automate lots of the tedious aspects.
+Many of the syntax issues can be checked/fixed by
+[lintr](https://lintr.r-lib.org/) and
+[styler](https://styler.r-lib.org/index.html) packages, which can be used to
+automate lots of the tedious aspects.
 
 ### Spaces
 
@@ -181,11 +212,13 @@ Space (`" "`) should always be placed:
 Exceptions:
 
 - No spaces inside or outside parentheses for regular function calls
-- Operators with high precedence should not be surrounded by space: `:`, `::`, `:::`, `$`, `@`, `[`, `[[`, `^`, unary `-`
+- Operators with high precedence should not be surrounded by space:
+  `:`, `::`, `:::`, `$`, `@`, `[`, `[[`, `^`, unary `-`
 
 ### New Lines
 
-Prefer code that is more vertical than horizontal. Therefore, use quite a lot of new lines.
+Prefer code that is more vertical than horizontal. Therefore, use quite a lot
+of new lines.
 
 Usage of a semicolon (`;`) to indicate a new line is not preferred.
 
@@ -218,7 +251,8 @@ data_diversity <-
 
 #### 3. After a Function Argument
 
-This should be true for both function declaration and usage. The exception is a single argument.
+This should be true for both function declaration and usage. The exception is
+a single argument.
 
 ```r
 get_data <- function(arg1 = foo,
@@ -311,7 +345,8 @@ Do **NOT** use:
 - right assignment (`->`)
 - equals (`=`)
 
-There should be a new line after the assignment. Note that rarely single-line assignment can be used:
+There should be a new line after the assignment. Note that rarely single-line
+assignment can be used:
 
 ```r
 data_diversity <-
@@ -326,7 +361,9 @@ Always use `TRUE` and `FALSE`, instead of `T` and `F`.
 
 ## Functions
 
-For function calls, always state the arguments even though R can have anonymous arguments. The only exception is for functions where arguments are not known (i.e. `...` argument).
+For function calls, always state the arguments even though R can have anonymous
+arguments. The only exception is for functions where arguments are not known
+(i.e. `...` argument).
 
 ### Tidyverse
 
@@ -340,7 +377,8 @@ It is preferred to use the Tidyverse version of functions over base ones:
 
 ### Namespace
 
-Always use the full package namespace with a function call. This helps to track the source of function in a script:
+Always use the full package namespace with a function call. This helps to
+track the source of function in a script:
 
 ```r
 data_diversity %>%
@@ -354,12 +392,15 @@ data_diversity %>%
 Specific rules apply for making custom functions:
 
 - For naming of functions see function names section above
-- Each function (declaration) should be placed in a separate script named after the function. Therefore, there should be only a single function in each function script
+- Each function (declaration) should be placed in a separate script named
+  after the function. Therefore, there should be only a single function
+  in each function script
 - Function should always return (`return(res_value)`)
 
 #### Anonymous Functions
 
-In various instances, it might be better to not create a new function but to use an anonymous function (e.g. inside of `purrr::map_*()`).
+In various instances, it might be better to not create a new function but to
+use an anonymous function (e.g. inside of `purrr::map_*()`).
 
 In that case, use tilde (`~`) for change in map default values in the function:
 
@@ -388,9 +429,14 @@ purrr::pmap(
 
 #### Function Documentation
 
-Each function should have documentation at the beginning of the function using the [roxygen2](https://roxygen2.r-lib.org/) package. This can be useful also for project-specific functions (not just within the package) as it is easier to transition to a custom package.
+Each function should have documentation at the beginning of the function using
+the [roxygen2](https://roxygen2.r-lib.org/) package. This can be useful also
+for project-specific functions (not just within the package) as it is easier
+to transition to a custom package.
 
-The roxygen2 documentation should be placed before the function declaration but keep the line limit of 80 characters. The documentation should be in the following format:
+The roxygen2 documentation should be placed before the function declaration
+but keep the line limit of 80 characters. The documentation should be in the
+following format:
 
 ```R
 #' @title Title of the function
@@ -406,7 +452,9 @@ The roxygen2 documentation should be placed before the function declaration but 
 
 #### Testing Functions
 
-All tests are done using the [testthat](https://testthat.r-lib.org/) package. Each function should have its own test file, which is named after the function (e.g., `test-<function_name>.R`).
+All tests are done using the [testthat](https://testthat.r-lib.org/) package.
+Each function should have its own test file, which is named after the function
+(e.g., `test-<function_name>.R`).
 
 Generally, the function should be tested for:
 
@@ -415,4 +463,5 @@ Generally, the function should be tested for:
 - handling of input errors
 
 **Reproducibility:**
-- When randomness is involved, always use `set.seed(900723)` as the standard seed value for this project
+- When randomness is involved, always use `set.seed(900723)` as the standard
+  seed value for this project
