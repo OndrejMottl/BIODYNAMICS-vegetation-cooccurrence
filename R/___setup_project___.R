@@ -56,6 +56,7 @@ if (
 package_list <-
   c(
     "assertthat",
+    "collinear",
     "here",
     "janitor",
     "jsonlite",
