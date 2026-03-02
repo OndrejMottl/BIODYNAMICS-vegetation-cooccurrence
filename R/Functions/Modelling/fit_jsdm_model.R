@@ -9,16 +9,18 @@
 #' - `data_abiotic_to_fit`: data frame of abiotic variables
 #' - `data_coords_to_fit`: data frame of spatial coordinates
 #' @param sel_abiotic_formula
-#' A character string of length 1 specifying the formula for the model
+#' A formula object specifying the abiotic (environmental) predictors
 #' @param abiotic_method
 #' Method for modeling abiotic effects. One of "linear" (default) or
 #' "DNN" (deep neural network)
 #' @param sel_spatial_formula
-#' A character string of length 1 specifying the formula for the spatial
-#' effects. Only used if spatial_method = "linear".
+#' A formula object specifying the spatial predictors. Defaults to an
+#' interaction between longitude and latitude
+#' (`~ 0 + coord_long:coord_lat`). Only used if
+#' `spatial_method` is `"linear"` or `"DNN"`.
 #' @param spatial_method
-#' Method for modeling spatial effects. One of "linear" (default) or
-#' "DNN" (deep neural network)
+#' Method for modeling spatial effects. One of `"linear"` (default),
+#' `"DNN"` (deep neural network), or `"none"` (no spatial structure)
 #' @param error_family
 #' Error family distribution. One of "gaussian" (default) or "binomial".
 #' If "binomial", community data is converted to presence/absence and
@@ -183,25 +185,6 @@ fit_jsdm_model <- function(
     parallel <- 0L
   }
 
-  # `sjSDM::linear()` looks for formula variables in the parent environment
-  #   but does not find them inside the function. To work around this, we
-  #   assign both formulas to the parent environment before building the
-  #   spatial/abiotic structures, and remove them after fitting the model.
-  current_env <- environment()
-  parent_env <- parent.env(current_env)
-
-  vec_formulas_to_clean <- character(0)
-
-  if (!exists("sel_abiotic_formula", envir = parent_env)) {
-    assign("sel_abiotic_formula", sel_abiotic_formula, envir = parent_env)
-    vec_formulas_to_clean <- c(vec_formulas_to_clean, "sel_abiotic_formula")
-  }
-
-  if (!exists("sel_spatial_formula", envir = parent_env)) {
-    assign("sel_spatial_formula", sel_spatial_formula, envir = parent_env)
-    vec_formulas_to_clean <- c(vec_formulas_to_clean, "sel_spatial_formula")
-  }
-
   # Process community data based on error family
   if (
     error_family == "binomial"
@@ -228,19 +211,29 @@ fit_jsdm_model <- function(
   }
 
   # Build spatial structure
+  # Note: sjSDM::linear/DNN use match.call() internally and re-evaluate
+  #   formula symbols in parent.env(environment()) = namespace:sjSDM.
+  #   Using do.call passes the formula as an already-evaluated object
+  #   (class "formula"), so the bare-name eval branch is never triggered.
   if (
     spatial_method == "linear"
   ) {
     spatial <-
-      sjSDM::linear(
-        data = scale(data_spatial),
-        formula = sel_spatial_formula
+      do.call(
+        sjSDM::linear,
+        list(
+          data = scale(data_spatial),
+          formula = sel_spatial_formula
+        )
       )
   } else if (spatial_method == "DNN") {
     spatial <-
-      sjSDM::DNN(
-        data = scale(data_spatial),
-        formula = sel_spatial_formula
+      do.call(
+        sjSDM::DNN,
+        list(
+          data = scale(data_spatial),
+          formula = sel_spatial_formula
+        )
       )
   } else if (spatial_method == "none") {
     spatial <- NULL
@@ -251,15 +244,21 @@ fit_jsdm_model <- function(
     abiotic_method == "linear"
   ) {
     sel_biotic <-
-      sjSDM::linear(
-        data = scale(data_abiotic),
-        formula = sel_abiotic_formula
+      do.call(
+        sjSDM::linear,
+        list(
+          data = scale(data_abiotic),
+          formula = sel_abiotic_formula
+        )
       )
   } else {
     sel_biotic <-
-      sjSDM::DNN(
-        data = scale(data_abiotic),
-        formula = sel_abiotic_formula
+      do.call(
+        sjSDM::DNN,
+        list(
+          data = scale(data_abiotic),
+          formula = sel_abiotic_formula
+        )
       )
   }
 
@@ -274,12 +273,6 @@ fit_jsdm_model <- function(
       verbose = verbose,
       ...
     )
-
-  # Clean up any formula variables added to the parent environment
-  rm(
-    list = vec_formulas_to_clean,
-    envir = parent_env
-  )
 
   return(mod_sjsdm)
 }
