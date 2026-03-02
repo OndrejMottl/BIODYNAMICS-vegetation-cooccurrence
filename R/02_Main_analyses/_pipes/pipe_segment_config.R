@@ -101,6 +101,14 @@ pipe_segment_config <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
+      description = "Configuration for data processing - minimal proportion of pollen",
+      name = "config.minimal_proportion_of_pollen",
+      command = get_active_config(
+        value = c("data_processing", "minimal_proportion_of_pollen")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
       description = "Configuration for data processing - number of taxa",
       name = "config.number_of_taxa",
       command = get_active_config(
@@ -130,6 +138,7 @@ pipe_segment_config <-
       command = list(
         time_step = config.time_step,
         number_of_taxa = config.number_of_taxa,
+        minimal_proportion_of_pollen = config.minimal_proportion_of_pollen,
         taxonomic_resolution = config.taxonomic_resolution,
         min_distance_of_gpp_knots = config.min_distance_of_gpp_knots
       )

@@ -10,6 +10,7 @@ default:
   data_processing:
     time_step: 500
     number_of_taxa: !expr Inf
+    minimal_proportion_of_pollen: 0.01
   model_fitting:
     n_cores: 5
     samples: 100
@@ -30,6 +31,7 @@ project_cz:
     min_distance_of_gpp_knots: 50
   model_fitting:
     n_cores: 24
+    samples: 1000
 project_europe:
   target_store: Data/targets/project_europe
   vegvault_data:

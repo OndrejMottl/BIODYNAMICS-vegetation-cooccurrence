@@ -1,0 +1,80 @@
+<!DOCTYPE html><html><head><title>R: Run Pipeline</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_pipeline</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run Pipeline</h2>
+
+<h3>Description</h3>
+
+<p>Executes a targets pipeline from a specified script and saves progress
+visualization. Prevents execution if default configuration is active.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_pipeline(sel_script, level_separation = 100, check_default_config = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="sel_script">sel_script</code></td>
+<td>
+<p>Path to the pipeline script to execute (relative to project root).</p>
+</td></tr>
+<tr><td><code id="level_separation">level_separation</code></td>
+<td>
+<p>Numeric value controlling the vertical separation between levels in the
+progress visualization network graph. Default is 100.</p>
+</td></tr>
+<tr><td><code id="check_default_config">check_default_config</code></td>
+<td>
+<p>Logical indicating whether to check if the default configuration is
+active and stop execution if TRUE. Default is TRUE.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function constructs pipeline-specific target store paths based on
+the script name and active configuration. It uses targets::tar_make()
+to execute the pipeline and then calls save_progress_visualisation() to
+generate a network visualization of the pipeline status.
+</p>
+
+
+<h3>Value</h3>
+
+<p>No return value. Function is called for side effects: executes the
+targets pipeline and saves progress visualization to the documentation
+folder.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>save_progress_visualisation, targets::tar_make
+</p>
+
+</main>
+
+</div>
+</body></html>
+

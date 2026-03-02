@@ -1,0 +1,36 @@
+Make Environmental Formula
+
+Description:
+
+     Creates a formula for environmental variables from abiotic data.
+     If an 'age' column is present, creates interaction terms between
+     age and other variables.
+
+Usage:
+
+     make_env_formula(data)
+     
+Arguments:
+
+    data: A data frame containing abiotic environmental variables. Must
+          have at least one column and one row.
+
+Details:
+
+     The function constructs different formulas based on the presence
+     of an 'age' column: - With age: ~ (var1 + var2 + ...) * age - age
+     ... - Without age: ~ var1 + var2 + ... The formula removes
+     intercept terms and individual variable terms when interactions
+     are present.
+
+Value:
+
+     A formula object suitable for modeling. If 'age' is present,
+     returns a formula with interaction terms (age * variables).
+     Otherwise, returns a simple additive formula. All formulas exclude
+     intercept terms.
+
+See Also:
+
+     [check_and_prepare_data_for_fit()]
+

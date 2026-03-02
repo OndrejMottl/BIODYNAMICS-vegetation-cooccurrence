@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,15 +33,17 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../figures/Logo FOSSILPOL regular - 600ppi.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-listing/list.min.js"></script>
 <script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-f5e267a33c17dae46575f87db0f53df7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-fa2b4a2c1b08ad7851189d90cf7caddf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -114,7 +116,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -132,7 +134,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar docked">
+<body class="nav-sidebar docked quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -246,14 +248,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/evaluate_jsdm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">evaluate_jsdm()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/extract_data_from_vegvault.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_data_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/filter_rare_taxa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_rare_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/fit_hmsc_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">fit_hmsc_model()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/fit_jsdm_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fit_jsdm_model()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -272,6 +292,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/get_age_from_string.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_age_from_string()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_anova()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -366,6 +392,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/make_env_formula.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_env_formula()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/make_hmsc_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">make_hmsc_model()</span></a>
   </div>
@@ -384,6 +416,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/run_pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">run_pipeline()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/save_progress_visualisation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">save_progress_visualisation()</span></a>
   </div>
@@ -398,6 +436,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../website/Documentation/Functions/transform_to_proportions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">transform_to_proportions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/verify_sjsdm_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">verify_sjsdm_setup()</span></a>
   </div>
 </li>
       </ul>
@@ -445,7 +489,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">May 26, 2025</p>
+      <p class="date-modified">March 2, 2026</p>
     </div>
   </div>
     
@@ -471,7 +515,7 @@ window.Quarto = {
 <p>Each function used in the project is documented using the <a href="https://roxygen2.r-lib.org/">roxygen2</a> package. Here we present the list of functions used in the project:</p>
 <div id="listing-functions" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-file-modified-sort="1750342936008" data-listing-reading-time-sort="1" data-listing-word-count-sort="106">
+<div class="g-col-1" data-index="0" data-listing-file-modified-sort="1772436971544" data-listing-reading-time-sort="1" data-listing-word-count-sort="108">
 <a href="../../website/Documentation/Functions/add_age_column_from_rownames.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -479,10 +523,9 @@ window.Quarto = {
 add_age_column_from_rownames()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-file-modified-sort="1750342936029" data-listing-reading-time-sort="1" data-listing-word-count-sort="137">
+<div class="g-col-1" data-index="1" data-listing-file-modified-sort="1772436971569" data-listing-reading-time-sort="1" data-listing-word-count-sort="139">
 <a href="../../website/Documentation/Functions/add_age_to_samples.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -490,10 +533,9 @@ add_age_column_from_rownames()
 add_age_to_samples()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-listing-file-modified-sort="1750342936052" data-listing-reading-time-sort="1" data-listing-word-count-sort="107">
+<div class="g-col-1" data-index="2" data-listing-file-modified-sort="1772436971585" data-listing-reading-time-sort="1" data-listing-word-count-sort="109">
 <a href="../../website/Documentation/Functions/add_dataset_name_column_from_rownames.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -501,10 +543,9 @@ add_age_to_samples()
 add_dataset_name_column_from_rownames()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-listing-file-modified-sort="1750342936063" data-listing-reading-time-sort="1" data-listing-word-count-sort="126">
+<div class="g-col-1" data-index="3" data-listing-file-modified-sort="1772436971599" data-listing-reading-time-sort="1" data-listing-word-count-sort="128">
 <a href="../../website/Documentation/Functions/add_model_evaluation.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -512,10 +553,9 @@ add_dataset_name_column_from_rownames()
 add_model_evaluation()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="4" data-listing-file-modified-sort="1750342936075" data-listing-reading-time-sort="1" data-listing-word-count-sort="137">
+<div class="g-col-1" data-index="4" data-listing-file-modified-sort="1772436971612" data-listing-reading-time-sort="2" data-listing-word-count-sort="239">
 <a href="../../website/Documentation/Functions/check_and_prepare_data_for_fit.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -523,10 +563,9 @@ add_model_evaluation()
 check_and_prepare_data_for_fit()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="5" data-listing-file-modified-sort="1750342936085" data-listing-reading-time-sort="1" data-listing-word-count-sort="126">
+<div class="g-col-1" data-index="5" data-listing-file-modified-sort="1772436971630" data-listing-reading-time-sort="1" data-listing-word-count-sort="128">
 <a href="../../website/Documentation/Functions/check_presence_of_vegvault.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -534,10 +573,9 @@ check_and_prepare_data_for_fit()
 check_presence_of_vegvault()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="6" data-listing-file-modified-sort="1750342936085" data-listing-reading-time-sort="1" data-listing-word-count-sort="184">
+<div class="g-col-1" data-index="6" data-listing-file-modified-sort="1772436971645" data-listing-reading-time-sort="1" data-listing-word-count-sort="186">
 <a href="../../website/Documentation/Functions/classify_taxonomic_resolution.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -545,10 +583,19 @@ check_presence_of_vegvault()
 classify_taxonomic_resolution()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
+<div class="g-col-1" data-index="7" data-listing-file-modified-sort="1772436971665" data-listing-reading-time-sort="1" data-listing-word-count-sort="159">
+<a href="../../website/Documentation/Functions/evaluate_jsdm.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+evaluate_jsdm()
+</h5>
 </div>
-<div class="g-col-1" data-index="7" data-listing-file-modified-sort="1750342936120" data-listing-reading-time-sort="2" data-listing-word-count-sort="221">
+</div></a>
+</div>
+<div class="g-col-1" data-index="8" data-listing-file-modified-sort="1772436971676" data-listing-reading-time-sort="2" data-listing-word-count-sort="223">
 <a href="../../website/Documentation/Functions/extract_data_from_vegvault.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -556,10 +603,19 @@ classify_taxonomic_resolution()
 extract_data_from_vegvault()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
+<div class="g-col-1" data-index="9" data-listing-file-modified-sort="1772436971697" data-listing-reading-time-sort="1" data-listing-word-count-sort="189">
+<a href="../../website/Documentation/Functions/filter_rare_taxa.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+filter_rare_taxa()
+</h5>
 </div>
-<div class="g-col-1" data-index="8" data-listing-file-modified-sort="1750342936132" data-listing-reading-time-sort="1" data-listing-word-count-sort="153">
+</div></a>
+</div>
+<div class="g-col-1" data-index="10" data-listing-file-modified-sort="1772436971709" data-listing-reading-time-sort="1" data-listing-word-count-sort="155">
 <a href="../../website/Documentation/Functions/fit_hmsc_model.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -567,10 +623,19 @@ extract_data_from_vegvault()
 fit_hmsc_model()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
+<div class="g-col-1" data-index="11" data-listing-file-modified-sort="1772436971724" data-listing-reading-time-sort="2" data-listing-word-count-sort="390">
+<a href="../../website/Documentation/Functions/fit_jsdm_model.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+fit_jsdm_model()
+</h5>
 </div>
-<div class="g-col-1" data-index="9" data-listing-file-modified-sort="1750342936133" data-listing-reading-time-sort="1" data-listing-word-count-sort="114">
+</div></a>
+</div>
+<div class="g-col-1" data-index="12" data-listing-file-modified-sort="1772436971737" data-listing-reading-time-sort="1" data-listing-word-count-sort="116">
 <a href="../../website/Documentation/Functions/get_abiotic_data.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -578,10 +643,9 @@ fit_hmsc_model()
 get_abiotic_data()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="10" data-listing-file-modified-sort="1750342936143" data-listing-reading-time-sort="1" data-listing-word-count-sort="133">
+<div class="g-col-1" data-index="13" data-listing-file-modified-sort="1772436971757" data-listing-reading-time-sort="1" data-listing-word-count-sort="135">
 <a href="../../website/Documentation/Functions/get_active_config.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -589,10 +653,9 @@ get_abiotic_data()
 get_active_config()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="11" data-listing-file-modified-sort="1750342936178" data-listing-reading-time-sort="1" data-listing-word-count-sort="102">
+<div class="g-col-1" data-index="14" data-listing-file-modified-sort="1772436971790" data-listing-reading-time-sort="1" data-listing-word-count-sort="104">
 <a href="../../website/Documentation/Functions/get_age_from_string.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -600,10 +663,19 @@ get_active_config()
 get_age_from_string()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
+<div class="g-col-1" data-index="15" data-listing-file-modified-sort="1772436971809" data-listing-reading-time-sort="1" data-listing-word-count-sort="123">
+<a href="../../website/Documentation/Functions/get_anova.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+get_anova()
+</h5>
 </div>
-<div class="g-col-1" data-index="12" data-listing-file-modified-sort="1750342936192" data-listing-reading-time-sort="1" data-listing-word-count-sort="100">
+</div></a>
+</div>
+<div class="g-col-1" data-index="16" data-listing-file-modified-sort="1772436971825" data-listing-reading-time-sort="1" data-listing-word-count-sort="108">
 <a href="../../website/Documentation/Functions/get_better_model_based_on_fit.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -611,10 +683,9 @@ get_age_from_string()
 get_better_model_based_on_fit()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="13" data-listing-file-modified-sort="1750342936211" data-listing-reading-time-sort="1" data-listing-word-count-sort="142">
+<div class="g-col-1" data-index="17" data-listing-file-modified-sort="1772436971842" data-listing-reading-time-sort="1" data-listing-word-count-sort="133">
 <a href="../../website/Documentation/Functions/get_community_data.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -622,10 +693,9 @@ get_better_model_based_on_fit()
 get_community_data()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="14" data-listing-file-modified-sort="1750342936221" data-listing-reading-time-sort="1" data-listing-word-count-sort="113">
+<div class="g-col-1" data-index="18" data-listing-file-modified-sort="1772436971856" data-listing-reading-time-sort="1" data-listing-word-count-sort="115">
 <a href="../../website/Documentation/Functions/get_community_taxa.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -633,10 +703,9 @@ get_community_data()
 get_community_taxa()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="15" data-listing-file-modified-sort="1750342936235" data-listing-reading-time-sort="1" data-listing-word-count-sort="95">
+<div class="g-col-1" data-index="19" data-listing-file-modified-sort="1772436971884" data-listing-reading-time-sort="1" data-listing-word-count-sort="108">
 <a href="../../website/Documentation/Functions/get_coords.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -644,10 +713,9 @@ get_community_taxa()
 get_coords()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="16" data-listing-file-modified-sort="1750342936245" data-listing-reading-time-sort="1" data-listing-word-count-sort="103">
+<div class="g-col-1" data-index="20" data-listing-file-modified-sort="1772436971909" data-listing-reading-time-sort="1" data-listing-word-count-sort="105">
 <a href="../../website/Documentation/Functions/get_dataset_name_from_string.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -655,10 +723,9 @@ get_coords()
 get_dataset_name_from_string()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="17" data-listing-file-modified-sort="1750342936257" data-listing-reading-time-sort="1" data-listing-word-count-sort="155">
+<div class="g-col-1" data-index="21" data-listing-file-modified-sort="1772436971930" data-listing-reading-time-sort="1" data-listing-word-count-sort="157">
 <a href="../../website/Documentation/Functions/get_pollen_sum.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -666,10 +733,9 @@ get_dataset_name_from_string()
 get_pollen_sum()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="18" data-listing-file-modified-sort="1750342936267" data-listing-reading-time-sort="1" data-listing-word-count-sort="139">
+<div class="g-col-1" data-index="22" data-listing-file-modified-sort="1772436971947" data-listing-reading-time-sort="1" data-listing-word-count-sort="141">
 <a href="../../website/Documentation/Functions/get_random_structure_for_model.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -677,10 +743,9 @@ get_pollen_sum()
 get_random_structure_for_model()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="19" data-listing-file-modified-sort="1750342936278" data-listing-reading-time-sort="1" data-listing-word-count-sort="120">
+<div class="g-col-1" data-index="23" data-listing-file-modified-sort="1772436971954" data-listing-reading-time-sort="1" data-listing-word-count-sort="122">
 <a href="../../website/Documentation/Functions/get_sample_ages.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -688,10 +753,9 @@ get_random_structure_for_model()
 get_sample_ages()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="20" data-listing-file-modified-sort="1750342936289" data-listing-reading-time-sort="1" data-listing-word-count-sort="119">
+<div class="g-col-1" data-index="24" data-listing-file-modified-sort="1772436971975" data-listing-reading-time-sort="1" data-listing-word-count-sort="121">
 <a href="../../website/Documentation/Functions/get_significant_associations.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -699,10 +763,9 @@ get_sample_ages()
 get_significant_associations()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="21" data-listing-file-modified-sort="1750342936299" data-listing-reading-time-sort="1" data-listing-word-count-sort="106">
+<div class="g-col-1" data-index="25" data-listing-file-modified-sort="1772436971995" data-listing-reading-time-sort="1" data-listing-word-count-sort="108">
 <a href="../../website/Documentation/Functions/get_species_association.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -710,10 +773,9 @@ get_significant_associations()
 get_species_association()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="22" data-listing-file-modified-sort="1750342936307" data-listing-reading-time-sort="1" data-listing-word-count-sort="127">
+<div class="g-col-1" data-index="26" data-listing-file-modified-sort="1772436972010" data-listing-reading-time-sort="1" data-listing-word-count-sort="129">
 <a href="../../website/Documentation/Functions/get_taxa_classification.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -721,10 +783,9 @@ get_species_association()
 get_taxa_classification()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="23" data-listing-file-modified-sort="1750342936326" data-listing-reading-time-sort="1" data-listing-word-count-sort="120">
+<div class="g-col-1" data-index="27" data-listing-file-modified-sort="1772436972025" data-listing-reading-time-sort="1" data-listing-word-count-sort="122">
 <a href="../../website/Documentation/Functions/interpolate_community_data.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -732,10 +793,9 @@ get_taxa_classification()
 interpolate_community_data()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="24" data-listing-file-modified-sort="1750342936337" data-listing-reading-time-sort="2" data-listing-word-count-sort="214">
+<div class="g-col-1" data-index="28" data-listing-file-modified-sort="1772436972039" data-listing-reading-time-sort="2" data-listing-word-count-sort="231">
 <a href="../../website/Documentation/Functions/interpolate_data.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -743,10 +803,9 @@ interpolate_community_data()
 interpolate_data()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="25" data-listing-file-modified-sort="1750342936349" data-listing-reading-time-sort="1" data-listing-word-count-sort="134">
+<div class="g-col-1" data-index="29" data-listing-file-modified-sort="1772436972055" data-listing-reading-time-sort="1" data-listing-word-count-sort="136">
 <a href="../../website/Documentation/Functions/make_classification_table.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -754,10 +813,9 @@ interpolate_data()
 make_classification_table()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="26" data-listing-file-modified-sort="1750342936360" data-listing-reading-time-sort="1" data-listing-word-count-sort="113">
+<div class="g-col-1" data-index="30" data-listing-file-modified-sort="1772436972066" data-listing-reading-time-sort="1" data-listing-word-count-sort="115">
 <a href="../../website/Documentation/Functions/make_community_data_long.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -765,10 +823,19 @@ make_classification_table()
 make_community_data_long()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
+<div class="g-col-1" data-index="31" data-listing-file-modified-sort="1772436972084" data-listing-reading-time-sort="1" data-listing-word-count-sort="180">
+<a href="../../website/Documentation/Functions/make_env_formula.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+make_env_formula()
+</h5>
 </div>
-<div class="g-col-1" data-index="27" data-listing-file-modified-sort="1750342936371" data-listing-reading-time-sort="1" data-listing-word-count-sort="166">
+</div></a>
+</div>
+<div class="g-col-1" data-index="32" data-listing-file-modified-sort="1772436972095" data-listing-reading-time-sort="1" data-listing-word-count-sort="168">
 <a href="../../website/Documentation/Functions/make_hmsc_model.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -776,10 +843,9 @@ make_community_data_long()
 make_hmsc_model()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="28" data-listing-file-modified-sort="1750342936381" data-listing-reading-time-sort="2" data-listing-word-count-sort="225">
+<div class="g-col-1" data-index="33" data-listing-file-modified-sort="1772436972115" data-listing-reading-time-sort="2" data-listing-word-count-sort="227">
 <a href="../../website/Documentation/Functions/prepare_data_for_fit.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -787,10 +853,9 @@ make_hmsc_model()
 prepare_data_for_fit()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="29" data-listing-file-modified-sort="1750342936392" data-listing-reading-time-sort="1" data-listing-word-count-sort="125">
+<div class="g-col-1" data-index="34" data-listing-file-modified-sort="1772436972126" data-listing-reading-time-sort="1" data-listing-word-count-sort="127">
 <a href="../../website/Documentation/Functions/replace_na_community_data_with_zeros.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -798,10 +863,19 @@ prepare_data_for_fit()
 replace_na_community_data_with_zeros()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
+<div class="g-col-1" data-index="35" data-listing-file-modified-sort="1772436972146" data-listing-reading-time-sort="1" data-listing-word-count-sort="192">
+<a href="../../website/Documentation/Functions/run_pipeline.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+run_pipeline()
+</h5>
 </div>
-<div class="g-col-1" data-index="30" data-listing-file-modified-sort="1750342936402" data-listing-reading-time-sort="1" data-listing-word-count-sort="153">
+</div></a>
+</div>
+<div class="g-col-1" data-index="36" data-listing-file-modified-sort="1772436972166" data-listing-reading-time-sort="2" data-listing-word-count-sort="229">
 <a href="../../website/Documentation/Functions/save_progress_visualisation.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -809,10 +883,9 @@ replace_na_community_data_with_zeros()
 save_progress_visualisation()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="31" data-listing-file-modified-sort="1750342936418" data-listing-reading-time-sort="1" data-listing-word-count-sort="175">
+<div class="g-col-1" data-index="37" data-listing-file-modified-sort="1772436972179" data-listing-reading-time-sort="1" data-listing-word-count-sort="177">
 <a href="../../website/Documentation/Functions/select_n_taxa.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -820,10 +893,9 @@ save_progress_visualisation()
 select_n_taxa()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
-</div>
-<div class="g-col-1" data-index="32" data-listing-file-modified-sort="1750342936430" data-listing-reading-time-sort="1" data-listing-word-count-sort="124">
+<div class="g-col-1" data-index="38" data-listing-file-modified-sort="1772436972195" data-listing-reading-time-sort="1" data-listing-word-count-sort="126">
 <a href="../../website/Documentation/Functions/transform_to_proportions.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="card-body post-contents">
@@ -831,13 +903,20 @@ select_n_taxa()
 transform_to_proportions()
 </h5>
 </div>
+</div></a>
 </div>
-</a>
+<div class="g-col-1" data-index="39" data-listing-file-modified-sort="1772436972215" data-listing-reading-time-sort="1" data-listing-word-count-sort="179">
+<a href="../../website/Documentation/Functions/verify_sjsdm_setup.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+verify_sjsdm_setup()
+</h5>
+</div>
+</div></a>
 </div>
 </div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
+<div class="listing-no-matching d-none">No matching items</div>
 <nav id="functions-pagination" class="listing-pagination" aria-label="Page Navigation">
   <ul class="pagination"></ul>
 </nav>
@@ -858,236 +937,243 @@ No matching items
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/ondrejmottl\.github\.io\/BIODYNAMICS-vegetation-cooccurrence\/");
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ondrejmottl\.github\.io\/BIODYNAMICS-vegetation-cooccurrence\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -1095,185 +1181,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

@@ -42,19 +42,41 @@ pipe_segment_model_simple <-
   list(
     pipe_segment_model_prep,
     targets::tar_target(
-      description = "make HMSC model",
-      name = "mod_hmsc",
-      command = make_hmsc_model(
+      description = "predictor formulae to use for model fitting",
+      name = "model_formula",
+      command = data_to_fit |>
+        purrr::chuck("data_abiotic_to_fit") |>
+        make_env_formula()
+    ),
+    targets::tar_target(
+      description = "make JSDM model",
+      name = "mod_jsdm",
+      command = fit_jsdm_model(
         data_to_fit = data_to_fit,
-        sel_formula = "~ .",
-        random_structure = mod_random_structure,
-        error_family = "binomial"
+        abiotic_method = "linear",
+        sel_abiotic_formula = model_formula,
+        spatial_method = "none",
+        sel_spatial_formula = ~ 0 + coord_long:coord_lat,
+        error_family = "binomial",
+        device = "gpu",
+        parallel = config.model_fitting$n_cores,
+        sampling = config.model_fitting$samples,
+        iter = config.model_fitting$samples,
+        seed = 900723,
+        verbose = FALSE,
+        compute_se = TRUE
       )
     ),
-    pipe_segment_model_fit,
     targets::tar_target(
-      description = "A workaround to select the model for species associations",
-      name = "mod_hmsc_to_use",
-      command = mod_hmsc_eval
+      description = "evaluate JSDM model",
+      name = "model_evaluation",
+      command = evaluate_jsdm(
+        mod_jsdm = mod_to_use
+      )
+    ),
+    targets::tar_target(
+      description = "a workaround target to use the fitted model in the next steps",
+      name = "mod_to_use",
+      command = mod_jsdm
     )
   )

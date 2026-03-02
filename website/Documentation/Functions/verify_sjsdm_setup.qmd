@@ -1,0 +1,86 @@
+---
+format: html
+title: verify_sjsdm_setup()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>verify_sjsdm_setup</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Verify sjSDM Setup</h2>
+
+<h3>Description</h3>
+
+<p>Comprehensive verification of sjSDM installation, including Python
+environment, PyTorch, CUDA support, and sjSDM functionality.
+This function checks that Radian and sjSDM are using the same
+Python environment and that all dependencies are properly installed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>verify_sjsdm_setup(run_test_model = interactive())
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="run_test_model">run_test_model</code></td>
+<td>
+<p>Logical. Should a test model be fitted to
+verify full functionality? Default is TRUE.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function performs the following checks:
+1. Radian configuration (correct Python environment)
+2. Python version and location
+3. PyTorch installation and version
+4. CUDA/GPU availability
+5. sjSDM package installation
+6. sjSDM Python dependencies
+7. Test model fitting (optional)
+</p>
+<p>All checks print their status with [OK] (success) or [FAIL] (failure).
+If any critical check fails, the function provides troubleshooting
+guidance.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Invisible list with verification results. Called primarily
+for side effects (printing verification status).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>py_config</code>
+<code>sjSDM</code>
+</p>
+
+</main>
+
+</div>
+</body></html>
+

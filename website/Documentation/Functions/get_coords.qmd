@@ -8,7 +8,7 @@ title: get_coords()
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
 <script type="text/javascript">
-const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
@@ -40,15 +40,17 @@ function processMathHTML() {
 <table role = "presentation">
 <tr><td><code id="data">data</code></td>
 <td>
-<p>A data frame containing columns 'dataset_name', 'coord_long', and
-'coord_lat'.</p>
+<p>A data frame containing columns 'dataset_name', 'dataset_type',
+'coord_long', and 'coord_lat'. Rows with 'dataset_type == &quot;gridpoints&quot;'
+are excluded.</p>
 </td></tr>
 </table>
 
 
 <h3>Value</h3>
 
-<p>A data frame with unique coordinates for each dataset.
+<p>A data frame with unique coordinates for each dataset, with
+'dataset_name' as row names.
 </p>
 
 </main>

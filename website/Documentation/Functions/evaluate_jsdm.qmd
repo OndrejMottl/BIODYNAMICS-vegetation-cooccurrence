@@ -1,0 +1,75 @@
+---
+format: html
+title: evaluate_jsdm()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>evaluate_jsdm</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate JSDM Model Performance</h2>
+
+<h3>Description</h3>
+
+<p>Evaluates a fitted sjSDM model and returns comprehensive performance
+metrics at both model and species level.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>evaluate_jsdm(mod_jsdm = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="mod_jsdm">mod_jsdm</code></td>
+<td>
+<p>A fitted sjSDM model object. Must be of class 'sjSDM'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For binomial models, species-level classification metrics (AUC, Accuracy,
+LogLoss) are computed using a 0.5 probability threshold for binary
+predictions. For other model families, RMSE is computed per species.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with two elements:
+- model: Named numeric vector of R-squared values (McFadden, Nagelkerke)
+- species: A tibble with one row per species and columns:
+species, AUC, Accuracy, LogLoss (binomial) or RMSE (other families)
+</p>
+
+
+<h3>See Also</h3>
+
+<p>sjSDM::Rsquared, Metrics::auc
+</p>
+
+</main>
+
+</div>
+</body></html>
+

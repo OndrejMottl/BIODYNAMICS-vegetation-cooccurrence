@@ -26,6 +26,19 @@ get_taxa_classification <- function(data) {
       use_only_exact_match = FALSE
     )
 
+  if (
+    !"classification" %in% names(res_classification)
+  ) {
+    return(
+      tibble::tibble(
+        sel_name = data,
+        name = character(),
+        rank = character(),
+        id = integer(),
+      )
+    )
+  }
+
   res_plant <-
     res_classification %>%
     # flag taxa that are plants

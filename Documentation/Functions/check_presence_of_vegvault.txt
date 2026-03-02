@@ -7,7 +7,7 @@ Description:
 
 Usage:
 
-     check_presence_of_vegvault(relative_path = "Data/Input/Vegvault.sqlite")
+     check_presence_of_vegvault(relative_path = "Data/Input/VegVault.sqlite")
      
 Arguments:
 

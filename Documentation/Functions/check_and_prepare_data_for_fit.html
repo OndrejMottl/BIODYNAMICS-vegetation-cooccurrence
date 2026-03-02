@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
 <script type="text/javascript">
-const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
@@ -41,26 +41,41 @@ fitting, with optional age subsetting.
 <table role = "presentation">
 <tr><td><code id="data_community">data_community</code></td>
 <td>
-<p>Data frame of community data.</p>
+<p>A data frame of community data in wide format, with sample names as row
+names in the format &quot;dataset_name__age&quot;.</p>
 </td></tr>
 <tr><td><code id="data_abiotic">data_abiotic</code></td>
 <td>
-<p>Data frame of abiotic data.</p>
+<p>A data frame of abiotic data with sample names as row names in the format
+&quot;dataset_name__age&quot;, and abiotic variables as columns.</p>
 </td></tr>
 <tr><td><code id="data_coords">data_coords</code></td>
 <td>
-<p>Data frame of coordinates.</p>
+<p>A data frame of spatial coordinates with dataset names as row names and
+columns for longitude and latitude.</p>
 </td></tr>
 <tr><td><code id="subset_age">subset_age</code></td>
 <td>
-<p>Optional age value to subset data.</p>
+<p>Optional numeric value specifying a single age to subset the data.
+If NULL (default), all ages are included.</p>
 </td></tr>
 </table>
 
 
+<h3>Details</h3>
+
+<p>Drops NA values, optionally subsets by age, and finds the intersection
+of samples across community, abiotic, and coordinate data to ensure
+all inputs are aligned before model fitting.
+</p>
+
+
 <h3>Value</h3>
 
-<p>A list of cleaned and prepared data frames for model fitting.
+<p>A list with four elements: 'data_community_to_fit', 'data_abiotic_to_fit',
+'data_coords_to_fit', and 'scale_attributes'. All data frames are aligned
+to the intersecting set of datasets and ages. 'scale_attributes' is a
+named list of centering and scaling attributes for each abiotic variable.
 </p>
 
 

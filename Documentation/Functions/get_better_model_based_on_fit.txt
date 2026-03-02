@@ -7,7 +7,7 @@ Description:
 
 Usage:
 
-     get_better_model_based_on_fit(list_models)
+     get_better_model_based_on_fit(list_models = NULL, method = c("TjurR2", "WAIC"))
      
 Arguments:
 

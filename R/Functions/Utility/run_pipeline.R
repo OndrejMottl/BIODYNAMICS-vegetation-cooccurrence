@@ -1,3 +1,26 @@
+#' @title Run Pipeline
+#' @description
+#' Executes a targets pipeline from a specified script and saves progress
+#' visualization. Prevents execution if default configuration is active.
+#' @param sel_script
+#' Path to the pipeline script to execute (relative to project root).
+#' @param level_separation
+#' Numeric value controlling the vertical separation between levels in the
+#' progress visualization network graph. Default is 100.
+#' @param check_default_config
+#' Logical indicating whether to check if the default configuration is
+#' active and stop execution if TRUE. Default is TRUE.
+#' @return
+#' No return value. Function is called for side effects: executes the
+#' targets pipeline and saves progress visualization to the documentation
+#' folder.
+#' @details
+#' The function constructs pipeline-specific target store paths based on
+#' the script name and active configuration. It uses targets::tar_make()
+#' to execute the pipeline and then calls save_progress_visualisation() to
+#' generate a network visualization of the pipeline status.
+#' @seealso save_progress_visualisation, targets::tar_make
+#' @export
 run_pipeline <- function(
     sel_script,
     level_separation = 100,

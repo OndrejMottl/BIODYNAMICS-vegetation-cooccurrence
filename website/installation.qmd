@@ -16,13 +16,28 @@ renv::restore()
 
 This will install all the packages listed in the `renv.lock` file.
 
+## {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)}
+
+This project uses {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)} (Scalable Joint Species Distribution Models), which requires a Python back-end (PyTorch). After installing the R package, set up the Python environment with:
+
+``` r
+sjSDM::install_sjSDM()
+```
+
+You can verify the setup using the project helper function:
+
+``` r
+source("R/___setup_project___.R")
+verify_sjsdm_setup()
+```
+
 ## {[targets](https://docs.ropensci.org/targets/)}
 
-Currently, the project is coded as {[targets](https://docs.ropensci.org/targets/)} pipeline and can be executed using the following command:
+Currently, the project is coded as a {[targets](https://docs.ropensci.org/targets/)} pipeline and can be executed using the following command:
 
 ```{r}
 #| eval=FALSE
 source(
-  here::here("R/02_Main_analyses/01_Run_pipeline.R")
+  here::here("R/02_Main_analyses/01_Run_pipelines.R")
 )
 ```

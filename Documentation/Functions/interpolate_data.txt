@@ -24,6 +24,9 @@ Arguments:
 
     data: A data frame containing the data to be interpolated.
 
+      by: A character vector of column name(s) to group by when nesting
+          data for interpolation (default: "dataset_name").
+
  age_var: Name of the age variable column (default: "age").
 
 value_var: Name of the value variable column (default: "pollen_prop").

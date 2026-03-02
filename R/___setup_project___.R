@@ -67,6 +67,7 @@ package_list <-
     "remotes",
     "rlang",
     "roxygen2",
+    "sjSDM",
     "tidyverse",
     "targets",
     "usethis",
@@ -97,7 +98,12 @@ fun_list <-
   list.files(
     path = here::here("R/Functions/"),
     pattern = "*.R",
-    recursive = TRUE
+    recursive = TRUE,
+    full.names = TRUE
+  ) %>%
+  purrr::discard(
+    # Exclude outdated functions (e.g. HMSC-based)
+    ~ stringr::str_detect(.x, "_outdated")
   )
 
 # source them
@@ -105,7 +111,7 @@ if (
   length(fun_list) > 0
 ) {
   sapply(
-    paste0(here::here("R/Functions"), "/", fun_list, sep = ""),
+    fun_list,
     source
   )
 }
@@ -119,7 +125,19 @@ check_presence_of_vegvault()
 
 
 #----------------------------------------------------------#
-# 4. Graphical options -----
+# 4. verify sjSDM setup -----
+#----------------------------------------------------------#
+
+if (
+  isTRUE(interactive())
+) {
+  verify_sjsdm_setup()
+}
+
+
+
+#----------------------------------------------------------#
+# 5. Graphical options -----
 #----------------------------------------------------------#
 
 # set ggplot output

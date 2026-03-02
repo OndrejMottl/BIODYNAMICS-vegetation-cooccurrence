@@ -11,10 +11,12 @@ Usage:
      
 Arguments:
 
-    data: A data frame containing columns 'dataset_name', 'coord_long',
-          and 'coord_lat'.
+    data: A data frame containing columns 'dataset_name',
+          'dataset_type', 'coord_long', and 'coord_lat'. Rows with
+          `dataset_type == "gridpoints"` are excluded.
 
 Value:
 
-     A data frame with unique coordinates for each dataset.
+     A data frame with unique coordinates for each dataset, with
+     `dataset_name` as row names.
 

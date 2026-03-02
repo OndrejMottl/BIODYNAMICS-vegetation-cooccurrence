@@ -1,0 +1,30 @@
+Get ANOVA for sjSDM Model
+
+Description:
+
+     Computes the ANOVA decomposition for a fitted sjSDM model,
+     partitioning variance explained by environmental and spatial
+     components.
+
+Usage:
+
+     get_anova(mod)
+     
+Arguments:
+
+     mod: A fitted model object of class `sjSDM`.
+
+Details:
+
+     The function wraps the internal `sjSDM:::anova.sjSDM()` method
+     with `verbose = FALSE` to suppress printed output.
+
+Value:
+
+     An ANOVA result object as returned by `sjSDM:::anova.sjSDM()`,
+     containing variance partitioning across model components.
+
+See Also:
+
+     [fit_hmsc_model()]
+

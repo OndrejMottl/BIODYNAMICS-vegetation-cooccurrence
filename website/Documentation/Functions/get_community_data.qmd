@@ -8,7 +8,7 @@ title: get_community_data()
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
 <script type="text/javascript">
-const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
@@ -25,9 +25,8 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>This function processes a data frame containing community data
-and extracts the relevant columns, unnesting the 'data_community'
-column in the process.
+<p>Processes a data frame containing community data and extracts the relevant
+columns, unnesting the 'data_community' column in the process.
 </p>
 
 
@@ -50,23 +49,10 @@ column in the process.
 
 <h3>Details</h3>
 
-<p>The function performs the following steps:
+<p>Validates that the input is a data frame, ensures the presence of the
+'dataset_name' and 'data_community' columns, selects those columns, and
+unnests the 'data_community' column.
 </p>
-
-<ul>
-<li><p> Validates that the input is a data frame.
-</p>
-</li>
-<li><p> Ensures the presence of the 'dataset_name' and 'data_community' columns.
-</p>
-</li>
-<li><p> Selects the 'dataset_name' and 'data_community' columns.
-</p>
-</li>
-<li><p> Unnests the 'data_community' column.
-</p>
-</li></ul>
-
 
 
 <h3>Value</h3>

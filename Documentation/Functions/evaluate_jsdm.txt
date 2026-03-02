@@ -1,0 +1,33 @@
+Evaluate JSDM Model Performance
+
+Description:
+
+     Evaluates a fitted sjSDM model and returns comprehensive
+     performance metrics at both model and species level.
+
+Usage:
+
+     evaluate_jsdm(mod_jsdm = NULL)
+     
+Arguments:
+
+mod_jsdm: A fitted sjSDM model object. Must be of class 'sjSDM'.
+
+Details:
+
+     For binomial models, species-level classification metrics (AUC,
+     Accuracy, LogLoss) are computed using a 0.5 probability threshold
+     for binary predictions. For other model families, RMSE is computed
+     per species.
+
+Value:
+
+     A list with two elements: - model: Named numeric vector of
+     R-squared values (McFadden, Nagelkerke) - species: A tibble with
+     one row per species and columns: species, AUC, Accuracy, LogLoss
+     (binomial) or RMSE (other families)
+
+See Also:
+
+     sjSDM::Rsquared, Metrics::auc
+

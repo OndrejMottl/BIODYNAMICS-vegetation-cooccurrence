@@ -9,9 +9,11 @@ Usage:
 
      save_progress_visualisation(
        sel_script,
+       sel_store = get_active_config("target_store"),
        output_file = "project_status",
        output_dir = here::here("Documentation/Progress"),
        background_color = "white",
+       physics = TRUE,
        level_separation = 250
      )
      
@@ -19,10 +21,19 @@ Arguments:
 
 sel_script: The script file to be visualised.
 
+sel_store: Path to the targets store directory. Defaults to the value
+          from the active configuration key "target_store".
+
 output_file: The name of the output file (default: "project_status").
 
 output_dir: Directory where the output files will be saved (default:
-          "Outputs/Figures").
+          "Documentation/Progress").
+
+background_color: Background color for the visualisation (default:
+          "white").
+
+ physics: Logical indicating whether to enable physics simulation in
+          the network graph (default: TRUE).
 
 level_separation: Level separation for the visualisation graph
           (default: 250).
@@ -30,6 +41,14 @@ level_separation: Level separation for the visualisation graph
 Details:
 
      Uses `targets::tar_visnetwork` to create a network graph and saves
-     it as HTML using `visNetwork::visSave`. Also generates a static
-     PNG image using `webshot2::webshot`.
+     two HTML files (full and targets-only) using
+     `visNetwork::visSave`, plus a static PNG via `webshot2::webshot`.
+     Files are written to `output_dir/<store_name>/` where
+     `<store_name>` is the last path segment of `sel_store` after the
+     `targets/` directory.
+
+Value:
+
+     No return value. Called for side effects: saves HTML and PNG files
+     to a store-specific subdirectory within `output_dir`.
 
