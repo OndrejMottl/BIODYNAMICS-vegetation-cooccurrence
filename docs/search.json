@@ -4,7 +4,7 @@
     "href": "website/installation.html",
     "title": "Reproducibility",
     "section": "",
-    "text": "This project uses the {renv} package to manage dependencies. To install the required packages, run the following command in the R console:\nrenv::restore()\nThis will install all the packages listed in the renv.lock file.\n\n\n\nCurrently, the project is coded as {targets} pipeline and can be executed using the following command:\n\nsource(\n  here::here(\"R/02_Main_analyses/01_Run_pipeline.R\")\n)",
+    "text": "This project uses the {renv} package to manage dependencies. To install the required packages, run the following command in the R console:\nrenv::restore()\nThis will install all the packages listed in the renv.lock file.\n\n\n\nThis project uses {sjSDM} (Scalable Joint Species Distribution Models), which requires a Python back-end (PyTorch). After installing the R package, set up the Python environment with:\nsjSDM::install_sjSDM()\nYou can verify the setup using the project helper function:\nsource(\"R/___setup_project___.R\")\nverify_sjsdm_setup()\n\n\n\nCurrently, the project is coded as a {targets} pipeline and can be executed using the following command:\n\nsource(\n  here::here(\"R/02_Main_analyses/01_Run_pipelines.R\")\n)",
     "crumbs": [
       "Reproducibility"
     ]
@@ -20,25 +20,47 @@
     ]
   },
   {
-    "objectID": "website/installation.html#targets",
-    "href": "website/installation.html#targets",
+    "objectID": "website/installation.html#sjsdm",
+    "href": "website/installation.html#sjsdm",
     "title": "Reproducibility",
     "section": "",
-    "text": "Currently, the project is coded as {targets} pipeline and can be executed using the following command:\n\nsource(\n  here::here(\"R/02_Main_analyses/01_Run_pipeline.R\")\n)",
+    "text": "This project uses {sjSDM} (Scalable Joint Species Distribution Models), which requires a Python back-end (PyTorch). After installing the R package, set up the Python environment with:\nsjSDM::install_sjSDM()\nYou can verify the setup using the project helper function:\nsource(\"R/___setup_project___.R\")\nverify_sjsdm_setup()",
     "crumbs": [
       "Reproducibility"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/select_n_taxa.html",
-    "href": "website/Documentation/Functions/select_n_taxa.html",
-    "title": "select_n_taxa()",
+    "objectID": "website/installation.html#targets",
+    "href": "website/installation.html#targets",
+    "title": "Reproducibility",
     "section": "",
-    "text": "select_n_taxa\n\n\nR Documentation\n\n\n\n\nSelect N Taxa\n\n\nDescription\n\n\nSelects the top N taxa based on their occurrence across datasets.\n\n\nUsage\n\nselect_n_taxa(data = NULL, n_taxa = Inf, per = \"dataset_name\")\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the input data. Must include columns \"taxon\" and the column specified in the ‘per’ parameter.\n\n\n\n\n\nn_taxa\n\n\n\nA numeric value specifying the number of taxa to select. Default is Inf.\n\n\n\n\n\nper\n\n\n\nA character string specifying the column name to group by. Default is \"dataset_name\".\n\n\n\n\n\nDetails\n\n\nThe function identifies the most common taxa across datasets by counting their occurrences. It then filters the input data to include only the selected taxa. If no taxa are found, an error is raised.\n\n\nValue\n\n\nA data frame containing the filtered data with the top N taxa.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "Currently, the project is coded as a {targets} pipeline and can be executed using the following command:\n\nsource(\n  here::here(\"R/02_Main_analyses/01_Run_pipelines.R\")\n)",
+    "crumbs": [
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/transform_to_proportions.html",
+    "href": "website/Documentation/Functions/transform_to_proportions.html",
+    "title": "transform_to_proportions()",
+    "section": "",
+    "text": "transform_to_proportions\n\n\nR Documentation\n\n\n\n\nTransform to Proportions\n\n\nDescription\n\n\nTransforms pollen count data into proportions based on total pollen count.\n\n\nUsage\n\ntransform_to_proportions(data = NULL, pollen_sum = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing pollen count data.\n\n\n\n\n\npollen_sum\n\n\n\nA data frame with total pollen counts for each sample.\n\n\n\n\n\nDetails\n\n\nJoins the input data with total pollen counts and calculates proportions using ‘dplyr::mutate’.\n\n\nValue\n\n\nA data frame with pollen proportions, excluding ‘pollen_sum’ and ‘pollen_count’ columns.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "select_n_taxa()"
+      "transform_to_proportions()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/save_progress_visualisation.html",
+    "href": "website/Documentation/Functions/save_progress_visualisation.html",
+    "title": "save_progress_visualisation()",
+    "section": "",
+    "text": "save_progress_visualisation\n\n\nR Documentation\n\n\n\n\nSave Progress Visualisation\n\n\nDescription\n\n\nGenerates a visualisation of project progress and saves it as HTML and PNG.\n\n\nUsage\n\nsave_progress_visualisation(\n  sel_script,\n  sel_store = get_active_config(\"target_store\"),\n  output_file = \"project_status\",\n  output_dir = here::here(\"Documentation/Progress\"),\n  background_color = \"white\",\n  physics = TRUE,\n  level_separation = 250\n)\n\n\nArguments\n\n\n\n\nsel_script\n\n\n\nThe script file to be visualised.\n\n\n\n\n\nsel_store\n\n\n\nPath to the targets store directory. Defaults to the value from the active configuration key \"target_store\".\n\n\n\n\n\noutput_file\n\n\n\nThe name of the output file (default: \"project_status\").\n\n\n\n\n\noutput_dir\n\n\n\nDirectory where the output files will be saved (default: \"Documentation/Progress\").\n\n\n\n\n\nbackground_color\n\n\n\nBackground color for the visualisation (default: \"white\").\n\n\n\n\n\nphysics\n\n\n\nLogical indicating whether to enable physics simulation in the network graph (default: TRUE).\n\n\n\n\n\nlevel_separation\n\n\n\nLevel separation for the visualisation graph (default: 250).\n\n\n\n\n\nDetails\n\n\nUses ‘targets::tar_visnetwork’ to create a network graph and saves two HTML files (full and targets-only) using ‘visNetwork::visSave’, plus a static PNG via ‘webshot2::webshot’. Files are written to ‘output_dir/&lt;store_name&gt;/’ where ‘&lt;store_name&gt;’ is the last path segment of ‘sel_store’ after the ‘targets/’ directory.\n\n\nValue\n\n\nNo return value. Called for side effects: saves HTML and PNG files to a store-specific subdirectory within ‘output_dir’.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "save_progress_visualisation()"
     ]
   },
   {
@@ -66,87 +88,99 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/make_classification_table.html",
-    "href": "website/Documentation/Functions/make_classification_table.html",
-    "title": "make_classification_table()",
+    "objectID": "website/Documentation/Functions/make_community_data_long.html",
+    "href": "website/Documentation/Functions/make_community_data_long.html",
+    "title": "make_community_data_long()",
     "section": "",
-    "text": "make_classification_table\n\n\nR Documentation\n\n\n\n\nMake Classification Table\n\n\nDescription\n\n\nCreates a wide-format taxonomic classification table from a list of data frames containing taxon names and ranks (e.g., family, genus, species).\n\n\nUsage\n\nmake_classification_table(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA list of data frames, each containing columns ‘sel_name’, ‘rank’, and ‘name’.\n\n\n\n\n\nDetails\n\n\nFilters for relevant taxonomic ranks, removes duplicates, and pivots the table to wide format with one column per rank.\n\n\nValue\n\n\nA data frame in wide format with columns for each taxonomic rank and one row per ‘sel_name’.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "make_community_data_long\n\n\nR Documentation\n\n\n\n\nMake Community Data Long\n\n\nDescription\n\n\nConverts community data from wide format to long format.\n\n\nUsage\n\nmake_community_data_long(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\nDetails\n\n\nUses ‘tidyr::pivot_longer’ to reshape the data, dropping NA values in the process.\n\n\nValue\n\n\nA data frame in long format with columns ‘dataset_name’, ‘sample_name’, ‘taxon’, and ‘pollen_count’.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "make_classification_table()"
+      "make_community_data_long()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/interpolate_community_data.html",
-    "href": "website/Documentation/Functions/interpolate_community_data.html",
-    "title": "interpolate_community_data()",
+    "objectID": "website/Documentation/Functions/interpolate_data.html",
+    "href": "website/Documentation/Functions/interpolate_data.html",
+    "title": "interpolate_data()",
     "section": "",
-    "text": "interpolate_community_data\n\n\nR Documentation\n\n\n\n\nInterpolate Community Data\n\n\nDescription\n\n\nTransforms community data to proportions, interpolates it, and returns it.\n\n\nUsage\n\ninterpolate_community_data(data, ...)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing community data to be transformed and interpolated.\n\n\n\n\n\n…\n\n\n\nAdditional arguments passed to the ‘interpolate_data’ function.\n\n\n\n\n\nDetails\n\n\nTransforms data to proportions using ‘transform_to_proportions’ and total pollen count from ‘get_pollen_sum’. Then interpolates using ‘interpolate_data’.\n\n\nValue\n\n\nA data frame with interpolated community data.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "interpolate_data\n\n\nR Documentation\n\n\n\n\nInterpolate Data\n\n\nDescription\n\n\nInterpolates data over a specified age range and timestep using a method.\n\n\nUsage\n\ninterpolate_data(\n  data = NULL,\n  by = \"dataset_name\",\n  age_var = \"age\",\n  value_var = \"pollen_prop\",\n  method = \"linear\",\n  rule = 1,\n  ties = mean,\n  age_min = 0,\n  age_max = 12000,\n  timestep = 500\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the data to be interpolated.\n\n\n\n\n\nby\n\n\n\nA character vector of column name(s) to group by when nesting data for interpolation (default: \"dataset_name\").\n\n\n\n\n\nage_var\n\n\n\nName of the age variable column (default: \"age\").\n\n\n\n\n\nvalue_var\n\n\n\nName of the value variable column (default: \"pollen_prop\").\n\n\n\n\n\nmethod\n\n\n\nInterpolation method to use (default: \"linear\").\n\n\n\n\n\nrule\n\n\n\nInteger specifying the extrapolation rule (default: 1).\n\n\n\n\n\nties\n\n\n\nFunction to handle tied values (default: ‘mean’).\n\n\n\n\n\nage_min\n\n\n\nMinimum age for interpolation (default: 0).\n\n\n\n\n\nage_max\n\n\n\nMaximum age for interpolation (default: 12000).\n\n\n\n\n\ntimestep\n\n\n\nTimestep for interpolation (default: 500).\n\n\n\n\n\nDetails\n\n\nNests data by dataset and taxon, performs interpolation using ‘stats::approx’, and returns the interpolated data in a flat format.\n\n\nValue\n\n\nA data frame with interpolated values, including dataset name, taxon, age, and value columns.\n\n\nSee Also\n\n\n[stats::approx()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "interpolate_community_data()"
+      "interpolate_data()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_species_association.html",
-    "href": "website/Documentation/Functions/get_species_association.html",
-    "title": "get_species_association()",
+    "objectID": "website/Documentation/Functions/get_taxa_classification.html",
+    "href": "website/Documentation/Functions/get_taxa_classification.html",
+    "title": "get_taxa_classification()",
     "section": "",
-    "text": "get_species_association\n\n\nR Documentation\n\n\n\n\nCompute Species Associations\n\n\nDescription\n\n\nComputes species associations from a fitted Hmsc model object.\n\n\nUsage\n\nget_species_association(data_source)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing a fitted Hmsc model under the ‘mod’ element. Generally, this is the output of the function add_model_evaluation() or # get_better_model_based_on_fit()\n\n\n\n\n\nValue\n\n\nA matrix of species associations.\n\n\nSee Also\n\n\n[add_model_evaluation(), get_better_model_based_on_fit()]\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_taxa_classification\n\n\nR Documentation\n\n\n\n\nGet Taxa Classification\n\n\nDescription\n\n\nRetrieves taxonomic classification for a vector of taxa using the taxospace package. Filters results to include only plant taxa.\n\n\nUsage\n\nget_taxa_classification(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA character vector of taxon names to classify.\n\n\n\n\n\nDetails\n\n\nUses taxospace::get_classification to retrieve classification. Flags and filters for plant taxa (kingdom Plantae). Returns an empty tibble if no plant taxa found.\n\n\nValue\n\n\nA data frame with columns for selected name, taxonomic name, rank, and id.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_species_association()"
+      "get_taxa_classification()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_sample_ages.html",
-    "href": "website/Documentation/Functions/get_sample_ages.html",
-    "title": "get_sample_ages()",
+    "objectID": "website/Documentation/Functions/get_significant_associations.html",
+    "href": "website/Documentation/Functions/get_significant_associations.html",
+    "title": "get_significant_associations()",
     "section": "",
-    "text": "get_sample_ages\n\n\nR Documentation\n\n\n\n\nGet Sample Ages\n\n\nDescription\n\n\nExtracts sample ages from a data frame containing dataset and sample info.\n\n\nUsage\n\nget_sample_ages(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_samples’.\n\n\n\n\n\nDetails\n\n\nValidates the input data frame, ensures required columns are present, and extracts sample ages by unnesting the ‘data_samples’ column.\n\n\nValue\n\n\nA data frame with columns ‘dataset_name’, ‘sample_name’, and ‘age’.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_significant_associations\n\n\nR Documentation\n\n\n\n\nGet Significant Species Associations\n\n\nDescription\n\n\nIdentifies significant species associations based on support and mean values for each error level.\n\n\nUsage\n\nget_significant_associations(data_source, alpha = 0.05)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing association matrices from a fitted Hmsc model. Generally, this is the output of the function get_species_association().\n\n\n\n\n\nalpha\n\n\n\nSignificance level for support threshold (default: 0.05).\n\n\n\n\n\nValue\n\n\nA vector of significant association values.\n\n\nSee Also\n\n\n[get_species_association()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_sample_ages()"
+      "get_significant_associations()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_pollen_sum.html",
-    "href": "website/Documentation/Functions/get_pollen_sum.html",
-    "title": "get_pollen_sum()",
+    "objectID": "website/Documentation/Functions/get_random_structure_for_model.html",
+    "href": "website/Documentation/Functions/get_random_structure_for_model.html",
+    "title": "get_random_structure_for_model()",
     "section": "",
-    "text": "get_pollen_sum\n\n\nR Documentation\n\n\n\n\nCalculate the Total Pollen Count for Each Sample\n\n\nDescription\n\n\nThis function computes the total pollen count for each sample in the provided dataset.\n\n\nUsage\n\nget_pollen_sum(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing at least two columns: ‘sample_name’ (the name or identifier of the sample) and ‘pollen_count’ (the count of pollen for each observation).\n\n\n\n\n\nDetails\n\n\nThe function groups the data by ‘sample_name’, calculates the sum of ‘pollen_count’ for each group, and removes any grouping structure before returning the result. Missing values (‘NA’) in ‘pollen_count’ are ignored.\n\n\nValue\n\n\nA data frame with two columns: ‘sample_name’ and ‘pollen_sum’, where ‘pollen_sum’ is the total pollen count for each sample.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_random_structure_for_model\n\n\nR Documentation\n\n\n\n\nGet Random Structure for Model\n\n\nDescription\n\n\nConstructs the random structure for HMSC models based on age and/or space.\n\n\nUsage\n\nget_random_structure_for_model(\n  data = NULL,\n  type = c(\"age\", \"space\"),\n  min_knots_distance = NULL\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA list containing data for model fitting from the function [check_and_prepare_data_for_fit()].\n\n\n\n\n\ntype\n\n\n\nCharacter vector specifying random effect types (\"age\", \"space\").\n\n\n\n\n\nmin_knots_distance\n\n\n\nMinimum distance between knots for spatial random effect (optional). Only used if \"space\" is in ‘type’.\n\n\n\n\n\nValue\n\n\nA list describing the random structure for the model.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_pollen_sum()"
+      "get_random_structure_for_model()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_coords.html",
-    "href": "website/Documentation/Functions/get_coords.html",
-    "title": "get_coords()",
+    "objectID": "website/Documentation/Functions/get_dataset_name_from_string.html",
+    "href": "website/Documentation/Functions/get_dataset_name_from_string.html",
+    "title": "get_dataset_name_from_string()",
     "section": "",
-    "text": "get_coords\n\n\nR Documentation\n\n\n\n\nGet Dataset Coordinates\n\n\nDescription\n\n\nExtracts unique coordinates for each dataset, excluding gridpoints.\n\n\nUsage\n\nget_coords(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing columns ‘dataset_name’, ‘coord_long’, and ‘coord_lat’.\n\n\n\n\n\nValue\n\n\nA data frame with unique coordinates for each dataset.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_dataset_name_from_string\n\n\nR Documentation\n\n\n\n\nExtract Dataset Name from String\n\n\nDescription\n\n\nExtracts the dataset name from a vector of strings, taking all characters before the double underscore (\"__\").\n\n\nUsage\n\nget_dataset_name_from_string(vec_names)\n\n\nArguments\n\n\n\n\nvec_names\n\n\n\nA character vector containing names with the format \"dataset__something\".\n\n\n\n\n\nValue\n\n\nA character vector of dataset names.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_coords()"
+      "get_dataset_name_from_string()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_community_data.html",
-    "href": "website/Documentation/Functions/get_community_data.html",
-    "title": "get_community_data()",
+    "objectID": "website/Documentation/Functions/get_community_taxa.html",
+    "href": "website/Documentation/Functions/get_community_taxa.html",
+    "title": "get_community_taxa()",
     "section": "",
-    "text": "get_community_data\n\n\nR Documentation\n\n\n\n\nGet Community Data\n\n\nDescription\n\n\nThis function processes a data frame containing community data and extracts the relevant columns, unnesting the ‘data_community’ column in the process.\n\n\nUsage\n\nget_community_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_community’.\n\n\n\n\n\nDetails\n\n\nThe function performs the following steps:\n\n\n\n\nValidates that the input is a data frame.\n\n\n\n\nEnsures the presence of the ‘dataset_name’ and ‘data_community’ columns.\n\n\n\n\nSelects the ‘dataset_name’ and ‘data_community’ columns.\n\n\n\n\nUnnests the ‘data_community’ column.\n\n\n\n\nValue\n\n\nA data frame with the ‘dataset_name’ and unnested ‘data_community’ columns.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_community_taxa\n\n\nR Documentation\n\n\n\n\nGet Community Taxa\n\n\nDescription\n\n\nExtracts a vector of unique taxa from a community data frame.\n\n\nUsage\n\nget_community_taxa(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing a ‘taxon’ column.\n\n\n\n\n\nDetails\n\n\nUses dplyr to select distinct values from the ‘taxon’ column and returns them as a vector.\n\n\nValue\n\n\nA character vector of unique taxon names present in the data.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_community_data()"
+      "get_community_taxa()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/get_better_model_based_on_fit.html",
+    "href": "website/Documentation/Functions/get_better_model_based_on_fit.html",
+    "title": "get_better_model_based_on_fit()",
+    "section": "",
+    "text": "get_better_model_based_on_fit\n\n\nR Documentation\n\n\n\n\nSelect Better Model Based on Fit\n\n\nDescription\n\n\nCompares two models and selects the one with better fit based on Tjur’s R2.\n\n\nUsage\n\nget_better_model_based_on_fit(list_models = NULL, method = c(\"TjurR2\", \"WAIC\"))\n\n\nArguments\n\n\n\n\nlist_models\n\n\n\nA list of two fitted model objects.\n\n\n\n\n\nValue\n\n\nThe model object with better fit.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "get_better_model_based_on_fit()"
     ]
   },
   {
@@ -174,6 +208,18 @@
     ]
   },
   {
+    "objectID": "website/Documentation/Functions/fit_hmsc_model.html",
+    "href": "website/Documentation/Functions/fit_hmsc_model.html",
+    "title": "fit_hmsc_model()",
+    "section": "",
+    "text": "fit_hmsc_model\n\n\nR Documentation\n\n\n\n\nFit HMSC Model\n\n\nDescription\n\n\nSample the MCMC process for the HMSC model.\n\n\nUsage\n\nfit_hmsc_model(\n  mod_hmsc,\n  n_chains = 20,\n  n_samples = 10000,\n  n_thin = 1,\n  n_transient = 2500,\n  n_parallel = 20,\n  n_samples_verbose = 500\n)\n\n\nArguments\n\n\n\n\nmod_hmsc\n\n\n\nAn unfitted HMSC model object.\n\n\n\n\n\nn_chains\n\n\n\nNumber of MCMC chains (default: 20).\n\n\n\n\n\nn_samples\n\n\n\nNumber of MCMC samples (default: 10,000).\n\n\n\n\n\nn_thin\n\n\n\nThinning interval for MCMC samples (default: 5).\n\n\n\n\n\nn_transient\n\n\n\nNumber of transient iterations (default: 2,500).\n\n\n\n\n\nn_parallel\n\n\n\nNumber of parallel chains (default: 20).\n\n\n\n\n\nn_samples_verbose\n\n\n\nVerbosity interval for MCMC sampling (default: 500).\n\n\n\n\n\nValue\n\n\nReturns a fitted HMSC model object.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "fit_hmsc_model()"
+    ]
+  },
+  {
     "objectID": "website/Documentation/Functions/extract_data_from_vegvault.html",
     "href": "website/Documentation/Functions/extract_data_from_vegvault.html",
     "title": "extract_data_from_vegvault()",
@@ -186,40 +232,198 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/check_presence_of_vegvault.html",
-    "href": "website/Documentation/Functions/check_presence_of_vegvault.html",
-    "title": "check_presence_of_vegvault()",
+    "objectID": "website/Documentation/Functions/classify_taxonomic_resolution.html",
+    "href": "website/Documentation/Functions/classify_taxonomic_resolution.html",
+    "title": "classify_taxonomic_resolution()",
     "section": "",
-    "text": "check_presence_of_vegvault\n\n\nR Documentation\n\n\n\n\nCheck Presence of VegVault File\n\n\nDescription\n\n\nChecks whether the ‘VegVault.sqlite’ file exists in the specified directory.\n\n\nUsage\n\ncheck_presence_of_vegvault(relative_path = \"Data/Input/Vegvault.sqlite\")\n\n\nArguments\n\n\n\n\nrelative_path\n\n\n\nRelative path to the ‘VegVault.sqlite’ file (default: \"Data/Input/Vegvault.sqlite\").\n\n\n\n\n\nDetails\n\n\nVerifies the presence of the ‘VegVault.sqlite’ file. If not found, throws an error with instructions to consult the ‘Data/Input/README.md’ file.\n\n\nValue\n\n\nLogical value indicating whether the file exists. Stops with an error if the file is not found.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "classify_taxonomic_resolution\n\n\nR Documentation\n\n\n\n\nClassify Taxonomic Resolution\n\n\nDescription\n\n\nClassifies taxa in a data frame to a specified taxonomic resolution (family, genus, or species) using a classification table, and aggregates pollen proportions accordingly.\n\n\nUsage\n\nclassify_taxonomic_resolution(\n  data,\n  data_classification_table,\n  taxonomic_resolution\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing taxon data with columns including ‘taxon’, ‘dataset_name’, ‘age’, and ‘pollen_prop’.\n\n\n\n\n\ndata_classification_table\n\n\n\nA data frame mapping ‘sel_name’ to taxonomic levels (e.g., family, genus, species).\n\n\n\n\n\ntaxonomic_resolution\n\n\n\nA character string specifying the taxonomic resolution to classify to. Must be one of ‘family’, ‘genus’, or ‘species’.\n\n\n\n\n\nDetails\n\n\nPerforms a left join to map taxa to the desired resolution, aggregates pollen proportions, and ensures all dataset_name-age-taxon combinations are present in the output.\n\n\nValue\n\n\nA data frame with taxa classified to the specified resolution and pollen proportions aggregated accordingly. The output preserves all dataset_name and age combinations for true negatives.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "check_presence_of_vegvault()"
+      "classify_taxonomic_resolution()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/add_model_evaluation.html",
-    "href": "website/Documentation/Functions/add_model_evaluation.html",
-    "title": "add_model_evaluation()",
+    "objectID": "website/Documentation/Functions/check_and_prepare_data_for_fit.html",
+    "href": "website/Documentation/Functions/check_and_prepare_data_for_fit.html",
+    "title": "check_and_prepare_data_for_fit()",
     "section": "",
-    "text": "add_model_evaluation\n\n\nR Documentation\n\n\n\n\nAdd Model Evaluation\n\n\nDescription\n\n\nEvaluates a fitted Hmsc model using predicted data and returns a list containing the model and its evaluation.\n\n\nUsage\n\nadd_model_evaluation(mod_fitted = NULL, data_pred = NULL)\n\n\nArguments\n\n\n\n\nmod_fitted\n\n\n\nA fitted Hmsc model object. Must be of class ‘Hmsc’.\n\n\n\n\n\ndata_pred\n\n\n\nAn array of predicted values. Must be of class ‘array’.\n\n\n\n\n\nValue\n\n\nA list with two elements: the fitted model (‘mod’) and the evaluation results (‘eval’).\n\n\nSee Also\n\n\nHmsc::evaluateModelFit\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "check_and_prepare_data_for_fit\n\n\nR Documentation\n\n\n\n\nCheck and Prepare Data for Model Fitting\n\n\nDescription\n\n\nCleans and prepares community, abiotic, and coordinate data for HMSC model fitting, with optional age subsetting.\n\n\nUsage\n\ncheck_and_prepare_data_for_fit(\n  data_community = NULL,\n  data_abiotic = NULL,\n  data_coords = NULL,\n  subset_age = NULL\n)\n\n\nArguments\n\n\n\n\ndata_community\n\n\n\nA data frame of community data in wide format, with sample names as row names in the format \"dataset_name__age\".\n\n\n\n\n\ndata_abiotic\n\n\n\nA data frame of abiotic data with sample names as row names in the format \"dataset_name__age\", and abiotic variables as columns.\n\n\n\n\n\ndata_coords\n\n\n\nA data frame of spatial coordinates with dataset names as row names and columns for longitude and latitude.\n\n\n\n\n\nsubset_age\n\n\n\nOptional numeric value specifying a single age to subset the data. If NULL (default), all ages are included.\n\n\n\n\n\nDetails\n\n\nDrops NA values, optionally subsets by age, and finds the intersection of samples across community, abiotic, and coordinate data to ensure all inputs are aligned before model fitting.\n\n\nValue\n\n\nA list with four elements: ‘data_community_to_fit’, ‘data_abiotic_to_fit’, ‘data_coords_to_fit’, and ‘scale_attributes’. All data frames are aligned to the intersecting set of datasets and ages. ‘scale_attributes’ is a named list of centering and scaling attributes for each abiotic variable.\n\n\nSee Also\n\n\n[make_hmsc_model()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "add_model_evaluation()"
+      "check_and_prepare_data_for_fit()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/add_age_to_samples.html",
-    "href": "website/Documentation/Functions/add_age_to_samples.html",
-    "title": "add_age_to_samples()",
+    "objectID": "website/Documentation/Functions/add_dataset_name_column_from_rownames.html",
+    "href": "website/Documentation/Functions/add_dataset_name_column_from_rownames.html",
+    "title": "add_dataset_name_column_from_rownames()",
     "section": "",
-    "text": "add_age_to_samples\n\n\nR Documentation\n\n\n\n\nAdd Age to Community Data\n\n\nDescription\n\n\nMerges community data with age data based on dataset and sample names.\n\n\nUsage\n\nadd_age_to_samples(data_community = NULL, data_ages = NULL)\n\n\nArguments\n\n\n\n\ndata_community\n\n\n\nA data frame containing community data. Must include ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\ndata_ages\n\n\n\nA data frame containing age data. Must include ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\nDetails\n\n\nPerforms a left join between community data and age data using ‘dataset_name’ and ‘sample_name’ as keys.\n\n\nValue\n\n\nA data frame with community data merged with the corresponding age data.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "add_dataset_name_column_from_rownames\n\n\nR Documentation\n\n\n\n\nAdd Dataset Name Column from Row Names\n\n\nDescription\n\n\nAdds a ‘dataset_name’ column to a data frame by extracting dataset names from row names.\n\n\nUsage\n\nadd_dataset_name_column_from_rownames(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame with row names in the format \"dataset__something\".\n\n\n\n\n\nValue\n\n\nThe input data frame with an added ‘dataset_name’ column.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "add_age_to_samples()"
+      "add_dataset_name_column_from_rownames()"
     ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/add_age_column_from_rownames.html",
+    "href": "website/Documentation/Functions/add_age_column_from_rownames.html",
+    "title": "add_age_column_from_rownames()",
+    "section": "",
+    "text": "add_age_column_from_rownames\n\n\nR Documentation\n\n\n\n\nAdd Age Column from Row Names\n\n\nDescription\n\n\nAdds an ‘age’ column to a data frame by extracting age values from row names.\n\n\nUsage\n\nadd_age_column_from_rownames(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame with row names in the format \"dataset__age\".\n\n\n\n\n\nValue\n\n\nThe input data frame with an added ‘age’ column.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "add_age_column_from_rownames()"
+    ]
+  },
+  {
+    "objectID": "website/about.html",
+    "href": "website/about.html",
+    "title": "BIODYNAMICS - Vegetation Co-occurrence",
+    "section": "",
+    "text": "This is a project to study the co-occurrence of vegetation across space and time.\nThe repo is part of the BIODYNAMICS project.\n This project is a work in progress. The code is not yet ready!\n\n\nThe project is using {config} to set up various “subprojects” within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.\nThe main source of data is VegVault, a database of vegetation plots and abiotic data.\nCurrently, the aim of the project is to estimate the number of significant co-occurrences of species in a given area per each time slice (step). The species associations are calculated using {sjSDM} (Scalable Joint Species Distribution Models) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining for abiotic variables).\n\n\nThe project was originally developed using {HMSC} (Hierarchical Modelling of Species Communities). However, HMSC relies on MCMC sampling, which did not scale well to the size of the data used in this project — fitting times became prohibitively long as the number of sites, taxa, and time slices increased. The project is therefore being fully reworked to use {sjSDM}, which uses stochastic gradient descent and GPU acceleration to achieve substantial performance gains while retaining the joint species distribution modelling framework.\n\n⚠️ TO BE DONE: The spatial random effect component has not yet been implemented in the new sjSDM pipeline. Accounting for spatial autocorrelation is a planned next step and will be added once the core abiotic-constrained association pipeline is stable.\n\nHere is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:\n\n\n\n\n\n🔄 In progress: The pipeline has been migrated from {HMSC} to {sjSDM} and is actively being developed. Results below reflect the current state of the new pipeline and will be updated as the workflow stabilises.\n\nThere is a toy sub-project with the area of Czech Republic using only the fossil pollen archive data spanning 0–5,000 cal yr BP, with a time step of 500 years. The abiotic variables are bio1 and bio12 (mean annual temperature and annual precipitation). Only the 10 most common taxa are used in the analysis. The sjSDM model is fitted with linear abiotic effects and no explicit spatial random effect.\n\n\n$data\nlist()\nattr(,\"class\")\n[1] \"waiver\"\n\n$layers\n$layers[[1]]\nmapping: x = ~type, y = ~n_sign_assoc \ngeom_point: na.rm = FALSE\nstat_identity: na.rm = FALSE\nposition_identity \n\n\n$scales\n&lt;ggproto object: Class ScalesList, gg&gt;\n    add: function\n    add_defaults: function\n    add_missing: function\n    backtransform_df: function\n    clone: function\n    find: function\n    get_scales: function\n    has_scale: function\n    input: function\n    map_df: function\n    n: function\n    non_position_scales: function\n    scales: list\n    set_palettes: function\n    train_df: function\n    transform_df: function\n    super:  &lt;ggproto object: Class ScalesList, gg&gt;\n\n$guides\n&lt;Guides[0] ggproto object&gt;\n\n&lt;empty&gt;\n\n$mapping\nnamed list()\nattr(,\"class\")\n[1] \"uneval\"\n\n$theme\nlist()\n\n$coordinates\n&lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n    aspect: function\n    backtransform_range: function\n    clip: on\n    default: FALSE\n    distance: function\n    draw_panel: function\n    expand: TRUE\n    is_free: function\n    is_linear: function\n    labels: function\n    limits: list\n    modify_scales: function\n    range: function\n    render_axis_h: function\n    render_axis_v: function\n    render_bg: function\n    render_fg: function\n    reverse: none\n    setup_data: function\n    setup_layout: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    setup_params: function\n    train_panel_guides: function\n    transform: function\n    super:  &lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n\n$facet\n&lt;ggproto object: Class FacetNull, Facet, gg&gt;\n    attach_axes: function\n    attach_strips: function\n    compute_layout: function\n    draw_back: function\n    draw_front: function\n    draw_labels: function\n    draw_panel_content: function\n    draw_panels: function\n    finish_data: function\n    format_strip_labels: function\n    init_gtable: function\n    init_scales: function\n    map_data: function\n    params: list\n    set_panel_size: function\n    setup_data: function\n    setup_panel_params: function\n    setup_params: function\n    shrink: TRUE\n    train_scales: function\n    vars: function\n    super:  &lt;ggproto object: Class FacetNull, Facet, gg&gt;\n\n$plot_env\n&lt;environment: 0x000001d9171b9770&gt;\n\n$layout\n&lt;ggproto object: Class Layout, gg&gt;\n    coord: NULL\n    coord_params: list\n    facet: NULL\n    facet_params: list\n    finish_data: function\n    get_scales: function\n    layout: NULL\n    map_position: function\n    panel_params: NULL\n    panel_scales_x: NULL\n    panel_scales_y: NULL\n    render: function\n    render_labels: function\n    reset_scales: function\n    resolve_label: function\n    setup: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    train_position: function\n    super:  &lt;ggproto object: Class Layout, gg&gt;\n\n$labels\n$labels$x\n[1] \"Type of random factor\"\n\n$labels$y\n[1] \"Proportion of significant associations\"\n\n$labels$title\n[1] \"Proportion of significant associations\"\n\n$labels$subtitle\n[1] \"project: project_cz\"\n\n\nattr(,\"class\")\n[1] \"gg\"     \"ggplot\"",
+    "crumbs": [
+      "About the project"
+    ]
+  },
+  {
+    "objectID": "website/about.html#current-status",
+    "href": "website/about.html#current-status",
+    "title": "BIODYNAMICS - Vegetation Co-occurrence",
+    "section": "",
+    "text": "The project is using {config} to set up various “subprojects” within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.\nThe main source of data is VegVault, a database of vegetation plots and abiotic data.\nCurrently, the aim of the project is to estimate the number of significant co-occurrences of species in a given area per each time slice (step). The species associations are calculated using {sjSDM} (Scalable Joint Species Distribution Models) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining for abiotic variables).\n\n\nThe project was originally developed using {HMSC} (Hierarchical Modelling of Species Communities). However, HMSC relies on MCMC sampling, which did not scale well to the size of the data used in this project — fitting times became prohibitively long as the number of sites, taxa, and time slices increased. The project is therefore being fully reworked to use {sjSDM}, which uses stochastic gradient descent and GPU acceleration to achieve substantial performance gains while retaining the joint species distribution modelling framework.\n\n⚠️ TO BE DONE: The spatial random effect component has not yet been implemented in the new sjSDM pipeline. Accounting for spatial autocorrelation is a planned next step and will be added once the core abiotic-constrained association pipeline is stable.\n\nHere is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:\n\n\n\n\n\n🔄 In progress: The pipeline has been migrated from {HMSC} to {sjSDM} and is actively being developed. Results below reflect the current state of the new pipeline and will be updated as the workflow stabilises.\n\nThere is a toy sub-project with the area of Czech Republic using only the fossil pollen archive data spanning 0–5,000 cal yr BP, with a time step of 500 years. The abiotic variables are bio1 and bio12 (mean annual temperature and annual precipitation). Only the 10 most common taxa are used in the analysis. The sjSDM model is fitted with linear abiotic effects and no explicit spatial random effect.\n\n\n$data\nlist()\nattr(,\"class\")\n[1] \"waiver\"\n\n$layers\n$layers[[1]]\nmapping: x = ~type, y = ~n_sign_assoc \ngeom_point: na.rm = FALSE\nstat_identity: na.rm = FALSE\nposition_identity \n\n\n$scales\n&lt;ggproto object: Class ScalesList, gg&gt;\n    add: function\n    add_defaults: function\n    add_missing: function\n    backtransform_df: function\n    clone: function\n    find: function\n    get_scales: function\n    has_scale: function\n    input: function\n    map_df: function\n    n: function\n    non_position_scales: function\n    scales: list\n    set_palettes: function\n    train_df: function\n    transform_df: function\n    super:  &lt;ggproto object: Class ScalesList, gg&gt;\n\n$guides\n&lt;Guides[0] ggproto object&gt;\n\n&lt;empty&gt;\n\n$mapping\nnamed list()\nattr(,\"class\")\n[1] \"uneval\"\n\n$theme\nlist()\n\n$coordinates\n&lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n    aspect: function\n    backtransform_range: function\n    clip: on\n    default: FALSE\n    distance: function\n    draw_panel: function\n    expand: TRUE\n    is_free: function\n    is_linear: function\n    labels: function\n    limits: list\n    modify_scales: function\n    range: function\n    render_axis_h: function\n    render_axis_v: function\n    render_bg: function\n    render_fg: function\n    reverse: none\n    setup_data: function\n    setup_layout: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    setup_params: function\n    train_panel_guides: function\n    transform: function\n    super:  &lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n\n$facet\n&lt;ggproto object: Class FacetNull, Facet, gg&gt;\n    attach_axes: function\n    attach_strips: function\n    compute_layout: function\n    draw_back: function\n    draw_front: function\n    draw_labels: function\n    draw_panel_content: function\n    draw_panels: function\n    finish_data: function\n    format_strip_labels: function\n    init_gtable: function\n    init_scales: function\n    map_data: function\n    params: list\n    set_panel_size: function\n    setup_data: function\n    setup_panel_params: function\n    setup_params: function\n    shrink: TRUE\n    train_scales: function\n    vars: function\n    super:  &lt;ggproto object: Class FacetNull, Facet, gg&gt;\n\n$plot_env\n&lt;environment: 0x000001d9171b9770&gt;\n\n$layout\n&lt;ggproto object: Class Layout, gg&gt;\n    coord: NULL\n    coord_params: list\n    facet: NULL\n    facet_params: list\n    finish_data: function\n    get_scales: function\n    layout: NULL\n    map_position: function\n    panel_params: NULL\n    panel_scales_x: NULL\n    panel_scales_y: NULL\n    render: function\n    render_labels: function\n    reset_scales: function\n    resolve_label: function\n    setup: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    train_position: function\n    super:  &lt;ggproto object: Class Layout, gg&gt;\n\n$labels\n$labels$x\n[1] \"Type of random factor\"\n\n$labels$y\n[1] \"Proportion of significant associations\"\n\n$labels$title\n[1] \"Proportion of significant associations\"\n\n$labels$subtitle\n[1] \"project: project_cz\"\n\n\nattr(,\"class\")\n[1] \"gg\"     \"ggplot\"",
+    "crumbs": [
+      "About the project"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "BIODYNAMICS - Vegetation Co-occurrence",
+    "section": "",
+    "text": "BIODYNAMICS - Vegetation Co-occurrence\nThis is a project to study the co-occurrence of vegetation across space and time.\nThe repo is part of the BIODYNAMICS project.\n\n\n\n\n Back to top"
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "This comprehensive guide explains how to set up sjSDM (a Python-based R package) from scratch, including conda, PyTorch, Radian, and GPU/CUDA support.\n\n\nsjSDM is an R package that wraps Python code and requires PyTorch. When using Radian (a Python-based R terminal) in VS Code, both Radian and sjSDM must use the same Python environment to avoid conflicts. This guide sets up everything needed for this unified environment.\nImportant: sjSDM requires a conda environment named r-sjsdm (enforced by the package). This guide creates that environment and additionally installs Radian in it for VS Code integration.\nNote about official installation: sjSDM provides an automatic installer (install_sjSDM()), but it doesn’t integrate with Radian/VS Code. This guide extends the official installation to work seamlessly with your VS Code + Radian setup.\n\n\n\nBefore starting, ensure you have:\n\nWindows 10/11\nVS Code installed\nR 4.5.1 or higher installed\nNVIDIA GPU with drivers (optional - for GPU acceleration)\nUsername without spaces (Windows usernames with spaces can cause conda issues)\n\n\n\nRun in PowerShell:\necho $env:USERNAME\nIf your username contains spaces (e.g., “John Doe”), you may encounter conda installation issues. Consider installing conda in a custom location without spaces.\n\n\n\n\n\n\nMiniconda manages Python environments and packages.\n\n\nDownload and Install:\n\nDownload Miniconda from: https://docs.conda.io/en/latest/miniconda.html\nChoose “Miniconda3 Windows 64-bit”\nRun installer\nImportant options during installation:\n\n✓ Install for “Just Me”\n✓ Add Miniconda3 to PATH environment variable (check this box)\n✓ Register Miniconda3 as default Python\n\n\nVerify installation: Open PowerShell and run:\nconda --version\nShould show something like conda 24.x.x\n\n\n\nDownload and Install:\nOpen terminal and run:\n# Download Miniconda installer\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh\n\n# Make installer executable\nchmod +x Miniconda3-latest-Linux-x86_64.sh\n\n# Run installer\nbash Miniconda3-latest-Linux-x86_64.sh\nDuring installation: - Press ENTER to review license - Type yes to accept license terms - Press ENTER to confirm default location (~/miniconda3) or specify custom path - Type yes when asked “Do you wish to update your shell profile to automatically initialize conda?”\nActivate conda:\n# Close and reopen terminal, or run:\nsource ~/.bashrc\n\n# Verify installation\nconda --version\nShould show something like conda 24.x.x\nNote for HPC systems: If you don’t have write permissions to your home directory .bashrc, you can initialize conda manually each session:\nsource ~/miniconda3/etc/profile.d/conda.sh\nOr add this to your RStudio .Renviron file.\n\n\n\n\nCreate a dedicated Python environment named r-sjsdm (required by sjSDM package):\nWindows (PowerShell):\n# Create environment with Python 3.10 (newer than official docs' 3.7)\nconda create -n r-sjsdm python=3.10 -y\n\n# Activate the environment\nconda activate r-sjsdm\nLinux (Terminal/HPC):\n# Create environment with Python 3.10\nconda create -n r-sjsdm python=3.10 -y\n\n# Activate the environment\nconda activate r-sjsdm\nNote: The official sjSDM documentation mentions Python 3.7, but newer versions (3.10) work better and are fully compatible.\n\n\n\nPyTorch is the deep learning framework that sjSDM uses. Choose GPU or CPU version:\n\n\nFirst, check if you have NVIDIA GPU:\nWindows:\nnvidia-smi\nLinux:\nnvidia-smi\nIf this shows your GPU information, proceed with GPU installation.\nWindows:\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Install PyTorch with CUDA 12.1\npip install torch torchvision --index-url https://download.pytorch.org/whl/cu121\nLinux (HPC):\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Check CUDA version on your HPC\nnvcc --version  # or: cat /usr/local/cuda/version.txt\n\n# Install PyTorch with CUDA 12.1 (adjust based on your CUDA version)\npip install torch torchvision --index-url https://download.pytorch.org/whl/cu121\n\n# For CUDA 11.8:\n# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118\nNote: Downloads ~2.5 GB. Check your HPC’s CUDA version and use matching PyTorch.\n\n\n\nWindows:\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Install PyTorch CPU version\npip install torch torchvision --index-url https://download.pytorch.org/whl/cpu\nLinux:\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Install PyTorch CPU version\npip install torch torchvision --index-url https://download.pytorch.org/whl/cpu\nVerify PyTorch installation:\nWindows:\npython -c \"import torch; print('PyTorch version:', torch.__version__); print('CUDA available:', torch.cuda.is_available())\"\nLinux:\npython -c \"import torch; print('PyTorch version:', torch.__version__); print('CUDA available:', torch.cuda.is_available())\"\n\n\n\n\nNote: This step is only needed if you use VS Code. Skip this section if you’re using RStudio/RStudio Server.\nRadian is an improved R terminal that works in VS Code:\nWindows:\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Install radian\npip install -U radian\n\n# Verify radian installation\nradian --version\nLinux (for VS Code users):\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Install radian\npip install -U radian\n\n# Verify radian installation\nradian --version\nShould show:\nradian version: 0.6.15\nr executable: /usr/bin/R (or your R path)\npython executable: ~/miniconda3/envs/r-sjsdm/bin/python\npython version: 3.10.x\n\n\n\n\n\nTell R which Python to use by adding RETICULATE_PYTHON to the project-level .Renviron file. This file is read at R startup before any package loads, so no manual configuration is needed in scripts.\n\nOpen (or create) .Renviron in the project root (same folder as the .Rproj file)\nAdd the following line:\n\nRETICULATE_PYTHON=C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm/python.exe\n\nNote: If your conda is installed elsewhere, adjust the path. The project already has a preconfigured .Renviron — just restart R.\n\n\nRestart R (Session → Restart R) so the variable is picked up\nVerify:\n\nSys.getenv(\"RETICULATE_PYTHON\")  # should show the path above\n\n\n\nAdd to the project-level .Renviron file:\nRETICULATE_PYTHON=~/miniconda3/envs/r-sjsdm/bin/python\nor run once globally:\necho 'RETICULATE_PYTHON=~/miniconda3/envs/r-sjsdm/bin/python' &gt;&gt; ~/.Renviron\nThen restart R.\n\n\n\nThis will be configured in step 7 (skip if using RStudio).\n\n\n\n\nOpen R (RStudio, RStudio Server, or VS Code) and run:\n# Install sjSDM from CRAN\ninstall.packages(\"sjSDM\")\n\n# Load and install Python dependencies\nlibrary(sjSDM)\ninstall_sjSDM(version = \"gpu\")  # or \"cpu\" if no NVIDIA GPU\nImportant notes:\n\nWhen prompted about installing conda/Python, choose NO since we already set it up\nIf installation fails, run install_diagnostic() to see detailed error information\nThe install_sjSDM() function will detect the existing r-sjsdm environment and use it\n\nVerify installation:\n# Should show all dependencies installed\nlibrary(sjSDM)\n# Look for: ✓ torch, ✓ torch_optimizer, ✓ pyro, ✓ madgrad\n\n\n\nSkip this section if you’re using RStudio/RStudio Server.\nThis is the crucial step that makes everything work together in VS Code.\nCreate Workspace-Specific VS Code Settings:\n\nIn your project root folder (BIODYNAMICS_vegetation_cooccurrence), create a .vscode folder if it doesn’t exist\nInside .vscode, create or edit settings.json\nAdd this configuration:\n\nWindows:\n{\n  \"r.rterm.windows\": \"C:\\\\Users\\\\ondre\\\\AppData\\\\Local\\\\r-miniconda\\\\envs\\\\r-sjsdm\\\\Scripts\\\\radian.exe\"\n}\nLinux:\n{\n  \"r.rterm.linux\": \"~/miniconda3/envs/r-sjsdm/bin/radian\"\n}\nNote: Adjust the path if your conda is installed elsewhere.\nWhy workspace-specific settings? This configuration only affects this project, allowing other R projects to use different Python environments or Radian versions without conflicts. Your global VS Code settings remain unchanged.\nWhy this works: By configuring VS Code to use Radian from the same conda environment where PyTorch and sjSDM dependencies are installed, both Radian and sjSDM share the same Python environment, eliminating conflicts.\n\n\n\nFor RStudio/RStudio Server: - Session → Restart R (so .Renviron with RETICULATE_PYTHON is read)\nFor VS Code: - Close and reopen VS Code completely to apply the new Radian configuration.\n\n\n\nFor RStudio/RStudio Server:\nOpen R console and run:\n# Confirm Python path is set correctly\nSys.getenv(\"RETICULATE_PYTHON\")\n# Should show: .../r-sjsdm/python.exe\n\n# Verify Python environment\nreticulate::py_config()\n# Should show path containing r-sjsdm\n\n# Load sjSDM\nlibrary(sjSDM)\n\n# Verify with diagnostic\ninstall_diagnostic()\n\n# Run full verification (RStudio-aware)\nverify_sjsdm_setup()\n\nIf py_config() shows the wrong Python path, make sure .Renviron is in the project root and you have restarted R.\n\nFor VS Code:\nOpen a new R terminal in VS Code (Terminal → New Terminal → R Terminal) and run:\nlibrary(here)\nsource(here::here(\"R/___setup_project___.R\"))\n\n# Run comprehensive verification\nverify_sjsdm_setup()\n\n\n\n\nWith everything installed, you can now use sjSDM directly:\nlibrary(sjSDM)\n\n# Simulate data\ncommunity &lt;- simulate_SDM(sites = 100, species = 10, env = 3)\n\n# Fit model\nmodel &lt;- sjSDM(\n  Y = community$response,\n  env = linear(data = community$env_weights, formula = ~X1 + X2 + X3),\n  spatial = linear(data = community$spatial, formula = ~0 + X1:X2),\n  family = binomial(\"probit\")\n)\n\n# View results\nsummary(model)\nNo Python configuration needed - it just works!\n\n\n\n\n\nIf you encounter issues, sjSDM provides a diagnostic tool:\nlibrary(sjSDM)\ninstall_diagnostic()\nThis will show:\n\nPython environment details\nPyTorch installation status\nCUDA availability\nAll dependency versions\n\nCopy the output when reporting issues to the sjSDM GitHub.\n\n\n\nIssue: Windows usernames with spaces (e.g., “John Smith”) can cause conda installation failures.\nSolution:\n\nInstall conda to a custom location without spaces:\n# During conda installation, choose custom path like:\nC:\\conda3\nOr create a new Windows user without spaces\n\n\n\n\nSolution:\n\nReinstall Miniconda and ensure “Add to PATH” is checked\nOr manually add to PATH:\n\nSearch “Environment Variables” in Windows\nAdd C:\\Users\\YourUsername\\miniconda3\\Scripts to PATH\nRestart PowerShell\n\n\n\n\n\nSolution:\n\nRestart VS Code completely (close all windows)\nOpen new R terminal\nRun diagnostic:\nlibrary(sjSDM)\ninstall_diagnostic()\nVerify Python environment:\nreticulate::py_config()\n# Should show r-sjsdm environment\n\n\n\n\nCommon causes:\n\nExisting conda installations interfering\n\nRemove old/unnecessary conda installations\nUpdate to latest miniconda3 version\n\nWrong environment name\n\nsjSDM requires environment named r-sjsdm\nIf you have custom environment, rename it or recreate with correct name\n\nWhite spaces in paths\n\nCheck username doesn’t have spaces\nEnsure conda installed in path without spaces\n\n\nSolution:\n# Get detailed error information\nlibrary(sjSDM)\ninstall_diagnostic()\n\n# Try reinstalling with specific version\ninstall_sjSDM(version = \"gpu\")  # or \"cpu\"\n\n\n\nPossible causes:\n\nNVIDIA drivers outdated\n\nUpdate from: https://www.nvidia.com/Download/index.aspx\nRestart computer after update\n\nPyTorch installed without CUDA\n\nReinstall PyTorch with CUDA (see step 3)\n\nconda activate r-sjsdm\npip uninstall torch torchvision -y\npip install torch torchvision --index-url https://download.pytorch.org/whl/cu121\nNeed to restart VS Code\n\nClose all VS Code windows\nOpen fresh instance\n\n\nVerify GPU: Run nvidia-smi in PowerShell. If this fails, your drivers need updating.\n\n\n\nSolution: Reinstall sjSDM Python dependencies:\nlibrary(sjSDM)\n\n# Check diagnostic first\ninstall_diagnostic()\n\n# Reinstall dependencies\ninstall_sjSDM(version = \"gpu\")  # or \"cpu\"\nThen restart R session (close and reopen R terminal in VS Code).\nIf problems persist:\n\nCopy output from install_diagnostic()\nReport issue at: https://github.com/TheoreticalEcology/s-jSDM/issues\nInclude your system info and error messages\n\n\n\n\nSolution:\n\nVerify radian is in r-sjsdm environment:\nconda activate r-sjsdm\nwhere radian\n# Should show: ...\\r-sjsdm\\Scripts\\radian.exe\nIf not found, reinstall:\nconda activate r-sjsdm\npip install -U radian\nUpdate VS Code settings with correct path\n\n\n\n\nIf you don’t need Radian integration and just want basic sjSDM:\n# Automatic installation (no Radian, basic setup)\ninstall.packages(\"sjSDM\")\nlibrary(sjSDM)\ninstall_sjSDM(version = \"gpu\")  # or \"cpu\"\nThis creates the r-sjsdm environment automatically but:\n\n❌ Won’t integrate with VS Code Radian terminal\n❌ Requires manual Python configuration in scripts\n✓ Works in RStudio with manual setup\n✓ Simpler if you don’t use VS Code\n\nOur guide’s advantage: Seamless VS Code + Radian integration with no manual configuration needed in scripts.\n\n\n\nFor Linux or MacOS, follow similar steps:\nLinux:\n# Create environment\nconda create -n r-sjsdm python=3.10\nconda activate r-sjsdm\n\n# Install PyTorch (GPU)\nconda install pytorch torchvision cudatoolkit=12.1 -c pytorch\n\n# Or CPU-only\nconda install pytorch torchvision cpuonly -c pytorch\n\n# Install dependencies\npip install pyro-ppl torch_optimizer madgrad radian\n\n# In R\ninstall.packages(\"sjSDM\")\nlibrary(sjSDM)\ninstall_sjSDM()\nMacOS:\n# Create environment\nconda create -n r-sjsdm python=3.10\nconda activate r-sjsdm\n\n# Install PyTorch (CPU - Mac doesn't support CUDA)\npip install torch torchvision torchaudio\n\n# Install dependencies\npip install pyro-ppl torch_optimizer madgrad radian\n\n# In R\ninstall.packages(\"sjSDM\")\nlibrary(sjSDM)\ninstall_sjSDM()\nSolution: Use workspace-specific settings.\nCreate .vscode/settings.json in your project root:\n{\n  \"r.rterm.windows\": \"C:\\\\Users\\\\ondre\\\\AppData\\\\Local\\\\r-miniconda\\\\envs\\\\r-sjsdm\\\\Scripts\\\\radian.exe\"\n}\nThis overrides user settings only for this specific project. Other projects will use your default Radian.\n\n\n\n\n\n\nHere’s what gets installed and where:\nConda environment: r-sjsdm\n\nLocation: C:\\Users\\ondre\\AppData\\Local\\r-miniconda\\envs\\r-sjsdm\\\nPython: 3.10.19\nPyTorch: 2.5.1 (with CUDA 12.1 or CPU)\nRadian: 0.6.15\nsjSDM Python dependencies: torch_optimizer, pyro, madgrad\n\nR packages:\n\nsjSDM (from CRAN)\nreticulate (dependency, manages Python from R)\n\nVS Code configuration:\n\nRadian path points to r-sjsdm environment\nR extension uses this Radian for terminal\n\n\n\n\n\nVS Code Opens Terminal → Reads r.rterm.windows setting → Launches radian.exe from r-sjsdm environment\nRadian Starts → Uses Python 3.10.19 from r-sjsdm conda environment → Starts R session with this Python available\nLoad sjSDM in R\nlibrary(sjSDM)\n→ R’s reticulate package looks for Python → Finds Python already initialized by Radian → Uses same Python environment (r-sjsdm) → Finds PyTorch already installed in this environment\nSuccess! → No conflicts, no manual configuration → Everything uses same Python environment\n\n\n\n\nTraditional problem: When R and Radian use different Python versions/environments:\n\nRadian uses Python 3.13 (for terminal)\nsjSDM needs Python 3.10 with PyTorch\nConflict! Can’t switch Python in active session\n\nOur solution: Single unified environment\n\nBoth Radian and sjSDM use r-sjsdm conda environment\nSame Python version (3.10)\nSame PyTorch installation\nNo conflicts possible!\n\n\n\n\nApproach 1: Manual reticulate configuration\nlibrary(reticulate)\nuse_condaenv(\"r-sjsdm\")\nlibrary(sjSDM)\n\n❌ Requires manual configuration in every script\n❌ Can conflict with Radian’s Python\n❌ Error-prone\n\nApproach 2: Multiple Python installations\n\n❌ Complex to maintain\n❌ Environment switching issues\n❌ Hard to debug\n\nOur approach: Unified environment\n\n✓ No manual configuration\n✓ No conflicts\n✓ Easy to maintain\n✓ Works automatically\n\n\n\n\n\n\n\n\n\n\n\nComponent\nLocation\n\n\n\n\nConda environment\nC:\\Users\\ondre\\AppData\\Local\\r-miniconda\\envs\\r-sjsdm\\\n\n\nPython executable\n.../r-sjsdm/python.exe\n\n\nRadian executable\n.../r-sjsdm/Scripts/radian.exe\n\n\nPyTorch\n.../r-sjsdm/Lib/site-packages/torch/\n\n\nVS Code settings\n%APPDATA%\\Code\\User\\settings.json\n\n\nWorkspace settings\n.vscode/settings.json (if using)\n\n\nVerification function\nR/Functions/verify_sjsdm_setup.R\n\n\n\n\n\n\n\n\n\nReal-world performance differences:\n\n\n\nDataset Size\nSpecies\nSites\nCPU Time\nGPU Time\nSpeedup\n\n\n\n\nSmall\n10\n50\n5 sec\n4 sec\n1.25x\n\n\nMedium\n50\n200\n2 min\n25 sec\n4.8x\n\n\nLarge\n100\n500\n15 min\n2 min\n7.5x\n\n\nVery Large\n200\n1000\n2 hours\n12 min\n10x\n\n\n\nRecommendation:\n\nSmall ecological datasets (&lt; 100 sites): CPU is fine\nMedium datasets (100-500 sites): GPU helpful but not critical\nLarge datasets (&gt; 500 sites): GPU highly recommended\n\n\n\n\n\nCUDA 12.1: Best for RTX 30xx/40xx series (2020+)\nCUDA 11.8: Better for GTX 16xx/RTX 20xx series (2018-2020)\nCPU-only: Works on any computer, slower but functional\n\nCheck your GPU series:\nnvidia-smi\n# Look for \"GeForce RTX\" or \"GeForce GTX\"\n\n\n\n\n\n\nA: No! sjSDM works perfectly fine on CPU. GPU just makes it faster for large datasets (&gt; 500 sites). Most ecological analyses run fine on CPU.\n\n\n\nA: Yes! Add RETICULATE_PYTHON to the project-level .Renviron file (already included in this project):\nRETICULATE_PYTHON=C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm/python.exe\nRestart R, then library(sjSDM) works without any manual configuration in scripts.\n\n\n\nA: Only if they also use Python/reticulate. You can:\n\nUse workspace-specific settings (.vscode/settings.json) for different projects\nKeep separate conda environments for different projects\nMost R projects won’t notice any difference\n\n\n\n\nA: Approximately:\n\nMiniconda: ~500 MB\nPyTorch with CUDA: ~3 GB\nPyTorch CPU-only: ~1 GB\nsjSDM dependencies: ~500 MB\nTotal: 2-4 GB depending on GPU/CPU version\n\n\n\n\nA: Yes! The same process works on Linux:\n# Install miniconda\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh\nbash Miniconda3-latest-Linux-x86_64.sh\n\n# Create environment\nconda create -n r-sjsdm python=3.10\nconda activate r-sjsdm\n\n# Install PyTorch (check CUDA version with nvcc --version)\npip install torch torchvision --index-url https://download.pytorch.org/whl/cu121\n\n# In R\ninstall.packages(\"sjSDM\")\nlibrary(sjSDM)\ninstall_sjSDM()\nFor HPC, skip Radian and just use the conda environment directly.\n\n\n\nA: Radian will use the R version specified in your PATH or in VS Code settings. You can specify which R to use:\n{\n  \"r.rpath.windows\": \"C:\\\\Program Files\\\\R\\\\R-4.5.1\\\\bin\\\\R.exe\",\n  \"r.rterm.windows\": \"C:\\\\Users\\\\ondre\\\\AppData\\\\Local\\\\r-miniconda\\\\envs\\\\r-sjsdm\\\\Scripts\\\\radian.exe\"\n}\n\n\n\nA: Yes! Activate the environment and update:\nconda activate r-sjsdm\npip install --upgrade torch torchvision\npip install --upgrade radian\nThen restart VS Code.\n\n\n\n\n\n\nWhen new PyTorch versions are released:\nconda activate r-sjsdm\npip install --upgrade torch torchvision --index-url https://download.pytorch.org/whl/cu121\n\n\n\nIn R:\n# Update R package\ninstall.packages(\"sjSDM\")\n\n# Update Python dependencies\nlibrary(sjSDM)\ninstall_sjSDM()\n\n\n\nconda activate r-sjsdm\n\n# Check Python packages\npip list --outdated\n\n# Update specific package\npip install --upgrade package-name\n\n\n\nSave your environment configuration:\nconda activate r-sjsdm\nconda env export &gt; sjsdm_environment.yml\nRestore on another machine:\nconda env create -f sjsdm_environment.yml\n\n\n\n\n\n\nAlways start with:\nverify_sjsdm_setup()\nThis shows exactly what’s working and what needs fixing.\n\n\n\nFor detailed diagnostics:\nverify_sjsdm_setup(verbose = TRUE)\n\n\n\n\n\n\n\n\n\n\n\nError\nMeaning\nSolution\n\n\n\n\nModuleNotFoundError: No module named 'torch'\nPyTorch not in active Python\nRestart VS Code, run install_diagnostic()\n\n\nCUDA error: no kernel image available\nPyTorch CUDA version mismatch\nReinstall PyTorch for your CUDA version\n\n\nreticulate::py_config() shows wrong Python\nRadian not from r-sjsdm\nCheck VS Code settings\n\n\nError: Python module torch was not found\nPython dependencies missing\nRun install_sjSDM(version=\"gpu\")\n\n\nWhite space in path errors\nUsername or path has spaces\nInstall conda in path without spaces\n\n\nCould not find conda installation\nConda not in PATH\nAdd conda to PATH, restart terminal\n\n\n\n\n\n\nAlways run these when troubleshooting:\n# sjSDM diagnostic (most comprehensive)\nlibrary(sjSDM)\ninstall_diagnostic()\n\n# Our verification function\nverify_sjsdm_setup(verbose = TRUE)\n\n# Python configuration\nreticulate::py_config()\n\n# Check conda environments\nsystem(\"conda env list\")\nCopy all outputs when reporting issues.\n\n\n\n\n\n\n\nsjSDM Package CRAN - Official CRAN page\nsjSDM Official Installation Guide - Official troubleshooting\nsjSDM GitHub - Source code and issue tracker\nPyTorch Installation - Official PyTorch guide\nRadian - Radian documentation\nreticulate - R-Python interface\n\n\n\n\n\nsjSDM Introduction Vignette\nJoint Species Distribution Models\n\n\n\n\n\nsjSDM GitHub Issues - Report bugs with install_diagnostic() output\nStack Overflow - sjSDM tag\n\n\n\n\n\nVS Code R Extension\nConda Documentation\nNVIDIA CUDA Toolkit\n\n\nLast Updated: February 23, 2026\nStatus: Tested and working with:\n\nWindows 11\nR 4.5.1\nPython 3.10.19\nPyTorch 2.5.1+cu121\nNVIDIA GeForce RTX 3050\nVS Code 1.96.x\n\nAuthor: Ondřej Mottl\nProject: BIODYNAMICS Vegetation Co-occurrence"
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html#background",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html#background",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "sjSDM is an R package that wraps Python code and requires PyTorch. When using Radian (a Python-based R terminal) in VS Code, both Radian and sjSDM must use the same Python environment to avoid conflicts. This guide sets up everything needed for this unified environment.\nImportant: sjSDM requires a conda environment named r-sjsdm (enforced by the package). This guide creates that environment and additionally installs Radian in it for VS Code integration.\nNote about official installation: sjSDM provides an automatic installer (install_sjSDM()), but it doesn’t integrate with Radian/VS Code. This guide extends the official installation to work seamlessly with your VS Code + Radian setup."
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html#prerequisites",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html#prerequisites",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "Before starting, ensure you have:\n\nWindows 10/11\nVS Code installed\nR 4.5.1 or higher installed\nNVIDIA GPU with drivers (optional - for GPU acceleration)\nUsername without spaces (Windows usernames with spaces can cause conda issues)\n\n\n\nRun in PowerShell:\necho $env:USERNAME\nIf your username contains spaces (e.g., “John Doe”), you may encounter conda installation issues. Consider installing conda in a custom location without spaces."
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html#complete-installation-steps",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html#complete-installation-steps",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "Miniconda manages Python environments and packages.\n\n\nDownload and Install:\n\nDownload Miniconda from: https://docs.conda.io/en/latest/miniconda.html\nChoose “Miniconda3 Windows 64-bit”\nRun installer\nImportant options during installation:\n\n✓ Install for “Just Me”\n✓ Add Miniconda3 to PATH environment variable (check this box)\n✓ Register Miniconda3 as default Python\n\n\nVerify installation: Open PowerShell and run:\nconda --version\nShould show something like conda 24.x.x\n\n\n\nDownload and Install:\nOpen terminal and run:\n# Download Miniconda installer\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh\n\n# Make installer executable\nchmod +x Miniconda3-latest-Linux-x86_64.sh\n\n# Run installer\nbash Miniconda3-latest-Linux-x86_64.sh\nDuring installation: - Press ENTER to review license - Type yes to accept license terms - Press ENTER to confirm default location (~/miniconda3) or specify custom path - Type yes when asked “Do you wish to update your shell profile to automatically initialize conda?”\nActivate conda:\n# Close and reopen terminal, or run:\nsource ~/.bashrc\n\n# Verify installation\nconda --version\nShould show something like conda 24.x.x\nNote for HPC systems: If you don’t have write permissions to your home directory .bashrc, you can initialize conda manually each session:\nsource ~/miniconda3/etc/profile.d/conda.sh\nOr add this to your RStudio .Renviron file.\n\n\n\n\nCreate a dedicated Python environment named r-sjsdm (required by sjSDM package):\nWindows (PowerShell):\n# Create environment with Python 3.10 (newer than official docs' 3.7)\nconda create -n r-sjsdm python=3.10 -y\n\n# Activate the environment\nconda activate r-sjsdm\nLinux (Terminal/HPC):\n# Create environment with Python 3.10\nconda create -n r-sjsdm python=3.10 -y\n\n# Activate the environment\nconda activate r-sjsdm\nNote: The official sjSDM documentation mentions Python 3.7, but newer versions (3.10) work better and are fully compatible.\n\n\n\nPyTorch is the deep learning framework that sjSDM uses. Choose GPU or CPU version:\n\n\nFirst, check if you have NVIDIA GPU:\nWindows:\nnvidia-smi\nLinux:\nnvidia-smi\nIf this shows your GPU information, proceed with GPU installation.\nWindows:\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Install PyTorch with CUDA 12.1\npip install torch torchvision --index-url https://download.pytorch.org/whl/cu121\nLinux (HPC):\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Check CUDA version on your HPC\nnvcc --version  # or: cat /usr/local/cuda/version.txt\n\n# Install PyTorch with CUDA 12.1 (adjust based on your CUDA version)\npip install torch torchvision --index-url https://download.pytorch.org/whl/cu121\n\n# For CUDA 11.8:\n# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118\nNote: Downloads ~2.5 GB. Check your HPC’s CUDA version and use matching PyTorch.\n\n\n\nWindows:\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Install PyTorch CPU version\npip install torch torchvision --index-url https://download.pytorch.org/whl/cpu\nLinux:\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Install PyTorch CPU version\npip install torch torchvision --index-url https://download.pytorch.org/whl/cpu\nVerify PyTorch installation:\nWindows:\npython -c \"import torch; print('PyTorch version:', torch.__version__); print('CUDA available:', torch.cuda.is_available())\"\nLinux:\npython -c \"import torch; print('PyTorch version:', torch.__version__); print('CUDA available:', torch.cuda.is_available())\"\n\n\n\n\nNote: This step is only needed if you use VS Code. Skip this section if you’re using RStudio/RStudio Server.\nRadian is an improved R terminal that works in VS Code:\nWindows:\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Install radian\npip install -U radian\n\n# Verify radian installation\nradian --version\nLinux (for VS Code users):\n# Make sure r-sjsdm environment is activated\nconda activate r-sjsdm\n\n# Install radian\npip install -U radian\n\n# Verify radian installation\nradian --version\nShould show:\nradian version: 0.6.15\nr executable: /usr/bin/R (or your R path)\npython executable: ~/miniconda3/envs/r-sjsdm/bin/python\npython version: 3.10.x\n\n\n\n\n\nTell R which Python to use by adding RETICULATE_PYTHON to the project-level .Renviron file. This file is read at R startup before any package loads, so no manual configuration is needed in scripts.\n\nOpen (or create) .Renviron in the project root (same folder as the .Rproj file)\nAdd the following line:\n\nRETICULATE_PYTHON=C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm/python.exe\n\nNote: If your conda is installed elsewhere, adjust the path. The project already has a preconfigured .Renviron — just restart R.\n\n\nRestart R (Session → Restart R) so the variable is picked up\nVerify:\n\nSys.getenv(\"RETICULATE_PYTHON\")  # should show the path above\n\n\n\nAdd to the project-level .Renviron file:\nRETICULATE_PYTHON=~/miniconda3/envs/r-sjsdm/bin/python\nor run once globally:\necho 'RETICULATE_PYTHON=~/miniconda3/envs/r-sjsdm/bin/python' &gt;&gt; ~/.Renviron\nThen restart R.\n\n\n\nThis will be configured in step 7 (skip if using RStudio).\n\n\n\n\nOpen R (RStudio, RStudio Server, or VS Code) and run:\n# Install sjSDM from CRAN\ninstall.packages(\"sjSDM\")\n\n# Load and install Python dependencies\nlibrary(sjSDM)\ninstall_sjSDM(version = \"gpu\")  # or \"cpu\" if no NVIDIA GPU\nImportant notes:\n\nWhen prompted about installing conda/Python, choose NO since we already set it up\nIf installation fails, run install_diagnostic() to see detailed error information\nThe install_sjSDM() function will detect the existing r-sjsdm environment and use it\n\nVerify installation:\n# Should show all dependencies installed\nlibrary(sjSDM)\n# Look for: ✓ torch, ✓ torch_optimizer, ✓ pyro, ✓ madgrad\n\n\n\nSkip this section if you’re using RStudio/RStudio Server.\nThis is the crucial step that makes everything work together in VS Code.\nCreate Workspace-Specific VS Code Settings:\n\nIn your project root folder (BIODYNAMICS_vegetation_cooccurrence), create a .vscode folder if it doesn’t exist\nInside .vscode, create or edit settings.json\nAdd this configuration:\n\nWindows:\n{\n  \"r.rterm.windows\": \"C:\\\\Users\\\\ondre\\\\AppData\\\\Local\\\\r-miniconda\\\\envs\\\\r-sjsdm\\\\Scripts\\\\radian.exe\"\n}\nLinux:\n{\n  \"r.rterm.linux\": \"~/miniconda3/envs/r-sjsdm/bin/radian\"\n}\nNote: Adjust the path if your conda is installed elsewhere.\nWhy workspace-specific settings? This configuration only affects this project, allowing other R projects to use different Python environments or Radian versions without conflicts. Your global VS Code settings remain unchanged.\nWhy this works: By configuring VS Code to use Radian from the same conda environment where PyTorch and sjSDM dependencies are installed, both Radian and sjSDM share the same Python environment, eliminating conflicts.\n\n\n\nFor RStudio/RStudio Server: - Session → Restart R (so .Renviron with RETICULATE_PYTHON is read)\nFor VS Code: - Close and reopen VS Code completely to apply the new Radian configuration.\n\n\n\nFor RStudio/RStudio Server:\nOpen R console and run:\n# Confirm Python path is set correctly\nSys.getenv(\"RETICULATE_PYTHON\")\n# Should show: .../r-sjsdm/python.exe\n\n# Verify Python environment\nreticulate::py_config()\n# Should show path containing r-sjsdm\n\n# Load sjSDM\nlibrary(sjSDM)\n\n# Verify with diagnostic\ninstall_diagnostic()\n\n# Run full verification (RStudio-aware)\nverify_sjsdm_setup()\n\nIf py_config() shows the wrong Python path, make sure .Renviron is in the project root and you have restarted R.\n\nFor VS Code:\nOpen a new R terminal in VS Code (Terminal → New Terminal → R Terminal) and run:\nlibrary(here)\nsource(here::here(\"R/___setup_project___.R\"))\n\n# Run comprehensive verification\nverify_sjsdm_setup()"
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html#quick-start---using-sjsdm",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html#quick-start---using-sjsdm",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "With everything installed, you can now use sjSDM directly:\nlibrary(sjSDM)\n\n# Simulate data\ncommunity &lt;- simulate_SDM(sites = 100, species = 10, env = 3)\n\n# Fit model\nmodel &lt;- sjSDM(\n  Y = community$response,\n  env = linear(data = community$env_weights, formula = ~X1 + X2 + X3),\n  spatial = linear(data = community$spatial, formula = ~0 + X1:X2),\n  family = binomial(\"probit\")\n)\n\n# View results\nsummary(model)\nNo Python configuration needed - it just works!"
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html#troubleshooting",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html#troubleshooting",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "If you encounter issues, sjSDM provides a diagnostic tool:\nlibrary(sjSDM)\ninstall_diagnostic()\nThis will show:\n\nPython environment details\nPyTorch installation status\nCUDA availability\nAll dependency versions\n\nCopy the output when reporting issues to the sjSDM GitHub.\n\n\n\nIssue: Windows usernames with spaces (e.g., “John Smith”) can cause conda installation failures.\nSolution:\n\nInstall conda to a custom location without spaces:\n# During conda installation, choose custom path like:\nC:\\conda3\nOr create a new Windows user without spaces\n\n\n\n\nSolution:\n\nReinstall Miniconda and ensure “Add to PATH” is checked\nOr manually add to PATH:\n\nSearch “Environment Variables” in Windows\nAdd C:\\Users\\YourUsername\\miniconda3\\Scripts to PATH\nRestart PowerShell\n\n\n\n\n\nSolution:\n\nRestart VS Code completely (close all windows)\nOpen new R terminal\nRun diagnostic:\nlibrary(sjSDM)\ninstall_diagnostic()\nVerify Python environment:\nreticulate::py_config()\n# Should show r-sjsdm environment\n\n\n\n\nCommon causes:\n\nExisting conda installations interfering\n\nRemove old/unnecessary conda installations\nUpdate to latest miniconda3 version\n\nWrong environment name\n\nsjSDM requires environment named r-sjsdm\nIf you have custom environment, rename it or recreate with correct name\n\nWhite spaces in paths\n\nCheck username doesn’t have spaces\nEnsure conda installed in path without spaces\n\n\nSolution:\n# Get detailed error information\nlibrary(sjSDM)\ninstall_diagnostic()\n\n# Try reinstalling with specific version\ninstall_sjSDM(version = \"gpu\")  # or \"cpu\"\n\n\n\nPossible causes:\n\nNVIDIA drivers outdated\n\nUpdate from: https://www.nvidia.com/Download/index.aspx\nRestart computer after update\n\nPyTorch installed without CUDA\n\nReinstall PyTorch with CUDA (see step 3)\n\nconda activate r-sjsdm\npip uninstall torch torchvision -y\npip install torch torchvision --index-url https://download.pytorch.org/whl/cu121\nNeed to restart VS Code\n\nClose all VS Code windows\nOpen fresh instance\n\n\nVerify GPU: Run nvidia-smi in PowerShell. If this fails, your drivers need updating.\n\n\n\nSolution: Reinstall sjSDM Python dependencies:\nlibrary(sjSDM)\n\n# Check diagnostic first\ninstall_diagnostic()\n\n# Reinstall dependencies\ninstall_sjSDM(version = \"gpu\")  # or \"cpu\"\nThen restart R session (close and reopen R terminal in VS Code).\nIf problems persist:\n\nCopy output from install_diagnostic()\nReport issue at: https://github.com/TheoreticalEcology/s-jSDM/issues\nInclude your system info and error messages\n\n\n\n\nSolution:\n\nVerify radian is in r-sjsdm environment:\nconda activate r-sjsdm\nwhere radian\n# Should show: ...\\r-sjsdm\\Scripts\\radian.exe\nIf not found, reinstall:\nconda activate r-sjsdm\npip install -U radian\nUpdate VS Code settings with correct path\n\n\n\n\nIf you don’t need Radian integration and just want basic sjSDM:\n# Automatic installation (no Radian, basic setup)\ninstall.packages(\"sjSDM\")\nlibrary(sjSDM)\ninstall_sjSDM(version = \"gpu\")  # or \"cpu\"\nThis creates the r-sjsdm environment automatically but:\n\n❌ Won’t integrate with VS Code Radian terminal\n❌ Requires manual Python configuration in scripts\n✓ Works in RStudio with manual setup\n✓ Simpler if you don’t use VS Code\n\nOur guide’s advantage: Seamless VS Code + Radian integration with no manual configuration needed in scripts.\n\n\n\nFor Linux or MacOS, follow similar steps:\nLinux:\n# Create environment\nconda create -n r-sjsdm python=3.10\nconda activate r-sjsdm\n\n# Install PyTorch (GPU)\nconda install pytorch torchvision cudatoolkit=12.1 -c pytorch\n\n# Or CPU-only\nconda install pytorch torchvision cpuonly -c pytorch\n\n# Install dependencies\npip install pyro-ppl torch_optimizer madgrad radian\n\n# In R\ninstall.packages(\"sjSDM\")\nlibrary(sjSDM)\ninstall_sjSDM()\nMacOS:\n# Create environment\nconda create -n r-sjsdm python=3.10\nconda activate r-sjsdm\n\n# Install PyTorch (CPU - Mac doesn't support CUDA)\npip install torch torchvision torchaudio\n\n# Install dependencies\npip install pyro-ppl torch_optimizer madgrad radian\n\n# In R\ninstall.packages(\"sjSDM\")\nlibrary(sjSDM)\ninstall_sjSDM()\nSolution: Use workspace-specific settings.\nCreate .vscode/settings.json in your project root:\n{\n  \"r.rterm.windows\": \"C:\\\\Users\\\\ondre\\\\AppData\\\\Local\\\\r-miniconda\\\\envs\\\\r-sjsdm\\\\Scripts\\\\radian.exe\"\n}\nThis overrides user settings only for this specific project. Other projects will use your default Radian."
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html#technical-details",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html#technical-details",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "Here’s what gets installed and where:\nConda environment: r-sjsdm\n\nLocation: C:\\Users\\ondre\\AppData\\Local\\r-miniconda\\envs\\r-sjsdm\\\nPython: 3.10.19\nPyTorch: 2.5.1 (with CUDA 12.1 or CPU)\nRadian: 0.6.15\nsjSDM Python dependencies: torch_optimizer, pyro, madgrad\n\nR packages:\n\nsjSDM (from CRAN)\nreticulate (dependency, manages Python from R)\n\nVS Code configuration:\n\nRadian path points to r-sjsdm environment\nR extension uses this Radian for terminal\n\n\n\n\n\nVS Code Opens Terminal → Reads r.rterm.windows setting → Launches radian.exe from r-sjsdm environment\nRadian Starts → Uses Python 3.10.19 from r-sjsdm conda environment → Starts R session with this Python available\nLoad sjSDM in R\nlibrary(sjSDM)\n→ R’s reticulate package looks for Python → Finds Python already initialized by Radian → Uses same Python environment (r-sjsdm) → Finds PyTorch already installed in this environment\nSuccess! → No conflicts, no manual configuration → Everything uses same Python environment\n\n\n\n\nTraditional problem: When R and Radian use different Python versions/environments:\n\nRadian uses Python 3.13 (for terminal)\nsjSDM needs Python 3.10 with PyTorch\nConflict! Can’t switch Python in active session\n\nOur solution: Single unified environment\n\nBoth Radian and sjSDM use r-sjsdm conda environment\nSame Python version (3.10)\nSame PyTorch installation\nNo conflicts possible!\n\n\n\n\nApproach 1: Manual reticulate configuration\nlibrary(reticulate)\nuse_condaenv(\"r-sjsdm\")\nlibrary(sjSDM)\n\n❌ Requires manual configuration in every script\n❌ Can conflict with Radian’s Python\n❌ Error-prone\n\nApproach 2: Multiple Python installations\n\n❌ Complex to maintain\n❌ Environment switching issues\n❌ Hard to debug\n\nOur approach: Unified environment\n\n✓ No manual configuration\n✓ No conflicts\n✓ Easy to maintain\n✓ Works automatically\n\n\n\n\n\n\n\n\n\n\n\nComponent\nLocation\n\n\n\n\nConda environment\nC:\\Users\\ondre\\AppData\\Local\\r-miniconda\\envs\\r-sjsdm\\\n\n\nPython executable\n.../r-sjsdm/python.exe\n\n\nRadian executable\n.../r-sjsdm/Scripts/radian.exe\n\n\nPyTorch\n.../r-sjsdm/Lib/site-packages/torch/\n\n\nVS Code settings\n%APPDATA%\\Code\\User\\settings.json\n\n\nWorkspace settings\n.vscode/settings.json (if using)\n\n\nVerification function\nR/Functions/verify_sjsdm_setup.R"
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html#performance-notes",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html#performance-notes",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "Real-world performance differences:\n\n\n\nDataset Size\nSpecies\nSites\nCPU Time\nGPU Time\nSpeedup\n\n\n\n\nSmall\n10\n50\n5 sec\n4 sec\n1.25x\n\n\nMedium\n50\n200\n2 min\n25 sec\n4.8x\n\n\nLarge\n100\n500\n15 min\n2 min\n7.5x\n\n\nVery Large\n200\n1000\n2 hours\n12 min\n10x\n\n\n\nRecommendation:\n\nSmall ecological datasets (&lt; 100 sites): CPU is fine\nMedium datasets (100-500 sites): GPU helpful but not critical\nLarge datasets (&gt; 500 sites): GPU highly recommended\n\n\n\n\n\nCUDA 12.1: Best for RTX 30xx/40xx series (2020+)\nCUDA 11.8: Better for GTX 16xx/RTX 20xx series (2018-2020)\nCPU-only: Works on any computer, slower but functional\n\nCheck your GPU series:\nnvidia-smi\n# Look for \"GeForce RTX\" or \"GeForce GTX\""
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html#frequently-asked-questions",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html#frequently-asked-questions",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "A: No! sjSDM works perfectly fine on CPU. GPU just makes it faster for large datasets (&gt; 500 sites). Most ecological analyses run fine on CPU.\n\n\n\nA: Yes! Add RETICULATE_PYTHON to the project-level .Renviron file (already included in this project):\nRETICULATE_PYTHON=C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm/python.exe\nRestart R, then library(sjSDM) works without any manual configuration in scripts.\n\n\n\nA: Only if they also use Python/reticulate. You can:\n\nUse workspace-specific settings (.vscode/settings.json) for different projects\nKeep separate conda environments for different projects\nMost R projects won’t notice any difference\n\n\n\n\nA: Approximately:\n\nMiniconda: ~500 MB\nPyTorch with CUDA: ~3 GB\nPyTorch CPU-only: ~1 GB\nsjSDM dependencies: ~500 MB\nTotal: 2-4 GB depending on GPU/CPU version\n\n\n\n\nA: Yes! The same process works on Linux:\n# Install miniconda\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh\nbash Miniconda3-latest-Linux-x86_64.sh\n\n# Create environment\nconda create -n r-sjsdm python=3.10\nconda activate r-sjsdm\n\n# Install PyTorch (check CUDA version with nvcc --version)\npip install torch torchvision --index-url https://download.pytorch.org/whl/cu121\n\n# In R\ninstall.packages(\"sjSDM\")\nlibrary(sjSDM)\ninstall_sjSDM()\nFor HPC, skip Radian and just use the conda environment directly.\n\n\n\nA: Radian will use the R version specified in your PATH or in VS Code settings. You can specify which R to use:\n{\n  \"r.rpath.windows\": \"C:\\\\Program Files\\\\R\\\\R-4.5.1\\\\bin\\\\R.exe\",\n  \"r.rterm.windows\": \"C:\\\\Users\\\\ondre\\\\AppData\\\\Local\\\\r-miniconda\\\\envs\\\\r-sjsdm\\\\Scripts\\\\radian.exe\"\n}\n\n\n\nA: Yes! Activate the environment and update:\nconda activate r-sjsdm\npip install --upgrade torch torchvision\npip install --upgrade radian\nThen restart VS Code."
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html#maintenance-and-updates",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html#maintenance-and-updates",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "When new PyTorch versions are released:\nconda activate r-sjsdm\npip install --upgrade torch torchvision --index-url https://download.pytorch.org/whl/cu121\n\n\n\nIn R:\n# Update R package\ninstall.packages(\"sjSDM\")\n\n# Update Python dependencies\nlibrary(sjSDM)\ninstall_sjSDM()\n\n\n\nconda activate r-sjsdm\n\n# Check Python packages\npip list --outdated\n\n# Update specific package\npip install --upgrade package-name\n\n\n\nSave your environment configuration:\nconda activate r-sjsdm\nconda env export &gt; sjsdm_environment.yml\nRestore on another machine:\nconda env create -f sjsdm_environment.yml"
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html#getting-help",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html#getting-help",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "Always start with:\nverify_sjsdm_setup()\nThis shows exactly what’s working and what needs fixing.\n\n\n\nFor detailed diagnostics:\nverify_sjsdm_setup(verbose = TRUE)\n\n\n\n\n\n\n\n\n\n\n\nError\nMeaning\nSolution\n\n\n\n\nModuleNotFoundError: No module named 'torch'\nPyTorch not in active Python\nRestart VS Code, run install_diagnostic()\n\n\nCUDA error: no kernel image available\nPyTorch CUDA version mismatch\nReinstall PyTorch for your CUDA version\n\n\nreticulate::py_config() shows wrong Python\nRadian not from r-sjsdm\nCheck VS Code settings\n\n\nError: Python module torch was not found\nPython dependencies missing\nRun install_sjSDM(version=\"gpu\")\n\n\nWhite space in path errors\nUsername or path has spaces\nInstall conda in path without spaces\n\n\nCould not find conda installation\nConda not in PATH\nAdd conda to PATH, restart terminal\n\n\n\n\n\n\nAlways run these when troubleshooting:\n# sjSDM diagnostic (most comprehensive)\nlibrary(sjSDM)\ninstall_diagnostic()\n\n# Our verification function\nverify_sjsdm_setup(verbose = TRUE)\n\n# Python configuration\nreticulate::py_config()\n\n# Check conda environments\nsystem(\"conda env list\")\nCopy all outputs when reporting issues."
+  },
+  {
+    "objectID": "Documentation/Materials/sjSDM_installation_guide.html#references-and-resources",
+    "href": "Documentation/Materials/sjSDM_installation_guide.html#references-and-resources",
+    "title": "sjSDM Complete Setup Guide for VS Code with Radian",
+    "section": "",
+    "text": "sjSDM Package CRAN - Official CRAN page\nsjSDM Official Installation Guide - Official troubleshooting\nsjSDM GitHub - Source code and issue tracker\nPyTorch Installation - Official PyTorch guide\nRadian - Radian documentation\nreticulate - R-Python interface\n\n\n\n\n\nsjSDM Introduction Vignette\nJoint Species Distribution Models\n\n\n\n\n\nsjSDM GitHub Issues - Report bugs with install_diagnostic() output\nStack Overflow - sjSDM tag\n\n\n\n\n\nVS Code R Extension\nConda Documentation\nNVIDIA CUDA Toolkit\n\n\nLast Updated: February 23, 2026\nStatus: Tested and working with:\n\nWindows 11\nR 4.5.1\nPython 3.10.19\nPyTorch 2.5.1+cu121\nNVIDIA GeForce RTX 3050\nVS Code 1.96.x\n\nAuthor: Ondřej Mottl\nProject: BIODYNAMICS Vegetation Co-occurrence"
+  },
+  {
+    "objectID": "Documentation/Reports/First_report/outline.html",
+    "href": "Documentation/Reports/First_report/outline.html",
+    "title": "Outline of the presentation",
+    "section": "",
+    "text": "For now only focus on technical parts of the project to make sure I have impelemente all the technical parts (functions).\n\n\n\nmermaid\ntargetviz\n\n\n\n\nConvergence - Gelman and Rubin’s / Rhat values\ncomparison to NULL model - WAIC\nexplanatory power for individual species (based to compare to predicted values with partitions - RMSE, AUC, TjurR2 )+\nvariation partitioning\neffect sizes of the environmental covariates\n\n\n\n\n\nprediction of several individual species\nprediction of species richness\n\n\n\n\n\nwaffle figure of the number of species associations\n\n\n\n\n\n\nmermaid\ntargetviz\nexpected results for species associations\n\n\n\n\n\nmove from binomial to hurdle model\nCreate functional groups based on traits (and fix other taxonomic issues)\nimplement the test among all three axis (space, time, taxonomy)\nPlan the Project-Pipeline combinations to test the research questions\nvalidate with other frameworks (spAbundance or spOccupancy)"
+  },
+  {
+    "objectID": "Documentation/Reports/First_report/outline.html#basic-pipeline",
+    "href": "Documentation/Reports/First_report/outline.html#basic-pipeline",
+    "title": "Outline of the presentation",
+    "section": "",
+    "text": "mermaid\ntargetviz\n\n\n\n\nConvergence - Gelman and Rubin’s / Rhat values\ncomparison to NULL model - WAIC\nexplanatory power for individual species (based to compare to predicted values with partitions - RMSE, AUC, TjurR2 )+\nvariation partitioning\neffect sizes of the environmental covariates\n\n\n\n\n\nprediction of several individual species\nprediction of species richness\n\n\n\n\n\nwaffle figure of the number of species associations"
+  },
+  {
+    "objectID": "Documentation/Reports/First_report/outline.html#pipeline-by-age",
+    "href": "Documentation/Reports/First_report/outline.html#pipeline-by-age",
+    "title": "Outline of the presentation",
+    "section": "",
+    "text": "mermaid\ntargetviz\nexpected results for species associations"
+  },
+  {
+    "objectID": "Documentation/Reports/First_report/outline.html#next-steps",
+    "href": "Documentation/Reports/First_report/outline.html#next-steps",
+    "title": "Outline of the presentation",
+    "section": "",
+    "text": "move from binomial to hurdle model\nCreate functional groups based on traits (and fix other taxonomic issues)\nimplement the test among all three axis (space, time, taxonomy)\nPlan the Project-Pipeline combinations to test the research questions\nvalidate with other frameworks (spAbundance or spOccupancy)"
+  },
+  {
+    "objectID": "LICENSE.html",
+    "href": "LICENSE.html",
+    "title": "MIT License",
+    "section": "",
+    "text": "MIT License\nCopyright (c) 2025 Ondřeg Motll\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n\n\n\n\n Back to top"
   },
   {
     "objectID": "website/Documentation/documentation.html",
@@ -237,7 +441,7 @@
     "href": "website/Documentation/documentation.html#documentation-of-individual-functions",
     "title": "BIODYNAMICS - Vegetation Co-occurrence",
     "section": "Documentation of individual functions",
-    "text": "Documentation of individual functions\nEach function used in the project is documented using the roxygen2 package. Here we present the list of functions used in the project:\n\n\n\n\n\n\n\nadd_age_column_from_rownames()\n\n\n\n\n\n\n\n\n\n\nadd_age_to_samples()\n\n\n\n\n\n\n\n\n\n\nadd_dataset_name_column_from_rownames()\n\n\n\n\n\n\n\n\n\n\nadd_model_evaluation()\n\n\n\n\n\n\n\n\n\n\ncheck_and_prepare_data_for_fit()\n\n\n\n\n\n\n\n\n\n\ncheck_presence_of_vegvault()\n\n\n\n\n\n\n\n\n\n\nclassify_taxonomic_resolution()\n\n\n\n\n\n\n\n\n\n\nextract_data_from_vegvault()\n\n\n\n\n\n\n\n\n\n\nfit_hmsc_model()\n\n\n\n\n\n\n\n\n\n\nget_abiotic_data()\n\n\n\n\n\n\n\n\n\n\nget_active_config()\n\n\n\n\n\n\n\n\n\n\nget_age_from_string()\n\n\n\n\n\n\n\n\n\n\nget_better_model_based_on_fit()\n\n\n\n\n\n\n\n\n\n\nget_community_data()\n\n\n\n\n\n\n\n\n\n\nget_community_taxa()\n\n\n\n\n\n\n\n\n\n\nget_coords()\n\n\n\n\n\n\n\n\n\n\nget_dataset_name_from_string()\n\n\n\n\n\n\n\n\n\n\nget_pollen_sum()\n\n\n\n\n\n\n\n\n\n\nget_random_structure_for_model()\n\n\n\n\n\n\n\n\n\n\nget_sample_ages()\n\n\n\n\n\n\n\n\n\n\nget_significant_associations()\n\n\n\n\n\n\n\n\n\n\nget_species_association()\n\n\n\n\n\n\n\n\n\n\nget_taxa_classification()\n\n\n\n\n\n\n\n\n\n\ninterpolate_community_data()\n\n\n\n\n\n\n\n\n\n\ninterpolate_data()\n\n\n\n\n\n\n\n\n\n\nmake_classification_table()\n\n\n\n\n\n\n\n\n\n\nmake_community_data_long()\n\n\n\n\n\n\n\n\n\n\nmake_hmsc_model()\n\n\n\n\n\n\n\n\n\n\nprepare_data_for_fit()\n\n\n\n\n\n\n\n\n\n\nreplace_na_community_data_with_zeros()\n\n\n\n\n\n\n\n\n\n\nsave_progress_visualisation()\n\n\n\n\n\n\n\n\n\n\nselect_n_taxa()\n\n\n\n\n\n\n\n\n\n\ntransform_to_proportions()\n\n\n\n\n\n\n\nNo matching items",
+    "text": "Documentation of individual functions\nEach function used in the project is documented using the roxygen2 package. Here we present the list of functions used in the project:\n\n\n\n\n\n\n\nadd_age_column_from_rownames()\n\n\n\n\n\n\n\n\n\nadd_age_to_samples()\n\n\n\n\n\n\n\n\n\nadd_dataset_name_column_from_rownames()\n\n\n\n\n\n\n\n\n\nadd_model_evaluation()\n\n\n\n\n\n\n\n\n\ncheck_and_prepare_data_for_fit()\n\n\n\n\n\n\n\n\n\ncheck_presence_of_vegvault()\n\n\n\n\n\n\n\n\n\nclassify_taxonomic_resolution()\n\n\n\n\n\n\n\n\n\nevaluate_jsdm()\n\n\n\n\n\n\n\n\n\nextract_data_from_vegvault()\n\n\n\n\n\n\n\n\n\nfilter_rare_taxa()\n\n\n\n\n\n\n\n\n\nfit_hmsc_model()\n\n\n\n\n\n\n\n\n\nfit_jsdm_model()\n\n\n\n\n\n\n\n\n\nget_abiotic_data()\n\n\n\n\n\n\n\n\n\nget_active_config()\n\n\n\n\n\n\n\n\n\nget_age_from_string()\n\n\n\n\n\n\n\n\n\nget_anova()\n\n\n\n\n\n\n\n\n\nget_better_model_based_on_fit()\n\n\n\n\n\n\n\n\n\nget_community_data()\n\n\n\n\n\n\n\n\n\nget_community_taxa()\n\n\n\n\n\n\n\n\n\nget_coords()\n\n\n\n\n\n\n\n\n\nget_dataset_name_from_string()\n\n\n\n\n\n\n\n\n\nget_pollen_sum()\n\n\n\n\n\n\n\n\n\nget_random_structure_for_model()\n\n\n\n\n\n\n\n\n\nget_sample_ages()\n\n\n\n\n\n\n\n\n\nget_significant_associations()\n\n\n\n\n\n\n\n\n\nget_species_association()\n\n\n\n\n\n\n\n\n\nget_taxa_classification()\n\n\n\n\n\n\n\n\n\ninterpolate_community_data()\n\n\n\n\n\n\n\n\n\ninterpolate_data()\n\n\n\n\n\n\n\n\n\nmake_classification_table()\n\n\n\n\n\n\n\n\n\nmake_community_data_long()\n\n\n\n\n\n\n\n\n\nmake_env_formula()\n\n\n\n\n\n\n\n\n\nmake_hmsc_model()\n\n\n\n\n\n\n\n\n\nprepare_data_for_fit()\n\n\n\n\n\n\n\n\n\nreplace_na_community_data_with_zeros()\n\n\n\n\n\n\n\n\n\nrun_pipeline()\n\n\n\n\n\n\n\n\n\nsave_progress_visualisation()\n\n\n\n\n\n\n\n\n\nselect_n_taxa()\n\n\n\n\n\n\n\n\n\ntransform_to_proportions()\n\n\n\n\n\n\n\n\n\nverify_sjsdm_setup()\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Documentation",
       "Project overview"
@@ -255,97 +459,75 @@
     ]
   },
   {
-    "objectID": "LICENSE.html",
-    "href": "LICENSE.html",
-    "title": "MIT License",
+    "objectID": "website/Documentation/Functions/add_age_to_samples.html",
+    "href": "website/Documentation/Functions/add_age_to_samples.html",
+    "title": "add_age_to_samples()",
     "section": "",
-    "text": "MIT License\nCopyright (c) 2025 Ondřeg Motll\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\nTHE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "BIODYNAMICS - Vegetation Co-occurrence",
-    "section": "",
-    "text": "BIODYNAMICS - Vegetation Co-occurrence\nThis is a project to study the co-occurrence of vegetation across space and time.\nThe repo is part of the BIODYNAMICS project.\n\n\n\n\n Back to top"
-  },
-  {
-    "objectID": "website/about.html",
-    "href": "website/about.html",
-    "title": "BIODYNAMICS - Vegetation Co-occurrence",
-    "section": "",
-    "text": "This is a project to study the co-occurrence of vegetation across space and time.\nThe repo is part of the BIODYNAMICS project.\n This project is a work in progress. The code is not yet ready!\n\n\nThe project is using {config} to set up various “subprojects” within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.\nThe main source of data is VegVault, a database of vegetation plots and abiotic data.\nCurrently, the aim of the project is to estimate number of significant co-occurrences of species in a given area per each time slice (step). The species association are calculated using {HMSC} (Hierarchical Modelling of Species Communities) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining by abiotic variables).\nHere is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:\n\n\n\nThere is a toy subproject with the area of Czech Republic with only using the fossil pollen archive data spanning 0-5000 cal yr BP, while the time step is set to 500 years. The abiotic variables are the bio1 and bio12 (temperature and precipitation). Only 10 most common taxa are used in the analysis. The probabilistic Bayesian model is set to be fitted quickly (100 samples per chain, with a transient of 50 samples and a cross-validation of 2 folds).",
-    "crumbs": [
-      "About the project"
-    ]
-  },
-  {
-    "objectID": "website/about.html#current-status",
-    "href": "website/about.html#current-status",
-    "title": "BIODYNAMICS - Vegetation Co-occurrence",
-    "section": "",
-    "text": "The project is using {config} to set up various “subprojects” within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.\nThe main source of data is VegVault, a database of vegetation plots and abiotic data.\nCurrently, the aim of the project is to estimate number of significant co-occurrences of species in a given area per each time slice (step). The species association are calculated using {HMSC} (Hierarchical Modelling of Species Communities) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining by abiotic variables).\nHere is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:\n\n\n\nThere is a toy subproject with the area of Czech Republic with only using the fossil pollen archive data spanning 0-5000 cal yr BP, while the time step is set to 500 years. The abiotic variables are the bio1 and bio12 (temperature and precipitation). Only 10 most common taxa are used in the analysis. The probabilistic Bayesian model is set to be fitted quickly (100 samples per chain, with a transient of 50 samples and a cross-validation of 2 folds).",
-    "crumbs": [
-      "About the project"
-    ]
-  },
-  {
-    "objectID": "website/Documentation/Functions/add_age_column_from_rownames.html",
-    "href": "website/Documentation/Functions/add_age_column_from_rownames.html",
-    "title": "add_age_column_from_rownames()",
-    "section": "",
-    "text": "add_age_column_from_rownames\n\n\nR Documentation\n\n\n\n\nAdd Age Column from Row Names\n\n\nDescription\n\n\nAdds an ‘age’ column to a data frame by extracting age values from row names.\n\n\nUsage\n\nadd_age_column_from_rownames(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame with row names in the format \"dataset__age\".\n\n\n\n\n\nValue\n\n\nThe input data frame with an added ‘age’ column.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "add_age_to_samples\n\n\nR Documentation\n\n\n\n\nAdd Age to Community Data\n\n\nDescription\n\n\nMerges community data with age data based on dataset and sample names.\n\n\nUsage\n\nadd_age_to_samples(data_community = NULL, data_ages = NULL)\n\n\nArguments\n\n\n\n\ndata_community\n\n\n\nA data frame containing community data. Must include ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\ndata_ages\n\n\n\nA data frame containing age data. Must include ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\nDetails\n\n\nPerforms a left join between community data and age data using ‘dataset_name’ and ‘sample_name’ as keys.\n\n\nValue\n\n\nA data frame with community data merged with the corresponding age data.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "add_age_column_from_rownames()"
+      "add_age_to_samples()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/add_dataset_name_column_from_rownames.html",
-    "href": "website/Documentation/Functions/add_dataset_name_column_from_rownames.html",
-    "title": "add_dataset_name_column_from_rownames()",
+    "objectID": "website/Documentation/Functions/add_model_evaluation.html",
+    "href": "website/Documentation/Functions/add_model_evaluation.html",
+    "title": "add_model_evaluation()",
     "section": "",
-    "text": "add_dataset_name_column_from_rownames\n\n\nR Documentation\n\n\n\n\nAdd Dataset Name Column from Row Names\n\n\nDescription\n\n\nAdds a ‘dataset_name’ column to a data frame by extracting dataset names from row names.\n\n\nUsage\n\nadd_dataset_name_column_from_rownames(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame with row names in the format \"dataset__something\".\n\n\n\n\n\nValue\n\n\nThe input data frame with an added ‘dataset_name’ column.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "add_model_evaluation\n\n\nR Documentation\n\n\n\n\nAdd Model Evaluation\n\n\nDescription\n\n\nEvaluates a fitted Hmsc model using predicted data and returns a list containing the model and its evaluation.\n\n\nUsage\n\nadd_model_evaluation(mod_fitted = NULL, data_pred = NULL)\n\n\nArguments\n\n\n\n\nmod_fitted\n\n\n\nA fitted Hmsc model object. Must be of class ‘Hmsc’.\n\n\n\n\n\ndata_pred\n\n\n\nAn array of predicted values. Must be of class ‘array’.\n\n\n\n\n\nValue\n\n\nA list with two elements: the fitted model (‘mod’) and the evaluation results (‘eval’).\n\n\nSee Also\n\n\nHmsc::evaluateModelFit\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "add_dataset_name_column_from_rownames()"
+      "add_model_evaluation()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/check_and_prepare_data_for_fit.html",
-    "href": "website/Documentation/Functions/check_and_prepare_data_for_fit.html",
-    "title": "check_and_prepare_data_for_fit()",
+    "objectID": "website/Documentation/Functions/check_presence_of_vegvault.html",
+    "href": "website/Documentation/Functions/check_presence_of_vegvault.html",
+    "title": "check_presence_of_vegvault()",
     "section": "",
-    "text": "check_and_prepare_data_for_fit\n\n\nR Documentation\n\n\n\n\nCheck and Prepare Data for Model Fitting\n\n\nDescription\n\n\nCleans and prepares community, abiotic, and coordinate data for HMSC model fitting, with optional age subsetting.\n\n\nUsage\n\ncheck_and_prepare_data_for_fit(\n  data_community = NULL,\n  data_abiotic = NULL,\n  data_coords = NULL,\n  subset_age = NULL\n)\n\n\nArguments\n\n\n\n\ndata_community\n\n\n\nData frame of community data.\n\n\n\n\n\ndata_abiotic\n\n\n\nData frame of abiotic data.\n\n\n\n\n\ndata_coords\n\n\n\nData frame of coordinates.\n\n\n\n\n\nsubset_age\n\n\n\nOptional age value to subset data.\n\n\n\n\n\nValue\n\n\nA list of cleaned and prepared data frames for model fitting.\n\n\nSee Also\n\n\n[make_hmsc_model()]\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "check_presence_of_vegvault\n\n\nR Documentation\n\n\n\n\nCheck Presence of VegVault File\n\n\nDescription\n\n\nChecks whether the ‘VegVault.sqlite’ file exists in the specified directory.\n\n\nUsage\n\ncheck_presence_of_vegvault(relative_path = \"Data/Input/VegVault.sqlite\")\n\n\nArguments\n\n\n\n\nrelative_path\n\n\n\nRelative path to the ‘VegVault.sqlite’ file (default: \"Data/Input/Vegvault.sqlite\").\n\n\n\n\n\nDetails\n\n\nVerifies the presence of the ‘VegVault.sqlite’ file. If not found, throws an error with instructions to consult the ‘Data/Input/README.md’ file.\n\n\nValue\n\n\nLogical value indicating whether the file exists. Stops with an error if the file is not found.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "check_and_prepare_data_for_fit()"
+      "check_presence_of_vegvault()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/classify_taxonomic_resolution.html",
-    "href": "website/Documentation/Functions/classify_taxonomic_resolution.html",
-    "title": "classify_taxonomic_resolution()",
+    "objectID": "website/Documentation/Functions/evaluate_jsdm.html",
+    "href": "website/Documentation/Functions/evaluate_jsdm.html",
+    "title": "evaluate_jsdm()",
     "section": "",
-    "text": "classify_taxonomic_resolution\n\n\nR Documentation\n\n\n\n\nClassify Taxonomic Resolution\n\n\nDescription\n\n\nClassifies taxa in a data frame to a specified taxonomic resolution (family, genus, or species) using a classification table, and aggregates pollen proportions accordingly.\n\n\nUsage\n\nclassify_taxonomic_resolution(\n  data,\n  data_classification_table,\n  taxonomic_resolution\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing taxon data with columns including ‘taxon’, ‘dataset_name’, ‘age’, and ‘pollen_prop’.\n\n\n\n\n\ndata_classification_table\n\n\n\nA data frame mapping ‘sel_name’ to taxonomic levels (e.g., family, genus, species).\n\n\n\n\n\ntaxonomic_resolution\n\n\n\nA character string specifying the taxonomic resolution to classify to. Must be one of ‘family’, ‘genus’, or ‘species’.\n\n\n\n\n\nDetails\n\n\nPerforms a left join to map taxa to the desired resolution, aggregates pollen proportions, and ensures all dataset_name-age-taxon combinations are present in the output.\n\n\nValue\n\n\nA data frame with taxa classified to the specified resolution and pollen proportions aggregated accordingly. The output preserves all dataset_name and age combinations for true negatives.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "evaluate_jsdm\n\n\nR Documentation\n\n\n\n\nEvaluate JSDM Model Performance\n\n\nDescription\n\n\nEvaluates a fitted sjSDM model and returns comprehensive performance metrics at both model and species level.\n\n\nUsage\n\nevaluate_jsdm(mod_jsdm = NULL)\n\n\nArguments\n\n\n\n\nmod_jsdm\n\n\n\nA fitted sjSDM model object. Must be of class ‘sjSDM’.\n\n\n\n\n\nDetails\n\n\nFor binomial models, species-level classification metrics (AUC, Accuracy, LogLoss) are computed using a 0.5 probability threshold for binary predictions. For other model families, RMSE is computed per species.\n\n\nValue\n\n\nA list with two elements: - model: Named numeric vector of R-squared values (McFadden, Nagelkerke) - species: A tibble with one row per species and columns: species, AUC, Accuracy, LogLoss (binomial) or RMSE (other families)\n\n\nSee Also\n\n\nsjSDM::Rsquared, Metrics::auc\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "classify_taxonomic_resolution()"
+      "evaluate_jsdm()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/fit_hmsc_model.html",
-    "href": "website/Documentation/Functions/fit_hmsc_model.html",
-    "title": "fit_hmsc_model()",
+    "objectID": "website/Documentation/Functions/filter_rare_taxa.html",
+    "href": "website/Documentation/Functions/filter_rare_taxa.html",
+    "title": "filter_rare_taxa()",
     "section": "",
-    "text": "fit_hmsc_model\n\n\nR Documentation\n\n\n\n\nFit HMSC Model\n\n\nDescription\n\n\nSample the MCMC process for the HMSC model.\n\n\nUsage\n\nfit_hmsc_model(\n  mod_hmsc,\n  n_chains = 20,\n  n_samples = 10000,\n  n_thin = 1,\n  n_transient = 2500,\n  n_parallel = 20,\n  n_samples_verbose = 500\n)\n\n\nArguments\n\n\n\n\nmod_hmsc\n\n\n\nAn unfitted HMSC model object.\n\n\n\n\n\nn_chains\n\n\n\nNumber of MCMC chains (default: 20).\n\n\n\n\n\nn_samples\n\n\n\nNumber of MCMC samples (default: 10,000).\n\n\n\n\n\nn_thin\n\n\n\nThinning interval for MCMC samples (default: 5).\n\n\n\n\n\nn_transient\n\n\n\nNumber of transient iterations (default: 2,500).\n\n\n\n\n\nn_parallel\n\n\n\nNumber of parallel chains (default: 20).\n\n\n\n\n\nn_samples_verbose\n\n\n\nVerbosity interval for MCMC sampling (default: 500).\n\n\n\n\n\nValue\n\n\nReturns a fitted HMSC model object.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "filter_rare_taxa\n\n\nR Documentation\n\n\n\n\nFilter Rare Taxa\n\n\nUsage\n\nfilter_rare_taxa(data = NULL, minimal_proportion = 0.01)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing taxon abundance data. Must include a column named ‘pollen_prop’ with numeric proportions or abundances.\n\n\n\n\n\nminimal_proportion\n\n\n\nNumeric value between 0 and 1 specifying the minimum proportion threshold for retaining taxa. Default is 0.01 (1\n\n\n\n\n\nA filtered data frame containing only taxa that meet or exceed the minimal proportion threshold. Preserves all original columns.\nFilters out rare taxa from community data based on a minimum proportion threshold. Only taxa meeting or exceeding the threshold are retained.\nThe function validates that minimal_proportion is a numeric value between 0 and 1. After filtering, it checks that at least one taxon remains in the dataset. If no taxa meet the threshold, an error is raised suggesting the threshold may be too high.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "fit_hmsc_model()"
+      "filter_rare_taxa()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/fit_jsdm_model.html",
+    "href": "website/Documentation/Functions/fit_jsdm_model.html",
+    "title": "fit_jsdm_model()",
+    "section": "",
+    "text": "fit_jsdm_model\n\n\nR Documentation\n\n\n\n\nFit an sjSDM Model\n\n\nDescription\n\n\nFits a joint Species Distribution Model (jSDM) using the sjSDM package with specified abiotic, spatial, and error family configurations.\n\n\nUsage\n\nfit_jsdm_model(\n  data_to_fit = NULL,\n  sel_abiotic_formula = NULL,\n  abiotic_method = c(\"linear\", \"DNN\"),\n  sel_spatial_formula = as.formula(~0 + coord_long:coord_lat),\n  spatial_method = c(\"linear\", \"DNN\", \"none\"),\n  error_family = c(\"gaussian\", \"binomial\"),\n  device = c(\"cpu\", \"gpu\"),\n  parallel = 0L,\n  compute_se = FALSE,\n  ...,\n  verbose = FALSE\n)\n\n\nArguments\n\n\n\n\ndata_to_fit\n\n\n\nA list containing the data to fit the model. Must include: - ‘data_community_to_fit’: matrix of community composition - ‘data_abiotic_to_fit’: data frame of abiotic variables - ‘data_coords_to_fit’: data frame of spatial coordinates\n\n\n\n\n\nsel_abiotic_formula\n\n\n\nA character string of length 1 specifying the formula for the model\n\n\n\n\n\nabiotic_method\n\n\n\nMethod for modeling abiotic effects. One of \"linear\" (default) or \"DNN\" (deep neural network)\n\n\n\n\n\nsel_spatial_formula\n\n\n\nA character string of length 1 specifying the formula for the spatial effects. Only used if spatial_method = \"linear\".\n\n\n\n\n\nspatial_method\n\n\n\nMethod for modeling spatial effects. One of \"linear\" (default) or \"DNN\" (deep neural network)\n\n\n\n\n\nerror_family\n\n\n\nError family distribution. One of \"gaussian\" (default) or \"binomial\". If \"binomial\", community data is converted to presence/absence and a probit link is used\n\n\n\n\n\ndevice\n\n\n\nComputing device to use. One of \"cpu\" (default) or \"gpu\"\n\n\n\n\n\nparallel\n\n\n\nNumber of CPU cores to use for parallel processing. Only applicable if device = \"cpu\". Default is 0L (no parallelization).\n\n\n\n\n\ncompute_se\n\n\n\nLogical indicating whether to compute standard errors. Default is FALSE. Note: SE computation may fail with certain model configurations (e.g., DNN, complex spatial structures) and will produce a warning if it fails.\n\n\n\n\n\n…\n\n\n\nAdditional arguments passed to sjSDM::sjSDM\n\n\n\n\n\nDetails\n\n\nThis function prepares the data and fits a joint Species Distribution Model using the sjSDM package. The spatial structure is modeled using an interaction term between longitude and latitude coordinates. When binomial error family is specified, the community data is converted to binary presence/absence data.\n\n\nStandard error computation (‘compute_se = TRUE’) may fail with certain model configurations, particularly when using DNN methods or complex spatial structures. If SE computation fails, the model will still be returned with a warning.\n\n\nValue\n\n\nAn object of class sjSDM containing the fitted model\n\n\nSee Also\n\n\nsjSDM::sjSDM, sjSDM::linear, sjSDM::DNN\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "fit_jsdm_model()"
     ]
   },
   {
@@ -361,99 +543,111 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_better_model_based_on_fit.html",
-    "href": "website/Documentation/Functions/get_better_model_based_on_fit.html",
-    "title": "get_better_model_based_on_fit()",
+    "objectID": "website/Documentation/Functions/get_anova.html",
+    "href": "website/Documentation/Functions/get_anova.html",
+    "title": "get_anova()",
     "section": "",
-    "text": "get_better_model_based_on_fit\n\n\nR Documentation\n\n\n\n\nSelect Better Model Based on Fit\n\n\nDescription\n\n\nCompares two models and selects the one with better fit based on Tjur’s R2.\n\n\nUsage\n\nget_better_model_based_on_fit(list_models)\n\n\nArguments\n\n\n\n\nlist_models\n\n\n\nA list of two fitted model objects.\n\n\n\n\n\nValue\n\n\nThe model object with better fit.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_anova\n\n\nR Documentation\n\n\n\n\nGet ANOVA for sjSDM Model\n\n\nDescription\n\n\nComputes the ANOVA decomposition for a fitted sjSDM model, partitioning variance explained by environmental and spatial components.\n\n\nUsage\n\nget_anova(mod)\n\n\nArguments\n\n\n\n\nmod\n\n\n\nA fitted model object of class ‘sjSDM’.\n\n\n\n\n\nDetails\n\n\nThe function wraps the internal ‘sjSDM:::anova.sjSDM()’ method with ‘verbose = FALSE’ to suppress printed output.\n\n\nValue\n\n\nAn ANOVA result object as returned by ‘sjSDM:::anova.sjSDM()’, containing variance partitioning across model components.\n\n\nSee Also\n\n\n[fit_hmsc_model()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_better_model_based_on_fit()"
+      "get_anova()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_community_taxa.html",
-    "href": "website/Documentation/Functions/get_community_taxa.html",
-    "title": "get_community_taxa()",
+    "objectID": "website/Documentation/Functions/get_community_data.html",
+    "href": "website/Documentation/Functions/get_community_data.html",
+    "title": "get_community_data()",
     "section": "",
-    "text": "get_community_taxa\n\n\nR Documentation\n\n\n\n\nGet Community Taxa\n\n\nDescription\n\n\nExtracts a vector of unique taxa from a community data frame.\n\n\nUsage\n\nget_community_taxa(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing a ‘taxon’ column.\n\n\n\n\n\nDetails\n\n\nUses dplyr to select distinct values from the ‘taxon’ column and returns them as a vector.\n\n\nValue\n\n\nA character vector of unique taxon names present in the data.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_community_data\n\n\nR Documentation\n\n\n\n\nGet Community Data\n\n\nDescription\n\n\nProcesses a data frame containing community data and extracts the relevant columns, unnesting the ‘data_community’ column in the process.\n\n\nUsage\n\nget_community_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_community’.\n\n\n\n\n\nDetails\n\n\nValidates that the input is a data frame, ensures the presence of the ‘dataset_name’ and ‘data_community’ columns, selects those columns, and unnests the ‘data_community’ column.\n\n\nValue\n\n\nA data frame with the ‘dataset_name’ and unnested ‘data_community’ columns.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_community_taxa()"
+      "get_community_data()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_dataset_name_from_string.html",
-    "href": "website/Documentation/Functions/get_dataset_name_from_string.html",
-    "title": "get_dataset_name_from_string()",
+    "objectID": "website/Documentation/Functions/get_coords.html",
+    "href": "website/Documentation/Functions/get_coords.html",
+    "title": "get_coords()",
     "section": "",
-    "text": "get_dataset_name_from_string\n\n\nR Documentation\n\n\n\n\nExtract Dataset Name from String\n\n\nDescription\n\n\nExtracts the dataset name from a vector of strings, taking all characters before the double underscore (\"__\").\n\n\nUsage\n\nget_dataset_name_from_string(vec_names)\n\n\nArguments\n\n\n\n\nvec_names\n\n\n\nA character vector containing names with the format \"dataset__something\".\n\n\n\n\n\nValue\n\n\nA character vector of dataset names.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_coords\n\n\nR Documentation\n\n\n\n\nGet Dataset Coordinates\n\n\nDescription\n\n\nExtracts unique coordinates for each dataset, excluding gridpoints.\n\n\nUsage\n\nget_coords(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing columns ‘dataset_name’, ‘dataset_type’, ‘coord_long’, and ‘coord_lat’. Rows with ‘dataset_type == \"gridpoints\"’ are excluded.\n\n\n\n\n\nValue\n\n\nA data frame with unique coordinates for each dataset, with ‘dataset_name’ as row names.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_dataset_name_from_string()"
+      "get_coords()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_random_structure_for_model.html",
-    "href": "website/Documentation/Functions/get_random_structure_for_model.html",
-    "title": "get_random_structure_for_model()",
+    "objectID": "website/Documentation/Functions/get_pollen_sum.html",
+    "href": "website/Documentation/Functions/get_pollen_sum.html",
+    "title": "get_pollen_sum()",
     "section": "",
-    "text": "get_random_structure_for_model\n\n\nR Documentation\n\n\n\n\nGet Random Structure for Model\n\n\nDescription\n\n\nConstructs the random structure for HMSC models based on age and/or space.\n\n\nUsage\n\nget_random_structure_for_model(\n  data = NULL,\n  type = c(\"age\", \"space\"),\n  min_knots_distance = NULL\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA list containing data for model fitting from the function [check_and_prepare_data_for_fit()].\n\n\n\n\n\ntype\n\n\n\nCharacter vector specifying random effect types (\"age\", \"space\").\n\n\n\n\n\nmin_knots_distance\n\n\n\nMinimum distance between knots for spatial random effect (optional). Only used if \"space\" is in ‘type’.\n\n\n\n\n\nValue\n\n\nA list describing the random structure for the model.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_pollen_sum\n\n\nR Documentation\n\n\n\n\nCalculate the Total Pollen Count for Each Sample\n\n\nDescription\n\n\nThis function computes the total pollen count for each sample in the provided dataset.\n\n\nUsage\n\nget_pollen_sum(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing at least two columns: ‘sample_name’ (the name or identifier of the sample) and ‘pollen_count’ (the count of pollen for each observation).\n\n\n\n\n\nDetails\n\n\nThe function groups the data by ‘sample_name’, calculates the sum of ‘pollen_count’ for each group, and removes any grouping structure before returning the result. Missing values (‘NA’) in ‘pollen_count’ are ignored.\n\n\nValue\n\n\nA data frame with two columns: ‘sample_name’ and ‘pollen_sum’, where ‘pollen_sum’ is the total pollen count for each sample.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_random_structure_for_model()"
+      "get_pollen_sum()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_significant_associations.html",
-    "href": "website/Documentation/Functions/get_significant_associations.html",
-    "title": "get_significant_associations()",
+    "objectID": "website/Documentation/Functions/get_sample_ages.html",
+    "href": "website/Documentation/Functions/get_sample_ages.html",
+    "title": "get_sample_ages()",
     "section": "",
-    "text": "get_significant_associations\n\n\nR Documentation\n\n\n\n\nGet Significant Species Associations\n\n\nDescription\n\n\nIdentifies significant species associations based on support and mean values for each error level.\n\n\nUsage\n\nget_significant_associations(data_source, alpha = 0.05)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing association matrices from a fitted Hmsc model. Generally, this is the output of the function get_species_association().\n\n\n\n\n\nalpha\n\n\n\nSignificance level for support threshold (default: 0.05).\n\n\n\n\n\nValue\n\n\nA vector of significant association values.\n\n\nSee Also\n\n\n[get_species_association()]\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_sample_ages\n\n\nR Documentation\n\n\n\n\nGet Sample Ages\n\n\nDescription\n\n\nExtracts sample ages from a data frame containing dataset and sample info.\n\n\nUsage\n\nget_sample_ages(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_samples’.\n\n\n\n\n\nDetails\n\n\nValidates the input data frame, ensures required columns are present, and extracts sample ages by unnesting the ‘data_samples’ column.\n\n\nValue\n\n\nA data frame with columns ‘dataset_name’, ‘sample_name’, and ‘age’.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_significant_associations()"
+      "get_sample_ages()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_taxa_classification.html",
-    "href": "website/Documentation/Functions/get_taxa_classification.html",
-    "title": "get_taxa_classification()",
+    "objectID": "website/Documentation/Functions/get_species_association.html",
+    "href": "website/Documentation/Functions/get_species_association.html",
+    "title": "get_species_association()",
     "section": "",
-    "text": "get_taxa_classification\n\n\nR Documentation\n\n\n\n\nGet Taxa Classification\n\n\nDescription\n\n\nRetrieves taxonomic classification for a vector of taxa using the taxospace package. Filters results to include only plant taxa.\n\n\nUsage\n\nget_taxa_classification(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA character vector of taxon names to classify.\n\n\n\n\n\nDetails\n\n\nUses taxospace::get_classification to retrieve classification. Flags and filters for plant taxa (kingdom Plantae). Returns an empty tibble if no plant taxa found.\n\n\nValue\n\n\nA data frame with columns for selected name, taxonomic name, rank, and id.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_species_association\n\n\nR Documentation\n\n\n\n\nCompute Species Associations\n\n\nDescription\n\n\nComputes species associations from a fitted Hmsc model object.\n\n\nUsage\n\nget_species_association(data_source)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing a fitted Hmsc model under the ‘mod’ element. Generally, this is the output of the function add_model_evaluation() or # get_better_model_based_on_fit()\n\n\n\n\n\nValue\n\n\nA matrix of species associations.\n\n\nSee Also\n\n\n[add_model_evaluation(), get_better_model_based_on_fit()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_taxa_classification()"
+      "get_species_association()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/interpolate_data.html",
-    "href": "website/Documentation/Functions/interpolate_data.html",
-    "title": "interpolate_data()",
+    "objectID": "website/Documentation/Functions/interpolate_community_data.html",
+    "href": "website/Documentation/Functions/interpolate_community_data.html",
+    "title": "interpolate_community_data()",
     "section": "",
-    "text": "interpolate_data\n\n\nR Documentation\n\n\n\n\nInterpolate Data\n\n\nDescription\n\n\nInterpolates data over a specified age range and timestep using a method.\n\n\nUsage\n\ninterpolate_data(\n  data = NULL,\n  by = \"dataset_name\",\n  age_var = \"age\",\n  value_var = \"pollen_prop\",\n  method = \"linear\",\n  rule = 1,\n  ties = mean,\n  age_min = 0,\n  age_max = 12000,\n  timestep = 500\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the data to be interpolated.\n\n\n\n\n\nage_var\n\n\n\nName of the age variable column (default: \"age\").\n\n\n\n\n\nvalue_var\n\n\n\nName of the value variable column (default: \"pollen_prop\").\n\n\n\n\n\nmethod\n\n\n\nInterpolation method to use (default: \"linear\").\n\n\n\n\n\nrule\n\n\n\nInteger specifying the extrapolation rule (default: 1).\n\n\n\n\n\nties\n\n\n\nFunction to handle tied values (default: ‘mean’).\n\n\n\n\n\nage_min\n\n\n\nMinimum age for interpolation (default: 0).\n\n\n\n\n\nage_max\n\n\n\nMaximum age for interpolation (default: 12000).\n\n\n\n\n\ntimestep\n\n\n\nTimestep for interpolation (default: 500).\n\n\n\n\n\nDetails\n\n\nNests data by dataset and taxon, performs interpolation using ‘stats::approx’, and returns the interpolated data in a flat format.\n\n\nValue\n\n\nA data frame with interpolated values, including dataset name, taxon, age, and value columns.\n\n\nSee Also\n\n\n[stats::approx()]\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "interpolate_community_data\n\n\nR Documentation\n\n\n\n\nInterpolate Community Data\n\n\nDescription\n\n\nTransforms community data to proportions, interpolates it, and returns it.\n\n\nUsage\n\ninterpolate_community_data(data, ...)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing community data to be transformed and interpolated.\n\n\n\n\n\n…\n\n\n\nAdditional arguments passed to the ‘interpolate_data’ function.\n\n\n\n\n\nDetails\n\n\nTransforms data to proportions using ‘transform_to_proportions’ and total pollen count from ‘get_pollen_sum’. Then interpolates using ‘interpolate_data’.\n\n\nValue\n\n\nA data frame with interpolated community data.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "interpolate_data()"
+      "interpolate_community_data()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/make_community_data_long.html",
-    "href": "website/Documentation/Functions/make_community_data_long.html",
-    "title": "make_community_data_long()",
+    "objectID": "website/Documentation/Functions/make_classification_table.html",
+    "href": "website/Documentation/Functions/make_classification_table.html",
+    "title": "make_classification_table()",
     "section": "",
-    "text": "make_community_data_long\n\n\nR Documentation\n\n\n\n\nMake Community Data Long\n\n\nDescription\n\n\nConverts community data from wide format to long format.\n\n\nUsage\n\nmake_community_data_long(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain ‘dataset_name’ and ‘sample_name’ columns.\n\n\n\n\n\nDetails\n\n\nUses ‘tidyr::pivot_longer’ to reshape the data, dropping NA values in the process.\n\n\nValue\n\n\nA data frame in long format with columns ‘dataset_name’, ‘sample_name’, ‘taxon’, and ‘pollen_count’.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "make_classification_table\n\n\nR Documentation\n\n\n\n\nMake Classification Table\n\n\nDescription\n\n\nCreates a wide-format taxonomic classification table from a list of data frames containing taxon names and ranks (e.g., family, genus, species).\n\n\nUsage\n\nmake_classification_table(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA list of data frames, each containing columns ‘sel_name’, ‘rank’, and ‘name’.\n\n\n\n\n\nDetails\n\n\nFilters for relevant taxonomic ranks, removes duplicates, and pivots the table to wide format with one column per rank.\n\n\nValue\n\n\nA data frame in wide format with columns for each taxonomic rank and one row per ‘sel_name’.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "make_community_data_long()"
+      "make_classification_table()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/make_env_formula.html",
+    "href": "website/Documentation/Functions/make_env_formula.html",
+    "title": "make_env_formula()",
+    "section": "",
+    "text": "make_env_formula\n\n\nR Documentation\n\n\n\n\nMake Environmental Formula\n\n\nDescription\n\n\nCreates a formula for environmental variables from abiotic data. If an ‘age’ column is present, creates interaction terms between age and other variables.\n\n\nUsage\n\nmake_env_formula(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing abiotic environmental variables. Must have at least one column and one row.\n\n\n\n\n\nDetails\n\n\nThe function constructs different formulas based on the presence of an ‘age’ column: - With age: ~ (var1 + var2 + …) * age - age … - Without age: ~ var1 + var2 + … The formula removes intercept terms and individual variable terms when interactions are present.\n\n\nValue\n\n\nA formula object suitable for modeling. If ‘age’ is present, returns a formula with interaction terms (age * variables). Otherwise, returns a simple additive formula. All formulas exclude intercept terms.\n\n\nSee Also\n\n\n[check_and_prepare_data_for_fit()]\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "make_env_formula()"
     ]
   },
   {
@@ -469,27 +663,39 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/save_progress_visualisation.html",
-    "href": "website/Documentation/Functions/save_progress_visualisation.html",
-    "title": "save_progress_visualisation()",
+    "objectID": "website/Documentation/Functions/run_pipeline.html",
+    "href": "website/Documentation/Functions/run_pipeline.html",
+    "title": "run_pipeline()",
     "section": "",
-    "text": "save_progress_visualisation\n\n\nR Documentation\n\n\n\n\nSave Progress Visualisation\n\n\nDescription\n\n\nGenerates a visualisation of project progress and saves it as HTML and PNG.\n\n\nUsage\n\nsave_progress_visualisation(\n  sel_script,\n  output_file = \"project_status\",\n  output_dir = here::here(\"Documentation/Progress\"),\n  background_color = \"white\",\n  level_separation = 250\n)\n\n\nArguments\n\n\n\n\nsel_script\n\n\n\nThe script file to be visualised.\n\n\n\n\n\noutput_file\n\n\n\nThe name of the output file (default: \"project_status\").\n\n\n\n\n\noutput_dir\n\n\n\nDirectory where the output files will be saved (default: \"Outputs/Figures\").\n\n\n\n\n\nlevel_separation\n\n\n\nLevel separation for the visualisation graph (default: 250).\n\n\n\n\n\nDetails\n\n\nUses ‘targets::tar_visnetwork’ to create a network graph and saves it as HTML using ‘visNetwork::visSave’. Also generates a static PNG image using ‘webshot2::webshot’.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "run_pipeline\n\n\nR Documentation\n\n\n\n\nRun Pipeline\n\n\nDescription\n\n\nExecutes a targets pipeline from a specified script and saves progress visualization. Prevents execution if default configuration is active.\n\n\nUsage\n\nrun_pipeline(sel_script, level_separation = 100, check_default_config = TRUE)\n\n\nArguments\n\n\n\n\nsel_script\n\n\n\nPath to the pipeline script to execute (relative to project root).\n\n\n\n\n\nlevel_separation\n\n\n\nNumeric value controlling the vertical separation between levels in the progress visualization network graph. Default is 100.\n\n\n\n\n\ncheck_default_config\n\n\n\nLogical indicating whether to check if the default configuration is active and stop execution if TRUE. Default is TRUE.\n\n\n\n\n\nDetails\n\n\nThe function constructs pipeline-specific target store paths based on the script name and active configuration. It uses targets::tar_make() to execute the pipeline and then calls save_progress_visualisation() to generate a network visualization of the pipeline status.\n\n\nValue\n\n\nNo return value. Function is called for side effects: executes the targets pipeline and saves progress visualization to the documentation folder.\n\n\nSee Also\n\n\nsave_progress_visualisation, targets::tar_make\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "save_progress_visualisation()"
+      "run_pipeline()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/transform_to_proportions.html",
-    "href": "website/Documentation/Functions/transform_to_proportions.html",
-    "title": "transform_to_proportions()",
+    "objectID": "website/Documentation/Functions/select_n_taxa.html",
+    "href": "website/Documentation/Functions/select_n_taxa.html",
+    "title": "select_n_taxa()",
     "section": "",
-    "text": "transform_to_proportions\n\n\nR Documentation\n\n\n\n\nTransform to Proportions\n\n\nDescription\n\n\nTransforms pollen count data into proportions based on total pollen count.\n\n\nUsage\n\ntransform_to_proportions(data = NULL, pollen_sum = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing pollen count data.\n\n\n\n\n\npollen_sum\n\n\n\nA data frame with total pollen counts for each sample.\n\n\n\n\n\nDetails\n\n\nJoins the input data with total pollen counts and calculates proportions using ‘dplyr::mutate’.\n\n\nValue\n\n\nA data frame with pollen proportions, excluding ‘pollen_sum’ and ‘pollen_count’ columns.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "select_n_taxa\n\n\nR Documentation\n\n\n\n\nSelect N Taxa\n\n\nDescription\n\n\nSelects the top N taxa based on their occurrence across datasets.\n\n\nUsage\n\nselect_n_taxa(data = NULL, n_taxa = Inf, per = \"dataset_name\")\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing the input data. Must include columns \"taxon\" and the column specified in the ‘per’ parameter.\n\n\n\n\n\nn_taxa\n\n\n\nA numeric value specifying the number of taxa to select. Default is Inf.\n\n\n\n\n\nper\n\n\n\nA character string specifying the column name to group by. Default is \"dataset_name\".\n\n\n\n\n\nDetails\n\n\nThe function identifies the most common taxa across datasets by counting their occurrences. It then filters the input data to include only the selected taxa. If no taxa are found, an error is raised.\n\n\nValue\n\n\nA data frame containing the filtered data with the top N taxa.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "transform_to_proportions()"
+      "select_n_taxa()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/verify_sjsdm_setup.html",
+    "href": "website/Documentation/Functions/verify_sjsdm_setup.html",
+    "title": "verify_sjsdm_setup()",
+    "section": "",
+    "text": "verify_sjsdm_setup\n\n\nR Documentation\n\n\n\n\nVerify sjSDM Setup\n\n\nDescription\n\n\nComprehensive verification of sjSDM installation, including Python environment, PyTorch, CUDA support, and sjSDM functionality. This function checks that Radian and sjSDM are using the same Python environment and that all dependencies are properly installed.\n\n\nUsage\n\nverify_sjsdm_setup(run_test_model = interactive())\n\n\nArguments\n\n\n\n\nrun_test_model\n\n\n\nLogical. Should a test model be fitted to verify full functionality? Default is TRUE.\n\n\n\n\n\nDetails\n\n\nThis function performs the following checks: 1. Radian configuration (correct Python environment) 2. Python version and location 3. PyTorch installation and version 4. CUDA/GPU availability 5. sjSDM package installation 6. sjSDM Python dependencies 7. Test model fitting (optional)\n\n\nAll checks print their status with [OK] (success) or [FAIL] (failure). If any critical check fails, the function provides troubleshooting guidance.\n\n\nValue\n\n\nInvisible list with verification results. Called primarily for side effects (printing verification status).\n\n\nSee Also\n\n\npy_config sjSDM\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "verify_sjsdm_setup()"
     ]
   }
 ]

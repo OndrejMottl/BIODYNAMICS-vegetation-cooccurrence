@@ -1,0 +1,134 @@
+<!DOCTYPE html><html><head><title>R: Fit an sjSDM Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>fit_jsdm_model</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit an sjSDM Model</h2>
+
+<h3>Description</h3>
+
+<p>Fits a joint Species Distribution Model (jSDM) using the sjSDM
+package with specified abiotic, spatial, and error family
+configurations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>fit_jsdm_model(
+  data_to_fit = NULL,
+  sel_abiotic_formula = NULL,
+  abiotic_method = c("linear", "DNN"),
+  sel_spatial_formula = as.formula(~0 + coord_long:coord_lat),
+  spatial_method = c("linear", "DNN", "none"),
+  error_family = c("gaussian", "binomial"),
+  device = c("cpu", "gpu"),
+  parallel = 0L,
+  compute_se = FALSE,
+  ...,
+  verbose = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_to_fit">data_to_fit</code></td>
+<td>
+<p>A list containing the data to fit the model. Must include:
+- 'data_community_to_fit': matrix of community composition
+- 'data_abiotic_to_fit': data frame of abiotic variables
+- 'data_coords_to_fit': data frame of spatial coordinates</p>
+</td></tr>
+<tr><td><code id="sel_abiotic_formula">sel_abiotic_formula</code></td>
+<td>
+<p>A character string of length 1 specifying the formula for the model</p>
+</td></tr>
+<tr><td><code id="abiotic_method">abiotic_method</code></td>
+<td>
+<p>Method for modeling abiotic effects. One of &quot;linear&quot; (default) or
+&quot;DNN&quot; (deep neural network)</p>
+</td></tr>
+<tr><td><code id="sel_spatial_formula">sel_spatial_formula</code></td>
+<td>
+<p>A character string of length 1 specifying the formula for the spatial
+effects. Only used if spatial_method = &quot;linear&quot;.</p>
+</td></tr>
+<tr><td><code id="spatial_method">spatial_method</code></td>
+<td>
+<p>Method for modeling spatial effects. One of &quot;linear&quot; (default) or
+&quot;DNN&quot; (deep neural network)</p>
+</td></tr>
+<tr><td><code id="error_family">error_family</code></td>
+<td>
+<p>Error family distribution. One of &quot;gaussian&quot; (default) or &quot;binomial&quot;.
+If &quot;binomial&quot;, community data is converted to presence/absence and
+a probit link is used</p>
+</td></tr>
+<tr><td><code id="device">device</code></td>
+<td>
+<p>Computing device to use. One of &quot;cpu&quot; (default) or &quot;gpu&quot;</p>
+</td></tr>
+<tr><td><code id="parallel">parallel</code></td>
+<td>
+<p>Number of CPU cores to use for parallel processing.
+Only applicable if device = &quot;cpu&quot;. Default is 0L (no parallelization).</p>
+</td></tr>
+<tr><td><code id="compute_se">compute_se</code></td>
+<td>
+<p>Logical indicating whether to compute standard errors. Default is FALSE.
+Note: SE computation may fail with certain model configurations (e.g., DNN,
+complex spatial structures) and will produce a warning if it fails.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>Additional arguments passed to sjSDM::sjSDM</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function prepares the data and fits a joint Species Distribution
+Model using the sjSDM package. The spatial structure is modeled using
+an interaction term between longitude and latitude coordinates. When
+binomial error family is specified, the community data is converted
+to binary presence/absence data.
+</p>
+<p>Standard error computation ('compute_se = TRUE') may fail with certain
+model configurations, particularly when using DNN methods or complex
+spatial structures. If SE computation fails, the model will still be
+returned with a warning.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class sjSDM containing the fitted model
+</p>
+
+
+<h3>See Also</h3>
+
+<p>sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN
+</p>
+
+</main>
+
+</div>
+</body></html>
+

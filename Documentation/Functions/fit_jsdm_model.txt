@@ -1,0 +1,82 @@
+Fit an sjSDM Model
+
+Description:
+
+     Fits a joint Species Distribution Model (jSDM) using the sjSDM
+     package with specified abiotic, spatial, and error family
+     configurations.
+
+Usage:
+
+     fit_jsdm_model(
+       data_to_fit = NULL,
+       sel_abiotic_formula = NULL,
+       abiotic_method = c("linear", "DNN"),
+       sel_spatial_formula = as.formula(~0 + coord_long:coord_lat),
+       spatial_method = c("linear", "DNN", "none"),
+       error_family = c("gaussian", "binomial"),
+       device = c("cpu", "gpu"),
+       parallel = 0L,
+       compute_se = FALSE,
+       ...,
+       verbose = FALSE
+     )
+     
+Arguments:
+
+data_to_fit: A list containing the data to fit the model. Must include:
+          - `data_community_to_fit`: matrix of community composition -
+          `data_abiotic_to_fit`: data frame of abiotic variables -
+          `data_coords_to_fit`: data frame of spatial coordinates
+
+sel_abiotic_formula: A character string of length 1 specifying the
+          formula for the model
+
+abiotic_method: Method for modeling abiotic effects. One of "linear"
+          (default) or "DNN" (deep neural network)
+
+sel_spatial_formula: A character string of length 1 specifying the
+          formula for the spatial effects. Only used if spatial_method
+          = "linear".
+
+spatial_method: Method for modeling spatial effects. One of "linear"
+          (default) or "DNN" (deep neural network)
+
+error_family: Error family distribution. One of "gaussian" (default) or
+          "binomial". If "binomial", community data is converted to
+          presence/absence and a probit link is used
+
+  device: Computing device to use. One of "cpu" (default) or "gpu"
+
+parallel: Number of CPU cores to use for parallel processing. Only
+          applicable if device = "cpu". Default is 0L (no
+          parallelization).
+
+compute_se: Logical indicating whether to compute standard errors.
+          Default is FALSE. Note: SE computation may fail with certain
+          model configurations (e.g., DNN, complex spatial structures)
+          and will produce a warning if it fails.
+
+     ...: Additional arguments passed to sjSDM::sjSDM
+
+Details:
+
+     This function prepares the data and fits a joint Species
+     Distribution Model using the sjSDM package. The spatial structure
+     is modeled using an interaction term between longitude and
+     latitude coordinates. When binomial error family is specified, the
+     community data is converted to binary presence/absence data.
+
+     Standard error computation (`compute_se = TRUE`) may fail with
+     certain model configurations, particularly when using DNN methods
+     or complex spatial structures. If SE computation fails, the model
+     will still be returned with a warning.
+
+Value:
+
+     An object of class sjSDM containing the fitted model
+
+See Also:
+
+     sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN
+

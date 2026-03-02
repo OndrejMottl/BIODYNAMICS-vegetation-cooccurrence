@@ -64,3 +64,5 @@ Documentation/Reports/First_report/First_presentation/_presentation_01_temp/
 
 # VSCode settings
 .vscode/settings.json
+
+**/*.quarto_ipynb

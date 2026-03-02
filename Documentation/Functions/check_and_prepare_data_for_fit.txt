@@ -16,17 +16,33 @@ Usage:
      
 Arguments:
 
-data_community: Data frame of community data.
+data_community: A data frame of community data in wide format, with
+          sample names as row names in the format "dataset_name__age".
 
-data_abiotic: Data frame of abiotic data.
+data_abiotic: A data frame of abiotic data with sample names as row
+          names in the format "dataset_name__age", and abiotic
+          variables as columns.
 
-data_coords: Data frame of coordinates.
+data_coords: A data frame of spatial coordinates with dataset names as
+          row names and columns for longitude and latitude.
 
-subset_age: Optional age value to subset data.
+subset_age: Optional numeric value specifying a single age to subset
+          the data. If NULL (default), all ages are included.
+
+Details:
+
+     Drops NA values, optionally subsets by age, and finds the
+     intersection of samples across community, abiotic, and coordinate
+     data to ensure all inputs are aligned before model fitting.
 
 Value:
 
-     A list of cleaned and prepared data frames for model fitting.
+     A list with four elements: `data_community_to_fit`,
+     `data_abiotic_to_fit`, `data_coords_to_fit`, and
+     `scale_attributes`. All data frames are aligned to the
+     intersecting set of datasets and ages. `scale_attributes` is a
+     named list of centering and scaling attributes for each abiotic
+     variable.
 
 See Also:
 

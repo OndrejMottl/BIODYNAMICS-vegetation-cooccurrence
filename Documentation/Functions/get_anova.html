@@ -1,0 +1,68 @@
+<!DOCTYPE html><html><head><title>R: Get ANOVA for sjSDM Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_anova</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get ANOVA for sjSDM Model</h2>
+
+<h3>Description</h3>
+
+<p>Computes the ANOVA decomposition for a fitted sjSDM model,
+partitioning variance explained by environmental and spatial
+components.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_anova(mod)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="mod">mod</code></td>
+<td>
+<p>A fitted model object of class 'sjSDM'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function wraps the internal 'sjSDM:::anova.sjSDM()' method
+with 'verbose = FALSE' to suppress printed output.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An ANOVA result object as returned by 'sjSDM:::anova.sjSDM()',
+containing variance partitioning across model components.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[fit_hmsc_model()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

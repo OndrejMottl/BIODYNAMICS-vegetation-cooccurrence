@@ -1,0 +1,28 @@
+Filter Rare Taxa
+
+Usage:
+
+     filter_rare_taxa(data = NULL, minimal_proportion = 0.01)
+     
+Arguments:
+
+    data: A data frame containing taxon abundance data. Must include a
+          column named 'pollen_prop' with numeric proportions or
+          abundances.
+
+minimal_proportion: Numeric value between 0 and 1 specifying the
+          minimum proportion threshold for retaining taxa. Default is
+          0.01 (1
+
+     A filtered data frame containing only taxa that meet or exceed the
+     minimal proportion threshold. Preserves all original columns.
+
+     Filters out rare taxa from community data based on a minimum
+     proportion threshold. Only taxa meeting or exceeding the threshold
+     are retained.
+
+     The function validates that minimal_proportion is a numeric value
+     between 0 and 1. After filtering, it checks that at least one
+     taxon remains in the dataset. If no taxa meet the threshold, an
+     error is raised suggesting the threshold may be too high.
+

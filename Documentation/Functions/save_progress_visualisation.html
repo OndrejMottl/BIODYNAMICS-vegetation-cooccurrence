@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
 <script type="text/javascript">
-const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
@@ -28,9 +28,11 @@ function processMathHTML() {
 
 <pre><code class='language-R'>save_progress_visualisation(
   sel_script,
+  sel_store = get_active_config("target_store"),
   output_file = "project_status",
   output_dir = here::here("Documentation/Progress"),
   background_color = "white",
+  physics = TRUE,
   level_separation = 250
 )
 </code></pre>
@@ -43,13 +45,28 @@ function processMathHTML() {
 <td>
 <p>The script file to be visualised.</p>
 </td></tr>
+<tr><td><code id="sel_store">sel_store</code></td>
+<td>
+<p>Path to the targets store directory. Defaults to the value from the active
+configuration key &quot;target_store&quot;.</p>
+</td></tr>
 <tr><td><code id="output_file">output_file</code></td>
 <td>
 <p>The name of the output file (default: &quot;project_status&quot;).</p>
 </td></tr>
 <tr><td><code id="output_dir">output_dir</code></td>
 <td>
-<p>Directory where the output files will be saved (default: &quot;Outputs/Figures&quot;).</p>
+<p>Directory where the output files will be saved
+(default: &quot;Documentation/Progress&quot;).</p>
+</td></tr>
+<tr><td><code id="background_color">background_color</code></td>
+<td>
+<p>Background color for the visualisation (default: &quot;white&quot;).</p>
+</td></tr>
+<tr><td><code id="physics">physics</code></td>
+<td>
+<p>Logical indicating whether to enable physics simulation in the network
+graph (default: TRUE).</p>
 </td></tr>
 <tr><td><code id="level_separation">level_separation</code></td>
 <td>
@@ -60,9 +77,18 @@ function processMathHTML() {
 
 <h3>Details</h3>
 
-<p>Uses 'targets::tar_visnetwork' to create a network graph and saves it as
-HTML using 'visNetwork::visSave'. Also generates a static PNG image using
-'webshot2::webshot'.
+<p>Uses 'targets::tar_visnetwork' to create a network graph and saves two
+HTML files (full and targets-only) using 'visNetwork::visSave', plus a
+static PNG via 'webshot2::webshot'. Files are written to
+'output_dir/&lt;store_name&gt;/' where '&lt;store_name&gt;' is the last path segment
+of 'sel_store' after the 'targets/' directory.
+</p>
+
+
+<h3>Value</h3>
+
+<p>No return value. Called for side effects: saves HTML and PNG files to a
+store-specific subdirectory within 'output_dir'.
 </p>
 
 </main>

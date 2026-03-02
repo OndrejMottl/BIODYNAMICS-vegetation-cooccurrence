@@ -2,9 +2,9 @@ Get Community Data
 
 Description:
 
-     This function processes a data frame containing community data and
-     extracts the relevant columns, unnesting the `data_community`
-     column in the process.
+     Processes a data frame containing community data and extracts the
+     relevant columns, unnesting the `data_community` column in the
+     process.
 
 Usage:
 
@@ -17,16 +17,9 @@ Arguments:
 
 Details:
 
-     The function performs the following steps:
-
-        • Validates that the input is a data frame.
-
-        • Ensures the presence of the `dataset_name` and
-          `data_community` columns.
-
-        • Selects the `dataset_name` and `data_community` columns.
-
-        • Unnests the `data_community` column.
+     Validates that the input is a data frame, ensures the presence of
+     the `dataset_name` and `data_community` columns, selects those
+     columns, and unnests the `data_community` column.
 
 Value:
 
