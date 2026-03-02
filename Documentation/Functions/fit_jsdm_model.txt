@@ -29,18 +29,20 @@ data_to_fit: A list containing the data to fit the model. Must include:
           `data_abiotic_to_fit`: data frame of abiotic variables -
           `data_coords_to_fit`: data frame of spatial coordinates
 
-sel_abiotic_formula: A character string of length 1 specifying the
-          formula for the model
+sel_abiotic_formula: A formula object specifying the abiotic
+          (environmental) predictors
 
 abiotic_method: Method for modeling abiotic effects. One of "linear"
           (default) or "DNN" (deep neural network)
 
-sel_spatial_formula: A character string of length 1 specifying the
-          formula for the spatial effects. Only used if spatial_method
-          = "linear".
+sel_spatial_formula: A formula object specifying the spatial
+          predictors. Defaults to an interaction between longitude and
+          latitude (`~ 0 + coord_long:coord_lat`). Only used if
+          `spatial_method` is `"linear"` or `"DNN"`.
 
-spatial_method: Method for modeling spatial effects. One of "linear"
-          (default) or "DNN" (deep neural network)
+spatial_method: Method for modeling spatial effects. One of `"linear"`
+          (default), `"DNN"` (deep neural network), or `"none"` (no
+          spatial structure)
 
 error_family: Error family distribution. One of "gaussian" (default) or
           "binomial". If "binomial", community data is converted to

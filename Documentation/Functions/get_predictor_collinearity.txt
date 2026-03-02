@@ -1,0 +1,41 @@
+Get predictor collinearity
+
+Description:
+
+     Analyses collinearity among abiotic predictors in a long-format
+     data frame and returns a `collinear_output` object produced by
+     `collinear::collinear()`. The function pivots `data_source` from
+     long to wide format (one column per variable), removes any `age`
+     column, and then performs the collinearity analysis.
+
+Usage:
+
+     get_predictor_collinearity(data_source)
+     
+Arguments:
+
+data_source: A data frame in long format containing at minimum the
+          columns `abiotic_variable_name` (character, predictor names)
+          and `abiotic_value` (numeric, predictor values).  An optional
+          `age` column is silently dropped before analysis.
+
+Details:
+
+     The function validates inputs with `assertthat` and performs
+     post-hoc assertions on the output to guarantee structural
+     integrity before returning.  Missing values are filled with `NA`
+     when pivoting to wide format.  The `age` column is excluded
+     because it is a sampling dimension rather than a predictor.
+
+Value:
+
+     A `collinear_output` object as returned by
+     `collinear::collinear()`. The object contains a `result` element
+     with a `selection` character vector of the non-collinear predictor
+     names that were retained.
+
+See Also:
+
+     [collinear::collinear()] for the underlying collinearity method,
+     [get_abiotic_data()] for producing the expected input format.
+

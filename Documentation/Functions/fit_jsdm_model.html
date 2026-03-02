@@ -56,7 +56,7 @@ configurations.
 </td></tr>
 <tr><td><code id="sel_abiotic_formula">sel_abiotic_formula</code></td>
 <td>
-<p>A character string of length 1 specifying the formula for the model</p>
+<p>A formula object specifying the abiotic (environmental) predictors</p>
 </td></tr>
 <tr><td><code id="abiotic_method">abiotic_method</code></td>
 <td>
@@ -65,13 +65,15 @@ configurations.
 </td></tr>
 <tr><td><code id="sel_spatial_formula">sel_spatial_formula</code></td>
 <td>
-<p>A character string of length 1 specifying the formula for the spatial
-effects. Only used if spatial_method = &quot;linear&quot;.</p>
+<p>A formula object specifying the spatial predictors. Defaults to an
+interaction between longitude and latitude
+('~ 0 + coord_long:coord_lat'). Only used if
+'spatial_method' is '&quot;linear&quot;' or '&quot;DNN&quot;'.</p>
 </td></tr>
 <tr><td><code id="spatial_method">spatial_method</code></td>
 <td>
-<p>Method for modeling spatial effects. One of &quot;linear&quot; (default) or
-&quot;DNN&quot; (deep neural network)</p>
+<p>Method for modeling spatial effects. One of '&quot;linear&quot;' (default),
+'&quot;DNN&quot;' (deep neural network), or '&quot;none&quot;' (no spatial structure)</p>
 </td></tr>
 <tr><td><code id="error_family">error_family</code></td>
 <td>

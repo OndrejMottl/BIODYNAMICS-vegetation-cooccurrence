@@ -276,6 +276,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_predictor_collinearity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_predictor_collinearity()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/get_random_structure_for_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_random_structure_for_model()</span></a>
   </div>
@@ -490,7 +496,7 @@ A list containing the data to fit the model. Must include: - ‘data_community_t
 </td>
 <td>
 <p>
-A character string of length 1 specifying the formula for the model
+A formula object specifying the abiotic (environmental) predictors
 </p>
 </td>
 </tr>
@@ -510,7 +516,7 @@ Method for modeling abiotic effects. One of "linear" (default) or "DNN" (deep ne
 </td>
 <td>
 <p>
-A character string of length 1 specifying the formula for the spatial effects. Only used if spatial_method = "linear".
+A formula object specifying the spatial predictors. Defaults to an interaction between longitude and latitude (‘~ 0 + coord_long:coord_lat’). Only used if ‘spatial_method’ is ‘"linear"’ or ‘"DNN"’.
 </p>
 </td>
 </tr>
@@ -520,7 +526,7 @@ A character string of length 1 specifying the formula for the spatial effects. O
 </td>
 <td>
 <p>
-Method for modeling spatial effects. One of "linear" (default) or "DNN" (deep neural network)
+Method for modeling spatial effects. One of ‘"linear"’ (default), ‘"DNN"’ (deep neural network), or ‘"none"’ (no spatial structure)
 </p>
 </td>
 </tr>
