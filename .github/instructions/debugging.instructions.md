@@ -153,9 +153,11 @@ step 1.
 
 ### 8. Final Verification — Run the Full Pipeline
 
-After cleaning up, verify the fix end-to-end by running the basic
+**This step is mandatory for all implementation work** — bug fixes,
+new features, refactors, and pipeline changes — not only for debugging
+sessions. After cleaning up, verify end-to-end by running the basic
 pipeline with the `project_cz` configuration. The run must complete
-without errors:
+without unexpected errors:
 
 ```r
 library(here)
