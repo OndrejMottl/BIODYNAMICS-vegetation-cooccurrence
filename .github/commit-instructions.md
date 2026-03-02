@@ -64,8 +64,8 @@ refactor: simplify taxa filtering logic across scripts
 data: update input data extraction from VegVault
 ci: add GitHub Actions workflow for tests
 chore: add Data/Temp to .gitignore
-vscode: update settings for commit message generation
-copilot: update commit instructions and add debugging skill
+vscode: update settings for commit message generation  ← .vscode/ files only (settings.json, tasks.json, launch.json, …)
+copilot: update commit instructions and add debugging skill  ← .github/ files only (copilot-instructions.md, commit-instructions.md, instructions/, skills/, …)
 ```
 
 ---
