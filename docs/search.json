@@ -112,75 +112,87 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_taxa_classification.html",
-    "href": "website/Documentation/Functions/get_taxa_classification.html",
-    "title": "get_taxa_classification()",
+    "objectID": "website/Documentation/Functions/get_taxa_without_classification.html",
+    "href": "website/Documentation/Functions/get_taxa_without_classification.html",
+    "title": "get_taxa_without_classification()",
     "section": "",
-    "text": "get_taxa_classification\n\n\nR Documentation\n\n\n\n\nGet Taxa Classification\n\n\nDescription\n\n\nRetrieves taxonomic classification for a vector of taxa using the taxospace package. Filters results to include only plant taxa.\n\n\nUsage\n\nget_taxa_classification(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA character vector of taxon names to classify.\n\n\n\n\n\nDetails\n\n\nUses taxospace::get_classification to retrieve classification. Flags and filters for plant taxa (kingdom Plantae). Returns an empty tibble if no plant taxa found.\n\n\nValue\n\n\nA data frame with columns for selected name, taxonomic name, rank, and id.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_taxa_without_classification\n\n\nR Documentation\n\n\n\n\nGet taxa without classification\n\n\nDescription\n\n\nIdentifies taxa from a community vector that are absent from a classification table. Returns the names of taxa that do not have a matching entry in the ‘sel_name’ column of the classification table.\n\n\nUsage\n\nget_taxa_without_classification(vec_community_taxa, data_classification_table)\n\n\nArguments\n\n\n\n\nvec_community_taxa\n\n\n\nA non-empty character vector of taxon names present in the community data.\n\n\n\n\n\ndata_classification_table\n\n\n\nA data frame containing a ‘sel_name’ column with unique taxon names used for classification lookup. Must not contain duplicate values in ‘sel_name’.\n\n\n\n\n\nDetails\n\n\nUses ‘dplyr::anti_join()’ to find taxa present in ‘vec_community_taxa’ but absent from the ‘sel_name’ column of ‘data_classification_table’. Duplicate entries in ‘vec_community_taxa’ are collapsed before the comparison, so each unclassified taxon appears only once in the output.\n\n\nValue\n\n\nA character vector of taxon names from ‘vec_community_taxa’ that are not found in ‘data_classification_table$sel_name’. Returns an empty character vector if all taxa are classified.\n\n\nSee Also\n\n\n[classify_taxonomic_resolution()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_taxa_classification()"
+      "get_taxa_without_classification()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_significant_associations.html",
-    "href": "website/Documentation/Functions/get_significant_associations.html",
-    "title": "get_significant_associations()",
+    "objectID": "website/Documentation/Functions/get_species_association.html",
+    "href": "website/Documentation/Functions/get_species_association.html",
+    "title": "get_species_association()",
     "section": "",
-    "text": "get_significant_associations\n\n\nR Documentation\n\n\n\n\nGet Significant Species Associations\n\n\nDescription\n\n\nIdentifies significant species associations based on support and mean values for each error level.\n\n\nUsage\n\nget_significant_associations(data_source, alpha = 0.05)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing association matrices from a fitted Hmsc model. Generally, this is the output of the function get_species_association().\n\n\n\n\n\nalpha\n\n\n\nSignificance level for support threshold (default: 0.05).\n\n\n\n\n\nValue\n\n\nA vector of significant association values.\n\n\nSee Also\n\n\n[get_species_association()]\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_species_association\n\n\nR Documentation\n\n\n\n\nCompute Species Associations\n\n\nDescription\n\n\nComputes species associations from a fitted Hmsc model object.\n\n\nUsage\n\nget_species_association(data_source)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing a fitted Hmsc model under the ‘mod’ element. Generally, this is the output of the function add_model_evaluation() or # get_better_model_based_on_fit()\n\n\n\n\n\nValue\n\n\nA matrix of species associations.\n\n\nSee Also\n\n\n[add_model_evaluation(), get_better_model_based_on_fit()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_significant_associations()"
+      "get_species_association()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_random_structure_for_model.html",
-    "href": "website/Documentation/Functions/get_random_structure_for_model.html",
-    "title": "get_random_structure_for_model()",
+    "objectID": "website/Documentation/Functions/get_sample_ages.html",
+    "href": "website/Documentation/Functions/get_sample_ages.html",
+    "title": "get_sample_ages()",
     "section": "",
-    "text": "get_random_structure_for_model\n\n\nR Documentation\n\n\n\n\nGet Random Structure for Model\n\n\nDescription\n\n\nConstructs the random structure for HMSC models based on age and/or space.\n\n\nUsage\n\nget_random_structure_for_model(\n  data = NULL,\n  type = c(\"age\", \"space\"),\n  min_knots_distance = NULL\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA list containing data for model fitting from the function [check_and_prepare_data_for_fit()].\n\n\n\n\n\ntype\n\n\n\nCharacter vector specifying random effect types (\"age\", \"space\").\n\n\n\n\n\nmin_knots_distance\n\n\n\nMinimum distance between knots for spatial random effect (optional). Only used if \"space\" is in ‘type’.\n\n\n\n\n\nValue\n\n\nA list describing the random structure for the model.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_sample_ages\n\n\nR Documentation\n\n\n\n\nGet Sample Ages\n\n\nDescription\n\n\nExtracts sample ages from a data frame containing dataset and sample info.\n\n\nUsage\n\nget_sample_ages(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_samples’.\n\n\n\n\n\nDetails\n\n\nValidates the input data frame, ensures required columns are present, and extracts sample ages by unnesting the ‘data_samples’ column.\n\n\nValue\n\n\nA data frame with columns ‘dataset_name’, ‘sample_name’, and ‘age’.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_random_structure_for_model()"
+      "get_sample_ages()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_pollen_sum.html",
-    "href": "website/Documentation/Functions/get_pollen_sum.html",
-    "title": "get_pollen_sum()",
+    "objectID": "website/Documentation/Functions/get_predictor_collinearity.html",
+    "href": "website/Documentation/Functions/get_predictor_collinearity.html",
+    "title": "get_predictor_collinearity()",
     "section": "",
-    "text": "get_pollen_sum\n\n\nR Documentation\n\n\n\n\nCalculate the Total Pollen Count for Each Sample\n\n\nDescription\n\n\nThis function computes the total pollen count for each sample in the provided dataset.\n\n\nUsage\n\nget_pollen_sum(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing at least two columns: ‘sample_name’ (the name or identifier of the sample) and ‘pollen_count’ (the count of pollen for each observation).\n\n\n\n\n\nDetails\n\n\nThe function groups the data by ‘sample_name’, calculates the sum of ‘pollen_count’ for each group, and removes any grouping structure before returning the result. Missing values (‘NA’) in ‘pollen_count’ are ignored.\n\n\nValue\n\n\nA data frame with two columns: ‘sample_name’ and ‘pollen_sum’, where ‘pollen_sum’ is the total pollen count for each sample.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_predictor_collinearity\n\n\nR Documentation\n\n\n\n\nGet predictor collinearity\n\n\nDescription\n\n\nAnalyses collinearity among abiotic predictors in a long-format data frame and returns a ‘collinear_output’ object produced by ‘collinear::collinear()’. The function pivots ‘data_source’ from long to wide format (one column per variable), removes any ‘age’ column, and then performs the collinearity analysis.\n\n\nUsage\n\nget_predictor_collinearity(data_source)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA data frame in long format containing at minimum the columns ‘abiotic_variable_name’ (character, predictor names) and ‘abiotic_value’ (numeric, predictor values). An optional ‘age’ column is silently dropped before analysis.\n\n\n\n\n\nDetails\n\n\nThe function validates inputs with ‘assertthat’ and performs post-hoc assertions on the output to guarantee structural integrity before returning. Missing values are filled with ‘NA’ when pivoting to wide format. The ‘age’ column is excluded because it is a sampling dimension rather than a predictor.\n\n\nValue\n\n\nA ‘collinear_output’ object as returned by ‘collinear::collinear()’. The object contains a ‘result’ element with a ‘selection’ character vector of the non-collinear predictor names that were retained.\n\n\nSee Also\n\n\n[collinear::collinear()] for the underlying collinearity method, [get_abiotic_data()] for producing the expected input format.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_pollen_sum()"
+      "get_predictor_collinearity()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_coords.html",
-    "href": "website/Documentation/Functions/get_coords.html",
-    "title": "get_coords()",
+    "objectID": "website/Documentation/Functions/get_dataset_name_from_string.html",
+    "href": "website/Documentation/Functions/get_dataset_name_from_string.html",
+    "title": "get_dataset_name_from_string()",
     "section": "",
-    "text": "get_coords\n\n\nR Documentation\n\n\n\n\nGet Dataset Coordinates\n\n\nDescription\n\n\nExtracts unique coordinates for each dataset, excluding gridpoints.\n\n\nUsage\n\nget_coords(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing columns ‘dataset_name’, ‘dataset_type’, ‘coord_long’, and ‘coord_lat’. Rows with ‘dataset_type == \"gridpoints\"’ are excluded.\n\n\n\n\n\nValue\n\n\nA data frame with unique coordinates for each dataset, with ‘dataset_name’ as row names.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_dataset_name_from_string\n\n\nR Documentation\n\n\n\n\nExtract Dataset Name from String\n\n\nDescription\n\n\nExtracts the dataset name from a vector of strings, taking all characters before the double underscore (\"__\").\n\n\nUsage\n\nget_dataset_name_from_string(vec_names)\n\n\nArguments\n\n\n\n\nvec_names\n\n\n\nA character vector containing names with the format \"dataset__something\".\n\n\n\n\n\nValue\n\n\nA character vector of dataset names.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_coords()"
+      "get_dataset_name_from_string()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_community_data.html",
-    "href": "website/Documentation/Functions/get_community_data.html",
-    "title": "get_community_data()",
+    "objectID": "website/Documentation/Functions/get_community_taxa.html",
+    "href": "website/Documentation/Functions/get_community_taxa.html",
+    "title": "get_community_taxa()",
     "section": "",
-    "text": "get_community_data\n\n\nR Documentation\n\n\n\n\nGet Community Data\n\n\nDescription\n\n\nProcesses a data frame containing community data and extracts the relevant columns, unnesting the ‘data_community’ column in the process.\n\n\nUsage\n\nget_community_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_community’.\n\n\n\n\n\nDetails\n\n\nValidates that the input is a data frame, ensures the presence of the ‘dataset_name’ and ‘data_community’ columns, selects those columns, and unnests the ‘data_community’ column.\n\n\nValue\n\n\nA data frame with the ‘dataset_name’ and unnested ‘data_community’ columns.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_community_taxa\n\n\nR Documentation\n\n\n\n\nGet Community Taxa\n\n\nDescription\n\n\nExtracts a vector of unique taxa from a community data frame.\n\n\nUsage\n\nget_community_taxa(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing a ‘taxon’ column.\n\n\n\n\n\nDetails\n\n\nUses dplyr to select distinct values from the ‘taxon’ column and returns them as a vector.\n\n\nValue\n\n\nA character vector of unique taxon names present in the data.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_community_data()"
+      "get_community_taxa()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/get_better_model_based_on_fit.html",
+    "href": "website/Documentation/Functions/get_better_model_based_on_fit.html",
+    "title": "get_better_model_based_on_fit()",
+    "section": "",
+    "text": "get_better_model_based_on_fit\n\n\nR Documentation\n\n\n\n\nSelect Better Model Based on Fit\n\n\nDescription\n\n\nCompares two models and selects the one with better fit based on Tjur’s R2.\n\n\nUsage\n\nget_better_model_based_on_fit(list_models = NULL, method = c(\"TjurR2\", \"WAIC\"))\n\n\nArguments\n\n\n\n\nlist_models\n\n\n\nA list of two fitted model objects.\n\n\n\n\n\nValue\n\n\nThe model object with better fit.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "get_better_model_based_on_fit()"
     ]
   },
   {
@@ -244,15 +256,27 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/check_presence_of_vegvault.html",
-    "href": "website/Documentation/Functions/check_presence_of_vegvault.html",
-    "title": "check_presence_of_vegvault()",
+    "objectID": "website/Documentation/Functions/classify_taxonomic_resolution.html",
+    "href": "website/Documentation/Functions/classify_taxonomic_resolution.html",
+    "title": "classify_taxonomic_resolution()",
     "section": "",
-    "text": "check_presence_of_vegvault\n\n\nR Documentation\n\n\n\n\nCheck Presence of VegVault File\n\n\nDescription\n\n\nChecks whether the ‘VegVault.sqlite’ file exists in the specified directory.\n\n\nUsage\n\ncheck_presence_of_vegvault(relative_path = \"Data/Input/VegVault.sqlite\")\n\n\nArguments\n\n\n\n\nrelative_path\n\n\n\nRelative path to the ‘VegVault.sqlite’ file (default: \"Data/Input/Vegvault.sqlite\").\n\n\n\n\n\nDetails\n\n\nVerifies the presence of the ‘VegVault.sqlite’ file. If not found, throws an error with instructions to consult the ‘Data/Input/README.md’ file.\n\n\nValue\n\n\nLogical value indicating whether the file exists. Stops with an error if the file is not found.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "classify_taxonomic_resolution\n\n\nR Documentation\n\n\n\n\nClassify Taxonomic Resolution\n\n\nDescription\n\n\nClassifies taxa in a data frame to a specified taxonomic resolution (family, genus, or species) using a classification table, and aggregates pollen proportions accordingly.\n\n\nUsage\n\nclassify_taxonomic_resolution(\n  data,\n  data_classification_table,\n  taxonomic_resolution\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing taxon data with columns including ‘taxon’, ‘dataset_name’, ‘age’, and ‘pollen_prop’.\n\n\n\n\n\ndata_classification_table\n\n\n\nA data frame mapping ‘sel_name’ to taxonomic levels (e.g., family, genus, species).\n\n\n\n\n\ntaxonomic_resolution\n\n\n\nA character string specifying the taxonomic resolution to classify to. Must be one of ‘family’, ‘genus’, or ‘species’.\n\n\n\n\n\nDetails\n\n\nPerforms a left join to map taxa to the desired resolution, aggregates pollen proportions, and ensures all dataset_name-age-taxon combinations are present in the output.\n\n\nValue\n\n\nA data frame with taxa classified to the specified resolution and pollen proportions aggregated accordingly. The output preserves all dataset_name and age combinations for true negatives.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "check_presence_of_vegvault()"
+      "classify_taxonomic_resolution()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/check_and_report_missing_taxa.html",
+    "href": "website/Documentation/Functions/check_and_report_missing_taxa.html",
+    "title": "check_and_report_missing_taxa()",
+    "section": "",
+    "text": "check_and_report_missing_taxa\n\n\nR Documentation\n\n\n\n\nCheck for missing taxa and write template if needed\n\n\nDescription\n\n\nValidates that all community taxa have been classified. When missing taxa are found, writes a template CSV to ‘template_file_path’ so the user can fill in manual classifications, then stops with an informative error message. Returns ‘TRUE’ invisibly when no taxa are missing.\n\n\nUsage\n\ncheck_and_report_missing_taxa(\n  vec_taxa_without_classification,\n  template_file_path = here::here(\"Data/Input/missing_taxa_template.csv\")\n)\n\n\nArguments\n\n\n\n\nvec_taxa_without_classification\n\n\n\nA character vector of taxon names that could not be classified automatically or via the auxiliary table. An empty vector (‘character(0)’) signals full coverage and causes the function to return silently.\n\n\n\n\n\ntemplate_file_path\n\n\n\nA length-1 character string giving the path where the template CSV will be written when missing taxa are found. Defaults to ‘here::here(\"Data/Input/missing_taxa_template.csv\")’.\n\n\n\n\n\nDetails\n\n\nThe template CSV contains columns ‘sel_name’, ‘family’, ‘genus’, and ‘species’. The ‘sel_name’ column is pre-filled with the missing taxon names; the remaining columns are left as ‘NA’ for the user to complete. After filling in the template, copy or append rows to ‘Data/Input/aux_classification_table.csv’ and re-run the pipeline.\n\n\nValue\n\n\n‘TRUE’ invisibly when every taxon is classified. Stops with an error (and writes a template CSV) when any taxa are missing.\n\n\nSee Also\n\n\n[get_aux_classification_table()], [combine_classification_tables()], [get_taxa_without_classification()]\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "check_and_report_missing_taxa()"
     ]
   },
   {
@@ -295,7 +319,7 @@
     "href": "website/Documentation/documentation.html#documentation-of-individual-functions",
     "title": "BIODYNAMICS - Vegetation Co-occurrence",
     "section": "Documentation of individual functions",
-    "text": "Documentation of individual functions\nEach function used in the project is documented using the roxygen2 package. Here we present the list of functions used in the project:\n\n\n\n\n\n\n\nadd_age_column_from_rownames()\n\n\n\n\n\n\n\n\n\nadd_age_to_samples()\n\n\n\n\n\n\n\n\n\nadd_dataset_name_column_from_rownames()\n\n\n\n\n\n\n\n\n\nadd_model_evaluation()\n\n\n\n\n\n\n\n\n\ncheck_and_prepare_data_for_fit()\n\n\n\n\n\n\n\n\n\ncheck_presence_of_vegvault()\n\n\n\n\n\n\n\n\n\nclassify_taxonomic_resolution()\n\n\n\n\n\n\n\n\n\nevaluate_jsdm()\n\n\n\n\n\n\n\n\n\nextract_data_from_vegvault()\n\n\n\n\n\n\n\n\n\nfilter_rare_taxa()\n\n\n\n\n\n\n\n\n\nfit_hmsc_model()\n\n\n\n\n\n\n\n\n\nfit_jsdm_model()\n\n\n\n\n\n\n\n\n\nget_abiotic_data()\n\n\n\n\n\n\n\n\n\nget_active_config()\n\n\n\n\n\n\n\n\n\nget_age_from_string()\n\n\n\n\n\n\n\n\n\nget_anova()\n\n\n\n\n\n\n\n\n\nget_better_model_based_on_fit()\n\n\n\n\n\n\n\n\n\nget_community_data()\n\n\n\n\n\n\n\n\n\nget_community_taxa()\n\n\n\n\n\n\n\n\n\nget_coords()\n\n\n\n\n\n\n\n\n\nget_dataset_name_from_string()\n\n\n\n\n\n\n\n\n\nget_pollen_sum()\n\n\n\n\n\n\n\n\n\nget_predictor_collinearity()\n\n\n\n\n\n\n\n\n\nget_random_structure_for_model()\n\n\n\n\n\n\n\n\n\nget_sample_ages()\n\n\n\n\n\n\n\n\n\nget_significant_associations()\n\n\n\n\n\n\n\n\n\nget_species_association()\n\n\n\n\n\n\n\n\n\nget_taxa_classification()\n\n\n\n\n\n\n\n\n\ninterpolate_community_data()\n\n\n\n\n\n\n\n\n\ninterpolate_data()\n\n\n\n\n\n\n\n\n\nmake_classification_table()\n\n\n\n\n\n\n\n\n\nmake_community_data_long()\n\n\n\n\n\n\n\n\n\nmake_env_formula()\n\n\n\n\n\n\n\n\n\nmake_hmsc_model()\n\n\n\n\n\n\n\n\n\nprepare_data_for_fit()\n\n\n\n\n\n\n\n\n\nreplace_na_community_data_with_zeros()\n\n\n\n\n\n\n\n\n\nrun_pipeline()\n\n\n\n\n\n\n\n\n\nsave_progress_visualisation()\n\n\n\n\n\n\n\n\n\nselect_n_taxa()\n\n\n\n\n\n\n\n\n\ntransform_to_proportions()\n\n\n\n\n\n\n\n\n\nverify_sjsdm_setup()\n\n\n\n\n\nNo matching items",
+    "text": "Documentation of individual functions\nEach function used in the project is documented using the roxygen2 package. Here we present the list of functions used in the project:\n\n\n\n\n\n\n\nadd_age_column_from_rownames()\n\n\n\n\n\n\n\n\n\nadd_age_to_samples()\n\n\n\n\n\n\n\n\n\nadd_dataset_name_column_from_rownames()\n\n\n\n\n\n\n\n\n\nadd_model_evaluation()\n\n\n\n\n\n\n\n\n\ncheck_and_prepare_data_for_fit()\n\n\n\n\n\n\n\n\n\ncheck_and_report_missing_taxa()\n\n\n\n\n\n\n\n\n\ncheck_presence_of_vegvault()\n\n\n\n\n\n\n\n\n\nclassify_taxonomic_resolution()\n\n\n\n\n\n\n\n\n\ncombine_classification_tables()\n\n\n\n\n\n\n\n\n\nevaluate_jsdm()\n\n\n\n\n\n\n\n\n\nextract_data_from_vegvault()\n\n\n\n\n\n\n\n\n\nfilter_rare_taxa()\n\n\n\n\n\n\n\n\n\nfit_hmsc_model()\n\n\n\n\n\n\n\n\n\nfit_jsdm_model()\n\n\n\n\n\n\n\n\n\nget_abiotic_data()\n\n\n\n\n\n\n\n\n\nget_active_config()\n\n\n\n\n\n\n\n\n\nget_age_from_string()\n\n\n\n\n\n\n\n\n\nget_anova()\n\n\n\n\n\n\n\n\n\nget_aux_classification_table()\n\n\n\n\n\n\n\n\n\nget_better_model_based_on_fit()\n\n\n\n\n\n\n\n\n\nget_community_data()\n\n\n\n\n\n\n\n\n\nget_community_taxa()\n\n\n\n\n\n\n\n\n\nget_coords()\n\n\n\n\n\n\n\n\n\nget_dataset_name_from_string()\n\n\n\n\n\n\n\n\n\nget_pollen_sum()\n\n\n\n\n\n\n\n\n\nget_predictor_collinearity()\n\n\n\n\n\n\n\n\n\nget_random_structure_for_model()\n\n\n\n\n\n\n\n\n\nget_sample_ages()\n\n\n\n\n\n\n\n\n\nget_significant_associations()\n\n\n\n\n\n\n\n\n\nget_species_association()\n\n\n\n\n\n\n\n\n\nget_taxa_classification()\n\n\n\n\n\n\n\n\n\nget_taxa_without_classification()\n\n\n\n\n\n\n\n\n\ninterpolate_community_data()\n\n\n\n\n\n\n\n\n\ninterpolate_data()\n\n\n\n\n\n\n\n\n\nmake_classification_table()\n\n\n\n\n\n\n\n\n\nmake_community_data_long()\n\n\n\n\n\n\n\n\n\nmake_env_formula()\n\n\n\n\n\n\n\n\n\nmake_hmsc_model()\n\n\n\n\n\n\n\n\n\nprepare_data_for_fit()\n\n\n\n\n\n\n\n\n\nreplace_na_community_data_with_zeros()\n\n\n\n\n\n\n\n\n\nrun_pipeline()\n\n\n\n\n\n\n\n\n\nsave_progress_visualisation()\n\n\n\n\n\n\n\n\n\nselect_n_taxa()\n\n\n\n\n\n\n\n\n\ntransform_to_proportions()\n\n\n\n\n\n\n\n\n\nverify_sjsdm_setup()\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Documentation",
       "Project overview"
@@ -443,7 +467,7 @@
     "href": "website/about.html",
     "title": "BIODYNAMICS - Vegetation Co-occurrence",
     "section": "",
-    "text": "This is a project to study the co-occurrence of vegetation across space and time.\nThe repo is part of the BIODYNAMICS project.\n This project is a work in progress. The code is not yet ready!\n\n\nThe project is using {config} to set up various “subprojects” within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.\nThe main source of data is VegVault, a database of vegetation plots and abiotic data.\nCurrently, the aim of the project is to estimate the number of significant co-occurrences of species in a given area per each time slice (step). The species associations are calculated using {sjSDM} (Scalable Joint Species Distribution Models) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining for abiotic variables).\n\n\nThe project was originally developed using {HMSC} (Hierarchical Modelling of Species Communities). However, HMSC relies on MCMC sampling, which did not scale well to the size of the data used in this project — fitting times became prohibitively long as the number of sites, taxa, and time slices increased. The project is therefore being fully reworked to use {sjSDM}, which uses stochastic gradient descent and GPU acceleration to achieve substantial performance gains while retaining the joint species distribution modelling framework.\n\n⚠️ TO BE DONE: The spatial random effect component has not yet been implemented in the new sjSDM pipeline. Accounting for spatial autocorrelation is a planned next step and will be added once the core abiotic-constrained association pipeline is stable.\n\nHere is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:\n\n\n\n\n\n🔄 In progress: The pipeline has been migrated from {HMSC} to {sjSDM} and is actively being developed. Results below reflect the current state of the new pipeline and will be updated as the workflow stabilises.\n\nThere is a toy sub-project with the area of Czech Republic using only the fossil pollen archive data spanning 0–5,000 cal yr BP, with a time step of 500 years. The abiotic variables are bio1 and bio12 (mean annual temperature and annual precipitation). Only the 10 most common taxa are used in the analysis. The sjSDM model is fitted with linear abiotic effects and no explicit spatial random effect.\n\n\n$data\nlist()\nattr(,\"class\")\n[1] \"waiver\"\n\n$layers\n$layers[[1]]\nmapping: x = ~type, y = ~n_sign_assoc \ngeom_point: na.rm = FALSE\nstat_identity: na.rm = FALSE\nposition_identity \n\n\n$scales\n&lt;ggproto object: Class ScalesList, gg&gt;\n    add: function\n    add_defaults: function\n    add_missing: function\n    backtransform_df: function\n    clone: function\n    find: function\n    get_scales: function\n    has_scale: function\n    input: function\n    map_df: function\n    n: function\n    non_position_scales: function\n    scales: list\n    set_palettes: function\n    train_df: function\n    transform_df: function\n    super:  &lt;ggproto object: Class ScalesList, gg&gt;\n\n$guides\n&lt;Guides[0] ggproto object&gt;\n\n&lt;empty&gt;\n\n$mapping\nnamed list()\nattr(,\"class\")\n[1] \"uneval\"\n\n$theme\nlist()\n\n$coordinates\n&lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n    aspect: function\n    backtransform_range: function\n    clip: on\n    default: FALSE\n    distance: function\n    draw_panel: function\n    expand: TRUE\n    is_free: function\n    is_linear: function\n    labels: function\n    limits: list\n    modify_scales: function\n    range: function\n    render_axis_h: function\n    render_axis_v: function\n    render_bg: function\n    render_fg: function\n    reverse: none\n    setup_data: function\n    setup_layout: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    setup_params: function\n    train_panel_guides: function\n    transform: function\n    super:  &lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n\n$facet\n&lt;ggproto object: Class FacetNull, Facet, gg&gt;\n    attach_axes: function\n    attach_strips: function\n    compute_layout: function\n    draw_back: function\n    draw_front: function\n    draw_labels: function\n    draw_panel_content: function\n    draw_panels: function\n    finish_data: function\n    format_strip_labels: function\n    init_gtable: function\n    init_scales: function\n    map_data: function\n    params: list\n    set_panel_size: function\n    setup_data: function\n    setup_panel_params: function\n    setup_params: function\n    shrink: TRUE\n    train_scales: function\n    vars: function\n    super:  &lt;ggproto object: Class FacetNull, Facet, gg&gt;\n\n$plot_env\n&lt;environment: 0x000001cb62ea18f8&gt;\n\n$layout\n&lt;ggproto object: Class Layout, gg&gt;\n    coord: NULL\n    coord_params: list\n    facet: NULL\n    facet_params: list\n    finish_data: function\n    get_scales: function\n    layout: NULL\n    map_position: function\n    panel_params: NULL\n    panel_scales_x: NULL\n    panel_scales_y: NULL\n    render: function\n    render_labels: function\n    reset_scales: function\n    resolve_label: function\n    setup: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    train_position: function\n    super:  &lt;ggproto object: Class Layout, gg&gt;\n\n$labels\n$labels$x\n[1] \"Type of random factor\"\n\n$labels$y\n[1] \"Proportion of significant associations\"\n\n$labels$title\n[1] \"Proportion of significant associations\"\n\n$labels$subtitle\n[1] \"project: project_cz\"\n\n\nattr(,\"class\")\n[1] \"gg\"     \"ggplot\"",
+    "text": "This is a project to study the co-occurrence of vegetation across space and time.\nThe repo is part of the BIODYNAMICS project.\n This project is a work in progress. The code is not yet ready!\n\n\nThe project is using {config} to set up various “subprojects” within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.\nThe main source of data is VegVault, a database of vegetation plots and abiotic data.\nCurrently, the aim of the project is to estimate the number of significant co-occurrences of species in a given area per each time slice (step). The species associations are calculated using {sjSDM} (Scalable Joint Species Distribution Models) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining for abiotic variables).\n\n\nThe project was originally developed using {HMSC} (Hierarchical Modelling of Species Communities). However, HMSC relies on MCMC sampling, which did not scale well to the size of the data used in this project — fitting times became prohibitively long as the number of sites, taxa, and time slices increased. The project is therefore being fully reworked to use {sjSDM}, which uses stochastic gradient descent and GPU acceleration to achieve substantial performance gains while retaining the joint species distribution modelling framework.\n\n⚠️ TO BE DONE: The spatial random effect component has not yet been implemented in the new sjSDM pipeline. Accounting for spatial autocorrelation is a planned next step and will be added once the core abiotic-constrained association pipeline is stable.\n\nHere is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:\n\n\n\n\n\n🔄 In progress: The pipeline has been migrated from {HMSC} to {sjSDM} and is actively being developed. Results below reflect the current state of the new pipeline and will be updated as the workflow stabilises.\n\nThere is a toy sub-project with the area of Czech Republic using only the fossil pollen archive data spanning 0–5,000 cal yr BP, with a time step of 500 years. The abiotic variables are bio1 and bio12 (mean annual temperature and annual precipitation). Only the 10 most common taxa are used in the analysis. The sjSDM model is fitted with linear abiotic effects and no explicit spatial random effect.\n\n\n$data\nlist()\nattr(,\"class\")\n[1] \"waiver\"\n\n$layers\n$layers[[1]]\nmapping: x = ~type, y = ~n_sign_assoc \ngeom_point: na.rm = FALSE\nstat_identity: na.rm = FALSE\nposition_identity \n\n\n$scales\n&lt;ggproto object: Class ScalesList, gg&gt;\n    add: function\n    add_defaults: function\n    add_missing: function\n    backtransform_df: function\n    clone: function\n    find: function\n    get_scales: function\n    has_scale: function\n    input: function\n    map_df: function\n    n: function\n    non_position_scales: function\n    scales: list\n    set_palettes: function\n    train_df: function\n    transform_df: function\n    super:  &lt;ggproto object: Class ScalesList, gg&gt;\n\n$guides\n&lt;Guides[0] ggproto object&gt;\n\n&lt;empty&gt;\n\n$mapping\nnamed list()\nattr(,\"class\")\n[1] \"uneval\"\n\n$theme\nlist()\n\n$coordinates\n&lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n    aspect: function\n    backtransform_range: function\n    clip: on\n    default: FALSE\n    distance: function\n    draw_panel: function\n    expand: TRUE\n    is_free: function\n    is_linear: function\n    labels: function\n    limits: list\n    modify_scales: function\n    range: function\n    render_axis_h: function\n    render_axis_v: function\n    render_bg: function\n    render_fg: function\n    reverse: none\n    setup_data: function\n    setup_layout: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    setup_params: function\n    train_panel_guides: function\n    transform: function\n    super:  &lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n\n$facet\n&lt;ggproto object: Class FacetNull, Facet, gg&gt;\n    attach_axes: function\n    attach_strips: function\n    compute_layout: function\n    draw_back: function\n    draw_front: function\n    draw_labels: function\n    draw_panel_content: function\n    draw_panels: function\n    finish_data: function\n    format_strip_labels: function\n    init_gtable: function\n    init_scales: function\n    map_data: function\n    params: list\n    set_panel_size: function\n    setup_data: function\n    setup_panel_params: function\n    setup_params: function\n    shrink: TRUE\n    train_scales: function\n    vars: function\n    super:  &lt;ggproto object: Class FacetNull, Facet, gg&gt;\n\n$plot_env\n&lt;environment: 0x000001f51ac61e40&gt;\n\n$layout\n&lt;ggproto object: Class Layout, gg&gt;\n    coord: NULL\n    coord_params: list\n    facet: NULL\n    facet_params: list\n    finish_data: function\n    get_scales: function\n    layout: NULL\n    map_position: function\n    panel_params: NULL\n    panel_scales_x: NULL\n    panel_scales_y: NULL\n    render: function\n    render_labels: function\n    reset_scales: function\n    resolve_label: function\n    setup: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    train_position: function\n    super:  &lt;ggproto object: Class Layout, gg&gt;\n\n$labels\n$labels$x\n[1] \"Type of random factor\"\n\n$labels$y\n[1] \"Proportion of significant associations\"\n\n$labels$title\n[1] \"Proportion of significant associations\"\n\n$labels$subtitle\n[1] \"project: project_cz\"\n\n\nattr(,\"class\")\n[1] \"gg\"     \"ggplot\"",
     "crumbs": [
       "About the project"
     ]
@@ -453,7 +477,7 @@
     "href": "website/about.html#current-status",
     "title": "BIODYNAMICS - Vegetation Co-occurrence",
     "section": "",
-    "text": "The project is using {config} to set up various “subprojects” within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.\nThe main source of data is VegVault, a database of vegetation plots and abiotic data.\nCurrently, the aim of the project is to estimate the number of significant co-occurrences of species in a given area per each time slice (step). The species associations are calculated using {sjSDM} (Scalable Joint Species Distribution Models) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining for abiotic variables).\n\n\nThe project was originally developed using {HMSC} (Hierarchical Modelling of Species Communities). However, HMSC relies on MCMC sampling, which did not scale well to the size of the data used in this project — fitting times became prohibitively long as the number of sites, taxa, and time slices increased. The project is therefore being fully reworked to use {sjSDM}, which uses stochastic gradient descent and GPU acceleration to achieve substantial performance gains while retaining the joint species distribution modelling framework.\n\n⚠️ TO BE DONE: The spatial random effect component has not yet been implemented in the new sjSDM pipeline. Accounting for spatial autocorrelation is a planned next step and will be added once the core abiotic-constrained association pipeline is stable.\n\nHere is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:\n\n\n\n\n\n🔄 In progress: The pipeline has been migrated from {HMSC} to {sjSDM} and is actively being developed. Results below reflect the current state of the new pipeline and will be updated as the workflow stabilises.\n\nThere is a toy sub-project with the area of Czech Republic using only the fossil pollen archive data spanning 0–5,000 cal yr BP, with a time step of 500 years. The abiotic variables are bio1 and bio12 (mean annual temperature and annual precipitation). Only the 10 most common taxa are used in the analysis. The sjSDM model is fitted with linear abiotic effects and no explicit spatial random effect.\n\n\n$data\nlist()\nattr(,\"class\")\n[1] \"waiver\"\n\n$layers\n$layers[[1]]\nmapping: x = ~type, y = ~n_sign_assoc \ngeom_point: na.rm = FALSE\nstat_identity: na.rm = FALSE\nposition_identity \n\n\n$scales\n&lt;ggproto object: Class ScalesList, gg&gt;\n    add: function\n    add_defaults: function\n    add_missing: function\n    backtransform_df: function\n    clone: function\n    find: function\n    get_scales: function\n    has_scale: function\n    input: function\n    map_df: function\n    n: function\n    non_position_scales: function\n    scales: list\n    set_palettes: function\n    train_df: function\n    transform_df: function\n    super:  &lt;ggproto object: Class ScalesList, gg&gt;\n\n$guides\n&lt;Guides[0] ggproto object&gt;\n\n&lt;empty&gt;\n\n$mapping\nnamed list()\nattr(,\"class\")\n[1] \"uneval\"\n\n$theme\nlist()\n\n$coordinates\n&lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n    aspect: function\n    backtransform_range: function\n    clip: on\n    default: FALSE\n    distance: function\n    draw_panel: function\n    expand: TRUE\n    is_free: function\n    is_linear: function\n    labels: function\n    limits: list\n    modify_scales: function\n    range: function\n    render_axis_h: function\n    render_axis_v: function\n    render_bg: function\n    render_fg: function\n    reverse: none\n    setup_data: function\n    setup_layout: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    setup_params: function\n    train_panel_guides: function\n    transform: function\n    super:  &lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n\n$facet\n&lt;ggproto object: Class FacetNull, Facet, gg&gt;\n    attach_axes: function\n    attach_strips: function\n    compute_layout: function\n    draw_back: function\n    draw_front: function\n    draw_labels: function\n    draw_panel_content: function\n    draw_panels: function\n    finish_data: function\n    format_strip_labels: function\n    init_gtable: function\n    init_scales: function\n    map_data: function\n    params: list\n    set_panel_size: function\n    setup_data: function\n    setup_panel_params: function\n    setup_params: function\n    shrink: TRUE\n    train_scales: function\n    vars: function\n    super:  &lt;ggproto object: Class FacetNull, Facet, gg&gt;\n\n$plot_env\n&lt;environment: 0x000001cb62ea18f8&gt;\n\n$layout\n&lt;ggproto object: Class Layout, gg&gt;\n    coord: NULL\n    coord_params: list\n    facet: NULL\n    facet_params: list\n    finish_data: function\n    get_scales: function\n    layout: NULL\n    map_position: function\n    panel_params: NULL\n    panel_scales_x: NULL\n    panel_scales_y: NULL\n    render: function\n    render_labels: function\n    reset_scales: function\n    resolve_label: function\n    setup: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    train_position: function\n    super:  &lt;ggproto object: Class Layout, gg&gt;\n\n$labels\n$labels$x\n[1] \"Type of random factor\"\n\n$labels$y\n[1] \"Proportion of significant associations\"\n\n$labels$title\n[1] \"Proportion of significant associations\"\n\n$labels$subtitle\n[1] \"project: project_cz\"\n\n\nattr(,\"class\")\n[1] \"gg\"     \"ggplot\"",
+    "text": "The project is using {config} to set up various “subprojects” within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.\nThe main source of data is VegVault, a database of vegetation plots and abiotic data.\nCurrently, the aim of the project is to estimate the number of significant co-occurrences of species in a given area per each time slice (step). The species associations are calculated using {sjSDM} (Scalable Joint Species Distribution Models) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining for abiotic variables).\n\n\nThe project was originally developed using {HMSC} (Hierarchical Modelling of Species Communities). However, HMSC relies on MCMC sampling, which did not scale well to the size of the data used in this project — fitting times became prohibitively long as the number of sites, taxa, and time slices increased. The project is therefore being fully reworked to use {sjSDM}, which uses stochastic gradient descent and GPU acceleration to achieve substantial performance gains while retaining the joint species distribution modelling framework.\n\n⚠️ TO BE DONE: The spatial random effect component has not yet been implemented in the new sjSDM pipeline. Accounting for spatial autocorrelation is a planned next step and will be added once the core abiotic-constrained association pipeline is stable.\n\nHere is a preview of the current status of the project status:\n\n\nOr you can see the simplified static version of the project status below:\n\n\n\n\n\n🔄 In progress: The pipeline has been migrated from {HMSC} to {sjSDM} and is actively being developed. Results below reflect the current state of the new pipeline and will be updated as the workflow stabilises.\n\nThere is a toy sub-project with the area of Czech Republic using only the fossil pollen archive data spanning 0–5,000 cal yr BP, with a time step of 500 years. The abiotic variables are bio1 and bio12 (mean annual temperature and annual precipitation). Only the 10 most common taxa are used in the analysis. The sjSDM model is fitted with linear abiotic effects and no explicit spatial random effect.\n\n\n$data\nlist()\nattr(,\"class\")\n[1] \"waiver\"\n\n$layers\n$layers[[1]]\nmapping: x = ~type, y = ~n_sign_assoc \ngeom_point: na.rm = FALSE\nstat_identity: na.rm = FALSE\nposition_identity \n\n\n$scales\n&lt;ggproto object: Class ScalesList, gg&gt;\n    add: function\n    add_defaults: function\n    add_missing: function\n    backtransform_df: function\n    clone: function\n    find: function\n    get_scales: function\n    has_scale: function\n    input: function\n    map_df: function\n    n: function\n    non_position_scales: function\n    scales: list\n    set_palettes: function\n    train_df: function\n    transform_df: function\n    super:  &lt;ggproto object: Class ScalesList, gg&gt;\n\n$guides\n&lt;Guides[0] ggproto object&gt;\n\n&lt;empty&gt;\n\n$mapping\nnamed list()\nattr(,\"class\")\n[1] \"uneval\"\n\n$theme\nlist()\n\n$coordinates\n&lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n    aspect: function\n    backtransform_range: function\n    clip: on\n    default: FALSE\n    distance: function\n    draw_panel: function\n    expand: TRUE\n    is_free: function\n    is_linear: function\n    labels: function\n    limits: list\n    modify_scales: function\n    range: function\n    render_axis_h: function\n    render_axis_v: function\n    render_bg: function\n    render_fg: function\n    reverse: none\n    setup_data: function\n    setup_layout: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    setup_params: function\n    train_panel_guides: function\n    transform: function\n    super:  &lt;ggproto object: Class CoordCartesian, Coord, gg&gt;\n\n$facet\n&lt;ggproto object: Class FacetNull, Facet, gg&gt;\n    attach_axes: function\n    attach_strips: function\n    compute_layout: function\n    draw_back: function\n    draw_front: function\n    draw_labels: function\n    draw_panel_content: function\n    draw_panels: function\n    finish_data: function\n    format_strip_labels: function\n    init_gtable: function\n    init_scales: function\n    map_data: function\n    params: list\n    set_panel_size: function\n    setup_data: function\n    setup_panel_params: function\n    setup_params: function\n    shrink: TRUE\n    train_scales: function\n    vars: function\n    super:  &lt;ggproto object: Class FacetNull, Facet, gg&gt;\n\n$plot_env\n&lt;environment: 0x000001f51ac61e40&gt;\n\n$layout\n&lt;ggproto object: Class Layout, gg&gt;\n    coord: NULL\n    coord_params: list\n    facet: NULL\n    facet_params: list\n    finish_data: function\n    get_scales: function\n    layout: NULL\n    map_position: function\n    panel_params: NULL\n    panel_scales_x: NULL\n    panel_scales_y: NULL\n    render: function\n    render_labels: function\n    reset_scales: function\n    resolve_label: function\n    setup: function\n    setup_panel_guides: function\n    setup_panel_params: function\n    train_position: function\n    super:  &lt;ggproto object: Class Layout, gg&gt;\n\n$labels\n$labels$x\n[1] \"Type of random factor\"\n\n$labels$y\n[1] \"Proportion of significant associations\"\n\n$labels$title\n[1] \"Proportion of significant associations\"\n\n$labels$subtitle\n[1] \"project: project_cz\"\n\n\nattr(,\"class\")\n[1] \"gg\"     \"ggplot\"",
     "crumbs": [
       "About the project"
     ]
@@ -495,15 +519,27 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/classify_taxonomic_resolution.html",
-    "href": "website/Documentation/Functions/classify_taxonomic_resolution.html",
-    "title": "classify_taxonomic_resolution()",
+    "objectID": "website/Documentation/Functions/check_presence_of_vegvault.html",
+    "href": "website/Documentation/Functions/check_presence_of_vegvault.html",
+    "title": "check_presence_of_vegvault()",
     "section": "",
-    "text": "classify_taxonomic_resolution\n\n\nR Documentation\n\n\n\n\nClassify Taxonomic Resolution\n\n\nDescription\n\n\nClassifies taxa in a data frame to a specified taxonomic resolution (family, genus, or species) using a classification table, and aggregates pollen proportions accordingly.\n\n\nUsage\n\nclassify_taxonomic_resolution(\n  data,\n  data_classification_table,\n  taxonomic_resolution\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing taxon data with columns including ‘taxon’, ‘dataset_name’, ‘age’, and ‘pollen_prop’.\n\n\n\n\n\ndata_classification_table\n\n\n\nA data frame mapping ‘sel_name’ to taxonomic levels (e.g., family, genus, species).\n\n\n\n\n\ntaxonomic_resolution\n\n\n\nA character string specifying the taxonomic resolution to classify to. Must be one of ‘family’, ‘genus’, or ‘species’.\n\n\n\n\n\nDetails\n\n\nPerforms a left join to map taxa to the desired resolution, aggregates pollen proportions, and ensures all dataset_name-age-taxon combinations are present in the output.\n\n\nValue\n\n\nA data frame with taxa classified to the specified resolution and pollen proportions aggregated accordingly. The output preserves all dataset_name and age combinations for true negatives.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "check_presence_of_vegvault\n\n\nR Documentation\n\n\n\n\nCheck Presence of VegVault File\n\n\nDescription\n\n\nChecks whether the ‘VegVault.sqlite’ file exists in the specified directory.\n\n\nUsage\n\ncheck_presence_of_vegvault(relative_path = \"Data/Input/VegVault.sqlite\")\n\n\nArguments\n\n\n\n\nrelative_path\n\n\n\nRelative path to the ‘VegVault.sqlite’ file (default: \"Data/Input/Vegvault.sqlite\").\n\n\n\n\n\nDetails\n\n\nVerifies the presence of the ‘VegVault.sqlite’ file. If not found, throws an error with instructions to consult the ‘Data/Input/README.md’ file.\n\n\nValue\n\n\nLogical value indicating whether the file exists. Stops with an error if the file is not found.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "classify_taxonomic_resolution()"
+      "check_presence_of_vegvault()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/combine_classification_tables.html",
+    "href": "website/Documentation/Functions/combine_classification_tables.html",
+    "title": "combine_classification_tables()",
+    "section": "",
+    "text": "combine_classification_tables\n\n\nR Documentation\n\n\n\n\nCombine automatic and auxiliary classification tables\n\n\nDescription\n\n\nMerges the automatically generated classification table with a manually curated auxiliary table. When the same ‘sel_name’ entry exists in both tables the auxiliary (manual) row takes priority, overriding the automatic classification entirely.\n\n\nUsage\n\ncombine_classification_tables(\n  data_classification_table,\n  data_aux_classification_table\n)\n\n\nArguments\n\n\n\n\ndata_classification_table\n\n\n\nA data frame produced by ‘make_classification_table()’ with columns ‘sel_name’, ‘family’, ‘genus’, and ‘species’.\n\n\n\n\n\ndata_aux_classification_table\n\n\n\nA data frame produced by ‘get_aux_classification_table()’ with columns ‘sel_name’, ‘family’, ‘genus’, and ‘species’. May be an empty tibble (zero rows) when no manual overrides exist.\n\n\n\n\n\nDetails\n\n\nBinding is performed by placing auxiliary rows before automatic rows and then retaining the first occurrence of each ‘sel_name’ via ‘dplyr::distinct()’. This guarantees that manual classifications always win regardless of their relative completeness.\n\n\nValue\n\n\nA tibble with columns ‘sel_name’, ‘family’, ‘genus’, and ‘species’ containing all unique taxa from both inputs. Manual entries override automatic ones on ‘sel_name’ collision.\n\n\nSee Also\n\n\n[get_aux_classification_table()], [make_classification_table()], [classify_taxonomic_resolution()]\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "combine_classification_tables()"
     ]
   },
   {
@@ -555,75 +591,87 @@
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_better_model_based_on_fit.html",
-    "href": "website/Documentation/Functions/get_better_model_based_on_fit.html",
-    "title": "get_better_model_based_on_fit()",
+    "objectID": "website/Documentation/Functions/get_aux_classification_table.html",
+    "href": "website/Documentation/Functions/get_aux_classification_table.html",
+    "title": "get_aux_classification_table()",
     "section": "",
-    "text": "get_better_model_based_on_fit\n\n\nR Documentation\n\n\n\n\nSelect Better Model Based on Fit\n\n\nDescription\n\n\nCompares two models and selects the one with better fit based on Tjur’s R2.\n\n\nUsage\n\nget_better_model_based_on_fit(list_models = NULL, method = c(\"TjurR2\", \"WAIC\"))\n\n\nArguments\n\n\n\n\nlist_models\n\n\n\nA list of two fitted model objects.\n\n\n\n\n\nValue\n\n\nThe model object with better fit.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_aux_classification_table\n\n\nR Documentation\n\n\n\n\nGet auxiliary classification table\n\n\nDescription\n\n\nReads the manually curated auxiliary classification table from a CSV file. If the file does not yet exist, returns an empty tibble with the required columns so that the rest of the pipeline can continue and detect any missing taxa.\n\n\nUsage\n\nget_aux_classification_table(\n  file_path = here::here(\"Data/Input/aux_classification_table.csv\")\n)\n\n\nArguments\n\n\n\n\nfile_path\n\n\n\nA length-1 character string giving the path to the CSV file. Defaults to ‘here::here(\"Data/Input/aux_classification_table.csv\")’. The file, if present, must contain columns ‘sel_name’, ‘family’, ‘genus’, and ‘species’.\n\n\n\n\n\nDetails\n\n\nManual classifications in this file override automatic classifications produced by ‘get_taxa_classification()’. When the file exists it is validated to confirm all required columns are present. Missing columns are filled with ‘NA_character_’ rather than raising an error, so that partial tables are accepted.\n\n\nValue\n\n\nA tibble with columns ‘sel_name’ (character), ‘family’ (character), ‘genus’ (character), and ‘species’ (character). Returns an empty tibble when the file does not exist.\n\n\nSee Also\n\n\n[combine_classification_tables()], [check_and_report_missing_taxa()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_better_model_based_on_fit()"
+      "get_aux_classification_table()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_community_taxa.html",
-    "href": "website/Documentation/Functions/get_community_taxa.html",
-    "title": "get_community_taxa()",
+    "objectID": "website/Documentation/Functions/get_community_data.html",
+    "href": "website/Documentation/Functions/get_community_data.html",
+    "title": "get_community_data()",
     "section": "",
-    "text": "get_community_taxa\n\n\nR Documentation\n\n\n\n\nGet Community Taxa\n\n\nDescription\n\n\nExtracts a vector of unique taxa from a community data frame.\n\n\nUsage\n\nget_community_taxa(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing a ‘taxon’ column.\n\n\n\n\n\nDetails\n\n\nUses dplyr to select distinct values from the ‘taxon’ column and returns them as a vector.\n\n\nValue\n\n\nA character vector of unique taxon names present in the data.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_community_data\n\n\nR Documentation\n\n\n\n\nGet Community Data\n\n\nDescription\n\n\nProcesses a data frame containing community data and extracts the relevant columns, unnesting the ‘data_community’ column in the process.\n\n\nUsage\n\nget_community_data(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_community’.\n\n\n\n\n\nDetails\n\n\nValidates that the input is a data frame, ensures the presence of the ‘dataset_name’ and ‘data_community’ columns, selects those columns, and unnests the ‘data_community’ column.\n\n\nValue\n\n\nA data frame with the ‘dataset_name’ and unnested ‘data_community’ columns.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_community_taxa()"
+      "get_community_data()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_dataset_name_from_string.html",
-    "href": "website/Documentation/Functions/get_dataset_name_from_string.html",
-    "title": "get_dataset_name_from_string()",
+    "objectID": "website/Documentation/Functions/get_coords.html",
+    "href": "website/Documentation/Functions/get_coords.html",
+    "title": "get_coords()",
     "section": "",
-    "text": "get_dataset_name_from_string\n\n\nR Documentation\n\n\n\n\nExtract Dataset Name from String\n\n\nDescription\n\n\nExtracts the dataset name from a vector of strings, taking all characters before the double underscore (\"__\").\n\n\nUsage\n\nget_dataset_name_from_string(vec_names)\n\n\nArguments\n\n\n\n\nvec_names\n\n\n\nA character vector containing names with the format \"dataset__something\".\n\n\n\n\n\nValue\n\n\nA character vector of dataset names.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_coords\n\n\nR Documentation\n\n\n\n\nGet Dataset Coordinates\n\n\nDescription\n\n\nExtracts unique coordinates for each dataset, excluding gridpoints.\n\n\nUsage\n\nget_coords(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing columns ‘dataset_name’, ‘dataset_type’, ‘coord_long’, and ‘coord_lat’. Rows with ‘dataset_type == \"gridpoints\"’ are excluded.\n\n\n\n\n\nValue\n\n\nA data frame with unique coordinates for each dataset, with ‘dataset_name’ as row names.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_dataset_name_from_string()"
+      "get_coords()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_predictor_collinearity.html",
-    "href": "website/Documentation/Functions/get_predictor_collinearity.html",
-    "title": "get_predictor_collinearity()",
+    "objectID": "website/Documentation/Functions/get_pollen_sum.html",
+    "href": "website/Documentation/Functions/get_pollen_sum.html",
+    "title": "get_pollen_sum()",
     "section": "",
-    "text": "get_predictor_collinearity\n\n\nR Documentation\n\n\n\n\nGet predictor collinearity\n\n\nDescription\n\n\nAnalyses collinearity among abiotic predictors in a long-format data frame and returns a ‘collinear_output’ object produced by ‘collinear::collinear()’. The function pivots ‘data_source’ from long to wide format (one column per variable), removes any ‘age’ column, and then performs the collinearity analysis.\n\n\nUsage\n\nget_predictor_collinearity(data_source)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA data frame in long format containing at minimum the columns ‘abiotic_variable_name’ (character, predictor names) and ‘abiotic_value’ (numeric, predictor values). An optional ‘age’ column is silently dropped before analysis.\n\n\n\n\n\nDetails\n\n\nThe function validates inputs with ‘assertthat’ and performs post-hoc assertions on the output to guarantee structural integrity before returning. Missing values are filled with ‘NA’ when pivoting to wide format. The ‘age’ column is excluded because it is a sampling dimension rather than a predictor.\n\n\nValue\n\n\nA ‘collinear_output’ object as returned by ‘collinear::collinear()’. The object contains a ‘result’ element with a ‘selection’ character vector of the non-collinear predictor names that were retained.\n\n\nSee Also\n\n\n[collinear::collinear()] for the underlying collinearity method, [get_abiotic_data()] for producing the expected input format.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_pollen_sum\n\n\nR Documentation\n\n\n\n\nCalculate the Total Pollen Count for Each Sample\n\n\nDescription\n\n\nThis function computes the total pollen count for each sample in the provided dataset.\n\n\nUsage\n\nget_pollen_sum(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame containing at least two columns: ‘sample_name’ (the name or identifier of the sample) and ‘pollen_count’ (the count of pollen for each observation).\n\n\n\n\n\nDetails\n\n\nThe function groups the data by ‘sample_name’, calculates the sum of ‘pollen_count’ for each group, and removes any grouping structure before returning the result. Missing values (‘NA’) in ‘pollen_count’ are ignored.\n\n\nValue\n\n\nA data frame with two columns: ‘sample_name’ and ‘pollen_sum’, where ‘pollen_sum’ is the total pollen count for each sample.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_predictor_collinearity()"
+      "get_pollen_sum()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_sample_ages.html",
-    "href": "website/Documentation/Functions/get_sample_ages.html",
-    "title": "get_sample_ages()",
+    "objectID": "website/Documentation/Functions/get_random_structure_for_model.html",
+    "href": "website/Documentation/Functions/get_random_structure_for_model.html",
+    "title": "get_random_structure_for_model()",
     "section": "",
-    "text": "get_sample_ages\n\n\nR Documentation\n\n\n\n\nGet Sample Ages\n\n\nDescription\n\n\nExtracts sample ages from a data frame containing dataset and sample info.\n\n\nUsage\n\nget_sample_ages(data = NULL)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame. Must contain the columns ‘dataset_name’ and ‘data_samples’.\n\n\n\n\n\nDetails\n\n\nValidates the input data frame, ensures required columns are present, and extracts sample ages by unnesting the ‘data_samples’ column.\n\n\nValue\n\n\nA data frame with columns ‘dataset_name’, ‘sample_name’, and ‘age’.\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_random_structure_for_model\n\n\nR Documentation\n\n\n\n\nGet Random Structure for Model\n\n\nDescription\n\n\nConstructs the random structure for HMSC models based on age and/or space.\n\n\nUsage\n\nget_random_structure_for_model(\n  data = NULL,\n  type = c(\"age\", \"space\"),\n  min_knots_distance = NULL\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA list containing data for model fitting from the function [check_and_prepare_data_for_fit()].\n\n\n\n\n\ntype\n\n\n\nCharacter vector specifying random effect types (\"age\", \"space\").\n\n\n\n\n\nmin_knots_distance\n\n\n\nMinimum distance between knots for spatial random effect (optional). Only used if \"space\" is in ‘type’.\n\n\n\n\n\nValue\n\n\nA list describing the random structure for the model.\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_sample_ages()"
+      "get_random_structure_for_model()"
     ]
   },
   {
-    "objectID": "website/Documentation/Functions/get_species_association.html",
-    "href": "website/Documentation/Functions/get_species_association.html",
-    "title": "get_species_association()",
+    "objectID": "website/Documentation/Functions/get_significant_associations.html",
+    "href": "website/Documentation/Functions/get_significant_associations.html",
+    "title": "get_significant_associations()",
     "section": "",
-    "text": "get_species_association\n\n\nR Documentation\n\n\n\n\nCompute Species Associations\n\n\nDescription\n\n\nComputes species associations from a fitted Hmsc model object.\n\n\nUsage\n\nget_species_association(data_source)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing a fitted Hmsc model under the ‘mod’ element. Generally, this is the output of the function add_model_evaluation() or # get_better_model_based_on_fit()\n\n\n\n\n\nValue\n\n\nA matrix of species associations.\n\n\nSee Also\n\n\n[add_model_evaluation(), get_better_model_based_on_fit()]\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "get_significant_associations\n\n\nR Documentation\n\n\n\n\nGet Significant Species Associations\n\n\nDescription\n\n\nIdentifies significant species associations based on support and mean values for each error level.\n\n\nUsage\n\nget_significant_associations(data_source, alpha = 0.05)\n\n\nArguments\n\n\n\n\ndata_source\n\n\n\nA list containing association matrices from a fitted Hmsc model. Generally, this is the output of the function get_species_association().\n\n\n\n\n\nalpha\n\n\n\nSignificance level for support threshold (default: 0.05).\n\n\n\n\n\nValue\n\n\nA vector of significant association values.\n\n\nSee Also\n\n\n[get_species_association()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Documentation",
       "Functions",
-      "get_species_association()"
+      "get_significant_associations()"
+    ]
+  },
+  {
+    "objectID": "website/Documentation/Functions/get_taxa_classification.html",
+    "href": "website/Documentation/Functions/get_taxa_classification.html",
+    "title": "get_taxa_classification()",
+    "section": "",
+    "text": "get_taxa_classification\n\n\nR Documentation\n\n\n\n\nGet Taxa Classification\n\n\nDescription\n\n\nRetrieves taxonomic classification for a vector of taxa using the taxospace package. Filters results to include only plant taxa.\n\n\nUsage\n\nget_taxa_classification(data)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA character vector of taxon names to classify.\n\n\n\n\n\nDetails\n\n\nUses taxospace::get_classification to retrieve classification. Flags and filters for plant taxa (kingdom Plantae). Returns an empty tibble if no plant taxa found.\n\n\nValue\n\n\nA data frame with columns for selected name, taxonomic name, rank, and id.\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Documentation",
+      "Functions",
+      "get_taxa_classification()"
     ]
   },
   {

@@ -287,6 +287,29 @@ it does not yet exist) at
 Do not wait to be asked — treat test improvement as part of every function
 edit, alongside documentation.
 
+**After all tests pass, run the full pipeline end-to-end** to confirm that
+the new or changed function integrates correctly with the rest of the
+workflow. Use the `project_cz` configuration:
+
+```r
+library(here)
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+run_pipeline(
+  sel_script = "R/02_Main_analyses/pipeline_basic.R",
+  level_separation = 100
+)
+```
+
+**An implementation is not complete until this pipeline run passes without
+unexpected errors.** Do not wait to be asked — treat the pipeline run as
+part of every function creation or edit, alongside documentation and tests.
+
 ### Data Workflow
 
 1. **Input data** → `Data/Input/`

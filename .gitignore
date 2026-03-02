@@ -66,3 +66,6 @@ Documentation/Reports/First_report/First_presentation/_presentation_01_temp/
 .vscode/settings.json
 
 **/*.quarto_ipynb
+
+# Temporary files from missing taxa report generation
+Data/Input/missing_taxa_template.csv

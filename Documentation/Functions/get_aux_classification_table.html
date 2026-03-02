@@ -1,0 +1,81 @@
+<!DOCTYPE html><html><head><title>R: Get auxiliary classification table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_aux_classification_table</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get auxiliary classification table</h2>
+
+<h3>Description</h3>
+
+<p>Reads the manually curated auxiliary classification table from a
+CSV file. If the file does not yet exist, returns an empty tibble
+with the required columns so that the rest of the pipeline can
+continue and detect any missing taxa.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_aux_classification_table(
+  file_path = here::here("Data/Input/aux_classification_table.csv")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="file_path">file_path</code></td>
+<td>
+<p>A length-1 character string giving the path to the CSV file.
+Defaults to
+'here::here(&quot;Data/Input/aux_classification_table.csv&quot;)'.
+The file, if present, must contain columns 'sel_name',
+'family', 'genus', and 'species'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Manual classifications in this file override automatic
+classifications produced by 'get_taxa_classification()'. When
+the file exists it is validated to confirm all required columns
+are present. Missing columns are filled with 'NA_character_'
+rather than raising an error, so that partial tables are
+accepted.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with columns 'sel_name' (character), 'family'
+(character), 'genus' (character), and 'species' (character).
+Returns an empty tibble when the file does not exist.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[combine_classification_tables()],
+[check_and_report_missing_taxa()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

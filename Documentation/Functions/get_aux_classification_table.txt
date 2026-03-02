@@ -1,0 +1,42 @@
+Get auxiliary classification table
+
+Description:
+
+     Reads the manually curated auxiliary classification table from a
+     CSV file. If the file does not yet exist, returns an empty tibble
+     with the required columns so that the rest of the pipeline can
+     continue and detect any missing taxa.
+
+Usage:
+
+     get_aux_classification_table(
+       file_path = here::here("Data/Input/aux_classification_table.csv")
+     )
+     
+Arguments:
+
+file_path: A length-1 character string giving the path to the CSV file.
+          Defaults to
+          `here::here("Data/Input/aux_classification_table.csv")`. The
+          file, if present, must contain columns `sel_name`, `family`,
+          `genus`, and `species`.
+
+Details:
+
+     Manual classifications in this file override automatic
+     classifications produced by `get_taxa_classification()`. When the
+     file exists it is validated to confirm all required columns are
+     present. Missing columns are filled with `NA_character_` rather
+     than raising an error, so that partial tables are accepted.
+
+Value:
+
+     A tibble with columns `sel_name` (character), `family`
+     (character), `genus` (character), and `species` (character).
+     Returns an empty tibble when the file does not exist.
+
+See Also:
+
+     [combine_classification_tables()],
+     [check_and_report_missing_taxa()]
+

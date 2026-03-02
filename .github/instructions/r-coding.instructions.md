@@ -336,6 +336,29 @@ try(
 )
 ```
 
+For `for()`, `if()`, and `while()` loops, the iterator or condition is placed on its
+own indented line, and the closing `) {` is indented to the same level:
+
+```r
+for (
+  col_name in vec_col_names
+  ) {
+  ...
+}
+
+if (
+  logical_test
+) {
+  ...
+}
+
+while (
+  condition
+  ) {
+  ...
+}
+```
+
 ### Assignment
 
 Always use the left assignment `<-`.

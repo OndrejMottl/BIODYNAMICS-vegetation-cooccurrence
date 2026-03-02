@@ -88,11 +88,47 @@ pipe_segment_community_data <-
       )
     ),
     targets::tar_target(
+      description = "Track auxiliary classification CSV for changes",
+      name = "file_aux_classification_table",
+      command = here::here("Data/Input/aux_classification_table.csv"),
+      format = "file"
+    ),
+    targets::tar_target(
+      description = "Load auxiliary classification table from CSV",
+      name = "data_aux_classification_table",
+      command = get_aux_classification_table(
+        file_path = file_aux_classification_table
+      )
+    ),
+    targets::tar_target(
+      description = "Combine auto and auxiliary classification tables",
+      name = "data_combined_classification_table",
+      command = combine_classification_tables(
+        data_classification_table = data_classification_table,
+        data_aux_classification_table = data_aux_classification_table
+      )
+    ),
+    targets::tar_target(
+      description = "Identify taxa without classification",
+      name = "vec_taxa_without_classification",
+      command = get_taxa_without_classification(
+        vec_community_taxa = vec_community_taxa,
+        data_classification_table = data_combined_classification_table
+      )
+    ),
+    targets::tar_target(
+      description = "Check all taxa are classified; write template if not",
+      name = "check_taxa_classification",
+      command = check_and_report_missing_taxa(
+        vec_taxa_without_classification = vec_taxa_without_classification
+      )
+    ),
+    targets::tar_target(
       description = "Classify community data to specific taxonomic resolution",
       name = "data_community_classified",
       command = classify_taxonomic_resolution(
         data = data_community_interpolated,
-        data_classification_table = data_classification_table,
+        data_classification_table = data_combined_classification_table,
         taxonomic_resolution = config.data_processing$taxonomic_resolution
       )
     ),
