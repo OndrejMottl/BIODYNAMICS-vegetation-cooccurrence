@@ -1,19 +1,42 @@
 #' @title Interpolate Community Data
 #' @description
-#' Transforms community data to proportions, interpolates it, and returns it.
+#' Interpolates community proportion data to a regular time grid.
 #' @param data
-#' A data frame containing community data to be transformed and interpolated.
+#' A data frame with columns `dataset_name`, `taxon`, `age`, and
+#' `pollen_prop`. Must already be in proportion form — see
+#' [make_community_proportions()].
 #' @param ...
-#' Additional arguments passed to the `interpolate_data` function.
+#' Additional arguments passed to [interpolate_data()], such as
+#' `timestep`, `age_min`, and `age_max`.
 #' @return
-#' A data frame with interpolated community data.
+#' A data frame with interpolated community data at regular time
+#' intervals.
 #' @details
-#' Transforms data to proportions using `transform_to_proportions` and total
-#' pollen count from `get_pollen_sum`. Then interpolates using `interpolate_data`.
+#' Calls [interpolate_data()] grouped by `dataset_name` and `taxon`.
+#' Data must be converted to proportions before calling this function
+#' using [make_community_proportions()].
+#' @seealso [make_community_proportions()], [interpolate_data()]
 #' @export
 interpolate_community_data <- function(data, ...) {
-  data %>%
-    transform_to_proportions(pollen_sum = get_pollen_sum(data)) %>%
-    interpolate_data(by = c("dataset_name", "taxon"), ...) %>%
-    return()
+  assertthat::assert_that(
+    is.data.frame(data),
+    msg = "data must be a data frame"
+  )
+
+  assertthat::assert_that(
+    "pollen_prop" %in% colnames(data),
+    msg = paste(
+      "data must contain a 'pollen_prop' column.",
+      "Use make_community_proportions() first."
+    )
+  )
+
+  res <-
+    data %>%
+    interpolate_data(
+      by = c("dataset_name", "taxon"),
+      ...
+    )
+
+  return(res)
 }

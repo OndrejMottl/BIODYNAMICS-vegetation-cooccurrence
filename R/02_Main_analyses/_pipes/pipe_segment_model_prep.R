@@ -42,12 +42,38 @@ suppressMessages(
 pipe_segment_model_prep <-
   list(
     targets::tar_target(
-      description = "Check and prepare the data for fitting",
+      description = "Scale abiotic predictors; capture attributes",
+      name = "data_abiotic_scaled_list",
+      command = scale_abiotic_for_fit(
+        data_abiotic_wide = data_abiotic_wide
+      )
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Remove constant-presence taxa from community matrix",
+        " (binomial family)"
+      ),
+      name = "data_community_filtered",
+      command = filter_constant_taxa(
+        data_community_matrix = data_community_to_fit,
+        error_family = "binomial"
+      )
+    ),
+    targets::tar_target(
+      description = "Expand dataset-level coords to per-sample rows",
+      name = "data_coords_to_fit",
+      command = prepare_coords_for_fit(
+        data_coords = data_coords,
+        data_sample_ids = data_sample_ids
+      )
+    ),
+    targets::tar_target(
+      description = "Validate and assemble data list for fitting",
       name = "data_to_fit",
-      command = check_and_prepare_data_for_fit(
-        data_community = data_community_to_fit,
-        data_abiotic = data_abiotic_to_fit,
-        data_coords = data_coords
+      command = assemble_data_to_fit(
+        data_community_filtered = data_community_filtered,
+        data_abiotic_scaled_list = data_abiotic_scaled_list,
+        data_coords_to_fit = data_coords_to_fit
       )
     )
   )
