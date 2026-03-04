@@ -1,0 +1,85 @@
+<!DOCTYPE html><html><head><title>R: Filter Constant Taxa from Community Matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>filter_constant_taxa</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Filter Constant Taxa from Community Matrix</h2>
+
+<h3>Description</h3>
+
+<p>Removes taxa whose presence/absence shows no variation across
+all samples. For binomial models, a taxon with all-zero or
+all-one presence values cannot contribute to the likelihood and
+must be excluded before fitting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>filter_constant_taxa(
+  data_community_matrix = NULL,
+  error_family = c("binomial", "gaussian")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_community_matrix">data_community_matrix</code></td>
+<td>
+<p>A numeric matrix with samples as rows and taxa as columns, as
+returned by 'prepare_community_for_fit()'.</p>
+</td></tr>
+<tr><td><code id="error_family">error_family</code></td>
+<td>
+<p>A character string specifying the error family used for model
+fitting. Must be '&quot;binomial&quot;' or '&quot;gaussian&quot;'. Filtering is
+only applied when 'error_family = &quot;binomial&quot;'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For binomial models, taxa are converted to binary
+presence/absence ('&gt; 0') before checking for variation.
+A taxon is retained only if '0 &lt; column_sum &lt; n_samples'.
+This step was previously performed silently inside
+'fit_jsdm_model()' and is now a tracked pipeline target.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric matrix of the same structure as the input, with
+constant-presence taxa (all absent or all present) removed.
+When 'error_family = &quot;gaussian&quot;' the input matrix is returned
+unchanged.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[prepare_community_for_fit()],
+[assemble_data_to_fit()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

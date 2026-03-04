@@ -25,9 +25,12 @@ Usage:
 Arguments:
 
 data_to_fit: A list containing the data to fit the model. Must include:
-          - `data_community_to_fit`: matrix of community composition -
-          `data_abiotic_to_fit`: data frame of abiotic variables -
-          `data_coords_to_fit`: data frame of spatial coordinates
+          - `data_community_to_fit`: matrix of community composition
+          (constant-presence taxa already removed by
+          `filter_constant_taxa()`) - `data_abiotic_to_fit`: data frame
+          of abiotic variables, already scaled by
+          `scale_abiotic_for_fit()` - `data_coords_to_fit`: data frame
+          of spatial coordinates
 
 sel_abiotic_formula: A formula object specifying the abiotic
           (environmental) predictors

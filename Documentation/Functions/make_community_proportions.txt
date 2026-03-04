@@ -1,0 +1,34 @@
+Make Community Proportions
+
+Description:
+
+     Transforms community pollen count data into proportions,
+     normalising each sample by its total pollen count.
+
+Usage:
+
+     make_community_proportions(data = NULL)
+     
+Arguments:
+
+    data: A data frame with columns `dataset_name`, `sample_name`,
+          `taxon`, `age`, and `pollen_count`. Must contain a
+          `pollen_count` column with raw pollen counts.
+
+Details:
+
+     Computes per-sample totals using `get_pollen_sum()` and normalises
+     counts via `transform_to_proportions()`. The result is suitable
+     for passing to `interpolate_community_data()`.
+
+Value:
+
+     A data frame with the same structure as the input, but with
+     `pollen_count` replaced by `pollen_prop` (pollen counts divided by
+     sample-level total). The `pollen_count` and `pollen_sum` columns
+     are dropped.
+
+See Also:
+
+     [interpolate_community_data()], [transform_to_proportions()]
+

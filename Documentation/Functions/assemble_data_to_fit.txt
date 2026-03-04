@@ -1,0 +1,56 @@
+Assemble Final Data List for Model Fitting
+
+Description:
+
+     Validates that the community matrix, scaled abiotic data, and
+     coordinate data all share the same sample rows in the same order,
+     then bundles them into the named list expected by
+     `fit_jsdm_model()`.
+
+Usage:
+
+     assemble_data_to_fit(
+       data_community_filtered = NULL,
+       data_abiotic_scaled_list = NULL,
+       data_coords_to_fit = NULL
+     )
+     
+Arguments:
+
+data_community_filtered: A numeric matrix with row names
+          `"<dataset_name>__<age>"` and taxon columns, as returned by
+          `filter_constant_taxa()`.
+
+data_abiotic_scaled_list: A named list with elements
+          `data_abiotic_scaled` and `scale_attributes`, as returned by
+          `scale_abiotic_for_fit()`. `data_abiotic_scaled` must have
+          row names matching those of the community matrix.
+
+data_coords_to_fit: A data frame with row names
+          `"<dataset_name>__<age>"` and columns `coord_long` and
+          `coord_lat`, as returned by `prepare_coords_for_fit()`.
+
+Details:
+
+     This function performs only validation and assembly; all data
+     transformations are handled by the preceding pipeline targets. An
+     error is raised if any two inputs differ in row count or row name
+     ordering.
+
+Value:
+
+     A named list with four elements:
+
+     `data_community_to_fit` The (filtered) community matrix.
+
+     `data_abiotic_to_fit` The scaled abiotic data frame.
+
+     `data_coords_to_fit` The per-sample coordinate data frame.
+
+     `scale_attributes` Scaling attributes for back-transformation.
+
+See Also:
+
+     [filter_constant_taxa()], [scale_abiotic_for_fit()],
+     [prepare_coords_for_fit()], [fit_jsdm_model()]
+

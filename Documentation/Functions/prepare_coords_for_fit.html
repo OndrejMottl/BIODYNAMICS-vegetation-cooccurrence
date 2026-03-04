@@ -1,0 +1,80 @@
+<!DOCTYPE html><html><head><title>R: Prepare Coordinate Data for Model Fitting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_coords_for_fit</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare Coordinate Data for Model Fitting</h2>
+
+<h3>Description</h3>
+
+<p>Expands dataset-level coordinate data to the sample level by
+joining against the canonical '(dataset_name, age)' sample
+index, producing a data frame whose rows align with the
+community matrix and abiotic data used for model fitting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_coords_for_fit(data_coords = NULL, data_sample_ids = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_coords">data_coords</code></td>
+<td>
+<p>A data frame with 'dataset_name' as row names and columns
+'coord_long' and 'coord_lat'.</p>
+</td></tr>
+<tr><td><code id="data_sample_ids">data_sample_ids</code></td>
+<td>
+<p>A data frame of valid '(dataset_name, age)' pairs as returned by
+'align_sample_ids()'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Coordinates are stored at dataset level but models require one
+row per sample. This function replicates each dataset's
+coordinates across all its valid sample ages. The row-name
+format matches that of the community matrix and abiotic data
+frame produced by the respective preparation functions.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with row names in the format
+'&quot;&lt;dataset_name&gt;__&lt;age&gt;&quot;' and columns 'coord_long' and
+'coord_lat'. Rows are sorted by 'dataset_name' then 'age',
+matching the ordering of 'data_sample_ids'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[align_sample_ids()], [assemble_data_to_fit()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+
