@@ -1,0 +1,105 @@
+<!DOCTYPE html><html><head><title>R: Assemble Final Data List for Model Fitting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>assemble_data_to_fit</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Assemble Final Data List for Model Fitting</h2>
+
+<h3>Description</h3>
+
+<p>Validates that the community matrix, scaled abiotic data, and
+coordinate data all share the same sample rows in the same
+order, then bundles them into the named list expected by
+'fit_jsdm_model()'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>assemble_data_to_fit(
+  data_community_filtered = NULL,
+  data_abiotic_scaled_list = NULL,
+  data_coords_to_fit = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_community_filtered">data_community_filtered</code></td>
+<td>
+<p>A numeric matrix with row names '&quot;&lt;dataset_name&gt;__&lt;age&gt;&quot;' and
+taxon columns, as returned by 'filter_constant_taxa()'.</p>
+</td></tr>
+<tr><td><code id="data_abiotic_scaled_list">data_abiotic_scaled_list</code></td>
+<td>
+<p>A named list with elements 'data_abiotic_scaled' and
+'scale_attributes', as returned by 'scale_abiotic_for_fit()'.
+'data_abiotic_scaled' must have row names matching those of the
+community matrix.</p>
+</td></tr>
+<tr><td><code id="data_coords_to_fit">data_coords_to_fit</code></td>
+<td>
+<p>A data frame with row names '&quot;&lt;dataset_name&gt;__&lt;age&gt;&quot;' and
+columns 'coord_long' and 'coord_lat', as returned by
+'prepare_coords_for_fit()'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function performs only validation and assembly; all data
+transformations are handled by the preceding pipeline targets.
+An error is raised if any two inputs differ in row count or row
+name ordering.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list with four elements:
+</p>
+
+<dl>
+<dt>'data_community_to_fit'</dt><dd><p>The (filtered) community
+matrix.</p>
+</dd>
+<dt>'data_abiotic_to_fit'</dt><dd><p>The scaled abiotic data
+frame.</p>
+</dd>
+<dt>'data_coords_to_fit'</dt><dd><p>The per-sample coordinate data
+frame.</p>
+</dd>
+<dt>'scale_attributes'</dt><dd><p>Scaling attributes for
+back-transformation.</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>[filter_constant_taxa()], [scale_abiotic_for_fit()],
+[prepare_coords_for_fit()], [fit_jsdm_model()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

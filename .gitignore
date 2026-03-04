@@ -56,6 +56,9 @@ Documentation/Functions_test_coverage/lib/
 # Target files
 Data/targets/
 
+# Temporary files
+Data/Temp/
+
 # Large input files. See Data/Input/README.md for more information.
 Data/Input/VegVault.sqlite
 
@@ -69,3 +72,4 @@ Documentation/Reports/First_report/First_presentation/_presentation_01_temp/
 
 # Temporary files from missing taxa report generation
 Data/Input/missing_taxa_template.csv
+

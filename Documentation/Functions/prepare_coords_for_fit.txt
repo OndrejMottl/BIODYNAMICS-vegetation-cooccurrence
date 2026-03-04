@@ -1,0 +1,40 @@
+Prepare Coordinate Data for Model Fitting
+
+Description:
+
+     Expands dataset-level coordinate data to the sample level by
+     joining against the canonical `(dataset_name, age)` sample index,
+     producing a data frame whose rows align with the community matrix
+     and abiotic data used for model fitting.
+
+Usage:
+
+     prepare_coords_for_fit(data_coords = NULL, data_sample_ids = NULL)
+     
+Arguments:
+
+data_coords: A data frame with `dataset_name` as row names and columns
+          `coord_long` and `coord_lat`.
+
+data_sample_ids: A data frame of valid `(dataset_name, age)` pairs as
+          returned by `align_sample_ids()`.
+
+Details:
+
+     Coordinates are stored at dataset level but models require one row
+     per sample. This function replicates each dataset's coordinates
+     across all its valid sample ages. The row-name format matches that
+     of the community matrix and abiotic data frame produced by the
+     respective preparation functions.
+
+Value:
+
+     A data frame with row names in the format
+     `"<dataset_name>__<age>"` and columns `coord_long` and
+     `coord_lat`. Rows are sorted by `dataset_name` then `age`,
+     matching the ordering of `data_sample_ids`.
+
+See Also:
+
+     [align_sample_ids()], [assemble_data_to_fit()]
+

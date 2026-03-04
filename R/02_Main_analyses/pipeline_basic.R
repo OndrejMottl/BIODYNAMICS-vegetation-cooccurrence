@@ -84,6 +84,7 @@ c(
   "pipe_segment_vegvault_data.R",
   "pipe_segment_community_data.R",
   "pipe_segment_abiotic_data.R",
+  "pipe_segment_alignment.R",
   "pipe_segment_model_prep.R",
   "pipe_segment_model_simple.R",
   "pipe_segment_model_anova.R"
@@ -105,29 +106,8 @@ list(
   pipe_segment_vegvault_data,
   pipe_segment_community_data,
   pipe_segment_abiotic_data,
+  pipe_segment_alignment,
+  pipe_segment_model_prep,
   pipe_segment_model_simple,
   pipe_segment_model_anova
-  # pipe_segment_species_associations,
-  # pipe_segment_result_summary_type,
-  # targets::tar_target(
-  #   description = "Plot of significant associations",
-  #   name = "plot_species_assocWiations",
-  #   command = ggplot2::ggplot() +
-  #     ggplot2::geom_point(
-  #       data = data_species_associations_total,
-  #       mapping = ggplot2::aes(
-  #         y = n_sign_assoc,
-  #         x = type
-  #       )
-  #     ) +
-  #     ggplot2::coord_cartesian(
-  #       ylim = c(0, 1),
-  #     ) +
-  #     ggplot2::labs(
-  #       title = "Proportion of significant associations",
-  #       subtitle = paste("project:", Sys.getenv("R_CONFIG_ACTIVE")),
-  #       x = "Type of random factor",
-  #       y = "Proportion of significant associations"
-  #     )
-  # )
 )

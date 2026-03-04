@@ -60,10 +60,17 @@ pipe_segment_community_data <-
       command = add_age_to_samples(data_community_long, data_sample_ages)
     ),
     targets::tar_target(
+      description = "Transform community counts to proportions",
+      name = "data_community_proportions",
+      command = make_community_proportions(
+        data = data_community_long_ages
+      )
+    ),
+    targets::tar_target(
       description = "Interpolate community data to specific time step",
       name = "data_community_interpolated",
       command = interpolate_community_data(
-        data = data_community_long_ages,
+        data = data_community_proportions,
         timestep = config.data_processing$time_step,
         age_min = min(config.age_lim),
         age_max = max(config.age_lim)
@@ -146,9 +153,9 @@ pipe_segment_community_data <-
     targets::tar_target(
       description = "Prepare community data for fitting",
       name = "data_community_to_fit",
-      command = prepare_data_for_fit(
-        data = data_community_subset,
-        type = "community"
+      command = prepare_community_for_fit(
+        data_community_long = data_community_subset,
+        data_sample_ids = data_sample_ids
       )
     )
   )

@@ -40,7 +40,6 @@ suppressMessages(
 
 pipe_segment_model_simple <-
   list(
-    pipe_segment_model_prep,
     targets::tar_target(
       description = "predictor formulae to use for model fitting",
       name = "model_formula",

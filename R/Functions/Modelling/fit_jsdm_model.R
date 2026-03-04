@@ -6,7 +6,10 @@
 #' @param data_to_fit
 #' A list containing the data to fit the model. Must include:
 #' - `data_community_to_fit`: matrix of community composition
-#' - `data_abiotic_to_fit`: data frame of abiotic variables
+#'   (constant-presence taxa already removed by
+#'   `filter_constant_taxa()`)
+#' - `data_abiotic_to_fit`: data frame of abiotic variables,
+#'   already scaled by `scale_abiotic_for_fit()`
 #' - `data_coords_to_fit`: data frame of spatial coordinates
 #' @param sel_abiotic_formula
 #' A formula object specifying the abiotic (environmental) predictors
@@ -185,25 +188,12 @@ fit_jsdm_model <- function(
     parallel <- 0L
   }
 
-  # Process community data based on error family
+  # Convert community data to presence/absence for binomial
   if (
     error_family == "binomial"
   ) {
     data_community <-
       data_community > 0
-
-    # Filter out taxa with no variation in presence/absence,
-    #   as these will cause issues with model fitting
-    vec_taxa_present <-
-      colSums(data_community) > 0
-    vec_taxa_not_constant_presence <-
-      colSums(data_community) < nrow(data_community)
-
-    data_community <-
-      data_community[
-        ,
-        vec_taxa_present & vec_taxa_not_constant_presence
-      ]
 
     error_family <- binomial("probit")
   } else {
@@ -240,6 +230,8 @@ fit_jsdm_model <- function(
   }
 
   # Build abiotic (environmental) structure
+  # Note: data_abiotic is already scaled upstream by
+  #   scale_abiotic_for_fit(); no additional scaling is applied.
   if (
     abiotic_method == "linear"
   ) {
@@ -247,7 +239,7 @@ fit_jsdm_model <- function(
       do.call(
         sjSDM::linear,
         list(
-          data = scale(data_abiotic),
+          data = data_abiotic,
           formula = sel_abiotic_formula
         )
       )
@@ -256,7 +248,7 @@ fit_jsdm_model <- function(
       do.call(
         sjSDM::DNN,
         list(
-          data = scale(data_abiotic),
+          data = data_abiotic,
           formula = sel_abiotic_formula
         )
       )

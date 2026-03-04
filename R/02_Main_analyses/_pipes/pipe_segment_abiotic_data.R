@@ -77,11 +77,11 @@ pipe_segment_abiotic_data <-
       )
     ),
     targets::tar_target(
-      description = "Prepare abiotic data for fitting",
-      name = "data_abiotic_to_fit",
-      command = prepare_data_for_fit(
-        data = data_abiotic_interpolated,
-        type = "abiotic"
+      description = "Widen abiotic data (aligned to sample IDs)",
+      name = "data_abiotic_wide",
+      command = prepare_abiotic_for_fit(
+        data_abiotic_long = data_abiotic_interpolated,
+        data_sample_ids = data_sample_ids
       )
     )
   ) 

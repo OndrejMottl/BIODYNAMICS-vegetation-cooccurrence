@@ -222,9 +222,16 @@ The workflow in brief:
 3. **Probe** environments / call patterns until root cause is confirmed
 4. **Fix** the source file with an explanatory comment
 5. **Clean up** all temp debug files with `Remove-Item`
-6. **Run the targeted test** for the changed function:
+6. **Run the targeted test** for the changed function (source project setup
+   first so all functions are available):
 
 ```r
+library(here)
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
 testthat::test_file(
   here::here(
     "R/03_Supplementary_analyses/testthat/test-<function_name>.R"
@@ -232,9 +239,22 @@ testthat::test_file(
 )
 ```
 
-7. **Run the full test suite** — all tests must pass:
+7. **Run the full test suite** — all tests must pass. The canonical way is
+   to run the dedicated script that sources project setup automatically:
+
+```powershell
+Rscript R/03_Supplementary_analyses/Run_tests.R
+```
+
+   Alternatively, from an interactive R session:
 
 ```r
+library(here)
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
 testthat::test_dir(
   here::here("R/03_Supplementary_analyses/testthat")
 )

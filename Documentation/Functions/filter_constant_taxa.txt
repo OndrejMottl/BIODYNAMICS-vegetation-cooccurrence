@@ -1,0 +1,44 @@
+Filter Constant Taxa from Community Matrix
+
+Description:
+
+     Removes taxa whose presence/absence shows no variation across all
+     samples. For binomial models, a taxon with all-zero or all-one
+     presence values cannot contribute to the likelihood and must be
+     excluded before fitting.
+
+Usage:
+
+     filter_constant_taxa(
+       data_community_matrix = NULL,
+       error_family = c("binomial", "gaussian")
+     )
+     
+Arguments:
+
+data_community_matrix: A numeric matrix with samples as rows and taxa
+          as columns, as returned by `prepare_community_for_fit()`.
+
+error_family: A character string specifying the error family used for
+          model fitting. Must be `"binomial"` or `"gaussian"`.
+          Filtering is only applied when `error_family = "binomial"`.
+
+Details:
+
+     For binomial models, taxa are converted to binary presence/absence
+     (`> 0`) before checking for variation. A taxon is retained only if
+     `0 < column_sum < n_samples`. This step was previously performed
+     silently inside `fit_jsdm_model()` and is now a tracked pipeline
+     target.
+
+Value:
+
+     A numeric matrix of the same structure as the input, with
+     constant-presence taxa (all absent or all present) removed. When
+     `error_family = "gaussian"` the input matrix is returned
+     unchanged.
+
+See Also:
+
+     [prepare_community_for_fit()], [assemble_data_to_fit()]
+

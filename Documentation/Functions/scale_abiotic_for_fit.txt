@@ -1,0 +1,47 @@
+Scale Abiotic Data for Model Fitting
+
+Description:
+
+     Centres and scales abiotic predictor variables, records the
+     scaling attributes for later back-transformation, and returns both
+     the scaled data frame and the attributes as a named list.
+
+     `age` is centred only (mean subtracted, no division by SD). All
+     other variables are both centred and scaled (divided by SD) when
+     more than one sample is present.
+
+Usage:
+
+     scale_abiotic_for_fit(data_abiotic_wide = NULL)
+     
+Arguments:
+
+data_abiotic_wide: A data frame in wide format as returned by
+          `prepare_abiotic_for_fit()`, containing real columns
+          `dataset_name`, `age`, and one column per abiotic variable.
+
+Details:
+
+     Rows with any `NA` across the abiotic variables are silently
+     dropped via `tidyr::drop_na()` before scaling. The returned
+     `scale_attributes` list preserves the same structure as
+     `attributes(scale(x))[-1]` (i.e., `dim` excluded).
+
+Value:
+
+     A named list with two elements:
+
+     `data_abiotic_scaled` A data frame with row names in the format
+          `"<dataset_name>__<age>"`, an `age` column (centre-only
+          scaled), and all other abiotic variable columns
+          (centre-and-scale). Rows with any `NA` are dropped before
+          scaling.
+
+     `scale_attributes` A named list of `center` and `scale` attributes
+          for each variable (including `age`), which can be used to
+          back-transform predictions.
+
+See Also:
+
+     [prepare_abiotic_for_fit()], [assemble_data_to_fit()]
+
