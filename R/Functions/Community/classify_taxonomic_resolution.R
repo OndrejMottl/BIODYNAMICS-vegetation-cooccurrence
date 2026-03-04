@@ -17,7 +17,11 @@
 #' @details
 #' Performs a left join to map taxa to the desired resolution, aggregates
 #' pollen proportions, and ensures all dataset_name-age-taxon combinations are
-#' present in the output.
+#' present in the output. Taxa that have a valid `sel_name` entry in the
+#' classification table but lack a value at the requested resolution level
+#' (i.e. the resolution column is `NA`) are silently dropped with a warning.
+#' This prevents a column named `NA` from appearing in the fitted community
+#' matrix downstream.
 #' @export
 classify_taxonomic_resolution <- function(data, data_classification_table, taxonomic_resolution) {
   assertthat::assert_that(
@@ -71,6 +75,40 @@ classify_taxonomic_resolution <- function(data, data_classification_table, taxon
     dplyr::rename(
       taxon = !!taxonomic_resolution
     )
+
+  # Warn and drop taxa with no classification at the requested resolution.
+  #   A taxon can have a valid sel_name row yet have NA at the target rank
+  #   (e.g. classified only to family when genus is requested). Without
+  #   this filter, the NA taxon flows into pivot_wider() and creates a
+  #   column literally named NA in the fitted community matrix.
+  vec_na_taxa <-
+    data_classified %>%
+    dplyr::filter(base::is.na(taxon)) %>%
+    dplyr::distinct(taxon) %>%
+    base::nrow()
+
+  if (
+    vec_na_taxa > 0
+  ) {
+    cli::cli_warn(
+      c(
+        "!" = paste0(
+          "{vec_na_taxa} taxon/taxa ",
+          "ha{?s/ve} no classification at the ",
+          "'{taxonomic_resolution}' level and ",
+          "{?was/were} dropped."
+        ),
+        "i" = paste0(
+          "Check the classification table for missing ",
+          "'{taxonomic_resolution}' values."
+        )
+      )
+    )
+  }
+
+  data_classified <-
+    data_classified %>%
+    dplyr::filter(!base::is.na(taxon))
 
   # make dummy table with all dataset_name and age combinations
   #   this is needed to ensure that all combinations are present in the

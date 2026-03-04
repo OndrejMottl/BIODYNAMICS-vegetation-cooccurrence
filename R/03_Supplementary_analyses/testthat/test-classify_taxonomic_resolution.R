@@ -245,3 +245,76 @@ testthat::test_that(
     }
   }
 )
+
+testthat::test_that(
+  "classify_taxonomic_resolution() drops taxa with NA at resolution",
+  {
+    set.seed(900723)
+    # Taxon_3 has no genus classification (NA), the rest are resolved
+    data_dummy <-
+      data.frame(
+        dataset_name = "dataset_1",
+        age = 0,
+        taxon = paste0("Taxon_", 1:4),
+        pollen_prop = stats::runif(4, 0, 1)
+      )
+
+    classification_table_dummy <-
+      data.frame(
+        sel_name = paste0("Taxon_", 1:4),
+        genus = c("Genus_A", "Genus_B", NA, "Genus_C")
+      )
+
+    res <-
+      testthat::expect_warning(
+        classify_taxonomic_resolution(
+          data = data_dummy,
+          data_classification_table = classification_table_dummy,
+          taxonomic_resolution = "genus"
+        )
+      )
+
+    testthat::expect_false(
+      base::any(base::is.na(dplyr::pull(res, taxon)))
+    )
+
+    testthat::expect_true(
+      base::all(
+        c("Genus_A", "Genus_B", "Genus_C") %in%
+          dplyr::pull(res, taxon)
+      )
+    )
+
+    testthat::expect_false(
+      "Taxon_3" %in% dplyr::pull(res, taxon)
+    )
+  }
+)
+
+testthat::test_that(
+  "classify_taxonomic_resolution() no warning when no NA taxa",
+  {
+    set.seed(900723)
+    data_dummy <-
+      data.frame(
+        dataset_name = "dataset_1",
+        age = 0,
+        taxon = paste0("Taxon_", 1:3),
+        pollen_prop = stats::runif(3, 0, 1)
+      )
+
+    classification_table_dummy <-
+      data.frame(
+        sel_name = paste0("Taxon_", 1:3),
+        genus = c("Genus_A", "Genus_B", "Genus_C")
+      )
+
+    testthat::expect_no_warning(
+      classify_taxonomic_resolution(
+        data = data_dummy,
+        data_classification_table = classification_table_dummy,
+        taxonomic_resolution = "genus"
+      )
+    )
+  }
+)
