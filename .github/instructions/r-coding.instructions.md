@@ -88,8 +88,9 @@ Adding comments to code plays a pivotal role in ensuring reproducibility and
 preserving code knowledge for future reference. When things change or break,
 the user will be thankful for comments. There's no need to comment excessively
 or unnecessarily, but a comment describing what a large or complex chunk of
-code does is always helpful. The first letter of a comment is capitalized and
-spaced away from the pound sign (`#`).
+code does my be helpful. More importantly, it is crusial to comment WHY something 
+is coded in that specific (non-standard) way. The first letter of a comment is 
+capitalized and spaced away from the pound sign (`#`).
 
 Example of a single-line comment:
 
@@ -239,15 +240,32 @@ get_data <- function(...) {
 }
 ```
 
-#### 2. After a Pipe Operator (`%>%`)
+#### 2. After a Pipe Operator
 
-Note that there should be a space before a pipe.
+Prefer the **native pipe `|>`** (R 4.1+). Note that there should be a space
+before a pipe.
 
 ```r
 data_diversity <-
-  get_data() %>%
+  get_data() |>
   transform_to_percentages()
 ```
+
+Use the **magrittr pipe `%>%`** when the native pipe cannot be used cleanly:
+
+- Piping into a function's **non-first argument** (`.` placeholder):
+  ```r
+  data_diversity %>%
+    lm(diversity ~ region, data = .)
+  ```
+- Piping into **curly brackets** `{ }` to suppress the implicit first-argument
+  rule:
+  ```r
+  vec_diversity %>%
+    { . + 1 }
+  ```
+- Piping into `return()` or other special constructs inside a function body
+  where `|>` would be ambiguous.
 
 #### 3. After a Function Argument
 
@@ -382,109 +400,14 @@ preferred_shape <- "triangle"
 
 Always use `TRUE` and `FALSE`, instead of `T` and `F`.
 
-## Functions
+## Related Instruction Files
 
-For function calls, always state the arguments even though R can have anonymous
-arguments. The only exception is for functions where arguments are not known
-(i.e. `...` argument).
+Detailed rules for specific topics are in separate files:
 
-### Tidyverse
-
-It is preferred to use the Tidyverse version of functions over base ones:
-
-| Base R | Better Style, Performance, and Utility |
-|--------|----------------------------------------|
-| `read.csv()` | `readr::read_csv()` |
-| `df$some_column` | `df %>% dplyr::pull(some_column)` |
-| `df$some_column = ...` | `df %>% dplyr::mutate(some_column = ...)` |
-
-### Namespace
-
-Always use the full package namespace with a function call. This helps to
-track the source of function in a script:
-
-```r
-data_diversity %>%
-  dplyr::mutate(
-    beta_diversity = 0
-  )
-```
-
-### Creating Functions
-
-Specific rules apply for making custom functions:
-
-- For naming of functions see function names section above
-- Each function (declaration) should be placed in a separate script named
-  after the function. Therefore, there should be only a single function
-  in each function script
-- Function should always return (`return(res_value)`)
-
-#### Anonymous Functions
-
-In various instances, it might be better to not create a new function but to
-use an anonymous function (e.g. inside of `purrr::map_*()`).
-
-In that case, use tilde (`~`) for change in map default values in the function:
-
-```r
-purrr::map(
-  .f = ~ {
-    mean(.x)
-  }
-)
-```
-
-For `purrr::pmap_*()`, use `..1`, `..2`, etc:
-
-```r
-purrr::pmap(
-  .l = list(
-    list_1,
-    list_2,
-    list_3,
-    .f = ~ {
-      ..1 + ..2 + ..3
-    }
-  )
-)
-```
-
-#### Function Documentation
-
-Each function should have documentation at the beginning of the function using
-the [roxygen2](https://roxygen2.r-lib.org/) package. This can be useful also
-for project-specific functions (not just within the package) as it is easier
-to transition to a custom package.
-
-The roxygen2 documentation should be placed before the function declaration
-but keep the line limit of 80 characters. The documentation should be in the
-following format:
-
-```R
-#' @title Title of the function
-#' @description Description of the function
-#' @param arg1 Description of the first argument
-#' @param arg2 Description of the second argument
-#' @param arg3 Description of the third argument
-#' @return Description of the return value
-#' @details Details about the function
-#' @seealso Related functions or references
-#' @export
-```
-
-#### Testing Functions
-
-All tests are done using the [testthat](https://testthat.r-lib.org/) package.
-Each function should have its own test file, which is named after the function
-(e.g., `test-<function_name>.R`).
-
-Generally, the function should be tested for:
-
-- output of correct type
-- output of correct data
-- handling of input errors
-
-**Reproducibility:**
-- When randomness is involved, always use `set.seed(900723)` as the standard
-  seed value for this project
+- [r-coding-tidyverse.instructions.md](r-coding-tidyverse.instructions.md) —
+  Tidyverse preferences, namespace, modern dplyr/purrr patterns, data masking
+- [r-coding-functions.instructions.md](r-coding-functions.instructions.md) —
+  Creating functions, anonymous functions, error handling, documentation,
+  testing
+- [r-coding-performance.instructions.md](r-coding-performance.instructions.md) —
+  Profiling, loop performance, parallel processing

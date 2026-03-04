@@ -1,0 +1,178 @@
+---
+applyTo: "**/*.R"
+description: >
+  Tidyverse usage guidelines: preferred functions over base R, modern dplyr
+  and purrr patterns, full namespace rules, and data masking conventions.
+---
+
+# Tidyverse & Namespace Guidelines
+
+## Prefer Tidyverse Over Base R
+
+Use tidyverse functions over base R equivalents:
+
+| Base R | Better Style, Performance, and Utility |
+|--------|----------------------------------------|
+| `read.csv()` | `readr::read_csv()` |
+| `df$some_column` | `df |> dplyr::pull(some_column)` |
+| `df$some_column = ...` | `df |> dplyr::mutate(some_column = ...)` |
+| `sapply(x, f)` | `purrr::map_dbl(x, f)` / `purrr::map_chr(x, f)` |
+| `grepl("p", x)` | `stringr::str_detect(x, "p")` |
+| `gsub("a", "b", x)` | `stringr::str_replace_all(x, "a", "b")` |
+
+Always prefer type-stable `map_dbl()`, `map_chr()`, `map_lgl()` etc. over
+`sapply()`, which has unpredictable return types.
+
+## Namespace
+
+Always use the full package namespace with a function call. This helps to
+track the source of a function in a script:
+
+```r
+data_diversity |>
+  dplyr::mutate(
+    beta_diversity = 0
+  )
+```
+
+## Modern dplyr Patterns
+
+### Joins
+
+Use `join_by()` instead of character vectors for joins (dplyr 1.1+):
+
+```r
+# Good
+transactions |>
+  dplyr::inner_join(companies, by = dplyr::join_by(company == id))
+
+# Avoid
+transactions |>
+  dplyr::inner_join(companies, by = c("company" = "id"))
+```
+
+Use `multiple` and `unmatched` arguments in joins for data quality control:
+
+```r
+# Error on unexpected multiple matches
+dplyr::inner_join(x, y, by = dplyr::join_by(id), multiple = "error")
+
+# Error if any rows are unmatched
+dplyr::inner_join(x, y, by = dplyr::join_by(id), unmatched = "error")
+```
+
+### Grouping
+
+Use `dplyr::group_by()` for grouping operations. Always pair it with
+`dplyr::ungroup()` after the grouped computation to avoid unexpected behaviour
+in downstream steps:
+
+```r
+data_diversity |>
+  dplyr::group_by(region) |>
+  dplyr::summarise(mean_diversity = mean(diversity)) |>
+  dplyr::ungroup()
+```
+
+Use `reframe()` for summaries that return more than one row per group:
+
+```r
+data_diversity |>
+  dplyr::group_by(region) |>
+  dplyr::reframe(
+    quantiles = quantile(diversity, c(0.25, 0.5, 0.75))
+  )
+```
+
+## Modern purrr Patterns
+
+Use `map() |> list_rbind()` instead of the superseded `map_dfr()`
+(purrr 1.0+):
+
+```r
+# Good
+list_results |>
+  purrr::map(~ fit_model(.x)) |>
+  purrr::list_rbind()
+
+# Avoid (superseded)
+list_results |>
+  purrr::map_dfr(~ fit_model(.x))
+```
+
+Use `walk()` and `walk2()` for side effects (file writing, plotting) instead
+of `map()` or `for` loops when the return value is not needed:
+
+```r
+# Good
+purrr::walk2(
+  list_data,
+  vec_file_paths,
+  ~ readr::write_csv(.x, .y)
+)
+```
+
+## Data Masking
+
+When writing functions that pass column names to tidyverse data-masking
+functions (`dplyr::filter()`, `dplyr::mutate()`, `dplyr::summarise()`, etc.),
+use the correct forwarding mechanism to avoid ambiguity and masking bugs.
+
+### Forwarding function arguments with `{{ }}`
+
+Use the embrace operator `{{ }}` to forward a function argument into a
+data-masking context:
+
+```r
+# Good
+calculate_group_mean <- function(data, group_var, value_var) {
+  data |>
+    dplyr::group_by({{ group_var }}) |>
+    dplyr::summarise(
+      mean_value = mean({{ value_var }})
+    ) |>
+    dplyr::ungroup()
+}
+```
+
+### Accessing columns by name string with `.data[[]]`
+
+When a column name is provided as a character string (e.g. in a loop), use
+`.data[[var]]` instead of `!!sym(var)` for clarity and safety:
+
+```r
+# Good - character vector column access
+for (col_name in vec_col_names) {
+  data_diversity |>
+    dplyr::summarise(
+      mean_val = mean(.data[[col_name]])
+    )
+}
+
+# Applying a function across multiple named columns
+purrr::map(
+  .x = vec_col_names,
+  .f = ~ data_diversity |>
+    dplyr::summarise(mean_val = mean(.data[[.x]]))
+)
+```
+
+### Forwarding `...`
+
+When forwarding `...` to data-masking functions, no special syntax is needed:
+
+```r
+group_and_summarise <- function(.data, ...) {
+  .data |> dplyr::group_by(...)
+}
+```
+
+### Avoid dangerous patterns
+
+```r
+# Avoid - eval/parse is dangerous and fragile
+eval(parse(text = paste("mean(", var, ")")))
+
+# Avoid - get() causes name collisions in data masks
+with(data, mean(get(var)))
+```
