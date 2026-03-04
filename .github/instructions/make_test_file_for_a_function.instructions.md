@@ -276,14 +276,28 @@ If function uses non-standard evaluation (NSE) or tidyverse programming (`{{ }}`
 
 **MANDATORY:** After creating or modifying any test file in
 `R/03_Supplementary_analyses/testthat/`, immediately run that test file to
-verify all tests pass. Use:
+verify all tests pass. Functions are not auto-loaded by testthat — you must
+source the project setup first so all project functions are available:
 
 ```r
+library(here)
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
 testthat::test_file(
   here::here(
     "R/03_Supplementary_analyses/testthat/test-<function_name>.R"
   )
 )
+```
+
+To run the **full test suite**, use the canonical script that handles setup
+automatically:
+
+```powershell
+Rscript R/03_Supplementary_analyses/Run_tests.R
 ```
 
 Do not consider the task complete until the test run produces **no failures and

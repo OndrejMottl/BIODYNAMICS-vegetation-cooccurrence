@@ -43,22 +43,26 @@ cat("result:", class(result), "\n")
 ### 2. Run the Script in a Clean Terminal Session
 
 Execute the script non-interactively to avoid any state leaked from a
-running R session:
+running R session. **By default, run directly in the terminal:**
+
+```powershell
+Rscript "D:/path/to/project/Data/Temp/debug_<topic>.R"
+```
+
+Key rules:
+
+- Do **not** rely on an interactive R session; hidden state causes
+  false positives
+- If the first script does not fully expose the root cause, iterate:
+  create `debug_<topic>2.R`, `debug_<topic>3.R`, etc.
+- **Only if output appears garbled or truncated** (e.g. PowerShell
+  encoding artefacts), fall back to redirecting to a file:
 
 ```powershell
 Rscript "D:/path/to/project/Data/Temp/debug_<topic>.R" `
   > "D:/path/to/project/Data/Temp/debug_out.txt" 2>&1
 Get-Content "D:/path/to/project/Data/Temp/debug_out.txt"
 ```
-
-Key rules:
-
-- Always redirect to a file and then `Get-Content` — this avoids
-  PowerShell terminal encoding artefacts swallowing output
-- Do **not** rely on an interactive R session; hidden state causes
-  false positives
-- If the first script does not fully expose the root cause, iterate:
-  create `debug_<topic>2.R`, `debug_<topic>3.R`, etc.
 
 ### 3. Probe the Environment Chain / Internal Behaviour
 
@@ -133,7 +137,14 @@ Fix any failures before moving on.
 ### 7. Run the Full Test Suite
 
 Once the targeted tests pass, run the entire suite to confirm no
-regressions were introduced elsewhere:
+regressions were introduced elsewhere. The canonical way is the dedicated
+script — it sources project setup automatically before running tests:
+
+```powershell
+Rscript R/03_Supplementary_analyses/Run_tests.R
+```
+
+Alternatively, from an interactive R session:
 
 ```r
 library(here)
@@ -190,12 +201,12 @@ regressions, and the pipeline run confirms end-to-end correctness.
 | Step | Action |
 |------|--------|
 | 1 | Create `Data/Temp/debug_<topic>.R` — minimal MRE |
-| 2 | Run with `Rscript` → file redirect → `Get-Content` |
+| 2 | Run with `Rscript` directly in terminal; only redirect to file if output is garbled |
 | 3 | Probe environments / call patterns until root cause is clear |
 | 4 | Apply minimal fix + explanatory comment to source |
 | 5 | `Remove-Item` all temp debug files |
 | 6 | Run `testthat::test_file()` for the changed function — passes |
-| 7 | Run `testthat::test_dir()` — all tests pass |
+| 7 | `Rscript R/03_Supplementary_analyses/Run_tests.R` — all tests pass |
 | 8 | Run full `pipeline_basic.R` under `project_cz` — no errors |
 
 ---
