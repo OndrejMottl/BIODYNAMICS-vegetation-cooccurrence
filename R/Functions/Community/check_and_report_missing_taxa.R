@@ -19,12 +19,13 @@
 #' Stops with an error (and writes a template CSV) when any taxa
 #' are missing.
 #' @details
-#' The template CSV contains columns `sel_name`, `family`,
-#' `genus`, and `species`. The `sel_name` column is pre-filled
-#' with the missing taxon names; the remaining columns are left as
-#' `NA` for the user to complete. After filling in the template,
-#' copy or append rows to
-#' `Data/Input/aux_classification_table.csv` and re-run the
+#' The template CSV contains columns `sel_name`, `kingdom`,
+#' `phylum`, `class`, `order`, `family`, `genus`, and `species`.
+#' The `sel_name` column is pre-filled with the missing taxon
+#' names; all rank columns are left as `NA` for the user to
+#' complete. At minimum, `family`, `genus`, or `species` should be
+#' filled in. After completing the template, copy or append rows
+#' to `Data/Input/aux_classification_table.csv` and re-run the
 #' pipeline.
 #' @seealso
 #' [get_aux_classification_table()],
@@ -59,6 +60,10 @@ check_and_report_missing_taxa <- function(
   data_template <-
     tibble::tibble(
       sel_name = vec_taxa_without_classification,
+      kingdom = NA_character_,
+      phylum = NA_character_,
+      class = NA_character_,
+      order = NA_character_,
       family = NA_character_,
       genus = NA_character_,
       species = NA_character_

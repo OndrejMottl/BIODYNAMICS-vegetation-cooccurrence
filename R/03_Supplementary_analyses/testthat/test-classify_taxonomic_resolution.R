@@ -204,3 +204,44 @@ testthat::test_that("classify_taxonomic_resolution() handles invalid input", {
     )
   )
 })
+
+testthat::test_that(
+  "classify_taxonomic_resolution() accepts all seven taxonomic ranks",
+  {
+    set.seed(1234)
+    data_dummy <-
+      data.frame(
+        dataset_name = "dataset_1",
+        age = 0,
+        taxon = paste0("Taxon_", 1:4),
+        pollen_prop = runif(4, 0, 1)
+      )
+
+    classification_table_dummy <-
+      data.frame(
+        sel_name = paste0("Taxon_", 1:4),
+        kingdom = c("Kingdom_A", "Kingdom_A", "Kingdom_A", "Kingdom_A"),
+        phylum  = c("Phylum_A",  "Phylum_A",  "Phylum_B",  "Phylum_B"),
+        class   = c("Class_A",   "Class_A",   "Class_B",   "Class_B"),
+        order   = c("Order_A",   "Order_A",   "Order_B",   "Order_C"),
+        family  = c("Family_A",  "Family_A",  "Family_B",  "Family_C"),
+        genus   = c("Genus_A",   "Genus_B",   "Genus_C",   "Genus_D"),
+        species = paste0("Species_", 1:4)
+      )
+
+    for (
+      sel_rank in c(
+        "kingdom", "phylum", "class", "order",
+        "family", "genus", "species"
+      )
+    ) {
+      testthat::expect_no_error(
+        classify_taxonomic_resolution(
+          data = data_dummy,
+          data_classification_table = classification_table_dummy,
+          taxonomic_resolution = sel_rank
+        )
+      )
+    }
+  }
+)

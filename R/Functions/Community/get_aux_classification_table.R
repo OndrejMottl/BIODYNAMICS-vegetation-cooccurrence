@@ -8,19 +8,22 @@
 #' A length-1 character string giving the path to the CSV file.
 #' Defaults to
 #' `here::here("Data/Input/aux_classification_table.csv")`.
-#' The file, if present, must contain columns `sel_name`,
-#' `family`, `genus`, and `species`.
+#' The file, if present, must contain a `sel_name` column. All
+#' seven taxonomic rank columns (`kingdom`, `phylum`, `class`,
+#' `order`, `family`, `genus`, `species`) are expected but
+#' optional — any that are absent are filled with `NA_character_`.
 #' @return
-#' A tibble with columns `sel_name` (character), `family`
-#' (character), `genus` (character), and `species` (character).
+#' A tibble with columns `sel_name`, `kingdom`, `phylum`, `class`,
+#' `order`, `family`, `genus`, and `species` (all character).
 #' Returns an empty tibble when the file does not exist.
 #' @details
 #' Manual classifications in this file override automatic
 #' classifications produced by `get_taxa_classification()`. When
-#' the file exists it is validated to confirm all required columns
-#' are present. Missing columns are filled with `NA_character_`
-#' rather than raising an error, so that partial tables are
-#' accepted.
+#' the file exists it is validated to confirm `sel_name` is
+#' present. Any of the seven rank columns that are absent are
+#' filled with `NA_character_` rather than raising an error, so
+#' that partial tables (e.g., those that only specify `family`,
+#' `genus`, and `species`) continue to be accepted.
 #' @seealso
 #' [combine_classification_tables()],
 #' [check_and_report_missing_taxa()]
@@ -35,6 +38,10 @@ get_aux_classification_table <- function(
   res_empty <-
     tibble::tibble(
       sel_name = character(0),
+      kingdom = character(0),
+      phylum = character(0),
+      class = character(0),
+      order = character(0),
       family = character(0),
       genus = character(0),
       species = character(0)
@@ -59,7 +66,10 @@ get_aux_classification_table <- function(
   )
 
   # Fill any missing expected columns with NA so combining works
-  vec_expected_cols <- c("family", "genus", "species")
+  vec_expected_cols <- c(
+    "kingdom", "phylum", "class", "order",
+    "family", "genus", "species"
+  )
 
   for (
     col_name in vec_expected_cols

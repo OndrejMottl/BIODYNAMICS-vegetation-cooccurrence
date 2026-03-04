@@ -1,14 +1,16 @@
 #' @title Classify Taxonomic Resolution
 #' @description
-#' Classifies taxa in a data frame to a specified taxonomic resolution (family,
-#' genus, or species) using a classification table, and aggregates pollen
-#' proportions accordingly.
+#' Classifies taxa in a data frame to a specified taxonomic resolution using
+#' a classification table, and aggregates pollen proportions accordingly.
+#' Supported resolutions are `kingdom`, `phylum`, `class`, `order`, `family`,
+#' `genus`, and `species`.
 #' @param data A data frame containing taxon data with columns including
 #'   'taxon', 'dataset_name', 'age', and 'pollen_prop'.
 #' @param data_classification_table A data frame mapping 'sel_name' to
 #'   taxonomic levels (e.g., family, genus, species).
 #' @param taxonomic_resolution A character string specifying the taxonomic
-#'   resolution to classify to. Must be one of 'family', 'genus', or 'species'.
+#'   resolution to classify to. Must be one of `'kingdom'`, `'phylum'`,
+#'   `'class'`, `'order'`, `'family'`, `'genus'`, or `'species'`.
 #' @return A data frame with taxa classified to the specified resolution and
 #'   pollen proportions aggregated accordingly. The output preserves all
 #'   dataset_name and age combinations for true negatives.
@@ -39,8 +41,15 @@ classify_taxonomic_resolution <- function(data, data_classification_table, taxon
   )
 
   assertthat::assert_that(
-    taxonomic_resolution %in% c("family", "genus", "species"),
-    msg = "taxonomic_resolution must be one of 'family', 'genus', or 'species'"
+    taxonomic_resolution %in% c(
+      "kingdom", "phylum", "class", "order",
+      "family", "genus", "species"
+    ),
+    msg = paste(
+      "taxonomic_resolution must be one of",
+      "'kingdom', 'phylum', 'class', 'order',",
+      "'family', 'genus', or 'species'"
+    )
   )
 
   assertthat::assert_that(
