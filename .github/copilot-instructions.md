@@ -310,9 +310,28 @@ it does not yet exist) at
 Do not wait to be asked — treat test improvement as part of every function
 edit, alongside documentation.
 
-**After all tests pass, run the full pipeline end-to-end** to confirm that
-the new or changed function integrates correctly with the rest of the
-workflow. Use the `project_cz` configuration:
+**After all tests pass, run the full pipeline end-to-end.** This is
+**MANDATORY** — do not consider any function creation or edit complete
+until the pipeline has been executed and verified in the terminal.
+
+Run via terminal (preferred — avoids stale session state):
+
+```powershell
+Rscript -e "
+library(here)
+source(here::here('R/___setup_project___.R'))
+Sys.setenv(R_CONFIG_ACTIVE = 'project_cz')
+run_pipeline(
+  sel_script = 'R/02_Main_analyses/pipeline_basic.R',
+  level_separation = 100
+)
+" > Data/Temp/pipeline_out.txt 2>&1
+Get-Content Data/Temp/pipeline_out.txt |
+  Select-String -Pattern 'ERROR|error|started|completed|up to date|outdated|Target'
+Remove-Item Data/Temp/pipeline_out.txt -ErrorAction SilentlyContinue
+```
+
+Or from an interactive R session:
 
 ```r
 library(here)
@@ -331,7 +350,7 @@ run_pipeline(
 
 **An implementation is not complete until this pipeline run passes without
 unexpected errors.** Do not wait to be asked — treat the pipeline run as
-part of every function creation or edit, alongside documentation and tests.
+the final mandatory step of every function creation or edit.
 
 ### Data Workflow
 

@@ -16,12 +16,19 @@ Use tidyverse functions over base R equivalents:
 | `read.csv()` | `readr::read_csv()` |
 | `df$some_column` | `df |> dplyr::pull(some_column)` |
 | `df$some_column = ...` | `df |> dplyr::mutate(some_column = ...)` |
+| `apply(m, 2, f)` | `purrr::map_dbl(colnames(m), ~ f(m[, .x]))` |
+| `lapply(x, f)` | `purrr::map(x, f)` |
 | `sapply(x, f)` | `purrr::map_dbl(x, f)` / `purrr::map_chr(x, f)` |
+| `vapply(x, f, numeric(1))` | `purrr::map_dbl(x, f)` |
+| `mapply(f, x, y)` | `purrr::map2(x, y, f)` |
 | `grepl("p", x)` | `stringr::str_detect(x, "p")` |
 | `gsub("a", "b", x)` | `stringr::str_replace_all(x, "a", "b")` |
 
-Always prefer type-stable `map_dbl()`, `map_chr()`, `map_lgl()` etc. over
-`sapply()`, which has unpredictable return types.
+**Never use the `apply` family** (`apply()`, `lapply()`, `sapply()`,
+`vapply()`, `mapply()`, `tapply()`). Use `purrr::map*()` equivalents
+instead — they are type-stable, pipe-friendly, and consistent with the
+rest of the tidyverse. This rule applies to all iteration and
+functional-programming patterns, not just data-frame operations.
 
 ## Namespace
 
