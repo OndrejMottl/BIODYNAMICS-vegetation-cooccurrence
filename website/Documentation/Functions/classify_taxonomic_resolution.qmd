@@ -25,9 +25,10 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Classifies taxa in a data frame to a specified taxonomic resolution (family,
-genus, or species) using a classification table, and aggregates pollen
-proportions accordingly.
+<p>Classifies taxa in a data frame to a specified taxonomic resolution using
+a classification table, and aggregates pollen proportions accordingly.
+Supported resolutions are 'kingdom', 'phylum', 'class', 'order', 'family',
+'genus', and 'species'.
 </p>
 
 
@@ -57,7 +58,8 @@ taxonomic levels (e.g., family, genus, species).</p>
 <tr><td><code id="taxonomic_resolution">taxonomic_resolution</code></td>
 <td>
 <p>A character string specifying the taxonomic
-resolution to classify to. Must be one of 'family', 'genus', or 'species'.</p>
+resolution to classify to. Must be one of ''kingdom'&lsquo;, '&rsquo;phylum'',
+''class'&lsquo;, '&rsquo;order'&lsquo;, '&rsquo;family'&lsquo;, '&rsquo;genus'&lsquo;, or '&rsquo;species''.</p>
 </td></tr>
 </table>
 
@@ -66,7 +68,11 @@ resolution to classify to. Must be one of 'family', 'genus', or 'species'.</p>
 
 <p>Performs a left join to map taxa to the desired resolution, aggregates
 pollen proportions, and ensures all dataset_name-age-taxon combinations are
-present in the output.
+present in the output. Taxa that have a valid 'sel_name' entry in the
+classification table but lack a value at the requested resolution level
+(i.e. the resolution column is 'NA') are silently dropped with a warning.
+This prevents a column named 'NA' from appearing in the fitted community
+matrix downstream.
 </p>
 
 
