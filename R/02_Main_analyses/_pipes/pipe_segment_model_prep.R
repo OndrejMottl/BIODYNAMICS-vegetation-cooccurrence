@@ -70,27 +70,34 @@ pipe_segment_model_prep <-
     ),
     targets::tar_target(
       description = paste0(
-        "Expand projected km coords to per-sample rows",
+        "Compute Moran eigenvector maps (MEMs)",
+        " from unique core km locations"
+      ),
+      name = "data_spatial_mev_core",
+      command = compute_spatial_mev(
+        data_coords_projected = data_coords_projected,
+        n_mev = config.model_fitting$n_mev
+      )
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Expand MEV core data to per-sample rows",
         " for spatial model term"
       ),
-      name = "data_spatial_km",
+      name = "data_spatial_mev_samples",
       command = prepare_spatial_predictors_for_fit(
-        data_spatial = dplyr::select(
-          data_coords_projected,
-          coord_x_km,
-          coord_y_km
-        ),
+        data_spatial = data_spatial_mev_core,
         data_sample_ids = data_sample_ids
       )
     ),
     targets::tar_target(
       description = paste0(
-        "Scale spatial km coords; capture attributes",
+        "Scale spatial MEV predictors; capture attributes",
         " for back-transformation"
       ),
       name = "data_spatial_scaled_list",
       command = scale_spatial_for_fit(
-        data_spatial = data_spatial_km
+        data_spatial = data_spatial_mev_samples
       )
     ),
     targets::tar_target(

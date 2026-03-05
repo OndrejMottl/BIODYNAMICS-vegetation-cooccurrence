@@ -13,6 +13,7 @@ default:
     minimal_proportion_of_pollen: 0.01
   model_fitting:
     n_cores: 5
+    n_mev: 5
     samples: 100
     thin: 1
     transient: 50

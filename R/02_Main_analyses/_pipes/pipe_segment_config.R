@@ -193,6 +193,14 @@ pipe_segment_config <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
+      description = "Configuration for model fitting - number of Moran eigenvectors",
+      name = "config.n_mev",
+      command = get_active_config(
+        value = c("model_fitting", "n_mev")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
       description = "Configuration for model fitting",
       name = "config.model_fitting",
       command = list(
@@ -201,7 +209,8 @@ pipe_segment_config <-
         thin = config.n_thin,
         transient = config.n_transient,
         samples_verbose = config.samples_verbose,
-        cross_validation_folds = config.cross_validation_folds
+        cross_validation_folds = config.cross_validation_folds,
+        n_mev = config.n_mev
       )
     )
   )

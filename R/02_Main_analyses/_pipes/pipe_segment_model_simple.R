@@ -55,7 +55,7 @@ pipe_segment_model_simple <-
         abiotic_method = "linear",
         sel_abiotic_formula = model_formula,
         spatial_method = "linear",
-        sel_spatial_formula = ~ 0 + coord_x_km + coord_y_km,
+        sel_spatial_formula = ~ 0 + .,
 
         error_family = "binomial",
         device = "gpu",
