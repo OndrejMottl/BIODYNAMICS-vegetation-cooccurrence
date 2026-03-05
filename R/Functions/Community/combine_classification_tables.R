@@ -6,15 +6,19 @@
 #' overriding the automatic classification entirely.
 #' @param data_classification_table
 #' A data frame produced by `make_classification_table()` with
-#' columns `sel_name`, `family`, `genus`, and `species`.
+#' columns `sel_name`, `kingdom`, `phylum`, `class`, `order`,
+#' `family`, `genus`, and `species`.
 #' @param data_aux_classification_table
 #' A data frame produced by `get_aux_classification_table()` with
-#' columns `sel_name`, `family`, `genus`, and `species`. May be
-#' an empty tibble (zero rows) when no manual overrides exist.
+#' columns `sel_name`, `kingdom`, `phylum`, `class`, `order`,
+#' `family`, `genus`, and `species`. May be an empty tibble
+#' (zero rows) when no manual overrides exist.
 #' @return
-#' A tibble with columns `sel_name`, `family`, `genus`, and
-#' `species` containing all unique taxa from both inputs. Manual
-#' entries override automatic ones on `sel_name` collision.
+#' A tibble with columns `sel_name`, `kingdom`, `phylum`, `class`,
+#' `order`, `family`, `genus`, and `species` containing all unique
+#' taxa from both inputs. Manual entries override automatic ones
+#' on `sel_name` collision. Only columns present in both inputs
+#' are retained (intersection).
 #' @details
 #' Binding is performed by placing auxiliary rows before automatic
 #' rows and then retaining the first occurrence of each `sel_name`

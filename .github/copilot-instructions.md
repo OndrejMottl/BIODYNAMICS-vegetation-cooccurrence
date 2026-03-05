@@ -6,7 +6,11 @@ This project analyzes vegetation co-occurrence patterns using paleoecological an
 
 ## Coding Standards
 
-This project follows specific R coding conventions defined in the [R Coding Instructions](instructions/r-coding.instructions.md). Please refer to that document for detailed style guidelines.
+This project follows specific R coding conventions split across four instruction files:
+- [r-coding.instructions.md](instructions/r-coding.instructions.md) — Script structure, naming, syntax
+- [r-coding-tidyverse.instructions.md](instructions/r-coding-tidyverse.instructions.md) — Tidyverse, namespace, dplyr/purrr, data masking
+- [r-coding-functions.instructions.md](instructions/r-coding-functions.instructions.md) — Writing functions, error handling, docs, tests
+- [r-coding-performance.instructions.md](instructions/r-coding-performance.instructions.md) — Profiling and performance
 
 ## Project Structure
 
@@ -203,13 +207,12 @@ Each script should do **one task only**. If describing the task requires multipl
 
 ## R Coding Conventions
 
-For detailed R coding style guidelines, please refer to the [R Coding Instructions](instructions/r-coding.instructions.md), which includes:
+R coding style guidelines are split across four instruction files:
 
-- Script structure and headers
-- Naming conventions for objects, functions, and variables
-- Syntax rules (spacing, new lines, parentheses)
-- Function documentation using roxygen2
-- Testing conventions using testthat
+- [r-coding.instructions.md](instructions/r-coding.instructions.md) — Script structure, naming conventions, syntax rules
+- [r-coding-tidyverse.instructions.md](instructions/r-coding-tidyverse.instructions.md) — Tidyverse preferences, namespace, modern dplyr/purrr patterns, data masking
+- [r-coding-functions.instructions.md](instructions/r-coding-functions.instructions.md) — Writing functions, anonymous functions, error handling, roxygen2 documentation, testthat testing
+- [r-coding-performance.instructions.md](instructions/r-coding-performance.instructions.md) — Profiling, avoiding loop anti-patterns, parallel processing
 
 ## Debugging Workflow
 
@@ -307,9 +310,28 @@ it does not yet exist) at
 Do not wait to be asked — treat test improvement as part of every function
 edit, alongside documentation.
 
-**After all tests pass, run the full pipeline end-to-end** to confirm that
-the new or changed function integrates correctly with the rest of the
-workflow. Use the `project_cz` configuration:
+**After all tests pass, run the full pipeline end-to-end.** This is
+**MANDATORY** — do not consider any function creation or edit complete
+until the pipeline has been executed and verified in the terminal.
+
+Run via terminal (preferred — avoids stale session state):
+
+```powershell
+Rscript -e "
+library(here)
+source(here::here('R/___setup_project___.R'))
+Sys.setenv(R_CONFIG_ACTIVE = 'project_cz')
+run_pipeline(
+  sel_script = 'R/02_Main_analyses/pipeline_basic.R',
+  level_separation = 100
+)
+" > Data/Temp/pipeline_out.txt 2>&1
+Get-Content Data/Temp/pipeline_out.txt |
+  Select-String -Pattern 'ERROR|error|started|completed|up to date|outdated|Target'
+Remove-Item Data/Temp/pipeline_out.txt -ErrorAction SilentlyContinue
+```
+
+Or from an interactive R session:
 
 ```r
 library(here)
@@ -328,7 +350,7 @@ run_pipeline(
 
 **An implementation is not complete until this pipeline run passes without
 unexpected errors.** Do not wait to be asked — treat the pipeline run as
-part of every function creation or edit, alongside documentation and tests.
+the final mandatory step of every function creation or edit.
 
 ### Data Workflow
 

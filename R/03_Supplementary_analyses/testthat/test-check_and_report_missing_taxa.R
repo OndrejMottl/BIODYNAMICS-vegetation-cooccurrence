@@ -157,7 +157,11 @@ testthat::test_that(
 
     testthat::expect_named(
       data_result,
-      c("sel_name", "family", "genus", "species")
+      c(
+        "sel_name",
+        "kingdom", "phylum", "class", "order",
+        "family", "genus", "species"
+      )
     )
   }
 )
@@ -215,7 +219,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "CSV family, genus, species columns are all NA",
+  "CSV all rank columns are all NA",
   {
     vec_template_path <- base::tempfile(fileext = ".csv")
 
@@ -232,16 +236,16 @@ testthat::test_that(
       show_col_types = FALSE
     )
 
-    testthat::expect_true(
-      base::all(base::is.na(dplyr::pull(data_result, family)))
-    )
-
-    testthat::expect_true(
-      base::all(base::is.na(dplyr::pull(data_result, genus)))
-    )
-
-    testthat::expect_true(
-      base::all(base::is.na(dplyr::pull(data_result, species)))
-    )
+    for (
+      col_name in c(
+        "kingdom", "phylum", "class", "order",
+        "family", "genus", "species"
+      )
+    ) {
+      testthat::expect_true(
+        base::all(base::is.na(dplyr::pull(data_result, col_name))),
+        label = paste(col_name, "should be all NA")
+      )
+    }
   }
 )

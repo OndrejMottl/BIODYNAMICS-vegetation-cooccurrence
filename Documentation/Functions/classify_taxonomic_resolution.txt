@@ -3,8 +3,9 @@ Classify Taxonomic Resolution
 Description:
 
      Classifies taxa in a data frame to a specified taxonomic
-     resolution (family, genus, or species) using a classification
-     table, and aggregates pollen proportions accordingly.
+     resolution using a classification table, and aggregates pollen
+     proportions accordingly. Supported resolutions are `kingdom`,
+     `phylum`, `class`, `order`, `family`, `genus`, and `species`.
 
 Usage:
 
@@ -23,14 +24,20 @@ data_classification_table: A data frame mapping 'sel_name' to taxonomic
           levels (e.g., family, genus, species).
 
 taxonomic_resolution: A character string specifying the taxonomic
-          resolution to classify to. Must be one of 'family', 'genus',
-          or 'species'.
+          resolution to classify to. Must be one of `'kingdom'`,
+          `'phylum'`, `'class'`, `'order'`, `'family'`, `'genus'`, or
+          `'species'`.
 
 Details:
 
      Performs a left join to map taxa to the desired resolution,
      aggregates pollen proportions, and ensures all
      dataset_name-age-taxon combinations are present in the output.
+     Taxa that have a valid `sel_name` entry in the classification
+     table but lack a value at the requested resolution level (i.e. the
+     resolution column is `NA`) are silently dropped with a warning.
+     This prevents a column named `NA` from appearing in the fitted
+     community matrix downstream.
 
 Value:
 

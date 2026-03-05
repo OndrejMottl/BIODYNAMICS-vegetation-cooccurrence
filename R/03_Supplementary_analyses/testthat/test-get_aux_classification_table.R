@@ -35,22 +35,30 @@ testthat::test_that(
     testthat::expect_equal(base::nrow(res), 0L)
     testthat::expect_named(
       res,
-      c("sel_name", "family", "genus", "species")
+      c(
+        "sel_name",
+        "kingdom", "phylum", "class", "order",
+        "family", "genus", "species"
+      )
     )
   }
 )
 
 testthat::test_that(
-  "get_aux_classification_table() reads all 4 columns",
+  "get_aux_classification_table() reads all 8 columns",
   {
     path_tmp <- withr::local_tempfile(fileext = ".csv")
 
     data_input <-
       tibble::tibble(
         sel_name = c("Taxon_A", "Taxon_B"),
-        family = c("Fam_A", "Fam_B"),
-        genus = c("Gen_A", "Gen_B"),
-        species = c("Sp_A", "Sp_B")
+        kingdom  = c("King_A", "King_B"),
+        phylum   = c("Phy_A",  "Phy_B"),
+        class    = c("Cls_A",  "Cls_B"),
+        order    = c("Ord_A",  "Ord_B"),
+        family   = c("Fam_A",  "Fam_B"),
+        genus    = c("Gen_A",  "Gen_B"),
+        species  = c("Sp_A",   "Sp_B")
       )
 
     readr::write_csv(data_input, path_tmp)
@@ -62,11 +70,19 @@ testthat::test_that(
     testthat::expect_equal(base::nrow(res), 2L)
     testthat::expect_named(
       res,
-      c("sel_name", "family", "genus", "species")
+      c(
+        "sel_name",
+        "kingdom", "phylum", "class", "order",
+        "family", "genus", "species"
+      )
     )
     testthat::expect_equal(
       dplyr::pull(res, sel_name),
       c("Taxon_A", "Taxon_B")
+    )
+    testthat::expect_equal(
+      dplyr::pull(res, kingdom),
+      c("King_A", "King_B")
     )
     testthat::expect_equal(
       dplyr::pull(res, family),
@@ -123,7 +139,23 @@ testthat::test_that(
     testthat::expect_equal(base::nrow(res), 2L)
     testthat::expect_named(
       res,
-      c("sel_name", "family", "genus", "species")
+      c(
+        "sel_name",
+        "kingdom", "phylum", "class", "order",
+        "family", "genus", "species"
+      )
+    )
+    testthat::expect_true(
+      base::all(base::is.na(dplyr::pull(res, kingdom)))
+    )
+    testthat::expect_true(
+      base::all(base::is.na(dplyr::pull(res, phylum)))
+    )
+    testthat::expect_true(
+      base::all(base::is.na(dplyr::pull(res, class)))
+    )
+    testthat::expect_true(
+      base::all(base::is.na(dplyr::pull(res, order)))
     )
     testthat::expect_true(
       base::all(base::is.na(dplyr::pull(res, family)))
@@ -156,11 +188,27 @@ testthat::test_that(
     testthat::expect_s3_class(res, "data.frame")
     testthat::expect_named(
       res,
-      c("sel_name", "family", "genus", "species")
+      c(
+        "sel_name",
+        "kingdom", "phylum", "class", "order",
+        "family", "genus", "species"
+      )
     )
     testthat::expect_equal(
       dplyr::pull(res, family),
       "Fam_A"
+    )
+    testthat::expect_true(
+      base::is.na(dplyr::pull(res, kingdom))
+    )
+    testthat::expect_true(
+      base::is.na(dplyr::pull(res, phylum))
+    )
+    testthat::expect_true(
+      base::is.na(dplyr::pull(res, class))
+    )
+    testthat::expect_true(
+      base::is.na(dplyr::pull(res, order))
     )
     testthat::expect_true(
       base::is.na(dplyr::pull(res, genus))
@@ -191,6 +239,22 @@ testthat::test_that(
 
     testthat::expect_type(
       dplyr::pull(res, sel_name),
+      "character"
+    )
+    testthat::expect_type(
+      dplyr::pull(res, kingdom),
+      "character"
+    )
+    testthat::expect_type(
+      dplyr::pull(res, phylum),
+      "character"
+    )
+    testthat::expect_type(
+      dplyr::pull(res, class),
+      "character"
+    )
+    testthat::expect_type(
+      dplyr::pull(res, order),
       "character"
     )
     testthat::expect_type(
@@ -227,10 +291,14 @@ testthat::test_that(
     res <-
       get_aux_classification_table(file_path = path_tmp)
 
-    testthat::expect_equal(base::ncol(res), 4L)
+    testthat::expect_equal(base::ncol(res), 8L)
     testthat::expect_named(
       res,
-      c("sel_name", "family", "genus", "species")
+      c(
+        "sel_name",
+        "kingdom", "phylum", "class", "order",
+        "family", "genus", "species"
+      )
     )
   }
 )
@@ -243,9 +311,13 @@ testthat::test_that(
     data_input <-
       tibble::tibble(
         sel_name = character(0),
-        family = character(0),
-        genus = character(0),
-        species = character(0)
+        kingdom  = character(0),
+        phylum   = character(0),
+        class    = character(0),
+        order    = character(0),
+        family   = character(0),
+        genus    = character(0),
+        species  = character(0)
       )
 
     readr::write_csv(data_input, path_tmp)
@@ -257,7 +329,11 @@ testthat::test_that(
     testthat::expect_equal(base::nrow(res), 0L)
     testthat::expect_named(
       res,
-      c("sel_name", "family", "genus", "species")
+      c(
+        "sel_name",
+        "kingdom", "phylum", "class", "order",
+        "family", "genus", "species"
+      )
     )
   }
 )

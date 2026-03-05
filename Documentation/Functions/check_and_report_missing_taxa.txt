@@ -29,12 +29,13 @@ template_file_path: A length-1 character string giving the path where
 
 Details:
 
-     The template CSV contains columns `sel_name`, `family`, `genus`,
-     and `species`. The `sel_name` column is pre-filled with the
-     missing taxon names; the remaining columns are left as `NA` for
-     the user to complete. After filling in the template, copy or
-     append rows to `Data/Input/aux_classification_table.csv` and
-     re-run the pipeline.
+     The template CSV contains columns `sel_name`, `kingdom`, `phylum`,
+     `class`, `order`, `family`, `genus`, and `species`. The `sel_name`
+     column is pre-filled with the missing taxon names; all rank
+     columns are left as `NA` for the user to complete. At minimum,
+     `family`, `genus`, or `species` should be filled in. After
+     completing the template, copy or append rows to
+     `Data/Input/aux_classification_table.csv` and re-run the pipeline.
 
 Value:
 

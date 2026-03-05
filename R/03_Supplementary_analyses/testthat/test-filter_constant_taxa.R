@@ -6,39 +6,18 @@ testthat::test_that(
     )
     testthat::expect_error(
       filter_constant_taxa(
-        data_community_matrix = data_not_matrix,
-        error_family = "binomial"
+        data_community_matrix = data_not_matrix
       )
     )
   }
 )
 
 testthat::test_that(
-  "filter_constant_taxa() errors on invalid error_family value",
+  "filter_constant_taxa() removes all-zero column (sd = 0)",
   {
+    # Pinus: all zeros (constant); Betula: varies
     data_mat <- base::matrix(
-      c(0.5, 0.3, 0.2, 0.8),
-      nrow = 2,
-      ncol = 2,
-      dimnames = base::list(
-        c("A__0", "B__0"),
-        c("Pinus", "Betula")
-      )
-    )
-    testthat::expect_error(
-      filter_constant_taxa(
-        data_community_matrix = data_mat,
-        error_family = "poisson"
-      )
-    )
-  }
-)
-
-testthat::test_that(
-  "filter_constant_taxa() gaussian returns unchanged matrix",
-  {
-    data_mat <- base::matrix(
-      c(0.5, 0.5, 0.3, 0.3),
+      c(0, 0, 0.3, 0.8),
       nrow = 2,
       ncol = 2,
       dimnames = base::list(
@@ -47,52 +26,7 @@ testthat::test_that(
       )
     )
     res <- filter_constant_taxa(
-      data_community_matrix = data_mat,
-      error_family = "gaussian"
-    )
-    testthat::expect_equal(res, data_mat)
-  }
-)
-
-testthat::test_that(
-  "filter_constant_taxa() binomial keeps variable taxa",
-  {
-    # Pinus varies (0 and 1), Betula constant (all 1)
-    data_mat <- base::matrix(
-      c(0, 1, 1, 1),
-      nrow = 2,
-      ncol = 2,
-      dimnames = base::list(
-        c("A__0", "B__0"),
-        c("Pinus", "Betula")
-      )
-    )
-    res <- filter_constant_taxa(
-      data_community_matrix = data_mat,
-      error_family = "binomial"
-    )
-    testthat::expect_true(
-      "Pinus" %in% base::colnames(res)
-    )
-  }
-)
-
-testthat::test_that(
-  "filter_constant_taxa() binomial removes all-absent taxa",
-  {
-    # Pinus: always 0 (all absent); Betula: 0 and 0.8 (varies)
-    data_mat <- base::matrix(
-      c(0, 0, 0, 0.8),
-      nrow = 2,
-      ncol = 2,
-      dimnames = base::list(
-        c("A__0", "B__0"),
-        c("Pinus", "Betula")
-      )
-    )
-    res <- filter_constant_taxa(
-      data_community_matrix = data_mat,
-      error_family = "binomial"
+      data_community_matrix = data_mat
     )
     testthat::expect_false(
       "Pinus" %in% base::colnames(res)
@@ -104,11 +38,11 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "filter_constant_taxa() binomial removes all-present taxa",
+  "filter_constant_taxa() removes non-zero constant column",
   {
-    # Betula is always > 0 (always present)
+    # Betula: all 5 (constant, non-zero, sd = 0); Pinus: varies
     data_mat <- base::matrix(
-      c(0.5, 0.3, 0.8, 0.6),
+      c(0, 3, 5, 5),
       nrow = 2,
       ncol = 2,
       dimnames = base::list(
@@ -117,68 +51,21 @@ testthat::test_that(
       )
     )
     res <- filter_constant_taxa(
-      data_community_matrix = data_mat,
-      error_family = "binomial"
+      data_community_matrix = data_mat
     )
     testthat::expect_false(
       "Betula" %in% base::colnames(res)
     )
-    testthat::expect_false(
+    testthat::expect_true(
       "Pinus" %in% base::colnames(res)
     )
   }
 )
 
 testthat::test_that(
-  "filter_constant_taxa() binomial result is still a matrix",
+  "filter_constant_taxa() keeps all varying columns",
   {
-    data_mat <- base::matrix(
-      c(0, 0.5, 0.3, 0),
-      nrow = 2,
-      ncol = 2,
-      dimnames = base::list(
-        c("A__0", "B__0"),
-        c("Pinus", "Betula")
-      )
-    )
-    res <- filter_constant_taxa(
-      data_community_matrix = data_mat,
-      error_family = "binomial"
-    )
-    testthat::expect_true(
-      base::is.matrix(res)
-    )
-  }
-)
-
-testthat::test_that(
-  "filter_constant_taxa() binomial preserves row structure",
-  {
-    data_mat <- base::matrix(
-      c(0, 0.5, 0.3, 0),
-      nrow = 2,
-      ncol = 2,
-      dimnames = base::list(
-        c("A__0", "B__0"),
-        c("Pinus", "Betula")
-      )
-    )
-    res <- filter_constant_taxa(
-      data_community_matrix = data_mat,
-      error_family = "binomial"
-    )
-    testthat::expect_equal(base::nrow(res), 2L)
-    testthat::expect_equal(
-      base::rownames(res),
-      c("A__0", "B__0")
-    )
-  }
-)
-
-testthat::test_that(
-  "filter_constant_taxa() binomial: all-variable matrix unchanged",
-  {
-    # Both taxa vary across samples
+    # Both columns vary -> both retained
     data_mat <- base::matrix(
       c(0, 0.5, 0.4, 0),
       nrow = 2,
@@ -189,8 +76,7 @@ testthat::test_that(
       )
     )
     res <- filter_constant_taxa(
-      data_community_matrix = data_mat,
-      error_family = "binomial"
+      data_community_matrix = data_mat
     )
     testthat::expect_equal(
       base::sort(base::colnames(res)),
@@ -200,11 +86,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "filter_constant_taxa() uses > 0 for presence detection",
+  "filter_constant_taxa() result is still a matrix",
   {
-    # 0.001 should count as present (> 0)
     data_mat <- base::matrix(
-      c(0, 0.001, 0.5, 0.3),
+      c(0, 0.5, 0.3, 0),
       nrow = 2,
       ncol = 2,
       dimnames = base::list(
@@ -213,12 +98,126 @@ testthat::test_that(
       )
     )
     res <- filter_constant_taxa(
-      data_community_matrix = data_mat,
-      error_family = "binomial"
+      data_community_matrix = data_mat
     )
-    # Pinus: sample1=0 (absent), sample2=0.001 (present) -> variable
     testthat::expect_true(
+      base::is.matrix(res)
+    )
+  }
+)
+
+testthat::test_that(
+  "filter_constant_taxa() preserves row structure",
+  {
+    data_mat <- base::matrix(
+      c(0, 0.5, 0.3, 0),
+      nrow = 2,
+      ncol = 2,
+      dimnames = base::list(
+        c("A__0", "B__0"),
+        c("Pinus", "Betula")
+      )
+    )
+    res <- filter_constant_taxa(
+      data_community_matrix = data_mat
+    )
+    testthat::expect_equal(base::nrow(res), 2L)
+    testthat::expect_equal(
+      base::rownames(res),
+      c("A__0", "B__0")
+    )
+  }
+)
+
+testthat::test_that(
+  "filter_constant_taxa() all constant cols -> 0-col matrix",
+  {
+    # All columns constant -> result has zero columns
+    data_mat <- base::matrix(
+      c(1, 1, 2, 2),
+      nrow = 2,
+      ncol = 2,
+      dimnames = base::list(
+        c("A__0", "B__0"),
+        c("Pinus", "Betula")
+      )
+    )
+    res <- filter_constant_taxa(
+      data_community_matrix = data_mat
+    )
+    testthat::expect_true(
+      base::is.matrix(res)
+    )
+    testthat::expect_equal(base::ncol(res), 0L)
+    testthat::expect_equal(base::nrow(res), 2L)
+  }
+)
+
+testthat::test_that(
+  "filter_constant_taxa() all-variable matrix unchanged",
+  {
+    data_mat <- base::matrix(
+      c(0, 1, 1, 0),
+      nrow = 2,
+      ncol = 2,
+      dimnames = base::list(
+        c("A__0", "B__0"),
+        c("Pinus", "Betula")
+      )
+    )
+    res <- filter_constant_taxa(
+      data_community_matrix = data_mat
+    )
+    testthat::expect_equal(res, data_mat)
+  }
+)
+
+testthat::test_that(
+  "filter_constant_taxa() works with continuous data",
+  {
+    # Gaussian-style continuous data: Pinus constant, Betula varies
+    data_mat <- base::matrix(
+      c(2.5, 2.5, 0.3, 1.8),
+      nrow = 2,
+      ncol = 2,
+      dimnames = base::list(
+        c("A__0", "B__0"),
+        c("Pinus", "Betula")
+      )
+    )
+    res <- filter_constant_taxa(
+      data_community_matrix = data_mat
+    )
+    testthat::expect_false(
       "Pinus" %in% base::colnames(res)
+    )
+    testthat::expect_true(
+      "Betula" %in% base::colnames(res)
+    )
+  }
+)
+
+testthat::test_that(
+  "filter_constant_taxa() works with count data",
+  {
+    # Poisson-style count data: Pinus constant (all 3)
+    data_mat <- base::matrix(
+      c(3L, 3L, 1L, 5L),
+      nrow = 2,
+      ncol = 2,
+      dimnames = base::list(
+        c("A__0", "B__0"),
+        c("Pinus", "Betula")
+      )
+    )
+    res <- filter_constant_taxa(
+      data_community_matrix = data_mat
+    )
+    testthat::expect_false(
+      "Pinus" %in% base::colnames(res)
+    )
+    testthat::expect_true(
+      "Betula" %in% base::colnames(res)
     )
   }
 )

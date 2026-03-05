@@ -50,13 +50,12 @@ pipe_segment_model_prep <-
     ),
     targets::tar_target(
       description = paste0(
-        "Remove constant-presence taxa from community matrix",
-        " (binomial family)"
+        "Remove constant taxa from community matrix",
+        " (zero standard deviation)"
       ),
       name = "data_community_filtered",
       command = filter_constant_taxa(
-        data_community_matrix = data_community_to_fit,
-        error_family = "binomial"
+        data_community_matrix = data_community_to_fit
       )
     ),
     targets::tar_target(

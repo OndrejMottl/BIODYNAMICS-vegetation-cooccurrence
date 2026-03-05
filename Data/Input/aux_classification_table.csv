@@ -1,55 +1,55 @@
-sel_name,family,genus,species
-Cedrus Atlantica,Pinaceae,Cedrus,Cedrus Atlantica
-Cedrus Broken),Pinaceae,Cedrus,NA
-Cedrus Crumpled),Pinaceae,Cedrus,NA
-Cedrus Degraded),Pinaceae,Cedrus,NA
-Cedrus Type,Pinaceae,Cedrus,NA
-Cf Carpinus,Betulaceae,Carpinus,NA
-Cf Cytisus,Fabaceae,Cytisus,NA
-Cf Ephedra Fragilis,Ephedraceae,Ephedra,Ephedra Fragilis
-Cf Ilex,Aquifoliaceae,Ilex,NA
-Cf Juniperus,Cupressaceae,Juniperus,NA
-Cf Larix-Type,Pinaceae,Larix,NA
-Cf Lonicera,Caprifoliaceae,Lonicera,NA
-Cf Myrica,Myricaceae,Myrica,NA
-Cf Myrtus,Myrtaceae,Myrtus,NA
-Cf Olea,Oleaceae,Olea,NA
-Cf Platanus,Platanaceae,Platanus,NA
-Cf Populus Tremula,Salicaceae,Populus,Populus Tremula
-Cf Prunus,Rosaceae,Prunus,NA
-Cf Pterocarya,Juglandaceae,Pterocarya,NA
-Cf Pterocarya Fraxinifolia,Juglandaceae,Pterocarya,Pterocarya Fraxinifolia
-Cf Quercus,Fagaceae,Quercus,NA
-Cf Rhamnaceae,Rhamnaceae,NA,NA
-Cf Rhamnus,Rhamnaceae,Rhamnus,NA
-Cf Rubus,Rosaceae,Rubus,NA
-Cf Rubus Chamaemorus,Rosaceae,Rubus,Rubus Chamaemorus
-Cf Salix Herbacea,Salicaceae,Salix,Salix Herbacea
-Cf Salix Polaris,Salicaceae,Salix,Salix Polaris
-Cf Sambucus,Adoxaceae,Sambucus,NA
-Cf Sambucus Nigra,Adoxaceae,Sambucus,Sambucus Nigra
-Cf Sambucus Racemosa,Adoxaceae,Sambucus,Sambucus Racemosa
-Cf Sorbus,Rosaceae,Sorbus,NA
-Cf Sorbus Aucuparia,Rosaceae,Sorbus,Sorbus Aucuparia
-Cf Taxus,Taxaceae,Taxus,NA
-Cf Viburnum,Adoxaceae,Viburnum,NA
-Cf Viburnum Opulus,Adoxaceae,Viburnum,Viburnum Opulus
-Cf Viscum,Santalaceae,Viscum,NA
-Cf Zelkova,Ulmaceae,Zelkova,NA
-Coniferae Saccate),Coniferae,NA,NA
-Coniferae Type,Coniferae,NA,NA
-Coniferae Undiff,Coniferae,NA,NA
-Ericales,Ericales,NA,NA
-Ericales Tetrad),Ericales,NA,NA
-Ericales Undiff,Ericales,NA,NA
-Ericoideae,Ericaceae,NA,NA
-Hedera Helix,Araliaceae,Hedera,Hedera Helix
-Hedera Helix-Type,Araliaceae,Hedera,Hedera Helix
-Hedera Type,Araliaceae,Hedera,NA
-Hippocastanoideae,Sapindaceae,NA,NA
-Normapolles,Juglandaceae,NA,NA
-Spermatophyta Undiff(Deciduous Trees),Spermatophyta ,NA,NA
-Spermatophyta Undiff(Shrubs),Spermatophyta ,NA,NA
-Spermatophyta Undiff(Trees),Spermatophyta ,NA,NA
-Spermatophyta Undiff(Trees/Shrubs),Spermatophyta ,NA,NA
-Urticalean Rosids,Urticales,NA,NA
+﻿sel_name,kingdom,phylum,class,order,family,genus,species
+Cedrus Atlantica,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Cedrus,Cedrus Atlantica
+Cedrus Broken),Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Cedrus,NA
+Cedrus Crumpled),Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Cedrus,NA
+Cedrus Degraded),Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Cedrus,NA
+Cedrus Type,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Cedrus,NA
+Cf Carpinus,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Carpinus,NA
+Cf Cytisus,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Cytisus,NA
+Cf Ephedra Fragilis,Plantae,Tracheophyta,Gnetopsida,Ephedrales,Ephedraceae,Ephedra,Ephedra Fragilis
+Cf Ilex,Plantae,Tracheophyta,Magnoliopsida,Aquifoliales,Aquifoliaceae,Ilex,NA
+Cf Juniperus,Plantae,Tracheophyta,Pinopsida,Cupressales,Cupressaceae,Juniperus,NA
+Cf Larix-Type,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Larix,NA
+Cf Lonicera,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Caprifoliaceae,Lonicera,NA
+Cf Myrica,Plantae,Tracheophyta,Magnoliopsida,Fagales,Myricaceae,Myrica,NA
+Cf Myrtus,Plantae,Tracheophyta,Magnoliopsida,Myrtales,Myrtaceae,Myrtus,NA
+Cf Olea,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Oleaceae,Olea,NA
+Cf Platanus,Plantae,Tracheophyta,Magnoliopsida,Proteales,Platanaceae,Platanus,NA
+Cf Populus Tremula,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Salicaceae,Populus,Populus Tremula
+Cf Prunus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Prunus,NA
+Cf Pterocarya,Plantae,Tracheophyta,Magnoliopsida,Fagales,Juglandaceae,Pterocarya,NA
+Cf Pterocarya Fraxinifolia,Plantae,Tracheophyta,Magnoliopsida,Fagales,Juglandaceae,Pterocarya,Pterocarya Fraxinifolia
+Cf Quercus,Plantae,Tracheophyta,Magnoliopsida,Fagales,Fagaceae,Quercus,NA
+Cf Rhamnaceae,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rhamnaceae,NA,NA
+Cf Rhamnus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rhamnaceae,Rhamnus,NA
+Cf Rubus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Rubus,NA
+Cf Rubus Chamaemorus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Rubus,Rubus Chamaemorus
+Cf Salix Herbacea,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Salicaceae,Salix,Salix Herbacea
+Cf Salix Polaris,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Salicaceae,Salix,Salix Polaris
+Cf Sambucus,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Adoxaceae,Sambucus,NA
+Cf Sambucus Nigra,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Adoxaceae,Sambucus,Sambucus Nigra
+Cf Sambucus Racemosa,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Adoxaceae,Sambucus,Sambucus Racemosa
+Cf Sorbus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Sorbus,NA
+Cf Sorbus Aucuparia,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Sorbus,Sorbus Aucuparia
+Cf Taxus,Plantae,Tracheophyta,Pinopsida,Cupressales,Taxaceae,Taxus,NA
+Cf Viburnum,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Adoxaceae,Viburnum,NA
+Cf Viburnum Opulus,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Adoxaceae,Viburnum,Viburnum Opulus
+Cf Viscum,Plantae,Tracheophyta,Magnoliopsida,Santalales,Santalaceae,Viscum,NA
+Cf Zelkova,Plantae,Tracheophyta,Magnoliopsida,Rosales,Ulmaceae,Zelkova,NA
+Coniferae Saccate),Plantae,Tracheophyta,Pinopsida,NA,NA,NA,NA
+Coniferae Type,Plantae,Tracheophyta,Pinopsida,NA,NA,NA,NA
+Coniferae Undiff,Plantae,Tracheophyta,Pinopsida,NA,NA,NA,NA
+Ericales,Plantae,Tracheophyta,Magnoliopsida,Ericales,NA,NA,NA
+Ericales Tetrad),Plantae,Tracheophyta,Magnoliopsida,Ericales,NA,NA,NA
+Ericales Undiff,Plantae,Tracheophyta,Magnoliopsida,Ericales,NA,NA,NA
+Ericoideae,Plantae,Tracheophyta,Magnoliopsida,Ericales,Ericaceae,NA,NA
+Hedera Helix,Plantae,Tracheophyta,Magnoliopsida,Apiales,Araliaceae,Hedera,Hedera Helix
+Hedera Helix-Type,Plantae,Tracheophyta,Magnoliopsida,Apiales,Araliaceae,Hedera,Hedera Helix
+Hedera Type,Plantae,Tracheophyta,Magnoliopsida,Apiales,Araliaceae,Hedera,NA
+Hippocastanoideae,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Sapindaceae,NA,NA
+Normapolles,Plantae,Tracheophyta,Magnoliopsida,Fagales,Juglandaceae,NA,NA
+Spermatophyta Undiff(Deciduous Trees),Plantae,Tracheophyta,NA,NA,NA,NA,NA
+Spermatophyta Undiff(Shrubs),Plantae,Tracheophyta,NA,NA,NA,NA,NA
+Spermatophyta Undiff(Trees),Plantae,Tracheophyta,NA,NA,NA,NA,NA
+Spermatophyta Undiff(Trees/Shrubs),Plantae,Tracheophyta,NA,NA,NA,NA,NA
+Urticalean Rosids,Plantae,Tracheophyta,Magnoliopsida,Rosales,NA,NA,NA

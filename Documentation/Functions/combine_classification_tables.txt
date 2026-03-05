@@ -18,12 +18,14 @@ Arguments:
 
 data_classification_table: A data frame produced by
           `make_classification_table()` with columns `sel_name`,
-          `family`, `genus`, and `species`.
+          `kingdom`, `phylum`, `class`, `order`, `family`, `genus`, and
+          `species`.
 
 data_aux_classification_table: A data frame produced by
           `get_aux_classification_table()` with columns `sel_name`,
-          `family`, `genus`, and `species`. May be an empty tibble
-          (zero rows) when no manual overrides exist.
+          `kingdom`, `phylum`, `class`, `order`, `family`, `genus`, and
+          `species`. May be an empty tibble (zero rows) when no manual
+          overrides exist.
 
 Details:
 
@@ -35,9 +37,11 @@ Details:
 
 Value:
 
-     A tibble with columns `sel_name`, `family`, `genus`, and `species`
-     containing all unique taxa from both inputs. Manual entries
-     override automatic ones on `sel_name` collision.
+     A tibble with columns `sel_name`, `kingdom`, `phylum`, `class`,
+     `order`, `family`, `genus`, and `species` containing all unique
+     taxa from both inputs. Manual entries override automatic ones on
+     `sel_name` collision. Only columns present in both inputs are
+     retained (intersection).
 
 See Also:
 
