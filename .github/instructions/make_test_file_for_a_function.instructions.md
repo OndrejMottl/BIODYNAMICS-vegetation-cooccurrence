@@ -38,7 +38,51 @@ res$abiotic_variable_name
 dplyr::pull(res, abiotic_variable_name)
 ```
 
-**3. Always use fully-qualified namespaces**, even for base R and testthat
+**3. Newline after `<-` when the RHS is a function call.** Every assignment
+where the right-hand side is a function call must be split across two lines
+(newline + 2-space indent after `<-`):
+
+```r
+# Wrong — function call on the same line as <-
+data_coords <- tibble::tibble(x = 1, y = 2)
+res <- my_function(arg = value)
+out <- purrr::pluck(list_obj, "key")
+mat <- base::matrix(c(0, 1), nrow = 1)
+list_params <- base::list(a = 1, b = 2)
+
+# Correct — newline + 2-space indent after <-
+data_coords <-
+  tibble::tibble(x = 1, y = 2)
+
+res <-
+  my_function(arg = value)
+
+out <-
+  purrr::pluck(list_obj, "key")
+
+mat <-
+  base::matrix(c(0, 1), nrow = 1)
+
+list_params <-
+  base::list(a = 1, b = 2)
+```
+
+The **only** assignments that may stay on one line are scalar literals and
+`NULL`:
+
+```r
+vec_center <- 50.0   # OK: numeric literal
+name <- "triangle"   # OK: string literal
+flag <- NULL         # OK: NULL
+count <- 3L          # OK: integer literal
+```
+
+This rule applies to **every variable** inside `test_that()` blocks —
+`data_*`, `res`, `vec_*`, `list_*`, `mat_*`, and any intermediate result.
+Treat this as a hard requirement: scan every `<-` in your output before
+submitting.
+
+**4. Always use fully-qualified namespaces**, even for base R and testthat
 functions. This is required by the project standard ("Always use the full
 package namespace with a function call").
 
