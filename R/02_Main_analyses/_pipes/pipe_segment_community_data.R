@@ -131,10 +131,18 @@ pipe_segment_community_data <-
       )
     ),
     targets::tar_target(
+      description = "Remove non-Plantae taxa from community data",
+      name = "data_community_plantae",
+      command = filter_non_plantae_taxa(
+        data = data_community_interpolated,
+        data_classification_table = data_combined_classification_table
+      )
+    ),
+    targets::tar_target(
       description = "Classify community data to specific taxonomic resolution",
       name = "data_community_classified",
       command = classify_taxonomic_resolution(
-        data = data_community_interpolated,
+        data = data_community_plantae,
         data_classification_table = data_combined_classification_table,
         taxonomic_resolution = config.data_processing$taxonomic_resolution
       )

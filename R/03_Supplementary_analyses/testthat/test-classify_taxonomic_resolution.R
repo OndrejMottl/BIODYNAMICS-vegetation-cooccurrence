@@ -1,5 +1,5 @@
 testthat::test_that("classify_taxonomic_resolution() return correct class", {
-  set.seed(1234)
+  set.seed(900723)
   data_dummy <-
     data.frame(
       dataset_name = "dataset_1",
@@ -40,7 +40,7 @@ testthat::test_that("classify_taxonomic_resolution() return correct class", {
 })
 
 testthat::test_that("classify_taxonomic_resolution() return correct data", {
-  set.seed(1234)
+  set.seed(900723)
   data_dummy <-
     data.frame(
       dataset_name = "dataset_1",
@@ -90,7 +90,7 @@ testthat::test_that("classify_taxonomic_resolution() return correct data", {
 })
 
 testthat::test_that("classify_taxonomic_resolution() handles invalid input", {
-  set.seed(1234)
+  set.seed(900723)
   data_dummy <-
     data.frame(
       dataset_name = "dataset_1",
@@ -208,7 +208,7 @@ testthat::test_that("classify_taxonomic_resolution() handles invalid input", {
 testthat::test_that(
   "classify_taxonomic_resolution() accepts all seven taxonomic ranks",
   {
-    set.seed(1234)
+    set.seed(900723)
     data_dummy <-
       data.frame(
         dataset_name = "dataset_1",
@@ -247,10 +247,11 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "classify_taxonomic_resolution() drops taxa with NA at resolution",
+  "classify_taxonomic_resolution() drops taxa with no rank",
   {
     set.seed(900723)
-    # Taxon_3 has no genus classification (NA), the rest are resolved
+    # Taxon_3: family only (genus NA) — falls back to Family_B
+    # Taxon_4: both family and genus NA — dropped with warning
     data_dummy <-
       data.frame(
         dataset_name = "dataset_1",
@@ -262,7 +263,10 @@ testthat::test_that(
     classification_table_dummy <-
       data.frame(
         sel_name = paste0("Taxon_", 1:4),
-        genus = c("Genus_A", "Genus_B", NA, "Genus_C")
+        family = c(
+          "Family_A", "Family_A", "Family_B", NA_character_
+        ),
+        genus = c("Genus_A", "Genus_B", NA_character_, NA_character_)
       )
 
     res <-
@@ -274,10 +278,70 @@ testthat::test_that(
         )
       )
 
+    # No NA taxa in output
     testthat::expect_false(
       base::any(base::is.na(dplyr::pull(res, taxon)))
     )
 
+    # Fully classified taxa present
+    testthat::expect_true(
+      base::all(
+        c("Genus_A", "Genus_B") %in% dplyr::pull(res, taxon)
+      )
+    )
+
+    # Taxon_3 falls back to its family name — present as Family_B
+    testthat::expect_true(
+      "Family_B" %in% dplyr::pull(res, taxon)
+    )
+
+    # Taxon_4 had no classification at any rank — absent
+    testthat::expect_false(
+      base::any(dplyr::pull(res, taxon) == "Taxon_4")
+    )
+  }
+)
+
+testthat::test_that(
+  "classify_taxonomic_resolution() falls back to coarser rank",
+  {
+    set.seed(900723)
+    # Taxon_3 classifiable only to family; should appear as Family_B
+    data_dummy <-
+      data.frame(
+        dataset_name = "dataset_1",
+        age = 0,
+        taxon = paste0("Taxon_", 1:4),
+        pollen_prop = stats::runif(4, 0, 1)
+      )
+
+    classification_table_dummy <-
+      data.frame(
+        sel_name = paste0("Taxon_", 1:4),
+        family = c(
+          "Family_A", "Family_A", "Family_B", "Family_B"
+        ),
+        genus = c(
+          "Genus_A", "Genus_B", NA_character_, "Genus_C"
+        )
+      )
+
+    # Fallback to coarser rank should not trigger a warning
+    res <-
+      testthat::expect_no_warning(
+        classify_taxonomic_resolution(
+          data = data_dummy,
+          data_classification_table = classification_table_dummy,
+          taxonomic_resolution = "genus"
+        )
+      )
+
+    # Taxon_3 appears under its family name
+    testthat::expect_true(
+      "Family_B" %in% dplyr::pull(res, taxon)
+    )
+
+    # Genus-level taxa still present
     testthat::expect_true(
       base::all(
         c("Genus_A", "Genus_B", "Genus_C") %in%
@@ -285,8 +349,69 @@ testthat::test_that(
       )
     )
 
+    # No NA taxa in output
     testthat::expect_false(
-      "Taxon_3" %in% dplyr::pull(res, taxon)
+      base::any(base::is.na(dplyr::pull(res, taxon)))
+    )
+
+    # Pollen of Taxon_3 is not merged with any other taxon
+    n_family_b_rows <-
+      res |>
+      dplyr::filter(taxon == "Family_B") |>
+      base::nrow()
+
+    testthat::expect_equal(n_family_b_rows, 1L)
+  }
+)
+
+testthat::test_that(
+  "classify_taxonomic_resolution() ignores ranks finer than requested",
+  {
+    set.seed(900723)
+    # Taxon_1: has species but no genus — should fall back to family,
+    #   NOT use species (which is finer than the requested genus level)
+    data_dummy <-
+      data.frame(
+        dataset_name = "dataset_1",
+        age = 0,
+        taxon = c("Taxon_1", "Taxon_2"),
+        pollen_prop = stats::runif(2, 0, 1)
+      )
+
+    classification_table_dummy <-
+      data.frame(
+        sel_name = c("Taxon_1", "Taxon_2"),
+        family = c("Family_A", "Family_B"),
+        genus = c(NA_character_, "Genus_B"),
+        species = c("Species_A", "Species_B")
+      )
+
+    res <-
+      testthat::expect_no_warning(
+        classify_taxonomic_resolution(
+          data = data_dummy,
+          data_classification_table = classification_table_dummy,
+          taxonomic_resolution = "genus"
+        )
+      )
+
+    # Taxon_1 should be Family_A (not Species_A)
+    testthat::expect_true(
+      "Family_A" %in% dplyr::pull(res, taxon)
+    )
+
+    # Species_A must not appear — it exceeds the requested resolution
+    testthat::expect_false(
+      "Species_A" %in% dplyr::pull(res, taxon)
+    )
+
+    # Taxon_2 classified at genus level as expected
+    testthat::expect_true(
+      "Genus_B" %in% dplyr::pull(res, taxon)
+    )
+
+    testthat::expect_false(
+      base::any(base::is.na(dplyr::pull(res, taxon)))
     )
   }
 )
