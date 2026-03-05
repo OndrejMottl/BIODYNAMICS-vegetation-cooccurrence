@@ -59,11 +59,38 @@ pipe_segment_model_prep <-
       )
     ),
     targets::tar_target(
-      description = "Expand dataset-level coords to per-sample rows",
-      name = "data_coords_to_fit",
-      command = prepare_coords_for_fit(
-        data_coords = data_coords,
+      description = paste0(
+        "Project WGS84 coords to metric km (EPSG:3035)",
+        " for spatial modelling"
+      ),
+      name = "data_coords_projected",
+      command = project_coords_to_metric(
+        data_coords = data_coords
+      )
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Expand projected km coords to per-sample rows",
+        " for spatial model term"
+      ),
+      name = "data_spatial_km",
+      command = prepare_spatial_predictors_for_fit(
+        data_spatial = dplyr::select(
+          data_coords_projected,
+          coord_x_km,
+          coord_y_km
+        ),
         data_sample_ids = data_sample_ids
+      )
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Scale spatial km coords; capture attributes",
+        " for back-transformation"
+      ),
+      name = "data_spatial_scaled_list",
+      command = scale_spatial_for_fit(
+        data_spatial = data_spatial_km
       )
     ),
     targets::tar_target(
@@ -72,7 +99,7 @@ pipe_segment_model_prep <-
       command = assemble_data_to_fit(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
-        data_coords_to_fit = data_coords_to_fit
+        data_spatial_scaled_list = data_spatial_scaled_list
       )
     )
   )

@@ -54,8 +54,9 @@ pipe_segment_model_simple <-
         data_to_fit = data_to_fit,
         abiotic_method = "linear",
         sel_abiotic_formula = model_formula,
-        spatial_method = "none",
-        sel_spatial_formula = ~ 0 + coord_long:coord_lat,
+        spatial_method = "linear",
+        sel_spatial_formula = ~ 0 + coord_x_km + coord_y_km,
+
         error_family = "binomial",
         device = "gpu",
         parallel = config.model_fitting$n_cores,

@@ -10,7 +10,9 @@
 #'   `filter_constant_taxa()`)
 #' - `data_abiotic_to_fit`: data frame of abiotic variables,
 #'   already scaled by `scale_abiotic_for_fit()`
-#' - `data_coords_to_fit`: data frame of spatial coordinates
+#' - `data_spatial_to_fit`: data frame of spatial predictors,
+#'   already scaled by `scale_spatial_for_fit()`. Required
+#'   only when `spatial_method` is not `"none"`.
 #' @param sel_abiotic_formula
 #' A formula object specifying the abiotic (environmental) predictors
 #' @param abiotic_method
@@ -82,11 +84,6 @@ fit_jsdm_model <- function(
     msg = "`data_to_fit` must be a list containing `data_abiotic_to_fit`"
   )
 
-  assertthat::assert_that(
-    "data_coords_to_fit" %in% names(data_to_fit),
-    msg = "`data_to_fit` must be a list containing `data_coords_to_fit`"
-  )
-
   # Extract data components
   data_community <-
     data_to_fit |>
@@ -95,10 +92,6 @@ fit_jsdm_model <- function(
   data_abiotic <-
     data_to_fit |>
     purrr::chuck("data_abiotic_to_fit")
-
-  data_spatial <-
-    data_to_fit |>
-    purrr::chuck("data_coords_to_fit")
 
   # Validate extracted data types
   assertthat::assert_that(
@@ -109,11 +102,6 @@ fit_jsdm_model <- function(
   assertthat::assert_that(
     is.data.frame(data_abiotic),
     msg = "data_abiotic must be a data frame"
-  )
-
-  assertthat::assert_that(
-    is.data.frame(data_spatial),
-    msg = "data_spatial must be a data frame"
   )
 
   # Validate formula arguments
@@ -141,6 +129,32 @@ fit_jsdm_model <- function(
   )
 
   spatial_method <- match.arg(spatial_method)
+
+  # Extract and validate spatial data when needed -----
+  # Note: data_spatial_to_fit is pre-scaled by
+  #   scale_spatial_for_fit(); no additional scaling applied.
+  if (
+    spatial_method %in% c("linear", "DNN")
+  ) {
+    assertthat::assert_that(
+      "data_spatial_to_fit" %in% names(data_to_fit),
+      msg = paste0(
+        "`data_to_fit` must contain `data_spatial_to_fit`",
+        " when spatial_method is not 'none'"
+      )
+    )
+
+    data_spatial <-
+      data_to_fit |>
+      purrr::chuck("data_spatial_to_fit")
+
+    assertthat::assert_that(
+      is.data.frame(data_spatial),
+      msg = "data_spatial must be a data frame"
+    )
+  } else {
+    data_spatial <- NULL
+  }
 
   assertthat::assert_that(
     any(error_family %in% c("gaussian", "binomial")),
@@ -212,7 +226,7 @@ fit_jsdm_model <- function(
       do.call(
         sjSDM::linear,
         list(
-          data = scale(data_spatial),
+          data = data_spatial,
           formula = sel_spatial_formula
         )
       )
@@ -221,7 +235,7 @@ fit_jsdm_model <- function(
       do.call(
         sjSDM::DNN,
         list(
-          data = scale(data_spatial),
+          data = data_spatial,
           formula = sel_spatial_formula
         )
       )

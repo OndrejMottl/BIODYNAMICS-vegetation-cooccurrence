@@ -100,6 +100,7 @@ sapply(
     "remotes",
     "rlang",
     "roxygen2",
+    "sf",
     "targets",
     "tidyverse",
     "usethis",
