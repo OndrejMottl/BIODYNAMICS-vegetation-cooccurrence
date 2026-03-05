@@ -35,21 +35,14 @@ testthat::test_that(
         temp = c(10, 15, 20, 25, 30),
         precip = c(100, 200, 300, 400, 500)
       )
-    data_coords <-
-      data.frame(
-        coord_long = c(1, 2, 3, 4, 5),
-        coord_lat = c(10, 20, 30, 40, 50)
-      )
-
     mod_example <-
       fit_jsdm_model(
-        data_to_fit = list(
+        data_to_fit = base::list(
           data_community_to_fit = as.matrix(data_community),
-          data_abiotic_to_fit = data_abiotic,
-          data_coords_to_fit = data_coords
+          data_abiotic_to_fit = data_abiotic
         ),
-        sel_abiotic_formula = as.formula("~ temp + precip"),
-        spatial_method = "linear",
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
         error_family = "binomial",
         sampling = 5L,
         step_size = 5L,
@@ -82,21 +75,14 @@ testthat::test_that(
         temp = c(10, 15, 20, 25, 30),
         precip = c(100, 200, 300, 400, 500)
       )
-    data_coords <-
-      data.frame(
-        coord_long = c(1, 2, 3, 4, 5),
-        coord_lat = c(10, 20, 30, 40, 50)
-      )
-
     mod_example <-
       fit_jsdm_model(
-        data_to_fit = list(
+        data_to_fit = base::list(
           data_community_to_fit = as.matrix(data_community),
-          data_abiotic_to_fit = data_abiotic,
-          data_coords_to_fit = data_coords
+          data_abiotic_to_fit = data_abiotic
         ),
-        sel_abiotic_formula = as.formula("~ temp + precip"),
-        spatial_method = "linear",
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
         error_family = "binomial",
         sampling = 5L,
         step_size = 5L,
@@ -134,21 +120,14 @@ testthat::test_that(
         temp = c(10, 15, 20, 25, 30, 35, 40, 45),
         precip = c(100, 200, 300, 400, 500, 600, 700, 800)
       )
-    data_coords <-
-      data.frame(
-        coord_long = c(1, 2, 3, 4, 5, 6, 7, 8),
-        coord_lat = c(10, 20, 30, 40, 50, 60, 70, 80)
-      )
-
     mod_example <-
       fit_jsdm_model(
-        data_to_fit = list(
+        data_to_fit = base::list(
           data_community_to_fit = as.matrix(data_community),
-          data_abiotic_to_fit = data_abiotic,
-          data_coords_to_fit = data_coords
+          data_abiotic_to_fit = data_abiotic
         ),
-        sel_abiotic_formula = as.formula("~ temp + precip"),
-        spatial_method = "linear",
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
         error_family = "binomial",
         sampling = 10L,
         step_size = 5L,
@@ -215,20 +194,14 @@ testthat::test_that(
         temp = c(10, 15, 20, 25, 30),
         precip = c(100, 200, 300, 400, 500)
       )
-    data_coords <-
-      data.frame(
-        coord_long = c(1, 2, 3, 4, 5),
-        coord_lat = c(10, 20, 30, 40, 50)
-      )
-
     mod_example <-
       fit_jsdm_model(
-        data_to_fit = list(
+        data_to_fit = base::list(
           data_community_to_fit = as.matrix(data_community),
-          data_abiotic_to_fit = data_abiotic,
-          data_coords_to_fit = data_coords
+          data_abiotic_to_fit = data_abiotic
         ),
-        sel_abiotic_formula = as.formula("~ temp + precip"),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
         error_family = "gaussian",
         sampling = 5L,
         step_size = 5L,
