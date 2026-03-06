@@ -201,6 +201,28 @@ pipe_segment_config <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting - error family",
+        " (e.g. 'binomial' for presence-absence)"
+      ),
+      name = "config.error_family",
+      command = get_active_config(
+        value = c("model_fitting", "error_family")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting - spatial CRS",
+        " as an EPSG code (e.g. 3035 for ETRS89-LAEA Europe)"
+      ),
+      name = "config.spatial_crs",
+      command = get_active_config(
+        value = c("model_fitting", "spatial_crs")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
       description = "Configuration for model fitting",
       name = "config.model_fitting",
       command = list(
@@ -210,7 +232,9 @@ pipe_segment_config <-
         transient = config.n_transient,
         samples_verbose = config.samples_verbose,
         cross_validation_folds = config.cross_validation_folds,
-        n_mev = config.n_mev
+        n_mev = config.n_mev,
+        error_family = config.error_family,
+        spatial_crs = config.spatial_crs
       )
     )
   )

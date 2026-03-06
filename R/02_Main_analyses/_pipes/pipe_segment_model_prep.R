@@ -50,22 +50,39 @@ pipe_segment_model_prep <-
     ),
     targets::tar_target(
       description = paste0(
+        "Binarize or pass through community matrix",
+        " based on the configured error family"
+      ),
+      name = "data_community_prepared",
+      command = {
+        if (config.model_fitting$error_family == "binomial") {
+          binarize_community_data(
+            data_community_matrix = data_community_to_fit
+          )
+        } else {
+          data_community_to_fit
+        }
+      }
+    ),
+    targets::tar_target(
+      description = paste0(
         "Remove constant taxa from community matrix",
         " (zero standard deviation)"
       ),
       name = "data_community_filtered",
       command = filter_constant_taxa(
-        data_community_matrix = data_community_to_fit
+        data_community_matrix = data_community_prepared
       )
     ),
     targets::tar_target(
       description = paste0(
-        "Project WGS84 coords to metric km (EPSG:3035)",
-        " for spatial modelling"
+        "Project WGS84 coords to metric km",
+        " using the configured target CRS"
       ),
       name = "data_coords_projected",
       command = project_coords_to_metric(
-        data_coords = data_coords
+        data_coords = data_coords,
+        target_crs = config.model_fitting$spatial_crs
       )
     ),
     targets::tar_target(

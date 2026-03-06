@@ -57,7 +57,7 @@ pipe_segment_model_simple <-
         spatial_method = "linear",
         sel_spatial_formula = ~ 0 + .,
 
-        error_family = "binomial",
+        error_family = config.model_fitting$error_family,
         device = "gpu",
         parallel = config.model_fitting$n_cores,
         sampling = config.model_fitting$samples,
