@@ -87,25 +87,48 @@ pipe_segment_model_prep <-
     ),
     targets::tar_target(
       description = paste0(
-        "Compute Moran eigenvector maps (MEMs)",
-        " from unique core km locations"
+        "Compute 2-D Moran eigenvector maps (MEMs)",
+        " from unique core km locations",
+        " (used when spatial_mode == 'spatial')"
       ),
       name = "data_spatial_mev_core",
-      command = compute_spatial_mev(
-        data_coords_projected = data_coords_projected,
-        n_mev = config.model_fitting$n_mev
-      )
+      command = {
+        if (!isTRUE(config.model_fitting$use_spatial)) {
+          NULL
+        } else if (config.model_fitting$spatial_mode == "spatial") {
+          compute_spatial_mev(
+            data_coords_projected = data_coords_projected,
+            n_mev = config.model_fitting$n_mev
+          )
+        } else {
+          NULL
+        }
+      }
     ),
     targets::tar_target(
       description = paste0(
-        "Expand MEV core data to per-sample rows",
-        " for spatial model term"
+        "Build sample-level spatial MEV predictors.",
+        " 2-D mode: expand core MEVs to per-sample rows.",
+        " 3-D (spatiotemporal) mode: compute MEVs directly",
+        " at the sample level using x, y, age."
       ),
       name = "data_spatial_mev_samples",
-      command = prepare_spatial_predictors_for_fit(
-        data_spatial = data_spatial_mev_core,
-        data_sample_ids = data_sample_ids
-      )
+      command = {
+        if (!isTRUE(config.model_fitting$use_spatial)) {
+          NULL
+        } else if (config.model_fitting$spatial_mode == "spatial") {
+          prepare_spatial_predictors_for_fit(
+            data_spatial = data_spatial_mev_core,
+            data_sample_ids = data_sample_ids
+          )
+        } else {
+          compute_spatiotemporal_mev(
+            data_coords_projected = data_coords_projected,
+            data_sample_ids = data_sample_ids,
+            n_mev = config.model_fitting$n_mev
+          )
+        }
+      }
     ),
     targets::tar_target(
       description = paste0(
@@ -113,9 +136,16 @@ pipe_segment_model_prep <-
         " for back-transformation"
       ),
       name = "data_spatial_scaled_list",
-      command = scale_spatial_for_fit(
-        data_spatial = data_spatial_mev_samples
-      )
+      command = {
+        if (!isTRUE(config.model_fitting$use_spatial) ||
+          is.null(data_spatial_mev_samples)) {
+          NULL
+        } else {
+          scale_spatial_for_fit(
+            data_spatial = data_spatial_mev_samples
+          )
+        }
+      }
     ),
     targets::tar_target(
       description = "Validate and assemble data list for fitting",

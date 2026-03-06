@@ -45,7 +45,9 @@ pipe_segment_model_simple <-
       name = "model_formula",
       command = data_to_fit |>
         purrr::chuck("data_abiotic_to_fit") |>
-        make_env_formula()
+        make_env_formula(
+          use_age = config.model_fitting$use_age_in_formula
+        )
     ),
     targets::tar_target(
       description = "make JSDM model",
@@ -54,7 +56,7 @@ pipe_segment_model_simple <-
         data_to_fit = data_to_fit,
         abiotic_method = "linear",
         sel_abiotic_formula = model_formula,
-        spatial_method = "linear",
+        spatial_method = if (isTRUE(config.model_fitting$use_spatial)) "linear" else "none",
         sel_spatial_formula = ~ 0 + .,
 
         error_family = config.model_fitting$error_family,

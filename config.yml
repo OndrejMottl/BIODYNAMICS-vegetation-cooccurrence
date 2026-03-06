@@ -21,6 +21,9 @@ default:
     cross_validation_folds: 2
     error_family: "binomial"
     spatial_crs: 3035
+    spatial_mode: "spatial"
+    use_spatial: true
+    use_age_in_formula: true
 project_cz:
   target_store: Data/targets/project_cz
   vegvault_data:
@@ -35,6 +38,7 @@ project_cz:
   model_fitting:
     n_cores: 24
     samples: 1000
+    spatial_mode: "spatiotemporal"
 project_europe:
   target_store: Data/targets/project_europe
   vegvault_data:
