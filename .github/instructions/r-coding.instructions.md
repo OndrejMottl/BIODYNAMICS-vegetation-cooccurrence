@@ -227,12 +227,39 @@ A new line should be:
 
 #### 1. After an Object Assignment (`<-`)
 
+Whenever the right-hand side is a **function call**, place a newline after
+`<-` and indent the expression by 2 spaces:
+
 ```r
 data_diversity <-
   read_data(...)
+
+data_coords <-
+  tibble::tibble(x = vec_x, y = vec_y)
+
+list_params <-
+  base::list(a = 1, b = 2)
+
+res <-
+  my_function(
+    arg1 = value1,
+    arg2 = value2
+  )
 ```
 
-An exception is an assignment of function.
+The **only** assignments that may stay on one line are scalar literals and
+`NULL` (i.e., when the RHS is a single literal value, not a function call):
+
+```r
+vec_center <- 50.0   # OK: numeric literal
+name <- "triangle"   # OK: string literal
+flag <- NULL         # OK: NULL
+count <- 3L          # OK: integer literal
+flag <- TRUE         # OK: logical literal
+```
+
+The **exception** for the newline rule is function *definitions* — those keep
+`<-` on the same line as `function`:
 
 ```r
 get_data <- function(...) {

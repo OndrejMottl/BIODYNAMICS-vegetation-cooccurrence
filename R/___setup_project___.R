@@ -68,6 +68,7 @@ package_list <-
     "remotes",
     "rlang",
     "roxygen2",
+    "sf",
     "sjSDM",
     "tidyverse",
     "targets",

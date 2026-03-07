@@ -336,3 +336,103 @@ testthat::test_that(
     testthat::expect_equal(res, expected_formula)
   }
 )
+
+testthat::test_that(
+  "make_env_formula() validates use_age argument", {
+    data_test <- data.frame(bio1 = c(10, 15), bio12 = c(500, 600))
+
+    testthat::expect_error(
+      make_env_formula(data = data_test, use_age = "yes"),
+      "use_age must be a single logical value"
+    )
+
+    testthat::expect_error(
+      make_env_formula(data = data_test, use_age = 1),
+      "use_age must be a single logical value"
+    )
+
+    testthat::expect_error(
+      make_env_formula(data = data_test, use_age = NA),
+      "use_age must be a single logical value"
+    )
+  }
+)
+
+testthat::test_that(
+  "make_env_formula() use_age = FALSE with age column gives additive formula", {
+    data_test <-
+      data.frame(
+        age = c(100, 200),
+        bio1 = c(10, 15),
+        bio12 = c(500, 600)
+      )
+
+    res <-
+      make_env_formula(data = data_test, use_age = FALSE)
+
+    expected_formula <- as.formula(" ~ bio1 + bio12")
+
+    testthat::expect_equal(res, expected_formula)
+
+    formula_text <- deparse(res)
+
+    testthat::expect_false(grepl("age", formula_text))
+
+    testthat::expect_false(grepl("\\*", formula_text))
+  }
+)
+
+testthat::test_that(
+  "make_env_formula() use_age = FALSE without age column gives additive formula", {
+    data_test <-
+      data.frame(
+        bio1 = c(10, 15),
+        bio12 = c(500, 600)
+      )
+
+    res_default <-
+      make_env_formula(data = data_test)
+
+    res_explicit <-
+      make_env_formula(data = data_test, use_age = FALSE)
+
+    testthat::expect_equal(res_default, res_explicit)
+  }
+)
+
+testthat::test_that(
+  "make_env_formula() use_age = TRUE with age column gives interaction formula", {
+    data_test <-
+      data.frame(
+        age = c(100, 200),
+        bio1 = c(10, 15),
+        bio12 = c(500, 600)
+      )
+
+    res <-
+      make_env_formula(data = data_test, use_age = TRUE)
+
+    expected_formula <- as.formula(" ~  (bio1 + bio12) * age - age")
+
+    testthat::expect_equal(res, expected_formula)
+
+    formula_text <- deparse(res)
+
+    testthat::expect_true(grepl("age", formula_text))
+
+    testthat::expect_true(grepl("\\*", formula_text))
+  }
+)
+
+testthat::test_that(
+  "make_env_formula() use_age = FALSE with only age-and-one column gives additive formula", {
+    data_test <- data.frame(age = c(100, 200, 300), var1 = c(1, 2, 3))
+
+    res <-
+      make_env_formula(data = data_test, use_age = FALSE)
+
+    expected_formula <- as.formula(" ~ var1")
+
+    testthat::expect_equal(res, expected_formula)
+  }
+)
