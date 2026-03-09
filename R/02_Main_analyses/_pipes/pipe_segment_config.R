@@ -193,6 +193,70 @@ pipe_segment_config <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
+      description = "Configuration for model fitting - number of Moran eigenvectors",
+      name = "config.n_mev",
+      command = get_active_config(
+        value = c("model_fitting", "n_mev")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting - error family",
+        " (e.g. 'binomial' for presence-absence)"
+      ),
+      name = "config.error_family",
+      command = get_active_config(
+        value = c("model_fitting", "error_family")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting - spatial CRS",
+        " as an EPSG code (e.g. 3035 for ETRS89-LAEA Europe)"
+      ),
+      name = "config.spatial_crs",
+      command = get_active_config(
+        value = c("model_fitting", "spatial_crs")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting - spatial mode:",
+        " 'spatial' (2-D MEVs) or",
+        " 'spatiotemporal' (3-D MEVs)"
+      ),
+      name = "config.spatial_mode",
+      command = get_active_config(
+        value = c("model_fitting", "spatial_mode")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting - use spatial component:",
+        " TRUE to include MEV spatial predictors, FALSE to omit"
+      ),
+      name = "config.use_spatial",
+      command = get_active_config(
+        value = c("model_fitting", "use_spatial")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting - use age in formula:",
+        " TRUE for (bio * age) interaction, FALSE for additive only"
+      ),
+      name = "config.use_age_in_formula",
+      command = get_active_config(
+        value = c("model_fitting", "use_age_in_formula")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
       description = "Configuration for model fitting",
       name = "config.model_fitting",
       command = list(
@@ -201,7 +265,13 @@ pipe_segment_config <-
         thin = config.n_thin,
         transient = config.n_transient,
         samples_verbose = config.samples_verbose,
-        cross_validation_folds = config.cross_validation_folds
+        cross_validation_folds = config.cross_validation_folds,
+        n_mev = config.n_mev,
+        error_family = config.error_family,
+        spatial_crs = config.spatial_crs,
+        spatial_mode = config.spatial_mode,
+        use_spatial = config.use_spatial,
+        use_age_in_formula = config.use_age_in_formula
       )
     )
   )
