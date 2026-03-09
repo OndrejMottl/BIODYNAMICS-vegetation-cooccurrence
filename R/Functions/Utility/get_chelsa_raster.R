@@ -23,8 +23,10 @@
 #' `c(min, max)` for cropping the downloaded raster.
 #' @param cache_dir
 #' Character scalar. Path to the directory where the cropped
-#' raster is cached as `{chelsa_var}_{age}.tif`. The
-#' directory must already exist before calling this function.
+#' raster is cached as `{chelsa_var}_{age}_{xmin}_{xmax}_{ymin}_{ymax}.tif`.
+#' The extent values are rounded to 2 decimal places so the cache
+#' is shared across calls with identical extents. The directory must
+#' already exist before calling this function.
 #' @return
 #' A `terra::SpatRaster` cropped to `x_lim` / `y_lim`, with
 #' corrected units: degrees Celsius for `bio1` and `bio6`;
@@ -37,8 +39,11 @@
 #'
 #' The remote raster is accessed via GDAL `/vsicurl/`, so an
 #' internet connection is required the first time each
-#' `(chelsa_var, age)` combination is requested. Subsequent
-#' calls load from the cached `.tif` and need no connection.
+#' `(chelsa_var, age, x_lim, y_lim)` combination is requested.
+#' Subsequent calls load from the cached `.tif` and need no
+#' connection. The geographic extent (rounded to 2 decimal
+#' places) is embedded in the cache filename, so rasters with
+#' different extents are always stored separately.
 #'
 #' Kelvin correction: `bio1` (Mean Annual Temperature) and
 #' `bio6` (Min Temperature of Coldest Month) are absolute
@@ -88,10 +93,23 @@ get_chelsa_raster <- function(
     stringr::str_replace(chelsa_var, "^bio(\\d)$", "bio0\\1")
 
   # 2. Build cache file path -----
+  # Include rounded extent in filename so rasters cropped to different
+  # geographic areas never share the same cache entry.
+  cache_extent_tag <-
+    base::paste(
+      base::round(base::min(x_lim), 2L),
+      base::round(base::max(x_lim), 2L),
+      base::round(base::min(y_lim), 2L),
+      base::round(base::max(y_lim), 2L),
+      sep = "_"
+    )
+
   cache_file <-
     base::file.path(
       cache_dir,
-      base::paste0(chelsa_var, "_", age, ".tif")
+      base::paste0(
+        chelsa_var, "_", age, "_", cache_extent_tag, ".tif"
+      )
     )
 
   # 3. Return from cache if available -----

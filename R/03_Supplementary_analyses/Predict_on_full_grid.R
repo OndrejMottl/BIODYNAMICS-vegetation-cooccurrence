@@ -183,6 +183,28 @@ data_grid_base <-
   ) |>
   dplyr::mutate(grid_id = dplyr::row_number())
 
+# Mask to land-only cells: remove ocean grid points before any
+# downstream extraction or interpolation.
+land_poly <-
+  rnaturalearth::ne_countries(
+    scale = "medium",
+    returnclass = "sf"
+  )
+
+data_grid_land_mask <-
+  data_grid_base |>
+  sf::st_as_sf(
+    coords = c("coord_long", "coord_lat"),
+    crs = 4326L
+  ) |>
+  sf::st_filter(land_poly) |>
+  sf::st_drop_geometry() |>
+  dplyr::pull(grid_id)
+
+data_grid_base <-
+  data_grid_base |>
+  dplyr::filter(grid_id %in% data_grid_land_mask)
+
 # Project grid coords to km once — reused across all age slices
 data_grid_coords_km <-
   data_grid_base |>
@@ -210,8 +232,10 @@ if (
 # 3. CHELSA cache directory -----
 #----------------------------------------------------------#
 
+# Project-specific subdirectory so files cropped for different
+# geographic extents are never mixed.
 path_chelsa_cache <-
-  here::here("Data/Temp/chelsa")
+  here::here(base::paste0("Data/Temp/chelsa/", sel_project))
 
 base::dir.create(
   path_chelsa_cache,
@@ -275,7 +299,7 @@ data_climate_all <-
       if (
         isTRUE(verbose)
       ) {
-        cat("Downloading CHELSA for age:", age_i, "BP\n")
+        cat("Processing/Downloading CHELSA for age:", age_i, "BP\n")
       }
 
       sel_abiotic_var_name |>
@@ -453,12 +477,6 @@ path_out <-
   )
 
 readr::write_rds(data_predicted_long, path_out)
-
-if (
-  isTRUE(verbose)
-) {
-  cat("Predictions saved to:", path_out, "\n")
-}
 
 
 #----------------------------------------------------------#
