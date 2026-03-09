@@ -464,23 +464,7 @@ data_predicted_long <-
 
 
 #----------------------------------------------------------#
-# 6. Save predictions -----
-#----------------------------------------------------------#
-
-path_out <-
-  here::here(
-    base::paste0(
-      "Outputs/Data/predictions_grid_",
-      sel_project,
-      ".rds"
-    )
-  )
-
-readr::write_rds(data_predicted_long, path_out)
-
-
-#----------------------------------------------------------#
-# 7. In-sample observations (for map overlays) -----
+# 6. In-sample observations (for map overlays) -----
 #----------------------------------------------------------#
 
 data_observed_long <-
@@ -507,7 +491,7 @@ data_observed_long <-
 
 
 #----------------------------------------------------------#
-# 8. Summaries -----
+# 7. Summaries -----
 #----------------------------------------------------------#
 
 # Model performance per species (sorted by AUC)
@@ -548,7 +532,7 @@ if (
 
 
 #----------------------------------------------------------#
-# 9. Visualisations -----
+# 8. Visualisations -----
 #----------------------------------------------------------#
 
 # One plot per taxon, faceted by age.
