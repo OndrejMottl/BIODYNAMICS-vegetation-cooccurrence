@@ -119,6 +119,64 @@ purrr::walk2(
 )
 ```
 
+### Piping the input vector into `purrr::map()`
+
+Prefer piping the input vector directly into `purrr::map()` over using the
+`.x` argument. This keeps the iteration subject at the top of the pipe chain
+and reads more naturally:
+
+```r
+# Good — input is the subject of the pipe
+vec_ids |>
+  rlang::set_names() |>
+  purrr::map(
+    .f = ~ compute(.x)
+  )
+
+# Avoid — .x = buries the input inside the call
+purrr::map(
+  .x = vec_ids,
+  .f = ~ compute(.x)
+)
+```
+
+Use `rlang::set_names()` (no argument) before `purrr::map()` to propagate
+vector names to the output list.
+
+### Nested `purrr::map()` and `.x` disambiguation
+
+When `purrr::map()` calls are nested, both lambdas share the `.x` pronoun,
+causing ambiguity. Resolve this by binding the outer `.x` to a named
+variable at the top of the outer function body:
+
+```r
+# Good — outer .x is captured as a named variable
+vec_ages |>
+  rlang::set_names() |>
+  purrr::map(
+    .f = ~ {
+      age_i <- .x   # capture before .x is shadowed
+
+      vec_vars |>
+        rlang::set_names() |>
+        purrr::map(
+          .f = ~ compute(var = .x, age = age_i)
+        )
+    }
+  )
+
+# Avoid — inner .x silently shadows outer .x
+purrr::map(
+  .x = vec_ages,
+  .f = function(age_i) {
+    purrr::map(
+      .x = vec_vars,
+      .f = ~ compute(var = .x, age = age_i)
+    )
+  }
+)
+```
+
 ## Data Masking
 
 When writing functions that pass column names to tidyverse data-masking
