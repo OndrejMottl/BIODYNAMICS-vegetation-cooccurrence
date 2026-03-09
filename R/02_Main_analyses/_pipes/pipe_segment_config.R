@@ -133,6 +133,22 @@ pipe_segment_config <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
+      description = "Configuration for data processing - min n cores",
+      name = "config.min_n_cores",
+      command = get_active_config(
+        value = c("data_processing", "min_n_cores")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = "Configuration for data processing - min n samples",
+      name = "config.min_n_samples",
+      command = get_active_config(
+        value = c("data_processing", "min_n_samples")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
       description = "Configuration for data processing",
       name = "config.data_processing",
       command = list(
@@ -140,7 +156,9 @@ pipe_segment_config <-
         number_of_taxa = config.number_of_taxa,
         minimal_proportion_of_pollen = config.minimal_proportion_of_pollen,
         taxonomic_resolution = config.taxonomic_resolution,
-        min_distance_of_gpp_knots = config.min_distance_of_gpp_knots
+        min_distance_of_gpp_knots = config.min_distance_of_gpp_knots,
+        min_n_cores = config.min_n_cores,
+        min_n_samples = config.min_n_samples
       )
     ),
     #--------------------------------------------------#
