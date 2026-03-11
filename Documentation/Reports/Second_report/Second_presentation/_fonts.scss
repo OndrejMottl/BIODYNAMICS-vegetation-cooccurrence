@@ -1,0 +1,24 @@
+// This file is auto-generated from fonts.json. Do not edit directly.
+$mainFont: "Merriweather", "Arial", sans-serif !default;
+
+$headingFont: "Montserrat", "Courier New", monospace !default;
+
+.text-font-body { font-family: $mainFont; }
+.text-font-heading { font-family: $headingFont; }
+
+/* Debug font loading - this will help us see if the font is loaded */
+@supports (font-family: "Montserrat") {
+  .debug-font-loaded::before {
+    content: "Montserrat font is supported";
+    display: block;
+    font-size: 12px;
+    color: green;
+  }
+}
+
+/* Force font loading for debugging */
+.force-press-start {
+  font-family: "Montserrat", monospace !important;
+  font-display: swap;
+}
+
