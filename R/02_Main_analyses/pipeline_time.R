@@ -3,7 +3,7 @@
 #
 #                 Vegetation Co-occurrence
 #
-#                   Main {target} pipe
+#              Time-slice {target} pipe
 #
 #
 #                       O. Mottl
@@ -11,9 +11,10 @@
 #
 #----------------------------------------------------------#
 # Definition of the target pipe:
-#   - test each model against null model
-#   - slice data by age
-#   - run models on each slice
+#   - Fits one sjSDM model per time slice (age bin)
+#   - Runs anova variance decomposition per slice
+#   - Aggregates anova components (F_A, F_B, F_S, ...)
+#     across all slices into a single summary table
 # Note that this script should be executed
 #   by other scripts (eg, `01_Run_pipelines.R`).
 
@@ -65,31 +66,32 @@ targets::tar_option_set(
 # 1. Pipe definition -----
 #----------------------------------------------------------#
 
-# This section is basically a very complicated target factory.
-
-# This is done to reduce code duplication (several parts of pipe chain repeats).
-#  And mainly to use the `tar_combine` function to combine the results.
-
-# I am aware that this is not the most elegant solution, but it works.
+# This section is a target factory: it creates one branch of
+#   model-fitting targets per time slice using tarchetypes::tar_map,
+#   then aggregates results across all slices.
 
 #--------------------------------------------------#
-## 1.1 load pipes parts -----
+## 1.1 Load pipe segments -----
 #--------------------------------------------------#
 
 path_pipe_parts <-
   here::here("R/02_Main_analyses/_pipes/")
 
-# sourcing all pipe parts needs to be done in specific order
+# Segments must be sourced in dependency order.
+# pipe_segment_age_filter redefines data_sample_ids per slice,
+#   so it must come before pipe_segment_fit_data_prep and model_prep.
+# pipe_segment_result_summary_age references pipe_models_by_age, so it
+#   is sourced AFTER that object is built (see section 1.3 below).
 c(
   "pipe_segment_config.R",
   "pipe_segment_vegvault_data.R",
   "pipe_segment_community_data.R",
   "pipe_segment_abiotic_data.R",
-  "pipe_segment_model_prep_by_age.R",
-  "pipe_segment_model_fit.R",
-  "pipe_segment_species_associations.R",
-  "pipe_segment_slice_by_age.R",
-  "pipe_segment_result_summary_age.R"
+  "pipe_segment_age_filter.R",
+  "pipe_segment_fit_data_prep.R",
+  "pipe_segment_model_prep.R",
+  "pipe_segment_model_simple.R",
+  "pipe_segment_model_anova.R"
 ) %>%
   rlang::set_names() %>%
   purrr::walk(
@@ -98,9 +100,51 @@ c(
     )
   )
 
+#--------------------------------------------------#
+## 1.2 Build per-slice target map -----
+#--------------------------------------------------#
+
+# Enumerate all age values to run the model on.
+# Derived from the active configuration so it adjusts automatically
+#   when switching between projects (project_cz, project_europe, …).
+data_to_map_age <-
+  tibble::tibble(
+    age = seq(
+      from = min(get_active_config(c("vegvault_data", "age_lim"))),
+      to = max(get_active_config(c("vegvault_data", "age_lim"))),
+      by = get_active_config(c("data_processing", "time_step"))
+    ),
+    age_name = paste0("timeslice_", age)
+  )
+
+# Assemble the per-slice segment list.
+# Each group of targets is namespaced by tarchetypes::tar_map,
+#   e.g. data_sample_ids_timeslice_0, mod_jsdm_timeslice_0, etc.
+pipe_segment_per_slice <-
+  list(
+    pipe_segment_age_filter,
+    pipe_segment_fit_data_prep,
+    pipe_segment_model_prep,
+    pipe_segment_model_simple,
+    pipe_segment_model_anova
+  )
+
+pipe_models_by_age <-
+  tarchetypes::tar_map(
+    values = data_to_map_age,
+    names = "age_name",
+    pipe_segment_per_slice
+  )
+
+# Source result_summary_age only after pipe_models_by_age exists,
+#   because tarchetypes::tar_combine() inside that segment
+#   indexes pipe_models_by_age[["model_anova"]] at source time.
+source(
+  file = file.path(path_pipe_parts, "pipe_segment_result_summary_age.R")
+)
 
 #--------------------------------------------------#
-## 1.1 combine all targets into a single pipe -----
+## 1.3 Combine all targets into the pipeline -----
 #--------------------------------------------------#
 
 list(
@@ -111,34 +155,14 @@ list(
   pipe_models_by_age,
   pipe_segment_result_summary_age,
   targets::tar_target(
-    description = "Plot of significant associations by age",
-    name = "plot_species_associations",
-    command = ggplot2::ggplot() +
-      ggplot2::geom_line(
-        data = data_species_associations_by_age,
-        mapping = ggplot2::aes(
-          x = age,
-          y = prop_sign_assoc
-        )
-      ) +
-      ggplot2::geom_point(
-        data = data_species_associations_by_age,
-        mapping = ggplot2::aes(
-          x = age,
-          y = prop_sign_assoc
-        )
-      ) +
-      ggplot2::coord_cartesian(
-        ylim = c(0, 1),
-      ) +
-      ggplot2::scale_x_continuous(
-        trans = "reverse"
-      ) +
-      ggplot2::labs(
-        title = "Proportion of significant associations by age",
-        subtitle = paste("project:", Sys.getenv("R_CONFIG_ACTIVE")),
-        x = "Age (cal yr BP)",
-        y = "Proportion of significant associations"
+    description = "Plot of anova variance components by age",
+    name = "plot_anova_components_by_age",
+    command = plot_anova_components_by_age(
+      data_anova_components = data_anova_components_by_age,
+      title = "Anova variance components by age",
+      subtitle = paste(
+        "project:", Sys.getenv("R_CONFIG_ACTIVE")
       )
+    )
   )
 )

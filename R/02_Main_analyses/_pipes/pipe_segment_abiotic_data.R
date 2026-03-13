@@ -75,13 +75,5 @@ pipe_segment_abiotic_data <-
         age_min = min(config.age_lim),
         age_max = max(config.age_lim)
       )
-    ),
-    targets::tar_target(
-      description = "Widen abiotic data (aligned to sample IDs)",
-      name = "data_abiotic_wide",
-      command = prepare_abiotic_for_fit(
-        data_abiotic_long = data_abiotic_interpolated,
-        data_sample_ids = data_sample_ids
-      )
     )
   ) 
