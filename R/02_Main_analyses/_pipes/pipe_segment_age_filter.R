@@ -54,14 +54,17 @@ pipe_segment_age_filter <-
     targets::tar_target(
       description = paste0(
         "Compute intersecting sample IDs, then filter to the",
-        " single age slice defined in the active configuration"
+        " single age slice provided by tarchetypes::tar_map"
       ),
       name = "data_sample_ids",
       command = align_sample_ids(
         data_community_long = data_community_subset,
         data_abiotic_long = data_abiotic_interpolated,
         data_coords = data_coords,
-        subset_age = config.data_processing$sel_age
+        # `age` is injected as a literal value by tarchetypes::tar_map
+        #   at pipeline-construction time, so it resolves correctly
+        #   inside each namespaced branch.
+        subset_age = age
       )
     )
   )

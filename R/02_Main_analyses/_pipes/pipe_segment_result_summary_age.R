@@ -41,27 +41,19 @@ suppressMessages(
 pipe_segment_result_summary_age <-
   list(
     tarchetypes::tar_combine(
-      name = "species_associations_by_age_merged",
-      pipe_models_by_age[["number_of_significant_associations"]],
+      description = "Combine per-slice anova objects into a list",
+      name = "list_model_anova_by_age",
+      pipe_models_by_age[["model_anova"]],
       command = list(!!!.x)
     ),
     targets::tar_target(
-      description = "Table of significant associations by age",
-      name = "data_species_associations_by_age",
-      command = species_associations_by_age_merged %>%
-        purrr::map("dataset_name") %>%
-        purrr::map("proportion_significant") %>%
-        unlist() %>%
-        purrr::set_names(
-          nm = names(.) %>%
-            stringr::str_extract(., "_timeslice_\\d+") %>%
-            stringr::str_remove(., "_timeslice_")
-        ) %>%
-        as.data.frame() %>%
-        purrr::set_names("prop_sign_assoc") %>%
-        tibble::rownames_to_column("age") %>%
-        dplyr::mutate(
-          age = as.numeric(age)
-        )
+      description = paste0(
+        "Long-format table of anova variance components",
+        " by age slice"
+      ),
+      name = "data_anova_components_by_age",
+      command = aggregate_anova_components(
+        list_model_anova = list_model_anova_by_age
+      )
     )
   )

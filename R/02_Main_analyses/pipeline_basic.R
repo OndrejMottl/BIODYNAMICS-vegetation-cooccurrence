@@ -85,6 +85,7 @@ c(
   "pipe_segment_community_data.R",
   "pipe_segment_abiotic_data.R",
   "pipe_segment_alignment.R",
+  "pipe_segment_fit_data_prep.R",
   "pipe_segment_model_prep.R",
   "pipe_segment_model_simple.R",
   "pipe_segment_model_anova.R"
@@ -107,6 +108,7 @@ list(
   pipe_segment_community_data,
   pipe_segment_abiotic_data,
   pipe_segment_alignment,
+  pipe_segment_fit_data_prep,
   pipe_segment_model_prep,
   pipe_segment_model_simple,
   pipe_segment_model_anova

@@ -178,13 +178,5 @@ pipe_segment_community_data <-
         data = data_community_filtered_samples,
         n_taxa = config.data_processing$number_of_taxa
       )
-    ),
-    targets::tar_target(
-      description = "Prepare community data for fitting",
-      name = "data_community_to_fit",
-      command = prepare_community_for_fit(
-        data_community_long = data_community_subset,
-        data_sample_ids = data_sample_ids
-      )
     )
   )
