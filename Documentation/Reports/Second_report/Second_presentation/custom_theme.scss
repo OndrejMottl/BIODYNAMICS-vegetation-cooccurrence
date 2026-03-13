@@ -1,0 +1,513 @@
+/*-- scss:defaults --*/
+
+// Vertical spacing between blocks of text
+$smallMargin: 5px;
+$blockMargin: 10px;
+$largeMargin: 20px;
+
+// Colors are now loaded from _colors.scss, which is auto-generated from colors.json.
+// Do not define color variables here. Edit colors.json and regenerate _colors.scss if needed.
+@import "_colors";
+
+$body-color: $black;
+$backgroundColor: $white;
+
+// Typography
+
+@import "_fonts";
+
+$mainFontSize: 30px;
+$mainFontWeight: 400;
+$body-line-height: 1.5;
+
+$headingMargin: 0;
+$headingLineHeight: 1.2;
+$headingLetterSpacing: normal;
+//$headingFontWeight: 700;
+$headingFontWeight: normal;
+$headingColor: $green;
+
+$heading1Size: 1.55em;
+$heading2Size: 1.55em;
+$heading3Size: 1.25em;
+$heading4Size: 1em;
+
+// Layout
+// $content-max-width: 900px;
+
+// Mermaid configuration
+$mermaid-bg-color: $white !important;
+$mermaid-edge-color: $black !important;
+$mermaid-node-fg-color: $body-color !important;
+$mermaid-fg-color: $blue !important;
+$mermaid-fg-color--lighter: $green !important;
+$mermaid-fg-color--lightest: $pink !important;
+$mermaid-font-family: $mainFont !important;
+$mermaid-label-bg-color: $white !important;
+$mermaid-label-fg-color: $black !important;
+$mermaid-node-bg-color: $white !important;
+
+/*-- scss:rules --*/
+
+/* General text styling */
+body {
+  font-family: $mainFont;
+  font-size: $mainFontSize;
+  line-height: $body-line-height;
+  color: $body-color;
+  background-color: $backgroundColor !important;
+}
+
+/* Code */
+
+/* Code styling (default and reveal) */
+pre,
+.reveal pre,
+code,
+.reveal code {
+  background-color: $white !important;
+  color: $black;
+  border-radius: 5px;
+  line-height: 1;
+}
+
+pre,
+.reveal pre {
+  padding: $smallMargin;
+}
+
+code,
+.reveal code {
+  padding: 0;
+}
+
+pre code,
+.reveal pre code {
+  background-color: transparent;
+  padding: $smallMargin;
+  position: relative;
+  /* Ensure line highlighting works */
+  z-index: 0;
+  /* Prevent conflicts with overlays */
+}
+
+
+/* Hide scrollbars for WebKit browsers */
+pre::-webkit-scrollbar,
+.reveal pre::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Hide scrollbars and ensure proper text wrapping */
+.reveal pre,
+.reveal .slides pre,
+.reveal .slides section pre,
+div.sourceCode,
+div.sourceCode pre,
+.cell-code pre,
+.hljs {
+  overflow: visible !important;
+  max-width: 100% !important;
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+}
+
+.reveal pre::-webkit-scrollbar,
+.reveal .slides pre::-webkit-scrollbar,
+.reveal .slides section pre::-webkit-scrollbar,
+div.sourceCode::-webkit-scrollbar,
+div.sourceCode pre::-webkit-scrollbar,
+.cell-code pre::-webkit-scrollbar,
+.hljs::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+}
+
+pre a,
+.reveal pre a,
+code a,
+.reveal code a {
+  color: $brown;
+  text-decoration: underline;
+
+  &:hover {
+    color: $white;
+    background-color: $brown;
+  }
+}
+
+a,
+.reveal a,
+.reveal .footer a {
+  color: $brown !important;
+  text-decoration: underline !important;
+
+  &:hover {
+    color: $white !important;
+    background-color: $brown !important;
+  }
+}
+
+/* Specific styling for links in title slides and slides with background colors */
+.reveal .slides section a,
+.reveal .title-slide a,
+.reveal .bg-black a,
+.reveal .slide-background a {
+  color: $brown !important;
+  text-decoration: underline !important;
+
+  &:hover {
+    color: $white !important;
+    background-color: $brown !important;
+  }
+}
+
+/* Force brown color for all links, overriding any reveal.js defaults */
+.reveal a:link,
+.reveal a:visited,
+.reveal a:active {
+  color: $brown !important;
+}
+
+/* Fix for code blocks in HTML output */
+.sourceCode {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+
+
+/* Headings */
+
+h1,
+h2,
+h3,
+h4,
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4 {
+  font-family: $headingFont !important;
+  line-height: $headingLineHeight;
+  letter-spacing: $headingLetterSpacing;
+  font-weight: bold;
+  margin: $headingMargin;
+  color: $headingColor;
+}
+
+h1,
+.reveal h1 {
+  text-transform: uppercase;
+  font-size: $heading1Size !important;
+  margin-top: $blockMargin;
+}
+
+h2,
+.reveal h2 {
+  font-size: $heading2Size !important;
+  margin-top: $blockMargin;
+}
+
+h3,
+.reveal h3 {
+  font-size: $heading3Size !important;
+  margin-top: $smallMargin;
+}
+
+h4,
+.reveal h4 {
+  font-size: $heading4Size !important;
+  margin-top: $smallMargin;
+}
+
+/* Additional Reveal.js specific heading font rules */
+.reveal .slides section .fragment h1,
+.reveal .slides section .fragment h2,
+.reveal .slides section .fragment h3,
+.reveal .slides section .fragment h4,
+.reveal .slides section h1,
+.reveal .slides section h2,
+.reveal .slides section h3,
+.reveal .slides section h4 {
+  font-family: $headingFont !important;
+}
+
+/* Ensure heading classes also use the correct font */
+.text-font-heading,
+.reveal .text-font-heading {
+  font-family: $headingFont !important;
+}
+
+/* List styling */
+ul {
+  padding-left: 0;
+  margin-left: $blockMargin;
+}
+
+ul ul {
+  margin-left: $blockMargin;
+}
+
+.text-color-darker {
+  filter: brightness(50%);
+}
+
+.text-color-brigher {
+  filter: brightness(250%);
+}
+
+.text-size-heading1 {
+  font-size: $heading1Size !important;
+}
+
+.text-size-heading2 {
+  font-size: $heading2Size !important;
+}
+
+.text-size-heading3 {
+  font-size: $heading3Size !important;
+}
+
+.text-size-heading4 {
+  font-size: $heading4Size !important;
+}
+
+.text-size-body {
+  font-size: $mainFontSize !important;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.text-strike {
+  text-decoration: line-through;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-lowercase {
+  text-transform: lowercase;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.text-normal {
+  text-transform: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-smaller {
+  font-size: $mainFontSize * 0.7 !important;
+}
+
+.text-tiny {
+  font-size: $mainFontSize * 0.3 !important;
+}
+
+.text-larger {
+  font-size: $mainFontSize * 1.3 !important;
+}
+
+.text-shadow-light {
+  text-shadow: 3px 4px 5px $blue !important;
+}
+
+.text-shadow-dark {
+  text-shadow: 3px 4px 5px $black !important;
+}
+
+.text-margin-bottom-15 {
+  margin-bottom: 15px !important;
+}
+
+.text-margin-top-15 {
+  margin-top: 15px;
+}
+
+/* Slide content layout */
+.reveal .slides {
+  //  max-width: $content-max-width;
+  margin: auto;
+  padding: 0 $smallMargin;
+}
+
+.slide-margin-top-15 {
+  margin: 0;
+  position: absolute;
+  top: 15%;
+  -ms-transform: translateY(-15%);
+  transform: translateY(-15%);
+}
+
+.slide-margin-top-25 {
+  margin: 0;
+  position: absolute;
+  top: 25%;
+  -ms-transform: translateY(-25%);
+  transform: translateY(-25%);
+}
+
+.center-vertical {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+/* Constrain figures and other large block elements */
+.reveal .slides img,
+.reveal .slides figure,
+.reveal .slides video,
+.reveal .slides .reveal-image {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Blockquote */
+.reveal .blockquote {
+  padding: $smallMargin;
+  border-radius: 25px;
+  background-color: $blue;
+  border-left: 6px solid $white;
+  border-top: 3px solid $blue;
+  border-bottom: 3px solid $blue;
+  border-right: 3px solid $blue;
+  box-shadow: 3px 4px 5px $black;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Table styling */
+.reveal table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: $blockMargin 0;
+  font-size: $mainFontSize * 0.9;
+  border: 2px solid $black;
+  /* Add outer border to table */
+}
+
+.reveal table th,
+.reveal table td {
+  border: 2px solid $black;
+  padding: $smallMargin $blockMargin;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.reveal table thead th {
+  background-color: $blue;
+  color: $black;
+  font-weight: bold;
+  border: 2px solid $black;
+  /* Make border consistent and visible */
+}
+
+.reveal table tbody td {
+  background-color: $pink;
+  color: $black;
+}
+
+.reveal table tbody tr:nth-child(even) td {
+  background-color: $white;
+}
+
+.reveal table tbody tr:hover td {
+  background-color: $white;
+  transition: background-color 0.2s ease;
+}
+
+/* Ensure bottom border is visible */
+.reveal table tbody tr:last-child td {
+  border-bottom: 2px solid $black;
+}
+
+/* Table border width variations */
+.table-thin-border th,
+.table-thin-border td {
+  border: 1px solid $black;
+}
+
+.table-thick-border th,
+.table-thick-border td {
+  border: 4px solid $black;
+}
+
+.table-no-border th,
+.table-no-border td {
+  border: none;
+}
+
+/* Table cell background color classes */
+.table-cell-green {
+  background-color: $green !important;
+  color: $black !important;
+}
+
+.table-cell-blue {
+  background-color: $blue !important;
+  color: $black !important;
+}
+
+.table-cell-pink {
+  background-color: $pink !important;
+  color: $black !important;
+}
+
+.table-cell-dark {
+  background-color: $black !important;
+  color: $white !important;
+}
+
+.table-cell-white {
+  background-color: $white !important;
+  color: $black !important;
+  border: 2px solid $black !important;
+}
+
+/* Table header background variations */
+.table-header-blue thead th {
+  background-color: $blue !important;
+  color: $white !important;
+}
+
+.table-header-green thead th {
+  background-color: $green !important;
+  color: $black !important;
+}
+
+.table-header-brown thead th {
+  background-color: $brown !important;
+  color: $white !important;
+}
