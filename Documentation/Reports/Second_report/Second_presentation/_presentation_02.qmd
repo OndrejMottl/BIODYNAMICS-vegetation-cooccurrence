@@ -223,11 +223,145 @@ include_local_figure("Logos/BIODYNAMICS.png")
 ::: {.column width="60%" .text-right .text-color-black .text-size-body}
 [👤](https://ondrejmottl.github.io/)[Ondřej Mottl]{.text-color-white}
 
-[10.03.2026]{.text-color-black}
+[15.03.2026]{.text-color-black}
 
 :::
 
 ::::
+
+
+## 🙋Hi! I am Ondřej Mottl {.text-center}
+
+:::: {.columns}
+
+::: {.column width="35%"}
+```{r}
+#| label: personal photo
+include_local_figure("About/head_photo.png")
+```
+
+:::
+
+::: {.column width="65%" .text-left}
+
+<br>
+
+🌿[Assistant Professor]{.text-highlight-dark_green} of [Vegetation Ecology]{.text-highlight-teal} at the [Department of Botany](https://natur.cuni.cz/en/biology/departments-and-work-places/department-of-botany)
+
+🧑‍💻 Head of the [Laboratory of Quantitative Ecology](https://ondrejmottl.github.io/lab/about_the_lab.html)
+
+♻️[Open Science Champion](https://openscience.cuni.cz/OSCIEN-161.html)
+
+🎩Founding Member of the [Junior Faculty](https://natur.cuni.cz/en/research/junior-faculty)
+
+:::
+
+::::
+
+:::: {.columns}
+
+::: {.column width="8%"}
+:::
+
+::: {.column width="60%" .text-left .text-smaller}
+
+📧 Ondrej.mottl(at)gmail.com
+
+🦋 [ondrejmottl.bsky.social](https://bsky.app/profile/ondrejmottl.bsky.social)
+
+🐱 [Github](https://github.com/OndrejMottl)
+
+🆔 [ORCID](https://orcid.org/0000-0002-9796-5081)
+
+🌐 [Personal webpage](https://ondrejmottl.github.io/)
+:::
+
+::: {.column width="8%"}
+:::
+
+
+::: {.column width="22%"}
+
+```{r}
+#| label: linktree QR
+qr_personal_web <-
+  qrcode::qr_code(
+    "https://bit.ly/ondrej_mottl",
+    ecl = "H"
+  )
+
+qrcode::generate_svg(
+  qrcode = qr_personal_web,
+    file = here::here(
+    path_to_materials,
+    "QR/qr_personal_web.svg"
+  ),
+  foreground = colors$black,
+  background = colors$white
+)
+
+include_local_figure("QR/qr_personal_web.svg")
+```
+
+:::
+
+::: {.column width="5%"}
+:::
+
+::::
+
+::: {.footer}
+photo by Vladimír Šigut (CUNI)
+:::
+
+## Research Focus & Tools {.text-center}
+
+<br>
+<br>
+
+:::: {.columns}
+
+::: {.column width="30%" .fragment}
+#### Biodiversity patterns across scales
+
+```{r}
+#| label: biodiversity-patterns
+include_local_figure("AI_generated/biodiversity_nobg.png")
+```
+
+:::
+
+::: {.column width="3%"}
+:::
+
+::: {.column width="30%" .fragment}
+#### Big data & methods advancement
+
+```{r}
+#| label: big-data
+include_local_figure("AI_generated/big_data_nobg.png")
+```
+
+:::
+
+::: {.column width="3%"}
+:::
+
+::: {.column width="30%" .fragment}
+#### Open Science & reproducibility
+
+```{r}
+#| label: open-science
+include_local_figure("AI_generated/open_science_nobg.png")
+```
+
+:::
+
+::::
+
+::: {.footer}
+Images created by OpenAI GPT-5
+:::
 
 ## BIODYNAMICS
 
@@ -435,7 +569,7 @@ include_local_figure("sjSDM/mee313687-fig-0001-m.jpg")
 # Technical setup {.bg-green}
 
 ```{r}
-#| label: extract-codecov
+#| label: extract-codecov-and-tests
 #| echo: false
 #| message: false
 #| warning: false
@@ -445,6 +579,25 @@ var_codecov <-
     here::here("Documentation/Functions_test_coverage/covr_report_summary.json")
   ) %>%
   purrr::chuck("value")
+
+test_files <-
+  list.files(
+    here::here("R/03_Supplementary_analyses/testthat"),
+    pattern = "^test-.*\\.R$",
+    full.names = TRUE,
+    recursive = TRUE
+  )
+
+total_tests <-
+  purrr::map_int(
+    .x = test_files,
+    .f = ~ base::grepl(
+      "expect_",
+      base::readLines(.x, warn = FALSE, encoding = "UTF-8")
+    ) |>
+      base::sum()
+  ) |>
+  base::sum()
 ```
 
 ## Technical framework
@@ -473,9 +626,9 @@ include_local_figure("Logos/targets_logo.svg")
   - one codebase, multiple spatial/temporal/taxonomic configurations
 - [{renv}]{.text-background-brown .text-bold} reproducible package environment
 - [Functional programming]{.text-background-green .text-bold} — everything is a function
-  - `r length(list.files(here::here("R/Functions"), recursive= TRUE))` modular functions in `R/Functions/`
+  - `r length(list.files(here::here("R/Functions"), recursive= TRUE))` modular functions
   - each function is [tested and documented]{.text-background-brown .text-bold}
-  - current test coverage: `r var_codecov`%
+  - current test coverage: `r var_codecov`% using `r total_tests` tests
 
 :::
 
@@ -486,12 +639,8 @@ include_local_figure("Logos/targets_logo.svg")
 <br>
 
 ::: {.incremental}
-- To test research questions I develop multiple [data-analysis _pipelines_]{.text-background-blue .text-bold}
-   - each pipeline is a sequence of data processing and analysis steps
-   - each pipeline is tailored to a specific research question
-- Data and configuration are separated into ["project"s]{.text-background-green .text-bold}
-   - each project = specific data subset + configuration
-   - e.g. different regions, temporal resolution, taxonomic resolutions
+- Multiple [_pipelines_]{.text-background-blue .text-bold} — each tailored to a specific research question
+- Multiple ["projects"]{.text-background-green .text-bold} — data subset + configuration (region, time step, taxonomic resolution)
 
 :::
 
@@ -529,87 +678,54 @@ flowchart LR
     end
 ```
 
-## Basic Pipeline — EU project
+## Basic Pipeline — EU project {.text-smaller}
 
-### What's included?
-
-:::: {.columns}
-
-::: {.column width="50%"}
-
-**1. Data extraction** (VegVault)
-
-- Europe bbox: lon −10–40°, lat 35–70°
-- Time window: 0–20,000 years BP
-- Dataset types: fossil pollen archives + modern gridpoints
-- 7 bioclimate variables (CHELSA): bio1, bio4, bio6, bio12, bio15, bio18, bio19
-
-:::
-
-::: {.column width="50%"}
-
-**2. Community data**
-
-- Counts → relative pollen %
-- Interpolated to 500-year time steps
-- Classified to genus-level
-- Rare taxa removed (< 1% pollen proportion)
-- Sparse taxa removed (< 2 sites or < 10 samples)
-- Proportions binarised → presence/absence
-
-:::
-
-::::
-
-## Basic Pipeline — EU project
-
-### What's included?
+<br>
 
 :::: {.columns}
 
 ::: {.column width="50%"}
 
-**3. Abiotic data**
+**1. Data extraction** 
 
-- Interpolated to 500-year time steps
-- Collinear predictors removed
+- lon −10–40°, lat 35–70°
+- 0–20 kyr BP
+- fossil pollen + 7 CHELSA bioclim vars
 
-**4. Alignment**
+**2. Community data** 
 
-- Samples intersected across community, abiotic, and coordinate data
+- counts → pollen %
+- 500-yr steps
+- genus-level; rare/sparse taxa removed; binarised
+
+**3. Abiotic data** 
+
+- 500-yr steps
+- collinear predictors removed
+
 :::
 
 ::: {.column width="50%"}
-**5. Model preparation**
 
-- Abiotic predictors z-score scaled
-- Coordinates projected to metric (ETRS89-LAEA, EPSG:3035)
-- 5 spatial Moran Eigenvector Maps (MEV) computed
+**4. Alignment** 
 
-:::
+- community × abiotic × coordinates intersected
 
-::::
+**5. Model preparation** 
 
+- z-score scaling
+- 5 MEV spatial maps
 
-## Basic Pipeline — EU project
+**6. sjSDM fitting** 
 
-### What's included?
+- env formula (age * bioclim)
+- spatial (MEV)
 
-:::: {.columns}
+**7. Evaluation & ANOVA** 
 
-::: {.column width="50%"}
-**6. sjSDM fitting**
+- 5-fold CV (AUC)
+- variance partitioning: env / space / biotic
 
-- Linear environmental formula (age : bioclim)
-- Linear spatial (MEV) formula
-- GPU-accelerated Bayesian fitting via Python / PyTorch
-:::
-
-::: {.column width="50%"}
-**7. Evaluation & ANOVA**
-
-- 5-fold cross-validation (AUC)
-- Variance partitioning: environment vs. space vs. biotic
 :::
 
 ::::
@@ -630,7 +746,7 @@ plot_target_graph_basic <-
       paste0(vec_pipelines, ".R")
     ),
     store = set_store,
-    targets_only = TRUE,
+    targets_only = FALSE,
     outdated = FALSE,
     physics = TRUE,
     level_separation = 150
