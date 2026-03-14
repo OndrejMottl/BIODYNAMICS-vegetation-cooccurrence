@@ -390,23 +390,6 @@ Images created by OpenAI GPT-5
 
 :::
 
-## Scales (3 axes)
-
-<br>
-
-::: {.incremental}
-
-- **Spatial**
-  - _"Biotic interactions from individual sites (local) to whole continents (global)"_
-- **Temporal**
-  - _"currently observed changes in biodiversity began millennia ago"_
-- **Taxonomic**
-  - individual taxa
-  - phylogenetically cofound groups
-  - groups occupying different ecological niches (i.e. Functional Types)
-
-:::
-
 
 ## Research questions
 
@@ -414,26 +397,7 @@ Images created by OpenAI GPT-5
 
 1. Is there a [**scale dependence**]{.text-background-blue .text-bold} in the  amount of unexplained variation (potentially due to biotic interactions) structuring vegetation?
 
-::: {.incremental}
-
- - Expectation 1 - Strength of biotic interactions decrease with increasing [spatial scale]{.text-background-green .text-bold}
- - Expectation 2 - The importance of biotic interaction increase in the periods of large changes (climatic - LGM, anthropogenic - last centuries)
- - Expectation 3 - low taxonomic resolution show stronger biotic interactions at larger spatial scales (interaction between spatial and taxonomic scale)
-
-:::
-
-## Research questions
-
-<br>
-
 2. Can we improve the [**predictive capacity**]{.text-background-pink .text-bold} of biodiversity models by including biotic interactions and historical data?
-
-::: {.incremental}
-
- - Expectation 4 - Including [historical data]{.text-background-brown .text-bold} will improve model predictive capacity, especially at large scales
- - Expectation 5 - Including biotic interactions will improve model predictive capacity, especially at local scales
-
-:::
 
 # VegVault
 
@@ -534,8 +498,6 @@ include_local_figure("VegVault/assembly_viz_04.png")
 # Methodological framework
 
 <br>
-
-To address the objectives and research questions, I am developing a large code base with [modular]{.text-background-green .text-bold} and [reusable]{.text-background-blue .text-bold} **data-analysis pipelines** 
 
 ```{r}
 #| label: sjSDM
