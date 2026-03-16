@@ -1,12 +1,6 @@
 default:
   target_store: default
   seed: 1234
-  graphical:
-    text_size: 10
-    line_size: 0.1
-    image_width: 16
-    image_height: 12
-    image_units: "cm"
   data_processing:
     time_step: 500
     number_of_taxa: !expr Inf
@@ -15,12 +9,8 @@ default:
     min_n_samples: 1
   model_fitting:
     n_cores: 5
-    n_mev: 5
+    n_mev: 2
     samples: 100
-    thin: 1
-    transient: 50
-    samples_verbose: 50
-    cross_validation_folds: 2
     error_family: "binomial"
     spatial_crs: 3035
     spatial_mode: "spatial"
@@ -36,9 +26,9 @@ project_cz:
     sel_abiotic_var_name: !expr c("bio1", "bio12")
   data_processing:
     taxonomic_resolution: "genus"
-    min_distance_of_gpp_knots: 50
     min_n_samples: 5
   model_fitting:
+    n_mev: 5
     n_cores: 24
     samples: 1000
     spatial_mode: "spatiotemporal"
@@ -52,12 +42,43 @@ project_europe:
     sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
   data_processing:
     taxonomic_resolution: "genus"
-    min_distance_of_gpp_knots: 100
     min_n_samples: 10
   model_fitting:
     n_cores: 12
     samples: 2500
-    thin: 10
-    transient: 100
-    samples_verbose: 100
-    cross_validation_folds: 5
+project_spatial_continental:
+  target_store: Data/targets/spatial_continental
+  vegvault_data:
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+  model_fitting:
+    n_cores: 12
+    samples: 2500
+project_spatial_regional:
+  target_store: Data/targets/spatial_regional
+  vegvault_data:
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+  model_fitting:
+    n_cores: 12
+    samples: 1000
+project_spatial_local:
+  target_store: Data/targets/spatial_local
+  vegvault_data:
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 5
+  model_fitting:
+    n_cores: 12
+    samples: 500
