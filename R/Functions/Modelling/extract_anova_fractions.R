@@ -42,7 +42,7 @@
 #' @export
 extract_anova_fractions <- function(
     anova_object,
-    vec_anova_fractions,
+    vec_anova_fractions = c("F_A", "F_B", "F_S", "F_AB", "F_AS", "F_BS", "F_ABS"),
     clamp_negative = TRUE) {
   assertthat::assert_that(
     base::is.list(anova_object),
