@@ -158,7 +158,7 @@ list(
     description = "Plot of anova variance components by age",
     name = "plot_anova_components_by_age",
     command = plot_anova_components_by_age(
-      data_anova_components = data_anova_components_by_age,
+      data_anova_components = data_anova_components_by_age_percentage,
       title = "Anova variance components by age",
       subtitle = paste(
         "project:", Sys.getenv("R_CONFIG_ACTIVE")
