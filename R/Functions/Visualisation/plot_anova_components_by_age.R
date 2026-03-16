@@ -32,12 +32,12 @@ plot_anova_components_by_age <- function(
 
   assertthat::assert_that(
     base::all(
-      c("age", "component", "R2_Nagelkerke") %in%
+      c("age", "component", "R2_Nagelkerke_percentage") %in%
         base::names(data_anova_components)
     ),
     msg = paste0(
       "'data_anova_components' must have columns",
-      " 'age', 'component', and 'R2_Nagelkerke'."
+      " 'age', 'component', and 'R2_Nagelkerke_percentage'."
     )
   )
 
@@ -46,7 +46,7 @@ plot_anova_components_by_age <- function(
     ggplot2::ggplot(
       mapping = ggplot2::aes(
         x = age,
-        y = R2_Nagelkerke,
+        y = R2_Nagelkerke_percentage,
         colour = component,
         group = component
       )
@@ -63,7 +63,8 @@ plot_anova_components_by_age <- function(
       title = title,
       subtitle = subtitle,
       x = "Age (cal yr BP)",
-      y = expression(R^2 ~ "(Nagelkerke)"),
+      # this should read as "Percentage of variance explained (Nagelkerke R²)"
+      y = expression("Percentage of variance explained" ~ "(" ~ R^2 ~ "Nagelkerke)"),
       colour = "Component"
     )
 

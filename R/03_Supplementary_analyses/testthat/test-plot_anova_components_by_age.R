@@ -5,7 +5,7 @@ data_test_anova <-
       "Abiotic", "Abiotic", "Abiotic",
       "Spatial", "Spatial", "Spatial"
     ),
-    R2_Nagelkerke = c(0.1, 0.15, 0.2, 0.3, 0.25, 0.2)
+    R2_Nagelkerke_percentage = c(0.1, 0.15, 0.2, 0.3, 0.25, 0.2)
   )
 
 testthat::test_that(
@@ -40,7 +40,7 @@ testthat::test_that(
     data_no_age <-
       tibble::tibble(
         component = c("Abiotic"),
-        R2_Nagelkerke = c(0.1)
+        R2_Nagelkerke_percentage = c(0.1)
       )
 
     testthat::expect_error(
@@ -52,7 +52,7 @@ testthat::test_that(
     data_no_component <-
       tibble::tibble(
         age = c(0L),
-        R2_Nagelkerke = c(0.1)
+        R2_Nagelkerke_percentage = c(0.1)
       )
 
     testthat::expect_error(
@@ -146,7 +146,7 @@ testthat::test_that(
 
     testthat::expect_equal(
       rlang::quo_name(purrr::pluck(mapping_obj, "y")),
-      "R2_Nagelkerke"
+      "R2_Nagelkerke_percentage"
     )
 
     testthat::expect_equal(
