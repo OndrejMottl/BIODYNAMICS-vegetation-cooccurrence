@@ -39,12 +39,19 @@ evaluate_jsdm <- function(mod_jsdm = NULL) {
     )
 
   # 1. R-squared metrics
+  # Note: sjSDM::Rsquared() prints to console regardless of verbose = FALSE;
+  #   capture.output() suppresses this unwanted output.
+  invisible(
+    utils::capture.output(
+      vec_r2 <- c(
+        sjSDM::Rsquared(mod_jsdm, method = "McFadden", verbose = FALSE),
+        sjSDM::Rsquared(mod_jsdm, method = "Nagelkerke", verbose = FALSE)
+      )
+    )
+  )
+
   list_eval$model <-
-    c(
-      sjSDM::Rsquared(mod_jsdm, method = "McFadden", verbose = FALSE),
-      sjSDM::Rsquared(mod_jsdm, method = "Nagelkerke", verbose = FALSE)
-    ) |>
-    rlang::set_names(c("R2-McFadden", "R2-Nagelkerke"))
+    rlang::set_names(vec_r2, c("R2-McFadden", "R2-Nagelkerke"))
 
   # 2. Species-level metrics
   if (
