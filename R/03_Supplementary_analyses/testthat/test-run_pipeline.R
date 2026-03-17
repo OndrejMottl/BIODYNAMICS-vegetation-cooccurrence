@@ -1,5 +1,9 @@
-testthat::test_that("run_pipeline errors when default config is active", {
-  # Force default config active
+testthat::test_that("run_pipeline() errors when default config is active", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
   old_config <-
     Sys.getenv("R_CONFIG_ACTIVE")
 
@@ -10,17 +14,20 @@ testthat::test_that("run_pipeline errors when default config is active", {
     add = TRUE
   )
 
-  # When R_CONFIG_ACTIVE is empty, config::is_active("default") is TRUE
   testthat::expect_error(
     run_pipeline(
-      sel_script = "R/02_Main_analyses/pipeline_basic.R",
+      sel_script = tmp_script,
       check_default_config = TRUE
     )
   )
 })
 
-testthat::test_that("run_pipeline check_default_config FALSE bypasses guard", {
-  # Force default config active
+testthat::test_that("run_pipeline() bypasses config guard when disabled", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
   old_config <-
     Sys.getenv("R_CONFIG_ACTIVE")
 
@@ -31,15 +38,20 @@ testthat::test_that("run_pipeline check_default_config FALSE bypasses guard", {
     add = TRUE
   )
 
-  # With check_default_config = FALSE the default-config guard is skipped.
-  # The function may succeed or fail later for other reasons, but it must NOT
-  #   throw the default-config error message specifically.
+  # Mock targets::tar_make to prevent actual pipeline execution
+  #   and avoid creating files in the project root under the default store
+  testthat::local_mocked_bindings(
+    tar_make = function(...) invisible(NULL),
+    .package = "targets"
+  )
+
   default_config_guard_fired <- FALSE
 
   tryCatch(
     run_pipeline(
-      sel_script = "R/02_Main_analyses/pipeline_basic.R",
-      check_default_config = FALSE
+      sel_script = tmp_script,
+      check_default_config = FALSE,
+      plot_progress = FALSE
     ),
     error = function(e) {
       if (
@@ -56,10 +68,12 @@ testthat::test_that("run_pipeline check_default_config FALSE bypasses guard", {
   testthat::expect_false(default_config_guard_fired)
 })
 
-testthat::test_that("run_pipeline accepts store_suffix argument", {
-  # Confirm function signature includes store_suffix without error.
-  # No R_CONFIG_ACTIVE set so the default-config guard fires,
-  #   but we verify the argument is accepted before that check.
+testthat::test_that("run_pipeline() accepts store_suffix argument", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
   old_config <-
     Sys.getenv("R_CONFIG_ACTIVE")
 
@@ -73,7 +87,7 @@ testthat::test_that("run_pipeline accepts store_suffix argument", {
   err <-
     tryCatch(
       run_pipeline(
-        sel_script = "R/02_Main_analyses/pipeline_basic.R",
+        sel_script = tmp_script,
         store_suffix = "eu_r01",
         check_default_config = TRUE
       ),
@@ -88,3 +102,116 @@ testthat::test_that("run_pipeline accepts store_suffix argument", {
     )
   )
 })
+
+testthat::test_that("run_pipeline() validates sel_script is a single string", {
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = 123
+    )
+  )
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = NULL
+    )
+  )
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = c("path_a.R", "path_b.R")
+    )
+  )
+})
+
+testthat::test_that("run_pipeline() errors when script file does not exist", {
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = "non_existent_pipeline.R"
+    )
+  )
+})
+
+testthat::test_that("run_pipeline() validates store_suffix argument", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      store_suffix = c("a", "b")
+    )
+  )
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      store_suffix = 123
+    )
+  )
+})
+
+testthat::test_that("run_pipeline() validates level_separation argument", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      level_separation = -1
+    )
+  )
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      level_separation = "fast"
+    )
+  )
+})
+
+testthat::test_that("run_pipeline() validates plot_progress is logical", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      plot_progress = "yes"
+    )
+  )
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      plot_progress = 1L
+    )
+  )
+})
+
+testthat::test_that("run_pipeline() validates check_default_config is logical", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      check_default_config = "yes"
+    )
+  )
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      check_default_config = 1L
+    )
+  )
+})
+
