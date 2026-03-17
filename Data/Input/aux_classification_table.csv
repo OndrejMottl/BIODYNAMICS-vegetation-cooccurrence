@@ -1,20 +1,35 @@
 ﻿sel_name,kingdom,phylum,class,order,family,genus,species
+Amorpha Fruticosa,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Amorpha,Amorpha Fruticosa
+Amygdaloideae,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,NA,NA
 Cedrus Atlantica,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Cedrus,Cedrus Atlantica
 Cedrus Broken),Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Cedrus,NA
 Cedrus Crumpled),Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Cedrus,NA
 Cedrus Degraded),Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Cedrus,NA
 Cedrus Type,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Cedrus,NA
+Cf Amelanchier,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Amelanchier,NA
+Cf Arceuthobium,Plantae,Tracheophyta,Magnoliopsida,Santalales,Santalaceae,Arceuthobium,NA
 Cf Carpinus,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Carpinus,NA
+Cf Carya,Plantae,Tracheophyta,Magnoliopsida,Fagales,Juglandaceae,Carya,NA
+Cf Castanea,Plantae,Tracheophyta,Magnoliopsida,Fagales,Fagaceae,Castanea,NA
+Cf Castanopsis,Plantae,Tracheophyta,Magnoliopsida,Fagales,Fagaceae,Castanopsis,NA
+Cf Ceanothus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rhamnaceae,Ceanothus,NA
+Cf Ceanothus Velutinus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rhamnaceae,Ceanothus,Ceanothus Velutinus
+Cf Celtis,Plantae,Tracheophyta,Magnoliopsida,Rosales,Cannabaceae,Celtis,NA
 Cf Cytisus,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Cytisus,NA
 Cf Ephedra Fragilis,Plantae,Tracheophyta,Gnetopsida,Ephedrales,Ephedraceae,Ephedra,Ephedra Fragilis
+Cf Fraxinus,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Oleaceae,Fraxinus,NA
 Cf Ilex,Plantae,Tracheophyta,Magnoliopsida,Aquifoliales,Aquifoliaceae,Ilex,NA
+Cf Juglans,Plantae,Tracheophyta,Magnoliopsida,Fagales,Juglandaceae,Juglans,NA
 Cf Juniperus,Plantae,Tracheophyta,Pinopsida,Cupressales,Cupressaceae,Juniperus,NA
 Cf Larix-Type,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Larix,NA
 Cf Lonicera,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Caprifoliaceae,Lonicera,NA
 Cf Myrica,Plantae,Tracheophyta,Magnoliopsida,Fagales,Myricaceae,Myrica,NA
 Cf Myrtus,Plantae,Tracheophyta,Magnoliopsida,Myrtales,Myrtaceae,Myrtus,NA
 Cf Olea,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Oleaceae,Olea,NA
+Cf Ostrya/Carpinus,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,NA,NA
+Cf Parthenocissus,Plantae,Tracheophyta,Magnoliopsida,Vitales,Vitaceae,Parthenocissus,NA
 Cf Platanus,Plantae,Tracheophyta,Magnoliopsida,Proteales,Platanaceae,Platanus,NA
+Cf Populus,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Salicaceae,Populus,NA
 Cf Populus Tremula,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Salicaceae,Populus,Populus Tremula
 Cf Prunus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Prunus,NA
 Cf Pterocarya,Plantae,Tracheophyta,Magnoliopsida,Fagales,Juglandaceae,Pterocarya,NA
@@ -22,20 +37,27 @@ Cf Pterocarya Fraxinifolia,Plantae,Tracheophyta,Magnoliopsida,Fagales,Juglandace
 Cf Quercus,Plantae,Tracheophyta,Magnoliopsida,Fagales,Fagaceae,Quercus,NA
 Cf Rhamnaceae,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rhamnaceae,NA,NA
 Cf Rhamnus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rhamnaceae,Rhamnus,NA
+Cf Rhus,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Anacardiaceae,Rhus,NA
 Cf Rubus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Rubus,NA
+Cf Rubus Arcticus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Rubus,Rubus Arcticus
 Cf Rubus Chamaemorus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Rubus,Rubus Chamaemorus
 Cf Salix Herbacea,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Salicaceae,Salix,Salix Herbacea
 Cf Salix Polaris,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Salicaceae,Salix,Salix Polaris
 Cf Sambucus,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Adoxaceae,Sambucus,NA
 Cf Sambucus Nigra,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Adoxaceae,Sambucus,Sambucus Nigra
 Cf Sambucus Racemosa,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Adoxaceae,Sambucus,Sambucus Racemosa
+Cf Sarcobatus Vermiculatus,Plantae,Tracheophyta,Magnoliopsida,Caryophyllales,Sarcobataceae,Sarcobatus,Sarcobatus Vermiculatus
+Cf Shepherdia,Plantae,Tracheophyta,Magnoliopsida,Rosales,Elaeagnaceae,Shepherdia,NA
 Cf Sorbus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Sorbus,NA
 Cf Sorbus Aucuparia,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Sorbus,Sorbus Aucuparia
 Cf Taxus,Plantae,Tracheophyta,Pinopsida,Cupressales,Taxaceae,Taxus,NA
 Cf Viburnum,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Adoxaceae,Viburnum,NA
 Cf Viburnum Opulus,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Adoxaceae,Viburnum,Viburnum Opulus
 Cf Viscum,Plantae,Tracheophyta,Magnoliopsida,Santalales,Santalaceae,Viscum,NA
+Cf Vitis,Plantae,Tracheophyta,Magnoliopsida,Vitales,Vitaceae,Vitis,NA
 Cf Zelkova,Plantae,Tracheophyta,Magnoliopsida,Rosales,Ulmaceae,Zelkova,NA
+Comptonia Peregrina,Plantae,Tracheophyta,Magnoliopsida,Fagales,Myricaceae,Comptonia,Comptonia Peregrina
+Coniferae,Plantae,Tracheophyta,Pinopsida,NA,NA,NA,NA
 Coniferae Saccate),Plantae,Tracheophyta,Pinopsida,NA,NA,NA,NA
 Coniferae Type,Plantae,Tracheophyta,Pinopsida,NA,NA,NA,NA
 Coniferae Undiff,Plantae,Tracheophyta,Pinopsida,NA,NA,NA,NA
@@ -47,9 +69,12 @@ Hedera Helix,Plantae,Tracheophyta,Magnoliopsida,Apiales,Araliaceae,Hedera,Hedera
 Hedera Helix-Type,Plantae,Tracheophyta,Magnoliopsida,Apiales,Araliaceae,Hedera,Hedera Helix
 Hedera Type,Plantae,Tracheophyta,Magnoliopsida,Apiales,Araliaceae,Hedera,NA
 Hippocastanoideae,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Sapindaceae,NA,NA
+Malinae,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,NA,NA
+Mimosoid Clade,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,NA,NA
 Normapolles,Plantae,Tracheophyta,Magnoliopsida,Fagales,Juglandaceae,NA,NA
 Spermatophyta Undiff(Deciduous Trees),Plantae,Tracheophyta,NA,NA,NA,NA,NA
 Spermatophyta Undiff(Shrubs),Plantae,Tracheophyta,NA,NA,NA,NA,NA
 Spermatophyta Undiff(Trees),Plantae,Tracheophyta,NA,NA,NA,NA,NA
 Spermatophyta Undiff(Trees/Shrubs),Plantae,Tracheophyta,NA,NA,NA,NA,NA
 Urticalean Rosids,Plantae,Tracheophyta,Magnoliopsida,Rosales,NA,NA,NA
+Urticalean Rosids Undiff,Plantae,Tracheophyta,Magnoliopsida,Rosales,NA,NA,NA
