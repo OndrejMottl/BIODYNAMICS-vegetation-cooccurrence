@@ -194,6 +194,89 @@ Sys.setenv(R_CONFIG_ACTIVE = "default")
 
 This allows running the same pipeline with different parameters by simply switching the active configuration.
 
+### Git Worktree Workflow
+
+Git worktrees allow multiple branches to be checked out simultaneously in
+separate directories, sharing the same `.git` database. This is the recommended
+approach for developing new features or running new pipelines **while a
+long-running analysis (e.g. a continental-scale model) is active in the main
+worktree**.
+
+`Data/targets/` and `Data/Temp/` are fully `.gitignore`'d, so each worktree
+has its own isolated pipeline outputs and temporary files — the running session
+is never disturbed.
+
+#### Creating a Worktree
+
+```powershell
+# 1. Create a new branch and check it out in a linked worktree directory
+#    Use -b to create the branch; omitting it will cause "invalid reference" error
+git worktree add -b <branch_name> ..\BIODYNAMICS_<feature_name>
+
+# 2. Open it in a new VS Code window
+code -n ..\BIODYNAMICS_<feature_name>
+```
+
+```powershell
+# 3. Verify worktrees
+git worktree list
+```
+
+Step 3a — Symlink VegVault to avoid copying the large file.
+`New-Item` (PowerShell) requires elevation AND must be run in a PowerShell
+prompt, not cmd. The simplest approach is an elevated cmd prompt using `mklink`:
+
+Open **cmd as Administrator**, then run:
+```cmd
+mklink "D:\GITHUB\BIODYNAMICS_<feature_name>\Data\Input\VegVault.sqlite" "D:\GITHUB\BIODYNAMICS_vegetation_cooccurrence\Data\Input\VegVault.sqlite"
+```
+
+Then in an R session inside the new worktree:
+```r
+# 4. Restore renv (fast — packages already in the global cache)
+renv::restore()
+```
+
+#### Completing Work and Merging Back
+
+After developing code and running the pipeline in the linked worktree:
+
+```powershell
+# 5. Copy only the specific pipeline's targets store to the main worktree
+#    BEFORE merging (do this while the linked worktree directory still exists).
+#    Copy only the store(s) that were newly run or updated in this worktree —
+#    do NOT copy the entire Data/targets/ folder, as other pipelines may be
+#    running or up to date in the main worktree already.
+Copy-Item -Recurse `
+  "..\BIODYNAMICS_<feature_name>\Data\targets\<store_name>" `
+  ".\Data\targets\<store_name>"
+```
+
+In the main worktree's R session, `targets::tar_make()` will then find the
+copied store, verify all content hashes, and report "All targets are up to
+date" without recomputing.
+
+```powershell
+# 6. Merge the branch (git — code only; targets store was already copied)
+git merge <branch_name>
+
+# 7. Remove the linked worktree directory
+git worktree remove ..\BIODYNAMICS_<feature_name>
+
+# 8. Optionally delete the branch
+git branch -d <branch_name>
+```
+
+#### Key Rules
+
+- **Two worktrees cannot be on the same branch** — git enforces this.
+- **Copy targets store before removing** the linked worktree (step 5 before
+  step 7).
+- **`renv.lock` or `config.yml` changes** committed in one worktree require
+  `git pull` + `renv::restore()` in the other worktree.
+- `Data/Input/VegVault.sqlite` is git-ignored and must be symlinked manually
+  in each new worktree.
+
 ### Script Organization
 
 Each script should be self-contained:
