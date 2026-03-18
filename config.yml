@@ -32,8 +32,8 @@ project_cz:
     n_cores: 24
     samples: 1000
     spatial_mode: "spatiotemporal"
-project_europe:
-  target_store: Data/targets/project_europe
+project_temporal_europe:
+  target_store: Data/targets/project_temporal_europe
   vegvault_data:
     x_lim: !expr c(-10, 40)
     y_lim: !expr c(35, 70)

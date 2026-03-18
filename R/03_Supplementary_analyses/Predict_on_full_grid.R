@@ -30,7 +30,7 @@ source(
 )
 
 # ---- USER SETTINGS (edit here) -------------------------
-sel_project <- "project_europe" # or "project_cz"
+sel_project <- "project_temporal_europe" # or "project_cz"
 vec_pipelines <- "pipeline_basic"
 sel_grid_resolution <- 0.5 # degrees (finer = slower)
 verbose <- FALSE
