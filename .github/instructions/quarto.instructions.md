@@ -207,7 +207,7 @@ The active configuration (project) is controlled via:
 ```r
 Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
 # or
-Sys.setenv(R_CONFIG_ACTIVE = "project_europe")
+Sys.setenv(R_CONFIG_ACTIVE = "project_temporal_europe")
 ```
 
 This determines which `target_store` path is returned by

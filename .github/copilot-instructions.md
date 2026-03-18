@@ -138,7 +138,7 @@ data_community <- targets::tar_read(data_community)
 
 Target outputs are stored in project-specific directories defined in `config.yml`:
 - Default: `_targets/` (when using default configuration)
-- Project-specific: `Data/targets/project_cz/`, `Data/targets/project_europe/`, etc.
+- Project-specific: `Data/targets/project_cz/`, `Data/targets/project_temporal_europe/`, etc.
 
 ### Configuration Management with {config}
 
@@ -155,7 +155,7 @@ The `config.yml` file contains:
    - `data_processing`: General processing parameters
    - `model_fitting`: Model parameters (cores, samples, etc.)
 
-2. **Project-specific configurations** (e.g., `project_cz`, `project_europe`):
+2. **Project-specific configurations** (e.g., `project_cz`, `project_temporal_europe`):
    - Override default settings
    - Define project-specific parameters (geographic limits, dataset types, etc.)
    - Each has its own target storage directory
@@ -186,7 +186,7 @@ Set the active configuration using the `R_CONFIG_ACTIVE` environment variable:
 Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
 
 # Set configuration for Europe project  
-Sys.setenv(R_CONFIG_ACTIVE = "project_europe")
+Sys.setenv(R_CONFIG_ACTIVE = "project_temporal_europe")
 
 # Use default configuration
 Sys.setenv(R_CONFIG_ACTIVE = "default")
@@ -449,7 +449,7 @@ the final mandatory step of every function creation or edit.
 4. **Temporary files** → `Data/Temp/` (git-ignored)
 5. **Target stores** → `Data/targets/` (project-specific pipeline outputs)
    - `Data/targets/project_cz/`
-   - `Data/targets/project_europe/`
+   - `Data/targets/project_temporal_europe/`
    - Each configuration stores its targets in a separate directory
 
 ### Pipeline Organization
