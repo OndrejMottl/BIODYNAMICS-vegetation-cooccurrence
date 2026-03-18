@@ -91,7 +91,8 @@ c(
   "pipe_segment_fit_data_prep.R",
   "pipe_segment_model_prep.R",
   "pipe_segment_model_simple.R",
-  "pipe_segment_model_anova.R"
+  "pipe_segment_model_anova.R",
+  "pipe_segment_community_network.R"
 ) %>%
   rlang::set_names() %>%
   purrr::walk(
@@ -106,7 +107,7 @@ c(
 
 # Enumerate all age values to run the model on.
 # Derived from the active configuration so it adjusts automatically
-#   when switching between projects (project_cz, project_europe, …).
+#   when switching between projects (project_cz, project_temporal_europe, …).
 data_to_map_age <-
   tibble::tibble(
     age = seq(
@@ -126,7 +127,8 @@ pipe_segment_per_slice <-
     pipe_segment_fit_data_prep,
     pipe_segment_model_prep,
     pipe_segment_model_simple,
-    pipe_segment_model_anova
+    pipe_segment_model_anova,
+    pipe_segment_community_network
   )
 
 pipe_models_by_age <-
@@ -139,8 +141,14 @@ pipe_models_by_age <-
 # Source result_summary_age only after pipe_models_by_age exists,
 #   because tarchetypes::tar_combine() inside that segment
 #   indexes pipe_models_by_age[["model_anova"]] at source time.
+# pipe_segment_network_summary_age similarly indexes
+#   pipe_models_by_age[["data_network_metrics"]] at source time.
 source(
   file = file.path(path_pipe_parts, "pipe_segment_result_summary_age.R")
+)
+
+source(
+  file = file.path(path_pipe_parts, "pipe_segment_network_summary_age.R")
 )
 
 #--------------------------------------------------#
@@ -154,6 +162,7 @@ list(
   pipe_segment_abiotic_data,
   pipe_models_by_age,
   pipe_segment_result_summary_age,
+  pipe_segment_network_summary_age,
   targets::tar_target(
     description = "Plot of anova variance components by age",
     name = "plot_anova_components_by_age",
