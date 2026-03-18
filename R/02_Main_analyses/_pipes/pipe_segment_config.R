@@ -43,17 +43,33 @@ pipe_segment_config <-
     targets::tar_target(
       description = "Configuration for VegVault data extraction - xlim",
       name = "config.x_lim",
-      command = get_active_config(
-        value = c("vegvault_data", "x_lim")
-      ),
+      command = {
+        # R_SPATIAL_ID set → spatial scale analysis (CSV catalogue)
+        # R_SPATIAL_ID unset → named project (YAML config)
+        spatial_id <- Sys.getenv("R_SPATIAL_ID")
+        if (nchar(spatial_id) > 0) {
+          get_spatial_window(scale_id = spatial_id)$x_lim
+        } else {
+          get_active_config(
+            value = c("vegvault_data", "x_lim")
+          )
+        }
+      },
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Configuration for VegVault data extraction - ylim",
       name = "config.y_lim",
-      command = get_active_config(
-        value = c("vegvault_data", "y_lim")
-      ),
+      command = {
+        spatial_id <- Sys.getenv("R_SPATIAL_ID")
+        if (nchar(spatial_id) > 0) {
+          get_spatial_window(scale_id = spatial_id)$y_lim
+        } else {
+          get_active_config(
+            value = c("vegvault_data", "y_lim")
+          )
+        }
+      },
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
@@ -117,14 +133,6 @@ pipe_segment_config <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = "Configuration for data processing - minimum distance of GPP knots",
-      name = "config.min_distance_of_gpp_knots",
-      command = get_active_config(
-        value = c("data_processing", "min_distance_of_gpp_knots")
-      ),
-      cue = targets::tar_cue(mode = "always")
-    ),
-    targets::tar_target(
       description = "Configuration for data processing - taxonomic resolution",
       name = "config.taxonomic_resolution",
       command = get_active_config(
@@ -156,7 +164,6 @@ pipe_segment_config <-
         number_of_taxa = config.number_of_taxa,
         minimal_proportion_of_pollen = config.minimal_proportion_of_pollen,
         taxonomic_resolution = config.taxonomic_resolution,
-        min_distance_of_gpp_knots = config.min_distance_of_gpp_knots,
         min_n_cores = config.min_n_cores,
         min_n_samples = config.min_n_samples
       )
@@ -175,38 +182,6 @@ pipe_segment_config <-
       name = "config.n_samples",
       command = get_active_config(
         value = c("model_fitting", "samples")
-      ),
-      cue = targets::tar_cue(mode = "always")
-    ),
-    targets::tar_target(
-      description = "Configuration for model fitting - thin",
-      name = "config.n_thin",
-      command = get_active_config(
-        value = c("model_fitting", "thin")
-      ),
-      cue = targets::tar_cue(mode = "always")
-    ),
-    targets::tar_target(
-      description = "Configuration for model fitting - transient",
-      name = "config.n_transient",
-      command = get_active_config(
-        value = c("model_fitting", "transient")
-      ),
-      cue = targets::tar_cue(mode = "always")
-    ),
-    targets::tar_target(
-      description = "Configuration for model fitting - verbose",
-      name = "config.samples_verbose",
-      command = get_active_config(
-        value = c("model_fitting", "samples_verbose")
-      ),
-      cue = targets::tar_cue(mode = "always")
-    ),
-    targets::tar_target(
-      description = "Configuration for model fitting - cross-validation",
-      name = "config.cross_validation_folds",
-      command = get_active_config(
-        value = c("model_fitting", "cross_validation_folds")
       ),
       cue = targets::tar_cue(mode = "always")
     ),
@@ -280,10 +255,6 @@ pipe_segment_config <-
       command = list(
         n_cores = config.n_cores,
         samples = config.n_samples,
-        thin = config.n_thin,
-        transient = config.n_transient,
-        samples_verbose = config.samples_verbose,
-        cross_validation_folds = config.cross_validation_folds,
         n_mev = config.n_mev,
         error_family = config.error_family,
         spatial_crs = config.spatial_crs,

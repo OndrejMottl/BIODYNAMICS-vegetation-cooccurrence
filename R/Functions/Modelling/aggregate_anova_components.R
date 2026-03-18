@@ -21,18 +21,11 @@
 #' @details
 #' The age is parsed from the list element name by extracting
 #' the trailing digit sequence (e.g. "timeslice_500" -> 500).
-#' Component labels map internal fraction codes to human-readable
-#' names:
-#' \itemize{
-#'   \item F_A   -> "Abiotic"
-#'   \item F_B   -> "Associations"
-#'   \item F_S   -> "Spatial"
-#'   \item F_AB  -> "Abiotic&Associations"
-#'   \item F_AS  -> "Abiotic&Spatial"
-#'   \item F_BS  -> "Associations&Spatial"
-#'   \item F_ABS -> "Abiotic&Associations&Spatial"
-#' }
-#' @seealso [get_anova()]
+#' Fraction extraction, code-to-label translation, and
+#' negative R² clamping are delegated to
+#' [extract_anova_fractions()] (called with
+#' \code{clamp_negative = TRUE}).
+#' @seealso [get_anova()], [extract_anova_fractions()]
 #' @export
 aggregate_anova_components <- function(list_model_anova) {
   assertthat::assert_that(
@@ -42,19 +35,6 @@ aggregate_anova_components <- function(list_model_anova) {
 
   vec_anova_fractions <-
     c("F_A", "F_B", "F_S", "F_AB", "F_AS", "F_BS", "F_ABS")
-
-  # Map internal fraction codes to human-readable labels
-  #   following the convention used in variance partitioning plots
-  vec_component_labels <-
-    c(
-      "F_A"   = "Abiotic",
-      "F_B"   = "Associations",
-      "F_S"   = "Spatial",
-      "F_AB"  = "Abiotic&Associations",
-      "F_AS"  = "Abiotic&Spatial",
-      "F_BS"  = "Associations&Spatial",
-      "F_ABS" = "Abiotic&Associations&Spatial"
-    )
 
   res <-
     list_model_anova |>
@@ -68,21 +48,13 @@ aggregate_anova_components <- function(list_model_anova) {
           stringr::str_extract("\\d+$") |>
           as.numeric()
 
-        .x |>
-          purrr::chuck("results") |>
-          dplyr::filter(
-            models %in% vec_anova_fractions
-          ) |>
-          dplyr::select(
-            component = "models",
-            R2_Nagelkerke = "R2 Nagelkerke"
-          ) |>
+        extract_anova_fractions(
+          anova_object = .x,
+          vec_anova_fractions = vec_anova_fractions,
+          clamp_negative = TRUE
+        ) |>
           dplyr::mutate(
-            age = age_val,
-            # Clamp negative R² to 0
-            R2_Nagelkerke = pmax(R2_Nagelkerke, 0),
-            # Replace internal codes with human-readable labels
-            component = vec_component_labels[component]
+            age = age_val
           )
       }
     ) |>

@@ -1,16 +1,19 @@
 #----------------------------------------------------------#
 #
 #
-#                 Vegetation Co-occurence
+#                 Vegetation Co-occurrence
 #
-#                 Run the specific pipelines
-#
+#              Run pipeline: project_cz
 #
 #                       O. Mottl
-#                         2025
+#                         2026
 #
 #----------------------------------------------------------#
-# Run the specific target pipeline
+# Standalone runner for project_cz.
+# Intended as a quick sanity check that the full pipeline
+#   and all functions are working correctly.
+# R_SPATIAL_ID is intentionally not set; spatial bounds
+#   are read directly from config.yml (project_cz block).
 
 
 #----------------------------------------------------------#
@@ -25,17 +28,18 @@ source(
 
 
 #----------------------------------------------------------#
-# 2. Run the pipelines -----
+# 1. Set active configuration -----
+#----------------------------------------------------------#
+
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+
+#----------------------------------------------------------#
+# 2. Run pipelines -----
 #----------------------------------------------------------#
 
 # Basic pipeline
 run_pipeline(
   sel_script = "R/02_Main_analyses/pipeline_basic.R",
   level_separation = 100
-)
-
-# Pipeline with time slices
-run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_time.R",
-  level_separation = 300
 )

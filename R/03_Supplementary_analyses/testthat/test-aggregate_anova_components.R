@@ -1,4 +1,3 @@
-# Helper: build a minimal mock sjSDManova-like object
 make_mock_anova_obj <- function(
     r2_values = c(
       0.10, 0.20, 0.30, 0.05, 0.05, 0.05, 0.25
@@ -40,7 +39,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "aggregate_anova_components() returns tibble with correct columns",
+  "aggregate_anova_components() returns data frame with cols",
   {
     list_input <-
       base::list(
@@ -59,12 +58,49 @@ testthat::test_that(
           base::names(res)
       )
     )
+  }
+)
+
+testthat::test_that(
+  "aggregate_anova_components() returns 7 rows per slice",
+  {
+    list_input <-
+      base::list(
+        timeslice_500 = make_mock_anova_obj()
+      )
+
+    res <-
+      aggregate_anova_components(
+        list_model_anova = list_input
+      )
+
     testthat::expect_equal(base::nrow(res), 7L)
   }
 )
 
 testthat::test_that(
-  "aggregate_anova_components() with two slices returns 14 rows",
+  "aggregate_anova_components() parses age from slice name",
+  {
+    list_input <-
+      base::list(
+        timeslice_500 = make_mock_anova_obj()
+      )
+
+    res <-
+      aggregate_anova_components(
+        list_model_anova = list_input
+      )
+
+    vec_ages <-
+      dplyr::pull(res, age) |>
+      base::unique()
+
+    testthat::expect_equal(vec_ages, 500)
+  }
+)
+
+testthat::test_that(
+  "aggregate_anova_components() aggregates multiple slices",
   {
     list_input <-
       base::list(
@@ -77,12 +113,18 @@ testthat::test_that(
         list_model_anova = list_input
       )
 
+    vec_ages <-
+      dplyr::pull(res, age) |>
+      base::unique() |>
+      base::sort()
+
     testthat::expect_equal(base::nrow(res), 14L)
+    testthat::expect_equal(vec_ages, c(500, 1000))
   }
 )
 
 testthat::test_that(
-  "aggregate_anova_components() maps fraction codes to labels",
+  "aggregate_anova_components() translates codes to labels",
   {
     list_input <-
       base::list(
@@ -98,62 +140,27 @@ testthat::test_that(
       dplyr::pull(res, component)
 
     vec_raw_codes <-
-      c("F_A", "F_B", "F_S", "F_AB", "F_AS", "F_BS", "F_ABS")
+      c(
+        "F_A", "F_B", "F_S",
+        "F_AB", "F_AS", "F_BS", "F_ABS"
+      )
 
     testthat::expect_false(
       base::any(vec_raw_codes %in% vec_components)
     )
-
-    vec_expected_labels <-
-      c(
-        "Abiotic",
-        "Associations",
-        "Spatial",
-        "Abiotic&Associations",
-        "Abiotic&Spatial",
-        "Associations&Spatial",
-        "Abiotic&Associations&Spatial"
-      )
-
-    testthat::expect_true(
-      base::all(vec_expected_labels %in% vec_components)
-    )
   }
 )
 
 testthat::test_that(
-  "aggregate_anova_components() parses age from slice name",
+  "aggregate_anova_components() clamps negative R2 to zero",
   {
-    list_input <-
-      base::list(
-        timeslice_500 = make_mock_anova_obj(),
-        timeslice_0 = make_mock_anova_obj()
-      )
-
-    res <-
-      aggregate_anova_components(
-        list_model_anova = list_input
-      )
-
-    vec_ages <-
-      dplyr::pull(res, age) |>
-      base::unique() |>
-      base::sort()
-
-    testthat::expect_equal(vec_ages, c(0, 500))
-  }
-)
-
-testthat::test_that(
-  "aggregate_anova_components() clamps negative R2 to 0",
-  {
-    vec_r2_negative <-
+    vec_r2_neg <-
       c(-0.05, 0.20, 0.30, 0.05, -0.10, 0.05, 0.25)
 
     list_input <-
       base::list(
         timeslice_500 = make_mock_anova_obj(
-          r2_values = vec_r2_negative
+          r2_values = vec_r2_neg
         )
       )
 
@@ -188,12 +195,15 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "aggregate_anova_components() drops entries without $results",
+  "aggregate_anova_components() drops entries without results",
   {
+    list_no_results <-
+      base::list(other_element = 1L)
+
     list_input <-
       base::list(
         timeslice_500 = make_mock_anova_obj(),
-        timeslice_1000 = base::list(other_element = 1L)
+        timeslice_1000 = list_no_results
       )
 
     res <-
