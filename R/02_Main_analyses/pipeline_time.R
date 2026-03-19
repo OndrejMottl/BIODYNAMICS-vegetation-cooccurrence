@@ -162,16 +162,5 @@ list(
   pipe_segment_abiotic_data,
   pipe_models_by_age,
   pipe_segment_result_summary_age,
-  pipe_segment_network_summary_age,
-  targets::tar_target(
-    description = "Plot of anova variance components by age",
-    name = "plot_anova_components_by_age",
-    command = plot_anova_components_by_age(
-      data_anova_components = data_anova_components_by_age_percentage,
-      title = "Anova variance components by age",
-      subtitle = paste(
-        "project:", Sys.getenv("R_CONFIG_ACTIVE")
-      )
-    )
-  )
+  pipe_segment_network_summary_age
 )
