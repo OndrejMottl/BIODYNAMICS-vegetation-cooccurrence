@@ -65,7 +65,7 @@ pipe_segment_model_simple <-
         sampling = config.model_fitting$samples,
         iter = config.model_fitting$samples,
         seed = 900723,
-        verbose = FALSE,
+        verbose = TRUE,
         compute_se = TRUE
       )
     ),
