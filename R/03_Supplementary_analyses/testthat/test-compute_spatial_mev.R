@@ -142,7 +142,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "compute_spatial_mev() errors when n_mev exceeds positive eigenvectors produced",
+  "compute_spatial_mev() warns and clamps n_mev when > positive EVs",
   {
     data_coords <-
       tibble::tibble(
@@ -155,13 +155,19 @@ testthat::test_that(
       tibble::column_to_rownames("dataset_name")
 
     # well-spread sites produce 2 positive EVs;
-    # requesting 3 must error
-    testthat::expect_error(
-      compute_spatial_mev(
-        data_coords_projected = data_coords,
-        n_mev = 3L
-      ),
-      regexp = "positive Moran eigenvectors produced"
+    # requesting 3 must warn and clamp to 2
+    res <-
+      testthat::expect_warning(
+        compute_spatial_mev(
+          data_coords_projected = data_coords,
+          n_mev = 3L
+        ),
+        regexp = "Lowering n_mev"
+      )
+
+    testthat::expect_equal(
+      base::ncol(res),
+      2L
     )
   }
 )

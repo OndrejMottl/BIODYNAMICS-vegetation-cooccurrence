@@ -13,12 +13,13 @@
 #' represents one unique core/site location.
 #' @param n_mev
 #' A positive integer giving the number of eigenvectors to
-#' return. Must not exceed the number of positive Moran
-#' eigenvectors produced by `sjSDM::generateSpatialEV()`
-#' for the supplied coordinates. The actual count depends
-#' on the spatial structure of the sites and is typically
-#' small (often 2); it is validated after calling the
-#' function. Default is `20L`.
+#' return. The actual count of positive Moran eigenvectors
+#' produced by `sjSDM::generateSpatialEV()` for the
+#' supplied coordinates depends on the spatial structure
+#' of the sites and is typically small (often 2). If
+#' `n_mev` exceeds the available count, it is clamped
+#' down automatically and a `cli::cli_warn()` message is
+#' emitted. Default is `20L`.
 #' @return
 #' A data frame with the same row names as
 #' `data_coords_projected`, and `n_mev` columns named
@@ -40,8 +41,8 @@
 #' with positive eigenvalues; the count often equals 2 for
 #' 2-D coordinate sets. If `n_mev` exceeds the number of
 #' positive eigenvectors actually produced, the function
-#' signals a hard error with a message reporting the
-#' actual count.
+#' automatically lowers `n_mev` to that count, emits a
+#' `cli::cli_warn()` message, and continues normally.
 #' @seealso
 #'   [project_coords_to_metric()],
 #'   [prepare_spatial_predictors_for_fit()],
@@ -102,24 +103,22 @@ compute_spatial_mev <- function(
   mat_mev_all <-
     base::as.matrix(mat_mev_raw)
 
-  # 3. Post-call validation: check enough EVs produced -----
+  # 3. Post-call validation: clamp n_mev if needed -----
 
   n_produced <-
     base::ncol(mat_mev_all)
 
-  assertthat::assert_that(
-    !base::is.null(n_produced) && n_produced >= n_mev,
-    msg = base::paste0(
-      "n_mev (", n_mev, ") exceeds the number of",
-      " positive Moran eigenvectors produced (",
-      base::ifelse(
-        base::is.null(n_produced),
-        0L,
-        n_produced
-      ),
-      ") for the supplied coordinates"
+  if (
+    n_mev > n_produced
+  ) {
+    cli::cli_warn(
+      c(
+        "{n_mev} MEV(s) requested; only {n_produced} positive.",
+        "i" = "Lowering n_mev from {n_mev} to {n_produced}."
+      )
     )
-  )
+    n_mev <- n_produced
+  }
 
   # 4. Select first n_mev columns -----
 
