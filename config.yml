@@ -1,6 +1,12 @@
 default:
   target_store: default
   seed: 1234
+  graphical:
+    width: 2000
+    height: 1600
+    units: "px"
+    dpi: 300
+    bg: "white"
   data_processing:
     time_step: 500
     number_of_taxa: !expr Inf
