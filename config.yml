@@ -36,7 +36,7 @@ project_cz:
   model_fitting:
     n_mev: 3
     n_cores: 24
-    samples: 500
+    samples: 100
     spatial_mode: "spatiotemporal"
 project_temporal_europe:
   target_store: Data/targets/project_temporal_europe
@@ -51,7 +51,7 @@ project_temporal_europe:
     min_n_samples: 10
   model_fitting:
     n_mev: 2
-    n_cores: 12
+    n_cores: 24
     samples: 500
 project_spatial_continental:
   target_store: Data/targets/spatial_continental
@@ -64,7 +64,7 @@ project_spatial_continental:
     min_n_samples: 10
   model_fitting:
     n_mev: 5
-    n_cores: 12
+    n_cores: 24
     samples: 500
 project_spatial_regional:
   target_store: Data/targets/spatial_regional
@@ -77,7 +77,7 @@ project_spatial_regional:
     min_n_samples: 10
   model_fitting:
     n_mev: 4
-    n_cores: 12
+    n_cores: 24
     samples: 500
 project_spatial_local:
   target_store: Data/targets/spatial_local
@@ -89,5 +89,5 @@ project_spatial_local:
     taxonomic_resolution: "genus"
     min_n_samples: 5
   model_fitting:
-    n_cores: 12
+    n_cores: 24
     samples: 500
