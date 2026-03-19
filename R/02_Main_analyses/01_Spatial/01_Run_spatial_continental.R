@@ -54,6 +54,7 @@ vec_scale_ids <-
 purrr::walk(
   .x = vec_scale_ids,
   .f = ~ {
+    message("\n\nRunning pipeline for spatial unit: ", .x, "\n\n")
     Sys.unsetenv("R_SPATIAL_ID")
     Sys.setenv(R_SPATIAL_ID = .x)
     run_pipeline(
