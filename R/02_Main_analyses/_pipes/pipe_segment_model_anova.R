@@ -43,6 +43,6 @@ pipe_segment_model_anova <-
     targets::tar_target(
       description = "Get model anova",
       name = "model_anova",
-      command = get_anova(mod_to_use)
+      command = get_anova(mod_to_use, verbose = TRUE)
     )
   )

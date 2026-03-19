@@ -58,14 +58,14 @@ testthat::test_that(
   {
     testthat::skip_if_not_installed("sjSDM")
 
-    set.seed(900723)
+    base::set.seed(900723)
     data_dummy <-
       sjSDM::simulate_SDM(env = 3L, species = 10L, sites = 100L)
 
     data_community <-
-      data_dummy$response
+      purrr::pluck(data_dummy, "response")
     data_abiotic <-
-      data_dummy$env_weights
+      purrr::pluck(data_dummy, "env_weights")
     data_coords <-
       data.frame(
         base::matrix(
@@ -97,5 +97,77 @@ testthat::test_that(
     anova_res <-
       get_anova(mod = mod)
     testthat::expect_s3_class(anova_res, "sjSDManova")
+  }
+)
+
+testthat::test_that(
+  "get_anova() verbose argument controls printed output",
+  {
+    testthat::skip_if_not_installed("sjSDM")
+
+    base::set.seed(900723)
+    data_dummy <-
+      sjSDM::simulate_SDM(env = 3L, species = 10L, sites = 100L)
+
+    data_community <-
+      purrr::pluck(data_dummy, "response")
+    data_abiotic <-
+      purrr::pluck(data_dummy, "env_weights")
+    data_coords <-
+      data.frame(
+        base::matrix(
+          data = stats::rnorm(n = 200, mean = 0, sd = 0.3),
+          nrow = 100,
+          ncol = 2
+        )
+      )
+
+    mod <-
+      sjSDM::sjSDM(
+        Y = data_community,
+        env = sjSDM::linear(
+          data = data_abiotic,
+          formula = ~ X1 + X2 + X3
+        ),
+        spatial = sjSDM::linear(
+          data = data_coords,
+          formula = ~ 0 + X1 * X2
+        ),
+        family = stats::binomial(link = "probit"),
+        verbose = FALSE,
+        iter = 20L
+      )
+
+    # invalid verbose inputs must error
+    testthat::expect_error(
+      get_anova(mod = mod, verbose = 1L),
+      "verbose must be a single logical value"
+    )
+
+    testthat::expect_error(
+      get_anova(mod = mod, verbose = "yes"),
+      "verbose must be a single logical value"
+    )
+
+    testthat::expect_error(
+      get_anova(mod = mod, verbose = NA),
+      "verbose must be a single logical value"
+    )
+
+    testthat::expect_error(
+      get_anova(mod = mod, verbose = c(TRUE, FALSE)),
+      "verbose must be a single logical value"
+    )
+
+    # verbose output goes via Python/reticulate to the terminal and
+    # cannot be captured by utils::capture.output(); test that both
+    # values are accepted without error and return the correct class
+    anova_quiet <-
+      get_anova(mod = mod, verbose = FALSE)
+    testthat::expect_s3_class(anova_quiet, "sjSDManova")
+
+    anova_verbose <-
+      get_anova(mod = mod, verbose = TRUE)
+    testthat::expect_s3_class(anova_verbose, "sjSDManova")
   }
 )
