@@ -34,9 +34,9 @@ project_cz:
     taxonomic_resolution: "genus"
     min_n_samples: 5
   model_fitting:
-    n_mev: 5
+    n_mev: 3
     n_cores: 24
-    samples: 1000
+    samples: 500
     spatial_mode: "spatiotemporal"
 project_temporal_europe:
   target_store: Data/targets/project_temporal_europe
@@ -50,8 +50,9 @@ project_temporal_europe:
     taxonomic_resolution: "genus"
     min_n_samples: 10
   model_fitting:
+    n_mev: 2
     n_cores: 12
-    samples: 2500
+    samples: 500
 project_spatial_continental:
   target_store: Data/targets/spatial_continental
   vegvault_data:
@@ -62,8 +63,9 @@ project_spatial_continental:
     taxonomic_resolution: "genus"
     min_n_samples: 10
   model_fitting:
+    n_mev: 5
     n_cores: 12
-    samples: 2500
+    samples: 500
 project_spatial_regional:
   target_store: Data/targets/spatial_regional
   vegvault_data:
@@ -74,8 +76,9 @@ project_spatial_regional:
     taxonomic_resolution: "genus"
     min_n_samples: 10
   model_fitting:
+    n_mev: 4
     n_cores: 12
-    samples: 1000
+    samples: 500
 project_spatial_local:
   target_store: Data/targets/spatial_local
   vegvault_data:
