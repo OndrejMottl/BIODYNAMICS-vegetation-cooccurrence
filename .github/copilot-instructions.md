@@ -6,11 +6,12 @@ This project analyzes vegetation co-occurrence patterns using paleoecological an
 
 ## Coding Standards
 
-This project follows specific R coding conventions split across four instruction files:
+This project follows specific R coding conventions split across five instruction files:
 - [r-coding.instructions.md](instructions/r-coding.instructions.md) — Script structure, naming, syntax
 - [r-coding-tidyverse.instructions.md](instructions/r-coding-tidyverse.instructions.md) — Tidyverse, namespace, dplyr/purrr, data masking
 - [r-coding-functions.instructions.md](instructions/r-coding-functions.instructions.md) — Writing functions, error handling, docs, tests
 - [r-coding-performance.instructions.md](instructions/r-coding-performance.instructions.md) — Profiling and performance
+- [r-coding-visualisation.instructions.md](instructions/r-coding-visualisation.instructions.md) — Canvas dimensions, ggview, saving plots
 
 ## Project Structure
 
@@ -216,12 +217,13 @@ Each script should do **one task only**. If describing the task requires multipl
 
 ## R Coding Conventions
 
-R coding style guidelines are split across four instruction files:
+R coding style guidelines are split across five instruction files:
 
 - [r-coding.instructions.md](instructions/r-coding.instructions.md) — Script structure, naming conventions, syntax rules
 - [r-coding-tidyverse.instructions.md](instructions/r-coding-tidyverse.instructions.md) — Tidyverse preferences, namespace, modern dplyr/purrr patterns, data masking
 - [r-coding-functions.instructions.md](instructions/r-coding-functions.instructions.md) — Writing functions, anonymous functions, error handling, roxygen2 documentation, testthat testing
 - [r-coding-performance.instructions.md](instructions/r-coding-performance.instructions.md) — Profiling, avoiding loop anti-patterns, parallel processing
+- [r-coding-visualisation.instructions.md](instructions/r-coding-visualisation.instructions.md) — Canvas dimensions, ggview::canvas(), ggview::save_ggplot()
 
 ## Debugging Workflow
 

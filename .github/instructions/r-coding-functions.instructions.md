@@ -54,23 +54,50 @@ purrr::pmap(
 
 ## Error Handling
 
-Use `cli::cli_abort()` (from the [cli](https://cli.r-lib.org/) package) for
-error messages in functions. It produces structured, user-friendly output and
-supports inline formatting and hints:
+Use two different tools depending on what is being checked:
+
+### Argument validation — `assertthat::assert_that()`
+
+Use `assertthat::assert_that()` (from the
+[assertthat](https://github.com/hadley/assertthat) package) to validate
+function **arguments** (types, required columns, lengths, etc.). These
+checks guard against incorrect inputs supplied by the caller:
 
 ```r
-# Good
-if (!is.numeric(x)) {
-  cli::cli_abort(
-    c(
-      "{.arg x} must be numeric.",
-      "i" = "Provided type: {.cls {class(x)}}"
-    )
+# Good — argument type and structure checks
+assertthat::assert_that(
+  base::is.numeric(x),
+  msg = "'x' must be numeric."
+)
+
+assertthat::assert_that(
+  base::all(c("col_a", "col_b") %in% base::names(df)),
+  msg = paste0(
+    "'df' must contain columns 'col_a' and 'col_b'."
   )
-}
+)
 
 # Avoid - plain stop() gives no structured context
 if (!is.numeric(x)) stop("x must be numeric")
+```
+
+### Internal / data-content checks — `cli::cli_abort()`
+
+Use `cli::cli_abort()` (from the [cli](https://cli.r-lib.org/) package)
+for checks that arise **inside** the function body — i.e. conditions that
+depend on the *content* of data rather than the type/shape of arguments,
+or on intermediate results that should be meaningful but may not be:
+
+```r
+# Good — data-content / internal logic check
+if (base::sum(mat_binary) == 0L) {
+  cli::cli_abort(
+    c(
+      "The binarized matrix contains no positive entries.",
+      "i" = "Cannot compute network metrics on an empty matrix."
+    )
+  )
+}
 ```
 
 Use `cli::cli_warn()` and `cli::cli_inform()` for warnings and messages

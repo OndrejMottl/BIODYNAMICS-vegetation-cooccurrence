@@ -38,8 +38,8 @@ cherry-picking or complex rebasing.
 git checkout main
 git pull origin main
 
-# 2. Create the new worktree; -b creates the branch from main
-git worktree add ..\BIODYNAMICS_<feature_name> -b <branch_name>
+# 2. Create the new worktree; -b must come BEFORE the path (not after)
+git worktree add -b <branch_name> ..\BIODYNAMICS_<feature_name>
 
 # 3. Verify the worktree was created on the expected branch
 git worktree list
@@ -93,10 +93,19 @@ git merge --squash <branch_name>
 git commit -m "<descriptive message>"
 git push origin main
 
-# 8. Remove the linked worktree directory
+# 8. Close the worktree's VS Code window FIRST, then remove.
+#    Open file handles on Windows will prevent deletion.
 git worktree remove ..\BIODYNAMICS_<feature_name>
 
 # 9. Optionally delete the branch
+git branch -d <branch_name>
+```
+
+If step 8 fails (e.g. a partial deletion already removed `.git` from the
+worktree directory), recover with:
+```powershell
+git worktree prune
+Remove-Item -Recurse -Force "..\BIODYNAMICS_<feature_name>"
 git branch -d <branch_name>
 ```
 
