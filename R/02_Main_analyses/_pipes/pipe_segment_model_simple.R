@@ -78,7 +78,8 @@ pipe_segment_model_simple <-
       name = "mod_jsdm_se",
       command = compute_jsdm_se(
         mod_jsdm = mod_jsdm,
-        parallel = config.model_fitting$n_cores
+        parallel = config.model_fitting$n_cores,
+        verbose = TRUE
       )
     ),
     targets::tar_target(

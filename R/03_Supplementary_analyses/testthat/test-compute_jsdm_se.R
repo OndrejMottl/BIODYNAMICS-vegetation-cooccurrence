@@ -96,6 +96,56 @@ testthat::test_that(
   }
 )
 
+# Input validation - verbose -----
+
+testthat::test_that(
+  "compute_jsdm_se() validates verbose argument",
+  {
+    mock_sjsdm <-
+      base::structure(base::list(), class = "sjSDM")
+
+    testthat::expect_error(
+      compute_jsdm_se(
+        mod_jsdm = mock_sjsdm,
+        verbose = "yes"
+      ),
+      "`verbose` must be a single non-NA logical value"
+    )
+
+    testthat::expect_error(
+      compute_jsdm_se(
+        mod_jsdm = mock_sjsdm,
+        verbose = 1
+      ),
+      "`verbose` must be a single non-NA logical value"
+    )
+
+    testthat::expect_error(
+      compute_jsdm_se(
+        mod_jsdm = mock_sjsdm,
+        verbose = NULL
+      ),
+      "`verbose` must be a single non-NA logical value"
+    )
+
+    testthat::expect_error(
+      compute_jsdm_se(
+        mod_jsdm = mock_sjsdm,
+        verbose = c(TRUE, FALSE)
+      ),
+      "`verbose` must be a single non-NA logical value"
+    )
+
+    testthat::expect_error(
+      compute_jsdm_se(
+        mod_jsdm = mock_sjsdm,
+        verbose = NA
+      ),
+      "`verbose` must be a single non-NA logical value"
+    )
+  }
+)
+
 # Happy path -----
 
 testthat::test_that(

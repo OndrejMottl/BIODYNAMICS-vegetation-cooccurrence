@@ -19,6 +19,12 @@
 #' Batch size for stochastic gradient descent used during SE
 #' computation. Passed to `sjSDM::getSe()`. Default is `NULL`,
 #' which lets sjSDM choose automatically.
+#' @param verbose
+#' Logical scalar. If `FALSE` (default), all console output
+#' from `sjSDM::getSe()` — including Python/reticulate stdout
+#' — is suppressed. Set to `TRUE` to see progress messages,
+#' which is recommended when running inside a pipeline target
+#' to monitor long-running SE computation.
 #' @return
 #' The input `mod_jsdm` object with its `$se` field populated
 #' with the computed standard errors.
@@ -29,6 +35,12 @@
 #' the full number of available CPU cores via `parallel` without
 #' conflict with the GPU device setting used during fitting.
 #'
+#' When `verbose = FALSE`, output is captured with
+#' `reticulate::py_capture_output()` (Python stdout) and
+#' `utils::capture.output()` (R stdout) so the console remains
+#' clean. When `verbose = TRUE`, both output streams are printed
+#' for monitoring progress.
+#'
 #' If SE computation fails, the function raises an error with
 #' an informative message.
 #' @seealso
@@ -37,7 +49,8 @@
 compute_jsdm_se <- function(
     mod_jsdm = NULL,
     parallel = 0L,
-    step_size = NULL) {
+    step_size = NULL,
+    verbose = FALSE) {
   assertthat::assert_that(
     inherits(mod_jsdm, "sjSDM"),
     msg = paste0(
@@ -64,12 +77,45 @@ compute_jsdm_se <- function(
     )
   )
 
-  mod_with_se <-
-    sjSDM::getSe(
-      object = mod_jsdm,
-      step_size = step_size,
-      parallel = as.integer(parallel)
+  assertthat::assert_that(
+    is.logical(verbose),
+    length(verbose) == 1L,
+    !is.na(verbose),
+    msg = paste0(
+      "`verbose` must be a single non-NA logical value"
     )
+  )
+
+  if (
+    isTRUE(verbose)
+  ) {
+    mod_with_se <-
+      sjSDM::getSe(
+        object = mod_jsdm,
+        step_size = step_size,
+        parallel = as.integer(parallel)
+      )
+  } else {
+    # Suppress both R stdout and Python/reticulate stdout.
+    # Note: reticulate::py_capture_output() is needed because
+    #   sjSDM::getSe() routes Python output through reticulate,
+    #   which bypasses utils::capture.output(). The outer wrapper
+    #   intercepts Python-side output; the inner wrapper
+    #   intercepts any R-level stdout from the call.
+    reticulate::py_capture_output(
+      utils::capture.output(
+        {
+          mod_with_se <-
+            sjSDM::getSe(
+              object = mod_jsdm,
+              step_size = step_size,
+              parallel = as.integer(parallel)
+            )
+        },
+        type = "output"
+      )
+    )
+  }
 
   return(mod_with_se)
 }
