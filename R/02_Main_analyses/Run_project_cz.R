@@ -41,5 +41,6 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
 # Basic pipeline
 run_pipeline(
   sel_script = "R/02_Main_analyses/pipeline_basic.R",
-  level_separation = 100
+  level_separation = 100,
+  fresh_run = TRUE
 )
