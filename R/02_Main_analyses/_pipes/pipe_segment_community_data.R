@@ -124,11 +124,28 @@ pipe_segment_community_data <-
       )
     ),
     targets::tar_target(
-      description = "Check all taxa are classified; write template if not",
-      name = "check_taxa_classification",
-      command = check_and_report_missing_taxa(
-        vec_taxa_without_classification = vec_taxa_without_classification
+      description = "Build missing-taxa template tibble for inspection",
+      name = "data_missing_taxa_template",
+      command = tibble::tibble(
+        sel_name = vec_taxa_without_classification,
+        kingdom = NA_character_,
+        phylum = NA_character_,
+        class = NA_character_,
+        order = NA_character_,
+        family = NA_character_,
+        genus = NA_character_,
+        species = NA_character_
       )
+    ),
+    targets::tar_target(
+      description = "Check all taxa are classified; error if not",
+      name = "check_taxa_classification",
+      command = {
+        force(data_missing_taxa_template)
+        check_and_report_missing_taxa(
+          vec_taxa_without_classification = vec_taxa_without_classification
+        )
+      }
     ),
     targets::tar_target(
       description = "Remove non-Plantae taxa from community data",
