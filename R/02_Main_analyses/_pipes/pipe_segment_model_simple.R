@@ -58,12 +58,12 @@ pipe_segment_model_simple <-
         sel_abiotic_formula = model_formula,
         spatial_method = if (isTRUE(config.model_fitting$use_spatial)) "linear" else "none",
         sel_spatial_formula = ~ 0 + .,
-
         error_family = config.model_fitting$error_family,
         device = "gpu",
         parallel = config.model_fitting$n_cores,
-        sampling = config.model_fitting$samples,
-        iter = config.model_fitting$samples,
+        sampling = config.model_fitting$n_sampling,
+        iter = config.model_fitting$n_iter,
+        step_size = config.model_fitting$n_step_size,
         seed = 900723,
         verbose = TRUE,
         compute_se = TRUE

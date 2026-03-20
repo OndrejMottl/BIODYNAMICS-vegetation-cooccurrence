@@ -53,8 +53,8 @@ testthat::test_that(
       evaluate_jsdm(mod_jsdm = mod_example)
 
     testthat::expect_type(result, "list")
-    testthat::expect_length(result, 2)
-    testthat::expect_named(result, c("model", "species"))
+    testthat::expect_length(result, 3)
+    testthat::expect_named(result, c("model", "species", "convergence"))
   }
 )
 
@@ -223,5 +223,68 @@ testthat::test_that(
     testthat::expect_true(
       all(result$species$RMSE >= 0, na.rm = TRUE)
     )
+  }
+)
+
+testthat::test_that(
+  desc = "evaluate_jsdm() convergence element has expected structure",
+  code = {
+    testthat::skip_if_not_installed("sjSDM")
+
+    set.seed(900723)
+
+    data_community <-
+      data.frame(
+        sp1 = c(1, 0, 1, 0, 1),
+        sp2 = c(0, 1, 1, 0, 1)
+      )
+    data_abiotic <-
+      data.frame(
+        temp = c(10, 15, 20, 25, 30),
+        precip = c(100, 200, 300, 400, 500)
+      )
+    mod_example <-
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = as.matrix(data_community),
+          data_abiotic_to_fit = data_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        error_family = "binomial",
+        sampling = 5L,
+        step_size = 5L,
+        verbose = FALSE
+      )
+
+    result <-
+      evaluate_jsdm(mod_jsdm = mod_example)
+
+    convergence <- result$convergence
+
+    testthat::expect_type(convergence, "list")
+    testthat::expect_length(convergence, 4L)
+    testthat::expect_named(
+      convergence,
+      c(
+        "linear_trend_slope",
+        "median_diff",
+        "convergence_plot",
+        "note"
+      )
+    )
+
+    testthat::expect_type(convergence$linear_trend_slope, "double")
+    testthat::expect_length(convergence$linear_trend_slope, 1L)
+    testthat::expect_true(convergence$linear_trend_slope >= 0)
+
+    testthat::expect_type(convergence$median_diff, "double")
+    testthat::expect_length(convergence$median_diff, 1L)
+    testthat::expect_true(convergence$median_diff >= 0)
+
+    testthat::expect_s3_class(convergence$convergence_plot, "ggplot")
+
+    testthat::expect_type(convergence$note, "character")
+    testthat::expect_length(convergence$note, 1L)
   }
 )

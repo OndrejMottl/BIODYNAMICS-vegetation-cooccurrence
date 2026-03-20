@@ -16,7 +16,10 @@ default:
   model_fitting:
     n_cores: 5
     n_mev: 2
-    samples: 100
+    n_iter: 100
+    n_sampling: 100
+    n_step_size: ~
+    n_samples_anova: 1000
     error_family: "binomial"
     spatial_crs: 3035
     spatial_mode: "spatial"
@@ -36,7 +39,9 @@ project_cz:
   model_fitting:
     n_mev: 3
     n_cores: 24
-    samples: 100
+    n_iter: 100
+    n_step_size: 32
+    n_samples_anova: 100
     spatial_mode: "spatiotemporal"
 project_temporal_europe:
   target_store: Data/targets/project_temporal_europe
@@ -50,9 +55,11 @@ project_temporal_europe:
     taxonomic_resolution: "genus"
     min_n_samples: 10
   model_fitting:
-    n_mev: 2
+    n_mev: 5
     n_cores: 24
-    samples: 500
+    n_iter: 200
+    n_sampling: 150
+    n_samples_anova: 500
 project_spatial_continental:
   target_store: Data/targets/spatial_continental
   vegvault_data:
@@ -65,7 +72,10 @@ project_spatial_continental:
   model_fitting:
     n_mev: 5
     n_cores: 24
-    samples: 500
+    n_iter: 400
+    n_step_size: 32
+    n_sampling: 100
+    n_samples_anova: 500
 project_spatial_regional:
   target_store: Data/targets/spatial_regional
   vegvault_data:
@@ -78,7 +88,10 @@ project_spatial_regional:
   model_fitting:
     n_mev: 4
     n_cores: 24
-    samples: 500
+    n_step_size: 8
+    n_iter: 500
+    n_sampling: 250
+    n_samples_anova: 500
 project_spatial_local:
   target_store: Data/targets/spatial_local
   vegvault_data:
@@ -89,5 +102,8 @@ project_spatial_local:
     taxonomic_resolution: "genus"
     min_n_samples: 5
   model_fitting:
+    n_mev: 3
     n_cores: 24
-    samples: 500
+    n_iter: 200
+    n_sampling: 200
+    n_samples_anova: 500
