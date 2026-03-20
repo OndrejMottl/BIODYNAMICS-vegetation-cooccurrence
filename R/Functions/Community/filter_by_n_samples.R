@@ -22,7 +22,7 @@
 #' `taxon`. Taxa with fewer combinations than `min_n_samples` are
 #' removed. An error is raised if no taxa remain after filtering, which
 #' may indicate that `min_n_samples` is set too high.
-#' @seealso [filter_by_n_cores()], [filter_rare_taxa()],
+#' @seealso [filter_community_by_n_cores()], [filter_rare_taxa()],
 #' [select_n_taxa()]
 #' @export
 filter_by_n_samples <- function(
