@@ -69,5 +69,63 @@ testthat::test_that("interpolate_data produces expected results", {
       c(200, 300, 400, 500, 700, 800, 900, 1000)
     )
 
-  testthat::expect_true(nrow(result) == 22)
+  testthat::expect_equal(base::nrow(result), 22)
+})
+
+testthat::test_that("interpolate_data errors when timestep <= 0", {
+  data_example <-
+    tibble::tibble(
+      dataset_name = rep("dataset1", 5),
+      age = seq(100, 500, length.out = 5),
+      pollen_prop = seq(0.1, 0.5, length.out = 5)
+    )
+
+  testthat::expect_error(
+    interpolate_data(
+      data = data_example,
+      age_min = 0,
+      age_max = 1000,
+      timestep = 0
+    ),
+    regexp = "timestep"
+  )
+
+  testthat::expect_error(
+    interpolate_data(
+      data = data_example,
+      age_min = 0,
+      age_max = 1000,
+      timestep = -100
+    ),
+    regexp = "timestep"
+  )
+})
+
+testthat::test_that("interpolate_data errors when age_min >= age_max", {
+  data_example <-
+    tibble::tibble(
+      dataset_name = rep("dataset1", 5),
+      age = seq(100, 500, length.out = 5),
+      pollen_prop = seq(0.1, 0.5, length.out = 5)
+    )
+
+  testthat::expect_error(
+    interpolate_data(
+      data = data_example,
+      age_min = 1000,
+      age_max = 500,
+      timestep = 100
+    ),
+    regexp = "age_min"
+  )
+
+  testthat::expect_error(
+    interpolate_data(
+      data = data_example,
+      age_min = 500,
+      age_max = 500,
+      timestep = 100
+    ),
+    regexp = "age_min"
+  )
 })

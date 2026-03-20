@@ -1,3 +1,22 @@
+# Input Validation (no external database required)
+
+testthat::test_that(
+  "extract_data_from_vegvault errors for invalid path_to_vegvault",
+  {
+    testthat::expect_error(
+      extract_data_from_vegvault(path_to_vegvault = 123),
+      regexp = "character"
+    )
+
+    testthat::expect_error(
+      extract_data_from_vegvault(path_to_vegvault = "nonexistent.sqlite"),
+      regexp = "VegVault"
+    )
+  }
+)
+
+# Output Structure and further Input Validation (require VegVault database)
+
 testthat::test_that("extract_data_from_vegvault returns a data frame for valid input", {
   # Use a known test file or mock file
   test_db <-

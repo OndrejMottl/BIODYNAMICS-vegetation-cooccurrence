@@ -321,3 +321,40 @@ testthat::test_that(
     testthat::expect_equal(base::nrow(res), 0L)
   }
 )
+
+# Side Effects
+
+testthat::test_that(
+  "align_sample_ids() emits no warnings for valid inputs",
+  {
+    data_community <-
+      tibble::tibble(
+        dataset_name = c("A", "A"),
+        age = c(0, 100),
+        taxon = "Pinus",
+        pollen_prop = 0.5
+      )
+    data_abiotic <-
+      tibble::tibble(
+        dataset_name = c("A", "A"),
+        age = c(0, 100),
+        abiotic_variable_name = "temp",
+        abiotic_value = c(10, 12)
+      )
+    data_coords <-
+      tibble::tibble(
+        dataset_name = "A",
+        coord_long = 15.0,
+        coord_lat = 50.0
+      ) |>
+      tibble::column_to_rownames("dataset_name")
+
+    testthat::expect_no_warning(
+      align_sample_ids(
+        data_community_long = data_community,
+        data_abiotic_long = data_abiotic,
+        data_coords = data_coords
+      )
+    )
+  }
+)
