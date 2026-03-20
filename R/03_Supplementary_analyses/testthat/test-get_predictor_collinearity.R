@@ -209,3 +209,77 @@ testthat::test_that(
     )
   }
 )
+
+
+testthat::test_that(
+  paste0(
+    "get_predictor_collinearity() ",
+    "all columns have zero variance — aborts"
+  ),
+  {
+    data_source <-
+      base::data.frame(
+        sample_name = base::rep(base::seq_len(10L), times = 2L),
+        abiotic_variable_name = base::rep(
+          base::c("temp", "precip"),
+          each = 10L
+        ),
+        abiotic_value = base::rep(5, 20)
+      )
+
+    # suppressWarnings(): the function warns about dropped columns
+    # before aborting; we test the abort here
+    testthat::expect_error(
+      base::suppressWarnings(
+        get_predictor_collinearity(
+          data_source = data_source
+        )
+      ),
+      regexp = "No columns with non-zero variance"
+    )
+  }
+)
+
+
+testthat::test_that(
+  paste0(
+    "get_predictor_collinearity() ",
+    "some columns have zero variance — warns and succeeds"
+  ),
+  {
+    set.seed(900723)
+
+    # Use each= so that each predictor maps to its own value
+    # batch after pivot_wider (avoids interlacing artefacts)
+    vec_n <- 30L
+    data_source <-
+      base::data.frame(
+        sample_name = base::rep(base::seq_len(vec_n), times = 3L),
+        abiotic_variable_name = base::rep(
+          base::c("temp", "precip", "const_var"),
+          each = vec_n
+        ),
+        abiotic_value = base::c(
+          stats::rnorm(vec_n, mean = 15, sd = 3),
+          stats::rnorm(vec_n, mean = 500, sd = 50),
+          base::rep(5, vec_n)
+        )
+      )
+
+    res <-
+      testthat::expect_warning(
+        get_predictor_collinearity(
+          data_source = data_source
+        ),
+        regexp = "zero-variance"
+      )
+
+    testthat::expect_s3_class(res, "collinear_output")
+    testthat::expect_true(
+      base::length(res$result$selection) > 0
+    )
+    testthat::expect_false(
+      "const_var" %in% res$result$selection
+    )
+  }
+)
