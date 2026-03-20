@@ -123,6 +123,8 @@ Common base R calls that must also be namespaced in test files include:
 | `structure(x, ...)` | `base::structure(x, ...)` |
 | `class(x) <- y` | `base::class(x) <- y` |
 | `character(n)` | `base::character(n)` |
+| `sd(x)` | `stats::sd(x)` — **NOT** `base::sd()` (sd lives in `stats`) |
+| `rep(x, n)` | `base::rep(x, n)` |
 
 ## Objective
 
