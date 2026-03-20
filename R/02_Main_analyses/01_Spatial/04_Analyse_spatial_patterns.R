@@ -133,6 +133,12 @@ data_anova_results <-
 
 data_anova_results |>
   dplyr::filter(component == "Associations") |>
+  dplyr::mutate(
+    scale = factor(
+      scale,
+      levels = c("local", "regional", "continental")
+    )
+  ) |>
   ggplot2::ggplot(
     mapping = ggplot2::aes(
       x = scale,
