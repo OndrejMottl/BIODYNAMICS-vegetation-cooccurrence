@@ -32,6 +32,8 @@ source(
 # 1. Discover pipeline stores -----
 #----------------------------------------------------------#
 
+# A valid targets store always contains a `meta/` sub-directory.
+# Filtering on that makes discovery pipeline-name-agnostic.
 vec_store_paths <-
   list.dirs(
     path = here::here("Data/targets"),
@@ -39,7 +41,7 @@ vec_store_paths <-
     recursive = TRUE
   ) |>
   purrr::keep(
-    .p = ~ base::basename(.x) == "pipeline_basic"
+    .p = ~ base::dir.exists(base::file.path(.x, "meta"))
   )
 
 if (
