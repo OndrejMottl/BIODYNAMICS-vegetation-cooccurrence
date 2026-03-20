@@ -42,7 +42,11 @@ pipe_segment_community_data <-
     targets::tar_target(
       description = "Extract community data",
       name = "data_community",
-      command = get_community_data(data_vegvault_extracted)
+      command = {
+        # Ensure core-count guard has passed before extracting community data
+        force(check_n_cores)
+        get_community_data(data_vegvault_extracted)
+      }
     ),
     targets::tar_target(
       description = "Get community data into long-format",
@@ -175,7 +179,7 @@ pipe_segment_community_data <-
     targets::tar_target(
       description = "Filter taxa not present in enough cores",
       name = "data_community_filtered_cores",
-      command = filter_by_n_cores(
+      command = filter_community_by_n_cores(
         data = data_community_rare_filtered,
         min_n_cores = config.data_processing$min_n_cores
       )
