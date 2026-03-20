@@ -19,11 +19,13 @@
 #' A data frame containing the extracted data.
 #' @details
 #' The function performs the following steps:
-#'   
+#'
 #'   1. Validates input parameters.
 #'   2. Checks the presence of the VegVault SQLite database.
-#'   3. Accesses the database and filters data based on geographic, temporal,
-#'      and dataset type constraints.
+#'   3. Builds the vaultkeepr query plan (lazy SQL). If vaultkeepr raises
+#'      an error during plan assembly (e.g. insufficient data for the
+#'      specified constraints), the error is caught and re-thrown via
+#'      `cli::cli_abort()` with the original message preserved.
 #'   4. Retrieves abiotic data and taxa information.
 #'   5. Returns the extracted data as a data frame.
 #' @export
@@ -70,37 +72,58 @@ extract_data_from_vegvault <- function(
     msg = "sel_abiotic_var_name must be a character vector of length > 0"
   )
 
+  plan_error <- NULL
+
   vaultkeepr_plan <-
-    # Access the VegVault file
-    vaultkeepr::open_vault(
-      path = path_to_vegvault
-    ) %>%
-    # Add the dataset information
-    vaultkeepr::get_datasets() %>%
-    # Select modern plot data and climate
-    vaultkeepr::select_dataset_by_type(
-      sel_dataset_type = sel_dataset_type
-    ) %>%
-    # Limit data to Czech Republic
-    vaultkeepr::select_dataset_by_geo(
-      lat_lim = y_lim,
-      long_lim = x_lim,
-      verbose = FALSE
-    ) %>%
-    # Add samples
-    vaultkeepr::get_samples() %>%
-    # select only modern data
-    vaultkeepr::select_samples_by_age(
-      age_lim = age_lim,
-      verbose = FALSE
-    ) %>%
-    # Add abiotic data
-    vaultkeepr::get_abiotic_data(verbose = FALSE) %>%
-    # Select only Mean Anual Temperature (bio1)
-    vaultkeepr::select_abiotic_var_by_name(
-      sel_var_name = sel_abiotic_var_name) %>%
-    # add taxa
-    vaultkeepr::get_taxa()
+    tryCatch(
+      expr = {
+        # Access the VegVault file
+        vaultkeepr::open_vault(
+          path = path_to_vegvault
+        ) %>%
+          # Add the dataset information
+          vaultkeepr::get_datasets() %>%
+          # Select modern plot data and climate
+          vaultkeepr::select_dataset_by_type(
+            sel_dataset_type = sel_dataset_type
+          ) %>%
+          # Limit data to Czech Republic
+          vaultkeepr::select_dataset_by_geo(
+            lat_lim = y_lim,
+            long_lim = x_lim,
+            verbose = FALSE
+          ) %>%
+          # Add samples
+          vaultkeepr::get_samples() %>%
+          # Select only modern data
+          vaultkeepr::select_samples_by_age(
+            age_lim = age_lim,
+            verbose = FALSE
+          ) %>%
+          # Add abiotic data
+          vaultkeepr::get_abiotic_data(verbose = FALSE) %>%
+          # Select only Mean Annual Temperature (bio1)
+          vaultkeepr::select_abiotic_var_by_name(
+            sel_var_name = sel_abiotic_var_name
+          ) %>%
+          # Add taxa
+          vaultkeepr::get_taxa()
+      },
+      error = function(e) {
+        plan_error <<- base::conditionMessage(e)
+        NULL
+      }
+    )
+
+  if (base::is.null(vaultkeepr_plan)) {
+    cli::cli_abort(
+      c(
+        "Failed to build the vaultkeepr query plan.",
+        "i" = "No data available for the specified constraints.",
+        "x" = plan_error
+      )
+    )
+  }
 
   data_extracted <-
     vaultkeepr_plan %>%
