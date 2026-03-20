@@ -33,12 +33,15 @@
 #' @param device
 #' Computing device to use. One of "cpu" (default) or "gpu"
 #' @param compute_se
-#' Logical indicating whether to compute standard errors. Default is FALSE.
-#' Note: SE computation may fail with certain model configurations (e.g., DNN,
-#' complex spatial structures) and will produce a warning if it fails.
+#' Logical indicating whether to compute standard errors inline
+#' during model fitting. Default is `FALSE`. Prefer the
+#' post-hoc approach via `compute_jsdm_se()` in a separate
+#' pipeline target, which allows CPU parallelisation
+#' independent of the GPU device setting.
 #' @param parallel
 #' Number of CPU cores to use for parallel processing.
-#' Only applicable if device = "cpu". Default is 0L (no parallelization).
+#' Only applicable if `device = "cpu"`. Default is `0L`
+#' (no parallelisation).
 #' @param ...
 #' Additional arguments passed to sjSDM::sjSDM
 #' @return
@@ -54,7 +57,7 @@
 #' model configurations, particularly when using DNN methods or complex
 #' spatial structures. If SE computation fails, the model will still be
 #' returned with a warning.
-#' @seealso sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN
+#' @seealso sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN, compute_jsdm_se
 #' @export
 fit_jsdm_model <- function(
     data_to_fit = NULL,

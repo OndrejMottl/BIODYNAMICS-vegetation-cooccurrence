@@ -66,7 +66,19 @@ pipe_segment_model_simple <-
         step_size = config.model_fitting$n_step_size,
         seed = 900723,
         verbose = TRUE,
-        compute_se = TRUE
+        compute_se = FALSE
+      )
+    ),
+    targets::tar_target(
+      description = paste(
+        "compute standard errors for JSDM model post-hoc;",
+        "separated from model fitting so that CPU parallelisation",
+        "can be used independently of the GPU device setting"
+      ),
+      name = "mod_jsdm_se",
+      command = compute_jsdm_se(
+        mod_jsdm = mod_jsdm,
+        parallel = config.model_fitting$n_cores
       )
     ),
     targets::tar_target(
@@ -79,6 +91,6 @@ pipe_segment_model_simple <-
     targets::tar_target(
       description = "a workaround target to use the fitted model in the next steps",
       name = "mod_to_use",
-      command = mod_jsdm
+      command = mod_jsdm_se
     )
   )
