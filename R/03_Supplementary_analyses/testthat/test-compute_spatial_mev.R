@@ -56,9 +56,9 @@ testthat::test_that(
   {
     data_coords <-
       tibble::tibble(
-        dataset_name = c("site_A", "site_B"),
-        coord_x_km = c(100.0, 200.0),
-        coord_y_km = c(400.0, 400.0)
+        dataset_name = c("site_A", "site_B", "site_C"),
+        coord_x_km = c(100.0, 200.0, 300.0),
+        coord_y_km = c(400.0, 400.0, 400.0)
       ) |>
       tibble::column_to_rownames("dataset_name")
 
@@ -67,7 +67,7 @@ testthat::test_that(
         data_coords_projected = data_coords,
         n_mev = 1L
       ),
-      regexp = "at least 3 rows"
+      regexp = "more than 3 rows"
     )
   }
 )

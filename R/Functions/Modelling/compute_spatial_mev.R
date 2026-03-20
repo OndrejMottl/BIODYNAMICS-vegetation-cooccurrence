@@ -8,7 +8,7 @@
 #' @param data_coords_projected
 #' A data frame with `dataset_name` as row names and
 #' columns `coord_x_km` and `coord_y_km`, as returned by
-#' `project_coords_to_metric()`. Must have at least 3 rows
+#' `project_coords_to_metric()`. Must have more than 3 rows
 #' (required by `sjSDM::generateSpatialEV()`). Each row
 #' represents one unique core/site location.
 #' @param n_mev
@@ -68,9 +68,9 @@ compute_spatial_mev <- function(
   )
 
   assertthat::assert_that(
-    nrow(data_coords_projected) >= 3,
+    nrow(data_coords_projected) > 3,
     msg = paste0(
-      "data_coords_projected must have at least 3 rows",
+      "data_coords_projected must have more than 3 rows",
       " (required by sjSDM::generateSpatialEV())"
     )
   )
