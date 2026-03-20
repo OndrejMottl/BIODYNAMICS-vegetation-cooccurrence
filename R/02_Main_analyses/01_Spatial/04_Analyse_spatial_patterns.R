@@ -149,4 +149,11 @@ data_anova_results |>
   ggplot2::scale_y_continuous(labels = scales::percent_format(scale = 1)) +
   ggplot2::coord_cartesian(
     ylim = c(0, 100)
+  ) +
+  ggview::canvas(
+    height = get_active_config("graphical")$height,
+    width = get_active_config("graphical")$width,
+    units = get_active_config("graphical")$units,
+    dpi = get_active_config("graphical")$dpi,
+    bg = get_active_config("graphical")$bg
   )

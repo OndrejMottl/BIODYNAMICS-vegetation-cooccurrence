@@ -60,8 +60,7 @@ purrr::walk(
     Sys.setenv(R_SPATIAL_ID = .x)
     run_pipeline(
       sel_script = "R/02_Main_analyses/pipeline_basic.R",
-      store_suffix = .x,
-      level_separation = 100
+      store_suffix = .x
     )
   }
 )
