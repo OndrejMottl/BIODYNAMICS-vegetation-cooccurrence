@@ -51,7 +51,9 @@ vec_scale_ids <-
 # 3. Run pipeline for each spatial unit -----
 #----------------------------------------------------------#
 
+tictoc::tic("Running spatial pipelines for all continental units")
 purrr::walk(
+  .progress = TRUE,
   .x = vec_scale_ids,
   .f = ~ {
     message("\n\nRunning pipeline for spatial unit: ", .x, "\n\n")
@@ -66,3 +68,4 @@ purrr::walk(
 
 # Clear spatial ID after iteration
 Sys.unsetenv("R_SPATIAL_ID")
+tictoc::toc()
