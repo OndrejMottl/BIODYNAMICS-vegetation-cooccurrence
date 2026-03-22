@@ -151,7 +151,7 @@ data_error_counts <-
   ) |>
   dplyr::arrange(dplyr::desc(n_units))
 
-print(data_error_counts)
+print(data_error_counts, n = Inf)
 
 
 #----------------------------------------------------------#
@@ -207,7 +207,7 @@ data_convergence_summary <-
   ) |>
   dplyr::arrange(scale, scale_id)
 
-print(data_convergence_summary)
+print(data_convergence_summary, n = Inf)
 
 
 #--------------------------------------------------#
@@ -265,7 +265,7 @@ list_convergence_plots <-
   )
 
 vec_scales <-
-  c("continental", "regional", "local")  |> 
+  c("continental", "regional", "local") |>
   purrr::set_names()
 
 list_plots <-
@@ -328,10 +328,10 @@ data_anova_fractions <-
       dplyr::mutate(
         age = 0,
         scale_id = .y
-      )
+      ) |>
+      recalculate_anova_components()
   ) |>
   purrr::list_rbind() |>
-  recalculate_anova_components() |>
   dplyr::left_join(
     data_targets_meta |>
       dplyr::select(scale_id, scale),
