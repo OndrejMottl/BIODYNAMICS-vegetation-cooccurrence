@@ -178,10 +178,46 @@ pipe_segment_config <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = "Configuration for model fitting - number of samples",
-      name = "config.n_samples",
+      description = paste0(
+        "Configuration for model fitting -",
+        " number of training iterations"
+      ),
+      name = "config.n_iter",
       command = get_active_config(
-        value = c("model_fitting", "samples")
+        value = c("model_fitting", "n_iter")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting -",
+        " Monte Carlo samples per epoch"
+      ),
+      name = "config.n_sampling",
+      command = get_active_config(
+        value = c("model_fitting", "n_sampling")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting -",
+        " SGD mini-batch size (NULL = auto 10% of sites)"
+      ),
+      name = "config.n_step_size",
+      command = get_active_config(
+        value = c("model_fitting", "n_step_size")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting -",
+        " Monte Carlo samples for ANOVA variation partitioning"
+      ),
+      name = "config.n_samples_anova",
+      command = get_active_config(
+        value = c("model_fitting", "n_samples_anova")
       ),
       cue = targets::tar_cue(mode = "always")
     ),
@@ -254,7 +290,10 @@ pipe_segment_config <-
       name = "config.model_fitting",
       command = list(
         n_cores = config.n_cores,
-        samples = config.n_samples,
+        n_iter = config.n_iter,
+        n_sampling = config.n_sampling,
+        n_step_size = config.n_step_size,
+        n_samples_anova = config.n_samples_anova,
         n_mev = config.n_mev,
         error_family = config.error_family,
         spatial_crs = config.spatial_crs,

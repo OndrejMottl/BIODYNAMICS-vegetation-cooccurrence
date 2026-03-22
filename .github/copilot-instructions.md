@@ -289,7 +289,8 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
 # Basic pipeline
 run_pipeline(
   sel_script = "R/02_Main_analyses/pipeline_basic.R",
-  level_separation = 100
+  level_separation = 100,
+  fresh_run = TRUE
 )
 ```
 
@@ -414,7 +415,8 @@ source(here::here('R/___setup_project___.R'))
 Sys.setenv(R_CONFIG_ACTIVE = 'project_cz')
 run_pipeline(
   sel_script = 'R/02_Main_analyses/pipeline_basic.R',
-  level_separation = 100
+  level_separation = 100,
+  fresh_run = TRUE
 )
 " > Data/Temp/pipeline_out.txt 2>&1
 Get-Content Data/Temp/pipeline_out.txt |
@@ -435,7 +437,8 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
 
 run_pipeline(
   sel_script = "R/02_Main_analyses/pipeline_basic.R",
-  level_separation = 100
+  level_separation = 100,
+  fresh_run = TRUE
 )
 ```
 

@@ -5,15 +5,26 @@
 #' @param mod_jsdm
 #' A fitted sjSDM model object. Must be of class 'sjSDM'.
 #' @return
-#' A list with two elements:
-#' - model: Named numeric vector of R-squared values (McFadden, Nagelkerke)
-#' - species: A tibble with one row per species and columns:
-#'   species, AUC, Accuracy, LogLoss (binomial) or RMSE (other families)
+#' A list with three elements:
+#' - `model`: Named numeric vector of R-squared values
+#'   (McFadden, Nagelkerke)
+#' - `species`: A tibble with one row per species and columns:
+#'   species, AUC, Accuracy, LogLoss (binomial) or RMSE (other
+#'   families)
+#' - `convergence`: A list from [check_convergence_jsdm()] with
+#'   `linear_trend_slope`, `median_diff`, `convergence_plot`, and
+#'   `note`
 #' @details
-#' For binomial models, species-level classification metrics (AUC, Accuracy,
-#' LogLoss) are computed using a 0.5 probability threshold for binary
-#' predictions. For other model families, RMSE is computed per species.
-#' @seealso sjSDM::Rsquared, Metrics::auc
+#' For binomial models, species-level classification metrics (AUC,
+#' Accuracy, LogLoss) are computed using a 0.5 probability threshold
+#' for binary predictions. For other model families, RMSE is computed
+#' per species.
+#'
+#' Convergence is assessed via [check_convergence_jsdm()], which
+#' analyses the training loss history. A `linear_trend_slope` < 0.01
+#' and `median_diff` < 1 in the returned `convergence` element
+#' indicate that the model has converged.
+#' @seealso sjSDM::Rsquared, Metrics::auc, check_convergence_jsdm
 #' @export
 evaluate_jsdm <- function(mod_jsdm = NULL) {
   assertthat::assert_that(
@@ -35,7 +46,8 @@ evaluate_jsdm <- function(mod_jsdm = NULL) {
   list_eval <-
     list(
       model = NULL,
-      species = NULL
+      species = NULL,
+      convergence = NULL
     )
 
   # 1. R-squared metrics
@@ -110,6 +122,10 @@ evaluate_jsdm <- function(mod_jsdm = NULL) {
         RMSE = vec_rmse
       )
   }
+
+  # 3. Convergence diagnostics
+  list_eval$convergence <-
+    check_convergence_jsdm(mod_jsdm)
 
   return(list_eval)
 }

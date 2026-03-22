@@ -244,7 +244,7 @@ testthat::test_that("cache hit returns SpatRaster without download", {
     )
 
   path_cache <-
-    base::file.path(dir_cache, "bio1_1000.tif")
+    base::file.path(dir_cache, "bio1_1000_10_20_45_55.tif")
 
   terra::writeRaster(
     rast_fake,

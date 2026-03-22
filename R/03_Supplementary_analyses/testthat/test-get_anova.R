@@ -171,3 +171,72 @@ testthat::test_that(
     testthat::expect_s3_class(anova_verbose, "sjSDManova")
   }
 )
+
+testthat::test_that(
+  "get_anova() validates n_samples argument",
+  {
+    testthat::skip_if_not_installed("sjSDM")
+
+    base::set.seed(900723)
+    data_dummy <-
+      sjSDM::simulate_SDM(env = 3L, species = 10L, sites = 100L)
+
+    data_community <-
+      purrr::pluck(data_dummy, "response")
+    data_abiotic <-
+      purrr::pluck(data_dummy, "env_weights")
+    data_coords <-
+      data.frame(
+        base::matrix(
+          data = stats::rnorm(n = 200, mean = 0, sd = 0.3),
+          nrow = 100,
+          ncol = 2
+        )
+      )
+
+    mod <-
+      sjSDM::sjSDM(
+        Y = data_community,
+        env = sjSDM::linear(
+          data = data_abiotic,
+          formula = ~ X1 + X2 + X3
+        ),
+        spatial = sjSDM::linear(
+          data = data_coords,
+          formula = ~ 0 + X1 * X2
+        ),
+        family = stats::binomial(link = "probit"),
+        verbose = FALSE,
+        iter = 20L
+      )
+
+    # Non-integer n_samples must error
+    testthat::expect_error(
+      get_anova(mod = mod, n_samples = 1.5),
+      "n_samples must be a single positive integer."
+    )
+
+    # Zero must error (not a positive count)
+    testthat::expect_error(
+      get_anova(mod = mod, n_samples = 0L),
+      "n_samples must be a single positive integer."
+    )
+
+    # Negative must error
+    testthat::expect_error(
+      get_anova(mod = mod, n_samples = -5L),
+      "n_samples must be a single positive integer."
+    )
+
+    # Non-numeric must error
+    testthat::expect_error(
+      get_anova(mod = mod, n_samples = "100"),
+      "n_samples must be a single positive integer."
+    )
+
+    # Valid small integer passes and returns sjSDManova
+    anova_res <-
+      get_anova(mod = mod, n_samples = 10L)
+    testthat::expect_s3_class(anova_res, "sjSDManova")
+  }
+)

@@ -72,4 +72,4 @@ Documentation/Reports/First_report/First_presentation/_presentation_01_temp/
 
 # Temporary files from missing taxa report generation
 Data/Input/missing_taxa_template.csv
-
+Outputs/Data/missing_taxa/missing_taxa_collated.csv

@@ -58,15 +58,28 @@ pipe_segment_model_simple <-
         sel_abiotic_formula = model_formula,
         spatial_method = if (isTRUE(config.model_fitting$use_spatial)) "linear" else "none",
         sel_spatial_formula = ~ 0 + .,
-
         error_family = config.model_fitting$error_family,
         device = "gpu",
         parallel = config.model_fitting$n_cores,
-        sampling = config.model_fitting$samples,
-        iter = config.model_fitting$samples,
+        sampling = config.model_fitting$n_sampling,
+        iter = config.model_fitting$n_iter,
+        step_size = config.model_fitting$n_step_size,
         seed = 900723,
-        verbose = FALSE,
-        compute_se = TRUE
+        verbose = TRUE,
+        compute_se = FALSE
+      )
+    ),
+    targets::tar_target(
+      description = paste(
+        "compute standard errors for JSDM model post-hoc;",
+        "separated from model fitting so that CPU parallelisation",
+        "can be used independently of the GPU device setting"
+      ),
+      name = "mod_jsdm_se",
+      command = compute_jsdm_se(
+        mod_jsdm = mod_jsdm,
+        parallel = config.model_fitting$n_cores,
+        verbose = TRUE
       )
     ),
     targets::tar_target(
@@ -79,6 +92,6 @@ pipe_segment_model_simple <-
     targets::tar_target(
       description = "a workaround target to use the fitted model in the next steps",
       name = "mod_to_use",
-      command = mod_jsdm
+      command = mod_jsdm_se
     )
   )

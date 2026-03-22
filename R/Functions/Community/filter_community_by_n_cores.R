@@ -19,10 +19,10 @@
 #' the entire dataset. Taxa with fewer distinct cores than `min_n_cores`
 #' are removed. An error is raised if no taxa remain after filtering,
 #' which may indicate that `min_n_cores` is set too high.
-#' @seealso [filter_by_n_samples()], [filter_rare_taxa()],
+#' @seealso [filter_community_by_n_samples()], [filter_rare_taxa()],
 #' [select_n_taxa()]
 #' @export
-filter_by_n_cores <- function(
+filter_community_by_n_cores <- function(
     data = NULL,
     min_n_cores = 2) {
   assertthat::assert_that(

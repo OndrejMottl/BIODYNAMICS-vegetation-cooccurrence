@@ -182,17 +182,23 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "errors when n_mev exceeds positive eigenvectors",
+  "warns and clamps n_mev when it exceeds positive EVs",
   {
     # 15 samples: 5 sites x 3 ages; likely produces only a
-    # handful of positive EVs. Requesting 100 must error.
-    testthat::expect_error(
-      compute_spatiotemporal_mev(
-        data_coords_projected = .make_coords(),
-        data_sample_ids = .make_sample_ids(),
-        n_mev = 100L
-      ),
-      regexp = "positive Moran eigenvectors produced"
+    # handful of positive EVs. Requesting 100 must warn
+    # and clamp to the actual count.
+    res <-
+      testthat::expect_warning(
+        compute_spatiotemporal_mev(
+          data_coords_projected = .make_coords(),
+          data_sample_ids = .make_sample_ids(),
+          n_mev = 100L
+        ),
+        regexp = "Lowering n_mev"
+      )
+
+    testthat::expect_true(
+      base::ncol(res) < 100L
     )
   }
 )

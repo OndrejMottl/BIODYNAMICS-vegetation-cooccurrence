@@ -4,7 +4,8 @@
 #' data frame and returns a `collinear_output` object produced by
 #' `collinear::collinear()`. The function pivots `data_source` from
 #' long to wide format (one column per variable), removes any `age`
-#' column, and then performs the collinearity analysis.
+#' column, screens out zero-variance columns, and then performs the
+#' collinearity analysis.
 #' @param data_source
 #' A data frame in long format containing at minimum the columns
 #' `abiotic_variable_name` (character, predictor names) and
@@ -21,6 +22,13 @@
 #' integrity before returning.  Missing values are filled with `NA`
 #' when pivoting to wide format.  The `age` column is excluded
 #' because it is a sampling dimension rather than a predictor.
+#' Predictor names are captured before pivoting so that the
+#' zero-variance check is scoped to predictor columns only —
+#' ID or metadata columns that survive the pivot are never passed
+#' to `collinear::collinear()`.  Any predictor whose standard
+#' deviation is zero across all samples is dropped and reported via
+#' `cli::cli_warn()`.  If no predictor with non-zero variance
+#' remains, the function aborts via `cli::cli_abort()`.
 #' @seealso
 #' [collinear::collinear()] for the underlying collinearity method,
 #' [get_abiotic_data()] for producing the expected input format.
@@ -32,12 +40,24 @@ get_predictor_collinearity <- function(data_source) {
   )
 
   assertthat::assert_that(
-    all(c("abiotic_variable_name", "abiotic_value") %in% colnames(data_source)),
-    msg = "data_source must contain columns 'abiotic_variable_name' and 'abiotic_value'"
+    all(
+      c("abiotic_variable_name", "abiotic_value") %in%
+        colnames(data_source)
+    ),
+    msg = paste0(
+      "data_source must contain columns",
+      " 'abiotic_variable_name' and 'abiotic_value'"
+    )
   )
 
+  # Capture predictor names before pivoting so the variation check
+  # is restricted to predictors only (not ID/metadata columns)
+  vec_predictor_names <-
+    dplyr::pull(data_source, abiotic_variable_name) |>
+    base::unique() |>
+    base::setdiff(c("age"))
 
-  res <-
+  data_wide <-
     data_source |>
     tidyr::pivot_wider(
       names_from = abiotic_variable_name,
@@ -46,22 +66,83 @@ get_predictor_collinearity <- function(data_source) {
     ) |>
     dplyr::select(
       !dplyr::any_of(c("age"))
+    )
+
+  vec_has_variation <-
+    data_wide |>
+    dplyr::select(
+      dplyr::any_of(vec_predictor_names)
+    ) |>
+    purrr::map_lgl(
+      .f = ~ stats::sd(.x, na.rm = TRUE) > 0
+    )
+
+  vec_cols_zero_var <-
+    base::names(vec_has_variation)[!vec_has_variation]
+
+  if (
+    base::length(vec_cols_zero_var) > 0
+  ) {
+    cli::cli_warn(
+      c(
+        "!" = paste0(
+          "{base::length(vec_cols_zero_var)} zero-variance column(s) ",
+          "dropped before collinearity analysis:"
+        ),
+        "i" = "{.val {vec_cols_zero_var}}"
+      )
+    )
+  }
+
+  vec_cols_with_variation <-
+    base::names(vec_has_variation)[vec_has_variation]
+
+  if (
+    base::length(vec_cols_with_variation) == 0L
+  ) {
+    cli::cli_abort(
+      c(
+        "x" = paste0(
+          "No columns with non-zero variance remain after ",
+          "removing constant columns."
+        ),
+        "i" = paste0(
+          "All {base::length(vec_predictor_names)} predictor column(s)",
+          " have zero variance."
+        )
+      )
+    )
+  }
+
+  res <-
+    data_wide |>
+    dplyr::select(
+      dplyr::all_of(vec_cols_with_variation)
     ) |>
     collinear::collinear(quiet = TRUE)
 
   assertthat::assert_that(
     inherits(res, "collinear_output"),
-    msg = "Output of collinear::collinear() should be a collinear_output object"
+    msg = paste0(
+      "Output of collinear::collinear()",
+      " should be a collinear_output object"
+    )
   )
 
   assertthat::assert_that(
     "result" %in% names(res),
-    msg = "Output of collinear::collinear() should contain a 'result' element"
+    msg = paste0(
+      "Output of collinear::collinear()",
+      " should contain a 'result' element"
+    )
   )
 
   assertthat::assert_that(
     "selection" %in% names(res$result),
-    msg = "Output of collinear::collinear() should contain a 'selection' element in the 'result'"
+    msg = paste0(
+      "Output of collinear::collinear()",
+      " should contain a 'selection' element in the 'result'"
+    )
   )
 
   assertthat::assert_that(
