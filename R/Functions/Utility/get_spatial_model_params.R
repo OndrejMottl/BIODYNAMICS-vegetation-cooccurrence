@@ -9,7 +9,7 @@
 #' Path to the spatial grid CSV file.
 #' Default: `here::here("Data/Input/spatial_grid.csv")`.
 #' @return
-#' A named list with four elements:
+#' A named list with five elements:
 #' \describe{
 #'   \item{`n_iter`}{Integer. Number of training iterations.}
 #'   \item{`n_step_size`}{
@@ -24,6 +24,14 @@
 #'     Integer. Monte Carlo samples for ANOVA
 #'     variation partitioning.
 #'   }
+#'   \item{`n_early_stopping`}{
+#'     Integer or `NULL`. Early stopping patience — number of epochs
+#'     without loss improvement before training halts.
+#'     `NULL` means auto (20 \% of `iter`), corresponding to
+#'     an `NA` value in the CSV.
+#'     Passed as the `n_early_stopping` argument of
+#'     `fit_jsdm_model()`.
+#'   }
 #' }
 #' @details
 #' Reads the CSV using `readr::read_csv`, filters to the row whose
@@ -31,7 +39,8 @@
 #' constructs the parameter list. Validation ensures the file is
 #' readable, has a `.csv` extension, contains the required columns,
 #' and that exactly one row matches the requested `scale_id`.
-#' An `NA` value in the `n_step_size` column is converted to `NULL`.
+#' `NA` values in the `n_step_size` and `n_early_stopping` columns are
+#' converted to `NULL`.
 #' @seealso get_spatial_window, get_active_config
 #' @export
 get_spatial_model_params <- function(
@@ -58,7 +67,14 @@ get_spatial_model_params <- function(
     )
 
   vec_required_cols <-
-    c("scale_id", "n_iter", "n_step_size", "n_sampling", "n_samples_anova")
+    c(
+      "scale_id",
+      "n_iter",
+      "n_step_size",
+      "n_sampling",
+      "n_samples_anova",
+      "n_early_stopping"
+    )
 
   assertthat::assert_that(
     base::all(vec_required_cols %in% base::names(data_grid)),
@@ -85,6 +101,9 @@ get_spatial_model_params <- function(
   n_step_size_raw <-
     dplyr::pull(data_row, n_step_size)
 
+  n_early_stopping_raw <-
+    dplyr::pull(data_row, n_early_stopping)
+
   res <-
     list(
       n_iter = dplyr::pull(data_row, n_iter),
@@ -96,7 +115,14 @@ get_spatial_model_params <- function(
         n_step_size_raw
       },
       n_sampling = dplyr::pull(data_row, n_sampling),
-      n_samples_anova = dplyr::pull(data_row, n_samples_anova)
+      n_samples_anova = dplyr::pull(data_row, n_samples_anova),
+      n_early_stopping = if (
+        base::is.na(n_early_stopping_raw)
+      ) {
+        NULL
+      } else {
+        n_early_stopping_raw
+      }
     )
 
   return(res)

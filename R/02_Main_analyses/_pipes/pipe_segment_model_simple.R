@@ -64,6 +64,7 @@ pipe_segment_model_simple <-
         sampling = config.model_fitting$n_sampling,
         iter = config.model_fitting$n_iter,
         step_size = config.model_fitting$n_step_size,
+        n_early_stopping = config.model_fitting$n_early_stopping,
         seed = 900723,
         verbose = TRUE,
         compute_se = FALSE

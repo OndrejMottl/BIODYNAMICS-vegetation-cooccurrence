@@ -600,3 +600,250 @@ testthat::test_that(
     testthat::expect_s3_class(result2, "sjSDM")
   }
 )
+
+#----------------------------------------------------------#
+# n_early_stopping validation tests -----
+#----------------------------------------------------------#
+
+testthat::test_that(
+  "fit_jsdm_model() validates n_early_stopping must be numeric",
+  {
+    mock_community <-
+      data.frame(
+        sp1 = c(1, 2, 3),
+        sp2 = c(4, 5, 6)
+      )
+    mock_abiotic <-
+      data.frame(
+        temp = c(10, 15, 20),
+        precip = c(100, 200, 300)
+      )
+
+    testthat::expect_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        n_early_stopping = "50"
+      ),
+      "n_early_stopping"
+    )
+  }
+)
+
+testthat::test_that(
+  "fit_jsdm_model() accepts any non-positive n_early_stopping",
+  {
+    testthat::skip_if_not_installed("sjSDM")
+
+    mock_community <-
+      data.frame(
+        sp1 = base::c(1, 2, 3),
+        sp2 = base::c(4, 5, 6)
+      )
+    mock_abiotic <-
+      data.frame(
+        temp = base::c(10, 15, 20),
+        precip = base::c(100, 200, 300)
+      )
+
+    # Zero and any negative value should all disable early stopping
+    testthat::expect_no_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        n_early_stopping = -2L,
+        sampling = 5L,
+        step_size = 5L
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "fit_jsdm_model() validates n_early_stopping must be length 1",
+  {
+    mock_community <-
+      data.frame(
+        sp1 = c(1, 2, 3),
+        sp2 = c(4, 5, 6)
+      )
+    mock_abiotic <-
+      data.frame(
+        temp = c(10, 15, 20),
+        precip = c(100, 200, 300)
+      )
+
+    testthat::expect_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        n_early_stopping = c(10L, 20L)
+      ),
+      "n_early_stopping"
+    )
+  }
+)
+
+testthat::test_that(
+  "fit_jsdm_model() accepts n_early_stopping = -1L (disabled)",
+  {
+    testthat::skip_if_not_installed("sjSDM")
+
+    mock_community <-
+      data.frame(
+        sp1 = c(1, 2, 3),
+        sp2 = c(4, 5, 6)
+      )
+    mock_abiotic <-
+      data.frame(
+        temp = c(10, 15, 20),
+        precip = c(100, 200, 300)
+      )
+
+    testthat::expect_no_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        n_early_stopping = -1L,
+        sampling = 5L,
+        step_size = 5L
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "fit_jsdm_model() accepts positive n_early_stopping value",
+  {
+    testthat::skip_if_not_installed("sjSDM")
+
+    mock_community <-
+      data.frame(
+        sp1 = base::c(1, 2, 3),
+        sp2 = base::c(4, 5, 6)
+      )
+    mock_abiotic <-
+      data.frame(
+        temp = base::c(10, 15, 20),
+        precip = base::c(100, 200, 300)
+      )
+
+    testthat::expect_no_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        n_early_stopping = 10L,
+        sampling = 5L,
+        step_size = 5L
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "fit_jsdm_model() accepts n_early_stopping = NULL (auto mode)",
+  {
+    testthat::skip_if_not_installed("sjSDM")
+
+    mock_community <-
+      data.frame(
+        sp1 = base::c(1, 2, 3),
+        sp2 = base::c(4, 5, 6)
+      )
+    mock_abiotic <-
+      data.frame(
+        temp = base::c(10, 15, 20),
+        precip = base::c(100, 200, 300)
+      )
+
+    testthat::expect_no_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        n_early_stopping = NULL,
+        iter = 10L,
+        sampling = 5L,
+        step_size = 5L
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "fit_jsdm_model() validates iter must be positive numeric",
+  {
+    mock_community <-
+      data.frame(
+        sp1 = base::c(1, 2, 3),
+        sp2 = base::c(4, 5, 6)
+      )
+    mock_abiotic <-
+      data.frame(
+        temp = base::c(10, 15, 20),
+        precip = base::c(100, 200, 300)
+      )
+
+    testthat::expect_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        iter = "100"
+      ),
+      "iter"
+    )
+
+    testthat::expect_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        iter = -1L
+      ),
+      "iter"
+    )
+
+    testthat::expect_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        iter = 0L
+      ),
+      "iter"
+    )
+  }
+)

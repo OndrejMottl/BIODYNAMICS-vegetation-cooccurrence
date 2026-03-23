@@ -16,7 +16,8 @@ testthat::test_that(
         n_iter = c(400L, 1600L),
         n_step_size = c(32L, 16L),
         n_sampling = c(100L, 250L),
-        n_samples_anova = c(500L, 500L)
+        n_samples_anova = c(500L, 500L),
+        n_early_stopping = c(NA_integer_, NA_integer_)
       ),
       file = temp_csv
     )
@@ -30,7 +31,10 @@ testthat::test_that(
     testthat::expect_type(res, "list")
     testthat::expect_named(
       res,
-      c("n_iter", "n_step_size", "n_sampling", "n_samples_anova")
+      c(
+        "n_iter", "n_step_size", "n_sampling",
+        "n_samples_anova", "n_early_stopping"
+      )
     )
 
     base::unlink(temp_csv)
@@ -55,7 +59,8 @@ testthat::test_that(
         n_iter = 400L,
         n_step_size = 32L,
         n_sampling = 100L,
-        n_samples_anova = 500L
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_
       ),
       file = temp_csv
     )
@@ -66,10 +71,10 @@ testthat::test_that(
         file = temp_csv
       )
 
-    testthat::expect_equal(res$n_iter, 400L)
-    testthat::expect_equal(res$n_step_size, 32L)
-    testthat::expect_equal(res$n_sampling, 100L)
-    testthat::expect_equal(res$n_samples_anova, 500L)
+    testthat::expect_equal(purrr::chuck(res, "n_iter"), 400L)
+    testthat::expect_equal(purrr::chuck(res, "n_step_size"), 32L)
+    testthat::expect_equal(purrr::chuck(res, "n_sampling"), 100L)
+    testthat::expect_equal(purrr::chuck(res, "n_samples_anova"), 500L)
 
     base::unlink(temp_csv)
   }
@@ -93,7 +98,8 @@ testthat::test_that(
         n_iter = 3200L,
         n_step_size = NA_integer_,
         n_sampling = 200L,
-        n_samples_anova = 500L
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_
       ),
       file = temp_csv
     )
@@ -104,7 +110,7 @@ testthat::test_that(
         file = temp_csv
       )
 
-    testthat::expect_null(res$n_step_size)
+    testthat::expect_null(purrr::pluck(res, "n_step_size"))
 
     base::unlink(temp_csv)
   }
@@ -128,7 +134,8 @@ testthat::test_that(
         n_iter = c(400L, 1600L),
         n_step_size = c(32L, 16L),
         n_sampling = c(100L, 250L),
-        n_samples_anova = c(500L, 500L)
+        n_samples_anova = c(500L, 500L),
+        n_early_stopping = c(NA_integer_, NA_integer_)
       ),
       file = temp_csv
     )
@@ -139,9 +146,13 @@ testthat::test_that(
         file = temp_csv
       )
 
-    testthat::expect_equal(res_regional$n_iter, 1600L)
-    testthat::expect_equal(res_regional$n_step_size, 16L)
-    testthat::expect_equal(res_regional$n_sampling, 250L)
+    testthat::expect_equal(purrr::chuck(res_regional, "n_iter"), 1600L)
+    testthat::expect_equal(
+      purrr::chuck(res_regional, "n_step_size"), 16L
+    )
+    testthat::expect_equal(
+      purrr::chuck(res_regional, "n_sampling"), 250L
+    )
 
     base::unlink(temp_csv)
   }
@@ -165,7 +176,8 @@ testthat::test_that(
         n_iter = 400L,
         n_step_size = 32L,
         n_sampling = 100L,
-        n_samples_anova = 500L
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_
       ),
       file = temp_csv
     )
@@ -199,7 +211,8 @@ testthat::test_that(
         n_iter = 400L,
         n_step_size = 32L,
         n_sampling = 100L,
-        n_samples_anova = 500L
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_
       ),
       file = temp_csv
     )
@@ -250,6 +263,158 @@ testthat::test_that(
         x_max = 40,
         y_min = 35,
         y_max = 70
+      ),
+      file = temp_csv
+    )
+
+    testthat::expect_error(
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv
+      )
+    )
+
+    base::unlink(temp_csv)
+  }
+)
+
+testthat::test_that(
+  "get_spatial_model_params returns n_early_stopping field",
+  {
+    temp_csv <-
+      tempfile(fileext = ".csv")
+
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "europe",
+        scale = "continental",
+        parent_id = NA_character_,
+        x_min = -10,
+        x_max = 40,
+        y_min = 35,
+        y_max = 70,
+        n_iter = 400L,
+        n_step_size = 32L,
+        n_sampling = 100L,
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_
+      ),
+      file = temp_csv
+    )
+
+    res <-
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv
+      )
+
+    testthat::expect_true(
+      "n_early_stopping" %in% base::names(res)
+    )
+    testthat::expect_null(
+      purrr::pluck(res, "n_early_stopping")
+    )
+
+    base::unlink(temp_csv)
+  }
+)
+
+testthat::test_that(
+  "get_spatial_model_params converts NA n_early_stopping to NULL",
+  {
+    temp_csv <-
+      tempfile(fileext = ".csv")
+
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "europe",
+        scale = "continental",
+        parent_id = NA_character_,
+        x_min = -10,
+        x_max = 40,
+        y_min = 35,
+        y_max = 70,
+        n_iter = 400L,
+        n_step_size = 32L,
+        n_sampling = 100L,
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_
+      ),
+      file = temp_csv
+    )
+
+    res <-
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv
+      )
+
+    testthat::expect_null(
+      purrr::pluck(res, "n_early_stopping")
+    )
+
+    base::unlink(temp_csv)
+  }
+)
+
+testthat::test_that(
+  "get_spatial_model_params returns numeric n_early_stopping when provided",
+  {
+    temp_csv <-
+      tempfile(fileext = ".csv")
+
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "europe",
+        scale = "continental",
+        parent_id = NA_character_,
+        x_min = -10,
+        x_max = 40,
+        y_min = 35,
+        y_max = 70,
+        n_iter = 400L,
+        n_step_size = 32L,
+        n_sampling = 100L,
+        n_samples_anova = 500L,
+        n_early_stopping = 50L
+      ),
+      file = temp_csv
+    )
+
+    res <-
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv
+      )
+
+    testthat::expect_equal(
+      purrr::chuck(res, "n_early_stopping"), 50L
+    )
+
+    base::unlink(temp_csv)
+  }
+)
+
+testthat::test_that(
+  "get_spatial_model_params errors when n_early_stopping column missing",
+  {
+    temp_csv <-
+      tempfile(fileext = ".csv")
+
+    # CSV has all columns except n_early_stopping
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "europe",
+        scale = "continental",
+        parent_id = NA_character_,
+        x_min = -10,
+        x_max = 40,
+        y_min = 35,
+        y_max = 70,
+        n_iter = 400L,
+        n_step_size = 32L,
+        n_sampling = 100L,
+        n_samples_anova = 500L
       ),
       file = temp_csv
     )

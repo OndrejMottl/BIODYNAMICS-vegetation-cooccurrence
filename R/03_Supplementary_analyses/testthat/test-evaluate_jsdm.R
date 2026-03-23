@@ -263,14 +263,16 @@ testthat::test_that(
     convergence <- result$convergence
 
     testthat::expect_type(convergence, "list")
-    testthat::expect_length(convergence, 4L)
+    testthat::expect_length(convergence, 6L)
     testthat::expect_named(
       convergence,
       c(
         "linear_trend_slope",
         "median_diff",
         "convergence_plot",
-        "note"
+        "note",
+        "epochs_run",
+        "early_stopping_triggered"
       )
     )
 

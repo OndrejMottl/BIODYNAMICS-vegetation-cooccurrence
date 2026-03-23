@@ -259,6 +259,29 @@ pipe_segment_config <-
     targets::tar_target(
       description = paste0(
         "Configuration for model fitting -",
+        " early stopping patience (epochs without improvement)"
+      ),
+      name = "config.n_early_stopping",
+      command = {
+        sel_scale_id <- get_scale_id_from_store()
+        if (
+          !is.null(sel_scale_id)
+        ) {
+          get_spatial_model_params(
+            scale_id = sel_scale_id
+          ) |>
+            purrr::chuck("n_early_stopping")
+        } else {
+          get_active_config(
+            value = c("model_fitting", "n_early_stopping")
+          )
+        }
+      },
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting -",
         " Monte Carlo samples for ANOVA variation partitioning"
       ),
       name = "config.n_samples_anova",
@@ -351,6 +374,7 @@ pipe_segment_config <-
         n_iter = config.n_iter,
         n_sampling = config.n_sampling,
         n_step_size = config.n_step_size,
+        n_early_stopping = config.n_early_stopping,
         n_samples_anova = config.n_samples_anova,
         n_mev = config.n_mev,
         error_family = config.error_family,
