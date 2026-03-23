@@ -124,8 +124,13 @@ function(
 
 ### Code Width
 
-No line of code should be longer than 80 characters (including comments).
-Users can visualise the 80 characters line in selected IDE.
+No line of **R code** should be longer than 80 characters (including R
+comments). Users can visualise the 80 characters line in selected IDE.
+
+> **Note:** This 80-character limit applies to R source code only.
+> Markdown prose — such as text in `.md` files, `.qmd` files, instruction
+> files, README files, or any other documentation — is **not** subject to
+> this limit. Let markdown text wrap naturally.
 
 ## Naming Conventions
 

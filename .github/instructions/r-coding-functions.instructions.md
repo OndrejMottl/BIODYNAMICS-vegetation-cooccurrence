@@ -123,7 +123,8 @@ for project-specific functions (not just within the package) as it is easier
 to transition to a custom package.
 
 The roxygen2 documentation should be placed before the function declaration
-but keep the line limit of 80 characters. See
+but keep the 80-character line limit for all R code and `#'` roxygen2 comment
+lines. See
 [make_roxygen2_documentation.instructions.md](make_roxygen2_documentation.instructions.md)
 for the full template and detailed rules.
 

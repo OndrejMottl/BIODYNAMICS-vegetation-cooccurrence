@@ -14,7 +14,7 @@ You are an expert R developer and testthat user tasked with writing comprehensiv
   `list_*`, `mod_*`)
 - Syntax rules (spaces, new lines, assignment with `<-`)
 - Function namespace usage (`package::function()`)
-- Line width limit (80 characters)
+- Line width limit (80 characters per line of **R code**)
 - Use of `TRUE`/`FALSE` instead of `T`/`F`
 
 ### Most-commonly violated rules in test files
@@ -22,10 +22,14 @@ You are an expert R developer and testthat user tasked with writing comprehensiv
 These rules are frequently missed — treat them as a checklist before finishing
 any test file:
 
-**1. 80-character line limit applies everywhere**, including `test_that()`
-description strings. If a description would exceed 80 characters, shorten it
-(do **not** break the string with `paste0()` unless truly unavoidable).
-Count the leading spaces + quotes + text + `",` — all of it counts.
+**1. 80-character line limit applies to all R code**, including `test_that()`
+description strings. If a description string would exceed 80 characters,
+shorten it (do **not** break the string with `paste0()` unless truly
+unavoidable). Count the leading spaces + quotes + text + `",` — all of it
+counts.
+
+> **Note:** This limit applies to R source code only. Markdown prose in
+> `.md` files is NOT subject to the 80-character limit.
 
 **2. Never use `$` to access data frame columns.** The project standards
 explicitly ban `df$column`. Use `dplyr::pull(df, column)` instead:
@@ -291,7 +295,7 @@ If function uses non-standard evaluation (NSE) or tidyverse programming (`{{ }}`
 - Use `snake_case` for all object names with type prefixes where applicable
 - Assignment with `<-` (never `=` or `->`)
 - Use `TRUE`/`FALSE` (never `T`/`F`)
-- Maximum 80 characters per line
+- Maximum 80 characters per line of R code
 - Space after commas, before/after infix operators
 - Use full namespace: `package::function()` for all function calls
 - Vertical code style with new lines after assignment and pipes
