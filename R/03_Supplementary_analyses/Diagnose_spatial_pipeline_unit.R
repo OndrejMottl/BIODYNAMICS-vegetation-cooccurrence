@@ -28,7 +28,7 @@ source(
 )
 
 # Edit this to switch between spatial units.
-sel_scale_id <- "eu_r005"
+sel_scale_id <- "NULL"
 
 # Graphical options shared across all plots in this script.
 graphical_options <-
@@ -70,8 +70,9 @@ if (
 }
 
 
+
 #----------------------------------------------------------#
-# 2. Target-level build status -----
+# 2. Errors and build status -----
 #----------------------------------------------------------#
 
 data_targets_all <-
@@ -79,10 +80,14 @@ data_targets_all <-
     fields = c("name", "type", "time", "seconds", "error"),
     complete_only = FALSE,
     store = sel_store_path
+  ) |>
+  dplyr::filter(
+    type == "stem"
   )
 
 # Overview: which targets are built vs. errored
-data_targets_all |>
+data_target_status_errors <-
+  data_targets_all |>
   dplyr::mutate(
     status = dplyr::case_when(
       !is.na(error) ~ "error",
@@ -90,14 +95,8 @@ data_targets_all |>
       .default = "not_built"
     )
   ) |>
-  dplyr::select(name, type, status, seconds, time) |>
-  dplyr::arrange(status, name) |>
-  print(n = Inf)
-
-
-#----------------------------------------------------------#
-# 3. Error details -----
-#----------------------------------------------------------#
+  dplyr::filter(status == "not_built" | status == "error") |>
+  dplyr::select(name, type, status, seconds, time)
 
 data_target_errors <-
   targets::tar_meta(
@@ -106,7 +105,10 @@ data_target_errors <-
     store = sel_store_path
   )
 
-if (nrow(data_target_errors) == 0L) {
+if (
+  nrow(data_target_status_errors) == 0L &&
+    nrow(data_target_errors) == 0L
+) {
   message("No errors found for unit: ", sel_scale_id)
 } else {
   message(
@@ -114,7 +116,26 @@ if (nrow(data_target_errors) == 0L) {
   )
   data_target_errors |>
     print(n = Inf)
+
+  View(data_target_status_errors)
+
+  # Open folder with the progress visualisation for this unit (if available)
+  progress_vis_path <-
+    here::here(
+      paste0("Documentation/Progress/spatial_", sel_scale),
+      sel_scale_id,
+      "pipeline_basic"
+    )
+
+  if (
+    fs::dir_exists(progress_vis_path)
+  ) {
+    shell.exec(progress_vis_path)
+  } else {
+    message("No progress visualisation found at: ", progress_vis_path)
+  }
 }
+
 
 
 #----------------------------------------------------------#
@@ -137,16 +158,23 @@ if (
 } else {
   convergence_info <- model_evaluation$convergence
 
-  message(
-    "Convergence diagnostic for: ", sel_scale_id, "\n",
-    "  Linear trend slope : ", convergence_info$linear_trend_slope,
-    "  (threshold < 0.01)\n",
-    "  Median diff        : ", convergence_info$median_diff,
-    "  (threshold < 1)\n",
-    "  Note               : ", convergence_info$note
-  )
-
-  plot(convergence_info$convergence_plot)
+  convergence_info$convergence_plot +
+    ggplot2::labs(
+      subtitle = sel_scale_id,
+      caption = paste0(
+        "Linear trend slope: ", convergence_info$linear_trend_slope,
+        "  (threshold < 0.01)\n",
+        "Median diff: ", convergence_info$median_diff,
+        "  (threshold < 1)"
+      )
+    ) +
+    ggview::canvas(
+      width = graphical_options[["width"]],
+      height = graphical_options[["height"]],
+      units = graphical_options[["units"]],
+      dpi = graphical_options[["dpi"]],
+      bg = graphical_options[["bg"]]
+    )
 }
 
 
