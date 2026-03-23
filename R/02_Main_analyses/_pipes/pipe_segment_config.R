@@ -44,11 +44,16 @@ pipe_segment_config <-
       description = "Configuration for VegVault data extraction - xlim",
       name = "config.x_lim",
       command = {
-        # R_SPATIAL_ID set → spatial scale analysis (CSV catalogue)
-        # R_SPATIAL_ID unset → named project (YAML config)
-        spatial_id <- Sys.getenv("R_SPATIAL_ID")
-        if (nchar(spatial_id) > 0) {
-          get_spatial_window(scale_id = spatial_id)$x_lim
+        # Spatial pipeline → scale_id encoded in store path
+        # Named project → returns NULL, falls back to config.yml
+        sel_scale_id <- get_scale_id_from_store()
+        if (
+          !is.null(sel_scale_id)
+        ) {
+          get_spatial_window(
+            scale_id = sel_scale_id
+          ) |>
+            purrr::chuck("x_lim")
         } else {
           get_active_config(
             value = c("vegvault_data", "x_lim")
@@ -61,9 +66,14 @@ pipe_segment_config <-
       description = "Configuration for VegVault data extraction - ylim",
       name = "config.y_lim",
       command = {
-        spatial_id <- Sys.getenv("R_SPATIAL_ID")
-        if (nchar(spatial_id) > 0) {
-          get_spatial_window(scale_id = spatial_id)$y_lim
+        sel_scale_id <- get_scale_id_from_store()
+        if (
+          !is.null(sel_scale_id)
+        ) {
+          get_spatial_window(
+            scale_id = sel_scale_id
+          ) |>
+            purrr::chuck("y_lim")
         } else {
           get_active_config(
             value = c("vegvault_data", "y_lim")
@@ -183,9 +193,21 @@ pipe_segment_config <-
         " number of training iterations"
       ),
       name = "config.n_iter",
-      command = get_active_config(
-        value = c("model_fitting", "n_iter")
-      ),
+      command = {
+        sel_scale_id <- get_scale_id_from_store()
+        if (
+          !is.null(sel_scale_id)
+        ) {
+          get_spatial_model_params(
+            scale_id = sel_scale_id
+          ) |>
+            purrr::chuck("n_iter")
+        } else {
+          get_active_config(
+            value = c("model_fitting", "n_iter")
+          )
+        }
+      },
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
@@ -194,9 +216,21 @@ pipe_segment_config <-
         " Monte Carlo samples per epoch"
       ),
       name = "config.n_sampling",
-      command = get_active_config(
-        value = c("model_fitting", "n_sampling")
-      ),
+      command = {
+        sel_scale_id <- get_scale_id_from_store()
+        if (
+          !is.null(sel_scale_id)
+        ) {
+          get_spatial_model_params(
+            scale_id = sel_scale_id
+          ) |>
+            purrr::chuck("n_sampling")
+        } else {
+          get_active_config(
+            value = c("model_fitting", "n_sampling")
+          )
+        }
+      },
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
@@ -205,9 +239,21 @@ pipe_segment_config <-
         " SGD mini-batch size (NULL = auto 10% of sites)"
       ),
       name = "config.n_step_size",
-      command = get_active_config(
-        value = c("model_fitting", "n_step_size")
-      ),
+      command = {
+        sel_scale_id <- get_scale_id_from_store()
+        if (
+          !is.null(sel_scale_id)
+        ) {
+          get_spatial_model_params(
+            scale_id = sel_scale_id
+          ) |>
+            purrr::chuck("n_step_size")
+        } else {
+          get_active_config(
+            value = c("model_fitting", "n_step_size")
+          )
+        }
+      },
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
@@ -216,9 +262,21 @@ pipe_segment_config <-
         " Monte Carlo samples for ANOVA variation partitioning"
       ),
       name = "config.n_samples_anova",
-      command = get_active_config(
-        value = c("model_fitting", "n_samples_anova")
-      ),
+      command = {
+        sel_scale_id <- get_scale_id_from_store()
+        if (
+          !is.null(sel_scale_id)
+        ) {
+          get_spatial_model_params(
+            scale_id = sel_scale_id
+          ) |>
+            purrr::chuck("n_samples_anova")
+        } else {
+          get_active_config(
+            value = c("model_fitting", "n_samples_anova")
+          )
+        }
+      },
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(

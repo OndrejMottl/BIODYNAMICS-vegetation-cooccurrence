@@ -72,10 +72,6 @@ project_spatial_continental:
   model_fitting:
     n_mev: 5
     n_cores: 24
-    n_iter: 400
-    n_step_size: 32
-    n_sampling: 100
-    n_samples_anova: 500
 project_spatial_regional:
   target_store: Data/targets/spatial_regional
   vegvault_data:
@@ -88,10 +84,6 @@ project_spatial_regional:
   model_fitting:
     n_mev: 4
     n_cores: 24
-    n_step_size: 8
-    n_iter: 500
-    n_sampling: 250
-    n_samples_anova: 500
 project_spatial_local:
   target_store: Data/targets/spatial_local
   vegvault_data:
@@ -104,6 +96,3 @@ project_spatial_local:
   model_fitting:
     n_mev: 3
     n_cores: 24
-    n_iter: 200
-    n_sampling: 200
-    n_samples_anova: 500

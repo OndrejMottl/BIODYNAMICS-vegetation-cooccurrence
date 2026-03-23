@@ -57,15 +57,10 @@ purrr::walk(
   .x = vec_scale_ids,
   .f = ~ {
     message("\n\nRunning pipeline for spatial unit: ", .x, "\n\n")
-    Sys.unsetenv("R_SPATIAL_ID")
-    Sys.setenv(R_SPATIAL_ID = .x)
     run_pipeline(
       sel_script = "R/02_Main_analyses/pipeline_basic.R",
       store_suffix = .x
     )
   }
 )
-
-# Clear spatial ID after iteration
-Sys.unsetenv("R_SPATIAL_ID")
 tictoc::toc()

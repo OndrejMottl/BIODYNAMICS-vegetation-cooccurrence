@@ -310,3 +310,4 @@ testthat::test_that("run_pipeline() skips tar_destroy when fresh_run = FALSE", {
   testthat::expect_false(destroy_called)
 })
 
+

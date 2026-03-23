@@ -149,7 +149,7 @@ run_pipeline <- function(
     )
   }
 
-  # Run the pipeline
+  # Run the pipeline.
   try(
     targets::tar_make(
       script = sel_script_path,
