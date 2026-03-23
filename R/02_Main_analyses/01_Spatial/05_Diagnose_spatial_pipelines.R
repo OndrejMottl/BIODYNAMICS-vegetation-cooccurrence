@@ -337,11 +337,9 @@ data_anova_fractions <-
       anova_object = .x,
       clamp_negative = TRUE
     ) |>
-      dplyr::mutate(
-        age = 0,
-        scale_id = .y
-      ) |>
-      recalculate_anova_components()
+      dplyr::mutate(age = 0) |>
+      recalculate_anova_components() |>
+      dplyr::mutate(scale_id = .y)
   ) |>
   purrr::list_rbind() |>
   dplyr::left_join(
