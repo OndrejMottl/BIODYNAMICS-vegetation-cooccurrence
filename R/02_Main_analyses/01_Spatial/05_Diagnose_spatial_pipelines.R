@@ -295,8 +295,20 @@ list_plots <-
     }
   )
 
-list_plots[["local"]]
-list_plots[["regional"]]
+list_plots[["local"]] +
+  ggview::canvas(
+    width = graphical_options$width * 2,
+    height = graphical_options$height * 8,
+    units = graphical_options$units,
+    dpi = graphical_options$dpi
+  )
+list_plots[["regional"]] +
+  ggview::canvas(
+    width = graphical_options$width * 2,
+    height = graphical_options$height * 3,
+    units = graphical_options$units,
+    dpi = graphical_options$dpi
+  )
 list_plots[["continental"]]
 
 #----------------------------------------------------------#
