@@ -50,13 +50,20 @@ Paste the full text of ALL of these into the prompt:
 
 ### Writing or editing a test file (`testthat/`)
 
+This project follows **TDD**: test files are written against the function **spec stub** before the implementation exists. Tests must describe intended behaviour and must all fail when run against the stub.
+
 Paste the full text of ALL of these into the prompt:
 
 1. `r-coding.instructions.md`
 2. `r-coding-tidyverse.instructions.md`
 3. `r-coding-functions.instructions.md`
 4. `make_test_file_for_a_function.instructions.md`
-5. The **complete source** of the function under test
+5. The **complete source** of the function under test (stub or implementation)
+
+Also tell the subagent explicitly whether this is:
+
+- **New function (TDD step 2)**: the function body is a stub — write tests that capture all intended behaviour and will fail against the stub.
+- **Editing existing function (TDD step 2 of edit cycle)**: provide the updated spec and the current test file — add/revise tests for the new behaviour.
 
 ### Writing or editing a pipeline script or pipe segment
 

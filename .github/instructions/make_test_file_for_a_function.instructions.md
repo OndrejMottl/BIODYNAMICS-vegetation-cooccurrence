@@ -318,12 +318,31 @@ If function uses non-standard evaluation (NSE) or tidyverse programming (`{{ }}`
 
 ---
 
+## TDD Context: Tests Are Written Before Implementation
+
+This project follows **Test-Driven Development (TDD)**. Test files are created from the function **spec stub** (roxygen2 documentation + empty body) — not from a finished implementation.
+
+**Your tests must describe the intended behaviour, not match existing code.**
+
+### For a new function (most common case)
+
+The function file will contain only:
+
+- The roxygen2 documentation header
+- A stub body such as `return(NULL)` or `stop("not implemented")`
+
+When the test file you produce is run against this stub, **every test must fail**. If a test passes against an unimplemented stub, it is not guarding any real behaviour — revise it.
+
+### After the implementation is complete
+
+Once the function body is fully written, the same test file is re-run. At that point all tests are expected to pass.
+
+---
+
 ## After Editing a Test File
 
-**MANDATORY:** After creating or modifying any test file in
-`R/03_Supplementary_analyses/testthat/`, immediately run that test file to
-verify all tests pass. Functions are not auto-loaded by testthat — you must
-source the project setup first so all project functions are available:
+**Step 1 — Verify tests FAIL against the stub.**
+After creating or modifying a test file for an unimplemented (or not yet changed) function, run the test file immediately to confirm that every test fails. Functions are not auto-loaded — source the project setup first:
 
 ```r
 library(here)
@@ -339,17 +358,17 @@ testthat::test_file(
 )
 ```
 
-To run the **full test suite**, use the canonical script that handles setup
-automatically:
+A test that passes at this stage is not testing real behaviour — revise it.
+
+**Step 2 — Verify tests PASS after the implementation is complete.**
+Once the function body has been written and all individual tests pass, run the **full test suite** to verify nothing else broke:
 
 ```powershell
 Rscript R/03_Supplementary_analyses/Run_tests.R
 ```
 
-Do not consider the task complete until the test run produces **no failures and
-no errors**. Warnings are acceptable only if they are expected and intentional.
-If any test fails after an edit, fix the test (or the function) before
-finishing.
+Do not consider the task complete until the full test suite produces **no failures and no errors**. Warnings are acceptable only if they are expected and intentional.
+If any test fails after an edit, fix the test (or the function) before finishing.
 
 ---
 
