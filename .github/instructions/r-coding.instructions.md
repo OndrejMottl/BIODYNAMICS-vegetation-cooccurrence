@@ -382,12 +382,15 @@ try(
 ```
 
 For `for()`, `if()`, and `while()` loops, the iterator or condition is placed on its
-own indented line, and the closing `) {` is indented to the same level:
+own indented line, and the closing `) {` is on its own line at the same indent
+level as the keyword. **This applies even for short, single-condition tests —
+never write `if (condition) {` on a single line.**
 
 ```r
+# Good
 for (
   col_name in vec_col_names
-  ) {
+) {
   ...
 }
 
@@ -399,9 +402,14 @@ if (
 
 while (
   condition
-  ) {
+) {
   ...
 }
+
+# Avoid
+for (i in seq_len(n)) { ... }
+if (flag) { ... }
+while (condition) { ... }
 ```
 
 ### Assignment

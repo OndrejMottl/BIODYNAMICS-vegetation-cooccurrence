@@ -16,6 +16,7 @@ Use tidyverse functions over base R equivalents:
 | `read.csv()` | `readr::read_csv()` |
 | `df$some_column` | `df |> dplyr::pull(some_column)` |
 | `df$some_column = ...` | `df |> dplyr::mutate(some_column = ...)` |
+| `list$element` | `list \|> purrr::chuck("element")` |
 | `apply(m, 2, f)` | `purrr::map_dbl(colnames(m), ~ f(m[, .x]))` |
 | `lapply(x, f)` | `purrr::map(x, f)` |
 | `sapply(x, f)` | `purrr::map_dbl(x, f)` / `purrr::map_chr(x, f)` |
@@ -23,6 +24,25 @@ Use tidyverse functions over base R equivalents:
 | `mapply(f, x, y)` | `purrr::map2(x, y, f)` |
 | `grepl("p", x)` | `stringr::str_detect(x, "p")` |
 | `gsub("a", "b", x)` | `stringr::str_replace_all(x, "a", "b")` |
+
+**Never use `$` for element access.** Use `dplyr::pull()` to extract a column
+from a data frame and `purrr::chuck()` to extract an element from a list.
+These are explicit, pipe-friendly, and raise a clear error when the element
+is missing.
+
+```r
+# Good — data frame column
+data_diversity |>
+  dplyr::pull(species_richness)
+
+# Good — list element
+list_params |>
+  purrr::chuck("n_iter")
+
+# Avoid
+data_diversity$species_richness
+list_params$n_iter
+```
 
 **Never use the `apply` family** (`apply()`, `lapply()`, `sapply()`,
 `vapply()`, `mapply()`, `tapply()`). Use `purrr::map*()` equivalents
