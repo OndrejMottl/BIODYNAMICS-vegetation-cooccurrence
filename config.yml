@@ -55,6 +55,7 @@ project_temporal_europe:
     sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
   data_processing:
     taxonomic_resolution: "genus"
+    number_of_taxa: 5
     min_n_samples: 10
   model_fitting:
     n_mev: 5
@@ -71,6 +72,7 @@ project_spatial_continental:
     sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
   data_processing:
     taxonomic_resolution: "genus"
+    number_of_taxa: 10
     min_n_samples: 10
   model_fitting:
     n_mev: 5
@@ -83,6 +85,7 @@ project_spatial_regional:
     sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
   data_processing:
     taxonomic_resolution: "genus"
+    number_of_taxa: 5
     min_n_samples: 10
   model_fitting:
     n_mev: 4
@@ -95,6 +98,7 @@ project_spatial_local:
     sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
   data_processing:
     taxonomic_resolution: "genus"
+    number_of_taxa: 5
     min_n_samples: 5
   model_fitting:
     n_mev: 3
