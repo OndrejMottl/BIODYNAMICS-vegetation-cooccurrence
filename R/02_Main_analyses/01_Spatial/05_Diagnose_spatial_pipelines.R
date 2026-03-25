@@ -209,6 +209,9 @@ data_convergence_summary <-
 
 print(data_convergence_summary, n = Inf)
 
+data_convergence_summary |>
+  dplyr::filter(!converged) |>
+  dplyr::pull(scale_id)
 
 #--------------------------------------------------#
 ## 4.2. Model R² summary -----
@@ -258,7 +261,11 @@ list_convergence_plots <-
   list_model_evaluation |>
   purrr::imap(
     .f = ~ purrr::chuck(.x, "convergence", "convergence_plot") +
-      ggplot2::labs(subtitle = .y)
+      ggplot2::labs(subtitle = .y, title = NULL) +
+      ggplot2::theme(
+        title = ggplot2::element_blank(),
+        axis.title = ggplot2::element_blank()
+      )
   ) |>
   purrr::keep_at(
     names(list_model_evaluation)
@@ -300,7 +307,7 @@ list_plots[["local"]] +
     width = graphical_options$width * 2,
     height = graphical_options$height * 8,
     units = graphical_options$units,
-    dpi = graphical_options$dpi
+    dpi = graphical_options$dpi * 2
   )
 list_plots[["regional"]] +
   ggview::canvas(
