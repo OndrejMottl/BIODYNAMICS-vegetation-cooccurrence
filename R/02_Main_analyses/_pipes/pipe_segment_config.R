@@ -167,6 +167,17 @@ pipe_segment_config <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
+      description = paste0(
+        "Configuration for data processing -",
+        " minimum number of taxa to run model"
+      ),
+      name = "config.min_n_taxa",
+      command = get_active_config(
+        value = c("data_processing", "min_n_taxa")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
       description = "Configuration for data processing",
       name = "config.data_processing",
       command = list(
@@ -175,7 +186,8 @@ pipe_segment_config <-
         minimal_proportion_of_pollen = config.minimal_proportion_of_pollen,
         taxonomic_resolution = config.taxonomic_resolution,
         min_n_cores = config.min_n_cores,
-        min_n_samples = config.min_n_samples
+        min_n_samples = config.min_n_samples,
+        min_n_taxa = config.min_n_taxa
       )
     ),
     #--------------------------------------------------#
