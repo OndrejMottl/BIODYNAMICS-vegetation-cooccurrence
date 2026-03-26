@@ -24,7 +24,9 @@
 #' @details
 #' Uses `targets::tar_visnetwork` to create a network graph and saves two
 #' HTML files (full and targets-only) using `visNetwork::visSave`, plus a
-#' static PNG via `webshot2::webshot`. Files are written to
+#' static PNG via `webshot2::webshot`. If the browser-backed PNG export fails,
+#' the function emits a warning and keeps the HTML outputs so progress saving
+#' does not abort the surrounding pipeline run. Files are written to
 #' `output_dir/<store_name>/` where `<store_name>` is the last path segment
 #' of `sel_store` after the `targets/` directory.
 #' @export
@@ -73,31 +75,60 @@ save_progress_visualisation <- function(
       replacement = ""
     )
 
+  output_store_dir <-
+    paste0(output_dir, "/", sel_store_simple)
+
+  output_html_path <-
+    paste0(output_store_dir, "/", output_file, ".html")
+
+  output_small_html_path <-
+    paste0(output_store_dir, "/", output_file, "_small.html")
+
+  output_png_path <-
+    paste0(output_store_dir, "/", output_file, "_static.png")
+
   # need to create the output directory if it doesn't exist
   if (
-    !dir.exists(paste0(output_dir, "/", sel_store_simple))
+    !dir.exists(output_store_dir)
   ) {
-    dir.create(paste0(output_dir, "/", sel_store_simple), recursive = TRUE)
+    dir.create(output_store_dir, recursive = TRUE)
   }
 
   visNetwork::visSave(
     graph = network_graph,
-    file = paste0(output_dir, "/", sel_store_simple, "/", output_file, ".html"),
+    file = output_html_path,
     selfcontained = TRUE,
     background = background_color
   )
 
   visNetwork::visSave(
     graph = network_graph_static,
-    file = paste0(output_dir, "/", sel_store_simple, "/", output_file, "_small.html"),
+    file = output_small_html_path,
     selfcontained = TRUE,
     background = background_color
   )
 
-  webshot2::webshot(
-    url = paste0(output_dir, "/", sel_store_simple, "/", output_file, "_small.html"),
-    file = paste0(output_dir, "/", sel_store_simple, "/", output_file, "_static.png"),
-    vwidth = 950,
-    vheight = 750
+  # PNG export depends on launching a browser through chromote/webshot2,
+  #   which can fail in interactive sessions even when the HTML outputs save.
+  tryCatch(
+    webshot2::webshot(
+      url = output_small_html_path,
+      file = output_png_path,
+      vwidth = 950,
+      vheight = 750
+    ),
+    error = function(err) {
+      cli::cli_warn(
+        c(
+          "Failed to save static PNG progress visualisation.",
+          "i" = "HTML progress files were saved successfully.",
+          "i" = paste0(
+            "Original error: ",
+            base::conditionMessage(err)
+          )
+        )
+      )
+      invisible(NULL)
+    }
   )
 }
