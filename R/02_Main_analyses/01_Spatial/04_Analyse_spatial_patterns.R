@@ -37,10 +37,13 @@ if (
     "regional",
     "local"
   ) |>
-    purrr::walk(
+    rlang::set_names(
+      nm = as.character(c(1:3))
+    ) |>
+    purrr::iwalk(
       .f = ~ here::here(
         "R/02_Main_analyses/01_Spatial/",
-        paste0("01_Run_spatial_", .x, ".R")
+        stringr::str_glue("0{.y}_Run_spatial_{.x}.R")
       ) |>
         source()
     )
