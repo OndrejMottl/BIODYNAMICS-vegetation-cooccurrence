@@ -316,7 +316,13 @@ list_plots[["regional"]] +
     units = graphical_options$units,
     dpi = graphical_options$dpi
   )
-list_plots[["continental"]]
+list_plots[["continental"]] +
+  ggview::canvas(
+    width = graphical_options$width,
+    height = graphical_options$height,
+    units = graphical_options$units,
+    dpi = graphical_options$dpi
+  )
 
 #----------------------------------------------------------#
 # 6. ANOVA fractions summary -----
