@@ -32,21 +32,21 @@ library(
 
 if (
   isFALSE(
-    exists("already_synch", envir = current_env)
+    exists("flag_already_synch", envir = current_env)
   )
 ) {
-  already_synch <- FALSE
+  flag_already_synch <- FALSE
 }
 
 if (
-  isFALSE(already_synch)
+  isFALSE(flag_already_synch)
 ) {
   library(here)
   # Synchronise the package versions
   renv::restore(
     lockfile = here::here("renv.lock")
   )
-  already_synch <- TRUE
+  flag_already_synch <- TRUE
 
   # Save snapshot of package versions
   # renv::snapshot(lockfile =  here::here("renv.lock"))  # do only for update

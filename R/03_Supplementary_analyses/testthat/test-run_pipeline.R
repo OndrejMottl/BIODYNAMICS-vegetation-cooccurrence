@@ -45,7 +45,7 @@ testthat::test_that("run_pipeline() bypasses config guard when disabled", {
     .package = "targets"
   )
 
-  default_config_guard_fired <- FALSE
+  flag_default_config_guard_fired <- FALSE
 
   tryCatch(
     run_pipeline(
@@ -60,12 +60,12 @@ testthat::test_that("run_pipeline() bypasses config guard when disabled", {
           pattern = "default config is active"
         )
       ) {
-        default_config_guard_fired <<- TRUE
+        flag_default_config_guard_fired <<- TRUE
       }
     }
   )
 
-  testthat::expect_false(default_config_guard_fired)
+  testthat::expect_false(flag_default_config_guard_fired)
 })
 
 testthat::test_that("run_pipeline() accepts store_suffix argument", {
@@ -252,11 +252,11 @@ testthat::test_that("run_pipeline() calls tar_destroy when fresh_run = TRUE", {
     add = TRUE
   )
 
-  destroy_called <- FALSE
+  flag_destroy_called <- FALSE
 
   testthat::local_mocked_bindings(
     tar_destroy = function(destroy, store, ...) {
-      destroy_called <<- TRUE
+      flag_destroy_called <<- TRUE
       invisible(NULL)
     },
     tar_make = function(...) invisible(NULL),
@@ -270,7 +270,7 @@ testthat::test_that("run_pipeline() calls tar_destroy when fresh_run = TRUE", {
     fresh_run = TRUE
   )
 
-  testthat::expect_true(destroy_called)
+  testthat::expect_true(flag_destroy_called)
 })
 
 testthat::test_that("run_pipeline() skips tar_destroy when fresh_run = FALSE", {
@@ -289,11 +289,11 @@ testthat::test_that("run_pipeline() skips tar_destroy when fresh_run = FALSE", {
     add = TRUE
   )
 
-  destroy_called <- FALSE
+  flag_destroy_called <- FALSE
 
   testthat::local_mocked_bindings(
     tar_destroy = function(destroy, store, ...) {
-      destroy_called <<- TRUE
+      flag_destroy_called <<- TRUE
       invisible(NULL)
     },
     tar_make = function(...) invisible(NULL),
@@ -307,7 +307,7 @@ testthat::test_that("run_pipeline() skips tar_destroy when fresh_run = FALSE", {
     fresh_run = FALSE
   )
 
-  testthat::expect_false(destroy_called)
+  testthat::expect_false(flag_destroy_called)
 })
 
 

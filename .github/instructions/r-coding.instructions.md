@@ -155,7 +155,10 @@ The names should be nouns and start with the type of object:
 - `vec_` - for vectors
 - `mod_*` - for statistical model
 - `res_` - special category, which can be used within the function to name an
-  object to be returned (`return(res_*)`).
+  object to be returned (`return(res_*)`)
+- `flag_*` - for boolean/logical control flags (e.g. safety guards, feature
+  switches). **Always use `snake_style`** — never `SCREAMING_SNAKE_CASE` even
+  though that convention is common in other languages.
 
 Examples of good names:
 
@@ -174,6 +177,10 @@ mod_diversity_linear
 
 # result
 res_estimated_weight
+
+# flag (boolean / logical control variable)
+flag_allow_overwrite <- FALSE
+flag_use_parallel <- TRUE
 ```
 
 ### Function Names

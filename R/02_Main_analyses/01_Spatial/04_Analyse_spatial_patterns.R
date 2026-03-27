@@ -22,7 +22,7 @@ source(
   here::here("R/___setup_project___.R")
 )
 
-run_all <- FALSE
+flag_run_all <- FALSE
 
 
 #----------------------------------------------------------#
@@ -30,7 +30,7 @@ run_all <- FALSE
 #----------------------------------------------------------#
 
 if (
-  isTRUE(run_all)
+  isTRUE(flag_run_all)
 ) {
   c(
     "continental",
