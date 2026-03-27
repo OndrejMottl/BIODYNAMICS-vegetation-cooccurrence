@@ -76,6 +76,17 @@ pipe_segment_model_prep <-
     ),
     targets::tar_target(
       description = paste0(
+        "Stop pipeline if fewer than min_n_taxa taxa",
+        " remain after filtering"
+      ),
+      name = "data_community_n_taxa_checked",
+      command = filter_community_by_n_taxa(
+        data_community_matrix = data_community_filtered,
+        min_n_taxa = config.data_processing$min_n_taxa
+      )
+    ),
+    targets::tar_target(
+      description = paste0(
         "Project WGS84 coords to metric km",
         " using the configured target CRS"
       ),
@@ -151,7 +162,7 @@ pipe_segment_model_prep <-
       description = "Validate and assemble data list for fitting",
       name = "data_to_fit",
       command = assemble_data_to_fit(
-        data_community_filtered = data_community_filtered,
+        data_community_filtered = data_community_n_taxa_checked,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
         data_spatial_scaled_list = data_spatial_scaled_list
       )

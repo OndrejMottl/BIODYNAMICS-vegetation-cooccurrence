@@ -48,7 +48,7 @@ n_mev_st_debug <- 2L # MEVs for Stage 4 - 3-D spatiotemporal
 vec_ages_s4 <- c(0L, 500L, 1000L, 2000L, 3000L)
 sel_grid_resolution <- 0.1 # degrees; finer = slower CZ grid download
 sel_taxon <- "Fagus" # taxon shown in maps
-verbose <- FALSE
+flag_verbose <- FALSE
 
 set_store <-
   paste0(
@@ -106,7 +106,7 @@ data_community_binary_1k <-
   { (. > 0) * 1L } |>
   filter_constant_taxa()
 
-if (verbose) {
+if (flag_verbose) {
   cat("Taxa retained (binary):", ncol(data_community_binary_1k), "\n")
   cat("Samples:", nrow(data_community_binary_1k), "\n")
 }
@@ -263,7 +263,7 @@ data_grid_abiotic_scaled <-
   ) |>
   dplyr::select(bio1, bio12)
 
-if (verbose) {
+if (flag_verbose) {
   cat(
     "Grid bio1 range (scaled):",
     base::round(base::range(data_grid_abiotic_scaled$bio1), 2),
@@ -306,11 +306,11 @@ mod_s1 <-
     sampling = 1000L,
     iter = 1000L,
     seed = 900723,
-    verbose = verbose,
+    verbose = flag_verbose,
     compute_se = TRUE
   )
 
-if (verbose) {
+if (flag_verbose) {
   summary(mod_s1)
 }
 
@@ -324,7 +324,7 @@ eval_s1 <-
     mod_jsdm = mod_s1
   )
 
-if (verbose) {
+if (flag_verbose) {
   cat("Stage 1 AUC by species:\n")
   print(
     eval_s1$species |>
@@ -426,11 +426,11 @@ mod_s2 <-
     sampling = 1000L,
     iter = 1000L,
     seed = 900723,
-    verbose = verbose,
+    verbose = flag_verbose,
     compute_se = TRUE
   )
 
-if (verbose) {
+if (flag_verbose) {
   summary(mod_s2)
 }
 
@@ -444,7 +444,7 @@ eval_s2 <-
     mod_jsdm = mod_s2
   )
 
-if (verbose) {
+if (flag_verbose) {
   cat("Stage 2 AUC by species:\n")
   print(
     eval_s2$species |>
@@ -542,7 +542,7 @@ data_spatial_mev_core_1k <-
     n_mev = n_mev_debug
   )
 
-if (verbose) {
+if (flag_verbose) {
   cat("MEV dimensions (sites x MEVs):", dim(data_spatial_mev_core_1k), "\n")
 }
 
@@ -681,11 +681,11 @@ mod_s3 <-
     sampling = 1000L,
     iter = 1000L,
     seed = 900723,
-    verbose = verbose,
+    verbose = flag_verbose,
     compute_se = TRUE
   )
 
-if (verbose) {
+if (flag_verbose) {
   summary(mod_s3)
 }
 
@@ -699,7 +699,7 @@ eval_s3 <-
     mod_jsdm = mod_s3
   )
 
-if (verbose) {
+if (flag_verbose) {
   cat("Stage 3 AUC by species:\n")
   print(
     eval_s3$species |>
@@ -808,7 +808,7 @@ data_community_binary_s4 <-
   { (. > 0) * 1L } |>
   filter_constant_taxa()
 
-if (verbose) {
+if (flag_verbose) {
   cat(
     "Stage 4 taxa retained (binary):",
     ncol(data_community_binary_s4), "\n"
@@ -861,7 +861,7 @@ data_st_mev_samples_s4 <-
     n_mev = n_mev_st_debug
   )
 
-if (verbose) {
+if (flag_verbose) {
   cat(
     "ST-MEV dimensions (all slices, samples x MEVs):",
     dim(data_st_mev_samples_s4),
@@ -1113,11 +1113,11 @@ mod_s4 <-
     sampling = 1000L,
     iter = 1000L,
     seed = 900723,
-    verbose = verbose,
+    verbose = flag_verbose,
     compute_se = TRUE
   )
 
-if (verbose) {
+if (flag_verbose) {
   summary(mod_s4)
 }
 
@@ -1131,7 +1131,7 @@ eval_s4 <-
     mod_jsdm = mod_s4
   )
 
-if (verbose) {
+if (flag_verbose) {
   cat("Stage 4 AUC by species:\n")
   print(
     eval_s4$species |>
@@ -1262,7 +1262,7 @@ data_auc_comparison <-
   ) |>
   dplyr::arrange(dplyr::desc(AUC_s4))
 
-if (verbose) {
+if (flag_verbose) {
   cat("\nAUC comparison across all four stages:\n")
   print(data_auc_comparison)
 }

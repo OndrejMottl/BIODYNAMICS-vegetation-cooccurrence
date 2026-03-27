@@ -33,14 +33,32 @@
 #' @param device
 #' Computing device to use. One of "cpu" (default) or "gpu"
 #' @param compute_se
-#' Logical indicating whether to compute standard errors. Default is FALSE.
-#' Note: SE computation may fail with certain model configurations (e.g., DNN,
-#' complex spatial structures) and will produce a warning if it fails.
+#' Logical indicating whether to compute standard errors inline
+#' during model fitting. Default is `FALSE`. Prefer the
+#' post-hoc approach via `compute_jsdm_se()` in a separate
+#' pipeline target, which allows CPU parallelisation
+#' independent of the GPU device setting.
 #' @param parallel
 #' Number of CPU cores to use for parallel processing.
-#' Only applicable if device = "cpu". Default is 0L (no parallelization).
+#' Only applicable if `device = "cpu"`. Default is `0L`
+#' (no parallelisation).
 #' @param ...
-#' Additional arguments passed to sjSDM::sjSDM
+#' Additional arguments passed to `sjSDM::sjSDM()` (e.g.
+#' `sampling`, `step_size`, `seed`). Do NOT pass `iter`,
+#' `control` or `early_stopping` directly — use the dedicated
+#' `iter` and `n_early_stopping` parameters instead.
+#' @param iter
+#' Positive integer. Number of training epochs. Default is `100L`.
+#' @param n_early_stopping
+#' Early stopping patience. Controls how many consecutive epochs
+#' without improvement are tolerated before training is halted.
+#' Three accepted values:
+#' - `NULL` (default): auto-compute as `round(iter * 0.20)`, i.e.
+#'   at least 20 \% of the epoch budget.
+#' - `0L` or negative integer: disables early stopping entirely.
+#' - Positive integer: uses `max(value, round(iter * 0.20))` to
+#'   ensure patience is never set below 20 \% of `iter`. Passed
+#'   as `early_stopping_training` in `sjSDM::sjSDMControl()`.
 #' @return
 #' An object of class sjSDM containing the fitted model
 #' @details
@@ -54,7 +72,7 @@
 #' model configurations, particularly when using DNN methods or complex
 #' spatial structures. If SE computation fails, the model will still be
 #' returned with a warning.
-#' @seealso sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN
+#' @seealso sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN, compute_jsdm_se
 #' @export
 fit_jsdm_model <- function(
     data_to_fit = NULL,
@@ -67,6 +85,8 @@ fit_jsdm_model <- function(
     parallel = 0L,
     compute_se = FALSE,
     ...,
+    iter = 100L,
+    n_early_stopping = NULL,
     verbose = FALSE) {
   # Validate `data_to_fit` structure
   assertthat::assert_that(
@@ -189,6 +209,24 @@ fit_jsdm_model <- function(
     msg = "verbose must be a logical value of length 1"
   )
 
+  assertthat::assert_that(
+    is.numeric(iter),
+    length(iter) == 1,
+    iter > 0,
+    msg = paste0(
+      "`iter` must be a single positive numeric value of length 1"
+    )
+  )
+
+  assertthat::assert_that(
+    is.null(n_early_stopping) ||
+      (is.numeric(n_early_stopping) && length(n_early_stopping) == 1),
+    msg = paste0(
+      "`n_early_stopping` must be NULL or a single numeric",
+      " value of length 1"
+    )
+  )
+
   # Handle device/parallel conflict
   if (
     device == "gpu" && parallel > 0L
@@ -268,6 +306,29 @@ fit_jsdm_model <- function(
       )
   }
 
+  # Three-tier early stopping patience:
+  #  "NULL"  -> auto: round(iter * 0.20), ensuring >= 20% of budget
+  #  <= 0  -> 0 (disabled, maps to sjSDMControl's "disabled" value)
+  #  > 0   -> max(value, round(iter * 0.20)), floor at 20% of iter
+  sel_early_stopping <-
+    if (
+      base::is.null(n_early_stopping)
+    ) {
+      base::as.integer(base::round(iter * 0.20))
+    } else if (
+      n_early_stopping <= 0
+    ) {
+      0L
+    } else {
+      base::max(
+        base::as.integer(n_early_stopping),
+        base::as.integer(base::round(iter * 0.20))
+      )
+    }
+
+  sel_control <-
+    sjSDM::sjSDMControl(early_stopping_training = sel_early_stopping)
+
   mod_sjsdm <-
     sjSDM::sjSDM(
       Y = as.matrix(data_community),
@@ -277,6 +338,8 @@ fit_jsdm_model <- function(
       family = error_family,
       device = device,
       verbose = verbose,
+      control = sel_control,
+      iter = iter,
       ...
     )
 

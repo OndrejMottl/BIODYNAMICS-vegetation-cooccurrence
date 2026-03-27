@@ -22,6 +22,18 @@ Specific rules apply for making custom functions:
   in each function script
 - Function should always return (`return(res_value)`)
 
+**All function creation and editing follows Test-Driven Development (TDD).**
+The mandatory cycle is:
+1. Write (or update) the roxygen2 spec stub first
+2. Write unit tests against the spec — before any implementation exists
+3. Verify every test fails against the stub
+4. Implement the function until all tests pass
+5. Run the full test suite (`Rscript R/03_Supplementary_analyses/Run_tests.R`)
+6. Run the `project_cz` pipeline end-to-end
+
+See the TDD workflow in the project's `copilot-instructions.md` for the
+full step-by-step procedure.
+
 ## Anonymous Functions
 
 In various instances, it might be better to not create a new function but to
@@ -111,7 +123,8 @@ for project-specific functions (not just within the package) as it is easier
 to transition to a custom package.
 
 The roxygen2 documentation should be placed before the function declaration
-but keep the line limit of 80 characters. See
+but keep the 80-character line limit for all R code and `#'` roxygen2 comment
+lines. See
 [make_roxygen2_documentation.instructions.md](make_roxygen2_documentation.instructions.md)
 for the full template and detailed rules.
 

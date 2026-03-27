@@ -56,5 +56,16 @@ pipe_segment_vegvault_data <-
       description = "Get coordinates of the VegVault data",
       name = "data_coords",
       command = get_coords(data_vegvault_extracted)
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Check that the spatial window contains enough cores",
+        " before processing community data"
+      ),
+      name = "check_n_cores",
+      command = check_min_n_cores(
+        data_coords = data_coords,
+        min_n_cores = config.min_n_cores
+      )
     )
   )

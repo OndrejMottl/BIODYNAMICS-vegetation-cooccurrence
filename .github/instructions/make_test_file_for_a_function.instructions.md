@@ -14,7 +14,7 @@ You are an expert R developer and testthat user tasked with writing comprehensiv
   `list_*`, `mod_*`)
 - Syntax rules (spaces, new lines, assignment with `<-`)
 - Function namespace usage (`package::function()`)
-- Line width limit (80 characters)
+- Line width limit (80 characters per line of **R code**)
 - Use of `TRUE`/`FALSE` instead of `T`/`F`
 
 ### Most-commonly violated rules in test files
@@ -22,10 +22,14 @@ You are an expert R developer and testthat user tasked with writing comprehensiv
 These rules are frequently missed — treat them as a checklist before finishing
 any test file:
 
-**1. 80-character line limit applies everywhere**, including `test_that()`
-description strings. If a description would exceed 80 characters, shorten it
-(do **not** break the string with `paste0()` unless truly unavoidable).
-Count the leading spaces + quotes + text + `",` — all of it counts.
+**1. 80-character line limit applies to all R code**, including `test_that()`
+description strings. If a description string would exceed 80 characters,
+shorten it (do **not** break the string with `paste0()` unless truly
+unavoidable). Count the leading spaces + quotes + text + `",` — all of it
+counts.
+
+> **Note:** This limit applies to R source code only. Markdown prose in
+> `.md` files is NOT subject to the 80-character limit.
 
 **2. Never use `$` to access data frame columns.** The project standards
 explicitly ban `df$column`. Use `dplyr::pull(df, column)` instead:
@@ -123,6 +127,8 @@ Common base R calls that must also be namespaced in test files include:
 | `structure(x, ...)` | `base::structure(x, ...)` |
 | `class(x) <- y` | `base::class(x) <- y` |
 | `character(n)` | `base::character(n)` |
+| `sd(x)` | `stats::sd(x)` — **NOT** `base::sd()` (sd lives in `stats`) |
+| `rep(x, n)` | `base::rep(x, n)` |
 
 ## Objective
 
@@ -289,7 +295,7 @@ If function uses non-standard evaluation (NSE) or tidyverse programming (`{{ }}`
 - Use `snake_case` for all object names with type prefixes where applicable
 - Assignment with `<-` (never `=` or `->`)
 - Use `TRUE`/`FALSE` (never `T`/`F`)
-- Maximum 80 characters per line
+- Maximum 80 characters per line of R code
 - Space after commas, before/after infix operators
 - Use full namespace: `package::function()` for all function calls
 - Vertical code style with new lines after assignment and pipes
@@ -316,12 +322,31 @@ If function uses non-standard evaluation (NSE) or tidyverse programming (`{{ }}`
 
 ---
 
+## TDD Context: Tests Are Written Before Implementation
+
+This project follows **Test-Driven Development (TDD)**. Test files are created from the function **spec stub** (roxygen2 documentation + empty body) — not from a finished implementation.
+
+**Your tests must describe the intended behaviour, not match existing code.**
+
+### For a new function (most common case)
+
+The function file will contain only:
+
+- The roxygen2 documentation header
+- A stub body such as `return(NULL)` or `stop("not implemented")`
+
+When the test file you produce is run against this stub, **every test must fail**. If a test passes against an unimplemented stub, it is not guarding any real behaviour — revise it.
+
+### After the implementation is complete
+
+Once the function body is fully written, the same test file is re-run. At that point all tests are expected to pass.
+
+---
+
 ## After Editing a Test File
 
-**MANDATORY:** After creating or modifying any test file in
-`R/03_Supplementary_analyses/testthat/`, immediately run that test file to
-verify all tests pass. Functions are not auto-loaded by testthat — you must
-source the project setup first so all project functions are available:
+**Step 1 — Verify tests FAIL against the stub.**
+After creating or modifying a test file for an unimplemented (or not yet changed) function, run the test file immediately to confirm that every test fails. Functions are not auto-loaded — source the project setup first:
 
 ```r
 library(here)
@@ -337,17 +362,17 @@ testthat::test_file(
 )
 ```
 
-To run the **full test suite**, use the canonical script that handles setup
-automatically:
+A test that passes at this stage is not testing real behaviour — revise it.
+
+**Step 2 — Verify tests PASS after the implementation is complete.**
+Once the function body has been written and all individual tests pass, run the **full test suite** to verify nothing else broke:
 
 ```powershell
 Rscript R/03_Supplementary_analyses/Run_tests.R
 ```
 
-Do not consider the task complete until the test run produces **no failures and
-no errors**. Warnings are acceptable only if they are expected and intentional.
-If any test fails after an edit, fix the test (or the function) before
-finishing.
+Do not consider the task complete until the full test suite produces **no failures and no errors**. Warnings are acceptable only if they are expected and intentional.
+If any test fails after an edit, fix the test (or the function) before finishing.
 
 ---
 

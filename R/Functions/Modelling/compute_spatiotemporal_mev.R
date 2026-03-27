@@ -21,9 +21,11 @@
 #' as returned by `align_sample_ids()`.
 #' @param n_mev
 #' A positive integer giving the number of eigenvectors to
-#' return. Must not exceed the number of positive Moran
+#' return. If it exceeds the number of positive Moran
 #' eigenvectors produced by `sjSDM::generateSpatialEV()`
-#' for the 3-D coordinate matrix. Default is `20L`.
+#' for the 3-D coordinate matrix, it is automatically
+#' clamped down to that count and a `cli::cli_warn()`
+#' message is emitted. Default is `20L`.
 #' @return
 #' A data frame with row names `"<dataset_name>__<age>"`
 #' and `n_mev` columns named `mev_1`, `mev_2`, …,
@@ -162,24 +164,22 @@ compute_spatiotemporal_mev <- function(
   mat_mev_all <-
     base::as.matrix(mat_mev_raw)
 
-  # 4. Post-call validation -----
+  # 4. Post-call validation: clamp n_mev if needed -----
 
   n_produced <-
     base::ncol(mat_mev_all)
 
-  assertthat::assert_that(
-    !base::is.null(n_produced) && n_produced >= n_mev,
-    msg = base::paste0(
-      "n_mev (", n_mev, ") exceeds the number of",
-      " positive Moran eigenvectors produced (",
-      base::ifelse(
-        base::is.null(n_produced),
-        0L,
-        n_produced
-      ),
-      ") for the supplied 3-D coordinate matrix"
+  if (
+    n_mev > n_produced
+  ) {
+    cli::cli_warn(
+      c(
+        "{n_mev} MEV(s) requested; only {n_produced} positive.",
+        "i" = "Lowering n_mev from {n_mev} to {n_produced}."
+      )
     )
-  )
+    n_mev <- n_produced
+  }
 
   # 5. Select first n_mev columns -----
 

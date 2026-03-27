@@ -7,6 +7,7 @@ This project analyzes vegetation co-occurrence patterns using paleoecological an
 ## Coding Standards
 
 This project follows specific R coding conventions split across five instruction files:
+
 - [r-coding.instructions.md](instructions/r-coding.instructions.md) — Script structure, naming, syntax
 - [r-coding-tidyverse.instructions.md](instructions/r-coding-tidyverse.instructions.md) — Tidyverse, namespace, dplyr/purrr, data masking
 - [r-coding-functions.instructions.md](instructions/r-coding-functions.instructions.md) — Writing functions, error handling, docs, tests
@@ -55,6 +56,7 @@ This project is constructed using a *script cascade*. This means that scripts ca
 - This creates a modular, organized workflow
 
 Example: `R/01_Data_processing/Run_01.R` executes:
+
 - `R/01_Data_processing/01_full_data_process.R`
 - `R/01_Data_processing/02_data_overview.R`
 - `R/01_Data_processing/03_data_ant_counts.R`
@@ -70,11 +72,13 @@ The configuration file (`___setup_project___.R`) is central to this project. It:
 - Sets up project-wide dependencies
 
 **Usage**: Every script should initiate with:
+
 ```r
 source("R/___setup_project___.R")
 ```
 
 This approach:
+
 - Minimizes code repetition
 - Establishes an abstraction layer for centralized changes
 - Allows path references by variable name
@@ -109,6 +113,7 @@ Pipelines are located in `R/02_Main_analyses/` and organized as:
 #### Working with Pipelines
 
 **Running a pipeline**:
+
 ```r
 # Set active configuration (see Configuration Management below)
 Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
@@ -118,6 +123,7 @@ targets::tar_make()
 ```
 
 **Viewing pipeline status**:
+
 ```r
 # Check outdated targets
 targets::tar_outdated()
@@ -130,6 +136,7 @@ targets::tar_meta()
 ```
 
 **Reading pipeline outputs**:
+
 ```r
 # Load a specific target
 data_community <- targets::tar_read(data_community)
@@ -138,6 +145,7 @@ data_community <- targets::tar_read(data_community)
 #### Target Storage
 
 Target outputs are stored in project-specific directories defined in `config.yml`:
+
 - Default: `_targets/` (when using default configuration)
 - Project-specific: `Data/targets/project_cz/`, `Data/targets/project_temporal_europe/`, etc.
 
@@ -174,6 +182,7 @@ time_step <- get_active_config("data_processing")$time_step
 ```
 
 Configuration values can be used in:
+
 - Pipeline definitions
 - Target option settings
 - Function arguments throughout the analysis
@@ -253,7 +262,7 @@ testthat::test_file(
 )
 ```
 
-7. **Run the full test suite** — all tests must pass. The canonical way is
+1. **Run the full test suite** — all tests must pass. The canonical way is
    to run the dedicated script that sources project setup automatically:
 
 ```powershell
@@ -274,7 +283,7 @@ testthat::test_dir(
 )
 ```
 
-8. **Verify** end-to-end by running the full pipeline without errors:
+1. **Verify** end-to-end by running the full pipeline without errors:
 
 ```r
 library(here)
@@ -289,7 +298,8 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
 # Basic pipeline
 run_pipeline(
   sel_script = "R/02_Main_analyses/pipeline_basic.R",
-  level_separation = 100
+  level_separation = 100,
+  fresh_run = TRUE
 )
 ```
 
@@ -302,6 +312,7 @@ This project has MCP (Model Context Protocol) server integration configured for 
 ### Configuration
 
 The MCP server is configured in VS Code/Claude Code settings with:
+
 ```json
 {
   "mcpServers": {
@@ -316,6 +327,7 @@ The MCP server is configured in VS Code/Claude Code settings with:
 ### Session Registration
 
 For AI assistants to interact with your R session, each active R session must be registered with:
+
 ```r
 btw::btw_mcp_session()
 ```
@@ -327,12 +339,14 @@ This should be already included in the `.Rprofile` file, so it runs automaticall
 The MCP server provides tools for:
 
 #### Working Reliably
+
 - **Platform information**: `mcp_r-mcptools_btw_tool_sessioninfo_platform` - Get R version, OS, system info
 - **Package information**: `mcp_r-mcptools_btw_tool_sessioninfo_package` - Check package versions
 - **Documentation access**: Tools for reading package help, vignettes, and function documentation
 - **File operations**: Reading and searching files in the project
 
 #### Known Limitations
+
 - **Environment inspection**: May fail with C stack errors if the global environment contains very large or deeply nested objects
 - **Performance**: Some operations (especially file listings and environment descriptions) may hang or timeout
 - **Subagent tools**: Require additional API key configuration beyond the main MCP setup
@@ -347,12 +361,14 @@ The MCP server provides tools for:
 ### Practical Usage Guidelines
 
 **When to use MCP tools:**
+
 - Getting R session information (platform, packages, versions)
 - Reading specific documentation (help pages, vignettes)
 - Inspecting specific small objects when you know their names
 - Checking if packages are installed
 
 **When to use terminal commands instead:**
+
 - Listing all environment objects (use `ls()`)
 - Describing object structures (use `str()`, `glimpse()`)
 - Running R code that needs immediate results
@@ -362,16 +378,19 @@ The MCP server provides tools for:
 ### Troubleshooting
 
 **MCP tools hanging:**
+
 - Ensure `btw::btw_mcp_session()` has been called in your active R session
 - Check if your environment has very large objects causing serialization issues
 - Cancel the operation and use terminal commands instead
 
 **C stack usage errors:**
+
 - Your global environment likely has large/complex nested objects
 - Use targeted queries for specific objects instead of full environment descriptions
 - Clear unnecessary large objects from your environment
 
 **Session not found:**
+
 - Verify the R session has been registered with `btw::btw_mcp_session()`
 - Check that the MCP server process is running (restart VS Code if needed)
 
@@ -385,63 +404,78 @@ The MCP server provides tools for:
 - Include corresponding test file in appropriate test directory
 - Functions should follow the naming conventions in the R coding skill
 
-**Whenever any function in `R/Functions/` is created or edited, immediately
-update its roxygen2 documentation block** to reflect the current arguments,
-return value, and behaviour. Follow the template in
-[instructions/make_roxygen2_documentation.instructions.md](instructions/make_roxygen2_documentation.instructions.md).
-Do not wait to be asked — treat documentation as part of every function edit.
+#### Test-Driven Development (TDD) Workflow
 
-**After the function has been edited and its documentation updated, launch a
-subagent** with the full contents of
-[instructions/make_test_file_for_a_function.instructions.md](instructions/make_test_file_for_a_function.instructions.md)
-and the current function source as context. The subagent's sole task is to
-review and improve the existing test file for that function (or create one if
-it does not yet exist) at
-`R/03_Supplementary_analyses/testthat/test-<function_name>.R`.
-Do not wait to be asked — treat test improvement as part of every function
-edit, alongside documentation.
+All function work (creation **and** editing) follows a strict TDD cycle. **Never write or change implementation code before the tests exist and fail.**
 
-**After all tests pass, run the full pipeline end-to-end.** This is
-**MANDATORY** — do not consider any function creation or edit complete
-until the pipeline has been executed and verified in the terminal.
+##### Creating a New Function
 
-Run via terminal (preferred — avoids stale session state):
+1. **Write the spec** — Create the function file with only the roxygen2 documentation header and an empty stub body (returning `NULL` or `stop("not implemented")`). Define the function name, all arguments with defaults, return type, and description. Follow the template in [instructions/make_roxygen2_documentation.instructions.md](instructions/make_roxygen2_documentation.instructions.md).
 
-```powershell
-Rscript -e "
-library(here)
-source(here::here('R/___setup_project___.R'))
-Sys.setenv(R_CONFIG_ACTIVE = 'project_cz')
-run_pipeline(
-  sel_script = 'R/02_Main_analyses/pipeline_basic.R',
-  level_separation = 100
-)
-" > Data/Temp/pipeline_out.txt 2>&1
-Get-Content Data/Temp/pipeline_out.txt |
-  Select-String -Pattern 'ERROR|error|started|completed|up to date|outdated|Target'
-Remove-Item Data/Temp/pipeline_out.txt -ErrorAction SilentlyContinue
-```
+2. **Write unit tests** — Launch a subagent with the full contents of [instructions/make_test_file_for_a_function.instructions.md](instructions/make_test_file_for_a_function.instructions.md) and the function **spec stub** as context. The subagent creates the test file at `R/03_Supplementary_analyses/testthat/test-<function_name>.R` based solely on the spec, and the intended functionality not on any implementation.
 
-Or from an interactive R session:
+3. **Verify all tests fail** — Run the test file to confirm **every test fails**. A test that passes at this stage means it is not testing real behavior (fix it before continuing):
 
-```r
-library(here)
+   ```powershell
+   Rscript -e "
+   library(here)
+   source(here::here('R/___setup_project___.R'))
+   testthat::test_file(
+     here::here(
+       'R/03_Supplementary_analyses/testthat/test-<function_name>.R'
+     )
+   )
+   "
+   ```
 
-source(
-  here::here("R/___setup_project___.R")
-)
+4. **Implement the function** — Write the function body iteratively. Re-run the test file after each change until all tests pass. Update the roxygen2 docs to match any argument or behaviour changes.
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+5. **Run the full test suite** — All project tests must pass:
 
-run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_basic.R",
-  level_separation = 100
-)
-```
+   ```powershell
+   Rscript R/03_Supplementary_analyses/Run_tests.R
+   ```
 
-**An implementation is not complete until this pipeline run passes without
-unexpected errors.** Do not wait to be asked — treat the pipeline run as
-the final mandatory step of every function creation or edit.
+6. **Test run `project_cz`** — Run the pipeline end-to-end:
+
+   ```powershell
+   Rscript -e "
+   library(here)
+   source(here::here('R/___setup_project___.R'))
+   Sys.setenv(R_CONFIG_ACTIVE = 'project_cz')
+   run_pipeline(
+     sel_script = 'R/02_Main_analyses/pipeline_basic.R',
+     level_separation = 100,
+     fresh_run = TRUE
+   )
+   " > Data/Temp/pipeline_out.txt 2>&1
+   Get-Content Data/Temp/pipeline_out.txt |
+     Select-String -Pattern 'ERROR|error|started|completed|up to date|outdated|Target'
+   Remove-Item Data/Temp/pipeline_out.txt -ErrorAction SilentlyContinue
+   ```
+
+**A new function is not complete until steps 5 and 6 both pass without unexpected errors.**
+
+##### Editing an Existing Function
+
+1. **Update the spec** — Adjust the roxygen2 documentation block to reflect the new or changed behaviour before touching the implementation.
+
+2. **Update / add unit tests** — Launch a subagent (same instructions as above) providing the updated spec and the existing test file. The subagent adds or revises tests so they capture the new intended behaviour. Tests for changed behaviour must fail at this point.
+
+3. **Verify tests fail for the right reasons** — Run the test file and confirm that failures are due to the intended change, not unexpected regressions.
+
+4. **Implement the changes** — Update the function body until all tests pass.
+
+5. **Run the full test suite** — All project tests must pass:
+
+   ```powershell
+   Rscript R/03_Supplementary_analyses/Run_tests.R
+   ```
+
+6. **Test run `project_cz`** — Run the pipeline end-to-end (same command
+   as above).
+
+**An edit is not complete until steps 5 and 6 both pass without unexpected errors.** Do not wait to be asked — treat the full TDD cycle as mandatory for every function creation or edit.
 
 ### Data Workflow
 
@@ -470,4 +504,3 @@ the final mandatory step of every function creation or edit.
 - Test coverage reports → `Documentation/Functions_test_coverage/`
 - Progress reports → `Documentation/Progress/`
 - Project website → `website/` (rendered to `docs/`)
-

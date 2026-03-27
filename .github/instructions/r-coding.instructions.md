@@ -124,8 +124,13 @@ function(
 
 ### Code Width
 
-No line of code should be longer than 80 characters (including comments).
-Users can visualise the 80 characters line in selected IDE.
+No line of **R code** should be longer than 80 characters (including R
+comments). Users can visualise the 80 characters line in selected IDE.
+
+> **Note:** This 80-character limit applies to R source code only.
+> Markdown prose — such as text in `.md` files, `.qmd` files, instruction
+> files, README files, or any other documentation — is **not** subject to
+> this limit. Let markdown text wrap naturally.
 
 ## Naming Conventions
 
@@ -150,7 +155,10 @@ The names should be nouns and start with the type of object:
 - `vec_` - for vectors
 - `mod_*` - for statistical model
 - `res_` - special category, which can be used within the function to name an
-  object to be returned (`return(res_*)`).
+  object to be returned (`return(res_*)`)
+- `flag_*` - for boolean/logical control flags (e.g. safety guards, feature
+  switches). **Always use `snake_style`** — never `SCREAMING_SNAKE_CASE` even
+  though that convention is common in other languages.
 
 Examples of good names:
 
@@ -169,6 +177,10 @@ mod_diversity_linear
 
 # result
 res_estimated_weight
+
+# flag (boolean / logical control variable)
+flag_allow_overwrite <- FALSE
+flag_use_parallel <- TRUE
 ```
 
 ### Function Names
@@ -382,12 +394,15 @@ try(
 ```
 
 For `for()`, `if()`, and `while()` loops, the iterator or condition is placed on its
-own indented line, and the closing `) {` is indented to the same level:
+own indented line, and the closing `) {` is on its own line at the same indent
+level as the keyword. **This applies even for short, single-condition tests —
+never write `if (condition) {` on a single line.**
 
 ```r
+# Good
 for (
   col_name in vec_col_names
-  ) {
+) {
   ...
 }
 
@@ -399,9 +414,14 @@ if (
 
 while (
   condition
-  ) {
+) {
   ...
 }
+
+# Avoid
+for (i in seq_len(n)) { ... }
+if (flag) { ... }
+while (condition) { ... }
 ```
 
 ### Assignment

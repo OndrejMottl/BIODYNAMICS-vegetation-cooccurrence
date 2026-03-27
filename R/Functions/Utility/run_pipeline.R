@@ -19,6 +19,12 @@
 #' @param check_default_config
 #' Logical indicating whether to check if the default configuration is
 #' active and stop execution if TRUE. Default is TRUE.
+#' @param fresh_run
+#' Logical indicating whether to destroy the existing target store before
+#' running the pipeline, forcing all targets to be re-computed from
+#' scratch. When `TRUE`, calls
+#' `targets::tar_destroy(destroy = "all", store = ...)` prior to
+#' `targets::tar_make()`. Default is `FALSE`.
 #' @param plot_progress
 #' Logical indicating whether to save a progress visualisation after the
 #' pipeline completes. Default is TRUE.
@@ -28,8 +34,11 @@
 #' folder.
 #' @details
 #' The function constructs pipeline-specific target store paths based on
-#' the script name and active configuration. It uses targets::tar_make()
-#' to execute the pipeline and then calls save_progress_visualisation() to
+#' the script name and active configuration. When `fresh_run = TRUE`,
+#' the target store is destroyed with
+#' `targets::tar_destroy(destroy = "all")` before execution so that every
+#' target is rebuilt from scratch. It uses `targets::tar_make()` to
+#' execute the pipeline and then calls `save_progress_visualisation()` to
 #' generate a network visualization of the pipeline status.
 #' @seealso save_progress_visualisation, targets::tar_make
 #' @export
@@ -38,7 +47,8 @@ run_pipeline <- function(
     store_suffix = NULL,
     level_separation = 100,
     check_default_config = TRUE,
-    plot_progress = TRUE) {
+    plot_progress = TRUE,
+    fresh_run = FALSE) {
   assertthat::assert_that(
     is.character(sel_script),
     length(sel_script) == 1,
@@ -75,6 +85,11 @@ run_pipeline <- function(
   assertthat::assert_that(
     assertthat::is.flag(plot_progress),
     msg = "plot_progress must be a single logical value (TRUE or FALSE)."
+  )
+
+  assertthat::assert_that(
+    assertthat::is.flag(fresh_run),
+    msg = "fresh_run must be a single logical value (TRUE or FALSE)."
   )
 
   if (
@@ -118,7 +133,23 @@ run_pipeline <- function(
         here::here()
     }
 
-  # Run the pipeline
+  # Optionally wipe the store so all targets are rebuilt from scratch.
+  # TAR_ASK is set to "false" for the duration of tar_destroy() to
+  #   suppress the interactive confirmation prompt, allowing agents and
+  #   unattended scripts to run without user input.
+  if (
+    isTRUE(fresh_run)
+  ) {
+    withr::with_envvar(
+      new = c(TAR_ASK = "false"),
+      code = targets::tar_destroy(
+        destroy = "all",
+        store = sel_store_path
+      )
+    )
+  }
+
+  # Run the pipeline.
   try(
     targets::tar_make(
       script = sel_script_path,

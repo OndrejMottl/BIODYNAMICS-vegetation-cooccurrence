@@ -33,7 +33,7 @@ source(
 sel_project <- "project_temporal_europe" # or "project_cz"
 vec_pipelines <- "pipeline_basic"
 sel_grid_resolution <- 0.5 # degrees (finer = slower)
-verbose <- FALSE
+flag_verbose <- FALSE
 # --------------------------------------------------------
 
 Sys.setenv(R_CONFIG_ACTIVE = sel_project)
@@ -134,7 +134,7 @@ scale_attributes <-
   purrr::chuck("scale_attributes")
 
 if (
-  isTRUE(verbose)
+  isTRUE(flag_verbose)
 ) {
   cat("spatial_mode:", spatial_mode, "\n")
   cat("use_spatial:", use_spatial, "\n")
@@ -218,7 +218,7 @@ data_grid_coords_km <-
   )
 
 if (
-  isTRUE(verbose)
+  isTRUE(flag_verbose)
 ) {
   cat(
     "Prediction grid:",
@@ -292,12 +292,12 @@ data_climate_all <-
   vec_age_slices |>
   rlang::set_names() |>
   purrr::map(
-    .progress = verbose,
+    .progress = flag_verbose,
     .f = ~ {
       age_i <- .x
 
       if (
-        isTRUE(verbose)
+        isTRUE(flag_verbose)
       ) {
         cat("Processing/Downloading CHELSA for age:", age_i, "BP\n")
       }
@@ -501,7 +501,7 @@ data_species_eval <-
   dplyr::arrange(dplyr::desc(AUC))
 
 if (
-  isTRUE(verbose)
+  isTRUE(flag_verbose)
 ) {
   print(data_species_eval, n = 100)
 }
@@ -525,7 +525,7 @@ data_summary_by_taxon <-
   dplyr::arrange(dplyr::desc(mean_predicted))
 
 if (
-  isTRUE(verbose)
+  isTRUE(flag_verbose)
 ) {
   print(data_summary_by_taxon, n = 100)
 }

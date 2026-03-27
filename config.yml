@@ -11,12 +11,17 @@ default:
     time_step: 500
     number_of_taxa: !expr Inf
     minimal_proportion_of_pollen: 0.01
-    min_n_cores: 2
+    min_n_cores: 5
     min_n_samples: 1
+    min_n_taxa: 5
   model_fitting:
     n_cores: 5
     n_mev: 2
-    samples: 100
+    n_iter: 500
+    n_sampling: 200
+    n_step_size: ~
+    n_early_stopping: ~
+    n_samples_anova: 1000
     error_family: "binomial"
     spatial_crs: 3035
     spatial_mode: "spatial"
@@ -34,9 +39,12 @@ project_cz:
     taxonomic_resolution: "genus"
     min_n_samples: 5
   model_fitting:
-    n_mev: 5
+    n_mev: 3
     n_cores: 24
-    samples: 1000
+    n_iter: 500
+    n_step_size: ~
+    n_samples_anova: 100
+    n_early_stopping: ~
     spatial_mode: "spatiotemporal"
 project_temporal_europe:
   target_store: Data/targets/project_temporal_europe
@@ -50,8 +58,12 @@ project_temporal_europe:
     taxonomic_resolution: "genus"
     min_n_samples: 10
   model_fitting:
-    n_cores: 12
-    samples: 2500
+    n_mev: 5
+    n_cores: 24
+    n_iter: 1000
+    n_sampling: 150
+    n_samples_anova: 500
+    n_early_stopping: ~
 project_spatial_continental:
   target_store: Data/targets/spatial_continental
   vegvault_data:
@@ -62,8 +74,8 @@ project_spatial_continental:
     taxonomic_resolution: "genus"
     min_n_samples: 10
   model_fitting:
-    n_cores: 12
-    samples: 2500
+    n_mev: 5
+    n_cores: 24
 project_spatial_regional:
   target_store: Data/targets/spatial_regional
   vegvault_data:
@@ -74,8 +86,8 @@ project_spatial_regional:
     taxonomic_resolution: "genus"
     min_n_samples: 10
   model_fitting:
-    n_cores: 12
-    samples: 1000
+    n_mev: 4
+    n_cores: 24
 project_spatial_local:
   target_store: Data/targets/spatial_local
   vegvault_data:
@@ -86,5 +98,5 @@ project_spatial_local:
     taxonomic_resolution: "genus"
     min_n_samples: 5
   model_fitting:
-    n_cores: 12
-    samples: 500
+    n_mev: 3
+    n_cores: 24

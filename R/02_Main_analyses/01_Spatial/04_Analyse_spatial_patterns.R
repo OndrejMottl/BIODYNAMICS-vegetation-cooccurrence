@@ -22,7 +22,7 @@ source(
   here::here("R/___setup_project___.R")
 )
 
-run_all <- FALSE
+flag_run_all <- FALSE
 
 
 #----------------------------------------------------------#
@@ -30,17 +30,20 @@ run_all <- FALSE
 #----------------------------------------------------------#
 
 if (
-  isTRUE(run_all)
+  isTRUE(flag_run_all)
 ) {
   c(
     "continental",
     "regional",
     "local"
   ) |>
-    purrr::walk(
+    rlang::set_names(
+      nm = as.character(c(1:3))
+    ) |>
+    purrr::iwalk(
       .f = ~ here::here(
         "R/02_Main_analyses/01_Spatial/",
-        paste0("01_Run_spatial_", .x, ".R")
+        stringr::str_glue("0{.y}_Run_spatial_{.x}.R")
       ) |>
         source()
     )
@@ -133,6 +136,12 @@ data_anova_results <-
 
 data_anova_results |>
   dplyr::filter(component == "Associations") |>
+  dplyr::mutate(
+    scale = factor(
+      scale,
+      levels = c("local", "regional", "continental")
+    )
+  ) |>
   ggplot2::ggplot(
     mapping = ggplot2::aes(
       x = scale,
@@ -149,4 +158,11 @@ data_anova_results |>
   ggplot2::scale_y_continuous(labels = scales::percent_format(scale = 1)) +
   ggplot2::coord_cartesian(
     ylim = c(0, 100)
+  ) +
+  ggview::canvas(
+    height = get_active_config("graphical")$height,
+    width = get_active_config("graphical")$width,
+    units = get_active_config("graphical")$units,
+    dpi = get_active_config("graphical")$dpi,
+    bg = get_active_config("graphical")$bg
   )

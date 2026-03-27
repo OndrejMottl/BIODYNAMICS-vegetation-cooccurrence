@@ -183,7 +183,8 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
 # Basic pipeline
 run_pipeline(
   sel_script = "R/02_Main_analyses/pipeline_basic.R",
-  level_separation = 100
+  level_separation = 100,
+  fresh_run = TRUE
 )
 ```
 
@@ -226,3 +227,16 @@ regressions, and the pipeline run confirms end-to-end correctness.
 - **Do not batch-test multiple hypotheses** in one script run. One
   hypothesis per script iteration keeps the output readable and the
   diagnosis unambiguous.
+
+- **Pipeline exit code 1 on Windows is not always a real error.**
+  On Windows, `Rscript` exits with code 1 whenever it prints *any*
+  warning to stderr — including benign `renv`/`here` package-version
+  notices (`"package 'here' was built under R version …"`). PowerShell
+  propagates this as a non-zero exit, making it look like a failure.
+  Always confirm pipeline success by inspecting the output text, not
+  the exit code. A successful run contains:
+  ```
+  ✔ ended pipeline [Xs, N completed, M skipped]
+  ```
+  If that line is present and there is no `ERROR` or `errored target`
+  in the output, the pipeline succeeded regardless of exit code.
