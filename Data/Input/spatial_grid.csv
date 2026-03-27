@@ -16,7 +16,7 @@ am_r002,regional,america,-130,-120,40,60,3200,NA,250,500,NA
 am_r003,regional,america,-130,-120,60,70,3200,NA,1000,500,0
 am_r004,regional,america,-120,-100,30,40,1600,NA,250,500,NA
 am_r005,regional,america,-120,-100,40,60,1600,NA,250,500,NA
-am_r006,regional,america,-120,-100,60,70,10000,NA,4000,500,0
+am_r006,regional,america,-120,-100,60,70,4500,50,8000,500,0
 am_r007,regional,america,-100,-80,30,40,6400,NA,250,500,0
 am_r008,regional,america,-100,-80,40,60,3200,NA,250,500,NA
 am_r009,regional,america,-100,-80,60,70,1600,NA,250,500,NA
