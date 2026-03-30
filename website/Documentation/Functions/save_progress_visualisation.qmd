@@ -84,7 +84,9 @@ graph (default: TRUE).</p>
 
 <p>Uses 'targets::tar_visnetwork' to create a network graph and saves two
 HTML files (full and targets-only) using 'visNetwork::visSave', plus a
-static PNG via 'webshot2::webshot'. Files are written to
+static PNG via 'webshot2::webshot'. If the browser-backed PNG export fails,
+the function emits a warning and keeps the HTML outputs so progress saving
+does not abort the surrounding pipeline run. Files are written to
 'output_dir/&lt;store_name&gt;/' where '&lt;store_name&gt;' is the last path segment
 of 'sel_store' after the 'targets/' directory.
 </p>

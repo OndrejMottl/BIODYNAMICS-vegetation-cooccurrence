@@ -1,0 +1,94 @@
+---
+format: html
+title: plot_network_metrics_by_age()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>plot_network_metrics_by_age</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Bipartite Network Metrics by Age</h2>
+
+<h3>Description</h3>
+
+<p>Creates a faceted line-and-point plot of bipartite community
+network metrics (e.g. connectance, nestedness, modularity)
+across time slices (ages). Each metric is shown in its own
+panel with a free y-axis scale.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>plot_network_metrics_by_age(
+  data_network_metrics,
+  title = NULL,
+  subtitle = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_network_metrics">data_network_metrics</code></td>
+<td>
+<p>A data frame or tibble with columns <code>age</code> (numeric),
+<code>metric</code> (character), and <code>value</code> (numeric).
+Typically the output of
+<code>compute_network_metrics()</code> aggregated across
+time slices and with the age column already parsed to numeric.</p>
+</td></tr>
+<tr><td><code id="title">title</code></td>
+<td>
+<p>Optional character string for the plot title.
+Defaults to <code>NULL</code> (no title).</p>
+</td></tr>
+<tr><td><code id="subtitle">subtitle</code></td>
+<td>
+<p>Optional character string for the plot subtitle.
+Defaults to <code>NULL</code> (no subtitle).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The x-axis is reversed so that older ages appear on the left.
+Each metric is shown in a separate facet panel with an
+independent y-axis scale (<code>scales = "free_y"</code>) because
+connectance, nestedness, and modularity occupy different
+numeric ranges. Each panel shows a coloured line with points.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>ggplot</code> object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[compute_network_metrics()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

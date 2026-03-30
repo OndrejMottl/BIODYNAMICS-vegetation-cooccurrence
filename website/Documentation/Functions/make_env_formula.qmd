@@ -26,14 +26,15 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>Creates a formula for environmental variables from abiotic data. If an
-'age' column is present, creates interaction terms between age and other
-variables.
+'age' column is present and 'use_age = TRUE', creates interaction terms
+between age and other variables. When 'use_age = FALSE', age is excluded
+from the formula even if the column exists in 'data'.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>make_env_formula(data)
+<pre><code class='language-R'>make_env_formula(data, use_age = TRUE)
 </code></pre>
 
 
@@ -45,15 +46,22 @@ variables.
 <p>A data frame containing abiotic environmental variables. Must have at
 least one column and one row.</p>
 </td></tr>
+<tr><td><code id="use_age">use_age</code></td>
+<td>
+<p>Logical scalar. If &lsquo;TRUE' (default) and an &rsquo;age' column is present in
+'data', produces an interaction formula '~ (var1 + var2 + ...) * age - age'.
+If 'FALSE', age is stripped from the formula regardless of its presence
+in 'data', producing a simple additive formula '~ var1 + var2 + ...'.</p>
+</td></tr>
 </table>
 
 
 <h3>Details</h3>
 
 <p>The function constructs different formulas based on the presence of an
-'age' column:
-- With age: ~ (var1 + var2 + ...) * age - age ...
-- Without age: ~ var1 + var2 + ...
+'age' column and the 'use_age' flag:
+- With age column and 'use_age = TRUE': ~ (var1 + var2 + ...) * age - age
+- Without age column, or 'use_age = FALSE': ~ var1 + var2 + ...
 The formula removes intercept terms and individual variable terms when
 interactions are present.
 </p>
@@ -61,9 +69,10 @@ interactions are present.
 
 <h3>Value</h3>
 
-<p>A formula object suitable for modeling. If 'age' is present, returns a
-formula with interaction terms (age * variables). Otherwise, returns a
-simple additive formula. All formulas exclude intercept terms.
+<p>A formula object suitable for modeling. If 'age' is present and
+'use_age = TRUE', returns a formula with interaction terms (age *
+variables). Otherwise, returns a simple additive formula. All formulas
+exclude intercept terms.
 </p>
 
 
