@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: docs
+  resources:
+    - Documentation/Progress/
 
 website:
   title: "BIODYNAMICS-vegetation-cooccurrence"
@@ -22,7 +24,7 @@ website:
     collapse-level: 1
     contents:
 
-      - text: "About the project"
+      - text: "Methods & Overview"
         href: website/about.qmd
       
       - text: "Reproducibility"

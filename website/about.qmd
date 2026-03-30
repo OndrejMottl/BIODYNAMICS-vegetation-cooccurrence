@@ -4,71 +4,319 @@ date-format: long
 date-modified: last-modified
 ---
 
-# BIODYNAMICS - Vegetation Co-occurrence
-
-This is a project to study the co-occurrence of vegetation across space and time. 
-
-The repo is part of the [BIODYNAMICS](https://bit.ly/BIODYNAMICS) project.
+# BIODYNAMICS — Vegetation Co-occurrence
 
 ![](https://img.shields.io/badge/status-WIP-red) This project is a work in progress. The code is not yet ready!
 
-## Current Status
+This project analyses **co-occurrence patterns of plant taxa across space and time** using paleoecological pollen records and co-located palaeoclimate reconstructions. The central aim is to quantify how much of the observed co-occurrence signal is explained by shared abiotic (environmental) responses versus genuine biotic associations — and how those patterns shift across geographic scales and through the last 20,000 years.
 
-The project is using {[config](https://rstudio.github.io/config/index.html)} to set up various "subprojects" within the main project. This allos to have a small subset of the data to run quick tests and examples, while the main project is still being developed.
+The project is part of the [BIODYNAMICS](https://bit.ly/BIODYNAMICS) initiative.
 
-The main source of data is [VegVault](bit.ly/VegVault), a database of vegetation plots and abiotic data. 
+## Data Sources
 
-Currently, the aim of the project is to estimate the number of significant co-occurrences of species in a given area per each time slice (step). The species associations are calculated using {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)} (Scalable Joint Species Distribution Models) and the number of significant co-occurrences is calculated as residual co-occurrences (after constraining for abiotic variables).
+### VegVault
 
-### Framework migration: HMSC → sjSDM
+All vegetation and palaeoclimate data are sourced from [VegVault](https://bit.ly/VegVault), a harmonised database combining fossil pollen archives with co-located gridpoint climate reconstructions. For each analysis, records are extracted for a configurable spatial window (longitude × latitude bounding box) and time range.
 
-The project was originally developed using {[HMSC](https://www.helsinki.fi/en/researchgroups/statistical-ecology/software/hmsc)} (Hierarchical Modelling of Species Communities). However, HMSC relies on MCMC sampling, which did not scale well to the size of the data used in this project — fitting times became prohibitively long as the number of sites, taxa, and time slices increased. The project is therefore being **fully reworked to use {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)}**, which uses stochastic gradient descent and GPU acceleration to achieve substantial performance gains while retaining the joint species distribution modelling framework.
+::: {.callout-note collapse="true"}
+## Technical details — data extraction
 
-> **⚠️ TO BE DONE:** The **spatial random effect** component has not yet been implemented in the new sjSDM pipeline. Accounting for spatial autocorrelation is a planned next step and will be added once the core abiotic-constrained association pipeline is stable.
+The function [`extract_data_from_vegvault()`](Documentation/Functions/extract_data_from_vegvault.qmd) queries a local VegVault SQLite database and returns a unified tidy object containing both community and abiotic records for the requested region and period. Coordinates are extracted separately with [`get_coords()`](Documentation/Functions/get_coords.qmd), which records one pair per dataset (not per sample), using `dataset_name` as the row identifier. Database integrity is verified at session startup via [`check_presence_of_vegvault()`](Documentation/Functions/check_presence_of_vegvault.qmd).
 
-Here is a preview of the current status of the project status:
+**Filters applied at extraction**:
 
-<iframe src="/Documentation/Progress/project_status.html" width="100%" height="500px" style="border:none;"></iframe>
+- Spatial: `x_lim` (longitude) and `y_lim` (latitude) from the active configuration
+- Temporal: `age_lim` from the active configuration
+- Dataset types: `sel_dataset_type` — typically `c("fossil_pollen_archive", "gridpoints")`
+- Abiotic variables: `sel_abiotic_var_name` from the active configuration
+:::
 
-Or you can see the simplified static version of the project status below:
+### Climate Variables
 
-![](/Documentation/Progress/project_status_static.png)
+Palaeoclimate predictors are CHELSA-TraCE21k bioclimatic variables co-registered with the pollen records in VegVault. Full continental analyses use seven variables: BIO1 (mean annual temperature), BIO4 (temperature seasonality), BIO6 (minimum temperature of the coldest month), BIO12 (annual precipitation), BIO15 (precipitation seasonality), BIO18 (precipitation of the warmest quarter), and BIO19 (precipitation of the coldest quarter).
 
-### Preliminary Results
+To prevent multicollinearity, predictors are assessed pairwise and a non-redundant subset is automatically retained before modelling.
 
-> **🔄 In progress:** The pipeline has been migrated from {HMSC} to {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)} and is actively being developed. Results below reflect the current state of the new pipeline and will be updated as the workflow stabilises.
+::: {.callout-note collapse="true"}
+## Technical details — abiotic processing
 
-There is a toy sub-project with the area of Czech Republic using only the fossil pollen archive data spanning 0–5,000 cal yr BP, with a time step of 500 years. The abiotic variables are bio1 and bio12 (mean annual temperature and annual precipitation). Only the 10 most common taxa are used in the analysis. The sjSDM model is fitted with linear abiotic effects and no explicit spatial random effect.
+**Pipeline targets** (from `pipe_segment_abiotic_data.R`):
 
-```{r}
-#| label: plot-species-associations
-#| echo: false
-#| output: true
-#| message: false
-#| warning: false
-#| error: false
-suppressMessages(
-  suppressWarnings({
-    library(targets, warn.conflicts = FALSE)
-    library(here, warn.conflicts = FALSE)
-    here::i_am("website/about.qmd")
-  })
-)
+| Target | Function | Description |
+|---|---|---|
+| `data_abiotic_ages` | [`add_age_to_samples()`](Documentation/Functions/add_age_to_samples.qmd) | Abiotic data with sample age column attached |
+| `abiotic_collinearity` | [`get_predictor_collinearity()`](Documentation/Functions/get_predictor_collinearity.qmd) | Pairwise Spearman correlation matrix |
+| `data_abiotic_selected` | `select_non_collinear_predictors()` | Least-redundant predictor subset |
+| `data_abiotic_interpolated` | [`interpolate_data()`](Documentation/Functions/interpolate_data.qmd) | Interpolated to the configured time step |
 
-set_store <-
-  paste0(
-    config::get(
-      value = "target_store",
-      config = "project_cz",
-      use_parent = FALSE,
-      file = here::here("config.yml")
-    ),
-    "/", "pipeline_basic", "/"
-  ) |>
-  here::here()
+The collinearity filter greedily removes predictors exceeding the pairwise correlation threshold, retaining the variable with the most unique information at each step.
+:::
 
-targets::tar_read(
-  name = "plot_species_associations",
-  store = set_store
-)
+## Two Complementary Analysis Axes
+
+The project addresses two related but distinct questions using two separate pipeline designs:
+
+::: {.callout-important}
+### Two Complementary Analysis Axes
+
+#### Temporal — *How do co-occurrence patterns change through time?*
+
+`pipeline_time.R` fits the model **independently for each 500-year time slice** across the last 20,000 years. The full spatial window for a continent is used; the pipeline is branched over time using `tarchetypes::tar_map()`. Results aggregate into temporal trajectories showing how co-occurrence structure and its variance components evolve from the Last Glacial Maximum to the present.
+
+**Configurations**: `project_temporal_europe` · `project_temporal_america` · `project_temporal_asia`
+
+---
+
+#### Spatial — *How do co-occurrence patterns vary across spatial scales?*
+
+`pipeline_basic.R` is executed **independently for each geographic unit** defined in `Data/Input/spatial_grid.csv`, at three nested scales (continental → regional → local). Results are loaded post-hoc and compared to identify which co-occurrence patterns hold at all scales and which are scale-specific.
+
+**Configurations**: `project_spatial_continental` · `project_spatial_regional` · `project_spatial_local`
+:::
+
+The two pipelines share an identical analytical core. The only structural differences are (1) how the sample set is defined — time-filtering versus geographic subsetting — and (2) which Moran Eigenvector Maps are computed for the spatial random effect: pure 2-D MEMs for spatial analyses, or 3-D spatiotemporal MEMs for temporal analyses.
+
+## Analysis Pipeline
+
+The diagram below shows the shared core workflow and the single divergence point between the two analysis types:
+
+```{mermaid}
+flowchart TD
+    A[(VegVault)] --> B["Community\nProcessing"]
+    A --> C["Abiotic\nProcessing"]
+    A --> D["Coordinates"]
+    B --> E{"Analysis\nType"}
+    C --> E
+    D --> E
+    E -- "Temporal\npipeline_time.R" --> F["Age Filter\nper 500-yr slice"]
+    E -- "Spatial\npipeline_basic.R" --> G["Align Sample IDs\n3-way intersection"]
+    F --> H["Model Data\nPreparation"]
+    G --> H
+    H --> I["Compute MEMs\nMoran Eigenvector Maps"]
+    I --> J["Fit jSDM\nsjSDM + GPU"]
+    J --> K["Variance Decomposition\nANOVA: A / B / S"]
+    J --> L["Network Analysis\nconnectance / nestedness\nmodularity"]
+    style E fill:#5b4fa0,color:#ffffff
+    style F fill:#2c6fad,color:#ffffff
+    style G fill:#2a855f,color:#ffffff
+    style J fill:#8b3a1e,color:#ffffff
 ```
+
+## Pipeline Stages
+
+### 1. VegVault Data Extraction
+
+Vegetation records and co-located palaeoclimate data are queried from a local VegVault SQLite database for the spatial and temporal window defined by the active configuration. The extraction produces three parallel data objects — community records, abiotic records, and dataset-level coordinates — that flow independently through the next stages until merged at model assembly.
+
+::: {.callout-note collapse="true"}
+## Technical details
+
+**Pipe segment**: `pipe_segment_vegvault_data.R`
+
+| Target | Function | Description |
+|---|---|---|
+| `data_vegvault_extracted` | [`extract_data_from_vegvault()`](Documentation/Functions/extract_data_from_vegvault.qmd) | Raw community + abiotic records from VegVault |
+| `data_coords` | [`get_coords()`](Documentation/Functions/get_coords.qmd) | One coordinate pair per `dataset_name` |
+| `check_n_cores` | [`check_min_n_cores()`](Documentation/Functions/check_min_n_cores.qmd) | Guard: aborts if fewer than `min_n_cores` cores available |
+:::
+
+### 2. Community Data Processing
+
+Raw pollen counts are transformed into a cleaned, classified, and interpolated community matrix. The processing pipeline applies a standardised sequence of filters to ensure taxonomic consistency and temporal alignment across sites.
+
+::: {.callout-note collapse="true"}
+## Technical details
+
+**Pipe segment**: `pipe_segment_community_data.R`
+
+| Step | Target | Function |
+|---|---|---|
+| Reshape to long format | `data_community_long` | [`make_community_data_long()`](Documentation/Functions/make_community_data_long.qmd) |
+| Attach sample ages | `data_community_long_ages` | [`add_age_to_samples()`](Documentation/Functions/add_age_to_samples.qmd) |
+| Compute proportions | `data_community_proportions` | [`make_community_proportions()`](Documentation/Functions/make_community_proportions.qmd) |
+| Interpolate to time step | `data_community_interpolated` | [`interpolate_community_data()`](Documentation/Functions/interpolate_community_data.qmd) |
+| Retain only Plantae | `data_community_plantae` | [`filter_non_plantae_taxa()`](Documentation/Functions/filter_non_plantae_taxa.qmd) |
+| Resolve taxonomic resolution | `data_community_classified` | [`classify_taxonomic_resolution()`](Documentation/Functions/classify_taxonomic_resolution.qmd) |
+| Remove rare taxa | `data_community_rare_filtered` | [`filter_rare_taxa()`](Documentation/Functions/filter_rare_taxa.qmd) |
+| Filter by core count | `data_community_filtered_cores` | [`filter_community_by_n_cores()`](Documentation/Functions/filter_community_by_n_cores.qmd) |
+| Filter by sample count | `data_community_filtered_samples` | [`filter_by_n_samples()`](Documentation/Functions/filter_by_n_samples.qmd) |
+| Select top N taxa | `data_community_subset` | [`select_n_taxa()`](Documentation/Functions/select_n_taxa.qmd) |
+
+Taxonomic classification combines automated API lookup ([`get_taxa_classification()`](Documentation/Functions/get_taxa_classification.qmd)) with a user-supplied auxiliary table (`Data/Input/aux_classification_table.csv`) via [`combine_classification_tables()`](Documentation/Functions/combine_classification_tables.qmd).
+
+Filtering thresholds from active config: `minimal_proportion_of_pollen` (default: 1%), `min_n_cores`, `min_n_samples`, `number_of_taxa`.
+:::
+
+### 3. Abiotic Data Processing
+
+Palaeoclimate predictors are screened for multicollinearity and a non-redundant subset is selected and interpolated to the community time step.
+
+::: {.callout-note collapse="true"}
+## Technical details
+
+**Pipe segment**: `pipe_segment_abiotic_data.R`
+
+| Target | Function | Description |
+|---|---|---|
+| `data_abiotic_ages` | [`add_age_to_samples()`](Documentation/Functions/add_age_to_samples.qmd) | Abiotic data with age column |
+| `abiotic_collinearity` | [`get_predictor_collinearity()`](Documentation/Functions/get_predictor_collinearity.qmd) | Pairwise Spearman correlation matrix |
+| `data_abiotic_selected` | `select_non_collinear_predictors()` | Non-redundant predictor subset |
+| `data_abiotic_interpolated` | [`interpolate_data()`](Documentation/Functions/interpolate_data.qmd) | Interpolated to `time_step` |
+:::
+
+### 4. Data Alignment — Pipeline Divergence Point
+
+This step defines *which samples enter the model* and is the point where the temporal and spatial pipelines structurally diverge. Both paths produce the same output — a canonical `(dataset_name, age)` index present in all three data sources — but they derive it differently.
+
+::: {.callout-note collapse="true"}
+## Technical details
+
+**Spatial pipeline** — `pipe_segment_alignment.R`:
+
+`align_sample_ids()` computes the 3-way intersection of `(dataset_name, age)` pairs across community, abiotic, and coordinate data. All time steps within the spatial window are retained; the model sees the full temporal range of the geographic unit.
+
+**Temporal pipeline** — `pipe_segment_age_filter.R`:
+
+The pipeline is wrapped in `tarchetypes::tar_map()`, which injects a `sel_age` value for each time slice. `align_sample_ids()` is called with a `subset_age` argument restricting the intersection to samples at or near that target age. Each branch yields an independent model fitted to a single 500-year time window.
+
+Both paths then call [`check_data_sample_ids_n()`](Documentation/Functions/check_data_sample_ids_n.qmd) to validate that the minimum number of `(dataset_name, age)` pairs is met before proceeding.
+
+**Row-name convention**: all matrices (community, abiotic, spatial) use `"dataset_name__age"` (double-underscore separator) as row names, ensuring consistent cross-matrix alignment throughout the pipeline.
+:::
+
+### 5. Model Data Preparation
+
+The aligned data are converted to model-ready matrix form: community counts are binarised, predictors are centred and scaled, coordinates are projected to a metric CRS, and the spatial random effect is computed as a set of Moran Eigenvector Maps (MEMs).
+
+::: {.callout-note collapse="true"}
+## Technical details
+
+**Pipe segments**: `pipe_segment_fit_data_prep.R` + `pipe_segment_model_prep.R`
+
+| Target | Function | Description |
+|---|---|---|
+| `data_community_to_fit` | `prepare_community_for_fit()` | Long → wide community matrix aligned to `data_sample_ids` |
+| `data_abiotic_wide` | `prepare_abiotic_for_fit()` | Long → wide abiotic matrix |
+| `data_abiotic_scaled_list` | [`scale_abiotic_for_fit()`](Documentation/Functions/scale_abiotic_for_fit.qmd) | Centred + scaled; `age` centred only; scaling attributes saved for back-transform |
+| `data_community_prepared` | [`binarize_community_data()`](Documentation/Functions/binarize_community_data.qmd) | Binary presence/absence matrix |
+| `data_coords_projected` | `project_coords_to_metric()` | WGS84 → metric CRS (default EPSG:3035) in km |
+| `data_spatial_mev_core` | `compute_spatial_mev()` | 2-D MEMs from site locations via `sjSDM::generateSpatialEV()` |
+| `data_spatial_mev_samples` | `compute_spatiotemporal_mev()` / `prepare_spatial_predictors_for_fit()` | 3-D MEMs (temporal) or 2-D MEMs expanded to sample level (spatial) |
+| `data_spatial_scaled_list` | [`scale_spatial_for_fit()`](Documentation/Functions/scale_spatial_for_fit.qmd) | Centred + scaled MEM predictors |
+| `data_to_fit` | [`assemble_data_to_fit()`](Documentation/Functions/assemble_data_to_fit.qmd) | Validates and assembles all components into the model input list |
+
+**MEMs**: the number of retained eigenvectors (`n_mev`) scales with the geographic extent. In the spatial mode, a 2-D geographic distance matrix is used. In the spatiotemporal mode, a 3-D distance matrix over (longitude, latitude, age) captures both spatial and temporal autocorrelation simultaneously.
+:::
+
+### 6. Joint Species Distribution Model (sjSDM)
+
+The model is a Joint Species Distribution Model (jSDM) fitted with the {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)} package. sjSDM uses stochastic gradient descent with an optional GPU backend, making it tractable for the large community matrices and many sites in this project.
+
+::: {.callout-note collapse="true"}
+## Technical details
+
+**Pipe segment**: `pipe_segment_model_simple.R`
+
+| Target | Function | Description |
+|---|---|---|
+| `model_formula` | [`make_env_formula()`](Documentation/Functions/make_env_formula.qmd) | `~ (v1 + v2 + ...) * age - age` if age is a predictor; `~ v1 + v2 + ...` otherwise |
+| `mod_jsdm` | [`fit_jsdm_model()`](Documentation/Functions/fit_jsdm_model.qmd) | Fits the jSDM with configured architecture, iterations, and error family |
+| `mod_jsdm_se` | `compute_jsdm_se()` | Standard errors computed post-hoc (CPU parallel) |
+| `model_evaluation` | [`evaluate_jsdm()`](Documentation/Functions/evaluate_jsdm.qmd) | McFadden R², Nagelkerke R²; species-level AUC, Accuracy, LogLoss |
+
+**Model structure**:
+
+- **Environment component**: linear abiotic predictors, with optional age × climate interactions from [`make_env_formula()`](Documentation/Functions/make_env_formula.qmd)
+- **Spatial random effect**: linear MEM predictors as fixed effects, approximating a spatial random field
+- **Biotic component**: residual species covariation captured via a shared low-rank latent covariance matrix
+- **Error family**: `binomial` (presence/absence)
+
+Key parameters: `n_iter` (training iterations; 500 default, 1000 for continental), `n_sampling` (posterior draws), `n_cores` (parallel SE computation).
+
+The project was originally built with {[HMSC](https://www.helsinki.fi/en/researchgroups/statistical-ecology/software/hmsc)} (MCMC-based). Fitting became prohibitively slow at continental scale; the pipeline was fully migrated to {sjSDM} for GPU-accelerated gradient descent, retaining the joint modelling framework at a fraction of the computation time.
+:::
+
+### 7. Variance Decomposition (ANOVA)
+
+After fitting, the variance explained by the model is partitioned into three components using Monte Carlo ANOVA: *abiotic* (A), *biotic* (B), and *spatial* (S) — plus all pairwise and three-way interaction fractions.
+
+::: {.callout-note collapse="true"}
+## Technical details
+
+**Pipe segment**: `pipe_segment_model_anova.R`
+
+| Target | Function | Description |
+|---|---|---|
+| `model_anova` | [`get_anova()`](Documentation/Functions/get_anova.qmd) | Wraps `sjSDM:::anova.sjSDM()` with `n_samples_anova` Monte Carlo draws |
+
+Downstream (temporal pipeline — `pipe_segment_result_summary_age.R`):
+
+| Function | Description |
+|---|---|
+| `extract_anova_fractions()` | Named fractions: F_A, F_B, F_S, F_AB, F_AS, F_BS, F_ABS |
+| `aggregate_anova_components()` | Combines per-age ANOVA objects into a long tibble: `(age, component, R²)` |
+
+**Components**:
+
+- **A** — variance uniquely explained by abiotic predictors
+- **B** — residual species covariation not explained by the environment (biotic signal)
+- **S** — variance captured by the spatial random effect (MEMs)
+- **AB, AS, BS, ABS** — shared and interaction fractions between pairs and all three
+:::
+
+### 8. Community Network Analysis
+
+In the temporal pipeline, the binary presence/absence community matrix for each time slice is analysed as a co-occurrence network to extract ecological network metrics characterising the structure of plant associations.
+
+::: {.callout-note collapse="true"}
+## Technical details
+
+**Pipe segment**: `pipe_segment_community_network.R`
+
+| Target | Function | Description |
+|---|---|---|
+| Per-age network metrics | `compute_network_metrics()` | Binary community matrix → `bipartite::networklevel()` |
+
+**Metrics**:
+
+- **Connectance** — proportion of realised species pairs out of all possible pairs
+- **Nestedness** (NODF) — degree to which specialist taxa interact with subsets of generalist partners
+- **Modularity** — partitioning strength of the network into discrete co-occurrence sub-communities
+
+Results are aggregated across ages in `pipe_segment_network_summary_age.R` and visualised with [`plot_network_metrics_by_age()`](Documentation/Functions/plot_network_metrics_by_age.qmd).
+:::
+
+## Analysis Configurations
+
+### Temporal Analyses
+
+Each model is fitted independently per 500-year time slice; results are aggregated into temporal trajectories spanning 0–20,000 yr BP.
+
+| Configuration | Region | Lon | Lat | Age range | Bioclim variables | n_mev | Min samples |
+|---|---|---|---|---|---|---|---|
+| `project_cz` | Czechia (test) | 12–18.9°E | 48.5–51.5°N | 0–5,000 yr BP | BIO1, BIO12 | 3 | 5 |
+| `project_temporal_europe` | Europe | 10°W–40°E | 35–70°N | 0–20,000 yr BP | BIO1, 4, 6, 12, 15, 18, 19 | 5 | 10 |
+| `project_temporal_america` | North America | 130–60°W | 30–70°N | 0–20,000 yr BP | BIO1, 4, 6, 12, 15, 18, 19 | 5 | 10 |
+| `project_temporal_asia` | Northern Asia | 60–140°E | 50–75°N | 0–20,000 yr BP | BIO1, 4, 6, 12, 15, 18, 19 | 5 | 10 |
+
+### Spatial Analyses
+
+`pipeline_basic.R` is run independently for each unit in `Data/Input/spatial_grid.csv`. Geographic bounds are defined per unit in the spatial grid; all scales use the full set of seven CHELSA bioclim variables. Targets for each unit are stored at `Data/targets/spatial_{scale}/{scale_id}/pipeline_basic/`.
+
+| Scale | Configuration | Units | n_mev | Min samples |
+|---|---|---|---|---|
+| Continental | `project_spatial_continental` | 3 (Europe, America, Asia) | 5 | 10 |
+| Regional | `project_spatial_regional` | ~18 per continent | 4 | 10 |
+| Local | `project_spatial_local` | Fine-grain geographic units | 3 | 5 |
+
+## Current Pipeline Status
+
+Below are live interactive pipeline graphs generated by `targets::tar_visnetwork()`. Each node colour indicates the target state (up-to-date, outdated, or unbuilt). Click a node to inspect its name and status.
+
+### Temporal Pipeline — Europe (`project_temporal_europe`)
+
+<iframe src="/Documentation/Progress/project_temporal_europe/pipeline_time/project_status_small.html" width="100%" height="550px" style="border:none;"></iframe>
+
+### Spatial Pipeline — Europe continental (`spatial_continental / europe`)
+
+<iframe src="/Documentation/Progress/spatial_continental/europe/pipeline_basic/project_status_small.html" width="100%" height="550px" style="border:none;"></iframe>
