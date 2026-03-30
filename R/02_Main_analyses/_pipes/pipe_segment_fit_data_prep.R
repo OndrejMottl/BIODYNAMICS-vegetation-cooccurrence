@@ -56,7 +56,7 @@ pipe_segment_fit_data_prep <-
       name = "data_community_to_fit",
       command = prepare_community_for_fit(
         data_community_long = data_community_subset,
-        data_sample_ids = data_sample_ids
+        data_sample_ids = data_sample_ids_checked
       )
     ),
     targets::tar_target(
@@ -64,7 +64,7 @@ pipe_segment_fit_data_prep <-
       name = "data_abiotic_wide",
       command = prepare_abiotic_for_fit(
         data_abiotic_long = data_abiotic_interpolated,
-        data_sample_ids = data_sample_ids
+        data_sample_ids = data_sample_ids_checked
       )
     )
   )

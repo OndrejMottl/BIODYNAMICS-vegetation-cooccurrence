@@ -64,6 +64,42 @@ project_temporal_europe:
     n_sampling: 150
     n_samples_anova: 500
     n_early_stopping: ~
+project_temporal_america:
+  target_store: Data/targets/project_temporal_america
+  vegvault_data:
+    x_lim: !expr c(-130, -60)
+    y_lim: !expr c(30, 70)
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+  model_fitting:
+    n_mev: 5
+    n_cores: 24
+    n_iter: 1000
+    n_sampling: 150
+    n_samples_anova: 500
+    n_early_stopping: ~
+project_temporal_asia:
+  target_store: Data/targets/project_temporal_asia
+  vegvault_data:
+    x_lim: !expr c(60, 140)
+    y_lim: !expr c(50, 75)
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+  model_fitting:
+    n_mev: 5
+    n_cores: 24
+    n_iter: 1000
+    n_sampling: 150
+    n_samples_anova: 500
+    n_early_stopping: ~
 project_spatial_continental:
   target_store: Data/targets/spatial_continental
   vegvault_data:

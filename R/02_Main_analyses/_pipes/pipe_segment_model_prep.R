@@ -130,12 +130,12 @@ pipe_segment_model_prep <-
         } else if (config.model_fitting$spatial_mode == "spatial") {
           prepare_spatial_predictors_for_fit(
             data_spatial = data_spatial_mev_core,
-            data_sample_ids = data_sample_ids
+            data_sample_ids = data_sample_ids_checked
           )
         } else {
           compute_spatiotemporal_mev(
             data_coords_projected = data_coords_projected,
-            data_sample_ids = data_sample_ids,
+            data_sample_ids = data_sample_ids_checked,
             n_mev = config.model_fitting$n_mev
           )
         }
