@@ -21,27 +21,39 @@ Arguments:
           'taxon', 'dataset_name', 'age', and 'pollen_prop'.
 
 data_classification_table: A data frame mapping 'sel_name' to taxonomic
-          levels (e.g., family, genus, species).
+          levels. Must contain at least one rank column at or below
+          `taxonomic_resolution` (e.g. 'family', 'genus', 'species').
 
-taxonomic_resolution: A character string specifying the taxonomic
-          resolution to classify to. Must be one of `'kingdom'`,
+taxonomic_resolution: A character string specifying the finest
+          taxonomic level to use. Must be one of `'kingdom'`,
           `'phylum'`, `'class'`, `'order'`, `'family'`, `'genus'`, or
-          `'species'`.
+          `'species'`. Taxa will be classified at this rank if
+          possible, or at the coarsest available rank below it if not
+          (fallback behaviour).
 
 Details:
 
-     Performs a left join to map taxa to the desired resolution,
-     aggregates pollen proportions, and ensures all
-     dataset_name-age-taxon combinations are present in the output.
-     Taxa that have a valid `sel_name` entry in the classification
-     table but lack a value at the requested resolution level (i.e. the
-     resolution column is `NA`) are silently dropped with a warning.
-     This prevents a column named `NA` from appearing in the fitted
-     community matrix downstream.
+     Performs a left join to map taxa to all available rank columns up
+     to and including `taxonomic_resolution`. The finest non-NA rank is
+     then selected via `dplyr::coalesce()` applied from finest to
+     coarsest. This means a taxon known only to family when genus is
+     requested will be assigned to its family name rather than dropped.
+     Taxa with no valid classification at any available rank are
+     removed with a `cli::cli_warn()` warning. Taxa that fall back to a
+     coarser rank are reported via `cli::cli_inform()`. Ranks finer
+     than `taxonomic_resolution` (e.g. species when genus is requested)
+     are never used, even when present in the classification table. The
+     NA-drop step prevents a column literally named NA appearing in the
+     community matrix produced by downstream `pivot_wider()` calls.
 
 Value:
 
-     A data frame with taxa classified to the specified resolution and
-     pollen proportions aggregated accordingly. The output preserves
-     all dataset_name and age combinations for true negatives.
+     A data frame with taxa classified to the finest available rank at
+     or below `taxonomic_resolution` and pollen proportions aggregated
+     accordingly. The output preserves all dataset_name and age
+     combinations for true negatives.
+
+See Also:
+
+     [filter_non_plantae_taxa()], [filter_rare_taxa()]
 

@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/about.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">About the project</span></a>
+ <span class="menu-text">Methods &amp; Overview</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -174,6 +174,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/binarize_community_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">binarize_community_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/check_and_prepare_data_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">check_and_prepare_data_for_fit()</span></a>
   </div>
@@ -182,6 +188,18 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/check_and_report_missing_taxa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">check_and_report_missing_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/check_data_sample_ids_n.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_data_sample_ids_n()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/check_min_n_cores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_min_n_cores()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -216,8 +234,26 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/filter_by_n_samples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_by_n_samples()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/filter_community_by_n_cores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_community_by_n_cores()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/filter_constant_taxa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_constant_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/filter_non_plantae_taxa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_non_plantae_taxa()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -324,8 +360,20 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_scale_id_from_store.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_scale_id_from_store()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/get_significant_associations.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_significant_associations()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_spatial_window.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_spatial_window()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -390,6 +438,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/plot_network_metrics_by_age.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot_network_metrics_by_age()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/prepare_coords_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_coords_for_fit()</span></a>
   </div>
@@ -422,6 +476,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/scale_abiotic_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">scale_abiotic_for_fit()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/scale_spatial_for_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">scale_spatial_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -542,7 +602,7 @@ A data frame containing taxon data with columns including ‘taxon’, ‘datase
 </td>
 <td>
 <p>
-A data frame mapping ‘sel_name’ to taxonomic levels (e.g., family, genus, species).
+A data frame mapping ‘sel_name’ to taxonomic levels. Must contain at least one rank column at or below ‘taxonomic_resolution’ (e.g.&nbsp;‘family’, ‘genus’, ‘species’).
 </p>
 </td>
 </tr>
@@ -552,7 +612,7 @@ A data frame mapping ‘sel_name’ to taxonomic levels (e.g., family, genus, sp
 </td>
 <td>
 <p>
-A character string specifying the taxonomic resolution to classify to. Must be one of ‘’kingdom’‘, ‘’phylum’‘,’‘class’‘, ‘’order’‘, ‘’family’‘, ‘’genus’‘, or ‘’species’’.
+A character string specifying the finest taxonomic level to use. Must be one of ‘’kingdom’‘, ‘’phylum’‘, ‘’class’‘, ‘’order’‘,’‘family’‘, ‘’genus’‘, or ‘’species’’. Taxa will be classified at this rank if possible, or at the coarsest available rank below it if not (fallback behaviour).
 </p>
 </td>
 </tr>
@@ -561,13 +621,19 @@ A character string specifying the taxonomic resolution to classify to. Must be o
 Details
 </h3>
 <p>
-Performs a left join to map taxa to the desired resolution, aggregates pollen proportions, and ensures all dataset_name-age-taxon combinations are present in the output. Taxa that have a valid ‘sel_name’ entry in the classification table but lack a value at the requested resolution level (i.e.&nbsp;the resolution column is ‘NA’) are silently dropped with a warning. This prevents a column named ‘NA’ from appearing in the fitted community matrix downstream.
+Performs a left join to map taxa to all available rank columns up to and including ‘taxonomic_resolution’. The finest non-NA rank is then selected via ‘dplyr::coalesce()’ applied from finest to coarsest. This means a taxon known only to family when genus is requested will be assigned to its family name rather than dropped. Taxa with no valid classification at any available rank are removed with a ‘cli::cli_warn()’ warning. Taxa that fall back to a coarser rank are reported via ‘cli::cli_inform()’. Ranks finer than ‘taxonomic_resolution’ (e.g.&nbsp;species when genus is requested) are never used, even when present in the classification table. The NA-drop step prevents a column literally named NA appearing in the community matrix produced by downstream ‘pivot_wider()’ calls.
 </p>
 <h3 class="anchored">
 Value
 </h3>
 <p>
-A data frame with taxa classified to the specified resolution and pollen proportions aggregated accordingly. The output preserves all dataset_name and age combinations for true negatives.
+A data frame with taxa classified to the finest available rank at or below ‘taxonomic_resolution’ and pollen proportions aggregated accordingly. The output preserves all dataset_name and age combinations for true negatives.
+</p>
+<h3 class="anchored">
+See Also
+</h3>
+<p>
+[filter_non_plantae_taxa()], [filter_rare_taxa()]
 </p>
 </main>
 </div>

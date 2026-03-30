@@ -3,32 +3,41 @@ Make Environmental Formula
 Description:
 
      Creates a formula for environmental variables from abiotic data.
-     If an 'age' column is present, creates interaction terms between
-     age and other variables.
+     If an 'age' column is present and `use_age = TRUE`, creates
+     interaction terms between age and other variables. When `use_age =
+     FALSE`, age is excluded from the formula even if the column exists
+     in `data`.
 
 Usage:
 
-     make_env_formula(data)
+     make_env_formula(data, use_age = TRUE)
      
 Arguments:
 
     data: A data frame containing abiotic environmental variables. Must
           have at least one column and one row.
 
+ use_age: Logical scalar. If `TRUE` (default) and an 'age' column is
+          present in `data`, produces an interaction formula `~ (var1 +
+          var2 + ...) * age - age`. If `FALSE`, age is stripped from
+          the formula regardless of its presence in `data`, producing a
+          simple additive formula `~ var1 + var2 + ...`.
+
 Details:
 
      The function constructs different formulas based on the presence
-     of an 'age' column: - With age: ~ (var1 + var2 + ...) * age - age
-     ... - Without age: ~ var1 + var2 + ... The formula removes
-     intercept terms and individual variable terms when interactions
-     are present.
+     of an 'age' column and the `use_age` flag: - With age column and
+     `use_age = TRUE`: ~ (var1 + var2 + ...) * age - age - Without age
+     column, or `use_age = FALSE`: ~ var1 + var2 + ... The formula
+     removes intercept terms and individual variable terms when
+     interactions are present.
 
 Value:
 
-     A formula object suitable for modeling. If 'age' is present,
-     returns a formula with interaction terms (age * variables).
-     Otherwise, returns a simple additive formula. All formulas exclude
-     intercept terms.
+     A formula object suitable for modeling. If 'age' is present and
+     `use_age = TRUE`, returns a formula with interaction terms (age *
+     variables). Otherwise, returns a simple additive formula. All
+     formulas exclude intercept terms.
 
 See Also:
 

@@ -20,14 +20,21 @@ Details:
      for binary predictions. For other model families, RMSE is computed
      per species.
 
+     Convergence is assessed via [check_convergence_jsdm()], which
+     analyses the training loss history. A `linear_trend_slope` < 0.01
+     and `median_diff` < 1 in the returned `convergence` element
+     indicate that the model has converged.
+
 Value:
 
-     A list with two elements: - model: Named numeric vector of
-     R-squared values (McFadden, Nagelkerke) - species: A tibble with
+     A list with three elements: - `model`: Named numeric vector of
+     R-squared values (McFadden, Nagelkerke) - `species`: A tibble with
      one row per species and columns: species, AUC, Accuracy, LogLoss
-     (binomial) or RMSE (other families)
+     (binomial) or RMSE (other families) - `convergence`: A list from
+     [check_convergence_jsdm()] with `linear_trend_slope`,
+     `median_diff`, `convergence_plot`, and `note`
 
 See Also:
 
-     sjSDM::Rsquared, Metrics::auc
+     sjSDM::Rsquared, Metrics::auc, check_convergence_jsdm
 

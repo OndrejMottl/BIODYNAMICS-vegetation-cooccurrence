@@ -1,0 +1,46 @@
+Binarize Community Data Matrix
+
+Description:
+
+     Converts a numeric community matrix of proportions (or counts) to
+     a binary presence-absence matrix. Any value strictly greater than
+     zero is recoded as `1L`; zeros remain `0L`. The resulting integer
+     matrix is suitable for `filter_constant_taxa()` when the model
+     uses a binomial error family.
+
+Usage:
+
+     binarize_community_data(data_community_matrix = NULL)
+     
+Arguments:
+
+data_community_matrix: A numeric matrix with samples as rows and taxa
+          as columns, as returned by `prepare_community_for_fit()`.
+          Values must be non-negative.
+
+Details:
+
+     Pre-binarization before `filter_constant_taxa()` is essential when
+     using a binomial error family: a taxon recorded at non-zero
+     varying proportions in every sample has positive SD on the
+     proportion scale but becomes a constant-1 column after
+     binarization inside the model, causing implicit intercept
+     saturation. Applying this function first ensures that
+     `filter_constant_taxa()` removes such taxa before they reach the
+     model.
+
+     For other error families (e.g., Gaussian, future hurdle models)
+     the raw proportional matrix should be passed to
+     `filter_constant_taxa()` directly; use the `error_family`
+     configuration key to control this choice in the pipeline.
+
+Value:
+
+     An integer matrix of the same dimensions and dimnames as the
+     input, with all non-zero values replaced by `1L`.
+
+See Also:
+
+     [prepare_community_for_fit()], [filter_constant_taxa()],
+     [assemble_data_to_fit()]
+

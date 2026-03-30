@@ -1,0 +1,43 @@
+Filter Taxa by Minimum Number of Cores
+
+Description:
+
+     Filters out taxa that are not present in a sufficient number of
+     cores (distinct datasets). Only taxa occurring in at least
+     `min_n_cores` distinct `dataset_name` values are retained. This
+     removes taxa that appear in only a single core, which can
+     disproportionately influence the species-species co-occurrence
+     matrix.
+
+Usage:
+
+     filter_community_by_n_cores(data = NULL, min_n_cores = 2)
+     
+Arguments:
+
+    data: A data frame containing community data in long format. Must
+          include columns `taxon` and `dataset_name`.
+
+min_n_cores: A single positive integer specifying the minimum number of
+          distinct cores (datasets) a taxon must appear in to be
+          retained. Default is 2.
+
+Details:
+
+     The function counts distinct `dataset_name` values per `taxon`
+     across the entire dataset. Taxa with fewer distinct cores than
+     `min_n_cores` are removed. An error is raised if no taxa remain
+     after filtering, which may indicate that `min_n_cores` is set too
+     high.
+
+Value:
+
+     A filtered data frame containing only taxa that appear in at least
+     `min_n_cores` distinct datasets. All original columns are
+     preserved.
+
+See Also:
+
+     [filter_community_by_n_samples()], [filter_rare_taxa()],
+     [select_n_taxa()]
+
