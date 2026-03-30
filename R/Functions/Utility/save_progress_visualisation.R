@@ -12,7 +12,8 @@
 #' Directory where the output files will be saved
 #' (default: "Documentation/Progress").
 #' @param background_color
-#' Background color for the visualisation (default: "white").
+#' Background color for the visualisation
+#' (default: `"#0B0F14"` — BIODYNAMICS brand midnight background).
 #' @param physics
 #' Logical indicating whether to enable physics simulation in the network
 #' graph (default: TRUE).
@@ -37,7 +38,7 @@ save_progress_visualisation <- function(
     output_dir = here::here(
       "Documentation/Progress"
     ),
-    background_color = "white",
+    background_color = "#0B0F14",
     physics = TRUE,
     level_separation = 250) {
   # test to make sure {pandoc} is installed for webshot to work
@@ -56,6 +57,27 @@ save_progress_visualisation <- function(
       targets_only = FALSE,
       physics = physics,
       level_separation = level_separation
+    ) |>
+    # Apply BIODYNAMICS brand theme over the targets-generated colors.
+    # Node fill colors (status: up-to-date / outdated / etc.) are set
+    #   internally by targets and cannot be overridden here; only font
+    #   and edge styling are applied.
+    visNetwork::visNodes(
+      font = base::list(
+        color = "#E6EDF3",  # Bone Text
+        face = "IBM Plex Mono, monospace"
+      )
+    ) |>
+    visNetwork::visEdges(
+      color = base::list(
+        color = "#2A3441",    # Slate Border
+        highlight = "#8DF59A", # Phosphor Green
+        hover = "#48C7B8"      # Moss Teal
+      ),
+      font = base::list(
+        color = "#98A6B3",   # Muted Mist
+        strokeWidth = 0
+      )
     )
 
   network_graph_static <-
@@ -66,6 +88,23 @@ save_progress_visualisation <- function(
       outdated = FALSE,
       physics = physics,
       level_separation = level_separation
+    ) |>
+    visNetwork::visNodes(
+      font = base::list(
+        color = "#E6EDF3",
+        face = "IBM Plex Mono, monospace"
+      )
+    ) |>
+    visNetwork::visEdges(
+      color = base::list(
+        color = "#2A3441",
+        highlight = "#8DF59A",
+        hover = "#48C7B8"
+      ),
+      font = base::list(
+        color = "#98A6B3",
+        strokeWidth = 0
+      )
     )
 
   sel_store_simple <-
