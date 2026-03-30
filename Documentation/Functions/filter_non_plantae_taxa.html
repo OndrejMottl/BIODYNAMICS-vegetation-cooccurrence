@@ -1,0 +1,83 @@
+<!DOCTYPE html><html><head><title>R: Filter Non-Plantae Taxa</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>filter_non_plantae_taxa</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Filter Non-Plantae Taxa</h2>
+
+<h3>Description</h3>
+
+<p>Removes taxa that do not belong to the kingdom Plantae from a
+community data frame, using a classification table to determine
+the kingdom assignment for each taxon.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>filter_non_plantae_taxa(data, data_classification_table)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data">data</code></td>
+<td>
+<p>A data frame containing community data with at minimum a column
+named 'taxon'.</p>
+</td></tr>
+<tr><td><code id="data_classification_table">data_classification_table</code></td>
+<td>
+<p>A data frame with columns 'sel_name' and 'kingdom', mapping
+taxon names to their kingdom classification.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Performs a left join between 'data' and 'data_classification_table'
+on 'taxon == sel_name' to retrieve the kingdom for each taxon.
+Any taxon where 'kingdom' is not exactly '&quot;Plantae&quot;', including
+taxa with 'kingdom = NA', is treated as non-plant and removed.
+When any taxa are dropped, 'cli::cli_warn()' is issued reporting
+the count and the full vector of removed taxon names.
+Note: the upstream 'get_taxa_classification()' already filters
+to Plantae during the taxospace lookup, so in practice this
+function mainly catches taxa that are genuinely unclassifiable
+(i.e. not found in any classification source).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame identical in structure to 'data' but with all rows
+belonging to non-Plantae taxa removed. Taxa with 'kingdom = NA'
+(unclassifiable) are also removed.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[classify_taxonomic_resolution()], [filter_rare_taxa()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

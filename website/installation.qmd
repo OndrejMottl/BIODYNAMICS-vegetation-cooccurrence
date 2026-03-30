@@ -20,7 +20,7 @@ This will install all the packages listed in the `renv.lock` file.
 
 This project uses {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)} (Scalable Joint Species Distribution Models), which requires a Python back-end (PyTorch). After installing the R package, set up the Python environment with:
 
-``` r
+```r
 sjSDM::install_sjSDM()
 ```
 
@@ -33,11 +33,41 @@ verify_sjsdm_setup()
 
 ## {[targets](https://docs.ropensci.org/targets/)}
 
-Currently, the project is coded as a {[targets](https://docs.ropensci.org/targets/)} pipeline and can be executed using the following command:
+The project is built as a {[targets](https://docs.ropensci.org/targets/)} pipeline. Each analysis configuration has its own dedicated pipeline run. To execute a pipeline, set the active configuration and call `targets::tar_make()`:
+
+``` r
+library(here)
+source(here::here("R/___setup_project___.R"))
+
+# Choose one of the named configurations:
+# "project_cz", "project_temporal_europe", "project_temporal_america",
+# "project_temporal_asia", "project_spatial_continental",
+# "project_spatial_regional", "project_spatial_local"
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+targets::tar_make()
+```
+
+To check which targets are out-of-date before running:
+
+``` r
+targets::tar_outdated()
+```
+
+To visualise the full pipeline dependency graph:
+
+``` r
+targets::tar_visnetwork()
+```
+
+### Spatial analyses
+
+Spatial analyses iterate over all geographic units defined in `Data/Input/spatial_grid.csv` at the selected scale. Use the convenience runner scripts:
 
 ```{r}
-#| eval=FALSE
+#| eval: false
+#| echo: true
 source(
-  here::here("R/02_Main_analyses/01_Run_pipelines.R")
+  here::here("R/02_Main_analyses/01_Spatial/01_Run_spatial_continental.R")
 )
 ```

@@ -20,19 +20,18 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Removes taxa whose presence/absence shows no variation across
-all samples. For binomial models, a taxon with all-zero or
-all-one presence values cannot contribute to the likelihood and
-must be excluded before fitting.
+<p>Removes taxa that show no variation across all samples. A
+taxon is considered constant when its standard deviation is
+zero, meaning every sample has the same value. Constant
+taxa cannot contribute to any model likelihood and must be
+excluded before fitting. Filtering is applied regardless of
+the error family (binomial, Gaussian, Poisson, beta, etc.).
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>filter_constant_taxa(
-  data_community_matrix = NULL,
-  error_family = c("binomial", "gaussian")
-)
+<pre><code class='language-R'>filter_constant_taxa(data_community_matrix = NULL)
 </code></pre>
 
 
@@ -41,33 +40,28 @@ must be excluded before fitting.
 <table role = "presentation">
 <tr><td><code id="data_community_matrix">data_community_matrix</code></td>
 <td>
-<p>A numeric matrix with samples as rows and taxa as columns, as
-returned by 'prepare_community_for_fit()'.</p>
-</td></tr>
-<tr><td><code id="error_family">error_family</code></td>
-<td>
-<p>A character string specifying the error family used for model
-fitting. Must be '&quot;binomial&quot;' or '&quot;gaussian&quot;'. Filtering is
-only applied when 'error_family = &quot;binomial&quot;'.</p>
+<p>A numeric matrix with samples as rows and taxa as columns,
+as returned by 'prepare_community_for_fit()'.</p>
 </td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>For binomial models, taxa are converted to binary
-presence/absence ('&gt; 0') before checking for variation.
-A taxon is retained only if '0 &lt; column_sum &lt; n_samples'.
-This step was previously performed silently inside
-'fit_jsdm_model()' and is now a tracked pipeline target.
+<p>Variation is assessed by computing 'stats::sd()' for each
+column via 'purrr::map_dbl()'. A column is retained only
+when its standard deviation is strictly greater than zero.
+This family-agnostic approach replaces the previous
+binomial-only binarisation check and is now a tracked
+pipeline target.
 </p>
 
 
 <h3>Value</h3>
 
 <p>A numeric matrix of the same structure as the input, with
-constant-presence taxa (all absent or all present) removed.
-When 'error_family = &quot;gaussian&quot;' the input matrix is returned
+all constant taxa (standard deviation equal to zero) removed.
+If no taxa are constant the input matrix is returned
 unchanged.
 </p>
 

@@ -4,9 +4,17 @@ date-format: long
 date-modified: last-modified
 ---
 
-# BIODYNAMICS - Vegetation Co-occurrence
+# BIODYNAMICS — Vegetation Co-occurrence
 
-This is a project to study the co-occurrence of vegetation across space and time. 
+This project analyses **co-occurrence patterns of plant taxa across space and time** using paleoecological pollen records and co-located palaeoclimate reconstructions. The central aim is to quantify how much of the observed co-occurrence signal is explained by shared abiotic (environmental) responses versus genuine biotic associations — and whether those patterns are consistent across geographic scales and through the last 20,000 years.
 
-The repo is part of the [BIODYNAMICS](https://bit.ly/BIODYNAMICS) project.
+The project is part of the [BIODYNAMICS](https://bit.ly/BIODYNAMICS) initiative.
+
+::: {.callout-tip}
+## Explore the project
+
+- [Methods & Overview](website/about.qmd) — data sources, two-pipeline design (temporal and spatial), all pipeline stages, and analysis configurations
+- [Reproducibility](website/installation.qmd) — how to install dependencies and run the pipeline
+- [Documentation](website/Documentation/documentation.qmd) — individual function reference and code coverage
+:::
 

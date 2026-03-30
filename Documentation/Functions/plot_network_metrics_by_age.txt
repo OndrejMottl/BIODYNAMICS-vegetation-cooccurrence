@@ -1,0 +1,47 @@
+Plot Bipartite Network Metrics by Age
+
+Description:
+
+     Creates a faceted line-and-point plot of bipartite community
+     network metrics (e.g. connectance, nestedness, modularity) across
+     time slices (ages). Each metric is shown in its own panel with a
+     free y-axis scale.
+
+Usage:
+
+     plot_network_metrics_by_age(
+       data_network_metrics,
+       title = NULL,
+       subtitle = NULL
+     )
+     
+Arguments:
+
+data_network_metrics: A data frame or tibble with columns 'age'
+          (numeric), 'metric' (character), and 'value' (numeric).
+          Typically the output of 'compute_network_metrics()'
+          aggregated across time slices and with the age column already
+          parsed to numeric.
+
+   title: Optional character string for the plot title. Defaults to
+          'NULL' (no title).
+
+subtitle: Optional character string for the plot subtitle. Defaults to
+          'NULL' (no subtitle).
+
+Details:
+
+     The x-axis is reversed so that older ages appear on the left. Each
+     metric is shown in a separate facet panel with an independent
+     y-axis scale ('scales = "free_y"') because connectance,
+     nestedness, and modularity occupy different numeric ranges. Each
+     panel shows a coloured line with points.
+
+Value:
+
+     A 'ggplot' object.
+
+See Also:
+
+     [compute_network_metrics()]
+

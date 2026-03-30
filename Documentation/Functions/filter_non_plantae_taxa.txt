@@ -1,0 +1,45 @@
+Filter Non-Plantae Taxa
+
+Description:
+
+     Removes taxa that do not belong to the kingdom Plantae from a
+     community data frame, using a classification table to determine
+     the kingdom assignment for each taxon.
+
+Usage:
+
+     filter_non_plantae_taxa(data, data_classification_table)
+     
+Arguments:
+
+    data: A data frame containing community data with at minimum a
+          column named 'taxon'.
+
+data_classification_table: A data frame with columns 'sel_name' and
+          'kingdom', mapping taxon names to their kingdom
+          classification.
+
+Details:
+
+     Performs a left join between 'data' and
+     'data_classification_table' on 'taxon == sel_name' to retrieve the
+     kingdom for each taxon. Any taxon where 'kingdom' is not exactly
+     '"Plantae"', including taxa with 'kingdom = NA', is treated as
+     non-plant and removed. When any taxa are dropped,
+     'cli::cli_warn()' is issued reporting the count and the full
+     vector of removed taxon names. Note: the upstream
+     'get_taxa_classification()' already filters to Plantae during the
+     taxospace lookup, so in practice this function mainly catches taxa
+     that are genuinely unclassifiable (i.e. not found in any
+     classification source).
+
+Value:
+
+     A data frame identical in structure to 'data' but with all rows
+     belonging to non-Plantae taxa removed. Taxa with 'kingdom = NA'
+     (unclassifiable) are also removed.
+
+See Also:
+
+     [classify_taxonomic_resolution()], [filter_rare_taxa()]
+

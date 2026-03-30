@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../website/about.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">About the project</span></a>
+ <span class="menu-text">Methods &amp; Overview</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -174,6 +174,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/binarize_community_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">binarize_community_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/check_and_prepare_data_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">check_and_prepare_data_for_fit()</span></a>
   </div>
@@ -182,6 +188,18 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/check_and_report_missing_taxa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">check_and_report_missing_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/check_data_sample_ids_n.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_data_sample_ids_n()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/check_min_n_cores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_min_n_cores()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -216,8 +234,26 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/filter_by_n_samples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_by_n_samples()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/filter_community_by_n_cores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_community_by_n_cores()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/filter_constant_taxa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_constant_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/filter_non_plantae_taxa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_non_plantae_taxa()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -324,8 +360,20 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_scale_id_from_store.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_scale_id_from_store()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/get_significant_associations.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_significant_associations()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_spatial_window.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_spatial_window()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -390,6 +438,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/plot_network_metrics_by_age.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot_network_metrics_by_age()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/prepare_coords_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_coords_for_fit()</span></a>
   </div>
@@ -422,6 +476,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/scale_abiotic_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">scale_abiotic_for_fit()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/scale_spatial_for_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">scale_spatial_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -511,12 +571,12 @@ Make Environmental Formula
 Description
 </h3>
 <p>
-Creates a formula for environmental variables from abiotic data. If an ‘age’ column is present, creates interaction terms between age and other variables.
+Creates a formula for environmental variables from abiotic data. If an ‘age’ column is present and ‘use_age = TRUE’, creates interaction terms between age and other variables. When ‘use_age = FALSE’, age is excluded from the formula even if the column exists in ‘data’.
 </p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">make_env_formula(data)
+<pre><code class="language-R">make_env_formula(data, use_age = TRUE)
 </code></pre>
 <h3 class="anchored">
 Arguments
@@ -532,18 +592,28 @@ A data frame containing abiotic environmental variables. Must have at least one 
 </p>
 </td>
 </tr>
+<tr>
+<td>
+<code id="use_age">use_age</code>
+</td>
+<td>
+<p>
+Logical scalar. If ‘TRUE’ (default) and an ’age’ column is present in ‘data’, produces an interaction formula ‘~ (var1 + var2 + …) * age - age’. If ‘FALSE’, age is stripped from the formula regardless of its presence in ‘data’, producing a simple additive formula ‘~ var1 + var2 + …’.
+</p>
+</td>
+</tr>
 </tbody></table>
 <h3 class="anchored">
 Details
 </h3>
 <p>
-The function constructs different formulas based on the presence of an ‘age’ column: - With age: ~ (var1 + var2 + …) * age - age … - Without age: ~ var1 + var2 + … The formula removes intercept terms and individual variable terms when interactions are present.
+The function constructs different formulas based on the presence of an ‘age’ column and the ‘use_age’ flag: - With age column and ‘use_age = TRUE’: ~ (var1 + var2 + …) * age - age - Without age column, or ‘use_age = FALSE’: ~ var1 + var2 + … The formula removes intercept terms and individual variable terms when interactions are present.
 </p>
 <h3 class="anchored">
 Value
 </h3>
 <p>
-A formula object suitable for modeling. If ‘age’ is present, returns a formula with interaction terms (age * variables). Otherwise, returns a simple additive formula. All formulas exclude intercept terms.
+A formula object suitable for modeling. If ‘age’ is present and ‘use_age = TRUE’, returns a formula with interaction terms (age * variables). Otherwise, returns a simple additive formula. All formulas exclude intercept terms.
 </p>
 <h3 class="anchored">
 See Also

@@ -1,0 +1,40 @@
+Check Minimum Number of Cores in Spatial Window
+
+Description:
+
+     Verifies that the number of cores (distinct pollen sites) in the
+     current spatial window meets the minimum required for analysis.
+     The check is intended as an early guard in the pipeline, applied
+     directly to `data_coords` (output of `get_coords()`) before any
+     expensive community-data processing begins.
+
+Usage:
+
+     check_min_n_cores(data_coords = NULL, min_n_cores = 2)
+     
+Arguments:
+
+data_coords: A data frame of site coordinates, one row per core, as
+          returned by `get_coords()`. Gridpoints are already excluded
+          by that function, so every row represents a real pollen core.
+
+min_n_cores: A single positive numeric value specifying the minimum
+          number of distinct cores required. Typically sourced from
+          `config.data_processing$min_n_cores`.
+
+Details:
+
+     Raises a `cli::cli_abort()` error naming the actual core count and
+     the required threshold when `nrow(data_coords) < min_n_cores`.
+     This causes the targets pipeline target to fail immediately,
+     preventing all downstream community-data targets from running for
+     spatial windows that contain too few sites.
+
+Value:
+
+     `TRUE` invisibly when the check passes.
+
+See Also:
+
+     [get_coords()], [filter_community_by_n_cores()]
+

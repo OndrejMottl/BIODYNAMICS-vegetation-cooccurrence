@@ -1,0 +1,89 @@
+<!DOCTYPE html><html><head><title>R: Get Scale ID from Current Targets Store Path</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_scale_id_from_store</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Scale ID from Current Targets Store Path</h2>
+
+<h3>Description</h3>
+
+<p>Determines whether the currently active targets store corresponds
+to a spatial unit by inspecting the store path and checking it
+against the project's spatial grid CSV catalogue. Returns the
+'scale_id' string for spatial pipelines, or 'NULL' for
+non-spatial (named-project) pipelines.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_scale_id_from_store(
+  store = targets::tar_path_store(),
+  file = here::here("Data/Input/spatial_grid.csv")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="store">store</code></td>
+<td>
+<p>A single character string giving the path to the targets data
+store. Default: 'targets::tar_path_store()', which resolves
+correctly both inside target commands (including callr worker
+processes) and when called interactively.</p>
+</td></tr>
+<tr><td><code id="file">file</code></td>
+<td>
+<p>Path to the spatial grid CSV catalogue file.
+Default: 'here::here(&quot;Data/Input/spatial_grid.csv&quot;)'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The store path convention for spatial pipelines is:
+'target_store/scale_id/pipeline_name/'. The function
+extracts the second-to-last path component via
+'basename(dirname(store))' and checks whether it appears in the
+'scale_id' column of the spatial grid CSV. For non-spatial
+pipelines (e.g. 'Data/targets/project_cz/pipeline_basic/') the
+candidate ('&quot;project_cz&quot;') is not in the CSV, so 'NULL' is
+returned. When the CSV file does not exist the function returns
+'NULL' gracefully.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A single character string with the 'scale_id' when the store
+path corresponds to a spatial unit in the CSV catalogue, or
+'NULL' otherwise.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>get_spatial_window, get_spatial_model_params
+</p>
+
+</main>
+
+</div>
+</body></html>
+

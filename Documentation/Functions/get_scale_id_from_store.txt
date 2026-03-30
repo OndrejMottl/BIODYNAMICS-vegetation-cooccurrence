@@ -1,0 +1,49 @@
+Get Scale ID from Current Targets Store Path
+
+Description:
+
+     Determines whether the currently active targets store corresponds
+     to a spatial unit by inspecting the store path and checking it
+     against the project's spatial grid CSV catalogue. Returns the
+     `scale_id` string for spatial pipelines, or `NULL` for non-spatial
+     (named-project) pipelines.
+
+Usage:
+
+     get_scale_id_from_store(
+       store = targets::tar_path_store(),
+       file = here::here("Data/Input/spatial_grid.csv")
+     )
+     
+Arguments:
+
+   store: A single character string giving the path to the targets data
+          store. Default: `targets::tar_path_store()`, which resolves
+          correctly both inside target commands (including callr worker
+          processes) and when called interactively.
+
+    file: Path to the spatial grid CSV catalogue file. Default:
+          `here::here("Data/Input/spatial_grid.csv")`.
+
+Details:
+
+     The store path convention for spatial pipelines is:
+     `target_store/scale_id/pipeline_name/`. The function extracts the
+     second-to-last path component via `basename(dirname(store))` and
+     checks whether it appears in the `scale_id` column of the spatial
+     grid CSV. For non-spatial pipelines (e.g.
+     `Data/targets/project_cz/pipeline_basic/`) the candidate
+     (`"project_cz"`) is not in the CSV, so `NULL` is returned. When
+     the CSV file does not exist the function returns `NULL`
+     gracefully.
+
+Value:
+
+     A single character string with the `scale_id` when the store path
+     corresponds to a spatial unit in the CSV catalogue, or `NULL`
+     otherwise.
+
+See Also:
+
+     get_spatial_window, get_spatial_model_params
+

@@ -1,0 +1,39 @@
+Get Spatial Window from Grid Catalogue
+
+Description:
+
+     Retrieves the spatial bounding box for a given spatial unit ID
+     from the project's spatial grid CSV catalogue.
+
+Usage:
+
+     get_spatial_window(scale_id, file = here::here("Data/Input/spatial_grid.csv"))
+     
+Arguments:
+
+scale_id: A single character string identifying the spatial unit. Must
+          match exactly one row in the catalogue file.
+
+    file: Path to the spatial grid CSV file. Default:
+          `here::here("Data/Input/spatial_grid.csv")`.
+
+Details:
+
+     Reads the CSV using `readr::read_csv`, filters to the row whose
+     `scale_id` column matches the supplied `scale_id` argument, and
+     constructs the bounding box vectors. Validation ensures the file
+     is readable, has a `.csv` extension, and that exactly one row
+     matches the requested `scale_id`.
+
+Value:
+
+     A named list with two elements:
+
+     `x_lim` Numeric vector of length 2: `c(x_min, x_max)`.
+
+     `y_lim` Numeric vector of length 2: `c(y_min, y_max)`.
+
+See Also:
+
+     get_active_config
+

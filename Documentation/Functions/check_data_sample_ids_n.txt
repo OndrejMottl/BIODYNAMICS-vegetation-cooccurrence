@@ -1,0 +1,46 @@
+Check Sample IDs Have Minimum Number of Samples
+
+Description:
+
+     Guards against running downstream data preparation and model
+     fitting on a time slice with too few `(dataset_name, age)`
+     combinations. Returns `data_sample_ids` unchanged when the row
+     count is at least `min_n_samples`. Stops with an informative error
+     when the count falls below the threshold, preventing expensive
+     model fitting on near-empty slices.
+
+Usage:
+
+     check_data_sample_ids_n(data_sample_ids = NULL, min_n_samples = 1)
+     
+Arguments:
+
+data_sample_ids: A data frame with at least the columns `dataset_name`
+          and `age`, as returned by `align_sample_ids()`. Each row
+          represents one valid `(dataset_name, age)` pair.
+
+min_n_samples: A single positive integer giving the minimum number of
+          samples (rows) required to proceed with data preparation and
+          model fitting. Default is 1.
+
+Details:
+
+     The check counts `nrow(data_sample_ids)` after the time-slice
+     filter has been applied by `align_sample_ids(subset_age = ...)`.
+     If the count falls below `min_n_samples`, `cli::cli_abort()` is
+     called with a message that reports the actual sample count and the
+     threshold, allowing the user to adjust the configuration or the
+     input data. This check is intended to be placed in the per-slice
+     pipeline (e.g. `pipe_segment_age_filter`) so that slices without
+     sufficient data fail immediately, before any expensive preparation
+     or model fitting.
+
+Value:
+
+     The input `data_sample_ids` unchanged, when `nrow(data_sample_ids)
+     >= min_n_samples`.
+
+See Also:
+
+     [align_sample_ids()], [filter_community_by_n_taxa()]
+

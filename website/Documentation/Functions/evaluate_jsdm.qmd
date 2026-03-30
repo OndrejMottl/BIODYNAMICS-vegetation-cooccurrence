@@ -48,24 +48,35 @@ metrics at both model and species level.
 
 <h3>Details</h3>
 
-<p>For binomial models, species-level classification metrics (AUC, Accuracy,
-LogLoss) are computed using a 0.5 probability threshold for binary
-predictions. For other model families, RMSE is computed per species.
+<p>For binomial models, species-level classification metrics (AUC,
+Accuracy, LogLoss) are computed using a 0.5 probability threshold
+for binary predictions. For other model families, RMSE is computed
+per species.
+</p>
+<p>Convergence is assessed via [check_convergence_jsdm()], which
+analyses the training loss history. A 'linear_trend_slope' &lt; 0.01
+and 'median_diff' &lt; 1 in the returned 'convergence' element
+indicate that the model has converged.
 </p>
 
 
 <h3>Value</h3>
 
-<p>A list with two elements:
-- model: Named numeric vector of R-squared values (McFadden, Nagelkerke)
-- species: A tibble with one row per species and columns:
-species, AUC, Accuracy, LogLoss (binomial) or RMSE (other families)
+<p>A list with three elements:
+- 'model': Named numeric vector of R-squared values
+(McFadden, Nagelkerke)
+- 'species': A tibble with one row per species and columns:
+species, AUC, Accuracy, LogLoss (binomial) or RMSE (other
+families)
+- 'convergence': A list from [check_convergence_jsdm()] with
+'linear_trend_slope', 'median_diff', 'convergence_plot', and
+'note'
 </p>
 
 
 <h3>See Also</h3>
 
-<p>sjSDM::Rsquared, Metrics::auc
+<p>sjSDM::Rsquared, Metrics::auc, check_convergence_jsdm
 </p>
 
 </main>

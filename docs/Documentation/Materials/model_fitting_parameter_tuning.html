@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>model_fitting_parameter_tuning – BIODYNAMICS-vegetation-cooccurrence</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../figures/Logo FOSSILPOL regular - 600ppi.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-fa2b4a2c1b08ad7851189d90cf7caddf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      BIODYNAMICS-vegetation-cooccurrence
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">BIODYNAMICS-vegetation-cooccurrence</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methods &amp; Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/installation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reproducibility</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Documentation</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Project overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Functions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/add_age_column_from_rownames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">add_age_column_from_rownames()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/add_age_to_samples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">add_age_to_samples()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/add_dataset_name_column_from_rownames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">add_dataset_name_column_from_rownames()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/add_model_evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">add_model_evaluation()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/assemble_data_to_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">assemble_data_to_fit()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/binarize_community_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">binarize_community_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/check_and_prepare_data_for_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_and_prepare_data_for_fit()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/check_and_report_missing_taxa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_and_report_missing_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/check_data_sample_ids_n.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_data_sample_ids_n()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/check_min_n_cores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_min_n_cores()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/check_presence_of_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_presence_of_vegvault()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/classify_taxonomic_resolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">classify_taxonomic_resolution()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/combine_classification_tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">combine_classification_tables()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/evaluate_jsdm.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">evaluate_jsdm()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/extract_data_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">extract_data_from_vegvault()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/filter_by_n_samples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_by_n_samples()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/filter_community_by_n_cores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_community_by_n_cores()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/filter_constant_taxa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_constant_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/filter_non_plantae_taxa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_non_plantae_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/filter_rare_taxa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_rare_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/fit_hmsc_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fit_hmsc_model()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/fit_jsdm_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fit_jsdm_model()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_abiotic_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_abiotic_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_active_config.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_active_config()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_age_from_string.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_age_from_string()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_anova()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_aux_classification_table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_aux_classification_table()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_better_model_based_on_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_better_model_based_on_fit()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_community_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_community_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_community_taxa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_community_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_coords.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_coords()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_dataset_name_from_string.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_dataset_name_from_string()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_pollen_sum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_pollen_sum()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_predictor_collinearity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_predictor_collinearity()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_random_structure_for_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_random_structure_for_model()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_sample_ages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_sample_ages()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_scale_id_from_store.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_scale_id_from_store()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_significant_associations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_significant_associations()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_spatial_window.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_spatial_window()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_species_association.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_species_association()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_taxa_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_taxa_classification()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/get_taxa_without_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_taxa_without_classification()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/interpolate_community_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">interpolate_community_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/interpolate_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">interpolate_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/make_classification_table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_classification_table()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/make_community_data_long.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_community_data_long()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/make_community_proportions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_community_proportions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/make_env_formula.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_env_formula()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/make_hmsc_model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_hmsc_model()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/plot_network_metrics_by_age.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot_network_metrics_by_age()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/prepare_coords_for_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">prepare_coords_for_fit()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/prepare_data_for_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">prepare_data_for_fit()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/replace_na_community_data_with_zeros.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">replace_na_community_data_with_zeros()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/run_pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">run_pipeline()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/save_progress_visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">save_progress_visualisation()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/scale_abiotic_for_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">scale_abiotic_for_fit()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/scale_spatial_for_fit.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">scale_spatial_for_fit()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/select_n_taxa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">select_n_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/transform_to_proportions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">transform_to_proportions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../website/Documentation/Functions/verify_sjsdm_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">verify_sjsdm_setup()</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#model-fitting-parameter-tuning-guide" id="toc-model-fitting-parameter-tuning-guide" class="nav-link active" data-scroll-target="#model-fitting-parameter-tuning-guide">Model Fitting Parameter Tuning Guide</a>
+  <ul class="collapse">
+  <li><a href="#key-parameters-in-config.yml-under-model_fitting" id="toc-key-parameters-in-config.yml-under-model_fitting" class="nav-link" data-scroll-target="#key-parameters-in-config.yml-under-model_fitting">Key Parameters (in <code>config.yml</code> under <code>model_fitting:</code>)</a></li>
+  <li><a href="#step-1-check-convergence-from-the-loss-history" id="toc-step-1-check-convergence-from-the-loss-history" class="nav-link" data-scroll-target="#step-1-check-convergence-from-the-loss-history">Step 1 — Check Convergence from the Loss History</a></li>
+  <li><a href="#step-2-check-model-evaluation" id="toc-step-2-check-model-evaluation" class="nav-link" data-scroll-target="#step-2-check-model-evaluation">Step 2 — Check Model Evaluation</a></li>
+  <li><a href="#step-3-assess-spatial-structure-n_mev" id="toc-step-3-assess-spatial-structure-n_mev" class="nav-link" data-scroll-target="#step-3-assess-spatial-structure-n_mev">Step 3 — Assess Spatial Structure (<code>n_mev</code>)</a></li>
+  <li><a href="#step-4-check-anova-stability-n_samples_anova" id="toc-step-4-check-anova-stability-n_samples_anova" class="nav-link" data-scroll-target="#step-4-check-anova-stability-n_samples_anova">Step 4 — Check ANOVA Stability (<code>n_samples_anova</code>)</a></li>
+  <li><a href="#step-5-update-config.yml-and-re-run" id="toc-step-5-update-config.yml-and-re-run" class="nav-link" data-scroll-target="#step-5-update-config.yml-and-re-run">Step 5 — Update <code>config.yml</code> and Re-run</a></li>
+  <li><a href="#quick-decision-flowchart" id="toc-quick-decision-flowchart" class="nav-link" data-scroll-target="#quick-decision-flowchart">Quick Decision Flowchart</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Materials/model_fitting_parameter_tuning.md" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="model-fitting-parameter-tuning-guide" class="level1">
+<h1>Model Fitting Parameter Tuning Guide</h1>
+<p>After a pipeline run completes, use this guide to assess whether the model converged well and how to adjust the key parameters in <code>config.yml</code> before re-running.</p>
+<hr>
+<section id="key-parameters-in-config.yml-under-model_fitting" class="level2">
+<h2 class="anchored" data-anchor-id="key-parameters-in-config.yml-under-model_fitting">Key Parameters (in <code>config.yml</code> under <code>model_fitting:</code>)</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 34%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Default</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>n_iter</code></td>
+<td>100</td>
+<td>Number of training epochs</td>
+</tr>
+<tr class="even">
+<td><code>n_sampling</code></td>
+<td>100</td>
+<td>Monte Carlo samples for likelihood estimation</td>
+</tr>
+<tr class="odd">
+<td><code>n_step_size</code></td>
+<td><code>~</code> (NULL)</td>
+<td>Mini-batch size; <code>~</code> lets sjSDM choose automatically (10 % of sites)</td>
+</tr>
+<tr class="even">
+<td><code>n_mev</code></td>
+<td>2</td>
+<td>Number of Moran Eigenvectors (MEVs) used as spatial predictor terms</td>
+</tr>
+<tr class="odd">
+<td><code>n_samples_anova</code></td>
+<td>1000</td>
+<td>Bootstrap samples for ANOVA variance partitioning</td>
+</tr>
+<tr class="even">
+<td><code>n_cores</code></td>
+<td>5</td>
+<td>CPU cores for parallel processing (GPU runs ignore this)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="step-1-check-convergence-from-the-loss-history" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-check-convergence-from-the-loss-history">Step 1 — Check Convergence from the Loss History</h2>
+<p>Run the <code>check_convergence()</code> helper on the fitted model:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_read</span>(<span class="st">"mod_jsdm"</span>, <span class="at">store =</span> set_store)  <span class="sc">|&gt;</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">check_convergence</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>or load the convergence target directly:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_read</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>      <span class="st">"model_evaluation"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">store =</span> sel_store_path</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Interpret the output:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 20%">
+<col style="width: 51%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Good</th>
+<th>Action if bad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>linear_trend_slope</code></td>
+<td>&lt; 0.01</td>
+<td>Increase <code>n_iter</code></td>
+</tr>
+<tr class="even">
+<td><code>median_diff</code></td>
+<td>&lt; 1.0</td>
+<td>Increase <code>n_iter</code></td>
+</tr>
+<tr class="odd">
+<td>Convergence plot tail</td>
+<td>Flat, low noise</td>
+<td>Increase <code>n_step_size</code> or increase <code>n_sampling</code></td>
+</tr>
+</tbody>
+</table>
+<section id="n_iter-epochs" class="level3">
+<h3 class="anchored" data-anchor-id="n_iter-epochs"><code>n_iter</code> — Epochs</h3>
+<ul>
+<li><strong>Loss is still decreasing at the end of training</strong> → double <code>n_iter</code> (e.g.&nbsp;100 → 200 → 400).</li>
+<li><strong>Loss plateaued early (&lt; 50 % of epochs)</strong> → <code>n_iter</code> is sufficient; no need to increase further.</li>
+<li><strong>Loss is oscillating wildly</strong> → increase <code>n_step_size</code> (larger batches reduce gradient noise and smooth the loss trajectory).</li>
+</ul>
+</section>
+<section id="n_step_size-mini-batch-size" class="level3">
+<h3 class="anchored" data-anchor-id="n_step_size-mini-batch-size"><code>n_step_size</code> — Mini-batch Size</h3>
+<p><code>n_step_size</code> is the SGD mini-batch size: the number of sites used per gradient update. Larger batches produce more stable gradient estimates and smoother convergence. The automatic default (<code>NULL</code> / <code>~</code>) sets it to 10 % of the number of sites, which is a reasonable starting point.</p>
+<ul>
+<li><code>~</code> (NULL) lets sjSDM choose automatically (usually fine for moderate datasets).</li>
+<li><strong>If loss oscillates</strong>: increase <code>n_step_size</code> (more sites per gradient step = less noisy updates). Try doubling the current value, or set to <code>~</code> to let sjSDM auto-size if you have been using a manually small value.</li>
+<li><strong>If training is very slow</strong>: keep <code>n_step_size</code> at or above the auto default; do not lower it to speed up training.</li>
+<li>Typical manual values by dataset size:
+<ul>
+<li>~100 sites: auto default (~10) is appropriate; try 20–30 if oscillating.</li>
+<li>~500 sites: auto default (~50); try 64–100 if oscillating.</li>
+<li>~2000 sites: auto default (~200); try 256–512 if oscillating.</li>
+</ul></li>
+</ul>
+</section>
+<section id="n_sampling-monte-carlo-samples" class="level3">
+<h3 class="anchored" data-anchor-id="n_sampling-monte-carlo-samples"><code>n_sampling</code> — Monte Carlo Samples</h3>
+<p>Increasing <code>n_sampling</code> reduces gradient noise at the cost of memory and time. Typical progression:</p>
+<pre><code>100 (default) → 150 → 200</code></pre>
+<p>Raise if:</p>
+<ul>
+<li>Loss curve is noisy despite a flat trend (and <code>n_step_size</code> is already large).</li>
+<li>Model evaluation metrics (AUC, R²) are unstable across repeated runs.</li>
+</ul>
+</section>
+<section id="additional-optimizer-controls-via-sjsdmcontrol" class="level3">
+<h3 class="anchored" data-anchor-id="additional-optimizer-controls-via-sjsdmcontrol">Additional optimizer controls via <code>sjSDMControl</code></h3>
+<p>For persistent convergence problems, consider passing <code>control</code> to the model fitting call. These options are not exposed as <code>config.yml</code> parameters and require a code change in <code>pipe_segment_model_simple.R</code>:</p>
+<ul>
+<li><strong><code>scheduler</code></strong>: reduce the learning rate automatically when the loss plateaus. Example: <code>sjSDMControl(scheduler = 50)</code> reduces the rate after 50 epochs without improvement (with <code>lr_reduce_factor = 0.99</code> per epoch).</li>
+<li><strong><code>early_stopping_training</code></strong>: halt training if the loss has not decrease for <em>n</em> epochs. Prevents wasted compute on stalled runs.</li>
+<li><strong><code>learning_rate</code></strong> (top-level <code>sjSDM()</code> argument): controls the learning rate for the Adamax optimizer specifically. To change the rate of the default RMSprop optimizer, supply a custom <code>sjSDMControl(optimizer = RMSprop(...))</code> object.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="step-2-check-model-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-check-model-evaluation">Step 2 — Check Model Evaluation</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model_evaluation <span class="ot">&lt;-</span> targets<span class="sc">::</span><span class="fu">tar_read</span>(<span class="st">"model_evaluation"</span>, <span class="at">store =</span> set_store)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model_evaluation</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Key metrics to inspect:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Target</th>
+<th>Action if below target</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AUC (mean across species)</td>
+<td>&gt; 0.7</td>
+<td>Check data quality, increase <code>n_iter</code></td>
+</tr>
+<tr class="even">
+<td>R² Nagelkerke (full model)</td>
+<td>&gt; 0.1</td>
+<td>Check predictors, increase <code>n_mev</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="step-3-assess-spatial-structure-n_mev" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-assess-spatial-structure-n_mev">Step 3 — Assess Spatial Structure (<code>n_mev</code>)</h2>
+<p><code>n_mev</code> controls how many <strong>Moran Eigenvectors (MEVs)</strong> are computed and used as spatial predictor terms in the <code>spatial</code> component of the model. MEVs are spatial basis functions derived from the site distance matrix; they capture spatial autocorrelation patterns explicitly rather than leaving them to be absorbed into the biotic associations term.</p>
+<p><strong>Important</strong>: <code>n_mev</code> governs the spatial predictor, not biotic latent factors. Increasing <code>n_mev</code> gives the model more spatial terms to explain observed co-occurrence patterns — this typically <em>reduces</em> the Associations fraction in the ANOVA output, not increases it.</p>
+<p>Check the ANOVA output:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>model_anova <span class="ot">&lt;-</span> targets<span class="sc">::</span><span class="fu">tar_read</span>(<span class="st">"model_anova"</span>, <span class="at">store =</span> set_store)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_anova)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model_anova)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Rules of thumb:</p>
+<ul>
+<li><strong>Space fraction is low (&lt; 5 %) and Associations fraction is high (&gt; 30 %)</strong> → spatial autocorrelation may be under-modelled and bleeding into the biotic associations term. Try increasing <code>n_mev</code> by 1–2 (e.g.&nbsp;3 → 5).</li>
+<li><strong>Space fraction is already large and Associations fraction is small</strong> → <code>n_mev</code> is sufficient; no need to increase further.</li>
+<li><strong>Model fit is poor (low AUC / R²) and both spatial and environmental fractions are small</strong> → consider increasing <code>n_mev</code> and checking predictor quality.</li>
+<li>Increasing <code>n_mev</code> substantially increases compute time. Step up by 1–2 at a time.</li>
+<li>Typical range for paleoecological data: <strong>3–6</strong>.</li>
+</ul>
+<hr>
+</section>
+<section id="step-4-check-anova-stability-n_samples_anova" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-check-anova-stability-n_samples_anova">Step 4 — Check ANOVA Stability (<code>n_samples_anova</code>)</h2>
+<p>Re-run or increase <code>n_samples_anova</code> if the variance partitioning fractions are unstable or implausibly noisy across time slices or runs.</p>
+<pre><code>100 (fast, for exploration) → 500 → 1000 (publication quality)</code></pre>
+<p>Note: <code>n_samples_anova</code> only affects the ANOVA step, not model fitting. It is safe to re-run only the ANOVA targets after increasing this value (the fitted model target <code>mod_jsdm</code> will not be invalidated).</p>
+<hr>
+</section>
+<section id="step-5-update-config.yml-and-re-run" class="level2">
+<h2 class="anchored" data-anchor-id="step-5-update-config.yml-and-re-run">Step 5 — Update <code>config.yml</code> and Re-run</h2>
+<p>After deciding on new values, edit the relevant project block in <code>config.yml</code>. Example: improving convergence for <code>project_cz</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project_cz</span><span class="kw">:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">model_fitting</span><span class="kw">:</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">n_iter</span><span class="kw">:</span><span class="at"> </span><span class="dv">200</span><span class="co">       # was 100</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">n_sampling</span><span class="kw">:</span><span class="at"> </span><span class="dv">150</span><span class="co">   # was 100</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">n_step_size</span><span class="kw">:</span><span class="at"> </span><span class="dv">64</span><span class="co">   # was null; increase if oscillating</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">n_mev</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span><span class="co">          # was 3</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">n_samples_anova</span><span class="kw">:</span><span class="at"> </span><span class="dv">500</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then invalidate only the affected targets and re-run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">R_CONFIG_ACTIVE =</span> <span class="st">"project_cz"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Check what will be rebuilt</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_outdated</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">script =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/02_Main_analyses/pipeline_basic.R"</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">store =</span> set_store</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-run</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="fu">run_pipeline</span>(</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">sel_script =</span> <span class="st">"R/02_Main_analyses/pipeline_basic.R"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">level_separation =</span> <span class="dv">100</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Changing <code>n_iter</code>, <code>n_sampling</code>, <code>n_step_size</code>, or <code>n_mev</code> will invalidate <code>mod_jsdm</code> and all downstream targets (evaluation, ANOVA, plots). Changing only <code>n_samples_anova</code> invalidates only the ANOVA targets.</p>
+<hr>
+</section>
+<section id="quick-decision-flowchart" class="level2">
+<h2 class="anchored" data-anchor-id="quick-decision-flowchart">Quick Decision Flowchart</h2>
+<pre><code>After pipeline finishes
+        │
+        ▼
+check_convergence(mod_jsdm)
+        │
+  ┌─────┴─────┐
+slope &gt; 0.01?  median_diff &gt; 1?
+  YES          YES
+  └────────────┘
+        │
+   ↑ n_iter (double)
+   ↑ n_step_size (double if oscillating)
+        │
+        ▼
+Model evaluation (AUC, R²) acceptable?
+   NO → check predictors / ↑ n_mev
+  YES
+        │
+        ▼
+ANOVA fractions stable?
+   NO → ↑ n_samples_anova
+  YES
+        │
+        ▼
+Associations fraction &gt;&gt; Space fraction?
+  YES → ↑ n_mev (spatial under-modelled)
+   NO → done</code></pre>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ondrejmottl\.github\.io\/BIODYNAMICS-vegetation-cooccurrence\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Materials/model_fitting_parameter_tuning.md" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,44 @@
+Scale Spatial Predictors for Model Fitting
+
+Description:
+
+     Centres and scales all spatial predictor columns, records the
+     scaling attributes for later back-transformation, and returns both
+     the scaled data frame and the attributes as a named list.
+
+Usage:
+
+     scale_spatial_for_fit(data_spatial = NULL)
+     
+Arguments:
+
+data_spatial: A data frame with row names in the format
+          `"<dataset_name>__<age>"` and numeric columns containing
+          spatial predictor variables (e.g. `coord_x_km`,
+          `coord_y_km`), as returned by
+          `prepare_spatial_predictors_for_fit()`.
+
+Details:
+
+     All columns are centred (mean subtracted) and divided by their
+     standard deviation using `base::scale()`, provided more than one
+     sample is present. When only one row exists, only centring is
+     applied.
+
+Value:
+
+     A named list with two elements:
+
+     `data_spatial_scaled` A data frame with the same row names as the
+          input, with all predictor columns centred and scaled. When
+          only one sample is present, columns are centred only (scale =
+          FALSE).
+
+     `spatial_scale_attributes` A named list of `center` and `scale`
+          attributes for each predictor column, which can be used to
+          back-transform predictions.
+
+See Also:
+
+     [prepare_spatial_predictors_for_fit()], [assemble_data_to_fit()]
+

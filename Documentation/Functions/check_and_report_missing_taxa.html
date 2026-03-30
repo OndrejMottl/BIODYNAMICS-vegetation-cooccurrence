@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>R: Check for missing taxa and write template if needed</title>
+<!DOCTYPE html><html><head><title>R: Check for missing taxa and stop pipeline if any are found</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -16,24 +16,20 @@ function processMathHTML() {
 
 <table style="width: 100%;"><tr><td>check_and_report_missing_taxa</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Check for missing taxa and write template if needed</h2>
+<h2>Check for missing taxa and stop pipeline if any are found</h2>
 
 <h3>Description</h3>
 
 <p>Validates that all community taxa have been classified. When
-missing taxa are found, writes a template CSV to
-'template_file_path' so the user can fill in manual
-classifications, then stops with an informative error message.
-Returns 'TRUE' invisibly when no taxa are missing.
+missing taxa are found, stops with an informative error message
+listing the count of unclassified taxa. Returns 'TRUE' invisibly
+when no taxa are missing.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>check_and_report_missing_taxa(
-  vec_taxa_without_classification,
-  template_file_path = here::here("Data/Input/missing_taxa_template.csv")
-)
+<pre><code class='language-R'>check_and_report_missing_taxa(vec_taxa_without_classification)
 </code></pre>
 
 
@@ -47,33 +43,29 @@ automatically or via the auxiliary table. An empty vector
 ('character(0)') signals full coverage and causes the function
 to return silently.</p>
 </td></tr>
-<tr><td><code id="template_file_path">template_file_path</code></td>
-<td>
-<p>A length-1 character string giving the path where the template
-CSV will be written when missing taxa are found. Defaults to
-'here::here(&quot;Data/Input/missing_taxa_template.csv&quot;)'.</p>
-</td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>The template CSV contains columns 'sel_name', 'kingdom',
-'phylum', 'class', 'order', 'family', 'genus', and 'species'.
-The 'sel_name' column is pre-filled with the missing taxon
-names; all rank columns are left as 'NA' for the user to
-complete. At minimum, 'family', 'genus', or 'species' should be
-filled in. After completing the template, copy or append rows
-to 'Data/Input/aux_classification_table.csv' and re-run the
-pipeline.
+<p>The missing taxa are stored as a targets object
+'data_missing_taxa_template' in the pipeline store. Inspect them
+with 'targets::tar_read(&quot;data_missing_taxa_template&quot;)'. The
+object is a 'tibble' with columns 'sel_name', 'kingdom',
+'phylum', 'class', 'order', 'family', 'genus', and 'species';
+rank columns are left as 'NA' for manual completion. Fill in the
+missing classifications and copy or append rows to
+'Data/Input/aux_classification_table.csv', then re-run the
+pipeline. Use
+'R/03_Supplementary_analyses/Make_auxiliary_classification_table.R'
+to coalesce templates across all pipeline stores into one CSV.
 </p>
 
 
 <h3>Value</h3>
 
 <p>'TRUE' invisibly when every taxon is classified.
-Stops with an error (and writes a template CSV) when any taxa
-are missing.
+Stops with an error when any taxa are missing.
 </p>
 
 

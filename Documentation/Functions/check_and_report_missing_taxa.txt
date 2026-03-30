@@ -1,19 +1,15 @@
-Check for missing taxa and write template if needed
+Check for missing taxa and stop pipeline if any are found
 
 Description:
 
      Validates that all community taxa have been classified. When
-     missing taxa are found, writes a template CSV to
-     `template_file_path` so the user can fill in manual
-     classifications, then stops with an informative error message.
-     Returns `TRUE` invisibly when no taxa are missing.
+     missing taxa are found, stops with an informative error message
+     listing the count of unclassified taxa. Returns `TRUE` invisibly
+     when no taxa are missing.
 
 Usage:
 
-     check_and_report_missing_taxa(
-       vec_taxa_without_classification,
-       template_file_path = here::here("Data/Input/missing_taxa_template.csv")
-     )
+     check_and_report_missing_taxa(vec_taxa_without_classification)
      
 Arguments:
 
@@ -22,25 +18,24 @@ vec_taxa_without_classification: A character vector of taxon names that
           table. An empty vector (`character(0)`) signals full coverage
           and causes the function to return silently.
 
-template_file_path: A length-1 character string giving the path where
-          the template CSV will be written when missing taxa are found.
-          Defaults to
-          `here::here("Data/Input/missing_taxa_template.csv")`.
-
 Details:
 
-     The template CSV contains columns `sel_name`, `kingdom`, `phylum`,
-     `class`, `order`, `family`, `genus`, and `species`. The `sel_name`
-     column is pre-filled with the missing taxon names; all rank
-     columns are left as `NA` for the user to complete. At minimum,
-     `family`, `genus`, or `species` should be filled in. After
-     completing the template, copy or append rows to
-     `Data/Input/aux_classification_table.csv` and re-run the pipeline.
+     The missing taxa are stored as a targets object
+     `data_missing_taxa_template` in the pipeline store. Inspect them
+     with `targets::tar_read("data_missing_taxa_template")`. The object
+     is a `tibble` with columns `sel_name`, `kingdom`, `phylum`,
+     `class`, `order`, `family`, `genus`, and `species`; rank columns
+     are left as `NA` for manual completion. Fill in the missing
+     classifications and copy or append rows to
+     `Data/Input/aux_classification_table.csv`, then re-run the
+     pipeline. Use
+     `R/03_Supplementary_analyses/Make_auxiliary_classification_table.R`
+     to coalesce templates across all pipeline stores into one CSV.
 
 Value:
 
      `TRUE` invisibly when every taxon is classified. Stops with an
-     error (and writes a template CSV) when any taxa are missing.
+     error when any taxa are missing.
 
 See Also:
 
