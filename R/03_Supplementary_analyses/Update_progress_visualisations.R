@@ -85,7 +85,9 @@ cli::cli_inform(
 
 vec_store_dirs |>
   purrr::walk(
+    .progress = TRUE,
     .f = ~ {
+
       store_path <- .x
       pipeline_name <- base::basename(store_path)
 
