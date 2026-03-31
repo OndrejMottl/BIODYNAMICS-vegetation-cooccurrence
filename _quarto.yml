@@ -23,10 +23,9 @@ website:
     style: "docked"
     collapse-level: 1
     contents:
-
       - text: "Methods & Overview"
         href: website/about.qmd
-      
+
       - text: "Reproducibility"
         href: website/installation.qmd
 
@@ -40,10 +39,8 @@ website:
 format:
   html:
     theme:
-      - superhero
+      - darkly
+      - styles.scss
     toc: true
     toc-location: right
     toc-depth: 2
-
-
-

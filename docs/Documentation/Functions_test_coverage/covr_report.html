@@ -2,7 +2,107 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<style>body{background-color:white;}</style>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --bd-bg      : #0B0F14;
+    --bd-surface : #141B22;
+    --bd-border  : #2A3441;
+    --bd-text    : #E6EDF3;
+    --bd-muted   : #98A6B3;
+    --bd-green   : #8DF59A;
+    --bd-amber   : #FFB35C;
+    --bd-red     : #FF7B72;
+  }
+  body {
+    background-color : var(--bd-bg)   !important;
+    color            : var(--bd-text) !important;
+    font-family : 'IBM Plex Sans', system-ui, sans-serif !important;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family : 'IBM Plex Mono', monospace !important;
+    color       : var(--bd-text) !important;
+  }
+  a       { color: var(--bd-green) !important; }
+  a:hover { color: var(--bd-amber) !important; }
+  .container-fluid { background-color: var(--bd-bg) !important; }
+  .nav-tabs { border-bottom-color: var(--bd-border) !important; }
+  .nav-tabs > li > a {
+    font-family      : 'IBM Plex Mono', monospace   !important;
+    color            : var(--bd-muted)   !important;
+    background-color : var(--bd-surface) !important;
+    border-color     : var(--bd-border)  !important;
+  }
+  .nav-tabs > li.active > a,
+  .nav-tabs > li.active > a:hover,
+  .nav-tabs > li.active > a:focus {
+    color            : var(--bd-green) !important;
+    background-color : var(--bd-bg)    !important;
+    border-color : var(--bd-border) var(--bd-border) var(--bd-bg) !important;
+  }
+  .nav-tabs > li > a:hover {
+    color            : var(--bd-amber)   !important;
+    background-color : var(--bd-surface) !important;
+  }
+  .tab-content { background-color: var(--bd-bg) !important; }
+  table, table.dataTable {
+    background-color : var(--bd-surface) !important;
+    color            : var(--bd-text)    !important;
+  }
+  table.dataTable thead th,
+  table.dataTable thead td {
+    color            : var(--bd-green)   !important;
+    font-family      : 'IBM Plex Mono', monospace !important;
+    border-bottom    : 1px solid var(--bd-border)  !important;
+    background-color : var(--bd-surface) !important;
+  }
+  table tbody { border-color: var(--bd-border) !important; }
+  table.row-border tbody tr td {
+    border-top-color : var(--bd-border) !important;
+  }
+  table tr td { color: var(--bd-text) !important; }
+  table .num {
+    border-right-color : var(--bd-border) !important;
+    color              : var(--bd-muted)  !important;
+    font-family  : 'IBM Plex Mono', monospace !important;
+  }
+  table td.coverage {
+    border-right-color : var(--bd-border) !important;
+    font-family  : 'IBM Plex Mono', monospace !important;
+  }
+  table tr.covered td {
+    background-color : rgba(141, 245, 154, 0.10) !important;
+  }
+  table tr:hover.covered .num {
+    background-color : rgba(141, 245, 154, 0.30) !important;
+  }
+  table tr.missed td {
+    background-color : rgba(255, 123, 114, 0.12) !important;
+  }
+  table tr:hover.missed .num {
+    background-color : rgba(255, 123, 114, 0.30) !important;
+  }
+  table tr.missed:hover td {
+    box-shadow : 0 -2px 0 0 var(--bd-red)   inset !important;
+  }
+  table tr.covered:hover td {
+    box-shadow : 0 -2px 0 0 var(--bd-green) inset !important;
+  }
+  pre, code {
+    background-color : var(--bd-surface) !important;
+    color            : var(--bd-text)    !important;
+    border-color     : var(--bd-border)  !important;
+    font-family  : 'IBM Plex Mono', monospace !important;
+  }
+  table.table-condensed pre { background-color : transparent !important; }
+  ::-webkit-scrollbar { background-color: var(--bd-bg); }
+  ::-webkit-scrollbar-thumb {
+    background-color : var(--bd-border);
+    border-radius    : 3px;
+  }
+  
+</style>
 <link href="lib/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
 <script src="lib/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="lib/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
@@ -95,7 +195,7 @@ table.table-condensed {
   font-size: 11px;
 }</style>
   <div class="col-md-8 col-md-offset-2">
-    <h2> coverage - 91.45%</h2>
+    <h2> coverage - 91.08%</h2>
     <div class="tabbable">
       <ul class="nav nav-tabs" data-tabsetid="covr">
         <li class="active">
@@ -108,7 +208,7 @@ table.table-condensed {
       <div class="tab-content" data-tabsetid="covr">
         <div class="tab-pane active" title="Files" data-value="Files" id="tab-covr-1">
           <div class="datatables html-widget html-fill-item" id="htmlwidget-864acbf48b38f3c8611c" style="width:100%;height:500px;"></div>
-          <script type="application/json" data-for="htmlwidget-864acbf48b38f3c8611c">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/verify_sjsdm_setup.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_chelsa_raster.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_taxa_classification.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/run_pipeline.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/compute_jsdm_se.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/fit_jsdm_model.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/save_progress_visualisation.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_convergence_jsdm.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/classify_taxonomic_resolution.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/interpolate_st_mev_to_grid.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/interpolate_mev_to_grid.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Abiotic/get_predictor_collinearity.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/assemble_data_to_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/compute_spatiotemporal_mev.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/interpolate_data.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/evaluate_jsdm.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_spatial_model_params.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/scale_abiotic_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/recalculate_anova_components.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/compute_spatial_mev.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/align_sample_ids.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_aux_classification_table.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_non_plantae_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Visualisation/plot_network_metrics_by_age.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/compute_network_metrics.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/extract_anova_fractions.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/select_n_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/project_coords_to_metric.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_abiotic_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_community_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/scale_spatial_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/make_env_formula.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_by_n_samples.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_community_by_n_cores.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Visualisation/plot_anova_components_by_age.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_spatial_window.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_spatial_predictors_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_data_sample_ids_n.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_coords_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/combine_classification_tables.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_community_by_n_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Abiotic/select_non_collinear_predictors.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/aggregate_anova_components.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_min_n_cores.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_rare_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/replace_na_community_data_with_zeros.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_taxa_without_classification.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/binarize_community_data.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_scale_id_from_store.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/add_age_to_samples.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/check_and_report_missing_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_constant_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_age_from_string.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/get_sample_ages.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_dataset_name_from_string.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/get_anova.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/interpolate_community_data.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/make_community_data_long.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Abiotic/get_abiotic_data.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_active_config.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/make_classification_table.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_community_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/make_community_proportions.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_community_data.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_coords.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/transform_to_proportions.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/add_dataset_name_column_from_rownames.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/add_age_column_from_rownames.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_pollen_sum.R<\/a>"],[370,176,75,171,121,34,347,134,169,220,220,168,155,164,201,151,131,136,129,116,149,140,117,97,92,90,100,109,79,103,83,81,93,92,78,75,72,75,81,85,73,79,76,66,64,64,57,43,60,68,68,41,58,51,33,32,31,50,42,32,31,35,36,28,38,30,25,29,20,20,25],[185,64,37,68,38,11,144,58,79,111,106,76,73,73,72,72,59,57,53,51,50,47,47,42,41,40,40,40,36,36,36,36,35,32,32,32,31,31,30,30,30,28,26,24,23,22,21,21,21,20,18,17,16,14,14,14,13,13,13,13,12,12,12,11,11,10,10,10,7,7,5],[0,32,31,59,33,10,133,57,78,111,106,76,73,73,72,72,59,57,53,51,50,47,47,42,41,40,40,40,36,36,36,36,35,32,32,32,31,31,30,30,30,28,26,24,23,22,21,21,21,20,18,17,16,14,14,14,13,13,13,13,12,12,12,11,11,10,10,10,7,7,5],[185,32,6,9,5,1,11,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["0","3","6","7","7","7","23","1","9","13","8","5","6","15","10","8","4","3","9","9","32","12","7","9","8","7","14","18","5","21","7","8","9","16","8","9","5","4","9","12","7","10","7","12","9","11","33","2","12","14","7","2","4","9","21","3","21","11","5","2","4","8","6","3","7","3","11","10","12","12","12"],["0.00%","50.00%","83.78%","86.76%","86.84%","90.91%","92.36%","98.28%","98.73%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%"]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>File<\/th>\n      <th>Lines<\/th>\n      <th>Relevant<\/th>\n      <th>Covered<\/th>\n      <th>Missed<\/th>\n      <th>Hits / Line<\/th>\n      <th>Coverage<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"searching":false,"dom":"t","paging":false,"columnDefs":[{"targets":6,"createdCell":"function(td, cellData, rowData, row, col) {\n  var percent = cellData.replace(\"%\", \"\");\n  if (percent > 90) {\n    var grad = \"linear-gradient(90deg, #edfde7 \" + cellData + \", white \" + cellData + \")\";\n  } else if (percent > 75) {\n    var grad = \"linear-gradient(90deg, #f9ffe5 \" + cellData + \", white \" + cellData + \")\";\n  } else {\n    var grad = \"linear-gradient(90deg, #fcece9 \" + cellData + \", white \" + cellData + \")\";\n  }\n  $(td).css(\"background\", grad);\n}\n"},{"className":"dt-right","targets":[1,2,3,4]},{"name":"File","targets":0},{"name":"Lines","targets":1},{"name":"Relevant","targets":2},{"name":"Covered","targets":3},{"name":"Missed","targets":4},{"name":"Hits / Line","targets":5},{"name":"Coverage","targets":6}],"order":[],"autoWidth":false,"orderClasses":false},"callback":"function(table) {\ntable.on('click.dt', 'a', function() {\n  files = $('div#files div');\n  files.not('div.hidden').addClass('hidden');\n  id = $(this).text();\n  files.filter('div[id=\\'' + id + '\\']').removeClass('hidden');\n  $('ul.nav a[data-value=Source]').text(id).tab('show');\n});\n}"},"evals":["options.columnDefs.0.createdCell","callback"],"jsHooks":[]}</script>
+          <script type="application/json" data-for="htmlwidget-864acbf48b38f3c8611c">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/verify_sjsdm_setup.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_chelsa_raster.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_taxa_classification.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/save_progress_visualisation.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/run_pipeline.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/compute_jsdm_se.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_presence_of_vegvault.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/fit_jsdm_model.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/check_convergence_jsdm.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/classify_taxonomic_resolution.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/interpolate_st_mev_to_grid.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/interpolate_mev_to_grid.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Abiotic/get_predictor_collinearity.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/assemble_data_to_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/compute_spatiotemporal_mev.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/interpolate_data.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/evaluate_jsdm.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/extract_data_from_vegvault.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_spatial_model_params.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/scale_abiotic_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/recalculate_anova_components.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/compute_spatial_mev.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/align_sample_ids.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_aux_classification_table.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_non_plantae_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Visualisation/plot_network_metrics_by_age.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/compute_network_metrics.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/extract_anova_fractions.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/select_n_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/project_coords_to_metric.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_abiotic_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_community_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/scale_spatial_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/make_env_formula.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_by_n_samples.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_community_by_n_cores.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Visualisation/plot_anova_components_by_age.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_spatial_window.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_spatial_predictors_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_data_sample_ids_n.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/prepare_coords_for_fit.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/combine_classification_tables.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_community_by_n_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Abiotic/select_non_collinear_predictors.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/aggregate_anova_components.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/check_min_n_cores.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_rare_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/replace_na_community_data_with_zeros.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_taxa_without_classification.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/binarize_community_data.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_scale_id_from_store.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/add_age_to_samples.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/check_and_report_missing_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/filter_constant_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_age_from_string.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/get_sample_ages.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_dataset_name_from_string.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/get_anova.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Time/interpolate_community_data.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/make_community_data_long.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Abiotic/get_abiotic_data.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_active_config.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/make_classification_table.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_community_taxa.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/make_community_proportions.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_community_data.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/get_coords.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/transform_to_proportions.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/add_dataset_name_column_from_rownames.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/add_age_column_from_rownames.R<\/a>","<a href=\"#\">D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Community/get_pollen_sum.R<\/a>"],[370,176,75,240,171,121,34,347,169,220,220,168,155,164,201,151,131,136,129,116,149,140,117,97,92,90,100,109,79,103,83,81,93,92,78,75,72,75,81,85,73,79,76,66,64,64,57,43,60,68,68,41,58,51,33,32,31,50,42,32,31,35,36,28,38,30,25,29,20,20,25],[185,64,37,106,68,38,11,144,79,111,106,76,73,73,72,72,59,57,53,51,50,47,47,42,41,40,40,40,36,36,36,36,35,32,32,32,31,31,30,30,30,28,26,24,23,22,21,21,21,20,18,17,16,14,14,14,13,13,13,13,12,12,12,11,11,10,10,10,7,7,5],[0,32,31,90,59,33,10,133,78,111,106,76,73,73,72,72,59,57,53,51,50,47,47,42,41,40,40,40,36,36,36,36,35,32,32,32,31,31,30,30,30,28,26,24,23,22,21,21,21,20,18,17,16,14,14,14,13,13,13,13,12,12,12,11,11,10,10,10,7,7,5],[185,32,6,16,9,5,1,11,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["0","3","6","1","7","7","7","23","9","13","8","5","6","15","10","8","4","3","9","9","32","12","7","9","8","7","14","18","5","21","7","8","9","16","8","9","5","4","9","12","7","10","7","12","9","11","33","2","12","14","7","2","4","9","21","3","21","11","5","2","4","8","6","3","7","3","11","10","12","12","12"],["0.00%","50.00%","83.78%","84.91%","86.76%","86.84%","90.91%","92.36%","98.73%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%","100.00%"]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>File<\/th>\n      <th>Lines<\/th>\n      <th>Relevant<\/th>\n      <th>Covered<\/th>\n      <th>Missed<\/th>\n      <th>Hits / Line<\/th>\n      <th>Coverage<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"searching":false,"dom":"t","paging":false,"columnDefs":[{"targets":6,"createdCell":"function(td, cellData, rowData, row, col) {\n  var percent = cellData.replace(\"%\", \"\");\n  if (percent > 90) {\n    var grad = \"linear-gradient(90deg, rgba(141,245,154,0.22) \" + cellData + \", #0B0F14 \" + cellData + \")\";\n  } else if (percent > 75) {\n    var grad = \"linear-gradient(90deg, rgba(255,179,92,0.22) \" + cellData + \", #0B0F14 \" + cellData + \")\";\n  } else {\n    var grad = \"linear-gradient(90deg, rgba(255,123,114,0.22) \" + cellData + \", #0B0F14 \" + cellData + \")\";\n  }\n  $(td).css(\"background\", grad);\n}\n"},{"className":"dt-right","targets":[1,2,3,4]},{"name":"File","targets":0},{"name":"Lines","targets":1},{"name":"Relevant","targets":2},{"name":"Covered","targets":3},{"name":"Missed","targets":4},{"name":"Hits / Line","targets":5},{"name":"Coverage","targets":6}],"order":[],"autoWidth":false,"orderClasses":false},"callback":"function(table) {\ntable.on('click.dt', 'a', function() {\n  files = $('div#files div');\n  files.not('div.hidden').addClass('hidden');\n  id = $(this).text();\n  files.filter('div[id=\\'' + id + '\\']').removeClass('hidden');\n  $('ul.nav a[data-value=Source]').text(id).tab('show');\n});\n}"},"evals":["options.columnDefs.0.createdCell","callback"],"jsHooks":[]}</script>
         </div>
         <div class="tab-pane" title="Source" data-value="Source" id="tab-covr-2">
           <div id="files">
@@ -8491,6 +8591,1692 @@ table.table-condensed {
                 </tbody>
               </table>
             </div>
+            <div id="D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/save_progress_visualisation.R" class="hidden">
+              <table class="table-condensed">
+                <tbody>
+                  <tr class="never">
+                    <td class="num">1</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @title Save Progress Visualisation</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">2</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @description</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">3</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Generates a visualisation of project progress and saves it as HTML and PNG.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">4</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @param sel_script</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">5</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' The script file to be visualised.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">6</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @param sel_store</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">7</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Path to the targets store directory. Defaults to the value from the active</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">8</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' configuration key "target_store".</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">9</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @param output_file</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">10</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' The name of the output file (default: "project_status").</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">11</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @param output_dir</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">12</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Directory where the output files will be saved</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">13</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' (default: "Documentation/Progress").</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">14</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @param background_color</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">15</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Background color for the visualisation</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">16</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' (default: `"#141B22"` — BIODYNAMICS brand Console Panel; one step lighter</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">17</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' than the page background, used for cards and panels).</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">18</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @param physics</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">19</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Logical indicating whether to enable physics simulation in the network</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">20</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' graph (default: TRUE).</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">21</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @param level_separation</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">22</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Level separation for the visualisation graph (default: 250).</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">23</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @return</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">24</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' No return value. Called for side effects: saves HTML and PNG files to a</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">25</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' store-specific subdirectory within `output_dir`.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">26</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @details</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">27</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Uses `targets::tar_visnetwork` to create a network graph and saves two</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">28</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' HTML files (full and targets-only) using `visNetwork::visSave`, plus a</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">29</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' static PNG via `webshot2::webshot`. If the browser-backed PNG export fails,</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">30</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' the function emits a warning and keeps the HTML outputs so progress saving</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">31</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' does not abort the surrounding pipeline run. Files are written to</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">32</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' `output_dir/&lt;store_name&gt;/` where `&lt;store_name&gt;` is the last path segment</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">33</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' of `sel_store` after the `targets/` directory.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">34</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">35</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' The targets store is read only once. `targets_only = FALSE` retrieves the</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">36</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' full network; the targets-only variant for the static PNG graph is derived</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">37</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' by filtering non-target nodes (`type` values `"function"`, `"object"`,</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">38</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' `"value"`) from the same object, avoiding a second store read. If the</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">39</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' `type` column is absent (targets internal change), the function falls back</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">40</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' to a second `tar_visnetwork()` call so correctness is preserved.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">41</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">42</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' When `physics = TRUE`, the static graph for the PNG uses a</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">43</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' `stabilizationIterationsDone` vis.js event to disable physics as soon as</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">44</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' the silent background layout pass finishes. This ensures the screenshot</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">45</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' captures the fully settled layout without requiring a long wait or</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">46</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' rendering the graph twice.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">47</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @export</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">48</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">save_progress_visualisation &lt;- function(</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">49</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    sel_script,</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">50</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    sel_store = get_active_config("target_store"),</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">51</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    output_file = "project_status",</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">52</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    output_dir = here::here(</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">53</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      "Documentation/Progress"</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">54</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    ),</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">55</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    background_color = "#141B22",</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">56</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    physics = TRUE,</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">57</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    level_separation = 250) {</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">58</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  # test to make sure {pandoc} is installed for webshot to work</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">59</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">60</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  if (</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">61</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    is.null(rmarkdown::find_pandoc()$dir)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">62</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  ) {</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">63</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    pandoc::pandoc_activate()</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">64</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  }</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">65</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">66</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  # Read the targets store once. targets_only = FALSE gives the full network;</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">67</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  #   the targets-only static variant is derived below by filtering the same</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">68</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  #   object, avoiding a second expensive store read.</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">69</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  network_graph_raw &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">70</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    targets::tar_visnetwork(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">71</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      script = sel_script,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">72</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      outdated = FALSE,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">73</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      store = sel_store,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">74</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      targets_only = FALSE,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">75</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      physics = physics,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">76</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      level_separation = level_separation</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">77</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">78</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">79</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  network_graph &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">80</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    network_graph_raw |&gt;</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">81</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    # Apply BIODYNAMICS brand theme over the targets-generated colors.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">82</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    # Node fill colors (status: up-to-date / outdated / etc.) are set</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">83</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    #   internally by targets and cannot be overridden here; only font</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">84</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    #   and edge styling are applied.</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">85</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    visNetwork::visNodes(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">86</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      font = base::list(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">87</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        color = "#E6EDF3",  # Bone Text</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">88</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        face = "IBM Plex Mono, monospace"</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">89</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">90</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    ) |&gt;</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">91</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    visNetwork::visEdges(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">92</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      color = base::list(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">93</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        color = "#2A3441",    # Slate Border</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">94</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        highlight = "#8DF59A", # Phosphor Green</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">95</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        hover = "#48C7B8"      # Moss Teal</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">96</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      ),</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">97</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      font = base::list(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">98</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        color = "#98A6B3",   # Muted Mist</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">99</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        strokeWidth = 0</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">100</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">101</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">102</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">103</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  # Derive the targets-only static base graph from the raw object already</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">104</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  #   in memory. targets sets type = "function" / "object" / "value" for</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">105</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  #   non-target nodes; filtering them mirrors targets_only = TRUE.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">106</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  #   The fallback re-calls tar_visnetwork() if targets ever drops the</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">107</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  #   type column, so correctness is preserved across package changes.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">108</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  if (</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">109</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    "type" %in% base::names(network_graph_raw$x$nodes)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">110</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  ) {</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">111</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    vec_target_node_ids &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">112</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      network_graph_raw$x$nodes |&gt;</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">113</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      dplyr::filter(</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">114</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        !(.data[["type"]] %in% c("function", "object", "value"))</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">115</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      ) |&gt;</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">116</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      dplyr::pull(id)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">117</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">118</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    network_graph_static_base &lt;- network_graph_raw</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">119</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    network_graph_static_base$x$nodes &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">120</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      dplyr::filter(</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">121</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        network_graph_raw$x$nodes,</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">122</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        .data[["id"]] %in% vec_target_node_ids</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">123</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      )</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">124</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    network_graph_static_base$x$edges &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">125</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      dplyr::filter(</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">126</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        network_graph_raw$x$edges,</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">127</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        .data[["from"]] %in% vec_target_node_ids,</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">128</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        .data[["to"]] %in% vec_target_node_ids</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">129</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">130</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  } else {</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">131</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    # Fallback: targets internals changed and type column is absent.</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">132</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    network_graph_static_base &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">133</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      targets::tar_visnetwork(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">134</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        script = sel_script,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">135</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        store = sel_store,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">136</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        targets_only = TRUE,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">137</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        outdated = FALSE,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">138</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        physics = physics,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">139</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        level_separation = level_separation</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">140</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">141</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  }</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">142</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">143</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  network_graph_static &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">144</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    network_graph_static_base |&gt;</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">145</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    visNetwork::visNodes(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">146</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      font = base::list(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">147</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        color = "#E6EDF3",</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">148</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        face = "IBM Plex Mono, monospace"</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">149</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">150</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    ) |&gt;</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">151</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    visNetwork::visEdges(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">152</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      color = base::list(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">153</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        color = "#2A3441",</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">154</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        highlight = "#8DF59A",</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">155</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        hover = "#48C7B8"</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">156</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      ),</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">157</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      font = base::list(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">158</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        color = "#98A6B3",</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">159</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        strokeWidth = 0</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">160</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">161</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    ) |&gt;</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">162</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    # Freeze the graph the moment background stabilization finishes so the</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">163</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    #   webshot captures the settled layout, not a mid-simulation frame.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">164</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    #   vis.js fires `stabilizationIterationsDone` after the silent pre-layout</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">165</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    #   pass (fast, &lt; 1 s), then starts the animated physics — disabling</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">166</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    #   physics here prevents any further movement before the screenshot.</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">167</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    visNetwork::visEvents(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">168</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      stabilizationIterationsDone = "function() {</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">169</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        this.setOptions({ physics: false });</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">170</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      }"</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">171</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">172</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">173</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  sel_store_simple &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">174</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    stringr::str_replace(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">175</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      string = sel_store,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">176</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      pattern = ".*/targets/",</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">177</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      replacement = ""</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">178</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">179</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">180</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  output_store_dir &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">181</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    paste0(output_dir, "/", sel_store_simple)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">182</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">183</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  output_html_path &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">184</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    paste0(output_store_dir, "/", output_file, ".html")</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">185</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">186</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  output_small_html_path &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">187</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    paste0(output_store_dir, "/", output_file, "_small.html")</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">188</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">189</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  output_png_path &lt;-</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">190</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    paste0(output_store_dir, "/", output_file, "_static.png")</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">191</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">192</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  # need to create the output directory if it doesn't exist</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">193</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  if (</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">194</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    !dir.exists(output_store_dir)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">195</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  ) {</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">196</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    dir.create(output_store_dir, recursive = TRUE)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">197</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  }</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">198</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">199</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  visNetwork::visSave(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">200</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    graph = network_graph,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">201</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    file = output_html_path,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">202</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    selfcontained = TRUE,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">203</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    background = background_color</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">204</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">205</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">206</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  visNetwork::visSave(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">207</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    graph = network_graph_static,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">208</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    file = output_small_html_path,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">209</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    selfcontained = TRUE,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">210</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    background = background_color</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">211</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">212</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">213</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  # PNG export depends on launching a browser through chromote/webshot2,</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">214</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  #   which can fail in interactive sessions even when the HTML outputs save.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">215</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  # `delay = 1` gives the browser time to complete the background</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">216</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  #   stabilization pass before the screenshot is taken; the visEvents</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">217</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  #   handler then keeps the graph frozen so the captured layout is stable.</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">218</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  tryCatch(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">219</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    webshot2::webshot(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">220</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      url = output_small_html_path,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">221</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      file = output_png_path,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">222</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      vwidth = 950,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">223</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      vheight = 750,</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">224</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      delay = 3</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">225</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    ),</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">226</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    error = function(err) {</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">227</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      cli::cli_warn(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">228</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        c(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">229</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">          "Failed to save static PNG progress visualisation.",</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">230</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">          "i" = "HTML progress files were saved successfully.",</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">231</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">          "i" = paste0(</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">232</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">            "Original error: ",</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">233</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">            base::conditionMessage(err)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">234</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">          )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">235</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">236</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      )</pre>
+                    </td>
+                  </tr>
+                  <tr class="covered">
+                    <td class="num">237</td>
+                    <td class="coverage">1<em>x</em></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      invisible(NULL)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">238</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    }</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">239</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">240</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">}</pre>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <div id="D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Modelling/interpolate_mev_to_grid.R" class="hidden">
               <table class="table-condensed">
                 <tbody>
@@ -15659,950 +17445,6 @@ table.table-condensed {
                   </tr>
                   <tr class="never">
                     <td class="num">66</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">}</pre>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div id="D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/R/Functions/Utility/save_progress_visualisation.R" class="hidden">
-              <table class="table-condensed">
-                <tbody>
-                  <tr class="never">
-                    <td class="num">1</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @title Save Progress Visualisation</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">2</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @description</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">3</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Generates a visualisation of project progress and saves it as HTML and PNG.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">4</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @param sel_script</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">5</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' The script file to be visualised.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">6</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @param sel_store</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">7</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Path to the targets store directory. Defaults to the value from the active</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">8</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' configuration key "target_store".</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">9</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @param output_file</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">10</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' The name of the output file (default: "project_status").</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">11</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @param output_dir</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">12</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Directory where the output files will be saved</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">13</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' (default: "Documentation/Progress").</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">14</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @param background_color</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">15</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Background color for the visualisation (default: "white").</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">16</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @param physics</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">17</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Logical indicating whether to enable physics simulation in the network</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">18</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' graph (default: TRUE).</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">19</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @param level_separation</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">20</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Level separation for the visualisation graph (default: 250).</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">21</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @return</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">22</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' No return value. Called for side effects: saves HTML and PNG files to a</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">23</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' store-specific subdirectory within `output_dir`.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">24</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @details</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">25</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Uses `targets::tar_visnetwork` to create a network graph and saves two</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">26</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' HTML files (full and targets-only) using `visNetwork::visSave`, plus a</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">27</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' static PNG via `webshot2::webshot`. If the browser-backed PNG export fails,</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">28</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' the function emits a warning and keeps the HTML outputs so progress saving</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">29</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' does not abort the surrounding pipeline run. Files are written to</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">30</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' `output_dir/&lt;store_name&gt;/` where `&lt;store_name&gt;` is the last path segment</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">31</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' of `sel_store` after the `targets/` directory.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">32</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @export</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">33</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">save_progress_visualisation &lt;- function(</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">34</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    sel_script,</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">35</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    sel_store = get_active_config("target_store"),</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">36</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    output_file = "project_status",</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">37</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    output_dir = here::here(</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">38</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      "Documentation/Progress"</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">39</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    ),</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">40</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    background_color = "white",</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">41</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    physics = TRUE,</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">42</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    level_separation = 250) {</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">43</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  # test to make sure {pandoc} is installed for webshot to work</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">44</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">45</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  if (</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">46</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    is.null(rmarkdown::find_pandoc()$dir)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">47</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  ) {</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">48</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    pandoc::pandoc_activate()</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">49</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  }</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">50</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">51</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  network_graph &lt;-</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">52</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    targets::tar_visnetwork(</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">53</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      script = sel_script,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">54</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      outdated = FALSE,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">55</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      store = sel_store,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">56</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      targets_only = FALSE,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">57</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      physics = physics,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">58</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      level_separation = level_separation</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">59</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    )</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">60</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">61</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  network_graph_static &lt;-</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">62</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    targets::tar_visnetwork(</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">63</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      script = sel_script,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">64</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      store = sel_store,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">65</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      targets_only = TRUE,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">66</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      outdated = FALSE,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">67</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      physics = physics,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">68</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      level_separation = level_separation</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">69</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    )</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">70</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">71</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  sel_store_simple &lt;-</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">72</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    stringr::str_replace(</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">73</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      string = sel_store,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">74</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      pattern = ".*/targets/",</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">75</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      replacement = ""</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">76</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    )</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">77</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">78</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  output_store_dir &lt;-</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">79</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    paste0(output_dir, "/", sel_store_simple)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">80</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">81</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  output_html_path &lt;-</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">82</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    paste0(output_store_dir, "/", output_file, ".html")</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">83</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">84</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  output_small_html_path &lt;-</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">85</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    paste0(output_store_dir, "/", output_file, "_small.html")</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">86</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">87</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  output_png_path &lt;-</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">88</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    paste0(output_store_dir, "/", output_file, "_static.png")</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">89</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">90</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  # need to create the output directory if it doesn't exist</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">91</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  if (</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">92</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    !dir.exists(output_store_dir)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">93</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  ) {</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">94</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    dir.create(output_store_dir, recursive = TRUE)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">95</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  }</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">96</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">97</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  visNetwork::visSave(</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">98</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    graph = network_graph,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">99</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    file = output_html_path,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">100</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    selfcontained = TRUE,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">101</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    background = background_color</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">102</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  )</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">103</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">104</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  visNetwork::visSave(</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">105</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    graph = network_graph_static,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">106</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    file = output_small_html_path,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">107</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    selfcontained = TRUE,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">108</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    background = background_color</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">109</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  )</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">110</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">111</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  # PNG export depends on launching a browser through chromote/webshot2,</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">112</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  #   which can fail in interactive sessions even when the HTML outputs save.</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">113</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  tryCatch(</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">114</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    webshot2::webshot(</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">115</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      url = output_small_html_path,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">116</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      file = output_png_path,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">117</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      vwidth = 950,</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">118</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      vheight = 750</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">119</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    ),</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">120</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    error = function(err) {</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">121</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      cli::cli_warn(</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">122</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">        c(</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">123</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">          "Failed to save static PNG progress visualisation.",</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">124</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">          "i" = "HTML progress files were saved successfully.",</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">125</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">          "i" = paste0(</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">126</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">            "Original error: ",</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">127</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">            base::conditionMessage(err)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">128</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">          )</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">129</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">        )</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">130</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      )</pre>
-                    </td>
-                  </tr>
-                  <tr class="covered">
-                    <td class="num">131</td>
-                    <td class="coverage">1<em>x</em></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      invisible(NULL)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">132</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    }</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">133</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  )</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">134</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">}</pre>

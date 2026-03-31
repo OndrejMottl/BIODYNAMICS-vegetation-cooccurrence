@@ -1,1 +1,397 @@
-/* css styles */
+// ============================================================
+// BIODYNAMICS — Brand theme
+// "terminal ecology": dark, computational, research-first
+// ============================================================
+
+/*-- scss:defaults --*/
+
+// --- Google Fonts -----------------------------------------------------------
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+// --- Design tokens ----------------------------------------------------------
+
+// Core neutrals
+$bd-bg: #0B0F14;
+$bd-surface: #141B22;
+$bd-border: #2A3441;
+$bd-text: #E6EDF3;
+$bd-muted: #98A6B3;
+
+// Brand accents
+$bd-green: #8DF59A;
+$bd-teal: #48C7B8;
+$bd-amber: #FFB35C;
+$bd-magenta: #D98CFF;
+$bd-red: #FF7B72;
+
+// --- Bootstrap variable overrides -------------------------------------------
+
+// Backgrounds & text
+$body-bg: $bd-bg;
+$body-color: $bd-text;
+
+// Links
+$link-color: $bd-green;
+$link-hover-color: lighten($bd-green, 8%);
+
+// Typography
+$font-family-sans-serif: 'IBM Plex Sans', system-ui, sans-serif;
+$font-family-monospace: 'IBM Plex Mono', 'Courier New', monospace;
+
+$headings-font-family: 'IBM Plex Mono', monospace;
+$headings-font-weight: 600;
+$headings-color: $bd-text;
+
+// Borders
+$border-color: $bd-border;
+$border-radius: 0.25rem;
+
+// Code
+$code-bg: $bd-surface;
+$code-color: $bd-green;
+
+// Navbar
+$navbar-bg: $bd-surface;
+$navbar-fg: $bd-text;
+$navbar-hl: $bd-green;
+
+// Sidebar
+$sidebar-bg: $bd-surface;
+$sidebar-fg: $bd-text;
+$sidebar-hl: $bd-green;
+
+// Table of contents
+$toc-color: $bd-muted;
+$toc-active-color: $bd-green;
+$toc-font-size: 0.875em;
+
+// Cards
+$card-bg: $bd-surface;
+$card-border-color: $bd-border;
+
+// Input
+$input-bg: $bd-surface;
+$input-border-color: $bd-border;
+$input-color: $bd-text;
+
+// Callouts
+$callout-color-note: $bd-teal;
+$callout-color-tip: $bd-green;
+$callout-color-important: $bd-amber;
+$callout-color-warning: $bd-amber;
+$callout-color-caution: $bd-red;
+
+
+/*-- scss:rules --*/
+
+// --- Root CSS custom properties ---------------------------------------------
+:root {
+  --bd-bg: #{$bd-bg};
+  --bd-surface: #{$bd-surface};
+  --bd-border: #{$bd-border};
+  --bd-text: #{$bd-text};
+  --bd-muted: #{$bd-muted};
+
+  --bd-green: #{$bd-green};
+  --bd-teal: #{$bd-teal};
+  --bd-amber: #{$bd-amber};
+  --bd-magenta: #{$bd-magenta};
+  --bd-red: #{$bd-red};
+}
+
+// --- Base -------------------------------------------------------------------
+body {
+  background-color: var(--bd-bg);
+  color: var(--bd-text);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  color: var(--bd-text);
+}
+
+a {
+  color: var(--bd-green);
+
+  &:hover {
+    color: lighten($bd-green, 8%);
+  }
+}
+
+// --- Navbar -----------------------------------------------------------------
+.navbar {
+  background-color: var(--bd-surface) !important;
+  border-bottom: 1px solid var(--bd-border);
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+
+  .navbar-brand,
+  .navbar-nav .nav-link {
+    color: var(--bd-text);
+
+    &:hover {
+      color: var(--bd-green);
+    }
+  }
+
+  .active>.nav-link {
+    color: var(--bd-green) !important;
+  }
+}
+
+// --- Sidebar ----------------------------------------------------------------
+.sidebar {
+  background-color: var(--bd-surface);
+  border-right: 1px solid var(--bd-border);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.875rem;
+}
+
+.sidebar-navigation .sidebar-item-text {
+  color: var(--bd-muted);
+
+  &:hover,
+  &.active {
+    color: var(--bd-green);
+  }
+}
+
+.sidebar-title {
+  color: var(--bd-text);
+  font-weight: 600;
+}
+
+// Active sidebar item highlight
+.sidebar .active>.sidebar-item-text,
+.sidebar .sidebar-item-toggle.open>.sidebar-item-text {
+  color: var(--bd-green);
+}
+
+// --- Table of contents ------------------------------------------------------
+#TOC,
+.toc-active {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8125rem;
+}
+
+#TOC a {
+  color: var(--bd-muted);
+
+  &:hover,
+  &.active {
+    color: var(--bd-green);
+  }
+}
+
+// --- Code -------------------------------------------------------------------
+code,
+pre {
+  font-family: 'IBM Plex Mono', monospace;
+  background-color: var(--bd-surface);
+  border: 1px solid var(--bd-border);
+  color: var(--bd-green);
+}
+
+pre {
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+}
+
+// Inline code
+p code,
+li code,
+td code {
+  color: var(--bd-amber);
+  background-color: var(--bd-surface);
+  padding: 0.1em 0.35em;
+  border-radius: 0.2rem;
+}
+
+// Code block background override (Quarto sourceCode blocks)
+div.sourceCode {
+  background-color: var(--bd-surface);
+  border: 1px solid var(--bd-border);
+  border-radius: 0.25rem;
+
+  pre.sourceCode {
+    border: none;
+    background-color: transparent;
+  }
+}
+
+// Code copy button
+.code-copy-button {
+  color: var(--bd-muted);
+  background-color: transparent;
+  border-color: var(--bd-border);
+
+  &:hover {
+    color: var(--bd-green);
+    border-color: var(--bd-green);
+  }
+}
+
+// --- Callouts ---------------------------------------------------------------
+.callout {
+  background-color: var(--bd-surface);
+  border: 1px solid var(--bd-border);
+  border-left-width: 3px;
+  border-radius: 0.25rem;
+
+  .callout-header {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+  }
+}
+
+.callout.callout-style-default {
+  &.callout-note {
+    border-left-color: var(--bd-teal);
+  }
+
+  &.callout-tip {
+    border-left-color: var(--bd-green);
+  }
+
+  &.callout-warning {
+    border-left-color: var(--bd-amber);
+  }
+
+  &.callout-important {
+    border-left-color: var(--bd-amber);
+  }
+
+  &.callout-caution {
+    border-left-color: var(--bd-red);
+  }
+}
+
+// --- Tables -----------------------------------------------------------------
+table {
+  border-color: var(--bd-border);
+  font-size: 0.9rem;
+}
+
+thead {
+  background-color: var(--bd-surface);
+  color: var(--bd-text);
+  font-family: 'IBM Plex Mono', monospace;
+  border-bottom: 1px solid var(--bd-border);
+}
+
+tbody tr {
+  border-color: var(--bd-border);
+
+  &:nth-child(odd) {
+    background-color: rgba(20, 27, 34, 0.6); // bd-surface with opacity
+  }
+
+  &:hover {
+    background-color: rgba(42, 52, 65, 0.5); // bd-border tone
+  }
+}
+
+td,
+th {
+  border-color: var(--bd-border);
+  padding: 0.5rem 0.75rem;
+}
+
+// --- Cards / panels ---------------------------------------------------------
+.card {
+  background-color: var(--bd-surface);
+  border: 1px solid var(--bd-border);
+  border-radius: 0.25rem;
+
+  .card-header {
+    background-color: rgba(42, 52, 65, 0.4);
+    border-bottom: 1px solid var(--bd-border);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+}
+
+.panel-tabset {
+  .nav-tabs {
+    border-bottom: 1px solid var(--bd-border);
+
+    .nav-link {
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--bd-muted);
+
+      &.active {
+        background-color: var(--bd-surface);
+        border-color: var(--bd-border) var(--bd-border) var(--bd-surface);
+        color: var(--bd-green);
+      }
+
+      &:hover:not(.active) {
+        color: var(--bd-amber);
+        border-color: transparent;
+      }
+    }
+  }
+}
+
+// --- Page footer ------------------------------------------------------------
+.nav-footer {
+  background-color: var(--bd-surface);
+  border-top: 1px solid var(--bd-border);
+  color: var(--bd-muted);
+  font-size: 0.8125rem;
+  font-family: 'IBM Plex Mono', monospace;
+
+  a {
+    color: var(--bd-teal);
+  }
+}
+
+// --- Badges / labels --------------------------------------------------------
+.badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75em;
+  font-weight: 500;
+}
+
+// --- Quarto-specific search -------------------------------------------------
+.search-input {
+  background-color: var(--bd-surface);
+  border: 1px solid var(--bd-border);
+  color: var(--bd-text);
+  font-family: 'IBM Plex Mono', monospace;
+
+  &::placeholder {
+    color: var(--bd-muted);
+  }
+}
+
+// --- Scrollbar (Webkit) -----------------------------------------------------
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bd-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bd-border);
+  border-radius: 3px;
+
+  &:hover {
+    background: var(--bd-muted);
+  }
+}
+
+// --- Selection highlight ----------------------------------------------------
+::selection {
+  background-color: rgba(141, 245, 154, 0.2); // bd-green at low opacity
+  color: var(--bd-text);
+}

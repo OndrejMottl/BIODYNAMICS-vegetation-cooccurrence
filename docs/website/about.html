@@ -38,10 +38,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-940ae5f67f9e3b81a57623f2972baed4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fa2b4a2c1b08ad7851189d90cf7caddf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-1f6cf47c200ee409e9e5b1c353425e7f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -554,7 +554,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">March 30, 2026</p>
+      <p class="date-modified">March 31, 2026</p>
     </div>
   </div>
     
@@ -689,25 +689,38 @@ ul.task-list li input[type="checkbox"] {
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">flowchart TD
-    A[(VegVault)] --&gt; B["Community\nProcessing"]
-    A --&gt; C["Abiotic\nProcessing"]
+<pre class="mermaid mermaid-js">%%{init: {'theme': 'base', 'themeVariables': {
+  'background': '#0B0F14',
+  'primaryColor': '#141B22',
+  'primaryTextColor': '#E6EDF3',
+  'primaryBorderColor': '#2A3441',
+  'lineColor': '#98A6B3',
+  'secondaryColor': '#141B22',
+  'tertiaryColor': '#141B22',
+  'edgeLabelBackground': '#141B22',
+  'clusterBkg': '#141B22',
+  'titleColor': '#E6EDF3',
+  'fontFamily': 'IBM Plex Mono, monospace'
+}}}%%
+flowchart TD
+    A[(VegVault)] --&gt; B["Community&lt;br/&gt;Processing"]
+    A --&gt; C["Abiotic&lt;br/&gt;Processing"]
     A --&gt; D["Coordinates"]
-    B --&gt; E{"Analysis\nType"}
+    B --&gt; E{"Analysis&lt;br/&gt;Type"}
     C --&gt; E
     D --&gt; E
-    E -- "Temporal\npipeline_time.R" --&gt; F["Age Filter\nper 500-yr slice"]
-    E -- "Spatial\npipeline_basic.R" --&gt; G["Align Sample IDs\n3-way intersection"]
-    F --&gt; H["Model Data\nPreparation"]
+    E -- "Temporal&lt;br/&gt;pipeline_time.R" --&gt; F["Age Filter&lt;br/&gt;per 500-yr slice"]
+    E -- "Spatial&lt;br/&gt;pipeline_basic.R" --&gt; G["Align Sample IDs&lt;br/&gt;3-way intersection"]
+    F --&gt; H["Model Data&lt;br/&gt;Preparation"]
     G --&gt; H
-    H --&gt; I["Compute MEMs\nMoran Eigenvector Maps"]
-    I --&gt; J["Fit jSDM\nsjSDM + GPU"]
-    J --&gt; K["Variance Decomposition\nANOVA: A / B / S"]
-    J --&gt; L["Network Analysis\nconnectance / nestedness\nmodularity"]
-    style E fill:#5b4fa0,color:#ffffff
-    style F fill:#2c6fad,color:#ffffff
-    style G fill:#2a855f,color:#ffffff
-    style J fill:#8b3a1e,color:#ffffff
+    H --&gt; I["Compute MEMs&lt;br/&gt;Moran Eigenvector Maps"]
+    I --&gt; J["Fit jSDM&lt;br/&gt;sjSDM + GPU"]
+    J --&gt; K["Variance Decomposition&lt;br/&gt;ANOVA: A / B / S"]
+    J --&gt; L["Network Analysis&lt;br/&gt;connectance / nestedness&lt;br/&gt;modularity"]
+    style E fill:#D98CFF,color:#0B0F14,stroke:#2A3441
+    style F fill:#48C7B8,color:#0B0F14,stroke:#2A3441
+    style G fill:#8DF59A,color:#0B0F14,stroke:#2A3441
+    style J fill:#FFB35C,color:#0B0F14,stroke:#2A3441
 </pre>
 </div>
 <p></p></figure><p></p>

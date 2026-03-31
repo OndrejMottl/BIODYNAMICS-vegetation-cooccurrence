@@ -81,25 +81,38 @@ The two pipelines share an identical analytical core. The only structural differ
 The diagram below shows the shared core workflow and the single divergence point between the two analysis types:
 
 ```{mermaid}
+%%{init: {'theme': 'base', 'themeVariables': {
+  'background': '#0B0F14',
+  'primaryColor': '#141B22',
+  'primaryTextColor': '#E6EDF3',
+  'primaryBorderColor': '#2A3441',
+  'lineColor': '#98A6B3',
+  'secondaryColor': '#141B22',
+  'tertiaryColor': '#141B22',
+  'edgeLabelBackground': '#141B22',
+  'clusterBkg': '#141B22',
+  'titleColor': '#E6EDF3',
+  'fontFamily': 'IBM Plex Mono, monospace'
+}}}%%
 flowchart TD
-    A[(VegVault)] --> B["Community\nProcessing"]
-    A --> C["Abiotic\nProcessing"]
+    A[(VegVault)] --> B["Community<br/>Processing"]
+    A --> C["Abiotic<br/>Processing"]
     A --> D["Coordinates"]
-    B --> E{"Analysis\nType"}
+    B --> E{"Analysis<br/>Type"}
     C --> E
     D --> E
-    E -- "Temporal\npipeline_time.R" --> F["Age Filter\nper 500-yr slice"]
-    E -- "Spatial\npipeline_basic.R" --> G["Align Sample IDs\n3-way intersection"]
-    F --> H["Model Data\nPreparation"]
+    E -- "Temporal<br/>pipeline_time.R" --> F["Age Filter<br/>per 500-yr slice"]
+    E -- "Spatial<br/>pipeline_basic.R" --> G["Align Sample IDs<br/>3-way intersection"]
+    F --> H["Model Data<br/>Preparation"]
     G --> H
-    H --> I["Compute MEMs\nMoran Eigenvector Maps"]
-    I --> J["Fit jSDM\nsjSDM + GPU"]
-    J --> K["Variance Decomposition\nANOVA: A / B / S"]
-    J --> L["Network Analysis\nconnectance / nestedness\nmodularity"]
-    style E fill:#5b4fa0,color:#ffffff
-    style F fill:#2c6fad,color:#ffffff
-    style G fill:#2a855f,color:#ffffff
-    style J fill:#8b3a1e,color:#ffffff
+    H --> I["Compute MEMs<br/>Moran Eigenvector Maps"]
+    I --> J["Fit jSDM<br/>sjSDM + GPU"]
+    J --> K["Variance Decomposition<br/>ANOVA: A / B / S"]
+    J --> L["Network Analysis<br/>connectance / nestedness<br/>modularity"]
+    style E fill:#D98CFF,color:#0B0F14,stroke:#2A3441
+    style F fill:#48C7B8,color:#0B0F14,stroke:#2A3441
+    style G fill:#8DF59A,color:#0B0F14,stroke:#2A3441
+    style J fill:#FFB35C,color:#0B0F14,stroke:#2A3441
 ```
 
 ## Pipeline Stages
