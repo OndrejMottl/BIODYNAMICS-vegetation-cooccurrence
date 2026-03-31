@@ -61,6 +61,30 @@ base::dir.create(
   recursive = TRUE
 )
 
+flag_run_all <- FALSE
+
+
+#----------------------------------------------------------#
+# 0. Run individual temporal analyses -----
+#----------------------------------------------------------#
+
+if (
+  isTRUE(flag_run_all)
+) {
+  c(
+    "01_Run_temporal_europe.R",
+    "02_Run_temporal_america.R",
+    "03_Run_temporal_asia.R"
+  ) |>
+    purrr::walk(
+      .f = ~ here::here(
+        "R/02_Main_analyses/02_Temporal/",
+        .x
+      ) |>
+        source()
+    )
+}
+
 
 #----------------------------------------------------------#
 # 1. Build continental configuration inventory -----
