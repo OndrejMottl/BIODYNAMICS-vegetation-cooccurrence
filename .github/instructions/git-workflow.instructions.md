@@ -1,21 +1,14 @@
-# Git Workflow Instructions
+﻿# Git Workflow Instructions
 
 ## Branch Strategy
 
-This project uses `main` as the stable integration branch. All feature branches
-and worktrees **must** branch off `main`.
+This project uses `main` as the stable integration branch. All feature branches and worktrees **must** branch off `main`.
 
 ## Git Worktree Workflow
 
-Git worktrees allow multiple branches to be checked out simultaneously in
-separate directories, sharing the same `.git` database. This is the recommended
-approach for developing new features or running new pipelines **while a
-long-running analysis (e.g. a continental-scale model) is active in the main
-worktree**.
+Git worktrees allow multiple branches to be checked out simultaneously in separate directories, sharing the same `.git` database. This is the recommended approach for developing new features or running new pipelines **while a long-running analysis (e.g. a continental-scale model) is active in the main worktree**.
 
-`Data/targets/` and `Data/Temp/` are fully `.gitignore`'d, so each worktree
-has its own isolated pipeline outputs and temporary files — the running session
-is never disturbed.
+`Data/targets/` and `Data/Temp/` are fully `.gitignore`'d, so each worktree has its own isolated pipeline outputs and temporary files  -  the running session is never disturbed.
 
 ### CRITICAL: Always branch from `main`
 
@@ -23,13 +16,11 @@ is never disturbed.
 
 ```powershell
 # WRONG: branching from a feature branch instead of main
-git checkout spatial_scale          # feature branch — NOT main
+git checkout spatial_scale          # feature branch  -  NOT main
 git worktree add ..\new-folder -b new-feature
 ```
 
-This silently inherits all commits from the feature branch, causing the new
-branch to diverge from `main` with unrelated work. Merging back later requires
-cherry-picking or complex rebasing.
+This silently inherits all commits from the feature branch, causing the new branch to diverge from `main` with unrelated work. Merging back later requires cherry-picking or complex rebasing.
 
 ### Creating a Worktree
 
@@ -48,8 +39,7 @@ git worktree list
 code -n ..\BIODYNAMICS_<feature_name>
 ```
 
-Symlink VegVault to avoid copying the large file.
-`mklink` requires an elevated prompt — open **cmd as Administrator**, then run:
+Symlink VegVault to avoid copying the large file. `mklink` requires an elevated prompt  -  open **cmd as Administrator**, then run:
 
 ```cmd
 mklink "D:\GITHUB\BIODYNAMICS_<feature_name>\Data\Input\VegVault.sqlite" "D:\GITHUB\BIODYNAMICS_vegetation_cooccurrence\Data\Input\VegVault.sqlite"
@@ -58,7 +48,7 @@ mklink "D:\GITHUB\BIODYNAMICS_<feature_name>\Data\Input\VegVault.sqlite" "D:\GIT
 Then in an R session inside the new worktree:
 
 ```r
-# 5. Restore renv (fast — packages already in the global cache)
+# 5. Restore renv (fast  -  packages already in the global cache)
 renv::restore()
 ```
 
@@ -75,16 +65,14 @@ After developing code and running the pipeline in the linked worktree:
 ```powershell
 # 6. Copy only the specific pipeline's targets store to the main worktree
 #    BEFORE merging (while the linked worktree directory still exists).
-#    Copy only store(s) that were newly run or updated in this worktree —
+#    Copy only store(s) that were newly run or updated in this worktree  - 
 #    do NOT copy the entire Data/targets/ folder.
 Copy-Item -Recurse `
   "..\BIODYNAMICS_<feature_name>\Data\targets\<store_name>" `
   ".\Data\targets\<store_name>"
 ```
 
-In the main worktree's R session, `targets::tar_make()` will then find the
-copied store, verify all content hashes, and report "All targets are up to
-date" without recomputing.
+In the main worktree's R session, `targets::tar_make()` will then find the copied store, verify all content hashes, and report "All targets are up to date" without recomputing.
 
 ```powershell
 # 7. Squash-merge the branch (one clean commit per feature)
@@ -101,24 +89,20 @@ git worktree remove ..\BIODYNAMICS_<feature_name>
 git branch -d <branch_name>
 ```
 
-If step 8 fails (e.g. a partial deletion already removed `.git` from the
-worktree directory), recover with:
+If step 8 fails (e.g. a partial deletion already removed `.git` from the worktree directory), recover with:
 ```powershell
 git worktree prune
 Remove-Item -Recurse -Force "..\BIODYNAMICS_<feature_name>"
 git branch -d <branch_name>
 ```
 
-> Merge order matters: always merge branches into `main` in the order they were
-> created (oldest-base first), so each squash contains only the work unique to
-> that branch.
+> Merge order matters: always merge branches into `main` in the order they were created (oldest-base first), so each squash contains only the work unique to that branch.
 
 ### Key Rules
 
-- **Always branch from `main`** — never from another feature branch.
-- **Two worktrees cannot be on the same branch** — git enforces this.
+- **Always branch from `main`**  -  never from another feature branch.
+- **Two worktrees cannot be on the same branch**  -  git enforces this.
 - **Copy targets store before removing** the linked worktree (step 6 before step 8).
-- **`renv.lock` or `config.yml` changes** committed in one worktree require
-  `git pull` + `renv::restore()` in the other worktree.
-- `Data/Input/VegVault.sqlite` is git-ignored and must be symlinked manually
-  in each new worktree.
+- **`renv.lock` or `config.yml` changes** committed in one worktree require `git pull` + `renv::restore()` in the other worktree.
+- `Data/Input/VegVault.sqlite` is git-ignored and must be symlinked manually in each new worktree.
+

@@ -1,4 +1,4 @@
----
+﻿---
 applyTo: "**/*.R"
 description: >
   Visualisation conventions for this project: loading graphical options
@@ -25,7 +25,7 @@ Project-specific configurations inherit these defaults automatically. Override i
 
 ## Loading Graphical Options in a Script
 
-At the start of every script that produces plots, load the graphical options once in the **Setup** section — after `R_CONFIG_ACTIVE` has been set — and store them in `graphical_options`:
+At the start of every script that produces plots, load the graphical options once in the **Setup** section  -  after `R_CONFIG_ACTIVE` has been set  -  and store them in `graphical_options`:
 
 ```r
 # Graphical options shared across all plots in this script.
@@ -54,25 +54,24 @@ plot_example <-
   )
 ```
 
-**Never** hardcode width, height, dpi, or other canvas values directly
-in a script. Always read them from `graphical_options`.
+**Never** hardcode width, height, dpi, or other canvas values directly in a script. Always read them from `graphical_options`.
 
 ## Plot Layer Order
 
 When building a `ggplot2` plot directly (not via a wrapper function), always add layers in this order:
 
-1. `ggplot2::ggplot()` — data and global aesthetics
-2. Facets — `ggplot2::facet_*()` calls
-3. Scales — `ggplot2::scale_*()` calls
-4. Labels — `ggplot2::labs()`
-5. Theme — `ggplot2::theme_*()` and `ggplot2::theme()` calls
-6. `ggview::canvas()` — canvas dimensions
-7. Geoms — `ggplot2::geom_*()` calls, from bottom to top layer
+1. `ggplot2::ggplot()`  -  data and global aesthetics
+2. Facets  -  `ggplot2::facet_*()` calls
+3. Scales  -  `ggplot2::scale_*()` calls
+4. Labels  -  `ggplot2::labs()`
+5. Theme  -  `ggplot2::theme_*()` and `ggplot2::theme()` calls
+6. `ggview::canvas()`  -  canvas dimensions
+7. Geoms  -  `ggplot2::geom_*()` calls, from bottom to top layer
 
 This keeps all structural/setup decisions together at the top and all data-ink decisions at the bottom, making it easy to scan what is being drawn versus how the chart is configured.
 
 ```r
-# Good — setup first, geoms last
+# Good  -  setup first, geoms last
 plot_example <-
   data_example |>
   ggplot2::ggplot(
@@ -92,7 +91,7 @@ plot_example <-
   ggplot2::geom_line() +
   ggplot2::geom_point(size = 0.8)
 
-# Avoid — geoms mixed in with or before setup layers
+# Avoid  -  geoms mixed in with or before setup layers
 plot_example <-
   data_example |>
   ggplot2::ggplot(
@@ -186,4 +185,5 @@ ggview::save_ggplot(
 | Load options once per script | `graphical_options <- get_active_config("graphical")` | Hardcoding values |
 | Apply dimensions | `+ ggview::canvas(width = graphical_options[["width"]], ...)` | `+ ggview::canvas(width = 2000, ...)` |
 | Save plots | `ggview::save_ggplot(plot = ..., file = ...)` | `ggplot2::ggsave(...)` |
-| Layer order | Facets → Scales → Labs → Theme → Canvas → Geoms | Geoms before setup layers |
+| Layer order | Facets â†’ Scales â†’ Labs â†’ Theme â†’ Canvas â†’ Geoms | Geoms before setup layers |
+

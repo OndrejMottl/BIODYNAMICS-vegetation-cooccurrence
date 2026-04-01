@@ -1,4 +1,4 @@
----
+﻿---
 applyTo: "**/*.R"
 description: >
   Standard debugging workflow for this project: isolate issues in
@@ -10,9 +10,7 @@ description: >
 
 ## Guiding Principle
 
-**Never guess at a fix.** Before touching any project file, reproduce and
-fully understand the root cause in an isolated environment. Only then apply
-the minimal necessary change to the source.
+**Never guess at a fix.** Before touching any project file, reproduce and fully understand the root cause in an isolated environment. Only then apply the minimal necessary change to the source.
 
 ---
 
@@ -23,12 +21,11 @@ the minimal necessary change to the source.
 Create a self-contained R script in `Data/Temp/` that:
 
 - Imports **only** the packages needed to demonstrate the bug
-- Does **not** `source()` the project setup — keep it minimal
+- Does **not** `source()` the project setup  -  keep it minimal
 - Contains a clear minimal reproducible example (MRE)
 - Prints enough diagnostic output to see exactly what is happening
 
-**Naming**: use a descriptive, throwaway name, e.g. `debug_<topic>.R`.
-These files are git-ignored and must never carry important information.
+**Naming**: use a descriptive, throwaway name, e.g. `debug_<topic>.R`. These files are git-ignored and must never carry important information.
 
 ```r
 # Data/Temp/debug_<topic>.R
@@ -42,8 +39,7 @@ cat("result:", class(result), "\n")
 
 ### 2. Run the Script in a Clean Terminal Session
 
-Execute the script non-interactively to avoid any state leaked from a
-running R session. **By default, run directly in the terminal:**
+Execute the script non-interactively to avoid any state leaked from a running R session. **By default, run directly in the terminal:**
 
 ```powershell
 Rscript "D:/path/to/project/Data/Temp/debug_<topic>.R"
@@ -51,12 +47,9 @@ Rscript "D:/path/to/project/Data/Temp/debug_<topic>.R"
 
 Key rules:
 
-- Do **not** rely on an interactive R session; hidden state causes
-  false positives
-- If the first script does not fully expose the root cause, iterate:
-  create `debug_<topic>2.R`, `debug_<topic>3.R`, etc.
-- **Only if output appears garbled or truncated** (e.g. PowerShell
-  encoding artefacts), fall back to redirecting to a file:
+- Do **not** rely on an interactive R session; hidden state causes false positives
+- If the first script does not fully expose the root cause, iterate: create `debug_<topic>2.R`, `debug_<topic>3.R`, etc.
+- **Only if output appears garbled or truncated** (e.g. PowerShell encoding artefacts), fall back to redirecting to a file:
 
 ```powershell
 Rscript "D:/path/to/project/Data/Temp/debug_<topic>.R" `
@@ -68,22 +61,16 @@ Get-Content "D:/path/to/project/Data/Temp/debug_out.txt"
 
 For bugs involving R's scoping or NSE (non-standard evaluation):
 
-- Print `environmentName(environment())` and
-  `environmentName(parent.env(environment()))` from within the suspect
-  function to map the environment chain
-- Inspect internals with `getAnywhere('<fn>')` or
-  `body(<package>::<fn>)`
-- Test alternative call patterns side-by-side in the same script
-  (bare name, inline literal, `do.call`, `identity()` wrapper, etc.)
-  so the contrast between broken and working is explicit in the output
+- Print `environmentName(environment())` and `environmentName(parent.env(environment()))` from within the suspect function to map the environment chain
+- Inspect internals with `getAnywhere('<fn>')` or `body(<package>::<fn>)`
+- Test alternative call patterns side-by-side in the same script (bare name, inline literal, `do.call`, `identity()` wrapper, etc.) so the contrast between broken and working is explicit in the output
 
 ### 4. Apply the Fix to the Source File
 
 Once the root cause is confirmed:
 
 - Apply the **minimal** targeted change to the project source file
-- Add a concise comment explaining *why* the fix is necessary
-  (future readers will not have the debugging session in context)
+- Add a concise comment explaining *why* the fix is necessary (future readers will not have the debugging session in context)
 
 Example of a good explanatory comment:
 
@@ -104,8 +91,7 @@ spatial <-
 
 ### 5. Clean Up Temp Files
 
-Remove all debug scripts and output files immediately after the fix
-is confirmed:
+Remove all debug scripts and output files immediately after the fix is confirmed:
 
 ```powershell
 Remove-Item "D:/path/to/project/Data/Temp/debug_<topic>*.R",
@@ -115,8 +101,7 @@ Remove-Item "D:/path/to/project/Data/Temp/debug_<topic>*.R",
 
 ### 6. Run the Targeted Test File
 
-Run only the test file for the function that was changed. This gives
-fast feedback before committing time to the full suite:
+Run only the test file for the function that was changed. This gives fast feedback before committing time to the full suite:
 
 ```r
 library(here)
@@ -136,9 +121,7 @@ Fix any failures before moving on.
 
 ### 7. Run the Full Test Suite
 
-Once the targeted tests pass, run the entire suite to confirm no
-regressions were introduced elsewhere. The canonical way is the dedicated
-script — it sources project setup automatically before running tests:
+Once the targeted tests pass, run the entire suite to confirm no regressions were introduced elsewhere. The canonical way is the dedicated script  -  it sources project setup automatically before running tests:
 
 ```powershell
 Rscript R/03_Supplementary_analyses/Run_tests.R
@@ -158,17 +141,11 @@ testthat::test_dir(
 )
 ```
 
-All tests must pass before proceeding. If a previously passing test
-now fails, treat it as a new bug introduced by the fix and return to
-step 1.
+All tests must pass before proceeding. If a previously passing test now fails, treat it as a new bug introduced by the fix and return to step 1.
 
-### 8. Final Verification — Run the Full Pipeline
+### 8. Final Verification  -  Run the Full Pipeline
 
-**This step is mandatory for all implementation work** — bug fixes,
-new features, refactors, and pipeline changes — not only for debugging
-sessions. After cleaning up, verify end-to-end by running the basic
-pipeline with the `project_cz` configuration. The run must complete
-without unexpected errors:
+**This step is mandatory for all implementation work**  -  bug fixes, new features, refactors, and pipeline changes  -  not only for debugging sessions. After cleaning up, verify end-to-end by running the basic pipeline with the `project_cz` configuration. The run must complete without unexpected errors:
 
 ```r
 library(here)
@@ -188,12 +165,9 @@ run_pipeline(
 )
 ```
 
-**Do not consider a bug fix complete until this step passes without
-errors.**
+**Do not consider a bug fix complete until this step passes without errors.**
 
-Note: steps 6, 7, and 8 must all pass — the targeted test catches
-regressions in the changed function, the full suite catches wider
-regressions, and the pipeline run confirms end-to-end correctness.
+Note: steps 6, 7, and 8 must all pass  -  the targeted test catches regressions in the changed function, the full suite catches wider regressions, and the pipeline run confirms end-to-end correctness.
 
 ---
 
@@ -201,42 +175,28 @@ regressions, and the pipeline run confirms end-to-end correctness.
 
 | Step | Action |
 |------|--------|
-| 1 | Create `Data/Temp/debug_<topic>.R` — minimal MRE |
+| 1 | Create `Data/Temp/debug_<topic>.R`  -  minimal MRE |
 | 2 | Run with `Rscript` directly in terminal; only redirect to file if output is garbled |
 | 3 | Probe environments / call patterns until root cause is clear |
 | 4 | Apply minimal fix + explanatory comment to source |
 | 5 | `Remove-Item` all temp debug files |
-| 6 | Run `testthat::test_file()` for the changed function — passes |
-| 7 | `Rscript R/03_Supplementary_analyses/Run_tests.R` — all tests pass |
-| 8 | Run full `pipeline_basic.R` under `project_cz` — no errors |
+| 6 | Run `testthat::test_file()` for the changed function  -  passes |
+| 7 | `Rscript R/03_Supplementary_analyses/Run_tests.R`  -  all tests pass |
+| 8 | Run full `pipeline_basic.R` under `project_cz`  -  no errors |
 
 ---
 
 ## Common Pitfalls
 
-- **Do not assign to `parent.env()`** of your function as a workaround
-  for NSE issues. `parent.env()` is the *enclosing* (lexical) env of
-  the function, which for package functions is that package's namespace
-  — completely unrelated to your calling code. Use `do.call` instead to
-  pass already-evaluated objects.
+- **Do not assign to `parent.env()`** of your function as a workaround for NSE issues. `parent.env()` is the *enclosing* (lexical) env of the function, which for package functions is that package's namespace  -  completely unrelated to your calling code. Use `do.call` instead to pass already-evaluated objects.
 
-- **Do not trust an interactive R session** to reproduce
-  environment-related bugs: leftover global variables create false
-  positives. Always use a fresh `Rscript` call.
+- **Do not trust an interactive R session** to reproduce environment-related bugs: leftover global variables create false positives. Always use a fresh `Rscript` call.
 
-- **Do not batch-test multiple hypotheses** in one script run. One
-  hypothesis per script iteration keeps the output readable and the
-  diagnosis unambiguous.
+- **Do not batch-test multiple hypotheses** in one script run. One hypothesis per script iteration keeps the output readable and the diagnosis unambiguous.
 
-- **Pipeline exit code 1 on Windows is not always a real error.**
-  On Windows, `Rscript` exits with code 1 whenever it prints *any*
-  warning to stderr — including benign `renv`/`here` package-version
-  notices (`"package 'here' was built under R version …"`). PowerShell
-  propagates this as a non-zero exit, making it look like a failure.
-  Always confirm pipeline success by inspecting the output text, not
-  the exit code. A successful run contains:
+- **Pipeline exit code 1 on Windows is not always a real error.** On Windows, `Rscript` exits with code 1 whenever it prints *any* warning to stderr  -  including benign `renv`/`here` package-version notices (`"package 'here' was built under R version ..."`). PowerShell propagates this as a non-zero exit, making it look like a failure. Always confirm pipeline success by inspecting the output text, not the exit code. A successful run contains:
   ```
-  ✔ ended pipeline [Xs, N completed, M skipped]
+  âœ” ended pipeline [Xs, N completed, M skipped]
   ```
-  If that line is present and there is no `ERROR` or `errored target`
-  in the output, the pipeline succeeded regardless of exit code.
+  If that line is present and there is no `ERROR` or `errored target` in the output, the pipeline succeeded regardless of exit code.
+

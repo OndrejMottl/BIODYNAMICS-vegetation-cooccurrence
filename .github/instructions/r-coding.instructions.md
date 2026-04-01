@@ -1,4 +1,4 @@
----
+﻿---
 applyTo: "**/*.R"
 description: >
   R coding conventions and style guidelines for this project, covering
@@ -10,20 +10,15 @@ description: >
 
 ## Coding Style
 
-This coding style is a combination of various sources
-([Tidyverse](https://style.tidyverse.org/index.html),
-[Google](https://google.github.io/styleguide/Rguide.html), and others).
-Style should be consistent within a project.
+This coding style is a combination of various sources ([Tidyverse](https://style.tidyverse.org/index.html), [Google](https://google.github.io/styleguide/Rguide.html), and others). Style should be consistent within a project.
 
 ## Script Structure
 
-One script should serve one purpose and that should be obvious from its name.
-Scripts are always partitioned into clearly readable chunks.
+One script should serve one purpose and that should be obvious from its name. Scripts are always partitioned into clearly readable chunks.
 
 ### Script Header
 
-The script header should contain the name of the project, objectives (purpose)
-of that script, authors, and rough date (year of the project).
+The script header should contain the name of the project, objectives (purpose) of that script, authors, and rough date (year of the project).
 
 Example of a header:
 
@@ -44,10 +39,7 @@ Example of a header:
 
 ### Section Headers
 
-Each section of a script should begin with a header which consists of a name
-wrapped by two lines. The name of a header should start with a capital letter.
-Each header name should be followed by `-----` so that it is automatically
-picked by IDE as a section header.
+Each section of a script should begin with a header which consists of a name wrapped by two lines. The name of a header should start with a capital letter. Each header name should be followed by `-----` so that it is automatically picked by IDE as a section header.
 
 Empty lines should be placed before each header to separate chunks.
 
@@ -84,13 +76,7 @@ Example of a numbered header:
 
 #### Single-line comments
 
-Adding comments to code plays a pivotal role in ensuring reproducibility and
-preserving code knowledge for future reference. When things change or break,
-the user will be thankful for comments. There's no need to comment excessively
-or unnecessarily, but a comment describing what a large or complex chunk of
-code does my be helpful. More importantly, it is crusial to comment WHY something 
-is coded in that specific (non-standard) way. The first letter of a comment is 
-capitalized and spaced away from the pound sign (`#`).
+Adding comments to code plays a pivotal role in ensuring reproducibility and preserving code knowledge for future reference. When things change or break, the user will be thankful for comments. There's no need to comment excessively or unnecessarily, but a comment describing what a large or complex chunk of code does my be helpful. More importantly, it is crusial to comment WHY something is coded in that specific (non-standard) way. The first letter of a comment is capitalized and spaced away from the pound sign (`#`).
 
 Example of a single-line comment:
 
@@ -100,8 +86,7 @@ Example of a single-line comment:
 
 #### Multi-line comment
 
-Multi-line comments should start with a capital letter and the new line should
-start with one tab.
+Multi-line comments should start with a capital letter and the new line should start with one tab.
 
 Example of a multi-line comment:
 
@@ -124,13 +109,9 @@ function(
 
 ### Code Width
 
-No line of **R code** should be longer than 80 characters (including R
-comments). Users can visualise the 80 characters line in selected IDE.
+No line of **R code** should be longer than 80 characters (including R comments). Users can visualise the 80 characters line in selected IDE.
 
-> **Note:** This 80-character limit applies to R source code only.
-> Markdown prose — such as text in `.md` files, `.qmd` files, instruction
-> files, README files, or any other documentation — is **not** subject to
-> this limit. Let markdown text wrap naturally.
+> **Note:** This 80-character limit applies to R source code only. Markdown prose  -  such as text in `.md` files, `.qmd` files, instruction files, README files, or any other documentation  -  is **not** subject to this limit. Let markdown text wrap naturally.
 
 ## Naming Conventions
 
@@ -141,24 +122,17 @@ comments). Users can visualise the 80 characters line in selected IDE.
 
 ### Object Names
 
-Objects and functions should use `snake_style`. The `.` in names is somewhat
-popular but it causes issues with names of methods and should be therefore
-avoided. The names are preferred to be very descriptive, more expressive and
-more explicit.
+Objects and functions should use `snake_style`. The `.` in names is somewhat popular but it causes issues with names of methods and should therefore be avoided. The names are preferred to be very descriptive, more expressive and more explicit. **Never abbreviate words in object names.** Write the full word every time  -  `config` not `cfg`, `column` not `col`, `parameter` not `param`, `function` not `fn`, `number` not `num`, `value` not `val`, `result` not `res` (the only permitted abbreviation objects are listed below). When in doubt, spell it out.
 
 The names should be nouns and start with the type of object:
 
 - `data_*` - for data
-  - special subcategory is `table_*` for tables (mainly as an object for
-    reference). Note that all tables can be data but not vice versa.
+  - special subcategory is `table_*` for tables (mainly as an object for reference). Note that all tables can be data but not vice versa.
 - `list_` - for lists
 - `vec_` - for vectors
 - `mod_*` - for statistical model
-- `res_` - special category, which can be used within the function to name an
-  object to be returned (`return(res_*)`)
-- `flag_*` - for boolean/logical control flags (e.g. safety guards, feature
-  switches). **Always use `snake_style`** — never `SCREAMING_SNAKE_CASE` even
-  though that convention is common in other languages.
+- `res_` - special category, which can be used within the function to name an object to be returned (`return(res_*)`)
+- `flag_*` - for boolean/logical control flags (e.g. safety guards, feature switches). **Always use `snake_style`**  -  never `SCREAMING_SNAKE_CASE` even though that convention is common in other languages.
 
 Examples of good names:
 
@@ -199,21 +173,15 @@ transform_into_character()
 
 #### Internal Functions
 
-It is possible to start a function with a `"."` (e.g., `.get_round_value()`)
-to flag internal functions.
+It is possible to start a function with a `"."` (e.g., `.get_round_value()`) to flag internal functions.
 
 ### Column (Variable) Names in Data Frames
 
-`snake_style` is preferred for column names in both `data.frames` and
-`tibbles`. Note that the [janitor](https://sfirke.github.io/janitor/) package
-can be used to edit this automatically.
+`snake_style` is preferred for column names in both `data.frames` and `tibbles`. Note that the [janitor](https://sfirke.github.io/janitor/) package can be used to edit this automatically.
 
 ## Syntax
 
-Many of the syntax issues can be checked/fixed by
-[lintr](https://lintr.r-lib.org/) and
-[styler](https://styler.r-lib.org/index.html) packages, which can be used to
-automate lots of the tedious aspects.
+Many of the syntax issues can be checked/fixed by [lintr](https://lintr.r-lib.org/) and [styler](https://styler.r-lib.org/index.html) packages, which can be used to automate lots of the tedious aspects.
 
 ### Spaces
 
@@ -225,13 +193,11 @@ Space (`" "`) should always be placed:
 Exceptions:
 
 - No spaces inside or outside parentheses for regular function calls
-- Operators with high precedence should not be surrounded by space:
-  `:`, `::`, `:::`, `$`, `@`, `[`, `[[`, `^`, unary `-`
+- Operators with high precedence should not be surrounded by space: `:`, `::`, `:::`, `$`, `@`, `[`, `[[`, `^`, unary `-`
 
 ### New Lines
 
-Prefer code that is more vertical than horizontal. Therefore, use quite a lot
-of new lines.
+Prefer code that is more vertical than horizontal. Therefore, use quite a lot of new lines.
 
 Usage of a semicolon (`;`) to indicate a new line is not preferred.
 
@@ -239,8 +205,7 @@ A new line should be:
 
 #### 1. After an Object Assignment (`<-`)
 
-Whenever the right-hand side is a **function call**, place a newline after
-`<-` and indent the expression by 2 spaces:
+Whenever the right-hand side is a **function call**, place a newline after `<-` and indent the expression by 2 spaces:
 
 ```r
 data_diversity <-
@@ -259,8 +224,7 @@ res <-
   )
 ```
 
-The **only** assignments that may stay on one line are scalar literals and
-`NULL` (i.e., when the RHS is a single literal value, not a function call):
+The **only** assignments that may stay on one line are scalar literals and `NULL` (i.e., when the RHS is a single literal value, not a function call):
 
 ```r
 vec_center <- 50.0   # OK: numeric literal
@@ -270,8 +234,7 @@ count <- 3L          # OK: integer literal
 flag <- TRUE         # OK: logical literal
 ```
 
-The **exception** for the newline rule is function *definitions* — those keep
-`<-` on the same line as `function`:
+The **exception** for the newline rule is function *definitions*  -  those keep `<-` on the same line as `function`:
 
 ```r
 get_data <- function(...) {
@@ -281,8 +244,7 @@ get_data <- function(...) {
 
 #### 2. After a Pipe Operator
 
-Prefer the **native pipe `|>`** (R 4.1+). Note that there should be a space
-before a pipe.
+Prefer the **native pipe `|>`** (R 4.1+). Note that there should be a space before a pipe.
 
 ```r
 data_diversity <-
@@ -297,8 +259,7 @@ Use the **magrittr pipe `%>%`** when the native pipe cannot be used cleanly:
   data_diversity %>%
     lm(diversity ~ region, data = .)
   ```
-- Piping into **curly brackets** `{ }` to suppress the implicit first-argument
-  rule:
+- Piping into **curly brackets** `{ }` to suppress the implicit first-argument rule:
   ```r
   vec_diversity %>%
     { . + 1 }
@@ -308,8 +269,7 @@ Use the **magrittr pipe `%>%`** when the native pipe cannot be used cleanly:
 
 #### 3. After a Function Argument
 
-This should be true for both function declaration and usage. The exception is
-a single argument.
+This should be true for both function declaration and usage. The exception is a single argument.
 
 ```r
 get_data <- function(arg1 = foo,
@@ -393,10 +353,7 @@ try(
 )
 ```
 
-For `for()`, `if()`, and `while()` loops, the iterator or condition is placed on its
-own indented line, and the closing `) {` is on its own line at the same indent
-level as the keyword. **This applies even for short, single-condition tests —
-never write `if (condition) {` on a single line.**
+For `for()`, `if()`, and `while()` loops, the iterator or condition is placed on its own indented line, and the closing `) {` is on its own line at the same indent level as the keyword. **This applies even for short, single-condition tests  -  never write `if (condition) {` on a single line.**
 
 ```r
 # Good
@@ -433,8 +390,7 @@ Do **NOT** use:
 - right assignment (`->`)
 - equals (`=`)
 
-There should be a new line after the assignment. Note that rarely single-line
-assignment can be used:
+There should be a new line after the assignment. Note that rarely single-line assignment can be used:
 
 ```r
 data_diversity <-
@@ -451,10 +407,7 @@ Always use `TRUE` and `FALSE`, instead of `T` and `F`.
 
 Detailed rules for specific topics are in separate files:
 
-- [r-coding-tidyverse.instructions.md](r-coding-tidyverse.instructions.md) —
-  Tidyverse preferences, namespace, modern dplyr/purrr patterns, data masking
-- [r-coding-functions.instructions.md](r-coding-functions.instructions.md) —
-  Creating functions, anonymous functions, error handling, documentation,
-  testing
-- [r-coding-performance.instructions.md](r-coding-performance.instructions.md) —
-  Profiling, loop performance, parallel processing
+- [r-coding-tidyverse.instructions.md](r-coding-tidyverse.instructions.md)  -  Tidyverse preferences, namespace, modern dplyr/purrr patterns, data masking
+- [r-coding-functions.instructions.md](r-coding-functions.instructions.md)  -  Creating functions, anonymous functions, error handling, documentation, testing
+- [r-coding-performance.instructions.md](r-coding-performance.instructions.md)  -  Profiling, loop performance, parallel processing
+

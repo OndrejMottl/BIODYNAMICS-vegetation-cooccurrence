@@ -1,4 +1,4 @@
----
+﻿---
 applyTo: "**/*.qmd"
 description: >
   Conventions for building and maintaining the Quarto website for this
@@ -11,10 +11,7 @@ description: >
 
 ## Overview
 
-This project hosts a Quarto website rendered to the `docs/` directory and
-published via GitHub Pages. The site serves as the project's public-facing
-documentation, combining narrative pages, embedded visualisations, and
-auto-generated function reference pages.
+This project hosts a Quarto website rendered to the `docs/` directory and published via GitHub Pages. The site serves as the project's public-facing documentation, combining narrative pages, embedded visualisations, and auto-generated function reference pages.
 
 ---
 
@@ -30,7 +27,7 @@ project:
 website:
   title: "<project-title>"
   page-footer:
-    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+    right: "This page is built with â¤ï¸ and [Quarto](https://quarto.org/)."
   site-url: https://ondrejmottl.github.io/<repo-name>/
   repo-url: https://github.com/OndrejMottl/<repo-name>
   issue-url: https://github.com/OndrejMottl/<repo-name>/issues
@@ -84,8 +81,7 @@ format:
 
 ## Standard YAML Front Matter
 
-All narrative pages (`about.qmd`, `installation.qmd`, `documentation.qmd`,
-`index.qmd`) use this front matter:
+All narrative pages (`about.qmd`, `installation.qmd`, `documentation.qmd`, `index.qmd`) use this front matter:
 
 ```yaml
 ---
@@ -116,17 +112,13 @@ Always set the project seed before any call that uses randomness:
 base::set.seed(900723)
 ```
 
-Place the `set.seed()` call at the start of the chunk that generates random
-data, or in the setup chunk if randomness is used throughout the file. This
-ensures outputs are reproducible across renders and collaborators.
+Place the `set.seed()` call at the start of the chunk that generates random data, or in the setup chunk if randomness is used throughout the file. This ensures outputs are reproducible across renders and collaborators.
 
 ---
 
 ## No Hardcoded Numbers in Prose
 
-Every number that is derived from data or an analysis result must be an
-inline R expression — never a hardcoded literal. Hardcoded numbers become
-silently wrong when the underlying data or model changes.
+Every number that is derived from data or an analysis result must be an inline R expression  -  never a hardcoded literal. Hardcoded numbers become silently wrong when the underlying data or model changes.
 
 ````markdown
 <!-- WRONG -->
@@ -139,23 +131,19 @@ with an average AUC of `r round(mean(model_evaluation$species$AUC), 2)`.
 
 This applies to:
 - counts (number of functions, taxa, datasets, samples)
-- model metrics (AUC, R², RMSE)
+- model metrics (AUC, RÂ², RMSE)
 - summary statistics reported in text
 - any value that could change if data or code changes
 
-The only acceptable literals in prose are values that are definitionally
-fixed (e.g. a stated spatial resolution of `1°` that is a deliberate
-analysis choice, not derived).
+The only acceptable literals in prose are values that are definitionally fixed (e.g. a stated spatial resolution of `1Â°` that is a deliberate analysis choice, not derived).
 
 ---
 
 ## Code Chunk Conventions
 
-All R code in `.qmd` files must follow the project's R coding conventions
-defined in `.github/instructions/r-coding.instructions.md`.
+All R code in `.qmd` files must follow the project's R coding conventions defined in `.github/instructions/r-coding.instructions.md`.
 
-All code chunks in website pages should use these options unless there is a
-specific reason to deviate:
+All code chunks in website pages should use these options unless there is a specific reason to deviate:
 
 ```r
 #| label: descriptive-label
@@ -166,16 +154,13 @@ specific reason to deviate:
 #| error: false
 ```
 
-Always wrap library calls in `suppressMessages(suppressWarnings({...}))` when
-loading packages silently inside a rendered `.qmd`.
+Always wrap library calls in `suppressMessages(suppressWarnings({...}))` when loading packages silently inside a rendered `.qmd`.
 
 ---
 
 ## Reading `{targets}` Outputs in Pages
 
-The target store path is composed of **two parts**: the project-level store
-directory (from `config.yml` via `get_active_config()`) and the
-**pipeline type** subdirectory (e.g. `"pipeline_basic"`, `"pipeline_time"`).
+The target store path is composed of **two parts**: the project-level store directory (from `config.yml` via `get_active_config()`) and the **pipeline type** subdirectory (e.g. `"pipeline_basic"`, `"pipeline_time"`).
 
 Build the store path first, then pass it to `tar_read()`:
 
@@ -184,7 +169,7 @@ library(targets)
 library(here)
 here::i_am("website/about.qmd")   # adjust path to current file
 
-# Pipeline type — must match the pipeline script name in
+# Pipeline type  -  must match the pipeline script name in
 # R/02_Main_analyses/
 vec_pipelines <- "pipeline_basic"
 
@@ -210,9 +195,7 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
 Sys.setenv(R_CONFIG_ACTIVE = "project_temporal_europe")
 ```
 
-This determines which `target_store` path is returned by
-`get_active_config("target_store")`. Combined with the pipeline subdirectory,
-each project × pipeline combination has its own isolated store.
+This determines which `target_store` path is returned by `get_active_config("target_store")`. Combined with the pipeline subdirectory, each project Ã— pipeline combination has its own isolated store.
 
 ---
 
@@ -253,21 +236,17 @@ include_local_figure("figure_name.png")
 ```
 
 Rules:
-- Always append `ggview::canvas()` to the plot pipeline. This opens an
-  interactive preview at the exact pixel dimensions during authoring,
-  making it easy to adjust layout before committing. It has no effect at render time.
+- Always append `ggview::canvas()` to the plot pipeline. This opens an interactive preview at the exact pixel dimensions during authoring, making it easy to adjust layout before committing. It has no effect at render time.
 - Standard canvas dimensions: `width = 1600, height = 800` (landscape, full-slide). Adjust to `width = 800, height = 800` for square inset plots.
-- Save with `ggview::save_ggplot()` — this respects the canvas dimensions
-  and saves at the correct size.
+- Save with `ggview::save_ggplot()`  -  this respects the canvas dimensions and saves at the correct size.
 - Always use `ggplot2::theme_minimal()` as the base theme for all plots.
 - Use `ggplot2::labs()` for all axis labels and titles.
 - Use `ggplot2::labs(title = "Title text")` instead of `ggtitle()`. This ensures the title is included in the saved image and displayed correctly in the slide.
-- If a plot has a title, do not add a title in the slide — use empty `##` markdown heading syntax instead.
+- If a plot has a title, do not add a title in the slide  -  use empty `##` markdown heading syntax instead.
 
 ### Defining `include_local_figure()` in the setup chunk
 
-Every `.qmd` file that displays local figures must define the
-`include_local_figure()` helper once in its setup chunk:
+Every `.qmd` file that displays local figures must define the `include_local_figure()` helper once in its setup chunk:
 
 ```r
 path_to_materials <-
@@ -291,8 +270,7 @@ include_local_figure("Figures/my_plot.png")
 
 ### Combining multiple plots
 
-Use `cowplot::plot_grid()` to arrange multiple ggplot objects into one figure
-before saving:
+Use `cowplot::plot_grid()` to arrange multiple ggplot objects into one figure before saving:
 
 ```r
 #| label: make-combined-plot
@@ -318,10 +296,8 @@ ggview::save_ggplot(
 
 Rules:
 - Build each sub-plot as a separate named object first, then combine.
-- Apply `ggview::canvas()` and `ggview::save_ggplot()` to the *combined*
-  object, not to individual sub-plots.
-- Use `labels = c("A", "B")` only when the text explicitly references the
-  panels; omit otherwise.
+- Apply `ggview::canvas()` and `ggview::save_ggplot()` to the *combined* object, not to individual sub-plots.
+- Use `labels = c("A", "B")` only when the text explicitly references the panels; omit otherwise.
 
 ## Embedding Interactive Reports (iframes)
 
@@ -354,8 +330,7 @@ Use [shields.io](https://shields.io/) for dynamic and static badges:
 
 ## Documentation Landing Page (`documentation.qmd`)
 
-The documentation overview page uses a Quarto listing to display all function
-pages as a grid:
+The documentation overview page uses a Quarto listing to display all function pages as a grid:
 
 ```yaml
 ---
@@ -380,20 +355,15 @@ Render the listing inside the page body with:
 
 ## Function Documentation Workflow
 
-Function documentation pages are **auto-generated** — do not edit them
-manually.
+Function documentation pages are **auto-generated**  -  do not edit them manually.
 
 ### Process
 
-1. Every function in `R/Functions/` must have `roxygen2` documentation (see
-   `.github/instructions/make_roxygen2_documentation.instructions.md`).
+1. Every function in `R/Functions/` must have `roxygen2` documentation (see `.github/instructions/make_roxygen2_documentation.instructions.md`).
 2. Run `R/03_Supplementary_analyses/Document_functions.R` to:
-   a. Generate `.html` and `.txt` files from `roxygen2` comments into
-      `Documentation/Functions/`.
-   b. Convert each `.html` file into a `.qmd` file inside
-      `website/Documentation/Functions/`.
-3. Each generated `.qmd` has a YAML header followed by the raw HTML from the
-   `{document}` package output:
+  a. Generate `.html` and `.txt` files from `roxygen2` comments into `Documentation/Functions/`.
+  b. Convert each `.html` file into a `.qmd` file inside `website/Documentation/Functions/`.
+3. Each generated `.qmd` has a YAML header followed by the raw HTML from the `{document}` package output:
 
    ```yaml
    ---
@@ -437,12 +407,9 @@ Output lands in `docs/`. Do **not** manually edit files under `docs/`.
 
 ## Safe Paths in `.qmd` Files
 
-Always anchor file paths with `here::here()`. Never use raw relative paths
-(e.g. `"../Materials/Figures/plot.png"`) — they break when the working
-directory changes.
+Always anchor file paths with `here::here()`. Never use raw relative paths (e.g. `"../Materials/Figures/plot.png"`)  -  they break when the working directory changes.
 
-Declare the current file with `here::i_am()` once, in the **first (setup)
-code chunk** at the top of the file:
+Declare the current file with `here::i_am()` once, in the **first (setup) code chunk** at the top of the file:
 
 ```r
 #| label: setup
@@ -454,8 +421,8 @@ source(here::here("R/___setup_project___.R"))
 path_figures <- here::here("Documentation/Materials/Figures")
 ```
 
-- ✅ `here::here("Documentation/Materials/Figures", "plot.png")`
-- ❌ `"../Materials/Figures/plot.png"` — raw relative path, do not use
+- âœ… `here::here("Documentation/Materials/Figures", "plot.png")`
+- âŒ `"../Materials/Figures/plot.png"`  -  raw relative path, do not use
 
 ---
 
@@ -465,3 +432,4 @@ path_figures <- here::here("Documentation/Materials/Figures")
 2. Use the standard YAML front matter (see above).
 3. Add the page's `href` to the `sidebar > contents` section in `_quarto.yml`.
 4. Re-render with `quarto render`.
+

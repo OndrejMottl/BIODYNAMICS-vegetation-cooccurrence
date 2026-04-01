@@ -1,4 +1,4 @@
----
+﻿---
 description: >
   Rules for launching subagents: what instruction files and source code must
   be pasted into the prompt for each subagent type so the subagent has all
@@ -9,11 +9,7 @@ description: >
 
 ## Core Rule
 
-Subagents have **no access** to project files, instruction files, or the
-parent conversation context unless the content is explicitly pasted into
-the subagent prompt. Always read the required instruction files with
-`read_file` and paste their **full text** into the prompt before launching.
-Never pass file paths alone — that is not sufficient.
+Subagents have **no access** to project files, instruction files, or the parent conversation context unless the content is explicitly pasted into the subagent prompt. Always read the required instruction files with `read_file` and paste their **full text** into the prompt before launching. Never pass file paths alone  -  that is not sufficient.
 
 ---
 
@@ -62,8 +58,8 @@ Paste the full text of ALL of these into the prompt:
 
 Also tell the subagent explicitly whether this is:
 
-- **New function (TDD step 2)**: the function body is a stub — write tests that capture all intended behaviour and will fail against the stub.
-- **Editing existing function (TDD step 2 of edit cycle)**: provide the updated spec and the current test file — add/revise tests for the new behaviour.
+- **New function (TDD step 2)**: the function body is a stub  -  write tests that capture all intended behaviour and will fail against the stub.
+- **Editing existing function (TDD step 2 of edit cycle)**: provide the updated spec and the current test file  -  add/revise tests for the new behaviour.
 
 ### Writing or editing a pipeline script or pipe segment
 
@@ -119,3 +115,4 @@ In the `runSubagent` prompt include a dedicated section, for example:
 ## Task
 <describe what the subagent must do>
 ```
+
