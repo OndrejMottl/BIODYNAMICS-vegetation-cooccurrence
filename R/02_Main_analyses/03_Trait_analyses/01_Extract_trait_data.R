@@ -40,7 +40,7 @@ source(
 )
 
 path_output <-
-  here::here("Data/Processed")
+  here::here("Data/Processed/Traits")
 
 base::dir.create(
   path = path_output,
