@@ -148,9 +148,9 @@ cli::cli_inform(
 #   each qs_save() call, freeing memory before the next iteration.
 purrr::walk(
   .x = base::seq_len(base::nrow(data_continental_rows)),
-  .f = \(continental_row_index) {
+  .f = ~ {
     data_row <-
-      data_continental_rows[continental_row_index, ]
+      data_continental_rows[.x, ]
 
     vec_scale_id <-
       data_row |>
@@ -171,7 +171,7 @@ purrr::walk(
     cli::cli_inform(
       c(
         "i" = base::paste0(
-          "[", continental_row_index, "/",
+          "[", .x, "/",
           base::nrow(data_continental_rows), "] ",
           "Starting extraction for '", vec_scale_id, "'."
         ),
@@ -192,7 +192,6 @@ purrr::walk(
         " " = "This may take 15-60 min per continent."
       )
     )
-
 
     #--------------------------------------------------#
     ## 3.1. Extract from VegVault -----
