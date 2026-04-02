@@ -1,5 +1,16 @@
 ﻿# Git Workflow Instructions
 
+## CRITICAL: Never Commit Without Asking
+
+**Never run `git commit` (or any equivalent operation that creates a commit) without first asking the user for confirmation.** This applies to:
+
+- `git commit`
+- `git merge --squash` followed by `git commit`
+- `mcp_gitkraken_git_add_or_commit` or any MCP/tool-based commit operation
+- Amending commits (`git commit --amend`)
+
+Always show the user what would be committed (staged files, proposed commit message) and wait for explicit approval before proceeding.
+
 ## Branch Strategy
 
 This project uses `main` as the stable integration branch. All feature branches and worktrees **must** branch off `main`.

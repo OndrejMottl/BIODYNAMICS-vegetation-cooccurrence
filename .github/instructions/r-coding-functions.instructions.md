@@ -31,13 +31,19 @@ See the TDD workflow in the project's `copilot-instructions.md` for the full ste
 
 In various instances, it might be better to not create a new function but to use an anonymous function (e.g. inside of `purrr::map_*()`).
 
-Use tilde (`~`) for anonymous functions in purrr:
+Use tilde (`~`) for anonymous functions in purrr. **Never use the backslash lambda syntax (`\(x) { ... }`) inside purrr calls** — always use `~` with `.x`, `.y`, or `..1`/`..2`/etc:
 
 ```r
+# Good
 purrr::map(
   .f = ~ {
     mean(.x)
   }
+)
+
+# NEVER — backslash lambda is forbidden inside purrr calls
+purrr::map(
+  .f = \(x) mean(x)  # wrong
 )
 ```
 
