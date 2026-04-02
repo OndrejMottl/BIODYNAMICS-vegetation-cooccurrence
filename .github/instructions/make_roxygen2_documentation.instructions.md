@@ -1,4 +1,4 @@
----
+﻿---
 applyTo: "**/R/Functions/"
 description: This file contains instructions for using the `roxygen2` package in R to generate documentation from comments in the code.
 ---
@@ -7,16 +7,16 @@ description: This file contains instructions for using the `roxygen2` package in
 
 ## The goal
 
-The goal is to make make sure all functions in the project are documented using the `roxygen2` package. Each function is stored in a separate script. All such scripts are stored within [R/Functions/](../R/Functions/) folder. There are several subfolders, but the documentation should be created for all functions recursively.
+The goal is to make sure all functions in the project are documented using the `roxygen2` package. Each function is stored in a separate script. All such scripts are stored within [R/Functions/](../R/Functions/) folder. There are several subfolders, but the documentation should be created for all functions recursively.
 
 **IMPORTANT:** All code and documentation must follow the project's R coding conventions defined in `.github/instructions/r-coding.instructions.md`, including:
-- 80 character line limit for all **R code lines** (including `#'` roxygen2 comment lines inside `.R` files — but **not** for markdown prose in `.md` or `.qmd` files)
+- 80 character line limit for all **R code lines** (including `#'` roxygen2 comment lines inside `.R` files  -  but **not** for markdown prose in `.md` or `.qmd` files)
 - Function naming conventions (verbs, snake_case)
 - Proper spacing and formatting
 
 ## The process
 
-1. Make a list of all functions in the project - check the [R/Functions/](../R/Functions/) folder **recursively** for all R scripts that contain function declarations.
+1. Make a list of all functions in the project  -  check the [R/Functions/](../R/Functions/) folder **recursively** for all R scripts that contain function declarations.
 2. Check if each function has documentation
 3. If a function does not have documentation, create it following the template below
 
@@ -43,3 +43,4 @@ The roxygen2 documentation should be placed before the function declaration but 
 #' @seealso Related functions or references
 #' @export
 ```
+

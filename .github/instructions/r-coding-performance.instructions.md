@@ -1,4 +1,4 @@
----
+﻿---
 applyTo: "**/*.R"
 description: >
   Performance guidelines for R code: profiling before optimising,
@@ -9,9 +9,7 @@ description: >
 
 ## Profile Before Optimising
 
-Never attempt to optimise code without first measuring where time is actually
-spent. Use `profvis` for interactive profiling and `bench::mark()` for
-benchmarking alternatives:
+Never attempt to optimise code without first measuring where time is actually spent. Use `profvis` for interactive profiling and `bench::mark()` for benchmarking alternatives:
 
 ```r
 # Identify bottlenecks
@@ -53,6 +51,5 @@ list_result <- purrr::map(
 
 ## Parallel Processing
 
-Use parallel processing only for CPU-intensive, independent operations where
-the computation cost clearly exceeds the parallelisation overhead. Avoid
-parallelising fast or memory-intensive operations.
+Use parallel processing only for CPU-intensive, independent operations where the computation cost clearly exceeds the parallelisation overhead. Avoid parallelising fast or memory-intensive operations.
+

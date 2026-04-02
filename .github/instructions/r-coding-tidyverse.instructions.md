@@ -1,4 +1,4 @@
----
+﻿---
 applyTo: "**/*.R"
 description: >
   Tidyverse usage guidelines: preferred functions over base R, modern dplyr
@@ -25,17 +25,14 @@ Use tidyverse functions over base R equivalents:
 | `grepl("p", x)` | `stringr::str_detect(x, "p")` |
 | `gsub("a", "b", x)` | `stringr::str_replace_all(x, "a", "b")` |
 
-**Never use `$` for element access.** Use `dplyr::pull()` to extract a column
-from a data frame and `purrr::chuck()` to extract an element from a list.
-These are explicit, pipe-friendly, and raise a clear error when the element
-is missing.
+**Never use `$` for element access.** Use `dplyr::pull()` to extract a column from a data frame and `purrr::chuck()` to extract an element from a list. These are explicit, pipe-friendly, and raise a clear error when the element is missing.
 
 ```r
-# Good — data frame column
+# Good  -  data frame column
 data_diversity |>
   dplyr::pull(species_richness)
 
-# Good — list element
+# Good  -  list element
 list_params |>
   purrr::chuck("n_iter")
 
@@ -44,16 +41,11 @@ data_diversity$species_richness
 list_params$n_iter
 ```
 
-**Never use the `apply` family** (`apply()`, `lapply()`, `sapply()`,
-`vapply()`, `mapply()`, `tapply()`). Use `purrr::map*()` equivalents
-instead — they are type-stable, pipe-friendly, and consistent with the
-rest of the tidyverse. This rule applies to all iteration and
-functional-programming patterns, not just data-frame operations.
+**Never use the `apply` family** (`apply()`, `lapply()`, `sapply()`, `vapply()`, `mapply()`, `tapply()`). Use `purrr::map*()` equivalents instead  -  they are type-stable, pipe-friendly, and consistent with the rest of the tidyverse. This rule applies to all iteration and functional-programming patterns, not just data-frame operations.
 
 ## Namespace
 
-Always use the full package namespace with a function call. This helps to
-track the source of a function in a script:
+Always use the full package namespace with a function call. This helps to track the source of a function in a script:
 
 ```r
 data_diversity |>
@@ -90,9 +82,7 @@ dplyr::inner_join(x, y, by = dplyr::join_by(id), unmatched = "error")
 
 ### Grouping
 
-Use `dplyr::group_by()` for grouping operations. Always pair it with
-`dplyr::ungroup()` after the grouped computation to avoid unexpected behaviour
-in downstream steps:
+Use `dplyr::group_by()` for grouping operations. Always pair it with `dplyr::ungroup()` after the grouped computation to avoid unexpected behaviour in downstream steps:
 
 ```r
 data_diversity |>
@@ -113,8 +103,7 @@ data_diversity |>
 
 ## Modern purrr Patterns
 
-Use `map() |> list_rbind()` instead of the superseded `map_dfr()`
-(purrr 1.0+):
+Use `map() |> list_rbind()` instead of the superseded `map_dfr()` (purrr 1.0+):
 
 ```r
 # Good
@@ -127,8 +116,7 @@ list_results |>
   purrr::map_dfr(~ fit_model(.x))
 ```
 
-Use `walk()` and `walk2()` for side effects (file writing, plotting) instead
-of `map()` or `for` loops when the return value is not needed:
+Use `walk()` and `walk2()` for side effects (file writing, plotting) instead of `map()` or `for` loops when the return value is not needed:
 
 ```r
 # Good
@@ -141,36 +129,31 @@ purrr::walk2(
 
 ### Piping the input vector into `purrr::map()`
 
-Prefer piping the input vector directly into `purrr::map()` over using the
-`.x` argument. This keeps the iteration subject at the top of the pipe chain
-and reads more naturally:
+Prefer piping the input vector directly into `purrr::map()` over using the `.x` argument. This keeps the iteration subject at the top of the pipe chain and reads more naturally:
 
 ```r
-# Good — input is the subject of the pipe
+# Good  -  input is the subject of the pipe
 vec_ids |>
   rlang::set_names() |>
   purrr::map(
     .f = ~ compute(.x)
   )
 
-# Avoid — .x = buries the input inside the call
+# Avoid  -  .x = buries the input inside the call
 purrr::map(
   .x = vec_ids,
   .f = ~ compute(.x)
 )
 ```
 
-Use `rlang::set_names()` (no argument) before `purrr::map()` to propagate
-vector names to the output list.
+Use `rlang::set_names()` (no argument) before `purrr::map()` to propagate vector names to the output list.
 
 ### Nested `purrr::map()` and `.x` disambiguation
 
-When `purrr::map()` calls are nested, both lambdas share the `.x` pronoun,
-causing ambiguity. Resolve this by binding the outer `.x` to a named
-variable at the top of the outer function body:
+When `purrr::map()` calls are nested, both lambdas share the `.x` pronoun, causing ambiguity. Resolve this by binding the outer `.x` to a named variable at the top of the outer function body:
 
 ```r
-# Good — outer .x is captured as a named variable
+# Good  -  outer .x is captured as a named variable
 vec_ages |>
   rlang::set_names() |>
   purrr::map(
@@ -185,7 +168,7 @@ vec_ages |>
     }
   )
 
-# Avoid — inner .x silently shadows outer .x
+# Avoid  -  inner .x silently shadows outer .x
 purrr::map(
   .x = vec_ages,
   .f = function(age_i) {
@@ -199,14 +182,11 @@ purrr::map(
 
 ## Data Masking
 
-When writing functions that pass column names to tidyverse data-masking
-functions (`dplyr::filter()`, `dplyr::mutate()`, `dplyr::summarise()`, etc.),
-use the correct forwarding mechanism to avoid ambiguity and masking bugs.
+When writing functions that pass column names to tidyverse data-masking functions (`dplyr::filter()`, `dplyr::mutate()`, `dplyr::summarise()`, etc.), use the correct forwarding mechanism to avoid ambiguity and masking bugs.
 
 ### Forwarding function arguments with `{{ }}`
 
-Use the embrace operator `{{ }}` to forward a function argument into a
-data-masking context:
+Use the embrace operator `{{ }}` to forward a function argument into a data-masking context:
 
 ```r
 # Good
@@ -222,8 +202,7 @@ calculate_group_mean <- function(data, group_var, value_var) {
 
 ### Accessing columns by name string with `.data[[]]`
 
-When a column name is provided as a character string (e.g. in a loop), use
-`.data[[var]]` instead of `!!sym(var)` for clarity and safety:
+When a column name is provided as a character string (e.g. in a loop), use `.data[[var]]` instead of `!!sym(var)` for clarity and safety:
 
 ```r
 # Good - character vector column access
@@ -261,3 +240,4 @@ eval(parse(text = paste("mean(", var, ")")))
 # Avoid - get() causes name collisions in data masks
 with(data, mean(get(var)))
 ```
+

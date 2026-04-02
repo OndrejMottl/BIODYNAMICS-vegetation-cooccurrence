@@ -1,4 +1,4 @@
----
+﻿---
 applyTo: '**/R/Functions/', '**/R/03_Supplementary_analyses/testthat' 
 ---
 
@@ -10,8 +10,7 @@ You are an expert R developer and testthat user tasked with writing comprehensiv
 
 **IMPORTANT:** All code must follow the project's R coding conventions defined in `.github/instructions/r-coding.instructions.md`. This includes:
 
-- Object naming conventions (snake_case with type prefixes: `data_*`, `vec_*`,
-  `list_*`, `mod_*`)
+- Object naming conventions (snake_case with type prefixes: `data_*`, `vec_*`, `list_*`, `mod_*`)
 - Syntax rules (spaces, new lines, assignment with `<-`)
 - Function namespace usage (`package::function()`)
 - Line width limit (80 characters per line of **R code**)
@@ -19,20 +18,13 @@ You are an expert R developer and testthat user tasked with writing comprehensiv
 
 ### Most-commonly violated rules in test files
 
-These rules are frequently missed — treat them as a checklist before finishing
-any test file:
+These rules are frequently missed  -  treat them as a checklist before finishing any test file:
 
-**1. 80-character line limit applies to all R code**, including `test_that()`
-description strings. If a description string would exceed 80 characters,
-shorten it (do **not** break the string with `paste0()` unless truly
-unavoidable). Count the leading spaces + quotes + text + `",` — all of it
-counts.
+**1. 80-character line limit applies to all R code**, including `test_that()` description strings. If a description string would exceed 80 characters, shorten it (do **not** break the string with `paste0()` unless truly unavoidable). Count the leading spaces + quotes + text + `",`  -  all of it counts.
 
-> **Note:** This limit applies to R source code only. Markdown prose in
-> `.md` files is NOT subject to the 80-character limit.
+> **Note:** This limit applies to R source code only. Markdown prose in `.md` files is NOT subject to the 80-character limit.
 
-**2. Never use `$` to access data frame columns.** The project standards
-explicitly ban `df$column`. Use `dplyr::pull(df, column)` instead:
+**2. Never use `$` to access data frame columns.** The project standards explicitly ban `df$column`. Use `dplyr::pull(df, column)` instead:
 
 ```r
 # Wrong
@@ -42,19 +34,17 @@ res$abiotic_variable_name
 dplyr::pull(res, abiotic_variable_name)
 ```
 
-**3. Newline after `<-` when the RHS is a function call.** Every assignment
-where the right-hand side is a function call must be split across two lines
-(newline + 2-space indent after `<-`):
+**3. Newline after `<-` when the RHS is a function call.** Every assignment where the right-hand side is a function call must be split across two lines (newline + 2-space indent after `<-`):
 
 ```r
-# Wrong — function call on the same line as <-
+# Wrong  -  function call on the same line as <-
 data_coords <- tibble::tibble(x = 1, y = 2)
 res <- my_function(arg = value)
 out <- purrr::pluck(list_obj, "key")
 mat <- base::matrix(c(0, 1), nrow = 1)
 list_params <- base::list(a = 1, b = 2)
 
-# Correct — newline + 2-space indent after <-
+# Correct  -  newline + 2-space indent after <-
 data_coords <-
   tibble::tibble(x = 1, y = 2)
 
@@ -71,8 +61,7 @@ list_params <-
   base::list(a = 1, b = 2)
 ```
 
-The **only** assignments that may stay on one line are scalar literals and
-`NULL`:
+The **only** assignments that may stay on one line are scalar literals and `NULL`:
 
 ```r
 vec_center <- 50.0   # OK: numeric literal
@@ -81,31 +70,25 @@ flag <- NULL         # OK: NULL
 count <- 3L          # OK: integer literal
 ```
 
-This rule applies to **every variable** inside `test_that()` blocks —
-`data_*`, `res`, `vec_*`, `list_*`, `mat_*`, and any intermediate result.
-Treat this as a hard requirement: scan every `<-` in your output before
-submitting.
+This rule applies to **every variable** inside `test_that()` blocks  -  `data_*`, `res`, `vec_*`, `list_*`, `mat_*`, and any intermediate result. Treat this as a hard requirement: scan every `<-` in your output before submitting.
 
-**4. Always use fully-qualified namespaces**, even for base R and testthat
-functions. This is required by the project standard ("Always use the full
-package namespace with a function call").
+**4. Always use fully-qualified namespaces**, even for base R and testthat functions. This is required by the project standard ("Always use the full package namespace with a function call").
 
-All `testthat` assertion and block functions must be prefixed with
-`testthat::`:
+All `testthat` assertion and block functions must be prefixed with `testthat::`:
 
 | Bare call | Namespaced form |
 |-----------|-----------------|
-| `test_that(…)` | `testthat::test_that(…)` |
-| `expect_error(…)` | `testthat::expect_error(…)` |
-| `expect_equal(…)` | `testthat::expect_equal(…)` |
-| `expect_true(…)` | `testthat::expect_true(…)` |
-| `expect_false(…)` | `testthat::expect_false(…)` |
-| `expect_named(…)` | `testthat::expect_named(…)` |
-| `expect_length(…)` | `testthat::expect_length(…)` |
-| `expect_warning(…)` | `testthat::expect_warning(…)` |
-| `expect_message(…)` | `testthat::expect_message(…)` |
-| `expect_s3_class(…)` | `testthat::expect_s3_class(…)` |
-| `expect_type(…)` | `testthat::expect_type(…)` |
+| `test_that(...)` | `testthat::test_that(...)` |
+| `expect_error(...)` | `testthat::expect_error(...)` |
+| `expect_equal(...)` | `testthat::expect_equal(...)` |
+| `expect_true(...)` | `testthat::expect_true(...)` |
+| `expect_false(...)` | `testthat::expect_false(...)` |
+| `expect_named(...)` | `testthat::expect_named(...)` |
+| `expect_length(...)` | `testthat::expect_length(...)` |
+| `expect_warning(...)` | `testthat::expect_warning(...)` |
+| `expect_message(...)` | `testthat::expect_message(...)` |
+| `expect_s3_class(...)` | `testthat::expect_s3_class(...)` |
+| `expect_type(...)` | `testthat::expect_type(...)` |
 
 Common base R calls that must also be namespaced in test files include:
 
@@ -127,7 +110,7 @@ Common base R calls that must also be namespaced in test files include:
 | `structure(x, ...)` | `base::structure(x, ...)` |
 | `class(x) <- y` | `base::class(x) <- y` |
 | `character(n)` | `base::character(n)` |
-| `sd(x)` | `stats::sd(x)` — **NOT** `base::sd()` (sd lives in `stats`) |
+| `sd(x)` | `stats::sd(x)`  -  **NOT** `base::sd()` (sd lives in `stats`) |
 | `rep(x, n)` | `base::rep(x, n)` |
 
 ## Objective
@@ -140,11 +123,11 @@ Write a COMPLETE testthat test file for a single R function. You will receive on
 
 1. **Identify all functions** in `R/Functions/` (recursively search all subdirectories for function declarations)
 2. **Check for existing tests** in `R/03_Supplementary_analyses/testthat` directory
-3. **Create missing test files** named as `test-function_name.R` (e.g., `get_data()` → `test-get_data.R`)
+3. **Create missing test files** named as `test-function_name.R` (e.g., `get_data()` â†’ `test-get_data.R`)
 
 **File structure:**
 
-- **No script header** — test files must NOT start with the project-level script header block (the `#--...#` banner). Start the file directly with the first `test_that()` block or a section header.
+- **No script header**  -  test files must NOT start with the project-level script header block (the `#--...#` banner). Start the file directly with the first `test_that()` block or a section header.
 - Assume the function is already available (do NOT redefine or source it)
 - Use multiple `test_that()` blocks grouped logically
 - Name tests descriptively: `"function_name() validates input types"`, `"function_name() handles NA values"`
@@ -224,8 +207,7 @@ Test that the function does what its name and comments promise:
 - Compute expected results manually using base R within the test
 - Compare with `expect_equal()` (exact) or `expect_equal(..., tolerance = 1e-8)` (floating-point)
 
-**Behavioral invariants:**
-If the name suggests properties, test them directly:
+**Behavioral invariants:** If the name suggests properties, test them directly:
 
 - **Sorted:** `expect_true(!is.unsorted(result))`
 - **Unique:** `expect_equal(length(unique(result)), length(result))`
@@ -271,7 +253,7 @@ If the name suggests properties, test them directly:
 
 For functions intended for larger data:
 
-- Include at least one test with moderately large input (1000–10000 rows)
+- Include at least one test with moderately large input (1000-10000 rows)
 - Verify:
   - Function runs without error
   - Basic structural expectations hold
@@ -324,7 +306,7 @@ If function uses non-standard evaluation (NSE) or tidyverse programming (`{{ }}`
 
 ## TDD Context: Tests Are Written Before Implementation
 
-This project follows **Test-Driven Development (TDD)**. Test files are created from the function **spec stub** (roxygen2 documentation + empty body) — not from a finished implementation.
+This project follows **Test-Driven Development (TDD)**. Test files are created from the function **spec stub** (roxygen2 documentation + empty body)  -  not from a finished implementation.
 
 **Your tests must describe the intended behaviour, not match existing code.**
 
@@ -335,7 +317,7 @@ The function file will contain only:
 - The roxygen2 documentation header
 - A stub body such as `return(NULL)` or `stop("not implemented")`
 
-When the test file you produce is run against this stub, **every test must fail**. If a test passes against an unimplemented stub, it is not guarding any real behaviour — revise it.
+When the test file you produce is run against this stub, **every test must fail**. If a test passes against an unimplemented stub, it is not guarding any real behaviour  -  revise it.
 
 ### After the implementation is complete
 
@@ -345,8 +327,7 @@ Once the function body is fully written, the same test file is re-run. At that p
 
 ## After Editing a Test File
 
-**Step 1 — Verify tests FAIL against the stub.**
-After creating or modifying a test file for an unimplemented (or not yet changed) function, run the test file immediately to confirm that every test fails. Functions are not auto-loaded — source the project setup first:
+**Step 1  -  Verify tests FAIL against the stub.** After creating or modifying a test file for an unimplemented (or not yet changed) function, run the test file immediately to confirm that every test fails. Functions are not auto-loaded  -  source the project setup first:
 
 ```r
 library(here)
@@ -362,20 +343,19 @@ testthat::test_file(
 )
 ```
 
-A test that passes at this stage is not testing real behaviour — revise it.
+A test that passes at this stage is not testing real behaviour  -  revise it.
 
-**Step 2 — Verify tests PASS after the implementation is complete.**
-Once the function body has been written and all individual tests pass, run the **full test suite** to verify nothing else broke:
+**Step 2  -  Verify tests PASS after the implementation is complete.** Once the function body has been written and all individual tests pass, run the **full test suite** to verify nothing else broke:
 
 ```powershell
 Rscript R/03_Supplementary_analyses/Run_tests.R
 ```
 
-Do not consider the task complete until the full test suite produces **no failures and no errors**. Warnings are acceptable only if they are expected and intentional.
-If any test fails after an edit, fix the test (or the function) before finishing.
+Do not consider the task complete until the full test suite produces **no failures and no errors**. Warnings are acceptable only if they are expected and intentional. If any test fails after an edit, fix the test (or the function) before finishing.
 
 ---
 
 ## Final Instruction
 
 Based on the function definition provided, write the COMPLETE testthat test file following all guidelines above.
+
