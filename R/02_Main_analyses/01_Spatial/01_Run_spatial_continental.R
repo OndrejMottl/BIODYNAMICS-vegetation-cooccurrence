@@ -39,11 +39,9 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_spatial_continental")
 #----------------------------------------------------------#
 
 vec_scale_ids <-
-  readr::read_csv(
-    here::here("Data/Input/spatial_grid.csv"),
-    show_col_types = FALSE
+  load_continental_rows(
+    path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
   ) |>
-  dplyr::filter(scale == "continental") |>
   dplyr::pull(scale_id)
 
 
