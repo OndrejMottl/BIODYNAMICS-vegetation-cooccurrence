@@ -19,8 +19,8 @@
 #   community taxa.
 #
 # Targets in execution order:
-#   1. data_traits_aggregated – median per taxon_genus × trait domain
-#   2. data_trait_table – wide genus × traits matrix
+#   1. data_traits_aggregated – median per taxon_resolved × trait domain
+#   2. data_trait_table – wide resolved-taxon × traits matrix
 
 
 #----------------------------------------------------------#
@@ -61,28 +61,29 @@ pipe_segment_trait_table <-
         aggregate_trait_values(
           data = data_traits_classified_corrected,
           trait_col = "trait_value",
-          group_cols = base::c("taxon_genus", "trait_domain_name"),
+          group_cols = base::c("taxon_resolved", "trait_domain_name"),
           fn = "median"
         )
       }
     ),
 
-    # ── 2. Pivot to wide genus × traits matrix ──────────
-    # Each row = one taxon (genus or coarser rank), each column =
-    # one trait domain. The taxon_name column is ready for direct
+    # ── 2. Pivot to wide resolved-taxon × traits matrix ─
+    # Each row = one taxon at the finest resolved rank (species
+    # preferred, genus or coarser as fallback). Each column = one
+    # trait domain. The taxon_name column is ready for direct
     # joining with community classified taxa from any project pipeline.
     targets::tar_target(
-      description = "Build wide genus × traits matrix",
+      description = "Build wide resolved-taxon × traits matrix",
       name = data_trait_table,
       command = {
         make_trait_table(
           data = data_traits_aggregated,
-          taxon_col = "taxon_genus",
+          taxon_col = "taxon_resolved",
           trait_col = "trait_domain_name",
           value_col = "trait_value_aggregated"
         ) |>
           dplyr::rename(
-            taxon_name = "taxon_genus"
+            taxon_name = "taxon_resolved"
           )
       }
     )

@@ -13,12 +13,12 @@
 # Pipe segment that generates a second QC pass on the
 #   classified trait data, now grouped by resolved taxon
 #   genus. This catches within-genus inconsistencies that
-#   pre-classification QC cannot detect (taxon_genus only
+#   pre-classification QC cannot detect (taxon_resolved only
 #   exists after the classification join).
 #
 # The existing QC functions (generate_trait_qc_report,
 #   validate_trait_corrections, apply_trait_corrections)
-#   are reused: taxon_genus is temporarily renamed to
+#   are reused: taxon_resolved is temporarily renamed to
 #   taxon_name before each call and renamed back afterwards.
 #
 # Targets in execution order:
@@ -37,7 +37,7 @@
 #        requires human sign-off
 #   4. data_traits_classified_corrected
 #        corrections applied to classified trait data;
-#        taxon_genus column preserved
+#        taxon_resolved column preserved
 
 # HUMAN REVIEW REQUIRED BETWEEN TARGETS 2 AND 3:
 #   After running targets 1-2, open
@@ -81,15 +81,15 @@ pipe_segment_trait_qc_classified <-
     #     (per-domain×genus summary)
     #   • creates Data/Input/trait_manual_corrections_classified.csv
     #     (header only) if the file does not already exist
-    # taxon_genus is renamed to taxon_name before the call because
+    # taxon_resolved is renamed to taxon_name before the call because
     # generate_trait_qc_report expects a taxon_name column.
     targets::tar_target(
-      description = "Generate post-classification QC report by taxon genus",
+      description = "Generate post-classification QC report by resolved taxon",
       name = trait_qc_report_classified,
       command = generate_trait_qc_report(
         data_traits = dplyr::rename(
           data_traits_classified,
-          taxon_name = "taxon_genus"
+          taxon_name = "taxon_resolved"
         ),
         path_corrections = here::here(
           "Data/Input/trait_manual_corrections_classified.csv"
@@ -118,7 +118,7 @@ pipe_segment_trait_qc_classified <-
     #   2. Filled in Data/Input/trait_manual_corrections_classified.csv
     #   3. Set CHECKED = TRUE for every row
     targets::tar_target(
-      description = "GUARD: validate all classified correction rows are signed off",
+      description = "GUARD: validate all classified corrections signed off",
       name = trait_corrections_classified_validated,
       command = validate_trait_corrections(
         path_corrections = path_trait_corrections_classified
@@ -126,21 +126,22 @@ pipe_segment_trait_qc_classified <-
     ),
 
     # ── 4. Apply corrections ────────────────────────────
-    # taxon_genus is renamed to taxon_name before apply_trait_corrections
-    # (which expects that column name) and renamed back afterwards so
-    # downstream targets receive the consistent taxon_genus column.
+    # taxon_resolved is renamed to taxon_name before
+    # apply_trait_corrections (which expects that column name) and
+    # renamed back afterwards so downstream targets receive the
+    # consistent taxon_resolved column.
     targets::tar_target(
-      description = "Apply genus-level corrections to classified trait data",
+      description = "Apply resolved-taxon corrections to classified data",
       name = data_traits_classified_corrected,
       command = {
         apply_trait_corrections(
           data_traits = dplyr::rename(
             data_traits_classified,
-            taxon_name = "taxon_genus"
+            taxon_name = "taxon_resolved"
           ),
           data_corrections = trait_corrections_classified_validated
         ) |>
-          dplyr::rename(taxon_genus = "taxon_name")
+          dplyr::rename(taxon_resolved = "taxon_name")
       }
     )
   )

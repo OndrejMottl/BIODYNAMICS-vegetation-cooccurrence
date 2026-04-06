@@ -12,10 +12,13 @@
 #----------------------------------------------------------#
 # Pipe segment that classifies every unique trait taxon via the
 #   taxospace API and resolves each to its finest available
-#   taxonomic rank (genus preferred). No project-specific
-#   community taxa filtering is applied — the trait table is
-#   a project-agnostic resource; projects join against it
-#   downstream as needed.
+#   taxonomic rank (species preferred, genus as fallback). An
+#   auxiliary classification CSV
+#   (Data/Input/aux_classification_table_traits.csv) allows
+#   manual overrides for taxa that the taxospace service cannot
+#   classify. If any taxa remain unclassified after combining
+#   automatic and auxiliary results, a guard target aborts the
+#   pipeline so the user can fill in the missing entries.
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -78,28 +81,94 @@ pipe_segment_trait_classification <-
       )
     ),
 
-    # ── 4. Resolve to finest rank per taxon ─────────────
-    # Species rank is excluded: trait taxa may be species-level
-    # but the table is aggregated to genus level downstream.
-    # No filtering against any project's community taxa — all
-    # classified trait taxa are retained.
+    # ── 4. Track auxiliary classification CSV ───────────
+    # format = "file" causes {targets} to detect file changes so
+    # that downstream targets become outdated when a human edits
+    # the CSV and adds manual classifications.
     targets::tar_target(
-      description = "Resolve each trait taxon to its finest taxonomic rank",
-      name = data_classification_to_genus,
-      command = resolve_classification_to_finest_rank(
-        data_classification_table = data_classification_table_traits
+      description = "Track trait auxiliary classification CSV",
+      name = file_aux_classification_table_traits,
+      command = here::here(
+        "Data/Input/aux_classification_table_traits.csv"
+      ),
+      format = "file"
+    ),
+
+    # ── 5. Load auxiliary classification table ──────────
+    targets::tar_target(
+      description = "Load trait auxiliary classification table",
+      name = data_aux_classification_table_traits,
+      command = get_aux_classification_table(
+        file_path = file_aux_classification_table_traits
       )
     ),
 
-    # ── 5. Join resolved genus back to trait records ────
+    # ── 6. Combine auto + auxiliary classifications ──────
     targets::tar_target(
-      description = "Join classification to corrected trait records",
+      description = "Combine automatic and auxiliary trait classifications",
+      name = data_combined_classification_table_traits,
+      command = combine_classification_tables(
+        data_classification_table = data_classification_table_traits,
+        data_aux_classification_table =
+          data_aux_classification_table_traits
+      )
+    ),
+
+    # ── 7. Detect unclassified taxa ──────────────────────
+    targets::tar_target(
+      description = "Find trait taxa without any classification",
+      name = vec_trait_taxa_without_classification,
+      command = get_taxa_without_classification(
+        vec_community_taxa = vec_unique_trait_taxa,
+        data_classification_table =
+          data_combined_classification_table_traits
+      )
+    ),
+
+    # ── 8. GUARD: abort if any taxa unclassified ─────────
+    # Aborts with an informative error when any trait taxon has no
+    # classification entry. Add the missing taxa to
+    # Data/Input/aux_classification_table_traits.csv, then re-run
+    # tar_make() to pass this guard.
+    targets::tar_target(
+      description = "Check all trait taxa are classified; error if not",
+      name = check_trait_taxa_classification,
+      command = {
+        base::force(vec_trait_taxa_without_classification)
+        check_and_report_missing_taxa(
+          vec_taxa_without_classification =
+            vec_trait_taxa_without_classification
+        )
+      }
+    ),
+
+    # ── 9. Resolve to finest rank per taxon ─────────────
+    # Species is the finest rank: a species-level taxon resolves
+    # to its full species name. No filtering against any project's
+    # community taxa — all classified trait taxa are retained.
+    targets::tar_target(
+      description = "Resolve each trait taxon to finest taxonomic rank",
+      name = data_resolution_to_finest,
+      command = {
+        base::force(check_trait_taxa_classification)
+        resolve_classification_to_finest_rank(
+          data_classification_table =
+            data_combined_classification_table_traits,
+          column_name_taxon = "taxon_resolved"
+        )
+      }
+    ),
+
+    # ── 10. Join resolved taxon back to trait records ────
+    targets::tar_target(
+      description = "Join resolved taxon name to corrected trait records",
       name = data_traits_classified,
       command = data_traits_corrected |>
         dplyr::inner_join(
-          y = data_classification_to_genus,
+          y = data_resolution_to_finest,
           by = dplyr::join_by("taxon_name" == "sel_name"),
           multiple = "all",
+          unmatched = "error",
           relationship = "many-to-many"
         )
     )
