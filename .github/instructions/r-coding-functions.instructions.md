@@ -106,6 +106,54 @@ if (base::sum(mat_binary) == 0L) {
 
 Use `cli::cli_warn()` and `cli::cli_inform()` for warnings and messages respectively.
 
+## Verbose Argument for Console Output
+
+Any function that prints to the console (via `cli::cli_inform()` or
+`cli::cli_warn()`) **must** accept a `verbose` argument (default `TRUE`) and
+guard every print call with it. Only `cli::cli_abort()` (errors) should fire
+unconditionally — errors are never silenced.
+
+```r
+# Good
+my_function <- function(x, verbose = TRUE) {
+  # ... work ...
+  if (
+    isTRUE(verbose)
+  ) {
+    cli::cli_inform(
+      c(
+        "v" = "Processing complete."
+      )
+    )
+  }
+  return(res)
+}
+
+# NEVER — unconditional informational printing in a function
+my_function <- function(x) {
+  cli::cli_inform("Processing complete.")  # wrong: no verbose guard
+  return(res)
+}
+```
+
+- Document `verbose` in the roxygen2 block:
+
+```r
+#' @param verbose 
+#' Logical. If `TRUE` (default), progress messages are printed to
+#' the console via `cli`.
+```
+
+- When calling a helper that also accepts `verbose`, forward the argument:
+
+```r
+result <-
+  helper_function(
+    data = data_input,
+    verbose = verbose
+  )
+```
+
 ## Function Documentation
 
 Each function should have documentation at the beginning of the function using the [roxygen2](https://roxygen2.r-lib.org/) package. This can be useful also for project-specific functions (not just within the package) as it is easier to transition to a custom package.

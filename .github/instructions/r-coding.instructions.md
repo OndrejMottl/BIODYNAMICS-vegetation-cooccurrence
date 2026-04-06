@@ -179,6 +179,29 @@ It is possible to start a function with a `"."` (e.g., `.get_round_value()`) to 
 
 `snake_style` is preferred for column names in both `data.frames` and `tibbles`. Note that the [janitor](https://sfirke.github.io/janitor/) package can be used to edit this automatically.
 
+#### Quantile / Interval Columns
+
+Quantile summary columns must use `lwr` (lower) and `upr` (upper) as base names, optionally suffixed with the **interval coverage** as an integer:
+
+- `lwr` / `upr` — when no specific interval is implied
+- `lwr_<N>` / `upr_<N>` — where `N` is the interval coverage percentage
+
+The 95 % interval uses the two-tailed 2.5th and 97.5th percentiles:
+
+```r
+lwr_95 = stats::quantile(x, probs = 0.025, na.rm = TRUE),
+upr_95 = stats::quantile(x, probs = 0.975, na.rm = TRUE)
+```
+
+The 90 % interval uses the 5th and 95th percentiles:
+
+```r
+lwr_90 = stats::quantile(x, probs = 0.05, na.rm = TRUE),
+upr_90 = stats::quantile(x, probs = 0.95, na.rm = TRUE)
+```
+
+**Never** use `p5`, `p95`, `p025`, `p975`, `q05`, `q95` or similar non-standard names.
+
 ## Syntax
 
 Many of the syntax issues can be checked/fixed by [lintr](https://lintr.r-lib.org/) and [styler](https://styler.r-lib.org/index.html) packages, which can be used to automate lots of the tedious aspects.
@@ -269,6 +292,8 @@ Use the **magrittr pipe `%>%`** when the native pipe cannot be used cleanly:
 
 #### 3. After a Function Argument
 
+> **Summary of rules 1–4**: prefer vertical code — newline after `<-` when RHS is a function call, after every pipe `|>`, after every function argument when there are two or more arguments, and inside every control-flow condition (see rule 5).
+
 This should be true for both function declaration and usage. The exception is a single argument.
 
 ```r
@@ -285,6 +310,43 @@ data_diversity <-
 
 vec_selected_regions <-
   get_regions(arg1 = foo)
+```
+
+#### 5. Inside `if()`, `for()`, and `while()` Conditions
+
+**Always** place the condition / iterator on its own indented line, and put the closing `) {` on its own line at the same indent level as the keyword. This rule applies even when the condition is short and would fit on one line — **never write `if (condition) {` on a single line.**
+
+```r
+# Good
+if (
+  logical_test
+) {
+  ...
+}
+
+if (
+  base::nrow(data_unmatched) > 0L
+) {
+  ...
+}
+
+for (
+  col_name in vec_col_names
+) {
+  ...
+}
+
+while (
+  condition
+) {
+  ...
+}
+
+# WRONG — never do this
+if (condition) { ... }
+if (base::nrow(x) > 0) { ... }
+for (i in seq_len(n)) { ... }
+while (condition) { ... }
 ```
 
 #### 4. Parentheses
@@ -353,33 +415,50 @@ try(
 )
 ```
 
-For `for()`, `if()`, and `while()` loops, the iterator or condition is placed on its own indented line, and the closing `) {` is on its own line at the same indent level as the keyword. **This applies even for short, single-condition tests  -  never write `if (condition) {` on a single line.**
+##### `{targets}` `tar_target()` — `command` argument
+
+When the `command` argument of `targets::tar_target()` is a **single function call**, write it directly — do **not** wrap it in `{ }`:
 
 ```r
 # Good
-for (
-  col_name in vec_col_names
-) {
-  ...
-}
+targets::tar_target(
+  name = data_traits_raw,
+  command = dplyr::bind_rows(data_traits_continent)
+)
 
-if (
-  logical_test
-) {
-  ...
-}
-
-while (
-  condition
-) {
-  ...
-}
-
-# Avoid
-for (i in seq_len(n)) { ... }
-if (flag) { ... }
-while (condition) { ... }
+# Bad — unnecessary braces around a single call
+targets::tar_target(
+  name = data_traits_raw,
+  command = {
+    dplyr::bind_rows(data_traits_continent)
+  }
+)
 ```
+
+If the logic is complex enough to need multiple statements and `{ }`,
+**extract it into a dedicated function** in `R/Functions/` and call that
+function from `command` instead:
+
+```r
+# Bad — inline multi-statement block
+targets::tar_target(
+  name = data_processed,
+  command = {
+    raw <- load_data(path)
+    clean_data(raw)
+  }
+)
+
+# Good — logic lives in a named function
+targets::tar_target(
+  name = data_processed,
+  command = load_and_clean_data(path = path_input)
+)
+```
+
+This keeps the pipeline readable and the logic testable.
+
+> See **New Lines § 5** below for the mandatory multi-line style for `if()`, `for()`, and `while()` conditions.
 
 ### Assignment
 
