@@ -153,7 +153,8 @@ pipe_segment_trait_classification <-
         data_missing_taxa = data_missing_trait_taxa_template,
         file_path = here::here(
           "Data/Input/missing_taxa_template.csv"
-        )
+        ),
+        data_classification_table = data_combined_classification_table_traits
       ),
       format = "file"
     ),

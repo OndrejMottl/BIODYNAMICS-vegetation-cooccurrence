@@ -389,3 +389,172 @@ testthat::test_that(
     })
   }
 )
+
+# ── new tests for data_classification_table parameter ───────────────────────
+
+testthat::test_that(
+  "append_missing_taxa_to_template() validates data_classification_table",
+  {
+    withr::with_tempdir({
+      path_tmp <-
+        base::file.path(base::getwd(), "missing_taxa.csv")
+
+      data_taxa <-
+        tibble::tibble(
+          sel_name = base::character(0),
+          kingdom = base::character(0),
+          phylum = base::character(0),
+          class = base::character(0),
+          order = base::character(0),
+          family = base::character(0),
+          genus = base::character(0),
+          species = base::character(0)
+        )
+
+      # Not NULL and not a data frame should error
+      testthat::expect_error(
+        append_missing_taxa_to_template(
+          data_missing_taxa = data_taxa,
+          file_path = path_tmp,
+          data_classification_table = "not a data frame"
+        )
+      )
+
+      # Data frame without sel_name should error
+      testthat::expect_error(
+        append_missing_taxa_to_template(
+          data_missing_taxa = data_taxa,
+          file_path = path_tmp,
+          data_classification_table = base::data.frame(x = 1)
+        )
+      )
+    })
+  }
+)
+
+testthat::test_that(
+  "append_missing_taxa_to_template() removes stale entries matching classification table",
+  {
+    withr::with_tempdir({
+      path_tmp <-
+        base::file.path(base::getwd(), "missing_taxa.csv")
+
+      # Write an existing template that contains two taxa
+      data_existing <-
+        tibble::tibble(
+          sel_name = base::c("Taxon A", "Taxon B"),
+          kingdom = NA_character_,
+          phylum = NA_character_,
+          class = NA_character_,
+          order = NA_character_,
+          family = NA_character_,
+          genus = NA_character_,
+          species = NA_character_
+        )
+
+      readr::write_csv(data_existing, path_tmp)
+
+      # "Taxon A" is now in the classification table (resolved)
+      data_class_table <-
+        tibble::tibble(
+          sel_name = "Taxon A",
+          kingdom = "Plantae",
+          phylum = NA_character_,
+          class = NA_character_,
+          order = NA_character_,
+          family = NA_character_,
+          genus = NA_character_,
+          species = NA_character_
+        )
+
+      # No new missing taxa
+      data_new <-
+        tibble::tibble(
+          sel_name = base::character(0),
+          kingdom = base::character(0),
+          phylum = base::character(0),
+          class = base::character(0),
+          order = base::character(0),
+          family = base::character(0),
+          genus = base::character(0),
+          species = base::character(0)
+        )
+
+      append_missing_taxa_to_template(
+        data_missing_taxa = data_new,
+        file_path = path_tmp,
+        data_classification_table = data_class_table
+      )
+
+      data_result <-
+        readr::read_csv(path_tmp, show_col_types = FALSE)
+
+      # Taxon A should be removed; Taxon B should remain
+      testthat::expect_equal(
+        base::nrow(data_result),
+        1L
+      )
+
+      testthat::expect_equal(
+        dplyr::pull(data_result, sel_name),
+        "Taxon B"
+      )
+    })
+  }
+)
+
+testthat::test_that(
+  "append_missing_taxa_to_template() NULL data_classification_table preserves behaviour",
+  {
+    withr::with_tempdir({
+      path_tmp <-
+        base::file.path(base::getwd(), "missing_taxa.csv")
+
+      data_existing <-
+        tibble::tibble(
+          sel_name = "Taxon A",
+          kingdom = NA_character_,
+          phylum = NA_character_,
+          class = NA_character_,
+          order = NA_character_,
+          family = NA_character_,
+          genus = NA_character_,
+          species = NA_character_
+        )
+
+      readr::write_csv(data_existing, path_tmp)
+
+      data_new <-
+        tibble::tibble(
+          sel_name = "Taxon B",
+          kingdom = NA_character_,
+          phylum = NA_character_,
+          class = NA_character_,
+          order = NA_character_,
+          family = NA_character_,
+          genus = NA_character_,
+          species = NA_character_
+        )
+
+      append_missing_taxa_to_template(
+        data_missing_taxa = data_new,
+        file_path = path_tmp,
+        data_classification_table = NULL
+      )
+
+      data_result <-
+        readr::read_csv(path_tmp, show_col_types = FALSE)
+
+      testthat::expect_equal(
+        base::nrow(data_result),
+        2L
+      )
+
+      vec_names <-
+        dplyr::pull(data_result, sel_name)
+
+      testthat::expect_true("Taxon A" %in% vec_names)
+      testthat::expect_true("Taxon B" %in% vec_names)
+    })
+  }
+)
