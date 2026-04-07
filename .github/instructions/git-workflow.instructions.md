@@ -1,15 +1,28 @@
 ﻿# Git Workflow Instructions
 
-## CRITICAL: Never Commit Without Asking
+## CRITICAL: The User Is in Full Control of Version Control
 
-**Never run `git commit` (or any equivalent operation that creates a commit) without first asking the user for confirmation.** This applies to:
+**Never perform any state-changing git operation without explicit user instruction.** The user must ask for it by name (e.g. "please commit", "push this", "merge the branch"). Do not infer intent — always wait for a direct request.
 
-- `git commit`
-- `git merge --squash` followed by `git commit`
-- `mcp_gitkraken_git_add_or_commit` or any MCP/tool-based commit operation
-- Amending commits (`git commit --amend`)
+Forbidden without explicit user instruction:
 
-Always show the user what would be committed (staged files, proposed commit message) and wait for explicit approval before proceeding.
+- `git commit` (any form, including `--amend`)
+- `git add` / staging files
+- `git push` (any remote write)
+- `git merge` / `git merge --squash`
+- `git rebase`
+- `git reset --hard` or `--mixed`
+- `git branch -d` / `git branch -D` (branch deletion)
+- `git worktree remove`
+- Creating pull requests via any tool or MCP call
+- Any MCP/tool-based equivalent: `mcp_gitkraken_git_add_or_commit`,
+  `mcp_gitkraken_git_push`, `mcp_gitkraken_pull_request_create`, etc.
+
+Safe read-only operations that are always permitted: `git status`, `git log`,
+`git diff`, `git branch` (list), `git worktree list`.
+
+When a workflow step calls for a commit or push (e.g. at the end of the TDD
+cycle), **stop and tell the user what command to run** — do not run it.
 
 ## Branch Strategy
 
