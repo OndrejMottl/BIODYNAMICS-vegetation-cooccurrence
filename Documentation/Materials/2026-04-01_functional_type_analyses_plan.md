@@ -8,21 +8,22 @@ Extend the existing spatial pipeline (continental/regional/local) to run at thre
 2. a human-in-the-loop QC workflow for unit errors in raw trait values,
 3. per-continent FT clustering,
 4. integrating FT as a new `taxonomic_resolution` option in the pipeline,
-5. a `tar_map()`-based unified spatial pipeline branching over spatial units × resolutions, and
+5. a `tar_map()`-based new pipeline for family and FT resolutions (genus results already exist and are preserved), validated first on a single project before spatial scale-up, and
 6. updated spatial runner scripts.
 
 ---
 
 ## Decisions
 
-- **Scope**: Spatial only — `project_spatial_continental`, `project_spatial_regional`, `project_spatial_local` (3 scales × 3 resolutions = 9 pipeline runs per spatial unit)
+- **Scope**: Spatial only — `project_spatial_continental`, `project_spatial_regional`, `project_spatial_local` (3 scales × 2 new resolutions = 6 new pipeline runs per spatial unit; genus results already computed in the current per-unit stores and are not recomputed)
 - **Temporal analyses excluded** from this plan
 - **All VegVault trait domains** are used (no pre-filtering by coverage)
 - **FT clustering**: Per continent — one FT classification per continental unit in `spatial_grid.csv`, reused for all regional/local units within it
 - **Taxa without traits**: Dropped from FT analysis
 - **k selection**: Data-driven — average silhouette width on hierarchical dendrogram cuts (k = 2..`k_max`)
-- **Pipeline branching**: `tar_map()` over `spatial_grid.csv` rows × `c("genus", "family", "functional_type")` inside `pipeline_basic.R` — no separate `config.yml` entries per resolution needed
-- **Cache tradeoff accepted**: Refactoring to unified `tar_map()` target names will invalidate the current saved spatial targets once; this is accepted in exchange for cleaner structure and easier full reruns before submission
+- **Pipeline branching**: `tar_map()` over `spatial_grid.csv` rows × `c("family", "functional_type")` only — genus is excluded because results already exist and recomputing them would duplicate `04_Analyse_spatial_patterns.R` output; no separate `config.yml` entries needed
+- **Genus results preserved**: Existing per-unit genus stores (`Data/targets/spatial_{scale}/{scale_id}/pipeline_basic/`) are not invalidated or touched; `04_Analyse_spatial_patterns.R` continues to read from them unchanged
+- **Validation-first**: A new `pipeline_test_resolution.R` (Phase E0) runs all three resolutions on `project_cz` first; Phase F3 (full spatial scale-up for family + FT) starts only after this testbed passes for all resolutions
 - **Human QC integration**: `tar_file()` + guard target (`trait_corrections_validated`) within `pipeline_traits.R`; pipeline stops automatically until corrections are marked `CHECKED = TRUE`
 - **Convergence parameters**: `spatial_grid.csv` extended with resolution-specific columns (`n_iter_family`, `n_iter_ft`, etc.); values start as copies of genus-tuned values and are updated after convergence testing per resolution
 
@@ -30,11 +31,54 @@ Extend the existing spatial pipeline (continental/regional/local) to run at thre
 
 ## Architecture
 
-### Two-pipeline structure
+### Two separate pipelines — different stores, file-based handoff
 
-**Layer 1 — `pipeline_traits.R`** (global, run once before spatial analyses): Extracts all trait domains for all continental extents → generates QC report → writes `trait_manual_corrections.csv` template if absent → tracks file hash as `tar_file()` → validates human sign-off via guard target → applies corrections → classifies taxa → builds per-continent trait tables → clusters FTs per continent. Outputs static `.qs` files in `Data/Processed/`, each tracked as a `tar_file()` input by the spatial pipeline.
+Layer 1 and Layers 2a/2b are **completely separate `{targets}` pipelines** with their own stores. They do not share targets. The only connection between them is a set of static `.qs` files written by Layer 1 to `Data/Processed/Traits/` and read by Layer 2 as `tar_file()` inputs.
 
-**Layer 2 — `pipeline_basic.R`** (unified spatial pipeline, branched via `tar_map()`): iterates over `spatial_grid.csv` rows × `c("genus", "family", "functional_type")`. Each combination produces its own named targets (e.g. `model_anova_eu_r001_genus`); {targets} caches and invalidates only what is out of date within the unified pipeline store for the active spatial config. This refactor replaces the current per-unit store layout and requires one full rebuild of saved spatial targets after implementation.
+```mermaid
+flowchart LR
+  subgraph L1["Layer 1 — pipeline_traits.R\nstore: Data/targets/traits/"]
+    S6["Segment 6\npipe_segment_trait_ft_clustering"]
+  end
+
+  QS["Data/Processed/Traits/\ndata_ft_classification_*_date.qs\n(static file)"]
+
+  subgraph L2a["Layer 2a — pipeline_test_resolution.R\nstore: Data/targets/project_cz/pipeline_test_resolution/"]
+    T2a["tar_file() input\n→ community resolution target"]
+  end
+
+  subgraph L2b["Layer 2b — spatial runner scripts\nstore: Data/targets/spatial_{scale}/{scale_id}/"]
+    T2b["tar_file() input\n→ community resolution target"]
+  end
+
+  S6 -- writes --> QS
+  QS -- hash tracked --> T2a
+  QS -- hash tracked --> T2b
+```
+
+**Consequence for "is Layer 1 up to date?"**
+
+Layer 2 does **not** know whether Layer 1's internal targets are current. It only sees the `.qs` file hash via `tar_file()`. This means:
+
+- If Layer 1 is stale (raw data changed, corrections file updated) but has NOT been re-run, Layer 2 will proceed with the old `.qs` file and will not warn.
+- If Layer 1 IS re-run and the `.qs` file changes (different FT assignments, updated date stamp), `tar_file()` detects the hash change and automatically invalidates all downstream Layer 2 targets that depend on it.
+
+**Required workflow**: Always run `targets::tar_make()` on `pipeline_traits.R` first, confirm it is fully up to date, then run Layer 2. This is enforced by documentation and the run order in `Run_trait_analyses.R`, not by {targets} itself.
+
+---
+
+**Layer 1 — `pipeline_traits.R`** (global, run once; store `Data/targets/traits/pipeline_traits`):
+
+- Segment 1: `pipe_segment_trait_extraction` — dynamic branch per continent → `data_traits_raw` ✅
+- Segment 2: `pipe_segment_trait_qc` — pre-classification QC, human guard on `trait_manual_corrections.csv` ✅
+- Segment 3: `pipe_segment_trait_classification` — taxospace, finest available rank → `data_traits_classified` ✅
+- Segment 4: `pipe_segment_trait_qc_classified` — post-classification QC, human guard on `trait_manual_corrections_classified.csv` ✅
+- Segment 5: `pipe_segment_trait_table` — aggregate to median, pivot wide → global `data_trait_table` ✅
+- Segment 6 _(to add — Phase D)_: `pipe_segment_trait_ft_clustering` — filter by `continent_id`, cluster FTs, write `Data/Processed/Traits/data_ft_classification_{continent_id}_{date}.qs`
+
+**Layer 2a — `pipeline_test_resolution.R`** (Phase E0 — new testbed; store `Data/targets/project_cz/pipeline_test_resolution`): Reads FT `.qs` via `tar_file()`. Runs `project_cz` with `tarchetypes::tar_map()` over all three resolutions. Genus branch is a regression check against `pipeline_basic.R` output. Must fully pass before Phase F3.
+
+**Layer 2b — spatial runner scripts** (Phase F3; each runner keeps its existing per-unit store): Read FT `.qs` via `tar_file()`. Embed `tar_map()` over `c("family", "functional_type")` only. Existing per-unit genus stores are untouched.
 
 ### Human-in-the-loop QC pattern (inside `pipeline_traits.R`)
 
@@ -65,7 +109,9 @@ On first `tar_make()`: pipeline stops at `trait_corrections_validated` with a `c
 
 ---
 
-## Phase A — Expand Trait Extraction (all traits, all continents)
+## Phase A — Expand Trait Extraction (all traits, all continents) ✅ DONE
+
+> **Status**: Completed. Closed by issue #58, implemented in PR #65. `pipe_segment_trait_extraction.R` dynamically discovers all VegVault trait domains and extracts per continental extent from `spatial_grid.csv`.
 
 ### A1 — Update `01_Extract_trait_data.R` to query all trait domains
 
@@ -84,7 +130,9 @@ On first `tar_make()`: pipeline stops at `trait_corrections_validated` with a `c
 
 ---
 
-## Phase B — Manual Trait QC Workflow
+## Phase B — Manual Trait QC Workflow ✅ DONE
+
+> **Status**: Completed. Closed by issue #59, implemented in PR #66 (active). `pipe_segment_trait_qc.R` and `pipe_segment_trait_qc_classified.R` implement both pre- and post-classification QC passes with human guard targets (`trait_corrections_validated`, `trait_corrections_classified_validated`).
 
 ### B1 — Create `R/Functions/Traits/generate_trait_qc_report.R`
 
@@ -152,11 +200,13 @@ On first `tar_make()`: pipeline stops at `trait_corrections_validated` with a `c
 - If already generic (uses `pivot_wider(names_from = trait_domain_name)`), confirm and add a test; if hardcoded, generalise
 - **Touches**: `R/Functions/Traits/make_trait_table.R` (and its test file)
 
-### C2 — Update `03_Build_trait_table.R` to output per-continent tables
+### C2 — Architecture change: single global trait table ✅ DONE (architecture revised)
 
-- Build one trait table per continental spatial unit (from `spatial_grid.csv`)
-- Saves `data_trait_table_{continent_id}_{date}.qs` per continent to `Data/Processed/`
-- **Touches**: `R/02_Main_analyses/03_Trait_analyses/03_Build_trait_table.R`
+> **Status**: The per-continent files approach was superseded. `pipe_segment_trait_table.R` (Segment 5 of `pipeline_traits.R`) produces one global `data_trait_table` — a wide resolved-taxon × traits matrix covering all continents and closed by PR #66 with the architecture change.
+
+- C1 (generalise `make_trait_table.R` for N domains) is implemented in `pipe_segment_trait_table.R`
+- **No per-continent `.qs` files** — FT clustering (Phase D, Segment 6) filters the global table internally by `continent_id`
+- `03_Build_trait_table.R` is replaced by `pipe_segment_trait_table.R`
 
 ---
 
@@ -174,21 +224,58 @@ On first `tar_make()`: pipeline stops at `trait_corrections_validated` with a `c
 - **New file**: `R/Functions/Traits/cluster_functional_types.R`
 - **Test file**: `R/03_Supplementary_analyses/testthat/test-cluster_functional_types.R`
 
-### D2 — Create `05_Cluster_functional_types.R` analysis script
+### D2 — Add FT clustering as Segment 6 of `pipeline_traits.R`
 
-- Sources setup
-- Iterates over continental spatial units from `spatial_grid.csv`
-- For each: loads `data_trait_table_{continent_id}_{date}.qs`, calls `cluster_functional_types()`
-- Saves `data_ft_classification_{continent_id}_{date}.qs` to `Data/Processed/`
+- Segment 6 is added to the existing `pipeline_traits.R` (not a standalone analysis script)
+- Iterates over continental spatial units from `spatial_grid.csv`; for each, filters the global `data_trait_table` on `continent_id`, calls `cluster_functional_types()`
+- Saves `Data/Processed/Traits/data_ft_classification_{continent_id}_{date}.qs` as a static file; downstream spatial pipelines consume it via `tar_file()` input
 - Prints k chosen and silhouette summary per continent
-- **New file**: `R/02_Main_analyses/03_Trait_analyses/05_Cluster_functional_types.R`
+- **Touches**: `R/02_Main_analyses/pipeline_traits.R` (add Segment 6)
+- **New file**: `R/02_Main_analyses/_pipes/pipe_segment_trait_ft_clustering.R`
 
-### D3 — Create `R/02_Main_analyses/03_Trait_analyses/pipeline_traits.R`
+### D3 — `pipeline_traits.R` — already exists (add Segment 6)
 
-- New {targets} pipeline file that assembles the full trait workflow as a dependency graph (see Architecture section above)
-- Includes all targets: A1/A2 (extraction), B (QC report + `tar_file()` tracking + guard + corrections), C (trait table per continent), D1/D2 (FT clustering per continent)
-- Target store: `Data/targets/traits/`
-- **New file**: `R/02_Main_analyses/03_Trait_analyses/pipeline_traits.R`
+- `R/02_Main_analyses/pipeline_traits.R` already exists with 5 segments (Phases A–C ✅)
+- Segment 6 (`pipe_segment_trait_ft_clustering.R`) is added once D1 is complete
+- Target store: `Data/targets/traits/pipeline_traits`
+- **Touches**: `R/02_Main_analyses/pipeline_traits.R`
+
+---
+
+---
+
+## Phase E0 — Resolution-Testing Mini Pipeline _(new — prerequisite to Phase F3)_
+
+Before embedding resolution branching into the full spatial scale, validate it end-to-end on a single named project (`project_cz`).
+
+### E0a — Create `pipe_segment_community_resolution.R`
+
+- **New pipe segment** sitting **downstream** of the existing `pipe_segment_community_data.R` — that segment is unchanged
+- `pipe_segment_community_data.R` continues to resolve community taxa to finest available rank and produce `data_community_classified` as it does today
+- The new segment receives `data_community_classified` and collapses it to a target taxonomic resolution via an explicit `tax_res` parameter passed by `tarchetypes::tar_map()`
+- Routing:
+  - `"genus"` / `"family"` → `classify_taxonomic_resolution(data_community_classified, tax_res)`
+  - `"functional_type"` → `classify_to_functional_type(data_community_classified, data_ft_classification)` where `data_ft_classification` is loaded via `tar_file()` pointing to `Data/Processed/Traits/data_ft_classification_{continent_id}_{date}.qs`
+- Output target: `data_community_resolved` — same long-format shape as `data_community_classified`; taxon column replaced by the resolution-level label (e.g. `"FT_3"`)
+- **New file**: `R/02_Main_analyses/_pipes/pipe_segment_community_resolution.R`
+
+### E0b — Create `pipeline_test_resolution.R`
+
+- Small standalone testbed pipeline for validating all three resolutions on `project_cz`
+- Sets `R_CONFIG_ACTIVE = "project_cz"` (or reads from environment)
+- Sources `pipe_segment_community_data.R` once (shared; no branching on this segment)
+- `tarchetypes::tar_map()` over `tax_res = c("genus", "family", "functional_type")`:
+  - `pipe_segment_community_resolution.R` → `data_community_resolved_{tax_res}`
+  - downstream segments (fit_data_prep → model_prep → model_simple → model_anova) → `model_anova_{tax_res}`
+- Target store: `Data/targets/project_cz/pipeline_test_resolution/`
+- **New file**: `R/02_Main_analyses/pipeline_test_resolution.R`
+
+### F0 — Validation gate (prerequisite to Phase F3)
+
+1. Run `pipeline_test_resolution.R` with `tax_res = "genus"` first. `model_anova_genus` output must match the existing `pipeline_basic.R` result for `project_cz`. If it does not match, fix `pipe_segment_community_resolution.R` before proceeding.
+2. Run for `tax_res = "family"` and `"functional_type"`. All targets complete without error.
+3. Full test suite (`Rscript R/03_Supplementary_analyses/Run_tests.R`) passes.
+4. **Only after all three steps pass**: proceed to Phase F3.
 
 ---
 
@@ -223,13 +310,12 @@ The existing `classify_taxonomic_resolution()` uses a standard taxonomic table (
 
 Previously planned to infer the continental `scale_id` from bounding box values in the active config. With `tar_map()`, `continent_id` is passed directly as an explicit parameter in the branching values table. No inference from config is needed and this function is not required.
 
-### E5 — Update `pipe_segment_community_data.R` to support FT resolution via `tar_map()`
+### E5 — `pipe_segment_community_data.R` — NO CHANGES
 
-- `taxonomic_resolution` (`tax_res`) is now an explicit `tar_map()` parameter, not read from config inside the segment
-- `continent_id` is also passed directly from the `tar_map()` values table, not inferred from config bounds
-- If `tax_res == "functional_type"`: load the pre-computed FT classification from `pipeline_traits.R` output as a `tar_file()` input (pointing to `Data/Processed/data_ft_classification_{continent_id}_{date}.qs`), then call `classify_to_functional_type()`
-- If `tax_res %in% c("genus", "family")`: use the existing `classify_taxonomic_resolution()` path unchanged
-- **Touches**: `R/02_Main_analyses/_pipes/pipe_segment_community_data.R`
+The existing segment resolves community taxa to finest available rank (`data_community_classified`) and is not modified. Resolution branching is handled entirely by the new `pipe_segment_community_resolution.R` (Phase E0a), which sits downstream of this segment.
+
+- `pipe_segment_community_data.R` remains unchanged
+- Resolution routing (genus / family / FT) lives in `pipe_segment_community_resolution.R`
 
 ---
 
@@ -247,14 +333,16 @@ The `inherits:`-based config entries (`project_spatial_continental_family`, `pro
 - The pipeline reads the appropriate columns based on `tax_res`
 - **Touches**: `Data/Input/spatial_grid.csv`
 
-### F3 — Refactor spatial pipeline and runner scripts to use `tar_map()`
+### F3 — Extend spatial runner scripts to use `tar_map()` for family and FT only
 
-- Refactor `pipeline_basic.R` to use `tarchetypes::tar_map()` over `spatial_grid.csv` rows × `c("genus", "family", "functional_type")`, producing named targets per combination (e.g. `model_anova_eu_r001_genus`, `model_anova_eu_r001_ft`)
-- The current per-unit target-store layout is replaced by the standard unified `{targets}` store for `pipeline_basic.R` under each active spatial config
-- Existing saved spatial target objects will need one full rebuild after the refactor because target names and store layout change
-- Existing runner scripts (`01_Run_spatial_continental.R`, etc.) become thin wrappers that set the active spatial scale and call `tar_make()` — their interface is unchanged
-- **Touches**: `R/02_Main_analyses/pipeline_basic.R`
+**Prerequisite**: Phase F0 (E0 validation) must pass before this phase starts.
+
+- Genus results in existing per-unit stores (`Data/targets/spatial_{scale}/{scale_id}/pipeline_basic/`) are **preserved and not recomputed** — recomputing them would duplicate the validated results already read by `04_Analyse_spatial_patterns.R`
+- `tar_map()` is added over `c("family", "functional_type")` only, producing named targets per unit × resolution (e.g. `model_anova_eu_r001_family`, `model_anova_eu_r001_ft`)
+- Spatial runner scripts continue to iterate over `scale_ids` from `spatial_grid.csv`; within each unit, the new `tar_map()` runs the family and FT pipelines alongside the untouched genus store
+- The resolution branching lives in `pipe_segment_community_resolution.R` (Phase E0a) — `pipeline_basic.R` itself is not structurally changed for the genus path
 - **Touches**: `R/02_Main_analyses/01_Spatial/01_Run_spatial_continental.R`, `02_Run_spatial_regional.R`, `03_Run_spatial_local.R`
+- **Does NOT change**: existing genus target stores or `04_Analyse_spatial_patterns.R`
 
 ---
 
@@ -262,8 +350,9 @@ The `inherits:`-based config entries (`project_spatial_continental_family`, `pro
 
 ### G1 — Script: combine results across resolutions
 
-- Load ANOVA targets from all config × unit combinations
-- Combine into a long tibble with a `taxonomic_resolution` column
+- Reads **genus** ANOVA results from the existing per-unit stores using the same pattern as `04_Analyse_spatial_patterns.R` (`Data/targets/spatial_{scale}/{scale_id}/pipeline_basic/`, target name `model_anova`)
+- Reads **family and FT** ANOVA results from the new `tar_map()` stores produced in Phase F3 (target names `model_anova_{scale_id}_family`, `model_anova_{scale_id}_ft`)
+- Combines all three into a long tibble with a `taxonomic_resolution` column (`"genus"` | `"family"` | `"functional_type"`)
 - Save to `Outputs/Data/`
 - **New file**: `R/02_Main_analyses/01_Spatial/07_Compare_resolutions.R`
 
@@ -278,144 +367,65 @@ The `inherits:`-based config entries (`project_spatial_continental_family`, `pro
 
 | File | Change |
 |------|--------|
-| `R/02_Main_analyses/03_Trait_analyses/01_Extract_trait_data.R` | expand trait domains + all continental extents |
-| `R/02_Main_analyses/03_Trait_analyses/02_Classify_and_align_taxa.R` | apply corrections before classification |
-| `R/02_Main_analyses/03_Trait_analyses/03_Build_trait_table.R` | per-continent output |
-| `R/02_Main_analyses/03_Trait_analyses/Run_trait_analyses.R` | invoke `pipeline_traits.R` via `tar_make()` |
-| `R/02_Main_analyses/03_Trait_analyses/pipeline_traits.R` | **new** — global trait pipeline |
-| `R/02_Main_analyses/_pipes/pipe_segment_community_data.R` | FT resolution + `tar_map()` pathway |
-| `R/02_Main_analyses/pipeline_basic.R` | refactor to unified `tar_map()` over scale_id × tax_res; replaces current per-unit store layout |
+| `R/02_Main_analyses/pipeline_traits.R` | exists with 5 segments ✅; add Segment 6 (Phase D) |
+| `R/02_Main_analyses/_pipes/pipe_segment_trait_ft_clustering.R` | **new** — Segment 6, Phase D |
+| `R/02_Main_analyses/pipeline_test_resolution.R` | **new** — Phase E0 testbed |
+| `R/02_Main_analyses/_pipes/pipe_segment_community_resolution.R` | **new** — Phase E0a; resolution routing downstream of community data segment |
+| `R/02_Main_analyses/_pipes/pipe_segment_community_data.R` | **NO CHANGES** |
+| `R/02_Main_analyses/pipeline_basic.R` | **NO CHANGES** to structure; genus path untouched |
+| `R/02_Main_analyses/01_Spatial/01_Run_spatial_continental.R` | add `tar_map()` over family + FT (Phase F3) |
+| `R/02_Main_analyses/01_Spatial/02_Run_spatial_regional.R` | add `tar_map()` over family + FT (Phase F3) |
+| `R/02_Main_analyses/01_Spatial/03_Run_spatial_local.R` | add `tar_map()` over family + FT (Phase F3) |
+| `R/02_Main_analyses/01_Spatial/07_Compare_resolutions.R` | **new** — Phase G1 |
+| `R/02_Main_analyses/01_Spatial/08_Plot_resolution_comparison.R` | **new** — Phase G2 |
+| `Data/Input/spatial_grid.csv` | extend with resolution-specific fitting parameter columns (Phase F2) |
+| `Data/Input/trait_manual_corrections.csv` | exists ✅; CSV with `CHECKED` column |
+| `R/Functions/Traits/generate_trait_qc_report.R` | exists ✅ |
+| `R/Functions/Traits/apply_trait_corrections.R` | exists ✅ |
+| `R/Functions/Traits/validate_trait_corrections.R` | exists ✅ — pipeline guard |
+| `R/Functions/Traits/make_trait_table.R` | exists ✅; generalised for N domains |
+| `R/Functions/Traits/cluster_functional_types.R` | **new** — Phase D1 |
+| `R/Functions/Traits/get_functional_type_classification.R` | **new** — Phase E1 |
+| `R/Functions/Community/classify_to_functional_type.R` | **new** — Phase E3 |
 | `config.yml` | unchanged |
-| `Data/Input/trait_manual_corrections.csv` | **new** — human-editable corrections template with `CHECKED` column |
-| `Data/Input/spatial_grid.csv` | extend with resolution-specific fitting parameter columns |
-| `R/Functions/Traits/generate_trait_qc_report.R` | **new** |
-| `R/Functions/Traits/apply_trait_corrections.R` | **new** |
-| `R/Functions/Traits/validate_trait_corrections.R` | **new** — pipeline guard |
-| `R/Functions/Traits/make_trait_table.R` | generalise for N domains |
-| `R/Functions/Traits/cluster_functional_types.R` | **new** |
-| `R/Functions/Traits/get_functional_type_classification.R` | **new** |
-| `R/Functions/Community/classify_to_functional_type.R` | **new** |
 
 ---
 
-## Planned GH Issue Map
+## GitHub Issue Map — Current Status
 
-This table is a **proposed issue breakdown**, not a list of already-created GitHub issue numbers. Current repository issues use GitHub-assigned numbers independently of this plan.
-
-### Existing repo issue reuse candidates
-
-- **#20** `make a subroutine to assign functional types based on ML` — strongest overlap with D1, D2, E1, and E3; should likely be reused or retitled to match the current Gower + hierarchical clustering design
-- **#18** `make the pipe modular to be able to use one or several axes` — partial overlap with F3 (`pipeline_basic.R` refactor to unified `tar_map()`)
-- **#17** `Add 3 axis of the study` — broad umbrella overlap only; could be reused as a high-level parent issue, but it is too general to map directly to one plan row
-- **#21** `extract full taxonomy from automatic taxonomic classification` — related prior taxonomy work, but not a direct match for the new FT-specific pathway
-
-### Proposed parent / sub-issue hierarchy
-
-This is a **draft hierarchy only** for review in the document. Do **not** create these issues until explicitly confirmed.
-
-**Option 1 — recommended**: create a new parent issue for this feature, then reuse selected existing issues as sub-issues.
-
-- **Parent issue (new)**: `Functional-type spatial analyses`
-- **Sub-issue**: `Expand trait extraction to all VegVault domains and continental extents`
-  - Covers A1 and A2
-- **Sub-issue**: `Implement manual trait QC workflow in pipeline_traits.R`
-  - Covers B1 to B6
-- **Sub-issue**: `Build per-continent trait tables`
-  - Covers C1 and C2
-- **Sub-issue**: reuse **#20** after retitling to something like `Implement functional-type clustering and classification`
-  - Covers D1, D2, E1, and part of E3
-- **Sub-issue**: `Integrate functional types into community classification pipeline`
-  - Covers E2, E3, and E5
-- **Sub-issue**: reuse **#18** after retitling to something like `Refactor spatial pipeline to unified tar_map() workflow`
-  - Covers F3
-- **Sub-issue**: `Extend spatial_grid.csv with resolution-specific convergence parameters`
-  - Covers F2
-- **Sub-issue**: `Add cross-resolution comparison outputs`
-  - Covers G1 and G2
-
-**Option 2 — lower-overhead reuse**: keep **#17** as the broad parent issue and attach the same sub-issues beneath it. This avoids creating a new umbrella issue, but the title `Add 3 axis of the study` is less precise than the current plan scope.
-
-**Recommended mapping from plan phases to issue hierarchy**
-
-- **Parent**: entire FT spatial analysis feature
-- **Child 1**: Phase A
-- **Child 2**: Phase B
-- **Child 3**: Phase C
-- **Child 4**: Phases D + E1 using reused **#20**
-- **Child 5**: E2 + E3 + E5
-- **Child 6**: F2
-- **Child 7**: F3 using reused **#18**
-- **Child 8**: Phase G
-
-### Mermaid diagram — recommended hierarchy
-
-```mermaid
-flowchart TD
-  P[New parent issue<br/>Functional-type spatial analyses]
-
-  A[New sub-issue<br/>Expand trait extraction to all VegVault domains and continental extents<br/>Covers A1-A2]
-  B[New sub-issue<br/>Implement manual trait QC workflow in pipeline_traits.R<br/>Covers B1-B6]
-  C[New sub-issue<br/>Build per-continent trait tables<br/>Covers C1-C2]
-  D[Reuse and retitle #20<br/>Implement functional-type clustering and classification<br/>Covers D1-D2, E1, part of E3]
-  E[New sub-issue<br/>Integrate functional types into community classification pipeline<br/>Covers E2, E3, E5]
-  F2[New sub-issue<br/>Extend spatial_grid.csv with resolution-specific convergence parameters<br/>Covers F2]
-  F3[Reuse and retitle #18<br/>Refactor spatial pipeline to unified tar_map workflow<br/>Covers F3]
-  G[New sub-issue<br/>Add cross-resolution comparison outputs<br/>Covers G1-G2]
-
-  P --> A
-  P --> B
-  P --> C
-  P --> D
-  P --> E
-  P --> F2
-  P --> F3
-  P --> G
-```
-
-If the Markdown preview does not render Mermaid in your current setup, keep the text hierarchy above as the authoritative version.
-
-| # | Title | Phase | Depends on |
-|---|-------|-------|------------|
-| 0 | Extend `spatial_grid.csv`: resolution-specific fitting params | F2 | — |
-| 1 | Expand trait extraction: all trait domains | A1 | — |
-| 2 | Expand trait extraction: all continental extents | A2 | #1 |
-| 3 | New function: `generate_trait_qc_report()` | B1 | #1 |
-| 4 | `trait_qc_report` target in `pipeline_traits.R` | B2 | #3 |
-| 5 | Add `trait_manual_corrections.csv` template (with `CHECKED` column) | B3 | — |
-| 6 | New function: `apply_trait_corrections()` | B4 | #5 |
-| 7 | New function: `validate_trait_corrections()` (pipeline guard) | B4b | #5 |
-| 8 | Update `02_Classify_and_align_taxa.R` — apply corrections | B5 | #6 |
-| 9 | Update `Run_trait_analyses.R` — invoke `pipeline_traits.R` | B6 | #3 |
-| 10 | Generalise `make_trait_table.R` for N trait domains | C1 | — |
-| 11 | Update `03_Build_trait_table.R` — per-continent output | C2 | #10, #8 |
-| 12 | New function: `cluster_functional_types()` | D1 | — |
-| 13 | New script (target): FT clustering in `pipeline_traits.R` | D2 | #11, #12 |
-| 14 | Create `pipeline_traits.R` (global trait pipeline) | D3 | #1–#13 |
-| 15 | New function: `get_functional_type_classification()` | E1 | #14 |
-| 16 | New function: `classify_to_functional_type()` | E3 | #15 |
-| 17 | Update `pipe_segment_community_data.R` — FT + `tar_map()` | E5 | #16 |
-| 18 | Refactor `pipeline_basic.R` to unified `tar_map()` store | F3 | #0, #17 |
-| 19 | Script: combine results across resolutions | G1 | #18 |
-| 20 | Script: plot resolution comparison | G2 | #19 |
+| # | Parent | Phase | Short description | Status |
+|---|--------|-------|-------------------|--------|
+| [#17](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/17) | — | Umbrella | Add 3 axes of study (broad parent) | 🟢 open |
+| [#57](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/57) | #17 | Umbrella | Functional-type spatial analyses (FT-specific umbrella) | 🟢 open |
+| [#58](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/58) | #57 | A | Expand trait extraction to all VegVault domains and continental extents | ✅ closed (PR #65) |
+| [#59](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/59) | #57 | B | Manual trait QC workflow in `pipeline_traits.R` (guard + corrections) | 🟡 open — implemented in PR #66, closes on merge |
+| [#60](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/60) | #57 | C | Trait table (architecture revised: single global `data_trait_table`, not per-continent) | 🟡 open — implemented in PR #66, closes on merge |
+| [#20](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/20) | #57 | D | FT clustering as Segment 6 of `pipeline_traits.R`; filter global table by `continent_id` | 🟢 open |
+| [#61](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/61) | #57 | E0a + E3 | New `pipe_segment_community_resolution.R` downstream of community data segment; `classify_to_functional_type()` | 🟢 open |
+| [#67](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/67) | #57 | E0b | Resolution-testing mini pipeline (`pipeline_test_resolution.R`) + F0 validation gate on `project_cz` | 🟢 open |
+| [#62](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/62) | #57 | F2 | Extend `spatial_grid.csv` with resolution-specific convergence parameters | 🟢 open |
+| [#18](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/18) | #57 | F3 | Add `tar_map()` for family + FT to spatial runner scripts; genus stores untouched | 🟢 open |
+| [#63](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/63) | #57 | G | Cross-resolution comparison outputs (combine + plot ANOVA variance fractions) | 🟢 open |
+| [#21](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/21) | — | — | Extract full taxonomy (superseded by taxospace in `pipe_segment_trait_classification.R`) | ✅ closed (superseded) |
 
 ---
 
 ## Open Questions
 
-1. **Global vs per-continent extraction (#2)**: Extracting globally (no bounding box) is simpler but slower. Worth a quick test run to check VegVault timing before committing to the per-continent loop.
+1. **Global vs per-continent extraction**: Extracting globally (no bounding box) is simpler but slower. Worth a quick test run to check VegVault timing before committing to the per-continent loop.
 
 2. **Clustering algorithm — DECIDED**: Gower distance (`cluster::daisy(metric = "gower")`) + `stats::hclust(method = "ward.D2")`. Gower distance handles NA trait values natively (no taxon dropping for missing traits) and is scale-invariant, making it appropriate for mixed plant trait data. k selection via average silhouette width on dendrogram cuts.
 
-3. **Convergence testing sequence (#0 + #18)**: Resolution-specific fitting parameters in `spatial_grid.csv` cannot be finalised until at least one round of family and FT model runs has been attempted. Issue #0 adds the columns with genus defaults; they should be updated as part of working through #18 once initial runs reveal convergence problems. Because #18 changes target names and store layout, treat that first post-refactor run as the baseline rebuild.
+3. **Convergence testing sequence (F2 + F3)**: Resolution-specific fitting parameters in `spatial_grid.csv` cannot be finalised until at least one round of family and FT model runs has been attempted. The F2 columns are added with genus defaults; they should be updated as part of Phase F3 once initial runs reveal convergence problems.
 
 ---
 
 ## Verification Checklist
 
-- [ ] After #8: run `pipeline_traits.R` on a single continent — stops at `trait_corrections_validated` with a clear error message listing unchecked rows
-- [ ] After manually filling `trait_manual_corrections.csv` (all `CHECKED = TRUE`): `tar_make()` on `pipeline_traits.R` completes — QC report, corrections applied, trait table and FT classification saved to `Data/Processed/`
-- [ ] After #14: `data_ft_classification_{continent_id}_{date}.qs` exists for each continental unit; k chosen and silhouette scores printed
-- [ ] After #17: `tar_make()` on `pipeline_basic.R` with `tar_map()` for one unit × all 3 resolutions — `data_community_classified` uses `FT_n` labels for FT runs
+- [ ] After Phase D: `pipeline_traits.R` Segment 6 completes — `data_ft_classification_{continent_id}_{date}.qs` exists for each continental unit; k chosen and silhouette scores printed
+- [ ] After Phase E0a: `pipe_segment_community_resolution.R` routes correctly — community data is classified to genus/family/FT depending on `tax_res`
+- [ ] After Phase E0b: `pipeline_test_resolution.R` runs all 3 resolutions for `project_cz` without error
+- [ ] F0 gate: genus output from `pipeline_test_resolution.R` matches existing `pipeline_basic.R` output for `project_cz`
+- [ ] After Phase F3: family and FT `model_anova` targets generated for all spatial units; existing per-unit genus stores untouched; `04_Analyse_spatial_patterns.R` still reads genus results correctly
 - [ ] After any function work: `Rscript R/03_Supplementary_analyses/Run_tests.R` passes without error
-- [ ] After #18: run all-resolutions `tar_make()` for one continental unit — all 3 resolutions complete without error; confirm the new unified store is populated, then check convergence logs and update `spatial_grid.csv` params where needed
-- [ ] After #20: comparison plots render without error
+- [ ] After Phase G: comparison plots render without error
