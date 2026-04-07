@@ -81,10 +81,15 @@ pipe_segment_trait_qc <-
     # format = "file" causes {targets} to detect file changes (e.g.
     # when a human opens the CSV and adds/modifies rows). Downstream
     # targets automatically become outdated when the file is edited.
+    # trait_qc_report is referenced to ensure the file is created
+    # before this target attempts to track it.
     targets::tar_target(
       description = "Track trait manual corrections CSV for changes",
       name = path_trait_corrections,
-      command = here::here("Data/Input/trait_manual_corrections.csv"),
+      command = {
+        trait_qc_report
+        here::here("Data/Input/trait_manual_corrections.csv")
+      },
       format = "file"
     ),
 
