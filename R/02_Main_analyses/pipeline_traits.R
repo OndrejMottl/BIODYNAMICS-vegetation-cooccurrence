@@ -24,6 +24,8 @@
 #   Segment 3 — pipe_segment_trait_classification
 #     Classifies all trait taxa via taxospace and resolves each
 #     to its finest available taxonomic rank (genus preferred).
+#     Unresolved taxa are appended to missing_taxa_template.csv
+#     before the guard target stops the pipeline.
 #
 #   Segment 4 — pipe_segment_trait_qc_classified
 #     Generates a second QC pass on the classified data grouped by
@@ -35,6 +37,13 @@
 #     genus × traits matrix.
 #
 # HUMAN REVIEW REQUIRED (inside segments 2 and 4):
+#   Segment 3 — if trait classification stops, open:
+#     Data/Input/missing_taxa_template.csv
+#       <- review the unresolved trait taxa appended by the guard
+#     Data/Input/aux_classification_table.csv
+#       <- add manual classifications, then re-run tar_make()
+#       (same file used by the community pipeline — one edit covers both)
+#
 #   Segment 2 — after trait_qc_report completes, open:
 #     Data/Temp/trait_qc_report_{date}.csv      ← review suspected outliers
 #                                                   (per-domain x taxon summary)

@@ -12,13 +12,15 @@
 #----------------------------------------------------------#
 # Pipe segment that classifies every unique trait taxon via the
 #   taxospace API and resolves each to its finest available
-#   taxonomic rank (species preferred, genus as fallback). An
-#   auxiliary classification CSV
-#   (Data/Input/aux_classification_table_traits.csv) allows
-#   manual overrides for taxa that the taxospace service cannot
-#   classify. If any taxa remain unclassified after combining
-#   automatic and auxiliary results, a guard target aborts the
-#   pipeline so the user can fill in the missing entries.
+#   taxonomic rank (species preferred, genus as fallback). The
+#   shared auxiliary classification CSV
+#   (Data/Input/aux_classification_table.csv) allows manual
+#   overrides for taxa that the taxospace service cannot classify
+#   (same file used by the community pipeline). If any taxa remain
+#   unclassified after combining automatic and auxiliary results,
+#   they are appended to Data/Input/missing_taxa_template.csv and
+#   a guard target aborts the pipeline so the user can fill in the
+#   missing entries.
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -85,18 +87,20 @@ pipe_segment_trait_classification <-
     # format = "file" causes {targets} to detect file changes so
     # that downstream targets become outdated when a human edits
     # the CSV and adds manual classifications.
+    # The same shared file is used by the community pipeline, so
+    #   one manual edit covers both datasets.
     targets::tar_target(
-      description = "Track trait auxiliary classification CSV",
+      description = "Track shared auxiliary classification CSV",
       name = file_aux_classification_table_traits,
       command = here::here(
-        "Data/Input/aux_classification_table_traits.csv"
+        "Data/Input/aux_classification_table.csv"
       ),
       format = "file"
     ),
 
     # ── 5. Load auxiliary classification table ──────────
     targets::tar_target(
-      description = "Load trait auxiliary classification table",
+      description = "Load shared auxiliary classification table",
       name = data_aux_classification_table_traits,
       command = get_aux_classification_table(
         file_path = file_aux_classification_table_traits
@@ -125,24 +129,72 @@ pipe_segment_trait_classification <-
       )
     ),
 
-    # ── 8. GUARD: abort if any taxa unclassified ─────────
-    # Aborts with an informative error when any trait taxon has no
-    # classification entry. Add the missing taxa to
-    # Data/Input/aux_classification_table_traits.csv, then re-run
-    # tar_make() to pass this guard.
+    # ── 8. Build missing-taxa template tibble ────────────
     targets::tar_target(
-      description = "Check all trait taxa are classified; error if not",
+      description = "Build missing-trait-taxa template tibble",
+      name = data_missing_trait_taxa_template,
+      command = tibble::tibble(
+        sel_name = vec_trait_taxa_without_classification,
+        kingdom = NA_character_,
+        phylum = NA_character_,
+        class = NA_character_,
+        order = NA_character_,
+        family = NA_character_,
+        genus = NA_character_,
+        species = NA_character_
+      )
+    ),
+
+    # ── 9. Append missing taxa to shared CSV template ───
+    targets::tar_target(
+      description = "Append missing trait taxa to template CSV",
+      name = file_missing_trait_taxa_template,
+      command = append_missing_taxa_to_template(
+        data_missing_taxa = data_missing_trait_taxa_template,
+        file_path = here::here(
+          "Data/Input/missing_taxa_template.csv"
+        )
+      ),
+      format = "file"
+    ),
+
+    # ── 10. GUARD: abort if any taxa unclassified ────────
+    # Stops after appending unresolved trait taxa to
+    # Data/Input/missing_taxa_template.csv so the user can review
+    # them and add the needed manual classifications.
+    targets::tar_target(
+      description = "Check all trait taxa are classified; stop if not",
       name = check_trait_taxa_classification,
       command = {
-        base::force(vec_trait_taxa_without_classification)
-        check_and_report_missing_taxa(
-          vec_taxa_without_classification =
-            vec_trait_taxa_without_classification
+        base::force(file_missing_trait_taxa_template)
+
+        if (
+          base::length(vec_trait_taxa_without_classification) == 0
+        ) {
+          return(invisible(TRUE))
+        }
+
+        cli::cli_abort(
+          base::c(
+            base::paste(
+              base::length(vec_trait_taxa_without_classification),
+              "trait taxon/taxa could not be classified."
+            ),
+            "i" = base::paste(
+              "Missing taxa were appended to",
+              "{.path Data/Input/missing_taxa_template.csv}."
+            ),
+            "i" = base::paste(
+              "Add manual classifications to",
+              "{.path Data/Input/aux_classification_table.csv}",
+              "and re-run the pipeline."
+            )
+          )
         )
       }
     ),
 
-    # ── 9. Resolve to finest rank per taxon ─────────────
+    # ── 11. Resolve to finest rank per taxon ────────────
     # Species is the finest rank: a species-level taxon resolves
     # to its full species name. No filtering against any project's
     # community taxa — all classified trait taxa are retained.
@@ -159,7 +211,7 @@ pipe_segment_trait_classification <-
       }
     ),
 
-    # ── 10. Join resolved taxon back to trait records ────
+    # ── 12. Join resolved taxon back to trait records ───
     targets::tar_target(
       description = "Join resolved taxon name to corrected trait records",
       name = data_traits_classified,
