@@ -10,7 +10,7 @@
 #
 #----------------------------------------------------------#
 # Master runner for the full trait analysis {targets} pipeline.
-# A single tar_make() call runs all four segments in sequence:
+# A single run_pipeline() call runs all four segments in sequence:
 #
 #   Segment 1 — Extract raw trait data from VegVault per continent
 #               (slow, 15–60 min per continent; cached individually
@@ -20,13 +20,13 @@
 #   Segment 4 — Build project-agnostic genus × traits table
 #
 # HUMAN REVIEW STEP (inside segment 2 — pipeline stops automatically):
-#   Running tar_make() for the first time will complete segment 1 and
+#   Running run_pipeline() for the first time will complete segment 1 and
 #   the QC report target (segment 2, target 1), then STOP at the
 #   human-review guard.  At that point:
 #     1. Review  Data/Temp/trait_qc_report_{date}.csv
 #     2. Fill in Data/Input/trait_manual_corrections.csv
 #        (set CHECKED = TRUE for every row you have reviewed)
-#     3. Re-run tar_make() — the guard will now pass and the rest
+#     3. Re-run run_pipeline() — the guard will now pass and the rest
 #        of the pipeline will complete.
 #
 # RE-EXTRACTION:
@@ -36,7 +36,7 @@
 #
 #     targets::tar_invalidate("data_traits_continent")
 #
-#   Then re-run tar_make() below.
+#   Then re-run run_pipeline() below.
 
 
 #----------------------------------------------------------#
@@ -51,10 +51,16 @@ source(
 
 
 #----------------------------------------------------------#
-# 1. Run the full trait pipeline -----
+# 1. Set active configuration -----
 #----------------------------------------------------------#
 
-targets::tar_make(
-  script = here::here("R/02_Main_analyses/pipeline_traits.R"),
-  store = here::here("Data/targets/traits/pipeline_traits")
+Sys.setenv(R_CONFIG_ACTIVE = "traits")
+
+
+#----------------------------------------------------------#
+# 2. Run the full trait pipeline -----
+#----------------------------------------------------------#
+
+run_pipeline(
+  sel_script = "R/02_Main_analyses/pipeline_traits.R"
 )
