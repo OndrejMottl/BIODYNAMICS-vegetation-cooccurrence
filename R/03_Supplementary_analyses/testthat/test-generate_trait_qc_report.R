@@ -1,19 +1,127 @@
+call_generate_trait_qc_report <-
+  function(...) {
+    generate_trait_qc_report(
+      ...,
+      path_qc_report = base::tempfile(fileext = ".csv")
+    )
+  }
+
+
 testthat::test_that(
   "generate_trait_qc_report() errors on non-data-frame input",
   {
     testthat::expect_error(
-      generate_trait_qc_report(data_traits = "not a df")
+      call_generate_trait_qc_report(data_traits = "not a df")
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(data_traits = NULL)
+      call_generate_trait_qc_report(data_traits = NULL)
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = base::c(1, 2, 3)
       )
     )
+  }
+)
+
+
+testthat::test_that(
+  "generate_trait_qc_report() writes report to custom path_qc_report",
+  {
+    data_traits <-
+      tibble::tibble(
+        taxon_name = base::rep("Quercus", 12L),
+        trait_domain_name = base::rep("SLA", 12L),
+        trait_name = base::rep("LMA", 12L),
+        trait_value = base::seq(10, 21, by = 1)
+      )
+
+    path_temp_corrections <-
+      base::tempfile(fileext = ".csv")
+
+    path_temp_report <-
+      base::tempfile(fileext = ".csv")
+
+    generate_trait_qc_report(
+      data_traits = data_traits,
+      path_corrections = path_temp_corrections,
+      path_qc_report = path_temp_report
+    )
+
+    testthat::expect_true(
+      base::file.exists(path_temp_report)
+    )
+
+    data_report <-
+      readr::read_csv(
+        path_temp_report,
+        show_col_types = FALSE
+      )
+
+    testthat::expect_equal(
+      base::nrow(data_report),
+      1L
+    )
+
+    testthat::expect_true(
+      base::all(
+        base::c(
+          "trait_domain_name",
+          "taxon_name",
+          "n_records",
+          "n_suspected_outliers_taxon"
+        ) %in% base::colnames(data_report)
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  "generate_trait_qc_report() writes default date-stamped report",
+  {
+    data_traits <-
+      tibble::tibble(
+        taxon_name = base::rep("Quercus", 12L),
+        trait_domain_name = base::rep("SLA", 12L),
+        trait_name = base::rep("LMA", 12L),
+        trait_value = base::seq(10, 21, by = 1)
+      )
+
+    path_temp_corrections <-
+      base::tempfile(fileext = ".csv")
+
+    path_default_report <-
+      here::here(
+        "Data/Temp",
+        "trait_qc_report_2099-12-31.csv"
+      )
+
+    if (
+      base::file.exists(path_default_report)
+    ) {
+      base::unlink(path_default_report)
+    }
+
+    testthat::local_mocked_bindings(
+      Sys.Date = function() {
+        base::as.Date("2099-12-31")
+      },
+      .package = "base"
+    )
+
+    generate_trait_qc_report(
+      data_traits = data_traits,
+      path_corrections = path_temp_corrections
+    )
+
+    testthat::expect_true(
+      base::file.exists(path_default_report)
+    )
+
+    base::unlink(path_default_report)
   }
 )
 
@@ -25,7 +133,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = tibble::tibble(
           taxon_name = "A",
           trait_domain_name = "SLA",
@@ -37,7 +145,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = tibble::tibble(
           taxon_name = "A",
           trait_domain_name = "SLA",
@@ -49,7 +157,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = tibble::tibble(
           trait_domain_name = "SLA",
           trait_name = "LMA",
@@ -75,21 +183,21 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = 123L
       )
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = NULL
       )
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = base::c("a.csv", "b.csv")
       )
@@ -113,7 +221,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         outlier_iqr_multiplier = "three"
@@ -121,7 +229,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         outlier_iqr_multiplier = -1
@@ -129,7 +237,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         outlier_iqr_multiplier = 0
@@ -137,7 +245,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         outlier_iqr_multiplier = base::c(3, 5)
@@ -166,7 +274,7 @@ testthat::test_that(
 
     # strict: Borderline is flagged
     list_strict <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         outlier_iqr_multiplier = 3
@@ -179,7 +287,7 @@ testthat::test_that(
 
     # lenient: Borderline is NOT flagged
     list_lenient <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         outlier_iqr_multiplier = 20
@@ -208,7 +316,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp
       )
@@ -250,7 +358,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp
       )
@@ -281,7 +389,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp
       )
@@ -327,7 +435,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp
       )
@@ -369,7 +477,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp
       )
@@ -410,7 +518,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp
       )
@@ -451,7 +559,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp
       )
@@ -489,7 +597,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp
       )
@@ -520,7 +628,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp
       )
@@ -550,7 +658,7 @@ testthat::test_that(
     # File must not exist before the call
     testthat::expect_false(base::file.exists(path_temp))
 
-    generate_trait_qc_report(
+    call_generate_trait_qc_report(
       data_traits = data_traits,
       path_corrections = path_temp
     )
@@ -614,7 +722,7 @@ testthat::test_that(
       path_temp
     )
 
-    generate_trait_qc_report(
+    call_generate_trait_qc_report(
       data_traits = data_traits,
       path_corrections = path_temp
     )
@@ -651,7 +759,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp
       )
@@ -689,7 +797,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         outlier_iqr_multiplier_taxon = "one-and-a-half"
@@ -697,7 +805,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         outlier_iqr_multiplier_taxon = -1
@@ -705,7 +813,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         outlier_iqr_multiplier_taxon = 0
@@ -713,7 +821,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         outlier_iqr_multiplier_taxon = base::c(1.5, 2.0)
@@ -738,7 +846,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         min_records_per_taxon = "ten"
@@ -746,7 +854,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         min_records_per_taxon = 0
@@ -754,7 +862,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         min_records_per_taxon = base::c(5, 10)
@@ -786,7 +894,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         min_records_per_taxon = 10L
@@ -841,7 +949,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         min_records_per_taxon = 10L
@@ -887,7 +995,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         min_records_per_taxon = 10L
@@ -934,7 +1042,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         min_records_per_taxon = 10L,
@@ -971,7 +1079,7 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      generate_trait_qc_report(
+      call_generate_trait_qc_report(
         data_traits = data_traits,
         path_corrections = path_temp,
         min_records_per_taxon = 10L

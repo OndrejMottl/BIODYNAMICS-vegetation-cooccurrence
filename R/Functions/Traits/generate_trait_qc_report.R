@@ -14,6 +14,10 @@
 #' @param path_corrections
 #' Character scalar. Path to `trait_manual_corrections.csv`.
 #' Default: `here::here("Data/Input/trait_manual_corrections.csv")`.
+#' @param path_qc_report
+#' Character scalar or `NULL`. Optional path to the CSV QC report.
+#' If `NULL` (default), the function writes a date-stamped file to
+#' `Data/Temp/trait_qc_report_{YYYY-MM-DD}.csv`.
 #' @param outlier_iqr_multiplier
 #' Positive numeric scalar. A domain value is flagged as a suspected
 #' outlier when `|trait_value - median| > outlier_iqr_multiplier * IQR`,
@@ -63,20 +67,48 @@
 #' Two outlier detection levels are applied:
 #' \enumerate{
 #'   \item **Domain level** (`suspected_outlier_taxa_domain`): flags values
-#'     where `|trait_value - domain_median| > outlier_iqr_multiplier * domain_IQR`
+#'     where
+#'     `|trait_value - domain_median| > outlier_iqr_multiplier * domain_IQR`
 #'     (default 3, Tukey's extreme-outlier fence). Applied to all records.
 #'   \item **Taxon level** (`suspected_outlier_taxa_taxon`): flags values
-#'     where `|trait_value - taxon_median| > outlier_iqr_multiplier_taxon * taxon_IQR`
+#'     where
+#'     `|trait_value - taxon_median| > outlier_iqr_multiplier_taxon * taxon_IQR`
 #'     (default 1.5, standard Tukey whisker). Applied only when the taxon
 #'     has at least `min_records_per_taxon` records in the domain and when
 #'     `taxon_IQR > 0`. This stricter check catches within-taxon
 #'     inconsistencies that the cross-taxon check would miss.
 #' }
-#' The CSV report written to `Data/Temp/` has a date-stamped name
-#' `trait_qc_report_{YYYY-MM-DD}.csv` and contains the per-domain×taxon
-#' summary. The corrections template written when absent contains the
-#' columns: `taxon_name`, `trait_domain_name`, `action`, `scale_factor`,
-#' `notes`, `CHECKED`.
+#' The CSV report contains the per-domain×taxon summary. By default it is
+#' written to `Data/Temp/trait_qc_report_{YYYY-MM-DD}.csv`, but an
+#' explicit `path_qc_report` can be supplied when the caller needs an
+#' isolated output location. The corrections template written when absent
+#' contains the columns: `taxon_name`, `trait_domain_name`, `action`,
+#' `scale_factor`, `notes`, `CHECKED`.
+#' @examples
+#' data_traits <-
+#'   tibble::tibble(
+#'     taxon_name = base::rep("Quercus", 12L),
+#'     trait_domain_name = base::rep("SLA", 12L),
+#'     trait_name = base::rep("LMA", 12L),
+#'     trait_value = base::seq(10, 21, by = 1)
+#'   )
+#'
+#' path_corrections <-
+#'   base::tempfile(fileext = ".csv")
+#'
+#' path_qc_report <-
+#'   base::tempfile(fileext = ".csv")
+#'
+#' generate_trait_qc_report(
+#'   data_traits = data_traits,
+#'   path_corrections = path_corrections,
+#'   path_qc_report = path_qc_report
+#' )
+#'
+#' generate_trait_qc_report(
+#'   data_traits = data_traits,
+#'   path_corrections = path_corrections
+#' )
 #' @seealso [validate_trait_corrections()], [apply_trait_corrections()]
 #' @export
 generate_trait_qc_report <- function(
@@ -84,6 +116,7 @@ generate_trait_qc_report <- function(
     path_corrections = here::here(
       "Data/Input/trait_manual_corrections.csv"
     ),
+    path_qc_report = NULL,
     outlier_iqr_multiplier = 3,
     outlier_iqr_multiplier_taxon = 1.5,
     min_records_per_taxon = 10L) {
@@ -115,6 +148,20 @@ generate_trait_qc_report <- function(
     base::length(path_corrections) == 1L,
     msg = "path_corrections must be a scalar (length 1)."
   )
+
+  assertthat::assert_that(
+    base::is.null(path_qc_report) || base::is.character(path_qc_report),
+    msg = "path_qc_report must be NULL or a character string."
+  )
+
+  if (
+    !base::is.null(path_qc_report)
+  ) {
+    assertthat::assert_that(
+      base::length(path_qc_report) == 1L,
+      msg = "path_qc_report must be a scalar (length 1)."
+    )
+  }
 
   assertthat::assert_that(
     base::is.numeric(outlier_iqr_multiplier),
@@ -228,20 +275,37 @@ generate_trait_qc_report <- function(
   str_date <-
     base::format(base::Sys.Date(), "%Y-%m-%d")
 
-  path_temp_dir <-
-    here::here("Data/Temp")
-
   if (
-    !base::dir.exists(path_temp_dir)
+    base::is.null(path_qc_report)
   ) {
-    base::dir.create(path_temp_dir, showWarnings = FALSE, recursive = TRUE)
+    path_temp_dir <-
+      here::here("Data/Temp")
+
+    if (
+      !base::dir.exists(path_temp_dir)
+    ) {
+      base::dir.create(path_temp_dir, showWarnings = FALSE, recursive = TRUE)
+    }
+
+    path_qc_report <-
+      here::here(
+        "Data/Temp",
+        base::paste0("trait_qc_report_", str_date, ".csv")
+      )
   }
 
-  path_qc_report <-
-    here::here(
-      "Data/Temp",
-      base::paste0("trait_qc_report_", str_date, ".csv")
+  path_qc_report_dir <-
+    base::dirname(path_qc_report)
+
+  if (
+    !base::dir.exists(path_qc_report_dir)
+  ) {
+    base::dir.create(
+      path = path_qc_report_dir,
+      showWarnings = FALSE,
+      recursive = TRUE
     )
+  }
 
   readr::write_csv(data_summary_taxon, path_qc_report)
 
