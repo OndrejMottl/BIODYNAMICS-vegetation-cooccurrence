@@ -1,11 +1,11 @@
 #' @title Plot Raw Trait Value Distribution for One Taxon-Domain Group
 #' @description
 #' Builds a `ggplot2` strip + boxplot showing every raw trait value for
-#' a single `taxon_name × trait_domain_name` group, with colour-coded
+#' a single `taxon_name x trait_domain_name` group, with colour-coded
 #' Tukey fence flags and horizontal fence lines for both the standard
-#' (1.5× IQR) and extreme (3× IQR) thresholds.
+#' (1.5x IQR) and extreme (3x IQR) thresholds.
 #' @param data_group_raw
-#' A tibble of raw trait observations for one taxon × domain group.
+#' A tibble of raw trait observations for one taxon x domain group.
 #' Must contain columns `trait_value` (numeric), `trait_name`
 #' (character), and `trait_domain_name` (character).
 #' @param data_group_summary
@@ -32,8 +32,8 @@
 #' @details
 #' The function computes Q1, Q3, and IQR from `data_group_raw` and
 #' derives four fence values:
-#' - inner lower / upper: Q1 − 1.5 × IQR and Q3 + 1.5 × IQR
-#' - outer lower / upper: Q1 − 3 × IQR and Q3 + 3 × IQR
+#' - inner lower / upper: Q1 - 1.5 * IQR and Q3 + 1.5 * IQR
+#' - outer lower / upper: Q1 - 3 * IQR and Q3 + 3 * IQR
 #'
 #' Each observation is classified as `"within fence"`,
 #' `"mild outlier (1.5x IQR)"`, or `"extreme outlier (3x IQR)"`.
@@ -41,8 +41,8 @@
 #' observations are faceted by `trait_name`; otherwise the x-axis shows
 #' `trait_domain_name`.
 #'
-#' Plot layer order follows project conventions: `ggplot()` → facets
-#' → scales → labels → theme → `ggview::canvas()` → geoms.
+#' Plot layer order follows project conventions: `ggplot()` -> facets
+#' -> scales -> labels -> theme -> `ggview::canvas()` -> geoms.
 #' @seealso
 #' [generate_trait_qc_report()], [apply_trait_corrections()],
 #' [validate_trait_corrections()]
