@@ -395,43 +395,13 @@ if (
 # Log-scale strip plot: grey dots = all filtered taxa,
 #   red dot = sel_taxon.
 plot_family_comparison <-
-  data_family_comparison |>
-  dplyr::filter(.data[["n"]] >= sel_min_n) |>
-  ggplot2::ggplot(
-    mapping = ggplot2::aes(
-      x = .data[["median"]],
-      y = 0
-    )
-  ) +
-  ggplot2::scale_x_log10() +
-  ggplot2::labs(
-    x = stringr::str_glue("{sel_domain} (median, log\u2081\u2080 scale)"),
-    y = NULL,
-    title = stringr::str_glue("{sel_taxon} within family (n \u2265 {sel_min_n})")
-  ) +
-  ggplot2::theme_bw() +
-  ggplot2::theme(
-    axis.text.y = ggplot2::element_blank(),
-    axis.ticks.y = ggplot2::element_blank()
-  ) +
-  ggview::canvas(
-    width = graphical_options[["width"]],
-    height = graphical_options[["height"]],
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]],
-    bg = graphical_options[["bg"]]
-  ) +
-  ggplot2::geom_jitter(
-    alpha = 0.4,
-    height = 0.1,
-    colour = "grey50",
-    size = 1.5
-  ) +
-  ggplot2::geom_point(
-    data = data_group_summary,
-    mapping = ggplot2::aes(x = .data[["median"]]),
-    colour = "firebrick",
-    size = 3.5
+  plot_family_trait_comparison(
+    data_family_comparison = data_family_comparison,
+    data_group_summary = data_group_summary,
+    sel_taxon = sel_taxon,
+    sel_domain = sel_domain,
+    sel_min_n = sel_min_n,
+    graphical_options = graphical_options
   )
 
 base::print(plot_family_comparison)
