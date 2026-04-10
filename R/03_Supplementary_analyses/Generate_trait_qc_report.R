@@ -100,75 +100,19 @@ data_qc_domains <-
 #----------------------------------------------------------#
 # 4. Render -----
 #----------------------------------------------------------#
-# quarto output_file must be a filename (not a path) when
-#   rendering within a project. Each file lands in
-#   docs/R/03_Supplementary_analyses/ and is then moved.
-
-render_pdf <- function(sel_domain_filter) {
-  if (
-    base::is.null(sel_domain_filter)
-  ) {
-    sel_output_filename <-
-      stringr::str_glue(
-        "trait_qc_report_{Sys.Date()}.pdf"
-      )
-  } else {
-    sel_domain_slug <-
-      stringr::str_replace_all(
-        sel_domain_filter,
-        "[^a-zA-Z0-9]",
-        "_"
-      )
-    sel_output_filename <-
-      stringr::str_glue(
-        "trait_qc_{sel_domain_slug}_{Sys.Date()}.pdf"
-      )
-  }
-
-  path_output <-
-    here::here("Outputs/Reports", sel_output_filename)
-
-  quarto::quarto_render(
-    input = here::here(
-      "R/03_Supplementary_analyses/Trait_qc_report.qmd"
-    ),
-    execute_params = base::list(
-      sel_max_pages = sel_max_pages,
-      sel_min_n_family = sel_min_n_family,
-      sel_domain_filter = sel_domain_filter
-    ),
-    output_file = sel_output_filename
-  )
-
-  path_rendered <-
-    here::here(
-      "docs/R/03_Supplementary_analyses",
-      sel_output_filename
-    )
-
-  if (
-    base::file.exists(path_rendered)
-  ) {
-    fs::file_move(
-      path_rendered,
-      path_output
-    )
-    cli::cli_inform(
-      "Written: {path_output}"
-    )
-  } else {
-    cli::cli_warn(
-      "Output not found after render: {path_rendered}"
-    )
-  }
-}
 
 if (
   sel_mode == "by_domain"
 ) {
   purrr::walk(
+    .progress = TRUE,
     .x = data_qc_domains,
-    .f = ~ render_pdf(sel_domain_filter = .x)
+    .f = ~ render_trait_qc_pdf(
+      sel_domain_filter = .x,
+      path_output_dir = path_output_dir,
+      sel_max_pages = sel_max_pages,
+      sel_min_n_family = sel_min_n_family
+    )
   )
 
   cli::cli_inform(
@@ -178,5 +122,10 @@ if (
     )
   )
 } else {
-  render_pdf(sel_domain_filter = NULL)
+  render_trait_qc_pdf(
+    sel_domain_filter = NULL,
+    path_output_dir = path_output_dir,
+    sel_max_pages = sel_max_pages,
+    sel_min_n_family = sel_min_n_family
+  )
 }
