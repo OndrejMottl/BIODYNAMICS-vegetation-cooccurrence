@@ -221,7 +221,7 @@ pipe_segment_trait_classification <-
           y = data_resolution_to_finest,
           by = dplyr::join_by("taxon_name" == "sel_name"),
           multiple = "all",
-          unmatched = "error",
+          unmatched = "drop",
           relationship = "many-to-many"
         )
     )
