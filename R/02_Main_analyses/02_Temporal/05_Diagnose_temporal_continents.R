@@ -34,11 +34,9 @@ source(
 #----------------------------------------------------------#
 
 data_continents <-
-  readr::read_csv(
-    here::here("Data/Input/spatial_grid.csv"),
-    show_col_types = FALSE
+  load_continental_rows(
+    path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
   ) |>
-  dplyr::filter(scale == "continental") |>
   dplyr::select(scale_id) |>
   dplyr::mutate(
     config_name = base::paste0("project_temporal_", scale_id),
@@ -76,11 +74,10 @@ purrr::pwalk(
     store_exists = data_continents$store_exists
   ),
   .f = function(
-    scale_id,
-    config_name,
-    store_path,
-    store_exists
-  ) {
+      scale_id,
+      config_name,
+      store_path,
+      store_exists) {
     base::message(
       "\n", base::strrep("=", 60),
       "\nCONTINENT: ", config_name,

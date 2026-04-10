@@ -3,7 +3,7 @@
 #
 #                 Vegetation Co-occurrence
 #
-#   Trait analyses 02 â€” Classify and align trait taxa to community
+#   Trait analyses 02: Classify and align trait taxa to community
 #
 #                       O. Mottl
 #                         2026
@@ -16,7 +16,7 @@
 #   addition to standard genus-level taxa.
 #
 # For each unique trait genus the taxospace API returns a full
-#   taxonomic lineage (kingdom â†’ genus). The lineage is pivoted to
+#   taxonomic lineage (kingdom → genus). The lineage is pivoted to
 #   long format and matched against the community taxa. The finest
 #   matching rank is selected so genus-level traits are preferentially
 #   linked to genus-level community taxa, while higher-rank traits
@@ -46,7 +46,10 @@ path_output <-
 # 1. Load raw trait data -----
 #----------------------------------------------------------#
 
-# Find the most recent traits_raw file
+# Find the most recent traits_raw file per continent.
+# Filenames follow data_traits_{scale_id}_{YYYY-MM-DD}.qs;
+# ISO dates sort lexicographically so slice_max selects the newest
+# file per continent group.
 vec_traits_files <-
   base::list.files(
     path = path_output,
@@ -63,18 +66,41 @@ assertthat::assert_that(
   )
 )
 
-path_traits <-
-  base::sort(vec_traits_files) |>
-  utils::tail(n = 1)
+vec_traits_files <-
+  tibble::tibble(
+    path = vec_traits_files,
+    continent = base::sub(
+      pattern = "^data_traits_(.+)_\\d{4}-\\d{2}-\\d{2}\\.qs$",
+      replacement = "\\1",
+      x = base::basename(vec_traits_files)
+    )
+  ) |>
+  dplyr::group_by(.data[["continent"]]) |>
+  dplyr::slice_max(
+    order_by = .data[["path"]],
+    n = 1L
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(.data[["path"]]) |>
+  dplyr::pull("path")
 
 cli::cli_inform(
-  c("i" = base::paste0("Loading: ", path_traits))
+  c(
+    "i" = base::paste0(
+      "Loading ",
+      base::length(vec_traits_files),
+      " trait file(s): ",
+      base::paste(base::basename(vec_traits_files), collapse = ", ")
+    )
+  )
 )
 
 data_traits <-
-  qs2::qs_read(
-    file = path_traits
-  )
+  purrr::map(
+    .x = vec_traits_files,
+    .f = ~ qs2::qs_read(file = .x)
+  ) |>
+  dplyr::bind_rows()
 
 cli::cli_inform(
   c(
@@ -84,6 +110,41 @@ cli::cli_inform(
       " trait records, ",
       base::length(base::unique(data_traits[["taxon_name"]])),
       " unique taxon names"
+    )
+  )
+)
+
+
+#----------------------------------------------------------#
+# 1.5 Apply manual trait corrections -----
+#----------------------------------------------------------#
+
+# Reads Data/Input/trait_manual_corrections.csv and applies any
+# human-reviewed corrections (exclude / scale) before classification.
+# The validate_trait_corrections() guard aborts if any row in the
+# corrections file has not been signed off (CHECKED != TRUE), so the
+# script will fail here if corrections are pending human review.
+
+path_manual_corrections <-
+  here::here("Data/Input/trait_manual_corrections.csv")
+
+data_corrections_validated <-
+  validate_trait_corrections(
+    path_corrections = path_manual_corrections
+  )
+
+data_traits <-
+  apply_trait_corrections(
+    data_traits = data_traits,
+    data_corrections = data_corrections_validated
+  )
+
+cli::cli_inform(
+  c(
+    "v" = base::paste0(
+      "After corrections: ",
+      base::nrow(data_traits),
+      " trait records."
     )
   )
 )

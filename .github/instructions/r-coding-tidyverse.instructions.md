@@ -24,6 +24,22 @@ Use tidyverse functions over base R equivalents:
 | `mapply(f, x, y)` | `purrr::map2(x, y, f)` |
 | `grepl("p", x)` | `stringr::str_detect(x, "p")` |
 | `gsub("a", "b", x)` | `stringr::str_replace_all(x, "a", "b")` |
+| `paste0(a, b)` / `paste(a, b, sep = "")` | `stringr::str_glue("{a}{b}")` |
+| `paste(x, collapse = ", ")` | `stringr::str_c(x, collapse = ", ")` |
+
+**Never use `paste()` or `paste0()` for string construction.** Use `stringr::str_glue()` for interpolated strings and `stringr::str_c()` for collapsing vectors. `str_glue()` is more readable because variables and expressions sit inline inside `{}` without breaking the string apart into many arguments.
+
+```r
+# Good  -  str_glue for interpolation
+base::message(stringr::str_glue("Loaded {nrow(data)} rows for {sel_taxon}."))
+
+# Good  -  str_c for collapsing a vector
+stringr::str_c(vec_domains, collapse = ", ")
+
+# Avoid
+base::paste0("Loaded ", nrow(data), " rows for ", sel_taxon, ".")
+base::paste(vec_domains, collapse = ", ")
+```
 
 **Never use `$` for element access.** Use `dplyr::pull()` to extract a column from a data frame and `purrr::chuck()` to extract an element from a list. These are explicit, pipe-friendly, and raise a clear error when the element is missing.
 

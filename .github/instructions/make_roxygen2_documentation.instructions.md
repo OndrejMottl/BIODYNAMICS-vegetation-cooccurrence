@@ -44,3 +44,12 @@ The roxygen2 documentation should be placed before the function declaration but 
 #' @export
 ```
 
+If the function prints to the console, include a `verbose` parameter and
+document it:
+
+```r
+#' @param verbose 
+#' Logical. If `TRUE` (default), progress messages are printed to
+#' the console via `cli`.
+```
+

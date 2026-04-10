@@ -303,7 +303,9 @@ run_pipeline(
 )
 ```
 
-**A bug fix is not complete until steps 6, 7, and 8 both pass without errors.**
+9. **Review with `changes-reviewer`** — Invoke the `changes-reviewer` subagent, passing the list of files changed in this session. If it reports any remaining violations, fix them before finalising.
+
+**A bug fix is not complete until steps 6, 7, 8, and 9 all pass without errors.**
 
 ## MCP Server for R Integration
 
@@ -394,6 +396,27 @@ The MCP server provides tools for:
 - Verify the R session has been registered with `btw::btw_mcp_session()`
 - Check that the MCP server process is running (restart VS Code if needed)
 
+## saber Toolchain
+
+This project uses the [{saber}](https://github.com/cornball-ai/saber) package for R code analysis and project context.
+`saber` parses R source into structured symbol indices, traces function callers, discovers dependency graphs, and generates project briefings — giving AI agents accurate understanding of the codebase without guessing.
+
+### Toolchain Rules
+
+Before working on R code, use the right tool for the job:
+
+| Situation | Command |
+|-----------|---------|
+| Understand a package's API | `Rscript -e 'saber::pkg_exports("pkg")'` |
+| Read function docs | `Rscript -e 'saber::pkg_help("fn", "pkg")'` |
+| Before renaming/changing a function | `Rscript -e 'saber::blast_radius("fn", project = ".")'` |
+| Understand a project's call graph | `Rscript -e 'str(saber::symbols("."))'` |
+| Discover R packages and deps | `Rscript -e 'print(saber::projects())'` |
+| What depends on a package | `Rscript -e 'saber::find_downstream("pkg")'` |
+| Project briefing | `Rscript -e 'saber::briefing(".")'` |
+
+**`blast_radius` is mandatory before renaming, moving, or changing the signature of any exported function.** It finds every caller across this project and all downstream projects. Skip it and you break things silently.
+
 ## Project-Specific Guidelines
 
 ### Function Organization
@@ -454,7 +477,9 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
    Remove-Item Data/Temp/pipeline_out.txt -ErrorAction SilentlyContinue
    ```
 
-**A new function is not complete until steps 5 and 6 both pass without unexpected errors.**
+7. **Review with `changes-reviewer`** — Invoke the `changes-reviewer` subagent, passing the list of files changed in this session. If it reports any remaining violations, fix them before finalising.
+
+**A new function is not complete until steps 5, 6, and 7 both pass without unexpected errors.**
 
 ##### Editing an Existing Function
 
@@ -475,7 +500,9 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
 6. **Test run `project_cz`** — Run the pipeline end-to-end (same command
    as above).
 
-**An edit is not complete until steps 5 and 6 both pass without unexpected errors.** Do not wait to be asked — treat the full TDD cycle as mandatory for every function creation or edit.
+7. **Review with `changes-reviewer`** — Invoke the `changes-reviewer` subagent, passing the list of files changed in this session. If it reports any remaining violations, fix them before finalising.
+
+**An edit is not complete until steps 5, 6, and 7 both pass without unexpected errors.** Do not wait to be asked — treat the full TDD cycle as mandatory for every function creation or edit.
 
 ### Data Workflow
 

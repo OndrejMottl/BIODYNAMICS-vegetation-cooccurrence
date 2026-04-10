@@ -91,11 +91,9 @@ if (
 #----------------------------------------------------------#
 
 data_continents <-
-  readr::read_csv(
-    here::here("Data/Input/spatial_grid.csv"),
-    show_col_types = FALSE
+  load_continental_rows(
+    path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
   ) |>
-  dplyr::filter(scale == "continental") |>
   dplyr::select(scale_id) |>
   dplyr::mutate(
     config_name = base::paste0("project_temporal_", scale_id),
