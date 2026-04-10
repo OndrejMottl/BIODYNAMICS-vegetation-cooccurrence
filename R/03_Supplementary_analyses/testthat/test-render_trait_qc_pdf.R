@@ -129,8 +129,10 @@ testthat::test_that(
     )
 
     testthat::local_mocked_bindings(
-      pdf_compress = function(input, output, ...) {
-        invisible(NULL)
+      pdf_compress = function(input, ...) {
+        path_tmp <- base::tempfile(fileext = ".pdf")
+        base::writeLines("compressed", path_tmp)
+        return(path_tmp)
       },
       .package = "qpdf"
     )
@@ -179,8 +181,10 @@ testthat::test_that(
     )
 
     testthat::local_mocked_bindings(
-      pdf_compress = function(input, output, ...) {
-        invisible(NULL)
+      pdf_compress = function(input, ...) {
+        path_tmp <- base::tempfile(fileext = ".pdf")
+        base::writeLines("compressed", path_tmp)
+        return(path_tmp)
       },
       .package = "qpdf"
     )
@@ -227,8 +231,10 @@ testthat::test_that(
     )
 
     testthat::local_mocked_bindings(
-      pdf_compress = function(input, output, ...) {
-        invisible(NULL)
+      pdf_compress = function(input, ...) {
+        path_tmp <- base::tempfile(fileext = ".pdf")
+        base::writeLines("compressed", path_tmp)
+        return(path_tmp)
       },
       .package = "qpdf"
     )
@@ -277,8 +283,10 @@ testthat::test_that(
     )
 
     testthat::local_mocked_bindings(
-      pdf_compress = function(input, output, ...) {
-        invisible(NULL)
+      pdf_compress = function(input, ...) {
+        path_tmp <- base::tempfile(fileext = ".pdf")
+        base::writeLines("compressed", path_tmp)
+        return(path_tmp)
       },
       .package = "qpdf"
     )
@@ -334,10 +342,12 @@ testthat::test_that(
     )
 
     testthat::local_mocked_bindings(
-      pdf_compress = function(input, output, ...) {
+      pdf_compress = function(input, ...) {
         compress_calls[[base::length(compress_calls) + 1L]] <<-
-          base::list(input = input, output = output)
-        invisible(NULL)
+          base::list(input = input)
+        path_tmp <- base::tempfile(fileext = ".pdf")
+        base::writeLines("compressed", path_tmp)
+        return(path_tmp)
       },
       .package = "qpdf"
     )
@@ -349,17 +359,13 @@ testthat::test_that(
       verbose = FALSE
     )
 
-    expected_dest <-
-      base::file.path(dir_output, expected_name)
+    expected_rendered <-
+      base::file.path(dir_docs, expected_name)
 
     testthat::expect_length(compress_calls, 1L)
 
     testthat::expect_true(
-      compress_calls[[1L]][["input"]] == expected_dest
-    )
-
-    testthat::expect_true(
-      compress_calls[[1L]][["output"]] == expected_dest
+      compress_calls[[1L]][["input"]] == expected_rendered
     )
   }
 )
@@ -383,8 +389,10 @@ testthat::test_that(
     )
 
     testthat::local_mocked_bindings(
-      pdf_compress = function(input, output, ...) {
-        invisible(NULL)
+      pdf_compress = function(input, ...) {
+        path_tmp <- base::tempfile(fileext = ".pdf")
+        base::writeLines("compressed", path_tmp)
+        return(path_tmp)
       },
       .package = "qpdf"
     )
@@ -428,8 +436,10 @@ testthat::test_that(
     )
 
     testthat::local_mocked_bindings(
-      pdf_compress = function(input, output, ...) {
-        invisible(NULL)
+      pdf_compress = function(input, ...) {
+        path_tmp <- base::tempfile(fileext = ".pdf")
+        base::writeLines("compressed", path_tmp)
+        return(path_tmp)
       },
       .package = "qpdf"
     )
@@ -473,8 +483,10 @@ testthat::test_that(
     )
 
     testthat::local_mocked_bindings(
-      pdf_compress = function(input, output, ...) {
-        invisible(NULL)
+      pdf_compress = function(input, ...) {
+        path_tmp <- base::tempfile(fileext = ".pdf")
+        base::writeLines("compressed", path_tmp)
+        return(path_tmp)
       },
       .package = "qpdf"
     )
@@ -518,8 +530,10 @@ testthat::test_that(
     )
 
     testthat::local_mocked_bindings(
-      pdf_compress = function(input, output, ...) {
-        invisible(NULL)
+      pdf_compress = function(input, ...) {
+        path_tmp <- base::tempfile(fileext = ".pdf")
+        base::writeLines("compressed", path_tmp)
+        return(path_tmp)
       },
       .package = "qpdf"
     )

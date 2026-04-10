@@ -155,14 +155,17 @@ render_trait_qc_pdf <- function(
   if (
     base::file.exists(path_rendered)
   ) {
+    path_compressed <-
+      qpdf::pdf_compress(
+        input = path_rendered
+      )
     fs::file_move(
-      path_rendered,
+      path_compressed,
       path_output
     )
-    qpdf::pdf_compress(
-      input = path_output,
-      output = path_output
-    )
+    if (base::file.exists(path_rendered)) {
+      fs::file_delete(path_rendered)
+    }
     if (
       isTRUE(verbose)
     ) {
