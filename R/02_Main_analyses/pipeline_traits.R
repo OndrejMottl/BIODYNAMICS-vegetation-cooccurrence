@@ -11,7 +11,7 @@
 #
 #----------------------------------------------------------#
 # Complete targets pipeline for the trait analysis workflow.
-# Orchestrates four pipe segments in sequence:
+# Orchestrates six pipe segments in sequence:
 #
 #   Segment 1 — pipe_segment_trait_extraction
 #     Discovers continental rows from spatial_grid.csv and
@@ -35,6 +35,12 @@
 #   Segment 5 — pipe_segment_trait_table
 #     Aggregates to median, pivots to a project-agnostic wide
 #     genus × traits matrix.
+#
+#   Segment 6 — pipe_segment_trait_ft_clustering
+#     Clusters all taxa in each continental unit into functional
+#     types using Gower distance + Ward D2 hierarchical clustering.
+#     One dated .qs file per continent is saved to
+#     Data/Processed/Traits/ and tracked as a file target.
 #
 # HUMAN REVIEW REQUIRED (inside segments 2 and 4):
 #   Segment 3 — if trait classification stops, open:
@@ -119,13 +125,14 @@ path_pipe_parts <-
   here::here("R/02_Main_analyses/_pipes/")
 
 # Segments must be sourced in dependency order:
-#   extraction → qc → classification → table
+#   extraction → qc → classification → qc_classified → table → ft_clustering
 base::c(
   "pipe_segment_trait_extraction.R",
   "pipe_segment_trait_qc.R",
   "pipe_segment_trait_classification.R",
   "pipe_segment_trait_qc_classified.R",
-  "pipe_segment_trait_table.R"
+  "pipe_segment_trait_table.R",
+  "pipe_segment_trait_ft_clustering.R"
 ) |>
   rlang::set_names() |>
   purrr::walk(
@@ -144,5 +151,6 @@ base::list(
   pipe_segment_trait_qc,
   pipe_segment_trait_classification,
   pipe_segment_trait_qc_classified,
-  pipe_segment_trait_table
+  pipe_segment_trait_table,
+  pipe_segment_trait_ft_clustering
 )

@@ -101,18 +101,28 @@ pipe_segment_trait_extraction <-
     # extracts, cleans, and joins taxon names for a single continent,
     # returning a clean tibble. Only one continent is in memory at a
     # time — the branch result is written to disk by {targets} before
-    # the next branch begins.
+    # the next branch begins. scale_id is added so that downstream
+    # targets can identify which continent each record belongs to
+    # (required for per-continent FT clustering in Segment 6).
     targets::tar_target(
       description = "Extract trait data for one continental unit",
       name = data_traits_continent,
-      command = extract_and_clean_continent_traits(
-        data_continental_rows = data_continental_rows,
-        vec_trait_domain_names = vec_trait_domain_names,
-        path_to_vegvault = here::here(
-          "Data/Input/VegVault.sqlite"
-        ),
-        verbose = TRUE
-      ),
+      command = {
+        vec_scale_id <-
+          dplyr::pull(data_continental_rows, "scale_id")
+
+        extract_and_clean_continent_traits(
+          data_continental_rows = data_continental_rows,
+          vec_trait_domain_names = vec_trait_domain_names,
+          path_to_vegvault = here::here(
+            "Data/Input/VegVault.sqlite"
+          ),
+          verbose = TRUE
+        ) |>
+          dplyr::mutate(
+            scale_id = vec_scale_id
+          )
+      },
       pattern = map(data_continental_rows)
     ),
 

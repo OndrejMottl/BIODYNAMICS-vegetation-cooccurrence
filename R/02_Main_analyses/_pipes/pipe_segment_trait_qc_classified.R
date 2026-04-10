@@ -87,10 +87,10 @@ pipe_segment_trait_qc_classified <-
       description = "Generate post-classification QC report by resolved taxon",
       name = trait_qc_report_classified,
       command = generate_trait_qc_report(
-        data_traits = dplyr::rename(
-          data_traits_classified,
-          taxon_name = "taxon_resolved"
-        ),
+        data_traits = data_traits_classified |>
+          dplyr::select(-"taxon_name") |>
+          dplyr::rename(taxon_name = "taxon_resolved"),
+
         path_corrections = here::here(
           "Data/Input/trait_manual_corrections_classified.csv"
         )
@@ -140,10 +140,9 @@ pipe_segment_trait_qc_classified <-
       name = data_traits_classified_corrected,
       command = {
         apply_trait_corrections(
-          data_traits = dplyr::rename(
-            data_traits_classified,
-            taxon_name = "taxon_resolved"
-          ),
+          data_traits = data_traits_classified |>
+            dplyr::select(-"taxon_name") |>
+            dplyr::rename(taxon_name = "taxon_resolved"),
           data_corrections = trait_corrections_classified_validated
         ) |>
           dplyr::rename(taxon_resolved = "taxon_name")
