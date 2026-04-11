@@ -1,498 +1,719 @@
 testthat::test_that(
-  "cluster_functional_types() errors on non-data-frame",
+  "cluster_functional_types() errors when data is not a data frame",
   {
-    testthat::expect_error(
-      cluster_functional_types(data = "not_a_df")
-    )
+    mat_dummy <-
+      base::matrix(
+        base::c(1.0, 2.0, 3.0, 4.0, 5.0),
+        nrow = 5L,
+        ncol = 1L
+      )
+
+    dist_dummy <-
+      stats::dist(mat_dummy)
+
+    hclust_dummy <-
+      stats::hclust(dist_dummy, method = "ward.D2")
+
     testthat::expect_error(
       cluster_functional_types(
-        data = base::list(a = 1, b = 2)
+        data = "not_a_data_frame",
+        dist_gower = dist_dummy,
+        hclust_obj = hclust_dummy,
+        k = 2L
       )
-    )
-    testthat::expect_error(
-      cluster_functional_types(data = 1:10)
-    )
-    testthat::expect_error(
-      cluster_functional_types(data = NULL)
     )
   }
 )
 
+
 testthat::test_that(
-  "cluster_functional_types() errors with < 4 rows",
+  "cluster_functional_types() errors when data has fewer than 4 rows",
   {
     data_small <-
       tibble::tibble(
         taxon_name = base::c("A", "B", "C"),
         sla = base::c(1.0, 2.0, 3.0)
       )
+
+    mat_dummy <-
+      base::matrix(
+        base::c(1.0, 2.0, 3.0),
+        nrow = 3L,
+        ncol = 1L
+      )
+
+    dist_dummy <-
+      stats::dist(mat_dummy)
+
+    hclust_dummy <-
+      stats::hclust(dist_dummy, method = "ward.D2")
+
     testthat::expect_error(
-      cluster_functional_types(data = data_small)
+      cluster_functional_types(
+        data = data_small,
+        dist_gower = dist_dummy,
+        hclust_obj = hclust_dummy,
+        k = 2L
+      )
     )
   }
 )
 
+
 testthat::test_that(
-  "cluster_functional_types() errors on bad taxon_col",
+  "cluster_functional_types() errors when taxon_col is not character",
   {
-    data_traits <-
+    data_min <-
       tibble::tibble(
         taxon_name = base::c("A", "B", "C", "D", "E"),
-        sla = base::c(5.0, 5.1, 4.9, 5.2, 4.8)
+        sla = base::c(1.0, 2.0, 3.0, 4.0, 5.0)
       )
+
+    dist_min <-
+      compute_gower_distance(data_min)
+
+    hclust_min <-
+      fit_hclust(dist_min)
+
     testthat::expect_error(
       cluster_functional_types(
-        data = data_traits,
+        data = data_min,
+        dist_gower = dist_min,
+        hclust_obj = hclust_min,
+        k = 2L,
         taxon_col = 1L
       )
     )
-    testthat::expect_error(
-      cluster_functional_types(
-        data = data_traits,
-        taxon_col = base::c("a", "b")
-      )
-    )
-    testthat::expect_error(
-      cluster_functional_types(
-        data = data_traits,
-        taxon_col = "species"
-      )
-    )
   }
 )
 
+
 testthat::test_that(
-  "cluster_functional_types() errors on bad k_max",
+  "cluster_functional_types() errors when taxon_col has length > 1",
   {
-    data_traits <-
+    data_min <-
       tibble::tibble(
         taxon_name = base::c("A", "B", "C", "D", "E"),
-        sla = base::c(5.0, 5.1, 4.9, 5.2, 4.8)
+        sla = base::c(1.0, 2.0, 3.0, 4.0, 5.0)
       )
+
+    dist_min <-
+      compute_gower_distance(data_min)
+
+    hclust_min <-
+      fit_hclust(dist_min)
+
     testthat::expect_error(
       cluster_functional_types(
-        data = data_traits,
-        k_max = "ten"
-      )
-    )
-    testthat::expect_error(
-      cluster_functional_types(
-        data = data_traits,
-        k_max = 1L
-      )
-    )
-    testthat::expect_error(
-      cluster_functional_types(
-        data = data_traits,
-        k_max = 5L
+        data = data_min,
+        dist_gower = dist_min,
+        hclust_obj = hclust_min,
+        k = 2L,
+        taxon_col = base::c("taxon_name", "sla")
       )
     )
   }
 )
 
-testthat::test_that(
-  "cluster_functional_types() errors on bad verbose",
-  {
-    data_traits <-
-      tibble::tibble(
-        taxon_name = base::c("A", "B", "C", "D", "E"),
-        sla = base::c(5.0, 5.1, 4.9, 5.2, 4.8)
-      )
-    testthat::expect_error(
-      cluster_functional_types(
-        data = data_traits,
-        verbose = "yes"
-      )
-    )
-    testthat::expect_error(
-      cluster_functional_types(
-        data = data_traits,
-        verbose = 1L
-      )
-    )
-  }
-)
 
 testthat::test_that(
-  "cluster_functional_types() errors on bad metric",
-  {
-    data_traits <-
-      tibble::tibble(
-        taxon_name = base::c("A", "B", "C", "D", "E"),
-        sla = base::c(5.0, 5.1, 4.9, 5.2, 4.8)
-      )
-    testthat::expect_error(
-      cluster_functional_types(
-        data = data_traits,
-        metric = 42L
-      )
-    )
-    testthat::expect_error(
-      cluster_functional_types(
-        data = data_traits,
-        metric = base::c("gower", "euclidean")
-      )
-    )
-  }
-)
-
-testthat::test_that(
-  "cluster_functional_types() errors on bad method",
-  {
-    data_traits <-
-      tibble::tibble(
-        taxon_name = base::c("A", "B", "C", "D", "E"),
-        sla = base::c(5.0, 5.1, 4.9, 5.2, 4.8)
-      )
-    testthat::expect_error(
-      cluster_functional_types(
-        data = data_traits,
-        method = TRUE
-      )
-    )
-    testthat::expect_error(
-      cluster_functional_types(
-        data = data_traits,
-        method = base::c("ward.D2", "complete")
-      )
-    )
-  }
-)
-
-testthat::test_that(
-  "cluster_functional_types() returns correct structure",
-  {
-    data_traits <-
-      tibble::tibble(
-        taxon_name = base::c(
-          "A", "B", "C", "D", "E",
-          "F", "G", "H", "I", "J"
-        ),
-        sla = base::c(
-          5, 5.1, 4.9, 5.2, 4.8,
-          50, 49.8, 50.2, 50.1, 49.9
-        ),
-        height = base::c(
-          0.5, 0.4, 0.6, 0.5, 0.4,
-          5, 4.8, 5.2, 5, 4.9
-        )
-      )
-    base::set.seed(900723)
-    res <-
-      cluster_functional_types(
-        data = data_traits,
-        k_max = 9L,
-        verbose = FALSE
-      )
-    testthat::expect_s3_class(res, "tbl_df")
-    testthat::expect_equal(base::nrow(res), 10L)
-    testthat::expect_equal(base::ncol(res), 3L)
-    testthat::expect_named(
-      res,
-      base::c(
-        "taxon_name", "functional_type", "silhouette_width"
-      )
-    )
-    testthat::expect_type(
-      dplyr::pull(res, functional_type),
-      "integer"
-    )
-    testthat::expect_type(
-      dplyr::pull(res, silhouette_width),
-      "double"
-    )
-    testthat::expect_equal(
-      dplyr::pull(res, taxon_name),
-      dplyr::pull(data_traits, taxon_name)
-    )
-  }
-)
-
-testthat::test_that(
-  "cluster_functional_types() k_chosen attribute is set",
-  {
-    data_traits <-
-      tibble::tibble(
-        taxon_name = base::c(
-          "A", "B", "C", "D", "E",
-          "F", "G", "H", "I", "J"
-        ),
-        sla = base::c(
-          5, 5.1, 4.9, 5.2, 4.8,
-          50, 49.8, 50.2, 50.1, 49.9
-        ),
-        height = base::c(
-          0.5, 0.4, 0.6, 0.5, 0.4,
-          5, 4.8, 5.2, 5, 4.9
-        )
-      )
-    base::set.seed(900723)
-    res <-
-      cluster_functional_types(
-        data = data_traits,
-        k_max = 9L,
-        verbose = FALSE
-      )
-    k_chosen <-
-      base::attr(res, "k_chosen")
-    testthat::expect_false(base::is.null(k_chosen))
-    testthat::expect_type(k_chosen, "integer")
-    testthat::expect_true(k_chosen >= 2L)
-  }
-)
-
-testthat::test_that(
-  "cluster_functional_types() finds 2 clusters",
-  {
-    data_traits <-
-      tibble::tibble(
-        taxon_name = base::c(
-          "A", "B", "C", "D", "E",
-          "F", "G", "H", "I", "J"
-        ),
-        sla = base::c(
-          5, 5.1, 4.9, 5.2, 4.8,
-          50, 49.8, 50.2, 50.1, 49.9
-        ),
-        height = base::c(
-          0.5, 0.4, 0.6, 0.5, 0.4,
-          5, 4.8, 5.2, 5, 4.9
-        )
-      )
-    base::set.seed(900723)
-    res <-
-      cluster_functional_types(
-        data = data_traits,
-        k_max = 9L,
-        verbose = FALSE
-      )
-    k_chosen <-
-      base::attr(res, "k_chosen")
-    testthat::expect_equal(k_chosen, 2L)
-    vec_ft_low <-
-      dplyr::pull(
-        dplyr::filter(
-          res,
-          taxon_name %in% base::c("A", "B", "C", "D", "E")
-        ),
-        functional_type
-      )
-    vec_ft_high <-
-      dplyr::pull(
-        dplyr::filter(
-          res,
-          taxon_name %in% base::c("F", "G", "H", "I", "J")
-        ),
-        functional_type
-      )
-    testthat::expect_equal(
-      base::length(base::unique(vec_ft_low)),
-      1L
-    )
-    testthat::expect_equal(
-      base::length(base::unique(vec_ft_high)),
-      1L
-    )
-    testthat::expect_false(
-      vec_ft_low[[1]] == vec_ft_high[[1]]
-    )
-  }
-)
-
-testthat::test_that(
-  "cluster_functional_types() taxon_col renames output",
+  "cluster_functional_types() errors when taxon_col not in data",
   {
     data_species <-
       tibble::tibble(
-        species = base::c(
-          "sp1", "sp2", "sp3", "sp4", "sp5",
-          "sp6", "sp7", "sp8", "sp9", "sp10"
+        species = base::c("A", "B", "C", "D", "E"),
+        sla = base::c(1.0, 2.0, 3.0, 4.0, 5.0)
+      )
+
+    mat_dummy <-
+      base::matrix(
+        base::c(1.0, 2.0, 3.0, 4.0, 5.0),
+        nrow = 5L,
+        ncol = 1L
+      )
+
+    dist_dummy <-
+      stats::dist(mat_dummy)
+
+    hclust_dummy <-
+      stats::hclust(dist_dummy, method = "ward.D2")
+
+    testthat::expect_error(
+      cluster_functional_types(
+        data = data_species,
+        dist_gower = dist_dummy,
+        hclust_obj = hclust_dummy,
+        k = 2L,
+        taxon_col = "taxon_name"
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() errors when dist_gower not a dist obj",
+  {
+    data_min <-
+      tibble::tibble(
+        taxon_name = base::c("A", "B", "C", "D", "E"),
+        sla = base::c(1.0, 2.0, 3.0, 4.0, 5.0)
+      )
+
+    mat_dummy <-
+      base::matrix(
+        base::c(1.0, 2.0, 3.0, 4.0, 5.0),
+        nrow = 5L,
+        ncol = 1L
+      )
+
+    dist_dummy <-
+      stats::dist(mat_dummy)
+
+    hclust_dummy <-
+      stats::hclust(dist_dummy, method = "ward.D2")
+
+    testthat::expect_error(
+      cluster_functional_types(
+        data = data_min,
+        dist_gower = mat_dummy,
+        hclust_obj = hclust_dummy,
+        k = 2L
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() errors when hclust_obj not hclust",
+  {
+    data_min <-
+      tibble::tibble(
+        taxon_name = base::c("A", "B", "C", "D", "E"),
+        sla = base::c(1.0, 2.0, 3.0, 4.0, 5.0)
+      )
+
+    dist_min <-
+      compute_gower_distance(data_min)
+
+    testthat::expect_error(
+      cluster_functional_types(
+        data = data_min,
+        dist_gower = dist_min,
+        hclust_obj = base::list(a = 1),
+        k = 2L
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() errors when k not numeric",
+  {
+    data_min <-
+      tibble::tibble(
+        taxon_name = base::c("A", "B", "C", "D", "E"),
+        sla = base::c(1.0, 2.0, 3.0, 4.0, 5.0)
+      )
+
+    dist_min <-
+      compute_gower_distance(data_min)
+
+    hclust_min <-
+      fit_hclust(dist_min)
+
+    testthat::expect_error(
+      cluster_functional_types(
+        data = data_min,
+        dist_gower = dist_min,
+        hclust_obj = hclust_min,
+        k = "10"
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() errors when k < 2",
+  {
+    data_min <-
+      tibble::tibble(
+        taxon_name = base::c("A", "B", "C", "D", "E"),
+        sla = base::c(1.0, 2.0, 3.0, 4.0, 5.0)
+      )
+
+    dist_min <-
+      compute_gower_distance(data_min)
+
+    hclust_min <-
+      fit_hclust(dist_min)
+
+    testthat::expect_error(
+      cluster_functional_types(
+        data = data_min,
+        dist_gower = dist_min,
+        hclust_obj = hclust_min,
+        k = 1L
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() errors when k >= nrow(data)",
+  {
+    data_min <-
+      tibble::tibble(
+        taxon_name = base::c("A", "B", "C", "D", "E"),
+        sla = base::c(1.0, 2.0, 3.0, 4.0, 5.0)
+      )
+
+    dist_min <-
+      compute_gower_distance(data_min)
+
+    hclust_min <-
+      fit_hclust(dist_min)
+
+    testthat::expect_error(
+      cluster_functional_types(
+        data = data_min,
+        dist_gower = dist_min,
+        hclust_obj = hclust_min,
+        k = 5L
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() errors when verbose not logical",
+  {
+    data_min <-
+      tibble::tibble(
+        taxon_name = base::c("A", "B", "C", "D", "E"),
+        sla = base::c(1.0, 2.0, 3.0, 4.0, 5.0)
+      )
+
+    dist_min <-
+      compute_gower_distance(data_min)
+
+    hclust_min <-
+      fit_hclust(dist_min)
+
+    testthat::expect_error(
+      cluster_functional_types(
+        data = data_min,
+        dist_gower = dist_min,
+        hclust_obj = hclust_min,
+        k = 2L,
+        verbose = "yes"
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() errors when verbose has length > 1",
+  {
+    data_min <-
+      tibble::tibble(
+        taxon_name = base::c("A", "B", "C", "D", "E"),
+        sla = base::c(1.0, 2.0, 3.0, 4.0, 5.0)
+      )
+
+    dist_min <-
+      compute_gower_distance(data_min)
+
+    hclust_min <-
+      fit_hclust(dist_min)
+
+    testthat::expect_error(
+      cluster_functional_types(
+        data = data_min,
+        dist_gower = dist_min,
+        hclust_obj = hclust_min,
+        k = 2L,
+        verbose = base::c(TRUE, FALSE)
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() returns a tibble directly",
+  {
+    base::set.seed(900723)
+
+    data_two_groups <-
+      tibble::tibble(
+        taxon_name = base::c(
+          "sp_a1", "sp_a2", "sp_a3", "sp_a4", "sp_a5",
+          "sp_b1", "sp_b2", "sp_b3", "sp_b4", "sp_b5"
         ),
         sla = base::c(
-          5, 5.1, 4.9, 5.2, 4.8,
-          50, 49.8, 50.2, 50.1, 49.9
+          1.0, 1.1, 0.9, 1.2, 1.0,
+          50.0, 51.0, 49.0, 50.5, 50.2
         )
       )
+
+    dist_two_groups <-
+      compute_gower_distance(data_two_groups)
+
+    hclust_two_groups <-
+      fit_hclust(dist_two_groups)
+
+    res <-
+      cluster_functional_types(
+        data = data_two_groups,
+        dist_gower = dist_two_groups,
+        hclust_obj = hclust_two_groups,
+        k = 2L,
+        verbose = FALSE
+      )
+
+    testthat::expect_s3_class(res, "tbl_df")
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() classification element is a tibble with 3 cols",
+  {
     base::set.seed(900723)
+
+    data_two_groups <-
+      tibble::tibble(
+        taxon_name = base::c(
+          "sp_a1", "sp_a2", "sp_a3", "sp_a4", "sp_a5",
+          "sp_b1", "sp_b2", "sp_b3", "sp_b4", "sp_b5"
+        ),
+        sla = base::c(
+          1.0, 1.1, 0.9, 1.2, 1.0,
+          50.0, 51.0, 49.0, 50.5, 50.2
+        )
+      )
+
+    dist_two_groups <-
+      compute_gower_distance(data_two_groups)
+
+    hclust_two_groups <-
+      fit_hclust(dist_two_groups)
+
+    res <-
+      cluster_functional_types(
+        data = data_two_groups,
+        dist_gower = dist_two_groups,
+        hclust_obj = hclust_two_groups,
+        k = 2L,
+        verbose = FALSE
+      )
+
+    testthat::expect_s3_class(res, "tbl_df")
+    testthat::expect_equal(base::ncol(res), 3L)
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() classification has expected column names",
+  {
+    base::set.seed(900723)
+
+    data_two_groups <-
+      tibble::tibble(
+        taxon_name = base::c(
+          "sp_a1", "sp_a2", "sp_a3", "sp_a4", "sp_a5",
+          "sp_b1", "sp_b2", "sp_b3", "sp_b4", "sp_b5"
+        ),
+        sla = base::c(
+          1.0, 1.1, 0.9, 1.2, 1.0,
+          50.0, 51.0, 49.0, 50.5, 50.2
+        )
+      )
+
+    dist_two_groups <-
+      compute_gower_distance(data_two_groups)
+
+    hclust_two_groups <-
+      fit_hclust(dist_two_groups)
+
+    res <-
+      cluster_functional_types(
+        data = data_two_groups,
+        dist_gower = dist_two_groups,
+        hclust_obj = hclust_two_groups,
+        k = 2L,
+        verbose = FALSE
+      )
+
+    vec_expected_columns <-
+      base::c(
+        "taxon_name", "functional_type", "silhouette_width"
+      )
+
+    testthat::expect_named(
+      res,
+      vec_expected_columns
+    )
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() functional_type is integer type",
+  {
+    base::set.seed(900723)
+
+    data_two_groups <-
+      tibble::tibble(
+        taxon_name = base::c(
+          "sp_a1", "sp_a2", "sp_a3", "sp_a4", "sp_a5",
+          "sp_b1", "sp_b2", "sp_b3", "sp_b4", "sp_b5"
+        ),
+        sla = base::c(
+          1.0, 1.1, 0.9, 1.2, 1.0,
+          50.0, 51.0, 49.0, 50.5, 50.2
+        )
+      )
+
+    dist_two_groups <-
+      compute_gower_distance(data_two_groups)
+
+    hclust_two_groups <-
+      fit_hclust(dist_two_groups)
+
+    res <-
+      cluster_functional_types(
+        data = data_two_groups,
+        dist_gower = dist_two_groups,
+        hclust_obj = hclust_two_groups,
+        k = 2L,
+        verbose = FALSE
+      )
+
+    vec_functional_type <-
+      dplyr::pull(
+        res,
+        functional_type
+      )
+
+    testthat::expect_type(vec_functional_type, "integer")
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() silhouette_width is double type",
+  {
+    base::set.seed(900723)
+
+    data_two_groups <-
+      tibble::tibble(
+        taxon_name = base::c(
+          "sp_a1", "sp_a2", "sp_a3", "sp_a4", "sp_a5",
+          "sp_b1", "sp_b2", "sp_b3", "sp_b4", "sp_b5"
+        ),
+        sla = base::c(
+          1.0, 1.1, 0.9, 1.2, 1.0,
+          50.0, 51.0, 49.0, 50.5, 50.2
+        )
+      )
+
+    dist_two_groups <-
+      compute_gower_distance(data_two_groups)
+
+    hclust_two_groups <-
+      fit_hclust(dist_two_groups)
+
+    res <-
+      cluster_functional_types(
+        data = data_two_groups,
+        dist_gower = dist_two_groups,
+        hclust_obj = hclust_two_groups,
+        k = 2L,
+        verbose = FALSE
+      )
+
+    vec_silhouette_width <-
+      dplyr::pull(
+        res,
+        silhouette_width
+      )
+
+    testthat::expect_type(vec_silhouette_width, "double")
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() taxon_name matches input taxon names",
+  {
+    base::set.seed(900723)
+
+    data_two_groups <-
+      tibble::tibble(
+        taxon_name = base::c(
+          "sp_a1", "sp_a2", "sp_a3", "sp_a4", "sp_a5",
+          "sp_b1", "sp_b2", "sp_b3", "sp_b4", "sp_b5"
+        ),
+        sla = base::c(
+          1.0, 1.1, 0.9, 1.2, 1.0,
+          50.0, 51.0, 49.0, 50.5, 50.2
+        )
+      )
+
+    dist_two_groups <-
+      compute_gower_distance(data_two_groups)
+
+    hclust_two_groups <-
+      fit_hclust(dist_two_groups)
+
+    res <-
+      cluster_functional_types(
+        data = data_two_groups,
+        dist_gower = dist_two_groups,
+        hclust_obj = hclust_two_groups,
+        k = 2L,
+        verbose = FALSE
+      )
+
+    vec_taxon_names <-
+      dplyr::pull(
+        res,
+        taxon_name
+      )
+
+    vec_expected_names <-
+      dplyr::pull(data_two_groups, taxon_name)
+
+    testthat::expect_equal(vec_taxon_names, vec_expected_names)
+  }
+)
+
+
+testthat::test_that(
+  "cluster_functional_types() taxon_col arg yields taxon_name col",
+  {
+    base::set.seed(900723)
+
+    data_species <-
+      tibble::tibble(
+        species = base::c(
+          "sp_a1", "sp_a2", "sp_a3", "sp_a4", "sp_a5",
+          "sp_b1", "sp_b2", "sp_b3", "sp_b4", "sp_b5"
+        ),
+        sla = base::c(
+          1.0, 1.1, 0.9, 1.2, 1.0,
+          50.0, 51.0, 49.0, 50.5, 50.2
+        )
+      )
+
+    dist_species <-
+      compute_gower_distance(
+        data = data_species,
+        taxon_col = "species"
+      )
+
+    hclust_species <-
+      fit_hclust(dist_species)
+
     res <-
       cluster_functional_types(
         data = data_species,
+        dist_gower = dist_species,
+        hclust_obj = hclust_species,
+        k = 2L,
         taxon_col = "species",
-        k_max = 9L,
         verbose = FALSE
       )
+
     testthat::expect_true(
-      "taxon_name" %in% base::colnames(res)
+      "taxon_name" %in%
+        base::colnames(res)
     )
+
     testthat::expect_false(
-      "species" %in% base::colnames(res)
-    )
-    testthat::expect_equal(
-      dplyr::pull(res, taxon_name),
-      dplyr::pull(data_species, species)
+      "species" %in%
+        base::colnames(res)
     )
   }
 )
 
+
 testthat::test_that(
-  "cluster_functional_types() handles NA trait values",
+  "cluster_functional_types() verbose=FALSE suppresses messages",
   {
-    data_na <-
+    base::set.seed(900723)
+
+    data_two_groups <-
       tibble::tibble(
         taxon_name = base::c(
-          "A", "B", "C", "D", "E",
-          "F", "G", "H", "I", "J"
+          "sp_a1", "sp_a2", "sp_a3", "sp_a4", "sp_a5",
+          "sp_b1", "sp_b2", "sp_b3", "sp_b4", "sp_b5"
         ),
         sla = base::c(
-          5, NA, 4.9, 5.2, 4.8,
-          50, 49.8, NA, 50.1, 49.9
-        ),
-        height = base::c(
-          0.5, 0.4, 0.6, 0.5, 0.4,
-          5, 4.8, 5.2, 5, 4.9
+          1.0, 1.1, 0.9, 1.2, 1.0,
+          50.0, 51.0, 49.0, 50.5, 50.2
         )
       )
-    base::set.seed(900723)
-    res <-
+
+    dist_two_groups <-
+      compute_gower_distance(data_two_groups)
+
+    hclust_two_groups <-
+      fit_hclust(dist_two_groups)
+
+    testthat::expect_no_message(
       cluster_functional_types(
-        data = data_na,
-        k_max = 9L,
+        data = data_two_groups,
+        dist_gower = dist_two_groups,
+        hclust_obj = hclust_two_groups,
+        k = 2L,
         verbose = FALSE
       )
-    testthat::expect_s3_class(res, "tbl_df")
-    testthat::expect_equal(base::nrow(res), 10L)
+    )
   }
 )
 
+
 testthat::test_that(
-  "cluster_functional_types() verbose=FALSE is silent",
+  "cluster_functional_types() verbose=TRUE produces a message",
   {
-    data_traits <-
+    base::set.seed(900723)
+
+    data_two_groups <-
       tibble::tibble(
         taxon_name = base::c(
-          "A", "B", "C", "D", "E",
-          "F", "G", "H", "I", "J"
+          "sp_a1", "sp_a2", "sp_a3", "sp_a4", "sp_a5",
+          "sp_b1", "sp_b2", "sp_b3", "sp_b4", "sp_b5"
         ),
         sla = base::c(
-          5, 5.1, 4.9, 5.2, 4.8,
-          50, 49.8, 50.2, 50.1, 49.9
-        ),
-        height = base::c(
-          0.5, 0.4, 0.6, 0.5, 0.4,
-          5, 4.8, 5.2, 5, 4.9
+          1.0, 1.1, 0.9, 1.2, 1.0,
+          50.0, 51.0, 49.0, 50.5, 50.2
         )
       )
-    base::set.seed(900723)
-    testthat::expect_silent(
+
+    dist_two_groups <-
+      compute_gower_distance(data_two_groups)
+
+    hclust_two_groups <-
+      fit_hclust(dist_two_groups)
+
+    testthat::expect_message(
       cluster_functional_types(
-        data = data_traits,
-        k_max = 9L,
-        verbose = FALSE
+        data = data_two_groups,
+        dist_gower = dist_two_groups,
+        hclust_obj = hclust_two_groups,
+        k = 2L,
+        verbose = TRUE
       )
     )
   }
 )
-
-testthat::test_that(
-  "cluster_functional_types() handles NaN Gower distances",
-  {
-    # Taxa in group 1 have only trait_1; taxa in group 2 have only trait_2.
-    # Gower distance for any cross-group pair = NaN (no shared valid traits).
-    # Without NaN-guarding, stats::hclust() raises "NA/NaN/Inf in foreign
-    # function call (arg 10)".  The function must replace NaN/non-finite
-    # distances with 1.0 (fully dissimilar) before calling hclust.
-    data_nonoverlap <-
-      tibble::tibble(
-        taxon_name = base::c("A", "B", "C", "D", "E", "F", "G", "H"),
-        trait_1 = base::c(1.0, 1.5, 0.8, 1.2, NA, NA, NA, NA),
-        trait_2 = base::c(NA, NA, NA, NA, 10.0, 12.0, 11.0, 9.0)
-      )
-    base::set.seed(900723)
-    res <-
-      cluster_functional_types(
-        data = data_nonoverlap,
-        k_max = 6L,
-        verbose = FALSE
-      )
-    testthat::expect_s3_class(res, "tbl_df")
-    testthat::expect_equal(base::nrow(res), 8L)
-    testthat::expect_named(
-      res,
-      base::c("taxon_name", "functional_type", "silhouette_width")
-    )
-  }
-)
-
-testthat::test_that(
-  "cluster_functional_types() replaces Inf/-Inf with NA and succeeds",
-  {
-    data_inf <-
-      tibble::tibble(
-        taxon_name = base::c(
-          "A", "B", "C", "D", "E",
-          "F", "G", "H", "I", "J"
-        ),
-        sla = base::c(
-          5, 5.1, Inf, 5.2, 4.8,
-          50, -Inf, 50.2, 50.1, 49.9
-        ),
-        height = base::c(
-          0.5, 0.4, 0.6, 0.5, 0.4,
-          5, 4.8, 5.2, 5, 4.9
-        )
-      )
-    base::set.seed(900723)
-    res <-
-      cluster_functional_types(
-        data = data_inf,
-        k_max = 9L,
-        verbose = FALSE
-      )
-    testthat::expect_s3_class(res, "tbl_df")
-    testthat::expect_equal(base::nrow(res), 10L)
-    testthat::expect_named(
-      res,
-      base::c("taxon_name", "functional_type", "silhouette_width")
-    )
-  }
-)
-
-testthat::test_that(
-  "cluster_functional_types() accepts non-default metric and method",
-  {
-    data_traits <-
-      tibble::tibble(
-        taxon_name = base::c(
-          "A", "B", "C", "D", "E",
-          "F", "G", "H", "I", "J"
-        ),
-        sla = base::c(
-          5, 5.1, 4.9, 5.2, 4.8,
-          50, 49.8, 50.2, 50.1, 49.9
-        ),
-        height = base::c(
-          0.5, 0.4, 0.6, 0.5, 0.4,
-          5, 4.8, 5.2, 5, 4.9
-        )
-      )
-    base::set.seed(900723)
-    res <-
-      cluster_functional_types(
-        data = data_traits,
-        k_max = 9L,
-        metric = "euclidean",
-        method = "complete",
-        verbose = FALSE
-      )
-    testthat::expect_s3_class(res, "tbl_df")
-    testthat::expect_equal(base::nrow(res), 10L)
-    testthat::expect_named(
-      res,
-      base::c("taxon_name", "functional_type", "silhouette_width")
-    )
-    testthat::expect_false(
-      base::is.null(base::attr(res, "k_chosen"))
-    )
-  }
-)
-
