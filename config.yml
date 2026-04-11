@@ -48,6 +48,10 @@ project_cz:
     spatial_mode: "spatiotemporal"
 traits:
   target_store: Data/targets/traits
+  data_processing:
+    ft_k_max: 10
+    ft_metric: "gower"
+    ft_method: "ward.D2"
 project_temporal_europe:
   target_store: Data/targets/project_temporal_europe
   vegvault_data:
