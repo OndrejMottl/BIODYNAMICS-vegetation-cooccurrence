@@ -61,7 +61,8 @@ pipe_segment_trait_ft_clustering <-
           config_key = "ft_groups_max",
           fallback_config = "traits"
         )
-      )
+      ),
+      cue = tar_cue("always")
     ),
 
     # ── 2. Read lower FT-group bound from config ───────
@@ -79,7 +80,8 @@ pipe_segment_trait_ft_clustering <-
           config_key = "ft_groups_min",
           fallback_config = "traits"
         )
-      )
+      ),
+      cue = tar_cue("always")
     ),
 
     # ── 3. Read dissimilarity metric from config ────────
@@ -96,7 +98,8 @@ pipe_segment_trait_ft_clustering <-
         config_section = "data_processing",
         config_key = "ft_metric",
         fallback_config = "traits"
-      )
+      ),
+      cue = tar_cue("always")
     ),
 
     # ── 4. Read hclust linkage method from config ───────
@@ -111,7 +114,8 @@ pipe_segment_trait_ft_clustering <-
         config_section = "data_processing",
         config_key = "ft_method",
         fallback_config = "traits"
-      )
+      ),
+      cue = tar_cue("always")
     ),
 
     # ── 5. Prepare continent-specific trait matrices ────
