@@ -301,6 +301,12 @@ run_pipeline(
   level_separation = 100,
   fresh_run = TRUE
 )
+
+# Resolution-testing pipeline (Phase E0 validation gate)
+targets::tar_make(
+  script = here::here("R/02_Main_analyses/pipeline_test_resolution.R"),
+  store  = here::here("Data/targets/project_cz/pipeline_test_resolution")
+)
 ```
 
 9. **Review with `changes-reviewer`** — Invoke the `changes-reviewer` subagent, passing the list of files changed in this session. If it reports any remaining violations, fix them before finalising.
@@ -477,6 +483,23 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
    Remove-Item Data/Temp/pipeline_out.txt -ErrorAction SilentlyContinue
    ```
 
+   Then run the resolution-testing pipeline (Phase E0 validation gate):
+
+   ```powershell
+   Rscript -e "
+   library(here)
+   source(here::here('R/___setup_project___.R'))
+   Sys.setenv(R_CONFIG_ACTIVE = 'project_cz')
+   targets::tar_make(
+     script = here::here('R/02_Main_analyses/pipeline_test_resolution.R'),
+     store  = here::here('Data/targets/project_cz/pipeline_test_resolution')
+   )
+   " > Data/Temp/pipeline_test_res_out.txt 2>&1
+   Get-Content Data/Temp/pipeline_test_res_out.txt |
+     Select-String -Pattern 'ERROR|error|started|completed|up to date|outdated|Target'
+   Remove-Item Data/Temp/pipeline_test_res_out.txt -ErrorAction SilentlyContinue
+   ```
+
 7. **Review with `changes-reviewer`** — Invoke the `changes-reviewer` subagent, passing the list of files changed in this session. If it reports any remaining violations, fix them before finalising.
 
 **A new function is not complete until steps 5, 6, and 7 both pass without unexpected errors.**
@@ -497,8 +520,8 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
    Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
    ```
 
-6. **Test run `project_cz`** — Run the pipeline end-to-end (same command
-   as above).
+6. **Test run `project_cz`** — Run the pipeline end-to-end (same commands
+   as above: `pipeline_basic.R` then `pipeline_test_resolution.R`).
 
 7. **Review with `changes-reviewer`** — Invoke the `changes-reviewer` subagent, passing the list of files changed in this session. If it reports any remaining violations, fix them before finalising.
 

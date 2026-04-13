@@ -163,6 +163,12 @@ run_pipeline(
   level_separation = 100,
   fresh_run = TRUE
 )
+
+# Resolution-testing pipeline (Phase E0 validation gate)
+targets::tar_make(
+  script = here::here("R/02_Main_analyses/pipeline_test_resolution.R"),
+  store  = here::here("Data/targets/project_cz/pipeline_test_resolution")
+)
 ```
 
 **Do not consider a bug fix complete until this step passes without errors.**
@@ -183,6 +189,7 @@ Note: steps 6, 7, and 8 must all pass  -  the targeted test catches regressions 
 | 6 | Run `testthat::test_file()` for the changed function  -  passes |
 | 7 | `Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`  -  all tests pass |
 | 8 | Run full `pipeline_basic.R` under `project_cz`  -  no errors |
+| 8b | Run `pipeline_test_resolution.R` (Phase E0 validation gate)  -  no errors |
 
 ---
 
