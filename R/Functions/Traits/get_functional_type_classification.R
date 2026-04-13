@@ -19,8 +19,9 @@
 #'   \item{taxon_name}{Character. Taxon names resolved to finest
 #'     available rank, matching the `taxon_name` column in the
 #'     global trait table.}
-#'   \item{functional_type}{Integer. Cluster label (1..k) from the
-#'     FT clustering solution chosen for this continental unit.}
+#'   \item{functional_type}{Integer. Cluster label
+#'     (1..`number_of_ft_groups`) assigned for this
+#'     continental unit.}
 #' }
 #' @details
 #' The function lists all `.qs` files in `path_processed` matching

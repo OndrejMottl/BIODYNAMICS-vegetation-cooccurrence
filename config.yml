@@ -49,7 +49,8 @@ project_cz:
 traits:
   target_store: Data/targets/traits
   data_processing:
-    ft_k_max: 10
+    ft_groups_min: 10
+    ft_groups_max: 25
     ft_metric: "gower"
     ft_method: "ward.D2"
 project_temporal_europe:

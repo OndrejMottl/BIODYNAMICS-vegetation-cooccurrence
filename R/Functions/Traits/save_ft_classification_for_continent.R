@@ -33,7 +33,7 @@
 #'   \item Return the file path as a character string.
 #' }
 #' Data filtering, distance computation, hierarchical clustering,
-#' and k-selection are all handled upstream by
+#' ft-groups selection are all handled upstream by
 #' `prepare_continent_trait_data()`, `compute_dissimilarity_matrix()`,
 #' `fit_hclust()`, and `cluster_functional_types()` respectively.
 #' @seealso [prepare_continent_trait_data()],

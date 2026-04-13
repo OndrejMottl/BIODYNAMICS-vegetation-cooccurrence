@@ -19,7 +19,7 @@ testthat::test_that(
         data = "not_a_data_frame",
         dist_mat = dist_dummy,
         hclust_obj = hclust_dummy,
-        k = 2L
+        number_of_ft_groups = 2L
       )
     )
   }
@@ -53,7 +53,7 @@ testthat::test_that(
         data = data_small,
         dist_mat = dist_dummy,
         hclust_obj = hclust_dummy,
-        k = 2L
+        number_of_ft_groups = 2L
       )
     )
   }
@@ -80,7 +80,7 @@ testthat::test_that(
         data = data_min,
         dist_mat = dist_min,
         hclust_obj = hclust_min,
-        k = 2L,
+        number_of_ft_groups = 2L,
         taxon_col = 1L
       )
     )
@@ -108,7 +108,7 @@ testthat::test_that(
         data = data_min,
         dist_mat = dist_min,
         hclust_obj = hclust_min,
-        k = 2L,
+        number_of_ft_groups = 2L,
         taxon_col = base::c("taxon_name", "sla")
       )
     )
@@ -143,7 +143,7 @@ testthat::test_that(
         data = data_species,
         dist_mat = dist_dummy,
         hclust_obj = hclust_dummy,
-        k = 2L,
+        number_of_ft_groups = 2L,
         taxon_col = "taxon_name"
       )
     )
@@ -178,7 +178,7 @@ testthat::test_that(
         data = data_min,
         dist_mat = mat_dummy,
         hclust_obj = hclust_dummy,
-        k = 2L
+        number_of_ft_groups = 2L
       )
     )
   }
@@ -202,7 +202,7 @@ testthat::test_that(
         data = data_min,
         dist_mat = dist_min,
         hclust_obj = base::list(a = 1),
-        k = 2L
+        number_of_ft_groups = 2L
       )
     )
   }
@@ -210,7 +210,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "cluster_functional_types() errors when k not numeric",
+  "cluster_functional_types() errors when number_of_ft_groups not numeric",
   {
     data_min <-
       tibble::tibble(
@@ -229,7 +229,7 @@ testthat::test_that(
         data = data_min,
         dist_mat = dist_min,
         hclust_obj = hclust_min,
-        k = "10"
+        number_of_ft_groups = "10"
       )
     )
   }
@@ -237,7 +237,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "cluster_functional_types() errors when k < 2",
+  "cluster_functional_types() errors when number_of_ft_groups < 2",
   {
     data_min <-
       tibble::tibble(
@@ -256,7 +256,7 @@ testthat::test_that(
         data = data_min,
         dist_mat = dist_min,
         hclust_obj = hclust_min,
-        k = 1L
+        number_of_ft_groups = 1L
       )
     )
   }
@@ -264,7 +264,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "cluster_functional_types() errors when k >= nrow(data)",
+  "cluster_functional_types() errors when number_of_ft_groups >= nrow(data)",
   {
     data_min <-
       tibble::tibble(
@@ -283,7 +283,7 @@ testthat::test_that(
         data = data_min,
         dist_mat = dist_min,
         hclust_obj = hclust_min,
-        k = 5L
+        number_of_ft_groups = 5L
       )
     )
   }
@@ -310,7 +310,7 @@ testthat::test_that(
         data = data_min,
         dist_mat = dist_min,
         hclust_obj = hclust_min,
-        k = 2L,
+        number_of_ft_groups = 2L,
         verbose = "yes"
       )
     )
@@ -338,7 +338,7 @@ testthat::test_that(
         data = data_min,
         dist_mat = dist_min,
         hclust_obj = hclust_min,
-        k = 2L,
+        number_of_ft_groups = 2L,
         verbose = base::c(TRUE, FALSE)
       )
     )
@@ -374,7 +374,7 @@ testthat::test_that(
         data = data_two_groups,
         dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
-        k = 2L,
+        number_of_ft_groups = 2L,
         verbose = FALSE
       )
 
@@ -411,7 +411,7 @@ testthat::test_that(
         data = data_two_groups,
         dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
-        k = 2L,
+        number_of_ft_groups = 2L,
         verbose = FALSE
       )
 
@@ -449,7 +449,7 @@ testthat::test_that(
         data = data_two_groups,
         dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
-        k = 2L,
+        number_of_ft_groups = 2L,
         verbose = FALSE
       )
 
@@ -494,7 +494,7 @@ testthat::test_that(
         data = data_two_groups,
         dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
-        k = 2L,
+        number_of_ft_groups = 2L,
         verbose = FALSE
       )
 
@@ -537,7 +537,7 @@ testthat::test_that(
         data = data_two_groups,
         dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
-        k = 2L,
+        number_of_ft_groups = 2L,
         verbose = FALSE
       )
 
@@ -580,7 +580,7 @@ testthat::test_that(
         data = data_two_groups,
         dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
-        k = 2L,
+        number_of_ft_groups = 2L,
         verbose = FALSE
       )
 
@@ -629,7 +629,7 @@ testthat::test_that(
         data = data_species,
         dist_mat = dist_species,
         hclust_obj = hclust_species,
-        k = 2L,
+        number_of_ft_groups = 2L,
         taxon_col = "species",
         verbose = FALSE
       )
@@ -675,7 +675,7 @@ testthat::test_that(
         data = data_two_groups,
         dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
-        k = 2L,
+        number_of_ft_groups = 2L,
         verbose = FALSE
       )
     )
@@ -711,7 +711,7 @@ testthat::test_that(
         data = data_two_groups,
         dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
-        k = 2L,
+        number_of_ft_groups = 2L,
         verbose = TRUE
       )
     )
