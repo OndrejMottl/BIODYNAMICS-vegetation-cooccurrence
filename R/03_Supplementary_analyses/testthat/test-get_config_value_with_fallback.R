@@ -505,6 +505,65 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "get_config_value_with_fallback() prefers active over fallback",
+  {
+    path_temp <-
+      base::tempfile(fileext = ".yml")
+
+    active_config_original <-
+      base::Sys.getenv("R_CONFIG_ACTIVE", unset = NA_character_)
+
+    base::on.exit(
+      expr = {
+        if (
+          base::is.na(active_config_original)
+        ) {
+          base::Sys.unsetenv("R_CONFIG_ACTIVE")
+        } else {
+          base::Sys.setenv(R_CONFIG_ACTIVE = active_config_original)
+        }
+
+        base::unlink(path_temp)
+      },
+      add = TRUE
+    )
+
+    yaml::write_yaml(
+      x = base::list(
+        default = base::list(
+          data_processing = base::list(
+            ft_groups_min = 3
+          )
+        ),
+        project_cz = base::list(
+          data_processing = base::list(
+            ft_groups_min = 8
+          )
+        ),
+        traits = base::list(
+          data_processing = base::list(
+            ft_groups_min = 12
+          )
+        )
+      ),
+      file = path_temp
+    )
+
+    base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+    value_config <-
+      get_config_value_with_fallback(
+        config_section = "data_processing",
+        config_key = "ft_groups_min",
+        fallback_config = "traits",
+        file = path_temp
+      )
+
+    testthat::expect_equal(value_config, 8)
+  }
+)
+
+testthat::test_that(
   "get_config_value_with_fallback() errors when key is missing",
   {
     path_temp <-
