@@ -257,7 +257,7 @@ source(
 
 testthat::test_file(
   here::here(
-    "R/03_Supplementary_analyses/testthat/test-<function_name>.R"
+    "R/03_Supplementary_analyses/Testing/testthat/test-<function_name>.R"
   )
 )
 ```
@@ -266,7 +266,7 @@ testthat::test_file(
    to run the dedicated script that sources project setup automatically:
 
 ```powershell
-Rscript R/03_Supplementary_analyses/Run_tests.R
+Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
 ```
 
    Alternatively, from an interactive R session:
@@ -279,7 +279,7 @@ source(
 )
 
 testthat::test_dir(
-  here::here("R/03_Supplementary_analyses/testthat")
+  here::here("R/03_Supplementary_analyses/Testing/testthat")
 )
 ```
 
@@ -435,7 +435,7 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
 
 1. **Write the spec** — Create the function file with only the roxygen2 documentation header and an empty stub body (returning `NULL` or `stop("not implemented")`). Define the function name, all arguments with defaults, return type, and description. Follow the template in [instructions/make_roxygen2_documentation.instructions.md](instructions/make_roxygen2_documentation.instructions.md).
 
-2. **Write unit tests** — Launch a subagent with the full contents of [instructions/make_test_file_for_a_function.instructions.md](instructions/make_test_file_for_a_function.instructions.md) and the function **spec stub** as context. The subagent creates the test file at `R/03_Supplementary_analyses/testthat/test-<function_name>.R` based solely on the spec, and the intended functionality not on any implementation.
+2. **Write unit tests** — Launch a subagent with the full contents of [instructions/make_test_file_for_a_function.instructions.md](instructions/make_test_file_for_a_function.instructions.md) and the function **spec stub** as context. The subagent creates the test file at `R/03_Supplementary_analyses/Testing/testthat/test-<function_name>.R` based solely on the spec, and the intended functionality not on any implementation.
 
 3. **Verify all tests fail** — Run the test file to confirm **every test fails**. A test that passes at this stage means it is not testing real behavior (fix it before continuing):
 
@@ -445,7 +445,7 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
    source(here::here('R/___setup_project___.R'))
    testthat::test_file(
      here::here(
-       'R/03_Supplementary_analyses/testthat/test-<function_name>.R'
+       'R/03_Supplementary_analyses/Testing/testthat/test-<function_name>.R'
      )
    )
    "
@@ -456,7 +456,7 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
 5. **Run the full test suite** — All project tests must pass:
 
    ```powershell
-   Rscript R/03_Supplementary_analyses/Run_tests.R
+   Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
    ```
 
 6. **Test run `project_cz`** — Run the pipeline end-to-end:
@@ -494,7 +494,7 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
 5. **Run the full test suite** — All project tests must pass:
 
    ```powershell
-   Rscript R/03_Supplementary_analyses/Run_tests.R
+   Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
    ```
 
 6. **Test run `project_cz`** — Run the pipeline end-to-end (same command

@@ -22,6 +22,6 @@ library(testthat)
 
 testthat::test_dir(
   here::here(
-    "R/03_Supplementary_analyses/testthat"
+    "R/03_Supplementary_analyses/Testing/testthat"
   )
 )

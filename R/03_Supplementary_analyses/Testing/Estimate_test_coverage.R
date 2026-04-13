@@ -34,7 +34,7 @@ data_covr <-
       ),
     test_files = list.files(
       here::here(
-        "R/03_Supplementary_analyses/testthat"
+        "R/03_Supplementary_analyses/Testing/testthat"
       ),
       recursive = TRUE,
       full.names = TRUE

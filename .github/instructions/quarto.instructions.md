@@ -360,7 +360,7 @@ Function documentation pages are **auto-generated**  -  do not edit them manuall
 ### Process
 
 1. Every function in `R/Functions/` must have `roxygen2` documentation (see `.github/instructions/make_roxygen2_documentation.instructions.md`).
-2. Run `R/03_Supplementary_analyses/Document_functions.R` to:
+2. Run `R/03_Supplementary_analyses/Documentation/Document_functions.R` to:
   a. Generate `.html` and `.txt` files from `roxygen2` comments into `Documentation/Functions/`.
   b. Convert each `.html` file into a `.qmd` file inside `website/Documentation/Functions/`.
 3. Each generated `.qmd` has a YAML header followed by the raw HTML from the `{document}` package output:
@@ -380,7 +380,7 @@ After adding or editing a function's `roxygen2` comments, re-run:
 
 ```r
 source("R/___setup_project___.R")
-source("R/03_Supplementary_analyses/Document_functions.R")
+source("R/03_Supplementary_analyses/Documentation/Document_functions.R")
 ```
 
 Then re-render the Quarto site.

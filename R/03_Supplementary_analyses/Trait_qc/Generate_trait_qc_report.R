@@ -9,16 +9,16 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Renders R/03_Supplementary_analyses/Trait_qc_report.qmd
+# Renders R/03_Supplementary_analyses/Trait_qc/Trait_qc_report.qmd
 #   to dated PDFs in Outputs/Reports/.
 #
 # Mode "by_domain" (default): one PDF per trait domain.
 # Mode "all_in_one":          one PDF containing all domains.
 #
 # Usage:
-#   source("R/03_Supplementary_analyses/Generate_trait_qc_report.R")
+#   source("R/03_Supplementary_analyses/Trait_qc/Generate_trait_qc_report.R")
 #   or
-#   Rscript R/03_Supplementary_analyses/Generate_trait_qc_report.R
+#   Rscript R/03_Supplementary_analyses/Trait_qc/Generate_trait_qc_report.R
 
 
 #----------------------------------------------------------#

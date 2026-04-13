@@ -112,7 +112,7 @@ source(
 
 testthat::test_file(
   here::here(
-    "R/03_Supplementary_analyses/testthat/test-<function_name>.R"
+    "R/03_Supplementary_analyses/Testing/testthat/test-<function_name>.R"
   )
 )
 ```
@@ -124,7 +124,7 @@ Fix any failures before moving on.
 Once the targeted tests pass, run the entire suite to confirm no regressions were introduced elsewhere. The canonical way is the dedicated script  -  it sources project setup automatically before running tests:
 
 ```powershell
-Rscript R/03_Supplementary_analyses/Run_tests.R
+Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
 ```
 
 Alternatively, from an interactive R session:
@@ -137,7 +137,7 @@ source(
 )
 
 testthat::test_dir(
-  here::here("R/03_Supplementary_analyses/testthat")
+  here::here("R/03_Supplementary_analyses/Testing/testthat")
 )
 ```
 
@@ -181,7 +181,7 @@ Note: steps 6, 7, and 8 must all pass  -  the targeted test catches regressions 
 | 4 | Apply minimal fix + explanatory comment to source |
 | 5 | `Remove-Item` all temp debug files |
 | 6 | Run `testthat::test_file()` for the changed function  -  passes |
-| 7 | `Rscript R/03_Supplementary_analyses/Run_tests.R`  -  all tests pass |
+| 7 | `Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`  -  all tests pass |
 | 8 | Run full `pipeline_basic.R` under `project_cz`  -  no errors |
 
 ---
