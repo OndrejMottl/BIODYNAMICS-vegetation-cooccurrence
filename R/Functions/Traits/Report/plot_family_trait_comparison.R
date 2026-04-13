@@ -40,7 +40,7 @@
 #' layer is empty and only the focal taxon point is drawn.
 #'
 #' Plot layer order follows project conventions: `ggplot2::ggplot()`
-#' → scales → labels → theme → `ggview::canvas()` → geoms.
+#' -> scales -> labels -> theme -> `ggview::canvas()` -> geoms.
 #' @seealso
 #' [get_family_trait_summary()], [plot_trait_group_distribution()],
 #' [generate_trait_qc_report()]

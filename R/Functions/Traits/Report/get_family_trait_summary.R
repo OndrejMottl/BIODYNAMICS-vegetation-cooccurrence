@@ -161,9 +161,6 @@ get_family_trait_summary <- function(
     dplyr::filter(
       .data[["taxon_name"]] %in% vec_comparison_taxa,
       .data[["trait_domain_name"]] == sel_domain
-    ) |>
-    dplyr::filter(
-      .data[["taxon_name"]] != sel_taxon
     )
 
   if (
