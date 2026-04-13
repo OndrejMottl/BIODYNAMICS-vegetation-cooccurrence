@@ -126,17 +126,12 @@ pipe_segment_trait_ft_clustering <-
         "Filter trait table to taxa for one continent"
       ),
       name = data_continent_traits,
-      command = {
-        continent_id_i <-
-          dplyr::pull(data_continental_rows, "scale_id")
-
-        prepare_continent_trait_data(
-          continent_id = continent_id_i,
-          data_trait_table = data_trait_table,
-          data_traits_classified_corrected =
-            data_traits_classified_corrected
-        )
-      },
+      command = prepare_continent_trait_data(
+        continent_id = dplyr::pull(data_continental_rows, "scale_id"),
+        data_trait_table = data_trait_table,
+        data_traits_classified_corrected =
+          data_traits_classified_corrected
+      ),
       pattern = map(data_continental_rows)
     ),
 
@@ -152,12 +147,10 @@ pipe_segment_trait_ft_clustering <-
         "Compute dissimilarity matrix for one continent"
       ),
       name = dist_continent,
-      command = {
-        compute_dissimilarity_matrix(
-          data = data_continent_traits,
-          metric = metric_ft_clustering
-        )
-      },
+      command = compute_dissimilarity_matrix(
+        data = data_continent_traits,
+        metric = metric_ft_clustering
+      ),
       pattern = map(data_continent_traits)
     ),
 
@@ -172,12 +165,10 @@ pipe_segment_trait_ft_clustering <-
         "Fit hierarchical clustering for one continent"
       ),
       name = hclust_continent,
-      command = {
-        fit_hclust(
-          dist_mat = dist_continent,
-          method = method_ft_clustering
-        )
-      },
+      command = fit_hclust(
+        dist_mat = dist_continent,
+        method = method_ft_clustering
+      ),
       pattern = map(dist_continent)
     ),
 
@@ -194,14 +185,12 @@ pipe_segment_trait_ft_clustering <-
         "Select optimal number of FT groups via silhouette for one continent"
       ),
       name = ft_groups_chosen_continent,
-      command = {
-        select_ft_groups_by_silhouette(
-          dist_mat = dist_continent,
-          hclust_obj = hclust_continent,
-          ft_groups_min = ft_groups_min_clustering,
-          ft_groups_max = ft_groups_max_clustering
-        )
-      },
+      command = select_ft_groups_by_silhouette(
+        dist_mat = dist_continent,
+        hclust_obj = hclust_continent,
+        ft_groups_min = ft_groups_min_clustering,
+        ft_groups_max = ft_groups_max_clustering
+      ),
       pattern = map(
         dist_continent,
         hclust_continent
@@ -219,15 +208,13 @@ pipe_segment_trait_ft_clustering <-
         "Cluster taxa into FTs for one continent"
       ),
       name = ft_result_continent,
-      command = {
-        cluster_functional_types(
-          data = data_continent_traits,
-          dist_mat = dist_continent,
-          hclust_obj = hclust_continent,
-          number_of_ft_groups = ft_groups_chosen_continent,
-          verbose = TRUE
-        )
-      },
+      command = cluster_functional_types(
+        data = data_continent_traits,
+        dist_mat = dist_continent,
+        hclust_obj = hclust_continent,
+        number_of_ft_groups = ft_groups_chosen_continent,
+        verbose = TRUE
+      ),
       pattern = map(
         data_continent_traits,
         dist_continent,
@@ -248,16 +235,11 @@ pipe_segment_trait_ft_clustering <-
         "Save FT classification for one continent to .qs file"
       ),
       name = path_ft_classification,
-      command = {
-        continent_id_i <-
-          dplyr::pull(data_continental_rows, "scale_id")
-
-        save_ft_classification_for_continent(
-          continent_id = continent_id_i,
-          data_classification = ft_result_continent,
-          verbose = TRUE
-        )
-      },
+      command = save_ft_classification_for_continent(
+        continent_id = dplyr::pull(data_continental_rows, "scale_id"),
+        data_classification = ft_result_continent,
+        verbose = TRUE
+      ),
       pattern = map(
         data_continental_rows,
         ft_result_continent
