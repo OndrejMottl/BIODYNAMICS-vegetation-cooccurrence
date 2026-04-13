@@ -34,10 +34,10 @@
 #' }
 #' Data filtering, distance computation, hierarchical clustering,
 #' and k-selection are all handled upstream by
-#' `prepare_continent_trait_data()`, `compute_gower_distance()`,
+#' `prepare_continent_trait_data()`, `compute_dissimilarity_matrix()`,
 #' `fit_hclust()`, and `cluster_functional_types()` respectively.
 #' @seealso [prepare_continent_trait_data()],
-#'   [compute_gower_distance()], [fit_hclust()],
+#'   [compute_dissimilarity_matrix()], [fit_hclust()],
 #'   [cluster_functional_types()]
 #' @export
 save_ft_classification_for_continent <- function(
@@ -85,7 +85,7 @@ save_ft_classification_for_continent <- function(
     file = file_path
   )
 
-  if (isTRUE(verbose)) {
+  if (base::isTRUE(verbose)) {
     cli::cli_inform(
       c(
         "i" = stringr::str_glue(

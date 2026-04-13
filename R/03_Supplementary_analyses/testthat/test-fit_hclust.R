@@ -1,8 +1,8 @@
 testthat::test_that(
-  "fit_hclust() errors when dist_gower is not a dist object",
+  "fit_hclust() errors when dist_mat is not a dist object",
   {
     testthat::expect_error(
-      fit_hclust(dist_gower = "not_a_dist")
+      fit_hclust(dist_mat = "not_a_dist")
     )
   }
 )
@@ -22,7 +22,7 @@ testthat::test_that(
 
     testthat::expect_error(
       fit_hclust(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         method = 1L
       )
     )
@@ -44,7 +44,7 @@ testthat::test_that(
 
     testthat::expect_error(
       fit_hclust(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         method = base::c("ward.D2", "complete")
       )
     )
@@ -65,7 +65,7 @@ testthat::test_that(
       stats::dist(mat_data)
 
     res <-
-      fit_hclust(dist_gower = dist_obj)
+      fit_hclust(dist_mat = dist_obj)
 
     testthat::expect_s3_class(res, "hclust")
   }
@@ -85,7 +85,7 @@ testthat::test_that(
       stats::dist(mat_data)
 
     res <-
-      fit_hclust(dist_gower = dist_obj)
+      fit_hclust(dist_mat = dist_obj)
 
     vec_expected_names <-
       base::c(
@@ -113,7 +113,7 @@ testthat::test_that(
       stats::dist(mat_data)
 
     res <-
-      fit_hclust(dist_gower = dist_obj, method = "complete")
+      fit_hclust(dist_mat = dist_obj, method = "complete")
 
     testthat::expect_equal(purrr::chuck(res, "method"), "complete")
   }
@@ -133,7 +133,7 @@ testthat::test_that(
       stats::dist(mat_data)
 
     res <-
-      fit_hclust(dist_gower = dist_obj)
+      fit_hclust(dist_mat = dist_obj)
 
     testthat::expect_equal(base::nrow(purrr::chuck(res, "merge")), 4L)
   }
@@ -156,13 +156,13 @@ testthat::test_that(
 
     res_ward <-
       fit_hclust(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         method = "ward.D2"
       )
 
     res_single <-
       fit_hclust(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         method = "single"
       )
 

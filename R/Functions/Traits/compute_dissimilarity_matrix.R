@@ -1,12 +1,12 @@
-#' @title Compute Gower Dissimilarity Matrix from Trait Data
+#' @title Compute Dissimilarity Matrix from Trait Data
 #' @description
 #' Computes a pairwise dissimilarity matrix from a wide trait
 #' table using `cluster::daisy()`. Before computation, any
 #' `Inf` / `-Inf` values in numeric trait columns are replaced
-#' with `NA` so that the Gower normalisation denominator stays
+#' with `NA` so that the normalisation denominator stays
 #' finite. After computation, any remaining `NaN` or non-finite
 #' values in the distance matrix are replaced with `1.0` (the
-#' maximum Gower distance, i.e. fully dissimilar). This function
+#' maximum dissimilarity, i.e. fully dissimilar). This function
 #' isolates the distance-computation step from
 #' `cluster_functional_types()` so that the distance matrix can
 #' be stored as an independent, inspectable pipeline target.
@@ -14,7 +14,7 @@
 #' A data frame with one row per taxon. Must contain a column
 #' identified by `taxon_col` and at least one additional trait
 #' column. `NA` values in trait columns are handled natively by
-#' the Gower metric.
+#' `cluster::daisy()`.
 #' @param taxon_col
 #' A single character string naming the column that holds taxon
 #' names. Default: `"taxon_name"`. This column is excluded before
@@ -26,7 +26,7 @@
 #' @return
 #' An object of class `"dist"` (as returned by `stats::as.dist()`)
 #' with one entry per pair of taxa. All values are in [0, 1] when
-#' `metric = "gower"`.
+#' `metric = "gower"` (Gower default).
 #' @details
 #' **Steps performed**:
 #' \enumerate{
@@ -41,7 +41,7 @@
 #' }
 #' @seealso [fit_hclust()], [cluster_functional_types()]
 #' @export
-compute_gower_distance <- function(
+compute_dissimilarity_matrix <- function(
     data,
     taxon_col = "taxon_name",
     metric = "gower") {

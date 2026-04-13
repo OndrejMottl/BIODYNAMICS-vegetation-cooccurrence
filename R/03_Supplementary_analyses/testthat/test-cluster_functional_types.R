@@ -17,7 +17,7 @@ testthat::test_that(
     testthat::expect_error(
       cluster_functional_types(
         data = "not_a_data_frame",
-        dist_gower = dist_dummy,
+        dist_mat = dist_dummy,
         hclust_obj = hclust_dummy,
         k = 2L
       )
@@ -51,7 +51,7 @@ testthat::test_that(
     testthat::expect_error(
       cluster_functional_types(
         data = data_small,
-        dist_gower = dist_dummy,
+        dist_mat = dist_dummy,
         hclust_obj = hclust_dummy,
         k = 2L
       )
@@ -70,15 +70,15 @@ testthat::test_that(
       )
 
     dist_min <-
-      compute_gower_distance(data_min)
+      compute_dissimilarity_matrix(data = data_min)
 
     hclust_min <-
-      fit_hclust(dist_min)
+      fit_hclust(dist_mat = dist_min)
 
     testthat::expect_error(
       cluster_functional_types(
         data = data_min,
-        dist_gower = dist_min,
+        dist_mat = dist_min,
         hclust_obj = hclust_min,
         k = 2L,
         taxon_col = 1L
@@ -98,15 +98,15 @@ testthat::test_that(
       )
 
     dist_min <-
-      compute_gower_distance(data_min)
+      compute_dissimilarity_matrix(data = data_min)
 
     hclust_min <-
-      fit_hclust(dist_min)
+      fit_hclust(dist_mat = dist_min)
 
     testthat::expect_error(
       cluster_functional_types(
         data = data_min,
-        dist_gower = dist_min,
+        dist_mat = dist_min,
         hclust_obj = hclust_min,
         k = 2L,
         taxon_col = base::c("taxon_name", "sla")
@@ -141,7 +141,7 @@ testthat::test_that(
     testthat::expect_error(
       cluster_functional_types(
         data = data_species,
-        dist_gower = dist_dummy,
+        dist_mat = dist_dummy,
         hclust_obj = hclust_dummy,
         k = 2L,
         taxon_col = "taxon_name"
@@ -152,7 +152,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "cluster_functional_types() errors when dist_gower not a dist obj",
+  "cluster_functional_types() errors when dist_mat not a dist obj",
   {
     data_min <-
       tibble::tibble(
@@ -176,7 +176,7 @@ testthat::test_that(
     testthat::expect_error(
       cluster_functional_types(
         data = data_min,
-        dist_gower = mat_dummy,
+        dist_mat = mat_dummy,
         hclust_obj = hclust_dummy,
         k = 2L
       )
@@ -195,12 +195,12 @@ testthat::test_that(
       )
 
     dist_min <-
-      compute_gower_distance(data_min)
+      compute_dissimilarity_matrix(data = data_min)
 
     testthat::expect_error(
       cluster_functional_types(
         data = data_min,
-        dist_gower = dist_min,
+        dist_mat = dist_min,
         hclust_obj = base::list(a = 1),
         k = 2L
       )
@@ -219,15 +219,15 @@ testthat::test_that(
       )
 
     dist_min <-
-      compute_gower_distance(data_min)
+      compute_dissimilarity_matrix(data = data_min)
 
     hclust_min <-
-      fit_hclust(dist_min)
+      fit_hclust(dist_mat = dist_min)
 
     testthat::expect_error(
       cluster_functional_types(
         data = data_min,
-        dist_gower = dist_min,
+        dist_mat = dist_min,
         hclust_obj = hclust_min,
         k = "10"
       )
@@ -246,15 +246,15 @@ testthat::test_that(
       )
 
     dist_min <-
-      compute_gower_distance(data_min)
+      compute_dissimilarity_matrix(data = data_min)
 
     hclust_min <-
-      fit_hclust(dist_min)
+      fit_hclust(dist_mat = dist_min)
 
     testthat::expect_error(
       cluster_functional_types(
         data = data_min,
-        dist_gower = dist_min,
+        dist_mat = dist_min,
         hclust_obj = hclust_min,
         k = 1L
       )
@@ -273,15 +273,15 @@ testthat::test_that(
       )
 
     dist_min <-
-      compute_gower_distance(data_min)
+      compute_dissimilarity_matrix(data = data_min)
 
     hclust_min <-
-      fit_hclust(dist_min)
+      fit_hclust(dist_mat = dist_min)
 
     testthat::expect_error(
       cluster_functional_types(
         data = data_min,
-        dist_gower = dist_min,
+        dist_mat = dist_min,
         hclust_obj = hclust_min,
         k = 5L
       )
@@ -300,15 +300,15 @@ testthat::test_that(
       )
 
     dist_min <-
-      compute_gower_distance(data_min)
+      compute_dissimilarity_matrix(data = data_min)
 
     hclust_min <-
-      fit_hclust(dist_min)
+      fit_hclust(dist_mat = dist_min)
 
     testthat::expect_error(
       cluster_functional_types(
         data = data_min,
-        dist_gower = dist_min,
+        dist_mat = dist_min,
         hclust_obj = hclust_min,
         k = 2L,
         verbose = "yes"
@@ -328,15 +328,15 @@ testthat::test_that(
       )
 
     dist_min <-
-      compute_gower_distance(data_min)
+      compute_dissimilarity_matrix(data = data_min)
 
     hclust_min <-
-      fit_hclust(dist_min)
+      fit_hclust(dist_mat = dist_min)
 
     testthat::expect_error(
       cluster_functional_types(
         data = data_min,
-        dist_gower = dist_min,
+        dist_mat = dist_min,
         hclust_obj = hclust_min,
         k = 2L,
         verbose = base::c(TRUE, FALSE)
@@ -364,15 +364,15 @@ testthat::test_that(
       )
 
     dist_two_groups <-
-      compute_gower_distance(data_two_groups)
+      compute_dissimilarity_matrix(data = data_two_groups)
 
     hclust_two_groups <-
-      fit_hclust(dist_two_groups)
+      fit_hclust(dist_mat = dist_two_groups)
 
     res <-
       cluster_functional_types(
         data = data_two_groups,
-        dist_gower = dist_two_groups,
+        dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
         k = 2L,
         verbose = FALSE
@@ -401,15 +401,15 @@ testthat::test_that(
       )
 
     dist_two_groups <-
-      compute_gower_distance(data_two_groups)
+      compute_dissimilarity_matrix(data = data_two_groups)
 
     hclust_two_groups <-
-      fit_hclust(dist_two_groups)
+      fit_hclust(dist_mat = dist_two_groups)
 
     res <-
       cluster_functional_types(
         data = data_two_groups,
-        dist_gower = dist_two_groups,
+        dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
         k = 2L,
         verbose = FALSE
@@ -439,15 +439,15 @@ testthat::test_that(
       )
 
     dist_two_groups <-
-      compute_gower_distance(data_two_groups)
+      compute_dissimilarity_matrix(data = data_two_groups)
 
     hclust_two_groups <-
-      fit_hclust(dist_two_groups)
+      fit_hclust(dist_mat = dist_two_groups)
 
     res <-
       cluster_functional_types(
         data = data_two_groups,
-        dist_gower = dist_two_groups,
+        dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
         k = 2L,
         verbose = FALSE
@@ -484,15 +484,15 @@ testthat::test_that(
       )
 
     dist_two_groups <-
-      compute_gower_distance(data_two_groups)
+      compute_dissimilarity_matrix(data = data_two_groups)
 
     hclust_two_groups <-
-      fit_hclust(dist_two_groups)
+      fit_hclust(dist_mat = dist_two_groups)
 
     res <-
       cluster_functional_types(
         data = data_two_groups,
-        dist_gower = dist_two_groups,
+        dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
         k = 2L,
         verbose = FALSE
@@ -527,15 +527,15 @@ testthat::test_that(
       )
 
     dist_two_groups <-
-      compute_gower_distance(data_two_groups)
+      compute_dissimilarity_matrix(data = data_two_groups)
 
     hclust_two_groups <-
-      fit_hclust(dist_two_groups)
+      fit_hclust(dist_mat = dist_two_groups)
 
     res <-
       cluster_functional_types(
         data = data_two_groups,
-        dist_gower = dist_two_groups,
+        dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
         k = 2L,
         verbose = FALSE
@@ -570,15 +570,15 @@ testthat::test_that(
       )
 
     dist_two_groups <-
-      compute_gower_distance(data_two_groups)
+      compute_dissimilarity_matrix(data = data_two_groups)
 
     hclust_two_groups <-
-      fit_hclust(dist_two_groups)
+      fit_hclust(dist_mat = dist_two_groups)
 
     res <-
       cluster_functional_types(
         data = data_two_groups,
-        dist_gower = dist_two_groups,
+        dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
         k = 2L,
         verbose = FALSE
@@ -616,7 +616,7 @@ testthat::test_that(
       )
 
     dist_species <-
-      compute_gower_distance(
+      compute_dissimilarity_matrix(
         data = data_species,
         taxon_col = "species"
       )
@@ -627,7 +627,7 @@ testthat::test_that(
     res <-
       cluster_functional_types(
         data = data_species,
-        dist_gower = dist_species,
+        dist_mat = dist_species,
         hclust_obj = hclust_species,
         k = 2L,
         taxon_col = "species",
@@ -665,15 +665,15 @@ testthat::test_that(
       )
 
     dist_two_groups <-
-      compute_gower_distance(data_two_groups)
+      compute_dissimilarity_matrix(data = data_two_groups)
 
     hclust_two_groups <-
-      fit_hclust(dist_two_groups)
+      fit_hclust(dist_mat = dist_two_groups)
 
     testthat::expect_no_message(
       cluster_functional_types(
         data = data_two_groups,
-        dist_gower = dist_two_groups,
+        dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
         k = 2L,
         verbose = FALSE
@@ -701,15 +701,15 @@ testthat::test_that(
       )
 
     dist_two_groups <-
-      compute_gower_distance(data_two_groups)
+      compute_dissimilarity_matrix(data = data_two_groups)
 
     hclust_two_groups <-
-      fit_hclust(dist_two_groups)
+      fit_hclust(dist_mat = dist_two_groups)
 
     testthat::expect_message(
       cluster_functional_types(
         data = data_two_groups,
-        dist_gower = dist_two_groups,
+        dist_mat = dist_two_groups,
         hclust_obj = hclust_two_groups,
         k = 2L,
         verbose = TRUE

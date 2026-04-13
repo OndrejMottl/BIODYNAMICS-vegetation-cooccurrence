@@ -10,8 +10,8 @@
 #' column (identified by `taxon_col`) holding taxon names.
 #' Must have at least 4 rows and `nrow(data)` must be strictly
 #' greater than `k`.
-#' @param dist_gower
-#' A `dist` object produced by `compute_gower_distance()`. Must
+#' @param dist_mat
+#' A `dist` object produced by `compute_dissimilarity_matrix()`. Must
 #' inherit class `"dist"`. All distance values must be finite.
 #' @param hclust_obj
 #' An `hclust` object produced by `fit_hclust()`. Must inherit
@@ -48,16 +48,16 @@
 #' }
 #' Distance computation (Inf -> NA, daisy, NaN -> 1.0) and
 #' hierarchical clustering are handled upstream by
-#' `compute_gower_distance()` and `fit_hclust()` respectively.
+#' `compute_dissimilarity_matrix()` and `fit_hclust()` respectively.
 #' k-selection is handled upstream by `select_k_by_silhouette()`.
 #' If `nrow(data) < 4` or `k >= nrow(data)`, the function aborts
 #' with an informative error.
-#' @seealso [compute_gower_distance()], [fit_hclust()],
+#' @seealso [compute_dissimilarity_matrix()], [fit_hclust()],
 #'   [select_k_by_silhouette()]
 #' @export
 cluster_functional_types <- function(
     data,
-    dist_gower,
+    dist_mat,
     hclust_obj,
     k,
     taxon_col = "taxon_name",
@@ -81,8 +81,8 @@ cluster_functional_types <- function(
   )
 
   assertthat::assert_that(
-    base::inherits(dist_gower, "dist"),
-    msg = "'dist_gower' must be a 'dist' object."
+    base::inherits(dist_mat, "dist"),
+    msg = "'dist_mat' must be a 'dist' object."
   )
 
   assertthat::assert_that(
@@ -128,7 +128,7 @@ cluster_functional_types <- function(
     stats::cutree(hclust_obj, k = k_value)
 
   silhouette_result <-
-    cluster::silhouette(vec_labels, dist_gower)
+    cluster::silhouette(vec_labels, dist_mat)
 
   if (
     base::isTRUE(verbose)

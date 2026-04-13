@@ -1,5 +1,5 @@
 testthat::test_that(
-  "select_k_by_silhouette() rejects non-dist dist_gower",
+  "select_k_by_silhouette() rejects non-dist dist_mat",
   {
     mat_data <-
       base::matrix(
@@ -16,18 +16,18 @@ testthat::test_that(
 
     testthat::expect_error(
       select_k_by_silhouette(
-        dist_gower = mat_data,
+        dist_mat = mat_data,
         hclust_obj = hclust_obj,
         k_max = 3L
       ),
-      regexp = "dist_gower"
+      regexp = "dist_mat"
     )
   }
 )
 
 
 testthat::test_that(
-  "select_k_by_silhouette() rejects NULL dist_gower",
+  "select_k_by_silhouette() rejects NULL dist_mat",
   {
     mat_data <-
       base::matrix(
@@ -44,11 +44,11 @@ testthat::test_that(
 
     testthat::expect_error(
       select_k_by_silhouette(
-        dist_gower = NULL,
+        dist_mat = NULL,
         hclust_obj = hclust_obj,
         k_max = 3L
       ),
-      regexp = "dist_gower"
+      regexp = "dist_mat"
     )
   }
 )
@@ -69,7 +69,7 @@ testthat::test_that(
 
     testthat::expect_error(
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = base::list(merge = base::integer(0)),
         k_max = 3L
       ),
@@ -94,7 +94,7 @@ testthat::test_that(
 
     testthat::expect_error(
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = NULL,
         k_max = 3L
       ),
@@ -122,7 +122,7 @@ testthat::test_that(
 
     testthat::expect_error(
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = hclust_obj,
         k_max = "five"
       ),
@@ -150,7 +150,7 @@ testthat::test_that(
 
     testthat::expect_error(
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = hclust_obj,
         k_max = 1L
       ),
@@ -178,7 +178,7 @@ testthat::test_that(
 
     testthat::expect_error(
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = hclust_obj,
         k_max = 0L
       ),
@@ -207,7 +207,7 @@ testthat::test_that(
 
     res <-
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = hclust_obj,
         k_max = 6L
       )
@@ -232,14 +232,14 @@ testthat::test_that(
       )
 
     dist_obj <-
-      compute_gower_distance(data_traits)
+      compute_dissimilarity_matrix(data = data_traits)
 
     hclust_obj <-
-      fit_hclust(dist_obj)
+      fit_hclust(dist_mat = dist_obj)
 
     res <-
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = hclust_obj,
         k_max = 5L
       )
@@ -262,14 +262,14 @@ testthat::test_that(
       )
 
     dist_obj <-
-      compute_gower_distance(data_traits)
+      compute_dissimilarity_matrix(data = data_traits)
 
     hclust_obj <-
-      fit_hclust(dist_obj)
+      fit_hclust(dist_mat = dist_obj)
 
     res <-
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = hclust_obj,
         k_max = 5L
       )
@@ -292,14 +292,14 @@ testthat::test_that(
       )
 
     dist_obj <-
-      compute_gower_distance(data_traits)
+      compute_dissimilarity_matrix(data = data_traits)
 
     hclust_obj <-
-      fit_hclust(dist_obj)
+      fit_hclust(dist_mat = dist_obj)
 
     res <-
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = hclust_obj,
         k_max = 5L
       )
@@ -321,14 +321,14 @@ testthat::test_that(
       )
 
     dist_obj <-
-      compute_gower_distance(data_traits)
+      compute_dissimilarity_matrix(data = data_traits)
 
     hclust_obj <-
-      fit_hclust(dist_obj)
+      fit_hclust(dist_mat = dist_obj)
 
     res <-
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = hclust_obj,
         k_max = 4L
       )
@@ -352,14 +352,14 @@ testthat::test_that(
       )
 
     dist_obj <-
-      compute_gower_distance(data_traits)
+      compute_dissimilarity_matrix(data = data_traits)
 
     hclust_obj <-
-      fit_hclust(dist_obj)
+      fit_hclust(dist_mat = dist_obj)
 
     res <-
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = hclust_obj,
         k_max = 2L
       )
@@ -382,14 +382,14 @@ testthat::test_that(
       )
 
     dist_obj <-
-      compute_gower_distance(data_traits)
+      compute_dissimilarity_matrix(data = data_traits)
 
     hclust_obj <-
-      fit_hclust(dist_obj)
+      fit_hclust(dist_mat = dist_obj)
 
     res <-
       select_k_by_silhouette(
-        dist_gower = dist_obj,
+        dist_mat = dist_obj,
         hclust_obj = hclust_obj,
         k_max = 8L
       )

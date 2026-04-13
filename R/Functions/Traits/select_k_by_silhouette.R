@@ -2,9 +2,9 @@
 #' @description
 #' Sweeps k = 2 .. `k_max`, cuts the dendrogram at each k, and
 #' returns the k that maximises the average silhouette width
-#' computed from `dist_gower`.
-#' @param dist_gower
-#' A `dist` object produced by `compute_gower_distance()`. Must
+#' computed from `dist_mat`.
+#' @param dist_mat
+#' A `dist` object produced by `compute_dissimilarity_matrix()`. Must
 #' inherit class `"dist"`.
 #' @param hclust_obj
 #' An `hclust` object produced by `fit_hclust()`. Must inherit
@@ -22,16 +22,16 @@
 #' records the mean silhouette width. The k with the highest mean
 #' is returned. Ties are broken by `base::which.max()` (first
 #' occurrence).
-#' @seealso [compute_gower_distance()], [fit_hclust()],
+#' @seealso [compute_dissimilarity_matrix()], [fit_hclust()],
 #'   [cluster_functional_types()]
 #' @export
 select_k_by_silhouette <- function(
-    dist_gower,
+    dist_mat,
     hclust_obj,
     k_max = 10L) {
   assertthat::assert_that(
-    base::inherits(dist_gower, "dist"),
-    msg = "'dist_gower' must be a 'dist' object."
+    base::inherits(dist_mat, "dist"),
+    msg = "'dist_mat' must be a 'dist' object."
   )
 
   assertthat::assert_that(
@@ -47,7 +47,8 @@ select_k_by_silhouette <- function(
   )
 
   n_observations <-
-    base::length(hclust_obj$order)
+    purrr::chuck(hclust_obj, "order")  |> 
+    base::length()
 
   k_max <-
     base::min(
@@ -66,7 +67,7 @@ select_k_by_silhouette <- function(
           stats::cutree(hclust_obj, k = .x)
 
         silhouette_obj <-
-          cluster::silhouette(vec_cut, dist_gower)
+          cluster::silhouette(vec_cut, dist_mat)
 
         base::mean(silhouette_obj[, "sil_width"])
       }

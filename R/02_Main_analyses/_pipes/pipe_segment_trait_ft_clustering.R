@@ -11,7 +11,7 @@
 #
 #----------------------------------------------------------#
 # Pipe segment that clusters all taxa present in each continental
-#   unit into functional types (FTs) using Gower distance and
+#   unit into functional types (FTs) using a dissimilarity metric and
 #   Ward D2 hierarchical clustering. The number of FTs is chosen
 #   by maximising the average silhouette width (select_k_by_silhouette);
 #   the assignment step (cluster_functional_types) then receives k
@@ -32,16 +32,16 @@
 #                                   data_continental_rows; one branch
 #                                   per continent filters the trait
 #                                   table to continent taxa
-#   5. dist_gower_continent      – dynamic branch over
+#   5. dist_continent            – dynamic branch over
 #                                   data_continent_traits; one branch
-#                                   per continent computes the Gower
+#                                   per continent computes the
 #                                   dissimilarity matrix
 #   6. hclust_continent          – dynamic branch over
-#                                   dist_gower_continent; one branch
+#                                   dist_continent; one branch
 #                                   per continent fits the
 #                                   hierarchical clustering object
 #   7. k_chosen_continent        – dynamic branch over
-#                                   dist_gower_continent and
+#                                   dist_continent and
 #                                   hclust_continent; one branch per
 #                                   continent calls
 #                                   select_k_by_silhouette() and
@@ -51,7 +51,7 @@
 #                                   function when needed
 #   8. ft_result_continent       – dynamic branch over
 #                                   data_continent_traits,
-#                                   dist_gower_continent,
+#                                   dist_continent,
 #                                   hclust_continent, and
 #                                   k_chosen_continent; one branch per
 #                                   continent calls
@@ -69,7 +69,7 @@
 # All three tunable parameters (k_max, metric, method) are read
 # from config.yml under traits > data_processing (ft_k_max /
 # ft_metric / ft_method). For non-traits configs the pipe falls back
-# to the hardcoded defaults (k_max=10, metric="gower",
+# to the hardcoded defaults (k_max=10, metric="gower" (Gower),
 # method="ward.D2").
 
 
@@ -117,7 +117,7 @@ pipe_segment_trait_ft_clustering <-
 
     # ── 2. Read metric from config ──────────────────────
     targets::tar_target(
-      description = "Read Gower metric for FT clustering from config",
+      description = "Read dissimilarity metric for FT clustering from config",
       name = metric_ft_clustering,
       command = {
         metric_config <-
@@ -168,17 +168,17 @@ pipe_segment_trait_ft_clustering <-
       pattern = map(data_continental_rows)
     ),
 
-    # ── 5. Compute Gower dissimilarity matrix ───────────
+    # ── 5. Compute dissimilarity matrix ─────────────────
     # Dynamic branch: one branch per element of data_continent_traits.
     # Inf values are replaced with NA before daisy(); NaN/non-finite
     # results are replaced with 1.0 (fully dissimilar).
     targets::tar_target(
       description = stringr::str_glue(
-        "Compute Gower distance matrix for one continent"
+        "Compute dissimilarity matrix for one continent"
       ),
-      name = dist_gower_continent,
+      name = dist_continent,
       command = {
-        compute_gower_distance(
+        compute_dissimilarity_matrix(
           data = data_continent_traits,
           metric = metric_ft_clustering
         )
@@ -187,7 +187,7 @@ pipe_segment_trait_ft_clustering <-
     ),
 
     # ── 6. Fit hierarchical clustering ──────────────────
-    # Dynamic branch: one branch per dist_gower_continent element.
+    # Dynamic branch: one branch per dist_continent element.
     # Thin wrapper over stats::hclust().
     targets::tar_target(
       description = stringr::str_glue(
@@ -196,11 +196,11 @@ pipe_segment_trait_ft_clustering <-
       name = hclust_continent,
       command = {
         fit_hclust(
-          dist_gower = dist_gower_continent,
+          dist_mat = dist_continent,
           method = method_ft_clustering
         )
       },
-      pattern = map(dist_gower_continent)
+      pattern = map(dist_continent)
     ),
 
     # ── 7. Select optimal k per continent ───────────────
@@ -214,13 +214,13 @@ pipe_segment_trait_ft_clustering <-
       name = k_chosen_continent,
       command = {
         select_k_by_silhouette(
-          dist_gower = dist_gower_continent,
+          dist_mat = dist_continent,
           hclust_obj = hclust_continent,
           k_max = k_max_ft_clustering
         )
       },
       pattern = map(
-        dist_gower_continent,
+        dist_continent,
         hclust_continent
       )
     ),
@@ -237,7 +237,7 @@ pipe_segment_trait_ft_clustering <-
       command = {
         cluster_functional_types(
           data = data_continent_traits,
-          dist_gower = dist_gower_continent,
+          dist_mat = dist_continent,
           hclust_obj = hclust_continent,
           k = k_chosen_continent,
           verbose = TRUE
@@ -245,7 +245,7 @@ pipe_segment_trait_ft_clustering <-
       },
       pattern = map(
         data_continent_traits,
-        dist_gower_continent,
+        dist_continent,
         hclust_continent,
         k_chosen_continent
       )

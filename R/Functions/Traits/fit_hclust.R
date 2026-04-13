@@ -2,8 +2,8 @@
 #' @description
 #' Fits a hierarchical clustering model from a precomputed
 #' dissimilarity matrix using `stats::hclust()`.
-#' @param dist_gower
-#' A `"dist"` object (as produced by `compute_gower_distance()`
+#' @param dist_mat
+#' A `"dist"` object (as produced by `compute_dissimilarity_matrix()`
 #' or `stats::as.dist()`). Must contain no `NA` or non-finite
 #' values.
 #' @param method
@@ -12,15 +12,15 @@
 #' for all valid linkage methods.
 #' @return
 #' An object of class `"hclust"` as returned by `stats::hclust()`.
-#' @seealso [compute_gower_distance()],
+#' @seealso [compute_dissimilarity_matrix()],
 #'   [cluster_functional_types()]
 #' @export
 fit_hclust <- function(
-    dist_gower,
+    dist_mat,
     method = "ward.D2") {
   assertthat::assert_that(
-    base::inherits(dist_gower, "dist"),
-    msg = "'dist_gower' must be a 'dist' object."
+    base::inherits(dist_mat, "dist"),
+    msg = "'dist_mat' must be a 'dist' object."
   )
 
   assertthat::assert_that(
@@ -31,7 +31,7 @@ fit_hclust <- function(
 
   res <-
     stats::hclust(
-      dist_gower,
+      dist_mat,
       method = method
     )
 
