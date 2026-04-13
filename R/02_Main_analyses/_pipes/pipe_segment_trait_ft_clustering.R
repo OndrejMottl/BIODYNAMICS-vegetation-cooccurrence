@@ -44,7 +44,7 @@ base::suppressMessages(
 #----------------------------------------------------------#
 
 pipe_segment_trait_ft_clustering <-
-  list(
+  base::list(
 
     # ── 1. Read upper FT-group bound from config ───────
     # This scalar target defines the largest number of candidate
