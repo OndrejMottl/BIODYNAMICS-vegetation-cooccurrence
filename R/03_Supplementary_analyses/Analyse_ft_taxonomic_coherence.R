@@ -10,12 +10,12 @@
 #
 #----------------------------------------------------------#
 # For each continent, joins the FT clustering results with
-#    the full taxonomic hierarchy (class → genus) and
+#    the full taxonomic hierarchy (class -> genus) and
 #    computes "FT purity" — the proportion of taxa in a clade
 #    assigned to the dominant FT.
 #
 # Hypothesis: purity increases as rank gets finer
-#    (class → order → family → genus), reflecting phylogenetic
+#    (class -> order -> family -> genus), reflecting phylogenetic
 #    signal in the trait-based clustering.
 #
 # Produces two output figures saved to Outputs/Figures/Traits/
@@ -49,7 +49,7 @@ graphical_options <-
 
 vec_pipelines <- "pipeline_traits"
 
-path_store <-
+path_target_store <-
   here::here(
     stringr::str_glue(
       "{get_active_config('target_store')}/{vec_pipelines}/"
@@ -58,7 +58,7 @@ path_store <-
 
 # Minimum number of taxa in a clade for purity to be computed.
 # Clades with fewer taxa are dropped to avoid trivial purity = 1.
-n_min_clade_size <- 3L
+n_minimum_clade_size <- 3L
 
 # Ranks to assess — kingdom and phylum excluded (too coarse).
 vec_ranks <-
@@ -66,7 +66,7 @@ vec_ranks <-
   forcats::fct_inorder()
 
 # Top-n orders shown in the heatmap per continent.
-n_top_orders <- 25L
+n_top_order_count <- 25L
 
 
 #----------------------------------------------------------#
@@ -75,13 +75,19 @@ n_top_orders <- 25L
 
 
 #--------------------------------------------------#
-## 2.1. Taxonomic classification table -----
+## 2.1. Taxonomic classification tables -----
 #--------------------------------------------------#
 
 data_combined_classification_table_traits <-
   targets::tar_read(
     name = "data_combined_classification_table_traits",
-    store = path_store
+    store = path_target_store
+  )
+
+data_resolution_to_finest <-
+  targets::tar_read(
+    name = "data_resolution_to_finest",
+    store = path_target_store
   )
 
 
@@ -89,27 +95,23 @@ data_combined_classification_table_traits <-
 ## 2.2. FT classification files -----
 #--------------------------------------------------#
 
-path_ft_classification <-
-  targets::tar_read(
-    name = "path_ft_classification",
-    store = path_store
-  )
-
-# Extract continent id from each file path.
-# File names follow: data_ft_classification_{continent}_{date}.qs
 vec_continent_ids <-
-  path_ft_classification |>
-  base::basename() |>
-  stringr::str_extract("(?<=data_ft_classification_)[a-z]+")
+  load_continental_rows(
+    path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
+  ) |>
+  dplyr::pull(scale_id)
 
-# Read each .qs file, attach continent id, combine.
+# Read the most recent saved FT classification for each continent,
+# attach continent_id, and combine.
 data_ft_all <-
-  path_ft_classification |>
-  purrr::map2(
-    .y = vec_continent_ids,
+  vec_continent_ids |>
+  purrr::map(
     .f = ~ {
-      qs2::qs_read(file = .x) |>
-        dplyr::mutate(continent_id = .y)
+      get_functional_type_classification(
+        continent_id = .x,
+        path_processed = here::here("Data/Processed/Traits")
+      ) |>
+        dplyr::mutate(continent_id = .x)
     }
   ) |>
   purrr::list_rbind()
@@ -119,13 +121,58 @@ data_ft_all <-
 # 3. Join taxonomy -----
 #----------------------------------------------------------#
 
-# Left-join so taxa without a classification entry are kept
+# FT classification files are keyed on resolved taxon names, not the
+# original trait-taxonomy input names. Collapse the full classification
+# table to one taxonomy row per resolved taxon before joining.
+data_taxonomy_resolved <-
+  data_resolution_to_finest |>
+  dplyr::left_join(
+    data_combined_classification_table_traits,
+    by = dplyr::join_by(sel_name),
+    relationship = "one-to-one"
+  ) |>
+  dplyr::group_by(taxon_resolved) |>
+  dplyr::summarise(
+    dplyr::across(
+      dplyr::all_of(
+        base::c(
+          "kingdom",
+          "phylum",
+          "class",
+          "order",
+          "family",
+          "genus",
+          "species"
+        )
+      ),
+      ~ {
+        vec_values <-
+          .x |>
+          stats::na.omit() |>
+          base::unique() |>
+          base::as.character()
+
+        if (
+          base::length(vec_values) == 0L
+        ) {
+          return(NA_character_)
+        }
+
+        return(vec_values[[1L]])
+      }
+    ),
+    .groups = "drop"
+  ) |>
+  dplyr::rename(taxon_name = taxon_resolved)
+
+# Left-join so taxa without a taxonomy row are kept
 # (they will be filtered out by tidyr::drop_na() per rank).
 data_ft_classified <-
   data_ft_all |>
   dplyr::left_join(
-    data_combined_classification_table_traits,
-    by = dplyr::join_by(taxon_name == sel_name)
+    data_taxonomy_resolved,
+    by = dplyr::join_by(taxon_name),
+    relationship = "many-to-one"
   )
 
 
@@ -166,13 +213,16 @@ data_purity <-
         n_ft = dplyr::n_distinct(functional_type),
         .groups = "drop"
       ) |>
-      dplyr::filter(n_taxa >= n_min_clade_size) |>
+      dplyr::filter(n_taxa >= n_minimum_clade_size) |>
       dplyr::rename(clade_name = dplyr::all_of(.x)) |>
       dplyr::mutate(rank = .x)
   ) |>
   purrr::list_rbind() |>
   dplyr::mutate(
-    rank = forcats::fct_relevel(rank, base::as.character(vec_ranks))
+    rank = forcats::fct_relevel(
+      rank,
+      base::as.character(vec_ranks)
+    )
   )
 
 
@@ -185,8 +235,14 @@ data_purity <-
 
 data_top_orders <-
   data_ft_classified |>
-  tidyr::drop_na(order, functional_type) |>
-  dplyr::group_by(continent_id, order) |>
+  tidyr::drop_na(
+    order,
+    functional_type
+  ) |>
+  dplyr::group_by(
+    continent_id,
+    order
+  ) |>
   dplyr::summarise(
     n_total = dplyr::n(),
     .groups = "drop"
@@ -194,24 +250,37 @@ data_top_orders <-
   dplyr::group_by(continent_id) |>
   dplyr::slice_max(
     order_by = n_total,
-    n = n_top_orders,
+    n = n_top_order_count,
     with_ties = FALSE
   ) |>
   dplyr::ungroup()
 
 data_order_heatmap <-
   data_ft_classified |>
-  tidyr::drop_na(order, functional_type) |>
+  tidyr::drop_na(
+    order,
+    functional_type
+  ) |>
   dplyr::semi_join(
     data_top_orders,
-    by = dplyr::join_by(continent_id, order)
+    by = dplyr::join_by(
+      continent_id,
+      order
+    )
   ) |>
-  dplyr::group_by(continent_id, order, functional_type) |>
+  dplyr::group_by(
+    continent_id,
+    order,
+    functional_type
+  ) |>
   dplyr::summarise(
     n = dplyr::n(),
     .groups = "drop"
   ) |>
-  dplyr::group_by(continent_id, order) |>
+  dplyr::group_by(
+    continent_id,
+    order
+  ) |>
   dplyr::mutate(
     n_total = base::sum(n),
     prop = n / n_total,
@@ -220,7 +289,10 @@ data_order_heatmap <-
   ) |>
   dplyr::ungroup() |>
   dplyr::mutate(
-    order = forcats::fct_reorder(order, dominant_ft)
+    order = forcats::fct_reorder(
+      order,
+      dominant_ft
+    )
   )
 
 
@@ -233,7 +305,7 @@ data_order_heatmap <-
 ## 6.1. Figure 1 — Rank purity -----
 #--------------------------------------------------#
 
-# Expected pattern: purity increases class → genus,
+# Expected pattern: purity increases class -> genus,
 # reflecting phylogenetic signal in the trait-based clusters.
 
 plot_rank_purity <-
@@ -254,7 +326,11 @@ plot_rank_purity <-
   ggplot2::scale_y_continuous(
     name = "FT purity (dominant-FT proportion)",
     limits = base::c(0, 1),
-    breaks = base::seq(0, 1, by = 0.25)
+    breaks = base::seq(
+      0,
+      1,
+      by = 0.25
+    )
   ) +
   ggplot2::scale_colour_viridis_c(
     name = "Clade size\n(log\u2081\u2080 taxa)",
@@ -264,7 +340,7 @@ plot_rank_purity <-
   ggplot2::labs(
     title = "Functional-type purity by taxonomic rank",
     subtitle = stringr::str_glue(
-      "Clades with \u2265 {n_min_clade_size} taxa only"
+      "Clades with \u2265 {n_minimum_clade_size} taxa only"
     )
   ) +
   ggplot2::theme_classic() +
@@ -317,7 +393,11 @@ plot_order_heatmap <-
     name = "Proportion\nof taxa",
     option = "plasma",
     limits = base::c(0, 1),
-    breaks = base::seq(0, 1, by = 0.25)
+    breaks = base::seq(
+      0,
+      1,
+      by = 0.25
+    )
   ) +
   ggplot2::scale_x_discrete(
     name = "Functional type (continent-specific integer label)"
@@ -327,7 +407,7 @@ plot_order_heatmap <-
   ) +
   ggplot2::labs(
     title = stringr::str_glue(
-      "FT composition of top-{n_top_orders} orders per continent"
+      "FT composition of top-{n_top_order_count} orders per continent"
     ),
     subtitle = "Rows ordered by dominant functional type within continent"
   ) +
@@ -342,25 +422,28 @@ plot_order_heatmap <-
     dpi = graphical_options[["dpi"]],
     bg = graphical_options[["bg"]]
   ) +
-  ggplot2::geom_tile(colour = "white", linewidth = 0.2)
+  ggplot2::geom_tile(
+    colour = "white",
+    linewidth = 0.2
+  )
 
 
 #----------------------------------------------------------#
 # 7. Save figures -----
 #----------------------------------------------------------#
 
-path_output <-
+path_output_directory <-
   here::here("Outputs/Figures/Traits")
 
 fs::dir_create(
-  path_output,
+  path_output_directory,
   recurse = TRUE
 )
 
 ggview::save_ggplot(
   plot = plot_rank_purity,
   file = base::file.path(
-    path_output,
+    path_output_directory,
     "plot_rank_purity.pdf"
   )
 )
@@ -368,7 +451,7 @@ ggview::save_ggplot(
 ggview::save_ggplot(
   plot = plot_order_heatmap,
   file = base::file.path(
-    path_output,
+    path_output_directory,
     "plot_order_heatmap.pdf"
   )
 )
