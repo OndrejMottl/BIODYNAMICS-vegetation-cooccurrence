@@ -44,3 +44,10 @@ run_pipeline(
   level_separation = 100,
   fresh_run = TRUE
 )
+
+# Resolution-testing pipeline (Phase E0 validation gate)
+run_pipeline(
+  sel_script = "R/02_Main_analyses/pipeline_test_resolution.R",
+  level_separation = 100,
+  fresh_run = TRUE
+)
