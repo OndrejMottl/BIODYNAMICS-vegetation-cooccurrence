@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-04-15">
+
+<title>Explore resolution pipeline — genus vs family vs functional type</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Explore_resolution_pipeline_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Explore_resolution_pipeline_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Explore_resolution_pipeline_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Explore_resolution_pipeline_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="Explore_resolution_pipeline_files/libs/quarto-html/popper.min.js"></script>
+<script src="Explore_resolution_pipeline_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Explore_resolution_pipeline_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Explore_resolution_pipeline_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Explore_resolution_pipeline_files/libs/quarto-html/quarto-syntax-highlighting-dark-940ae5f67f9e3b81a57623f2972baed4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Explore_resolution_pipeline_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Explore_resolution_pipeline_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Explore_resolution_pipeline_files/libs/bootstrap/bootstrap-ea71b091dca81cf76ce413043d7b83b8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#section-1-ft-classification-source" id="toc-section-1-ft-classification-source" class="nav-link active" data-scroll-target="#section-1-ft-classification-source">Section 1 — FT classification source</a>
+  <ul class="collapse">
+  <li><a href="#classification-file" id="toc-classification-file" class="nav-link" data-scroll-target="#classification-file">1.1 Classification file</a></li>
+  <li><a href="#load-ft-classification" id="toc-load-ft-classification" class="nav-link" data-scroll-target="#load-ft-classification">1.2 Load FT classification</a></li>
+  <li><a href="#n-taxa-per-ft-group" id="toc-n-taxa-per-ft-group" class="nav-link" data-scroll-target="#n-taxa-per-ft-group">1.3 N taxa per FT group</a></li>
+  <li><a href="#silhouette-width-distribution-per-ft" id="toc-silhouette-width-distribution-per-ft" class="nav-link" data-scroll-target="#silhouette-width-distribution-per-ft">1.4 Silhouette width distribution per FT</a></li>
+  <li><a href="#ft-summary-table" id="toc-ft-summary-table" class="nav-link" data-scroll-target="#ft-summary-table">1.5 FT summary table</a></li>
+  </ul></li>
+  <li><a href="#section-2-community-data-across-resolutions" id="toc-section-2-community-data-across-resolutions" class="nav-link" data-scroll-target="#section-2-community-data-across-resolutions">Section 2 — Community data across resolutions</a>
+  <ul class="collapse">
+  <li><a href="#n-taxa-datasets-and-samples-per-resolution" id="toc-n-taxa-datasets-and-samples-per-resolution" class="nav-link" data-scroll-target="#n-taxa-datasets-and-samples-per-resolution">2.1 N taxa, datasets, and samples per resolution</a></li>
+  <li><a href="#taxon-count-distribution-records-per-taxon" id="toc-taxon-count-distribution-records-per-taxon" class="nav-link" data-scroll-target="#taxon-count-distribution-records-per-taxon">2.2 Taxon count distribution (records per taxon)</a></li>
+  <li><a href="#top-20-taxa-per-resolution" id="toc-top-20-taxa-per-resolution" class="nav-link" data-scroll-target="#top-20-taxa-per-resolution">2.3 Top-20 taxa per resolution</a></li>
+  <li><a href="#community-taxa-and-their-ft-assignments-functional_type-branch" id="toc-community-taxa-and-their-ft-assignments-functional_type-branch" class="nav-link" data-scroll-target="#community-taxa-and-their-ft-assignments-functional_type-branch">2.4 Community taxa and their FT assignments (functional_type branch)</a></li>
+  </ul></li>
+  <li><a href="#section-3-model-evaluation-across-resolutions" id="toc-section-3-model-evaluation-across-resolutions" class="nav-link" data-scroll-target="#section-3-model-evaluation-across-resolutions">Section 3 — Model evaluation across resolutions</a>
+  <ul class="collapse">
+  <li><a href="#r²-comparison-across-resolutions" id="toc-r²-comparison-across-resolutions" class="nav-link" data-scroll-target="#r²-comparison-across-resolutions">3.1 R² comparison across resolutions</a></li>
+  <li><a href="#per-species-auc-distribution-across-resolutions" id="toc-per-species-auc-distribution-across-resolutions" class="nav-link" data-scroll-target="#per-species-auc-distribution-across-resolutions">3.2 Per-species AUC distribution across resolutions</a></li>
+  <li><a href="#per-species-accuracy-distribution-across-resolutions" id="toc-per-species-accuracy-distribution-across-resolutions" class="nav-link" data-scroll-target="#per-species-accuracy-distribution-across-resolutions">3.3 Per-species accuracy distribution across resolutions</a></li>
+  <li><a href="#top-10-best-and-worst-performing-taxa-per-resolution" id="toc-top-10-best-and-worst-performing-taxa-per-resolution" class="nav-link" data-scroll-target="#top-10-best-and-worst-performing-taxa-per-resolution">3.4 Top-10 best and worst performing taxa per resolution</a></li>
+  </ul></li>
+  <li><a href="#section-4-anova-variance-partitioning-across-resolutions" id="toc-section-4-anova-variance-partitioning-across-resolutions" class="nav-link" data-scroll-target="#section-4-anova-variance-partitioning-across-resolutions">Section 4 — ANOVA variance partitioning across resolutions</a>
+  <ul class="collapse">
+  <li><a href="#extract-variance-fractions-per-resolution" id="toc-extract-variance-fractions-per-resolution" class="nav-link" data-scroll-target="#extract-variance-fractions-per-resolution">4.1 Extract variance fractions per resolution</a></li>
+  <li><a href="#summary-table-mean-sd-per-component-resolution" id="toc-summary-table-mean-sd-per-component-resolution" class="nav-link" data-scroll-target="#summary-table-mean-sd-per-component-resolution">4.2 Summary table: mean ± SD per component × resolution</a></li>
+  <li><a href="#r²_nagelkerke-per-component-resolution" id="toc-r²_nagelkerke-per-component-resolution" class="nav-link" data-scroll-target="#r²_nagelkerke-per-component-resolution">4.3 R²_Nagelkerke per component × resolution</a></li>
+  <li><a href="#stacked-bar-mean-variance-fractions-per-resolution" id="toc-stacked-bar-mean-variance-fractions-per-resolution" class="nav-link" data-scroll-target="#stacked-bar-mean-variance-fractions-per-resolution">4.4 Stacked bar: mean variance fractions per resolution</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Explore resolution pipeline — genus vs family vs functional type</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 15, 2026</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">April 15, 2026</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<!--
+  Supplementary exploration notebook for the resolution-testing pipeline.
+  Compares the genus / family / functional_type branches side-by-side.
+  Reads exclusively via targets::tar_read() — no re-execution.
+
+  Pipeline store: Data/targets/project_cz/pipeline_test_resolution
+  Active config:  project_cz
+
+  Run the pipeline first:
+    Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+    targets::tar_make(
+      script = here::here(
+        "R/02_Main_analyses/pipeline_test_resolution.R"
+      ),
+      store  = here::here(
+        "Data/targets/project_cz/pipeline_test_resolution"
+      )
+    )
+-->
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"R/03_Supplementary_analyses/_Diagnostics/Explore_resolution_pipeline.qmd"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/___setup_project___.R"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>- The library is already synchronized with the lockfile.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">R_CONFIG_ACTIVE =</span> <span class="st">"project_cz"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>graphical_options <span class="ot">&lt;-</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_active_config</span>(<span class="st">"graphical"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>fig_width_inch <span class="ot">&lt;-</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">chuck</span>(graphical_options, <span class="st">"width"</span>) <span class="sc">/</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">chuck</span>(graphical_options, <span class="st">"dpi"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>fig_height_inch <span class="ot">&lt;-</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">chuck</span>(graphical_options, <span class="st">"height"</span>) <span class="sc">/</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">chuck</span>(graphical_options, <span class="st">"dpi"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>path_res_store <span class="ot">&lt;-</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data/targets/project_cz/pipeline_test_resolution"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>path_traits_store <span class="ot">&lt;-</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data/targets/traits/pipeline_traits"</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Guard: abort rendering if the store is missing.</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="sc">!</span>fs<span class="sc">::</span><span class="fu">dir_exists</span>(path_res_store)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  cli<span class="sc">::</span><span class="fu">cli_abort</span>(</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Resolution pipeline store not found at: {path_res_store}"</span>,</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">"i"</span> <span class="ot">=</span> stringr<span class="sc">::</span><span class="fu">str_c</span>(</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Run `targets::tar_make("</span>,</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"script = 'R/02_Main_analyses/pipeline_test_resolution.R',"</span>,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"store  = 'Data/targets/project_cz/pipeline_test_resolution')`"</span>,</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">" first."</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Convenience vector of the three resolutions.</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>vec_resolutions <span class="ot">&lt;-</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">c</span>(<span class="st">"genus"</span>, <span class="st">"family"</span>, <span class="st">"functional_type"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<hr>
+<section id="section-1-ft-classification-source" class="level1">
+<h1>Section 1 — FT classification source</h1>
+<section id="classification-file" class="level2">
+<h2 class="anchored" data-anchor-id="classification-file">1.1 Classification file</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>path_ft_file <span class="ot">&lt;-</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  targets<span class="sc">::</span><span class="fu">tar_read</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    path_ft_classification,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">store =</span> path_res_store</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">cat</span>(stringr<span class="sc">::</span><span class="fu">str_glue</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"FT classification file used:</span><span class="sc">\n</span><span class="st">  {path_ft_file}</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>FT classification file used:
+D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/Data/Processed/Traits/data_ft_classification_europe_2026-04-13.qs</code></pre>
+</div>
+</div>
+</section>
+<section id="load-ft-classification" class="level2">
+<h2 class="anchored" data-anchor-id="load-ft-classification">1.2 Load FT classification</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">!</span>fs<span class="sc">::</span><span class="fu">file_exists</span>(path_ft_file)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  cli<span class="sc">::</span><span class="fu">cli_abort</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"FT classification file not found: {path_ft_file}"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"i"</span> <span class="ot">=</span> <span class="st">"Run pipeline_traits.R (Segment 6) first."</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>data_ft_classification <span class="ot">&lt;-</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  qs2<span class="sc">::</span><span class="fu">qs_read</span>(path_ft_file)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>n_distinct_functional_type <span class="ot">&lt;-</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">n_distinct</span>(dplyr<span class="sc">::</span><span class="fu">pull</span>(data_ft_classification, <span class="st">"functional_type"</span>))</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>base<span class="sc">::</span><span class="fu">cat</span>(stringr<span class="sc">::</span><span class="fu">str_glue</span>(</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Rows (taxa):           {base::nrow(data_ft_classification)}</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Distinct FT groups:    {n_distinct_functional_type}</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows (taxa):           4419
+Distinct FT groups:    10</code></pre>
+</div>
+</div>
+</section>
+<section id="n-taxa-per-ft-group" class="level2">
+<h2 class="anchored" data-anchor-id="n-taxa-per-ft-group">1.3 N taxa per FT group</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_ft_classification <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(.data[[<span class="st">"functional_type"</span>]]) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> base<span class="sc">::</span><span class="fu">factor</span>(.data[[<span class="st">"functional_type"</span>]]),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> .data[[<span class="st">"n"</span>]]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#5588bb"</span>) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Functional type"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"N taxa"</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Explore_resolution_pipeline_files/figure-html/s1-taxa-per-ft-1.png" class="img-fluid figure-img" width="640"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="silhouette-width-distribution-per-ft" class="level2">
+<h2 class="anchored" data-anchor-id="silhouette-width-distribution-per-ft">1.4 Silhouette width distribution per FT</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data_ft_classification <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> base<span class="sc">::</span><span class="fu">factor</span>(.data[[<span class="st">"functional_type"</span>]]),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> .data[[<span class="st">"silhouette_width"</span>]]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_boxplot</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"#5588bb"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.6</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">outlier.size =</span> <span class="fl">0.8</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_hline</span>(</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">yintercept =</span> <span class="dv">0</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"#cc3333"</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Functional type"</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Silhouette width"</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Explore_resolution_pipeline_files/figure-html/s1-sil-boxplot-1.png" class="img-fluid figure-img" width="640"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ft-summary-table" class="level2">
+<h2 class="anchored" data-anchor-id="ft-summary-table">1.5 FT summary table</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data_ft_classification <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(.data[[<span class="st">"functional_type"</span>]]) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_taxa =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_silhouette_width =</span> base<span class="sc">::</span><span class="fu">mean</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      .data[[<span class="st">"silhouette_width"</span>]], <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_silhouette_width =</span> stats<span class="sc">::</span><span class="fu">median</span>(</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>      .data[[<span class="st">"silhouette_width"</span>]],</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_silhouette_width =</span> base<span class="sc">::</span><span class="fu">min</span>(.data[[<span class="st">"silhouette_width"</span>]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_silhouette_width =</span> base<span class="sc">::</span><span class="fu">max</span>(.data[[<span class="st">"silhouette_width"</span>]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(.data[[<span class="st">"functional_type"</span>]]) <span class="sc">|&gt;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  tinytable<span class="sc">::</span><span class="fu">tt</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_7044lulnwqfczdoa2qym = TinyTable.createTableFunctions("tinytable_7044lulnwqfczdoa2qym");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '10', j: 1 }, { i: '10', j: 2 }, { i: '10', j: 3 }, { i: '10', j: 4 }, { i: '10', j: 5 }, { i: '10', j: 6 } ], css_id: 'tinytable_css_43fs5pwzsmhrca8viwk8',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 } ], css_id: 'tinytable_css_681xx3583sa9ku5kxyt5',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_7044lulnwqfczdoa2qym.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_7044lulnwqfczdoa2qym td.tinytable_css_43fs5pwzsmhrca8viwk8, #tinytable_7044lulnwqfczdoa2qym th.tinytable_css_43fs5pwzsmhrca8viwk8 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_7044lulnwqfczdoa2qym td.tinytable_css_681xx3583sa9ku5kxyt5, #tinytable_7044lulnwqfczdoa2qym th.tinytable_css_681xx3583sa9ku5kxyt5 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_7044lulnwqfczdoa2qym" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">functional_type</th>
+                <th scope="col" data-row="0" data-col="2">n_taxa</th>
+                <th scope="col" data-row="0" data-col="3">mean_silhouette_width</th>
+                <th scope="col" data-row="0" data-col="4">median_silhouette_width</th>
+                <th scope="col" data-row="0" data-col="5">min_silhouette_width</th>
+                <th scope="col" data-row="0" data-col="6">max_silhouette_width</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">1</td>
+                  <td data-row="1" data-col="2">1902</td>
+                  <td data-row="1" data-col="3">0.06577425</td>
+                  <td data-row="1" data-col="4">-0.04653989</td>
+                  <td data-row="1" data-col="5">-0.99632520</td>
+                  <td data-row="1" data-col="6">0.9760801</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">2</td>
+                  <td data-row="2" data-col="2">475</td>
+                  <td data-row="2" data-col="3">0.58485432</td>
+                  <td data-row="2" data-col="4">0.40375122</td>
+                  <td data-row="2" data-col="5">-0.87399316</td>
+                  <td data-row="2" data-col="6">0.9995155</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">3</td>
+                  <td data-row="3" data-col="2">1773</td>
+                  <td data-row="3" data-col="3">0.21945265</td>
+                  <td data-row="3" data-col="4">0.52634199</td>
+                  <td data-row="3" data-col="5">-0.93456889</td>
+                  <td data-row="3" data-col="6">0.9093580</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">4</td>
+                  <td data-row="4" data-col="2">51</td>
+                  <td data-row="4" data-col="3">0.90193253</td>
+                  <td data-row="4" data-col="4">0.97147399</td>
+                  <td data-row="4" data-col="5">-0.28528150</td>
+                  <td data-row="4" data-col="6">0.9758681</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">5</td>
+                  <td data-row="5" data-col="2">61</td>
+                  <td data-row="5" data-col="3">0.34673823</td>
+                  <td data-row="5" data-col="4">0.24358433</td>
+                  <td data-row="5" data-col="5">-0.85876197</td>
+                  <td data-row="5" data-col="6">0.9998232</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="1">6</td>
+                  <td data-row="6" data-col="2">80</td>
+                  <td data-row="6" data-col="3">0.24592154</td>
+                  <td data-row="6" data-col="4">0.11437202</td>
+                  <td data-row="6" data-col="5">-0.71671341</td>
+                  <td data-row="6" data-col="6">0.9660532</td>
+                </tr>
+                <tr>
+                  <td data-row="7" data-col="1">7</td>
+                  <td data-row="7" data-col="2">71</td>
+                  <td data-row="7" data-col="3">0.89908353</td>
+                  <td data-row="7" data-col="4">0.97685930</td>
+                  <td data-row="7" data-col="5">0.02071609</td>
+                  <td data-row="7" data-col="6">0.9768593</td>
+                </tr>
+                <tr>
+                  <td data-row="8" data-col="1">8</td>
+                  <td data-row="8" data-col="2">4</td>
+                  <td data-row="8" data-col="3">0.57215252</td>
+                  <td data-row="8" data-col="4">0.67073093</td>
+                  <td data-row="8" data-col="5">0.19762052</td>
+                  <td data-row="8" data-col="6">0.7495277</td>
+                </tr>
+                <tr>
+                  <td data-row="9" data-col="1">9</td>
+                  <td data-row="9" data-col="2">1</td>
+                  <td data-row="9" data-col="3">0.00000000</td>
+                  <td data-row="9" data-col="4">0.00000000</td>
+                  <td data-row="9" data-col="5">0.00000000</td>
+                  <td data-row="9" data-col="6">0.0000000</td>
+                </tr>
+                <tr>
+                  <td data-row="10" data-col="1">10</td>
+                  <td data-row="10" data-col="2">1</td>
+                  <td data-row="10" data-col="3">0.00000000</td>
+                  <td data-row="10" data-col="4">0.00000000</td>
+                  <td data-row="10" data-col="5">0.00000000</td>
+                  <td data-row="10" data-col="6">0.0000000</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="section-2-community-data-across-resolutions" class="level1">
+<h1>Section 2 — Community data across resolutions</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>list_community_subset <span class="ot">&lt;-</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  vec_resolutions <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  rlang<span class="sc">::</span><span class="fu">set_names</span>() <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      target_name <span class="ot">&lt;-</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_glue</span>(<span class="st">"data_community_subset_{.x}"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>      targets<span class="sc">::</span><span class="fu">tar_read_raw</span>(</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        target_name,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">store =</span> path_res_store</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="n-taxa-datasets-and-samples-per-resolution" class="level2">
+<h2 class="anchored" data-anchor-id="n-taxa-datasets-and-samples-per-resolution">2.1 N taxa, datasets, and samples per resolution</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>list_community_subset <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">imap</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">.f =</span> <span class="sc">~</span> .x <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_taxa =</span> dplyr<span class="sc">::</span><span class="fu">n_distinct</span>(.data[[<span class="st">"taxon"</span>]]),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_datasets =</span> dplyr<span class="sc">::</span><span class="fu">n_distinct</span>(.data[[<span class="st">"dataset_name"</span>]]),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_samples =</span> dplyr<span class="sc">::</span><span class="fu">n_distinct</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>          stringr<span class="sc">::</span><span class="fu">str_c</span>(.data[[<span class="st">"dataset_name"</span>]], .data[[<span class="st">"age"</span>]])</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">resolution =</span> .y) <span class="sc">|&gt;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">"resolution"</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">list_rbind</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  tinytable<span class="sc">::</span><span class="fu">tt</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_4pgcmmxttidcfw3ez09a = TinyTable.createTableFunctions("tinytable_4pgcmmxttidcfw3ez09a");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 }, { i: '3', j: 3 }, { i: '3', j: 4 } ], css_id: 'tinytable_css_13tlhdco7pemp2xa0ft9',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 } ], css_id: 'tinytable_css_z321m2smzt1zdfen55y9',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_4pgcmmxttidcfw3ez09a.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_4pgcmmxttidcfw3ez09a td.tinytable_css_13tlhdco7pemp2xa0ft9, #tinytable_4pgcmmxttidcfw3ez09a th.tinytable_css_13tlhdco7pemp2xa0ft9 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_4pgcmmxttidcfw3ez09a td.tinytable_css_z321m2smzt1zdfen55y9, #tinytable_4pgcmmxttidcfw3ez09a th.tinytable_css_z321m2smzt1zdfen55y9 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_4pgcmmxttidcfw3ez09a" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">resolution</th>
+                <th scope="col" data-row="0" data-col="2">n_taxa</th>
+                <th scope="col" data-row="0" data-col="3">n_datasets</th>
+                <th scope="col" data-row="0" data-col="4">n_samples</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">genus</td>
+                  <td data-row="1" data-col="2">17</td>
+                  <td data-row="1" data-col="3">27</td>
+                  <td data-row="1" data-col="4">205</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">family</td>
+                  <td data-row="2" data-col="2">10</td>
+                  <td data-row="2" data-col="3">27</td>
+                  <td data-row="2" data-col="4">205</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">functional_type</td>
+                  <td data-row="3" data-col="2">4</td>
+                  <td data-row="3" data-col="3">27</td>
+                  <td data-row="3" data-col="4">205</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</section>
+<section id="taxon-count-distribution-records-per-taxon" class="level2">
+<h2 class="anchored" data-anchor-id="taxon-count-distribution-records-per-taxon">2.2 Taxon count distribution (records per taxon)</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>list_community_subset <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">imap</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">.f =</span> <span class="sc">~</span> .x <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">count</span>(.data[[<span class="st">"taxon"</span>]]) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">resolution =</span> .y)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">list_rbind</span>() <span class="sc">|&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> .data[[<span class="st">"n"</span>]],</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> .data[[<span class="st">"resolution"</span>]]</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">vars</span>(.data[[<span class="st">"resolution"</span>]]),</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">scales =</span> <span class="st">"free_y"</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"N records per taxon"</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Resolution"</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Explore_resolution_pipeline_files/figure-html/s2-taxon-count-dist-1.png" class="img-fluid figure-img" width="640"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="top-20-taxa-per-resolution" class="level2">
+<h2 class="anchored" data-anchor-id="top-20-taxa-per-resolution">2.3 Top-20 taxa per resolution</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>list_community_subset <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">imap</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">.f =</span> <span class="sc">~</span> .x <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">count</span>(.data[[<span class="st">"taxon"</span>]]) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(.data[[<span class="st">"n"</span>]])) <span class="sc">|&gt;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>      utils<span class="sc">::</span><span class="fu">head</span>(<span class="dv">20</span>L) <span class="sc">|&gt;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">resolution =</span> .y) <span class="sc">|&gt;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">relocate</span>(<span class="st">"resolution"</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">list_rbind</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  tinytable<span class="sc">::</span><span class="fu">tt</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_fr1p13okoe2s3z9ycrmp = TinyTable.createTableFunctions("tinytable_fr1p13okoe2s3z9ycrmp");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '31', j: 1 }, { i: '31', j: 2 }, { i: '31', j: 3 } ], css_id: 'tinytable_css_qqcc2vlmxhqy98y0cpon',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_fs0qzx2aq7jtndwlr8b7',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_fr1p13okoe2s3z9ycrmp.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_fr1p13okoe2s3z9ycrmp td.tinytable_css_qqcc2vlmxhqy98y0cpon, #tinytable_fr1p13okoe2s3z9ycrmp th.tinytable_css_qqcc2vlmxhqy98y0cpon {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_fr1p13okoe2s3z9ycrmp td.tinytable_css_fs0qzx2aq7jtndwlr8b7, #tinytable_fr1p13okoe2s3z9ycrmp th.tinytable_css_fs0qzx2aq7jtndwlr8b7 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_fr1p13okoe2s3z9ycrmp" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">resolution</th>
+                <th scope="col" data-row="0" data-col="2">taxon</th>
+                <th scope="col" data-row="0" data-col="3">n</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">genus</td>
+                  <td data-row="1" data-col="2">Picea</td>
+                  <td data-row="1" data-col="3">204</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">genus</td>
+                  <td data-row="2" data-col="2">Pinus</td>
+                  <td data-row="2" data-col="3">203</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">genus</td>
+                  <td data-row="3" data-col="2">Alnus</td>
+                  <td data-row="3" data-col="3">202</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">genus</td>
+                  <td data-row="4" data-col="2">Betula</td>
+                  <td data-row="4" data-col="3">201</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">genus</td>
+                  <td data-row="5" data-col="2">Abies</td>
+                  <td data-row="5" data-col="3">184</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="1">genus</td>
+                  <td data-row="6" data-col="2">Fagus</td>
+                  <td data-row="6" data-col="3">179</td>
+                </tr>
+                <tr>
+                  <td data-row="7" data-col="1">genus</td>
+                  <td data-row="7" data-col="2">Corylus</td>
+                  <td data-row="7" data-col="3">174</td>
+                </tr>
+                <tr>
+                  <td data-row="8" data-col="1">genus</td>
+                  <td data-row="8" data-col="2">Quercus</td>
+                  <td data-row="8" data-col="3">173</td>
+                </tr>
+                <tr>
+                  <td data-row="9" data-col="1">genus</td>
+                  <td data-row="9" data-col="2">Carpinus</td>
+                  <td data-row="9" data-col="3">92</td>
+                </tr>
+                <tr>
+                  <td data-row="10" data-col="1">genus</td>
+                  <td data-row="10" data-col="2">Ulmus</td>
+                  <td data-row="10" data-col="3">57</td>
+                </tr>
+                <tr>
+                  <td data-row="11" data-col="1">genus</td>
+                  <td data-row="11" data-col="2">Tilia</td>
+                  <td data-row="11" data-col="3">41</td>
+                </tr>
+                <tr>
+                  <td data-row="12" data-col="1">genus</td>
+                  <td data-row="12" data-col="2">Salix</td>
+                  <td data-row="12" data-col="3">30</td>
+                </tr>
+                <tr>
+                  <td data-row="13" data-col="1">genus</td>
+                  <td data-row="13" data-col="2">Fraxinus</td>
+                  <td data-row="13" data-col="3">26</td>
+                </tr>
+                <tr>
+                  <td data-row="14" data-col="1">genus</td>
+                  <td data-row="14" data-col="2">Calluna</td>
+                  <td data-row="14" data-col="3">19</td>
+                </tr>
+                <tr>
+                  <td data-row="15" data-col="1">genus</td>
+                  <td data-row="15" data-col="2">Acer</td>
+                  <td data-row="15" data-col="3">12</td>
+                </tr>
+                <tr>
+                  <td data-row="16" data-col="1">genus</td>
+                  <td data-row="16" data-col="2">Vaccinium</td>
+                  <td data-row="16" data-col="3">12</td>
+                </tr>
+                <tr>
+                  <td data-row="17" data-col="1">genus</td>
+                  <td data-row="17" data-col="2">Juniperus</td>
+                  <td data-row="17" data-col="3">9</td>
+                </tr>
+                <tr>
+                  <td data-row="18" data-col="1">family</td>
+                  <td data-row="18" data-col="2">Betulaceae</td>
+                  <td data-row="18" data-col="3">205</td>
+                </tr>
+                <tr>
+                  <td data-row="19" data-col="1">family</td>
+                  <td data-row="19" data-col="2">Pinaceae</td>
+                  <td data-row="19" data-col="3">205</td>
+                </tr>
+                <tr>
+                  <td data-row="20" data-col="1">family</td>
+                  <td data-row="20" data-col="2">Fagaceae</td>
+                  <td data-row="20" data-col="3">201</td>
+                </tr>
+                <tr>
+                  <td data-row="21" data-col="1">family</td>
+                  <td data-row="21" data-col="2">Ulmaceae</td>
+                  <td data-row="21" data-col="3">57</td>
+                </tr>
+                <tr>
+                  <td data-row="22" data-col="1">family</td>
+                  <td data-row="22" data-col="2">Malvaceae</td>
+                  <td data-row="22" data-col="3">41</td>
+                </tr>
+                <tr>
+                  <td data-row="23" data-col="1">family</td>
+                  <td data-row="23" data-col="2">Ericaceae</td>
+                  <td data-row="23" data-col="3">36</td>
+                </tr>
+                <tr>
+                  <td data-row="24" data-col="1">family</td>
+                  <td data-row="24" data-col="2">Salicaceae</td>
+                  <td data-row="24" data-col="3">33</td>
+                </tr>
+                <tr>
+                  <td data-row="25" data-col="1">family</td>
+                  <td data-row="25" data-col="2">Oleaceae</td>
+                  <td data-row="25" data-col="3">27</td>
+                </tr>
+                <tr>
+                  <td data-row="26" data-col="1">family</td>
+                  <td data-row="26" data-col="2">Sapindaceae</td>
+                  <td data-row="26" data-col="3">12</td>
+                </tr>
+                <tr>
+                  <td data-row="27" data-col="1">family</td>
+                  <td data-row="27" data-col="2">Cupressaceae</td>
+                  <td data-row="27" data-col="3">9</td>
+                </tr>
+                <tr>
+                  <td data-row="28" data-col="1">functional_type</td>
+                  <td data-row="28" data-col="2">FT_3</td>
+                  <td data-row="28" data-col="3">204</td>
+                </tr>
+                <tr>
+                  <td data-row="29" data-col="1">functional_type</td>
+                  <td data-row="29" data-col="2">FT_1</td>
+                  <td data-row="29" data-col="3">184</td>
+                </tr>
+                <tr>
+                  <td data-row="30" data-col="1">functional_type</td>
+                  <td data-row="30" data-col="2">FT_5</td>
+                  <td data-row="30" data-col="3">179</td>
+                </tr>
+                <tr>
+                  <td data-row="31" data-col="1">functional_type</td>
+                  <td data-row="31" data-col="2">FT_6</td>
+                  <td data-row="31" data-col="3">92</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</section>
+<section id="community-taxa-and-their-ft-assignments-functional_type-branch" class="level2">
+<h2 class="anchored" data-anchor-id="community-taxa-and-their-ft-assignments-functional_type-branch">2.4 Community taxa and their FT assignments (functional_type branch)</h2>
+<p>Shows which community taxa mapped to which FT group.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data_ft_subset <span class="ot">&lt;-</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">chuck</span>(list_community_subset, <span class="st">"functional_type"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The taxon column in the FT-resolved community holds</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># the FT label (e.g. "FT_1"). Join back to ft classification</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># to inspect the size of each FT group.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>data_ft_dataset_summary <span class="ot">&lt;-</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  data_ft_subset <span class="sc">|&gt;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">taxon =</span> base<span class="sc">::</span><span class="fu">as.character</span>(.data[[<span class="st">"taxon"</span>]])</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(.data[[<span class="st">"taxon"</span>]], <span class="at">name =</span> <span class="st">"n_records"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    data_ft_classification <span class="sc">|&gt;</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">taxon =</span> stringr<span class="sc">::</span><span class="fu">str_c</span>(</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>          <span class="st">"FT_"</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>          base<span class="sc">::</span><span class="fu">as.character</span>(.data[[<span class="st">"functional_type"</span>]])</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">count</span>(.data[[<span class="st">"taxon"</span>]], <span class="at">name =</span> <span class="st">"n_taxa_in_ft"</span>),</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> dplyr<span class="sc">::</span><span class="fu">join_by</span>(taxon)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(.data[[<span class="st">"n_records"</span>]]))</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>data_ft_dataset_summary <span class="sc">|&gt;</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  tinytable<span class="sc">::</span><span class="fu">tt</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_a8pkhsvxq7wmjh1dz77d = TinyTable.createTableFunctions("tinytable_a8pkhsvxq7wmjh1dz77d");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 }, { i: '4', j: 3 } ], css_id: 'tinytable_css_udszlldsz9b92036n317',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_5yth6tdmqe4evyqhuo6v',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_a8pkhsvxq7wmjh1dz77d.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_a8pkhsvxq7wmjh1dz77d td.tinytable_css_udszlldsz9b92036n317, #tinytable_a8pkhsvxq7wmjh1dz77d th.tinytable_css_udszlldsz9b92036n317 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_a8pkhsvxq7wmjh1dz77d td.tinytable_css_5yth6tdmqe4evyqhuo6v, #tinytable_a8pkhsvxq7wmjh1dz77d th.tinytable_css_5yth6tdmqe4evyqhuo6v {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_a8pkhsvxq7wmjh1dz77d" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">taxon</th>
+                <th scope="col" data-row="0" data-col="2">n_records</th>
+                <th scope="col" data-row="0" data-col="3">n_taxa_in_ft</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">FT_3</td>
+                  <td data-row="1" data-col="2">204</td>
+                  <td data-row="1" data-col="3">1773</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">FT_1</td>
+                  <td data-row="2" data-col="2">184</td>
+                  <td data-row="2" data-col="3">1902</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">FT_5</td>
+                  <td data-row="3" data-col="2">179</td>
+                  <td data-row="3" data-col="3">61</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">FT_6</td>
+                  <td data-row="4" data-col="2">92</td>
+                  <td data-row="4" data-col="3">80</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="section-3-model-evaluation-across-resolutions" class="level1">
+<h1>Section 3 — Model evaluation across resolutions</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>list_model_evaluation <span class="ot">&lt;-</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  vec_resolutions <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  rlang<span class="sc">::</span><span class="fu">set_names</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      target_name <span class="ot">&lt;-</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_glue</span>(<span class="st">"model_evaluation_{.x}"</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tryCatch</span>(</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        targets<span class="sc">::</span><span class="fu">tar_read_raw</span>(</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>          target_name,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">store =</span> path_res_store</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>          base<span class="sc">::</span><span class="fu">message</span>(</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>            stringr<span class="sc">::</span><span class="fu">str_glue</span>(</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Target '{target_name}' not found. "</span>,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Has the pipeline completed for '{.x}'?"</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>          <span class="cn">NULL</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">compact</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="r²-comparison-across-resolutions" class="level2">
+<h2 class="anchored" data-anchor-id="r²-comparison-across-resolutions">3.1 R² comparison across resolutions</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">length</span>(list_model_evaluation) <span class="sc">&gt;</span> <span class="dv">0</span>L</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  list_model_evaluation <span class="sc">|&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">imap</span>(</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">resolution =</span> .y,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">r2_mcfadden =</span> purrr<span class="sc">::</span><span class="fu">pluck</span>(.x, <span class="st">"model"</span>, <span class="st">"R2-McFadden"</span>),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">r2_nagelkerke =</span> purrr<span class="sc">::</span><span class="fu">pluck</span>(.x, <span class="st">"model"</span>, <span class="st">"R2-Nagelkerke"</span>)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">list_rbind</span>() <span class="sc">|&gt;</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"r2_mcfadden"</span>, <span class="st">"r2_nagelkerke"</span>),</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">names_to =</span> <span class="st">"metric"</span>,</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_to =</span> <span class="st">"value"</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">metric =</span> dplyr<span class="sc">::</span><span class="fu">case_match</span>(</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>        .data[[<span class="st">"metric"</span>]],</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"r2_mcfadden"</span> <span class="sc">~</span> <span class="st">"McFadden R²"</span>,</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"r2_nagelkerke"</span> <span class="sc">~</span> <span class="st">"Nagelkerke R²"</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>      ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> .data[[<span class="st">"resolution"</span>]],</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> .data[[<span class="st">"value"</span>]],</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> .data[[<span class="st">"resolution"</span>]]</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_col</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(ggplot2<span class="sc">::</span><span class="fu">vars</span>(.data[[<span class="st">"metric"</span>]])) <span class="sc">+</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Taxonomic resolution"</span>,</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"R²"</span>,</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="cn">NULL</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">message</span>(<span class="st">"No model_evaluation targets found — Section 3 skipped."</span>)</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Explore_resolution_pipeline_files/figure-html/s3-r2-comparison-1.png" class="img-fluid figure-img" width="640"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="per-species-auc-distribution-across-resolutions" class="level2">
+<h2 class="anchored" data-anchor-id="per-species-auc-distribution-across-resolutions">3.2 Per-species AUC distribution across resolutions</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">length</span>(list_model_evaluation) <span class="sc">&gt;</span> <span class="dv">0</span>L</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  list_model_evaluation <span class="sc">|&gt;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">imap</span>(</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        data_species_eval <span class="ot">&lt;-</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>          purrr<span class="sc">::</span><span class="fu">pluck</span>(.x, <span class="st">"species"</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>          base<span class="sc">::</span><span class="fu">is.null</span>(data_species_eval)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        ) {</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>          <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        data_species_eval <span class="sc">|&gt;</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">resolution =</span> .y)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">compact</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">list_rbind</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>base<span class="sc">::</span><span class="fu">is.na</span>(.data[[<span class="st">"AUC"</span>]])) <span class="sc">|&gt;</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>      ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> .data[[<span class="st">"resolution"</span>]],</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> .data[[<span class="st">"AUC"</span>]],</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> .data[[<span class="st">"resolution"</span>]]</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_violin</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">draw_quantiles =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_jitter</span>(</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">width =</span> <span class="fl">0.1</span>,</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="fl">0.8</span>,</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> <span class="fl">0.4</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_hline</span>(</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">yintercept =</span> <span class="fl">0.5</span>,</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">"#cc3333"</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Taxonomic resolution"</span>,</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"AUC"</span>,</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="cn">NULL</span></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Explore_resolution_pipeline_files/figure-html/s3-auc-violin-1.png" class="img-fluid figure-img" width="640"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="per-species-accuracy-distribution-across-resolutions" class="level2">
+<h2 class="anchored" data-anchor-id="per-species-accuracy-distribution-across-resolutions">3.3 Per-species accuracy distribution across resolutions</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">length</span>(list_model_evaluation) <span class="sc">&gt;</span> <span class="dv">0</span>L</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  list_model_evaluation <span class="sc">|&gt;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">imap</span>(</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        data_species_eval <span class="ot">&lt;-</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>          purrr<span class="sc">::</span><span class="fu">pluck</span>(.x, <span class="st">"species"</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>          base<span class="sc">::</span><span class="fu">is.null</span>(data_species_eval)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>        ) {</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>          <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>        data_species_eval <span class="sc">|&gt;</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">resolution =</span> .y)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">compact</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">list_rbind</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span>base<span class="sc">::</span><span class="fu">is.na</span>(.data[[<span class="st">"Accuracy"</span>]])) <span class="sc">|&gt;</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>      ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> .data[[<span class="st">"resolution"</span>]],</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> .data[[<span class="st">"Accuracy"</span>]],</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> .data[[<span class="st">"resolution"</span>]]</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_violin</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">draw_quantiles =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_jitter</span>(</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">width =</span> <span class="fl">0.1</span>,</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="fl">0.8</span>,</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> <span class="fl">0.4</span></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Taxonomic resolution"</span>,</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Accuracy"</span>,</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="cn">NULL</span></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Explore_resolution_pipeline_files/figure-html/s3-accuracy-violin-1.png" class="img-fluid figure-img" width="640"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="top-10-best-and-worst-performing-taxa-per-resolution" class="level2">
+<h2 class="anchored" data-anchor-id="top-10-best-and-worst-performing-taxa-per-resolution">3.4 Top-10 best and worst performing taxa per resolution</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">length</span>(list_model_evaluation) <span class="sc">&gt;</span> <span class="dv">0</span>L</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  list_model_evaluation <span class="sc">|&gt;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">imap</span>(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        data_species_eval <span class="ot">&lt;-</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>          purrr<span class="sc">::</span><span class="fu">pluck</span>(.x, <span class="st">"species"</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>          base<span class="sc">::</span><span class="fu">is.null</span>(data_species_eval)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>        ) {</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>          <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>        data_top_5 <span class="ot">&lt;-</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>          data_species_eval <span class="sc">|&gt;</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">arrange</span>(dplyr<span class="sc">::</span><span class="fu">desc</span>(.data[[<span class="st">"AUC"</span>]])) <span class="sc">|&gt;</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>          utils<span class="sc">::</span><span class="fu">head</span>(<span class="dv">5</span>L) <span class="sc">|&gt;</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">rank =</span> <span class="st">"top 5"</span>)</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>        data_bottom_5 <span class="ot">&lt;-</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>          data_species_eval <span class="sc">|&gt;</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">arrange</span>(.data[[<span class="st">"AUC"</span>]]) <span class="sc">|&gt;</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>          utils<span class="sc">::</span><span class="fu">head</span>(<span class="dv">5</span>L) <span class="sc">|&gt;</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">rank =</span> <span class="st">"bottom 5"</span>)</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>        dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(data_top_5, data_bottom_5) <span class="sc">|&gt;</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">resolution =</span> .y) <span class="sc">|&gt;</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">"resolution"</span>, <span class="st">"rank"</span>, dplyr<span class="sc">::</span><span class="fu">everything</span>())</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">compact</span>() <span class="sc">|&gt;</span></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">list_rbind</span>() <span class="sc">|&gt;</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>    tinytable<span class="sc">::</span><span class="fu">tt</span>()</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_su79lisdi8oxjpypynjo = TinyTable.createTableFunctions("tinytable_su79lisdi8oxjpypynjo");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '28', j: 1 }, { i: '28', j: 2 }, { i: '28', j: 3 }, { i: '28', j: 4 }, { i: '28', j: 5 }, { i: '28', j: 6 } ], css_id: 'tinytable_css_n8c5sgvwxocztud57cag',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 } ], css_id: 'tinytable_css_14t74q1aqga0yohnrmj6',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_su79lisdi8oxjpypynjo.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_su79lisdi8oxjpypynjo td.tinytable_css_n8c5sgvwxocztud57cag, #tinytable_su79lisdi8oxjpypynjo th.tinytable_css_n8c5sgvwxocztud57cag {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_su79lisdi8oxjpypynjo td.tinytable_css_14t74q1aqga0yohnrmj6, #tinytable_su79lisdi8oxjpypynjo th.tinytable_css_14t74q1aqga0yohnrmj6 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_su79lisdi8oxjpypynjo" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">resolution</th>
+                <th scope="col" data-row="0" data-col="2">rank</th>
+                <th scope="col" data-row="0" data-col="3">species</th>
+                <th scope="col" data-row="0" data-col="4">AUC</th>
+                <th scope="col" data-row="0" data-col="5">Accuracy</th>
+                <th scope="col" data-row="0" data-col="6">LogLoss</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">genus</td>
+                  <td data-row="1" data-col="2">top 5</td>
+                  <td data-row="1" data-col="3">Carpinus</td>
+                  <td data-row="1" data-col="4">0.8157945</td>
+                  <td data-row="1" data-col="5">0.7560976</td>
+                  <td data-row="1" data-col="6">2.23722367</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">genus</td>
+                  <td data-row="2" data-col="2">top 5</td>
+                  <td data-row="2" data-col="3">Vaccinium</td>
+                  <td data-row="2" data-col="4">0.7029361</td>
+                  <td data-row="2" data-col="5">0.8536585</td>
+                  <td data-row="2" data-col="6">0.99039366</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">genus</td>
+                  <td data-row="3" data-col="2">top 5</td>
+                  <td data-row="3" data-col="3">Fagus</td>
+                  <td data-row="3" data-col="4">0.6543833</td>
+                  <td data-row="3" data-col="5">0.7560976</td>
+                  <td data-row="3" data-col="6">3.10479373</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">genus</td>
+                  <td data-row="4" data-col="2">top 5</td>
+                  <td data-row="4" data-col="3">Juniperus</td>
+                  <td data-row="4" data-col="4">0.6213152</td>
+                  <td data-row="4" data-col="5">0.8682927</td>
+                  <td data-row="4" data-col="6">1.31199122</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">genus</td>
+                  <td data-row="5" data-col="2">top 5</td>
+                  <td data-row="5" data-col="3">Tilia</td>
+                  <td data-row="5" data-col="4">0.6211333</td>
+                  <td data-row="5" data-col="5">0.7121951</td>
+                  <td data-row="5" data-col="6">3.74966839</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="1">genus</td>
+                  <td data-row="6" data-col="2">bottom 5</td>
+                  <td data-row="6" data-col="3">Picea</td>
+                  <td data-row="6" data-col="4">0.4044118</td>
+                  <td data-row="6" data-col="5">0.9951220</td>
+                  <td data-row="6" data-col="6">0.07279089</td>
+                </tr>
+                <tr>
+                  <td data-row="7" data-col="1">genus</td>
+                  <td data-row="7" data-col="2">bottom 5</td>
+                  <td data-row="7" data-col="3">Calluna</td>
+                  <td data-row="7" data-col="4">0.4250141</td>
+                  <td data-row="7" data-col="5">0.7902439</td>
+                  <td data-row="7" data-col="6">2.22747610</td>
+                </tr>
+                <tr>
+                  <td data-row="8" data-col="1">genus</td>
+                  <td data-row="8" data-col="2">bottom 5</td>
+                  <td data-row="8" data-col="3">Alnus</td>
+                  <td data-row="8" data-col="4">0.4900990</td>
+                  <td data-row="8" data-col="5">0.9853659</td>
+                  <td data-row="8" data-col="6">0.21129285</td>
+                </tr>
+                <tr>
+                  <td data-row="9" data-col="1">genus</td>
+                  <td data-row="9" data-col="2">bottom 5</td>
+                  <td data-row="9" data-col="3">Pinus</td>
+                  <td data-row="9" data-col="4">0.5000000</td>
+                  <td data-row="9" data-col="5">0.9902439</td>
+                  <td data-row="9" data-col="6">0.14086207</td>
+                </tr>
+                <tr>
+                  <td data-row="10" data-col="1">genus</td>
+                  <td data-row="10" data-col="2">bottom 5</td>
+                  <td data-row="10" data-col="3">Quercus</td>
+                  <td data-row="10" data-col="4">0.5279986</td>
+                  <td data-row="10" data-col="5">0.6878049</td>
+                  <td data-row="10" data-col="6">3.61318899</td>
+                </tr>
+                <tr>
+                  <td data-row="11" data-col="1">family</td>
+                  <td data-row="11" data-col="2">top 5</td>
+                  <td data-row="11" data-col="3">Malvaceae</td>
+                  <td data-row="11" data-col="4">0.6119869</td>
+                  <td data-row="11" data-col="5">0.7073171</td>
+                  <td data-row="11" data-col="6">4.11550142</td>
+                </tr>
+                <tr>
+                  <td data-row="12" data-col="1">family</td>
+                  <td data-row="12" data-col="2">top 5</td>
+                  <td data-row="12" data-col="3">Sapindaceae</td>
+                  <td data-row="12" data-col="4">0.6010363</td>
+                  <td data-row="12" data-col="5">0.9414634</td>
+                  <td data-row="12" data-col="6">0.75195700</td>
+                </tr>
+                <tr>
+                  <td data-row="13" data-col="1">family</td>
+                  <td data-row="13" data-col="2">top 5</td>
+                  <td data-row="13" data-col="3">Cupressaceae</td>
+                  <td data-row="13" data-col="4">0.5986395</td>
+                  <td data-row="13" data-col="5">0.9170732</td>
+                  <td data-row="13" data-col="6">0.90438013</td>
+                </tr>
+                <tr>
+                  <td data-row="14" data-col="1">family</td>
+                  <td data-row="14" data-col="2">top 5</td>
+                  <td data-row="14" data-col="3">Ulmaceae</td>
+                  <td data-row="14" data-col="4">0.5957800</td>
+                  <td data-row="14" data-col="5">0.6000000</td>
+                  <td data-row="14" data-col="6">4.71997954</td>
+                </tr>
+                <tr>
+                  <td data-row="15" data-col="1">family</td>
+                  <td data-row="15" data-col="2">top 5</td>
+                  <td data-row="15" data-col="3">Oleaceae</td>
+                  <td data-row="15" data-col="4">0.5763629</td>
+                  <td data-row="15" data-col="5">0.6975610</td>
+                  <td data-row="15" data-col="6">3.79979966</td>
+                </tr>
+                <tr>
+                  <td data-row="16" data-col="1">family</td>
+                  <td data-row="16" data-col="2">bottom 5</td>
+                  <td data-row="16" data-col="3">Fagaceae</td>
+                  <td data-row="16" data-col="4">0.4925373</td>
+                  <td data-row="16" data-col="5">0.9804878</td>
+                  <td data-row="16" data-col="6">0.28172430</td>
+                </tr>
+                <tr>
+                  <td data-row="17" data-col="1">family</td>
+                  <td data-row="17" data-col="2">bottom 5</td>
+                  <td data-row="17" data-col="3">Ericaceae</td>
+                  <td data-row="17" data-col="4">0.5017258</td>
+                  <td data-row="17" data-col="5">0.7073171</td>
+                  <td data-row="17" data-col="6">3.82996203</td>
+                </tr>
+                <tr>
+                  <td data-row="18" data-col="1">family</td>
+                  <td data-row="18" data-col="2">bottom 5</td>
+                  <td data-row="18" data-col="3">Salicaceae</td>
+                  <td data-row="18" data-col="4">0.5392882</td>
+                  <td data-row="18" data-col="5">0.7073171</td>
+                  <td data-row="18" data-col="6">3.23321806</td>
+                </tr>
+                <tr>
+                  <td data-row="19" data-col="1">family</td>
+                  <td data-row="19" data-col="2">bottom 5</td>
+                  <td data-row="19" data-col="3">Oleaceae</td>
+                  <td data-row="19" data-col="4">0.5763629</td>
+                  <td data-row="19" data-col="5">0.6975610</td>
+                  <td data-row="19" data-col="6">3.79979966</td>
+                </tr>
+                <tr>
+                  <td data-row="20" data-col="1">family</td>
+                  <td data-row="20" data-col="2">bottom 5</td>
+                  <td data-row="20" data-col="3">Ulmaceae</td>
+                  <td data-row="20" data-col="4">0.5957800</td>
+                  <td data-row="20" data-col="5">0.6000000</td>
+                  <td data-row="20" data-col="6">4.71997954</td>
+                </tr>
+                <tr>
+                  <td data-row="21" data-col="1">functional_type</td>
+                  <td data-row="21" data-col="2">top 5</td>
+                  <td data-row="21" data-col="3">FT_6</td>
+                  <td data-row="21" data-col="4">0.8081955</td>
+                  <td data-row="21" data-col="5">0.7804878</td>
+                  <td data-row="21" data-col="6">2.75973896</td>
+                </tr>
+                <tr>
+                  <td data-row="22" data-col="1">functional_type</td>
+                  <td data-row="22" data-col="2">top 5</td>
+                  <td data-row="22" data-col="3">FT_5</td>
+                  <td data-row="22" data-col="4">0.7099269</td>
+                  <td data-row="22" data-col="5">0.8682927</td>
+                  <td data-row="22" data-col="6">1.52850145</td>
+                </tr>
+                <tr>
+                  <td data-row="23" data-col="1">functional_type</td>
+                  <td data-row="23" data-col="2">top 5</td>
+                  <td data-row="23" data-col="3">FT_3</td>
+                  <td data-row="23" data-col="4">0.5000000</td>
+                  <td data-row="23" data-col="5">0.9951220</td>
+                  <td data-row="23" data-col="6">0.07043130</td>
+                </tr>
+                <tr>
+                  <td data-row="24" data-col="1">functional_type</td>
+                  <td data-row="24" data-col="2">top 5</td>
+                  <td data-row="24" data-col="3">FT_1</td>
+                  <td data-row="24" data-col="4">0.4891304</td>
+                  <td data-row="24" data-col="5">0.8926829</td>
+                  <td data-row="24" data-col="6">1.53625306</td>
+                </tr>
+                <tr>
+                  <td data-row="25" data-col="1">functional_type</td>
+                  <td data-row="25" data-col="2">bottom 5</td>
+                  <td data-row="25" data-col="3">FT_1</td>
+                  <td data-row="25" data-col="4">0.4891304</td>
+                  <td data-row="25" data-col="5">0.8926829</td>
+                  <td data-row="25" data-col="6">1.53625306</td>
+                </tr>
+                <tr>
+                  <td data-row="26" data-col="1">functional_type</td>
+                  <td data-row="26" data-col="2">bottom 5</td>
+                  <td data-row="26" data-col="3">FT_3</td>
+                  <td data-row="26" data-col="4">0.5000000</td>
+                  <td data-row="26" data-col="5">0.9951220</td>
+                  <td data-row="26" data-col="6">0.07043130</td>
+                </tr>
+                <tr>
+                  <td data-row="27" data-col="1">functional_type</td>
+                  <td data-row="27" data-col="2">bottom 5</td>
+                  <td data-row="27" data-col="3">FT_5</td>
+                  <td data-row="27" data-col="4">0.7099269</td>
+                  <td data-row="27" data-col="5">0.8682927</td>
+                  <td data-row="27" data-col="6">1.52850145</td>
+                </tr>
+                <tr>
+                  <td data-row="28" data-col="1">functional_type</td>
+                  <td data-row="28" data-col="2">bottom 5</td>
+                  <td data-row="28" data-col="3">FT_6</td>
+                  <td data-row="28" data-col="4">0.8081955</td>
+                  <td data-row="28" data-col="5">0.7804878</td>
+                  <td data-row="28" data-col="6">2.75973896</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="section-4-anova-variance-partitioning-across-resolutions" class="level1">
+<h1>Section 4 — ANOVA variance partitioning across resolutions</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>list_model_anova <span class="ot">&lt;-</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  vec_resolutions <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  rlang<span class="sc">::</span><span class="fu">set_names</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      target_name <span class="ot">&lt;-</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        stringr<span class="sc">::</span><span class="fu">str_glue</span>(<span class="st">"model_anova_{.x}"</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tryCatch</span>(</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        targets<span class="sc">::</span><span class="fu">tar_read_raw</span>(</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>          target_name,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">store =</span> path_res_store</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>          base<span class="sc">::</span><span class="fu">message</span>(</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>            stringr<span class="sc">::</span><span class="fu">str_glue</span>(</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Target '{target_name}' not found. "</span>,</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Has the pipeline completed for '{.x}'?"</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>          <span class="cn">NULL</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">compact</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="extract-variance-fractions-per-resolution" class="level2">
+<h2 class="anchored" data-anchor-id="extract-variance-fractions-per-resolution">4.1 Extract variance fractions per resolution</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">length</span>(list_model_anova) <span class="sc">&gt;</span> <span class="dv">0</span>L</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  list_anova_fractions <span class="ot">&lt;-</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    list_model_anova <span class="sc">|&gt;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">imap</span>(</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">.f =</span> <span class="sc">~</span> {</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tryCatch</span>(</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>          <span class="fu">extract_anova_fractions</span>(<span class="at">anova_obj =</span> .x) <span class="sc">|&gt;</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>            dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">resolution =</span> .y),</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>            base<span class="sc">::</span><span class="fu">message</span>(</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>              stringr<span class="sc">::</span><span class="fu">str_glue</span>(</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Error extracting ANOVA fractions for '{.y}': "</span>,</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"{conditionMessage(e)}"</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>            <span class="cn">NULL</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">compact</span>()</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">message</span>(stringr<span class="sc">::</span><span class="fu">str_glue</span>(</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ANOVA fractions extracted for: "</span>,</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"{stringr::str_c(base::names(list_anova_fractions), collapse = ', ')}"</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>  list_anova_fractions <span class="ot">&lt;-</span> base<span class="sc">::</span><span class="fu">list</span>()</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">message</span>(<span class="st">"No model_anova targets found — Section 4 skipped."</span>)</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="summary-table-mean-sd-per-component-resolution" class="level2">
+<h2 class="anchored" data-anchor-id="summary-table-mean-sd-per-component-resolution">4.2 Summary table: mean ± SD per component × resolution</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">length</span>(list_anova_fractions) <span class="sc">&gt;</span> <span class="dv">0</span>L</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  list_anova_fractions <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">bind_rows</span>() <span class="sc">|&gt;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">group_by</span>(.data[[<span class="st">"resolution"</span>]], .data[[<span class="st">"component"</span>]]) <span class="sc">|&gt;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean_r2 =</span> base<span class="sc">::</span><span class="fu">mean</span>(.data[[<span class="st">"R2_Nagelkerke"</span>]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd_r2 =</span> stats<span class="sc">::</span><span class="fu">sd</span>(.data[[<span class="st">"R2_Nagelkerke"</span>]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">arrange</span>(</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>      .data[[<span class="st">"component"</span>]],</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>      .data[[<span class="st">"resolution"</span>]]</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    tinytable<span class="sc">::</span><span class="fu">tt</span>()</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_srrx4a7kgzwmo7humaxv = TinyTable.createTableFunctions("tinytable_srrx4a7kgzwmo7humaxv");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '21', j: 1 }, { i: '21', j: 2 }, { i: '21', j: 3 }, { i: '21', j: 4 } ], css_id: 'tinytable_css_4j4lfkbv2iqpki4lnwkf',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 } ], css_id: 'tinytable_css_7l630ti9oo48muyyge1n',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_srrx4a7kgzwmo7humaxv.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_srrx4a7kgzwmo7humaxv td.tinytable_css_4j4lfkbv2iqpki4lnwkf, #tinytable_srrx4a7kgzwmo7humaxv th.tinytable_css_4j4lfkbv2iqpki4lnwkf {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_srrx4a7kgzwmo7humaxv td.tinytable_css_7l630ti9oo48muyyge1n, #tinytable_srrx4a7kgzwmo7humaxv th.tinytable_css_7l630ti9oo48muyyge1n {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_srrx4a7kgzwmo7humaxv" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1">resolution</th>
+                <th scope="col" data-row="0" data-col="2">component</th>
+                <th scope="col" data-row="0" data-col="3">mean_r2</th>
+                <th scope="col" data-row="0" data-col="4">sd_r2</th>
+              </tr>
+        </thead>
+        
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">family</td>
+                  <td data-row="1" data-col="2">Abiotic</td>
+                  <td data-row="1" data-col="3">0.00000000</td>
+                  <td data-row="1" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1">functional_type</td>
+                  <td data-row="2" data-col="2">Abiotic</td>
+                  <td data-row="2" data-col="3">0.02275109</td>
+                  <td data-row="2" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">genus</td>
+                  <td data-row="3" data-col="2">Abiotic</td>
+                  <td data-row="3" data-col="3">0.00000000</td>
+                  <td data-row="3" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">family</td>
+                  <td data-row="4" data-col="2">Abiotic&amp;Associations</td>
+                  <td data-row="4" data-col="3">0.00000000</td>
+                  <td data-row="4" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">functional_type</td>
+                  <td data-row="5" data-col="2">Abiotic&amp;Associations</td>
+                  <td data-row="5" data-col="3">0.00000000</td>
+                  <td data-row="5" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="1">genus</td>
+                  <td data-row="6" data-col="2">Abiotic&amp;Associations</td>
+                  <td data-row="6" data-col="3">0.00000000</td>
+                  <td data-row="6" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="7" data-col="1">family</td>
+                  <td data-row="7" data-col="2">Abiotic&amp;Associations&amp;Spatial</td>
+                  <td data-row="7" data-col="3">0.00000000</td>
+                  <td data-row="7" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="8" data-col="1">functional_type</td>
+                  <td data-row="8" data-col="2">Abiotic&amp;Associations&amp;Spatial</td>
+                  <td data-row="8" data-col="3">0.00000000</td>
+                  <td data-row="8" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="9" data-col="1">genus</td>
+                  <td data-row="9" data-col="2">Abiotic&amp;Associations&amp;Spatial</td>
+                  <td data-row="9" data-col="3">0.79088562</td>
+                  <td data-row="9" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="10" data-col="1">family</td>
+                  <td data-row="10" data-col="2">Abiotic&amp;Spatial</td>
+                  <td data-row="10" data-col="3">0.99980571</td>
+                  <td data-row="10" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="11" data-col="1">functional_type</td>
+                  <td data-row="11" data-col="2">Abiotic&amp;Spatial</td>
+                  <td data-row="11" data-col="3">0.79346241</td>
+                  <td data-row="11" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="12" data-col="1">genus</td>
+                  <td data-row="12" data-col="2">Abiotic&amp;Spatial</td>
+                  <td data-row="12" data-col="3">0.00000000</td>
+                  <td data-row="12" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="13" data-col="1">family</td>
+                  <td data-row="13" data-col="2">Associations</td>
+                  <td data-row="13" data-col="3">0.99999999</td>
+                  <td data-row="13" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="14" data-col="1">functional_type</td>
+                  <td data-row="14" data-col="2">Associations</td>
+                  <td data-row="14" data-col="3">0.99997982</td>
+                  <td data-row="14" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="15" data-col="1">genus</td>
+                  <td data-row="15" data-col="2">Associations</td>
+                  <td data-row="15" data-col="3">1.00000000</td>
+                  <td data-row="15" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="16" data-col="1">family</td>
+                  <td data-row="16" data-col="2">Associations&amp;Spatial</td>
+                  <td data-row="16" data-col="3">0.99999947</td>
+                  <td data-row="16" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="17" data-col="1">functional_type</td>
+                  <td data-row="17" data-col="2">Associations&amp;Spatial</td>
+                  <td data-row="17" data-col="3">0.92077868</td>
+                  <td data-row="17" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="18" data-col="1">genus</td>
+                  <td data-row="18" data-col="2">Associations&amp;Spatial</td>
+                  <td data-row="18" data-col="3">0.00000000</td>
+                  <td data-row="18" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="19" data-col="1">family</td>
+                  <td data-row="19" data-col="2">Spatial</td>
+                  <td data-row="19" data-col="3">0.00000000</td>
+                  <td data-row="19" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="20" data-col="1">functional_type</td>
+                  <td data-row="20" data-col="2">Spatial</td>
+                  <td data-row="20" data-col="3">0.20229195</td>
+                  <td data-row="20" data-col="4">NA</td>
+                </tr>
+                <tr>
+                  <td data-row="21" data-col="1">genus</td>
+                  <td data-row="21" data-col="2">Spatial</td>
+                  <td data-row="21" data-col="3">0.99719598</td>
+                  <td data-row="21" data-col="4">NA</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</section>
+<section id="r²_nagelkerke-per-component-resolution" class="level2">
+<h2 class="anchored" data-anchor-id="r²_nagelkerke-per-component-resolution">4.3 R²_Nagelkerke per component × resolution</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">length</span>(list_anova_fractions) <span class="sc">&gt;</span> <span class="dv">0</span>L</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  list_anova_fractions <span class="sc">|&gt;</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">bind_rows</span>() <span class="sc">|&gt;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>      ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> .data[[<span class="st">"component"</span>]],</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> .data[[<span class="st">"R2_Nagelkerke"</span>]],</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> .data[[<span class="st">"resolution"</span>]]</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_col</span>(</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">position =</span> ggplot2<span class="sc">::</span><span class="fu">position_dodge</span>(<span class="fl">0.8</span>),</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Component"</span>,</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Nagelkerke R²"</span>,</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">"Resolution"</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>()</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Explore_resolution_pipeline_files/figure-html/s4-age-line-1.png" class="img-fluid figure-img" width="640"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="stacked-bar-mean-variance-fractions-per-resolution" class="level2">
+<h2 class="anchored" data-anchor-id="stacked-bar-mean-variance-fractions-per-resolution">4.4 Stacked bar: mean variance fractions per resolution</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">length</span>(list_anova_fractions) <span class="sc">&gt;</span> <span class="dv">0</span>L</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  list_anova_fractions <span class="sc">|&gt;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">bind_rows</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">group_by</span>(.data[[<span class="st">"resolution"</span>]], .data[[<span class="st">"component"</span>]]) <span class="sc">|&gt;</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean_r2 =</span> base<span class="sc">::</span><span class="fu">mean</span>(.data[[<span class="st">"R2_Nagelkerke"</span>]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>      ggplot2<span class="sc">::</span><span class="fu">aes</span>(</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> .data[[<span class="st">"resolution"</span>]],</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">y =</span> .data[[<span class="st">"mean_r2"</span>]],</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">fill =</span> .data[[<span class="st">"component"</span>]]</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_col</span>(</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">position =</span> ggplot2<span class="sc">::</span><span class="fu">position_stack</span>(),</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">labs</span>(</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Taxonomic resolution"</span>,</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Mean variance fraction (R²)"</span>,</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">"Component"</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>()</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Explore_resolution_pipeline_files/figure-html/s4-stacked-bar-1.png" class="img-fluid figure-img" width="640"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<p><em>Notebook generated on 2026-04-15 from the resolution pipeline store at <code>Data/targets/project_cz/pipeline_test_resolution</code>.</em></p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
