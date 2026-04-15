@@ -1,0 +1,752 @@
+---
+title: "Explore resolution pipeline — genus vs family vs functional type"
+date: today
+date-format: long
+date-modified: last-modified
+---
+
+<!--
+  Supplementary exploration notebook for the resolution-testing pipeline.
+  Compares the genus / family / functional_type branches side-by-side.
+  Reads exclusively via targets::tar_read() — no re-execution.
+
+  Pipeline store: Data/targets/project_cz/pipeline_test_resolution
+  Active config:  project_cz
+
+  Run the pipeline first:
+    Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+    targets::tar_make(
+      script = here::here(
+        "R/02_Main_analyses/pipeline_test_resolution.R"
+      ),
+      store  = here::here(
+        "Data/targets/project_cz/pipeline_test_resolution"
+      )
+    )
+-->
+
+```{r}
+#| label: setup
+
+library(here)
+
+here::i_am(
+  "R/03_Supplementary_analyses/_Diagnostics/Explore_resolution_pipeline.qmd"
+)
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+graphical_options <-
+  get_active_config("graphical")
+
+fig_width_inch <-
+  purrr::chuck(graphical_options, "width") /
+  purrr::chuck(graphical_options, "dpi")
+
+fig_height_inch <-
+  purrr::chuck(graphical_options, "height") /
+  purrr::chuck(graphical_options, "dpi")
+
+path_res_store <-
+  here::here("Data/targets/project_cz/pipeline_test_resolution")
+
+path_traits_store <-
+  here::here("Data/targets/traits/pipeline_traits")
+
+# Guard: abort rendering if the store is missing.
+if (
+  !fs::dir_exists(path_res_store)
+) {
+  cli::cli_abort(
+    c(
+      "Resolution pipeline store not found at: {path_res_store}",
+      "i" = stringr::str_c(
+        "Run `targets::tar_make(",
+        "script = 'R/02_Main_analyses/pipeline_test_resolution.R',",
+        "store  = 'Data/targets/project_cz/pipeline_test_resolution')`",
+        " first."
+      )
+    )
+  )
+}
+
+# Convenience vector of the three resolutions.
+vec_resolutions <-
+  base::c("genus", "family", "functional_type")
+```
+
+---
+
+# Section 1 — FT classification source
+
+## 1.1 Classification file
+
+```{r}
+#| label: s1-ft-file
+
+path_ft_file <-
+  targets::tar_read(
+    path_ft_classification,
+    store = path_res_store
+  )
+
+base::cat(stringr::str_glue(
+  "FT classification file used:\n  {path_ft_file}\n"
+))
+```
+
+## 1.2 Load FT classification
+
+```{r}
+#| label: s1-load-ft
+
+if (
+  !fs::file_exists(path_ft_file)
+) {
+  cli::cli_abort(
+    c(
+      "FT classification file not found: {path_ft_file}",
+      "i" = "Run pipeline_traits.R (Segment 6) first."
+    )
+  )
+}
+
+data_ft_classification <-
+  qs2::qs_read(path_ft_file)
+
+n_distinct_functional_type <-
+  dplyr::n_distinct(dplyr::pull(data_ft_classification, "functional_type"))
+
+base::cat(stringr::str_glue(
+  "Rows (taxa):           {base::nrow(data_ft_classification)}\n",
+  "Distinct FT groups:    {n_distinct_functional_type}\n"
+))
+```
+
+## 1.3 N taxa per FT group
+
+```{r}
+#| label: s1-taxa-per-ft
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch * 0.6
+
+data_ft_classification |>
+  dplyr::count(.data[["functional_type"]]) |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = base::factor(.data[["functional_type"]]),
+      y = .data[["n"]]
+    )
+  ) +
+  ggplot2::geom_col(fill = "#5588bb") +
+  ggplot2::labs(
+    x = "Functional type",
+    y = "N taxa"
+  ) +
+  ggplot2::theme_minimal()
+```
+
+## 1.4 Silhouette width distribution per FT
+
+```{r}
+#| label: s1-sil-boxplot
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch * 0.6
+
+data_ft_classification |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = base::factor(.data[["functional_type"]]),
+      y = .data[["silhouette_width"]]
+    )
+  ) +
+  ggplot2::geom_boxplot(
+    fill = "#5588bb",
+    alpha = 0.6,
+    outlier.size = 0.8
+  ) +
+  ggplot2::geom_hline(
+    yintercept = 0,
+    linetype = "dashed",
+    colour = "#cc3333"
+  ) +
+  ggplot2::labs(
+    x = "Functional type",
+    y = "Silhouette width"
+  ) +
+  ggplot2::theme_minimal()
+```
+
+## 1.5 FT summary table
+
+```{r}
+#| label: s1-ft-summary-table
+
+data_ft_classification |>
+  dplyr::group_by(.data[["functional_type"]]) |>
+  dplyr::summarise(
+    n_taxa = dplyr::n(),
+    mean_silhouette_width = base::mean(
+      .data[["silhouette_width"]], na.rm = TRUE
+    ),
+    median_silhouette_width = stats::median(
+      .data[["silhouette_width"]],
+      na.rm = TRUE
+    ),
+    min_silhouette_width = base::min(.data[["silhouette_width"]], na.rm = TRUE),
+    max_silhouette_width = base::max(.data[["silhouette_width"]], na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(.data[["functional_type"]]) |>
+  tinytable::tt()
+```
+
+---
+
+# Section 2 — Community data across resolutions
+
+```{r}
+#| label: s2-load
+
+list_community_subset <-
+  vec_resolutions |>
+  rlang::set_names() |>
+  purrr::map(
+    .f = ~ {
+      target_name <-
+        stringr::str_glue("data_community_subset_{.x}")
+
+      targets::tar_read_raw(
+        target_name,
+        store = path_res_store
+      )
+    }
+  )
+```
+
+## 2.1 N taxa, datasets, and samples per resolution
+
+```{r}
+#| label: s2-overview-table
+
+list_community_subset |>
+  purrr::imap(
+    .f = ~ .x |>
+      dplyr::summarise(
+        n_taxa = dplyr::n_distinct(.data[["taxon"]]),
+        n_datasets = dplyr::n_distinct(.data[["dataset_name"]]),
+        n_samples = dplyr::n_distinct(
+          stringr::str_c(.data[["dataset_name"]], .data[["age"]])
+        )
+      ) |>
+      dplyr::mutate(resolution = .y) |>
+      dplyr::relocate("resolution")
+  ) |>
+  purrr::list_rbind() |>
+  tinytable::tt()
+```
+
+## 2.2 Taxon count distribution (records per taxon)
+
+```{r}
+#| label: s2-taxon-count-dist
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch
+
+list_community_subset |>
+  purrr::imap(
+    .f = ~ .x |>
+      dplyr::count(.data[["taxon"]]) |>
+      dplyr::mutate(resolution = .y)
+  ) |>
+  purrr::list_rbind() |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = .data[["n"]],
+      fill = .data[["resolution"]]
+    )
+  ) +
+  ggplot2::geom_histogram(bins = 30, alpha = 0.7) +
+  ggplot2::facet_wrap(
+    ggplot2::vars(.data[["resolution"]]),
+    scales = "free_y"
+  ) +
+  ggplot2::labs(
+    x = "N records per taxon",
+    y = "Count",
+    fill = "Resolution"
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(legend.position = "none")
+```
+
+## 2.3 Top-20 taxa per resolution
+
+```{r}
+#| label: s2-top-taxa
+
+list_community_subset |>
+  purrr::imap(
+    .f = ~ .x |>
+      dplyr::count(.data[["taxon"]]) |>
+      dplyr::arrange(dplyr::desc(.data[["n"]])) |>
+      utils::head(20L) |>
+      dplyr::mutate(resolution = .y) |>
+      dplyr::relocate("resolution")
+  ) |>
+  purrr::list_rbind() |>
+  tinytable::tt()
+```
+
+## 2.4 Community taxa and their FT assignments (functional_type branch)
+
+Shows which community taxa mapped to which FT group.
+
+```{r}
+#| label: s2-ft-mapping
+
+data_ft_subset <-
+  purrr::chuck(list_community_subset, "functional_type")
+
+# The taxon column in the FT-resolved community holds
+# the FT label (e.g. "FT_1"). Join back to ft classification
+# to inspect the size of each FT group.
+data_ft_dataset_summary <-
+  data_ft_subset |>
+  dplyr::mutate(
+    taxon = base::as.character(.data[["taxon"]])
+  ) |>
+  dplyr::count(.data[["taxon"]], name = "n_records") |>
+  dplyr::left_join(
+    data_ft_classification |>
+      dplyr::mutate(
+        taxon = stringr::str_c(
+          "FT_",
+          base::as.character(.data[["functional_type"]])
+        )
+      ) |>
+      dplyr::count(.data[["taxon"]], name = "n_taxa_in_ft"),
+    by = dplyr::join_by(taxon)
+  ) |>
+  dplyr::arrange(dplyr::desc(.data[["n_records"]]))
+
+data_ft_dataset_summary |>
+  tinytable::tt()
+```
+
+---
+
+# Section 3 — Model evaluation across resolutions
+
+```{r}
+#| label: s3-load
+
+list_model_evaluation <-
+  vec_resolutions |>
+  rlang::set_names() |>
+  purrr::map(
+    .f = ~ {
+      target_name <-
+        stringr::str_glue("model_evaluation_{.x}")
+
+      tryCatch(
+        targets::tar_read_raw(
+          target_name,
+          store = path_res_store
+        ),
+        error = function(e) {
+          base::message(
+            stringr::str_glue(
+              "Target '{target_name}' not found. ",
+              "Has the pipeline completed for '{.x}'?"
+            )
+          )
+          NULL
+        }
+      )
+    }
+  ) |>
+  purrr::compact()
+```
+
+## 3.1 R² comparison across resolutions
+
+```{r}
+#| label: s3-r2-comparison
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch * 0.6
+
+if (
+  base::length(list_model_evaluation) > 0L
+) {
+  list_model_evaluation |>
+    purrr::imap(
+      .f = ~ {
+        tibble::tibble(
+          resolution = .y,
+          r2_mcfadden = purrr::pluck(.x, "model", "R2-McFadden"),
+          r2_nagelkerke = purrr::pluck(.x, "model", "R2-Nagelkerke")
+        )
+      }
+    ) |>
+    purrr::list_rbind() |>
+    tidyr::pivot_longer(
+      cols = c("r2_mcfadden", "r2_nagelkerke"),
+      names_to = "metric",
+      values_to = "value"
+    ) |>
+    dplyr::mutate(
+      metric = dplyr::case_match(
+        .data[["metric"]],
+        "r2_mcfadden" ~ "McFadden R²",
+        "r2_nagelkerke" ~ "Nagelkerke R²"
+      )
+    ) |>
+    ggplot2::ggplot(
+      ggplot2::aes(
+        x = .data[["resolution"]],
+        y = .data[["value"]],
+        fill = .data[["resolution"]]
+      )
+    ) +
+    ggplot2::geom_col(alpha = 0.7) +
+    ggplot2::facet_wrap(ggplot2::vars(.data[["metric"]])) +
+    ggplot2::labs(
+      x = "Taxonomic resolution",
+      y = "R²",
+      fill = NULL
+    ) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(legend.position = "none")
+} else {
+  base::message("No model_evaluation targets found — Section 3 skipped.")
+}
+```
+
+## 3.2 Per-species AUC distribution across resolutions
+
+```{r}
+#| label: s3-auc-violin
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch
+
+if (
+  base::length(list_model_evaluation) > 0L
+) {
+  list_model_evaluation |>
+    purrr::imap(
+      .f = ~ {
+        data_species_eval <-
+          purrr::pluck(.x, "species")
+
+        if (
+          base::is.null(data_species_eval)
+        ) {
+          return(NULL)
+        }
+
+        data_species_eval |>
+          dplyr::mutate(resolution = .y)
+      }
+    ) |>
+    purrr::compact() |>
+    purrr::list_rbind() |>
+    dplyr::filter(!base::is.na(.data[["AUC"]])) |>
+    ggplot2::ggplot(
+      ggplot2::aes(
+        x = .data[["resolution"]],
+        y = .data[["AUC"]],
+        fill = .data[["resolution"]]
+      )
+    ) +
+    ggplot2::geom_violin(alpha = 0.6, draw_quantiles = 0.5) +
+    ggplot2::geom_jitter(
+      width = 0.1,
+      size = 0.8,
+      alpha = 0.4
+    ) +
+    ggplot2::geom_hline(
+      yintercept = 0.5,
+      linetype = "dashed",
+      colour = "#cc3333"
+    ) +
+    ggplot2::labs(
+      x = "Taxonomic resolution",
+      y = "AUC",
+      fill = NULL
+    ) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(legend.position = "none")
+}
+```
+
+## 3.3 Per-species accuracy distribution across resolutions
+
+```{r}
+#| label: s3-accuracy-violin
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch
+
+if (
+  base::length(list_model_evaluation) > 0L
+) {
+  list_model_evaluation |>
+    purrr::imap(
+      .f = ~ {
+        data_species_eval <-
+          purrr::pluck(.x, "species")
+
+        if (
+          base::is.null(data_species_eval)
+        ) {
+          return(NULL)
+        }
+
+        data_species_eval |>
+          dplyr::mutate(resolution = .y)
+      }
+    ) |>
+    purrr::compact() |>
+    purrr::list_rbind() |>
+    dplyr::filter(!base::is.na(.data[["Accuracy"]])) |>
+    ggplot2::ggplot(
+      ggplot2::aes(
+        x = .data[["resolution"]],
+        y = .data[["Accuracy"]],
+        fill = .data[["resolution"]]
+      )
+    ) +
+    ggplot2::geom_violin(alpha = 0.6, draw_quantiles = 0.5) +
+    ggplot2::geom_jitter(
+      width = 0.1,
+      size = 0.8,
+      alpha = 0.4
+    ) +
+    ggplot2::labs(
+      x = "Taxonomic resolution",
+      y = "Accuracy",
+      fill = NULL
+    ) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(legend.position = "none")
+}
+```
+
+## 3.4 Top-10 best and worst performing taxa per resolution
+
+```{r}
+#| label: s3-best-worst
+
+if (
+  base::length(list_model_evaluation) > 0L
+) {
+  list_model_evaluation |>
+    purrr::imap(
+      .f = ~ {
+        data_species_eval <-
+          purrr::pluck(.x, "species")
+
+        if (
+          base::is.null(data_species_eval)
+        ) {
+          return(NULL)
+        }
+
+        data_top_5 <-
+          data_species_eval |>
+          dplyr::arrange(dplyr::desc(.data[["AUC"]])) |>
+          utils::head(5L) |>
+          dplyr::mutate(rank = "top 5")
+
+        data_bottom_5 <-
+          data_species_eval |>
+          dplyr::arrange(.data[["AUC"]]) |>
+          utils::head(5L) |>
+          dplyr::mutate(rank = "bottom 5")
+
+        dplyr::bind_rows(data_top_5, data_bottom_5) |>
+          dplyr::mutate(resolution = .y) |>
+          dplyr::select("resolution", "rank", dplyr::everything())
+      }
+    ) |>
+    purrr::compact() |>
+    purrr::list_rbind() |>
+    tinytable::tt()
+}
+```
+
+---
+
+# Section 4 — ANOVA variance partitioning across resolutions
+
+```{r}
+#| label: s4-load
+
+list_model_anova <-
+  vec_resolutions |>
+  rlang::set_names() |>
+  purrr::map(
+    .f = ~ {
+      target_name <-
+        stringr::str_glue("model_anova_{.x}")
+
+      tryCatch(
+        targets::tar_read_raw(
+          target_name,
+          store = path_res_store
+        ),
+        error = function(e) {
+          base::message(
+            stringr::str_glue(
+              "Target '{target_name}' not found. ",
+              "Has the pipeline completed for '{.x}'?"
+            )
+          )
+          NULL
+        }
+      )
+    }
+  ) |>
+  purrr::compact()
+```
+
+## 4.1 Extract variance fractions per resolution
+
+```{r}
+#| label: s4-extract-fractions
+
+if (
+  base::length(list_model_anova) > 0L
+) {
+  list_anova_fractions <-
+    list_model_anova |>
+    purrr::imap(
+      .f = ~ {
+        tryCatch(
+          extract_anova_fractions(anova_obj = .x) |>
+            dplyr::mutate(resolution = .y),
+          error = function(e) {
+            base::message(
+              stringr::str_glue(
+                "Error extracting ANOVA fractions for '{.y}': ",
+                "{conditionMessage(e)}"
+              )
+            )
+            NULL
+          }
+        )
+      }
+    ) |>
+    purrr::compact()
+
+  base::message(stringr::str_glue(
+    "ANOVA fractions extracted for: ",
+    "{stringr::str_c(base::names(list_anova_fractions), collapse = ', ')}"
+  ))
+} else {
+  list_anova_fractions <- base::list()
+  base::message("No model_anova targets found — Section 4 skipped.")
+}
+```
+
+## 4.2 Summary table: mean ± SD per component × resolution
+
+```{r}
+#| label: s4-summary-table
+
+if (
+  base::length(list_anova_fractions) > 0L
+) {
+  list_anova_fractions |>
+    dplyr::bind_rows() |>
+    dplyr::group_by(.data[["resolution"]], .data[["component"]]) |>
+    dplyr::summarise(
+      mean_r2 = base::mean(.data[["R2_Nagelkerke"]], na.rm = TRUE),
+      sd_r2 = stats::sd(.data[["R2_Nagelkerke"]], na.rm = TRUE),
+      .groups = "drop"
+    ) |>
+    dplyr::arrange(
+      .data[["component"]],
+      .data[["resolution"]]
+    ) |>
+    tinytable::tt()
+}
+```
+
+## 4.3 R²_Nagelkerke per component × resolution
+
+```{r}
+#| label: s4-age-line
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch * 0.8
+
+if (
+  base::length(list_anova_fractions) > 0L
+) {
+  list_anova_fractions |>
+    dplyr::bind_rows() |>
+    ggplot2::ggplot(
+      ggplot2::aes(
+        x = .data[["component"]],
+        y = .data[["R2_Nagelkerke"]],
+        fill = .data[["resolution"]]
+      )
+    ) +
+    ggplot2::geom_col(
+      position = ggplot2::position_dodge(0.8),
+      alpha = 0.8
+    ) +
+    ggplot2::labs(
+      x = "Component",
+      y = "Nagelkerke R²",
+      fill = "Resolution"
+    ) +
+    ggplot2::theme_minimal()
+}
+```
+
+## 4.4 Stacked bar: mean variance fractions per resolution
+
+```{r}
+#| label: s4-stacked-bar
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch * 0.6
+
+if (
+  base::length(list_anova_fractions) > 0L
+) {
+  list_anova_fractions |>
+    dplyr::bind_rows() |>
+    dplyr::group_by(.data[["resolution"]], .data[["component"]]) |>
+    dplyr::summarise(
+      mean_r2 = base::mean(.data[["R2_Nagelkerke"]], na.rm = TRUE),
+      .groups = "drop"
+    ) |>
+    ggplot2::ggplot(
+      ggplot2::aes(
+        x = .data[["resolution"]],
+        y = .data[["mean_r2"]],
+        fill = .data[["component"]]
+      )
+    ) +
+    ggplot2::geom_col(
+      position = ggplot2::position_stack(),
+      alpha = 0.8
+    ) +
+    ggplot2::labs(
+      x = "Taxonomic resolution",
+      y = "Mean variance fraction (R²)",
+      fill = "Component"
+    ) +
+    ggplot2::theme_minimal()
+}
+```
+
+---
+
+*Notebook generated on `r Sys.Date()` from the resolution pipeline store at `Data/targets/project_cz/pipeline_test_resolution`.*
+

@@ -1,0 +1,51 @@
+Get Functional-Type Classification for a Continental Unit
+
+Description:
+
+     Loads the most recent FT classification file for a given
+     continental unit from `Data/Processed/Traits/`. The file is
+     produced by `pipe_segment_trait_ft_clustering` in
+     `pipeline_traits.R` and named
+     `data_ft_classification_continent_id_YYYY-MM-DD.qs`.
+
+Usage:
+
+     get_functional_type_classification(
+       continent_id,
+       path_processed = here::here("Data/Processed/Traits")
+     )
+     
+Arguments:
+
+continent_id: A single non-empty character string identifying the
+          continental unit (e.g. `"europe"`, `"america"`, `"asia"`).
+          Must match exactly with the `scale_id` used when the FT
+          classification was saved.
+
+path_processed: A single character string giving the directory that
+          contains the FT classification `.qs` files. Default:
+          `here::here("Data/Processed/Traits")`.
+
+Details:
+
+     The function lists all `.qs` files in `path_processed` matching
+     the pattern `data_ft_classification_continent_id_*.qs`, selects
+     the file with the most recent date suffix (ISO 8601: YYYY-MM-DD),
+     and reads it via `qs2::qs_read()`. If no matching file is found
+     the function aborts with an informative error.
+
+Value:
+
+     A tibble with two columns:
+
+     taxon_name Character. Taxon names resolved to finest available
+          rank, matching the `taxon_name` column in the global trait
+          table.
+
+     functional_type Integer. Cluster label (1..`number_of_ft_groups`)
+          assigned for this continental unit.
+
+See Also:
+
+     [cluster_functional_types()]
+

@@ -29,6 +29,7 @@ default:
     use_age_in_formula: true
 project_cz:
   target_store: Data/targets/project_cz
+  continent_id: "europe"
   vegvault_data:
     x_lim: !expr c(12, 18.9)
     y_lim: !expr c(48.5, 51.5)
@@ -38,6 +39,7 @@ project_cz:
   data_processing:
     taxonomic_resolution: "genus"
     min_n_samples: 5
+    min_n_taxa: 3
   model_fitting:
     n_mev: 3
     n_cores: 24

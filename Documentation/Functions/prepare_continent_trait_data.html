@@ -1,0 +1,105 @@
+<!DOCTYPE html><html><head><title>R: Prepare Trait Data for One Continental Unit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_continent_trait_data</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare Trait Data for One Continental Unit</h2>
+
+<h3>Description</h3>
+
+<p>Filters and subsets the wide trait table to taxa present in a
+single continental unit. Removes taxa where all trait values are
+'NA'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_continent_trait_data(
+  continent_id,
+  data_trait_table,
+  data_traits_classified_corrected
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="continent_id">continent_id</code></td>
+<td>
+<p>A single non-empty character string identifying the continental
+unit (e.g. '&quot;europe&quot;', '&quot;america&quot;', '&quot;asia&quot;'). Must match a
+value in the 'scale_id' column of
+'data_traits_classified_corrected'.</p>
+</td></tr>
+<tr><td><code id="data_trait_table">data_trait_table</code></td>
+<td>
+<p>A wide tibble (rows = taxa, columns = 'taxon_name' + trait
+domain columns) as produced by 'make_trait_table()'. Must
+contain a 'taxon_name' column.</p>
+</td></tr>
+<tr><td><code id="data_traits_classified_corrected">data_traits_classified_corrected</code></td>
+<td>
+<p>A tibble with at least columns 'scale_id' (character) and
+'taxon_resolved' (character), used to identify which taxa
+belong to 'continent_id'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>**Steps**:
+</p>
+
+<ol>
+<li><p> Filter 'data_traits_classified_corrected' to rows where
+'scale_id == continent_id' and collect
+'distinct(taxon_resolved)'.
+</p>
+</li>
+<li><p> Use 'dplyr::semi_join()' to subset 'data_trait_table'
+to those taxa ('taxon_name == taxon_resolved').
+</p>
+</li>
+<li><p> Remove rows where all trait columns (i.e. all columns
+except 'taxon_name') are 'NA'.
+</p>
+</li></ol>
+
+
+
+<h3>Value</h3>
+
+<p>A tibble with the same column structure as 'data_trait_table'
+(i.e. 'taxon_name' + trait domain columns) but restricted to
+taxa present in 'continent_id' and with at least one non-'NA'
+trait value.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[save_ft_classification_for_continent()],
+[cluster_functional_types()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

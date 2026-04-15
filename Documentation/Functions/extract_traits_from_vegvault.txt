@@ -1,0 +1,66 @@
+Extract Trait Data from VegVault
+
+Description:
+
+     Extracts functional trait data from the VegVault SQLite database
+     for specified trait domains. Optional geographic filtering limits
+     records to datasets within the specified longitude/latitude
+     bounding box. Taxon names are returned as-is (`classify_to =
+     NULL`) for downstream manual classification.
+
+Usage:
+
+     extract_traits_from_vegvault(
+       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       sel_trait_domain_names = NULL,
+       x_lim = NULL,
+       y_lim = NULL
+     )
+     
+Arguments:
+
+path_to_vegvault: A character string specifying the path to the
+          VegVault SQLite database (default:
+          `here::here("Data/Input/VegVault.sqlite")`).
+
+sel_trait_domain_names: A character vector specifying the trait domain
+          names to extract (e.g. `c("Specific leaf area (SLA)", "Plant
+          height vegetative")`).
+
+   x_lim: A numeric vector of length 2 giving the longitude limits
+          `c(min, max)` for geographic filtering. Must be supplied
+          together with `y_lim`. If `NULL` (default) no geographic
+          filter is applied.
+
+   y_lim: A numeric vector of length 2 giving the latitude limits
+          `c(min, max)` for geographic filtering. Must be supplied
+          together with `x_lim`. If `NULL` (default) no geographic
+          filter is applied.
+
+Details:
+
+     The function performs the following steps:
+
+     1. Validates input parameters.  2. Checks the presence of the
+     VegVault SQLite database.  3. Builds the vaultkeepr query plan
+     (lazy SQL). If geographic limits are supplied, datasets are
+     filtered to the bounding box using
+     `vaultkeepr::select_dataset_by_geo()` before sample retrieval.  If
+     vaultkeepr raises an error during plan assembly (e.g. no data for
+     the given domain names), the error is caught and re-thrown via
+     `cli::cli_abort()` with the original message preserved.  4.
+     Retrieves trait values using `classify_to = NULL` to preserve raw
+     taxon names for downstream manual classification via the same
+     taxospace + auxiliary-table pipeline used for community data.  5.
+     Returns the extracted data as a flat data frame.
+
+Value:
+
+     A flat data frame containing extracted trait records with columns
+     including `taxon_name` (original, unclassified),
+     `trait_domain_name`, `trait_name`, and `trait_value`.
+
+See Also:
+
+     [extract_data_from_vegvault()]
+

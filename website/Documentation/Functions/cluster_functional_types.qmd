@@ -1,0 +1,148 @@
+---
+format: html
+title: cluster_functional_types()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>cluster_functional_types</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Cluster Taxa into Functional Types</h2>
+
+<h3>Description</h3>
+
+<p>Assigns taxa into functional types (FTs) using a pre-computed
+Gower dissimilarity matrix, a pre-fitted hierarchical
+clustering object, and a predetermined number of groups
+'number_of_ft_groups'. The number of groups is expected to have
+been chosen upstream (e.g. via 'select_ft_groups_by_silhouette()').
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>cluster_functional_types(
+  data,
+  dist_mat,
+  hclust_obj,
+  number_of_ft_groups,
+  taxon_col = "taxon_name",
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data">data</code></td>
+<td>
+<p>A data frame with one row per taxon. Must contain a character
+column (identified by 'taxon_col') holding taxon names.
+Must have at least 4 rows and 'nrow(data)' must be strictly
+greater than 'number_of_ft_groups'.</p>
+</td></tr>
+<tr><td><code id="dist_mat">dist_mat</code></td>
+<td>
+<p>A 'dist' object produced by 'compute_dissimilarity_matrix()'. Must
+inherit class '&quot;dist&quot;'. All distance values must be finite.</p>
+</td></tr>
+<tr><td><code id="hclust_obj">hclust_obj</code></td>
+<td>
+<p>An 'hclust' object produced by 'fit_hclust()'. Must inherit
+class '&quot;hclust&quot;'.</p>
+</td></tr>
+<tr><td><code id="number_of_ft_groups">number_of_ft_groups</code></td>
+<td>
+<p>A single positive integer giving the number of functional-type
+groups to cut the dendrogram at. Must be at least 2 and less
+than 'nrow(data)'.</p>
+</td></tr>
+<tr><td><code id="taxon_col">taxon_col</code></td>
+<td>
+<p>A single character string naming the column in 'data' that
+contains taxon names. Default: '&quot;taxon_name&quot;'.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>A single logical. If 'TRUE' (default), prints the chosen
+'number_of_ft_groups' via 'cli::cli_inform()'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>**Algorithm**:
+</p>
+
+<ol>
+<li><p> Cut the dendrogram at 'number_of_ft_groups'
+via 'stats::cutree()'.
+</p>
+</li>
+<li><p> Compute per-taxon silhouette widths via
+'cluster::silhouette()'.
+</p>
+</li>
+<li><p> Return a tibble of taxon names, cluster assignments,
+and silhouette widths.
+</p>
+</li></ol>
+
+<p>Distance computation (Inf -&gt; NA, daisy, NaN -&gt; 1.0) and
+hierarchical clustering are handled upstream by
+'compute_dissimilarity_matrix()' and 'fit_hclust()' respectively.
+FT-groups selection is handled upstream by
+'select_ft_groups_by_silhouette()'.
+If 'nrow(data) &lt; 4' or 'number_of_ft_groups &gt;= nrow(data)',
+the function aborts with an informative error.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with columns:
+</p>
+
+<dl>
+<dt>taxon_name</dt><dd><p>Taxon names (same values as
+'data[[taxon_col]]'). Column name is always
+'&quot;taxon_name&quot;' regardless of 'taxon_col'.</p>
+</dd>
+<dt>functional_type</dt><dd><p>Integer label (1..number_of_ft_groups)
+giving the functional-type cluster assignment for each
+taxon.</p>
+</dd>
+<dt>silhouette_width</dt><dd><p>Per-taxon silhouette width for
+the chosen number_of_ft_groups solution.</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>[compute_dissimilarity_matrix()], [fit_hclust()],
+[select_ft_groups_by_silhouette()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

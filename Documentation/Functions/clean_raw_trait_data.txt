@@ -1,0 +1,33 @@
+Clean Raw Trait Data
+
+Description:
+
+     Selects the required columns from a raw trait data frame and
+     removes rows where `taxon_id` or `trait_value` is `NA`.
+
+Usage:
+
+     clean_raw_trait_data(data_raw)
+     
+Arguments:
+
+data_raw: A data frame returned by [extract_traits_from_vegvault()].
+          Expected to contain at least the columns `taxon_id`,
+          `trait_domain_name`, `trait_name`, and `trait_value`.
+
+Details:
+
+     Uses [dplyr::any_of()] for the column selection so the function
+     tolerates input data frames that already lack one of the optional
+     columns without error.
+
+Value:
+
+     A tibble with columns `taxon_id`, `trait_domain_name`,
+     `trait_name`, and `trait_value`, with all rows where `taxon_id` or
+     `trait_value` is `NA` removed.
+
+See Also:
+
+     [extract_traits_from_vegvault()], [resolve_trait_taxon_ids()]
+

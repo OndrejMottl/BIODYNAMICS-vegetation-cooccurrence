@@ -173,7 +173,7 @@ data_network_all <-
   purrr::list_rbind()
 
 
-# Continents ordered west-to-east: America → Europe → Asia.
+# Continents ordered west-to-east: America -> Europe -> Asia.
 # This factor is applied to both data frames so facet column
 # order respects geographic position on a map.
 vec_continent_order <- c("America", "Europe", "Asia")

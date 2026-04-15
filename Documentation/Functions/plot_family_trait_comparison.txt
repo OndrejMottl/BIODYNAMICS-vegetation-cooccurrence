@@ -1,0 +1,110 @@
+Plot Family-Level Trait Comparison for a Focal Taxon
+
+Description:
+
+     Builds a `ggplot2` log10-scale strip plot comparing the median
+     trait value of a focal taxon against all other taxa in the same
+     taxonomic family. Grey jittered dots represent all family members
+     that meet the minimum record threshold; a firebrick point marks
+     the focal taxon.
+
+Usage:
+
+     plot_family_trait_comparison(
+       data_family_comparison,
+       data_group_summary,
+       sel_taxon,
+       sel_domain,
+       sel_min_n = 5L,
+       graphical_options,
+       verbose = TRUE
+     )
+     
+Arguments:
+
+data_family_comparison: A tibble of per-taxon summary statistics for
+          all taxa in the same taxonomic family as `sel_taxon`, as
+          returned by [get_family_trait_summary()]. Must contain
+          columns `taxon_name` (character), `n` (integer), and `median`
+          (numeric).
+
+data_group_summary: A single-row tibble of per-group QC statistics for
+          the focal taxon, as produced by [generate_trait_qc_report()].
+          Must contain a numeric column `median` used to place the
+          firebrick reference point.
+
+sel_taxon: Character scalar. Name of the focal taxon. Used in the plot
+          title.
+
+sel_domain: Character scalar. Trait domain being inspected. Used in
+          axis labels.
+
+sel_min_n: Positive integer scalar. Minimum number of records a taxon
+          must have to appear in the plot. Defaults to `5L`.
+
+graphical_options: Named list with elements `width`, `height`, `units`,
+          `dpi`, and `bg`, as returned by
+          `get_active_config("graphical")`. Passed to
+          `ggview::canvas()`.
+
+ verbose: Logical. If `TRUE` (default), the number of taxa shown in the
+          plot after the `sel_min_n` filter is reported via
+          `cli::cli_inform()`.
+
+Details:
+
+     All taxa in `data_family_comparison` with `n >= sel_min_n` are
+     shown as grey jittered points on a log10 x-axis. The focal taxon's
+     median (from `data_group_summary`) is overlaid as a larger
+     firebrick point. When no family members meet the `sel_min_n`
+     threshold the grey layer is empty and only the focal taxon point
+     is drawn.
+
+     Plot layer order follows project conventions: `ggplot2::ggplot()`
+     -> scales -> labels -> theme -> `ggview::canvas()` -> geoms.
+
+Value:
+
+     A `ggplot2` object. The plot is not printed; call `print()` on the
+     return value to display it.
+
+See Also:
+
+     [get_family_trait_summary()], [plot_trait_group_distribution()],
+     [generate_trait_qc_report()]
+
+Examples:
+
+     ## Not run:
+     
+     data_family <-
+       get_family_trait_summary(
+         data_traits_raw = data_traits_raw,
+         data_classification = data_classification,
+         sel_taxon = "Anacyclus clavatus",
+         sel_domain = "Leaf Area"
+       )
+     
+     data_summary <-
+       data_qc_report |>
+       dplyr::filter(
+         taxon_name == "Anacyclus clavatus",
+         trait_domain_name == "Leaf Area"
+       )
+     
+     graphical_options <-
+       get_active_config("graphical")
+     
+     p <-
+       plot_family_trait_comparison(
+         data_family_comparison = data_family,
+         data_group_summary = data_summary,
+         sel_taxon = "Anacyclus clavatus",
+         sel_domain = "Leaf Area",
+         sel_min_n = 5L,
+         graphical_options = graphical_options
+       )
+     
+     base::print(p)
+     ## End(Not run)
+     

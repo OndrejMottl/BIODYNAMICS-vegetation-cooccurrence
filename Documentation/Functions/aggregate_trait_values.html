@@ -1,0 +1,89 @@
+<!DOCTYPE html><html><head><title>R: Aggregate Trait Values to Single Value per Group</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>aggregate_trait_values</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Aggregate Trait Values to Single Value per Group</h2>
+
+<h3>Description</h3>
+
+<p>Aggregates a long-format trait data frame to one row per group (by
+default per taxon x trait combination) using a specified summary
+function. Intended to be applied after outlier removal.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>aggregate_trait_values(
+  data,
+  trait_col = "trait_value",
+  group_cols = c("taxon_name", "trait_domain_name"),
+  fn = c("median", "mean")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data">data</code></td>
+<td>
+<p>A data frame in long format with at least the columns specified by
+'trait_col' and 'group_cols'.</p>
+</td></tr>
+<tr><td><code id="trait_col">trait_col</code></td>
+<td>
+<p>A character string naming the numeric column containing trait values.
+Default: '&quot;trait_value&quot;'.</p>
+</td></tr>
+<tr><td><code id="group_cols">group_cols</code></td>
+<td>
+<p>A character vector of column names used to define groups for
+aggregation. Default: 'c(&quot;taxon_name&quot;, &quot;trait_domain_name&quot;)'.</p>
+</td></tr>
+<tr><td><code id="fn">fn</code></td>
+<td>
+<p>A character string specifying the aggregation function. One of
+'&quot;median&quot;' (default) or '&quot;mean&quot;'. Matched with 'match.arg()'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The 'fn' argument is processed via 'match.arg()', so partial matching
+is supported (e.g. 'fn = &quot;med&quot;' resolves to '&quot;median&quot;').
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with one row per unique combination of 'group_cols' and
+a new column 'trait_value_aggregated' containing the aggregated value.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[filter_trait_outliers()], [make_trait_table()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

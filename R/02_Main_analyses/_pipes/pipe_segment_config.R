@@ -44,8 +44,8 @@ pipe_segment_config <-
       description = "Configuration for VegVault data extraction - xlim",
       name = "config.x_lim",
       command = {
-        # Spatial pipeline → scale_id encoded in store path
-        # Named project → returns NULL, falls back to config.yml
+        # Spatial pipeline -> scale_id encoded in store path
+        # Named project -> returns NULL, falls back to config.yml
         sel_scale_id <- get_scale_id_from_store()
         if (
           !is.null(sel_scale_id)

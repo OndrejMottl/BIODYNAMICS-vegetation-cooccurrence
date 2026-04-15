@@ -1,0 +1,98 @@
+---
+format: html
+title: make_trait_table()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>make_trait_table</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make Wide-Format Species x Traits Table</h2>
+
+<h3>Description</h3>
+
+<p>Pivots a long-format aggregated trait data frame into a wide-format
+table with one row per taxon and one column per trait domain. This
+produces the genus x traits matrix used for functional type
+assignment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>make_trait_table(
+  data,
+  taxon_col = "taxon_name",
+  trait_col = "trait_domain_name",
+  value_col = "trait_value_aggregated"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data">data</code></td>
+<td>
+<p>A data frame in long format with one row per taxon x trait
+combination. Must contain at least the columns specified by
+'taxon_col', 'trait_col', and 'value_col'.</p>
+</td></tr>
+<tr><td><code id="taxon_col">taxon_col</code></td>
+<td>
+<p>A character string naming the column containing taxon (genus) names.
+Default: '&quot;taxon_name&quot;'.</p>
+</td></tr>
+<tr><td><code id="trait_col">trait_col</code></td>
+<td>
+<p>A character string naming the column containing trait domain names.
+Default: '&quot;trait_domain_name&quot;'.</p>
+</td></tr>
+<tr><td><code id="value_col">value_col</code></td>
+<td>
+<p>A character string naming the column containing aggregated trait
+values. Default: '&quot;trait_value_aggregated&quot;'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Wraps 'tidyr::pivot_wider()'. If a taxon x trait combination appears
+more than once, only the first value is retained
+('values_fn = dplyr::first').
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with one row per taxon and one column per trait domain,
+plus the taxon name column. Column names for traits are taken
+directly from the values in 'trait_col'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[aggregate_trait_values()], [check_trait_coverage()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

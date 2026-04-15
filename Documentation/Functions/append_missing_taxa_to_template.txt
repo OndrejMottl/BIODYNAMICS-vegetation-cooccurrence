@@ -1,0 +1,65 @@
+Append missing taxa to the shared template CSV
+
+Description:
+
+     Reads the existing missing-taxa template CSV (if present), removes
+     any entries that are now present in `data_classification_table`
+     (i.e. have since been classified), appends any new unclassified
+     taxa, deduplicates by `sel_name`, and writes the result back to
+     disk. If the file does not yet exist it is created. Nothing is
+     written when `data_missing_taxa` is empty, the file already
+     exists, and no stale entries need to be removed.
+
+Usage:
+
+     append_missing_taxa_to_template(
+       data_missing_taxa,
+       file_path = here::here("Data/Input/missing_taxa_template.csv"),
+       data_classification_table = NULL
+     )
+     
+Arguments:
+
+data_missing_taxa: A tibble with columns `sel_name`, `kingdom`,
+          `phylum`, `class`, `order`, `family`, `genus`, and `species`
+          (all character). Rows represent taxa that could not be
+          classified. Pass an empty tibble (zero rows) when there are
+          no new missing taxa.
+
+file_path: A length-1 character string giving the path to the CSV file.
+          Defaults to
+          `here::here("Data/Input/missing_taxa_template.csv")`.
+
+data_classification_table: `NULL` (default) or a data frame with at
+          least a `sel_name` column. When provided, any entry already
+          present in the existing template whose `sel_name` also
+          appears in this table is removed from the template before
+          merging. This prevents stale entries from re-appearing after
+          a taxon has been manually added to the auxiliary
+          classification table.
+
+Details:
+
+     The file is only written when at least one of the following is
+     true:
+
+        • `data_missing_taxa` contains one or more rows.
+
+        • The file at `file_path` does not yet exist.
+
+        • `data_classification_table` is not `NULL` and at least one
+          existing template entry is now classified.
+
+     Deduplication keeps the first occurrence of each `sel_name`.
+
+Value:
+
+     The `file_path` string (invisibly), so it can be used as a `format
+     = "file"` target return value in a targets pipeline.
+
+See Also:
+
+     [get_aux_classification_table()],
+     [get_taxa_without_classification()],
+     [check_and_report_missing_taxa()]
+

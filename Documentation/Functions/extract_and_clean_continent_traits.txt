@@ -1,0 +1,58 @@
+Extract and Clean Trait Data for One Continental Unit
+
+Description:
+
+     Extracts raw trait data from VegVault for a single continental
+     bounding box, removes incomplete records, and translates numeric
+     taxon IDs to taxon names. Optionally prints progress messages.
+
+Usage:
+
+     extract_and_clean_continent_traits(
+       data_continental_rows,
+       vec_trait_domain_names,
+       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       verbose = TRUE
+     )
+     
+Arguments:
+
+data_continental_rows: A single-row data frame (one continental unit
+          from the spatial grid) with columns `scale_id`, `x_min`,
+          `x_max`, `y_min`, and `y_max`.
+
+vec_trait_domain_names: A non-empty character vector of trait domain
+          names to extract (e.g. `c("Specific leaf area (SLA)", "Plant
+          height vegetative")`).
+
+path_to_vegvault: A single character string giving the path to the
+          VegVault SQLite database (default:
+          `here::here("Data/Input/VegVault.sqlite")`).
+
+ verbose: A single logical value. If `TRUE` (default), progress
+          messages are printed via `cli::cli_inform()`. Set to `FALSE`
+          to suppress all console output.
+
+Details:
+
+     The function performs the following steps:
+
+     1. Validates all input arguments.  2. Derives the bounding-box
+     limits and scale identifier from `data_continental_rows`.  3.
+     Calls [extract_traits_from_vegvault()] to retrieve raw records.
+     4. Calls [clean_raw_trait_data()] to drop incomplete rows.  5.
+     Calls [resolve_trait_taxon_ids()] to replace numeric IDs with
+     taxon names.  6. Returns the final tibble with taxon-name columns
+     only.
+
+Value:
+
+     A tibble with columns `taxon_name`, `trait_domain_name`,
+     `trait_name`, and `trait_value`, containing the cleaned and
+     ID-resolved trait records for the supplied continental unit.
+
+See Also:
+
+     [extract_traits_from_vegvault()], [clean_raw_trait_data()],
+     [resolve_trait_taxon_ids()]
+

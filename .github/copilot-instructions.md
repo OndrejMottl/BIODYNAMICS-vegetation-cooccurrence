@@ -257,7 +257,7 @@ source(
 
 testthat::test_file(
   here::here(
-    "R/03_Supplementary_analyses/testthat/test-<function_name>.R"
+    "R/03_Supplementary_analyses/Testing/testthat/test-<function_name>.R"
   )
 )
 ```
@@ -266,7 +266,7 @@ testthat::test_file(
    to run the dedicated script that sources project setup automatically:
 
 ```powershell
-Rscript R/03_Supplementary_analyses/Run_tests.R
+Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
 ```
 
    Alternatively, from an interactive R session:
@@ -279,7 +279,7 @@ source(
 )
 
 testthat::test_dir(
-  here::here("R/03_Supplementary_analyses/testthat")
+  here::here("R/03_Supplementary_analyses/Testing/testthat")
 )
 ```
 
@@ -300,6 +300,12 @@ run_pipeline(
   sel_script = "R/02_Main_analyses/pipeline_basic.R",
   level_separation = 100,
   fresh_run = TRUE
+)
+
+# Resolution-testing pipeline (Phase E0 validation gate)
+targets::tar_make(
+  script = here::here("R/02_Main_analyses/pipeline_test_resolution.R"),
+  store  = here::here("Data/targets/project_cz/pipeline_test_resolution")
 )
 ```
 
@@ -435,7 +441,7 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
 
 1. **Write the spec** — Create the function file with only the roxygen2 documentation header and an empty stub body (returning `NULL` or `stop("not implemented")`). Define the function name, all arguments with defaults, return type, and description. Follow the template in [instructions/make_roxygen2_documentation.instructions.md](instructions/make_roxygen2_documentation.instructions.md).
 
-2. **Write unit tests** — Launch a subagent with the full contents of [instructions/make_test_file_for_a_function.instructions.md](instructions/make_test_file_for_a_function.instructions.md) and the function **spec stub** as context. The subagent creates the test file at `R/03_Supplementary_analyses/testthat/test-<function_name>.R` based solely on the spec, and the intended functionality not on any implementation.
+2. **Write unit tests** — Launch a subagent with the full contents of [instructions/make_test_file_for_a_function.instructions.md](instructions/make_test_file_for_a_function.instructions.md) and the function **spec stub** as context. The subagent creates the test file at `R/03_Supplementary_analyses/Testing/testthat/test-<function_name>.R` based solely on the spec, and the intended functionality not on any implementation.
 
 3. **Verify all tests fail** — Run the test file to confirm **every test fails**. A test that passes at this stage means it is not testing real behavior (fix it before continuing):
 
@@ -445,7 +451,7 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
    source(here::here('R/___setup_project___.R'))
    testthat::test_file(
      here::here(
-       'R/03_Supplementary_analyses/testthat/test-<function_name>.R'
+       'R/03_Supplementary_analyses/Testing/testthat/test-<function_name>.R'
      )
    )
    "
@@ -456,7 +462,7 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
 5. **Run the full test suite** — All project tests must pass:
 
    ```powershell
-   Rscript R/03_Supplementary_analyses/Run_tests.R
+   Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
    ```
 
 6. **Test run `project_cz`** — Run the pipeline end-to-end:
@@ -477,6 +483,23 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
    Remove-Item Data/Temp/pipeline_out.txt -ErrorAction SilentlyContinue
    ```
 
+   Then run the resolution-testing pipeline (Phase E0 validation gate):
+
+   ```powershell
+   Rscript -e "
+   library(here)
+   source(here::here('R/___setup_project___.R'))
+   Sys.setenv(R_CONFIG_ACTIVE = 'project_cz')
+   targets::tar_make(
+     script = here::here('R/02_Main_analyses/pipeline_test_resolution.R'),
+     store  = here::here('Data/targets/project_cz/pipeline_test_resolution')
+   )
+   " > Data/Temp/pipeline_test_res_out.txt 2>&1
+   Get-Content Data/Temp/pipeline_test_res_out.txt |
+     Select-String -Pattern 'ERROR|error|started|completed|up to date|outdated|Target'
+   Remove-Item Data/Temp/pipeline_test_res_out.txt -ErrorAction SilentlyContinue
+   ```
+
 7. **Review with `changes-reviewer`** — Invoke the `changes-reviewer` subagent, passing the list of files changed in this session. If it reports any remaining violations, fix them before finalising.
 
 **A new function is not complete until steps 5, 6, and 7 both pass without unexpected errors.**
@@ -494,11 +517,11 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
 5. **Run the full test suite** — All project tests must pass:
 
    ```powershell
-   Rscript R/03_Supplementary_analyses/Run_tests.R
+   Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
    ```
 
-6. **Test run `project_cz`** — Run the pipeline end-to-end (same command
-   as above).
+6. **Test run `project_cz`** — Run the pipeline end-to-end (same commands
+   as above: `pipeline_basic.R` then `pipeline_test_resolution.R`).
 
 7. **Review with `changes-reviewer`** — Invoke the `changes-reviewer` subagent, passing the list of files changed in this session. If it reports any remaining violations, fix them before finalising.
 

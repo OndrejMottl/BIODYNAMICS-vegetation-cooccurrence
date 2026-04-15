@@ -1,0 +1,58 @@
+Compute Dissimilarity Matrix from Trait Data
+
+Description:
+
+     Computes a pairwise dissimilarity matrix from a wide trait table
+     using `cluster::daisy()`. Before computation, any `Inf` / `-Inf`
+     values in numeric trait columns are replaced with `NA` so that the
+     normalisation denominator stays finite. After computation, any
+     remaining `NaN` or non-finite values in the distance matrix are
+     replaced with `1.0` (the maximum dissimilarity, i.e. fully
+     dissimilar). This function isolates the distance-computation step
+     from `cluster_functional_types()` so that the distance matrix can
+     be stored as an independent, inspectable pipeline target.
+
+Usage:
+
+     compute_dissimilarity_matrix(data, taxon_col = "taxon_name", metric = "gower")
+     
+Arguments:
+
+    data: A data frame with one row per taxon. Must contain a column
+          identified by `taxon_col` and at least one additional trait
+          column. `NA` values in trait columns are handled natively by
+          `cluster::daisy()`.
+
+taxon_col: A single character string naming the column that holds taxon
+          names. Default: `"taxon_name"`. This column is excluded
+          before the distance computation.
+
+  metric: A single character string passed to `cluster::daisy()` as the
+          `metric` argument. Default: `"gower"`. Other valid values are
+          `"euclidean"` and `"manhattan"` (see `?cluster::daisy`).
+
+Details:
+
+     **Steps performed**:
+
+       1. Select all columns except `taxon_col` as trait columns.
+
+       2. Replace any `Inf` / `-Inf` values in numeric trait columns
+          with `NA` via `dplyr::if_else()`.
+
+       3. Compute `cluster::daisy(metric = metric)`.
+
+       4. If any value in the resulting distance vector is non-finite
+          (e.g. `NaN` arising when two taxa share no non-`NA` trait),
+          replace it with `1.0` and reconvert via `stats::as.dist()`.
+
+Value:
+
+     An object of class `"dist"` (as returned by `stats::as.dist()`)
+     with one entry per pair of taxa. All values are in [0, 1] when
+     `metric = "gower"` (Gower default).
+
+See Also:
+
+     [fit_hclust()], [cluster_functional_types()]
+

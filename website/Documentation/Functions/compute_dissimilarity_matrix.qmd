@@ -1,0 +1,114 @@
+---
+format: html
+title: compute_dissimilarity_matrix()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_dissimilarity_matrix</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute Dissimilarity Matrix from Trait Data</h2>
+
+<h3>Description</h3>
+
+<p>Computes a pairwise dissimilarity matrix from a wide trait
+table using 'cluster::daisy()'. Before computation, any
+'Inf' / '-Inf' values in numeric trait columns are replaced
+with 'NA' so that the normalisation denominator stays
+finite. After computation, any remaining 'NaN' or non-finite
+values in the distance matrix are replaced with '1.0' (the
+maximum dissimilarity, i.e. fully dissimilar). This function
+isolates the distance-computation step from
+'cluster_functional_types()' so that the distance matrix can
+be stored as an independent, inspectable pipeline target.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_dissimilarity_matrix(data, taxon_col = "taxon_name", metric = "gower")
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data">data</code></td>
+<td>
+<p>A data frame with one row per taxon. Must contain a column
+identified by 'taxon_col' and at least one additional trait
+column. 'NA' values in trait columns are handled natively by
+'cluster::daisy()'.</p>
+</td></tr>
+<tr><td><code id="taxon_col">taxon_col</code></td>
+<td>
+<p>A single character string naming the column that holds taxon
+names. Default: '&quot;taxon_name&quot;'. This column is excluded before
+the distance computation.</p>
+</td></tr>
+<tr><td><code id="metric">metric</code></td>
+<td>
+<p>A single character string passed to 'cluster::daisy()' as the
+'metric' argument. Default: '&quot;gower&quot;'. Other valid values are
+'&quot;euclidean&quot;' and '&quot;manhattan&quot;' (see '?cluster::daisy').</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>**Steps performed**:
+</p>
+
+<ol>
+<li><p> Select all columns except 'taxon_col' as trait columns.
+</p>
+</li>
+<li><p> Replace any 'Inf' / '-Inf' values in numeric trait
+columns with 'NA' via 'dplyr::if_else()'.
+</p>
+</li>
+<li><p> Compute 'cluster::daisy(metric = metric)'.
+</p>
+</li>
+<li><p> If any value in the resulting distance vector is
+non-finite (e.g. 'NaN' arising when two taxa share no
+non-'NA' trait), replace it with '1.0' and reconvert via
+'stats::as.dist()'.
+</p>
+</li></ol>
+
+
+
+<h3>Value</h3>
+
+<p>An object of class '&quot;dist&quot;' (as returned by 'stats::as.dist()')
+with one entry per pair of taxa. All values are in [0, 1] when
+'metric = &quot;gower&quot;' (Gower default).
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[fit_hclust()], [cluster_functional_types()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

@@ -1,0 +1,58 @@
+Select Optimal Number of Functional-Type Groups via Average Silhouette
+Width
+
+Description:
+
+     Sweeps `number_of_ft_groups` = `ft_groups_min` .. `ft_groups_max`,
+     cuts the dendrogram at each value, and returns the
+     `number_of_ft_groups` that maximises the average silhouette width
+     computed from `dist_mat`.
+
+Usage:
+
+     select_ft_groups_by_silhouette(
+       dist_mat,
+       hclust_obj,
+       ft_groups_min = 10L,
+       ft_groups_max = 25L
+     )
+     
+Arguments:
+
+dist_mat: A `dist` object produced by `compute_dissimilarity_matrix()`.
+          Must inherit class `"dist"`.
+
+hclust_obj: An `hclust` object produced by `fit_hclust()`. Must inherit
+          class `"hclust"`.
+
+ft_groups_min: A single positive integer giving the minimum number of
+          functional-type groups to evaluate. Must be at least 2 and no
+          greater than `ft_groups_max`. Default: `10L`.
+
+ft_groups_max: A single positive integer giving the maximum number of
+          functional-type groups to evaluate. Must be at least 2. If
+          `ft_groups_max` is greater than or equal to the number of
+          observations, it is silently clamped to `n_observations -
+          1L`. After clamping `ft_groups_max`, `ft_groups_min` is
+          silently clamped to `min(ft_groups_min, ft_groups_max)` to
+          handle datasets with very few taxa without erroring. Default:
+          `25L`.
+
+Details:
+
+     For each `number_of_ft_groups` in `ft_groups_min`..`ft_groups_max`
+     the function calls `stats::cutree()` followed by
+     `cluster::silhouette()` and records the mean silhouette width. The
+     `number_of_ft_groups` with the highest mean is returned. Ties are
+     broken by `base::which.max()` (first occurrence).
+
+Value:
+
+     A single integer giving the optimal number of functional-type
+     groups (>= `ft_groups_min` after clamping).
+
+See Also:
+
+     [compute_dissimilarity_matrix()], [fit_hclust()],
+     [cluster_functional_types()]
+

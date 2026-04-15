@@ -1,0 +1,93 @@
+---
+format: html
+title: get_trait_domain_names_from_vegvault()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_trait_domain_names_from_vegvault</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Trait Domain Names from VegVault</h2>
+
+<h3>Description</h3>
+
+<p>Queries the VegVault SQLite database to retrieve all unique trait
+domain names from the 'TraitsDomain' table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_trait_domain_names_from_vegvault(
+  path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="path_to_vegvault">path_to_vegvault</code></td>
+<td>
+<p>A character string specifying the path to the VegVault SQLite
+database (default: 'here::here(&quot;Data/Input/VegVault.sqlite&quot;)').</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE' (default), progress messages are printed to
+the console via 'cli'. Set to 'FALSE' to suppress all console
+output.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function performs the following steps:
+</p>
+<p>1. Validates input parameters.
+2. Checks the presence of the VegVault SQLite database using
+'check_presence_of_vegvault()'.
+3. Opens a DBI connection to the SQLite database.
+4. Queries the 'TraitsDomain' table for distinct
+'trait_domain_name' values and collects results.
+5. Closes the database connection.
+6. Removes 'NA' values from the result.
+7. Asserts that at least one domain name was found.
+8. Optionally logs the result via 'cli::cli_inform()'.
+9. Returns the character vector of domain names.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A character vector of unique, non-'NA' trait domain names found
+in the 'TraitsDomain' table.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[extract_traits_from_vegvault()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

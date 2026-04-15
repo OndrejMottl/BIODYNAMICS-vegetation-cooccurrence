@@ -125,7 +125,7 @@ path_pipe_parts <-
   here::here("R/02_Main_analyses/_pipes/")
 
 # Segments must be sourced in dependency order:
-#   extraction → qc → classification → qc_classified → table → ft_clustering
+#   extraction -> qc -> classification -> qc_classified -> table -> ft_clustering
 base::c(
   "pipe_segment_trait_extraction.R",
   "pipe_segment_trait_qc.R",

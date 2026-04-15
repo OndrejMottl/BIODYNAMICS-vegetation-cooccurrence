@@ -1,0 +1,100 @@
+---
+format: html
+title: get_functional_type_classification()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_functional_type_classification</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Functional-Type Classification for a Continental Unit</h2>
+
+<h3>Description</h3>
+
+<p>Loads the most recent FT classification file for a given
+continental unit from 'Data/Processed/Traits/'. The file is
+produced by 'pipe_segment_trait_ft_clustering' in
+'pipeline_traits.R' and named
+'data_ft_classification_continent_id_YYYY-MM-DD.qs'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_functional_type_classification(
+  continent_id,
+  path_processed = here::here("Data/Processed/Traits")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="continent_id">continent_id</code></td>
+<td>
+<p>A single non-empty character string identifying the continental
+unit (e.g. '&quot;europe&quot;', '&quot;america&quot;', '&quot;asia&quot;'). Must match exactly
+with the 'scale_id' used when the FT classification was saved.</p>
+</td></tr>
+<tr><td><code id="path_processed">path_processed</code></td>
+<td>
+<p>A single character string giving the directory that contains the
+FT classification '.qs' files. Default:
+'here::here(&quot;Data/Processed/Traits&quot;)'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function lists all '.qs' files in 'path_processed' matching
+the pattern 'data_ft_classification_continent_id_*.qs',
+selects the file with the most recent date suffix (ISO 8601:
+YYYY-MM-DD), and reads it via 'qs2::qs_read()'. If no matching
+file is found the function aborts with an informative error.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with two columns:
+</p>
+
+<dl>
+<dt>taxon_name</dt><dd><p>Character. Taxon names resolved to finest
+available rank, matching the 'taxon_name' column in the
+global trait table.</p>
+</dd>
+<dt>functional_type</dt><dd><p>Integer. Cluster label
+(1..'number_of_ft_groups') assigned for this
+continental unit.</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>[cluster_functional_types()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

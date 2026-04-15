@@ -22,7 +22,7 @@
 #' missing classifications and copy or append rows to
 #' `Data/Input/aux_classification_table.csv`, then re-run the
 #' pipeline. Use
-#' `R/03_Supplementary_analyses/Make_auxiliary_classification_table.R`
+#' `R/03_Supplementary_analyses/Classification/Make_auxiliary_classification_table.R`
 #' to coalesce templates across all pipeline stores into one CSV.
 #' @seealso
 #' [get_aux_classification_table()],

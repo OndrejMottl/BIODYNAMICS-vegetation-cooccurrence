@@ -22,12 +22,12 @@
 #' @param path_qmd
 #' Character scalar. Path to the Quarto source document.
 #' Default: `here::here(
-#'   "R/03_Supplementary_analyses/Trait_qc_report.qmd"
+#'   "R/03_Supplementary_analyses/_Trait_qc/Trait_qc_report.qmd"
 #' )`.
 #' @param path_docs_dir
 #' Character scalar. Directory that Quarto writes its output to
 #' before the file is moved. Default: `here::here(
-#'   "docs/R/03_Supplementary_analyses"
+#'   "docs/R/03_Supplementary_analyses/_Trait_qc"
 #' )`.
 #' @param sel_max_pages
 #' Positive integer scalar or `NULL`. Maximum number of pages to
@@ -58,10 +58,10 @@ render_trait_qc_pdf <- function(
     sel_domain_filter = NULL,
     path_output_dir = here::here("Outputs/Reports"),
     path_qmd = here::here(
-      "R/03_Supplementary_analyses/Trait_qc_report.qmd"
+      "R/03_Supplementary_analyses/_Trait_qc/Trait_qc_report.qmd"
     ),
     path_docs_dir = here::here(
-      "docs/R/03_Supplementary_analyses"
+      "docs/R/03_Supplementary_analyses/_Trait_qc"
     ),
     sel_max_pages = NULL,
     sel_min_n_family = 5L,

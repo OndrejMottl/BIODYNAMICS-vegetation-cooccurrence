@@ -1,0 +1,75 @@
+<!DOCTYPE html><html><head><title>R: Validate Trait Manual Corrections File</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>validate_trait_corrections</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Validate Trait Manual Corrections File</h2>
+
+<h3>Description</h3>
+
+<p>Reads the trait manual corrections CSV file and checks that every
+row has been reviewed by a human. Acts as a pipeline guard: if any
+row has a 'CHECKED' value that is not 'TRUE' (i.e. is 'NA',
+'FALSE', or absent), the function calls 'cli::cli_abort()' listing
+the number of unchecked rows so the pipeline stops until a human
+has signed off the file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>validate_trait_corrections(path_corrections)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="path_corrections">path_corrections</code></td>
+<td>
+<p>A character scalar giving the file path to
+'trait_manual_corrections.csv'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The expected CSV columns are: 'taxon_name', 'trait_domain_name',
+'action', 'scale_factor', 'notes', 'CHECKED'. The abort message
+reports exactly how many rows have not been validated and instructs
+the user to set 'CHECKED = TRUE' after reviewing.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble of validated corrections (all rows have 'CHECKED == TRUE')
+when every row is approved. Aborts via 'cli::cli_abort()' if any
+row is not yet validated.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[generate_trait_qc_report()], [apply_trait_corrections()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

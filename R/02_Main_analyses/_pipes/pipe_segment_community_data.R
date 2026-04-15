@@ -167,37 +167,5 @@ pipe_segment_community_data <-
         data_classification_table = data_combined_classification_table,
         taxonomic_resolution = config.data_processing$taxonomic_resolution
       )
-    ),
-    targets::tar_target(
-      description = "Filter rare taxa from community data",
-      name = "data_community_rare_filtered",
-      command = filter_rare_taxa(
-        data = data_community_classified,
-        minimal_proportion = config.data_processing$minimal_proportion_of_pollen
-      )
-    ),
-    targets::tar_target(
-      description = "Filter taxa not present in enough cores",
-      name = "data_community_filtered_cores",
-      command = filter_community_by_n_cores(
-        data = data_community_rare_filtered,
-        min_n_cores = config.data_processing$min_n_cores
-      )
-    ),
-    targets::tar_target(
-      description = "Filter taxa not present in enough samples",
-      name = "data_community_filtered_samples",
-      command = filter_by_n_samples(
-        data = data_community_filtered_cores,
-        min_n_samples = config.data_processing$min_n_samples
-      )
-    ),
-    targets::tar_target(
-      description = "Select number of taxa to include",
-      name = "data_community_subset",
-      command = select_n_taxa(
-        data = data_community_filtered_samples,
-        n_taxa = config.data_processing$number_of_taxa
-      )
     )
   )

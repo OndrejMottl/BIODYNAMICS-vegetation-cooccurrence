@@ -4,23 +4,42 @@ Description:
 
      Retrieves taxonomic classification for a vector of taxa using the
      taxospace package. Filters results to include only plant taxa.
+     Results are cached on disk so that repeated calls for the same
+     taxa avoid redundant HTTP requests.
 
 Usage:
 
-     get_taxa_classification(data)
+     get_taxa_classification(
+       data = NULL,
+       cache_dir = here::here("Data/Temp/taxospace")
+     )
      
 Arguments:
 
     data: A character vector of taxon names to classify.
 
+cache_dir: Character scalar. Path to the directory where per-taxon
+          classification results are cached as `.qs` files (using the
+          qs2 package). The directory is created automatically if it
+          does not exist. The default is
+          `here::here("Data/Temp/taxospace")`.
+
 Details:
 
-     Uses taxospace::get_classification to retrieve classification.
-     Flags and filters for plant taxa (kingdom Plantae). Returns an
-     empty tibble if no plant taxa found.
+     Uses `taxospace::get_classification()` to retrieve classification.
+     Flags and filters for plant taxa (kingdom Plantae). Before calling
+     the taxospace service, checks for a cached `.qs` file in
+     `cache_dir`. A successful result is saved to cache; the empty
+     dummy tibble returned on failure is never cached.
 
 Value:
 
-     A data frame with columns for selected name, taxonomic name, rank,
-     and id.
+     A data frame with columns `sel_name`, `name`, `rank`, and `id`.
+     Returns an empty tibble with those columns when no plant taxa are
+     found or the taxospace service returns no classification.
+
+See Also:
+
+     [taxospace::get_classification()], [qs2::qs_read()],
+     [qs2::qs_save()]
 

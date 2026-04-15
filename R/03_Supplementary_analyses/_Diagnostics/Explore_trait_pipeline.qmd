@@ -1,0 +1,1153 @@
+---
+title: "Explore trait pipeline — step-by-step inspection"
+date: today
+date-format: long
+date-modified: last-modified
+---
+
+<!--
+  Supplementary exploration notebook for the six-segment trait pipeline.
+  Reads every intermediate target from the pipeline store (no re-execution).
+
+  Pipeline store: Data/targets/traits/pipeline_traits
+  Active config:  traits
+
+  Run the traits pipeline first:
+    targets::tar_make(
+      script = here::here("R/02_Main_analyses/pipeline_traits.R"),
+      store  = here::here("Data/targets/traits/pipeline_traits")
+    )
+-->
+
+```{r}
+#| label: setup
+
+library(here)
+
+here::i_am(
+  "R/03_Supplementary_analyses/_Diagnostics/Explore_trait_pipeline.qmd"
+)
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
+Sys.setenv(R_CONFIG_ACTIVE = "traits")
+
+graphical_options <-
+  get_active_config("graphical")
+
+fig_width_inch <-
+  purrr::chuck(graphical_options, "width") /
+  purrr::chuck(graphical_options, "dpi")
+
+fig_height_inch <-
+  purrr::chuck(graphical_options, "height") /
+  purrr::chuck(graphical_options, "dpi")
+
+path_traits_store <-
+  here::here("Data/targets/traits/pipeline_traits")
+
+# Guard: abort rendering if the store is missing.
+if (
+  !fs::dir_exists(path_traits_store)
+) {
+  cli::cli_abort(
+    c(
+      "Trait pipeline store not found at: {path_traits_store}",
+      "i" = stringr::str_c(
+        "Run `targets::tar_make(",
+        "script = 'R/02_Main_analyses/pipeline_traits.R',",
+        "store = 'Data/targets/traits/pipeline_traits')` first."
+      )
+    )
+  )
+}
+```
+
+---
+
+# Section 1 — Segment 1: Trait extraction
+
+```{r}
+#| label: s1-load
+
+data_continental_rows <-
+  targets::tar_read(
+    data_continental_rows,
+    store = path_traits_store
+  )
+
+vec_trait_domain_names <-
+  targets::tar_read(
+    vec_trait_domain_names,
+    store = path_traits_store
+  )
+
+data_traits_raw <-
+  targets::tar_read(
+    data_traits_raw,
+    store = path_traits_store
+  )
+```
+
+## 1.1 Continental units
+
+```{r}
+#| label: s1-continent-table
+
+data_continental_rows |>
+  tinytable::tt()
+```
+
+## 1.2 Trait domains in VegVault
+
+```{r}
+#| label: s1-domains
+
+tibble::tibble(trait_domain = vec_trait_domain_names) |>
+  tinytable::tt()
+```
+
+## 1.3 Raw extraction overview
+
+```{r}
+#| label: s1-summary
+
+n_taxa_raw <-
+  dplyr::n_distinct(dplyr::pull(data_traits_raw, "taxon_name"))
+
+n_domains_raw <-
+  dplyr::n_distinct(dplyr::pull(data_traits_raw, "trait_domain_name"))
+
+n_continents_raw <-
+  dplyr::n_distinct(dplyr::pull(data_traits_raw, "scale_id"))
+
+base::cat(stringr::str_glue(
+  "Rows:       {base::nrow(data_traits_raw)}\n",
+  "Taxa:       {n_taxa_raw}\n",
+  "Domains:    {n_domains_raw}\n",
+  "Continents: {n_continents_raw}\n"
+))
+```
+
+## 1.4 Records per continent
+
+```{r}
+#| label: s1-records-per-continent
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch * 0.5
+
+data_traits_raw |>
+  dplyr::count(.data[["scale_id"]]) |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = forcats::fct_reorder(.data[["scale_id"]], .data[["n"]]),
+      y = .data[["n"]]
+    )
+  ) +
+  ggplot2::geom_col(fill = "#3399cc") +
+  ggplot2::coord_flip() +
+  ggplot2::labs(
+    x = "Continent",
+    y = "N records"
+  ) +
+  ggplot2::theme_minimal()
+```
+
+## 1.5 Value distribution per domain (density ridges)
+
+```{r}
+#| label: s1-domain-ridges
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch * 1.5
+
+data_traits_raw |>
+  dplyr::filter(!base::is.na(.data[["trait_value"]])) |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = .data[["trait_domain_name"]],
+      y = .data[["trait_value"]],
+      fill = .data[["trait_domain_name"]]
+    )
+  ) +
+  ggplot2::geom_violin(
+    alpha = 0.7,
+    show.legend = FALSE
+  ) +
+  ggplot2::scale_y_log10() +
+  ggplot2::coord_flip() +
+  ggplot2::labs(
+    x = NULL,
+    y = "Trait value (log10 scale)"
+  ) +
+  ggplot2::theme_minimal()
+```
+
+---
+
+# Section 2 — Segment 2: Raw QC flags
+
+```{r}
+#| label: s2-load
+
+# Auto-detect most recent QC report in Data/Temp/.
+vec_qc_report_paths <-
+  fs::dir_ls(
+    here::here("Data/Temp"),
+    regexp = "trait_qc_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
+  )
+
+if (
+  base::length(vec_qc_report_paths) == 0L
+) {
+  cli::cli_warn(
+    c(
+      "No trait_qc_report_*.csv found in Data/Temp/.",
+      "i" = "Run the traits pipeline (Segment 2) to generate the report.",
+      "i" = "Section 2 outputs will be skipped."
+    )
+  )
+
+  data_qc_report <- NULL
+} else {
+  path_qc_report <-
+    vec_qc_report_paths |>
+    base::sort() |>
+    utils::tail(1L)
+
+  base::message(
+    stringr::str_glue("Using QC report: {base::basename(path_qc_report)}")
+  )
+
+  data_qc_report <-
+    readr::read_csv(
+      path_qc_report,
+      show_col_types = FALSE
+    ) |>
+    dplyr::mutate(
+      outlier_fraction =
+        .data[["n_suspected_outliers_taxon"]] / .data[["n_records"]]
+    )
+}
+```
+
+## 2.1 Summary per domain
+
+```{r}
+#| label: s2-summary-domain
+
+if (
+  !base::is.null(data_qc_report)
+) {
+  data_qc_report |>
+    dplyr::group_by(.data[["trait_domain_name"]]) |>
+    dplyr::summarise(
+      n_groups = dplyr::n(),
+      n_flagged = base::sum(
+        .data[["n_suspected_outliers_taxon"]] > 0L,
+        na.rm = TRUE
+      ),
+      mean_outlier_fraction = base::mean(
+        .data[["outlier_fraction"]],
+        na.rm = TRUE
+      ),
+      .groups = "drop"
+    ) |>
+    dplyr::arrange(dplyr::desc(.data[["mean_outlier_fraction"]])) |>
+    tinytable::tt()
+}
+```
+
+## 2.2 Outlier fraction distribution per domain
+
+```{r}
+#| label: s2-outlier-dist
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch
+
+if (
+  !base::is.null(data_qc_report)
+) {
+  data_qc_report |>
+    dplyr::filter(!base::is.na(.data[["outlier_fraction"]])) |>
+    ggplot2::ggplot(
+      ggplot2::aes(
+        x = forcats::fct_reorder(
+          .data[["trait_domain_name"]],
+          .data[["outlier_fraction"]],
+          .fun = stats::median
+        ),
+        y = .data[["outlier_fraction"]],
+        fill = .data[["trait_domain_name"]]
+      )
+    ) +
+    ggplot2::geom_violin(
+      alpha = 0.7,
+      show.legend = FALSE
+    ) +
+    ggplot2::coord_flip() +
+    ggplot2::labs(
+      x = NULL,
+      y = "Outlier fraction"
+    ) +
+    ggplot2::theme_minimal()
+}
+```
+
+## 2.3 Top-25 most flagged taxon × domain combinations
+
+```{r}
+#| label: s2-top-flagged
+
+if (
+  !base::is.null(data_qc_report)
+) {
+  data_qc_report |>
+    dplyr::arrange(dplyr::desc(.data[["outlier_fraction"]])) |>
+    utils::head(25L) |>
+    dplyr::select(
+      "taxon_name",
+      "trait_domain_name",
+      "n_records",
+      "n_suspected_outliers_taxon",
+      "outlier_fraction"
+    ) |>
+    tinytable::tt()
+}
+```
+
+## 2.4 Focused domain inspector
+
+Change `sel_domain` to inspect any specific domain.
+
+```{r}
+#| label: s2-domain-inspector
+
+# ---- selector ----
+sel_domain <- vec_trait_domain_names[1]
+# ------------------
+
+if (
+  !base::is.null(data_qc_report)
+) {
+  data_qc_report |>
+    dplyr::filter(.data[["trait_domain_name"]] == sel_domain) |>
+    dplyr::arrange(dplyr::desc(.data[["outlier_fraction"]])) |>
+    tinytable::tt()
+}
+```
+
+---
+
+# Section 3 — Segment 2: Corrections applied
+
+```{r}
+#| label: s3-load
+
+data_traits_corrected <-
+  targets::tar_read(
+    data_traits_corrected,
+    store = path_traits_store
+  )
+```
+
+## 3.1 Effect of corrections
+
+```{r}
+#| label: s3-effect
+
+n_raw <-
+  base::nrow(data_traits_raw)
+
+n_corrected <-
+  base::nrow(data_traits_corrected)
+
+base::cat(stringr::str_glue(
+  "Raw records:       {n_raw}\n",
+  "After corrections: {n_corrected}\n",
+  "Records removed:   {n_raw - n_corrected} ",
+  "({base::round((n_raw - n_corrected) / n_raw * 100, 1)}%)\n"
+))
+```
+
+## 3.2 Before/after comparison for a selected taxon × domain
+
+Change `sel_taxon` and `sel_domain_corr` to inspect any group.
+
+```{r}
+#| label: s3-before-after
+
+# ---- selectors ----
+sel_taxon <-
+  data_traits_raw |>
+  dplyr::slice(1L) |>
+  dplyr::pull("taxon_name")
+sel_domain_corr <- vec_trait_domain_names[1]
+# -------------------
+
+data_before <-
+  data_traits_raw |>
+  dplyr::filter(
+    .data[["taxon_name"]] == sel_taxon,
+    .data[["trait_domain_name"]] == sel_domain_corr
+  ) |>
+  dplyr::mutate(stage = "raw")
+
+data_after <-
+  data_traits_corrected |>
+  dplyr::filter(
+    .data[["taxon_name"]] == sel_taxon,
+    .data[["trait_domain_name"]] == sel_domain_corr
+  ) |>
+  dplyr::mutate(stage = "corrected")
+
+dplyr::bind_rows(data_before, data_after) |>
+  dplyr::select("stage", "taxon_name", "trait_domain_name", "trait_value") |>
+  dplyr::arrange(.data[["stage"]]) |>
+  tinytable::tt()
+```
+
+---
+
+# Section 4 — Segment 3: Taxonomic classification
+
+```{r}
+#| label: s4-load
+
+data_resolution_to_finest <-
+  targets::tar_read(
+    data_resolution_to_finest,
+    store = path_traits_store
+  )
+
+data_traits_classified <-
+  targets::tar_read(
+    data_traits_classified,
+    store = path_traits_store
+  )
+```
+
+## 4.1 Resolution overview
+
+```{r}
+#| label: s4-resolution-breakdown
+
+n_original <-
+  dplyr::n_distinct(dplyr::pull(data_resolution_to_finest, "sel_name"))
+
+n_resolved <-
+  dplyr::n_distinct(dplyr::pull(data_resolution_to_finest, "taxon_resolved"))
+
+n_changed <-
+  data_resolution_to_finest |>
+  dplyr::filter(
+    .data[["sel_name"]] != .data[["taxon_resolved"]]
+  ) |>
+  base::nrow()
+
+base::cat(stringr::str_glue(
+  "Original taxon names:  {n_original}\n",
+  "Distinct resolved:     {n_resolved}\n",
+  "Names changed:         {n_changed}\n",
+  "Names unchanged:       {n_original - n_changed}\n"
+))
+```
+
+## 4.2 Classified records overview
+
+```{r}
+#| label: s4-classified-summary
+
+n_resolved_taxa_classified <-
+  dplyr::n_distinct(dplyr::pull(data_traits_classified, "taxon_resolved"))
+
+base::cat(stringr::str_glue(
+  "Records after classification join: {base::nrow(data_traits_classified)}\n",
+  "Distinct resolved taxa:            {n_resolved_taxa_classified}\n"
+))
+```
+
+## 4.3 Distinct resolved taxa per continent
+
+```{r}
+#| label: s4-taxa-per-continent
+
+data_traits_classified |>
+  dplyr::group_by(.data[["scale_id"]]) |>
+  dplyr::summarise(
+    n_resolved_taxa = dplyr::n_distinct(.data[["taxon_resolved"]]),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(dplyr::desc(.data[["n_resolved_taxa"]])) |>
+  tinytable::tt()
+```
+
+---
+
+# Section 5 — Segment 4: Classified QC
+
+```{r}
+#| label: s5-load
+
+data_traits_classified_corrected <-
+  targets::tar_read(
+    data_traits_classified_corrected,
+    store = path_traits_store
+  )
+```
+
+## 5.1 Effect of genus-level corrections
+
+```{r}
+#| label: s5-effect
+
+n_classified <-
+  base::nrow(data_traits_classified)
+
+n_class_corrected <-
+  base::nrow(data_traits_classified_corrected)
+
+base::cat(stringr::str_glue(
+  "After classification:            {n_classified}\n",
+  "After genus-level corrections:   {n_class_corrected}\n",
+  "Records removed:                 {n_classified - n_class_corrected}\n"
+))
+```
+
+## 5.2 Top-25 most flagged genus × domain combinations
+
+```{r}
+#| label: s5-top-flagged
+
+# Auto-detect most recent classified QC report in Data/Temp/.
+vec_qc_class_paths <-
+  fs::dir_ls(
+    here::here("Data/Temp"),
+    regexp = "trait_qc_report_classified_\\d{4}-\\d{2}-\\d{2}\\.csv$"
+  )
+
+if (
+  base::length(vec_qc_class_paths) == 0L
+) {
+  base::message(
+    "No trait_qc_report_classified_*.csv found in Data/Temp/. ",
+    "Section 5.2 skipped."
+  )
+} else {
+  path_qc_class_report <-
+    vec_qc_class_paths |>
+    base::sort() |>
+    utils::tail(1L)
+
+  readr::read_csv(path_qc_class_report, show_col_types = FALSE) |>
+    dplyr::mutate(
+      outlier_fraction =
+        .data[["n_suspected_outliers_taxon"]] / .data[["n_records"]]
+    ) |>
+    dplyr::arrange(dplyr::desc(.data[["outlier_fraction"]])) |>
+    utils::head(25L) |>
+    dplyr::select(
+      "taxon_name",
+      "trait_domain_name",
+      "n_records",
+      "n_suspected_outliers_taxon",
+      "outlier_fraction"
+    ) |>
+    tinytable::tt()
+}
+```
+
+---
+
+# Section 6 — Segment 5: Trait table assembly
+
+```{r}
+#| label: s6-load
+
+data_traits_aggregated <-
+  targets::tar_read(
+    data_traits_aggregated,
+    store = path_traits_store
+  )
+
+data_trait_table <-
+  targets::tar_read(
+    data_trait_table,
+    store = path_traits_store
+  )
+```
+
+## 6.1 Aggregated-values overview
+
+```{r}
+#| label: s6-aggregated-summary
+
+n_taxa_aggregated <-
+  dplyr::n_distinct(dplyr::pull(data_traits_aggregated, "taxon_resolved"))
+
+n_domains_aggregated <-
+  dplyr::n_distinct(dplyr::pull(data_traits_aggregated, "trait_domain_name"))
+
+base::cat(stringr::str_glue(
+  "Aggregated rows:  {base::nrow(data_traits_aggregated)}\n",
+  "Unique taxa:      {n_taxa_aggregated}\n",
+  "Unique domains:   {n_domains_aggregated}\n"
+))
+```
+
+## 6.2 Trait table dimensions
+
+```{r}
+#| label: s6-table-dims
+
+base::cat(stringr::str_glue(
+  "Rows (taxa):     {base::nrow(data_trait_table)}\n",
+  "Columns (traits): {base::ncol(data_trait_table) - 1L}",
+  "  (excluding taxon_name)\n"
+))
+```
+
+## 6.3 Per-domain coverage (non-NA fraction)
+
+```{r}
+#| label: s6-coverage
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch * 0.5
+
+data_trait_table |>
+  dplyr::select(-"taxon_name") |>
+  purrr::map_dbl(
+    .f = ~ base::mean(!base::is.na(.x))
+  ) |>
+  tibble::enframe(name = "trait_domain", value = "coverage") |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = forcats::fct_reorder(.data[["trait_domain"]], .data[["coverage"]]),
+      y = .data[["coverage"]]
+    )
+  ) +
+  ggplot2::geom_col(fill = "#aa5599") +
+  ggplot2::coord_flip() +
+  ggplot2::scale_y_continuous(labels = scales::percent) +
+  ggplot2::labs(
+    x = NULL,
+    y = "Coverage (non-NA fraction)"
+  ) +
+  ggplot2::theme_minimal()
+```
+
+## 6.4 Top-20 taxa with fullest trait coverage
+
+```{r}
+#| label: s6-top-taxa
+
+data_trait_table |>
+  dplyr::mutate(
+    coverage = base::rowSums(!base::is.na(dplyr::pick(-"taxon_name"))) /
+      (base::ncol(data_trait_table) - 1L)
+  ) |>
+  dplyr::select("taxon_name", "coverage") |>
+  dplyr::arrange(dplyr::desc(.data[["coverage"]])) |>
+  utils::head(20L) |>
+  tinytable::tt()
+```
+
+## 6.5 Trait × taxon coverage heatmap (first 50 taxa)
+
+```{r}
+#| label: s6-coverage-heatmap
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch
+
+data_trait_table |>
+  utils::head(50L) |>
+  tidyr::pivot_longer(
+    cols = -"taxon_name",
+    names_to = "trait_domain",
+    values_to = "value"
+  ) |>
+  dplyr::mutate(
+    has_value = !base::is.na(.data[["value"]])
+  ) |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = .data[["trait_domain"]],
+      y = .data[["taxon_name"]],
+      fill = .data[["has_value"]]
+    )
+  ) +
+  ggplot2::geom_tile(colour = "white", linewidth = 0.3) +
+  ggplot2::scale_fill_manual(
+    values = base::c("TRUE" = "#3399cc", "FALSE" = "#cccccc"),
+    labels = base::c("TRUE" = "Present", "FALSE" = "Missing")
+  ) +
+  ggplot2::labs(
+    x = "Trait domain",
+    y = "Taxon (first 50)",
+    fill = NULL
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1),
+    axis.text.y = ggplot2::element_text(size = 5)
+  )
+```
+
+---
+
+# Section 7 — Segment 6: FT clustering
+
+```{r}
+#| label: s7-config
+
+ft_groups_min_val <-
+  get_config_value_with_fallback(
+    config_section = "data_processing",
+    config_key = "ft_groups_min",
+    fallback_config = "traits"
+  ) |>
+  base::as.integer()
+
+ft_groups_max_val <-
+  get_config_value_with_fallback(
+    config_section = "data_processing",
+    config_key = "ft_groups_max",
+    fallback_config = "traits"
+  ) |>
+  base::as.integer()
+
+metric_val <-
+  get_config_value_with_fallback(
+    config_section = "data_processing",
+    config_key = "ft_metric",
+    fallback_config = "traits"
+  )
+
+method_val <-
+  get_config_value_with_fallback(
+    config_section = "data_processing",
+    config_key = "ft_method",
+    fallback_config = "traits"
+  )
+
+base::cat(stringr::str_glue(
+  "ft_groups_min : {ft_groups_min_val}\n",
+  "ft_groups_max : {ft_groups_max_val}\n",
+  "metric        : {metric_val}\n",
+  "method        : {method_val}\n"
+))
+```
+
+```{r}
+#| label: s7-load-continent-objects
+
+data_continental_rows_clust <-
+  targets::tar_read(
+    data_continental_rows,
+    store = path_traits_store
+  )
+
+vec_continent_ids <-
+  dplyr::pull(data_continental_rows_clust, "scale_id")
+
+# Branched targets (tar_map) cannot be read as a combined object via
+# tar_read() when the branches return non-stackable types (dist, hclust).
+# Read each branch individually using branch names from the pipeline metadata,
+# then collect into a named list keyed by continent.
+data_meta_pipeline <-
+  targets::tar_meta(store = path_traits_store)
+
+# Read all branches of a pattern target as a named list (one element per
+# continent, in the same order as vec_continent_ids).
+continent_branches <- function(pattern_name) {
+  vec_children <-
+    data_meta_pipeline |>
+    dplyr::filter(.data[["name"]] == pattern_name) |>
+    dplyr::pull("children") |>
+    purrr::chuck(1L)
+
+  vec_children |>
+    rlang::set_names(vec_continent_ids) |>
+    purrr::map(
+      .f = ~ targets::tar_read_raw(.x, store = path_traits_store)
+    )
+}
+
+list_continent_traits <-
+  continent_branches("data_continent_traits")
+
+list_dist <-
+  continent_branches("dist_continent")
+
+list_hclust <-
+  continent_branches("hclust_continent")
+
+list_ft_groups_chosen <-
+  continent_branches("ft_groups_chosen_continent")
+
+list_ft_result <-
+  continent_branches("ft_result_continent")
+```
+
+## 7.1 Trait matrix dimensions per continent
+
+```{r}
+#| label: s7-matrix-dims
+
+list_continent_traits |>
+  purrr::imap(
+    .f = ~ tibble::tibble(
+      continent = .y,
+      n_taxa = base::nrow(.x),
+      n_traits = base::ncol(.x) - 1L
+    )
+  ) |>
+  purrr::list_rbind() |>
+  tinytable::tt()
+```
+
+## 7.2 Trait × taxon NA coverage per continent
+
+```{r}
+#| label: s7-na-heatmap
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch * 1.2
+
+list_continent_traits |>
+  purrr::imap(
+    .f = ~ {
+      .x |>
+        utils::head(60L) |>
+        tidyr::pivot_longer(
+          cols = -dplyr::any_of("taxon_name"),
+          names_to = "trait_domain",
+          values_to = "value"
+        ) |>
+        dplyr::mutate(
+          has_value = !base::is.na(.data[["value"]])
+        ) |>
+        ggplot2::ggplot(
+          ggplot2::aes(
+            x = .data[["trait_domain"]],
+            y = .data[["taxon_name"]],
+            fill = .data[["has_value"]]
+          )
+        ) +
+        ggplot2::geom_tile(colour = "white", linewidth = 0.25) +
+        ggplot2::scale_fill_manual(
+          values = base::c("TRUE" = "#3399cc", "FALSE" = "#cccccc"),
+          labels = base::c("TRUE" = "Present", "FALSE" = "Missing")
+        ) +
+        ggplot2::labs(
+          title = stringr::str_glue("Coverage: {.y} (first 60 taxa)"),
+          x = "Trait domain",
+          y = NULL,
+          fill = NULL
+        ) +
+        ggplot2::theme_minimal() +
+        ggplot2::theme(
+          axis.text.x = ggplot2::element_text(angle = 45, hjust = 1),
+          axis.text.y = ggplot2::element_text(size = 5)
+        )
+    }
+  )
+```
+
+## 7.3 Silhouette width vs. k (optimal k highlighted)
+
+Sweeps the full k range using the stored `dist` and `hclust` objects.
+
+```{r}
+#| label: s7-silhouette-curve
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch
+
+base::set.seed(900723)
+
+vec_continent_ids |>
+  purrr::map(
+    .f = ~ {
+      continent <-
+        .x
+
+      dist_mat <-
+        purrr::chuck(list_dist, continent)
+
+      list_hclust_obj <-
+        purrr::chuck(list_hclust, continent)
+
+      n_obs <-
+        purrr::chuck(list_hclust_obj, "order") |>
+        base::length()
+
+      k_max_clamped <-
+        base::min(ft_groups_max_val, n_obs - 1L)
+
+      k_min_clamped <-
+        base::min(ft_groups_min_val, k_max_clamped)
+
+      vec_k <-
+        base::seq(k_min_clamped, k_max_clamped)
+
+      vec_sil_mean <-
+        vec_k |>
+        purrr::map_dbl(
+          .f = ~ {
+            vec_cut <-
+              stats::cutree(list_hclust_obj, k = .x)
+
+            sil <-
+              cluster::silhouette(vec_cut, dist_mat)
+
+            base::mean(sil[, "sil_width"])
+          }
+        )
+
+      k_optimal <-
+        purrr::chuck(list_ft_groups_chosen, continent)
+
+      tibble::tibble(k = vec_k, mean_silhouette_width = vec_sil_mean) |>
+        ggplot2::ggplot(
+          ggplot2::aes(
+            x = .data[["k"]],
+            y = .data[["mean_silhouette_width"]]
+          )
+        ) +
+        ggplot2::geom_line(colour = "#555555") +
+        ggplot2::geom_point(size = 2, colour = "#555555") +
+        ggplot2::geom_vline(
+          xintercept = k_optimal,
+          linetype = "dashed",
+          colour = "#cc3333"
+        ) +
+        ggplot2::annotate(
+          "text",
+          x = k_optimal + 0.3,
+          y = base::max(vec_sil_mean),
+          label = stringr::str_glue("k = {k_optimal}"),
+          hjust = 0,
+          colour = "#cc3333"
+        ) +
+        ggplot2::labs(
+          title = stringr::str_glue("Silhouette curve: {continent}"),
+          x = "Number of FT groups (k)",
+          y = "Mean silhouette width"
+        ) +
+        ggplot2::theme_minimal()
+    }
+  )
+```
+
+## 7.4 FT membership summary per continent
+
+```{r}
+#| label: s7-ft-membership
+
+list_ft_result |>
+  purrr::imap(
+    .f = ~ .x |>
+      dplyr::group_by(.data[["functional_type"]]) |>
+      dplyr::summarise(
+        n_taxa = dplyr::n(),
+        mean_silhouette_width = base::mean(
+          .data[["silhouette_width"]],
+          na.rm = TRUE
+        ),
+        median_silhouette_width = stats::median(
+          .data[["silhouette_width"]],
+          na.rm = TRUE
+        ),
+        top_3_taxa = stringr::str_c(
+          utils::head(.data[["taxon_name"]], 3L),
+          collapse = "; "
+        ),
+        .groups = "drop"
+      ) |>
+      dplyr::mutate(continent = .y) |>
+      dplyr::relocate("continent")
+  ) |>
+  purrr::list_rbind() |>
+  dplyr::arrange(
+    .data[["continent"]],
+    .data[["functional_type"]]
+  ) |>
+  tinytable::tt()
+```
+
+## 7.5 Silhouette width distribution per FT
+
+```{r}
+#| label: s7-sil-boxplot
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch
+
+list_ft_result |>
+  purrr::imap(
+    .f = ~ dplyr::mutate(.x, continent = .y)
+  ) |>
+  purrr::list_rbind() |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = base::factor(.data[["functional_type"]]),
+      y = .data[["silhouette_width"]],
+      fill = .data[["continent"]]
+    )
+  ) +
+  ggplot2::geom_boxplot(
+    alpha = 0.6,
+    outlier.size = 0.8
+  ) +
+  ggplot2::geom_hline(
+    yintercept = 0,
+    linetype = "dashed",
+    colour = "#cc3333"
+  ) +
+  ggplot2::facet_wrap(
+    ggplot2::vars(.data[["continent"]]),
+    scales = "free_x"
+  ) +
+  ggplot2::labs(
+    x = "Functional type",
+    y = "Silhouette width",
+    fill = "Continent"
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "none"
+  )
+```
+
+## 7.6 Per-FT trait profile (median trait value per FT)
+
+```{r}
+#| label: s7-ft-trait-profile
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch * 1.2
+
+# ---- selector ----
+sel_continent_profile <- vec_continent_ids[1]
+# ------------------
+
+data_trait_mat <-
+  purrr::chuck(list_continent_traits, sel_continent_profile)
+
+data_ft_assignments <-
+  purrr::chuck(list_ft_result, sel_continent_profile)
+
+data_trait_mat |>
+  dplyr::inner_join(
+    data_ft_assignments |>
+      dplyr::select("taxon_name", "functional_type"),
+    by = dplyr::join_by(taxon_name)
+  ) |>
+  dplyr::select(-"taxon_name") |>
+  dplyr::group_by(.data[["functional_type"]]) |>
+  dplyr::summarise(
+    dplyr::across(
+      dplyr::where(base::is.numeric),
+      .fns = ~ stats::median(.x, na.rm = TRUE)
+    ),
+    .groups = "drop"
+  ) |>
+  tidyr::pivot_longer(
+    cols = -"functional_type",
+    names_to = "trait_domain",
+    values_to = "median_value"
+  ) |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = .data[["trait_domain"]],
+      y = base::factor(.data[["functional_type"]]),
+      fill = .data[["median_value"]]
+    )
+  ) +
+  ggplot2::geom_tile(colour = "white", linewidth = 0.3) +
+  ggplot2::scale_fill_viridis_c(
+    option = "plasma",
+    na.value = "#dddddd"
+  ) +
+  ggplot2::labs(
+    title = stringr::str_glue(
+      "Per-FT trait profile — {sel_continent_profile}"
+    ),
+    x = "Trait domain",
+    y = "Functional type",
+    fill = "Median value"
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+  )
+```
+
+## 7.7 Dendrogram coloured by FT assignment
+
+```{r}
+#| label: s7-dendrogram
+#| fig-width: !expr fig_width_inch
+#| fig-height: !expr fig_height_inch * 1.5
+
+# ---- selector ----
+sel_continent_dendro <- vec_continent_ids[1]
+# ------------------
+
+list_hclust_dendro <-
+  purrr::chuck(list_hclust, sel_continent_dendro)
+
+data_ft_assignments_dendro <-
+  purrr::chuck(list_ft_result, sel_continent_dendro) |>
+  dplyr::select("taxon_name", "functional_type")
+
+k_optimal_dendro <-
+  purrr::chuck(list_ft_groups_chosen, sel_continent_dendro)
+
+# Build colour palette (one per FT).
+vec_ft_labels <-
+  data_ft_assignments_dendro |>
+  dplyr::pull("functional_type") |>
+  base::unique() |>
+  base::sort()
+
+vec_palette <-
+  grDevices::hcl.colors(
+    n = base::length(vec_ft_labels),
+    palette = "Dark 3"
+  ) |>
+  rlang::set_names(vec_ft_labels)
+
+# Map FT colour to leaf order.
+vec_hclust_order <-
+  purrr::chuck(list_hclust_dendro, "order")
+
+vec_hclust_labels <-
+  purrr::chuck(list_hclust_dendro, "labels")
+
+vec_leaf_order <-
+  vec_hclust_labels[vec_hclust_order]
+
+vec_leaf_colours <-
+  data_ft_assignments_dendro |>
+  dplyr::filter(.data[["taxon_name"]] %in% vec_leaf_order) |>
+  dplyr::mutate(
+    colour = purrr::map_chr(
+      .data[["functional_type"]],
+      .f = ~ purrr::chuck(vec_palette, base::as.character(.x))
+    )
+  ) |>
+  dplyr::arrange(base::match(.data[["taxon_name"]], vec_leaf_order)) |>
+  dplyr::pull("colour")
+
+graphics::plot(
+  stats::as.dendrogram(list_hclust_dendro),
+  horiz = TRUE,
+  leaflab = "none",
+  main = stringr::str_glue(
+    "Dendrogram — {sel_continent_dendro} (k = {k_optimal_dendro})"
+  )
+)
+```
+
+---
+
+*Notebook generated on `r Sys.Date()` from the trait pipeline store at `Data/targets/traits/pipeline_traits`.*

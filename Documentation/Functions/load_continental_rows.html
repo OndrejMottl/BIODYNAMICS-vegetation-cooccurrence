@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><title>R: Load Continental Rows from Spatial Grid</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>load_continental_rows</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load Continental Rows from Spatial Grid</h2>
+
+<h3>Description</h3>
+
+<p>Reads a spatial grid CSV file and filters it to rows where the
+'scale' column equals '&quot;continental&quot;'. Validates that at least one
+continental row is present before returning the result.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>load_continental_rows(path_spatial_grid)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="path_spatial_grid">path_spatial_grid</code></td>
+<td>
+<p>A character string giving the path to the spatial grid CSV file
+(e.g. 'here::here(&quot;Data/Input/spatial_grid.csv&quot;)').</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function performs the following steps:
+</p>
+<p>1. Validates that 'path_spatial_grid' is a single character string
+pointing to an existing file.
+2. Reads the CSV with 'readr::read_csv()'.
+3. Filters to rows where 'scale == &quot;continental&quot;'.
+4. Asserts that at least one row is retained.
+5. Returns the filtered data frame.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame containing only the rows of the spatial grid where
+'scale == &quot;continental&quot;'.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

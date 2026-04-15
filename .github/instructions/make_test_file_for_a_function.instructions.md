@@ -1,5 +1,5 @@
 ﻿---
-applyTo: '**/R/Functions/', '**/R/03_Supplementary_analyses/testthat' 
+applyTo: '**/R/Functions/', '**/R/03_Supplementary_analyses/Testing/testthat' 
 ---
 
 # Instructions for Writing Complete Test Files for R Functions
@@ -122,7 +122,7 @@ Write a COMPLETE testthat test file for a single R function. You will receive on
 **Workflow:**
 
 1. **Identify all functions** in `R/Functions/` (recursively search all subdirectories for function declarations)
-2. **Check for existing tests** in `R/03_Supplementary_analyses/testthat` directory
+2. **Check for existing tests** in `R/03_Supplementary_analyses/Testing/testthat` directory
 3. **Create missing test files** named as `test-function_name.R` (e.g., `get_data()` â†’ `test-get_data.R`)
 
 **File structure:**
@@ -338,7 +338,7 @@ source(
 
 testthat::test_file(
   here::here(
-    "R/03_Supplementary_analyses/testthat/test-<function_name>.R"
+    "R/03_Supplementary_analyses/Testing/testthat/test-<function_name>.R"
   )
 )
 ```
@@ -348,7 +348,7 @@ A test that passes at this stage is not testing real behaviour  -  revise it.
 **Step 2  -  Verify tests PASS after the implementation is complete.** Once the function body has been written and all individual tests pass, run the **full test suite** to verify nothing else broke:
 
 ```powershell
-Rscript R/03_Supplementary_analyses/Run_tests.R
+Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
 ```
 
 Do not consider the task complete until the full test suite produces **no failures and no errors**. Warnings are acceptable only if they are expected and intentional. If any test fails after an edit, fix the test (or the function) before finishing.
