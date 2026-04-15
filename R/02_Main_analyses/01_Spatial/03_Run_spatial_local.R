@@ -56,9 +56,32 @@ purrr::walk(
   .x = vec_scale_ids,
   .progress = TRUE,
   .f = ~ {
-    message("\n\nRunning pipeline for spatial unit: ", .x, "\n\n")
+    base::message("\n\nRunning pipeline for spatial unit: ", .x, "\n\n")
     run_pipeline(
       sel_script = "R/02_Main_analyses/pipeline_basic.R",
+      store_suffix = .x
+    )
+  }
+)
+tictoc::toc()
+
+
+#----------------------------------------------------------#
+# 4. Run resolution pipeline for each spatial unit -----
+#----------------------------------------------------------#
+
+tictoc::tic(
+  "Running resolution pipelines (family + FT) for all local units"
+)
+purrr::walk(
+  .x = vec_scale_ids,
+  .progress = TRUE,
+  .f = ~ {
+    base::message(
+      "\n\nRunning resolution pipeline for spatial unit: ", .x, "\n\n"
+    )
+    run_pipeline(
+      sel_script = "R/02_Main_analyses/pipeline_spatial_resolution.R",
       store_suffix = .x
     )
   }
