@@ -1,0 +1,19 @@
+project:
+  type: default
+  output-dir: ../../../Outputs/Reports/Diagnostics
+
+format:
+  html:
+    theme:
+      - darkly
+      - ../../../styles.scss
+    toc: true
+    toc-location: right
+    toc-depth: 3
+    code-fold: true
+    code-summary: "Show code"
+
+execute:
+  echo: true
+  warning: false
+  message: false

@@ -3,18 +3,6 @@ title: "Explore resolution pipeline — genus vs family vs functional type"
 date: today
 date-format: long
 date-modified: last-modified
-format:
-  html:
-    theme: superhero
-    toc: true
-    toc-location: right
-    toc-depth: 3
-    code-fold: true
-    code-summary: "Show code"
-execute:
-  echo: true
-  warning: false
-  message: false
 ---
 
 <!--
@@ -41,6 +29,10 @@ execute:
 #| label: setup
 
 library(here)
+
+here::i_am(
+  "R/03_Supplementary_analyses/_Diagnostics/Explore_resolution_pipeline.qmd"
+)
 
 source(
   here::here("R/___setup_project___.R")
