@@ -1,0 +1,47 @@
+Get Trait Domain Names from VegVault
+
+Description:
+
+     Queries the VegVault SQLite database to retrieve all unique trait
+     domain names from the `TraitsDomain` table.
+
+Usage:
+
+     get_trait_domain_names_from_vegvault(
+       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       verbose = TRUE
+     )
+     
+Arguments:
+
+path_to_vegvault: A character string specifying the path to the
+          VegVault SQLite database (default:
+          `here::here("Data/Input/VegVault.sqlite")`).
+
+ verbose: Logical. If `TRUE` (default), progress messages are printed
+          to the console via `cli`. Set to `FALSE` to suppress all
+          console output.
+
+Details:
+
+     The function performs the following steps:
+
+     1. Validates input parameters.  2. Checks the presence of the
+     VegVault SQLite database using `check_presence_of_vegvault()`.  3.
+     Opens a DBI connection to the SQLite database.  4. Queries the
+     `TraitsDomain` table for distinct `trait_domain_name` values and
+     collects results.  5. Closes the database connection.  6. Removes
+     `NA` values from the result.  7. Asserts that at least one domain
+     name was found.  8. Optionally logs the result via
+     `cli::cli_inform()`.  9. Returns the character vector of domain
+     names.
+
+Value:
+
+     A character vector of unique, non-`NA` trait domain names found in
+     the `TraitsDomain` table.
+
+See Also:
+
+     [extract_traits_from_vegvault()]
+

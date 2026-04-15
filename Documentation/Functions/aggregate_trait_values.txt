@@ -1,0 +1,48 @@
+Aggregate Trait Values to Single Value per Group
+
+Description:
+
+     Aggregates a long-format trait data frame to one row per group (by
+     default per taxon x trait combination) using a specified summary
+     function. Intended to be applied after outlier removal.
+
+Usage:
+
+     aggregate_trait_values(
+       data,
+       trait_col = "trait_value",
+       group_cols = c("taxon_name", "trait_domain_name"),
+       fn = c("median", "mean")
+     )
+     
+Arguments:
+
+    data: A data frame in long format with at least the columns
+          specified by `trait_col` and `group_cols`.
+
+trait_col: A character string naming the numeric column containing
+          trait values. Default: `"trait_value"`.
+
+group_cols: A character vector of column names used to define groups
+          for aggregation. Default: `c("taxon_name",
+          "trait_domain_name")`.
+
+      fn: A character string specifying the aggregation function. One
+          of `"median"` (default) or `"mean"`. Matched with
+          `match.arg()`.
+
+Details:
+
+     The `fn` argument is processed via `match.arg()`, so partial
+     matching is supported (e.g. `fn = "med"` resolves to `"median"`).
+
+Value:
+
+     A data frame with one row per unique combination of `group_cols`
+     and a new column `trait_value_aggregated` containing the
+     aggregated value.
+
+See Also:
+
+     [filter_trait_outliers()], [make_trait_table()]
+

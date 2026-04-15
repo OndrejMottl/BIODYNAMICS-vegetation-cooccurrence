@@ -1,0 +1,86 @@
+Cluster Taxa into Functional Types
+
+Description:
+
+     Assigns taxa into functional types (FTs) using a pre-computed
+     Gower dissimilarity matrix, a pre-fitted hierarchical clustering
+     object, and a predetermined number of groups
+     `number_of_ft_groups`. The number of groups is expected to have
+     been chosen upstream (e.g. via
+     `select_ft_groups_by_silhouette()`).
+
+Usage:
+
+     cluster_functional_types(
+       data,
+       dist_mat,
+       hclust_obj,
+       number_of_ft_groups,
+       taxon_col = "taxon_name",
+       verbose = TRUE
+     )
+     
+Arguments:
+
+    data: A data frame with one row per taxon. Must contain a character
+          column (identified by `taxon_col`) holding taxon names. Must
+          have at least 4 rows and `nrow(data)` must be strictly
+          greater than `number_of_ft_groups`.
+
+dist_mat: A `dist` object produced by `compute_dissimilarity_matrix()`.
+          Must inherit class `"dist"`. All distance values must be
+          finite.
+
+hclust_obj: An `hclust` object produced by `fit_hclust()`. Must inherit
+          class `"hclust"`.
+
+number_of_ft_groups: A single positive integer giving the number of
+          functional-type groups to cut the dendrogram at. Must be at
+          least 2 and less than `nrow(data)`.
+
+taxon_col: A single character string naming the column in `data` that
+          contains taxon names. Default: `"taxon_name"`.
+
+ verbose: A single logical. If `TRUE` (default), prints the chosen
+          `number_of_ft_groups` via `cli::cli_inform()`.
+
+Details:
+
+     **Algorithm**:
+
+       1. Cut the dendrogram at `number_of_ft_groups` via
+          `stats::cutree()`.
+
+       2. Compute per-taxon silhouette widths via
+          `cluster::silhouette()`.
+
+       3. Return a tibble of taxon names, cluster assignments, and
+          silhouette widths.
+
+     Distance computation (Inf -> NA, daisy, NaN -> 1.0) and
+     hierarchical clustering are handled upstream by
+     `compute_dissimilarity_matrix()` and `fit_hclust()` respectively.
+     FT-groups selection is handled upstream by
+     `select_ft_groups_by_silhouette()`. If `nrow(data) < 4` or
+     `number_of_ft_groups >= nrow(data)`, the function aborts with an
+     informative error.
+
+Value:
+
+     A tibble with columns:
+
+     taxon_name Taxon names (same values as `data[[taxon_col]]`).
+          Column name is always `"taxon_name"` regardless of
+          `taxon_col`.
+
+     functional_type Integer label (1..number_of_ft_groups) giving the
+          functional-type cluster assignment for each taxon.
+
+     silhouette_width Per-taxon silhouette width for the chosen
+          number_of_ft_groups solution.
+
+See Also:
+
+     [compute_dissimilarity_matrix()], [fit_hclust()],
+     [select_ft_groups_by_silhouette()]
+

@@ -1,0 +1,48 @@
+Check Trait Coverage Against Community Taxa
+
+Description:
+
+     Compares a character vector of taxon names from the community data
+     against the taxa present in a wide-format trait table. Reports the
+     proportion of community taxa covered by trait data and identifies
+     which taxa are missing or extra.
+
+Usage:
+
+     check_trait_coverage(vec_community_taxa, data_trait_table)
+     
+Arguments:
+
+vec_community_taxa: A character vector of unique taxon names from the
+          community data.
+
+data_trait_table: A wide-format trait table as returned by
+          [make_trait_table()], with a `taxon_name` column.
+
+Details:
+
+     A summary of coverage statistics is printed to the console via
+     `cli::cli_inform()`.
+
+Value:
+
+     A named list with the following elements:
+
+     n_community_taxa Total number of unique taxa in the community
+          vector.
+
+     n_covered Number of community taxa present in the trait table.
+
+     pct_covered Coverage as a percentage, rounded to one decimal
+          place.
+
+     vec_missing_taxa Character vector of community taxa absent from
+          the trait table.
+
+     vec_extra_taxa Character vector of taxa in the trait table not
+          found in the community.
+
+See Also:
+
+     [make_trait_table()]
+

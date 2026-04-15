@@ -1,0 +1,33 @@
+Load Continental Rows from Spatial Grid
+
+Description:
+
+     Reads a spatial grid CSV file and filters it to rows where the
+     `scale` column equals `"continental"`. Validates that at least one
+     continental row is present before returning the result.
+
+Usage:
+
+     load_continental_rows(path_spatial_grid)
+     
+Arguments:
+
+path_spatial_grid: A character string giving the path to the spatial
+          grid CSV file (e.g.
+          `here::here("Data/Input/spatial_grid.csv")`).
+
+Details:
+
+     The function performs the following steps:
+
+     1. Validates that `path_spatial_grid` is a single character string
+     pointing to an existing file.  2. Reads the CSV with
+     `readr::read_csv()`.  3. Filters to rows where `scale ==
+     "continental"`.  4. Asserts that at least one row is retained.  5.
+     Returns the filtered data frame.
+
+Value:
+
+     A data frame containing only the rows of the spatial grid where
+     `scale == "continental"`.
+

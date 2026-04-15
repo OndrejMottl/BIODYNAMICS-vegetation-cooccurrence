@@ -1,0 +1,76 @@
+Render Trait QC Report to a Compressed PDF
+
+Description:
+
+     Renders `Trait_qc_report.qmd` to a dated PDF for a single trait
+     domain (or for all domains when `sel_domain_filter` is `NULL`),
+     moves the rendered file from the Quarto docs output directory to
+     `path_output_dir`, and compresses it in-place with
+     `qpdf::pdf_compress()`.
+
+     The output filename follows one of two patterns depending on
+     `sel_domain_filter`: - `NULL`: `trait_qc_report_Sys.Date().pdf` -
+     character: `trait_qc_<slug>_Sys.Date().pdf` where `<slug>` is
+     `sel_domain_filter` with all non-alphanumeric characters replaced
+     by underscores.
+
+Usage:
+
+     render_trait_qc_pdf(
+       sel_domain_filter = NULL,
+       path_output_dir = here::here("Outputs/Reports"),
+       path_qmd = here::here("R/03_Supplementary_analyses/_Trait_qc/Trait_qc_report.qmd"),
+       path_docs_dir = here::here("docs/R/03_Supplementary_analyses/_Trait_qc"),
+       sel_max_pages = NULL,
+       sel_min_n_family = 5L,
+       verbose = TRUE
+     )
+     
+Arguments:
+
+sel_domain_filter: Character scalar or `NULL`. When `NULL`, all domains
+          are rendered into a single PDF. When a character scalar, only
+          taxa from that trait domain are included. Default: `NULL`.
+
+path_output_dir: Character scalar. Directory where the compressed PDF
+          is saved. Default: `here::here("Outputs/Reports")`.
+
+path_qmd: Character scalar. Path to the Quarto source document.
+          Default: `here::here(
+          "R/03_Supplementary_analyses/_Trait_qc/Trait_qc_report.qmd"
+          )`.
+
+path_docs_dir: Character scalar. Directory that Quarto writes its
+          output to before the file is moved. Default: `here::here(
+          "docs/R/03_Supplementary_analyses/_Trait_qc" )`.
+
+sel_max_pages: Positive integer scalar or `NULL`. Maximum number of
+          pages to render. When `NULL` (default) there is no cap.
+
+sel_min_n_family: Positive integer scalar. Minimum number of taxa from
+          the same family that must be present for the family
+          comparison panel to be rendered. Default: `5L`.
+
+ verbose: Logical. If `TRUE` (default), a progress message with the
+          output path is printed to the console via
+          `cli::cli_inform()`. A warning is emitted via
+          `cli::cli_warn()` if the rendered file cannot be found.
+
+Details:
+
+     The function calls `quarto::quarto_render()` with `execute_params`
+     set to `sel_max_pages`, `sel_min_n_family`, and
+     `sel_domain_filter`. The rendered file is expected at
+     `file.path(path_docs_dir, <output_filename>)`. If found it is
+     moved to `path_output_dir` and compressed; if not found a warning
+     is emitted and nothing is moved.
+
+Value:
+
+     Invisible `NULL`. Called for its side effects: rendering and
+     moving a PDF to `path_output_dir`.
+
+See Also:
+
+     [generate_trait_qc_report()]
+

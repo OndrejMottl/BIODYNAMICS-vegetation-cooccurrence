@@ -1,0 +1,37 @@
+Validate Trait Manual Corrections File
+
+Description:
+
+     Reads the trait manual corrections CSV file and checks that every
+     row has been reviewed by a human. Acts as a pipeline guard: if any
+     row has a `CHECKED` value that is not `TRUE` (i.e. is `NA`,
+     `FALSE`, or absent), the function calls `cli::cli_abort()` listing
+     the number of unchecked rows so the pipeline stops until a human
+     has signed off the file.
+
+Usage:
+
+     validate_trait_corrections(path_corrections)
+     
+Arguments:
+
+path_corrections: A character scalar giving the file path to
+          `trait_manual_corrections.csv`.
+
+Details:
+
+     The expected CSV columns are: `taxon_name`, `trait_domain_name`,
+     `action`, `scale_factor`, `notes`, `CHECKED`. The abort message
+     reports exactly how many rows have not been validated and
+     instructs the user to set `CHECKED = TRUE` after reviewing.
+
+Value:
+
+     A tibble of validated corrections (all rows have `CHECKED ==
+     TRUE`) when every row is approved. Aborts via `cli::cli_abort()`
+     if any row is not yet validated.
+
+See Also:
+
+     [generate_trait_qc_report()], [apply_trait_corrections()]
+

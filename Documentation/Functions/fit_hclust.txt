@@ -1,0 +1,29 @@
+Fit Hierarchical Clustering from a Distance Matrix
+
+Description:
+
+     Fits a hierarchical clustering model from a precomputed
+     dissimilarity matrix using `stats::hclust()`.
+
+Usage:
+
+     fit_hclust(dist_mat, method = "ward.D2")
+     
+Arguments:
+
+dist_mat: A `"dist"` object (as produced by
+          `compute_dissimilarity_matrix()` or `stats::as.dist()`). Must
+          contain no `NA` or non-finite values.
+
+  method: A single character string passed to `stats::hclust()` as the
+          `method` argument. Default: `"ward.D2"`. See `?stats::hclust`
+          for all valid linkage methods.
+
+Value:
+
+     An object of class `"hclust"` as returned by `stats::hclust()`.
+
+See Also:
+
+     [compute_dissimilarity_matrix()], [cluster_functional_types()]
+

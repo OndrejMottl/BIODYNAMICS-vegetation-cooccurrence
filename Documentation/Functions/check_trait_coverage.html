@@ -1,0 +1,92 @@
+<!DOCTYPE html><html><head><title>R: Check Trait Coverage Against Community Taxa</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>check_trait_coverage</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check Trait Coverage Against Community Taxa</h2>
+
+<h3>Description</h3>
+
+<p>Compares a character vector of taxon names from the community data
+against the taxa present in a wide-format trait table. Reports the
+proportion of community taxa covered by trait data and identifies
+which taxa are missing or extra.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>check_trait_coverage(vec_community_taxa, data_trait_table)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="vec_community_taxa">vec_community_taxa</code></td>
+<td>
+<p>A character vector of unique taxon names from the community data.</p>
+</td></tr>
+<tr><td><code id="data_trait_table">data_trait_table</code></td>
+<td>
+<p>A wide-format trait table as returned by [make_trait_table()], with
+a 'taxon_name' column.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A summary of coverage statistics is printed to the console via
+'cli::cli_inform()'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list with the following elements:
+</p>
+
+<dl>
+<dt>n_community_taxa</dt><dd><p>Total number of unique taxa in the
+community vector.</p>
+</dd>
+<dt>n_covered</dt><dd><p>Number of community taxa present in the trait
+table.</p>
+</dd>
+<dt>pct_covered</dt><dd><p>Coverage as a percentage, rounded to one
+decimal place.</p>
+</dd>
+<dt>vec_missing_taxa</dt><dd><p>Character vector of community taxa
+absent from the trait table.</p>
+</dd>
+<dt>vec_extra_taxa</dt><dd><p>Character vector of taxa in the trait
+table not found in the community.</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>[make_trait_table()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

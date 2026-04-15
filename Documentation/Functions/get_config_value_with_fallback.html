@@ -1,0 +1,108 @@
+<!DOCTYPE html><html><head><title>R: Get Configuration Value with Fallback</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_config_value_with_fallback</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Configuration Value with Fallback</h2>
+
+<h3>Description</h3>
+
+<p>Retrieves a configuration value from the active configuration. If
+the key is absent there, the function falls back to the same key in
+a named fallback configuration.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_config_value_with_fallback(
+  config_section,
+  config_key,
+  fallback_config = "default",
+  file = here::here("config.yml")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="config_section">config_section</code></td>
+<td>
+<p>A single character string naming the configuration section to read,
+such as '&quot;data_processing&quot;'.</p>
+</td></tr>
+<tr><td><code id="config_key">config_key</code></td>
+<td>
+<p>A single character string naming the configuration setting within
+'config_section'.</p>
+</td></tr>
+<tr><td><code id="fallback_config">fallback_config</code></td>
+<td>
+<p>A single character string naming the configuration to use when the
+active configuration does not define 'config_key'.</p>
+</td></tr>
+<tr><td><code id="file">file</code></td>
+<td>
+<p>Path to the YAML configuration file. Defaults to
+'here::here(&quot;config.yml&quot;)'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function is intended for pipelines that keep a shared set of
+defaults in a dedicated configuration while still allowing
+project-specific overrides in the active configuration. If
+'R_CONFIG_ACTIVE' is unset, the helper reads from '&quot;default&quot;'.
+Both the active config name and 'fallback_config' must exist in the
+YAML file.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A scalar configuration value read from the active configuration or
+from 'fallback_config' when the active configuration does not define
+'config_key'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[get_active_config()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>get_config_value_with_fallback(
+  config_section = "data_processing",
+  config_key = "min_n_samples"
+)
+get_config_value_with_fallback(
+  config_section = "data_processing",
+  config_key = "ft_groups_min",
+  fallback_config = "traits"
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

@@ -1,0 +1,159 @@
+---
+format: html
+title: plot_trait_group_distribution()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>plot_trait_group_distribution</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Raw Trait Value Distribution for One Taxon-Domain Group</h2>
+
+<h3>Description</h3>
+
+<p>Builds a 'ggplot2' strip + boxplot showing every raw trait value for
+a single 'taxon_name x trait_domain_name' group, with colour-coded
+Tukey fence flags and horizontal fence lines for both the standard
+(1.5x IQR) and extreme (3x IQR) thresholds.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>plot_trait_group_distribution(
+  data_group_raw,
+  data_group_summary,
+  sel_taxon,
+  sel_domain,
+  graphical_options,
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_group_raw">data_group_raw</code></td>
+<td>
+<p>A tibble of raw trait observations for one taxon x domain group.
+Must contain columns 'trait_value' (numeric), 'trait_name'
+(character), and 'trait_domain_name' (character).</p>
+</td></tr>
+<tr><td><code id="data_group_summary">data_group_summary</code></td>
+<td>
+<p>A single-row tibble of per-group QC statistics, as produced by
+'generate_trait_qc_report()'. Must contain numeric columns 'mean',
+'median', 'IQR', and integer columns 'n_suspected_outliers_taxon'
+(integer) and 'outlier_fraction' (numeric).</p>
+</td></tr>
+<tr><td><code id="sel_taxon">sel_taxon</code></td>
+<td>
+<p>Character scalar. Name of the taxon being inspected. Used in the
+plot title.</p>
+</td></tr>
+<tr><td><code id="sel_domain">sel_domain</code></td>
+<td>
+<p>Character scalar. Name of the trait domain being inspected. Used in
+the plot title.</p>
+</td></tr>
+<tr><td><code id="graphical_options">graphical_options</code></td>
+<td>
+<p>Named list with elements 'width', 'height', 'units', 'dpi', and
+'bg', as returned by 'get_active_config(&quot;graphical&quot;)'. Passed to
+'ggview::canvas()'.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE' (default), the computed Tukey fence boundaries
+are printed to the console via 'cli::cli_inform()'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function computes Q1, Q3, and IQR from 'data_group_raw' and
+derives four fence values:
+- inner lower / upper: Q1 - 1.5 * IQR and Q3 + 1.5 * IQR
+- outer lower / upper: Q1 - 3 * IQR and Q3 + 3 * IQR
+</p>
+<p>Each observation is classified as '&quot;within fence&quot;',
+'&quot;mild outlier (1.5x IQR)&quot;', or '&quot;extreme outlier (3x IQR)&quot;'.
+When 'data_group_raw' contains more than one distinct 'trait_name',
+observations are faceted by 'trait_name'; otherwise the x-axis shows
+'trait_domain_name'.
+</p>
+<p>Plot layer order follows project conventions: 'ggplot()' -&gt; facets
+-&gt; scales -&gt; labels -&gt; theme -&gt; 'ggview::canvas()' -&gt; geoms.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A 'ggplot2' object. The plot is not printed; call 'print()' on the
+return value to display it.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[generate_trait_qc_report()], [apply_trait_corrections()],
+[validate_trait_corrections()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+data_raw &lt;-
+  data_traits_raw |&gt;
+  dplyr::filter(
+    taxon_name == "Anacyclus clavatus",
+    trait_domain_name == "Leaf Area"
+  ) |&gt;
+  dplyr::arrange(trait_value)
+
+data_summary &lt;-
+  data_qc_report |&gt;
+  dplyr::filter(
+    taxon_name == "Anacyclus clavatus",
+    trait_domain_name == "Leaf Area"
+  )
+
+graphical_options &lt;-
+  get_active_config("graphical")
+
+p &lt;-
+  plot_trait_group_distribution(
+    data_group_raw = data_raw,
+    data_group_summary = data_summary,
+    sel_taxon = "Anacyclus clavatus",
+    sel_domain = "Leaf Area",
+    graphical_options = graphical_options
+  )
+
+base::print(p)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

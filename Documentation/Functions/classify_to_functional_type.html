@@ -1,0 +1,118 @@
+<!DOCTYPE html><html><head><title>R: Classify Community Data to Functional Types</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>classify_to_functional_type</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Classify Community Data to Functional Types</h2>
+
+<h3>Description</h3>
+
+<p>Classifies taxa in a long-format community data frame to
+functional-type (FT) labels using a pre-computed FT
+classification table. Aggregates pollen proportions by
+'(dataset_name, age, functional_type)'. Produces the same
+output column structure as 'classify_taxonomic_resolution()'
+so it can be used as a drop-in replacement downstream.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>classify_to_functional_type(data, data_ft_classification, verbose = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data">data</code></td>
+<td>
+<p>A data frame containing community data with columns
+'taxon', 'dataset_name', 'age', and 'pollen_prop'.</p>
+</td></tr>
+<tr><td><code id="data_ft_classification">data_ft_classification</code></td>
+<td>
+<p>A data frame mapping taxa to functional types. Must contain
+columns 'taxon_name' (character) and 'functional_type'
+(integer). Typically produced by 'cluster_functional_types()'
+and loaded via 'get_functional_type_classification()'.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE' (default), informational progress messages
+are printed to the console via 'cli'. Note: the warning issued
+when taxa are absent from 'data_ft_classification' is always
+emitted regardless of this flag.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Steps performed:
+</p>
+
+<ol>
+<li><p> Validate arguments.
+</p>
+</li>
+<li><p> Left-join 'data' to 'data_ft_classification' on
+'data$taxon == data_ft_classification$taxon_name'.
+</p>
+</li>
+<li><p> Drop unmatched taxa (NA functional type) with a
+warning.
+</p>
+</li>
+<li><p> Create 'taxon' labels '&quot;FT_functional_type&quot;'.
+</p>
+</li>
+<li><p> Aggregate 'pollen_prop' by
+'(dataset_name, age, taxon)'.
+</p>
+</li>
+<li><p> Full-join back to a '(dataset_name, age, taxon)'
+cross-reference to preserve true negatives.
+</p>
+</li></ol>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame with the same column names as 'data'. The
+'taxon' column is replaced by functional-type labels of the
+form '&quot;FT_1&quot;', '&quot;FT_2&quot;', etc. 'pollen_prop' is aggregated
+(summed) by '(dataset_name, age, taxon)'. All
+'(dataset_name, age)' combinations present in 'data' are
+preserved (true negatives kept via a cross-reference join).
+Taxa not found in 'data_ft_classification' are dropped with
+a 'cli::cli_warn()' message.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[classify_taxonomic_resolution()],
+[get_functional_type_classification()],
+[cluster_functional_types()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

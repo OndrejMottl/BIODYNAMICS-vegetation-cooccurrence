@@ -20,39 +20,45 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Creates a wide-format taxonomic classification table from a list of data
-frames containing taxon names and ranks (e.g., family, genus, species).
+<p>Creates a wide-format taxonomic classification table from a list of taxon
+classification outputs.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>make_classification_table(data)
+<pre><code class='language-R'>make_classification_table(data_source)
 </code></pre>
 
 
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="data">data</code></td>
+<tr><td><code id="data_source">data_source</code></td>
 <td>
-<p>A list of data frames, each containing columns 'sel_name',
-'rank', and 'name'.</p>
+<p>A list of data frames. Each data frame is expected to
+contain 'sel_name' and a nested 'classification' column. The nested
+'classification' table should contain 'rank' and 'name' columns.</p>
 </td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>Filters for relevant taxonomic ranks, removes duplicates, and pivots the
-table to wide format with one column per rank.
+<p>The function removes 'NULL' list elements, binds rows across all entries,
+unnests 'classification', filters to standard taxonomic ranks ('kingdom',
+'phylum', 'class', 'order', 'family', 'genus', 'species'), removes
+duplicate 'sel_name'-'rank'-'name' combinations, and pivots to wide format.
+'values_fn = dplyr::first' is used as a defensive guard if multiple names
+are present for the same taxon and rank.
 </p>
 
 
 <h3>Value</h3>
 
-<p>A data frame in wide format with columns for each taxonomic rank
-and one row per 'sel_name'.
+<p>A data frame in wide format with up to eight columns ('sel_name'
+plus one column per taxonomic rank) and one row per 'sel_name'. Ranks
+not available for a given taxon are 'NA'.
 </p>
 
 </main>
