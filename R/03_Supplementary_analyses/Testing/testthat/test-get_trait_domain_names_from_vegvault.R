@@ -2,7 +2,7 @@
 # DB-dependent test. Using a project-relative path so that
 # check_presence_of_vegvault() can resolve it via here::here().
 path_test_db <-
-  "R/03_Supplementary_analyses/testthat/trait_domains_test.sqlite"
+  "R/03_Supplementary_analyses/Testing/testthat/trait_domains_test.sqlite"
 
 # ----------------------------------------------------------#
 # Input Validation -----

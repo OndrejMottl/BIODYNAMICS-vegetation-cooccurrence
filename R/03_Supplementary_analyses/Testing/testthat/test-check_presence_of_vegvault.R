@@ -15,7 +15,7 @@ testthat::test_that(
   "check_presence_of_vegvault() returns logical(1) for existing file",
   {
     path_temp <-
-      "R/03_Supplementary_analyses/testthat/Vegvault.sqlite"
+      "R/03_Supplementary_analyses/Testing/testthat/Vegvault.sqlite"
 
     base::file.create(here::here(path_temp))
 
@@ -35,7 +35,7 @@ testthat::test_that(
   "check_presence_of_vegvault() returns TRUE for existing file",
   {
     path_temp <-
-      "R/03_Supplementary_analyses/testthat/Vegvault.sqlite"
+      "R/03_Supplementary_analyses/Testing/testthat/Vegvault.sqlite"
 
     base::file.create(here::here(path_temp))
 
