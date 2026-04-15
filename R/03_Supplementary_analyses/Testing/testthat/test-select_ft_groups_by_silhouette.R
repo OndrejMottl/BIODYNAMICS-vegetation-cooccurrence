@@ -416,8 +416,7 @@ testthat::test_that(
       tibble::tibble(
         taxon_name = stringr::str_c("sp_", base::seq_len(10L)),
         trait_1 = base::c(
-          base::rep(0.1, 5L),
-          base::rep(0.9, 5L)
+          0.08, 0.10, 0.11, 0.09, 0.12, 0.88, 0.90, 0.91, 0.89, 0.92
         )
       )
 
