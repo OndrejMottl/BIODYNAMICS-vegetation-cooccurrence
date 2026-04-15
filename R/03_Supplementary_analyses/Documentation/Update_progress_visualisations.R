@@ -41,7 +41,7 @@ source(
 # 1. Discover all pipeline store directories -----
 #----------------------------------------------------------#
 
-# Map pipeline folder name → script path
+# Map pipeline folder name -> script path
 list_pipeline_scripts <-
   base::list(
     pipeline_basic = here::here(

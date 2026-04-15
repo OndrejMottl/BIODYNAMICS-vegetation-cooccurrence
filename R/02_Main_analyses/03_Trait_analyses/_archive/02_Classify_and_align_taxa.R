@@ -16,7 +16,7 @@
 #   addition to standard genus-level taxa.
 #
 # For each unique trait genus the taxospace API returns a full
-#   taxonomic lineage (kingdom → genus). The lineage is pivoted to
+#   taxonomic lineage (kingdom -> genus). The lineage is pivoted to
 #   long format and matched against the community taxa. The finest
 #   matching rank is selected so genus-level traits are preferentially
 #   linked to genus-level community taxa, while higher-rank traits

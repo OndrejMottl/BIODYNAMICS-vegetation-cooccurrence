@@ -91,7 +91,7 @@ testthat::test_that(
   "clean_raw_trait_data() keeps correct number of rows",
   {
     # make_valid_raw() has 4 rows: one NA taxon_id, one NA trait_value
-    # → 2 rows should survive
+    # -> 2 rows should survive
     res <-
       clean_raw_trait_data(data_raw = make_valid_raw())
     testthat::expect_equal(base::nrow(res), 2L)

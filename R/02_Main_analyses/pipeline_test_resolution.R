@@ -24,12 +24,12 @@
 #
 # The three resolutions are created by tarchetypes::tar_map()
 #   over pipe_segment_community_resolution and all downstream
-#   pipe segments (alignment → model_anova), producing targets:
+#   pipe segments (alignment -> model_anova), producing targets:
 #     data_community_subset_genus, model_anova_genus
 #     data_community_subset_family, model_anova_family
 #     data_community_subset_functional_type, model_anova_functional_type
 #
-# The upstream segments (config → vegvault → community_data →
+# The upstream segments (config -> vegvault -> community_data ->
 #   abiotic_data) are shared across all three branches and
 #   produce their targets exactly once.
 #
@@ -148,7 +148,7 @@ c(
 #--------------------------------------------------#
 
 # Tracks the most recent FT classification .qs file for the
-#   active continent (project_cz → "europe").
+#   active continent (project_cz -> "europe").
 #   Used only by the "functional_type" branch in tar_map(),
 #   but declared here (outside the map) so it is computed once
 #   and its hash is shared across all branches.
@@ -186,7 +186,7 @@ list_path_ft_classification <-
           )
         )
 
-        # Sort is lexicographic on YYYY-MM-DD → latest last
+        # Sort is lexicographic on YYYY-MM-DD -> latest last
         base::sort(vec_files)[base::length(vec_files)]
       },
       format = "file"

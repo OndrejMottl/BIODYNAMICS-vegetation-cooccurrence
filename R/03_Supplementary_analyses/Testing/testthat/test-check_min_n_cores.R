@@ -108,7 +108,7 @@ testthat::test_that(
         coord_lat = c(50.0, 50.5)
       )
 
-    # 2 cores, threshold 5 → should abort
+    # 2 cores, threshold 5 -> should abort
     testthat::expect_error(
       check_min_n_cores(
         data_coords = data_coords,
@@ -256,7 +256,7 @@ testthat::test_that(
 testthat::test_that(
   "check_min_n_cores() default min_n_cores is 2",
   {
-    # 1 core → should fail with default threshold of 2
+    # 1 core -> should fail with default threshold of 2
     data_one_row <-
       tibble::tibble(coord_long = 14.0, coord_lat = 50.0)
 
@@ -265,7 +265,7 @@ testthat::test_that(
       "Not enough cores"
     )
 
-    # 2 cores → should pass with default threshold of 2
+    # 2 cores -> should pass with default threshold of 2
     data_two_rows <-
       tibble::tibble(
         coord_long = c(14.0, 15.0),

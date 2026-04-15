@@ -66,7 +66,7 @@ pipe_segment_community_resolution <-
     # Routes between the standard taxonomic classifier and the
     #   FT classifier depending on the `tax_res` value injected
     #   by tar_map().  For "genus" this is effectively a no-op
-    #   re-classification (genus → genus), which is intentional:
+    #   re-classification (genus -> genus), which is intentional:
     #   it keeps the genus branch structurally identical to the
     #   family and FT branches so all targets have consistent
     #   names after tar_map() suffixing.
@@ -140,7 +140,7 @@ pipe_segment_community_resolution <-
     #   one produced by pipe_segment_community_data.R.  When used
     #   inside tar_map() it becomes data_community_subset_genus,
     #   data_community_subset_family, etc., and the downstream
-    #   segments (alignment → model_anova) reference the correct
+    #   segments (alignment -> model_anova) reference the correct
     #   branch-suffixed version automatically.
     targets::tar_target(
       description = "Select number of taxa to include (resolved)",

@@ -385,7 +385,7 @@ testthat::test_that(
         data_aux_classification_table = data_aux
       )
 
-    # 3 auto + 1 new aux (Taxon D); Taxon A overlap → 4 unique rows
+    # 3 auto + 1 new aux (Taxon D); Taxon A overlap -> 4 unique rows
     testthat::expect_equal(
       base::nrow(data_result),
       4L
