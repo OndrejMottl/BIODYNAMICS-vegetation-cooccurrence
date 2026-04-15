@@ -8,6 +8,18 @@
 #' @param file
 #' Path to the spatial grid CSV file.
 #' Default: `here::here("Data/Input/spatial_grid.csv")`.
+#' @param tax_res
+#' A single character string specifying the taxonomic resolution.
+#' One of `"genus"` (default), `"family"`, or `"functional_type"`.
+#' Controls which set of model fitting parameter columns is used:
+#' * `"genus"` — reads `n_iter`, `n_step_size`, `n_sampling`,
+#'   `n_early_stopping` (the original columns).
+#' * `"family"` — reads `n_iter_family`, `n_step_size_family`,
+#'   `n_sampling_family`, `n_early_stopping_family`.
+#' * `"functional_type"` — reads `n_iter_ft`, `n_step_size_ft`,
+#'   `n_sampling_ft`, `n_early_stopping_ft`.
+#' `n_samples_anova` is always taken from the shared column
+#' regardless of `tax_res`.
 #' @return
 #' A named list with five elements:
 #' \describe{
@@ -39,13 +51,14 @@
 #' constructs the parameter list. Validation ensures the file is
 #' readable, has a `.csv` extension, contains the required columns,
 #' and that exactly one row matches the requested `scale_id`.
-#' `NA` values in the `n_step_size` and `n_early_stopping` columns are
-#' converted to `NULL`.
+#' `NA` values in the relevant `n_step_size` and `n_early_stopping`
+#' columns are converted to `NULL`.
 #' @seealso get_spatial_window, get_active_config
 #' @export
 get_spatial_model_params <- function(
     scale_id,
-    file = here::here("Data/Input/spatial_grid.csv")) {
+    file = here::here("Data/Input/spatial_grid.csv"),
+    tax_res = "genus") {
   assertthat::assert_that(
     is.character(scale_id) && length(scale_id) == 1,
     msg = paste0(
@@ -58,6 +71,16 @@ get_spatial_model_params <- function(
     assertthat::is.readable(file) &&
       assertthat::has_extension(file, "csv"),
     msg = "`file` must be a readable CSV file."
+  )
+
+  assertthat::assert_that(
+    base::is.character(tax_res) &&
+      base::length(tax_res) == 1 &&
+      tax_res %in% c("genus", "family", "functional_type"),
+    msg = stringr::str_glue(
+      "`tax_res` must be one of 'genus', 'family', or ",
+      "'functional_type'. Got: '{tax_res}'."
+    )
   )
 
   data_grid <-
@@ -84,6 +107,31 @@ get_spatial_model_params <- function(
     )
   )
 
+  if (tax_res != "genus") {
+    col_suffix <-
+      if (tax_res == "family") "_family" else "_ft"
+
+    vec_resolution_cols <-
+      stringr::str_c(
+        c(
+          "n_iter",
+          "n_step_size",
+          "n_sampling",
+          "n_early_stopping"
+        ),
+        col_suffix
+      )
+
+    assertthat::assert_that(
+      base::all(vec_resolution_cols %in% base::names(data_grid)),
+      msg = stringr::str_glue(
+        "`file` must contain resolution-specific columns for ",
+        "tax_res='{tax_res}': ",
+        "{stringr::str_c(vec_resolution_cols, collapse = ', ')}."
+      )
+    )
+  }
+
   data_row <-
     data_grid |>
     dplyr::filter(
@@ -98,32 +146,89 @@ get_spatial_model_params <- function(
     )
   )
 
-  n_step_size_raw <-
-    dplyr::pull(data_row, n_step_size)
+  if (tax_res == "genus") {
+    n_step_size_raw <-
+      dplyr::pull(data_row, n_step_size)
 
-  n_early_stopping_raw <-
-    dplyr::pull(data_row, n_early_stopping)
+    n_early_stopping_raw <-
+      dplyr::pull(data_row, n_early_stopping)
 
-  res <-
-    list(
-      n_iter = dplyr::pull(data_row, n_iter),
-      n_step_size = if (
-        base::is.na(n_step_size_raw)
-      ) {
-        NULL
-      } else {
-        n_step_size_raw
-      },
-      n_sampling = dplyr::pull(data_row, n_sampling),
-      n_samples_anova = dplyr::pull(data_row, n_samples_anova),
-      n_early_stopping = if (
-        base::is.na(n_early_stopping_raw)
-      ) {
-        NULL
-      } else {
-        n_early_stopping_raw
-      }
-    )
+    res <-
+      list(
+        n_iter = dplyr::pull(data_row, n_iter),
+        n_step_size = if (
+          base::is.na(n_step_size_raw)
+        ) {
+          NULL
+        } else {
+          n_step_size_raw
+        },
+        n_sampling = dplyr::pull(data_row, n_sampling),
+        n_samples_anova = dplyr::pull(data_row, n_samples_anova),
+        n_early_stopping = if (
+          base::is.na(n_early_stopping_raw)
+        ) {
+          NULL
+        } else {
+          n_early_stopping_raw
+        }
+      )
+  } else if (tax_res == "family") {
+    n_step_size_raw <-
+      dplyr::pull(data_row, n_step_size_family)
+
+    n_early_stopping_raw <-
+      dplyr::pull(data_row, n_early_stopping_family)
+
+    res <-
+      list(
+        n_iter = dplyr::pull(data_row, n_iter_family),
+        n_step_size = if (
+          base::is.na(n_step_size_raw)
+        ) {
+          NULL
+        } else {
+          n_step_size_raw
+        },
+        n_sampling = dplyr::pull(data_row, n_sampling_family),
+        n_samples_anova = dplyr::pull(data_row, n_samples_anova),
+        n_early_stopping = if (
+          base::is.na(n_early_stopping_raw)
+        ) {
+          NULL
+        } else {
+          n_early_stopping_raw
+        }
+      )
+  } else {
+    n_step_size_raw <-
+      dplyr::pull(data_row, n_step_size_ft)
+
+    n_early_stopping_raw <-
+      dplyr::pull(data_row, n_early_stopping_ft)
+
+    res <-
+      list(
+        n_iter = dplyr::pull(data_row, n_iter_ft),
+        n_step_size = if (
+          base::is.na(n_step_size_raw)
+        ) {
+          NULL
+        } else {
+          n_step_size_raw
+        },
+        n_sampling = dplyr::pull(data_row, n_sampling_ft),
+        n_samples_anova = dplyr::pull(data_row, n_samples_anova),
+        n_early_stopping = if (
+          base::is.na(n_early_stopping_raw)
+        ) {
+          NULL
+        } else {
+          n_early_stopping_raw
+        }
+      )
+  }
 
   return(res)
 }
+
