@@ -11,7 +11,7 @@
 #
 #----------------------------------------------------------#
 # Complete targets pipeline for the trait analysis workflow.
-# Orchestrates six pipe segments in sequence:
+# Orchestrates five pipe segments in sequence:
 #
 #   Segment 1 — pipe_segment_trait_extraction
 #     Discovers continental rows from spatial_grid.csv and
@@ -36,11 +36,13 @@
 #     Aggregates to median, pivots to a project-agnostic wide
 #     genus × traits matrix.
 #
-#   Segment 6 — pipe_segment_trait_ft_clustering
-#     Clusters all taxa in each continental unit into functional
-#     types using Gower distance + Ward D2 hierarchical clustering.
-#     One dated .qs file per continent is saved to
-#     Data/Processed/Traits/ and tracked as a file target.
+# Note: FT clustering (previously Segment 6) has been moved to
+#   pipe_segment_ft_continental.R, which runs as part of
+#   pipeline_spatial_resolution.R for each continental spatial unit.
+#   This ensures FT labels are derived from the actual community
+#   taxa (genus/family pollen names) rather than species-level
+#   trait taxa, and that regional/local pipelines share consistent
+#   FT labels with their parent continental run.
 #
 # HUMAN REVIEW REQUIRED (inside segments 2 and 4):
 #   Segment 3 — if trait classification stops, open:
@@ -51,9 +53,9 @@
 #       (same file used by the community pipeline — one edit covers both)
 #
 #   Segment 2 — after trait_qc_report completes, open:
-#     Data/Temp/trait_qc_report_{date}.csv      ← review suspected outliers
+#     Data/Temp/trait_qc_report_{date}.csv      <- review suspected outliers
 #                                                   (per-domain x taxon summary)
-#     Data/Input/trait_manual_corrections.csv   ← fill in corrections
+#     Data/Input/trait_manual_corrections.csv   <- fill in corrections
 #   Set CHECKED = TRUE for every row, then re-run tar_make() so the
 #   trait_corrections_validated guard target passes.
 #
@@ -125,14 +127,13 @@ path_pipe_parts <-
   here::here("R/02_Main_analyses/_pipes/")
 
 # Segments must be sourced in dependency order:
-#   extraction -> qc -> classification -> qc_classified -> table -> ft_clustering
+#   extraction -> qc -> classification -> qc_classified -> table
 base::c(
   "pipe_segment_trait_extraction.R",
   "pipe_segment_trait_qc.R",
   "pipe_segment_trait_classification.R",
   "pipe_segment_trait_qc_classified.R",
-  "pipe_segment_trait_table.R",
-  "pipe_segment_trait_ft_clustering.R"
+  "pipe_segment_trait_table.R"
 ) |>
   rlang::set_names() |>
   purrr::walk(
@@ -151,6 +152,5 @@ base::list(
   pipe_segment_trait_qc,
   pipe_segment_trait_classification,
   pipe_segment_trait_qc_classified,
-  pipe_segment_trait_table,
-  pipe_segment_trait_ft_clustering
+  pipe_segment_trait_table
 )

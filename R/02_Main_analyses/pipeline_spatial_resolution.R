@@ -156,22 +156,48 @@ c(
 ## 1.2 Shared FT path target -----
 #--------------------------------------------------#
 
-# Tracks the most recent FT classification .qs file for the
-#   continent that owns this spatial unit.
-#   Declared outside tar_map() so it is computed once and
-#   its hash is shared across both resolution branches.
-list_path_ft_classification <-
-  base::list(
-    targets::tar_target(
-      description = stringr::str_c(
-        "Track the most recent FT classification file ",
-        "for the continent that owns this spatial unit"
-      ),
-      name = path_ft_classification,
-      command = get_functional_type_classification_path_from_store(),
-      format = "file"
-    )
+# For continental runs, FT clustering is performed here-and-now
+#   using the community taxa of this spatial unit, ensuring that
+#   genus- and family-level pollen taxa are covered correctly.
+#   The produced .qs file is saved to Data/Processed/Traits/ so
+#   regional and local pipelines for the same continent can look
+#   it up via get_functional_type_classification_path_from_store().
+#
+# For regional and local runs, the pre-computed .qs produced by
+#   the continental pipeline is looked up by continent_id and
+#   tracked as a file target.  No re-clustering is done, keeping
+#   FT labels consistent across all spatial scales.
+
+flag_is_continental_run <-
+  stringr::str_detect(
+    base::Sys.getenv("R_CONFIG_ACTIVE"),
+    "continental"
   )
+
+if (flag_is_continental_run) {
+  base::source(
+    file = base::file.path(path_pipe_parts, "pipe_segment_ft_continental.R")
+  )
+
+  list_path_ft_classification <- pipe_segment_ft_continental
+} else {
+  # Tracks the most recent FT classification .qs file for the
+  #   continent that owns this spatial unit.
+  #   Declared outside tar_map() so it is computed once and
+  #   its hash is shared across both resolution branches.
+  list_path_ft_classification <-
+    base::list(
+      targets::tar_target(
+        description = stringr::str_glue(
+          "Track the most recent FT classification file ",
+          "for the continent that owns this spatial unit"
+        ),
+        name = path_ft_classification,
+        command = get_functional_type_classification_path_from_store(),
+        format = "file"
+      )
+    )
+}
 
 
 #--------------------------------------------------#
