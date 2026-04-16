@@ -142,14 +142,24 @@ pipe_segment_community_data <-
       )
     ),
     targets::tar_target(
+      description = "Append missing taxa to template CSV",
+      name = "file_missing_taxa_template",
+      command = append_missing_taxa_to_template(
+        data_missing_taxa = data_missing_taxa_template,
+        file_path = here::here(
+          "Data/Input/missing_taxa_template.csv"
+        ),
+        data_classification_table = data_combined_classification_table
+      ),
+      format = "file"
+    ),
+    targets::tar_target(
       description = "Check all taxa are classified; error if not",
       name = "check_taxa_classification",
-      command = {
-        force(data_missing_taxa_template)
-        check_and_report_missing_taxa(
-          vec_taxa_without_classification = vec_taxa_without_classification
-        )
-      }
+      command = check_and_report_missing_taxa(
+        vec_taxa_without_classification = vec_taxa_without_classification,
+        file_missing_taxa_template = file_missing_taxa_template
+      )
     ),
     targets::tar_target(
       description = "Remove non-Plantae taxa from community data",
