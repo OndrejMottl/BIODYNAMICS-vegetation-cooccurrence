@@ -57,6 +57,24 @@ data_diversity$species_richness
 list_params$n_iter
 ```
 
+**Never use `base::attr()` to attach metadata to R objects.**
+Attributes are invisible, not type-checked, and silently stripped by many tidyverse operations (e.g. `dplyr::mutate()`, `tibble::as_tibble()`). Keep every piece of information as an explicit, named object — a column in a data frame, a named element in a list, or, in a `{targets}` pipeline, a dedicated target (see the Pipeline Management section in `copilot-instructions.md`).
+
+```r
+# Avoid
+base::attr(res_dist, "Labels") <- dplyr::pull(data_traits, taxon_name)
+
+# Good  -  data frame: add as a column
+data_dist <-
+  dplyr::mutate(data_dist, taxon_name = data_traits[["taxon_name"]])
+
+# Good  -  in a targets pipeline: expose as a separate target
+targets::tar_target(
+  name = vec_taxon_labels,
+  command = dplyr::pull(data_traits, taxon_name)
+)
+```
+
 **Never use the `apply` family** (`apply()`, `lapply()`, `sapply()`, `vapply()`, `mapply()`, `tapply()`). Use `purrr::map*()` equivalents instead  -  they are type-stable, pipe-friendly, and consistent with the rest of the tidyverse. This rule applies to all iteration and functional-programming patterns, not just data-frame operations.
 
 ## Namespace

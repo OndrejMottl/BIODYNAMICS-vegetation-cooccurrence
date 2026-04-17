@@ -167,6 +167,33 @@ A pipeline edit is **not considered complete** until `tar_manifest()` succeeds w
 > dplyr::coalesce(!!!rlang::syms(base::rev(vec_ranks)))
 > ```
 
+#### Never use `base::attr()` to pass information between targets
+
+**`base::attr()` is forbidden as a data-transport mechanism in this pipeline.**
+Attributes are invisible, not type-checked, and silently dropped by many tidyverse operations. If a target needs to carry additional metadata alongside its primary output, give that metadata its own independent pipeline target and read both targets in the downstream step that needs them.
+
+```r
+# Bad — taxon labels live as a hidden attribute; will silently disappear
+targets::tar_target(
+  name = res_dissimilarity_matrix,
+  command = {
+    res <- cluster::daisy(data_traits_wide)
+    base::attr(res, "Labels") <- dplyr::pull(data_traits_wide, taxon_name)
+    res
+  }
+)
+
+# Good — labels are an explicit, inspectable, standalone target
+targets::tar_target(
+  name = vec_taxon_labels,
+  command = dplyr::pull(data_traits_wide, taxon_name)
+)
+targets::tar_target(
+  name = res_dissimilarity_matrix,
+  command = cluster::daisy(data_traits_wide)
+)
+```
+
 #### Target Storage
 
 Target outputs are stored in project-specific directories defined in `config.yml`:
