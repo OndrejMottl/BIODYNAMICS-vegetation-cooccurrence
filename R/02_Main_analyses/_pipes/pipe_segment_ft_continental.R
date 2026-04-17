@@ -24,7 +24,9 @@
 #       data, from pipe_segment_community_data)
 #   - data_combined_classification_table (raw community
 #       classification, from pipe_segment_community_data)
-#   - config.data_processing (taxonomic_resolution setting)
+#   - config.data_processing
+#       (taxonomic_resolution, minimal_proportion_of_pollen)
+#   - config.min_n_taxa (minimum viable non-constant FT groups)
 #   - data_traits_classified_corrected  \  read from
 #   - data_combined_classification_table_traits ) traits store
 #
@@ -219,7 +221,13 @@ pipe_segment_ft_continental <-
         dist_mat = dist_ft_continental,
         hclust_obj = hclust_ft_continental,
         ft_groups_min = ft_groups_min_continental,
-        ft_groups_max = ft_groups_max_continental
+        ft_groups_max = ft_groups_max_continental,
+        data_community = data_community_classified,
+        minimal_proportion = purrr::chuck(
+          config.data_processing,
+          "minimal_proportion_of_pollen"
+        ),
+        min_n_taxa = config.min_n_taxa
       )
     ),
 
