@@ -257,3 +257,26 @@ eval(parse(text = paste("mean(", var, ")")))
 with(data, mean(get(var)))
 ```
 
+## Prefer Pipes Over Nested Function Calls
+
+Use the native pipe `|>` to chain operations instead of nesting function calls. Deeply nested calls are hard to read and must be parsed inside-out; pipes read left-to-right in execution order.
+
+```r
+# Good — pipe-based, reads in execution order
+filter_data() |>
+  fit_model() |>
+  summarise_data() |> 
+  plot_data()
+
+# Avoid — nested, reads inside-out
+plot_data(
+  summarise_data(
+    fit_model(
+      filter_data()
+    )
+  )
+)
+```
+
+This rule applies to `do.call()` wrappers, `Reduce()`, and any other function that accepts another function plus its inputs as separate arguments — prefer piping into `purrr::reduce()` or similar pipe-friendly equivalents instead.
+

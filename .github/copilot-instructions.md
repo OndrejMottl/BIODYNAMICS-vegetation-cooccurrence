@@ -142,6 +142,31 @@ targets::tar_meta()
 data_community <- targets::tar_read(data_community)
 ```
 
+**Mandatory validation after any pipeline edit**:
+
+After editing any pipeline file (`pipeline_*.R`) or pipe segment (`_pipes/*.R`), **always** run `targets::tar_manifest()` before attempting `tar_make()` or `tar_visnetwork()`. This catches definition-time errors (missing objects, rlang-injection issues, mis-named targets) cheaply — without spawning workers or actually executing targets.
+
+```r
+# Validate the edited pipeline (replace config and script path as needed)
+Sys.setenv(R_CONFIG_ACTIVE = "project_spatial_continental")
+targets::tar_manifest(
+  script = here::here("R/02_Main_analyses/pipeline_spatial_resolution.R")
+)
+```
+
+A pipeline edit is **not considered complete** until `tar_manifest()` succeeds without errors.
+
+> **Why this matters**: `targets::tar_target()` uses rlang argument capture which eagerly evaluates `!!!` (unquote-splice) operators at call time, not at command execution time. Any `!!!rlang::syms()` call that references a *locally-defined* variable inside the command block will therefore fail during pipeline definition. This class of error is caught by `tar_manifest()` immediately. Use the pipe-based pattern instead of `!!!rlang::syms()` in `tar_target()` command blocks:
+> ```r
+> # Good — pipe-based, no rlang injection
+> dplyr::pick(dplyr::all_of(base::rev(vec_ranks))) |>
+>   base::as.list() |>
+>   purrr::reduce(dplyr::coalesce)
+>
+> # Bad — fails at tar_target() definition time
+> dplyr::coalesce(!!!rlang::syms(base::rev(vec_ranks)))
+> ```
+
 #### Target Storage
 
 Target outputs are stored in project-specific directories defined in `config.yml`:
