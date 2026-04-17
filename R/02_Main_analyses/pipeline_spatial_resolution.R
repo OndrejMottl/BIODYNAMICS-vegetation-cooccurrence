@@ -176,10 +176,13 @@ flag_is_continental_run <-
 
 if (flag_is_continental_run) {
   base::source(
-    file = base::file.path(path_pipe_parts, "pipe_segment_ft_continental.R")
+    file = base::file.path(
+      path_pipe_parts, "pipe_segment_ft_continental.R"
+    )
   )
 
-  list_path_ft_classification <- pipe_segment_ft_continental
+  list_path_ft_classification <-
+    pipe_segment_ft_continental
 } else {
   # Tracks the most recent FT classification .qs file for the
   #   continent that owns this spatial unit.

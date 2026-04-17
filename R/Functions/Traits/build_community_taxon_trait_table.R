@@ -5,7 +5,7 @@
 #' data) rather than species names. For each trait observation
 #' the function looks up the full taxonomic lineage of the
 #' source species and maps it to every community taxon that
-#' appears anywhere in that lineage (kingdom → species). Trait
+#' appears anywhere in that lineage (kingdom -> species). Trait
 #' values are then aggregated (median) per
 #' `(community_taxon, trait_domain)` and pivoted to a wide
 #' matrix ready for `cluster_functional_types()`.
@@ -30,11 +30,20 @@
 #' `combine_classification_tables()`. `sel_name` must match
 #' the `taxon_name` values in `data_traits` (after trait
 #' QC and correction).
-#' @param vec_community_taxa
-#' A character vector of taxon names present in the community
-#' (pollen) data for this project / spatial unit. Only
-#' taxonomy values that appear in this vector are used as
-#' aggregation targets. Must be non-empty.
+#' @param data_community_classification_table
+#' A wide-format taxonomic classification table for the
+#' community (pollen) taxa in this project / spatial unit.
+#' Must contain a `sel_name` column (the pollen taxon name
+#' as it appears in the community data) and the seven rank
+#' columns `kingdom`, `phylum`, `class`, `order`, `family`,
+#' `genus`, `species`. Typically the output of
+#' `combine_classification_tables()` applied to the pollen
+#' community. `sel_name` provides the allow-list of community
+#' taxa; each taxon is resolved to its finest available rank
+#' (via `resolve_classification_to_finest_rank()`) to look up
+#' matching entries in `data_classification_table`. This
+#' correctly maps "Betulaceae Undiff" -> canonical "Betulaceae",
+#' "Betula Nana-Type" -> canonical "Betula", etc.
 #' @param aggregation_fn
 #' A single character string specifying how trait values are
 #' aggregated per `(community_taxon, trait_domain_name)` pair.
@@ -45,44 +54,48 @@
 #' @return
 #' A tibble with one row per community taxon that could be
 #' matched to at least one trait observation. Contains a
-#' `taxon_name` column (the community taxon name) plus one
-#' numeric column per distinct `trait_domain_name`. Taxa
-#' from `vec_community_taxa` with no trait match are silently
-#' absent (not filled with `NA` rows). The column order is
-#' `taxon_name` followed by trait domain columns in
-#' alphabetical order.
+#' `taxon_name` column (the original pollen taxon name from
+#' `data_community_classification_table$sel_name`) plus one
+#' numeric column per distinct `trait_domain_name`. Community
+#' taxa with no trait match are silently absent (not filled
+#' with `NA` rows). The column order is `taxon_name` followed
+#' by trait domain columns in alphabetical order.
 #' @details
 #' **Algorithm**:
 #' \enumerate{
+#'   \item Apply `resolve_classification_to_finest_rank()` to
+#'     `data_community_classification_table` to obtain a
+#'     canonical name for each pollen taxon — e.g.
+#'     "Betulaceae Undiff" -> "Betulaceae",
+#'     "Betula Nana-Type" -> "Betula". This handles all pollen
+#'     suffixes ("Undiff", "-Type", "Subg", "Sect", "Cf")
+#'     without any string manipulation.
 #'   \item Pivot the seven rank columns of
-#'     `data_classification_table` to long format.
-#'   \item Retain only rows where the rank value appears in
-#'     `vec_community_taxa`.
-#'   \item For each trait species (`sel_name`), this produces
-#'     one or more rows mapping it to community taxon(a) at
-#'     various ranks (e.g. genus "Abies" AND family
-#'     "Pinaceae", if both exist in the community data).
-#'     Unlike `resolve_classification_to_finest_rank()`,
-#'     **all** matching ranks are kept so that coarser
-#'     community taxa (family, order) accumulate contributions
-#'     from all their member species.
-#'   \item Inner-join this mapping to `data_traits` on
-#'     `taxon_name == sel_name`, producing one row per
-#'     `(community_taxon, trait_domain_name, observation)`.
-#'   \item Aggregate: median of `trait_value` per
-#'     `(community_taxon, trait_domain_name)`.
-#'   \item Pivot wide: `taxon_name` (community taxon) ×
+#'     `data_classification_table` (traits-side) to long
+#'     format. Retain only rows whose rank value matches a
+#'     canonical name from step 1.
+#'   \item Join the community canonical-name table to the
+#'     trait classification table on `canonical_name`
+#'     (`many-to-many`), producing a mapping
+#'     `(pollen_taxon, canonical_name, trait_species)`.
+#'   \item Inner-join to `data_traits` on
+#'     `taxon_name == trait_species`, giving one row per
+#'     `(pollen_taxon, trait_domain_name, observation)`.
+#'   \item Aggregate: median (or mean) of `trait_value` per
+#'     `(pollen_taxon, trait_domain_name)`.
+#'   \item Pivot wide: `taxon_name` (pollen taxon) ×
 #'     trait domain columns.
 #' }
 #' @seealso [make_classification_table()],
 #'   [combine_classification_tables()],
+#'   [resolve_classification_to_finest_rank()],
 #'   [cluster_functional_types()],
 #'   [classify_to_functional_type()]
 #' @export
 build_community_taxon_trait_table <- function(
     data_traits,
     data_classification_table,
-    vec_community_taxa,
+    data_community_classification_table,
     aggregation_fn = "median",
     verbose = TRUE) {
 
@@ -128,9 +141,28 @@ build_community_taxon_trait_table <- function(
   )
 
   assertthat::assert_that(
-    base::is.character(vec_community_taxa) &&
-      base::length(vec_community_taxa) > 0L,
-    msg = "`vec_community_taxa` must be a non-empty character vector."
+    base::is.data.frame(data_community_classification_table),
+    msg = "`data_community_classification_table` must be a data frame."
+  )
+
+  assertthat::assert_that(
+    base::all(
+      vec_required_cols %in%
+        base::colnames(data_community_classification_table)
+    ),
+    msg = stringr::str_glue(
+      "`data_community_classification_table` must contain ",
+      "columns: ",
+      "{stringr::str_c(vec_required_cols, collapse = ', ')}."
+    )
+  )
+
+  assertthat::assert_that(
+    base::nrow(data_community_classification_table) > 0L,
+    msg = stringr::str_glue(
+      "`data_community_classification_table` must have ",
+      "at least one row."
+    )
   )
 
   assertthat::assert_that(
@@ -146,43 +178,76 @@ build_community_taxon_trait_table <- function(
   )
 
   #--------------------------------------------------#
-  # 2. Build taxonomy → community-taxon mapping -----
+  # 2. Resolve community taxa to canonical names -----
   #--------------------------------------------------#
 
-  # Pivot the seven rank columns long, keep only rows where the rank value
-  # matches a community taxon (the allow-list). Unlike
-  # resolve_classification_to_finest_rank(), ALL matching ranks are kept so
-  # that coarser pollen taxa (family, order) collect contributions from every
-  # member species in the traits table.
-  vec_ranks <-
-    base::c("kingdom", "phylum", "class", "order", "family", "genus", "species")
+  # Use resolve_classification_to_finest_rank() to map each pollen taxon
+  # to its finest available taxonomic rank value.  This collapses pollen
+  # suffixes: "Betulaceae Undiff" -> "Betulaceae", "Betula Nana-Type" ->
+  # "Betula", "Pinus Subg Pinus" -> "Pinus", etc., without any string
+  # manipulation.
+  data_community_to_canonical <-
+    resolve_classification_to_finest_rank(
+      data_classification_table = data_community_classification_table,
+      column_name_taxon = "canonical_name"
+    )
 
-  data_classification_to_community <-
+  vec_canonical_names <-
+    data_community_to_canonical |>
+    dplyr::pull(.data$canonical_name) |>
+    base::unique()
+
+  #--------------------------------------------------#
+  # 3. Map canonical names to trait species -----
+  #--------------------------------------------------#
+
+  # Pivot the traits classification table long and retain only rows whose
+  # rank value matches a canonical community name.
+  # ALL matching ranks are kept so that coarser community taxa (family,
+  # order) accumulate contributions from every member trait species.
+  vec_ranks <-
+    base::c(
+      "kingdom", "phylum", "class", "order", "family", "genus", "species"
+    )
+
+  data_canonical_to_trait_species <-
     data_classification_table |>
     tidyr::pivot_longer(
       cols = dplyr::all_of(vec_ranks),
       names_to = "rank",
-      values_to = "taxon_community"
+      values_to = "canonical_name"
     ) |>
-    dplyr::filter(!base::is.na(.data$taxon_community)) |>
-    dplyr::filter(.data$taxon_community %in% vec_community_taxa) |>
-    dplyr::select(dplyr::all_of(base::c("sel_name", "taxon_community")))
+    dplyr::filter(!base::is.na(.data$canonical_name)) |>
+    dplyr::filter(.data$canonical_name %in% vec_canonical_names) |>
+    dplyr::select(
+      dplyr::all_of(base::c("sel_name", "canonical_name"))
+    ) |>
+    dplyr::rename(trait_species = "sel_name")
+
+  # Join: pollen taxon <-> canonical name <-> trait species
+  data_community_to_trait_species <-
+    data_community_to_canonical |>
+    dplyr::rename(taxon_community = "sel_name") |>
+    dplyr::inner_join(
+      data_canonical_to_trait_species,
+      by = dplyr::join_by(canonical_name == canonical_name),
+      relationship = "many-to-many"
+    )
 
   #--------------------------------------------------#
-  # 3. Join mapping to trait observations -----
+  # 4. Join mapping to trait observations -----
   #--------------------------------------------------#
 
   data_traits_classified <-
     data_traits |>
     dplyr::inner_join(
-      data_classification_to_community,
-      by = dplyr::join_by(taxon_name == sel_name),
-      multiple = "all",
+      data_community_to_trait_species,
+      by = dplyr::join_by(taxon_name == trait_species),
       relationship = "many-to-many"
     )
 
   #--------------------------------------------------#
-  # 4. Aggregate (median) and pivot wide -----
+  # 5. Aggregate (median) and pivot wide -----
   #--------------------------------------------------#
 
   fn_aggregate <-
@@ -216,7 +281,7 @@ build_community_taxon_trait_table <- function(
     dplyr::arrange(.data$taxon_name)
 
   #--------------------------------------------------#
-  # 5. Verbose reporting -----
+  # 6. Verbose reporting -----
   #--------------------------------------------------#
 
   if (base::isTRUE(verbose)) {
@@ -224,7 +289,7 @@ build_community_taxon_trait_table <- function(
       base::nrow(data_res)
 
     n_total <-
-      base::length(vec_community_taxa)
+      base::nrow(data_community_classification_table)
 
     cli::cli_inform(
       stringr::str_glue(

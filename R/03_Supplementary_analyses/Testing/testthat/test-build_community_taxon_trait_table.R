@@ -11,6 +11,7 @@ data_traits_fix <-
     trait_value = base::c(10.0, 12.0, 5.0)
   )
 
+# Traits-side taxonomy (species-level GBIF classification for trait taxa)
 data_class_fix <-
   tibble::tibble(
     sel_name = base::c(
@@ -49,6 +50,46 @@ data_class_fix <-
     )
   )
 
+# Community-side taxonomy (pollen taxon names + GBIF classification)
+data_comm_class_fix <-
+  tibble::tibble(
+    sel_name = base::c("Abies", "Pinaceae", "Asteraceae"),
+    kingdom = base::c("Plantae", "Plantae", "Plantae"),
+    phylum = base::rep(NA_character_, 3L),
+    class = base::rep(NA_character_, 3L),
+    order = base::rep(NA_character_, 3L),
+    family = base::c("Pinaceae", "Pinaceae", "Asteraceae"),
+    genus = base::c("Abies", NA_character_, NA_character_),
+    species = base::rep(NA_character_, 3L)
+  )
+
+# Pollen taxon with an "Undiff" suffix — resolves to canonical "Pinaceae"
+# via resolve_classification_to_finest_rank(), enabling trait lookup
+data_comm_class_fix_suffix <-
+  tibble::tibble(
+    sel_name = "Pinaceae Undiff",
+    kingdom = "Plantae",
+    phylum = NA_character_,
+    class = NA_character_,
+    order = NA_character_,
+    family = "Pinaceae",
+    genus = NA_character_,
+    species = NA_character_
+  )
+
+# Pollen taxon with no classification (all ranks NA) — yields no output row
+data_comm_class_fix_nomatch <-
+  tibble::tibble(
+    sel_name = "NoMatch",
+    kingdom = NA_character_,
+    phylum = NA_character_,
+    class = NA_character_,
+    order = NA_character_,
+    family = NA_character_,
+    genus = NA_character_,
+    species = NA_character_
+  )
+
 # --- Input validation: data_traits ---
 
 testthat::test_that(
@@ -58,7 +99,7 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = "not_a_df",
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies")
+        data_community_classification_table = data_comm_class_fix
       )
     )
   }
@@ -74,7 +115,7 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_bad,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies")
+        data_community_classification_table = data_comm_class_fix
       )
     )
   }
@@ -90,7 +131,7 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_bad,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies")
+        data_community_classification_table = data_comm_class_fix
       )
     )
   }
@@ -106,7 +147,7 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_bad,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies")
+        data_community_classification_table = data_comm_class_fix
       )
     )
   }
@@ -121,7 +162,7 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = base::c("a", "b"),
-        vec_community_taxa = base::c("Abies")
+        data_community_classification_table = data_comm_class_fix
       )
     )
   }
@@ -137,7 +178,7 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_bad,
-        vec_community_taxa = base::c("Abies")
+        data_community_classification_table = data_comm_class_fix
       )
     )
   }
@@ -153,7 +194,7 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_bad,
-        vec_community_taxa = base::c("Abies")
+        data_community_classification_table = data_comm_class_fix
       )
     )
   }
@@ -169,7 +210,7 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_bad,
-        vec_community_taxa = base::c("Abies")
+        data_community_classification_table = data_comm_class_fix
       )
     )
   }
@@ -185,35 +226,86 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_bad,
-        vec_community_taxa = base::c("Abies")
+        data_community_classification_table = data_comm_class_fix
       )
     )
   }
 )
 
-# --- Input validation: vec_community_taxa ---
+# --- Input validation: data_community_classification_table ---
 
 testthat::test_that(
-  "build_community_taxon_trait_table() errors if vec_taxa not character",
+  "build_community_taxon_trait_table() errors if community classif not df",
   {
     testthat::expect_error(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = 1L
+        data_community_classification_table = base::c("a", "b")
       )
     )
   }
 )
 
 testthat::test_that(
-  "build_community_taxon_trait_table() errors if vec_taxa is empty",
+  "build_community_taxon_trait_table() errors if community sel_name missing",
   {
+    data_bad <-
+      dplyr::select(data_comm_class_fix, -sel_name)
+
     testthat::expect_error(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::character(0)
+        data_community_classification_table = data_bad
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "build_community_taxon_trait_table() errors if community genus missing",
+  {
+    data_bad <-
+      dplyr::select(data_comm_class_fix, -genus)
+
+    testthat::expect_error(
+      build_community_taxon_trait_table(
+        data_traits = data_traits_fix,
+        data_classification_table = data_class_fix,
+        data_community_classification_table = data_bad
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "build_community_taxon_trait_table() errors if community family missing",
+  {
+    data_bad <-
+      dplyr::select(data_comm_class_fix, -family)
+
+    testthat::expect_error(
+      build_community_taxon_trait_table(
+        data_traits = data_traits_fix,
+        data_classification_table = data_class_fix,
+        data_community_classification_table = data_bad
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "build_community_taxon_trait_table() errors if community table 0 rows",
+  {
+    data_bad <-
+      data_comm_class_fix[0L, ]
+
+    testthat::expect_error(
+      build_community_taxon_trait_table(
+        data_traits = data_traits_fix,
+        data_classification_table = data_class_fix,
+        data_community_classification_table = data_bad
       )
     )
   }
@@ -228,7 +320,7 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies"),
+        data_community_classification_table = data_comm_class_fix,
         verbose = "yes"
       )
     )
@@ -242,7 +334,7 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies"),
+        data_community_classification_table = data_comm_class_fix,
         verbose = base::c(TRUE, FALSE)
       )
     )
@@ -258,7 +350,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name == "Abies"
+        ),
         verbose = FALSE
       )
 
@@ -273,7 +368,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name == "Abies"
+        ),
         verbose = FALSE
       )
 
@@ -290,7 +388,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name == "Abies"
+        ),
         verbose = FALSE
       )
 
@@ -310,7 +411,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name == "Abies"
+        ),
         verbose = FALSE
       )
 
@@ -328,7 +432,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Pinaceae"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name == "Pinaceae"
+        ),
         verbose = FALSE
       )
 
@@ -353,7 +460,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies", "Pinaceae"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name %in% base::c("Abies", "Pinaceae")
+        ),
         verbose = FALSE
       )
 
@@ -376,7 +486,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies", "Pinaceae"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name %in% base::c("Abies", "Pinaceae")
+        ),
         verbose = FALSE
       )
 
@@ -404,7 +517,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies", "NoMatch"),
+        data_community_classification_table = dplyr::bind_rows(
+          dplyr::filter(data_comm_class_fix, sel_name == "Abies"),
+          data_comm_class_fix_nomatch
+        ),
         verbose = FALSE
       )
 
@@ -422,7 +538,7 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("NoMatch"),
+        data_community_classification_table = data_comm_class_fix_nomatch,
         verbose = FALSE
       )
 
@@ -441,7 +557,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies", "Pinaceae"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name %in% base::c("Abies", "Pinaceae")
+        ),
         verbose = FALSE
       )
 
@@ -479,7 +598,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_multi,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name == "Abies"
+        ),
         verbose = FALSE
       )
 
@@ -513,7 +635,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_multi,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name == "Abies"
+        ),
         verbose = FALSE
       )
 
@@ -533,7 +658,10 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name == "Abies"
+        ),
         verbose = TRUE
       )
     )
@@ -547,9 +675,43 @@ testthat::test_that(
       build_community_taxon_trait_table(
         data_traits = data_traits_fix,
         data_classification_table = data_class_fix,
-        vec_community_taxa = base::c("Abies"),
+        data_community_classification_table = dplyr::filter(
+          data_comm_class_fix,
+          sel_name == "Abies"
+        ),
         verbose = FALSE
       )
     )
+  }
+)
+
+# --- Pollen suffix handling ---
+
+testthat::test_that(
+  "build_community_taxon_trait_table() suffix taxon resolves via canonical",
+  {
+    # "Pinaceae Undiff" has family="Pinaceae" in community classification.
+    # resolve_classification_to_finest_rank() maps it to canonical
+    # "Pinaceae", which matches "Abies alba" and "Abies cephalonica"
+    # (both have family="Pinaceae"). SLA = median(10, 12) = 11.
+    res <-
+      build_community_taxon_trait_table(
+        data_traits = data_traits_fix,
+        data_classification_table = data_class_fix,
+        data_community_classification_table = data_comm_class_fix_suffix,
+        verbose = FALSE
+      )
+
+    testthat::expect_equal(base::nrow(res), 1L)
+
+    vec_names <-
+      dplyr::pull(res, taxon_name)
+
+    testthat::expect_equal(vec_names, "Pinaceae Undiff")
+
+    vec_sla <-
+      dplyr::pull(res, SLA)
+
+    testthat::expect_equal(vec_sla, 11.0)
   }
 )

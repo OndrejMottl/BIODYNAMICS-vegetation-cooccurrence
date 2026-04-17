@@ -20,7 +20,11 @@
 #   family-level pollen taxa are correctly covered.
 #
 # Upstream dependencies:
-#   - vec_community_taxa (from pipe_segment_community_data)
+#   - data_community_classified (genus/family-classified community
+#       data, from pipe_segment_community_data)
+#   - data_combined_classification_table (raw community
+#       classification, from pipe_segment_community_data)
+#   - config.data_processing (taxonomic_resolution setting)
 #   - data_traits_classified_corrected  \  read from
 #   - data_combined_classification_table_traits ) traits store
 #
@@ -129,13 +133,38 @@ pipe_segment_ft_continental <-
     ),
 
 
+    # ── 2b. Remap community classification table to classified names ─
+    # data_combined_classification_table uses raw pollen names as
+    #   sel_name (e.g., "Abies Alba", "Betulaceae Undiff",
+    #   "ADIANTUM CAPILLUS-VENERIS"). After classify_taxonomic_
+    #   resolution() those raw names become genus/family names
+    #   in data_community_classified$taxon ("Abies", "Betulaceae",
+    #   "Adiantum"). The FT classification output taxon_name must
+    #   match those classified names so classify_to_functional_type()
+    #   can join correctly.
+    targets::tar_target(
+      description = stringr::str_glue(
+        "Build classification table keyed by classified taxon names ",
+        "for FT trait matching"
+      ),
+      name = data_community_classified_taxa_classification,
+      command = remap_classification_table_by_community_taxa(
+        data_classification_table = data_combined_classification_table,
+        data_community_classified = data_community_classified,
+        taxonomic_resolution = config.data_processing |>
+          purrr::chuck("taxonomic_resolution")
+      )
+    ),
+
+
     # ── 3. Build community-taxon trait table ──────────────
-    # Maps species-level trait observations to the community
-    # (pollen) taxon names actually present in this continental
-    # unit via the full taxonomic hierarchy. Genus- and
-    # family-level pollen taxa collect medians across all their
-    # member species. vec_community_taxa comes from
-    # pipe_segment_community_data.
+    # Maps species-level trait observations to the CLASSIFIED
+    # community taxon names (e.g., "Abies", "Betulaceae") using
+    # resolve_classification_to_finest_rank(). Because
+    # data_community_classified_taxa_classification uses classified
+    # names as sel_name, the output taxon_name column matches
+    # data_community_classified$taxon exactly, so the join
+    # in classify_to_functional_type() succeeds for all groups.
 
     targets::tar_target(
       description = stringr::str_glue(
@@ -147,7 +176,8 @@ pipe_segment_ft_continental <-
         data_traits = data_traits_for_ft |>
           dplyr::rename(taxon_name = "taxon_resolved"),
         data_classification_table = data_classification_table_for_ft,
-        vec_community_taxa = vec_community_taxa,
+        data_community_classification_table =
+          data_community_classified_taxa_classification,
         verbose = TRUE
       )
     ),
