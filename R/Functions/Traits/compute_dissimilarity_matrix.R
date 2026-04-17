@@ -78,13 +78,17 @@ compute_dissimilarity_matrix <- function(
   )
 
   data_traits_only <-
-    dplyr::select(data, dplyr::all_of(vec_trait_cols)) |>
+    data |>
+    dplyr::select(
+      dplyr::all_of(base::c(taxon_col, vec_trait_cols))
+    ) |>
     dplyr::mutate(
       dplyr::across(
         dplyr::where(base::is.numeric),
         ~ dplyr::if_else(base::is.infinite(.x), NA_real_, .x)
       )
-    )
+    ) |>
+    tibble::column_to_rownames(var = taxon_col)
 
   res_dist <-
     cluster::daisy(
