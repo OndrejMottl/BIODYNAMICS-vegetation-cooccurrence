@@ -6,13 +6,17 @@
 #' returns the `number_of_ft_groups` that maximises the average
 #' silhouette width computed from `dist_mat`.
 #'
-#' When `data_community`, `minimal_proportion`, and `min_n_taxa`
-#' are all supplied, only `k` values that produce at least
-#' `min_n_taxa` non-constant FT columns (after simulated
-#' binarization against `data_community`) are considered. Among
-#' viable candidates the highest-silhouette `k` is returned. If
-#' no `k` is viable a warning is issued and the `k` with the
-#' maximum number of non-constant groups is returned instead.
+#' The function also simulates the downstream pipeline filter
+#' chain for each candidate `k` and only considers values that
+#' leave at least `min_n_taxa` non-constant FT columns. The
+#' filter chain applied is: `filter_rare_taxa()`,
+#' `filter_community_by_n_cores()`, `filter_by_n_samples()`,
+#' `prepare_community_for_fit()`, optionally
+#' `binarize_community_data()` (when `error_family` is
+#' `"binomial"`), and `filter_constant_taxa()`. The number of
+#' surviving columns is compared to `min_n_taxa`. Among viable
+#' candidates the highest-silhouette `k` is returned. If no
+#' `k` is viable an error is raised via `cli::cli_abort()`.
 #' @param dist_mat
 #' A `dist` object produced by `compute_dissimilarity_matrix()`.
 #' Must inherit class `"dist"`.
@@ -33,25 +37,37 @@
 #' `min(ft_groups_min, ft_groups_max)` to handle datasets with
 #' very few taxa without erroring. Default: `25L`.
 #' @param data_community
-#' Optional. A long-format data frame with columns
-#' `taxon`, `dataset_name`, `age`, and `pollen_prop`, as
-#' produced by `classify_to_functional_type()` or
-#' `classify_taxonomic_resolution()`. When supplied together
-#' with `minimal_proportion` and `min_n_taxa`, enables
-#' viability-aware selection. Default: `NULL`.
+#' A long-format data frame with columns `taxon`,
+#' `dataset_name`, `age`, and `pollen_prop`, as produced by
+#' `classify_to_functional_type()` or
+#' `classify_taxonomic_resolution()`. Used to run the
+#' viability filter chain for each candidate `k`.
 #' @param minimal_proportion
-#' Optional. A single numeric value in (0, 1). A sample is
-#' considered to contain an FT group when the summed
-#' `pollen_prop` for that group exceeds this threshold. Must
-#' be supplied when `data_community` is not `NULL`. Default:
-#' `NULL`.
+#' A single numeric value in (0, 1). A sample is considered
+#' to contain an FT group when the summed `pollen_prop` for
+#' that group exceeds this threshold.
 #' @param min_n_taxa
-#' Optional. A single positive integer. The minimum number of
+#' A single positive integer. The minimum number of
 #' non-constant FT columns (i.e. groups present in strictly
 #' between 0 % and 100 % of samples after binarization at
 #' `minimal_proportion`) that a candidate `k` must produce to
-#' be considered viable. Must be supplied when `data_community`
-#' is not `NULL`. Default: `NULL`.
+#' be considered viable.
+#' @param min_n_cores
+#' A single positive integer. Forwarded to
+#' `filter_community_by_n_cores()` during the viability check
+#' to remove FT groups present in fewer than this many
+#' distinct cores (`dataset_name` values).
+#' @param min_n_samples
+#' A single positive integer. Forwarded to
+#' `filter_by_n_samples()` during the viability check to
+#' remove FT groups present in fewer than this many distinct
+#' spatio-temporal samples (`(dataset_name, age)`
+#' combinations).
+#' @param error_family
+#' A single character string (e.g. `"binomial"`). When
+#' `"binomial"`, `binarize_community_data()` is applied to
+#' the wide community matrix before `filter_constant_taxa()`
+#' during the viability check, mirroring the pipeline step.
 #' @return
 #' A single integer giving the optimal number of functional-type
 #' groups (>= `ft_groups_min` after clamping).
@@ -61,21 +77,30 @@
 #' `stats::cutree()` followed by `cluster::silhouette()` and
 #' records the mean silhouette width.
 #'
-#' When viability checking is active (`data_community` is not
-#' `NULL`), the dendrogram cut is also joined to
-#' `data_community` to compute each FT group's presence rate
-#' across samples. A group is non-constant when
-#' `0 < pct_present < 1`. The count of non-constant groups
-#' is recorded as `n_non_constant`.
+#' For each candidate `k` the community data are aggregated
+#' to the FT level (summed `pollen_prop` per
+#' `(dataset_name, age, ft_group)`) and then passed through
+#' the actual pipeline filter chain in sequence:
+#' \enumerate{
+#'   \item `filter_rare_taxa()` at `minimal_proportion`.
+#'   \item `filter_community_by_n_cores()`.
+#'   \item `filter_by_n_samples()`.
+#'   \item `prepare_community_for_fit()` (wide matrix,
+#'     using all surviving samples as their own IDs).
+#'   \item `binarize_community_data()` if
+#'     `error_family == "binomial"`.
+#'   \item `filter_constant_taxa()`.
+#' }
+#' The number of surviving columns is the viability count. If
+#' any step errors (e.g. all taxa removed), the count is
+#' treated as zero.
 #'
 #' Selection proceeds as follows:
 #' \enumerate{
-#'   \item If viability checking is inactive: return
-#'     `which.max(silhouette)` (original behaviour).
-#'   \item If at least one `k` has `n_non_constant >= min_n_taxa`:
-#'     return the highest-silhouette among those `k` values.
-#'   \item If no `k` is viable: emit a `cli::cli_warn()` and
-#'     return the `k` with the maximum `n_non_constant`.
+#'   \item If at least one `k` has viability count >=
+#'     `min_n_taxa`: return the highest-silhouette among
+#'     those `k` values.
+#'   \item If no `k` is viable: abort with `cli::cli_abort()`.
 #' }
 #'
 #' Ties are broken by `base::which.max()` (first occurrence).
@@ -87,9 +112,12 @@ select_ft_groups_by_silhouette <- function(
     hclust_obj,
     ft_groups_min = 10L,
     ft_groups_max = 25L,
-    data_community = NULL,
-    minimal_proportion = NULL,
-    min_n_taxa = NULL) {
+    data_community,
+    minimal_proportion,
+    min_n_taxa,
+    min_n_cores,
+    min_n_samples,
+    error_family) {
   assertthat::assert_that(
     base::inherits(dist_mat, "dist"),
     msg = "'dist_mat' must be a 'dist' object."
@@ -123,18 +151,17 @@ select_ft_groups_by_silhouette <- function(
   )
 
   assertthat::assert_that(
-    base::is.null(data_community) || base::is.data.frame(data_community),
-    msg = "'data_community' must be NULL or a data frame."
+    base::is.data.frame(data_community),
+    msg = "'data_community' must be a data frame."
   )
 
   assertthat::assert_that(
-    base::is.null(data_community) ||
-      base::all(
-        base::c(
-          "taxon", "dataset_name", "age", "pollen_prop"
-        ) %in%
-          base::colnames(data_community)
-      ),
+    base::all(
+      base::c(
+        "taxon", "dataset_name", "age", "pollen_prop"
+      ) %in%
+        base::colnames(data_community)
+    ),
     msg = stringr::str_c(
       "'data_community' must contain columns: ",
       "taxon, dataset_name, age, pollen_prop."
@@ -142,38 +169,38 @@ select_ft_groups_by_silhouette <- function(
   )
 
   assertthat::assert_that(
-    base::is.null(data_community) || !base::is.null(minimal_proportion),
-    msg = stringr::str_c(
-      "'minimal_proportion' must be supplied",
-      " when 'data_community' is not NULL."
-    )
-  )
-
-  assertthat::assert_that(
-    base::is.null(data_community) || !base::is.null(min_n_taxa),
-    msg = stringr::str_c(
-      "'min_n_taxa' must be supplied",
-      " when 'data_community' is not NULL."
-    )
-  )
-
-  assertthat::assert_that(
-    base::is.null(minimal_proportion) || (
-      base::is.numeric(minimal_proportion) &&
-        base::length(minimal_proportion) == 1L &&
-        minimal_proportion > 0 &&
-        minimal_proportion < 1
-    ),
+    base::is.numeric(minimal_proportion) &&
+      base::length(minimal_proportion) == 1L &&
+      minimal_proportion > 0 &&
+      minimal_proportion < 1,
     msg = "'minimal_proportion' must be a single numeric in (0, 1)."
   )
 
   assertthat::assert_that(
-    base::is.null(min_n_taxa) || (
-      (base::is.numeric(min_n_taxa) || base::is.integer(min_n_taxa)) &&
-        base::length(min_n_taxa) == 1L &&
-        min_n_taxa >= 1L
-    ),
+    (base::is.numeric(min_n_taxa) || base::is.integer(min_n_taxa)) &&
+      base::length(min_n_taxa) == 1L &&
+      min_n_taxa >= 1L,
     msg = "'min_n_taxa' must be a single positive integer."
+  )
+
+  assertthat::assert_that(
+    (base::is.numeric(min_n_cores) || base::is.integer(min_n_cores)) &&
+      base::length(min_n_cores) == 1L &&
+      min_n_cores >= 1L,
+    msg = "'min_n_cores' must be a single positive integer."
+  )
+
+  assertthat::assert_that(
+    (base::is.numeric(min_n_samples) || base::is.integer(min_n_samples)) &&
+      base::length(min_n_samples) == 1L &&
+      min_n_samples >= 1L,
+    msg = "'min_n_samples' must be a single positive integer."
+  )
+
+  assertthat::assert_that(
+    base::is.character(error_family) &&
+      base::length(error_family) == 1L,
+    msg = "'error_family' must be a single character string."
   )
 
   n_observations <-
@@ -209,19 +236,8 @@ select_ft_groups_by_silhouette <- function(
       }
     )
 
-  # Simple case: no viability constraint — return the global silhouette maximum
-  if (
-    base::is.null(data_community)
-  ) {
-    res <-
-      vec_groups[
-        base::which.max(vec_silhouette_mean)
-      ]
-
-    return(res)
-  }
-
-  # Viability-aware path: count non-constant FT groups for each candidate k
+  # Run the downstream filter chain for each candidate k to check viability.
+  # Count the surviving non-constant FT group columns.
   vec_n_non_constant <-
     vec_groups |>
     purrr::map_int(
@@ -237,7 +253,11 @@ select_ft_groups_by_silhouette <- function(
             )
           )
 
-        data_community |>
+        # Aggregate community data to the FT level, mirroring
+        # classify_to_functional_type(): sum pollen_prop per
+        # (dataset_name, age, ft_group).
+        data_ft_community <-
+          data_community |>
           dplyr::inner_join(
             data_cut,
             by = dplyr::join_by(taxon)
@@ -248,64 +268,94 @@ select_ft_groups_by_silhouette <- function(
             .data$ft_group
           ) |>
           dplyr::summarise(
-            sum_prop = base::sum(
+            pollen_prop = base::sum(
               .data$pollen_prop,
               na.rm = TRUE
             ),
             .groups = "drop"
           ) |>
-          dplyr::mutate(
-            present = .data$sum_prop > minimal_proportion
-          ) |>
-          dplyr::group_by(.data$ft_group) |>
-          dplyr::summarise(
-            pct_present = base::mean(
-              .data$present,
-              na.rm = TRUE
-            ),
-            .groups = "drop"
-          ) |>
-          dplyr::filter(
-            .data$pct_present > 0 &
-              .data$pct_present < 1
-          ) |>
-          base::nrow() |>
-          base::as.integer()
+          dplyr::rename(taxon = "ft_group")
+
+        # Run the actual pipeline filter chain.
+        # Return 0L if any step removes all taxa.
+        base::tryCatch(
+          {
+            data_ft_community <-
+              filter_rare_taxa(
+                data = data_ft_community,
+                minimal_proportion = minimal_proportion
+              )
+
+            data_ft_community <-
+              filter_community_by_n_cores(
+                data = data_ft_community,
+                min_n_cores = min_n_cores
+              )
+
+            data_ft_community <-
+              filter_by_n_samples(
+                data = data_ft_community,
+                min_n_samples = min_n_samples
+              )
+
+            data_sample_ids <-
+              data_ft_community |>
+              dplyr::distinct(
+                .data$dataset_name,
+                .data$age
+              )
+
+            data_matrix <-
+              prepare_community_for_fit(
+                data_community_long = data_ft_community,
+                data_sample_ids = data_sample_ids
+              )
+
+            if (error_family == "binomial") {
+              data_matrix <-
+                binarize_community_data(
+                  data_community_matrix = data_matrix
+                )
+            }
+
+            data_matrix <-
+              filter_constant_taxa(
+                data_community_matrix = data_matrix
+              )
+
+            base::ncol(data_matrix) |>
+              base::as.integer()
+          },
+          error = function(e) 0L
+        )
       }
     )
 
-  vec_viable <-
-    base::which(vec_n_non_constant >= min_n_taxa)
+  vec_is_viable <-
+    (vec_n_non_constant >= min_n_taxa)
 
-  # Fallback: no viable k found — warn and return the k with the most
-  # non-constant groups as a best-effort result
   if (
-    base::length(vec_viable) == 0L
-  ) {
-    cli::cli_warn(
+    !base::any(vec_is_viable)
+    ) {
+    cli::cli_abort(
       base::c(
-        "!" = stringr::str_glue(
+        "x" = stringr::str_glue(
           "No viable k in {ft_groups_min_clamped}..",
           "{ft_groups_max_clamped} produces >=",
           " {min_n_taxa} non-constant FT groups after",
-          " binarization. Returning k with max",
-          " non-constant groups."
+          " the pipeline filter chain."
         )
       )
     )
-
-    return(vec_groups[base::which.max(vec_n_non_constant)])
   }
 
   # Happy path: return the highest-silhouette k among viable candidates
-  res <-
-    vec_groups[
-      vec_viable[
-        base::which.max(
-          vec_silhouette_mean[vec_viable]
-        )
-      ]
+  res_optimal_k <-
+    vec_groups[vec_is_viable][
+      base::which.max(
+        vec_silhouette_mean[vec_is_viable]
+      )
     ]
 
-  return(res)
+  return(res_optimal_k)
 }

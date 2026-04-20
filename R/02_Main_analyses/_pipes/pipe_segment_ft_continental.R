@@ -53,7 +53,6 @@ pipe_segment_ft_continental <-
     # immediately visible in tar_visnetwork() and the pipeline
     # re-runs only the targets that actually depend on the changed
     # value.
-
     targets::tar_target(
       description = "Read ft_groups_max for FT clustering from config",
       name = ft_groups_max_continental,
@@ -66,7 +65,6 @@ pipe_segment_ft_continental <-
       ),
       cue = targets::tar_cue("always")
     ),
-
     targets::tar_target(
       description = "Read ft_groups_min for FT clustering from config",
       name = ft_groups_min_continental,
@@ -79,7 +77,6 @@ pipe_segment_ft_continental <-
       ),
       cue = targets::tar_cue("always")
     ),
-
     targets::tar_target(
       description = "Read dissimilarity metric for FT clustering from config",
       name = metric_ft_continental,
@@ -90,7 +87,6 @@ pipe_segment_ft_continental <-
       ),
       cue = targets::tar_cue("always")
     ),
-
     targets::tar_target(
       description = "Read hclust linkage method for FT clustering from config",
       name = method_ft_continental,
@@ -102,14 +98,12 @@ pipe_segment_ft_continental <-
       cue = targets::tar_cue("always")
     ),
 
-
     # ── 2. Load traits data from the shared traits store ──
     # The traits pipeline writes its outputs to
     #   Data/targets/traits/pipeline_traits/.
     # We tar_read() directly from that store so the spatial pipeline
     # stays independent of the traits pipeline's data store path
     # and both pipelines can run in separate processes.
-
     targets::tar_target(
       description = stringr::str_glue(
         "Load classified corrected traits from ",
@@ -121,7 +115,6 @@ pipe_segment_ft_continental <-
         store = here::here("Data/targets/traits/pipeline_traits")
       )
     ),
-
     targets::tar_target(
       description = stringr::str_glue(
         "Load trait classification table from ",
@@ -133,7 +126,6 @@ pipe_segment_ft_continental <-
         store = here::here("Data/targets/traits/pipeline_traits")
       )
     ),
-
 
     # ── 2b. Remap community classification table to classified names ─
     # data_combined_classification_table uses raw pollen names as
@@ -158,7 +150,6 @@ pipe_segment_ft_continental <-
       )
     ),
 
-
     # ── 3. Build community-taxon trait table ──────────────
     # Maps species-level trait observations to the CLASSIFIED
     # community taxon names (e.g., "Abies", "Betulaceae") using
@@ -167,7 +158,6 @@ pipe_segment_ft_continental <-
     # names as sel_name, the output taxon_name column matches
     # data_community_classified$taxon exactly, so the join
     # in classify_to_functional_type() succeeds for all groups.
-
     targets::tar_target(
       description = stringr::str_glue(
         "Build wide trait table keyed by community taxon names ",
@@ -184,9 +174,7 @@ pipe_segment_ft_continental <-
       )
     ),
 
-
     # ── 4. Compute pairwise dissimilarity matrix ──────────
-
     targets::tar_target(
       description = "Compute dissimilarity matrix for FT clustering",
       name = dist_ft_continental,
@@ -196,9 +184,7 @@ pipe_segment_ft_continental <-
       )
     ),
 
-
     # ── 5. Fit hierarchical clustering ───────────────────
-
     targets::tar_target(
       description = "Fit hierarchical clustering dendrogram for FTs",
       name = hclust_ft_continental,
@@ -208,9 +194,7 @@ pipe_segment_ft_continental <-
       )
     ),
 
-
     # ── 6. Choose optimal group count via silhouette ─────
-
     targets::tar_target(
       description = stringr::str_glue(
         "Select optimal FT group count ",
@@ -223,17 +207,15 @@ pipe_segment_ft_continental <-
         ft_groups_min = ft_groups_min_continental,
         ft_groups_max = ft_groups_max_continental,
         data_community = data_community_classified,
-        minimal_proportion = purrr::chuck(
-          config.data_processing,
-          "minimal_proportion_of_pollen"
-        ),
-        min_n_taxa = config.min_n_taxa
+        minimal_proportion = config.minimal_proportion_of_pollen,
+        min_n_taxa = config.min_n_taxa,
+        min_n_cores = config.min_n_cores,
+        min_n_samples = config.min_n_samples,
+        error_family = config.error_family
       )
     ),
 
-
     # ── 7. Assign taxa to functional-type groups ─────────
-
     targets::tar_target(
       description = "Cluster community taxa into functional types",
       name = ft_result_continental_unit,
@@ -246,7 +228,6 @@ pipe_segment_ft_continental <-
       )
     ),
 
-
     # ── 8. Save classification and track file path ────────
     # Returns the path with format = "file" so {targets} hashes the
     # saved .qs file. Regional and local pipelines for the same
@@ -254,7 +235,6 @@ pipe_segment_ft_continental <-
     # get_functional_type_classification_path_from_store().
     # The target NAME path_ft_classification is the interface
     # consumed by pipe_segment_community_resolution.
-
     targets::tar_target(
       description = stringr::str_glue(
         "Save FT classification for this continental unit ",
