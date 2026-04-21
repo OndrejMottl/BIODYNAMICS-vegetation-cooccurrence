@@ -145,7 +145,7 @@ remap_classification_table_by_community_taxa <- function(
         ~NA_character_
       )
     ) |>
-    dplyr::select(-.data$.is_direct, -.data$classified_name) |>
+    dplyr::select(-".is_direct", -"classified_name") |>
     dplyr::select(
       dplyr::all_of(
         base::c(
