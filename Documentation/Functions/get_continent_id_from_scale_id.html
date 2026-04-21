@@ -1,0 +1,89 @@
+<!DOCTYPE html><html><head><title>R: Get Continent ID from Scale ID</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_continent_id_from_scale_id</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Continent ID from Scale ID</h2>
+
+<h3>Description</h3>
+
+<p>Resolves the continental parent identifier for a spatial
+&lsquo;scale_id' using the project&rsquo;s spatial grid CSV catalogue.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_continent_id_from_scale_id(
+  scale_id,
+  file = here::here("Data/Input/spatial_grid.csv")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="scale_id">scale_id</code></td>
+<td>
+<p>A single non-empty character string identifying the spatial
+unit whose 'continent_id' should be returned.</p>
+</td></tr>
+<tr><td><code id="file">file</code></td>
+<td>
+<p>Path to the spatial grid CSV catalogue file.
+Default: 'here::here(&quot;Data/Input/spatial_grid.csv&quot;)'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function validates the inputs, reads the spatial grid CSV,
+finds the row matching 'scale_id', and returns its
+'continent_id'. The function errors when the file is not a
+readable CSV, when required columns are absent, when the
+'scale_id' is absent or duplicated, or when the matched row has
+a missing 'continent_id' value.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A single non-empty character string containing the 'continent_id'
+for the supplied 'scale_id'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>get_scale_id_from_store, get_spatial_window
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>get_continent_id_from_scale_id(
+  scale_id = "eu_r005",
+  file = here::here("Data/Input/spatial_grid.csv")
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

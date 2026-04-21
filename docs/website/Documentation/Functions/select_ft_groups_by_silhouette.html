@@ -390,6 +390,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_continent_id_from_scale_id.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_continent_id_from_scale_id()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/get_coords.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_coords()</span></a>
   </div>
@@ -410,6 +416,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/get_functional_type_classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_functional_type_classification()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/get_functional_type_classification_path_from_store.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_functional_type_classification_path_from_store()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -570,6 +582,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../website/Documentation/Functions/remap_classification_table_by_community_taxa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">remap_classification_table_by_community_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../website/Documentation/Functions/render_trait_qc_pdf.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">render_trait_qc_pdf()</span></a>
   </div>
@@ -711,6 +729,9 @@ Description
 <p>
 Sweeps ‘number_of_ft_groups’ = ‘ft_groups_min’ .. ‘ft_groups_max’, cuts the dendrogram at each value, and returns the ‘number_of_ft_groups’ that maximises the average silhouette width computed from ‘dist_mat’.
 </p>
+<p>
+The function also simulates the downstream pipeline filter chain for each candidate ‘k’ and only considers values that leave at least ‘min_n_taxa’ non-constant FT columns. The filter chain applied is: ‘filter_rare_taxa()’, ‘filter_community_by_n_cores()’, ‘filter_by_n_samples()’, ‘prepare_community_for_fit()’, optionally ‘binarize_community_data()’ (when ‘error_family’ is ‘"binomial"’), and ‘filter_constant_taxa()’. The number of surviving columns is compared to ‘min_n_taxa’. Among viable candidates the highest-silhouette ‘k’ is returned. If no ‘k’ is viable an error is raised via ‘cli::cli_abort()’.
+</p>
 <h3 class="anchored">
 Usage
 </h3>
@@ -718,7 +739,13 @@ Usage
   dist_mat,
   hclust_obj,
   ft_groups_min = 10L,
-  ft_groups_max = 25L
+  ft_groups_max = 25L,
+  data_community,
+  minimal_proportion,
+  min_n_taxa,
+  min_n_cores,
+  min_n_samples,
+  error_family
 )
 </code></pre>
 <h3 class="anchored">
@@ -765,12 +792,128 @@ A single positive integer giving the maximum number of functional-type groups to
 </p>
 </td>
 </tr>
+<tr>
+<td>
+<code id="data_community">data_community</code>
+</td>
+<td>
+<p>
+A long-format data frame with columns ‘taxon’, ‘dataset_name’, ‘age’, and ‘pollen_prop’, as produced by ‘classify_to_functional_type()’ or ‘classify_taxonomic_resolution()’. Used to run the viability filter chain for each candidate ‘k’.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="minimal_proportion">minimal_proportion</code>
+</td>
+<td>
+<p>
+A single numeric value in (0, 1). A sample is considered to contain an FT group when the summed ‘pollen_prop’ for that group exceeds this threshold.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="min_n_taxa">min_n_taxa</code>
+</td>
+<td>
+<p>
+A single positive integer. The minimum number of non-constant FT columns (i.e.&nbsp;groups present in strictly between 0 ‘minimal_proportion’) that a candidate ‘k’ must produce to be considered viable.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="min_n_cores">min_n_cores</code>
+</td>
+<td>
+<p>
+A single positive integer. Forwarded to ‘filter_community_by_n_cores()’ during the viability check to remove FT groups present in fewer than this many distinct cores (‘dataset_name’ values).
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="min_n_samples">min_n_samples</code>
+</td>
+<td>
+<p>
+A single positive integer. Forwarded to ‘filter_by_n_samples()’ during the viability check to remove FT groups present in fewer than this many distinct spatio-temporal samples (‘(dataset_name, age)’ combinations).
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="error_family">error_family</code>
+</td>
+<td>
+<p>
+A single character string (e.g.&nbsp;‘"binomial"’). When ‘"binomial"’, ‘binarize_community_data()’ is applied to the wide community matrix before ‘filter_constant_taxa()’ during the viability check, mirroring the pipeline step.
+</p>
+</td>
+</tr>
 </tbody></table>
 <h3 class="anchored">
 Details
 </h3>
 <p>
-For each ‘number_of_ft_groups’ in ‘ft_groups_min’..’ft_groups_max’ the function calls ‘stats::cutree()’ followed by ‘cluster::silhouette()’ and records the mean silhouette width. The ‘number_of_ft_groups’ with the highest mean is returned. Ties are broken by ‘base::which.max()’ (first occurrence).
+For each ‘number_of_ft_groups’ in ‘ft_groups_min’..’ft_groups_max’ the function calls ‘stats::cutree()’ followed by ‘cluster::silhouette()’ and records the mean silhouette width.
+</p>
+<p>
+For each candidate ‘k’ the community data are aggregated to the FT level (summed ‘pollen_prop’ per ‘(dataset_name, age, ft_group)’) and then passed through the actual pipeline filter chain in sequence:
+</p>
+<ol>
+<li>
+<p>
+‘filter_rare_taxa()’ at ‘minimal_proportion’.
+</p>
+</li>
+<li>
+<p>
+‘filter_community_by_n_cores()’.
+</p>
+</li>
+<li>
+<p>
+‘filter_by_n_samples()’.
+</p>
+</li>
+<li>
+<p>
+‘prepare_community_for_fit()’ (wide matrix, using all surviving samples as their own IDs).
+</p>
+</li>
+<li>
+<p>
+‘binarize_community_data()’ if ‘error_family == "binomial"’.
+</p>
+</li>
+<li>
+<p>
+‘filter_constant_taxa()’.
+</p>
+</li>
+</ol>
+<p>
+The number of surviving columns is the viability count. If any step errors (e.g.&nbsp;all taxa removed), the count is treated as zero.
+</p>
+<p>
+Selection proceeds as follows:
+</p>
+<ol>
+<li>
+<p>
+If at least one ‘k’ has viability count &gt;= ‘min_n_taxa’: return the highest-silhouette among those ‘k’ values.
+</p>
+</li>
+<li>
+<p>
+If no ‘k’ is viable: abort with ‘cli::cli_abort()’.
+</p>
+</li>
+</ol>
+<p>
+Ties are broken by ‘base::which.max()’ (first occurrence).
 </p>
 <h3 class="anchored">
 Value

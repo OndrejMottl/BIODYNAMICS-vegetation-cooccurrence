@@ -1,0 +1,56 @@
+Get Functional-Type Classification Path from Store
+
+Description:
+
+     Resolves the newest functional-type classification `.qs` file for
+     the spatial unit encoded in a `targets` store path.
+
+Usage:
+
+     get_functional_type_classification_path_from_store(
+       store = targets::tar_path_store(),
+       path_spatial_grid = here::here("Data/Input/spatial_grid.csv"),
+       path_processed = here::here("Data/Processed/Traits")
+     )
+     
+Arguments:
+
+   store: A single character string giving the targets store path.
+          Default: `targets::tar_path_store()`.
+
+path_spatial_grid: Path to the spatial grid CSV catalogue file.
+          Default: `here::here("Data/Input/spatial_grid.csv")`.
+
+path_processed: A single character string giving the directory that
+          contains dated FT classification `.qs` files. Default:
+          `here::here("Data/Processed/Traits")`.
+
+Details:
+
+     The function extracts `scale_id` from `store`, resolves the owning
+     `continent_id` from the spatial grid, finds matching FT
+     classification files in `path_processed`, and returns the most
+     recent file based on the ISO date suffix in the file name. The
+     function errors when `store` is not a spatial store, when no
+     matching FT classification file exists, or when required inputs
+     are invalid.
+
+Value:
+
+     A single character string: the path to the newest matching FT
+     classification file for the continent that owns the spatial unit.
+
+See Also:
+
+     get_scale_id_from_store, get_continent_id_from_scale_id,
+     get_functional_type_classification
+
+Examples:
+
+     get_functional_type_classification_path_from_store(
+       store = here::here(
+         "Data/targets/spatial_regional/eu_r005/",
+         "pipeline_spatial_resolution"
+       )
+     )
+     

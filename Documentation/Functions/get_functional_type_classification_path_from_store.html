@@ -1,0 +1,100 @@
+<!DOCTYPE html><html><head><title>R: Get Functional-Type Classification Path from Store</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_functional_type_classification_path_from_store</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Functional-Type Classification Path from Store</h2>
+
+<h3>Description</h3>
+
+<p>Resolves the newest functional-type classification '.qs' file
+for the spatial unit encoded in a 'targets' store path.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_functional_type_classification_path_from_store(
+  store = targets::tar_path_store(),
+  path_spatial_grid = here::here("Data/Input/spatial_grid.csv"),
+  path_processed = here::here("Data/Processed/Traits")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="store">store</code></td>
+<td>
+<p>A single character string giving the targets store path.
+Default: 'targets::tar_path_store()'.</p>
+</td></tr>
+<tr><td><code id="path_spatial_grid">path_spatial_grid</code></td>
+<td>
+<p>Path to the spatial grid CSV catalogue file.
+Default: 'here::here(&quot;Data/Input/spatial_grid.csv&quot;)'.</p>
+</td></tr>
+<tr><td><code id="path_processed">path_processed</code></td>
+<td>
+<p>A single character string giving the directory that contains
+dated FT classification '.qs' files.
+Default: 'here::here(&quot;Data/Processed/Traits&quot;)'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function extracts 'scale_id' from 'store', resolves the owning
+'continent_id' from the spatial grid, finds matching FT
+classification files in 'path_processed', and returns the most
+recent file based on the ISO date suffix in the file name. The
+function errors when 'store' is not a spatial store, when no
+matching FT classification file exists, or when required inputs
+are invalid.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A single character string: the path to the newest matching FT
+classification file for the continent that owns the spatial unit.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>get_scale_id_from_store, get_continent_id_from_scale_id,
+get_functional_type_classification
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>get_functional_type_classification_path_from_store(
+  store = here::here(
+    "Data/targets/spatial_regional/eu_r005/",
+    "pipeline_spatial_resolution"
+  )
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

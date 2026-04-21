@@ -1,0 +1,112 @@
+<!DOCTYPE html><html><head><title>R: Remap Classification Table by Community Taxa</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>remap_classification_table_by_community_taxa</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Remap Classification Table by Community Taxa</h2>
+
+<h3>Description</h3>
+
+<p>Re-keys a classification table so that 'sel_name' equals the
+classified taxon name at the specified 'taxonomic_resolution',
+rather than the original raw pollen name. For each classified
+taxon name, one representative row is kept (preferring rows where
+the original 'sel_name' already matches the classified name).
+Rank columns finer than 'taxonomic_resolution' are set to
+'NA_character_' so that downstream
+'resolve_classification_to_finest_rank()' returns the classified
+name as the canonical label rather than a species name.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>remap_classification_table_by_community_taxa(
+  data_classification_table,
+  data_community_classified,
+  taxonomic_resolution
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_classification_table">data_classification_table</code></td>
+<td>
+<p>A data frame mapping raw taxon names ('sel_name') to all
+taxonomic rank columns ('kingdom', 'phylum', 'class', 'order',
+'family', 'genus', 'species'). This is typically
+'data_combined_classification_table' produced by
+'pipe_segment_community_data'.</p>
+</td></tr>
+<tr><td><code id="data_community_classified">data_community_classified</code></td>
+<td>
+<p>A data frame containing a 'taxon' column with the classified
+community taxon names (e.g. genus or family names). Used to
+determine which classified names are present in the community
+and should be retained in the output table.</p>
+</td></tr>
+<tr><td><code id="taxonomic_resolution">taxonomic_resolution</code></td>
+<td>
+<p>A single character string specifying the finest taxonomic rank
+to use for classification. Must be one of '&quot;kingdom&quot;',
+'&quot;phylum&quot;', '&quot;class&quot;', '&quot;order&quot;', '&quot;family&quot;', '&quot;genus&quot;', or
+'&quot;species&quot;'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Internally, ranks from 'kingdom' up to and including
+'taxonomic_resolution' are used to coalesce a 'classified_name'
+column via 'dplyr::pick()' and 'purrr::reduce(dplyr::coalesce)'.
+The coalesce applies ranks from finest-to-coarsest (reversed)
+so that the most-specific available rank is used. After
+deduplication, 'sel_name' is replaced with 'classified_name'
+and finer rank columns are nulled out.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the same columns as 'data_classification_table'
+('sel_name', 'kingdom', 'phylum', 'class', 'order', 'family',
+'genus', 'species') where:
+- 'sel_name' is the classified taxon name (not the raw pollen
+name).
+- One row per classified taxon name (duplicate rows removed,
+direct-match rows preferred).
+- Rank columns finer than 'taxonomic_resolution' are set to
+'NA_character_'.
+- Only classified names present in 'data_community_classified'
+are included.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[classify_taxonomic_resolution()],
+[resolve_classification_to_finest_rank()],
+[build_community_taxon_trait_table()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+
