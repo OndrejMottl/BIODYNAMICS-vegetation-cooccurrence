@@ -162,6 +162,7 @@ data_continental <-
     scale_id = c("europe", "america", "asia"),
     scale = "continental",
     parent_id = NA_character_,
+    continent_id = c("europe", "america", "asia"),
     x_min = c(-10, -130, 60),
     x_max = c(40, -60, 140),
     y_min = c(35, 30, 50),
@@ -170,7 +171,15 @@ data_continental <-
     n_step_size = NA_integer_,
     n_sampling = c(100L, 100L, 500L),
     n_samples_anova = 500L,
-    n_early_stopping = c(NA_integer_, 0L, 0L)
+    n_early_stopping = c(NA_integer_, 0L, 0L),
+    n_iter_family = c(400L, 800L, 3200L),
+    n_step_size_family = NA_integer_,
+    n_sampling_family = c(100L, 100L, 500L),
+    n_early_stopping_family = c(NA_integer_, 0L, 0L),
+    n_iter_ft = c(400L, 800L, 3200L),
+    n_step_size_ft = NA_integer_,
+    n_sampling_ft = c(100L, 100L, 500L),
+    n_early_stopping_ft = c(NA_integer_, 0L, 0L)
   )
 
 
@@ -200,11 +209,20 @@ data_regional <-
     )
   ) |>
   dplyr::mutate(
+    continent_id = .data$parent_id,
     n_iter = 1600L,
     n_step_size = NA_integer_,
     n_sampling = 250L,
     n_samples_anova = 500L,
-    n_early_stopping = NA_integer_
+    n_early_stopping = NA_integer_,
+    n_iter_family = 1600L,
+    n_step_size_family = NA_integer_,
+    n_sampling_family = 250L,
+    n_early_stopping_family = NA_integer_,
+    n_iter_ft = 1600L,
+    n_step_size_ft = NA_integer_,
+    n_sampling_ft = 250L,
+    n_early_stopping_ft = NA_integer_
   )
 
 
@@ -232,13 +250,29 @@ data_local <-
       id_prefix = paste0(.data$scale_id, "_l")
     )
   ) |>
+  dplyr::left_join(
+    data_regional |>
+      dplyr::select("scale_id", "continent_id") |>
+      dplyr::rename(continent_id_from_parent = "continent_id"),
+    by = dplyr::join_by("parent_id" == "scale_id")
+  ) |>
   dplyr::mutate(
+    continent_id = .data$continent_id_from_parent,
     n_iter = 3200L,
     n_step_size = NA_integer_,
     n_sampling = 200L,
     n_samples_anova = 500L,
-    n_early_stopping = NA_integer_
-  )
+    n_early_stopping = NA_integer_,
+    n_iter_family = 3200L,
+    n_step_size_family = NA_integer_,
+    n_sampling_family = 200L,
+    n_early_stopping_family = NA_integer_,
+    n_iter_ft = 3200L,
+    n_step_size_ft = NA_integer_,
+    n_sampling_ft = 200L,
+    n_early_stopping_ft = NA_integer_
+  ) |>
+  dplyr::select(-"continent_id_from_parent")
 
 
 #----------------------------------------------------------#

@@ -49,6 +49,9 @@ list_pipeline_scripts <-
     ),
     pipeline_time = here::here(
       "R/02_Main_analyses/pipeline_time.R"
+    ),
+    pipeline_spatial_resolution = here::here(
+      "R/02_Main_analyses/pipeline_spatial_resolution.R"
     )
   )
 

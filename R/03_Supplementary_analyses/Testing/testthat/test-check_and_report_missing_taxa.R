@@ -1,5 +1,5 @@
 testthat::test_that(
-  "error when vec_taxa_without_classification is not character",
+  "check_and_report_missing_taxa() rejects integer input",
   {
     testthat::expect_error(
       check_and_report_missing_taxa(
@@ -11,11 +11,11 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "error when vec_taxa_without_classification is numeric",
+  "check_and_report_missing_taxa() rejects numeric input",
   {
     testthat::expect_error(
       check_and_report_missing_taxa(
-        vec_taxa_without_classification = c(1.1, 2.2)
+        vec_taxa_without_classification = base::c(1.1, 2.2)
       ),
       regexp = "character"
     )
@@ -23,36 +23,36 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "returns TRUE invisibly when no taxa are missing",
+  "check_and_report_missing_taxa() returns TRUE for empty input",
   {
     result <-
       check_and_report_missing_taxa(
-        vec_taxa_without_classification = character(0)
+        vec_taxa_without_classification = base::character(0)
       )
 
     testthat::expect_true(
-      isTRUE(result)
+      base::isTRUE(result)
     )
   }
 )
 
 testthat::test_that(
-  "stops with an error when missing taxa are present",
+  "check_and_report_missing_taxa() stops for missing taxa",
   {
     testthat::expect_error(
       check_and_report_missing_taxa(
-        vec_taxa_without_classification = c("Taxon_a", "Taxon_b")
+        vec_taxa_without_classification = base::c("Taxon_a", "Taxon_b")
       )
     )
   }
 )
 
 testthat::test_that(
-  "error message contains count of missing taxa",
+  "check_and_report_missing_taxa() reports missing taxa count",
   {
     testthat::expect_error(
       check_and_report_missing_taxa(
-        vec_taxa_without_classification = c(
+        vec_taxa_without_classification = base::c(
           "Taxon_a",
           "Taxon_b",
           "Taxon_c"
@@ -64,13 +64,25 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "error message mentions data_missing_taxa_template",
+  "check_and_report_missing_taxa() mentions targets object",
   {
     testthat::expect_error(
       check_and_report_missing_taxa(
-        vec_taxa_without_classification = c("Taxon_a")
+        vec_taxa_without_classification = base::c("Taxon_a")
       ),
       regexp = "data_missing_taxa_template"
+    )
+  }
+)
+
+testthat::test_that(
+  "check_and_report_missing_taxa() mentions template CSV",
+  {
+    testthat::expect_error(
+      check_and_report_missing_taxa(
+        vec_taxa_without_classification = base::c("Taxon_a")
+      ),
+      regexp = "missing_taxa_template\\.csv"
     )
   }
 )

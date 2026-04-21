@@ -1,0 +1,47 @@
+Get Continent ID from Scale ID
+
+Description:
+
+     Resolves the continental parent identifier for a spatial
+     `scale_id` using the project's spatial grid CSV catalogue.
+
+Usage:
+
+     get_continent_id_from_scale_id(
+       scale_id,
+       file = here::here("Data/Input/spatial_grid.csv")
+     )
+     
+Arguments:
+
+scale_id: A single non-empty character string identifying the spatial
+          unit whose `continent_id` should be returned.
+
+    file: Path to the spatial grid CSV catalogue file. Default:
+          `here::here("Data/Input/spatial_grid.csv")`.
+
+Details:
+
+     The function validates the inputs, reads the spatial grid CSV,
+     finds the row matching `scale_id`, and returns its `continent_id`.
+     The function errors when the file is not a readable CSV, when
+     required columns are absent, when the `scale_id` is absent or
+     duplicated, or when the matched row has a missing `continent_id`
+     value.
+
+Value:
+
+     A single non-empty character string containing the `continent_id`
+     for the supplied `scale_id`.
+
+See Also:
+
+     get_scale_id_from_store, get_spatial_window
+
+Examples:
+
+     get_continent_id_from_scale_id(
+       scale_id = "eu_r005",
+       file = here::here("Data/Input/spatial_grid.csv")
+     )
+     

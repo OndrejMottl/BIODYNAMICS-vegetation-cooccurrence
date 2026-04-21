@@ -429,3 +429,343 @@ testthat::test_that(
     base::unlink(temp_csv)
   }
 )
+
+
+# ─── tax_res argument tests ───────────────────────────────────────────────────
+
+testthat::test_that(
+  "get_spatial_model_params(tax_res='genus') returns genus columns (unchanged)",
+  {
+    temp_csv <-
+      tempfile(fileext = ".csv")
+
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "europe",
+        scale = "continental",
+        parent_id = NA_character_,
+        continent_id = "europe",
+        x_min = -10,
+        x_max = 40,
+        y_min = 35,
+        y_max = 70,
+        n_iter = 400L,
+        n_step_size = NA_integer_,
+        n_sampling = 100L,
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_,
+        n_iter_family = 600L,
+        n_step_size_family = NA_integer_,
+        n_sampling_family = 150L,
+        n_early_stopping_family = NA_integer_,
+        n_iter_ft = 800L,
+        n_step_size_ft = NA_integer_,
+        n_sampling_ft = 200L,
+        n_early_stopping_ft = 0L
+      ),
+      file = temp_csv
+    )
+
+    res <-
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv,
+        tax_res = "genus"
+      )
+
+    testthat::expect_equal(purrr::chuck(res, "n_iter"), 400L)
+    testthat::expect_equal(purrr::chuck(res, "n_sampling"), 100L)
+
+    base::unlink(temp_csv)
+  }
+)
+
+testthat::test_that(
+  "get_spatial_model_params(tax_res='family') returns _family columns",
+  {
+    temp_csv <-
+      tempfile(fileext = ".csv")
+
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "europe",
+        scale = "continental",
+        parent_id = NA_character_,
+        continent_id = "europe",
+        x_min = -10,
+        x_max = 40,
+        y_min = 35,
+        y_max = 70,
+        n_iter = 400L,
+        n_step_size = NA_integer_,
+        n_sampling = 100L,
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_,
+        n_iter_family = 600L,
+        n_step_size_family = 32L,
+        n_sampling_family = 150L,
+        n_early_stopping_family = 10L,
+        n_iter_ft = 800L,
+        n_step_size_ft = NA_integer_,
+        n_sampling_ft = 200L,
+        n_early_stopping_ft = 0L
+      ),
+      file = temp_csv
+    )
+
+    res <-
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv,
+        tax_res = "family"
+      )
+
+    testthat::expect_equal(purrr::chuck(res, "n_iter"), 600L)
+    testthat::expect_equal(purrr::chuck(res, "n_step_size"), 32L)
+    testthat::expect_equal(purrr::chuck(res, "n_sampling"), 150L)
+    testthat::expect_equal(purrr::chuck(res, "n_early_stopping"), 10L)
+    testthat::expect_equal(purrr::chuck(res, "n_samples_anova"), 500L)
+
+    base::unlink(temp_csv)
+  }
+)
+
+testthat::test_that(
+  "get_spatial_model_params(tax_res='functional_type') returns _ft columns",
+  {
+    temp_csv <-
+      tempfile(fileext = ".csv")
+
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "europe",
+        scale = "continental",
+        parent_id = NA_character_,
+        continent_id = "europe",
+        x_min = -10,
+        x_max = 40,
+        y_min = 35,
+        y_max = 70,
+        n_iter = 400L,
+        n_step_size = NA_integer_,
+        n_sampling = 100L,
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_,
+        n_iter_family = 600L,
+        n_step_size_family = NA_integer_,
+        n_sampling_family = 150L,
+        n_early_stopping_family = NA_integer_,
+        n_iter_ft = 800L,
+        n_step_size_ft = NA_integer_,
+        n_sampling_ft = 200L,
+        n_early_stopping_ft = 0L
+      ),
+      file = temp_csv
+    )
+
+    res <-
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv,
+        tax_res = "functional_type"
+      )
+
+    testthat::expect_equal(purrr::chuck(res, "n_iter"), 800L)
+    testthat::expect_null(purrr::pluck(res, "n_step_size"))
+    testthat::expect_equal(purrr::chuck(res, "n_sampling"), 200L)
+    testthat::expect_equal(purrr::chuck(res, "n_early_stopping"), 0L)
+    testthat::expect_equal(purrr::chuck(res, "n_samples_anova"), 500L)
+
+    base::unlink(temp_csv)
+  }
+)
+
+testthat::test_that(
+  "get_spatial_model_params converts NA _family columns to NULL",
+  {
+    temp_csv <-
+      tempfile(fileext = ".csv")
+
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "europe",
+        scale = "continental",
+        parent_id = NA_character_,
+        continent_id = "europe",
+        x_min = -10,
+        x_max = 40,
+        y_min = 35,
+        y_max = 70,
+        n_iter = 400L,
+        n_step_size = NA_integer_,
+        n_sampling = 100L,
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_,
+        n_iter_family = 600L,
+        n_step_size_family = NA_integer_,
+        n_sampling_family = 150L,
+        n_early_stopping_family = NA_integer_,
+        n_iter_ft = 800L,
+        n_step_size_ft = NA_integer_,
+        n_sampling_ft = 200L,
+        n_early_stopping_ft = NA_integer_
+      ),
+      file = temp_csv
+    )
+
+    res_family <-
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv,
+        tax_res = "family"
+      )
+
+    testthat::expect_null(purrr::pluck(res_family, "n_step_size"))
+    testthat::expect_null(purrr::pluck(res_family, "n_early_stopping"))
+
+    base::unlink(temp_csv)
+  }
+)
+
+testthat::test_that(
+  "get_spatial_model_params errors on unknown tax_res value",
+  {
+    temp_csv <-
+      tempfile(fileext = ".csv")
+
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "europe",
+        scale = "continental",
+        parent_id = NA_character_,
+        continent_id = "europe",
+        x_min = -10,
+        x_max = 40,
+        y_min = 35,
+        y_max = 70,
+        n_iter = 400L,
+        n_step_size = NA_integer_,
+        n_sampling = 100L,
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_,
+        n_iter_family = 400L,
+        n_step_size_family = NA_integer_,
+        n_sampling_family = 100L,
+        n_early_stopping_family = NA_integer_,
+        n_iter_ft = 400L,
+        n_step_size_ft = NA_integer_,
+        n_sampling_ft = 100L,
+        n_early_stopping_ft = NA_integer_
+      ),
+      file = temp_csv
+    )
+
+    testthat::expect_error(
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv,
+        tax_res = "species"
+      )
+    )
+
+    testthat::expect_error(
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv,
+        tax_res = 1L
+      )
+    )
+
+    base::unlink(temp_csv)
+  }
+)
+
+testthat::test_that(
+  "get_spatial_model_params errors when _family cols missing and tax_res='family'",
+  {
+    temp_csv <-
+      tempfile(fileext = ".csv")
+
+    # CSV with only genus columns (no _family / _ft columns)
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "europe",
+        scale = "continental",
+        parent_id = NA_character_,
+        x_min = -10,
+        x_max = 40,
+        y_min = 35,
+        y_max = 70,
+        n_iter = 400L,
+        n_step_size = NA_integer_,
+        n_sampling = 100L,
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_
+      ),
+      file = temp_csv
+    )
+
+    testthat::expect_error(
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv,
+        tax_res = "family"
+      )
+    )
+
+    base::unlink(temp_csv)
+  }
+)
+
+testthat::test_that(
+  "get_spatial_model_params default tax_res is 'genus'",
+  {
+    temp_csv <-
+      tempfile(fileext = ".csv")
+
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "europe",
+        scale = "continental",
+        parent_id = NA_character_,
+        continent_id = "europe",
+        x_min = -10,
+        x_max = 40,
+        y_min = 35,
+        y_max = 70,
+        n_iter = 400L,
+        n_step_size = NA_integer_,
+        n_sampling = 100L,
+        n_samples_anova = 500L,
+        n_early_stopping = NA_integer_,
+        n_iter_family = 600L,
+        n_step_size_family = NA_integer_,
+        n_sampling_family = 150L,
+        n_early_stopping_family = NA_integer_,
+        n_iter_ft = 800L,
+        n_step_size_ft = NA_integer_,
+        n_sampling_ft = 200L,
+        n_early_stopping_ft = NA_integer_
+      ),
+      file = temp_csv
+    )
+
+    res_default <-
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv
+      )
+
+    res_genus <-
+      get_spatial_model_params(
+        scale_id = "europe",
+        file = temp_csv,
+        tax_res = "genus"
+      )
+
+    testthat::expect_equal(res_default, res_genus)
+    testthat::expect_equal(purrr::chuck(res_default, "n_iter"), 400L)
+
+    base::unlink(temp_csv)
+  }
+)

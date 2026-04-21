@@ -57,6 +57,24 @@ data_diversity$species_richness
 list_params$n_iter
 ```
 
+**Never use `base::attr()` to attach metadata to R objects.**
+Attributes are invisible, not type-checked, and silently stripped by many tidyverse operations (e.g. `dplyr::mutate()`, `tibble::as_tibble()`). Keep every piece of information as an explicit, named object — a column in a data frame, a named element in a list, or, in a `{targets}` pipeline, a dedicated target (see the Pipeline Management section in `copilot-instructions.md`).
+
+```r
+# Avoid
+base::attr(res_dist, "Labels") <- dplyr::pull(data_traits, taxon_name)
+
+# Good  -  data frame: add as a column
+data_dist <-
+  dplyr::mutate(data_dist, taxon_name = data_traits[["taxon_name"]])
+
+# Good  -  in a targets pipeline: expose as a separate target
+targets::tar_target(
+  name = vec_taxon_labels,
+  command = dplyr::pull(data_traits, taxon_name)
+)
+```
+
 **Never use the `apply` family** (`apply()`, `lapply()`, `sapply()`, `vapply()`, `mapply()`, `tapply()`). Use `purrr::map*()` equivalents instead  -  they are type-stable, pipe-friendly, and consistent with the rest of the tidyverse. This rule applies to all iteration and functional-programming patterns, not just data-frame operations.
 
 ## Namespace
@@ -256,4 +274,27 @@ eval(parse(text = paste("mean(", var, ")")))
 # Avoid - get() causes name collisions in data masks
 with(data, mean(get(var)))
 ```
+
+## Prefer Pipes Over Nested Function Calls
+
+Use the native pipe `|>` to chain operations instead of nesting function calls. Deeply nested calls are hard to read and must be parsed inside-out; pipes read left-to-right in execution order.
+
+```r
+# Good — pipe-based, reads in execution order
+filter_data() |>
+  fit_model() |>
+  summarise_data() |> 
+  plot_data()
+
+# Avoid — nested, reads inside-out
+plot_data(
+  summarise_data(
+    fit_model(
+      filter_data()
+    )
+  )
+)
+```
+
+This rule applies to `do.call()` wrappers, `Reduce()`, and any other function that accepts another function plus its inputs as separate arguments — prefer piping into `purrr::reduce()` or similar pipe-friendly equivalents instead.
 

@@ -29,7 +29,10 @@ when no taxa are missing.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>check_and_report_missing_taxa(vec_taxa_without_classification)
+<pre><code class='language-R'>check_and_report_missing_taxa(
+  vec_taxa_without_classification,
+  file_missing_taxa_template = NULL
+)
 </code></pre>
 
 
@@ -43,6 +46,12 @@ automatically or via the auxiliary table. An empty vector
 ('character(0)') signals full coverage and causes the function
 to return silently.</p>
 </td></tr>
+<tr><td><code id="file_missing_taxa_template">file_missing_taxa_template</code></td>
+<td>
+<p>'NULL' by default. Optional placeholder for a targets file
+dependency. When supplied in a pipeline, it ensures the missing
+taxa CSV is written before the error is raised.</p>
+</td></tr>
 </table>
 
 
@@ -50,14 +59,16 @@ to return silently.</p>
 
 <p>The missing taxa are stored as a targets object
 'data_missing_taxa_template' in the pipeline store. Inspect them
-with 'targets::tar_read(&quot;data_missing_taxa_template&quot;)'. The
+with 'targets::tar_read(&quot;data_missing_taxa_template&quot;)'. During a
+pipeline run the same rows are also appended to
+'Data/Input/missing_taxa_template.csv' for manual review. The
 object is a 'tibble' with columns 'sel_name', 'kingdom',
 'phylum', 'class', 'order', 'family', 'genus', and 'species';
 rank columns are left as 'NA' for manual completion. Fill in the
 missing classifications and copy or append rows to
 'Data/Input/aux_classification_table.csv', then re-run the
-pipeline. Use
-'R/03_Supplementary_analyses/Classification/Make_auxiliary_classification_table.R'
+pipeline. Use the helper script in
+'R/03_Supplementary_analyses/Classification/'
 to coalesce templates across all pipeline stores into one CSV.
 </p>
 
@@ -75,6 +86,20 @@ Stops with an error when any taxa are missing.
 [combine_classification_tables()],
 [get_taxa_without_classification()]
 </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>check_and_report_missing_taxa(
+  vec_taxa_without_classification = base::character(0)
+)
+
+base::try(
+  check_and_report_missing_taxa(
+    vec_taxa_without_classification = base::c("Taxon_a")
+  )
+)
+</code></pre>
 
 </main>
 

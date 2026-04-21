@@ -469,6 +469,8 @@ Do **NOT** use:
 - right assignment (`->`)
 - equals (`=`)
 
+**Do NOT use the Unicode arrow character `→` anywhere in an R script** — not in code, not in comments, and not in roxygen2 documentation blocks. Many R installations and CI environments do not handle non-ASCII characters in source files reliably, and the stray byte causes silent parse or execution failures. Use the plain ASCII two-character sequence `->` whenever you need to express a mapping or transformation in a comment (e.g. `# "Betula sp." -> "Betula"`).
+
 There should be a new line after the assignment. Note that rarely single-line assignment can be used:
 
 ```r
