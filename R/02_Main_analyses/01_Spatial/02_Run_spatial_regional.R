@@ -48,30 +48,11 @@ vec_scale_ids <-
 
 
 #----------------------------------------------------------#
-# 3. Run pipeline for each spatial unit -----
-#----------------------------------------------------------#
-
-tictoc::tic("Running spatial pipelines for all regional units")
-purrr::walk(
-  .progress = TRUE,
-  .x = vec_scale_ids,
-  .f = ~ {
-    base::message("\n\nRunning pipeline for spatial unit: ", .x, "\n\n")
-    run_pipeline(
-      sel_script = "R/02_Main_analyses/pipeline_basic.R",
-      store_suffix = .x
-    )
-  }
-)
-tictoc::toc()
-
-
-#----------------------------------------------------------#
-# 4. Run resolution pipeline for each spatial unit -----
+# 3. Run resolution pipeline for each spatial unit -----
 #----------------------------------------------------------#
 
 tictoc::tic(
-  "Running resolution pipelines (family + FT) for all regional units"
+  "Running resolution pipelines (genus + family + FT) for all regional units"
 )
 purrr::walk(
   .progress = TRUE,
