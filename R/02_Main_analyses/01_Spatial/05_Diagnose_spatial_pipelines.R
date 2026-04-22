@@ -43,7 +43,7 @@ data_targets_meta <-
     store_path = here::here(
       paste0("Data/targets/spatial_", scale),
       scale_id,
-      "pipeline_basic"
+      "pipeline_spatial_resolution"
     )
   ) |>
   dplyr::mutate(
@@ -158,23 +158,40 @@ print(data_error_counts, n = Inf)
 # 4. Convergence and model evaluation summary -----
 #----------------------------------------------------------#
 
-# Read model_evaluation for every successful unit once;
-#   both section 5 (convergence plot grid) and the
-#   evaluation table below are derived from this single read.
-list_model_evaluation <-
-  data_targets_successful |>
-  dplyr::pull(store_path) |>
-  purrr::set_names(data_targets_successful$scale_id) |>
+vec_tax_res <-
+  c("genus", "family", "functional_type") |>
+  purrr::set_names()
+
+# Read model_evaluation for every successful unit and all three
+#   resolutions; sections 4.1 and 4.2 summarise across all
+#   scale_id × tax_res combinations.
+list_model_evaluation_all <-
+  vec_tax_res |>
   purrr::map(
-    .f = purrr::possibly(
-      ~ targets::tar_read(
-        "model_evaluation",
-        store = .x
-      ),
-      otherwise = NULL
-    )
-  ) |>
-  purrr::compact()
+    .f = ~ {
+      res_i <- .x
+      data_targets_successful |>
+        dplyr::pull(store_path) |>
+        purrr::set_names(
+          dplyr::pull(data_targets_successful, scale_id)
+        ) |>
+        purrr::map(
+          .f = purrr::possibly(
+            ~ targets::tar_read_raw(
+              name = stringr::str_glue("model_evaluation_{res_i}"),
+              store = .x
+            ),
+            otherwise = NULL
+          )
+        ) |>
+        purrr::compact()
+    }
+  )
+
+
+# Genus-only flat list retained for section 5 convergence plot
+#   grid (training-loss curves; one panel per spatial unit).
+list_model_evaluation <- list_model_evaluation_all[["genus"]]
 
 
 #--------------------------------------------------#
@@ -182,17 +199,28 @@ list_model_evaluation <-
 #--------------------------------------------------#
 
 data_convergence_summary <-
-  list_model_evaluation |>
+  list_model_evaluation_all |>
   purrr::imap(
-    .f = ~ tibble::tibble(
-      scale_id = .y,
-      linear_trend_slope = purrr::chuck(
-        .x, "convergence", "linear_trend_slope"
-      ),
-      median_diff = purrr::chuck(
-        .x, "convergence", "median_diff"
-      )
-    )
+    .f = ~ {
+      list_by_scale_i <- .x
+      res_i <- .y
+      list_by_scale_i |>
+        purrr::imap(
+          .f = ~ {
+            tibble::tibble(
+              tax_res = res_i,
+              scale_id = .y,
+              linear_trend_slope = purrr::chuck(
+                .x, "convergence", "linear_trend_slope"
+              ),
+              median_diff = purrr::chuck(
+                .x, "convergence", "median_diff"
+              )
+            )
+          }
+        ) |>
+        purrr::list_rbind()
+    }
   ) |>
   purrr::list_rbind() |>
   dplyr::mutate(
@@ -205,172 +233,167 @@ data_convergence_summary <-
       dplyr::select(scale_id, scale),
     by = dplyr::join_by(scale_id)
   ) |>
-  dplyr::arrange(scale, scale_id)
+  dplyr::select(scale, scale_id, tax_res, converged) |>
+  tidyr::pivot_wider(
+    names_from = tax_res,
+    values_from = converged,
+    names_prefix = "converged_"
+  )
 
 print(data_convergence_summary, n = Inf)
 
+# Non-converged units (any resolution)
 data_convergence_summary |>
+  tidyr::pivot_longer(
+    cols = dplyr::starts_with("converged_"),
+    names_to = "tax_res",
+    values_to = "converged",
+    names_prefix = "converged_"
+  ) |>
   dplyr::filter(!converged) |>
-  dplyr::pull(scale_id)
+  dplyr::select(scale, scale_id, tax_res)
 
-#--------------------------------------------------#
-## 4.2. Model R² summary -----
-#--------------------------------------------------#
-
-data_model_r2 <-
-  list_model_evaluation |>
-  purrr::imap(
-    .f = ~ {
-      vec_r2 <- purrr::chuck(.x, "model")
-      tibble::tibble(
-        scale_id = .y,
-        R2_McFadden = vec_r2["R2-McFadden"],
-        R2_Nagelkerke = vec_r2["R2-Nagelkerke"]
-      )
-    }
-  ) |>
-  purrr::list_rbind() |>
-  dplyr::left_join(
-    data_targets_meta |>
-      dplyr::select(scale_id, scale),
-    by = dplyr::join_by(scale_id)
-  ) |>
-  dplyr::arrange(scale, scale_id)
-
-data_model_r2_summary <-
-  data_model_r2 |>
-  dplyr::group_by(scale) |>
-  dplyr::summarise(
-    mean_McFadden = mean(R2_McFadden, na.rm = TRUE),
-    mean_Nagelkerke = mean(R2_Nagelkerke, na.rm = TRUE),
-    min_Nagelkerke = min(R2_Nagelkerke, na.rm = TRUE),
-    max_Nagelkerke = max(R2_Nagelkerke, na.rm = TRUE),
-    .groups = "drop"
-  )
-
-print(data_model_r2_summary)
 
 
 #----------------------------------------------------------#
 # 5. Convergence plots grid -----
 #----------------------------------------------------------#
-# One cowplot::plot_grid() per scale so the number of panels
-#   stays manageable regardless of how many units exist.
-
-list_convergence_plots <-
-  list_model_evaluation |>
-  purrr::imap(
-    .f = ~ purrr::chuck(.x, "convergence", "convergence_plot") +
-      ggplot2::labs(subtitle = .y, title = NULL) +
-      ggplot2::theme(
-        title = ggplot2::element_blank(),
-        axis.title = ggplot2::element_blank()
-      )
-  ) |>
-  purrr::keep_at(
-    names(list_model_evaluation)
-  )
+# One cowplot::plot_grid() per tax_res x scale combination
+#   so the number of panels stays manageable regardless of
+#   how many units exist.
 
 vec_scales <-
   c("continental", "regional", "local") |>
   purrr::set_names()
 
 list_plots <-
+  vec_scales |>
   purrr::map(
-    .x = vec_scales,
     .f = ~ {
+      scale_i <- .x
+
       ids_in_scale <-
         data_targets_successful |>
-        dplyr::filter(scale == .x) |>
+        dplyr::filter(scale == scale_i) |>
         dplyr::pull(scale_id)
 
-      plots_in_scale <-
-        list_convergence_plots[
-          intersect(ids_in_scale, names(list_convergence_plots))
-        ]
+      vec_tax_res |>
+        purrr::map(
+          .f = ~ {
+            tax_res_i <- .x
 
-      if (length(plots_in_scale) == 0L) {
-        return(invisible(NULL))
-      }
+            list_convergence_plots_i <-
+              list_model_evaluation_all[[tax_res_i]] |>
+              purrr::imap(
+                .f = ~ purrr::chuck(.x, "convergence", "convergence_plot") +
+                  ggplot2::labs(subtitle = .y, title = NULL) +
+                  ggplot2::theme(
+                    title = ggplot2::element_blank(),
+                    axis.title = ggplot2::element_blank()
+                  )
+              ) |>
+              purrr::keep_at(
+                names(list_model_evaluation_all[[tax_res_i]])
+              )
 
-      n_cols <- min(3L, length(plots_in_scale))
+            plots_in_scale <-
+              list_convergence_plots_i[
+                intersect(ids_in_scale, names(list_convergence_plots_i))
+              ]
 
-      cowplot::plot_grid(
-        plotlist = plots_in_scale,
-        ncol = n_cols
-      )
+            if (length(plots_in_scale) == 0L) {
+              return(invisible(NULL))
+            }
+
+            n_cols <- min(3L, length(plots_in_scale))
+
+            plot_title <-
+              cowplot::ggdraw() +
+              cowplot::draw_label(
+                label = stringr::str_glue(
+                  "{scale_i} | {tax_res_i}"
+                ),
+                fontface = "bold",
+                size = 14
+              )
+
+            cowplot::plot_grid(
+              plot_title,
+              cowplot::plot_grid(
+                plotlist = plots_in_scale,
+                ncol = n_cols
+              ),
+              ncol = 1L,
+              rel_heights = c(0.05, 1)
+            )
+          }
+        )
     }
   )
 
-list_plots[["local"]] +
+
+list_plots[["continental"]][["genus"]] +
   ggview::canvas(
-    width = graphical_options$width * 2,
-    height = graphical_options$height * 8,
-    units = graphical_options$units,
-    dpi = graphical_options$dpi * 2
+    width = graphical_options[["width"]],
+    height = graphical_options[["height"]],
+    units = graphical_options[["units"]],
+    dpi = graphical_options[["dpi"]]
   )
-list_plots[["regional"]] +
+list_plots[["continental"]][["family"]] +
   ggview::canvas(
-    width = graphical_options$width * 2,
-    height = graphical_options$height * 3,
-    units = graphical_options$units,
-    dpi = graphical_options$dpi
+    width = graphical_options[["width"]],
+    height = graphical_options[["height"]],
+    units = graphical_options[["units"]],
+    dpi = graphical_options[["dpi"]]
   )
-list_plots[["continental"]] +
+list_plots[["continental"]][["functional_type"]] +
   ggview::canvas(
-    width = graphical_options$width,
-    height = graphical_options$height,
-    units = graphical_options$units,
-    dpi = graphical_options$dpi
+    width = graphical_options[["width"]],
+    height = graphical_options[["height"]],
+    units = graphical_options[["units"]],
+    dpi = graphical_options[["dpi"]]
   )
 
-#----------------------------------------------------------#
-# 6. ANOVA fractions summary -----
-#----------------------------------------------------------#
-
-list_model_anova <-
-  data_targets_successful |>
-  dplyr::pull(store_path) |>
-  purrr::set_names(data_targets_successful$scale_id) |>
-  purrr::map(
-    .f = purrr::possibly(
-      ~ targets::tar_read(
-        "model_anova",
-        store = .x
-      ),
-      otherwise = NULL
-    )
-  ) |>
-  purrr::compact()
-
-data_anova_fractions <-
-  list_model_anova |>
-  purrr::imap(
-    .f = ~ extract_anova_fractions(
-      anova_object = .x,
-      clamp_negative = TRUE
-    ) |>
-      dplyr::mutate(age = 0) |>
-      recalculate_anova_components() |>
-      dplyr::mutate(scale_id = .y)
-  ) |>
-  purrr::list_rbind() |>
-  dplyr::left_join(
-    data_targets_meta |>
-      dplyr::select(scale_id, scale),
-    by = dplyr::join_by(scale_id)
+list_plots[["regional"]][["genus"]] +
+  ggview::canvas(
+    width = graphical_options[["width"]] * 2,
+    height = graphical_options[["height"]] * 3,
+    units = graphical_options[["units"]],
+    dpi = graphical_options[["dpi"]]
+  )
+list_plots[["regional"]][["family"]] +
+  ggview::canvas(
+    width = graphical_options[["width"]] * 2,
+    height = graphical_options[["height"]] * 3,
+    units = graphical_options[["units"]],
+    dpi = graphical_options[["dpi"]]
+  )
+list_plots[["regional"]][["functional_type"]] +
+  ggview::canvas(
+    width = graphical_options[["width"]] * 2,
+    height = graphical_options[["height"]] * 3,
+    units = graphical_options[["units"]],
+    dpi = graphical_options[["dpi"]]
   )
 
-data_anova_summary <-
-  data_anova_fractions |>
-  dplyr::group_by(scale, component) |>
-  dplyr::summarise(
-    median_pct = median(R2_Nagelkerke_percentage, na.rm = TRUE),
-    min_pct = min(R2_Nagelkerke_percentage, na.rm = TRUE),
-    max_pct = max(R2_Nagelkerke_percentage, na.rm = TRUE),
-    n_units = dplyr::n(),
-    .groups = "drop"
-  ) |>
-  dplyr::arrange(scale, dplyr::desc(median_pct))
-
-print(data_anova_summary)
+list_plots[["local"]][["genus"]] +
+  ggview::canvas(
+    width = graphical_options[["width"]] * 2,
+    height = graphical_options[["height"]] * 8,
+    units = graphical_options[["units"]],
+    dpi = graphical_options[["dpi"]] * 2
+  )
+list_plots[["local"]][["family"]] +
+  ggview::canvas(
+    width = graphical_options[["width"]] * 2,
+    height = graphical_options[["height"]] * 8,
+    units = graphical_options[["units"]],
+    dpi = graphical_options[["dpi"]] * 2
+  )
+list_plots[["local"]][["functional_type"]] +
+  ggview::canvas(
+    width = graphical_options[["width"]] * 2,
+    height = graphical_options[["height"]] * 8,
+    units = graphical_options[["units"]],
+    dpi = graphical_options[["dpi"]] * 2
+  )
