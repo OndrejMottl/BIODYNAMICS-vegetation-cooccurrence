@@ -10,10 +10,10 @@
 #
 #----------------------------------------------------------#
 # Iterates over all continental spatial units defined in
-#   Data/Input/spatial_grid.csv and runs pipeline_basic.R
-#   for each one in sequence.
+#   Data/Input/spatial_grid.csv and runs pipeline_spatial_resolution.R
+#   for each one in sequence (genus + family + functional_type).
 # Each unit gets an isolated targets store at:
-#   Data/targets/spatial_continental/{scale_id}/pipeline_basic/
+#   Data/targets/spatial_continental/{scale_id}/pipeline_spatial_resolution/
 
 
 #----------------------------------------------------------#
