@@ -1,0 +1,15 @@
+{
+  "hash": "991c119062aa5b2b42f4762ba0b2b588",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Supplementary Information {.unnumbered}\n\n<!-- For Nature: this section becomes \"Extended Data\" (figures/tables\n     with strict formatting rules) and/or a Supplementary Information\n     PDF. For Frontiers in Biogeography: labelled as\n     \"Supplementary Material\" appended to the main article.\n\n     Keep each supplementary item clearly labelled (Fig. S1, Table S1,\n     etc.) so they can be extracted and formatted for either journal.\n-->\n\n## Supplementary Figures\n\n### Figure S1 — TODO title {.unnumbered}\n\n\n::: {#cell-fig-s1 .cell}\n\n```{.r .cell-code .hidden}\n#| label: fig-s1\n#| echo: false\n#| fig-cap: \"TODO: Figure S1 caption.\"\n# TODO: Add figure code here.\n```\n:::\n\n\n## Supplementary Tables\n\n### Table S1 — TODO title {.unnumbered}\n\n\n::: {#tbl-s1 .cell tbl-cap='TODO: Table S1 caption.'}\n\n```{.r .cell-code .hidden}\n#| label: tbl-s1\n#| echo: false\n#| tbl-cap: \"TODO: Table S1 caption.\"\n# TODO: Add table code here.\n```\n:::\n\n\n## Supplementary Methods\n\nTODO: Add any extended methodological details not included in the main\nMethods section (e.g., sensitivity analyses, model diagnostics,\nadditional filtering criteria).\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

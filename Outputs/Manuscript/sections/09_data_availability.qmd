@@ -1,0 +1,4 @@
+## Data Availability
+
+TODO: Describe data availability. Reference VegVault, pipeline outputs,
+and any archived datasets.

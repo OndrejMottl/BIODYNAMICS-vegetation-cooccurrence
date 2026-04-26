@@ -1,0 +1,15 @@
+{
+  "hash": "d8b68cb6b6987b63115dbd26abedecde",
+  "result": {
+    "engine": "knitr",
+    "markdown": "## Methods\n\n<!-- Nature Letter: Methods are placed AFTER the main text and\n     references (before Extended Data). For Frontiers in Biogeography,\n     Methods come before Results.\n\n     Suggested sub-sections:\n     - Study region and temporal scope\n     - Vegetation data (VegVault, fossil pollen archives, gridpoints)\n     - Abiotic predictors (bioclimatic variables)\n     - Taxonomic harmonisation\n     - Community data preparation\n     - Joint species distribution modelling (HMSC)\n     - Model evaluation\n     - Statistical analyses (ANOVA decomposition, etc.)\n-->\n\n\n::: {.cell}\n\n```{.r .cell-code .hidden}\n#| label: methods-data-summary\n#| echo: false\n#| output: false\n# Load any targets needed to report sample sizes, date ranges, etc.\n# Example:\n# data_community <- targets::tar_read(\n#   name = \"data_community\",\n#   store = set_store\n# )\n```\n:::\n\n\n### Study region and temporal scope\n\nTODO: Describe geographic extent and time period covered.\n\n### Vegetation and abiotic data\n\nTODO: Describe VegVault data extraction, fossil pollen archives,\nmodern vegetation gridpoints, and bioclimatic predictors.\n\n### Data processing\n\nTODO: Describe taxonomic harmonisation, filtering steps, and\ncommunity matrix construction.\n\n### Joint species distribution modelling\n\nTODO: Describe HMSC model structure, random effects, priors,\nMCMC settings, and convergence diagnostics.\n\n### Model evaluation and inference\n\nTODO: Describe predictive performance metrics and co-occurrence\nextraction approach.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
