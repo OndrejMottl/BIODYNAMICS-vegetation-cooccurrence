@@ -1,5 +1,5 @@
 ﻿---
-applyTo: '**/R/Functions/', '**/R/03_Supplementary_analyses/Testing/testthat' 
+applyTo: ["**/R/Functions/**", "**/R/03_Supplementary_analyses/Testing/testthat/**"]
 ---
 
 # Instructions for Writing Complete Test Files for R Functions

@@ -1,4 +1,11 @@
-﻿# Git Workflow Instructions
+---
+description: >
+  Git workflow rules for this project: branch strategy, git worktree usage,
+  squash-merge workflow, and the rule that the user controls all
+  state-changing git operations (commit, push, merge, rebase).
+---
+
+# Git Workflow Instructions
 
 ## CRITICAL: The User Is in Full Control of Version Control
 
