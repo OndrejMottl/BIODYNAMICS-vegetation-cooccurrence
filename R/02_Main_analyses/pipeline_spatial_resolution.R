@@ -97,7 +97,8 @@ targets::tar_source(
 # set seed for reproducibility
 targets::tar_option_set(
   seed = get_active_config("seed"),
-  format = "qs"
+  format = "qs",
+  error = "continue"
 )
 
 
@@ -129,8 +130,12 @@ c(
 
 # Resolution-specific segments and their downstream stages.
 #   pipe_segment_config_resolution.R defines config.model_fitting
-#   using tax_res (injected by tar_map()), which shadows the
-#   shared config.model_fitting for each resolution branch.
+#   using tax_res (injected by tar_map()), producing
+#   config.model_fitting_family / _functional_type / _genus.
+#   Note: pipe_segment_config_model_fitting.R is intentionally
+#   NOT sourced here — it would create an isolated shared
+#   config.model_fitting with no downstream consumers in this
+#   pipeline (all model targets consume the suffixed versions).
 c(
   "pipe_segment_config_resolution.R",
   "pipe_segment_community_resolution.R",

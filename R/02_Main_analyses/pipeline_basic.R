@@ -81,6 +81,7 @@ path_pipe_parts <-
 # sourcing all pipe parts needs to be done in specific order
 c(
   "pipe_segment_config.R",
+  "pipe_segment_config_model_fitting.R",
   "pipe_segment_vegvault_data.R",
   "pipe_segment_community_data.R",
   "pipe_segment_community_filtering.R",
@@ -105,6 +106,7 @@ c(
 
 list(
   pipe_segment_config,
+  pipe_segment_config_model_fitting,
   pipe_segment_vegvault_data,
   pipe_segment_community_data,
   pipe_segment_community_filtering,

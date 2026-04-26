@@ -111,6 +111,7 @@ path_pipe_parts <-
 #   and are shared across all three resolution branches.
 c(
   "pipe_segment_config.R",
+  "pipe_segment_config_model_fitting.R",
   "pipe_segment_vegvault_data.R",
   "pipe_segment_community_data.R",
   "pipe_segment_abiotic_data.R"
@@ -228,6 +229,7 @@ pipe_models_by_resolution <-
 
 list(
   pipe_segment_config,
+  pipe_segment_config_model_fitting,
   pipe_segment_vegvault_data,
   pipe_segment_community_data,
   pipe_segment_abiotic_data,
