@@ -3,16 +3,16 @@
 #
 #                 Vegetation Co-occurrence
 #
-#     Spatial resolution {targets} pipeline — family & FT
+#     Spatial resolution {targets} pipeline — genus, family & FT
 #
 #
 #                       O. Mottl
 #                         2026
 #
 #----------------------------------------------------------#
-# Runs the full modelling workflow at two non-genus taxonomic
-#   resolutions — "family" and "functional_type" — for a single
-#   spatial unit (continental, regional, or local).
+# Runs the full modelling workflow at three taxonomic
+#   resolutions — "genus", "family", and "functional_type" — for a
+#   single spatial unit (continental, regional, or local).
 #
 # This pipeline is the spatial counterpart of
 #   pipeline_test_resolution.R, which validated the resolution
@@ -30,7 +30,7 @@
 #     pipe_segment_abiotic_data     — abiotic predictor assembly
 #     path_ft_classification        — FT file tracker (continent lookup)
 #
-#   PER-RESOLUTION (via tar_map over "family", "functional_type"):
+#   PER-RESOLUTION (via tar_map over "genus", "family", "functional_type"):
 #     pipe_segment_config_resolution      — per-resolution fitting config
 #     pipe_segment_community_resolution   — taxonomic re-aggregation
 #     pipe_segment_alignment              — site alignment
@@ -38,10 +38,6 @@
 #     pipe_segment_model_prep             — spatial/formula setup
 #     pipe_segment_model_simple           — jSDM fitting
 #     pipe_segment_model_anova            — ANOVA variation partitioning
-#
-# Note: genus-resolution targets are NOT produced here to avoid
-#   recomputing already-available pipeline_basic.R results.
-#   Run pipeline_basic.R for genus alongside this pipeline.
 #
 # To run this pipeline:
 #
@@ -101,7 +97,8 @@ targets::tar_source(
 # set seed for reproducibility
 targets::tar_option_set(
   seed = get_active_config("seed"),
-  format = "qs"
+  format = "qs",
+  error = "continue"
 )
 
 
@@ -133,8 +130,12 @@ c(
 
 # Resolution-specific segments and their downstream stages.
 #   pipe_segment_config_resolution.R defines config.model_fitting
-#   using tax_res (injected by tar_map()), which shadows the
-#   shared config.model_fitting for each resolution branch.
+#   using tax_res (injected by tar_map()), producing
+#   config.model_fitting_family / _functional_type / _genus.
+#   Note: pipe_segment_config_model_fitting.R is intentionally
+#   NOT sourced here — it would create an isolated shared
+#   config.model_fitting with no downstream consumers in this
+#   pipeline (all model targets consume the suffixed versions).
 c(
   "pipe_segment_config_resolution.R",
   "pipe_segment_community_resolution.R",
@@ -224,7 +225,7 @@ pipe_segment_per_resolution <-
 pipe_models_by_resolution <-
   tarchetypes::tar_map(
     values = list(
-      tax_res = c("family", "functional_type")
+      tax_res = c("genus", "family", "functional_type")
     ),
     pipe_segment_per_resolution
   )

@@ -112,9 +112,7 @@ pipe_segment_config_resolution <-
           n_mev = get_active_config(
             value = c("model_fitting", "n_mev")
           ),
-          error_family = get_active_config(
-            value = c("model_fitting", "error_family")
-          ),
+          error_family = config.error_family,
           spatial_crs = get_active_config(
             value = c("model_fitting", "spatial_crs")
           ),

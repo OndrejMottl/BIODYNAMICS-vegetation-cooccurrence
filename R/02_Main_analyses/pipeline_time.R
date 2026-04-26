@@ -84,6 +84,7 @@ path_pipe_parts <-
 #   is sourced AFTER that object is built (see section 1.3 below).
 c(
   "pipe_segment_config.R",
+  "pipe_segment_config_model_fitting.R",
   "pipe_segment_vegvault_data.R",
   "pipe_segment_community_data.R",
   "pipe_segment_abiotic_data.R",
@@ -157,6 +158,7 @@ source(
 
 list(
   pipe_segment_config,
+  pipe_segment_config_model_fitting,
   pipe_segment_vegvault_data,
   pipe_segment_community_data,
   pipe_segment_abiotic_data,

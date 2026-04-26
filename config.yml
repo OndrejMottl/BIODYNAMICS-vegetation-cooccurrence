@@ -118,6 +118,7 @@ project_spatial_continental:
   data_processing:
     taxonomic_resolution: "genus"
     min_n_samples: 10
+    min_n_taxa: 5
   model_fitting:
     n_mev: 5
     n_cores: 24
@@ -130,6 +131,7 @@ project_spatial_regional:
   data_processing:
     taxonomic_resolution: "genus"
     min_n_samples: 10
+    min_n_taxa: 4
   model_fitting:
     n_mev: 4
     n_cores: 24
@@ -142,6 +144,7 @@ project_spatial_local:
   data_processing:
     taxonomic_resolution: "genus"
     min_n_samples: 5
+    min_n_taxa: 3
   model_fitting:
     n_mev: 3
     n_cores: 24
