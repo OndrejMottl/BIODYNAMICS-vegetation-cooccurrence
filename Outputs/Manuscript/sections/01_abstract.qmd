@@ -1,0 +1,18 @@
+# Abstract {.unnumbered}
+
+<!-- The abstract is set in the YAML front matter of manuscript.qmd.
+     Use this file to draft or iterate on the abstract text before
+     pasting the final version into the `abstract:` field.
+
+     Nature Letter: ≤150 words, no citations, no subheadings.
+     Frontiers in Biogeography: structured or unstructured, ≤350 words.
+
+     Draft structure (Nature Letter):
+     - 1–2 sentences: broad context / motivation
+     - 1 sentence: gap or question addressed
+     - 1 sentence: approach / data used
+     - 2–3 sentences: key findings
+     - 1 sentence: broader implication
+-->
+
+TODO: Draft abstract text here, then copy into `manuscript.qmd` YAML.

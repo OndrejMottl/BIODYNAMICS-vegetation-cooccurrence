@@ -1,0 +1,90 @@
+---
+title: >
+  TODO: manuscript title
+author:
+  - name: Ondřej Mottl
+    orcid: 0000-0002-9796-5081
+    email: ondrej.mottl@gmail.com
+    corresponding: true
+    affiliations:
+      - id: natur-cuni
+        name: >
+          Department of Botany, Faculty of Science,
+          Charles University
+        city: Prague
+        country: Czech Republic
+  - name: TODO Co-author 2
+    orcid: 0000-0000-0000-0000
+    affiliations:
+      - id: aff2
+        name: TODO Institution
+        city: TODO City
+        country: TODO Country
+  - name: TODO Co-author 3
+    orcid: 0000-0000-0000-0000
+    affiliations:
+      - ref: aff2
+date: last-modified
+date-format: long
+abstract: |
+  TODO: Write abstract (~150 words for Nature Letter).
+  Background sentence(s). Key question. Approach in one sentence.
+  Key findings (2–3 sentences). Broader implication (1 sentence).
+keywords:
+  - vegetation co-occurrence
+  - palaeoecology
+  - joint species distribution model
+  - HMSC
+  - Holocene
+bibliography: references.bib
+# Uncomment the line below to apply a journal citation style:
+# csl: https://www.zotero.org/styles/nature
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(here)
+library(targets)
+
+here::i_am("Outputs/Manuscript/manuscript.qmd")
+
+suppressMessages(
+  suppressWarnings(
+    source(here::here("R/___setup_project___.R"))
+  )
+)
+
+# Set active configuration — adjust as needed
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+
+# Build the targets store path
+# (pattern from website pages; update pipeline name as needed)
+vec_pipeline <- "pipeline_basic"
+
+set_store <-
+  base::paste0(
+    get_active_config("target_store"), "/", vec_pipeline, "/"
+  ) |>
+  here::here()
+```
+
+{{< include sections/02_introduction.qmd >}}
+
+{{< include sections/03_methods.qmd >}}
+
+{{< include sections/04_results.qmd >}}
+
+{{< include sections/05_discussion.qmd >}}
+
+{{< include sections/07_acknowledgements.qmd >}}
+
+{{< include sections/08_author_contributions.qmd >}}
+
+{{< include sections/09_data_availability.qmd >}}
+
+{{< include sections/10_code_availability.qmd >}}
+
+{{< include sections/11_references.qmd >}}
+
+{{< include sections/06_supplementary.qmd >}}

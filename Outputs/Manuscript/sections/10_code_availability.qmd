@@ -1,0 +1,5 @@
+## Code Availability
+
+The analysis code is available at
+<https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence>
+and archived at TODO (Zenodo DOI to be added upon acceptance).

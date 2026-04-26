@@ -1,0 +1,38 @@
+# Supplementary Information {.unnumbered}
+
+<!-- For Nature: this section becomes "Extended Data" (figures/tables
+     with strict formatting rules) and/or a Supplementary Information
+     PDF. For Frontiers in Biogeography: labelled as
+     "Supplementary Material" appended to the main article.
+
+     Keep each supplementary item clearly labelled (Fig. S1, Table S1,
+     etc.) so they can be extracted and formatted for either journal.
+-->
+
+## Supplementary Figures
+
+### Figure S1 — TODO title {.unnumbered}
+
+```{r}
+#| label: fig-s1
+#| echo: false
+#| fig-cap: "TODO: Figure S1 caption."
+# TODO: Add figure code here.
+```
+
+## Supplementary Tables
+
+### Table S1 — TODO title {.unnumbered}
+
+```{r}
+#| label: tbl-s1
+#| echo: false
+#| tbl-cap: "TODO: Table S1 caption."
+# TODO: Add table code here.
+```
+
+## Supplementary Methods
+
+TODO: Add any extended methodological details not included in the main
+Methods section (e.g., sensitivity analyses, model diagnostics,
+additional filtering criteria).
