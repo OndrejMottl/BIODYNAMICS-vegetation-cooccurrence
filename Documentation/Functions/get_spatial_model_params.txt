@@ -1,0 +1,70 @@
+Get Spatial Model Fitting Parameters from Grid Catalogue
+
+Description:
+
+     Retrieves the model fitting parameters for a given spatial unit ID
+     from the project's spatial grid CSV catalogue.
+
+Usage:
+
+     get_spatial_model_params(
+       scale_id,
+       file = here::here("Data/Input/spatial_grid.csv"),
+       tax_res = "genus"
+     )
+     
+Arguments:
+
+scale_id: A single character string identifying the spatial unit. Must
+          match exactly one row in the catalogue file.
+
+    file: Path to the spatial grid CSV file. Default:
+          `here::here("Data/Input/spatial_grid.csv")`.
+
+ tax_res: A single character string specifying the taxonomic
+          resolution. One of `"genus"` (default), `"family"`, or
+          `"functional_type"`. Controls which set of model fitting
+          parameter columns is used: * `"genus"` — reads `n_iter`,
+          `n_step_size`, `n_sampling`, `n_early_stopping` (the original
+          columns). * `"family"` — reads `n_iter_family`,
+          `n_step_size_family`, `n_sampling_family`,
+          `n_early_stopping_family`. * `"functional_type"` — reads
+          `n_iter_ft`, `n_step_size_ft`, `n_sampling_ft`,
+          `n_early_stopping_ft`. `n_samples_anova` is always taken from
+          the shared column regardless of `tax_res`.
+
+Details:
+
+     Reads the CSV using `readr::read_csv`, filters to the row whose
+     `scale_id` column matches the supplied `scale_id` argument, and
+     constructs the parameter list. Validation ensures the file is
+     readable, has a `.csv` extension, contains the required columns,
+     and that exactly one row matches the requested `scale_id`. `NA`
+     values in the relevant `n_step_size` and `n_early_stopping`
+     columns are converted to `NULL`.
+
+Value:
+
+     A named list with five elements:
+
+     `n_iter` Integer. Number of training iterations.
+
+     `n_step_size` Integer or `NULL`. SGD mini-batch size.  `NULL`
+          means auto (10 % of sites), corresponding to an `NA` value in
+          the CSV.
+
+     `n_sampling` Integer. Monte Carlo samples per epoch.
+
+     `n_samples_anova` Integer. Monte Carlo samples for ANOVA variation
+          partitioning.
+
+     `n_early_stopping` Integer or `NULL`. Early stopping patience —
+          number of epochs without loss improvement before training
+          halts.  `NULL` means auto (20 % of `iter`), corresponding to
+          an `NA` value in the CSV.  Passed as the `n_early_stopping`
+          argument of `fit_jsdm_model()`.
+
+See Also:
+
+     get_spatial_window, get_active_config
+

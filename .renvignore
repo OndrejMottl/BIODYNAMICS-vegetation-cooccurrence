@@ -1,0 +1,24 @@
+# Only R/ and .qmd files need scanning for package dependencies.
+# Ignore all directories that contain no R source or .qmd files.
+
+# Rendered output (generated from source)
+docs/
+
+# renv internals
+renv/
+
+# Data files
+Data/Input/
+Data/Processed/
+Data/Temp/
+Data/targets/
+
+# Analysis outputs
+Outputs/
+
+# Generated documentation (html/txt artefacts, coverage reports, etc.)
+Documentation/Functions/
+Documentation/Functions_test_coverage/
+Documentation/Reports/
+Documentation/Materials/
+Documentation/Progress/

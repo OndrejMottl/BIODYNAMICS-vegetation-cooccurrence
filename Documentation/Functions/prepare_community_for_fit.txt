@@ -1,0 +1,41 @@
+Prepare Community Data for Model Fitting
+
+Description:
+
+     Reshapes long-format community data into a wide matrix suitable
+     for model fitting, filtering to the canonical sample index
+     supplied by `align_sample_ids()`.
+
+Usage:
+
+     prepare_community_for_fit(data_community_long = NULL, data_sample_ids = NULL)
+     
+Arguments:
+
+data_community_long: A data frame in long format with columns
+          `dataset_name`, `age`, `taxon`, and `pollen_prop`.
+
+data_sample_ids: A data frame of valid `(dataset_name, age)` pairs as
+          returned by `align_sample_ids()`.
+
+Details:
+
+     Only samples present in `data_sample_ids` are retained. Rows with
+     `NA` or zero `pollen_prop` are dropped before pivoting. The
+     function widens the data and converts the result to a matrix
+     directly, so the output is ready for `filter_constant_taxa()` and
+     `assemble_data_to_fit()`.
+
+Value:
+
+     A numeric matrix with row names in the format
+     `"<dataset_name>__<age>"` and taxon names as column names. Missing
+     taxon–sample combinations are filled with `0`. Rows are ordered by
+     `dataset_name` then `age`, matching the order in
+     `data_sample_ids`.
+
+See Also:
+
+     [align_sample_ids()], [filter_constant_taxa()],
+     [assemble_data_to_fit()]
+

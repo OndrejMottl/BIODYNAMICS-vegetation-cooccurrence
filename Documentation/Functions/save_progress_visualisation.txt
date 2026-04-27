@@ -12,7 +12,7 @@ Usage:
        sel_store = get_active_config("target_store"),
        output_file = "project_status",
        output_dir = here::here("Documentation/Progress"),
-       background_color = "white",
+       background_color = "#141B22",
        physics = TRUE,
        level_separation = 250
      )
@@ -30,7 +30,8 @@ output_dir: Directory where the output files will be saved (default:
           "Documentation/Progress").
 
 background_color: Background color for the visualisation (default:
-          "white").
+          `"#141B22"` — BIODYNAMICS brand Console Panel; one step
+          lighter than the page background, used for cards and panels).
 
  physics: Logical indicating whether to enable physics simulation in
           the network graph (default: TRUE).
@@ -48,6 +49,20 @@ Details:
      abort the surrounding pipeline run. Files are written to
      `output_dir/<store_name>/` where `<store_name>` is the last path
      segment of `sel_store` after the `targets/` directory.
+
+     The targets store is read only once. `targets_only = FALSE`
+     retrieves the full network; the targets-only variant for the
+     static PNG graph is derived by filtering non-target nodes (`type`
+     values `"function"`, `"object"`, `"value"`) from the same object,
+     avoiding a second store read. If the `type` column is absent
+     (targets internal change), the function falls back to a second
+     `tar_visnetwork()` call so correctness is preserved.
+
+     When `physics = TRUE`, the static graph for the PNG uses a
+     `stabilizationIterationsDone` vis.js event to disable physics as
+     soon as the silent background layout pass finishes. This ensures
+     the screenshot captures the fully settled layout without requiring
+     a long wait or rendering the graph twice.
 
 Value:
 

@@ -31,7 +31,7 @@ function processMathHTML() {
   sel_store = get_active_config("target_store"),
   output_file = "project_status",
   output_dir = here::here("Documentation/Progress"),
-  background_color = "white",
+  background_color = "#141B22",
   physics = TRUE,
   level_separation = 250
 )
@@ -61,7 +61,9 @@ configuration key &quot;target_store&quot;.</p>
 </td></tr>
 <tr><td><code id="background_color">background_color</code></td>
 <td>
-<p>Background color for the visualisation (default: &quot;white&quot;).</p>
+<p>Background color for the visualisation
+(default: '&quot;#141B22&quot;' — BIODYNAMICS brand Console Panel; one step lighter
+than the page background, used for cards and panels).</p>
 </td></tr>
 <tr><td><code id="physics">physics</code></td>
 <td>
@@ -84,6 +86,19 @@ the function emits a warning and keeps the HTML outputs so progress saving
 does not abort the surrounding pipeline run. Files are written to
 'output_dir/&lt;store_name&gt;/' where '&lt;store_name&gt;' is the last path segment
 of 'sel_store' after the 'targets/' directory.
+</p>
+<p>The targets store is read only once. 'targets_only = FALSE' retrieves the
+full network; the targets-only variant for the static PNG graph is derived
+by filtering non-target nodes ('type' values '&quot;function&quot;', '&quot;object&quot;',
+'&quot;value&quot;') from the same object, avoiding a second store read. If the
+'type' column is absent (targets internal change), the function falls back
+to a second 'tar_visnetwork()' call so correctness is preserved.
+</p>
+<p>When 'physics = TRUE', the static graph for the PNG uses a
+'stabilizationIterationsDone' vis.js event to disable physics as soon as
+the silent background layout pass finishes. This ensures the screenshot
+captures the fully settled layout without requiring a long wait or
+rendering the graph twice.
 </p>
 
 

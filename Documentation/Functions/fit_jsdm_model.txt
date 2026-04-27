@@ -19,6 +19,8 @@ Usage:
        parallel = 0L,
        compute_se = FALSE,
        ...,
+       iter = 100L,
+       n_early_stopping = NULL,
        verbose = FALSE
      )
      
@@ -29,8 +31,10 @@ data_to_fit: A list containing the data to fit the model. Must include:
           (constant-presence taxa already removed by
           `filter_constant_taxa()`) - `data_abiotic_to_fit`: data frame
           of abiotic variables, already scaled by
-          `scale_abiotic_for_fit()` - `data_coords_to_fit`: data frame
-          of spatial coordinates
+          `scale_abiotic_for_fit()` - `data_spatial_to_fit`: data frame
+          of spatial predictors, already scaled by
+          `scale_spatial_for_fit()`. Required only when
+          `spatial_method` is not `"none"`.
 
 sel_abiotic_formula: A formula object specifying the abiotic
           (environmental) predictors
@@ -54,15 +58,32 @@ error_family: Error family distribution. One of "gaussian" (default) or
   device: Computing device to use. One of "cpu" (default) or "gpu"
 
 parallel: Number of CPU cores to use for parallel processing. Only
-          applicable if device = "cpu". Default is 0L (no
-          parallelization).
+          applicable if `device = "cpu"`. Default is `0L` (no
+          parallelisation).
 
-compute_se: Logical indicating whether to compute standard errors.
-          Default is FALSE. Note: SE computation may fail with certain
-          model configurations (e.g., DNN, complex spatial structures)
-          and will produce a warning if it fails.
+compute_se: Logical indicating whether to compute standard errors
+          inline during model fitting. Default is `FALSE`. Prefer the
+          post-hoc approach via `compute_jsdm_se()` in a separate
+          pipeline target, which allows CPU parallelisation independent
+          of the GPU device setting.
 
-     ...: Additional arguments passed to sjSDM::sjSDM
+     ...: Additional arguments passed to `sjSDM::sjSDM()` (e.g.
+          `sampling`, `step_size`, `seed`). Do NOT pass `iter`,
+          `control` or `early_stopping` directly — use the dedicated
+          `iter` and `n_early_stopping` parameters instead.
+
+    iter: Positive integer. Number of training epochs. Default is
+          `100L`.
+
+n_early_stopping: Early stopping patience. Controls how many
+          consecutive epochs without improvement are tolerated before
+          training is halted. Three accepted values: - `NULL`
+          (default): auto-compute as `round(iter * 0.20)`, i.e.  at
+          least 20 % of the epoch budget. - `0L` or negative integer:
+          disables early stopping entirely. - Positive integer: uses
+          `max(value, round(iter * 0.20))` to ensure patience is never
+          set below 20 % of `iter`. Passed as `early_stopping_training`
+          in `sjSDM::sjSDMControl()`.
 
 Details:
 
@@ -83,5 +104,5 @@ Value:
 
 See Also:
 
-     sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN
+     sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN, compute_jsdm_se
 

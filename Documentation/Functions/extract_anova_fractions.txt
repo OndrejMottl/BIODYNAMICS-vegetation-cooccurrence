@@ -1,0 +1,64 @@
+Extract ANOVA Fraction Components from a Single Object
+
+Description:
+
+     Extracts specified variance partitioning fractions from a single
+     sjSDManova object, returning a two-column tibble with fraction
+     codes and their Nagelkerke R² values.
+
+Usage:
+
+     extract_anova_fractions(
+       anova_object,
+       vec_anova_fractions = c("F_A", "F_B", "F_S", "F_AB", "F_AS", "F_BS", "F_ABS"),
+       clamp_negative = TRUE
+     )
+     
+Arguments:
+
+anova_object: A single sjSDManova-like object containing a '$results'
+          element with columns 'models' and '"R2 Nagelkerke"'. Must be
+          a list.
+
+vec_anova_fractions: A non-empty character vector of fraction codes to
+          retain (e.g. 'c("F_A", "F_B", "F_S")').
+
+clamp_negative: A single logical (default 'TRUE'). If 'TRUE', negative
+          Nagelkerke R² values are clamped to 0.
+
+Details:
+
+     Accesses 'anova_object$results' via 'purrr::chuck()', filters rows
+     whose 'models' value is in 'vec_anova_fractions', renames the
+     columns to 'component' and 'R2_Nagelkerke', translates internal
+     fraction codes to human-readable labels, and (when 'clamp_negative
+     = TRUE') clamps negative R² values to 0:
+
+        * F_A -> "Abiotic"
+
+        * F_B -> "Associations"
+
+        * F_S -> "Spatial"
+
+        * F_AB -> "Abiotic&Associations"
+
+        * F_AS -> "Abiotic&Spatial"
+
+        * F_BS -> "Associations&Spatial"
+
+        * F_ABS -> "Abiotic&Associations&Spatial"
+
+Value:
+
+     A tibble with columns:
+
+     component Character. Human-readable component label (e.g.
+          "Abiotic", "Associations", "Spatial").
+
+     R2_Nagelkerke Numeric. Nagelkerke R² value for each fraction,
+          optionally clamped to [0, Inf).
+
+See Also:
+
+     [aggregate_anova_components()]
+

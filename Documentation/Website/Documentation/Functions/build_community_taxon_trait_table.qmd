@@ -1,0 +1,179 @@
+---
+format: html
+title: build_community_taxon_trait_table()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_community_taxon_trait_table</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build Community-Taxon-Level Trait Table</h2>
+
+<h3>Description</h3>
+
+<p>Builds a wide-format trait table where rows correspond to
+community taxon names (as they appear in pollen/community
+data) rather than species names. For each trait observation
+the function looks up the full taxonomic lineage of the
+source species and maps it to every community taxon that
+appears anywhere in that lineage (kingdom -&gt; species). Trait
+values are then aggregated (median) per
+'(community_taxon, trait_domain)' and pivoted to a wide
+matrix ready for 'cluster_functional_types()'.
+</p>
+<p>This correctly handles pollen taxa resolved only to family
+or higher rank: &quot;Asteraceae&quot; in the community data will
+collect the median across all trait species whose lineage
+contains Asteraceae.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_community_taxon_trait_table(
+  data_traits,
+  data_classification_table,
+  data_community_classification_table,
+  aggregation_fn = "median",
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_traits">data_traits</code></td>
+<td>
+<p>A data frame of trait observations in long format.
+Must contain columns 'taxon_name' (character; the original
+trait species name, matching 'sel_name' in
+'data_classification_table'), 'trait_domain_name'
+(character; trait domain label), and 'trait_value'
+(numeric; observed value).</p>
+</td></tr>
+<tr><td><code id="data_classification_table">data_classification_table</code></td>
+<td>
+<p>A wide-format taxonomic classification table with one row
+per 'sel_name' and columns 'sel_name', 'kingdom',
+'phylum', 'class', 'order', 'family', 'genus', 'species'.
+Typically produced by 'make_classification_table()' and
+combined with manual overrides via
+'combine_classification_tables()'. 'sel_name' must match
+the 'taxon_name' values in 'data_traits' (after trait
+QC and correction).</p>
+</td></tr>
+<tr><td><code id="data_community_classification_table">data_community_classification_table</code></td>
+<td>
+<p>A wide-format taxonomic classification table for the
+community (pollen) taxa in this project / spatial unit.
+Must contain a 'sel_name' column (the pollen taxon name
+as it appears in the community data) and the seven rank
+columns 'kingdom', 'phylum', 'class', 'order', 'family',
+'genus', 'species'. Typically the output of
+'combine_classification_tables()' applied to the pollen
+community. 'sel_name' provides the allow-list of community
+taxa; each taxon is resolved to its finest available rank
+(via 'resolve_classification_to_finest_rank()') to look up
+matching entries in 'data_classification_table'. This
+correctly maps &quot;Betulaceae Undiff&quot; -&gt; canonical &quot;Betulaceae&quot;,
+&quot;Betula Nana-Type&quot; -&gt; canonical &quot;Betula&quot;, etc.</p>
+</td></tr>
+<tr><td><code id="aggregation_fn">aggregation_fn</code></td>
+<td>
+<p>A single character string specifying how trait values are
+aggregated per '(community_taxon, trait_domain_name)' pair.
+Must be one of '&quot;median&quot;' (default) or '&quot;mean&quot;'.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>A single logical. If 'TRUE' (default), progress messages
+reporting coverage statistics are printed via 'cli'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>**Algorithm**:
+</p>
+
+<ol>
+<li><p> Apply 'resolve_classification_to_finest_rank()' to
+'data_community_classification_table' to obtain a
+canonical name for each pollen taxon — e.g.
+&quot;Betulaceae Undiff&quot; -&gt; &quot;Betulaceae&quot;,
+&quot;Betula Nana-Type&quot; -&gt; &quot;Betula&quot;. This handles all pollen
+suffixes (&quot;Undiff&quot;, &quot;-Type&quot;, &quot;Subg&quot;, &quot;Sect&quot;, &quot;Cf&quot;)
+without any string manipulation.
+</p>
+</li>
+<li><p> Pivot the seven rank columns of
+'data_classification_table' (traits-side) to long
+format. Retain only rows whose rank value matches a
+canonical name from step 1.
+</p>
+</li>
+<li><p> Join the community canonical-name table to the
+trait classification table on 'canonical_name'
+('many-to-many'), producing a mapping
+'(pollen_taxon, canonical_name, trait_species)'.
+</p>
+</li>
+<li><p> Inner-join to 'data_traits' on
+'taxon_name == trait_species', giving one row per
+'(pollen_taxon, trait_domain_name, observation)'.
+</p>
+</li>
+<li><p> Aggregate: median (or mean) of 'trait_value' per
+'(pollen_taxon, trait_domain_name)'.
+</p>
+</li>
+<li><p> Pivot wide: 'taxon_name' (pollen taxon) ×
+trait domain columns.
+</p>
+</li></ol>
+
+
+
+<h3>Value</h3>
+
+<p>A tibble with one row per community taxon that could be
+matched to at least one trait observation. Contains a
+'taxon_name' column (the original pollen taxon name from
+'data_community_classification_table$sel_name') plus one
+numeric column per distinct 'trait_domain_name'. Community
+taxa with no trait match are silently absent (not filled
+with 'NA' rows). The column order is 'taxon_name' followed
+by trait domain columns in alphabetical order.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[make_classification_table()],
+[combine_classification_tables()],
+[resolve_classification_to_finest_rank()],
+[cluster_functional_types()],
+[classify_to_functional_type()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

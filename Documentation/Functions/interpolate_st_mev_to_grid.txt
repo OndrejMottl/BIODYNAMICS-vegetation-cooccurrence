@@ -1,0 +1,71 @@
+Interpolate 3-D Spatiotemporal MEVs to Prediction Grid
+
+Description:
+
+     Uses Inverse Distance Weighting (IDW, power = 2) in a z-scored 3-D
+     space `(x_km, y_km, age_kyr)` to approximate spatiotemporal Moran
+     Eigenvector Map (MEM) values from training samples to prediction
+     locations at a given age. The interpolated values are then scaled
+     using the training spatial scale attributes.
+
+Usage:
+
+     interpolate_st_mev_to_grid(
+       data_st_mev_samples = NULL,
+       data_coords_projected_train = NULL,
+       data_coords_projected_pred = NULL,
+       pred_age = NULL,
+       spatial_scale_attributes = NULL
+     )
+     
+Arguments:
+
+data_st_mev_samples: A data frame with row names in the format
+          `"<dataset_name>__<age>"` and unscaled spatiotemporal MEV
+          columns (`mev_1`, …), as returned by
+          `compute_spatiotemporal_mev()`.
+
+data_coords_projected_train: A data frame with `coord_x_km` and
+          `coord_y_km` columns and `dataset_name` as row names (site
+          level), as returned by `project_coords_to_metric()`.
+
+data_coords_projected_pred: A data frame with `coord_x_km` and
+          `coord_y_km` columns and arbitrary row names identifying
+          prediction locations, as returned by
+          `project_coords_to_metric()`.
+
+pred_age: Numeric or integer scalar. Age in years BP at which
+          predictions are made. Used as the temporal dimension of the
+          prediction 3-D coordinate matrix (`age_kyr = pred_age /
+          1000`).
+
+spatial_scale_attributes: A named list of `"scaled:center"` and
+          `"scaled:scale"` attributes per ST-MEV column, as returned by
+          `scale_spatial_for_fit()` in the `spatial_scale_attributes`
+          element.
+
+Details:
+
+     3-D coordinates `(x_km, y_km, age_kyr)` of the training samples
+     are z-scored using `colMeans` and column-wise standard deviations
+     before computing Euclidean distances. This ensures the spatial and
+     temporal extents contribute equally. The same z-score parameters
+     are applied to the prediction grid coordinates, fixing the
+     temporal dimension at `pred_age / 1000`.
+
+     This function handles the **3-D spatiotemporal case**. For models
+     fitted with `spatial_mode = "spatial"` use
+     `interpolate_mev_to_grid()` instead.
+
+Value:
+
+     A data frame with the same row names as
+     `data_coords_projected_pred` and one column per ST-MEV (names
+     matching `data_st_mev_samples`). All columns are scaled to match
+     the training ST-MEV distribution.
+
+See Also:
+
+     [compute_spatiotemporal_mev()], [interpolate_mev_to_grid()],
+     [project_coords_to_metric()], [scale_spatial_for_fit()]
+

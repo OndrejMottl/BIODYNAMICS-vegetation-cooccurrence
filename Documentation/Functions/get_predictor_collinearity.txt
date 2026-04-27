@@ -6,7 +6,8 @@ Description:
      data frame and returns a `collinear_output` object produced by
      `collinear::collinear()`. The function pivots `data_source` from
      long to wide format (one column per variable), removes any `age`
-     column, and then performs the collinearity analysis.
+     column, screens out zero-variance columns, and then performs the
+     collinearity analysis.
 
 Usage:
 
@@ -26,6 +27,13 @@ Details:
      integrity before returning.  Missing values are filled with `NA`
      when pivoting to wide format.  The `age` column is excluded
      because it is a sampling dimension rather than a predictor.
+     Predictor names are captured before pivoting so that the
+     zero-variance check is scoped to predictor columns only — ID or
+     metadata columns that survive the pivot are never passed to
+     `collinear::collinear()`.  Any predictor whose standard deviation
+     is zero across all samples is dropped and reported via
+     `cli::cli_warn()`.  If no predictor with non-zero variance
+     remains, the function aborts via `cli::cli_abort()`.
 
 Value:
 

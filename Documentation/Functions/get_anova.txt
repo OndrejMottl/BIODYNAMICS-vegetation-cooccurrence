@@ -8,16 +8,26 @@ Description:
 
 Usage:
 
-     get_anova(mod)
+     get_anova(mod, n_samples = 5000L, verbose = FALSE)
      
 Arguments:
 
      mod: A fitted model object of class `sjSDM`.
 
+n_samples: Integer; number of Monte Carlo samples used for the
+          variation partitioning calculation. Larger values yield more
+          stable estimates but are slower. Defaults to `5000L`.
+
+ verbose: Logical; if `TRUE`, prints detailed output from the ANOVA
+          computation.
+
 Details:
 
-     The function wraps the internal `sjSDM:::anova.sjSDM()` method
-     with `verbose = FALSE` to suppress printed output.
+     The function wraps the internal `sjSDM:::anova.sjSDM()` method.
+     The `n_samples` argument controls how many Monte Carlo draws are
+     used to approximate the likelihoods in each variation partition.
+     For exploratory runs, a value of 1000 is sufficient; for
+     publication-quality results, 3000–5000 is recommended.
 
 Value:
 
@@ -26,5 +36,5 @@ Value:
 
 See Also:
 
-     [fit_hmsc_model()]
+     [fit_jsdm_model()]
 

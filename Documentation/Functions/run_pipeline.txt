@@ -8,12 +8,28 @@ Description:
 
 Usage:
 
-     run_pipeline(sel_script, level_separation = 100, check_default_config = TRUE)
+     run_pipeline(
+       sel_script,
+       store_suffix = NULL,
+       level_separation = 100,
+       check_default_config = TRUE,
+       plot_progress = TRUE,
+       fresh_run = FALSE
+     )
      
 Arguments:
 
 sel_script: Path to the pipeline script to execute (relative to project
           root).
+
+store_suffix: Optional character string appended as a sub-directory
+          between the config-derived target store root and the pipeline
+          name. When `NULL` (default) the path is
+          `target_store/pipeline_name/` — identical to the original
+          behaviour. When set, the path becomes
+          `target_store/store_suffix/pipeline_name/`. Useful when
+          iterating over many spatial units that share one config but
+          each need an isolated store (e.g. `store_suffix = "eu_r01"`).
 
 level_separation: Numeric value controlling the vertical separation
           between levels in the progress visualization network graph.
@@ -23,13 +39,25 @@ check_default_config: Logical indicating whether to check if the
           default configuration is active and stop execution if TRUE.
           Default is TRUE.
 
+plot_progress: Logical indicating whether to save a progress
+          visualisation after the pipeline completes. Default is TRUE.
+
+fresh_run: Logical indicating whether to destroy the existing target
+          store before running the pipeline, forcing all targets to be
+          re-computed from scratch. When `TRUE`, calls
+          `targets::tar_destroy(destroy = "all", store = ...)` prior to
+          `targets::tar_make()`. Default is `FALSE`.
+
 Details:
 
      The function constructs pipeline-specific target store paths based
-     on the script name and active configuration. It uses
-     targets::tar_make() to execute the pipeline and then calls
-     save_progress_visualisation() to generate a network visualization
-     of the pipeline status.
+     on the script name and active configuration. When `fresh_run =
+     TRUE`, the target store is destroyed with
+     `targets::tar_destroy(destroy = "all")` before execution so that
+     every target is rebuilt from scratch. It uses
+     `targets::tar_make()` to execute the pipeline and then calls
+     `save_progress_visualisation()` to generate a network
+     visualization of the pipeline status.
 
 Value:
 

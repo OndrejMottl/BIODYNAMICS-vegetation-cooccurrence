@@ -1,0 +1,43 @@
+Filter Community Matrix by Minimum Number of Taxa
+
+Description:
+
+     Guards against running a joint species distribution model on data
+     with too few taxa. Returns the matrix unchanged when the number of
+     taxa (columns) is at least `min_n_taxa`. Stops with an informative
+     error when the column count is below the threshold, preventing
+     wasteful model fitting and meaningless species–species
+     associations from near-empty communities.
+
+Usage:
+
+     filter_community_by_n_taxa(data_community_matrix = NULL, min_n_taxa = 5)
+     
+Arguments:
+
+data_community_matrix: A numeric matrix with samples as rows and taxa
+          as columns, as returned by `filter_constant_taxa()`.
+
+min_n_taxa: A single positive integer giving the minimum number of taxa
+          (columns) required to proceed with model fitting. Default is
+          5.
+
+Details:
+
+     The check counts `ncol(data_community_matrix)` after all upstream
+     taxon-level filtering (`filter_rare_taxa()`,
+     `filter_community_by_n_cores()`, `filter_by_n_samples()`,
+     `filter_constant_taxa()`) has been applied. If the count falls
+     below `min_n_taxa`, `cli::cli_abort()` is called with a message
+     that reports the actual count and the threshold, allowing the user
+     to adjust the configuration or the data.
+
+Value:
+
+     The input matrix `data_community_matrix` unchanged, when
+     `ncol(data_community_matrix) >= min_n_taxa`.
+
+See Also:
+
+     [filter_constant_taxa()], [assemble_data_to_fit()]
+

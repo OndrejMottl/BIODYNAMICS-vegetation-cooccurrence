@@ -27,7 +27,14 @@ visualization. Prevents execution if default configuration is active.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>run_pipeline(sel_script, level_separation = 100, check_default_config = TRUE)
+<pre><code class='language-R'>run_pipeline(
+  sel_script,
+  store_suffix = NULL,
+  level_separation = 100,
+  check_default_config = TRUE,
+  plot_progress = TRUE,
+  fresh_run = FALSE
+)
 </code></pre>
 
 
@@ -37,6 +44,17 @@ visualization. Prevents execution if default configuration is active.
 <tr><td><code id="sel_script">sel_script</code></td>
 <td>
 <p>Path to the pipeline script to execute (relative to project root).</p>
+</td></tr>
+<tr><td><code id="store_suffix">store_suffix</code></td>
+<td>
+<p>Optional character string appended as a sub-directory between the
+config-derived target store root and the pipeline name.
+When 'NULL' (default) the path is
+'target_store/pipeline_name/' — identical to the original
+behaviour. When set, the path becomes
+'target_store/store_suffix/pipeline_name/'.
+Useful when iterating over many spatial units that share one config
+but each need an isolated store (e.g. 'store_suffix = &quot;eu_r01&quot;').</p>
 </td></tr>
 <tr><td><code id="level_separation">level_separation</code></td>
 <td>
@@ -48,14 +66,30 @@ progress visualization network graph. Default is 100.</p>
 <p>Logical indicating whether to check if the default configuration is
 active and stop execution if TRUE. Default is TRUE.</p>
 </td></tr>
+<tr><td><code id="plot_progress">plot_progress</code></td>
+<td>
+<p>Logical indicating whether to save a progress visualisation after the
+pipeline completes. Default is TRUE.</p>
+</td></tr>
+<tr><td><code id="fresh_run">fresh_run</code></td>
+<td>
+<p>Logical indicating whether to destroy the existing target store before
+running the pipeline, forcing all targets to be re-computed from
+scratch. When 'TRUE', calls
+'targets::tar_destroy(destroy = &quot;all&quot;, store = ...)' prior to
+'targets::tar_make()'. Default is 'FALSE'.</p>
+</td></tr>
 </table>
 
 
 <h3>Details</h3>
 
 <p>The function constructs pipeline-specific target store paths based on
-the script name and active configuration. It uses targets::tar_make()
-to execute the pipeline and then calls save_progress_visualisation() to
+the script name and active configuration. When 'fresh_run = TRUE',
+the target store is destroyed with
+'targets::tar_destroy(destroy = &quot;all&quot;)' before execution so that every
+target is rebuilt from scratch. It uses 'targets::tar_make()' to
+execute the pipeline and then calls 'save_progress_visualisation()' to
 generate a network visualization of the pipeline status.
 </p>
 

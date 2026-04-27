@@ -2,17 +2,17 @@ Assemble Final Data List for Model Fitting
 
 Description:
 
-     Validates that the community matrix, scaled abiotic data, and
-     coordinate data all share the same sample rows in the same order,
-     then bundles them into the named list expected by
-     `fit_jsdm_model()`.
+     Validates that the community matrix and scaled abiotic data share
+     the same sample rows in the same order, then bundles them —
+     together with optional scaled spatial predictors — into the named
+     list expected by `fit_jsdm_model()`.
 
 Usage:
 
      assemble_data_to_fit(
        data_community_filtered = NULL,
        data_abiotic_scaled_list = NULL,
-       data_coords_to_fit = NULL
+       data_spatial_scaled_list = NULL
      )
      
 Arguments:
@@ -26,9 +26,11 @@ data_abiotic_scaled_list: A named list with elements
           `scale_abiotic_for_fit()`. `data_abiotic_scaled` must have
           row names matching those of the community matrix.
 
-data_coords_to_fit: A data frame with row names
-          `"<dataset_name>__<age>"` and columns `coord_long` and
-          `coord_lat`, as returned by `prepare_coords_for_fit()`.
+data_spatial_scaled_list: Optional. A named list with elements
+          `data_spatial_scaled` and `spatial_scale_attributes`, as
+          returned by `scale_spatial_for_fit()`. `data_spatial_scaled`
+          must have row names matching those of the community matrix.
+          If `NULL` (default), no spatial predictors are included.
 
 Details:
 
@@ -39,18 +41,23 @@ Details:
 
 Value:
 
-     A named list with four elements:
+     A named list with three mandatory and up to two optional elements:
 
      `data_community_to_fit` The (filtered) community matrix.
 
      `data_abiotic_to_fit` The scaled abiotic data frame.
 
-     `data_coords_to_fit` The per-sample coordinate data frame.
+     `scale_attributes` Abiotic scaling attributes for
+          back-transformation.
 
-     `scale_attributes` Scaling attributes for back-transformation.
+     `data_spatial_to_fit` Scaled spatial predictor data frame (only
+          present when `data_spatial_scaled_list` is supplied).
+
+     `spatial_scale_attributes` Spatial scaling attributes (only
+          present when `data_spatial_scaled_list` is supplied).
 
 See Also:
 
      [filter_constant_taxa()], [scale_abiotic_for_fit()],
-     [prepare_coords_for_fit()], [fit_jsdm_model()]
+     [scale_spatial_for_fit()], [fit_jsdm_model()]
 

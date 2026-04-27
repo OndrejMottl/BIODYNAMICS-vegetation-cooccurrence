@@ -1,0 +1,52 @@
+Filter Trait Outliers Using IQR
+
+Description:
+
+     Removes outlier trait values from a long-format trait data frame
+     using the interquartile range (IQR) method. Outlier detection is
+     performed per group (by default per taxon x trait combination),
+     mirroring the fence logic used by boxplots: \[Q1 - k*IQR, Q3 +
+     k*IQR\].
+
+Usage:
+
+     filter_trait_outliers(
+       data,
+       trait_col = "trait_value",
+       group_cols = c("taxon_name", "trait_domain_name"),
+       iqr_multiplier = 1.5
+     )
+     
+Arguments:
+
+    data: A data frame in long format with at least the columns
+          specified by `trait_col` and `group_cols`.
+
+trait_col: A character string naming the numeric column containing
+          trait values. Default: `"trait_value"`.
+
+group_cols: A character vector of column names used to define groups
+          for outlier detection. Default: `c("taxon_name",
+          "trait_domain_name")`.
+
+iqr_multiplier: A positive numeric scalar controlling the fence width,
+          equivalent to k in the standard boxplot formula. Default:
+          `1.5`.
+
+Details:
+
+     Groups with an IQR of zero (all values identical) are kept intact
+     — no filtering is applied to constant groups. This prevents
+     inadvertent removal of valid data when all observations share the
+     same trait value.
+
+Value:
+
+     A data frame with the same columns as the input but with outlier
+     rows removed. The number of removed rows is reported via
+     `cli::cli_inform()`.
+
+See Also:
+
+     [aggregate_trait_values()]
+

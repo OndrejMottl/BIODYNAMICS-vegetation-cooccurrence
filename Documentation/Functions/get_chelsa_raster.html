@@ -1,0 +1,123 @@
+<!DOCTYPE html><html><head><title>R: Get and Cache a CHELSA-TraCE21k Raster</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_chelsa_raster</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get and Cache a CHELSA-TraCE21k Raster</h2>
+
+<h3>Description</h3>
+
+<p>Downloads a cropped CHELSA-TraCE21k raster for a given
+bioclim variable and age slice. If a cached '.tif' already
+exists in 'cache_dir' it is returned immediately without
+re-downloading. Absolute-temperature variables ('bio1',
+'bio6') are corrected from Kelvin to degrees Celsius
+(subtract 273.15) before the raster is written to cache.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_chelsa_raster(
+  chelsa_var = NULL,
+  age = NULL,
+  x_lim = NULL,
+  y_lim = NULL,
+  cache_dir = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="chelsa_var">chelsa_var</code></td>
+<td>
+<p>Character scalar. Project-level bioclim variable name,
+e.g. '&quot;bio1&quot;', '&quot;bio4&quot;', '&quot;bio12&quot;'. Single-digit numbers
+are zero-padded internally to match CHELSA file names
+('&quot;bio1&quot;' becomes '&quot;bio01&quot;' in the URL).</p>
+</td></tr>
+<tr><td><code id="age">age</code></td>
+<td>
+<p>Numeric or integer scalar. Age in years BP used to encode
+the CHELSA-TraCE21k time step (e.g. '1000' encodes as
+time step '&quot;-010&quot;').</p>
+</td></tr>
+<tr><td><code id="x_lim">x_lim</code></td>
+<td>
+<p>Numeric vector of length 2. Longitude extent
+'c(min, max)' for cropping the downloaded raster.</p>
+</td></tr>
+<tr><td><code id="y_lim">y_lim</code></td>
+<td>
+<p>Numeric vector of length 2. Latitude extent
+'c(min, max)' for cropping the downloaded raster.</p>
+</td></tr>
+<tr><td><code id="cache_dir">cache_dir</code></td>
+<td>
+<p>Character scalar. Path to the directory where the cropped
+raster is cached as 'chelsa_var_age_xmin_xmax_ymin_ymax.tif'.
+The extent values are rounded to 2 decimal places so the cache
+is shared across calls with identical extents. The directory must
+already exist before calling this function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>CHELSA-TraCE21k time steps: 'age = 0' (present) maps to
+the special step '&quot;0000&quot;'; all other ages use
+'sprintf(&quot;-
+'&quot;-001&quot;' and 'age = 1000' gives '&quot;-010&quot;'.
+</p>
+<p>The remote raster is accessed via GDAL '/vsicurl/', so an
+internet connection is required the first time each
+'(chelsa_var, age, x_lim, y_lim)' combination is requested.
+Subsequent calls load from the cached '.tif' and need no
+connection. The geographic extent (rounded to 2 decimal
+places) is embedded in the cache filename, so rasters with
+different extents are always stored separately.
+</p>
+<p>Kelvin correction: 'bio1' (Mean Annual Temperature) and
+'bio6' (Min Temperature of Coldest Month) are absolute
+temperatures stored in Kelvin; 273.15 is subtracted before
+caching. Range and seasonality variables ('bio4', 'bio7')
+are differences or standard deviations — no offset needed.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A 'terra::SpatRaster' cropped to 'x_lim' / 'y_lim', with
+corrected units: degrees Celsius for 'bio1' and 'bio6';
+original CHELSA units for all other variables.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[interpolate_mev_to_grid()],
+[interpolate_st_mev_to_grid()],
+[project_coords_to_metric()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

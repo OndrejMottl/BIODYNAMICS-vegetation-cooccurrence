@@ -1,0 +1,75 @@
+Get and Cache a CHELSA-TraCE21k Raster
+
+Description:
+
+     Downloads a cropped CHELSA-TraCE21k raster for a given bioclim
+     variable and age slice. If a cached `.tif` already exists in
+     `cache_dir` it is returned immediately without re-downloading.
+     Absolute-temperature variables (`bio1`, `bio6`) are corrected from
+     Kelvin to degrees Celsius (subtract 273.15) before the raster is
+     written to cache.
+
+Usage:
+
+     get_chelsa_raster(
+       chelsa_var = NULL,
+       age = NULL,
+       x_lim = NULL,
+       y_lim = NULL,
+       cache_dir = NULL
+     )
+     
+Arguments:
+
+chelsa_var: Character scalar. Project-level bioclim variable name, e.g.
+          `"bio1"`, `"bio4"`, `"bio12"`. Single-digit numbers are
+          zero-padded internally to match CHELSA file names (`"bio1"`
+          becomes `"bio01"` in the URL).
+
+     age: Numeric or integer scalar. Age in years BP used to encode the
+          CHELSA-TraCE21k time step (e.g. `1000` encodes as time step
+          `"-010"`).
+
+   x_lim: Numeric vector of length 2. Longitude extent `c(min, max)`
+          for cropping the downloaded raster.
+
+   y_lim: Numeric vector of length 2. Latitude extent `c(min, max)` for
+          cropping the downloaded raster.
+
+cache_dir: Character scalar. Path to the directory where the cropped
+          raster is cached as `chelsa_var_age_xmin_xmax_ymin_ymax.tif`.
+          The extent values are rounded to 2 decimal places so the
+          cache is shared across calls with identical extents. The
+          directory must already exist before calling this function.
+
+Details:
+
+     CHELSA-TraCE21k time steps: `age = 0` (present) maps to the
+     special step `"0000"`; all other ages use `sprintf("- `"-001"` and
+     `age = 1000` gives `"-010"`.
+
+     The remote raster is accessed via GDAL `/vsicurl/`, so an internet
+     connection is required the first time each `(chelsa_var, age,
+     x_lim, y_lim)` combination is requested. Subsequent calls load
+     from the cached `.tif` and need no connection. The geographic
+     extent (rounded to 2 decimal places) is embedded in the cache
+     filename, so rasters with different extents are always stored
+     separately.
+
+     Kelvin correction: `bio1` (Mean Annual Temperature) and `bio6`
+     (Min Temperature of Coldest Month) are absolute temperatures
+     stored in Kelvin; 273.15 is subtracted before caching. Range and
+     seasonality variables (`bio4`, `bio7`) are differences or standard
+     deviations — no offset needed.
+
+Value:
+
+     A `terra::SpatRaster` cropped to `x_lim` / `y_lim`, with corrected
+     units: degrees Celsius for `bio1` and `bio6`; original CHELSA
+     units for all other variables.
+
+See Also:
+
+     [interpolate_mev_to_grid()], [interpolate_st_mev_to_grid()],
+     [project_coords_to_metric()]
+

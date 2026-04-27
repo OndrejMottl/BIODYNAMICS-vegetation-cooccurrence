@@ -1,0 +1,65 @@
+Interpolate 2-D Spatial MEVs to Prediction Grid
+
+Description:
+
+     Uses Inverse Distance Weighting (IDW, power = 2) to approximate
+     Moran Eigenvector Map (MEM) values from training-site locations to
+     arbitrary prediction locations, then scales the result using
+     training spatial scale attributes so that the interpolated
+     predictors are on the same scale as those seen during model
+     fitting.
+
+Usage:
+
+     interpolate_mev_to_grid(
+       data_coords_projected_train = NULL,
+       data_mev_core = NULL,
+       data_coords_projected_pred = NULL,
+       spatial_scale_attributes = NULL
+     )
+     
+Arguments:
+
+data_coords_projected_train: A data frame with `coord_x_km` and
+          `coord_y_km` columns and `dataset_name` as row names, as
+          returned by `project_coords_to_metric()`. One row per unique
+          training site.
+
+data_mev_core: A data frame with unscaled MEV columns (`mev_1`,
+          `mev_2`, …) and `dataset_name` as row names, as returned by
+          `compute_spatial_mev()`.
+
+data_coords_projected_pred: A data frame with `coord_x_km` and
+          `coord_y_km` columns and arbitrary row names identifying
+          prediction locations (e.g. `"grid_1"`, `"grid_2"`), as
+          returned by `project_coords_to_metric()`.
+
+spatial_scale_attributes: A named list of `"scaled:center"` and
+          `"scaled:scale"` attributes per MEV column, as returned by
+          `scale_spatial_for_fit()` in the `spatial_scale_attributes`
+          element. Used to bring interpolated MEV values onto the same
+          scale as the training spatial predictors.
+
+Details:
+
+     MEMs are eigenvectors of the spatial connectivity matrix at
+     training sites and cannot be analytically evaluated at new
+     locations. IDW (power = 2) with a small epsilon (1e-10) to prevent
+     division-by-zero provides a smooth spatial interpolation.
+
+     This function handles the **2-D spatial case** only (x_km, y_km).
+     For models fitted with `spatial_mode = "spatiotemporal"` use
+     `interpolate_st_mev_to_grid()` instead.
+
+Value:
+
+     A data frame with the same row names as
+     `data_coords_projected_pred` and one column per MEV (names
+     matching `data_mev_core`). All columns are scaled to match the
+     training MEV distribution.
+
+See Also:
+
+     [compute_spatial_mev()], [interpolate_st_mev_to_grid()],
+     [project_coords_to_metric()], [scale_spatial_for_fit()]
+

@@ -605,4 +605,4 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
 - Function documentation → Generated to `Documentation/Functions/`
 - Test coverage reports → `Documentation/Functions_test_coverage/`
 - Progress reports → `Documentation/Progress/`
-- Project website → `website/` (rendered to `docs/`)
+- Project website → `Documentation/Website/` (rendered to `docs/`)

@@ -1,0 +1,122 @@
+<!DOCTYPE html><html><head><title>R: Extract ANOVA Fraction Components from a Single Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>extract_anova_fractions</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract ANOVA Fraction Components from a Single Object</h2>
+
+<h3>Description</h3>
+
+<p>Extracts specified variance partitioning fractions from a
+single sjSDManova object, returning a two-column tibble with
+fraction codes and their Nagelkerke R² values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>extract_anova_fractions(
+  anova_object,
+  vec_anova_fractions = c("F_A", "F_B", "F_S", "F_AB", "F_AS", "F_BS", "F_ABS"),
+  clamp_negative = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="anova_object">anova_object</code></td>
+<td>
+<p>A single sjSDManova-like object containing a
+<code>$results</code> element with columns <code>models</code> and
+<code>"R2 Nagelkerke"</code>. Must be a list.</p>
+</td></tr>
+<tr><td><code id="vec_anova_fractions">vec_anova_fractions</code></td>
+<td>
+<p>A non-empty character vector of fraction codes to retain
+(e.g. <code>c("F_A", "F_B", "F_S")</code>).</p>
+</td></tr>
+<tr><td><code id="clamp_negative">clamp_negative</code></td>
+<td>
+<p>A single logical (default <code>TRUE</code>). If <code>TRUE</code>,
+negative Nagelkerke R² values are clamped to 0.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Accesses <code>anova_object$results</code> via
+<code>purrr::chuck()</code>, filters rows whose <code>models</code>
+value is in <code>vec_anova_fractions</code>, renames the
+columns to <code>component</code> and <code>R2_Nagelkerke</code>,
+translates internal fraction codes to human-readable
+labels, and (when <code>clamp_negative = TRUE</code>) clamps
+negative R² values to 0:
+</p>
+
+<ul>
+<li><p> F_A   -&gt; &quot;Abiotic&quot;
+</p>
+</li>
+<li><p> F_B   -&gt; &quot;Associations&quot;
+</p>
+</li>
+<li><p> F_S   -&gt; &quot;Spatial&quot;
+</p>
+</li>
+<li><p> F_AB  -&gt; &quot;Abiotic&amp;Associations&quot;
+</p>
+</li>
+<li><p> F_AS  -&gt; &quot;Abiotic&amp;Spatial&quot;
+</p>
+</li>
+<li><p> F_BS  -&gt; &quot;Associations&amp;Spatial&quot;
+</p>
+</li>
+<li><p> F_ABS -&gt; &quot;Abiotic&amp;Associations&amp;Spatial&quot;
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>A tibble with columns:
+</p>
+
+<dl>
+<dt>component</dt><dd><p>Character. Human-readable component label
+(e.g. &quot;Abiotic&quot;, &quot;Associations&quot;, &quot;Spatial&quot;).</p>
+</dd>
+<dt>R2_Nagelkerke</dt><dd><p>Numeric. Nagelkerke R² value for
+each fraction, optionally clamped to [0, Inf).</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>[aggregate_anova_components()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

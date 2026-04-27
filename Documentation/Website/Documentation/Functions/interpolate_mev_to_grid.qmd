@@ -1,0 +1,118 @@
+---
+format: html
+title: interpolate_mev_to_grid()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>interpolate_mev_to_grid</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpolate 2-D Spatial MEVs to Prediction Grid</h2>
+
+<h3>Description</h3>
+
+<p>Uses Inverse Distance Weighting (IDW, power = 2) to
+approximate Moran Eigenvector Map (MEM) values from
+training-site locations to arbitrary prediction locations,
+then scales the result using training spatial scale
+attributes so that the interpolated predictors are on the
+same scale as those seen during model fitting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>interpolate_mev_to_grid(
+  data_coords_projected_train = NULL,
+  data_mev_core = NULL,
+  data_coords_projected_pred = NULL,
+  spatial_scale_attributes = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_coords_projected_train">data_coords_projected_train</code></td>
+<td>
+<p>A data frame with 'coord_x_km' and 'coord_y_km' columns
+and 'dataset_name' as row names, as returned by
+'project_coords_to_metric()'. One row per unique training
+site.</p>
+</td></tr>
+<tr><td><code id="data_mev_core">data_mev_core</code></td>
+<td>
+<p>A data frame with unscaled MEV columns ('mev_1', 'mev_2',
+…) and 'dataset_name' as row names, as returned by
+'compute_spatial_mev()'.</p>
+</td></tr>
+<tr><td><code id="data_coords_projected_pred">data_coords_projected_pred</code></td>
+<td>
+<p>A data frame with 'coord_x_km' and 'coord_y_km' columns
+and arbitrary row names identifying prediction locations
+(e.g. '&quot;grid_1&quot;', '&quot;grid_2&quot;'), as returned by
+'project_coords_to_metric()'.</p>
+</td></tr>
+<tr><td><code id="spatial_scale_attributes">spatial_scale_attributes</code></td>
+<td>
+<p>A named list of '&quot;scaled:center&quot;' and '&quot;scaled:scale&quot;'
+attributes per MEV column, as returned by
+'scale_spatial_for_fit()' in the 'spatial_scale_attributes'
+element. Used to bring interpolated MEV values onto the
+same scale as the training spatial predictors.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>MEMs are eigenvectors of the spatial connectivity matrix
+at training sites and cannot be analytically evaluated at
+new locations. IDW (power = 2) with a small epsilon
+(1e-10) to prevent division-by-zero provides a smooth
+spatial interpolation.
+</p>
+<p>This function handles the **2-D spatial case** only
+(x_km, y_km). For models fitted with
+'spatial_mode = &quot;spatiotemporal&quot;' use
+'interpolate_st_mev_to_grid()' instead.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the same row names as
+'data_coords_projected_pred' and one column per MEV
+(names matching 'data_mev_core'). All columns are scaled
+to match the training MEV distribution.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[compute_spatial_mev()],
+[interpolate_st_mev_to_grid()],
+[project_coords_to_metric()],
+[scale_spatial_for_fit()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

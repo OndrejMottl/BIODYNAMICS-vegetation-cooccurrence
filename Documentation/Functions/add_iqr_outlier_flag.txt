@@ -1,0 +1,60 @@
+Add IQR Outlier Flag to a Grouped Data Frame
+
+Description:
+
+     Adds two columns — `n_group` and `is_outlier` — to a pre-grouped
+     data frame using a fence based on the interquartile range (Tukey's
+     method). The caller is responsible for grouping `data` with
+     `dplyr::group_by()` before passing it to this function; the
+     returned data frame is always ungrouped.
+
+Usage:
+
+     add_iqr_outlier_flag(data, col_value = "trait_value", multiplier, min_n = NULL)
+     
+Arguments:
+
+    data: A grouped data frame (e.g. created by `dplyr::group_by()`).
+          Must contain the column named by `col_value`.
+
+col_value: Character scalar. Name of the numeric column to test.
+          Default: `"trait_value"`.
+
+multiplier: Positive numeric scalar. IQR fence multiplier. A value is
+          flagged when `|value - group_median| > multiplier *
+          group_IQR`.
+
+   min_n: Optional positive integer scalar. When supplied, `is_outlier`
+          is set to `FALSE` for groups with fewer than `min_n` records
+          or with an IQR of zero (no meaningful spread). Default:
+          `NULL` (no group-size guard applied).
+
+Details:
+
+     The IQR fence is `[group_median - multiplier * group_IQR,
+     group_median + multiplier * group_IQR]`. Values outside this range
+     receive `is_outlier = TRUE`.
+
+     When `min_n` is not `NULL`, an additional guard is applied: groups
+     with fewer than `min_n` records or a `group_IQR` of zero always
+     receive `is_outlier = FALSE`.
+
+     Designed for use in pipes where the caller sets up grouping: ```r
+     data_traits |> dplyr::group_by(trait_domain_name) |>
+     add_iqr_outlier_flag(multiplier = 3) ```
+
+Value:
+
+     An ungrouped data frame with the same rows and columns as `data`
+     plus two additional columns:
+
+     `n_group` Integer. Number of records in the group.
+
+     `is_outlier` Logical. `TRUE` when the record's value falls outside
+          the IQR fence; `FALSE` otherwise.  When `min_n` is supplied,
+          also `FALSE` for groups that are too small or have zero IQR.
+
+See Also:
+
+     [filter_trait_outliers()], [generate_trait_qc_report()]
+

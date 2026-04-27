@@ -1,0 +1,111 @@
+<!DOCTYPE html><html><head><title>R: Compute Standard Errors for a Fitted sjSDM Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_jsdm_se</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute Standard Errors for a Fitted sjSDM Model</h2>
+
+<h3>Description</h3>
+
+<p>Post-hoc calculation of standard errors for a fitted sjSDM
+model using 'sjSDM::getSe()'. This is intentionally separated
+from 'fit_jsdm_model()' so that the GPU-based model fitting
+step and the CPU-based SE computation step can be run
+independently, allowing the SE step to exploit all available
+CPU cores without being constrained by the GPU device setting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_jsdm_se(
+  mod_jsdm = NULL,
+  parallel = 0L,
+  step_size = NULL,
+  verbose = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="mod_jsdm">mod_jsdm</code></td>
+<td>
+<p>An object of class 'sjSDM' returned by 'fit_jsdm_model()' or
+'sjSDM::sjSDM()'. Must not be 'NULL'.</p>
+</td></tr>
+<tr><td><code id="parallel">parallel</code></td>
+<td>
+<p>Number of CPU cores to use for the data loader during SE
+computation. Passed to the 'parallel' argument of
+'sjSDM::getSe()'. Default is '0L' (no parallelisation).
+Use 'config.model_fitting$n_cores' from the project
+configuration to exploit all available cores.</p>
+</td></tr>
+<tr><td><code id="step_size">step_size</code></td>
+<td>
+<p>Batch size for stochastic gradient descent used during SE
+computation. Passed to 'sjSDM::getSe()'. Default is 'NULL',
+which lets sjSDM choose automatically.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical scalar. If 'FALSE' (default), all console output
+from 'sjSDM::getSe()' — including Python/reticulate stdout
+— is suppressed. Set to 'TRUE' to see progress messages,
+which is recommended when running inside a pipeline target
+to monitor long-running SE computation.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>'sjSDM::getSe()' uses CPU for SE computation regardless of the
+device used for model fitting. Separating SE computation into
+its own pipeline target therefore allows the caller to pass
+the full number of available CPU cores via 'parallel' without
+conflict with the GPU device setting used during fitting.
+</p>
+<p>When 'verbose = FALSE', output is captured with
+'reticulate::py_capture_output()' (Python stdout) and
+'utils::capture.output()' (R stdout) so the console remains
+clean. When 'verbose = TRUE', both output streams are printed
+for monitoring progress.
+</p>
+<p>If SE computation fails, the function raises an error with
+an informative message.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The input 'mod_jsdm' object with its '$se' field populated
+with the computed standard errors.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>'sjSDM::getSe', 'fit_jsdm_model'
+</p>
+
+</main>
+
+</div>
+</body></html>
+

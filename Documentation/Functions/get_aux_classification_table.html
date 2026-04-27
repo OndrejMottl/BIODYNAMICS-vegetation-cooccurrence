@@ -43,8 +43,10 @@ continue and detect any missing taxa.
 <p>A length-1 character string giving the path to the CSV file.
 Defaults to
 'here::here(&quot;Data/Input/aux_classification_table.csv&quot;)'.
-The file, if present, must contain columns 'sel_name',
-'family', 'genus', and 'species'.</p>
+The file, if present, must contain a 'sel_name' column. All
+seven taxonomic rank columns ('kingdom', 'phylum', 'class',
+'order', 'family', 'genus', 'species') are expected but
+optional — any that are absent are filled with 'NA_character_'.</p>
 </td></tr>
 </table>
 
@@ -53,17 +55,18 @@ The file, if present, must contain columns 'sel_name',
 
 <p>Manual classifications in this file override automatic
 classifications produced by 'get_taxa_classification()'. When
-the file exists it is validated to confirm all required columns
-are present. Missing columns are filled with 'NA_character_'
-rather than raising an error, so that partial tables are
-accepted.
+the file exists it is validated to confirm 'sel_name' is
+present. Any of the seven rank columns that are absent are
+filled with 'NA_character_' rather than raising an error, so
+that partial tables (e.g., those that only specify 'family',
+'genus', and 'species') continue to be accepted.
 </p>
 
 
 <h3>Value</h3>
 
-<p>A tibble with columns 'sel_name' (character), 'family'
-(character), 'genus' (character), and 'species' (character).
+<p>A tibble with columns 'sel_name', 'kingdom', 'phylum', 'class',
+'order', 'family', 'genus', and 'species' (all character).
 Returns an empty tibble when the file does not exist.
 </p>
 

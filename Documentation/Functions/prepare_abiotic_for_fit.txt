@@ -1,0 +1,43 @@
+Prepare Abiotic Data for Model Fitting
+
+Description:
+
+     Reshapes long-format abiotic data into a wide data frame suitable
+     for downstream scaling, filtering to the canonical sample index
+     supplied by `align_sample_ids()`.
+
+Usage:
+
+     prepare_abiotic_for_fit(data_abiotic_long = NULL, data_sample_ids = NULL)
+     
+Arguments:
+
+data_abiotic_long: A data frame in long format with columns
+          `dataset_name`, `age`, `abiotic_variable_name`, and
+          `abiotic_value`.
+
+data_sample_ids: A data frame of valid `(dataset_name, age)` pairs as
+          returned by `align_sample_ids()`.
+
+Details:
+
+     Unlike the former `prepare_data_for_fit(type = "abiotic")`, this
+     function retains `dataset_name` and `age` as real columns so that
+     `scale_abiotic_for_fit()` can operate on them without parsing row
+     names. Row names are added by `scale_abiotic_for_fit()` as part of
+     the scaling step.
+
+Value:
+
+     A data frame in wide format with real columns `dataset_name`,
+     `age`, and one column per abiotic variable. Rows are ordered by
+     `dataset_name` then `age`, matching the order in
+     `data_sample_ids`. Missing variable–sample combinations are left
+     as `NA`. The `age` column is preserved as a plain numeric column
+     (not encoded in row names) to simplify downstream scaling.
+
+See Also:
+
+     [align_sample_ids()], [scale_abiotic_for_fit()],
+     [assemble_data_to_fit()]
+

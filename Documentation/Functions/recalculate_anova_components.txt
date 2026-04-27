@@ -1,0 +1,72 @@
+Recalculate ANOVA Components via Shapley-Allocated Percentages
+
+Description:
+
+     Converts a long-format ANOVA results table into per-age
+     percentages for the three unique variance-partitioning components
+     (Abiotic, Associations, Spatial) using a Shapley equal-split
+     allocation of intersection terms. Negative Nagelkerke R² values
+     are clamped to zero before any computation.
+
+Usage:
+
+     recalculate_anova_components(data_source)
+     
+Arguments:
+
+data_source: A non-empty data frame with columns:
+
+          age Numeric. Age (cal yr BP) of the time slice.
+
+          component Character. Component label. May include any of the
+              seven sjSDM variance-partitioning labels: '"Abiotic"',
+              '"Associations"', '"Spatial"', '"Abiotic&Associations"',
+              '"Abiotic&Spatial"', '"Associations&Spatial"', and
+              '"Abiotic&Associations&Spatial"'.  Missing intersection
+              labels are treated as zero.
+
+          R2_Nagelkerke Numeric. Nagelkerke R² value.  Values below
+              zero are clamped to 0 internally.
+
+Details:
+
+     *Negative clamping:* All 'R2_Nagelkerke' values are clamped to [0,
+     Inf) before allocation. Negative values arise from suppressor
+     effects and carry no directional attribution.
+
+     *Shapley equal-split allocation:* Each intersection term is
+     divided equally among its constituent unique components,
+     irrespective of unique-fraction magnitudes. The three adjusted
+     values therefore sum to the total of all seven (clamped)
+     fractions, preserving total explained variance. Using equal splits
+     rather than proportional splits avoids a feedback loop in which a
+     larger unique fraction accumulates more shared variance, further
+     inflating its apparent importance.
+
+     Concretely (where missing fractions are treated as 0):
+
+        * Abiotic_adj = F_A + F_AB/2 + F_AS/2 + F_ABS/3
+
+        * Assoc_adj = F_B + F_AB/2 + F_BS/2 + F_ABS/3
+
+        * Spatial_adj = F_S + F_AS/2 + F_BS/2 + F_ABS/3
+
+Value:
+
+     A tibble with exactly 3 rows per age (one per unique component)
+     and columns 'age', 'component', 'R2_Nagelkerke_adjusted', and
+     'R2_Nagelkerke_percentage':
+
+     R2_Nagelkerke_adjusted Numeric.  Shapley-adjusted R² for the
+          component: the component's unique fraction plus an equal
+          share of every intersection term that includes it.
+
+     R2_Nagelkerke_percentage Numeric. Percentage of total adjusted R²
+          explained by this component within the age slice:
+          'R2_adjusted / sum(R2_adjusted) * 100'.  'NA_real_' when the
+          age-slice total is zero.
+
+See Also:
+
+     [extract_anova_fractions()], [aggregate_anova_components()]
+
