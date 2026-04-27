@@ -91,7 +91,7 @@ purrr::walk(
       writeLines(
         qmd_content,
         here::here(
-          "website/Documentation/Functions",
+          "Documentation/Website/Documentation/Functions",
           paste0(
             fs::path_ext_remove(base_name),
             ".qmd"
