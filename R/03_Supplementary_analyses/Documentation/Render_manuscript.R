@@ -48,7 +48,7 @@ quarto::quarto_render(
 )
 
 cli::cli_inform(
-  c("v" = "Manuscript rendered to {path_output}.")  
+  c("v" = "Manuscript rendered to {path_output}.")
 )
 
 #----------------------------------------------------------#

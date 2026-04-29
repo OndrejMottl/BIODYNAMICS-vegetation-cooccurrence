@@ -1,32 +1,11 @@
 project:
   type: manuscript
   output-dir: _output
+  render:
+    - manuscript.qmd
 
 manuscript:
   article: manuscript.qmd
-  notebooks:
-    - notebook: sections/01_abstract.qmd
-      title: "Abstract (draft)"
-    - notebook: sections/02_introduction.qmd
-      title: "Introduction"
-    - notebook: sections/03_methods.qmd
-      title: "Methods"
-    - notebook: sections/04_results.qmd
-      title: "Results"
-    - notebook: sections/05_discussion.qmd
-      title: "Discussion"
-    - notebook: sections/07_acknowledgements.qmd
-      title: "Acknowledgements"
-    - notebook: sections/08_author_contributions.qmd
-      title: "Author Contributions"
-    - notebook: sections/09_data_availability.qmd
-      title: "Data Availability"
-    - notebook: sections/10_code_availability.qmd
-      title: "Code Availability"
-    - notebook: sections/11_references.qmd
-      title: "References"
-    - notebook: sections/06_supplementary.qmd
-      title: "Supplementary Information"
 
 format:
   html:
@@ -36,6 +15,7 @@ format:
     number-sections: true
     code-fold: true
     code-tools: true
+    embed-resources: true
   pdf:
     documentclass: article
     number-sections: true
