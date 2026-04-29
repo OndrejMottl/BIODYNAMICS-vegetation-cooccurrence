@@ -157,11 +157,41 @@ with an average AUC of `r round(mean(model_evaluation$species$AUC), 2)`.
 
 This applies to:
 - counts (number of functions, taxa, datasets, samples)
-- model metrics (AUC, RÂ², RMSE)
+- model metrics (AUC, R², RMSE)
 - summary statistics reported in text
 - any value that could change if data or code changes
+- **analysis parameters and thresholds stored in `config.yml`** — these must be read via `config::get()` in a code chunk and referenced as inline R expressions, even though they are deliberate analysis choices. Hardcoding them in prose means the text silently diverges from the actual values whenever the configuration is updated.
 
-The only acceptable literals in prose are values that are definitionally fixed (e.g. a stated spatial resolution of `1Â°` that is a deliberate analysis choice, not derived).
+The only acceptable literals in prose are values that are truly external constants — e.g. a standard geographic projection code such as `EPSG:3035`, or a published database version number that cannot change.
+
+### Reading `config.yml` values in `.qmd` files
+
+Declare a named setup chunk (e.g. `config-thresholds`) early in the file that reads every parameter you intend to reference:
+
+```r
+#| label: config-thresholds
+#| echo: false
+#| output: false
+#| message: false
+#| warning: false
+#| error: false
+here::i_am("Documentation/Manuscript/sections/your_file.qmd")
+
+config_spatial_continental <-
+  config::get(
+    config = "project_spatial_continental",
+    file = here::here("config.yml")
+  )
+
+min_n_taxa_continental <-
+  config_spatial_continental$data_processing$min_n_taxa
+```
+
+Then reference the variable inline:
+
+```markdown
+A unit was excluded if fewer than `r min_n_taxa_continental` taxa remained.
+```
 
 ---
 
