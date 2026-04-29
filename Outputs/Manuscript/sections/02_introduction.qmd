@@ -1,0 +1,17 @@
+## Introduction
+
+<!-- Nature Letter: ~3–5 paragraphs; no explicit "Introduction" heading
+     is used in the final Nature format — remove the heading above before
+     submission. For Frontiers in Biogeography keep the heading.
+
+     Suggested paragraph structure:
+     1. Broad ecological context: why co-occurrence patterns matter.
+     2. State of knowledge: what is known about vegetation co-occurrence
+        across space and time; key gaps.
+     3. Palaeoecological opportunity: how fossil pollen archives and
+        modern vegetation data can fill those gaps.
+     4. This study: objectives, data, modelling approach, and structure
+        of results.
+-->
+
+TODO: Write introduction.

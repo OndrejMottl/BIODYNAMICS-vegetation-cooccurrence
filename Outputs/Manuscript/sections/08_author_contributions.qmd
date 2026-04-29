@@ -1,0 +1,20 @@
+## Author Contributions
+
+<!-- Use CRediT taxonomy: https://credit.niso.org/ -->
+
+| Role | Contributors |
+|------|-------------|
+| Conceptualisation | |
+| Data curation | |
+| Formal analysis | |
+| Funding acquisition | |
+| Investigation | |
+| Methodology | |
+| Project administration | |
+| Resources | |
+| Software | |
+| Supervision | |
+| Validation | |
+| Visualisation | |
+| Writing – original draft | |
+| Writing – review & editing | |

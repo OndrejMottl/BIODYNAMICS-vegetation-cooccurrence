@@ -1,0 +1,18 @@
+## Discussion
+
+<!-- Nature Letter: ~3–5 paragraphs; if Results and Discussion are
+     merged above, omit this section header and integrate the
+     interpretive text into the Results section.
+     For Frontiers in Biogeography keep as a separate section.
+
+     Suggested paragraph structure:
+     1. Summary of key findings and how they address the study question.
+     2. Comparison with prior literature on vegetation co-occurrence.
+     3. Mechanisms: what drives the observed patterns?
+     4. Temporal perspective: what do palaeoecological data reveal that
+        modern data alone cannot?
+     5. Limitations and future directions.
+     6. Broader implications for ecology / conservation / climate change.
+-->
+
+TODO: Write discussion.

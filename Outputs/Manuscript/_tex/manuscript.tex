@@ -175,14 +175,9 @@ distribution model, HMSC, Holocene},
 
 \title{TODO: manuscript title}
 \author{Ondřej Mottl \and TODO Co-author 2 \and TODO Co-author 3}
-\date{April 27, 2026}
+\date{April 29, 2026}
 \begin{document}
 \maketitle
-\begin{abstract}
-TODO: Write abstract (\textasciitilde150 words for Nature Letter).
-Background sentence(s). Key question. Approach in one sentence. Key
-findings (2--3 sentences). Broader implication (1 sentence).
-\end{abstract}
 
 
 \setstretch{2}
@@ -212,11 +207,13 @@ modelling framework used here. Second, because VegVault is versioned and
 publicly archived, the exact set of records used in this study can be
 retrieved by any researcher with access to the same database version,
 making the data inputs fully reproducible. Fossil pollen records are
-drawn from the Neotoma Paleoecology Database (\textbf{Williams2018?})
-and FOSSILPOL {[}cite{]}; plant functional traits are drawn from TRY
-(\textbf{Kattge2020?}). Palaeoclimate predictors are CHELSA-TraCE21k
-bioclimatic variables (\textbf{Karger2021?}) co-registered in VegVault
-at the site and time-step level.
+drawn from the Neotoma Paleoecology
+Database\textsuperscript{\textbf{Williams2018?}} and FOSSILPOL
+{[}cite{]}; plant functional traits are drawn from
+TRY\textsuperscript{\textbf{Kattge2020?}}. Palaeoclimate predictors are
+CHELSA-TraCE21k bioclimatic
+variables\textsuperscript{\textbf{Karger2021?}} co-registered in
+VegVault at the site and time-step level.
 
 We selected seven CHELSA bioclimatic variables as candidate abiotic
 predictors: BIO1 (mean annual temperature), BIO4 (temperature
@@ -355,19 +352,20 @@ structural complexity of smaller analysis units.
 \paragraph{Shared modelling workflow}\label{shared-modelling-workflow}
 
 \textbf{Joint species distribution model.} We modelled plant
-co-occurrence using a Joint Species Distribution Model (jSDM)
-(\textbf{Warton2015?}), which fits all species simultaneously within a
-single likelihood framework and estimates the residual covariance among
-species after accounting for shared environmental and spatial responses.
-We chose the jSDM framework over single-species distribution models
-because it explicitly models the residual inter-specific covariance ---
-that is, co-occurrences that cannot be attributed to shared responses to
-environment or space --- which is the central quantity of interest in
-this study. We performed all analyses using the R package \{sjSDM\}
-(\textbf{Pichler2021?}), which fits jSDMs via stochastic gradient
-descent with an optional GPU backend, making it feasible for the large
-community matrices (up to several hundred taxa × thousands of sites)
-analysed here.
+co-occurrence using a Joint Species Distribution Model
+(jSDM)\textsuperscript{\textbf{Warton2015?}}, which fits all species
+simultaneously within a single likelihood framework and estimates the
+residual covariance among species after accounting for shared
+environmental and spatial responses. We chose the jSDM framework over
+single-species distribution models because it explicitly models the
+residual inter-specific covariance --- that is, co-occurrences that
+cannot be attributed to shared responses to environment or space ---
+which is the central quantity of interest in this study. We performed
+all analyses using the R package
+\{sjSDM\}\textsuperscript{\textbf{Pichler2021?}}, which fits jSDMs via
+stochastic gradient descent with an optional GPU backend, making it
+feasible for the large community matrices (up to several hundred taxa ×
+thousands of sites) analysed here.
 
 Each taxon's occurrence was modelled as the linear combination of three
 additive components:
@@ -424,8 +422,8 @@ Venn-diagram fractions:
   \item
     \textbf{B} --- variance attributable to the residual biotic
     covariance (co-occurrence patterns unexplained by environment or
-    space, interpreted as a signal of potential biotic interactions
-    (\textbf{Warton2015?}));
+    space, interpreted as a signal of potential biotic
+    interactions\textsuperscript{\textbf{Warton2015?}});
   \end{itemize}
 \item
   \textbf{AB, AS, BS, ABS} --- variance jointly attributable to pairs or
@@ -597,15 +595,15 @@ failures and undocumented parameter choices are difficult to detect
 after the fact. We implemented the entire analytical workflow --- from
 data extraction through modelling, variance decomposition, and figure
 generation --- as a declarative, dependency-tracked pipeline using the
-\{targets\} R package (\textbf{Landau2021?}), which caches the output of
-every computation and automatically re-runs only those steps that are
-invalidated by an upstream change in code or data. This design makes
-every result traceable to the exact code and inputs that produced it and
-ensures that partial re-runs after code edits produce the same output as
-a full run from scratch. We locked package versions using \{renv\}
-(\textbf{Ushey2023?}), so that the full computational environment ---
-including all R package versions and their dependencies --- can be
-recreated identically on any machine.
+\{targets\} R package\textsuperscript{\textbf{Landau2021?}}, which
+caches the output of every computation and automatically re-runs only
+those steps that are invalidated by an upstream change in code or data.
+This design makes every result traceable to the exact code and inputs
+that produced it and ensures that partial re-runs after code edits
+produce the same output as a full run from scratch. We locked package
+versions using \{renv\}\textsuperscript{\textbf{Ushey2023?}}, so that
+the full computational environment --- including all R package versions
+and their dependencies --- can be recreated identically on any machine.
 
 \textsubscript{Source:
 \href{https://OndrejMottl.github.io/BIODYNAMICS-vegetation-cooccurrence/manuscript.qmd.html}{Article
