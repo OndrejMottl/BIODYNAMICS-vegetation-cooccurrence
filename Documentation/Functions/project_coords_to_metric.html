@@ -1,0 +1,103 @@
+<!DOCTYPE html><html><head><title>R: Project Geographic Coordinates to Metric (km)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>project_coords_to_metric</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Project Geographic Coordinates to Metric (km)</h2>
+
+<h3>Description</h3>
+
+<p>Converts WGS84 lon/lat coordinates to planar metric
+coordinates in kilometres using a user-specified equal-area
+projection. The original lon/lat columns are retained
+alongside the projected 'coord_x_km' and 'coord_y_km'
+columns.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>project_coords_to_metric(data_coords = NULL, target_crs = 3035L)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_coords">data_coords</code></td>
+<td>
+<p>A data frame with 'dataset_name' as row names and columns
+'coord_long' and 'coord_lat' (decimal degrees, WGS84), as
+returned by 'get_coords()'.</p>
+</td></tr>
+<tr><td><code id="target_crs">target_crs</code></td>
+<td>
+<p>An integer EPSG code for the target projected coordinate
+reference system. Must be a metric (planar) equal-area
+CRS suitable for the geographic extent of the data.
+Defaults to '3035L' (ETRS89 Lambert Azimuthal Equal-Area,
+the standard for European analyses). For other regions,
+choose an appropriate equal-area projection, e.g.:
+* '6933L' — EASE-Grid 2.0 (global)
+* '5070L' — NAD83 Conus Albers (North America)
+* '102022L' — Africa Albers Equal Area Conic (Africa)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Using metric coordinates instead of degrees is necessary
+for distance-based spatial modelling (e.g., Moran
+eigenvectors) because degree distances are not uniform
+across latitudes. The 'target_crs' default of EPSG:3035
+is the standard equal-area projection for European
+spatial analyses; change it for non-European study
+regions.
+</p>
+<p>The function requires the <span class="pkg">sf</span> package to perform
+coordinate transformation. Dataset names (row names) are
+preserved unchanged in the output.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the same row names and columns as
+'data_coords', plus two additional columns:
+</p>
+
+<dl>
+<dt>'coord_x_km'</dt><dd><p>Easting in kilometres
+(target CRS).</p>
+</dd>
+<dt>'coord_y_km'</dt><dd><p>Northing in kilometres
+(target CRS).</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>[get_coords()], [prepare_spatial_predictors_for_fit()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

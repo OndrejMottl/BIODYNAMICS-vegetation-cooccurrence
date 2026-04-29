@@ -1,0 +1,53 @@
+Align Sample IDs Across Data Streams
+
+Description:
+
+     Computes the intersection of valid `(dataset_name, age)` pairs
+     present in all three data sources: community (long format),
+     abiotic (long format), and coordinate data. The returned table
+     serves as the canonical sample index used by all subsequent
+     data-preparation functions.
+
+Usage:
+
+     align_sample_ids(
+       data_community_long = NULL,
+       data_abiotic_long = NULL,
+       data_coords = NULL,
+       subset_age = NULL
+     )
+     
+Arguments:
+
+data_community_long: A data frame in long format containing at least
+          the columns `dataset_name` and `age`.
+
+data_abiotic_long: A data frame in long format containing at least the
+          columns `dataset_name` and `age`.
+
+data_coords: A data frame of spatial coordinates with `dataset_name`
+          stored as row names and columns `coord_long` and `coord_lat`.
+
+subset_age: Optional numeric vector specifying age(s) to retain. If
+          `NULL` (default) all intersecting ages are kept.
+
+Details:
+
+     All three-way intersection logic is performed while the data
+     remain in long (tidy) format, so no rowname parsing is needed.
+     Passing a `subset_age` value here — rather than inside a
+     downstream modelling function — makes the subsetting explicit and
+     cacheable as a pipeline target.
+
+Value:
+
+     A data frame with columns `dataset_name` and `age`, containing
+     only the `(dataset_name, age)` pairs present in all three inputs,
+     arranged by `dataset_name` then `age`. When `subset_age` is
+     supplied the result is further filtered to those ages.
+
+See Also:
+
+     [prepare_community_for_fit()], [prepare_abiotic_for_fit()],
+     [prepare_coords_for_fit()]
+

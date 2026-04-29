@@ -1,0 +1,103 @@
+---
+format: html
+title: align_sample_ids()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>align_sample_ids</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Align Sample IDs Across Data Streams</h2>
+
+<h3>Description</h3>
+
+<p>Computes the intersection of valid '(dataset_name, age)' pairs
+present in all three data sources: community (long format),
+abiotic (long format), and coordinate data. The returned table
+serves as the canonical sample index used by all subsequent
+data-preparation functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>align_sample_ids(
+  data_community_long = NULL,
+  data_abiotic_long = NULL,
+  data_coords = NULL,
+  subset_age = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_community_long">data_community_long</code></td>
+<td>
+<p>A data frame in long format containing at least the columns
+'dataset_name' and 'age'.</p>
+</td></tr>
+<tr><td><code id="data_abiotic_long">data_abiotic_long</code></td>
+<td>
+<p>A data frame in long format containing at least the columns
+'dataset_name' and 'age'.</p>
+</td></tr>
+<tr><td><code id="data_coords">data_coords</code></td>
+<td>
+<p>A data frame of spatial coordinates with 'dataset_name' stored
+as row names and columns 'coord_long' and 'coord_lat'.</p>
+</td></tr>
+<tr><td><code id="subset_age">subset_age</code></td>
+<td>
+<p>Optional numeric vector specifying age(s) to retain. If 'NULL'
+(default) all intersecting ages are kept.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>All three-way intersection logic is performed while the data
+remain in long (tidy) format, so no rowname parsing is needed.
+Passing a 'subset_age' value here — rather than inside a
+downstream modelling function — makes the subsetting explicit
+and cacheable as a pipeline target.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with columns 'dataset_name' and 'age', containing
+only the '(dataset_name, age)' pairs present in all three
+inputs, arranged by 'dataset_name' then 'age'. When
+'subset_age' is supplied the result is further filtered to
+those ages.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[prepare_community_for_fit()],
+[prepare_abiotic_for_fit()], [prepare_coords_for_fit()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

@@ -13,8 +13,8 @@ The project is part of the [BIODYNAMICS](https://bit.ly/BIODYNAMICS) initiative.
 ::: {.callout-tip}
 ## Explore the project
 
-- [Methods & Overview](website/about.qmd) — data sources, two-pipeline design (temporal and spatial), all pipeline stages, and analysis configurations
-- [Reproducibility](website/installation.qmd) — how to install dependencies and run the pipeline
-- [Documentation](website/Documentation/documentation.qmd) — individual function reference and code coverage
+- [Methods & Overview](Documentation/Website/about.qmd) — data sources, two-pipeline design (temporal and spatial), all pipeline stages, and analysis configurations
+- [Reproducibility](Documentation/Website/installation.qmd) — how to install dependencies and run the pipeline
+- [Documentation](Documentation/Website/Documentation/documentation.qmd) — individual function reference and code coverage
 :::
 

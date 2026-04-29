@@ -1,0 +1,89 @@
+---
+format: html
+title: resolve_trait_taxon_ids()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>resolve_trait_taxon_ids</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Resolve Trait Taxon IDs to Taxon Names</h2>
+
+<h3>Description</h3>
+
+<p>Replaces numeric 'taxon_id' values in a cleaned trait data frame
+with the corresponding 'taxon_name' from the 'Taxa' table in the
+VegVault SQLite database. Rows with unresolved IDs receive 'NA'
+for 'taxon_name' (standard left-join behaviour).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>resolve_trait_taxon_ids(
+  data_clean,
+  path_to_vegvault = here::here("Data/Input/VegVault.sqlite")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_clean">data_clean</code></td>
+<td>
+<p>A data frame with at least the column 'taxon_id' (integer or
+numeric), typically the output of [clean_raw_trait_data()].</p>
+</td></tr>
+<tr><td><code id="path_to_vegvault">path_to_vegvault</code></td>
+<td>
+<p>A single character string giving the path to the VegVault
+SQLite database
+(default: 'here::here(&quot;Data/Input/VegVault.sqlite&quot;)').</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Opens a fresh database connection, loads the 'Taxa' table, filters
+it to only the IDs present in 'data_clean', performs a left join,
+and immediately disconnects. The connection is always closed —
+even if the join step errors — through standard sequential
+disconnect after collect.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with columns 'taxon_name', 'trait_domain_name',
+'trait_name', and 'trait_value'. The 'taxon_id' column is
+dropped from the output.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[clean_raw_trait_data()],
+[extract_and_clean_continent_traits()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

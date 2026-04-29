@@ -1,0 +1,42 @@
+Apply Manual Trait Corrections
+
+Description:
+
+     Applies human-reviewed corrections from the trait manual
+     corrections tibble to a long-format trait data frame. Rows with
+     `action = "exclude"` are removed. Rows with `action = "scale"`
+     have their `trait_value` multiplied by `scale_factor`. Correction
+     rows whose (`taxon_name` × `trait_domain_name`) combination does
+     not match any record in `data_traits` are reported via
+     `cli::cli_warn()`.
+
+Usage:
+
+     apply_trait_corrections(data_traits, data_corrections)
+     
+Arguments:
+
+data_traits: A data frame in long format with at least the columns
+          `taxon_name`, `trait_domain_name`, and `trait_value`.
+
+data_corrections: A tibble of validated corrections as returned by
+          [validate_trait_corrections()]. Expected columns:
+          `taxon_name`, `trait_domain_name`, `action` (`"exclude"` |
+          `"scale"`), `scale_factor` (numeric).
+
+Details:
+
+     Corrections that do not match any trait record are warned about
+     but do not cause an error. If `data_corrections` is empty (zero
+     rows), `data_traits` is returned unchanged.
+
+Value:
+
+     A tibble with the same columns as `data_traits` but with corrected
+     values: excluded records removed and scaled records multiplied by
+     `scale_factor`.
+
+See Also:
+
+     [validate_trait_corrections()], [generate_trait_qc_report()]
+

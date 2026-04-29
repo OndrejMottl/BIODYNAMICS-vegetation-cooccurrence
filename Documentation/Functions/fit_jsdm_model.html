@@ -39,6 +39,8 @@ configurations.
   parallel = 0L,
   compute_se = FALSE,
   ...,
+  iter = 100L,
+  n_early_stopping = NULL,
   verbose = FALSE
 )
 </code></pre>
@@ -55,7 +57,9 @@ configurations.
 'filter_constant_taxa()')
 - 'data_abiotic_to_fit': data frame of abiotic variables,
 already scaled by 'scale_abiotic_for_fit()'
-- 'data_coords_to_fit': data frame of spatial coordinates</p>
+- 'data_spatial_to_fit': data frame of spatial predictors,
+already scaled by 'scale_spatial_for_fit()'. Required
+only when 'spatial_method' is not '&quot;none&quot;'.</p>
 </td></tr>
 <tr><td><code id="sel_abiotic_formula">sel_abiotic_formula</code></td>
 <td>
@@ -91,17 +95,39 @@ a probit link is used</p>
 <tr><td><code id="parallel">parallel</code></td>
 <td>
 <p>Number of CPU cores to use for parallel processing.
-Only applicable if device = &quot;cpu&quot;. Default is 0L (no parallelization).</p>
+Only applicable if 'device = &quot;cpu&quot;'. Default is '0L'
+(no parallelisation).</p>
 </td></tr>
 <tr><td><code id="compute_se">compute_se</code></td>
 <td>
-<p>Logical indicating whether to compute standard errors. Default is FALSE.
-Note: SE computation may fail with certain model configurations (e.g., DNN,
-complex spatial structures) and will produce a warning if it fails.</p>
+<p>Logical indicating whether to compute standard errors inline
+during model fitting. Default is 'FALSE'. Prefer the
+post-hoc approach via 'compute_jsdm_se()' in a separate
+pipeline target, which allows CPU parallelisation
+independent of the GPU device setting.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
-<p>Additional arguments passed to sjSDM::sjSDM</p>
+<p>Additional arguments passed to 'sjSDM::sjSDM()' (e.g.
+'sampling', 'step_size', 'seed'). Do NOT pass 'iter',
+'control' or 'early_stopping' directly — use the dedicated
+'iter' and 'n_early_stopping' parameters instead.</p>
+</td></tr>
+<tr><td><code id="iter">iter</code></td>
+<td>
+<p>Positive integer. Number of training epochs. Default is '100L'.</p>
+</td></tr>
+<tr><td><code id="n_early_stopping">n_early_stopping</code></td>
+<td>
+<p>Early stopping patience. Controls how many consecutive epochs
+without improvement are tolerated before training is halted.
+Three accepted values:
+- 'NULL' (default): auto-compute as 'round(iter * 0.20)', i.e.
+at least 20 % of the epoch budget.
+- '0L' or negative integer: disables early stopping entirely.
+- Positive integer: uses 'max(value, round(iter * 0.20))' to
+ensure patience is never set below 20 % of 'iter'. Passed
+as 'early_stopping_training' in 'sjSDM::sjSDMControl()'.</p>
 </td></tr>
 </table>
 
@@ -129,7 +155,7 @@ returned with a warning.
 
 <h3>See Also</h3>
 
-<p>sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN
+<p>sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN, compute_jsdm_se
 </p>
 
 </main>

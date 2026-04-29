@@ -1,0 +1,42 @@
+Plot ANOVA Variance Components by Age
+
+Description:
+
+     Creates a line-and-point plot of sjSDM ANOVA variance components
+     (Nagelkerke R²) across time slices (ages).
+
+Usage:
+
+     plot_anova_components_by_age(
+       data_anova_components,
+       title = NULL,
+       subtitle = NULL
+     )
+     
+Arguments:
+
+data_anova_components: A data frame or tibble with columns 'age'
+          (numeric), 'component' (character), and 'R2_Nagelkerke'
+          (numeric). Typically the output of
+          'aggregate_anova_components()'.
+
+   title: Optional character string for the plot title. Defaults to
+          'NULL' (no title).
+
+subtitle: Optional character string for the plot subtitle. Defaults to
+          'NULL' (no subtitle).
+
+Details:
+
+     The x-axis is reversed so that older ages appear on the left and
+     the y-axis is clamped to [0, NA]. Each variance component is drawn
+     as a coloured line with points.
+
+Value:
+
+     A 'ggplot' object.
+
+See Also:
+
+     [aggregate_anova_components()]
+

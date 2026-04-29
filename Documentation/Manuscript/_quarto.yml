@@ -1,0 +1,31 @@
+project:
+  type: manuscript
+  output-dir: _output
+  render:
+    - manuscript.qmd
+
+manuscript:
+  article: manuscript.qmd
+
+format:
+  html:
+    theme: default
+    toc: true
+    toc-depth: 5
+    number-sections: true
+    code-fold: true
+    code-tools: true
+    embed-resources: true
+  pdf:
+    documentclass: article
+    number-sections: true
+    include-in-header: latex_preamble.tex
+    cite-method: citeproc
+    pdf-engine: xelatex
+    geometry:
+      - top=25mm
+      - bottom=25mm
+      - left=25mm
+      - right=25mm
+    fontsize: 12pt
+    linestretch: 2.0

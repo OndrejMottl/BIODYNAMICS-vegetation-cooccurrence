@@ -3,6 +3,10 @@ project:
   output-dir: docs
   resources:
     - Documentation/Progress/
+    - Documentation/Functions_test_coverage/
+  render:
+    - "index.qmd"
+    - "Documentation/Website/**/*.qmd"
 
 website:
   title: "BIODYNAMICS-vegetation-cooccurrence"
@@ -24,17 +28,17 @@ website:
     collapse-level: 1
     contents:
       - text: "Methods & Overview"
-        href: website/about.qmd
+        href: Documentation/Website/about.qmd
 
       - text: "Reproducibility"
-        href: website/installation.qmd
+        href: Documentation/Website/installation.qmd
 
       - section: "Documentation"
         contents:
           - text: "Project overview"
-            href: website/Documentation/documentation.qmd
+            href: Documentation/Website/Documentation/documentation.qmd
           - section: "Functions"
-            contents: "website/Documentation/Functions/*.qmd"
+            contents: "Documentation/Website/Documentation/Functions/*.qmd"
 
 format:
   html:

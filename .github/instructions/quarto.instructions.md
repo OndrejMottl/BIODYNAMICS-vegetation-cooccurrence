@@ -4,7 +4,7 @@ description: >
   Conventions for building and maintaining the Quarto website for this
   project. Applies when creating, editing, or extending any .qmd page,
   updating _quarto.yml, adding function documentation pages, or working
-  with the website/ folder.
+  with the Documentation/Website/ folder.
 ---
 
 # Quarto Website Conventions
@@ -41,15 +41,15 @@ website:
     collapse-level: 1
     contents:
       - text: "About the project"
-        href: website/about.qmd
+        href: Documentation/Website/about.qmd
       - text: "Reproducibility"
-        href: website/installation.qmd
+        href: Documentation/Website/installation.qmd
       - section: "Documentation"
         contents:
           - text: "Project overview"
-            href: website/Documentation/documentation.qmd
+            href: Documentation/Website/Documentation/documentation.qmd
           - section: "Functions"
-            contents: "website/Documentation/Functions/*.qmd"
+            contents: "Documentation/Website/Documentation/Functions/*.qmd"
 
 format:
   html:
@@ -70,12 +70,38 @@ format:
 ## Page File Locations
 
 | Purpose | Path |
-|---|---|
+|---|
+---|
 | Homepage | `index.qmd` |
-| Project overview | `website/about.qmd` |
-| Reproducibility | `website/installation.qmd` |
-| Documentation landing page | `website/Documentation/documentation.qmd` |
-| Individual function pages | `website/Documentation/Functions/<function_name>.qmd` |
+| Project overview | `Documentation/Website/about.qmd` |
+| Reproducibility | `Documentation/Website/installation.qmd` |
+| Documentation landing page | `Documentation/Website/Documentation/documentation.qmd` |
+| Individual function pages | `Documentation/Website/Documentation/Functions/<function_name>.qmd` |
+
+---
+
+## Prose Formatting
+
+Write prose with **each sentence on its own line** in the source file.
+A blank line separates paragraphs.
+This convention makes it easy to track changes, leave comments, and edit individual sentences in manuscript `.qmd` files without disturbing surrounding text.
+
+**Never break a sentence mid-way through to stay within 80 characters (or any other column limit).** The 80-character line-length rule that applies to R scripts does **not** apply to `.qmd` files. A sentence must be kept whole on one line, regardless of its length.
+
+```markdown
+<!-- WRONG — multiple sentences merged onto one line -->
+All records were sourced from VegVault. Data were extracted using {vaultkeepr}.
+
+<!-- WRONG — sentence broken mid-way to fit 80 characters -->
+All records were sourced from VegVault, a harmonised SQLite database integrating
+fossil pollen archives and modern plot data.
+
+<!-- CORRECT — one complete sentence per line -->
+All records were sourced from VegVault, a harmonised SQLite database integrating fossil pollen archives and modern plot data.
+Data were extracted using {vaultkeepr}.
+```
+
+Quarto renderers treat a single line break within a paragraph as a space, so the rendered output is identical in both cases.
 
 ---
 
@@ -131,11 +157,41 @@ with an average AUC of `r round(mean(model_evaluation$species$AUC), 2)`.
 
 This applies to:
 - counts (number of functions, taxa, datasets, samples)
-- model metrics (AUC, RÂ², RMSE)
+- model metrics (AUC, R², RMSE)
 - summary statistics reported in text
 - any value that could change if data or code changes
+- **analysis parameters and thresholds stored in `config.yml`** — these must be read via `config::get()` in a code chunk and referenced as inline R expressions, even though they are deliberate analysis choices. Hardcoding them in prose means the text silently diverges from the actual values whenever the configuration is updated.
 
-The only acceptable literals in prose are values that are definitionally fixed (e.g. a stated spatial resolution of `1Â°` that is a deliberate analysis choice, not derived).
+The only acceptable literals in prose are values that are truly external constants — e.g. a standard geographic projection code such as `EPSG:3035`, or a published database version number that cannot change.
+
+### Reading `config.yml` values in `.qmd` files
+
+Declare a named setup chunk (e.g. `config-thresholds`) early in the file that reads every parameter you intend to reference:
+
+```r
+#| label: config-thresholds
+#| echo: false
+#| output: false
+#| message: false
+#| warning: false
+#| error: false
+here::i_am("Documentation/Manuscript/sections/your_file.qmd")
+
+config_spatial_continental <-
+  config::get(
+    config = "project_spatial_continental",
+    file = here::here("config.yml")
+  )
+
+min_n_taxa_continental <-
+  config_spatial_continental$data_processing$min_n_taxa
+```
+
+Then reference the variable inline:
+
+```markdown
+A unit was excluded if fewer than `r min_n_taxa_continental` taxa remained.
+```
 
 ---
 
@@ -167,7 +223,7 @@ Build the store path first, then pass it to `tar_read()`:
 ```r
 library(targets)
 library(here)
-here::i_am("website/about.qmd")   # adjust path to current file
+here::i_am("Documentation/Website/about.qmd")   # adjust path to current file
 
 # Pipeline type  -  must match the pipeline script name in
 # R/02_Main_analyses/
@@ -362,7 +418,7 @@ Function documentation pages are **auto-generated**  -  do not edit them manuall
 1. Every function in `R/Functions/` must have `roxygen2` documentation (see `.github/instructions/make_roxygen2_documentation.instructions.md`).
 2. Run `R/03_Supplementary_analyses/Documentation/Document_functions.R` to:
   a. Generate `.html` and `.txt` files from `roxygen2` comments into `Documentation/Functions/`.
-  b. Convert each `.html` file into a `.qmd` file inside `website/Documentation/Functions/`.
+  b. Convert each `.html` file into a `.qmd` file inside `Documentation/Website/Documentation/Functions/`.
 3. Each generated `.qmd` has a YAML header followed by the raw HTML from the `{document}` package output:
 
    ```yaml

@@ -1,0 +1,87 @@
+<!DOCTYPE html><html><head><title>R: Aggregate ANOVA Variance Components Across Time Slices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>aggregate_anova_components</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Aggregate ANOVA Variance Components Across Time Slices</h2>
+
+<h3>Description</h3>
+
+<p>Extracts variance partitioning fractions from a named list
+of sjSDM ANOVA objects and assembles a long-format tibble
+with one row per age × component combination.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>aggregate_anova_components(list_model_anova)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="list_model_anova">list_model_anova</code></td>
+<td>
+<p>A named list of sjSDManova objects, one per time slice.
+Names must end with a numeric age value
+(e.g. &quot;timeslice_500&quot;). NULL entries and objects without a
+<code>$results</code> element are silently discarded.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The age is parsed from the list element name by extracting
+the trailing digit sequence (e.g. &quot;timeslice_500&quot; -&gt; 500).
+Fraction extraction, code-to-label translation, and
+negative R² clamping are delegated to
+[extract_anova_fractions()] (called with
+<code>clamp_negative = TRUE</code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with columns:
+</p>
+
+<dl>
+<dt>age</dt><dd><p>Numeric age (cal yr BP) extracted from the
+list-element name.</p>
+</dd>
+<dt>component</dt><dd><p>Character. Human-readable component label
+(e.g. &quot;Abiotic&quot;, &quot;Associations&quot;, &quot;Spatial&quot;).</p>
+</dd>
+<dt>R2_Nagelkerke</dt><dd><p>Numeric. Nagelkerke R² for the
+component, clamped to [0, Inf).</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>[get_anova()], [extract_anova_fractions()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

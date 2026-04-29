@@ -1,0 +1,109 @@
+---
+format: html
+title: compute_spatial_mev()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_spatial_mev</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute Moran Eigenvector Maps for Spatial Filtering</h2>
+
+<h3>Description</h3>
+
+<p>Computes Moran Eigenvector Maps (MEMs) from projected
+core locations (km) using
+'sjSDM::generateSpatialEV()' and returns the first
+'n_mev' eigenvectors as a data frame suitable for
+'prepare_spatial_predictors_for_fit()'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_spatial_mev(data_coords_projected = NULL, n_mev = 20L)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_coords_projected">data_coords_projected</code></td>
+<td>
+<p>A data frame with 'dataset_name' as row names and
+columns 'coord_x_km' and 'coord_y_km', as returned by
+'project_coords_to_metric()'. Must have more than 3 rows
+(required by 'sjSDM::generateSpatialEV()'). Each row
+represents one unique core/site location.</p>
+</td></tr>
+<tr><td><code id="n_mev">n_mev</code></td>
+<td>
+<p>A positive integer giving the number of eigenvectors to
+return. The actual count of positive Moran eigenvectors
+produced by 'sjSDM::generateSpatialEV()' for the
+supplied coordinates depends on the spatial structure
+of the sites and is typically small (often 2). If
+'n_mev' exceeds the available count, it is clamped
+down automatically and a 'cli::cli_warn()' message is
+emitted. Default is '20L'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>MEMs capture the spatial autocorrelation structure of
+the sampling locations and are used as spatial
+predictors in the sjSDM model. Eigenvectors are
+computed on the unique core locations; the caller is
+responsible for expanding to sample level via
+'prepare_spatial_predictors_for_fit()'.
+</p>
+<p>'sjSDM::generateSpatialEV()' returns only eigenvectors
+with positive eigenvalues; the count often equals 2 for
+2-D coordinate sets. If 'n_mev' exceeds the number of
+positive eigenvectors actually produced, the function
+automatically lowers 'n_mev' to that count, emits a
+'cli::cli_warn()' message, and continues normally.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the same row names as
+'data_coords_projected', and 'n_mev' columns named
+'mev_1', 'mev_2', …, 'mev_n_mev', containing the
+first 'n_mev' Moran eigenvectors. This data frame is a
+drop-in replacement for
+'dplyr::select(data_coords_projected,
+coord_x_km, coord_y_km)' as input to
+'prepare_spatial_predictors_for_fit()'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[project_coords_to_metric()],
+[prepare_spatial_predictors_for_fit()],
+[scale_spatial_for_fit()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

@@ -1,0 +1,134 @@
+<!DOCTYPE html><html><head><title>R: Recalculate ANOVA Components via Shapley-Allocated...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>recalculate_anova_components</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Recalculate ANOVA Components via Shapley-Allocated
+Percentages</h2>
+
+<h3>Description</h3>
+
+<p>Converts a long-format ANOVA results table into per-age
+percentages for the three unique variance-partitioning
+components (Abiotic, Associations, Spatial) using a
+Shapley equal-split allocation of intersection terms.
+Negative Nagelkerke R² values are clamped to zero before
+any computation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>recalculate_anova_components(data_source)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_source">data_source</code></td>
+<td>
+<p>A non-empty data frame with columns:
+</p>
+
+<dl>
+<dt>age</dt><dd><p>Numeric. Age (cal yr BP) of the time slice.</p>
+</dd>
+<dt>component</dt><dd><p>Character. Component label. May include
+any of the seven sjSDM variance-partitioning labels:
+<code>"Abiotic"</code>, <code>"Associations"</code>,
+<code>"Spatial"</code>, <code>"Abiotic&amp;Associations"</code>,
+<code>"Abiotic&amp;Spatial"</code>,
+<code>"Associations&amp;Spatial"</code>, and
+<code>"Abiotic&amp;Associations&amp;Spatial"</code>.
+Missing intersection labels are treated as zero.</p>
+</dd>
+<dt>R2_Nagelkerke</dt><dd><p>Numeric. Nagelkerke R² value.
+Values below zero are clamped to 0 internally.</p>
+</dd>
+</dl>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Negative clamping:</strong> All <code>R2_Nagelkerke</code>
+values are clamped to <code class="reqn">[0, \infty)</code> before
+allocation. Negative values arise from suppressor effects
+and carry no directional attribution.
+</p>
+<p><strong>Shapley equal-split allocation:</strong> Each intersection
+term is divided equally among its constituent unique
+components, irrespective of unique-fraction magnitudes.
+The three adjusted values therefore sum to the total of
+all seven (clamped) fractions, preserving total explained
+variance. Using equal splits rather than proportional
+splits avoids a feedback loop in which a larger unique
+fraction accumulates more shared variance, further
+inflating its apparent importance.
+</p>
+<p>Concretely (where missing fractions are treated as 0):
+</p>
+
+<ul>
+<li><p> Abiotic_adj = F_A + F_AB/2 + F_AS/2 + F_ABS/3
+</p>
+</li>
+<li><p> Assoc_adj   = F_B + F_AB/2 + F_BS/2 + F_ABS/3
+</p>
+</li>
+<li><p> Spatial_adj = F_S + F_AS/2 + F_BS/2 + F_ABS/3
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>A tibble with exactly 3 rows per age (one per unique
+component) and columns <code>age</code>, <code>component</code>,
+<code>R2_Nagelkerke_adjusted</code>, and
+<code>R2_Nagelkerke_percentage</code>:
+</p>
+
+<dl>
+<dt>R2_Nagelkerke_adjusted</dt><dd><p>Numeric.
+Shapley-adjusted R² for the component: the component's
+unique fraction plus an equal share of every
+intersection term that includes it.</p>
+</dd>
+<dt>R2_Nagelkerke_percentage</dt><dd><p>Numeric. Percentage of
+total adjusted R² explained by this component within
+the age slice:
+<code>R2_adjusted / sum(R2_adjusted) * 100</code>.
+<code>NA_real_</code> when the age-slice total is zero.</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>[extract_anova_fractions()],
+[aggregate_anova_components()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

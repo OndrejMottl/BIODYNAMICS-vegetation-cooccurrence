@@ -1,0 +1,44 @@
+Resolve Trait Taxon IDs to Taxon Names
+
+Description:
+
+     Replaces numeric `taxon_id` values in a cleaned trait data frame
+     with the corresponding `taxon_name` from the `Taxa` table in the
+     VegVault SQLite database. Rows with unresolved IDs receive `NA`
+     for `taxon_name` (standard left-join behaviour).
+
+Usage:
+
+     resolve_trait_taxon_ids(
+       data_clean,
+       path_to_vegvault = here::here("Data/Input/VegVault.sqlite")
+     )
+     
+Arguments:
+
+data_clean: A data frame with at least the column `taxon_id` (integer
+          or numeric), typically the output of
+          [clean_raw_trait_data()].
+
+path_to_vegvault: A single character string giving the path to the
+          VegVault SQLite database (default:
+          `here::here("Data/Input/VegVault.sqlite")`).
+
+Details:
+
+     Opens a fresh database connection, loads the `Taxa` table, filters
+     it to only the IDs present in `data_clean`, performs a left join,
+     and immediately disconnects. The connection is always closed —
+     even if the join step errors — through standard sequential
+     disconnect after collect.
+
+Value:
+
+     A tibble with columns `taxon_name`, `trait_domain_name`,
+     `trait_name`, and `trait_value`. The `taxon_id` column is dropped
+     from the output.
+
+See Also:
+
+     [clean_raw_trait_data()], [extract_and_clean_continent_traits()]
+

@@ -1,0 +1,83 @@
+<!DOCTYPE html><html><head><title>R: Prepare Abiotic Data for Model Fitting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_abiotic_for_fit</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare Abiotic Data for Model Fitting</h2>
+
+<h3>Description</h3>
+
+<p>Reshapes long-format abiotic data into a wide data frame
+suitable for downstream scaling, filtering to the canonical
+sample index supplied by 'align_sample_ids()'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_abiotic_for_fit(data_abiotic_long = NULL, data_sample_ids = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_abiotic_long">data_abiotic_long</code></td>
+<td>
+<p>A data frame in long format with columns 'dataset_name', 'age',
+'abiotic_variable_name', and 'abiotic_value'.</p>
+</td></tr>
+<tr><td><code id="data_sample_ids">data_sample_ids</code></td>
+<td>
+<p>A data frame of valid '(dataset_name, age)' pairs as returned by
+'align_sample_ids()'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Unlike the former 'prepare_data_for_fit(type = &quot;abiotic&quot;)', this
+function retains 'dataset_name' and 'age' as real columns so
+that 'scale_abiotic_for_fit()' can operate on them without
+parsing row names. Row names are added by
+'scale_abiotic_for_fit()' as part of the scaling step.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame in wide format with real columns 'dataset_name',
+'age', and one column per abiotic variable. Rows are ordered by
+'dataset_name' then 'age', matching the order in
+'data_sample_ids'. Missing variable–sample combinations are
+left as 'NA'. The 'age' column is preserved as a plain numeric
+column (not encoded in row names) to simplify downstream
+scaling.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[align_sample_ids()], [scale_abiotic_for_fit()],
+[assemble_data_to_fit()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

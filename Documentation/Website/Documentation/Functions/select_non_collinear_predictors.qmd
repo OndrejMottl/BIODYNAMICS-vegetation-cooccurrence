@@ -1,0 +1,85 @@
+---
+format: html
+title: select_non_collinear_predictors()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>select_non_collinear_predictors</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Select non-collinear predictors from abiotic data</h2>
+
+<h3>Description</h3>
+
+<p>Filters a data frame of abiotic variables, retaining only predictors
+identified as non-collinear by a collinearity analysis. The selection
+is taken from the 'result$selection' element of a 'collinear_output'
+object (as returned by 'get_predictor_collinearity()').
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>select_non_collinear_predictors(data_source = NULL, collinearity_res = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_source">data_source</code></td>
+<td>
+<p>A data frame containing abiotic variables. Must include a column
+named 'abiotic_variable_name' whose values are matched against the
+selected predictors.</p>
+</td></tr>
+<tr><td><code id="collinearity_res">collinearity_res</code></td>
+<td>
+<p>A 'collinear_output' object (as returned by
+'get_predictor_collinearity()'). Must contain a 'result$selection'
+element — a non-empty character vector of selected predictor names.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Input validation is performed with 'assertthat'. The function
+requires that the filtering produces at least one row; if no
+predictor names match, an error is raised suggesting the user check
+the collinearity results.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A filtered data frame (same structure as 'data_source') containing
+only rows whose 'abiotic_variable_name' is in the set of selected
+non-collinear predictors.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[get_predictor_collinearity()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

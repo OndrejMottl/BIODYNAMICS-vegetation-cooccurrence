@@ -1,0 +1,125 @@
+<!DOCTYPE html><html><head><title>R: Get Spatial Model Fitting Parameters from Grid Catalogue</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_spatial_model_params</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Spatial Model Fitting Parameters from Grid Catalogue</h2>
+
+<h3>Description</h3>
+
+<p>Retrieves the model fitting parameters for a given spatial unit ID
+from the project's spatial grid CSV catalogue.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_spatial_model_params(
+  scale_id,
+  file = here::here("Data/Input/spatial_grid.csv"),
+  tax_res = "genus"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="scale_id">scale_id</code></td>
+<td>
+<p>A single character string identifying the spatial unit.
+Must match exactly one row in the catalogue file.</p>
+</td></tr>
+<tr><td><code id="file">file</code></td>
+<td>
+<p>Path to the spatial grid CSV file.
+Default: 'here::here(&quot;Data/Input/spatial_grid.csv&quot;)'.</p>
+</td></tr>
+<tr><td><code id="tax_res">tax_res</code></td>
+<td>
+<p>A single character string specifying the taxonomic resolution.
+One of '&quot;genus&quot;' (default), '&quot;family&quot;', or '&quot;functional_type&quot;'.
+Controls which set of model fitting parameter columns is used:
+* '&quot;genus&quot;' — reads 'n_iter', 'n_step_size', 'n_sampling',
+'n_early_stopping' (the original columns).
+* '&quot;family&quot;' — reads 'n_iter_family', 'n_step_size_family',
+'n_sampling_family', 'n_early_stopping_family'.
+* '&quot;functional_type&quot;' — reads 'n_iter_ft', 'n_step_size_ft',
+'n_sampling_ft', 'n_early_stopping_ft'.
+'n_samples_anova' is always taken from the shared column
+regardless of 'tax_res'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Reads the CSV using 'readr::read_csv', filters to the row whose
+'scale_id' column matches the supplied 'scale_id' argument, and
+constructs the parameter list. Validation ensures the file is
+readable, has a '.csv' extension, contains the required columns,
+and that exactly one row matches the requested 'scale_id'.
+'NA' values in the relevant 'n_step_size' and 'n_early_stopping'
+columns are converted to 'NULL'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list with five elements:
+</p>
+
+<dl>
+<dt>'n_iter'</dt><dd><p>Integer. Number of training iterations.</p>
+</dd>
+<dt>'n_step_size'</dt><dd>
+<p>Integer or 'NULL'. SGD mini-batch size.
+'NULL' means auto (10 % of sites), corresponding to
+an 'NA' value in the CSV.
+</p>
+</dd>
+<dt>'n_sampling'</dt><dd>
+<p>Integer. Monte Carlo samples per epoch.
+</p>
+</dd>
+<dt>'n_samples_anova'</dt><dd>
+<p>Integer. Monte Carlo samples for ANOVA
+variation partitioning.
+</p>
+</dd>
+<dt>'n_early_stopping'</dt><dd>
+<p>Integer or 'NULL'. Early stopping patience — number of epochs
+without loss improvement before training halts.
+'NULL' means auto (20 % of 'iter'), corresponding to
+an 'NA' value in the CSV.
+Passed as the 'n_early_stopping' argument of
+'fit_jsdm_model()'.
+</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>get_spatial_window, get_active_config
+</p>
+
+</main>
+
+</div>
+</body></html>
+

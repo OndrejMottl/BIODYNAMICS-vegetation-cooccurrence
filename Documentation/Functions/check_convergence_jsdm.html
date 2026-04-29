@@ -1,0 +1,100 @@
+<!DOCTYPE html><html><head><title>R: Check sjSDM Model Convergence</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>check_convergence_jsdm</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check sjSDM Model Convergence</h2>
+
+<h3>Description</h3>
+
+<p>Assesses whether a fitted sjSDM model has converged by analysing
+the training loss history stored in the model object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>check_convergence_jsdm(mod_jsdm = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="mod_jsdm">mod_jsdm</code></td>
+<td>
+<p>A fitted sjSDM model object. Must be of class 'sjSDM'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function uses the 'history' component of the fitted sjSDM
+model, which stores the per-epoch negative log-likelihood values
+produced during gradient descent.
+</p>
+<p>sjSDM pre-allocates 'history' to the full epoch budget. When
+early stopping fires, the remaining trailing entries are zero.
+This function detects those trailing zeros, truncates the vector
+to only the epochs that were actually run, and sets
+'early_stopping_triggered = TRUE'.
+</p>
+<p>Two diagnostic metrics are computed on the tail (final 10
+epochs actually run):
+</p>
+<p>1. **Linear trend slope** — A near-zero slope means the loss is
+no longer decreasing, indicating convergence. The recommended
+threshold is &lt; 0.01.
+2. **Median difference** — A robust comparison of the first
+versus last quarter of the tail using medians (insensitive to
+spikes). The recommended threshold is &lt; 1.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with six elements:
+- 'linear_trend_slope': Absolute slope of a linear trend fitted
+to the final 10
+convergence.
+- 'median_diff': Absolute difference between the median of the
+first and last 25
+convergence.
+- 'convergence_plot': A ggplot2 object showing the full loss
+history with a 20-epoch rolling median smoother. A dashed
+orange vertical line marks the last epoch run when early
+stopping was triggered.
+- 'note': A character string summarising the thresholds.
+- 'epochs_run': Integer. The number of epochs actually run
+before early stopping halted training (or the full budget
+when early stopping was not triggered).
+- 'early_stopping_triggered': Logical. 'TRUE' when the model
+stopped before exhausting its epoch budget (i.e. trailing
+zeros were detected in 'mod_jsdm$history').
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[fit_jsdm_model()], [evaluate_jsdm()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

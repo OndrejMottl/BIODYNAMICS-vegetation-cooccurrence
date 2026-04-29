@@ -1,0 +1,55 @@
+Project Geographic Coordinates to Metric (km)
+
+Description:
+
+     Converts WGS84 lon/lat coordinates to planar metric coordinates in
+     kilometres using a user-specified equal-area projection. The
+     original lon/lat columns are retained alongside the projected
+     `coord_x_km` and `coord_y_km` columns.
+
+Usage:
+
+     project_coords_to_metric(data_coords = NULL, target_crs = 3035L)
+     
+Arguments:
+
+data_coords: A data frame with `dataset_name` as row names and columns
+          `coord_long` and `coord_lat` (decimal degrees, WGS84), as
+          returned by `get_coords()`.
+
+target_crs: An integer EPSG code for the target projected coordinate
+          reference system. Must be a metric (planar) equal-area CRS
+          suitable for the geographic extent of the data. Defaults to
+          `3035L` (ETRS89 Lambert Azimuthal Equal-Area, the standard
+          for European analyses). For other regions, choose an
+          appropriate equal-area projection, e.g.: * `6933L` —
+          EASE-Grid 2.0 (global) * `5070L` — NAD83 Conus Albers (North
+          America) * `102022L` — Africa Albers Equal Area Conic
+          (Africa)
+
+Details:
+
+     Using metric coordinates instead of degrees is necessary for
+     distance-based spatial modelling (e.g., Moran eigenvectors)
+     because degree distances are not uniform across latitudes. The
+     `target_crs` default of EPSG:3035 is the standard equal-area
+     projection for European spatial analyses; change it for
+     non-European study regions.
+
+     The function requires the 'sf' package to perform coordinate
+     transformation. Dataset names (row names) are preserved unchanged
+     in the output.
+
+Value:
+
+     A data frame with the same row names and columns as `data_coords`,
+     plus two additional columns:
+
+     `coord_x_km` Easting in kilometres (target CRS).
+
+     `coord_y_km` Northing in kilometres (target CRS).
+
+See Also:
+
+     [get_coords()], [prepare_spatial_predictors_for_fit()]
+
