@@ -152,23 +152,23 @@ data_diagnostic_summary <-
   data_non_converged |>
   dplyr::mutate(
     n_iter_sel = dplyr::case_when(
-      tax_res == "genus"           ~ n_iter,
-      tax_res == "family"          ~ n_iter_family,
+      tax_res == "genus" ~ n_iter,
+      tax_res == "family" ~ n_iter_family,
       tax_res == "functional_type" ~ n_iter_ft
     ),
     n_step_size_sel = dplyr::case_when(
-      tax_res == "genus"           ~ n_step_size,
-      tax_res == "family"          ~ n_step_size_family,
+      tax_res == "genus" ~ n_step_size,
+      tax_res == "family" ~ n_step_size_family,
       tax_res == "functional_type" ~ n_step_size_ft
     ),
     n_sampling_sel = dplyr::case_when(
-      tax_res == "genus"           ~ n_sampling,
-      tax_res == "family"          ~ n_sampling_family,
+      tax_res == "genus" ~ n_sampling,
+      tax_res == "family" ~ n_sampling_family,
       tax_res == "functional_type" ~ n_sampling_ft
     ),
     n_early_stopping_sel = dplyr::case_when(
-      tax_res == "genus"           ~ n_early_stopping,
-      tax_res == "family"          ~ n_early_stopping_family,
+      tax_res == "genus" ~ n_early_stopping,
+      tax_res == "family" ~ n_early_stopping_family,
       tax_res == "functional_type" ~ n_early_stopping_ft
     )
   ) |>
@@ -176,11 +176,11 @@ data_diagnostic_summary <-
     scale,
     scale_id,
     tax_res,
-    n_iter            = n_iter_sel,
-    n_step_size       = n_step_size_sel,
-    n_sampling        = n_sampling_sel,
+    n_iter = n_iter_sel,
+    n_step_size = n_step_size_sel,
+    n_sampling = n_sampling_sel,
     n_samples_anova,
-    n_early_stopping  = n_early_stopping_sel,
+    n_early_stopping = n_early_stopping_sel,
     linear_trend_slope,
     median_diff,
     epochs_run,
