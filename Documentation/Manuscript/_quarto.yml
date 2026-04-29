@@ -28,20 +28,17 @@ manuscript:
     - notebook: sections/06_supplementary.qmd
       title: "Supplementary Information"
 
-execute:
-  freeze: auto
-
 format:
   html:
     theme: default
     toc: true
-    toc-depth: 3
-    number-sections: false
+    toc-depth: 5
+    number-sections: true
     code-fold: true
     code-tools: true
   pdf:
     documentclass: article
-    number-sections: false
+    number-sections: true
     include-in-header: latex_preamble.tex
     cite-method: citeproc
     pdf-engine: xelatex

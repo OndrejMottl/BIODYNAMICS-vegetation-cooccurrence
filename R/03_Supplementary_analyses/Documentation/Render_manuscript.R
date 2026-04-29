@@ -37,7 +37,7 @@ path_output <-
   fs::path(path_manuscript, "_output")
 
 path_docs_target <-
-  here::here("docs/Manuscript")
+  here::here("Outputs/Manuscript")
 
 #----------------------------------------------------------#
 # 1. Render -----

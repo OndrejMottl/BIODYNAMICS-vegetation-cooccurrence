@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.8.26">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+    <meta name="author" content="Ondřej Mottl">
+    <meta name="author" content="TODO Co-author 2">
+    <meta name="author" content="TODO Co-author 3">
+    <meta name="dcterms.date" content="2026-04-27">
+    <meta name="keywords" content="vegetation co-occurrence, palaeoecology, joint species distribution model, HMSC, Holocene">
+
+    <title>TODO: manuscript title</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+        vertical-align: middle;
+      }
+      /* CSS for syntax highlighting */
+      html { -webkit-text-size-adjust: 100%; }
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        {   }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      /* CSS for citations */
+      div.csl-bib-body { }
+      div.csl-entry {
+        clear: both;
+      }
+      .hanging-indent div.csl-entry {
+        margin-left:2em;
+        text-indent:-2em;
+      }
+      div.csl-left-margin {
+        min-width:2em;
+        float:left;
+      }
+      div.csl-right-inline {
+        margin-left:2em;
+        padding-left:1em;
+      }
+      div.csl-indent {
+        margin-left: 2em;
+      }    </style>
+
+    <style>
+      body.hypothesis-enabled #quarto-embed-header {
+        padding-right: 36px;
+      }
+
+      #quarto-embed-header {
+        height: 3em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: solid 1px;
+      }
+
+      #quarto-embed-header h6 {
+        font-size: 1.1em;
+        padding-top: 0.6em;
+        margin-left: 1em;
+        margin-right: 1em;
+        font-weight: 400;
+      }
+
+      #quarto-embed-header a.quarto-back-link,
+      #quarto-embed-header a.quarto-download-embed {
+        font-size: 0.8em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      .quarto-back-container {
+        padding-left: 0.5em;
+        display: flex;
+      }
+
+      .headroom {
+          will-change: transform;
+          transition: transform 200ms linear;
+      }
+
+      .headroom--pinned {
+          transform: translateY(0%);
+      }
+
+      .headroom--unpinned {
+          transform: translateY(-100%);
+      }      
+    </style>
+
+    <script>
+    window.document.addEventListener("DOMContentLoaded", function () {
+
+      var header = window.document.querySelector("#quarto-embed-header");
+      const titleBannerEl = window.document.querySelector("body > #title-block-header");
+      if (titleBannerEl) {
+        titleBannerEl.style.paddingTop = header.clientHeight + "px";
+      }
+      const contentEl = window.document.getElementById('quarto-content');
+      for (const child of contentEl.children) {
+        child.style.paddingTop = header.clientHeight + "px";
+        child.style.marginTop = "1em";
+      }
+
+      // Use the article root if the `back` call doesn't work. This isn't perfect
+      // but should typically work
+      window.quartoBackToArticle = () => {
+        var currentUrl = window.location.href;
+        window.history.back();
+        setTimeout(() => {
+            // if location was not changed in 100 ms, then there is no history back
+            if(currentUrl === window.location.href){              
+                // redirect to site root
+                window.location.href = "index.html";
+            }
+        }, 100);
+      }
+
+      const headroom = new window.Headroom(header, {
+        tolerance: 5,
+        onPin: function () {
+        },
+        onUnpin: function () {
+        },
+      });
+      headroom.init();
+    });
+    </script>
+
+    
+<script src="site_libs/manuscript-notebook/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+     
+      <meta name="citation_title" content="TODO: manuscript title
+">
+<meta name="citation_abstract" content="TODO: Write abstract (~150 words for Nature Letter).
+Background sentence(s). Key question. Approach in one sentence.
+Key findings (2–3 sentences). Broader implication (1 sentence).
+">
+<meta name="citation_keywords" content="vegetation co-occurrence,palaeoecology,joint species distribution model,HMSC,Holocene">
+<meta name="citation_author" content="Ondřej Mottl">
+<meta name="citation_author" content="TODO Co-author 2">
+<meta name="citation_author" content="TODO Co-author 3">
+<meta name="citation_publication_date" content="2026-04-27">
+<meta name="citation_cover_date" content="2026-04-27">
+<meta name="citation_year" content="2026">
+<meta name="citation_online_date" content="2026-04-27">
+<meta name="citation_language" content="en">
+</head>
+
+  <body class="quarto-notebook quarto-light">
+    <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
+      
+      <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
+      <h6><i class="bi bi-journal-code"></i> Article Notebook</h6>
+
+            <a href="./manuscript.qmd" class="btn btn-primary quarto-download-embed" download="manuscript.qmd">Download Source</a>
+          </div>
+
+     <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <div class="quarto-title-block"><div><h1 class="title"><p>TODO: manuscript title</p></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+          </div>
+
+    
+    <div class="quarto-title-meta-container">
+      <div class="quarto-title-meta-column-start">
+            <div class="quarto-title-meta-author">
+          <div class="quarto-title-meta-heading">Authors</div>
+          <div class="quarto-title-meta-heading">Affiliations</div>
+          
+                <div class="quarto-title-meta-contents">
+            <p class="author">Ondřej Mottl <a href="mailto:ondrej.mottl@gmail.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-9796-5081" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        </p><p>Department of Botany, Faculty of Science, Charles University</p>
+                      <p></p>
+                  </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">TODO Co-author 2 <a href="https://orcid.org/0000-0000-0000-0000" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        TODO Institution
+                      </p>
+                  </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">TODO Co-author 3 <a href="https://orcid.org/0000-0000-0000-0000" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        TODO Institution
+                      </p>
+                  </div>
+                    </div>
+        
+        <div class="quarto-title-meta">
+
+                      
+                <div>
+            <div class="quarto-title-meta-heading">Published</div>
+            <div class="quarto-title-meta-contents">
+              <p class="date">April 27, 2026</p>
+            </div>
+          </div>
+          
+                
+              </div>
+      </div>
+      <div class="quarto-title-meta-column-end quarto-other-formats-target">
+      </div>
+    </div>
+
+    <div>
+      <div class="abstract">
+        <div class="block-title">Abstract</div>
+        <p>TODO: Write abstract (~150 words for Nature Letter). Background sentence(s). Key question. Approach in one sentence. Key findings (2–3 sentences). Broader implication (1 sentence).</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="keywords">
+        <div class="block-title">Keywords</div>
+        <p>vegetation co-occurrence, palaeoecology, joint species distribution model, HMSC, Holocene</p>
+      </div>
+    </div>
+
+    <div class="quarto-other-links-text-target">
+    </div>  </div>
+</header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">0.1</span> Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">0.2</span> Methods</a>
+  <ul>
+  <li><a href="#vegetation-and-palaeoclimate-data" id="toc-vegetation-and-palaeoclimate-data" class="nav-link" data-scroll-target="#vegetation-and-palaeoclimate-data"><span class="header-section-number">0.2.1</span> Vegetation and palaeoclimate data</a></li>
+  <li><a href="#taxonomic-harmonisation" id="toc-taxonomic-harmonisation" class="nav-link" data-scroll-target="#taxonomic-harmonisation"><span class="header-section-number">0.2.2</span> Taxonomic harmonisation</a></li>
+  <li><a href="#multi-scale-analytical-framework" id="toc-multi-scale-analytical-framework" class="nav-link" data-scroll-target="#multi-scale-analytical-framework"><span class="header-section-number">0.2.3</span> Multi-scale analytical framework</a>
+  <ul>
+  <li><a href="#shared-pre-processing" id="toc-shared-pre-processing" class="nav-link" data-scroll-target="#shared-pre-processing"><span class="header-section-number">0.2.3.1</span> Shared pre-processing</a></li>
+  <li><a href="#shared-modelling-workflow" id="toc-shared-modelling-workflow" class="nav-link" data-scroll-target="#shared-modelling-workflow"><span class="header-section-number">0.2.3.2</span> Shared modelling workflow</a></li>
+  <li><a href="#spatial-axis" id="toc-spatial-axis" class="nav-link" data-scroll-target="#spatial-axis"><span class="header-section-number">0.2.3.3</span> Spatial axis</a></li>
+  <li><a href="#temporal-axis" id="toc-temporal-axis" class="nav-link" data-scroll-target="#temporal-axis"><span class="header-section-number">0.2.3.4</span> Temporal axis</a></li>
+  <li><a href="#taxonomic-axis" id="toc-taxonomic-axis" class="nav-link" data-scroll-target="#taxonomic-axis"><span class="header-section-number">0.2.3.5</span> Taxonomic axis</a></li>
+  </ul></li>
+  <li><a href="#functional-type-classification" id="toc-functional-type-classification" class="nav-link" data-scroll-target="#functional-type-classification"><span class="header-section-number">0.2.4</span> Functional-type classification</a></li>
+  <li><a href="#computational-reproducibility" id="toc-computational-reproducibility" class="nav-link" data-scroll-target="#computational-reproducibility"><span class="header-section-number">0.2.5</span> Computational reproducibility</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">0.3</span> Results</a>
+  <ul>
+  <li><a href="#data-overview" id="toc-data-overview" class="nav-link" data-scroll-target="#data-overview"><span class="header-section-number">0.3.1</span> Data overview</a></li>
+  <li><a href="#model-performance" id="toc-model-performance" class="nav-link" data-scroll-target="#model-performance"><span class="header-section-number">0.3.2</span> Model performance</a></li>
+  <li><a href="#co-occurrence-patterns" id="toc-co-occurrence-patterns" class="nav-link" data-scroll-target="#co-occurrence-patterns"><span class="header-section-number">0.3.3</span> Co-occurrence patterns</a></li>
+  <li><a href="#environmental-drivers" id="toc-environmental-drivers" class="nav-link" data-scroll-target="#environmental-drivers"><span class="header-section-number">0.3.4</span> Environmental drivers</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">0.4</span> Discussion</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements"><span class="header-section-number">0.5</span> Acknowledgements</a></li>
+  <li><a href="#author-contributions" id="toc-author-contributions" class="nav-link" data-scroll-target="#author-contributions"><span class="header-section-number">0.6</span> Author Contributions</a></li>
+  <li><a href="#data-availability" id="toc-data-availability" class="nav-link" data-scroll-target="#data-availability"><span class="header-section-number">0.7</span> Data Availability</a></li>
+  <li><a href="#code-availability" id="toc-code-availability" class="nav-link" data-scroll-target="#code-availability"><span class="header-section-number">0.8</span> Code Availability</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">0.9</span> References</a></li>
+  <li><a href="#supplementary-information" id="toc-supplementary-information" class="nav-link" data-scroll-target="#supplementary-information">Supplementary Information</a>
+  <ul>
+  <li><a href="#supplementary-figures" id="toc-supplementary-figures" class="nav-link" data-scroll-target="#supplementary-figures"><span class="header-section-number">0.10</span> Supplementary Figures</a>
+  <ul>
+  <li><a href="#figure-s1-todo-title" id="toc-figure-s1-todo-title" class="nav-link" data-scroll-target="#figure-s1-todo-title">Figure S1 — TODO title</a></li>
+  </ul></li>
+  <li><a href="#supplementary-tables" id="toc-supplementary-tables" class="nav-link" data-scroll-target="#supplementary-tables"><span class="header-section-number">0.11</span> Supplementary Tables</a>
+  <ul>
+  <li><a href="#table-s1-todo-title" id="toc-table-s1-todo-title" class="nav-link" data-scroll-target="#table-s1-todo-title">Table S1 — TODO title</a></li>
+  </ul></li>
+  <li><a href="#supplementary-methods" id="toc-supplementary-methods" class="nav-link" data-scroll-target="#supplementary-methods"><span class="header-section-number">0.12</span> Supplementary Methods</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">      
+
+       <div class="cell-container code-fold"><div class="cell-decorator"><pre>In [1]:</pre></div><div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence.worktrees/main/Documentation/Manuscript</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(targets)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'targets' was built under R version 4.5.2</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"Documentation/Manuscript/manuscript.qmd"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence.worktrees/main</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/___setup_project___.R"</span>))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>- The library is already synchronized with the lockfile.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set active configuration — adjust as needed</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">R_CONFIG_ACTIVE =</span> <span class="st">"project_cz"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the targets store path</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># (pattern from website pages; update pipeline name as needed)</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>vec_pipeline <span class="ot">&lt;-</span> <span class="st">"pipeline_basic"</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>set_store <span class="ot">&lt;-</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">paste0</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_active_config</span>(<span class="st">"target_store"</span>), <span class="st">"/"</span>, vec_pipeline, <span class="st">"/"</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div></div>
+<section id="introduction" class="level2" data-number="0.1">
+<h2 data-number="0.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">0.1</span> Introduction</h2>
+<!-- Nature Letter: ~3–5 paragraphs; no explicit "Introduction" heading
+     is used in the final Nature format — remove the heading above before
+     submission. For Frontiers in Biogeography keep the heading.
+
+     Suggested paragraph structure:
+     1. Broad ecological context: why co-occurrence patterns matter.
+     2. State of knowledge: what is known about vegetation co-occurrence
+        across space and time; key gaps.
+     3. Palaeoecological opportunity: how fossil pollen archives and
+        modern vegetation data can fill those gaps.
+     4. This study: objectives, data, modelling approach, and structure
+        of results.
+-->
+<p>TODO: Write introduction.</p>
+</section>
+<section id="methods" class="level2" data-number="0.2">
+<h2 data-number="0.2" class="anchored" data-anchor-id="methods"><span class="header-section-number">0.2</span> Methods</h2>
+<!-- Nature Letter: Methods are placed AFTER the main text and
+     references (before Extended Data). For Frontiers in Biogeography,
+     Methods come before Results.
+-->
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [2]:</pre></div><div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"Documentation/Manuscript/sections/03_methods.qmd"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence.worktrees/main</code></pre>
+</div>
+</div></div>
+<section id="vegetation-and-palaeoclimate-data" class="level3" data-number="0.2.1">
+<h3 data-number="0.2.1" class="anchored" data-anchor-id="vegetation-and-palaeoclimate-data"><span class="header-section-number">0.2.1</span> Vegetation and palaeoclimate data</h3>
+<p>We sourced all community and climate records from <strong>VegVault</strong> (version 1.0.0; [cite]), a harmonised SQLite database that integrates fossil pollen archives with co-registered palaeoclimate reconstructions and plant functional traits. Sourcing all three data types required by this study — vegetation community records, co-registered palaeoclimate predictors, and plant functional traits — from a single harmonised repository offers two critical advantages. First, it guarantees consistent site identifiers and temporal grids across all inputs, which is a prerequisite for the aligned multi-species modelling framework used here. Second, because VegVault is versioned and publicly archived, the exact set of records used in this study can be retrieved by any researcher with access to the same database version, making the data inputs fully reproducible. Fossil pollen records are drawn from the Neotoma Paleoecology Database <span class="citation" data-cites="Williams2018">(<a href="#ref-Williams2018" role="doc-biblioref"><strong>Williams2018?</strong></a>)</span> and FOSSILPOL [cite]; plant functional traits are drawn from TRY <span class="citation" data-cites="Kattge2020">(<a href="#ref-Kattge2020" role="doc-biblioref"><strong>Kattge2020?</strong></a>)</span>. Palaeoclimate predictors are CHELSA-TraCE21k bioclimatic variables <span class="citation" data-cites="Karger2021">(<a href="#ref-Karger2021" role="doc-biblioref"><strong>Karger2021?</strong></a>)</span> co-registered in VegVault at the site and time-step level.</p>
+<p>We selected seven CHELSA bioclimatic variables as candidate abiotic predictors: BIO1 (mean annual temperature), BIO4 (temperature seasonality), BIO6 (minimum temperature of the coldest month), BIO12 (annual precipitation), BIO15 (precipitation seasonality), BIO18 (precipitation of the warmest quarter), and BIO19 (precipitation of the coldest quarter). These variables represent the primary dimensions of climate space known to govern plant distributions — mean thermal energy, climatic extremes, and water availability across seasons — while omitting correlated secondary variables to limit redundancy before formal collinearity screening. Full descriptions and units of all bioclimatic variables are provided in Supplementary Table S[TODO].</p>
+<p>The geographic and temporal coverage of extracted records (number of fossil pollen sites per 500-year time slice and per continental region) is summarised in Supplementary Figure S[TODO].</p>
+</section>
+<section id="taxonomic-harmonisation" class="level3" data-number="0.2.2">
+<h3 data-number="0.2.2" class="anchored" data-anchor-id="taxonomic-harmonisation"><span class="header-section-number">0.2.2</span> Taxonomic harmonisation</h3>
+<p>Fossil pollen records originate from multiple source databases that use different original nomenclature systems and taxonomic conventions; a unified classification is therefore a prerequisite for any cross-database comparison. The guiding principle of the harmonisation was to resolve each pollen morphotype to the <strong>finest taxonomic rank the morphological evidence supports</strong>, rather than imposing a fixed target rank across all morphotypes. For each morphotype, we first attempted to assign a genus-level identification against the GBIF taxonomic backbone [cite], which provides a globally consistent, community-maintained reference taxonomy. Where the morphotype was too broadly defined morphologically to support a confident genus assignment — typically for compound types that aggregate morphologically similar pollen from several genera — the record was retained at family rank rather than discarded, preserving ecological information that would otherwise be lost entirely. We excluded non-plant records (e.g., fungal spores and fern spores flagged in source databases). We supplemented the backbone matching with a curated project-specific correction table that records manually validated taxonomic decisions for morphotypes known to be mis-classified or absent from the backbone, ensuring that recurring edge cases are resolved consistently across all analyses. All classifications were reviewed and validated by expert botanists to catch systematic errors arising from regional nomenclatural traditions or legacy morphotype names not covered by the backbone. Because the taxa present in any given analysis depend on the geographic extent and temporal window queried, we compiled a separate harmonisation table for each continental region rather than a single global table. We provide these tables as Supplementary Tables S[TODO] (one per continental region).</p>
+</section>
+<section id="multi-scale-analytical-framework" class="level3" data-number="0.2.3">
+<h3 data-number="0.2.3" class="anchored" data-anchor-id="multi-scale-analytical-framework"><span class="header-section-number">0.2.3</span> Multi-scale analytical framework</h3>
+<p>Co-occurrence patterns are shaped by processes operating at different spatial extents, across geological time, and at different levels of biological organisation. Because the relative importance of these processes is itself expected to vary across scales, pooling all data at a single arbitrary scale risks masking or confounding mechanisms that are only visible at specific extents or resolutions. We therefore applied the same modelling and analysis workflow at multiple levels along three axes: <strong>spatial</strong> (continental, regional, and local extents), <strong>temporal</strong> (40 successive 500-year slices from the Last Glacial Maximum to the present), and <strong>taxonomic</strong> (genus, family, and functional-type level). We first describe the shared pre-processing and modelling steps common to all analyses, then detail how each axis was defined and the reasoning behind specific choices.</p>
+<section id="shared-pre-processing" class="level4" data-number="0.2.3.1">
+<h4 data-number="0.2.3.1" class="anchored" data-anchor-id="shared-pre-processing"><span class="header-section-number">0.2.3.1</span> Shared pre-processing</h4>
+<p><strong>Community data preparation.</strong> We applied several pre-processing steps to the raw community matrices to prepare them for modelling and ensure comparability across analyses. We converted raw pollen counts to proportional abundance (relative pollen percentage). To standardise temporal resolution across irregular sampling intervals (typical for palaeoecological datasets), we then linearly interpolated records to a common 500-year temporal grid. We considered binning but preferred interpolation to preserve the full temporal resolution of the data and avoid artefacts introduced by arbitrary bin edges. We excluded taxa contributing less than 1 % of the pollen sum within any individual sample from that sample’s record, because such occurrences are below the detection limit reliably resolvable from pollen counts and contribute predominantly noise to co-occurrence estimates. We used presence/absence rather than continuous abundance as the response variable, because pollen abundances are strongly influenced by taxon-specific pollen production rates and dispersal distances — biases that are effectively removed by binarisation, leaving a response that more directly reflects co-occurrence [TODO: cite]. Finally, to ensure sufficient data density for reliable model estimates, we excluded spatial units with too few sites or too few qualifying taxa after filtering. We calibrated the exact thresholds separately for each spatial unit, because the number of sites and taxa varies across units and the optimal thresholds depend on the data structure of each unit.</p>
+<p><strong>Abiotic predictor selection.</strong> Collinear predictors inflate the variance of coefficient estimates and may result in overfitting, because variance attributable to one predictor is spuriously shared with its collinear counterparts. We therefore screened candidate bioclimatic variables for redundancy using a dual-filtering approach that combines pairwise Pearson correlation and Variance Inflation Factor (VIF) [cite Benito 2025]. We calibrated both thresholds automatically to the correlation structure of each specific dataset rather than setting fixed global values, because optimal thresholds depend on the number and collinearity of predictors, which vary across spatial and temporal units. When two predictors were redundant, we preferentially retained the one with greater univariate predictive power, ensuring that the non-redundant subset maximises ecological information.</p>
+<p><strong>Variable scaling.</strong> We centred and z-score scaled bioclimatic predictors to a common variance, which is required for stable gradient-descent optimisation and allows coefficient magnitudes to be compared across predictors with different natural units. In analyses with age as a predictor, we centred age but did not variance-scale it, so that interaction coefficients retain their natural interpretation in units of years. We projected site coordinates to a metric coordinate system (ETRS89-LAEA, EPSG:3035) so that geographic distances are measured in kilometres rather than decimal degrees.</p>
+<p><strong>Moran Eigenvector Maps (MEMs).</strong> Spatial autocorrelation in species distributions arises from unmeasured environmental gradients, dispersal limitation, and historical contingency — processes that are not captured by the bioclimatic predictors but would inflate the biotic residual (B fraction) of the variance decomposition if left unaccounted for. We represented large-scale spatial structure using Moran Eigenvector Maps (MEMs), which are eigenvectors of a spatial weights matrix and span the full range of positive spatial autocorrelation present in the data [cite]. Including MEMs as predictor variables in the spatial component of the model approximates a spatial random field without the computational cost of full Gaussian process random effects, which would be prohibitive for the large community matrices. For purely spatial analyses, we derived MEMs from a two-dimensional geographic distance matrix among sites. For spatiotemporal analyses, we used a three-dimensional distance matrix (combining longitude, latitude, and age) instead, so that the eigenvectors capture joint spatiotemporal structure rather than spatial structure alone. We reduced the number of retained eigenvectors at finer spatial scales, reflecting the lower structural complexity of smaller analysis units.</p>
+</section>
+<section id="shared-modelling-workflow" class="level4" data-number="0.2.3.2">
+<h4 data-number="0.2.3.2" class="anchored" data-anchor-id="shared-modelling-workflow"><span class="header-section-number">0.2.3.2</span> Shared modelling workflow</h4>
+<p><strong>Joint species distribution model.</strong> We modelled plant co-occurrence using a Joint Species Distribution Model (jSDM) <span class="citation" data-cites="Warton2015">(<a href="#ref-Warton2015" role="doc-biblioref"><strong>Warton2015?</strong></a>)</span>, which fits all species simultaneously within a single likelihood framework and estimates the residual covariance among species after accounting for shared environmental and spatial responses. We chose the jSDM framework over single-species distribution models because it explicitly models the residual inter-specific covariance — that is, co-occurrences that cannot be attributed to shared responses to environment or space — which is the central quantity of interest in this study. We performed all analyses using the R package {sjSDM} <span class="citation" data-cites="Pichler2021">(<a href="#ref-Pichler2021" role="doc-biblioref"><strong>Pichler2021?</strong></a>)</span>, which fits jSDMs via stochastic gradient descent with an optional GPU backend, making it feasible for the large community matrices (up to several hundred taxa × thousands of sites) analysed here.</p>
+<p>Each taxon’s occurrence was modelled as the linear combination of three additive components:</p>
+<ul>
+<li><strong>Environment (A)</strong> — the non-collinear bioclimatic predictors, with age × climate interaction terms to allow the strength of climate filtering to vary across the Last Glacial–Interglacial cycle. only the interaction of age with climate predictors was included, the direct age term was excluded to avoid absorbing broad temporal trend into the environment component.</li>
+<li><strong>Space (S)</strong> — MEM predictors included as fixed effects to absorb spatially (or spatiotemporally) structured variation not explained by the climate predictors, thereby preventing unmeasured spatial processes from inflating the biotic residual.</li>
+<li><strong>Biotic residual (B)</strong> — a shared low-rank latent covariance matrix that captures the residual pairwise associations among taxa after accounting for their shared responses to environment and space. Positive residual covariance indicates that two taxa co-occur more often than expected given environment and spatial structure; negative covariance indicates mutual exclusion.</li>
+</ul>
+<p><strong>Model fit and convergence.</strong> Because the primary goal of this study is variance decomposition rather than out-of-sample prediction, we assessed model performance on the training data using Nagelkerke R² and per-species AUC, accuracy, and log-loss. Convergence was confirmed by inspecting the training loss trajectory: we considered a model converged when the linear trend of the loss curve was negligible and successive steps produced only marginal changes, indicating that further optimisation would not meaningfully alter the parameter estimates.</p>
+<p><strong>Variance decomposition.</strong> To attribute the variance in community composition to ecologically interpretable sources, we applied a Monte Carlo ANOVA decomposition to each fitted jSDM. The approach repeatedly draws from the fitted model with one or more components omitted and quantifies how much variation is lost, yielding seven non-overlapping Venn-diagram fractions:</p>
+<ul>
+<li><strong>A</strong> — variance uniquely attributable to the abiotic (environment) component;</li>
+<li><strong>S</strong> — variance attributable to the spatial component (MEMs);</li>
+<li><ul>
+<li><strong>B</strong> — variance attributable to the residual biotic covariance (co-occurrence patterns unexplained by environment or space, interpreted as a signal of potential biotic interactions <span class="citation" data-cites="Warton2015">(<a href="#ref-Warton2015" role="doc-biblioref"><strong>Warton2015?</strong></a>)</span>);</li>
+</ul></li>
+<li><strong>AB, AS, BS, ABS</strong> — variance jointly attributable to pairs or all three components.</li>
+</ul>
+<p>We set fractions that were negative — an artefact of Monte Carlo approximation error — to zero, as negative explained variance has no ecological interpretation.</p>
+</section>
+<section id="spatial-axis" class="level4" data-number="0.2.3.3">
+<h4 data-number="0.2.3.3" class="anchored" data-anchor-id="spatial-axis"><span class="header-section-number">0.2.3.3</span> Spatial axis</h4>
+<p>To isolate the effect of geographic extent on co-occurrence patterns, we applied the shared workflow independently at three nested spatial scales while keeping the temporal and taxonomic dimensions constant. The three scales were chosen to span the range from macroecological processes — where broad climatic gradients dominate co-occurrence — to local processes, where dispersal limitation and microhabitat filtering are more prominent:</p>
+<ul>
+<li><strong>Continental</strong> — three units: Europe (−10° to 40°E, 35° to 70°N), North America (−130° to −60°W, 30° to 70°N), and northern Asia (60° to 140°E, 50° to 75°N).</li>
+<li><strong>Regional</strong> — approximately 30 geographic units per continent, each spanning roughly 20° longitude × 10°–15° latitude.</li>
+<li><strong>Local</strong> — approximately 100 fine-grain units per continent, each spanning roughly 5° longitude × 5° latitude.</li>
+</ul>
+<p>We compared variance fractions across scales to identify which components of co-occurrence signal are scale-invariant and which are scale-dependent.</p>
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [3]:</pre></div><div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>config_spatial_continental <span class="ot">&lt;-</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  config<span class="sc">::</span><span class="fu">get</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">config =</span> <span class="st">"project_spatial_continental"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"config.yml"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>config_spatial_regional <span class="ot">&lt;-</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  config<span class="sc">::</span><span class="fu">get</span>(</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">config =</span> <span class="st">"project_spatial_regional"</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"config.yml"</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>config_spatial_local <span class="ot">&lt;-</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  config<span class="sc">::</span><span class="fu">get</span>(</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">config =</span> <span class="st">"project_spatial_local"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"config.yml"</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>min_n_cores <span class="ot">&lt;-</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  config<span class="sc">::</span><span class="fu">get</span>(</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">config =</span> <span class="st">"default"</span>,</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"config.yml"</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">$</span>data_processing<span class="sc">$</span>min_n_cores</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>min_n_samples_continental <span class="ot">&lt;-</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  config_spatial_continental<span class="sc">$</span>data_processing<span class="sc">$</span>min_n_samples</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>min_n_samples_regional <span class="ot">&lt;-</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  config_spatial_regional<span class="sc">$</span>data_processing<span class="sc">$</span>min_n_samples</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>min_n_samples_local <span class="ot">&lt;-</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>  config_spatial_local<span class="sc">$</span>data_processing<span class="sc">$</span>min_n_samples</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>min_n_taxa_continental <span class="ot">&lt;-</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>  config_spatial_continental<span class="sc">$</span>data_processing<span class="sc">$</span>min_n_taxa</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>min_n_taxa_regional <span class="ot">&lt;-</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>  config_spatial_regional<span class="sc">$</span>data_processing<span class="sc">$</span>min_n_taxa</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>min_n_taxa_local <span class="ot">&lt;-</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>  config_spatial_local<span class="sc">$</span>data_processing<span class="sc">$</span>min_n_taxa</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div></div>
+<p>Three scale-specific thresholds governed which spatial units were retained for model fitting. We excluded a taxon from a spatial unit if it appeared in fewer than 5 distinct sediment cores. We further excluded taxa if they appeared in fewer than 10 distinct site–age combinations at the continental and regional scales, or fewer than 5 at the local scale, reflecting the reduced number of sites per unit at finer grains. We excluded a spatial unit entirely if fewer than 5 qualifying taxa remained after all pre-processing at the continental scale; the corresponding lower bounds were 4 taxa at the regional scale and 3 taxa at the local scale.</p>
+</section>
+<section id="temporal-axis" class="level4" data-number="0.2.3.4">
+<h4 data-number="0.2.3.4" class="anchored" data-anchor-id="temporal-axis"><span class="header-section-number">0.2.3.4</span> Temporal axis</h4>
+<p>To test whether the structure of plant co-occurrence has changed through time — and in particular whether the large climate changes since the Last Glacial Maximum are associated with a reorganisation of co-occurrence networks — we applied the shared workflow independently to each 500-year time slice across the full 20,000-year window. We fitted a separate jSDM to each time slice rather than a single pooled model with a temporal random effect. Prior to model fitting, we computed co-occurrence network metrics directly from the binarised community matrix at each time slice to characterise the structural properties of the co-occurrence network independently of any model assumptions. We then aggregated results from successive time slices into temporal trajectories of variance fractions and network metrics, revealing how the relative importance of environment, space, and biotic residuals — and the structure of the co-occurrence network itself — has evolved over geological time. We ran analyses for three continental regions: Europe, North America, and northern Asia.</p>
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>config_temporal <span class="ot">&lt;-</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  config<span class="sc">::</span><span class="fu">get</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">config =</span> <span class="st">"project_temporal_europe"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"config.yml"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>min_n_samples_temporal <span class="ot">&lt;-</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  config_temporal<span class="sc">$</span>data_processing<span class="sc">$</span>min_n_samples</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>min_n_taxa_temporal <span class="ot">&lt;-</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  config_temporal<span class="sc">$</span>data_processing<span class="sc">$</span>min_n_taxa</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div></div>
+<p>We applied the same three data-quality thresholds at each time slice within each continental region. We excluded a taxon from a given time slice if it appeared in fewer than 5 distinct sediment cores, or in fewer than 10 distinct site–age combinations. We excluded a time slice entirely if fewer than 5 qualifying taxa remained after all pre-processing.</p>
+</section>
+<section id="taxonomic-axis" class="level4" data-number="0.2.3.5">
+<h4 data-number="0.2.3.5" class="anchored" data-anchor-id="taxonomic-axis"><span class="header-section-number">0.2.3.5</span> Taxonomic axis</h4>
+<p>The level at which taxa are defined determines which ecological processes are legible in co-occurrence patterns: genus-level co-occurrence may reflect fine-grained competitive or facilitative interactions, whereas broader groupings may reveal assembly rules driven by shared functional strategies. To test how strongly co-occurrence patterns depend on the level of biological organisation, we collapsed the community matrices to three taxonomic resolutions: <strong>Genus</strong>, <strong>Family</strong> and <strong>Functional type (FT)</strong> — ecologically coherent groups derived from functional trait clustering (see <em>Functional-type classification</em> below).</p>
+<p>We applied the same jSDM pipeline at each resolution without modification, enabling direct comparison of variance fractions across taxonomic scales. We evaluated the taxonomic axis only at the spatial scale, fitting each resolution independently per spatial unit.</p>
+</section>
+</section>
+<section id="functional-type-classification" class="level3" data-number="0.2.4">
+<h3 data-number="0.2.4" class="anchored" data-anchor-id="functional-type-classification"><span class="header-section-number">0.2.4</span> Functional-type classification</h3>
+<p><strong>Trait data and quality control.</strong> Plant functional traits characterise the ecological strategies of taxa and provide a biologically grounded basis for grouping species into functional types that reflect shared responses to the environment rather than arbitrary taxonomic boundaries. We extracted trait data from VegVault for all available trait domains (see Supplementary Table S[TODO] for the full list of traits and units). Because trait databases aggregate measurements from many sources with varying units and methodologies, raw values frequently contain outliers and unit errors that would distort the distance matrix used for clustering. We therefore applied a two-stage quality-control workflow to the trait data, reviewing and correcting all flagged records manually. In the first stage, we identified outlier taxa using an inter-quartile range criterion and corrected or excluded them after review. In the second stage, we applied a further quality-control pass after taxonomic harmonisation to remove trait values assigned to ambiguous or unresolvable morphotypes. We aggregated validated values to taxon-level medians per trait domain and assembled them into a taxon × trait matrix for clustering.</p>
+<p><strong>Distance computation and clustering.</strong> We derived functional types separately for each continental unit (Europe, North America, northern Asia) to ensure that the groupings reflect the functional diversity actually present in each region rather than a globally imposed classification. We quantified pairwise dissimilarities among taxa using the Gower distance metric, which is appropriate for plant trait data because it handles mixed variable types (continuous, binary, ordinal) and missing values natively, without requiring imputation or prior standardisation of trait distributions. We then grouped taxa by Ward’s minimum-variance hierarchical clustering applied to the Gower distance matrix. We chose Ward’s method because it minimises within-cluster total variance at each merge step, producing compact, well-separated clusters that are more likely to correspond to ecologically coherent functional strategies than linkage methods that optimise only local cohesion.</p>
+<p><strong>Selection of the number of functional types.</strong> We determined the number of functional types <em>k</em> by a dual criterion designed to balance cluster quality with data availability for downstream modelling. For each candidate <em>k</em> in the range <em>k</em><sub>min</sub> (= 5) to <em>k</em><sub>max</sub> (= 30), we passed the resulting FT-level community matrix through the same data-filtering steps (rare-type removal, minimum-site and minimum-sample filters, and binarisation). We considered viable only <em>k</em> values that left at least a minimum number of non-constant FT columns after filtering, because a <em>k</em> that produces many rare or invariant functional types provides insufficient data for stable model estimation regardless of its clustering quality. Among the viable candidates, we selected the <em>k</em> with the highest mean silhouette width — a model-free measure of cluster cohesion and separation that does not depend on the clustering algorithm’s internal objective — as the final number of functional types. This two-stage criterion prevents the selection algorithm from choosing a fine-grained <em>k</em> that scores well on clustering metrics but collapses to an inadequate number of informative functional types after real-data filtering. We then assigned each taxon its functional-type label and collapsed the community matrix to FT level by taking the union of presences across all member taxa within each site and time point.</p>
+</section>
+<section id="computational-reproducibility" class="level3" data-number="0.2.5">
+<h3 data-number="0.2.5" class="anchored" data-anchor-id="computational-reproducibility"><span class="header-section-number">0.2.5</span> Computational reproducibility</h3>
+<p>Reproducibility of the full analysis was a primary design goal, because the study spans hundreds of independent models across three continents, three spatial scales, and 40 time slices — a scope at which silent failures and undocumented parameter choices are difficult to detect after the fact. We implemented the entire analytical workflow — from data extraction through modelling, variance decomposition, and figure generation — as a declarative, dependency-tracked pipeline using the {targets} R package <span class="citation" data-cites="Landau2021">(<a href="#ref-Landau2021" role="doc-biblioref"><strong>Landau2021?</strong></a>)</span>, which caches the output of every computation and automatically re-runs only those steps that are invalidated by an upstream change in code or data. This design makes every result traceable to the exact code and inputs that produced it and ensures that partial re-runs after code edits produce the same output as a full run from scratch. We locked package versions using {renv} <span class="citation" data-cites="Ushey2023">(<a href="#ref-Ushey2023" role="doc-biblioref"><strong>Ushey2023?</strong></a>)</span>, so that the full computational environment — including all R package versions and their dependencies — can be recreated identically on any machine.</p>
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [5]:</pre></div><div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>n_functions <span class="ot">&lt;-</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">length</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    base<span class="sc">::</span><span class="fu">list.files</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>      here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/Functions"</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.R$"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">recursive =</span> <span class="cn">TRUE</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>n_tests <span class="ot">&lt;-</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">length</span>(</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    base<span class="sc">::</span><span class="fu">list.files</span>(</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>      here<span class="sc">::</span><span class="fu">here</span>(</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"R/03_Supplementary_analyses/Testing/testthat"</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.R$"</span>,</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">recursive =</span> <span class="cn">TRUE</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>coverage_pct <span class="ot">&lt;-</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">read_json</span>(</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    here<span class="sc">::</span><span class="fu">here</span>(</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Documentation/Functions_test_coverage/covr_report_summary.json"</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">chuck</span>(<span class="st">"value"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div></div>
+<p>The analytical codebase comprises 113 modular R functions, each in its own file, spanning data extraction, taxonomic harmonisation, community pre-processing, collinearity screening, spatial eigenvector computation, model fitting, variance decomposition, functional-type classification, and visualisation. Each function has a dedicated unit-test file (112 test files in total), and the test suite achieves 92 % line coverage across all function files as measured by {covr} [TODO: cite]. All 113 functions are documented and are publicly accessible through a dedicated project documentation website [GitHub Pages URL; TODO], which provides searchable reference pages for every function alongside narrative descriptions of each analysis phase.</p>
+<p>All analysis code, pipeline definitions, configuration files, and instructions for reproducing the environment are publicly available at [GitHub URL / Zenodo DOI; TODO].</p>
+</section>
+</section>
+<section id="results" class="level2" data-number="0.3">
+<h2 data-number="0.3" class="anchored" data-anchor-id="results"><span class="header-section-number">0.3</span> Results</h2>
+<!-- Nature Letter: Results and Discussion are often merged under a
+     single "Results" heading or split into short sub-sections.
+     For Frontiers in Biogeography keep Results and Discussion separate.
+
+     Suggested sub-sections (adjust to actual findings):
+     - Data overview (sites, taxa, time windows)
+     - Model fit and performance
+     - Co-occurrence patterns across space
+     - Temporal dynamics of co-occurrence
+     - Drivers of co-occurrence change
+-->
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="cell-fig-cooccurrence-overview" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: read and plot co-occurrence summary target</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># res_associations &lt;- targets::tar_read(</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   name = "res_associations",</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   store = set_store</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># )</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div></div>
+<section id="data-overview" class="level3" data-number="0.3.1">
+<h3 data-number="0.3.1" class="anchored" data-anchor-id="data-overview"><span class="header-section-number">0.3.1</span> Data overview</h3>
+<p>TODO: Report number of sites, taxa, time windows, and samples retained after filtering (use inline <code>r</code> expressions — no hardcoded numbers).</p>
+</section>
+<section id="model-performance" class="level3" data-number="0.3.2">
+<h3 data-number="0.3.2" class="anchored" data-anchor-id="model-performance"><span class="header-section-number">0.3.2</span> Model performance</h3>
+<p>TODO: Report predictive performance metrics (AUC, RMSE, etc.).</p>
+</section>
+<section id="co-occurrence-patterns" class="level3" data-number="0.3.3">
+<h3 data-number="0.3.3" class="anchored" data-anchor-id="co-occurrence-patterns"><span class="header-section-number">0.3.3</span> Co-occurrence patterns</h3>
+<p>TODO: Describe spatial and temporal patterns in species associations.</p>
+</section>
+<section id="environmental-drivers" class="level3" data-number="0.3.4">
+<h3 data-number="0.3.4" class="anchored" data-anchor-id="environmental-drivers"><span class="header-section-number">0.3.4</span> Environmental drivers</h3>
+<p>TODO: Describe ANOVA variance partitioning results.</p>
+</section>
+</section>
+<section id="discussion" class="level2" data-number="0.4">
+<h2 data-number="0.4" class="anchored" data-anchor-id="discussion"><span class="header-section-number">0.4</span> Discussion</h2>
+<!-- Nature Letter: ~3–5 paragraphs; if Results and Discussion are
+     merged above, omit this section header and integrate the
+     interpretive text into the Results section.
+     For Frontiers in Biogeography keep as a separate section.
+
+     Suggested paragraph structure:
+     1. Summary of key findings and how they address the study question.
+     2. Comparison with prior literature on vegetation co-occurrence.
+     3. Mechanisms: what drives the observed patterns?
+     4. Temporal perspective: what do palaeoecological data reveal that
+        modern data alone cannot?
+     5. Limitations and future directions.
+     6. Broader implications for ecology / conservation / climate change.
+-->
+<p>TODO: Write discussion.</p>
+</section>
+<section id="acknowledgements" class="level2" data-number="0.5">
+<h2 data-number="0.5" class="anchored" data-anchor-id="acknowledgements"><span class="header-section-number">0.5</span> Acknowledgements</h2>
+<p>TODO: Add acknowledgements. Funding sources, data providers, computing resources, field/lab assistance.</p>
+</section>
+<section id="author-contributions" class="level2" data-number="0.6">
+<h2 data-number="0.6" class="anchored" data-anchor-id="author-contributions"><span class="header-section-number">0.6</span> Author Contributions</h2>
+<!-- Use CRediT taxonomy: https://credit.niso.org/ -->
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Role</th>
+<th>Contributors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Conceptualisation</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Data curation</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Formal analysis</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Funding acquisition</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Investigation</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Methodology</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Project administration</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Resources</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Software</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Supervision</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Validation</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Visualisation</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Writing – original draft</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Writing – review &amp; editing</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data-availability" class="level2" data-number="0.7">
+<h2 data-number="0.7" class="anchored" data-anchor-id="data-availability"><span class="header-section-number">0.7</span> Data Availability</h2>
+<p>TODO: Describe data availability. Reference VegVault, pipeline outputs, and any archived datasets.</p>
+</section>
+<section id="code-availability" class="level2" data-number="0.8">
+<h2 data-number="0.8" class="anchored" data-anchor-id="code-availability"><span class="header-section-number">0.8</span> Code Availability</h2>
+<p>The analysis code is available at <a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence" class="uri">https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence</a> and archived at TODO (Zenodo DOI to be added upon acceptance).</p>
+</section>
+<section id="references" class="level2" data-number="0.9">
+<h2 data-number="0.9" class="anchored" data-anchor-id="references"><span class="header-section-number">0.9</span> References</h2>
+<div id="refs" role="list">
+
+</div>
+</section>
+<section id="supplementary-information" class="level1 unnumbered">
+<h1 class="unnumbered">Supplementary Information</h1>
+<!-- For Nature: this section becomes "Extended Data" (figures/tables
+     with strict formatting rules) and/or a Supplementary Information
+     PDF. For Frontiers in Biogeography: labelled as
+     "Supplementary Material" appended to the main article.
+
+     Keep each supplementary item clearly labelled (Fig. S1, Table S1,
+     etc.) so they can be extracted and formatted for either journal.
+-->
+<section id="supplementary-figures" class="level2" data-number="0.10">
+<h2 data-number="0.10" class="anchored" data-anchor-id="supplementary-figures"><span class="header-section-number">0.10</span> Supplementary Figures</h2>
+<section id="figure-s1-todo-title" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="figure-s1-todo-title">Figure S1 — TODO title</h3>
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="cell-fig-s1" class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Add figure code here.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div></div>
+</section>
+</section>
+<section id="supplementary-tables" class="level2" data-number="0.11">
+<h2 data-number="0.11" class="anchored" data-anchor-id="supplementary-tables"><span class="header-section-number">0.11</span> Supplementary Tables</h2>
+<section id="table-s1-todo-title" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="table-s1-todo-title">Table S1 — TODO title</h3>
+<div class="cell-container code-fold"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="tbl-s1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-s1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: TODO: Table S1 caption.
+</figcaption>
+<div aria-describedby="tbl-s1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: Add table code here.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</figure>
+</div></div>
+</section>
+</section>
+<section id="supplementary-methods" class="level2" data-number="0.12">
+<h2 data-number="0.12" class="anchored" data-anchor-id="supplementary-methods"><span class="header-section-number">0.12</span> Supplementary Methods</h2>
+<p>TODO: Add any extended methodological details not included in the main Methods section (e.g., sensitivity analyses, model diagnostics, additional filtering criteria).</p>
+<!-- -->
+
+</section>
+</section>
+     </main>
+<!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">  TODO: manuscript title</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Ondřej Mottl</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0002-9796-5081</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">    email: ondrej.mottl@gmail.com</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">    corresponding: true</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">      - id: natur-cuni</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">        name: &gt;</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">          Department of Botany, Faculty of Science,</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">          Charles University</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">        city: Prague</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">        country: Czech Republic</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: TODO Co-author 2</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0000-0000-0000</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">      - id: aff2</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">        name: TODO Institution</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">        city: TODO City</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">        country: TODO Country</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: TODO Co-author 3</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: 0000-0000-0000-0000</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co">      - ref: aff2</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> last-modified</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="an">date-format:</span><span class="co"> long</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="an">abstract:</span><span class="co"> |</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co">  TODO: Write abstract (~150 words for Nature Letter).</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co">  Background sentence(s). Key question. Approach in one sentence.</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co">  Key findings (2–3 sentences). Broader implication (1 sentence).</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="an">keywords:</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co">  - vegetation co-occurrence</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="co">  - palaeoecology</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="co">  - joint species distribution model</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="co">  - HMSC</span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co">  - Holocene</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncomment the line below to apply a journal citation style:</span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a><span class="co"># csl: https://www.zotero.org/styles/nature</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(targets)</span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"Documentation/Manuscript/manuscript.qmd"</span>)</span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suppressWarnings</span>(</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/___setup_project___.R"</span>))</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Set active configuration — adjust as needed</span></span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">R_CONFIG_ACTIVE =</span> <span class="st">"project_cz"</span>)</span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the targets store path</span></span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a><span class="co"># (pattern from website pages; update pipeline name as needed)</span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>vec_pipeline <span class="ot">&lt;-</span> <span class="st">"pipeline_basic"</span></span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>set_store <span class="ot">&lt;-</span></span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>  base<span class="sc">::</span><span class="fu">paste0</span>(</span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_active_config</span>(<span class="st">"target_store"</span>), <span class="st">"/"</span>, vec_pipeline, <span class="st">"/"</span></span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>()</span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>{{&lt; include sections/02_introduction.qmd &gt;}}</span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>{{&lt; include sections/03_methods.qmd &gt;}}</span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>{{&lt; include sections/04_results.qmd &gt;}}</span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a>{{&lt; include sections/05_discussion.qmd &gt;}}</span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a>{{&lt; include sections/07_acknowledgements.qmd &gt;}}</span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a>{{&lt; include sections/08_author_contributions.qmd &gt;}}</span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a>{{&lt; include sections/09_data_availability.qmd &gt;}}</span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a>{{&lt; include sections/10_code_availability.qmd &gt;}}</span>
+<span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a>{{&lt; include sections/11_references.qmd &gt;}}</span>
+<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-92"><a href="#cb18-92" aria-hidden="true" tabindex="-1"></a>{{&lt; include sections/06_supplementary.qmd &gt;}}</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>  </div> <!-- /content --> 
+  
+</body></html>
