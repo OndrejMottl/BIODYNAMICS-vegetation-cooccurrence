@@ -21,7 +21,7 @@
 
 library(here)
 
-source(
+base::source(
   here::here("R/___setup_project___.R")
 )
 

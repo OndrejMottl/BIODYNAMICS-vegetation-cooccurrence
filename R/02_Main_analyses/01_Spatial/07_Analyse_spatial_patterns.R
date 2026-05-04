@@ -9,8 +9,12 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Loads results from all spatial units and analyses them together to
-#   identify general patterns and differences across scales.
+# Loads ANOVA results from all spatial units and combines
+#   them into a single long tibble with a
+#   `taxonomic_resolution` column (genus / family /
+#   functional type). The combined tibble is saved to
+#   Outputs/Data/ for downstream use by
+#   08_Plot_resolution_comparison.R.
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -18,44 +22,25 @@
 
 library(here)
 
-source(
+base::source(
   here::here("R/___setup_project___.R")
 )
 
-# Graphical options shared across all plots in this script.
-graphical_options <-
-  get_active_config("graphical")
+path_output_data <-
+  here::here("Outputs/Data")
 
-flag_run_all <- FALSE
+base::dir.create(
+  path = path_output_data,
+  showWarnings = FALSE,
+  recursive = TRUE
+)
 
-
-#----------------------------------------------------------#
-# 1. Run individual spatial analyses -----
-#----------------------------------------------------------#
-
-if (
-  base::isTRUE(flag_run_all)
-) {
-  c(
-    "continental",
-    "regional",
-    "local"
-  ) |>
-    rlang::set_names(
-      nm = base::as.character(c(1:3))
-    ) |>
-    purrr::iwalk(
-      .f = ~ here::here(
-        "R/02_Main_analyses/01_Spatial/",
-        stringr::str_glue("0{.y}_Run_spatial_{.x}.R")
-      ) |>
-        source()
-    )
-}
+tag_date <-
+  base::format(base::Sys.Date(), "%Y-%m-%d")
 
 
 #----------------------------------------------------------#
-# 2. Load all results -----
+# 1. Load all results -----
 #----------------------------------------------------------#
 
 data_targets_meta <-
@@ -165,7 +150,7 @@ data_anova_results <-
         complete_only = FALSE,
         store = .x
       ) |>
-        dplyr::filter(is.na(error)) |>
+        dplyr::filter(base::is.na(error)) |>
         dplyr::pull(name) |>
         stringr::str_subset(
           pattern = "^model_anova_"
@@ -247,56 +232,13 @@ data_anova_results <-
     )
   )
 
-data_anova_results |>
-  dplyr::filter(component == "Associations") |>
-  ggplot2::ggplot(
-    mapping = ggplot2::aes(
-      x = scale,
-      y = taxonomic_scale,
-      fill = R2_Nagelkerke_percentage,
-      col = R2_Nagelkerke_percentage,
-      shape = continent_id
-    )
-  ) +
-  ggplot2::scale_y_discrete(position = "right") +
-  ggplot2::scale_shape_manual(
-    values = c(
-      "america" = 22,
-      "asia" = 24,
-      "europe" = 25
-    ),
-    name = "Continent"
-  ) +
-  ggplot2::scale_fill_viridis_c(
-    limits = c(0, 100),
-    na.value = "grey90",
-    name = expression(R^2 ~ "Nagelkerke (%)")
-  ) +
-  ggplot2::scale_color_viridis_c(
-    limits = c(0, 100),
-    na.value = "grey90",
-    name = expression(R^2 ~ "Nagelkerke (%)")
-  ) +
-  ggplot2::labs(
-    x = "Spatial scale",
-    y = "Taxonomic scale",
-    title = "Variance explained by species associations across scales"
-  ) +
-  ggplot2::theme(
-    legend.position = "top",
-    # add one legend on top of the other to show fill and color together
-    legend.box = "vertical",
-  ) +
-  ggview::canvas(
-    height = graphical_options[["height"]],
-    width = graphical_options[["width"]],
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]],
-    bg = graphical_options[["bg"]]
-  ) +
-  ggplot2::geom_jitter(
-    width = 0.2,
-    height = 0.2,
-    size = 3,
-    alpha = 0.8
-  )
+
+#----------------------------------------------------------#
+# 2. Save combined ANOVA results -----
+#----------------------------------------------------------#
+
+RUtilpol::save_latest_file(
+  object_to_save = data_anova_results,
+  dir = path_output_data,
+  prefered_format = "qs"
+)

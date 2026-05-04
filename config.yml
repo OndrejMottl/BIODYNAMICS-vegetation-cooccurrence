@@ -7,6 +7,7 @@ default:
     units: "px"
     dpi: 300
     bg: "white"
+    panel_scale: 3.2
   data_processing:
     time_step: 500
     number_of_taxa: !expr Inf
