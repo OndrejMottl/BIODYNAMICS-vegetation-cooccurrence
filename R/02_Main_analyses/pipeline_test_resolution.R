@@ -92,7 +92,8 @@ targets::tar_source(
 # set seed for reproducibility
 targets::tar_option_set(
   seed = get_active_config("seed"),
-  format = "qs"
+  format = "qs",
+  error = "continue"
 )
 
 
