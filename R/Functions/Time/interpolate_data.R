@@ -39,7 +39,8 @@ interpolate_data <- function(data = NULL,
                              ties = mean,
                              age_min = 0,
                              age_max = 12e03,
-                             timestep = 500) {
+                             timestep = 500,
+                             verbose = TRUE) {
   assertthat::assert_that(
     is.data.frame(data),
     msg = "data must be a data frame"
@@ -108,12 +109,18 @@ interpolate_data <- function(data = NULL,
     msg = "timestep must be greater than 0"
   )
 
+  assertthat::assert_that(
+    is.logical(verbose) && length(verbose) == 1,
+    msg = "verbose must be a single logical value"
+  )
+
   data %>%
     tidyr::nest(
       data_nested = !dplyr::any_of(by)
     ) %>%
     dplyr::mutate(
       data_interpolated = purrr::map(
+        .progress = verbose,
         .x = data_nested,
         .f = purrr::possibly(
           .f = ~ .x %>%
