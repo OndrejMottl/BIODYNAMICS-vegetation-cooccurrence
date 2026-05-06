@@ -43,14 +43,24 @@ pipe_segment_vegvault_data <-
     targets::tar_target(
       description = "Extracted data from VegVault",
       name = "data_vegvault_extracted",
-      command = extract_data_from_vegvault(
+      # Build fossil-pollen plan fresh inside target to avoid serialising
+      # the DBI connection
+      command = build_vegvault_plan(
         path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
-        x_lim = config.vegvault_data$x_lim,
-        y_lim = config.vegvault_data$y_lim,
-        age_lim = config.vegvault_data$age_lim,
-        sel_abiotic_var_name = config.vegvault_data$sel_abiotic_var_name,
-        sel_dataset_type = config.vegvault_data$sel_dataset_type
-      )
+        x_lim = purrr::chuck(config.vegvault_data, "x_lim"),
+        y_lim = purrr::chuck(config.vegvault_data, "y_lim"),
+        age_lim = purrr::chuck(config.vegvault_data, "age_lim"),
+        sel_dataset_type = purrr::chuck(
+          config.vegvault_data,
+          "sel_dataset_type"
+        )
+      ) |>
+        extract_data_from_vegvault(
+          sel_abiotic_var_name = purrr::chuck(
+            config.vegvault_data,
+            "sel_abiotic_var_name"
+          )
+        )
     ),
     targets::tar_target(
       description = "Get coordinates of the VegVault data",

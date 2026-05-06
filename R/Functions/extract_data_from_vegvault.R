@@ -1,132 +1,57 @@
 #' @title Extract Data from VegVault
 #' @description
-#' Extracts data from the VegVault SQLite database based on specified
-#' geographic, temporal, and dataset type constraints.
-#' @param path_to_vegvault
-#' A character string specifying the path to the VegVault SQLite database
-#' (default: "Data/Input/VegVault.sqlite").
-#' @param x_lim
-#' A numeric vector of length 2 specifying the longitude range.
-#' @param y_lim
-#' A numeric vector of length 2 specifying the latitude range.
-#' @param age_lim
-#' A numeric vector of length 2 specifying the age range.
-#' @param sel_dataset_type
-#' A character vector specifying the dataset types to select.
+#' Extracts data from a pre-built vaultkeepr query plan by adding
+#' abiotic data, filtering by variable name, adding taxa, and
+#' collecting the results into a data frame.
+#' @param plan
+#' A vaultkeepr plan object, typically created by
+#' `build_vegvault_plan()`.
 #' @param sel_abiotic_var_name
-#' A character vector specifying the abiotic variable names to select.
+#' A non-empty character vector specifying the abiotic variable
+#' names to select (e.g. `"bio1"`).
 #' @return
 #' A data frame containing the extracted data.
 #' @details
-#' The function performs the following steps:
+#' The function extends the supplied plan with the following steps:
+#'   `get_abiotic_data()` -> `select_abiotic_var_by_name()` ->
+#'   `get_taxa()` -> `extract_data()`
 #'
-#'   1. Validates input parameters.
-#'   2. Checks the presence of the VegVault SQLite database.
-#'   3. Builds the vaultkeepr query plan (lazy SQL). If vaultkeepr raises
-#'      an error during plan assembly (e.g. insufficient data for the
-#'      specified constraints), the error is caught and re-thrown via
-#'      `cli::cli_abort()` with the original message preserved.
-#'   4. Retrieves abiotic data and taxa information.
-#'   5. Returns the extracted data as a data frame.
+#' Input validation and plan construction (geographic/temporal
+#' filters, dataset type selection) are handled by
+#' `build_vegvault_plan()`.
+#' @seealso
+#'   [build_vegvault_plan()],
+#'   [extract_age_uncertainty_from_vegvault()]
 #' @export
 extract_data_from_vegvault <- function(
-    path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
-    x_lim = NULL,
-    y_lim = NULL,
-    age_lim = NULL,
-    sel_dataset_type = NULL,
+    plan,
     sel_abiotic_var_name = NULL) {
   `%>%` <- magrittr::`%>%`
 
   assertthat::assert_that(
-    is.character(path_to_vegvault),
-    length(path_to_vegvault) == 1,
-    msg = "path_to_vegvault must be a single character string"
-  )
-
-  # Check if the VegVault file exists
-  check_presence_of_vegvault(path_to_vegvault)
-
-  assertthat::assert_that(
-    is.numeric(x_lim) && length(x_lim) == 2,
-    msg = "x_lim must be a numeric vector of length 2"
-  )
-
-  assertthat::assert_that(
-    is.numeric(y_lim) && length(y_lim) == 2,
-    msg = "y_lim must be a numeric vector of length 2"
-  )
-
-  assertthat::assert_that(
-    is.numeric(age_lim) && length(age_lim) == 2,
-    msg = "age_lim must be a numeric vector of length 2"
-  )
-
-  assertthat::assert_that(
-    is.character(sel_dataset_type) && length(sel_dataset_type) > 0,
-    msg = "sel_dataset_type must be a character vector of length > 0"
-  )
-
-  assertthat::assert_that(
-    is.character(sel_abiotic_var_name) && length(sel_abiotic_var_name) > 0,
-    msg = "sel_abiotic_var_name must be a character vector of length > 0"
-  )
-
-  plan_error <- NULL
-
-  vaultkeepr_plan <-
-    tryCatch(
-      expr = {
-        # Access the VegVault file
-        vaultkeepr::open_vault(
-          path = path_to_vegvault
-        ) %>%
-          # Add the dataset information
-          vaultkeepr::get_datasets() %>%
-          # Select modern plot data and climate
-          vaultkeepr::select_dataset_by_type(
-            sel_dataset_type = sel_dataset_type
-          ) %>%
-          # Limit data to Czech Republic
-          vaultkeepr::select_dataset_by_geo(
-            lat_lim = y_lim,
-            long_lim = x_lim,
-            verbose = FALSE
-          ) %>%
-          # Add samples
-          vaultkeepr::get_samples() %>%
-          # Select only modern data
-          vaultkeepr::select_samples_by_age(
-            age_lim = age_lim,
-            verbose = FALSE
-          ) %>%
-          # Add abiotic data
-          vaultkeepr::get_abiotic_data(verbose = FALSE) %>%
-          # Select only Mean Annual Temperature (bio1)
-          vaultkeepr::select_abiotic_var_by_name(
-            sel_var_name = sel_abiotic_var_name
-          ) %>%
-          # Add taxa
-          vaultkeepr::get_taxa()
-      },
-      error = function(e) {
-        plan_error <<- base::conditionMessage(e)
-        NULL
-      }
+    !base::is.null(plan),
+    msg = stringr::str_c(
+      "'plan' must not be NULL;",
+      " use build_vegvault_plan() to create one"
     )
+  )
 
-  if (base::is.null(vaultkeepr_plan)) {
-    cli::cli_abort(
-      c(
-        "Failed to build the vaultkeepr query plan.",
-        "i" = "No data available for the specified constraints.",
-        "x" = plan_error
-      )
+  assertthat::assert_that(
+    base::is.character(sel_abiotic_var_name) &&
+      base::length(sel_abiotic_var_name) > 0L,
+    msg = stringr::str_c(
+      "'sel_abiotic_var_name' must be a non-empty",
+      " character vector"
     )
-  }
+  )
 
   data_extracted <-
-    vaultkeepr_plan %>%
+    plan %>%
+    vaultkeepr::get_abiotic_data(verbose = FALSE) %>%
+    vaultkeepr::select_abiotic_var_by_name(
+      sel_var_name = sel_abiotic_var_name
+    ) %>%
+    vaultkeepr::get_taxa() %>%
     vaultkeepr::extract_data(
       return_raw_data = FALSE,
       verbose = FALSE
