@@ -139,12 +139,14 @@ data_age_unc_long <-
 # same structured object as the actual pipeline.
 
 data_vegvault_extracted <-
-  extract_data_from_vegvault(
+  build_vegvault_plan(
     path_to_vegvault = path_vegvault,
     x_lim = x_lim,
     y_lim = y_lim,
     age_lim = age_lim,
-    sel_dataset_type = c("fossil_pollen_archive", "gridpoints"),
+    sel_dataset_type = c("fossil_pollen_archive", "gridpoints")
+  ) |>
+  extract_data_from_vegvault(
     sel_abiotic_var_name = c("bio1")
   )
 
@@ -269,12 +271,6 @@ sel_taxon <-
   ) |>
   dplyr::slice_max(mean_prop, n = 1, with_ties = FALSE) |>
   dplyr::pull(taxon)
-
-base::cat(
-  stringr::str_glue(
-    "Part A - core: '{sel_dataset_name}', taxon: '{sel_taxon}'\n\n"
-  )
-)
 
 
 #----------------------------------------------------------#
@@ -412,18 +408,13 @@ plot_spaghetti <-
     color = "grey50",
     size = 1
   ) +
-  # ggplot2::geom_line(
-  #   data = data_current_raw,
-  #   color = "grey40",
-  #   linewidth = 0.5
-  # ) +
   ggplot2::geom_line(
     data = data_current_single,
     colour = "#d73027",
     linewidth = 1.2,
     linetype = "dashed"
   ) +
-   ggplot2::geom_point(
+  ggplot2::geom_point(
     data = data_current_single,
     colour = "#d73027",
     size = 2
@@ -436,6 +427,13 @@ plot_spaghetti <-
 
 print_safe(plot_spaghetti)
 
+ggview::save_ggplot(
+  plot = plot_spaghetti,
+  file = here::here(
+    "Outputs/Figures/Supplementary/",
+    "interpolation_uncertainty_comparison_single_taxon.png"
+  )
+)
 
 #--------------------------------------------------#
 ## 8.3. New approach for all taxa in the selected core -----
@@ -466,7 +464,7 @@ data_comparison_core <-
   dplyr::filter(
     !is.na(pollen_prop_current),
     !is.na(pollen_prop_new)
-  )  |> 
+  ) |>
   dplyr::mutate(
     pollen_prop_current_perc = pollen_prop_current * 100,
     pollen_prop_new_perc = pollen_prop_new * 100
@@ -487,7 +485,7 @@ max_prop_val <-
       dplyr::pull(data_comparison_core, pollen_prop_current_perc),
       na.rm = TRUE
     )
-  )  
+  )
 
 plot_comparison_core <-
   data_comparison_core |>
@@ -535,6 +533,13 @@ plot_comparison_core <-
 
 print_safe(plot_comparison_core)
 
+ggview::save_ggplot(
+  plot = plot_comparison_core,
+  file = here::here(
+    "Outputs/Figures/Supplementary/",
+    "interpolation_uncertainty_comparison_all_taxa.png"
+  )
+)
 
 #----------------------------------------------------------#
 # 9. Part B — All-Czech aggregate analysis -----
@@ -547,13 +552,6 @@ print_safe(plot_comparison_core)
 
 n_iter_actual <-
   base::min(n_iter_use, n_iterations)
-
-base::cat(
-  stringr::str_glue(
-    "Part B — using {n_iter_actual} of {n_iterations} iterations ",
-    "across {n_datasets} cores\n\n"
-  )
-)
 
 set.seed(get_active_config("seed"))
 vec_random_iterations <-
@@ -573,9 +571,6 @@ data_community_iter_limited <-
 ## 9.2. Per-iteration interpolation (all cores) -----
 #--------------------------------------------------#
 
-base::cat("Running per-iteration interpolation for all cores...\n")
-t_start <- base::proc.time()
-
 data_iter_all <-
   data_community_iter_limited |>
   interpolate_data(
@@ -584,11 +579,6 @@ data_iter_all <-
     age_min = age_min,
     age_max = age_max
   )
-
-t_elapsed <- (base::proc.time() - t_start)[["elapsed"]]
-base::cat(
-  stringr::str_glue("  Done in {round(t_elapsed, 1)} seconds\n\n")
-)
 
 data_new_all <-
   data_iter_all |>
@@ -616,7 +606,7 @@ data_comparison_all <-
   dplyr::mutate(
     pollen_prop_current_perc = pollen_prop_current * 100,
     pollen_prop_new_perc = pollen_prop_new * 100
-  )  |> 
+  ) |>
   dplyr::mutate(
     abs_diff_perc = base::abs(pollen_prop_new_perc - pollen_prop_current_perc)
   )
@@ -668,7 +658,6 @@ plot_diff_dist <-
     binwidth = 1,
     fill = "#4393c3",
     colour = "white",
-
   ) +
   ggplot2::geom_density(
     colour = "#2166ac",
@@ -677,19 +666,26 @@ plot_diff_dist <-
 
 print_safe(plot_diff_dist)
 
+ggview::save_ggplot(
+  plot = plot_diff_dist,
+  file = here::here(
+    "Outputs/Figures/Supplementary/",
+    "interpolation_uncertainty_comparison_histogram.png"
+  )
+)
 
 #--------------------------------------------------#
 ## 9.5. Difference by age -----
 #--------------------------------------------------#
 
 plot_diff_by_age <-
-    data_comparison_all |>
-    dplyr::summarise(
-      mean_diff = base::mean(abs_diff_perc, na.rm = TRUE),
-      median_diff = stats::median(abs_diff_perc, na.rm = TRUE),
-      pct90_diff = stats::quantile(abs_diff_perc, 0.9, na.rm = TRUE),
-      .by = age
-    ) |>
+  data_comparison_all |>
+  dplyr::summarise(
+    mean_diff = base::mean(abs_diff_perc, na.rm = TRUE),
+    median_diff = stats::median(abs_diff_perc, na.rm = TRUE),
+    pct90_diff = stats::quantile(abs_diff_perc, 0.9, na.rm = TRUE),
+    .by = age
+  ) |>
   tidyr::pivot_longer(
     cols = c(mean_diff, median_diff, pct90_diff),
     names_to = "metric",
@@ -734,3 +730,11 @@ plot_diff_by_age <-
   ggplot2::geom_point(size = 2)
 
 print_safe(plot_diff_by_age)
+
+ggview::save_ggplot(
+  plot = plot_diff_by_age,
+  file = here::here(
+    "Outputs/Figures/Supplementary/",
+    "interpolation_uncertainty_comparison_by_age.png"
+  )
+)
