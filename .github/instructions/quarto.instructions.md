@@ -1,4 +1,4 @@
-﻿---
+---
 applyTo: "**/*.qmd"
 description: >
   Conventions for building and maintaining the Quarto website for this
@@ -27,7 +27,7 @@ project:
 website:
   title: "<project-title>"
   page-footer:
-    right: "This page is built with â¤ï¸ and [Quarto](https://quarto.org/)."
+    right: "This page is built with [Quarto](https://quarto.org/)."
   site-url: https://ondrejmottl.github.io/<repo-name>/
   repo-url: https://github.com/OndrejMottl/<repo-name>
   issue-url: https://github.com/OndrejMottl/<repo-name>/issues
@@ -70,8 +70,7 @@ format:
 ## Page File Locations
 
 | Purpose | Path |
-|---|
----|
+|---|---|
 | Homepage | `index.qmd` |
 | Project overview | `Documentation/Website/about.qmd` |
 | Reproducibility | `Documentation/Website/installation.qmd` |
@@ -232,10 +231,10 @@ vec_pipelines <- "pipeline_basic"
 # Construct the store path:
 #   {target_store from config}/{pipeline_name}/
 set_store <-
-  paste0(
-    get_active_config("target_store"), "/", vec_pipelines, "/"
-  ) |>
-  here::here()
+  here::here(
+    get_active_config("target_store"),
+    vec_pipelines
+  )
 
 targets::tar_read(
   name = "target_name",
@@ -251,7 +250,7 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
 Sys.setenv(R_CONFIG_ACTIVE = "project_temporal_europe")
 ```
 
-This determines which `target_store` path is returned by `get_active_config("target_store")`. Combined with the pipeline subdirectory, each project Ã— pipeline combination has its own isolated store.
+This determines which `target_store` path is returned by `get_active_config("target_store")`. Combined with the pipeline subdirectory, each project x pipeline combination has its own isolated store.
 
 ---
 
@@ -435,7 +434,11 @@ Function documentation pages are **auto-generated**  -  do not edit them manuall
 After adding or editing a function's `roxygen2` comments, re-run:
 
 ```r
-source("R/___setup_project___.R")
+library(here)
+
+source(
+  here::here("R/___setup_project___.R")
+)
 source("R/03_Supplementary_analyses/Documentation/Document_functions.R")
 ```
 
@@ -477,14 +480,14 @@ source(here::here("R/___setup_project___.R"))
 path_figures <- here::here("Documentation/Materials/Figures")
 ```
 
-- âœ… `here::here("Documentation/Materials/Figures", "plot.png")`
-- âŒ `"../Materials/Figures/plot.png"`  -  raw relative path, do not use
+- Good: `here::here("Documentation/Materials/Figures", "plot.png")`
+- Avoid: `"../Materials/Figures/plot.png"`  -  raw relative path, do not use
 
 ---
 
 ## Adding a New Page
 
-1. Create a `.qmd` file in the appropriate `website/` subdirectory.
+1. Create a `.qmd` file in the appropriate `Documentation/Website/` subdirectory.
 2. Use the standard YAML front matter (see above).
 3. Add the page's `href` to the `sidebar > contents` section in `_quarto.yml`.
 4. Re-render with `quarto render`.

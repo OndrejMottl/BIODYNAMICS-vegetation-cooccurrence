@@ -140,6 +140,7 @@ c(
 #   config.model_fitting with no downstream consumers in this
 #   pipeline (all model targets consume the suffixed versions).
 c(
+  "_helpers/make_community_filter_targets.R",
   "pipe_segment_config_resolution.R",
   "pipe_segment_community_resolution.R",
   "pipe_segment_alignment.R",

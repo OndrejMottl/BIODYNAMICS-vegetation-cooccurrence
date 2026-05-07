@@ -1,4 +1,4 @@
-﻿---
+---
 applyTo: "**/*.R"
 description: >
   Tidyverse usage guidelines: preferred functions over base R, modern dplyr

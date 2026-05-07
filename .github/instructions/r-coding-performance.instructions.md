@@ -1,4 +1,4 @@
-﻿---
+---
 applyTo: "**/*.R"
 description: >
   Performance guidelines for R code: profiling before optimising,

@@ -80,7 +80,9 @@ For **each changed file**, systematically check it against all applicable instru
 
 - Roxygen2 block present and follows the project template
 - `@param`, `@return`, `@examples` present
-- Error handling uses `cli::cli_abort()` / `cli::cli_warn()`
+- Argument validation uses `assertthat::assert_that()`
+- Internal/data-content errors use `cli::cli_abort()`
+- Console messages and warnings use `cli::cli_inform()` / `cli::cli_warn()`
 - No side-effects (no `source()`, no global assignments)
 - One function per file, file name matches function name
 
@@ -90,7 +92,8 @@ For **each changed file**, systematically check it against all applicable instru
 - Uses `testthat::test_that()` / `testthat::describe()` blocks
 - Tests based on the function **spec** not implementation internals
 - Covers: happy path, edge cases, error conditions
-- No `library()` calls — functions accessed via namespace or loaded by `source(here::here("R/___setup_project___.R"))`
+- No `library()` calls — functions are accessed via namespace or loaded by
+  `source(here::here("R/___setup_project___.R"))`
 - Assignment newline rule respected (user memory)
 - Quantile column names use `lwr`/`upr` pattern if applicable
 

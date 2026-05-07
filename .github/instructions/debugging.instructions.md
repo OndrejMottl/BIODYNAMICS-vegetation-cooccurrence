@@ -1,5 +1,4 @@
-﻿---
-applyTo: "**/*.R"
+---
 description: >
   Standard debugging workflow for this project: isolate issues in
   temporary R scripts, test in a clean terminal session, and verify
@@ -203,7 +202,7 @@ Note: steps 6, 7, and 8 must all pass  -  the targeted test catches regressions 
 
 - **Pipeline exit code 1 on Windows is not always a real error.** On Windows, `Rscript` exits with code 1 whenever it prints *any* warning to stderr  -  including benign `renv`/`here` package-version notices (`"package 'here' was built under R version ..."`). PowerShell propagates this as a non-zero exit, making it look like a failure. Always confirm pipeline success by inspecting the output text, not the exit code. A successful run contains:
   ```
-  âœ” ended pipeline [Xs, N completed, M skipped]
+  OK ended pipeline [Xs, N completed, M skipped]
   ```
   If that line is present and there is no `ERROR` or `errored target` in the output, the pipeline succeeded regardless of exit code.
 

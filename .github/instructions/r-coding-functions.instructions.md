@@ -1,4 +1,4 @@
-﻿---
+---
 applyTo: "**/*.R"
 description: >
   Guidelines for writing R functions: argument style, anonymous functions,
@@ -79,7 +79,7 @@ assertthat::assert_that(
 
 assertthat::assert_that(
   base::all(c("col_a", "col_b") %in% base::names(df)),
-  msg = paste0(
+  msg = stringr::str_glue(
     "'df' must contain columns 'col_a' and 'col_b'."
   )
 )
@@ -105,6 +105,10 @@ if (base::sum(mat_binary) == 0L) {
 ```
 
 Use `cli::cli_warn()` and `cli::cli_inform()` for warnings and messages respectively.
+
+Do not use `cli::cli_abort()` for routine function argument assertions. Those
+checks should use `assertthat::assert_that()` so argument contracts stay
+separate from runtime data-content failures.
 
 ## Verbose Argument for Console Output
 

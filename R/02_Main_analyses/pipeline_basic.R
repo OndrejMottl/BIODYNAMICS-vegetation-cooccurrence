@@ -86,6 +86,7 @@ c(
   "pipe_segment_community_extract.R",
   "pipe_segment_taxa_classification.R",
   "pipe_segment_community_preprocess_paleo.R",
+  "_helpers/make_community_filter_targets.R",
   "pipe_segment_community_filtering.R",
   "pipe_segment_abiotic_data.R",
   "pipe_segment_alignment.R",
