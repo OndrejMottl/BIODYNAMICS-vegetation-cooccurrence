@@ -19,7 +19,7 @@ data_community_test <-
       0, 200, 400, 600, 800,
       0, 200, 400, 600, 800
     ),
-    pollen_prop = base::c(
+    value = base::c(
       0.3, 0.4, 0.5, 0.4, 0.3,
       0.2, 0.3, 0.4, 0.3, 0.2
     )
@@ -82,7 +82,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "errors when data is missing pollen_prop column",
+  "errors when data is missing value column",
   {
     data_no_prop <-
       tibble::tibble(
@@ -100,7 +100,7 @@ testthat::test_that(
         age_min = 0,
         age_max = 800
       ),
-      regexp = "pollen_prop"
+      regexp = "value"
     )
   }
 )
@@ -113,7 +113,7 @@ testthat::test_that(
         sample_name = "s1",
         taxon = "taxonA",
         age = 0,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -137,7 +137,7 @@ testthat::test_that(
         dataset_name = "gp1",
         taxon = "taxonA",
         age = 0,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -161,7 +161,7 @@ testthat::test_that(
         dataset_name = "gp1",
         sample_name = "s1",
         age = 0,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -185,7 +185,7 @@ testthat::test_that(
         dataset_name = "gp1",
         sample_name = "s1",
         taxon = "taxonA",
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -350,7 +350,7 @@ testthat::test_that(
       )
 
     vec_expected_cols <-
-      base::c("dataset_name", "taxon", "age", "pollen_prop")
+      base::c("dataset_name", "taxon", "age", "value")
 
     testthat::expect_true(
       base::all(
@@ -369,7 +369,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "pollen_prop values are numeric",
+  "value values are numeric",
   {
     result <-
       interpolate_community_data_with_uncertainty(
@@ -381,7 +381,7 @@ testthat::test_that(
       )
 
     vec_prop <-
-      dplyr::pull(result, pollen_prop)
+      dplyr::pull(result, value)
 
     testthat::expect_true(
       base::is.numeric(vec_prop)
@@ -444,7 +444,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "core1 pollen_prop is median over iterations",
+  "core1 value is median over iterations",
   {
     # At age = 200:
     #   iter 1 interpolates between s7(age~210,prop=0.3) &
@@ -467,7 +467,7 @@ testthat::test_that(
       dplyr::filter(result, dataset_name == "core1")
 
     vec_prop_core1 <-
-      dplyr::pull(result_core1, pollen_prop)
+      dplyr::pull(result_core1, value)
 
     # Median of numeric values must itself be numeric and finite
     testthat::expect_true(
@@ -519,11 +519,11 @@ testthat::test_that(
 
     vec_prop_unc <-
       dplyr::arrange(result_unc, age) |>
-      dplyr::pull(pollen_prop)
+      dplyr::pull(value)
 
     vec_prop_direct <-
       dplyr::arrange(result_direct, age) |>
-      dplyr::pull(pollen_prop)
+      dplyr::pull(value)
 
     testthat::expect_equal(
       vec_prop_unc,
@@ -563,7 +563,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "fossil core pollen_prop is median across iterations",
+  "fossil core value is median across iterations",
   {
     # Build a simple core with 3 age points and 2 iterations
     # where iteration ages align perfectly with the grid so that
@@ -574,7 +574,7 @@ testthat::test_that(
         sample_name = base::c("s1", "s2", "s3"),
         taxon = "taxonA",
         age = base::c(0, 500, 1000),
-        pollen_prop = base::c(0.2, 0.6, 0.4)
+        value = base::c(0.2, 0.6, 0.4)
       )
 
     data_simple_unc <-
@@ -606,7 +606,7 @@ testthat::test_that(
       dplyr::filter(result, age == 500)
 
     val_prop <-
-      dplyr::pull(result_at_500, pollen_prop)
+      dplyr::pull(result_at_500, value)
 
     testthat::expect_equal(
       val_prop,
@@ -683,7 +683,7 @@ testthat::test_that(
     )
 
     vec_prop <-
-      dplyr::pull(result, pollen_prop)
+      dplyr::pull(result, value)
 
     testthat::expect_true(
       base::all(base::is.finite(vec_prop))

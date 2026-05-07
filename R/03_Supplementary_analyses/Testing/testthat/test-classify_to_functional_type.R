@@ -20,7 +20,7 @@ testthat::test_that("classify_to_functional_type() errors if taxon missing", {
     tibble::tibble(
       dataset_name = "ds1",
       age = 0L,
-      pollen_prop = 0.5
+      value = 0.5
     )
 
   data_ft <-
@@ -44,7 +44,7 @@ testthat::test_that(
       tibble::tibble(
         taxon = "Taxon_1",
         age = 0L,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     data_ft <-
@@ -67,7 +67,7 @@ testthat::test_that("classify_to_functional_type() errors if age missing", {
     tibble::tibble(
       taxon = "Taxon_1",
       dataset_name = "ds1",
-      pollen_prop = 0.5
+      value = 0.5
     )
 
   data_ft <-
@@ -85,7 +85,7 @@ testthat::test_that("classify_to_functional_type() errors if age missing", {
 })
 
 testthat::test_that(
-  "classify_to_functional_type() errors if pollen_prop missing",
+  "classify_to_functional_type() errors if value missing",
   {
     data_dummy <-
       tibble::tibble(
@@ -119,7 +119,7 @@ testthat::test_that(
         taxon = "Taxon_1",
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -139,7 +139,7 @@ testthat::test_that(
         taxon = "Taxon_1",
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     data_ft <-
@@ -164,7 +164,7 @@ testthat::test_that(
         taxon = "Taxon_1",
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     data_ft <-
@@ -191,7 +191,7 @@ testthat::test_that(
         taxon = "Taxon_1",
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     data_ft <-
@@ -220,7 +220,7 @@ testthat::test_that(
         taxon = c("Taxon_1", "Taxon_2"),
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = c(0.4, 0.6)
+        value = c(0.4, 0.6)
       )
 
     data_ft <-
@@ -248,7 +248,7 @@ testthat::test_that(
         taxon = c("Taxon_1", "Taxon_2"),
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = c(0.4, 0.6)
+        value = c(0.4, 0.6)
       )
 
     data_ft <-
@@ -266,7 +266,7 @@ testthat::test_that(
 
     testthat::expect_true(
       base::all(
-        c("taxon", "dataset_name", "age", "pollen_prop") %in%
+        c("taxon", "dataset_name", "age", "value") %in%
           base::colnames(res)
       )
     )
@@ -281,7 +281,7 @@ testthat::test_that(
         taxon = c("Taxon_1", "Taxon_2"),
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = c(0.4, 0.6)
+        value = c(0.4, 0.6)
       )
 
     data_ft <-
@@ -314,7 +314,7 @@ testthat::test_that(
         taxon = c("Taxon_1", "Taxon_2", "Taxon_3"),
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = c(0.3, 0.3, 0.4)
+        value = c(0.3, 0.3, 0.4)
       )
 
     data_ft <-
@@ -349,7 +349,7 @@ testthat::test_that(
         taxon = "Taxon_1",
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = 1.0
+        value = 1.0
       )
 
     data_ft <-
@@ -372,17 +372,17 @@ testthat::test_that(
   }
 )
 
-# -- Core behavior: pollen_prop aggregation -----------------------------------
+# -- Core behavior: value aggregation -----------------------------------
 
 testthat::test_that(
-  "classify_to_functional_type() sums pollen_prop within FT group",
+  "classify_to_functional_type() sums value within FT group",
   {
     data_dummy <-
       tibble::tibble(
         taxon = c("Taxon_1", "Taxon_2"),
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = c(0.3, 0.4)
+        value = c(0.3, 0.4)
       )
 
     data_ft <-
@@ -399,7 +399,7 @@ testthat::test_that(
       )
 
     vec_prop <-
-      dplyr::pull(res, pollen_prop)
+      dplyr::pull(res, value)
 
     testthat::expect_equal(
       base::sum(vec_prop, na.rm = TRUE),
@@ -420,7 +420,7 @@ testthat::test_that(
         ),
         dataset_name = c("ds1", "ds1", "ds2", "ds2"),
         age = c(0L, 0L, 0L, 0L),
-        pollen_prop = c(0.2, 0.3, 0.5, 0.1)
+        value = c(0.2, 0.3, 0.5, 0.1)
       )
 
     data_ft <-
@@ -443,10 +443,10 @@ testthat::test_that(
       dplyr::filter(res, dataset_name == "ds2")
 
     prop_ds1 <-
-      dplyr::pull(res_ds1, pollen_prop)
+      dplyr::pull(res_ds1, value)
 
     prop_ds2 <-
-      dplyr::pull(res_ds2, pollen_prop)
+      dplyr::pull(res_ds2, value)
 
     testthat::expect_equal(prop_ds1, 0.5, tolerance = 1e-9)
     testthat::expect_equal(prop_ds2, 0.6, tolerance = 1e-9)
@@ -463,7 +463,7 @@ testthat::test_that(
         taxon = c("Taxon_1", "Taxon_2", "Taxon_1"),
         dataset_name = c("ds1", "ds1", "ds2"),
         age = c(0L, 0L, 100L),
-        pollen_prop = c(0.5, 0.5, 0.5)
+        value = c(0.5, 0.5, 0.5)
       )
 
     data_ft <-
@@ -496,7 +496,7 @@ testthat::test_that(
         taxon = c("Taxon_1", "Taxon_unknown"),
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = c(0.6, 0.4)
+        value = c(0.6, 0.4)
       )
 
     data_ft <-
@@ -529,7 +529,7 @@ testthat::test_that(
         taxon = c("Taxon_1", "Taxon_unknown"),
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = c(0.6, 0.4)
+        value = c(0.6, 0.4)
       )
 
     data_ft <-
@@ -556,7 +556,7 @@ testthat::test_that(
         taxon = "Taxon_unknown",
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = 1.0
+        value = 1.0
       )
 
     data_ft <-
@@ -578,7 +578,7 @@ testthat::test_that(
 
     testthat::expect_true(
       base::all(
-        c("taxon", "dataset_name", "age", "pollen_prop") %in%
+        c("taxon", "dataset_name", "age", "value") %in%
           base::colnames(res)
       )
     )
@@ -595,7 +595,7 @@ testthat::test_that(
         taxon = c("Taxon_1", "Taxon_2", "Taxon_3"),
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = c(0.2, 0.3, 0.5)
+        value = c(0.2, 0.3, 0.5)
       )
 
     data_ft <-
@@ -620,7 +620,7 @@ testthat::test_that(
     )
 
     vec_prop <-
-      dplyr::pull(res, pollen_prop)
+      dplyr::pull(res, value)
 
     testthat::expect_equal(
       base::sum(vec_prop, na.rm = TRUE),
@@ -643,7 +643,7 @@ testthat::test_that(
           each = 2L
         ),
         age = base::rep(c(0L, 100L, 0L, 100L), each = 2L),
-        pollen_prop = base::rep(0.5, 8L)
+        value = base::rep(0.5, 8L)
       )
 
     data_ft <-
@@ -672,17 +672,17 @@ testthat::test_that(
   }
 )
 
-# -- Edge case: NA in pollen_prop aggregated with na.rm = TRUE ----------------
+# -- Edge case: NA in value aggregated with na.rm = TRUE ----------------
 
 testthat::test_that(
-  "classify_to_functional_type() sums pollen_prop ignoring NA",
+  "classify_to_functional_type() sums value ignoring NA",
   {
     data_dummy <-
       tibble::tibble(
         taxon = c("Taxon_1", "Taxon_2"),
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = c(0.4, NA_real_)
+        value = c(0.4, NA_real_)
       )
 
     data_ft <-
@@ -699,7 +699,7 @@ testthat::test_that(
       )
 
     vec_prop <-
-      dplyr::pull(res, pollen_prop)
+      dplyr::pull(res, value)
 
     testthat::expect_equal(
       vec_prop[[1L]],
@@ -719,7 +719,7 @@ testthat::test_that(
         taxon = c("Taxon_1", "Taxon_2"),
         dataset_name = "ds1",
         age = 0L,
-        pollen_prop = c(0.4, 0.6)
+        value = c(0.4, 0.6)
       )
 
     data_ft <-

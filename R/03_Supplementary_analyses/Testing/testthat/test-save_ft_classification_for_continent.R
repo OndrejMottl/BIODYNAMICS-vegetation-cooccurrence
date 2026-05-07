@@ -88,6 +88,33 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "save_ft_classification_for_continent() errors on invalid data_source_prefix",
+  {
+    data_cls <-
+      tibble::tibble(
+        taxon_name = base::c("A", "B"),
+        functional_type = base::c(1L, 2L),
+        silhouette_width = base::c(0.5, 0.6)
+      )
+
+    testthat::expect_error(
+      save_ft_classification_for_continent(
+        continent_id = "europe",
+        data_classification = data_cls,
+        data_source_prefix = base::c("modern", "paleo")
+      )
+    )
+    testthat::expect_error(
+      save_ft_classification_for_continent(
+        continent_id = "europe",
+        data_classification = data_cls,
+        data_source_prefix = ""
+      )
+    )
+  }
+)
+
+testthat::test_that(
   "save_ft_classification_for_continent() errors when verbose is not logical",
   {
     data_cls <-
@@ -103,6 +130,41 @@ testthat::test_that(
         data_classification = data_cls,
         verbose = "yes"
       )
+    )
+  }
+)
+
+testthat::test_that(
+  "save_ft_classification_for_continent() supports modern file prefix",
+  {
+    withr::with_tempdir(
+      {
+        data_cls <-
+          tibble::tibble(
+            taxon_name = base::c("A", "B"),
+            functional_type = base::c(1L, 2L),
+            silhouette_width = base::c(0.5, 0.6)
+          )
+
+        res <-
+          save_ft_classification_for_continent(
+            continent_id = "europe",
+            data_classification = data_cls,
+            path_processed = base::getwd(),
+            data_source_prefix = "modern",
+            verbose = FALSE
+          )
+
+        testthat::expect_true(
+          base::grepl(
+            pattern = stringr::str_c(
+              "^data_ft_classification_modern_europe_",
+              "\\d{4}-\\d{2}-\\d{2}__[0-9a-f]+__\\.qs$"
+            ),
+            x = base::basename(res)
+          )
+        )
+      }
     )
   }
 )
@@ -187,7 +249,7 @@ testthat::test_that(
           base::grepl(
             pattern = stringr::str_c(
               "^data_ft_classification_europe_",
-              "\\d{4}-\\d{2}-\\d{2}\\.qs$"
+              "\\d{4}-\\d{2}-\\d{2}__[0-9a-f]+__\\.qs$"
             ),
             x = file_name
           )

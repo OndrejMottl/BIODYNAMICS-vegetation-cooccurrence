@@ -65,11 +65,11 @@ testthat::test_that("transform_to_proportions produces expected results", {
 
   testthat::expect_equal(
     colnames(result),
-    c("sample_name", "taxon", "pollen_prop")
+    c("sample_name", "taxon", "value")
   )
 
   testthat::expect_equal(
-    result$pollen_prop,
+    dplyr::pull(result, value),
     c(
       data_example$pollen_count /
         rep(

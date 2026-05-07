@@ -7,7 +7,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = paste0("Taxon_", 1:3),
-        pollen_prop = stats::runif(3, 0, 1)
+        value = stats::runif(3, 0, 1)
       )
 
     classification_table_dummy <-
@@ -26,7 +26,7 @@ testthat::test_that(
 
     testthat::expect_true(
       base::all(
-        c("dataset_name", "age", "taxon", "pollen_prop") %in%
+        c("dataset_name", "age", "taxon", "value") %in%
           base::colnames(res)
       )
     )
@@ -46,7 +46,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = paste0("Taxon_", 1:3),
-        pollen_prop = stats::runif(3, 0, 1)
+        value = stats::runif(3, 0, 1)
       )
 
     classification_table_dummy <-
@@ -80,7 +80,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = paste0("Taxon_", 1:4),
-        pollen_prop = stats::runif(4, 0, 1)
+        value = stats::runif(4, 0, 1)
       )
 
     # Taxon_3 = Fungi, Taxon_4 = NA kingdom — both should be dropped
@@ -129,7 +129,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = c("Taxon_1", "Taxon_2"),
-        pollen_prop = stats::runif(2, 0, 1)
+        value = stats::runif(2, 0, 1)
       )
 
     # Taxon_2 has no kingdom entry — treated as non-Plantae
@@ -162,7 +162,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = paste0("Taxon_", 1:3),
-        pollen_prop = stats::runif(3, 0, 1)
+        value = stats::runif(3, 0, 1)
       )
 
     classification_table_dummy <-
@@ -189,7 +189,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = c("Taxon_1", "NonPlant_X"),
-        pollen_prop = stats::runif(2, 0, 1)
+        value = stats::runif(2, 0, 1)
       )
 
     classification_table_dummy <-
@@ -217,7 +217,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = paste0("Taxon_", 1:3),
-        pollen_prop = stats::runif(3, 0, 1)
+        value = stats::runif(3, 0, 1)
       )
 
     classification_table_dummy <-
@@ -295,7 +295,7 @@ testthat::test_that(
         dataset_name = rep("dataset_1", 4),
         age = c(0, 0, 100, 100),
         taxon = paste0("Taxon_", 1:4),
-        pollen_prop = stats::runif(4, 0, 1)
+        value = stats::runif(4, 0, 1)
       )
 
     classification_table_dummy <-

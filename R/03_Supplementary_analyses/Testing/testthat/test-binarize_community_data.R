@@ -124,6 +124,34 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "binarize_community_data() maps NA to 0",
+  {
+    mat_in <-
+      base::matrix(
+        c(NA_real_, 0.5, 0, NA_real_),
+        nrow = 2,
+        dimnames = base::list(
+          c("s1", "s2"),
+          c("taxon_a", "taxon_b")
+        )
+      )
+    res <-
+      binarize_community_data(data_community_matrix = mat_in)
+    mat_expected <-
+      base::matrix(
+        c(0L, 1L, 0L, 0L),
+        nrow = 2,
+        dimnames = base::list(
+          c("s1", "s2"),
+          c("taxon_a", "taxon_b")
+        )
+      )
+
+    testthat::expect_identical(res, mat_expected)
+  }
+)
+
+testthat::test_that(
   "binarize_community_data() only contains 0 and 1",
   {
     mat_in <-

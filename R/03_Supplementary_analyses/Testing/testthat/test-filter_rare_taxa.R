@@ -31,7 +31,7 @@ testthat::test_that(
 testthat::test_that(
   "filter_rare_taxa() validates minimal_proportion is numeric",
   {
-    data_test <- data.frame(pollen_prop = c(0.05, 0.15, 0.25))
+    data_test <- data.frame(value = c(0.05, 0.15, 0.25))
 
     testthat::expect_error(
       filter_rare_taxa(data = data_test, minimal_proportion = "0.01"),
@@ -61,7 +61,7 @@ testthat::test_that(
 testthat::test_that(
   "filter_rare_taxa() validates minimal_proportion is greater than 0",
   {
-    data_test <- data.frame(pollen_prop = c(0.05, 0.15, 0.25))
+    data_test <- data.frame(value = c(0.05, 0.15, 0.25))
 
     testthat::expect_error(
       filter_rare_taxa(data = data_test, minimal_proportion = 0),
@@ -83,7 +83,7 @@ testthat::test_that(
 testthat::test_that(
   "filter_rare_taxa() validates minimal_proportion is <= 1",
   {
-    data_test <- data.frame(pollen_prop = c(0.05, 0.15, 0.25))
+    data_test <- data.frame(value = c(0.05, 0.15, 0.25))
 
     testthat::expect_error(
       filter_rare_taxa(data = data_test, minimal_proportion = 1.1),
@@ -105,7 +105,7 @@ testthat::test_that(
 testthat::test_that(
   "filter_rare_taxa() accepts valid minimal_proportion values",
   {
-    data_test <- data.frame(pollen_prop = c(0.05, 0.15, 0.5, 1))
+    data_test <- data.frame(value = c(0.05, 0.15, 0.5, 1))
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.01)
 
@@ -128,7 +128,7 @@ testthat::test_that(
 testthat::test_that(
   "filter_rare_taxa() returns data frame",
   {
-    data_test <- data.frame(pollen_prop = c(0.05, 0.15, 0.25))
+    data_test <- data.frame(value = c(0.05, 0.15, 0.25))
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.01)
 
@@ -143,16 +143,16 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.005, 0.015, 0.025, 0.050, 0.150)
+        value = c(0.005, 0.015, 0.025, 0.050, 0.150)
       )
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.01)
 
     testthat::expect_equal(nrow(res), 4)
 
-    testthat::expect_true(all(res$pollen_prop >= 0.01))
+    testthat::expect_true(all(res$value >= 0.01))
 
-    testthat::expect_false(any(res$pollen_prop < 0.01))
+    testthat::expect_false(any(res$value < 0.01))
   }
 )
 
@@ -161,26 +161,26 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.005, 0.015, 0.025, 0.050, 0.150, 0.250)
+        value = c(0.005, 0.015, 0.025, 0.050, 0.150, 0.250)
       )
 
     res_01 <- filter_rare_taxa(data = data_test, minimal_proportion = 0.01)
 
     testthat::expect_equal(nrow(res_01), 5)
 
-    testthat::expect_true(all(res_01$pollen_prop >= 0.01))
+    testthat::expect_true(all(res_01$value >= 0.01))
 
     res_05 <- filter_rare_taxa(data = data_test, minimal_proportion = 0.05)
 
     testthat::expect_equal(nrow(res_05), 3)
 
-    testthat::expect_true(all(res_05$pollen_prop >= 0.05))
+    testthat::expect_true(all(res_05$value >= 0.05))
 
     res_10 <- filter_rare_taxa(data = data_test, minimal_proportion = 0.10)
 
     testthat::expect_equal(nrow(res_10), 2)
 
-    testthat::expect_true(all(res_10$pollen_prop >= 0.10))
+    testthat::expect_true(all(res_10$value >= 0.10))
   }
 )
 
@@ -189,14 +189,14 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.005, 0.015, 0.025, 0.050)
+        value = c(0.005, 0.015, 0.025, 0.050)
       )
 
     res <- filter_rare_taxa(data = data_test)
 
     testthat::expect_equal(nrow(res), 3)
 
-    testthat::expect_true(all(res$pollen_prop >= 0.01))
+    testthat::expect_true(all(res$value >= 0.01))
   }
 )
 
@@ -205,7 +205,7 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.05, 0.15, 0.25),
+        value = c(0.05, 0.15, 0.25),
         species = c("sp1", "sp2", "sp3"),
         count = c(5, 15, 25)
       )
@@ -227,7 +227,7 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.005, 0.008, 0.009)
+        value = c(0.005, 0.008, 0.009)
       )
 
     testthat::expect_error(
@@ -247,7 +247,7 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.05, 0.15, 0.25)
+        value = c(0.05, 0.15, 0.25)
       )
 
     testthat::expect_error(
@@ -262,40 +262,40 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.01, 0.02, 0.03)
+        value = c(0.01, 0.02, 0.03)
       )
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.01)
 
     testthat::expect_equal(nrow(res), 3)
 
-    testthat::expect_true(all(res$pollen_prop >= 0.01))
+    testthat::expect_true(all(res$value >= 0.01))
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.02)
 
     testthat::expect_equal(nrow(res), 2)
 
-    testthat::expect_true(min(res$pollen_prop) == 0.02)
+    testthat::expect_true(min(res$value) == 0.02)
   }
 )
 
 testthat::test_that(
   "filter_rare_taxa() handles single row data",
   {
-    data_test <- data.frame(pollen_prop = 0.05)
+    data_test <- data.frame(value = 0.05)
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.01)
 
     testthat::expect_equal(nrow(res), 1)
 
-    testthat::expect_equal(res$pollen_prop, 0.05)
+    testthat::expect_equal(res$value, 0.05)
   }
 )
 
 testthat::test_that(
   "filter_rare_taxa() handles single row below threshold",
   {
-    data_test <- data.frame(pollen_prop = 0.005)
+    data_test <- data.frame(value = 0.005)
 
     testthat::expect_error(
       filter_rare_taxa(data = data_test, minimal_proportion = 0.01),
@@ -311,20 +311,20 @@ testthat::test_that(
 
     data_test <-
       data.frame(
-        pollen_prop = runif(1000, min = 0, max = 1)
+        value = runif(1000, min = 0, max = 1)
       )
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.1)
 
     testthat::expect_true(is.data.frame(res))
 
-    testthat::expect_true(all(res$pollen_prop >= 0.1))
+    testthat::expect_true(all(res$value >= 0.1))
 
     testthat::expect_true(nrow(res) < nrow(data_test))
 
     testthat::expect_equal(
       nrow(res),
-      sum(data_test$pollen_prop >= 0.1)
+      sum(data_test$value >= 0.1)
     )
   }
 )
@@ -334,7 +334,7 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.25, 0.05, 0.15, 0.02, 0.35),
+        value = c(0.25, 0.05, 0.15, 0.02, 0.35),
         id = 1:5
       )
 
@@ -344,9 +344,9 @@ testthat::test_that(
 
     testthat::expect_equal(res$id, expected_ids)
 
-    testthat::expect_equal(res$pollen_prop[1], 0.25)
+    testthat::expect_equal(res$value[1], 0.25)
 
-    testthat::expect_equal(res$pollen_prop[2], 0.05)
+    testthat::expect_equal(res$value[2], 0.05)
   }
 )
 
@@ -355,7 +355,7 @@ testthat::test_that(
   {
     data_test <-
       tibble::tibble(
-        pollen_prop = c(0.05, 0.15, 0.25)
+        value = c(0.05, 0.15, 0.25)
       )
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.01)
@@ -367,18 +367,18 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "filter_rare_taxa() handles NA values in pollen_prop column",
+  "filter_rare_taxa() handles NA values in value column",
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.05, NA, 0.15, 0.25)
+        value = c(0.05, NA, 0.15, 0.25)
       )
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.01)
 
     testthat::expect_true(is.data.frame(res))
 
-    testthat::expect_false(any(is.na(res$pollen_prop)))
+    testthat::expect_false(any(is.na(res$value)))
   }
 )
 
@@ -387,14 +387,14 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.05, Inf, 0.15, -Inf, 0.25)
+        value = c(0.05, Inf, 0.15, -Inf, 0.25)
       )
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.01)
 
     testthat::expect_true(is.data.frame(res))
 
-    testthat::expect_true(Inf %in% res$pollen_prop)
+    testthat::expect_true(Inf %in% res$value)
   }
 )
 
@@ -403,14 +403,14 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.5, 0.8, 1.0)
+        value = c(0.5, 0.8, 1.0)
       )
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 1)
 
     testthat::expect_equal(nrow(res), 1)
 
-    testthat::expect_equal(res$pollen_prop, 1.0)
+    testthat::expect_equal(res$value, 1.0)
   }
 )
 
@@ -419,14 +419,14 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.00005, 0.00015, 0.00025)
+        value = c(0.00005, 0.00015, 0.00025)
       )
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.0001)
 
     testthat::expect_equal(nrow(res), 2)
 
-    testthat::expect_true(all(res$pollen_prop >= 0.0001))
+    testthat::expect_true(all(res$value >= 0.0001))
   }
 )
 
@@ -435,23 +435,23 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(-0.05, 0.05, 0.15, 0.25)
+        value = c(-0.05, 0.05, 0.15, 0.25)
       )
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = 0.01)
 
     testthat::expect_equal(nrow(res), 3)
 
-    testthat::expect_false(any(res$pollen_prop < 0))
+    testthat::expect_false(any(res$value < 0))
   }
 )
 
 testthat::test_that(
-  "filter_rare_taxa() handles duplicate pollen_prop values",
+  "filter_rare_taxa() handles duplicate value values",
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.05, 0.05, 0.15, 0.15, 0.25),
+        value = c(0.05, 0.05, 0.15, 0.15, 0.25),
         id = 1:5
       )
 
@@ -459,7 +459,7 @@ testthat::test_that(
 
     testthat::expect_equal(nrow(res), 3)
 
-    testthat::expect_true(all(res$pollen_prop >= 0.1))
+    testthat::expect_true(all(res$value >= 0.1))
   }
 )
 
@@ -468,7 +468,7 @@ testthat::test_that(
   {
     data_test <-
       data.frame(
-        pollen_prop = c(0.05, 0.15, 0.25)
+        value = c(0.05, 0.15, 0.25)
       )
 
     res <- filter_rare_taxa(data = data_test, minimal_proportion = c(0.01))

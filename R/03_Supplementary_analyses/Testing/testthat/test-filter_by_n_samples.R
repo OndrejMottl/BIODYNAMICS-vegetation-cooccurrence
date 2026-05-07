@@ -185,7 +185,7 @@ testthat::test_that(
         taxon = c("Pinus", "Pinus", "Pinus", "Betula"),
         dataset_name = c("A", "A", "A", "A"),
         age = c(100, 100, 200, 100),
-        pollen_prop = c(0.1, 0.2, 0.1, 0.05)
+        value = c(0.1, 0.2, 0.1, 0.05)
       )
 
     # Pinus: 2 unique (dataset_name, age) = (A,100) and (A,200) -> kept
@@ -211,7 +211,7 @@ testthat::test_that(
         taxon = c("Pinus", "Pinus"),
         dataset_name = c("A", "B"),
         age = c(100, 200),
-        pollen_prop = c(0.1, 0.2),
+        value = c(0.1, 0.2),
         extra_col = c("x", "y")
       )
 
@@ -221,7 +221,7 @@ testthat::test_that(
     testthat::expect_true(is.data.frame(res))
     testthat::expect_named(
       res,
-      c("taxon", "dataset_name", "age", "pollen_prop", "extra_col")
+      c("taxon", "dataset_name", "age", "value", "extra_col")
     )
   }
 )
