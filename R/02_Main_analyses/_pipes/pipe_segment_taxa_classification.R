@@ -3,13 +3,14 @@
 #
 #                 Vegetation Co-occurrence
 #
-#               {target} pipe: Community data
+#          {targets} pipe: Taxa classification
 #
 #                       O. Mottl
-#                         2025
+#                         2026
 #
 #----------------------------------------------------------#
-# definition of the target pipe, which is created to create Community data
+# Definition of targets that classify taxa in the community
+#   data and report missing auxiliary classifications.
 
 
 #----------------------------------------------------------#
@@ -34,70 +35,11 @@ suppressMessages(
 )
 
 #----------------------------------------------------------#
-# 1. pipe definition -----
+# 1. Pipe definition -----
 #----------------------------------------------------------#
 
-pipe_segment_community_data <-
+pipe_segment_taxa_classification <-
   list(
-    targets::tar_target(
-      description = "Extract community data",
-      name = "data_community",
-      command = {
-        # Ensure core-count guard has passed before extracting community data
-        force(check_n_cores)
-        get_community_data(data_vegvault_extracted)
-      }
-    ),
-    targets::tar_target(
-      description = "Get community data into long-format",
-      name = "data_community_long",
-      command = make_community_data_long(data_community)
-    ),
-    targets::tar_target(
-      description = "Get sample ages",
-      name = "data_sample_ages",
-      command = get_sample_ages(data_vegvault_extracted)
-    ),
-    targets::tar_target(
-      description = "Add sample ages to community data",
-      name = "data_community_long_ages",
-      command = add_age_to_samples(data_community_long, data_sample_ages)
-    ),
-    targets::tar_target(
-      description = "Transform community counts to proportions",
-      name = "data_community_proportions",
-      command = make_community_proportions(
-        data = data_community_long_ages
-      )
-    ),
-    targets::tar_target(
-      description = "Extract age-model uncertainty for fossil cores",
-      name = "data_age_uncertainty",
-      # Build fossil-pollen plan fresh inside target to avoid serialising
-      # the DBI connection
-      command = build_vegvault_plan(
-        path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
-        x_lim = purrr::chuck(config.vegvault_data, "x_lim"),
-        y_lim = purrr::chuck(config.vegvault_data, "y_lim"),
-        age_lim = purrr::chuck(config.vegvault_data, "age_lim"),
-        sel_dataset_type = "fossil_pollen_archive"
-      ) |>
-        extract_age_uncertainty_from_vegvault(
-          data_sample_mapping = data_community_proportions,
-          verbose = FALSE
-        )
-    ),
-    targets::tar_target(
-      description = "Interpolate community data to specific time step",
-      name = "data_community_interpolated",
-      command = interpolate_community_data_with_uncertainty(
-        data = data_community_proportions,
-        data_age_uncertainty = data_age_uncertainty,
-        timestep = purrr::chuck(config.data_processing, "time_step"),
-        age_min = base::min(config.age_lim),
-        age_max = base::max(config.age_lim)
-      )
-    ),
     targets::tar_target(
       description = "Make vector of all taxa in community data",
       name = "vec_community_taxa",
@@ -177,23 +119,6 @@ pipe_segment_community_data <-
       command = check_and_report_missing_taxa(
         vec_taxa_without_classification = vec_taxa_without_classification,
         file_missing_taxa_template = file_missing_taxa_template
-      )
-    ),
-    targets::tar_target(
-      description = "Remove non-Plantae taxa from community data",
-      name = "data_community_plantae",
-      command = filter_non_plantae_taxa(
-        data = data_community_interpolated,
-        data_classification_table = data_combined_classification_table
-      )
-    ),
-    targets::tar_target(
-      description = "Classify community data to specific taxonomic resolution",
-      name = "data_community_classified",
-      command = classify_taxonomic_resolution(
-        data = data_community_plantae,
-        data_classification_table = data_combined_classification_table,
-        taxonomic_resolution = config.data_processing$taxonomic_resolution
       )
     )
   )

@@ -26,7 +26,8 @@
 #   SHARED (computed once per unit):
 #     pipe_segment_config           — spatial window + data config
 #     pipe_segment_vegvault_data    — raw VegVault fetch
-#     pipe_segment_community_data   — genus-level community assembly
+#     community extract/classification/preprocess segments
+#                                  — genus-level community assembly
 #     pipe_segment_abiotic_data     — abiotic predictor assembly
 #     path_ft_classification        — FT file tracker (continent lookup)
 #
@@ -118,7 +119,9 @@ path_pipe_parts <-
 c(
   "pipe_segment_config.R",
   "pipe_segment_vegvault_data.R",
-  "pipe_segment_community_data.R",
+  "pipe_segment_community_extract.R",
+  "pipe_segment_taxa_classification.R",
+  "pipe_segment_community_preprocess_paleo.R",
   "pipe_segment_abiotic_data.R"
 ) |>
   rlang::set_names() |>
@@ -238,7 +241,9 @@ pipe_models_by_resolution <-
 base::list(
   pipe_segment_config,
   pipe_segment_vegvault_data,
-  pipe_segment_community_data,
+  pipe_segment_community_extract,
+  pipe_segment_taxa_classification,
+  pipe_segment_community_preprocess_paleo,
   pipe_segment_abiotic_data,
   list_path_ft_classification,
   pipe_models_by_resolution

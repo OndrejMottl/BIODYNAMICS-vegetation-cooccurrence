@@ -13,8 +13,9 @@
 #   community data: rare taxa, core count, sample count, and
 #   final taxon-number selection.
 #
-# This segment sits DOWNSTREAM of pipe_segment_community_data.R
-#   and expects `data_community_classified` to already be defined.
+# This segment sits downstream of the community extract, taxonomy
+#   classification, and paleo preprocess segments, and expects
+#   `data_community_classified` to already be defined.
 #
 # In pipeline_basic.R it is added to the top-level list directly
 #   (shared, no branching).  In pipeline_test_resolution.R this

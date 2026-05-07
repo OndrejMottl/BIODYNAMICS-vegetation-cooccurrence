@@ -21,9 +21,9 @@
 #
 # Upstream dependencies:
 #   - data_community_classified (genus/family-classified community
-#       data, from pipe_segment_community_data)
+#       data, from pipe_segment_community_preprocess_paleo)
 #   - data_combined_classification_table (raw community
-#       classification, from pipe_segment_community_data)
+#       classification, from pipe_segment_taxa_classification)
 #   - config.data_processing
 #       (taxonomic_resolution, minimal_proportion_of_pollen)
 #   - config.min_n_taxa (minimum viable non-constant FT groups)

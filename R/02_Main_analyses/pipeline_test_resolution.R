@@ -29,9 +29,9 @@
 #     data_community_subset_family, model_anova_family
 #     data_community_subset_functional_type, model_anova_functional_type
 #
-# The upstream segments (config -> vegvault -> community_data ->
-#   abiotic_data) are shared across all three branches and
-#   produce their targets exactly once.
+# The upstream segments (config -> vegvault -> community extract,
+#   taxonomy classification, paleo preprocess -> abiotic_data) are
+#   shared across all three branches and produce their targets exactly once.
 #
 # This pipeline is NOT a replacement for pipeline_basic.R.
 #   It is a standalone testbed used as:
@@ -114,7 +114,9 @@ c(
   "pipe_segment_config.R",
   "pipe_segment_config_model_fitting.R",
   "pipe_segment_vegvault_data.R",
-  "pipe_segment_community_data.R",
+  "pipe_segment_community_extract.R",
+  "pipe_segment_taxa_classification.R",
+  "pipe_segment_community_preprocess_paleo.R",
   "pipe_segment_abiotic_data.R"
 ) |>
   rlang::set_names() |>
@@ -232,7 +234,9 @@ list(
   pipe_segment_config,
   pipe_segment_config_model_fitting,
   pipe_segment_vegvault_data,
-  pipe_segment_community_data,
+  pipe_segment_community_extract,
+  pipe_segment_taxa_classification,
+  pipe_segment_community_preprocess_paleo,
   pipe_segment_abiotic_data,
   list_path_ft_classification,
   pipe_models_by_resolution
