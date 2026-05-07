@@ -6,7 +6,7 @@
 #' `order`, `family`, `genus`, and `species`.
 #' @param data
 #' A data frame containing taxon data with columns including 'taxon',
-#' 'dataset_name', 'age', and 'pollen_prop'.
+#' 'dataset_name', 'age', and 'value'.
 #' @param data_classification_table
 #' A data frame mapping 'sel_name' to taxonomic levels. Must contain
 #' at least one rank column at or below `taxonomic_resolution`
@@ -48,12 +48,12 @@ classify_taxonomic_resolution <- function(
 
   assertthat::assert_that(
     all(
-      c("taxon", "dataset_name", "age", "pollen_prop") %in%
+      c("taxon", "dataset_name", "age", "value") %in%
         colnames(data)
     ),
     msg = paste(
       "data must contain columns:",
-      "taxon, dataset_name, age, and pollen_prop"
+      "taxon, dataset_name, age, and value"
     )
   )
 
@@ -199,13 +199,13 @@ classify_taxonomic_resolution <- function(
 
   res <-
     data_classified |>
-    tidyr::drop_na(pollen_prop) |>
+    tidyr::drop_na(value) |>
     dplyr::group_by(
       dataset_name, age, taxon
     ) |>
     dplyr::summarise(
       .groups = "drop",
-      pollen_prop = sum(pollen_prop)
+      value = sum(value)
     ) |>
     dplyr::full_join(
       data_dataset_age_cross_ref,

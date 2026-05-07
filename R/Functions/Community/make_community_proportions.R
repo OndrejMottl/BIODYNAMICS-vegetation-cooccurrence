@@ -8,7 +8,7 @@
 #' raw pollen counts.
 #' @return
 #' A data frame with the same structure as the input, but with
-#' `pollen_count` replaced by `pollen_prop` (pollen counts divided by
+#' `pollen_count` replaced by `value` (pollen counts divided by
 #' sample-level total). The `pollen_count` and `pollen_sum` columns are
 #' dropped.
 #' @details

@@ -17,19 +17,34 @@
 #' A single character string giving the directory where the `.qs`
 #' output file will be written. Default:
 #' `here::here("Data/Processed/Traits")`.
+#' @param data_source_prefix
+#' Optional single non-empty character string to prepend to the
+#' `continent_id` portion of the file name. Use `NULL` (default)
+#' for the historical paleo/global naming convention, or `"modern"`
+#' for modern-data functional-type classifications.
 #' @param verbose
-#' A single logical. If `TRUE` (default), a progress message
-#' reporting the saved file path is printed via `cli`.
+#' Logical. If `TRUE` (default), progress messages are printed
+#' to the console via `cli`.
 #' @return
 #' A single character string: the absolute path to the `.qs` file
-#' that was written. The file is named
-#' `data_ft_classification_{continent_id}_{YYYY-MM-DD}.qs`.
+#' that was written. The file is saved via
+#' `RUtilpol::save_latest_file()` using the name stem
+#' `data_ft_classification_{continent_id}`
+#' when `data_source_prefix = NULL`, or
+#' `data_ft_classification_{data_source_prefix}_{continent_id}`
+#' otherwise. The final file name includes a date stamp and
+#' content hash appended by `RUtilpol` (e.g.
+#' `data_ft_classification_europe_2026-05-07__abc123__.qs`).
 #' @details
 #' **Steps performed**:
 #' \enumerate{
 #'   \item Validate arguments.
-#'   \item Save `data_classification` with `qs2::qs_save()` to a
-#'     dated `.qs` file in `path_processed`.
+#'   \item Save `data_classification` with
+#'     `RUtilpol::save_latest_file()` as a dated `.qs` file in
+#'     `path_processed`. The file is only overwritten when the
+#'     content has changed since the previous version.
+#'   \item Resolve the path of the just-saved file via
+#'     `RUtilpol::get_latest_file_name()`.
 #'   \item Return the file path as a character string.
 #' }
 #' Data filtering, distance computation, hierarchical clustering,
@@ -44,6 +59,7 @@ save_ft_classification_for_continent <- function(
     continent_id,
     data_classification,
     path_processed = here::here("Data/Processed/Traits"),
+    data_source_prefix = NULL,
     verbose = TRUE) {
   assertthat::assert_that(
     base::is.character(continent_id),
@@ -63,27 +79,58 @@ save_ft_classification_for_continent <- function(
     msg = "`path_processed` must be a single character string."
   )
 
+  if (
+    !base::is.null(data_source_prefix)
+  ) {
+    assertthat::assert_that(
+      base::is.character(data_source_prefix),
+      base::length(data_source_prefix) == 1L,
+      base::nchar(data_source_prefix) > 0L,
+      msg = stringr::str_c(
+        "`data_source_prefix` must be NULL or a single ",
+        "non-empty character string."
+      )
+    )
+  }
+
   assertthat::assert_that(
     base::is.logical(verbose),
     base::length(verbose) == 1L,
     msg = "`verbose` must be a single logical value."
   )
 
-  date_str <-
-    base::format(base::Sys.Date(), "%Y-%m-%d")
+  file_source_prefix <-
+    if (base::is.null(data_source_prefix)) {
+      ""
+    } else {
+      stringr::str_glue("{data_source_prefix}_")
+    }
+
+  file_name_base <-
+    stringr::str_glue(
+      "data_ft_classification_",
+      "{file_source_prefix}{continent_id}"
+    )
+
+  # RUtilpol verbosity is suppressed here: our own `verbose` argument
+  #   controls all console output via cli::cli_inform() below.
+  RUtilpol::save_latest_file(
+    object_to_save = data_classification,
+    file_name = file_name_base,
+    dir = path_processed,
+    prefered_format = "qs",
+    verbose = FALSE
+  )
 
   file_path <-
     base::file.path(
       path_processed,
-      stringr::str_glue(
-        "data_ft_classification_{continent_id}_{date_str}.qs"
+      RUtilpol::get_latest_file_name(
+        file_name = file_name_base,
+        dir = path_processed,
+        verbose = FALSE
       )
     )
-
-  qs2::qs_save(
-    object = data_classification,
-    file = file_path
-  )
 
   if (base::isTRUE(verbose)) {
     cli::cli_inform(
@@ -96,7 +143,8 @@ save_ft_classification_for_continent <- function(
     )
   }
 
-  res <- file_path
+  res <-
+    file_path
 
   return(res)
 }

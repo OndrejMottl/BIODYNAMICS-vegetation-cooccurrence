@@ -9,7 +9,7 @@
 #' proportion is returned at each grid point.
 #' @param data
 #' A data frame with columns `dataset_name`, `sample_name`, `taxon`,
-#' `age`, and `pollen_prop`. Must already be in proportion form — see
+#' `age`, and `value`. Must already be in proportion form — see
 #' [make_community_proportions()].
 #' @param data_age_uncertainty
 #' A tibble produced by [extract_age_uncertainty_from_vegvault()],
@@ -22,8 +22,8 @@
 #' and `age_max`.
 #' @return
 #' A data frame with columns `dataset_name`, `taxon`, `age`, and
-#' `pollen_prop` at regular time intervals. For fossil pollen archive
-#' datasets, `pollen_prop` is the median across age-model iterations.
+#' `value` at regular time intervals. For fossil pollen archive
+#' datasets, `value` is the median across age-model iterations.
 #' @details
 #' Datasets present in `data` that have no matching rows in
 #' `data_age_uncertainty` are treated as gridpoints and interpolated
@@ -38,7 +38,7 @@
 #'      original observation per age-model iteration.
 #'   2. [interpolate_data()] is called grouped by
 #'      `c("dataset_name", "taxon", "iteration")`.
-#'   3. The median `pollen_prop` across iterations is computed for
+#'   3. The median `value` across iterations is computed for
 #'      each `(dataset_name, taxon, age)` combination.
 #' @seealso
 #'   [interpolate_community_data()],
@@ -58,7 +58,7 @@ interpolate_community_data_with_uncertainty <- function(
 
   vec_required_data_cols <-
     base::c(
-      "dataset_name", "sample_name", "taxon", "age", "pollen_prop"
+      "dataset_name", "sample_name", "taxon", "age", "value"
     )
 
   for (col in vec_required_data_cols) {
@@ -112,7 +112,7 @@ interpolate_community_data_with_uncertainty <- function(
       dataset_name = base::character(),
       taxon = base::character(),
       age = base::numeric(),
-      pollen_prop = base::numeric()
+      value = base::numeric()
     )
 
   result_gridpoints <-
@@ -132,7 +132,7 @@ interpolate_community_data_with_uncertainty <- function(
     ) {
       data_cores |>
         dplyr::select(
-          "dataset_name", "sample_name", "taxon", "pollen_prop"
+          "dataset_name", "sample_name", "taxon", "value"
         ) |>
         dplyr::inner_join(
           data_age_uncertainty,
@@ -146,12 +146,12 @@ interpolate_community_data_with_uncertainty <- function(
           ...
         ) |>
         dplyr::summarise(
-          pollen_prop = stats::median(pollen_prop, na.rm = TRUE),
+          value = stats::median(value, na.rm = TRUE),
           .by = dplyr::all_of(
             base::c("dataset_name", "taxon", "age")
           )
         ) |>
-        dplyr::filter(!base::is.na(pollen_prop))
+        dplyr::filter(!base::is.na(value))
     } else {
       empty_result
     }

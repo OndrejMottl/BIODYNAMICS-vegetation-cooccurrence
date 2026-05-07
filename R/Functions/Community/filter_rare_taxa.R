@@ -4,7 +4,7 @@
 #' threshold. Only taxa meeting or exceeding the threshold are retained.
 #' @param data
 #' A data frame containing taxon abundance data. Must include a column
-#' named 'pollen_prop' with numeric proportions or abundances.
+#' named 'value' with numeric proportions or abundances.
 #' @param minimal_proportion
 #' Numeric value between 0 and 1 specifying the minimum proportion
 #' threshold for retaining taxa. Default is 0.01 (1%).
@@ -42,7 +42,7 @@ filter_rare_taxa <- function(
 
   res <-
     data |>
-    dplyr::filter(pollen_prop >= minimal_proportion)
+    dplyr::filter(value >= minimal_proportion)
 
 
   assertthat::assert_that(

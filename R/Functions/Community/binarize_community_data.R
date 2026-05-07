@@ -2,8 +2,8 @@
 #' @description
 #' Converts a numeric community matrix of proportions (or
 #' counts) to a binary presence-absence matrix. Any value
-#' strictly greater than zero is recoded as `1L`; zeros
-#' remain `0L`. The resulting integer matrix is suitable
+#' strictly greater than zero is recoded as `1L`; zeros and
+#' missing values become `0L`. The resulting integer matrix is suitable
 #' for `filter_constant_taxa()` when the model uses a
 #' binomial error family.
 #' @param data_community_matrix
@@ -12,7 +12,8 @@
 #' be non-negative.
 #' @return
 #' An integer matrix of the same dimensions and dimnames as
-#' the input, with all non-zero values replaced by `1L`.
+#' the input, with all non-zero values replaced by `1L` and
+#' missing values replaced by `0L`.
 #' @details
 #' Pre-binarization before `filter_constant_taxa()` is
 #' essential when using a binomial error family: a taxon
@@ -57,6 +58,8 @@ binarize_community_data <- function(
     base::all(data_community_matrix >= 0, na.rm = TRUE),
     msg = "data_community_matrix values must all be >= 0"
   )
+
+  data_community_matrix[base::is.na(data_community_matrix)] <- 0
 
   res <-
     (data_community_matrix > 0) * 1L

@@ -38,13 +38,13 @@
 #' very few taxa without erroring. Default: `25L`.
 #' @param data_community
 #' A long-format data frame with columns `taxon`,
-#' `dataset_name`, `age`, and `pollen_prop`, as produced by
+#' `dataset_name`, `age`, and `value`, as produced by
 #' `classify_to_functional_type()` or
 #' `classify_taxonomic_resolution()`. Used to run the
 #' viability filter chain for each candidate `k`.
 #' @param minimal_proportion
 #' A single numeric value in (0, 1). A sample is considered
-#' to contain an FT group when the summed `pollen_prop` for
+#' to contain an FT group when the summed `value` for
 #' that group exceeds this threshold.
 #' @param min_n_taxa
 #' A single positive integer. The minimum number of
@@ -78,7 +78,7 @@
 #' records the mean silhouette width.
 #'
 #' For each candidate `k` the community data are aggregated
-#' to the FT level (summed `pollen_prop` per
+#' to the FT level (summed `value` per
 #' `(dataset_name, age, ft_group)`) and then passed through
 #' the actual pipeline filter chain in sequence:
 #' \enumerate{
@@ -158,13 +158,13 @@ select_ft_groups_by_silhouette <- function(
   assertthat::assert_that(
     base::all(
       base::c(
-        "taxon", "dataset_name", "age", "pollen_prop"
+        "taxon", "dataset_name", "age", "value"
       ) %in%
         base::colnames(data_community)
     ),
     msg = stringr::str_c(
       "'data_community' must contain columns: ",
-      "taxon, dataset_name, age, pollen_prop."
+      "taxon, dataset_name, age, value."
     )
   )
 
@@ -254,7 +254,7 @@ select_ft_groups_by_silhouette <- function(
           )
 
         # Aggregate community data to the FT level, mirroring
-        # classify_to_functional_type(): sum pollen_prop per
+        # classify_to_functional_type(): sum value per
         # (dataset_name, age, ft_group).
         data_ft_community <-
           data_community |>
@@ -268,8 +268,8 @@ select_ft_groups_by_silhouette <- function(
             .data$ft_group
           ) |>
           dplyr::summarise(
-            pollen_prop = base::sum(
-              .data$pollen_prop,
+            value = base::sum(
+              .data[["value"]],
               na.rm = TRUE
             ),
             .groups = "drop"

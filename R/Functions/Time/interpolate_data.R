@@ -9,7 +9,7 @@
 #' @param age_var
 #' Name of the age variable column (default: "age").
 #' @param value_var
-#' Name of the value variable column (default: "pollen_prop").
+#' Name of the value variable column (default: "value").
 #' @param method
 #' Interpolation method to use (default: "linear").
 #' @param rule
@@ -33,7 +33,7 @@
 interpolate_data <- function(data = NULL,
                              by = "dataset_name",
                              age_var = "age",
-                             value_var = "pollen_prop",
+                             value_var = "value",
                              method = "linear",
                              rule = 1,
                              ties = mean,
