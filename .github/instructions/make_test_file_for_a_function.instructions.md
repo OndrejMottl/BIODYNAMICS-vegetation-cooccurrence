@@ -1,4 +1,4 @@
-﻿---
+---
 applyTo: ["**/R/Functions/**", "**/R/03_Supplementary_analyses/Testing/testthat/**"]
 ---
 
@@ -123,7 +123,7 @@ Write a COMPLETE testthat test file for a single R function. You will receive on
 
 1. **Identify all functions** in `R/Functions/` (recursively search all subdirectories for function declarations)
 2. **Check for existing tests** in `R/03_Supplementary_analyses/Testing/testthat` directory
-3. **Create missing test files** named as `test-function_name.R` (e.g., `get_data()` â†’ `test-get_data.R`)
+3. **Create missing test files** named as `test-function_name.R` (e.g., `get_data()` -> `test-get_data.R`)
 
 **File structure:**
 
@@ -285,7 +285,9 @@ If function uses non-standard evaluation (NSE) or tidyverse programming (`{{ }}`
 **Dependencies:**
 
 - Use only base R and testthat (plus packages the function clearly depends on)
-- Load required packages with `library()` at the top
+- Do not call `library()` in test files. Use fully-qualified namespaces and
+  rely on `source(here::here("R/___setup_project___.R"))` when project setup is
+  needed before running the test.
 
 **Precise expectations:**
 

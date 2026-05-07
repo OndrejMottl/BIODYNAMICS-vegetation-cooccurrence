@@ -88,7 +88,7 @@ If the change touches specific functions or pipe segments, also read those files
 
 ---
 
-## Step 4 — Draft the plan
+## Step 5 — Draft the plan
 
 Produce a structured Markdown plan following the template below. Adapt sections to the
 answers — omit sections that do not apply (e.g. skip "Git Worktree Setup" if worktree
@@ -317,7 +317,7 @@ issue first and then using the issue identifier in the branch name.
 
 ---
 
-## Step 5 — (Conditional) Subagent plan review
+## Step 6 — (Conditional) Subagent plan review
 
 If **complexity = High**, launch a subagent **before saving** to review the draft plan
 and suggest improvements. Instruct the subagent to:
@@ -329,11 +329,11 @@ and suggest improvements. Instruct the subagent to:
   after each phase
 - Return a bulleted list of suggested improvements
 
-Incorporate the subagent's feedback into the plan before proceeding to Step 6.
+Incorporate the subagent's feedback into the plan before proceeding to Step 7.
 
 ---
 
-## Step 6 — Save the plan
+## Step 7 — Save the plan
 
 Derive a short slug from the topic (lowercase, hyphens, no spaces).
 Save the plan to:
@@ -346,7 +346,7 @@ Use `create_file` (or the write tool) to save it. Confirm the file path to the u
 
 ---
 
-## Step 7 — Summary to user
+## Step 8 — Summary to user
 
 After saving, tell the user:
 

@@ -1,5 +1,4 @@
-﻿---
-applyTo: "**/*.R"
+---
 description: >
   Visualisation conventions for this project: loading graphical options
   from config, using ggview::canvas() for plot dimensions, and saving
@@ -157,8 +156,8 @@ plot_example <-
   my_plot_function(
     data = data_example,
     title = "Example title",
-    subtitle = base::paste(
-      "project:", Sys.getenv("R_CONFIG_ACTIVE")
+    subtitle = stringr::str_glue(
+      "project: {Sys.getenv('R_CONFIG_ACTIVE')}"
     )
   ) +
   ggview::canvas(
@@ -185,5 +184,5 @@ ggview::save_ggplot(
 | Load options once per script | `graphical_options <- get_active_config("graphical")` | Hardcoding values |
 | Apply dimensions | `+ ggview::canvas(width = graphical_options[["width"]], ...)` | `+ ggview::canvas(width = 2000, ...)` |
 | Save plots | `ggview::save_ggplot(plot = ..., file = ...)` | `ggplot2::ggsave(...)` |
-| Layer order | Facets â†’ Scales â†’ Labs â†’ Theme â†’ Canvas â†’ Geoms | Geoms before setup layers |
+| Layer order | Facets -> Scales -> Labs -> Theme -> Canvas -> Geoms | Geoms before setup layers |
 

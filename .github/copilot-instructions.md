@@ -18,7 +18,7 @@ This project follows specific R coding conventions split across five instruction
 
 ### Files & Folders
 
-Folders and files can have numbering to guide a user to the sequences of analyses. However, this can be added later in the project as it causes various issues with version control.
+Do not add numbering to folders or files at the start of a workflow. Add numbering only later if it is necessary to guide analysis order, because early numbering tends to create avoidable version-control churn.
 
 #### Folder Names
 
@@ -74,7 +74,9 @@ The configuration file (`___setup_project___.R`) is central to this project. It:
 **Usage**: Every script should initiate with:
 
 ```r
-source("R/___setup_project___.R")
+source(
+  here::here("R/___setup_project___.R")
+)
 ```
 
 This approach:
@@ -278,181 +280,89 @@ Each script should do **one task only**. If describing the task requires multipl
 
 ## R Coding Conventions
 
-R coding style guidelines are split across five instruction files:
+Use the instruction files listed above as the authoritative source for R style, tidyverse usage, function design, performance, and visualisation rules. Avoid restating those rules here.
 
-- [r-coding.instructions.md](instructions/r-coding.instructions.md) — Script structure, naming conventions, syntax rules
-- [r-coding-tidyverse.instructions.md](instructions/r-coding-tidyverse.instructions.md) — Tidyverse preferences, namespace, modern dplyr/purrr patterns, data masking
-- [r-coding-functions.instructions.md](instructions/r-coding-functions.instructions.md) — Writing functions, anonymous functions, error handling, roxygen2 documentation, testthat testing
-- [r-coding-performance.instructions.md](instructions/r-coding-performance.instructions.md) — Profiling, avoiding loop anti-patterns, parallel processing
-- [r-coding-visualisation.instructions.md](instructions/r-coding-visualisation.instructions.md) — Canvas dimensions, ggview::canvas(), ggview::save_ggplot()
+## Test Tiers
 
-## Debugging Workflow
-
-For the standard approach to diagnosing and fixing bugs, please refer to the [Debugging Instructions](instructions/debugging.instructions.md).
-
-The workflow in brief:
-
-1. **Reproduce** the bug in a minimal `Data/Temp/debug_<topic>.R` script
-2. **Run** with `Rscript` in a clean terminal (redirect output to file)
-3. **Probe** environments / call patterns until root cause is confirmed
-4. **Fix** the source file with an explanatory comment
-5. **Clean up** all temp debug files with `Remove-Item`
-6. **Run the targeted test** for the changed function (source project setup
-   first so all functions are available):
-
-```r
-library(here)
-
-source(
-  here::here("R/___setup_project___.R")
-)
-
-testthat::test_file(
-  here::here(
-    "R/03_Supplementary_analyses/Testing/testthat/test-<function_name>.R"
-  )
-)
-```
-
-1. **Run the full test suite** — all tests must pass. The canonical way is
-   to run the dedicated script that sources project setup automatically:
+The default verification command is the fast test suite:
 
 ```powershell
 Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
 ```
 
-   Alternatively, from an interactive R session:
+Some tests are opt-in integration tests because they query
+`Data/Input/VegVault.sqlite` and can be slow. Run the VegVault integration
+tier in addition to the fast suite when a change touches any of these:
 
-```r
-library(here)
+- `build_vegvault_plan()`
+- `extract_*_from_vegvault()` functions
+- direct `vaultkeepr::*` calls
+- VegVault-backed `testthat` files
+- pipeline targets or pipe segments that depend on VegVault extraction
+- tests containing `RUN_VEGVAULT_INTEGRATION`
 
-source(
-  here::here("R/___setup_project___.R")
-)
+Use this command for the opt-in tier:
 
-testthat::test_dir(
-  here::here("R/03_Supplementary_analyses/Testing/testthat")
-)
+```powershell
+$env:RUN_VEGVAULT_INTEGRATION = "true"
+Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
 ```
 
-1. **Verify** end-to-end by running the full pipeline without errors:
+For targeted verification of one VegVault-backed test file, set the same
+environment variable before calling `testthat::test_file()`.
 
-```r
-library(here)
+## Mandatory Change Review
 
-source(
-  here::here("R/___setup_project___.R")
-)
+After implementing any larger code change, run a review subagent before
+finalising the answer. Treat requests to implement a larger code change in
+this repository as also requesting this review step, unless the user explicitly
+says to skip it.
 
-# Set specific config active
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+A larger code change means any change that creates or edits one or more source,
+pipeline, analysis, test, or instruction files beyond a trivial typo or comment
+fix.
 
-# Basic pipeline
-run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_basic.R",
-  level_separation = 100,
-  fresh_run = TRUE
-)
+Preferred review workflow:
 
-# Resolution-testing pipeline (Phase E0 validation gate)
-targets::tar_make(
-  script = here::here("R/02_Main_analyses/pipeline_test_resolution.R"),
-  store  = here::here("Data/targets/project_cz/pipeline_test_resolution")
-)
-```
+1. If the environment exposes a native `changes-reviewer` subagent, use it
+   directly.
+2. If a native `changes-reviewer` subagent is unavailable, launch an `explorer`
+   subagent as a read-only reviewer.
+3. Paste the full text of `.github/agents/changes-reviewer.agent.md`, every
+   instruction file referenced by that agent file, and the complete contents of
+   every file created or edited during the session into the subagent prompt.
+4. Provide the exact list of files created or edited during the session.
+5. Instruct the subagent to follow the changes-reviewer instructions exactly:
+   read-only review, no edits, no terminal commands, report violations and
+   suggested fixes.
+6. Fix any confirmed violations, rerun the relevant checks, and run the review
+   subagent again whenever the fixes meet the larger-code-change threshold
+   above.
 
-9. **Review with `changes-reviewer`** — Invoke the `changes-reviewer` subagent, passing the list of files changed in this session. If it reports any remaining violations, fix them before finalising.
+If no subagent tool is available, state that blocker explicitly in the final
+response and perform a local manual review against the same instructions.
 
-**A bug fix is not complete until steps 6, 7, 8, and 9 all pass without errors.**
+## Debugging Workflow
+
+Follow [debugging.instructions.md](instructions/debugging.instructions.md) for the standard bug-fix workflow.
+
+Minimum completion bar for a bug fix:
+
+1. Reproduce the issue in a minimal debug script under `Data/Temp/`.
+2. Confirm the root cause before editing the source file.
+3. Run the targeted test for the changed function.
+4. Run the full test suite.
+5. Run the required end-to-end pipeline checks.
+6. Review the session changes with the mandatory change-review subagent
+   workflow above.
+
+A bug fix is not complete until all required tests, pipeline checks, and the review step pass.
 
 ## MCP Server for R Integration
 
-This project has MCP (Model Context Protocol) server integration configured for enhanced R environment interaction through the [{btw}](https://posit-dev.github.io/btw/) and [{mcptools}](https://posit-dev.github.io/mcptools/) packages.
+This project exposes R-focused MCP tools through `btw` and `mcptools`.
 
-### Configuration
-
-The MCP server is configured in VS Code/Claude Code settings with:
-
-```json
-{
-  "mcpServers": {
-    "r-mcptools": {
-      "command": "Rscript",
-      "args": ["-e", "btw::btw_mcp_server()"]
-    }
-  }
-}
-```
-
-### Session Registration
-
-For AI assistants to interact with your R session, each active R session must be registered with:
-
-```r
-btw::btw_mcp_session()
-```
-
-This should be already included in the `.Rprofile` file, so it runs automatically when you start an interactive R session.
-
-### Available Capabilities
-
-The MCP server provides tools for:
-
-#### Working Reliably
-
-- **Platform information**: `mcp_r-mcptools_btw_tool_sessioninfo_platform` - Get R version, OS, system info
-- **Package information**: `mcp_r-mcptools_btw_tool_sessioninfo_package` - Check package versions
-- **Documentation access**: Tools for reading package help, vignettes, and function documentation
-- **File operations**: Reading and searching files in the project
-
-#### Known Limitations
-
-- **Environment inspection**: May fail with C stack errors if the global environment contains very large or deeply nested objects
-- **Performance**: Some operations (especially file listings and environment descriptions) may hang or timeout
-- **Subagent tools**: Require additional API key configuration beyond the main MCP setup
-
-### Best Practices
-
-1. **For Simple Queries**: Use MCP tools for getting platform info, package details, or documentation
-2. **For Environment Inspection**: Use terminal commands (`ls()`, `ls.str()`) if MCP tools hang or error
-3. **For Code Execution**: Terminal commands via `run_in_terminal` may be more reliable than MCP execution tools
-4. **Timeout Handling**: If an MCP tool call takes >30 seconds, cancel it and use terminal alternatives
-
-### Practical Usage Guidelines
-
-**When to use MCP tools:**
-
-- Getting R session information (platform, packages, versions)
-- Reading specific documentation (help pages, vignettes)
-- Inspecting specific small objects when you know their names
-- Checking if packages are installed
-
-**When to use terminal commands instead:**
-
-- Listing all environment objects (use `ls()`)
-- Describing object structures (use `str()`, `glimpse()`)
-- Running R code that needs immediate results
-- Any operation that needs to be fast and reliable
-- When working with large data objects in the environment
-
-### Troubleshooting
-
-**MCP tools hanging:**
-
-- Ensure `btw::btw_mcp_session()` has been called in your active R session
-- Check if your environment has very large objects causing serialization issues
-- Cancel the operation and use terminal commands instead
-
-**C stack usage errors:**
-
-- Your global environment likely has large/complex nested objects
-- Use targeted queries for specific objects instead of full environment descriptions
-- Clear unnecessary large objects from your environment
-
-**Session not found:**
-
-- Verify the R session has been registered with `btw::btw_mcp_session()`
-- Check that the MCP server process is running (restart VS Code if needed)
+Use MCP tools for targeted session information, package checks, and documentation lookups. Prefer terminal execution for large environment inspection, time-sensitive code execution, or any MCP call that hangs or times out. If MCP tools cannot see the active session, ensure `btw::btw_mcp_session()` is registered in the current R session.
 
 ## saber Toolchain
 
@@ -461,19 +371,9 @@ This project uses the [{saber}](https://github.com/cornball-ai/saber) package fo
 
 ### Toolchain Rules
 
-Before working on R code, use the right tool for the job:
+Use `saber` when you need package exports, help pages, a project briefing, call-graph context, or dependency tracing.
 
-| Situation | Command |
-|-----------|---------|
-| Understand a package's API | `Rscript -e 'saber::pkg_exports("pkg")'` |
-| Read function docs | `Rscript -e 'saber::pkg_help("fn", "pkg")'` |
-| Before renaming/changing a function | `Rscript -e 'saber::blast_radius("fn", project = ".")'` |
-| Understand a project's call graph | `Rscript -e 'str(saber::symbols("."))'` |
-| Discover R packages and deps | `Rscript -e 'print(saber::projects())'` |
-| What depends on a package | `Rscript -e 'saber::find_downstream("pkg")'` |
-| Project briefing | `Rscript -e 'saber::briefing(".")'` |
-
-**`blast_radius` is mandatory before renaming, moving, or changing the signature of any exported function.** It finds every caller across this project and all downstream projects. Skip it and you break things silently.
+`saber::blast_radius()` is mandatory before renaming, moving, or changing the signature of any exported function.
 
 ## Project-Specific Guidelines
 
@@ -491,93 +391,25 @@ All function work (creation **and** editing) follows a strict TDD cycle. **Never
 
 ##### Creating a New Function
 
-1. **Write the spec** — Create the function file with only the roxygen2 documentation header and an empty stub body (returning `NULL` or `stop("not implemented")`). Define the function name, all arguments with defaults, return type, and description. Follow the template in [instructions/make_roxygen2_documentation.instructions.md](instructions/make_roxygen2_documentation.instructions.md).
+1. Write the roxygen2 spec stub first, following [make_roxygen2_documentation.instructions.md](instructions/make_roxygen2_documentation.instructions.md).
+2. Create or update the test file from the spec using [make_test_file_for_a_function.instructions.md](instructions/make_test_file_for_a_function.instructions.md).
+3. Verify the relevant tests fail for the intended reason before implementation.
+4. Implement the function until the targeted tests pass.
+5. Run the full test suite, the required pipeline validations, and the
+   mandatory change-review subagent workflow.
 
-2. **Write unit tests** — Launch a subagent with the full contents of [instructions/make_test_file_for_a_function.instructions.md](instructions/make_test_file_for_a_function.instructions.md) and the function **spec stub** as context. The subagent creates the test file at `R/03_Supplementary_analyses/Testing/testthat/test-<function_name>.R` based solely on the spec, and the intended functionality not on any implementation.
-
-3. **Verify all tests fail** — Run the test file to confirm **every test fails**. A test that passes at this stage means it is not testing real behavior (fix it before continuing):
-
-   ```powershell
-   Rscript -e "
-   library(here)
-   source(here::here('R/___setup_project___.R'))
-   testthat::test_file(
-     here::here(
-       'R/03_Supplementary_analyses/Testing/testthat/test-<function_name>.R'
-     )
-   )
-   "
-   ```
-
-4. **Implement the function** — Write the function body iteratively. Re-run the test file after each change until all tests pass. Update the roxygen2 docs to match any argument or behaviour changes.
-
-5. **Run the full test suite** — All project tests must pass:
-
-   ```powershell
-   Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
-   ```
-
-6. **Test run `project_cz`** — Run the pipeline end-to-end:
-
-   ```powershell
-   Rscript -e "
-   library(here)
-   source(here::here('R/___setup_project___.R'))
-   Sys.setenv(R_CONFIG_ACTIVE = 'project_cz')
-   run_pipeline(
-     sel_script = 'R/02_Main_analyses/pipeline_basic.R',
-     level_separation = 100,
-     fresh_run = TRUE
-   )
-   " > Data/Temp/pipeline_out.txt 2>&1
-   Get-Content Data/Temp/pipeline_out.txt |
-     Select-String -Pattern 'ERROR|error|started|completed|up to date|outdated|Target'
-   Remove-Item Data/Temp/pipeline_out.txt -ErrorAction SilentlyContinue
-   ```
-
-   Then run the resolution-testing pipeline (Phase E0 validation gate):
-
-   ```powershell
-   Rscript -e "
-   library(here)
-   source(here::here('R/___setup_project___.R'))
-   Sys.setenv(R_CONFIG_ACTIVE = 'project_cz')
-   targets::tar_make(
-     script = here::here('R/02_Main_analyses/pipeline_test_resolution.R'),
-     store  = here::here('Data/targets/project_cz/pipeline_test_resolution')
-   )
-   " > Data/Temp/pipeline_test_res_out.txt 2>&1
-   Get-Content Data/Temp/pipeline_test_res_out.txt |
-     Select-String -Pattern 'ERROR|error|started|completed|up to date|outdated|Target'
-   Remove-Item Data/Temp/pipeline_test_res_out.txt -ErrorAction SilentlyContinue
-   ```
-
-7. **Review with `changes-reviewer`** — Invoke the `changes-reviewer` subagent, passing the list of files changed in this session. If it reports any remaining violations, fix them before finalising.
-
-**A new function is not complete until steps 5, 6, and 7 both pass without unexpected errors.**
+A new function is not complete until the targeted tests, full test suite, required pipeline checks, and review step all pass.
 
 ##### Editing an Existing Function
 
-1. **Update the spec** — Adjust the roxygen2 documentation block to reflect the new or changed behaviour before touching the implementation.
+1. Update the roxygen2 spec before changing implementation.
+2. Add or revise tests so the changed behaviour is captured first.
+3. Verify the affected tests fail for the intended reason.
+4. Implement the change until the targeted tests pass.
+5. Run the full test suite, the required pipeline validations, and the
+   mandatory change-review subagent workflow.
 
-2. **Update / add unit tests** — Launch a subagent (same instructions as above) providing the updated spec and the existing test file. The subagent adds or revises tests so they capture the new intended behaviour. Tests for changed behaviour must fail at this point.
-
-3. **Verify tests fail for the right reasons** — Run the test file and confirm that failures are due to the intended change, not unexpected regressions.
-
-4. **Implement the changes** — Update the function body until all tests pass.
-
-5. **Run the full test suite** — All project tests must pass:
-
-   ```powershell
-   Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
-   ```
-
-6. **Test run `project_cz`** — Run the pipeline end-to-end (same commands
-   as above: `pipeline_basic.R` then `pipeline_test_resolution.R`).
-
-7. **Review with `changes-reviewer`** — Invoke the `changes-reviewer` subagent, passing the list of files changed in this session. If it reports any remaining violations, fix them before finalising.
-
-**An edit is not complete until steps 5, 6, and 7 both pass without unexpected errors.** Do not wait to be asked — treat the full TDD cycle as mandatory for every function creation or edit.
+An edit is not complete until the targeted tests, full test suite, required pipeline checks, and review step all pass.
 
 ### Data Workflow
 

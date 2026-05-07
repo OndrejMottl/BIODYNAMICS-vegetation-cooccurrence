@@ -1,4 +1,4 @@
-﻿---
+---
 applyTo: "**/*.R"
 description: >
   R coding conventions and style guidelines for this project, covering
@@ -349,7 +349,7 @@ for (i in seq_len(n)) { ... }
 while (condition) { ... }
 ```
 
-#### 4. Parentheses
+#### 6. Parentheses
 
 Each type of parentheses (brackets) has its own rules:
 
@@ -458,7 +458,7 @@ targets::tar_target(
 
 This keeps the pipeline readable and the logic testable.
 
-> See **New Lines § 5** below for the mandatory multi-line style for `if()`, `for()`, and `while()` conditions.
+> See **New Lines § 5** above for the mandatory multi-line style for `if()`, `for()`, and `while()` conditions.
 
 ### Assignment
 

@@ -1,4 +1,4 @@
-﻿---
+---
 description: >
   Rules for launching subagents: what instruction files and source code must
   be pasted into the prompt for each subagent type so the subagent has all
@@ -15,7 +15,9 @@ Subagents have **no access** to project files, instruction files, or the parent 
 
 ## Instruction Files in This Project
 
-All files live in `.github/instructions/`.
+Most reusable instruction files live in `.github/instructions/`. Project-wide
+assistant guidance lives in `.github/copilot-instructions.md`, and reusable
+agent prompts live in `.github/agents/`.
 
 | File | Covers |
 |------|--------|
@@ -29,6 +31,32 @@ All files live in `.github/instructions/`.
 | `debugging.instructions.md` | Debug workflow |
 | `git-workflow.instructions.md` | Branch, squash merge, worktree rules |
 | `quarto.instructions.md` | Quarto website conventions |
+| `.github/copilot-instructions.md` | Project-wide assistant rules |
+| `.github/agents/*.agent.md` | Reusable agent-specific review prompts |
+
+---
+
+## Test-Tier Context to Pass
+
+When a subagent is asked to implement, review, or verify changes, include this
+testing rule in the prompt:
+
+- Run the default fast suite with
+  `Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`.
+- Also run the opt-in VegVault integration tier when the changed files touch
+  `build_vegvault_plan()`, `extract_*_from_vegvault()` functions,
+  `vaultkeepr::*` calls, VegVault-backed `testthat` files, pipeline targets or
+  pipe segments that depend on VegVault extraction, or tests containing
+  `RUN_VEGVAULT_INTEGRATION`.
+- The opt-in VegVault command is:
+
+```powershell
+$env:RUN_VEGVAULT_INTEGRATION = "true"
+Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
+```
+
+For targeted verification, use the same environment variable before calling
+`testthat::test_file()`.
 
 ---
 
@@ -61,6 +89,10 @@ Also tell the subagent explicitly whether this is:
 - **New function (TDD step 2)**: the function body is a stub  -  write tests that capture all intended behaviour and will fail against the stub.
 - **Editing existing function (TDD step 2 of edit cycle)**: provide the updated spec and the current test file  -  add/revise tests for the new behaviour.
 
+If the test file uses `RUN_VEGVAULT_INTEGRATION` or tests real VegVault access,
+also paste the Test-Tier Context above and make clear whether the subagent
+should run only the fast tests or the opt-in VegVault integration tier too.
+
 ### Writing or editing a pipeline script or pipe segment
 
 Paste the full text of:
@@ -77,6 +109,27 @@ Paste the full text of:
 1. `r-coding.instructions.md`
 2. `r-coding-tidyverse.instructions.md`
 3. `r-coding-visualisation.instructions.md`
+
+### Reviewing completed larger code changes
+
+For any larger code change, run a read-only review subagent before finalising
+the answer. If a native `changes-reviewer` subagent is unavailable, launch an
+`explorer` subagent and make it act as the reviewer.
+
+Paste the full text of:
+
+1. `.github/agents/changes-reviewer.agent.md`
+2. Every instruction file listed inside that agent file
+3. The complete contents of every file created or edited during the session
+
+Also pass the exact changed-file list and instruct the subagent that it must:
+
+- Follow `.github/agents/changes-reviewer.agent.md` exactly
+- Stay read-only
+- Not edit files
+- Not run terminal commands
+- Report instruction violations with suggested fixes
+- Summarise the reviewed changes
 
 ### Git operations
 
