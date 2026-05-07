@@ -132,6 +132,7 @@ c(
 #   resolution suffix to every target name they define, e.g.
 #   data_community_subset_genus, model_anova_family.
 c(
+  "_helpers/make_community_filter_targets.R",
   "pipe_segment_community_resolution.R",
   "pipe_segment_alignment.R",
   "pipe_segment_fit_data_prep.R",

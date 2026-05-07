@@ -97,58 +97,11 @@ pipe_segment_community_resolution <-
       }
     ),
 
-    # ── 2. Filter rare taxa ─────────────────────────────────
-    targets::tar_target(
-      description = "Filter rare taxa from resolved community data",
-      name = "data_community_rare_filtered",
-      command = filter_rare_taxa(
-        data = data_community_resolved,
-        minimal_proportion = purrr::chuck(
-          config.data_processing,
-          "minimal_proportion_of_pollen"
-        )
-      )
-    ),
-
-    # ── 3. Filter taxa not present in enough cores ──────────
-    targets::tar_target(
-      description = stringr::str_c(
-        "Filter taxa not present in enough cores ",
-        "(resolved community)"
-      ),
-      name = "data_community_filtered_cores",
-      command = filter_community_by_n_cores(
-        data = data_community_rare_filtered,
-        min_n_cores = purrr::chuck(config.data_processing, "min_n_cores")
-      )
-    ),
-
-    # ── 4. Filter taxa not present in enough samples ────────
-    targets::tar_target(
-      description = stringr::str_c(
-        "Filter taxa not present in enough samples ",
-        "(resolved community)"
-      ),
-      name = "data_community_filtered_samples",
-      command = filter_by_n_samples(
-        data = data_community_filtered_cores,
-        min_n_samples = purrr::chuck(config.data_processing, "min_n_samples")
-      )
-    ),
-
-    # ── 5. Select number of taxa ────────────────────────────
     # This target name (data_community_subset) is the same as the
     #   one produced by pipe_segment_community_filtering.R.  When used
     #   inside tar_map() it becomes data_community_subset_genus,
     #   data_community_subset_family, etc., and the downstream
     #   segments (alignment -> model_anova) reference the correct
     #   branch-suffixed version automatically.
-    targets::tar_target(
-      description = "Select number of taxa to include (resolved)",
-      name = "data_community_subset",
-      command = select_n_taxa(
-        data = data_community_filtered_samples,
-        n_taxa = purrr::chuck(config.data_processing, "number_of_taxa")
-      )
-    )
+    make_community_filter_targets("data_community_resolved")
   )
