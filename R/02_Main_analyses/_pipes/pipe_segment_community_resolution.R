@@ -12,8 +12,8 @@
 # Pipe segment that collapses community data to a target
 #   taxonomic resolution.
 #
-# This segment sits DOWNSTREAM of pipe_segment_community_data.R,
-#   which is UNCHANGED.  It receives:
+# This segment sits downstream of the community extract, taxonomy
+#   classification, and paleo preprocess segments. It receives:
 #
 #   - data_community_classified  (produced by the community
 #       data segment at the config-level resolution, typically
@@ -30,9 +30,10 @@
 # All five targets produced here are renamed by tar_map() with a
 #   tax_res suffix, e.g. data_community_subset_genus.
 #
-# NOTE: pipe_segment_community_data.R must be sourced BEFORE this
-#   segment so that data_community_classified and
-#   data_combined_classification_table are already declared.
+# NOTE: the community extract, taxonomy classification, and paleo
+#   preprocess segments must be sourced BEFORE this segment so that
+#   data_community_classified and data_combined_classification_table
+#   are already declared.
 
 
 #----------------------------------------------------------#
@@ -137,7 +138,7 @@ pipe_segment_community_resolution <-
 
     # ── 5. Select number of taxa ────────────────────────────
     # This target name (data_community_subset) is the same as the
-    #   one produced by pipe_segment_community_data.R.  When used
+    #   one produced by pipe_segment_community_filtering.R.  When used
     #   inside tar_map() it becomes data_community_subset_genus,
     #   data_community_subset_family, etc., and the downstream
     #   segments (alignment -> model_anova) reference the correct

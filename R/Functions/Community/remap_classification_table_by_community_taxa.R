@@ -14,7 +14,7 @@
 #' taxonomic rank columns (`kingdom`, `phylum`, `class`, `order`,
 #' `family`, `genus`, `species`). This is typically
 #' `data_combined_classification_table` produced by
-#' `pipe_segment_community_data`.
+#' `pipe_segment_community_preprocess_paleo`.
 #' @param data_community_classified
 #' A data frame containing a `taxon` column with the classified
 #' community taxon names (e.g. genus or family names). Used to
