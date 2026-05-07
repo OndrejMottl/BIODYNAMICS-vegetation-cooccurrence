@@ -8,7 +8,7 @@ data_example_proportions <-
     dataset_name = rep("dataset1", 10),
     taxon = rep(c("taxon1", "taxon2"), 5),
     age = rep(seq(100, 1000, by = 200), each = 2),
-    pollen_prop = rep(c(0.4, 0.6), 5)
+    value = rep(c(0.4, 0.6), 5)
   )
 
 
@@ -55,7 +55,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "interpolate_community_data() errors when pollen_prop column is missing",
+  "interpolate_community_data() errors when value column is missing",
   {
     data_missing_col <-
       tibble::tibble(
@@ -72,7 +72,7 @@ testthat::test_that(
         age_max = 500,
         timestep = 100
       ),
-      regexp = "pollen_prop"
+      regexp = "value"
     )
   }
 )
@@ -95,7 +95,7 @@ testthat::test_that(
 
     testthat::expect_true(
       all(
-        c("dataset_name", "taxon", "age", "pollen_prop") %in%
+        c("dataset_name", "taxon", "age", "value") %in%
           colnames(result)
       )
     )

@@ -322,6 +322,14 @@ A larger code change means any change that creates or edits one or more source,
 pipeline, analysis, test, or instruction files beyond a trivial typo or comment
 fix.
 
+This review step must never be silently omitted. If the runtime or system
+instructions allow subagent delegation, run the reviewer workflow directly. If
+the runtime forbids autonomous subagent delegation unless the user explicitly
+asks for it, stop before the final answer and ask the user for permission to run
+the mandatory review subagent. If no subagent tool is available at all, state
+that blocker explicitly in the final response and perform a local manual review
+against the same instructions.
+
 Preferred review workflow:
 
 1. If the environment exposes a native `changes-reviewer` subagent, use it
@@ -338,9 +346,6 @@ Preferred review workflow:
 6. Fix any confirmed violations, rerun the relevant checks, and run the review
    subagent again whenever the fixes meet the larger-code-change threshold
    above.
-
-If no subagent tool is available, state that blocker explicitly in the final
-response and perform a local manual review against the same instructions.
 
 ## Debugging Workflow
 

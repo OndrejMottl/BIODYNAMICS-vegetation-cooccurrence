@@ -152,7 +152,7 @@ testthat::test_that(
       dataset_name = c("A", "A", "B", "B"),
       age = c(0, 100, 0, 100),
       taxon = c("Pinus", "Betula", "Pinus", "Quercus"),
-      pollen_prop = c(0.5, 0.3, 0.2, 0.8)
+      value = c(0.5, 0.3, 0.2, 0.8)
     )
     data_abiotic <- tibble::tibble(
       dataset_name = c("A", "A", "B", "B"),
@@ -191,7 +191,7 @@ testthat::test_that(
       dataset_name = c("A", "C"),
       age = c(0, 0),
       taxon = "Pinus",
-      pollen_prop = 0.5
+      value = 0.5
     )
     data_abiotic <- tibble::tibble(
       dataset_name = c("A", "B"),
@@ -225,7 +225,7 @@ testthat::test_that(
       dataset_name = c("B", "A", "A", "B"),
       age = c(100, 0, 100, 0),
       taxon = "Pinus",
-      pollen_prop = 0.5
+      value = 0.5
     )
     data_abiotic <- tibble::tibble(
       dataset_name = c("B", "A", "A", "B"),
@@ -264,7 +264,7 @@ testthat::test_that(
       dataset_name = c("A", "A"),
       age = c(0, 100),
       taxon = "Pinus",
-      pollen_prop = 0.5
+      value = 0.5
     )
     data_abiotic <- tibble::tibble(
       dataset_name = c("A", "A"),
@@ -299,7 +299,7 @@ testthat::test_that(
       dataset_name = "A",
       age = 0,
       taxon = "Pinus",
-      pollen_prop = 0.5
+      value = 0.5
     )
     data_abiotic <- tibble::tibble(
       dataset_name = "B",
@@ -332,7 +332,7 @@ testthat::test_that(
         dataset_name = c("A", "A"),
         age = c(0, 100),
         taxon = "Pinus",
-        pollen_prop = 0.5
+        value = 0.5
       )
     data_abiotic <-
       tibble::tibble(

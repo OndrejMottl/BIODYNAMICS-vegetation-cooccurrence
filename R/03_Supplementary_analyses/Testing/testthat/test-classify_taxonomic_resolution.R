@@ -5,7 +5,7 @@ testthat::test_that("classify_taxonomic_resolution() return correct class", {
       dataset_name = "dataset_1",
       age = 0,
       taxon = paste0("Taxon_", 1:6),
-      pollen_prop = runif(6, 0, 1)
+      value = runif(6, 0, 1)
     )
 
   classification_table_dummy <-
@@ -35,7 +35,7 @@ testthat::test_that("classify_taxonomic_resolution() return correct class", {
   testthat::expect_s3_class(res, "data.frame")
 
   testthat::expect_true(
-    all(c("dataset_name", "age", "taxon", "pollen_prop") %in% colnames(res))
+    all(c("dataset_name", "age", "taxon", "value") %in% colnames(res))
   )
 })
 
@@ -46,7 +46,7 @@ testthat::test_that("classify_taxonomic_resolution() return correct data", {
       dataset_name = "dataset_1",
       age = 0,
       taxon = paste0("Taxon_", 1:6),
-      pollen_prop = runif(6, 0, 1)
+      value = runif(6, 0, 1)
     )
 
   classification_table_dummy <-
@@ -78,11 +78,11 @@ testthat::test_that("classify_taxonomic_resolution() return correct data", {
       dataset_name = "dataset_1",
       age = 0,
       taxon = c("Genus_A", "Genus_B", "Genus_C", "Genus_D"),
-      pollen_prop = c(
-        sum(data_dummy$pollen_prop[1:2]),
-        data_dummy$pollen_prop[3],
-        sum(data_dummy$pollen_prop[4:5]),
-        data_dummy$pollen_prop[6]
+      value = c(
+        sum(data_dummy$value[1:2]),
+        data_dummy$value[3],
+        sum(data_dummy$value[4:5]),
+        data_dummy$value[6]
       )
     )
 
@@ -96,7 +96,7 @@ testthat::test_that("classify_taxonomic_resolution() handles invalid input", {
       dataset_name = "dataset_1",
       age = 0,
       taxon = paste0("Taxon_", 1:6),
-      pollen_prop = runif(6, 0, 1)
+      value = runif(6, 0, 1)
     )
 
   classification_table_dummy <-
@@ -214,7 +214,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = paste0("Taxon_", 1:4),
-        pollen_prop = runif(4, 0, 1)
+        value = runif(4, 0, 1)
       )
 
     classification_table_dummy <-
@@ -257,7 +257,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = paste0("Taxon_", 1:4),
-        pollen_prop = stats::runif(4, 0, 1)
+        value = stats::runif(4, 0, 1)
       )
 
     classification_table_dummy <-
@@ -312,7 +312,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = paste0("Taxon_", 1:4),
-        pollen_prop = stats::runif(4, 0, 1)
+        value = stats::runif(4, 0, 1)
       )
 
     classification_table_dummy <-
@@ -375,7 +375,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = c("Taxon_1", "Taxon_2"),
-        pollen_prop = stats::runif(2, 0, 1)
+        value = stats::runif(2, 0, 1)
       )
 
     classification_table_dummy <-
@@ -425,7 +425,7 @@ testthat::test_that(
         dataset_name = "dataset_1",
         age = 0,
         taxon = paste0("Taxon_", 1:3),
-        pollen_prop = stats::runif(3, 0, 1)
+        value = stats::runif(3, 0, 1)
       )
 
     classification_table_dummy <-

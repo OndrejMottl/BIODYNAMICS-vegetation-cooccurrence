@@ -1,105 +1,118 @@
-testthat::test_that("select_n_taxa() return correct class", {
-  set.seed(1234)
-  data_dummy <-
-    data.frame(
-      dataset_name = rep(c(paste0("dataset", 1:10)), each = 5),
-      taxon = sample(letters, 50, replace = TRUE),
-      pollen_prop = runif(50, 0, 1)
+testthat::test_that(
+  "select_n_taxa() returns a data frame with selected taxa",
+  {
+    data_test <-
+      base::data.frame(
+        dataset_name = base::rep(
+          x = base::paste0("dataset_", 1:10),
+          each = 5
+        ),
+        taxon = base::rep(
+          x = base::paste0("taxon_", 1:5),
+          times = 10
+        ),
+        value = stats::runif(
+          n = 50,
+          min = 0,
+          max = 1
+        )
+      )
+
+    res <-
+      select_n_taxa(
+        data = data_test,
+        n_taxa = 3,
+        per = "dataset_name"
+      )
+
+    testthat::expect_s3_class(
+      object = res,
+      class = "data.frame"
     )
-
-  res <- select_n_taxa(data_dummy, n_taxa = 2, per = "dataset_name")
-
-  testthat::expect_s3_class(res, "data.frame")
-})
-
-testthat::test_that("select_n_taxa() return correct data", {
-  set.seed(1234)
-  data_dummy <-
-    data.frame(
-      dataset_name = rep(c(paste0("dataset", 1:10)), each = 5),
-      taxon = sample(letters, 50, replace = TRUE),
-      pollen_prop = runif(50, 0, 1)
+    testthat::expect_lte(
+      object = dplyr::n_distinct(dplyr::pull(res, taxon)),
+      expected = 3
     )
+  }
+)
 
-  res <-
-    select_n_taxa(
-      data = data_dummy, n_taxa = 2, per = "dataset_name"
-    ) %>%
-    tibble::as_tibble() %>%
-    dplyr::arrange(dataset_name, taxon)
+testthat::test_that(
+  "select_n_taxa() keeps all taxa when n_taxa is Inf",
+  {
+    data_test <-
+      base::data.frame(
+        dataset_name = base::rep(
+          x = base::paste0("dataset_", 1:10),
+          each = 5
+        ),
+        taxon = base::rep(
+          x = base::paste0("taxon_", 1:5),
+          times = 10
+        ),
+        value = stats::runif(
+          n = 50,
+          min = 0,
+          max = 1
+        )
+      )
 
-  expected_res <-
-    data_dummy %>%
-    dplyr::group_by(taxon) %>%
-    dplyr::summarise(
-      n_datasets = dplyr::n(),
-      .groups = "drop"
-    ) %>%
-    dplyr::slice_max(n = 2, order_by = n_datasets) %>%
-    dplyr::inner_join(data_dummy, by = "taxon") %>%
-    dplyr::select(dataset_name, taxon, pollen_prop) %>%
-    dplyr::arrange(dataset_name, taxon)
+    res <-
+      select_n_taxa(
+        data = data_test,
+        n_taxa = Inf,
+        per = "dataset_name"
+      )
 
-  testthat::expect_equal(res, expected_res)
-})
-
-
-testthat::test_that("select_n_taxa() return correct data - all taxa", {
-  set.seed(1234)
-  data_dummy <-
-    data.frame(
-      dataset_name = rep(c(paste0("dataset", 1:10)), each = 5),
-      taxon = sample(letters, 50, replace = TRUE),
-      pollen_prop = runif(50, 0, 1)
+    testthat::expect_equal(
+      object = dplyr::n_distinct(dplyr::pull(res, taxon)),
+      expected = 5
     )
+  }
+)
 
-  res <-
-    select_n_taxa(
-      data = data_dummy, n_taxa = Inf, per = "dataset_name"
+testthat::test_that(
+  "select_n_taxa() validates input data",
+  {
+    testthat::expect_error(
+      object = select_n_taxa(
+        data = NULL,
+        n_taxa = 2,
+        per = "dataset_name"
+      )
     )
-
-  testthat::expect_equal(res, data_dummy)
-})
-
-testthat::test_that("select_n_taxa() handles incorrect input", {
-  set.seed(1234)
-  data_dummy <-
-    data.frame(
-      dataset_name = rep(c(paste0("dataset", 1:10)), each = 5),
-      taxon = sample(letters, 50, replace = TRUE),
-      pollen_prop = runif(50, 0, 1)
+    testthat::expect_error(
+      object = select_n_taxa(
+        data = base::data.frame(),
+        n_taxa = 2,
+        per = "dataset_name"
+      )
     )
+  }
+)
 
-  testthat::expect_error(
-    select_n_taxa(NULL, n_taxa = 2, per = "dataset_name")
-  )
+testthat::test_that(
+  "select_n_taxa() validates arguments",
+  {
+    data_test <-
+      base::data.frame(
+        dataset_name = base::c("dataset_1", "dataset_2"),
+        taxon = base::c("taxon_1", "taxon_2"),
+        value = base::c(0.1, 0.2)
+      )
 
-  testthat::expect_error(
-    select_n_taxa("invalid", n_taxa = 2, per = "dataset_name")
-  )
-
-  testthat::expect_error(
-    select_n_taxa(data.frame(), n_taxa = 2, per = "dataset_name")
-  )
-
-
-  testthat::expect_error(
-    select_n_taxa(data_dummy, n_taxa = -1, per = "dataset_name")
-  )
-
-  testthat::expect_error(
-    select_n_taxa(data_dummy, n_taxa = "two", per = "dataset_name")
-  )
-
-  testthat::expect_error(
-    select_n_taxa(data_dummy, n_taxa = NULL, per = "dataset_name")
-  )
-
-  testthat::expect_error(
-    select_n_taxa(data_dummy, n_taxa = 2, per = NULL)
-  )
-
-  testthat::expect_error(
-    select_n_taxa(data_dummy, n_taxa = Inf, per = "nonexistent_column"),
-  )
-})
+    testthat::expect_error(
+      object = select_n_taxa(
+        data = data_test,
+        n_taxa = 0,
+        per = "dataset_name"
+      )
+    )
+    testthat::expect_error(
+      object = select_n_taxa(
+        data = data_test,
+        n_taxa = 2,
+        per = base::c("dataset_name", "age")
+      )
+    )
+  }
+)

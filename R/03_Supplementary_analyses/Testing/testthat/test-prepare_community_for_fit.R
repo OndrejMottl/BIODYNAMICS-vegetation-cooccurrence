@@ -21,7 +21,7 @@ testthat::test_that(
       dataset_name = "A",
       age = 0,
       taxon = "Pinus",
-      pollen_prop = 0.5
+      value = 0.5
     )
     testthat::expect_error(
       prepare_community_for_fit(
@@ -60,7 +60,7 @@ testthat::test_that(
       dataset_name = "A",
       age = 0,
       taxon = "Pinus",
-      pollen_prop = 0.5
+      value = 0.5
     )
     data_sample_ids <- tibble::tibble(
       dataset_name = "A"
@@ -81,7 +81,7 @@ testthat::test_that(
       dataset_name = c("A", "A", "B", "B"),
       age = c(0, 0, 0, 0),
       taxon = c("Pinus", "Betula", "Pinus", "Quercus"),
-      pollen_prop = c(0.5, 0.3, 0.2, 0.8)
+      value = c(0.5, 0.3, 0.2, 0.8)
     )
     data_sample_ids <- tibble::tibble(
       dataset_name = c("A", "B"),
@@ -107,7 +107,7 @@ testthat::test_that(
       dataset_name = c("SiteA", "SiteB"),
       age = c(100, 200),
       taxon = c("Pinus", "Betula"),
-      pollen_prop = c(0.5, 0.4)
+      value = c(0.5, 0.4)
     )
     data_sample_ids <- tibble::tibble(
       dataset_name = c("SiteA", "SiteB"),
@@ -131,7 +131,7 @@ testthat::test_that(
       dataset_name = c("A", "A"),
       age = c(0, 0),
       taxon = c("Pinus", "Betula"),
-      pollen_prop = c(0.5, 0.3)
+      value = c(0.5, 0.3)
     )
     data_sample_ids <- tibble::tibble(
       dataset_name = "A",
@@ -156,7 +156,7 @@ testthat::test_that(
       dataset_name = c("A", "B"),
       age = c(0, 0),
       taxon = c("Pinus", "Betula"),
-      pollen_prop = c(0.5, 0.4)
+      value = c(0.5, 0.4)
     )
     data_sample_ids <- tibble::tibble(
       dataset_name = c("A", "B"),
@@ -173,13 +173,13 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "prepare_community_for_fit() drops NA pollen_prop rows",
+  "prepare_community_for_fit() drops NA value rows",
   {
     data_community <- tibble::tibble(
       dataset_name = c("A", "A"),
       age = c(0, 0),
       taxon = c("Pinus", "Betula"),
-      pollen_prop = c(0.5, NA_real_)
+      value = c(0.5, NA_real_)
     )
     data_sample_ids <- tibble::tibble(
       dataset_name = "A",
@@ -197,13 +197,13 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "prepare_community_for_fit() drops zero pollen_prop rows",
+  "prepare_community_for_fit() drops zero value rows",
   {
     data_community <- tibble::tibble(
       dataset_name = c("A", "A"),
       age = c(0, 0),
       taxon = c("Pinus", "Betula"),
-      pollen_prop = c(0.5, 0)
+      value = c(0.5, 0)
     )
     data_sample_ids <- tibble::tibble(
       dataset_name = "A",
@@ -227,7 +227,7 @@ testthat::test_that(
       dataset_name = c("A", "B"),
       age = c(0, 0),
       taxon = c("Pinus", "Betula"),
-      pollen_prop = c(0.5, 0.4)
+      value = c(0.5, 0.4)
     )
     # Only site A is in sample_ids
     data_sample_ids <- tibble::tibble(

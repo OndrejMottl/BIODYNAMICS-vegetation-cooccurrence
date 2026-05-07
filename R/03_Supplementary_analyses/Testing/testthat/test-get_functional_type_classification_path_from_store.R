@@ -128,6 +128,78 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "get_functional_type_classification_path_from_store() supports modern prefix",
+  {
+    withr::with_tempdir(
+      {
+        path_grid <-
+          base::file.path(
+            base::getwd(),
+            "spatial_grid.csv"
+          )
+
+        path_processed <-
+          base::file.path(
+            base::getwd(),
+            "Traits"
+          )
+
+        base::dir.create(
+          path = path_processed,
+          showWarnings = FALSE
+        )
+
+        data_grid <-
+          tibble::tibble(
+            scale_id = "eu_r005",
+            continent_id = "europe"
+          )
+
+        readr::write_csv(
+          x = data_grid,
+          file = path_grid
+        )
+
+        file_paleo_newer <-
+          base::file.path(
+            path_processed,
+            "data_ft_classification_europe_2026-05-15.qs"
+          )
+
+        file_modern_old <-
+          base::file.path(
+            path_processed,
+            "data_ft_classification_modern_europe_2026-03-15.qs"
+          )
+
+        file_modern_new <-
+          base::file.path(
+            path_processed,
+            "data_ft_classification_modern_europe_2026-04-15.qs"
+          )
+
+        base::file.create(file_paleo_newer)
+        base::file.create(file_modern_old)
+        base::file.create(file_modern_new)
+
+        res <-
+          get_functional_type_classification_path_from_store(
+            store = base::file.path(
+              "Data/targets/spatial_regional/eu_r005",
+              "pipeline_spatial_resolution"
+            ),
+            path_spatial_grid = path_grid,
+            path_processed = path_processed,
+            data_source_prefix = "modern"
+          )
+
+        testthat::expect_equal(res, file_modern_new)
+      }
+    )
+  }
+)
+
+testthat::test_that(
   "get_functional_type_classification_path_from_store() validates store",
   {
     withr::with_tempdir(

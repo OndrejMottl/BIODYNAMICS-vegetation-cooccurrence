@@ -308,7 +308,7 @@ testthat::test_that(
           base::rep("d2", 6L)
         ),
         age = base::rep(1.0, 12L),
-        pollen_prop = base::c(
+        value = base::c(
           base::ifelse(base::seq_len(6L) <= 3L, 0.2, 0.0),
           base::ifelse(base::seq_len(6L) > 3L, 0.2, 0.0)
         )
@@ -361,7 +361,7 @@ testthat::test_that(
           base::rep("d2", 4L)
         ),
         age = base::rep(1.0, 8L),
-        pollen_prop = base::c(
+        value = base::c(
           base::ifelse(base::seq_len(4L) <= 2L, 0.2, 0.0),
           base::ifelse(base::seq_len(4L) > 2L, 0.2, 0.0)
         )
@@ -416,7 +416,7 @@ testthat::test_that(
           base::rep("d2", 10L)
         ),
         age = base::rep(1.0, 20L),
-        pollen_prop = base::c(
+        value = base::c(
           base::ifelse(base::seq_len(10L) <= 5L, 0.2, 0.0),
           base::ifelse(base::seq_len(10L) > 5L, 0.2, 0.0)
         )
@@ -469,7 +469,7 @@ testthat::test_that(
           base::rep("d2", 10L)
         ),
         age = base::rep(1.0, 20L),
-        pollen_prop = base::c(
+        value = base::c(
           base::ifelse(base::seq_len(10L) <= 5L, 0.2, 0.0),
           base::ifelse(base::seq_len(10L) > 5L, 0.2, 0.0)
         )
@@ -521,7 +521,7 @@ testthat::test_that(
           base::rep("d2", 10L)
         ),
         age = base::rep(1.0, 20L),
-        pollen_prop = base::c(
+        value = base::c(
           base::ifelse(base::seq_len(10L) <= 5L, 0.2, 0.0),
           base::ifelse(base::seq_len(10L) > 5L, 0.2, 0.0)
         )
@@ -573,7 +573,7 @@ testthat::test_that(
           base::rep("d2", 8L)
         ),
         age = base::rep(1.0, 16L),
-        pollen_prop = base::c(
+        value = base::c(
           base::ifelse(base::seq_len(8L) <= 4L, 0.2, 0.0),
           base::ifelse(base::seq_len(8L) > 4L, 0.2, 0.0)
         )
@@ -627,7 +627,7 @@ testthat::test_that(
           base::rep("d2", 10L)
         ),
         age = base::rep(1.0, 20L),
-        pollen_prop = base::c(
+        value = base::c(
           base::ifelse(base::seq_len(10L) <= 5L, 0.2, 0.0),
           base::ifelse(base::seq_len(10L) > 5L, 0.2, 0.0)
         )
@@ -681,7 +681,7 @@ testthat::test_that(
           base::rep("d2", 30L)
         ),
         age = base::rep(1.0, 60L),
-        pollen_prop = base::c(
+        value = base::c(
           base::ifelse(base::seq_len(30L) <= 15L, 0.2, 0.0),
           base::ifelse(base::seq_len(30L) > 15L, 0.2, 0.0)
         )
@@ -743,7 +743,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "select_ft_groups_by_silhouette() rejects data_community missing pollen_prop",
+  "select_ft_groups_by_silhouette() rejects data_community missing value",
   {
     mat_data <-
       base::matrix(
@@ -805,7 +805,7 @@ testthat::test_that(
         taxon = "sp_1",
         dataset_name = "d1",
         age = 1.0,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -847,7 +847,7 @@ testthat::test_that(
         taxon = "sp_1",
         dataset_name = "d1",
         age = 1.0,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -889,7 +889,7 @@ testthat::test_that(
         taxon = "sp_1",
         dataset_name = "d1",
         age = 1.0,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -949,7 +949,7 @@ testthat::test_that(
           base::c(1.0, 2.0, 3.0, 4.0),
           each = 6L
         ),
-        pollen_prop = base::c(
+        value = base::c(
           0.20, 0.20, 0.20, 0.20, 0.20, 0.00,
           0.20, 0.20, 0.20, 0.20, 0.20, 0.00,
           0.20, 0.20, 0.20, 0.20, 0.00, 0.20,
@@ -1004,7 +1004,7 @@ testthat::test_that(
           base::c(1.0, 2.0, 3.0, 4.0),
           each = 8L
         ),
-        pollen_prop = base::rep(0.20, times = 32L)
+        value = base::rep(0.20, times = 32L)
       )
 
     testthat::expect_error(
@@ -1062,7 +1062,7 @@ testthat::test_that(
           base::c(1.0, 2.0, 3.0, 4.0),
           each = 6L
         ),
-        pollen_prop = base::c(
+        value = base::c(
           0.20, 0.20, 0.20, 0.20, 0.20, 0.20,
           0.20, 0.20, 0.20, 0.20, 0.20, 0.20,
           0.20, 0.20, 0.20, 0.20, 0.00, 0.00,
@@ -1110,7 +1110,7 @@ testthat::test_that(
         taxon = "sp_1",
         dataset_name = "d1",
         age = 1.0,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -1153,7 +1153,7 @@ testthat::test_that(
         taxon = "sp_1",
         dataset_name = "d1",
         age = 1.0,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -1230,7 +1230,7 @@ testthat::test_that(
           base::rep("d3", 8L)
         ),
         age = base::rep(1.0, 24L),
-        pollen_prop = base::c(
+        value = base::c(
           0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15,
           0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.00, 0.00,
           0.15, 0.15, 0.15, 0.15, 0.00, 0.00, 0.00, 0.00
@@ -1295,7 +1295,7 @@ testthat::test_that(
         taxon = "sp_1",
         dataset_name = "d1",
         age = 1.0,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -1338,7 +1338,7 @@ testthat::test_that(
         taxon = "sp_1",
         dataset_name = "d1",
         age = 1.0,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -1381,7 +1381,7 @@ testthat::test_that(
         taxon = "sp_1",
         dataset_name = "d1",
         age = 1.0,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -1457,7 +1457,7 @@ testthat::test_that(
           base::rep(1.0, 4L),
           base::rep(2.0, 4L)
         ),
-        pollen_prop = base::c(
+        value = base::c(
           0.10, 0.10, 0.10, 0.10,
           0.10, 0.10, 0.12, 0.12,
           0.00, 0.00, 0.08, 0.08,
@@ -1562,7 +1562,7 @@ testthat::test_that(
           base::rep(1.0, 4L),
           base::rep(2.0, 4L)
         ),
-        pollen_prop = base::c(
+        value = base::c(
           0.10, 0.10, 0.10, 0.10,
           0.12, 0.12, 0.00, 0.00,
           0.08, 0.08, 0.00, 0.00,

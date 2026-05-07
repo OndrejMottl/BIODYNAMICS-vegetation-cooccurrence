@@ -12,6 +12,11 @@
 #' A single character string giving the directory that contains
 #' dated FT classification `.qs` files.
 #' Default: `here::here("Data/Processed/Traits")`.
+#' @param data_source_prefix
+#' Optional single non-empty character string identifying a
+#' source-specific FT classification family. Use `NULL` (default)
+#' for historical paleo/global files, or `"modern"` for modern
+#' files.
 #' @return
 #' A single character string: the path to the newest matching FT
 #' classification file for the continent that owns the spatial unit.
@@ -37,7 +42,8 @@
 get_functional_type_classification_path_from_store <- function(
     store = targets::tar_path_store(),
     path_spatial_grid = here::here("Data/Input/spatial_grid.csv"),
-    path_processed = here::here("Data/Processed/Traits")) {
+    path_processed = here::here("Data/Processed/Traits"),
+    data_source_prefix = NULL) {
   assertthat::assert_that(
     base::is.character(store) &&
       base::length(store) == 1L,
@@ -58,6 +64,20 @@ get_functional_type_classification_path_from_store <- function(
       base::dir.exists(path_processed),
     msg = "`path_processed` must be an existing directory."
   )
+
+  if (
+    !base::is.null(data_source_prefix)
+  ) {
+    assertthat::assert_that(
+      base::is.character(data_source_prefix) &&
+        base::length(data_source_prefix) == 1L &&
+        base::nchar(data_source_prefix) > 0L,
+      msg = stringr::str_c(
+        "`data_source_prefix` must be NULL or a single ",
+        "non-empty character string."
+      )
+    )
+  }
 
   scale_id <-
     get_scale_id_from_store(
@@ -83,32 +103,41 @@ get_functional_type_classification_path_from_store <- function(
       file = path_spatial_grid
     )
 
-  file_pattern <-
+  file_source_prefix <-
+    if (base::is.null(data_source_prefix)) {
+      ""
+    } else {
+      stringr::str_glue("{data_source_prefix}_")
+    }
+
+  file_name_base <-
     stringr::str_glue(
-      "^data_ft_classification_{continent_id}_",
-      "[0-9]{{4}}-[0-9]{{2}}-[0-9]{{2}}\\.qs$"
+      "data_ft_classification_",
+      "{file_source_prefix}{continent_id}"
     )
 
-  vec_file_paths <-
-    base::list.files(
-      path = path_processed,
-      pattern = file_pattern,
-      full.names = TRUE
+  # RUtilpol verbosity is suppressed: this function has no verbose
+  #   argument and any console output here would be unexpected.
+  latest_file_name <-
+    RUtilpol::get_latest_file_name(
+      file_name = file_name_base,
+      dir = path_processed,
+      verbose = FALSE
     )
 
-  assertthat::assert_that(
-    base::length(vec_file_paths) > 0L,
-    msg = stringr::str_glue(
-      "No FT classification file found for continent ",
-      "'{continent_id}' in '{path_processed}'."
+  if (
+    base::is.na(latest_file_name)
+  ) {
+    cli::cli_abort(
+      stringr::str_glue(
+        "No FT classification file found for continent ",
+        "'{continent_id}' in '{path_processed}'."
+      )
     )
-  )
-
-  vec_file_paths <-
-    base::sort(vec_file_paths)
+  }
 
   res_path <-
-    vec_file_paths[base::length(vec_file_paths)]
+    base::file.path(path_processed, latest_file_name)
 
   return(res_path)
 }

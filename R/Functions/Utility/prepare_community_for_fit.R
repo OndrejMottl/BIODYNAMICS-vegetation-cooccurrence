@@ -5,7 +5,7 @@
 #' supplied by `align_sample_ids()`.
 #' @param data_community_long
 #' A data frame in long format with columns `dataset_name`, `age`,
-#' `taxon`, and `pollen_prop`.
+#' `taxon`, and `value`.
 #' @param data_sample_ids
 #' A data frame of valid `(dataset_name, age)` pairs as returned by
 #' `align_sample_ids()`.
@@ -17,7 +17,7 @@
 #' `data_sample_ids`.
 #' @details
 #' Only samples present in `data_sample_ids` are retained. Rows
-#' with `NA` or zero `pollen_prop` are dropped before pivoting.
+#' with `NA` or zero `value` are dropped before pivoting.
 #' The function widens the data and converts the result to a matrix
 #' directly, so the output is ready for `filter_constant_taxa()`
 #' and `assemble_data_to_fit()`.
@@ -39,12 +39,12 @@ prepare_community_for_fit <- function(
 
   assertthat::assert_that(
     all(
-      c("dataset_name", "age", "taxon", "pollen_prop") %in%
+      c("dataset_name", "age", "taxon", "value") %in%
         names(data_community_long)
     ),
     msg = paste0(
       "data_community_long must contain columns",
-      " 'dataset_name', 'age', 'taxon', 'pollen_prop'"
+      " 'dataset_name', 'age', 'taxon', 'value'"
     )
   )
 
@@ -62,16 +62,16 @@ prepare_community_for_fit <- function(
       data_sample_ids,
       by = dplyr::join_by(dataset_name, age)
     ) |>
-    tidyr::drop_na(pollen_prop) |>
-    dplyr::filter(pollen_prop > 0) |>
+    tidyr::drop_na(value) |>
+    dplyr::filter(value > 0) |>
     dplyr::arrange(dataset_name, age) |>
     dplyr::mutate(
       sample_name = paste0(dataset_name, "__", age)
     ) |>
-    dplyr::select(sample_name, taxon, pollen_prop) |>
+    dplyr::select(sample_name, taxon, value) |>
     tidyr::pivot_wider(
       names_from = "taxon",
-      values_from = "pollen_prop",
+      values_from = "value",
       values_fill = 0
     ) |>
     tibble::column_to_rownames("sample_name") |>

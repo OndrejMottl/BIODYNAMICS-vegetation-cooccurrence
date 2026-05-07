@@ -19,7 +19,7 @@ transform_to_proportions <- function(data = NULL, pollen_sum = NULL) {
       by = "sample_name"
     ) %>%
     dplyr::mutate(
-      pollen_prop = pollen_count / pollen_sum,
+      value = pollen_count / pollen_sum,
       .after = pollen_count
     ) %>%
     dplyr::select(

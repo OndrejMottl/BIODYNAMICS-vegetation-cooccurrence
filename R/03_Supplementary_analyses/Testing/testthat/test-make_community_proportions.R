@@ -49,7 +49,7 @@ testthat::test_that(
         sample_name = "s1",
         taxon = "taxon1",
         age = 100,
-        pollen_prop = 0.5
+        value = 0.5
       )
 
     testthat::expect_error(
@@ -65,11 +65,11 @@ testthat::test_that(
 #----------------------------------------------------------#
 
 testthat::test_that(
-  "make_community_proportions() returns pollen_prop column",
+  "make_community_proportions() returns value column",
   {
     result <- make_community_proportions(data_example_counts)
 
-    testthat::expect_true("pollen_prop" %in% colnames(result))
+    testthat::expect_true("value" %in% colnames(result))
   }
 )
 
@@ -91,7 +91,7 @@ testthat::test_that(
       result |>
       dplyr::group_by(sample_name) |>
       dplyr::summarise(
-        total = sum(pollen_prop),
+        total = sum(value),
         .groups = "drop"
       )
 
@@ -111,7 +111,7 @@ testthat::test_that(
       result |>
       dplyr::filter(sample_name == "s1") |>
       dplyr::arrange(taxon) |>
-      dplyr::pull(pollen_prop)
+      dplyr::pull(value)
 
     testthat::expect_equal(prop_s1, c(0.3, 0.7))
   }

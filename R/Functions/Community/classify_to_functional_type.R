@@ -8,7 +8,7 @@
 #' so it can be used as a drop-in replacement downstream.
 #' @param data
 #' A data frame containing community data with columns
-#' `taxon`, `dataset_name`, `age`, and `pollen_prop`.
+#' `taxon`, `dataset_name`, `age`, and `value`.
 #' @param data_ft_classification
 #' A data frame mapping taxa to functional types. Must contain
 #' columns `taxon_name` (character) and `functional_type`
@@ -22,7 +22,7 @@
 #' @return
 #' A data frame with the same column names as `data`. The
 #' `taxon` column is replaced by functional-type labels of the
-#' form `"FT_1"`, `"FT_2"`, etc. `pollen_prop` is aggregated
+#' form `"FT_1"`, `"FT_2"`, etc. `value` is aggregated
 #' (summed) by `(dataset_name, age, taxon)`. All
 #' `(dataset_name, age)` combinations present in `data` are
 #' preserved (true negatives kept via a cross-reference join).
@@ -37,7 +37,7 @@
 #'   \item Drop unmatched taxa (NA functional type) with a
 #'     warning.
 #'   \item Create `taxon` labels `"FT_{functional_type}"`.
-#'   \item Aggregate `pollen_prop` by
+#'   \item Aggregate `value` by
 #'     `(dataset_name, age, taxon)`.
 #'   \item Full-join back to a `(dataset_name, age, taxon)`
 #'     cross-reference to preserve true negatives.
@@ -57,10 +57,10 @@ classify_to_functional_type <- function(
 
   assertthat::assert_that(
     base::all(
-      c("taxon", "dataset_name", "age", "pollen_prop") %in%
+      c("taxon", "dataset_name", "age", "value") %in%
         base::colnames(data)
     ),
-    msg = "'data' must contain columns: taxon, dataset_name, age, and pollen_prop."
+    msg = "'data' must contain columns: taxon, dataset_name, age, and value."
   )
 
   assertthat::assert_that(
@@ -143,11 +143,11 @@ classify_to_functional_type <- function(
   # then restore true-negative cells via a full join.
   res <-
     data_classified |>
-    tidyr::drop_na(pollen_prop) |>
+    tidyr::drop_na(value) |>
     dplyr::group_by(dataset_name, age, taxon) |>
     dplyr::summarise(
       .groups = "drop",
-      pollen_prop = base::sum(pollen_prop, na.rm = TRUE)
+      value = base::sum(value, na.rm = TRUE)
     ) |>
     dplyr::full_join(
       data_dataset_age_cross_ref,

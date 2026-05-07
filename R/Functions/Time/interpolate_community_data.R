@@ -3,7 +3,7 @@
 #' Interpolates community proportion data to a regular time grid.
 #' @param data
 #' A data frame with columns `dataset_name`, `taxon`, `age`, and
-#' `pollen_prop`. Must already be in proportion form — see
+#' `value`. Must already be in proportion form — see
 #' [make_community_proportions()].
 #' @param ...
 #' Additional arguments passed to [interpolate_data()], such as
@@ -24,9 +24,9 @@ interpolate_community_data <- function(data, ...) {
   )
 
   assertthat::assert_that(
-    "pollen_prop" %in% colnames(data),
+    "value" %in% colnames(data),
     msg = paste(
-      "data must contain a 'pollen_prop' column.",
+      "data must contain a 'value' column.",
       "Use make_community_proportions() first."
     )
   )

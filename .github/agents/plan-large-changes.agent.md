@@ -177,6 +177,10 @@ If a GitHub issue will be created first, prefer naming the branch after that iss
 - Run the full suite only when this phase changes shared infrastructure, shared
    helpers, or behavior with broad blast radius:
    `Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`
+- For any larger code change, run the mandatory change-review workflow from
+  `.github/copilot-instructions.md` before finalising. If the runtime forbids
+  autonomous subagent delegation, ask the user for permission to run the review
+  subagent before finalising; do not silently skip it.
 
 ---
 
@@ -238,6 +242,9 @@ If a GitHub issue will be created first, prefer naming the branch after that iss
 
 - Each phase has its own validation gate and is not complete until that gate passes.
 - Final implementation must keep affected tests and pipeline manifests passing.
+- Any larger code change must include the mandatory change-review workflow from
+  `.github/copilot-instructions.md`; if subagent delegation requires explicit
+  user permission, ask for that permission before finalising.
 
 ## Acceptance Criteria
 
@@ -305,6 +312,9 @@ issue first and then using the issue identifier in the branch name.
 ## Validation
 
 - <how to verify this phase is complete>
+- Include the mandatory change-review workflow from
+  `.github/copilot-instructions.md` for any larger code change. If subagent
+  delegation requires explicit user permission, ask before finalising.
 
 ## Links
 
