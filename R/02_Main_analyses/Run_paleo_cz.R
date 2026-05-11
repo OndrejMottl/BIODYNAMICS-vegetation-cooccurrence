@@ -20,10 +20,16 @@
 # 0. Setup -----
 #----------------------------------------------------------#
 
-library(here)
+base::suppressWarnings(
+  base::suppressMessages(
+    library(here)
+  )
+)
 
-source(
-  here::here("R/___setup_project___.R")
+base::suppressWarnings(
+  source(
+    here::here("R/___setup_project___.R")
+  )
 )
 
 

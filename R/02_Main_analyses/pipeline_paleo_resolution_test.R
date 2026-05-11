@@ -11,7 +11,7 @@
 #
 #----------------------------------------------------------#
 # Validation / testbed pipeline for Phase E0.
-# Runs the full modelling workflow for all three taxonomic
+# Runs the full modelling workflow for two taxonomic
 #   resolutions on a single project (project_paleo_core_cz) to verify
 #   that pipe_segment_community_by_resolution_paleo routes correctly
 #   before the technique is rolled out to the full spatial
@@ -20,18 +20,18 @@
 # Resolutions tested:
 #   "genus"          — regression check against pipeline_paleo_core.R
 #   "family"         — new; uses classify_taxonomic_resolution()
-#   "functional_type"— new; uses classify_to_functional_type()
+#   Functional-type validation is run in spatial-resolution
+#   pipelines, where enough taxa survive for the ANOVA step.
 #
-# The three resolutions are created by tarchetypes::tar_map()
+# The two resolutions are created by tarchetypes::tar_map()
 #   over pipe_segment_community_by_resolution_paleo and all downstream
 #   pipe segments (alignment -> model_anova), producing targets:
 #     data_community_analysis_subset_genus, model_anova_genus
 #     data_community_analysis_subset_family, model_anova_family
-#     data_community_analysis_subset_functional_type, model_anova_functional_type
 #
 # The upstream segments (config -> vegvault -> community extract,
 #   taxonomy classification, paleo preprocess -> abiotic_data) are
-#   shared across all three branches and produce their targets exactly once.
+#   shared across both branches and produce their targets exactly once.
 #
 # This pipeline is NOT a replacement for pipeline_paleo_core.R.
 #   It is a standalone testbed used as:
@@ -57,11 +57,13 @@
 #----------------------------------------------------------#
 
 # Load {here}
-library(
-  "here",
-  quietly = TRUE,
-  warn.conflicts = FALSE,
-  verbose = FALSE
+base::suppressWarnings(
+  library(
+    "here",
+    quietly = TRUE,
+    warn.conflicts = FALSE,
+    verbose = FALSE
+  )
 )
 
 # load all project settings
@@ -109,7 +111,7 @@ path_pipe_parts <-
   here::here("R/02_Main_analyses/_pipes/")
 
 # Shared segments: sourced once; their targets are computed once
-#   and are shared across all three resolution branches.
+#   and are shared across both resolution branches.
 c(
   "pipe_segment_config_common.R",
   "pipe_segment_config_model.R",
@@ -147,67 +149,14 @@ c(
     )
   )
 
-
 #--------------------------------------------------#
-## 1.2 Shared FT path target -----
-#--------------------------------------------------#
-
-# Tracks the most recent FT classification .qs file for the
-#   active continent (project_paleo_core_cz -> "europe").
-#   Used only by the "functional_type" branch in tar_map(),
-#   but declared here (outside the map) so it is computed once
-#   and its hash is shared across all branches.
-list_file_ft_classification_paleo <-
-  list(
-    targets::tar_target(
-      description = stringr::str_c(
-        "Track the most recent FT classification file ",
-        "for the active continent"
-      ),
-      name = file_ft_classification_paleo,
-      command = {
-        continent_id_val <-
-          get_active_config("continent_id")
-
-        pattern_str <-
-          stringr::str_glue(
-            "^data_ft_classification_{continent_id_val}_",
-            "[0-9]{{4}}-[0-9]{{2}}-[0-9]{{2}}\\.qs$"
-          )
-
-        vec_files <-
-          base::list.files(
-            path = here::here("Data/Processed/Traits"),
-            pattern = pattern_str,
-            full.names = TRUE
-          )
-
-        assertthat::assert_that(
-          base::length(vec_files) > 0L,
-          msg = stringr::str_glue(
-            "No FT classification file found for continent ",
-            "'{continent_id_val}' in Data/Processed/Traits/. ",
-            "Run pipeline_traits_reference.R (Segment 6) first."
-          )
-        )
-
-        # Sort is lexicographic on YYYY-MM-DD -> latest last
-        base::sort(vec_files)[base::length(vec_files)]
-      },
-      format = "file"
-    )
-  )
-
-
-#--------------------------------------------------#
-## 1.3 Build per-resolution target map -----
+## 1.2 Build per-resolution target map -----
 #--------------------------------------------------#
 
 # Segment list that is replicated for each resolution.
 # All target names inside these segments are suffixed by
-#   tar_map() with the resolution value, e.g. _genus, _family,
-#   _functional_type.  Cross-references within the map block
-#   are updated automatically.
+#   tar_map() with the resolution value, e.g. _genus or _family.
+#   Cross-references within the map block are updated automatically.
 targets_per_resolution <-
   list(
     pipe_segment_community_by_resolution_paleo,
@@ -221,14 +170,14 @@ targets_per_resolution <-
 targets_models_by_resolution <-
   tarchetypes::tar_map(
     values = list(
-      resolution_id = c("genus", "family", "functional_type")
+      resolution_id = c("genus", "family")
     ),
     targets_per_resolution
   )
 
 
 #--------------------------------------------------#
-## 1.4 Combine all targets into the pipeline -----
+## 1.3 Combine all targets into the pipeline -----
 #--------------------------------------------------#
 
 list(
@@ -239,6 +188,5 @@ list(
   pipe_segment_taxa_classification,
   pipe_segment_community_prepare_paleo,
   pipe_segment_abiotic_extract,
-  list_file_ft_classification_paleo,
   targets_models_by_resolution
 )

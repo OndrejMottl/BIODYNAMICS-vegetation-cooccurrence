@@ -91,7 +91,8 @@ pipe_segment_community_by_resolution_paleo <-
           classify_taxonomic_resolution(
             data = data_community_classified,
             data_classification_table = data_combined_classification_table,
-            taxonomic_resolution = resolution_id
+            taxonomic_resolution = resolution_id,
+            verbose = FALSE
           )
         }
       }
