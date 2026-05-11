@@ -34,7 +34,7 @@
 #' get_config_value_with_fallback(
 #'   config_section = "data_processing",
 #'   config_key = "ft_groups_min",
-#'   fallback_config = "traits"
+#'   fallback_config = "project_traits_reference"
 #' )
 #' @seealso [get_active_config()]
 #' @export

@@ -149,14 +149,19 @@ run_pipeline <- function(
     )
   }
 
-  # Run the pipeline.
-  try(
+  # Run the pipeline. Capture failures only long enough to save the
+  # progress visualisation below, then rethrow so unattended runs fail.
+  tar_error <- NULL
+
+  tryCatch(
     targets::tar_make(
       script = sel_script_path,
       store = sel_store_path,
       reporter = "verbose"
     ),
-    silent = FALSE
+    error = function(err) {
+      tar_error <<- err
+    }
   )
 
   if (
@@ -167,5 +172,11 @@ run_pipeline <- function(
       sel_store = sel_store_path,
       level_separation = level_separation
     )
+  }
+
+  if (
+    !base::is.null(tar_error)
+  ) {
+    base::stop(tar_error)
   }
 }

@@ -31,8 +31,8 @@
 #' @examples
 #' get_functional_type_classification_path_from_store(
 #'   store = here::here(
-#'     "Data/targets/spatial_regional/eu_r005/",
-#'     "pipeline_spatial_resolution"
+#'     "Data/targets/paleo_spatial_regional/eu_r005/",
+#'     "pipeline_paleo_spatial_resolution"
 #'   )
 #' )
 #' @seealso
@@ -93,7 +93,7 @@ get_functional_type_classification_path_from_store <- function(
       "store). Got NULL from get_scale_id_from_store(). ",
       "Check the store path convention: ",
       "Data/targets/{{tier}}/{{scale_id}}/",
-      "pipeline_spatial_resolution/"
+      "pipeline_paleo_spatial_resolution/"
     )
   )
 
