@@ -4,22 +4,22 @@
 #                 Vegetation Co-occurrence
 #
 #         Evaluate resolution pipeline — Phase F0
-#           validation gate (project_cz testbed)
+#           validation gate (project_paleo_core_cz testbed)
 #
 #                       O. Mottl
 #                         2026
 #
 #----------------------------------------------------------#
-# Compares the outputs of `pipeline_test_resolution.R`
-#   (store: `Data/targets/project_cz/pipeline_test_resolution`)
-#   against the reference `pipeline_basic.R` output
-#   (store: `Data/targets/project_cz/pipeline_basic`) to verify
+# Compares the outputs of `pipeline_paleo_resolution_test.R`
+#   (store: `Data/targets/paleo_core_cz/pipeline_paleo_resolution_test`)
+#   against the reference `pipeline_paleo_core.R` output
+#   (store: `Data/targets/paleo_core_cz/pipeline_paleo_core`) to verify
 #   that:
 #     1. The genus branch is a regression-exact match.
 #     2. The family branch produces a coarser community matrix.
 #     3. The functional-type (FT) branch produces integer FT labels.
 #   Run this script interactively after completing a fresh run of
-#   `pipeline_test_resolution.R`.
+#   `pipeline_paleo_resolution_test.R`.
 
 
 #----------------------------------------------------------#
@@ -32,13 +32,13 @@ source(
   here::here("R/___setup_project___.R")
 )
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
 store_basic <-
-  here::here("Data/targets/project_cz/pipeline_basic")
+  here::here("Data/targets/paleo_core_cz/pipeline_paleo_core")
 
 store_test <-
-  here::here("Data/targets/project_cz/pipeline_test_resolution")
+  here::here("Data/targets/paleo_core_cz/pipeline_paleo_resolution_test")
 
 
 #----------------------------------------------------------#
@@ -83,13 +83,13 @@ cli::cli_alert_info("{n_warnings} target(s) produced warnings.")
 
 data_community_basic <-
   targets::tar_read(
-    data_community_subset,
+    data_community_analysis_subset,
     store = store_basic
   )
 
 data_community_genus <-
   targets::tar_read(
-    data_community_subset_genus,
+    data_community_analysis_subset_genus,
     store = store_test
   )
 
@@ -118,7 +118,7 @@ taxa_only_genus <-
   )
 
 cli::cli_text(
-  "pipeline_basic  — n_taxa: {n_taxa_basic}, n_samples: {n_samples_basic}"
+  "pipeline_paleo_core  — n_taxa: {n_taxa_basic}, n_samples: {n_samples_basic}"
 )
 cli::cli_text(
   "test_res genus  — n_taxa: {n_taxa_genus}, n_samples: {n_samples_genus}"
@@ -186,7 +186,7 @@ results_basic <-
 results_genus <-
   model_anova_genus$results
 
-cli::cli_text("pipeline_basic  N = {model_anova_basic$N}")
+cli::cli_text("pipeline_paleo_core  N = {model_anova_basic$N}")
 cli::cli_text("test_res genus  N = {model_anova_genus$N}")
 
 anova_match <-
@@ -200,7 +200,7 @@ if (
   cli::cli_alert_success("Variance partitioning tables identical (tolerance 1e-6).")
 } else {
   cli::cli_alert_danger("Variance partitioning tables differ — investigate!")
-  cli::cli_text("pipeline_basic results:")
+  cli::cli_text("pipeline_paleo_core results:")
   print(results_basic)
   cli::cli_text("\ntest_res genus results:")
   print(results_genus)
@@ -213,7 +213,7 @@ if (
 
 data_community_family <-
   targets::tar_read(
-    data_community_subset_family,
+    data_community_analysis_subset_family,
     store = store_test
   )
 
@@ -265,13 +265,13 @@ if (
 
 data_community_ft <-
   targets::tar_read(
-    data_community_subset_functional_type,
+    data_community_analysis_subset_functional_type,
     store = store_test
   )
 
 data_community_ft_resolved <-
   targets::tar_read(
-    data_community_resolved_functional_type,
+    data_community_by_resolution_functional_type,
     store = store_test
   )
 
@@ -355,8 +355,8 @@ cli::cli_alert_info(
 checks <-
   list(
     "No errored targets" = n_errors == 0L,
-    "Genus taxa match pipeline_basic" = taxa_match,
-    "Genus samples match pipeline_basic" = samples_match,
+    "Genus taxa match pipeline_paleo_core" = taxa_match,
+    "Genus samples match pipeline_paleo_core" = samples_match,
     "Genus ANOVA tables identical" = anova_match,
     "Family coarser than genus" = n_taxa_family < n_taxa_genus,
     "FT labels are integer FT_N format" = all_ft_labelled

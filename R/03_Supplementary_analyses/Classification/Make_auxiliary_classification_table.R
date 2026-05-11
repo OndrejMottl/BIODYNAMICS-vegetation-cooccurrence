@@ -10,7 +10,7 @@
 #
 #----------------------------------------------------------#
 # Reads the `data_missing_taxa_template` targets object from every
-#   `pipeline_basic` store under Data/targets/ and combines them
+#   `pipeline_paleo_core` store under Data/targets/ and combines them
 #   into a single CSV for manual review.
 # After filling in the missing classifications, copy or append
 #   rows to Data/Input/aux_classification_table.csv and re-run

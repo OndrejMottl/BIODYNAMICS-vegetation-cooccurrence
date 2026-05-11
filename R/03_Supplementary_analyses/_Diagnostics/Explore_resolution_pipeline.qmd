@@ -10,17 +10,17 @@ date-modified: last-modified
   Compares the genus / family / functional_type branches side-by-side.
   Reads exclusively via targets::tar_read() — no re-execution.
 
-  Pipeline store: Data/targets/project_cz/pipeline_test_resolution
-  Active config:  project_cz
+  Pipeline store: Data/targets/paleo_core_cz/pipeline_paleo_resolution_test
+  Active config:  project_paleo_core_cz
 
   Run the pipeline first:
-    Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+    Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
     targets::tar_make(
       script = here::here(
-        "R/02_Main_analyses/pipeline_test_resolution.R"
+        "R/02_Main_analyses/pipeline_paleo_resolution_test.R"
       ),
       store  = here::here(
-        "Data/targets/project_cz/pipeline_test_resolution"
+        "Data/targets/paleo_core_cz/pipeline_paleo_resolution_test"
       )
     )
 -->
@@ -38,7 +38,7 @@ source(
   here::here("R/___setup_project___.R")
 )
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
 graphical_options <-
   get_active_config("graphical")
@@ -52,10 +52,10 @@ fig_height_inch <-
   purrr::chuck(graphical_options, "dpi")
 
 path_res_store <-
-  here::here("Data/targets/project_cz/pipeline_test_resolution")
+  here::here("Data/targets/paleo_core_cz/pipeline_paleo_resolution_test")
 
 path_traits_store <-
-  here::here("Data/targets/traits/pipeline_traits")
+  here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
 
 # Guard: abort rendering if the store is missing.
 if (
@@ -66,8 +66,8 @@ if (
       "Resolution pipeline store not found at: {path_res_store}",
       "i" = stringr::str_c(
         "Run `targets::tar_make(",
-        "script = 'R/02_Main_analyses/pipeline_test_resolution.R',",
-        "store  = 'Data/targets/project_cz/pipeline_test_resolution')`",
+        "script = 'R/02_Main_analyses/pipeline_paleo_resolution_test.R',",
+        "store  = 'Data/targets/paleo_core_cz/pipeline_paleo_resolution_test')`",
         " first."
       )
     )
@@ -90,7 +90,7 @@ vec_resolutions <-
 
 path_ft_file <-
   targets::tar_read(
-    path_ft_classification,
+    file_ft_classification_paleo,
     store = path_res_store
   )
 
@@ -110,7 +110,7 @@ if (
   cli::cli_abort(
     c(
       "FT classification file not found: {path_ft_file}",
-      "i" = "Run pipeline_traits.R (Segment 6) first."
+      "i" = "Run pipeline_traits_reference.R (Segment 6) first."
     )
   )
 }
@@ -218,7 +218,7 @@ list_community_subset <-
   purrr::map(
     .f = ~ {
       target_name <-
-        stringr::str_glue("data_community_subset_{.x}")
+        stringr::str_glue("data_community_analysis_subset_{.x}")
 
       targets::tar_read_raw(
         target_name,
@@ -748,5 +748,5 @@ if (
 
 ---
 
-*Notebook generated on `r Sys.Date()` from the resolution pipeline store at `Data/targets/project_cz/pipeline_test_resolution`.*
+*Notebook generated on `r Sys.Date()` from the resolution pipeline store at `Data/targets/paleo_core_cz/pipeline_paleo_resolution_test`.*
 

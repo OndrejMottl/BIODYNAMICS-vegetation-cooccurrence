@@ -52,9 +52,9 @@ sel_scale <-
 
 sel_store_path <-
   here::here(
-    paste0("Data/targets/spatial_", sel_scale),
+    paste0("Data/targets/paleo_spatial_", sel_scale),
     sel_scale_id,
-    "pipeline_basic"
+    "pipeline_paleo_core"
   )
 
 message("Inspecting: ", sel_scale_id, "  (scale: ", sel_scale, ")")
@@ -124,7 +124,7 @@ if (
     here::here(
       paste0("Documentation/Progress/spatial_", sel_scale),
       sel_scale_id,
-      "pipeline_basic"
+      "pipeline_paleo_core"
     )
 
   if (

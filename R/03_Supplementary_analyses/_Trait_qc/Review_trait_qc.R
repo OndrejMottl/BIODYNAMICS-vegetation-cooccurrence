@@ -72,7 +72,7 @@ path_corrections <-
 
 # Target store for the traits pipeline.
 path_traits_store <-
-  here::here("Data/targets/traits/pipeline_traits")
+  here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
 
 
 #----------------------------------------------------------#

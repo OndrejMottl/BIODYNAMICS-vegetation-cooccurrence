@@ -36,7 +36,7 @@ mod_hmsc_with_eval <-
     store = here::here(
       config::get(
         value = "target_store",
-        config = "project_cz",
+        config = "project_paleo_core_cz",
         use_parent = FALSE,
         file = here::here("config.yml")
       )
@@ -243,11 +243,11 @@ data_pred_avg <-
 
 data_to_fit <-
   targets::tar_read(
-    name = "data_to_fit",
+    name = "data_model_input",
     store = here::here(
       config::get(
         value = "target_store",
-        config = "project_cz",
+        config = "project_paleo_core_cz",
         use_parent = FALSE,
         file = here::here("config.yml")
       )

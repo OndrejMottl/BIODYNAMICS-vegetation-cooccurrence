@@ -3,16 +3,16 @@
 #
 #                 Vegetation Co-occurrence
 #
-#         Run temporal pipeline: Asia (project_temporal_asia)
+#         Run temporal pipeline: Asia (project_paleo_temporal_asia)
 #
 #                       O. Mottl
 #                         2026
 #
 #----------------------------------------------------------#
 # Runs the time-slice pipeline for the Asian region.
-# Uses project_temporal_asia configuration (lon 60–140°E, lat 50–75°N,
+# Uses project_paleo_temporal_asia configuration (lon 60–140°E, lat 50–75°N,
 #   0–20 kyr BP, 500-yr steps).
-# Target store: Data/targets/project_temporal_asia/pipeline_time/
+# Target store: Data/targets/paleo_temporal_asia/pipeline_paleo_temporal/
 
 
 #----------------------------------------------------------#
@@ -30,7 +30,7 @@ source(
 # 1. Set active configuration -----
 #----------------------------------------------------------#
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_temporal_asia")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_temporal_asia")
 
 
 #----------------------------------------------------------#
@@ -38,6 +38,6 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_temporal_asia")
 #----------------------------------------------------------#
 
 run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_time.R",
+  sel_script = "R/02_Main_analyses/pipeline_paleo_temporal.R",
   level_separation = 100
 )

@@ -26,10 +26,10 @@ source(
 )
 
 # Edit these values before sourcing the script.
-Sys.setenv(R_CONFIG_ACTIVE = "project_spatial_continental")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_spatial_continental")
 
 sel_script <-
-  "R/02_Main_analyses/pipeline_spatial_resolution.R"
+  "R/02_Main_analyses/pipeline_paleo_spatial_resolution.R"
 
 scale_id <- "europe"
 

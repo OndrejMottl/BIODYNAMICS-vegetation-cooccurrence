@@ -30,8 +30,8 @@ source(
 )
 
 # ---- USER SETTINGS (edit here) -------------------------
-sel_project <- "project_temporal_europe" # or "project_cz"
-vec_pipelines <- "pipeline_basic"
+sel_project <- "project_paleo_temporal_europe" # or "project_paleo_core_cz"
+vec_pipelines <- "pipeline_paleo_core"
 sel_grid_resolution <- 0.5 # degrees (finer = slower)
 flag_verbose <- FALSE
 # --------------------------------------------------------
@@ -66,7 +66,7 @@ spatial_crs <-
 # Always-needed targets
 mod_jsdm <-
   targets::tar_read(
-    name = "mod_jsdm",
+    name = "model_jsdm",
     store = set_store
   )
 
@@ -78,7 +78,7 @@ model_evaluation <-
 
 data_to_fit <-
   targets::tar_read(
-    name = "data_to_fit",
+    name = "data_model_input",
     store = set_store
   )
 

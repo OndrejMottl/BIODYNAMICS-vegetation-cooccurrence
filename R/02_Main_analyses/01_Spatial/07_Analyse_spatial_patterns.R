@@ -50,9 +50,9 @@ data_targets_meta <-
   ) |>
   dplyr::mutate(
     store_path = here::here(
-      stringr::str_glue("Data/targets/spatial_{scale}"),
+      stringr::str_glue("Data/targets/paleo_spatial_{scale}"),
       scale_id,
-      "pipeline_spatial_resolution"
+      "pipeline_paleo_spatial_resolution"
     )
   ) |>
   dplyr::mutate(
@@ -82,7 +82,7 @@ data_targets_meta <-
     )
   ) |>
   dplyr::mutate(
-    # Per-resolution success: the key model target (mod_to_use_<res>)
+    # Per-resolution success: the key model target (model_jsdm_selected_<res>)
     # must appear in metadata with no recorded error.
     successful_genus = purrr::map_lgl(
       .x = pipeline_meta,
@@ -93,7 +93,7 @@ data_targets_meta <-
           return(FALSE)
         }
         target_row <-
-          dplyr::filter(.x, name == "mod_to_use_genus")
+          dplyr::filter(.x, name == "model_jsdm_selected_genus")
         base::nrow(target_row) > 0L &&
           base::is.na(dplyr::pull(target_row, error))
       }
@@ -107,7 +107,7 @@ data_targets_meta <-
           return(FALSE)
         }
         target_row <-
-          dplyr::filter(.x, name == "mod_to_use_family")
+          dplyr::filter(.x, name == "model_jsdm_selected_family")
         base::nrow(target_row) > 0L &&
           base::is.na(dplyr::pull(target_row, error))
       }
@@ -121,7 +121,7 @@ data_targets_meta <-
           return(FALSE)
         }
         target_row <-
-          dplyr::filter(.x, name == "mod_to_use_functional_type")
+          dplyr::filter(.x, name == "model_jsdm_selected_functional_type")
         base::nrow(target_row) > 0L &&
           base::is.na(dplyr::pull(target_row, error))
       }

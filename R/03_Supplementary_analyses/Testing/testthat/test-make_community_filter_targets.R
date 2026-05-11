@@ -39,7 +39,7 @@ testthat::test_that(
         "data_community_rare_filtered",
         "data_community_filtered_cores",
         "data_community_filtered_samples",
-        "data_community_subset"
+        "data_community_analysis_subset"
       )
     )
   }

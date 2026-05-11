@@ -17,7 +17,7 @@
 #
 # How it works:
 #   1. Recursively scans Data/targets/ for leaf directories named
-#      "pipeline_basic" or "pipeline_time".
+#      "pipeline_paleo_core" or "pipeline_paleo_temporal".
 #   2. Maps the pipeline name to the corresponding pipeline script in
 #      R/02_Main_analyses/.
 #   3. Calls save_progress_visualisation() for each store found.
@@ -44,14 +44,14 @@ source(
 # Map pipeline folder name -> script path
 list_pipeline_scripts <-
   base::list(
-    pipeline_basic = here::here(
-      "R/02_Main_analyses/pipeline_basic.R"
+    pipeline_paleo_core = here::here(
+      "R/02_Main_analyses/pipeline_paleo_core.R"
     ),
-    pipeline_time = here::here(
-      "R/02_Main_analyses/pipeline_time.R"
+    pipeline_paleo_temporal = here::here(
+      "R/02_Main_analyses/pipeline_paleo_temporal.R"
     ),
-    pipeline_spatial_resolution = here::here(
-      "R/02_Main_analyses/pipeline_spatial_resolution.R"
+    pipeline_paleo_spatial_resolution = here::here(
+      "R/02_Main_analyses/pipeline_paleo_spatial_resolution.R"
     )
   )
 

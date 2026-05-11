@@ -3,16 +3,16 @@
 #
 #                 Vegetation Co-occurrence
 #
-#       Run temporal pipeline: Americas (project_temporal_america)
+#       Run temporal pipeline: Americas (project_paleo_temporal_america)
 #
 #                       O. Mottl
 #                         2026
 #
 #----------------------------------------------------------#
 # Runs the time-slice pipeline for the North American region.
-# Uses project_temporal_america configuration (lon -130–-60°W, lat 30–70°N,
+# Uses project_paleo_temporal_america configuration (lon -130–-60°W, lat 30–70°N,
 #   0–20 kyr BP, 500-yr steps).
-# Target store: Data/targets/project_temporal_america/pipeline_time/
+# Target store: Data/targets/paleo_temporal_america/pipeline_paleo_temporal/
 
 
 #----------------------------------------------------------#
@@ -30,7 +30,7 @@ source(
 # 1. Set active configuration -----
 #----------------------------------------------------------#
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_temporal_america")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_temporal_america")
 
 
 #----------------------------------------------------------#
@@ -38,6 +38,6 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_temporal_america")
 #----------------------------------------------------------#
 
 run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_time.R",
+  sel_script = "R/02_Main_analyses/pipeline_paleo_temporal.R",
   level_separation = 100
 )

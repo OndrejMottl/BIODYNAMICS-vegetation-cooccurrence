@@ -9,7 +9,7 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Detects spatial units where pipeline_spatial_resolution did
+# Detects spatial units where pipeline_paleo_spatial_resolution did
 #   not converge at any taxonomic resolution, prints a
 #   diagnostic summary to guide spatial_grid.csv adjustments,
 #   then reruns the non-converged units.
@@ -43,9 +43,9 @@ data_grid <-
   ) |>
   dplyr::mutate(
     store_path = here::here(
-      stringr::str_glue("Data/targets/spatial_{scale}"),
+      stringr::str_glue("Data/targets/paleo_spatial_{scale}"),
       scale_id,
-      "pipeline_spatial_resolution"
+      "pipeline_paleo_spatial_resolution"
     )
   ) |>
   dplyr::mutate(
@@ -234,7 +234,7 @@ c("continental", "regional", "local") |>
 
       base::Sys.setenv(
         R_CONFIG_ACTIVE = stringr::str_glue(
-          "project_spatial_{scale_i}"
+          "project_paleo_spatial_{scale_i}"
         )
       )
 
@@ -253,7 +253,7 @@ c("continental", "regional", "local") |>
             )
             run_pipeline(
               sel_script = here::here(
-                "R/02_Main_analyses/pipeline_spatial_resolution.R"
+                "R/02_Main_analyses/pipeline_paleo_spatial_resolution.R"
               ),
               store_suffix = .x
             )

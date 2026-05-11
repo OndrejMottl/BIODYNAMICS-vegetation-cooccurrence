@@ -29,7 +29,7 @@ testthat::test_that(
             min_n_samples = 5
           )
         ),
-        traits = base::list(
+        project_traits_reference = base::list(
           data_processing = base::list(
             ft_groups_min = 10
           )
@@ -44,7 +44,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = base::c("data_processing", "other"),
         config_key = "min_n_samples",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_temp
       ),
       regexp = "config_section"
@@ -54,7 +54,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = "",
         config_key = "min_n_samples",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_temp
       ),
       regexp = "config_section"
@@ -93,7 +93,7 @@ testthat::test_that(
             min_n_samples = 5
           )
         ),
-        traits = base::list(
+        project_traits_reference = base::list(
           data_processing = base::list(
             ft_groups_min = 10
           )
@@ -108,7 +108,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = base::c("min_n_samples", "min_n_taxa"),
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_temp
       ),
       regexp = "config_key"
@@ -118,7 +118,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_temp
       ),
       regexp = "config_key"
@@ -157,7 +157,7 @@ testthat::test_that(
             min_n_samples = 5
           )
         ),
-        traits = base::list(
+        project_traits_reference = base::list(
           data_processing = base::list(
             ft_groups_min = 10
           )
@@ -172,7 +172,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
-        fallback_config = base::c("default", "traits"),
+        fallback_config = base::c("default", "project_traits_reference"),
         file = path_temp
       ),
       regexp = "fallback_config"
@@ -224,7 +224,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_missing
       ),
       regexp = "file"
@@ -234,7 +234,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_wrong_ext
       ),
       regexp = "file"
@@ -244,7 +244,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = NA_character_
       ),
       regexp = "file"
@@ -254,7 +254,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = 1
       ),
       regexp = "file"
@@ -293,12 +293,12 @@ testthat::test_that(
             min_n_samples = 5
           )
         ),
-        project_cz = base::list(
+        project_paleo_core_cz = base::list(
           data_processing = base::list(
             min_n_samples = 10
           )
         ),
-        traits = base::list(
+        project_traits_reference = base::list(
           data_processing = base::list(
             ft_groups_min = 10
           )
@@ -307,7 +307,7 @@ testthat::test_that(
       file = path_temp
     )
 
-    base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+    base::Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
     value_config <-
       get_config_value_with_fallback(
@@ -353,7 +353,7 @@ testthat::test_that(
             min_n_samples = 5
           )
         ),
-        traits = base::list(
+        project_traits_reference = base::list(
           data_processing = base::list(
             ft_groups_min = 10
           )
@@ -368,7 +368,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_temp
       )
 
@@ -407,12 +407,12 @@ testthat::test_that(
             min_n_samples = 5
           )
         ),
-        project_cz = base::list(
+        project_paleo_core_cz = base::list(
           data_processing = base::list(
             min_n_samples = 10
           )
         ),
-        traits = base::list(
+        project_traits_reference = base::list(
           data_processing = base::list(
             ft_groups_min = 12,
             ft_method = "ward.D2"
@@ -422,13 +422,13 @@ testthat::test_that(
       file = path_temp
     )
 
-    base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+    base::Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
     value_groups <-
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_groups_min",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_temp
       )
 
@@ -436,7 +436,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_method",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_temp
       )
 
@@ -476,12 +476,12 @@ testthat::test_that(
             ft_groups_min = 3
           )
         ),
-        project_cz = base::list(
+        project_paleo_core_cz = base::list(
           data_processing = base::list(
             min_n_samples = 10
           )
         ),
-        traits = base::list(
+        project_traits_reference = base::list(
           data_processing = base::list(
             ft_groups_min = 12
           )
@@ -490,13 +490,13 @@ testthat::test_that(
       file = path_temp
     )
 
-    base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+    base::Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
     value_config <-
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_groups_min",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_temp
       )
 
@@ -535,12 +535,12 @@ testthat::test_that(
             ft_groups_min = 3
           )
         ),
-        project_cz = base::list(
+        project_paleo_core_cz = base::list(
           data_processing = base::list(
             ft_groups_min = 8
           )
         ),
-        traits = base::list(
+        project_traits_reference = base::list(
           data_processing = base::list(
             ft_groups_min = 12
           )
@@ -549,13 +549,13 @@ testthat::test_that(
       file = path_temp
     )
 
-    base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+    base::Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
     value_config <-
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_groups_min",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_temp
       )
 
@@ -594,12 +594,12 @@ testthat::test_that(
             min_n_samples = 5
           )
         ),
-        project_cz = base::list(
+        project_paleo_core_cz = base::list(
           data_processing = base::list(
             min_n_taxa = 10
           )
         ),
-        traits = base::list(
+        project_traits_reference = base::list(
           data_processing = base::list(
             ft_groups_min = 10
           )
@@ -608,13 +608,13 @@ testthat::test_that(
       file = path_temp
     )
 
-    base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+    base::Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
     testthat::expect_error(
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_method",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_temp
       ),
       regexp = "ft_method"
@@ -663,7 +663,7 @@ testthat::test_that(
       get_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_groups_min",
-        fallback_config = "traits",
+        fallback_config = "project_traits_reference",
         file = path_temp
       ),
       regexp = "Fallback config"
@@ -702,7 +702,7 @@ testthat::test_that(
             min_n_samples = 5
           )
         ),
-        traits = base::list(
+        project_traits_reference = base::list(
           data_processing = base::list(
             ft_groups_min = 10
           )
