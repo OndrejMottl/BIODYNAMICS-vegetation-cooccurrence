@@ -159,6 +159,14 @@ pipe_segment_config_common <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
+      description = "Configuration for data processing - n cores",
+      name = "config_data_n_cores",
+      command = get_active_config(
+        value = c("data_processing", "n_cores")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
       description = "Configuration for data processing - min n samples",
       name = "config_min_n_samples",
       command = get_active_config(
@@ -186,6 +194,7 @@ pipe_segment_config_common <-
         minimal_proportion_of_pollen = config_minimal_proportion_of_pollen,
         taxonomic_resolution = config_taxonomic_resolution,
         min_n_cores = config_min_n_cores,
+        n_cores = config_data_n_cores,
         min_n_samples = config_min_n_samples,
         min_n_taxa = config_min_n_taxa
       )

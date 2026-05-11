@@ -48,7 +48,7 @@ pipe_segment_abiotic_extract <-
     targets::tar_target(
       description = "Add sample ages to abiotic data",
       name = "data_abiotic_ages",
-      command = add_age_to_samples(data_abiotic, data_sample_ages) %>%
+      command = add_age_to_samples(data_abiotic, data_sample_ages) |>
         dplyr::select(-sample_name)
     ),
     targets::tar_target(
@@ -70,10 +70,11 @@ pipe_segment_abiotic_extract <-
       command = interpolate_data(
         data = data_abiotic_selected,
         value_var = "abiotic_value",
-        by = c("dataset_name", "abiotic_variable_name"),
-        timestep = config_data_processing$time_step,
-        age_min = min(config_age_lim),
-        age_max = max(config_age_lim)
+        by = base::c("dataset_name", "abiotic_variable_name"),
+        timestep = purrr::chuck(config_data_processing, "time_step"),
+        age_min = base::min(config_age_lim),
+        age_max = base::max(config_age_lim),
+        n_cores = purrr::chuck(config_data_processing, "n_cores")
       )
     )
-  ) 
+  )

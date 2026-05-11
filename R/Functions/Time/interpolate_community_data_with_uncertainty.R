@@ -16,6 +16,9 @@
 #' with columns `dataset_name` (character), `sample_name` (character),
 #' `iteration` (integer), and `age_uncertainty` (double). Rows for
 #' dataset names absent from `data` are silently ignored.
+#' @param n_cores
+#' Number of cores to use for interpolation. Passed to
+#' [interpolate_data()] and [interpolate_community_data()].
 #' @param ...
 #' Additional arguments passed to [interpolate_data()] and
 #' [interpolate_community_data()], such as `timestep`, `age_min`,
@@ -48,6 +51,7 @@
 interpolate_community_data_with_uncertainty <- function(
     data,
     data_age_uncertainty,
+    n_cores = 1,
     ...) {
   #-- Validate data -----------------------------------------------------------
 
@@ -119,7 +123,11 @@ interpolate_community_data_with_uncertainty <- function(
     if (
       base::nrow(data_gridpoints) > 0L
     ) {
-      interpolate_community_data(data = data_gridpoints, ...)
+      interpolate_community_data(
+        data = data_gridpoints,
+        n_cores = n_cores,
+        ...
+      )
     } else {
       empty_result
     }
@@ -143,6 +151,7 @@ interpolate_community_data_with_uncertainty <- function(
         dplyr::filter(!base::is.na(age)) |>
         interpolate_data(
           by = base::c("dataset_name", "taxon", "iteration"),
+          n_cores = n_cores,
           ...
         ) |>
         dplyr::summarise(

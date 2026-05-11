@@ -72,7 +72,8 @@ pipe_segment_community_prepare_paleo <-
         data_age_uncertainty = data_age_uncertainty,
         timestep = purrr::chuck(config_data_processing, "time_step"),
         age_min = base::min(config_age_lim),
-        age_max = base::max(config_age_lim)
+        age_max = base::max(config_age_lim),
+        n_cores = purrr::chuck(config_data_processing, "n_cores")
       )
     ),
     targets::tar_target(
@@ -89,7 +90,10 @@ pipe_segment_community_prepare_paleo <-
       command = classify_taxonomic_resolution(
         data = data_community_plantae,
         data_classification_table = data_combined_classification_table,
-        taxonomic_resolution = config_data_processing$taxonomic_resolution
+        taxonomic_resolution = purrr::chuck(
+          config_data_processing,
+          "taxonomic_resolution"
+        )
       )
     )
   )

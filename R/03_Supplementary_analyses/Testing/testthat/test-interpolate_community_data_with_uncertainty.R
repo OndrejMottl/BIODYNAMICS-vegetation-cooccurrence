@@ -695,3 +695,67 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "validates n_cores",
+  {
+    vec_invalid_n_cores <-
+      list(
+        NULL,
+        "2",
+        c(1, 2),
+        0,
+        -1,
+        Inf,
+        NA_real_,
+        1.5
+      )
+
+    purrr::walk(
+      vec_invalid_n_cores,
+      ~ testthat::expect_error(
+        interpolate_community_data_with_uncertainty(
+          data = data_community_test,
+          data_age_uncertainty = data_age_unc_test,
+          timestep = 200,
+          age_min = 0,
+          age_max = 800,
+          n_cores = .x
+        ),
+        regexp = "n_cores"
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "parallel output equals sequential output for gridpoints and fossil cores",
+  {
+    result_sequential <-
+      interpolate_community_data_with_uncertainty(
+        data = data_community_test,
+        data_age_uncertainty = data_age_unc_test,
+        timestep = 200,
+        age_min = 0,
+        age_max = 800,
+        n_cores = 1
+      ) |>
+      dplyr::arrange(dataset_name, taxon, age)
+
+    result_parallel <-
+      interpolate_community_data_with_uncertainty(
+        data = data_community_test,
+        data_age_uncertainty = data_age_unc_test,
+        timestep = 200,
+        age_min = 0,
+        age_max = 800,
+        n_cores = 2
+      ) |>
+      dplyr::arrange(dataset_name, taxon, age)
+
+    testthat::expect_equal(
+      result_parallel,
+      result_sequential
+    )
+  }
+)

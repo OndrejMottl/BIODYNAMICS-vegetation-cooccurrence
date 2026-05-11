@@ -19,11 +19,13 @@
 #----------------------------------------------------------#
 
 # Load {here}
-library(
-  "here",
-  quietly = TRUE,
-  warn.conflicts = FALSE,
-  verbose = FALSE
+base::suppressWarnings(
+  library(
+    "here",
+    quietly = TRUE,
+    warn.conflicts = FALSE,
+    verbose = FALSE
+  )
 )
 
 # load all project settings
