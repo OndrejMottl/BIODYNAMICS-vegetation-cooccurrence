@@ -27,8 +27,8 @@ Use the function name with parentheses:
 
 Use the pipeline or segment name with a colon:
 
-- pipe_segment_community_data: adjust taxa filtering step
-- pipeline_basic: update seed source to config.yml
+- pipe_segment_community_prepare_paleo: adjust taxa filtering step
+- pipeline_paleo_core: update seed source to config.yml
 
 ### Specific analysis or analytical topic
 
@@ -72,7 +72,7 @@ Do not use: *enhance*, *feat*, *feature*, *fix* (use a specific verb instead, e.
 
 - add_anova(): correct wrong grouping variable reference
 - filter_rare_taxa(): add minimum occurrence threshold argument
-- pipe_segment_community_data: adjust taxa filtering step
+- pipe_segment_community_prepare_paleo: adjust taxa filtering step
 - Selection of environmental variables: add collinearity check
 - sjSDM-spatial component: switch to exponential decay kernel
 - Model evaluation: update WAIC extraction logic

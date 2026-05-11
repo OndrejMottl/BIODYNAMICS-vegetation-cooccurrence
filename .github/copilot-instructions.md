@@ -101,7 +101,7 @@ This project uses the [{targets}](https://docs.ropensci.org/targets/) package fo
 
 Pipelines are located in `R/02_Main_analyses/` and organized as:
 
-1. **Main Pipeline File** (e.g., `pipeline_basic.R`):
+1. **Main Pipeline File** (e.g., `pipeline_paleo_core.R`):
    - Sources the configuration file
    - Loads all custom functions using `targets::tar_source()`
    - Sets global target options (seed, format, error handling)
@@ -110,7 +110,7 @@ Pipelines are located in `R/02_Main_analyses/` and organized as:
 2. **Pipe Segments** (`R/02_Main_analyses/_pipes/`):
    - Modular components defining specific analysis steps
    - Each segment returns a list of related `targets::tar_target()` calls
-   - Examples: `pipe_segment_community_data.R`, `pipe_segment_model_fit.R`
+   - Examples: `pipe_segment_community_prepare_paleo.R`, `pipe_segment_model_fit.R`
 
 #### Working with Pipelines
 
@@ -118,7 +118,7 @@ Pipelines are located in `R/02_Main_analyses/` and organized as:
 
 ```r
 # Set active configuration (see Configuration Management below)
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
 # Run the pipeline
 targets::tar_make()
@@ -150,9 +150,9 @@ After editing any pipeline file (`pipeline_*.R`) or pipe segment (`_pipes/*.R`),
 
 ```r
 # Validate the edited pipeline (replace config and script path as needed)
-Sys.setenv(R_CONFIG_ACTIVE = "project_spatial_continental")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_spatial_continental")
 targets::tar_manifest(
-  script = here::here("R/02_Main_analyses/pipeline_spatial_resolution.R")
+  script = here::here("R/02_Main_analyses/pipeline_paleo_spatial_resolution.R")
 )
 ```
 
@@ -201,7 +201,7 @@ targets::tar_target(
 Target outputs are stored in project-specific directories defined in `config.yml`:
 
 - Default: `_targets/` (when using default configuration)
-- Project-specific: `Data/targets/project_cz/`, `Data/targets/project_temporal_europe/`, etc.
+- Project-specific: `Data/targets/paleo_core_cz/`, `Data/targets/paleo_temporal_europe/`, etc.
 
 ### Configuration Management with {config}
 
@@ -218,7 +218,7 @@ The `config.yml` file contains:
    - `data_processing`: General processing parameters
    - `model_fitting`: Model parameters (cores, samples, etc.)
 
-2. **Project-specific configurations** (e.g., `project_cz`, `project_temporal_europe`):
+2. **Project-specific configurations** (e.g., `project_paleo_core_cz`, `project_paleo_temporal_europe`):
    - Override default settings
    - Define project-specific parameters (geographic limits, dataset types, etc.)
    - Each has its own target storage directory
@@ -247,10 +247,10 @@ Set the active configuration using the `R_CONFIG_ACTIVE` environment variable:
 
 ```r
 # Set configuration for Czechia project
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
 # Set configuration for Europe project  
-Sys.setenv(R_CONFIG_ACTIVE = "project_temporal_europe")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_temporal_europe")
 
 # Use default configuration
 Sys.setenv(R_CONFIG_ACTIVE = "default")
@@ -423,14 +423,14 @@ An edit is not complete until the targeted tests, full test suite, required pipe
 3. **Outputs** → `Outputs/Data/` and `Outputs/Tables/`
 4. **Temporary files** → `Data/Temp/` (git-ignored)
 5. **Target stores** → `Data/targets/` (project-specific pipeline outputs)
-   - `Data/targets/project_cz/`
-   - `Data/targets/project_temporal_europe/`
+   - `Data/targets/paleo_core_cz/`
+   - `Data/targets/paleo_temporal_europe/`
    - Each configuration stores its targets in a separate directory
 
 ### Pipeline Organization
 
 - **Main pipelines** → `R/02_Main_analyses/`
-  - Master pipeline files (e.g., `pipeline_basic.R`)
+  - Master pipeline files (e.g., `pipeline_paleo_core.R`)
   - Execute complete analysis workflows
 - **Pipe segments** → `R/02_Main_analyses/_pipes/`
   - Modular pipeline components
