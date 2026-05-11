@@ -1,0 +1,113 @@
+---
+title: "MOTHER Ecological Biosurveillance"
+subtitle: "IAVS 2026 proof of concept"
+author: "BIODYNAMICS vegetation co-occurrence"
+format:
+  revealjs:
+    theme:
+      - default
+      - mother.scss
+    slide-width: 1600
+    slide-height: 900
+    slide-number: true
+    embed-resources: true
+    center-title-slide: false
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(here)
+here::i_am("Documentation/Presentations/IAVS_2026/index.qmd")
+source(
+  here::here("R/Supplementary/Presentation/theme_mother.R")
+)
+```
+
+# MOTHER ECOLOGICAL BIOSURVEILLANCE {.mother-title}
+
+::: {.terminal-status}
+SYSTEM: **ONLINE** / SESSION: IAVS_2026 / MODE: VEGETATION CO-OCCURRENCE
+:::
+
+::: {.mother-says .terminal-cursor}
+Awaiting research query. Climate archive and fossil pollen matrices are mounted.
+:::
+
+::: {.terminal-grid}
+::: {.terminal-panel}
+[Archive]{.label}
+
+[VegVault]{.value}
+:::
+
+::: {.terminal-panel}
+[Signal]{.label}
+[Co-occurrence]{.value}
+:::
+
+::: {.terminal-panel}
+[Slot]{.label}
+
+[12 min]{.value}
+:::
+:::
+
+## Can MOTHER separate climate response from association? {.query-slide}
+
+::: {.mother-says}
+Query accepted. Compare the observed co-occurrence structure with abiotic predictors, spatial structure, and time-slice dynamics.
+:::
+
+| Input stream | Diagnostic role | Status |
+|---|---|---|
+| Fossil pollen archives | Plant community signal | mounted |
+| Palaeoclimate rasters | Shared abiotic response | mounted |
+| Spatial and temporal filters | Scale sensitivity | pending |
+
+## Prototype visual output {.result-slide}
+
+```{r}
+#| label: prototype-figure
+#| fig-width: 9
+#| fig-height: 4.6
+#| out-width: "82%"
+
+prototype_data <- data.frame(
+  age_kyr = rep(c(20, 15, 10, 5, 0), 3),
+  signal = c(
+    0.18, 0.24, 0.31, 0.36, 0.39,
+    0.12, 0.20, 0.27, 0.29, 0.33,
+    0.08, 0.14, 0.22, 0.25, 0.30
+  ),
+  component = rep(
+    c("Abiotic response", "Spatial structure", "Residual association"),
+    each = 5
+  )
+)
+
+ggplot2::ggplot(
+  prototype_data,
+  ggplot2::aes(x = age_kyr, y = signal, colour = component)
+) +
+  ggplot2::geom_line(linewidth = 1.15) +
+  ggplot2::geom_point(size = 3) +
+  ggplot2::scale_x_reverse(breaks = c(20, 15, 10, 5, 0)) +
+  scale_colour_mother_discrete() +
+  ggplot2::labs(
+    title = "Prototype variance signal",
+    subtitle = "Rendered with theme_mother() and design_config.json colors",
+    x = "Age before present (kyr)",
+    y = "Explained signal",
+    colour = "Component"
+  ) +
+  theme_mother(base_size = 18)
+```
+
+::: {.terminal-status}
+CONFIG SOURCE: **design_config.json** / THEME SOURCE: **theme_mother()**
+:::
