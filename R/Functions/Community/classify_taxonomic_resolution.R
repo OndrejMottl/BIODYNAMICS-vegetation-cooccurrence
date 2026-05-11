@@ -17,6 +17,9 @@
 #' `'family'`, `'genus'`, or `'species'`. Taxa will be classified at
 #' this rank if possible, or at the coarsest available rank below it
 #' if not (fallback behaviour).
+#' @param verbose
+#' Logical. If `TRUE` (default), classification warnings and fallback
+#' messages are printed.
 #' @return
 #' A data frame with taxa classified to the finest available rank at
 #' or below `taxonomic_resolution` and pollen proportions aggregated
@@ -40,7 +43,8 @@
 classify_taxonomic_resolution <- function(
     data,
     data_classification_table,
-    taxonomic_resolution) {
+    taxonomic_resolution,
+    verbose = TRUE) {
   assertthat::assert_that(
     is.data.frame(data),
     msg = "data must be a data frame"
@@ -66,6 +70,11 @@ classify_taxonomic_resolution <- function(
     is.character(taxonomic_resolution) &&
       length(taxonomic_resolution) == 1,
     msg = "taxonomic_resolution must be a single character string"
+  )
+
+  assertthat::assert_that(
+    base::is.logical(verbose) && base::length(verbose) == 1L,
+    msg = "verbose must be a single logical value"
   )
 
   vec_all_ranks <- c(
@@ -143,7 +152,7 @@ classify_taxonomic_resolution <- function(
       dplyr::distinct(taxon) |>
       base::nrow()
 
-    if (n_fallback > 0) {
+    if (n_fallback > 0 && base::isTRUE(verbose)) {
       cli::cli_inform(
         c(
           "i" = paste0(
@@ -169,7 +178,7 @@ classify_taxonomic_resolution <- function(
     dplyr::distinct(taxon) |>
     base::nrow()
 
-  if (vec_na_taxa > 0) {
+  if (vec_na_taxa > 0 && base::isTRUE(verbose)) {
     cli::cli_warn(
       c(
         "!" = paste0(

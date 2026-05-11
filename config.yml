@@ -13,6 +13,7 @@ default:
     number_of_taxa: !expr Inf
     minimal_proportion_of_pollen: 0.01
     min_n_cores: 5
+    n_cores: 5
     min_n_samples: 1
     min_n_taxa: 5
   model_fitting:
