@@ -3,14 +3,18 @@
 #
 #                 Vegetation Co-occurrence
 #
-#               {target} pipe: Model anova
+#        {target} pipe: Community bipartite network
 #
 #
 #                       O. Mottl
-#                         2025
+#                         2026
 #
 #----------------------------------------------------------#
-# definition of the target pipe, which is created to set up model anova
+# Definition of the target pipe, which computes bipartite
+#   community network metrics from the binary community
+#   matrix for a single time slice.
+# Runs inside tarchetypes::tar_map(), yielding one
+#   data_network_metrics target per age slice.
 
 
 #----------------------------------------------------------#
@@ -38,15 +42,16 @@ suppressMessages(
 # 1. pipe definition -----
 #----------------------------------------------------------#
 
-pipe_segment_model_anova <-
+pipe_segment_network_metrics <-
   list(
     targets::tar_target(
-      description = "Get model anova",
-      name = "model_anova",
-      command = get_anova(
-        mod = model_jsdm_selected,
-        n_samples = config_model_fitting$n_samples_anova,
-        verbose = TRUE
+      description = paste0(
+        "Bipartite network metrics (connectance,",
+        " nestedness) for this time slice"
+      ),
+      name = "data_network_metrics",
+      command = compute_network_metrics(
+        data_to_fit = data_model_input
       )
     )
   )
