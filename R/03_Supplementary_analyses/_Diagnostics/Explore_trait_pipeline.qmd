@@ -9,13 +9,13 @@ date-modified: last-modified
   Supplementary exploration notebook for the six-segment trait pipeline.
   Reads every intermediate target from the pipeline store (no re-execution).
 
-  Pipeline store: Data/targets/traits/pipeline_traits
+  Pipeline store: Data/targets/traits_reference_reference/pipeline_traits_reference
   Active config:  traits
 
   Run the traits pipeline first:
     targets::tar_make(
-      script = here::here("R/02_Main_analyses/pipeline_traits.R"),
-      store  = here::here("Data/targets/traits/pipeline_traits")
+      script = here::here("R/02_Main_analyses/pipeline_traits_reference.R"),
+      store  = here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
     )
 -->
 
@@ -32,7 +32,7 @@ source(
   here::here("R/___setup_project___.R")
 )
 
-Sys.setenv(R_CONFIG_ACTIVE = "traits")
+Sys.setenv(R_CONFIG_ACTIVE = "project_traits_reference")
 
 graphical_options <-
   get_active_config("graphical")
@@ -46,7 +46,7 @@ fig_height_inch <-
   purrr::chuck(graphical_options, "dpi")
 
 path_traits_store <-
-  here::here("Data/targets/traits/pipeline_traits")
+  here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
 
 # Guard: abort rendering if the store is missing.
 if (
@@ -57,8 +57,8 @@ if (
       "Trait pipeline store not found at: {path_traits_store}",
       "i" = stringr::str_c(
         "Run `targets::tar_make(",
-        "script = 'R/02_Main_analyses/pipeline_traits.R',",
-        "store = 'Data/targets/traits/pipeline_traits')` first."
+        "script = 'R/02_Main_analyses/pipeline_traits_reference.R',",
+        "store = 'Data/targets/traits_reference_reference/pipeline_traits_reference')` first."
       )
     )
   )
@@ -705,7 +705,7 @@ ft_groups_min_val <-
   get_config_value_with_fallback(
     config_section = "data_processing",
     config_key = "ft_groups_min",
-    fallback_config = "traits"
+    fallback_config = "project_traits_reference"
   ) |>
   base::as.integer()
 
@@ -713,7 +713,7 @@ ft_groups_max_val <-
   get_config_value_with_fallback(
     config_section = "data_processing",
     config_key = "ft_groups_max",
-    fallback_config = "traits"
+    fallback_config = "project_traits_reference"
   ) |>
   base::as.integer()
 
@@ -721,14 +721,14 @@ metric_val <-
   get_config_value_with_fallback(
     config_section = "data_processing",
     config_key = "ft_metric",
-    fallback_config = "traits"
+    fallback_config = "project_traits_reference"
   )
 
 method_val <-
   get_config_value_with_fallback(
     config_section = "data_processing",
     config_key = "ft_method",
-    fallback_config = "traits"
+    fallback_config = "project_traits_reference"
   )
 
 base::cat(stringr::str_glue(
@@ -1150,4 +1150,4 @@ graphics::plot(
 
 ---
 
-*Notebook generated on `r Sys.Date()` from the trait pipeline store at `Data/targets/traits/pipeline_traits`.*
+*Notebook generated on `r Sys.Date()` from the trait pipeline store at `Data/targets/traits_reference_reference/pipeline_traits_reference`.*

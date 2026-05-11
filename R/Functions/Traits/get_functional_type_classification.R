@@ -2,8 +2,8 @@
 #' @description
 #' Loads the most recent FT classification file for a given
 #' continental unit from `Data/Processed/Traits/`. The file is
-#' produced by `pipe_segment_trait_ft_clustering` in
-#' `pipeline_traits.R` and named
+#' produced by `pipe_segment_traits_ft_clustering` in
+#' `pipeline_traits_reference.R` and named
 #' `data_ft_classification_{continent_id}_{YYYY-MM-DD}.qs`.
 #' @param continent_id
 #' A single non-empty character string identifying the continental

@@ -44,8 +44,8 @@ pipe_segment_model_anova <-
       description = "Get model anova",
       name = "model_anova",
       command = get_anova(
-        mod = mod_to_use,
-        n_samples = config.model_fitting$n_samples_anova,
+        mod = model_jsdm_selected,
+        n_samples = config_model_fitting$n_samples_anova,
         verbose = TRUE
       )
     )

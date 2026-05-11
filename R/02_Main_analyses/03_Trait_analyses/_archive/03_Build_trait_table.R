@@ -11,7 +11,7 @@
 #----------------------------------------------------------#
 # Filters outlier trait values, aggregates to one value per
 #   taxon × trait domain, pivots to a wide community taxon ×
-#   traits matrix, and reports coverage against the project_cz
+#   traits matrix, and reports coverage against the project_paleo_core_cz
 #   community taxa.
 
 
@@ -25,7 +25,7 @@ source(
   here::here("R/___setup_project___.R")
 )
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
 path_output <-
   here::here("Data/Processed")
@@ -82,7 +82,7 @@ cli::cli_inform(
 set_store <-
   base::paste0(
     get_active_config("target_store"),
-    "/pipeline_basic/"
+    "/pipeline_paleo_core/"
   ) |>
   here::here()
 
@@ -90,7 +90,7 @@ assertthat::assert_that(
   base::dir.exists(set_store),
   msg = paste0(
     "Targets store not found: '", set_store,
-    "'. Run the project_cz pipeline first."
+    "'. Run the project_paleo_core_cz pipeline first."
   )
 )
 

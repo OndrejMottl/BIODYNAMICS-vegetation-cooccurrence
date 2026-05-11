@@ -37,7 +37,7 @@ source(
 )
 
 # Set specific config active
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
 # --- Constants (edit here to explore) ---
 sel_age <- 1000L # time slice in BP
@@ -52,7 +52,7 @@ flag_verbose <- FALSE
 
 set_store <-
   paste0(
-    get_active_config("target_store"), "/pipeline_basic/"
+    get_active_config("target_store"), "/pipeline_paleo_core/"
   ) |>
   here::here()
 
@@ -61,9 +61,9 @@ set_store <-
 # 1. Load intermediate pipeline targets -----
 #----------------------------------------------------------#
 
-data_community_subset <-
+data_community_analysis_subset <-
   targets::tar_read(
-    name = "data_community_subset",
+    name = "data_community_analysis_subset",
     store = set_store
   )
 
@@ -100,7 +100,7 @@ data_sample_ids_1k <-
 # inside fit_jsdm_model(error_family = "binomial").
 data_community_binary_1k <-
   prepare_community_for_fit(
-    data_community_long = data_community_subset,
+    data_community_long = data_community_analysis_subset,
     data_sample_ids = data_sample_ids_1k
   ) %>%
   { (. > 0) * 1L } |>
@@ -802,7 +802,7 @@ data_sample_ids_s4 <-
 # Community: binarise + filter constant taxa over all slices
 data_community_binary_s4 <-
   prepare_community_for_fit(
-    data_community_long = data_community_subset,
+    data_community_long = data_community_analysis_subset,
     data_sample_ids = data_sample_ids_s4
   ) %>%
   { (. > 0) * 1L } |>

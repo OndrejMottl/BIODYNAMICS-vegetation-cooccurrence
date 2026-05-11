@@ -22,7 +22,7 @@ make_community_filter_targets <- function(input_name) {
         filter_rare_taxa(
           data = .(as.symbol(input_name)),
           minimal_proportion = purrr::chuck(
-            config.data_processing,
+            config_data_processing,
             "minimal_proportion_of_pollen"
           )
         )
@@ -35,7 +35,7 @@ make_community_filter_targets <- function(input_name) {
       command = quote(
         filter_community_by_n_cores(
           data = data_community_rare_filtered,
-          min_n_cores = purrr::chuck(config.data_processing, "min_n_cores")
+          min_n_cores = purrr::chuck(config_data_processing, "min_n_cores")
         )
       )
     ),
@@ -47,7 +47,7 @@ make_community_filter_targets <- function(input_name) {
         filter_by_n_samples(
           data = data_community_filtered_cores,
           min_n_samples = purrr::chuck(
-            config.data_processing,
+            config_data_processing,
             "min_n_samples"
           )
         )
@@ -56,11 +56,11 @@ make_community_filter_targets <- function(input_name) {
 
     targets::tar_target_raw(
       description = "Select number of taxa to include",
-      name = "data_community_subset",
+      name = "data_community_analysis_subset",
       command = quote(
         select_n_taxa(
           data = data_community_filtered_samples,
-          n_taxa = purrr::chuck(config.data_processing, "number_of_taxa")
+          n_taxa = purrr::chuck(config_data_processing, "number_of_taxa")
         )
       )
     )

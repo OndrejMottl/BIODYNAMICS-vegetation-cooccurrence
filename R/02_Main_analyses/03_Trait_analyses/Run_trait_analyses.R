@@ -54,7 +54,7 @@ source(
 # 1. Set active configuration -----
 #----------------------------------------------------------#
 
-Sys.setenv(R_CONFIG_ACTIVE = "traits")
+Sys.setenv(R_CONFIG_ACTIVE = "project_traits_reference")
 
 
 #----------------------------------------------------------#
@@ -62,5 +62,5 @@ Sys.setenv(R_CONFIG_ACTIVE = "traits")
 #----------------------------------------------------------#
 
 run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_traits.R"
+  sel_script = "R/02_Main_analyses/pipeline_traits_reference.R"
 )

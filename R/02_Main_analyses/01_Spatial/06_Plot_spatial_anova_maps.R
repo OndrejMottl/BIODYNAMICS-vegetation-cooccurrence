@@ -74,9 +74,9 @@ data_spatial_grid <-
       stringr::str_starts(scale_id, "as_") ~ "asia"
     ),
     store_path = here::here(
-      stringr::str_glue("Data/targets/spatial_{scale}"),
+      stringr::str_glue("Data/targets/paleo_spatial_{scale}"),
       scale_id,
-      "pipeline_spatial_resolution"
+      "pipeline_paleo_spatial_resolution"
     ),
     store_exists = fs::dir_exists(store_path)
   )

@@ -28,8 +28,8 @@ default:
     spatial_mode: "spatial"
     use_spatial: true
     use_age_in_formula: true
-project_cz:
-  target_store: Data/targets/project_cz
+project_paleo_core_cz:
+  target_store: Data/targets/paleo_core_cz
   continent_id: "europe"
   vegvault_data:
     x_lim: !expr c(12, 18.9)
@@ -49,15 +49,15 @@ project_cz:
     n_samples_anova: 100
     n_early_stopping: ~
     spatial_mode: "spatiotemporal"
-traits:
-  target_store: Data/targets/traits
+project_traits_reference:
+  target_store: Data/targets/traits_reference
   data_processing:
     ft_groups_min: 5
     ft_groups_max: 30
     ft_metric: "gower"
     ft_method: "average"
-project_temporal_europe:
-  target_store: Data/targets/project_temporal_europe
+project_paleo_temporal_europe:
+  target_store: Data/targets/paleo_temporal_europe
   vegvault_data:
     x_lim: !expr c(-10, 40)
     y_lim: !expr c(35, 70)
@@ -74,8 +74,8 @@ project_temporal_europe:
     n_sampling: 150
     n_samples_anova: 500
     n_early_stopping: ~
-project_temporal_america:
-  target_store: Data/targets/project_temporal_america
+project_paleo_temporal_america:
+  target_store: Data/targets/paleo_temporal_america
   vegvault_data:
     x_lim: !expr c(-130, -60)
     y_lim: !expr c(30, 70)
@@ -92,8 +92,8 @@ project_temporal_america:
     n_sampling: 150
     n_samples_anova: 500
     n_early_stopping: ~
-project_temporal_asia:
-  target_store: Data/targets/project_temporal_asia
+project_paleo_temporal_asia:
+  target_store: Data/targets/paleo_temporal_asia
   vegvault_data:
     x_lim: !expr c(60, 140)
     y_lim: !expr c(50, 75)
@@ -110,8 +110,8 @@ project_temporal_asia:
     n_sampling: 150
     n_samples_anova: 500
     n_early_stopping: ~
-project_spatial_continental:
-  target_store: Data/targets/spatial_continental
+project_paleo_spatial_continental:
+  target_store: Data/targets/paleo_spatial_continental
   vegvault_data:
     age_lim: !expr c(0, 20e3)
     sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
@@ -123,8 +123,8 @@ project_spatial_continental:
   model_fitting:
     n_mev: 5
     n_cores: 24
-project_spatial_regional:
-  target_store: Data/targets/spatial_regional
+project_paleo_spatial_regional:
+  target_store: Data/targets/paleo_spatial_regional
   vegvault_data:
     age_lim: !expr c(0, 20e3)
     sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
@@ -136,8 +136,8 @@ project_spatial_regional:
   model_fitting:
     n_mev: 4
     n_cores: 24
-project_spatial_local:
-  target_store: Data/targets/spatial_local
+project_paleo_spatial_local:
+  target_store: Data/targets/paleo_spatial_local
   vegvault_data:
     age_lim: !expr c(0, 20e3)
     sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
@@ -147,5 +147,53 @@ project_spatial_local:
     min_n_samples: 5
     min_n_taxa: 3
   model_fitting:
+    n_mev: 3
+    n_cores: 24
+project_modern_spatial_continental:
+  target_store: Data/targets/modern_spatial_continental
+  vegvault_data:
+    age_lim: !expr c(0, 0)
+    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    min_n_taxa: 5
+  model_fitting:
+    use_age_in_formula: false
+    use_spatial: true
+    spatial_mode: "spatial"
+    n_mev: 5
+    n_cores: 24
+project_modern_spatial_regional:
+  target_store: Data/targets/modern_spatial_regional
+  vegvault_data:
+    age_lim: !expr c(0, 0)
+    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    min_n_taxa: 4
+  model_fitting:
+    use_age_in_formula: false
+    use_spatial: true
+    spatial_mode: "spatial"
+    n_mev: 4
+    n_cores: 24
+project_modern_spatial_local:
+  target_store: Data/targets/modern_spatial_local
+  vegvault_data:
+    age_lim: !expr c(0, 0)
+    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 5
+    min_n_taxa: 3
+  model_fitting:
+    use_age_in_formula: false
+    use_spatial: true
+    spatial_mode: "spatial"
     n_mev: 3
     n_cores: 24

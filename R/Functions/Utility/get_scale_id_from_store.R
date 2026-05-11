@@ -23,8 +23,8 @@
 #' extracts the second-to-last path component via
 #' `basename(dirname(store))` and checks whether it appears in the
 #' `scale_id` column of the spatial grid CSV. For non-spatial
-#' pipelines (e.g. `Data/targets/project_cz/pipeline_basic/`) the
-#' candidate (`"project_cz"`) is not in the CSV, so `NULL` is
+#' pipelines (e.g. `Data/targets/paleo_core_cz/pipeline_paleo_core/`) the
+#' candidate (`"project_paleo_core_cz"`) is not in the CSV, so `NULL` is
 #' returned. When the CSV file does not exist the function returns
 #' `NULL` gracefully.
 #' @seealso get_spatial_window, get_spatial_model_params
@@ -48,7 +48,7 @@ get_scale_id_from_store <- function(
 
   # Spatial store convention: {target_store}/{scale_id}/{pipeline_name}
   # so basename(dirname(store)) is the scale_id for spatial pipelines
-  #   and the project key (e.g. "project_cz") for non-spatial ones.
+  #   and the project key (e.g. "project_paleo_core_cz") for non-spatial ones.
   potential_id <-
     basename(dirname(store))
 

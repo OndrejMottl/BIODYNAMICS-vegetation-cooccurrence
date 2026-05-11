@@ -13,9 +13,9 @@
 #   time slice across all continental temporal configurations.
 # Continental configurations are derived from spatial_grid.csv
 #   (scale == "continental"), mapped to config names as
-#   project_temporal_{scale_id} (e.g. project_temporal_europe).
+#   project_paleo_temporal_{scale_id} (e.g. project_paleo_temporal_europe).
 # Requires that the corresponding Run_temporal_*.R scripts have
-#   been executed (pipeline_time.R).
+#   been executed (pipeline_paleo_temporal.R).
 
 
 #----------------------------------------------------------#
@@ -39,10 +39,10 @@ data_continents <-
   ) |>
   dplyr::select(scale_id) |>
   dplyr::mutate(
-    config_name = base::paste0("project_temporal_", scale_id),
+    config_name = base::paste0("project_paleo_temporal_", scale_id),
     store_path = here::here(
       base::paste0(
-        "Data/targets/", config_name, "/pipeline_time/"
+        "Data/targets/", config_name, "/pipeline_paleo_temporal/"
       )
     ),
     store_exists = fs::dir_exists(store_path)

@@ -36,7 +36,7 @@ source(
 )
 
 # Traits pipeline configuration
-Sys.setenv(R_CONFIG_ACTIVE = "traits")
+Sys.setenv(R_CONFIG_ACTIVE = "project_traits_reference")
 
 # Graphical options shared across all plots in this script.
 graphical_options <-
@@ -47,7 +47,7 @@ graphical_options <-
 # 1. Settings -----
 #----------------------------------------------------------#
 
-vec_pipelines <- "pipeline_traits"
+vec_pipelines <- "pipeline_traits_reference"
 
 path_target_store <-
   here::here(

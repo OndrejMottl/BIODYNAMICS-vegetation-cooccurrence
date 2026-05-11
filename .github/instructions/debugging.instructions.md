@@ -144,7 +144,7 @@ All tests must pass before proceeding. If a previously passing test now fails, t
 
 ### 8. Final Verification  -  Run the Full Pipeline
 
-**This step is mandatory for all implementation work**  -  bug fixes, new features, refactors, and pipeline changes  -  not only for debugging sessions. After cleaning up, verify end-to-end by running the basic pipeline with the `project_cz` configuration. The run must complete without unexpected errors:
+**This step is mandatory for all implementation work**  -  bug fixes, new features, refactors, and pipeline changes  -  not only for debugging sessions. After cleaning up, verify end-to-end by running the basic pipeline with the `project_paleo_core_cz` configuration. The run must complete without unexpected errors:
 
 ```r
 library(here)
@@ -154,19 +154,19 @@ source(
 )
 
 # Set specific config active
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
 # Basic pipeline
 run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_basic.R",
+  sel_script = "R/02_Main_analyses/pipeline_paleo_core.R",
   level_separation = 100,
   fresh_run = TRUE
 )
 
 # Resolution-testing pipeline (Phase E0 validation gate)
 targets::tar_make(
-  script = here::here("R/02_Main_analyses/pipeline_test_resolution.R"),
-  store  = here::here("Data/targets/project_cz/pipeline_test_resolution")
+  script = here::here("R/02_Main_analyses/pipeline_paleo_resolution_test.R"),
+  store  = here::here("Data/targets/paleo_core_cz/pipeline_paleo_resolution_test")
 )
 ```
 
@@ -187,8 +187,8 @@ Note: steps 6, 7, and 8 must all pass  -  the targeted test catches regressions 
 | 5 | `Remove-Item` all temp debug files |
 | 6 | Run `testthat::test_file()` for the changed function  -  passes |
 | 7 | `Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`  -  all tests pass |
-| 8 | Run full `pipeline_basic.R` under `project_cz`  -  no errors |
-| 8b | Run `pipeline_test_resolution.R` (Phase E0 validation gate)  -  no errors |
+| 8 | Run full `pipeline_paleo_core.R` under `project_paleo_core_cz`  -  no errors |
+| 8b | Run `pipeline_paleo_resolution_test.R` (Phase E0 validation gate)  -  no errors |
 
 ---
 

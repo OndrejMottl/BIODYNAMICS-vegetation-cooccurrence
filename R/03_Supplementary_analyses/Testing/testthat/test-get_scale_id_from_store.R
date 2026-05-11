@@ -2,8 +2,8 @@ testthat::test_that("gets scale_id for local spatial store", {
   res <-
     get_scale_id_from_store(
       store = paste0(
-        "Data/targets/spatial_local/",
-        "eu_r005_l001/pipeline_basic"
+        "Data/targets/paleo_spatial_local/",
+        "eu_r005_l001/pipeline_paleo_core"
       ),
       file = here::here("Data/Input/spatial_grid.csv")
     )
@@ -13,7 +13,7 @@ testthat::test_that("gets scale_id for local spatial store", {
 testthat::test_that("returns NULL for non-spatial project store", {
   res <-
     get_scale_id_from_store(
-      store = "Data/targets/project_cz/pipeline_basic",
+      store = "Data/targets/paleo_core_cz/pipeline_paleo_core",
       file = here::here("Data/Input/spatial_grid.csv")
     )
   testthat::expect_null(res)
@@ -32,8 +32,8 @@ testthat::test_that("returns NULL gracefully when CSV is absent", {
   res <-
     get_scale_id_from_store(
       store = paste0(
-        "Data/targets/spatial_local/",
-        "eu_r005_l001/pipeline_basic"
+        "Data/targets/paleo_spatial_local/",
+        "eu_r005_l001/pipeline_paleo_core"
       ),
       file = "non_existent_spatial_grid.csv"
     )
@@ -44,8 +44,8 @@ testthat::test_that("works for continental scale_id", {
   res <-
     get_scale_id_from_store(
       store = paste0(
-        "Data/targets/spatial_continental/",
-        "europe/pipeline_basic"
+        "Data/targets/paleo_spatial_continental/",
+        "europe/pipeline_paleo_core"
       ),
       file = here::here("Data/Input/spatial_grid.csv")
     )
@@ -55,7 +55,7 @@ testthat::test_that("works for continental scale_id", {
 testthat::test_that("works for regional scale_id", {
   res <-
     get_scale_id_from_store(
-      store = "Data/targets/spatial_regional/eu_r001/pipeline_basic",
+      store = "Data/targets/paleo_spatial_regional/eu_r001/pipeline_paleo_core",
       file = here::here("Data/Input/spatial_grid.csv")
     )
   testthat::expect_equal(res, "eu_r001")
@@ -65,8 +65,8 @@ testthat::test_that("return type is character for spatial, NULL otherwise", {
   res_spatial <-
     get_scale_id_from_store(
       store = paste0(
-        "Data/targets/spatial_local/",
-        "eu_r005_l001/pipeline_basic"
+        "Data/targets/paleo_spatial_local/",
+        "eu_r005_l001/pipeline_paleo_core"
       ),
       file = here::here("Data/Input/spatial_grid.csv")
     )
@@ -74,7 +74,7 @@ testthat::test_that("return type is character for spatial, NULL otherwise", {
 
   res_project <-
     get_scale_id_from_store(
-      store = "Data/targets/project_cz/pipeline_basic",
+      store = "Data/targets/paleo_core_cz/pipeline_paleo_core",
       file = here::here("Data/Input/spatial_grid.csv")
     )
   testthat::expect_null(res_project)

@@ -26,7 +26,7 @@
 #' message that reports the actual sample count and the
 #' threshold, allowing the user to adjust the configuration or
 #' the input data. This check is intended to be placed in the
-#' per-slice pipeline (e.g. `pipe_segment_age_filter`) so
+#' per-slice pipeline (e.g. `pipe_segment_sample_filter_age`) so
 #' that slices without sufficient data fail immediately,
 #' before any expensive preparation or model fitting.
 #' @seealso [align_sample_ids()],

@@ -10,10 +10,10 @@
 #
 #----------------------------------------------------------#
 # Iterates over all regional spatial units defined in
-#   Data/Input/spatial_grid.csv and runs pipeline_spatial_resolution.R
+#   Data/Input/spatial_grid.csv and runs pipeline_paleo_spatial_resolution.R
 #   for each one in sequence (genus + family + functional_type).
 # Each unit gets an isolated targets store at:
-#   Data/targets/spatial_regional/{scale_id}/pipeline_spatial_resolution/
+#   Data/targets/paleo_spatial_regional/{scale_id}/pipeline_paleo_spatial_resolution/
 
 
 #----------------------------------------------------------#
@@ -31,7 +31,7 @@ source(
 # 1. Set active configuration -----
 #----------------------------------------------------------#
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_spatial_regional")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_spatial_regional")
 
 
 #----------------------------------------------------------#
@@ -62,7 +62,7 @@ purrr::walk(
       "\n\nRunning resolution pipeline for spatial unit: ", .x, "\n\n"
     )
     run_pipeline(
-      sel_script = "R/02_Main_analyses/pipeline_spatial_resolution.R",
+      sel_script = "R/02_Main_analyses/pipeline_paleo_spatial_resolution.R",
       store_suffix = .x
     )
   }

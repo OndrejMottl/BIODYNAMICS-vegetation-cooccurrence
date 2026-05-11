@@ -178,7 +178,7 @@ here::i_am("Documentation/Manuscript/sections/your_file.qmd")
 
 config_spatial_continental <-
   config::get(
-    config = "project_spatial_continental",
+    config = "project_paleo_spatial_continental",
     file = here::here("config.yml")
   )
 
@@ -215,7 +215,7 @@ Always wrap library calls in `suppressMessages(suppressWarnings({...}))` when lo
 
 ## Reading `{targets}` Outputs in Pages
 
-The target store path is composed of **two parts**: the project-level store directory (from `config.yml` via `get_active_config()`) and the **pipeline type** subdirectory (e.g. `"pipeline_basic"`, `"pipeline_time"`).
+The target store path is composed of **two parts**: the project-level store directory (from `config.yml` via `get_active_config()`) and the **pipeline type** subdirectory (e.g. `"pipeline_paleo_core"`, `"pipeline_paleo_temporal"`).
 
 Build the store path first, then pass it to `tar_read()`:
 
@@ -226,7 +226,7 @@ here::i_am("Documentation/Website/about.qmd")   # adjust path to current file
 
 # Pipeline type  -  must match the pipeline script name in
 # R/02_Main_analyses/
-vec_pipelines <- "pipeline_basic"
+vec_pipelines <- "pipeline_paleo_core"
 
 # Construct the store path:
 #   {target_store from config}/{pipeline_name}/
@@ -245,9 +245,9 @@ targets::tar_read(
 The active configuration (project) is controlled via:
 
 ```r
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 # or
-Sys.setenv(R_CONFIG_ACTIVE = "project_temporal_europe")
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_temporal_europe")
 ```
 
 This determines which `target_store` path is returned by `get_active_config("target_store")`. Combined with the pipeline subdirectory, each project x pipeline combination has its own isolated store.

@@ -9,7 +9,7 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Reads outputs of the time-slice pipeline (pipeline_time.R)
+# Reads outputs of the time-slice pipeline (pipeline_paleo_temporal.R)
 #   for all continental temporal configurations and produces two
 #   plots saved to Outputs/Figures/Temporal_continents/.
 #
@@ -32,7 +32,7 @@
 #
 # Continental configurations are derived from spatial_grid.csv
 #   (scale == "continental"), mapped to config names as
-#   project_temporal_{scale_id} (e.g. project_temporal_europe).
+#   project_paleo_temporal_{scale_id} (e.g. project_paleo_temporal_europe).
 # Requires that the corresponding Run_temporal_*.R scripts have
 #   been executed and all pipeline targets are up to date.
 
@@ -96,10 +96,10 @@ data_continents <-
   ) |>
   dplyr::select(scale_id) |>
   dplyr::mutate(
-    config_name = base::paste0("project_temporal_", scale_id),
+    config_name = base::paste0("project_paleo_temporal_", scale_id),
     store_path = here::here(
       base::paste0(
-        "Data/targets/", config_name, "/pipeline_time/"
+        "Data/targets/", config_name, "/pipeline_paleo_temporal/"
       )
     ),
     store_exists = fs::dir_exists(store_path),
@@ -146,7 +146,7 @@ data_anova_all <-
   ) |>
   purrr::list_rbind()
 
-# The `age` column produced by pipe_segment_network_summary_age
+# The `age` column produced by pipe_segment_network_summary_by_age
 #   contains target-name strings (e.g. "data_network_metrics_timeslice_500")
 #   because pieces are assembled via dplyr::bind_rows(.id = "age").
 #   The trailing digits are extracted and cast to numeric.

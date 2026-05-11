@@ -56,8 +56,8 @@ testthat::test_that(
         res <-
           get_functional_type_classification_path_from_store(
             store = base::file.path(
-              "Data/targets/spatial_regional/eu_r005",
-              "pipeline_spatial_resolution"
+              "Data/targets/paleo_spatial_regional/eu_r005",
+              "pipeline_paleo_spatial_resolution"
             ),
             path_spatial_grid = path_grid,
             path_processed = path_processed
@@ -113,8 +113,8 @@ testthat::test_that(
         res <-
           get_functional_type_classification_path_from_store(
             store = base::file.path(
-              "Data/targets/spatial_local/eu_r005_l001",
-              "pipeline_spatial_resolution"
+              "Data/targets/paleo_spatial_local/eu_r005_l001",
+              "pipeline_paleo_spatial_resolution"
             ),
             path_spatial_grid = path_grid,
             path_processed = path_processed
@@ -185,8 +185,8 @@ testthat::test_that(
         res <-
           get_functional_type_classification_path_from_store(
             store = base::file.path(
-              "Data/targets/spatial_regional/eu_r005",
-              "pipeline_spatial_resolution"
+              "Data/targets/paleo_spatial_regional/eu_r005",
+              "pipeline_paleo_spatial_resolution"
             ),
             path_spatial_grid = path_grid,
             path_processed = path_processed,
@@ -264,8 +264,8 @@ testthat::test_that(
         testthat::expect_error(
           get_functional_type_classification_path_from_store(
             store = base::file.path(
-              "Data/targets/project_cz",
-              "pipeline_spatial_resolution"
+              "Data/targets/paleo_core_cz",
+              "pipeline_paleo_spatial_resolution"
             ),
             path_spatial_grid = path_grid,
             path_processed = path_processed
@@ -310,8 +310,8 @@ testthat::test_that(
         testthat::expect_error(
           get_functional_type_classification_path_from_store(
             store = base::file.path(
-              "Data/targets/spatial_regional/eu_r005",
-              "pipeline_spatial_resolution"
+              "Data/targets/paleo_spatial_regional/eu_r005",
+              "pipeline_paleo_spatial_resolution"
             ),
             path_spatial_grid = path_grid,
             path_processed = path_processed
@@ -342,8 +342,8 @@ testthat::test_that(
         testthat::expect_error(
           get_functional_type_classification_path_from_store(
             store = base::file.path(
-              "Data/targets/spatial_regional/eu_r005",
-              "pipeline_spatial_resolution"
+              "Data/targets/paleo_spatial_regional/eu_r005",
+              "pipeline_paleo_spatial_resolution"
             ),
             path_spatial_grid = "missing_grid.txt",
             path_processed = path_processed
