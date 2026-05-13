@@ -99,7 +99,7 @@ This project uses the [{targets}](https://docs.ropensci.org/targets/) package fo
 
 #### Pipeline Structure
 
-Pipelines are located in `R/02_Main_analyses/` and organized as:
+Pipeline definitions are located in `R/Pipelines/` and organized as:
 
 1. **Main Pipeline File** (e.g., `pipeline_paleo_core.R`):
    - Sources the configuration file
@@ -107,7 +107,7 @@ Pipelines are located in `R/02_Main_analyses/` and organized as:
    - Sets global target options (seed, format, error handling)
    - Combines pipe segments into a complete workflow
 
-2. **Pipe Segments** (`R/02_Main_analyses/_pipes/`):
+2. **Pipe Segments** (`R/Pipelines/_pipes/`):
    - Modular components defining specific analysis steps
    - Each segment returns a list of related `targets::tar_target()` calls
    - Examples: `pipe_segment_community_prepare_paleo.R`, `pipe_segment_model_fit.R`
@@ -152,7 +152,7 @@ After editing any pipeline file (`pipeline_*.R`) or pipe segment (`_pipes/*.R`),
 # Validate the edited pipeline (replace config and script path as needed)
 Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_spatial_continental")
 targets::tar_manifest(
-  script = here::here("R/02_Main_analyses/pipeline_paleo_spatial_resolution.R")
+  script = here::here("R/Pipelines/pipeline_paleo_spatial_resolution.R")
 )
 ```
 
@@ -429,10 +429,10 @@ An edit is not complete until the targeted tests, full test suite, required pipe
 
 ### Pipeline Organization
 
-- **Main pipelines** → `R/02_Main_analyses/`
+- **Main pipelines** → `R/Pipelines/`
   - Master pipeline files (e.g., `pipeline_paleo_core.R`)
   - Execute complete analysis workflows
-- **Pipe segments** → `R/02_Main_analyses/_pipes/`
+- **Pipe segments** → `R/Pipelines/_pipes/`
   - Modular pipeline components
   - Each file defines a specific analysis segment
   - Combined by main pipeline files

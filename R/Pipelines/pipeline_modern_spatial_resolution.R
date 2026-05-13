@@ -72,7 +72,7 @@ targets::tar_option_set(
 #--------------------------------------------------#
 
 path_pipe_parts <-
-  here::here("R/02_Main_analyses/_pipes/")
+  here::here("R/Pipelines/_pipes/")
 
 c(
   "pipe_segment_config_common.R",

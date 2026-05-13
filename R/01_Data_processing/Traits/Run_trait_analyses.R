@@ -62,5 +62,5 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_traits_reference")
 #----------------------------------------------------------#
 
 run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_traits_reference.R"
+  sel_script = "R/Pipelines/pipeline_traits_reference.R"
 )

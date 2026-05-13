@@ -225,7 +225,7 @@ library(here)
 here::i_am("Documentation/Website/about.qmd")   # adjust path to current file
 
 # Pipeline type  -  must match the pipeline script name in
-# R/02_Main_analyses/
+# R/Pipelines/
 vec_pipelines <- "pipeline_paleo_core"
 
 # Construct the store path:

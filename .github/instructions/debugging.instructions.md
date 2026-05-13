@@ -158,14 +158,14 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
 # Basic pipeline
 run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_paleo_core.R",
+  sel_script = "R/Pipelines/pipeline_paleo_core.R",
   level_separation = 100,
   fresh_run = TRUE
 )
 
 # Resolution-testing pipeline (Phase E0 validation gate)
 targets::tar_make(
-  script = here::here("R/02_Main_analyses/pipeline_paleo_resolution_test.R"),
+  script = here::here("R/Pipelines/pipeline_paleo_resolution_test.R"),
   store  = here::here("Data/targets/paleo_core_cz/pipeline_paleo_resolution_test")
 )
 ```
