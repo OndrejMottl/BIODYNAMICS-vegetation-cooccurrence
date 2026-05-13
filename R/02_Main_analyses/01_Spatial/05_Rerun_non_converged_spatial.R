@@ -11,13 +11,13 @@
 #----------------------------------------------------------#
 # Detects spatial units where pipeline_paleo_spatial_resolution did
 #   not converge at any taxonomic resolution, prints a
-#   diagnostic summary to guide spatial_grid.csv adjustments,
+#   diagnostic summary to guide model tuning adjustments,
 #   then reruns the non-converged units.
 #
 # WORKFLOW:
 #   1. Run Sections 0–3 to identify non-converged units and
-#      review their grid parameters and convergence metrics.
-#   2. Adjust Data/Input/spatial_grid.csv as needed.
+#      review their tuning parameters and convergence metrics.
+#   2. Adjust Data/Input/Model_tuning/*.csv as needed.
 #   3. Run Section 4 to rerun the non-converged units.
 
 
@@ -146,41 +146,56 @@ data_non_converged <-
 # 3. Print diagnostic summary -----
 #----------------------------------------------------------#
 
-# Map resolution-specific grid parameter columns to unified names for
-# easy cross-resolution comparison in the printed summary.
+# Load tuning parameters for easy cross-resolution comparison in the
+# printed summary.
 data_diagnostic_summary <-
   data_non_converged |>
   dplyr::mutate(
-    n_iter_sel = dplyr::case_when(
-      tax_res == "genus" ~ n_iter,
-      tax_res == "family" ~ n_iter_family,
-      tax_res == "functional_type" ~ n_iter_ft
+    model_tuning = purrr::map2(
+      .x = scale_id,
+      .y = tax_res,
+      .f = ~ get_model_tuning_params(
+        analysis_id = "paleo_spatial",
+        scale_id = .x,
+        resolution_id = .y
+      )
     ),
-    n_step_size_sel = dplyr::case_when(
-      tax_res == "genus" ~ n_step_size,
-      tax_res == "family" ~ n_step_size_family,
-      tax_res == "functional_type" ~ n_step_size_ft
+    n_iter = purrr::map_int(
+      .x = model_tuning,
+      .f = ~ purrr::chuck(.x, "n_iter")
     ),
-    n_sampling_sel = dplyr::case_when(
-      tax_res == "genus" ~ n_sampling,
-      tax_res == "family" ~ n_sampling_family,
-      tax_res == "functional_type" ~ n_sampling_ft
+    n_step_size = purrr::map_int(
+      .x = model_tuning,
+      .f = ~ {
+        value <- purrr::pluck(.x, "n_step_size")
+        if (base::is.null(value)) NA_integer_ else value
+      }
     ),
-    n_early_stopping_sel = dplyr::case_when(
-      tax_res == "genus" ~ n_early_stopping,
-      tax_res == "family" ~ n_early_stopping_family,
-      tax_res == "functional_type" ~ n_early_stopping_ft
+    n_sampling = purrr::map_int(
+      .x = model_tuning,
+      .f = ~ purrr::chuck(.x, "n_sampling")
+    ),
+    n_samples_anova = purrr::map_int(
+      .x = model_tuning,
+      .f = ~ purrr::chuck(.x, "n_samples_anova")
+    ),
+    n_early_stopping = purrr::map_int(
+      .x = model_tuning,
+      .f = ~ {
+        value <- purrr::pluck(.x, "n_early_stopping")
+        if (base::is.null(value)) NA_integer_ else value
+      }
     )
   ) |>
   dplyr::select(
     scale,
     scale_id,
     tax_res,
-    n_iter = n_iter_sel,
-    n_step_size = n_step_size_sel,
-    n_sampling = n_sampling_sel,
+    n_iter,
+    n_step_size,
+    n_sampling,
     n_samples_anova,
-    n_early_stopping = n_early_stopping_sel,
+    n_early_stopping,
     linear_trend_slope,
     median_diff,
     epochs_run,
@@ -188,7 +203,7 @@ data_diagnostic_summary <-
   ) |>
   dplyr::arrange(scale, scale_id, tax_res)
 
-# Review this output and adjust Data/Input/spatial_grid.csv before
+# Review this output and adjust Data/Input/Model_tuning/*.csv before
 # running Section 4.
 base::print(data_diagnostic_summary, n = Inf)
 
@@ -198,7 +213,7 @@ base::print(data_diagnostic_summary, n = Inf)
 #----------------------------------------------------------#
 # Run this section ONLY after:
 #   (a) reviewing the diagnostic summary above, and
-#   (b) adjusting Data/Input/spatial_grid.csv as needed.
+#   (b) adjusting Data/Input/Model_tuning/*.csv as needed.
 
 vec_units_to_rerun <-
   data_non_converged |>
