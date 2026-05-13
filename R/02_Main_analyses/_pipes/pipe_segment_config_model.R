@@ -12,7 +12,7 @@
 #----------------------------------------------------------#
 # Defines the shared (non-resolution-specific) model-fitting
 #   configuration targets:  scalar params read from config.yml /
-#   spatial_grid.csv and the aggregated `config_model_fitting`
+#   model tuning CSVs and the aggregated `config_model_fitting`
 #   list-target.
 #
 # WHEN TO INCLUDE
@@ -72,21 +72,9 @@ pipe_segment_config_model <-
         " number of training iterations"
       ),
       name = "config_n_iter",
-      command = {
-        sel_scale_id <- get_scale_id_from_store()
-        if (
-          !is.null(sel_scale_id)
-        ) {
-          get_spatial_model_params(
-            scale_id = sel_scale_id
-          ) |>
-            purrr::chuck("n_iter")
-        } else {
-          get_active_config(
-            value = c("model_fitting", "n_iter")
-          )
-        }
-      },
+      command = get_model_tuning_param_for_scale_and_resolution(
+        "n_iter"
+      ),
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
@@ -95,21 +83,9 @@ pipe_segment_config_model <-
         " Monte Carlo samples per epoch"
       ),
       name = "config_n_sampling",
-      command = {
-        sel_scale_id <- get_scale_id_from_store()
-        if (
-          !is.null(sel_scale_id)
-        ) {
-          get_spatial_model_params(
-            scale_id = sel_scale_id
-          ) |>
-            purrr::chuck("n_sampling")
-        } else {
-          get_active_config(
-            value = c("model_fitting", "n_sampling")
-          )
-        }
-      },
+      command = get_model_tuning_param_for_scale_and_resolution(
+        "n_sampling"
+      ),
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
@@ -118,21 +94,9 @@ pipe_segment_config_model <-
         " SGD mini-batch size (NULL = auto 10% of sites)"
       ),
       name = "config_n_step_size",
-      command = {
-        sel_scale_id <- get_scale_id_from_store()
-        if (
-          !is.null(sel_scale_id)
-        ) {
-          get_spatial_model_params(
-            scale_id = sel_scale_id
-          ) |>
-            purrr::chuck("n_step_size")
-        } else {
-          get_active_config(
-            value = c("model_fitting", "n_step_size")
-          )
-        }
-      },
+      command = get_model_tuning_param_for_scale_and_resolution(
+        "n_step_size"
+      ),
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
@@ -141,21 +105,9 @@ pipe_segment_config_model <-
         " early stopping patience (epochs without improvement)"
       ),
       name = "config_n_early_stopping",
-      command = {
-        sel_scale_id <- get_scale_id_from_store()
-        if (
-          !is.null(sel_scale_id)
-        ) {
-          get_spatial_model_params(
-            scale_id = sel_scale_id
-          ) |>
-            purrr::chuck("n_early_stopping")
-        } else {
-          get_active_config(
-            value = c("model_fitting", "n_early_stopping")
-          )
-        }
-      },
+      command = get_model_tuning_param_for_scale_and_resolution(
+        "n_early_stopping"
+      ),
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
@@ -164,21 +116,9 @@ pipe_segment_config_model <-
         " Monte Carlo samples for ANOVA variation partitioning"
       ),
       name = "config_n_samples_anova",
-      command = {
-        sel_scale_id <- get_scale_id_from_store()
-        if (
-          !is.null(sel_scale_id)
-        ) {
-          get_spatial_model_params(
-            scale_id = sel_scale_id
-          ) |>
-            purrr::chuck("n_samples_anova")
-        } else {
-          get_active_config(
-            value = c("model_fitting", "n_samples_anova")
-          )
-        }
-      },
+      command = get_model_tuning_param_for_scale_and_resolution(
+        "n_samples_anova"
+      ),
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(

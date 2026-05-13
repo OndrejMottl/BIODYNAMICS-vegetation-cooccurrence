@@ -15,14 +15,15 @@
 #
 # PURPOSE
 #   pipeline_paleo_spatial_resolution.R maps over resolution_id values
-#   ("family", "functional_type").  Each resolution branch may
+#   ("genus", "family", "functional_type"). Each resolution branch may
 #   have different convergence parameters (n_iter, n_sampling,
-#   n_step_size, n_early_stopping) stored in the spatial grid
-#   CSV.  This segment builds a per-resolution config_model_fitting
-#   by calling get_spatial_model_params() with the active resolution
+#   n_step_size, n_early_stopping) stored in model tuning CSVs.
+#   This segment builds a per-resolution config_model_fitting
+#   by calling get_model_tuning_params() with the active resolution
 #   value substituted by tarchetypes::tar_map().
 #
 # When inside tar_map() this segment produces:
+#   config_model_fitting_genus
 #   config_model_fitting_family
 #   config_model_fitting_functional_type
 # which shadow the shared config_model_fitting (from
@@ -62,63 +63,35 @@ pipe_segment_config_model_by_resolution <-
       description = stringr::str_c(
         "Resolution-specific model fitting configuration.",
         " Reads fitting params from the resolution-specific columns",
-        " in spatial_grid.csv via get_spatial_model_params().",
+        " from the model tuning CSV via get_model_tuning_params().",
         " resolution_id is injected by tarchetypes::tar_map()."
       ),
       name = "config_model_fitting",
       command = {
-        sel_scale_id <-
-          get_scale_id_from_store()
-
-        sel_resolution_id <- resolution_id
-
-        model_param_resolution_id <-
-          if (
-            sel_resolution_id %in% c("ft_modern", "ft_paleo")
-          ) {
-            "functional_type"
-          } else {
-            sel_resolution_id
-          }
-
-        params <-
-          if (!base::is.null(sel_scale_id)) {
-            get_spatial_model_params(
-              scale_id = sel_scale_id,
-              tax_res = model_param_resolution_id
-            )
-          } else {
-            base::list(
-              n_iter = get_active_config(
-                value = c("model_fitting", "n_iter")
-              ),
-              n_step_size = get_active_config(
-                value = c("model_fitting", "n_step_size")
-              ),
-              n_sampling = get_active_config(
-                value = c("model_fitting", "n_sampling")
-              ),
-              n_samples_anova = get_active_config(
-                value = c("model_fitting", "n_samples_anova")
-              ),
-              n_early_stopping = get_active_config(
-                value = c("model_fitting", "n_early_stopping")
-              )
-            )
-          }
-
         base::list(
           n_cores = get_active_config(
             value = c("model_fitting", "n_cores")
           ),
-          n_iter = purrr::chuck(params, "n_iter"),
-          n_sampling = purrr::chuck(params, "n_sampling"),
-          n_step_size = purrr::pluck(params, "n_step_size"),
-          n_early_stopping = purrr::pluck(
-            params, "n_early_stopping"
+          n_iter = get_model_tuning_param_for_scale_and_resolution(
+            param_id = "n_iter",
+            resolution_id = resolution_id
           ),
-          n_samples_anova = purrr::chuck(
-            params, "n_samples_anova"
+          n_sampling = get_model_tuning_param_for_scale_and_resolution(
+            param_id = "n_sampling",
+            resolution_id = resolution_id
+          ),
+          n_step_size = get_model_tuning_param_for_scale_and_resolution(
+            param_id = "n_step_size",
+            resolution_id = resolution_id
+          ),
+          n_early_stopping =
+            get_model_tuning_param_for_scale_and_resolution(
+              param_id = "n_early_stopping",
+              resolution_id = resolution_id
+            ),
+          n_samples_anova = get_model_tuning_param_for_scale_and_resolution(
+            param_id = "n_samples_anova",
+            resolution_id = resolution_id
           ),
           n_mev = get_active_config(
             value = c("model_fitting", "n_mev")
