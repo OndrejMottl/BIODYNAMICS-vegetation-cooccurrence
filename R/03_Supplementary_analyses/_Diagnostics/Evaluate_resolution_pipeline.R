@@ -3,8 +3,8 @@
 #
 #                 Vegetation Co-occurrence
 #
-#         Evaluate resolution pipeline — Phase F0
-#           validation gate (project_paleo_core_cz testbed)
+#               Evaluate resolution pipeline
+#         validation gate (project_paleo_core_cz testbed)
 #
 #                       O. Mottl
 #                         2026
@@ -379,10 +379,10 @@ if (
   gate_passed
 ) {
   cli::cli_alert_success(
-    "Phase F0 PASSED — all gate criteria met. F2 and F3 are unblocked."
+    "Validation gate PASSED — all criteria met. F2 and F3 are unblocked."
   )
 } else {
   cli::cli_alert_danger(
-    "Phase F0 FAILED — fix failing checks before proceeding to F2/F3."
+    "Validation gate FAILED — fix failing checks before proceeding to F2/F3."
   )
 }

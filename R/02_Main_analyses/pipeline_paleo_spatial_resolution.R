@@ -189,7 +189,7 @@ if (
   )
 
   list_file_ft_classification_paleo <-
-    pipe_segment_ft_classification_continental
+    make_pipe_segment_ft_classification_continental()
 } else {
   # Tracks the most recent FT classification .qs file for the
   #   continent that owns this spatial unit.

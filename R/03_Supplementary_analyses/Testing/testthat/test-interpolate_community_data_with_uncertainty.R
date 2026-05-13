@@ -365,6 +365,34 @@ testthat::test_that(
     testthat::expect_false(
       "iteration" %in% base::colnames(result)
     )
+
+    testthat::expect_false(
+      "age_uncertainty" %in% base::colnames(result)
+    )
+  }
+)
+
+testthat::test_that(
+  "uncertainty artifacts do not leak from fossil core interpolation",
+  {
+    data_core_only <-
+      dplyr::filter(data_community_test, dataset_name == "core1")
+
+    result <-
+      interpolate_community_data_with_uncertainty(
+        data = data_core_only,
+        data_age_uncertainty = data_age_unc_test,
+        timestep = 200,
+        age_min = 0,
+        age_max = 800
+      )
+
+    testthat::expect_false(
+      base::any(
+        base::c("sample_name", "iteration", "age_uncertainty") %in%
+          base::colnames(result)
+      )
+    )
   }
 )
 

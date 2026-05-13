@@ -9,10 +9,10 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Modern equivalent of pipe_segment_ft_classification_continental. It reuses the
-#   same continental FT clustering targets, but saves the final
-#   classification with the modern file prefix and exposes it under
-#   file_ft_classification_modern.
+# Modern equivalent of pipe_segment_ft_classification_continental. It
+#   reuses the same continental FT clustering factory, but saves the
+#   final classification with the modern file prefix and exposes it
+#   under file_ft_classification_modern.
 
 
 #----------------------------------------------------------#
@@ -29,22 +29,7 @@ source(
 #----------------------------------------------------------#
 
 pipe_segment_ft_classification_modern_continental <-
-  pipe_segment_ft_classification_continental
-
-pipe_segment_ft_classification_modern_continental[[
-  base::length(pipe_segment_ft_classification_modern_continental)
-]] <-
-  targets::tar_target(
-    description = stringr::str_glue(
-      "Save modern FT classification for this continental unit ",
-      "to a dated .qs file and track its path"
-    ),
-    name = file_ft_classification_modern,
-    command = save_ft_classification_for_continent(
-      continent_id = get_scale_id_from_store(),
-      data_classification = ft_result_continental_unit,
-      data_source_prefix = "modern",
-      verbose = TRUE
-    ),
-    format = "file"
+  make_pipe_segment_ft_classification_continental(
+    output_target_name = "file_ft_classification_modern",
+    data_source_prefix = "modern"
   )
