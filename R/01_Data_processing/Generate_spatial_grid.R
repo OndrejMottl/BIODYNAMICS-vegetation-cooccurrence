@@ -9,31 +9,16 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Generates Data/Input/spatial_grid.csv, the single source
-#   of truth for all spatial units used in both the spatial
-#   scale analysis and the jSDM model fitting.
+# Generates Data/Input/spatial_grid.csv, the geometry/catalogue source
+#   of truth for all spatial units used in spatial analyses.
 #
 # Structure:
 #   continental  — 3 hand-defined units (whole continents)
 #   regional     — 20 x 20 degree tiles within each continent
 #   local        — 5 x 5 degree tiles within each regional tile
 #
-# Each row carries five model fitting parameters that control how
-#   the jSDM is trained for that spatial unit:
-#   n_iter            — number of training iterations
-#   n_step_size       — SGD mini-batch size (NA = auto / 10% of sites)
-#   n_sampling        — Monte Carlo samples per epoch
-#   n_samples_anova   — Monte Carlo samples for ANOVA partitioning
-#   n_early_stopping  — patience for early stopping
-#                       (NA = disabled, 0 = auto)
-#
-# !! WARNING !!
-# The current Data/Input/spatial_grid.csv contains manually tuned
-#   model fitting parameters for spatial units whose jSDM did not
-#   converge under default settings.  Running this script will
-#   OVERWRITE all those per-unit adjustments with fresh defaults.
-#   Only proceed if you intend to regenerate the grid from scratch.
-#   See the `flag_allow_overwrite` safety flag in section 0.
+# Model fitting parameters live in Data/Input/Model_tuning/.
+# Regenerating this file changes spatial unit geometry only.
 
 
 #----------------------------------------------------------#
@@ -47,11 +32,9 @@ source(
 )
 
 # Safety guard — must be set to TRUE before the script is allowed to
-#   write Data/Input/spatial_grid.csv.  The existing file contains
-#   manually adjusted model fitting parameters for spatial units whose
-#   jSDM models did not converge with default settings; setting this
-#   flag to TRUE will overwrite ALL those adjustments with the
-#   defaults generated below.  Change with care.
+#   write Data/Input/spatial_grid.csv. Change with care because
+#   downstream target stores and model tuning files refer to these
+#   scale_id values.
 flag_allow_overwrite <- FALSE
 
 if (
@@ -65,14 +48,14 @@ if (
       ),
       "i" = paste(
         "The existing {.file Data/Input/spatial_grid.csv}",
-        "contains manually tuned"
+        "contains spatial unit definitions used by"
       ),
-      " " = "model fitting parameters for units that did not converge.",
+      " " = "pipeline stores and model tuning files.",
       "i" = paste(
         "Set {.code flag_allow_overwrite <- TRUE} in this script",
         "to proceed."
       ),
-      "x" = "ALL manual adjustments will be lost if you overwrite."
+      "x" = "Existing spatial unit definitions will be overwritten."
     )
   )
 }
@@ -154,9 +137,6 @@ generate_tiles <- function(
 
 # Hand-defined — one row per continent / large region.
 # Bounds cover the main Northern Hemisphere pollen data areas.
-# Parameters are set per continent reflecting differences in
-#   dataset size and model complexity; higher n_iter and
-#   n_sampling are used for the larger America and Asia extents.
 data_continental <-
   tibble::tibble(
     scale_id = c("europe", "america", "asia"),
@@ -166,20 +146,7 @@ data_continental <-
     x_min = c(-10, -130, 60),
     x_max = c(40, -60, 140),
     y_min = c(35, 30, 50),
-    y_max = c(70, 70, 75),
-    n_iter = c(400L, 800L, 3200L),
-    n_step_size = NA_integer_,
-    n_sampling = c(100L, 100L, 500L),
-    n_samples_anova = 500L,
-    n_early_stopping = c(NA_integer_, 0L, 0L),
-    n_iter_family = c(400L, 800L, 3200L),
-    n_step_size_family = NA_integer_,
-    n_sampling_family = c(100L, 100L, 500L),
-    n_early_stopping_family = c(NA_integer_, 0L, 0L),
-    n_iter_ft = c(400L, 800L, 3200L),
-    n_step_size_ft = NA_integer_,
-    n_sampling_ft = c(100L, 100L, 500L),
-    n_early_stopping_ft = c(NA_integer_, 0L, 0L)
+    y_max = c(70, 70, 75)
   )
 
 
@@ -187,10 +154,6 @@ data_continental <-
 # 3. Regional units (20 x 20 degree tiles) -----
 #----------------------------------------------------------#
 
-# Default model fitting params for regional tiles: moderate
-#   training run (1 600 iterations, 250 MC samples).
-# Note: individual tiles may require manual adjustment after
-#   generation if the jSDM does not converge with these defaults.
 data_regional <-
   data_continental |>
   dplyr::rowwise() |>
@@ -209,20 +172,7 @@ data_regional <-
     )
   ) |>
   dplyr::mutate(
-    continent_id = .data$parent_id,
-    n_iter = 1600L,
-    n_step_size = NA_integer_,
-    n_sampling = 250L,
-    n_samples_anova = 500L,
-    n_early_stopping = NA_integer_,
-    n_iter_family = 1600L,
-    n_step_size_family = NA_integer_,
-    n_sampling_family = 250L,
-    n_early_stopping_family = NA_integer_,
-    n_iter_ft = 1600L,
-    n_step_size_ft = NA_integer_,
-    n_sampling_ft = 250L,
-    n_early_stopping_ft = NA_integer_
+    continent_id = .data$parent_id
   )
 
 
@@ -230,11 +180,6 @@ data_regional <-
 # 4. Local units (5 x 5 degree tiles) -----
 #----------------------------------------------------------#
 
-# Default model fitting params for local tiles: longer training
-#   run (3 200 iterations) because local extents tend to have
-#   more sites with finer spatial variation.
-# Note: individual tiles may require manual adjustment after
-#   generation if the jSDM does not converge with these defaults.
 data_local <-
   data_regional |>
   dplyr::rowwise() |>
@@ -257,20 +202,7 @@ data_local <-
     by = dplyr::join_by("parent_id" == "scale_id")
   ) |>
   dplyr::mutate(
-    continent_id = .data$continent_id_from_parent,
-    n_iter = 3200L,
-    n_step_size = NA_integer_,
-    n_sampling = 200L,
-    n_samples_anova = 500L,
-    n_early_stopping = NA_integer_,
-    n_iter_family = 3200L,
-    n_step_size_family = NA_integer_,
-    n_sampling_family = 200L,
-    n_early_stopping_family = NA_integer_,
-    n_iter_ft = 3200L,
-    n_step_size_ft = NA_integer_,
-    n_sampling_ft = 200L,
-    n_early_stopping_ft = NA_integer_
+    continent_id = .data$continent_id_from_parent
   ) |>
   dplyr::select(-"continent_id_from_parent")
 
@@ -279,11 +211,6 @@ data_local <-
 # 5. Combine and write -----
 #----------------------------------------------------------#
 
-# All three scale levels now carry the model fitting parameters.
-# NOTE: the values written here are INITIAL DEFAULTS only.
-#   After running this script, manually adjust n_iter, n_sampling,
-#   and n_early_stopping for any spatial units whose jSDM models
-#   do not converge under the defaults.
 data_spatial_grid <-
   dplyr::bind_rows(
     data_continental,
@@ -303,9 +230,6 @@ cli::cli_inform(
     "i" = "Continental: {nrow(data_continental)}",
     "i" = "Regional:    {nrow(data_regional)}",
     "i" = "Local:       {nrow(data_local)}",
-    "!" = paste(
-      "Review and manually adjust model fitting parameters for",
-      "any units that do not converge."
-    )
+    "i" = "Model tuning is stored separately in Data/Input/Model_tuning/."
   )
 )
