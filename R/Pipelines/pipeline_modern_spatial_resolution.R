@@ -10,12 +10,13 @@
 #
 #----------------------------------------------------------#
 # Runs the full modelling workflow for modern vegetation data at
-#   genus, family, and modern-FT resolutions for one spatial unit.
+#   genus, family, and modern-FT resolutions for one
+#   spatial unit.
 #
 # This is the modern-data counterpart of
 #   pipeline_paleo_spatial_resolution.R. It shares the model fitting stack
 #   unchanged, but uses modern community preprocessing and tracks one
-#   FT file:
+#   FT files:
 #     file_ft_classification_modern
 #
 # Per-resolution targets are suffixed by resolution_id:
@@ -122,7 +123,8 @@ if (
 ) {
   base::source(
     file = base::file.path(
-      path_pipe_parts, "pipe_segment_ft_classification_modern_continental.R"
+      path_pipe_parts,
+      "pipe_segment_ft_classification_modern_continental.R"
     )
   )
 
