@@ -10,32 +10,36 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Validation / testbed pipeline for Phase E0.
-# Runs the full modelling workflow for two taxonomic
+# Validation / testbed pipeline.
+# Runs the full modelling workflow for three taxonomic
 #   resolutions on a single project (project_paleo_core_cz) to verify
 #   that pipe_segment_community_by_resolution_paleo routes correctly
 #   before the technique is rolled out to the full spatial
-#   scale in Phase F3.
+#   scale.
 #
 # Resolutions tested:
-#   "genus"          — regression check against pipeline_paleo_core.R
-#   "family"         — new; uses classify_taxonomic_resolution()
-#   Functional-type validation is run in spatial-resolution
-#   pipelines, where enough taxa survive for the ANOVA step.
+#   "genus" — regression check against pipeline_paleo_core.R
+#   "family" — new; uses classify_taxonomic_resolution()
+#   "functional_type" — uses the same FT clustering segment as the
+#       main spatial resolution pipeline, with local test-pipeline
+#       checks for the non-spatial store and whole-Europe FT coverage
 #
-# The two resolutions are created by tarchetypes::tar_map()
+# The three resolutions are created by tarchetypes::tar_map()
 #   over pipe_segment_community_by_resolution_paleo and all downstream
 #   pipe segments (alignment -> model_anova), producing targets:
 #     data_community_analysis_subset_genus, model_anova_genus
 #     data_community_analysis_subset_family, model_anova_family
+#     data_community_analysis_subset_functional_type,
+#       model_anova_functional_type
 #
 # The upstream segments (config -> vegvault -> community extract,
 #   taxonomy classification, paleo preprocess -> abiotic_data) are
 #   shared across both branches and produce their targets exactly once.
+#   The FT classification target is also shared and computed once.
 #
 # This pipeline is NOT a replacement for pipeline_paleo_core.R.
 #   It is a standalone testbed used as:
-#     (1) a Phase F0 validation gate
+#     (1) a validation gate
 #     (2) a permanent end-to-end sanity check run alongside
 #         pipeline_paleo_core.R in the agent instruction workflows
 #
@@ -119,7 +123,8 @@ c(
   "pipe_segment_community_extract.R",
   "pipe_segment_taxa_classification.R",
   "pipe_segment_community_prepare_paleo.R",
-  "pipe_segment_abiotic_extract.R"
+  "pipe_segment_abiotic_extract.R",
+  "pipe_segment_ft_classification_continental.R"
 ) |>
   rlang::set_names() |>
   purrr::walk(
@@ -150,7 +155,26 @@ c(
   )
 
 #--------------------------------------------------#
-## 1.2 Build per-resolution target map -----
+## 1.2 Local FT validation targets -----
+#--------------------------------------------------#
+
+# The test pipeline is not a spatial store, so it cannot use
+#   get_scale_id_from_store() as the FT classification id. It still
+#   uses the same shared FT clustering factory as the spatial pipeline,
+#   but saves the de novo classification under the active project id.
+#   The optional reference check records whether the existing Europe-wide
+#   FT file would have been viable for this CZ testbed.
+pipe_segment_ft_classification_resolution_test <-
+  make_pipe_segment_ft_classification_continental(
+    ft_classification_id_expr = quote(
+      base::Sys.getenv("R_CONFIG_ACTIVE") |>
+        stringr::str_remove("^project_")
+    ),
+    include_reference_check = TRUE
+  )
+
+#--------------------------------------------------#
+## 1.3 Build per-resolution target map -----
 #--------------------------------------------------#
 
 # Segment list that is replicated for each resolution.
@@ -170,14 +194,14 @@ targets_per_resolution <-
 targets_models_by_resolution <-
   tarchetypes::tar_map(
     values = list(
-      resolution_id = c("genus", "family")
+      resolution_id = c("genus", "family", "functional_type")
     ),
     targets_per_resolution
   )
 
 
 #--------------------------------------------------#
-## 1.3 Combine all targets into the pipeline -----
+## 1.4 Combine all targets into the pipeline -----
 #--------------------------------------------------#
 
 list(
@@ -188,5 +212,6 @@ list(
   pipe_segment_taxa_classification,
   pipe_segment_community_prepare_paleo,
   pipe_segment_abiotic_extract,
+  pipe_segment_ft_classification_resolution_test,
   targets_models_by_resolution
 )
