@@ -41,7 +41,7 @@ project_paleo_core_cz:
   data_processing:
     taxonomic_resolution: "genus"
     min_n_samples: 5
-    min_n_taxa: 3
+    min_n_taxa: 2
   model_fitting:
     n_mev: 3
     n_cores: 24

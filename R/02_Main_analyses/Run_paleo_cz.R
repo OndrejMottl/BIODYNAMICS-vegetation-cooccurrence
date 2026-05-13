@@ -46,12 +46,10 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 
 run_pipeline(
   sel_script = "R/02_Main_analyses/pipeline_paleo_core.R",
-  level_separation = 100,
-  fresh_run = FALSE
+  fresh_run = TRUE
 )
 
 run_pipeline(
   sel_script = "R/02_Main_analyses/pipeline_paleo_resolution_test.R",
-  level_separation = 100,
-  fresh_run = FALSE
+  fresh_run = TRUE
 )
