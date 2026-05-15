@@ -3,53 +3,9 @@ applyTo: "**/R/Functions/**/*.R"
 description: This file contains instructions for using the `roxygen2` package in R to generate documentation from comments in the code.
 ---
 
-# Instructions for documenting functions with {roxygen2}
+# Roxygen2 Documentation Instructions
 
-## The goal
+This Copilot instruction file is a compatibility adapter.
+The canonical project guidance lives in `.ai/r-functions.md`.
 
-The goal is to make sure all functions in the project are documented using the `roxygen2` package. Each function is stored in a separate script. All such scripts are stored within the [R/Functions/](../../R/Functions/) folder. There are several subfolders, but the documentation should be created for all functions recursively.
-
-**IMPORTANT:** All code and documentation must follow the project's R coding conventions defined in `.github/instructions/r-coding.instructions.md`, including:
-- 80 character line limit for all **R code lines** (including `#'` roxygen2 comment lines inside `.R` files  -  but **not** for markdown prose in `.md` or `.qmd` files)
-- Function naming conventions (verbs, snake_case)
-- Proper spacing and formatting
-
-## The process
-
-1. Make a list of all functions in the project  -  check the [R/Functions/](../../R/Functions/) folder **recursively** for all R scripts that contain function declarations.
-2. Check if each function has documentation
-3. If a function does not have documentation, create it following the template below
-
-### Specifications of the documentation
-
-Each function should have documentation at the beginning of the function using the [roxygen2](https://roxygen2.r-lib.org/) package. This can be useful also for project-specific functions (not just within the package) as it is easier to transition to a custom package.
-
-The roxygen2 documentation should be placed before the function declaration but keep the 80-character line limit for all R code and `#'` roxygen2 comment lines. The documentation should be in the following:
-
-```r
-#' @title Title of the function
-#' @description 
-#' Description of the function
-#' @param arg1 
-#' Description of the first argument
-#' @param arg2 
-#' Description of the second argument
-#' @param arg3 
-#' Description of the third argument
-#' @return 
-#' Description of the return value
-#' @details 
-#' Details about the function
-#' @seealso Related functions or references
-#' @export
-```
-
-If the function prints to the console, include a `verbose` parameter and
-document it:
-
-```r
-#' @param verbose 
-#' Logical. If `TRUE` (default), progress messages are printed to
-#' the console via `cli`.
-```
-
+Read `.ai/r-functions.md` before applying this instruction route. Keep this file's YAML frontmatter intact so Copilot `applyTo` routing continues to work.
