@@ -190,6 +190,99 @@ fit_jsdm_model <- function(
 
   device <- match.arg(device)
 
+  # Validate GPU runtime before fitting in GPU mode.
+  # This keeps failures explicit and avoids deep, opaque torch errors.
+  if (
+    device == "gpu"
+  ) {
+    if (
+      isFALSE(requireNamespace("reticulate", quietly = TRUE))
+    ) {
+      cli::cli_abort(
+        c(
+          "GPU mode requires the {.pkg reticulate} package.",
+          "i" = "Install it with install.packages('reticulate')."
+        )
+      )
+    }
+
+    torch <-
+      tryCatch(
+        expr = {
+          reticulate::import("torch")
+        },
+        error = function(e) {
+          NULL
+        }
+      )
+
+    if (
+      is.null(torch)
+    ) {
+      cli::cli_abort(
+        c(
+          "GPU mode requires Python package {.pkg torch}.",
+          "i" = paste0(
+            "Install CUDA wheels in your active conda env with: ",
+            "pip install torch torchvision torchaudio ",
+            "--index-url https://download.pytorch.org/whl/cu121"
+          )
+        )
+      )
+    }
+
+    torch_cuda_version <-
+      tryCatch(
+        expr = {
+          torch$version$cuda
+        },
+        error = function(e) {
+          NULL
+        }
+      )
+
+    flag_torch_compiled_with_cuda <-
+      isFALSE(is.null(torch_cuda_version)) &&
+      nzchar(as.character(torch_cuda_version))
+
+    if (
+      isFALSE(flag_torch_compiled_with_cuda)
+    ) {
+      cli::cli_abort(
+        c(
+          "Torch is installed, but not compiled with CUDA.",
+          "i" = paste0(
+            "Reinstall CUDA wheels in your active conda env: ",
+            "pip install --upgrade --force-reinstall torch torchvision ",
+            "torchaudio --index-url https://download.pytorch.org/whl/cu121"
+          )
+        )
+      )
+    }
+
+    flag_cuda_runtime_available <-
+      tryCatch(
+        expr = {
+          isTRUE(torch$cuda$is_available())
+        },
+        error = function(e) {
+          FALSE
+        }
+      )
+
+    if (
+      isFALSE(flag_cuda_runtime_available)
+    ) {
+      cli::cli_abort(
+        c(
+          "GPU mode requested, but CUDA runtime is not available.",
+          "i" = "Torch reports a CUDA build, but no visible GPU device.",
+          "i" = "Check NVIDIA driver health and GPU visibility on this host."
+        )
+      )
+    }
+  }
+
   # Validate numeric and logical arguments
   assertthat::assert_that(
     is.numeric(parallel),
