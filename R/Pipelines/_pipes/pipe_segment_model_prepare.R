@@ -94,7 +94,7 @@ pipe_segment_model_prepare <-
       ),
       name = "data_coords_projected",
       command = project_coords_to_metric(
-        data_coords = data_coords,
+        data_coords = data_coords_analysis,
         target_crs = config_model_fitting$spatial_crs
       )
     ),

@@ -50,11 +50,11 @@ pipe_segment_sample_alignment <-
       name = "data_sample_ids",
       command = align_sample_ids(
         data_community_long = data_community_analysis_subset,
-        data_abiotic_long = data_abiotic_interpolated |>
+        data_abiotic_long = data_abiotic_analysis |>
           dplyr::group_by(dataset_name, age) |>
           dplyr::filter(base::all(!base::is.na(abiotic_value))) |>
           dplyr::ungroup(),
-        data_coords = data_coords
+        data_coords = data_coords_analysis
       )
     ),
     targets::tar_target(

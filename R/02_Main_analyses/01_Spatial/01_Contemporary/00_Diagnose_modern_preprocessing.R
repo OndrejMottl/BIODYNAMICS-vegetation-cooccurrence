@@ -103,7 +103,8 @@ targets::tar_make(
     c(
       "data_community_long_ages",
       "data_sample_ages",
-      "data_coords"
+      "data_coords",
+      "data_abiotic_interpolated"
     )
   ),
   script = sel_script,
@@ -129,6 +130,12 @@ data_coords <-
     store = sel_store
   )
 
+data_abiotic_interpolated <-
+  targets::tar_read(
+    data_abiotic_interpolated,
+    store = sel_store
+  )
+
 
 #----------------------------------------------------------#
 # 3. Report QA and deduplication -----
@@ -147,6 +154,13 @@ list_deduplication <-
     data_source = data_community_long_ages,
     data_coordinates = data_coords,
     data_quality_report = list_quality_report
+  )
+
+list_colocated <-
+  aggregate_colocated_community_records(
+    data_source = purrr::chuck(list_deduplication, "data_community"),
+    data_coordinates = data_coords,
+    data_abiotic_long = data_abiotic_interpolated
   )
 
 base::print(
@@ -178,3 +192,75 @@ base::message("\ndata_modern_dropped_duplicate_records:")
 base::print(
   purrr::chuck(list_deduplication, "data_dropped_records")
 )
+
+data_aggregation_map <-
+  purrr::chuck(list_colocated, "data_aggregation_map")
+
+data_cross_database_colocations <-
+  purrr::chuck(list_colocated, "data_cross_database_colocations")
+
+n_records_before <-
+  dplyr::distinct(
+    data_community_long_ages,
+    dataset_name,
+    sample_name,
+    age
+  ) |>
+  base::nrow()
+
+n_records_after_dedup <-
+  dplyr::distinct(
+    purrr::chuck(list_deduplication, "data_community"),
+    dataset_name,
+    sample_name,
+    age
+  ) |>
+  base::nrow()
+
+n_records_after_aggregation <-
+  dplyr::distinct(
+    purrr::chuck(
+      list_colocated,
+      "data_community_analysis"
+    ),
+    dataset_name,
+    sample_name,
+    age
+  ) |>
+  base::nrow()
+
+base::message("\nModern preprocessing summary:")
+base::print(
+  tibble::tibble(
+    metric = c(
+      "exact_duplicates_dropped",
+      "same_prefix_colocated_groups_aggregated",
+      "records_before_aggregation",
+      "records_after_exact_dedup",
+      "records_after_colocated_aggregation",
+      "cross_database_bien_splot_groups_retained"
+    ),
+    value = c(
+      base::nrow(purrr::chuck(list_deduplication, "data_dropped_records")),
+      dplyr::n_distinct(data_aggregation_map$aggregation_group_id),
+      n_records_before,
+      n_records_after_dedup,
+      n_records_after_aggregation,
+      base::nrow(data_cross_database_colocations)
+    )
+  )
+)
+
+if (
+  base::nrow(data_aggregation_map) > 0L
+) {
+  base::message("\nSame-prefix aggregation map:")
+  base::print(data_aggregation_map)
+}
+
+if (
+  base::nrow(data_cross_database_colocations) > 0L
+) {
+  base::message("\nCross-database BIEN+sPlot colocations retained:")
+  base::print(data_cross_database_colocations)
+}
