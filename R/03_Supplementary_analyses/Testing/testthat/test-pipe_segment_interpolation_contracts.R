@@ -4,7 +4,7 @@ testthat::test_that(
     vec_modern_pipe_lines <-
       base::readLines(
         con = here::here(
-          "R/02_Main_analyses/_pipes/pipe_segment_community_prepare_modern.R"
+          "R/Pipelines/_pipes/pipe_segment_community_prepare_modern.R"
         ),
         warn = FALSE
       )
@@ -26,7 +26,7 @@ testthat::test_that(
     vec_abiotic_pipe_lines <-
       base::readLines(
         con = here::here(
-          "R/02_Main_analyses/_pipes/pipe_segment_abiotic_extract.R"
+          "R/Pipelines/_pipes/pipe_segment_abiotic_extract.R"
         ),
         warn = FALSE
       )

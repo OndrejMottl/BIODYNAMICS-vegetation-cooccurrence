@@ -70,7 +70,7 @@
 # To run this pipeline:
 #
 #   targets::tar_make(
-#     script = here::here("R/02_Main_analyses/pipeline_traits_reference.R"),
+#     script = here::here("R/Pipelines/pipeline_traits_reference.R"),
 #     store  = here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
 #   )
 #
@@ -124,7 +124,7 @@ targets::tar_option_set(
 #----------------------------------------------------------#
 
 path_pipe_parts <-
-  here::here("R/02_Main_analyses/_pipes/")
+  here::here("R/Pipelines/_pipes/")
 
 # Segments must be sourced in dependency order:
 #   extraction -> qc -> classification -> qc_classified -> table

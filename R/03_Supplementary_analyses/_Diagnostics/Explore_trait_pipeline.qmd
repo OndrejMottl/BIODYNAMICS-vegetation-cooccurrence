@@ -14,7 +14,7 @@ date-modified: last-modified
 
   Run the traits pipeline first:
     targets::tar_make(
-      script = here::here("R/02_Main_analyses/pipeline_traits_reference.R"),
+      script = here::here("R/Pipelines/pipeline_traits_reference.R"),
       store  = here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
     )
 -->
@@ -57,7 +57,7 @@ if (
       "Trait pipeline store not found at: {path_traits_store}",
       "i" = stringr::str_c(
         "Run `targets::tar_make(",
-        "script = 'R/02_Main_analyses/pipeline_traits_reference.R',",
+        "script = 'R/Pipelines/pipeline_traits_reference.R',",
         "store = 'Data/targets/traits_reference_reference/pipeline_traits_reference')` first."
       )
     )

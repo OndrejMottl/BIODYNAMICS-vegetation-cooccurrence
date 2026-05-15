@@ -78,7 +78,7 @@ targets::tar_option_set(
 #--------------------------------------------------#
 
 path_pipe_parts <-
-  here::here("R/02_Main_analyses/_pipes/")
+  here::here("R/Pipelines/_pipes/")
 
 # sourcing all pipe parts needs to be done in specific order
 c(

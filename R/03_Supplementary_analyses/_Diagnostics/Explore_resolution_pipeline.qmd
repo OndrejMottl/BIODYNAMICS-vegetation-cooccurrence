@@ -17,7 +17,7 @@ date-modified: last-modified
     Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
     targets::tar_make(
       script = here::here(
-        "R/02_Main_analyses/pipeline_paleo_resolution_test.R"
+        "R/Pipelines/pipeline_paleo_resolution_test.R"
       ),
       store  = here::here(
         "Data/targets/paleo_core_cz/pipeline_paleo_resolution_test"
@@ -66,7 +66,7 @@ if (
       "Resolution pipeline store not found at: {path_res_store}",
       "i" = stringr::str_c(
         "Run `targets::tar_make(",
-        "script = 'R/02_Main_analyses/pipeline_paleo_resolution_test.R',",
+        "script = 'R/Pipelines/pipeline_paleo_resolution_test.R',",
         "store  = 'Data/targets/paleo_core_cz/pipeline_paleo_resolution_test')`",
         " first."
       )

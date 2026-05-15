@@ -268,7 +268,7 @@ c("continental", "regional", "local") |>
             )
             run_pipeline(
               sel_script = here::here(
-                "R/02_Main_analyses/pipeline_paleo_spatial_resolution.R"
+                "R/Pipelines/pipeline_paleo_spatial_resolution.R"
               ),
               store_suffix = .x
             )

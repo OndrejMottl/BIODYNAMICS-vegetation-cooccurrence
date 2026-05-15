@@ -19,7 +19,7 @@
 #   1. Recursively scans Data/targets/ for leaf directories named
 #      "pipeline_paleo_core" or "pipeline_paleo_temporal".
 #   2. Maps the pipeline name to the corresponding pipeline script in
-#      R/02_Main_analyses/.
+#      R/Pipelines/.
 #   3. Calls save_progress_visualisation() for each store found.
 #
 # Run interactively or via:
@@ -45,13 +45,13 @@ source(
 list_pipeline_scripts <-
   base::list(
     pipeline_paleo_core = here::here(
-      "R/02_Main_analyses/pipeline_paleo_core.R"
+      "R/Pipelines/pipeline_paleo_core.R"
     ),
     pipeline_paleo_temporal = here::here(
-      "R/02_Main_analyses/pipeline_paleo_temporal.R"
+      "R/Pipelines/pipeline_paleo_temporal.R"
     ),
     pipeline_paleo_spatial_resolution = here::here(
-      "R/02_Main_analyses/pipeline_paleo_spatial_resolution.R"
+      "R/Pipelines/pipeline_paleo_spatial_resolution.R"
     )
   )
 

@@ -45,7 +45,7 @@
 #   Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_spatial_continental")
 #   targets::tar_make(
 #     script = here::here(
-#       "R/02_Main_analyses/pipeline_paleo_spatial_resolution.R"
+#       "R/Pipelines/pipeline_paleo_spatial_resolution.R"
 #     ),
 #     store = here::here(
 #       "Data/targets/paleo_spatial_continental/{scale_id}/",
@@ -112,7 +112,7 @@ targets::tar_option_set(
 #--------------------------------------------------#
 
 path_pipe_parts <-
-  here::here("R/02_Main_analyses/_pipes/")
+  here::here("R/Pipelines/_pipes/")
 
 # Shared segments: sourced once; their targets are computed once
 #   and shared across both resolution branches.

@@ -29,7 +29,7 @@ source(
 Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_spatial_continental")
 
 sel_script <-
-  "R/02_Main_analyses/pipeline_paleo_spatial_resolution.R"
+  "R/Pipelines/pipeline_paleo_spatial_resolution.R"
 
 scale_id <- "europe"
 

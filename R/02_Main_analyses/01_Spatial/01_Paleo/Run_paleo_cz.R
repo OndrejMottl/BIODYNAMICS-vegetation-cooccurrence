@@ -45,11 +45,11 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
 #----------------------------------------------------------#
 
 run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_paleo_core.R",
+  sel_script = "R/Pipelines/pipeline_paleo_core.R",
   fresh_run = TRUE
 )
 
 run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_paleo_resolution_test.R",
+  sel_script = "R/Pipelines/pipeline_paleo_resolution_test.R",
   fresh_run = TRUE
 )
