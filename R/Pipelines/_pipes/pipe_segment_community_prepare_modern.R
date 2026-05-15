@@ -40,9 +40,43 @@ suppressMessages(
 pipe_segment_community_prepare_modern <-
   list(
     targets::tar_target(
+      description = "Report modern community preprocessing QA issues",
+      name = "data_modern_quality_report",
+      command = make_modern_data_quality_report(
+        data_source = data_community_long_ages,
+        data_sample_ages = data_sample_ages,
+        data_coordinates = data_coords
+      )
+    ),
+    targets::tar_target(
+      description = "Deduplicate exact duplicated modern community records",
+      name = "data_modern_deduplication",
+      command = deduplicate_modern_community_data(
+        data_source = data_community_long_ages,
+        data_coordinates = data_coords,
+        data_quality_report = data_modern_quality_report
+      )
+    ),
+    targets::tar_target(
+      description = "Extract deduplicated modern community data",
+      name = "data_community_long_ages_deduplicated",
+      command = purrr::chuck(
+        data_modern_deduplication,
+        "data_community"
+      )
+    ),
+    targets::tar_target(
+      description = "Trace modern duplicate records dropped before modelling",
+      name = "data_modern_dropped_duplicate_records",
+      command = purrr::chuck(
+        data_modern_deduplication,
+        "data_dropped_records"
+      )
+    ),
+    targets::tar_target(
       description = "Remove non-Plantae taxa from modern community data",
       name = "data_community_plantae",
-      command = data_community_long_ages |>
+      command = data_community_long_ages_deduplicated |>
         dplyr::rename(value = "pollen_count") |>
         filter_non_plantae_taxa(
           data_classification_table = data_combined_classification_table
