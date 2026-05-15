@@ -38,6 +38,6 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_temporal_asia")
 #----------------------------------------------------------#
 
 run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_paleo_temporal.R",
+  sel_script = "R/Pipelines/pipeline_paleo_temporal.R",
   level_separation = 100
 )

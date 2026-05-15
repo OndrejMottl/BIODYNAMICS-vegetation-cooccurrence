@@ -75,7 +75,7 @@ targets::tar_option_set(
 #--------------------------------------------------#
 
 path_pipe_parts <-
-  here::here("R/02_Main_analyses/_pipes/")
+  here::here("R/Pipelines/_pipes/")
 
 # Segments must be sourced in dependency order.
 # pipe_segment_sample_filter_age redefines data_sample_ids per slice,

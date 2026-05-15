@@ -62,7 +62,7 @@ purrr::walk(
       "\n\nRunning resolution pipeline for spatial unit: ", .x, "\n\n"
     )
     run_pipeline(
-      sel_script = "R/02_Main_analyses/pipeline_paleo_spatial_resolution.R",
+      sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
       store_suffix = .x
     )
   }

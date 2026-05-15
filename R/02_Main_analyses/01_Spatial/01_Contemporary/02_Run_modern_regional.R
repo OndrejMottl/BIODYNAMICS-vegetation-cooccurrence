@@ -3,17 +3,14 @@
 #
 #                 Vegetation Co-occurrence
 #
-#         Run spatial scale pipeline: continental
+#          Run modern spatial pipeline: regional
 #
 #                       O. Mottl
 #                         2026
 #
 #----------------------------------------------------------#
-# Iterates over all continental spatial units defined in
-#   Data/Input/spatial_grid.csv and runs pipeline_paleo_spatial_resolution.R
-#   for each one in sequence (genus + family + functional_type).
-# Each unit gets an isolated targets store at:
-#   Data/targets/paleo_spatial_continental/{scale_id}/pipeline_paleo_spatial_resolution/
+# Iterates over all regional spatial units and runs
+#   pipeline_modern_spatial_resolution.R for each unit.
 
 
 #----------------------------------------------------------#
@@ -31,7 +28,7 @@ source(
 # 1. Set active configuration -----
 #----------------------------------------------------------#
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_spatial_continental")
+Sys.setenv(R_CONFIG_ACTIVE = "project_modern_spatial_regional")
 
 
 #----------------------------------------------------------#
@@ -39,8 +36,12 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_spatial_continental")
 #----------------------------------------------------------#
 
 vec_scale_ids <-
-  load_continental_rows(
-    path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
+  readr::read_csv(
+    here::here("Data/Input/spatial_grid.csv"),
+    show_col_types = FALSE
+  ) |>
+  dplyr::filter(
+    .data$scale == "regional"
   ) |>
   dplyr::pull(scale_id)
 
@@ -50,17 +51,17 @@ vec_scale_ids <-
 #----------------------------------------------------------#
 
 tictoc::tic(
-  "Running resolution pipelines (genus + family + FT) for all continental units"
+  "Running modern resolution pipelines for all regional units"
 )
 purrr::walk(
   .progress = TRUE,
   .x = vec_scale_ids,
   .f = ~ {
     base::message(
-      "\n\nRunning resolution pipeline for spatial unit: ", .x, "\n\n"
+      "\n\nRunning modern resolution pipeline for spatial unit: ", .x, "\n\n"
     )
     run_pipeline(
-      sel_script = "R/02_Main_analyses/pipeline_paleo_spatial_resolution.R",
+      sel_script = "R/Pipelines/pipeline_modern_spatial_resolution.R",
       store_suffix = .x
     )
   }

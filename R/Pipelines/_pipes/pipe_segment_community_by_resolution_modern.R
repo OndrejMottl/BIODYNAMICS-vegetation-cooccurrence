@@ -18,10 +18,10 @@
 #----------------------------------------------------------#
 
 resolve_modern_community_resolution <- function(
-    resolution_id,
-    data_community_classified,
-    data_combined_classification_table,
-    file_ft_classification_modern) {
+  resolution_id,
+  data_community_classified,
+  data_combined_classification_table,
+  file_ft_classification_modern) {
   if (
     resolution_id == "ft_modern"
   ) {
@@ -80,7 +80,8 @@ pipe_segment_community_by_resolution_modern <-
       command = resolve_modern_community_resolution(
         resolution_id = resolution_id,
         data_community_classified = data_community_classified,
-        data_combined_classification_table = data_combined_classification_table,
+        data_combined_classification_table =
+          data_combined_classification_table,
         file_ft_classification_modern = file_ft_classification_modern
       )
     ),

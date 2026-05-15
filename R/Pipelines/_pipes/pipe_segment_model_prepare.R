@@ -55,7 +55,9 @@ pipe_segment_model_prepare <-
       ),
       name = "data_community_prepared",
       command = {
-        if (config_model_fitting$error_family == "binomial") {
+        if (
+          config_model_fitting$error_family == "binomial"
+        ) {
           binarize_community_data(
             data_community_matrix = data_community_model_matrix
           )
@@ -104,9 +106,13 @@ pipe_segment_model_prepare <-
       ),
       name = "data_spatial_mev_core",
       command = {
-        if (!isTRUE(config_model_fitting$use_spatial)) {
+        if (
+          isFALSE(config_model_fitting$use_spatial)
+        ) {
           NULL
-        } else if (config_model_fitting$spatial_mode == "spatial") {
+        } else if (
+          config_model_fitting$spatial_mode == "spatial"
+        ) {
           compute_spatial_mev(
             data_coords_projected = data_coords_projected,
             n_mev = config_model_fitting$n_mev
@@ -125,9 +131,13 @@ pipe_segment_model_prepare <-
       ),
       name = "data_spatial_mev_samples",
       command = {
-        if (!isTRUE(config_model_fitting$use_spatial)) {
+        if (
+          isFALSE(config_model_fitting$use_spatial)
+        ) {
           NULL
-        } else if (config_model_fitting$spatial_mode == "spatial") {
+        } else if (
+          config_model_fitting$spatial_mode == "spatial"
+        ) {
           prepare_spatial_predictors_for_fit(
             data_spatial = data_spatial_mev_core,
             data_sample_ids = data_sample_ids_checked
@@ -148,8 +158,10 @@ pipe_segment_model_prepare <-
       ),
       name = "data_spatial_scaled_list",
       command = {
-        if (!isTRUE(config_model_fitting$use_spatial) ||
-          is.null(data_spatial_mev_samples)) {
+        if (
+          isFALSE(config_model_fitting$use_spatial) ||
+            is.null(data_spatial_mev_samples)
+        ) {
           NULL
         } else {
           scale_spatial_for_fit(

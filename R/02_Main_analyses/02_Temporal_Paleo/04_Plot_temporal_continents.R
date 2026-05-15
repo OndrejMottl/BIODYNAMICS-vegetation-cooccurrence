@@ -78,7 +78,7 @@ if (
   ) |>
     purrr::walk(
       .f = ~ here::here(
-        "R/02_Main_analyses/02_Temporal/",
+        "R/02_Main_analyses/02_Temporal_Paleo/",
         .x
       ) |>
         source()
