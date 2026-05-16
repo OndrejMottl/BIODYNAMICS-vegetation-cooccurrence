@@ -21,7 +21,8 @@
 # `pipe_segment_sample_filter_age` (single time-slice).
 #
 # Usage: include this segment AFTER the alignment / age-filter
-# segment and BEFORE `pipe_segment_model_prepare`.
+# segment and BEFORE response, spatial, and assembly model-prep
+# segments.
 
 
 #----------------------------------------------------------#

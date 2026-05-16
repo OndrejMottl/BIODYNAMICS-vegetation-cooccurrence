@@ -67,18 +67,27 @@ pipe_segment_abiotic_extract <-
     targets::tar_target(
       description = "Interpolate abiotic data to specific time step",
       name = "data_abiotic_interpolated",
-      command = data_abiotic_selected |>
-        check_abiotic_interpolation_contract(
-          by = base::c("dataset_name", "abiotic_variable_name"),
-          age_var = "age"
-        ) |>
-        interpolate_data(
-          value_var = "abiotic_value",
-          by = base::c("dataset_name", "abiotic_variable_name"),
-          timestep = purrr::chuck(config_data_processing, "time_step"),
-          age_min = base::min(config_age_lim),
-          age_max = base::max(config_age_lim),
-          n_cores = purrr::chuck(config_data_processing, "n_cores")
-        )
+      command = {
+        if (
+          base::min(config_age_lim) == base::max(config_age_lim)
+        ) {
+          data_abiotic_selected |>
+            dplyr::filter(age == base::min(config_age_lim))
+        } else {
+          data_abiotic_selected |>
+            check_abiotic_interpolation_contract(
+              by = base::c("dataset_name", "abiotic_variable_name"),
+              age_var = "age"
+            ) |>
+            interpolate_data(
+              value_var = "abiotic_value",
+              by = base::c("dataset_name", "abiotic_variable_name"),
+              timestep = purrr::chuck(config_data_processing, "time_step"),
+              age_min = base::min(config_age_lim),
+              age_max = base::max(config_age_lim),
+              n_cores = purrr::chuck(config_data_processing, "n_cores")
+            )
+        }
+      }
     )
   )

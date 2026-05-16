@@ -94,9 +94,12 @@ c(
   "_helpers/make_community_filter_targets.R",
   "pipe_segment_config_model_by_resolution.R",
   "pipe_segment_community_by_resolution_modern.R",
+  "pipe_segment_model_spatial_shared.R",
   "pipe_segment_sample_alignment.R",
   "pipe_segment_model_input.R",
-  "pipe_segment_model_prepare.R",
+  "pipe_segment_model_prepare_response.R",
+  "pipe_segment_model_spatial_samples.R",
+  "pipe_segment_model_assemble.R",
   "pipe_segment_model_fit.R",
   "pipe_segment_model_anova.R"
 ) |>
@@ -109,7 +112,26 @@ c(
 
 
 #--------------------------------------------------#
-## 1.2 Shared FT file targets -----
+## 1.2 Resolution branches -----
+#--------------------------------------------------#
+
+vec_modern_spatial_resolutions <-
+  c("genus", "family", "ft_modern")
+
+list_config_modern_spatial_resolutions <-
+  base::list(
+    targets::tar_target(
+      description = paste0(
+        "Modern spatial resolution branches included in this pipeline"
+      ),
+      name = config_modern_spatial_resolutions,
+      command = vec_modern_spatial_resolutions
+    )
+  )
+
+
+#--------------------------------------------------#
+## 1.3 Shared FT file targets -----
 #--------------------------------------------------#
 
 flag_is_modern_continental_run <-
@@ -148,7 +170,7 @@ if (
 }
 
 #--------------------------------------------------#
-## 1.3 Build per-resolution target map -----
+## 1.4 Build per-resolution target map -----
 #--------------------------------------------------#
 
 targets_per_resolution <-
@@ -157,7 +179,9 @@ targets_per_resolution <-
     pipe_segment_community_by_resolution_modern,
     pipe_segment_sample_alignment,
     pipe_segment_model_input,
-    pipe_segment_model_prepare,
+    pipe_segment_model_prepare_response,
+    pipe_segment_model_spatial_samples,
+    pipe_segment_model_assemble,
     pipe_segment_model_fit,
     pipe_segment_model_anova
   )
@@ -165,14 +189,14 @@ targets_per_resolution <-
 targets_models_by_resolution <-
   tarchetypes::tar_map(
     values = list(
-      resolution_id = c("genus", "family", "ft_modern")
+      resolution_id = vec_modern_spatial_resolutions
     ),
     targets_per_resolution
   )
 
 
 #--------------------------------------------------#
-## 1.4 Combine all targets into the pipeline -----
+## 1.5 Combine all targets into the pipeline -----
 #--------------------------------------------------#
 
 base::list(
@@ -182,6 +206,8 @@ base::list(
   pipe_segment_taxa_classification,
   pipe_segment_abiotic_extract,
   pipe_segment_community_prepare_modern,
+  list_config_modern_spatial_resolutions,
   list_file_ft_classification_modern,
+  pipe_segment_model_spatial_shared,
   targets_models_by_resolution
 )
