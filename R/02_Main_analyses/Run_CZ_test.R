@@ -3,17 +3,17 @@
 #
 #                 Vegetation Co-occurrence
 #
-#              Run pipelines: paleo CZ
+#             Run CZ validation/test pipelines
 #
 #                       O. Mottl
 #                         2026
 #
 #----------------------------------------------------------#
-# Standalone runner for the paleo CZ validation pipelines.
-# Intended as a quick sanity check that the core and
-#   resolution-test pipelines are working correctly.
-# R_SPATIAL_ID is intentionally not set; spatial bounds
-#   are read directly from config.yml (project_paleo_core_cz block).
+# Standalone runner for Czechia-scale validation pipelines.
+# Runs the small paleo CZ gates and the modern spatial test used
+#   to validate shared spatial preprocessing. The modern test
+#   builds its own CZ FT classification, so it does not require
+#   a pre-existing Europe-wide modern FT file.
 
 
 #----------------------------------------------------------#
@@ -34,15 +34,10 @@ base::suppressWarnings(
 
 
 #----------------------------------------------------------#
-# 1. Set active configuration -----
+# 1. Paleo CZ pipelines -----
 #----------------------------------------------------------#
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
-
-
-#----------------------------------------------------------#
-# 2. Run pipelines -----
-#----------------------------------------------------------#
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
 run_pipeline(
   sel_script = "R/Pipelines/pipeline_paleo_core.R",
@@ -51,5 +46,20 @@ run_pipeline(
 
 run_pipeline(
   sel_script = "R/Pipelines/pipeline_paleo_resolution_test.R",
+  fresh_run = TRUE
+)
+
+
+#----------------------------------------------------------#
+# 2. Modern CZ spatial quick test -----
+#----------------------------------------------------------#
+
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_modern")
+
+scale_id <- "eu_r005_l014"
+
+run_pipeline(
+  sel_script = "R/Pipelines/pipeline_modern_spatial_resolution_test.R",
+  store_suffix = scale_id,
   fresh_run = TRUE
 )
