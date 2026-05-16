@@ -113,7 +113,7 @@ c(
 
 # Enumerate all age values to run the model on.
 # Derived from the active configuration so it adjusts automatically
-#   when switching between projects (project_paleo_core_cz,
+#   when switching between projects (project_cz_paleo,
 #   project_paleo_temporal_europe, ...).
 vec_age_lim <-
   get_active_config(c("vegvault_data", "age_lim"))

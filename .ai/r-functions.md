@@ -22,7 +22,7 @@ Specific rules apply for making custom functions:
 3. Verify every test fails against the stub
 4. Implement the function until all tests pass
 5. Run the full test suite (`Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`)
-6. Run the `project_paleo_core_cz` pipeline end-to-end
+6. Run `Rscript R/02_Main_analyses/Run_CZ_test.R`
 
 See the TDD workflow in the project's `AGENTS.md` for the full step-by-step procedure.
 

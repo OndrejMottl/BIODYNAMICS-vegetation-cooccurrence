@@ -12,7 +12,7 @@
 #----------------------------------------------------------#
 # Validation / testbed pipeline.
 # Runs the full modelling workflow for three taxonomic
-#   resolutions on a single project (project_paleo_core_cz) to verify
+#   resolutions on a single CZ test project to verify
 #   that pipe_segment_community_by_resolution_paleo routes correctly
 #   before the technique is rolled out to the full spatial
 #   scale.
@@ -45,13 +45,13 @@
 #
 # To run this pipeline:
 #
-#   Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+#   Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 #   targets::tar_make(
 #     script = here::here(
 #       "R/Pipelines/pipeline_paleo_resolution_test.R"
 #     ),
 #     store  = here::here(
-#       "Data/targets/paleo_core_cz/pipeline_paleo_resolution_test"
+#       "Data/targets/cz_paleo/pipeline_paleo_resolution_test"
 #     )
 #   )
 

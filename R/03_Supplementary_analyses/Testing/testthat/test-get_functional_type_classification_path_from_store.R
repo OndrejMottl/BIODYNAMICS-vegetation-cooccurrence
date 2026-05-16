@@ -264,7 +264,7 @@ testthat::test_that(
         testthat::expect_error(
           get_functional_type_classification_path_from_store(
             store = base::file.path(
-              "Data/targets/paleo_core_cz",
+              "Data/targets/cz_paleo",
               "pipeline_paleo_spatial_resolution"
             ),
             path_spatial_grid = path_grid,

@@ -10,17 +10,17 @@ date-modified: last-modified
   Compares the genus / family / functional_type branches side-by-side.
   Reads exclusively via targets::tar_read() — no re-execution.
 
-  Pipeline store: Data/targets/paleo_core_cz/pipeline_paleo_resolution_test
-  Active config:  project_paleo_core_cz
+  Pipeline store: Data/targets/cz_paleo/pipeline_paleo_resolution_test
+  Active config:  project_cz_paleo
 
   Run the pipeline first:
-    Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+    Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
     targets::tar_make(
       script = here::here(
         "R/Pipelines/pipeline_paleo_resolution_test.R"
       ),
       store  = here::here(
-        "Data/targets/paleo_core_cz/pipeline_paleo_resolution_test"
+        "Data/targets/cz_paleo/pipeline_paleo_resolution_test"
       )
     )
 -->
@@ -38,7 +38,7 @@ source(
   here::here("R/___setup_project___.R")
 )
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
 graphical_options <-
   get_active_config("graphical")
@@ -52,7 +52,7 @@ fig_height_inch <-
   purrr::chuck(graphical_options, "dpi")
 
 path_res_store <-
-  here::here("Data/targets/paleo_core_cz/pipeline_paleo_resolution_test")
+  here::here("Data/targets/cz_paleo/pipeline_paleo_resolution_test")
 
 path_traits_store <-
   here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
@@ -67,7 +67,7 @@ if (
       "i" = stringr::str_c(
         "Run `targets::tar_make(",
         "script = 'R/Pipelines/pipeline_paleo_resolution_test.R',",
-        "store  = 'Data/targets/paleo_core_cz/pipeline_paleo_resolution_test')`",
+        "store  = 'Data/targets/cz_paleo/pipeline_paleo_resolution_test')`",
         " first."
       )
     )
@@ -748,5 +748,5 @@ if (
 
 ---
 
-*Notebook generated on `r Sys.Date()` from the resolution pipeline store at `Data/targets/paleo_core_cz/pipeline_paleo_resolution_test`.*
+*Notebook generated on `r Sys.Date()` from the resolution pipeline store at `Data/targets/cz_paleo/pipeline_paleo_resolution_test`.*
 

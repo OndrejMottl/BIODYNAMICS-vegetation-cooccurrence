@@ -36,7 +36,7 @@ source(
   here::here("R/___setup_project___.R")
 )
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
 path_output <-
   here::here("Data/Processed")
@@ -154,7 +154,7 @@ cli::cli_inform(
 # 2. Load community taxa from targets store -----
 #----------------------------------------------------------#
 
-# Community classified taxa (project_paleo_core_cz targets pipeline output).
+# Community classified taxa (project_cz_paleo targets pipeline output).
 # The 'taxon' column in the classified community data holds the
 #   resolved taxon names (genus, family, or higher) used throughout
 #   the project analyses.
@@ -169,7 +169,7 @@ assertthat::assert_that(
   base::dir.exists(set_store),
   msg = base::paste0(
     "Targets store not found: '", set_store,
-    "'. Run the project_paleo_core_cz pipeline first."
+    "'. Run the project_cz_paleo pipeline first."
   )
 )
 

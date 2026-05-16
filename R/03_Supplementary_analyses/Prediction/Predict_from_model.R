@@ -36,7 +36,7 @@ mod_hmsc_with_eval <-
     store = here::here(
       config::get(
         value = "target_store",
-        config = "project_paleo_core_cz",
+        config = "project_cz_paleo",
         use_parent = FALSE,
         file = here::here("config.yml")
       )
@@ -247,7 +247,7 @@ data_to_fit <-
     store = here::here(
       config::get(
         value = "target_store",
-        config = "project_paleo_core_cz",
+        config = "project_cz_paleo",
         use_parent = FALSE,
         file = here::here("config.yml")
       )

@@ -293,7 +293,7 @@ testthat::test_that(
             min_n_samples = 5
           )
         ),
-        project_paleo_core_cz = base::list(
+        project_cz_paleo = base::list(
           data_processing = base::list(
             min_n_samples = 10
           )
@@ -307,7 +307,7 @@ testthat::test_that(
       file = path_temp
     )
 
-    base::Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+    base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
     value_config <-
       get_config_value_with_fallback(
@@ -407,7 +407,7 @@ testthat::test_that(
             min_n_samples = 5
           )
         ),
-        project_paleo_core_cz = base::list(
+        project_cz_paleo = base::list(
           data_processing = base::list(
             min_n_samples = 10
           )
@@ -422,7 +422,7 @@ testthat::test_that(
       file = path_temp
     )
 
-    base::Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+    base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
     value_groups <-
       get_config_value_with_fallback(
@@ -476,7 +476,7 @@ testthat::test_that(
             ft_groups_min = 3
           )
         ),
-        project_paleo_core_cz = base::list(
+        project_cz_paleo = base::list(
           data_processing = base::list(
             min_n_samples = 10
           )
@@ -490,7 +490,7 @@ testthat::test_that(
       file = path_temp
     )
 
-    base::Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+    base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
     value_config <-
       get_config_value_with_fallback(
@@ -535,7 +535,7 @@ testthat::test_that(
             ft_groups_min = 3
           )
         ),
-        project_paleo_core_cz = base::list(
+        project_cz_paleo = base::list(
           data_processing = base::list(
             ft_groups_min = 8
           )
@@ -549,7 +549,7 @@ testthat::test_that(
       file = path_temp
     )
 
-    base::Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+    base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
     value_config <-
       get_config_value_with_fallback(
@@ -594,7 +594,7 @@ testthat::test_that(
             min_n_samples = 5
           )
         ),
-        project_paleo_core_cz = base::list(
+        project_cz_paleo = base::list(
           data_processing = base::list(
             min_n_taxa = 10
           )
@@ -608,7 +608,7 @@ testthat::test_that(
       file = path_temp
     )
 
-    base::Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+    base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
     testthat::expect_error(
       get_config_value_with_fallback(

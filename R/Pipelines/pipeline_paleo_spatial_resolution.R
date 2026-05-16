@@ -16,7 +16,7 @@
 #
 # This pipeline is the spatial counterpart of
 #   pipeline_paleo_resolution_test.R, which validated the resolution
-#   routing on project_paleo_core_cz.  Each spatial runner
+#   routing on project_cz_paleo.  Each spatial runner
 #   script (01_Run_spatial_continental.R etc.) calls this
 #   pipeline once per unit, isolating its store at:
 #

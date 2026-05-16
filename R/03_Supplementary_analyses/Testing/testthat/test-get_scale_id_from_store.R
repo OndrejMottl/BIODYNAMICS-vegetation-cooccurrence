@@ -13,7 +13,7 @@ testthat::test_that("gets scale_id for local spatial store", {
 testthat::test_that("returns NULL for non-spatial project store", {
   res <-
     get_scale_id_from_store(
-      store = "Data/targets/paleo_core_cz/pipeline_paleo_core",
+      store = "Data/targets/cz_paleo/pipeline_paleo_core",
       file = here::here("Data/Input/spatial_grid.csv")
     )
   testthat::expect_null(res)
@@ -74,7 +74,7 @@ testthat::test_that("return type is character for spatial, NULL otherwise", {
 
   res_project <-
     get_scale_id_from_store(
-      store = "Data/targets/paleo_core_cz/pipeline_paleo_core",
+      store = "Data/targets/cz_paleo/pipeline_paleo_core",
       file = here::here("Data/Input/spatial_grid.csv")
     )
   testthat::expect_null(res_project)
