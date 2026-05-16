@@ -111,12 +111,18 @@ c(
 # Enumerate all age values to run the model on.
 # Derived from the active configuration so it adjusts automatically
 #   when switching between projects (project_paleo_core_cz, project_paleo_temporal_europe, …).
+vec_age_lim <-
+  get_active_config(c("vegvault_data", "age_lim"))
+
+vec_time_step <-
+  get_active_config(c("data_processing", "time_step"))
+
 data_to_map_age <-
   tibble::tibble(
     age = seq(
-      from = min(get_active_config(c("vegvault_data", "age_lim"))),
-      to = max(get_active_config(c("vegvault_data", "age_lim"))),
-      by = get_active_config(c("data_processing", "time_step"))
+      from = min(vec_age_lim),
+      to = max(vec_age_lim),
+      by = vec_time_step
     ),
     age_name = paste0("timeslice_", age)
   )
