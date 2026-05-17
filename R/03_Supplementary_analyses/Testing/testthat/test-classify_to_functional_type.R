@@ -304,6 +304,43 @@ testthat::test_that(
   }
 )
 
+testthat::test_that(
+  "classify_to_functional_type() preserves sample_name",
+  {
+    data_dummy <-
+      tibble::tibble(
+        taxon = c("Taxon_1", "Taxon_2"),
+        dataset_name = c("ds1", "ds1"),
+        sample_name = c("sample_a", "sample_a"),
+        age = c(0L, 0L),
+        value = c(0.4, 0.6)
+      )
+
+    data_ft <-
+      tibble::tibble(
+        taxon_name = c("Taxon_1", "Taxon_2"),
+        functional_type = c(1L, 1L)
+      )
+
+    res <-
+      classify_to_functional_type(
+        data = data_dummy,
+        data_ft_classification = data_ft,
+        verbose = FALSE
+      )
+
+    testthat::expect_equal(
+      base::colnames(res),
+      base::colnames(data_dummy)
+    )
+
+    testthat::expect_equal(
+      base::unique(res$sample_name),
+      "sample_a"
+    )
+  }
+)
+
 # -- Core behavior: FT labels -------------------------------------------------
 
 testthat::test_that(
