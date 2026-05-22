@@ -53,17 +53,56 @@ vec_scale_ids <-
 tictoc::tic(
   "Running modern resolution pipelines for all local units"
 )
-purrr::walk(
-  .progress = TRUE,
-  .x = vec_scale_ids,
-  .f = ~ {
-    base::message(
-      "\n\nRunning modern resolution pipeline for spatial unit: ", .x, "\n\n"
-    )
-    run_pipeline(
-      sel_script = "R/Pipelines/pipeline_modern_spatial_resolution.R",
-      store_suffix = .x
-    )
-  }
-)
+vec_pipeline_errors <-
+  vec_scale_ids |>
+  rlang::set_names() |>
+  purrr::map_chr(
+    .progress = TRUE,
+    .f = ~ {
+      base::message(
+        "\n\nRunning modern resolution pipeline for spatial unit: ",
+        .x,
+        "\n\n"
+      )
+      tryCatch(
+        expr = {
+          run_pipeline(
+            sel_script = "R/Pipelines/pipeline_modern_spatial_resolution.R",
+            store_suffix = .x
+          )
+          NA_character_
+        },
+        error = function(err) {
+          vec_error_message <-
+            base::conditionMessage(err)
+
+          base::message(
+            "\n\nModern local pipeline failed for spatial unit: ", .x,
+            "\n", vec_error_message,
+            "\nContinuing with the next spatial unit.\n\n"
+          )
+
+          vec_error_message
+        }
+      )
+    }
+  )
 tictoc::toc()
+
+data_pipeline_errors <-
+  tibble::tibble(
+    scale_id = base::names(vec_pipeline_errors),
+    error_message = base::unname(vec_pipeline_errors)
+  ) |>
+  dplyr::filter(
+    !base::is.na(.data$error_message)
+  )
+
+if (
+  base::nrow(data_pipeline_errors) > 0L
+) {
+  base::message(
+    "\nModern local spatial pipelines completed with failures for: ",
+    stringr::str_c(data_pipeline_errors[["scale_id"]], collapse = ", ")
+  )
+}

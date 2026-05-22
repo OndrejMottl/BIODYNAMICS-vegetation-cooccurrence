@@ -24,3 +24,15 @@ testthat::test_that("get_community_taxa() handles invalid input", {
   testthat::expect_error(get_community_taxa(NULL))
   testthat::expect_error(get_community_taxa(data.frame()))
 })
+
+testthat::test_that("get_community_taxa() rejects empty communities", {
+  data_dummy <-
+    data.frame(
+      taxon = base::character()
+    )
+
+  testthat::expect_error(
+    get_community_taxa(data_dummy),
+    regexp = "No community taxa found"
+  )
+})
