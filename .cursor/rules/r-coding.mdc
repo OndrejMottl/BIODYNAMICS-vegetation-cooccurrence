@@ -1,0 +1,8 @@
+---
+description: R coding guidance for BIODYNAMICS
+globs:
+  - "**/*.R"
+alwaysApply: false
+---
+
+Read `.ai/r-coding.md` before editing R code in this repository.

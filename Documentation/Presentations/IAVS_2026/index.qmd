@@ -24,7 +24,7 @@ execute:
 library(here)
 here::i_am("Documentation/Presentations/IAVS_2026/index.qmd")
 source(
-  here::here("R/Supplementary/Presentation/theme_oracle.R")
+  here::here("R/03_Supplementary_analyses/Presentation/theme_oracle.R")
 )
 ```
 

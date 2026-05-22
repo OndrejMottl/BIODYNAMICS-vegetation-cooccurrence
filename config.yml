@@ -41,7 +41,7 @@ project_paleo_core_cz:
   data_processing:
     taxonomic_resolution: "genus"
     min_n_samples: 5
-    min_n_taxa: 3
+    min_n_taxa: 2
   model_fitting:
     n_mev: 3
     n_cores: 24
@@ -122,6 +122,7 @@ project_paleo_spatial_continental:
     min_n_samples: 10
     min_n_taxa: 5
   model_fitting:
+    model_tuning_id: "paleo_spatial"
     n_mev: 5
     n_cores: 24
 project_paleo_spatial_regional:
@@ -135,6 +136,7 @@ project_paleo_spatial_regional:
     min_n_samples: 10
     min_n_taxa: 4
   model_fitting:
+    model_tuning_id: "paleo_spatial"
     n_mev: 4
     n_cores: 24
 project_paleo_spatial_local:
@@ -148,6 +150,7 @@ project_paleo_spatial_local:
     min_n_samples: 5
     min_n_taxa: 3
   model_fitting:
+    model_tuning_id: "paleo_spatial"
     n_mev: 3
     n_cores: 24
 project_modern_spatial_continental:
@@ -161,6 +164,7 @@ project_modern_spatial_continental:
     min_n_samples: 10
     min_n_taxa: 5
   model_fitting:
+    model_tuning_id: "modern_spatial"
     use_age_in_formula: false
     use_spatial: true
     spatial_mode: "spatial"
@@ -177,6 +181,7 @@ project_modern_spatial_regional:
     min_n_samples: 10
     min_n_taxa: 4
   model_fitting:
+    model_tuning_id: "modern_spatial"
     use_age_in_formula: false
     use_spatial: true
     spatial_mode: "spatial"
@@ -193,6 +198,7 @@ project_modern_spatial_local:
     min_n_samples: 5
     min_n_taxa: 3
   model_fitting:
+    model_tuning_id: "modern_spatial"
     use_age_in_formula: false
     use_spatial: true
     spatial_mode: "spatial"

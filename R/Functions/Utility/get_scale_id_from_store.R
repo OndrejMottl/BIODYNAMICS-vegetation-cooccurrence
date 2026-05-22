@@ -27,7 +27,7 @@
 #' candidate (`"project_paleo_core_cz"`) is not in the CSV, so `NULL` is
 #' returned. When the CSV file does not exist the function returns
 #' `NULL` gracefully.
-#' @seealso get_spatial_window, get_spatial_model_params
+#' @seealso get_spatial_window, get_model_tuning_params
 #' @export
 get_scale_id_from_store <- function(
     store = targets::tar_path_store(),

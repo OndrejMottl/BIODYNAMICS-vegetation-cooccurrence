@@ -1,0 +1,9 @@
+---
+description: Quarto guidance for BIODYNAMICS
+globs:
+  - "**/*.qmd"
+alwaysApply: false
+---
+
+Read `.ai/quarto.md` before editing Quarto files. Apply `.ai/r-coding.md` to R
+chunks.
