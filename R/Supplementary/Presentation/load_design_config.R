@@ -30,7 +30,7 @@ vec_design_function_files <-
       "flatten_token_node.R",
       "flatten_design_tokens.R",
       "format_scss_value.R",
-      "write_mother_generated_scss.R"
+      "write_oracle_generated_scss.R"
     )
   )
 
@@ -44,10 +44,10 @@ for (
 }
 
 if (
-  !base::exists("list_mother_design")
+  !base::exists("list_oracle_design")
 ) {
-  list_mother_design <-
+  list_oracle_design <-
     load_design_config()
 
-  write_mother_generated_scss(list_mother_design)
+  write_oracle_generated_scss(list_oracle_design)
 }

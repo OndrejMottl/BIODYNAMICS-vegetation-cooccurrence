@@ -11,7 +11,7 @@
 #----------------------------------------------------------#
 # Render the IAVS 2026 RevealJS presentation.
 #   The presentation's _quarto.yml runs load_design_config.R as a
-#   pre-render step, which regenerates mother_generated.scss from
+#   pre-render step, which regenerates oracle_generated.scss from
 #   design_config.json before the slides are compiled.
 
 library(here)
