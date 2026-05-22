@@ -56,7 +56,7 @@ flatten_design_tokens <- function(design) {
       .x = vec_token_sections,
       .f = ~ flatten_token_node(
         list_config[[.x]],
-        stringr::str_c("mother", format_token_name(.x), sep = "-")
+        stringr::str_c("oracle", format_token_name(.x), sep = "-")
       )
     )
 

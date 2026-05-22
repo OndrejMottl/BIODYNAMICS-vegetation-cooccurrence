@@ -3,16 +3,15 @@
 #
 #       BIODYNAMICS Vegetation Co-occurrence
 #
-#               palette_mother
-#    Compatibility loader for MOTHER palette helpers
+#               palette_oracle
+#      Loader for ORACLE palette helpers
 #
 #                   O. Mottl
 #                    2025
 #
 #----------------------------------------------------------#
 # Palette and scale implementations live in separate files under
-# R/Functions/Presentation/IAVS/. Source this file only when older scripts
-# still expect a single palette_mother.R entry point.
+# R/Functions/Presentation/IAVS/.
 
 vec_palette_function_files <-
   base::file.path(
@@ -23,15 +22,15 @@ vec_palette_function_files <-
       "IAVS"
     ),
     base::c(
-      "mother_palette_values.R",
-      "mother_discrete_palette.R",
-      "mother_continuous_palette.R",
-      "scale_colour_mother_discrete.R",
-      "scale_color_mother_discrete.R",
-      "scale_fill_mother_discrete.R",
-      "scale_colour_mother_continuous.R",
-      "scale_color_mother_continuous.R",
-      "scale_fill_mother_continuous.R"
+      "oracle_palette_values.R",
+      "oracle_discrete_palette.R",
+      "oracle_continuous_palette.R",
+      "scale_colour_oracle_discrete.R",
+      "scale_color_oracle_discrete.R",
+      "scale_fill_oracle_discrete.R",
+      "scale_colour_oracle_continuous.R",
+      "scale_color_oracle_continuous.R",
+      "scale_fill_oracle_continuous.R"
     )
   )
 

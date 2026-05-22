@@ -9,11 +9,11 @@
 #' @examples
 #' \dontrun{
 #' design <- load_design_config()
-#' write_mother_generated_scss(design)
+#' write_oracle_generated_scss(design)
 #' }
-write_mother_generated_scss <- function(
+write_oracle_generated_scss <- function(
     design,
-    output = "mother_generated.scss") {
+    output = "oracle_generated.scss") {
   assertthat::assert_that(
     base::is.list(design),
     msg = "'design' must be a list as returned by load_design_config()."

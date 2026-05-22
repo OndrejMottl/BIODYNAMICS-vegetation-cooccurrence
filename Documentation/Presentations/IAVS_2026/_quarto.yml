@@ -1,6 +1,8 @@
 project:
   type: default
   output-dir: _output
+  render:
+    - index.qmd
   pre-render:
     - "Rscript R/pre_render.R"
 
@@ -8,7 +10,7 @@ format:
   revealjs:
     theme:
       - default
-      - mother.scss
+      - oracle.scss
     slide-width: 1600
     slide-height: 900
     slide-number: true

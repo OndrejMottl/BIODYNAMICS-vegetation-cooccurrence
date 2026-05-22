@@ -1,14 +1,14 @@
-#' @title Get MOTHER palette colour values
-#' @description Returns named colour values from the MOTHER design palette.
+#' @title Get ORACLE palette colour values
+#' @description Returns named colour values from the ORACLE design palette.
 #' @param names Character vector of palette key names to retrieve, or
 #'   `NULL` to return all values.
 #' @return A named character vector of colour values.
 #' @examples
 #' \dontrun{
-#' mother_palette_values()
-#' mother_palette_values(base::c("phosphor", "cyan"))
+#' oracle_palette_values()
+#' oracle_palette_values(base::c("phosphor", "cyan"))
 #' }
-mother_palette_values <- function(names = NULL) {
+oracle_palette_values <- function(names = NULL) {
   if (
     !base::exists("load_design_config", mode = "function")
   ) {
@@ -22,13 +22,13 @@ mother_palette_values <- function(names = NULL) {
     )
   }
 
-  list_mother_design <-
+  list_oracle_design <-
     load_design_config()
 
-  write_mother_generated_scss(list_mother_design)
+  write_oracle_generated_scss(list_oracle_design)
 
   vec_values <-
-    purrr::chuck(list_mother_design, "config") |>
+    purrr::chuck(list_oracle_design, "config") |>
     purrr::chuck("palette") |>
     base::unlist(use.names = TRUE)
 
@@ -51,7 +51,7 @@ mother_palette_values <- function(names = NULL) {
   ) {
     cli::cli_abort(
       base::c(
-        "Unknown MOTHER palette value(s).",
+        "Unknown ORACLE palette value(s).",
         "i" = stringr::str_c(
           "Bad names: ",
           stringr::str_c(vec_missing_names, collapse = ", ")

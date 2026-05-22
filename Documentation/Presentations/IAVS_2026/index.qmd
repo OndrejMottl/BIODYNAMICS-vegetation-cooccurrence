@@ -1,12 +1,12 @@
 ---
-title: "MOTHER Ecological Biosurveillance"
+title: "ORACLE: Observational Runtime for Analysis of Community-Level Ecology"
 subtitle: "IAVS 2026 proof of concept"
 author: "BIODYNAMICS vegetation co-occurrence"
 format:
   revealjs:
     theme:
       - default
-      - mother.scss
+      - oracle.scss
     slide-width: 1600
     slide-height: 900
     slide-number: true
@@ -24,17 +24,17 @@ execute:
 library(here)
 here::i_am("Documentation/Presentations/IAVS_2026/index.qmd")
 source(
-  here::here("R/Supplementary/Presentation/theme_mother.R")
+  here::here("R/03_Supplementary_analyses/Presentation/theme_oracle.R")
 )
 ```
 
-# MOTHER ECOLOGICAL BIOSURVEILLANCE {.mother-title}
+# ORACLE ECOLOGICAL BIOSURVEILLANCE {.oracle-title}
 
 ::: {.terminal-status}
 SYSTEM: **ONLINE** / SESSION: IAVS_2026 / MODE: VEGETATION CO-OCCURRENCE
 :::
 
-::: {.mother-says .terminal-cursor}
+::: {.oracle-says .terminal-cursor}
 Awaiting research query. Climate archive and fossil pollen matrices are mounted.
 :::
 
@@ -57,9 +57,9 @@ Awaiting research query. Climate archive and fossil pollen matrices are mounted.
 :::
 :::
 
-## Can MOTHER separate climate response from association? {.query-slide}
+## Can ORACLE separate climate response from association? {.query-slide}
 
-::: {.mother-says}
+::: {.oracle-says}
 Query accepted. Compare the observed co-occurrence structure with abiotic predictors, spatial structure, and time-slice dynamics.
 :::
 
@@ -97,17 +97,17 @@ ggplot2::ggplot(
   ggplot2::geom_line(linewidth = 1.15) +
   ggplot2::geom_point(size = 3) +
   ggplot2::scale_x_reverse(breaks = c(20, 15, 10, 5, 0)) +
-  scale_colour_mother_discrete() +
+  scale_colour_oracle_discrete() +
   ggplot2::labs(
     title = "Prototype variance signal",
-    subtitle = "Rendered with theme_mother() and design_config.json colors",
+    subtitle = "Rendered with theme_oracle() and design_config.json colors",
     x = "Age before present (kyr)",
     y = "Explained signal",
     colour = "Component"
   ) +
-  theme_mother(base_size = 18)
+  theme_oracle(base_size = 18)
 ```
 
 ::: {.terminal-status}
-CONFIG SOURCE: **design_config.json** / THEME SOURCE: **theme_mother()**
+CONFIG SOURCE: **design_config.json** / THEME SOURCE: **theme_oracle()**
 :::

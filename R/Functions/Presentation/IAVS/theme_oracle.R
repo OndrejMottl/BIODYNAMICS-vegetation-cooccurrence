@@ -1,5 +1,5 @@
-#' @title MOTHER ggplot2 theme
-#' @description Applies the MOTHER colour palette and a minimal dark
+#' @title ORACLE ggplot2 theme
+#' @description Applies the ORACLE colour palette and a minimal dark
 #'   typographic layout to a ggplot2 plot.
 #' @param base_size Numeric scalar. Base font size in points. Default `18`.
 #' @param base_family Character scalar. Base font family. Defaults to
@@ -9,9 +9,9 @@
 #' \dontrun{
 #' ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
 #'   ggplot2::geom_point() +
-#'   theme_mother()
+#'   theme_oracle()
 #' }
-theme_mother <- function(base_size = 18, base_family = NULL) {
+theme_oracle <- function(base_size = 18, base_family = NULL) {
   assertthat::assert_that(
     base::is.numeric(base_size),
     base::length(base_size) == 1L,
@@ -28,7 +28,7 @@ theme_mother <- function(base_size = 18, base_family = NULL) {
   }
 
   if (
-    !base::exists("mother_palette_values", mode = "function")
+    !base::exists("oracle_palette_values", mode = "function")
   ) {
     base::source(
       here::here(
@@ -36,13 +36,13 @@ theme_mother <- function(base_size = 18, base_family = NULL) {
         "Functions",
         "Presentation",
         "IAVS",
-        "mother_palette_values.R"
+        "oracle_palette_values.R"
       )
     )
   }
 
   vec_palette <-
-    mother_palette_values()
+    oracle_palette_values()
 
   if (
     base::is.null(base_family)

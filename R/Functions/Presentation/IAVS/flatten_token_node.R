@@ -7,7 +7,7 @@
 #' @keywords internal
 #' @examples
 #' \dontrun{
-#' flatten_token_node(list(a = "b"), "mother-test")
+#' flatten_token_node(list(a = "b"), "oracle-test")
 #' }
 flatten_token_node <- function(value, prefix) {
   if (
