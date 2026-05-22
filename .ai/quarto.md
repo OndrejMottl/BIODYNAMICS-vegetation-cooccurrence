@@ -240,7 +240,7 @@ targets::tar_read(
 The active configuration (project) is controlled via:
 
 ```r
-Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 # or
 Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_temporal_europe")
 ```

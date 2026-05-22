@@ -12,7 +12,7 @@
 #----------------------------------------------------------#
 # Compares the current consensus-age interpolation to the
 # uncertainty-aware approach (median over age-model iterations)
-# for the Czech project (project_paleo_core_cz).
+# for the Czech project (project_cz_paleo).
 #
 # Two-part comparison:
 #   Part A - single selected core: spaghetti plot + scatter
@@ -32,7 +32,7 @@ library(
 
 # Set Czech project config BEFORE sourcing setup so that
 # get_active_config() resolves the correct values.
-Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
 suppressMessages(
   suppressWarnings(

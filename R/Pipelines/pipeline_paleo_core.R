@@ -93,7 +93,10 @@ c(
   "pipe_segment_abiotic_extract.R",
   "pipe_segment_sample_alignment.R",
   "pipe_segment_model_input.R",
-  "pipe_segment_model_prepare.R",
+  "pipe_segment_model_prepare_response.R",
+  "pipe_segment_model_spatial_shared.R",
+  "pipe_segment_model_spatial_samples.R",
+  "pipe_segment_model_assemble.R",
   "pipe_segment_model_fit.R",
   "pipe_segment_model_anova.R"
 ) %>%
@@ -120,7 +123,10 @@ list(
   pipe_segment_abiotic_extract,
   pipe_segment_sample_alignment,
   pipe_segment_model_input,
-  pipe_segment_model_prepare,
+  pipe_segment_model_prepare_response,
+  pipe_segment_model_spatial_shared,
+  pipe_segment_model_spatial_samples,
+  pipe_segment_model_assemble,
   pipe_segment_model_fit,
   pipe_segment_model_anova
 )

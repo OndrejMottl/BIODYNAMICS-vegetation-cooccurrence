@@ -4,16 +4,16 @@
 #                 Vegetation Co-occurrence
 #
 #               Evaluate resolution pipeline
-#         validation gate (project_paleo_core_cz testbed)
+#         validation gate (project_cz_paleo testbed)
 #
 #                       O. Mottl
 #                         2026
 #
 #----------------------------------------------------------#
 # Compares the outputs of `pipeline_paleo_resolution_test.R`
-#   (store: `Data/targets/paleo_core_cz/pipeline_paleo_resolution_test`)
+#   (store: `Data/targets/cz_paleo/pipeline_paleo_resolution_test`)
 #   against the reference `pipeline_paleo_core.R` output
-#   (store: `Data/targets/paleo_core_cz/pipeline_paleo_core`) to verify
+#   (store: `Data/targets/cz_paleo/pipeline_paleo_core`) to verify
 #   that:
 #     1. The genus branch is a regression-exact match.
 #     2. The family branch produces a coarser community matrix.
@@ -32,13 +32,13 @@ source(
   here::here("R/___setup_project___.R")
 )
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
 store_basic <-
-  here::here("Data/targets/paleo_core_cz/pipeline_paleo_core")
+  here::here("Data/targets/cz_paleo/pipeline_paleo_core")
 
 store_test <-
-  here::here("Data/targets/paleo_core_cz/pipeline_paleo_resolution_test")
+  here::here("Data/targets/cz_paleo/pipeline_paleo_resolution_test")
 
 
 #----------------------------------------------------------#

@@ -2,13 +2,15 @@
 #' @description
 #' Classifies taxa in a long-format community data frame to
 #' functional-type (FT) labels using a pre-computed FT
-#' classification table. Aggregates pollen proportions by
-#' `(dataset_name, age, functional_type)`. Produces the same
+#' classification table. Aggregates pollen proportions by all
+#' non-`taxon`/`value` identifier columns plus functional type.
+#' Produces the same
 #' output column structure as `classify_taxonomic_resolution()`
 #' so it can be used as a drop-in replacement downstream.
 #' @param data
 #' A data frame containing community data with columns
-#' `taxon`, `dataset_name`, `age`, and `value`.
+#' `taxon`, `dataset_name`, `age`, and `value`. Other identifier
+#' columns such as `sample_name` are preserved.
 #' @param data_ft_classification
 #' A data frame mapping taxa to functional types. Must contain
 #' columns `taxon_name` (character) and `functional_type`
@@ -23,8 +25,8 @@
 #' A data frame with the same column names as `data`. The
 #' `taxon` column is replaced by functional-type labels of the
 #' form `"FT_1"`, `"FT_2"`, etc. `value` is aggregated
-#' (summed) by `(dataset_name, age, taxon)`. All
-#' `(dataset_name, age)` combinations present in `data` are
+#' (summed) by all original identifier columns and `taxon`. All
+#' identifier combinations present after FT classification are
 #' preserved (true negatives kept via a cross-reference join).
 #' Taxa not found in `data_ft_classification` are dropped with
 #' a `cli::cli_warn()` message.
@@ -37,10 +39,10 @@
 #'   \item Drop unmatched taxa (NA functional type) with a
 #'     warning.
 #'   \item Create `taxon` labels `"FT_{functional_type}"`.
-#'   \item Aggregate `value` by
-#'     `(dataset_name, age, taxon)`.
-#'   \item Full-join back to a `(dataset_name, age, taxon)`
-#'     cross-reference to preserve true negatives.
+#'   \item Aggregate `value` by original identifier columns and
+#'     `taxon`.
+#'   \item Full-join back to an identifier/taxon cross-reference
+#'     to preserve true negatives.
 #' }
 #' @seealso [classify_taxonomic_resolution()],
 #'   [get_functional_type_classification()],
@@ -132,28 +134,52 @@ classify_to_functional_type <- function(
     return(res)
   }
 
-  # Build a cross-reference of all (dataset_name, age, taxon)
-  # combinations present after classification.  This is used in the
-  # full-join below to preserve true-negative cells.
+  vec_identifier_cols <-
+    base::setdiff(
+      base::colnames(data),
+      c("taxon", "value")
+    )
+
+  # Build a cross-reference of all identifier/taxon combinations
+  # present after classification. This is used in the full-join below
+  # to preserve true-negative cells.
   data_dataset_age_cross_ref <-
     data_classified |>
-    dplyr::distinct(dataset_name, age, taxon)
+    dplyr::distinct(
+      dplyr::across(
+        dplyr::all_of(
+          c(vec_identifier_cols, "taxon")
+        )
+      )
+    )
 
-  # Aggregate pollen proportions by (dataset_name, age, FT taxon),
+  # Aggregate pollen proportions by identifier columns and FT taxon,
   # then restore true-negative cells via a full join.
   res <-
     data_classified |>
     tidyr::drop_na(value) |>
-    dplyr::group_by(dataset_name, age, taxon) |>
+    dplyr::group_by(
+      dplyr::across(
+        dplyr::all_of(
+          c(vec_identifier_cols, "taxon")
+        )
+      )
+    ) |>
     dplyr::summarise(
       .groups = "drop",
       value = base::sum(value, na.rm = TRUE)
     ) |>
     dplyr::full_join(
       data_dataset_age_cross_ref,
-      by = dplyr::join_by(dataset_name, age, taxon)
+      by = c(vec_identifier_cols, "taxon")
     ) |>
-    dplyr::arrange(age, dataset_name, taxon) |>
+    dplyr::arrange(
+      dplyr::across(
+        dplyr::all_of(
+          c(vec_identifier_cols, "taxon")
+        )
+      )
+    ) |>
     dplyr::select(
       base::colnames(data)
     )

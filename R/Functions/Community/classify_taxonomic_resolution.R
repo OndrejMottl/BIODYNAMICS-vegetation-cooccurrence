@@ -199,18 +199,34 @@ classify_taxonomic_resolution <- function(
     data_classified |>
     dplyr::filter(!base::is.na(taxon))
 
+  vec_identifier_cols <-
+    base::setdiff(
+      base::names(data),
+      c("taxon", "value")
+    )
+
   # make dummy table with all dataset_name and age combinations
   #   this is needed to ensure that all combinations are present in the
   #   final output to preserve true negative values
   data_dataset_age_cross_ref <-
     data_classified |>
-    dplyr::distinct(dataset_name, age, taxon)
+    dplyr::distinct(
+      dplyr::across(
+        dplyr::all_of(
+          c(vec_identifier_cols, "taxon")
+        )
+      )
+    )
 
   res <-
     data_classified |>
     tidyr::drop_na(value) |>
     dplyr::group_by(
-      dataset_name, age, taxon
+      dplyr::across(
+        dplyr::all_of(
+          c(vec_identifier_cols, "taxon")
+        )
+      )
     ) |>
     dplyr::summarise(
       .groups = "drop",
@@ -218,7 +234,7 @@ classify_taxonomic_resolution <- function(
     ) |>
     dplyr::full_join(
       data_dataset_age_cross_ref,
-      by = c("dataset_name", "age", "taxon")
+      by = c(vec_identifier_cols, "taxon")
     ) |>
     dplyr::arrange(age, dataset_name, taxon) |>
     dplyr::select(

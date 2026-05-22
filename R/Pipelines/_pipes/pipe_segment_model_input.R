@@ -21,7 +21,8 @@
 # `pipe_segment_sample_filter_age` (single time-slice).
 #
 # Usage: include this segment AFTER the alignment / age-filter
-# segment and BEFORE `pipe_segment_model_prepare`.
+# segment and BEFORE response, spatial, and assembly model-prep
+# segments.
 
 
 #----------------------------------------------------------#
@@ -63,7 +64,7 @@ pipe_segment_model_input <-
       description = "Widen abiotic data (aligned to sample IDs)",
       name = "data_abiotic_wide",
       command = prepare_abiotic_for_fit(
-        data_abiotic_long = data_abiotic_interpolated,
+        data_abiotic_long = data_abiotic_analysis,
         data_sample_ids = data_sample_ids_checked
       )
     )

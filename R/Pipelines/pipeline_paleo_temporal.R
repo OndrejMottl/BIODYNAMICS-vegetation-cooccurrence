@@ -79,7 +79,7 @@ path_pipe_parts <-
 
 # Segments must be sourced in dependency order.
 # pipe_segment_sample_filter_age redefines data_sample_ids per slice,
-#   so it must come before pipe_segment_model_input and model_prep.
+#   so it must come before pipe_segment_model_input and model prep.
 # pipe_segment_model_summary_by_age references targets_models_by_age, so it
 #   is sourced AFTER that object is built (see section 1.3 below).
 c(
@@ -90,9 +90,12 @@ c(
   "pipe_segment_taxa_classification.R",
   "pipe_segment_community_prepare_paleo.R",
   "pipe_segment_abiotic_extract.R",
+  "pipe_segment_model_spatial_shared.R",
   "pipe_segment_sample_filter_age.R",
   "pipe_segment_model_input.R",
-  "pipe_segment_model_prepare.R",
+  "pipe_segment_model_prepare_response.R",
+  "pipe_segment_model_spatial_samples.R",
+  "pipe_segment_model_assemble.R",
   "pipe_segment_model_fit.R",
   "pipe_segment_model_anova.R",
   "pipe_segment_network_metrics.R"
@@ -110,13 +113,20 @@ c(
 
 # Enumerate all age values to run the model on.
 # Derived from the active configuration so it adjusts automatically
-#   when switching between projects (project_paleo_core_cz, project_paleo_temporal_europe, …).
+#   when switching between projects (project_cz_paleo,
+#   project_paleo_temporal_europe, ...).
+vec_age_lim <-
+  get_active_config(c("vegvault_data", "age_lim"))
+
+vec_time_step <-
+  get_active_config(c("data_processing", "time_step"))
+
 data_to_map_age <-
   tibble::tibble(
     age = seq(
-      from = min(get_active_config(c("vegvault_data", "age_lim"))),
-      to = max(get_active_config(c("vegvault_data", "age_lim"))),
-      by = get_active_config(c("data_processing", "time_step"))
+      from = min(vec_age_lim),
+      to = max(vec_age_lim),
+      by = vec_time_step
     ),
     age_name = paste0("timeslice_", age)
   )
@@ -128,7 +138,9 @@ targets_per_age_slice <-
   list(
     pipe_segment_sample_filter_age,
     pipe_segment_model_input,
-    pipe_segment_model_prepare,
+    pipe_segment_model_prepare_response,
+    pipe_segment_model_spatial_samples,
+    pipe_segment_model_assemble,
     pipe_segment_model_fit,
     pipe_segment_model_anova,
     pipe_segment_network_metrics
@@ -166,6 +178,7 @@ list(
   pipe_segment_taxa_classification,
   pipe_segment_community_prepare_paleo,
   pipe_segment_abiotic_extract,
+  pipe_segment_model_spatial_shared,
   targets_models_by_age,
   pipe_segment_model_summary_by_age,
   pipe_segment_network_summary_by_age

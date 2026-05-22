@@ -81,7 +81,7 @@ to the topic and the answers above. Good examples:
 
 - Which files/functions/pipe segments are in scope?
 - Are there any external dependencies (new packages, new data files)?
-- Which pipeline configuration(s) will be affected (`project_paleo_core_cz`, etc.)?
+- Which pipeline configuration(s) will be affected (`project_cz_paleo`, etc.)?
 - Are there known constraints (backward-compatibility, performance budgets, etc.)?
 - For a large refactor: what is the target outcome â€” fewer files, simpler interfaces,
   better test coverage? Which of these matters most?

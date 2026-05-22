@@ -181,46 +181,37 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
   cat("3. Checking PyTorch Installation\n")
   cat("   ----------------------------------------\n")
 
-  torch <-
-    tryCatch(
-      expr = {
-        reticulate::import("torch")
-      },
-      error = function(e) NULL
+  torch_results <-
+    .check_torch_cuda_details(
+      fail_on_error = FALSE,
+      verbose = FALSE
     )
 
   if (
-    isFALSE(is.null(torch))
+    isTRUE(torch_results$torch_available)
   ) {
     results$pytorch_ok <- TRUE
-    pytorch_version <- torch$`__version__`
+    pytorch_version <- torch_results$torch_version
 
     cat("   [OK] PyTorch is installed\n")
     cat("   Version: ", pytorch_version, "\n")
 
-    # Check CUDA
-    cuda_available <-
-      tryCatch(
-        expr = {
-          torch$cuda$is_available()
-        },
-        error = function(e) FALSE
-      )
+    results$cuda_available <-
+      torch_results$cuda_runtime_available
 
-    results$cuda_available <- cuda_available
-
-    if (cuda_available) {
+    if (torch_results$cuda_runtime_available) {
       cat("   [OK] CUDA available (GPU mode)\n")
-      cat("   CUDA version: ", torch$version$cuda, "\n")
+      cat("   CUDA version: ", torch_results$cuda_version, "\n")
 
-      device_name <-
-        tryCatch(
-          expr = {
-            torch$cuda$get_device_name(0L)
-          },
-          error = function(e) "Unknown"
+      if (
+        base::length(torch_results$gpu_device_names) > 0L
+      ) {
+        cat(
+          "   GPU: ",
+          torch_results$gpu_device_names[[1L]],
+          "\n"
         )
-      cat("   GPU: ", device_name, "\n")
+      }
     } else {
       cat("   [WARN] CUDA not available (CPU mode)\n")
       cat("   This is normal if you don't have NVIDIA GPU\n")

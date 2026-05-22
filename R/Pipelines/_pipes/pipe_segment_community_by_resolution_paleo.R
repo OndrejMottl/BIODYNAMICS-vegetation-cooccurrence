@@ -17,7 +17,7 @@
 #
 #   - data_community_classified  (produced by the community
 #       data segment at the config-level resolution, typically
-#       "genus" for project_paleo_core_cz)
+#       "genus" for project_cz_paleo)
 #   - data_combined_classification_table  (shared)
 #   - file_ft_classification_paleo  (tar_file target; tracked path to
 #       the best-guess .qs FT classification for this continent)

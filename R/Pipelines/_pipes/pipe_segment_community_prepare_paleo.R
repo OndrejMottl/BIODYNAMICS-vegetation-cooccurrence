@@ -95,5 +95,20 @@ pipe_segment_community_prepare_paleo <-
           "taxonomic_resolution"
         )
       )
+    ),
+    targets::tar_target(
+      description = "Paleo: community data ready for downstream analysis",
+      name = "data_community_analysis",
+      command = data_community_classified
+    ),
+    targets::tar_target(
+      description = "Paleo: raw coordinates as analysis coordinates",
+      name = "data_coords_analysis",
+      command = data_coords
+    ),
+    targets::tar_target(
+      description = "Paleo: raw abiotic data for analysis",
+      name = "data_abiotic_analysis",
+      command = data_abiotic_interpolated
     )
   )

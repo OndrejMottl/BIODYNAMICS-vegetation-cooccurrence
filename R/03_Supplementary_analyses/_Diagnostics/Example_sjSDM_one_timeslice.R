@@ -37,7 +37,7 @@ source(
 )
 
 # Set specific config active
-Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_core_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
 # --- Constants (edit here to explore) ---
 sel_age <- 1000L # time slice in BP

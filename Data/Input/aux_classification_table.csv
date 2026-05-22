@@ -1,8 +1,10 @@
 sel_name,kingdom,phylum,class,order,family,genus,species
+"""Algae""",NA,NA,NA,NA,NA,NA,NA
 Abies,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Abies,NA
 Abies alba,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Abies,Abies alba
 Abies Balsamea,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Abies,Abies balsamea
 Abies Lasiocarpa,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Abies,Abies Lasiocarpa
+Abies sibirica,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Abies,Abies sibirica
 Acer Campestre,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Sapindaceae,Acer,Acer campestre
 Acer Circinatum,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Sapindaceae,Acer,Acer circinatum
 Acer Glabrum,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Sapindaceae,Acer,Acer glabrum
@@ -32,6 +34,7 @@ Alnus Pentaporate),Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Alnus,N
 Alnus Rubra,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Alnus,Alnus rubra
 Alnus Tetraporate),Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Alnus,NA
 Alnus Viridis,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Alnus,Alnus Viridis
+Ammophila,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Ammophila,NA
 Amorpha Fruticosa,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Amorpha,Amorpha Fruticosa
 Amygdaloideae,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,NA,NA
 Anacardiaceae Undiff,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Anacardiaceae,NA,NA
@@ -149,6 +152,7 @@ Cf Zelkova,Plantae,Tracheophyta,Magnoliopsida,Rosales,Ulmaceae,Zelkova,NA
 Chamaecyparis Thyoides,Plantae,Tracheophyta,Pinopsida,Cupressales,Cupressaceae,Chamaecyparis,Chamaecyparis thyoides
 Chamaedaphne Calyculata,Plantae,Tracheophyta,Magnoliopsida,Ericales,Ericaceae,Chamaedaphne,Chamaedaphne calyculata
 Chamaerops Humilis,Plantae,Tracheophyta,Liliopsida,Arecales,Arecaceae,Chamaerops,Chamaerops humilis
+chamomilla chamomilla,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Chamomilla,Chamomilla chamomilla
 Cistus,Plantae,Tracheophyta,Magnoliopsida,Malvales,Cistaceae,Cistus,NA
 Clethra,Plantae,Tracheophyta,Magnoliopsida,Ericales,Clethraceae,Clethra,NA
 Comptonia Peregrina,Plantae,Tracheophyta,Magnoliopsida,Fagales,Myricaceae,Comptonia,Comptonia Peregrina
@@ -156,6 +160,7 @@ Coniferae,Plantae,Tracheophyta,Pinopsida,NA,NA,NA,NA
 Coniferae Saccate),Plantae,Tracheophyta,Pinopsida,NA,NA,NA,NA
 Coniferae Type,Plantae,Tracheophyta,Pinopsida,NA,NA,NA,NA
 Coniferae Undiff,Plantae,Tracheophyta,Pinopsida,NA,NA,NA,NA
+Cooperia,Plantae,Tracheophyta,Liliopsida,Asparagales,Amaryllidaceae,Cooperia,NA
 Cornus Alternifolia,Plantae,Tracheophyta,Magnoliopsida,Cornales,Cornaceae,Cornus,Cornus alternifolia
 Cornus Canadensis,Plantae,Tracheophyta,Magnoliopsida,Cornales,Cornaceae,Cornus,Cornus canadensis
 Cornus Florida,Plantae,Tracheophyta,Magnoliopsida,Cornales,Cornaceae,Cornus,Cornus florida
@@ -257,6 +262,7 @@ Larix Gmelinii,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Larix,Larix gmeli
 Larix Laricina,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Larix,Larix laricina
 Larix Pseudotsuga,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,NA,NA
 Larix Sibirica,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Larix,Larix sibirica
+Lens,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Lens,NA
 Ligustrum Vulgare,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Oleaceae,Ligustrum,Ligustrum vulgare
 Liquidambar Styraciflua,Plantae,Tracheophyta,Magnoliopsida,Saxifragales,Altingiaceae,Liquidambar,Liquidambar styraciflua
 Liriodendron Tulipifera,Plantae,Tracheophyta,Magnoliopsida,Magnoliales,Magnoliaceae,Liriodendron,Liriodendron tulipifera
@@ -275,6 +281,7 @@ Malinae,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,NA,NA
 Malus Sylvestris,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Malus,Malus sylvestris
 Mimosoid Clade,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,NA,NA
 Moeringia glaucovium,Plantae,Tracheophyta,Magnoliopsida,Caryophyllales,Caryophyllaceae,Moehringia,NA
+mollis arachnoidea,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Arnica,Arnica mollis
 Momipites,Plantae,Tracheophyta,Magnoliopsida,Fagales,Juglandaceae,NA,NA
 Morus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Moraceae,Morus,NA
 Morus Alba,Plantae,Tracheophyta,Magnoliopsida,Rosales,Moraceae,Morus,Morus alba
@@ -290,6 +297,7 @@ Myrtus Communis,Plantae,Tracheophyta,Magnoliopsida,Myrtales,Myrtaceae,Myrtus,Myr
 Nerium Oleander,Plantae,Tracheophyta,Magnoliopsida,Gentianales,Apocynaceae,Nerium,Nerium oleander
 Normapolles,Plantae,Tracheophyta,Magnoliopsida,Fagales,Juglandaceae,NA,NA
 Olea Europaea,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Oleaceae,Olea,Olea europaea
+Ormosia,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Ormosia,NA
 Ostrya,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Ostrya,NA
 Ostrya Carpinifolia,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Ostrya,Ostrya carpinifolia
 OXALIS PES-CAPRAE,Plantae,Tracheophyta,Magnoliopsida,Oxalidales,Oxalidaceae,Oxalis,Oxalis pes-caprae
@@ -409,6 +417,7 @@ Sambucus Racemosa,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Adoxaceae,Sambuc
 Sanguiria cadensis,Plantae,Tracheophyta,Magnoliopsida,Ranunculales,Papaveraceae,Sanguinaria,Sanguinaria canadensis
 Sarcobatus Vermiculatus,Plantae,Tracheophyta,Magnoliopsida,Caryophyllales,Sarcobataceae,Sarcobatus,Sarcobatus Vermiculatus
 SCANDIX PECTEN-VENERIS,Plantae,Tracheophyta,Magnoliopsida,Apiales,Apiaceae,Scandix,Scandix pecten-veneris
+Securigera,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Securigera,NA
 Serpentine grass,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,NA,NA
 Shepherdia Argentea,Plantae,Tracheophyta,Magnoliopsida,Rosales,Elaeagnaceae,Shepherdia,Shepherdia argentea
 Shepherdia Canadensis,Plantae,Tracheophyta,Magnoliopsida,Rosales,Elaeagnaceae,Shepherdia,Shepherdia Canadensis
@@ -451,6 +460,7 @@ Ulmus Glabra,Plantae,Tracheophyta,Magnoliopsida,Rosales,Ulmaceae,Ulmus,Ulmus gla
 Ulmus Laevis,Plantae,Tracheophyta,Magnoliopsida,Rosales,Ulmaceae,Ulmus,Ulmus laevis
 Ulmus Minor,Plantae,Tracheophyta,Magnoliopsida,Rosales,Ulmaceae,Ulmus,Ulmus minor
 unknown,NA,NA,NA,NA,NA,NA,NA
+Urceolaria,Fungi,Ascomycota,Pezizomycetes,Pezizales,NA,Urceolaria,NA
 Urticalean Rosids,Plantae,Tracheophyta,Magnoliopsida,Rosales,NA,NA,NA
 Urticalean Rosids Undiff,Plantae,Tracheophyta,Magnoliopsida,Rosales,NA,NA,NA
 Vaccinium Myrtillus,Plantae,Tracheophyta,Magnoliopsida,Ericales,Ericaceae,Vaccinium,Vaccinium myrtillus
@@ -476,5 +486,6 @@ Viscum Album,Plantae,Tracheophyta,Magnoliopsida,Santalales,Santalaceae,Viscum,Vi
 Vitaceae,Plantae,Tracheophyta,Magnoliopsida,Vitales,Vitaceae,NA,NA
 Vitex Agnus-Castus,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Lamiaceae,Vitex,Vitex agnus-castus
 Vitis vinifera,Plantae,Tracheophyta,Magnoliopsida,Vitales,Vitaceae,Vitis,Vitis vinifera
+Vulpia,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Vulpia,NA
 Vulpia menbranoides,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Vulpia,NA
 Wetland grass,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,NA,NA

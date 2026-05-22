@@ -404,6 +404,27 @@ testthat::test_that(
   "fit_jsdm_model() accepts both cpu and gpu device options",
   {
     testthat::skip_if_not_installed("sjSDM")
+    testthat::skip_if_not_installed("reticulate")
+
+    torch <-
+      tryCatch(
+        expr = {
+          reticulate::import("torch")
+        },
+        error = function(e) {
+          NULL
+        }
+      )
+
+    flag_cuda_available <-
+      isFALSE(is.null(torch)) &&
+      isTRUE(torch$cuda$is_available()) &&
+      isFALSE(is.null(torch$version$cuda))
+
+    testthat::skip_if_not(
+      flag_cuda_available,
+      message = "CUDA runtime not available; skipping GPU device test"
+    )
 
     mock_community <-
       data.frame(
