@@ -3,21 +3,21 @@
 #' Resolves the continental parent identifier for a spatial
 #' `scale_id` using the project's spatial grid CSV catalogue.
 #' @param scale_id
-#' A single non-empty character string identifying the spatial
-#' unit whose `continent_id` should be returned.
+#' A non-empty character vector identifying spatial units whose
+#' `continent_id` values should be returned.
 #' @param file
 #' Path to the spatial grid CSV catalogue file.
 #' Default: `here::here("Data/Input/spatial_grid.csv")`.
 #' @return
-#' A single non-empty character string containing the `continent_id`
-#' for the supplied `scale_id`.
+#' A character vector containing one `continent_id` per supplied
+#' `scale_id`, in the same order as `scale_id`.
 #' @details
 #' The function validates the inputs, reads the spatial grid CSV,
-#' finds the row matching `scale_id`, and returns its
-#' `continent_id`. The function errors when the file is not a
-#' readable CSV, when required columns are absent, when the
-#' `scale_id` is absent or duplicated, or when the matched row has
-#' a missing `continent_id` value.
+#' finds rows matching `scale_id`, and returns `continent_id`
+#' values. The function errors when the file is not a readable CSV,
+#' when required columns are absent, when any requested `scale_id` is
+#' absent or duplicated, or when any matched row has a missing
+#' `continent_id` value.
 #' @examples
 #' get_continent_id_from_scale_id(
 #'   scale_id = "eu_r005",
@@ -30,9 +30,10 @@ get_continent_id_from_scale_id <- function(
     file = here::here("Data/Input/spatial_grid.csv")) {
   assertthat::assert_that(
     base::is.character(scale_id) &&
-      base::length(scale_id) == 1L &&
-      base::nchar(scale_id) > 0L,
-    msg = "`scale_id` must be a single non-empty character string."
+      base::length(scale_id) > 0L &&
+      base::all(!base::is.na(scale_id)) &&
+      base::all(base::nchar(scale_id) > 0L),
+    msg = "`scale_id` must be a non-empty character vector."
   )
 
   assertthat::assert_that(
@@ -60,37 +61,94 @@ get_continent_id_from_scale_id <- function(
     )
   }
 
-  data_row <-
-    data_grid[
-      data_grid[["scale_id"]] == scale_id,
-      ,
-      drop = FALSE
-    ]
+  data_requested <-
+    tibble::tibble(
+      scale_id = base::unique(scale_id)
+    )
+
+  data_grid_selected <-
+    data_grid |>
+    dplyr::select(
+      scale_id,
+      continent_id
+    ) |>
+    dplyr::filter(
+      .data$scale_id %in% data_requested[["scale_id"]]
+    )
+
+  data_match_count <-
+    data_requested |>
+    dplyr::left_join(
+      y = data_grid_selected |>
+        dplyr::count(
+          .data$scale_id,
+          name = "n_matches"
+        ),
+      by = dplyr::join_by(scale_id)
+    ) |>
+    dplyr::mutate(
+      n_matches = tidyr::replace_na(
+        data = .data$n_matches,
+        replace = 0L
+      )
+    )
+
+  res_continent_id <-
+    data_requested |>
+    dplyr::left_join(
+      y = data_match_count,
+      by = dplyr::join_by(scale_id)
+    ) |>
+    dplyr::filter(
+      .data$n_matches != 1L
+    )
 
   if (
-    base::nrow(data_row) != 1L
+    base::nrow(res_continent_id) > 0L
   ) {
     cli::cli_abort(
       stringr::str_glue(
-        "Expected exactly 1 row for scale_id '{scale_id}'. ",
-        "Found: {base::nrow(data_row)}."
+        "Expected exactly 1 row for each scale_id. Problems: ",
+        "{stringr::str_c(res_continent_id[['scale_id']], collapse = ', ')}."
+      )
+    )
+  }
+
+  data_resolved <-
+    data_requested |>
+    dplyr::left_join(
+      y = data_grid_selected,
+      by = dplyr::join_by(scale_id),
+      multiple = "error",
+      unmatched = "error"
+    )
+
+  data_missing_continent <-
+    data_resolved |>
+    dplyr::filter(
+      base::is.na(.data$continent_id) |
+        .data$continent_id == ""
+    )
+
+  if (
+    base::nrow(data_missing_continent) > 0L
+  ) {
+    cli::cli_abort(
+      stringr::str_glue(
+        "Missing continent_id for scale_id(s): ",
+        "{stringr::str_c(data_missing_continent[['scale_id']], ",
+        "collapse = ', ')}."
       )
     )
   }
 
   res_continent_id <-
-    data_row[["continent_id"]]
-
-  if (
-    base::is.na(res_continent_id) ||
-      base::nchar(res_continent_id) == 0L
-  ) {
-    cli::cli_abort(
-      stringr::str_glue(
-        "Missing continent_id for scale_id '{scale_id}'."
+    data_resolved[["continent_id"]][
+      base::match(
+        x = scale_id,
+        table = data_resolved[["scale_id"]]
       )
-    )
-  }
+    ]
 
   return(res_continent_id)
 }

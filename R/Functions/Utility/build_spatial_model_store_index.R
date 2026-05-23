@@ -79,7 +79,7 @@ build_spatial_model_store_index <- function(
     dplyr::filter(
       .data$scale %in% .env$scales
     ) |>
-    dplyr::transmute(
+    dplyr::mutate(
       data_source = .env$data_source,
       scale = .data$scale,
       scale_id = .data$scale_id,
@@ -91,7 +91,8 @@ build_spatial_model_store_index <- function(
           "/{.data$scale_id}/{.env$pipeline_name}"
         )
       ),
-      store_exists = fs::dir_exists(.data$store_path)
+      store_exists = fs::dir_exists(.data$store_path),
+      .keep = "none"
     )
 
   return(res)
