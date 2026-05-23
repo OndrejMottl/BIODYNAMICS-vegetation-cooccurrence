@@ -35,6 +35,7 @@ and assistants that need a compact validation target.
 
 ## Function and Test Checks
 
+- New helper functions are justified by an existing-helper search; similar helpers are reused or extended instead of duplicated when that keeps the API clear and tests passing.
 - Functions in `R/Functions/` have roxygen2 documentation with `@param`,
   `@return`, and `@examples`.
 - Function arguments are validated with project-approved patterns.
