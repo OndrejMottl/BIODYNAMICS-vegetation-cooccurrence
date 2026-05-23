@@ -24,12 +24,12 @@
 #'     continental unit.}
 #' }
 #' @details
-#' The function lists all `.qs` files in `path_processed` matching
-#' the pattern `data_ft_classification_{continent_id}_*.qs`,
-#' selects the file with the most recent date suffix (ISO 8601:
-#' YYYY-MM-DD), and reads it via `qs2::qs_read()`. If no matching
-#' file is found the function aborts with an informative error.
-#' @seealso [cluster_functional_types()]
+#' The function delegates path selection to
+#' [get_functional_type_classification_path()] and file loading to
+#' [read_functional_type_classification()].
+#' @seealso [cluster_functional_types()],
+#'   [get_functional_type_classification_path()],
+#'   [read_functional_type_classification()]
 #' @export
 get_functional_type_classification <- function(
     continent_id,
@@ -43,50 +43,20 @@ get_functional_type_classification <- function(
 
   assertthat::assert_that(
     base::is.character(path_processed) &&
-      base::length(path_processed) == 1L,
-    msg = "'path_processed' must be a single character string."
+      base::length(path_processed) == 1L &&
+      base::dir.exists(path_processed),
+    msg = "'path_processed' must be a single existing directory."
   )
-
-  pattern_str <-
-    stringr::str_glue(
-      "^data_ft_classification_{continent_id}_",
-      "[0-9]{{4}}-[0-9]{{2}}-[0-9]{{2}}\\.qs$"
-    )
-
-  vec_files <-
-    base::list.files(
-      path = path_processed,
-      pattern = pattern_str,
-      full.names = FALSE
-    )
-
-  assertthat::assert_that(
-    base::length(vec_files) > 0L,
-    msg = stringr::str_glue(
-      "No FT classification file found for continent ",
-      "'{continent_id}' in '{path_processed}'."
-    )
-  )
-
-  # YYYY-MM-DD suffix sorts lexicographically = chronologically
-  vec_files_sorted <-
-    base::sort(vec_files)
-
-  file_latest <-
-    vec_files_sorted[base::length(vec_files_sorted)]
 
   path_to_file <-
-    base::file.path(path_processed, file_latest)
-
-  data_ft <-
-    qs2::qs_read(file = path_to_file)
+    get_functional_type_classification_path(
+      continent_id = continent_id,
+      path_processed = path_processed
+    )
 
   res <-
-    dplyr::select(
-      data_ft,
-      dplyr::all_of(
-        base::c("taxon_name", "functional_type")
-      )
+    read_functional_type_classification(
+      file = path_to_file
     )
 
   return(res)

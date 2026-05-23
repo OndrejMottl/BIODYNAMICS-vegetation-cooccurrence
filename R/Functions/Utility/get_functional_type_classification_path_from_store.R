@@ -103,41 +103,12 @@ get_functional_type_classification_path_from_store <- function(
       file = path_spatial_grid
     )
 
-  file_source_prefix <-
-    if (base::is.null(data_source_prefix)) {
-      ""
-    } else {
-      stringr::str_glue("{data_source_prefix}_")
-    }
-
-  file_name_base <-
-    stringr::str_glue(
-      "data_ft_classification_",
-      "{file_source_prefix}{continent_id}"
-    )
-
-  # RUtilpol verbosity is suppressed: this function has no verbose
-  #   argument and any console output here would be unexpected.
-  latest_file_name <-
-    RUtilpol::get_latest_file_name(
-      file_name = file_name_base,
-      dir = path_processed,
-      verbose = FALSE
-    )
-
-  if (
-    base::is.na(latest_file_name)
-  ) {
-    cli::cli_abort(
-      stringr::str_glue(
-        "No FT classification file found for continent ",
-        "'{continent_id}' in '{path_processed}'."
-      )
-    )
-  }
-
   res_path <-
-    base::file.path(path_processed, latest_file_name)
+    get_functional_type_classification_path(
+      continent_id = continent_id,
+      data_source_prefix = data_source_prefix,
+      path_processed = path_processed
+    )
 
   return(res_path)
 }
