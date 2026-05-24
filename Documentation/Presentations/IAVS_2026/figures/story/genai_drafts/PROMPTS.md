@@ -19,6 +19,16 @@ Through the project development, the terminal was originally named MOTHER, but t
 | `oracle_abstract_face_motif_v3.png` | Prompt 8 |
 | `planet_abstract_scan_motif_v3.png` | Prompt 9 |
 | `vegetation_camera_moon_motif_v2.png` | Prompt 10 |
+| `query_three_streams_motif_v1.png` | Prompt 11 |
+| `analysis_axes_triptych_motif_v1.png` | Prompt 12 |
+| `analysis_axes_triptych_motif_v2.png` | Prompt 20 |
+| `oracle_closing_signal_motif_v1.png` | Prompt 13 |
+| `oracle_closing_signal_motif_v2.png` | Prompt 21 |
+| `query_three_streams_motif_v2.png` | Prompt 14 |
+| `query_three_streams_motif_v3.png` | Prompt 15 |
+| `query_three_streams_motif_v4.png` | Prompt 16 |
+| `query_three_streams_motif_v5.png` | Prompt 17 |
+| `query_three_streams_motif_v6.png` | Prompt 18 |
 
 Prompts 1 and 2 produced the first slicker AI draft pass and are retained here as rejected prompt history.
 
@@ -193,4 +203,185 @@ Composition: 16:9 image, vegetation stand and moon centered in the middle, occup
 Style: old monochrome green CRT camera feed, pixelated, low fidelity, flat phosphor screen on black.
 
 Avoid: readable text, terminal panels, photoreal forest, blue moonlight, cinematic lighting, modern UI, colorful neon, people, animals, buildings, spacecraft, watermark, logo.
+```
+
+## Prompt 11: Query Three Streams Motif
+
+```text
+Use case: stylized-concept
+Asset type: IAVS 2026 ORACLE presentation story asset for Slide 02 query composition, 16:9 landscape
+Primary request: Create a motif-only low-fidelity 1979 ship-computer CRT visualization of three conceptual ecological signal streams converging into one unresolved community pattern. This is narrative art, not a scientific result chart.
+Subject: three clearly distinct abstract channels arranged left-to-right or lower-to-upper: climate represented by sparse contour/weather-isoline traces, space represented by coordinate-grid arcs and point-location marks, association represented by a delicate plant-node network. The three streams converge gently near the right-center into a flickering unresolved signal cloud.
+Scene/backdrop: near-black CRT screen with only sparse raster noise and scanlines; no surrounding dashboard UI.
+Style/medium: degraded monochrome green phosphor terminal artifact, rough dot matrix and thin vectors, 1979 scientific instrument display, flat and visibly pixelated.
+Composition/framing: wide 16:9, principal motif occupying the right two-thirds; left third dark and quiet for slide query text; generous negative space around all traces.
+Lighting/mood: phosphor emission only, restrained and analytical.
+Color palette: background #08110D; dominant phosphor green #7CFFB2; extremely sparse dim cyan hints in the spatial grid and amber hints in climate contours only, never decorative.
+Text: no text, no letters, no numbers, no labels.
+Constraints: narrative/conceptual visual only; keep signal streams legible as three kinds of abstract motif; subtle scanlines and sparse pixel noise.
+Avoid: data values, axes, legends, readable text, panel borders, terminal boxes, photoreal plants or planet, glossy science-fiction interface, cinematic lighting, neon cyberpunk, purple, watermark, logo.
+```
+
+## Prompt 12: Analysis Axes Triptych Motif
+
+```text
+Use case: stylized-concept
+Asset type: IAVS 2026 ORACLE presentation story asset for Slide 04 analysis-axes composition, 16:9 landscape
+Primary request: Create a motif-only low-fidelity 1979 ship-computer CRT triptych suggesting three analysis axes: spatial resolution, time, and taxonomic resolution. This is narrative art, not analytical output.
+Subject: three clean separated instrument motifs across the frame without boxes or labels. Left motif: nested map-like outlines and three scale windows or grid footprints. Center motif: an abstract time trace with evenly stepped tick-like pulses fading into archival depth. Right motif: a sparse branching botanical/taxonomic tree ending in small leaf-like terminals. Each motif should be instantly distinguishable and visually balanced.
+Scene/backdrop: black-to-near-black CRT screen, visible horizontal scanlines, faint random phosphor speckle, no decorative UI.
+Style/medium: rough green dot-matrix and thin vector-line terminal graphics, old orbital biosurveillance computer output, deliberately flat and low fidelity.
+Composition/framing: wide 16:9; three motifs evenly spaced across the middle-lower band, leaving generous dark negative space above for title/dialogue overlay; no visual overlap among motifs.
+Lighting/mood: phosphor screen glow only, controlled scientific mood.
+Color palette: #08110D background, #7CFFB2 phosphor green dominant; very limited dim #59E1FF marks on the spatial motif and dim #FFC857 pulse points on the temporal motif.
+Text: no text, no characters, no numbers, no labels.
+Constraints: the three motifs must read as conceptual icons within the same CRT artifact; clean silhouette suitable for compositing into a presentation slide.
+Avoid: axes with values, charts that look like real results, panel frames, realistic maps, realistic trees, readable UI, glossy holograms, modern dashboard style, cinematic lighting, neon purple, watermark, logo.
+```
+
+## Prompt 13: ORACLE Closing Signal Motif
+
+```text
+Use case: stylized-concept
+Asset type: IAVS 2026 ORACLE presentation story asset for Slide 14 closing-terminal transition, 16:9 landscape
+Primary request: Create a quiet closing ORACLE terminal motif implying that an ecological query has resolved into one stable but cautious signal. This is an atmospheric narrative image, not data output.
+Subject: a sparse green-phosphor terminal trace emerging from scattered botanical/network noise and gradually resolving into one calm horizontal signal line with a small steady cursor-like endpoint; in the far background, barely visible plant branching fragments dissolve into black. Do not include an actual graph axis, numeric values, or scientific result marks.
+Scene/backdrop: nearly black old CRT screen, faint vignette, horizontal scanlines and restrained phosphor grain; no frame or dashboard elements.
+Style/medium: low-fidelity 1979 ship-computer CRT artifact, monochrome terminal-native vectors and pixels, archival and understated.
+Composition/framing: 16:9, resolution motif across the lower-right half; broad empty darkness on left and above for closing terminal dialogue; minimal visual mass and a contemplative closing cadence.
+Lighting/mood: emitted phosphor only, calm and serious, not triumphant or cinematic.
+Color palette: #08110D near-black background and #7CFFB2 green phosphor, with a single faint #FFC857 endpoint accent at most.
+Text: no text, no letters, no numbers, no labels.
+Constraints: text-free motif that can sit behind slide typography; visually compatible with an old CRT terminal and with the existing abstract planet and face assets.
+Avoid: plots, axes, UI boxes, status bars, large borders, readable text, photoreal scenery, glossy interface, cinematic glow, neon colors, lens flare, watermark, logo.
+```
+
+## Prompt 14: Query Three Source Objects Triptych
+
+```text
+Use case: stylized-concept
+Asset type: IAVS 2026 ORACLE presentation story asset for Slide 02 query composition, 16:9 landscape
+Primary request: Create a motif-only low-fidelity 1979 ship-computer CRT triptych representing the three input sources in an ecological query: climate response, spatial structure, and residual association. This is narrative concept art, not a scientific result chart.
+Subject: three separate, clear instrument-like objects arranged horizontally across the middle-lower band, visually compatible with a vintage green phosphor terminal. Left object: preserve the strong nested spatial-map concept from an earlier version, with irregular map-like contour outlines and three nested sampling-grid footprints in subtle cyan-green, clearly reading as spatial structure. Center object: an unmistakable climate climograph motif, with a compact terminal-style seasonal temperature curve in sparse amber and a parallel series of rainfall/precipitation vertical bars or downward rain pulses in phosphor/cyan-green, integrated into one clean object; it should immediately imply temperature plus moisture without text. Right object: a genuinely complex association network of many circular points linked by fine irregular edges, with several brighter hub nodes and branching clusters, explicitly not a plant, tree, leaf, or taxonomy diagram.
+Scene/backdrop: near-black CRT screen with horizontal scanlines and restrained random phosphor speckle; no dashboard frame and no surrounding terminal interface.
+Style/medium: degraded monochrome green phosphor terminal graphic, rough dot matrix and thin vector lines, visibly pixelated 1979 scientific-instrument output, flat and schematic rather than polished sci-fi.
+Composition/framing: wide 16:9; three motifs separated with balanced spacing like a clear triptych; occupy the middle-lower region and leave generous dark negative space above for slide dialogue/title overlay; objects must not converge or dissolve into each other.
+Lighting/mood: phosphor emission only, analytical and restrained.
+Color palette: background #08110D; dominant phosphor green #7CFFB2; limited dim cyan #59E1FF on spatial grid and rainfall; limited dim amber #FFC857 on temperature trace; no decorative additional colors.
+Text: no text, no letters, no numbers, no labels, no glyph-like words.
+Constraints: instantly distinguishable source objects; climate must read as temperature plus precipitation; association must read as node-link network; preserve clean silhouette suitable for a presentation slide; narrative visual only.
+Avoid: arrows between objects, convergence cloud, plant branches or leaf shapes in the association object, real data values, labeled axes, legends, panel borders, terminal boxes, readable UI, photoreal scenery, glossy hologram, modern dashboard, cinematic lighting, neon cyberpunk, purple, watermark, logo.
+```
+
+## Prompt 15: Query Three Source Objects Triptych Revision
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset for Slide 02 query composition, 16:9 landscape.
+Primary request: Revise the visible Slide 02 triptych draft. Keep three separate terminal instrument motifs representing spatial structure, climate response, and association. Use the visible `query_three_streams_motif_v2` image as the edit target and the visible `analysis_axes_triptych_motif_v1` image as the reference for the left object's composition.
+Input images: Image 1 (`query_three_streams_motif_v2`): edit target, preserve overall wide triptych layout, upper negative space, CRT style, and palette; Image 2 (`analysis_axes_triptych_motif_v1`): reference for the nested-map geometry only.
+Left object - spatial structure: replace the circular/concentric appearance in the edit target with the clearer map concept from the reference: an irregular elongated geographic outline with nested contour outlines and three distinct square sampling-grid footprints arranged diagonally from lower-left to upper-right, joined by a sparse dotted/cyan alignment path. It must look like nested spatial sampling scales, not a bullseye.
+Center object - climate: retain a compact scientific climograph: amber temperature curve above cyan/green precipitation bars. Add two immediately legible, simple terminal glyphs within this same climate object: a small amber outline thermometer near the temperature trace and a small cyan outline raindrop near the precipitation bars. The glyphs should be diagram icons only, with no letters or numbers.
+Right object - associations: make the network substantially more complex than the current draft: at least visually dozens of small nodes, many fine irregular connecting edges, multiple interconnected clusters, several hub nodes, cross-links and loops. It must be dense yet legible as a node-link association web, and must not resemble a tree, branch, flower, leaf, or a few starbursts.
+Scene/backdrop: near-black CRT screen with restrained horizontal scanlines and sparse phosphor speckle; no surrounding interface frame.
+Style/medium: low-fidelity 1979 ship-computer scientific terminal output, visibly pixelated/dot-matrix and thin-vector phosphor graphics, schematic and flat.
+Composition/framing: wide 16:9; three large clearly separated objects in the middle-lower band with balanced spacing; keep ample empty dark field above for slide typography.
+Color palette: background #08110D; dominant phosphor green #7CFFB2; subtle cyan #59E1FF for grids/rainfall/raindrop; sparse amber #FFC857 for temperature/thermometer.
+Text: no text, no letters, no numbers, no labels, no legends.
+Constraints: preserve the terminal/CRT visual language and clean triptych layout; clearly communicate space, temperature-plus-precipitation climate, and complicated association network at a glance.
+Avoid: bullseye or circular map, unlabeled ambiguous climate curve, simple sparse association graph, tree or botanical forms, arrows between objects, panel borders, dashboard UI, photorealistic imagery, glossy hologram, modern neon cyberpunk, purple, watermark, logo.
+```
+
+## Prompt 16: Query Modular Association Network Revision
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset for Slide 02 query composition, 16:9 landscape.
+Primary request: Edit the visible `query_three_streams_motif_v3` draft only in the right-hand association-network motif. Preserve the successful left spatial-map motif, central climate climograph with thermometer and raindrop, CRT background, upper negative space, proportions, and palette balance.
+Input image: visible `query_three_streams_motif_v3` is the edit target.
+Right object - association network only: replace the current single dense rectangular web with a clearly modular association system made from approximately six separate small network communities distributed within the same right-hand footprint. Each community should contain many small linked points and one or two local hub nodes. Connect those communities with a few long, thin bridge edges, making the motif immediately read as several sub-networks joined into a larger ecological association structure. Keep total complexity high and scientifically abstract, not decorative.
+Color treatment for right object: keep phosphor green as the dominant network color, but introduce meaningful restrained module variation: two modules and a few bridge nodes in dim cyan #59E1FF, one smaller module or selected hub/bridges in dim amber #FFC857, remaining modules in phosphor green #7CFFB2. Color should reveal modularity, not look rainbow or neon.
+Invariants: do not alter the elongated nested map with diagonal scale grids on the left; do not alter the amber temperature curve, cyan precipitation bars, amber thermometer or cyan raindrop in the center; preserve the dark CRT style, scanlines and empty space above.
+Style/medium: low-fidelity 1979 ship-computer scientific terminal output, dot-matrix phosphor graphics with thin vector lines, flat and schematic.
+Text: no text, no letters, no numbers, no labels or legends.
+Avoid: one continuous hairball web, simple starburst graph, botanical/tree shape, colorful neon styling, purple, dashboard frame, readable UI, photorealism, watermark, logo.
+```
+
+## Prompt 17: Query Partition Divider Revision
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset for Slide 02 query composition, 16:9 landscape.
+Primary request: Make one minimal edit to the visible `query_three_streams_motif_v4` image. Keep the approved three objects exactly in concept and placement: the nested spatial map on the left, the climate climograph with thermometer and raindrop in the center, and the colored modular association network on the right. Add two subtle vertical divider lines to make these three data streams read as partitioned panels.
+Input image: visible `query_three_streams_motif_v4` is the edit target and the strong visual reference; preserve it as closely as possible.
+Divider lines: one line in the empty gap between the left spatial-map object and center climate object, and one line in the empty gap between the center climate object and right network object. Lines must be thin, dim phosphor green, straight, evenly styled, and only extend vertically through the middle/lower motif band, approximately from just above the top of the objects to just below their base. They must NOT extend to the top or bottom border of the image, must NOT frame the entire screen, and must NOT touch any motif.
+Invariants: preserve the elongated nested map with three diagonal scale-grid footprints; preserve the amber thermometer and temperature curve plus cyan raindrop and precipitation bars; preserve the six-module colored association network with green, cyan, and sparse amber clusters connected by fine bridges; preserve near-black CRT background, scanlines, sparse noise, upper negative space, terminal palette and overall composition.
+Style/medium: low-fidelity 1979 ship-computer CRT scientific terminal output, thin dot-matrix/vector phosphor lines, schematic and flat.
+Color palette: background #08110D; green #7CFFB2 dominant; cyan #59E1FF and amber #FFC857 retained only in the existing semantic motifs; new divider lines should be subdued dim green similar to grid metadata, not visually dominant.
+Text: no text, no letters, no numbers, no labels or legends.
+Avoid: redesigning motifs, changing network modularity or colors, full-height dividers, enclosing panel borders, thick columns, dashboard UI, glossy modern sci-fi, watermark, logo.
+```
+
+## Prompt 18: Query Partition Divider Spacing Revision
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset for Slide 02 query composition, 16:9 landscape.
+Primary request: Revise the visible `query_three_streams_motif_v5` image to improve breathing space around its two vertical dividers. Preserve the three approved motif concepts and the partitioned layout, but scale and position the three object groups so neither divider overlaps or crowds any graphic element.
+Input image: visible `query_three_streams_motif_v5` is the edit target; preserve its design language and content.
+Composition correction: slightly reduce all three motif groups in size, approximately 10-15 percent, and center each cleanly inside one of three visual zones. Create clearly empty vertical gutters between zones. Place one thin dim phosphor-green vertical separator at the center of the empty gutter between map and climate, and one in the empty gutter between climate and network. Each separator must have generous black clearance on both sides, and must stop above and below the motif band rather than crossing the full screen.
+Left zone: keep the elongated nested contour map with three diagonal sampling-grid footprints, entirely to the left of the first divider with comfortable clearance.
+Center zone: keep the amber thermometer, amber temperature curve, cyan raindrop and precipitation bars together as one compact climate object. The raindrop must move fully inside the center panel with visible black space between it and the first divider; no central element may touch either separator.
+Right zone: keep the multi-module colored association network with green, cyan and limited amber communities and thin bridging edges, entirely to the right of the second divider with comfortable clearance.
+Invariants: do not change meanings of the objects; do not remove climate glyphs; do not revert the modular network; retain large empty upper field, near-black CRT background, scanlines, sparse phosphor noise and restrained semantic palette.
+Style/medium: low-fidelity 1979 ship-computer CRT scientific terminal output, pixel/dot-matrix thin-vector phosphor graphics, flat schematic instrument readout.
+Text: no text, no letters, no numbers, no labels, no legends.
+Avoid: overlapping divider lines, divider lines touching objects, full-height screen lines, cramped composition, extra borders, redesigned motifs, modern UI, photorealism, neon/purple styling, watermark, logo.
+```
+
+## Prompt 19: Analysis Axes Color Triptych
+
+```text
+Use case: stylized-concept
+Asset type: IAVS 2026 ORACLE presentation story asset for Slide 04 analysis-axes overview, 16:9 landscape.
+Primary request: Create a low-fidelity 1979 ship-computer CRT triptych showing three distinct analysis axes as activated scientific instrument panels: spatial, temporal, and taxonomic resolution. Use the supplied low-quality screenshot only as a conceptual composition reference: three separated modules with distinct dominant colors. This is narrative method illustration, not an analytical result figure.
+Subject: three horizontally aligned, balanced terminal modules separated by two thin dim phosphor-green vertical divider lines limited to the motif band. Left spatial module: a strongly readable cyan 3D perspective wireframe terrain or spatial surface, a tilted receding coordinate grid with one or two raised ridge-like surfaces or peaks and a luminous path/contour crossing it; it must look like rendered 3D spatial structure rather than a flat geographic map. Center temporal module: one clean amber 2D signal line across a faint rectangular grid or simple baseline, with irregular ecological-style rises and falls; keep it visually simple and flat. Right taxonomic module: a violet orthogonal phylogenetic tree or cladogram, rooted at the left of the module and branching stepwise toward multiple terminal tips on the right, with several hierarchical splits and tiny endpoint dots; it must read as taxonomy/phylogeny, not as a leafy plant.
+Scene/backdrop: deep near-black CRT screen with faint horizontal scanlines, restrained phosphor speckle, subtle vignette; no dashboard frame or modern interface shell.
+Style/medium: degraded vintage scientific terminal output, thin pixel/dot-matrix vector lines, rough green-phosphor-era screen character, flat diagrammatic render with the spatial wireframe providing the only perspective depth.
+Composition/framing: wide 16:9; the three analysis modules occupy the central/lower band with generous dark negative space above for slide title and overlay labels; clean empty gutters around the two divider lines; modules of comparable visual weight.
+Lighting/mood: screen phosphor emission only, precise and analytical.
+Color palette: background #08110D; supporting phosphor green #7CFFB2 used sparsely for dividers/noise; spatial object predominantly cyan #59E1FF; temporal trace predominantly amber #FFC857; taxonomic tree predominantly violet #C792EA. Colors are semantic and subdued, not decorative.
+Text: no text, no letters, no numbers, no embedded labels, no legends.
+Constraints: three immediately distinguishable analysis representations; cyan 3D surface on left, amber 2D signal in center, violet phylogenetic cladogram on right; clearly separated panels without enclosed boxes; compatible with existing ORACLE CRT story assets.
+Avoid: flat nested map on left, multiple converging time traces, botanical leafy tree, color mixing between modules, bright neon/cyberpunk styling, purple glow beyond the taxonomic panel, readable interface elements, graph values, photoreal terrain, glossy hologram, watermark, logo.
+```
+
+## Prompt 20: Analysis Axes Divider Removal
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset for Slide 04 analysis-axes overview, 16:9 landscape.
+Primary request: Edit the visible newly generated Slide 04 analysis triptych by removing the two thin vertical separator lines completely. Do not introduce any replacement dividers, card borders, framing lines, or headings.
+Input image: the visible most recent analysis-axes triptych image is the edit target.
+Invariants: preserve the three distinct motifs and their semantic colors: left cyan 3D perspective wireframe spatial terrain/surface; center amber simple 2D signal line; right violet orthogonal phylogenetic tree/cladogram. Preserve their clean horizontal separation using negative space only, the near-black CRT background, scanlines, sparse phosphor noise, low-fidelity terminal style, upper dark space, and comparable visual weights.
+Composition correction: allow generous empty gaps between the three free-floating motifs; the panels should feel separated by darkness rather than drawn lines.
+Text: no text, no letters, no numbers, no embedded labels or legends.
+Avoid: vertical lines, panel dividers, panel boxes, changes to subject motifs or dominant module colors, botanical leafy tree, modern dashboard UI, glossy hologram, watermark, logo.
+```
+
+## Prompt 21: ORACLE Terminal Dissolution
+
+```text
+Use case: stylized-concept
+Asset type: IAVS 2026 ORACLE presentation story asset for Slide 14 cinematic terminal-closing transition, 16:9 landscape.
+Primary request: Create a nearly dark, low-fidelity 1979 ship-computer CRT screen showing an ecological analysis terminal shutting down after synthesis. The display should feel as if three analysis traces have almost completely dissolved and resolved into one last cautious signal before the screen goes black. This is an atmospheric transition image, not an analytical result figure.
+Subject: across the lower-right half, a very sparse faint phosphor-green horizontal terminal trace narrows toward a single small dim amber cursor-like endpoint. Immediately behind and to the left of that remaining trace, barely visible residual fragments dissolve into darkness: a tiny broken cyan perspective-wireframe remnant suggesting the spatial surface, a short fading amber signal-wave remnant suggesting temporal analysis, and a faint incomplete violet orthogonal branch fragment suggesting taxonomic resolution. These fragments must be subtle, fragmented and disappearing, not displayed as readable panels or full diagrams.
+Scene/backdrop: near-black CRT screen with heavy dark negative space, slight vignette, faint horizontal scanlines, exceptionally restrained pixel grain and subtle power-down dimming. No visible casing or dashboard shell.
+Style/medium: degraded vintage terminal phosphor raster, sparse dot-matrix and thin-vector emission, archival and cinematic but still instrument-native, minimal graphic density.
+Composition/framing: wide 16:9; at least two thirds of the image remains quiet darkness, especially above and on the left for final ORACLE dialogue; the dying signal occupies the lower-right quadrant or lower-right half and should look fragile rather than triumphant.
+Lighting/mood: emitted CRT phosphor only, fading, still, cautious, terminal shutting down after an unresolved-but-informative query.
+Color palette: background #08110D; faint phosphor green #7CFFB2 dominant in the last trace; extremely subdued residual cyan #59E1FF, amber #FFC857, and violet #C792EA fragments; one small restrained amber endpoint may be the brightest feature, but remains dim.
+Text: no text, no letters, no numbers, no labels, no terminal commands.
+Constraints: clearly feel like the closing beat of the existing ORACLE CRT visual language; hint at spatial, temporal and taxonomic analyses only as fading remnants; maintain broad usable empty space for slide typography; no numerical or result-like content.
+Avoid: full panels, three prominent icons, graph axes, plots with readable structure, plant branches or leaves, bright network cloud, planet, face, screen frame, shutdown text, dashboard UI, cinematic lens flare, glossy hologram, neon cyberpunk, high saturation, watermark, logo.
 ```
