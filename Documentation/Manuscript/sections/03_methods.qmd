@@ -16,28 +16,30 @@ here::i_am("Documentation/Manuscript/sections/03_methods.qmd")
 
 ### Vegetation and palaeoclimate data
 
-We sourced all community and climate records from **VegVault** (version 1.0.0; [cite]), a harmonised SQLite database that integrates fossil pollen archives with co-registered palaeoclimate reconstructions and plant functional traits.
-Sourcing all three data types required by this study — vegetation community records, co-registered palaeoclimate predictors, and plant functional traits — from a single harmonised repository offers two critical advantages.
+We sourced all vegetation community and climate records from **VegVault** (version 1.0.0; [cite]), a harmonised SQLite database that integrates fossil pollen archives and contemporary vegetation datasets with co-registered palaeoclimate reconstructions and plant functional traits.
+Sourcing all three data types required by this study — fossil and contemporary vegetation community records, co-registered palaeoclimate predictors, and plant functional traits — from a single harmonised repository offers two critical advantages.
 First, it guarantees consistent site identifiers and temporal grids across all inputs, which is a prerequisite for the aligned multi-species modelling framework used here.
 Second, because VegVault is versioned and publicly archived, the exact set of records used in this study can be retrieved by any researcher with access to the same database version, making the data inputs fully reproducible.
-Fossil pollen records are drawn from the Neotoma Paleoecology Database [@Williams2018] and FOSSILPOL [cite]; plant functional traits are drawn from TRY [@Kattge2020].
+Fossil pollen records are drawn from the Neotoma Paleoecology Database [@Williams2018] and FOSSILPOL [cite], and contemporary records are drawn from modern vegetation databsses BIEN [cite] and sPlotOpen [cite].
+Plant functional traits are drawn from TRY [@Kattge2020].
 Palaeoclimate predictors are CHELSA-TraCE21k bioclimatic variables [@Karger2021] co-registered in VegVault at the site and time-step level.
 
 We selected seven CHELSA bioclimatic variables as candidate abiotic predictors: BIO1 (mean annual temperature), BIO4 (temperature seasonality), BIO6 (minimum temperature of the coldest month), BIO12 (annual precipitation), BIO15 (precipitation seasonality), BIO18 (precipitation of the warmest quarter), and BIO19 (precipitation of the coldest quarter).
 These variables represent the primary dimensions of climate space known to govern plant distributions — mean thermal energy, climatic extremes, and water availability across seasons — while omitting correlated secondary variables to limit redundancy before formal collinearity screening.
 Full descriptions and units of all bioclimatic variables are provided in Supplementary Table S[TODO].
 
-The geographic and temporal coverage of extracted records (number of fossil pollen sites per 500-year time slice and per continental region) is summarised in Supplementary Figure S[TODO].
+The geographic and temporal coverage of extracted records (number of fossil pollen and contemporary sites per 500-year time slice and per continental region) is summarised in Supplementary Figure S[TODO].
 
 ### Taxonomic harmonisation
 
 Fossil pollen records originate from multiple source databases that use different original nomenclature systems and taxonomic conventions; a unified classification is therefore a prerequisite for any cross-database comparison.
 The guiding principle of the harmonisation was to resolve each pollen morphotype to the **finest taxonomic rank the morphological evidence supports**, rather than imposing a fixed target rank across all morphotypes.
-For each morphotype, we first attempted to assign a genus-level identification against the GBIF taxonomic backbone [cite], which provides a globally consistent, community-maintained reference taxonomy.
+For each morphotype, we retrieved taxonomy with `taxospace::get_classification()` against the GBIF taxonomic backbone [cite], using non-exact matching where needed to resolve legacy or region-specific names while preserving traceability of the returned identifiers.
 Where the morphotype was too broadly defined morphologically to support a confident genus assignment — typically for compound types that aggregate morphologically similar pollen from several genera — the record was retained at family rank rather than discarded, preserving ecological information that would otherwise be lost entirely.
 We excluded non-plant records (e.g., fungal spores and fern spores flagged in source databases).
 We supplemented the backbone matching with a curated project-specific correction table that records manually validated taxonomic decisions for morphotypes known to be mis-classified or absent from the backbone, ensuring that recurring edge cases are resolved consistently across all analyses.
 All classifications were reviewed and validated by expert botanists to catch systematic errors arising from regional nomenclatural traditions or legacy morphotype names not covered by the backbone.
+Morphotypes that remained unresolved after automated matching and manual correction were exported as explicit missing-taxon reports and tracked separately from the final harmonised tables.
 Because the taxa present in any given analysis depend on the geographic extent and temporal window queried, we compiled a separate harmonisation table for each continental region rather than a single global table.
 We provide these tables as Supplementary Tables S[TODO] (one per continental region).
 
@@ -54,9 +56,14 @@ We first describe the shared pre-processing and modelling steps common to all an
 We applied several pre-processing steps to the raw community matrices to prepare them for modelling and ensure comparability across analyses.
 We converted raw pollen counts to proportional abundance (relative pollen percentage).
 To standardise temporal resolution across irregular sampling intervals (typical for palaeoecological datasets), we then linearly interpolated records to a common 500-year temporal grid. We considered binning but preferred interpolation to preserve the full temporal resolution of the data and avoid artefacts introduced by arbitrary bin edges.
+Temporal interpolation was applied only to fossil sequences; contemporary samples were retained as present-day observations at age 0.
 We excluded taxa contributing less than 1 % of the pollen sum within any individual sample from that sample's record, because such occurrences are below the detection limit reliably resolvable from pollen counts and contribute predominantly noise to co-occurrence estimates.
 We used presence/absence rather than continuous abundance as the response variable, because pollen abundances are strongly influenced by taxon-specific pollen production rates and dispersal distances — biases that are effectively removed by binarisation, leaving a response that more directly reflects co-occurrence [TODO: cite].
+Before model assembly, we restricted analyses to the intersection of site-age samples present in community, coordinate, and abiotic tables, and required abiotic records to be complete across all retained abiotic variables.
 Finally, to ensure sufficient data density for reliable model estimates, we excluded spatial units with too few sites or too few qualifying taxa after filtering. We calibrated the exact thresholds separately for each spatial unit, because the number of sites and taxa varies across units and the optimal thresholds depend on the data structure of each unit.
+For contemporary vegetation records, we applied an additional preprocessing stage before shared filtering: we generated a quality-control report to flag impossible values (e.g., non-zero modern ages, invalid coordinates, and missing or negative abundance values), removed exact duplicate records deterministically, and aggregated colocated records only within eligible same-prefix source groups at identical coordinates and age.
+Cross-database colocations (notably BIEN/sPlot overlaps) were retained unchanged and tracked separately for auditability.
+For aggregated colocations, we replaced original records with synthetic site identifiers and propagated aggregation consistently across community, abiotic, and coordinate tables via explicit mapping tables.
 
 **Abiotic predictor selection.** 
 Collinear predictors inflate the variance of coefficient estimates and may result in overfitting, because variance attributable to one predictor is spuriously shared with its collinear counterparts.
@@ -66,6 +73,7 @@ When two predictors were redundant, we preferentially retained the one with grea
 
 **Variable scaling.** 
 We centred and z-score scaled bioclimatic predictors to a common variance, which is required for stable gradient-descent optimisation and allows coefficient magnitudes to be compared across predictors with different natural units.
+Rows with missing values in the abiotic predictor table were removed prior to scaling, so all scaled predictors supplied to the model were complete-case.
 In analyses with age as a predictor, we centred age but did not variance-scale it, so that interaction coefficients retain their natural interpretation in units of years.
 We projected site coordinates to a metric coordinate system (ETRS89-LAEA, EPSG:3035) so that geographic distances are measured in kilometres rather than decimal degrees.
 
@@ -74,8 +82,8 @@ Spatial autocorrelation in species distributions arises from unmeasured environm
 We represented large-scale spatial structure using Moran Eigenvector Maps (MEMs), which are eigenvectors of a spatial weights matrix and span the full range of positive spatial autocorrelation present in the data [cite].
 Including MEMs as predictor variables in the spatial component of the model approximates a spatial random field without the computational cost of full Gaussian process random effects, which would be prohibitive for the large community matrices.
 For purely spatial analyses, we derived MEMs from a two-dimensional geographic distance matrix among sites.
-For spatiotemporal analyses, we used a three-dimensional distance matrix (combining longitude, latitude, and age) instead, so that the eigenvectors capture joint spatiotemporal structure rather than spatial structure alone.
-We reduced the number of retained eigenvectors at finer spatial scales, reflecting the lower structural complexity of smaller analysis units.
+For spatiotemporal analyses, we computed MEMs on a sample-level three-dimensional coordinate matrix (x, y, age), where age was converted from years to kiloyears and each axis was z-scored before eigenvector extraction so that spatial and temporal extents contributed on comparable scales.
+In both spatial and spatiotemporal settings, if the requested number of MEM predictors exceeded the number of positive eigenvectors returned by the decomposition, we clamped retention to the available positive set.
 
 #### Shared modelling workflow
 
@@ -87,7 +95,7 @@ We performed all analyses using the R package {sjSDM} [@Pichler2021], which fits
 Each taxon's occurrence was modelled as the linear combination of three additive components:
 
 - **Environment (A)** — the non-collinear bioclimatic predictors, with age × climate interaction terms to allow the strength of climate filtering to vary across the Last Glacial–Interglacial cycle.
-only the interaction of age with climate predictors was included, the direct age term was excluded to avoid absorbing broad temporal trend into the environment component.
+Only the interaction of age with climate predictors was included; the direct age term was excluded to avoid absorbing broad temporal trend into the environment component.
 - **Space (S)** — MEM predictors included as fixed effects to absorb spatially (or spatiotemporally) structured variation not explained by the climate predictors, thereby preventing unmeasured spatial processes from inflating the biotic residual.
 - **Biotic residual (B)** — a shared low-rank latent covariance matrix that captures the residual pairwise associations among taxa after accounting for their shared responses to environment and space.
 Positive residual covariance indicates that two taxa co-occur more often than expected given environment and spatial structure; negative covariance indicates mutual exclusion.
@@ -100,10 +108,13 @@ The approach repeatedly draws from the fitted model with one or more components 
 
 - **A** — variance uniquely attributable to the abiotic (environment) component;
 - **S** — variance attributable to the spatial component (MEMs);
-- - **B** — variance attributable to the residual biotic covariance (co-occurrence patterns unexplained by environment or space, interpreted as a signal of potential biotic interactions [@Warton2015]);
+- **B** — variance attributable to the residual biotic covariance (co-occurrence patterns unexplained by environment or space, interpreted as a signal of potential biotic interactions [@Warton2015]);
 - **AB, AS, BS, ABS** — variance jointly attributable to pairs or all three components.
 
 We set fractions that were negative — an artefact of Monte Carlo approximation error — to zero, as negative explained variance has no ecological interpretation.
+For all temporal summaries and cross-model comparisons, we then re-expressed the seven-fraction output as three unique components (Abiotic, Spatial, Associations) using a Shapley equal-split allocation of shared fractions (AB, AS, BS, ABS) among their contributing components.
+Concretely, AB and AS are split evenly between their two parent components and ABS is split one-third to each of A, S, and B, yielding adjusted unique contributions that sum to total explained variance.
+We finally converted these adjusted components to percentages of explained variance within each fitted model, and these percentage trajectories are the quantities reported in temporal comparisons.
 
 #### Spatial axis
 
@@ -125,19 +136,19 @@ We compared variance fractions across scales to identify which components of co-
 #| error: false
 config_spatial_continental <-
   config::get(
-    config = "project_spatial_continental",
+    config = "project_paleo_spatial_continental",
     file = here::here("config.yml")
   )
 
 config_spatial_regional <-
   config::get(
-    config = "project_spatial_regional",
+    config = "project_paleo_spatial_regional",
     file = here::here("config.yml")
   )
 
 config_spatial_local <-
   config::get(
-    config = "project_spatial_local",
+    config = "project_paleo_spatial_local",
     file = here::here("config.yml")
   )
 
@@ -168,14 +179,14 @@ min_n_taxa_local <-
 
 Three scale-specific thresholds governed which spatial units were retained for model fitting.
 We excluded a taxon from a spatial unit if it appeared in fewer than `r min_n_cores` distinct sediment cores.
-We further excluded taxa if they appeared in fewer than `r min_n_samples_continental` distinct site–age combinations at the continental and regional scales, or fewer than `r min_n_samples_local` at the local scale, reflecting the reduced number of sites per unit at finer grains.
+We further excluded taxa if they appeared in fewer than `r min_n_samples_continental` distinct site–age combinations at the continental scale, fewer than `r min_n_samples_regional` at the regional scale, or fewer than `r min_n_samples_local` at the local scale, reflecting the reduced number of sites per unit at finer grains.
 We excluded a spatial unit entirely if fewer than `r min_n_taxa_continental` qualifying taxa remained after all pre-processing at the continental scale; the corresponding lower bounds were `r min_n_taxa_regional` taxa at the regional scale and `r min_n_taxa_local` taxa at the local scale.
 
 #### Temporal axis
 
 To test whether the structure of plant co-occurrence has changed through time — and in particular whether the large climate changes since the Last Glacial Maximum are associated with a reorganisation of co-occurrence networks — we applied the shared workflow independently to each 500-year time slice across the full 20,000-year window.
 We fitted a separate jSDM to each time slice rather than a single pooled model with a temporal random effect.
-Prior to model fitting, we computed co-occurrence network metrics directly from the binarised community matrix at each time slice to characterise the structural properties of the co-occurrence network independently of any model assumptions.
+Prior to model fitting, we computed co-occurrence network metrics (connectance, nestedness, and modularity) directly from the binarised community matrix at each time slice to characterise the structural properties of the co-occurrence network independently of any model assumptions.
 We then aggregated results from successive time slices into temporal trajectories of variance fractions and network metrics, revealing how the relative importance of environment, space, and biotic residuals — and the structure of the co-occurrence network itself — has evolved over geological time.
 We ran analyses for three continental regions: Europe, North America, and northern Asia.
 
@@ -188,7 +199,7 @@ We ran analyses for three continental regions: Europe, North America, and northe
 #| error: false
 config_temporal <-
   config::get(
-    config = "project_temporal_europe",
+    config = "project_paleo_temporal_europe",
     file = here::here("config.yml")
   )
 
