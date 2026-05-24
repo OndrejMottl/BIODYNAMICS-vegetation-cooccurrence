@@ -5,33 +5,33 @@
     "description": "Single source of truth for the IAVS 2026 RevealJS visual system."
   },
   "palette": {
-    "background": "#020703",
-    "surface": "#07130A",
-    "surface_alt": "#0B1B10",
-    "border": "#2F6F3D",
-    "text": "#D6FBD8",
-    "muted": "#7DA884",
-    "phosphor": "#8DF59A",
-    "amber": "#FFB35C",
-    "cyan": "#48C7B8",
+    "background": "#010301",
+    "surface": "#030703",
+    "surface_alt": "#071007",
+    "border": "#42651D",
+    "text": "#B8F77A",
+    "muted": "#75A85A",
+    "phosphor": "#B8FF6D",
+    "amber": "#E2C847",
+    "cyan": "#33C9D5",
     "red": "#FF7B72",
     "shadow": "#000000"
   },
   "typography": {
-    "body_family": "'IBM Plex Mono', 'Courier New', monospace",
-    "heading_family": "'IBM Plex Mono', 'Courier New', monospace",
-    "body_size": "30px",
-    "small_size": "20px",
-    "heading_weight": "600",
+    "body_family": "'VT323', 'Courier New', monospace",
+    "heading_family": "'VT323', 'Courier New', monospace",
+    "body_size": "22px",
+    "small_size": "22px",
+    "heading_weight": "500",
     "body_weight": "400",
-    "line_height": "1.35"
+    "line_height": "1.42"
   },
   "effects": {
-    "scanline_color": "rgba(141, 245, 154, 0.10)",
+    "scanline_color": "rgba(184, 255, 109, 0.08)",
     "scanline_size": "4px",
-    "scanline_opacity": "0.36",
-    "glow": "0 0 14px rgba(141, 245, 154, 0.42)",
-    "dim_glow": "0 0 8px rgba(72, 199, 184, 0.22)",
+    "scanline_opacity": "0.28",
+    "glow": "0 0 6px rgba(184, 255, 109, 0.20)",
+    "dim_glow": "0 0 4px rgba(184, 255, 109, 0.10)",
     "cursor_blink_duration": "1.1s"
   },
   "spacing": {
@@ -39,6 +39,6 @@
     "sm": "0.5rem",
     "md": "1rem",
     "lg": "1.5rem",
-    "xl": "2.5rem"
+    "xl": "3.2rem"
   }
 }

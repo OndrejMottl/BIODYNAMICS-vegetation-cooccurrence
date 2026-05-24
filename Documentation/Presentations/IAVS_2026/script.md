@@ -1,18 +1,30 @@
 # IAVS 2026 ORACLE Talk Script
 
-This script defines the slide architecture for the 21-slide ORACLE RevealJS presentation. It is result-led in structure, but placeholder-heavy for claims until target stores and `.qs` outputs are verified.
+This script defines the approved 18-slide ORACLE RevealJS main deck, comprising slides 00 through 17.
+It is result-led in structure, but result claims remain provisional until phase 5 replaces placeholders with verified target-store or `.qs` outputs.
 
-Scientific through-line: co-occurrence signal appears NOT to be scale-dependent.
+Planned scientific through-line: test whether the co-occurrence signal is scale-dependent.
+The directional interpretation remains provisional until phase 5 validates and integrates result figures.
 
 ## Review Status
 
 - Status: draft for user approval.
 - Claim policy: no unverified numerical claims. Quantitative details remain pending target verification
 - Visual policy: `[GENAI]` is used only for atmospheric or story-art slots, not for pipeline result figures.
+- Main-deck policy: slides under `Extra slides` and `Leftover slides` are not part of the approved 18-slide talk unless a later revision explicitly promotes them.
 
 ## Timing Overview
 
-//TODO
+The phase-4 skeleton allocates 11:25 within the 12-minute speaking slot.
+Timings are rehearsal scaffolding and will be refined during the narrative pass.
+
+| Slide range | Focus | Time |
+| --- | --- | ---: |
+| 00-02 | Opening, ORACLE introduction, central query | 1:45 |
+| 03-07 | Archive, axes, preparation, model, decomposition | 3:30 |
+| 08-12 | Spatial, taxonomic, temporal, synthesis placeholders | 4:00 |
+| 13-17 | Implication, close, presenter, availability, final | 2:10 |
+| **Total** | **Approved 18-slide main deck** | **11:25** |
 
 ## slide 00
 

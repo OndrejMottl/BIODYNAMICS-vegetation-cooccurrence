@@ -1,20 +1,20 @@
 /*-- scss:defaults --*/
 
 @import "oracle_generated";
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 
 // Reveal.js compile-time defaults. Runtime styling uses generated CSS
 // variables from design_config.json below.
-$backgroundColor: #020703;
-$mainColor: #D6FBD8;
-$headingColor: #8DF59A;
-$linkColor: #48C7B8;
-$selectionBackgroundColor: #2F6F3D;
+$backgroundColor: #010301;
+$mainColor: #B8F77A;
+$headingColor: #B8FF6D;
+$linkColor: #33C9D5;
+$selectionBackgroundColor: #42651D;
 
-$mainFont: 'IBM Plex Mono', 'Courier New', monospace;
-$headingFont: 'IBM Plex Mono', 'Courier New', monospace;
-$mainFontSize: 30px;
-$headingFontWeight: 600;
+$mainFont: 'VT323', 'Courier New', monospace;
+$headingFont: 'VT323', 'Courier New', monospace;
+$mainFontSize: 22px;
+$headingFontWeight: 500;
 $headingTextTransform: uppercase;
 $headingLetterSpacing: 0;
 
@@ -22,44 +22,33 @@ $headingLetterSpacing: 0;
 
 :root {
   color-scheme: dark;
+  --oracle-frame-radius: 0.18rem;
 }
 
 .reveal {
+  background: #000;
+  color: var(--oracle-palette-text);
+  font-family: var(--oracle-typography-body-family);
+  text-shadow: none;
+}
+
+.reveal .slides section {
   background:
     linear-gradient(
       rgba(141, 245, 154, 0.035) 50%,
       rgba(0, 0, 0, 0.06) 50%
-    ),
-    var(--oracle-palette-background);
-  background-size: 100% var(--oracle-effects-scanline-size);
-  color: var(--oracle-palette-text);
-  font-family: var(--oracle-typography-body-family);
-  text-shadow: var(--oracle-effects-dim-glow);
-}
-
-.reveal::after {
-  content: "";
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0,
-      transparent 3px,
-      var(--oracle-effects-scanline-color) 4px
     );
-  opacity: var(--oracle-effects-scanline-opacity);
+  background-color: var(--oracle-palette-background);
+  background-size: 100% var(--oracle-effects-scanline-size);
+  border: 1px solid rgba(184, 255, 109, 0.38);
+  border-radius: var(--oracle-frame-radius);
+  box-shadow: inset 0 0 12px rgba(184, 255, 109, 0.035);
+  padding: var(--oracle-spacing-xl);
+  box-sizing: border-box;
 }
 
 .reveal .slides {
   text-align: left;
-}
-
-.reveal .slides section {
-  padding: var(--oracle-spacing-xl);
-  box-sizing: border-box;
 }
 
 .reveal h1,
@@ -94,17 +83,23 @@ $headingLetterSpacing: 0;
   color: var(--oracle-palette-cyan);
 }
 
-.oracle-title {
+.reveal .slides section.oracle-title {
   background:
     radial-gradient(
       circle at 22% 18%,
       rgba(72, 199, 184, 0.18),
       transparent 30%
     ),
+    linear-gradient(
+      rgba(141, 245, 154, 0.035) 50%,
+      rgba(0, 0, 0, 0.06) 50%
+    ),
     var(--oracle-palette-background);
+  background-size: auto, 100% var(--oracle-effects-scanline-size), auto;
 }
 
 .oracle-title h1::before,
+.oracle-title h2::before,
 .system-slide h2::before {
   content: "> ";
   color: var(--oracle-palette-amber);
@@ -120,10 +115,33 @@ $headingLetterSpacing: 0;
   color: var(--oracle-palette-amber);
 }
 
+.system-slide,
+.query-slide,
+.result-slide {
+  background: transparent;
+}
+
+.system-slide h2,
+.query-slide h2,
+.result-slide h2 {
+  color: var(--oracle-palette-phosphor);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  margin: 0 0 var(--oracle-spacing-xl);
+  padding-bottom: var(--oracle-spacing-sm);
+  text-shadow: none;
+}
+
+.system-slide h2::before {
+  content: "SYSTEM // ";
+  color: var(--oracle-palette-muted);
+}
+
 .terminal-status {
   color: var(--oracle-palette-muted);
-  font-size: 0.72em;
-  letter-spacing: 0;
+  font-size: 0.62em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -132,23 +150,30 @@ $headingLetterSpacing: 0;
 }
 
 .oracle-says {
-  border: 2px solid var(--oracle-palette-phosphor);
-  background: rgba(7, 19, 10, 0.86);
-  box-shadow:
-    inset 0 0 22px rgba(141, 245, 154, 0.10),
-    var(--oracle-effects-glow);
-  color: var(--oracle-palette-text);
-  margin: var(--oracle-spacing-lg) 0;
-  padding: var(--oracle-spacing-lg);
+  background: transparent;
+  color: var(--oracle-palette-amber);
+  letter-spacing: 0.045em;
+  margin: 0 0 var(--oracle-spacing-lg);
+  padding: var(--oracle-spacing-md) 0;
 }
 
 .oracle-says::before {
-  content: "ORACLE SAYS";
+  content: "<ORACLE> // ...";
   display: block;
   color: var(--oracle-palette-amber);
   font-size: var(--oracle-typography-small-size);
-  font-weight: 700;
+  font-weight: 500;
   margin-bottom: var(--oracle-spacing-sm);
+}
+
+.oracle-line {
+  color: var(--oracle-palette-amber);
+  display: block;
+}
+
+.oracle-line::before {
+  color: var(--oracle-palette-phosphor);
+  content: "> ";
 }
 
 .terminal-cursor::after {
@@ -178,9 +203,11 @@ $headingLetterSpacing: 0;
 
 .terminal-panel {
   border: 1px solid var(--oracle-palette-border);
-  background: rgba(11, 27, 16, 0.72);
+  border-radius: var(--oracle-frame-radius);
+  background: transparent;
   min-height: 8rem;
   padding: var(--oracle-spacing-md);
+  text-align: center;
 }
 
 .terminal-panel .label {
@@ -199,10 +226,573 @@ $headingLetterSpacing: 0;
 }
 
 .figure-frame {
-  border: 1px solid var(--oracle-palette-border);
-  background: var(--oracle-palette-surface);
-  box-shadow: var(--oracle-effects-dim-glow);
+  background: transparent;
+  padding: 0;
+}
+
+.slide-columns {
+  align-items: center;
+  display: grid;
+  gap: var(--oracle-spacing-lg);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: var(--oracle-spacing-md);
+}
+
+.hero-layout {
+  grid-template-columns: 0.9fr 1.1fr;
+}
+
+.compact-layout {
+  align-items: stretch;
+}
+
+.panel-grid-3 {
+  display: grid;
+  gap: var(--oracle-spacing-md);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: var(--oracle-spacing-lg);
+}
+
+.terminal-grid-compact .terminal-panel {
+  min-height: 5.5rem;
+}
+
+.intro-slide .terminal-grid {
+  gap: var(--oracle-spacing-sm);
+  margin-top: var(--oracle-spacing-sm);
+}
+
+.intro-slide .terminal-panel {
+  padding: var(--oracle-spacing-sm);
+}
+
+.intro-slide .terminal-panel .value {
+  font-size: 0.9em;
+}
+
+.scale-query-slide .oracle-says {
+  font-size: 0.84em;
+  margin: var(--oracle-spacing-sm) 0;
   padding: var(--oracle-spacing-md);
+}
+
+.scale-query-slide .slide-columns {
+  align-items: start;
+  margin-top: var(--oracle-spacing-sm);
+}
+
+.scale-query-slide .story-image {
+  max-height: 205px;
+}
+
+.scale-query-slide .story-frame figcaption {
+  font-size: 0.48em;
+}
+
+.scale-query-slide .prompt-panel {
+  font-size: 0.82em;
+  padding: var(--oracle-spacing-sm) var(--oracle-spacing-md);
+}
+
+.scale-query-slide .concept-label {
+  margin-top: var(--oracle-spacing-sm);
+}
+
+.implication-slide h2 {
+  font-size: 1.28em;
+}
+
+.implication-slide .slide-columns {
+  align-items: start;
+  margin-top: var(--oracle-spacing-sm);
+}
+
+.implication-slide .story-image {
+  max-height: 255px;
+}
+
+.implication-slide .oracle-says {
+  font-size: 0.78em;
+  margin: 0 0 var(--oracle-spacing-sm);
+  padding: var(--oracle-spacing-md);
+}
+
+.implication-slide .slide-copy {
+  font-size: 0.86em;
+}
+
+.implication-slide .concept-label {
+  margin-top: var(--oracle-spacing-sm);
+}
+
+.terminal-kicker {
+  color: var(--oracle-palette-amber);
+  display: block;
+  font-size: 0.64em;
+  margin-bottom: var(--oracle-spacing-md);
+}
+
+.hero-title {
+  color: var(--oracle-palette-phosphor);
+  display: block;
+  font-size: 1.75em;
+  font-weight: var(--oracle-typography-heading-weight);
+  line-height: 1.15;
+  margin-bottom: var(--oracle-spacing-lg);
+  text-shadow: var(--oracle-effects-dim-glow);
+  text-transform: uppercase;
+}
+
+.story-frame {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.story-image {
+  display: block;
+  margin: 0 auto;
+  max-height: 480px;
+  mix-blend-mode: screen;
+  object-fit: contain;
+  width: 100%;
+}
+
+.story-frame figcaption {
+  color: var(--oracle-palette-muted);
+  font-size: 0.55em;
+  line-height: 1.25;
+  margin-top: var(--oracle-spacing-sm);
+  text-align: left;
+}
+
+.prompt-panel,
+.result-placeholder,
+.synthesis-panel {
+  background: transparent;
+  padding: var(--oracle-spacing-md);
+}
+
+.prompt-panel {
+  border-left: 1px solid var(--oracle-palette-border);
+}
+
+.prompt-panel .label,
+.placeholder-tag {
+  color: var(--oracle-palette-muted);
+  display: block;
+  font-size: 0.62em;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--oracle-spacing-sm);
+}
+
+.result-placeholder {
+  background:
+    linear-gradient(90deg, var(--oracle-palette-border), transparent 42%) top left / 100% 1px no-repeat,
+    repeating-linear-gradient(
+      0deg,
+      rgba(184, 255, 109, 0.018) 0,
+      rgba(184, 255, 109, 0.018) 1px,
+      transparent 1px,
+      transparent 28px
+    );
+  min-height: 8.8rem;
+}
+
+.placeholder-tall {
+  min-height: 10.5rem;
+}
+
+.placeholder-state,
+.concept-label,
+.provisional-banner {
+  color: var(--oracle-palette-amber);
+  display: block;
+  font-size: 0.58em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-top: var(--oracle-spacing-md);
+}
+
+.provisional-banner {
+  border: 1px solid var(--oracle-palette-amber);
+  border-radius: var(--oracle-frame-radius);
+  padding: var(--oracle-spacing-sm);
+}
+
+.terminal-prompt {
+  color: var(--oracle-palette-amber);
+  font-size: 0.78em;
+  font-weight: 700;
+  margin-top: var(--oracle-spacing-lg);
+}
+
+.channel-spatial {
+  color: var(--oracle-palette-cyan);
+}
+
+.channel-temporal {
+  color: var(--oracle-palette-amber);
+}
+
+.channel-taxonomic {
+  color: #C792EA;
+}
+
+.process-flow,
+.model-flow {
+  align-items: center;
+  display: flex;
+  gap: var(--oracle-spacing-sm);
+  margin: var(--oracle-spacing-lg) 0;
+}
+
+.flow-step,
+.model-node,
+.model-response {
+  border: 1px solid var(--oracle-palette-border);
+  border-radius: var(--oracle-frame-radius);
+  background: transparent;
+  flex: 1;
+  min-height: 3.6rem;
+  padding: var(--oracle-spacing-sm);
+}
+
+.flow-step .label,
+.model-node .label,
+.model-response .label {
+  color: var(--oracle-palette-muted);
+  display: block;
+  font-size: 0.56em;
+}
+
+.flow-arrow,
+.model-arrow {
+  color: var(--oracle-palette-phosphor);
+  font-weight: 700;
+}
+
+.channel-spatial-border {
+  border-color: var(--oracle-palette-cyan);
+}
+
+.channel-taxonomic-border {
+  border-color: #C792EA;
+}
+
+.partition-diagram {
+  display: grid;
+  gap: var(--oracle-spacing-sm);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.partition-cell {
+  border: 1px solid var(--oracle-palette-border);
+  border-radius: var(--oracle-frame-radius);
+  min-height: 5.5rem;
+  padding: var(--oracle-spacing-md);
+}
+
+.partition-abiotic {
+  border-color: var(--oracle-palette-cyan);
+}
+
+.partition-spatial {
+  border-color: var(--oracle-palette-phosphor);
+}
+
+.partition-association {
+  border-color: var(--oracle-palette-amber);
+}
+
+.partition-shared {
+  border-style: dashed;
+}
+
+.synthesis-row {
+  border-bottom: 1px solid var(--oracle-palette-border);
+  padding: var(--oracle-spacing-sm) 0;
+}
+
+.synthesis-row:last-child {
+  border-bottom: 0;
+}
+
+.compact-slide .oracle-says {
+  font-size: 0.86em;
+  margin: var(--oracle-spacing-sm) 0;
+  padding: var(--oracle-spacing-md);
+}
+
+.compact-slide .synthesis-panel {
+  font-size: 0.82em;
+  padding: var(--oracle-spacing-sm) var(--oracle-spacing-md);
+}
+
+.compact-slide .synthesis-row {
+  padding: var(--oracle-spacing-xs) 0;
+}
+
+.compact-slide .provisional-banner {
+  margin-top: var(--oracle-spacing-sm);
+}
+
+.compact-slide .panel-grid-3 {
+  margin-top: var(--oracle-spacing-sm);
+}
+
+.compact-slide .result-placeholder {
+  font-size: 0.84em;
+  min-height: 6rem;
+  padding: var(--oracle-spacing-sm);
+}
+
+.dense-method-slide h2,
+.temporal-setup-slide h2 {
+  margin-bottom: var(--oracle-spacing-lg);
+}
+
+.dense-method-slide .oracle-says,
+.temporal-setup-slide .oracle-says {
+  font-size: 0.78em;
+  margin-bottom: var(--oracle-spacing-sm);
+  padding: var(--oracle-spacing-sm) var(--oracle-spacing-md);
+}
+
+.dense-method-slide .process-flow {
+  font-size: 0.82em;
+  gap: var(--oracle-spacing-xs);
+  margin: var(--oracle-spacing-sm) 0;
+}
+
+.dense-method-slide .flow-step {
+  min-height: 2.6rem;
+  padding: var(--oracle-spacing-sm);
+}
+
+.dense-method-slide .slide-columns,
+.temporal-setup-slide .panel-grid-3 {
+  font-size: 0.78em;
+  margin-top: var(--oracle-spacing-sm);
+}
+
+.dense-method-slide .terminal-panel,
+.dense-method-slide .result-placeholder,
+.temporal-setup-slide .result-placeholder {
+  min-height: 5.5rem;
+  padding: var(--oracle-spacing-sm) var(--oracle-spacing-md);
+}
+
+.final-slide .story-image {
+  max-height: 400px;
+}
+
+.hero-slide .story-frame {
+  background: transparent;
+  box-shadow: none;
+}
+
+.visual-dominant h2,
+.figure-dominant h2 {
+  margin-bottom: var(--oracle-spacing-md);
+}
+
+.visual-stage {
+  align-items: stretch;
+  display: grid;
+  gap: var(--oracle-spacing-lg);
+  grid-template-columns: minmax(0, 2.05fr) minmax(21rem, 0.95fr);
+  margin-top: var(--oracle-spacing-md);
+  min-height: 535px;
+}
+
+.visual-stage .story-frame {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 535px;
+}
+
+.visual-stage .story-image {
+  max-height: 580px;
+}
+
+.portrait-stage {
+  grid-template-columns: minmax(0, 1.65fr) minmax(29rem, 1fr);
+}
+
+.query-visual-stage .story-image,
+.axes-stage .story-image,
+.implication-stage .story-image {
+  max-height: 600px;
+}
+
+.closing-stage {
+  grid-template-columns: minmax(23rem, 0.8fr) minmax(0, 2fr);
+}
+
+.closing-stage .story-image {
+  max-height: 560px;
+}
+
+.stage-sidecar {
+  align-content: start;
+  display: grid;
+  gap: var(--oracle-spacing-md);
+}
+
+.stage-sidecar .oracle-says {
+  border-left: 1px solid rgba(226, 200, 71, 0.5);
+  line-height: 1.18;
+  margin-bottom: 0;
+  padding-left: var(--oracle-spacing-md);
+}
+
+.stage-sidecar .oracle-line {
+  line-height: 1.18;
+}
+
+.figure-stage {
+  align-items: stretch;
+  display: grid;
+  gap: var(--oracle-spacing-lg);
+  margin-top: var(--oracle-spacing-md);
+  min-height: 475px;
+}
+
+.figure-major {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 450px;
+}
+
+.archive-stage {
+  grid-template-columns: minmax(0, 1.8fr) minmax(27rem, 1.1fr);
+  min-height: 500px;
+}
+
+.archive-stage .figure-major {
+  min-height: 500px;
+}
+
+.archive-stage .stage-sidecar .result-placeholder {
+  min-height: 0;
+  padding: var(--oracle-spacing-sm) var(--oracle-spacing-md);
+}
+
+.axes-stage {
+  grid-template-columns: minmax(0, 1.9fr) minmax(24rem, 1fr);
+  min-height: 500px;
+}
+
+.axes-stage .story-frame {
+  min-height: 500px;
+}
+
+.diagnostic-stage {
+  grid-template-columns: minmax(24rem, 0.95fr) minmax(0, 1.85fr);
+}
+
+.diagnostic-stage .terminal-panel {
+  min-height: 0;
+}
+
+.model-stage {
+  grid-template-columns: minmax(0, 1.95fr) minmax(24rem, 0.9fr);
+}
+
+.model-stage .model-flow {
+  align-items: stretch;
+  margin: 0;
+  min-height: 470px;
+}
+
+.model-stage .model-node,
+.model-stage .model-response {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+}
+
+.partition-stage {
+  grid-template-columns: minmax(0, 1.6fr) minmax(27rem, 1fr);
+}
+
+.partition-stage .partition-cell {
+  min-height: 205px;
+}
+
+.result-pair-stage {
+  grid-template-columns: minmax(22rem, 0.85fr) minmax(0, 1.85fr);
+}
+
+.result-pair-stage .stage-sidecar .result-placeholder {
+  min-height: 230px;
+}
+
+.matrix-stage {
+  grid-template-columns: minmax(0, 2fr) minmax(22rem, 0.85fr);
+}
+
+.matrix-stage .figure-major {
+  min-height: 510px;
+}
+
+.temporal-stage {
+  grid-template-columns: minmax(27rem, 1fr) minmax(0, 1.9fr);
+}
+
+.temporal-stage .figure-major {
+  min-height: 510px;
+}
+
+.trajectory-stage {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.trajectory-stage .figure-major {
+  min-height: 470px;
+}
+
+.synthesis-stage {
+  min-height: 430px;
+}
+
+.availability-stage {
+  grid-template-columns: minmax(20rem, 0.75fr) minmax(0, 1.25fr);
+}
+
+.availability-stage .figure-major {
+  min-height: 450px;
+}
+
+.reveal .fragment.tui-reveal {
+  transform: none;
+}
+
+.reveal .fragment.tui-reveal.visible {
+  animation: oracle-terminal-refresh 180ms steps(2, end);
+}
+
+@keyframes oracle-terminal-refresh {
+  0% {
+    filter: brightness(1.8);
+    opacity: 0;
+  }
+
+  55% {
+    filter: brightness(1.35);
+    opacity: 1;
+  }
+
+  100% {
+    filter: none;
+    opacity: 1;
+  }
 }
 
 .reveal table {
@@ -231,5 +821,35 @@ $headingLetterSpacing: 0;
 
 .reveal pre {
   border: 1px solid var(--oracle-palette-border);
+  border-radius: var(--oracle-frame-radius);
   box-shadow: var(--oracle-effects-dim-glow);
+}
+
+// Slides 01-16 use a fixed-width TUI text grid. Meaning is carried by
+// prompts, colours, borders, and spacing rather than modern type hierarchy.
+.reveal .slides section:not(.oracle-title) {
+  font-family: var(--oracle-typography-body-family);
+  font-size: var(--oracle-typography-body-size);
+  padding-top: var(--oracle-spacing-sm);
+}
+
+.reveal .slides section:not(.oracle-title) :is(
+  h1,
+  h2,
+  h3,
+  p,
+  li,
+  div,
+  span,
+  strong,
+  a,
+  code,
+  figcaption
+) {
+  font-family: inherit;
+  font-size: 1em;
+}
+
+.reveal .slides section:not(.oracle-title) .oracle-says::before {
+  font-size: 1em;
 }
