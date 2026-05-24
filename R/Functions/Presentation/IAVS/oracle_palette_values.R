@@ -15,7 +15,7 @@ oracle_palette_values <- function(names = NULL) {
     base::source(
       here::here(
         "R",
-        "Supplementary",
+        "03_Supplementary_analyses",
         "Presentation",
         "load_design_config.R"
       )
