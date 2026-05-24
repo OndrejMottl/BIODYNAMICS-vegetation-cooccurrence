@@ -1,7 +1,5 @@
 ---
-title: "ORACLE: Observational Runtime for Analysis of Community-Level Ecology"
-subtitle: "IAVS 2026 proof of concept"
-author: "BIODYNAMICS vegetation co-occurrence"
+pagetitle: "Exploring biotic signals in vegetation assembly from the LGM to the Anthropocene"
 format:
   revealjs:
     theme:
@@ -10,6 +8,7 @@ format:
     slide-width: 1600
     slide-height: 900
     slide-number: true
+    slide-level: 2
     embed-resources: true
     center-title-slide: false
 execute:
@@ -18,96 +17,639 @@ execute:
   message: false
 ---
 
-```{r}
-#| label: setup
-#| include: false
-library(here)
-here::i_am("Documentation/Presentations/IAVS_2026/index.qmd")
-source(
-  here::here("R/03_Supplementary_analyses/Presentation/theme_oracle.R")
-)
-```
+## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.oracle-title .hero-slide}
 
-# ORACLE ECOLOGICAL BIOSURVEILLANCE {.oracle-title}
+<!-- slide:00 -->
+
+::: {.slide-columns .hero-layout}
+::: {.title-copy}
+
+[talking to ORACLE:]{.hero-title}
+
+[Exploring biotic signals in vegetation assembly from the LGM to the Anthropocene]{.hero-title}
+
+<br>
+
+Ondrej Mottl
+
+[IAVS 2026 | 22-26 June 2026 | Gijón, Spain]{.terminal-kicker}
+
+<br>
+<br>
+<br>
+<br>
+<br>
 
 ::: {.terminal-status}
-SYSTEM: **ONLINE** / SESSION: IAVS_2026 / MODE: VEGETATION CO-OCCURRENCE
+NARRATIVE INTERFACE: **ORACLE** / ANALYTICAL OUTPUTS: **REAL**
+:::
 :::
 
+::: {.story-frame}
+![This will be fliped 90 degrees and blend with background](figures/story/genai_drafts/planet_abstract_scan_motif_v3.png){.story-image}
+:::
+:::
+
+::: {.notes}
+TIME 00:25. I will ask the audience to close their eyes and imagine there are on a space ship and their goal is to examine the vegtation patterns of this Planet called "Earth". We will use of the spaceship computer called ORACLE to do so. All the data, analysis, and results are real. The computer is not real and only serves as a narrative device.
+:::
+
+<!-- slide:01 -->
+## System ... booting {.system-slide .intro-slide .visual-dominant}
+
+::: {.visual-stage .portrait-stage}
+::: {.story-frame}
+![This needs to be much larger and blended with background](figures/story/genai_drafts/oracle_abstract_face_motif_v3.png){.story-image}
+:::
+
+::: {.slide-copy}
 ::: {.oracle-says .terminal-cursor}
-Awaiting research query. Climate archive and fossil pollen matrices are mounted.
+[System online.]{.oracle-line}
+[Greetings Dr. Mottl.]{.oracle-line}
+[I am **[O]bservational [R]untime for [A]nalysis of [C]ommunity-[L]evel [E]cology**]{.oracle-line}
+[&lt;ORACLE&gt; for short.]{.oracle-line}
+[I am here to assist you in analyzing vegetation patterns on Earth.]{.oracle-line}
+[Awaiting ecological query.]{.oracle-line}
+[ ]{.oracle-line}
+[Proceed? Y/N?]{.oracle-line}
 :::
 
-::: {.terminal-grid}
+:::
+:::
+
+::: {.terminal-status}
+BIOSPHERE DIVERSITY: **HIGH** // CHANGE: **ACCELERATING** // UNCERTAINTY: **SUBSTANTIAL**
+:::
+
+::: {.notes}
+TIME 00:35. Introduce yourself and the ORACLE acronym. Establish the single task for the talk: use vegetation records to ask whether association-like structure changes with analytical scale.
+:::
+
+<!-- slide:02 -->
+## Does unexplained structure change with scale? {.query-slide .scale-query-slide .visual-dominant}
+
+::: {.visual-stage .query-visual-stage}
+::: {.story-frame}
+![Conceptual narrative visual: three ORACLE input streams for climate, space, and association.](figures/story/genai_drafts/query_three_streams_motif_v6.png){.story-image}
+:::
+
+::: {.stage-sidecar}
+::: {.oracle-says .fragment .tui-reveal data-fragment-index="1"}
+[Query accepted.]{.oracle-line}
+[Plan to partition observed plant]{.oracle-line}
+[co-occurrence into climate response,]{.oracle-line}
+[spatial structure, and residual association.]{.oracle-line}
+:::
+
+::: {.prompt-panel .fragment .tui-reveal data-fragment-index="2"}
+[CENTRAL QUERY]{.label}
+
+Does the residual association component vary across:
+
+- [space]{.channel-spatial}
+- [time]{.channel-temporal}
+- [taxonomic resolution]{.channel-taxonomic}
+
+::: {.concept-label}
+CONCEPTUAL VISUAL / NOT ANALYTICAL EVIDENCE
+:::
+:::
+:::
+:::
+
+::: {.notes}
+TIME 00:45. Frame the question as variance partitioning, not as proof of direct interaction. Residual association is the candidate signal to be followed across scales.
+:::
+
+<!-- slide:03 -->
+## Archive mounted: VegVault {.system-slide .figure-dominant .archive-slide}
+
+::: {.figure-stage .archive-stage}
+::: {.result-placeholder .figure-major}
+[STORY SCHEMATIC]{.placeholder-tag}
+
+**Northern Hemisphere coverage**
+
+North America / Europe / Asia
+
+[PHASE 5: ADD MAP OUTPUT]{.placeholder-state}
+:::
+
+::: {.stage-sidecar}
+::: {.oracle-says}
+[VegVault database:]{.oracle-line}
+[publicly available,]{.oracle-line}
+[open source database.]{.oracle-line}
+[VegVault scan complete.]{.oracle-line}
+[Community records, climate]{.oracle-line}
+[predictors,]{.oracle-line}
+[site coordinates, and]{.oracle-line}
+[functional traits]{.oracle-line}
+[are loaded as separate streams.]{.oracle-line}
+[Due to data availability,]{.oracle-line}
+[I will focus on the]{.oracle-line}
+[Northern Hemisphere of the planet.]{.oracle-line}
+:::
+
+::: {.result-placeholder}
+[SYSTEM SCHEMATIC]{.placeholder-tag}
+
+**Input streams**
+
+Vegetation / pollen / climate / traits
+
+[PHASE 4 PLACEHOLDER]{.placeholder-state}
+:::
+:::
+:::
+
+::: {.notes}
+TIME 00:45. Introduce VegVault as the data source and signal the geographic framing. This slide deliberately reserves map and access panels without presenting unverified data summaries.
+:::
+
+<!-- slide:04 -->
+## Three analysis axes {.system-slide .visual-dominant}
+
+::: {.visual-stage .axes-stage}
+::: {.story-frame}
+![Conceptual narrative visual: spatial, temporal, and taxonomic analysis axes.](figures/story/genai_drafts/analysis_axes_triptych_motif_v2.png){.story-image}
+:::
+
+::: {.stage-sidecar}
+::: {.oracle-says}
+[Route selected.]{.oracle-line}
+[Spatial-resolution runs]{.oracle-line}
+[test scale and taxonomic]{.oracle-line}
+[aggregation level.]{.oracle-line}
+[Temporal slices test]{.oracle-line}
+[change through time.]{.oracle-line}
+:::
+
+::: {.prompt-panel}
+::: {.terminal-status}
+ROUTE SUMMARY
+:::
+
+- [Spatial]{.channel-spatial}: local to continental units
+- [Temporal]{.channel-temporal}: repeated palaeo slices
+- [Taxonomic]{.channel-taxonomic}: genus, family, functional type
+
+::: {.concept-label}
+METHOD ILLUSTRATION / NOT A RESULT
+:::
+:::
+:::
+:::
+
+::: {.notes}
+TIME 00:35. Explain that the same model logic is queried along three independent axes so comparisons remain interpretable.
+:::
+
+<!-- slide:05 -->
+## Preparing community and climate streams {.system-slide .dense-method-slide .figure-dominant}
+
+::: {.figure-stage .diagnostic-stage}
+::: {.stage-sidecar}
+::: {.oracle-says}
+[Data extracted,]{.oracle-line}
+[now preparation ...]{.oracle-line}
+[Community stream normalised.]{.oracle-line}
+[Taxa are classified,]{.oracle-line}
+[filtered, and routed to]{.oracle-line}
+[the analysis resolution.]{.oracle-line}
+[Climate stream screened.]{.oracle-line}
+[Redundant predictors]{.oracle-line}
+[are removed]{.oracle-line}
+[before model fitting.]{.oracle-line}
+:::
+
 ::: {.terminal-panel}
-[Archive]{.label}
+[COMMUNITY STREAM]{.label}
 
-[VegVault]{.value}
-:::
-
-::: {.terminal-panel}
-[Signal]{.label}
-[Co-occurrence]{.value}
-:::
-
-::: {.terminal-panel}
-[Slot]{.label}
-
-[12 min]{.value}
+[01] Counts and ages<br>
+[02] Proportions and alignment<br>
+[03] Taxa classified and filtered<br>
+[04] Model-ready community
 :::
 :::
 
-## Can ORACLE separate climate response from association? {.query-slide}
+::: {.result-placeholder .figure-major}
+[CLIMATE DIAGNOSTIC PLACEHOLDER]{.placeholder-tag}
+
+CHELSA predictor screening and collinearity panel
+
+[PHASE 5: INSERT VERIFIED OUTPUT]{.placeholder-state}
+:::
+:::
+
+::: {.notes}
+TIME 00:45. Walk through the processing logic rather than numbers. Stress that climate screening and community preparation occur before model fitting; diagnostics will be replaced with verified output in phase 5.
+:::
+
+<!-- slide:06 -->
+## Model core: environment, space, association {.system-slide .figure-dominant .model-slide}
+
+::: {.figure-stage .model-stage}
+::: {.model-flow}
+::: {.model-node .channel-spatial-border}
+[ABIOTIC]{.label}
+
+Climate predictors
+:::
+::: {.model-node}
+[SPATIAL]{.label}
+
+MEM structure
+:::
+::: {.model-node .channel-taxonomic-border}
+[ASSOCIATION]{.label}
+
+Residual covariance
+:::
+::: {.model-arrow}
+->
+:::
+::: {.model-response}
+[RESPONSE]{.label}
+
+Community matrix
+:::
+:::
+
+::: {.stage-sidecar}
+::: {.oracle-says}
+[Model assembled.]{.oracle-line}
+[Abiotic predictors explain]{.oracle-line}
+[shared response.]{.oracle-line}
+[Moran Eigenvector Maps (MEMs)]{.oracle-line}
+[absorb spatio-temporal]{.oracle-line}
+[autocorrelation.]{.oracle-line}
+[Residual covariance carries]{.oracle-line}
+[association signal.]{.oracle-line}
+:::
+
+::: {.concept-label}
+CONCEPTUAL MODEL DIAGRAM / `sjSDM` IMPLEMENTATION CONTEXT
+:::
+:::
+:::
+
+::: {.notes}
+TIME 00:45. Introduce the model architecture: abiotic predictors, spatial structure, and remaining covariance. Do not claim that residual covariance alone demonstrates direct biotic interaction.
+:::
+
+<!-- slide:07 -->
+## Variance decomposition {.system-slide .figure-dominant .partition-slide}
+
+::: {.figure-stage .partition-stage}
+::: {.partition-diagram}
+::: {.partition-cell .partition-abiotic}
+Abiotic
+:::
+::: {.partition-cell .partition-spatial}
+Spatial
+:::
+::: {.partition-cell .partition-association}
+Association
+:::
+::: {.partition-cell .partition-shared}
+Shared fractions
+:::
+:::
+
+::: {.slide-copy}
+::: {.oracle-says}
+[Decomposition ready.]{.oracle-line}
+[Report what remains after climate]{.oracle-line}
+[and spatial structure have made]{.oracle-line}
+[their claims.]{.oracle-line}
+:::
+
+- Focus: residual association component
+- Caution: co-occurrence is not proof of interaction
+
+::: {.concept-label}
+SCHEMATIC / NOT FITTED VALUES
+:::
+:::
+:::
+
+::: {.notes}
+TIME 00:40. Explain the decomposition as the bridge from model to question. Shared fractions are diagnostic; the talk follows the residual component cautiously.
+:::
+
+<!-- slide:08 -->
+## Spatial scan: local to continental {.result-slide .figure-dominant}
+
+::: {.figure-stage .result-pair-stage}
+::: {.stage-sidecar}
+::: {.oracle-says}
+[Spatial scan configured.]{.oracle-line}
+[Units are nested from local to regional to continental.]{.oracle-line}
+:::
+
+::: {.result-placeholder .fragment .tui-reveal data-fragment-index="1"}
+[MAP PLACEHOLDER]{.placeholder-tag}
+
+**Spatial units**
+
+Example nested local, regional, and continental extents.
+
+[PHASE 5 OUTPUT]{.placeholder-state}
+:::
+:::
+
+::: {.result-placeholder .figure-major .fragment .tui-reveal data-fragment-index="2"}
+[RESULT PLACEHOLDER]{.placeholder-tag}
+
+**Association across spatial scales**
+
+Tile layout reserved for unit-level residual association.
+
+[PROVISIONAL CLAIM ONLY]{.placeholder-state}
+:::
+:::
+
+::: {.notes}
+TIME 00:50. Set up the spatial comparison. The draft narrative expects no obvious monotonic change, but state that the plotted evidence is deliberately withheld until verified outputs are integrated.
+:::
+
+<!-- slide:09 -->
+## Add taxonomic resolution {.query-slide .figure-dominant}
+
+::: {.figure-stage .matrix-stage}
+::: {.result-placeholder .figure-major .fragment .tui-reveal data-fragment-index="2"}
+[RESULT MATRIX PLACEHOLDER]{.placeholder-tag}
+
+**Spatial x taxonomic tile grid**
+
+Nine-panel result layout reserved.
+
+[PHASE 5 OUTPUT]{.placeholder-state}
+:::
+
+::: {.stage-sidecar}
+::: {.oracle-says}
+[Query accepted.]{.oracle-line}
+[Adding taxonomic axis.]{.oracle-line}
+[Plotting the results.]{.oracle-line}
+:::
+
+::: {.prompt-panel}
+[EXPECTED TEST]{.label}
+
+Will aggregation alter the visibility of association-like signal?
+
+::: {.fragment}
+Three spatial scales x three taxonomic routes
+:::
+:::
+:::
+:::
+
+::: {.notes}
+TIME 00:45. Introduce the second comparison axis. The slide prepares the expectation and layout; avoid stating the outcome until the matrix is backed by verified outputs.
+:::
+
+<!-- slide:10 -->
+## Temporal mode: repeated slices {.query-slide .temporal-setup-slide .figure-dominant}
+
+::: {.figure-stage .temporal-stage}
+::: {.stage-sidecar}
+::: {.oracle-says}
+[Query accepted.]{.oracle-line}
+[Temporal mode selected. Slicing the data into 500-year windows.]{.oracle-line}
+[Network diagnostics loaded. Co-occurrence structure can change]{.oracle-line}
+[even when variance components look similar.]{.oracle-line}
+[Each slice receives an independent analysis and diagnostics.]{.oracle-line}
+[Plotting the results.]{.oracle-line}
+[Proceed? Y/N?]{.oracle-line}
+:::
+:::
+
+::: {.result-placeholder .figure-major .fragment .tui-reveal data-fragment-index="1"}
+[TEMPORAL DIAGNOSTIC FIGURE PLACEHOLDER]{.placeholder-tag}
+
+**Composite time-mode display**
+
+Data density / network snapshot / repeated model slices
+
+[PHASE 5: INSERT VERIFIED MULTIPANEL OUTPUT]{.placeholder-state}
+:::
+:::
+
+::: {.notes}
+TIME 00:50. Move from spatial comparisons to temporal stress testing. Explain that data coverage, network structure, and model components need to be assessed together.
+:::
+
+<!-- slide:11 -->
+## Temporal trajectories {.result-slide .figure-dominant}
 
 ::: {.oracle-says}
-Query accepted. Compare the observed co-occurrence structure with abiotic predictors, spatial structure, and time-slice dynamics.
+[Plotting temporal trajectories.]{.oracle-line}
 :::
 
-| Input stream | Diagnostic role | Status |
-|---|---|---|
-| Fossil pollen archives | Plant community signal | mounted |
-| Palaeoclimate rasters | Shared abiotic response | mounted |
-| Spatial and temporal filters | Scale sensitivity | pending |
+::: {.figure-stage .trajectory-stage}
+::: {.result-placeholder .figure-major .fragment .tui-reveal data-fragment-index="1"}
+[NORTH AMERICA]{.placeholder-tag}
 
-## Prototype visual output {.result-slide}
+Trajectory and network panel
 
-```{r}
-#| label: prototype-figure
-#| fig-width: 9
-#| fig-height: 4.6
-#| out-width: "82%"
+[PHASE 5 OUTPUT]{.placeholder-state}
+:::
+::: {.result-placeholder .figure-major .fragment .tui-reveal data-fragment-index="2"}
+[EUROPE]{.placeholder-tag}
 
-prototype_data <- data.frame(
-  age_kyr = rep(c(20, 15, 10, 5, 0), 3),
-  signal = c(
-    0.18, 0.24, 0.31, 0.36, 0.39,
-    0.12, 0.20, 0.27, 0.29, 0.33,
-    0.08, 0.14, 0.22, 0.25, 0.30
-  ),
-  component = rep(
-    c("Abiotic response", "Spatial structure", "Residual association"),
-    each = 5
-  )
-)
+Trajectory and network panel
 
-ggplot2::ggplot(
-  prototype_data,
-  ggplot2::aes(x = age_kyr, y = signal, colour = component)
-) +
-  ggplot2::geom_line(linewidth = 1.15) +
-  ggplot2::geom_point(size = 3) +
-  ggplot2::scale_x_reverse(breaks = c(20, 15, 10, 5, 0)) +
-  scale_colour_oracle_discrete() +
-  ggplot2::labs(
-    title = "Prototype variance signal",
-    subtitle = "Rendered with theme_oracle() and design_config.json colors",
-    x = "Age before present (kyr)",
-    y = "Explained signal",
-    colour = "Component"
-  ) +
-  theme_oracle(base_size = 18)
-```
+[PHASE 5 OUTPUT]{.placeholder-state}
+:::
+::: {.result-placeholder .figure-major .fragment .tui-reveal data-fragment-index="3"}
+[ASIA]{.placeholder-tag}
+
+Trajectory and network panel
+
+[PHASE 5 OUTPUT]{.placeholder-state}
+:::
+:::
+
+::: {.notes}
+TIME 00:50. Describe the intended regional comparison without reporting changes through time yet. Verified temporal figures will determine the final wording.
+:::
+
+<!-- slide:12 -->
+## Synthesis pending verification {.result-slide .compact-slide .figure-dominant}
+
+::: {.oracle-says .compact-dialogue}
+[Weaving realities together: spatial patterns, taxonomic resolution, temporal dynamics.]{.oracle-line}
+[Consulting deeper reasoning matrices.]{.oracle-line}
+[Summarizing results.]{.oracle-line}
+:::
+
+::: {.synthesis-panel .synthesis-stage .fragment .tui-reveal data-fragment-index="1"}
+::: {.synthesis-row}
+[SPACE]{.channel-spatial}<br>
+Local to continental comparison.
+:::
+::: {.synthesis-row}
+[TAXONOMY]{.channel-taxonomic}<br>
+Genus / family / functional-type comparison.
+:::
+::: {.synthesis-row}
+[TIME]{.channel-temporal}<br>
+Palaeo trajectory and network comparison.
+:::
+:::
+
+::: {.provisional-banner .fragment .tui-reveal data-fragment-index="2"}
+PROVISIONAL - VERIFY IN PHASE 5 BEFORE CITATION
+:::
+
+::: {.notes}
+TIME 00:45. This is the narrative landing point for the result sequence. During phase 4, read it as the planned synthesis structure, not as completed inference.
+:::
+
+<!-- slide:13 -->
+## Implication: visible patterns are only part of the signal {.query-slide .implication-slide .visual-dominant}
+
+::: {.visual-stage .implication-stage}
+::: {.story-frame .fragment .tui-reveal data-fragment-index="1"}
+![Synthetic conceptual visual: ORACLE terminal signal field contrasting observed and hidden structure.](figures/story/hidden_majority_particles.png){.story-image}
+:::
+
+::: {.slide-copy}
+::: {.oracle-says}
+[Association-like structure can persist]{.oracle-line}
+[after the most obvious environmental]{.oracle-line}
+[and spatial patterns are accounted]{.oracle-line}
+[for.]{.oracle-line}
+:::
+
+- Ask what remains, rather than naming an interaction.
+- Treat residual structure as a constrained inference.
+
+::: {.concept-label}
+SYNTHETIC R-GENERATED CONCEPT / NOT A RESULT
+:::
+:::
+:::
+
+::: {.notes}
+TIME 00:40. Use this conceptual image to explain why the residual question matters, while explicitly separating narrative illustration from empirical results.
+:::
+
+<!-- slide:14 -->
+## Query resolved, cautiously {.system-slide .closing-slide .visual-dominant}
+
+::: {.visual-stage .closing-stage}
+::: {.title-copy}
+::: {.oracle-says .terminal-cursor}
+[The archive narrows plausible]{.oracle-line}
+[ecological explanations.]{.oracle-line}
+[It does not replace]{.oracle-line}
+[verification.]{.oracle-line}
+:::
 
 ::: {.terminal-status}
-CONFIG SOURCE: **design_config.json** / THEME SOURCE: **theme_oracle()**
+SIGNAL STATUS: **PENDING VERIFIED FIGURE INTEGRATION**
+:::
+:::
+
+::: {.story-frame}
+![Narrative visual only: a terminal signal fading into a final cursor.](figures/story/genai_drafts/oracle_closing_signal_motif_v2.png){.story-image}
+:::
+:::
+
+::: {.notes}
+TIME 00:20. Close the ORACLE query narrative before moving to practical closing information. Keep the conclusion explicitly cautious.
+:::
+
+<!-- slide:15 -->
+## Who is asking the query? {.system-slide}
+
+::: {.slide-columns .compact-layout}
+::: {.prompt-panel}
+[PRESENTER]{.label}
+
+**Ondrej Mottl**
+
+BIODYNAMICS vegetation co-occurrence<br>
+IAVS 2026
+:::
+
+::: {.terminal-panel}
+[RESEARCH CONTEXT]{.label}
+
+Plant-community structure across spatial, temporal, and taxonomic scales.
+
+::: {.terminal-status}
+COLLABORATORS / AFFILIATIONS: FINALIZE BEFORE DELIVERY
+:::
+:::
+:::
+
+::: {.notes}
+TIME 00:20. Briefly identify the research context and leave the detailed acknowledgment block for final delivery preparation.
+:::
+
+<!-- slide:16 -->
+## Presentation availability {.system-slide .figure-dominant}
+
+::: {.figure-stage .availability-stage}
+::: {.result-placeholder}
+[PUBLIC URL]{.placeholder-tag}
+
+**Rendered presentation**
+
+Project GitHub Pages link to be inserted.
+
+[PHASE 8 DELIVERY ITEM]{.placeholder-state}
+:::
+
+::: {.result-placeholder .figure-major}
+[QR CODE]{.placeholder-tag}
+
+**Slides, code, and VegVault**
+
+QR and DOI target reserved for final access page.
+
+[PHASE 8 DELIVERY ITEM]{.placeholder-state}
+:::
+:::
+
+::: {.terminal-status}
+LICENCE TEXT AND FINAL DEPLOYMENT ADDRESS TO BE CONFIRMED BEFORE RELEASE
+:::
+
+::: {.notes}
+TIME 00:25. Signal that the presentation and analysis code will be available, while leaving final URLs and licence wording to delivery preparation.
+:::
+
+<!-- slide:17 -->
+## Vegetation co-occurrence across scale {.oracle-title .hero-slide .final-slide}
+
+::: {.slide-columns .hero-layout}
+::: {.title-copy}
+[QUERY CLOSED // DISCUSSION OPEN]{.terminal-kicker}
+
+**ORACLE**
+
+Observational Runtime for Analysis of Community-Level Ecology
+
+Ondrej Mottl<br>
+BIODYNAMICS vegetation co-occurrence<br>
+Contact and repository URL: final delivery placeholder
+
+::: {.terminal-prompt .terminal-cursor}
+ORACLE > AWAITING QUESTIONS
+:::
+:::
+
+::: {.story-frame}
+![Narrative visual only: final Earth archive view reused from the opening slide.](figures/story/genai_drafts/planet_abstract_scan_motif_v3.png){.story-image}
+:::
+:::
+
+::: {.notes}
+TIME 00:25. End on the same Earth-archive visual used at the opening and invite questions. Planned main-talk duration: 11 minutes 25 seconds.
 :::
