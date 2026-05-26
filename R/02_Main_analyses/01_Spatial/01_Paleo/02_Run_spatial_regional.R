@@ -63,7 +63,8 @@ purrr::walk(
     )
     run_pipeline(
       sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
-      store_suffix = .x
+      store_suffix = .x,
+      prebuild_interpolation = TRUE
     )
   }
 )

@@ -17,8 +17,14 @@
 #' `iteration` (integer), and `age_uncertainty` (double). Rows for
 #' dataset names absent from `data` are silently ignored.
 #' @param n_cores
-#' Number of cores to use for interpolation. Passed to
-#' [interpolate_data()] and [interpolate_community_data()].
+#' Number of workers to use for consensus-age interpolation. Fossil-core
+#' parallelism is handled by dynamic `{targets}` branches in the paleo
+#' pipeline; use `1` for branched fossil inputs.
+#' @param max_expanded_rows
+#' Maximum approximate number of expanded fossil observation rows
+#' processed in one interpolation batch (default: `4e6`). Lower
+#' values reduce peak memory use at the cost of more interpolation
+#' calls.
 #' @param ...
 #' Additional arguments passed to [interpolate_data()] and
 #' [interpolate_community_data()], such as `timestep`, `age_min`,
@@ -43,6 +49,15 @@
 #'      `c("dataset_name", "taxon", "iteration")`.
 #'   3. The median `value` across iterations is computed for
 #'      each `(dataset_name, taxon, age)` combination.
+#'
+#' Fossil cores are joined and interpolated one dataset at a time, in
+#' bounded batches of age-model iterations, before each core is reduced.
+#' This bounds the expansion in continental runs, where joining all cores
+#' simultaneously can exceed available memory.
+#'
+#' In the paleo pipelines, inputs are split into one dynamic target branch
+#' per dataset before this function is called. `{targets}` therefore
+#' caches reduced core outputs and schedules parallel work externally.
 #' @seealso
 #'   [interpolate_community_data()],
 #'   [extract_age_uncertainty_from_vegvault()],
@@ -52,6 +67,7 @@ interpolate_community_data_with_uncertainty <- function(
     data,
     data_age_uncertainty,
     n_cores = 1,
+    max_expanded_rows = 4e06,
     ...) {
   #-- Validate data -----------------------------------------------------------
 
@@ -95,6 +111,27 @@ interpolate_community_data_with_uncertainty <- function(
     )
   }
 
+  assertthat::assert_that(
+    base::is.numeric(max_expanded_rows) &&
+      base::length(max_expanded_rows) == 1L &&
+      base::is.finite(max_expanded_rows) &&
+      max_expanded_rows >= 1 &&
+      max_expanded_rows == base::as.integer(max_expanded_rows),
+    msg = "max_expanded_rows must be a single positive integer"
+  )
+
+  assertthat::assert_that(
+    base::is.numeric(n_cores) &&
+      base::length(n_cores) == 1L &&
+      base::is.finite(n_cores) &&
+      n_cores >= 1 &&
+      n_cores == base::as.integer(n_cores),
+    msg = "n_cores must be a single positive integer"
+  )
+
+  n_cores <-
+    base::as.integer(n_cores)
+
   #-- Split into gridpoints and fossil cores ----------------------------------
 
   vec_core_datasets <-
@@ -108,6 +145,85 @@ interpolate_community_data_with_uncertainty <- function(
   data_cores <-
     data |>
     dplyr::filter(dataset_name %in% vec_core_datasets)
+
+  list_interpolation_arguments <-
+    rlang::list2(...)
+
+  interpolate_fossil_core <- function(
+      dataset_name_i,
+      data_community_i,
+      data_uncertainty_i) {
+    n_iterations_per_batch <-
+      base::max(
+        1L,
+        base::as.integer(
+          max_expanded_rows /
+            base::nrow(data_community_i)
+        )
+      )
+
+    vec_iterations <-
+      data_uncertainty_i |>
+      dplyr::pull(iteration) |>
+      base::unique()
+
+    list_iteration_batches <-
+      vec_iterations |>
+      base::split(
+        base::ceiling(
+          base::seq_along(vec_iterations) /
+            n_iterations_per_batch
+        )
+      )
+
+    res_core <-
+      list_iteration_batches |>
+      purrr::map(
+        .f = ~ {
+          data_core_expanded <-
+            data_community_i |>
+            dplyr::inner_join(
+              data_uncertainty_i |>
+                dplyr::filter(iteration %in% .x),
+              by = dplyr::join_by(sample_name),
+              relationship = "many-to-many"
+            ) |>
+            dplyr::mutate(dataset_name = dataset_name_i) |>
+            dplyr::rename(age = age_uncertainty) |>
+            dplyr::filter(!base::is.na(age))
+
+          rlang::exec(
+            .fn = interpolate_data_function,
+            data = data_core_expanded,
+            !!!list_interpolation_arguments,
+            by = base::c(
+              "dataset_name", "taxon", "iteration"
+            ),
+            n_cores = 1L
+          )
+        }
+      ) |>
+      purrr::list_rbind() |>
+      dplyr::summarise(
+        value = stats::median(value, na.rm = TRUE),
+        .by = dplyr::all_of(
+          base::c("dataset_name", "taxon", "age")
+        )
+      ) |>
+      dplyr::filter(!base::is.na(value))
+
+    base::return(res_core)
+  }
+
+  # Avoid retaining the complete target environment when this helper runs
+  # inside a dynamic branch.
+  base::environment(interpolate_fossil_core) <-
+    rlang::env(
+      base::baseenv(),
+      interpolate_data_function = interpolate_data,
+      list_interpolation_arguments = list_interpolation_arguments,
+      max_expanded_rows = max_expanded_rows
+    )
 
   #-- Interpolate gridpoints using consensus ages -----------------------------
 
@@ -138,29 +254,34 @@ interpolate_community_data_with_uncertainty <- function(
     if (
       base::nrow(data_cores) > 0L
     ) {
-      data_cores |>
+      data_cores_nested <-
+        data_cores |>
         dplyr::select(
           "dataset_name", "sample_name", "taxon", "value"
         ) |>
+        tidyr::nest(
+          data_community = -dataset_name
+        ) |>
         dplyr::inner_join(
-          data_age_uncertainty,
-          by = base::c("dataset_name", "sample_name"),
-          relationship = "many-to-many"
-        ) |>
-        dplyr::rename(age = age_uncertainty) |>
-        dplyr::filter(!base::is.na(age)) |>
-        interpolate_data(
-          by = base::c("dataset_name", "taxon", "iteration"),
-          n_cores = n_cores,
-          ...
-        ) |>
-        dplyr::summarise(
-          value = stats::median(value, na.rm = TRUE),
-          .by = dplyr::all_of(
-            base::c("dataset_name", "taxon", "age")
-          )
-        ) |>
-        dplyr::filter(!base::is.na(value))
+          data_age_uncertainty |>
+            tidyr::nest(data_uncertainty = -dataset_name),
+          by = dplyr::join_by(dataset_name)
+        )
+
+      list_interpolated_cores <-
+        purrr::pmap(
+          .l = base::list(
+            dplyr::pull(data_cores_nested, dataset_name),
+            dplyr::pull(data_cores_nested, data_community),
+            dplyr::pull(data_cores_nested, data_uncertainty)
+          ),
+          .f = interpolate_fossil_core
+        )
+
+      data_cores_nested |>
+        dplyr::mutate(data_interpolated = list_interpolated_cores) |>
+        dplyr::select(data_interpolated) |>
+        tidyr::unnest(data_interpolated)
     } else {
       empty_result
     }

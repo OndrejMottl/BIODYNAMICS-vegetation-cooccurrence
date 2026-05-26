@@ -270,7 +270,8 @@ c("continental", "regional", "local") |>
               sel_script = here::here(
                 "R/Pipelines/pipeline_paleo_spatial_resolution.R"
               ),
-              store_suffix = .x
+              store_suffix = .x,
+              prebuild_interpolation = TRUE
             )
           }
         )

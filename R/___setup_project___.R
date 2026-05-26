@@ -17,6 +17,24 @@
 # Set the current environment
 current_env <- environment()
 
+flag_preprocessing_worker <-
+  base::identical(
+    base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKER"),
+    "true"
+  )
+
+if (
+  isFALSE(
+    base::exists(
+      "flag_cuda_runtime_checked",
+      envir = current_env,
+      inherits = FALSE
+    )
+  )
+) {
+  flag_cuda_runtime_checked <- FALSE
+}
+
 
 #----------------------------------------------------------#
 # 1. Load packages -----
@@ -39,7 +57,8 @@ if (
 }
 
 if (
-  isFALSE(flag_already_synch)
+  isFALSE(flag_already_synch) &&
+    isFALSE(flag_preprocessing_worker)
 ) {
   library(here)
   # Synchronise the package versions
@@ -52,30 +71,45 @@ if (
   # renv::snapshot(lockfile =  here::here("renv.lock"))  # do only for update
 }
 
+if (
+  isTRUE(flag_preprocessing_worker)
+) {
+  flag_already_synch <- TRUE
+}
+
 # Define packages
 package_list <-
   c(
     "assertthat",
-    "collinear",
     "here",
-    "janitor",
-    "jsonlite",
-    "knitr",
-    "languageserver",
-    "lifecycle",
     "qs2",
     "renv",
-    "remotes",
     "rlang",
-    "roxygen2",
-    "sf",
-    "sjSDM",
     "tidyverse",
     "targets",
-    "usethis",
     "utils",
     "vaultkeepr"
   )
+
+if (
+  isFALSE(flag_preprocessing_worker)
+) {
+  package_list <-
+    base::c(
+      package_list,
+      "collinear",
+      "janitor",
+      "jsonlite",
+      "knitr",
+      "languageserver",
+      "lifecycle",
+      "remotes",
+      "roxygen2",
+      "sf",
+      "sjSDM",
+      "usethis"
+    )
+}
 
 # Attach all packages
 sapply(
@@ -130,10 +164,17 @@ check_presence_of_vegvault()
 # 4. Check CUDA GPU runtime availability -----
 #----------------------------------------------------------#
 
-check_cuda_gpu_runtime(
-  fail_on_error = FALSE,
-  verbose = TRUE
-)
+if (
+  isFALSE(flag_preprocessing_worker) &&
+    isFALSE(flag_cuda_runtime_checked)
+) {
+  check_cuda_gpu_runtime(
+    fail_on_error = FALSE,
+    verbose = TRUE
+  )
+
+  flag_cuda_runtime_checked <- TRUE
+}
 
 
 #----------------------------------------------------------#
