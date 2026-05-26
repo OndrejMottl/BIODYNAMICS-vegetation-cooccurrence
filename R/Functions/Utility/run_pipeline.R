@@ -46,10 +46,10 @@
 #' execute the pipeline and then calls `save_progress_visualisation()` to
 #' generate a network visualization of the pipeline status. When
 #' `prebuild_interpolation = TRUE`, the function first executes only
-#' `data_community_interpolated` with parallel `{targets}` workers, then
-#' closes those workers and executes the complete pipeline with
-#' [targets::tar_make()]. Thus downstream GPU-dependent model targets
-#' remain sequentially scheduled.
+#' `data_community_interpolated` with parallel `{targets}` workers in a
+#' clean lightweight controller process. Once that call returns, the
+#' complete pipeline is executed with [targets::tar_make()]. Thus
+#' downstream GPU-dependent model targets remain sequentially scheduled.
 #' @seealso
 #'   [save_progress_visualisation()],
 #'   [targets::tar_make()],
@@ -66,7 +66,10 @@ run_pipeline <- function(
   assertthat::assert_that(
     is.character(sel_script),
     length(sel_script) == 1,
-    msg = "sel_script must be a single string specifying the path to the pipeline script."
+    msg = paste(
+      "sel_script must be a single string specifying the path",
+      "to the pipeline script."
+    )
   )
   assertthat::assert_that(
     file.exists(sel_script),
@@ -197,46 +200,25 @@ run_pipeline <- function(
     interpolation_workers <-
       base::as.integer(interpolation_workers)
 
-    future_plan_previous <-
-      future::plan()
-
-    flag_future_plan_restored <- FALSE
-
-    on.exit(
-      if (
-        isFALSE(flag_future_plan_restored)
-      ) {
-        future::plan(future_plan_previous)
-      },
-      add = TRUE
-    )
-
     tryCatch(
       withr::with_envvar(
-        new = base::c(BIODYNAMICS_PREPROCESSING_WORKER = "true"),
-        code = {
-          future::plan(
-            future::multisession,
-            workers = interpolation_workers
-          )
-
-          targets::tar_make_future(
-            names = tidyselect::all_of("data_community_interpolated"),
-            script = sel_script_path,
-            store = sel_store_path,
-            reporter = "verbose",
-            workers = interpolation_workers,
-            callr_function = NULL
-          )
-        }
+        new = base::c(
+          BIODYNAMICS_PREPROCESSING_WORKER = "true",
+          BIODYNAMICS_PREPROCESSING_WORKERS =
+            base::as.character(interpolation_workers)
+        ),
+        code = targets::tar_make_future(
+          names = tidyselect::all_of("data_community_interpolated"),
+          script = sel_script_path,
+          store = sel_store_path,
+          reporter = "verbose",
+          workers = interpolation_workers
+        )
       ),
       error = function(err) {
         tar_error <<- err
       }
     )
-
-    future::plan(future_plan_previous)
-    flag_future_plan_restored <- TRUE
   }
 
   if (

@@ -194,26 +194,29 @@ testthat::test_that("run_pipeline() validates plot_progress is logical", {
   )
 })
 
-testthat::test_that("run_pipeline() validates check_default_config is logical", {
-  tmp_script <-
-    withr::local_tempfile(fileext = ".R")
+testthat::test_that(
+  "run_pipeline() validates check_default_config is logical",
+  {
+    tmp_script <-
+      withr::local_tempfile(fileext = ".R")
 
-  base::writeLines("list()", tmp_script)
+    base::writeLines("list()", tmp_script)
 
-  testthat::expect_error(
-    run_pipeline(
-      sel_script = tmp_script,
-      check_default_config = "yes"
+    testthat::expect_error(
+      run_pipeline(
+        sel_script = tmp_script,
+        check_default_config = "yes"
+      )
     )
-  )
 
-  testthat::expect_error(
-    run_pipeline(
-      sel_script = tmp_script,
-      check_default_config = 1L
+    testthat::expect_error(
+      run_pipeline(
+        sel_script = tmp_script,
+        check_default_config = 1L
+      )
     )
-  )
-})
+  }
+)
 
 testthat::test_that("run_pipeline() validates fresh_run is logical", {
   tmp_script <-
@@ -269,10 +272,9 @@ testthat::test_that("run_pipeline() prebuilds interpolation then full build", {
 
   target_workers_used <- NULL
   target_name_expression <- NULL
-  flag_callr_disabled <- FALSE
-  flag_plan_lightweight <- FALSE
-  flag_plan_restored_before_full <- FALSE
-  list_future_plans <- list()
+  flag_callr_argument_omitted <- FALSE
+  flag_prebuild_lightweight <- FALSE
+  n_prebuild_workers_env <- NULL
   vec_build_order <- base::character()
 
   testthat::local_mocked_bindings(
@@ -285,41 +287,25 @@ testthat::test_that("run_pipeline() prebuilds interpolation then full build", {
         base::paste(base::deparse(base::substitute(names)), collapse = "")
       target_workers_used <<-
         workers
-      flag_callr_disabled <<-
-        base::is.null(callr_function)
+      flag_callr_argument_omitted <<-
+        base::missing(callr_function)
+      flag_prebuild_lightweight <<-
+        base::identical(
+          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKER"),
+          "true"
+        )
+      n_prebuild_workers_env <<-
+        base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKERS")
       vec_build_order <<-
         base::c(vec_build_order, "prebuild")
       base::invisible(NULL)
     },
     tar_make = function(...) {
-      flag_plan_restored_before_full <<-
-        base::length(list_future_plans) >= 2L
       vec_build_order <<-
         base::c(vec_build_order, "full")
       base::invisible(NULL)
     },
     .package = "targets"
-  )
-
-  testthat::local_mocked_bindings(
-    plan = function(strategy, ...) {
-      if (
-        base::missing(strategy)
-      ) {
-        return("previous_plan")
-      }
-
-      flag_plan_lightweight <<-
-        flag_plan_lightweight ||
-        base::identical(
-          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKER"),
-          "true"
-        )
-
-      list_future_plans[[base::length(list_future_plans) + 1L]] <<-
-        base::list(strategy = strategy, ...)
-    },
-    .package = "future"
   )
 
   run_pipeline(
@@ -344,21 +330,14 @@ testthat::test_that("run_pipeline() prebuilds interpolation then full build", {
 
   testthat::expect_equal(vec_build_order, base::c("prebuild", "full"))
 
-  testthat::expect_true(flag_callr_disabled)
+  testthat::expect_true(flag_callr_argument_omitted)
 
-  testthat::expect_true(flag_plan_lightweight)
-
-  testthat::expect_true(flag_plan_restored_before_full)
+  testthat::expect_true(flag_prebuild_lightweight)
 
   testthat::expect_equal(
-    purrr::chuck(list_future_plans[[1L]], "workers"),
-    purrr::chuck(
-      get_active_config("data_processing"),
-      "n_interpolation_workers"
-    )
+    base::as.integer(n_prebuild_workers_env),
+    target_workers_used
   )
-
-  testthat::expect_length(list_future_plans, 2L)
 })
 
 testthat::test_that("run_pipeline() calls tar_destroy when fresh_run = TRUE", {

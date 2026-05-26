@@ -3,16 +3,16 @@
 #
 #                 Vegetation Co-occurence
 #
-#                     Config file
+#                 Lean project setup
 #
 #
 #                       O. Mottl
 #                         2025
 #
 #----------------------------------------------------------#
-# Configuration script with the variables that should be consistent throughout
-#   the whole repo. It loads packages, defines important variables,
-#   authorises the user, and saves config file.
+# Shared bootstrap entry point. Parallel preprocessing workers execute the
+#   lean setup here. Regular sessions delegate to
+#   `___setup_project_full___.R` before project packages are attached.
 
 # Set the current environment
 current_env <- environment()
@@ -23,21 +23,9 @@ flag_preprocessing_worker <-
     "true"
   )
 
-if (
-  isFALSE(
-    base::exists(
-      "flag_cuda_runtime_checked",
-      envir = current_env,
-      inherits = FALSE
-    )
-  )
-) {
-  flag_cuda_runtime_checked <- FALSE
-}
-
 
 #----------------------------------------------------------#
-# 1. Load packages -----
+# 1. Define lean dependencies -----
 #----------------------------------------------------------#
 
 library(
@@ -48,37 +36,8 @@ library(
   verbose = FALSE
 )
 
-if (
-  isFALSE(
-    exists("flag_already_synch", envir = current_env)
-  )
-) {
-  flag_already_synch <- FALSE
-}
-
-if (
-  isFALSE(flag_already_synch) &&
-    isFALSE(flag_preprocessing_worker)
-) {
-  library(here)
-  # Synchronise the package versions
-  renv::restore(
-    lockfile = here::here("renv.lock")
-  )
-  flag_already_synch <- TRUE
-
-  # Save snapshot of package versions
-  # renv::snapshot(lockfile =  here::here("renv.lock"))  # do only for update
-}
-
-if (
-  isTRUE(flag_preprocessing_worker)
-) {
-  flag_already_synch <- TRUE
-}
-
-# Define packages
-package_list <-
+# Define packages required for preprocessing targets.
+vec_package_names <-
   c(
     "assertthat",
     "here",
@@ -91,108 +50,84 @@ package_list <-
     "vaultkeepr"
   )
 
-if (
-  isFALSE(flag_preprocessing_worker)
-) {
-  package_list <-
-    base::c(
-      package_list,
-      "collinear",
-      "janitor",
-      "jsonlite",
-      "knitr",
-      "languageserver",
-      "lifecycle",
-      "remotes",
-      "roxygen2",
-      "sf",
-      "sjSDM",
-      "usethis"
-    )
-}
+#----------------------------------------------------------#
+# 2. Initialize selected setup path -----
+#----------------------------------------------------------#
 
-# Attach all packages
-sapply(
-  package_list,
-  function(x) {
-    library(x,
-      quietly = TRUE,
-      warn.conflicts = FALSE,
-      character.only = TRUE,
-      verbose = FALSE
+if (
+  isTRUE(flag_preprocessing_worker)
+) {
+  base::sapply(
+    vec_package_names,
+    function(x) {
+      base::library(
+        x,
+        quietly = TRUE,
+        warn.conflicts = FALSE,
+        character.only = TRUE,
+        verbose = FALSE
+      )
+    }
+  )
+
+  vec_function_paths <-
+    base::list.files(
+      path = here::here("R/Functions/"),
+      pattern = "*.R",
+      recursive = TRUE,
+      full.names = TRUE
+    ) |>
+    purrr::discard(
+      ~ stringr::str_detect(.x, "_outdated")
+    )
+
+  if (
+    base::length(vec_function_paths) > 0
+  ) {
+    base::sapply(
+      vec_function_paths,
+      base::source
     )
   }
-)
 
+  check_presence_of_vegvault()
 
-#----------------------------------------------------------#
-# 2. Load functions -----
-#----------------------------------------------------------#
+  n_preprocessing_workers <-
+    base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKERS")
 
-# get vector of general functions
-fun_list <-
-  list.files(
-    path = here::here("R/Functions/"),
-    pattern = "*.R",
-    recursive = TRUE,
-    full.names = TRUE
-  ) %>%
-  purrr::discard(
-    # Exclude outdated functions (e.g. HMSC-based)
-    ~ stringr::str_detect(.x, "_outdated")
-  )
+  if (
+    base::nzchar(n_preprocessing_workers)
+  ) {
+    n_preprocessing_workers <-
+      base::as.integer(n_preprocessing_workers)
 
-# source them
-if (
-  length(fun_list) > 0
-) {
-  sapply(
-    fun_list,
-    source
+    assertthat::assert_that(
+      base::is.finite(n_preprocessing_workers) &&
+        n_preprocessing_workers >= 1L,
+      msg = paste(
+        "BIODYNAMICS_PREPROCESSING_WORKERS must be a",
+        "positive integer."
+      )
+    )
+
+    future::plan(
+      future::multisession,
+      workers = n_preprocessing_workers
+    )
+  }
+} else {
+  base::source(
+    file = here::here("R/___setup_project_extended___.R"),
+    local = current_env
   )
 }
 
 
 #----------------------------------------------------------#
-# 3. Check the presence of VegVault
+# 3. Graphical options -----
 #----------------------------------------------------------#
 
-check_presence_of_vegvault()
-
-
-#----------------------------------------------------------#
-# 4. Check CUDA GPU runtime availability -----
-#----------------------------------------------------------#
-
-if (
-  isFALSE(flag_preprocessing_worker) &&
-    isFALSE(flag_cuda_runtime_checked)
-) {
-  check_cuda_gpu_runtime(
-    fail_on_error = FALSE,
-    verbose = TRUE
-  )
-
-  flag_cuda_runtime_checked <- TRUE
-}
-
-
-#----------------------------------------------------------#
-# 5. verify sjSDM setup -----
-#----------------------------------------------------------#
-
-if (
-  isTRUE(interactive())
-) {
-  verify_sjsdm_setup()
-}
-
-
-#----------------------------------------------------------#
-# 6. Graphical options -----
-#----------------------------------------------------------#
-
-# set ggplot output
+# Set ggplot output.
 ggplot2::theme_set(
   ggplot2::theme_classic()
 )

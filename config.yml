@@ -124,6 +124,7 @@ project_paleo_spatial_continental:
     min_n_samples: 10
     min_n_taxa: 5
     n_cores: 24
+    n_interpolation_workers: 8
   model_fitting:
     model_tuning_id: "paleo_spatial"
     n_mev: 5
