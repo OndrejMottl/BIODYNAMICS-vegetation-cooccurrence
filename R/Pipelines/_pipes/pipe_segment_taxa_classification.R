@@ -46,10 +46,33 @@ pipe_segment_taxa_classification <-
       command = get_community_taxa(data_community_long)
     ),
     targets::tar_target(
+      description = "Validate taxa vector before dynamic branching",
+      name = "vec_community_taxa_checked",
+      command = {
+        assertthat::assert_that(
+          base::is.character(vec_community_taxa),
+          msg = stringr::str_c(
+            "`vec_community_taxa` must be a character vector before ",
+            "taxa-classification branching."
+          )
+        )
+
+        assertthat::assert_that(
+          base::length(vec_community_taxa) > 0L,
+          msg = stringr::str_c(
+            "`vec_community_taxa` is empty. This usually indicates ",
+            "an upstream failure (for example low-data unit guards)."
+          )
+        )
+
+        vec_community_taxa
+      }
+    ),
+    targets::tar_target(
       description = "Get classification for each taxon",
       name = "data_community_taxa_classification",
-      command = get_taxa_classification(vec_community_taxa),
-      pattern = map(vec_community_taxa)
+      command = get_taxa_classification(vec_community_taxa_checked),
+      pattern = map(vec_community_taxa_checked)
     ),
     targets::tar_target(
       description = "Make classification table for community data",

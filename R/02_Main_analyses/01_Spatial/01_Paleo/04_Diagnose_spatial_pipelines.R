@@ -184,20 +184,126 @@ data_errors_by_target <-
       dplyr::select(scale_id, scale),
     by = dplyr::join_by(scale_id)
   ) |>
-  dplyr::filter(
-    !stringr::str_starts(error, "could not load dependency")
+  dplyr::group_by(scale_id) |>
+  dplyr::mutate(
+    error_order = dplyr::row_number()
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(
+    error_role = dplyr::if_else(
+      stringr::str_starts(error, "could not load dependency"),
+      "propagated",
+      "primary"
+    ),
+    propagated_from_target = stringr::str_match(
+      error,
+      "^could not load dependency ([^ ]+) of target [^.]+\\."
+    )[, 2],
+    error_family = dplyr::case_when(
+      stringr::str_detect(
+        stringr::str_to_lower(error),
+        "cannot allocate vector of size"
+      ) ~ "memory_issue",
+      stringr::str_detect(
+        error,
+        "Failed to extract VegVault data for this spatial unit|VegVault extraction returned zero rows"
+      ) ~ "vegvault_extract_failure",
+      stringr::str_detect(error, "Not enough cores in this spatial window") ~
+        "insufficient_cores",
+      stringr::str_detect(
+        error,
+        "Too few taxa remain after filtering to run the model"
+      ) ~ "insufficient_taxa",
+      stringr::str_detect(error, "must have more than 3 rows") ~
+        "spatial_mev_rows",
+      stringr::str_starts(error, "could not load dependency") ~
+        "dependency_propagation",
+      TRUE ~ "other_runtime"
+    )
   )
 
-# Most common error targets across all failed units
-data_error_counts <-
+# One primary error per failed unit:
+#   - choose non-dependency errors first
+#   - when multiple primary errors exist, keep the first by error_order
+data_primary_errors <-
   data_errors_by_target |>
-  dplyr::group_by(scale, name, error) |>
+  dplyr::arrange(scale_id, error_role, error_order) |>
+  dplyr::group_by(scale_id) |>
+  dplyr::slice_head(n = 1L) |>
+  dplyr::ungroup() |>
+  dplyr::rename(
+    primary_error_target = name,
+    primary_error_message = error,
+    primary_error_family = error_family
+  )
+
+# Compact lineage: one row per failed spatial unit with primary failure and
+#   the number of propagated downstream targets.
+data_error_lineage <-
+  data_errors_by_target |>
+  dplyr::filter(error_role == "propagated") |>
+  dplyr::group_by(scale_id) |>
+  dplyr::summarise(
+    n_propagated_targets = dplyr::n(),
+    propagated_targets = base::list(base::unique(name)),
+    .groups = "drop"
+  ) |>
+  dplyr::right_join(
+    data_primary_errors |>
+      dplyr::select(
+        scale,
+        scale_id,
+        primary_error_target,
+        primary_error_family,
+        primary_error_message
+      ),
+    by = dplyr::join_by(scale_id)
+  ) |>
+  dplyr::mutate(
+    n_propagated_targets = dplyr::coalesce(n_propagated_targets, 0L)
+  ) |>
+  dplyr::arrange(scale, dplyr::desc(n_propagated_targets), scale_id)
+
+# Most common primary failures across failed units
+data_primary_error_counts <-
+  data_primary_errors |>
+  dplyr::group_by(
+    scale,
+    primary_error_target,
+    primary_error_family,
+    primary_error_message
+  ) |>
   dplyr::summarise(
     n_units = dplyr::n(),
     scale_ids = base::list(scale_id),
     .groups = "drop"
   ) |>
   dplyr::arrange(dplyr::desc(n_units))
+
+base::print(data_primary_error_counts, n = Inf)
+
+base::print(
+  data_error_lineage |>
+    dplyr::select(
+      scale,
+      scale_id,
+      primary_error_target,
+      primary_error_family,
+      n_propagated_targets
+    ),
+  n = Inf
+)
+
+# Most common error targets across all failed units
+data_error_counts <-
+  data_errors_by_target |>
+  dplyr::group_by(scale, error_role, name, error_family, error) |>
+  dplyr::summarise(
+    n_units = dplyr::n(),
+    scale_ids = base::list(scale_id),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(error_role, dplyr::desc(n_units))
 
 base::print(data_error_counts, n = Inf)
 
