@@ -189,7 +189,7 @@
 
 .reveal .slides section.slide-terminal {
   font-size: var(--oracle-typography-body-size);
-  padding-top: calc(var(--oracle-spacing-md) + var(--oracle-spacing-sm));
+  padding-top: calc(var(--oracle-spacing-md) + var(--oracle-spacing-lg));
 }
 
 .slide-terminal h2 {
@@ -197,6 +197,7 @@
   font-weight: var(--oracle-typography-heading-weight);
   letter-spacing: var(--oracle-typography-terminal-heading-letter-spacing);
   margin: 0 0 var(--oracle-spacing-lg);
+  padding: 0;
   text-shadow: none;
 }
 
@@ -207,7 +208,7 @@
 }
 
 .slide-terminal-story {
-  --slide-accent: var(--oracle-palette-purple);
+  --slide-accent: var(--oracle-palette-phosphor);
   --slide-prefix: "SYSTEM // ";
 }
 
@@ -222,7 +223,7 @@
 }
 
 .slide-terminal-results {
-  --slide-accent: var(--oracle-palette-phosphor);
+  --slide-accent: var(--oracle-palette-purple);
   --slide-prefix: "RETURN // ";
 }
 
@@ -252,11 +253,74 @@
 .oracle-line {
   color: var(--oracle-palette-amber);
   display: block;
+  line-height: var(--oracle-typography-line-height);
+  margin: 0;
 }
 
 .oracle-line::before {
   color: var(--oracle-palette-phosphor);
   content: "> ";
+}
+
+/* Keep intentional blank prompt rows, but tighter than full text rows. */
+.oracle-says p > .oracle-line:empty,
+.oracle-line:empty {
+  line-height: calc(var(--oracle-typography-line-height) * 0.7);
+}
+
+/* Quarto may emit .oracle-line blocks that wrap text in <p>; keep prompt inline. */
+.oracle-line > p {
+  display: inline;
+  margin: 0;
+}
+
+/* Prevent markdown bullet parsing from breaking terminal line rhythm. */
+.oracle-line > ul,
+.oracle-line > ol {
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.oracle-line > ul > li,
+.oracle-line > ol > li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.oracle-line > ul > li::before {
+  content: "- ";
+}
+
+/* Inline highlights for one or many tokens inside a single .oracle-line. */
+.oracle-line .oracle-highlight {
+  font-weight: var(--oracle-typography-heading-weight);
+}
+
+.oracle-line .oracle-highlight-muted {
+  color: var(--oracle-palette-muted);
+}
+
+.oracle-line .oracle-highlight-phosphor {
+  color: var(--oracle-palette-phosphor);
+}
+
+.oracle-line .oracle-highlight-amber {
+  color: var(--oracle-palette-amber);
+}
+
+.oracle-line .oracle-highlight-cyan {
+  color: var(--oracle-palette-cyan);
+}
+
+.oracle-line .oracle-highlight-purple {
+  color: var(--oracle-palette-purple);
+}
+
+.oracle-line .oracle-highlight-red {
+  color: var(--oracle-palette-red);
 }
 
 .terminal-cursor::after {
@@ -511,8 +575,8 @@ image-height-750 {
   color: var(--oracle-palette-purple);
 }
 
-.text-strong-green strong {
-  color: var(--oracle-palette-phosphor);
+.text-color-red {
+  color: var(--oracle-palette-red);
 }
 
 /* Fragment effect */
