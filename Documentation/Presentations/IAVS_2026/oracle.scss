@@ -5,16 +5,21 @@
 
 /*-- scss:rules --*/
 
+/* Reusable CSS properties for effects composed in this hand-written theme. */
 :root {
   color-scheme: dark;
+  /* Strong scanlines are intended for atmospheric/title areas. */
   --oracle-scanline-strong: linear-gradient(
     rgba(141, 245, 154, 0.085) 50%,
     rgba(0, 0, 0, 0.14) 50%
   );
+  /* Soft scanlines sit behind terminal text, where legibility matters. */
   --oracle-scanline-soft: linear-gradient(
     rgba(141, 245, 154, 0.02) 50%,
     rgba(0, 0, 0, 0.045) 50%
   );
+  --oracle-screen-edge: rgba(184, 255, 109, 0.5);
+  --oracle-screen-edge-dim: rgba(184, 255, 109, 0.18);
 }
 
 /* Base presentation */
@@ -37,11 +42,13 @@
 
 .reveal .slides section.slide-title,
 .reveal .slides section.slide-terminal {
+  /* Clip generated overlays and glows to the bounds of each screen. */
   overflow: hidden;
 }
 
 .reveal .slides section.slide-title > *,
 .reveal .slides section.slide-terminal > * {
+  /* Content sits above the ::before and ::after screen decorations. */
   position: relative;
   z-index: 2;
 }
@@ -68,15 +75,23 @@
 /* Framed screens */
 
 .reveal .slides section.slide-title {
+  /* Title and closing slides receive an atmospheric outer CRT frame. */
   background: var(--oracle-palette-background);
+  border: 1px solid var(--oracle-screen-edge-dim);
+  box-shadow:
+    0 0 42px rgba(51, 201, 213, 0.08),
+    inset 0 0 32px rgba(184, 255, 109, 0.045);
 }
 
 .reveal .slides section.slide-title::before {
+  /* Inner title screen: glow fields over scanlines and the dark base. */
   background:
+    radial-gradient(circle at 77% 42%, rgba(184, 255, 109, 0.095), transparent 29%),
     var(--oracle-effects-title-spotlight-background),
     var(--oracle-scanline-strong),
     var(--oracle-palette-background);
-  background-size: auto, 100% var(--oracle-effects-scanline-size), auto;
+  background-size: auto, auto, 100% var(--oracle-effects-scanline-size), auto;
+  border: 1px solid rgba(184, 255, 109, 0.15);
   border-radius: var(--oracle-frame-radius);
   box-shadow: inset 0 0 12px rgba(184, 255, 109, 0.05);
   content: "";
@@ -85,53 +100,96 @@
   z-index: 1;
 }
 
-.reveal .slides section.slide-title > h2 {
+.reveal .slides section.slide-title.screen-corners::after {
+  /* Add .screen-corners to a .slide-title section to draw HUD corner marks. */
+  background:
+    linear-gradient(var(--oracle-screen-edge), var(--oracle-screen-edge)) left top / 5.2rem 1px no-repeat,
+    linear-gradient(var(--oracle-screen-edge), var(--oracle-screen-edge)) left top / 1px 2.1rem no-repeat,
+    linear-gradient(var(--oracle-screen-edge), var(--oracle-screen-edge)) right top / 5.2rem 1px no-repeat,
+    linear-gradient(var(--oracle-screen-edge), var(--oracle-screen-edge)) right top / 1px 2.1rem no-repeat,
+    linear-gradient(var(--oracle-screen-edge), var(--oracle-screen-edge)) left bottom / 5.2rem 1px no-repeat,
+    linear-gradient(var(--oracle-screen-edge), var(--oracle-screen-edge)) left bottom / 1px 2.1rem no-repeat,
+    linear-gradient(var(--oracle-screen-edge), var(--oracle-screen-edge)) right bottom / 5.2rem 1px no-repeat,
+    linear-gradient(var(--oracle-screen-edge), var(--oracle-screen-edge)) right bottom / 1px 2.1rem no-repeat;
+  content: "";
+  inset: calc(var(--oracle-spacing-md) + 0.35rem);
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.reveal .slides section.slide-title.screen-header > h2 {
+  /* Add .screen-header to format the Reveal slide heading as a status bar. */
+  align-items: center;
+  border-bottom: 1px solid var(--oracle-screen-edge-dim);
   font-size: var(--oracle-typography-body-size);
+  display: flex;
+  gap: var(--oracle-spacing-sm);
   line-height: var(--oracle-typography-line-height);
   margin: 0 0 var(--oracle-spacing-lg);
+  padding: 0 0 var(--oracle-spacing-sm);
   color: var(--oracle-palette-muted);
 }
 
-.slide-title h1::before,
-.slide-title h2::before {
+.slide-title.screen-prompt h1::before,
+.slide-title.screen-prompt h2::before {
+  /* Add .screen-prompt when the slide heading should look like a command. */
   color: var(--oracle-palette-amber);
   content: "> ";
+}
+
+.slide-title.screen-link-oracle h2::after {
+  /* Add .screen-link-oracle to display the right-aligned uplink status. */
+  color: var(--oracle-palette-cyan);
+  content: "LINK ESTABLISHED // ORACLE";
+  letter-spacing: var(--oracle-typography-status-letter-spacing);
+  margin-left: auto;
 }
 
 /* Terminal slide categories */
 
 .slide-terminal {
-  background: var(--oracle-palette-background);
-  border: var(--oracle-effects-screen-border);
+  /* This visible outer band carries the pronounced CRT scanline treatment. */
+  background:
+    var(--oracle-effects-screen-scanline-background),
+    var(--oracle-palette-shadow);
+  background-size: 100% calc(var(--oracle-effects-scanline-size) * 1.5), auto;
+  border: 1px solid var(--oracle-screen-edge);
   border-radius: var(--oracle-frame-radius);
-  box-shadow: var(--oracle-effects-screen-shadow);
+  box-shadow:
+    0 0 0 1px rgba(184, 255, 109, 0.09),
+    0 0 30px rgba(184, 255, 109, 0.14),
+    var(--oracle-effects-screen-shadow);
   --slide-accent: var(--oracle-palette-phosphor);
   --slide-prefix: "";
 }
 
 .reveal .slides section.slide-terminal::before {
+  /* Create a quiet inset screen for copy, leaving scanned edges visible. */
   background:
     var(--oracle-scanline-soft),
     var(--oracle-palette-background);
   background-size: 100% var(--oracle-effects-scanline-size), auto;
+  border: 1px solid rgba(184, 255, 109, 0.12);
   border-radius: calc(var(--oracle-frame-radius) * 0.8);
   content: "";
-  inset: var(--oracle-spacing-sm);
-  opacity: 0.75;
+  inset: var(--oracle-spacing-md);
   position: absolute;
   z-index: 1;
 }
 
 .reveal-viewport:has(.slides section.present.slide-terminal) {
+  /* Extend the strong terminal treatment outside only active terminal slides. */
   background:
+    radial-gradient(circle at center, rgba(184, 255, 109, 0.12), transparent 62%),
     var(--oracle-effects-screen-scanline-background),
     var(--oracle-palette-shadow);
-  background-size: 100% var(--oracle-effects-scanline-size), auto;
+  background-size: auto, 100% calc(var(--oracle-effects-scanline-size) * 1.5), auto;
 }
 
 .reveal .slides section.slide-terminal {
   font-size: var(--oracle-typography-body-size);
-  padding-top: var(--oracle-spacing-sm);
+  padding-top: calc(var(--oracle-spacing-md) + var(--oracle-spacing-sm));
 }
 
 .slide-terminal h2 {
@@ -143,12 +201,13 @@
 }
 
 .slide-terminal h2::before {
+  /* Category classes below supply semantic heading prefixes and colours. */
   color: var(--slide-accent);
   content: var(--slide-prefix);
 }
 
 .slide-terminal-story {
-  --slide-accent: var(--oracle-palette-muted);
+  --slide-accent: var(--oracle-palette-purple);
   --slide-prefix: "SYSTEM // ";
 }
 
@@ -181,6 +240,7 @@
 }
 
 .oracle-says::before {
+  /* Generated output-channel label shared by all ORACLE dialogue blocks. */
   color: var(--oracle-palette-amber);
   content: "<ORACLE> // ...";
   display: block;
@@ -199,32 +259,8 @@
   content: "> ";
 }
 
-/* Cinema/status elements */
-
-.terminal-status {
-  color: var(--oracle-palette-muted);
-  letter-spacing: var(--oracle-typography-status-letter-spacing);
-  text-transform: var(--oracle-typography-heading-transform);
-}
-
-.terminal-status strong {
-  color: var(--oracle-palette-phosphor);
-}
-
-.terminal-kicker {
-  color: var(--oracle-palette-amber);
-  display: block;
-  font-size: var(--oracle-typography-kicker-size);
-  margin-bottom: var(--oracle-spacing-md);
-}
-
-.terminal-prompt {
-  color: var(--oracle-palette-amber);
-  font-weight: 700;
-  margin-top: var(--oracle-spacing-lg);
-}
-
 .terminal-cursor::after {
+  /* Text blocks opt in to the blinking terminal cursor with this class. */
   animation: oracle-cursor-blink var(--oracle-effects-cursor-blink-duration) steps(2, start) infinite;
   color: var(--oracle-palette-phosphor);
   content: "_";
@@ -248,24 +284,104 @@
   font-size: inherit !important;
 }
 
-/* Basic content primitives */
+/* Composable visual pieces: add each class explicitly in the QMD source. */
 
-.text-title-heading {
-  color: var(--oracle-palette-phosphor);
+.display-block {
   display: block;
+}
+
+.text-weight-heading {
   font-weight: var(--oracle-typography-heading-weight);
+}
+
+.text-line-height-title {
   line-height: var(--oracle-typography-title-line-height);
-  margin-bottom: var(--oracle-spacing-lg);
-  text-shadow: var(--oracle-effects-dim-glow);
+}
+
+.text-uppercase {
   text-transform: var(--oracle-typography-heading-transform);
 }
 
-.story-image {
+.text-letter-spacing-status {
+  letter-spacing: var(--oracle-typography-status-letter-spacing);
+}
+
+.text-shadow-dim {
+  text-shadow: var(--oracle-effects-dim-glow);
+}
+
+.text-shadow {
+  text-shadow:
+    0 0 6px rgba(184, 255, 109, 0.24),
+    0 0 22px rgba(184, 255, 109, 0.1);
+}
+
+.text-line-under {
+  border-bottom: 1px solid rgba(184, 255, 109, 0.25);
+}
+
+.panel-line-left {
+  border-left: 1px solid var(--oracle-screen-edge-dim);
+}
+
+.panel-line-top {
+  border-top: 1px solid var(--oracle-screen-edge-dim);
+}
+
+.margin-top-large {
+  margin-top: var(--oracle-spacing-lg);
+}
+
+.margin-bottom-md {
+  margin-bottom: var(--oracle-spacing-md);
+}
+
+.margin-bottom-large {
+  margin-bottom: var(--oracle-spacing-lg);
+}
+
+.padding-top-small {
+  padding-top: var(--oracle-spacing-sm);
+}
+
+.padding-bottom-small {
+  padding-bottom: var(--oracle-spacing-sm);
+}
+
+.padding-bottom-large {
+  padding-bottom: var(--oracle-spacing-lg);
+}
+
+.padding-left-large {
+  padding-left: var(--oracle-spacing-lg);
+}
+
+.image-glow {
+  filter: drop-shadow(0 0 28px rgba(51, 201, 213, 0.15));
+}
+
+.image-display-block {
   display: block;
+}
+
+.margin-x-auto {
   margin: 0 auto;
+}
+
+.image-height-story {
   max-height: var(--oracle-sizing-story-image-max-height);
+}
+
+.image-blend-screen {
+  /* Screen blending makes black image backgrounds disappear into the slide. */
   mix-blend-mode: var(--oracle-effects-image-blend-mode);
+}
+
+.image-fit-contain {
   object-fit: contain;
+}
+
+.width-full {
   width: 100%;
 }
 
@@ -286,7 +402,7 @@
 }
 
 .text-size-body-large {
-  font-size: calc(var(--oracle-typography-body-size) * 1.25);
+  font-size: calc(var(--oracle-typography-body-size) * 1.2);
 }
 
 .text-size-heading {
@@ -298,7 +414,19 @@
 }
 
 .text-size-heading-large {
-  font-size: calc(var(--oracle-typography-title-size) * 1.25);
+  font-size: calc(var(--oracle-typography-title-size) * 1.5);
+}
+
+.text-size-title {
+  font-size: var(--oracle-typography-title-size);
+}
+
+.text-size-title-small {
+  font-size: calc(var(--oracle-typography-title-size) * 0.8);
+}
+
+.text-size-kicker {
+  font-size: var(--oracle-typography-kicker-size);
 }
 
 .text.font-body {
@@ -363,6 +491,10 @@
   color: var(--oracle-palette-purple);
 }
 
+.text-strong-green strong {
+  color: var(--oracle-palette-phosphor);
+}
+
 /* Fragment effect */
 
 .reveal .fragment.tui-reveal {
@@ -370,6 +502,7 @@
 }
 
 .reveal .fragment.tui-reveal.visible {
+  /* Reveal fragments flash briefly as newly returned terminal output. */
   animation: oracle-terminal-refresh var(--oracle-effects-refresh-duration) steps(2, end);
 }
 

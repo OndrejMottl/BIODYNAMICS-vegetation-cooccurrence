@@ -17,39 +17,35 @@ execute:
   message: false
 ---
 
-## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title}
+## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .screen-corners .screen-header .screen-prompt .screen-link-oracle}
 
 <!-- slide:00 -->
 
 :::: {.columns}
-::: {.column width="60%"}
+::: {.column .panel-line-left .padding-left-large .padding-top-small .padding-bottom-small width="80%"}
 
-[talking to &lt;ORACLE&gt;:]{.text-title-heading .text-size-heading-small}
+[talking to &lt;ORACLE&gt;:]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-cyan}
 
-[Exploring biotic signals in vegetation assembly from the LGM to the Anthropocene]{.text-title-heading .text-size-heading-large}
+[Exploring biotic signals in vegetation assembly from the LGM to the Anthropocene]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-uppercase .text-size-heading-large .text-color-green .text-shadow .text-line-under .padding-bottom-large}
 
 <br>
 
-[Ondrej Mottl]{.text-size-body-large .text-color-purple .text-bold }
+[Ondrej Mottl]{.text-size-title .text-color-purple .text-bold }
 
-[IAVS 2026 || 22-26 June 2026 || Gijón, Spain]{.text-size-body .text-color-amber}
+[IAVS 2026 || 22-26 June 2026 || Gijón, Spain]{.text-size-title-small .text-color-amber}
 
 :::
 
-::: {.column width="40%"}
-![This will be fliped 90 degrees and blend with background](figures/story/genai_drafts/planet_abstract_scan_motif_v3.png){.story-image}
+::: {.column width="20%"}
+![This will be fliped 90 degrees and blend with background](figures/story/genai_drafts/planet_abstract_scan_motif_v3.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full .image-glow}
 :::
 
 ::::
 
-<br>
-<br>
-<br>
-
-:::: {.columns}
+:::: {.columns .panel-line-top .margin-top-large .padding-top-small}
 
 ::: {.column width="33%"}
-::: {.terminal-status .text-position-center}
+::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green .text-position-center}
 NARRATIVE INTERFACE: **ORACLE**
 :::
 :::
@@ -59,7 +55,7 @@ NARRATIVE INTERFACE: **ORACLE**
 :::
 
 ::: {.column width="33%"}
-::: {.terminal-status .text-position-center}
+::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green .text-position-center}
 ANALYTICAL  OUTPUTS: **REAL**
 :::
 :::
@@ -74,8 +70,8 @@ TIME 00:25. I will ask the audience to close their eyes and imagine there are on
 ## System ... booting {.slide-terminal .slide-terminal-story}
 
 :::: {.columns}
-::: {.column width="58%"}
-![This needs to be much larger and blended with background](figures/story/genai_drafts/oracle_abstract_face_motif_v3.png){.story-image}
+::: {.column width="58%" .fragment .tui-reveal}
+![This needs to be much larger and blended with background](figures/story/genai_drafts/oracle_abstract_face_motif_v3.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
 :::
 
 ::: {.column width="42%"}
@@ -93,7 +89,7 @@ TIME 00:25. I will ask the audience to close their eyes and imagine there are on
 :::
 ::::
 
-::: {.terminal-status}
+::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green}
 BIOSPHERE DIVERSITY: **HIGH** // CHANGE: **ACCELERATING** // UNCERTAINTY: **SUBSTANTIAL**
 :::
 
@@ -106,7 +102,7 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 
 :::: {.columns}
 ::: {.column width="65%"}
-![Conceptual narrative visual: three ORACLE input streams for climate, space, and association.](figures/story/genai_drafts/query_three_streams_motif_v6.png){.story-image}
+![Conceptual narrative visual: three ORACLE input streams for climate, space, and association.](figures/story/genai_drafts/query_three_streams_motif_v6.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
 :::
 
 ::: {.column width="35%"}
@@ -185,7 +181,7 @@ The database is publicly available and open source. For this analysis, we will f
 
 :::: {.columns}
 ::: {.column width="65%"}
-![Conceptual narrative visual: spatial, temporal, and taxonomic analysis axes.](figures/story/genai_drafts/analysis_axes_triptych_motif_v2.png){.story-image}
+![Conceptual narrative visual: spatial, temporal, and taxonomic analysis axes.](figures/story/genai_drafts/analysis_axes_triptych_motif_v2.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
 :::
 
 ::: {.column width="35%"}
@@ -198,7 +194,7 @@ The database is publicly available and open source. For this analysis, we will f
 [change through time.]{.oracle-line}
 :::
 
-::: {.terminal-status}
+::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green}
 ROUTE SUMMARY
 :::
 
@@ -517,7 +513,7 @@ TIME 00:45. This is the narrative landing point for the result sequence. During 
 
 :::: {.columns}
 ::: {.column .fragment .tui-reveal width="65%" data-fragment-index="1"}
-![Synthetic conceptual visual: ORACLE terminal signal field contrasting observed and hidden structure.](figures/story/hidden_majority_particles.png){.story-image}
+![Synthetic conceptual visual: ORACLE terminal signal field contrasting observed and hidden structure.](figures/story/hidden_majority_particles.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
 :::
 
 ::: {.column width="35%"}
@@ -551,13 +547,13 @@ TIME 00:40. Use this conceptual image to explain why the residual question matte
 [verification.]{.oracle-line}
 :::
 
-::: {.terminal-status}
+::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green}
 SIGNAL STATUS: **PENDING VERIFIED FIGURE INTEGRATION**
 :::
 :::
 
 ::: {.column width="68%"}
-![Narrative visual only: a terminal signal fading into a final cursor.](figures/story/genai_drafts/oracle_closing_signal_motif_v2.png){.story-image}
+![Narrative visual only: a terminal signal fading into a final cursor.](figures/story/genai_drafts/oracle_closing_signal_motif_v2.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
 :::
 ::::
 
@@ -583,7 +579,7 @@ RESEARCH CONTEXT
 
 Plant-community structure across spatial, temporal, and taxonomic scales.
 
-::: {.terminal-status}
+::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green}
 COLLABORATORS / AFFILIATIONS: FINALIZE BEFORE DELIVERY
 :::
 :::
@@ -618,7 +614,7 @@ PHASE 8 DELIVERY ITEM
 :::
 ::::
 
-::: {.terminal-status}
+::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green}
 LICENCE TEXT AND FINAL DEPLOYMENT ADDRESS TO BE CONFIRMED BEFORE RELEASE
 :::
 
@@ -627,11 +623,11 @@ TIME 00:25. Signal that the presentation and analysis code will be available, wh
 :::
 
 <!-- slide:17 -->
-## Vegetation co-occurrence across scale {.slide-title}
+## Vegetation co-occurrence across scale {.slide-title .screen-corners .screen-header .screen-prompt .screen-link-oracle}
 
-:::: {.columns}
-::: {.column width="45%"}
-[QUERY CLOSED // DISCUSSION OPEN]{.terminal-kicker}
+:::: {.columns .panel-line-top .margin-top-large .padding-top-small}
+::: {.column .panel-line-left .padding-left-large .padding-top-small .padding-bottom-small width="45%"}
+[QUERY CLOSED // DISCUSSION OPEN]{.display-block .text-color-amber .text-size-kicker .margin-bottom-md}
 
 **ORACLE**
 
@@ -641,13 +637,13 @@ Ondrej Mottl<br>
 BIODYNAMICS vegetation co-occurrence<br>
 Contact and repository URL: final delivery placeholder
 
-::: {.terminal-prompt .terminal-cursor}
+::: {.text-color-amber .text-bold .margin-top-large .terminal-cursor}
 ORACLE > AWAITING QUESTIONS
 :::
 :::
 
 ::: {.column width="55%"}
-![Narrative visual only: final Earth archive view reused from the opening slide.](figures/story/genai_drafts/planet_abstract_scan_motif_v3.png){.story-image}
+![Narrative visual only: final Earth archive view reused from the opening slide.](figures/story/genai_drafts/planet_abstract_scan_motif_v3.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full .image-glow .image-scale-large}
 :::
 ::::
 
