@@ -368,8 +368,28 @@
   margin: 0 auto;
 }
 
-.image-height-story {
-  max-height: var(--oracle-sizing-story-image-max-height);
+.image-height-900 {
+  height: var(--oracle-sizing-image-max-height-900);
+}
+
+.image-height-800 {
+  height: var(--oracle-sizing-image-max-height-800);
+}
+
+image-height-750 {
+  height: var(--oracle-sizing-image-max-height-750);
+}
+
+.image-height-700 {
+  height: var(--oracle-sizing-image-max-height-700);
+}
+
+.image-height-600 {
+  height: var(--oracle-sizing-image-max-height-600);
+}
+
+.image-height-400 {
+  height: var(--oracle-sizing-image-max-height-400);
 }
 
 .image-blend-screen {

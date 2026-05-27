@@ -47,7 +47,12 @@ $oracle-spacing-md: 1rem !default;
 $oracle-spacing-lg: 1.5rem !default;
 $oracle-spacing-xl: 3.2rem !default;
 $oracle-frame-radius: 0.18rem !default;
-$oracle-sizing-story-image-max-height: 580px !default;
+$oracle-sizing-image-max-height-900: 900px !default;
+$oracle-sizing-image-max-height-800: 800px !default;
+$oracle-sizing-image-max-height-750: 750px !default;
+$oracle-sizing-image-max-height-700: 700px !default;
+$oracle-sizing-image-max-height-600: 600px !default;
+$oracle-sizing-image-max-height-400: 400px !default;
 
 // Reveal.js compile-time defaults derived from the same design tokens.
 $backgroundColor: $oracle-palette-background !default;
@@ -111,5 +116,10 @@ $headingLetterSpacing: $oracle-typography-heading-letter-spacing !default;
   --oracle-spacing-lg: 1.5rem;
   --oracle-spacing-xl: 3.2rem;
   --oracle-frame-radius: 0.18rem;
-  --oracle-sizing-story-image-max-height: 580px;
+  --oracle-sizing-image-max-height-900: 900px;
+  --oracle-sizing-image-max-height-800: 800px;
+  --oracle-sizing-image-max-height-750: 750px;
+  --oracle-sizing-image-max-height-700: 700px;
+  --oracle-sizing-image-max-height-600: 600px;
+  --oracle-sizing-image-max-height-400: 400px;
 }

@@ -61,6 +61,11 @@
     "radius": "0.18rem"
   },
   "sizing": {
-    "story_image_max_height": "580px"
+    "image_max_height_900": "900px",
+    "image_max_height_800": "800px",
+    "image_max_height_750": "750px",
+    "image_max_height_700": "700px",
+    "image_max_height_600": "600px",
+    "image_max_height_400": "400px"
   }
 }
