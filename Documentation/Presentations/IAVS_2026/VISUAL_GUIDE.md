@@ -39,12 +39,13 @@ QUERY -> PROCESS -> INTERPRET -> SIGNAL
 - Motion should be subtle and sparse.
 - Use atmospheric full-screen composition only for the opening and final slides.
 - Treat slides 01 through 16 as sparse TUI screens: near-black space, open fields, occasional instrument readouts, and limited glow.
-- Give every slide one quiet outer screen boundary against a pure-black projection background; keep scanline texture inside that screen only.
+- Give every internal terminal slide a readable low-texture screen surface within a stronger CRT-scanned exterior field; the exterior texture should be more pronounced than the copy area.
 - Render ORACLE dialogue as amber `ORACLE // OUTPUT` rows, with every logical line prefixed by `> `.
 - Use a single terminal text size throughout slides 01 through 16; express hierarchy with colour, spacing, rules, and prompt syntax rather than larger type.
 - Do not frame atmospheric or conceptual narrative images as cards; their black fields should blend into the slide background.
 - Do not frame every slide or text block; use rules when they separate a large visual from commentary or mark a functional readout.
 - Whenever a slide contains or anticipates a figure, make the visual the dominant canvas and move narration or metadata into a narrow terminal rail.
+- Build optional styling from explicit QMD utility classes, such as `.text-shadow`, `.text-line-under`, `.panel-line-left`, and spacing utilities; avoid styling content because it happens to be the first or last child in a slide.
 
 ## Palette and Typography
 
@@ -239,4 +240,5 @@ Append short decisions here over time.
 - 2026-05-24: terminal frames gain a slight `0.18rem` corner radius to soften boxes without changing the retro TUI character.
 - 2026-05-24: internal slides use open terminal fields; borders are reserved for functional readouts or figure-to-text separation rather than enclosing every content block.
 - 2026-05-24: retain a single low-contrast perimeter border around each slide to establish the terminal screen against the surrounding background.
-- 2026-05-24: the area outside the screen is pure black; CRT texture and atmospheric treatment are limited to the bounded slide surface.
+- 2026-05-27: internal terminal slides use visible CRT scanlines both outside and inside the screen; the exterior field is intentionally stronger while the copy surface remains restrained for readability.
+- 2026-05-27: optional title and content decorations are attached through composable utility classes in `index.qmd`, so visual choices remain visible and adjustable in the slide source.
