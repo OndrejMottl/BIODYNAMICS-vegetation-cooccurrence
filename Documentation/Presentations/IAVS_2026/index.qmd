@@ -37,7 +37,7 @@ execute:
 :::
 
 ::: {.column width="20%"}
-![This will be fliped 90 degrees and blend with background](figures/story/genai_drafts/planet_abstract_scan_motif_v3.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full .image-glow}
+![This will be fliped 90 degrees and blend with background](figures/story/genai_drafts/planet_abstract_scan_motif_v3.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-glow}
 :::
 
 ::::
@@ -70,11 +70,11 @@ TIME 00:25. I will ask the audience to close their eyes and imagine there are on
 ## System ... booting {.slide-terminal .slide-terminal-story}
 
 :::: {.columns}
-::: {.column width="58%" .fragment .tui-reveal}
-![This needs to be much larger and blended with background](figures/story/genai_drafts/oracle_abstract_face_motif_v3.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
+::: {.column width="50%" .fragment .tui-reveal}
+![This needs to be much larger and blended with background](figures/story/genai_drafts/oracle_abstract_face_motif_v3_crop.png){.image-display-block .margin-x-auto .image-height-750 .image-blend-screen .image-fit-contain .width-full}
 :::
 
-::: {.column width="42%"}
+::: {.column width="50%" .fragment .tui-reveal}
 ::: {.oracle-says .terminal-cursor}
 [System online.]{.oracle-line}
 [Greetings Dr. Mottl.]{.oracle-line}
@@ -89,41 +89,51 @@ TIME 00:25. I will ask the audience to close their eyes and imagine there are on
 :::
 ::::
 
-::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green}
-BIOSPHERE DIVERSITY: **HIGH** // CHANGE: **ACCELERATING** // UNCERTAINTY: **SUBSTANTIAL**
+<br>
+<br>
+<br>
+
+:::: {.columns .margin-top-large .padding-top-small}
+
+::: {.column width="33%"}
+::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green .text-position-center}
+BIOSPHERE DIVERSITY: **HIGH** 
 :::
+:::
+
+::: {.column width="33%" .text-position-center .text-color-muted}
+CHANGE: **ACCELERATING** 
+:::
+
+::: {.column width="33%"}
+::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green .text-position-center}
+UNCERTAINTY: **SUBSTANTIAL**
+:::
+:::
+
+::::
 
 ::: {.notes}
 TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mottl, the chief researcher at this space station. We have 12 minutes to explore the vegetation patterns of a alian planet called 'Earth' using the ORACLE system. Let's get started. ORACLE, please boot up and introduce yourself.
 :::
 
 <!-- slide:02 -->
-## Does unexplained structure change with scale? {.slide-terminal .slide-terminal-question}
+## Is there a [scale dependence]{.text-color-amber .text-bold} in the amount of unexplained variation ([potentially due to biotic interactions]{.text-color-cyan}) structuring vegetation? {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
-::: {.column width="65%"}
-![Conceptual narrative visual: three ORACLE input streams for climate, space, and association.](figures/story/genai_drafts/query_three_streams_motif_v6.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
+::: {.column width="65%" .fragment .tui-reveal data-fragment-index="2"}
+![Three analysis axes](figures/story/genai_drafts/query_three_streams_motif_v6.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
 :::
 
-::: {.column width="35%"}
-::: {.oracle-says .fragment .tui-reveal data-fragment-index="1"}
+::: {.column width="35%" .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-says}
 [Query accepted.]{.oracle-line}
-[Plan to partition observed plant]{.oracle-line}
-[co-occurrence into climate response,]{.oracle-line}
-[spatial structure, and residual association.]{.oracle-line}
+[Plan to partition observed plant co-occurrence into:]{.oracle-line} 
+[ - spatial structure]{.oracle-line}
+[ - climate response]{.oracle-line}
+[ - residual species-species association.]{.oracle-line}
 :::
 
-::: {.fragment .tui-reveal data-fragment-index="2"}
-CENTRAL QUERY
-
-Does the residual association component vary across:
-
-- [space]{.text-color-cyan}
-- [time]{.text-color-amber}
-- [taxonomic resolution]{.text-color-purple}
-
-CONCEPTUAL VISUAL / NOT ANALYTICAL EVIDENCE
-:::
 :::
 ::::
 
