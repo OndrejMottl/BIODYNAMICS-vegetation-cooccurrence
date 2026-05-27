@@ -76,14 +76,46 @@ TIME 00:25. I will ask the audience to close their eyes and imagine there are on
 
 ::: {.column width="50%" .fragment .tui-reveal}
 ::: {.oracle-says .terminal-cursor}
-[System online.]{.oracle-line}
-[Greetings Dr. Mottl.]{.oracle-line}
-[I am **[O]bservational [R]untime for [A]nalysis of [C]ommunity-[L]evel [E]cology**]{.oracle-line}
-[&lt;ORACLE&gt; for short.]{.oracle-line}
-[I am here to assist you in analyzing vegetation patterns on Earth.]{.oracle-line}
-[Awaiting ecological query.]{.oracle-line}
-[ ]{.oracle-line}
-[Proceed? Y/N?]{.oracle-line}
+
+::: {.oracle-line}
+System online.
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+Greetings Dr. Mottl.
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+I am [[O]]{.oracle-highlight .oracle-highlight-purple}bservational [[R]]{.oracle-highlight .oracle-highlight-purple}untime for [[A]]{.oracle-highlight .oracle-highlight-purple}nalysis of [[C]]{.oracle-highlight .oracle-highlight-purple}ommunity-[[L]]{.oracle-highlight .oracle-highlight-purple}evel [[E]]{.oracle-highlight .oracle-highlight-purple}cology**
+:::
+
+::: {.oracle-line}
+[&lt;ORACLE&gt;]{.oracle-highlight .oracle-highlight-purple} for short.
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+I am here to assist you in analyzing vegetation patterns on Earth.
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+Awaiting ecological query.
+:::
+
+[]{.oracle-line}
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+Proceed? Y/N?
+:::
 :::
 
 :::
@@ -121,20 +153,45 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 ## Is there a [scale dependence]{.text-color-amber .text-bold} in the amount of unexplained variation ([potentially due to biotic interactions]{.text-color-cyan}) structuring vegetation? {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
-::: {.column width="65%" .fragment .tui-reveal data-fragment-index="2"}
-![Three analysis axes](figures/story/genai_drafts/query_three_streams_motif_v6.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
-:::
 
 ::: {.column width="35%" .fragment .tui-reveal data-fragment-index="1"}
-::: {.oracle-says}
-[Query accepted.]{.oracle-line}
-[Plan to partition observed plant co-occurrence into:]{.oracle-line} 
-[ - spatial structure]{.oracle-line}
-[ - climate response]{.oracle-line}
-[ - residual species-species association.]{.oracle-line}
+
+<br>
+<br>
+
+::: {.oracle-says .terminal-cursor}
+
+::: {.oracle-line}
+Query accepted.
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+Plan to partition observed plant co-occurrence into:
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+ - spatial structure
+:::
+
+::: {.oracle-line}
+ - climate response
+:::
+
+::: {.oracle-line}
+ - residual species-species association.
+:::
 :::
 
 :::
+
+::: {.column width="65%" .fragment .tui-reveal data-fragment-index="2"}
+![](figures/story/genai_drafts/query_three_streams_motif_v6.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full}
+:::
+
 ::::
 
 ::: {.notes}
@@ -142,42 +199,44 @@ TIME 00:45. Oracle, I would like like to explore vegation patterns across space 
 :::
 
 <!-- slide:03 -->
-## Archive mounted: VegVault {.slide-terminal .slide-terminal-story}
+## Archive: [&lt;VegVault&gt;]{.text-color-cyan} {.slide-terminal .slide-terminal-story}
 
 :::: {.columns}
-::: {.column width="62%"}
-STORY SCHEMATIC
+::: {.column width="62%"  .fragment .tui-reveal data-fragment-index="2"}
 
-**Northern Hemisphere coverage**
+--Northern Hemisphere coverage figure--
 
-North America / Europe / Asia
-
-PHASE 5: ADD MAP OUTPUT
+--figure/schematics of data input--
 :::
 
-::: {.column width="38%"}
-::: {.oracle-says}
-[VegVault database:]{.oracle-line}
-[publicly available,]{.oracle-line}
-[open source database.]{.oracle-line}
-[VegVault scan complete.]{.oracle-line}
-[Community records, climate]{.oracle-line}
-[predictors,]{.oracle-line}
-[site coordinates, and]{.oracle-line}
-[functional traits]{.oracle-line}
-[are loaded as separate streams.]{.oracle-line}
-[Due to data availability,]{.oracle-line}
-[I will focus on the]{.oracle-line}
-[Northern Hemisphere of the planet.]{.oracle-line}
+::: {.column width="38%" }
+::: {.oracle-says .terminal-cursor .fragment .tui-reveal data-fragment-index="1"}
+
+::: {.oracle-line}
+&lt;VegVault&gt; database: publicly available oracle-line open source database
 :::
 
-SYSTEM SCHEMATIC
+::: {.oracle-line}
+VegVault scan complete.
+:::
 
-**Input streams**
+::: {.oracle-line}
+Community records, climate predictors, site coordinates, and functional traits are loaded as separate streams.
+:::
 
-Vegetation / pollen / climate / traits
+[]{.oracle-line}
 
-PHASE 4 PLACEHOLDER
+::: {.oracle-line}
+Due to data availability, I will focus on the Northern Hemisphere of the planet.
+:::
+:::
+
+::: {.fragment .tui-reveal data-fragment-index="3"}
+--VegVault logo--
+
+--QR code--
+:::
+
 :::
 ::::
 
@@ -189,32 +248,35 @@ The database is publicly available and open source. For this analysis, we will f
 <!-- slide:04 -->
 ## Three analysis axes {.slide-terminal .slide-terminal-methods}
 
-:::: {.columns}
-::: {.column width="65%"}
-![Conceptual narrative visual: spatial, temporal, and taxonomic analysis axes.](figures/story/genai_drafts/analysis_axes_triptych_motif_v2.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
+<br>
+
+::: {.fragment .tui-reveal data-fragment-index="2"}
+::: {.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full}
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_crop.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
+:::
 :::
 
-::: {.column width="35%"}
-::: {.oracle-says}
-[Route selected.]{.oracle-line}
-[Spatial-resolution runs]{.oracle-line}
-[test scale and taxonomic]{.oracle-line}
-[aggregation level.]{.oracle-line}
-[Temporal slices test]{.oracle-line}
-[change through time.]{.oracle-line}
+<br>
+
+::: {.oracle-says .terminal-cursor .fragment .tui-reveal data-fragment-index="1"}
+
+::: {.oracle-line}
+Three routes selected:
 :::
 
-::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green}
-ROUTE SUMMARY
+::: {.oracle-line}
+ - Spatial-resolution runs : chnages with spatial scale
 :::
 
-- [Spatial]{.text-color-cyan}: local to continental units
-- [Temporal]{.text-color-amber}: repeated palaeo slices
-- [Taxonomic]{.text-color-purple}: genus, family, functional type
-
-METHOD ILLUSTRATION / NOT A RESULT
+::: {.oracle-line}
+ - Temporal slices test : change through time.
 :::
-::::
+
+::: {.oracle-line}
+- Taxonomic aggregation level : change through classification.
+:::
+:::
+
 
 ::: {.notes}
 TIME 00:35. Now, we would like to split the analysis along space (from local to continental), time (since the last glacial maximum), and taxonomic resolution (from genus up to abstract functional types).
@@ -224,133 +286,142 @@ TIME 00:35. Now, we would like to split the analysis along space (from local to 
 ## Preparing community and climate streams {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
-::: {.column width="35%"}
-::: {.oracle-says}
-[Data extracted,]{.oracle-line}
-[now preparation ...]{.oracle-line}
-[Community stream normalised.]{.oracle-line}
-[Taxa are classified,]{.oracle-line}
-[filtered, and routed to]{.oracle-line}
-[the analysis resolution.]{.oracle-line}
-[Climate stream screened.]{.oracle-line}
-[Redundant predictors]{.oracle-line}
-[are removed]{.oracle-line}
-[before model fitting.]{.oracle-line}
+
+::: {.column width="40%"}
+
+<br>
+
+::: {.oracle-says .terminal-cursor .fragment .tui-reveal data-fragment-index="1"}
+
+::: {.oracle-line}
+Data extracted, now preparation ...
 :::
 
-COMMUNITY STREAM
+[]{.oracle-line}
 
-[01] Counts and ages<br>
-[02] Proportions and alignment<br>
-[03] Taxa classified and filtered<br>
-[04] Model-ready community
+::: {.oracle-line}
+Community stream normalised.
 :::
 
-::: {.column width="65%"}
-CLIMATE DIAGNOSTIC PLACEHOLDER
+::: {.oracle-line}
+ - proportions filtered
+:::
 
-CHELSA predictor screening and collinearity panel
+::: {.oracle-line}
+ - Taxa are classified automatically to GBIF and filtered.
+:::
 
-PHASE 5: INSERT VERIFIED OUTPUT
+[]{.oracle-line}
+
+::: {.oracle-line}
+Climate stream screened.
+:::
+
+::: {.oracle-line}
+ - Redundant predictors are removed before model fitting.
+:::
+:::
+
+
+:::
+
+::: {.column width="60%" .fragment .tui-reveal data-fragment-index="2"}
+--Figure to show some climate data summary---
 :::
 ::::
 
 ::: {.notes}
-TIME 00:45. Walk through the processing logic rather than numbers. Stress that climate screening and community preparation occur before model fitting; diagnostics will be replaced with verified output in phase 5.
+TIME 00:45. Oracle, we now need to apply data processing to community data and climate predictors to make them ready for analysis.
 :::
 
 <!-- slide:06 -->
 ## Model core: environment, space, association {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
-::: {.column width="68%"}
-:::: {.columns}
-::: {.column width="22%"}
-ABIOTIC
+::: {.column width="65%" .fragment .tui-reveal data-fragment-index="2"}
+--Schematic of model components and variance partitioning--
+(we can use either mermaid or a custom schematic)
 
-Climate predictors
-:::
-::: {.column width="22%"}
-SPATIAL
-
-MEM structure
-:::
-::: {.column width="22%"}
-ASSOCIATION
-
-Residual covariance
-:::
-::: {.column width="5%"}
-->
-:::
-::: {.column width="22%"}
-RESPONSE
-
-Community matrix
-:::
-::::
+--maybe a mathematical formula for the model--
 :::
 
-::: {.column width="32%"}
-::: {.oracle-says}
-[Model assembled.]{.oracle-line}
-[Abiotic predictors explain]{.oracle-line}
-[shared response.]{.oracle-line}
-[Moran Eigenvector Maps (MEMs)]{.oracle-line}
-[absorb spatio-temporal]{.oracle-line}
-[autocorrelation.]{.oracle-line}
-[Residual covariance carries]{.oracle-line}
-[association signal.]{.oracle-line}
+::: {.column width="35%" .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-says .terminal-cursor}
+
+::: {.oracle-line}
+Model assembled.
 :::
 
-CONCEPTUAL MODEL DIAGRAM / `sjSDM` IMPLEMENTATION CONTEXT
+[]{.oracle-line}
+
+::: {.oracle-line}
+ - Abiotic predictors explain shared response.
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+ - Moran Eigenvector Maps (MEMs) absorb spatio-temporal autocorrelation.
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+ - Residual covariance carries species-species association signal.
+:::
+:::
 :::
 ::::
 
 ::: {.notes}
-TIME 00:45. Introduce the model architecture: abiotic predictors, spatial structure, and remaining covariance. Do not claim that residual covariance alone demonstrates direct biotic interaction.
+TIME 00:45. Oracle, build a model, which would include climate, spatial structure, and whatever residual association remains.
+We will be uisng {sjSDM} R package is used because the community matrix and spatial design are too large for slower MCMC workflows.
 :::
 
 <!-- slide:07 -->
 ## Variance decomposition {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
-::: {.column width="60%"}
-:::: {.columns}
-::: {.column width="50%"}
-Abiotic
-:::
-::: {.column width="50%"}
-Spatial
-:::
-::::
-:::: {.columns}
-::: {.column width="50%"}
-Association
-:::
-::: {.column width="50%"}
-Shared fractions
-:::
-::::
+
+::: {.column width="50%" .fragment .tui-reveal data-fragment-index="1"}
+
+::: {.oracle-says .terminal-cursor}
+
+::: {.oracle-line}
+Decomposition ready.
 :::
 
-::: {.column width="40%"}
-::: {.oracle-says}
-[Decomposition ready.]{.oracle-line}
-[Report what remains after climate]{.oracle-line}
-[and spatial structure have made]{.oracle-line}
-[their claims.]{.oracle-line}
+[]{.oracle-line}
+
+::: {.oracle-line}
+Focus: residual association component
 :::
 
-- Focus: residual association component
-- Caution: co-occurrence is not proof of interaction
+[]{.oracle-line}
 
-SCHEMATIC / NOT FITTED VALUES
+::: {.oracle-line}
+Report what remains after climate and spatial 
+structure have made their claims.
 :::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+[Caution]{.oracle-highlight .oracle-highlight-red}: co-occurrence is not proof of [interaction]{.oracle-highlight}.
+:::
+
+:::
+:::
+
+::: {.column width="50%" .fragment .tui-reveal data-fragment-index="2"} 
+--schematic to show the variance decomposition and the focus on the residual association component--
+:::
+
+
 ::::
 
 ::: {.notes}
-TIME 00:40. Explain the decomposition as the bridge from model to question. Shared fractions are diagnostic; the talk follows the residual component cautiously.
+TIME 00:40. Now we would like to decompose the explained variance so we can separate climate, space, and residual association.
 :::
 
 <!-- slide:08 -->
@@ -358,9 +429,15 @@ TIME 00:40. Explain the decomposition as the bridge from model to question. Shar
 
 :::: {.columns}
 ::: {.column width="36%"}
-::: {.oracle-says}
-[Spatial scan configured.]{.oracle-line}
-[Units are nested from local to regional to continental.]{.oracle-line}
+::: {.oracle-says .terminal-cursor}
+
+::: {.oracle-line}
+Spatial scan configured.
+:::
+
+::: {.oracle-line}
+Units are nested from local to regional to continental.
+:::
 :::
 
 ::: {.fragment .tui-reveal data-fragment-index="1"}
@@ -405,9 +482,18 @@ PHASE 5 OUTPUT
 
 ::: {.column width="32%"}
 ::: {.oracle-says}
-[Query accepted.]{.oracle-line}
-[Adding taxonomic axis.]{.oracle-line}
-[Plotting the results.]{.oracle-line}
+
+::: {.oracle-line}
+Query accepted.
+:::
+
+::: {.oracle-line}
+Adding taxonomic axis.
+:::
+
+::: {.oracle-line}
+Plotting the results.
+:::
 :::
 
 EXPECTED TEST
@@ -430,13 +516,34 @@ TIME 00:45. Introduce the second comparison axis. The slide prepares the expecta
 :::: {.columns}
 ::: {.column width="35%"}
 ::: {.oracle-says}
-[Query accepted.]{.oracle-line}
-[Temporal mode selected. Slicing the data into 500-year windows.]{.oracle-line}
-[Network diagnostics loaded. Co-occurrence structure can change]{.oracle-line}
-[even when variance components look similar.]{.oracle-line}
-[Each slice receives an independent analysis and diagnostics.]{.oracle-line}
-[Plotting the results.]{.oracle-line}
-[Proceed? Y/N?]{.oracle-line}
+
+::: {.oracle-line}
+Query accepted.
+:::
+
+::: {.oracle-line}
+Temporal mode selected. Slicing the data into 500-year windows.
+:::
+
+::: {.oracle-line}
+Network diagnostics loaded. Co-occurrence structure can change
+:::
+
+::: {.oracle-line}
+even when variance components look similar.
+:::
+
+::: {.oracle-line}
+Each slice receives an independent analysis and diagnostics.
+:::
+
+::: {.oracle-line}
+Plotting the results.
+:::
+
+::: {.oracle-line}
+Proceed? Y/N?
+:::
 :::
 :::
 
@@ -459,7 +566,10 @@ TIME 00:50. Move from spatial comparisons to temporal stress testing. Explain th
 ## Temporal trajectories {.slide-terminal .slide-terminal-results}
 
 ::: {.oracle-says}
-[Plotting temporal trajectories.]{.oracle-line}
+
+::: {.oracle-line}
+Plotting temporal trajectories.
+:::
 :::
 
 :::: {.columns}
@@ -494,9 +604,18 @@ TIME 00:50. Describe the intended regional comparison without reporting changes 
 ## Synthesis pending verification {.slide-terminal .slide-terminal-synthesis}
 
 ::: {.oracle-says}
-[Weaving realities together: spatial patterns, taxonomic resolution, temporal dynamics.]{.oracle-line}
-[Consulting deeper reasoning matrices.]{.oracle-line}
-[Summarizing results.]{.oracle-line}
+
+::: {.oracle-line}
+Weaving realities together: spatial patterns, taxonomic resolution, temporal dynamics.
+:::
+
+::: {.oracle-line}
+Consulting deeper reasoning matrices.
+:::
+
+::: {.oracle-line}
+Summarizing results.
+:::
 :::
 
 ::: {.fragment .tui-reveal data-fragment-index="1"}
@@ -528,10 +647,22 @@ TIME 00:45. This is the narrative landing point for the result sequence. During 
 
 ::: {.column width="35%"}
 ::: {.oracle-says}
-[Association-like structure can persist]{.oracle-line}
-[after the most obvious environmental]{.oracle-line}
-[and spatial patterns are accounted]{.oracle-line}
-[for.]{.oracle-line}
+
+::: {.oracle-line}
+Association-like structure can persist
+:::
+
+::: {.oracle-line}
+after the most obvious environmental
+:::
+
+::: {.oracle-line}
+and spatial patterns are accounted
+:::
+
+::: {.oracle-line}
+for.
+:::
 :::
 
 - Ask what remains, rather than naming an interaction.
@@ -551,10 +682,22 @@ TIME 00:40. Use this conceptual image to explain why the residual question matte
 :::: {.columns}
 ::: {.column width="32%"}
 ::: {.oracle-says .terminal-cursor}
-[The archive narrows plausible]{.oracle-line}
-[ecological explanations.]{.oracle-line}
-[It does not replace]{.oracle-line}
-[verification.]{.oracle-line}
+
+::: {.oracle-line}
+The archive narrows plausible
+:::
+
+::: {.oracle-line}
+ecological explanations.
+:::
+
+::: {.oracle-line}
+It does not replace
+:::
+
+::: {.oracle-line}
+verification.
+:::
 :::
 
 ::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-strong-green}
