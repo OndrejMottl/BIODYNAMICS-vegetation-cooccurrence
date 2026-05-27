@@ -1,7 +1,6 @@
 #' @title Flatten design configuration into a token list
-#' @description Recursively flattens the `palette`, `typography`,
-#'   `effects`, and `spacing` sections into CSS/SCSS token key-value
-#'   pairs.
+#' @description Recursively flattens all top-level design token sections
+#'   except `metadata` into CSS/SCSS token key-value pairs.
 #' @param design Named list as returned by `load_design_config()`.
 #' @return A flat named list of scalar token values.
 #' @keywords internal
@@ -46,9 +45,9 @@ flatten_design_tokens <- function(design) {
     purrr::chuck(design, "config")
 
   vec_token_sections <-
-    base::intersect(
-      base::c("palette", "typography", "effects", "spacing"),
-      base::names(list_config)
+    base::setdiff(
+      base::names(list_config),
+      "metadata"
     )
 
   list_tokens <-

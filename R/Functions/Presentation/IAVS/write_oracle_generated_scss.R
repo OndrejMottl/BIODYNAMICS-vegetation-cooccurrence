@@ -110,11 +110,35 @@ write_oracle_generated_scss <- function(
       ";"
     )
 
+  # Reveal theme defaults must be present in the imported generated file.
+  # Referencing imported oracle variables from oracle.scss is evaluated too
+  # early by Quarto's theme compiler and produces false undeclared warnings.
+  vec_reveal_defaults <-
+    base::c(
+      "$backgroundColor: $oracle-palette-background !default;",
+      "$mainColor: $oracle-palette-text !default;",
+      "$headingColor: $oracle-palette-phosphor !default;",
+      "$linkColor: $oracle-palette-cyan !default;",
+      "$selectionBackgroundColor: $oracle-palette-border !default;",
+      "$mainFont: $oracle-typography-body-family !default;",
+      "$headingFont: $oracle-typography-heading-family !default;",
+      "$mainFontSize: $oracle-typography-body-size !default;",
+      "$headingFontWeight: $oracle-typography-heading-weight !default;",
+      "$headingTextTransform: $oracle-typography-heading-transform !default;",
+      base::paste0(
+        "$headingLetterSpacing: ",
+        "$oracle-typography-heading-letter-spacing !default;"
+      )
+    )
+
   vec_lines <-
     base::c(
       "// Auto-generated from design_config.json. Do not edit.",
       "",
       vec_scss_variables,
+      "",
+      "// Reveal.js compile-time defaults derived from the same design tokens.",
+      vec_reveal_defaults,
       "",
       ":root,",
       ".reveal {",
