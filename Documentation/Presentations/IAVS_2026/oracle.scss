@@ -234,13 +234,15 @@
 
 /* ORACLE dialogue */
 
-.oracle-says {
+.oracle-says,
+.oracle-terminal {
   color: var(--oracle-palette-amber);
   letter-spacing: var(--oracle-typography-dialogue-letter-spacing);
   margin: 0 0 var(--oracle-spacing-lg);
 }
 
-.oracle-says::before {
+.oracle-says::before,
+.oracle-terminal::before {
   /* Generated output-channel label shared by all ORACLE dialogue blocks. */
   color: var(--oracle-palette-amber);
   content: "<ORACLE> // ...";
@@ -264,6 +266,7 @@
 
 /* Keep intentional blank prompt rows, but tighter than full text rows. */
 .oracle-says p > .oracle-line:empty,
+.oracle-terminal p > .oracle-line:empty,
 .oracle-line:empty {
   line-height: calc(var(--oracle-typography-line-height) * 0.7);
 }
@@ -323,7 +326,8 @@
   color: var(--oracle-palette-red);
 }
 
-.terminal-cursor::after {
+.terminal-cursor::after,
+.oracle-terminal::after {
   /* Text blocks opt in to the blinking terminal cursor with this class. */
   animation: oracle-cursor-blink var(--oracle-effects-cursor-blink-duration) steps(2, start) infinite;
   color: var(--oracle-palette-phosphor);
@@ -440,7 +444,7 @@
   height: var(--oracle-sizing-image-max-height-800);
 }
 
-image-height-750 {
+.image-height-750 {
   height: var(--oracle-sizing-image-max-height-750);
 }
 
@@ -454,6 +458,10 @@ image-height-750 {
 
 .image-height-400 {
   height: var(--oracle-sizing-image-max-height-400);
+}
+
+.image-height-300 {
+  height: var(--oracle-sizing-image-max-height-300);
 }
 
 .image-blend-screen {

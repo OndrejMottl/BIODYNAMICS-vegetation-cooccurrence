@@ -66,6 +66,7 @@
     "image_max_height_750": "750px",
     "image_max_height_700": "700px",
     "image_max_height_600": "600px",
-    "image_max_height_400": "400px"
+    "image_max_height_400": "400px",
+    "image_max_height_300": "300px"
   }
 }
