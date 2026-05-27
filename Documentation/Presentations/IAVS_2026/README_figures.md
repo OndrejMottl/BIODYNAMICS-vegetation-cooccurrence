@@ -29,6 +29,9 @@ This register keeps only the figure inventory and implementation status.
 - Keep the ORACLE look terminal-first: phosphor noise, thin panel frames, and restrained prompts.
 - Keep backgrounds mostly monochrome green; use cyan, amber, and red semantically.
 - Avoid glossy cinematic sci-fi and modern neon dashboard styling.
+- Display story images without figure borders so their black backgrounds blend into the terminal canvas.
+- Revisit selected GenAI assets in a later visual-polish pass if their exported black levels reveal rectangular image edges.
+- Treat selected story images and all phase-5 output slots as dominant visual stages; keep explanatory terminal text in compact side rails.
 
 ## Selected Figure Checklist
 
@@ -37,20 +40,20 @@ It includes the one R-generated figure that is being kept and the GenAI story as
 
 | Role | Asset | Source | Slide use | State |
 | --- | --- | --- | --- | --- |
-| Canonical R story figure | `figures/story/hidden_majority_particles.png` | Synthetic particles from `R/generate_story_figures.R` | Story slide / conceptual terminal panel | Implemented |
-| GenAI story figure | `figures/story/genai_drafts/oracle_abstract_face_motif_v3.png` | Motif-only terminal portrait asset | ORACLE portrait / diagnostic screen | Kept |
-| GenAI story figure | `figures/story/genai_drafts/planet_abstract_scan_motif_v3.png` | Motif-only terminal planet asset | Atmospheric opening or closing slide | Kept |
+| Canonical R story figure | `figures/story/hidden_majority_particles.png` | Synthetic particles from `R/generate_story_figures.R` | Slide 13 implication / conceptual terminal panel | Implemented |
+| GenAI story figure | `figures/story/genai_drafts/oracle_abstract_face_motif_v3.png` | Motif-only terminal portrait asset | Slide 01 ORACLE introduction | Selected and placed |
+| GenAI story figure | `figures/story/genai_drafts/planet_abstract_scan_motif_v3.png` | Motif-only terminal planet asset | Slides 00 and 17 opening/final frame | Selected and placed |
 | GenAI story figure | `figures/story/genai_drafts/vegetation_camera_moon_motif_v2.png` | Motif-only vegetation-camera asset | Story premise slide | Kept |
 | GenAI story figure | `figures/story/genai_drafts/query_three_streams_motif_v1.png` | Motif-only conceptual stream asset | Query setup / Slide 02 | Draft for review |
 | GenAI story figure | `figures/story/genai_drafts/query_three_streams_motif_v2.png` | Triptych source-object revision with climograph and network | Query setup / Slide 02 | Draft for review |
 | GenAI story figure | `figures/story/genai_drafts/query_three_streams_motif_v3.png` | Triptych revision with nested map, climate glyphs, and dense network | Query setup / Slide 02 | Draft for review |
 | GenAI story figure | `figures/story/genai_drafts/query_three_streams_motif_v4.png` | Triptych revision with color-coded modular association network | Query setup / Slide 02 | Superseded by v6 |
 | GenAI story figure | `figures/story/genai_drafts/query_three_streams_motif_v5.png` | Partition-divider revision of selected triptych | Query setup / Slide 02 | Superseded by v6 |
-| GenAI story figure | `figures/story/genai_drafts/query_three_streams_motif_v6.png` | Partitioned triptych with widened divider gutters | Query setup / Slide 02 | Selected |
+| GenAI story figure | `figures/story/genai_drafts/query_three_streams_motif_v6.png` | Partitioned triptych with widened divider gutters | Query setup / Slide 02 | Selected and placed |
 | GenAI story figure | `figures/story/genai_drafts/analysis_axes_triptych_motif_v1.png` | Motif-only conceptual axis asset | Analysis axes / Slide 04 | Superseded by v2 |
-| GenAI story figure | `figures/story/genai_drafts/analysis_axes_triptych_motif_v2.png` | Color-separated 3D spatial, temporal signal, and phylogenetic triptych without dividers | Analysis axes / Slide 04 | Selected |
+| GenAI story figure | `figures/story/genai_drafts/analysis_axes_triptych_motif_v2.png` | Color-separated 3D spatial, temporal signal, and phylogenetic triptych without dividers | Analysis axes / Slide 04 | Selected and placed |
 | GenAI story figure | `figures/story/genai_drafts/oracle_closing_signal_motif_v1.png` | Motif-only closing signal asset | Closing terminal / Slide 14 | Superseded by v2 |
-| GenAI story figure | `figures/story/genai_drafts/oracle_closing_signal_motif_v2.png` | Fading analysis remnants resolving into terminal cursor | Closing terminal / Slide 14 | Selected |
+| GenAI story figure | `figures/story/genai_drafts/oracle_closing_signal_motif_v2.png` | Fading analysis remnants resolving into terminal cursor | Closing terminal / Slide 14 | Selected and placed |
 
 ## Script-Derived Figure Checklist
 
@@ -66,7 +69,7 @@ It shows the figure needs for the main talk and the optional extra slides that m
 - [x] Slide 02: terminal query panel with climate, space, and association streams. Selected asset: `figures/story/genai_drafts/query_three_streams_motif_v6.png`
 - [x] Slide 04: three-card overview of spatial, temporal, and taxonomic axes. Selected asset: `figures/story/genai_drafts/analysis_axes_triptych_motif_v2.png`
 - [x] Slide 14: cinematic closing-terminal slide. Selected asset: `figures/story/genai_drafts/oracle_closing_signal_motif_v2.png`
-- [ ] Slide 17: final closing background. Candidate reuse: `figures/story/genai_drafts/planet_abstract_scan_motif_v3.png`
+- [x] Slide 17: final closing background. Reused asset: `figures/story/genai_drafts/planet_abstract_scan_motif_v3.png`
 
 #### Schematics (genAI/mermaid/SCSS)
 
@@ -77,7 +80,7 @@ It shows the figure needs for the main talk and the optional extra slides that m
 #### R-Based / Output-Derived Visuals (Main Deck)
 
 - [ ] Slide 03: northern-hemisphere globe / map highlighting North America, Europe, and Asia.
-- [ ] Slide 03: QR code and DOI panel for VegVault.
+- [ ] Slide 16: QR code and final resource/DOI access panel for VegVault and the rendered deck.
 - [ ] Slide 05: CHELSA climate-variable collinearity table or selection-status panel.
 
 - [ ] Slide 08: spatial unit map layout for local, regional, and continental scales.
@@ -91,6 +94,26 @@ It shows the figure needs for the main talk and the optional extra slides that m
 - [ ] Slide 11: temporal trajectory panel for Asia.
 - [ ] Slide 12: synthesis terminal panel summarising spatial, taxonomic, and temporal results.
 - [ ] Slide 16: public-availability slide with licence text, URL, and QR code.
+
+### Phase 4 Placeholder Contract
+
+Phase 4 deliberately renders labelled placeholders for output-derived figures rather than showing simulated or unverified analytical evidence.
+The following slots are visible in `index.qmd` and are assigned to phase 5 unless marked as final-delivery content.
+
+| Slide | Placeholder content | Replacement phase |
+| --- | --- | --- |
+| 03 | Northern Hemisphere coverage map and data-ingestion schematic | Phase 5 |
+| 05 | Climate screening and collinearity diagnostic | Phase 5 |
+| 08 | Spatial-unit map and association tile plot | Phase 5 |
+| 09 | Spatial-by-taxonomic result matrix | Phase 5 |
+| 10 | Temporal density, network, and temporal-pipeline panels | Phase 5 |
+| 11 | Regional temporal trajectories | Phase 5 |
+| 12 | Verified synthesis statements | Phase 5 |
+| 16 | Public URL, licence, QR code, and final resource/DOI access | Phase 8 |
+
+Placeholders on slides 03 and 05-12 are laid out as large replacement stages rather than small cards, so verified figures can be inserted in phase 5 without shrinking analytical content.
+The VegVault access/QR slot is consolidated on slide 16 rather than competing with the large slide-03 map field.
+Slide 10 reserves one composite multipanel field for coverage, network, and repeated-slice diagnostics.
 
 ### Optional Extra Slides
 
