@@ -45,7 +45,8 @@ QUERY -> PROCESS -> INTERPRET -> SIGNAL
 - Do not frame atmospheric or conceptual narrative images as cards; their black fields should blend into the slide background.
 - Do not frame every slide or text block; use rules when they separate a large visual from commentary or mark a functional readout.
 - Whenever a slide contains or anticipates a figure, make the visual the dominant canvas and move narration or metadata into a narrow terminal rail.
-- Build optional styling from explicit QMD utility classes, such as `.text-shadow`, `.text-line-under`, `.panel-line-left`, and spacing utilities; avoid styling content because it happens to be the first or last child in a slide.
+- Build optional styling from explicit QMD utility classes, such as `.text-shadow`, `.text-line-under`, `.panel-line-left`, `.image-blend-screen`, and spacing utilities; avoid styling content because it happens to be the first or last child in a slide.
+- Retain component classes only where they name a real screen or behaviour, such as `.slide-terminal`, `.oracle-says`, `.oracle-line`, and `.terminal-cursor`.
 
 ## Palette and Typography
 
