@@ -42,6 +42,22 @@ make_community_interpolation_jobs <- function(
     data_age_uncertainty |>
     dplyr::slice(0L)
 
+  if (
+    base::nrow(data) == 0L
+  ) {
+    # targets::tar_make_future() cannot branch over an empty upstream
+    # list; return one empty job so downstream interpolation resolves to
+    # an empty tibble instead of a branching error.
+    return(
+      base::list(
+        base::list(
+          data = data,
+          data_age_uncertainty = data_uncertainty_empty
+        )
+      )
+    )
+  }
+
   data_jobs <-
     data |>
     tidyr::nest(data = -dataset_name) |>

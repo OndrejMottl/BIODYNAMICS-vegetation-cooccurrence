@@ -78,3 +78,51 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "make_community_interpolation_jobs() handles empty community input",
+  {
+    data_community_empty <-
+      tibble::tibble(
+        dataset_name = base::character(),
+        sample_name = base::character(),
+        taxon = base::character(),
+        age = base::numeric(),
+        value = base::numeric()
+      )
+
+    data_uncertainty <-
+      tibble::tibble(
+        dataset_name = "core1",
+        sample_name = "a",
+        iteration = 1L,
+        age_uncertainty = 110
+      )
+
+    list_jobs <-
+      make_community_interpolation_jobs(
+        data = data_community_empty,
+        data_age_uncertainty = data_uncertainty
+      )
+
+    testthat::expect_length(list_jobs, 1L)
+    testthat::expect_s3_class(
+      purrr::chuck(list_jobs, 1L, "data"),
+      "data.frame"
+    )
+    testthat::expect_s3_class(
+      purrr::chuck(list_jobs, 1L, "data_age_uncertainty"),
+      "data.frame"
+    )
+    testthat::expect_equal(
+      base::nrow(purrr::chuck(list_jobs, 1L, "data")),
+      0L
+    )
+    testthat::expect_equal(
+      base::nrow(
+        purrr::chuck(list_jobs, 1L, "data_age_uncertainty")
+      ),
+      0L
+    )
+  }
+)

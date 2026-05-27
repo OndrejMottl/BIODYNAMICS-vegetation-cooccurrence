@@ -177,6 +177,7 @@ run_pipeline <- function(
   # Run the pipeline. Capture failures only long enough to save the
   # progress visualisation below, then rethrow so unattended runs fail.
   tar_error <- NULL
+  prebuild_error <- NULL
 
   if (
     isTRUE(prebuild_interpolation)
@@ -216,9 +217,23 @@ run_pipeline <- function(
         )
       ),
       error = function(err) {
-        tar_error <<- err
+        prebuild_error <<- err
       }
     )
+
+    if (
+      !base::is.null(prebuild_error)
+    ) {
+      warning(
+        paste(
+          "Interpolation prebuild failed and will be skipped.",
+          "Continuing with full tar_make().",
+          "Prebuild error:",
+          conditionMessage(prebuild_error)
+        ),
+        call. = FALSE
+      )
+    }
   }
 
   if (
