@@ -280,19 +280,7 @@ data_primary_error_counts <-
   ) |>
   dplyr::arrange(dplyr::desc(n_units))
 
-base::print(data_primary_error_counts, n = Inf)
-
-base::print(
-  data_error_lineage |>
-    dplyr::select(
-      scale,
-      scale_id,
-      primary_error_target,
-      primary_error_family,
-      n_propagated_targets
-    ),
-  n = Inf
-)
+base::print(data_primary_error_counts)
 
 # Most common error targets across all failed units
 data_error_counts <-
