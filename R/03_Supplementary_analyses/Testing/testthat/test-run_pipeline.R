@@ -194,26 +194,29 @@ testthat::test_that("run_pipeline() validates plot_progress is logical", {
   )
 })
 
-testthat::test_that("run_pipeline() validates check_default_config is logical", {
-  tmp_script <-
-    withr::local_tempfile(fileext = ".R")
+testthat::test_that(
+  "run_pipeline() validates check_default_config is logical",
+  {
+    tmp_script <-
+      withr::local_tempfile(fileext = ".R")
 
-  base::writeLines("list()", tmp_script)
+    base::writeLines("list()", tmp_script)
 
-  testthat::expect_error(
-    run_pipeline(
-      sel_script = tmp_script,
-      check_default_config = "yes"
+    testthat::expect_error(
+      run_pipeline(
+        sel_script = tmp_script,
+        check_default_config = "yes"
+      )
     )
-  )
 
-  testthat::expect_error(
-    run_pipeline(
-      sel_script = tmp_script,
-      check_default_config = 1L
+    testthat::expect_error(
+      run_pipeline(
+        sel_script = tmp_script,
+        check_default_config = 1L
+      )
     )
-  )
-})
+  }
+)
 
 testthat::test_that("run_pipeline() validates fresh_run is logical", {
   tmp_script <-
@@ -233,6 +236,107 @@ testthat::test_that("run_pipeline() validates fresh_run is logical", {
       sel_script = tmp_script,
       fresh_run = 1L
     )
+  )
+})
+
+testthat::test_that("run_pipeline() validates prebuild_interpolation", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      prebuild_interpolation = "yes"
+    ),
+    regexp = "prebuild_interpolation"
+  )
+})
+
+testthat::test_that("run_pipeline() prebuilds interpolation then full build", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  old_config <-
+    Sys.getenv("R_CONFIG_ACTIVE")
+
+  Sys.setenv(R_CONFIG_ACTIVE = "")
+
+  on.exit(
+    Sys.setenv(R_CONFIG_ACTIVE = old_config),
+    add = TRUE
+  )
+
+  target_workers_used <- NULL
+  target_name_expression <- NULL
+  flag_callr_argument_omitted <- FALSE
+  flag_prebuild_lightweight <- FALSE
+  n_prebuild_workers_env <- NULL
+  vec_build_order <- base::character()
+
+  testthat::local_mocked_bindings(
+    tar_make_future = function(
+        names,
+        workers,
+        callr_function,
+        ...) {
+      target_name_expression <<-
+        base::paste(base::deparse(base::substitute(names)), collapse = "")
+      target_workers_used <<-
+        workers
+      flag_callr_argument_omitted <<-
+        base::missing(callr_function)
+      flag_prebuild_lightweight <<-
+        base::identical(
+          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKER"),
+          "true"
+        )
+      n_prebuild_workers_env <<-
+        base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKERS")
+      vec_build_order <<-
+        base::c(vec_build_order, "prebuild")
+      base::invisible(NULL)
+    },
+    tar_make = function(...) {
+      vec_build_order <<-
+        base::c(vec_build_order, "full")
+      base::invisible(NULL)
+    },
+    .package = "targets"
+  )
+
+  run_pipeline(
+    sel_script = tmp_script,
+    check_default_config = FALSE,
+    plot_progress = FALSE,
+    prebuild_interpolation = TRUE
+  )
+
+  testthat::expect_equal(
+    target_workers_used,
+    purrr::chuck(
+      get_active_config("data_processing"),
+      "n_interpolation_workers"
+    )
+  )
+
+  testthat::expect_match(
+    target_name_expression,
+    "data_community_interpolated"
+  )
+
+  testthat::expect_equal(vec_build_order, base::c("prebuild", "full"))
+
+  testthat::expect_true(flag_callr_argument_omitted)
+
+  testthat::expect_true(flag_prebuild_lightweight)
+
+  testthat::expect_equal(
+    base::as.integer(n_prebuild_workers_env),
+    target_workers_used
   )
 })
 

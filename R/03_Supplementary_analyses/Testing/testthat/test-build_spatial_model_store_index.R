@@ -26,9 +26,9 @@ testthat::test_that(
     testthat::expect_named(
       res,
       c(
-        "data_source",
         "scale",
         "scale_id",
+        "data_source",
         "pipeline_name",
         "store_path",
         "store_exists"

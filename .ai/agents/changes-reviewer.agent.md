@@ -78,6 +78,7 @@ For **each changed file**, systematically check it against all applicable instru
 
 ### For function files (`R/Functions/**/*.R`)
 
+- New helper functions are justified by an existing-helper search; similar helpers are reused or extended instead of duplicated when that keeps the API clear and tests passing
 - Roxygen2 block present and follows the project template
 - `@param`, `@return`, `@examples` present
 - Argument validation uses `assertthat::assert_that()`

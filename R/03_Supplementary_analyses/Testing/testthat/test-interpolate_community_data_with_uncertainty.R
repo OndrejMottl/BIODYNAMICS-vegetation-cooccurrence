@@ -644,6 +644,113 @@ testthat::test_that(
   }
 )
 
+testthat::test_that(
+  "multiple fossil cores are reduced independently",
+  {
+    data_two_cores <-
+      data_community_test |>
+      dplyr::filter(dataset_name == "core1") |>
+      dplyr::bind_rows(
+        data_community_test |>
+          dplyr::filter(dataset_name == "core1") |>
+          dplyr::mutate(
+            dataset_name = "core2",
+            sample_name = stringr::str_glue("{sample_name}_core2")
+          )
+      )
+
+    data_two_uncertainty <-
+      data_age_unc_test |>
+      dplyr::bind_rows(
+        data_age_unc_test |>
+          dplyr::mutate(
+            dataset_name = "core2",
+            sample_name = stringr::str_glue("{sample_name}_core2")
+          )
+      )
+
+    result <-
+      interpolate_community_data_with_uncertainty(
+        data = data_two_cores,
+        data_age_uncertainty = data_two_uncertainty,
+        timestep = 200,
+        age_min = 0,
+        age_max = 800
+      )
+
+    result_parallel <-
+      interpolate_community_data_with_uncertainty(
+        data = data_two_cores,
+        data_age_uncertainty = data_two_uncertainty,
+        n_cores = 2,
+        timestep = 200,
+        age_min = 0,
+        age_max = 800
+      ) |>
+      dplyr::arrange(dataset_name, taxon, age)
+
+    result_sequential <-
+      result |>
+      dplyr::arrange(dataset_name, taxon, age)
+
+    result_core1 <-
+      result |>
+      dplyr::filter(dataset_name == "core1") |>
+      dplyr::arrange(taxon, age) |>
+      dplyr::pull(value)
+
+    result_core2 <-
+      result |>
+      dplyr::filter(dataset_name == "core2") |>
+      dplyr::arrange(taxon, age) |>
+      dplyr::pull(value)
+
+    testthat::expect_equal(
+      result_core2,
+      result_core1
+    )
+
+    testthat::expect_equal(
+      result_parallel,
+      result_sequential
+    )
+  }
+)
+
+testthat::test_that(
+  "iteration batching preserves fossil core medians",
+  {
+    data_core_only <-
+      dplyr::filter(data_community_test, dataset_name == "core1")
+
+    result_default <-
+      interpolate_community_data_with_uncertainty(
+        data = data_core_only,
+        data_age_uncertainty = data_age_unc_test,
+        timestep = 200,
+        age_min = 0,
+        age_max = 800
+      ) |>
+      dplyr::arrange(dataset_name, taxon, age)
+
+    result_batched <-
+      interpolate_community_data_with_uncertainty(
+        data = data_core_only,
+        data_age_uncertainty = data_age_unc_test,
+        max_expanded_rows = 5,
+        timestep = 200,
+        age_min = 0,
+        age_max = 800
+      ) |>
+      dplyr::arrange(dataset_name, taxon, age)
+
+    testthat::expect_equal(
+      result_batched,
+      result_default
+    )
+  }
+)
+
 
 #----------------------------------------------------------#
 # Edge cases -----
@@ -751,6 +858,29 @@ testthat::test_that(
           n_cores = .x
         ),
         regexp = "n_cores"
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "validates max_expanded_rows",
+  {
+    vec_invalid_max_rows <-
+      list(NULL, "5", 0, -1, Inf, NA_real_, 1.5)
+
+    purrr::walk(
+      vec_invalid_max_rows,
+      ~ testthat::expect_error(
+        interpolate_community_data_with_uncertainty(
+          data = data_community_test,
+          data_age_uncertainty = data_age_unc_test,
+          max_expanded_rows = .x,
+          timestep = 200,
+          age_min = 0,
+          age_max = 800
+        ),
+        regexp = "max_expanded_rows"
       )
     )
   }

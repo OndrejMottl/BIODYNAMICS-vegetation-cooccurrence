@@ -205,22 +205,24 @@ data_network_all <-
 
 data_anova_long <-
   data_anova_all |>
-  dplyr::transmute(
+  dplyr::mutate(
     age = age,
     continent = continent,
     panel = "Variance components",
     series = component,
-    y_value = R2_Nagelkerke_percentage
+    y_value = R2_Nagelkerke_percentage,
+    .keep = "none"
   )
 
 data_network_long <-
   data_network_all |>
-  dplyr::transmute(
+  dplyr::mutate(
     age = age,
     continent = continent,
     panel = metric,
     series = metric,
-    y_value = value
+    y_value = value,
+    .keep = "none"
   )
 
 # Row order: ANOVA components first, then network metrics

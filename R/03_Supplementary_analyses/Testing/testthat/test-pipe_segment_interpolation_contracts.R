@@ -50,3 +50,34 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "paleo community interpolation uses dynamic dataset branches",
+  {
+    vec_paleo_pipe_lines <-
+      base::readLines(
+        con = here::here(
+          "R/Pipelines/_pipes/pipe_segment_community_prepare_paleo.R"
+        ),
+        warn = FALSE
+      )
+
+    testthat::expect_true(
+      base::any(
+        stringr::str_detect(
+          string = vec_paleo_pipe_lines,
+          pattern = "make_community_interpolation_jobs"
+        )
+      )
+    )
+
+    testthat::expect_true(
+      base::any(
+        stringr::str_detect(
+          string = vec_paleo_pipe_lines,
+          pattern = "pattern = map\\(list_community_interpolation_jobs\\)"
+        )
+      )
+    )
+  }
+)

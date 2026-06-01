@@ -58,83 +58,66 @@ tag_date <-
 
 
 #----------------------------------------------------------#
-# 1. Load spatial grid -----
+# 1. Load spatial grid and stores -----
 #----------------------------------------------------------#
 
+data_store_index <-
+  build_spatial_model_store_index(
+    data_source = "paleo",
+    path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
+  )
+
 data_spatial_grid <-
-  readr::read_csv(
-    here::here("Data/Input/spatial_grid.csv"),
-    show_col_types = FALSE
+  data_store_index |>
+  dplyr::left_join(
+    y = readr::read_csv(
+      file = here::here("Data/Input/spatial_grid.csv"),
+      show_col_types = FALSE
+    ) |>
+      dplyr::select(
+        scale_id,
+        continent_id,
+        x_min,
+        x_max,
+        y_min,
+        y_max
+      ),
+    by = dplyr::join_by(scale_id),
+    multiple = "error"
   ) |>
   dplyr::mutate(
-    continent = dplyr::case_when(
-      scale == "continental" ~ scale_id,
-      stringr::str_starts(scale_id, "eu_") ~ "europe",
-      stringr::str_starts(scale_id, "am_") ~ "america",
-      stringr::str_starts(scale_id, "as_") ~ "asia"
-    ),
-    store_path = here::here(
-      stringr::str_glue("Data/targets/paleo_spatial_{scale}"),
-      scale_id,
-      "pipeline_paleo_spatial_resolution"
-    ),
-    store_exists = fs::dir_exists(store_path)
+    continent = .data$continent_id
   )
 
 
 #----------------------------------------------------------#
-# 2. Extract ANOVA % Associations per unit × resolution -----
+# 2. Extract recalculated ANOVA % Associations -----
 #----------------------------------------------------------#
 
 vec_tax_res <-
   c("genus", "family", "functional_type") |>
   rlang::set_names()
 
-# For every spatial unit, attempt to read model_anova_<res> for each
-# of the three taxonomic resolutions.  purrr::possibly() returns
-# NA_real_ if the target does not exist or errored.
 data_assoc_pct <-
-  data_spatial_grid |>
-  dplyr::filter(store_exists) |>
+  read_spatial_model_results(
+    store_index = data_store_index,
+    resolution_ids = vec_tax_res
+  ) |>
+  dplyr::filter(
+    .data$component == "Associations"
+  ) |>
   dplyr::mutate(
-    assoc_by_res = purrr::map(
-      .x = store_path,
-      .f = ~ {
-        store_i <- .x
-        vec_tax_res |>
-          purrr::imap(
-            .f = ~ {
-              purrr::possibly(
-                function(s, r) {
-                  targets::tar_read_raw(
-                    name = stringr::str_glue("model_anova_{r}"),
-                    store = s
-                  ) |>
-                    extract_anova_fractions(
-                      clamp_negative = TRUE
-                    ) |>
-                    dplyr::mutate(age = 0) |>
-                    recalculate_anova_components() |>
-                    dplyr::filter(component == "Associations") |>
-                    dplyr::pull(R2_Nagelkerke_percentage)
-                },
-                otherwise = NA_real_
-              )(store_i, .y)
-            }
-          ) |>
-          tibble::as_tibble_row(
-            .name_repair = "minimal"
-          ) |>
-          tidyr::pivot_longer(
-            cols = dplyr::everything(),
-            names_to = "taxonomic_resolution",
-            values_to = "assoc_pct"
-          )
-      }
+    continent = get_continent_id_from_scale_id(
+      scale_id = .data$scale_id,
+      file = here::here("Data/Input/spatial_grid.csv")
     )
   ) |>
-  dplyr::select(scale_id, continent, assoc_by_res) |>
-  tidyr::unnest(assoc_by_res)
+  dplyr::select(
+    scale_id,
+    continent,
+    taxonomic_resolution = resolution_id,
+    assoc_pct = R2_Nagelkerke_percentage
+  )
 
 data_grid_with_results <-
   data_spatial_grid |>

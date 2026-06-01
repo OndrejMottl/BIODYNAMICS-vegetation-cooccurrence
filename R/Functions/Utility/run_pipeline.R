@@ -28,6 +28,11 @@
 #' @param plot_progress
 #' Logical indicating whether to save a progress visualisation after the
 #' pipeline completes. Default is TRUE.
+#' @param prebuild_interpolation
+#' Logical indicating whether to prebuild `data_community_interpolated`
+#' using parallel dynamic branches before running the complete pipeline.
+#' The worker count is read from
+#' `data_processing$n_interpolation_workers`. Default is `FALSE`.
 #' @return
 #' No return value. Function is called for side effects: executes the
 #' targets pipeline and saves progress visualization to the documentation
@@ -39,8 +44,16 @@
 #' `targets::tar_destroy(destroy = "all")` before execution so that every
 #' target is rebuilt from scratch. It uses `targets::tar_make()` to
 #' execute the pipeline and then calls `save_progress_visualisation()` to
-#' generate a network visualization of the pipeline status.
-#' @seealso save_progress_visualisation, targets::tar_make
+#' generate a network visualization of the pipeline status. When
+#' `prebuild_interpolation = TRUE`, the function first executes only
+#' `data_community_interpolated` with parallel `{targets}` workers in a
+#' clean lightweight controller process. Once that call returns, the
+#' complete pipeline is executed with [targets::tar_make()]. Thus
+#' downstream GPU-dependent model targets remain sequentially scheduled.
+#' @seealso
+#'   [save_progress_visualisation()],
+#'   [targets::tar_make()],
+#'   [targets::tar_make_future()]
 #' @export
 run_pipeline <- function(
     sel_script,
@@ -48,11 +61,15 @@ run_pipeline <- function(
     level_separation = 100,
     check_default_config = TRUE,
     plot_progress = TRUE,
-    fresh_run = FALSE) {
+    fresh_run = FALSE,
+    prebuild_interpolation = FALSE) {
   assertthat::assert_that(
     is.character(sel_script),
     length(sel_script) == 1,
-    msg = "sel_script must be a single string specifying the path to the pipeline script."
+    msg = paste(
+      "sel_script must be a single string specifying the path",
+      "to the pipeline script."
+    )
   )
   assertthat::assert_that(
     file.exists(sel_script),
@@ -90,6 +107,14 @@ run_pipeline <- function(
   assertthat::assert_that(
     assertthat::is.flag(fresh_run),
     msg = "fresh_run must be a single logical value (TRUE or FALSE)."
+  )
+
+  assertthat::assert_that(
+    assertthat::is.flag(prebuild_interpolation),
+    msg = paste(
+      "prebuild_interpolation must be a single logical value",
+      "(TRUE or FALSE)."
+    )
   )
 
   if (
@@ -152,17 +177,79 @@ run_pipeline <- function(
   # Run the pipeline. Capture failures only long enough to save the
   # progress visualisation below, then rethrow so unattended runs fail.
   tar_error <- NULL
+  prebuild_error <- NULL
 
-  tryCatch(
-    targets::tar_make(
-      script = sel_script_path,
-      store = sel_store_path,
-      reporter = "verbose"
-    ),
-    error = function(err) {
-      tar_error <<- err
+  if (
+    isTRUE(prebuild_interpolation)
+  ) {
+    interpolation_workers <-
+      get_active_config("data_processing") |>
+      purrr::chuck("n_interpolation_workers")
+
+    assertthat::assert_that(
+      base::is.numeric(interpolation_workers) &&
+        base::length(interpolation_workers) == 1L &&
+        base::is.finite(interpolation_workers) &&
+        interpolation_workers >= 1L &&
+        interpolation_workers == base::as.integer(interpolation_workers),
+      msg = paste(
+        "data_processing$n_interpolation_workers must be a",
+        "single positive integer."
+      )
+    )
+
+    interpolation_workers <-
+      base::as.integer(interpolation_workers)
+
+    tryCatch(
+      withr::with_envvar(
+        new = base::c(
+          BIODYNAMICS_PREPROCESSING_WORKER = "true",
+          BIODYNAMICS_PREPROCESSING_WORKERS =
+            base::as.character(interpolation_workers)
+        ),
+        code = targets::tar_make_future(
+          names = tidyselect::all_of("data_community_interpolated"),
+          script = sel_script_path,
+          store = sel_store_path,
+          reporter = "verbose",
+          workers = interpolation_workers
+        )
+      ),
+      error = function(err) {
+        prebuild_error <<- err
+      }
+    )
+
+    if (
+      !base::is.null(prebuild_error)
+    ) {
+      warning(
+        paste(
+          "Interpolation prebuild failed and will be skipped.",
+          "Continuing with full tar_make().",
+          "Prebuild error:",
+          conditionMessage(prebuild_error)
+        ),
+        call. = FALSE
+      )
     }
-  )
+  }
+
+  if (
+    base::is.null(tar_error)
+  ) {
+    tryCatch(
+      targets::tar_make(
+        script = sel_script_path,
+        store = sel_store_path,
+        reporter = "verbose"
+      ),
+      error = function(err) {
+        tar_error <<- err
+      }
+    )
+  }
 
   if (
     isTRUE(plot_progress)

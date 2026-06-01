@@ -124,7 +124,7 @@ aggregate_colocated_community_records <- function(
         source_prefix == source_prefix_single
       )
     ) |>
-    dplyr::transmute(
+    dplyr::mutate(
       aggregation_group_id,
       source_prefix,
       age,
@@ -133,7 +133,8 @@ aggregate_colocated_community_records <- function(
       original_dataset_name = dataset_name,
       original_sample_name = sample_name,
       synthetic_dataset_name,
-      synthetic_sample_name
+      synthetic_sample_name,
+      .keep = "none"
     )
 
   data_record_mapping <-
@@ -150,10 +151,11 @@ aggregate_colocated_community_records <- function(
     data_source |>
     dplyr::anti_join(
       data_record_mapping |>
-        dplyr::transmute(
+        dplyr::mutate(
           dataset_name = original_dataset_name,
           sample_name = original_sample_name,
-          age
+          age,
+          .keep = "none"
         ),
       by = dplyr::join_by(dataset_name, sample_name, age)
     )
@@ -194,7 +196,11 @@ aggregate_colocated_community_records <- function(
     data_abiotic_long |>
     dplyr::anti_join(
       data_abiotic_mapping |>
-        dplyr::transmute(dataset_name = original_dataset_name, age),
+        dplyr::mutate(
+          dataset_name = original_dataset_name,
+          age,
+          .keep = "none"
+        ),
       by = dplyr::join_by(dataset_name, age)
     )
 
@@ -230,10 +236,11 @@ aggregate_colocated_community_records <- function(
 
   data_coords_aggregated <-
     data_same_prefix_groups |>
-    dplyr::transmute(
+    dplyr::mutate(
       dataset_name = synthetic_dataset_name,
       coord_long,
-      coord_lat
+      coord_lat,
+      .keep = "none"
     )
 
   data_coords_analysis <-

@@ -41,12 +41,14 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
 run_pipeline(
   sel_script = "R/Pipelines/pipeline_paleo_core.R",
-  fresh_run = TRUE
+  fresh_run = TRUE,
+  prebuild_interpolation = TRUE
 )
 
 run_pipeline(
   sel_script = "R/Pipelines/pipeline_paleo_resolution_test.R",
-  fresh_run = TRUE
+  fresh_run = TRUE,
+  prebuild_interpolation = TRUE
 )
 
 

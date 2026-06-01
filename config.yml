@@ -13,7 +13,8 @@ default:
     number_of_taxa: !expr Inf
     minimal_proportion_of_pollen: 0.01
     min_n_cores: 5
-    n_cores: 5
+    n_cores: 12
+    n_interpolation_workers: 4
     min_n_samples: 1
     min_n_taxa: 5
   model_fitting:
@@ -42,6 +43,7 @@ project_cz_paleo:
     taxonomic_resolution: "genus"
     min_n_samples: 5
     min_n_taxa: 4
+    n_cores: 24
   model_fitting:
     n_mev: 3
     n_cores: 24
@@ -121,6 +123,8 @@ project_paleo_spatial_continental:
     taxonomic_resolution: "genus"
     min_n_samples: 10
     min_n_taxa: 5
+    n_cores: 24
+    n_interpolation_workers: 8
   model_fitting:
     model_tuning_id: "paleo_spatial"
     n_mev: 5
@@ -135,6 +139,7 @@ project_paleo_spatial_regional:
     taxonomic_resolution: "genus"
     min_n_samples: 10
     min_n_taxa: 4
+    n_cores: 24    
   model_fitting:
     model_tuning_id: "paleo_spatial"
     n_mev: 4
@@ -149,6 +154,8 @@ project_paleo_spatial_local:
     taxonomic_resolution: "genus"
     min_n_samples: 5
     min_n_taxa: 3
+    n_cores: 24
+    n_interpolation_workers: 2
   model_fitting:
     model_tuning_id: "paleo_spatial"
     n_mev: 3

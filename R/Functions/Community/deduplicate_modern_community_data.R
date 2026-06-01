@@ -90,7 +90,7 @@ deduplicate_modern_community_data <- function(
   data_dropped_records <-
     data_duplicate_records |>
     dplyr::filter(!keep_record) |>
-    dplyr::transmute(
+    dplyr::mutate(
       duplicate_group,
       dropped_dataset_name = dataset_name,
       dropped_sample_name = sample_name,
@@ -99,17 +99,19 @@ deduplicate_modern_community_data <- function(
       coord_lat,
       kept_dataset_name,
       kept_sample_name,
-      community_signature
+      community_signature,
+      .keep = "none"
     )
 
   data_community <-
     data_source |>
     dplyr::anti_join(
       data_dropped_records |>
-        dplyr::transmute(
+        dplyr::mutate(
           dataset_name = dropped_dataset_name,
           sample_name = dropped_sample_name,
-          age
+          age,
+          .keep = "none"
         ),
       by = dplyr::join_by(dataset_name, sample_name, age)
     )

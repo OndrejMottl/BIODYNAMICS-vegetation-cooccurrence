@@ -16,6 +16,12 @@ Specific rules apply for making custom functions:
 - Each function (declaration) should be placed in a separate script named after the function. Therefore, there should be only a single function in each function script
 - Function should always return (`return(res_value)`)
 
+### Reuse Existing Helpers Before Creating New Ones
+
+Before creating a new helper function, search the existing project helpers and nearby analysis code for similar behaviour. Check `R/Functions/` recursively first, then relevant pipeline or analysis scripts if the helper would be local to a workflow.
+
+Prefer clean, DRY code over narrow one-off helpers. If an existing helper already does something very similar, extend or adjust that helper and its tests so it supports the new use case while preserving its existing contract. Create a new helper only when reusing or generalising the existing one would make its purpose misleading, add unsafe branching, or break established behaviour. When a helper is extended, update its roxygen2 documentation and tests, and run the affected tests to confirm the original behaviour still passes.
+
 **All function creation and editing follows Test-Driven Development (TDD).** The mandatory cycle is:
 1. Write (or update) the roxygen2 spec stub first
 2. Write unit tests against the spec  -  before any implementation exists
