@@ -270,39 +270,77 @@ testthat::test_that("run_pipeline() prebuilds interpolation then full build", {
     add = TRUE
   )
 
-  target_workers_used <- NULL
   target_name_expression <- NULL
-  flag_callr_argument_omitted <- FALSE
   flag_prebuild_lightweight <- FALSE
+  flag_prebuild_crew_mori <- FALSE
+  flag_full_backend_clean <- FALSE
+  flag_invalidate_crew_mori <- FALSE
   n_prebuild_workers_env <- NULL
   vec_build_order <- base::character()
+  invalidate_name_expression <- NULL
 
   testthat::local_mocked_bindings(
-    tar_make_future = function(
-        names,
-        workers,
-        callr_function,
-        ...) {
-      target_name_expression <<-
-        base::paste(base::deparse(base::substitute(names)), collapse = "")
-      target_workers_used <<-
-        workers
-      flag_callr_argument_omitted <<-
-        base::missing(callr_function)
-      flag_prebuild_lightweight <<-
-        base::identical(
-          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKER"),
-          "true"
+    tar_make_future = function(...) {
+      base::stop("tar_make_future() should not be used")
+    },
+    tar_meta = function(...) {
+      tibble::tibble(
+        name = base::c(
+          "data_community_proportions_shared",
+          "data_age_uncertainty_shared",
+          "data_community_interpolated_dataset",
+          "data_community_interpolated_dataset_branch_a",
+          "data_community_interpolated",
+          "data_model"
         )
-      n_prebuild_workers_env <<-
-        base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKERS")
+      )
+    },
+    tar_invalidate = function(names, ...) {
+      flag_invalidate_crew_mori <<-
+        base::identical(
+          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_BACKEND"),
+          "crew_mori"
+        )
+      invalidate_name_expression <<-
+        stringr::str_c(
+          base::deparse(base::substitute(names)),
+          collapse = ""
+        )
       vec_build_order <<-
-        base::c(vec_build_order, "prebuild")
+        base::c(vec_build_order, "invalidate")
       base::invisible(NULL)
     },
-    tar_make = function(...) {
-      vec_build_order <<-
-        base::c(vec_build_order, "full")
+    tar_make = function(names, ...) {
+      if (
+        base::identical(
+          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_BACKEND"),
+          "crew_mori"
+        )
+      ) {
+        target_name_expression <<-
+          stringr::str_c(
+            base::deparse(base::substitute(names)),
+            collapse = ""
+          )
+        flag_prebuild_lightweight <<-
+          base::identical(
+            base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKER"),
+            "true"
+          )
+        flag_prebuild_crew_mori <<- TRUE
+        n_prebuild_workers_env <<-
+          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKERS")
+        vec_build_order <<-
+          base::c(vec_build_order, "prebuild")
+      } else {
+        flag_full_backend_clean <<-
+          !base::nzchar(
+            base::Sys.getenv("BIODYNAMICS_PREPROCESSING_BACKEND")
+          )
+        vec_build_order <<-
+          base::c(vec_build_order, "full")
+      }
+
       base::invisible(NULL)
     },
     .package = "targets"
@@ -315,28 +353,32 @@ testthat::test_that("run_pipeline() prebuilds interpolation then full build", {
     prebuild_interpolation = TRUE
   )
 
-  testthat::expect_equal(
-    target_workers_used,
-    purrr::chuck(
-      get_active_config("data_processing"),
-      "n_interpolation_workers"
-    )
-  )
-
   testthat::expect_match(
     target_name_expression,
     "data_community_interpolated"
   )
 
-  testthat::expect_equal(vec_build_order, base::c("prebuild", "full"))
-
-  testthat::expect_true(flag_callr_argument_omitted)
+  testthat::expect_equal(
+    vec_build_order,
+    base::c("invalidate", "prebuild", "full")
+  )
 
   testthat::expect_true(flag_prebuild_lightweight)
+  testthat::expect_true(flag_prebuild_crew_mori)
+  testthat::expect_true(flag_invalidate_crew_mori)
+  testthat::expect_true(flag_full_backend_clean)
+
+  testthat::expect_match(
+    invalidate_name_expression,
+    "tidyselect::any_of\\(vec_prebuild_targets\\)"
+  )
 
   testthat::expect_equal(
     base::as.integer(n_prebuild_workers_env),
-    target_workers_used
+    purrr::chuck(
+      get_active_config("data_processing"),
+      "n_interpolation_workers"
+    )
   )
 })
 

@@ -46,14 +46,14 @@
 #' execute the pipeline and then calls `save_progress_visualisation()` to
 #' generate a network visualization of the pipeline status. When
 #' `prebuild_interpolation = TRUE`, the function first executes only
-#' `data_community_interpolated` with parallel `{targets}` workers in a
-#' clean lightweight controller process. Once that call returns, the
-#' complete pipeline is executed with [targets::tar_make()]. Thus
-#' downstream GPU-dependent model targets remain sequentially scheduled.
+#' `data_community_interpolated` with the `crew_mori` preprocessing
+#' backend. Once that call returns, the complete pipeline is executed
+#' with [targets::tar_make()]. Thus downstream GPU-dependent model
+#' targets remain sequentially scheduled.
 #' @seealso
 #'   [save_progress_visualisation()],
 #'   [targets::tar_make()],
-#'   [targets::tar_make_future()]
+#'   [crew::crew_controller_local()]
 #' @export
 run_pipeline <- function(
     sel_script,
@@ -205,16 +205,58 @@ run_pipeline <- function(
       withr::with_envvar(
         new = base::c(
           BIODYNAMICS_PREPROCESSING_WORKER = "true",
+          BIODYNAMICS_PREPROCESSING_BACKEND = "crew_mori",
           BIODYNAMICS_PREPROCESSING_WORKERS =
             base::as.character(interpolation_workers)
         ),
-        code = targets::tar_make_future(
-          names = tidyselect::all_of("data_community_interpolated"),
-          script = sel_script_path,
-          store = sel_store_path,
-          reporter = "verbose",
-          workers = interpolation_workers
-        )
+        code = {
+          data_prebuild_target_meta <-
+            tryCatch(
+              suppressWarnings(
+                targets::tar_meta(
+                  fields = tidyselect::all_of("name"),
+                  store = sel_store_path,
+                  complete_only = FALSE
+                )
+              ),
+              error = function(err) {
+                tibble::tibble(
+                  name = base::character()
+                )
+              }
+            )
+
+          vec_prebuild_targets <-
+            data_prebuild_target_meta[["name"]][
+              stringr::str_detect(
+                string = data_prebuild_target_meta[["name"]],
+                pattern = stringr::str_c(
+                  "^(",
+                  "data_community_proportions_shared",
+                  "|data_age_uncertainty_shared",
+                  "|data_community_interpolated_dataset",
+                  "|data_community_interpolated",
+                  ")"
+                )
+              )
+            ]
+
+          if (
+            base::length(vec_prebuild_targets) > 0L
+          ) {
+            targets::tar_invalidate(
+              names = tidyselect::any_of(vec_prebuild_targets),
+              store = sel_store_path
+            )
+          }
+
+          targets::tar_make(
+            names = tidyselect::all_of("data_community_interpolated"),
+            script = sel_script_path,
+            store = sel_store_path,
+            reporter = "verbose"
+          )
+        }
       ),
       error = function(err) {
         prebuild_error <<- err

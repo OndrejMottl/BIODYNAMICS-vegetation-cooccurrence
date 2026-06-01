@@ -52,7 +52,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "paleo community interpolation uses dynamic dataset branches",
+  "paleo community interpolation uses shared dynamic dataset branches",
   {
     vec_paleo_pipe_lines <-
       base::readLines(
@@ -66,7 +66,7 @@ testthat::test_that(
       base::any(
         stringr::str_detect(
           string = vec_paleo_pipe_lines,
-          pattern = "make_community_interpolation_jobs"
+          pattern = "share_interpolation_data"
         )
       )
     )
@@ -75,7 +75,25 @@ testthat::test_that(
       base::any(
         stringr::str_detect(
           string = vec_paleo_pipe_lines,
-          pattern = "pattern = map\\(list_community_interpolation_jobs\\)"
+          pattern = "make_community_interpolation_index"
+        )
+      )
+    )
+
+    testthat::expect_true(
+      base::any(
+        stringr::str_detect(
+          string = vec_paleo_pipe_lines,
+          pattern = "interpolate_community_dataset_from_shared_inputs"
+        )
+      )
+    )
+
+    testthat::expect_true(
+      base::any(
+        stringr::str_detect(
+          string = vec_paleo_pipe_lines,
+          pattern = "pattern = map\\(list_community_interpolation_index\\)"
         )
       )
     )
