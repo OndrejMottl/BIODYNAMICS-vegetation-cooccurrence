@@ -267,6 +267,11 @@
 .oracle-line::before {
   color: var(--oracle-palette-phosphor);
   content: "> ";
+  opacity: 0;
+}
+
+.oracle-line.oracle-line-prompt-visible::before {
+  opacity: 1;
 }
 
 /* Keep intentional blank prompt rows, but tighter than full text rows. */

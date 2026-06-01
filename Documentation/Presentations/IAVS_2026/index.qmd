@@ -941,6 +941,8 @@ document.addEventListener("DOMContentLoaded", function() {
           clearTimeout(line.typingTimeout);
         }
 
+        line.classList.remove('oracle-line-prompt-visible');
+
         data.textNodes.forEach(item => {
           item.node.nodeValue = '';
         });
@@ -964,6 +966,7 @@ document.addEventListener("DOMContentLoaded", function() {
           return;
         }
 
+        line.classList.add('oracle-line-prompt-visible');
         cursor.classList.remove('finished');
         line.appendChild(cursor);
 
