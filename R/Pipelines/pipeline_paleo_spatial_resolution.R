@@ -99,6 +99,7 @@ targets::tar_source(
 targets::tar_option_set(
   seed = get_active_config("seed"),
   format = "qs",
+  controller = get_preprocessing_controller(),
   error = "continue"
 )
 

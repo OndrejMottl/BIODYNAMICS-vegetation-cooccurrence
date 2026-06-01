@@ -95,8 +95,15 @@ if (
   n_preprocessing_workers <-
     base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKERS")
 
+  flag_crew_mori_backend <-
+    base::identical(
+      base::Sys.getenv("BIODYNAMICS_PREPROCESSING_BACKEND"),
+      "crew_mori"
+    )
+
   if (
-    base::nzchar(n_preprocessing_workers)
+    base::nzchar(n_preprocessing_workers) &&
+      !isTRUE(flag_crew_mori_backend)
   ) {
     n_preprocessing_workers <-
       base::as.integer(n_preprocessing_workers)
