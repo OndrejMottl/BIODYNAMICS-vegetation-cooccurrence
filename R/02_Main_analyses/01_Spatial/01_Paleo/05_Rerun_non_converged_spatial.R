@@ -266,12 +266,22 @@ c("continental", "regional", "local") |>
             base::message(
               stringr::str_glue("\n\nRe-running: {.x}\n\n")
             )
-            run_pipeline(
-              sel_script = here::here(
-                "R/Pipelines/pipeline_paleo_spatial_resolution.R"
+            tryCatch(
+              run_pipeline(
+                sel_script = here::here(
+                  "R/Pipelines/pipeline_paleo_spatial_resolution.R"
+                ),
+                store_suffix = .x,
+                prebuild_interpolation = TRUE
               ),
-              store_suffix = .x,
-              prebuild_interpolation = TRUE
+              error = function(err) {
+                base::message(
+                  stringr::str_glue(
+                    "\n\nUnit {.x} failed — skipping.\n",
+                    "Error: {base::conditionMessage(err)}\n\n"
+                  )
+                )
+              }
             )
           }
         )
