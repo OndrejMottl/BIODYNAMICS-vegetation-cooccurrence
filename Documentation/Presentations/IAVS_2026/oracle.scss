@@ -239,6 +239,11 @@
   color: var(--oracle-palette-amber);
   letter-spacing: var(--oracle-typography-dialogue-letter-spacing);
   margin: 0 0 var(--oracle-spacing-lg);
+  border-left: 3px solid var(--oracle-palette-amber);
+  background: rgba(226, 200, 71, 0.02) !important; // subtle amber glassmorphism backdrop
+  padding: var(--oracle-spacing-sm) var(--oracle-spacing-md) !important;
+  border-radius: 0 var(--oracle-frame-radius) var(--oracle-frame-radius) 0;
+  box-shadow: inset 2px 0 8px rgba(226, 200, 71, 0.01);
 }
 
 .oracle-says::before,
@@ -326,12 +331,24 @@
   color: var(--oracle-palette-red);
 }
 
+/* Premium typewriter solid phosphor block cursor */
+.oracle-cursor {
+  display: inline-block;
+  background-color: var(--oracle-palette-amber);
+  width: 12px;
+  height: 1.1em;
+  vertical-align: middle;
+  margin-left: 3px;
+  box-shadow: 0 0 4px rgba(226, 200, 71, 0.4);
+  /* Solid while typing, blinks upon complete */
+  &.finished {
+    animation: oracle-cursor-blink var(--oracle-effects-cursor-blink-duration) steps(2, start) infinite;
+  }
+}
+
 .terminal-cursor::after,
 .oracle-terminal::after {
-  /* Text blocks opt in to the blinking terminal cursor with this class. */
-  animation: oracle-cursor-blink var(--oracle-effects-cursor-blink-duration) steps(2, start) infinite;
-  color: var(--oracle-palette-phosphor);
-  content: "_";
+  content: none;
 }
 
 @keyframes oracle-cursor-blink {
