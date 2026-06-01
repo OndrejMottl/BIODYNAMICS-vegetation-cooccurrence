@@ -28,6 +28,8 @@ and assistants that need a compact validation target.
 - Indentation uses two spaces and no tabs.
 - Assignment uses `<-`; RHS function calls start on a new line after assignment.
 - Non-base calls use explicit namespaces.
+- No use of superseded `dplyr::transmute()`; prefer `dplyr::mutate()` with
+  `dplyr::select()` where needed.
 - No `library()` or `require()` inside functions.
 - Paths use `here::here()` where appropriate.
 - Names follow project naming conventions.
