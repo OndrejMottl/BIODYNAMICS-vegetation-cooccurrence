@@ -26,6 +26,22 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "get_continent_id_from_scale_id() maps vector in input order",
+  {
+    res <-
+      get_continent_id_from_scale_id(
+        scale_id = base::c("eu_r005", "america", "eu_r005"),
+        file = here::here("Data/Input/spatial_grid.csv")
+      )
+
+    testthat::expect_equal(
+      res,
+      base::c("europe", "america", "europe")
+    )
+  }
+)
+
+testthat::test_that(
   "get_continent_id_from_scale_id() validates scale_id type",
   {
     withr::with_tempdir(
@@ -52,7 +68,7 @@ testthat::test_that(
             scale_id = 1L,
             file = path_grid
           ),
-          regexp = "single non-empty character string"
+          regexp = "non-empty character vector"
         )
       }
     )
@@ -86,7 +102,7 @@ testthat::test_that(
             scale_id = "",
             file = path_grid
           ),
-          regexp = "single non-empty character string"
+          regexp = "non-empty character vector"
         )
       }
     )
@@ -167,7 +183,7 @@ testthat::test_that(
             scale_id = "am_r001",
             file = path_grid
           ),
-          regexp = "Expected exactly 1 row for scale_id 'am_r001'. Found: 0"
+          regexp = "Expected exactly 1 row for each scale_id"
         )
       }
     )
@@ -201,7 +217,7 @@ testthat::test_that(
             scale_id = "eu_r005",
             file = path_grid
           ),
-          regexp = "Expected exactly 1 row for scale_id 'eu_r005'. Found: 2"
+          regexp = "Expected exactly 1 row for each scale_id"
         )
       }
     )
@@ -235,7 +251,7 @@ testthat::test_that(
             scale_id = "eu_r005",
             file = path_grid
           ),
-          regexp = "Missing continent_id for scale_id 'eu_r005'"
+          regexp = "Missing continent_id for scale_id"
         )
       }
     )
@@ -269,7 +285,7 @@ testthat::test_that(
             scale_id = "eu_r005",
             file = path_grid
           ),
-          regexp = "Missing continent_id for scale_id 'eu_r005'"
+          regexp = "Missing continent_id for scale_id"
         )
       }
     )

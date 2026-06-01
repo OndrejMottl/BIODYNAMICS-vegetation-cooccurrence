@@ -65,15 +65,38 @@ pipe_segment_community_prepare_paleo <-
         )
     ),
     targets::tar_target(
-      description = "Interpolate community data to specific time step",
-      name = "data_community_interpolated",
-      command = interpolate_community_data_with_uncertainty(
+      description = "Create per-dataset community interpolation jobs",
+      name = "list_community_interpolation_jobs",
+      command = make_community_interpolation_jobs(
         data = data_community_proportions,
-        data_age_uncertainty = data_age_uncertainty,
+        data_age_uncertainty = data_age_uncertainty
+      ),
+      iteration = "list"
+    ),
+    targets::tar_target(
+      description = "Interpolate one paleo community dataset",
+      name = "data_community_interpolated_dataset",
+      command = interpolate_community_data_with_uncertainty(
+        data = purrr::chuck(
+          list_community_interpolation_jobs,
+          "data"
+        ),
+        data_age_uncertainty = purrr::chuck(
+          list_community_interpolation_jobs,
+          "data_age_uncertainty"
+        ),
         timestep = purrr::chuck(config_data_processing, "time_step"),
         age_min = base::min(config_age_lim),
         age_max = base::max(config_age_lim),
-        n_cores = purrr::chuck(config_data_processing, "n_cores")
+        n_cores = 1L
+      ),
+      pattern = map(list_community_interpolation_jobs)
+    ),
+    targets::tar_target(
+      description = "Combine interpolated paleo community datasets",
+      name = "data_community_interpolated",
+      command = dplyr::bind_rows(
+        data_community_interpolated_dataset
       )
     ),
     targets::tar_target(

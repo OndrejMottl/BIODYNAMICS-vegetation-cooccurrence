@@ -39,5 +39,6 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_temporal_asia")
 
 run_pipeline(
   sel_script = "R/Pipelines/pipeline_paleo_temporal.R",
-  level_separation = 100
+  level_separation = 100,
+  prebuild_interpolation = TRUE
 )
