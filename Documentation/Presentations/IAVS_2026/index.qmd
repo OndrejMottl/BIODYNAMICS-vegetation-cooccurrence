@@ -147,7 +147,7 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 :::
 
 <!-- slide:02 -->
-## [Is there a [scale dependence]{.text-bold .text-emphasis-underline} in the amount of unexplained variation (potentially due to [biotic interactions]{.text-color-latent}) structuring vegetation?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
+## [Is there a [scale dependence]{.text-bold .text-emphasis-underline} in the amount of [unexplained variation]{.text-emphasis-underline-dotted} (potentially due to [biotic interactions]{.text-color-latent}) structuring vegetation?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
 
@@ -179,7 +179,7 @@ Plan to [partition]{.text-emphasis-underline} observed plant co-occurrence into:
 :::
 
 ::: {.oracle-line}
-residual [species-species association]{.text-highlight-latent}.
+[species-species association]{.text-highlight-latent} (residual)
 :::
 :::
 
@@ -196,7 +196,7 @@ TIME 00:45. Oracle, I would like like to explore vegation patterns across space 
 :::
 
 <!-- slide:03 -->
-## DATA: [&lt;VegVault&gt;]{.text-emphasis-chip} {.slide-terminal .slide-terminal-methods}
+## [DATA: [&lt;VegVault&gt;]{.text-emphasis-chip}]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 ::: {.column width="62%" }
@@ -259,7 +259,7 @@ The database is publicly available and open source. For this analysis, we will f
 :::
 
 <!-- slide:04 -->
-## Three analysis axes {.slide-terminal .slide-terminal-methods}
+## [Three analysis axes]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 <br>
 
@@ -278,15 +278,15 @@ Three routes selected:
 :::
 
 ::: {.oracle-line}
- - [Spatial-resolution runs]{.text-highlight-spatial} : chnages with spatial scale
+[Spatial-resolution runs]{.text-highlight-spatial} : chnages with spatial scale
 :::
 
 ::: {.oracle-line}
- - [Temporal slices test]{.text-highlight-abiotic} : change through time.
+[Temporal slices test]{.text-highlight-abiotic} : change through time.
 :::
 
 ::: {.oracle-line}
-- [Taxonomic aggregation level]{.text-highlight-latent} : change through classification.
+[Taxonomic aggregation level]{.text-highlight-latent} : change through classification.
 :::
 :::
 
@@ -296,7 +296,7 @@ TIME 00:35. Now, we would like to split the analysis along space (from local to 
 :::
 
 <!-- slide:05 -->
-## Preparing [community]{.text-color-latent} and [climate]{.text-color-abiotic} streams {.slide-terminal .slide-terminal-methods}
+## [Preparing [community]{.text-emphasis-box} and [climate]{.text-highlight-abiotic} streams]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 
@@ -307,13 +307,13 @@ TIME 00:35. Now, we would like to split the analysis along space (from local to 
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-[Data extracted, now preparation ...]{.text-emphasis-chip}
+Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Community stream normalised.
+[[Community]{.text-emphasis-box} stream normalised]{.text-emphasis-underline}
 :::
 
 ::: {.oracle-line}
@@ -321,17 +321,17 @@ Community stream normalised.
 :::
 
 ::: {.oracle-line}
- - Taxa are classified automatically to GBIF and filtered.
+ - Taxa are classified [automatically]{.text-emphasis-underline-dotted} to GBIF and filtered
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Climate stream screened.
+[[Climate]{.text-highlight-abiotic} stream screened]{.text-emphasis-underline}
 :::
 
 ::: {.oracle-line}
- - Redundant predictors are removed before model fitting.
+ - [Redundant]{.text-emphasis-underline-dotted} predictors are [removed]{.text-emphasis-underline-dotted} before model fitting.
 :::
 :::
 
