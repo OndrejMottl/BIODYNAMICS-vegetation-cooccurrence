@@ -1,0 +1,5 @@
+route_id,repeat_id,fold_id,variant,status,error_message,warning_text,converged,linear_trend_slope,median_diff,epochs_run,early_stopping_triggered,loss,brier,auc,auc_macro,n_train_samples,n_test_samples,n_taxa_raw,n_taxa_retained,n_taxa_dropped,age_scale_mode,age_scale_value
+pooled_spatiotemporal_age_z_main,1,fold_001,full,ok,NA,NA,TRUE,0,0,500,FALSE,1.9078020200515762,0.1514169134230374,0.8507095327102804,0.7410814162071997,290,145,9,8,1,z_score,3808.638893768183
+pooled_spatiotemporal_age_z_main,1,fold_001,no_abiotic,ok,NA,NA,TRUE,0,0,413,TRUE,2.2513437701916907,0.18932529743721047,0.8192523364485982,0.6425245307534153,290,145,9,8,1,z_score,3808.638893768183
+pooled_spatiotemporal_age_z_main,1,fold_001,no_spatial,ok,NA,NA,TRUE,0,0.01,413,TRUE,2.1299537845993015,0.1787462191243615,0.8275289719626169,0.6584575865924955,290,145,9,8,1,z_score,3808.638893768183
+pooled_spatiotemporal_age_z_main,1,fold_001,no_associations,ok,NA,NA,TRUE,0,0.01,424,TRUE,1.6749728784470466,0.1453502499247252,0.8676814953271028,0.7583892432107865,290,145,9,8,1,z_score,3808.638893768183

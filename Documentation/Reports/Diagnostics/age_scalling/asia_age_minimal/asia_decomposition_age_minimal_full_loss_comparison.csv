@@ -1,0 +1,3 @@
+route_id,n_pairs,n_defined_pairs,n_candidate_beats_current,proportion_candidate_beats_current,mean_delta_loss_candidate_minus_current,median_delta_loss_candidate_minus_current
+pooled_spatiotemporal_age_z_interaction,9,1,1,1,-4.504125535579449,-4.504125535579449
+pooled_spatiotemporal_age_z_main,9,1,1,1,-4.520786123575489,-4.520786123575489

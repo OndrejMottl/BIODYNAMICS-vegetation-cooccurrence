@@ -38,6 +38,10 @@
 #' post-hoc approach via `compute_jsdm_se()` in a separate
 #' pipeline target, which allows CPU parallelisation
 #' independent of the GPU device setting.
+#' @param biotic
+#' Optional biotic structure passed to `sjSDM::sjSDM()`. Defaults
+#' to `sjSDM::bioticStruct()`. Use `sjSDM::bioticStruct(diag =
+#' TRUE)` to fit a no-associations variant.
 #' @param parallel
 #' Number of CPU cores to use for parallel processing.
 #' Only applicable if `device = "cpu"`. Default is `0L`
@@ -84,6 +88,7 @@ fit_jsdm_model <- function(
     device = c("cpu", "gpu"),
     parallel = 0L,
     compute_se = FALSE,
+    biotic = sjSDM::bioticStruct(),
     ...,
     iter = 100L,
     n_early_stopping = NULL,
@@ -427,6 +432,7 @@ fit_jsdm_model <- function(
       Y = as.matrix(data_community),
       env = sel_biotic,
       spatial = spatial,
+      biotic = biotic,
       se = compute_se,
       family = error_family,
       device = device,

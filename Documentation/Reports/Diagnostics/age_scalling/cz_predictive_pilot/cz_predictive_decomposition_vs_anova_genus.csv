@@ -1,0 +1,4 @@
+resolution_id,component,share_median,lwr_95,upr_95,n_defined,n_total,n_failed,proportion_defined,anova_share,existing_auc_median,share_delta_predictive_minus_anova
+genus,Abiotic,0,0,0,4,5,1,0.8,4.32320729028675,0.6143975812415796,-4.32320729028675
+genus,Associations,0,0,0,4,5,1,0.8,46.98784371112359,0.6143975812415796,-46.98784371112359
+genus,Spatial,100,100,100,4,5,1,0.8,48.68894899858966,0.6143975812415796,51.31105100141034

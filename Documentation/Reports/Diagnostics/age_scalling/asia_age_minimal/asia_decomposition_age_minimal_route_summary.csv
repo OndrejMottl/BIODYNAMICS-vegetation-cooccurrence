@@ -1,0 +1,10 @@
+route_id,component,share_median,lwr_95,upr_95,n_defined,n_total,n_failed,proportion_defined,n_folds,n_converged_folds,proportion_full_beats_no_abiotic,proportion_full_beats_no_spatial,proportion_full_beats_no_associations,proportion_converged_folds
+pooled_spatiotemporal_age_current,Abiotic,NA,NA,NA,0,9,9,0,9,0,0,0.3333333333333333,0.6666666666666666,0
+pooled_spatiotemporal_age_current,Associations,NA,NA,NA,0,9,9,0,9,0,0,0.3333333333333333,0.6666666666666666,0
+pooled_spatiotemporal_age_current,Spatial,NA,NA,NA,0,9,9,0,9,0,0,0.3333333333333333,0.6666666666666666,0
+pooled_spatiotemporal_age_z_interaction,Abiotic,71.36217259243193,64.44073125349652,85.39911410308562,9,9,0,1,9,9,1,1,0,1
+pooled_spatiotemporal_age_z_interaction,Associations,0,0,0,9,9,0,1,9,9,1,1,0,1
+pooled_spatiotemporal_age_z_interaction,Spatial,28.637827407568057,14.600885896914395,35.559268746503484,9,9,0,1,9,9,1,1,0,1
+pooled_spatiotemporal_age_z_main,Abiotic,60.034290877159535,55.05810124915669,73.14800106938445,9,9,0,1,9,9,1,1,0,1
+pooled_spatiotemporal_age_z_main,Associations,0,0,0,9,9,0,1,9,9,1,1,0,1
+pooled_spatiotemporal_age_z_main,Spatial,39.965709122840465,26.85199893061555,44.941898750843315,9,9,0,1,9,9,1,1,0,1
