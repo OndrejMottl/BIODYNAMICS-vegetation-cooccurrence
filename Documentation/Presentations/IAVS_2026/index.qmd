@@ -71,11 +71,11 @@ TIME 00:25. I will ask the audience to close their eyes and imagine there are on
 ## [... booting]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-story}
 
 :::: {.columns}
-::: {.column width="50%" .fragment .tui-reveal}
+::: {.column width="50%" .fragment .tui-reveal-scan}
 ![](figures/story/genai_drafts/oracle_abstract_face_motif_v3_crop.png){.image-display-block .margin-x-auto .image-height-750 .image-blend-screen .image-fit-contain .width-full}
 :::
 
-::: {.column width="50%" .fragment .tui-reveal}
+::: {.column width="50%" .fragment}
 ::: {.oracle-terminal}
 
 ::: {.oracle-line}
@@ -151,7 +151,7 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 
 :::: {.columns}
 
-::: {.column width="35%" .fragment .tui-reveal data-fragment-index="1"}
+::: {.column width="35%" .fragment data-fragment-index="1"}
 
 <br>
 <br>
@@ -185,7 +185,7 @@ residual [species-species association]{.text-highlight-latent}.
 
 :::
 
-::: {.column width="65%" .fragment .tui-reveal data-fragment-index="2"}
+::: {.column width="65%" .fragment .tui-reveal-scan data-fragment-index="2"}
 ![](figures/story/genai_drafts/query_three_streams_motif_v6.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-750}
 :::
 
@@ -201,18 +201,18 @@ TIME 00:45. Oracle, I would like like to explore vegation patterns across space 
 :::: {.columns}
 ::: {.column width="62%" }
 
-::: {.image-height-400 .fragment .tui-reveal data-fragment-index="2"}
+::: {.image-height-400 .fragment .tui-reveal-blur data-fragment-index="2"}
 --figure/schematics of data input--
 :::
 
-::: {.image-height-400 .fragment .tui-reveal data-fragment-index="3"}
+::: {.image-height-400 .fragment .tui-reveal-blur data-fragment-index="3"}
 --Northern Hemisphere coverage figure--
 :::
 
 :::
 
 ::: {.column width="38%" }
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
 [&lt;VegVault&gt;]{.text-emphasis-chip} database: publicly available open source database
@@ -231,7 +231,7 @@ Due to [data availability]{.text-emphasis-underline-dotted}, I will focus on the
 :::
 :::
 
-::: {.fragment .tui-reveal data-fragment-index="4"}
+::: {.fragment .tui-reveal-scan data-fragment-index="4"}
 
 :::: {.columns .image-height-750}
 
@@ -263,7 +263,7 @@ The database is publicly available and open source. For this analysis, we will f
 
 <br>
 
-::: {.fragment .tui-reveal data-fragment-index="2"}
+::: {.fragment .tui-reveal-scan data-fragment-index="2"}
 ::: {.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full}
 ![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_crop.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
 :::
@@ -271,7 +271,7 @@ The database is publicly available and open source. For this analysis, we will f
 
 <br>
 
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
 Three routes selected:
@@ -304,7 +304,7 @@ TIME 00:35. Now, we would like to split the analysis along space (from local to 
 
 <br>
 
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
 [Data extracted, now preparation ...]{.text-emphasis-chip}
@@ -338,7 +338,7 @@ Climate stream screened.
 
 :::
 
-::: {.column width="60%" .fragment .tui-reveal data-fragment-index="2" .image-height-750}
+::: {.column width="60%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750}
 --Figure to show some climate data summary---
 :::
 ::::
@@ -351,14 +351,14 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 ## Model core: [environment]{.text-color-abiotic}, [space]{.text-color-spatial}, [association]{.text-color-latent} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
-::: {.column width="65%" .fragment .tui-reveal data-fragment-index="2" .image-height-750}
+::: {.column width="65%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750}
 --Schematic of model components and variance partitioning--
 (we can use either mermaid or a custom schematic)
 
 --maybe a mathematical formula for the model--
 :::
 
-::: {.column width="35%" .fragment .tui-reveal data-fragment-index="1"}
+::: {.column width="35%" .fragment data-fragment-index="1"}
 
 <br>
 <br>
@@ -401,7 +401,7 @@ We will be uisng {sjSDM} R package is used because the community matrix and spat
 
 :::: {.columns}
 
-::: {.column width="50%" .fragment .tui-reveal data-fragment-index="1"}
+::: {.column width="50%" .fragment data-fragment-index="1"}
 
 <br>
 <br>
@@ -434,7 +434,7 @@ structure have made their claims.
 :::
 :::
 
-::: {.column width="50%" .fragment .tui-reveal data-fragment-index="2" .image-height-750} 
+::: {.column width="50%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750} 
 --schematic to show the variance decomposition and the focus on the residual association component--
 :::
 
@@ -452,21 +452,21 @@ The shared fractions are useful diagnostics for understanding the model fit. How
 :::: {.columns}
 ::: {.column width="50%"}
 
-::: {.image-height-600 .fragment .tui-reveal data-fragment-index="2"}
+::: {.image-height-600 .fragment .tui-reveal-blur data-fragment-index="2"}
 --Map of Northem America with the three spatial units outlined: local, regional, continental--
 :::
 
 :::
 
 ::: {.column width="50%"}
-::: {.image-height-600 .fragment .tui-reveal data-fragment-index="3"}
+::: {.image-height-600 .fragment .tui-reveal-blur data-fragment-index="3"}
 --tile plot showing 3 columns (scale), each tile (a unit) is colored by the the amount of association--
 :::
 :::
 
 ::::
 
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
 Spatial scan configured.
@@ -486,7 +486,7 @@ What do we see? Is there a clear change in the association signal across spatial
 ## How does the [spatial pattern]{.text-color-spatial} change when we add [taxonomic resolution]{.text-color-latent}? {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
-::: {.column width="65%" .fragment .tui-reveal  data-fragment-index="2" .image-height-750}
+::: {.column width="65%" .fragment .tui-reveal-blur  data-fragment-index="2" .image-height-750}
 --Expland on the Figure 2 from previous slide. Now 3 columns (spatial scale) and 3 rows (taxonomic scale), each tile (a unit) is colored by the the amount of association--
 :::
 
@@ -529,7 +529,7 @@ Interestingly, the change in taxonomic resolution does not seem to affect the sp
 :::: {.columns}
 
 ::: {.column width="35%"}
-::: {.oracle-terminal .fragment .tui-reveal  data-fragment-index="1"}
+::: {.oracle-terminal .fragment  data-fragment-index="1"}
 
 ::: {.oracle-line}
 Query accepted.
@@ -570,17 +570,17 @@ Proceed? Y/N?
 
 ::: {.column width="65%"}
 
-:::{.fragment .tui-reveal  data-fragment-index="2" .image-height-400}
+:::{.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-400}
 -- Distribution of data across the temporal axis, showing where the data are dense or sparse.--
 :::
 
 :::: {.columns .image-height-400}
 
-::: {.column width="50%" .fragment .tui-reveal  data-fragment-index="3"}
+::: {.column width="50%" .fragment .tui-reveal-blur  data-fragment-index="3"}
 schematic of bipartite network pipeline, highligting one time slice from figure 1.
 :::
 
-::: {.column width="50%" .fragment .tui-reveal  data-fragment-index="4"}
+::: {.column width="50%" .fragment .tui-reveal-blur  data-fragment-index="4"}
 schematic of temporal pipeline, showing how each slice is processed independently.
 :::
 
@@ -605,15 +605,15 @@ Plotting temporal trajectories.
 :::
 
 :::: {.columns}
-::: {.column width="33.33%" .fragment .tui-reveal  data-fragment-index="1" .image-height-600}
+::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="1" .image-height-600}
 --NORTH AMERICA--
 :::
 
-::: {.column width="33.33%" .fragment .tui-reveal  data-fragment-index="2" .image-height-600}
+::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="2" .image-height-600}
 --EUROPE--
 :::
 
-::: {.column width="33.33%" .fragment .tui-reveal  data-fragment-index="3" .image-height-600}
+::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="3" .image-height-600}
 --ASIA--
 :::
 
@@ -626,7 +626,7 @@ TIME 00:50. The network structure and the variance components are changing throu
 <!-- slide:12 -->
 ## Synthesis pending verification {.slide-terminal .slide-terminal-synthesis}
 
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
 Weaving realities together: spatial patterns, taxonomic resolution, temporal dynamics.
@@ -641,7 +641,7 @@ Summarizing results.
 :::
 :::
 
-::: {.fragment .tui-reveal data-fragment-index="2"}
+::: {.fragment data-fragment-index="2"}
 [SPACE]{.text-color-spatial}<br>
 Local to continental comparison.
 
@@ -660,7 +660,7 @@ TIME 00:45. TBD
 ## [Future predictions]{.text-emphasis-box} {.slide-terminal .slide-terminal-synthesis}
 
 :::: {.columns}
-::: {.column .fragment .tui-reveal width="65%" data-fragment-index="1"}
+::: {.column .fragment .tui-reveal-scan width="65%" data-fragment-index="1"}
 ![Can We spot the hidden signal?](figures/story/hidden_majority_particles.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
 :::
 
@@ -684,7 +684,7 @@ TIME 00:40.
 
 :::: {.columns}
 ::: {.column width="35%"}
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
 [Execution complete.]{.text-emphasis-chip}
@@ -702,7 +702,7 @@ Thank you for your attention.
 
 :::
 
-::: {.column width="35%" .fragment .tui-reveal data-fragment-index="2"}
+::: {.column width="35%" .fragment .tui-reveal-scan data-fragment-index="2"}
 ![](figures/story/genai_drafts/oracle_closing_signal_motif_v2.png){.image-display-block .margin-x-auto .image-height-600 .image-blend-screen .image-fit-contain .width-full}
 :::
 ::::

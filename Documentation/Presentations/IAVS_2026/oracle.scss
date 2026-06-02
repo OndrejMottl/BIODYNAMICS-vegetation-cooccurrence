@@ -24,6 +24,8 @@
   --oracle-terminal-accent: var(--oracle-palette-phosphor);
   --oracle-terminal-border: rgba(184, 255, 109, 0.34);
   --oracle-terminal-bg: rgba(124, 255, 178, 0.035);
+  --oracle-effects-reveal-scan-duration: 980ms;
+  --oracle-effects-reveal-blur-duration: 460ms;
 }
 
 /* Base presentation */
@@ -906,13 +908,51 @@
 
 /* Fragment effect */
 
-.reveal .fragment.tui-reveal {
-  transform: none;
+.reveal .fragment.tui-reveal-scan,
+.reveal .fragment.tui-reveal-blur {
+  position: relative;
+  will-change: opacity, filter, transform;
 }
 
-.reveal .fragment.tui-reveal.visible {
-  /* Reveal fragments flash briefly as newly returned terminal output. */
-  animation: oracle-terminal-refresh var(--oracle-effects-refresh-duration) steps(2, end);
+.reveal .fragment.tui-reveal-scan {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.reveal .fragment.tui-reveal-scan::after {
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(124, 255, 178, 0.06) 18%,
+      rgba(184, 255, 109, 0.28) 46%,
+      rgba(124, 255, 178, 0.12) 68%,
+      transparent 100%
+    );
+  content: "";
+  inset: -8%;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(-135%) skewX(-18deg);
+  z-index: 3;
+}
+
+.reveal .fragment.tui-reveal-scan.visible {
+  animation: oracle-terminal-scan-settle var(--oracle-effects-reveal-scan-duration) cubic-bezier(0.18, 0.78, 0.22, 1) both;
+}
+
+.reveal .fragment.tui-reveal-scan.visible::after {
+  animation: oracle-terminal-scan-sweep var(--oracle-effects-reveal-scan-duration) cubic-bezier(0.12, 0.72, 0.2, 1) both;
+}
+
+.reveal .fragment.tui-reveal-blur {
+  filter: blur(16px) brightness(0.7) saturate(0.82);
+  transform: translateY(0.45rem) scale(1.015);
+}
+
+.reveal .fragment.tui-reveal-blur.visible {
+  animation: oracle-terminal-blur-resolve var(--oracle-effects-reveal-blur-duration) cubic-bezier(0.16, 0.8, 0.24, 1) both;
 }
 
 @keyframes oracle-terminal-refresh {
@@ -929,5 +969,66 @@
   100% {
     filter: none;
     opacity: 1;
+  }
+}
+
+@keyframes oracle-terminal-scan-settle {
+  0% {
+    filter: brightness(0.62) saturate(0.86) blur(3px);
+    opacity: 0;
+    transform: scale(1.02);
+  }
+
+  35% {
+    filter: brightness(1.08) saturate(1.02) blur(0.8px);
+    opacity: 1;
+    transform: scale(1.006);
+  }
+
+  100% {
+    filter: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes oracle-terminal-scan-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-135%) skewX(-18deg);
+  }
+
+  12% {
+    opacity: 0.9;
+  }
+
+  78% {
+    opacity: 0.7;
+    transform: translateX(118%) skewX(-18deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(132%) skewX(-18deg);
+  }
+}
+
+@keyframes oracle-terminal-blur-resolve {
+  0% {
+    filter: blur(16px) brightness(0.7) saturate(0.82);
+    opacity: 0;
+    transform: translateY(0.45rem) scale(1.015);
+  }
+
+  55% {
+    filter: blur(3px) brightness(1.03) saturate(0.96);
+    opacity: 1;
+    transform: translateY(0.08rem) scale(1.004);
+  }
+
+  100% {
+    filter: none;
+    opacity: 1;
+    transform: none;
   }
 }
