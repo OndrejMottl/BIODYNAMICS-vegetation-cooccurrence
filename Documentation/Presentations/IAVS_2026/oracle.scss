@@ -571,7 +571,7 @@
   font-family: var(--oracle-typography-heading-family);
 }
 
-.text-underline {
+.text-emphasis-underline {
   text-decoration: underline;
 }
 
@@ -595,27 +595,27 @@
   padding: 0 0.34em;
 }
 
-.text-underline-dotted {
+.text-emphasis-underline-dotted {
   text-decoration-line: underline;
   text-decoration-style: dotted;
   text-decoration-thickness: 1.5px;
   text-underline-offset: 0.17em;
 }
 
-.text-underline-double {
+.text-emphasis-underline-double {
   text-decoration-line: underline;
   text-decoration-style: double;
   text-decoration-thickness: 1.5px;
   text-underline-offset: 0.15em;
 }
 
-.text-underline-thick {
+.text-emphasis-underline-thick {
   text-decoration-line: underline;
   text-decoration-thickness: 2.2px;
   text-underline-offset: 0.16em;
 }
 
-.text-underline-wave {
+.text-emphasis-underline-wave {
   text-decoration-line: underline;
   text-decoration-style: wavy;
   text-decoration-thickness: 1.5px;
@@ -692,11 +692,13 @@
   color: var(--oracle-palette-amber);
 }
 
-/* Semantic emphasis chips: marker + border for the 4 decomposition channels. */
-.text-color-spatial,
-.text-color-abiotic,
-.text-color-latent,
-.text-color-warning {
+/* Semantic highlight chips: marker + border for the 4 decomposition channels.
+   Keep `.text-color-*` as color-only and use `.text-highlight-*` for chip styling. */
+.text-highlight-spatial,
+.text-highlight-abiotic,
+.text-highlight-latent,
+.text-highlight-warning {
+  color: inherit;
   align-items: baseline;
   border: 1px solid currentColor;
   border-radius: 0.22rem;
@@ -706,50 +708,46 @@
   padding: 0.01em 0.3em;
 }
 
-.text-color-spatial,
-.text-color-spatial {
+.text-highlight-spatial {
+  color: var(--oracle-palette-cyan);
   background: rgba(51, 201, 213, 0.09);
 }
 
-.text-color-abiotic,
-.text-color-abiotic {
+.text-highlight-abiotic {
+  color: var(--oracle-palette-amber);
   background: rgba(226, 200, 71, 0.1);
 }
 
-.text-color-latent,
-.text-color-latent {
+.text-highlight-latent {
+  color: var(--oracle-palette-purple);
   background: rgba(199, 146, 234, 0.1);
 }
 
-.text-color-warning,
-.text-color-warning {
+.text-highlight-warning {
+  color: var(--oracle-palette-red);
   background: rgba(255, 123, 114, 0.12);
 }
 
-.text-color-spatial::before,
-.text-color-spatial::before {
+.text-highlight-spatial::before {
   content: "◇";
 }
 
-.text-color-abiotic::before,
-.text-color-abiotic::before {
+.text-highlight-abiotic::before {
   content: "▣";
 }
 
-.text-color-latent::before,
-.text-color-latent::before {
+.text-highlight-latent::before {
   content: "◎";
 }
 
-.text-color-warning::before,
-.text-color-warning::before {
+.text-highlight-warning::before {
   content: "⚠";
 }
 
-.text-color-spatial::before,
-.text-color-abiotic::before,
-.text-color-latent::before,
-.text-color-warning::before {
+.text-highlight-spatial::before,
+.text-highlight-abiotic::before,
+.text-highlight-latent::before,
+.text-highlight-warning::before {
   font-size: 0.76em;
   line-height: 1;
   opacity: 0.9;
@@ -762,6 +760,42 @@
 .oracle-line .oracle-highlight-latent,
 .oracle-line .oracle-highlight-warning {
   font-weight: var(--oracle-typography-heading-weight);
+}
+
+.oracle-line .text-color-spatial,
+.oracle-line .text-color-abiotic,
+.oracle-line .text-color-latent,
+.oracle-line .text-color-warning {
+  background: transparent;
+  border: 0;
+  display: inline;
+  gap: 0;
+  padding: 0;
+}
+
+.oracle-line .text-color-spatial::before,
+.oracle-line .text-color-abiotic::before,
+.oracle-line .text-color-latent::before,
+.oracle-line .text-color-warning::before {
+  content: none;
+}
+
+.oracle-line .text-highlight-spatial,
+.oracle-line .text-highlight-abiotic,
+.oracle-line .text-highlight-latent,
+.oracle-line .text-highlight-warning {
+  background: transparent;
+  border: 0;
+  display: inline;
+  gap: 0;
+  padding: 0;
+}
+
+.oracle-line .text-highlight-spatial::before,
+.oracle-line .text-highlight-abiotic::before,
+.oracle-line .text-highlight-latent::before,
+.oracle-line .text-highlight-warning::before {
+  content: none;
 }
 
 .oracle-line.oracle-line-has-text .oracle-highlight-spatial,
@@ -808,10 +842,62 @@
   content: "⚠";
 }
 
+.oracle-line.oracle-line-has-text .text-highlight-spatial,
+.oracle-line.oracle-line-has-text .text-highlight-abiotic,
+.oracle-line.oracle-line-has-text .text-highlight-latent,
+.oracle-line.oracle-line-has-text .text-highlight-warning {
+  align-items: baseline;
+  border: 1px solid currentColor;
+  border-radius: 0.22rem;
+  display: inline-flex;
+  gap: 0.28em;
+  padding: 0.01em 0.3em;
+}
+
+.oracle-line.oracle-line-has-text .text-highlight-spatial {
+  color: var(--oracle-palette-cyan);
+  background: rgba(51, 201, 213, 0.09);
+}
+
+.oracle-line.oracle-line-has-text .text-highlight-abiotic {
+  color: var(--oracle-palette-amber);
+  background: rgba(226, 200, 71, 0.1);
+}
+
+.oracle-line.oracle-line-has-text .text-highlight-latent {
+  color: var(--oracle-palette-purple);
+  background: rgba(199, 146, 234, 0.1);
+}
+
+.oracle-line.oracle-line-has-text .text-highlight-warning {
+  color: var(--oracle-palette-red);
+  background: rgba(255, 123, 114, 0.12);
+}
+
+.oracle-line.oracle-line-has-text .text-highlight-spatial::before {
+  content: "◇";
+}
+
+.oracle-line.oracle-line-has-text .text-highlight-abiotic::before {
+  content: "▣";
+}
+
+.oracle-line.oracle-line-has-text .text-highlight-latent::before {
+  content: "◎";
+}
+
+.oracle-line.oracle-line-has-text .text-highlight-warning::before {
+  content: "⚠";
+}
+
 .oracle-line.oracle-line-has-text .oracle-highlight-spatial::before,
 .oracle-line.oracle-line-has-text .oracle-highlight-abiotic::before,
 .oracle-line.oracle-line-has-text .oracle-highlight-latent::before,
-.oracle-line.oracle-line-has-text .oracle-highlight-warning::before {
+.oracle-line.oracle-line-has-text .oracle-highlight-warning::before,
+.oracle-line.oracle-line-has-text .text-highlight-spatial::before,
+.oracle-line.oracle-line-has-text .text-highlight-abiotic::before,
+.oracle-line.oracle-line-has-text .text-highlight-latent::before,
+.oracle-line.oracle-line-has-text .text-highlight-warning::before {
   font-size: 0.76em;
   line-height: 1;
   opacity: 0.9;

@@ -68,7 +68,7 @@ TIME 00:25. I will ask the audience to close their eyes and imagine there are on
 :::
 
 <!-- slide:01 -->
-## System ... booting {.slide-terminal .slide-terminal-story}
+## ... booting {.slide-terminal .slide-terminal-story}
 
 :::: {.columns}
 ::: {.column width="50%" .fragment .tui-reveal}
@@ -79,35 +79,35 @@ TIME 00:25. I will ask the audience to close their eyes and imagine there are on
 ::: {.oracle-terminal}
 
 ::: {.oracle-line}
-System online.
+[System online]{.text-emphasis-chip}
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Greetings Dr. Mottl.
+Greetings Dr. Mottl
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-I am [[O]]{.oracle-highlight .oracle-highlight-purple}bservational [[R]]{.oracle-highlight .oracle-highlight-purple}untime for [[A]]{.oracle-highlight .oracle-highlight-purple}nalysis of [[C]]{.oracle-highlight .oracle-highlight-purple}ommunity-[[L]]{.oracle-highlight .oracle-highlight-purple}evel [[E]]{.oracle-highlight .oracle-highlight-purple}cology**
+I am [O]{.text-emphasis-underline}bservational [R]{.text-emphasis-underline}untime for [A]{.text-emphasis-underline}nalysis of [C]{.text-emphasis-underline}ommunity-[L]{.text-emphasis-underline}evel [E]{.text-emphasis-underline}cology
 :::
 
 ::: {.oracle-line}
-[&lt;ORACLE&gt;]{.oracle-highlight .oracle-highlight-purple} for short.
-:::
-
-[]{.oracle-line}
-
-::: {.oracle-line}
-I am here to assist you in analyzing vegetation patterns on Earth.
+[&lt;ORACLE&gt;]{.text-emphasis-chip .text-emphasis-underline-double} for short
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Awaiting ecological query.
+I am here to assist you in analyzing vegetation patterns on Earth
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+[Awaiting ecological query.]{.text-emphasis-chip}
 :::
 
 []{.oracle-line}
@@ -115,16 +115,12 @@ Awaiting ecological query.
 []{.oracle-line}
 
 ::: {.oracle-line}
-Proceed? Y/N?
+Proceed? [Y]/[N]?
 :::
 :::
 
 :::
 ::::
-
-<br>
-<br>
-<br>
 
 :::: {.columns .margin-top-large .padding-top-small}
 
@@ -151,7 +147,7 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 :::
 
 <!-- slide:02 -->
-## Is there a [scale dependence]{.text-color-spatial .text-bold} in the amount of unexplained variation ([potentially due to biotic interactions]{.text-color-latent}) structuring vegetation? {.slide-terminal .slide-terminal-question}
+## Is there a [scale dependence]{.text-bold .text-emphasis-underline} in the amount of unexplained variation (potentially due to [biotic interactions]{.text-color-latent}) structuring vegetation? {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
 
@@ -163,27 +159,27 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 ::: {.oracle-terminal}
 
 ::: {.oracle-line}
-Query accepted.
+Query accepted
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Plan to partition observed plant co-occurrence into:
+Plan to [partition]{.text-emphasis-underline} observed plant co-occurrence into:
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
- - [spatial structure]{.oracle-highlight .oracle-highlight-spatial}
+[spatial]{.text-highlight-spatial} structure
 :::
 
 ::: {.oracle-line}
- - [climate response]{.oracle-highlight .oracle-highlight-abiotic}
+[climate]{.text-highlight-abiotic} response
 :::
 
 ::: {.oracle-line}
- - [residual species-species association]{.oracle-highlight .oracle-highlight-latent}.
+residual [species-species association]{.text-highlight-latent}.
 :::
 :::
 
@@ -200,39 +196,38 @@ TIME 00:45. Oracle, I would like like to explore vegation patterns across space 
 :::
 
 <!-- slide:03 -->
-## Archive: [&lt;VegVault&gt;]{.text-color-cyan} {.slide-terminal .slide-terminal-methods}
+## DATA: [&lt;VegVault&gt;]{.text-emphasis-chip} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 ::: {.column width="62%" }
 
 ::: {.image-height-400 .fragment .tui-reveal data-fragment-index="2"}
---Northern Hemisphere coverage figure--
+--figure/schematics of data input--
 :::
 
 ::: {.image-height-400 .fragment .tui-reveal data-fragment-index="3"}
---figure/schematics of data input--
+--Northern Hemisphere coverage figure--
 :::
+
 :::
 
 ::: {.column width="38%" }
 ::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
 
 ::: {.oracle-line}
-&lt;VegVault&gt; database: publicly available oracle-line open source database
-:::
-
-::: {.oracle-line}
-VegVault scan complete.
-:::
-
-::: {.oracle-line}
-Community records, climate predictors, site coordinates, and functional traits are loaded as separate streams.
+[&lt;VegVault&gt;]{.text-emphasis-chip} database: publicly available open source database
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Due to data availability, I will focus on the Northern Hemisphere of the planet.
+[Community records]{.text-emphasis-box}, [climate predictors]{.text-color-abiotic}, [site coordinates]{.text-color-spatial}, and [functional traits]{.text-color-latent} are loaded as separate streams.
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+Due to [data availability]{.text-emphasis-underline-dotted}, I will focus on the [Northern Hemisphere]{.text-emphasis-underline-double} of the planet.
 :::
 :::
 
@@ -283,15 +278,15 @@ Three routes selected:
 :::
 
 ::: {.oracle-line}
- - [Spatial-resolution runs]{.oracle-highlight .oracle-highlight-spatial} : chnages with spatial scale
+ - [Spatial-resolution runs]{.text-highlight-spatial} : chnages with spatial scale
 :::
 
 ::: {.oracle-line}
- - [Temporal slices test]{.oracle-highlight .oracle-highlight-abiotic} : change through time.
+ - [Temporal slices test]{.text-highlight-abiotic} : change through time.
 :::
 
 ::: {.oracle-line}
-- [Taxonomic aggregation level]{.oracle-highlight .oracle-highlight-latent} : change through classification.
+- [Taxonomic aggregation level]{.text-highlight-latent} : change through classification.
 :::
 :::
 
@@ -301,7 +296,7 @@ TIME 00:35. Now, we would like to split the analysis along space (from local to 
 :::
 
 <!-- slide:05 -->
-## Preparing community and climate streams {.slide-terminal .slide-terminal-methods}
+## Preparing [community]{.text-color-latent} and [climate]{.text-color-abiotic} streams {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 
@@ -312,7 +307,7 @@ TIME 00:35. Now, we would like to split the analysis along space (from local to 
 ::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
 
 ::: {.oracle-line}
-Data extracted, now preparation ...
+[Data extracted, now preparation ...]{.text-emphasis-chip}
 :::
 
 []{.oracle-line}
@@ -353,7 +348,7 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 :::
 
 <!-- slide:06 -->
-## Model core: environment, space, association {.slide-terminal .slide-terminal-methods}
+## Model core: [environment]{.text-color-abiotic}, [space]{.text-color-spatial}, [association]{.text-color-latent} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 ::: {.column width="65%" .fragment .tui-reveal data-fragment-index="2" .image-height-750}
@@ -371,25 +366,25 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 ::: {.oracle-terminal}
 
 ::: {.oracle-line}
-Model assembled.
+[Model assembled.]{.text-emphasis-chip}
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Abiotic predictors]{.oracle-highlight .oracle-highlight-abiotic} explain shared response.
+[Abiotic predictors]{.text-highlight-abiotic} explain shared response.
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Moran Eigenvector Maps]{.oracle-highlight .oracle-highlight-spatial} (MEMs) absorb spatio-temporal autocorrelation.
+[Moran Eigenvector Maps]{.text-highlight-spatial} (MEMs) absorb spatio-temporal autocorrelation.
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Residual covariance]{.oracle-highlight .oracle-highlight-latent} carries species-species association signal.
+[Residual covariance]{.text-highlight-latent} carries species-species association signal.
 :::
 
 :::
@@ -402,7 +397,7 @@ We will be uisng {sjSDM} R package is used because the community matrix and spat
 :::
 
 <!-- slide:07 -->
-## Variance decomposition {.slide-terminal .slide-terminal-methods}
+## [Variance decomposition]{.text-emphasis-box} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 
@@ -420,7 +415,7 @@ Decomposition ready.
 []{.oracle-line}
 
 ::: {.oracle-line}
-Focus: residual association component
+Focus: [residual association component]{.text-emphasis-box}
 :::
 
 []{.oracle-line}
@@ -433,7 +428,7 @@ structure have made their claims.
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Caution]{.oracle-highlight .oracle-highlight-warning .text-color-warning}: co-occurrence is not proof of [interaction]{.oracle-highlight .oracle-highlight-warning}.
+[Caution]{.text-highlight-warning}: co-occurrence is not proof of [interaction]{.text-highlight-warning}.
 :::
 
 :::
@@ -662,7 +657,7 @@ TIME 00:45. TBD
 :::
 
 <!-- slide:13 -->
-## Future predictions {.slide-terminal .slide-terminal-synthesis}
+## [Future predictions]{.text-emphasis-box} {.slide-terminal .slide-terminal-synthesis}
 
 :::: {.columns}
 ::: {.column .fragment .tui-reveal width="65%" data-fragment-index="1"}
@@ -673,7 +668,7 @@ TIME 00:45. TBD
 ::: {.oracle-terminal}
 
 ::: {.oracle-line}
-Current models can be used to futher predict the biodiversity patterns under the climate change scenarios.
+Current models can be used to [futher predict]{.text-emphasis-caps .text-emphasis-underline-thick} the biodiversity patterns under the climate change scenarios.
 :::
 :::
 
@@ -685,14 +680,14 @@ TIME 00:40.
 :::
 
 <!-- slide:14 -->
-## Query resolved ... termination {.slide-terminal .slide-terminal-story}
+## [Query resolved]{.text-emphasis-caps .text-emphasis-underline-double} ... termination {.slide-terminal .slide-terminal-story}
 
 :::: {.columns}
 ::: {.column width="35%"}
 ::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
 
 ::: {.oracle-line}
-Execution complete.
+[Execution complete.]{.text-emphasis-chip}
 :::
 
 ::: {.oracle-line}
@@ -737,7 +732,7 @@ Assistant Professor at 🏛️[Charles University](https://cuni.cz/UK-1.html), P
 
 <br>
 
-Interested in [macroecology]{.text-color-amber}, [palaeoecology]{.text-color-cyan}, [biodiversity]{.text-color-purple}, and [data science]{.text-color-red}
+Interested in [macroecology]{.text-color-amber .text-emphasis-underline-wave}, [palaeoecology]{.text-color-cyan .text-emphasis-underline-wave}, [biodiversity]{.text-color-purple .text-emphasis-underline-wave}, and [data science]{.text-color-red .text-emphasis-underline-wave}
 
 <br>
 
@@ -799,7 +794,7 @@ TIME 00:20.
 
 <br>
 
-[This presentation is publicly available on BIODYNAMICS project websites]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple}
+[This presentation is publicly available on BIODYNAMICS project websites]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple .text-emphasis-box}
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -809,7 +804,7 @@ TIME 00:20.
 <br>
 <br>
 
-::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-bold .r-fit-text .text-underline}
+::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-bold .r-fit-text .text-emphasis-underline}
 [bit.ly/biodynamics](https://bit.ly/biodynamics)
 :::
 
