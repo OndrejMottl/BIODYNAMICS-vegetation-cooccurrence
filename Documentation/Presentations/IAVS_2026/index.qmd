@@ -151,7 +151,7 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 :::
 
 <!-- slide:02 -->
-## Is there a [scale dependence]{.text-color-temporal .text-bold} in the amount of unexplained variation ([potentially due to biotic interactions]{.text-color-latent}) structuring vegetation? {.slide-terminal .slide-terminal-question}
+## Is there a [scale dependence]{.text-color-spatial .text-bold} in the amount of unexplained variation ([potentially due to biotic interactions]{.text-color-latent}) structuring vegetation? {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
 
@@ -175,15 +175,15 @@ Plan to partition observed plant co-occurrence into:
 []{.oracle-line}
 
 ::: {.oracle-line}
- - spatial structure
+ - [spatial structure]{.oracle-highlight .oracle-highlight-spatial}
 :::
 
 ::: {.oracle-line}
- - climate response
+ - [climate response]{.oracle-highlight .oracle-highlight-abiotic}
 :::
 
 ::: {.oracle-line}
- - residual species-species association.
+ - [residual species-species association]{.oracle-highlight .oracle-highlight-latent}.
 :::
 :::
 
@@ -283,15 +283,15 @@ Three routes selected:
 :::
 
 ::: {.oracle-line}
- - Spatial-resolution runs : chnages with spatial scale
+ - [Spatial-resolution runs]{.oracle-highlight .oracle-highlight-spatial} : chnages with spatial scale
 :::
 
 ::: {.oracle-line}
- - Temporal slices test : change through time.
+ - [Temporal slices test]{.oracle-highlight .oracle-highlight-abiotic} : change through time.
 :::
 
 ::: {.oracle-line}
-- Taxonomic aggregation level : change through classification.
+- [Taxonomic aggregation level]{.oracle-highlight .oracle-highlight-latent} : change through classification.
 :::
 :::
 
@@ -377,7 +377,7 @@ Model assembled.
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Abiotic predictors]{.oracle-highlight .oracle-highlight-phosphor} explain shared response.
+[Abiotic predictors]{.oracle-highlight .oracle-highlight-abiotic} explain shared response.
 :::
 
 []{.oracle-line}
@@ -433,7 +433,7 @@ structure have made their claims.
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Caution]{.oracle-highlight .oracle-highlight-red}: co-occurrence is not proof of [interaction]{.oracle-highlight}.
+[Caution]{.oracle-highlight .oracle-highlight-warning .text-color-warning}: co-occurrence is not proof of [interaction]{.oracle-highlight .oracle-highlight-warning}.
 :::
 
 :::
@@ -452,7 +452,7 @@ The shared fractions are useful diagnostics for understanding the model fit. How
 :::
 
 <!-- slide:08 -->
-## Spatial results: local to continental {.slide-terminal .slide-terminal-results}
+## [Spatial results]{.text-color-spatial}: local to continental {.slide-terminal .slide-terminal-results}
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -488,7 +488,7 @@ What do we see? Is there a clear change in the association signal across spatial
 :::
 
 <!-- slide:09 -->
-## How does the spatial pattern change when we add taxonomic resolution? {.slide-terminal .slide-terminal-question}
+## How does the [spatial pattern]{.text-color-spatial} change when we add [taxonomic resolution]{.text-color-latent}? {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
 ::: {.column width="65%" .fragment .tui-reveal  data-fragment-index="2" .image-height-750}
@@ -529,7 +529,7 @@ Interestingly, the change in taxonomic resolution does not seem to affect the sp
 :::
 
 <!-- slide:10 -->
-## Is the association signal stable through time? {.slide-terminal .slide-terminal-question}
+## Is the association signal stable through [time]{.text-color-abiotic}? {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
 
@@ -600,7 +600,7 @@ Now each time slice receives an independent analyses and diagnostics. We will be
 :::
 
 <!-- slide:11 -->
-## Temporal trajectories {.slide-terminal .slide-terminal-results}
+## [Temporal trajectories]{.text-color-abiotic} {.slide-terminal .slide-terminal-results}
 
 ::: {.oracle-terminal}
 
@@ -653,7 +653,7 @@ Local to continental comparison.
 [TAXONOMY]{.text-color-latent}<br>
 Genus / family / functional-type comparison.
 
-[TIME]{.text-color-temporal}<br>
+[TIME]{.text-color-abiotic}<br>
 Palaeo trajectory and network comparison.
 :::
 

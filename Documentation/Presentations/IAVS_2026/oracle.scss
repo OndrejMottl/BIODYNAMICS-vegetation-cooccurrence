@@ -324,7 +324,15 @@
   color: var(--oracle-palette-amber);
 }
 
+.oracle-line .oracle-highlight-abiotic {
+  color: var(--oracle-palette-amber);
+}
+
 .oracle-line .oracle-highlight-cyan {
+  color: var(--oracle-palette-cyan);
+}
+
+.oracle-line .oracle-highlight-spatial {
   color: var(--oracle-palette-cyan);
 }
 
@@ -332,7 +340,15 @@
   color: var(--oracle-palette-purple);
 }
 
+.oracle-line .oracle-highlight-latent {
+  color: var(--oracle-palette-purple);
+}
+
 .oracle-line .oracle-highlight-red {
+  color: var(--oracle-palette-red);
+}
+
+.oracle-line .oracle-highlight-warning {
   color: var(--oracle-palette-red);
 }
 
@@ -601,12 +617,28 @@
   color: var(--oracle-palette-cyan);
 }
 
+.text-color-spatial {
+  color: var(--oracle-palette-cyan);
+}
+
 .text-color-purple {
+  color: var(--oracle-palette-purple);
+}
+
+.text-color-latent {
   color: var(--oracle-palette-purple);
 }
 
 .text-color-red {
   color: var(--oracle-palette-red);
+}
+
+.text-color-warning {
+  color: var(--oracle-palette-red);
+}
+
+.text-color-abiotic {
+  color: var(--oracle-palette-amber);
 }
 
 /* Fragment effect */
