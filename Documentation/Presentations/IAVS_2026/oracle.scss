@@ -20,6 +20,10 @@
   );
   --oracle-screen-edge: rgba(184, 255, 109, 0.5);
   --oracle-screen-edge-dim: rgba(184, 255, 109, 0.18);
+  --oracle-terminal-fg: var(--oracle-palette-text);
+  --oracle-terminal-accent: var(--oracle-palette-phosphor);
+  --oracle-terminal-border: rgba(184, 255, 109, 0.34);
+  --oracle-terminal-bg: rgba(124, 255, 178, 0.035);
 }
 
 /* Base presentation */
@@ -236,20 +240,20 @@
 
 .oracle-says,
 .oracle-terminal {
-  color: var(--oracle-palette-amber);
+  color: var(--oracle-terminal-fg);
   letter-spacing: var(--oracle-typography-dialogue-letter-spacing);
   margin: 0 0 var(--oracle-spacing-lg);
-  border-left: 3px solid var(--oracle-palette-amber);
-  background: rgba(226, 200, 71, 0.02) !important; // subtle amber glassmorphism backdrop
+  border-left: 3px solid var(--oracle-terminal-border);
+  background: var(--oracle-terminal-bg) !important; // dim green glassmorphism backdrop
   padding: var(--oracle-spacing-sm) var(--oracle-spacing-md) !important;
   border-radius: 0 var(--oracle-frame-radius) var(--oracle-frame-radius) 0;
-  box-shadow: inset 2px 0 8px rgba(226, 200, 71, 0.01);
+  box-shadow: inset 2px 0 10px rgba(184, 255, 109, 0.05);
 }
 
 .oracle-says::before,
 .oracle-terminal::before {
   /* Generated output-channel label shared by all ORACLE dialogue blocks. */
-  color: var(--oracle-palette-amber);
+  color: var(--oracle-terminal-accent);
   content: "<ORACLE> // ...";
   display: block;
   font-weight: var(--oracle-typography-heading-weight);
@@ -258,7 +262,7 @@
 
 /* Keep line markup only for discrete terminal output or fragment animation. */
 .oracle-line {
-  color: var(--oracle-palette-amber);
+  color: var(--oracle-terminal-fg);
   display: block;
   line-height: var(--oracle-typography-line-height);
   margin: 0;
@@ -355,12 +359,12 @@
 /* Premium typewriter solid phosphor block cursor */
 .oracle-cursor {
   display: inline-block;
-  background-color: var(--oracle-palette-amber);
+  background-color: var(--oracle-terminal-accent);
   width: 12px;
   height: 1.1em;
   vertical-align: middle;
   margin-left: 3px;
-  box-shadow: 0 0 4px rgba(226, 200, 71, 0.4);
+  box-shadow: 0 0 6px rgba(184, 255, 109, 0.5);
   /* Solid while typing, blinks upon complete */
   &.finished {
     animation: oracle-cursor-blink var(--oracle-effects-cursor-blink-duration) steps(2, start) infinite;
