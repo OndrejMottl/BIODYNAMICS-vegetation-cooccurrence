@@ -68,7 +68,7 @@ TIME 00:25. I will ask the audience to close their eyes and imagine there are on
 :::
 
 <!-- slide:01 -->
-## ... booting {.slide-terminal .slide-terminal-story}
+## [... booting]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-story}
 
 :::: {.columns}
 ::: {.column width="50%" .fragment .tui-reveal}
@@ -147,7 +147,7 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 :::
 
 <!-- slide:02 -->
-## Is there a [scale dependence]{.text-bold .text-emphasis-underline} in the amount of unexplained variation (potentially due to [biotic interactions]{.text-color-latent}) structuring vegetation? {.slide-terminal .slide-terminal-question}
+## [Is there a [scale dependence]{.text-bold .text-emphasis-underline} in the amount of unexplained variation (potentially due to [biotic interactions]{.text-color-latent}) structuring vegetation?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
 

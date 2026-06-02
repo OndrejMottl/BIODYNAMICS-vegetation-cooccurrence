@@ -13,6 +13,70 @@ function bootTypewriter() {
   function initTypewriter() {
     const terminals = document.querySelectorAll('.oracle-terminal');
 
+    function prepareFragmentTerminalTypewriter(root = document) {
+      if (!root || !root.querySelectorAll) return;
+
+      root.querySelectorAll('.fragment-terminal').forEach((element) => {
+        if (element.hasAttribute('data-fragment-terminal-initialized')) return;
+
+        element.setAttribute('data-fragment-terminal-initialized', 'true');
+        element.setAttribute('data-fragment-terminal-typed', 'false');
+
+        const textNodes = [];
+        const walk = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+
+        while (node = walk.nextNode()) {
+          textNodes.push({
+            node: node,
+            originalText: node.nodeValue
+          });
+          node.nodeValue = '';
+        }
+
+        element.fragmentTerminalData = {
+          textNodes: textNodes,
+          currentNodeIndex: 0,
+          currentCharIndex: 0
+        };
+
+        if (!element.classList.contains('fragment')) {
+          element.classList.add('fragment');
+        }
+      });
+    }
+
+    function typeFragmentTerminal(element) {
+      if (!element) return;
+      if (element.getAttribute('data-fragment-terminal-typed') === 'true') return;
+
+      const data = element.fragmentTerminalData;
+
+      if (!data) return;
+
+      element.setAttribute('data-fragment-terminal-typed', 'true');
+
+      function typeNextChar() {
+        if (data.currentNodeIndex >= data.textNodes.length) return;
+
+        const item = data.textNodes[data.currentNodeIndex];
+        const text = item.originalText;
+
+        if (data.currentCharIndex < text.length) {
+          item.node.nodeValue += text.charAt(data.currentCharIndex);
+          data.currentCharIndex += 1;
+          window.setTimeout(typeNextChar, 22);
+          return;
+        }
+
+        data.currentNodeIndex += 1;
+        data.currentCharIndex = 0;
+        typeNextChar();
+      }
+
+      typeNextChar();
+    }
+
     function isVisible(element) {
       if (!element) return false;
 
@@ -181,6 +245,7 @@ function bootTypewriter() {
 
       documentScanScheduled = true;
       startTerminalsInNextFrame(document);
+      prepareFragmentTerminalTypewriter(document);
 
       window.setTimeout(() => {
         documentScanScheduled = false;
@@ -205,7 +270,25 @@ function bootTypewriter() {
     });
 
     Reveal.on('fragmentshown', event => {
+      const shown = event && event.fragment ? event.fragment : null;
+
+      if (shown) {
+        if (shown.classList.contains('fragment-terminal')) {
+          typeFragmentTerminal(shown);
+        }
+
+        if (shown.querySelectorAll) {
+          shown.querySelectorAll('.fragment-terminal').forEach((nested) => {
+            typeFragmentTerminal(nested);
+          });
+        }
+      }
+
       scheduleDocumentScan();
+    });
+
+    document.querySelectorAll('.fragment-terminal.visible').forEach((element) => {
+      typeFragmentTerminal(element);
     });
   }
 
