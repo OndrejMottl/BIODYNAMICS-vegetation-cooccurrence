@@ -1,0 +1,4 @@
+route_id,repeat_id,fold_id,component,anova_share,anova_status,anova_defined
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_003,Abiotic,46.38454194592889,ok,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_003,Associations,16.435452682502195,ok,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_003,Spatial,37.18000537156891,ok,TRUE

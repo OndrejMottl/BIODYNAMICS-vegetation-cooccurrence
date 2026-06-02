@@ -1,0 +1,4 @@
+resolution_id,metric_name,component,share_median,lwr_95,upr_95,n_defined,n_total,n_failed,proportion_defined
+genus,AUC_macro,Abiotic,100,9.818586770253708,100,5,5,0,1
+genus,AUC_macro,Associations,0,0,0,5,5,0,1
+genus,AUC_macro,Spatial,0,0,90.18141322974633,5,5,0,1

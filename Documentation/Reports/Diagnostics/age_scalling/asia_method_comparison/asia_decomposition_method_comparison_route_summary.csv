@@ -1,0 +1,4 @@
+route_id,component,anova_share_median,anova_lwr_95,anova_upr_95,anova_n_defined,predictive_share_median,predictive_lwr_95,predictive_upr_95,predictive_n_defined,n_total,n_failed,proportion_defined
+pooled_spatiotemporal_age_z_interaction,Abiotic,46.22159727508822,45.77903664922842,46.376394712386855,3,71.36217259243193,66.80696220941539,82.29918043955448,3,3,0,1
+pooled_spatiotemporal_age_z_interaction,Associations,18.00149068161591,16.51375458245788,18.188929467250663,3,0,0,0,3,3,0,1
+pooled_spatiotemporal_age_z_interaction,Spatial,36.24276533367461,35.612765922180046,37.133143369674194,3,28.637827407568057,17.70081956044553,33.193037790584626,3,3,0,1

@@ -1,0 +1,4 @@
+resolution_id,metric_name,component,share_median,lwr_95,upr_95,n_defined,n_total,n_failed,proportion_defined
+genus,pred_log_loss,Abiotic,0,0,0,3,5,2,0.6
+genus,pred_log_loss,Associations,0,0,0,3,5,2,0.6
+genus,pred_log_loss,Spatial,100,100,100,3,5,2,0.6

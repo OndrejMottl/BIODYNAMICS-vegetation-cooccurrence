@@ -1,0 +1,4 @@
+route_id,repeat_id,fold_id,component,loss_full,loss_reduced,delta_loss,delta_loss_clamped,share,defined
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_003,Abiotic,1.9302890886073265,2.59055028742056,0.6602611988132336,0.6602611988132336,82.87481243150829,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_003,Spatial,1.9302890886073265,2.066724955454308,0.1364358668469814,0.1364358668469814,17.12518756849171,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_003,Associations,1.9302890886073265,1.8655234448732312,-0.06476564373409532,0,0,TRUE

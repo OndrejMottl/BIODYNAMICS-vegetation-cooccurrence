@@ -1,0 +1,10 @@
+route_id,repeat_id,fold_id,component,anova_share,anova_status,anova_defined,predictive_share,predictive_defined,delta_anova_minus_predictive,both_defined
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_001,Abiotic,45.75574398470948,ok,TRUE,66.56721429451977,TRUE,-20.81147030981029,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_001,Associations,18.00149068161591,ok,TRUE,0,TRUE,18.00149068161591,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_001,Spatial,36.24276533367461,ok,TRUE,33.432785705480235,TRUE,2.8099796281943767,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_002,Abiotic,46.22159727508822,ok,TRUE,71.36217259243193,TRUE,-25.14057531734371,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_002,Associations,18.198794666494596,ok,TRUE,0,TRUE,18.198794666494596,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_002,Spatial,35.57960805841717,ok,TRUE,28.637827407568057,TRUE,6.941780650849115,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_003,Abiotic,46.38454194592889,ok,TRUE,82.87481243150829,TRUE,-36.4902704855794,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_003,Associations,16.435452682502195,ok,TRUE,0,TRUE,16.435452682502195,TRUE
+pooled_spatiotemporal_age_z_interaction,repeat_001,fold_003,Spatial,37.18000537156891,ok,TRUE,17.12518756849171,TRUE,20.0548178030772,TRUE
