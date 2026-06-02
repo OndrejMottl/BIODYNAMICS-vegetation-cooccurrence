@@ -116,6 +116,10 @@ function bootTypewriter() {
             if (data.currentCharIndex < text.length) {
               item.node.nodeValue += text.charAt(data.currentCharIndex);
 
+              if (!line.classList.contains('oracle-line-has-text')) {
+                line.classList.add('oracle-line-has-text');
+              }
+
               const parent = item.node.parentNode;
               parent.insertBefore(cursor, item.node.nextSibling);
 

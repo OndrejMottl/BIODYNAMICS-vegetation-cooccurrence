@@ -575,6 +575,53 @@
   text-decoration: underline;
 }
 
+.text-emphasis-caps {
+  font-weight: var(--oracle-typography-heading-weight);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.text-emphasis-chip {
+  border: 1px solid rgba(184, 255, 109, 0.28);
+  border-radius: 0.22rem;
+  display: inline-block;
+  padding: 0 0.28em;
+}
+
+.text-emphasis-box {
+  background: rgba(184, 255, 109, 0.08);
+  border-left: 2px solid rgba(184, 255, 109, 0.52);
+  display: inline-block;
+  padding: 0 0.34em;
+}
+
+.text-underline-dotted {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.17em;
+}
+
+.text-underline-double {
+  text-decoration-line: underline;
+  text-decoration-style: double;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.15em;
+}
+
+.text-underline-thick {
+  text-decoration-line: underline;
+  text-decoration-thickness: 2.2px;
+  text-underline-offset: 0.16em;
+}
+
+.text-underline-wave {
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.14em;
+}
+
 .text-bold {
   font-weight: bold;
 }
@@ -643,6 +690,132 @@
 
 .text-color-abiotic {
   color: var(--oracle-palette-amber);
+}
+
+/* Semantic emphasis chips: marker + border for the 4 decomposition channels. */
+.text-color-spatial,
+.text-color-abiotic,
+.text-color-latent,
+.text-color-warning {
+  align-items: baseline;
+  border: 1px solid currentColor;
+  border-radius: 0.22rem;
+  display: inline-flex;
+  font-weight: var(--oracle-typography-heading-weight);
+  gap: 0.28em;
+  padding: 0.01em 0.3em;
+}
+
+.text-color-spatial,
+.text-color-spatial {
+  background: rgba(51, 201, 213, 0.09);
+}
+
+.text-color-abiotic,
+.text-color-abiotic {
+  background: rgba(226, 200, 71, 0.1);
+}
+
+.text-color-latent,
+.text-color-latent {
+  background: rgba(199, 146, 234, 0.1);
+}
+
+.text-color-warning,
+.text-color-warning {
+  background: rgba(255, 123, 114, 0.12);
+}
+
+.text-color-spatial::before,
+.text-color-spatial::before {
+  content: "◇";
+}
+
+.text-color-abiotic::before,
+.text-color-abiotic::before {
+  content: "▣";
+}
+
+.text-color-latent::before,
+.text-color-latent::before {
+  content: "◎";
+}
+
+.text-color-warning::before,
+.text-color-warning::before {
+  content: "⚠";
+}
+
+.text-color-spatial::before,
+.text-color-abiotic::before,
+.text-color-latent::before,
+.text-color-warning::before {
+  font-size: 0.76em;
+  line-height: 1;
+  opacity: 0.9;
+  transform: translateY(-0.02em);
+}
+
+/* Inside typewriter lines keep semantic highlights text-only to avoid pre-typing marker artifacts. */
+.oracle-line .oracle-highlight-spatial,
+.oracle-line .oracle-highlight-abiotic,
+.oracle-line .oracle-highlight-latent,
+.oracle-line .oracle-highlight-warning {
+  font-weight: var(--oracle-typography-heading-weight);
+}
+
+.oracle-line.oracle-line-has-text .oracle-highlight-spatial,
+.oracle-line.oracle-line-has-text .oracle-highlight-abiotic,
+.oracle-line.oracle-line-has-text .oracle-highlight-latent,
+.oracle-line.oracle-line-has-text .oracle-highlight-warning {
+  align-items: baseline;
+  border: 1px solid currentColor;
+  border-radius: 0.22rem;
+  display: inline-flex;
+  gap: 0.28em;
+  padding: 0.01em 0.3em;
+}
+
+.oracle-line.oracle-line-has-text .oracle-highlight-spatial {
+  background: rgba(51, 201, 213, 0.09);
+}
+
+.oracle-line.oracle-line-has-text .oracle-highlight-abiotic {
+  background: rgba(226, 200, 71, 0.1);
+}
+
+.oracle-line.oracle-line-has-text .oracle-highlight-latent {
+  background: rgba(199, 146, 234, 0.1);
+}
+
+.oracle-line.oracle-line-has-text .oracle-highlight-warning {
+  background: rgba(255, 123, 114, 0.12);
+}
+
+.oracle-line.oracle-line-has-text .oracle-highlight-spatial::before {
+  content: "◇";
+}
+
+.oracle-line.oracle-line-has-text .oracle-highlight-abiotic::before {
+  content: "▣";
+}
+
+.oracle-line.oracle-line-has-text .oracle-highlight-latent::before {
+  content: "◎";
+}
+
+.oracle-line.oracle-line-has-text .oracle-highlight-warning::before {
+  content: "⚠";
+}
+
+.oracle-line.oracle-line-has-text .oracle-highlight-spatial::before,
+.oracle-line.oracle-line-has-text .oracle-highlight-abiotic::before,
+.oracle-line.oracle-line-has-text .oracle-highlight-latent::before,
+.oracle-line.oracle-line-has-text .oracle-highlight-warning::before {
+  font-size: 0.76em;
+  line-height: 1;
+  opacity: 0.9;
+  transform: translateY(-0.02em);
 }
 
 /* Fragment effect */
