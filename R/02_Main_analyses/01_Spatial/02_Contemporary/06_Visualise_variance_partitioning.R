@@ -158,7 +158,8 @@ plot_biotic <-
   plot_spatial_biotic_component(
     data_plot = data_modern_plot,
     data_biotic_summary = data_biotic_summary,
-    plot_title = "Modern biotic co-occurrence component"
+    plot_title = "Modern biotic co-occurrence component",
+    vec_continent_shapes = vec_continent_shapes
   )
 
 fig_modern_variance <-
