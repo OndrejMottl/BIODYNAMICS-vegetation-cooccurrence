@@ -3,16 +3,14 @@
 #
 #                 Vegetation Co-occurrence
 #
-#             Plot paleo resolution comparison
+#           Visualise paleo variance partitioning
 #
 #                       O. Mottl
 #                         2026
 #
 #----------------------------------------------------------#
-# Produces the unit-level waffle plot for paleo Associations
-#   variance from the latest paleo spatial unit table. The newer
-#   09_Visualise_variance_partitioning.R script also saves this plot
-#   alongside the stacked variance-partitioning figure.
+# Creates stacked variance-partitioning and biotic-component
+#   spread figures from the latest paleo spatial unit table.
 
 
 #----------------------------------------------------------#
@@ -41,11 +39,36 @@ graphical_options <-
 tag_date <-
   base::format(base::Sys.Date(), "%Y-%m-%d")
 
-vec_waffle_component_colours <-
+vec_scale_levels <-
+  base::c("continental", "regional", "local")
+
+vec_resolution_labels <-
   base::c(
-    "Abiotic" = "#D95F02",
-    "Spatial" = "#7570B3",
-    "Associations" = "#1B9E77"
+    "genus" = "Genus",
+    "family" = "Family",
+    "functional_type" = "Functional type"
+  )
+
+vec_component_levels <-
+  base::c("Biotic co-occurrence", "Climate", "Spatial", "Unexplained")
+
+vec_component_display_labels <-
+  base::c(
+    "Abiotic" = "Climate"
+  )
+
+vec_component_colours <-
+  base::c(
+    "Biotic co-occurrence" = "#C792EA",
+    "Climate" = "#E2C847",
+    "Spatial" = "#33C9D5"
+  )
+
+vec_continent_shapes <-
+  base::c(
+    "america" = 0,
+    "asia" = 2,
+    "europe" = 6
   )
 
 
@@ -80,57 +103,83 @@ data_paleo_unit <-
 data_paleo_plot <-
   prepare_spatial_variance_plot_data(
     data_unit = data_paleo_unit,
-    vec_scale_levels = base::c("continental", "regional", "local"),
-    vec_resolution_labels = base::c(
-      "genus" = "Genus",
-      "family" = "Family",
-      "functional_type" = "Functional type"
-    ),
+    vec_scale_levels = vec_scale_levels,
+    vec_resolution_labels = vec_resolution_labels,
     percentage_source_column = "R2_Nagelkerke_percentage",
     scale_source_to_percentage = FALSE
+  ) |>
+  dplyr::mutate(
+    component_label = dplyr::recode(
+      .x = .data$component_label,
+      !!!vec_component_display_labels,
+      .default = .data$component_label
+    )
   )
 
-data_waffle <-
-  prepare_spatial_variance_waffle_data(
+data_component_stack <-
+  summarise_spatial_variance_stack(
     data_plot = data_paleo_plot,
-    vec_component_colours = vec_waffle_component_colours
+    vec_component_levels = vec_component_levels
   )
 
+data_biotic_summary <-
+  summarise_spatial_biotic_component(
+    data_plot = data_paleo_plot
+  )
 
 #----------------------------------------------------------#
-# 3. Build and save figure -----
+# 3. Build figures -----
 #----------------------------------------------------------#
 
-fig_resolution_comparison <-
-  plot_spatial_variance_waffle(
-    data_waffle = data_waffle,
-    plot_title = "",
-    vec_continent_shapes = base::c(
-      "america" = 0,
-      "asia" = 2,
-      "europe" = 6
-    ),
-    flag_show_fill_legend = TRUE,
-    vec_component_colours = vec_waffle_component_colours,
-    fill_legend_style = "triangle"
+plot_stack <-
+  plot_spatial_variance_stack(
+    data_component_stack = data_component_stack,
+    plot_title = "Paleo variance partitioning",
+    vec_component_colours = vec_component_colours
+  )
+
+plot_biotic <-
+  plot_spatial_biotic_component(
+    data_plot = data_paleo_plot,
+    data_biotic_summary = data_biotic_summary,
+    plot_title = "Paleo biotic co-occurrence component",
+    vec_continent_shapes = vec_continent_shapes
+  )
+
+fig_paleo_variance <-
+  cowplot::plot_grid(
+    plot_stack,
+    plot_biotic,
+    labels = base::c("A", "B"),
+    ncol = 1,
+    align = "v"
   ) +
   ggview::canvas(
-    height = graphical_options[["height"]],
     width = graphical_options[["width"]],
+    height = graphical_options[["height"]],
     units = graphical_options[["units"]],
     dpi = graphical_options[["dpi"]],
     bg = graphical_options[["bg"]]
   )
 
-ggview::save_ggplot(
-  plot = fig_resolution_comparison,
-  file = base::file.path(
+#----------------------------------------------------------#
+# 4. Save -----
+#----------------------------------------------------------#
+
+file_paleo_variance <-
+  base::file.path(
     path_output_figures,
-    stringr::str_glue("Fig_resolution_comparison_{tag_date}.png")
-  ),
+    stringr::str_glue("paleo_variance_partitioning_{tag_date}.png")
+  )
+
+ggview::save_ggplot(
+  plot = fig_paleo_variance,
+  file = file_paleo_variance,
   width = graphical_options[["width"]],
   height = graphical_options[["height"]],
   units = graphical_options[["units"]],
   dpi = graphical_options[["dpi"]],
   bg = graphical_options[["bg"]]
 )
+
+base::message("Saved paleo variance figure: ", file_paleo_variance)
