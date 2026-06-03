@@ -126,26 +126,6 @@ Proceed? [Y]/[N]?
 :::
 ::::
 
-:::: {.columns .padding-top-small}
-
-::: {.column width="33%"}
-::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-position-center}
-BIOSPHERE DIVERSITY: **HIGH** 
-:::
-:::
-
-::: {.column width="33%" .text-position-center .text-color-muted}
-CHANGE: **ACCELERATING** 
-:::
-
-::: {.column width="33%"}
-::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-position-center}
-UNCERTAINTY: **SUBSTANTIAL**
-:::
-:::
-
-::::
-
 ::: {.notes}
 TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mottl, the chief researcher at this space station. We have 12 minutes to explore the vegetation patterns of a alian planet called 'Earth' using the ORACLE system. Let's get started. ORACLE, please boot up and introduce yourself.
 :::
@@ -276,11 +256,21 @@ The database is publicly available and open source. For this analysis, we will f
 
 <br>
 
-::: {.fragment .tui-reveal-scan data-fragment-index="2"}
-::: {.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full}
-![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_crop.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+:::: {.columns}
+
+::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="2"}
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_spatial_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
 :::
+
+::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="3"}
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_temporal_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
 :::
+
+::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="4"}
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_taxonomic_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+:::
+
+::::
 
 <br>
 
@@ -302,7 +292,6 @@ Three routes selected:
 [Taxonomic aggregation level]{.text-highlight-latent} : change through classification
 :::
 :::
-
 
 ::: {.notes}
 TIME 00:35. Now, we would like to split the analysis along space (from local to continental), time (since the last glacial maximum), and taxonomic resolution (from genus up to abstract functional types).
