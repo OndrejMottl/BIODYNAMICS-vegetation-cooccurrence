@@ -179,6 +179,7 @@ prepare_decomposition_fold_input <- function(
 
   data_abiotic_scaled_list_train <-
     scale_abiotic_for_fit(
+      age_scale_mode = "center",
       data_abiotic_wide = data_abiotic_train_raw |>
         tibble::rownames_to_column(".row_name") |>
         tidyr::separate_wider_delim(

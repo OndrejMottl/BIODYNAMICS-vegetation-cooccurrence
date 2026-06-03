@@ -181,6 +181,17 @@ pipe_segment_config_model <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
+      description = paste0(
+        "Configuration for model fitting - age scaling mode:",
+        " 'z_score' for production fitting, 'center' for legacy checks"
+      ),
+      name = "config_age_scale_mode",
+      command = get_active_config(
+        value = c("model_fitting", "age_scale_mode")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
       description = "Configuration for model fitting",
       name = "config_model_fitting",
       command = list(
@@ -195,7 +206,8 @@ pipe_segment_config_model <-
         spatial_crs = config_spatial_crs,
         spatial_mode = config_spatial_mode,
         use_spatial = config_use_spatial,
-        use_age_in_formula = config_use_age_in_formula
+        use_age_in_formula = config_use_age_in_formula,
+        age_scale_mode = config_age_scale_mode
       )
     )
   )

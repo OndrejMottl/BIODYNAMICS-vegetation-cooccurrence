@@ -87,7 +87,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "scale_abiotic_for_fit() age is centr-only: mean near zero",
+  "scale_abiotic_for_fit() z-scores age by default",
   {
     data_abiotic_wide <- tibble::tibble(
       dataset_name = c("A", "B", "C"),
@@ -102,6 +102,38 @@ testthat::test_that(
     testthat::expect_equal(
       base::mean(vec_age_scaled),
       0,
+      tolerance = 1e-10
+    )
+    testthat::expect_equal(
+      stats::sd(vec_age_scaled),
+      1,
+      tolerance = 1e-10
+    )
+  }
+)
+
+testthat::test_that(
+  "scale_abiotic_for_fit() supports legacy center-only age",
+  {
+    data_abiotic_wide <- tibble::tibble(
+      dataset_name = c("A", "B", "C"),
+      age = c(0, 100, 200),
+      temp = c(10.0, 15.0, 20.0)
+    )
+    res <- scale_abiotic_for_fit(
+      data_abiotic_wide = data_abiotic_wide,
+      age_scale_mode = "center"
+    )
+    data_scaled <- purrr::pluck(res, "data_abiotic_scaled")
+    vec_age_scaled <- dplyr::pull(data_scaled, age)
+    testthat::expect_equal(
+      base::mean(vec_age_scaled),
+      0,
+      tolerance = 1e-10
+    )
+    testthat::expect_equal(
+      stats::sd(vec_age_scaled),
+      100,
       tolerance = 1e-10
     )
   }
@@ -147,6 +179,53 @@ testthat::test_that(
     scale_attrs <- purrr::pluck(res, "scale_attributes")
     testthat::expect_true(
       "age" %in% base::names(scale_attrs)
+    )
+    testthat::expect_true(
+      "scaled:center" %in% base::names(scale_attrs[["age"]])
+    )
+    testthat::expect_true(
+      "scaled:scale" %in% base::names(scale_attrs[["age"]])
+    )
+  }
+)
+
+testthat::test_that(
+  "scale_abiotic_for_fit() keeps constant age finite",
+  {
+    data_abiotic_wide <- tibble::tibble(
+      dataset_name = c("A", "B"),
+      age = c(0, 0),
+      temp = c(10.0, 20.0)
+    )
+    res <- scale_abiotic_for_fit(
+      data_abiotic_wide = data_abiotic_wide
+    )
+    data_scaled <- purrr::pluck(res, "data_abiotic_scaled")
+    vec_age_scaled <- dplyr::pull(data_scaled, age)
+    testthat::expect_equal(
+      vec_age_scaled,
+      c(0, 0)
+    )
+    testthat::expect_true(
+      base::all(base::is.finite(vec_age_scaled))
+    )
+  }
+)
+
+testthat::test_that(
+  "scale_abiotic_for_fit() validates age_scale_mode",
+  {
+    data_abiotic_wide <- tibble::tibble(
+      dataset_name = c("A", "B"),
+      age = c(0, 100),
+      temp = c(10.0, 20.0)
+    )
+    testthat::expect_error(
+      scale_abiotic_for_fit(
+        data_abiotic_wide = data_abiotic_wide,
+        age_scale_mode = "invalid"
+      ),
+      "age_scale_mode"
     )
   }
 )

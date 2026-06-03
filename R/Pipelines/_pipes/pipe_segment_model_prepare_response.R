@@ -44,7 +44,11 @@ pipe_segment_model_prepare_response <-
       description = "Scale abiotic predictors; capture attributes",
       name = "data_abiotic_scaled_list",
       command = scale_abiotic_for_fit(
-        data_abiotic_wide = data_abiotic_wide
+        data_abiotic_wide = data_abiotic_wide,
+        age_scale_mode = purrr::chuck(
+          config_model_fitting,
+          "age_scale_mode"
+        )
       )
     ),
     targets::tar_target(

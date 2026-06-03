@@ -340,8 +340,7 @@ data_climate_all <-
 ## 5.2. Scale abiotic predictors -----
 #--------------------------------------------------#
 
-# Replicate scaling from scale_abiotic_for_fit():
-#   age -> centre only; bio vars -> centre + scale.
+# Replicate scaling from scale_abiotic_for_fit().
 data_abiotic_scaled_all <-
   data_climate_all |>
   dplyr::select(
@@ -349,24 +348,25 @@ data_abiotic_scaled_all <-
   ) |>
   dplyr::mutate(
     dplyr::across(
-      .cols = dplyr::any_of("age"),
-      .fns = ~ .x - base::as.numeric(
-        scale_attributes[["age"]][["scaled:center"]]
-      )
-    )
-  ) |>
-  dplyr::mutate(
-    dplyr::across(
-      .cols = -dplyr::any_of("age"),
+      .cols = dplyr::everything(),
       .fns = ~ {
         col_nm <- dplyr::cur_column()
-        center <- base::as.numeric(
+        center_value <- base::as.numeric(
           scale_attributes[[col_nm]][["scaled:center"]]
         )
-        sc <- base::as.numeric(
+        scale_value <- base::as.numeric(
           scale_attributes[[col_nm]][["scaled:scale"]]
         )
-        (.x - center) / sc
+
+        if (
+          base::length(scale_value) == 0L ||
+            !base::is.finite(scale_value) ||
+            scale_value == 0
+        ) {
+          scale_value <- 1
+        }
+
+        (.x - center_value) / scale_value
       }
     )
   ) |>
