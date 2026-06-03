@@ -17,18 +17,28 @@ Through the project development, the terminal was originally named MOTHER, but t
 | `planet_abstract_scan_v2.png` | Prompt 6 |
 | `vegetation_camera_moon_v1.png` | Prompt 7 |
 | `oracle_abstract_face_motif_v3.png` | Prompt 8 |
+| `oracle_abstract_face_motif_v3_crop_v2.png` | Prompt 24 |
 | `planet_abstract_scan_motif_v3.png` | Prompt 9 |
 | `vegetation_camera_moon_motif_v2.png` | Prompt 10 |
 | `query_three_streams_motif_v1.png` | Prompt 11 |
 | `analysis_axes_triptych_motif_v1.png` | Prompt 12 |
 | `analysis_axes_triptych_motif_v2.png` | Prompt 20 |
+| `analysis_axes_triptych_motif_v2_spatial_v1.png` | Prompt 28 |
+| `analysis_axes_triptych_motif_v2_temporal_v1.png` | Prompt 29 |
+| `analysis_axes_triptych_motif_v2_taxonomic_v1.png` | Prompt 30 |
 | `oracle_closing_signal_motif_v1.png` | Prompt 13 |
 | `oracle_closing_signal_motif_v2.png` | Prompt 21 |
+| `oracle_closing_signal_motif_v3.png` | Prompt 31 |
+| `planet_abstract_scan_motif_v4.png` | Prompt 22 |
+| `planet_abstract_scan_motif_v5.png` | Prompt 23 |
 | `query_three_streams_motif_v2.png` | Prompt 14 |
 | `query_three_streams_motif_v3.png` | Prompt 15 |
 | `query_three_streams_motif_v4.png` | Prompt 16 |
 | `query_three_streams_motif_v5.png` | Prompt 17 |
 | `query_three_streams_motif_v6.png` | Prompt 18 |
+| `query_three_streams_motif_v6_spatial_v1.png` | Prompt 25 |
+| `query_three_streams_motif_v6_abiotic_v1.png` | Prompt 26 |
+| `query_three_streams_motif_v6_latent_v1.png` | Prompt 27 |
 
 Prompts 1 and 2 produced the first slicker AI draft pass and are retained here as rejected prompt history.
 
@@ -385,3 +395,207 @@ Text: no text, no letters, no numbers, no labels, no terminal commands.
 Constraints: clearly feel like the closing beat of the existing ORACLE CRT visual language; hint at spatial, temporal and taxonomic analyses only as fading remnants; maintain broad usable empty space for slide typography; no numerical or result-like content.
 Avoid: full panels, three prominent icons, graph axes, plots with readable structure, plant branches or leaves, bright network cloud, planet, face, screen frame, shutdown text, dashboard UI, cinematic lens flare, glossy hologram, neon cyberpunk, high saturation, watermark, logo.
 ```
+
+## Prompt 22: Portrait Right-Lit Planet Scan Motif
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset, portrait blend-in planet motif for title slide compositing.
+Input image: Use the visible `planet_abstract_scan_motif_v3.png` as the style and motif reference only. Preserve the low-fidelity old CRT phosphor planet-scan language, dot matrix texture, contour/vector traces, scanlines, and restrained terminal glow.
+Primary request: Create a new portrait version of the abstract biosphere/planet scan motif. Rotate/recompose the planet 90 degrees compared with the reference so the illuminated planet limb is on the RIGHT side of the image, like a large vertical crescent or partial globe entering from the right edge. The left and central area should be mostly empty near-black field for slide text.
+Composition/framing: portrait composition intended to be resized/cropped to exactly 530 px wide by 700 px high. The planet is partially off-canvas on the right, occupying roughly the right 30-40% of the frame. Keep the left 60% mostly minimal background with sparse tiny phosphor speckles only. No visible rectangular frame, no border, no panels, no labels. Background should be almost black and seamless for screen blending.
+Style/medium: low-fidelity 1979 ship-computer CRT terminal artifact, rough phosphor dot matrix, thin vector scan arcs, subtle horizontal scanlines, flat instrument readout, non-photographic.
+Color palette from design_config.json: background #010301 / #030703 near-black; dominant phosphor #B8FF6D and text-green #B8F77A for the planet scan; very sparse muted green #75A85A only for faint noise; no cyan, amber, purple, or red in this asset unless unavoidable as tiny noise.
+Lighting/mood: emitted phosphor only. The right-side limb is the brightest edge; the planet fades quickly into darkness toward the center-left.
+Text: no text, no letters, no numbers, no labels, no terminal commands.
+Constraints: minimal/no background beyond seamless near-black CRT grain; black levels must blend into a dark slide without a visible image rectangle; keep the planet recognizable as abstract terminal scan data, not a realistic Earth render.
+Avoid: full centered globe, bottom half-disc, light on left side, bright background, rectangular image edge, dashboard UI, borders, panels, readable text, blue atmosphere, photoreal clouds, cinematic space poster, modern hologram, lens flare, watermark, logo.
+```
+
+Final asset was cropped and resized non-destructively to `530 x 700 px` after generation.
+
+## Prompt 23: Portrait Left-Lit Planet Scan Motif
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset, portrait blend-in planet scan motif revision
+Primary request: Create a new version of the existing ORACLE-style abstract planet scan motif, horizontally swapped from the prior version. The illuminated crescent/bright limb must be on the LEFT side of the image. Include more of the unlit, dark planet body extending toward the center and right side so the transition into the slide background is softer and less abrupt.
+Scene/backdrop: Minimal/no background, almost pure black CRT darkness that can blend into a presentation slide background. Only sparse tiny phosphor scan particles; no frame, no panel, no UI chrome.
+Subject: A partial abstract planet disk occupying the left half to left two-thirds of a portrait canvas. The left edge is the strongest bright green illuminated crescent. The dark unlit planet body remains visible as a very dim green-black spherical surface with subtle scanlines, faint contour geography, and low-density network/constellation marks fading gradually into black toward the right.
+Style/medium: retro-futuristic ORACLE terminal phosphor aesthetic, monochrome CRT scan texture, scientific abstract motif, high contrast but restrained.
+Composition/framing: portrait composition intended for final crop to 530 x 700 px. Bright crescent starts near the left border and arcs vertically; do not crop it too tightly. Leave a large dark unlit region of planet visible inside the disk, with a long soft falloff to black on the right. No central text area, no title, no buttons.
+Lighting/mood: illumination from the left only; right side is unlit and fades into black. Calm, mysterious, technical.
+Color palette: use only design_config colors: near-black #010301 and #030703, phosphor green #B8FF6D, text green #B8F77A, muted green #75A85A. Avoid cyan, amber, purple, red, blue, white, beige.
+Materials/textures: CRT phosphor pixels, horizontal scanlines, subtle glow, low-noise black background, faint vector-like planetary mapping lines.
+Text: none.
+Constraints: final asset will be 530 x 700 px; keep it suitable for blending into a black/green slide background; horizontally swapped relative to right-lit v4; make the unlit planet body take more visual space than v4; no text, no readable symbols, no UI elements, no border, no watermark.
+Avoid: hard rectangular background edges, dense star fields, decorative gradients, full bright disk, centered bright orb, UI frame, typography, labels, charts, maps that look geographic/real-world.
+```
+
+Final asset was cropped and resized non-destructively to `530 x 700 px` after generation.
+
+## Prompt 24: Centered ORACLE Face Crop
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset, centered ORACLE face crop revision
+Input image: The visible `oracle_abstract_face_motif_v3_crop.png` is the edit target and style reference. Preserve the ORACLE low-fidelity CRT phosphor face identity, right-facing human profile silhouette, dot-matrix construction, neural/branch-like internal linework, scanlines, and restrained terminal glow.
+Primary request: Create a new cleaner crop for slide use at final 800 x 700 px. Rescale and recompose the face so the head/profile is more central and balanced within a landscape-ish canvas. Remove or greatly reduce the surrounding background clutter so the asset blends into a dark slide background.
+Scene/backdrop: minimal seamless near-black CRT darkness only, with very faint horizontal scanlines and extremely sparse green phosphor dust. No rectangular frame, no UI, no panels, no visible border, no text.
+Subject: one abstract ORACLE face, right-facing profile, made from green phosphor dot matrix and thin botanical/neural vector traces. The profile should be centered horizontally, with the nose and face no longer pressed against the right edge. Keep enough head/neck context to read as a calm terminal intelligence, but avoid excessive empty top or bottom margins.
+Style/medium: degraded 1979 ship-computer CRT terminal artifact, monochrome phosphor scan, scientific and schematic, not photorealistic.
+Composition/framing: intended final crop to 800 px wide by 700 px high. Center the face mass in the frame; keep modest black breathing room around all sides. The head should occupy most of the central field but not touch edges. Make the background much quieter than the source crop.
+Lighting/mood: emitted phosphor only, quiet, watchful, archival.
+Color palette: design_config near-black #010301 and #030703; dominant phosphor green #B8FF6D and text-green #B8F77A; muted green #75A85A only for dim residual speckle. Avoid cyan, amber, purple, red, blue, white, beige.
+Materials/textures: CRT scanlines, phosphor pixels, subtle glow, sparse noise, thin vector botanical/neural lines inside the face.
+Text: none.
+Constraints: preserve the recognizable ORACLE profile and internal branching motif; make the background minimal and seamless; no readable symbols, no labels, no terminal commands, no frame, no watermark. Do not make it a realistic face or a modern hologram.
+Avoid: face pushed to the edge, crowded background particles, UI dashboard elements, rectangular image boundary, full screen frame, extra faces, eyes rendered as realistic eyes, heavy glow bloom, color palette drift.
+```
+
+Final asset was cropped and resized non-destructively to `800 x 700 px` after generation.
+
+## Prompt 25: Standalone Spatial Query Stream
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset, standalone spatial query stream panel
+Input image: The visible `query_three_streams_motif_v6.png` is the style and motif reference. Use only the LEFT spatial motif as the content reference: nested irregular spatial contour map with three diagonal sampling-grid footprints connected by fine lines. Do not include the center abiotic motif, right network motif, or vertical divider lines.
+Primary request: Create a standalone portrait version of the spatial query stream motif at final 350 x 700 px. Preserve the nested contour-map shape and gridded sampling-footprint motif, but recolor the entire motif to the spatial cyan color #33C9D5.
+Scene/backdrop: minimal seamless near-black CRT background with faint horizontal scanlines and very sparse dim phosphor dust. No frame, no panel box, no UI chrome, no labels.
+Subject: one abstract spatial map motif: nested irregular contours with three small rectangular sampling grids arranged diagonally, connected by subtle cyan linework. The motif should be vertically centered and scaled to fit a narrow portrait panel, with useful black breathing room above and below.
+Style/medium: degraded 1979 ship-computer CRT terminal graphic, dot-matrix/pixel phosphor lines, thin vector schematic, flat scientific instrument readout.
+Composition/framing: portrait composition intended for exact 350 px wide by 700 px high output. Center the spatial motif in the panel; keep it large enough to read clearly but not touching edges. No separator line, no adjacent panels.
+Lighting/mood: emitted cyan phosphor only, quiet analytical terminal display.
+Color palette: near-black #010301 and #030703 background; dominant spatial cyan #33C9D5 for all motif linework and dots; only very dim cyan variants for glow/noise. Avoid green, amber, purple, red, blue-white, beige.
+Materials/textures: CRT scanlines, dot-matrix contours, faint phosphor glow, low-noise black background.
+Text: none.
+Constraints: preserve the left motif concept from v6; recolor to #33C9D5; standalone 350 x 700 portrait asset; minimal background; no text, no labels, no dividers, no frame, no watermark.
+Avoid: climate thermometer/raindrop, association network modules, vertical divider lines, panel borders, geographic real-world map, photorealism, modern hologram, excessive star field, color drift.
+```
+
+Final asset was cropped and resized non-destructively to `350 x 700 px` after generation.
+
+## Prompt 31: ORACLE Face Shutdown Line
+
+```text
+Use case: stylized-concept
+Asset type: 1600 x 900 RevealJS slide story figure for the IAVS 2026 ORACLE terminal presentation
+Primary request: Create a corrected ORACLE shutdown motif. Use the visible ORACLE face reference as the subject and style reference, but make the profile face RIGHT: the forehead, nose, lips, and chin must be on the RIGHT edge of the head silhouette, exactly like the reference image. The head slowly disintegrates into one thin horizontal phosphor line to signal the ORACLE terminal turning off.
+Scene/backdrop: Minimal near-black #010301 background, almost empty, with very subtle CRT scanlines and sparse dim particles only. No frame, no UI panels, no text.
+Subject: A right-facing ORACLE head/profile in green phosphor dot-matrix style, with internal tree-like branching/veins. The coherent head is left-center/midframe and faces right. The right-facing facial profile remains readable, then the signal collapses into a calm thin horizontal green line extending to the right and fading into black. The line should be narrow and quiet, like a terminal scanline powering down.
+Style/medium: Retro-futuristic monochrome CRT terminal image, phosphor green #B8FF6D, dot matrix, subtle scanline texture, low glow, scientific/vegetal branching inside the head.
+Composition/framing: Wide 16:9 image, exactly 1600 x 900 intended. Put the recognizable head around the left-center third, with large dark margins above and below. The profile MUST face right; no mirrored/left-facing profile. The disintegration and final line continue toward the middle-right and far-right, leaving the right side mostly empty dark space except the fading line.
+Lighting/mood: Quiet shutdown, low-brightness phosphor glow, fading signal, ORACLE powering off.
+Color palette: Near-black #010301 background, primary phosphor green #B8FF6D, muted green #75A85A for dim particles. No cyan, amber, purple, red, white, blue, or multicolor accents.
+Materials/textures: Pixel/dot particles, faint vector-like vein branches, subtle scanlines, gentle glow, no photographic skin texture.
+Constraints: Right-facing profile is mandatory: nose points right. Preserve the reference identity: dot-matrix face, tree-like internal branching, minimal background. No text, no labels, no watermark, no terminal frame, no UI box, no extra symbols, no strong background image.
+Avoid: left-facing profile, mirrored head, explosions, smoke, flames, thick laser beams, neon rainbow colors, full body, multiple heads, skull imagery, horror mood, dense starfield, noisy background, typography, borders, icons, charts.
+```
+
+Final asset was resized non-destructively to `1600 x 900 px` after generation.
+
+## Prompt 28: Standalone Spatial Analysis Axis
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset, standalone spatial analysis-axis panel
+Input image: The visible `analysis_axes_triptych_motif_v2_crop.png` is the edit target and style reference. Use only the LEFT cyan spatial motif as the content reference: a 3D perspective cyan wireframe terrain/surface on a receding coordinate grid with peaks/ridges and a luminous path/contour. Do not include the center amber temporal motif or right purple taxonomic motif.
+Primary request: Create a standalone landscape version of the spatial analysis-axis motif at final 480 x 400 px. Preserve the cyan 3D wireframe terrain style and color, but fix the current issue where the object is cut off: make the entire spatial surface more centered and fully visible inside the frame.
+Scene/backdrop: minimal seamless near-black CRT background with faint horizontal scanlines and very sparse dim phosphor dust. No frame, no panel box, no UI chrome, no labels.
+Subject: one cyan 3D perspective spatial wireframe surface, with a tilted receding grid plane, two or three raised terrain peaks/ridges, and a thin cyan contour/path line crossing the terrain. The complete grid and terrain must fit within the image bounds.
+Style/medium: degraded 1979 ship-computer CRT terminal graphic, dot-matrix/pixel phosphor lines, thin vector schematic, flat scientific instrument readout with perspective depth.
+Composition/framing: landscape composition intended for exact 480 px wide by 400 px high output. Center the spatial motif horizontally and vertically; leave modest black breathing room around all edges; no clipping at left, right, top, or bottom. Keep the motif large enough to read clearly.
+Lighting/mood: emitted cyan phosphor only, quiet analytical terminal display.
+Color palette: near-black #010301 and #030703 background; preserve the original cyan spatial color from the source motif for all linework and dots; only dim cyan variants for glow/noise. Avoid amber, purple, green, red, white, beige.
+Materials/textures: CRT scanlines, dot-matrix wireframe grid, faint phosphor glow, low-noise black background.
+Text: none.
+Constraints: preserve the left motif concept from `analysis_axes_triptych_motif_v2_crop`; correct centering and cutoff; standalone 480 x 400 landscape asset; minimal background; no text, no labels, no dividers, no frame, no watermark.
+Avoid: clipped terrain, partial off-canvas grid, temporal signal trace, phylogenetic tree, vertical dividers, axes labels, modern chart UI, photoreal terrain, excessive star field, color drift.
+```
+
+Final asset was cropped and resized non-destructively to `480 x 400 px` after generation.
+
+## Prompt 29: Standalone Temporal Analysis Axis
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset, standalone temporal analysis-axis panel
+Input image: The visible `analysis_axes_triptych_motif_v2_crop.png` is the edit target and style reference. Use only the CENTER amber temporal motif as the content reference: amber signal line across a rectangular dotted grid. Do not include the left cyan spatial motif or right purple taxonomic motif.
+Primary request: Create a standalone landscape version of the temporal analysis-axis motif at final 480 x 400 px. The source temporal motif is already approved; preserve it very closely, including its amber color, rectangular dotted grid, baseline, and irregular ecological signal trace.
+Scene/backdrop: minimal seamless near-black CRT background with faint horizontal scanlines and very sparse dim phosphor dust. No frame, no panel box, no UI chrome, no labels.
+Subject: one amber 2D temporal signal motif: a clean rectangular dotted grid with an irregular amber signal trace running horizontally through it, similar to the approved center motif in the source crop. Keep it schematic and flat.
+Style/medium: degraded 1979 ship-computer CRT terminal graphic, dot-matrix/pixel phosphor lines, thin vector schematic, flat scientific instrument readout.
+Composition/framing: landscape composition intended for exact 480 px wide by 400 px high output. Center the temporal grid and trace; keep modest black breathing room around all edges. Preserve the proportions of the source center motif as closely as possible.
+Lighting/mood: emitted amber phosphor only, quiet analytical terminal display.
+Color palette: near-black #010301 and #030703 background; preserve the original amber temporal color from the source motif for all linework and dots; only dim amber variants for glow/noise. Avoid cyan, purple, green, red, white, beige.
+Materials/textures: CRT scanlines, dot-matrix grid, dotted signal trace, faint phosphor glow, low-noise black background.
+Text: none.
+Constraints: preserve the center motif concept from `analysis_axes_triptych_motif_v2_crop`; standalone 480 x 400 landscape asset; minimal background; no text, no labels, no dividers, no frame, no watermark.
+Avoid: changing the approved temporal trace into a different chart, spatial wireframe, phylogenetic tree, axes labels, numbers, panel borders, modern chart UI, excessive star field, color drift.
+```
+
+Final asset was cropped and resized non-destructively to `480 x 400 px` after generation.
+
+## Prompt 30: Standalone Taxonomic Analysis Axis
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset, standalone taxonomic analysis-axis panel
+Input image: The visible `analysis_axes_triptych_motif_v2_crop.png` is the edit target and style reference. Use only the RIGHT purple taxonomic motif as the content reference: orthogonal phylogenetic tree / cladogram with stepwise branches and terminal tips. Do not include the left cyan spatial motif or center amber temporal motif.
+Primary request: Create a standalone landscape version of the taxonomic analysis-axis motif at final 480 x 400 px. The source taxonomic motif is already approved; preserve it very closely, including its purple color, orthogonal branching structure, and endpoint dots.
+Scene/backdrop: minimal seamless near-black CRT background with faint horizontal scanlines and very sparse dim phosphor dust. No frame, no panel box, no UI chrome, no labels.
+Subject: one purple orthogonal phylogenetic tree/cladogram, rooted toward the left and branching stepwise toward multiple terminal tips on the right. Keep the structure flat, schematic, and recognizably taxonomic rather than botanical.
+Style/medium: degraded 1979 ship-computer CRT terminal graphic, dot-matrix/pixel phosphor lines, thin vector schematic, flat scientific instrument readout.
+Composition/framing: landscape composition intended for exact 480 px wide by 400 px high output. Center the cladogram; keep modest black breathing room around all edges. Preserve the proportions of the source right motif as closely as possible.
+Lighting/mood: emitted purple phosphor only, quiet analytical terminal display.
+Color palette: near-black #010301 and #030703 background; preserve the original purple taxonomic color #C792EA for all linework and dots; only dim purple variants for glow/noise. Avoid cyan, amber, green, red, white, beige.
+Materials/textures: CRT scanlines, dotted orthogonal tree branches, endpoint dots, faint phosphor glow, low-noise black background.
+Text: none.
+Constraints: preserve the right motif concept from `analysis_axes_triptych_motif_v2_crop`; standalone 480 x 400 landscape asset; minimal background; no text, no labels, no dividers, no frame, no watermark.
+Avoid: changing the approved cladogram into a leafy plant, circular network, spatial wireframe, temporal signal trace, axes labels, numbers, panel borders, modern dashboard UI, excessive star field, color drift.
+```
+
+Final asset was cropped and resized non-destructively to `480 x 400 px` after generation.
+
+## Prompt 26: Standalone Abiotic Query Stream
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset, standalone abiotic query stream panel
+Input image: The visible `query_three_streams_motif_v6.png` is the style and motif reference. Use only the CENTER abiotic/climate motif as the content reference: thermometer glyph, smooth temperature-like curve, raindrop/precipitation cue, vertical precipitation bars, and baseline. Do not include the left spatial motif, right network motif, or vertical divider lines.
+Primary request: Create a standalone portrait version of the abiotic query stream motif at final 350 x 700 px. Preserve the climate/abiotic motif structure from v6, but recolor the entire motif to the abiotic amber color #E2C847.
+Scene/backdrop: minimal seamless near-black CRT background with faint horizontal scanlines and very sparse dim phosphor dust. No frame, no panel box, no UI chrome, no labels.
+Subject: one abstract abiotic climate motif: a small thermometer cue, smooth ecological climate curve, precipitation-bar waveform, subtle baseline, and small raindrop/precipitation glyph. All linework and phosphor dots should be amber. The motif should be vertically centered and scaled to fit a narrow portrait panel with useful black breathing room above and below.
+Style/medium: degraded 1979 ship-computer CRT terminal graphic, dot-matrix/pixel phosphor lines, thin vector schematic, flat scientific instrument readout.
+Composition/framing: portrait composition intended for exact 350 px wide by 700 px high output. Center the abiotic motif in the panel; keep it large enough to read clearly but not touching edges. No separator line, no adjacent panels.
+Lighting/mood: emitted amber phosphor only, quiet analytical terminal display.
+Color palette: near-black #010301 and #030703 background; dominant abiotic amber #E2C847 for all motif linework and dots; only very dim amber variants for glow/noise. Avoid cyan, green, purple, red, blue, white, beige.
+Materials/textures: CRT scanlines, dot-matrix curve and bars, faint phosphor glow, low-noise black background.
+Text: none.
+Constraints: preserve the center motif concept from v6; recolor to #E2C847; standalone 350 x 700 portrait asset; minimal background; no text, no labels, no dividers, no frame, no watermark.
+Avoid: spatial contour map, association network modules, vertical divider lines, panel borders, axes labels, numbers, modern chart UI, photorealism, excessive star field, color drift.
+```
+
+Final asset was cropped and resized non-destructively to `350 x 700 px` after generation.
+
+## Prompt 27: Standalone Latent Query Stream
+
+```text
+Use case: precise-object-edit
+Asset type: IAVS 2026 ORACLE presentation story asset, standalone latent association query stream panel
+Input image: The visible `query_three_streams_motif_v6.png` is the style and motif reference. Use only the RIGHT latent/association motif as the content reference: several modular network communities with local hubs and thin bridge edges. Do not include the left spatial motif, center abiotic motif, or vertical divider lines.
+Primary request: Create a standalone portrait version of the latent query stream motif at final 350 x 700 px. Preserve the multi-module association network structure from v6, but recolor the entire motif to the latent purple color #C792EA.
+Scene/backdrop: minimal seamless near-black CRT background with faint horizontal scanlines and very sparse dim phosphor dust. No frame, no panel box, no UI chrome, no labels.
+Subject: one abstract latent association network motif: approximately six separate small network communities distributed vertically in a narrow panel, each with many small linked points and one or two local hub nodes, connected by a few long thin bridge edges. All nodes, edges, hubs, and glow should be purple. The motif should be vertically centered and scaled to fit a narrow portrait panel with useful black breathing room above and below.
+Style/medium: degraded 1979 ship-computer CRT terminal graphic, dot-matrix/pixel phosphor lines, thin vector schematic, flat scientific instrument readout.
+Composition/framing: portrait composition intended for exact 350 px wide by 700 px high output. Center the modular network in the panel; keep it large enough to read clearly but not touching edges. No separator line, no adjacent panels.
+Lighting/mood: emitted purple phosphor only, quiet analytical terminal display.
+Color palette: near-black #010301 and #030703 background; dominant latent purple #C792EA for all motif linework and dots; only very dim purple variants for glow/noise. Avoid cyan, green, amber, red, blue-white, beige.
+Materials/textures: CRT scanlines, dot-matrix nodes, thin vector edges, faint phosphor glow, low-noise black background.
+Text: none.
+Constraints: preserve the right motif concept from v6; recolor to #C792EA; standalone 350 x 700 portrait asset; minimal background; no text, no labels, no dividers, no frame, no watermark.
+Avoid: spatial contour map, climate thermometer/raindrop, vertical divider lines, panel borders, one continuous hairball network, botanical tree, modern dashboard UI, photorealism, excessive star field, color drift.
+```
+
+Final asset was cropped and resized non-destructively to `350 x 700 px` after generation.

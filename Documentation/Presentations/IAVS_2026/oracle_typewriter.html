@@ -1,0 +1,299 @@
+<script>
+function bootTypewriter() {
+  if (typeof Reveal === 'undefined') {
+    window.requestAnimationFrame(bootTypewriter);
+    return;
+  }
+
+  if (!Reveal.isReady()) {
+    window.requestAnimationFrame(bootTypewriter);
+    return;
+  }
+
+  function initTypewriter() {
+    const terminals = document.querySelectorAll('.oracle-terminal');
+
+    function prepareFragmentTerminalTypewriter(root = document) {
+      if (!root || !root.querySelectorAll) return;
+
+      root.querySelectorAll('.fragment-terminal').forEach((element) => {
+        if (element.hasAttribute('data-fragment-terminal-initialized')) return;
+
+        element.setAttribute('data-fragment-terminal-initialized', 'true');
+        element.setAttribute('data-fragment-terminal-typed', 'false');
+
+        const textNodes = [];
+        const walk = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+
+        while (node = walk.nextNode()) {
+          textNodes.push({
+            node: node,
+            originalText: node.nodeValue
+          });
+          node.nodeValue = '';
+        }
+
+        element.fragmentTerminalData = {
+          textNodes: textNodes,
+          currentNodeIndex: 0,
+          currentCharIndex: 0
+        };
+
+        if (!element.classList.contains('fragment')) {
+          element.classList.add('fragment');
+        }
+      });
+    }
+
+    function typeFragmentTerminal(element) {
+      if (!element) return;
+      if (element.getAttribute('data-fragment-terminal-typed') === 'true') return;
+
+      const data = element.fragmentTerminalData;
+
+      if (!data) return;
+
+      element.setAttribute('data-fragment-terminal-typed', 'true');
+
+      function typeNextChar() {
+        if (data.currentNodeIndex >= data.textNodes.length) return;
+
+        const item = data.textNodes[data.currentNodeIndex];
+        const text = item.originalText;
+
+        if (data.currentCharIndex < text.length) {
+          item.node.nodeValue += text.charAt(data.currentCharIndex);
+          data.currentCharIndex += 1;
+          window.setTimeout(typeNextChar, 22);
+          return;
+        }
+
+        data.currentNodeIndex += 1;
+        data.currentCharIndex = 0;
+        typeNextChar();
+      }
+
+      typeNextChar();
+    }
+
+    function isVisible(element) {
+      if (!element) return false;
+
+      const computedStyle = window.getComputedStyle(element);
+      if (computedStyle.display === 'none' || computedStyle.visibility === 'hidden' || element.getClientRects().length === 0) {
+        return false;
+      }
+
+      let ancestor = element.parentElement;
+      while (ancestor) {
+        if (ancestor.classList && ancestor.classList.contains('fragment') && !ancestor.classList.contains('visible')) {
+          return false;
+        }
+
+        ancestor = ancestor.parentElement;
+      }
+
+      return true;
+    }
+
+    function startWhenVisible(terminal) {
+      if (!terminal || terminal.typewriterStarted) return;
+
+      if (!isVisible(terminal)) {
+          if (!terminal.typewriterVisibilityRetry) {
+            terminal.typewriterVisibilityRetry = window.setTimeout(() => {
+              terminal.typewriterVisibilityRetry = null;
+              startWhenVisible(terminal);
+            }, 50);
+          }
+
+        return;
+      }
+
+        if (terminal.typewriterVisibilityRetry) {
+          window.clearTimeout(terminal.typewriterVisibilityRetry);
+          terminal.typewriterVisibilityRetry = null;
+        }
+
+      terminal.typewriterStarted = true;
+
+      const lines = terminal.querySelectorAll('.oracle-line');
+      let cursor = terminal.typewriterCursor;
+      const startDelay = 200;
+
+      if (!cursor) {
+        cursor = document.createElement('span');
+        cursor.className = 'oracle-cursor';
+        terminal.typewriterCursor = cursor;
+      }
+
+      lines.forEach((line) => {
+        if (line.hasAttribute('data-typewriter-initialized')) return;
+        line.setAttribute('data-typewriter-initialized', 'true');
+
+        const textNodes = [];
+        const walk = document.createTreeWalker(line, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        while (node = walk.nextNode()) {
+          textNodes.push({
+            node: node,
+            originalText: node.nodeValue
+          });
+          node.nodeValue = '';
+        }
+
+        line.typewriterData = {
+          textNodes: textNodes,
+          currentNodeIndex: 0,
+          currentCharIndex: 0
+        };
+      });
+
+      function typeLine(lineIndex) {
+        if (!terminal.typewriterStarted) return;
+
+        if (lineIndex >= lines.length) {
+          cursor.classList.add('finished');
+          return;
+        }
+
+        const line = lines[lineIndex];
+        const data = line.typewriterData;
+
+        if (!data) {
+          typeLine(lineIndex + 1);
+          return;
+        }
+
+        line.classList.add('oracle-line-prompt-visible');
+        cursor.classList.remove('finished');
+        line.appendChild(cursor);
+
+        function typeNextChar() {
+          if (!terminal.typewriterStarted) return;
+
+          if (data.currentNodeIndex < data.textNodes.length) {
+            const item = data.textNodes[data.currentNodeIndex];
+            const text = item.originalText;
+
+            if (data.currentCharIndex < text.length) {
+              item.node.nodeValue += text.charAt(data.currentCharIndex);
+
+              if (!line.classList.contains('oracle-line-has-text')) {
+                line.classList.add('oracle-line-has-text');
+              }
+
+              const parent = item.node.parentNode;
+              parent.insertBefore(cursor, item.node.nextSibling);
+
+              data.currentCharIndex++;
+              line.typingTimeout = setTimeout(typeNextChar, 18);
+            } else {
+              data.currentNodeIndex++;
+              data.currentCharIndex = 0;
+              typeNextChar();
+            }
+          } else {
+            typeLine(lineIndex + 1);
+          }
+        }
+
+        typeNextChar();
+      }
+
+      function beginTyping() {
+        if (!terminal.typewriterStarted) return;
+
+        if (!isVisible(terminal)) {
+          terminal.typewriterStartTimeout = window.setTimeout(beginTyping, 50);
+          return;
+        }
+
+        typeLine(0);
+      }
+
+      terminal.typewriterStartTimeout = window.setTimeout(beginTyping, startDelay);
+    }
+
+    function startTerminalsIn(root) {
+      if (!root) return;
+
+      if (root.matches && root.matches('.oracle-terminal')) {
+        startWhenVisible(root);
+      }
+
+      if (root.querySelectorAll) {
+        root.querySelectorAll('.oracle-terminal').forEach((terminal) => {
+          startWhenVisible(terminal);
+        });
+      }
+    }
+
+    function startTerminalsInNextFrame(root) {
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          startTerminalsIn(root);
+        });
+      });
+    }
+
+    let documentScanScheduled = false;
+
+    function scheduleDocumentScan() {
+      if (documentScanScheduled) return;
+
+      documentScanScheduled = true;
+      startTerminalsInNextFrame(document);
+      prepareFragmentTerminalTypewriter(document);
+
+      window.setTimeout(() => {
+        documentScanScheduled = false;
+      }, 0);
+    }
+
+    scheduleDocumentScan();
+
+    if (document.documentElement) {
+      const observer = new MutationObserver(() => {
+        scheduleDocumentScan();
+      });
+
+      observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+      });
+    }
+
+    Reveal.on('slidechanged', event => {
+      scheduleDocumentScan();
+    });
+
+    Reveal.on('fragmentshown', event => {
+      const shown = event && event.fragment ? event.fragment : null;
+
+      if (shown) {
+        if (shown.classList.contains('fragment-terminal')) {
+          typeFragmentTerminal(shown);
+        }
+
+        if (shown.querySelectorAll) {
+          shown.querySelectorAll('.fragment-terminal').forEach((nested) => {
+            typeFragmentTerminal(nested);
+          });
+        }
+      }
+
+      scheduleDocumentScan();
+    });
+
+    document.querySelectorAll('.fragment-terminal.visible').forEach((element) => {
+      typeFragmentTerminal(element);
+    });
+  }
+
+  initTypewriter();
+}
+
+bootTypewriter();
+</script>

@@ -5,6 +5,7 @@ format:
     theme:
       - default
       - oracle.scss
+    include-in-header: oracle_typewriter.html
     width: 1600
     height: 900
     slide-number: true
@@ -17,27 +18,31 @@ execute:
   message: false
 ---
 
-## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .screen-corners .screen-header .screen-prompt .screen-link-oracle}
+## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
 
 <!-- slide:00 -->
 
-:::: {.columns}
-::: {.column .panel-line-left .padding-left-large .padding-top-small .padding-bottom-small width="80%"}
+::: {.planet-scanlines}
+:::
 
-[talking to &lt;ORACLE&gt;:]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-cyan}
+:::: {.columns}
+::: {.column .panel-line-left .padding-left-large .padding-top-small .padding-bottom-small width="100%"}
+
+[talking to \<ORACLE\>:]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-cyan}
 
 [Exploring biotic signals in vegetation assembly from the LGM to the Anthropocene]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-uppercase .text-size-heading-large .text-color-green .text-shadow .text-line-under .padding-bottom-large}
 
 <br>
+<br>
 
-[Ondrej Mottl]{.text-size-title .text-color-purple .text-bold }
+[Ondrej Mottl]{.text-size-title .text-color-purple}
 
 [IAVS 2026 || 22-26 June 2026 || Gijón, Spain]{.text-size-title-small .text-color-amber}
 
-:::
+<br>
+<br>
+<br>
 
-::: {.column width="20%"}
-![](figures/story/genai_drafts/planet_abstract_scan_motif_v3.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-glow}
 :::
 
 ::::
@@ -67,46 +72,46 @@ TIME 00:25. I will ask the audience to close their eyes and imagine there are on
 :::
 
 <!-- slide:01 -->
-## System ... booting {.slide-terminal .slide-terminal-story}
+## [... booting]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-story}
 
 :::: {.columns}
-::: {.column width="50%" .fragment .tui-reveal}
-![](figures/story/genai_drafts/oracle_abstract_face_motif_v3_crop.png){.image-display-block .margin-x-auto .image-height-750 .image-blend-screen .image-fit-contain .width-full}
+::: {.column width="50%" .fragment .tui-reveal-scan}
+![](figures/story/genai_drafts/oracle_abstract_face_motif_v3_crop_v2.png){.image-display-block .margin-x-auto .image-height-750 .image-blend-screen .image-fit-contain .width-full}
 :::
 
-::: {.column width="50%" .fragment .tui-reveal}
+::: {.column width="50%" .fragment}
 ::: {.oracle-terminal}
 
 ::: {.oracle-line}
-System online.
+[System online]{.text-emphasis-chip}
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Greetings Dr. Mottl.
+Greetings Dr. Mottl
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-I am [[O]]{.oracle-highlight .oracle-highlight-purple}bservational [[R]]{.oracle-highlight .oracle-highlight-purple}untime for [[A]]{.oracle-highlight .oracle-highlight-purple}nalysis of [[C]]{.oracle-highlight .oracle-highlight-purple}ommunity-[[L]]{.oracle-highlight .oracle-highlight-purple}evel [[E]]{.oracle-highlight .oracle-highlight-purple}cology**
+I am [O]{.text-emphasis-underline}bservational [R]{.text-emphasis-underline}untime for [A]{.text-emphasis-underline}nalysis of [C]{.text-emphasis-underline}ommunity-[L]{.text-emphasis-underline}evel [E]{.text-emphasis-underline}cology
 :::
 
 ::: {.oracle-line}
-[&lt;ORACLE&gt;]{.oracle-highlight .oracle-highlight-purple} for short.
+[\<ORACLE\>]{.text-emphasis-chip .text-emphasis-underline-double} for short
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-I am here to assist you in analyzing vegetation patterns on Earth.
+I am here to assist you in analyzing vegetation patterns on Earth
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Awaiting ecological query.
+[Awaiting ecological query.]{.text-emphasis-chip}
 :::
 
 []{.oracle-line}
@@ -114,35 +119,11 @@ Awaiting ecological query.
 []{.oracle-line}
 
 ::: {.oracle-line}
-Proceed? Y/N?
+Proceed? [Y]/[N]?
 :::
 :::
 
 :::
-::::
-
-<br>
-<br>
-<br>
-
-:::: {.columns .margin-top-large .padding-top-small}
-
-::: {.column width="33%"}
-::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-position-center}
-BIOSPHERE DIVERSITY: **HIGH** 
-:::
-:::
-
-::: {.column width="33%" .text-position-center .text-color-muted}
-CHANGE: **ACCELERATING** 
-:::
-
-::: {.column width="33%"}
-::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-position-center}
-UNCERTAINTY: **SUBSTANTIAL**
-:::
-:::
-
 ::::
 
 ::: {.notes}
@@ -150,46 +131,55 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 :::
 
 <!-- slide:02 -->
-## Is there a [scale dependence]{.text-color-amber .text-bold} in the amount of unexplained variation ([potentially due to biotic interactions]{.text-color-cyan}) structuring vegetation? {.slide-terminal .slide-terminal-question}
+## [Is there a [scale dependence]{.text-bold .text-emphasis-underline} in the amount of [unexplained variation]{.text-emphasis-underline-dotted} (potentially due to [biotic interactions]{.text-color-latent}) structuring vegetation since [LGM]{.text-emphasis-underline-dotted}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
 
-::: {.column width="35%" .fragment .tui-reveal data-fragment-index="1"}
+::: {.column width="35%" .fragment data-fragment-index="1"}
 
+<br>
 <br>
 <br>
 
 ::: {.oracle-terminal}
 
 ::: {.oracle-line}
-Query accepted.
+Query accepted
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Plan to partition observed plant co-occurrence into:
+Plan to [partition]{.text-emphasis-underline} observed plant co-occurrence into:
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
- - spatial structure
+[spatial]{.text-highlight-spatial} structure
 :::
 
 ::: {.oracle-line}
- - climate response
+[climate]{.text-highlight-abiotic} response
 :::
 
 ::: {.oracle-line}
- - residual species-species association.
+[species-species association]{.text-highlight-latent} (residual)
 :::
 :::
 
 :::
 
-::: {.column width="65%" .fragment .tui-reveal data-fragment-index="2"}
-![](figures/story/genai_drafts/query_three_streams_motif_v6.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-750}
+::: {.column width="21%" .fragment .tui-reveal-scan data-fragment-index="2"}
+![](figures/story/genai_drafts/query_three_streams_motif_v6_spatial_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-750}
+:::
+
+::: {.column width="21%" .fragment .tui-reveal-scan data-fragment-index="3"}
+![](figures/story/genai_drafts/query_three_streams_motif_v6_abiotic_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-750}
+:::
+
+::: {.column width="21%" .fragment .tui-reveal-scan data-fragment-index="4"}
+![](figures/story/genai_drafts/query_three_streams_motif_v6_latent_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-750}
 :::
 
 ::::
@@ -199,43 +189,42 @@ TIME 00:45. Oracle, I would like like to explore vegation patterns across space 
 :::
 
 <!-- slide:03 -->
-## Archive: [&lt;VegVault&gt;]{.text-color-cyan} {.slide-terminal .slide-terminal-methods}
+## [DATA: [\<VegVault\>]{.text-emphasis-chip}]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 ::: {.column width="62%" }
 
-::: {.image-height-400 .fragment .tui-reveal data-fragment-index="2"}
+::: {.image-height-400 .fragment .tui-reveal-blur data-fragment-index="2"}
+--figure/schematics of data input--
+:::
+
+::: {.image-height-400 .fragment .tui-reveal-blur data-fragment-index="3"}
 --Northern Hemisphere coverage figure--
 :::
 
-::: {.image-height-400 .fragment .tui-reveal data-fragment-index="3"}
---figure/schematics of data input--
-:::
 :::
 
 ::: {.column width="38%" }
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-&lt;VegVault&gt; database: publicly available oracle-line open source database
-:::
-
-::: {.oracle-line}
-VegVault scan complete.
-:::
-
-::: {.oracle-line}
-Community records, climate predictors, site coordinates, and functional traits are loaded as separate streams.
+[\<VegVault\>]{.text-emphasis-chip} database: publicly available open source database
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Due to data availability, I will focus on the Northern Hemisphere of the planet.
+[Community records]{.text-emphasis-box}, [climate predictors]{.text-color-abiotic}, [site coordinates]{.text-color-spatial}, and [functional traits]{.text-color-latent} are loaded as separate streams
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+Due to [data availability]{.text-emphasis-underline-dotted}, I will focus on the [Northern Hemisphere]{.text-emphasis-underline-double} of the planet since the [LGM]{.text-emphasis-underline-double}
 :::
 :::
 
-::: {.fragment .tui-reveal data-fragment-index="4"}
+::: {.fragment .tui-reveal-scan data-fragment-index="4"}
 
 :::: {.columns .image-height-750}
 
@@ -263,44 +252,53 @@ The database is publicly available and open source. For this analysis, we will f
 :::
 
 <!-- slide:04 -->
-## Three analysis axes {.slide-terminal .slide-terminal-methods}
+## [Three analysis axes]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 <br>
 
-::: {.fragment .tui-reveal data-fragment-index="2"}
-::: {.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full}
-![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_crop.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+:::: {.columns}
+
+::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="2"}
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_spatial_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
 :::
+
+::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="3"}
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_temporal_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
 :::
+
+::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="4"}
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_taxonomic_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+:::
+
+::::
 
 <br>
 
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
 Three routes selected:
 :::
 
 ::: {.oracle-line}
- - Spatial-resolution runs : chnages with spatial scale
+[Spatial-resolution runs]{.text-highlight-spatial} : chnages with spatial scale
 :::
 
 ::: {.oracle-line}
- - Temporal slices test : change through time.
+[Temporal slices test]{.text-highlight-temporal} : change through time
 :::
 
 ::: {.oracle-line}
-- Taxonomic aggregation level : change through classification.
+[Taxonomic aggregation level]{.text-highlight-latent} : change through classification
 :::
 :::
-
 
 ::: {.notes}
 TIME 00:35. Now, we would like to split the analysis along space (from local to continental), time (since the last glacial maximum), and taxonomic resolution (from genus up to abstract functional types).
 :::
 
 <!-- slide:05 -->
-## Preparing community and climate streams {.slide-terminal .slide-terminal-methods}
+## [Preparing [community]{.text-emphasis-box} and [climate]{.text-highlight-abiotic} streams]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 
@@ -308,16 +306,16 @@ TIME 00:35. Now, we would like to split the analysis along space (from local to 
 
 <br>
 
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Data extracted, now preparation ...
+Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Community stream normalised.
+[[Community]{.text-emphasis-box} stream normalised]{.text-emphasis-underline}
 :::
 
 ::: {.oracle-line}
@@ -325,24 +323,29 @@ Community stream normalised.
 :::
 
 ::: {.oracle-line}
- - Taxa are classified automatically to GBIF and filtered.
+ - Taxa are classified [automatically]{.text-emphasis-underline-dotted} to GBIF and filtered
 :::
+
+::: {.oracle-line}
+ - [Age uncertainty]{.text-highlight-temporal} [propagated]{.text-emphasis-underline-dotted} to estimate counts
+:::
+
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Climate stream screened.
+[[Climate]{.text-highlight-abiotic} stream screened]{.text-emphasis-underline}
 :::
 
 ::: {.oracle-line}
- - Redundant predictors are removed before model fitting.
+ - [Redundant]{.text-emphasis-underline-dotted} predictors are [removed]{.text-emphasis-underline-dotted} before model fitting
 :::
 :::
 
 
 :::
 
-::: {.column width="60%" .fragment .tui-reveal data-fragment-index="2" .image-height-750}
+::: {.column width="60%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750}
 --Figure to show some climate data summary---
 :::
 ::::
@@ -352,17 +355,14 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 :::
 
 <!-- slide:06 -->
-## Model core: environment, space, association {.slide-terminal .slide-terminal-methods}
+## [Model core: [environment]{.text-color-abiotic}, [space]{.text-color-spatial}, [association]{.text-color-latent}]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
-::: {.column width="65%" .fragment .tui-reveal data-fragment-index="2" .image-height-750}
---Schematic of model components and variance partitioning--
-(we can use either mermaid or a custom schematic)
-
---maybe a mathematical formula for the model--
+::: {.column width="65%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750}
+--A mathematical formula for the model--
 :::
 
-::: {.column width="35%" .fragment .tui-reveal data-fragment-index="1"}
+::: {.column width="35%" .fragment data-fragment-index="1"}
 
 <br>
 <br>
@@ -370,25 +370,31 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 ::: {.oracle-terminal}
 
 ::: {.oracle-line}
-Model assembled.
+[Model assembled.]{.text-emphasis-chip}
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Abiotic predictors]{.oracle-highlight .oracle-highlight-phosphor} explain shared response.
+[\{sjSDM\}]{.text-emphasis-underline-double} as the modeling framework
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Moran Eigenvector Maps]{.oracle-highlight .oracle-highlight-phosphor} (MEMs) absorb spatio-temporal autocorrelation.
+[Abiotic predictors]{.text-highlight-abiotic} explain shared response
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Residual covariance]{.oracle-highlight .oracle-highlight-phosphor} carries species-species association signal.
+[Moran Eigenvector Maps]{.text-highlight-spatial} (MEMs) absorb spatio-temporal autocorrelation
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+[Residual covariance]{.text-highlight-latent} carries species-species association signal
 :::
 
 :::
@@ -401,11 +407,11 @@ We will be uisng {sjSDM} R package is used because the community matrix and spat
 :::
 
 <!-- slide:07 -->
-## Variance decomposition {.slide-terminal .slide-terminal-methods}
+## [Variance decomposition]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 
-::: {.column width="50%" .fragment .tui-reveal data-fragment-index="1"}
+::: {.column width="50%" .fragment data-fragment-index="1"}
 
 <br>
 <br>
@@ -413,33 +419,34 @@ We will be uisng {sjSDM} R package is used because the community matrix and spat
 ::: {.oracle-terminal}
 
 ::: {.oracle-line}
-Decomposition ready.
+Decomposition ready
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Focus: residual association component
+Focus: [residual association component]{.text-highlight-latent}
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Report what remains after climate and spatial 
-structure have made their claims.
+Report what remains after [climate]{.text-highlight-abiotic} and [spatial 
+structure]{.text-highlight-spatial} have made their claims
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Caution]{.oracle-highlight .oracle-highlight-red}: co-occurrence is not proof of [interaction]{.oracle-highlight}.
+[Caution]{.text-highlight-warning}: co-occurrence is not proof of [interaction]{.text-color-warning}.
 :::
 
 :::
 :::
 
-::: {.column width="50%" .fragment .tui-reveal data-fragment-index="2" .image-height-750} 
---schematic to show the variance decomposition and the focus on the residual association component--
+::: {.column width="50%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750} 
+--Schematic of model components and variance partitioning with the focus on the residual association component--
+(we can use either mermaid or a custom schematic)
 :::
 
 
@@ -451,33 +458,33 @@ The shared fractions are useful diagnostics for understanding the model fit. How
 :::
 
 <!-- slide:08 -->
-## Spatial results: local to continental {.slide-terminal .slide-terminal-results}
+## [[Spatial results]{.text-color-spatial}: local to continental]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-results}
 
 :::: {.columns}
 ::: {.column width="50%"}
 
-::: {.image-height-600 .fragment .tui-reveal data-fragment-index="2"}
+::: {.image-height-600 .fragment .tui-reveal-blur data-fragment-index="2"}
 --Map of Northem America with the three spatial units outlined: local, regional, continental--
 :::
 
 :::
 
 ::: {.column width="50%"}
-::: {.image-height-600 .fragment .tui-reveal data-fragment-index="3"}
+::: {.image-height-600 .fragment .tui-reveal-blur data-fragment-index="3"}
 --tile plot showing 3 columns (scale), each tile (a unit) is colored by the the amount of association--
 :::
 :::
 
 ::::
 
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Spatial scan configured.
+[Spatial]{.text-color-spatial} scan configured
 :::
 
 ::: {.oracle-line}
-Units are nested from local to regional to continental.
+Units are nested from [local]{.text-emphasis-underline-dotted} to [regional]{.text-emphasis-underline-dotted} to [continental]{.text-emphasis-underline-dotted}
 :::
 :::
 
@@ -487,40 +494,28 @@ What do we see? Is there a clear change in the association signal across spatial
 :::
 
 <!-- slide:09 -->
-## How does the spatial pattern change when we add taxonomic resolution? {.slide-terminal .slide-terminal-question}
+## [How does the [spatial pattern]{.text-color-spatial} change when we add [taxonomic resolution]{.text-color-latent}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
 
-:::: {.columns}
-::: {.column width="65%" .fragment .tui-reveal  data-fragment-index="2" .image-height-750}
---Expland on the Figure 2 from previous slide. Now 3 columns (spatial scale) and 3 rows (taxonomic scale), each tile (a unit) is colored by the the amount of association--
-:::
-
-::: {.column width="35%"}
-
-<br>
-<br>
-
-::: {.oracle-terminal}
+::: {.oracle-terminal .fragment  data-fragment-index="1"}
 
 ::: {.oracle-line}
 Query accepted...
 :::
 
-[]{.oracle-line}
+::: {.oracle-line}
+Adding [taxonomic axis]{.text-highlight-latent}
+:::
 
 ::: {.oracle-line}
-Adding taxonomic axis.
-:::
-
-[]{.oracle-line}
-
-::: {.oracle-line}
-Plotting the results.
+Plotting the results
 :::
 
 :::
 
+
+::: {.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-750}
+--Expland on the Figure 2 from previous slide. Now 3 columns (spatial scale) and 3 rows (taxonomic scale), each tile (a unit) is colored by the the amount of association--
 :::
-::::
 
 ::: {.notes}
 TIME 00:45. Oracle, how does the spatial pattern change when we add taxonomic resolution? We assume that higher higher taxonomic resolution will result in smaller association signal in local units and vice versa.
@@ -528,45 +523,45 @@ Interestingly, the change in taxonomic resolution does not seem to affect the sp
 :::
 
 <!-- slide:10 -->
-## Is the association signal stable through time? {.slide-terminal .slide-terminal-question}
+## [Is the [association signal]{.text-color-latent} stable through [time]{.text-highlight-temporal}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
 
 ::: {.column width="35%"}
-::: {.oracle-terminal .fragment .tui-reveal  data-fragment-index="1"}
+::: {.oracle-terminal .fragment  data-fragment-index="1"}
 
 ::: {.oracle-line}
-Query accepted.
+Query accepted
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Temporal mode selected: Slicing the data into 500-year windows.
+[Temporal mode]{.text-highlight-temporal} selected: Slicing the data into [500-year windows]{.text-emphasis-chip}
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Network diagnostics loaded. Co-occurrence structure can change even when variance components look similar.
+[Network diagnostics]{.text-emphasis-underline-dotted} loaded. [Co-occurrence structure]{.text-color-latent} can change even when variance components look similar
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Each slice receives an independent analysis and diagnostics.
+[Each slice]{.text-emphasis-underline-double} receives an [independent analysis and diagnostics]{.text-emphasis-underline-double}
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Plotting the results.
+Plotting the data distribution
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Proceed? Y/N?
+Proceed? [Y]/[N]?
 :::
 
 :::
@@ -574,17 +569,17 @@ Proceed? Y/N?
 
 ::: {.column width="65%"}
 
-:::{.fragment .tui-reveal  data-fragment-index="2" .image-height-400}
--- Distribution of data across the temporal axis, showing where the data are dense or sparse.--
+:::{.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-300}
+-- Distribution of data across the temporal axis, showing the verical time slices--
 :::
 
 :::: {.columns .image-height-400}
 
-::: {.column width="50%" .fragment .tui-reveal  data-fragment-index="3"}
+::: {.column width="50%" .fragment .tui-reveal-blur  data-fragment-index="3"}
 schematic of bipartite network pipeline, highligting one time slice from figure 1.
 :::
 
-::: {.column width="50%" .fragment .tui-reveal  data-fragment-index="4"}
+::: {.column width="50%" .fragment .tui-reveal-blur  data-fragment-index="4"}
 schematic of temporal pipeline, showing how each slice is processed independently.
 :::
 
@@ -599,25 +594,25 @@ Now each time slice receives an independent analyses and diagnostics. We will be
 :::
 
 <!-- slide:11 -->
-## Temporal trajectories {.slide-terminal .slide-terminal-results}
+## [Temporal trajectories]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-results}
 
-::: {.oracle-terminal}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Plotting temporal trajectories.
+Plotting [temporal trajectories]{.text-highlight-temporal} for each [continent]{.text-emphasis-underline-dotted}
 :::
 :::
 
 :::: {.columns}
-::: {.column width="33.33%" .fragment .tui-reveal  data-fragment-index="1" .image-height-600}
+::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="2" .image-height-600}
 --NORTH AMERICA--
 :::
 
-::: {.column width="33.33%" .fragment .tui-reveal  data-fragment-index="2" .image-height-600}
+::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="3" .image-height-600}
 --EUROPE--
 :::
 
-::: {.column width="33.33%" .fragment .tui-reveal  data-fragment-index="3" .image-height-600}
+::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="4" .image-height-600}
 --ASIA--
 :::
 
@@ -628,32 +623,29 @@ TIME 00:50. The network structure and the variance components are changing throu
 :::
 
 <!-- slide:12 -->
-## Synthesis pending verification {.slide-terminal .slide-terminal-synthesis}
+## [Take home messages]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
 
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
-
-::: {.oracle-line}
-Weaving realities together: spatial patterns, taxonomic resolution, temporal dynamics.
-:::
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Consulting deeper reasoning matrices.
+Consulting deeper reasoning matrices
 :::
 
 ::: {.oracle-line}
-Summarizing results.
+Summarising RESULTS together: [spatial]{.text-color-spatial} patterns, [taxonomic]{.text-color-latent} resolution, [temporal]{.text-highlight-temporal} dynamics
 :::
+
 :::
 
-::: {.fragment .tui-reveal data-fragment-index="2"}
-[SPACE]{.text-color-cyan}<br>
-Local to continental comparison.
+::: {.fragment data-fragment-index="2"}
+[SPACE]{.text-highlight-spatial}<br>
+Local to continental comparison
 
-[TAXONOMY]{.text-color-purple}<br>
-Genus / family / functional-type comparison.
+[TAXONOMY]{.text-highlight-latent}<br>
+Genus / family / functional-type comparison
 
-[TIME]{.text-color-amber}<br>
-Palaeo trajectory and network comparison.
+[TIME]{.text-highlight-temporal}<br>
+Past trajectory and network comparison
 :::
 
 ::: {.notes}
@@ -661,69 +653,84 @@ TIME 00:45. TBD
 :::
 
 <!-- slide:13 -->
-## Future predictions {.slide-terminal .slide-terminal-synthesis}
+## [Future predictions]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
 
-:::: {.columns}
-::: {.column .fragment .tui-reveal width="65%" data-fragment-index="1"}
-![Can We spot the hidden signal?](figures/story/hidden_majority_particles.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
+::: {.fragment .tui-reveal-scan data-fragment-index="2" .image-height-600}
+--gif of European richness change from LGM to present--
 :::
 
-::: {.column width="35%"}
-::: {.oracle-terminal}
+
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Current models can be used to futher predict the biodiversity patterns under the climate change scenarios.
+Current [SDM]{.text-emphasis-chip} models can be used to [futher predict]{.text-emphasis-caps .text-emphasis-underline-thick} the biodiversity patterns under the [future]{.text-highlight-temporal} [climate change]{.text-emphasis-underline-dotted} scenarios
 :::
 :::
-
-:::
-::::
 
 ::: {.notes}
 TIME 00:40. 
 :::
 
 <!-- slide:14 -->
-## Query resolved ... termination {.slide-terminal .slide-terminal-story}
+## [... termination]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-story .slide-bg-figure .slide-bg-closing-signal}
 
-:::: {.columns}
-::: {.column width="35%"}
-::: {.oracle-terminal .fragment .tui-reveal data-fragment-index="1"}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Execution complete.
+[Execution complete.]{.text-emphasis-underline}
 :::
+
+[]{.oracle-line}
 
 ::: {.oracle-line}
-Turning off non-essential systems.
+Turning off non-essential systems
 :::
+
+[]{.oracle-line}
 
 ::: {.oracle-line}
-Thank you for your attention.
+[Thank you for your attention]{.text-emphasis-underline-double}
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+...
 :::
 
 :::
-
-:::
-
-::: {.column width="35%" .fragment .tui-reveal data-fragment-index="2"}
-![](figures/story/genai_drafts/oracle_closing_signal_motif_v2.png){.image-display-block .margin-x-auto .image-height-600 .image-blend-screen .image-fit-contain .width-full}
-:::
-::::
 
 ::: {.notes}
 TIME 00:20. 
 :::
 
 <!-- slide:15 -->
-## [Hi!]{.text-color-amber} I am [Ondřej Mottl]{.text-color-purple}{.slide-title .screen-corners .screen-header .screen-prompt}
+## Presenter {.slide-title .screen-corners .screen-header .screen-prompt}
 
 <br>
 
 :::: {.columns}
 
-::: {.column width="35%" .image-height-400}
+::: {.column width="35%"}
+
+::: {.image-height-400}
 --head photo--
+:::
+
+::: {.text-position-center}
+[Hi!]{.text-color-amber} I am [Ondřej Mottl]{.text-color-purple}
+:::
+
 :::
 
 ::: {.column width="1%"}
@@ -736,7 +743,7 @@ Assistant Professor at 🏛️[Charles University](https://cuni.cz/UK-1.html), P
 
 <br>
 
-Interested in [macroecology]{.text-color-amber}, [palaeoecology]{.text-color-cyan}, [biodiversity]{.text-color-purple}, and [data science]{.text-color-red}
+Interested in [macroecology]{.text-emphasis-caps .text-emphasis-chip .text-color-cyan}, [palaeoecology]{.text-emphasis-caps .text-emphasis-chip .text-color-amber}, [biodiversity]{.text-emphasis-caps .text-emphasis-chip .text-color-purple}, and [data science]{.text-emphasis-caps .text-emphasis-chip .text-color-red}
 
 <br>
 
@@ -753,11 +760,11 @@ Head of the 🧑‍💻[Laboratory of Quantitative Ecology](https://ondrejmottl.
 
 ::: {.column width="45%" .text-size-body}
 
-* 📧 ondrej.mottl(at)natur.cuni.cz
+* 🌐 [ondrejmottl.github.io](https://ondrejmottl.github.io/)
+* 📧 [ondrej.mottl(at)natur.cuni.cz](mailto:ondrej.mottl(at)natur.cuni.cz)
 * 🦋 [ondrejmottl.bsky.social](https://bsky.app/profile/ondrejmottl.bsky.social)
-* 🐱 [Github](https://github.com/OndrejMottl)
-* 🆔 [ORCID](https://orcid.org/0000-0002-9796-5081)
-* 🌐 [Personal webpage](https://ondrejmottl.github.io/)
+* 🐱 [github.com/OndrejMottl](https://github.com/OndrejMottl)
+* 🆔 [orcid.org/0000-0002-9796-5081](https://orcid.org/0000-0002-9796-5081)
 :::
 
 ::: {.column width="9%"}
@@ -766,7 +773,7 @@ Head of the 🧑‍💻[Laboratory of Quantitative Ecology](https://ondrejmottl.
 
 ::: {.column width="20%" .image-height-300}
 
---LOQE logo--
+--LOQE logo and QR code--
 
 :::
 
@@ -798,24 +805,28 @@ TIME 00:20.
 
 <br>
 
-[This presentation is publicly available on BIODYNAMICS project websites]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple}
+[This presentation is publicly available on BIODYNAMICS project websites]{.text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple .text-emphasis-box .text-position-center}
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="48%"}
 
 <br>
 <br>
 <br>
 <br>
 
-::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-bold .r-fit-text .text-underline}
+::: {.text-letter-spacing-status .text-uppercase .text-bold .r-fit-text}
 [bit.ly/biodynamics](https://bit.ly/biodynamics)
 :::
 
 
 :::
 
-::: {.column width="50%" .image-height-600}
+::: {.column width="5%"}
+
+:::
+
+::: {.column width="47%" .image-height-300}
 QR CODE
 :::
 ::::
@@ -829,14 +840,17 @@ TIME 00:25. This presentation is publicly available. The rendered presentation a
 :::
 
 <!-- slide:17 -->
-## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .screen-corners .screen-header .screen-prompt .screen-link-oracle}
+## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
 
 <!-- slide:00 -->
 
-:::: {.columns}
-::: {.column .panel-line-left .padding-left-large .padding-top-small .padding-bottom-small width="80%"}
+::: {.planet-scanlines}
+:::
 
-[talking to &lt;ORACLE&gt;:]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-cyan}
+:::: {.columns}
+::: {.column .panel-line-left .padding-left-large .padding-top-small .padding-bottom-small width="100%"}
+
+[talking to \<ORACLE\>:]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-cyan}
 
 [Exploring biotic signals in vegetation assembly from the LGM to the Anthropocene]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-uppercase .text-size-heading-large .text-color-green .text-shadow .text-line-under .padding-bottom-large}
 
@@ -846,10 +860,6 @@ TIME 00:25. This presentation is publicly available. The rendered presentation a
 
 [IAVS 2026 || 22-26 June 2026 || Gijón, Spain]{.text-size-title-small .text-color-amber}
 
-:::
-
-::: {.column width="20%"}
-![](figures/story/genai_drafts/planet_abstract_scan_motif_v3.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-glow}
 :::
 
 ::::

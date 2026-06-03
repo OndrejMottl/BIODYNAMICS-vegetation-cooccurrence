@@ -1,7 +1,14 @@
 {
   "metadata": {
     "name": "IAVS 2026 ORACLE terminal",
-    "description": "Single source of truth for the IAVS 2026 RevealJS visual system."
+    "description": "Single source of truth for the IAVS 2026 RevealJS visual system.",
+    "semantic_channels": {
+      "spatial": "cyan",
+      "climate_abiotic": "amber",
+      "latent_association": "purple",
+      "warning": "red",
+      "temporal": "phosphor_delta_chip"
+    }
   },
   "palette": {
     "background": "#010301",
