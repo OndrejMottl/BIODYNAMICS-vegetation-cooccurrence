@@ -159,6 +159,7 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 
 <br>
 <br>
+<br>
 
 ::: {.oracle-terminal}
 
@@ -189,8 +190,16 @@ Plan to [partition]{.text-emphasis-underline} observed plant co-occurrence into:
 
 :::
 
-::: {.column width="65%" .fragment .tui-reveal-scan data-fragment-index="2"}
-![](figures/story/genai_drafts/query_three_streams_motif_v6.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-750}
+::: {.column width="21%" .fragment .tui-reveal-scan data-fragment-index="2"}
+![](figures/story/genai_drafts/query_three_streams_motif_v6_spatial_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-750}
+:::
+
+::: {.column width="21%" .fragment .tui-reveal-scan data-fragment-index="3"}
+![](figures/story/genai_drafts/query_three_streams_motif_v6_abiotic_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-750}
+:::
+
+::: {.column width="21%" .fragment .tui-reveal-scan data-fragment-index="4"}
+![](figures/story/genai_drafts/query_three_streams_motif_v6_latent_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-750}
 :::
 
 ::::
