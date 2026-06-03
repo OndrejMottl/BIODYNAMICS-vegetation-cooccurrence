@@ -565,6 +565,11 @@
   gap: var(--oracle-spacing-lg);
 }
 
+.reveal .slides section.slide-terminal .columns > .column > p:first-child {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 /* Text font utilities */
 
 .text-size-body {
