@@ -25,7 +25,7 @@ execute:
 :::: {.columns}
 ::: {.column .panel-line-left .padding-left-large .padding-top-small .padding-bottom-small width="80%"}
 
-[talking to &lt;ORACLE&gt;:]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-cyan}
+[talking to \<ORACLE\>:]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-cyan}
 
 [Exploring biotic signals in vegetation assembly from the LGM to the Anthropocene]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-uppercase .text-size-heading-large .text-color-green .text-shadow .text-line-under .padding-bottom-large}
 
@@ -95,7 +95,7 @@ I am [O]{.text-emphasis-underline}bservational [R]{.text-emphasis-underline}unti
 :::
 
 ::: {.oracle-line}
-[&lt;ORACLE&gt;]{.text-emphasis-chip .text-emphasis-underline-double} for short
+[\<ORACLE\>]{.text-emphasis-chip .text-emphasis-underline-double} for short
 :::
 
 []{.oracle-line}
@@ -147,7 +147,7 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 :::
 
 <!-- slide:02 -->
-## [Is there a [scale dependence]{.text-bold .text-emphasis-underline} in the amount of [unexplained variation]{.text-emphasis-underline-dotted} (potentially due to [biotic interactions]{.text-color-latent}) structuring vegetation?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
+## [Is there a [scale dependence]{.text-bold .text-emphasis-underline} in the amount of [unexplained variation]{.text-emphasis-underline-dotted} (potentially due to [biotic interactions]{.text-color-latent}) structuring vegetation since [LGM]{.text-emphasis-underline-dotted}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
 
@@ -196,7 +196,7 @@ TIME 00:45. Oracle, I would like like to explore vegation patterns across space 
 :::
 
 <!-- slide:03 -->
-## [DATA: [&lt;VegVault&gt;]{.text-emphasis-chip}]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
+## [DATA: [\<VegVault\>]{.text-emphasis-chip}]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 ::: {.column width="62%" }
@@ -215,7 +215,7 @@ TIME 00:45. Oracle, I would like like to explore vegation patterns across space 
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-[&lt;VegVault&gt;]{.text-emphasis-chip} database: publicly available open source database
+[\<VegVault\>]{.text-emphasis-chip} database: publicly available open source database
 :::
 
 []{.oracle-line}
@@ -227,7 +227,7 @@ TIME 00:45. Oracle, I would like like to explore vegation patterns across space 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Due to [data availability]{.text-emphasis-underline-dotted}, I will focus on the [Northern Hemisphere]{.text-emphasis-underline-double} of the planet
+Due to [data availability]{.text-emphasis-underline-dotted}, I will focus on the [Northern Hemisphere]{.text-emphasis-underline-double} of the planet since the [LGM]{.text-emphasis-underline-double}
 :::
 :::
 
@@ -369,6 +369,12 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 
 ::: {.oracle-line}
 [Model assembled.]{.text-emphasis-chip}
+:::
+
+[]{.oracle-line}
+
+::: {.oracle-line}
+[\{sjSDM\}]{.text-emphasis-underline-double} as the modeling framework
 :::
 
 []{.oracle-line}
@@ -541,7 +547,7 @@ Query accepted
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Each slice receives]{.text-emphasis-underline-double} an [independent analysis and diagnostics]{.text-emphasis-underline-double}
+[Each slice]{.text-emphasis-underline-double} receives an [independent analysis and diagnostics]{.text-emphasis-underline-double}
 :::
 
 []{.oracle-line}
@@ -588,7 +594,7 @@ Now each time slice receives an independent analyses and diagnostics. We will be
 <!-- slide:11 -->
 ## [Temporal trajectories]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-results}
 
-::: {.oracle-terminal}
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
 Plotting temporal trajectories for each [continent]{.text-emphasis-underline-dotted}
@@ -596,15 +602,15 @@ Plotting temporal trajectories for each [continent]{.text-emphasis-underline-dot
 :::
 
 :::: {.columns}
-::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="1" .image-height-600}
+::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="2" .image-height-600}
 --NORTH AMERICA--
 :::
 
-::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="2" .image-height-600}
+::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="3" .image-height-600}
 --EUROPE--
 :::
 
-::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="3" .image-height-600}
+::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="4" .image-height-600}
 --ASIA--
 :::
 
@@ -824,7 +830,7 @@ TIME 00:25. This presentation is publicly available. The rendered presentation a
 :::: {.columns}
 ::: {.column .panel-line-left .padding-left-large .padding-top-small .padding-bottom-small width="80%"}
 
-[talking to &lt;ORACLE&gt;:]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-cyan}
+[talking to \<ORACLE\>:]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-cyan}
 
 [Exploring biotic signals in vegetation assembly from the LGM to the Anthropocene]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-uppercase .text-size-heading-large .text-color-green .text-shadow .text-line-under .padding-bottom-large}
 
