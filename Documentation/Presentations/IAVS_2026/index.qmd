@@ -672,7 +672,17 @@ TIME 00:40.
 :::
 
 <!-- slide:14 -->
-## [... termination]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-story}
+## [... termination]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-story .slide-bg-figure .slide-bg-closing-signal}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
@@ -680,19 +690,24 @@ TIME 00:40.
 [Execution complete.]{.text-emphasis-underline}
 :::
 
+[]{.oracle-line}
+
 ::: {.oracle-line}
 Turning off non-essential systems
 :::
+
+[]{.oracle-line}
 
 ::: {.oracle-line}
 [Thank you for your attention]{.text-emphasis-underline-double}
 :::
 
+[]{.oracle-line}
+
+::: {.oracle-line}
+...
 :::
 
-
-::: {.fragment .tui-reveal-scan data-fragment-index="2"}
-![](figures/story/genai_drafts/oracle_closing_signal_motif_v2.png){.image-display-block .margin-x-auto .image-height-600 .image-blend-screen .image-fit-contain .width-full}
 :::
 
 ::: {.notes}
