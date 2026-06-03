@@ -72,7 +72,7 @@ project_paleo_temporal_europe:
   data_processing:
     taxonomic_resolution: "genus"
     min_n_samples: 10
-      
+    n_interpolation_workers: 16
   model_fitting:
     n_mev: 5
     n_cores: 24
