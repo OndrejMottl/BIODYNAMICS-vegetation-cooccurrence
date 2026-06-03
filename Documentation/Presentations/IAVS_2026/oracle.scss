@@ -698,11 +698,12 @@
   color: var(--oracle-palette-amber);
 }
 
-/* Semantic highlight chips: marker + border for the 4 decomposition channels.
+/* Semantic highlight chips: marker + border for decomposition channels.
    Keep `.text-color-*` as color-only and use `.text-highlight-*` for chip styling. */
 .text-highlight-spatial,
 .text-highlight-abiotic,
 .text-highlight-latent,
+.text-highlight-temporal,
 .text-highlight-warning {
   color: inherit;
   align-items: baseline;
@@ -729,6 +730,11 @@
   background: rgba(199, 146, 234, 0.1);
 }
 
+.text-highlight-temporal {
+  color: var(--oracle-palette-phosphor);
+  background: rgba(184, 255, 109, 0.1);
+}
+
 .text-highlight-warning {
   color: var(--oracle-palette-red);
   background: rgba(255, 123, 114, 0.12);
@@ -746,6 +752,10 @@
   content: "◎";
 }
 
+.text-highlight-temporal::before {
+  content: "Δ";
+}
+
 .text-highlight-warning::before {
   content: "⚠";
 }
@@ -753,6 +763,7 @@
 .text-highlight-spatial::before,
 .text-highlight-abiotic::before,
 .text-highlight-latent::before,
+.text-highlight-temporal::before,
 .text-highlight-warning::before {
   font-size: 0.76em;
   line-height: 1;
@@ -764,6 +775,7 @@
 .oracle-line .oracle-highlight-spatial,
 .oracle-line .oracle-highlight-abiotic,
 .oracle-line .oracle-highlight-latent,
+.oracle-line .oracle-highlight-temporal,
 .oracle-line .oracle-highlight-warning {
   font-weight: var(--oracle-typography-heading-weight);
 }
@@ -789,6 +801,7 @@
 .oracle-line .text-highlight-spatial,
 .oracle-line .text-highlight-abiotic,
 .oracle-line .text-highlight-latent,
+.oracle-line .text-highlight-temporal,
 .oracle-line .text-highlight-warning {
   background: transparent;
   border: 0;
@@ -800,6 +813,7 @@
 .oracle-line .text-highlight-spatial::before,
 .oracle-line .text-highlight-abiotic::before,
 .oracle-line .text-highlight-latent::before,
+.oracle-line .text-highlight-temporal::before,
 .oracle-line .text-highlight-warning::before {
   content: none;
 }
@@ -807,6 +821,7 @@
 .oracle-line.oracle-line-has-text .oracle-highlight-spatial,
 .oracle-line.oracle-line-has-text .oracle-highlight-abiotic,
 .oracle-line.oracle-line-has-text .oracle-highlight-latent,
+.oracle-line.oracle-line-has-text .oracle-highlight-temporal,
 .oracle-line.oracle-line-has-text .oracle-highlight-warning {
   align-items: baseline;
   border: 1px solid currentColor;
@@ -828,6 +843,10 @@
   background: rgba(199, 146, 234, 0.1);
 }
 
+.oracle-line.oracle-line-has-text .oracle-highlight-temporal {
+  background: rgba(184, 255, 109, 0.1);
+}
+
 .oracle-line.oracle-line-has-text .oracle-highlight-warning {
   background: rgba(255, 123, 114, 0.12);
 }
@@ -844,6 +863,10 @@
   content: "◎";
 }
 
+.oracle-line.oracle-line-has-text .oracle-highlight-temporal::before {
+  content: "Δ";
+}
+
 .oracle-line.oracle-line-has-text .oracle-highlight-warning::before {
   content: "⚠";
 }
@@ -851,6 +874,7 @@
 .oracle-line.oracle-line-has-text .text-highlight-spatial,
 .oracle-line.oracle-line-has-text .text-highlight-abiotic,
 .oracle-line.oracle-line-has-text .text-highlight-latent,
+.oracle-line.oracle-line-has-text .text-highlight-temporal,
 .oracle-line.oracle-line-has-text .text-highlight-warning {
   align-items: baseline;
   border: 1px solid currentColor;
@@ -875,6 +899,11 @@
   background: rgba(199, 146, 234, 0.1);
 }
 
+.oracle-line.oracle-line-has-text .text-highlight-temporal {
+  color: var(--oracle-palette-phosphor);
+  background: rgba(184, 255, 109, 0.1);
+}
+
 .oracle-line.oracle-line-has-text .text-highlight-warning {
   color: var(--oracle-palette-red);
   background: rgba(255, 123, 114, 0.12);
@@ -892,6 +921,10 @@
   content: "◎";
 }
 
+.oracle-line.oracle-line-has-text .text-highlight-temporal::before {
+  content: "Δ";
+}
+
 .oracle-line.oracle-line-has-text .text-highlight-warning::before {
   content: "⚠";
 }
@@ -899,10 +932,12 @@
 .oracle-line.oracle-line-has-text .oracle-highlight-spatial::before,
 .oracle-line.oracle-line-has-text .oracle-highlight-abiotic::before,
 .oracle-line.oracle-line-has-text .oracle-highlight-latent::before,
+.oracle-line.oracle-line-has-text .oracle-highlight-temporal::before,
 .oracle-line.oracle-line-has-text .oracle-highlight-warning::before,
 .oracle-line.oracle-line-has-text .text-highlight-spatial::before,
 .oracle-line.oracle-line-has-text .text-highlight-abiotic::before,
 .oracle-line.oracle-line-has-text .text-highlight-latent::before,
+.oracle-line.oracle-line-has-text .text-highlight-temporal::before,
 .oracle-line.oracle-line-has-text .text-highlight-warning::before {
   font-size: 0.76em;
   line-height: 1;

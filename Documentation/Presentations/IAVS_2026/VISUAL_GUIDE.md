@@ -58,7 +58,8 @@ The values below are the working defaults unless superseded there.
 - Background: `#08110D`
 - Phosphor green: `#7CFFB2`
 - Spatial channel (cyan): `#59E1FF`
-- Temporal channel (amber): `#FFC857`
+- Climate / abiotic channel (amber): `#E2C847`
+- Temporal cue: phosphor-green bordered chip with `Δ` marker (no dedicated temporal colour)
 - Warning (coral/red): `#FF6B6B`
 - Accent (violet, optional): `#C792EA`
 - Light text: `#E8F1EF`
@@ -185,7 +186,7 @@ Avoid per-slide ad-hoc colour overrides.
 $oracle-bg: #08110d;
 $oracle-green: #7cffb2;
 $oracle-cyan: #59e1ff;
-$oracle-amber: #ffc857;
+$oracle-amber: #e2c847; // climate / abiotic channel
 $oracle-red: #ff6b6b;
 $oracle-grid: #29433a;
 $oracle-text: #e8f1ef;
@@ -243,3 +244,5 @@ Append short decisions here over time.
 - 2026-05-24: retain a single low-contrast perimeter border around each slide to establish the terminal screen against the surrounding background.
 - 2026-05-27: internal terminal slides use visible CRT scanlines both outside and inside the screen; the exterior field is intentionally stronger while the copy surface remains restrained for readability.
 - 2026-05-27: optional title and content decorations are attached through composable utility classes in `index.qmd`, so visual choices remain visible and adjustable in the slide source.
+- 2026-06-03: amber is reserved for climate / abiotic semantics.
+- 2026-06-03: temporal semantics use a dedicated `Δ` chip cue in phosphor green, matching existing highlight-border structure without introducing a new colour.

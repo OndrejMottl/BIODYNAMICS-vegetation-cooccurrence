@@ -282,7 +282,7 @@ Three routes selected:
 :::
 
 ::: {.oracle-line}
-[Temporal slices test]{.text-highlight-abiotic} : change through time
+[Temporal slices test]{.text-highlight-temporal} : change through time
 :::
 
 ::: {.oracle-line}
@@ -325,7 +325,7 @@ Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 :::
 
 ::: {.oracle-line}
- - Age uncertainty [propagated]{.text-emphasis-underline-dotted} to estimate counts
+ - [Age uncertainty]{.text-highlight-temporal} [propagated]{.text-emphasis-underline-dotted} to estimate counts
 :::
 
 
@@ -521,7 +521,7 @@ Interestingly, the change in taxonomic resolution does not seem to affect the sp
 :::
 
 <!-- slide:10 -->
-## [Is the [association signal]{.text-color-latent} stable through [time]{.text-emphasis-underline}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
+## [Is the [association signal]{.text-color-latent} stable through [time]{.text-highlight-temporal}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
 
@@ -535,7 +535,7 @@ Query accepted
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Temporal mode]{.text-emphasis-underline} selected: Slicing the data into [500-year windows]{.text-emphasis-chip}
+[Temporal mode]{.text-highlight-temporal} selected: Slicing the data into [500-year windows]{.text-emphasis-chip}
 :::
 
 []{.oracle-line}
@@ -597,7 +597,7 @@ Now each time slice receives an independent analyses and diagnostics. We will be
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Plotting temporal trajectories for each [continent]{.text-emphasis-underline-dotted}
+Plotting [temporal trajectories]{.text-highlight-temporal} for each [continent]{.text-emphasis-underline-dotted}
 :::
 :::
 
@@ -630,7 +630,7 @@ Consulting deeper reasoning matrices
 :::
 
 ::: {.oracle-line}
-Summarising RESULTS together: [spatial]{.text-color-spatial} patterns, [taxonomic]{.text-color-latent} resolution, [temporal]{.text-emphasis-underline} dynamics
+Summarising RESULTS together: [spatial]{.text-color-spatial} patterns, [taxonomic]{.text-color-latent} resolution, [temporal]{.text-highlight-temporal} dynamics
 :::
 
 :::
@@ -642,7 +642,7 @@ Local to continental comparison
 [TAXONOMY]{.text-highlight-latent}<br>
 Genus / family / functional-type comparison
 
-[TIME]{.text-emphasis-underline}<br>
+[TIME]{.text-highlight-temporal}<br>
 Past trajectory and network comparison
 :::
 
@@ -661,7 +661,7 @@ TIME 00:45. TBD
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Current [SDM]{.text-emphasis-chip} models can be used to [futher predict]{.text-emphasis-caps .text-emphasis-underline-thick} the biodiversity patterns under the [future climate change]{.text-emphasis-underline-dotted} scenarios
+Current [SDM]{.text-emphasis-chip} models can be used to [futher predict]{.text-emphasis-caps .text-emphasis-underline-thick} the biodiversity patterns under the [future]{.text-highlight-temporal} [climate change]{.text-emphasis-underline-dotted} scenarios
 :::
 :::
 
