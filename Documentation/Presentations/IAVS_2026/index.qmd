@@ -221,13 +221,13 @@ TIME 00:45. Oracle, I would like like to explore vegation patterns across space 
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Community records]{.text-emphasis-box}, [climate predictors]{.text-color-abiotic}, [site coordinates]{.text-color-spatial}, and [functional traits]{.text-color-latent} are loaded as separate streams.
+[Community records]{.text-emphasis-box}, [climate predictors]{.text-color-abiotic}, [site coordinates]{.text-color-spatial}, and [functional traits]{.text-color-latent} are loaded as separate streams
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Due to [data availability]{.text-emphasis-underline-dotted}, I will focus on the [Northern Hemisphere]{.text-emphasis-underline-double} of the planet.
+Due to [data availability]{.text-emphasis-underline-dotted}, I will focus on the [Northern Hemisphere]{.text-emphasis-underline-double} of the planet
 :::
 :::
 
@@ -282,11 +282,11 @@ Three routes selected:
 :::
 
 ::: {.oracle-line}
-[Temporal slices test]{.text-highlight-abiotic} : change through time.
+[Temporal slices test]{.text-highlight-abiotic} : change through time
 :::
 
 ::: {.oracle-line}
-[Taxonomic aggregation level]{.text-highlight-latent} : change through classification.
+[Taxonomic aggregation level]{.text-highlight-latent} : change through classification
 :::
 :::
 
@@ -324,6 +324,11 @@ Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
  - Taxa are classified [automatically]{.text-emphasis-underline-dotted} to GBIF and filtered
 :::
 
+::: {.oracle-line}
+ - Age uncertainty [propagated]{.text-emphasis-underline-dotted} to estimate counts
+:::
+
+
 []{.oracle-line}
 
 ::: {.oracle-line}
@@ -331,7 +336,7 @@ Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 :::
 
 ::: {.oracle-line}
- - [Redundant]{.text-emphasis-underline-dotted} predictors are [removed]{.text-emphasis-underline-dotted} before model fitting.
+ - [Redundant]{.text-emphasis-underline-dotted} predictors are [removed]{.text-emphasis-underline-dotted} before model fitting
 :::
 :::
 
@@ -348,14 +353,11 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 :::
 
 <!-- slide:06 -->
-## Model core: [environment]{.text-color-abiotic}, [space]{.text-color-spatial}, [association]{.text-color-latent} {.slide-terminal .slide-terminal-methods}
+## [Model core: [environment]{.text-color-abiotic}, [space]{.text-color-spatial}, [association]{.text-color-latent}]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 ::: {.column width="65%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750}
---Schematic of model components and variance partitioning--
-(we can use either mermaid or a custom schematic)
-
---maybe a mathematical formula for the model--
+--A mathematical formula for the model--
 :::
 
 ::: {.column width="35%" .fragment data-fragment-index="1"}
@@ -372,19 +374,19 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Abiotic predictors]{.text-highlight-abiotic} explain shared response.
+[Abiotic predictors]{.text-highlight-abiotic} explain shared response
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Moran Eigenvector Maps]{.text-highlight-spatial} (MEMs) absorb spatio-temporal autocorrelation.
+[Moran Eigenvector Maps]{.text-highlight-spatial} (MEMs) absorb spatio-temporal autocorrelation
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Residual covariance]{.text-highlight-latent} carries species-species association signal.
+[Residual covariance]{.text-highlight-latent} carries species-species association signal
 :::
 
 :::
@@ -397,7 +399,7 @@ We will be uisng {sjSDM} R package is used because the community matrix and spat
 :::
 
 <!-- slide:07 -->
-## [Variance decomposition]{.text-emphasis-box} {.slide-terminal .slide-terminal-methods}
+## [Variance decomposition]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 
@@ -409,33 +411,34 @@ We will be uisng {sjSDM} R package is used because the community matrix and spat
 ::: {.oracle-terminal}
 
 ::: {.oracle-line}
-Decomposition ready.
+Decomposition ready
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Focus: [residual association component]{.text-emphasis-box}
+Focus: [residual association component]{.text-highlight-latent}
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Report what remains after climate and spatial 
-structure have made their claims.
+Report what remains after [climate]{.text-highlight-abiotic} and [spatial 
+structure]{.text-highlight-spatial} have made their claims
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Caution]{.text-highlight-warning}: co-occurrence is not proof of [interaction]{.text-highlight-warning}.
+[Caution]{.text-highlight-warning}: co-occurrence is not proof of [interaction]{.text-color-warning}.
 :::
 
 :::
 :::
 
 ::: {.column width="50%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750} 
---schematic to show the variance decomposition and the focus on the residual association component--
+--Schematic of model components and variance partitioning with the focus on the residual association component--
+(we can use either mermaid or a custom schematic)
 :::
 
 
@@ -447,7 +450,7 @@ The shared fractions are useful diagnostics for understanding the model fit. How
 :::
 
 <!-- slide:08 -->
-## [Spatial results]{.text-color-spatial}: local to continental {.slide-terminal .slide-terminal-results}
+## [[Spatial results]{.text-color-spatial}: local to continental]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-results}
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -469,11 +472,11 @@ The shared fractions are useful diagnostics for understanding the model fit. How
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Spatial scan configured.
+[Spatial]{.text-color-spatial} scan configured
 :::
 
 ::: {.oracle-line}
-Units are nested from local to regional to continental.
+Units are nested from [local]{.text-emphasis-underline-dotted} to [regional]{.text-emphasis-underline-dotted} to [continental]{.text-emphasis-underline-dotted}
 :::
 :::
 
@@ -483,40 +486,28 @@ What do we see? Is there a clear change in the association signal across spatial
 :::
 
 <!-- slide:09 -->
-## How does the [spatial pattern]{.text-color-spatial} change when we add [taxonomic resolution]{.text-color-latent}? {.slide-terminal .slide-terminal-question}
+## [How does the [spatial pattern]{.text-color-spatial} change when we add [taxonomic resolution]{.text-color-latent}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
 
-:::: {.columns}
-::: {.column width="65%" .fragment .tui-reveal-blur  data-fragment-index="2" .image-height-750}
---Expland on the Figure 2 from previous slide. Now 3 columns (spatial scale) and 3 rows (taxonomic scale), each tile (a unit) is colored by the the amount of association--
-:::
-
-::: {.column width="35%"}
-
-<br>
-<br>
-
-::: {.oracle-terminal}
+::: {.oracle-terminal .fragment  data-fragment-index="1"}
 
 ::: {.oracle-line}
 Query accepted...
 :::
 
-[]{.oracle-line}
+::: {.oracle-line}
+Adding [taxonomic axis]{.text-highlight-latent}
+:::
 
 ::: {.oracle-line}
-Adding taxonomic axis.
-:::
-
-[]{.oracle-line}
-
-::: {.oracle-line}
-Plotting the results.
+Plotting the results
 :::
 
 :::
 
+
+::: {.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-750}
+--Expland on the Figure 2 from previous slide. Now 3 columns (spatial scale) and 3 rows (taxonomic scale), each tile (a unit) is colored by the the amount of association--
 :::
-::::
 
 ::: {.notes}
 TIME 00:45. Oracle, how does the spatial pattern change when we add taxonomic resolution? We assume that higher higher taxonomic resolution will result in smaller association signal in local units and vice versa.
@@ -524,7 +515,7 @@ Interestingly, the change in taxonomic resolution does not seem to affect the sp
 :::
 
 <!-- slide:10 -->
-## Is the association signal stable through [time]{.text-color-abiotic}? {.slide-terminal .slide-terminal-question}
+## [Is the [association signal]{.text-color-latent} stable through [time]{.text-emphasis-underline}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
 
 :::: {.columns}
 
@@ -532,37 +523,37 @@ Interestingly, the change in taxonomic resolution does not seem to affect the sp
 ::: {.oracle-terminal .fragment  data-fragment-index="1"}
 
 ::: {.oracle-line}
-Query accepted.
+Query accepted
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Temporal mode selected: Slicing the data into 500-year windows.
+[Temporal mode]{.text-emphasis-underline} selected: Slicing the data into [500-year windows]{.text-emphasis-chip}
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Network diagnostics loaded. Co-occurrence structure can change even when variance components look similar.
+[Network diagnostics]{.text-emphasis-underline-dotted} loaded. [Co-occurrence structure]{.text-color-latent} can change even when variance components look similar
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Each slice receives an independent analysis and diagnostics.
+[Each slice receives]{.text-emphasis-underline-double} an [independent analysis and diagnostics]{.text-emphasis-underline-double}
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Plotting the results.
+Plotting the data distribution.
 :::
 
 []{.oracle-line}
 
 ::: {.oracle-line}
-Proceed? Y/N?
+Proceed? [Y]/[N]?
 :::
 
 :::
@@ -570,8 +561,8 @@ Proceed? Y/N?
 
 ::: {.column width="65%"}
 
-:::{.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-400}
--- Distribution of data across the temporal axis, showing where the data are dense or sparse.--
+:::{.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-300}
+-- Distribution of data across the temporal axis, showing the verical time slices--
 :::
 
 :::: {.columns .image-height-400}
