@@ -9,9 +9,8 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Creates stacked variance-partitioning, biotic-component
-#   spread, and unit-level waffle figures from the latest paleo
-#   spatial unit table.
+# Creates stacked variance-partitioning and biotic-component
+#   spread figures from the latest paleo spatial unit table.
 
 
 #----------------------------------------------------------#
@@ -51,14 +50,18 @@ vec_resolution_labels <-
   )
 
 vec_component_levels <-
-  base::c("Biotic co-occurrence", "Abiotic", "Spatial", "Unexplained")
+  base::c("Biotic co-occurrence", "Climate", "Spatial", "Unexplained")
+
+vec_component_display_labels <-
+  base::c(
+    "Abiotic" = "Climate"
+  )
 
 vec_component_colours <-
   base::c(
-    "Biotic co-occurrence" = "#1B9E77",
-    "Abiotic" = "#D95F02",
-    "Spatial" = "#7570B3",
-    "Unexplained" = "grey85"
+    "Biotic co-occurrence" = "#C792EA",
+    "Climate" = "#E2C847",
+    "Spatial" = "#33C9D5"
   )
 
 vec_continent_shapes <-
@@ -101,7 +104,16 @@ data_paleo_plot <-
   prepare_spatial_variance_plot_data(
     data_unit = data_paleo_unit,
     vec_scale_levels = vec_scale_levels,
-    vec_resolution_labels = vec_resolution_labels
+    vec_resolution_labels = vec_resolution_labels,
+    percentage_source_column = "R2_Nagelkerke_percentage",
+    scale_source_to_percentage = FALSE
+  ) |>
+  dplyr::mutate(
+    component_label = dplyr::recode(
+      .x = .data$component_label,
+      !!!vec_component_display_labels,
+      .default = .data$component_label
+    )
   )
 
 data_component_stack <-
@@ -114,12 +126,6 @@ data_biotic_summary <-
   summarise_spatial_biotic_component(
     data_plot = data_paleo_plot
   )
-
-data_waffle <-
-  prepare_spatial_variance_waffle_data(
-    data_plot = data_paleo_plot
-  )
-
 
 #----------------------------------------------------------#
 # 3. Build figures -----
@@ -136,7 +142,8 @@ plot_biotic <-
   plot_spatial_biotic_component(
     data_plot = data_paleo_plot,
     data_biotic_summary = data_biotic_summary,
-    plot_title = "Paleo biotic co-occurrence component"
+    plot_title = "Paleo biotic co-occurrence component",
+    vec_continent_shapes = vec_continent_shapes
   )
 
 fig_paleo_variance <-
@@ -155,21 +162,6 @@ fig_paleo_variance <-
     bg = graphical_options[["bg"]]
   )
 
-fig_paleo_waffle <-
-  plot_spatial_variance_waffle(
-    data_waffle = data_waffle,
-    plot_title = "Paleo Associations variance across scales",
-    vec_continent_shapes = vec_continent_shapes
-  ) +
-  ggview::canvas(
-    width = graphical_options[["width"]],
-    height = graphical_options[["height"]],
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]],
-    bg = graphical_options[["bg"]]
-  )
-
-
 #----------------------------------------------------------#
 # 4. Save -----
 #----------------------------------------------------------#
@@ -177,15 +169,7 @@ fig_paleo_waffle <-
 file_paleo_variance <-
   base::file.path(
     path_output_figures,
-    stringr::str_glue("paleo_variance_partitioning_{tag_date}.pdf")
-  )
-
-file_paleo_waffle <-
-  base::file.path(
-    path_output_figures,
-    stringr::str_glue(
-      "paleo_variance_partitioning_waffle_{tag_date}.pdf"
-    )
+    stringr::str_glue("paleo_variance_partitioning_{tag_date}.png")
   )
 
 ggview::save_ggplot(
@@ -198,15 +182,4 @@ ggview::save_ggplot(
   bg = graphical_options[["bg"]]
 )
 
-ggview::save_ggplot(
-  plot = fig_paleo_waffle,
-  file = file_paleo_waffle,
-  width = graphical_options[["width"]],
-  height = graphical_options[["height"]],
-  units = graphical_options[["units"]],
-  dpi = graphical_options[["dpi"]],
-  bg = graphical_options[["bg"]]
-)
-
 base::message("Saved paleo variance figure: ", file_paleo_variance)
-base::message("Saved paleo variance waffle: ", file_paleo_waffle)

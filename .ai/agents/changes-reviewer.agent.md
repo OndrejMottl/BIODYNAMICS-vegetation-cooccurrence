@@ -71,6 +71,8 @@ For **each changed file**, systematically check it against all applicable instru
 - `<-` for assignment (not `=`)
 - After `<-`, RHS function calls are on a **new line** (user memory rule)
 - Explicit namespace (`pkg::function()`) for all non-base calls
+- No use of superseded `dplyr::transmute()`; prefer `dplyr::mutate()` and
+  `dplyr::select()`
 - No `library()` / `require()` inside functions
 - `here::here()` for all file paths
 - Snake_case names (Capital_snake_style for files/folders, snake_case for variables/arguments)

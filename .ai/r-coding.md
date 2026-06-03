@@ -577,6 +577,40 @@ data_diversity |>
 
 ## Modern dplyr Patterns
 
+### Superseded Verbs
+
+Do not use `dplyr::transmute()`.
+
+`transmute()` is superseded in dplyr and should not be suggested or introduced
+in this repository. Use one of these patterns instead:
+
+- Use `dplyr::mutate()` when you are adding or transforming columns and want
+  to keep existing columns.
+- Use `dplyr::mutate()` followed by `dplyr::select()` when you want to keep
+  only a subset of columns.
+- Use `dplyr::summarise()` for grouped reductions.
+
+```r
+# Good: keep all existing columns and add/transform
+data_input |>
+  dplyr::mutate(value_scaled = value / 100)
+
+# Good: replace old transmute() intent with mutate() + select()
+data_input |>
+  dplyr::mutate(
+    observation_id = base::as.character(id),
+    component_share = base::as.numeric(share)
+  ) |>
+  dplyr::select(observation_id, component_share)
+
+# Avoid (superseded)
+data_input |>
+  dplyr::transmute(
+    observation_id = base::as.character(id),
+    component_share = base::as.numeric(share)
+  )
+```
+
 ### Joins
 
 Use `join_by()` instead of character vectors for joins (dplyr 1.1+):

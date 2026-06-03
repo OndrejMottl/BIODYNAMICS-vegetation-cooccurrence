@@ -5,6 +5,7 @@ testthat::test_that(
       tibble::tibble(
         scale = base::factor(base::c("local", "local")),
         resolution_label = base::c("Genus", "Genus"),
+        continent_id = base::c("europe", "asia"),
         component = base::c("Associations", "Associations"),
         component_total_percentage = base::c(10, 20)
       )
@@ -22,7 +23,12 @@ testthat::test_that(
       plot_spatial_biotic_component(
         data_plot = data_plot,
         data_biotic_summary = data_biotic_summary,
-        plot_title = "Test biotic"
+        plot_title = "Test biotic",
+        vec_continent_shapes = base::c(
+          "america" = 0,
+          "asia" = 2,
+          "europe" = 6
+        )
       )
 
     testthat::expect_s3_class(res_plot, "ggplot")

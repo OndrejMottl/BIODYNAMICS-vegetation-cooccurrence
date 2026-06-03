@@ -35,13 +35,13 @@ plot_spatial_variance_stack <- function(
     data_component_stack |>
     ggplot2::ggplot(
       mapping = ggplot2::aes(
-        x = resolution_label,
+        x = scale,
         y = component_total_percentage,
         fill = component_label
       )
     ) +
     ggplot2::facet_wrap(
-      ggplot2::vars(scale),
+      ggplot2::vars(resolution_label),
       nrow = 1
     ) +
     ggplot2::scale_fill_manual(

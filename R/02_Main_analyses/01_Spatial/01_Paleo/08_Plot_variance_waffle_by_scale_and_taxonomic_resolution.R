@@ -41,6 +41,13 @@ graphical_options <-
 tag_date <-
   base::format(base::Sys.Date(), "%Y-%m-%d")
 
+vec_waffle_component_colours <-
+  base::c(
+    "Abiotic" = "#E2C847",
+    "Spatial" = "#33C9D5",
+    "Associations" = "#C792EA"
+  )
+
 
 #----------------------------------------------------------#
 # 1. Load paleo unit table -----
@@ -78,12 +85,15 @@ data_paleo_plot <-
       "genus" = "Genus",
       "family" = "Family",
       "functional_type" = "Functional type"
-    )
+    ),
+    percentage_source_column = "R2_Nagelkerke_percentage",
+    scale_source_to_percentage = FALSE
   )
 
 data_waffle <-
   prepare_spatial_variance_waffle_data(
-    data_plot = data_paleo_plot
+    data_plot = data_paleo_plot,
+    vec_component_colours = vec_waffle_component_colours
   )
 
 
@@ -94,12 +104,15 @@ data_waffle <-
 fig_resolution_comparison <-
   plot_spatial_variance_waffle(
     data_waffle = data_waffle,
-    plot_title = "Paleo Associations variance across scales",
+    plot_title = "",
     vec_continent_shapes = base::c(
       "america" = 0,
       "asia" = 2,
       "europe" = 6
-    )
+    ),
+    flag_show_fill_legend = TRUE,
+    vec_component_colours = vec_waffle_component_colours,
+    fill_legend_style = "triangle"
   ) +
   ggview::canvas(
     height = graphical_options[["height"]],
