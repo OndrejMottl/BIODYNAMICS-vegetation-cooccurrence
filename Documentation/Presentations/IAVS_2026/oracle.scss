@@ -110,6 +110,40 @@
   z-index: 1;
 }
 
+.reveal .slides section.slide-title.slide-planet-bg::before {
+  background:
+    radial-gradient(circle at 77% 42%, rgba(184, 255, 109, 0.08), transparent 30%),
+    var(--oracle-effects-title-spotlight-background),
+    var(--oracle-scanline-strong),
+    linear-gradient(rgba(1, 3, 1, 0.68), rgba(1, 3, 1, 0.68)),
+    url("../../../../../figures/story/genai_drafts/planet_abstract_scan_motif_v5_edit.png"),
+    var(--oracle-palette-background);
+  background-position: 0% 0%, 0% 0%, 0% 0%, center, right 5vw center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-size: auto, auto, 100% var(--oracle-effects-scanline-size), auto, auto 92%, auto;
+  background-blend-mode: normal, normal, normal, normal, screen, normal;
+}
+
+.reveal .slides section.slide-title.slide-planet-bg .planet-scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(141, 245, 154, 0.10) 0px,
+    rgba(141, 245, 154, 0.10) 2px,
+    rgba(0, 0, 0, 0.18) 2px,
+    rgba(0, 0, 0, 0.18) 4px
+  );
+  border-radius: var(--oracle-frame-radius);
+  content: "";
+  inset: var(--oracle-spacing-md);
+  pointer-events: none;
+  position: absolute;
+  z-index: 3;
+}
+
+.reveal .slides section.slide-title.slide-planet-bg > * {
+  z-index: 4;
+}
+
 .reveal .slides section.slide-title.screen-corners::after {
   /* Add .screen-corners to a .slide-title section to draw HUD corner marks. */
   background:
