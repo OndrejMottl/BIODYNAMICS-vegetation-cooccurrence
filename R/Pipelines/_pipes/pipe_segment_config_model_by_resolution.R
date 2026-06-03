@@ -108,6 +108,9 @@ pipe_segment_config_model_by_resolution <-
           ),
           use_age_in_formula = get_active_config(
             value = c("model_fitting", "use_age_in_formula")
+          ),
+          age_scale_mode = get_active_config(
+            value = c("model_fitting", "age_scale_mode")
           )
         )
       },

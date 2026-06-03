@@ -30,6 +30,7 @@ default:
     spatial_mode: "spatial"
     use_spatial: true
     use_age_in_formula: true
+    age_scale_mode: "z_score"
 project_cz_paleo:
   target_store: Data/targets/cz_paleo
   continent_id: "europe"
@@ -44,6 +45,7 @@ project_cz_paleo:
     min_n_samples: 5
     min_n_taxa: 4
     n_cores: 24
+    n_interpolation_workers: 16
   model_fitting:
     n_mev: 3
     n_cores: 24
@@ -70,6 +72,7 @@ project_paleo_temporal_europe:
   data_processing:
     taxonomic_resolution: "genus"
     min_n_samples: 10
+      
   model_fitting:
     n_mev: 5
     n_cores: 24
@@ -88,6 +91,7 @@ project_paleo_temporal_america:
   data_processing:
     taxonomic_resolution: "genus"
     min_n_samples: 10
+    n_interpolation_workers: 16
   model_fitting:
     n_mev: 5
     n_cores: 24
@@ -106,6 +110,7 @@ project_paleo_temporal_asia:
   data_processing:
     taxonomic_resolution: "genus"
     min_n_samples: 10
+    n_interpolation_workers: 16
   model_fitting:
     n_mev: 5
     n_cores: 24
@@ -124,7 +129,7 @@ project_paleo_spatial_continental:
     min_n_samples: 10
     min_n_taxa: 5
     n_cores: 24
-    n_interpolation_workers: 8
+    n_interpolation_workers: 16
   model_fitting:
     model_tuning_id: "paleo_spatial"
     n_mev: 5
@@ -139,7 +144,8 @@ project_paleo_spatial_regional:
     taxonomic_resolution: "genus"
     min_n_samples: 10
     min_n_taxa: 4
-    n_cores: 24    
+    n_cores: 24
+    n_interpolation_workers: 8
   model_fitting:
     model_tuning_id: "paleo_spatial"
     n_mev: 4
@@ -155,7 +161,7 @@ project_paleo_spatial_local:
     min_n_samples: 5
     min_n_taxa: 3
     n_cores: 24
-    n_interpolation_workers: 2
+    n_interpolation_workers: 4
   model_fitting:
     model_tuning_id: "paleo_spatial"
     n_mev: 3
