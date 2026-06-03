@@ -76,6 +76,10 @@
 
 .reveal a {
   color: var(--oracle-palette-cyan);
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.14em;
 }
 
 /* Framed screens */
