@@ -547,7 +547,7 @@ Query accepted
 []{.oracle-line}
 
 ::: {.oracle-line}
-Plotting the data distribution.
+Plotting the data distribution
 :::
 
 []{.oracle-line}
@@ -586,12 +586,12 @@ Now each time slice receives an independent analyses and diagnostics. We will be
 :::
 
 <!-- slide:11 -->
-## [Temporal trajectories]{.text-color-abiotic} {.slide-terminal .slide-terminal-results}
+## [Temporal trajectories]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-results}
 
 ::: {.oracle-terminal}
 
 ::: {.oracle-line}
-Plotting temporal trajectories.
+Plotting temporal trajectories for each [continent]{.text-emphasis-underline-dotted}
 :::
 :::
 
@@ -615,32 +615,29 @@ TIME 00:50. The network structure and the variance components are changing throu
 :::
 
 <!-- slide:12 -->
-## Synthesis pending verification {.slide-terminal .slide-terminal-synthesis}
+## [Take home messages]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
 
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Weaving realities together: spatial patterns, taxonomic resolution, temporal dynamics.
+Consulting deeper reasoning matrices
 :::
 
 ::: {.oracle-line}
-Consulting deeper reasoning matrices.
+Summarising RESULTS together: [spatial]{.text-color-spatial} patterns, [taxonomic]{.text-color-latent} resolution, [temporal]{.text-emphasis-underline} dynamics
 :::
 
-::: {.oracle-line}
-Summarizing results.
-:::
 :::
 
 ::: {.fragment data-fragment-index="2"}
-[SPACE]{.text-color-spatial}<br>
-Local to continental comparison.
+[SPACE]{.text-highlight-spatial}<br>
+Local to continental comparison
 
-[TAXONOMY]{.text-color-latent}<br>
-Genus / family / functional-type comparison.
+[TAXONOMY]{.text-highlight-latent}<br>
+Genus / family / functional-type comparison
 
-[TIME]{.text-color-abiotic}<br>
-Palaeo trajectory and network comparison.
+[TIME]{.text-emphasis-underline}<br>
+Past trajectory and network comparison
 :::
 
 ::: {.notes}
@@ -648,69 +645,69 @@ TIME 00:45. TBD
 :::
 
 <!-- slide:13 -->
-## [Future predictions]{.text-emphasis-box} {.slide-terminal .slide-terminal-synthesis}
+## [Future predictions]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
 
-:::: {.columns}
-::: {.column .fragment .tui-reveal-scan width="65%" data-fragment-index="1"}
-![Can We spot the hidden signal?](figures/story/hidden_majority_particles.png){.image-display-block .margin-x-auto .image-height-story .image-blend-screen .image-fit-contain .width-full}
+::: {.fragment .tui-reveal-scan data-fragment-index="2" .image-height-600}
+--gif of European richness change from LGM to present--
 :::
 
-::: {.column width="35%"}
-::: {.oracle-terminal}
+
+::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Current models can be used to [futher predict]{.text-emphasis-caps .text-emphasis-underline-thick} the biodiversity patterns under the climate change scenarios.
+Current [SDM]{.text-emphasis-chip} models can be used to [futher predict]{.text-emphasis-caps .text-emphasis-underline-thick} the biodiversity patterns under the [future climate change]{.text-emphasis-underline-dotted} scenarios
 :::
 :::
-
-:::
-::::
 
 ::: {.notes}
 TIME 00:40. 
 :::
 
 <!-- slide:14 -->
-## [Query resolved]{.text-emphasis-caps .text-emphasis-underline-double} ... termination {.slide-terminal .slide-terminal-story}
+## [... termination]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-story}
 
-:::: {.columns}
-::: {.column width="35%"}
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-[Execution complete.]{.text-emphasis-chip}
+[Execution complete.]{.text-emphasis-underline}
 :::
 
 ::: {.oracle-line}
-Turning off non-essential systems.
+Turning off non-essential systems
 :::
 
 ::: {.oracle-line}
-Thank you for your attention.
+[Thank you for your attention]{.text-emphasis-underline-double}
 :::
 
 :::
 
-:::
 
-::: {.column width="35%" .fragment .tui-reveal-scan data-fragment-index="2"}
+::: {.fragment .tui-reveal-scan data-fragment-index="2"}
 ![](figures/story/genai_drafts/oracle_closing_signal_motif_v2.png){.image-display-block .margin-x-auto .image-height-600 .image-blend-screen .image-fit-contain .width-full}
 :::
-::::
 
 ::: {.notes}
 TIME 00:20. 
 :::
 
 <!-- slide:15 -->
-## [Hi!]{.text-color-amber} I am [Ondřej Mottl]{.text-color-purple}{.slide-title .screen-corners .screen-header .screen-prompt}
+## Presenter {.slide-title .screen-corners .screen-header .screen-prompt}
 
 <br>
 
 :::: {.columns}
 
-::: {.column width="35%" .image-height-400}
+::: {.column width="35%"}
+
+::: {.image-height-400}
 --head photo--
+:::
+
+::: {.text-position-center}
+[Hi!]{.text-color-amber} I am [Ondřej Mottl]{.text-color-purple}
+:::
+
 :::
 
 ::: {.column width="1%"}
@@ -723,7 +720,7 @@ Assistant Professor at 🏛️[Charles University](https://cuni.cz/UK-1.html), P
 
 <br>
 
-Interested in [macroecology]{.text-color-amber .text-emphasis-underline-wave}, [palaeoecology]{.text-color-cyan .text-emphasis-underline-wave}, [biodiversity]{.text-color-purple .text-emphasis-underline-wave}, and [data science]{.text-color-red .text-emphasis-underline-wave}
+Interested in [macroecology]{.text-emphasis-caps .text-emphasis-chip .text-color-cyan}, [palaeoecology]{.text-emphasis-caps .text-emphasis-chip .text-color-amber}, [biodiversity]{.text-emphasis-caps .text-emphasis-chip .text-color-purple}, and [data science]{.text-emphasis-caps .text-emphasis-chip .text-color-red}
 
 <br>
 
@@ -740,11 +737,11 @@ Head of the 🧑‍💻[Laboratory of Quantitative Ecology](https://ondrejmottl.
 
 ::: {.column width="45%" .text-size-body}
 
-* 📧 ondrej.mottl(at)natur.cuni.cz
+* 🌐 [ondrejmottl.github.io](https://ondrejmottl.github.io/)
+* 📧 [ondrej.mottl(at)natur.cuni.cz](mailto:ondrej.mottl(at)natur.cuni.cz)
 * 🦋 [ondrejmottl.bsky.social](https://bsky.app/profile/ondrejmottl.bsky.social)
-* 🐱 [Github](https://github.com/OndrejMottl)
-* 🆔 [ORCID](https://orcid.org/0000-0002-9796-5081)
-* 🌐 [Personal webpage](https://ondrejmottl.github.io/)
+* 🐱 [github.com/OndrejMottl](https://github.com/OndrejMottl)
+* 🆔 [orcid.org/0000-0002-9796-5081](https://orcid.org/0000-0002-9796-5081)
 :::
 
 ::: {.column width="9%"}
@@ -753,7 +750,7 @@ Head of the 🧑‍💻[Laboratory of Quantitative Ecology](https://ondrejmottl.
 
 ::: {.column width="20%" .image-height-300}
 
---LOQE logo--
+--LOQE logo and QR code--
 
 :::
 
@@ -785,24 +782,28 @@ TIME 00:20.
 
 <br>
 
-[This presentation is publicly available on BIODYNAMICS project websites]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple .text-emphasis-box}
+[This presentation is publicly available on BIODYNAMICS project websites]{.text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple .text-emphasis-box .text-position-center}
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="48%"}
 
 <br>
 <br>
 <br>
 <br>
 
-::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-bold .r-fit-text .text-emphasis-underline}
+::: {.text-letter-spacing-status .text-uppercase .text-bold .r-fit-text}
 [bit.ly/biodynamics](https://bit.ly/biodynamics)
 :::
 
 
 :::
 
-::: {.column width="50%" .image-height-600}
+::: {.column width="5%"}
+
+:::
+
+::: {.column width="47%" .image-height-300}
 QR CODE
 :::
 ::::
