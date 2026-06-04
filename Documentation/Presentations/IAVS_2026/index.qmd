@@ -18,6 +18,17 @@ execute:
   message: false
 ---
 
+```{r}
+#| label: setup
+#| include: false
+library(here)
+here::i_am("Documentation/Presentations/IAVS_2026/index.qmd")
+
+source(
+  here::here("R/___setup_project___.R")
+)
+```
+
 ## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
 
 <!-- slide:00 -->
@@ -191,15 +202,53 @@ TIME 00:45. Oracle, I would like like to explore vegation patterns across space 
 <!-- slide:03 -->
 ## [DATA: [\<VegVault\>]{.text-emphasis-chip}]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
+```{r}
+#| label: result-slide03-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Data_ingestion_schematic_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/northern_hemisphere_coverage_figure.R"
+  )
+)
+```
+
 :::: {.columns}
 ::: {.column width="62%" }
 
-::: {.image-height-400 .fragment .tui-reveal-blur data-fragment-index="2"}
---figure/schematics of data input--
+::: {.fragment .tui-reveal-blur data-fragment-index="2"}
+
+```{r}
+#| label: result-slide03-ingestion-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_03_ingestion_schematic.png"
+  )
+)
+```
+
 :::
 
 ::: {.image-height-400 .fragment .tui-reveal-blur data-fragment-index="3"}
---Northern Hemisphere coverage figure--
+
+```{r}
+#| label: result-slide03-coverage-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_03_northern_hemisphere_coverage.png"
+  )
+)
+```
+
 :::
 
 :::
@@ -300,6 +349,17 @@ TIME 00:35. Now, we would like to split the analysis along space (from local to 
 <!-- slide:05 -->
 ## [Preparing [community]{.text-emphasis-box} and [climate]{.text-highlight-abiotic} streams]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
+```{r}
+#| label: result-slide05-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/climate_data_summary_figure.R"
+  )
+)
+```
+
 :::: {.columns}
 
 ::: {.column width="40%"}
@@ -346,7 +406,17 @@ Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 :::
 
 ::: {.column width="60%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750}
---Figure to show some climate data summary---
+
+```{r}
+#| label: result-slide05-climate-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_05_climate_screening.png"
+  )
+)
+```
+
 :::
 ::::
 
@@ -460,18 +530,55 @@ The shared fractions are useful diagnostics for understanding the model fit. How
 <!-- slide:08 -->
 ## [[Spatial results]{.text-color-spatial}: local to continental]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-results}
 
+```{r}
+#| label: result-slide08-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/spatial_units_map_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/spatial_association_tiles_figure.R"
+  )
+)
+```
+
 :::: {.columns}
 ::: {.column width="50%"}
 
 ::: {.image-height-600 .fragment .tui-reveal-blur data-fragment-index="2"}
---Map of Northem America with the three spatial units outlined: local, regional, continental--
+
+```{r}
+#| label: result-slide08-map-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_08_spatial_units_map.png"
+  )
+)
+```
+
 :::
 
 :::
 
 ::: {.column width="50%"}
 ::: {.image-height-600 .fragment .tui-reveal-blur data-fragment-index="3"}
---tile plot showing 3 columns (scale), each tile (a unit) is colored by the the amount of association--
+
+```{r}
+#| label: result-slide08-tiles-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_08_spatial_tiles.png"
+  )
+)
+```
+
 :::
 :::
 
@@ -496,6 +603,17 @@ What do we see? Is there a clear change in the association signal across spatial
 <!-- slide:09 -->
 ## [How does the [spatial pattern]{.text-color-spatial} change when we add [taxonomic resolution]{.text-color-latent}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
 
+```{r}
+#| label: result-slide09-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/spatial_taxonomic_matrix_figure.R"
+  )
+)
+```
+
 ::: {.oracle-terminal .fragment  data-fragment-index="1"}
 
 ::: {.oracle-line}
@@ -514,7 +632,17 @@ Plotting the results
 
 
 ::: {.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-750}
---Expland on the Figure 2 from previous slide. Now 3 columns (spatial scale) and 3 rows (taxonomic scale), each tile (a unit) is colored by the the amount of association--
+
+```{r}
+#| label: result-slide09-matrix-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_09_spatial_taxonomic_matrix.png"
+  )
+)
+```
+
 :::
 
 ::: {.notes}
@@ -524,6 +652,29 @@ Interestingly, the change in taxonomic resolution does not seem to affect the sp
 
 <!-- slide:10 -->
 ## [Is the [association signal]{.text-color-latent} stable through [time]{.text-highlight-temporal}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
+
+```{r}
+#| label: result-slide10-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/temporal_density_summary_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/network_diagnostic_pipeline_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/temporal_model_pipeline_figure.R"
+  )
+)
+```
 
 :::: {.columns}
 
@@ -570,17 +721,47 @@ Proceed? [Y]/[N]?
 ::: {.column width="65%"}
 
 :::{.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-300}
--- Distribution of data across the temporal axis, showing the verical time slices--
+
+```{r}
+#| label: result-slide10-density-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_10_temporal_density.png"
+  )
+)
+```
+
 :::
 
 :::: {.columns .image-height-400}
 
 ::: {.column width="50%" .fragment .tui-reveal-blur  data-fragment-index="3"}
-schematic of bipartite network pipeline, highligting one time slice from figure 1.
+
+```{r}
+#| label: result-slide10-network-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_10_network_pipeline.png"
+  )
+)
+```
+
 :::
 
 ::: {.column width="50%" .fragment .tui-reveal-blur  data-fragment-index="4"}
-schematic of temporal pipeline, showing how each slice is processed independently.
+
+```{r}
+#| label: result-slide10-temporal-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_10_temporal_pipeline.png"
+  )
+)
+```
+
 :::
 
 ::::
@@ -596,6 +777,29 @@ Now each time slice receives an independent analyses and diagnostics. We will be
 <!-- slide:11 -->
 ## [Temporal trajectories]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-results}
 
+```{r}
+#| label: result-slide11-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/north_america_temporal_trajectory_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/europe_temporal_trajectory_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/asia_temporal_trajectory_figure.R"
+  )
+)
+```
+
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
@@ -605,15 +809,45 @@ Plotting [temporal trajectories]{.text-highlight-temporal} for each [continent]{
 
 :::: {.columns}
 ::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="2" .image-height-600}
---NORTH AMERICA--
+
+```{r}
+#| label: result-slide11-na-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_11_temporal_trajectory_na.png"
+  )
+)
+```
+
 :::
 
 ::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="3" .image-height-600}
---EUROPE--
+
+```{r}
+#| label: result-slide11-eu-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_11_temporal_trajectory_eu.png"
+  )
+)
+```
+
 :::
 
 ::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="4" .image-height-600}
---ASIA--
+
+```{r}
+#| label: result-slide11-asia-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_11_temporal_trajectory_asia.png"
+  )
+)
+```
+
 :::
 
 ::::
@@ -624,6 +858,17 @@ TIME 00:50. The network structure and the variance components are changing throu
 
 <!-- slide:12 -->
 ## [Take home messages]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
+
+```{r}
+#| label: result-slide12-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/synthesis_summary_panel_figure.R"
+  )
+)
+```
 
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
@@ -648,6 +893,20 @@ Genus / family / functional-type comparison
 Past trajectory and network comparison
 :::
 
+::: {.fragment .tui-reveal-blur data-fragment-index="3" .image-height-400}
+
+```{r}
+#| label: result-slide12-panel-render
+#| echo: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_12_synthesis_panel.png"
+  )
+)
+```
+
+:::
+
 ::: {.notes}
 TIME 00:45. TBD
 :::
@@ -655,8 +914,25 @@ TIME 00:45. TBD
 <!-- slide:13 -->
 ## [Future predictions]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
 
+```{r}
+#| label: result-slide13-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/future_predictions_animation.R"
+  )
+)
+```
+
 ::: {.fragment .tui-reveal-scan data-fragment-index="2" .image-height-600}
---gif of European richness change from LGM to present--
+
+```{r}
+#| label: result-slide13-render
+#| echo: false
+knitr::include_graphics(list_slide_13_animation[["animation_path"]])
+```
+
 :::
 
 
