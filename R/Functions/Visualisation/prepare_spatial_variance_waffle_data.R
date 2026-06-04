@@ -167,6 +167,16 @@ prepare_spatial_variance_waffle_data <- function(
     )
   }
 
+  collapse_observation_id <- function(...) {
+    vec_observation_values <-
+      base::c(...)
+
+    res_observation_id <-
+      stringr::str_c(vec_observation_values, collapse = "__")
+
+    base::return(res_observation_id)
+  }
+
   data_plot_prepared <-
     data_plot |>
     dplyr::mutate(
@@ -174,7 +184,7 @@ prepare_spatial_variance_waffle_data <- function(
         dplyr::pick(
           dplyr::all_of(vec_observation_columns)
         ),
-        ~ stringr::str_c(..., collapse = "__")
+        collapse_observation_id
       )
     )
 
