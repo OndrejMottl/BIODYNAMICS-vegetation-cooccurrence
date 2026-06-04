@@ -59,7 +59,14 @@ pipe_segment_sample_filter_age <-
       name = "data_sample_ids",
       command = align_sample_ids(
         data_community_long = data_community_analysis_subset,
-        data_abiotic_long = data_abiotic_analysis,
+        data_abiotic_long = data_abiotic_analysis |>
+          dplyr::group_by(
+            dplyr::across(
+              dplyr::all_of(base::c("dataset_name", "age"))
+            )
+          ) |>
+          dplyr::filter(base::all(!base::is.na(.data$abiotic_value))) |>
+          dplyr::ungroup(),
         data_coords = data_coords_analysis,
         # `age` is injected as a literal value by tarchetypes::tar_map
         #   at pipeline-construction time, so it resolves correctly
