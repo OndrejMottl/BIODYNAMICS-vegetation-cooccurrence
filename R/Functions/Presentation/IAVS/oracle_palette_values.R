@@ -22,10 +22,11 @@ oracle_palette_values <- function(names = NULL) {
     )
   }
 
-  list_oracle_design <-
-    load_design_config()
+  fun_load_design_config <-
+    base::get("load_design_config", mode = "function")
 
-  write_oracle_generated_scss(list_oracle_design)
+  list_oracle_design <-
+    fun_load_design_config()
 
   vec_values <-
     purrr::chuck(list_oracle_design, "config") |>
