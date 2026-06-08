@@ -1,7 +1,7 @@
 scale_id,n_iter,n_step_size,n_sampling,n_samples_anova,n_early_stopping
-europe,500,NA,200,1000,NA
-america,500,NA,200,1000,NA
-asia,500,NA,200,1000,NA
+europe,200,NA,50,1000,NA
+america,200,NA,50,1000,NA
+asia,200,NA,50,1000,NA
 eu_r001,500,NA,200,1000,NA
 eu_r002,500,NA,200,1000,NA
 eu_r003,500,NA,200,1000,NA
