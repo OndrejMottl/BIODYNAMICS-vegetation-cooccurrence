@@ -548,6 +548,28 @@
   display: block;
 }
 
+.image-theme-bg-white {
+  background: #ffffff;
+  border: 4px solid var(--oracle-palette-border);
+  box-sizing: border-box;
+  padding: var(--oracle-spacing-sm);
+}
+
+.image-theme-bg-dark {
+  background: var(--oracle-palette-surface-alt);
+  border: 4px solid var(--oracle-palette-border);
+  box-sizing: border-box;
+  padding: var(--oracle-spacing-sm);
+}
+
+.image-theme-bg-background {
+  background: var(--oracle-palette-background);
+  border: 4px solid var(--oracle-palette-border);
+  box-sizing: border-box;
+  padding: var(--oracle-spacing-sm);
+}
+
+
 .margin-x-auto {
   margin: 0 auto;
 }

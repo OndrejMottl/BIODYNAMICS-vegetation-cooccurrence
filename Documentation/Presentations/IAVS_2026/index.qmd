@@ -27,6 +27,51 @@ here::i_am("Documentation/Presentations/IAVS_2026/index.qmd")
 source(
   here::here("R/___setup_project___.R")
 )
+
+list_oracle_design <-
+  load_design_config(
+    path = here::here(
+      "Documentation",
+      "Presentations",
+      "IAVS_2026",
+      "design_config.json"
+    )
+  )
+
+vec_oracle_palette <-
+  list_oracle_design |>
+  purrr::chuck(
+    "config",
+    "palette"
+  )
+
+generate_qr_code <- function(url, name, background_color, foreground_color, plot , base_path = here::here("Documentation", "Presentations", "IAVS_2026", "figures", "qrcodes")) {
+
+qr_code <- 
+  qrcode::qr_code(
+    url,
+    ecl = "H"
+  )
+
+qrcode::generate_svg(
+    qrcode = qr_code,
+    filename = stringr::str_glue(
+      "{base_path}/qr_{name}.svg"
+    ),
+    foreground = foreground_color,
+    background = background_color
+  )
+
+  if(
+    isTRUE(plot) 
+  ) {
+    knitr::include_graphics(
+      stringr::str_glue(
+        "{base_path}/qr_{name}.svg"
+      )
+    )
+  }
+}
 ```
 
 ## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
@@ -220,14 +265,18 @@ source(
 ```
 
 :::: {.columns}
-::: {.column width="62%" }
+
+::: {.column width="0%"}
+:::
+
+::: {.column width="50%" }
 
 ::: {.fragment .tui-reveal-blur data-fragment-index="2"}
 
 ```{r}
 #| label: result-slide03-ingestion-render
 #| echo: false
-#| out-width: 100%
+#| out-width: 95%
 knitr::include_graphics(
   here::here(
     "Documentation/Presentations/IAVS_2026/figures/results/slide_03_ingestion_schematic.png"
@@ -237,14 +286,17 @@ knitr::include_graphics(
 
 :::
 
-::: {.image-height-400 .fragment .tui-reveal-blur data-fragment-index="3"}
+::: {.fragment .tui-reveal-blur data-fragment-index="3"}
+
+USED SAMPLE COVERAGE
 
 ```{r}
 #| label: result-slide03-coverage-render
 #| echo: false
+#| out-width: 95%
 knitr::include_graphics(
   here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_03_northern_hemisphere_coverage.png"
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_03_northern_hemisphere_coverage.png"
   )
 )
 ```
@@ -253,7 +305,7 @@ knitr::include_graphics(
 
 :::
 
-::: {.column width="38%" }
+::: {.column width="50%" }
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
@@ -278,17 +330,25 @@ Due to [data availability]{.text-emphasis-underline-dotted}, I will focus on the
 :::: {.columns .image-height-750}
 
 ::: {.column width="50%"}
---VegVault logo--
+![](../../Materials/Logos/VegVault_logo.png){.absolute .image-display-block .image-theme-bg-dark top=0 left=50 width="300" height="300"}
 :::
 
 ::: {.column width="50%"}
---QR code--
+```{r}
+#| label: QR code https://bit.ly/VegVault 
+generate_qr_code(
+  url = "https://bit.ly/VegVault",
+  name = "vegvault",
+  background_color = vec_oracle_palette[["background"]],
+  foreground_color = vec_oracle_palette[["phosphor"]],
+  plot = FALSE
+)
+```
+
+![](figures/qrcodes/qr_vegvault.svg){.absolute .image-display-block top=0 right=0 width="300" height="300"}
 :::
 
 ::::
-
-
-
 
 :::
 

@@ -266,7 +266,7 @@ figure_northern_hemisphere_coverage <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  theme_oracle(base_family = font_family) +
+  theme_oracle(base_family = font_family, base_size = 6) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(
       fill = vec_oracle_palette[["background"]],
@@ -284,18 +284,6 @@ figure_northern_hemisphere_coverage <-
     legend.position = "none",
     plot.margin = ggplot2::margin(0, 0, 0, 0)
   ) +
-  #ggplot2::geom_vline(
-  #  xintercept = seq(-180, 180, by = 10),
-  #  colour = vec_oracle_palette[["muted"]],
-  #  linewidth = 0.15,
-  #  linetype = "dashed"
-  #) +
-  #ggplot2::geom_hline(
-  #  yintercept = seq(-90, 90, by = 5),
-  #  colour = vec_oracle_palette[["muted"]],
-  #  linewidth = 0.15,
-  #  linetype = "dashed"
-  #) +
   ggplot2::geom_polygon(
     data = data_world,
     mapping = ggplot2::aes(
@@ -317,19 +305,20 @@ figure_northern_hemisphere_coverage <-
     ),
     binwidth = c(5, 5),
     alpha = 1
-  ) +
-  ggplot2::annotate(
-    geom = "text",
-    x = -120,
-    y = 75,
-    label = "USED ANALYSIS EXTENT",
-    hjust = 0.4,
-    vjust = -1,
-    colour = vec_oracle_palette[["text"]],
-    family = font_family,
-    fontface = "bold",
-    size = 3.3
-  )
+  ) 
+  #ggplot2::annotate(
+  #  geom = "text",
+  #  x = -120,
+  #  y = 75,
+  #  label = "USED SAMPLE COVERAGE",
+  #  hjust = 0.4,
+  #  vjust = -1,
+  #  colour = vec_oracle_palette[["text"]],
+  #  family = font_family,
+  #  fontface = "bold",
+  #  size = 3.3
+  #)
+
 
 #----------------------------------------------------------#
 # 3. Save figure -----
