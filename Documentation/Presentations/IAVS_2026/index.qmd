@@ -502,8 +502,6 @@ Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 
 Lets actually not use the R script and figure as it is very hard to manually layout the steps. The code is there but silenced. 
 
----> 
-
 ```{r}
 #| label: result-slide05-workflow-build
 #| echo: false
@@ -531,23 +529,57 @@ knitr::include_graphics(
 )
 ```
 
+---> 
+
+::: {.oracle-mermaid}
+
 ```{mermaid}
+%%| label: slide05-community-climate-mermaid
+%%{init: {
+  "theme": "base",
+  "flowchart": {
+    "curve": "basis",
+    "htmlLabels": true,
+    "nodeSpacing": 24,
+    "rankSpacing": 42,
+    "padding": 8
+  }
+}}%%
 flowchart TB
-  A[VegVault] --> B[Community stream]
-  A --> C[Climate stream]
-  B --> B1[Counts to proportions]
-  B1 --> B2[Age uncertainty to 500 yr grid]
-  B2 --> B3[GBIF + auxiliary taxonomy]
-  B3 --> B4[Plantae and configured resolution]
-  B4 --> B5[Rare/core/sample filters]
-  C --> C1[CHELSA-TraCE21k BIO variables]
-  C1 --> C2[Drop zero-variance predictors]
-  C2 --> C3[Collinearity screening]
-  C3 --> C4[Selected predictors on 500 yr grid]
-  B5 --> D[Model input]
-  C4 --> D
+  source["VegVault<br/>records"]
+
+  subgraph community_stream [COMMUNITY STREAM]
+    direction TB
+    community_counts["counts to proportions"]
+    community_age["age uncertainty<br/>500 yr grid"]
+    community_taxa["GBIF + aux taxonomy"]
+    community_filters["Plantae + resolution<br/>rare/core/sample filters"]
+    community_counts --> community_age --> community_taxa --> community_filters
+  end
+
+  subgraph climate_stream [CLIMATE STREAM]
+    direction TB
+    climate_vars["CHELSA BIO candidates"]
+    climate_variance["drop zero-variance vars"]
+    climate_screen["select non-collinear set"]
+    climate_grid["interpolate to 500 yr grid"]
+    climate_vars --> climate_variance --> climate_screen --> climate_grid
+  end
+
+  model["jSDM<br/>input"]
+
+  source --> community_counts
+  source --> climate_vars
+  community_filters --> model
+  climate_grid --> model
+
+  class source source_node
+  class community_counts,community_age,community_taxa,community_filters community_node
+  class climate_vars,climate_variance,climate_screen,climate_grid climate_node
+  class model model_node
 ```
 
+:::
 
 :::
 ::::
@@ -666,6 +698,7 @@ The shared fractions are useful diagnostics for understanding the model fit. How
 #| label: result-slide08-generate
 #| include: false
 #| cache: true
+#| eval: false
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/spatial_units_map_figure.R"
@@ -739,6 +772,7 @@ What do we see? Is there a clear change in the association signal across spatial
 #| label: result-slide09-generate
 #| include: false
 #| cache: true
+#| eval: false
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/spatial_taxonomic_matrix_figure.R"
@@ -789,6 +823,7 @@ Interestingly, the change in taxonomic resolution does not seem to affect the sp
 #| label: result-slide10-generate
 #| include: false
 #| cache: true
+#| eval: false
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/temporal_density_summary_figure.R"
@@ -913,6 +948,7 @@ Now each time slice receives an independent analyses and diagnostics. We will be
 #| label: result-slide11-generate
 #| include: false
 #| cache: true
+#| eval: false
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/north_america_temporal_trajectory_figure.R"
@@ -995,6 +1031,7 @@ TIME 00:50. The network structure and the variance components are changing throu
 #| label: result-slide12-generate
 #| include: false
 #| cache: true
+#| eval: false
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/synthesis_summary_panel_figure.R"
@@ -1050,6 +1087,7 @@ TIME 00:45. TBD
 #| label: result-slide13-generate
 #| include: false
 #| cache: true
+#| eval: false 
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/future_predictions_animation.R"
@@ -1062,6 +1100,7 @@ source(
 ```{r}
 #| label: result-slide13-render
 #| echo: false
+#| eval: false
 knitr::include_graphics(list_slide_13_animation[["animation_path"]])
 ```
 

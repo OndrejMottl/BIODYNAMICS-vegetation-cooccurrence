@@ -1040,6 +1040,144 @@
   transform: translateY(-0.02em);
 }
 
+/* Mermaid diagrams */
+
+// Mermaid configuration. Node-level differences are handled by
+// CSS selectors below so diagram source stays structural.
+$mermaid-bg-color: $oracle-palette-background !important;
+$mermaid-edge-color: $oracle-palette-muted !important;
+$mermaid-node-fg-color: $oracle-palette-text !important;
+$mermaid-fg-color: $oracle-palette-phosphor !important;
+$mermaid-fg-color--lighter: $oracle-palette-cyan !important;
+$mermaid-fg-color--lightest: $oracle-palette-amber !important;
+$mermaid-font-family: $oracle-typography-body-family !important;
+$mermaid-label-bg-color: $oracle-palette-background !important;
+$mermaid-label-fg-color: $oracle-palette-text !important;
+$mermaid-node-bg-color: $oracle-palette-surface-alt !important;
+
+.oracle-mermaid {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 590px;
+  width: 100%;
+}
+
+.oracle-mermaid .cell,
+.oracle-mermaid .cell-output,
+.oracle-mermaid div.sourceCode {
+  width: 100%;
+}
+
+.oracle-mermaid svg {
+  background: transparent !important;
+  display: block;
+  height: auto !important;
+  margin: 0 auto;
+  max-height: 620px;
+  max-width: 100%;
+}
+
+.oracle-mermaid svg .nodeLabel,
+.oracle-mermaid svg .edgeLabel,
+.oracle-mermaid svg .cluster-label,
+.oracle-mermaid svg .cluster-label span,
+.oracle-mermaid svg .label,
+.oracle-mermaid svg .label span {
+  color: var(--oracle-palette-text) !important;
+  font-family: var(--oracle-typography-body-family) !important;
+  line-height: 1.05 !important;
+}
+
+.oracle-mermaid svg .cluster-label,
+.oracle-mermaid svg .cluster-label span {
+  font-size: 24px !important;
+  letter-spacing: var(--oracle-typography-status-letter-spacing);
+  text-transform: uppercase;
+}
+
+.oracle-mermaid svg .nodeLabel,
+.oracle-mermaid svg .nodeLabel span {
+  font-size: 20px !important;
+}
+
+.oracle-mermaid svg .edgeLabel,
+.oracle-mermaid svg .edgeLabel span {
+  background: var(--oracle-palette-background) !important;
+  color: var(--oracle-palette-muted) !important;
+  font-size: 17px !important;
+}
+
+.oracle-mermaid svg .source_node :is(rect, path, polygon, circle, ellipse) {
+  fill: var(--oracle-palette-surface) !important;
+  stroke: var(--oracle-palette-muted) !important;
+  stroke-width: 1.4px !important;
+}
+
+.oracle-mermaid svg .source_node .nodeLabel,
+.oracle-mermaid svg .source_node .nodeLabel span {
+  color: var(--oracle-palette-muted) !important;
+}
+
+.oracle-mermaid svg .community_node :is(rect, path, polygon, circle, ellipse) {
+  fill: var(--oracle-palette-surface-alt) !important;
+  stroke: var(--oracle-palette-phosphor) !important;
+  stroke-width: 1.8px !important;
+}
+
+.oracle-mermaid svg .community_node .nodeLabel,
+.oracle-mermaid svg .community_node .nodeLabel span {
+  color: var(--oracle-palette-text) !important;
+}
+
+.oracle-mermaid svg .climate_node :is(rect, path, polygon, circle, ellipse) {
+  fill: var(--oracle-palette-surface) !important;
+  stroke: var(--oracle-palette-amber) !important;
+  stroke-width: 1.8px !important;
+}
+
+.oracle-mermaid svg .climate_node .nodeLabel,
+.oracle-mermaid svg .climate_node .nodeLabel span {
+  color: var(--oracle-palette-amber) !important;
+}
+
+.oracle-mermaid svg .model_node :is(rect, path, polygon, circle, ellipse) {
+  fill: var(--oracle-palette-surface) !important;
+  stroke: var(--oracle-palette-purple) !important;
+  stroke-width: 1.8px !important;
+}
+
+.oracle-mermaid svg .model_node .nodeLabel,
+.oracle-mermaid svg .model_node .nodeLabel span {
+  color: var(--oracle-palette-purple) !important;
+}
+
+.oracle-mermaid svg g[id*="community_stream"] > rect {
+  fill: var(--oracle-palette-surface) !important;
+  stroke: var(--oracle-palette-phosphor) !important;
+  stroke-width: 2px !important;
+}
+
+.oracle-mermaid svg g[id*="community_stream"] .cluster-label,
+.oracle-mermaid svg g[id*="community_stream"] .cluster-label span {
+  color: var(--oracle-palette-phosphor) !important;
+}
+
+.oracle-mermaid svg g[id*="climate_stream"] > rect {
+  fill: var(--oracle-palette-surface) !important;
+  stroke: var(--oracle-palette-amber) !important;
+  stroke-width: 2px !important;
+}
+
+.oracle-mermaid svg g[id*="climate_stream"] .cluster-label,
+.oracle-mermaid svg g[id*="climate_stream"] .cluster-label span {
+  color: var(--oracle-palette-amber) !important;
+}
+
+.oracle-mermaid svg .flowchart-link {
+  filter: drop-shadow(var(--oracle-effects-dim-glow));
+}
+
 /* Fragment effect */
 
 .reveal .fragment.tui-reveal-scan,
