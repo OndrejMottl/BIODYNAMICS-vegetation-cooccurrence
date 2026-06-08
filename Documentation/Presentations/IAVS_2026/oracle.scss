@@ -1059,7 +1059,6 @@ $mermaid-node-bg-color: $oracle-palette-surface-alt !important;
   align-items: center;
   display: flex;
   justify-content: center;
-  min-height: 590px;
   width: 100%;
 }
 
@@ -1074,7 +1073,6 @@ $mermaid-node-bg-color: $oracle-palette-surface-alt !important;
   display: block;
   height: auto !important;
   margin: 0 auto;
-  max-height: 620px;
   max-width: 100%;
 }
 
@@ -1091,21 +1089,21 @@ $mermaid-node-bg-color: $oracle-palette-surface-alt !important;
 
 .oracle-mermaid svg .cluster-label,
 .oracle-mermaid svg .cluster-label span {
-  font-size: 24px !important;
+  font-size: 19px !important;
   letter-spacing: var(--oracle-typography-status-letter-spacing);
   text-transform: uppercase;
 }
 
 .oracle-mermaid svg .nodeLabel,
 .oracle-mermaid svg .nodeLabel span {
-  font-size: 20px !important;
+  font-size: 16px !important;
 }
 
 .oracle-mermaid svg .edgeLabel,
 .oracle-mermaid svg .edgeLabel span {
   background: var(--oracle-palette-background) !important;
   color: var(--oracle-palette-muted) !important;
-  font-size: 17px !important;
+  font-size: 15px !important;
 }
 
 .oracle-mermaid svg .source_node :is(rect, path, polygon, circle, ellipse) {

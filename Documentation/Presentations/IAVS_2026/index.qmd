@@ -496,7 +496,7 @@ Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 
 :::
 
-::: {.column width="60%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-600}
+::: {.column width="60%" .fragment .tui-reveal-blur data-fragment-index="2"}
 
 <!--- 
 
@@ -540,40 +540,48 @@ knitr::include_graphics(
   "flowchart": {
     "curve": "basis",
     "htmlLabels": true,
-    "nodeSpacing": 24,
-    "rankSpacing": 42,
-    "padding": 8
+    "nodeSpacing": 30,
+    "rankSpacing": 48,
+    "padding": 14
   }
 }}%%
 flowchart TB
-  source["VegVault<br/>records"]
+  source["VegVault"]
 
   subgraph community_stream [COMMUNITY STREAM]
     direction TB
-    community_counts["counts to proportions"]
-    community_age["age uncertainty<br/>500 yr grid"]
-    community_taxa["GBIF + aux taxonomy"]
-    community_filters["Plantae + resolution<br/>rare/core/sample filters"]
+    community_counts["counts<br/>proportions"]
+    community_age["interpolation<br/>with uncertainty"]
+    community_taxa["taxonomy<br/>harmonisation"]
+    community_filters["Select<br/>resolution"]
     community_counts --> community_age --> community_taxa --> community_filters
   end
 
   subgraph climate_stream [CLIMATE STREAM]
     direction TB
-    climate_vars["CHELSA BIO candidates"]
-    climate_variance["drop zero-variance vars"]
-    climate_screen["select non-collinear set"]
-    climate_grid["interpolate to 500 yr grid"]
+    climate_vars["CHELSA<br/>candidates"]
+    climate_variance["drop zero-var<br/>predictors"]
+    climate_screen["select<br/>non-collinear set"]
+    climate_grid["interpolate"]
     climate_vars --> climate_variance --> climate_screen --> climate_grid
   end
 
-  model["jSDM<br/>input"]
+  sample_filtering["Sample filtering<br/>spatial/temporal"]
+  core_filtering["Core filtering"]
+
+  model["Model"]
 
   source --> community_counts
   source --> climate_vars
-  community_filters --> model
-  climate_grid --> model
+  community_filters --> sample_filtering
+  climate_grid --> sample_filtering
 
-  class source source_node
+  sample_filtering --> core_filtering
+
+  core_filtering --> model
+
+
+  class source,sample_filtering,core_filtering source_node
   class community_counts,community_age,community_taxa,community_filters community_node
   class climate_vars,climate_variance,climate_screen,climate_grid climate_node
   class model model_node
