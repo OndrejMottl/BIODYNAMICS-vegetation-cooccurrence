@@ -449,30 +449,7 @@ TIME 00:35. Now, we would like to split the analysis along space (from local to 
 <!-- slide:05 -->
 ## [Preparing [community]{.text-emphasis-box} and [climate]{.text-highlight-abiotic} streams]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
-```{r}
-#| label: result-slide05-workflow-build
-#| echo: false
-#| warning: false
-#| message: false
-#| include: true
-#| cache: true
-source(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/R/Visualisation/climate_data_summary_figure.R"
-  )
-)
-```
 
-```{r}
-#| label: result-slide05-workflow-render
-#| echo: false
-#| out-width: 100%
-knitr::include_graphics(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/slide_05_climate_screening.png"
-  )
-)
-```
 
 :::: {.columns}
 
@@ -519,17 +496,58 @@ Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 
 :::
 
-::: {.column width="60%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750}
+::: {.column width="60%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-600}
+
+<!--- 
+
+Lets actually not use the R script and figure as it is very hard to manually layout the steps. The code is there but silenced. 
+
+---> 
 
 ```{r}
-#| label: result-slide05-climate-render
+#| label: result-slide05-workflow-build
 #| echo: false
-knitr::include_graphics(
+#| warning: false
+#| message: false
+#| include: true
+#| cache: true
+#| eval: false
+source(
   here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_05_climate_screening.png"
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/climate_data_summary_figure.R"
   )
 )
 ```
+
+```{r}
+#| label: result-slide05-workflow-render
+#| echo: false
+#| out-width: 100%
+#| eval: false
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_05_climate_screening.png"
+  )
+)
+```
+
+```{mermaid}
+flowchart TB
+  A[VegVault] --> B[Community stream]
+  A --> C[Climate stream]
+  B --> B1[Counts to proportions]
+  B1 --> B2[Age uncertainty to 500 yr grid]
+  B2 --> B3[GBIF + auxiliary taxonomy]
+  B3 --> B4[Plantae and configured resolution]
+  B4 --> B5[Rare/core/sample filters]
+  C --> C1[CHELSA-TraCE21k BIO variables]
+  C1 --> C2[Drop zero-variance predictors]
+  C2 --> C3[Collinearity screening]
+  C3 --> C4[Selected predictors on 500 yr grid]
+  B5 --> D[Model input]
+  C4 --> D
+```
+
 
 :::
 ::::
