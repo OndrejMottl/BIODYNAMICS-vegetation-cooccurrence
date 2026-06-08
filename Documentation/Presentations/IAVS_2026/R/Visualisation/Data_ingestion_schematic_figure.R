@@ -69,9 +69,12 @@ if (
   )
 }
 
-systemfonts::register_font(
-  name = font_family,
-  plain = path_font
+try(
+  systemfonts::register_font(
+    name = font_family,
+    plain = path_font
+  ),
+  silent = TRUE
 )
 
 path_output <-
@@ -104,28 +107,6 @@ if (
       "i" = "Expected path: {.path {path_to_vegvault}}."
     )
   )
-}
-
-con <-
-  DBI::dbConnect(
-    RSQLite::SQLite(),
-    path_to_vegvault
-  )
-
-base::on.exit(
-  DBI::dbDisconnect(con),
-  add = TRUE
-)
-
-get_vegvault_scalar <- function(sql) {
-  res_value <-
-    DBI::dbGetQuery(
-      conn = con,
-      statement = sql
-    ) |>
-    dplyr::pull(1)
-
-  return(res_value)
 }
 
 format_count <- function(x) {
@@ -173,33 +154,70 @@ data_ingestion_streams <-
   )
 
 data_database_metrics <-
-  tibble::tibble(
-    metric_name = base::c(
-      "Datasets",
-      "Samples",
-      "Taxa",
-      "Veg traits",
-      "Trait vals",
-      "Abiotic vars",
-      "Geography",
-      "Temporal range"
-    ),
-    metric_value = base::c(
-      format_count(get_vegvault_scalar("select count(*) from Datasets")),
-      format_count(get_vegvault_scalar("select count(*) from Samples")),
-      format_count(get_vegvault_scalar("select count(*) from Taxa")),
-      format_count(get_vegvault_scalar("select count(*) from TraitsDomain")),
-      format_count(get_vegvault_scalar("select count(*) from TraitsValue")),
-      format_count(get_vegvault_scalar("select count(*) from AbioticVariable")),
-      "Global",
-      "0-20 ka BP"
+  local({
+    con <-
+      DBI::dbConnect(
+        RSQLite::SQLite(),
+        path_to_vegvault
+      )
+
+    # Keep cleanup in the same local frame as the queries. Top-level
+    #   on.exit() can close the connection too early when this file is sourced.
+    base::on.exit(
+      if (
+        DBI::dbIsValid(con)
+      ) {
+        DBI::dbDisconnect(con)
+      },
+      add = TRUE
     )
-  ) |>
-  dplyr::mutate(
-    x_name = 55,
-    x_value = 94,
-    y = 41 - (dplyr::row_number() - 1) * 4.7
-  )
+
+    get_vegvault_scalar <- function(sql) {
+      res_value <-
+        DBI::dbGetQuery(
+          conn = con,
+          statement = sql
+        ) |>
+        dplyr::pull(1)
+
+      return(res_value)
+    }
+
+    res_metrics <-
+      tibble::tibble(
+        metric_name = base::c(
+          "Datasets",
+          "Samples",
+          "Taxa",
+          "Veg traits",
+          "Trait vals",
+          "Abiotic vars",
+          "Geography",
+          "Temporal range"
+        ),
+        metric_value = base::c(
+          format_count(get_vegvault_scalar("select count(*) from Datasets")),
+          format_count(get_vegvault_scalar("select count(*) from Samples")),
+          format_count(get_vegvault_scalar("select count(*) from Taxa")),
+          format_count(get_vegvault_scalar(
+            "select count(*) from TraitsDomain"
+          )),
+          format_count(get_vegvault_scalar("select count(*) from TraitsValue")),
+          format_count(get_vegvault_scalar(
+            "select count(*) from AbioticVariable"
+          )),
+          "Global",
+          "0-20 ka BP"
+        )
+      ) |>
+      dplyr::mutate(
+        x_name = 55,
+        x_value = 94,
+        y = 41 - (dplyr::row_number() - 1) * 4.7
+      )
+
+    res_metrics
+  })
 
 data_database_box <-
   tibble::tibble(

@@ -274,6 +274,20 @@ source(
 ::: {.fragment .tui-reveal-blur data-fragment-index="2"}
 
 ```{r}
+#| label: result-slide03-ingestion-build
+#| echo: false
+#| warning: false
+#| message: false
+#| include: true
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Data_ingestion_schematic_figure.R"
+  )
+)
+```
+
+```{r}
 #| label: result-slide03-ingestion-render
 #| echo: false
 #| out-width: 95%
@@ -289,6 +303,20 @@ knitr::include_graphics(
 ::: {.fragment .tui-reveal-blur data-fragment-index="3"}
 
 USED SAMPLE COVERAGE
+
+```{r}
+#| label: result-slide03-coverage-build
+#| echo: false
+#| warning: false
+#| message: false
+#| include: true
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/northern_hemisphere_coverage_figure.R"
+  )
+)
+```
 
 ```{r}
 #| label: result-slide03-coverage-render
@@ -367,16 +395,28 @@ The database is publicly available and open source. For this analysis, we will f
 
 :::: {.columns}
 
-::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="2"}
+::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="2"}
+
 ![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_spatial_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+
+[Spatial]{.text-highlight-spatial}
+
 :::
 
-::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="3"}
-![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_temporal_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="3"}
+
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_temporal_v1_recolor.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+
+[Temporal]{.text-highlight-temporal}
+
 :::
 
-::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="4"}
+::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="4"}
+
 ![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_taxonomic_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+
+[Taxonomic]{.text-highlight-latent}
+
 :::
 
 ::::
@@ -410,12 +450,26 @@ TIME 00:35. Now, we would like to split the analysis along space (from local to 
 ## [Preparing [community]{.text-emphasis-box} and [climate]{.text-highlight-abiotic} streams]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 ```{r}
-#| label: result-slide05-generate
-#| include: false
+#| label: result-slide05-workflow-build
+#| echo: false
+#| warning: false
+#| message: false
+#| include: true
 #| cache: true
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/climate_data_summary_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: result-slide05-workflow-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_05_climate_screening.png"
   )
 )
 ```

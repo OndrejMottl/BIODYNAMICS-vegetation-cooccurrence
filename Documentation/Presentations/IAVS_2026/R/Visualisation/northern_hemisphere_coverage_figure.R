@@ -69,9 +69,12 @@ if (
   )
 }
 
-systemfonts::register_font(
-  name = font_family,
-  plain = path_font
+try(
+  systemfonts::register_font(
+    name = font_family,
+    plain = path_font
+  ),
+  silent = TRUE
 )
 
 path_output <-
@@ -105,17 +108,6 @@ if (
     )
   )
 }
-
-con <-
-  DBI::dbConnect(
-    RSQLite::SQLite(),
-    path_to_vegvault
-  )
-
-base::on.exit(
-  DBI::dbDisconnect(con),
-  add = TRUE
-)
 
 vec_used_project_ids <-
   base::c(
@@ -163,53 +155,75 @@ sel_y_lim <-
 #----------------------------------------------------------#
 
 data_vegvault_samples <-
-  DBI::dbGetQuery(
-    conn = con,
-    statement = "
-      select
-        d.dataset_name,
-        s.sample_id,
-        s.sample_name,
-        s.age,
-        d.coord_long,
-        d.coord_lat,
-        dti.dataset_type
-      from Datasets d
-      inner join DatasetSample ds
-        on d.dataset_id = ds.dataset_id
-      inner join Samples s
-        on ds.sample_id = s.sample_id
-      left join DatasetTypeID dti
-        on d.dataset_type_id = dti.dataset_type_id
-      where d.coord_long is not null
-        and d.coord_lat is not null
-        and dti.dataset_type in (
-          'vegetation_plot',
-          'fossil_pollen_archive'
-        )
-    "
-  ) |>
-  tibble::as_tibble() |>
-  dplyr::filter(
-    purrr::map_lgl(
-      .x = base::seq_len(dplyr::n()),
-      .f = ~ base::any(
-        coord_long[.x] >= dplyr::pull(data_used_geo_limits, x_min) &
-          coord_long[.x] <= dplyr::pull(data_used_geo_limits, x_max) &
-          coord_lat[.x] >= dplyr::pull(data_used_geo_limits, y_min) &
-          coord_lat[.x] <= dplyr::pull(data_used_geo_limits, y_max)
+  local({
+    con <-
+      DBI::dbConnect(
+        RSQLite::SQLite(),
+        path_to_vegvault
       )
+
+    # Keep cleanup in the same local frame as the query. Top-level
+    #   on.exit() can close the connection too early when this file is sourced.
+    base::on.exit(
+      if (
+        DBI::dbIsValid(con)
+      ) {
+        DBI::dbDisconnect(con)
+      },
+      add = TRUE
     )
-  ) |>
-  dplyr::mutate(
-    dataset_type = dplyr::case_when(
-      dataset_type == "vegetation_plot" ~ "Vegetation plots",
-      dataset_type == "fossil_pollen_archive" ~ "Fossil pollen",
-      TRUE ~ "Other"
-    ),
-    coord_long = base::round(coord_long, digits = 4L),
-    coord_lat = base::round(coord_lat, digits = 4L)
-  )
+
+    res_samples <-
+      DBI::dbGetQuery(
+        conn = con,
+        statement = "
+          select
+            d.dataset_name,
+            s.sample_id,
+            s.sample_name,
+            s.age,
+            d.coord_long,
+            d.coord_lat,
+            dti.dataset_type
+          from Datasets d
+          inner join DatasetSample ds
+            on d.dataset_id = ds.dataset_id
+          inner join Samples s
+            on ds.sample_id = s.sample_id
+          left join DatasetTypeID dti
+            on d.dataset_type_id = dti.dataset_type_id
+          where d.coord_long is not null
+            and d.coord_lat is not null
+            and dti.dataset_type in (
+              'vegetation_plot',
+              'fossil_pollen_archive'
+            )
+        "
+      ) |>
+      tibble::as_tibble() |>
+      dplyr::filter(
+        purrr::map_lgl(
+          .x = base::seq_len(dplyr::n()),
+          .f = ~ base::any(
+            coord_long[.x] >= dplyr::pull(data_used_geo_limits, x_min) &
+              coord_long[.x] <= dplyr::pull(data_used_geo_limits, x_max) &
+              coord_lat[.x] >= dplyr::pull(data_used_geo_limits, y_min) &
+              coord_lat[.x] <= dplyr::pull(data_used_geo_limits, y_max)
+          )
+        )
+      ) |>
+      dplyr::mutate(
+        dataset_type = dplyr::case_when(
+          dataset_type == "vegetation_plot" ~ "Vegetation plots",
+          dataset_type == "fossil_pollen_archive" ~ "Fossil pollen",
+          TRUE ~ "Other"
+        ),
+        coord_long = base::round(coord_long, digits = 4L),
+        coord_lat = base::round(coord_lat, digits = 4L)
+      )
+
+    res_samples
+  })
 
 data_vegetation_plot_samples <-
   data_vegvault_samples |>
