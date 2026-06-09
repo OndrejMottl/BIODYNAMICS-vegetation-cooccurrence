@@ -389,64 +389,6 @@ The database is publicly available and open source. For this analysis, we will f
 :::
 
 <!-- slide:04 -->
-## [Three analysis axes]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
-
-<br>
-
-:::: {.columns}
-
-::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="2"}
-
-![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_spatial_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
-
-[Spatial]{.text-highlight-spatial}
-
-:::
-
-::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="3"}
-
-![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_temporal_v1_recolor.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
-
-[Temporal]{.text-highlight-temporal}
-
-:::
-
-::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="4"}
-
-![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_taxonomic_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
-
-[Taxonomic]{.text-highlight-latent}
-
-:::
-
-::::
-
-<br>
-
-::: {.oracle-terminal .fragment data-fragment-index="1"}
-
-::: {.oracle-line}
-Three routes selected:
-:::
-
-::: {.oracle-line}
-[Spatial-resolution runs]{.text-highlight-spatial} : chnages with spatial scale
-:::
-
-::: {.oracle-line}
-[Temporal slices test]{.text-highlight-temporal} : change through time
-:::
-
-::: {.oracle-line}
-[Taxonomic aggregation level]{.text-highlight-latent} : change through classification
-:::
-:::
-
-::: {.notes}
-TIME 00:35. Now, we would like to split the analysis along space (from local to continental), time (since the last glacial maximum), and taxonomic resolution (from genus up to abstract functional types).
-:::
-
-<!-- slide:05 -->
 ## [Preparing [community]{.text-emphasis-box} and [climate]{.text-highlight-abiotic} streams]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 
@@ -604,7 +546,7 @@ flowchart TB
 TIME 00:45. Oracle, we now need to apply data processing to community data and climate predictors to make them ready for analysis.
 :::
 
-<!-- slide:06 -->
+<!-- slide:05 -->
 ## [Model core: [environment]{.text-color-abiotic}, [space]{.text-color-spatial}, [association]{.text-color-latent}]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
@@ -656,7 +598,7 @@ TIME 00:45. Oracle, build a model, which would include climate, spatial structur
 We will be uisng {sjSDM} R package is used because the community matrix and spatial design are too large for slower MCMC workflows.
 :::
 
-<!-- slide:07 -->
+<!-- slide:06 -->
 ## [Variance decomposition]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
@@ -705,6 +647,64 @@ structure]{.text-highlight-spatial} have made their claims
 ::: {.notes}
 TIME 00:40. Now we would like to decompose the explained variance so we can separate climate, space, and residual association.
 The shared fractions are useful diagnostics for understanding the model fit. However, we will focus on the non-shared residual association component.
+:::
+
+<!-- slide:07 -->
+## [Three analysis axes]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="2"}
+
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_spatial_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+
+[Spatial]{.text-highlight-spatial}
+
+:::
+
+::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="3"}
+
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_temporal_v1_recolor.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+
+[Temporal]{.text-highlight-temporal}
+
+:::
+
+::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="4"}
+
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_taxonomic_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+
+[Taxonomic]{.text-highlight-latent}
+
+:::
+
+::::
+
+<br>
+
+::: {.oracle-terminal .fragment data-fragment-index="1"}
+
+::: {.oracle-line}
+Three routes selected:
+:::
+
+::: {.oracle-line}
+[Spatial-resolution runs]{.text-highlight-spatial} : chnages with spatial scale
+:::
+
+::: {.oracle-line}
+[Temporal slices test]{.text-highlight-temporal} : change through time
+:::
+
+::: {.oracle-line}
+[Taxonomic aggregation level]{.text-highlight-latent} : change through classification
+:::
+:::
+
+::: {.notes}
+TIME 00:35. Now, we would like to split the analysis along space (from local to continental), time (since the last glacial maximum), and taxonomic resolution (from genus up to abstract functional types).
 :::
 
 <!-- slide:08 -->
