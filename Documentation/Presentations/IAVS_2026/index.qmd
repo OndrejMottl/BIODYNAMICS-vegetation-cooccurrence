@@ -551,7 +551,25 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 
 :::: {.columns}
 ::: {.column width="65%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750}
---A mathematical formula for the model--
+::: {.model-equation}
+
+[$Y_{ij} \sim \operatorname{Bernoulli}\{\Phi(\eta_{ij})\}$]{.model-equation-line}
+
+[$\eta_{ij} = \alpha_j +$]{.model-equation-base}
+[$\sum_{k=1}^{K}\beta_{jk}x_{ik} + \sum_{k=1}^{K}\gamma_{jk}x_{ik}a_i$]{.text-color-abiotic}
+[$+$]{.model-equation-base}
+[$\sum_{m=1}^{M}\delta_{jm}\operatorname{MEM}_{im}$]{.text-color-spatial}
+[$+ u_{ij}$]{.text-color-latent}
+
+[$\mathbf{u}_i = (u_{i1}, \ldots, u_{iJ}) \sim \mathcal{N}(\mathbf{0}, \Sigma)$]{.text-color-latent .model-equation-line}
+
+::: {.model-equation-meta}
+[Env: `~ (x1 + ... + xK) * age - age`]{.text-color-abiotic}<br>
+[Space: `~ 0 + .` over scaled MEMs; `M = 5` in continental paleo runs]{.text-color-spatial}<br>
+[Association: off-diagonal `Sigma` from `bioticStruct()`]{.text-color-latent}
+:::
+
+:::
 :::
 
 ::: {.column width="35%" .fragment data-fragment-index="1"}
