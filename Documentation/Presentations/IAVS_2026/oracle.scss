@@ -645,12 +645,26 @@
 
 .text-equation mjx-container {
   color: inherit;
-  //font-size: 1.16em;
+  font-size: inherit !important;
 }
 
 .text-equation-line {
   display: block;
-  //font-size: 1.32em;
+}
+
+.text-equation-linear-predictor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.text-equation-row {
+  line-height: 1;
+}
+
+.text-equation-continuation {
+  display: inline-block;
+  margin-left: 2.4em;
 }
 
 .text-equation-base {
