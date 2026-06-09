@@ -550,23 +550,43 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 ## [Model core: [environment]{.text-color-abiotic}, [space]{.text-color-spatial}, [association]{.text-color-latent}]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
-::: {.column width="65%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750}
-::: {.model-equation}
 
-[$Y_{ij} \sim \operatorname{Bernoulli}\{\Phi(\eta_{ij})\}$]{.model-equation-line}
+::: {.column width="65%" .fragment .tui-reveal-blur data-fragment-index="2"}
 
-[$\eta_{ij} = \alpha_j +$]{.model-equation-base}
+<br>
+<br>
+<br>
+<br>
+
+::: {.text-equation .text-size-body-large}
+
+[$Y_{ij} \sim \operatorname{Bernoulli}\{\Phi(\eta_{ij})\}$]{.text-equation-line}
+
+<br>
+
+[$\eta_{ij} = \alpha_j +$]{.text-equation-base}
 [$\sum_{k=1}^{K}\beta_{jk}x_{ik} + \sum_{k=1}^{K}\gamma_{jk}x_{ik}a_i$]{.text-color-abiotic}
-[$+$]{.model-equation-base}
+[$+$]{.text-equation-base}
 [$\sum_{m=1}^{M}\delta_{jm}\operatorname{MEM}_{im}$]{.text-color-spatial}
-[$+ u_{ij}$]{.text-color-latent}
+[$+u_{ij}$]{.text-color-latent}
 
-[$\mathbf{u}_i = (u_{i1}, \ldots, u_{iJ}) \sim \mathcal{N}(\mathbf{0}, \Sigma)$]{.text-color-latent .model-equation-line}
+<br>
 
-::: {.model-equation-meta}
-[Env: `~ (x1 + ... + xK) * age - age`]{.text-color-abiotic}<br>
-[Space: `~ 0 + .` over scaled MEMs; `M = 5` in continental paleo runs]{.text-color-spatial}<br>
-[Association: off-diagonal `Sigma` from `bioticStruct()`]{.text-color-latent}
+[$\mathbf{u}_i = (u_{i1}, \ldots, u_{iJ}) \sim \mathcal{N}(\mathbf{0}, \Sigma)$]{.text-color-latent .text-equation-line}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+::: {.text-equation-meta .text-size-body}
+[Env]{.text-highlight-abiotic}[: `~ (x1 + ... + xK) * age - age`]{.text-color-abiotic}
+
+[Space]{.text-highlight-spatial}[: `~ 0 + (MEM1 + ... + MEMM)`]{.text-color-spatial}
+
+[Association]{.text-highlight-latent}[: off-diagonal `Sigma` from `sjSDM::bioticStruct()`]{.text-color-latent}
 :::
 
 :::

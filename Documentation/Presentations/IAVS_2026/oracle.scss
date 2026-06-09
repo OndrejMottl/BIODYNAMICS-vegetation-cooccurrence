@@ -626,7 +626,7 @@
   margin-bottom: 0;
 }
 
-.model-equation {
+.text-equation {
   align-items: flex-start;
   box-sizing: border-box;
   color: var(--oracle-palette-text);
@@ -639,46 +639,43 @@
   padding: var(--oracle-spacing-lg) 0;
 }
 
-.model-equation p {
+.text-equation p {
   margin: 0;
 }
 
-.model-equation mjx-container {
+.text-equation mjx-container {
   color: inherit;
-  font-size: 1.16em;
+  //font-size: 1.16em;
 }
 
-.model-equation-line {
+.text-equation-line {
   display: block;
-  font-size: 1.32em;
+  //font-size: 1.32em;
 }
 
-.model-equation-base {
+.text-equation-base {
   color: var(--oracle-palette-text);
 }
 
-.model-equation-meta {
+.text-equation-meta {
   border-top: 1px solid var(--oracle-screen-edge-dim);
-  color: var(--oracle-palette-muted);
-  font-size: var(--oracle-typography-small-size);
-  line-height: 1.45;
   margin-top: var(--oracle-spacing-md);
   padding-top: var(--oracle-spacing-md);
 }
 
-.model-equation-meta code {
+.text-equation-meta code {
   background: transparent;
   border: 0;
   color: inherit;
   font-family: var(--oracle-typography-body-family);
-  font-size: 1em;
+  font-size: inherit;
   padding: 0;
   text-shadow: var(--oracle-effects-dim-glow);
 }
 
-.model-equation .text-color-abiotic mjx-container,
-.model-equation .text-color-spatial mjx-container,
-.model-equation .text-color-latent mjx-container {
+.text-equation .text-color-abiotic mjx-container,
+.text-equation .text-color-spatial mjx-container,
+.text-equation .text-color-latent mjx-container {
   color: inherit;
 }
 
