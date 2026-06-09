@@ -258,142 +258,18 @@ plot_spatial_variance_waffle <- function(
     isTRUE(flag_show_fill_legend) &&
       base::identical(fill_legend_style, "triangle")
   ) {
-    value_triangle_side <-
-      base::sqrt(3) / 2
-
-    value_triangle_x_offset <- 0.16
-
-    data_triangle_shares <-
-      tidyr::expand_grid(
-        share_1 = base::seq(0, 100, by = 2),
-        share_2 = base::seq(0, 100, by = 2)
-      ) |>
-      dplyr::mutate(
-        share_3 = 100 - .data$share_1 - .data$share_2
-      ) |>
-      dplyr::filter(
-        .data$share_3 >= 0
-      ) |>
-      dplyr::mutate(
-        observation_id = base::as.character(dplyr::row_number()),
-        legend_x =
-          .data$share_2 / 100 +
-          .data$share_3 / 200 +
-          value_triangle_x_offset,
-        legend_y = .data$share_3 / 100 * value_triangle_side
-      )
-
-    data_triangle_components <-
-      dplyr::bind_rows(
-        data_triangle_shares |>
-          dplyr::transmute(
-            observation_id = .data$observation_id,
-            component = vec_required_components[[1]],
-            component_share = .data$share_1
-          ),
-        data_triangle_shares |>
-          dplyr::transmute(
-            observation_id = .data$observation_id,
-            component = vec_required_components[[2]],
-            component_share = .data$share_2
-          ),
-        data_triangle_shares |>
-          dplyr::transmute(
-            observation_id = .data$observation_id,
-            component = vec_required_components[[3]],
-            component_share = .data$share_3
-          )
-      )
-
-    data_triangle_colours <-
-      mix_variance_component_colours(
-        data_component_shares = data_triangle_components,
+    plot_triangle_legend <-
+      plot_variance_component_triangle_legend(
         vec_component_colours = vec_component_colours,
         vec_required_components = vec_required_components,
-        observation_id_column = "observation_id",
-        component_column = "component",
-        share_column = "component_share"
-      )
-
-    data_triangle_plot <-
-      data_triangle_shares |>
-      dplyr::left_join(
-        y = data_triangle_colours,
-        by = "observation_id"
-      )
-
-    plot_triangle_legend <-
-      ggplot2::ggplot(
-        data = data_triangle_plot,
-        mapping = ggplot2::aes(
-          x = .data$legend_x,
-          y = .data$legend_y,
-          fill = .data$tile_fill_colour
-        )
-      ) +
-      ggplot2::geom_point(
-        shape = 22,
-        size = 2.3,
-        stroke = 0
-      ) +
-      ggplot2::annotate(
-        geom = "path",
-        x = base::c(
-          0,
-          1,
-          0.5,
-          0
-        ) + value_triangle_x_offset,
-        y = base::c(0, 0, value_triangle_side, 0),
-        linewidth = 0.3,
-        colour = "grey35"
-      ) +
-      ggplot2::annotate(
-        geom = "text",
-        x = -0.08 + value_triangle_x_offset,
-        y = -0.07,
-        label = vec_required_components[[1]],
-        hjust = 0,
-        vjust = 1,
-        size = 3.2
-      ) +
-      ggplot2::annotate(
-        geom = "text",
-        x = 1.08 + value_triangle_x_offset,
-        y = -0.07,
-        label = vec_required_components[[2]],
-        hjust = 1,
-        vjust = 1,
-        size = 3.2
-      ) +
-      ggplot2::annotate(
-        geom = "text",
-        x = 0.5 + value_triangle_x_offset,
-        y = value_triangle_side + 0.08,
-        label = vec_required_components[[3]],
-        hjust = 0.5,
-        vjust = 0,
-        size = 3.2
-      ) +
-      ggplot2::scale_fill_identity() +
-      ggplot2::coord_equal(
-        xlim = base::c(-0.02, 1.38),
-        ylim = base::c(-0.14, value_triangle_side + 0.16),
-        expand = FALSE,
-        clip = "off"
-      ) +
-      ggplot2::theme_void() +
-      ggplot2::theme(
-        plot.title = ggplot2::element_text(
-          hjust = 0,
-          size = 10
-        ),
-        plot.margin = ggplot2::margin(
-          t = 6,
-          r = 6,
-          b = 6,
-          l = 6
-        )
+        vec_component_labels = vec_required_components,
+        max_component_value = 100,
+        component_step = 2,
+        label_colour = "grey35",
+        border_colour = "grey35",
+        point_size = 2.3,
+        label_size = 3.2,
+        triangle_x_offset = 0.16
       )
 
     res_plot <-

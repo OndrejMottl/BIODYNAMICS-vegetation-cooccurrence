@@ -1,6 +1,6 @@
 #' @title Mix Variance Component Colours
 #' @description
-#' Mixes component colours per observation using weighted HCL/LCh
+#' Mixes component colours per observation using weighted colour-space
 #' coordinates.
 #' @param data_component_shares
 #' Data frame with observation identifiers, component IDs, and
@@ -17,6 +17,10 @@
 #' Single character string naming the component ID column.
 #' @param share_column
 #' Single character string naming the numeric share column.
+#' @param method
+#' Character string selecting the colour-mixing method. `"HCL"` keeps the
+#' historical weighted polar LUV/HCL blend. `"perc_avg"` averages weighted
+#' CIE LAB coordinates for a perceptual-average blend.
 #' @return
 #' Tibble with one row per observation and columns `observation_id`
 #' and `tile_fill_colour`.
@@ -61,7 +65,8 @@ mix_variance_component_colours <- function(
     ),
     observation_id_column = "observation_id",
     component_column = "component",
-    share_column = "component_share") {
+    share_column = "component_share",
+    method = base::c("HCL", "perc_avg")) {
   assertthat::assert_that(
     base::is.data.frame(data_component_shares),
     msg = "`data_component_shares` must be a data frame."
@@ -96,6 +101,22 @@ mix_variance_component_colours <- function(
     base::is.character(share_column) &&
       base::length(share_column) == 1L,
     msg = "`share_column` must be a single character string."
+  )
+
+  vec_allowed_methods <-
+    base::c("HCL", "perc_avg")
+
+  if (
+    base::identical(method, vec_allowed_methods)
+  ) {
+    method <- "HCL"
+  }
+
+  assertthat::assert_that(
+    base::is.character(method) &&
+      base::length(method) == 1L &&
+      method %in% vec_allowed_methods,
+    msg = "`method` must be one of 'HCL' or 'perc_avg'."
   )
 
   vec_required_columns <-
@@ -276,7 +297,7 @@ mix_variance_component_colours <- function(
     )
   }
 
-  data_component_hcl <-
+  data_component_colours <-
     tibble::tibble(
       component = vec_required_components,
       base_colour = base::unname(vec_component_colours[vec_required_components])
@@ -285,36 +306,52 @@ mix_variance_component_colours <- function(
       data_coords = purrr::map(
         .data$base_colour,
         ~ {
-          data_hcl <-
-            colorspace::coords(
-              methods::as(
-                colorspace::hex2RGB(.x),
-                "polarLUV"
+          if (
+            method == "HCL"
+          ) {
+            data_coordinates <-
+              colorspace::coords(
+                methods::as(
+                  colorspace::hex2RGB(.x),
+                  "polarLUV"
+                )
               )
-            )
 
-          tibble::tibble(
-            luminance = data_hcl[1, "L"],
-            chroma = data_hcl[1, "C"],
-            hue = data_hcl[1, "H"]
-          )
+            res_coordinates <-
+              tibble::tibble(
+                luminance = data_coordinates[1, "L"],
+                chroma = data_coordinates[1, "C"],
+                hue = data_coordinates[1, "H"]
+              )
+          } else {
+            data_coordinates <-
+              colorspace::coords(
+                methods::as(
+                  colorspace::hex2RGB(.x),
+                  "LAB"
+                )
+              )
+
+            res_coordinates <-
+              tibble::tibble(
+                luminance = data_coordinates[1, "L"],
+                value_a = data_coordinates[1, "A"],
+                value_b = data_coordinates[1, "B"]
+              )
+          }
+
+          return(res_coordinates)
         }
       )
     ) |>
     tidyr::unnest(
       cols = "data_coords"
-    ) |>
-    dplyr::select(
-      "component",
-      "luminance",
-      "chroma",
-      "hue"
     )
 
   data_components_ready <-
     data_components |>
     dplyr::left_join(
-      y = data_component_hcl,
+      y = data_component_colours,
       by = "component"
     )
 
@@ -322,8 +359,78 @@ mix_variance_component_colours <- function(
     base::any(base::is.na(data_components_ready$luminance))
   ) {
     cli::cli_abort(
-      "Could not resolve HCL coordinates for one or more component colours."
+      "Could not resolve colour coordinates for one or more component colours."
     )
+  }
+
+  if (
+    method == "HCL"
+  ) {
+    res_data <-
+      data_components_ready |>
+      dplyr::arrange(
+        .data$observation_id,
+        .data$component
+      ) |>
+      dplyr::group_by(
+        .data$observation_id
+      ) |>
+      dplyr::summarise(
+        tile_fill_colour = {
+          vec_weights <-
+            .data$component_share /
+            base::sum(.data$component_share)
+
+          value_luminance <-
+            base::sum(vec_weights * .data$luminance)
+
+          value_chroma <-
+            base::sum(vec_weights * .data$chroma)
+
+          vec_hue_weights <-
+            vec_weights * .data$chroma
+
+          if (
+            base::sum(vec_hue_weights) <= base::.Machine$double.eps
+          ) {
+            value_hue <- 0
+          } else {
+            vec_hue_radians <-
+              .data$hue * base::pi / 180
+
+            vec_hue_radians[
+              !base::is.finite(vec_hue_radians)
+            ] <- 0
+
+            value_hue_x <-
+              base::sum(vec_hue_weights * base::cos(vec_hue_radians))
+
+            value_hue_y <-
+              base::sum(vec_hue_weights * base::sin(vec_hue_radians))
+
+            if (
+              base::abs(value_hue_x) <= base::.Machine$double.eps &&
+                base::abs(value_hue_y) <= base::.Machine$double.eps
+            ) {
+              value_hue <- 0
+            } else {
+              value_hue <-
+                (base::atan2(value_hue_y, value_hue_x) * 180 / base::pi +
+                  360) %% 360
+            }
+          }
+
+          grDevices::hcl(
+            h = value_hue,
+            c = value_chroma,
+            l = value_luminance,
+            fixup = TRUE
+          )
+        },
+        .groups = "drop"
+      )
+
+    return(res_data)
   }
 
   res_data <-
@@ -344,46 +451,18 @@ mix_variance_component_colours <- function(
         value_luminance <-
           base::sum(vec_weights * .data$luminance)
 
-        value_chroma <-
-          base::sum(vec_weights * .data$chroma)
+        value_a <-
+          base::sum(vec_weights * .data$value_a)
 
-        vec_hue_weights <-
-          vec_weights * .data$chroma
+        value_b <-
+          base::sum(vec_weights * .data$value_b)
 
-        if (
-          base::sum(vec_hue_weights) <= base::.Machine$double.eps
-        ) {
-          value_hue <- 0
-        } else {
-          vec_hue_radians <-
-            .data$hue * base::pi / 180
-
-          vec_hue_radians[
-            !base::is.finite(vec_hue_radians)
-          ] <- 0
-
-          value_hue_x <-
-            base::sum(vec_hue_weights * base::cos(vec_hue_radians))
-
-          value_hue_y <-
-            base::sum(vec_hue_weights * base::sin(vec_hue_radians))
-
-          if (
-            base::abs(value_hue_x) <= base::.Machine$double.eps &&
-              base::abs(value_hue_y) <= base::.Machine$double.eps
-          ) {
-            value_hue <- 0
-          } else {
-            value_hue <-
-              (base::atan2(value_hue_y, value_hue_x) * 180 / base::pi +
-                360) %% 360
-          }
-        }
-
-        grDevices::hcl(
-          h = value_hue,
-          c = value_chroma,
-          l = value_luminance,
+        colorspace::hex(
+          colorspace::LAB(
+            L = value_luminance,
+            A = value_a,
+            B = value_b
+          ),
           fixup = TRUE
         )
       },

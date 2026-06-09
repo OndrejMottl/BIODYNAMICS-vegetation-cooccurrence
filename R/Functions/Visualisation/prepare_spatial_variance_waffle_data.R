@@ -21,6 +21,9 @@
 #' after colour mixing. Defaults to `"Associations"` to preserve
 #' historical behaviour. When `NULL`, the first value in
 #' `vec_required_components` is used.
+#' @param method
+#' Character string selecting the colour-mixing method passed to
+#' [mix_variance_component_colours()].
 #' @return
 #' A tibble with one row per observation and columns `tile_col`,
 #' `tile_row`, `tile_fill_colour`, and `point_colour`.
@@ -76,7 +79,8 @@ prepare_spatial_variance_waffle_data <- function(
       "Associations"
     ),
     ranking_column = "component_total_percentage",
-    anchor_component = "Associations") {
+    anchor_component = "Associations",
+    method = base::c("HCL", "perc_avg")) {
   assertthat::assert_that(
     base::is.data.frame(data_plot),
     msg = "`data_plot` must be a data frame."
@@ -114,6 +118,22 @@ prepare_spatial_variance_waffle_data <- function(
         base::length(anchor_component) == 1L &&
         base::nchar(anchor_component) > 0L),
     msg = "`anchor_component` must be NULL or a non-empty string."
+  )
+
+  vec_allowed_methods <-
+    base::c("HCL", "perc_avg")
+
+  if (
+    base::identical(method, vec_allowed_methods)
+  ) {
+    method <- "HCL"
+  }
+
+  assertthat::assert_that(
+    base::is.character(method) &&
+      base::length(method) == 1L &&
+      method %in% vec_allowed_methods,
+    msg = "`method` must be one of 'HCL' or 'perc_avg'."
   )
 
   selected_anchor_component <-
@@ -235,7 +255,8 @@ prepare_spatial_variance_waffle_data <- function(
       vec_required_components = vec_required_components,
       observation_id_column = "observation_id",
       component_column = "component",
-      share_column = "component_total_percentage"
+      share_column = "component_total_percentage",
+      method = method
     )
 
   data_anchor <-
@@ -247,10 +268,14 @@ prepare_spatial_variance_waffle_data <- function(
   if (
     base::nrow(data_anchor) == 0L
   ) {
-    cli::cli_abort(
+    message_anchor_empty <-
       stringr::str_glue(
-        "Input collapses to empty after filtering `{selected_anchor_component}` rows."
+        "Input collapses to empty after filtering ",
+        "`{selected_anchor_component}` rows."
       )
+
+    cli::cli_abort(
+      message_anchor_empty
     )
   }
 
