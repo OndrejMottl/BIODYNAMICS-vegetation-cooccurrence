@@ -1059,6 +1059,11 @@ $mermaid-node-bg-color: $oracle-palette-surface-alt !important;
   align-items: center;
   display: flex;
   justify-content: center;
+  --oracle-mermaid-cluster-font-size: calc(var(--oracle-typography-small-size) * 0.76);
+  --oracle-mermaid-edge-font-size: calc(var(--oracle-typography-small-size) * 0.6);
+  --oracle-mermaid-node-font-size: calc(var(--oracle-typography-small-size) * 0.68);
+  --oracle-mermaid-svg-max-height: none;
+  --oracle-mermaid-svg-width: 100%;
   width: 100%;
 }
 
@@ -1073,7 +1078,26 @@ $mermaid-node-bg-color: $oracle-palette-surface-alt !important;
   display: block;
   height: auto !important;
   margin: 0 auto;
+  max-height: var(--oracle-mermaid-svg-max-height);
   max-width: 100%;
+  width: var(--oracle-mermaid-svg-width);
+}
+
+.oracle-mermaid-natural {
+  --oracle-mermaid-svg-max-height: none;
+  --oracle-mermaid-svg-width: auto;
+}
+
+.oracle-mermaid-text-small {
+  --oracle-mermaid-cluster-font-size: calc(var(--oracle-typography-small-size) * 0.68);
+  --oracle-mermaid-edge-font-size: calc(var(--oracle-typography-small-size) * 0.54);
+  --oracle-mermaid-node-font-size: calc(var(--oracle-typography-small-size) * 0.6);
+}
+
+.oracle-mermaid-text-large {
+  --oracle-mermaid-cluster-font-size: calc(var(--oracle-typography-small-size) * 0.88);
+  --oracle-mermaid-edge-font-size: calc(var(--oracle-typography-small-size) * 0.68);
+  --oracle-mermaid-node-font-size: calc(var(--oracle-typography-small-size) * 0.8);
 }
 
 .oracle-mermaid svg .nodeLabel,
@@ -1085,95 +1109,154 @@ $mermaid-node-bg-color: $oracle-palette-surface-alt !important;
   color: var(--oracle-palette-text) !important;
   font-family: var(--oracle-typography-body-family) !important;
   line-height: 1.05 !important;
+  text-align: center !important;
+}
+
+.oracle-mermaid svg .node foreignObject > div {
+  text-align: center !important;
+}
+
+.oracle-mermaid svg .nodeLabel p,
+.oracle-mermaid svg .label p {
+  margin: 0 !important;
+  text-align: center !important;
 }
 
 .oracle-mermaid svg .cluster-label,
 .oracle-mermaid svg .cluster-label span {
-  font-size: 19px !important;
+  background: var(--oracle-palette-background) !important;
+  font-size: var(--oracle-mermaid-cluster-font-size) !important;
   letter-spacing: var(--oracle-typography-status-letter-spacing);
+  padding: 0 0.18em;
   text-transform: uppercase;
 }
 
 .oracle-mermaid svg .nodeLabel,
 .oracle-mermaid svg .nodeLabel span {
-  font-size: 16px !important;
+  font-size: var(--oracle-mermaid-node-font-size) !important;
 }
 
 .oracle-mermaid svg .edgeLabel,
 .oracle-mermaid svg .edgeLabel span {
   background: var(--oracle-palette-background) !important;
   color: var(--oracle-palette-muted) !important;
-  font-size: 15px !important;
+  font-size: var(--oracle-mermaid-edge-font-size) !important;
 }
 
-.oracle-mermaid svg .source_node :is(rect, path, polygon, circle, ellipse) {
+.oracle-mermaid svg .flowchart-link,
+.oracle-mermaid svg .edgePath path,
+.oracle-mermaid svg path.relation {
+  stroke: var(--oracle-palette-muted) !important;
+}
+
+.oracle-mermaid svg marker path,
+.oracle-mermaid svg .arrowheadPath {
+  fill: var(--oracle-palette-muted) !important;
+  stroke: var(--oracle-palette-muted) !important;
+}
+
+.oracle-mermaid svg .flowchart-link {
+  filter: drop-shadow(var(--oracle-effects-dim-glow));
+}
+
+.oracle-mermaid-process {
+  --oracle-mermaid-cluster-font-size: calc(var(--oracle-typography-small-size) * 0.86);
+  --oracle-mermaid-edge-font-size: calc(var(--oracle-typography-small-size) * 0.72);
+  --oracle-mermaid-node-font-size: calc(var(--oracle-typography-small-size) * 0.9);
+  --oracle-mermaid-svg-max-height: min(700px, 74vh);
+  --oracle-mermaid-svg-width: auto;
+}
+
+.oracle-mermaid-process svg .source_node :is(rect, path, polygon, circle, ellipse) {
   fill: var(--oracle-palette-surface) !important;
   stroke: var(--oracle-palette-muted) !important;
   stroke-width: 1.4px !important;
 }
 
-.oracle-mermaid svg .source_node .nodeLabel,
-.oracle-mermaid svg .source_node .nodeLabel span {
+.oracle-mermaid-process svg .source_node .nodeLabel,
+.oracle-mermaid-process svg .source_node .nodeLabel span {
   color: var(--oracle-palette-muted) !important;
 }
 
-.oracle-mermaid svg .community_node :is(rect, path, polygon, circle, ellipse) {
+.oracle-mermaid-process svg .community_node :is(rect, path, polygon, circle, ellipse) {
   fill: var(--oracle-palette-surface-alt) !important;
   stroke: var(--oracle-palette-phosphor) !important;
   stroke-width: 1.8px !important;
 }
 
-.oracle-mermaid svg .community_node .nodeLabel,
-.oracle-mermaid svg .community_node .nodeLabel span {
+.oracle-mermaid-process svg .community_node .nodeLabel,
+.oracle-mermaid-process svg .community_node .nodeLabel span {
   color: var(--oracle-palette-text) !important;
 }
 
-.oracle-mermaid svg .climate_node :is(rect, path, polygon, circle, ellipse) {
+.oracle-mermaid-process svg .community_title_node :is(rect, path, polygon, circle, ellipse) {
+  fill: transparent !important;
+  stroke: transparent !important;
+}
+
+.oracle-mermaid-process svg .community_title_node .nodeLabel,
+.oracle-mermaid-process svg .community_title_node .nodeLabel span {
+  color: var(--oracle-palette-phosphor) !important;
+  font-size: var(--oracle-mermaid-cluster-font-size) !important;
+  letter-spacing: var(--oracle-typography-status-letter-spacing);
+  text-transform: uppercase;
+}
+
+.oracle-mermaid-process svg .climate_node :is(rect, path, polygon, circle, ellipse) {
   fill: var(--oracle-palette-surface) !important;
   stroke: var(--oracle-palette-amber) !important;
   stroke-width: 1.8px !important;
 }
 
-.oracle-mermaid svg .climate_node .nodeLabel,
-.oracle-mermaid svg .climate_node .nodeLabel span {
+.oracle-mermaid-process svg .climate_node .nodeLabel,
+.oracle-mermaid-process svg .climate_node .nodeLabel span {
   color: var(--oracle-palette-amber) !important;
 }
 
-.oracle-mermaid svg .model_node :is(rect, path, polygon, circle, ellipse) {
+.oracle-mermaid-process svg .climate_title_node :is(rect, path, polygon, circle, ellipse) {
+  fill: transparent !important;
+  stroke: transparent !important;
+}
+
+.oracle-mermaid-process svg .climate_title_node .nodeLabel,
+.oracle-mermaid-process svg .climate_title_node .nodeLabel span {
+  color: var(--oracle-palette-amber) !important;
+  font-size: var(--oracle-mermaid-cluster-font-size) !important;
+  letter-spacing: var(--oracle-typography-status-letter-spacing);
+  text-transform: uppercase;
+}
+
+.oracle-mermaid-process svg .model_node :is(rect, path, polygon, circle, ellipse) {
   fill: var(--oracle-palette-surface) !important;
   stroke: var(--oracle-palette-purple) !important;
   stroke-width: 1.8px !important;
 }
 
-.oracle-mermaid svg .model_node .nodeLabel,
-.oracle-mermaid svg .model_node .nodeLabel span {
+.oracle-mermaid-process svg .model_node .nodeLabel,
+.oracle-mermaid-process svg .model_node .nodeLabel span {
   color: var(--oracle-palette-purple) !important;
 }
 
-.oracle-mermaid svg g[id*="community_stream"] > rect {
+.oracle-mermaid-process svg g[id*="community_stream"] > rect {
   fill: var(--oracle-palette-surface) !important;
   stroke: var(--oracle-palette-phosphor) !important;
   stroke-width: 2px !important;
 }
 
-.oracle-mermaid svg g[id*="community_stream"] .cluster-label,
-.oracle-mermaid svg g[id*="community_stream"] .cluster-label span {
+.oracle-mermaid-process svg g[id*="community_stream"] .cluster-label,
+.oracle-mermaid-process svg g[id*="community_stream"] .cluster-label span {
   color: var(--oracle-palette-phosphor) !important;
 }
 
-.oracle-mermaid svg g[id*="climate_stream"] > rect {
+.oracle-mermaid-process svg g[id*="climate_stream"] > rect {
   fill: var(--oracle-palette-surface) !important;
   stroke: var(--oracle-palette-amber) !important;
   stroke-width: 2px !important;
 }
 
-.oracle-mermaid svg g[id*="climate_stream"] .cluster-label,
-.oracle-mermaid svg g[id*="climate_stream"] .cluster-label span {
+.oracle-mermaid-process svg g[id*="climate_stream"] .cluster-label,
+.oracle-mermaid-process svg g[id*="climate_stream"] .cluster-label span {
   color: var(--oracle-palette-amber) !important;
-}
-
-.oracle-mermaid svg .flowchart-link {
-  filter: drop-shadow(var(--oracle-effects-dim-glow));
 }
 
 /* Fragment effect */

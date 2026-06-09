@@ -7,9 +7,6 @@
 #
 #----------------------------------------------------------#
 
-# This script is actually not used in the end as it is easier to replace 
-#  mermaid diagrams
-
 library(here)
 
 base::source(
@@ -88,20 +85,9 @@ path_output <-
     "results"
   )
 
-path_output_panels <-
-  base::file.path(
-    path_output,
-    "panels"
-  )
 
 base::dir.create(
   path = path_output,
-  showWarnings = FALSE,
-  recursive = TRUE
-)
-
-base::dir.create(
-  path = path_output_panels,
   showWarnings = FALSE,
   recursive = TRUE
 )
@@ -147,13 +133,7 @@ base::dir.create(
 #    - Interpolate selected predictors to the same configured time
 #      step as the community stream.
 #
-# 4. Stream alignment
-#    - Intersect community, abiotic, and coordinate records by
-#      dataset_name and age.
-#    - Require complete abiotic records across retained predictors.
-#    - Fail early when too few aligned samples remain.
-#
-# 5. Model-ready matrices
+# 4. Model-ready matrices
 #    - Widen the community data to a sample x taxon matrix.
 #    - Widen abiotic data to sample rows and predictor columns.
 #    - Scale abiotic predictors before model assembly.
@@ -165,76 +145,255 @@ base::dir.create(
 # 2. Data for schematic -----
 #----------------------------------------------------------#
 
-colour_community <- vec_oracle_palette[["phosphor"]]
-colour_climate <- vec_oracle_palette[["amber"]]
-colour_model <- vec_oracle_palette[["purple"]]
+colour_community <-
+  vec_oracle_palette[["phosphor"]]
 
-data_stage_boxes <-
+colour_climate <-
+  vec_oracle_palette[["amber"]]
+
+colour_shared <-
+  vec_oracle_palette[["muted"]]
+
+colour_model <-
+  vec_oracle_palette[["purple"]]
+
+
+node_box <- function(
+  id,
+  label,
+  x,
+  y,
+  width,
+  height,
+  colour,
+  fill = vec_oracle_palette[["surface"]],
+  text_colour = vec_oracle_palette[["text"]],
+  text_size = 2.9,
+  fontface = "bold"
+) {
   tibble::tibble(
-    stage_id = base::c(
-      "source",
-      "community",
-      "climate",
-      "model"
+    id = id,
+    label = label,
+    x = x,
+    y = y,
+    width = width,
+    height = height,
+    xmin = x - width / 2,
+    xmax = x + width / 2,
+    ymin = y - height / 2,
+    ymax = y + height / 2,
+    colour = colour,
+    fill = fill,
+    text_colour = text_colour,
+    text_size = text_size,
+    fontface = fontface
+  )
+}
+
+x_lims <- c(0, 900)
+y_lims <- c(0, 850)
+
+x_centre <- mean(x_lims)
+y_centre <- mean(y_lims)
+
+y_source_box <- 800
+y_data_type <- 520
+y_data_sub <- base::seq(690, 300, by = -112)
+y_shared <- c(125, 230)
+y_model <- 50
+
+data_source_box <-
+  node_box(
+    id = "source",
+    label = "VegVault",
+    x = x_centre,
+    y = y_source_box,
+    width = 180,
+    height = 70,
+    colour = colour_shared,
+    text_colour = colour_shared,
+    text_size = 3.1
+  )
+
+data_type_box <-
+  dplyr::bind_rows(
+    node_box(
+      id = "community_stream",
+      label = "COMMUNITY DATA",
+      colour = colour_community,
+      width = 350,
+      height = 450,
+      x = x_centre - (x_centre / 2),
+      y = y_data_type
     ),
-    label = base::c(
-      "EXTRACT",
-      "COMMUNITY STREAM",
-      "CLIMATE STREAM",
-      "MODEL"
-    ),
-    detail = base::c(
-      "VegVault\nrecords",
-      "counts -> proportions\nage uncertainty -> 500 yr grid\nGBIF + aux taxonomy\nPlantae + resolution\nrare/core/sample filters",
-      "CHELSA BIO candidates\nadd sample ages\ndrop zero-variance vars\nselect non-collinear set\ninterpolate to 500 yr grid",
-      "jSDM\ninput"
-    ),
-    xmin = base::c(4, 25, 25, 84),
-    xmax = base::c(18, 68, 68, 96),
-    ymin = base::c(31, 52, 6, 31),
-    ymax = base::c(49, 75, 31, 49),
-    colour = base::c(
-      vec_oracle_palette[["muted"]],
-      colour_community,
-      colour_climate,
-      colour_model
+    node_box(
+      id = "climate_stream",
+      label = "ABCIOTIC DATA",
+        colour = colour_climate,
+      width = 350,
+      height = 450,
+      x = x_centre + (x_centre / 2),
+      y = y_data_type
     )
+  ) 
+
+data_community_boxes <-
+  dplyr::bind_rows(
+    node_box(
+      id = "community_counts",
+      label = "counts\nto proportions",
+      x = x_centre - (x_centre / 2),
+      y = y_data_sub[1],
+      width = 200,
+      height = 78,
+      colour = colour_community,
+      text_size = 2.95
+    ),
+    node_box(
+      id = "community_age",
+      label = "interpolate\nwith uncertainty",
+      x = x_centre - (x_centre / 2),
+      y = y_data_sub[2],
+      width = 240,
+      height = 84,
+      colour = colour_community,
+      text_size = 2.85
+    ),
+    node_box(
+      id = "community_taxa",
+      label = "taxonomy\nharmonisation",
+      x = x_centre - (x_centre / 2),
+      y = y_data_sub[3],
+      width = 210,
+      height = 82,
+      colour = colour_community,
+      text_size = 2.85
+    ),
+    node_box(
+      id = "community_resolution",
+      label = "select\nresolution",
+      x = x_centre - (x_centre / 2),
+      y = y_data_sub[4],
+      width = 170,
+      height = 78,
+      colour = colour_community,
+      text_size = 2.85
+    )
+  )
+
+data_climate_boxes <-
+  dplyr::bind_rows(
+    node_box(
+      id = "climate_candidates",
+      label = "CHELSA\ncandidates",
+      x = x_centre + (x_centre / 2),
+      y = y_data_sub[1],
+      width = 200,
+      height = 78,
+      colour = colour_climate,
+      text_colour = colour_climate,
+      text_size = 2.95
+    ),
+    node_box(
+      id = "climate_variance",
+      label = "drop invariant\npredictors",
+      x = x_centre + (x_centre / 2),
+      y = y_data_sub[2],
+      width = 220,
+      height = 82,
+      colour = colour_climate,
+      text_colour = colour_climate,
+      text_size = 2.85
+    ),
+    node_box(
+      id = "climate_screen",
+      label = "select\nnon-collinear set",
+      x = x_centre + (x_centre / 2),
+      y = y_data_sub[3],
+      width = 270,
+      height = 82,
+      colour = colour_climate,
+      text_colour = colour_climate,
+      text_size = 2.75
+    ),
+    node_box(
+      id = "climate_grid",
+      label = "interpolate",
+      x = x_centre + (x_centre / 2),
+      y = y_data_sub[4],
+      width = 170,
+      height = 78,
+      colour = colour_climate,
+      text_colour = colour_climate,
+      text_size = 2.9
+    )
+  )
+
+data_shared_boxes <-
+  dplyr::bind_rows(
+    node_box(
+      id = "sample_filtering",
+      label = "Sample filtering\nspatial/temporal",
+      x = x_centre,
+      y = y_shared[2],
+      width = 250,
+      height = 82,
+      colour = colour_shared,
+      text_colour = colour_shared,
+      text_size = 2.85
+    ),
+    node_box(
+      id = "core_filtering",
+      label = "Core filtering",
+      x = x_centre,
+      y = y_shared[1],
+      width = 200,
+      height = 52,
+      colour = colour_shared,
+      text_colour = colour_shared,
+      text_size = 2.85
+    )
+  )
+
+data_model_box <-
+  node_box(
+    id = "model",
+    label = "Model",
+    x = x_centre,
+    y = y_model,
+    width = 120,
+    height = 45,
+    colour = colour_model,
+    text_colour = colour_model,
+    text_size = 2.95
+  )
+
+data_node_boxes <-
+  dplyr::bind_rows(
+    data_source_box,
+    data_community_boxes,
+    data_climate_boxes,
+    data_shared_boxes,
+    data_model_box
   ) |>
   dplyr::mutate(
-    x = (xmin + xmax) / 2,
-    y_label = dplyr::case_when(
-      stage_id %in% base::c("source", "model") ~ ymax - 6,
-      TRUE ~ ymax - 6
-    ),
-    y_detail = dplyr::case_when(
-      stage_id %in% base::c("source", "model") ~ ymin + 7,
-      TRUE ~ ymin + 11
-    )
+    text_size = text_size * 0.8
   )
 
-data_stream_links <-
-  tibble::tibble(
-    x = base::c(18, 18, 68, 68),
-    xend = base::c(25, 25, 84, 84),
-    y = base::c(40, 40, 63.5, 18.5),
-    yend = base::c(63.5, 18.5, 42, 40),
-    colour = base::c(
-      colour_community,
-      colour_climate,
-      colour_community,
-      colour_climate
-    )
-  )
-
-data_panel_headers <-
-  tibble::tibble(
-    label = "UPDATED PREPROCESSING MAP",
-    x = 4,
-    y = 78,
-    hjust = 0,
-    colour = vec_oracle_palette[["phosphor"]]
-  )
-
+data_links_type <- 
+  dplyr::bind_rows(
+    data_community_boxes |> dplyr::mutate(stream = "community"),
+    data_climate_boxes |> dplyr::mutate(stream = "climate")
+  ) |>
+  dplyr::group_by(stream) |>
+  dplyr::arrange(y) |>
+  dplyr::mutate(
+    yend = dplyr::lead(ymin),
+    xend = x
+  ) |>
+  dplyr::filter(!base::is.na(yend))  |>
+  dplyr::ungroup()  |> 
+  dplyr::select(x, y, xend, yend, colour)
 
 #----------------------------------------------------------#
 # 3. Make figure -----
@@ -243,19 +402,19 @@ data_panel_headers <-
 figure_climate_data_summary <-
   ggplot2::ggplot() +
   ggplot2::coord_cartesian(
-    xlim = base::c(0, 100),
-    ylim = base::c(0, 80),
+    xlim = x_lims,
+    ylim = y_lims,
     expand = FALSE,
     clip = "off"
   ) +
   ggview::canvas(
-    width = 1000,
-    height = 800,
+    width = 900,
+    height = 850,
     units = "px",
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  theme_oracle(base_family = font_family, base_size = 10) +
+  theme_oracle(base_family = font_family, base_size = 11) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(
       fill = vec_oracle_palette[["background"]],
@@ -267,43 +426,19 @@ figure_climate_data_summary <-
     ),
     panel.grid.minor = ggplot2::element_blank(),
     panel.grid.major = ggplot2::element_blank(),
-    axis.title = ggplot2::element_blank(),
-    axis.text = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank(),
+    axis.text = ggplot2::element_blank(),
+    axis.title = ggplot2::element_blank(),
     legend.position = "none",
     plot.margin = ggplot2::margin(0, 0, 0, 0)
   ) +
-  ggplot2::geom_rect(
-    mapping = ggplot2::aes(
-      xmin = 2,
-      xmax = 98,
-      ymin = 2,
-      ymax = 78
-    ),
-    fill = vec_oracle_palette[["surface"]],
-    colour = vec_oracle_palette[["border"]],
-    linewidth = 0.25,
-    alpha = 0.45
-  ) +
-  ggplot2::geom_segment(
-    data = data_stream_links,
-    mapping = ggplot2::aes(
-      x = x,
-      xend = xend,
-      y = y,
-      yend = yend,
-      colour = colour
-    ),
-    arrow = grid::arrow(
-      length = grid::unit(4, "pt"),
-      type = "closed"
-    ),
-    linewidth = 0.45,
-    alpha = 0.78
-  ) +
   ggplot2::scale_colour_identity() +
+  ggplot2::scale_fill_identity() +
+  ggplot2::scale_size_identity() +
+  ggplot2::scale_alpha_identity() +
+  # stream frames
   ggplot2::geom_rect(
-    data = data_stage_boxes,
+    data = data_type_box,
     mapping = ggplot2::aes(
       xmin = xmin,
       xmax = xmax,
@@ -311,58 +446,174 @@ figure_climate_data_summary <-
       ymax = ymax,
       colour = colour
     ),
-    fill = vec_oracle_palette[["surface_alt"]],
-    linewidth = 0.35,
-    alpha = 0.78
+    fill = vec_oracle_palette[["background"]],
+    linewidth = 0.55,
+    alpha = 0.82
   ) +
+  # data boxes titles
   ggplot2::geom_text(
-    data = data_panel_headers,
+    mapping = ggplot2::aes(
+      x = c(
+        x_centre - (x_centre / 2),
+        x_centre + (x_centre / 2)
+      ),
+      y = y_data_type + 245,
+      label = c(
+        "COMMUNITY DATA",
+        "ABIOTIC DATA"
+      ),
+      colour = c(
+        colour_community,
+        colour_climate
+    )),
+    family = font_family,
+    fontface = "bold",
+    lineheight = 0.86,
+    size = 3.0
+  ) +
+  # curved links between streams and shared nodes
+  # vegvault to community
+   ggplot2::geom_curve(
+     mapping = ggplot2::aes(
+       x = data_source_box$xmin,
+       xend = data_type_box  |> 
+       dplyr::filter(id == "community_stream") |>
+       dplyr::pull(x),
+       y = data_source_box$y,
+       yend = data_type_box  |>
+       dplyr::filter(id == "community_stream") |>
+       dplyr::pull(ymax)
+     ),
+     colour = colour_shared,
+     alpha = 0.5,
+     curvature = 0.18,
+     linewidth = 0.45
+   ) +
+  # vegvault to climate
+    ggplot2::geom_curve(
+      mapping = ggplot2::aes(
+        x = data_source_box$xmax,
+        xend = data_type_box  |> 
+        dplyr::filter(id == "climate_stream") |>
+        dplyr::pull(x),
+        y = data_source_box$y,
+        yend = data_type_box  |>
+        dplyr::filter(id == "climate_stream") |>
+        dplyr::pull(ymax)
+      ),
+      colour = colour_shared,
+      alpha = 0.5,
+      curvature = -0.18,
+      linewidth = 0.45
+    ) +
+  # community to shared
+    ggplot2::geom_curve(
+      mapping = ggplot2::aes(
+        x = data_type_box  |> 
+        dplyr::filter(id == "community_stream") |>
+        dplyr::pull(x),
+        xend = data_shared_boxes |>
+        dplyr::filter(id == "sample_filtering") |>
+        dplyr::pull(xmin),
+        y = data_type_box  |>
+        dplyr::filter(id == "community_stream") |>
+        dplyr::pull(ymin),
+        yend = data_shared_boxes |>
+        dplyr::filter(id == "sample_filtering") |>
+        dplyr::pull(y)
+      ),
+      colour = colour_shared,
+      alpha = 0.5,
+      curvature = 0.22,
+      linewidth = 0.45
+    ) +
+  # climate to shared
+    ggplot2::geom_curve(
+      mapping = ggplot2::aes(
+        x = data_type_box  |>
+        dplyr::filter(id == "climate_stream") |>
+        dplyr::pull(x),
+        xend = data_shared_boxes |>
+        dplyr::filter(id == "sample_filtering") |>
+        dplyr::pull(xmax),
+        y = data_type_box  |>
+        dplyr::filter(id == "climate_stream") |>
+        dplyr::pull(ymin),
+        yend = data_shared_boxes |>
+        dplyr::filter(id == "sample_filtering") |>
+        dplyr::pull(y)
+      ),
+      colour = colour_shared,
+      alpha = 0.5,
+      curvature = -0.22,
+      linewidth = 0.45
+    ) +
+  # Now links within streams
+  ggplot2::geom_segment(
+    data = data_links_type,
+    mapping = ggplot2::aes(
+      x = x,
+      y = y,
+      xend = xend,
+      yend = yend,
+      colour = colour
+    ),
+    linewidth = 0.45,
+    alpha = 0.5
+  ) +
+  # shared links
+   ggplot2::geom_segment(
+     mapping = ggplot2::aes(
+       x = x_centre,
+       y = c(
+         data_shared_boxes |> 
+       dplyr::filter(id == "sample_filtering") |> 
+       dplyr::pull(ymin),
+        data_shared_boxes |> 
+       dplyr::filter(id == "core_filtering") |> 
+       dplyr::pull(ymin)
+       ),
+       xend = x_centre,
+       yend = c(
+        data_shared_boxes |> 
+       dplyr::filter(id == "core_filtering") |> 
+       dplyr::pull(ymax),
+       data_model_box$ymax
+       )
+     ),
+     colour = colour_shared,
+     linewidth = 0.45,
+     alpha = 0.5
+   ) +
+  # process nodes
+  ggplot2::geom_rect(
+    data = data_node_boxes,
+    mapping = ggplot2::aes(
+      xmin = xmin,
+      xmax = xmax,
+      ymin = ymin,
+      ymax = ymax,
+      colour = colour,
+      fill = fill
+    ),
+    linewidth = 0.55,
+    alpha = 0.82
+  ) +
+  # node labels
+  ggplot2::geom_text(
+    data = data_node_boxes,
     mapping = ggplot2::aes(
       x = x,
       y = y,
       label = label,
-      colour = colour,
-      hjust = hjust
-    ),
-    family = font_family,
-    fontface = "bold",
-    size = 2.9
-  ) +
-  ggplot2::geom_text(
-    data = data_stage_boxes,
-    mapping = ggplot2::aes(
-      x = x,
-      y = y_label,
-      label = label,
-      colour = colour
-    ),
-    family = font_family,
-    fontface = "bold",
-    size = 2.5
-  ) +
-  ggplot2::geom_text(
-    data = data_stage_boxes,
-    mapping = ggplot2::aes(
-      x = x,
-      y = y_detail,
-      label = detail
+      colour = text_colour,
+      size = text_size,
+      fontface = fontface
     ),
     lineheight = 0.82,
-    colour = vec_oracle_palette[["text"]],
     family = font_family,
-    size = 1.85
-  ) +
-  ggplot2::annotate(
-    geom = "text",
-    x = 4,
-    y = 4.8,
-    label = "Current code: paleo spatial + temporal pipelines",
-    hjust = 0,
-    colour = vec_oracle_palette[["muted"]],
-    family = font_family,
-    size = 1.75
-  )
-
+    show.legend = FALSE
+  ) 
 
 #----------------------------------------------------------#
 # 4. Save figure -----
@@ -372,15 +623,6 @@ ggview::save_ggplot(
   plot = figure_climate_data_summary,
   file = base::file.path(
     path_output,
-    "slide_05_climate_screening.png"
-  ),
-  device = ragg::agg_png
-)
-
-ggview::save_ggplot(
-  plot = figure_climate_data_summary,
-  file = base::file.path(
-    path_output_panels,
     "slide_05_climate_screening.png"
   ),
   device = ragg::agg_png

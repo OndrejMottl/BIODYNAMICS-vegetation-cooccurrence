@@ -496,11 +496,10 @@ Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 
 :::
 
-::: {.column width="60%" .fragment .tui-reveal-blur data-fragment-index="2"}
+::: {.column width="5%"}
+:::
 
-<!--- 
-
-Lets actually not use the R script and figure as it is very hard to manually layout the steps. The code is there but silenced. 
+::: {.column width="60%" .fragment .tui-reveal-blur data-fragment-index="2" }
 
 ```{r}
 #| label: result-slide05-workflow-build
@@ -509,7 +508,7 @@ Lets actually not use the R script and figure as it is very hard to manually lay
 #| message: false
 #| include: true
 #| cache: true
-#| eval: false
+#| eval: true
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/climate_data_summary_figure.R"
@@ -520,8 +519,8 @@ source(
 ```{r}
 #| label: result-slide05-workflow-render
 #| echo: false
-#| out-width: 100%
-#| eval: false
+#| out-width: 90%
+#| eval: true
 knitr::include_graphics(
   here::here(
     "Documentation/Presentations/IAVS_2026/figures/results/slide_05_climate_screening.png"
@@ -529,40 +528,45 @@ knitr::include_graphics(
 )
 ```
 
----> 
+<!-- Lets keep the mermaid as backup -->
 
-::: {.oracle-mermaid}
+::: {.oracle-mermaid .oracle-mermaid-process}
 
 ```{mermaid}
 %%| label: slide05-community-climate-mermaid
+%%| eval: false
 %%{init: {
   "theme": "base",
   "flowchart": {
     "curve": "basis",
     "htmlLabels": true,
-    "nodeSpacing": 30,
-    "rankSpacing": 48,
-    "padding": 14
+    "nodeSpacing": 22,
+    "rankSpacing": 14,
+    "padding": 10
   }
 }}%%
 flowchart TB
   source["VegVault"]
 
-  subgraph community_stream [COMMUNITY STREAM]
+  subgraph community_stream [" "]
     direction TB
+    community_title["COMMUNITY STREAM"]
     community_counts["counts<br/>proportions"]
     community_age["interpolation<br/>with uncertainty"]
     community_taxa["taxonomy<br/>harmonisation"]
     community_filters["Select<br/>resolution"]
+    community_title ~~~ community_counts
     community_counts --> community_age --> community_taxa --> community_filters
   end
 
-  subgraph climate_stream [CLIMATE STREAM]
+  subgraph climate_stream [" "]
     direction TB
+    climate_title["CLIMATE STREAM"]
     climate_vars["CHELSA<br/>candidates"]
-    climate_variance["drop zero-var<br/>predictors"]
+    climate_variance["drop invariant<br/>predictors"]
     climate_screen["select<br/>non-collinear set"]
     climate_grid["interpolate"]
+    climate_title ~~~ climate_vars
     climate_vars --> climate_variance --> climate_screen --> climate_grid
   end
 
@@ -582,12 +586,16 @@ flowchart TB
 
 
   class source,sample_filtering,core_filtering source_node
+  class community_title community_title_node
+  class climate_title climate_title_node
   class community_counts,community_age,community_taxa,community_filters community_node
   class climate_vars,climate_variance,climate_screen,climate_grid climate_node
   class model model_node
 ```
 
 :::
+
+
 
 :::
 ::::
