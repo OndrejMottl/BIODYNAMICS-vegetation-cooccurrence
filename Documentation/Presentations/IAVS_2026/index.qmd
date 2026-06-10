@@ -827,14 +827,15 @@ knitr::include_graphics(
 :::
 
 ::: {.column width="50%"}
-::: {.image-height-600 .fragment .tui-reveal-blur data-fragment-index="3"}
+::: {.fragment .tui-reveal-blur data-fragment-index="3"}
 
 ```{r}
 #| label: result-slide08-tiles-render
 #| echo: false
+#| out-width: 100%
 knitr::include_graphics(
   here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_08_spatial_tiles.png"
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_08_spatial_tiles.png"
   )
 )
 ```
@@ -843,6 +844,8 @@ knitr::include_graphics(
 :::
 
 ::::
+
+<!-- 
 
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
@@ -854,6 +857,8 @@ knitr::include_graphics(
 Units are nested from [local]{.text-emphasis-underline-dotted} to [regional]{.text-emphasis-underline-dotted} to [continental]{.text-emphasis-underline-dotted}
 :::
 :::
+
+-->
 
 ::: {.notes}
 TIME 00:50. Oracle, start with the spatial axis. Show how the association signal changes across local, regional, and continental units.

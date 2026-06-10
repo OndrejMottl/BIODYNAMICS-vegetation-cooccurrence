@@ -348,7 +348,8 @@ build_spatial_unit_frame <- function(
         y = .data$coord_lat
       ),
       colour = vec_oracle_palette[["phosphor"]],
-      shape = 16,
+      fill = vec_oracle_palette[["surface_alt"]],
+      shape = 22,
       size = 1,
       stroke = 0.55,
       alpha = 0.95
@@ -371,7 +372,7 @@ build_spatial_unit_frame <- function(
       geom = "text",
       x = base::min(x_limits) + 2.0,
       y = base::max(y_limits) - 1.5,
-      label = scale_label,
+      label = stringr::str_to_upper(scale_label),
       hjust = 0,
       vjust = 1,
       colour = vec_oracle_palette[["cyan"]],
@@ -462,14 +463,3 @@ if (
     "Could not create GIF because no GIF backend was available."
   )
 }
-
-base::invisible(
-  base::file.copy(
-    from = vec_frame_paths[[1]],
-    to = base::file.path(
-      path_output,
-      "slide_08_spatial_units_map.png"
-    ),
-    overwrite = TRUE
-  )
-)
