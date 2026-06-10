@@ -376,7 +376,7 @@ plot_association_spread <-
     ),
     width = 0.25,
     height = 0,
-    size = 1,
+    size = 1.5,
     colour = vec_oracle_palette[["background"]],
     stroke = 0.05,
     alpha = 1
