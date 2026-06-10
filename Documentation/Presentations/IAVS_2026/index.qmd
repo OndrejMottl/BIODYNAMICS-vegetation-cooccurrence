@@ -45,15 +45,14 @@ vec_oracle_palette <-
     "palette"
   )
 
-generate_qr_code <- function(url, name, background_color, foreground_color, plot , base_path = here::here("Documentation", "Presentations", "IAVS_2026", "figures", "qrcodes")) {
+generate_qr_code <- function(url, name, background_color, foreground_color, plot, base_path = here::here("Documentation", "Presentations", "IAVS_2026", "figures", "qrcodes")) {
+  qr_code <-
+    qrcode::qr_code(
+      url,
+      ecl = "H"
+    )
 
-qr_code <- 
-  qrcode::qr_code(
-    url,
-    ecl = "H"
-  )
-
-qrcode::generate_svg(
+  qrcode::generate_svg(
     qrcode = qr_code,
     filename = stringr::str_glue(
       "{base_path}/qr_{name}.svg"
@@ -62,8 +61,8 @@ qrcode::generate_svg(
     background = background_color
   )
 
-  if(
-    isTRUE(plot) 
+  if (
+    isTRUE(plot)
   ) {
     knitr::include_graphics(
       stringr::str_glue(
@@ -962,7 +961,7 @@ Interestingly, the change in taxonomic resolution does not seem to affect the sp
 #| label: result-slide10-generate
 #| include: false
 #| cache: true
-#| eval: false
+#| eval: true
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/temporal_density_summary_figure.R"
@@ -1026,14 +1025,15 @@ Proceed? [Y]/[N]?
 
 ::: {.column width="65%"}
 
-:::{.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-300}
+:::{.fragment .tui-reveal-blur  data-fragment-index="2"}
 
 ```{r}
 #| label: result-slide10-density-render
 #| echo: false
+#| out-width: 100%
 knitr::include_graphics(
   here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_10_temporal_density.png"
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_10_temporal_density.png"
   )
 )
 ```
@@ -1045,28 +1045,32 @@ knitr::include_graphics(
 ::: {.column width="50%" .fragment .tui-reveal-blur  data-fragment-index="3"}
 
 ```{r}
-#| label: result-slide10-network-render
+#| label: result-slide10-temporal-render
 #| echo: false
+#| out-width: 100%
 knitr::include_graphics(
   here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_10_network_pipeline.png"
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_10_temporal_pipeline.png"
   )
 )
 ```
+
 
 :::
 
 ::: {.column width="50%" .fragment .tui-reveal-blur  data-fragment-index="4"}
 
 ```{r}
-#| label: result-slide10-temporal-render
+#| label: result-slide10-network-render
 #| echo: false
+#| out-width: 100%
 knitr::include_graphics(
   here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_10_temporal_pipeline.png"
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_10_network_example.png"
   )
 )
 ```
+
 
 :::
 
