@@ -143,7 +143,7 @@ colour_shared <- vec_oracle_palette[["muted"]]
 data_slice_boxes <-
   tibble::tibble(
     age = base::seq(0, 20000, by = 500),
-    x = base::seq(12, 88, length.out = base::length(age)),
+    x = base::seq(5, 88, length.out = base::length(age)),
     y = 82,
     width = 1.05,
     height = dplyr::if_else(age == selected_age, 11, 6),
@@ -172,7 +172,7 @@ data_input_boxes <-
       height = 12,
       colour = colour_community,
       text_colour = colour_community,
-      text_size = 2.65
+      text_size = 3.55
     ),
     node_box(
       id = "abiotic",
@@ -183,7 +183,7 @@ data_input_boxes <-
       height = 12,
       colour = colour_climate,
       text_colour = colour_climate,
-      text_size = 2.65
+      text_size = 3.55
     ),
     node_box(
       id = "coords",
@@ -194,41 +194,76 @@ data_input_boxes <-
       height = 12,
       colour = colour_spatial,
       text_colour = colour_spatial,
-      text_size = 2.65
+      text_size = 3.55
     )
   )
 
 data_process_boxes <-
-  node_box(
-    id = "network",
-    label = "NETWORK\nDIAGNOSTICS",
-    x = 20,
-    y = 30,
-    width = 24,
-    height = 14,
-    colour = colour_shared,
-    text_colour = colour_shared,
-    text_size = 2.45
-  )
-
-data_output_box <-
-  node_box(
-    id = "model",
-    label = "sjSDM",
-    x = 50,
-    y = 8,
-    width = 28,
-    height = 13,
-    colour = colour_association,
-    text_colour = colour_association,
-    text_size = 2.55
+  dplyr::bind_rows(
+    node_box(
+      id = "network",
+      label = "NETWORK\nDIAGNOSTICS",
+      x = 66,
+      y = 28,
+      width = 24,
+      height = 14,
+      colour = colour_shared,
+      text_colour = colour_shared,
+      text_size = 3.05
+    ),
+    node_box(
+      id = "model",
+      label = "{sjSDM}",
+      x = 34,
+      y = 28,
+      width = 24,
+      height = 14,
+      colour = colour_association,
+      text_colour = colour_association,
+      text_size = 3.3
+    )
   )
 
 data_node_boxes <-
   dplyr::bind_rows(
     data_input_boxes,
-    data_process_boxes,
-    data_output_box
+    data_process_boxes
+  )
+
+data_links <-
+  tidyr::expand_grid(
+    source_id = dplyr::pull(data_input_boxes, id),
+    target_id = dplyr::pull(data_process_boxes, id)
+  ) |>
+  dplyr::left_join(
+    data_input_boxes |>
+      dplyr::select(
+        source_id = id,
+        x,
+        y = ymin
+      ),
+    by = dplyr::join_by(source_id)
+  ) |>
+  dplyr::left_join(
+    data_process_boxes |>
+      dplyr::select(
+        target_id = id,
+        xend = x,
+        yend = ymax
+      ),
+    by = dplyr::join_by(target_id)
+  ) |>
+  dplyr::mutate(
+    colour = colour_shared
+  )
+
+data_pipeline_frame <-
+  tibble::tibble(
+    xmin = 6,
+    xmax = 94,
+    ymin = 15,
+    ymax = 66,
+    colour = colour_temporal
   )
 
 
@@ -255,7 +290,7 @@ figure_temporal_pipeline <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  theme_oracle(base_family = font_family, base_size = 9) +
+  theme_oracle(base_family = font_family, base_size = 11) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(
       fill = vec_oracle_palette[["background"]],
@@ -285,6 +320,31 @@ figure_temporal_pipeline <-
       fill = colour,
       alpha = alpha
     )
+  ) +
+  ggplot2::geom_segment(
+    data = data_links,
+    mapping = ggplot2::aes(
+      x = x,
+      y = y,
+      xend = xend,
+      yend = yend,
+      colour = colour
+    ),
+    linewidth = 0.45,
+    alpha = 0.42
+  ) +
+  ggplot2::geom_rect(
+    data = data_pipeline_frame,
+    mapping = ggplot2::aes(
+      xmin = xmin,
+      xmax = xmax,
+      ymin = ymin,
+      ymax = ymax,
+      colour = colour
+    ),
+    fill = NA,
+    linewidth = 0.6,
+    alpha = 0.82
   ) +
   ggplot2::geom_rect(
     data = data_node_boxes,
@@ -320,27 +380,26 @@ figure_temporal_pipeline <-
     colour = vec_oracle_palette[["muted"]],
     family = font_family,
     fontface = "bold",
-    size = 3
+    size = 4.2
   ) +
   ggplot2::annotate(
     geom = "text",
-    x = 8,
+    x = 1,
     y = 82,
     label = "0",
     colour = vec_oracle_palette[["phosphor"]],
     family = font_family,
-    size = 4
+    size = 5.2
   ) +
   ggplot2::annotate(
     geom = "text",
     x = 96,
     y = 82,
-    label = "20 ka",
+    label = "20ka",
     colour = vec_oracle_palette[["phosphor"]],
     family = font_family,
-    size = 4
+    size = 5.2
   )
-
 
 #----------------------------------------------------------#
 # 3. Save figure -----
