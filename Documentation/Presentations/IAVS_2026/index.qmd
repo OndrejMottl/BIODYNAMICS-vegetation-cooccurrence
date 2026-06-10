@@ -911,7 +911,6 @@ What do we see? Is there a clear change in the association signal across spatial
 #| label: result-slide09-generate
 #| include: false
 #| cache: true
-#| eval: false
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/spatial_taxonomic_matrix_figure.R"
@@ -936,14 +935,15 @@ Plotting the results
 :::
 
 
-::: {.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-750}
+::: {.fragment .tui-reveal-blur  data-fragment-index="2"}
 
 ```{r}
 #| label: result-slide09-matrix-render
 #| echo: false
+#| out-width: 100%
 knitr::include_graphics(
   here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_09_spatial_taxonomic_matrix.png"
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_09_spatial_taxonomic_matrix.png"
   )
 )
 ```
