@@ -7,6 +7,8 @@
 #' Single character string used as the plot title.
 #' @param vec_continent_shapes
 #' Named integer vector mapping continent identifiers to point shapes.
+#' @param flag_show_shape_legend
+#' Logical. If `TRUE`, shows the continent shape legend.
 #' @param flag_show_fill_legend
 #' Logical. If `TRUE`, shows a fill legend for base component colours.
 #' @param vec_component_colours
@@ -18,6 +20,27 @@
 #' Single character string specifying fill legend style when
 #' `flag_show_fill_legend = TRUE`. One of `"swatch"` (default) or
 #' `"triangle"`.
+#' @param plot_theme
+#' A `ggplot2` theme object used as the base plot theme.
+#' @param facet_switch
+#' Optional facet strip switch passed to [ggplot2::facet_grid()]. Use
+#' `NULL`, `"x"`, `"y"`, or `"both"`.
+#' @param tile_border_colour
+#' Single character string used for waffle tile borders.
+#' @param tile_linewidth
+#' Numeric scalar giving waffle tile border width.
+#' @param tile_alpha
+#' Numeric scalar giving waffle tile alpha.
+#' @param point_size
+#' Numeric scalar giving continent point size.
+#' @param point_stroke
+#' Numeric scalar giving continent point stroke.
+#' @param triangle_legend_arguments
+#' Named list of optional arguments forwarded to
+#' [plot_variance_component_triangle_legend()] when
+#' `fill_legend_style = "triangle"`.
+#' @param triangle_legend_rel_width
+#' Numeric scalar giving the relative width of the triangle legend.
 #' @return
 #' A `ggplot` object.
 #' @export
@@ -25,6 +48,7 @@ plot_spatial_variance_waffle <- function(
     data_waffle,
     plot_title,
     vec_continent_shapes,
+    flag_show_shape_legend = TRUE,
     flag_show_fill_legend = FALSE,
     vec_component_colours = NULL,
     vec_required_components = base::c(
@@ -32,7 +56,16 @@ plot_spatial_variance_waffle <- function(
       "Spatial",
       "Associations"
     ),
-    fill_legend_style = base::c("swatch", "triangle")) {
+    fill_legend_style = base::c("swatch", "triangle"),
+    plot_theme = ggplot2::theme_classic(),
+    facet_switch = "both",
+    tile_border_colour = "white",
+    tile_linewidth = 0.33,
+    tile_alpha = 1,
+    point_size = 2,
+    point_stroke = 0.6,
+    triangle_legend_arguments = base::list(),
+    triangle_legend_rel_width = 0.34) {
   assertthat::assert_that(
     base::is.data.frame(data_waffle),
     msg = "`data_waffle` must be a data frame."
@@ -57,9 +90,82 @@ plot_spatial_variance_waffle <- function(
   )
 
   assertthat::assert_that(
+    base::is.logical(flag_show_shape_legend) &&
+      base::length(flag_show_shape_legend) == 1L,
+    msg = "`flag_show_shape_legend` must be a single logical value."
+  )
+
+  assertthat::assert_that(
     base::is.character(vec_required_components) &&
       base::length(vec_required_components) > 0L,
     msg = "`vec_required_components` must be a non-empty character vector."
+  )
+
+  assertthat::assert_that(
+    base::inherits(plot_theme, "theme"),
+    msg = "`plot_theme` must be a ggplot2 theme object."
+  )
+
+  assertthat::assert_that(
+    base::is.null(facet_switch) ||
+      (
+        base::is.character(facet_switch) &&
+          base::length(facet_switch) == 1L &&
+          facet_switch %in% base::c("x", "y", "both")
+      ),
+    msg = "`facet_switch` must be NULL, 'x', 'y', or 'both'."
+  )
+
+  assertthat::assert_that(
+    base::is.character(tile_border_colour) &&
+      base::length(tile_border_colour) == 1L,
+    msg = "`tile_border_colour` must be a single character string."
+  )
+
+  assertthat::assert_that(
+    base::is.numeric(tile_linewidth) &&
+      base::length(tile_linewidth) == 1L &&
+      base::is.finite(tile_linewidth) &&
+      tile_linewidth >= 0,
+    msg = "`tile_linewidth` must be a non-negative numeric scalar."
+  )
+
+  assertthat::assert_that(
+    base::is.numeric(tile_alpha) &&
+      base::length(tile_alpha) == 1L &&
+      base::is.finite(tile_alpha) &&
+      tile_alpha >= 0 &&
+      tile_alpha <= 1,
+    msg = "`tile_alpha` must be a numeric scalar from 0 to 1."
+  )
+
+  assertthat::assert_that(
+    base::is.numeric(point_size) &&
+      base::length(point_size) == 1L &&
+      base::is.finite(point_size) &&
+      point_size >= 0,
+    msg = "`point_size` must be a non-negative numeric scalar."
+  )
+
+  assertthat::assert_that(
+    base::is.numeric(point_stroke) &&
+      base::length(point_stroke) == 1L &&
+      base::is.finite(point_stroke) &&
+      point_stroke >= 0,
+    msg = "`point_stroke` must be a non-negative numeric scalar."
+  )
+
+  assertthat::assert_that(
+    base::is.list(triangle_legend_arguments),
+    msg = "`triangle_legend_arguments` must be a list."
+  )
+
+  assertthat::assert_that(
+    base::is.numeric(triangle_legend_rel_width) &&
+      base::length(triangle_legend_rel_width) == 1L &&
+      base::is.finite(triangle_legend_rel_width) &&
+      triangle_legend_rel_width > 0,
+    msg = "`triangle_legend_rel_width` must be a positive numeric scalar."
   )
 
   fill_legend_style <-
@@ -142,9 +248,15 @@ plot_spatial_variance_waffle <- function(
       )
 
     shape_guide_layer <-
-      ggplot2::guides(
-        shape = ggplot2::guide_legend(order = 2)
-      )
+      if (
+        isTRUE(flag_show_shape_legend)
+      ) {
+        ggplot2::guides(
+          shape = ggplot2::guide_legend(order = 2)
+        )
+      } else {
+        ggplot2::guides(shape = "none")
+      }
   } else if (
     isTRUE(flag_show_fill_legend) &&
       base::identical(fill_legend_style, "triangle")
@@ -163,9 +275,15 @@ plot_spatial_variance_waffle <- function(
       )
 
     shape_guide_layer <-
-      ggplot2::guides(
-        shape = ggplot2::guide_legend(order = 1)
-      )
+      if (
+        isTRUE(flag_show_shape_legend)
+      ) {
+        ggplot2::guides(
+          shape = ggplot2::guide_legend(order = 1)
+        )
+      } else {
+        ggplot2::guides(shape = "none")
+      }
   } else {
     scale_fill_layer <-
       ggplot2::scale_fill_identity(
@@ -173,9 +291,15 @@ plot_spatial_variance_waffle <- function(
       )
 
     shape_guide_layer <-
-      ggplot2::guides(
-        shape = ggplot2::guide_legend(order = 1)
-      )
+      if (
+        isTRUE(flag_show_shape_legend)
+      ) {
+        ggplot2::guides(
+          shape = ggplot2::guide_legend(order = 1)
+        )
+      } else {
+        ggplot2::guides(shape = "none")
+      }
   }
 
   res_plot <-
@@ -189,21 +313,28 @@ plot_spatial_variance_waffle <- function(
     ggplot2::facet_grid(
       rows = ggplot2::vars(resolution_label),
       cols = ggplot2::vars(scale),
-      switch = "both"
+      switch = facet_switch
     ) +
     ggplot2::scale_colour_identity(
       guide = "none"
     ) +
     ggplot2::scale_shape_manual(
       values = vec_continent_shapes,
-      name = "Continent"
+      name = "Continent",
+      guide = if (
+        isTRUE(flag_show_shape_legend)
+      ) {
+        "legend"
+      } else {
+        "none"
+      }
     ) +
     scale_fill_layer +
     ggplot2::coord_equal() +
     ggplot2::labs(
       title = plot_title
     ) +
-    ggplot2::theme_classic() +
+    plot_theme +
     shape_guide_layer +
     ggplot2::theme(
       legend.position = "bottom",
@@ -219,9 +350,10 @@ plot_spatial_variance_waffle <- function(
       panel.grid = ggplot2::element_blank()
     ) +
     ggplot2::geom_tile(
-      fill = data_waffle$tile_fill_colour,
-      colour = "white",
-      linewidth = 0.33
+      fill = data_waffle[["tile_fill_colour"]],
+      colour = tile_border_colour,
+      linewidth = tile_linewidth,
+      alpha = tile_alpha
     ) +
     ggplot2::geom_point(
       mapping = ggplot2::aes(
@@ -229,8 +361,8 @@ plot_spatial_variance_waffle <- function(
         colour = .data$point_colour
       ),
       fill = NA,
-      size = 2,
-      stroke = 0.6
+      size = point_size,
+      stroke = point_stroke
     )
 
   if (
@@ -258,18 +390,28 @@ plot_spatial_variance_waffle <- function(
     isTRUE(flag_show_fill_legend) &&
       base::identical(fill_legend_style, "triangle")
   ) {
+    list_triangle_legend_arguments <-
+      utils::modifyList(
+        x = base::list(
+          vec_component_colours = vec_component_colours,
+          vec_required_components = vec_required_components,
+          vec_component_labels = vec_required_components,
+          max_component_value = 100,
+          component_step = 2,
+          label_colour = "grey35",
+          border_colour = "grey35",
+          point_size = 2.3,
+          label_size = 3.2,
+          triangle_x_offset = 0.16,
+          method = "perc_avg"
+        ),
+        val = triangle_legend_arguments
+      )
+
     plot_triangle_legend <-
-      plot_variance_component_triangle_legend(
-        vec_component_colours = vec_component_colours,
-        vec_required_components = vec_required_components,
-        vec_component_labels = vec_required_components,
-        max_component_value = 100,
-        component_step = 2,
-        label_colour = "grey35",
-        border_colour = "grey35",
-        point_size = 2.3,
-        label_size = 3.2,
-        triangle_x_offset = 0.16
+      base::do.call(
+        what = plot_variance_component_triangle_legend,
+        args = list_triangle_legend_arguments
       )
 
     res_plot <-
@@ -277,7 +419,7 @@ plot_spatial_variance_waffle <- function(
         res_plot,
         plot_triangle_legend,
         ncol = 2,
-        rel_widths = base::c(1, 0.34),
+        rel_widths = base::c(1, triangle_legend_rel_width),
         align = "h",
         axis = "tb"
       )
