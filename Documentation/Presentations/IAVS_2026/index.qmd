@@ -1091,22 +1091,10 @@ Now each time slice receives an independent analyses and diagnostics. We will be
 #| label: result-slide11-generate
 #| include: false
 #| cache: true
-#| eval: false
+#| eval: true
 source(
   here::here(
-    "Documentation/Presentations/IAVS_2026/R/Visualisation/north_america_temporal_trajectory_figure.R"
-  )
-)
-
-source(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/R/Visualisation/europe_temporal_trajectory_figure.R"
-  )
-)
-
-source(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/R/Visualisation/asia_temporal_trajectory_figure.R"
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/temporal_trajectory_animation_figure.R"
   )
 )
 ```
@@ -1118,43 +1106,66 @@ Plotting [temporal trajectories]{.text-highlight-temporal} for each [continent]{
 :::
 :::
 
+<br>
+
 :::: {.columns}
-::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="2" .image-height-600}
+::: {.column width="28%" .fragment .tui-reveal-blur  data-fragment-index="2"}
 
 ```{r}
 #| label: result-slide11-na-render
 #| echo: false
+#| out-width: 100%
 knitr::include_graphics(
   here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_11_temporal_trajectory_na.png"
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_11_temporal_trajectory_na.gif"
   )
 )
 ```
 
 :::
 
-::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="3" .image-height-600}
+::: {.column width="28%" .fragment .tui-reveal-blur  data-fragment-index="3"}
 
 ```{r}
 #| label: result-slide11-eu-render
 #| echo: false
+#| out-width: 100%
 knitr::include_graphics(
   here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_11_temporal_trajectory_eu.png"
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_11_temporal_trajectory_eu.gif"
   )
 )
 ```
 
 :::
 
-::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="4" .image-height-600}
+::: {.column width="28%" .fragment .tui-reveal-blur  data-fragment-index="4"}
 
 ```{r}
 #| label: result-slide11-asia-render
 #| echo: false
+#| out-width: 100%
 knitr::include_graphics(
   here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_11_temporal_trajectory_asia.png"
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_11_temporal_trajectory_asia.gif"
+  )
+)
+```
+
+:::
+
+::: {.column width="16%" .fragment data-fragment-index="2"}
+
+<br>
+<br>
+
+```{r}
+#| label: result-slide11-legend-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_11_temporal_trajectory_legend.png"
   )
 )
 ```
