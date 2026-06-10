@@ -683,13 +683,11 @@ structure]{.text-highlight-spatial} have made their claims
 :::
 :::
 
-::: {.column width="50%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-600} 
+::: {.column width="50%"} 
 
 <br>
-<br>
-<br>
 
-
+::: {.fragment .tui-reveal-blur data-fragment-index="2"}
 ```{r}
 #| label: result-slide06-decomposition-build
 #| echo: false
@@ -701,6 +699,12 @@ structure]{.text-highlight-spatial} have made their claims
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/variance_decomposition_triangle_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/variance_decomposition_example_figure.R"
   )
 )
 ```
@@ -719,6 +723,41 @@ knitr::include_graphics(
 
 :::
 
+:::: {.columns}
+
+::: {.column width="70%" .fragment .tui-reveal-blur data-fragment-index="3"}
+```{r}
+#| label: result-slide06-component-stack-render
+#| echo: false
+#| out-width: 90%
+#| eval: true
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_06_component_stack_example.png"
+  )
+)
+```
+
+:::
+
+::: {.column width="30%" .fragment .tui-reveal-blur data-fragment-index="4"}
+```{r}
+#| label: result-slide06-component-point-render
+#| echo: false
+#| out-width: 50%
+#| eval: true
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_06_component_point_example.png"
+  )
+)
+```
+
+:::
+
+::::
+
+:::
 
 ::::
 
