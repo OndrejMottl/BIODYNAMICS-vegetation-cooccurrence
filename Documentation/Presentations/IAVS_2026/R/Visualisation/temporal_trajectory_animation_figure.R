@@ -113,12 +113,15 @@ vec_component_colours <-
     "Associations" = base::unname(vec_oracle_palette[["purple"]])
   )
 
+colour_modularity <-
+  base::unname(vec_oracle_palette[["phosphor"]])
+
 
 #----------------------------------------------------------#
 # 1. Load temporal results -----
 #----------------------------------------------------------#
 
-load_slide_temporal_components <- function() {
+load_slide_temporal_inventory <- function() {
   data_continents <-
     load_continental_rows(
       path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
@@ -135,7 +138,7 @@ load_slide_temporal_components <- function() {
       continent_label = stringr::str_to_title(.data$scale_id)
     )
 
-  data_available_continents <-
+  res_inventory <-
     data_continents |>
     dplyr::filter(.data$store_exists) |>
     dplyr::select(
@@ -145,7 +148,7 @@ load_slide_temporal_components <- function() {
     )
 
   if (
-    base::nrow(data_available_continents) == 0L
+    base::nrow(res_inventory) == 0L
   ) {
     cli::cli_abort(
       c(
@@ -155,8 +158,12 @@ load_slide_temporal_components <- function() {
     )
   }
 
+  return(res_inventory)
+}
+
+load_slide_temporal_components <- function(data_inventory) {
   data_anova_all <-
-    data_available_continents |>
+    data_inventory |>
     purrr::pmap(
       .f = function(scale_id, continent_label, store_path) {
         targets::tar_read(
@@ -236,11 +243,91 @@ load_slide_temporal_components <- function() {
   return(res_components)
 }
 
+load_slide_temporal_modularity <- function(data_inventory) {
+  data_network_all <-
+    data_inventory |>
+    purrr::pmap(
+      .f = function(scale_id, continent_label, store_path) {
+        targets::tar_read(
+          name = "data_network_metrics_by_age",
+          store = store_path
+        ) |>
+          dplyr::mutate(
+            age = stringr::str_extract(
+              string = .data$age,
+              pattern = "\\d+$"
+            ) |>
+              base::as.numeric(),
+            continent = continent_label
+          )
+      }
+    ) |>
+    purrr::list_rbind()
+
+  vec_continent_order <-
+    base::c(
+      "America",
+      "Europe",
+      "Asia"
+    )
+
+  res_modularity <-
+    data_network_all |>
+    dplyr::filter(
+      .data$metric == "modularity Q",
+      base::is.finite(.data$value)
+    ) |>
+    dplyr::mutate(
+      continent = base::factor(
+        .data$continent,
+        levels = vec_continent_order
+      ),
+      modularity_q = base::pmin(base::pmax(.data$value, 0), 1)
+    ) |>
+    dplyr::select(
+      "age",
+      "continent",
+      "modularity_q"
+    ) |>
+    dplyr::arrange(
+      .data$continent,
+      dplyr::desc(.data$age)
+    )
+
+  if (
+    base::nrow(res_modularity) == 0L
+  ) {
+    cli::cli_abort(
+      "No finite modularity Q values were found."
+    )
+  }
+
+  return(res_modularity)
+}
+
+if (
+  !base::exists("data_slide_11_temporal_inventory")
+) {
+  data_slide_11_temporal_inventory <-
+    load_slide_temporal_inventory()
+}
+
 if (
   !base::exists("data_slide_11_temporal_components")
 ) {
   data_slide_11_temporal_components <-
-    load_slide_temporal_components()
+    load_slide_temporal_components(
+      data_inventory = data_slide_11_temporal_inventory
+    )
+}
+
+if (
+  !base::exists("data_slide_11_temporal_modularity")
+) {
+  data_slide_11_temporal_modularity <-
+    load_slide_temporal_modularity(
+      data_inventory = data_slide_11_temporal_inventory
+    )
 }
 
 get_temporal_components_for_continent <- function(continent_label) {
@@ -264,6 +351,27 @@ get_temporal_components_for_continent <- function(continent_label) {
   return(res_components)
 }
 
+get_temporal_modularity_for_continent <- function(continent_label) {
+  res_modularity <-
+    data_slide_11_temporal_modularity |>
+    dplyr::filter(
+      .data$continent == .env$continent_label
+    )
+
+  if (
+    base::nrow(res_modularity) == 0L
+  ) {
+    cli::cli_abort(
+      c(
+        "No temporal modularity Q data found for continent.",
+        "i" = "Requested continent: {.val {continent_label}}."
+      )
+    )
+  }
+
+  return(res_modularity)
+}
+
 
 #----------------------------------------------------------#
 # 2. Build frames -----
@@ -271,6 +379,7 @@ get_temporal_components_for_continent <- function(continent_label) {
 
 build_temporal_trajectory_frame <- function(
     data_plot,
+    data_modularity,
     current_age,
     continent_label) {
   data_visible <-
@@ -285,6 +394,12 @@ build_temporal_trajectory_frame <- function(
       )
     )
 
+  data_modularity_visible <-
+    data_modularity |>
+    dplyr::filter(
+      .data$age >= current_age
+    )
+
   continent_title <-
     dplyr::case_when(
       continent_label == "America" ~ "America",
@@ -296,7 +411,7 @@ build_temporal_trajectory_frame <- function(
     ggplot2::ggplot(
       mapping = ggplot2::aes(
         x = .data$age,
-        y = .data$component_percentage,
+        y = .data$component_percentage / 100,
         fill = .data$fill_colour,
         group = .data$component
       )
@@ -308,16 +423,16 @@ build_temporal_trajectory_frame <- function(
       expand = ggplot2::expansion(mult = base::c(0, 0))
     ) +
     ggplot2::scale_y_continuous(
-      limits = base::c(0, 105),
-      breaks = base::seq(0, 100, by = 25),
-      labels = function(x) stringr::str_glue("{x}%"),
+      limits = base::c(0, 1.02),
+      breaks = base::seq(0, 1, by = 0.25),
+      labels = function(x) base::format(x, trim = TRUE),
       expand = ggplot2::expansion(mult = base::c(0, 0.03))
     ) +
     ggplot2::scale_fill_identity() +
     ggplot2::labs(
       title = stringr::str_to_upper(continent_title),
       x = "Age (cal yr BP)",
-      y = "Variance (%)",
+      y = "Proportion",
       fill = NULL
     ) +
     theme_oracle(base_family = font_family, base_size = 10) +
@@ -369,24 +484,43 @@ build_temporal_trajectory_frame <- function(
     ) +
     ggview::canvas(
       width = 530,
-      height = 720,
+      height = 800,
       units = "px",
       dpi = 300,
       bg = vec_oracle_palette[["background"]]
     ) +
     ggplot2::geom_area(
       alpha = 0.88,
-      colour = vec_oracle_palette[["background"]],
+      colour = vec_oracle_palette[["muted"]],
       linewidth = 0.12,
       position = "stack"
     ) +
     ggplot2::geom_vline(
       xintercept = current_age,
-      colour = vec_oracle_palette[["phosphor"]],
+      colour = vec_oracle_palette[["muted"]],
       linewidth = 0.42,
-      linetype = "dashed",
+      linetype = "solid",
       alpha = 0.82
     )
+
+  if (
+    base::nrow(data_modularity_visible) > 1L
+  ) {
+    res_plot <-
+      res_plot +
+      ggplot2::geom_line(
+        data = data_modularity_visible,
+        mapping = ggplot2::aes(
+          x = .data$age,
+          y = .data$modularity_q
+        ),
+        inherit.aes = FALSE,
+        linetype = "solid",
+        colour = colour_modularity,
+        linewidth = 0.7,
+        alpha = 0.95
+      )
+  }
 
   return(res_plot)
 }
@@ -405,11 +539,17 @@ build_temporal_trajectory_legend <- function() {
       y = base::rev(base::seq_along(vec_required_components))
     )
 
+  data_modularity_legend <-
+    tibble::tibble(
+      label = "Modularity Q",
+      y = 1
+    )
+
   res_plot <-
     ggplot2::ggplot() +
     ggplot2::coord_cartesian(
       xlim = base::c(0, 340),
-      ylim = base::c(0, 720),
+      ylim = base::c(0, 800),
       expand = FALSE,
       clip = "off"
     ) +
@@ -435,7 +575,7 @@ build_temporal_trajectory_legend <- function() {
     ) +
     ggview::canvas(
       width = 380,
-      height = 720,
+      height = 800,
       units = "px",
       dpi = 300,
       bg = vec_oracle_palette[["background"]]
@@ -444,8 +584,8 @@ build_temporal_trajectory_legend <- function() {
       mapping = ggplot2::aes(
         xmin = 12,
         xmax = 328,
-        ymin = 255,
-        ymax = 465
+        ymin = 235,
+        ymax = 485
       ),
       fill = vec_oracle_palette[["background"]],
       colour = vec_oracle_palette[["border"]],
@@ -454,8 +594,8 @@ build_temporal_trajectory_legend <- function() {
     ggplot2::geom_text(
       mapping = ggplot2::aes(
         x = 36,
-        y = 432,
-        label = "COMPONENT"
+        y = 452,
+        label = "SIGNAL"
       ),
       hjust = 0,
       colour = vec_oracle_palette[["muted"]],
@@ -468,8 +608,8 @@ build_temporal_trajectory_legend <- function() {
       mapping = ggplot2::aes(
         xmin = 36,
         xmax = 84,
-        ymin = 286 + (.data$y - 1) * 44,
-        ymax = 316 + (.data$y - 1) * 44,
+        ymin = 266 + (.data$y - 1) * 42,
+        ymax = 294 + (.data$y - 1) * 42,
         fill = .data$fill_colour
       ),
       colour = vec_oracle_palette[["background"]],
@@ -479,7 +619,32 @@ build_temporal_trajectory_legend <- function() {
       data = data_legend,
       mapping = ggplot2::aes(
         x = 102,
-        y = 301 + (.data$y - 1) * 44,
+        y = 280 + (.data$y - 1) * 42,
+        label = .data$label
+      ),
+      hjust = 0,
+      vjust = 0.5,
+      colour = vec_oracle_palette[["text"]],
+      family = font_family,
+      size = 3.4
+    ) +
+    ggplot2::geom_segment(
+      data = data_modularity_legend,
+      mapping = ggplot2::aes(
+        x = 36,
+        xend = 84,
+        y = 418,
+        yend = 418
+      ),
+      colour = colour_modularity,
+      linetype = "solid",
+      linewidth = 1.1
+    ) +
+    ggplot2::geom_text(
+      data = data_modularity_legend,
+      mapping = ggplot2::aes(
+        x = 102,
+        y = 418,
         label = .data$label
       ),
       hjust = 0,
@@ -503,6 +668,11 @@ save_temporal_trajectory_animation <- function(
     frame_directory_name) {
   data_temporal_components <-
     get_temporal_components_for_continent(
+      continent_label = continent_label
+    )
+
+  data_temporal_modularity <-
+    get_temporal_modularity_for_continent(
       continent_label = continent_label
     )
 
@@ -564,6 +734,7 @@ save_temporal_trajectory_animation <- function(
       plot_frame <-
         build_temporal_trajectory_frame(
           data_plot = data_temporal_components,
+          data_modularity = data_temporal_modularity,
           current_age = age,
           continent_label = continent_label
         )
@@ -599,66 +770,40 @@ save_temporal_trajectory_animation <- function(
       "Could not create GIF because no GIF backend was available."
     )
   }
-
-  res_animation <-
-    base::list(
-      frame_paths = vec_frame_paths,
-      animation_path = purrr::chuck(list_animation, "animation_path"),
-      used_magick = purrr::chuck(list_animation, "used_magick")
-    )
-
-  return(res_animation)
 }
 
-save_temporal_trajectory_legend <- function(output_file_name) {
-  plot_legend <-
-    build_temporal_trajectory_legend()
 
-  output_path <-
-    base::file.path(
-      path_output,
-      output_file_name
-    )
-
-  ggview::save_ggplot(
-    plot = plot_legend,
-    file = output_path,
-    device = ragg::agg_png
-  )
-
-  return(output_path)
-}
 
 
 #----------------------------------------------------------#
 # 4. Generate slide outputs -----
 #----------------------------------------------------------#
 
-list_slide_11_figures <-
-  base::list()
 
-list_slide_11_figures[["north_america"]] <-
-  save_temporal_trajectory_animation(
-    continent_label = "America",
-    output_file_name = "slide_11_temporal_trajectory_na.gif",
-    frame_directory_name = "slide_11_temporal_trajectory_na"
-  )
+save_temporal_trajectory_animation(
+  continent_label = "America",
+  output_file_name = "slide_11_temporal_trajectory_na.gif",
+  frame_directory_name = "slide_11_temporal_trajectory_na"
+)
 
-list_slide_11_figures[["europe"]] <-
-  save_temporal_trajectory_animation(
-    continent_label = "Europe",
-    output_file_name = "slide_11_temporal_trajectory_eu.gif",
-    frame_directory_name = "slide_11_temporal_trajectory_eu"
-  )
+save_temporal_trajectory_animation(
+  continent_label = "Europe",
+  output_file_name = "slide_11_temporal_trajectory_eu.gif",
+  frame_directory_name = "slide_11_temporal_trajectory_eu"
+)
 
-list_slide_11_figures[["asia"]] <-
-  save_temporal_trajectory_animation(
-    continent_label = "Asia",
-    output_file_name = "slide_11_temporal_trajectory_asia.gif",
-    frame_directory_name = "slide_11_temporal_trajectory_asia"
-  )
+save_temporal_trajectory_animation(
+  continent_label = "Asia",
+  output_file_name = "slide_11_temporal_trajectory_asia.gif",
+  frame_directory_name = "slide_11_temporal_trajectory_asia"
+)
 
-list_slide_11_figures[["legend"]] <-
-  save_temporal_trajectory_legend(
-    output_file_name = "slide_11_temporal_trajectory_legend.png"
-  )
+# Save legend as static image
+ggview::save_ggplot(
+  plot = build_temporal_trajectory_legend(),
+  file = base::file.path(
+    path_output,
+    "slide_11_temporal_trajectory_legend.png"
+  ),
+  device = ragg::agg_png
+)
