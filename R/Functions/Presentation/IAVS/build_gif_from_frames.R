@@ -51,8 +51,16 @@ build_gif_from_frames <- function(
     magick::image_read(vec_frame_paths) |>
     magick::image_animate(fps = fps, loop = loop)
 
+  flag_can_optimize <-
+    base::exists(
+      x = "image_optimize",
+      envir = base::asNamespace("magick"),
+      mode = "function"
+    )
+
   if (
-    isTRUE(optimize)
+    isTRUE(optimize) &&
+      isTRUE(flag_can_optimize)
   ) {
     gif_image <-
       magick::image_optimize(gif_image)

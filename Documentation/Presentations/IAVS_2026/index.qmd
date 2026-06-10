@@ -652,6 +652,8 @@ We will be uisng {sjSDM} R package is used because the community matrix and spat
 
 <br>
 <br>
+<br>
+<br>
 
 ::: {.oracle-terminal}
 
@@ -681,7 +683,12 @@ structure]{.text-highlight-spatial} have made their claims
 :::
 :::
 
-::: {.column width="50%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750} 
+::: {.column width="50%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-600} 
+
+<br>
+<br>
+<br>
+
 
 ```{r}
 #| label: result-slide06-decomposition-build
@@ -802,14 +809,15 @@ source(
 :::: {.columns}
 ::: {.column width="50%"}
 
-::: {.image-height-600 .fragment .tui-reveal-blur data-fragment-index="2"}
+::: {.fragment .tui-reveal-blur data-fragment-index="2"}
 
 ```{r}
 #| label: result-slide08-map-render
 #| echo: false
+#| out-width: 100%
 knitr::include_graphics(
   here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_08_spatial_units_map.png"
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_08_spatial_units_map.gif"
   )
 )
 ```
