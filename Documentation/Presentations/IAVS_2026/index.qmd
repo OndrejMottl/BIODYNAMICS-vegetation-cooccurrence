@@ -1179,6 +1179,44 @@ TIME 00:50. The network structure and the variance components are changing throu
 :::
 
 <!-- slide:12 -->
+## [Future predictions]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
+
+```{r}
+#| label: result-slide13-generate
+#| include: false
+#| cache: true
+#| eval: false 
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/future_predictions_animation.R"
+  )
+)
+```
+
+::: {.fragment .tui-reveal-scan data-fragment-index="2" .image-height-600}
+
+```{r}
+#| label: result-slide13-render
+#| echo: false
+#| eval: false
+knitr::include_graphics(list_slide_13_animation[["animation_path"]])
+```
+
+:::
+
+
+::: {.oracle-terminal .fragment data-fragment-index="1"}
+
+::: {.oracle-line}
+Current [SDM]{.text-emphasis-chip} models can be used to [futher predict]{.text-emphasis-caps .text-emphasis-underline-thick} the biodiversity patterns under the [future]{.text-highlight-temporal} [climate change]{.text-emphasis-underline-dotted} scenarios
+:::
+:::
+
+::: {.notes}
+TIME 00:40. 
+:::
+
+<!-- slide:13 -->
 ## [Take home messages]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
 
 ```{r}
@@ -1232,44 +1270,6 @@ knitr::include_graphics(
 
 ::: {.notes}
 TIME 00:45. TBD
-:::
-
-<!-- slide:13 -->
-## [Future predictions]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
-
-```{r}
-#| label: result-slide13-generate
-#| include: false
-#| cache: true
-#| eval: false 
-source(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/R/Visualisation/future_predictions_animation.R"
-  )
-)
-```
-
-::: {.fragment .tui-reveal-scan data-fragment-index="2" .image-height-600}
-
-```{r}
-#| label: result-slide13-render
-#| echo: false
-#| eval: false
-knitr::include_graphics(list_slide_13_animation[["animation_path"]])
-```
-
-:::
-
-
-::: {.oracle-terminal .fragment data-fragment-index="1"}
-
-::: {.oracle-line}
-Current [SDM]{.text-emphasis-chip} models can be used to [futher predict]{.text-emphasis-caps .text-emphasis-underline-thick} the biodiversity patterns under the [future]{.text-highlight-temporal} [climate change]{.text-emphasis-underline-dotted} scenarios
-:::
-:::
-
-::: {.notes}
-TIME 00:40. 
 :::
 
 <!-- slide:14 -->
