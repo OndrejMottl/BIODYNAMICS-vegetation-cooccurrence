@@ -271,6 +271,7 @@ figure_vegvault_ingestion_schematic <-
       dplyr::pull(data_ingestion_streams, data_type_name)
     )
   ) +
+  ggplot2::scale_size_identity() +
   # Data stream box
   ggplot2::geom_rect(
     mapping = ggplot2::aes(
