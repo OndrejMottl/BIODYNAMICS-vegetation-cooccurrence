@@ -1179,13 +1179,13 @@ TIME 00:50. The network structure and the variance components are changing throu
 :::
 
 <!-- slide:12 -->
-## [Future predictions]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
+## [Paleo predictions]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
 
 ```{r}
-#| label: result-slide13-generate
+#| label: result-slide12-generate
 #| include: false
 #| cache: true
-#| eval: false 
+#| eval: true
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/future_predictions_animation.R"
@@ -1193,22 +1193,47 @@ source(
 )
 ```
 
-::: {.fragment .tui-reveal-scan data-fragment-index="2" .image-height-600}
+:::: {.columns}
+
+::: {.column width="50%" .fragment .tui-reveal-scan data-fragment-index="2"}
 
 ```{r}
-#| label: result-slide13-render
+#| label: result-slide12-fagus-render
 #| echo: false
-#| eval: false
-knitr::include_graphics(list_slide_13_animation[["animation_path"]])
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results",
+    "slide_12_future_predictions_selected_taxon.gif"
+  )
+)
 ```
 
 :::
+
+::: {.column width="50%" .fragment .tui-reveal-scan data-fragment-index="3"}
+
+```{r}
+#| label: result-slide12-richness-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results",
+    "slide_12_future_predictions_expected_genus_richness.gif"
+  )
+)
+```
+
+:::
+
+::::
 
 
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Current [SDM]{.text-emphasis-chip} models can be used to [futher predict]{.text-emphasis-caps .text-emphasis-underline-thick} the biodiversity patterns under the [future]{.text-highlight-temporal} [climate change]{.text-emphasis-underline-dotted} scenarios
+Current [SDM]{.text-emphasis-chip} models can reconstruct [past-to-present]{.text-highlight-temporal} biodiversity patterns and prepare the same machinery for future projection experiments
 :::
 :::
 
@@ -1220,7 +1245,7 @@ TIME 00:40.
 ## [Take home messages]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
 
 ```{r}
-#| label: result-slide12-generate
+#| label: result-slide13-generate
 #| include: false
 #| cache: true
 #| eval: false
@@ -1257,8 +1282,9 @@ Past trajectory and network comparison
 ::: {.fragment .tui-reveal-blur data-fragment-index="3" .image-height-400}
 
 ```{r}
-#| label: result-slide12-panel-render
+#| label: result-slide13-panel-render
 #| echo: false
+#| eval: false
 knitr::include_graphics(
   here::here(
     "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_12_synthesis_panel.png"
