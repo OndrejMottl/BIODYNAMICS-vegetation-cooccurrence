@@ -122,7 +122,9 @@ richness_fill_colors <-
     vec_oracle_palette[["surface_alt"]],
     vec_oracle_palette[["muted"]],
     vec_oracle_palette[["phosphor"]],
-    vec_oracle_palette[["purple"]]
+    vec_oracle_palette[["amber"]],
+    vec_oracle_palette[["purple"]],
+    vec_oracle_palette[["cyan"]]
   )
 
 observed_point_color <-
@@ -390,14 +392,8 @@ data_world <-
 #----------------------------------------------------------#
 
 format_age_label <- function(age) {
-  if (
-    age == 0
-  ) {
-    return("0 ka BP")
-  }
-
   res_label <-
-    stringr::str_glue("{base::format(age / 1000, trim = TRUE)} ka BP")
+    stringr::str_glue("{base::sprintf('%.1f', age / 1000)} ka BP")
 
   return(res_label)
 }
