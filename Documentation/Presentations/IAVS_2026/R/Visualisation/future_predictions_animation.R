@@ -92,7 +92,7 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_spatial_continental")
 
 selected_scale_id <- "europe"
 selected_resolution_id <- "genus"
-selected_taxon <- "Fagus"
+selected_taxon <- "Picea"
 
 flag_smoke_mode <-
   base::identical(
@@ -108,6 +108,25 @@ selected_grid_resolution <-
   } else {
     0.5
   }
+
+
+selected_taxon_fill_colors <-
+  base::c(
+    vec_oracle_palette[["surface_alt"]],
+    vec_oracle_palette[["cyan"]]
+  )
+
+
+richness_fill_colors <-
+  base::c(
+    vec_oracle_palette[["surface_alt"]],
+    vec_oracle_palette[["muted"]],
+    vec_oracle_palette[["phosphor"]],
+    vec_oracle_palette[["purple"]]
+  )
+
+observed_point_color <-
+  vec_oracle_palette[["amber"]]
 
 path_output <-
   here::here(
@@ -263,46 +282,63 @@ model_r2_nagelkerke <-
 
 data_species_metrics <-
   prediction_inputs |>
-  purrr::chuck("model_evaluation", "species") |>
-  dplyr::filter(
-    .data$species == selected_taxon
-  )
+  purrr::chuck("model_evaluation", "species")
 
-if (
-  base::nrow(data_species_metrics) != 1L
-) {
-  cli::cli_abort(
-    stringr::str_glue(
-      "Could not find species-level metrics for '{selected_taxon}'."
-    )
-  )
-}
+auc_median <-
+  dplyr::pull(data_species_metrics, "AUC") |>
+  stats::median(na.rm = TRUE)
 
 auc_selected_taxon <-
-  dplyr::pull(data_species_metrics, "AUC") |>
+  data_species_metrics |>
+  dplyr::filter(
+    .data$species == selected_taxon
+  ) |>
+  dplyr::pull("AUC") |>
   base::as.numeric()
 
-data_coords_observed <-
+data_coords_observed_raw <-
   prediction_inputs |>
   purrr::chuck("data_coords_projected") |>
-  tibble::rownames_to_column(var = "dataset_name") |>
-  sf::st_as_sf(
-    coords = c("coord_x_km", "coord_y_km"),
-    crs = spatial_crs,
-    remove = FALSE
-  ) |>
-  sf::st_transform(crs = 4326L)
-
-mat_coords_observed <-
-  sf::st_coordinates(data_coords_observed)
+  tibble::rownames_to_column(var = "dataset_name")
 
 data_coords_observed <-
-  data_coords_observed |>
-  dplyr::mutate(
-    coord_long = mat_coords_observed[, 1],
-    coord_lat = mat_coords_observed[, 2]
-  ) |>
-  sf::st_drop_geometry()
+  if (
+    base::all(
+      base::c("coord_long", "coord_lat") %in%
+        base::colnames(data_coords_observed_raw)
+    )
+  ) {
+    data_coords_observed_raw |>
+      dplyr::select(
+        "dataset_name",
+        "coord_long",
+        "coord_lat"
+      )
+  } else {
+    data_coords_observed_sf <-
+      data_coords_observed_raw |>
+      sf::st_as_sf(
+        coords = c("coord_x_km", "coord_y_km"),
+        crs = spatial_crs,
+        remove = FALSE
+      ) |>
+      sf::st_transform(crs = 4326L)
+
+    mat_coords_observed <-
+      sf::st_coordinates(data_coords_observed_sf)
+
+    data_coords_observed_sf |>
+      dplyr::mutate(
+        coord_long = mat_coords_observed[, 1],
+        coord_lat = mat_coords_observed[, 2]
+      ) |>
+      sf::st_drop_geometry() |>
+      dplyr::select(
+        "dataset_name",
+        "coord_long",
+        "coord_lat"
+      )
+  }
 
 data_observations_selected_species <-
   prediction_inputs |>
@@ -313,10 +349,15 @@ data_observations_selected_species <-
   dplyr::mutate(
     dataset_name = stringr::str_remove(.data$sample_id, "__.*$"),
     age = base::as.integer(stringr::str_extract(.data$sample_id, "[0-9]+$")),
-    observed_presence = .data[[selected_taxon]] > 0
+  ) |>
+  tidyr::pivot_longer(
+    cols = -base::c("sample_id", "dataset_name", "age"),
+    names_to = "taxon",
+    values_to = "observed_presence"
   ) |>
   dplyr::filter(
-    .data$observed_presence
+    .data$observed_presence == 1L,
+    .data$taxon == selected_taxon
   ) |>
   dplyr::left_join(
     data_coords_observed |>
@@ -368,8 +409,10 @@ build_prediction_frame <- function(
     subtitle_label,
     fill_label,
     fill_limits,
-    fill_trans = NULL,
+    fill_trans = scales::transform_identity(),
+    fill_colors = c("black", "white"),
     data_points = NULL,
+    point_color = "red",
     metric_label = NULL) {
   data_age <-
     data_frame |>
@@ -386,35 +429,11 @@ build_prediction_frame <- function(
   caption_text <-
     stringr::str_flatten(metric_label, collapse = " | ")
 
-  scale_fill <-
-    if (
-      base::is.null(fill_trans)
-    ) {
-      ggplot2::scale_fill_viridis_c(
-        option = "plasma",
-        limits = fill_limits,
-        name = fill_label,
-        guide = ggplot2::guide_colorbar(
-          title.position = "top",
-          title.hjust = 0.5,
-          barwidth = grid::unit(0.7, "lines"),
-          barheight = grid::unit(9, "lines")
-        )
-      )
-    } else {
-      ggplot2::scale_fill_viridis_c(
-        option = "plasma",
-        limits = fill_limits,
-        trans = fill_trans,
-        name = fill_label,
-        guide = ggplot2::guide_colorbar(
-          title.position = "top",
-          title.hjust = 0.5,
-          barwidth = grid::unit(0.7, "lines"),
-          barheight = grid::unit(9, "lines")
-        )
-      )
-    }
+  assertthat::assert_that(
+    base::is.character(fill_colors),
+    base::length(fill_colors) >= 2L,
+    msg = "`fill_colors` must contain at least two colours."
+  )
 
   res_plot <-
     ggplot2::ggplot() +
@@ -424,10 +443,22 @@ build_prediction_frame <- function(
       expand = FALSE,
       clip = "off"
     ) +
-    scale_fill +
+    ggplot2::scale_fill_gradientn(
+      colours = fill_colors,
+      limits = fill_limits,
+      trans = fill_trans,
+      name = fill_label,
+      guide = ggplot2::guide_colorbar(
+        nbin = 200,
+        title.position = "top",
+        title.hjust = 0.5,
+        barwidth = grid::unit(0.5, "lines"),
+        barheight = grid::unit(5, "lines")
+      )
+    ) +
     ggview::canvas(
-      width = 760,
-      height = 760,
+      width = 800,
+      height = 620,
       units = "px",
       dpi = 300,
       bg = vec_oracle_palette[["background"]]
@@ -454,6 +485,22 @@ build_prediction_frame <- function(
       legend.position = "right",
       legend.margin = ggplot2::margin(0, 0, 0, 0),
       legend.box.margin = ggplot2::margin(0, 0, 0, 0),
+      legend.background = ggplot2::element_blank(),
+      legend.box.background = ggplot2::element_blank(),
+      legend.key = ggplot2::element_rect(
+        fill = vec_oracle_palette[["background"]],
+        colour = NA
+      ),
+      legend.title = ggplot2::element_text(
+        size = 8,
+        family = font_family,
+        colour = vec_oracle_palette[["cyan"]]
+      ),
+      legend.text = ggplot2::element_text(
+        size = 7,
+        family = font_family,
+        colour = vec_oracle_palette[["phosphor"]]
+      ),
       plot.title = ggplot2::element_text(
         colour = vec_oracle_palette[["phosphor"]],
         family = font_family,
@@ -462,6 +509,13 @@ build_prediction_frame <- function(
       plot.subtitle = ggplot2::element_text(
         colour = vec_oracle_palette[["cyan"]],
         family = font_family
+      ),
+      plot.caption = ggplot2::element_text(
+        colour = vec_oracle_palette[["phosphor"]],
+        family = font_family,
+        size = 8,
+        hjust = 0,
+        margin = ggplot2::margin(5, 0, 0, 0)
       ),
       plot.margin = ggplot2::margin(5, 5, 5, 5)
     ) +
@@ -495,21 +549,31 @@ build_prediction_frame <- function(
     )
 
   if (
-    !base::is.null(data_points)
+    isFALSE(base::is.null(data_points))
   ) {
+    data_points_age <-
+      data_points |>
+      dplyr::filter(
+        .data$age == age_value
+      ) |>
+      tidyr::drop_na(
+        "coord_long",
+        "coord_lat"
+      )
+
     res_plot <-
       res_plot +
       ggplot2::geom_point(
-        data = data_points,
+        data = data_points_age,
         mapping = ggplot2::aes(
           x = .data$coord_long,
           y = .data$coord_lat
         ),
         inherit.aes = FALSE,
-        size = 1,
-        shape = 16,
-        colour = vec_oracle_palette[["red"]],
-        alpha = 1 # 0.28
+        size = 0.5,
+        shape = 4,
+        colour = point_color,
+        alpha = 0.5
       )
   }
 
@@ -522,11 +586,19 @@ save_prediction_animation <- function(
     subtitle_label,
     fill_label,
     fill_limits,
-    fill_trans = NULL,
+    fill_trans = scales::transform_identity(),
+    fill_colors = NULL,
     data_points = NULL,
+    point_color = "#ff4d4d",
     metric_label = NULL,
     frame_directory_name,
     output_file_name) {
+  if (
+    base::is.null(fill_trans)
+  ) {
+    fill_trans <- scales::transform_identity()
+  }
+
   path_frame_output <-
     base::file.path(
       path_output,
@@ -592,6 +664,7 @@ save_prediction_animation <- function(
             fill_label = fill_label,
             fill_limits = fill_limits,
             fill_trans = fill_trans,
+            fill_colors = fill_colors,
             metric_label = metric_label
           )
         } else {
@@ -605,8 +678,14 @@ save_prediction_animation <- function(
             fill_trans = fill_trans,
             data_points = data_points |>
               dplyr::filter(
-                .data$age == age
+                base::abs(.data$age - age) <= (time_step / 2)
+              ) |>
+              tidyr::drop_na(
+                "coord_long",
+                "coord_lat"
               ),
+            fill_colors = fill_colors,
+            point_color = point_color,
             metric_label = metric_label
           )
         }
@@ -652,11 +731,13 @@ save_prediction_animation(
   subtitle_label = stringr::str_glue("{selected_taxon}"),
   fill_label = "Probability",
   fill_limits = c(0, 1),
+  fill_colors = selected_taxon_fill_colors,
   metric_label = stringr::str_glue(
-    "Whole-model R² ~ {base::round(model_r2_nagelkerke, 3)} |",
+    "Model Nagelkerke R² ~ {base::round(model_r2_nagelkerke, 3)} |",
     " {selected_taxon} AUC ~ {base::round(auc_selected_taxon, 3)}"
   ),
   data_points = data_observations_selected_species,
+  point_color = observed_point_color,
   frame_directory_name = "slide_12_future_predictions_selected_taxon",
   output_file_name = "slide_12_future_predictions_selected_taxon.gif"
 )
@@ -671,8 +752,10 @@ save_prediction_animation(
     base::max(data_expected_richness[["expected_genus_richness"]])
   ),
   fill_trans = scales::log1p_trans(),
+  fill_colors = richness_fill_colors,
   metric_label = stringr::str_glue(
-    "Whole-model R² ~ {base::round(model_r2_nagelkerke, 3)}"
+    "Model Nagelkerke R² ~ {base::round(model_r2_nagelkerke, 3)} |",
+    " Median AUC ~ {base::round(auc_median, 3)}"
   ),
   frame_directory_name =
     "slide_12_future_predictions_expected_genus_richness",
