@@ -167,14 +167,13 @@ plot_variance_component_triangle_legend <- function(
     msg = "`title_colour` must be a single character string."
   )
 
+  method <-
+    base::match.arg(
+      arg = method
+    )
+
   vec_allowed_methods <-
     base::c("HCL", "perc_avg")
-
-  if (
-    base::identical(method, vec_allowed_methods)
-  ) {
-    method <- "HCL"
-  }
 
   assertthat::assert_that(
     base::is.character(method) &&
