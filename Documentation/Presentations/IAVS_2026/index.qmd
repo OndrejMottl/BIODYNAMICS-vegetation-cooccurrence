@@ -1268,30 +1268,30 @@ Summarising RESULTS together: [spatial]{.text-color-spatial} patterns, [taxonomi
 
 :::
 
-::: {.fragment data-fragment-index="2"}
-[SPACE]{.text-highlight-spatial}<br>
-Local to continental comparison
+<br>
 
-[TAXONOMY]{.text-highlight-latent}<br>
-Genus / family / functional-type comparison
-
-[TIME]{.text-highlight-temporal}<br>
-Past trajectory and network comparison
+::: {.fragment data-fragment-index="2" .text-emphasis-box}
+Palaecological data can be used to [reconstruct]{.text-emphasis-underline} [past]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and bring insights into our understanding of ecological processes.
+:::
+::: {.fragment data-fragment-index="3" .text-emphasis-box}
+[SPACE]{.text-highlight-spatial}: 
+The association signal is [NOT]{.text-emphasis-underline} scale-dependent and [NOT]{.text-emphasis-underline} stronger at [local]{.text-emphasis-underline-dotted} than at [continental]{.text-emphasis-underline-dotted} scales
 :::
 
-::: {.fragment .tui-reveal-blur data-fragment-index="3" .image-height-400}
+::: {.fragment data-fragment-index="4" .text-emphasis-box}
 
-```{r}
-#| label: result-slide13-panel-render
-#| echo: false
-#| eval: false
-knitr::include_graphics(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/panels/slide_12_synthesis_panel.png"
-  )
-)
-```
+[TAXONOMY]{.text-highlight-latent}: 
+Increasing [taxonomic resolution]{.text-emphasis-underline-dotted} [does have]{.text-emphasis-underline} impact on [spatial pattern]{.text-color-spatial} of the association signal, but [NOT]{.text-emphasis-underline} in the [expected direction]{.text-emphasis-underline-dotted} 
 
+:::
+
+::: {.fragment data-fragment-index="5" .text-emphasis-box}
+[TIME]{.text-highlight-temporal}: 
+Co-occurrence structure [are]{.text-emphasis-underline} responding to major environmental changes through time, but the [association signal]{.text-emphasis-underline-dotted} [is]{.text-emphasis-underline} surpraisingly [stable]{.text-emphasis-underline-dotted} through time.
+:::
+
+::: {.fragment data-fragment-index="6" .text-emphasis-box}
+Palaeocological data can be used to [predict]{.text-emphasis-underline} [future]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and support conservation efforts.
 :::
 
 ::: {.notes}
@@ -1344,83 +1344,83 @@ TIME 00:20.
 <!-- slide:15 -->
 ## Presenter {.slide-title .screen-corners .screen-header .screen-prompt}
 
-<br>
-
-:::: {.columns}
-
-::: {.column width="35%"}
-
-::: {.image-height-400}
---head photo--
-:::
-
-::: {.text-position-center}
-[Hi!]{.text-color-amber} I am [Ondřej Mottl]{.text-color-purple}
-:::
-
-:::
-
-::: {.column width="1%"}
-
-:::
-
-::: {.column width="64%" .text-position-center}
-
-Assistant Professor at 🏛️[Charles University](https://cuni.cz/UK-1.html), Prague, 🇨🇿
-
-<br>
-
-Interested in [macroecology]{.text-emphasis-caps .text-emphasis-chip .text-color-cyan}, [palaeoecology]{.text-emphasis-caps .text-emphasis-chip .text-color-amber}, [biodiversity]{.text-emphasis-caps .text-emphasis-chip .text-color-purple}, and [data science]{.text-emphasis-caps .text-emphasis-chip .text-color-red}
-
-<br>
-
-Head of the 🧑‍💻[Laboratory of Quantitative Ecology](https://ondrejmottl.github.io/lab/about_the_lab.html)
-
-:::
-
-::::
 
 :::: {.columns}
 
 ::: {.column width="5%"}
 :::
 
-::: {.column width="45%" .text-size-body}
+::: {.column width="35%"}
+
+::: {.image-height-350 .image-position-center}
+![](../../Materials/About/head_photo.png){.image-theme-bg-dark top=0 left=100}
+:::
+
+::: {.text-position-center .text-size-heading}
+[Hi!]{.text-color-amber} I am [Ondřej Mottl]{.text-color-purple .text-bold}
+:::
 
 * 🌐 [ondrejmottl.github.io](https://ondrejmottl.github.io/)
 * 📧 [ondrej.mottl(at)natur.cuni.cz](mailto:ondrej.mottl(at)natur.cuni.cz)
 * 🦋 [ondrejmottl.bsky.social](https://bsky.app/profile/ondrejmottl.bsky.social)
-* 🐱 [github.com/OndrejMottl](https://github.com/OndrejMottl)
-* 🆔 [orcid.org/0000-0002-9796-5081](https://orcid.org/0000-0002-9796-5081)
-:::
-
-::: {.column width="9%"}
-:::
-
-
-::: {.column width="20%" .image-height-300}
-
---LOQE logo and QR code--
 
 :::
 
-::: {.column width="21%"}
+::: {.column width="1%"}
+:::
+
+::: {.column width="59%" .text-position-center .text-size-body-large}
+
+<br>
+
+Assistant Professor at 🏛️[Charles University](https://cuni.cz/UK-1.html), Prague, 🇨🇿
+
+<br>
+
+Head of the 🧑‍💻[Laboratory of Quantitative Ecology](https://ondrejmottl.github.io/lab/about_the_lab.html)
+
+<br>
+
+Interested in [macroecology]{.text-emphasis-caps .text-emphasis-chip .text-color-cyan}, [palaeoecology]{.text-emphasis-caps .text-emphasis-chip .text-color-amber}, [biodiversity]{.text-emphasis-caps .text-emphasis-chip .text-color-purple}, and [data science]{.text-emphasis-caps .text-emphasis-chip .text-color-red}
+
+<br>
+<br>
+
+:::: {.columns}
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="40%"}
+
+![](../../Materials/Logos/loqe_logo_nobg.jpg){.image-display-block .image-theme-bg-dark top=0 left=50 width="250" height="250"}
+
+:::
+
+::: {.column width="40%"}
+```{r}
+#| label: QR code https://bit.ly/ondrej_mottl 
+generate_qr_code(
+  url = "https://bit.ly/ondrej_mottl",
+  name = "personal_web",
+  background_color = vec_oracle_palette[["background"]],
+  foreground_color = vec_oracle_palette[["phosphor"]],
+  plot = FALSE
+)
+```
+
+![](figures/qrcodes/qr_personal_web.svg){.image-display-block top=0 right=0 width="250" height="250"}
+
+:::
+
+::: {.column width="10%"}
 :::
 
 ::::
 
-```{r}
-#| label: QR code https://bit.ly/ondrej_mottl 
-# generate_qr_code(
-#   url = "https://bit.ly/ondrej_mottl",
-#   name = "personal_web",
-#   foreground_color = "black",
-#   background_color = "white",
-#   plot = FALSE
-# )
-```
+:::
 
-![](){.absolute top=0 right=0 width="120" height="120"}
+::::
 
 
 ::: {.notes}
@@ -1435,28 +1435,53 @@ TIME 00:20.
 [This presentation is publicly available on BIODYNAMICS project websites]{.text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple .text-emphasis-box .text-position-center}
 
 :::: {.columns}
-::: {.column width="48%"}
 
-<br>
-<br>
-<br>
-<br>
-
-::: {.text-letter-spacing-status .text-uppercase .text-bold .r-fit-text}
-[bit.ly/biodynamics](https://bit.ly/biodynamics)
+::: {.column width="25%"}
 :::
 
-
+::: {.column width="25%"}
+![](../../Materials/Logos/BIODYNAMICS.png){.image-theme-bg-dark height="280" width="280" .image-position-center}
 :::
 
-::: {.column width="5%"}
+::: {.column width="25%"}
 
+```{r}
+#| label: QR code https://bit.ly/BIODYNAMICS_project 
+generate_qr_code(
+  url = "https://bit.ly/BIODYNAMICS_project",
+  name = "biodynamics_web",
+  background_color = vec_oracle_palette[["background"]],
+  foreground_color = vec_oracle_palette[["phosphor"]],
+  plot = FALSE
+)
+```
+
+![](figures/qrcodes/qr_biodynamics_web.svg){.image-display-block width="300" height="300" .image-position-center}
 :::
 
-::: {.column width="47%" .image-height-300}
-QR CODE
+::: {.column width="25%"}
 :::
+
 ::::
+
+:::: {.columns}
+::: {.column width="30%"}
+:::
+
+::: {.column width="60%" .image-position-center}
+
+::: {.text-letter-spacing-status .text-bold .r-fit-text}
+[bit.ly/BIODYNAMICS_project](https://bit.ly/BIODYNAMICS_project)
+:::
+
+:::
+
+::: {.column width="30%"}
+:::
+
+::::
+
+<br>
 
 ::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-position-center}
 MIT LICENSE
@@ -1469,8 +1494,6 @@ TIME 00:25. This presentation is publicly available. The rendered presentation a
 <!-- slide:17 -->
 ## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
 
-<!-- slide:00 -->
-
 ::: {.planet-scanlines}
 :::
 
@@ -1482,10 +1505,15 @@ TIME 00:25. This presentation is publicly available. The rendered presentation a
 [Exploring biotic signals in vegetation assembly from the LGM to the Anthropocene]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-uppercase .text-size-heading-large .text-color-green .text-shadow .text-line-under .padding-bottom-large}
 
 <br>
+<br>
 
-[Ondrej Mottl]{.text-size-title .text-color-purple .text-bold }
+[Ondrej Mottl]{.text-size-title .text-color-purple}
 
 [IAVS 2026 || 22-26 June 2026 || Gijón, Spain]{.text-size-title-small .text-color-amber}
+
+<br>
+<br>
+<br>
 
 :::
 
