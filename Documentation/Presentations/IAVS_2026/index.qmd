@@ -73,7 +73,7 @@ generate_qr_code <- function(url, name, background_color, foreground_color, plot
 }
 ```
 
-## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
+## BIODYNAMICS PROJECT {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
 
 <!-- slide:00 -->
 
@@ -1340,28 +1340,244 @@ Summarising RESULTS together: [spatial]{.text-color-spatial} patterns, [taxonomi
 
 <br>
 
+```{r}
+#| label: slide-13-data-overview 
+#| echo: false
+#| eval: true
+#| include: false
+#| cache: false
+
+read_target_or_null <- function(target_name, store_path) {
+  purrr::possibly(
+    .f = function(name, store) {
+      targets::tar_read_raw(
+        name = name,
+        store = store
+      )
+    },
+    otherwise = NULL
+  )(target_name, store_path)
+}
+
+read_target_meta_or_empty <- function(store_path) {
+  purrr::possibly(
+    .f = function(store) {
+      targets::tar_meta(
+        fields = c("name", "error"),
+        complete_only = FALSE,
+        store = store
+      )
+    },
+    otherwise = tibble::tibble(
+      name = base::character(),
+      error = base::character()
+    )
+  )(store_path)
+}
+
+count_successful_targets <- function(store_path, target_pattern) {
+  data_meta <-
+    read_target_meta_or_empty(store_path = store_path)
+
+  data_meta |>
+    dplyr::filter(
+      stringr::str_detect(.data$name, target_pattern),
+      base::is.na(.data$error)
+    ) |>
+    base::nrow()
+}
+
+format_slide_count <- function(x) {
+  scales::number(
+    x = x,
+    accuracy = 1,
+    big.mark = ","
+  )
+}
+
+path_traits_store <-
+  here::here(
+    "Data",
+    "targets",
+    "traits_reference",
+    "pipeline_traits_reference"
+  )
+
+data_spatial_store_index <-
+  build_spatial_model_store_index(
+    data_source = "paleo",
+    scales = c("continental", "regional", "local"),
+    pipeline_name = "pipeline_paleo_spatial_resolution",
+    path_spatial_grid = here::here("Data", "Input", "spatial_grid.csv")
+  ) |>
+  dplyr::filter(.data$store_exists)
+
+data_continental_scale_ids <-
+  readr::read_csv(
+    file = here::here("Data", "Input", "spatial_grid.csv"),
+    show_col_types = FALSE
+  ) |>
+  dplyr::filter(.data$scale == "continental") |>
+  dplyr::pull(.data$scale_id)
+
+data_temporal_store_index <-
+  tibble::tibble(
+    scale_id = data_continental_scale_ids,
+    store_path = here::here(
+      "Data",
+      "targets",
+      stringr::str_glue("paleo_temporal_{scale_id}"),
+      "pipeline_paleo_temporal"
+    )
+  ) |>
+  dplyr::mutate(
+    store_exists = fs::dir_exists(.data$store_path)
+  ) |>
+  dplyr::filter(.data$store_exists)
+
+vec_continental_store_paths <-
+  base::unique(
+    c(
+      data_spatial_store_index |>
+        dplyr::filter(.data$scale == "continental") |>
+        dplyr::pull(.data$store_path),
+      data_temporal_store_index |>
+        dplyr::pull(.data$store_path)
+    )
+  )
+
+data_continental_community <-
+  vec_continental_store_paths |>
+  purrr::map(
+    .f = ~ read_target_or_null(
+      target_name = "data_community_analysis",
+      store_path = .x
+    )
+  ) |>
+  purrr::compact() |>
+  purrr::list_rbind()
+
+if (
+  base::is.null(data_continental_community) ||
+    base::nrow(data_continental_community) == 0L
+) {
+  cli::cli_abort(
+    "No continental community data were readable from current stores."
+  )
+}
+
+data_traits_classified_corrected <-
+  read_target_or_null(
+    target_name = "data_traits_classified_corrected",
+    store_path = path_traits_store
+  )
+
+if (
+  base::is.null(data_traits_classified_corrected)
+) {
+  cli::cli_abort(
+    "Trait target 'data_traits_classified_corrected' was not readable."
+  )
+}
+
+number_of_spatial_models <-
+  data_spatial_store_index |>
+  dplyr::pull(.data$store_path) |>
+  purrr::map_int(
+    .f = ~ count_successful_targets(
+      store_path = .x,
+      target_pattern = "^model_evaluation_(genus|family|functional_type)$"
+    )
+  ) |>
+  base::sum()
+
+number_of_temporal_models <-
+  data_temporal_store_index |>
+  dplyr::pull(.data$store_path) |>
+  purrr::map_int(
+    .f = ~ count_successful_targets(
+      store_path = .x,
+      target_pattern = "^model_evaluation_timeslice_"
+    )
+  ) |>
+  base::sum()
+
+number_of_functional_types_raw <-
+  data_spatial_store_index |>
+  dplyr::filter(.data$scale == "continental") |>
+  dplyr::pull(.data$store_path) |>
+  purrr::map_int(
+    .f = ~ {
+      data_functional_type_matrix <-
+        read_target_or_null(
+          target_name = "data_community_model_matrix_functional_type",
+          store_path = .x
+        )
+
+      if (
+        base::is.null(data_functional_type_matrix)
+      ) {
+        return(0L)
+      }
+
+      base::ncol(data_functional_type_matrix)
+    }
+  ) |>
+  base::sum()
+
+number_of_cores <-
+  format_slide_count(
+    dplyr::n_distinct(data_continental_community[["dataset_name"]])
+  )
+
+number_of_samples <-
+  data_continental_community |>
+  dplyr::distinct(.data$dataset_name, .data$age) |>
+  base::nrow() |>
+  format_slide_count()
+
+number_of_taxa <-
+  format_slide_count(
+    dplyr::n_distinct(data_continental_community[["taxon"]])
+  )
+
+number_trait_values <-
+  format_slide_count(base::nrow(data_traits_classified_corrected))
+
+number_of_models <-
+  format_slide_count(
+    number_of_spatial_models + number_of_temporal_models
+  )
+
+number_of_functional_types <-
+  format_slide_count(number_of_functional_types_raw)
+```
+
 ::: {.fragment data-fragment-index="2" .text-emphasis-box}
-Palaecological data can be used to [reconstruct]{.text-emphasis-underline} [past]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and bring insights into our understanding of ecological processes.
+Palaecological data [CAN]{.text-emphasis-underline .text-emphasis-chip} be used to [reconstruct]{.text-emphasis-underline} [past]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and bring insights into our understanding of ecological processes.
 :::
+
 ::: {.fragment data-fragment-index="3" .text-emphasis-box}
-[SPACE]{.text-highlight-spatial}: 
-The association signal is [NOT]{.text-emphasis-underline} scale-dependent and [NOT]{.text-emphasis-underline} stronger at [local]{.text-emphasis-underline-dotted} than at [continental]{.text-emphasis-underline-dotted} scales
+I have used [`r number_of_cores` cores]{.text-bold .text-color-spatial} to fit [`r number_of_models` models]{.text-bold .text-emphasis-undeline-double .text-color-red}, which included [`r number_of_samples` spatio-temporal communities]{.text-bold .text-emphasis-box}, [`r number_of_taxa` taxa]{.text-bold .text-color-latent}, and [`r number_trait_values` trait values]{.text-bold .text-color-latent} translated into [`r number_of_functional_types` functional types]{.text-bold .text-color-latent}.
 :::
 
 ::: {.fragment data-fragment-index="4" .text-emphasis-box}
-
-[TAXONOMY]{.text-highlight-latent}: 
-Increasing [taxonomic resolution]{.text-emphasis-underline-dotted} [does have]{.text-emphasis-underline} impact on [spatial pattern]{.text-color-spatial} of the association signal, but [NOT]{.text-emphasis-underline} in the [expected direction]{.text-emphasis-underline-dotted} 
-
+[SPACE]{.text-highlight-spatial}: 
+The association signal is [NOT]{.text-emphasis-underline .text-highlight-warning} scale-dependent and [NOT]{.text-emphasis-underline .text-highlight-warning} stronger at [local]{.text-emphasis-underline-dotted} than at [continental]{.text-emphasis-underline-dotted} scales
 :::
 
-::: {.fragment data-fragment-index="5" .text-emphasis-box}
-[TIME]{.text-highlight-temporal}: 
-Co-occurrence structure [are]{.text-emphasis-underline} responding to major environmental changes through time, but the [association signal]{.text-emphasis-underline-dotted} [is]{.text-emphasis-underline} surpraisingly [stable]{.text-emphasis-underline-dotted} through time.
+::: {.fragment data-fragment-index="5" .text-emphasis-box}  
+[TAXONOMY]{.text-highlight-latent}: 
+Increasing [taxonomic resolution]{.text-emphasis-underline-dotted .text-color-latent} [DOES]{.text-emphasis-underline .text-emphasis-chip} have impact on [spatial pattern]{.text-color-spatial} of the association signal, but [NOT]{.text-emphasis-underline .text-highlight-warning} in the [expected direction]{.text-emphasis-underline-dotted} 
 :::
 
 ::: {.fragment data-fragment-index="6" .text-emphasis-box}
-Palaeocological data can be used to [predict]{.text-emphasis-underline} [future]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and support conservation efforts.
+[TIME]{.text-highlight-temporal}: 
+Co-occurrence structure [ARE]{.text-emphasis-underline .text-emphasis-chip} responding to major environmental changes through time, but the [association signal]{.text-emphasis-underline-dotted} [IS]{.text-emphasis-underline .text-emphasis-chip} surpraisingly [stable]{.text-emphasis-underline-dotted} through time.
+:::
+
+::: {.fragment data-fragment-index="7" .text-emphasis-box}
+In addtion to current contemporary single-species diversity models, [palaeocological data]{.text-highlight-temporal} can be used to [predict]{.text-emphasis-underline .text-color-red} [future]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and support [conservation efforts]{.text-emphasis-underline-double}.
 :::
 
 ::: {.notes}
@@ -1562,7 +1778,7 @@ TIME 00:25. This presentation is publicly available. The rendered presentation a
 :::
 
 <!-- slide:17 -->
-## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
+## BIODYNAMICS PROJECT {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
 
 ::: {.planet-scanlines}
 :::
