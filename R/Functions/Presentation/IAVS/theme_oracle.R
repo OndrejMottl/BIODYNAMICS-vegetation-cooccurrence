@@ -27,20 +27,6 @@ theme_oracle <- function(base_size = 18, base_family = NULL) {
     )
   }
 
-  if (
-    !base::exists("oracle_palette_values", mode = "function")
-  ) {
-    base::source(
-      here::here(
-        "R",
-        "Functions",
-        "Presentation",
-        "IAVS",
-        "oracle_palette_values.R"
-      )
-    )
-  }
-
   vec_palette <-
     oracle_palette_values()
 

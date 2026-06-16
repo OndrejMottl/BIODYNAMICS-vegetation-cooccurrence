@@ -256,6 +256,82 @@
   --slide-prefix: "SYSTEM // ";
 }
 
+.reveal .slides section.slide-terminal.slide-section-break {
+  display: block !important;
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii {
+  --section-break-ascii-color: var(--oracle-palette-phosphor);
+  --section-break-ascii-glow: rgba(184, 255, 109, 0.58);
+  --section-break-ascii-secondary-glow: rgba(51, 201, 213, 0.20);
+  background: transparent !important;
+  border: 0;
+  box-shadow: none;
+  color: var(--section-break-ascii-color);
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: clamp(1.65rem, 3.1vw, 2.2rem) !important;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 0.92 !important;
+  left: 50%;
+  margin: 0;
+  max-width: 100%;
+  overflow: visible;
+  padding: 0;
+  position: absolute;
+  text-align: left;
+  text-shadow:
+    0 0 8px var(--section-break-ascii-glow),
+    0 0 18px var(--section-break-ascii-secondary-glow);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: pre;
+  width: max-content;
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii code {
+  background: transparent !important;
+  color: inherit;
+  font-family: inherit;
+  line-height: inherit !important;
+  padding: 0;
+  text-shadow: inherit;
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-green {
+  --section-break-ascii-color: var(--oracle-palette-phosphor);
+  --section-break-ascii-glow: rgba(184, 255, 109, 0.58);
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-amber,
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-abiotic {
+  --section-break-ascii-color: var(--oracle-palette-amber);
+  --section-break-ascii-glow: rgba(226, 200, 71, 0.58);
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-cyan,
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-spatial {
+  --section-break-ascii-color: var(--oracle-palette-cyan);
+  --section-break-ascii-glow: rgba(51, 201, 213, 0.58);
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-purple,
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-latent {
+  --section-break-ascii-color: var(--oracle-palette-purple);
+  --section-break-ascii-glow: rgba(199, 146, 234, 0.58);
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-red,
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-warning {
+  --section-break-ascii-color: var(--oracle-palette-red);
+  --section-break-ascii-glow: rgba(255, 123, 114, 0.58);
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-muted {
+  --section-break-ascii-color: var(--oracle-palette-muted);
+  --section-break-ascii-glow: rgba(117, 168, 90, 0.58);
+}
+
 .slide-bg-figure {
   --slide-bg-figure-image: none;
   --slide-bg-figure-position: center;
@@ -293,6 +369,27 @@
 .slide-terminal-question {
   --slide-accent: var(--oracle-palette-cyan);
   --slide-prefix: "QUERY // ";
+}
+
+.reveal .slides section.slide-terminal-question {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding-left: 4vw;
+  padding-right: 4vw;
+}
+
+.reveal .slides section.slide-terminal-question > div {
+  width: 100%;
+}
+
+.reveal .slides section.slide-terminal-question .text-size-heading-large {
+  display: block;
+  font-size: clamp(2rem, 4vw, 5rem) !important;
+  line-height: 0.9 !important;
+  max-width: none;
+  width: 100%;
+  text-wrap: balance;
 }
 
 .slide-terminal-methods {
@@ -548,6 +645,28 @@
   display: block;
 }
 
+.image-theme-bg-white {
+  background: #ffffff;
+  border: 4px solid var(--oracle-palette-border);
+  box-sizing: border-box;
+  padding: var(--oracle-spacing-sm);
+}
+
+.image-theme-bg-dark {
+  background: var(--oracle-palette-surface-alt);
+  border: 4px solid var(--oracle-palette-border);
+  box-sizing: border-box;
+  padding: var(--oracle-spacing-sm);
+}
+
+.image-theme-bg-background {
+  background: var(--oracle-palette-background);
+  border: 4px solid var(--oracle-palette-border);
+  box-sizing: border-box;
+  padding: var(--oracle-spacing-sm);
+}
+
+
 .margin-x-auto {
   margin: 0 auto;
 }
@@ -602,6 +721,73 @@
 .reveal .slides section.slide-terminal .columns > .column > p:first-child {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.text-equation {
+  align-items: flex-start;
+  box-sizing: border-box;
+  color: var(--oracle-palette-text);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  height: 100%;
+  justify-content: center;
+  line-height: 1.35;
+  padding: var(--oracle-spacing-lg) 0;
+}
+
+.text-equation p {
+  margin: 0;
+}
+
+.text-equation mjx-container {
+  color: inherit;
+  font-size: inherit !important;
+}
+
+.text-equation-line {
+  display: block;
+}
+
+.text-equation-linear-predictor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.text-equation-row {
+  line-height: 1;
+}
+
+.text-equation-continuation {
+  display: inline-block;
+  margin-left: 2.4em;
+}
+
+.text-equation-base {
+  color: var(--oracle-palette-text);
+}
+
+.text-equation-meta {
+  border-top: 1px solid var(--oracle-screen-edge-dim);
+  margin-top: var(--oracle-spacing-md);
+  padding-top: var(--oracle-spacing-md);
+}
+
+.text-equation-meta code {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font-family: var(--oracle-typography-body-family);
+  font-size: inherit;
+  padding: 0;
+  text-shadow: var(--oracle-effects-dim-glow);
+}
+
+.text-equation .text-color-abiotic mjx-container,
+.text-equation .text-color-spatial mjx-container,
+.text-equation .text-color-latent mjx-container {
+  color: inherit;
 }
 
 /* Text font utilities */
@@ -1016,6 +1202,225 @@
   line-height: 1;
   opacity: 0.9;
   transform: translateY(-0.02em);
+}
+
+/* Mermaid diagrams */
+
+// Mermaid configuration. Node-level differences are handled by
+// CSS selectors below so diagram source stays structural.
+$mermaid-bg-color: $oracle-palette-background !important;
+$mermaid-edge-color: $oracle-palette-muted !important;
+$mermaid-node-fg-color: $oracle-palette-text !important;
+$mermaid-fg-color: $oracle-palette-phosphor !important;
+$mermaid-fg-color--lighter: $oracle-palette-cyan !important;
+$mermaid-fg-color--lightest: $oracle-palette-amber !important;
+$mermaid-font-family: $oracle-typography-body-family !important;
+$mermaid-label-bg-color: $oracle-palette-background !important;
+$mermaid-label-fg-color: $oracle-palette-text !important;
+$mermaid-node-bg-color: $oracle-palette-surface-alt !important;
+
+.oracle-mermaid {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  --oracle-mermaid-cluster-font-size: calc(var(--oracle-typography-small-size) * 0.76);
+  --oracle-mermaid-edge-font-size: calc(var(--oracle-typography-small-size) * 0.6);
+  --oracle-mermaid-node-font-size: calc(var(--oracle-typography-small-size) * 0.68);
+  --oracle-mermaid-svg-max-height: none;
+  --oracle-mermaid-svg-width: 100%;
+  width: 100%;
+}
+
+.oracle-mermaid .cell,
+.oracle-mermaid .cell-output,
+.oracle-mermaid div.sourceCode {
+  width: 100%;
+}
+
+.oracle-mermaid svg {
+  background: transparent !important;
+  display: block;
+  height: auto !important;
+  margin: 0 auto;
+  max-height: var(--oracle-mermaid-svg-max-height);
+  max-width: 100%;
+  width: var(--oracle-mermaid-svg-width);
+}
+
+.oracle-mermaid-natural {
+  --oracle-mermaid-svg-max-height: none;
+  --oracle-mermaid-svg-width: auto;
+}
+
+.oracle-mermaid-text-small {
+  --oracle-mermaid-cluster-font-size: calc(var(--oracle-typography-small-size) * 0.68);
+  --oracle-mermaid-edge-font-size: calc(var(--oracle-typography-small-size) * 0.54);
+  --oracle-mermaid-node-font-size: calc(var(--oracle-typography-small-size) * 0.6);
+}
+
+.oracle-mermaid-text-large {
+  --oracle-mermaid-cluster-font-size: calc(var(--oracle-typography-small-size) * 0.88);
+  --oracle-mermaid-edge-font-size: calc(var(--oracle-typography-small-size) * 0.68);
+  --oracle-mermaid-node-font-size: calc(var(--oracle-typography-small-size) * 0.8);
+}
+
+.oracle-mermaid svg .nodeLabel,
+.oracle-mermaid svg .edgeLabel,
+.oracle-mermaid svg .cluster-label,
+.oracle-mermaid svg .cluster-label span,
+.oracle-mermaid svg .label,
+.oracle-mermaid svg .label span {
+  color: var(--oracle-palette-text) !important;
+  font-family: var(--oracle-typography-body-family) !important;
+  line-height: 1.05 !important;
+  text-align: center !important;
+}
+
+.oracle-mermaid svg .node foreignObject > div {
+  text-align: center !important;
+}
+
+.oracle-mermaid svg .nodeLabel p,
+.oracle-mermaid svg .label p {
+  margin: 0 !important;
+  text-align: center !important;
+}
+
+.oracle-mermaid svg .cluster-label,
+.oracle-mermaid svg .cluster-label span {
+  background: var(--oracle-palette-background) !important;
+  font-size: var(--oracle-mermaid-cluster-font-size) !important;
+  letter-spacing: var(--oracle-typography-status-letter-spacing);
+  padding: 0 0.18em;
+  text-transform: uppercase;
+}
+
+.oracle-mermaid svg .nodeLabel,
+.oracle-mermaid svg .nodeLabel span {
+  font-size: var(--oracle-mermaid-node-font-size) !important;
+}
+
+.oracle-mermaid svg .edgeLabel,
+.oracle-mermaid svg .edgeLabel span {
+  background: var(--oracle-palette-background) !important;
+  color: var(--oracle-palette-muted) !important;
+  font-size: var(--oracle-mermaid-edge-font-size) !important;
+}
+
+.oracle-mermaid svg .flowchart-link,
+.oracle-mermaid svg .edgePath path,
+.oracle-mermaid svg path.relation {
+  stroke: var(--oracle-palette-muted) !important;
+}
+
+.oracle-mermaid svg marker path,
+.oracle-mermaid svg .arrowheadPath {
+  fill: var(--oracle-palette-muted) !important;
+  stroke: var(--oracle-palette-muted) !important;
+}
+
+.oracle-mermaid svg .flowchart-link {
+  filter: drop-shadow(var(--oracle-effects-dim-glow));
+}
+
+.oracle-mermaid-process {
+  --oracle-mermaid-cluster-font-size: calc(var(--oracle-typography-small-size) * 0.86);
+  --oracle-mermaid-edge-font-size: calc(var(--oracle-typography-small-size) * 0.72);
+  --oracle-mermaid-node-font-size: calc(var(--oracle-typography-small-size) * 0.9);
+  --oracle-mermaid-svg-max-height: min(700px, 74vh);
+  --oracle-mermaid-svg-width: auto;
+}
+
+.oracle-mermaid-process svg .source_node :is(rect, path, polygon, circle, ellipse) {
+  fill: var(--oracle-palette-surface) !important;
+  stroke: var(--oracle-palette-muted) !important;
+  stroke-width: 1.4px !important;
+}
+
+.oracle-mermaid-process svg .source_node .nodeLabel,
+.oracle-mermaid-process svg .source_node .nodeLabel span {
+  color: var(--oracle-palette-muted) !important;
+}
+
+.oracle-mermaid-process svg .community_node :is(rect, path, polygon, circle, ellipse) {
+  fill: var(--oracle-palette-surface-alt) !important;
+  stroke: var(--oracle-palette-phosphor) !important;
+  stroke-width: 1.8px !important;
+}
+
+.oracle-mermaid-process svg .community_node .nodeLabel,
+.oracle-mermaid-process svg .community_node .nodeLabel span {
+  color: var(--oracle-palette-text) !important;
+}
+
+.oracle-mermaid-process svg .community_title_node :is(rect, path, polygon, circle, ellipse) {
+  fill: transparent !important;
+  stroke: transparent !important;
+}
+
+.oracle-mermaid-process svg .community_title_node .nodeLabel,
+.oracle-mermaid-process svg .community_title_node .nodeLabel span {
+  color: var(--oracle-palette-phosphor) !important;
+  font-size: var(--oracle-mermaid-cluster-font-size) !important;
+  letter-spacing: var(--oracle-typography-status-letter-spacing);
+  text-transform: uppercase;
+}
+
+.oracle-mermaid-process svg .climate_node :is(rect, path, polygon, circle, ellipse) {
+  fill: var(--oracle-palette-surface) !important;
+  stroke: var(--oracle-palette-amber) !important;
+  stroke-width: 1.8px !important;
+}
+
+.oracle-mermaid-process svg .climate_node .nodeLabel,
+.oracle-mermaid-process svg .climate_node .nodeLabel span {
+  color: var(--oracle-palette-amber) !important;
+}
+
+.oracle-mermaid-process svg .climate_title_node :is(rect, path, polygon, circle, ellipse) {
+  fill: transparent !important;
+  stroke: transparent !important;
+}
+
+.oracle-mermaid-process svg .climate_title_node .nodeLabel,
+.oracle-mermaid-process svg .climate_title_node .nodeLabel span {
+  color: var(--oracle-palette-amber) !important;
+  font-size: var(--oracle-mermaid-cluster-font-size) !important;
+  letter-spacing: var(--oracle-typography-status-letter-spacing);
+  text-transform: uppercase;
+}
+
+.oracle-mermaid-process svg .model_node :is(rect, path, polygon, circle, ellipse) {
+  fill: var(--oracle-palette-surface) !important;
+  stroke: var(--oracle-palette-purple) !important;
+  stroke-width: 1.8px !important;
+}
+
+.oracle-mermaid-process svg .model_node .nodeLabel,
+.oracle-mermaid-process svg .model_node .nodeLabel span {
+  color: var(--oracle-palette-purple) !important;
+}
+
+.oracle-mermaid-process svg g[id*="community_stream"] > rect {
+  fill: var(--oracle-palette-surface) !important;
+  stroke: var(--oracle-palette-phosphor) !important;
+  stroke-width: 2px !important;
+}
+
+.oracle-mermaid-process svg g[id*="community_stream"] .cluster-label,
+.oracle-mermaid-process svg g[id*="community_stream"] .cluster-label span {
+  color: var(--oracle-palette-phosphor) !important;
+}
+
+.oracle-mermaid-process svg g[id*="climate_stream"] > rect {
+  fill: var(--oracle-palette-surface) !important;
+  stroke: var(--oracle-palette-amber) !important;
+  stroke-width: 2px !important;
+}
+
+.oracle-mermaid-process svg g[id*="climate_stream"] .cluster-label,
+.oracle-mermaid-process svg g[id*="climate_stream"] .cluster-label span {
+  color: var(--oracle-palette-amber) !important;
 }
 
 /* Fragment effect */

@@ -254,7 +254,7 @@ testthat::test_that("run_pipeline() validates prebuild_interpolation", {
   )
 })
 
-testthat::test_that("run_pipeline() prebuilds interpolation then full build", {
+testthat::test_that("run_pipeline() prebuilds then runs full build", {
   tmp_script <-
     withr::local_tempfile(fileext = ".R")
 
@@ -273,42 +273,32 @@ testthat::test_that("run_pipeline() prebuilds interpolation then full build", {
   target_name_expression <- NULL
   flag_prebuild_lightweight <- FALSE
   flag_prebuild_crew_mori <- FALSE
+  flag_meta_crew_mori <- FALSE
   flag_full_backend_clean <- FALSE
-  flag_invalidate_crew_mori <- FALSE
   n_prebuild_workers_env <- NULL
   vec_build_order <- base::character()
-  invalidate_name_expression <- NULL
 
   testthat::local_mocked_bindings(
     tar_make_future = function(...) {
       base::stop("tar_make_future() should not be used")
     },
     tar_meta = function(...) {
-      tibble::tibble(
-        name = base::c(
-          "data_community_proportions_shared",
-          "data_age_uncertainty_shared",
-          "data_community_interpolated_dataset",
-          "data_community_interpolated_dataset_branch_a",
-          "data_community_interpolated",
-          "data_model"
-        )
-      )
-    },
-    tar_invalidate = function(names, ...) {
-      flag_invalidate_crew_mori <<-
+      flag_meta_crew_mori <<-
         base::identical(
           base::Sys.getenv("BIODYNAMICS_PREPROCESSING_BACKEND"),
           "crew_mori"
         )
-      invalidate_name_expression <<-
-        stringr::str_c(
-          base::deparse(base::substitute(names)),
-          collapse = ""
-        )
-      vec_build_order <<-
-        base::c(vec_build_order, "invalidate")
-      base::invisible(NULL)
+
+      tibble::tibble(
+        name = base::c(
+          "data_community_interpolated_dataset_branch_a",
+          "data_community_interpolated"
+        ),
+        error = base::c(NA_character_, NA_character_)
+      )
+    },
+    tar_invalidate = function(...) {
+      base::stop("tar_invalidate() should not be used")
     },
     tar_make = function(names, ...) {
       if (
@@ -360,18 +350,13 @@ testthat::test_that("run_pipeline() prebuilds interpolation then full build", {
 
   testthat::expect_equal(
     vec_build_order,
-    base::c("invalidate", "prebuild", "full")
+    base::c("prebuild", "full")
   )
 
   testthat::expect_true(flag_prebuild_lightweight)
   testthat::expect_true(flag_prebuild_crew_mori)
-  testthat::expect_true(flag_invalidate_crew_mori)
+  testthat::expect_true(flag_meta_crew_mori)
   testthat::expect_true(flag_full_backend_clean)
-
-  testthat::expect_match(
-    invalidate_name_expression,
-    "tidyselect::any_of\\(vec_prebuild_targets\\)"
-  )
 
   testthat::expect_equal(
     base::as.integer(n_prebuild_workers_env),
@@ -379,6 +364,100 @@ testthat::test_that("run_pipeline() prebuilds interpolation then full build", {
       get_active_config("data_processing"),
       "n_interpolation_workers"
     )
+  )
+})
+
+testthat::test_that("run_pipeline() repairs errored prebuild targets", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  old_config <-
+    Sys.getenv("R_CONFIG_ACTIVE")
+
+  Sys.setenv(R_CONFIG_ACTIVE = "")
+
+  on.exit(
+    Sys.setenv(R_CONFIG_ACTIVE = old_config),
+    add = TRUE
+  )
+
+  vec_invalidated_names <- NULL
+  vec_build_order <- base::character()
+
+  testthat::local_mocked_bindings(
+    tar_make_future = function(...) {
+      base::stop("tar_make_future() should not be used")
+    },
+    tar_meta = function(...) {
+      tibble::tibble(
+        name = base::c(
+          "data_community_interpolated_dataset_branch_a",
+          "data_community_interpolated_dataset_branch_b",
+          "data_community_interpolated",
+          "data_model"
+        ),
+        error = base::c(
+          "branch failed",
+          NA_character_,
+          NA_character_,
+          "model failed"
+        )
+      )
+    },
+    tar_invalidate = function(names, ...) {
+      vec_invalidated_names <<-
+        base::get(
+          x = "vec_targets_to_invalidate",
+          envir = parent.frame()
+        )
+      vec_build_order <<-
+        base::c(vec_build_order, "invalidate")
+      base::invisible(NULL)
+    },
+    tar_make = function(...) {
+      if (
+        base::identical(
+          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_BACKEND"),
+          "crew_mori"
+        )
+      ) {
+        vec_build_order <<-
+          base::c(vec_build_order, "prebuild")
+      } else {
+        vec_build_order <<-
+          base::c(vec_build_order, "full")
+      }
+
+      base::invisible(NULL)
+    },
+    .package = "targets"
+  )
+
+  run_pipeline(
+    sel_script = tmp_script,
+    check_default_config = FALSE,
+    plot_progress = FALSE,
+    prebuild_interpolation = TRUE
+  )
+
+  testthat::expect_equal(
+    vec_build_order,
+    base::c("invalidate", "prebuild", "full")
+  )
+
+  testthat::expect_true(
+    "data_community_interpolated_dataset_branch_a" %in%
+      vec_invalidated_names
+  )
+
+  testthat::expect_true(
+    "data_community_interpolated" %in% vec_invalidated_names
+  )
+
+  testthat::expect_false(
+    "data_model" %in% vec_invalidated_names
   )
 })
 

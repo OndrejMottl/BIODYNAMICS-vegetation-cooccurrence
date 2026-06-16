@@ -3,7 +3,7 @@ name: plan-large-changes
 description: >-
   Use when: planning large or complex changes to the codebase before implementation begins.
   Interviews the user with focused questions, generates a structured implementation plan,
-  saves it to Data/Temp/plan_<topic>.md for other agents to pick up, and optionally
+  saves it to Documentation/Implementation_plans/plan_<topic>.md for other agents to pick up, and optionally
   produces a GitHub Issues scaffold for long-running projects.
 argument-hint: >-
   Describe the change or feature you want to plan (e.g. "refactor the trait

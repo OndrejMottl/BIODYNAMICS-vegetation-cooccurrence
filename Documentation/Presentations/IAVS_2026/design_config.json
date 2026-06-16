@@ -6,8 +6,7 @@
       "spatial": "cyan",
       "climate_abiotic": "amber",
       "latent_association": "purple",
-      "warning": "red",
-      "temporal": "phosphor_delta_chip"
+      "warning": "red"
     }
   },
   "palette": {

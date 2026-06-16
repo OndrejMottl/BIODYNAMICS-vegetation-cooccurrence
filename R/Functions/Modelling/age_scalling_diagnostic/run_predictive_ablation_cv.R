@@ -503,17 +503,26 @@ run_predictive_ablation_cv <- function(
       dplyr::slice(1L) |>
       dplyr::ungroup()
 
-    data_prediction_metrics <-
+    data_tune_folds <-
       data_selected |>
-      dplyr::transmute(
+      dplyr::mutate(
         tune_step = base::as.integer(.data$iter),
         fold_id = base::as.integer(.data$CV_set)
       ) |>
-      purrr::pmap(
+      dplyr::select(
+        dplyr::all_of(
+          base::c("tune_step", "fold_id")
+        )
+      )
+
+    data_prediction_metrics <-
+      purrr::map2(
+        .x = dplyr::pull(data_tune_folds, tune_step),
+        .y = dplyr::pull(data_tune_folds, fold_id),
         .f = ~ compute_prediction_metrics(
           res_cv = res_cv,
-          tune_step = ..1,
-          fold_id = ..2
+          tune_step = .x,
+          fold_id = .y
         )
       ) |>
       purrr::list_rbind()

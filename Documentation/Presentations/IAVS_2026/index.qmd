@@ -18,7 +18,62 @@ execute:
   message: false
 ---
 
-## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
+```{r}
+#| label: setup
+#| include: false
+library(here)
+here::i_am("Documentation/Presentations/IAVS_2026/index.qmd")
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
+list_oracle_design <-
+  load_design_config(
+    path = here::here(
+      "Documentation",
+      "Presentations",
+      "IAVS_2026",
+      "design_config.json"
+    )
+  )
+
+vec_oracle_palette <-
+  list_oracle_design |>
+  purrr::chuck(
+    "config",
+    "palette"
+  )
+
+generate_qr_code <- function(url, name, background_color, foreground_color, plot, base_path = here::here("Documentation", "Presentations", "IAVS_2026", "figures", "qrcodes")) {
+  qr_code <-
+    qrcode::qr_code(
+      url,
+      ecl = "H"
+    )
+
+  qrcode::generate_svg(
+    qrcode = qr_code,
+    filename = stringr::str_glue(
+      "{base_path}/qr_{name}.svg"
+    ),
+    foreground = foreground_color,
+    background = background_color
+  )
+
+  if (
+    isTRUE(plot)
+  ) {
+    knitr::include_graphics(
+      stringr::str_glue(
+        "{base_path}/qr_{name}.svg"
+      )
+    )
+  }
+}
+```
+
+## BIODYNAMICS PROJECT {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
 
 <!-- slide:00 -->
 
@@ -68,7 +123,7 @@ ANALYTICAL  OUTPUTS: **REAL**
 ::::
 
 ::: {.notes}
-TIME 00:25. I will ask the audience to close their eyes and imagine there are on a space ship and their goal is to examine the vegtation patterns of this Planet called "Earth". We will use of the spaceship computer called ORACLE to do so. All the data, analysis, and results are real. The computer is not real and only serves as a narrative device.
+TIME 00:25. Hello and welcome! I would like to try something dirrerent. It think that science should be serious but also a little bit fun. So I decided to do something different. I will ask the audience to close their eyes and imagine there are on a space ship and their goal is to examine the vegtation patterns of this Planet called "Earth". We will use of the spaceship computer called ORACLE to do so. All the data, analysis, and results are real. The computer is not real and only serves as a narrative device.
 :::
 
 <!-- slide:01 -->
@@ -127,7 +182,26 @@ Proceed? [Y]/[N]?
 ::::
 
 ::: {.notes}
-TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mottl, the chief researcher at this space station. We have 12 minutes to explore the vegetation patterns of a alian planet called 'Earth' using the ORACLE system. Let's get started. ORACLE, please boot up and introduce yourself.
+TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mottl, the chief researcher at this space station. We have 12 minutes to explore the vegetation patterns of a alian planet called 'Earth' using the Observational Runtime for Analysis of Community-Level Ecology (ORACLE) system. Let's get started.
+:::
+
+<!-- slide:02a -->
+## {.slide-terminal .slide-terminal-question}
+
+<br>
+<br>
+<br>
+
+::: {.text-size-heading-large .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-emphasis-box .text-position-center}
+
+[Is there a [scale dependence]{.text-bold .text-color-spatial .text-emphasis-underline} in the amount of [unexplained variation]{.text-emphasis-underline-dotted} (potentially due to [biotic interactions]{.text-color-latent}) structuring vegetation since [LGM]{.text-emphasis-underline-dotted}?]{.text-size-heading-large .fragment}
+
+:::
+
+:::{.notes}
+The main questons of this talk is: Is there a scale dependence in the amount of unexplained variation structuring vegetation since the Last Glacial Maximum (LGM)?
+Me, as a scientist, I am interested in understanding the processes that structure vegetation patterns on Earth. We know that climate and spatial factors play a big role, but I am particularly interested in the unexplained variation, which could potentially be due to biotic interactions. This interaction can take shape of shared polinator or herbivore pressure, or direct facilitation or competition between plants.
+We would assume that the amount of unexplained variation would change with scale, for example, biotic interactions can be more likely detected at local scales than at continental scales.
 :::
 
 <!-- slide:02 -->
@@ -191,20 +265,93 @@ TIME 00:45. Oracle, I would like like to explore vegation patterns across space 
 <!-- slide:03 -->
 ## [DATA: [\<VegVault\>]{.text-emphasis-chip}]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
+```{r}
+#| label: result-slide03-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Data_ingestion_schematic_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/northern_hemisphere_coverage_figure.R"
+  )
+)
+```
+
 :::: {.columns}
-::: {.column width="62%" }
 
-::: {.image-height-400 .fragment .tui-reveal-blur data-fragment-index="2"}
---figure/schematics of data input--
+::: {.column width="0%"}
 :::
 
-::: {.image-height-400 .fragment .tui-reveal-blur data-fragment-index="3"}
---Northern Hemisphere coverage figure--
-:::
+::: {.column width="50%" }
+
+::: {.fragment .tui-reveal-blur data-fragment-index="2"}
+
+```{r}
+#| label: result-slide03-ingestion-build
+#| echo: false
+#| warning: false
+#| message: false
+#| include: true
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Data_ingestion_schematic_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: result-slide03-ingestion-render
+#| echo: false
+#| out-width: 95%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_03_ingestion_schematic.png"
+  )
+)
+```
 
 :::
 
-::: {.column width="38%" }
+::: {.fragment .tui-reveal-blur data-fragment-index="3"}
+
+USED SAMPLE COVERAGE
+
+```{r}
+#| label: result-slide03-coverage-build
+#| echo: false
+#| warning: false
+#| message: false
+#| include: true
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/northern_hemisphere_coverage_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: result-slide03-coverage-render
+#| echo: false
+#| out-width: 95%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_03_northern_hemisphere_coverage.png"
+  )
+)
+```
+
+:::
+
+:::
+
+::: {.column width="50%" }
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
@@ -229,17 +376,25 @@ Due to [data availability]{.text-emphasis-underline-dotted}, I will focus on the
 :::: {.columns .image-height-750}
 
 ::: {.column width="50%"}
---VegVault logo--
+![](../../Materials/Logos/VegVault_logo.png){.absolute .image-display-block .image-theme-bg-dark top=0 left=50 width="300" height="300"}
 :::
 
 ::: {.column width="50%"}
---QR code--
+```{r}
+#| label: QR code https://bit.ly/VegVault 
+generate_qr_code(
+  url = "https://bit.ly/VegVault",
+  name = "vegvault",
+  background_color = vec_oracle_palette[["background"]],
+  foreground_color = vec_oracle_palette[["phosphor"]],
+  plot = FALSE
+)
+```
+
+![](figures/qrcodes/qr_vegvault.svg){.absolute .image-display-block top=0 right=0 width="300" height="300"}
 :::
 
 ::::
-
-
-
 
 :::
 
@@ -252,53 +407,9 @@ The database is publicly available and open source. For this analysis, we will f
 :::
 
 <!-- slide:04 -->
-## [Three analysis axes]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
-
-<br>
-
-:::: {.columns}
-
-::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="2"}
-![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_spatial_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
-:::
-
-::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="3"}
-![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_temporal_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
-:::
-
-::: {.column width="33%" .fragment .tui-reveal-scan data-fragment-index="4"}
-![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_taxonomic_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
-:::
-
-::::
-
-<br>
-
-::: {.oracle-terminal .fragment data-fragment-index="1"}
-
-::: {.oracle-line}
-Three routes selected:
-:::
-
-::: {.oracle-line}
-[Spatial-resolution runs]{.text-highlight-spatial} : chnages with spatial scale
-:::
-
-::: {.oracle-line}
-[Temporal slices test]{.text-highlight-temporal} : change through time
-:::
-
-::: {.oracle-line}
-[Taxonomic aggregation level]{.text-highlight-latent} : change through classification
-:::
-:::
-
-::: {.notes}
-TIME 00:35. Now, we would like to split the analysis along space (from local to continental), time (since the last glacial maximum), and taxonomic resolution (from genus up to abstract functional types).
-:::
-
-<!-- slide:05 -->
 ## [Preparing [community]{.text-emphasis-box} and [climate]{.text-highlight-abiotic} streams]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
+
+
 
 :::: {.columns}
 
@@ -345,8 +456,107 @@ Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 
 :::
 
-::: {.column width="60%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750}
---Figure to show some climate data summary---
+::: {.column width="5%"}
+:::
+
+::: {.column width="60%" .fragment .tui-reveal-blur data-fragment-index="2" }
+
+```{r}
+#| label: result-slide05-workflow-build
+#| echo: false
+#| warning: false
+#| message: false
+#| include: true
+#| cache: true
+#| eval: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/climate_data_summary_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: result-slide05-workflow-render
+#| echo: false
+#| out-width: 90%
+#| eval: true
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_05_climate_screening.png"
+  )
+)
+```
+
+<!-- Lets keep the mermaid as backup -->
+
+::: {.oracle-mermaid .oracle-mermaid-process}
+
+```{mermaid}
+%%| label: slide05-community-climate-mermaid
+%%| eval: false
+%%{init: {
+  "theme": "base",
+  "flowchart": {
+    "curve": "basis",
+    "htmlLabels": true,
+    "nodeSpacing": 22,
+    "rankSpacing": 14,
+    "padding": 10
+  }
+}}%%
+flowchart TB
+  source["VegVault"]
+
+  subgraph community_stream [" "]
+    direction TB
+    community_title["COMMUNITY STREAM"]
+    community_counts["counts<br/>proportions"]
+    community_age["interpolation<br/>with uncertainty"]
+    community_taxa["taxonomy<br/>harmonisation"]
+    community_filters["Select<br/>resolution"]
+    community_title ~~~ community_counts
+    community_counts --> community_age --> community_taxa --> community_filters
+  end
+
+  subgraph climate_stream [" "]
+    direction TB
+    climate_title["CLIMATE STREAM"]
+    climate_vars["CHELSA<br/>candidates"]
+    climate_variance["drop invariant<br/>predictors"]
+    climate_screen["select<br/>non-collinear set"]
+    climate_grid["interpolate"]
+    climate_title ~~~ climate_vars
+    climate_vars --> climate_variance --> climate_screen --> climate_grid
+  end
+
+  sample_filtering["Sample filtering<br/>spatial/temporal"]
+  core_filtering["Core filtering"]
+
+  model["Model"]
+
+  source --> community_counts
+  source --> climate_vars
+  community_filters --> sample_filtering
+  climate_grid --> sample_filtering
+
+  sample_filtering --> core_filtering
+
+  core_filtering --> model
+
+
+  class source,sample_filtering,core_filtering source_node
+  class community_title community_title_node
+  class climate_title climate_title_node
+  class community_counts,community_age,community_taxa,community_filters community_node
+  class climate_vars,climate_variance,climate_screen,climate_grid climate_node
+  class model model_node
+```
+
+:::
+
+
+
 :::
 ::::
 
@@ -354,18 +564,55 @@ Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 TIME 00:45. Oracle, we now need to apply data processing to community data and climate predictors to make them ready for analysis.
 :::
 
-<!-- slide:06 -->
+<!-- slide:05 -->
 ## [Model core: [environment]{.text-color-abiotic}, [space]{.text-color-spatial}, [association]{.text-color-latent}]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
-::: {.column width="65%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750}
---A mathematical formula for the model--
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+
+<br>
+<br>
+
+::: {.text-equation .text-size-heading-small}
+
+[$Y_{ij} \sim \operatorname{Bernoulli}\!\left\{\Phi\!\left(\eta_{ij}\right)\right\}$]{.text-equation-line .fragment data-fragment-index="2"}
+
+<br>
+
+::: {.text-equation-linear-predictor}
+::: {.text-equation-row .fragment data-fragment-index="3"}
+[$\eta_{ij} = \alpha_j \;+\;$]{.text-equation-base}
+:::
+
+::: {.text-equation-row .fragment data-fragment-index="4"}
+[$\sum_{k=1}^{K}\,\beta_{jk}\,x_{ik} \;+\; \sum_{k=1}^{K}\,\gamma_{jk}\,x_{ik}\,a_i$]{.text-color-abiotic .text-equation-continuation}
+[$\;+\;$]{.text-equation-base}
+:::
+
+::: {.text-equation-row .fragment data-fragment-index="5"}
+[$\sum_{m=1}^{M}\,\delta_{jm}\,\operatorname{MEM}_{im}$]{.text-color-spatial .text-equation-continuation}
+[$\;+\;$]{.text-equation-base}
+:::
+
+::: {.text-equation-row .fragment data-fragment-index="6"}
+[$u_{ij}$]{.text-color-latent .text-equation-continuation}
+:::
+:::
+
+<br>
+
+::: {.fragment data-fragment-index="7"}
+[$\mathbf{u}_i = (u_{i1}, \ldots, u_{iJ}) \sim \mathcal{N}(\mathbf{0}, \Sigma)$]{.text-color-latent .text-equation-line}
+:::
+:::
+
 :::
 
 ::: {.column width="35%" .fragment data-fragment-index="1"}
-
-<br>
-<br>
 
 ::: {.oracle-terminal}
 
@@ -401,18 +648,28 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 :::
 ::::
 
+::: {.text-equation-meta .text-size-body .fragment data-fragment-index="8"}
+[Env]{.text-highlight-abiotic}[: `~ (x1 + ... + xK) * age - age`]{.text-color-abiotic}
+
+[Space]{.text-highlight-spatial}[: `~ 0 + (MEM1 + ... + MEMM)`]{.text-color-spatial}
+
+[Association]{.text-highlight-latent}[: off-diagonal `Sigma` from `sjSDM::bioticStruct()`]{.text-color-latent}
+:::
+
 ::: {.notes}
 TIME 00:45. Oracle, build a model, which would include climate, spatial structure, and whatever residual association remains.
 We will be uisng {sjSDM} R package is used because the community matrix and spatial design are too large for slower MCMC workflows.
 :::
 
-<!-- slide:07 -->
+<!-- slide:06 -->
 ## [Variance decomposition]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
 
 :::: {.columns}
 
 ::: {.column width="50%" .fragment data-fragment-index="1"}
 
+<br>
+<br>
 <br>
 <br>
 
@@ -444,11 +701,81 @@ structure]{.text-highlight-spatial} have made their claims
 :::
 :::
 
-::: {.column width="50%" .fragment .tui-reveal-blur data-fragment-index="2" .image-height-750} 
---Schematic of model components and variance partitioning with the focus on the residual association component--
-(we can use either mermaid or a custom schematic)
+::: {.column width="50%"} 
+
+<br>
+
+::: {.fragment .tui-reveal-blur data-fragment-index="2"}
+```{r}
+#| label: result-slide06-decomposition-build
+#| echo: false
+#| warning: false
+#| message: false
+#| include: true
+#| cache: true
+#| eval: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/variance_decomposition_triangle_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/variance_decomposition_example_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: result-slide06-decomposition-render
+#| echo: false
+#| out-width: 90%
+#| eval: true
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_06_variance_decomposition.png"
+  )
+)
+```
+
 :::
 
+:::: {.columns}
+
+::: {.column width="70%" .fragment .tui-reveal-blur data-fragment-index="3"}
+```{r}
+#| label: result-slide06-component-stack-render
+#| echo: false
+#| out-width: 90%
+#| eval: true
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_06_component_stack_example.png"
+  )
+)
+```
+
+:::
+
+::: {.column width="30%" .fragment .tui-reveal-blur data-fragment-index="4"}
+```{r}
+#| label: result-slide06-component-point-render
+#| echo: false
+#| out-width: 50%
+#| eval: true
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_06_component_point_example.png"
+  )
+)
+```
+
+:::
+
+::::
+
+:::
 
 ::::
 
@@ -457,25 +784,140 @@ TIME 00:40. Now we would like to decompose the explained variance so we can sepa
 The shared fractions are useful diagnostics for understanding the model fit. However, we will focus on the non-shared residual association component.
 :::
 
+<!-- slide:07 -->
+## [Three analysis axes]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-methods}
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="2"}
+
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_spatial_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+
+[Spatial]{.text-highlight-spatial}
+
+:::
+
+::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="3"}
+
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_temporal_v1_recolor.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+
+[Temporal]{.text-highlight-temporal}
+
+:::
+
+::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="4"}
+
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_taxonomic_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+
+[Taxonomic]{.text-highlight-latent}
+
+:::
+
+::::
+
+<br>
+
+::: {.oracle-terminal .fragment data-fragment-index="1"}
+
+::: {.oracle-line}
+Three routes selected:
+:::
+
+::: {.oracle-line}
+[Spatial-resolution runs]{.text-highlight-spatial} : chnages with spatial scale
+:::
+
+::: {.oracle-line}
+[Temporal slices test]{.text-highlight-temporal} : change through time
+:::
+
+::: {.oracle-line}
+[Taxonomic aggregation level]{.text-highlight-latent} : change through classification
+:::
+:::
+
+::: {.notes}
+TIME 00:35. Now, we would like to split the analysis along space (from local to continental), time (since the last glacial maximum), and taxonomic resolution (from genus up to abstract functional types).
+:::
+
+<!-- slide:08a -->
+
+## {.slide-terminal .slide-terminal-story .slide-section-break}
+
+<pre class="fragment section-break-ascii text-color-spatial" data-fragment-index="0" aria-label="Spatial scale">
+▄█████ ▄▄▄▄   ▄▄▄ ▄▄▄▄▄▄ ▄▄  ▄▄▄  ▄▄       ▄▄▄▄  ▄▄▄▄  ▄▄▄  ▄▄    ▄▄▄▄▄
+▀▀▀▄▄▄ ██▄█▀ ██▀██  ██   ██ ██▀██ ██      ███▄▄ ██▀▀▀ ██▀██ ██    ██▄▄
+█████▀ ██    ██▀██  ██   ██ ██▀██ ██▄▄▄   ▄▄██▀ ▀████ ██▀██ ██▄▄▄ ██▄▄▄
+</pre>
+
+:::{.notes}
+Now lets focus on the first axis of the analysis, which is spatial scale.
+:::
+
+
 <!-- slide:08 -->
 ## [[Spatial results]{.text-color-spatial}: local to continental]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-results}
+
+```{r}
+#| label: result-slide08-generate
+#| include: false
+#| cache: true
+#| eval: false
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/spatial_units_map_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/spatial_association_tiles_figure.R"
+  )
+)
+```
 
 :::: {.columns}
 ::: {.column width="50%"}
 
-::: {.image-height-600 .fragment .tui-reveal-blur data-fragment-index="2"}
---Map of Northem America with the three spatial units outlined: local, regional, continental--
+::: {.fragment .tui-reveal-blur data-fragment-index="2"}
+
+```{r}
+#| label: result-slide08-map-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_08_spatial_units_map.gif"
+  )
+)
+```
+
 :::
 
 :::
 
 ::: {.column width="50%"}
-::: {.image-height-600 .fragment .tui-reveal-blur data-fragment-index="3"}
---tile plot showing 3 columns (scale), each tile (a unit) is colored by the the amount of association--
+::: {.fragment .tui-reveal-blur data-fragment-index="3"}
+
+```{r}
+#| label: result-slide08-tiles-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_08_spatial_tiles.png"
+  )
+)
+```
+
 :::
 :::
 
 ::::
+
+<!-- 
 
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
@@ -488,13 +930,44 @@ Units are nested from [local]{.text-emphasis-underline-dotted} to [regional]{.te
 :::
 :::
 
+-->
+
 ::: {.notes}
 TIME 00:50. Oracle, start with the spatial axis. Show how the association signal changes across local, regional, and continental units.
 What do we see? Is there a clear change in the association signal across spatial scales? I would expect that local units have stronger association signal than continental units, but the pattern is not showing!
 :::
 
+<!-- slide:9a -->
+
+## {.slide-terminal .slide-terminal-story .slide-section-break}
+
+<pre class="fragment section-break-ascii text-color-latent" data-fragment-index="0" aria-label="Taxonomic scale">
+██████ ▄▄▄  ▄▄ ▄▄  ▄▄▄  ▄▄  ▄▄  ▄▄▄  ▄▄   ▄▄ ▄▄  ▄▄▄▄ 
+  ██  ██▀██ ▀█▄█▀ ██▀██ ███▄██ ██▀██ ██▀▄▀██ ██ ██▀▀▀ 
+  ██  ██▀██ ██ ██ ▀███▀ ██ ▀██ ▀███▀ ██   ██ ██ ▀████ 
+                                                      
+           ▄█████  ▄▄▄▄  ▄▄▄  ▄▄    ▄▄▄▄▄                        
+           ▀▀▀▄▄▄ ██▀▀▀ ██▀██ ██    ██▄▄                         
+           █████▀ ▀████ ██▀██ ██▄▄▄ ██▄▄▄                        
+</pre>
+
+:::{.notes}
+let's add the taxonomic axis to the analysis and see how the association signal changes with taxonomic resolution.
+:::
+
 <!-- slide:09 -->
 ## [How does the [spatial pattern]{.text-color-spatial} change when we add [taxonomic resolution]{.text-color-latent}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
+
+```{r}
+#| label: result-slide09-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/spatial_taxonomic_matrix_figure.R"
+  )
+)
+```
 
 ::: {.oracle-terminal .fragment  data-fragment-index="1"}
 
@@ -513,8 +986,19 @@ Plotting the results
 :::
 
 
-::: {.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-750}
---Expland on the Figure 2 from previous slide. Now 3 columns (spatial scale) and 3 rows (taxonomic scale), each tile (a unit) is colored by the the amount of association--
+::: {.fragment .tui-reveal-blur  data-fragment-index="2"}
+
+```{r}
+#| label: result-slide09-matrix-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_09_spatial_taxonomic_matrix.png"
+  )
+)
+```
+
 :::
 
 ::: {.notes}
@@ -522,8 +1006,50 @@ TIME 00:45. Oracle, how does the spatial pattern change when we add taxonomic re
 Interestingly, the change in taxonomic resolution does not seem to affect the spatial patterns. This is surprising, as we would expect that higher taxonomic resolution would result in smaller association signal in local units and vice versa.
 :::
 
+<!-- slide:10a -->
+
+## {.slide-terminal .slide-terminal-story .slide-section-break}
+
+<pre class="fragment section-break-ascii text-color-temporal" data-fragment-index="0" aria-label="Temporal scale">
+██████ ▄▄▄▄▄ ▄▄   ▄▄ ▄▄▄▄   ▄▄▄  ▄▄▄▄   ▄▄▄  ▄▄    
+  ██   ██▄▄  ██▀▄▀██ ██▄█▀ ██▀██ ██▄█▄ ██▀██ ██    
+  ██   ██▄▄▄ ██   ██ ██    ▀███▀ ██ ██ ██▀██ ██▄▄▄ 
+                                                   
+         ▄█████  ▄▄▄▄  ▄▄▄  ▄▄    ▄▄▄▄▄                     
+         ▀▀▀▄▄▄ ██▀▀▀ ██▀██ ██    ██▄▄                      
+         █████▀ ▀████ ██▀██ ██▄▄▄ ██▄▄▄                     
+</pre>
+
+:::{.notes}
+Finally, let's look at the temporal axis and see how the association signal changes through time since the last glacial maximum.
+:::
+
 <!-- slide:10 -->
 ## [Is the [association signal]{.text-color-latent} stable through [time]{.text-highlight-temporal}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
+
+```{r}
+#| label: result-slide10-generate
+#| include: false
+#| cache: true
+#| eval: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/temporal_density_summary_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/network_diagnostic_pipeline_figure.R"
+  )
+)
+
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/temporal_model_pipeline_figure.R"
+  )
+)
+```
 
 :::: {.columns}
 
@@ -569,18 +1095,53 @@ Proceed? [Y]/[N]?
 
 ::: {.column width="65%"}
 
-:::{.fragment .tui-reveal-blur  data-fragment-index="2" .image-height-300}
--- Distribution of data across the temporal axis, showing the verical time slices--
+:::{.fragment .tui-reveal-blur  data-fragment-index="2"}
+
+```{r}
+#| label: result-slide10-density-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_10_temporal_density.png"
+  )
+)
+```
+
 :::
 
 :::: {.columns .image-height-400}
 
 ::: {.column width="50%" .fragment .tui-reveal-blur  data-fragment-index="3"}
-schematic of bipartite network pipeline, highligting one time slice from figure 1.
+
+```{r}
+#| label: result-slide10-temporal-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_10_temporal_pipeline.png"
+  )
+)
+```
+
+
 :::
 
 ::: {.column width="50%" .fragment .tui-reveal-blur  data-fragment-index="4"}
-schematic of temporal pipeline, showing how each slice is processed independently.
+
+```{r}
+#| label: result-slide10-network-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_10_network_example.png"
+  )
+)
+```
+
+
 :::
 
 ::::
@@ -596,6 +1157,18 @@ Now each time slice receives an independent analyses and diagnostics. We will be
 <!-- slide:11 -->
 ## [Temporal trajectories]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-results}
 
+```{r}
+#| label: result-slide11-generate
+#| include: false
+#| cache: true
+#| eval: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/temporal_trajectory_animation_figure.R"
+  )
+)
+```
+
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
@@ -603,17 +1176,70 @@ Plotting [temporal trajectories]{.text-highlight-temporal} for each [continent]{
 :::
 :::
 
+<br>
+
 :::: {.columns}
-::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="2" .image-height-600}
---NORTH AMERICA--
+::: {.column width="28%" .fragment .tui-reveal-blur  data-fragment-index="2"}
+
+```{r}
+#| label: result-slide11-na-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_11_temporal_trajectory_na.gif"
+  )
+)
+```
+
 :::
 
-::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="3" .image-height-600}
---EUROPE--
+::: {.column width="28%" .fragment .tui-reveal-blur  data-fragment-index="3"}
+
+```{r}
+#| label: result-slide11-eu-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_11_temporal_trajectory_eu.gif"
+  )
+)
+```
+
 :::
 
-::: {.column width="33.33%" .fragment .tui-reveal-blur  data-fragment-index="4" .image-height-600}
---ASIA--
+::: {.column width="28%" .fragment .tui-reveal-blur  data-fragment-index="4"}
+
+```{r}
+#| label: result-slide11-asia-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_11_temporal_trajectory_asia.gif"
+  )
+)
+```
+
+:::
+
+::: {.column width="16%" .fragment data-fragment-index="2"}
+
+<br>
+<br>
+
+```{r}
+#| label: result-slide11-legend-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/slide_11_temporal_trajectory_legend.png"
+  )
+)
+```
+
 :::
 
 ::::
@@ -623,7 +1249,82 @@ TIME 00:50. The network structure and the variance components are changing throu
 :::
 
 <!-- slide:12 -->
+## [Paleo predictions]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
+
+```{r}
+#| label: result-slide12-generate
+#| include: false
+#| cache: true
+#| eval: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/future_predictions_animation.R"
+  )
+)
+```
+
+:::: {.columns}
+
+::: {.column width="50%" .fragment .tui-reveal-scan data-fragment-index="2"}
+
+```{r}
+#| label: result-slide12-fagus-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results",
+    "slide_12_future_predictions_selected_taxon.gif"
+  )
+)
+```
+
+:::
+
+::: {.column width="50%" .fragment .tui-reveal-scan data-fragment-index="3"}
+
+```{r}
+#| label: result-slide12-richness-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results",
+    "slide_12_future_predictions_expected_genus_richness.gif"
+  )
+)
+```
+
+:::
+
+::::
+
+
+::: {.oracle-terminal .fragment data-fragment-index="1"}
+
+::: {.oracle-line}
+Current [SDM]{.text-emphasis-chip} models can reconstruct [past-to-present]{.text-highlight-temporal} biodiversity patterns and prepare the same machinery for future projection experiments
+:::
+:::
+
+::: {.notes}
+TIME 00:40. 
+:::
+
+<!-- slide:13 -->
 ## [Take home messages]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
+
+```{r}
+#| label: result-slide13-generate
+#| include: false
+#| cache: true
+#| eval: false
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/synthesis_summary_panel_figure.R"
+  )
+)
+```
 
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
@@ -637,38 +1338,250 @@ Summarising RESULTS together: [spatial]{.text-color-spatial} patterns, [taxonomi
 
 :::
 
-::: {.fragment data-fragment-index="2"}
-[SPACE]{.text-highlight-spatial}<br>
-Local to continental comparison
+<br>
 
-[TAXONOMY]{.text-highlight-latent}<br>
-Genus / family / functional-type comparison
+```{r}
+#| label: slide-13-data-overview 
+#| echo: false
+#| eval: true
+#| include: false
+#| cache: false
 
-[TIME]{.text-highlight-temporal}<br>
-Past trajectory and network comparison
+read_target_or_null <- function(target_name, store_path) {
+  purrr::possibly(
+    .f = function(name, store) {
+      targets::tar_read_raw(
+        name = name,
+        store = store
+      )
+    },
+    otherwise = NULL
+  )(target_name, store_path)
+}
+
+read_target_meta_or_empty <- function(store_path) {
+  purrr::possibly(
+    .f = function(store) {
+      targets::tar_meta(
+        fields = c("name", "error"),
+        complete_only = FALSE,
+        store = store
+      )
+    },
+    otherwise = tibble::tibble(
+      name = base::character(),
+      error = base::character()
+    )
+  )(store_path)
+}
+
+count_successful_targets <- function(store_path, target_pattern) {
+  data_meta <-
+    read_target_meta_or_empty(store_path = store_path)
+
+  data_meta |>
+    dplyr::filter(
+      stringr::str_detect(.data$name, target_pattern),
+      base::is.na(.data$error)
+    ) |>
+    base::nrow()
+}
+
+format_slide_count <- function(x) {
+  scales::number(
+    x = x,
+    accuracy = 1,
+    big.mark = ","
+  )
+}
+
+path_traits_store <-
+  here::here(
+    "Data",
+    "targets",
+    "traits_reference",
+    "pipeline_traits_reference"
+  )
+
+data_spatial_store_index <-
+  build_spatial_model_store_index(
+    data_source = "paleo",
+    scales = c("continental", "regional", "local"),
+    pipeline_name = "pipeline_paleo_spatial_resolution",
+    path_spatial_grid = here::here("Data", "Input", "spatial_grid.csv")
+  ) |>
+  dplyr::filter(.data$store_exists)
+
+data_continental_scale_ids <-
+  readr::read_csv(
+    file = here::here("Data", "Input", "spatial_grid.csv"),
+    show_col_types = FALSE
+  ) |>
+  dplyr::filter(.data$scale == "continental") |>
+  dplyr::pull(.data$scale_id)
+
+data_temporal_store_index <-
+  tibble::tibble(
+    scale_id = data_continental_scale_ids,
+    store_path = here::here(
+      "Data",
+      "targets",
+      stringr::str_glue("paleo_temporal_{scale_id}"),
+      "pipeline_paleo_temporal"
+    )
+  ) |>
+  dplyr::mutate(
+    store_exists = fs::dir_exists(.data$store_path)
+  ) |>
+  dplyr::filter(.data$store_exists)
+
+vec_continental_store_paths <-
+  base::unique(
+    c(
+      data_spatial_store_index |>
+        dplyr::filter(.data$scale == "continental") |>
+        dplyr::pull(.data$store_path),
+      data_temporal_store_index |>
+        dplyr::pull(.data$store_path)
+    )
+  )
+
+data_continental_community <-
+  vec_continental_store_paths |>
+  purrr::map(
+    .f = ~ read_target_or_null(
+      target_name = "data_community_analysis",
+      store_path = .x
+    )
+  ) |>
+  purrr::compact() |>
+  purrr::list_rbind()
+
+if (
+  base::is.null(data_continental_community) ||
+    base::nrow(data_continental_community) == 0L
+) {
+  cli::cli_abort(
+    "No continental community data were readable from current stores."
+  )
+}
+
+data_traits_classified_corrected <-
+  read_target_or_null(
+    target_name = "data_traits_classified_corrected",
+    store_path = path_traits_store
+  )
+
+if (
+  base::is.null(data_traits_classified_corrected)
+) {
+  cli::cli_abort(
+    "Trait target 'data_traits_classified_corrected' was not readable."
+  )
+}
+
+number_of_spatial_models <-
+  data_spatial_store_index |>
+  dplyr::pull(.data$store_path) |>
+  purrr::map_int(
+    .f = ~ count_successful_targets(
+      store_path = .x,
+      target_pattern = "^model_evaluation_(genus|family|functional_type)$"
+    )
+  ) |>
+  base::sum()
+
+number_of_temporal_models <-
+  data_temporal_store_index |>
+  dplyr::pull(.data$store_path) |>
+  purrr::map_int(
+    .f = ~ count_successful_targets(
+      store_path = .x,
+      target_pattern = "^model_evaluation_timeslice_"
+    )
+  ) |>
+  base::sum()
+
+number_of_functional_types_raw <-
+  data_spatial_store_index |>
+  dplyr::filter(.data$scale == "continental") |>
+  dplyr::pull(.data$store_path) |>
+  purrr::map_int(
+    .f = ~ {
+      data_functional_type_matrix <-
+        read_target_or_null(
+          target_name = "data_community_model_matrix_functional_type",
+          store_path = .x
+        )
+
+      if (
+        base::is.null(data_functional_type_matrix)
+      ) {
+        return(0L)
+      }
+
+      base::ncol(data_functional_type_matrix)
+    }
+  ) |>
+  base::sum()
+
+number_of_cores <-
+  format_slide_count(
+    dplyr::n_distinct(data_continental_community[["dataset_name"]])
+  )
+
+number_of_samples <-
+  data_continental_community |>
+  dplyr::distinct(.data$dataset_name, .data$age) |>
+  base::nrow() |>
+  format_slide_count()
+
+number_of_taxa <-
+  format_slide_count(
+    dplyr::n_distinct(data_continental_community[["taxon"]])
+  )
+
+number_trait_values <-
+  format_slide_count(base::nrow(data_traits_classified_corrected))
+
+number_of_models <-
+  format_slide_count(
+    number_of_spatial_models + number_of_temporal_models
+  )
+
+number_of_functional_types <-
+  format_slide_count(number_of_functional_types_raw)
+```
+
+::: {.fragment data-fragment-index="2" .text-emphasis-box}
+Palaecological data [CAN]{.text-emphasis-underline .text-emphasis-chip} be used to [reconstruct]{.text-emphasis-underline} [past]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and bring insights into our understanding of ecological processes.
+:::
+
+::: {.fragment data-fragment-index="3" .text-emphasis-box}
+I have used [`r number_of_cores` cores]{.text-bold .text-color-spatial} to fit [`r number_of_models` models]{.text-bold .text-emphasis-undeline-double .text-color-red}, which included [`r number_of_samples` spatio-temporal communities]{.text-bold .text-emphasis-box}, [`r number_of_taxa` taxa]{.text-bold .text-color-latent}, and [`r number_trait_values` trait values]{.text-bold .text-color-latent} translated into [`r number_of_functional_types` functional types]{.text-bold .text-color-latent}.
+:::
+
+::: {.fragment data-fragment-index="4" .text-emphasis-box}
+[SPACE]{.text-highlight-spatial}: 
+The association signal is [NOT]{.text-emphasis-underline .text-highlight-warning} scale-dependent and [NOT]{.text-emphasis-underline .text-highlight-warning} stronger at [local]{.text-emphasis-underline-dotted} than at [continental]{.text-emphasis-underline-dotted} scales
+:::
+
+::: {.fragment data-fragment-index="5" .text-emphasis-box}  
+[TAXONOMY]{.text-highlight-latent}: 
+Increasing [taxonomic resolution]{.text-emphasis-underline-dotted .text-color-latent} [DOES]{.text-emphasis-underline .text-emphasis-chip} have impact on [spatial pattern]{.text-color-spatial} of the association signal, but [NOT]{.text-emphasis-underline .text-highlight-warning} in the [expected direction]{.text-emphasis-underline-dotted} 
+:::
+
+::: {.fragment data-fragment-index="6" .text-emphasis-box}
+[TIME]{.text-highlight-temporal}: 
+Co-occurrence structure [ARE]{.text-emphasis-underline .text-emphasis-chip} responding to major environmental changes through time, but the [association signal]{.text-emphasis-underline-dotted} [IS]{.text-emphasis-underline .text-emphasis-chip} surpraisingly [stable]{.text-emphasis-underline-dotted} through time.
+:::
+
+::: {.fragment data-fragment-index="7" .text-emphasis-box}
+In addtion to current contemporary single-species diversity models, [palaeocological data]{.text-highlight-temporal} can be used to [predict]{.text-emphasis-underline .text-color-red} [future]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and support [conservation efforts]{.text-emphasis-underline-double}.
 :::
 
 ::: {.notes}
 TIME 00:45. TBD
-:::
-
-<!-- slide:13 -->
-## [Future predictions]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
-
-::: {.fragment .tui-reveal-scan data-fragment-index="2" .image-height-600}
---gif of European richness change from LGM to present--
-:::
-
-
-::: {.oracle-terminal .fragment data-fragment-index="1"}
-
-::: {.oracle-line}
-Current [SDM]{.text-emphasis-chip} models can be used to [futher predict]{.text-emphasis-caps .text-emphasis-underline-thick} the biodiversity patterns under the [future]{.text-highlight-temporal} [climate change]{.text-emphasis-underline-dotted} scenarios
-:::
-:::
-
-::: {.notes}
-TIME 00:40. 
 :::
 
 <!-- slide:14 -->
@@ -717,83 +1630,83 @@ TIME 00:20.
 <!-- slide:15 -->
 ## Presenter {.slide-title .screen-corners .screen-header .screen-prompt}
 
-<br>
-
-:::: {.columns}
-
-::: {.column width="35%"}
-
-::: {.image-height-400}
---head photo--
-:::
-
-::: {.text-position-center}
-[Hi!]{.text-color-amber} I am [Ondřej Mottl]{.text-color-purple}
-:::
-
-:::
-
-::: {.column width="1%"}
-
-:::
-
-::: {.column width="64%" .text-position-center}
-
-Assistant Professor at 🏛️[Charles University](https://cuni.cz/UK-1.html), Prague, 🇨🇿
-
-<br>
-
-Interested in [macroecology]{.text-emphasis-caps .text-emphasis-chip .text-color-cyan}, [palaeoecology]{.text-emphasis-caps .text-emphasis-chip .text-color-amber}, [biodiversity]{.text-emphasis-caps .text-emphasis-chip .text-color-purple}, and [data science]{.text-emphasis-caps .text-emphasis-chip .text-color-red}
-
-<br>
-
-Head of the 🧑‍💻[Laboratory of Quantitative Ecology](https://ondrejmottl.github.io/lab/about_the_lab.html)
-
-:::
-
-::::
 
 :::: {.columns}
 
 ::: {.column width="5%"}
 :::
 
-::: {.column width="45%" .text-size-body}
+::: {.column width="35%"}
+
+::: {.image-height-350 .image-position-center}
+![](../../Materials/About/head_photo.png){.image-theme-bg-dark top=0 left=100}
+:::
+
+::: {.text-position-center .text-size-heading}
+[Hi!]{.text-color-amber} I am [Ondřej Mottl]{.text-color-purple .text-bold}
+:::
 
 * 🌐 [ondrejmottl.github.io](https://ondrejmottl.github.io/)
 * 📧 [ondrej.mottl(at)natur.cuni.cz](mailto:ondrej.mottl(at)natur.cuni.cz)
 * 🦋 [ondrejmottl.bsky.social](https://bsky.app/profile/ondrejmottl.bsky.social)
-* 🐱 [github.com/OndrejMottl](https://github.com/OndrejMottl)
-* 🆔 [orcid.org/0000-0002-9796-5081](https://orcid.org/0000-0002-9796-5081)
-:::
-
-::: {.column width="9%"}
-:::
-
-
-::: {.column width="20%" .image-height-300}
-
---LOQE logo and QR code--
 
 :::
 
-::: {.column width="21%"}
+::: {.column width="1%"}
+:::
+
+::: {.column width="59%" .text-position-center .text-size-body-large}
+
+<br>
+
+Assistant Professor at 🏛️[Charles University](https://cuni.cz/UK-1.html), Prague, 🇨🇿
+
+<br>
+
+Head of the 🧑‍💻[Laboratory of Quantitative Ecology](https://ondrejmottl.github.io/lab/about_the_lab.html)
+
+<br>
+
+Interested in [macroecology]{.text-emphasis-caps .text-emphasis-chip .text-color-cyan}, [palaeoecology]{.text-emphasis-caps .text-emphasis-chip .text-color-amber}, [biodiversity]{.text-emphasis-caps .text-emphasis-chip .text-color-purple}, and [data science]{.text-emphasis-caps .text-emphasis-chip .text-color-red}
+
+<br>
+<br>
+
+:::: {.columns}
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="40%"}
+
+![](../../Materials/Logos/loqe_logo_nobg.jpg){.image-display-block .image-theme-bg-dark top=0 left=50 width="250" height="250"}
+
+:::
+
+::: {.column width="40%"}
+```{r}
+#| label: QR code https://bit.ly/ondrej_mottl 
+generate_qr_code(
+  url = "https://bit.ly/ondrej_mottl",
+  name = "personal_web",
+  background_color = vec_oracle_palette[["background"]],
+  foreground_color = vec_oracle_palette[["phosphor"]],
+  plot = FALSE
+)
+```
+
+![](figures/qrcodes/qr_personal_web.svg){.image-display-block top=0 right=0 width="250" height="250"}
+
+:::
+
+::: {.column width="10%"}
 :::
 
 ::::
 
-```{r}
-#| label: QR code https://bit.ly/ondrej_mottl 
-# generate_qr_code(
-#   url = "https://bit.ly/ondrej_mottl",
-#   name = "personal_web",
-#   foreground_color = "black",
-#   background_color = "white",
-#   plot = FALSE
-# )
-```
+:::
 
-![](){.absolute top=0 right=0 width="120" height="120"}
+::::
 
 
 ::: {.notes}
@@ -808,31 +1721,56 @@ TIME 00:20.
 [This presentation is publicly available on BIODYNAMICS project websites]{.text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple .text-emphasis-box .text-position-center}
 
 :::: {.columns}
-::: {.column width="48%"}
 
-<br>
-<br>
-<br>
-<br>
-
-::: {.text-letter-spacing-status .text-uppercase .text-bold .r-fit-text}
-[bit.ly/biodynamics](https://bit.ly/biodynamics)
+::: {.column width="25%"}
 :::
 
-
+::: {.column width="25%"}
+![](../../Materials/Logos/BIODYNAMICS.png){.image-theme-bg-dark height="280" width="280" .image-position-center}
 :::
 
-::: {.column width="5%"}
+::: {.column width="25%"}
 
+```{r}
+#| label: QR code https://bit.ly/BIODYNAMICS_project 
+generate_qr_code(
+  url = "https://bit.ly/BIODYNAMICS_project",
+  name = "biodynamics_web",
+  background_color = vec_oracle_palette[["background"]],
+  foreground_color = vec_oracle_palette[["phosphor"]],
+  plot = FALSE
+)
+```
+
+![](figures/qrcodes/qr_biodynamics_web.svg){.image-display-block width="300" height="300" .image-position-center}
 :::
 
-::: {.column width="47%" .image-height-300}
-QR CODE
+::: {.column width="25%"}
 :::
+
 ::::
 
+:::: {.columns}
+::: {.column width="30%"}
+:::
+
+::: {.column width="60%" .image-position-center}
+
+::: {.text-letter-spacing-status .text-bold .r-fit-text}
+[bit.ly/BIODYNAMICS_project](https://bit.ly/BIODYNAMICS_project)
+:::
+
+:::
+
+::: {.column width="30%"}
+:::
+
+::::
+
+<br>
+
 ::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-position-center}
-MIT LICENSE
+MIT LICENSE | Supported by [Czech Science Foundation](https://gacr.cz/en/) grant GN23-06386I
 :::
 
 ::: {.notes}
@@ -840,9 +1778,7 @@ TIME 00:25. This presentation is publicly available. The rendered presentation a
 :::
 
 <!-- slide:17 -->
-## BIODYNAMICS: ECOLOGICAL BIOSURVEILLANCE SYSTEM {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
-
-<!-- slide:00 -->
+## BIODYNAMICS PROJECT {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
 
 ::: {.planet-scanlines}
 :::
@@ -855,10 +1791,15 @@ TIME 00:25. This presentation is publicly available. The rendered presentation a
 [Exploring biotic signals in vegetation assembly from the LGM to the Anthropocene]{.display-block .text-weight-heading .text-line-height-title .margin-bottom-large .text-uppercase .text-size-heading-large .text-color-green .text-shadow .text-line-under .padding-bottom-large}
 
 <br>
+<br>
 
-[Ondrej Mottl]{.text-size-title .text-color-purple .text-bold }
+[Ondrej Mottl]{.text-size-title .text-color-purple}
 
 [IAVS 2026 || 22-26 June 2026 || Gijón, Spain]{.text-size-title-small .text-color-amber}
+
+<br>
+<br>
+<br>
 
 :::
 

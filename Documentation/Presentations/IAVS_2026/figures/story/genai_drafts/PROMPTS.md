@@ -536,6 +536,7 @@ Avoid: changing the approved temporal trace into a different chart, spatial wire
 ```
 
 Final asset was cropped and resized non-destructively to `480 x 400 px` after generation.
+The committed `analysis_axes_triptych_motif_v2_temporal_v1.png` was later deterministically recolored from amber to phosphor `#B8FF6D` to match the temporal semantic rule in `VISUAL_GUIDE.md`.
 
 ## Prompt 30: Standalone Taxonomic Analysis Axis
 

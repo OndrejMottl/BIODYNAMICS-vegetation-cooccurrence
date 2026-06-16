@@ -3,7 +3,7 @@ name: plan-large-changes
 description: >-
   Use when: planning large or complex changes to the codebase before implementation begins.
   Interviews the user with focused questions, generates a structured implementation plan,
-  saves it to Data/Temp/plan_<topic>.md for other agents to pick up, and optionally
+   saves it to Documentation/Implementation_plans/plan_<topic>.md for other agents to pick up, and optionally
   produces a GitHub Issues scaffold for long-running projects.
 argument-hint: >-
   Describe the change or feature you want to plan (e.g. "refactor the trait
@@ -35,7 +35,8 @@ Additional rules:
 - For files with multiple independent hunks, present them as separate suggestions
    when practical so the user can approve selectively.
 - The only default write action allowed without a second confirmation is Step 7
-   plan output creation in `Data/Temp/plan_<slug>_<YYYY-MM-DD>.md`, because file
+   plan output creation in
+   `Documentation/Implementation_plans/plan_<slug>_<YYYY-MM-DD>.md`, because file
    creation is the primary output of this planner.
 
 ---
@@ -380,7 +381,7 @@ Derive a short slug from the topic (lowercase, hyphens, no spaces).
 Save the plan to:
 
 ```
-Data/Temp/plan_<slug>_<YYYY-MM-DD>.md
+Documentation/Implementation_plans/plan_<slug>_<YYYY-MM-DD>.md
 ```
 
 Use `create_file` (or the write tool) to save it. Confirm the file path to the user.

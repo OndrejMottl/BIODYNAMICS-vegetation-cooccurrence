@@ -99,7 +99,7 @@ data_continents <-
     config_name = base::paste0("project_paleo_temporal_", scale_id),
     store_path = here::here(
       base::paste0(
-        "Data/targets/", config_name, "/pipeline_paleo_temporal/"
+        "Data/targets/paleo_temporal_", scale_id, "/pipeline_paleo_temporal/"
       )
     ),
     store_exists = fs::dir_exists(store_path),

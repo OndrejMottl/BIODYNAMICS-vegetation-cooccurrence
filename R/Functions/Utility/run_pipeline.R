@@ -214,38 +214,68 @@ run_pipeline <- function(
             tryCatch(
               suppressWarnings(
                 targets::tar_meta(
-                  fields = tidyselect::all_of("name"),
+                  fields = tidyselect::any_of(
+                    base::c("name", "error")
+                  ),
                   store = sel_store_path,
                   complete_only = FALSE
                 )
               ),
               error = function(err) {
                 tibble::tibble(
-                  name = base::character()
+                  name = base::character(),
+                  error = base::character()
                 )
               }
             )
 
-          vec_prebuild_targets <-
-            data_prebuild_target_meta[["name"]][
-              stringr::str_detect(
-                string = data_prebuild_target_meta[["name"]],
-                pattern = stringr::str_c(
-                  "^(",
-                  "data_community_proportions_shared",
-                  "|data_age_uncertainty_shared",
-                  "|data_community_interpolated_dataset",
-                  "|data_community_interpolated",
-                  ")"
-                )
+          if (
+            !"error" %in% base::colnames(data_prebuild_target_meta)
+          ) {
+            data_prebuild_target_meta[["error"]] <- NA_character_
+          }
+
+          vec_prebuild_target_name <- data_prebuild_target_meta[["name"]]
+          vec_prebuild_error <- data_prebuild_target_meta[["error"]]
+
+          flag_prebuild_interpolation_target <-
+            stringr::str_detect(
+              string = vec_prebuild_target_name,
+              pattern = stringr::str_c(
+                "^(",
+                "data_community_proportions_shared",
+                "|data_age_uncertainty_shared",
+                "|data_community_interpolated_dataset",
+                "|data_community_interpolated",
+                ")"
               )
+            )
+
+          flag_prebuild_target_errored <-
+            !base::is.na(vec_prebuild_error) &
+            base::nzchar(vec_prebuild_error)
+
+          vec_errored_prebuild_targets <-
+            vec_prebuild_target_name[
+              flag_prebuild_interpolation_target &
+                flag_prebuild_target_errored
             ]
 
           if (
-            base::length(vec_prebuild_targets) > 0L
+            base::length(vec_errored_prebuild_targets) > 0L
           ) {
+            vec_targets_to_invalidate <-
+              base::unique(
+                base::c(
+                  vec_errored_prebuild_targets,
+                  "data_community_interpolated"
+                )
+              )
+
             targets::tar_invalidate(
-              names = tidyselect::any_of(vec_prebuild_targets),
+              names = tidyselect::any_of(
+                vec_targets_to_invalidate
+              ),
               store = sel_store_path
             )
           }
