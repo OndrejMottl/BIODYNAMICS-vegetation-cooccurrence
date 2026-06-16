@@ -256,6 +256,82 @@
   --slide-prefix: "SYSTEM // ";
 }
 
+.reveal .slides section.slide-terminal.slide-section-break {
+  display: block !important;
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii {
+  --section-break-ascii-color: var(--oracle-palette-phosphor);
+  --section-break-ascii-glow: rgba(184, 255, 109, 0.58);
+  --section-break-ascii-secondary-glow: rgba(51, 201, 213, 0.20);
+  background: transparent !important;
+  border: 0;
+  box-shadow: none;
+  color: var(--section-break-ascii-color);
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: clamp(1.65rem, 3.1vw, 2.2rem) !important;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 0.92 !important;
+  left: 50%;
+  margin: 0;
+  max-width: 100%;
+  overflow: visible;
+  padding: 0;
+  position: absolute;
+  text-align: left;
+  text-shadow:
+    0 0 8px var(--section-break-ascii-glow),
+    0 0 18px var(--section-break-ascii-secondary-glow);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: pre;
+  width: max-content;
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii code {
+  background: transparent !important;
+  color: inherit;
+  font-family: inherit;
+  line-height: inherit !important;
+  padding: 0;
+  text-shadow: inherit;
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-green {
+  --section-break-ascii-color: var(--oracle-palette-phosphor);
+  --section-break-ascii-glow: rgba(184, 255, 109, 0.58);
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-amber,
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-abiotic {
+  --section-break-ascii-color: var(--oracle-palette-amber);
+  --section-break-ascii-glow: rgba(226, 200, 71, 0.58);
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-cyan,
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-spatial {
+  --section-break-ascii-color: var(--oracle-palette-cyan);
+  --section-break-ascii-glow: rgba(51, 201, 213, 0.58);
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-purple,
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-latent {
+  --section-break-ascii-color: var(--oracle-palette-purple);
+  --section-break-ascii-glow: rgba(199, 146, 234, 0.58);
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-red,
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-warning {
+  --section-break-ascii-color: var(--oracle-palette-red);
+  --section-break-ascii-glow: rgba(255, 123, 114, 0.58);
+}
+
+.reveal .slides section.slide-terminal .section-break-ascii.text-color-muted {
+  --section-break-ascii-color: var(--oracle-palette-muted);
+  --section-break-ascii-glow: rgba(117, 168, 90, 0.58);
+}
+
 .slide-bg-figure {
   --slide-bg-figure-image: none;
   --slide-bg-figure-position: center;
@@ -293,6 +369,27 @@
 .slide-terminal-question {
   --slide-accent: var(--oracle-palette-cyan);
   --slide-prefix: "QUERY // ";
+}
+
+.reveal .slides section.slide-terminal-question {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding-left: 4vw;
+  padding-right: 4vw;
+}
+
+.reveal .slides section.slide-terminal-question > div {
+  width: 100%;
+}
+
+.reveal .slides section.slide-terminal-question .text-size-heading-large {
+  display: block;
+  font-size: clamp(2rem, 4vw, 5rem) !important;
+  line-height: 0.9 !important;
+  max-width: none;
+  width: 100%;
+  text-wrap: balance;
 }
 
 .slide-terminal-methods {

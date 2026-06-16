@@ -123,7 +123,7 @@ ANALYTICAL  OUTPUTS: **REAL**
 ::::
 
 ::: {.notes}
-TIME 00:25. I will ask the audience to close their eyes and imagine there are on a space ship and their goal is to examine the vegtation patterns of this Planet called "Earth". We will use of the spaceship computer called ORACLE to do so. All the data, analysis, and results are real. The computer is not real and only serves as a narrative device.
+TIME 00:25. Hello and welcome! I would like to try something dirrerent. It think that science should be serious but also a little bit fun. So I decided to do something different. I will ask the audience to close their eyes and imagine there are on a space ship and their goal is to examine the vegtation patterns of this Planet called "Earth". We will use of the spaceship computer called ORACLE to do so. All the data, analysis, and results are real. The computer is not real and only serves as a narrative device.
 :::
 
 <!-- slide:01 -->
@@ -182,7 +182,26 @@ Proceed? [Y]/[N]?
 ::::
 
 ::: {.notes}
-TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mottl, the chief researcher at this space station. We have 12 minutes to explore the vegetation patterns of a alian planet called 'Earth' using the ORACLE system. Let's get started. ORACLE, please boot up and introduce yourself.
+TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mottl, the chief researcher at this space station. We have 12 minutes to explore the vegetation patterns of a alian planet called 'Earth' using the Observational Runtime for Analysis of Community-Level Ecology (ORACLE) system. Let's get started.
+:::
+
+<!-- slide:02a -->
+## {.slide-terminal .slide-terminal-question}
+
+<br>
+<br>
+<br>
+
+::: {.text-size-heading-large .text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-emphasis-box .text-position-center}
+
+[Is there a [scale dependence]{.text-bold .text-color-spatial .text-emphasis-underline} in the amount of [unexplained variation]{.text-emphasis-underline-dotted} (potentially due to [biotic interactions]{.text-color-latent}) structuring vegetation since [LGM]{.text-emphasis-underline-dotted}?]{.text-size-heading-large .fragment}
+
+:::
+
+:::{.notes}
+The main questons of this talk is: Is there a scale dependence in the amount of unexplained variation structuring vegetation since the Last Glacial Maximum (LGM)?
+Me, as a scientist, I am interested in understanding the processes that structure vegetation patterns on Earth. We know that climate and spatial factors play a big role, but I am particularly interested in the unexplained variation, which could potentially be due to biotic interactions. This interaction can take shape of shared polinator or herbivore pressure, or direct facilitation or competition between plants.
+We would assume that the amount of unexplained variation would change with scale, for example, biotic interactions can be more likely detected at local scales than at continental scales.
 :::
 
 <!-- slide:02 -->
@@ -823,6 +842,21 @@ Three routes selected:
 TIME 00:35. Now, we would like to split the analysis along space (from local to continental), time (since the last glacial maximum), and taxonomic resolution (from genus up to abstract functional types).
 :::
 
+<!-- slide:08a -->
+
+## {.slide-terminal .slide-terminal-story .slide-section-break}
+
+<pre class="fragment section-break-ascii text-color-spatial" data-fragment-index="0" aria-label="Spatial scale">
+▄█████ ▄▄▄▄   ▄▄▄ ▄▄▄▄▄▄ ▄▄  ▄▄▄  ▄▄       ▄▄▄▄  ▄▄▄▄  ▄▄▄  ▄▄    ▄▄▄▄▄
+▀▀▀▄▄▄ ██▄█▀ ██▀██  ██   ██ ██▀██ ██      ███▄▄ ██▀▀▀ ██▀██ ██    ██▄▄
+█████▀ ██    ██▀██  ██   ██ ██▀██ ██▄▄▄   ▄▄██▀ ▀████ ██▀██ ██▄▄▄ ██▄▄▄
+</pre>
+
+:::{.notes}
+Now lets focus on the first axis of the analysis, which is spatial scale.
+:::
+
+
 <!-- slide:08 -->
 ## [[Spatial results]{.text-color-spatial}: local to continental]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-results}
 
@@ -903,6 +937,24 @@ TIME 00:50. Oracle, start with the spatial axis. Show how the association signal
 What do we see? Is there a clear change in the association signal across spatial scales? I would expect that local units have stronger association signal than continental units, but the pattern is not showing!
 :::
 
+<!-- slide:9a -->
+
+## {.slide-terminal .slide-terminal-story .slide-section-break}
+
+<pre class="fragment section-break-ascii text-color-latent" data-fragment-index="0" aria-label="Taxonomic scale">
+██████ ▄▄▄  ▄▄ ▄▄  ▄▄▄  ▄▄  ▄▄  ▄▄▄  ▄▄   ▄▄ ▄▄  ▄▄▄▄ 
+  ██  ██▀██ ▀█▄█▀ ██▀██ ███▄██ ██▀██ ██▀▄▀██ ██ ██▀▀▀ 
+  ██  ██▀██ ██ ██ ▀███▀ ██ ▀██ ▀███▀ ██   ██ ██ ▀████ 
+                                                      
+           ▄█████  ▄▄▄▄  ▄▄▄  ▄▄    ▄▄▄▄▄                        
+           ▀▀▀▄▄▄ ██▀▀▀ ██▀██ ██    ██▄▄                         
+           █████▀ ▀████ ██▀██ ██▄▄▄ ██▄▄▄                        
+</pre>
+
+:::{.notes}
+let's add the taxonomic axis to the analysis and see how the association signal changes with taxonomic resolution.
+:::
+
 <!-- slide:09 -->
 ## [How does the [spatial pattern]{.text-color-spatial} change when we add [taxonomic resolution]{.text-color-latent}?]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-question}
 
@@ -952,6 +1004,24 @@ knitr::include_graphics(
 ::: {.notes}
 TIME 00:45. Oracle, how does the spatial pattern change when we add taxonomic resolution? We assume that higher higher taxonomic resolution will result in smaller association signal in local units and vice versa.
 Interestingly, the change in taxonomic resolution does not seem to affect the spatial patterns. This is surprising, as we would expect that higher taxonomic resolution would result in smaller association signal in local units and vice versa.
+:::
+
+<!-- slide:10a -->
+
+## {.slide-terminal .slide-terminal-story .slide-section-break}
+
+<pre class="fragment section-break-ascii text-color-temporal" data-fragment-index="0" aria-label="Temporal scale">
+██████ ▄▄▄▄▄ ▄▄   ▄▄ ▄▄▄▄   ▄▄▄  ▄▄▄▄   ▄▄▄  ▄▄    
+  ██   ██▄▄  ██▀▄▀██ ██▄█▀ ██▀██ ██▄█▄ ██▀██ ██    
+  ██   ██▄▄▄ ██   ██ ██    ▀███▀ ██ ██ ██▀██ ██▄▄▄ 
+                                                   
+         ▄█████  ▄▄▄▄  ▄▄▄  ▄▄    ▄▄▄▄▄                     
+         ▀▀▀▄▄▄ ██▀▀▀ ██▀██ ██    ██▄▄                      
+         █████▀ ▀████ ██▀██ ██▄▄▄ ██▄▄▄                     
+</pre>
+
+:::{.notes}
+Finally, let's look at the temporal axis and see how the association signal changes through time since the last glacial maximum.
 :::
 
 <!-- slide:10 -->
@@ -1484,7 +1554,7 @@ generate_qr_code(
 <br>
 
 ::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-position-center}
-MIT LICENSE
+MIT LICENSE | Supported by [Czech Science Foundation](https://gacr.cz/en/) grant GN23-06386I
 :::
 
 ::: {.notes}
