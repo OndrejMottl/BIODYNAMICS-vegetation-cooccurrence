@@ -391,13 +391,6 @@ data_world <-
 # 3. Build frames -----
 #----------------------------------------------------------#
 
-format_age_label <- function(age) {
-  res_label <-
-    stringr::str_glue("{base::sprintf('%.1f', age / 1000)} ka BP")
-
-  return(res_label)
-}
-
 build_prediction_frame <- function(
     data_frame,
     age_value,

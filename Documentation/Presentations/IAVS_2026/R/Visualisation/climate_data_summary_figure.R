@@ -158,38 +158,6 @@ colour_model <-
   vec_oracle_palette[["purple"]]
 
 
-node_box <- function(
-  id,
-  label,
-  x,
-  y,
-  width,
-  height,
-  colour,
-  fill = vec_oracle_palette[["surface"]],
-  text_colour = vec_oracle_palette[["text"]],
-  text_size = 2.9,
-  fontface = "bold"
-) {
-  tibble::tibble(
-    id = id,
-    label = label,
-    x = x,
-    y = y,
-    width = width,
-    height = height,
-    xmin = x - width / 2,
-    xmax = x + width / 2,
-    ymin = y - height / 2,
-    ymax = y + height / 2,
-    colour = colour,
-    fill = fill,
-    text_colour = text_colour,
-    text_size = text_size,
-    fontface = fontface
-  )
-}
-
 x_lims <- c(0, 900)
 y_lims <- c(0, 850)
 
