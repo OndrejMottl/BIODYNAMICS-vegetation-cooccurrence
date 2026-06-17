@@ -2,7 +2,7 @@
 #' @description Maps continuous data to an ORACLE gradient using
 #'   `ggplot2::scale_fill_gradientn()`.
 #' @param values Named character vector of gradient stop colours. Defaults
-#'   to `oracle_continuous_palette()`.
+#'   to `get_oracle_continuous_palette()`.
 #' @param ... Additional arguments passed to
 #'   `ggplot2::scale_fill_gradientn()`.
 #' @return A `ggplot2` scale object.
@@ -13,7 +13,7 @@
 #'   scale_fill_oracle_continuous()
 #' }
 scale_fill_oracle_continuous <- function(
-    values = oracle_continuous_palette(),
+    values = get_oracle_continuous_palette(),
     ...) {
   return(
     ggplot2::scale_fill_gradientn(colours = base::unname(values), ...)

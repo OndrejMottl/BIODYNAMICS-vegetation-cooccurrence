@@ -9,9 +9,9 @@
 #' \dontrun{
 #' ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
 #'   ggplot2::geom_point() +
-#'   theme_oracle()
+#'   create_oracle_theme()
 #' }
-theme_oracle <- function(base_size = 18, base_family = NULL) {
+create_oracle_theme <- function(base_size = 18, base_family = NULL) {
   assertthat::assert_that(
     base::is.numeric(base_size),
     base::length(base_size) == 1L,
@@ -28,7 +28,7 @@ theme_oracle <- function(base_size = 18, base_family = NULL) {
   }
 
   vec_palette <-
-    oracle_palette_values()
+    get_oracle_palette_values()
 
   if (
     base::is.null(base_family)

@@ -1,5 +1,5 @@
 testthat::test_that(
-  "summarize_decomposition_routes() groups shares by route",
+  "summarise_decomposition_routes() groups shares by route",
   {
     data_metrics <-
       tibble::tibble(
@@ -15,7 +15,7 @@ testthat::test_that(
       )
 
     res <-
-      summarize_decomposition_routes(variant_metrics = data_metrics)
+      summarise_decomposition_routes(variant_metrics = data_metrics)
 
     data_fold_shares <-
       res |>
@@ -41,7 +41,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "summarize_decomposition_routes() excludes failed variants",
+  "summarise_decomposition_routes() excludes failed variants",
   {
     data_metrics <-
       tibble::tibble(
@@ -54,7 +54,7 @@ testthat::test_that(
       )
 
     res <-
-      summarize_decomposition_routes(variant_metrics = data_metrics)
+      summarise_decomposition_routes(variant_metrics = data_metrics)
 
     data_fold_shares <-
       res |>

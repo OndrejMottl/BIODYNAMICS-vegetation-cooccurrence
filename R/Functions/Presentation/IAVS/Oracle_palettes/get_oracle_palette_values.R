@@ -5,10 +5,10 @@
 #' @return A named character vector of colour values.
 #' @examples
 #' \dontrun{
-#' oracle_palette_values()
-#' oracle_palette_values(base::c("phosphor", "cyan"))
+#' get_oracle_palette_values()
+#' get_oracle_palette_values(base::c("phosphor", "cyan"))
 #' }
-oracle_palette_values <- function(names = NULL) {
+get_oracle_palette_values <- function(names = NULL) {
   if (
     !base::exists("load_design_config", mode = "function")
   ) {

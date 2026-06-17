@@ -20,8 +20,8 @@ Keep top-level scientific domains, but add responsibility subfolders. Proposed s
 
 - `DataAccess/VegVault`: root VegVault helpers such as extraction and plans.
 - `Community`: `Ingest`, `Taxa`, `Classification`, `QualityControl`, `Filtering`, `Transformation`, `Metrics`, `ModernData`.
-- `Modelling`: `FitInputs`, `Fitting`, `Diagnostics`, `Evaluation`, `VariancePartitioning`, `SpatialEffects`, `Tuning`, `DecompositionDiagnostics`, `Legacy`.
-- `Utility`: only cross-cutting helpers, split into `Config`, `PathsAndStores`, `Parsing`, `Coordinates`, `Pipeline`, `Validation`, `Legacy`.
+- `Modelling`: `FitInputs`, `Fitting`, `Diagnostics`, `Evaluation`, `VariancePartitioning`, `SpatialEffects`, `Tuning`, `DecompositionDiagnostics`, `_legacy`.
+- `Utility`: only cross-cutting helpers, split into `Config`, `PathsAndStores`, `Parsing`, `Coordinates`, `Pipeline`, `Validation`, `_legacy`.
 - `Visualisation`: `DataPreparation`, `VarianceComponents`, `SpatialVariance`, `Networks`, `LegendsAndColours`, `Maps`.
 - `Presentation/IAVS`: `DesignTokens`, `PathsAndConfig`, `OraclePalettes`, `OracleScales`, `OracleTheme`, `PanelsAndAnimation`, `Formatting`, `Targets`, `Animations`.
 - Apply similar small splits to `Abiotic`, `Time`, `Traits`, and `Prediction`.
@@ -53,7 +53,7 @@ Initial candidate set:
   - `oracle_continuous_palette()` -> `get_oracle_continuous_palette()`
   - `oracle_discrete_palette()` -> `get_oracle_discrete_palette()`
   - `oracle_palette_values()` -> `get_oracle_palette_values()`
-  - `theme_oracle()` -> `create_oracle_theme()`
+  - `create_oracle_theme()` -> `create_oracle_theme()`
   - `base_terminal_plot()` -> `build_base_terminal_plot()`
 - Keep `scale_color_*` and `scale_colour_*` aliases as intentional ggplot-style API compatibility unless tests show unused duplicates can be safely removed.
 

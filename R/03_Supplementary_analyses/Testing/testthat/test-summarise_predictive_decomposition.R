@@ -1,5 +1,5 @@
 testthat::test_that(
-  "summarize_predictive_decomposition() summarizes shares",
+  "summarise_predictive_decomposition() summarizes shares",
   {
     data_shares <-
       tibble::tibble(
@@ -14,7 +14,7 @@ testthat::test_that(
       )
 
     res <-
-      summarize_predictive_decomposition(data_shares = data_shares)
+      summarise_predictive_decomposition(data_shares = data_shares)
 
     vec_median <-
       res |>
@@ -30,7 +30,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "summarize_predictive_decomposition() handles undefined shares",
+  "summarise_predictive_decomposition() handles undefined shares",
   {
     data_shares <-
       tibble::tibble(
@@ -40,7 +40,7 @@ testthat::test_that(
       )
 
     res <-
-      summarize_predictive_decomposition(data_shares = data_shares)
+      summarise_predictive_decomposition(data_shares = data_shares)
 
     testthat::expect_true(base::is.na(res[["share_median"]][[1L]]))
     testthat::expect_equal(res[["n_defined"]][[1L]], 0L)

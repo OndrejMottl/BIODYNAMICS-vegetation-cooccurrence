@@ -30,7 +30,7 @@ data_covr <-
     ) %>%
       purrr::discard(
         # Exclude outdated functions (e.g. HMSC-based)
-        ~ stringr::str_detect(.x, "_outdated|Legacy")
+        ~ stringr::str_detect(.x, "_outdated|_legacy")
       ),
     test_files = list.files(
       here::here(
@@ -41,7 +41,7 @@ data_covr <-
     ) %>%
       purrr::discard(
         # Exclude outdated tests (e.g. HMSC-based)
-        ~ stringr::str_detect(.x, "_outdated|Legacy")
+        ~ stringr::str_detect(.x, "_outdated|_legacy")
       )
   )
 

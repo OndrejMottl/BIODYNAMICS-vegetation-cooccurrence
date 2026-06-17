@@ -8,8 +8,8 @@ Start Phase 5 by stabilizing the token-driven plotting framework that already ex
 
 This phase blocks all figure scripts.
 
-1. Audit the current dynamic token chain used by ORACLE visuals in [Documentation/Presentations/IAVS_2026/design_config.json](Documentation/Presentations/IAVS_2026/design_config.json), [Documentation/Presentations/IAVS_2026/R/pre_render.R](Documentation/Presentations/IAVS_2026/R/pre_render.R), [R/03_Supplementary_analyses/Presentation/load_design_config.R](R/03_Supplementary_analyses/Presentation/load_design_config.R), [R/Functions/Presentation/IAVS/load_design_config.R](R/Functions/Presentation/IAVS/load_design_config.R), [R/Functions/Presentation/IAVS/write_oracle_generated_scss.R](R/Functions/Presentation/IAVS/write_oracle_generated_scss.R), [Documentation/Presentations/IAVS_2026/oracle_generated.scss](Documentation/Presentations/IAVS_2026/oracle_generated.scss), and [R/Functions/Presentation/IAVS/theme_oracle.R](R/Functions/Presentation/IAVS/theme_oracle.R).
-2. Define the Phase 5 framework contract document (in Presentation docs) stating that all output-derived figures must pull palette/typography only through theme_oracle/oracle token helpers and never hardcode visual constants. Depends on step 1.
+1. Audit the current dynamic token chain used by ORACLE visuals in [Documentation/Presentations/IAVS_2026/design_config.json](Documentation/Presentations/IAVS_2026/design_config.json), [Documentation/Presentations/IAVS_2026/R/pre_render.R](Documentation/Presentations/IAVS_2026/R/pre_render.R), [R/03_Supplementary_analyses/Presentation/load_design_config.R](R/03_Supplementary_analyses/Presentation/load_design_config.R), [R/Functions/Presentation/IAVS/load_design_config.R](R/Functions/Presentation/IAVS/load_design_config.R), [R/Functions/Presentation/IAVS/write_oracle_generated_scss.R](R/Functions/Presentation/IAVS/write_oracle_generated_scss.R), [Documentation/Presentations/IAVS_2026/oracle_generated.scss](Documentation/Presentations/IAVS_2026/oracle_generated.scss), and [R/Functions/Presentation/IAVS/create_oracle_theme.R](R/Functions/Presentation/IAVS/create_oracle_theme.R).
+2. Define the Phase 5 framework contract document (in Presentation docs) stating that all output-derived figures must pull palette/typography only through create_oracle_theme/oracle token helpers and never hardcode visual constants. Depends on step 1.
 3. Add a lightweight validation step in the render flow to fail early when generated tokens are stale versus design_config changes (for example timestamp or checksum comparison emitted by pre-render). Depends on step 1.
 
 #### Phase B: Build per-slide script architecture
@@ -53,15 +53,15 @@ Generation first (cached), then render.
 - [Documentation/Presentations/IAVS_2026/R/generate_story_figures.R](Documentation/Presentations/IAVS_2026/R/generate_story_figures.R) — existing figure script pattern and output handling reference.
 - [R/03_Supplementary_analyses/Presentation/load_design_config.R](R/03_Supplementary_analyses/Presentation/load_design_config.R) — compatibility loader currently used by pre-render.
 - [R/Functions/Presentation/IAVS/load_design_config.R](R/Functions/Presentation/IAVS/load_design_config.R) — canonical JSON loader.
-- [R/Functions/Presentation/IAVS/oracle_palette_values.R](R/Functions/Presentation/IAVS/oracle_palette_values.R) — palette retrieval path from loaded design config.
-- [R/Functions/Presentation/IAVS/theme_oracle.R](R/Functions/Presentation/IAVS/theme_oracle.R) — required plot theme for all output-derived figures.
+- [R/Functions/Presentation/IAVS/get_oracle_palette_values.R](R/Functions/Presentation/IAVS/get_oracle_palette_values.R) — palette retrieval path from loaded design config.
+- [R/Functions/Presentation/IAVS/create_oracle_theme.R](R/Functions/Presentation/IAVS/create_oracle_theme.R) — required plot theme for all output-derived figures.
 - [R/Functions/Presentation/IAVS/write_oracle_generated_scss.R](R/Functions/Presentation/IAVS/write_oracle_generated_scss.R) — generated SCSS/token bridge.
 - [Documentation/Presentations/IAVS_2026/oracle_generated.scss](Documentation/Presentations/IAVS_2026/oracle_generated.scss) — generated token artifact consumed by theme SCSS.
 - [Documentation/Implementation_plans/plan_iavs-2026-presentation_2026-05-11.md](Documentation/Implementation_plans/plan_iavs-2026-presentation_2026-05-11.md) — original Phase 5/6 decomposition and acceptance context.
 
 ### Verification
 
-1. Token parity check: modify one non-critical token in [Documentation/Presentations/IAVS_2026/design_config.json](Documentation/Presentations/IAVS_2026/design_config.json), run pre-render, and verify both [Documentation/Presentations/IAVS_2026/oracle_generated.scss](Documentation/Presentations/IAVS_2026/oracle_generated.scss) and at least one test plot from theme_oracle reflect the change.
+1. Token parity check: modify one non-critical token in [Documentation/Presentations/IAVS_2026/design_config.json](Documentation/Presentations/IAVS_2026/design_config.json), run pre-render, and verify both [Documentation/Presentations/IAVS_2026/oracle_generated.scss](Documentation/Presentations/IAVS_2026/oracle_generated.scss) and at least one test plot from create_oracle_theme reflect the change.
 2. Chunk cache behavior: first render should build all Phase 5 figures; second render should skip unchanged generation chunks; changing one slide script should invalidate only that slide’s cache.
 3. Slide replacement check: verify placeholders are replaced on slides 03, 05, 08, 09, 10, 11, 12 in [Documentation/Presentations/IAVS_2026/index.qmd](Documentation/Presentations/IAVS_2026/index.qmd).
 4. Provenance check: each replaced figure has a matching entry in [Documentation/Presentations/IAVS_2026/README_figures.md](Documentation/Presentations/IAVS_2026/README_figures.md) with verified or provisional status.

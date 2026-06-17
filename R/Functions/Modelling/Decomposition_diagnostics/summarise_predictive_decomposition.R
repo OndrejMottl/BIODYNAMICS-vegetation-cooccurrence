@@ -8,7 +8,7 @@
 #' @return
 #' A tibble with one row per component.
 #' @export
-summarize_predictive_decomposition <- function(data_shares) {
+summarise_predictive_decomposition <- function(data_shares) {
   assertthat::assert_that(
     base::is.data.frame(data_shares),
     msg = "`data_shares` must be a data frame."

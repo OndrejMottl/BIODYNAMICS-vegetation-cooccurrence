@@ -7,7 +7,7 @@
 #' @return
 #' Named list with `data_fold_shares` and `data_route_summary`.
 #' @export
-summarize_decomposition_routes <- function(variant_metrics = NULL) {
+summarise_decomposition_routes <- function(variant_metrics = NULL) {
   assertthat::assert_that(
     base::is.data.frame(variant_metrics),
     msg = "`variant_metrics` must be a data frame."
@@ -50,7 +50,7 @@ summarize_decomposition_routes <- function(variant_metrics = NULL) {
           .x[["route_id"]][[1L]]
 
         .x |>
-          summarize_predictive_decomposition() |>
+          summarise_predictive_decomposition() |>
           dplyr::mutate(
             route_id = route_id,
             .before = 1L

@@ -4,11 +4,11 @@
 #' @return A named character vector of six colour values.
 #' @examples
 #' \dontrun{
-#' oracle_discrete_palette()
+#' get_oracle_discrete_palette()
 #' }
-oracle_discrete_palette <- function() {
+get_oracle_discrete_palette <- function() {
   return(
-    oracle_palette_values(
+    get_oracle_palette_values(
       base::c("phosphor", "cyan", "amber", "red", "muted", "text")
     )
   )

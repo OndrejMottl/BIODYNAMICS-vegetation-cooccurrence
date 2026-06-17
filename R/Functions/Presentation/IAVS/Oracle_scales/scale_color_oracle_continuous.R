@@ -9,7 +9,7 @@
 #'   scale_color_oracle_continuous()
 #' }
 scale_color_oracle_continuous <- function(
-    values = oracle_continuous_palette(),
+    values = get_oracle_continuous_palette(),
     ...) {
   return(scale_colour_oracle_continuous(values = values, ...))
 }

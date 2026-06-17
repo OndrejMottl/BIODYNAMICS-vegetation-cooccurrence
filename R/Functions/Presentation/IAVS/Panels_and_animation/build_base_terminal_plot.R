@@ -21,7 +21,7 @@
 #' Numeric scalar. Canvas resolution passed to `ggview::canvas()`.
 #' @param palette
 #' Optional named character vector of ORACLE colours. If `NULL`, colours
-#' are read with `oracle_palette_values()`.
+#' are read with `get_oracle_palette_values()`.
 #' @param background_colour
 #' Optional background colour. If `NULL`, `palette[["background"]]`
 #' is used.
@@ -37,9 +37,9 @@
 #' This function intentionally keeps scanline, CRT-noise, canvas, and
 #' blank-theme helpers internal so presentation scripts can reuse one
 #' stable public entry point.
-#' @seealso add_panel, oracle_palette_values, theme_oracle
+#' @seealso add_panel, get_oracle_palette_values, create_oracle_theme
 #' @export
-base_terminal_plot <- function(
+build_base_terminal_plot <- function(
   title,
   prompt,
   plot_dimensions = c(
@@ -86,7 +86,7 @@ base_terminal_plot <- function(
     base::is.null(palette)
   ) {
     if (
-      !base::exists("oracle_palette_values", mode = "function")
+      !base::exists("get_oracle_palette_values", mode = "function")
     ) {
       source(
         here::here(
@@ -95,13 +95,13 @@ base_terminal_plot <- function(
           "Presentation",
           "IAVS",
           "Oracle_palettes",
-          "oracle_palette_values.R"
+          "get_oracle_palette_values.R"
         )
       )
     }
 
     palette <-
-      oracle_palette_values()
+      get_oracle_palette_values()
   }
 
   if (

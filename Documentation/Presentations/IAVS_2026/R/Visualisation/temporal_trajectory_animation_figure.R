@@ -435,7 +435,7 @@ build_temporal_trajectory_frame <- function(
       y = "Proportion",
       fill = NULL
     ) +
-    theme_oracle(base_family = font_family, base_size = 10) +
+    create_oracle_theme(base_family = font_family, base_size = 10) +
     ggplot2::theme(
       plot.background = ggplot2::element_rect(
         fill = vec_oracle_palette[["background"]],
@@ -555,7 +555,7 @@ build_temporal_trajectory_legend <- function() {
     ) +
     ggplot2::scale_fill_identity() +
     ggplot2::scale_colour_identity() +
-    theme_oracle(base_family = font_family, base_size = 10) +
+    create_oracle_theme(base_family = font_family, base_size = 10) +
     ggplot2::theme(
       plot.background = ggplot2::element_rect(
         fill = vec_oracle_palette[["background"]],

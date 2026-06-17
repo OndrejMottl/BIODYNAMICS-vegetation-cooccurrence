@@ -252,7 +252,7 @@ data_fold_shares <-
   )
 
 data_summary <-
-  summarize_predictive_decomposition(
+  summarise_predictive_decomposition(
     data_shares = data_fold_shares
   ) |>
   dplyr::mutate(
@@ -272,7 +272,7 @@ data_auc_fold_shares <-
   )
 
 data_auc_summary <-
-  summarize_predictive_decomposition(
+  summarise_predictive_decomposition(
     data_shares = data_auc_fold_shares
   ) |>
   dplyr::mutate(
@@ -293,7 +293,7 @@ data_auc_macro_fold_shares <-
   )
 
 data_auc_macro_summary <-
-  summarize_predictive_decomposition(
+  summarise_predictive_decomposition(
     data_shares = data_auc_macro_fold_shares
   ) |>
   dplyr::mutate(
@@ -313,7 +313,7 @@ data_pred_log_loss_fold_shares <-
   )
 
 data_pred_log_loss_summary <-
-  summarize_predictive_decomposition(
+  summarise_predictive_decomposition(
     data_shares = data_pred_log_loss_fold_shares
   ) |>
   dplyr::mutate(
@@ -333,7 +333,7 @@ data_pred_brier_fold_shares <-
   )
 
 data_pred_brier_summary <-
-  summarize_predictive_decomposition(
+  summarise_predictive_decomposition(
     data_shares = data_pred_brier_fold_shares
   ) |>
   dplyr::mutate(

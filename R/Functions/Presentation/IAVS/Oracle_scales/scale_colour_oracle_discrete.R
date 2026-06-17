@@ -2,7 +2,7 @@
 #' @description Maps discrete data values to ORACLE categorical colours
 #'   using `ggplot2::scale_colour_manual()`.
 #' @param values Named character vector of colours. Defaults to
-#'   `oracle_discrete_palette()`.
+#'   `get_oracle_discrete_palette()`.
 #' @param ... Additional arguments passed to
 #'   `ggplot2::scale_colour_manual()`.
 #' @return A `ggplot2` scale object.
@@ -13,7 +13,7 @@
 #'   scale_colour_oracle_discrete()
 #' }
 scale_colour_oracle_discrete <- function(
-    values = oracle_discrete_palette(),
+    values = get_oracle_discrete_palette(),
     ...) {
   return(ggplot2::scale_colour_manual(values = base::unname(values), ...))
 }

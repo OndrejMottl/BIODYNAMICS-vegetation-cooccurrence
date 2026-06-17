@@ -146,7 +146,7 @@ It is the only R-generated story figure currently kept in the register.
 
 | Asset | Type | Source | License | Generation method | State |
 | --- | --- | --- | --- | --- | --- |
-| `figures/story/hidden_majority_particles.png` | R-generated conceptual terminal panel | Synthetic particles from `R/generate_story_figures.R` | Repository MIT license | `ggplot2`, `theme_oracle()`, `ggview::save_ggplot()`; seed `900723` | Implemented |
+| `figures/story/hidden_majority_particles.png` | R-generated conceptual terminal panel | Synthetic particles from `R/generate_story_figures.R` | Repository MIT license | `ggplot2`, `create_oracle_theme()`, `ggview::save_ggplot()`; seed `900723` | Implemented |
 
 ## Kept GenAI Figures
 

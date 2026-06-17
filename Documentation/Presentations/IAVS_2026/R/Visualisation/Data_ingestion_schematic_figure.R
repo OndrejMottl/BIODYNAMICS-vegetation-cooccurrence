@@ -247,7 +247,7 @@ figure_vegvault_ingestion_schematic <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  theme_oracle(base_family = font_family) +
+  create_oracle_theme(base_family = font_family) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(
       fill = vec_oracle_palette[["background"]],

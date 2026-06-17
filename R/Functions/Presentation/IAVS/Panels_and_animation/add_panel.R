@@ -24,12 +24,12 @@
 #' Numeric scalar. Internal offset for label placement.
 #' @param palette
 #' Optional named character vector of ORACLE colours. If `NULL`, colours
-#' are read with `oracle_palette_values()`.
+#' are read with `get_oracle_palette_values()`.
 #' @return
 #' A list of `ggplot2` layers.
 #' @details
 #' The returned list is designed to be added to a `ggplot` object with `+`.
-#' @seealso base_terminal_plot, oracle_palette_values
+#' @seealso build_base_terminal_plot, get_oracle_palette_values
 #' @export
 add_panel <- function(
   xmin,
@@ -55,7 +55,7 @@ add_panel <- function(
     base::is.null(palette)
   ) {
     if (
-      !base::exists("oracle_palette_values", mode = "function")
+      !base::exists("get_oracle_palette_values", mode = "function")
     ) {
       source(
         here::here(
@@ -64,13 +64,13 @@ add_panel <- function(
           "Presentation",
           "IAVS",
           "Oracle_palettes",
-          "oracle_palette_values.R"
+          "get_oracle_palette_values.R"
         )
       )
     }
 
     palette <-
-      oracle_palette_values()
+      get_oracle_palette_values()
   }
 
   if (

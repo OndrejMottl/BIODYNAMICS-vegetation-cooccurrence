@@ -9,7 +9,7 @@
 #'   scale_color_oracle_discrete()
 #' }
 scale_color_oracle_discrete <- function(
-    values = oracle_discrete_palette(),
+    values = get_oracle_discrete_palette(),
     ...) {
   return(scale_colour_oracle_discrete(values = values, ...))
 }

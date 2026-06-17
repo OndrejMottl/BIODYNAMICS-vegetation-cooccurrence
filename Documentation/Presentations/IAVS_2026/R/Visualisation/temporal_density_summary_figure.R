@@ -299,7 +299,7 @@ figure_temporal_density <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  theme_oracle(base_family = font_family, base_size = 8) +
+  create_oracle_theme(base_family = font_family, base_size = 8) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(
       fill = vec_oracle_palette[["background"]],

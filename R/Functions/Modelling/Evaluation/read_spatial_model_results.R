@@ -107,7 +107,7 @@ read_spatial_model_results <- function(
     )()
   }
 
-  summarize_auc <- function(model_evaluation) {
+  summarise_auc <- function(model_evaluation) {
     if (
       base::is.null(model_evaluation) ||
         !("species" %in% base::names(model_evaluation))
@@ -261,7 +261,7 @@ read_spatial_model_results <- function(
       }
 
     data_auc <-
-      summarize_auc(model_evaluation)
+      summarise_auc(model_evaluation)
 
     data_anova |>
       recalculate_anova_components() |>
