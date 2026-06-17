@@ -158,38 +158,6 @@ colour_model <-
   vec_oracle_palette[["purple"]]
 
 
-node_box <- function(
-  id,
-  label,
-  x,
-  y,
-  width,
-  height,
-  colour,
-  fill = vec_oracle_palette[["surface"]],
-  text_colour = vec_oracle_palette[["text"]],
-  text_size = 2.9,
-  fontface = "bold"
-) {
-  tibble::tibble(
-    id = id,
-    label = label,
-    x = x,
-    y = y,
-    width = width,
-    height = height,
-    xmin = x - width / 2,
-    xmax = x + width / 2,
-    ymin = y - height / 2,
-    ymax = y + height / 2,
-    colour = colour,
-    fill = fill,
-    text_colour = text_colour,
-    text_size = text_size,
-    fontface = fontface
-  )
-}
-
 x_lims <- c(0, 900)
 y_lims <- c(0, 850)
 
@@ -414,7 +382,7 @@ figure_climate_data_summary <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  theme_oracle(base_family = font_family, base_size = 11) +
+  create_oracle_theme(base_family = font_family, base_size = 11) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(
       fill = vec_oracle_palette[["background"]],

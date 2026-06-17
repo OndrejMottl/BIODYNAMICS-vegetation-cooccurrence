@@ -90,7 +90,7 @@ vec_function_paths <-
     full.names = TRUE
   ) |>
   purrr::discard(
-    ~ stringr::str_detect(.x, "_outdated")
+    ~ stringr::str_detect(.x, "_outdated|_legacy")
   )
 
 if (

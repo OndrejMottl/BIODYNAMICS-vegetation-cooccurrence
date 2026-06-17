@@ -3,7 +3,7 @@
 #
 #       BIODYNAMICS Vegetation Co-occurrence
 #
-#               theme_oracle
+#               create_oracle_theme
 #      Loader for ORACLE theme helpers
 #
 #                   O. Mottl
@@ -11,7 +11,7 @@
 #
 #----------------------------------------------------------#
 # The theme implementation lives in
-# R/Functions/Presentation/IAVS/theme_oracle.R.
+# R/Functions/Presentation/IAVS/Oracle_theme/create_oracle_theme.R.
 
 vec_theme_function_files <-
   base::file.path(
@@ -22,16 +22,16 @@ vec_theme_function_files <-
       "IAVS"
     ),
     base::c(
-      "oracle_palette_values.R",
-      "oracle_discrete_palette.R",
-      "oracle_continuous_palette.R",
-      "scale_colour_oracle_discrete.R",
-      "scale_color_oracle_discrete.R",
-      "scale_fill_oracle_discrete.R",
-      "scale_colour_oracle_continuous.R",
-      "scale_color_oracle_continuous.R",
-      "scale_fill_oracle_continuous.R",
-      "theme_oracle.R"
+      "Oracle_palettes/get_oracle_palette_values.R",
+      "Oracle_palettes/get_oracle_discrete_palette.R",
+      "Oracle_palettes/get_oracle_continuous_palette.R",
+      "Oracle_scales/scale_colour_oracle_discrete.R",
+      "Oracle_scales/scale_color_oracle_discrete.R",
+      "Oracle_scales/scale_fill_oracle_discrete.R",
+      "Oracle_scales/scale_colour_oracle_continuous.R",
+      "Oracle_scales/scale_color_oracle_continuous.R",
+      "Oracle_scales/scale_fill_oracle_continuous.R",
+      "Oracle_theme/create_oracle_theme.R"
     )
   )
 

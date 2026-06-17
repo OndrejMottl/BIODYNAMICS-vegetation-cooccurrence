@@ -892,7 +892,7 @@ data_predictive_summary <-
         .x[["route_id"]][[1L]]
 
       .x |>
-        summarize_predictive_decomposition() |>
+        summarise_predictive_decomposition() |>
         dplyr::mutate(route_id = route_id, .before = 1L)
     }
   ) |>

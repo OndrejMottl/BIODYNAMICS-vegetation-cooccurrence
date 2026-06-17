@@ -45,32 +45,6 @@ vec_oracle_palette <-
     "palette"
   )
 
-generate_qr_code <- function(url, name, background_color, foreground_color, plot, base_path = here::here("Documentation", "Presentations", "IAVS_2026", "figures", "qrcodes")) {
-  qr_code <-
-    qrcode::qr_code(
-      url,
-      ecl = "H"
-    )
-
-  qrcode::generate_svg(
-    qrcode = qr_code,
-    filename = stringr::str_glue(
-      "{base_path}/qr_{name}.svg"
-    ),
-    foreground = foreground_color,
-    background = background_color
-  )
-
-  if (
-    isTRUE(plot)
-  ) {
-    knitr::include_graphics(
-      stringr::str_glue(
-        "{base_path}/qr_{name}.svg"
-      )
-    )
-  }
-}
 ```
 
 ## BIODYNAMICS PROJECT {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
@@ -1347,54 +1321,6 @@ Summarising RESULTS together: [spatial]{.text-color-spatial} patterns, [taxonomi
 #| include: false
 #| cache: false
 
-read_target_or_null <- function(target_name, store_path) {
-  purrr::possibly(
-    .f = function(name, store) {
-      targets::tar_read_raw(
-        name = name,
-        store = store
-      )
-    },
-    otherwise = NULL
-  )(target_name, store_path)
-}
-
-read_target_meta_or_empty <- function(store_path) {
-  purrr::possibly(
-    .f = function(store) {
-      targets::tar_meta(
-        fields = c("name", "error"),
-        complete_only = FALSE,
-        store = store
-      )
-    },
-    otherwise = tibble::tibble(
-      name = base::character(),
-      error = base::character()
-    )
-  )(store_path)
-}
-
-count_successful_targets <- function(store_path, target_pattern) {
-  data_meta <-
-    read_target_meta_or_empty(store_path = store_path)
-
-  data_meta |>
-    dplyr::filter(
-      stringr::str_detect(.data$name, target_pattern),
-      base::is.na(.data$error)
-    ) |>
-    base::nrow()
-}
-
-format_slide_count <- function(x) {
-  scales::number(
-    x = x,
-    accuracy = 1,
-    big.mark = ","
-  )
-}
-
 path_traits_store <-
   here::here(
     "Data",
@@ -1526,7 +1452,7 @@ number_of_functional_types_raw <-
   base::sum()
 
 number_of_cores <-
-  format_slide_count(
+  format_count(
     dplyr::n_distinct(data_continental_community[["dataset_name"]])
   )
 
@@ -1534,23 +1460,23 @@ number_of_samples <-
   data_continental_community |>
   dplyr::distinct(.data$dataset_name, .data$age) |>
   base::nrow() |>
-  format_slide_count()
+  format_count()
 
 number_of_taxa <-
-  format_slide_count(
+  format_count(
     dplyr::n_distinct(data_continental_community[["taxon"]])
   )
 
 number_trait_values <-
-  format_slide_count(base::nrow(data_traits_classified_corrected))
+  format_count(base::nrow(data_traits_classified_corrected))
 
 number_of_models <-
-  format_slide_count(
+  format_count(
     number_of_spatial_models + number_of_temporal_models
   )
 
 number_of_functional_types <-
-  format_slide_count(number_of_functional_types_raw)
+  format_count(number_of_functional_types_raw)
 ```
 
 ::: {.fragment data-fragment-index="2" .text-emphasis-box}

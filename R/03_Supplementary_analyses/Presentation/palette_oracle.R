@@ -22,15 +22,15 @@ vec_palette_function_files <-
       "IAVS"
     ),
     base::c(
-      "oracle_palette_values.R",
-      "oracle_discrete_palette.R",
-      "oracle_continuous_palette.R",
-      "scale_colour_oracle_discrete.R",
-      "scale_color_oracle_discrete.R",
-      "scale_fill_oracle_discrete.R",
-      "scale_colour_oracle_continuous.R",
-      "scale_color_oracle_continuous.R",
-      "scale_fill_oracle_continuous.R"
+      "Oracle_palettes/get_oracle_palette_values.R",
+      "Oracle_palettes/get_oracle_discrete_palette.R",
+      "Oracle_palettes/get_oracle_continuous_palette.R",
+      "Oracle_scales/scale_colour_oracle_discrete.R",
+      "Oracle_scales/scale_color_oracle_discrete.R",
+      "Oracle_scales/scale_fill_oracle_discrete.R",
+      "Oracle_scales/scale_colour_oracle_continuous.R",
+      "Oracle_scales/scale_color_oracle_continuous.R",
+      "Oracle_scales/scale_fill_oracle_continuous.R"
     )
   )
 

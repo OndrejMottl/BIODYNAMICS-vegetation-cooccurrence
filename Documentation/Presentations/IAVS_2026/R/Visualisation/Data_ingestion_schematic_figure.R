@@ -109,19 +109,6 @@ if (
   )
 }
 
-format_count <- function(x) {
-  res_count <-
-    base::format(
-      x,
-      big.mark = ",",
-      scientific = FALSE,
-      trim = TRUE
-    )
-
-  return(res_count)
-}
-
-
 #----------------------------------------------------------#
 # 1. Data for schematic -----
 #----------------------------------------------------------#
@@ -172,17 +159,6 @@ data_database_metrics <-
       add = TRUE
     )
 
-    get_vegvault_scalar <- function(sql) {
-      res_value <-
-        DBI::dbGetQuery(
-          conn = con,
-          statement = sql
-        ) |>
-        dplyr::pull(1)
-
-      return(res_value)
-    }
-
     res_metrics <-
       tibble::tibble(
         metric_name = base::c(
@@ -196,14 +172,30 @@ data_database_metrics <-
           "Temporal range"
         ),
         metric_value = base::c(
-          format_count(get_vegvault_scalar("select count(*) from Datasets")),
-          format_count(get_vegvault_scalar("select count(*) from Samples")),
-          format_count(get_vegvault_scalar("select count(*) from Taxa")),
-          format_count(get_vegvault_scalar(
+          format_count(read_vegvault_scalar(
+            conn = con,
+            sql = "select count(*) from Datasets"
+          )),
+          format_count(read_vegvault_scalar(
+            conn = con,
+            sql = "select count(*) from Samples"
+          )),
+          format_count(read_vegvault_scalar(
+            conn = con,
+            sql = "select count(*) from Taxa"
+          )),
+          format_count(read_vegvault_scalar(
+            conn = con,
+            sql =
             "select count(*) from TraitsDomain"
           )),
-          format_count(get_vegvault_scalar("select count(*) from TraitsValue")),
-          format_count(get_vegvault_scalar(
+          format_count(read_vegvault_scalar(
+            conn = con,
+            sql = "select count(*) from TraitsValue"
+          )),
+          format_count(read_vegvault_scalar(
+            conn = con,
+            sql =
             "select count(*) from AbioticVariable"
           )),
           "Global",
@@ -247,7 +239,7 @@ figure_vegvault_ingestion_schematic <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  theme_oracle(base_family = font_family) +
+  create_oracle_theme(base_family = font_family) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(
       fill = vec_oracle_palette[["background"]],

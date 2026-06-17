@@ -131,7 +131,7 @@ Rscript Documentation/Presentations/IAVS_2026/R/generate_story_figures.R
 
 ### R style guidance
 
-- use `theme_oracle()` where available
+- use `create_oracle_theme()` where available
 - use `ggview::save_ggplot()` for consistent output size and quality
 - set fixed seeds for synthetic visuals
 - keep line weights slightly thicker than default for projector readability

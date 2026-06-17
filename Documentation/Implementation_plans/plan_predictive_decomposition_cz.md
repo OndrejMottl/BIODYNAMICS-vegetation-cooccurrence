@@ -94,7 +94,7 @@ Proposed function responsibilities:
 - fit_predictive_ablation_models(): fit full and three reduced models
 - evaluate_predictive_ablation(): evaluate performance on held-out folds
 - compute_predictive_decomposition_shares(): convert deltas to shares
-- summarize_predictive_decomposition(): median and interval summary
+- summarise_predictive_decomposition(): median and interval summary
 
 Quality checks in functions:
 

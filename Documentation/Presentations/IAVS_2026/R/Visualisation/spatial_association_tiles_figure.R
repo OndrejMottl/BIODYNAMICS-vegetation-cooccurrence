@@ -287,7 +287,7 @@ plot_association_spread <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  theme_oracle(
+  create_oracle_theme(
     base_family = font_family,
     base_size = 9
   ) +

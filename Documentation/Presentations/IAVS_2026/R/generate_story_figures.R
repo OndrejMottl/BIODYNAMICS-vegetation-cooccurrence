@@ -37,7 +37,8 @@ source(
     "Functions",
     "Presentation",
     "IAVS",
-    "oracle_palette_values.R"
+    "Oracle_palettes",
+    "get_oracle_palette_values.R"
   )
 )
 
@@ -47,7 +48,8 @@ source(
     "Functions",
     "Presentation",
     "IAVS",
-    "base_terminal_plot.R"
+    "Panels_and_animation",
+    "build_base_terminal_plot.R"
   )
 )
 
@@ -57,6 +59,7 @@ source(
     "Functions",
     "Presentation",
     "IAVS",
+    "Panels_and_animation",
     "add_panel.R"
   )
 )
@@ -80,7 +83,7 @@ base::dir.create(
 )
 
 vec_palette <-
-  oracle_palette_values()
+  get_oracle_palette_values()
 
 vec_plot_dimensions <-
   c(
@@ -258,7 +261,7 @@ list_hidden_data <-
   make_data_hidden()
 
 plot_hidden <-
-  base_terminal_plot(
+  build_base_terminal_plot(
     title = "01 | PROBLEM: THE HIDDEN MAJORITY",
     prompt = ">CONCEPTUAL / SYNTHETIC SIGNAL FIELD"
   ) +

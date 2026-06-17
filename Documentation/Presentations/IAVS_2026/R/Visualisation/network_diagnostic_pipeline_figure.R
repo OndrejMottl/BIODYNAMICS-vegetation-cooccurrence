@@ -324,7 +324,7 @@ figure_network_pipeline <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  theme_oracle(base_family = font_family, base_size = 9) +
+  create_oracle_theme(base_family = font_family, base_size = 9) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(
       fill = vec_oracle_palette[["background"]],

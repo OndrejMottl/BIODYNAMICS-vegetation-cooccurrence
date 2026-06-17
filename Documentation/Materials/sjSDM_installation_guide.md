@@ -758,7 +758,7 @@ library(sjSDM)
 | PyTorch | `.../r-sjsdm/Lib/site-packages/torch/` |
 | VS Code settings | `%APPDATA%\Code\User\settings.json` |
 | Workspace settings | `.vscode/settings.json` (if using) |
-| Verification function | `R/Functions/verify_sjsdm_setup.R` |
+| Verification function | `R/Functions/Modelling/Diagnostics/verify_sjsdm_setup.R` |
 
 ## Performance Notes
 

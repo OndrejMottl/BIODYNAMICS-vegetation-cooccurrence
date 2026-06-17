@@ -203,7 +203,7 @@ data_variant_metrics <-
   purrr::list_rbind()
 
 diagnostic_summary <-
-  summarize_decomposition_routes(
+  summarise_decomposition_routes(
     variant_metrics = data_variant_metrics
   )
 
