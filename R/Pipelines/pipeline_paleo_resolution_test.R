@@ -79,7 +79,7 @@ suppressMessages(
   )
 )
 
-# load all functions (exclude _outdated)
+# load all functions (exclude _outdated and Legacy)
 vec_fun_files <-
   base::list.files(
     path = here::here("R/Functions/"),
@@ -88,7 +88,7 @@ vec_fun_files <-
     full.names = TRUE
   ) |>
   purrr::discard(
-    ~ stringr::str_detect(.x, "_outdated")
+    ~ stringr::str_detect(.x, "_outdated|Legacy")
   )
 
 targets::tar_source(

@@ -78,7 +78,7 @@ if (
       full.names = TRUE
     ) |>
     purrr::discard(
-      ~ stringr::str_detect(.x, "_outdated")
+      ~ stringr::str_detect(.x, "_outdated|Legacy")
     )
 
   if (

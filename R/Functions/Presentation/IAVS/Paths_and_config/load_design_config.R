@@ -24,6 +24,7 @@ load_design_config <- function(path = "design_config.json") {
         "Functions",
         "Presentation",
         "IAVS",
+        "Paths_and_config",
         "resolve_design_path.R"
       )
     )

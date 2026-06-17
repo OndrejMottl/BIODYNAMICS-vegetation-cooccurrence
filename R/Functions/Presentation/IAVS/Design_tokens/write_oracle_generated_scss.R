@@ -33,6 +33,7 @@ write_oracle_generated_scss <- function(
         "Functions",
         "Presentation",
         "IAVS",
+        "Design_tokens",
         "flatten_design_tokens.R"
       )
     )
@@ -46,6 +47,7 @@ write_oracle_generated_scss <- function(
         "Functions",
         "Presentation",
         "IAVS",
+        "Design_tokens",
         "format_scss_value.R"
       )
     )
@@ -68,6 +70,7 @@ write_oracle_generated_scss <- function(
           "Functions",
           "Presentation",
           "IAVS",
+          "Paths_and_config",
           "get_presentation_dir.R"
         )
       )

@@ -94,6 +94,7 @@ base_terminal_plot <- function(
           "Functions",
           "Presentation",
           "IAVS",
+          "Oracle_palettes",
           "oracle_palette_values.R"
         )
       )

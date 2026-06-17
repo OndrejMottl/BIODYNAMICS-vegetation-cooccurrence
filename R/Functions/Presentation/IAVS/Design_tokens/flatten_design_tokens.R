@@ -23,6 +23,7 @@ flatten_design_tokens <- function(design) {
         "Functions",
         "Presentation",
         "IAVS",
+        "Design_tokens",
         "flatten_token_node.R"
       )
     )
@@ -36,6 +37,7 @@ flatten_design_tokens <- function(design) {
         "Functions",
         "Presentation",
         "IAVS",
+        "Design_tokens",
         "format_token_name.R"
       )
     )

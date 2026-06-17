@@ -23,14 +23,14 @@ vec_design_function_files <-
       "IAVS"
     ),
     base::c(
-      "get_presentation_dir.R",
-      "resolve_design_path.R",
-      "load_design_config.R",
-      "format_token_name.R",
-      "flatten_token_node.R",
-      "flatten_design_tokens.R",
-      "format_scss_value.R",
-      "write_oracle_generated_scss.R"
+      "Paths_and_config/get_presentation_dir.R",
+      "Paths_and_config/resolve_design_path.R",
+      "Paths_and_config/load_design_config.R",
+      "Design_tokens/format_token_name.R",
+      "Design_tokens/flatten_token_node.R",
+      "Design_tokens/flatten_design_tokens.R",
+      "Design_tokens/format_scss_value.R",
+      "Design_tokens/write_oracle_generated_scss.R"
     )
   )
 

@@ -30,7 +30,7 @@ All diagnostic outputs are written to:
 
 The helper functions used by these scripts live in:
 
-`R/Functions/Modelling/age_scalling_diagnostic`
+`R/Functions/Modelling/Decomposition_diagnostics`
 
 The consolidated narrative summary is:
 

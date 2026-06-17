@@ -30,6 +30,7 @@ resolve_design_path <- function(path = "design_config.json") {
         "Functions",
         "Presentation",
         "IAVS",
+        "Paths_and_config",
         "get_presentation_dir.R"
       )
     )

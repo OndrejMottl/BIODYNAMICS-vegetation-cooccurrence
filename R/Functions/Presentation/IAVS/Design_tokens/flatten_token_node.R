@@ -19,6 +19,7 @@ flatten_token_node <- function(value, prefix) {
         "Functions",
         "Presentation",
         "IAVS",
+        "Design_tokens",
         "format_token_name.R"
       )
     )

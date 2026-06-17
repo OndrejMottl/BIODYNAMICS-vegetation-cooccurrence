@@ -14,7 +14,9 @@
 library(here)
 
 base::source(
-  here::here("R/Functions/Utility/monitor_pipeline_progress.R")
+  here::here(
+    "R/Functions/Utility/Pipeline/monitor_pipeline_progress.R"
+  )
 )
 
 monitor_pipeline_progress(

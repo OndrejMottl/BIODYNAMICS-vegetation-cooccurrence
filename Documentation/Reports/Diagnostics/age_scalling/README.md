@@ -33,4 +33,4 @@ Diagnostic scripts:
 
 Diagnostic helper functions:
 
-`R/Functions/Modelling/age_scalling_diagnostic`
+`R/Functions/Modelling/Decomposition_diagnostics`
