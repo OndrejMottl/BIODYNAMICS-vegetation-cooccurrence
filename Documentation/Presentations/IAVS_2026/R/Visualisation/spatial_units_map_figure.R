@@ -286,104 +286,6 @@ data_frame_points <-
 #----------------------------------------------------------#
 # 3. Build frames -----
 #----------------------------------------------------------#
-
-build_spatial_unit_frame <- function(
-    data_unit,
-    data_points,
-    scale_label) {
-  res_plot <-
-    ggplot2::ggplot() +
-    ggplot2::coord_quickmap(
-      xlim = base::range(x_limits) + base::c(-1, 1) * buffer_degrees,
-      ylim = base::range(y_limits) + base::c(-1, 1) * buffer_degrees,
-      expand = FALSE,
-      clip = "off"
-    ) +
-    ggplot2::scale_colour_identity() +
-    ggview::canvas(
-      width = 760,
-      height = 760,
-      units = "px",
-      dpi = 300,
-      bg = vec_oracle_palette[["background"]]
-    ) +
-    create_oracle_theme(base_family = font_family, base_size = 11) +
-    ggplot2::theme(
-      plot.background = ggplot2::element_rect(
-        fill = vec_oracle_palette[["background"]],
-        colour = NA
-      ),
-      panel.background = ggplot2::element_rect(
-        fill = vec_oracle_palette[["background"]],
-        colour = NA
-      ),
-      panel.grid.minor = ggplot2::element_blank(),
-      panel.grid.major = ggplot2::element_line(
-        colour = vec_oracle_palette[["border"]],
-        linewidth = 0.12,
-        linetype = "dotted"
-      ),
-      axis.title = ggplot2::element_blank(),
-      axis.text = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_blank(),
-      legend.position = "none",
-      plot.margin = ggplot2::margin(0, 0, 0, 0)
-    ) +
-    ggplot2::geom_polygon(
-      data = data_world,
-      mapping = ggplot2::aes(
-        x = .data$long,
-        y = .data$lat,
-        group = .data$group
-      ),
-      fill = vec_oracle_palette[["surface_alt"]],
-      colour = vec_oracle_palette[["border"]],
-      linewidth = 0.16,
-      alpha = 0.82
-    ) +
-    ggplot2::geom_point(
-      data = data_points,
-      mapping = ggplot2::aes(
-        x = .data$coord_long,
-        y = .data$coord_lat
-      ),
-      colour = vec_oracle_palette[["phosphor"]],
-      fill = vec_oracle_palette[["surface_alt"]],
-      shape = 22,
-      size = 1,
-      stroke = 0.55,
-      alpha = 0.95
-    ) +
-    ggplot2::geom_rect(
-      data = data_unit,
-      mapping = ggplot2::aes(
-        xmin = .data$x_min,
-        xmax = .data$x_max,
-        ymin = .data$y_min,
-        ymax = .data$y_max
-      ),
-      fill = NA,
-      colour = vec_oracle_palette[["cyan"]],
-      linewidth = 0.5,
-      linetype = "dashed",
-      alpha = 0.62
-    ) +
-    ggplot2::annotate(
-      geom = "text",
-      x = base::min(x_limits) + 2.0,
-      y = base::max(y_limits) - 1.5,
-      label = stringr::str_to_upper(scale_label),
-      hjust = 0,
-      vjust = 1,
-      colour = vec_oracle_palette[["cyan"]],
-      family = font_family,
-      fontface = "bold",
-      size = 3.3
-    )
-
-  return(res_plot)
-}
-
 data_frame_paths <-
   data_selected_units |>
   dplyr::mutate(
@@ -424,7 +326,13 @@ purrr::pwalk(
       build_spatial_unit_frame(
         data_unit = data_unit,
         data_points = data_points,
-        scale_label = scale_label
+        scale_label = scale_label,
+        data_world = data_world,
+        x_limits = x_limits,
+        y_limits = y_limits,
+        buffer_degrees = buffer_degrees,
+        vec_palette = vec_oracle_palette,
+        font_family = font_family
       )
 
     ggview::save_ggplot(

@@ -390,326 +390,6 @@ data_world <-
 #----------------------------------------------------------#
 # 3. Build frames -----
 #----------------------------------------------------------#
-
-build_prediction_frame <- function(
-    data_frame,
-    age_value,
-    value_column,
-    subtitle_label,
-    fill_label,
-    fill_limits,
-    fill_trans = scales::transform_identity(),
-    fill_colors = c("black", "white"),
-    data_points = NULL,
-    point_color = "red",
-    metric_label = NULL) {
-  data_age <-
-    data_frame |>
-    dplyr::filter(
-      .data$age == age_value
-    )
-
-  metric_label <-
-    metric_label[!base::is.na(metric_label)]
-
-  metric_label <-
-    metric_label[base::nzchar(metric_label)]
-
-  caption_text <-
-    stringr::str_flatten(metric_label, collapse = " | ")
-
-  assertthat::assert_that(
-    base::is.character(fill_colors),
-    base::length(fill_colors) >= 2L,
-    msg = "`fill_colors` must contain at least two colours."
-  )
-
-  res_plot <-
-    ggplot2::ggplot() +
-    ggplot2::coord_quickmap(
-      xlim = list_prediction_grid[["x_lim"]],
-      ylim = list_prediction_grid[["y_lim"]],
-      expand = FALSE,
-      clip = "off"
-    ) +
-    ggplot2::scale_fill_gradientn(
-      colours = fill_colors,
-      limits = fill_limits,
-      trans = fill_trans,
-      name = fill_label,
-      guide = ggplot2::guide_colorbar(
-        nbin = 200,
-        title.position = "top",
-        title.hjust = 0.5,
-        barwidth = grid::unit(0.5, "lines"),
-        barheight = grid::unit(5, "lines")
-      )
-    ) +
-    ggview::canvas(
-      width = 800,
-      height = 620,
-      units = "px",
-      dpi = 300,
-      bg = vec_oracle_palette[["background"]]
-    ) +
-    create_oracle_theme(base_family = font_family, base_size = 11) +
-    ggplot2::theme(
-      plot.background = ggplot2::element_rect(
-        fill = vec_oracle_palette[["background"]],
-        colour = NA
-      ),
-      panel.background = ggplot2::element_rect(
-        fill = vec_oracle_palette[["background"]],
-        colour = NA
-      ),
-      panel.grid.minor = ggplot2::element_blank(),
-      panel.grid.major = ggplot2::element_line(
-        colour = vec_oracle_palette[["border"]],
-        linewidth = 0.12,
-        linetype = "dotted"
-      ),
-      axis.title = ggplot2::element_blank(),
-      axis.text = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_blank(),
-      legend.position = "right",
-      legend.margin = ggplot2::margin(0, 0, 0, 0),
-      legend.box.margin = ggplot2::margin(0, 0, 0, 0),
-      legend.background = ggplot2::element_blank(),
-      legend.box.background = ggplot2::element_blank(),
-      legend.key = ggplot2::element_rect(
-        fill = vec_oracle_palette[["background"]],
-        colour = NA
-      ),
-      legend.title = ggplot2::element_text(
-        size = 8,
-        family = font_family,
-        colour = vec_oracle_palette[["cyan"]]
-      ),
-      legend.text = ggplot2::element_text(
-        size = 7,
-        family = font_family,
-        colour = vec_oracle_palette[["phosphor"]]
-      ),
-      plot.title = ggplot2::element_text(
-        colour = vec_oracle_palette[["phosphor"]],
-        family = font_family,
-        face = "bold"
-      ),
-      plot.subtitle = ggplot2::element_text(
-        colour = vec_oracle_palette[["cyan"]],
-        family = font_family
-      ),
-      plot.caption = ggplot2::element_text(
-        colour = vec_oracle_palette[["phosphor"]],
-        family = font_family,
-        size = 8,
-        hjust = 0,
-        margin = ggplot2::margin(5, 0, 0, 0)
-      ),
-      plot.margin = ggplot2::margin(5, 5, 5, 5)
-    ) +
-    ggplot2::labs(
-      title = format_age_label(age_value),
-      subtitle = subtitle_label,
-      caption = caption_text
-    ) +
-    ggplot2::geom_tile(
-      data = data_age,
-      mapping = ggplot2::aes(
-        x = .data$coord_long,
-        y = .data$coord_lat,
-        fill = .data[[value_column]]
-      ),
-      width = selected_grid_resolution,
-      height = selected_grid_resolution,
-      alpha = 0.9
-    ) +
-    ggplot2::geom_polygon(
-      data = data_world,
-      mapping = ggplot2::aes(
-        x = .data$long,
-        y = .data$lat,
-        group = .data$group
-      ),
-      fill = NA,
-      colour = vec_oracle_palette[["border"]],
-      linewidth = 0.14,
-      alpha = 0.75
-    )
-
-  if (
-    isFALSE(base::is.null(data_points))
-  ) {
-    data_points_age <-
-      data_points |>
-      dplyr::filter(
-        .data$age == age_value
-      ) |>
-      tidyr::drop_na(
-        "coord_long",
-        "coord_lat"
-      )
-
-    res_plot <-
-      res_plot +
-      ggplot2::geom_point(
-        data = data_points_age,
-        mapping = ggplot2::aes(
-          x = .data$coord_long,
-          y = .data$coord_lat
-        ),
-        inherit.aes = FALSE,
-        size = 0.5,
-        shape = 4,
-        colour = point_color,
-        alpha = 0.5
-      )
-  }
-
-  return(res_plot)
-}
-
-save_prediction_animation <- function(
-    data_frame,
-    value_column,
-    subtitle_label,
-    fill_label,
-    fill_limits,
-    fill_trans = scales::transform_identity(),
-    fill_colors = NULL,
-    data_points = NULL,
-    point_color = "#ff4d4d",
-    metric_label = NULL,
-    frame_directory_name,
-    output_file_name) {
-  if (
-    base::is.null(fill_trans)
-  ) {
-    fill_trans <- scales::transform_identity()
-  }
-
-  path_frame_output <-
-    base::file.path(
-      path_output,
-      "frames",
-      frame_directory_name
-    )
-
-  base::dir.create(
-    path = path_frame_output,
-    showWarnings = FALSE,
-    recursive = TRUE
-  )
-
-  vec_stale_frames <-
-    base::list.files(
-      path = path_frame_output,
-      pattern = base::paste0("^", frame_directory_name, "_.*[.]png$"),
-      full.names = TRUE
-    )
-
-  if (
-    base::length(vec_stale_frames) > 0L
-  ) {
-    base::unlink(x = vec_stale_frames)
-  }
-
-  frame_index_width <-
-    base::nchar(base::length(vec_age_slices))
-
-  data_frame_paths <-
-    tibble::tibble(
-      frame_index = base::seq_along(vec_age_slices),
-      age = vec_age_slices
-    ) |>
-    dplyr::mutate(
-      frame_id = stringr::str_pad(
-        string = .data$frame_index,
-        width = frame_index_width,
-        side = "left",
-        pad = "0"
-      ),
-      frame_path = base::file.path(
-        path_frame_output,
-        stringr::str_glue(
-          "{frame_directory_name}_{frame_id}_",
-          "{base::as.integer(age)}.png"
-        )
-      )
-    )
-
-  purrr::pwalk(
-    .l = data_frame_paths,
-    .f = function(frame_index, age, frame_id, frame_path) {
-      plot_frame <-
-        if (
-          base::is.null(data_points)
-        ) {
-          build_prediction_frame(
-            data_frame = data_frame,
-            age_value = age,
-            value_column = value_column,
-            subtitle_label = subtitle_label,
-            fill_label = fill_label,
-            fill_limits = fill_limits,
-            fill_trans = fill_trans,
-            fill_colors = fill_colors,
-            metric_label = metric_label
-          )
-        } else {
-          build_prediction_frame(
-            data_frame = data_frame,
-            age_value = age,
-            value_column = value_column,
-            subtitle_label = subtitle_label,
-            fill_label = fill_label,
-            fill_limits = fill_limits,
-            fill_trans = fill_trans,
-            data_points = data_points |>
-              dplyr::filter(
-                base::abs(.data$age - age) <= (time_step / 2)
-              ) |>
-              tidyr::drop_na(
-                "coord_long",
-                "coord_lat"
-              ),
-            fill_colors = fill_colors,
-            point_color = point_color,
-            metric_label = metric_label
-          )
-        }
-
-      ggview::save_ggplot(
-        plot = plot_frame,
-        file = frame_path,
-        device = ragg::agg_png
-      )
-    }
-  )
-
-  list_animation <-
-    build_gif_from_frames(
-      vec_frame_paths = data_frame_paths |>
-        dplyr::pull("frame_path"),
-      output_path = base::file.path(
-        path_output,
-        output_file_name
-      ),
-      fps = 2,
-      loop = 0L,
-      optimize = TRUE
-    )
-
-  if (
-    !isTRUE(purrr::chuck(list_animation, "used_magick"))
-  ) {
-    cli::cli_abort(
-      "Could not create GIF because no GIF backend was available."
-    )
-  }
-}
-
-
 #----------------------------------------------------------#
 # 4. Save animations -----
 #----------------------------------------------------------#
@@ -720,6 +400,12 @@ save_prediction_animation(
   subtitle_label = stringr::str_glue("{selected_taxon}"),
   fill_label = "Probability",
   fill_limits = c(0, 1),
+  vec_age_slices = vec_age_slices,
+  path_output = path_output,
+  list_prediction_grid = list_prediction_grid,
+  data_world = data_world,
+  grid_resolution = selected_grid_resolution,
+  time_step = time_step,
   fill_colors = selected_taxon_fill_colors,
   metric_label = stringr::str_glue(
     "Model Nagelkerke R² ~ {base::round(model_r2_nagelkerke, 3)} |",
@@ -728,7 +414,9 @@ save_prediction_animation(
   data_points = data_observations_selected_species,
   point_color = observed_point_color,
   frame_directory_name = "slide_12_future_predictions_selected_taxon",
-  output_file_name = "slide_12_future_predictions_selected_taxon.gif"
+  output_file_name = "slide_12_future_predictions_selected_taxon.gif",
+  vec_palette = vec_oracle_palette,
+  font_family = font_family
 )
 
 save_prediction_animation(
@@ -740,6 +428,12 @@ save_prediction_animation(
     0,
     base::max(data_expected_richness[["expected_genus_richness"]])
   ),
+  vec_age_slices = vec_age_slices,
+  path_output = path_output,
+  list_prediction_grid = list_prediction_grid,
+  data_world = data_world,
+  grid_resolution = selected_grid_resolution,
+  time_step = time_step,
   fill_trans = scales::log1p_trans(),
   fill_colors = richness_fill_colors,
   metric_label = stringr::str_glue(
@@ -749,5 +443,7 @@ save_prediction_animation(
   frame_directory_name =
     "slide_12_future_predictions_expected_genus_richness",
   output_file_name =
-    "slide_12_future_predictions_expected_genus_richness.gif"
+    "slide_12_future_predictions_expected_genus_richness.gif",
+  vec_palette = vec_oracle_palette,
+  font_family = font_family
 )
