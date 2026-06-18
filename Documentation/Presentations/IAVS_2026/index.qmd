@@ -1833,6 +1833,28 @@ knitr::include_graphics(
 
 <!-- Temporal models, species-species association variance x network modularity -->
 
+```{r}
+#| label: extra-slide02-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Extra/temporal_association_modularity_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: extra-slide02-temporal-association-modularity-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_02_temporal_association_modularity.png"
+  )
+)
+```
+
 ## Is there relationship between network modularity and network size? {.slide-terminal .slide-terminal-results}
 
 <!-- Temporal models, network modularity x network size -->
