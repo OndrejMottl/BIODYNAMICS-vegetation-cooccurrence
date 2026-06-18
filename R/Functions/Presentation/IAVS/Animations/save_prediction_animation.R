@@ -299,4 +299,6 @@ save_prediction_animation <- function(
       "Could not create GIF because no GIF backend was available."
     )
   }
+
+  return(res_animation)
 }

@@ -216,4 +216,5 @@ save_temporal_trajectory_animation <- function(
     )
   }
 
+  return(res_animation)
 }
