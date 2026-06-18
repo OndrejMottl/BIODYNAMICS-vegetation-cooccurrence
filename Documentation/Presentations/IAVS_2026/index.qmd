@@ -1255,7 +1255,7 @@ Interestingly, the variance decomposition is surprisingly stable through time ac
 #| label: result-slide12-generate
 #| include: false
 #| cache: true
-#| eval: true
+#| eval: false
 source(
   here::here(
     "Documentation/Presentations/IAVS_2026/R/Visualisation/future_predictions_animation.R"
@@ -1783,3 +1783,174 @@ ANALYTICAL  OUTPUTS: **REAL**
 ::: {.notes}
 Thank you very much for your attention, and I am looking forward to your questions.
 :::
+
+<!-- slide:S00 -->
+
+## {.slide-terminal .slide-terminal-story .slide-section-break}
+
+<pre class="section-break-ascii text-color-temporal" aria-label="Extra slides">                                 
+██████ ▄▄ ▄▄ ▄▄▄▄▄▄ ▄▄▄▄   ▄▄▄   
+██▄▄   ▀█▄█▀   ██   ██▄█▄ ██▀██  
+██▄▄▄▄ ██ ██   ██   ██ ██ ██▀██  
+                                 
+ ▄▄▄▄ ▄▄    ▄▄ ▄▄▄▄  ▄▄▄▄▄  ▄▄▄▄ 
+███▄▄ ██    ██ ██▀██ ██▄▄  ███▄▄ 
+▄▄██▀ ██▄▄▄ ██ ████▀ ██▄▄▄ ▄▄██▀ 
+</pre>
+
+## Results of contemporary data {.slide-terminal .slide-terminal-results}
+
+<br>
+<br>
+
+```{r}
+#| label: extra-slide01-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Extra/modern_spatial_taxonomic_matrix_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: extra-slide01-modern-matrix-render
+#| echo: false
+#| out-width: 80%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_01_modern_spatial_taxonomic_matrix.png"
+  )
+)
+```
+
+## Is it a issue of model quality? {.slide-terminal .slide-terminal-results}
+
+<br>
+
+```{r}
+#| label: extra-slide02-model-quality-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Extra/spatial_association_model_quality_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: extra-slide02-spatial-model-quality-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_02_spatial_association_model_quality.png"
+  )
+)
+```
+
+## Is there relationship between species-species association and network modularity? {.slide-terminal .slide-terminal-results}
+
+<br>
+
+```{r}
+#| label: extra-slide02-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Extra/temporal_association_modularity_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: extra-slide02-temporal-association-modularity-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_02_temporal_association_modularity.png"
+  )
+)
+```
+
+## Is there relationship between network modularity and network size? {.slide-terminal .slide-terminal-results}
+
+<br>
+
+```{r}
+#| label: extra-slide03-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Extra/temporal_network_size_modularity_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: extra-slide03-temporal-network-size-modularity-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_03_temporal_network_size_modularity.png"
+  )
+)
+```
+
+## How good predictor is the climate? {.slide-terminal .slide-terminal-results}
+
+<br>
+
+```{r}
+#| label: extra-slide04-climate-parameters-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Extra/spatial_climate_parameters_auc_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: extra-slide04-climate-parameters-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_04_spatial_climate_parameters_auc.png"
+  )
+)
+```
+
+## How are the Functional Types generated ?{.slide-terminal .slide-terminal-results}
+
+<br>
+
+```{r}
+#| label: extra-slide05-functional-type-nmds-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Extra/functional_type_nmds_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: extra-slide05-functional-type-nmds-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_05_functional_type_nmds.png"
+  )
+)
+```
