@@ -1817,7 +1817,7 @@ source(
 ```{r}
 #| label: extra-slide01-modern-matrix-render
 #| echo: false
-#| out-width: 100%
+#| out-width: 80%
 knitr::include_graphics(
   here::here(
     "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_01_modern_spatial_taxonomic_matrix.png"
@@ -1827,11 +1827,33 @@ knitr::include_graphics(
 
 ## Is it a issue of model quality? {.slide-terminal .slide-terminal-results}
 
-<!-- Spatial models, species-species association variance x model R2 -->
+<br>
+
+```{r}
+#| label: extra-slide02-model-quality-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Extra/spatial_association_model_quality_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: extra-slide02-spatial-model-quality-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_02_spatial_association_model_quality.png"
+  )
+)
+```
 
 ## Is there relationship between species-species association and network modularity? {.slide-terminal .slide-terminal-results}
 
-<!-- Temporal models, species-species association variance x network modularity -->
+<br>
 
 ```{r}
 #| label: extra-slide02-generate
@@ -1857,11 +1879,55 @@ knitr::include_graphics(
 
 ## Is there relationship between network modularity and network size? {.slide-terminal .slide-terminal-results}
 
-<!-- Temporal models, network modularity x network size -->
+<br>
+
+```{r}
+#| label: extra-slide03-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Extra/temporal_network_size_modularity_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: extra-slide03-temporal-network-size-modularity-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_03_temporal_network_size_modularity.png"
+  )
+)
+```
 
 ## How good predictor is the climate? {.slide-terminal .slide-terminal-results}
 
-<!-- Spatial model - EU - continental- genus- - SE of parameters for all taxa, AUC for all taxa -->
+<br>
+
+```{r}
+#| label: extra-slide04-climate-parameters-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Extra/spatial_climate_parameters_auc_figure.R"
+  )
+)
+```
+
+```{r}
+#| label: extra-slide04-climate-parameters-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_04_spatial_climate_parameters_auc.png"
+  )
+)
+```
 
 ## How good predictor is the climate? {.slide-terminal .slide-terminal-results}
 
