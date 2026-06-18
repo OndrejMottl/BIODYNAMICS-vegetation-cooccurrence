@@ -12,6 +12,11 @@ date-modified: last-modified
 
 The IAVS 2026 presentation is available as an embedded RevealJS deck and as standalone files.
 
+::: {.callout-warning}
+The PDF backup contains static figures only.
+Use the standalone HTML deck for animated figures.
+:::
+
 - [Open standalone HTML](/Documentation/Presentations/IAVS_2026/index.html)
 - [Download PDF](/Documentation/Presentations/IAVS_2026/iavs_2026_presentation.pdf)
 - [View Quarto source](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Presentations/IAVS_2026/index.qmd)

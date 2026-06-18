@@ -1,9 +1,55 @@
 <script>
-if (window.location.search.includes('pdf-static=true')) {
+const pdfStaticMode = window.location.search.includes('pdf-static=true');
+
+if (pdfStaticMode) {
   document.documentElement.classList.add('pdf-static');
 }
 
+function completeStaticTerminalText(root = document) {
+  if (!root || !root.querySelectorAll) return;
+
+  root.querySelectorAll('.oracle-line').forEach((line) => {
+    line.classList.add('oracle-line-prompt-visible');
+
+    if (line.textContent.trim().length > 0) {
+      line.classList.add('oracle-line-has-text');
+    }
+  });
+
+  root.querySelectorAll('.fragment-terminal').forEach((element) => {
+    element.setAttribute('data-fragment-terminal-initialized', 'true');
+    element.setAttribute('data-fragment-terminal-typed', 'true');
+  });
+
+  root.querySelectorAll('.oracle-cursor').forEach((cursor) => {
+    cursor.remove();
+  });
+}
+
+function scheduleStaticTerminalText() {
+  const run = () => {
+    completeStaticTerminalText(document);
+    window.requestAnimationFrame(() => {
+      completeStaticTerminalText(document);
+    });
+    window.setTimeout(() => {
+      completeStaticTerminalText(document);
+    }, 250);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run, { once: true });
+  } else {
+    run();
+  }
+}
+
 function bootTypewriter() {
+  if (pdfStaticMode) {
+    scheduleStaticTerminalText();
+    return;
+  }
+
   if (typeof Reveal === 'undefined') {
     window.requestAnimationFrame(bootTypewriter);
     return;

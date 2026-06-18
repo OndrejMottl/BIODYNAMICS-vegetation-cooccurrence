@@ -1667,8 +1667,6 @@ I am also a huge nerd so I would be very happy to talk about any of the topics, 
 <!-- slide:16 -->
 ## Presentation availability {.slide-title .screen-corners .screen-header .screen-prompt}
 
-<br>
-
 [This presentation is publicly available on the BIODYNAMICS project website]{.text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple .text-emphasis-box .text-position-center}
 
 :::: {.columns}
@@ -1723,6 +1721,8 @@ generate_qr_code(
 ::::
 
 <br>
+
+[PDF backup contains static figures only; use the HTML deck for animations]{.display-block .text-position-center .text-color-amber .text-weight-heading .text-size-title-small .margin-bottom-large}  
 
 ::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-position-center}
 MIT LICENSE | Supported by [Czech Science Foundation](https://gacr.cz/en/) grant GN23-06386I

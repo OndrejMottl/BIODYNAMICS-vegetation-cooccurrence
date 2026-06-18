@@ -657,6 +657,19 @@
   display: block !important;
 }
 
+.pdf-static .fragment-terminal {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.pdf-static .oracle-cursor {
+  display: none !important;
+}
+
+.pdf-static .oracle-line::before {
+  opacity: 1;
+}
+
 .image-theme-bg-white {
   background: #ffffff;
   border: 4px solid var(--oracle-palette-border);
