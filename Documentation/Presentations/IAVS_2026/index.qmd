@@ -1929,13 +1929,31 @@ knitr::include_graphics(
 )
 ```
 
-## How good predictor is the climate? {.slide-terminal .slide-terminal-results}
+## How are the Functional Types generated ?{.slide-terminal .slide-terminal-results}
 
-<!-- Spatial model - EU - continental- genus- - SE of parameters for all taxa, AUC for all taxa -->
+<br>
 
-## How are the Functional Types generated {.slide-terminal .slide-terminal-results}
+```{r}
+#| label: extra-slide05-functional-type-nmds-generate
+#| include: false
+#| cache: true
+source(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/R/Visualisation/Extra/functional_type_nmds_figure.R"
+  )
+)
+```
 
-<!-- PCA of Europe dissimilarity of taxon, colored by the FT, some major taxa highlited and the names for FT groups are suggested (1-3 groups) -->
+```{r}
+#| label: extra-slide05-functional-type-nmds-render
+#| echo: false
+#| out-width: 100%
+knitr::include_graphics(
+  here::here(
+    "Documentation/Presentations/IAVS_2026/figures/results/extra/slide_extra_05_functional_type_nmds.png"
+  )
+)
+```
 
 ## Pipeline architecture - spatial {.slide-terminal .slide-terminal-methods}
 
