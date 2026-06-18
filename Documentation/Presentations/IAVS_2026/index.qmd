@@ -97,7 +97,7 @@ ANALYTICAL  OUTPUTS: **REAL**
 ::::
 
 ::: {.notes}
-TIME 00:25. Hello and welcome! I would like to try something dirrerent. It think that science should be serious but also a little bit fun. So I decided to do something different. I will ask the audience to close their eyes and imagine there are on a space ship and their goal is to examine the vegtation patterns of this Planet called "Earth". We will use of the spaceship computer called ORACLE to do so. All the data, analysis, and results are real. The computer is not real and only serves as a narrative device.
+Hello and welcome to my talk! I would like to try something different. I think that science should be serious but also a little bit fun. So I decided to do something unusual. I will ask the audience to close their eyes and imagine that we are on a spaceship and our goal is to examine the vegetation patterns of this weird planet called "Earth". We will use the spaceship's supercomputer, ORACLE, to do so. All the data, analyses, and results you will see are real. BUT the supercomputer is NOT real and only serves as a narrative device.
 :::
 
 <!-- slide:01 -->
@@ -156,7 +156,7 @@ Proceed? [Y]/[N]?
 ::::
 
 ::: {.notes}
-TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mottl, the chief researcher at this space station. We have 12 minutes to explore the vegetation patterns of a alian planet called 'Earth' using the Observational Runtime for Analysis of Community-Level Ecology (ORACLE) system. Let's get started.
+Welcome, fellow scientists, you may open your eyes! I am Ondřej Mottl, the chief researcher at this space station. We have around 13 minutes to use a supercomputer called the Observational Runtime for Analysis of Community-Level Ecology (ORACLE) to explore the vegetation patterns of this weird planet called 'Earth'. ORACLE has already introduced itself, so let's get started.
 :::
 
 <!-- slide:02a -->
@@ -173,9 +173,9 @@ TIME 00:35. Welcome fellow scientists, you may open your eyes! I am Ondřej Mott
 :::
 
 :::{.notes}
-The main questons of this talk is: Is there a scale dependence in the amount of unexplained variation structuring vegetation since the Last Glacial Maximum (LGM)?
-Me, as a scientist, I am interested in understanding the processes that structure vegetation patterns on Earth. We know that climate and spatial factors play a big role, but I am particularly interested in the unexplained variation, which could potentially be due to biotic interactions. This interaction can take shape of shared polinator or herbivore pressure, or direct facilitation or competition between plants.
-We would assume that the amount of unexplained variation would change with scale, for example, biotic interactions can be more likely detected at local scales than at continental scales.
+The main question of this talk is: Is there a scale dependence in the amount of unexplained variation structuring vegetation since the Last Glacial Maximum (LGM)?
+I am personally interested in understanding the processes that structure vegetation patterns on Earth. We know that climate and spatial factors play a big role, but I am particularly interested in the unexplained variation, which could potentially be attributed to biotic interactions. These interactions can take the form of shared pollinator or herbivore pressure, or direct facilitation or competition between plants.
+We would assume that the amount of unexplained variation would change with scale; for example, biotic interactions can be more likely to be detected at local scales than at continental scales.
 :::
 
 <!-- slide:02 -->
@@ -233,7 +233,7 @@ Plan to [partition]{.text-emphasis-underline} observed plant co-occurrence into:
 ::::
 
 ::: {.notes}
-TIME 00:45. Oracle, I would like like to explore vegation patterns across space and time of this planet. From our knowlege banks we know that vegetation is mostly explaineby climate and spatial factors. However, I am particullary interested in the unexplained variation. My first question is simple: Does the unexplained part of the community pattern change with scale, or does it stay broadly consistent?
+So ORACLE, is there a scale dependence in the amount of unexplained variation structuring vegetation since the Last Glacial Maximum (LGM)? ORACLE suggests that we could partition the observed plant co-occurrence into three components: spatial structure, or spatial autocorrelation, which will always be in blue; climate response, such as temperature or precipitation, which will be in yellow; and residual species-species association, which will be in purple.
 :::
 
 <!-- slide:03 -->
@@ -329,7 +329,7 @@ knitr::include_graphics(
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-[\<VegVault\>]{.text-emphasis-chip} database: publicly available open source database
+[\<VegVault\>]{.text-emphasis-chip} database: publicly available, open-source database
 :::
 
 []{.oracle-line}
@@ -356,6 +356,10 @@ Due to [data availability]{.text-emphasis-underline-dotted}, I will focus on the
 ::: {.column width="50%"}
 ```{r}
 #| label: QR code https://bit.ly/VegVault 
+#| echo: false
+#| eval: true
+#| output: false
+#| cache: true
 generate_qr_code(
   url = "https://bit.ly/VegVault",
   name = "vegvault",
@@ -376,8 +380,10 @@ generate_qr_code(
 ::::
 
 ::: {.notes}
-TIME 00:45. Oracle, Load the VegVault database to get vegetation data, climate predictors, and functional traits for our analysis.
-The database is publicly available and open source. For this analysis, we will focus on the Northern Hemisphere of the planet, which includes North America, Europe, and Asia.
+We will be using the VegVault database, which is a publicly available and open-source meta-database that combines various data sources, such as vegetation plots, fossil pollen records, contemporary and palaeoclimate data, and functional traits.
+The database is global but, for this project, we will focus on the Northern Hemisphere. As you can see in the figure, the data coverage is particularly strong in North America and Europe, but we will also include Asia.
+I have presented the database last year at the IAVS 2025 conference, and there is now also a paper in Nature Scientific Data.
+If you would like to find out more about the database, you can scan the QR code on the right.
 :::
 
 <!-- slide:04 -->
@@ -394,7 +400,7 @@ The database is publicly available and open source. For this analysis, we will f
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
-Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
+Data extracted, now [preparing]{.text-emphasis-underline-dotted} ...
 :::
 
 []{.oracle-line}
@@ -408,7 +414,7 @@ Data extracted, now [preparation]{.text-emphasis-underline-dotted} ...
 :::
 
 ::: {.oracle-line}
- - Taxa are classified [automatically]{.text-emphasis-underline-dotted} to GBIF and filtered
+ - Taxa are classified [automatically]{.text-emphasis-underline-dotted} against GBIF and filtered
 :::
 
 ::: {.oracle-line}
@@ -462,7 +468,7 @@ knitr::include_graphics(
 )
 ```
 
-<!-- Lets keep the mermaid as backup -->
+<!-- Let's keep the mermaid as backup -->
 
 ::: {.oracle-mermaid .oracle-mermaid-process}
 
@@ -535,7 +541,9 @@ flowchart TB
 ::::
 
 ::: {.notes}
-TIME 00:45. Oracle, we now need to apply data processing to community data and climate predictors to make them ready for analysis.
+Now we need to process the data. I am only mentioning a small subset of the processing pipeline, and it is much more complicated in reality. For the fossil pollen community data, we need to transform pollen counts to proportions. Then we interpolate to an even temporal spacing of 500 years, propagating age uncertainty from the age-depth models. We will harmonise the taxonomy to align with the GBIF backbone. This will allow us to select the taxonomic resolution, like genus or family, used to aggregate the data.
+For the climate data, I used CHELSA bioclimatic variables, such as temperature, precipitation, and their variability. We remove all constant predictors, then check the correlation among them to create a non-collinear set. Finally, we interpolate to 500 years.
+All data are then filtered to make sure we have enough samples and cores for the modelling.
 :::
 
 <!-- slide:05 -->
@@ -631,8 +639,8 @@ TIME 00:45. Oracle, we now need to apply data processing to community data and c
 :::
 
 ::: {.notes}
-TIME 00:45. Oracle, build a model, which would include climate, spatial structure, and whatever residual association remains.
-We will be uisng {sjSDM} R package is used because the community matrix and spatial design are too large for slower MCMC workflows.
+Speaking of the model, we will be using the scalable joint Species Distribution Model, which is a variant of a joint species distribution model that is designed to run on graphics cards for very large datasets. It is also a probabilistic Bayesian model.
+Now get ready for some math. The model is a Bernoulli model, which means presence-absence. We include the intercept; the abiotic predictors, which are the interaction of climate with time, as we assume that the relationship may change over time; the spatial predictors, represented by Moran Eigenvector Maps, to absorb spatio-temporal autocorrelation, as we assume that it is more likely to find similar taxa close in space and time; and the residual species-species association signal.
 :::
 
 <!-- slide:06 -->
@@ -662,8 +670,7 @@ Focus: [residual association component]{.text-highlight-latent}
 []{.oracle-line}
 
 ::: {.oracle-line}
-Report what remains after [climate]{.text-highlight-abiotic} and [spatial 
-structure]{.text-highlight-spatial} have made their claims
+Report what remains after [climate]{.text-highlight-abiotic} and [spatial structure]{.text-highlight-spatial} have made their claims
 :::
 
 []{.oracle-line}
@@ -754,8 +761,9 @@ knitr::include_graphics(
 ::::
 
 ::: {.notes}
-TIME 00:40. Now we would like to decompose the explained variance so we can separate climate, space, and residual association.
-The shared fractions are useful diagnostics for understanding the model fit. However, we will focus on the non-shared residual association component.
+Now that the model fits and converges, we would like to decompose the explained variance. We will focus on the latent residual species-species association, but we do have information about climate and space.
+In this example model, the variance decomposition shows that 60% is abiotic/climate, roughly 30% is spatial, and 10% is residual association.
+For each model, we have each of these numbers, but we can also combine them into a single color by placing them on this color triangle. The color of the point represents the relative contribution of each component to the total explained variance. The more purple, the more residual association is present in the model.
 :::
 
 <!-- slide:07 -->
@@ -775,17 +783,17 @@ The shared fractions are useful diagnostics for understanding the model fit. How
 
 ::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="3"}
 
-![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_temporal_v1_recolor.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_taxonomic_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
 
-[Temporal]{.text-highlight-temporal}
+[Taxonomic]{.text-highlight-latent}
 
 :::
 
 ::: {.column width="33%" .text-position-center .fragment .tui-reveal-scan data-fragment-index="4"}
 
-![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_taxonomic_v1.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
+![](figures/story/genai_drafts/analysis_axes_triptych_motif_v2_temporal_v1_recolor.png){.image-display-block .margin-x-auto .image-blend-screen .image-fit-contain .width-full .image-height-400}
 
-[Taxonomic]{.text-highlight-latent}
+[Temporal]{.text-highlight-temporal}
 
 :::
 
@@ -800,20 +808,20 @@ Three routes selected:
 :::
 
 ::: {.oracle-line}
-[Spatial-resolution runs]{.text-highlight-spatial} : chnages with spatial scale
+[Spatial-resolution runs]{.text-highlight-spatial} : change with spatial scale
 :::
 
 ::: {.oracle-line}
-[Temporal slices test]{.text-highlight-temporal} : change through time
+[Taxonomic aggregation levels]{.text-highlight-latent} : change through classification
 :::
 
 ::: {.oracle-line}
-[Taxonomic aggregation level]{.text-highlight-latent} : change through classification
+[Temporal slice tests]{.text-highlight-temporal} : change through time
 :::
 :::
 
 ::: {.notes}
-TIME 00:35. Now, we would like to split the analysis along space (from local to continental), time (since the last glacial maximum), and taxonomic resolution (from genus up to abstract functional types).
+We use three axes to split the analysis. We will start with spatial scale - going from local to continental; taxonomic scale - how does the result change if we alter the taxonomic resolution; and temporal scale - is the signal changing from the Last Glacial Maximum to now?
 :::
 
 <!-- slide:08a -->
@@ -827,7 +835,7 @@ TIME 00:35. Now, we would like to split the analysis along space (from local to 
 </pre>
 
 :::{.notes}
-Now lets focus on the first axis of the analysis, which is spatial scale.
+Now let's start with the spatial axis.
 :::
 
 
@@ -907,8 +915,10 @@ Units are nested from [local]{.text-emphasis-underline-dotted} to [regional]{.te
 -->
 
 ::: {.notes}
-TIME 00:50. Oracle, start with the spatial axis. Show how the association signal changes across local, regional, and continental units.
-What do we see? Is there a clear change in the association signal across spatial scales? I would expect that local units have stronger association signal than continental units, but the pattern is not showing!
+ORACLE, show us how the association signal changes going from continental to local.
+On this map we can see an animation of how that looks. For the continental scale, we use all data from the whole continent. For the regional scale, we use only a subset, and for the local scale we use an even smaller subset. Then we fit a separate model for each of them.
+Let's take a look at the results. The X-axis is the spatial scale, from local to continental. The Y-axis is the amount of variance explained by the species-specific associations. Each point shows one model. We have only three for the continental scale - North America, Europe, and Asia. We have many more for the regional and local scales. The color of the point represents the relative contribution of each component based on the color triangle.
+Surprisingly, we do not see the species-specific signal getting stronger at the local scale. We can see that there is large variability, but the color is mainly yellowish, suggesting an overall strong impact of climate.
 :::
 
 <!-- slide:9a -->
@@ -926,7 +936,7 @@ What do we see? Is there a clear change in the association signal across spatial
 </pre>
 
 :::{.notes}
-let's add the taxonomic axis to the analysis and see how the association signal changes with taxonomic resolution.
+Now what if we add the taxonomic axis?
 :::
 
 <!-- slide:09 -->
@@ -976,8 +986,9 @@ knitr::include_graphics(
 :::
 
 ::: {.notes}
-TIME 00:45. Oracle, how does the spatial pattern change when we add taxonomic resolution? We assume that higher higher taxonomic resolution will result in smaller association signal in local units and vice versa.
-Interestingly, the change in taxonomic resolution does not seem to affect the spatial patterns. This is surprising, as we would expect that higher taxonomic resolution would result in smaller association signal in local units and vice versa.
+How does the spatial pattern change when we add taxonomic resolution? We assume that increasing the taxonomic resolution will reverse the effect of changing the spatial scale.
+This is exactly the same figure as before, but we have now added two more panels. The first shows what happens if we rerun the models but aggregate at the family level, and the last one is even more abstract: we replace the taxa with functional types, assigned using the functional traits of each taxon.
+Interestingly, changing the taxonomic resolution affects the patterns. The family level makes the spatial patterns even stronger, but I think this makes sense, as there is less importance of family-family association at the local scale. The functional types show that there is little interaction between functional types, which is also expected, as their patterns can be mainly explained by abiotic factors. In other words, their climatic niches are different.
 :::
 
 <!-- slide:10a -->
@@ -995,7 +1006,7 @@ Interestingly, the change in taxonomic resolution does not seem to affect the sp
 </pre>
 
 :::{.notes}
-Finally, let's look at the temporal axis and see how the association signal changes through time since the last glacial maximum.
+Finally, let's look at the temporal axis.
 :::
 
 <!-- slide:10 -->
@@ -1049,7 +1060,7 @@ Query accepted
 []{.oracle-line}
 
 ::: {.oracle-line}
-[Each slice]{.text-emphasis-underline-double} receives an [independent analysis and diagnostics]{.text-emphasis-underline-double}
+[Each slice]{.text-emphasis-underline-double} receives an [independent analysis and diagnostic workflow]{.text-emphasis-underline-double}
 :::
 
 []{.oracle-line}
@@ -1124,8 +1135,9 @@ knitr::include_graphics(
 ::::
 
 ::: {.notes}
-TIME 00:50. Oracle, now let' switch to temporal mode and test whether the association signal stays stable through time.
-Now each time slice receives an independent analyses and diagnostics. We will be looking at the temporal trajectories of the association signal, but also at the network structure, which can change even when variance components look similar. Proceed ORACLE!
+Is the species-species association signal stable through time?
+Until now, we have used the whole fossil pollen record at once, but now we will split the data into 500-year windows and only use the data for that specific time slice. For each time slice, we will fit a separate model.
+In addition, we will calculate some classic network diagnostics for each time slice. We have bipartite networks, where the species are on top and we will map them to specific places at the bottom. Now we can calculate the connectance of the network, or network modularity.
 :::
 
 <!-- slide:11 -->
@@ -1219,7 +1231,10 @@ knitr::include_graphics(
 ::::
 
 ::: {.notes}
-TIME 00:50. The network structure and the variance components are changing through time, There is no clear pattern change during the LGM transition and during the strong anthropogenic changes during late Holocene. However, this is not consistent for all continents. Moreover, the association signal is not respoding in the same way as the network structure.
+ORACLE, plot us the results!
+Now we have the analyses for each continent - North America, Europe, and Asia. Each time the line moves, we fit a separate model and decompose the variance, expressed as the colors. In addition, we have the green line, which is the modularity of the community structure.
+We see that the modularity changes through time, for example, this drop around 10,000 years ago in Europe, which may be connected to rapid climate change.
+Interestingly, the variance decomposition is surprisingly stable through time across all continents.
 :::
 
 <!-- slide:12 -->
@@ -1282,11 +1297,15 @@ Current [SDM]{.text-emphasis-chip} models can reconstruct [past-to-present]{.tex
 :::
 
 ::: {.notes}
-TIME 00:40. 
+OK, what now? We still have this powerful Species Distribution Model, so we can do what many modelers do, and that is prediction. We will start by predicting into the past. We have the climate data, the spatio-temporal structure, and the species-species association signal; now we will predict the distribution of a specific taxon - in our case, Picea.
+The blue color is the predicted probability of the taxon, and each tick is a different time slice. Yellow crosses show the actual detected presence of the taxon. We can see the northward migration of the taxon after the Last Glacial Maximum.
+We have this for all taxa, so we can also look at changes in richness.
+For me, the logical next step is to use this machinery to predict the future: use the past to better predict future changes in biodiversity.
+
 :::
 
 <!-- slide:13 -->
-## [Take home messages]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
+## [Take-home messages]{.fragment .fragment-terminal data-fragment-index="0"} {.slide-terminal .slide-terminal-synthesis}
 
 ```{r}
 #| label: result-slide13-generate
@@ -1307,7 +1326,7 @@ Consulting deeper reasoning matrices
 :::
 
 ::: {.oracle-line}
-Summarising RESULTS together: [spatial]{.text-color-spatial} patterns, [taxonomic]{.text-color-latent} resolution, [temporal]{.text-highlight-temporal} dynamics
+Summarising RESULTS together: [spatial]{.text-highlight-spatial} patterns, [taxonomic]{.text-highlight-latent} resolution, [temporal]{.text-highlight-temporal} dynamics
 :::
 
 :::
@@ -1479,35 +1498,36 @@ number_of_functional_types <-
   format_count(number_of_functional_types_raw)
 ```
 
+
 ::: {.fragment data-fragment-index="2" .text-emphasis-box}
-Palaecological data [CAN]{.text-emphasis-underline .text-emphasis-chip} be used to [reconstruct]{.text-emphasis-underline} [past]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and bring insights into our understanding of ecological processes.
+I have used [`r number_of_cores` cores]{.text-bold .text-color-spatial} with [`r number_of_samples` spatio-temporal communities]{.text-bold .text-emphasis-box}, [`r number_of_taxa` taxa]{.text-bold .text-color-latent}, and [`r number_trait_values` trait values]{.text-bold .text-color-latent} translated into [`r number_of_functional_types` functional types]{.text-bold .text-color-latent} to fit [`r number_of_models` models]{.text-bold .text-emphasis-underline-double .text-color-red}.
 :::
 
 ::: {.fragment data-fragment-index="3" .text-emphasis-box}
-I have used [`r number_of_cores` cores]{.text-bold .text-color-spatial} to fit [`r number_of_models` models]{.text-bold .text-emphasis-undeline-double .text-color-red}, which included [`r number_of_samples` spatio-temporal communities]{.text-bold .text-emphasis-box}, [`r number_of_taxa` taxa]{.text-bold .text-color-latent}, and [`r number_trait_values` trait values]{.text-bold .text-color-latent} translated into [`r number_of_functional_types` functional types]{.text-bold .text-color-latent}.
+Palaeoecological data [CAN]{.text-emphasis-underline .text-emphasis-chip} be used to [reconstruct]{.text-emphasis-underline} [past]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and provide insights into ecological processes.
 :::
 
 ::: {.fragment data-fragment-index="4" .text-emphasis-box}
 [SPACE]{.text-highlight-spatial}: 
-The association signal is [NOT]{.text-emphasis-underline .text-highlight-warning} scale-dependent and [NOT]{.text-emphasis-underline .text-highlight-warning} stronger at [local]{.text-emphasis-underline-dotted} than at [continental]{.text-emphasis-underline-dotted} scales
+The [association signal]{.text-emphasis-underline-dotted .text-color-latent} is [NOT]{.text-emphasis-underline .text-highlight-warning} scale-dependent and [NOT]{.text-emphasis-underline .text-highlight-warning} stronger at [local]{.text-emphasis-underline-dotted} than at [continental]{.text-emphasis-underline-dotted} scales
 :::
 
 ::: {.fragment data-fragment-index="5" .text-emphasis-box}  
 [TAXONOMY]{.text-highlight-latent}: 
-Increasing [taxonomic resolution]{.text-emphasis-underline-dotted .text-color-latent} [DOES]{.text-emphasis-underline .text-emphasis-chip} have impact on [spatial pattern]{.text-color-spatial} of the association signal, but [NOT]{.text-emphasis-underline .text-highlight-warning} in the [expected direction]{.text-emphasis-underline-dotted} 
+Increasing [taxonomic resolution]{.text-color-latent} [DOES]{.text-emphasis-underline .text-emphasis-chip} have an impact on the [spatial pattern]{.text-color-spatial} of the [association signal]{.text-emphasis-underline-dotted .text-color-latent}, but [NOT]{.text-emphasis-underline .text-highlight-warning} in the [expected direction]{.text-emphasis-underline-dotted}
 :::
 
 ::: {.fragment data-fragment-index="6" .text-emphasis-box}
 [TIME]{.text-highlight-temporal}: 
-Co-occurrence structure [ARE]{.text-emphasis-underline .text-emphasis-chip} responding to major environmental changes through time, but the [association signal]{.text-emphasis-underline-dotted} [IS]{.text-emphasis-underline .text-emphasis-chip} surpraisingly [stable]{.text-emphasis-underline-dotted} through time.
+Co-occurrence structure [IS]{.text-emphasis-underline .text-emphasis-chip} responding to major [environmental changes]{.text-highlight-abiotic}, but the [association signal]{.text-emphasis-underline-dotted .text-color-latent} [IS]{.text-emphasis-underline .text-emphasis-chip} surprisingly [stable]{.text-emphasis-underline} through [time]{.text-highlight-temporal}.
 :::
 
 ::: {.fragment data-fragment-index="7" .text-emphasis-box}
-In addtion to current contemporary single-species diversity models, [palaeocological data]{.text-highlight-temporal} can be used to [predict]{.text-emphasis-underline .text-color-red} [future]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and support [conservation efforts]{.text-emphasis-underline-double}.
+In addition to contemporary single-species diversity models, [palaeoecological data]{.text-highlight-temporal} can be used to [predict]{.text-emphasis-underline .text-color-red} [future]{.text-emphasis-underline-dotted} [biodiversity]{.text-color-purple} patterns and support [conservation efforts]{.text-emphasis-underline-double}.
 :::
 
 ::: {.notes}
-TIME 00:45. TBD
+~just read the text as it comes up~
 :::
 
 <!-- slide:14 -->
@@ -1550,7 +1570,7 @@ Turning off non-essential systems
 :::
 
 ::: {.notes}
-TIME 00:20. 
+This is all the time we have from the supercomputer. ORACLE is turning off.
 :::
 
 <!-- slide:15 -->
@@ -1612,6 +1632,10 @@ Interested in [macroecology]{.text-emphasis-caps .text-emphasis-chip .text-color
 ::: {.column width="40%"}
 ```{r}
 #| label: QR code https://bit.ly/ondrej_mottl 
+#| echo: false
+#| eval: true
+#| output: false
+#| cache: true
 generate_qr_code(
   url = "https://bit.ly/ondrej_mottl",
   name = "personal_web",
@@ -1636,7 +1660,8 @@ generate_qr_code(
 
 
 ::: {.notes}
-TIME 00:20. 
+My name is Ondřej Mottl. I am an assistant professor at Charles University in Prague, Czech Republic. I am the head of the Laboratory of Quantitative Ecology. If you want to find more information about my work and my lab, you can Google my name or scan the QR code.
+I am also a huge nerd so I would be very happy to talk about any of the topics, so come and find me after the presentation if you want to chat.
 :::
 
 <!-- slide:16 -->
@@ -1644,7 +1669,7 @@ TIME 00:20.
 
 <br>
 
-[This presentation is publicly available on BIODYNAMICS project websites]{.text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple .text-emphasis-box .text-position-center}
+[This presentation is publicly available on the BIODYNAMICS project website]{.text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple .text-emphasis-box .text-position-center}
 
 :::: {.columns}
 
@@ -1659,6 +1684,10 @@ TIME 00:20.
 
 ```{r}
 #| label: QR code https://bit.ly/BIODYNAMICS_project 
+#| echo: false
+#| eval: true
+#| output: false
+#| cache: true
 generate_qr_code(
   url = "https://bit.ly/BIODYNAMICS_project",
   name = "biodynamics_web",
@@ -1700,7 +1729,7 @@ MIT LICENSE | Supported by [Czech Science Foundation](https://gacr.cz/en/) grant
 :::
 
 ::: {.notes}
-TIME 00:25. This presentation is publicly available. The rendered presentation and other materials are  accessible via the project website. TheQR code will link to the access page where slides, code, and documentation can be found.
+This presentation is part of the BIODYNAMICS project. Everything, including this presentation, is publicly available on the project website and fully reproducible. You can scan the QR code or go to bit.ly/BIODYNAMICS_project.
 :::
 
 <!-- slide:17 -->
@@ -1752,5 +1781,5 @@ ANALYTICAL  OUTPUTS: **REAL**
 ::::
 
 ::: {.notes}
-TIME 00:25. I will ask the audience to close their eyes and imagine there are on a space ship and their goal is to examine the vegtation patterns of this Planet called "Earth". We will use of the spaceship computer called ORACLE to do so. All the data, analysis, and results are real. The computer is not real and only serves as a narrative device.
+Thank you very much for your attention, and I am looking forward to your questions.
 :::
