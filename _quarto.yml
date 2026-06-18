@@ -7,7 +7,6 @@ project:
   render:
     - "index.qmd"
     - "Documentation/Website/**/*.qmd"
-    - "Documentation/Presentations/IAVS_2026/index.qmd"
 
 website:
   title: "BIODYNAMICS-vegetation-cooccurrence"
@@ -34,8 +33,8 @@ website:
       - text: "Reproducibility"
         href: Documentation/Website/installation.qmd
 
-      - text: "IAVS 2026 Presentation"
-        href: Documentation/Presentations/IAVS_2026/index.qmd
+      - text: "Outputs"
+        href: Documentation/Website/outputs.qmd
 
       - section: "Documentation"
         contents:
