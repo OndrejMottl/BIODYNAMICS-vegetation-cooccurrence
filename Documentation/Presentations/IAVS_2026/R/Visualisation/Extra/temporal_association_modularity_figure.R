@@ -107,6 +107,15 @@ vec_continent_colours <-
     "Asia" = vec_oracle_palette[["purple"]]
   )
 
+vec_continent_shapes <-
+  base::c(
+    "america" = 22,
+    "asia" = 24,
+    "europe" = 21
+  )
+
+vec_continent_ids <-
+  base::names(vec_continent_shapes)
 
 #----------------------------------------------------------#
 # 1. Load temporal model outputs -----
@@ -124,11 +133,12 @@ data_temporal_inventory <-
       )
     ),
     store_exists = fs::dir_exists(.data$store_path),
+    continent_id = .data$scale_id,
     continent = stringr::str_to_title(.data$scale_id)
   ) |>
-  # dplyr::filter(.data$store_exists) |>
   dplyr::select(
     "scale_id",
+    "continent_id",
     "continent",
     "store_path"
   )
@@ -152,12 +162,15 @@ if (
 data_association_temporal <-
   data_temporal_inventory |>
   purrr::pmap(
-    .f = function(scale_id, continent, store_path) {
+    .f = function(scale_id, continent_id, continent, store_path) {
       targets::tar_read(
         name = "data_anova_components_by_age_percentage",
         store = store_path
       ) |>
-        dplyr::mutate(continent = continent)
+        dplyr::mutate(
+          continent_id = continent_id,
+          continent = continent
+        )
     }
   ) |>
   purrr::list_rbind() |>
@@ -165,16 +178,26 @@ data_association_temporal <-
     .data$component == "Associations",
     base::is.finite(.data$R2_Nagelkerke_percentage)
   ) |>
-  dplyr::transmute(
+  dplyr::mutate(
     age = base::as.numeric(.data$age),
     continent = base::factor(
       .data$continent,
       levels = vec_continent_levels
     ),
+    continent_id = base::factor(
+      .data$continent_id,
+      levels = vec_continent_ids
+    ),
     association_variance = base::pmax(
       .data$R2_Nagelkerke_percentage,
       0
     )
+  ) |>
+  dplyr::select(
+    "age",
+    "continent",
+    "continent_id",
+    "association_variance"
   )
 
 if (
@@ -188,7 +211,7 @@ if (
 data_modularity_temporal <-
   data_temporal_inventory |>
   purrr::pmap(
-    .f = function(scale_id, continent, store_path) {
+    .f = function(scale_id, continent_id, continent, store_path) {
       targets::tar_read(
         name = "data_network_metrics_by_age",
         store = store_path
@@ -199,6 +222,7 @@ data_modularity_temporal <-
             pattern = "\\d+$"
           ) |>
             base::as.numeric(),
+          continent_id = continent_id,
           continent = continent
         )
     }
@@ -208,16 +232,26 @@ data_modularity_temporal <-
     .data$metric == "modularity Q",
     base::is.finite(.data$value)
   ) |>
-  dplyr::transmute(
+  dplyr::mutate(
     age = .data$age,
     continent = base::factor(
       .data$continent,
       levels = vec_continent_levels
     ),
+    continent_id = base::factor(
+      .data$continent_id,
+      levels = vec_continent_ids
+    ),
     modularity_q = base::pmin(
       base::pmax(.data$value, 0),
       1
     )
+  ) |>
+  dplyr::select(
+    "age",
+    "continent",
+    "continent_id",
+    "modularity_q"
   )
 
 if (
@@ -234,11 +268,13 @@ data_temporal_plot <-
     y = data_modularity_temporal,
     by = dplyr::join_by(
       age,
+      continent_id,
       continent
     )
   ) |>
   dplyr::mutate(
-    age_kyr_bp = .data$age / 1000
+    age_kyr_bp = .data$age / 1000,
+    continent = as.character(.data$continent)
   ) |>
   dplyr::arrange(
     .data$continent,
@@ -253,18 +289,6 @@ if (
   )
 }
 
-data_time_labels <-
-  data_temporal_plot |>
-  dplyr::group_by(.data$continent) |>
-  dplyr::slice(
-    base::which.max(.data$age),
-    base::which.min(.data$age)
-  ) |>
-  dplyr::ungroup() |>
-  dplyr::mutate(
-    time_label = stringr::str_glue("{base::round(.data$age_kyr_bp, 1)} kyr")
-  )
-
 
 #----------------------------------------------------------#
 # 3. Make figure -----
@@ -278,67 +302,39 @@ figure_temporal_association_modularity <-
       y = .data$association_variance
     )
   ) +
-  ggplot2::geom_line(
-    mapping = ggplot2::aes(
-      group = .data$continent,
-      colour = .data$continent
-    ),
-    linewidth = 0.55,
-    alpha = 0.7
-  ) +
-  ggplot2::geom_point(
-    mapping = ggplot2::aes(
-      colour = .data$continent,
-      fill = .data$age_kyr_bp
-    ),
-    shape = 21,
-    size = 2.2,
-    stroke = 0.35,
-    alpha = 0.95
-  ) +
-  ggplot2::geom_smooth(
-    method = "lm",
-    formula = y ~ x,
-    se = FALSE,
-    colour = vec_oracle_palette[["phosphor"]],
-    linewidth = 1,
-    linetype = "dashed",
-    alpha = 0.9
-  ) +
-  ggrepel::geom_text_repel(
-    data = data_time_labels,
-    mapping = ggplot2::aes(
-      label = .data$time_label
-    ),
-    inherit.aes = TRUE,
-    size = 2.8,
-    colour = vec_oracle_palette[["text"]],
-    segment.colour = vec_oracle_palette[["border"]],
-    segment.size = 0.2,
-    box.padding = 0.18,
-    point.padding = 0.12,
-    seed = 900723,
-    max.overlaps = 60,
-    show.legend = FALSE
-  ) +
-  ggplot2::scale_colour_manual(
-    values = vec_continent_colours,
-    name = NULL
-  ) +
   ggplot2::scale_fill_gradient(
-    low = vec_oracle_palette[["cyan"]],
-    high = vec_oracle_palette[["amber"]],
+    low = vec_oracle_palette[["border"]],
+    high = vec_oracle_palette[["phosphor"]],
     name = "Age (kyr BP)",
+    trans = "reverse",
     breaks = scales::pretty_breaks(n = 5)
   ) +
   ggplot2::scale_x_continuous(
-    limits = base::c(0, 1),
-    breaks = base::seq(0, 1, by = 0.2),
+    limits = base::c(0, 0.5),
+    breaks = base::seq(0, 0.5, by = 0.1),
     expand = ggplot2::expansion(mult = base::c(0.02, 0.02))
   ) +
   ggplot2::scale_y_continuous(
     labels = scales::label_number(suffix = "%"),
     expand = ggplot2::expansion(mult = base::c(0.04, 0.08))
+  ) +
+  ggplot2::scale_shape_manual(
+    values = vec_continent_shapes,
+    name = NULL,
+    breaks = base::names(vec_continent_shapes),
+    labels = base::c(
+      "America",
+      "Asia",
+      "Europe"
+    ),
+    guide = ggplot2::guide_legend(
+      override.aes = base::list(
+        fill = NA,
+        colour = vec_oracle_palette[["phosphor"]],
+        alpha = 1,
+        stroke = 0.9
+      )
+    )
   ) +
   ggplot2::labs(
     x = "Network modularity Q",
@@ -377,8 +373,12 @@ figure_temporal_association_modularity <-
       colour = vec_oracle_palette[["muted"]],
       size = 10
     ),
-    axis.title = ggplot2::element_text(
+    axis.title.x = ggplot2::element_text(
       colour = vec_oracle_palette[["phosphor"]],
+      size = 12
+    ),
+    axis.title.y = ggplot2::element_text(
+      colour = vec_oracle_palette[["purple"]],
       size = 12
     ),
     legend.position = "right",
@@ -399,7 +399,46 @@ figure_temporal_association_modularity <-
       size = 10.2
     ),
     plot.margin = ggplot2::margin(10, 14, 8, 8)
+  ) +
+  ggplot2::geom_line(
+    mapping = ggplot2::aes(
+      group = .data$continent,
+    ),
+    colour = vec_oracle_palette[["muted"]],
+    linewidth = 0.55,
+    alpha = 0.7
+  ) +
+  ggplot2::geom_point(
+    mapping = ggplot2::aes(
+      shape = .data$continent_id,
+      fill = .data$age_kyr_bp
+    ),
+    size = 2.2,
+    stroke = 0.35,
+    alpha = 0.95
+  ) +
+  ggplot2::geom_smooth(
+    method = "lm",
+    formula = y ~ x,
+    se = FALSE,
+    colour = vec_oracle_palette[["purple"]],
+    linewidth = 1,
+    linetype = "dashed",
+    alpha = 0.9
+  ) +
+  ggplot2::geom_smooth(
+    mapping = ggplot2::aes(
+      group = .data$continent
+    ),
+    method = "lm",
+    formula = y ~ x,
+    se = FALSE,
+    colour = vec_oracle_palette[["purple"]],
+    linewidth = 0.5,
+    linetype = "dotted",
+    alpha = 0.5
   )
+
 
 
 #----------------------------------------------------------#
