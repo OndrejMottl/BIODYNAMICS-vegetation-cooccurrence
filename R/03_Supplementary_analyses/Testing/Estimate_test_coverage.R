@@ -25,6 +25,7 @@ data_covr <-
   covr::file_coverage(
     source_files = list.files(
       here::here("R/Functions/"),
+      pattern = "\\.R$",
       recursive = TRUE,
       full.names = TRUE
     ) %>%
@@ -36,6 +37,7 @@ data_covr <-
       here::here(
         "R/03_Supplementary_analyses/Testing/testthat"
       ),
+      pattern = "\\.R$",
       recursive = TRUE,
       full.names = TRUE
     ) %>%

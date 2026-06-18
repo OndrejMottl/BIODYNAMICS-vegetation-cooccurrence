@@ -1,0 +1,31 @@
+ORACLE ggplot2 theme
+
+Description:
+
+     Applies the ORACLE colour palette and a minimal dark typographic
+     layout to a ggplot2 plot.
+
+Usage:
+
+     create_oracle_theme(base_size = 18, base_family = NULL)
+     
+Arguments:
+
+base_size: Numeric scalar. Base font size in points. Default `18`.
+
+base_family: Character scalar. Base font family. Defaults to `"mono"`
+          when `NULL`.
+
+Value:
+
+     A `ggplot2` theme object.
+
+Examples:
+
+     ## Not run:
+     
+     ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
+       ggplot2::geom_point() +
+       create_oracle_theme()
+     ## End(Not run)
+     

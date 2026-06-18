@@ -1,0 +1,35 @@
+Make Community Interpolation Index
+
+Description:
+
+     Creates small per-dataset branch metadata for paleo community
+     interpolation.
+
+Usage:
+
+     make_community_interpolation_index(data)
+     
+Arguments:
+
+    data: A data frame containing a `dataset_name` column.
+
+Details:
+
+     Dynamic `targets` branches should pass these small metadata
+     objects instead of nested community data frames. Worker branches
+     can then filter shared read-only inputs by `dataset_name`.
+
+Value:
+
+     A list of branch metadata objects. Each object contains
+     `dataset_name` and `flag_empty` elements.
+
+See Also:
+
+     [interpolate_community_dataset_from_shared_inputs()]
+
+Examples:
+
+     data_example <- tibble::tibble(dataset_name = c("core_b", "core_a"))
+     make_community_interpolation_index(data = data_example)
+     

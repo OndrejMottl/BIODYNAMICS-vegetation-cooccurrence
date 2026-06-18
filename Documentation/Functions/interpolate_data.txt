@@ -11,13 +11,15 @@ Usage:
        data = NULL,
        by = "dataset_name",
        age_var = "age",
-       value_var = "pollen_prop",
+       value_var = "value",
        method = "linear",
        rule = 1,
        ties = mean,
        age_min = 0,
        age_max = 12000,
-       timestep = 500
+       timestep = 500,
+       n_cores = 1,
+       verbose = TRUE
      )
      
 Arguments:
@@ -29,7 +31,7 @@ Arguments:
 
  age_var: Name of the age variable column (default: "age").
 
-value_var: Name of the value variable column (default: "pollen_prop").
+value_var: Name of the value variable column (default: "value").
 
   method: Interpolation method to use (default: "linear").
 
@@ -43,10 +45,17 @@ value_var: Name of the value variable column (default: "pollen_prop").
 
 timestep: Timestep for interpolation (default: 500).
 
+ n_cores: Number of cores to use for interpolation. Use `1` for
+          sequential `purrr::map()` execution, or a value greater than
+          `1` for parallel `furrr::future_map()` execution.
+
+ verbose: Logical. If `TRUE` (default), progress bars are displayed
+          where supported.
+
 Details:
 
-     Nests data by dataset and taxon, performs interpolation using
-     `stats::approx`, and returns the interpolated data in a flat
+     Nests data by dataset and taxon. It interpolates with
+     `stats::approx()` and returns the interpolated data in a flat
      format.
 
 Value:

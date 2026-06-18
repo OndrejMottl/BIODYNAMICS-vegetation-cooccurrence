@@ -1,0 +1,49 @@
+Build Temporal Trajectory Frame
+
+Description:
+
+     Builds one animation frame for the temporal ANOVA component
+     trajectory stacked-area plot, optionally overlaying a modularity Q
+     line.
+
+Usage:
+
+     build_temporal_trajectory_frame(
+       data_plot,
+       data_modularity,
+       current_age,
+       continent_label,
+       vec_component_colours,
+       colour_modularity,
+       vec_palette = NULL,
+       font_family = "VT323"
+     )
+     
+Arguments:
+
+data_plot: Tibble with columns `age`, `component`, and
+          `component_percentage`.
+
+data_modularity: Tibble with columns `age` and `modularity_q`.
+
+current_age: Numeric scalar. Age at which to draw the vertical marker
+          line.
+
+continent_label: Character scalar. Continent name used as the plot
+          title.
+
+vec_component_colours: Named character vector mapping component names
+          to fill colours.
+
+colour_modularity: Character scalar. Colour for the modularity Q
+          overlay line.
+
+vec_palette: Optional named character vector of ORACLE colours. If
+          `NULL`, colours are read with `get_oracle_palette_values()`.
+
+font_family: Character scalar. Font family for all text elements.
+
+Value:
+
+     A `ggplot` object ready for one animation frame.
+

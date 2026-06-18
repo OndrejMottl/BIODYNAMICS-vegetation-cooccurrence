@@ -1,0 +1,49 @@
+Build a Land Prediction Grid
+
+Description:
+
+     Creates a regular longitude-latitude prediction grid for one
+     spatial unit, masks it to land, and projects coordinates to a
+     metric CRS.
+
+Usage:
+
+     build_land_prediction_grid(
+       scale_id,
+       grid_resolution,
+       target_crs = 3035L,
+       path_spatial_grid = here::here("Data/Input/spatial_grid.csv"),
+       land_polygons = NULL
+     )
+     
+Arguments:
+
+scale_id: Character scalar identifying a spatial unit in
+          `path_spatial_grid`.
+
+grid_resolution: Numeric scalar grid resolution in decimal degrees.
+
+target_crs: Integer EPSG code used by [project_coords_to_metric()].
+
+path_spatial_grid: Path to the spatial grid CSV catalogue.
+
+land_polygons: Optional `sf` polygon object used as the land mask. If
+          `NULL`, Natural Earth country polygons are loaded with
+          `rnaturalearth`.
+
+Value:
+
+     Named list with `data_grid`, `data_grid_coords_projected`,
+     `x_lim`, and `y_lim`.
+
+Examples:
+
+     ## Not run:
+     
+     build_land_prediction_grid(
+       scale_id = "europe",
+       grid_resolution = 0.5,
+       target_crs = 3035L
+     )
+     ## End(Not run)
+     

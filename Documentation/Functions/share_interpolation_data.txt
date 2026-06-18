@@ -1,0 +1,35 @@
+Share Interpolation Data
+
+Description:
+
+     Stores an interpolation input data frame in shared memory using
+     [mori::share()] so local worker processes can read it without each
+     retaining a separate private copy.
+
+Usage:
+
+     share_interpolation_data(data)
+     
+Arguments:
+
+    data: A data frame to share across local worker processes.
+
+Details:
+
+     The returned object must be treated as read-only. Mutating it in a
+     worker can force R to create private copies and remove the memory
+     benefit.
+
+Value:
+
+     A data frame-like shared-memory object created by [mori::share()].
+
+See Also:
+
+     [mori::share()]
+
+Examples:
+
+     data_example <- tibble::tibble(dataset_name = "core_a")
+     data_shared <- share_interpolation_data(data = data_example)
+     

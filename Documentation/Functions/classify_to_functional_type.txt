@@ -4,10 +4,10 @@ Description:
 
      Classifies taxa in a long-format community data frame to
      functional-type (FT) labels using a pre-computed FT classification
-     table. Aggregates pollen proportions by `(dataset_name, age,
-     functional_type)`. Produces the same output column structure as
-     `classify_taxonomic_resolution()` so it can be used as a drop-in
-     replacement downstream.
+     table. Aggregates pollen proportions by all non-`taxon`/`value`
+     identifier columns plus functional type. Produces the same output
+     column structure as `classify_taxonomic_resolution()` so it can be
+     used as a drop-in replacement downstream.
 
 Usage:
 
@@ -16,7 +16,8 @@ Usage:
 Arguments:
 
     data: A data frame containing community data with columns `taxon`,
-          `dataset_name`, `age`, and `pollen_prop`.
+          `dataset_name`, `age`, and `value`. Other identifier columns
+          such as `sample_name` are preserved.
 
 data_ft_classification: A data frame mapping taxa to functional types.
           Must contain columns `taxon_name` (character) and
@@ -42,18 +43,18 @@ Details:
 
        4. Create `taxon` labels `"FT_functional_type"`.
 
-       5. Aggregate `pollen_prop` by `(dataset_name, age, taxon)`.
+       5. Aggregate `value` by original identifier columns and `taxon`.
 
-       6. Full-join back to a `(dataset_name, age, taxon)`
-          cross-reference to preserve true negatives.
+       6. Full-join back to an identifier/taxon cross-reference to
+          preserve true negatives.
 
 Value:
 
      A data frame with the same column names as `data`. The `taxon`
      column is replaced by functional-type labels of the form `"FT_1"`,
-     `"FT_2"`, etc. `pollen_prop` is aggregated (summed) by
-     `(dataset_name, age, taxon)`. All `(dataset_name, age)`
-     combinations present in `data` are preserved (true negatives kept
+     `"FT_2"`, etc. `value` is aggregated (summed) by all original
+     identifier columns and `taxon`. All identifier combinations
+     present after FT classification are preserved (true negatives kept
      via a cross-reference join). Taxa not found in
      `data_ft_classification` are dropped with a `cli::cli_warn()`
      message.

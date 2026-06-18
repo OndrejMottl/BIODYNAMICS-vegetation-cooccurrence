@@ -1,0 +1,21 @@
+Summarize Predictive Decomposition Shares
+
+Description:
+
+     Summarizes fold-level predictive decomposition shares with median
+     and 95 percent intervals.
+
+Usage:
+
+     summarise_predictive_decomposition(data_shares)
+     
+Arguments:
+
+data_shares: Data frame returned by
+          `compute_predictive_decomposition_shares()`. Must contain
+          `component`, `share`, and `defined` columns.
+
+Value:
+
+     A tibble with one row per component.
+

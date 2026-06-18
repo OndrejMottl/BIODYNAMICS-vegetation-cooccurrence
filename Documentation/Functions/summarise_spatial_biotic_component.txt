@@ -1,0 +1,21 @@
+Summarise Spatial Biotic Component
+
+Description:
+
+     Summarises the Associations component for spatial variance spread
+     figures.
+
+Usage:
+
+     summarise_spatial_biotic_component(data_plot)
+     
+Arguments:
+
+data_plot: Data frame returned by
+          [prepare_spatial_variance_plot_data()].
+
+Value:
+
+     A tibble with median and 95 percent interval columns for the
+     biotic co-occurrence component.
+

@@ -1,0 +1,34 @@
+Get Functional-Type Classification Path
+
+Description:
+
+     Finds the latest dated functional-type classification `.qs` file
+     path for one continent and optional source prefix.
+
+Usage:
+
+     get_functional_type_classification_path(
+       continent_id,
+       data_source_prefix = NULL,
+       path_processed = here::here("Data/Processed/Traits")
+     )
+     
+Arguments:
+
+continent_id: A single non-empty character string identifying the
+          continent.
+
+data_source_prefix: Optional single non-empty character string
+          identifying a source-specific FT classification family, such
+          as `"modern"`. Use `NULL` for historical paleo/global
+          classification files.
+
+path_processed: A single character string giving the directory that
+          contains the FT classification `.qs` files. Defaults to
+          `here::here("Data/Processed/Traits")`.
+
+Value:
+
+     A single character string with the full path to the latest
+     matching `.qs` file.
+

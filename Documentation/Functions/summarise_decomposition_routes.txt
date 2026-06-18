@@ -1,0 +1,20 @@
+Summarize Decomposition Diagnostic Routes
+
+Description:
+
+     Computes fold-level shares and route-level summaries from variant
+     metrics produced by `run_decomposition_route_cv()`.
+
+Usage:
+
+     summarise_decomposition_routes(variant_metrics = NULL)
+     
+Arguments:
+
+variant_metrics: Data frame with route, fold, variant, status, and loss
+          columns.
+
+Value:
+
+     Named list with `data_fold_shares` and `data_route_summary`.
+

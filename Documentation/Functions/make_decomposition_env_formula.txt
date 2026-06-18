@@ -1,0 +1,25 @@
+Make Decomposition Environmental Formula
+
+Description:
+
+     Creates environmental formulas for decomposition diagnostics with
+     explicit control over how `age` enters the model.
+
+Usage:
+
+     make_decomposition_env_formula(
+       data = NULL,
+       age_formula_mode = c("none", "main_effect", "interaction")
+     )
+     
+Arguments:
+
+    data: Data frame of scaled abiotic predictors.
+
+age_formula_mode: Single character string. One of `"none"`,
+          `"main_effect"`, or `"interaction"`.
+
+Value:
+
+     Formula object suitable for `fit_jsdm_model()`.
+

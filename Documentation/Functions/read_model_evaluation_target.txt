@@ -1,0 +1,39 @@
+Read a Model Evaluation Target
+
+Description:
+
+     Reads one `model_evaluation_<resolution>` target from a targets
+     store. If the target cannot be read, `NULL` is returned.
+
+Usage:
+
+     read_model_evaluation_target(
+       store_path,
+       resolution_id,
+       read_target_fn = targets::tar_read_raw
+     )
+     
+Arguments:
+
+store_path: A single character string with the targets store path.
+
+resolution_id: A single non-empty character string identifying the
+          model resolution.
+
+read_target_fn: Function used to read the target. Defaults to
+          [targets::tar_read_raw()].
+
+Value:
+
+     The model evaluation object, or `NULL` if it cannot be read.
+
+Examples:
+
+     ## Not run:
+     
+     read_model_evaluation_target(
+       store_path = "Data/targets/modern_spatial_continental/europe",
+       resolution_id = "genus"
+     )
+     ## End(Not run)
+     

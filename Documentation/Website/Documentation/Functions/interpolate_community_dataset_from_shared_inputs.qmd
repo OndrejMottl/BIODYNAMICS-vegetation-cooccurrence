@@ -1,0 +1,128 @@
+---
+format: html
+title: interpolate_community_dataset_from_shared_inputs()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>interpolate_community_dataset_from_shared_inputs</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpolate Community Dataset from Shared Inputs</h2>
+
+<h3>Description</h3>
+
+<p>Filters shared paleo community preprocessing inputs to one dataset
+and interpolates that dataset.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>interpolate_community_dataset_from_shared_inputs(
+  data_interpolation_index,
+  data,
+  data_age_uncertainty,
+  n_cores = 1L,
+  ...
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_interpolation_index">data_interpolation_index</code></td>
+<td>
+<p>A metadata object produced by [make_community_interpolation_index()].
+It must contain 'dataset_name' and 'flag_empty' elements.</p>
+</td></tr>
+<tr><td><code id="data">data</code></td>
+<td>
+<p>Shared or regular community proportion data with a 'dataset_name'
+column.</p>
+</td></tr>
+<tr><td><code id="data_age_uncertainty">data_age_uncertainty</code></td>
+<td>
+<p>Shared or regular age-uncertainty data with a 'dataset_name' column.</p>
+</td></tr>
+<tr><td><code id="n_cores">n_cores</code></td>
+<td>
+<p>Number of cores passed to
+[interpolate_community_data_with_uncertainty()]. Dynamic target
+branches should use '1L'.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>Additional arguments passed to
+[interpolate_community_data_with_uncertainty()].</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function keeps dynamic branch payloads small by receiving only a
+dataset identifier and filtering larger shared inputs inside the
+branch.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with columns 'dataset_name', 'taxon', 'age', and
+'value'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[make_community_interpolation_index()],
+[interpolate_community_data_with_uncertainty()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data_example &lt;- tibble::tibble(
+  dataset_name = "core_a",
+  sample_name = "sample_a",
+  taxon = "Taxon",
+  age = 0,
+  value = 1
+)
+data_uncertainty &lt;- tibble::tibble(
+  dataset_name = base::character(),
+  sample_name = base::character(),
+  iteration = base::integer(),
+  age_uncertainty = base::numeric()
+)
+index &lt;- base::list(dataset_name = "core_a", flag_empty = FALSE)
+interpolate_community_dataset_from_shared_inputs(
+  data_interpolation_index = index,
+  data = data_example,
+  data_age_uncertainty = data_uncertainty,
+  age_min = 0,
+  age_max = 500,
+  timestep = 500
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

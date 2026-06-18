@@ -1,0 +1,73 @@
+---
+format: html
+title: check_target_succeeded()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>check_target_succeeded</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check Whether a Targets Target Succeeded</h2>
+
+<h3>Description</h3>
+
+<p>Checks targets metadata for one target name and returns 'TRUE' when
+the target is present and has no recorded error.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>check_target_succeeded(data_meta, target_name)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_meta">data_meta</code></td>
+<td>
+<p>A targets metadata data frame with columns 'name' and 'error', or
+'NULL'. 'NULL' is treated as no successful target.</p>
+</td></tr>
+<tr><td><code id="target_name">target_name</code></td>
+<td>
+<p>A single non-empty character string identifying the target to check.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A single logical value.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data_meta &lt;- tibble::tibble(
+  name = "model_evaluation_genus",
+  error = NA_character_
+)
+check_target_succeeded(data_meta, "model_evaluation_genus")
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

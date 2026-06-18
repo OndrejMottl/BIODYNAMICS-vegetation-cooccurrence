@@ -1,0 +1,31 @@
+Read Targets Store Metadata
+
+Description:
+
+     Reads target name and error metadata from one targets store. If
+     the metadata cannot be read, `NULL` is returned.
+
+Usage:
+
+     read_targets_store_meta(store_path, meta_fn = targets::tar_meta)
+     
+Arguments:
+
+store_path: A single character string with the targets store path.
+
+ meta_fn: Function used to read metadata. Defaults to
+          [targets::tar_meta()].
+
+Value:
+
+     A metadata data frame, or `NULL` if metadata cannot be read.
+
+Examples:
+
+     ## Not run:
+     
+     read_targets_store_meta(
+       store_path = "Data/targets/modern_spatial_continental/europe"
+     )
+     ## End(Not run)
+     

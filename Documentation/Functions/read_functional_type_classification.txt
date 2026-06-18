@@ -1,0 +1,18 @@
+Read Functional-Type Classification
+
+Description:
+
+     Reads an explicit functional-type classification `.qs` file.
+
+Usage:
+
+     read_functional_type_classification(file)
+     
+Arguments:
+
+    file: A single readable `.qs` file path.
+
+Value:
+
+     A tibble with columns `taxon_name` and `functional_type`.
+

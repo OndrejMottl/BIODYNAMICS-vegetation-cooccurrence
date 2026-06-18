@@ -45,6 +45,35 @@ vec_oracle_palette <-
     "palette"
   )
 
+make_gif_poster <- function(file_name) {
+  path_gif <-
+    here::here(
+      "Documentation",
+      "Presentations",
+      "IAVS_2026",
+      "figures",
+      "results",
+      file_name
+    )
+
+  path_poster <-
+    stringr::str_replace(
+      string = path_gif,
+      pattern = "[.]gif$",
+      replacement = "_poster.png"
+    )
+
+  vec_frames <-
+    magick::image_read(path = path_gif)
+
+  magick::image_write(
+    image = vec_frames[base::length(vec_frames)],
+    path = path_poster
+  )
+
+  path_poster
+}
+
 ```
 
 ## BIODYNAMICS PROJECT {.slide-title .slide-planet-bg .screen-corners .screen-header .screen-prompt .screen-link-oracle}
@@ -860,21 +889,19 @@ source(
 )
 ```
 
+```{r}
+#| label: result-slide08-posters
+#| include: false
+make_gif_poster("slide_08_spatial_units_map.gif")
+```
+
 :::: {.columns}
 ::: {.column width="50%"}
 
 ::: {.fragment .tui-reveal-blur data-fragment-index="2"}
 
-```{r}
-#| label: result-slide08-map-render
-#| echo: false
-#| out-width: 100%
-knitr::include_graphics(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/slide_08_spatial_units_map.gif"
-  )
-)
-```
+![](figures/results/slide_08_spatial_units_map.gif){.gif-animated width="100%"}
+![](figures/results/slide_08_spatial_units_map_poster.png){.gif-poster width="100%"}
 
 :::
 
@@ -1155,6 +1182,14 @@ source(
 )
 ```
 
+```{r}
+#| label: result-slide11-posters
+#| include: false
+make_gif_poster("slide_11_temporal_trajectory_na.gif")
+make_gif_poster("slide_11_temporal_trajectory_eu.gif")
+make_gif_poster("slide_11_temporal_trajectory_asia.gif")
+```
+
 ::: {.oracle-terminal .fragment data-fragment-index="1"}
 
 ::: {.oracle-line}
@@ -1167,46 +1202,22 @@ Plotting [temporal trajectories]{.text-highlight-temporal} for each [continent]{
 :::: {.columns}
 ::: {.column width="28%" .fragment .tui-reveal-blur  data-fragment-index="2"}
 
-```{r}
-#| label: result-slide11-na-render
-#| echo: false
-#| out-width: 100%
-knitr::include_graphics(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/slide_11_temporal_trajectory_na.gif"
-  )
-)
-```
+![](figures/results/slide_11_temporal_trajectory_na.gif){.gif-animated width="100%"}
+![](figures/results/slide_11_temporal_trajectory_na_poster.png){.gif-poster width="100%"}
 
 :::
 
 ::: {.column width="28%" .fragment .tui-reveal-blur  data-fragment-index="3"}
 
-```{r}
-#| label: result-slide11-eu-render
-#| echo: false
-#| out-width: 100%
-knitr::include_graphics(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/slide_11_temporal_trajectory_eu.gif"
-  )
-)
-```
+![](figures/results/slide_11_temporal_trajectory_eu.gif){.gif-animated width="100%"}
+![](figures/results/slide_11_temporal_trajectory_eu_poster.png){.gif-poster width="100%"}
 
 :::
 
 ::: {.column width="28%" .fragment .tui-reveal-blur  data-fragment-index="4"}
 
-```{r}
-#| label: result-slide11-asia-render
-#| echo: false
-#| out-width: 100%
-knitr::include_graphics(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results/slide_11_temporal_trajectory_asia.gif"
-  )
-)
-```
+![](figures/results/slide_11_temporal_trajectory_asia.gif){.gif-animated width="100%"}
+![](figures/results/slide_11_temporal_trajectory_asia_poster.png){.gif-poster width="100%"}
 
 :::
 
@@ -1252,37 +1263,26 @@ source(
 )
 ```
 
+```{r}
+#| label: result-slide12-posters
+#| include: false
+make_gif_poster("slide_12_future_predictions_selected_taxon.gif")
+make_gif_poster("slide_12_future_predictions_expected_genus_richness.gif")
+```
+
 :::: {.columns}
 
 ::: {.column width="50%" .fragment .tui-reveal-scan data-fragment-index="2"}
 
-```{r}
-#| label: result-slide12-fagus-render
-#| echo: false
-#| out-width: 100%
-knitr::include_graphics(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results",
-    "slide_12_future_predictions_selected_taxon.gif"
-  )
-)
-```
+![](figures/results/slide_12_future_predictions_selected_taxon.gif){.gif-animated width="100%"}
+![](figures/results/slide_12_future_predictions_selected_taxon_poster.png){.gif-poster width="100%"}
 
 :::
 
 ::: {.column width="50%" .fragment .tui-reveal-scan data-fragment-index="3"}
 
-```{r}
-#| label: result-slide12-richness-render
-#| echo: false
-#| out-width: 100%
-knitr::include_graphics(
-  here::here(
-    "Documentation/Presentations/IAVS_2026/figures/results",
-    "slide_12_future_predictions_expected_genus_richness.gif"
-  )
-)
-```
+![](figures/results/slide_12_future_predictions_expected_genus_richness.gif){.gif-animated width="100%"}
+![](figures/results/slide_12_future_predictions_expected_genus_richness_poster.png){.gif-poster width="100%"}
 
 :::
 
@@ -1667,8 +1667,6 @@ I am also a huge nerd so I would be very happy to talk about any of the topics, 
 <!-- slide:16 -->
 ## Presentation availability {.slide-title .screen-corners .screen-header .screen-prompt}
 
-<br>
-
 [This presentation is publicly available on the BIODYNAMICS project website]{.text-weight-heading .text-line-height-title .margin-bottom-large .text-shadow-dim .text-uppercase .text-size-heading .text-color-purple .text-emphasis-box .text-position-center}
 
 :::: {.columns}
@@ -1723,6 +1721,8 @@ generate_qr_code(
 ::::
 
 <br>
+
+[PDF backup contains static figures only; use the HTML deck for animations]{.display-block .text-position-center .text-color-amber .text-weight-heading .text-size-title-small .margin-bottom-large}  
 
 ::: {.text-color-muted .text-letter-spacing-status .text-uppercase .text-position-center}
 MIT LICENSE | Supported by [Czech Science Foundation](https://gacr.cz/en/) grant GN23-06386I

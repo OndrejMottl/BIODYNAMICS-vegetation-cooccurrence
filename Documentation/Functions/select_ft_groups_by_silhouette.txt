@@ -56,14 +56,14 @@ ft_groups_max: A single positive integer giving the maximum number of
           `25L`.
 
 data_community: A long-format data frame with columns `taxon`,
-          `dataset_name`, `age`, and `pollen_prop`, as produced by
+          `dataset_name`, `age`, and `value`, as produced by
           `classify_to_functional_type()` or
           `classify_taxonomic_resolution()`. Used to run the viability
           filter chain for each candidate `k`.
 
 minimal_proportion: A single numeric value in (0, 1). A sample is
-          considered to contain an FT group when the summed
-          `pollen_prop` for that group exceeds this threshold.
+          considered to contain an FT group when the summed `value` for
+          that group exceeds this threshold.
 
 min_n_taxa: A single positive integer. The minimum number of
           non-constant FT columns (i.e. groups present in strictly
@@ -92,9 +92,8 @@ Details:
      `cluster::silhouette()` and records the mean silhouette width.
 
      For each candidate `k` the community data are aggregated to the FT
-     level (summed `pollen_prop` per `(dataset_name, age, ft_group)`)
-     and then passed through the actual pipeline filter chain in
-     sequence:
+     level (summed `value` per `(dataset_name, age, ft_group)`) and
+     then passed through the actual pipeline filter chain in sequence:
 
        1. `filter_rare_taxa()` at `minimal_proportion`.
 

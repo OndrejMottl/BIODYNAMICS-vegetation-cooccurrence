@@ -1,0 +1,84 @@
+---
+format: html
+title: refresh_cz_decomposition_upstream()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>refresh_cz_decomposition_upstream</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Refresh CZ Decomposition Upstream Targets</h2>
+
+<h3>Description</h3>
+
+<p>Refreshes or validates the CZ paleo resolution-test target store.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>refresh_cz_decomposition_upstream(
+  refresh_upstream = TRUE,
+  store_path = here::here("Data/targets/cz_paleo/pipeline_paleo_resolution_test"),
+  pipeline_script = "R/Pipelines/pipeline_paleo_resolution_test.R",
+  run_pipeline_fn = run_pipeline,
+  tar_meta_fn = targets::tar_meta,
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="refresh_upstream">refresh_upstream</code></td>
+<td>
+<p>Logical. If 'TRUE', rebuilds the upstream targets before validation.</p>
+</td></tr>
+<tr><td><code id="store_path">store_path</code></td>
+<td>
+<p>Targets store path to validate.</p>
+</td></tr>
+<tr><td><code id="pipeline_script">pipeline_script</code></td>
+<td>
+<p>Pipeline script used for the upstream refresh.</p>
+</td></tr>
+<tr><td><code id="run_pipeline_fn">run_pipeline_fn</code></td>
+<td>
+<p>Pipeline runner. Defaults to 'run_pipeline()'.</p>
+</td></tr>
+<tr><td><code id="tar_meta_fn">tar_meta_fn</code></td>
+<td>
+<p>Metadata reader. Defaults to 'targets::tar_meta()'.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE', progress messages are printed.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>One-row tibble with refresh metadata and validation status.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

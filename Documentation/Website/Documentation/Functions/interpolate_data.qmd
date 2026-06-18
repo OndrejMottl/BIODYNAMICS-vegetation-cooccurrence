@@ -35,13 +35,15 @@ function processMathHTML() {
   data = NULL,
   by = "dataset_name",
   age_var = "age",
-  value_var = "pollen_prop",
+  value_var = "value",
   method = "linear",
   rule = 1,
   ties = mean,
   age_min = 0,
   age_max = 12000,
-  timestep = 500
+  timestep = 500,
+  n_cores = 1,
+  verbose = TRUE
 )
 </code></pre>
 
@@ -64,7 +66,7 @@ interpolation (default: &quot;dataset_name&quot;).</p>
 </td></tr>
 <tr><td><code id="value_var">value_var</code></td>
 <td>
-<p>Name of the value variable column (default: &quot;pollen_prop&quot;).</p>
+<p>Name of the value variable column (default: &quot;value&quot;).</p>
 </td></tr>
 <tr><td><code id="method">method</code></td>
 <td>
@@ -90,12 +92,22 @@ interpolation (default: &quot;dataset_name&quot;).</p>
 <td>
 <p>Timestep for interpolation (default: 500).</p>
 </td></tr>
+<tr><td><code id="n_cores">n_cores</code></td>
+<td>
+<p>Number of cores to use for interpolation. Use '1' for sequential
+'purrr::map()' execution, or a value greater than '1' for parallel
+'furrr::future_map()' execution.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE' (default), progress bars are displayed where supported.</p>
+</td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>Nests data by dataset and taxon, performs interpolation using 'stats::approx',
+<p>Nests data by dataset and taxon. It interpolates with 'stats::approx()'
 and returns the interpolated data in a flat format.
 </p>
 

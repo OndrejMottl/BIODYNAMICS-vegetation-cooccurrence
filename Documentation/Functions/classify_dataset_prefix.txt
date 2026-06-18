@@ -1,0 +1,18 @@
+Classify Dataset Prefix
+
+Description:
+
+     Classifies dataset names into `bien`, `splot`, or `other` groups.
+
+Usage:
+
+     classify_dataset_prefix(data_source = NULL)
+     
+Arguments:
+
+data_source: A character vector of dataset names.
+
+Value:
+
+     A character vector with values `bien`, `splot`, or `other`.
+

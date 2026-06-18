@@ -1,0 +1,42 @@
+Build Temporal Trajectory Legend
+
+Description:
+
+     Builds the static legend panel for the IAVS temporal ANOVA
+     component animation, showing component colour swatches and the
+     modularity Q line.
+
+Usage:
+
+     build_temporal_trajectory_legend(
+       vec_required_components,
+       vec_component_labels,
+       vec_component_colours,
+       colour_modularity,
+       vec_palette = NULL,
+       font_family = "VT323"
+     )
+     
+Arguments:
+
+vec_required_components: Character vector of component names in display
+          order.
+
+vec_component_labels: Named character vector mapping component names to
+          display labels.
+
+vec_component_colours: Named character vector mapping component names
+          to fill colours.
+
+colour_modularity: Character scalar. Colour for the modularity Q legend
+          swatch.
+
+vec_palette: Optional named character vector of ORACLE colours. If
+          `NULL`, colours are read with `get_oracle_palette_values()`.
+
+font_family: Character scalar. Font family for all text elements.
+
+Value:
+
+     A `ggplot` legend panel.
+

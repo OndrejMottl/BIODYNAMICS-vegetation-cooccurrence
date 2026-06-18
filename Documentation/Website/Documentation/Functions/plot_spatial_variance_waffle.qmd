@@ -1,0 +1,145 @@
+---
+format: html
+title: plot_spatial_variance_waffle()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>plot_spatial_variance_waffle</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Spatial Variance Waffle</h2>
+
+<h3>Description</h3>
+
+<p>Builds a unit-level waffle plot using precomputed fill colours.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>plot_spatial_variance_waffle(
+  data_waffle,
+  plot_title,
+  vec_continent_shapes,
+  flag_show_shape_legend = TRUE,
+  flag_show_fill_legend = FALSE,
+  vec_component_colours = NULL,
+  vec_required_components = base::c("Abiotic", "Spatial", "Associations"),
+  fill_legend_style = base::c("swatch", "triangle"),
+  plot_theme = ggplot2::theme_classic(),
+  facet_switch = "both",
+  tile_border_colour = "white",
+  tile_linewidth = 0.33,
+  tile_alpha = 1,
+  point_size = 2,
+  point_stroke = 0.6,
+  triangle_legend_arguments = base::list(),
+  triangle_legend_rel_width = 0.34
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_waffle">data_waffle</code></td>
+<td>
+<p>Data frame returned by [prepare_spatial_variance_waffle_data()].</p>
+</td></tr>
+<tr><td><code id="plot_title">plot_title</code></td>
+<td>
+<p>Single character string used as the plot title.</p>
+</td></tr>
+<tr><td><code id="vec_continent_shapes">vec_continent_shapes</code></td>
+<td>
+<p>Named integer vector mapping continent identifiers to point shapes.</p>
+</td></tr>
+<tr><td><code id="flag_show_shape_legend">flag_show_shape_legend</code></td>
+<td>
+<p>Logical. If 'TRUE', shows the continent shape legend.</p>
+</td></tr>
+<tr><td><code id="flag_show_fill_legend">flag_show_fill_legend</code></td>
+<td>
+<p>Logical. If 'TRUE', shows a fill legend for base component colours.</p>
+</td></tr>
+<tr><td><code id="vec_component_colours">vec_component_colours</code></td>
+<td>
+<p>Optional named character vector mapping component IDs to HEX colours.
+Required when 'flag_show_fill_legend = TRUE'.</p>
+</td></tr>
+<tr><td><code id="vec_required_components">vec_required_components</code></td>
+<td>
+<p>Character vector of component IDs shown in the optional fill legend.</p>
+</td></tr>
+<tr><td><code id="fill_legend_style">fill_legend_style</code></td>
+<td>
+<p>Single character string specifying fill legend style when
+'flag_show_fill_legend = TRUE'. One of '&quot;swatch&quot;' (default) or
+'&quot;triangle&quot;'.</p>
+</td></tr>
+<tr><td><code id="plot_theme">plot_theme</code></td>
+<td>
+<p>A 'ggplot2' theme object used as the base plot theme.</p>
+</td></tr>
+<tr><td><code id="facet_switch">facet_switch</code></td>
+<td>
+<p>Optional facet strip switch passed to [ggplot2::facet_grid()]. Use
+'NULL', '&quot;x&quot;', '&quot;y&quot;', or '&quot;both&quot;'.</p>
+</td></tr>
+<tr><td><code id="tile_border_colour">tile_border_colour</code></td>
+<td>
+<p>Single character string used for waffle tile borders.</p>
+</td></tr>
+<tr><td><code id="tile_linewidth">tile_linewidth</code></td>
+<td>
+<p>Numeric scalar giving waffle tile border width.</p>
+</td></tr>
+<tr><td><code id="tile_alpha">tile_alpha</code></td>
+<td>
+<p>Numeric scalar giving waffle tile alpha.</p>
+</td></tr>
+<tr><td><code id="point_size">point_size</code></td>
+<td>
+<p>Numeric scalar giving continent point size.</p>
+</td></tr>
+<tr><td><code id="point_stroke">point_stroke</code></td>
+<td>
+<p>Numeric scalar giving continent point stroke.</p>
+</td></tr>
+<tr><td><code id="triangle_legend_arguments">triangle_legend_arguments</code></td>
+<td>
+<p>Named list of optional arguments forwarded to
+[plot_variance_component_triangle_legend()] when
+'fill_legend_style = &quot;triangle&quot;'.</p>
+</td></tr>
+<tr><td><code id="triangle_legend_rel_width">triangle_legend_rel_width</code></td>
+<td>
+<p>Numeric scalar giving the relative width of the triangle legend.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A 'ggplot' object.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

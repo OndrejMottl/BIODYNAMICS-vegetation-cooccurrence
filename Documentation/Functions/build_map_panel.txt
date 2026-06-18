@@ -1,0 +1,91 @@
+Build one spatial ANOVA map panel
+
+Description:
+
+     Builds a single 'ggplot2' map panel showing the Shapley-adjusted
+     percentage variance explained by Associations for one combination
+     of continent, spatial scale, and taxonomic resolution. Grid
+     rectangles are coloured by association percentage (viridis
+     gradient, grey when no result). Fossil core locations are overlaid
+     as points when available.
+
+Usage:
+
+     build_map_panel(
+       sel_continent,
+       sel_scale,
+       sel_resolution,
+       xlim_val,
+       ylim_val,
+       data_grid_with_results,
+       data_coords_per_unit,
+       sf_world,
+       graphical_options,
+       show_x_axis = TRUE,
+       show_y_axis = TRUE,
+       col_label = NULL,
+       row_label = NULL
+     )
+     
+Arguments:
+
+sel_continent: Character scalar. Continent identifier (e.g. '"europe"',
+          '"america"', '"asia"').
+
+sel_scale: Character scalar. Spatial scale identifier (e.g.
+          '"continental"', '"regional"', '"local"').
+
+sel_resolution: Character scalar. Taxonomic resolution identifier (e.g.
+          '"genus"', '"family"', '"functional_type"').
+
+xlim_val: Numeric vector of length 2. Longitude limits for
+          'ggplot2::coord_sf()' (western, eastern).
+
+ylim_val: Numeric vector of length 2. Latitude limits for
+          'ggplot2::coord_sf()' (southern, northern).
+
+data_grid_with_results: Data frame. Spatial grid joined with ANOVA
+          association percentages; must contain columns 'continent',
+          'scale', 'taxonomic_resolution', 'x_min', 'x_max', 'y_min',
+          'y_max', 'assoc_pct'.
+
+data_coords_per_unit: Data frame. Per-unit fossil core coordinates;
+          must contain columns 'continent', 'scale', 'coords'
+          (list-column of data frames with 'coord_long' and
+          'coord_lat').
+
+sf_world: 'sf' object. World polygon basemap used as the background
+          layer.
+
+graphical_options: Named list of canvas settings (e.g. from
+          'get_active_config("graphical")'); must contain 'width',
+          'height', 'units', 'dpi', 'bg'.
+
+show_x_axis: Logical scalar. When 'FALSE', x-axis text and tick marks
+          are hidden. Default 'TRUE'.
+
+show_y_axis: Logical scalar. When 'FALSE', y-axis text and tick marks
+          are hidden. Default 'TRUE'.
+
+col_label: Character scalar or 'NULL'. When not 'NULL', added as a bold
+          column-header title above the panel via 'ggplot2::ggtitle()'.
+          Default 'NULL'.
+
+row_label: Character scalar or 'NULL'. When not 'NULL', added as a bold
+          rotated y-axis title for the panel row. Default 'NULL'.
+
+Details:
+
+     The function applies 'ggview::canvas()' using the supplied
+     'graphical_options' and ends with 'ggplot2::coord_sf()' so that
+     the continent-specific bounding box takes precedence over the
+     automatic bounding box added by 'ggplot2::geom_sf()'.
+
+Value:
+
+     A 'ggplot' object representing one map panel.
+
+See Also:
+
+     'extract_anova_fractions', 'recalculate_anova_components'
+

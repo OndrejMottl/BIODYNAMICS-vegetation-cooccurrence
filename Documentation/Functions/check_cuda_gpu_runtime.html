@@ -1,0 +1,74 @@
+<!DOCTYPE html><html><head><title>R: Check CUDA GPU Runtime for sjSDM</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>check_cuda_gpu_runtime</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check CUDA GPU Runtime for sjSDM</h2>
+
+<h3>Description</h3>
+
+<p>Performs a strict preflight check for GPU-enabled sjSDM workflows.
+Verifies torch import, CUDA compilation, and CUDA runtime visibility.
+Does not fall back to CPU mode.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>check_cuda_gpu_runtime(fail_on_error = TRUE, verbose = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="fail_on_error">fail_on_error</code></td>
+<td>
+<p>Logical. If 'TRUE' (default), the function aborts when a critical
+GPU requirement is not met.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE' (default), progress and diagnostics are printed.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is a strict preflight for GPU-only workflows. It uses
+'.check_torch_cuda_details()' internally to avoid code duplication
+with 'verify_sjsdm_setup()'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list with diagnostic fields, including success flags,
+torch version, CUDA version, and GPU names.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>fit_jsdm_model, verify_sjsdm_setup
+</p>
+
+</main>
+
+</div>
+</body></html>
+

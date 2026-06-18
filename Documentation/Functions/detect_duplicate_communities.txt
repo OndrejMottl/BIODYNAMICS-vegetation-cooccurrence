@@ -1,0 +1,22 @@
+Detect Duplicate Modern Communities
+
+Description:
+
+     Detects modern sample records with identical sorted community
+     composition.
+
+Usage:
+
+     detect_duplicate_communities(data_source = NULL)
+     
+Arguments:
+
+data_source: A long-format community data frame with `dataset_name`,
+          `sample_name`, `age`, `taxon`, and `pollen_count` columns.
+
+Value:
+
+     A tibble with one row per record involved in a duplicated
+     community signature. Returns a zero-row tibble when no duplicate
+     communities are detected.
+

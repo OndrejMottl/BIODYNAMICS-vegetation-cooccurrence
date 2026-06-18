@@ -1,0 +1,23 @@
+Detect Duplicate Modern Sites
+
+Description:
+
+     Detects modern datasets that share the same geographic
+     coordinates.
+
+Usage:
+
+     detect_duplicate_sites(data_source = NULL)
+     
+Arguments:
+
+data_source: A data frame with `coord_long` and `coord_lat` columns.
+          Dataset names may be stored either in a `dataset_name` column
+          or in row names.
+
+Value:
+
+     A tibble with one row per dataset involved in a duplicated
+     coordinate group. Returns a zero-row tibble when no duplicate
+     sites are detected.
+

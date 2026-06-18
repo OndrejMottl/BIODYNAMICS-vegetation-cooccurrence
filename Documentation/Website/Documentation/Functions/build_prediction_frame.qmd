@@ -1,0 +1,139 @@
+---
+format: html
+title: build_prediction_frame()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_prediction_frame</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build Prediction Frame</h2>
+
+<h3>Description</h3>
+
+<p>Builds one animation frame for the IAVS paleo prediction animation,
+showing a spatial prediction grid optionally overlaid with observation
+points.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_prediction_frame(
+  data_frame,
+  age_value,
+  value_column,
+  subtitle_label,
+  fill_label,
+  fill_limits,
+  list_prediction_grid,
+  data_world,
+  grid_resolution,
+  fill_trans = scales::transform_identity(),
+  fill_colors = c("black", "white"),
+  data_points = NULL,
+  point_color = "red",
+  metric_label = NULL,
+  vec_palette = NULL,
+  font_family = "VT323"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_frame">data_frame</code></td>
+<td>
+<p>Tibble with columns 'age', 'coord_long', 'coord_lat', and the column
+named by 'value_column'.</p>
+</td></tr>
+<tr><td><code id="age_value">age_value</code></td>
+<td>
+<p>Numeric scalar. Age slice to plot.</p>
+</td></tr>
+<tr><td><code id="value_column">value_column</code></td>
+<td>
+<p>Character scalar. Name of the fill value column in 'data_frame'.</p>
+</td></tr>
+<tr><td><code id="subtitle_label">subtitle_label</code></td>
+<td>
+<p>Character scalar. Plot subtitle.</p>
+</td></tr>
+<tr><td><code id="fill_label">fill_label</code></td>
+<td>
+<p>Character scalar. Legend title.</p>
+</td></tr>
+<tr><td><code id="fill_limits">fill_limits</code></td>
+<td>
+<p>Numeric vector of length 2. Limits for the fill scale.</p>
+</td></tr>
+<tr><td><code id="list_prediction_grid">list_prediction_grid</code></td>
+<td>
+<p>Named list with 'x_lim' and 'y_lim' entries.</p>
+</td></tr>
+<tr><td><code id="data_world">data_world</code></td>
+<td>
+<p>World polygon tibble with columns 'long', 'lat', and 'group'.</p>
+</td></tr>
+<tr><td><code id="grid_resolution">grid_resolution</code></td>
+<td>
+<p>Numeric scalar. Tile width and height in degrees.</p>
+</td></tr>
+<tr><td><code id="fill_trans">fill_trans</code></td>
+<td>
+<p>Scale transform passed to 'ggplot2::scale_fill_gradientn()'.</p>
+</td></tr>
+<tr><td><code id="fill_colors">fill_colors</code></td>
+<td>
+<p>Character vector of length &gt;= 2. Fill gradient colours.</p>
+</td></tr>
+<tr><td><code id="data_points">data_points</code></td>
+<td>
+<p>Optional tibble with 'age', 'coord_long', 'coord_lat' for overlaid
+observation points.</p>
+</td></tr>
+<tr><td><code id="point_color">point_color</code></td>
+<td>
+<p>Character scalar. Colour for observation points.</p>
+</td></tr>
+<tr><td><code id="metric_label">metric_label</code></td>
+<td>
+<p>Optional character vector. Metrics appended as a caption.</p>
+</td></tr>
+<tr><td><code id="vec_palette">vec_palette</code></td>
+<td>
+<p>Optional named character vector of ORACLE colours. If 'NULL',
+colours are read with 'get_oracle_palette_values()'.</p>
+</td></tr>
+<tr><td><code id="font_family">font_family</code></td>
+<td>
+<p>Character scalar. Font family for all text elements.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A 'ggplot' object for one prediction frame.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

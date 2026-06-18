@@ -1,0 +1,83 @@
+---
+format: html
+title: read_spatial_model_results()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>read_spatial_model_results</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read Spatial Model Results</h2>
+
+<h3>Description</h3>
+
+<p>Reads successful spatial model ANOVA and evaluation targets from
+indexed targets stores and returns one summary row per
+store-resolution-component combination.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>read_spatial_model_results(
+  store_index,
+  resolution_ids,
+  read_target_fn = targets::tar_read_raw,
+  meta_fn = targets::tar_meta,
+  require_non_empty = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="store_index">store_index</code></td>
+<td>
+<p>Data frame returned by [build_spatial_model_store_index()].</p>
+</td></tr>
+<tr><td><code id="resolution_ids">resolution_ids</code></td>
+<td>
+<p>Character vector of model resolution identifiers.</p>
+</td></tr>
+<tr><td><code id="read_target_fn">read_target_fn</code></td>
+<td>
+<p>Function used to read one target. Defaults to
+[targets::tar_read_raw()].</p>
+</td></tr>
+<tr><td><code id="meta_fn">meta_fn</code></td>
+<td>
+<p>Function used to read target metadata. Defaults to
+[targets::tar_meta()].</p>
+</td></tr>
+<tr><td><code id="require_non_empty">require_non_empty</code></td>
+<td>
+<p>Logical. If 'TRUE', error when no rows are read.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tibble with ANOVA component percentages and AUC summaries.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

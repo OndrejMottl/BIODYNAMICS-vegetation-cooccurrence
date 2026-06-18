@@ -1,0 +1,37 @@
+Read Spatial Model Results
+
+Description:
+
+     Reads successful spatial model ANOVA and evaluation targets from
+     indexed targets stores and returns one summary row per
+     store-resolution-component combination.
+
+Usage:
+
+     read_spatial_model_results(
+       store_index,
+       resolution_ids,
+       read_target_fn = targets::tar_read_raw,
+       meta_fn = targets::tar_meta,
+       require_non_empty = FALSE
+     )
+     
+Arguments:
+
+store_index: Data frame returned by
+          [build_spatial_model_store_index()].
+
+resolution_ids: Character vector of model resolution identifiers.
+
+read_target_fn: Function used to read one target. Defaults to
+          [targets::tar_read_raw()].
+
+ meta_fn: Function used to read target metadata. Defaults to
+          [targets::tar_meta()].
+
+require_non_empty: Logical. If `TRUE`, error when no rows are read.
+
+Value:
+
+     A tibble with ANOVA component percentages and AUC summaries.
+

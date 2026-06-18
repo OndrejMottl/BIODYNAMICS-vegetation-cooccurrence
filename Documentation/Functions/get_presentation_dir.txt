@@ -1,0 +1,22 @@
+Get presentation root directory
+
+Description:
+
+     Resolves the root directory of the IAVS 2026 presentation from
+     `MOTHER_PRESENTATION_DIR` or the repository root via `here`.
+
+Usage:
+
+     get_presentation_dir()
+     
+Value:
+
+     Character scalar - absolute path to the presentation root.
+
+Examples:
+
+     ## Not run:
+     
+     get_presentation_dir()
+     ## End(Not run)
+     

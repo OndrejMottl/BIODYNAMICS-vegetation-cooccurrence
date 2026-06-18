@@ -10,7 +10,8 @@ Usage:
      get_functional_type_classification_path_from_store(
        store = targets::tar_path_store(),
        path_spatial_grid = here::here("Data/Input/spatial_grid.csv"),
-       path_processed = here::here("Data/Processed/Traits")
+       path_processed = here::here("Data/Processed/Traits"),
+       data_source_prefix = NULL
      )
      
 Arguments:
@@ -24,6 +25,11 @@ path_spatial_grid: Path to the spatial grid CSV catalogue file.
 path_processed: A single character string giving the directory that
           contains dated FT classification `.qs` files. Default:
           `here::here("Data/Processed/Traits")`.
+
+data_source_prefix: Optional single non-empty character string
+          identifying a source-specific FT classification family. Use
+          `NULL` (default) for historical paleo/global files, or
+          `"modern"` for modern files.
 
 Details:
 
@@ -49,8 +55,8 @@ Examples:
 
      get_functional_type_classification_path_from_store(
        store = here::here(
-         "Data/targets/spatial_regional/eu_r005/",
-         "pipeline_spatial_resolution"
+         "Data/targets/paleo_spatial_regional/eu_r005/",
+         "pipeline_paleo_spatial_resolution"
        )
      )
      

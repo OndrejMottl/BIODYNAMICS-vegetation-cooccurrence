@@ -43,11 +43,11 @@ Details:
      The file is only written when at least one of the following is
      true:
 
-        * `data_missing_taxa` contains one or more rows.
+        • `data_missing_taxa` contains one or more rows.
 
-        * The file at `file_path` does not yet exist.
+        • The file at `file_path` does not yet exist.
 
-        * `data_classification_table` is not `NULL` and at least one
+        • `data_classification_table` is not `NULL` and at least one
           existing template entry is now classified.
 
      Deduplication keeps the first occurrence of each `sel_name`.

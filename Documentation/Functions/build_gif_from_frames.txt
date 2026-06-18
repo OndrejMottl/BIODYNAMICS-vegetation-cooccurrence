@@ -1,0 +1,26 @@
+build gif from frames
+
+Description:
+
+     IAVS 2026 presentation helper function.
+
+Usage:
+
+     build_gif_from_frames(
+       vec_frame_paths,
+       output_path,
+       fps = 1.5,
+       loop = 0L,
+       optimize = TRUE
+     )
+     
+Value:
+
+     Object returned by this function.
+
+Examples:
+
+     \dontrun{
+     build_gif_from_frames()
+     }
+     

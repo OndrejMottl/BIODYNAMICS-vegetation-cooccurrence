@@ -1,0 +1,35 @@
+Check CUDA GPU Runtime for sjSDM
+
+Description:
+
+     Performs a strict preflight check for GPU-enabled sjSDM workflows.
+     Verifies torch import, CUDA compilation, and CUDA runtime
+     visibility. Does not fall back to CPU mode.
+
+Usage:
+
+     check_cuda_gpu_runtime(fail_on_error = TRUE, verbose = TRUE)
+     
+Arguments:
+
+fail_on_error: Logical. If `TRUE` (default), the function aborts when a
+          critical GPU requirement is not met.
+
+ verbose: Logical. If `TRUE` (default), progress and diagnostics are
+          printed.
+
+Details:
+
+     This function is a strict preflight for GPU-only workflows. It
+     uses `.check_torch_cuda_details()` internally to avoid code
+     duplication with `verify_sjsdm_setup()`.
+
+Value:
+
+     A named list with diagnostic fields, including success flags,
+     torch version, CUDA version, and GPU names.
+
+See Also:
+
+     fit_jsdm_model, verify_sjsdm_setup
+

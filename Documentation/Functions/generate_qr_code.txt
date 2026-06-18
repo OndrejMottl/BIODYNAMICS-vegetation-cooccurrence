@@ -1,0 +1,41 @@
+Generate ORACLE QR Code
+
+Description:
+
+     Generates a QR code SVG for a URL in ORACLE colours and optionally
+     returns a knitr graphics include object.
+
+Usage:
+
+     generate_qr_code(
+       url,
+       name,
+       background_color,
+       foreground_color,
+       plot,
+       base_path = here::here("Documentation", "Presentations", "IAVS_2026", "figures",
+         "qrcodes")
+     )
+     
+Arguments:
+
+     url: Character scalar URL encoded in the QR code.
+
+    name: Character scalar used in output file name (`qr_<name>.svg`).
+
+background_color: Character scalar. Background colour passed to
+          [qrcode::generate_svg()].
+
+foreground_color: Character scalar. Foreground colour passed to
+          [qrcode::generate_svg()].
+
+    plot: Logical scalar. If `TRUE`, returns
+          [knitr::include_graphics()].
+
+base_path: Character scalar output directory for SVG files.
+
+Value:
+
+     Character path to generated SVG when `plot = FALSE`, otherwise the
+     object returned by [knitr::include_graphics()].
+

@@ -1,0 +1,75 @@
+<!DOCTYPE html><html><head><title>R: Make Community Interpolation Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>make_community_interpolation_index</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make Community Interpolation Index</h2>
+
+<h3>Description</h3>
+
+<p>Creates small per-dataset branch metadata for paleo community
+interpolation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>make_community_interpolation_index(data)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data">data</code></td>
+<td>
+<p>A data frame containing a 'dataset_name' column.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Dynamic 'targets' branches should pass these small metadata objects
+instead of nested community data frames. Worker branches can then
+filter shared read-only inputs by 'dataset_name'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of branch metadata objects. Each object contains
+'dataset_name' and 'flag_empty' elements.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[interpolate_community_dataset_from_shared_inputs()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data_example &lt;- tibble::tibble(dataset_name = c("core_b", "core_a"))
+make_community_interpolation_index(data = data_example)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

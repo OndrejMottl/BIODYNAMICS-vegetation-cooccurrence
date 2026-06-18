@@ -1,0 +1,40 @@
+Summarise Expected Genus Richness
+
+Description:
+
+     Sums predicted genus probabilities for each grid cell and age
+     slice. The resulting value is expected genus richness, not a
+     probability.
+
+Usage:
+
+     summarise_expected_genus_richness(
+       data_predicted_long,
+       value_column = "predicted_probability"
+     )
+     
+Arguments:
+
+data_predicted_long: Long prediction data with one row per grid cell,
+          age, and taxon.
+
+value_column: Character scalar naming the probability column to sum.
+
+Value:
+
+     A tibble with one row per grid cell and age, plus
+     `expected_genus_richness` and `n_taxa`.
+
+Examples:
+
+     summarise_expected_genus_richness(
+       tibble::tibble(
+         grid_id = c(1, 1),
+         coord_long = c(10, 10),
+         coord_lat = c(50, 50),
+         age = c(0, 0),
+         taxon = c("A", "B"),
+         predicted_probability = c(0.2, 0.3)
+       )
+     )
+     

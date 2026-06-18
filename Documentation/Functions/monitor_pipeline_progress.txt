@@ -1,0 +1,80 @@
+Monitor Pipeline Progress
+
+Description:
+
+     Opens the official `targets` dashboard for a pipeline target
+     store.
+
+Usage:
+
+     monitor_pipeline_progress(
+       sel_script,
+       sel_config,
+       store_suffix = NULL,
+       seconds_refresh = 10,
+       sel_initial_display = "branches",
+       flag_refresh_automatically = FALSE,
+       verbose = TRUE
+     )
+     
+Arguments:
+
+sel_script: Path to the pipeline script, relative to the project root
+          or absolute.
+
+sel_config: Configuration key in `config.yml` whose `target_store`
+          contains the selected pipeline output.
+
+store_suffix: Optional nested target store identifier inserted between
+          `target_store` and the pipeline script name, such as
+          `"europe"` or `"eu_r005_l014"`.
+
+seconds_refresh: Positive finite refresh interval in seconds. Used only
+          when automatic refresh is enabled in the dashboard. Default
+          is `10`.
+
+sel_initial_display: Initial official `targets` dashboard tab. One of
+          `"summary"`, `"branches"`, `"progress"`, `"graph"`, or
+          `"about"`.
+
+flag_refresh_automatically: Logical indicating whether dashboard
+          periodic refresh starts enabled. Default is `FALSE`.
+
+ verbose: Logical indicating whether to display launch information.
+          Default is `TRUE`.
+
+Details:
+
+     The target store is resolved using the same layout as
+     [run_pipeline()]: `target_store/pipeline_name/` when
+     `store_suffix` is `NULL`, and
+     `target_store/store_suffix/pipeline_name/` otherwise. The app
+     always uses `targets_only = TRUE` and `outdated = FALSE` to keep
+     monitoring fast. Stop a running monitor with `Ctrl+C`.
+
+Value:
+
+     No return value. The dashboard runs in the foreground until
+     stopped.
+
+See Also:
+
+     [run_pipeline()], [targets::tar_watch_ui()],
+     [targets::tar_watch_server()]
+
+Examples:
+
+     ## Not run:
+     
+     monitor_pipeline_progress(
+       sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
+       sel_config = "project_paleo_spatial_continental",
+       store_suffix = "europe"
+     )
+     
+     monitor_pipeline_progress(
+       sel_script = "R/Pipelines/pipeline_paleo_core.R",
+       sel_config = "project_cz_paleo"
+     )
+     ## End(Not run)
+     

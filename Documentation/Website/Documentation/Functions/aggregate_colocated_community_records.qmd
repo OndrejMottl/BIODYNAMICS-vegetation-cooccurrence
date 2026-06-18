@@ -1,0 +1,73 @@
+---
+format: html
+title: aggregate_colocated_community_records()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>aggregate_colocated_community_records</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Aggregate Colocated Community Records</h2>
+
+<h3>Description</h3>
+
+<p>Aggregates same-prefix colocated modern records and keeps cross-database
+colocations for inspection.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>aggregate_colocated_community_records(
+  data_source = NULL,
+  data_coordinates = NULL,
+  data_abiotic_long = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_source">data_source</code></td>
+<td>
+<p>A long-format community data frame with 'dataset_name', 'sample_name',
+'age', 'taxon', and 'pollen_count' columns.</p>
+</td></tr>
+<tr><td><code id="data_coordinates">data_coordinates</code></td>
+<td>
+<p>A coordinate data frame with dataset names in a 'dataset_name' column or
+row names and 'coord_long', 'coord_lat' columns.</p>
+</td></tr>
+<tr><td><code id="data_abiotic_long">data_abiotic_long</code></td>
+<td>
+<p>A long-format abiotic table with columns 'dataset_name', 'age',
+'abiotic_variable_name', and 'abiotic_value'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named list containing aggregated analysis streams and traceability tables.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

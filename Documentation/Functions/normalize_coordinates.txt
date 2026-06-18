@@ -1,0 +1,22 @@
+Normalize Coordinates
+
+Description:
+
+     Converts a coordinate table to a standard tibble with explicit
+     dataset names and coordinate columns.
+
+Usage:
+
+     normalize_coordinates(data_source = NULL)
+     
+Arguments:
+
+data_source: A data frame with `coord_long` and `coord_lat` columns.
+          Dataset names may be stored either in a `dataset_name` column
+          or in row names.
+
+Value:
+
+     A tibble with `dataset_name`, `coord_long`, and `coord_lat`
+     columns.
+

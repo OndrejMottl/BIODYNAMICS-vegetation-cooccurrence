@@ -1,0 +1,32 @@
+Check Whether a Targets Target Succeeded
+
+Description:
+
+     Checks targets metadata for one target name and returns `TRUE`
+     when the target is present and has no recorded error.
+
+Usage:
+
+     check_target_succeeded(data_meta, target_name)
+     
+Arguments:
+
+data_meta: A targets metadata data frame with columns `name` and
+          `error`, or `NULL`. `NULL` is treated as no successful
+          target.
+
+target_name: A single non-empty character string identifying the target
+          to check.
+
+Value:
+
+     A single logical value.
+
+Examples:
+
+     data_meta <- tibble::tibble(
+       name = "model_evaluation_genus",
+       error = NA_character_
+     )
+     check_target_succeeded(data_meta, "model_evaluation_genus")
+     

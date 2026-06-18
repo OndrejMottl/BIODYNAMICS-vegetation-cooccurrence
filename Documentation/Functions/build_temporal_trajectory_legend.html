@@ -1,0 +1,81 @@
+<!DOCTYPE html><html><head><title>R: Build Temporal Trajectory Legend</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_temporal_trajectory_legend</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build Temporal Trajectory Legend</h2>
+
+<h3>Description</h3>
+
+<p>Builds the static legend panel for the IAVS temporal ANOVA component
+animation, showing component colour swatches and the modularity Q line.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_temporal_trajectory_legend(
+  vec_required_components,
+  vec_component_labels,
+  vec_component_colours,
+  colour_modularity,
+  vec_palette = NULL,
+  font_family = "VT323"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="vec_required_components">vec_required_components</code></td>
+<td>
+<p>Character vector of component names in display order.</p>
+</td></tr>
+<tr><td><code id="vec_component_labels">vec_component_labels</code></td>
+<td>
+<p>Named character vector mapping component names to display labels.</p>
+</td></tr>
+<tr><td><code id="vec_component_colours">vec_component_colours</code></td>
+<td>
+<p>Named character vector mapping component names to fill colours.</p>
+</td></tr>
+<tr><td><code id="colour_modularity">colour_modularity</code></td>
+<td>
+<p>Character scalar. Colour for the modularity Q legend swatch.</p>
+</td></tr>
+<tr><td><code id="vec_palette">vec_palette</code></td>
+<td>
+<p>Optional named character vector of ORACLE colours. If 'NULL',
+colours are read with 'get_oracle_palette_values()'.</p>
+</td></tr>
+<tr><td><code id="font_family">font_family</code></td>
+<td>
+<p>Character scalar. Font family for all text elements.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A 'ggplot' legend panel.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

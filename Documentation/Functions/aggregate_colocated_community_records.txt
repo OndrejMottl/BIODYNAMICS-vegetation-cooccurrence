@@ -1,0 +1,33 @@
+Aggregate Colocated Community Records
+
+Description:
+
+     Aggregates same-prefix colocated modern records and keeps
+     cross-database colocations for inspection.
+
+Usage:
+
+     aggregate_colocated_community_records(
+       data_source = NULL,
+       data_coordinates = NULL,
+       data_abiotic_long = NULL
+     )
+     
+Arguments:
+
+data_source: A long-format community data frame with `dataset_name`,
+          `sample_name`, `age`, `taxon`, and `pollen_count` columns.
+
+data_coordinates: A coordinate data frame with dataset names in a
+          `dataset_name` column or row names and `coord_long`,
+          `coord_lat` columns.
+
+data_abiotic_long: A long-format abiotic table with columns
+          `dataset_name`, `age`, `abiotic_variable_name`, and
+          `abiotic_value`.
+
+Value:
+
+     A named list containing aggregated analysis streams and
+     traceability tables.
+

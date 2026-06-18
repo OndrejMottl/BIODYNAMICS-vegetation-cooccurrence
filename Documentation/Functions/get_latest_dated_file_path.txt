@@ -1,0 +1,33 @@
+Get Latest Dated File Path
+
+Description:
+
+     Finds the latest dated file for a file-name prefix.
+
+Usage:
+
+     get_latest_dated_file_path(file_name_base, path_directory, file_extension)
+     
+Arguments:
+
+file_name_base: A single non-empty character string giving the file
+          prefix, without the date suffix or extension.
+
+path_directory: A single character string giving the directory to
+          search.
+
+file_extension: A single non-empty character string giving the
+          extension without a leading dot.
+
+Details:
+
+     Matching files must follow the project convention
+     `<file_name_base>_YYYY-MM-DD*.<file_extension>`. ISO dates sort
+     lexicographically, so sorting matching paths selects the latest
+     file.
+
+Value:
+
+     A single character string with the full path to the latest
+     matching file.
+

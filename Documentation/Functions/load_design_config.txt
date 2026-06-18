@@ -1,0 +1,27 @@
+Load design configuration from JSON
+
+Description:
+
+     Reads a `design_config.json` file and returns a named list
+     containing the parsed configuration, resolved file path, and
+     parent directory.
+
+Usage:
+
+     load_design_config(path = "design_config.json")
+     
+Arguments:
+
+    path: Character scalar. Path to the JSON file.
+
+Value:
+
+     A named list with `config`, `config_path`, and `config_dir`.
+
+Examples:
+
+     ## Not run:
+     
+     design <- load_design_config()
+     ## End(Not run)
+     

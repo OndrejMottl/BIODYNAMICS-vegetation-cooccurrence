@@ -25,19 +25,20 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Centres and scales abiotic predictor variables, records the
-scaling attributes for later back-transformation, and returns
-both the scaled data frame and the attributes as a named list.
+<p>Centres and scales abiotic predictor variables, records the scaling
+attributes for later back-transformation, and returns both the
+scaled data frame and the attributes as a named list.
 </p>
-<p>'age' is centred only (mean subtracted, no division by SD).
-All other variables are both centred and scaled (divided by SD)
-when more than one sample is present.
+<p>By default, 'age' is centred and scaled to unit standard deviation
+when age varies. Legacy centre-only scaling is available via
+'age_scale_mode = &quot;center&quot;'. All other variables are both centred
+and scaled when more than one sample is present.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>scale_abiotic_for_fit(data_abiotic_wide = NULL)
+<pre><code class='language-R'>scale_abiotic_for_fit(data_abiotic_wide = NULL, age_scale_mode = "z_score")
 </code></pre>
 
 
@@ -49,6 +50,11 @@ when more than one sample is present.
 <p>A data frame in wide format as returned by
 'prepare_abiotic_for_fit()', containing real columns
 'dataset_name', 'age', and one column per abiotic variable.</p>
+</td></tr>
+<tr><td><code id="age_scale_mode">age_scale_mode</code></td>
+<td>
+<p>Character scalar. '&quot;z_score&quot;' centres and scales 'age' when age
+varies. '&quot;center&quot;' centres 'age' only.</p>
 </td></tr>
 </table>
 
@@ -69,10 +75,9 @@ dropped via 'tidyr::drop_na()' before scaling. The returned
 
 <dl>
 <dt>'data_abiotic_scaled'</dt><dd><p>A data frame with row names in
-the format '&quot;&lt;dataset_name&gt;__&lt;age&gt;&quot;', an 'age' column
-(centre-only scaled), and all other abiotic variable columns
-(centre-and-scale). Rows with any 'NA' are dropped before
-scaling.</p>
+the format '&quot;&lt;dataset_name&gt;__&lt;age&gt;&quot;', a scaled 'age' column,
+and all other scaled abiotic variable columns. Rows with any
+'NA' are dropped before scaling.</p>
 </dd>
 <dt>'scale_attributes'</dt><dd><p>A named list of 'center' and
 'scale' attributes for each variable (including 'age'),

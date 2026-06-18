@@ -1,0 +1,31 @@
+Get Preprocessing Controller
+
+Description:
+
+     Creates a local `crew` controller for paleo preprocessing
+     prebuilds when the `crew_mori` backend is requested through
+     environment variables.
+
+Usage:
+
+     get_preprocessing_controller()
+     
+Details:
+
+     The worker count is read from `BIODYNAMICS_PREPROCESSING_WORKERS`.
+     This helper is intentionally environment-driven so normal
+     full-pipeline runs keep the default sequential scheduler.
+
+Value:
+
+     A `crew` local controller when `BIODYNAMICS_PREPROCESSING_BACKEND
+     = "crew_mori"`, otherwise `NULL`.
+
+See Also:
+
+     [crew::crew_controller_local()]
+
+Examples:
+
+     get_preprocessing_controller()
+     

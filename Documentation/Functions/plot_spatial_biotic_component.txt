@@ -1,0 +1,32 @@
+Plot Spatial Biotic Component
+
+Description:
+
+     Builds a jitter and interval plot for the Associations component.
+
+Usage:
+
+     plot_spatial_biotic_component(
+       data_plot,
+       data_biotic_summary,
+       plot_title,
+       vec_continent_shapes = NULL
+     )
+     
+Arguments:
+
+data_plot: Data frame returned by
+          [prepare_spatial_variance_plot_data()].
+
+data_biotic_summary: Data frame returned by
+          [summarise_spatial_biotic_component()].
+
+plot_title: Single character string used as the plot title.
+
+vec_continent_shapes: Optional named numeric vector mapping
+          `continent_id` values to point shapes.
+
+Value:
+
+     A `ggplot` object.
+

@@ -1,0 +1,33 @@
+Build Spatial Model Store Index
+
+Description:
+
+     Creates a catalogue of spatial targets stores for one data source
+     and one or more spatial scales.
+
+Usage:
+
+     build_spatial_model_store_index(
+       data_source,
+       scales = c("continental", "regional", "local"),
+       pipeline_name = NULL,
+       path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
+     )
+     
+Arguments:
+
+data_source: A single character string. Must be `"paleo"` or
+          `"modern"`.
+
+  scales: Character vector of spatial scales to include.
+
+pipeline_name: Optional pipeline name. Defaults to
+          `pipeline_data_source_spatial_resolution`.
+
+path_spatial_grid: Path to the spatial grid CSV file.
+
+Value:
+
+     A tibble with columns `data_source`, `scale`, `scale_id`,
+     `pipeline_name`, `store_path`, and `store_exists`.
+

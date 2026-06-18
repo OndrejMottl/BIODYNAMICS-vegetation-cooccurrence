@@ -27,8 +27,8 @@ function processMathHTML() {
 
 <p>Converts a numeric community matrix of proportions (or
 counts) to a binary presence-absence matrix. Any value
-strictly greater than zero is recoded as '1L'; zeros
-remain '0L'. The resulting integer matrix is suitable
+strictly greater than zero is recoded as '1L'; zeros and
+missing values become '0L'. The resulting integer matrix is suitable
 for 'filter_constant_taxa()' when the model uses a
 binomial error family.
 </p>
@@ -74,7 +74,8 @@ in the pipeline.
 <h3>Value</h3>
 
 <p>An integer matrix of the same dimensions and dimnames as
-the input, with all non-zero values replaced by '1L'.
+the input, with all non-zero values replaced by '1L' and
+missing values replaced by '0L'.
 </p>
 
 

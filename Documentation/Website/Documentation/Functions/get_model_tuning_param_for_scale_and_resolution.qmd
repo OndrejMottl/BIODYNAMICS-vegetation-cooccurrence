@@ -1,0 +1,96 @@
+---
+format: html
+title: get_model_tuning_param_for_scale_and_resolution()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_model_tuning_param_for_scale_and_resolution</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get One Model Tuning Parameter For Scale And Resolution</h2>
+
+<h3>Description</h3>
+
+<p>Returns one active model-fitting tuning parameter. Spatial stores read
+per-scale tuning from the model tuning CSV files; non-spatial stores
+fall back to scalar values from 'config.yml'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_model_tuning_param_for_scale_and_resolution(
+  param_id,
+  scale_id = get_scale_id_from_store(),
+  resolution_id = NULL,
+  config_file = here::here("config.yml"),
+  dir = here::here("Data/Input/Model_tuning")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="param_id">param_id</code></td>
+<td>
+<p>A single model tuning parameter name. Must be one of 'n_iter',
+'n_step_size', 'n_sampling', 'n_samples_anova', or
+'n_early_stopping'.</p>
+</td></tr>
+<tr><td><code id="scale_id">scale_id</code></td>
+<td>
+<p>Optional spatial unit identifier. Defaults to
+'get_scale_id_from_store()'. When 'NULL', values are read from
+'config.yml'.</p>
+</td></tr>
+<tr><td><code id="resolution_id">resolution_id</code></td>
+<td>
+<p>Optional model resolution. Defaults to the active
+'data_processing$taxonomic_resolution' config value. Spatial stores
+pass this to 'get_model_tuning_params()'.</p>
+</td></tr>
+<tr><td><code id="config_file">config_file</code></td>
+<td>
+<p>Path to the YAML configuration file.
+Default: 'here::here(&quot;config.yml&quot;)'.</p>
+</td></tr>
+<tr><td><code id="dir">dir</code></td>
+<td>
+<p>Directory containing model tuning CSV files.
+Default: 'here::here(&quot;Data/Input/Model_tuning&quot;)'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The requested parameter value. Optional tuning parameters may return
+'NULL'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>get_model_tuning_params
+</p>
+
+</main>
+
+</div>
+</body></html>
+

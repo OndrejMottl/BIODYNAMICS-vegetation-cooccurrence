@@ -1,0 +1,138 @@
+<!DOCTYPE html><html><head><title>R: Plot Variance Component Triangle Legend</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>plot_variance_component_triangle_legend</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Variance Component Triangle Legend</h2>
+
+<h3>Description</h3>
+
+<p>Draws a ternary colour legend for three variance components. Each
+triangle corner represents the maximum value for one component, and
+interior points are coloured by the blended component shares.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>plot_variance_component_triangle_legend(
+  vec_component_colours,
+  vec_required_components = base::c("Abiotic", "Spatial", "Associations"),
+  vec_component_labels = vec_required_components,
+  max_component_value = 100,
+  component_step = 2,
+  plot_title = NULL,
+  font_family = NULL,
+  label_colour = "grey35",
+  title_colour = label_colour,
+  border_colour = "grey35",
+  background_colour = "transparent",
+  point_size = 2.3,
+  label_size = 3.2,
+  title_size = 10,
+  triangle_x_offset = 0.16,
+  method = base::c("perc_avg", "HCL")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="vec_component_colours">vec_component_colours</code></td>
+<td>
+<p>Named character vector mapping component IDs to HEX colours.</p>
+</td></tr>
+<tr><td><code id="vec_required_components">vec_required_components</code></td>
+<td>
+<p>Character vector with exactly three component IDs. These IDs are used
+to read colours from 'vec_component_colours'.</p>
+</td></tr>
+<tr><td><code id="vec_component_labels">vec_component_labels</code></td>
+<td>
+<p>Character vector with exactly three display labels. Defaults to
+'vec_required_components'.</p>
+</td></tr>
+<tr><td><code id="max_component_value">max_component_value</code></td>
+<td>
+<p>Numeric scalar giving the value represented at each triangle corner.
+Defaults to '100'.</p>
+</td></tr>
+<tr><td><code id="component_step">component_step</code></td>
+<td>
+<p>Numeric scalar giving the grid step used to fill the triangle.</p>
+</td></tr>
+<tr><td><code id="plot_title">plot_title</code></td>
+<td>
+<p>Optional character scalar shown as the plot title.</p>
+</td></tr>
+<tr><td><code id="font_family">font_family</code></td>
+<td>
+<p>Optional character scalar giving the font family for labels.</p>
+</td></tr>
+<tr><td><code id="label_colour">label_colour</code></td>
+<td>
+<p>Character vector giving the corner-label colour. Must have length
+'1' for one shared colour or length '3' for one colour per label.
+If length '3' and named, names are matched to
+'vec_required_components'; otherwise colours are used in order.</p>
+</td></tr>
+<tr><td><code id="title_colour">title_colour</code></td>
+<td>
+<p>Character scalar giving the title colour.</p>
+</td></tr>
+<tr><td><code id="border_colour">border_colour</code></td>
+<td>
+<p>Character scalar giving the triangle-border colour.</p>
+</td></tr>
+<tr><td><code id="background_colour">background_colour</code></td>
+<td>
+<p>Character scalar giving the plot background colour.</p>
+</td></tr>
+<tr><td><code id="point_size">point_size</code></td>
+<td>
+<p>Numeric scalar giving the size of interior colour points.</p>
+</td></tr>
+<tr><td><code id="label_size">label_size</code></td>
+<td>
+<p>Numeric scalar giving the size of corner labels.</p>
+</td></tr>
+<tr><td><code id="title_size">title_size</code></td>
+<td>
+<p>Numeric scalar giving the size of the optional title.</p>
+</td></tr>
+<tr><td><code id="triangle_x_offset">triangle_x_offset</code></td>
+<td>
+<p>Numeric scalar shifting the triangle horizontally.</p>
+</td></tr>
+<tr><td><code id="method">method</code></td>
+<td>
+<p>Character string selecting the colour-mixing method passed to
+[mix_variance_component_colours()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A 'ggplot' object.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

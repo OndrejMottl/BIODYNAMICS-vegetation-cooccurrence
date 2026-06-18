@@ -90,7 +90,7 @@ very few taxa without erroring. Default: '25L'.</p>
 <tr><td><code id="data_community">data_community</code></td>
 <td>
 <p>A long-format data frame with columns 'taxon',
-'dataset_name', 'age', and 'pollen_prop', as produced by
+'dataset_name', 'age', and 'value', as produced by
 'classify_to_functional_type()' or
 'classify_taxonomic_resolution()'. Used to run the
 viability filter chain for each candidate 'k'.</p>
@@ -98,7 +98,7 @@ viability filter chain for each candidate 'k'.</p>
 <tr><td><code id="minimal_proportion">minimal_proportion</code></td>
 <td>
 <p>A single numeric value in (0, 1). A sample is considered
-to contain an FT group when the summed 'pollen_prop' for
+to contain an FT group when the summed 'value' for
 that group exceeds this threshold.</p>
 </td></tr>
 <tr><td><code id="min_n_taxa">min_n_taxa</code></td>
@@ -142,7 +142,7 @@ during the viability check, mirroring the pipeline step.</p>
 records the mean silhouette width.
 </p>
 <p>For each candidate 'k' the community data are aggregated
-to the FT level (summed 'pollen_prop' per
+to the FT level (summed 'value' per
 '(dataset_name, age, ft_group)') and then passed through
 the actual pipeline filter chain in sequence:
 </p>

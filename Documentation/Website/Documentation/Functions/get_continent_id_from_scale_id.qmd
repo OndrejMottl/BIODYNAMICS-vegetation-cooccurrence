@@ -44,8 +44,8 @@ function processMathHTML() {
 <table role = "presentation">
 <tr><td><code id="scale_id">scale_id</code></td>
 <td>
-<p>A single non-empty character string identifying the spatial
-unit whose 'continent_id' should be returned.</p>
+<p>A non-empty character vector identifying spatial units whose
+'continent_id' values should be returned.</p>
 </td></tr>
 <tr><td><code id="file">file</code></td>
 <td>
@@ -58,18 +58,18 @@ Default: 'here::here(&quot;Data/Input/spatial_grid.csv&quot;)'.</p>
 <h3>Details</h3>
 
 <p>The function validates the inputs, reads the spatial grid CSV,
-finds the row matching 'scale_id', and returns its
-'continent_id'. The function errors when the file is not a
-readable CSV, when required columns are absent, when the
-'scale_id' is absent or duplicated, or when the matched row has
-a missing 'continent_id' value.
+finds rows matching 'scale_id', and returns 'continent_id'
+values. The function errors when the file is not a readable CSV,
+when required columns are absent, when any requested 'scale_id' is
+absent or duplicated, or when any matched row has a missing
+'continent_id' value.
 </p>
 
 
 <h3>Value</h3>
 
-<p>A single non-empty character string containing the 'continent_id'
-for the supplied 'scale_id'.
+<p>A character vector containing one 'continent_id' per supplied
+'scale_id', in the same order as 'scale_id'.
 </p>
 
 

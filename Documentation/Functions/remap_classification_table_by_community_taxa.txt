@@ -26,7 +26,7 @@ data_classification_table: A data frame mapping raw taxon names
           (`sel_name`) to all taxonomic rank columns (`kingdom`,
           `phylum`, `class`, `order`, `family`, `genus`, `species`).
           This is typically `data_combined_classification_table`
-          produced by `pipe_segment_community_data`.
+          produced by `pipe_segment_community_prepare_paleo`.
 
 data_community_classified: A data frame containing a `taxon` column
           with the classified community taxon names (e.g. genus or

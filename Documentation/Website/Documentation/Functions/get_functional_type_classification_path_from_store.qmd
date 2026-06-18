@@ -35,7 +35,8 @@ for the spatial unit encoded in a 'targets' store path.
 <pre><code class='language-R'>get_functional_type_classification_path_from_store(
   store = targets::tar_path_store(),
   path_spatial_grid = here::here("Data/Input/spatial_grid.csv"),
-  path_processed = here::here("Data/Processed/Traits")
+  path_processed = here::here("Data/Processed/Traits"),
+  data_source_prefix = NULL
 )
 </code></pre>
 
@@ -58,6 +59,13 @@ Default: 'here::here(&quot;Data/Input/spatial_grid.csv&quot;)'.</p>
 <p>A single character string giving the directory that contains
 dated FT classification '.qs' files.
 Default: 'here::here(&quot;Data/Processed/Traits&quot;)'.</p>
+</td></tr>
+<tr><td><code id="data_source_prefix">data_source_prefix</code></td>
+<td>
+<p>Optional single non-empty character string identifying a
+source-specific FT classification family. Use 'NULL' (default)
+for historical paleo/global files, or '&quot;modern&quot;' for modern
+files.</p>
 </td></tr>
 </table>
 
@@ -92,8 +100,8 @@ get_functional_type_classification
 
 <pre><code class='language-R'>get_functional_type_classification_path_from_store(
   store = here::here(
-    "Data/targets/spatial_regional/eu_r005/",
-    "pipeline_spatial_resolution"
+    "Data/targets/paleo_spatial_regional/eu_r005/",
+    "pipeline_paleo_spatial_resolution"
   )
 )
 </code></pre>

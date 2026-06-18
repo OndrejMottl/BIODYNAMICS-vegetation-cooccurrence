@@ -1,0 +1,82 @@
+Predict Spatial-Resolution Grid for One Age
+
+Description:
+
+     Builds abiotic and optional spatial predictors for one age slice
+     and returns long-format taxon occurrence probabilities.
+
+Usage:
+
+     predict_spatial_resolution_grid_age(
+       prediction_inputs,
+       data_grid,
+       data_grid_coords_projected,
+       age,
+       abiotic_variables,
+       x_lim,
+       y_lim,
+       cache_dir,
+       spatial_mode = "spatiotemporal",
+       climate_fn = NULL,
+       spatial_interpolate_fn = NULL,
+       spatiotemporal_interpolate_fn = NULL,
+       predict_fn = NULL
+     )
+     
+Arguments:
+
+prediction_inputs: Named list returned by
+          [read_spatial_resolution_prediction_inputs()].
+
+data_grid: Prediction grid with `grid_id`, `coord_long`, and
+          `coord_lat`.
+
+data_grid_coords_projected: Projected prediction grid coordinates with
+          row names `grid_<id>`.
+
+     age: Numeric scalar age in years before present.
+
+abiotic_variables: Character vector of CHELSA variables to extract.
+
+   x_lim: Numeric longitude range.
+
+   y_lim: Numeric latitude range.
+
+cache_dir: Existing CHELSA cache directory.
+
+spatial_mode: Spatial predictor mode: `"spatial"`, `"spatiotemporal"`,
+          or `"none"`.
+
+climate_fn: Climate extraction function. If `NULL` (default),
+          [extract_prediction_climate()] is used.
+
+spatial_interpolate_fn: Spatial interpolation function. If `NULL`
+          (default), [interpolate_mev_to_grid()] is used.
+
+spatiotemporal_interpolate_fn: Spatiotemporal interpolation function.
+          If `NULL` (default), [interpolate_st_mev_to_grid()] is used.
+
+predict_fn: Prediction function. If `NULL` (default), the function
+          resolves `sjSDM:::predict.sjSDM`.
+
+Value:
+
+     Long tibble with predicted probabilities by grid cell, age, and
+     taxon.
+
+Examples:
+
+     ## Not run:
+     
+     predict_spatial_resolution_grid_age(
+       prediction_inputs = prediction_inputs,
+       data_grid = data_grid,
+       data_grid_coords_projected = data_grid_coords_projected,
+       age = 0,
+       abiotic_variables = c("bio1", "bio12"),
+       x_lim = c(-10, 40),
+       y_lim = c(35, 70),
+       cache_dir = "Data/Temp/chelsa/prediction"
+     )
+     ## End(Not run)
+     

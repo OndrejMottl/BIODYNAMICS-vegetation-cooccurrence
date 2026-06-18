@@ -1,0 +1,40 @@
+Get Model Tuning Parameters
+
+Description:
+
+     Reads model-fitting parameters for one analysis, spatial unit, and
+     resolution from the model tuning CSV catalogue.
+
+Usage:
+
+     get_model_tuning_params(
+       analysis_id,
+       scale_id,
+       resolution_id,
+       dir = here::here("Data/Input/Model_tuning")
+     )
+     
+Arguments:
+
+analysis_id: A single non-empty character string identifying the
+          analysis family, such as `"paleo_spatial"` or
+          `"modern_spatial"`.
+
+scale_id: A single non-empty character string identifying the spatial
+          unit. Must match exactly one row in the selected tuning file.
+
+resolution_id: A single character string identifying the model
+          resolution. `"genus"` reads the `*_genus.csv` file,
+          `"family"` reads the `*_family.csv` file, and
+          `"functional_type"`, `"ft_paleo"`, and `"ft_modern"` read the
+          `*_ft.csv` file.
+
+     dir: Directory containing model tuning CSV files. Default:
+          `here::here("Data/Input/Model_tuning")`.
+
+Value:
+
+     A named list with `n_iter`, `n_step_size`, `n_sampling`,
+     `n_samples_anova`, and `n_early_stopping`. Missing `n_step_size`
+     and `n_early_stopping` values are returned as `NULL`.
+

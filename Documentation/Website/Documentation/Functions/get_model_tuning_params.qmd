@@ -1,0 +1,83 @@
+---
+format: html
+title: get_model_tuning_params()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_model_tuning_params</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Model Tuning Parameters</h2>
+
+<h3>Description</h3>
+
+<p>Reads model-fitting parameters for one analysis, spatial unit, and
+resolution from the model tuning CSV catalogue.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_model_tuning_params(
+  analysis_id,
+  scale_id,
+  resolution_id,
+  dir = here::here("Data/Input/Model_tuning")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="analysis_id">analysis_id</code></td>
+<td>
+<p>A single non-empty character string identifying the analysis family,
+such as '&quot;paleo_spatial&quot;' or '&quot;modern_spatial&quot;'.</p>
+</td></tr>
+<tr><td><code id="scale_id">scale_id</code></td>
+<td>
+<p>A single non-empty character string identifying the spatial unit.
+Must match exactly one row in the selected tuning file.</p>
+</td></tr>
+<tr><td><code id="resolution_id">resolution_id</code></td>
+<td>
+<p>A single character string identifying the model resolution. '&quot;genus&quot;'
+reads the '*_genus.csv' file, '&quot;family&quot;' reads the '*_family.csv'
+file, and '&quot;functional_type&quot;', '&quot;ft_paleo&quot;', and '&quot;ft_modern&quot;' read
+the '*_ft.csv' file.</p>
+</td></tr>
+<tr><td><code id="dir">dir</code></td>
+<td>
+<p>Directory containing model tuning CSV files.
+Default: 'here::here(&quot;Data/Input/Model_tuning&quot;)'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named list with 'n_iter', 'n_step_size', 'n_sampling',
+'n_samples_anova', and 'n_early_stopping'. Missing 'n_step_size' and
+'n_early_stopping' values are returned as 'NULL'.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

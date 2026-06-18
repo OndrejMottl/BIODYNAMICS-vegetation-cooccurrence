@@ -1,0 +1,31 @@
+Write auto-generated SCSS from design tokens
+
+Description:
+
+     Converts the design configuration returned by
+     `load_design_config()` into SCSS variables and CSS custom
+     properties, then writes them to a SCSS file.
+
+Usage:
+
+     write_oracle_generated_scss(design, output = "oracle_generated.scss")
+     
+Arguments:
+
+  design: Named list as returned by `load_design_config()`.
+
+  output: Character scalar. Output file name or absolute path. When
+          relative, written next to the JSON config file.
+
+Value:
+
+     Invisibly, the absolute path to the written file.
+
+Examples:
+
+     ## Not run:
+     
+     design <- load_design_config()
+     write_oracle_generated_scss(design)
+     ## End(Not run)
+     

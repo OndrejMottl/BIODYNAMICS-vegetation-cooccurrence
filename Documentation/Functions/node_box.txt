@@ -1,0 +1,51 @@
+Build Node Box Geometry
+
+Description:
+
+     Creates one-row tibble geometry for labelled schematic boxes used
+     in IAVS figures.
+
+Usage:
+
+     node_box(
+       id,
+       label,
+       x,
+       y,
+       width,
+       height,
+       colour,
+       fill = NA,
+       text_colour = colour,
+       text_size = 2.9,
+       fontface = "bold"
+     )
+     
+Arguments:
+
+      id: Character scalar identifier.
+
+   label: Character scalar display label.
+
+       x: Numeric scalar. Box center x position.
+
+       y: Numeric scalar. Box center y position.
+
+   width: Numeric scalar. Box width.
+
+  height: Numeric scalar. Box height.
+
+  colour: Character scalar line colour.
+
+    fill: Character scalar fill colour.
+
+text_colour: Character scalar text colour.
+
+text_size: Numeric scalar text size.
+
+fontface: Character scalar text face.
+
+Value:
+
+     One-row tibble with precomputed box extents and styling columns.
+

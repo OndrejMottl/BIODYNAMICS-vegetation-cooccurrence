@@ -1,0 +1,34 @@
+Read a Target or Return NULL
+
+Description:
+
+     Reads one target object from a targets store and returns `NULL`
+     when the read fails.
+
+Usage:
+
+     read_target_or_null(target_name, store_path, read_fn = targets::tar_read_raw)
+     
+Arguments:
+
+target_name: Character scalar. Target name to read.
+
+store_path: Character scalar. Path to the targets store.
+
+ read_fn: Function used to read the target. Defaults to
+          [targets::tar_read_raw()].
+
+Value:
+
+     Target object when read succeeds; otherwise `NULL`.
+
+Examples:
+
+     ## Not run:
+     
+     read_target_or_null(
+       target_name = "data_community_analysis",
+       store_path = "Data/targets/paleo_temporal_europe/pipeline_paleo_temporal"
+     )
+     ## End(Not run)
+     
