@@ -1,0 +1,31 @@
+Count Successful Targets in Store Metadata
+
+Description:
+
+     Counts targets matching a regex pattern whose metadata do not
+     report an error.
+
+Usage:
+
+     count_successful_targets(store_path, target_pattern, data_meta = NULL)
+     
+Arguments:
+
+store_path: Character scalar. Path to the targets store.
+
+target_pattern: Character scalar. Regex used to select target names.
+
+data_meta: Optional tibble with `name` and `error` columns. When
+          `NULL`, metadata are read with [read_target_meta_or_empty()].
+
+Value:
+
+     Integer scalar count of successful matching targets.
+
+Examples:
+
+     count_successful_targets(
+       store_path = "Data/targets/paleo_temporal_europe/pipeline_paleo_temporal",
+       target_pattern = "^model_evaluation_"
+     )
+     

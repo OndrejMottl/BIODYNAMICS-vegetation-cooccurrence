@@ -1,0 +1,118 @@
+<!DOCTYPE html><html><head><title>R: Add an ORACLE terminal panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>add_panel</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add an ORACLE terminal panel</h2>
+
+<h3>Description</h3>
+
+<p>Adds a framed translucent panel and optional label to an ORACLE terminal
+plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>add_panel(
+  xmin,
+  xmax,
+  ymin,
+  ymax,
+  label = NULL,
+  panel_fill = NULL,
+  panel_border = NULL,
+  label_colour = NULL,
+  label_size = 3,
+  text_buffer = 1.2,
+  palette = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="xmin">xmin</code></td>
+<td>
+<p>Numeric scalar. Minimum x coordinate of the panel.</p>
+</td></tr>
+<tr><td><code id="xmax">xmax</code></td>
+<td>
+<p>Numeric scalar. Maximum x coordinate of the panel.</p>
+</td></tr>
+<tr><td><code id="ymin">ymin</code></td>
+<td>
+<p>Numeric scalar. Minimum y coordinate of the panel.</p>
+</td></tr>
+<tr><td><code id="ymax">ymax</code></td>
+<td>
+<p>Numeric scalar. Maximum y coordinate of the panel.</p>
+</td></tr>
+<tr><td><code id="label">label</code></td>
+<td>
+<p>Optional character scalar. Label shown inside the upper-left corner.</p>
+</td></tr>
+<tr><td><code id="panel_fill">panel_fill</code></td>
+<td>
+<p>Optional fill colour. If 'NULL', 'palette[[&quot;surface&quot;]]' is used.</p>
+</td></tr>
+<tr><td><code id="panel_border">panel_border</code></td>
+<td>
+<p>Optional border colour. If 'NULL', 'palette[[&quot;border&quot;]]' is used.</p>
+</td></tr>
+<tr><td><code id="label_colour">label_colour</code></td>
+<td>
+<p>Optional label colour. If 'NULL', 'palette[[&quot;muted&quot;]]' is used.</p>
+</td></tr>
+<tr><td><code id="label_size">label_size</code></td>
+<td>
+<p>Numeric scalar. Label text size.</p>
+</td></tr>
+<tr><td><code id="text_buffer">text_buffer</code></td>
+<td>
+<p>Numeric scalar. Internal offset for label placement.</p>
+</td></tr>
+<tr><td><code id="palette">palette</code></td>
+<td>
+<p>Optional named character vector of ORACLE colours. If 'NULL', colours
+are read with 'get_oracle_palette_values()'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The returned list is designed to be added to a 'ggplot' object with '+'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of 'ggplot2' layers.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>build_base_terminal_plot, get_oracle_palette_values
+</p>
+
+</main>
+
+</div>
+</body></html>
+

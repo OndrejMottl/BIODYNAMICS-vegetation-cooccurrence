@@ -1,0 +1,44 @@
+Check Abiotic Interpolation Contract
+
+Description:
+
+     Validates that abiotic interpolation inputs use the deterministic
+     interpolation contract and do not contain age-uncertainty routing
+     artifacts.
+
+Usage:
+
+     check_abiotic_interpolation_contract(
+       data,
+       by = "dataset_name",
+       age_var = "age"
+     )
+     
+Arguments:
+
+    data: A data frame containing abiotic data to interpolate.
+
+      by: A character vector of column names that will be used to group
+          interpolation. Must not include uncertainty iteration
+          columns.
+
+ age_var: Name of the age variable column used for interpolation. Must
+          not be `age_uncertainty`.
+
+Details:
+
+     Abiotic predictors must use deterministic sample ages. Age
+     uncertainty is restricted to paleo community interpolation through
+     [interpolate_community_data_with_uncertainty()]. This guard fails
+     fast if uncertainty columns or uncertainty-routing arguments reach
+     the abiotic path.
+
+Value:
+
+     The input `data`, invisibly, when the contract is valid.
+
+See Also:
+
+     [interpolate_data()],
+     [interpolate_community_data_with_uncertainty()]
+

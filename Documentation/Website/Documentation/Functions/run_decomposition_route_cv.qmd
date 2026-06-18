@@ -1,0 +1,95 @@
+---
+format: html
+title: run_decomposition_route_cv()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_decomposition_route_cv</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run Decomposition Route Cross-Validation</h2>
+
+<h3>Description</h3>
+
+<p>Fits full and reduced models for one diagnostic route and returns
+fold-level held-out metrics and convergence diagnostics.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_decomposition_route_cv(
+  route = NULL,
+  inputs = NULL,
+  cv_indices = NULL,
+  fit_config = base::list(),
+  fit_fn = fit_jsdm_model,
+  predict_fn = stats::predict,
+  convergence_fn = check_convergence_jsdm,
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="route">route</code></td>
+<td>
+<p>One-row route data frame or named list.</p>
+</td></tr>
+<tr><td><code id="inputs">inputs</code></td>
+<td>
+<p>List returned by 'load_decomposition_diagnostic_inputs()'.</p>
+</td></tr>
+<tr><td><code id="cv_indices">cv_indices</code></td>
+<td>
+<p>Repeated fold test-index list from 'make_repeated_cv_indices()'.</p>
+</td></tr>
+<tr><td><code id="fit_config">fit_config</code></td>
+<td>
+<p>Optional list of fitting overrides.</p>
+</td></tr>
+<tr><td><code id="fit_fn">fit_fn</code></td>
+<td>
+<p>Model fitting function. Defaults to 'fit_jsdm_model()'.</p>
+</td></tr>
+<tr><td><code id="predict_fn">predict_fn</code></td>
+<td>
+<p>Prediction function. Defaults to 'stats::predict()'.</p>
+</td></tr>
+<tr><td><code id="convergence_fn">convergence_fn</code></td>
+<td>
+<p>Convergence function. Defaults to 'check_convergence_jsdm()'.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE', progress messages are printed.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Tibble with one row per route, repeat, fold, and variant.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

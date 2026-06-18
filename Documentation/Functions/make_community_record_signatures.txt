@@ -1,0 +1,20 @@
+Make Community Record Signatures
+
+Description:
+
+     Builds deterministic composition signatures for community records.
+
+Usage:
+
+     make_community_record_signatures(data_source = NULL)
+     
+Arguments:
+
+data_source: A long-format community data frame with `dataset_name`,
+          `sample_name`, `age`, `taxon`, and `pollen_count` columns.
+
+Value:
+
+     A tibble with one row per `(dataset_name, sample_name, age)`
+     record and a sorted `community_signature` column.
+

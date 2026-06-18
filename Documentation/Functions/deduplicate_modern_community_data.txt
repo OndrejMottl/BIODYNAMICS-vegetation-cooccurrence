@@ -1,0 +1,33 @@
+Deduplicate Modern Community Data
+
+Description:
+
+     Drops exact duplicated modern community records using a
+     deterministic lexicographic keep rule.
+
+Usage:
+
+     deduplicate_modern_community_data(
+       data_source = NULL,
+       data_coordinates = NULL,
+       data_quality_report = NULL
+     )
+     
+Arguments:
+
+data_source: A long-format community data frame with `dataset_name`,
+          `sample_name`, `age`, `taxon`, and `pollen_count` columns.
+
+data_coordinates: A coordinate data frame with dataset names in a
+          `dataset_name` column or row names and `coord_long`,
+          `coord_lat` columns.
+
+data_quality_report: Optional modern QA report. Used by targets
+          pipelines to make the QA gate an explicit upstream dependency
+          before deduplication.
+
+Value:
+
+     A named list with `data_community` and `data_dropped_records`
+     elements.
+

@@ -1,0 +1,84 @@
+<!DOCTYPE html><html><head><title>R: Read Spatial-Resolution Prediction Inputs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>read_spatial_resolution_prediction_inputs</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read Spatial-Resolution Prediction Inputs</h2>
+
+<h3>Description</h3>
+
+<p>Reads the suffixed targets needed to predict from one
+'pipeline_paleo_spatial_resolution' model resolution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>read_spatial_resolution_prediction_inputs(
+  store_path,
+  resolution_id = "genus",
+  read_target_fn = targets::tar_read_raw,
+  meta_fn = targets::tar_meta
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="store_path">store_path</code></td>
+<td>
+<p>Character scalar path to a spatial-resolution targets store.</p>
+</td></tr>
+<tr><td><code id="resolution_id">resolution_id</code></td>
+<td>
+<p>Character scalar model resolution identifier, such as '&quot;genus&quot;'.</p>
+</td></tr>
+<tr><td><code id="read_target_fn">read_target_fn</code></td>
+<td>
+<p>Function used to read targets. Defaults to
+[targets::tar_read_raw()].</p>
+</td></tr>
+<tr><td><code id="meta_fn">meta_fn</code></td>
+<td>
+<p>Function used by [read_targets_store_meta()] to read metadata.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list of model, evaluation, model input, coordinate, and spatial
+predictor targets.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+read_spatial_resolution_prediction_inputs(
+  store_path = "Data/targets/paleo_spatial_continental/europe",
+  resolution_id = "genus"
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

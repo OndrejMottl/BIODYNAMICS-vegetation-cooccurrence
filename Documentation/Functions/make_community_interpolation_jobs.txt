@@ -1,0 +1,35 @@
+Make Community Interpolation Jobs
+
+Description:
+
+     Splits paleo community and age-uncertainty data into independent
+     per-dataset interpolation jobs for dynamic targets branching.
+
+Usage:
+
+     make_community_interpolation_jobs(data, data_age_uncertainty)
+     
+Arguments:
+
+    data: A data frame containing a `dataset_name` column and community
+          data.
+
+data_age_uncertainty: A data frame containing a `dataset_name` column
+          and age-model data. Datasets without matching uncertainty
+          rows receive an empty tibble.
+
+Details:
+
+     Each job is self-contained so a dynamic target branch only
+     retrieves one dataset instead of loading the complete continental
+     inputs.
+
+Value:
+
+     A list of jobs. Each job contains `data` and
+     `data_age_uncertainty` elements for one dataset.
+
+See Also:
+
+     [interpolate_community_data_with_uncertainty()]
+

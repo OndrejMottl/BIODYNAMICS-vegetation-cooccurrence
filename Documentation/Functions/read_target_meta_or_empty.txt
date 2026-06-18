@@ -1,0 +1,31 @@
+Read Target Metadata or Return Empty Table
+
+Description:
+
+     Reads targets metadata with name and error fields. If metadata
+     cannot be read, an empty tibble with these columns is returned.
+
+Usage:
+
+     read_target_meta_or_empty(store_path, meta_fn = targets::tar_meta)
+     
+Arguments:
+
+store_path: Character scalar. Path to the targets store.
+
+ meta_fn: Function used to read metadata. Defaults to
+          [targets::tar_meta()].
+
+Value:
+
+     Tibble with `name` and `error` columns.
+
+Examples:
+
+     ## Not run:
+     
+     read_target_meta_or_empty(
+       store_path = "Data/targets/paleo_temporal_europe/pipeline_paleo_temporal"
+     )
+     ## End(Not run)
+     

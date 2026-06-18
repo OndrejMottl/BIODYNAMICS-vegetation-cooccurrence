@@ -1,0 +1,51 @@
+Build Spatial Unit Frame
+
+Description:
+
+     Builds one animation frame for the spatial units map, drawing
+     world polygons, fossil pollen points, and a highlighted bounding
+     box.
+
+Usage:
+
+     build_spatial_unit_frame(
+       data_unit,
+       data_points,
+       scale_label,
+       data_world,
+       x_limits,
+       y_limits,
+       buffer_degrees,
+       vec_palette = NULL,
+       font_family = "VT323"
+     )
+     
+Arguments:
+
+data_unit: One-row tibble with columns `x_min`, `x_max`, `y_min`, and
+          `y_max`.
+
+data_points: Tibble with columns `coord_long` and `coord_lat`.
+
+scale_label: Character scalar. Scale label shown in the upper-left
+          corner.
+
+data_world: World polygon tibble with columns `long`, `lat`, and
+          `group`.
+
+x_limits: Numeric vector of length 2. Longitudinal map extent.
+
+y_limits: Numeric vector of length 2. Latitudinal map extent.
+
+buffer_degrees: Numeric scalar. Buffer in degrees added around map
+          limits.
+
+vec_palette: Optional named character vector of ORACLE colours. If
+          `NULL`, colours are read with `get_oracle_palette_values()`.
+
+font_family: Character scalar. Font family for all text elements.
+
+Value:
+
+     A `ggplot` object for one animation frame.
+

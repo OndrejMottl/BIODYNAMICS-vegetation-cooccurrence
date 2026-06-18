@@ -1,0 +1,27 @@
+Get ORACLE palette colour values
+
+Description:
+
+     Returns named colour values from the ORACLE design palette.
+
+Usage:
+
+     get_oracle_palette_values(names = NULL)
+     
+Arguments:
+
+   names: Character vector of palette key names to retrieve, or `NULL`
+          to return all values.
+
+Value:
+
+     A named character vector of colour values.
+
+Examples:
+
+     ## Not run:
+     
+     get_oracle_palette_values()
+     get_oracle_palette_values(base::c("phosphor", "cyan"))
+     ## End(Not run)
+     

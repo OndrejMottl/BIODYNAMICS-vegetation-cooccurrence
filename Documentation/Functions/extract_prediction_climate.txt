@@ -1,0 +1,55 @@
+Extract Prediction Climate Values
+
+Description:
+
+     Extracts CHELSA raster values for one age slice at prediction grid
+     cell coordinates.
+
+Usage:
+
+     extract_prediction_climate(
+       data_grid,
+       age,
+       abiotic_variables,
+       x_lim,
+       y_lim,
+       cache_dir,
+       raster_fn = get_chelsa_raster
+     )
+     
+Arguments:
+
+data_grid: Data frame with `grid_id`, `coord_long`, and `coord_lat`
+          columns.
+
+     age: Numeric scalar age in years before present.
+
+abiotic_variables: Character vector of CHELSA variable names.
+
+   x_lim: Numeric longitude range used for raster cropping.
+
+   y_lim: Numeric latitude range used for raster cropping.
+
+cache_dir: Character scalar cache directory passed to
+          [get_chelsa_raster()].
+
+raster_fn: Raster-loading function. Defaults to [get_chelsa_raster()].
+
+Value:
+
+     Tibble with grid coordinates, age, and extracted abiotic columns.
+
+Examples:
+
+     ## Not run:
+     
+     extract_prediction_climate(
+       data_grid = data_grid,
+       age = 0,
+       abiotic_variables = c("bio1", "bio12"),
+       x_lim = c(-10, 40),
+       y_lim = c(35, 70),
+       cache_dir = "Data/Temp/chelsa/prediction"
+     )
+     ## End(Not run)
+     

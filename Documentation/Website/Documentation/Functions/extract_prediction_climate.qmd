@@ -1,0 +1,106 @@
+---
+format: html
+title: extract_prediction_climate()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>extract_prediction_climate</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract Prediction Climate Values</h2>
+
+<h3>Description</h3>
+
+<p>Extracts CHELSA raster values for one age slice at prediction grid
+cell coordinates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>extract_prediction_climate(
+  data_grid,
+  age,
+  abiotic_variables,
+  x_lim,
+  y_lim,
+  cache_dir,
+  raster_fn = get_chelsa_raster
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_grid">data_grid</code></td>
+<td>
+<p>Data frame with 'grid_id', 'coord_long', and 'coord_lat' columns.</p>
+</td></tr>
+<tr><td><code id="age">age</code></td>
+<td>
+<p>Numeric scalar age in years before present.</p>
+</td></tr>
+<tr><td><code id="abiotic_variables">abiotic_variables</code></td>
+<td>
+<p>Character vector of CHELSA variable names.</p>
+</td></tr>
+<tr><td><code id="x_lim">x_lim</code></td>
+<td>
+<p>Numeric longitude range used for raster cropping.</p>
+</td></tr>
+<tr><td><code id="y_lim">y_lim</code></td>
+<td>
+<p>Numeric latitude range used for raster cropping.</p>
+</td></tr>
+<tr><td><code id="cache_dir">cache_dir</code></td>
+<td>
+<p>Character scalar cache directory passed to [get_chelsa_raster()].</p>
+</td></tr>
+<tr><td><code id="raster_fn">raster_fn</code></td>
+<td>
+<p>Raster-loading function. Defaults to [get_chelsa_raster()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Tibble with grid coordinates, age, and extracted abiotic columns.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+extract_prediction_climate(
+  data_grid = data_grid,
+  age = 0,
+  abiotic_variables = c("bio1", "bio12"),
+  x_lim = c(-10, 40),
+  y_lim = c(35, 70),
+  cache_dir = "Data/Temp/chelsa/prediction"
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

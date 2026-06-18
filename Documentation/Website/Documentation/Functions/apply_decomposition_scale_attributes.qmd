@@ -1,0 +1,66 @@
+---
+format: html
+title: apply_decomposition_scale_attributes()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>apply_decomposition_scale_attributes</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply Decomposition Scale Attributes</h2>
+
+<h3>Description</h3>
+
+<p>Applies training-set scale attributes to held-out predictor rows.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>apply_decomposition_scale_attributes(
+  data_predictors = NULL,
+  scale_attributes = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_predictors">data_predictors</code></td>
+<td>
+<p>Data frame with row names and predictor columns.</p>
+</td></tr>
+<tr><td><code id="scale_attributes">scale_attributes</code></td>
+<td>
+<p>Named list of scale attributes from 'scale_abiotic_for_fit()' or
+'scale_spatial_for_fit()'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Data frame with the same row names as 'data_predictors' and scaled
+columns ordered as 'scale_attributes'.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

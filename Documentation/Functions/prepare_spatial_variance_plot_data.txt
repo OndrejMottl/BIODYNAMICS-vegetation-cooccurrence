@@ -1,0 +1,49 @@
+Prepare Spatial Variance Plot Data
+
+Description:
+
+     Adds shared labels and percentage columns for spatial variance
+     partitioning figures.
+
+Usage:
+
+     prepare_spatial_variance_plot_data(
+       data_unit,
+       vec_scale_levels,
+       vec_resolution_labels,
+       percentage_source_column = "R2_Nagelkerke_adjusted",
+       scale_source_to_percentage = FALSE,
+       sum_over_100_action = "error"
+     )
+     
+Arguments:
+
+data_unit: Data frame with one row per spatial unit, resolution, and
+          component. Must contain `scale`, `resolution_id`,
+          `component`, and the column selected by
+          `percentage_source_column`.
+
+vec_scale_levels: Character vector giving the display order of spatial
+          scales.
+
+vec_resolution_labels: Named character vector mapping `resolution_id`
+          values to display labels.
+
+percentage_source_column: Single character string naming the source
+          percentage column. Defaults to `R2_Nagelkerke_adjusted`.
+
+scale_source_to_percentage: Logical. If `TRUE`, values from
+          `percentage_source_column` are multiplied by 100. Set to
+          `FALSE` (default) when the source column is already on a
+          0-100 scale.
+
+sum_over_100_action: Single character string controlling behavior when
+          grouped `component_total_percentage` sums exceed 100. One of
+          `"error"` (default), `"warning"`, or `"ignore"`.
+
+Value:
+
+     A tibble containing the original columns plus `scale` as an
+     ordered factor, `resolution_label` as an ordered factor,
+     `component_label`, and `component_total_percentage`.
+

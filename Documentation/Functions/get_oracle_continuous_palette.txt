@@ -1,0 +1,21 @@
+Get ORACLE continuous palette colours
+
+Description:
+
+     Returns the four gradient stop colours used for continuous scales.
+
+Usage:
+
+     get_oracle_continuous_palette()
+     
+Value:
+
+     A named character vector of four colour values.
+
+Examples:
+
+     ## Not run:
+     
+     get_oracle_continuous_palette()
+     ## End(Not run)
+     

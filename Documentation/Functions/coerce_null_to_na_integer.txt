@@ -1,0 +1,26 @@
+Coerce Null to Missing Integer
+
+Description:
+
+     Converts a scalar value to integer while representing `NULL` as
+     `NA_integer_`. This is useful for optional model tuning values
+     that are stored as missing values in CSV files but returned as
+     `NULL` by tuning helpers.
+
+Usage:
+
+     coerce_null_to_na_integer(value)
+     
+Arguments:
+
+   value: `NULL` or a scalar value coercible to integer.
+
+Value:
+
+     A single integer value, or `NA_integer_` when `value` is `NULL`.
+
+Examples:
+
+     coerce_null_to_na_integer(NULL)
+     coerce_null_to_na_integer(10)
+     

@@ -1,0 +1,83 @@
+Plot Spatial Variance Waffle
+
+Description:
+
+     Builds a unit-level waffle plot using precomputed fill colours.
+
+Usage:
+
+     plot_spatial_variance_waffle(
+       data_waffle,
+       plot_title,
+       vec_continent_shapes,
+       flag_show_shape_legend = TRUE,
+       flag_show_fill_legend = FALSE,
+       vec_component_colours = NULL,
+       vec_required_components = base::c("Abiotic", "Spatial", "Associations"),
+       fill_legend_style = base::c("swatch", "triangle"),
+       plot_theme = ggplot2::theme_classic(),
+       facet_switch = "both",
+       tile_border_colour = "white",
+       tile_linewidth = 0.33,
+       tile_alpha = 1,
+       point_size = 2,
+       point_stroke = 0.6,
+       triangle_legend_arguments = base::list(),
+       triangle_legend_rel_width = 0.34
+     )
+     
+Arguments:
+
+data_waffle: Data frame returned by
+          [prepare_spatial_variance_waffle_data()].
+
+plot_title: Single character string used as the plot title.
+
+vec_continent_shapes: Named integer vector mapping continent
+          identifiers to point shapes.
+
+flag_show_shape_legend: Logical. If `TRUE`, shows the continent shape
+          legend.
+
+flag_show_fill_legend: Logical. If `TRUE`, shows a fill legend for base
+          component colours.
+
+vec_component_colours: Optional named character vector mapping
+          component IDs to HEX colours. Required when
+          `flag_show_fill_legend = TRUE`.
+
+vec_required_components: Character vector of component IDs shown in the
+          optional fill legend.
+
+fill_legend_style: Single character string specifying fill legend style
+          when `flag_show_fill_legend = TRUE`. One of `"swatch"`
+          (default) or `"triangle"`.
+
+plot_theme: A `ggplot2` theme object used as the base plot theme.
+
+facet_switch: Optional facet strip switch passed to
+          [ggplot2::facet_grid()]. Use `NULL`, `"x"`, `"y"`, or
+          `"both"`.
+
+tile_border_colour: Single character string used for waffle tile
+          borders.
+
+tile_linewidth: Numeric scalar giving waffle tile border width.
+
+tile_alpha: Numeric scalar giving waffle tile alpha.
+
+point_size: Numeric scalar giving continent point size.
+
+point_stroke: Numeric scalar giving continent point stroke.
+
+triangle_legend_arguments: Named list of optional arguments forwarded
+          to [plot_variance_component_triangle_legend()] when
+          `fill_legend_style = "triangle"`.
+
+triangle_legend_rel_width: Numeric scalar giving the relative width of
+          the triangle legend.
+
+Value:
+
+     A `ggplot` object.
+

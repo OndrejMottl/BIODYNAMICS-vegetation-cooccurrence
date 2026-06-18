@@ -1,0 +1,22 @@
+Format Age Label
+
+Description:
+
+     Formats age in years before present into a `ka BP` label.
+
+Usage:
+
+     format_age_label(age)
+     
+Arguments:
+
+     age: Numeric scalar age value in years before present.
+
+Value:
+
+     Character scalar label in the form `<age_ka> ka BP`.
+
+Examples:
+
+     format_age_label(2000)
+     

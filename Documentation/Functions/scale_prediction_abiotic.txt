@@ -1,0 +1,35 @@
+Scale Prediction Abiotic Data
+
+Description:
+
+     Applies training-time scale attributes to abiotic predictor data
+     used for model prediction.
+
+Usage:
+
+     scale_prediction_abiotic(data_climate, scale_attributes)
+     
+Arguments:
+
+data_climate: Data frame containing one column for each entry in
+          `scale_attributes`, typically `age` and selected CHELSA
+          variables.
+
+scale_attributes: Named list of scale attributes as returned by
+          [scale_abiotic_for_fit()].
+
+Value:
+
+     Data frame with the same columns as `scale_attributes`, scaled to
+     the training model scale.
+
+Examples:
+
+     scale_prediction_abiotic(
+       data_climate = tibble::tibble(age = 0, bio1 = 8),
+       scale_attributes = list(
+         age = list("scaled:center" = 0),
+         bio1 = list("scaled:center" = 6, "scaled:scale" = 2)
+       )
+     )
+     

@@ -20,73 +20,56 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Extracts data from the VegVault SQLite database based on specified
-geographic, temporal, and dataset type constraints.
+<p>Extracts data from a pre-built vaultkeepr query plan by adding
+abiotic data, filtering by variable name, adding taxa, and
+collecting the results into a data frame.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>extract_data_from_vegvault(
-  path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
-  x_lim = NULL,
-  y_lim = NULL,
-  age_lim = NULL,
-  sel_dataset_type = NULL,
-  sel_abiotic_var_name = NULL
-)
+<pre><code class='language-R'>extract_data_from_vegvault(plan, sel_abiotic_var_name = NULL)
 </code></pre>
 
 
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="path_to_vegvault">path_to_vegvault</code></td>
+<tr><td><code id="plan">plan</code></td>
 <td>
-<p>A character string specifying the path to the VegVault SQLite database
-(default: &quot;Data/Input/VegVault.sqlite&quot;).</p>
-</td></tr>
-<tr><td><code id="x_lim">x_lim</code></td>
-<td>
-<p>A numeric vector of length 2 specifying the longitude range.</p>
-</td></tr>
-<tr><td><code id="y_lim">y_lim</code></td>
-<td>
-<p>A numeric vector of length 2 specifying the latitude range.</p>
-</td></tr>
-<tr><td><code id="age_lim">age_lim</code></td>
-<td>
-<p>A numeric vector of length 2 specifying the age range.</p>
-</td></tr>
-<tr><td><code id="sel_dataset_type">sel_dataset_type</code></td>
-<td>
-<p>A character vector specifying the dataset types to select.</p>
+<p>A vaultkeepr plan object, typically created by
+'build_vegvault_plan()'.</p>
 </td></tr>
 <tr><td><code id="sel_abiotic_var_name">sel_abiotic_var_name</code></td>
 <td>
-<p>A character vector specifying the abiotic variable names to select.</p>
+<p>A non-empty character vector specifying the abiotic variable
+names to select (e.g. '&quot;bio1&quot;').</p>
 </td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>The function performs the following steps:
+<p>The function extends the supplied plan with the following steps:
+'get_abiotic_data()' -&gt; 'select_abiotic_var_by_name()' -&gt;
+'get_taxa()' -&gt; 'extract_data()'
 </p>
-<p>1. Validates input parameters.
-2. Checks the presence of the VegVault SQLite database.
-3. Builds the vaultkeepr query plan (lazy SQL). If vaultkeepr raises
-an error during plan assembly (e.g. insufficient data for the
-specified constraints), the error is caught and re-thrown via
-'cli::cli_abort()' with the original message preserved.
-4. Retrieves abiotic data and taxa information.
-5. Returns the extracted data as a data frame.
+<p>Input validation and plan construction (geographic/temporal
+filters, dataset type selection) are handled by
+'build_vegvault_plan()'.
 </p>
 
 
 <h3>Value</h3>
 
 <p>A data frame containing the extracted data.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[build_vegvault_plan()],
+[extract_age_uncertainty_from_vegvault()]
 </p>
 
 </main>

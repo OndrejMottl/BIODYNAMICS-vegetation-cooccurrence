@@ -1,0 +1,36 @@
+Refresh CZ Decomposition Upstream Targets
+
+Description:
+
+     Refreshes or validates the CZ paleo resolution-test target store.
+
+Usage:
+
+     refresh_cz_decomposition_upstream(
+       refresh_upstream = TRUE,
+       store_path = here::here("Data/targets/cz_paleo/pipeline_paleo_resolution_test"),
+       pipeline_script = "R/Pipelines/pipeline_paleo_resolution_test.R",
+       run_pipeline_fn = run_pipeline,
+       tar_meta_fn = targets::tar_meta,
+       verbose = TRUE
+     )
+     
+Arguments:
+
+refresh_upstream: Logical. If `TRUE`, rebuilds the upstream targets
+          before validation.
+
+store_path: Targets store path to validate.
+
+pipeline_script: Pipeline script used for the upstream refresh.
+
+run_pipeline_fn: Pipeline runner. Defaults to `run_pipeline()`.
+
+tar_meta_fn: Metadata reader. Defaults to `targets::tar_meta()`.
+
+ verbose: Logical. If `TRUE`, progress messages are printed.
+
+Value:
+
+     One-row tibble with refresh metadata and validation status.
+

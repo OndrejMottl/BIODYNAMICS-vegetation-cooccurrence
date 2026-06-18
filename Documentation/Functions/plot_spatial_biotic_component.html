@@ -1,0 +1,70 @@
+<!DOCTYPE html><html><head><title>R: Plot Spatial Biotic Component</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>plot_spatial_biotic_component</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Spatial Biotic Component</h2>
+
+<h3>Description</h3>
+
+<p>Builds a jitter and interval plot for the Associations component.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>plot_spatial_biotic_component(
+  data_plot,
+  data_biotic_summary,
+  plot_title,
+  vec_continent_shapes = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_plot">data_plot</code></td>
+<td>
+<p>Data frame returned by [prepare_spatial_variance_plot_data()].</p>
+</td></tr>
+<tr><td><code id="data_biotic_summary">data_biotic_summary</code></td>
+<td>
+<p>Data frame returned by [summarise_spatial_biotic_component()].</p>
+</td></tr>
+<tr><td><code id="plot_title">plot_title</code></td>
+<td>
+<p>Single character string used as the plot title.</p>
+</td></tr>
+<tr><td><code id="vec_continent_shapes">vec_continent_shapes</code></td>
+<td>
+<p>Optional named numeric vector mapping 'continent_id' values to
+point shapes.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A 'ggplot' object.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

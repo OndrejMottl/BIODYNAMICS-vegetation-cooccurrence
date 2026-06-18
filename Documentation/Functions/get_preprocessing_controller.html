@@ -1,0 +1,66 @@
+<!DOCTYPE html><html><head><title>R: Get Preprocessing Controller</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>get_preprocessing_controller</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Preprocessing Controller</h2>
+
+<h3>Description</h3>
+
+<p>Creates a local 'crew' controller for paleo preprocessing prebuilds
+when the 'crew_mori' backend is requested through environment
+variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>get_preprocessing_controller()
+</code></pre>
+
+
+<h3>Details</h3>
+
+<p>The worker count is read from
+'BIODYNAMICS_PREPROCESSING_WORKERS'. This helper is intentionally
+environment-driven so normal full-pipeline runs keep the default
+sequential scheduler.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A 'crew' local controller when
+'BIODYNAMICS_PREPROCESSING_BACKEND = &quot;crew_mori&quot;', otherwise 'NULL'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[crew::crew_controller_local()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>get_preprocessing_controller()
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

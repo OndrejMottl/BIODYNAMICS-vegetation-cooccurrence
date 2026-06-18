@@ -1,0 +1,146 @@
+---
+format: html
+title: run_predictive_ablation_cv()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_predictive_ablation_cv</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run Predictive Ablation Cross-Validation</h2>
+
+<h3>Description</h3>
+
+<p>Runs full, no-abiotic, no-spatial, and no-associations sjSDM
+cross-validation variants and returns fold-level predictive metrics.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_predictive_ablation_cv(
+  data_model_input,
+  cv_indices,
+  config_model_fitting = NULL,
+  iter = NULL,
+  sampling = NULL,
+  step_size = NULL,
+  device = "gpu",
+  n_cores = NULL,
+  tune = "grid",
+  tune_steps = 20L,
+  selection_metric = "loss",
+  alpha_cov = 0.5,
+  alpha_coef = 0.5,
+  alpha_spatial = 0.5,
+  lambda_cov = 0,
+  lambda_coef = 0,
+  lambda_spatial = 0,
+  cv_fn = sjSDM::sjSDM_cv,
+  seed = 900723L,
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_model_input">data_model_input</code></td>
+<td>
+<p>Model input list with 'data_community_to_fit',
+'data_abiotic_to_fit', and 'data_spatial_to_fit'.</p>
+</td></tr>
+<tr><td><code id="cv_indices">cv_indices</code></td>
+<td>
+<p>Repeated fold lists from 'make_repeated_cv_indices()'.</p>
+</td></tr>
+<tr><td><code id="config_model_fitting">config_model_fitting</code></td>
+<td>
+<p>Optional fitting configuration list. Used for 'error_family',
+'use_age_in_formula', 'n_iter', 'n_sampling', and 'n_step_size'.</p>
+</td></tr>
+<tr><td><code id="iter">iter</code></td>
+<td>
+<p>Optional epoch count overriding 'config_model_fitting$n_iter'.</p>
+</td></tr>
+<tr><td><code id="sampling">sampling</code></td>
+<td>
+<p>Optional Monte Carlo sampling count overriding
+'config_model_fitting$n_sampling'.</p>
+</td></tr>
+<tr><td><code id="step_size">step_size</code></td>
+<td>
+<p>Optional batch size overriding 'config_model_fitting$n_step_size'.</p>
+</td></tr>
+<tr><td><code id="device">device</code></td>
+<td>
+<p>Device passed to 'sjSDM::sjSDM_cv()'. Default is '&quot;gpu&quot;'.</p>
+</td></tr>
+<tr><td><code id="n_cores">n_cores</code></td>
+<td>
+<p>Optional number of cores for 'sjSDM::sjSDM_cv()'. Default 'NULL'
+keeps the smoke run sequential.</p>
+</td></tr>
+<tr><td><code id="tune">tune</code></td>
+<td>
+<p>Tuning strategy passed to 'sjSDM::sjSDM_cv()'. Default is '&quot;grid&quot;'.</p>
+</td></tr>
+<tr><td><code id="tune_steps">tune_steps</code></td>
+<td>
+<p>Number of random tuning steps when 'tune = &quot;random&quot;'.</p>
+</td></tr>
+<tr><td><code id="selection_metric">selection_metric</code></td>
+<td>
+<p>Single character string. Metric used to select one tuning row per
+fold and variant. One of '&quot;loss&quot;', '&quot;auc_test&quot;', or
+'&quot;auc_macro_test&quot;'.</p>
+</td></tr>
+<tr><td><code id="alpha_cov">alpha_cov</code>, <code id="alpha_coef">alpha_coef</code>, <code id="alpha_spatial">alpha_spatial</code></td>
+<td>
+<p>Alpha tuning values passed to 'sjSDM::sjSDM_cv()'.</p>
+</td></tr>
+<tr><td><code id="lambda_cov">lambda_cov</code>, <code id="lambda_coef">lambda_coef</code>, <code id="lambda_spatial">lambda_spatial</code></td>
+<td>
+<p>Lambda tuning values passed to 'sjSDM::sjSDM_cv()'.</p>
+</td></tr>
+<tr><td><code id="cv_fn">cv_fn</code></td>
+<td>
+<p>Cross-validation function. Defaults to 'sjSDM::sjSDM_cv()' and is
+injectable for unit tests.</p>
+</td></tr>
+<tr><td><code id="seed">seed</code></td>
+<td>
+<p>Single integer seed passed to sjSDM fitting.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE', progress messages are printed via 'cli'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tibble with fold-level metrics for every repeat and variant.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

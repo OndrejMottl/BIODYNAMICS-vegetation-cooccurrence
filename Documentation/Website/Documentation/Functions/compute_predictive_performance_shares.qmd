@@ -1,0 +1,73 @@
+---
+format: html
+title: compute_predictive_performance_shares()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_predictive_performance_shares</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute Predictive Performance Decomposition Shares</h2>
+
+<h3>Description</h3>
+
+<p>Converts full and reduced higher-is-better predictive metrics into
+fold-level decomposition shares.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_predictive_performance_shares(
+  data_fold_metrics,
+  metric_column,
+  metric_name = metric_column
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_fold_metrics">data_fold_metrics</code></td>
+<td>
+<p>Data frame with columns 'repeat_id', 'fold_id', 'variant', and the
+metric named by 'metric_column'. A 'status' column is optional; when
+present, only rows with status '&quot;ok&quot;' are used.</p>
+</td></tr>
+<tr><td><code id="metric_column">metric_column</code></td>
+<td>
+<p>Single character string. Name of the higher-is-better metric column.</p>
+</td></tr>
+<tr><td><code id="metric_name">metric_name</code></td>
+<td>
+<p>Single character string used in the output. Defaults to
+'metric_column'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tibble with one row per repeat, fold, and component.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

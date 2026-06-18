@@ -1,0 +1,165 @@
+<!DOCTYPE html><html><head><title>R: Build one spatial ANOVA map panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_map_panel</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build one spatial ANOVA map panel</h2>
+
+<h3>Description</h3>
+
+<p>Builds a single <code>ggplot2</code> map panel showing the
+Shapley-adjusted percentage variance explained by
+Associations for one combination of continent, spatial
+scale, and taxonomic resolution. Grid rectangles are
+coloured by association percentage (viridis gradient,
+grey when no result). Fossil core locations are
+overlaid as points when available.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_map_panel(
+  sel_continent,
+  sel_scale,
+  sel_resolution,
+  xlim_val,
+  ylim_val,
+  data_grid_with_results,
+  data_coords_per_unit,
+  sf_world,
+  graphical_options,
+  show_x_axis = TRUE,
+  show_y_axis = TRUE,
+  col_label = NULL,
+  row_label = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="sel_continent">sel_continent</code></td>
+<td>
+<p>Character scalar. Continent identifier
+(e.g. <code>"europe"</code>, <code>"america"</code>,
+<code>"asia"</code>).</p>
+</td></tr>
+<tr><td><code id="sel_scale">sel_scale</code></td>
+<td>
+<p>Character scalar. Spatial scale identifier
+(e.g. <code>"continental"</code>, <code>"regional"</code>,
+<code>"local"</code>).</p>
+</td></tr>
+<tr><td><code id="sel_resolution">sel_resolution</code></td>
+<td>
+<p>Character scalar. Taxonomic resolution identifier
+(e.g. <code>"genus"</code>, <code>"family"</code>,
+<code>"functional_type"</code>).</p>
+</td></tr>
+<tr><td><code id="xlim_val">xlim_val</code></td>
+<td>
+<p>Numeric vector of length 2. Longitude limits for
+<code>ggplot2::coord_sf()</code> (western, eastern).</p>
+</td></tr>
+<tr><td><code id="ylim_val">ylim_val</code></td>
+<td>
+<p>Numeric vector of length 2. Latitude limits for
+<code>ggplot2::coord_sf()</code> (southern, northern).</p>
+</td></tr>
+<tr><td><code id="data_grid_with_results">data_grid_with_results</code></td>
+<td>
+<p>Data frame. Spatial grid joined with ANOVA
+association percentages; must contain columns
+<code>continent</code>, <code>scale</code>,
+<code>taxonomic_resolution</code>, <code>x_min</code>,
+<code>x_max</code>, <code>y_min</code>, <code>y_max</code>,
+<code>assoc_pct</code>.</p>
+</td></tr>
+<tr><td><code id="data_coords_per_unit">data_coords_per_unit</code></td>
+<td>
+<p>Data frame. Per-unit fossil core coordinates; must
+contain columns <code>continent</code>, <code>scale</code>,
+<code>coords</code> (list-column of data frames with
+<code>coord_long</code> and <code>coord_lat</code>).</p>
+</td></tr>
+<tr><td><code id="sf_world">sf_world</code></td>
+<td>
+<p><code>sf</code> object. World polygon basemap used as the
+background layer.</p>
+</td></tr>
+<tr><td><code id="graphical_options">graphical_options</code></td>
+<td>
+<p>Named list of canvas settings (e.g. from
+<code>get_active_config("graphical")</code>); must contain
+<code>width</code>, <code>height</code>, <code>units</code>,
+<code>dpi</code>, <code>bg</code>.</p>
+</td></tr>
+<tr><td><code id="show_x_axis">show_x_axis</code></td>
+<td>
+<p>Logical scalar. When <code>FALSE</code>, x-axis text and
+tick marks are hidden. Default <code>TRUE</code>.</p>
+</td></tr>
+<tr><td><code id="show_y_axis">show_y_axis</code></td>
+<td>
+<p>Logical scalar. When <code>FALSE</code>, y-axis text and
+tick marks are hidden. Default <code>TRUE</code>.</p>
+</td></tr>
+<tr><td><code id="col_label">col_label</code></td>
+<td>
+<p>Character scalar or <code>NULL</code>. When not
+<code>NULL</code>, added as a bold column-header title
+above the panel via <code>ggplot2::ggtitle()</code>.
+Default <code>NULL</code>.</p>
+</td></tr>
+<tr><td><code id="row_label">row_label</code></td>
+<td>
+<p>Character scalar or <code>NULL</code>. When not
+<code>NULL</code>, added as a bold rotated y-axis title
+for the panel row. Default <code>NULL</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function applies <code>ggview::canvas()</code> using the
+supplied <code>graphical_options</code> and ends with
+<code>ggplot2::coord_sf()</code> so that the
+continent-specific bounding box takes precedence over
+the automatic bounding box added by
+<code>ggplot2::geom_sf()</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <code>ggplot</code> object representing one map panel.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>extract_anova_fractions</code>,
+<code>recalculate_anova_components</code>
+</p>
+
+</main>
+
+</div>
+</body></html>
+

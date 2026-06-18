@@ -1,0 +1,32 @@
+Compute Predictive Performance Decomposition Shares
+
+Description:
+
+     Converts full and reduced higher-is-better predictive metrics into
+     fold-level decomposition shares.
+
+Usage:
+
+     compute_predictive_performance_shares(
+       data_fold_metrics,
+       metric_column,
+       metric_name = metric_column
+     )
+     
+Arguments:
+
+data_fold_metrics: Data frame with columns `repeat_id`, `fold_id`,
+          `variant`, and the metric named by `metric_column`. A
+          `status` column is optional; when present, only rows with
+          status `"ok"` are used.
+
+metric_column: Single character string. Name of the higher-is-better
+          metric column.
+
+metric_name: Single character string used in the output. Defaults to
+          `metric_column`.
+
+Value:
+
+     A tibble with one row per repeat, fold, and component.
+

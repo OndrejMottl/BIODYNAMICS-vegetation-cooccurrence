@@ -1,0 +1,65 @@
+Add an ORACLE terminal panel
+
+Description:
+
+     Adds a framed translucent panel and optional label to an ORACLE
+     terminal plot.
+
+Usage:
+
+     add_panel(
+       xmin,
+       xmax,
+       ymin,
+       ymax,
+       label = NULL,
+       panel_fill = NULL,
+       panel_border = NULL,
+       label_colour = NULL,
+       label_size = 3,
+       text_buffer = 1.2,
+       palette = NULL
+     )
+     
+Arguments:
+
+    xmin: Numeric scalar. Minimum x coordinate of the panel.
+
+    xmax: Numeric scalar. Maximum x coordinate of the panel.
+
+    ymin: Numeric scalar. Minimum y coordinate of the panel.
+
+    ymax: Numeric scalar. Maximum y coordinate of the panel.
+
+   label: Optional character scalar. Label shown inside the upper-left
+          corner.
+
+panel_fill: Optional fill colour. If `NULL`, `palette[["surface"]]` is
+          used.
+
+panel_border: Optional border colour. If `NULL`, `palette[["border"]]`
+          is used.
+
+label_colour: Optional label colour. If `NULL`, `palette[["muted"]]` is
+          used.
+
+label_size: Numeric scalar. Label text size.
+
+text_buffer: Numeric scalar. Internal offset for label placement.
+
+ palette: Optional named character vector of ORACLE colours. If `NULL`,
+          colours are read with `get_oracle_palette_values()`.
+
+Details:
+
+     The returned list is designed to be added to a `ggplot` object
+     with `+`.
+
+Value:
+
+     A list of `ggplot2` layers.
+
+See Also:
+
+     build_base_terminal_plot, get_oracle_palette_values
+

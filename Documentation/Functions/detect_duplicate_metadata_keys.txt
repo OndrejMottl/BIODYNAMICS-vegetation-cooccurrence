@@ -1,0 +1,31 @@
+Detect Duplicate Modern Metadata Keys
+
+Description:
+
+     Detects duplicated modern community, sample-age, and coordinate
+     keys.
+
+Usage:
+
+     detect_duplicate_metadata_keys(
+       data_source = NULL,
+       data_sample_ages = NULL,
+       data_coordinates = NULL
+     )
+     
+Arguments:
+
+data_source: A long-format community data frame with `dataset_name`,
+          `sample_name`, `age`, `taxon`, and `pollen_count` columns.
+
+data_sample_ages: A sample-age data frame with `dataset_name`,
+          `sample_name`, and `age` columns.
+
+data_coordinates: A coordinate data frame with dataset names in a
+          `dataset_name` column or row names.
+
+Value:
+
+     A tibble describing duplicated metadata keys. Returns a zero-row
+     tibble when no duplicate keys are detected.
+

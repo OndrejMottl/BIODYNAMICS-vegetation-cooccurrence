@@ -1,0 +1,76 @@
+<!DOCTYPE html><html><head><title>R: Summarise Expected Genus Richness</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>summarise_expected_genus_richness</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarise Expected Genus Richness</h2>
+
+<h3>Description</h3>
+
+<p>Sums predicted genus probabilities for each grid cell and age slice.
+The resulting value is expected genus richness, not a probability.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>summarise_expected_genus_richness(
+  data_predicted_long,
+  value_column = "predicted_probability"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_predicted_long">data_predicted_long</code></td>
+<td>
+<p>Long prediction data with one row per grid cell, age, and taxon.</p>
+</td></tr>
+<tr><td><code id="value_column">value_column</code></td>
+<td>
+<p>Character scalar naming the probability column to sum.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tibble with one row per grid cell and age, plus
+'expected_genus_richness' and 'n_taxa'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>summarise_expected_genus_richness(
+  tibble::tibble(
+    grid_id = c(1, 1),
+    coord_long = c(10, 10),
+    coord_lat = c(50, 50),
+    age = c(0, 0),
+    taxon = c("A", "B"),
+    predicted_probability = c(0.2, 0.3)
+  )
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

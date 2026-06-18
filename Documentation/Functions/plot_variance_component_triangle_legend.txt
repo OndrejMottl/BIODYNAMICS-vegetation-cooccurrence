@@ -1,0 +1,79 @@
+Plot Variance Component Triangle Legend
+
+Description:
+
+     Draws a ternary colour legend for three variance components. Each
+     triangle corner represents the maximum value for one component,
+     and interior points are coloured by the blended component shares.
+
+Usage:
+
+     plot_variance_component_triangle_legend(
+       vec_component_colours,
+       vec_required_components = base::c("Abiotic", "Spatial", "Associations"),
+       vec_component_labels = vec_required_components,
+       max_component_value = 100,
+       component_step = 2,
+       plot_title = NULL,
+       font_family = NULL,
+       label_colour = "grey35",
+       title_colour = label_colour,
+       border_colour = "grey35",
+       background_colour = "transparent",
+       point_size = 2.3,
+       label_size = 3.2,
+       title_size = 10,
+       triangle_x_offset = 0.16,
+       method = base::c("perc_avg", "HCL")
+     )
+     
+Arguments:
+
+vec_component_colours: Named character vector mapping component IDs to
+          HEX colours.
+
+vec_required_components: Character vector with exactly three component
+          IDs. These IDs are used to read colours from
+          `vec_component_colours`.
+
+vec_component_labels: Character vector with exactly three display
+          labels. Defaults to `vec_required_components`.
+
+max_component_value: Numeric scalar giving the value represented at
+          each triangle corner. Defaults to `100`.
+
+component_step: Numeric scalar giving the grid step used to fill the
+          triangle.
+
+plot_title: Optional character scalar shown as the plot title.
+
+font_family: Optional character scalar giving the font family for
+          labels.
+
+label_colour: Character vector giving the corner-label colour. Must
+          have length `1` for one shared colour or length `3` for one
+          colour per label. If length `3` and named, names are matched
+          to `vec_required_components`; otherwise colours are used in
+          order.
+
+title_colour: Character scalar giving the title colour.
+
+border_colour: Character scalar giving the triangle-border colour.
+
+background_colour: Character scalar giving the plot background colour.
+
+point_size: Numeric scalar giving the size of interior colour points.
+
+label_size: Numeric scalar giving the size of corner labels.
+
+title_size: Numeric scalar giving the size of the optional title.
+
+triangle_x_offset: Numeric scalar shifting the triangle horizontally.
+
+  method: Character string selecting the colour-mixing method passed to
+          [mix_variance_component_colours()].
+
+Value:
+
+     A `ggplot` object.
+

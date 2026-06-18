@@ -1,0 +1,130 @@
+---
+format: html
+title: mix_variance_component_colours()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>mix_variance_component_colours</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Mix Variance Component Colours</h2>
+
+<h3>Description</h3>
+
+<p>Mixes component colours per observation using weighted colour-space
+coordinates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>mix_variance_component_colours(
+  data_component_shares,
+  vec_component_colours,
+  vec_required_components = base::c("Abiotic", "Spatial", "Associations"),
+  observation_id_column = "observation_id",
+  component_column = "component",
+  share_column = "component_share",
+  method = base::c("HCL", "perc_avg")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_component_shares">data_component_shares</code></td>
+<td>
+<p>Data frame with observation identifiers, component IDs, and
+component shares.</p>
+</td></tr>
+<tr><td><code id="vec_component_colours">vec_component_colours</code></td>
+<td>
+<p>Named character vector mapping canonical component IDs to HEX base
+colours.</p>
+</td></tr>
+<tr><td><code id="vec_required_components">vec_required_components</code></td>
+<td>
+<p>Character vector of required canonical component IDs. Defaults to
+'c(&quot;Abiotic&quot;, &quot;Spatial&quot;, &quot;Associations&quot;)'.</p>
+</td></tr>
+<tr><td><code id="observation_id_column">observation_id_column</code></td>
+<td>
+<p>Single character string naming the observation ID column.</p>
+</td></tr>
+<tr><td><code id="component_column">component_column</code></td>
+<td>
+<p>Single character string naming the component ID column.</p>
+</td></tr>
+<tr><td><code id="share_column">share_column</code></td>
+<td>
+<p>Single character string naming the numeric share column.</p>
+</td></tr>
+<tr><td><code id="method">method</code></td>
+<td>
+<p>Character string selecting the colour-mixing method. '&quot;HCL&quot;' keeps the
+historical weighted polar LUV/HCL blend. '&quot;perc_avg&quot;' averages weighted
+CIE LAB coordinates for a perceptual-average blend.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Tibble with one row per observation and columns 'observation_id'
+and 'tile_fill_colour'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data_component_shares &lt;-
+  tibble::tibble(
+    observation_id = base::c(
+      "obs_1",
+      "obs_1",
+      "obs_1",
+      "obs_2",
+      "obs_2",
+      "obs_2"
+    ),
+    component = base::c(
+      "Abiotic",
+      "Spatial",
+      "Associations",
+      "Abiotic",
+      "Spatial",
+      "Associations"
+    ),
+    component_share = base::c(50, 30, 20, 30, 30, 40)
+  )
+
+mix_variance_component_colours(
+  data_component_shares = data_component_shares,
+  vec_component_colours = base::c(
+    "Abiotic" = "#D95F02",
+    "Spatial" = "#7570B3",
+    "Associations" = "#1B9E77"
+  )
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

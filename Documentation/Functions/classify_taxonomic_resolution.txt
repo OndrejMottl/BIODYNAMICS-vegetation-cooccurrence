@@ -12,13 +12,14 @@ Usage:
      classify_taxonomic_resolution(
        data,
        data_classification_table,
-       taxonomic_resolution
+       taxonomic_resolution,
+       verbose = TRUE
      )
      
 Arguments:
 
     data: A data frame containing taxon data with columns including
-          'taxon', 'dataset_name', 'age', and 'pollen_prop'.
+          'taxon', 'dataset_name', 'age', and 'value'.
 
 data_classification_table: A data frame mapping 'sel_name' to taxonomic
           levels. Must contain at least one rank column at or below
@@ -30,6 +31,9 @@ taxonomic_resolution: A character string specifying the finest
           `'species'`. Taxa will be classified at this rank if
           possible, or at the coarsest available rank below it if not
           (fallback behaviour).
+
+ verbose: Logical. If `TRUE` (default), classification warnings and
+          fallback messages are printed.
 
 Details:
 

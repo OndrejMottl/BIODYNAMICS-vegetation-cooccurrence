@@ -56,7 +56,7 @@ name as the canonical label rather than a species name.
 taxonomic rank columns ('kingdom', 'phylum', 'class', 'order',
 'family', 'genus', 'species'). This is typically
 'data_combined_classification_table' produced by
-'pipe_segment_community_data'.</p>
+'pipe_segment_community_prepare_paleo'.</p>
 </td></tr>
 <tr><td><code id="data_community_classified">data_community_classified</code></td>
 <td>

@@ -2,51 +2,37 @@ Extract Data from VegVault
 
 Description:
 
-     Extracts data from the VegVault SQLite database based on specified
-     geographic, temporal, and dataset type constraints.
+     Extracts data from a pre-built vaultkeepr query plan by adding
+     abiotic data, filtering by variable name, adding taxa, and
+     collecting the results into a data frame.
 
 Usage:
 
-     extract_data_from_vegvault(
-       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
-       x_lim = NULL,
-       y_lim = NULL,
-       age_lim = NULL,
-       sel_dataset_type = NULL,
-       sel_abiotic_var_name = NULL
-     )
+     extract_data_from_vegvault(plan, sel_abiotic_var_name = NULL)
      
 Arguments:
 
-path_to_vegvault: A character string specifying the path to the
-          VegVault SQLite database (default:
-          "Data/Input/VegVault.sqlite").
+    plan: A vaultkeepr plan object, typically created by
+          `build_vegvault_plan()`.
 
-   x_lim: A numeric vector of length 2 specifying the longitude range.
-
-   y_lim: A numeric vector of length 2 specifying the latitude range.
-
- age_lim: A numeric vector of length 2 specifying the age range.
-
-sel_dataset_type: A character vector specifying the dataset types to
-          select.
-
-sel_abiotic_var_name: A character vector specifying the abiotic
-          variable names to select.
+sel_abiotic_var_name: A non-empty character vector specifying the
+          abiotic variable names to select (e.g. `"bio1"`).
 
 Details:
 
-     The function performs the following steps:
+     The function extends the supplied plan with the following steps:
+     `get_abiotic_data()` -> `select_abiotic_var_by_name()` ->
+     `get_taxa()` -> `extract_data()`
 
-     1. Validates input parameters.  2. Checks the presence of the
-     VegVault SQLite database.  3. Builds the vaultkeepr query plan
-     (lazy SQL). If vaultkeepr raises an error during plan assembly
-     (e.g. insufficient data for the specified constraints), the error
-     is caught and re-thrown via `cli::cli_abort()` with the original
-     message preserved.  4. Retrieves abiotic data and taxa
-     information.  5. Returns the extracted data as a data frame.
+     Input validation and plan construction (geographic/temporal
+     filters, dataset type selection) are handled by
+     `build_vegvault_plan()`.
 
 Value:
 
      A data frame containing the extracted data.
+
+See Also:
+
+     [build_vegvault_plan()], [extract_age_uncertainty_from_vegvault()]
 

@@ -1,0 +1,137 @@
+---
+format: html
+title: build_base_terminal_plot()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_base_terminal_plot</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create an ORACLE terminal base plot</h2>
+
+<h3>Description</h3>
+
+<p>Creates the reusable dark CRT terminal scaffold used by IAVS 2026
+story and atmospheric figures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_base_terminal_plot(
+  title,
+  prompt,
+  plot_dimensions = c(x_min = 0, x_max = 100, y_min = 0, y_max = 100 * (9/16)),
+  boundary_buffer = 2,
+  width = 1600,
+  height = 900,
+  units = "px",
+  dpi = 300,
+  palette = NULL,
+  background_colour = NULL,
+  terminal_label = "&gt;ORACLE//",
+  noise_points = 900L,
+  scanline_spacing = 1.25
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="title">title</code></td>
+<td>
+<p>Character scalar. Terminal heading shown at the top left.</p>
+</td></tr>
+<tr><td><code id="prompt">prompt</code></td>
+<td>
+<p>Character scalar. Prompt or status text shown below the heading.</p>
+</td></tr>
+<tr><td><code id="plot_dimensions">plot_dimensions</code></td>
+<td>
+<p>Named numeric vector with 'x_min', 'x_max', 'y_min', and 'y_max'.
+These values define the coordinate system for all subsequent layers.</p>
+</td></tr>
+<tr><td><code id="boundary_buffer">boundary_buffer</code></td>
+<td>
+<p>Numeric scalar. Internal margin used for the terminal border and text.</p>
+</td></tr>
+<tr><td><code id="width">width</code></td>
+<td>
+<p>Numeric scalar. Output canvas width passed to 'ggview::canvas()'.</p>
+</td></tr>
+<tr><td><code id="height">height</code></td>
+<td>
+<p>Numeric scalar. Output canvas height passed to 'ggview::canvas()'.</p>
+</td></tr>
+<tr><td><code id="units">units</code></td>
+<td>
+<p>Character scalar. Canvas units passed to 'ggview::canvas()'.</p>
+</td></tr>
+<tr><td><code id="dpi">dpi</code></td>
+<td>
+<p>Numeric scalar. Canvas resolution passed to 'ggview::canvas()'.</p>
+</td></tr>
+<tr><td><code id="palette">palette</code></td>
+<td>
+<p>Optional named character vector of ORACLE colours. If 'NULL', colours
+are read with 'get_oracle_palette_values()'.</p>
+</td></tr>
+<tr><td><code id="background_colour">background_colour</code></td>
+<td>
+<p>Optional background colour. If 'NULL', 'palette[[&quot;background&quot;]]'
+is used.</p>
+</td></tr>
+<tr><td><code id="terminal_label">terminal_label</code></td>
+<td>
+<p>Character scalar. Footer label shown in amber at the lower left.</p>
+</td></tr>
+<tr><td><code id="noise_points">noise_points</code></td>
+<td>
+<p>Integer scalar. Number of faint CRT noise points to draw.</p>
+</td></tr>
+<tr><td><code id="scanline_spacing">scanline_spacing</code></td>
+<td>
+<p>Numeric scalar. Vertical spacing between scanlines.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function intentionally keeps scanline, CRT-noise, canvas, and
+blank-theme helpers internal so presentation scripts can reuse one
+stable public entry point.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A 'ggplot' object with a configured terminal canvas.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>add_panel, get_oracle_palette_values, create_oracle_theme
+</p>
+
+</main>
+
+</div>
+</body></html>
+

@@ -1,0 +1,58 @@
+Extract Age Uncertainty from VegVault
+
+Description:
+
+     Retrieves per-sample age-model iteration data from a pre-built
+     vaultkeepr query plan and joins the result to a caller-supplied
+     sample-to-dataset mapping.
+
+Usage:
+
+     extract_age_uncertainty_from_vegvault(
+       plan,
+       data_sample_mapping,
+       verbose = TRUE
+     )
+     
+Arguments:
+
+    plan: A vaultkeepr plan object scoped to fossil pollen archive
+          datasets, typically created by `build_vegvault_plan()` with
+          `sel_dataset_type = "fossil_pollen_archive"`.
+
+data_sample_mapping: A data frame with at least the columns
+          `dataset_name` and `sample_name`, used to attach dataset
+          identifiers to the per-iteration age estimates (e.g.
+          `data_community_proportions`).
+
+ verbose: Logical. If `TRUE` (default), progress messages are printed
+          to the console via `cli`.
+
+Details:
+
+     The function performs the following steps: 1. Validates inputs.
+     2. Retrieves age uncertainty via
+     `vaultkeepr::get_age_uncertainty()`.  3. Pivots the wide output
+     (one column per iteration) to long format and filters NA age
+     estimates.  4. Joins with `data_sample_mapping` to attach
+     `dataset_name`.
+
+     Input validation and plan construction (geographic/temporal
+     filters, dataset type selection) are handled by
+     `build_vegvault_plan()`. Only `fossil_pollen_archive` datasets
+     carry per-iteration age estimates; modern plot/gridpoint datasets
+     have no age uncertainty.
+
+Value:
+
+     A tibble with columns `dataset_name` (character), `sample_name`
+     (character), `iteration` (integer), and `age_uncertainty`
+     (numeric). Each row is one age-model iteration estimate for one
+     sample. Returns an empty tibble with those columns when no age
+     uncertainty data are available.
+
+See Also:
+
+     [build_vegvault_plan()], [extract_data_from_vegvault()],
+     [interpolate_community_data_with_uncertainty()]
+

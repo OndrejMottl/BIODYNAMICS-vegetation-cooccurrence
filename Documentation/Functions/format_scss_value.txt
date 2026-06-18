@@ -1,0 +1,26 @@
+Format a design token value as a SCSS string
+
+Description:
+
+     Converts a scalar design token value to a character string
+     suitable for SCSS output.
+
+Usage:
+
+     format_scss_value(value)
+     
+Arguments:
+
+   value: A scalar R value from the design configuration.
+
+Value:
+
+     Character scalar.
+
+Examples:
+
+     ## Not run:
+     
+     format_scss_value("#00ff00")
+     ## End(Not run)
+     

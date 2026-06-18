@@ -1,0 +1,64 @@
+Build VegVault Query Plan
+
+Description:
+
+     Opens the VegVault SQLite database and constructs a lazy
+     vaultkeepr query plan filtered to the specified dataset types,
+     geographic bounds, and age range. The returned plan object is
+     built up to `vaultkeepr::select_samples_by_age()` and can be
+     passed directly to `extract_data_from_vegvault()` or
+     `extract_age_uncertainty_from_vegvault()`.
+
+Usage:
+
+     build_vegvault_plan(
+       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       x_lim = NULL,
+       y_lim = NULL,
+       age_lim = NULL,
+       sel_dataset_type = NULL
+     )
+     
+Arguments:
+
+path_to_vegvault: A character string specifying the path to the
+          VegVault SQLite database (default:
+          `here::here("Data/Input/VegVault.sqlite")`).
+
+   x_lim: A numeric vector of length 2 specifying the longitude range
+          `c(min, max)`.
+
+   y_lim: A numeric vector of length 2 specifying the latitude range
+          `c(min, max)`.
+
+ age_lim: A numeric vector of length 2 specifying the age range in cal
+          yr BP `c(min, max)`.
+
+sel_dataset_type: A non-empty character vector of dataset types to
+          include (e.g. `"fossil_pollen_archive"`,
+          `c("vegetation_plot", "gridpoints")`).
+
+Details:
+
+     The plan is assembled via the following vaultkeepr chain:
+     `open_vault()` -> `get_datasets()` -> `select_dataset_by_type()`
+     -> `select_dataset_by_geo()` -> `get_samples()` ->
+     `select_samples_by_age()`
+
+     If vaultkeepr raises an error during plan assembly (e.g. no data
+     available for the specified constraints), the error is caught and
+     re-thrown via `cli::cli_abort()` with the original message
+     preserved.
+
+Value:
+
+     A vaultkeepr plan object (lazy SQL query) after applying dataset
+     type, geographic, and age-range filters, ready for use with
+     `extract_data_from_vegvault()` or
+     `extract_age_uncertainty_from_vegvault()`.
+
+See Also:
+
+     [extract_data_from_vegvault()],
+     [extract_age_uncertainty_from_vegvault()]
+

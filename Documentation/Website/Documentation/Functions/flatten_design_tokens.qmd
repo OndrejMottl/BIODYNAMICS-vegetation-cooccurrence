@@ -1,0 +1,67 @@
+---
+format: html
+title: flatten_design_tokens()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>flatten_design_tokens</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Flatten design configuration into a token list</h2>
+
+<h3>Description</h3>
+
+<p>Recursively flattens all top-level design token sections
+except 'metadata' into CSS/SCSS token key-value pairs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>flatten_design_tokens(design)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="design">design</code></td>
+<td>
+<p>Named list as returned by 'load_design_config()'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A flat named list of scalar token values.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+flatten_design_tokens(load_design_config())
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

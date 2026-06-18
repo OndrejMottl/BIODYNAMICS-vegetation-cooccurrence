@@ -1,0 +1,62 @@
+<!DOCTYPE html><html><head><title>R: Coerce Null to Missing Integer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>coerce_null_to_na_integer</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Coerce Null to Missing Integer</h2>
+
+<h3>Description</h3>
+
+<p>Converts a scalar value to integer while representing 'NULL' as
+'NA_integer_'. This is useful for optional model tuning values that
+are stored as missing values in CSV files but returned as 'NULL' by
+tuning helpers.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>coerce_null_to_na_integer(value)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="value">value</code></td>
+<td>
+<p>'NULL' or a scalar value coercible to integer.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A single integer value, or 'NA_integer_' when 'value' is 'NULL'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>coerce_null_to_na_integer(NULL)
+coerce_null_to_na_integer(10)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

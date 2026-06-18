@@ -1,0 +1,77 @@
+Create an ORACLE terminal base plot
+
+Description:
+
+     Creates the reusable dark CRT terminal scaffold used by IAVS 2026
+     story and atmospheric figures.
+
+Usage:
+
+     build_base_terminal_plot(
+       title,
+       prompt,
+       plot_dimensions = c(x_min = 0, x_max = 100, y_min = 0, y_max = 100 * (9/16)),
+       boundary_buffer = 2,
+       width = 1600,
+       height = 900,
+       units = "px",
+       dpi = 300,
+       palette = NULL,
+       background_colour = NULL,
+       terminal_label = ">ORACLE//",
+       noise_points = 900L,
+       scanline_spacing = 1.25
+     )
+     
+Arguments:
+
+   title: Character scalar. Terminal heading shown at the top left.
+
+  prompt: Character scalar. Prompt or status text shown below the
+          heading.
+
+plot_dimensions: Named numeric vector with `x_min`, `x_max`, `y_min`,
+          and `y_max`. These values define the coordinate system for
+          all subsequent layers.
+
+boundary_buffer: Numeric scalar. Internal margin used for the terminal
+          border and text.
+
+   width: Numeric scalar. Output canvas width passed to
+          `ggview::canvas()`.
+
+  height: Numeric scalar. Output canvas height passed to
+          `ggview::canvas()`.
+
+   units: Character scalar. Canvas units passed to `ggview::canvas()`.
+
+     dpi: Numeric scalar. Canvas resolution passed to
+          `ggview::canvas()`.
+
+ palette: Optional named character vector of ORACLE colours. If `NULL`,
+          colours are read with `get_oracle_palette_values()`.
+
+background_colour: Optional background colour. If `NULL`,
+          `palette[["background"]]` is used.
+
+terminal_label: Character scalar. Footer label shown in amber at the
+          lower left.
+
+noise_points: Integer scalar. Number of faint CRT noise points to draw.
+
+scanline_spacing: Numeric scalar. Vertical spacing between scanlines.
+
+Details:
+
+     This function intentionally keeps scanline, CRT-noise, canvas, and
+     blank-theme helpers internal so presentation scripts can reuse one
+     stable public entry point.
+
+Value:
+
+     A `ggplot` object with a configured terminal canvas.
+
+See Also:
+
+     add_panel, get_oracle_palette_values, create_oracle_theme
+

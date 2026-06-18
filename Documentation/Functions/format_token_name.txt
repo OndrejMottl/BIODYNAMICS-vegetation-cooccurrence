@@ -1,0 +1,26 @@
+Format a design token name
+
+Description:
+
+     Converts underscore-separated config names to CSS hyphen-case
+     token names.
+
+Usage:
+
+     format_token_name(name)
+     
+Arguments:
+
+    name: Character scalar or vector.
+
+Value:
+
+     Character vector.
+
+Examples:
+
+     ## Not run:
+     
+     format_token_name("surface_alt")
+     ## End(Not run)
+     

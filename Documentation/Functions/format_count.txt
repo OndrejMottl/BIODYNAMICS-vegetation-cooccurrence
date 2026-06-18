@@ -1,0 +1,28 @@
+Format Count Values
+
+Description:
+
+     Formats numeric count values for slide text and figure labels
+     using grouping separators.
+
+Usage:
+
+     format_count(x, accuracy = 1, big_mark = ",")
+     
+Arguments:
+
+       x: Numeric vector of values to format.
+
+accuracy: Numeric scalar passed to [scales::number()] to control
+          rounding.
+
+big_mark: Character scalar used as the thousands separator.
+
+Value:
+
+     Character vector with formatted count values.
+
+Examples:
+
+     format_count(12345)
+     

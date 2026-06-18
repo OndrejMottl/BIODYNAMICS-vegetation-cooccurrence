@@ -13,6 +13,7 @@ Usage:
        continent_id,
        data_classification,
        path_processed = here::here("Data/Processed/Traits"),
+       data_source_prefix = NULL,
        verbose = TRUE
      )
      
@@ -31,8 +32,14 @@ path_processed: A single character string giving the directory where
           the `.qs` output file will be written. Default:
           `here::here("Data/Processed/Traits")`.
 
- verbose: A single logical. If `TRUE` (default), a progress message
-          reporting the saved file path is printed via `cli`.
+data_source_prefix: Optional single non-empty character string to
+          prepend to the `continent_id` portion of the file name. Use
+          `NULL` (default) for the historical paleo/global naming
+          convention, or `"modern"` for modern-data functional-type
+          classifications.
+
+ verbose: Logical. If `TRUE` (default), progress messages are printed
+          to the console via `cli`.
 
 Details:
 
@@ -40,10 +47,15 @@ Details:
 
        1. Validate arguments.
 
-       2. Save `data_classification` with `qs2::qs_save()` to a dated
-          `.qs` file in `path_processed`.
+       2. Save `data_classification` with
+          `RUtilpol::save_latest_file()` as a dated `.qs` file in
+          `path_processed`. The file is only overwritten when the
+          content has changed since the previous version.
 
-       3. Return the file path as a character string.
+       3. Resolve the path of the just-saved file via
+          `RUtilpol::get_latest_file_name()`.
+
+       4. Return the file path as a character string.
 
      Data filtering, distance computation, hierarchical clustering,
      ft-groups selection are all handled upstream by
@@ -54,8 +66,13 @@ Details:
 Value:
 
      A single character string: the absolute path to the `.qs` file
-     that was written. The file is named
-     `data_ft_classification_continent_id_YYYY-MM-DD.qs`.
+     that was written. The file is saved via
+     `RUtilpol::save_latest_file()` using the name stem
+     `data_ft_classification_continent_id` when `data_source_prefix =
+     NULL`, or `data_ft_classification_data_source_prefix_continent_id`
+     otherwise. The final file name includes a date stamp and content
+     hash appended by `RUtilpol` (e.g.
+     `data_ft_classification_europe_2026-05-07__abc123__.qs`).
 
 See Also:
 

@@ -1,0 +1,24 @@
+Summarise Spatial Variance Stack
+
+Description:
+
+     Computes mean component percentages and an unexplained component
+     for stacked spatial variance-partitioning figures.
+
+Usage:
+
+     summarise_spatial_variance_stack(data_plot, vec_component_levels)
+     
+Arguments:
+
+data_plot: Data frame returned by
+          [prepare_spatial_variance_plot_data()].
+
+vec_component_levels: Character vector giving the display order of
+          variance components. Must include `"Unexplained"`.
+
+Value:
+
+     A tibble with one row per scale, resolution label, and component
+     label.
+

@@ -62,8 +62,8 @@ Default: 'here::here(&quot;Data/Input/spatial_grid.csv&quot;)'.</p>
 extracts the second-to-last path component via
 'basename(dirname(store))' and checks whether it appears in the
 'scale_id' column of the spatial grid CSV. For non-spatial
-pipelines (e.g. 'Data/targets/project_cz/pipeline_basic/') the
-candidate ('&quot;project_cz&quot;') is not in the CSV, so 'NULL' is
+pipelines (e.g. 'Data/targets/cz_paleo/pipeline_paleo_core/') the
+candidate ('&quot;project_cz_paleo&quot;') is not in the CSV, so 'NULL' is
 returned. When the CSV file does not exist the function returns
 'NULL' gracefully.
 </p>
@@ -79,7 +79,7 @@ path corresponds to a spatial unit in the CSV catalogue, or
 
 <h3>See Also</h3>
 
-<p>get_spatial_window, get_spatial_model_params
+<p>get_spatial_window, get_model_tuning_params
 </p>
 
 </main>

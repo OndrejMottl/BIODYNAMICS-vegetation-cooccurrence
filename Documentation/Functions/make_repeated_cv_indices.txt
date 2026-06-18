@@ -1,0 +1,33 @@
+Make Repeated Cross-Validation Indices
+
+Description:
+
+     Creates reproducible repeated K-fold test-index lists for use with
+     `sjSDM::sjSDM_cv()`.
+
+Usage:
+
+     make_repeated_cv_indices(
+       n_samples,
+       n_folds = 2L,
+       n_repeats = 1L,
+       seed = 900723L
+     )
+     
+Arguments:
+
+n_samples: Single integer. Number of samples to split into folds.
+
+ n_folds: Single integer. Number of folds per repeat. Default is `2L`.
+
+n_repeats: Single integer. Number of repeated fold partitions. Default
+          is `1L`.
+
+    seed: Single integer. Random seed used for reproducible fold
+          assignment.
+
+Value:
+
+     A named list with one element per repeat. Each repeat is a named
+     list of integer test indices, one element per fold.
+

@@ -1,0 +1,33 @@
+Discrete fill scale using the ORACLE palette
+
+Description:
+
+     Maps discrete data values to ORACLE categorical colours using
+     `ggplot2::scale_fill_manual()`.
+
+Usage:
+
+     scale_fill_oracle_discrete(values = get_oracle_discrete_palette(), ...)
+     
+Arguments:
+
+  values: Named character vector of colours. Defaults to
+          `get_oracle_discrete_palette()`.
+
+     ...: Additional arguments passed to
+          `ggplot2::scale_fill_manual()`.
+
+Value:
+
+     A `ggplot2` scale object.
+
+Examples:
+
+     ## Not run:
+     
+     ggplot2::ggplot(mtcars, ggplot2::aes(factor(cyl), mpg,
+       fill = factor(cyl))) +
+       ggplot2::geom_col() +
+       scale_fill_oracle_discrete()
+     ## End(Not run)
+     

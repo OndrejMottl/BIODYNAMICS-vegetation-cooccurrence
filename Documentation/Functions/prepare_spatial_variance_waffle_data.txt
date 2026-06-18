@@ -1,0 +1,94 @@
+Prepare Spatial Variance Waffle Data
+
+Description:
+
+     Creates tile positions and precomputed trivariate fill colours for
+     unit-level waffle plots.
+
+Usage:
+
+     prepare_spatial_variance_waffle_data(
+       data_plot,
+       vec_component_colours,
+       n_waffle_rows = 5L,
+       vec_required_components = base::c("Abiotic", "Spatial", "Associations"),
+       ranking_column = "component_total_percentage",
+       anchor_component = "Associations",
+       method = base::c("HCL", "perc_avg")
+     )
+     
+Arguments:
+
+data_plot: Data frame returned by
+          [prepare_spatial_variance_plot_data()] and containing
+          variance components for each observation.
+
+vec_component_colours: Named character vector mapping canonical
+          component IDs to base HEX colours.
+
+n_waffle_rows: Positive integer giving the number of rows in each
+          waffle panel.
+
+vec_required_components: Character vector of required canonical
+          component IDs used for trivariate colour mixing.
+
+ranking_column: Single character string naming the column used for
+          within-panel tile ordering. Defaults to
+          `component_total_percentage`.
+
+anchor_component: Optional single component ID used to select one row
+          per observation after colour mixing. Defaults to
+          `"Associations"` to preserve historical behaviour. When
+          `NULL`, the first value in `vec_required_components` is used.
+
+  method: Character string selecting the colour-mixing method passed to
+          [mix_variance_component_colours()].
+
+Value:
+
+     A tibble with one row per observation and columns `tile_col`,
+     `tile_row`, `tile_fill_colour`, and `point_colour`.
+
+Examples:
+
+     data_plot <-
+       tibble::tibble(
+         scale = base::rep("local", 6),
+         scale_id = base::c(
+           "local_01",
+           "local_01",
+           "local_01",
+           "local_02",
+           "local_02",
+           "local_02"
+         ),
+         resolution_id = base::rep("genus", 6),
+         resolution_label = base::rep("Genus", 6),
+         component = base::c(
+           "Abiotic",
+           "Spatial",
+           "Associations",
+           "Abiotic",
+           "Spatial",
+           "Associations"
+         ),
+         continent_id = base::c(
+           "europe",
+           "europe",
+           "europe",
+           "asia",
+           "asia",
+           "asia"
+         ),
+         component_total_percentage = base::c(50, 30, 20, 30, 30, 40)
+       )
+     
+     prepare_spatial_variance_waffle_data(
+       data_plot = data_plot,
+       vec_component_colours = base::c(
+         "Abiotic" = "#D95F02",
+         "Spatial" = "#7570B3",
+         "Associations" = "#1B9E77"
+       )
+     )
+     

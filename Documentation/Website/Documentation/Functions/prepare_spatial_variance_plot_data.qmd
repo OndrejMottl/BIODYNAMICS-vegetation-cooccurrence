@@ -1,0 +1,95 @@
+---
+format: html
+title: prepare_spatial_variance_plot_data()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_spatial_variance_plot_data</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare Spatial Variance Plot Data</h2>
+
+<h3>Description</h3>
+
+<p>Adds shared labels and percentage columns for spatial variance
+partitioning figures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_spatial_variance_plot_data(
+  data_unit,
+  vec_scale_levels,
+  vec_resolution_labels,
+  percentage_source_column = "R2_Nagelkerke_adjusted",
+  scale_source_to_percentage = FALSE,
+  sum_over_100_action = "error"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_unit">data_unit</code></td>
+<td>
+<p>Data frame with one row per spatial unit, resolution, and component.
+Must contain 'scale', 'resolution_id', 'component', and the column
+selected by 'percentage_source_column'.</p>
+</td></tr>
+<tr><td><code id="vec_scale_levels">vec_scale_levels</code></td>
+<td>
+<p>Character vector giving the display order of spatial scales.</p>
+</td></tr>
+<tr><td><code id="vec_resolution_labels">vec_resolution_labels</code></td>
+<td>
+<p>Named character vector mapping 'resolution_id' values to display
+labels.</p>
+</td></tr>
+<tr><td><code id="percentage_source_column">percentage_source_column</code></td>
+<td>
+<p>Single character string naming the source percentage column.
+Defaults to 'R2_Nagelkerke_adjusted'.</p>
+</td></tr>
+<tr><td><code id="scale_source_to_percentage">scale_source_to_percentage</code></td>
+<td>
+<p>Logical. If 'TRUE', values from
+'percentage_source_column' are multiplied by 100. Set to 'FALSE'
+(default) when the source column is already on a 0-100 scale.</p>
+</td></tr>
+<tr><td><code id="sum_over_100_action">sum_over_100_action</code></td>
+<td>
+<p>Single character string controlling behavior when grouped
+'component_total_percentage' sums exceed 100. One of '&quot;error&quot;'
+(default), '&quot;warning&quot;', or '&quot;ignore&quot;'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tibble containing the original columns plus 'scale' as an ordered
+factor, 'resolution_label' as an ordered factor, 'component_label',
+and 'component_total_percentage'.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

@@ -1,0 +1,84 @@
+Run Predictive Ablation Cross-Validation
+
+Description:
+
+     Runs full, no-abiotic, no-spatial, and no-associations sjSDM
+     cross-validation variants and returns fold-level predictive
+     metrics.
+
+Usage:
+
+     run_predictive_ablation_cv(
+       data_model_input,
+       cv_indices,
+       config_model_fitting = NULL,
+       iter = NULL,
+       sampling = NULL,
+       step_size = NULL,
+       device = "gpu",
+       n_cores = NULL,
+       tune = "grid",
+       tune_steps = 20L,
+       selection_metric = "loss",
+       alpha_cov = 0.5,
+       alpha_coef = 0.5,
+       alpha_spatial = 0.5,
+       lambda_cov = 0,
+       lambda_coef = 0,
+       lambda_spatial = 0,
+       cv_fn = sjSDM::sjSDM_cv,
+       seed = 900723L,
+       verbose = TRUE
+     )
+     
+Arguments:
+
+data_model_input: Model input list with `data_community_to_fit`,
+          `data_abiotic_to_fit`, and `data_spatial_to_fit`.
+
+cv_indices: Repeated fold lists from `make_repeated_cv_indices()`.
+
+config_model_fitting: Optional fitting configuration list. Used for
+          `error_family`, `use_age_in_formula`, `n_iter`, `n_sampling`,
+          and `n_step_size`.
+
+    iter: Optional epoch count overriding
+          `config_model_fitting$n_iter`.
+
+sampling: Optional Monte Carlo sampling count overriding
+          `config_model_fitting$n_sampling`.
+
+step_size: Optional batch size overriding
+          `config_model_fitting$n_step_size`.
+
+  device: Device passed to `sjSDM::sjSDM_cv()`. Default is `"gpu"`.
+
+ n_cores: Optional number of cores for `sjSDM::sjSDM_cv()`. Default
+          `NULL` keeps the smoke run sequential.
+
+    tune: Tuning strategy passed to `sjSDM::sjSDM_cv()`. Default is
+          `"grid"`.
+
+tune_steps: Number of random tuning steps when `tune = "random"`.
+
+selection_metric: Single character string. Metric used to select one
+          tuning row per fold and variant. One of `"loss"`,
+          `"auc_test"`, or `"auc_macro_test"`.
+
+alpha_cov, alpha_coef, alpha_spatial: Alpha tuning values passed to
+          `sjSDM::sjSDM_cv()`.
+
+lambda_cov, lambda_coef, lambda_spatial: Lambda tuning values passed to
+          `sjSDM::sjSDM_cv()`.
+
+   cv_fn: Cross-validation function. Defaults to `sjSDM::sjSDM_cv()`
+          and is injectable for unit tests.
+
+    seed: Single integer seed passed to sjSDM fitting.
+
+ verbose: Logical. If `TRUE`, progress messages are printed via `cli`.
+
+Value:
+
+     A tibble with fold-level metrics for every repeat and variant.
+

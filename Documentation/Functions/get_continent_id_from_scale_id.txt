@@ -14,8 +14,8 @@ Usage:
      
 Arguments:
 
-scale_id: A single non-empty character string identifying the spatial
-          unit whose `continent_id` should be returned.
+scale_id: A non-empty character vector identifying spatial units whose
+          `continent_id` values should be returned.
 
     file: Path to the spatial grid CSV catalogue file. Default:
           `here::here("Data/Input/spatial_grid.csv")`.
@@ -23,16 +23,16 @@ scale_id: A single non-empty character string identifying the spatial
 Details:
 
      The function validates the inputs, reads the spatial grid CSV,
-     finds the row matching `scale_id`, and returns its `continent_id`.
+     finds rows matching `scale_id`, and returns `continent_id` values.
      The function errors when the file is not a readable CSV, when
-     required columns are absent, when the `scale_id` is absent or
-     duplicated, or when the matched row has a missing `continent_id`
-     value.
+     required columns are absent, when any requested `scale_id` is
+     absent or duplicated, or when any matched row has a missing
+     `continent_id` value.
 
 Value:
 
-     A single non-empty character string containing the `continent_id`
-     for the supplied `scale_id`.
+     A character vector containing one `continent_id` per supplied
+     `scale_id`, in the same order as `scale_id`.
 
 See Also:
 

@@ -1,0 +1,71 @@
+<!DOCTYPE html><html><head><title>R: Make Repeated Cross-Validation Indices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>make_repeated_cv_indices</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make Repeated Cross-Validation Indices</h2>
+
+<h3>Description</h3>
+
+<p>Creates reproducible repeated K-fold test-index lists for use with
+'sjSDM::sjSDM_cv()'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>make_repeated_cv_indices(
+  n_samples,
+  n_folds = 2L,
+  n_repeats = 1L,
+  seed = 900723L
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="n_samples">n_samples</code></td>
+<td>
+<p>Single integer. Number of samples to split into folds.</p>
+</td></tr>
+<tr><td><code id="n_folds">n_folds</code></td>
+<td>
+<p>Single integer. Number of folds per repeat. Default is '2L'.</p>
+</td></tr>
+<tr><td><code id="n_repeats">n_repeats</code></td>
+<td>
+<p>Single integer. Number of repeated fold partitions. Default is '1L'.</p>
+</td></tr>
+<tr><td><code id="seed">seed</code></td>
+<td>
+<p>Single integer. Random seed used for reproducible fold assignment.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named list with one element per repeat. Each repeat is a named list
+of integer test indices, one element per fold.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

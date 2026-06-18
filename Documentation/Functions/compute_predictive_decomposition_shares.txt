@@ -1,0 +1,22 @@
+Compute Predictive Decomposition Shares
+
+Description:
+
+     Converts full and reduced predictive losses into fold-level
+     decomposition shares for abiotic predictors, spatial predictors,
+     and species associations.
+
+Usage:
+
+     compute_predictive_decomposition_shares(data_fold_metrics)
+     
+Arguments:
+
+data_fold_metrics: Data frame with columns `repeat_id`, `fold_id`,
+          `variant`, and `loss`. A `status` column is optional; when
+          present, only rows with status `"ok"` are used.
+
+Value:
+
+     A tibble with one row per repeat, fold, and component.
+

@@ -1,0 +1,45 @@
+Read Spatial-Resolution Prediction Inputs
+
+Description:
+
+     Reads the suffixed targets needed to predict from one
+     `pipeline_paleo_spatial_resolution` model resolution.
+
+Usage:
+
+     read_spatial_resolution_prediction_inputs(
+       store_path,
+       resolution_id = "genus",
+       read_target_fn = targets::tar_read_raw,
+       meta_fn = targets::tar_meta
+     )
+     
+Arguments:
+
+store_path: Character scalar path to a spatial-resolution targets
+          store.
+
+resolution_id: Character scalar model resolution identifier, such as
+          `"genus"`.
+
+read_target_fn: Function used to read targets. Defaults to
+          [targets::tar_read_raw()].
+
+ meta_fn: Function used by [read_targets_store_meta()] to read
+          metadata.
+
+Value:
+
+     Named list of model, evaluation, model input, coordinate, and
+     spatial predictor targets.
+
+Examples:
+
+     ## Not run:
+     
+     read_spatial_resolution_prediction_inputs(
+       store_path = "Data/targets/paleo_spatial_continental/europe",
+       resolution_id = "genus"
+     )
+     ## End(Not run)
+     

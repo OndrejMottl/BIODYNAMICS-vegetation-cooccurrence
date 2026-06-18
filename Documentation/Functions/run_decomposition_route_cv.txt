@@ -1,0 +1,44 @@
+Run Decomposition Route Cross-Validation
+
+Description:
+
+     Fits full and reduced models for one diagnostic route and returns
+     fold-level held-out metrics and convergence diagnostics.
+
+Usage:
+
+     run_decomposition_route_cv(
+       route = NULL,
+       inputs = NULL,
+       cv_indices = NULL,
+       fit_config = base::list(),
+       fit_fn = fit_jsdm_model,
+       predict_fn = stats::predict,
+       convergence_fn = check_convergence_jsdm,
+       verbose = TRUE
+     )
+     
+Arguments:
+
+   route: One-row route data frame or named list.
+
+  inputs: List returned by `load_decomposition_diagnostic_inputs()`.
+
+cv_indices: Repeated fold test-index list from
+          `make_repeated_cv_indices()`.
+
+fit_config: Optional list of fitting overrides.
+
+  fit_fn: Model fitting function. Defaults to `fit_jsdm_model()`.
+
+predict_fn: Prediction function. Defaults to `stats::predict()`.
+
+convergence_fn: Convergence function. Defaults to
+          `check_convergence_jsdm()`.
+
+ verbose: Logical. If `TRUE`, progress messages are printed.
+
+Value:
+
+     Tibble with one row per route, repeat, fold, and variant.
+

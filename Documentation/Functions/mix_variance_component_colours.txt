@@ -1,0 +1,81 @@
+Mix Variance Component Colours
+
+Description:
+
+     Mixes component colours per observation using weighted
+     colour-space coordinates.
+
+Usage:
+
+     mix_variance_component_colours(
+       data_component_shares,
+       vec_component_colours,
+       vec_required_components = base::c("Abiotic", "Spatial", "Associations"),
+       observation_id_column = "observation_id",
+       component_column = "component",
+       share_column = "component_share",
+       method = base::c("HCL", "perc_avg")
+     )
+     
+Arguments:
+
+data_component_shares: Data frame with observation identifiers,
+          component IDs, and component shares.
+
+vec_component_colours: Named character vector mapping canonical
+          component IDs to HEX base colours.
+
+vec_required_components: Character vector of required canonical
+          component IDs. Defaults to `c("Abiotic", "Spatial",
+          "Associations")`.
+
+observation_id_column: Single character string naming the observation
+          ID column.
+
+component_column: Single character string naming the component ID
+          column.
+
+share_column: Single character string naming the numeric share column.
+
+  method: Character string selecting the colour-mixing method. `"HCL"`
+          keeps the historical weighted polar LUV/HCL blend.
+          `"perc_avg"` averages weighted CIE LAB coordinates for a
+          perceptual-average blend.
+
+Value:
+
+     Tibble with one row per observation and columns `observation_id`
+     and `tile_fill_colour`.
+
+Examples:
+
+     data_component_shares <-
+       tibble::tibble(
+         observation_id = base::c(
+           "obs_1",
+           "obs_1",
+           "obs_1",
+           "obs_2",
+           "obs_2",
+           "obs_2"
+         ),
+         component = base::c(
+           "Abiotic",
+           "Spatial",
+           "Associations",
+           "Abiotic",
+           "Spatial",
+           "Associations"
+         ),
+         component_share = base::c(50, 30, 20, 30, 30, 40)
+       )
+     
+     mix_variance_component_colours(
+       data_component_shares = data_component_shares,
+       vec_component_colours = base::c(
+         "Abiotic" = "#D95F02",
+         "Spatial" = "#7570B3",
+         "Associations" = "#1B9E77"
+       )
+     )
+     

@@ -1,0 +1,59 @@
+Save Temporal Trajectory Animation
+
+Description:
+
+     Renders and saves one per-continent temporal ANOVA component
+     trajectory animation as a GIF file, writing individual PNG frames
+     and then combining them with [build_gif_from_frames()].
+
+Usage:
+
+     save_temporal_trajectory_animation(
+       continent_label,
+       data_temporal_components,
+       data_temporal_modularity,
+       output_file_name,
+       frame_directory_name,
+       path_output,
+       vec_component_colours,
+       colour_modularity,
+       vec_palette = NULL,
+       font_family = "VT323"
+     )
+     
+Arguments:
+
+continent_label: Character scalar. Continent name used as the frame
+          title.
+
+data_temporal_components: Tibble with columns `age`, `component`, and
+          `component_percentage`. Should be pre-filtered to the target
+          continent.
+
+data_temporal_modularity: Tibble with columns `age` and `modularity_q`.
+          Should be pre-filtered to the target continent.
+
+output_file_name: Character scalar. Output GIF file name (relative to
+          `path_output`).
+
+frame_directory_name: Character scalar. Name of the sub-directory to
+          write PNG frames into.
+
+path_output: Character scalar. Path to the output directory.
+
+vec_component_colours: Named character vector mapping component names
+          to fill colours.
+
+colour_modularity: Character scalar. Colour for the modularity Q
+          overlay line.
+
+vec_palette: Optional named character vector of ORACLE colours. If
+          `NULL`, colours are read with `get_oracle_palette_values()`.
+
+font_family: Character scalar. Font family for all text elements.
+
+Value:
+
+     List returned by [build_gif_from_frames()] with `animation_path`
+     and `used_magick` entries.
+

@@ -1,0 +1,26 @@
+Flatten design configuration into a token list
+
+Description:
+
+     Recursively flattens all top-level design token sections except
+     `metadata` into CSS/SCSS token key-value pairs.
+
+Usage:
+
+     flatten_design_tokens(design)
+     
+Arguments:
+
+  design: Named list as returned by `load_design_config()`.
+
+Value:
+
+     A flat named list of scalar token values.
+
+Examples:
+
+     ## Not run:
+     
+     flatten_design_tokens(load_design_config())
+     ## End(Not run)
+     

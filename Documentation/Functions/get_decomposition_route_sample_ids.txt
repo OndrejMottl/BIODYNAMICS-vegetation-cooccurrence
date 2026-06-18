@@ -1,0 +1,21 @@
+Get Decomposition Route Sample IDs
+
+Description:
+
+     Selects sample IDs for one decomposition diagnostic route.
+
+Usage:
+
+     get_decomposition_route_sample_ids(route = NULL, inputs = NULL)
+     
+Arguments:
+
+   route: One-row route data frame or named list from
+          `make_decomposition_diagnostic_routes()`.
+
+  inputs: List returned by `load_decomposition_diagnostic_inputs()`.
+
+Value:
+
+     Data frame with `dataset_name`, `age`, and `.row_name`.
+

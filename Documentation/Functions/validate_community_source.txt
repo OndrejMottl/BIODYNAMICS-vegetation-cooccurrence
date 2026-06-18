@@ -1,0 +1,22 @@
+Validate Community Source
+
+Description:
+
+     Validates the standard long-format community data contract.
+
+Usage:
+
+     validate_community_source(data_source = NULL, check_numeric = TRUE)
+     
+Arguments:
+
+data_source: A long-format community data frame with `dataset_name`,
+          `sample_name`, `age`, `taxon`, and `pollen_count` columns.
+
+check_numeric: Logical. If `TRUE` (default), `age` and `pollen_count`
+          must be numeric.
+
+Value:
+
+     The input data frame, invisibly, when validation succeeds.
+

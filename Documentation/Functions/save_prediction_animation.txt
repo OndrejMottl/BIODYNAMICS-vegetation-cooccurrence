@@ -1,0 +1,87 @@
+Save Prediction Animation
+
+Description:
+
+     Renders one prediction variable across all age slices, saves
+     individual PNG frames, and combines them into a GIF animation.
+
+Usage:
+
+     save_prediction_animation(
+       data_frame,
+       value_column,
+       subtitle_label,
+       fill_label,
+       fill_limits,
+       vec_age_slices,
+       path_output,
+       list_prediction_grid,
+       data_world,
+       grid_resolution,
+       time_step,
+       fill_trans = scales::transform_identity(),
+       fill_colors = NULL,
+       data_points = NULL,
+       point_color = "#ff4d4d",
+       metric_label = NULL,
+       frame_directory_name,
+       output_file_name,
+       vec_palette = NULL,
+       font_family = "VT323"
+     )
+     
+Arguments:
+
+data_frame: Tibble with columns `age`, `coord_long`, `coord_lat`, and
+          the column named by `value_column`.
+
+value_column: Character scalar. Name of the fill value column.
+
+subtitle_label: Character scalar. Plot subtitle.
+
+fill_label: Character scalar. Legend title.
+
+fill_limits: Numeric vector of length 2. Fill scale limits.
+
+vec_age_slices: Numeric vector of age values, one per animation frame.
+
+path_output: Character scalar. Root output directory for frames and
+          GIF.
+
+list_prediction_grid: Named list with `x_lim` and `y_lim` entries.
+
+data_world: World polygon tibble with columns `long`, `lat`, and
+          `group`.
+
+grid_resolution: Numeric scalar. Tile width and height in degrees.
+
+time_step: Numeric scalar. Half-window in years for matching
+          `data_points` ages to each frame age.
+
+fill_trans: Scale transform passed to
+          `ggplot2::scale_fill_gradientn()`.
+
+fill_colors: Optional character vector of fill gradient colours.
+
+data_points: Optional tibble with `age`, `coord_long`, `coord_lat` for
+          overlaid observation points.
+
+point_color: Character scalar. Colour for observation points.
+
+metric_label: Optional character vector appended as a plot caption.
+
+frame_directory_name: Character scalar. Name of the sub-directory for
+          PNG frames.
+
+output_file_name: Character scalar. Output GIF file name.
+
+vec_palette: Optional named character vector of ORACLE colours. If
+          `NULL`, colours are read with `get_oracle_palette_values()`.
+
+font_family: Character scalar. Font family for all text elements.
+
+Value:
+
+     List returned by [build_gif_from_frames()] with `animation_path`
+     and `used_magick` entries.
+

@@ -1,0 +1,137 @@
+<!DOCTYPE html><html><head><title>R: Predict Spatial-Resolution Grid for One Age</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>predict_spatial_resolution_grid_age</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Predict Spatial-Resolution Grid for One Age</h2>
+
+<h3>Description</h3>
+
+<p>Builds abiotic and optional spatial predictors for one age slice and
+returns long-format taxon occurrence probabilities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>predict_spatial_resolution_grid_age(
+  prediction_inputs,
+  data_grid,
+  data_grid_coords_projected,
+  age,
+  abiotic_variables,
+  x_lim,
+  y_lim,
+  cache_dir,
+  spatial_mode = "spatiotemporal",
+  climate_fn = NULL,
+  spatial_interpolate_fn = NULL,
+  spatiotemporal_interpolate_fn = NULL,
+  predict_fn = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="prediction_inputs">prediction_inputs</code></td>
+<td>
+<p>Named list returned by [read_spatial_resolution_prediction_inputs()].</p>
+</td></tr>
+<tr><td><code id="data_grid">data_grid</code></td>
+<td>
+<p>Prediction grid with 'grid_id', 'coord_long', and 'coord_lat'.</p>
+</td></tr>
+<tr><td><code id="data_grid_coords_projected">data_grid_coords_projected</code></td>
+<td>
+<p>Projected prediction grid coordinates with row names 'grid_&lt;id&gt;'.</p>
+</td></tr>
+<tr><td><code id="age">age</code></td>
+<td>
+<p>Numeric scalar age in years before present.</p>
+</td></tr>
+<tr><td><code id="abiotic_variables">abiotic_variables</code></td>
+<td>
+<p>Character vector of CHELSA variables to extract.</p>
+</td></tr>
+<tr><td><code id="x_lim">x_lim</code></td>
+<td>
+<p>Numeric longitude range.</p>
+</td></tr>
+<tr><td><code id="y_lim">y_lim</code></td>
+<td>
+<p>Numeric latitude range.</p>
+</td></tr>
+<tr><td><code id="cache_dir">cache_dir</code></td>
+<td>
+<p>Existing CHELSA cache directory.</p>
+</td></tr>
+<tr><td><code id="spatial_mode">spatial_mode</code></td>
+<td>
+<p>Spatial predictor mode: '&quot;spatial&quot;', '&quot;spatiotemporal&quot;', or '&quot;none&quot;'.</p>
+</td></tr>
+<tr><td><code id="climate_fn">climate_fn</code></td>
+<td>
+<p>Climate extraction function. If 'NULL' (default),
+[extract_prediction_climate()] is used.</p>
+</td></tr>
+<tr><td><code id="spatial_interpolate_fn">spatial_interpolate_fn</code></td>
+<td>
+<p>Spatial interpolation function. If 'NULL' (default),
+[interpolate_mev_to_grid()] is used.</p>
+</td></tr>
+<tr><td><code id="spatiotemporal_interpolate_fn">spatiotemporal_interpolate_fn</code></td>
+<td>
+<p>Spatiotemporal interpolation function. If 'NULL' (default),
+[interpolate_st_mev_to_grid()] is used.</p>
+</td></tr>
+<tr><td><code id="predict_fn">predict_fn</code></td>
+<td>
+<p>Prediction function. If 'NULL' (default), the function resolves
+'sjSDM:::predict.sjSDM'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Long tibble with predicted probabilities by grid cell, age, and taxon.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+predict_spatial_resolution_grid_age(
+  prediction_inputs = prediction_inputs,
+  data_grid = data_grid,
+  data_grid_coords_projected = data_grid_coords_projected,
+  age = 0,
+  abiotic_variables = c("bio1", "bio12"),
+  x_lim = c(-10, 40),
+  y_lim = c(35, 70),
+  cache_dir = "Data/Temp/chelsa/prediction"
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

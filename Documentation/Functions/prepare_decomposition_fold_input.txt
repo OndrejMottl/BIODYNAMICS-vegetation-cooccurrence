@@ -1,0 +1,31 @@
+Prepare Decomposition Fold Input
+
+Description:
+
+     Rebuilds model input for one route and one train/test split using
+     fold-local response filtering and train-only predictor scaling.
+
+Usage:
+
+     prepare_decomposition_fold_input(
+       route = NULL,
+       inputs = NULL,
+       train_ids = NULL,
+       test_ids = NULL
+     )
+     
+Arguments:
+
+   route: One-row route data frame or named list.
+
+  inputs: List returned by `load_decomposition_diagnostic_inputs()`.
+
+train_ids: Character vector of training sample row names.
+
+test_ids: Character vector of test sample row names.
+
+Value:
+
+     Named list with training input, test input, test observations, and
+     fold diagnostics.
+

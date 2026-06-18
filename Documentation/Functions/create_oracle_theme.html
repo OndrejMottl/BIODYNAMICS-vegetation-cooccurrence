@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><title>R: ORACLE ggplot2 theme</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>create_oracle_theme</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>ORACLE ggplot2 theme</h2>
+
+<h3>Description</h3>
+
+<p>Applies the ORACLE colour palette and a minimal dark
+typographic layout to a ggplot2 plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>create_oracle_theme(base_size = 18, base_family = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="base_size">base_size</code></td>
+<td>
+<p>Numeric scalar. Base font size in points. Default '18'.</p>
+</td></tr>
+<tr><td><code id="base_family">base_family</code></td>
+<td>
+<p>Character scalar. Base font family. Defaults to
+'&quot;mono&quot;' when 'NULL'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A 'ggplot2' theme object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run: 
+ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
+  ggplot2::geom_point() +
+  create_oracle_theme()
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

@@ -1,0 +1,110 @@
+<!DOCTYPE html><html><head><title>R: Build VegVault Query Plan</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_vegvault_plan</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build VegVault Query Plan</h2>
+
+<h3>Description</h3>
+
+<p>Opens the VegVault SQLite database and constructs a lazy
+vaultkeepr query plan filtered to the specified dataset types,
+geographic bounds, and age range. The returned plan object is
+built up to 'vaultkeepr::select_samples_by_age()' and can be
+passed directly to 'extract_data_from_vegvault()' or
+'extract_age_uncertainty_from_vegvault()'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_vegvault_plan(
+  path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+  x_lim = NULL,
+  y_lim = NULL,
+  age_lim = NULL,
+  sel_dataset_type = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="path_to_vegvault">path_to_vegvault</code></td>
+<td>
+<p>A character string specifying the path to the VegVault SQLite
+database
+(default: 'here::here(&quot;Data/Input/VegVault.sqlite&quot;)').</p>
+</td></tr>
+<tr><td><code id="x_lim">x_lim</code></td>
+<td>
+<p>A numeric vector of length 2 specifying the longitude range
+'c(min, max)'.</p>
+</td></tr>
+<tr><td><code id="y_lim">y_lim</code></td>
+<td>
+<p>A numeric vector of length 2 specifying the latitude range
+'c(min, max)'.</p>
+</td></tr>
+<tr><td><code id="age_lim">age_lim</code></td>
+<td>
+<p>A numeric vector of length 2 specifying the age range in cal yr
+BP 'c(min, max)'.</p>
+</td></tr>
+<tr><td><code id="sel_dataset_type">sel_dataset_type</code></td>
+<td>
+<p>A non-empty character vector of dataset types to include
+(e.g. '&quot;fossil_pollen_archive&quot;',
+'c(&quot;vegetation_plot&quot;, &quot;gridpoints&quot;)').</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The plan is assembled via the following vaultkeepr chain:
+'open_vault()' -&gt; 'get_datasets()' -&gt;
+'select_dataset_by_type()' -&gt; 'select_dataset_by_geo()' -&gt;
+'get_samples()' -&gt; 'select_samples_by_age()'
+</p>
+<p>If vaultkeepr raises an error during plan assembly (e.g. no data
+available for the specified constraints), the error is caught and
+re-thrown via 'cli::cli_abort()' with the original message
+preserved.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vaultkeepr plan object (lazy SQL query) after applying dataset
+type, geographic, and age-range filters, ready for use with
+'extract_data_from_vegvault()' or
+'extract_age_uncertainty_from_vegvault()'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[extract_data_from_vegvault()],
+[extract_age_uncertainty_from_vegvault()]
+</p>
+
+</main>
+
+</div>
+</body></html>
+

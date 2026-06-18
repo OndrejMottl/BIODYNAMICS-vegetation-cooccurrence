@@ -22,8 +22,8 @@ function processMathHTML() {
 
 <p>Loads the most recent FT classification file for a given
 continental unit from 'Data/Processed/Traits/'. The file is
-produced by 'pipe_segment_trait_ft_clustering' in
-'pipeline_traits.R' and named
+produced by 'pipe_segment_traits_ft_clustering' in
+'pipeline_traits_reference.R' and named
 'data_ft_classification_continent_id_YYYY-MM-DD.qs'.
 </p>
 
@@ -57,11 +57,9 @@ FT classification '.qs' files. Default:
 
 <h3>Details</h3>
 
-<p>The function lists all '.qs' files in 'path_processed' matching
-the pattern 'data_ft_classification_continent_id_*.qs',
-selects the file with the most recent date suffix (ISO 8601:
-YYYY-MM-DD), and reads it via 'qs2::qs_read()'. If no matching
-file is found the function aborts with an informative error.
+<p>The function delegates path selection to
+[get_functional_type_classification_path()] and file loading to
+[read_functional_type_classification()].
 </p>
 
 
@@ -85,7 +83,9 @@ continental unit.</p>
 
 <h3>See Also</h3>
 
-<p>[cluster_functional_types()]
+<p>[cluster_functional_types()],
+[get_functional_type_classification_path()],
+[read_functional_type_classification()]
 </p>
 
 </main>

@@ -1,0 +1,34 @@
+Make Modern Data Quality Report
+
+Description:
+
+     Builds a compact QA report for modern community preprocessing.
+
+Usage:
+
+     make_modern_data_quality_report(
+       data_source = NULL,
+       data_sample_ages = NULL,
+       data_coordinates = NULL,
+       abort_on_impossible = TRUE
+     )
+     
+Arguments:
+
+data_source: A long-format community data frame with `dataset_name`,
+          `sample_name`, `age`, `taxon`, and `pollen_count` columns.
+
+data_sample_ages: A sample-age data frame with `dataset_name`,
+          `sample_name`, and `age` columns.
+
+data_coordinates: A coordinate data frame with dataset names in a
+          `dataset_name` column or row names.
+
+abort_on_impossible: Logical. If `TRUE` (default), impossible values
+          abort the QA gate.
+
+Value:
+
+     A named list containing duplicate-site, duplicate-community,
+     duplicate-key, impossible-value, and summary tables.
+

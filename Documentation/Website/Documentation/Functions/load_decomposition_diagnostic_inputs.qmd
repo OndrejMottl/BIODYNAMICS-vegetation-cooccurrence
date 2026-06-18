@@ -1,0 +1,69 @@
+---
+format: html
+title: load_decomposition_diagnostic_inputs()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>load_decomposition_diagnostic_inputs</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load Decomposition Diagnostic Inputs</h2>
+
+<h3>Description</h3>
+
+<p>Loads upstream targets needed by the decomposition diagnostic framework.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>load_decomposition_diagnostic_inputs(
+  store_path,
+  resolution_id = "genus",
+  tar_read_fn = targets::tar_read_raw
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="store_path">store_path</code></td>
+<td>
+<p>Targets store path.</p>
+</td></tr>
+<tr><td><code id="resolution_id">resolution_id</code></td>
+<td>
+<p>Taxonomic resolution suffix. Default is '&quot;genus&quot;'.</p>
+</td></tr>
+<tr><td><code id="tar_read_fn">tar_read_fn</code></td>
+<td>
+<p>Function used to read targets. Defaults to 'targets::tar_read_raw()'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list with upstream data and configuration objects.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

@@ -1,0 +1,25 @@
+Detect Colocated Community Records
+
+Description:
+
+     Reports same-coordinate, same-age community colocations with
+     source-prefix and community-signature flags.
+
+Usage:
+
+     detect_colocated_community_records(data_source = NULL, data_coordinates = NULL)
+     
+Arguments:
+
+data_source: A long-format community data frame with `dataset_name`,
+          `sample_name`, `age`, `taxon`, and `pollen_count` columns.
+
+data_coordinates: A coordinate data frame with dataset names in a
+          `dataset_name` column or row names and `coord_long`,
+          `coord_lat` columns.
+
+Value:
+
+     A tibble with one row per colocated group and diagnostic flags
+     used by modern preprocessing.
+

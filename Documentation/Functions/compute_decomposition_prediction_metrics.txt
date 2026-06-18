@@ -1,0 +1,24 @@
+Compute Decomposition Prediction Metrics
+
+Description:
+
+     Computes held-out binary prediction metrics for diagnostic models.
+
+Usage:
+
+     compute_decomposition_prediction_metrics(
+       data_observed = NULL,
+       data_predicted = NULL
+     )
+     
+Arguments:
+
+data_observed: Observed test response matrix.
+
+data_predicted: Predicted probability matrix aligned to
+          `data_observed`.
+
+Value:
+
+     One-row tibble with log-loss, Brier, pooled AUC, and macro-AUC.
+

@@ -1,0 +1,28 @@
+Plot Spatial Variance Stack
+
+Description:
+
+     Builds a stacked mean variance-partitioning plot.
+
+Usage:
+
+     plot_spatial_variance_stack(
+       data_component_stack,
+       plot_title,
+       vec_component_colours
+     )
+     
+Arguments:
+
+data_component_stack: Data frame returned by
+          [summarise_spatial_variance_stack()].
+
+plot_title: Single character string used as the plot title.
+
+vec_component_colours: Named character vector mapping component labels
+          to colours.
+
+Value:
+
+     A `ggplot` object.
+

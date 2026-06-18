@@ -1,0 +1,139 @@
+<!DOCTYPE html><html><head><title>R: Prepare Spatial Variance Waffle Data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_spatial_variance_waffle_data</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare Spatial Variance Waffle Data</h2>
+
+<h3>Description</h3>
+
+<p>Creates tile positions and precomputed trivariate fill colours for
+unit-level waffle plots.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_spatial_variance_waffle_data(
+  data_plot,
+  vec_component_colours,
+  n_waffle_rows = 5L,
+  vec_required_components = base::c("Abiotic", "Spatial", "Associations"),
+  ranking_column = "component_total_percentage",
+  anchor_component = "Associations",
+  method = base::c("HCL", "perc_avg")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_plot">data_plot</code></td>
+<td>
+<p>Data frame returned by [prepare_spatial_variance_plot_data()] and
+containing variance components for each observation.</p>
+</td></tr>
+<tr><td><code id="vec_component_colours">vec_component_colours</code></td>
+<td>
+<p>Named character vector mapping canonical component IDs to base HEX
+colours.</p>
+</td></tr>
+<tr><td><code id="n_waffle_rows">n_waffle_rows</code></td>
+<td>
+<p>Positive integer giving the number of rows in each waffle panel.</p>
+</td></tr>
+<tr><td><code id="vec_required_components">vec_required_components</code></td>
+<td>
+<p>Character vector of required canonical component IDs used for
+trivariate colour mixing.</p>
+</td></tr>
+<tr><td><code id="ranking_column">ranking_column</code></td>
+<td>
+<p>Single character string naming the column used for within-panel
+tile ordering. Defaults to 'component_total_percentage'.</p>
+</td></tr>
+<tr><td><code id="anchor_component">anchor_component</code></td>
+<td>
+<p>Optional single component ID used to select one row per observation
+after colour mixing. Defaults to '&quot;Associations&quot;' to preserve
+historical behaviour. When 'NULL', the first value in
+'vec_required_components' is used.</p>
+</td></tr>
+<tr><td><code id="method">method</code></td>
+<td>
+<p>Character string selecting the colour-mixing method passed to
+[mix_variance_component_colours()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tibble with one row per observation and columns 'tile_col',
+'tile_row', 'tile_fill_colour', and 'point_colour'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data_plot &lt;-
+  tibble::tibble(
+    scale = base::rep("local", 6),
+    scale_id = base::c(
+      "local_01",
+      "local_01",
+      "local_01",
+      "local_02",
+      "local_02",
+      "local_02"
+    ),
+    resolution_id = base::rep("genus", 6),
+    resolution_label = base::rep("Genus", 6),
+    component = base::c(
+      "Abiotic",
+      "Spatial",
+      "Associations",
+      "Abiotic",
+      "Spatial",
+      "Associations"
+    ),
+    continent_id = base::c(
+      "europe",
+      "europe",
+      "europe",
+      "asia",
+      "asia",
+      "asia"
+    ),
+    component_total_percentage = base::c(50, 30, 20, 30, 30, 40)
+  )
+
+prepare_spatial_variance_waffle_data(
+  data_plot = data_plot,
+  vec_component_colours = base::c(
+    "Abiotic" = "#D95F02",
+    "Spatial" = "#7570B3",
+    "Associations" = "#1B9E77"
+  )
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

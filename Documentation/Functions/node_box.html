@@ -1,0 +1,105 @@
+<!DOCTYPE html><html><head><title>R: Build Node Box Geometry</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>node_box</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build Node Box Geometry</h2>
+
+<h3>Description</h3>
+
+<p>Creates one-row tibble geometry for labelled schematic boxes used in
+IAVS figures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>node_box(
+  id,
+  label,
+  x,
+  y,
+  width,
+  height,
+  colour,
+  fill = NA,
+  text_colour = colour,
+  text_size = 2.9,
+  fontface = "bold"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="id">id</code></td>
+<td>
+<p>Character scalar identifier.</p>
+</td></tr>
+<tr><td><code id="label">label</code></td>
+<td>
+<p>Character scalar display label.</p>
+</td></tr>
+<tr><td><code id="x">x</code></td>
+<td>
+<p>Numeric scalar. Box center x position.</p>
+</td></tr>
+<tr><td><code id="y">y</code></td>
+<td>
+<p>Numeric scalar. Box center y position.</p>
+</td></tr>
+<tr><td><code id="width">width</code></td>
+<td>
+<p>Numeric scalar. Box width.</p>
+</td></tr>
+<tr><td><code id="height">height</code></td>
+<td>
+<p>Numeric scalar. Box height.</p>
+</td></tr>
+<tr><td><code id="colour">colour</code></td>
+<td>
+<p>Character scalar line colour.</p>
+</td></tr>
+<tr><td><code id="fill">fill</code></td>
+<td>
+<p>Character scalar fill colour.</p>
+</td></tr>
+<tr><td><code id="text_colour">text_colour</code></td>
+<td>
+<p>Character scalar text colour.</p>
+</td></tr>
+<tr><td><code id="text_size">text_size</code></td>
+<td>
+<p>Numeric scalar text size.</p>
+</td></tr>
+<tr><td><code id="fontface">fontface</code></td>
+<td>
+<p>Character scalar text face.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>One-row tibble with precomputed box extents and styling columns.
+</p>
+
+</main>
+
+</div>
+</body></html>
+

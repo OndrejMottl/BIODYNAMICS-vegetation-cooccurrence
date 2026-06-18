@@ -7,8 +7,7 @@ Usage:
 Arguments:
 
     data: A data frame containing taxon abundance data. Must include a
-          column named 'pollen_prop' with numeric proportions or
-          abundances.
+          column named 'value' with numeric proportions or abundances.
 
 minimal_proportion: Numeric value between 0 and 1 specifying the
           minimum proportion threshold for retaining taxa. Default is

@@ -1,0 +1,21 @@
+Get ORACLE discrete palette colours
+
+Description:
+
+     Returns the six categorical colours used for discrete scales.
+
+Usage:
+
+     get_oracle_discrete_palette()
+     
+Value:
+
+     A named character vector of six colour values.
+
+Examples:
+
+     ## Not run:
+     
+     get_oracle_discrete_palette()
+     ## End(Not run)
+     

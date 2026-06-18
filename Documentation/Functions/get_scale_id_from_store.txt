@@ -32,9 +32,9 @@ Details:
      second-to-last path component via `basename(dirname(store))` and
      checks whether it appears in the `scale_id` column of the spatial
      grid CSV. For non-spatial pipelines (e.g.
-     `Data/targets/project_cz/pipeline_basic/`) the candidate
-     (`"project_cz"`) is not in the CSV, so `NULL` is returned. When
-     the CSV file does not exist the function returns `NULL`
+     `Data/targets/cz_paleo/pipeline_paleo_core/`) the candidate
+     (`"project_cz_paleo"`) is not in the CSV, so `NULL` is returned.
+     When the CSV file does not exist the function returns `NULL`
      gracefully.
 
 Value:
@@ -45,5 +45,5 @@ Value:
 
 See Also:
 
-     get_spatial_window, get_spatial_model_params
+     get_spatial_window, get_model_tuning_params
 

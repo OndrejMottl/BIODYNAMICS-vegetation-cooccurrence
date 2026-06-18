@@ -1,0 +1,26 @@
+Resolve path to the design configuration file
+
+Description:
+
+     Searches for `design_config.json` in the current directory, the
+     presentation root, and the standard repository location.
+
+Usage:
+
+     resolve_design_path(path = "design_config.json")
+     
+Arguments:
+
+    path: Character scalar. File name or path to resolve.
+
+Value:
+
+     Character scalar - absolute path to the found file.
+
+Examples:
+
+     ## Not run:
+     
+     resolve_design_path()
+     ## End(Not run)
+     

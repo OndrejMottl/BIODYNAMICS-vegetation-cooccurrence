@@ -1,0 +1,30 @@
+Read Scalar Value from VegVault
+
+Description:
+
+     Executes one SQL query against an open VegVault connection and
+     returns the first value from the first column.
+
+Usage:
+
+     read_vegvault_scalar(conn, sql)
+     
+Arguments:
+
+    conn: Active DBI connection.
+
+     sql: Character scalar SQL query.
+
+Value:
+
+     Scalar value from the first query column.
+
+Examples:
+
+     ## Not run:
+     
+     con <- DBI::dbConnect(RSQLite::SQLite(), "Data/Input/VegVault.sqlite")
+     on.exit(DBI::dbDisconnect(con), add = TRUE)
+     read_vegvault_scalar(con, "select count(*) from Datasets")
+     ## End(Not run)
+     

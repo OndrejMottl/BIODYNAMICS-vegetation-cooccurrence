@@ -1,0 +1,28 @@
+Flatten one design token node
+
+Description:
+
+     Recursively flattens a nested design config node into a named list
+     of scalar token values.
+
+Usage:
+
+     flatten_token_node(value, prefix)
+     
+Arguments:
+
+   value: A config node.
+
+  prefix: Character scalar token prefix.
+
+Value:
+
+     A flat named list.
+
+Examples:
+
+     ## Not run:
+     
+     flatten_token_node(list(a = "b"), "oracle-test")
+     ## End(Not run)
+     

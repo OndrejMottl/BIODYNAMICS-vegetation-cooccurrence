@@ -1,0 +1,28 @@
+Check Modern Data Impossible Values
+
+Description:
+
+     Checks modern community and coordinate data for impossible values
+     before modelling.
+
+Usage:
+
+     check_modern_data_impossible_values(
+       data_source = NULL,
+       data_coordinates = NULL
+     )
+     
+Arguments:
+
+data_source: A long-format community data frame with `dataset_name`,
+          `sample_name`, `age`, `taxon`, and `pollen_count` columns.
+
+data_coordinates: A coordinate data frame with `coord_long` and
+          `coord_lat` columns. Dataset names may be stored either in a
+          `dataset_name` column or row names.
+
+Value:
+
+     A tibble describing impossible values. Returns a zero-row tibble
+     when no impossible values are detected.
+

@@ -1,0 +1,32 @@
+Continuous colour scale using the ORACLE palette
+
+Description:
+
+     Maps continuous data to an ORACLE gradient using
+     `ggplot2::scale_colour_gradientn()`.
+
+Usage:
+
+     scale_colour_oracle_continuous(values = get_oracle_continuous_palette(), ...)
+     
+Arguments:
+
+  values: Named character vector of gradient stop colours. Defaults to
+          `get_oracle_continuous_palette()`.
+
+     ...: Additional arguments passed to
+          `ggplot2::scale_colour_gradientn()`.
+
+Value:
+
+     A `ggplot2` scale object.
+
+Examples:
+
+     ## Not run:
+     
+     ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg, colour = disp)) +
+       ggplot2::geom_point() +
+       scale_colour_oracle_continuous()
+     ## End(Not run)
+     

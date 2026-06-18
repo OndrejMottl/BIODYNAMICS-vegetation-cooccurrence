@@ -1,0 +1,77 @@
+Interpolate Community Dataset from Shared Inputs
+
+Description:
+
+     Filters shared paleo community preprocessing inputs to one dataset
+     and interpolates that dataset.
+
+Usage:
+
+     interpolate_community_dataset_from_shared_inputs(
+       data_interpolation_index,
+       data,
+       data_age_uncertainty,
+       n_cores = 1L,
+       ...
+     )
+     
+Arguments:
+
+data_interpolation_index: A metadata object produced by
+          [make_community_interpolation_index()]. It must contain
+          `dataset_name` and `flag_empty` elements.
+
+    data: Shared or regular community proportion data with a
+          `dataset_name` column.
+
+data_age_uncertainty: Shared or regular age-uncertainty data with a
+          `dataset_name` column.
+
+ n_cores: Number of cores passed to
+          [interpolate_community_data_with_uncertainty()]. Dynamic
+          target branches should use `1L`.
+
+     ...: Additional arguments passed to
+          [interpolate_community_data_with_uncertainty()].
+
+Details:
+
+     The function keeps dynamic branch payloads small by receiving only
+     a dataset identifier and filtering larger shared inputs inside the
+     branch.
+
+Value:
+
+     A data frame with columns `dataset_name`, `taxon`, `age`, and
+     `value`.
+
+See Also:
+
+     [make_community_interpolation_index()],
+     [interpolate_community_data_with_uncertainty()]
+
+Examples:
+
+     data_example <- tibble::tibble(
+       dataset_name = "core_a",
+       sample_name = "sample_a",
+       taxon = "Taxon",
+       age = 0,
+       value = 1
+     )
+     data_uncertainty <- tibble::tibble(
+       dataset_name = base::character(),
+       sample_name = base::character(),
+       iteration = base::integer(),
+       age_uncertainty = base::numeric()
+     )
+     index <- base::list(dataset_name = "core_a", flag_empty = FALSE)
+     interpolate_community_dataset_from_shared_inputs(
+       data_interpolation_index = index,
+       data = data_example,
+       data_age_uncertainty = data_uncertainty,
+       age_min = 0,
+       age_max = 500,
+       timestep = 500
+     )
+     
