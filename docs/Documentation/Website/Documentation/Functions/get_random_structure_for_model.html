@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>get_random_structure_for_model() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -32,15 +35,14 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../../../figures/Logo FOSSILPOL regular - 600ppi.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-940ae5f67f9e3b81a57623f2972baed4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-5a509305741fcfd5710142364a75df2a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-1f6cf47c200ee409e9e5b1c353425e7f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-a190e65e7e42b1a32c7037c7b6aeb039.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -118,6 +120,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Reproducibility</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/outputs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outputs</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -174,8 +182,20 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/add_panel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">add_panel()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/aggregate_anova_components.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">aggregate_anova_components()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">aggregate_colocated_community_records()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -198,6 +218,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/apply_decomposition_scale_attributes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">apply_decomposition_scale_attributes()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/apply_trait_corrections.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">apply_trait_corrections()</span></a>
   </div>
@@ -210,14 +236,86 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/assert_prediction_probabilities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">assert_prediction_probabilities()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/binarize_community_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">binarize_community_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_base_terminal_plot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_base_terminal_plot()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/build_community_taxon_trait_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_community_taxon_trait_table()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_gif_from_frames.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_gif_from_frames()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_land_prediction_grid.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_land_prediction_grid()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_map_panel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_map_panel()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_prediction_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_prediction_frame()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_spatial_model_store_index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_spatial_model_store_index()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_spatial_unit_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_spatial_unit_frame()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_temporal_trajectory_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_temporal_trajectory_frame()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_temporal_trajectory_legend.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_temporal_trajectory_legend()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_vegvault_plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_vegvault_plan()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/check_abiotic_interpolation_contract.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_abiotic_interpolation_contract()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -240,6 +338,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/check_cuda_gpu_runtime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_cuda_gpu_runtime()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/check_data_sample_ids_n.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">check_data_sample_ids_n()</span></a>
   </div>
@@ -252,14 +356,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/check_modern_data_impossible_values.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_modern_data_impossible_values()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/check_presence_of_vegvault.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">check_presence_of_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/check_target_succeeded.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">check_target_succeeded()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/check_trait_coverage.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">check_trait_coverage()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/classify_dataset_prefix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">classify_dataset_prefix()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -288,8 +410,20 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/coerce_null_to_na_integer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">coerce_null_to_na_integer()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/combine_classification_tables.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">combine_classification_tables()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_decomposition_prediction_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compute_decomposition_prediction_metrics()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -312,6 +446,18 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_predictive_decomposition_shares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compute_predictive_decomposition_shares()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_predictive_performance_shares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compute_predictive_performance_shares()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/compute_spatial_mev.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_spatial_mev()</span></a>
   </div>
@@ -324,8 +470,56 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/count_successful_targets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">count_successful_targets()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/create_oracle_theme.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">create_oracle_theme()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/deduplicate_modern_community_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">deduplicate_modern_community_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/detect_colocated_community_records.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">detect_colocated_community_records()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/detect_duplicate_communities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">detect_duplicate_communities()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/detect_duplicate_metadata_keys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">detect_duplicate_metadata_keys()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/detect_duplicate_sites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">detect_duplicate_sites()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_jsdm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_jsdm()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_age_uncertainty_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">extract_age_uncertainty_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -344,6 +538,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/extract_data_from_vegvault.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_data_from_vegvault()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_prediction_climate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">extract_prediction_climate()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -410,6 +610,48 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/fit_jsdm_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">fit_jsdm_model()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/flatten_design_tokens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">flatten_design_tokens()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/flatten_token_node.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">flatten_token_node()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/format_age_label.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">format_age_label()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/format_count.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">format_count()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/format_scss_value.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">format_scss_value()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/format_token_name.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">format_token_name()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/generate_qr_code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">generate_qr_code()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -498,6 +740,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/get_decomposition_route_sample_ids.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_decomposition_route_sample_ids()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/get_family_trait_summary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_family_trait_summary()</span></a>
   </div>
@@ -510,8 +758,50 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/get_functional_type_classification_path.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_functional_type_classification_path()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/get_functional_type_classification_path_from_store.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_functional_type_classification_path_from_store()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/get_latest_dated_file_path.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_latest_dated_file_path()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/get_model_tuning_param_for_scale_and_resolution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_model_tuning_param_for_scale_and_resolution()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/get_model_tuning_params.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_model_tuning_params()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/get_oracle_continuous_palette.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_oracle_continuous_palette()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/get_oracle_discrete_palette.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_oracle_discrete_palette()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/get_oracle_palette_values.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_oracle_palette_values()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -524,6 +814,18 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/get_predictor_collinearity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_predictor_collinearity()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/get_preprocessing_controller.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_preprocessing_controller()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/get_presentation_dir.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_presentation_dir()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -594,6 +896,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/interpolate_community_dataset_from_shared_inputs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">interpolate_community_dataset_from_shared_inputs()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/interpolate_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">interpolate_data()</span></a>
   </div>
@@ -618,6 +926,18 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_decomposition_diagnostic_inputs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_decomposition_diagnostic_inputs()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_design_config.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_design_config()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/make_classification_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">make_classification_table()</span></a>
   </div>
@@ -630,8 +950,38 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/make_community_interpolation_index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_community_interpolation_index()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/make_community_interpolation_jobs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_community_interpolation_jobs()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/make_community_proportions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">make_community_proportions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/make_community_record_signatures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_community_record_signatures()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/make_decomposition_diagnostic_routes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_decomposition_diagnostic_routes()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/make_decomposition_env_formula.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_decomposition_env_formula()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -648,8 +998,44 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/make_modern_data_quality_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_modern_data_quality_report()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/make_repeated_cv_indices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_repeated_cv_indices()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/make_trait_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">make_trait_table()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/mix_variance_component_colours.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">mix_variance_component_colours()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/monitor_pipeline_progress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">monitor_pipeline_progress()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/node_box.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">node_box()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/normalize_coordinates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">normalize_coordinates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -672,8 +1058,38 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_spatial_biotic_component.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot_spatial_biotic_component()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_spatial_variance_stack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot_spatial_variance_stack()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_spatial_variance_waffle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot_spatial_variance_waffle()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/plot_trait_group_distribution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_trait_group_distribution()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_variance_component_triangle_legend.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot_variance_component_triangle_legend()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/predict_spatial_resolution_grid_age.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">predict_spatial_resolution_grid_age()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -708,8 +1124,26 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_decomposition_fold_input.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">prepare_decomposition_fold_input()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/prepare_spatial_predictors_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_spatial_predictors_for_fit()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_spatial_variance_plot_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">prepare_spatial_variance_plot_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_spatial_variance_waffle_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">prepare_spatial_variance_waffle_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -720,8 +1154,62 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/read_functional_type_classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">read_functional_type_classification()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/read_model_evaluation_target.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">read_model_evaluation_target()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/read_spatial_model_results.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">read_spatial_model_results()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/read_spatial_resolution_prediction_inputs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">read_spatial_resolution_prediction_inputs()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/read_target_meta_or_empty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">read_target_meta_or_empty()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/read_target_or_null.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">read_target_or_null()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/read_targets_store_meta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">read_targets_store_meta()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/read_vegvault_scalar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">read_vegvault_scalar()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/recalculate_anova_components.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">recalculate_anova_components()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/refresh_cz_decomposition_upstream.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">refresh_cz_decomposition_upstream()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -750,8 +1238,20 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_design_path.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">resolve_design_path()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/resolve_trait_taxon_ids.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_trait_taxon_ids()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_decomposition_route_cv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">run_decomposition_route_cv()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -762,8 +1262,20 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_predictive_ablation_cv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">run_predictive_ablation_cv()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/save_ft_classification_for_continent.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">save_ft_classification_for_continent()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/save_prediction_animation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">save_prediction_animation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -774,8 +1286,56 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/save_temporal_trajectory_animation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">save_temporal_trajectory_animation()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/scale_abiotic_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">scale_abiotic_for_fit()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/scale_color_oracle_continuous.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">scale_color_oracle_continuous()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/scale_color_oracle_discrete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">scale_color_oracle_discrete()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/scale_colour_oracle_continuous.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">scale_colour_oracle_continuous()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/scale_colour_oracle_discrete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">scale_colour_oracle_discrete()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/scale_fill_oracle_continuous.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">scale_fill_oracle_continuous()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/scale_fill_oracle_discrete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">scale_fill_oracle_discrete()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/scale_prediction_abiotic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">scale_prediction_abiotic()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -804,8 +1364,50 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/share_interpolation_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">share_interpolation_data()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_decomposition_routes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summarise_decomposition_routes()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_expected_genus_richness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summarise_expected_genus_richness()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_predictive_decomposition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summarise_predictive_decomposition()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_spatial_biotic_component.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summarise_spatial_biotic_component()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_spatial_variance_stack.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summarise_spatial_variance_stack()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/transform_to_proportions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">transform_to_proportions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_community_source.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">validate_community_source()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -818,6 +1420,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../../../Documentation/Website/Documentation/Functions/verify_sjsdm_setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">verify_sjsdm_setup()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/write_oracle_generated_scss.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">write_oracle_generated_scss()</span></a>
   </div>
 </li>
       </ul>
