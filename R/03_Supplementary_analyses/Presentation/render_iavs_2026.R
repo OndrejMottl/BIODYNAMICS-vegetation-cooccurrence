@@ -38,6 +38,17 @@ path_presentation_pdf <-
     "iavs_2026_presentation.pdf"
   )
 
+path_presentation_pdf_html <-
+  base::paste0(
+    "file:///",
+    base::chartr(
+      old = "\\",
+      new = "/",
+      x = path_presentation_html
+    ),
+    "?pdf-static=true"
+  )
+
 
 #----------------------------------------------------------#
 # 1. Pre-render design tokens -----
@@ -86,10 +97,9 @@ cli::cli_inform(
 vec_decktape_arguments <-
   c(
     "reveal",
-    "--fragments=true",
     "--size",
     "1600x900",
-    path_presentation_html,
+    path_presentation_pdf_html,
     path_presentation_pdf
   )
 

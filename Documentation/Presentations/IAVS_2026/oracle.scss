@@ -645,6 +645,18 @@
   display: block;
 }
 
+.gif-poster {
+  display: none !important;
+}
+
+.pdf-static .gif-animated {
+  display: none !important;
+}
+
+.pdf-static .gif-poster {
+  display: block !important;
+}
+
 .image-theme-bg-white {
   background: #ffffff;
   border: 4px solid var(--oracle-palette-border);

@@ -1,4 +1,8 @@
 <script>
+if (window.location.search.includes('pdf-static=true')) {
+  document.documentElement.classList.add('pdf-static');
+}
+
 function bootTypewriter() {
   if (typeof Reveal === 'undefined') {
     window.requestAnimationFrame(bootTypewriter);
