@@ -4,6 +4,7 @@ project:
   resources:
     - Documentation/Progress/
     - Documentation/Functions_test_coverage/
+    - Documentation/Presentations/IAVS_2026/_output/
   render:
     - "index.qmd"
     - "Documentation/Website/**/*.qmd"
@@ -27,7 +28,10 @@ website:
     style: "docked"
     collapse-level: 1
     contents:
-      - text: "Methods & Overview"
+      - text: "Home"
+        href: index.qmd
+
+      - text: "Methods"
         href: Documentation/Website/about.qmd
 
       - text: "Reproducibility"
@@ -36,9 +40,9 @@ website:
       - text: "Outputs"
         href: Documentation/Website/outputs.qmd
 
-      - section: "Documentation"
+      - section: "Code Reference"
         contents:
-          - text: "Project overview"
+          - text: "Overview"
             href: Documentation/Website/Documentation/documentation.qmd
           - section: "Functions"
             contents: "Documentation/Website/Documentation/Functions/*.qmd"

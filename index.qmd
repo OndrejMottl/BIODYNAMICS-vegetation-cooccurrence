@@ -1,20 +1,43 @@
 ---
-date: 2025/05/15
+date: 2026/06/19
 date-format: long
 date-modified: last-modified
 ---
 
-# BIODYNAMICS — Vegetation Co-occurrence
+# BIODYNAMICS - Vegetation Co-occurrence
 
-This project analyses **co-occurrence patterns of plant taxa across space and time** using paleoecological pollen records and co-located palaeoclimate reconstructions. The central aim is to quantify how much of the observed co-occurrence signal is explained by shared abiotic (environmental) responses versus genuine biotic associations — and whether those patterns are consistent across geographic scales and through the last 20,000 years.
+This project asks how much of plant co-occurrence can be attributed to shared climate responses, spatial structure, and residual species-species association signals.
+It combines fossil pollen archives, modern vegetation records, climate reconstructions, site coordinates, and plant functional traits through the [VegVault](https://bit.ly/VegVault) data system.
 
-The project is part of the [BIODYNAMICS](https://bit.ly/BIODYNAMICS) initiative.
+The analysis is part of the [BIODYNAMICS](https://bit.ly/BIODYNAMICS) initiative.
 
-::: {.callout-tip}
-## Explore the project
+::: {.callout-warning}
+## Work in progress
 
-- [Methods & Overview](Documentation/Website/about.qmd) — data sources, two-pipeline design (temporal and spatial), all pipeline stages, and analysis configurations
-- [Reproducibility](Documentation/Website/installation.qmd) — how to install dependencies and run the pipeline
-- [Documentation](Documentation/Website/Documentation/documentation.qmd) — individual function reference and code coverage
+The code, manuscript, and results are still under active development.
+Methods, pipeline structure, reproducibility instructions, function documentation, and conference outputs are public, but result summaries should be treated as preliminary until the manuscript is complete.
 :::
 
+## Project Scope
+
+The current workflow evaluates vegetation assembly along three complementary axes.
+
+| Axis | Question | Current implementation |
+|---|---|---|
+| Spatial scale | Do association signals depend on geographic extent? | Paleo and modern spatial-resolution pipelines across continental, regional, and local units |
+| Time | Do co-occurrence patterns change from the Last Glacial Maximum to the present? | Paleo temporal models fitted independently by time slice |
+| Biological resolution | Do conclusions depend on how taxa are grouped? | Genus, family, and functional-type community matrices |
+
+## Analysis Core
+
+All modelled analyses use a joint species distribution modelling framework in `{sjSDM}`.
+The fitted models partition community structure into an abiotic climate component, a spatial or spatiotemporal MEM component, and a residual association component.
+The same core modelling stack is reused across paleo, modern, spatial, temporal, and taxonomic-resolution analyses so comparisons are traceable to a common workflow.
+
+## Explore
+
+- [Methods](Documentation/Website/about.qmd) describes the data streams, preprocessing, modelling core, and active pipeline design.
+- [Reproducibility](Documentation/Website/installation.qmd) explains how to restore dependencies and run the current `{targets}` pipelines.
+- [Outputs](Documentation/Website/outputs.qmd) links conference material, preliminary public outputs, and pipeline progress views.
+- [Code Reference](Documentation/Website/Documentation/documentation.qmd) lists the generated documentation for custom R functions.
+- [GitHub repository](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence) contains the full source code and project README.

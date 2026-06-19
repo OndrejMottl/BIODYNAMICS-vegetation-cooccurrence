@@ -1,73 +1,145 @@
 ---
-date: 2025/05/15
+date: 2026/06/19
 date-format: long
 date-modified: last-modified
 ---
 
 # Reproducibility
 
-## {[renv](https://rstudio.github.io/renv/)}
+This project is an R analysis repository built around `{targets}`, `{renv}`, Quarto, and `{sjSDM}`.
+Most analyses also require a local VegVault SQLite database and enough compute resources for joint species distribution models.
 
-This project uses the {renv} package to manage dependencies. To install the required packages, run the following command in the R console:
+## Restore R Packages
 
-``` r
+The project uses `{renv}` to lock package versions.
+From the repository root, run:
+
+```r
 renv::restore()
 ```
 
-This will install all the packages listed in the `renv.lock` file.
+This installs the package versions recorded in `renv.lock`.
 
-## {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)}
+## Set Up sjSDM
 
-This project uses {[sjSDM](https://theoreticalecology.github.io/s-jSDM/)} (Scalable Joint Species Distribution Models), which requires a Python back-end (PyTorch). After installing the R package, set up the Python environment with:
+The modelling workflow uses [{sjSDM}](https://theoreticalecology.github.io/s-jSDM/), which depends on a Python and PyTorch backend.
+After restoring R packages, initialise the backend with:
 
 ```r
 sjSDM::install_sjSDM()
 ```
 
-You can verify the setup using the project helper function:
+You can then verify the setup with the project helper:
 
-``` r
+```r
 source("R/___setup_project___.R")
 verify_sjsdm_setup()
 ```
 
-## {[targets](https://docs.ropensci.org/targets/)}
+## Run a Pipeline
 
-The project is built as a {[targets](https://docs.ropensci.org/targets/)} pipeline. Each analysis configuration has its own dedicated pipeline run. To execute a pipeline, set the active configuration and call `targets::tar_make()`:
+Pipeline execution is wrapped by [`run_pipeline()`](Documentation/Functions/run_pipeline.qmd).
+The wrapper sets the correct `{targets}` store path, runs `targets::tar_make()`, and optionally saves a progress visualisation for the website.
 
-``` r
+```r
 library(here)
+
 source(here::here("R/___setup_project___.R"))
 
-# Choose one of the named configurations:
-# "project_cz", "project_temporal_europe", "project_temporal_america",
-# "project_temporal_asia", "project_spatial_continental",
-# "project_spatial_regional", "project_spatial_local"
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
-targets::tar_make()
-```
-
-To check which targets are out-of-date before running:
-
-``` r
-targets::tar_outdated()
-```
-
-To visualise the full pipeline dependency graph:
-
-``` r
-targets::tar_visnetwork()
-```
-
-### Spatial analyses
-
-Spatial analyses iterate over all geographic units defined in `Data/Input/spatial_grid.csv` at the selected scale. Use the convenience runner scripts:
-
-```{r}
-#| eval: false
-#| echo: true
-source(
-  here::here("R/02_Main_analyses/01_Spatial/01_Run_spatial_continental.R")
+run_pipeline(
+  sel_script = "R/Pipelines/pipeline_paleo_core.R",
+  fresh_run = FALSE,
+  plot_progress = TRUE
 )
+```
+
+The active configuration must not be `default`.
+Use `Sys.setenv(R_CONFIG_ACTIVE = "...")` before calling `run_pipeline()`.
+
+## Current Configurations
+
+The available analysis configurations are defined in `config.yml`.
+
+| Configuration | Typical pipeline use |
+|---|---|
+| `project_cz_paleo` | Small paleo development and smoke-test runs |
+| `project_cz_modern` | Small modern development and smoke-test runs |
+| `project_traits_reference` | Trait extraction, quality control, and functional-type reference generation |
+| `project_paleo_temporal_europe` | Paleo temporal workflow for Europe |
+| `project_paleo_temporal_america` | Paleo temporal workflow for North America |
+| `project_paleo_temporal_asia` | Paleo temporal workflow for northern Asia |
+| `project_paleo_spatial_continental` | Paleo spatial-resolution workflow at continental scale |
+| `project_paleo_spatial_regional` | Paleo spatial-resolution workflow at regional scale |
+| `project_paleo_spatial_local` | Paleo spatial-resolution workflow at local scale |
+| `project_modern_spatial_continental` | Modern spatial-resolution workflow at continental scale |
+| `project_modern_spatial_regional` | Modern spatial-resolution workflow at regional scale |
+| `project_modern_spatial_local` | Modern spatial-resolution workflow at local scale |
+
+## Spatial Unit Stores
+
+Spatial pipelines are run independently for geographic units from `Data/Input/spatial_grid.csv`.
+Use `store_suffix` to isolate each unit inside the configuration-specific target store.
+
+```r
+library(here)
+
+source(here::here("R/___setup_project___.R"))
+
+Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_spatial_continental")
+
+run_pipeline(
+  sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
+  store_suffix = "europe",
+  fresh_run = FALSE,
+  plot_progress = TRUE
+)
+```
+
+The same pattern applies to modern spatial-resolution analyses with `pipeline_modern_spatial_resolution.R`.
+
+## Optional Interpolation Prebuild
+
+Some paleo workflows can prebuild the interpolation target with a preprocessing backend before running the full model pipeline.
+Use this when interpolation is the limiting step and the active configuration defines the required worker settings.
+
+```r
+run_pipeline(
+  sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
+  store_suffix = "europe",
+  prebuild_interpolation = TRUE
+)
+```
+
+## Inspect Pipeline State
+
+Use standard `{targets}` helpers with the same script and store path when you need lower-level diagnostics.
+For most public-facing progress views, use the visualisations generated by `run_pipeline()`.
+
+```r
+targets::tar_outdated(
+  script = here::here("R/Pipelines/pipeline_paleo_core.R"),
+  store = here::here("Data/targets/cz_paleo/pipeline_paleo_core")
+)
+
+targets::tar_visnetwork(
+  script = here::here("R/Pipelines/pipeline_paleo_core.R"),
+  store = here::here("Data/targets/cz_paleo/pipeline_paleo_core")
+)
+```
+
+## Render the Website
+
+The website is a Quarto site rendered to `docs/` for GitHub Pages.
+Do not edit files in `docs/` manually.
+
+```r
+quarto::quarto_render()
+```
+
+From the terminal, the equivalent command is:
+
+```bash
+quarto render
 ```
