@@ -60,7 +60,7 @@ data_covr %>%
 covr::report(
   x = data_covr,
   file = here::here(
-    "docs/Documentation/Functions_test_coverage/covr_report.html"
+    "Documentation/Functions_test_coverage/covr_report.html"
   ),
   browse = FALSE
 )
@@ -72,7 +72,7 @@ covr::report(
 
 vec_report_path <-
   here::here(
-    "docs/Documentation/Functions_test_coverage/covr_report.html"
+    "Documentation/Functions_test_coverage/covr_report.html"
   )
 
 str_html <-
