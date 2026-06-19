@@ -28,12 +28,12 @@ The PDF backup contains static figures only.
 Use the standalone HTML deck for animated figures.
 :::
 
-- [Open standalone HTML](/Documentation/Presentations/IAVS_2026/_output/index.html)
-- [Download PDF](/Documentation/Presentations/IAVS_2026/_output/iavs_2026_presentation.pdf)
+- [Open standalone HTML](../Presentations/IAVS_2026/_output/index.html)
+- [Download PDF](../Presentations/IAVS_2026/_output/iavs_2026_presentation.pdf)
 - [View Quarto source](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Presentations/IAVS_2026/index.qmd)
 
 <iframe
-  src="/Documentation/Presentations/IAVS_2026/_output/index.html"
+  src="../Presentations/IAVS_2026/_output/index.html"
   width="100%"
   height="650px"
   style="border:none;">
@@ -47,7 +47,7 @@ They are intended as reproducibility and maintenance aids rather than result sum
 ### Paleo Temporal - Europe
 
 <iframe
-  src="/Documentation/Progress/paleo_temporal_europe/pipeline_paleo_temporal/project_status_small.html"
+  src="../Progress/paleo_temporal_europe/pipeline_paleo_temporal/project_status_small.html"
   width="100%"
   height="550px"
   style="border:none;">
@@ -56,7 +56,7 @@ They are intended as reproducibility and maintenance aids rather than result sum
 ### Paleo Spatial Resolution - Europe Continental
 
 <iframe
-  src="/Documentation/Progress/paleo_spatial_continental/europe/pipeline_paleo_spatial_resolution/project_status_small.html"
+  src="../Progress/paleo_spatial_continental/europe/pipeline_paleo_spatial_resolution/project_status_small.html"
   width="100%"
   height="550px"
   style="border:none;">
@@ -65,7 +65,7 @@ They are intended as reproducibility and maintenance aids rather than result sum
 ### Modern Spatial Resolution - Europe Continental
 
 <iframe
-  src="/Documentation/Progress/modern_spatial_continental/europe/pipeline_modern_spatial_resolution/project_status_small.html"
+  src="../Progress/modern_spatial_continental/europe/pipeline_modern_spatial_resolution/project_status_small.html"
   width="100%"
   height="550px"
   style="border:none;">
@@ -74,7 +74,7 @@ They are intended as reproducibility and maintenance aids rather than result sum
 ### Traits Reference
 
 <iframe
-  src="/Documentation/Progress/traits_reference/pipeline_traits_reference/project_status_small.html"
+  src="../Progress/traits_reference/pipeline_traits_reference/project_status_small.html"
   width="100%"
   height="550px"
   style="border:none;">

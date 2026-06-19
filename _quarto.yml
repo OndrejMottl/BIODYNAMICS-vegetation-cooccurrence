@@ -2,6 +2,7 @@ project:
   type: website
   output-dir: docs
   resources:
+    - .nojekyll
     - Documentation/Progress/
     - Documentation/Functions_test_coverage/
     - Documentation/Presentations/IAVS_2026/_output/
