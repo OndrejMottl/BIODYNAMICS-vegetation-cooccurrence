@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-05-15">
+<meta name="dcterms.date" content="2026-06-19">
 
 <title>installation – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
@@ -146,8 +146,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../Documentation/Website/about.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Methods &amp; Overview</span></a>
+ <span class="menu-text">Methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -165,7 +171,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
- <span class="menu-text">Documentation</span></a>
+ <span class="menu-text">Code Reference</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -174,7 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../Documentation/Website/Documentation/documentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Project overview</span></a>
+ <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -1480,9 +1486,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link active" data-scroll-target="#reproducibility">Reproducibility</a>
   <ul class="collapse">
-  <li><a href="#renv" id="toc-renv" class="nav-link" data-scroll-target="#renv">{renv}</a></li>
-  <li><a href="#sjsdm" id="toc-sjsdm" class="nav-link" data-scroll-target="#sjsdm">{sjSDM}</a></li>
-  <li><a href="#targets" id="toc-targets" class="nav-link" data-scroll-target="#targets">{targets}</a></li>
+  <li><a href="#restore-r-packages" id="toc-restore-r-packages" class="nav-link" data-scroll-target="#restore-r-packages">Restore R Packages</a></li>
+  <li><a href="#set-up-sjsdm" id="toc-set-up-sjsdm" class="nav-link" data-scroll-target="#set-up-sjsdm">Set Up sjSDM</a></li>
+  <li><a href="#run-a-pipeline" id="toc-run-a-pipeline" class="nav-link" data-scroll-target="#run-a-pipeline">Run a Pipeline</a></li>
+  <li><a href="#current-configurations" id="toc-current-configurations" class="nav-link" data-scroll-target="#current-configurations">Current Configurations</a></li>
+  <li><a href="#spatial-unit-stores" id="toc-spatial-unit-stores" class="nav-link" data-scroll-target="#spatial-unit-stores">Spatial Unit Stores</a></li>
+  <li><a href="#optional-interpolation-prebuild" id="toc-optional-interpolation-prebuild" class="nav-link" data-scroll-target="#optional-interpolation-prebuild">Optional Interpolation Prebuild</a></li>
+  <li><a href="#inspect-pipeline-state" id="toc-inspect-pipeline-state" class="nav-link" data-scroll-target="#inspect-pipeline-state">Inspect Pipeline State</a></li>
+  <li><a href="#render-the-website" id="toc-render-the-website" class="nav-link" data-scroll-target="#render-the-website">Render the Website</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/installation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -1502,14 +1513,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 15, 2025</p>
+      <p class="date">June 19, 2026</p>
     </div>
   </div>
   
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">April 29, 2026</p>
+      <p class="date-modified">June 19, 2026</p>
     </div>
   </div>
     
@@ -1522,48 +1533,150 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="reproducibility" class="level1">
 <h1>Reproducibility</h1>
-<section id="renv" class="level2">
-<h2 class="anchored" data-anchor-id="renv">{<a href="https://rstudio.github.io/renv/">renv</a>}</h2>
-<p>This project uses the {renv} package to manage dependencies. To install the required packages, run the following command in the R console:</p>
+<p>This project is an R analysis repository built around <code>{targets}</code>, <code>{renv}</code>, Quarto, and <code>{sjSDM}</code>. Most analyses also require a local VegVault SQLite database and enough compute resources for joint species distribution models.</p>
+<section id="restore-r-packages" class="level2">
+<h2 class="anchored" data-anchor-id="restore-r-packages">Restore R Packages</h2>
+<p>The project uses <code>{renv}</code> to lock package versions. From the repository root, run:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This will install all the packages listed in the <code>renv.lock</code> file.</p>
+<p>This installs the package versions recorded in <code>renv.lock</code>.</p>
 </section>
-<section id="sjsdm" class="level2">
-<h2 class="anchored" data-anchor-id="sjsdm">{<a href="https://theoreticalecology.github.io/s-jSDM/">sjSDM</a>}</h2>
-<p>This project uses {<a href="https://theoreticalecology.github.io/s-jSDM/">sjSDM</a>} (Scalable Joint Species Distribution Models), which requires a Python back-end (PyTorch). After installing the R package, set up the Python environment with:</p>
+<section id="set-up-sjsdm" class="level2">
+<h2 class="anchored" data-anchor-id="set-up-sjsdm">Set Up sjSDM</h2>
+<p>The modelling workflow uses <a href="https://theoreticalecology.github.io/s-jSDM/">{sjSDM}</a>, which depends on a Python and PyTorch backend. After restoring R packages, initialise the backend with:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sjSDM<span class="sc">::</span><span class="fu">install_sjSDM</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>You can verify the setup using the project helper function:</p>
+<p>You can then verify the setup with the project helper:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/___setup_project___.R"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">verify_sjsdm_setup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="targets" class="level2">
-<h2 class="anchored" data-anchor-id="targets">{<a href="https://docs.ropensci.org/targets/">targets</a>}</h2>
-<p>The project is built as a {<a href="https://docs.ropensci.org/targets/">targets</a>} pipeline. Each analysis configuration has its own dedicated pipeline run. To execute a pipeline, set the active configuration and call <code>targets::tar_make()</code>:</p>
+<section id="run-a-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="run-a-pipeline">Run a Pipeline</h2>
+<p>Pipeline execution is wrapped by <a href="../../Documentation/Website/Documentation/Functions/run_pipeline.html"><code>run_pipeline()</code></a>. The wrapper sets the correct <code>{targets}</code> store path, runs <code>targets::tar_make()</code>, and optionally saves a progress visualisation for the website.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/___setup_project___.R"</span>))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose one of the named configurations:</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># "project_cz", "project_temporal_europe", "project_temporal_america",</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># "project_temporal_asia", "project_spatial_continental",</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># "project_spatial_regional", "project_spatial_local"</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">R_CONFIG_ACTIVE =</span> <span class="st">"project_cz"</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_make</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>To check which targets are out-of-date before running:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_outdated</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>To visualise the full pipeline dependency graph:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_visnetwork</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<section id="spatial-analyses" class="level3">
-<h3 class="anchored" data-anchor-id="spatial-analyses">Spatial analyses</h3>
-<p>Spatial analyses iterate over all geographic units defined in <code>Data/Input/spatial_grid.csv</code> at the selected scale. Use the convenience runner scripts:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/02_Main_analyses/01_Spatial/01_Run_spatial_continental.R"</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-
-
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/___setup_project___.R"</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">R_CONFIG_ACTIVE =</span> <span class="st">"project_cz_paleo"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">run_pipeline</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sel_script =</span> <span class="st">"R/Pipelines/pipeline_paleo_core.R"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">fresh_run =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot_progress =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The active configuration must not be <code>default</code>. Use <code>Sys.setenv(R_CONFIG_ACTIVE = "...")</code> before calling <code>run_pipeline()</code>.</p>
 </section>
+<section id="current-configurations" class="level2">
+<h2 class="anchored" data-anchor-id="current-configurations">Current Configurations</h2>
+<p>The available analysis configurations are defined in <code>config.yml</code>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Configuration</th>
+<th>Typical pipeline use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>project_cz_paleo</code></td>
+<td>Small paleo development and smoke-test runs</td>
+</tr>
+<tr class="even">
+<td><code>project_cz_modern</code></td>
+<td>Small modern development and smoke-test runs</td>
+</tr>
+<tr class="odd">
+<td><code>project_traits_reference</code></td>
+<td>Trait extraction, quality control, and functional-type reference generation</td>
+</tr>
+<tr class="even">
+<td><code>project_paleo_temporal_europe</code></td>
+<td>Paleo temporal workflow for Europe</td>
+</tr>
+<tr class="odd">
+<td><code>project_paleo_temporal_america</code></td>
+<td>Paleo temporal workflow for North America</td>
+</tr>
+<tr class="even">
+<td><code>project_paleo_temporal_asia</code></td>
+<td>Paleo temporal workflow for northern Asia</td>
+</tr>
+<tr class="odd">
+<td><code>project_paleo_spatial_continental</code></td>
+<td>Paleo spatial-resolution workflow at continental scale</td>
+</tr>
+<tr class="even">
+<td><code>project_paleo_spatial_regional</code></td>
+<td>Paleo spatial-resolution workflow at regional scale</td>
+</tr>
+<tr class="odd">
+<td><code>project_paleo_spatial_local</code></td>
+<td>Paleo spatial-resolution workflow at local scale</td>
+</tr>
+<tr class="even">
+<td><code>project_modern_spatial_continental</code></td>
+<td>Modern spatial-resolution workflow at continental scale</td>
+</tr>
+<tr class="odd">
+<td><code>project_modern_spatial_regional</code></td>
+<td>Modern spatial-resolution workflow at regional scale</td>
+</tr>
+<tr class="even">
+<td><code>project_modern_spatial_local</code></td>
+<td>Modern spatial-resolution workflow at local scale</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="spatial-unit-stores" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-unit-stores">Spatial Unit Stores</h2>
+<p>Spatial pipelines are run independently for geographic units from <code>Data/Input/spatial_grid.csv</code>. Use <code>store_suffix</code> to isolate each unit inside the configuration-specific target store.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/___setup_project___.R"</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">R_CONFIG_ACTIVE =</span> <span class="st">"project_paleo_spatial_continental"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">run_pipeline</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sel_script =</span> <span class="st">"R/Pipelines/pipeline_paleo_spatial_resolution.R"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">store_suffix =</span> <span class="st">"europe"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">fresh_run =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot_progress =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The same pattern applies to modern spatial-resolution analyses with <code>pipeline_modern_spatial_resolution.R</code>.</p>
+</section>
+<section id="optional-interpolation-prebuild" class="level2">
+<h2 class="anchored" data-anchor-id="optional-interpolation-prebuild">Optional Interpolation Prebuild</h2>
+<p>Some paleo workflows can prebuild the interpolation target with a preprocessing backend before running the full model pipeline. Use this when interpolation is the limiting step and the active configuration defines the required worker settings.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_pipeline</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sel_script =</span> <span class="st">"R/Pipelines/pipeline_paleo_spatial_resolution.R"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">store_suffix =</span> <span class="st">"europe"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prebuild_interpolation =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="inspect-pipeline-state" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-pipeline-state">Inspect Pipeline State</h2>
+<p>Use standard <code>{targets}</code> helpers with the same script and store path when you need lower-level diagnostics. For most public-facing progress views, use the visualisations generated by <code>run_pipeline()</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_outdated</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">script =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/Pipelines/pipeline_paleo_core.R"</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">store =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data/targets/cz_paleo/pipeline_paleo_core"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_visnetwork</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">script =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/Pipelines/pipeline_paleo_core.R"</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">store =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data/targets/cz_paleo/pipeline_paleo_core"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="render-the-website" class="level2">
+<h2 class="anchored" data-anchor-id="render-the-website">Render the Website</h2>
+<p>The website is a Quarto site rendered to <code>docs/</code> for GitHub Pages. Do not edit files in <code>docs/</code> manually.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>quarto<span class="sc">::</span><span class="fu">quarto_render</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>From the terminal, the equivalent command is:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+
 </section>
 </section>
 

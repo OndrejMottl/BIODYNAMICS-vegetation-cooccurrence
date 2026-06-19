@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-05-15">
+<meta name="dcterms.date" content="2026-06-19">
 
 <title>BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
@@ -84,9 +84,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      BIODYNAMICS-vegetation-cooccurrence
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -113,8 +111,14 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Documentation/Website/about.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Methods &amp; Overview</span></a>
+ <span class="menu-text">Methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -132,7 +136,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
- <span class="menu-text">Documentation</span></a>
+ <span class="menu-text">Code Reference</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -141,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Documentation/Website/Documentation/documentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Project overview</span></a>
+ <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
@@ -1445,7 +1449,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#biodynamics-vegetation-co-occurrence" id="toc-biodynamics-vegetation-co-occurrence" class="nav-link active" data-scroll-target="#biodynamics-vegetation-co-occurrence">BIODYNAMICS — Vegetation Co-occurrence</a></li>
+  <li><a href="#biodynamics---vegetation-co-occurrence" id="toc-biodynamics---vegetation-co-occurrence" class="nav-link active" data-scroll-target="#biodynamics---vegetation-co-occurrence">BIODYNAMICS - Vegetation Co-occurrence</a>
+  <ul class="collapse">
+  <li><a href="#project-scope" id="toc-project-scope" class="nav-link" data-scroll-target="#project-scope">Project Scope</a></li>
+  <li><a href="#analysis-core" id="toc-analysis-core" class="nav-link" data-scroll-target="#analysis-core">Analysis Core</a></li>
+  <li><a href="#explore" id="toc-explore" class="nav-link" data-scroll-target="#explore">Explore</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -1464,14 +1473,14 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 15, 2025</p>
+      <p class="date">June 19, 2026</p>
     </div>
   </div>
   
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">April 29, 2026</p>
+      <p class="date-modified">June 19, 2026</p>
     </div>
   </div>
     
@@ -1482,29 +1491,74 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="biodynamics-vegetation-co-occurrence" class="level1">
-<h1>BIODYNAMICS — Vegetation Co-occurrence</h1>
-<p>This project analyses <strong>co-occurrence patterns of plant taxa across space and time</strong> using paleoecological pollen records and co-located palaeoclimate reconstructions. The central aim is to quantify how much of the observed co-occurrence signal is explained by shared abiotic (environmental) responses versus genuine biotic associations — and whether those patterns are consistent across geographic scales and through the last 20,000 years.</p>
-<p>The project is part of the <a href="https://bit.ly/BIODYNAMICS">BIODYNAMICS</a> initiative.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<section id="biodynamics---vegetation-co-occurrence" class="level1">
+<h1>BIODYNAMICS - Vegetation Co-occurrence</h1>
+<p>This project asks how much of plant co-occurrence can be attributed to shared climate responses, spatial structure, and residual species-species association signals. It combines fossil pollen archives, modern vegetation records, climate reconstructions, site coordinates, and plant functional traits through the <a href="https://bit.ly/VegVault">VegVault</a> data system.</p>
+<p>The analysis is part of the <a href="https://bit.ly/BIODYNAMICS">BIODYNAMICS</a> initiative.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Explore the project
+<span class="screen-reader-only">Warning</span>Work in progress
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p>The code, manuscript, and results are still under active development. Methods, pipeline structure, reproducibility instructions, function documentation, and conference outputs are public, but result summaries should be treated as preliminary until the manuscript is complete.</p>
+</div>
+</div>
+<section id="project-scope" class="level2">
+<h2 class="anchored" data-anchor-id="project-scope">Project Scope</h2>
+<p>The current workflow evaluates vegetation assembly along three complementary axes.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Axis</th>
+<th>Question</th>
+<th>Current implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spatial scale</td>
+<td>Do association signals depend on geographic extent?</td>
+<td>Paleo and modern spatial-resolution pipelines across continental, regional, and local units</td>
+</tr>
+<tr class="even">
+<td>Time</td>
+<td>Do co-occurrence patterns change from the Last Glacial Maximum to the present?</td>
+<td>Paleo temporal models fitted independently by time slice</td>
+</tr>
+<tr class="odd">
+<td>Biological resolution</td>
+<td>Do conclusions depend on how taxa are grouped?</td>
+<td>Genus, family, and functional-type community matrices</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="analysis-core" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-core">Analysis Core</h2>
+<p>All modelled analyses use a joint species distribution modelling framework in <code>{sjSDM}</code>. The fitted models partition community structure into an abiotic climate component, a spatial or spatiotemporal MEM component, and a residual association component. The same core modelling stack is reused across paleo, modern, spatial, temporal, and taxonomic-resolution analyses so comparisons are traceable to a common workflow.</p>
+</section>
+<section id="explore" class="level2">
+<h2 class="anchored" data-anchor-id="explore">Explore</h2>
 <ul>
-<li><a href="./Documentation/Website/about.html">Methods &amp; Overview</a> — data sources, two-pipeline design (temporal and spatial), all pipeline stages, and analysis configurations</li>
-<li><a href="./Documentation/Website/installation.html">Reproducibility</a> — how to install dependencies and run the pipeline</li>
-<li><a href="./Documentation/Website/Documentation/documentation.html">Documentation</a> — individual function reference and code coverage</li>
+<li><a href="./Documentation/Website/about.html">Methods</a> describes the data streams, preprocessing, modelling core, and active pipeline design.</li>
+<li><a href="./Documentation/Website/installation.html">Reproducibility</a> explains how to restore dependencies and run the current <code>{targets}</code> pipelines.</li>
+<li><a href="./Documentation/Website/outputs.html">Outputs</a> links conference material, preliminary public outputs, and pipeline progress views.</li>
+<li><a href="./Documentation/Website/Documentation/documentation.html">Code Reference</a> lists the generated documentation for custom R functions.</li>
+<li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence">GitHub repository</a> contains the full source code and project README.</li>
 </ul>
-</div>
-</div>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
