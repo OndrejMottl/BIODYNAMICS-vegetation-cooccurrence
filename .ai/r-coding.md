@@ -478,6 +478,36 @@ data_diversity <-
 preferred_shape <- "triangle"
 ```
 
+#### Do Not Reassign Transformed Objects
+
+When an object passes through sequential transformation stages, save each stage under a new descriptive name. Do not overwrite the earlier object with a transformed version of itself. Intermediate objects are local to the function or script and are released when their environment is removed; preserving distinct names makes execution order explicit and prevents partial interactive runs from using the wrong object state.
+
+This rule also applies when coercing or normalising function arguments. Store the validated or converted value under a new name instead of overwriting the argument.
+
+```r
+# Good - each transformation stage has an explicit state
+data_samples_aligned <-
+  align_samples(data_samples_raw)
+
+data_samples_filtered <-
+  filter_samples(data_samples_aligned)
+
+min_samples_integer <-
+  base::as.integer(min_samples)
+
+# Avoid - the meaning of the object changes with execution order
+data_samples <-
+  align_samples(data_samples)
+
+data_samples <-
+  filter_samples(data_samples)
+
+min_samples <-
+  base::as.integer(min_samples)
+```
+
+Stateful preallocated accumulators inside an inherently iterative algorithm may be updated in place when creating a new full copy on every iteration would be misleading or unnecessarily expensive. Name such objects clearly as accumulators or running counts.
+
 ### Logical Evaluation
 
 Always use `TRUE` and `FALSE`, instead of `T` and `F`.

@@ -4,9 +4,10 @@
 #' selects the first viable cross-validation strategy.
 #' @param data_partition_diagnostics
 #' Data frame with one row for the full model and one row per candidate
-#' training partition. Required columns are `cv_strategy`, `effective_folds`,
-#' `fold_id`, `n_train_locations`, `n_train_samples`, `n_train_taxa`, and
-#' `n_train_mem_locations`. Supported strategies are `"full_model"`,
+#' training partition. Required columns are `cv_strategy`, `repeat_id`,
+#' `effective_folds`, `fold_id`, `n_train_locations`, `n_train_samples`,
+#' `n_train_taxa`, and `n_train_mem_locations`. Supported strategies are
+#' `"full_model"`,
 #' `"spatially_stratified_group_kfold"`, and
 #' `"leave_one_location_out"`.
 #' @param min_train_locations,min_train_samples,min_train_taxa
@@ -25,6 +26,7 @@
 #' data_diagnostics <-
 #'   tibble::tibble(
 #'     cv_strategy = "full_model",
+#'     repeat_id = 0L,
 #'     effective_folds = NA_integer_,
 #'     fold_id = 0L,
 #'     n_train_locations = 7L,
@@ -54,6 +56,7 @@ assess_cross_validation_feasibility <- function(
   vec_required_columns <-
     base::c(
       "cv_strategy",
+      "repeat_id",
       "effective_folds",
       "fold_id",
       "n_train_locations",
@@ -116,6 +119,7 @@ assess_cross_validation_feasibility <- function(
 
   vec_count_columns <-
     base::c(
+      "repeat_id",
       "fold_id",
       "n_train_locations",
       "n_train_samples",
@@ -148,6 +152,11 @@ assess_cross_validation_feasibility <- function(
   assertthat::assert_that(
     base::nrow(data_full_model) == 1L,
     msg = "Diagnostics must contain exactly one `full_model` row."
+  )
+
+  assertthat::assert_that(
+    data_full_model[["repeat_id"]][[1L]] == 0L,
+    msg = "The `full_model` diagnostic must use `repeat_id = 0L`."
   )
 
   data_candidate_partitions <-
@@ -192,15 +201,16 @@ assess_cross_validation_feasibility <- function(
     dplyr::pull(.data[["partition_feasible"]]) |>
     dplyr::first()
 
-  data_candidate_summary <-
+  data_candidate_repeat_summary <-
     data_partition_checks |>
     dplyr::filter(.data[["cv_strategy"]] != "full_model") |>
     dplyr::group_by(
       .data[["cv_strategy"]],
-      .data[["effective_folds"]]
+      .data[["effective_folds"]],
+      .data[["repeat_id"]]
     ) |>
     dplyr::summarise(
-      candidate_feasible = base::all(.data[["partition_feasible"]]),
+      repeat_feasible = base::all(.data[["partition_feasible"]]),
       n_partitions = dplyr::n(),
       n_distinct_fold_ids = dplyr::n_distinct(.data[["fold_id"]]),
       .groups = "drop"
@@ -208,12 +218,12 @@ assess_cross_validation_feasibility <- function(
 
   assertthat::assert_that(
     base::all(
-      data_candidate_summary[["n_partitions"]] ==
-        data_candidate_summary[["effective_folds"]]
+      data_candidate_repeat_summary[["n_partitions"]] ==
+        data_candidate_repeat_summary[["effective_folds"]]
     ),
     base::all(
-      data_candidate_summary[["n_distinct_fold_ids"]] ==
-        data_candidate_summary[["effective_folds"]]
+      data_candidate_repeat_summary[["n_distinct_fold_ids"]] ==
+        data_candidate_repeat_summary[["effective_folds"]]
     ),
     msg = stringr::str_c(
       "Every candidate must contain one diagnostic row per distinct",
@@ -221,6 +231,18 @@ assess_cross_validation_feasibility <- function(
       "fold."
     )
   )
+
+  data_candidate_summary <-
+    data_candidate_repeat_summary |>
+    dplyr::group_by(
+      .data[["cv_strategy"]],
+      .data[["effective_folds"]]
+    ) |>
+    dplyr::summarise(
+      candidate_feasible = base::all(.data[["repeat_feasible"]]),
+      n_repeats = dplyr::n_distinct(.data[["repeat_id"]]),
+      .groups = "drop"
+    )
 
   vec_grouped_folds <-
     data_candidate_summary |>

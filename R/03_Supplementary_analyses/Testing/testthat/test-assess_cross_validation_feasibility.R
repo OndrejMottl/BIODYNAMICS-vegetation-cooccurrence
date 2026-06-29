@@ -4,6 +4,7 @@ testthat::test_that(
     data_full <-
       tibble::tibble(
         cv_strategy = "full_model",
+        repeat_id = 0L,
         effective_folds = NA_integer_,
         fold_id = 0L,
         n_train_locations = 7L,
@@ -15,6 +16,7 @@ testthat::test_that(
     data_grouped <-
       tibble::tibble(
         cv_strategy = "spatially_stratified_group_kfold",
+        repeat_id = 1L,
         effective_folds = 5L,
         fold_id = base::seq_len(5L),
         n_train_locations = base::c(5L, 5L, 6L, 6L, 6L),
@@ -26,6 +28,7 @@ testthat::test_that(
     data_leave_one_out <-
       tibble::tibble(
         cv_strategy = "leave_one_location_out",
+        repeat_id = 1L,
         effective_folds = 7L,
         fold_id = base::seq_len(7L),
         n_train_locations = base::rep(6L, 7L),
@@ -127,6 +130,51 @@ testthat::test_that(
     testthat::expect_equal(
       dplyr::pull(data_no_model_result, cv_feasibility_status),
       "full_model_infeasible"
+    )
+  }
+)
+
+testthat::test_that(
+  "assess_cross_validation_feasibility() isolates repeats",
+  {
+    data_diagnostics <-
+      tibble::tibble(
+        cv_strategy = base::c(
+          "full_model",
+          base::rep("spatially_stratified_group_kfold", 4L),
+          base::rep("leave_one_location_out", 3L)
+        ),
+        repeat_id = base::c(0L, 1L, 1L, 2L, 2L, 1L, 1L, 1L),
+        effective_folds = base::c(
+          NA_integer_,
+          base::rep(2L, 4L),
+          base::rep(3L, 3L)
+        ),
+        fold_id = base::c(0L, 1L, 2L, 1L, 2L, 1L, 2L, 3L),
+        n_train_locations = base::c(3L, 2L, 2L, 2L, 2L, 2L, 2L, 2L),
+        n_train_samples = base::c(30L, 20L, 20L, 5L, 20L, 20L, 20L, 20L),
+        n_train_taxa = base::rep(5L, 8L),
+        n_train_mem_locations = base::c(
+          3L,
+          base::rep(2L, 7L)
+        )
+      )
+
+    data_result <-
+      assess_cross_validation_feasibility(
+        data_partition_diagnostics = data_diagnostics,
+        min_train_locations = 2L,
+        min_train_samples = 10L,
+        min_train_taxa = 3L,
+        min_mem_locations = 2L
+      )
+
+    testthat::expect_equal(
+      dplyr::pull(data_result, cv_strategy),
+      "leave_one_location_out"
+    )
+    testthat::expect_false(
+      dplyr::pull(data_result, grouped_kfold_feasible)
     )
   }
 )
