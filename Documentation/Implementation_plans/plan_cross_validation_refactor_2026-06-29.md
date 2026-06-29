@@ -574,8 +574,12 @@ ensuring the final model depends on selected regularization.
 
 - Split coordinate projection from full-data MEM construction if necessary so CV can
   depend on `data_coords_projected` without depending on global MEM targets.
-- Add `pipe_segment_model_cross_validation.R` after aligned raw data and projected
-  coordinates are available.
+- Start `pipe_segment_model_cross_validation.R` during Phase 1 with lightweight per-ID
+  location, grid-calibration, assignment, partition-diagnostic, and feasibility
+  targets after aligned raw data and projected coordinates are available. Extend the
+  same segment in later phases with fold-local preparation, tuning, predictions, and
+  evaluation targets; do not replace the lightweight targets with one opaque fold-plan
+  object.
 - Keep full-data spatial preparation and `pipe_segment_model_assemble.R` as the final-fit
   branch.
 - Simplify `pipe_segment_model_fit.R` so it consumes `data_model_input` and
@@ -683,22 +687,26 @@ tested predictive metric definitions before changing model fitting.
 
 - [ ] Finalize configuration names for spatial grid stratification, repeats, fold limits,
   minimum locations, seeds, and small-sample behaviour.
-- [ ] Create a location-table helper that validates one coordinate per location and
+- [x] Create a location-table helper that validates one coordinate per location and
   records the number of sample rows represented by each location.
-- [ ] Create the effective-fold-count resolver with five-fold default, data-driven
+- [x] Create the effective-fold-count resolver with five-fold default, data-driven
   increases toward leave-one-location-out, and explicit feasibility statuses.
-- [ ] Create a CV feasibility assessor that evaluates the existing full-model checks,
+- [x] Create a CV feasibility assessor that evaluates the existing full-model checks,
   MEM location requirements, grouped-fold training partitions, and leave-one-location-
   out training partitions before selecting a strategy.
-- [ ] Replace `make_cross_validation_indices()` with a deterministic spatially stratified
+- [x] Replace `make_cross_validation_indices()` with a deterministic spatially stratified
   location assignment helper.
-- [ ] Add leave-one-location-out assignment using the same location and sample schemas.
-- [ ] Implement balancing across grid cells, folds, location counts, and sample counts.
-- [ ] Implement deterministic grid-origin shifts across production repeats and a
+- [x] Add leave-one-location-out assignment using the same location and sample schemas.
+- [x] Implement balancing across grid cells, folds, location counts, and sample counts.
+- [x] Implement deterministic grid-origin shifts across production repeats and a
   single-repeat CZ override.
-- [ ] Implement standalone Tjur R2, AUC, and log-loss evaluators from observed values and
+- [x] Implement standalone Tjur R2, AUC, and log-loss evaluators from observed values and
   predicted probabilities.
 - [ ] Define stable assignment, prediction, and evaluation schemas.
+- [ ] Add the lightweight per-ID CV targets to
+  `pipe_segment_model_cross_validation.R`. Multi-resolution pipelines should calibrate
+  from their shared pre-resolution location universe and create a branch-specific
+  fallback only when subsetting invalidates the shared folds.
 
 **Validation:**
 
@@ -814,7 +822,8 @@ predictive outputs in targets and diagnostics.
 - [ ] Add the finalized cross-validation configuration to `config.yml`, including
   adaptive fold feasibility, production/CZ repeats, grid calibration, and small-sample
   policy.
-- [ ] Create `pipe_segment_model_cross_validation.R` and simplify
+- [ ] Extend the Phase 1 `pipe_segment_model_cross_validation.R` with tuning,
+  selected-model prediction, and evaluation targets, and simplify
   `pipe_segment_model_fit.R` to final full-data fitting and fitted evaluation.
 - [ ] Add explicit targets for fold assignment, tuning candidates, tuning summary,
   selected regularization, out-of-fold predictions, and cross-validated evaluation.
@@ -888,11 +897,14 @@ predictive outputs in targets and diagnostics.
 
 The core design is resolved. One calibration choice remains:
 
-1. **Adaptive-grid occupancy criterion:** during Phase 1 CZ calibration, choose the
-   precise rule for selecting the finest candidate grid. Compare at least minimum,
+1. **Adaptive-grid occupancy criterion:** each pipeline/ID calibrates its own grid as a
+   stored `{targets}` step from that ID's projected extent and location density. During
+   Phase 1 CZ validation, inspect those per-ID calibration targets and choose the
+   configured rule for selecting the finest candidate grid. Compare at least minimum,
    median, and lower-quantile locations per occupied cell, and require deterministic
    fold balance after sparse-cell assignment. Record the selected rule in configuration
-   rather than embedding it in the fold helper.
+   rather than embedding it in the fold helper. Do not create a separate global grid
+   calibration artifact.
 ---
 
 ## Issue #135 Acceptance Criteria
@@ -930,7 +942,9 @@ these acceptance criteria:
 - [ ] Resolve the adaptive-grid occupancy rule through Phase 1 CZ calibration.
 - [x] Confirm implementation in the main worktree on `OndrejMottl/issue135`.
 - [x] Update issue #135 after explicit user approval.
-- [ ] Begin with Phase 1 contracts and tests; do not start from pipeline wiring.
+- [x] Begin with Phase 1 contracts and tests before model-fitting integration.
+- [ ] Add only the lightweight Phase 1 CV targets before fold-local preprocessing and
+  model-fitting orchestration are implemented.
 - [ ] Keep each phase runnable and validated before beginning the next phase.
 - [ ] Record actual CZ runtime, fold balance, retained taxa, and predictive metrics.
 - [ ] Do not describe tuning-CV metrics as unbiased external performance unless nested
