@@ -2,7 +2,7 @@
 
 **Date:** 2026-06-29  
 **Author:** Codex using the `plan-large-changes` workflow  
-**Status:** Draft - core CV defaults resolved; grid calibration pending  
+**Status:** Phase 1 complete - ready for Phase 2
 **Related issue:** [#135 - Add cross-validation to all model pipelines](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/135)
 
 ---
@@ -587,6 +587,37 @@ ensuring the final model depends on selected regularization.
   evaluation.
 - Let targets dependencies, rather than list order alone, control execution.
 
+### Stable Phase 1 data contracts
+
+The location-assignment table uses one row per location and repeat with these columns:
+
+```text
+repeat_id                 integer assignment repeat
+fold_id                   integer held-out fold
+location_id               character core or plot identifier
+grid_cell_id              character spatial cell; NA for leave-one-location-out
+n_samples                 integer sample rows represented by the location
+row_indices               list of aligned sample-row indices
+cv_strategy               character resolved assignment strategy
+assignment_source         character assignment provenance
+```
+
+Supported `assignment_source` values in Phase 1 are `per_id`,
+`shared_pre_resolution`, `branch_fallback`, `branch_no_holdout`, and
+`leave_one_location_out_fallback`.
+
+The selected-candidate out-of-fold prediction table implemented in Phase 3 must use one
+row per sample and taxon with `repeat_id`, `fold_id`, `row_index`, `location_id`,
+`dataset_name`, `age`, `taxon`, `observed`, `predicted_probability`, and
+`prediction_status`. Candidate-scoring tables remain separate and identify candidates
+with `candidate_id`; they must not overload the selected prediction schema.
+
+The taxon-level predictive evaluation table implemented in Phase 3 must use one row per
+repeat, taxon, and metric with `repeat_id`, `taxon`, `metric_id`, `estimate`,
+`metric_status`, `n_observations`, `n_presences`, `n_absences`, and `prevalence`.
+Community macro summaries remain a separate table with `repeat_id`, `metric_id`,
+`summary_statistic`, `estimate`, `n_taxa_evaluable`, and `metric_status`.
+
 ### Resolution branches
 
 Pipelines that map over genus, family, and functional type should derive spatial grid
@@ -685,7 +716,7 @@ tested predictive metric definitions before changing model fitting.
 
 **Tasks:**
 
-- [ ] Finalize configuration names for spatial grid stratification, repeats, fold limits,
+- [x] Finalize configuration names for spatial grid stratification, repeats, fold limits,
   minimum locations, seeds, and small-sample behaviour.
 - [x] Create a location-table helper that validates one coordinate per location and
   records the number of sample rows represented by each location.
@@ -702,8 +733,8 @@ tested predictive metric definitions before changing model fitting.
   single-repeat CZ override.
 - [x] Implement standalone Tjur R2, AUC, and log-loss evaluators from observed values and
   predicted probabilities.
-- [ ] Define stable assignment, prediction, and evaluation schemas.
-- [ ] Add the lightweight per-ID CV targets to
+- [x] Define stable assignment, prediction, and evaluation schemas.
+- [x] Add the lightweight per-ID CV targets to
   `pipe_segment_model_cross_validation.R`. Multi-resolution pipelines should calibrate
   from their shared pre-resolution location universe and create a branch-specific
   fallback only when subsetting invalidates the shared folds.
@@ -722,6 +753,23 @@ tested predictive metric definitions before changing model fitting.
 - Run the full test suite and `Rscript R/02_Main_analyses/Run_CZ_test.R` at the required
   TDD closure point.
 - Run the mandatory change-review workflow before closing the phase.
+
+**Phase 1 closure (2026-06-29):**
+
+- The full test suite passed with 2,838 assertions, no failures or warnings, and one
+  expected opt-in VegVault integration skip.
+- Fresh `Run_CZ_test.R` validation completed in 30 minutes 42 seconds. The paleo core,
+  paleo resolution, and modern resolution stores contained zero errored targets.
+- The median-occupancy rule selected a 266 km grid for CZ paleo and a 50.3 km grid for
+  CZ modern. Both retained a maximum fold-location difference of one.
+- Paleo genus, family, and functional-type branches reused the shared pre-resolution
+  assignment. Modern functional type reused it; modern genus and family correctly
+  recorded `branch_fallback` after response filtering removed 33 shared locations and
+  invalidated the configured fold-balance threshold.
+- Every CZ branch resolved to feasible five-fold spatially stratified grouped CV. The
+  tested adaptive path retains leave-one-location-out and no-holdout outcomes for small
+  production IDs.
+- The mandatory review found no violations in the Phase 1 implementation files.
 
 ---
 
@@ -897,14 +945,13 @@ predictive outputs in targets and diagnostics.
 
 The core design is resolved. One calibration choice remains:
 
-1. **Adaptive-grid occupancy criterion:** each pipeline/ID calibrates its own grid as a
-   stored `{targets}` step from that ID's projected extent and location density. During
-   Phase 1 CZ validation, inspect those per-ID calibration targets and choose the
-   configured rule for selecting the finest candidate grid. Compare at least minimum,
-   median, and lower-quantile locations per occupied cell, and require deterministic
-   fold balance after sparse-cell assignment. Record the selected rule in configuration
-   rather than embedding it in the fold helper. Do not create a separate global grid
-   calibration artifact.
+1. **Adaptive-grid occupancy criterion (resolved in Phase 1):** use median locations per
+   occupied cell and select the finest candidate that reaches the configured occupancy
+   target while preserving deterministic fold-balance thresholds. Each single-response
+   pipeline/ID stores its own calibration. Multi-resolution pipelines store one shared
+   pre-resolution calibration and only recalibrate a response branch when subsetting
+   invalidates shared fold coverage or balance. The rule is configured in `config.yml`;
+   no global calibration artifact is created.
 ---
 
 ## Issue #135 Acceptance Criteria
@@ -939,13 +986,13 @@ these acceptance criteria:
 
 ## End-of-Plan Checklist
 
-- [ ] Resolve the adaptive-grid occupancy rule through Phase 1 CZ calibration.
+- [x] Resolve the adaptive-grid occupancy rule through Phase 1 CZ calibration.
 - [x] Confirm implementation in the main worktree on `OndrejMottl/issue135`.
 - [x] Update issue #135 after explicit user approval.
 - [x] Begin with Phase 1 contracts and tests before model-fitting integration.
-- [ ] Add only the lightweight Phase 1 CV targets before fold-local preprocessing and
+- [x] Add only the lightweight Phase 1 CV targets before fold-local preprocessing and
   model-fitting orchestration are implemented.
-- [ ] Keep each phase runnable and validated before beginning the next phase.
+- [x] Keep each phase runnable and validated before beginning the next phase.
 - [ ] Record actual CZ runtime, fold balance, retained taxa, and predictive metrics.
 - [ ] Do not describe tuning-CV metrics as unbiased external performance unless nested
   or untouched outer validation is implemented.

@@ -111,6 +111,9 @@ pipe_segment_config_model_by_resolution <-
           ),
           age_scale_mode = get_active_config(
             value = c("model_fitting", "age_scale_mode")
+          ),
+          cross_validation = get_active_config(
+            value = c("model_fitting", "cross_validation")
           )
         )
       },

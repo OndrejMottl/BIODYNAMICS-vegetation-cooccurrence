@@ -5,13 +5,16 @@
 #' @param data_locations
 #' Location table returned by [make_cross_validation_location_table()].
 #' @param data_assignments
-#' Assignment table returned by a cross-validation assignment helper.
+#' Assignment table returned by a cross-validation assignment helper. May be
+#' empty when `cv_strategy = "none"` and only full-model diagnostics are
+#' required.
 #' @param data_community_matrix
 #' Numeric binary matrix with one row per original sample row and one column per
 #' taxon. Row positions must match location `row_indices`.
 #' @param cv_strategy
 #' Character scalar identifying the candidate strategy. Either
-#' `"spatially_stratified_group_kfold"` or `"leave_one_location_out"`.
+#' `"spatially_stratified_group_kfold"`, `"leave_one_location_out"`, or
+#' `"none"` for full-model-only diagnostics.
 #' @param min_taxon_locations
 #' Positive integer minimum number of training locations with a taxon presence.
 #' @param min_taxon_samples
@@ -60,8 +63,7 @@ make_cross_validation_partition_diagnostics <- function(
 
   assertthat::assert_that(
     base::is.data.frame(data_assignments),
-    base::nrow(data_assignments) > 0L,
-    msg = "`data_assignments` must be a non-empty data frame."
+    msg = "`data_assignments` must be a data frame."
   )
 
   vec_required_location_columns <-
@@ -110,7 +112,8 @@ make_cross_validation_partition_diagnostics <- function(
   vec_supported_strategies <-
     base::c(
       "spatially_stratified_group_kfold",
-      "leave_one_location_out"
+      "leave_one_location_out",
+      "none"
     )
 
   assertthat::assert_that(
@@ -118,6 +121,22 @@ make_cross_validation_partition_diagnostics <- function(
     base::length(cv_strategy) == 1L,
     cv_strategy %in% vec_supported_strategies,
     msg = "`cv_strategy` is not supported."
+  )
+
+  flag_assignment_presence_matches_strategy <-
+    dplyr::if_else(
+      cv_strategy == "none",
+      base::nrow(data_assignments) == 0L,
+      base::nrow(data_assignments) > 0L
+    )
+
+  assertthat::assert_that(
+    flag_assignment_presence_matches_strategy,
+    msg = stringr::str_c(
+      "`cv_strategy = 'none'` requires empty assignments; other",
+      " ",
+      "strategies require non-empty assignments."
+    )
   )
 
   vec_taxon_thresholds <-
