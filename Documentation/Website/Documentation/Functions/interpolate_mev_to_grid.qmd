@@ -70,11 +70,12 @@ and arbitrary row names identifying prediction locations
 </td></tr>
 <tr><td><code id="spatial_scale_attributes">spatial_scale_attributes</code></td>
 <td>
-<p>A named list of '&quot;scaled:center&quot;' and '&quot;scaled:scale&quot;'
+<p>Optional named list of '&quot;scaled:center&quot;' and '&quot;scaled:scale&quot;'
 attributes per MEV column, as returned by
 'scale_spatial_for_fit()' in the 'spatial_scale_attributes'
 element. Used to bring interpolated MEV values onto the
-same scale as the training spatial predictors.</p>
+same scale as the training spatial predictors. When 'NULL',
+unscaled interpolated values are returned for fold-local scaling.</p>
 </td></tr>
 </table>
 
@@ -98,8 +99,8 @@ spatial interpolation.
 
 <p>A data frame with the same row names as
 'data_coords_projected_pred' and one column per MEV
-(names matching 'data_mev_core'). All columns are scaled
-to match the training MEV distribution.
+(names matching 'data_mev_core'). Columns are scaled when
+'spatial_scale_attributes' is supplied and otherwise remain unscaled.
 </p>
 
 
@@ -115,4 +116,3 @@ to match the training MEV distribution.
 
 </div>
 </body></html>
-

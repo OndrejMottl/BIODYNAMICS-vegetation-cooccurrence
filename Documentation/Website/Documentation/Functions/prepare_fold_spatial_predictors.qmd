@@ -1,0 +1,112 @@
+---
+format: html
+title: prepare_fold_spatial_predictors()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_fold_spatial_predictors</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare Fold-Local Spatial Predictors</h2>
+
+<h3>Description</h3>
+
+<p>Computes Moran eigenvector predictors from training locations or samples
+only and projects them to held-out samples with the production IDW path.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_fold_spatial_predictors(
+  data_coords_projected = NULL,
+  data_sample_ids = NULL,
+  train_ids = NULL,
+  test_ids = NULL,
+  spatial_mode = NULL,
+  n_mev = NULL,
+  compute_spatial_function = compute_spatial_mev,
+  compute_spatiotemporal_function = compute_spatiotemporal_mev,
+  interpolate_spatial_function = interpolate_mev_to_grid,
+  interpolate_spatiotemporal_function = interpolate_st_mev_to_grid
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_coords_projected">data_coords_projected</code></td>
+<td>
+<p>Data frame with site row names and 'coord_x_km' and 'coord_y_km' columns.</p>
+</td></tr>
+<tr><td><code id="data_sample_ids">data_sample_ids</code></td>
+<td>
+<p>Data frame containing 'dataset_name' and 'age' for all candidate samples.</p>
+</td></tr>
+<tr><td><code id="train_ids">train_ids</code>, <code id="test_ids">test_ids</code></td>
+<td>
+<p>Disjoint sample identifiers in '&quot;dataset_name__age&quot;' format. Locations
+represented by the two partitions must also be disjoint.</p>
+</td></tr>
+<tr><td><code id="spatial_mode">spatial_mode</code></td>
+<td>
+<p>Character scalar. Supported values are '&quot;spatial&quot;' and
+'&quot;spatiotemporal&quot;'.</p>
+</td></tr>
+<tr><td><code id="n_mev">n_mev</code></td>
+<td>
+<p>Positive integer giving the requested number of Moran eigenvectors.</p>
+</td></tr>
+<tr><td><code id="compute_spatial_function">compute_spatial_function</code>, <code id="compute_spatiotemporal_function">compute_spatiotemporal_function</code></td>
+<td>
+<p>Functions used to compute 2-D and spatiotemporal Moran eigenvectors.</p>
+</td></tr>
+<tr><td><code id="interpolate_spatial_function">interpolate_spatial_function</code>, <code id="interpolate_spatiotemporal_function">interpolate_spatiotemporal_function</code></td>
+<td>
+<p>Functions used to project training Moran eigenvectors to held-out samples.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list with unscaled training and held-out spatial predictor data
+frames plus fold-level spatial diagnostics.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+list_spatial_fold &lt;-
+  prepare_fold_spatial_predictors(
+    data_coords_projected = data_coords,
+    data_sample_ids = data_samples,
+    train_ids = vec_train_ids,
+    test_ids = vec_test_ids,
+    spatial_mode = "spatial",
+    n_mev = 3L
+  )
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

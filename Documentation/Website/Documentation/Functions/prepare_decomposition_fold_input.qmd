@@ -65,16 +65,18 @@ fold-local response filtering and train-only predictor scaling.
 
 <h3>Details</h3>
 
-<p>This route-specific wrapper obtains the decomposition samples and spatial
-predictors, then delegates common response filtering, alignment, and
-predictor scaling to 'prepare_model_fold_input()'.
+<p>This route-specific wrapper delegates training-only MEM construction and
+held-out projection to 'prepare_fold_spatial_predictors()', then delegates
+common response filtering, alignment, and predictor scaling to
+'prepare_model_fold_input()'.
 </p>
 
 
 <h3>Value</h3>
 
 <p>Named list returned by 'prepare_model_fold_input()', including training
-input, test input, test observations, a taxon mapping, and diagnostics.
+input, test input, test observations, a taxon mapping, model-input
+diagnostics, and fold-local spatial diagnostics.
 </p>
 
 
@@ -96,4 +98,3 @@ data_fold &lt;-
 
 </div>
 </body></html>
-

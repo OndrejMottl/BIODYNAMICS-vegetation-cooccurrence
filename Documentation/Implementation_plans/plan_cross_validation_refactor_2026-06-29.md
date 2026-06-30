@@ -785,14 +785,14 @@ data influencing learned preprocessing.
 - [x] Filter taxa from training responses only and preserve an explicit retained-taxa
   mapping for test observations.
 - [x] Fit abiotic scaling on training data and apply its attributes to test data.
-- [ ] For spatial models, compute 2-D MEMs from training locations only and interpolate
+- [x] For spatial models, compute 2-D MEMs from training locations only and interpolate
   them to held-out modern plots.
-- [ ] For spatiotemporal models, compute MEMs from training core-age samples only and
+- [x] For spatiotemporal models, compute MEMs from training core-age samples only and
   interpolate them to every held-out paleo core-age sample.
-- [ ] Fit spatial scaling on training MEMs and apply it to interpolated test MEMs.
+- [x] Fit spatial scaling on training MEMs and apply it to interpolated test MEMs.
 - [ ] Record diagnostics for unavailable MEVs, dropped taxa, missing predictors, and
   train/test row alignment.
-- [ ] Make decomposition diagnostics delegate to the shared fold preparation path.
+- [x] Make decomposition diagnostics delegate to the shared fold preparation path.
 
 **Validation:**
 

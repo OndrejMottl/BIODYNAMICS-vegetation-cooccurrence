@@ -12,11 +12,13 @@
 #' Character vector of test sample row names.
 #' @return
 #' Named list returned by `prepare_model_fold_input()`, including training
-#' input, test input, test observations, a taxon mapping, and diagnostics.
+#' input, test input, test observations, a taxon mapping, model-input
+#' diagnostics, and fold-local spatial diagnostics.
 #' @details
-#' This route-specific wrapper obtains the decomposition samples and spatial
-#' predictors, then delegates common response filtering, alignment, and
-#' predictor scaling to `prepare_model_fold_input()`.
+#' This route-specific wrapper delegates training-only MEM construction and
+#' held-out projection to `prepare_fold_spatial_predictors()`, then delegates
+#' common response filtering, alignment, and predictor scaling to
+#' `prepare_model_fold_input()`.
 #' @examples
 #' \dontrun{
 #' data_fold <-
@@ -93,79 +95,37 @@ prepare_decomposition_fold_input <- function(
     inputs |>
     purrr::chuck("config_spatial_predictors")
 
-  data_spatial_raw <-
-    if (
-      spatial_mode == "spatial"
-    ) {
-      data_spatial_mev_core <-
-        inputs[["data_spatial_mev_core"]]
-
-      data_spatial_mev_available <-
-        if (
-          base::is.null(data_spatial_mev_core)
-        ) {
-          compute_spatial_mev(
-            data_coords_projected = inputs[["data_coords_projected"]],
-            n_mev = config_spatial_predictors[["n_mev"]]
-          )
-        } else {
-          data_spatial_mev_core
-        }
-
-      prepare_spatial_predictors_for_fit(
-        data_spatial = data_spatial_mev_available,
-        data_sample_ids = data_sample_ids_route
-      )
-    } else if (
-      spatial_mode == "spatiotemporal"
-    ) {
-      compute_spatiotemporal_mev(
-        data_coords_projected = inputs[["data_coords_projected"]],
-        data_sample_ids = data_sample_ids_route,
-        n_mev = config_spatial_predictors[["n_mev"]]
-      )
-    } else {
-      cli::cli_abort(
-        stringr::str_glue("Unknown spatial mode: {spatial_mode}.")
-      )
-    }
-
-  vec_spatial_ids <-
-    base::rownames(data_spatial_raw)
-
-  if (
-    !base::all(base::c(train_ids, test_ids) %in% vec_spatial_ids)
-  ) {
-    cli::cli_abort(
-      "Decomposition spatial predictors are missing fold samples."
+  list_spatial_fold <-
+    prepare_fold_spatial_predictors(
+      data_coords_projected = inputs[["data_coords_projected"]],
+      data_sample_ids = data_sample_ids_route,
+      train_ids = train_ids,
+      test_ids = test_ids,
+      spatial_mode = spatial_mode,
+      n_mev = config_spatial_predictors[["n_mev"]]
     )
-  }
 
-  data_spatial_train <-
-    data_spatial_raw[
-      train_ids,
-      ,
-      drop = FALSE
-    ]
-
-  data_spatial_test <-
-    data_spatial_raw[
-      test_ids,
-      ,
-      drop = FALSE
-    ]
-
-  res <-
+  res_model_input <-
     prepare_model_fold_input(
       data_community_matrix = data_community_matrix,
       data_abiotic_wide = data_abiotic_wide,
-      data_spatial_train = data_spatial_train,
-      data_spatial_test = data_spatial_test,
+      data_spatial_train = list_spatial_fold[["data_spatial_train"]],
+      data_spatial_test = list_spatial_fold[["data_spatial_test"]],
       train_ids = train_ids,
       test_ids = test_ids,
       error_family = config_model_fitting[["error_family"]],
       min_n_taxa = config_data_processing[["min_n_taxa"]],
       age_scale_mode = age_scale_mode
+    )
+
+  res <-
+    base::c(
+      res_model_input,
+      base::list(
+        data_spatial_diagnostics = list_spatial_fold[[
+          "data_diagnostics"
+        ]]
+      )
     )
 
   return(res)

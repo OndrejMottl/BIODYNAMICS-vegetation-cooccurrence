@@ -1,94 +1,189 @@
 <!DOCTYPE html><html><head><title>R: Prepare Decomposition Fold Input</title>
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+
 <script type="text/javascript">
+
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
 function processMathHTML() {
+
     var l = document.getElementsByClassName('reqn');
+
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
     return;
+
 }</script>
+
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+
     onload="processMathHTML();"></script>
+
 <link rel="stylesheet" type="text/css" href="R.css" />
+
 </head><body><div class="container"><main>
+
+
 
 <table style="width: 100%;"><tr><td>prepare_decomposition_fold_input</td><td style="text-align: right;">R Documentation</td></tr></table>
 
+
+
 <h2>Prepare Decomposition Fold Input</h2>
+
+
 
 <h3>Description</h3>
 
+
+
 <p>Rebuilds model input for one route and one train/test split using
+
 fold-local response filtering and train-only predictor scaling.
+
 </p>
+
+
+
 
 
 <h3>Usage</h3>
 
+
+
 <pre><code class='language-R'>prepare_decomposition_fold_input(
+
   route = NULL,
+
   inputs = NULL,
+
   train_ids = NULL,
+
   test_ids = NULL
+
 )
+
 </code></pre>
+
+
+
 
 
 <h3>Arguments</h3>
 
+
+
 <table role = "presentation">
+
 <tr><td><code id="route">route</code></td>
+
 <td>
+
 <p>One-row route data frame or named list.</p>
+
 </td></tr>
+
 <tr><td><code id="inputs">inputs</code></td>
+
 <td>
+
 <p>List returned by 'load_decomposition_diagnostic_inputs()'.</p>
+
 </td></tr>
+
 <tr><td><code id="train_ids">train_ids</code></td>
+
 <td>
+
 <p>Character vector of training sample row names.</p>
+
 </td></tr>
+
 <tr><td><code id="test_ids">test_ids</code></td>
+
 <td>
+
 <p>Character vector of test sample row names.</p>
+
 </td></tr>
+
 </table>
+
+
+
 
 
 <h3>Details</h3>
 
-<p>This route-specific wrapper obtains the decomposition samples and spatial
-predictors, then delegates common response filtering, alignment, and
-predictor scaling to 'prepare_model_fold_input()'.
+
+
+<p>This route-specific wrapper delegates training-only MEM construction and
+
+held-out projection to 'prepare_fold_spatial_predictors()', then delegates
+
+common response filtering, alignment, and predictor scaling to
+
+'prepare_model_fold_input()'.
+
 </p>
+
+
+
 
 
 <h3>Value</h3>
 
+
+
 <p>Named list returned by 'prepare_model_fold_input()', including training
-input, test input, test observations, a taxon mapping, and diagnostics.
+
+input, test input, test observations, a taxon mapping, model-input
+
+diagnostics, and fold-local spatial diagnostics.
+
 </p>
+
+
+
 
 
 <h3>Examples</h3>
 
+
+
 <pre><code class='language-R'>## Not run:
+
 data_fold &lt;-
+
   prepare_decomposition_fold_input(
+
     route = data_route,
+
     inputs = list_decomposition_inputs,
+
     train_ids = vec_train_ids,
+
     test_ids = vec_test_ids
+
   )
 
+
+
 ## End(Not run)
+
 </code></pre>
+
+
 
 </main>
 
-</div>
-</body></html>
 
+
+</div>
+
+</body></html>

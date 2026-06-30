@@ -4,47 +4,49 @@ testthat::test_that(
     inputs <-
       base::list(
         data_sample_ids = tibble::tibble(
-          dataset_name = c("a", "b", "c", "d"),
-          age = c(0, 0, 0, 0)
+          dataset_name = base::c("a", "b", "c", "d", "e", "f", "g"),
+          age = base::rep(0, 7)
         ),
         data_community_matrix = base::matrix(
           data = c(
             1, 0,
             0, 1,
             1, 0,
-            0, 1
+            0, 1,
+            1, 0,
+            0, 1,
+            1, 0
           ),
-          nrow = 4,
+          nrow = 7,
           byrow = TRUE,
           dimnames = base::list(
-            c("a__0", "b__0", "c__0", "d__0"),
-            c("taxon_a", "taxon_b")
+            base::c(
+              "a__0", "b__0", "c__0", "d__0", "e__0", "f__0", "g__0"
+            ),
+            base::c("taxon_a", "taxon_b")
           )
         ),
         data_abiotic_wide = tibble::tibble(
-          dataset_name = c("a", "b", "c", "d"),
-          age = c(0, 0, 0, 0),
-          bio = c(1, 2, 3, 4)
+          dataset_name = base::c("a", "b", "c", "d", "e", "f", "g"),
+          age = base::rep(0, 7),
+          bio = base::seq_len(7)
         ),
-        data_spatial_mev_core = base::data.frame(mev_1 = c(1, 2, 3, 4)),
+        data_spatial_mev_core = NULL,
         data_coords_projected = base::data.frame(
-          coord_x_km = c(1, 2, 3, 4),
-          coord_y_km = c(1, 1, 1, 1)
+          coord_x_km = base::c(100, 400, 700, 200, 600, 900, 0),
+          coord_y_km = base::c(100, 500, 900, 300, 700, 200, 0)
         ),
         config_model_fitting = base::list(error_family = "binomial"),
         config_data_processing = base::list(min_n_taxa = 2L),
         config_spatial_predictors = base::list(n_mev = 1L)
       )
 
-    base::rownames(inputs[["data_spatial_mev_core"]]) <-
-      c("a", "b", "c", "d")
-
     base::rownames(inputs[["data_coords_projected"]]) <-
-      c("a", "b", "c", "d")
+      base::c("a", "b", "c", "d", "e", "f", "g")
 
     route <-
       make_decomposition_diagnostic_routes() |>
-      dplyr::filter(.data$route_id == "pooled_spatial_age")
+      dplyr::filter(.data[["route_id"]] == "pooled_spatial_age")
 
     fit_fn <- function(...) {
       list_arguments <-
@@ -83,7 +85,7 @@ testthat::test_that(
       run_decomposition_route_cv(
         route = route,
         inputs = inputs,
-        cv_indices = base::list(base::list(fold_001 = c(1L, 2L))),
+        cv_indices = base::list(base::list(fold_001 = base::c(6L, 7L))),
         fit_config = base::list(device = "cpu"),
         fit_fn = fit_fn,
         predict_fn = predict_fn,

@@ -1,0 +1,67 @@
+Prepare Fold-Local Spatial Predictors
+
+Description:
+
+     Computes Moran eigenvector predictors from training locations or
+     samples only and projects them to held-out samples with the
+     production IDW path.
+
+Usage:
+
+     prepare_fold_spatial_predictors(
+       data_coords_projected = NULL,
+       data_sample_ids = NULL,
+       train_ids = NULL,
+       test_ids = NULL,
+       spatial_mode = NULL,
+       n_mev = NULL,
+       compute_spatial_function = compute_spatial_mev,
+       compute_spatiotemporal_function = compute_spatiotemporal_mev,
+       interpolate_spatial_function = interpolate_mev_to_grid,
+       interpolate_spatiotemporal_function = interpolate_st_mev_to_grid
+     )
+
+Arguments:
+
+data_coords_projected: Data frame with site row names and `coord_x_km`
+          and `coord_y_km` columns.
+
+data_sample_ids: Data frame containing `dataset_name` and `age` for all
+          candidate samples.
+
+train_ids, test_ids: Disjoint sample identifiers in
+          `"dataset_name__age"` format. Locations represented by the
+          two partitions must also be disjoint.
+
+spatial_mode: Character scalar. Supported values are `"spatial"` and
+          `"spatiotemporal"`.
+
+   n_mev: Positive integer giving the requested number of Moran
+          eigenvectors.
+
+compute_spatial_function, compute_spatiotemporal_function: Functions
+          used to compute 2-D and spatiotemporal Moran eigenvectors.
+
+interpolate_spatial_function, interpolate_spatiotemporal_function:
+          Functions used to project training Moran eigenvectors to
+          held-out samples.
+
+Value:
+
+     Named list with unscaled training and held-out spatial predictor
+     data frames plus fold-level spatial diagnostics.
+
+Examples:
+
+     ## Not run:
+
+     list_spatial_fold <-
+       prepare_fold_spatial_predictors(
+         data_coords_projected = data_coords,
+         data_sample_ids = data_samples,
+         train_ids = vec_train_ids,
+         test_ids = vec_test_ids,
+         spatial_mode = "spatial",
+         n_mev = 3L
+       )
+     ## End(Not run)
