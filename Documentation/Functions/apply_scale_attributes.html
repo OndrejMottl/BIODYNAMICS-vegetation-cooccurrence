@@ -1,9 +1,4 @@
----
-format: html
-title: apply_decomposition_scale_attributes()
----
-
-<html><head>
+<!DOCTYPE html><html><head><title>R: Apply Training Scale Attributes</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -19,22 +14,20 @@ function processMathHTML() {
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body><div class="container"><main>
 
-<table style="width: 100%;"><tr><td>apply_decomposition_scale_attributes</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>apply_scale_attributes</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Apply Decomposition Scale Attributes</h2>
+<h2>Apply Training Scale Attributes</h2>
 
 <h3>Description</h3>
 
-<p>Applies training-set scale attributes to held-out predictor rows.
+<p>Applies scale centres and optional scale factors learned from training data
+to another predictor data frame without refitting the transformation.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>apply_decomposition_scale_attributes(
-  data_predictors = NULL,
-  scale_attributes = NULL
-)
+<pre><code class='language-R'>apply_scale_attributes(data_predictors = NULL, scale_attributes = NULL)
 </code></pre>
 
 
@@ -43,11 +36,11 @@ function processMathHTML() {
 <table role = "presentation">
 <tr><td><code id="data_predictors">data_predictors</code></td>
 <td>
-<p>Data frame with row names and predictor columns.</p>
+<p>Data frame with row names and numeric predictor columns.</p>
 </td></tr>
 <tr><td><code id="scale_attributes">scale_attributes</code></td>
 <td>
-<p>Named list of scale attributes from 'scale_abiotic_for_fit()' or
+<p>Named list of scale attributes produced by 'scale_abiotic_for_fit()' or
 'scale_spatial_for_fit()'.</p>
 </td></tr>
 </table>
@@ -55,12 +48,29 @@ function processMathHTML() {
 
 <h3>Value</h3>
 
-<p>Data frame with the same row names as 'data_predictors' and scaled
-columns ordered as 'scale_attributes'.
+<p>Data frame with the original row names and columns ordered as
+'scale_attributes'.
 </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data_predictors &lt;-
+  base::data.frame(temperature = base::c(8, 12))
+scale_attributes &lt;-
+  base::list(
+    temperature = base::list(
+      "scaled:center" = 10,
+      "scaled:scale" = 2
+    )
+  )
+apply_scale_attributes(
+  data_predictors = data_predictors,
+  scale_attributes = scale_attributes
+)
+</code></pre>
 
 </main>
 
 </div>
 </body></html>
-

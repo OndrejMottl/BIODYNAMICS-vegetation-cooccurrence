@@ -63,11 +63,34 @@ fold-local response filtering and train-only predictor scaling.
 </table>
 
 
+<h3>Details</h3>
+
+<p>This route-specific wrapper obtains the decomposition samples and spatial
+predictors, then delegates common response filtering, alignment, and
+predictor scaling to 'prepare_model_fold_input()'.
+</p>
+
+
 <h3>Value</h3>
 
-<p>Named list with training input, test input, test observations, and
-fold diagnostics.
+<p>Named list returned by 'prepare_model_fold_input()', including training
+input, test input, test observations, a taxon mapping, and diagnostics.
 </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+data_fold &lt;-
+  prepare_decomposition_fold_input(
+    route = data_route,
+    inputs = list_decomposition_inputs,
+    train_ids = vec_train_ids,
+    test_ids = vec_test_ids
+  )
+
+## End(Not run)
+</code></pre>
 
 </main>
 

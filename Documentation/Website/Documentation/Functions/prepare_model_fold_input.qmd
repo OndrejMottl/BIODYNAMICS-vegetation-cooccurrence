@@ -1,0 +1,125 @@
+---
+format: html
+title: prepare_model_fold_input()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_model_fold_input</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare Train and Test Model Inputs for One Fold</h2>
+
+<h3>Description</h3>
+
+<p>Prepares one model fold without using held-out responses or predictors to
+learn taxon filtering or predictor scaling. Spatial predictors must already
+represent the training-only construction and held-out projection paths.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_model_fold_input(
+  data_community_matrix = NULL,
+  data_abiotic_wide = NULL,
+  data_spatial_train = NULL,
+  data_spatial_test = NULL,
+  train_ids = NULL,
+  test_ids = NULL,
+  error_family = NULL,
+  min_n_taxa = NULL,
+  age_scale_mode = "z_score"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_community_matrix">data_community_matrix</code></td>
+<td>
+<p>Numeric community matrix with named sample rows and taxon columns.</p>
+</td></tr>
+<tr><td><code id="data_abiotic_wide">data_abiotic_wide</code></td>
+<td>
+<p>Wide abiotic data frame with 'dataset_name', 'age', and predictor columns.</p>
+</td></tr>
+<tr><td><code id="data_spatial_train">data_spatial_train</code>, <code id="data_spatial_test">data_spatial_test</code></td>
+<td>
+<p>Optional raw spatial predictor data frames for training and test samples.
+Both must be supplied together and have sample identifiers as row names.</p>
+</td></tr>
+<tr><td><code id="train_ids">train_ids</code>, <code id="test_ids">test_ids</code></td>
+<td>
+<p>Disjoint character vectors of training and test sample identifiers.</p>
+</td></tr>
+<tr><td><code id="error_family">error_family</code></td>
+<td>
+<p>Character scalar naming the model error family. Binomial responses are
+converted to presence-absence before training-only taxon filtering.</p>
+</td></tr>
+<tr><td><code id="min_n_taxa">min_n_taxa</code></td>
+<td>
+<p>Positive integer giving the minimum retained training taxa.</p>
+</td></tr>
+<tr><td><code id="age_scale_mode">age_scale_mode</code></td>
+<td>
+<p>Character scalar passed to 'scale_abiotic_for_fit()'. Supported values are
+'&quot;z_score&quot;' and '&quot;center&quot;'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list containing assembled training input, scaled test predictors,
+aligned test observations, an explicit taxon mapping, and fold diagnostics.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data_community &lt;-
+  base::matrix(
+    base::c(0, 1, 0, 1),
+    ncol = 1,
+    dimnames = base::list(
+      base::c("a__0", "b__0", "c__0", "d__0"),
+      "taxon_a"
+    )
+  )
+data_abiotic &lt;-
+  base::data.frame(
+    dataset_name = base::c("a", "b", "c", "d"),
+    age = 0,
+    temperature = base::c(8, 10, 12, 14)
+  )
+prepare_model_fold_input(
+  data_community_matrix = data_community,
+  data_abiotic_wide = data_abiotic,
+  train_ids = base::c("a__0", "b__0", "c__0"),
+  test_ids = "d__0",
+  error_family = "binomial",
+  min_n_taxa = 1L,
+  age_scale_mode = "center"
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -2,7 +2,7 @@
 
 **Date:** 2026-06-29  
 **Author:** Codex using the `plan-large-changes` workflow  
-**Status:** Phase 1 complete - ready for Phase 2
+**Status:** Phase 2 in progress
 **Related issue:** [#135 - Add cross-validation to all model pipelines](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/135)
 
 ---
@@ -780,11 +780,11 @@ data influencing learned preprocessing.
 
 **Tasks:**
 
-- [ ] Extract generic fold preparation from
+- [x] Extract generic fold preparation from
   `prepare_decomposition_fold_input()`.
-- [ ] Filter taxa from training responses only and preserve an explicit retained-taxa
+- [x] Filter taxa from training responses only and preserve an explicit retained-taxa
   mapping for test observations.
-- [ ] Fit abiotic scaling on training data and apply its attributes to test data.
+- [x] Fit abiotic scaling on training data and apply its attributes to test data.
 - [ ] For spatial models, compute 2-D MEMs from training locations only and interpolate
   them to held-out modern plots.
 - [ ] For spatiotemporal models, compute MEMs from training core-age samples only and

@@ -44,7 +44,7 @@ testthat::test_that(
 
     route <-
       make_decomposition_diagnostic_routes() |>
-      dplyr::filter(.data$route_id == "pooled_spatial_age")
+      dplyr::filter(.data[["route_id"]] == "pooled_spatial_age")
 
     res <-
       prepare_decomposition_fold_input(
@@ -69,6 +69,10 @@ testthat::test_that(
     testthat::expect_equal(
       base::colnames(data_test_observed),
       "taxon_keep"
+    )
+    testthat::expect_equal(
+      res[["data_taxa_mapping"]][["status"]],
+      base::c("constant_in_training", "retained")
     )
   }
 )
@@ -113,7 +117,7 @@ testthat::test_that(
 
     route <-
       make_decomposition_diagnostic_routes() |>
-      dplyr::filter(.data$route_id == "pooled_spatial_age")
+      dplyr::filter(.data[["route_id"]] == "pooled_spatial_age")
 
     res <-
       prepare_decomposition_fold_input(
@@ -175,7 +179,7 @@ testthat::test_that(
 
     route <-
       make_decomposition_diagnostic_routes() |>
-      dplyr::filter(.data$route_id == "pooled_spatial_age")
+      dplyr::filter(.data[["route_id"]] == "pooled_spatial_age")
 
     res <-
       prepare_decomposition_fold_input(
