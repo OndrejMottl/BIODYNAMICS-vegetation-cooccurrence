@@ -818,10 +818,10 @@ independent fold fits.
 
 **Tasks:**
 
-- [ ] Generate a deterministic candidate table from configured alpha/lambda ranges.
-- [ ] Implement a fold-and-candidate runner with injectable fit and predict functions for
+- [x] Generate a deterministic candidate table from configured alpha/lambda ranges.
+- [x] Implement a fold-and-candidate runner with injectable fit and predict functions for
   unit testing.
-- [ ] Return compact tuning metrics and diagnostics without retaining every candidate
+- [x] Return compact tuning metrics and diagnostics without retaining every candidate
   model or prediction matrix.
 - [ ] Update `summarise_sjsdm_cross_validation()` and
   `select_sjsdm_regularization()` to consume the new schema, or replace them with more
