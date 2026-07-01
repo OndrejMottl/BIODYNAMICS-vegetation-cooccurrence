@@ -31,6 +31,18 @@ default:
     use_spatial: true
     use_age_in_formula: true
     age_scale_mode: "z_score"
+    cross_validation:
+      default_folds: 5
+      assignment_repeats: 3
+      assignment_seed: 900723
+      min_mem_locations: 4
+      grid:
+        target_locations_per_cell: 5
+        size_multipliers: !expr 2^seq(-2, 3)
+        occupancy_criterion: "median"
+        lower_quantile_probability: 0.25
+        max_fold_location_difference: 1
+        max_fold_sample_difference: !expr Inf
 project_cz_paleo:
   target_store: Data/targets/cz_paleo
   continent_id: "europe"
@@ -54,6 +66,8 @@ project_cz_paleo:
     n_samples_anova: 100
     n_early_stopping: ~
     spatial_mode: "spatiotemporal"
+    cross_validation:
+      assignment_repeats: 1
 project_traits_reference:
   target_store: Data/targets/traits_reference
   data_processing:
@@ -234,3 +248,5 @@ project_cz_modern:
     spatial_mode: "spatial"
     n_mev: 3
     n_cores: 24
+    cross_validation:
+      assignment_repeats: 1

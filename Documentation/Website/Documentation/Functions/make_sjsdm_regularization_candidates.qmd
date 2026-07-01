@@ -1,0 +1,168 @@
+---
+format: html
+title: make_sjsdm_regularization_candidates()
+---
+
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+
+<script type="text/javascript">
+
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
+function processMathHTML() {
+
+    var l = document.getElementsByClassName('reqn');
+
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
+    return;
+
+}</script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+
+    onload="processMathHTML();"></script>
+
+<link rel="stylesheet" type="text/css" href="R.css" />
+
+</head><body><div class="container"><main>
+
+
+
+<table style="width: 100%;"><tr><td>make_sjsdm_regularization_candidates</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+
+
+<h2>Make sjSDM Regularization Candidates</h2>
+
+
+
+<h3>Description</h3>
+
+
+
+<p>Builds a deterministic Cartesian product of configured sjSDM alpha and
+
+lambda values for project-owned cross-validation tuning.
+
+</p>
+
+
+
+
+
+<h3>Usage</h3>
+
+
+
+<pre><code class='language-R'>make_sjsdm_regularization_candidates(
+
+  alpha_cov = 0.5,
+
+  alpha_coef = 0.5,
+
+  alpha_spatial = 0.5,
+
+  lambda_cov = 0,
+
+  lambda_coef = 0,
+
+  lambda_spatial = 0
+
+)
+
+</code></pre>
+
+
+
+
+
+<h3>Arguments</h3>
+
+
+
+<table role = "presentation">
+
+<tr><td><code id="alpha_cov">alpha_cov</code>, <code id="alpha_coef">alpha_coef</code>, <code id="alpha_spatial">alpha_spatial</code></td>
+
+<td>
+
+<p>Non-empty numeric vectors of unique finite alpha values between zero and
+
+one, inclusive.</p>
+
+</td></tr>
+
+<tr><td><code id="lambda_cov">lambda_cov</code>, <code id="lambda_coef">lambda_coef</code>, <code id="lambda_spatial">lambda_spatial</code></td>
+
+<td>
+
+<p>Non-empty numeric vectors of unique finite non-negative lambda values.</p>
+
+</td></tr>
+
+</table>
+
+
+
+
+
+<h3>Details</h3>
+
+
+
+<p>Input order does not affect the returned table. The same configured value
+
+sets therefore produce the same candidate IDs in every fold and repeat.
+
+</p>
+
+
+
+
+
+<h3>Value</h3>
+
+
+
+<p>Tibble with one row per unique candidate. Columns are 'candidate_id', the
+
+three alpha values, and the three lambda values. Rows are sorted by the six
+
+parameter values and IDs use deterministic zero-padded sequence numbers.
+
+</p>
+
+
+
+
+
+<h3>Examples</h3>
+
+
+
+<pre><code class='language-R'>make_sjsdm_regularization_candidates(
+
+  alpha_cov = c(0, 0.5),
+
+  lambda_cov = c(0, 0.1)
+
+)
+
+</code></pre>
+
+
+
+</main>
+
+
+
+</div>
+
+</body></html>

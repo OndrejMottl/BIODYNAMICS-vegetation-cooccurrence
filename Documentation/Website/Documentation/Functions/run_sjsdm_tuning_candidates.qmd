@@ -1,0 +1,208 @@
+---
+format: html
+title: run_sjsdm_tuning_candidates()
+---
+
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+
+<script type="text/javascript">
+
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
+function processMathHTML() {
+
+    var l = document.getElementsByClassName('reqn');
+
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
+    return;
+
+}</script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+
+    onload="processMathHTML();"></script>
+
+<link rel="stylesheet" type="text/css" href="R.css" />
+
+</head><body><div class="container"><main>
+
+
+
+<table style="width: 100%;"><tr><td>run_sjsdm_tuning_candidates</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+
+
+<h2>Run sjSDM Tuning Candidates</h2>
+
+
+
+<h3>Description</h3>
+
+
+
+<p>Fits every deterministic regularization candidate independently on each
+
+cross-validation training partition and scores held-out probabilities.
+
+</p>
+
+
+
+
+
+<h3>Usage</h3>
+
+
+
+<pre><code class='language-R'>run_sjsdm_tuning_candidates(
+
+  data_assignments = NULL,
+
+  data_candidates = NULL,
+
+  prepare_fold_function = NULL,
+
+  fit_function = NULL,
+
+  predict_function = NULL,
+
+  seed = 900723L,
+
+  epsilon = 1e-06
+
+)
+
+</code></pre>
+
+
+
+
+
+<h3>Arguments</h3>
+
+
+
+<table role = "presentation">
+
+<tr><td><code id="data_assignments">data_assignments</code></td>
+
+<td>
+
+<p>Location-level assignment table with 'repeat_id', 'fold_id', 'location_id',
+
+'n_samples', and 'row_indices'. Optional 'cv_strategy' is propagated.</p>
+
+</td></tr>
+
+<tr><td><code id="data_candidates">data_candidates</code></td>
+
+<td>
+
+<p>Candidate table returned by [make_sjsdm_regularization_candidates()].</p>
+
+</td></tr>
+
+<tr><td><code id="prepare_fold_function">prepare_fold_function</code></td>
+
+<td>
+
+<p>Injectable function called with 'train_indices', 'test_indices',
+
+'repeat_id', and 'fold_id'. It must return 'data_train_input',
+
+'data_test_input', and matrix 'data_test_observed'.</p>
+
+</td></tr>
+
+<tr><td><code id="fit_function">fit_function</code></td>
+
+<td>
+
+<p>Injectable function called with 'data_train_input', one-row 'candidate',
+
+and deterministic integer 'seed'.</p>
+
+</td></tr>
+
+<tr><td><code id="predict_function">predict_function</code></td>
+
+<td>
+
+<p>Injectable function called with fitted 'object' and 'data_test_input'. It
+
+must return a probability matrix aligned to 'data_test_observed'.</p>
+
+</td></tr>
+
+<tr><td><code id="seed">seed</code></td>
+
+<td>
+
+<p>Single non-negative integer used to derive stable fit seeds. Defaults to
+
+'900723L'.</p>
+
+</td></tr>
+
+<tr><td><code id="epsilon">epsilon</code></td>
+
+<td>
+
+<p>Probability clipping tolerance used for held-out log loss. Defaults to
+
+'1e-6'.</p>
+
+</td></tr>
+
+</table>
+
+
+
+
+
+<h3>Details</h3>
+
+
+
+<p>Fold preparation is run once per repeat and fold. Preparation, fit,
+
+prediction, and scoring errors are retained as structured status rows so a
+
+failed candidate does not abort the remaining tuning grid.
+
+</p>
+
+
+
+
+
+<h3>Value</h3>
+
+
+
+<p>Compact tibble with one row per repeat, fold, and candidate. It contains
+
+candidate parameters, fold counts, total and per-response held-out negative
+
+log likelihood, macro AUC, fit status, error text, CV strategy, and
+
+regularization source. Fitted objects and prediction matrices are omitted.
+
+</p>
+
+
+
+</main>
+
+
+
+</div>
+
+</body></html>

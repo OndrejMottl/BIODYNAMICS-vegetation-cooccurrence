@@ -211,17 +211,17 @@ testthat::test_that(
   }
 )
 
-testthat::test_that("interpolate_mev_to_grid() errors if scale NULL", {
+testthat::test_that("interpolate_mev_to_grid() can return unscaled MEVs", {
   data_train_min <-
     base::data.frame(
       coord_x_km = 0.0,
       coord_y_km = 0.0,
-      row.names  = "a"
+      row.names = "a"
     )
 
   data_mev_min <-
     base::data.frame(
-      mev_1     = 0.5,
+      mev_1 = 0.5,
       row.names = "a"
     )
 
@@ -229,18 +229,19 @@ testthat::test_that("interpolate_mev_to_grid() errors if scale NULL", {
     base::data.frame(
       coord_x_km = 1.0,
       coord_y_km = 1.0,
-      row.names  = "g"
+      row.names = "g"
     )
 
-  testthat::expect_error(
+  res <-
     interpolate_mev_to_grid(
       data_coords_projected_train = data_train_min,
-      data_mev_core               = data_mev_min,
-      data_coords_projected_pred  = data_pred_min,
-      spatial_scale_attributes    = NULL
-    ),
-    regexp = "spatial_scale_attributes"
-  )
+      data_mev_core = data_mev_min,
+      data_coords_projected_pred = data_pred_min,
+      spatial_scale_attributes = NULL
+    )
+
+  testthat::expect_equal(dplyr::pull(res, mev_1), 0.5)
+  testthat::expect_equal(base::rownames(res), "g")
 })
 
 testthat::test_that("interpolate_mev_to_grid() errors empty scale list", {

@@ -77,10 +77,11 @@ pred_age / 1000').</p>
 </td></tr>
 <tr><td><code id="spatial_scale_attributes">spatial_scale_attributes</code></td>
 <td>
-<p>A named list of '&quot;scaled:center&quot;' and '&quot;scaled:scale&quot;'
+<p>Optional named list of '&quot;scaled:center&quot;' and '&quot;scaled:scale&quot;'
 attributes per ST-MEV column, as returned by
 'scale_spatial_for_fit()' in the 'spatial_scale_attributes'
-element.</p>
+element. When 'NULL', unscaled interpolated values are returned for
+fold-local scaling.</p>
 </td></tr>
 </table>
 
@@ -105,8 +106,8 @@ For models fitted with 'spatial_mode = &quot;spatial&quot;' use
 
 <p>A data frame with the same row names as
 'data_coords_projected_pred' and one column per ST-MEV
-(names matching 'data_st_mev_samples'). All columns are
-scaled to match the training ST-MEV distribution.
+(names matching 'data_st_mev_samples'). Columns are scaled when
+'spatial_scale_attributes' is supplied and otherwise remain unscaled.
 </p>
 
 
@@ -122,4 +123,3 @@ scaled to match the training ST-MEV distribution.
 
 </div>
 </body></html>
-

@@ -143,6 +143,8 @@ c(
   "_helpers/make_community_filter_targets.R",
   "pipe_segment_community_by_resolution_paleo.R",
   "pipe_segment_model_spatial_shared.R",
+  "pipe_segment_model_cross_validation_shared.R",
+  "pipe_segment_model_cross_validation_from_shared.R",
   "pipe_segment_sample_alignment.R",
   "pipe_segment_model_input.R",
   "pipe_segment_model_prepare_response.R",
@@ -191,6 +193,7 @@ targets_per_resolution <-
     pipe_segment_sample_alignment,
     pipe_segment_model_input,
     pipe_segment_model_prepare_response,
+    pipe_segment_model_cross_validation_from_shared,
     pipe_segment_model_spatial_samples,
     pipe_segment_model_assemble,
     pipe_segment_model_fit,
@@ -220,5 +223,6 @@ list(
   pipe_segment_abiotic_extract,
   pipe_segment_ft_classification_resolution_test,
   pipe_segment_model_spatial_shared,
+  pipe_segment_model_cross_validation_shared,
   targets_models_by_resolution
 )

@@ -17,7 +17,7 @@ Usage:
        data_coords_projected_pred = NULL,
        spatial_scale_attributes = NULL
      )
-     
+
 Arguments:
 
 data_coords_projected_train: A data frame with `coord_x_km` and
@@ -34,11 +34,13 @@ data_coords_projected_pred: A data frame with `coord_x_km` and
           prediction locations (e.g. `"grid_1"`, `"grid_2"`), as
           returned by `project_coords_to_metric()`.
 
-spatial_scale_attributes: A named list of `"scaled:center"` and
+spatial_scale_attributes: Optional named list of `"scaled:center"` and
           `"scaled:scale"` attributes per MEV column, as returned by
           `scale_spatial_for_fit()` in the `spatial_scale_attributes`
           element. Used to bring interpolated MEV values onto the same
-          scale as the training spatial predictors.
+          scale as the training spatial predictors. When `NULL`,
+          unscaled interpolated values are returned for fold-local
+          scaling.
 
 Details:
 
@@ -55,11 +57,11 @@ Value:
 
      A data frame with the same row names as
      `data_coords_projected_pred` and one column per MEV (names
-     matching `data_mev_core`). All columns are scaled to match the
-     training MEV distribution.
+     matching `data_mev_core`). Columns are scaled when
+     `spatial_scale_attributes` is supplied and otherwise remain
+     unscaled.
 
 See Also:
 
      [compute_spatial_mev()], [interpolate_st_mev_to_grid()],
      [project_coords_to_metric()], [scale_spatial_for_fit()]
-
