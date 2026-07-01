@@ -790,7 +790,7 @@ data influencing learned preprocessing.
 - [x] For spatiotemporal models, compute MEMs from training core-age samples only and
   interpolate them to every held-out paleo core-age sample.
 - [x] Fit spatial scaling on training MEMs and apply it to interpolated test MEMs.
-- [ ] Record diagnostics for unavailable MEVs, dropped taxa, missing predictors, and
+- [x] Record diagnostics for unavailable MEVs, dropped taxa, missing predictors, and
   train/test row alignment.
 - [x] Make decomposition diagnostics delegate to the shared fold preparation path.
 

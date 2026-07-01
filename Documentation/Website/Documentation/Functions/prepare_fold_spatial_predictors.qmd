@@ -86,7 +86,8 @@ represented by the two partitions must also be disjoint.</p>
 <h3>Value</h3>
 
 <p>Named list with unscaled training and held-out spatial predictor data
-frames plus fold-level spatial diagnostics.
+frames plus fold-level spatial diagnostics, including requested, available,
+and unavailable Moran eigenvector counts.
 </p>
 
 

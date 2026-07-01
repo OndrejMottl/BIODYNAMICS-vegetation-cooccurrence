@@ -20,7 +20,8 @@
 #' Functions used to project training Moran eigenvectors to held-out samples.
 #' @return
 #' Named list with unscaled training and held-out spatial predictor data
-#' frames plus fold-level spatial diagnostics.
+#' frames plus fold-level spatial diagnostics, including requested, available,
+#' and unavailable Moran eigenvector counts.
 #' @examples
 #' \dontrun{
 #' list_spatial_fold <-
@@ -364,11 +365,15 @@ prepare_fold_spatial_predictors <- function(
   n_mev_available <-
     base::ncol(data_spatial_train)
 
+  n_mev_unavailable <-
+    base::max(base::as.integer(n_mev) - n_mev_available, 0L)
+
   data_diagnostics <-
     tibble::tibble(
       spatial_mode = spatial_mode,
       n_mev_requested = base::as.integer(n_mev),
       n_mev_available = base::as.integer(n_mev_available),
+      n_mev_unavailable = base::as.integer(n_mev_unavailable),
       n_train_locations = base::length(vec_train_locations),
       n_test_locations = base::length(vec_test_locations),
       n_train_samples = base::nrow(data_spatial_train),

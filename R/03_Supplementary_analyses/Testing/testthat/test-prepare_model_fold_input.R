@@ -125,6 +125,131 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "prepare_model_fold_input() records complete fold diagnostics",
+  {
+    list_data <-
+      make_model_fold_test_data()
+
+    res <-
+      prepare_model_fold_input(
+        data_community_matrix = list_data[["data_community_matrix"]],
+        data_abiotic_wide = list_data[["data_abiotic_wide"]],
+        data_spatial_train = list_data[["data_spatial_train"]],
+        data_spatial_test = list_data[["data_spatial_test"]],
+        train_ids = base::c("a__0", "b__0", "c__0"),
+        test_ids = "d__0",
+        error_family = "binomial",
+        min_n_taxa = 1L,
+        age_scale_mode = "center"
+      )
+
+    data_diagnostics <-
+      res[["data_diagnostics"]]
+
+    testthat::expect_equal(
+      data_diagnostics[["n_taxa_dropped"]],
+      1L
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_train_requested"]],
+      3L
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_train_aligned"]],
+      3L
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_train_dropped_alignment"]],
+      0L
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_train_missing_abiotic"]],
+      0L
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_train_missing_spatial"]],
+      0L
+    )
+    testthat::expect_true(data_diagnostics[["train_alignment_exact"]])
+    testthat::expect_equal(
+      data_diagnostics[["n_test_requested"]],
+      1L
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_test_aligned"]],
+      1L
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_test_dropped_alignment"]],
+      0L
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_test_missing_abiotic"]],
+      0L
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_test_missing_spatial"]],
+      0L
+    )
+    testthat::expect_true(data_diagnostics[["test_alignment_exact"]])
+  }
+)
+
+testthat::test_that(
+  "prepare_model_fold_input() records missing predictor rows",
+  {
+    list_data <-
+      make_model_fold_test_data()
+
+    data_abiotic_missing <-
+      list_data[["data_abiotic_wide"]] |>
+      dplyr::mutate(
+        bio = dplyr::if_else(
+          .data[["dataset_name"]] == "b",
+          NA_real_,
+          .data[["bio"]]
+        )
+      )
+
+    res <-
+      prepare_model_fold_input(
+        data_community_matrix = list_data[["data_community_matrix"]],
+        data_abiotic_wide = data_abiotic_missing,
+        data_spatial_train = list_data[["data_spatial_train"]],
+        data_spatial_test = list_data[["data_spatial_test"]],
+        train_ids = base::c("a__0", "b__0", "c__0"),
+        test_ids = "d__0",
+        error_family = "binomial",
+        min_n_taxa = 1L,
+        age_scale_mode = "center"
+      )
+
+    data_diagnostics <-
+      res[["data_diagnostics"]]
+
+    testthat::expect_equal(
+      data_diagnostics[["n_train_missing_abiotic"]],
+      1L
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_train_dropped_alignment"]],
+      1L
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_train_aligned"]],
+      2L
+    )
+    testthat::expect_false(data_diagnostics[["train_alignment_exact"]])
+    testthat::expect_equal(
+      base::rownames(
+        res[["data_train_input"]][["data_community_to_fit"]]
+      ),
+      base::c("a__0", "c__0")
+    )
+  }
+)
+
+testthat::test_that(
   "prepare_model_fold_input() learns scaling from training rows",
   {
     list_data <-

@@ -19,7 +19,8 @@ Usage:
        error_family = NULL,
        min_n_taxa = NULL,
        age_scale_mode = "z_score"
-    )
+     )
+
 Arguments:
 
 data_community_matrix: Numeric community matrix with named sample rows
@@ -48,7 +49,9 @@ Value:
 
      Named list containing assembled training input, scaled test
      predictors, aligned test observations, an explicit taxon mapping,
-     and fold diagnostics.
+     and fold diagnostics. Diagnostics record requested and aligned row
+     counts, missing abiotic and spatial predictor rows,
+     exact-alignment flags, and retained/dropped taxa.
 
 Examples:
 

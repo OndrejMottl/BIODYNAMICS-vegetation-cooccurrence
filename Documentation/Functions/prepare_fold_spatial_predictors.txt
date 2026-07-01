@@ -49,7 +49,8 @@ interpolate_spatial_function, interpolate_spatiotemporal_function:
 Value:
 
      Named list with unscaled training and held-out spatial predictor
-     data frames plus fold-level spatial diagnostics.
+     data frames plus fold-level spatial diagnostics, including
+     requested, available, and unavailable Moran eigenvector counts.
 
 Examples:
 

@@ -170,6 +170,39 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "prepare_fold_spatial_predictors() records unavailable MEVs",
+  {
+    list_data <-
+      make_fold_spatial_test_data()
+
+    res <-
+      prepare_fold_spatial_predictors(
+        data_coords_projected = list_data[["data_coords"]],
+        data_sample_ids = list_data[["data_samples"]],
+        train_ids = base::c("a__0", "b__0", "c__0", "d__0"),
+        test_ids = "e__0",
+        spatial_mode = "spatial",
+        n_mev = 3L,
+        compute_spatial_function = make_test_spatial_compute(),
+        interpolate_spatial_function = make_test_spatial_interpolation()
+      )
+
+    testthat::expect_equal(
+      res[["data_diagnostics"]][["n_mev_requested"]],
+      3L
+    )
+    testthat::expect_equal(
+      res[["data_diagnostics"]][["n_mev_available"]],
+      1L
+    )
+    testthat::expect_equal(
+      res[["data_diagnostics"]][["n_mev_unavailable"]],
+      2L
+    )
+  }
+)
+
+testthat::test_that(
   "prepare_fold_spatial_predictors() projects every paleo sample",
   {
     list_data <-

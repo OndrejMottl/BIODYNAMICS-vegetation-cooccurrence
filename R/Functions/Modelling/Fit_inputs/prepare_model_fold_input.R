@@ -23,6 +23,8 @@
 #' @return
 #' Named list containing assembled training input, scaled test predictors,
 #' aligned test observations, an explicit taxon mapping, and fold diagnostics.
+#' Diagnostics record requested and aligned row counts, missing abiotic and
+#' spatial predictor rows, exact-alignment flags, and retained/dropped taxa.
 #' @examples
 #' data_community <-
 #'   base::matrix(
@@ -180,9 +182,12 @@ prepare_model_fold_input <- function(
   make_abiotic_partition <- function(vec_ids) {
     res_partition <-
       data_abiotic_identified |>
-      dplyr::filter(.data[[".row_name"]] %in% .env$vec_ids) |>
+      dplyr::filter(.data[[".row_name"]] %in% .env[["vec_ids"]]) |>
       dplyr::mutate(
-        .fold_order = base::match(.data[[".row_name"]], .env$vec_ids)
+        .fold_order = base::match(
+          .data[[".row_name"]],
+          .env[["vec_ids"]]
+        )
       ) |>
       dplyr::arrange(.data[[".fold_order"]]) |>
       dplyr::select(-".fold_order") |>
@@ -196,6 +201,40 @@ prepare_model_fold_input <- function(
 
   data_abiotic_test_identified <-
     make_abiotic_partition(vec_ids = test_ids)
+
+  vec_abiotic_train_ids <-
+    dplyr::pull(data_abiotic_train_identified, .row_name)
+
+  vec_abiotic_test_ids <-
+    dplyr::pull(data_abiotic_test_identified, .row_name)
+
+  n_train_missing_abiotic <-
+    base::length(base::setdiff(train_ids, vec_abiotic_train_ids))
+
+  n_test_missing_abiotic <-
+    base::length(base::setdiff(test_ids, vec_abiotic_test_ids))
+
+  n_train_missing_spatial <-
+    if (
+      flag_has_spatial_train
+    ) {
+      base::length(
+        base::setdiff(train_ids, base::rownames(data_spatial_train))
+      )
+    } else {
+      0L
+    }
+
+  n_test_missing_spatial <-
+    if (
+      flag_has_spatial_train
+    ) {
+      base::length(
+        base::setdiff(test_ids, base::rownames(data_spatial_test))
+      )
+    } else {
+      0L
+    }
 
   vec_train_alignment_sets_base <-
     base::list(
@@ -246,6 +285,18 @@ prepare_model_fold_input <- function(
 
   vec_test_common_ids <-
     test_ids[test_ids %in% vec_test_common_ids_unordered]
+
+  n_train_dropped_alignment <-
+    base::length(train_ids) - base::length(vec_train_common_ids)
+
+  n_test_dropped_alignment <-
+    base::length(test_ids) - base::length(vec_test_common_ids)
+
+  train_alignment_exact <-
+    base::identical(vec_train_common_ids, train_ids)
+
+  test_alignment_exact <-
+    base::identical(vec_test_common_ids, test_ids)
 
   if (
     base::length(vec_train_common_ids) == 0L
@@ -341,12 +392,12 @@ prepare_model_fold_input <- function(
   data_abiotic_train_wide <-
     data_abiotic_train_identified |>
     dplyr::filter(
-      .data[[".row_name"]] %in% .env$vec_train_common_ids
+      .data[[".row_name"]] %in% .env[["vec_train_common_ids"]]
     ) |>
     dplyr::mutate(
       .fold_order = base::match(
         .data[[".row_name"]],
-        .env$vec_train_common_ids
+        .env[["vec_train_common_ids"]]
       )
     ) |>
     dplyr::arrange(.data[[".fold_order"]]) |>
@@ -364,11 +415,13 @@ prepare_model_fold_input <- function(
 
   data_abiotic_test_raw <-
     data_abiotic_test_identified |>
-    dplyr::filter(.data[[".row_name"]] %in% .env$vec_test_common_ids) |>
+    dplyr::filter(
+      .data[[".row_name"]] %in% .env[["vec_test_common_ids"]]
+    ) |>
     dplyr::mutate(
       .fold_order = base::match(
         .data[[".row_name"]],
-        .env$vec_test_common_ids
+        .env[["vec_test_common_ids"]]
       )
     ) |>
     dplyr::arrange(.data[[".fold_order"]]) |>
@@ -474,6 +527,18 @@ prepare_model_fold_input <- function(
 
   data_diagnostics <-
     tibble::tibble(
+      n_train_requested = base::length(train_ids),
+      n_train_aligned = base::length(vec_train_common_ids),
+      n_train_dropped_alignment = n_train_dropped_alignment,
+      n_train_missing_abiotic = n_train_missing_abiotic,
+      n_train_missing_spatial = n_train_missing_spatial,
+      train_alignment_exact = train_alignment_exact,
+      n_test_requested = base::length(test_ids),
+      n_test_aligned = base::length(vec_test_common_ids),
+      n_test_dropped_alignment = n_test_dropped_alignment,
+      n_test_missing_abiotic = n_test_missing_abiotic,
+      n_test_missing_spatial = n_test_missing_spatial,
+      test_alignment_exact = test_alignment_exact,
       n_train_samples = base::nrow(data_community_train_checked),
       n_test_samples = base::nrow(data_community_test_aligned),
       n_taxa_raw = base::length(vec_taxa_full),
