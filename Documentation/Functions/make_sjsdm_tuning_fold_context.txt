@@ -1,0 +1,29 @@
+Make sjSDM Tuning Fold Context
+
+Description:
+
+     Converts one repeat and fold from location-level assignments into
+     disjoint training and test sample indices plus compact fold
+     metadata.
+
+Usage:
+
+     make_sjsdm_tuning_fold_context(
+       data_assignments = NULL,
+       repeat_id = NULL,
+       fold_id = NULL
+     )
+
+Arguments:
+
+data_assignments: Location-level assignment table containing
+          `repeat_id`, `fold_id`, `location_id`, `row_indices`, and
+          optional `cv_strategy`.
+
+repeat_id, fold_id: Positive integer identifiers selecting one held-out
+          fold.
+
+Value:
+
+     Named list containing repeat and fold IDs, sorted train/test
+     indices, location and sample counts, and the CV strategy.

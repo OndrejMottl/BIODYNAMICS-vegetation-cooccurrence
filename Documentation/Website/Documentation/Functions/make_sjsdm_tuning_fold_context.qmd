@@ -1,0 +1,128 @@
+---
+format: html
+title: make_sjsdm_tuning_fold_context()
+---
+
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+
+<script type="text/javascript">
+
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
+function processMathHTML() {
+
+    var l = document.getElementsByClassName('reqn');
+
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
+    return;
+
+}</script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+
+    onload="processMathHTML();"></script>
+
+<link rel="stylesheet" type="text/css" href="R.css" />
+
+</head><body><div class="container"><main>
+
+
+
+<table style="width: 100%;"><tr><td>make_sjsdm_tuning_fold_context</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+
+
+<h2>Make sjSDM Tuning Fold Context</h2>
+
+
+
+<h3>Description</h3>
+
+
+
+<p>Converts one repeat and fold from location-level assignments into disjoint
+
+training and test sample indices plus compact fold metadata.
+
+</p>
+
+
+
+
+
+<h3>Usage</h3>
+
+
+
+<pre><code class='language-R'>make_sjsdm_tuning_fold_context(
+
+  data_assignments = NULL,
+
+  repeat_id = NULL,
+
+  fold_id = NULL
+
+)
+
+</code></pre>
+
+
+
+
+
+<h3>Arguments</h3>
+
+
+
+<table role = "presentation">
+
+<tr><td><code id="data_assignments">data_assignments</code></td>
+
+<td>
+
+<p>Location-level assignment table containing 'repeat_id', 'fold_id',
+
+'location_id', 'row_indices', and optional 'cv_strategy'.</p>
+
+</td></tr>
+
+<tr><td><code id="repeat_id">repeat_id</code>, <code id="fold_id">fold_id</code></td>
+
+<td>
+
+<p>Positive integer identifiers selecting one held-out fold.</p>
+
+</td></tr>
+
+</table>
+
+
+
+
+
+<h3>Value</h3>
+
+
+
+<p>Named list containing repeat and fold IDs, sorted train/test indices,
+
+location and sample counts, and the CV strategy.
+
+</p>
+
+
+
+</main>
+
+
+
+</div>
+
+</body></html>
