@@ -823,11 +823,11 @@ independent fold fits.
   unit testing.
 - [x] Return compact tuning metrics and diagnostics without retaining every candidate
   model or prediction matrix.
-- [ ] Update `summarise_sjsdm_cross_validation()` and
+- [x] Update `summarise_sjsdm_cross_validation()` and
   `select_sjsdm_regularization()` to consume the new schema, or replace them with more
   accurately named helpers.
-- [ ] Retain held-out negative log likelihood as the default regularization criterion.
-- [ ] Rerun the selected candidate once per fold and return aligned out-of-fold
+- [x] Retain held-out negative log likelihood as the default regularization criterion.
+- [x] Rerun the selected candidate once per fold and return aligned out-of-fold
   probabilities and fold-local null probabilities.
 - [ ] Aggregate cross-validated Tjur R2, AUC, and log loss per repeat and taxon.
 - [ ] Implement tier-pooled candidate aggregation from per-response normalized loss with

@@ -22,7 +22,8 @@
 #' `"z_score"` and `"center"`.
 #' @return
 #' Named list containing assembled training input, scaled test predictors,
-#' aligned test observations, an explicit taxon mapping, and fold diagnostics.
+#' retained training and test observations, full test observations, aligned
+#' sample identifiers, an explicit taxon mapping, and fold diagnostics.
 #' Diagnostics record requested and aligned row counts, missing abiotic and
 #' spatial predictor rows, exact-alignment flags, and retained/dropped taxa.
 #' @examples
@@ -553,7 +554,11 @@ prepare_model_fold_input <- function(
     base::list(
       data_train_input = data_train_input,
       data_test_input = data_test_input,
+      data_train_observed = data_community_train_checked,
       data_test_observed = data_community_test_aligned,
+      data_test_observed_full = data_community_test_prepared,
+      train_sample_ids = vec_train_common_ids,
+      test_sample_ids = vec_test_common_ids,
       data_taxa_mapping = data_taxa_mapping,
       data_diagnostics = data_diagnostics
     )

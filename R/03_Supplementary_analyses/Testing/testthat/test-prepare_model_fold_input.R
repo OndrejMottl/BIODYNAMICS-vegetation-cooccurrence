@@ -78,6 +78,19 @@ testthat::test_that(
       res[["data_test_observed"]][1, ],
       base::c(taxon_keep = 1, taxon_test = 1)
     )
+    testthat::expect_equal(
+      res[["data_train_observed"]],
+      data_train_input[["data_community_to_fit"]]
+    )
+    testthat::expect_equal(
+      base::colnames(res[["data_test_observed_full"]]),
+      base::c("taxon_drop", "taxon_keep", "taxon_test")
+    )
+    testthat::expect_equal(
+      res[["train_sample_ids"]],
+      base::c("a__0", "b__0", "c__0")
+    )
+    testthat::expect_equal(res[["test_sample_ids"]], "d__0")
   }
 )
 
