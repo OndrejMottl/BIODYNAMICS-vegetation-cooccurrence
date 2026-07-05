@@ -829,14 +829,14 @@ independent fold fits.
 - [x] Retain held-out negative log likelihood as the default regularization criterion.
 - [x] Rerun the selected candidate once per fold and return aligned out-of-fold
   probabilities and fold-local null probabilities.
-- [ ] Aggregate cross-validated Tjur R2, AUC, and log loss per repeat and taxon.
-- [ ] Implement tier-pooled candidate aggregation from per-response normalized loss with
+- [x] Aggregate cross-validated Tjur R2, AUC, and log loss per repeat and taxon.
+- [x] Implement tier-pooled candidate aggregation from per-response normalized loss with
   equal ID weighting and an optional sample-weighted sensitivity report.
-- [ ] Define the shared tier-level tuning artifact, including source-ID and candidate
+- [x] Define the shared tier-level tuning artifact, including source-ID and candidate
   provenance, and implement its dedicated aggregation pipeline or runner.
-- [ ] Apply tier-pooled regularization to fold-infeasible but full-model-viable IDs and
+- [x] Apply tier-pooled regularization to fold-infeasible but full-model-viable IDs and
   record the source tier and candidate identifier.
-- [ ] Preserve fit errors as structured statuses so one failed candidate does not produce
+- [x] Preserve fit errors as structured statuses so one failed candidate does not produce
   an opaque pipeline failure without context.
 - [ ] Measure runtime and store size relative to the first `sjSDM_cv()` implementation.
 
