@@ -17,6 +17,11 @@
 #' @param predict_function
 #' Injectable function called with fitted `object` and `data_test_input`. It
 #' must return a probability matrix aligned to `data_test_observed`.
+#' @param score_function
+#' Injectable function called with the fitted object, test input, aligned
+#' observations and probabilities, and epsilon. Defaults to marginal binary
+#' prediction scoring; production sjSDM tuning supplies the joint-likelihood
+#' scorer.
 #' @param seed
 #' Single non-negative integer used to derive stable fit seeds. Defaults to
 #' `900723L`.
@@ -39,6 +44,7 @@ run_sjsdm_tuning_candidates <- function(
     prepare_fold_function = NULL,
     fit_function = NULL,
     predict_function = NULL,
+    score_function = score_sjsdm_tuning_predictions,
     seed = 900723L,
     epsilon = 1e-6) {
   assertthat::assert_that(
@@ -122,7 +128,8 @@ run_sjsdm_tuning_candidates <- function(
     base::is.function(prepare_fold_function),
     base::is.function(fit_function),
     base::is.function(predict_function),
-    msg = "Fold preparation, fit, and prediction inputs must be functions."
+    base::is.function(score_function),
+    msg = "Fold preparation, fit, prediction, and scoring must be functions."
   )
 
   flag_valid_seed <-
@@ -216,6 +223,7 @@ run_sjsdm_tuning_candidates <- function(
           prepare_fold_function = prepare_fold_function,
           fit_function = fit_function,
           predict_function = predict_function,
+          score_function = score_function,
           seed = seed,
           epsilon = epsilon
         )

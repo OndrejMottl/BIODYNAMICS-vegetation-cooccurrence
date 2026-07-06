@@ -7,6 +7,9 @@
 #' @param data_predicted
 #' Numeric matrix of held-out probabilities with matching dimensions and
 #' dimnames. Missing prediction dimnames inherit observation dimnames.
+#' @param object,data_test_input
+#' Optional fitted object and test input accepted for compatibility with the
+#' tuning-runner scoring callback. Marginal probability scoring ignores them.
 #' @param epsilon
 #' Probability clipping tolerance strictly between zero and `0.5`.
 #' @return
@@ -16,6 +19,8 @@
 score_sjsdm_tuning_predictions <- function(
     data_observed = NULL,
     data_predicted = NULL,
+    object = NULL,
+    data_test_input = NULL,
     epsilon = 1e-6) {
   assertthat::assert_that(
     base::is.matrix(data_observed),

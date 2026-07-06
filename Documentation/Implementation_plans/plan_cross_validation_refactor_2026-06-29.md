@@ -858,6 +858,15 @@ independent fold fits.
 - Run the full test suite and CZ pipeline at the required TDD closure point.
 - Run the mandatory change-review workflow before closing the phase.
 
+**Validation note (2026-07-05):** The fixed-matrix comparison confirmed that
+`sjSDM_cv()` reports the joint multivariate held-out likelihood, not summed marginal
+Bernoulli log loss. The tuning runner now accepts an injected scoring backend, and the
+sjSDM backend reconstructs test design matrices from fitted formulas and averages the
+same model likelihood callback over 20 draws. A two-fold CPU smoke run completed with
+finite joint losses and no failed fits. Marginal macro AUC remains an unweighted
+taxon-level diagnostic. The runtime/store-size comparison remains open because no
+recoverable baseline measurement exists for the first implementation.
+
 ---
 
 ### Phase 4 - Integrate all pipelines and expose predictive evaluation

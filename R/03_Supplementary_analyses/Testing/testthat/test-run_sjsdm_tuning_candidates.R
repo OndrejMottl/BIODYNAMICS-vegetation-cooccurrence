@@ -289,3 +289,101 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "run_sjsdm_tuning_candidates() uses an injected scoring backend",
+  {
+    data_assignments <-
+      tibble::tibble(
+        repeat_id = base::c(1L, 1L),
+        fold_id = base::c(1L, 2L),
+        location_id = base::c("a", "b"),
+        n_samples = 1L,
+        row_indices = base::list(1L, 2L),
+        cv_strategy = "leave_one_location_out"
+      )
+
+    data_candidates <-
+      make_sjsdm_regularization_candidates(lambda_cov = 0)
+
+    prepare_fold_function <- function(
+        train_indices,
+        test_indices,
+        repeat_id,
+        fold_id) {
+      data_observed <-
+        base::matrix(
+          data = test_indices - 1L,
+          nrow = 1L,
+          dimnames = base::list(
+            base::letters[test_indices],
+            "taxon_a"
+          )
+        )
+
+      res <-
+        base::list(
+          data_train_input = base::list(indices = train_indices),
+          data_test_input = base::list(indices = test_indices),
+          data_test_observed = data_observed
+        )
+
+      return(res)
+    }
+
+    fit_function <- function(data_train_input, candidate, seed) {
+      return(base::list(seed = seed))
+    }
+
+    predict_function <- function(object, data_test_input) {
+      res <-
+        base::matrix(
+          data = 0.5,
+          nrow = 1L,
+          dimnames = base::list(
+            base::letters[data_test_input[["indices"]]],
+            "taxon_a"
+          )
+        )
+
+      return(res)
+    }
+
+    score_function <- function(
+        object,
+        data_test_input,
+        data_observed,
+        data_predicted,
+        epsilon) {
+      res <-
+        tibble::tibble(
+          n_taxa_retained = 1L,
+          n_response_values = 1L,
+          negative_log_likelihood_test = 123,
+          negative_log_likelihood_per_response = 123,
+          auc_macro_test = 0.75
+        )
+
+      return(res)
+    }
+
+    res <-
+      run_sjsdm_tuning_candidates(
+        data_assignments = data_assignments,
+        data_candidates = data_candidates,
+        prepare_fold_function = prepare_fold_function,
+        fit_function = fit_function,
+        predict_function = predict_function,
+        score_function = score_function
+      )
+
+    testthat::expect_equal(
+      res[["negative_log_likelihood_test"]],
+      base::rep(123, 2L)
+    )
+    testthat::expect_equal(
+      res[["auc_macro_test"]],
+      base::rep(0.75, 2L)
+    )
+  }
+)

@@ -6,8 +6,9 @@
 #' Candidate table returned by [make_sjsdm_regularization_candidates()].
 #' @param list_fold_context
 #' Fold metadata returned by [make_sjsdm_tuning_fold_context()].
-#' @param prepare_fold_function,fit_function,predict_function
-#' Injectable fold preparation, fit, and prediction functions documented by
+#' @param prepare_fold_function,fit_function,predict_function,score_function
+#' Injectable fold preparation, fit, prediction, and scoring functions
+#' documented by
 #' [run_sjsdm_tuning_candidates()].
 #' @param seed
 #' Non-negative base integer used to derive candidate fit seeds.
@@ -23,6 +24,7 @@ run_sjsdm_tuning_fold_candidates <- function(
     prepare_fold_function = NULL,
     fit_function = NULL,
     predict_function = NULL,
+    score_function = score_sjsdm_tuning_predictions,
     seed = 900723L,
     epsilon = 1e-6) {
   vec_parameter_columns <-
@@ -70,7 +72,8 @@ run_sjsdm_tuning_fold_candidates <- function(
     base::is.function(prepare_fold_function),
     base::is.function(fit_function),
     base::is.function(predict_function),
-    msg = "Fold preparation, fit, and prediction inputs must be functions."
+    base::is.function(score_function),
+    msg = "Fold preparation, fit, prediction, and scoring must be functions."
   )
 
   flag_valid_seed <-
@@ -252,7 +255,9 @@ run_sjsdm_tuning_fold_candidates <- function(
         data_metrics <-
           tryCatch(
             expr = {
-              score_sjsdm_tuning_predictions(
+              score_function(
+                object = mod_fit,
+                data_test_input = list_fold[["data_test_input"]],
                 data_observed = data_observed,
                 data_predicted = data_predicted,
                 epsilon = epsilon
