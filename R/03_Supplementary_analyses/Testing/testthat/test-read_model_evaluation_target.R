@@ -1,5 +1,5 @@
 testthat::test_that(
-  "read_model_evaluation_target() reads expected target name",
+  "read_model_evaluation_target() reads explicit evaluation targets",
   {
     fake_reader <- function(name, store) {
       base::list(
@@ -8,18 +8,35 @@ testthat::test_that(
       )
     }
 
-    res <-
+    res_fitted <-
       read_model_evaluation_target(
         store_path = "store",
         resolution_id = "genus",
+        evaluation_type = "fitted",
         read_target_fn = fake_reader
       )
 
     testthat::expect_identical(
-      purrr::chuck(res, "name"),
-      "model_evaluation_genus"
+      purrr::chuck(res_fitted, "name"),
+      "model_evaluation_fitted_genus"
     )
-    testthat::expect_identical(purrr::chuck(res, "store"), "store")
+
+    res_cross_validated <-
+      read_model_evaluation_target(
+        store_path = "store",
+        resolution_id = "genus",
+        evaluation_type = "cross_validated",
+        read_target_fn = fake_reader
+      )
+
+    testthat::expect_identical(
+      purrr::chuck(res_cross_validated, "name"),
+      "model_evaluation_cross_validated_genus"
+    )
+    testthat::expect_identical(
+      purrr::chuck(res_cross_validated, "store"),
+      "store"
+    )
   }
 )
 
@@ -34,6 +51,7 @@ testthat::test_that(
       read_model_evaluation_target(
         store_path = "store",
         resolution_id = "genus",
+        evaluation_type = "fitted",
         read_target_fn = fake_reader
       )
 
@@ -52,9 +70,20 @@ testthat::test_that(
       read_model_evaluation_target(
         store_path = character(),
         resolution_id = "genus",
+        evaluation_type = "fitted",
         read_target_fn = fake_reader
       ),
       regexp = "store_path"
+    )
+
+    testthat::expect_error(
+      read_model_evaluation_target(
+        store_path = "store",
+        resolution_id = "genus",
+        evaluation_type = "combined",
+        read_target_fn = fake_reader
+      ),
+      regexp = "evaluation_type"
     )
   }
 )

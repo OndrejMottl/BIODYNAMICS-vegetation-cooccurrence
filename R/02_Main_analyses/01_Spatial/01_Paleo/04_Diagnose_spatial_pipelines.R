@@ -304,10 +304,10 @@ vec_tax_res <-
   c("genus", "family", "functional_type") |>
   purrr::set_names()
 
-# Read model_evaluation for every successful unit and all three
+# Read fitted model evaluation for every successful unit and all three
 #   resolutions; sections 4.1 and 4.2 summarise across all
 #   scale_id × tax_res combinations.
-list_model_evaluation_all <-
+list_model_evaluation_fitted_all <-
   vec_tax_res |>
   purrr::map(
     .f = ~ {
@@ -320,7 +320,9 @@ list_model_evaluation_all <-
         purrr::map(
           .f = purrr::possibly(
             ~ targets::tar_read_raw(
-              name = stringr::str_glue("model_evaluation_{res_i}"),
+              name = stringr::str_glue(
+                "model_evaluation_fitted_{res_i}"
+              ),
               store = .x
             ),
             otherwise = NULL
@@ -336,7 +338,7 @@ list_model_evaluation_all <-
 #--------------------------------------------------#
 
 data_convergence_summary <-
-  list_model_evaluation_all |>
+  list_model_evaluation_fitted_all |>
   purrr::imap(
     .f = ~ {
       list_by_scale_i <- .x
@@ -421,7 +423,10 @@ list_plots <-
             tax_res_i <- .x
 
             list_convergence_plots_i <-
-              purrr::chuck(list_model_evaluation_all, tax_res_i) |>
+              purrr::chuck(
+                list_model_evaluation_fitted_all,
+                tax_res_i
+              ) |>
               purrr::imap(
                 .f = ~ purrr::chuck(.x, "convergence", "convergence_plot") +
                   ggplot2::labs(subtitle = .y, title = NULL) +
@@ -431,7 +436,12 @@ list_plots <-
                   )
               ) |>
               purrr::keep_at(
-                base::names(purrr::chuck(list_model_evaluation_all, tax_res_i))
+                base::names(
+                  purrr::chuck(
+                    list_model_evaluation_fitted_all,
+                    tax_res_i
+                  )
+                )
               )
 
             plots_in_scale <-

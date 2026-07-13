@@ -142,21 +142,23 @@ if (
 # 4. Convergence diagnostics -----
 #----------------------------------------------------------#
 
-model_evaluation <-
+model_evaluation_fitted <-
   purrr::possibly(
     ~ targets::tar_read(
-      "model_evaluation",
+      "model_evaluation_fitted",
       store = sel_store_path
     ),
     otherwise = NULL
   )()
 
 if (
-  is.null(model_evaluation)
+  is.null(model_evaluation_fitted)
 ) {
-  message("Target 'model_evaluation' not available.")
+  message("Target 'model_evaluation_fitted' not available.")
 } else {
-  convergence_info <- model_evaluation$convergence
+  convergence_info <-
+    model_evaluation_fitted |>
+    purrr::chuck("convergence")
 
   convergence_info$convergence_plot +
     ggplot2::labs(
@@ -183,10 +185,10 @@ if (
 #----------------------------------------------------------#
 
 if (
-  !is.null(model_evaluation)
+  !is.null(model_evaluation_fitted)
 ) {
   data_species_eval <-
-    model_evaluation |>
+    model_evaluation_fitted |>
     purrr::chuck("species")
 
   n_species <- nrow(data_species_eval)
@@ -210,7 +212,50 @@ if (
 
 
 #----------------------------------------------------------#
-# 6. ANOVA variance partition detail -----
+# 6. Cross-validated predictive evaluation -----
+#----------------------------------------------------------#
+
+model_evaluation_cross_validated <-
+  purrr::possibly(
+    ~ targets::tar_read(
+      "model_evaluation_cross_validated",
+      store = sel_store_path
+    ),
+    otherwise = NULL
+  )()
+
+if (
+  !base::is.null(model_evaluation_cross_validated)
+) {
+  model_evaluation_cross_validated |>
+    purrr::chuck("data_community_summary") |>
+    base::print()
+}
+
+data_cross_validation_fold_diagnostics <-
+  purrr::possibly(
+    ~ targets::tar_read(
+      "data_sjsdm_out_of_fold_diagnostics",
+      store = sel_store_path
+    ),
+    otherwise = NULL
+  )()
+
+if (
+  !base::is.null(data_cross_validation_fold_diagnostics)
+) {
+  data_cross_validation_fold_diagnostics |>
+    dplyr::count(
+      .data[["repeat_id"]],
+      .data[["fit_status"]],
+      name = "n_folds"
+    ) |>
+    base::print()
+}
+
+
+#----------------------------------------------------------#
+# 7. ANOVA variance partition detail -----
 #----------------------------------------------------------#
 
 model_anova <-

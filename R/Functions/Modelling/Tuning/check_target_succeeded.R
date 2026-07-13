@@ -11,10 +11,10 @@
 #' A single logical value.
 #' @examples
 #' data_meta <- tibble::tibble(
-#'   name = "model_evaluation_genus",
+#'   name = "model_evaluation_fitted_genus",
 #'   error = NA_character_
 #' )
-#' check_target_succeeded(data_meta, "model_evaluation_genus")
+#' check_target_succeeded(data_meta, "model_evaluation_fitted_genus")
 #' @export
 check_target_succeeded <- function(data_meta, target_name) {
   assertthat::assert_that(

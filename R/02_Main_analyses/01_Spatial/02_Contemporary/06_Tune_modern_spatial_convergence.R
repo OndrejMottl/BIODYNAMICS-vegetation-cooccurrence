@@ -97,7 +97,7 @@ data_status_overview <-
               check_target_succeeded(
                 data_meta = data_meta_i,
                 target_name = stringr::str_glue(
-                  "model_evaluation_{resolution_id}"
+                  "model_evaluation_fitted_{resolution_id}"
                 )
               )
             }
@@ -143,7 +143,9 @@ data_convergence <-
           .f = ~ {
             resolution_id <- .x
             target_name <-
-              stringr::str_glue("model_evaluation_{resolution_id}")
+              stringr::str_glue(
+                "model_evaluation_fitted_{resolution_id}"
+              )
 
             data_target_row <-
               if (
@@ -214,7 +216,8 @@ data_convergence <-
               ) {
                 read_model_evaluation_target(
                   store_path = data_store_row[["store_path"]],
-                  resolution_id = resolution_id
+                  resolution_id = resolution_id,
+                  evaluation_type = "fitted"
                 )
               } else {
                 NULL

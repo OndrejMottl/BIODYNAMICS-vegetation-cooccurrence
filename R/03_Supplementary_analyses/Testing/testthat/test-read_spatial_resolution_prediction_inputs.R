@@ -5,7 +5,6 @@ testthat::test_that(
       tibble::tibble(
         name = c(
           "model_jsdm_selected_genus",
-          "model_evaluation_genus",
           "data_model_input_genus",
           "data_coords_projected",
           "data_spatial_mev_core",
@@ -35,7 +34,6 @@ testthat::test_that(
       res,
       c(
         "mod_jsdm",
-        "model_evaluation",
         "data_model_input",
         "data_coords_projected",
         "data_spatial_mev_core",
