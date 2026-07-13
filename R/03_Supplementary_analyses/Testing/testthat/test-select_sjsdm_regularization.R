@@ -1,4 +1,30 @@
 testthat::test_that(
+  "select_sjsdm_regularization() returns NULL without unit evidence",
+  {
+    data_summary <-
+      tibble::tibble(
+        repeat_id = base::integer(),
+        candidate_id = base::character(),
+        alpha_cov = base::numeric(),
+        alpha_coef = base::numeric(),
+        alpha_spatial = base::numeric(),
+        lambda_cov = base::numeric(),
+        lambda_coef = base::numeric(),
+        lambda_spatial = base::numeric(),
+        negative_log_likelihood_per_response = base::numeric(),
+        summary_status = base::character(),
+        cv_strategy = base::character(),
+        regularization_source = base::character()
+      )
+
+    res <-
+      select_sjsdm_regularization(data_summary)
+
+    testthat::expect_null(res)
+  }
+)
+
+testthat::test_that(
   "select_sjsdm_regularization() minimizes normalized held-out loss",
   {
     data_summary <-

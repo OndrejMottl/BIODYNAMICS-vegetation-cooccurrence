@@ -30,8 +30,7 @@ evaluate_sjsdm_cross_validated_predictions <- function(
     epsilon = 1e-6) {
   assertthat::assert_that(
     base::is.data.frame(data_predictions),
-    base::nrow(data_predictions) > 0L,
-    msg = "data_predictions must be a non-empty data frame."
+    msg = "data_predictions must be a data frame."
   )
 
   vec_required_columns <-
@@ -49,7 +48,10 @@ evaluate_sjsdm_cross_validated_predictions <- function(
     base::all(
       vec_required_columns %in% base::colnames(data_predictions)
     ),
-    msg = "data_predictions is missing required columns."
+    msg = stringr::str_c(
+      "data_predictions must be non-empty or preserve required ",
+      "columns."
+    )
   )
 
   flag_valid_epsilon <-
@@ -70,6 +72,35 @@ evaluate_sjsdm_cross_validated_predictions <- function(
     base::is.character(data_predictions[["prediction_status"]]),
     msg = "Prediction values must be numeric and statuses character."
   )
+
+  if (
+    base::nrow(data_predictions) == 0L
+  ) {
+    res_empty <-
+      base::list(
+        data_taxon_metrics = tibble::tibble(
+          repeat_id = base::integer(),
+          taxon = base::character(),
+          metric_id = base::character(),
+          estimate = base::numeric(),
+          metric_status = base::character(),
+          n_observations = base::integer(),
+          n_presences = base::integer(),
+          n_absences = base::integer(),
+          prevalence = base::numeric()
+        ),
+        data_community_summary = tibble::tibble(
+          repeat_id = base::rep(NA_integer_, 3L),
+          metric_id = base::c("tjur_r2", "auc", "log_loss"),
+          summary_statistic = "mean",
+          estimate = NA_real_,
+          n_taxa_evaluable = 0L,
+          metric_status = "not_available_fold_infeasible"
+        )
+      )
+
+    return(res_empty)
+  }
 
   data_duplicate_keys <-
     data_predictions |>

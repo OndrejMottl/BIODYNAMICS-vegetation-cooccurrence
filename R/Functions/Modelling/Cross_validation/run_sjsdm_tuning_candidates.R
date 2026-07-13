@@ -49,8 +49,7 @@ run_sjsdm_tuning_candidates <- function(
     epsilon = 1e-6) {
   assertthat::assert_that(
     base::is.data.frame(data_assignments),
-    base::nrow(data_assignments) > 0L,
-    msg = "`data_assignments` must be a non-empty data frame."
+    msg = "`data_assignments` must be a data frame."
   )
 
   vec_required_assignment_columns <-
@@ -155,6 +154,39 @@ run_sjsdm_tuning_candidates <- function(
     flag_valid_epsilon,
     msg = "`epsilon` must be a finite number between zero and 0.5."
   )
+
+  if (
+    base::nrow(data_assignments) == 0L
+  ) {
+    res_empty <-
+      tibble::tibble(
+        repeat_id = base::integer(),
+        fold_id = base::integer(),
+        candidate_id = base::character(),
+        alpha_cov = base::numeric(),
+        alpha_coef = base::numeric(),
+        alpha_spatial = base::numeric(),
+        lambda_cov = base::numeric(),
+        lambda_coef = base::numeric(),
+        lambda_spatial = base::numeric(),
+        fit_seed = base::integer(),
+        n_train_locations = base::integer(),
+        n_test_locations = base::integer(),
+        n_train_samples = base::integer(),
+        n_test_samples = base::integer(),
+        n_taxa_retained = base::integer(),
+        n_response_values = base::integer(),
+        negative_log_likelihood_test = base::numeric(),
+        negative_log_likelihood_per_response = base::numeric(),
+        auc_macro_test = base::numeric(),
+        fit_status = base::character(),
+        error_message = base::character(),
+        cv_strategy = base::character(),
+        regularization_source = base::character()
+      )
+
+    return(res_empty)
+  }
 
   vec_repeat_ids <-
     data_assignments |>

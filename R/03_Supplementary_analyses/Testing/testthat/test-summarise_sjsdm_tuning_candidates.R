@@ -1,4 +1,37 @@
 testthat::test_that(
+  "summarise_sjsdm_tuning_candidates() preserves empty evidence",
+  {
+    data_tuning <-
+      tibble::tibble(
+        repeat_id = base::integer(),
+        fold_id = base::integer(),
+        candidate_id = base::character(),
+        alpha_cov = base::numeric(),
+        alpha_coef = base::numeric(),
+        alpha_spatial = base::numeric(),
+        lambda_cov = base::numeric(),
+        lambda_coef = base::numeric(),
+        lambda_spatial = base::numeric(),
+        n_response_values = base::integer(),
+        negative_log_likelihood_test = base::numeric(),
+        negative_log_likelihood_per_response = base::numeric(),
+        auc_macro_test = base::numeric(),
+        fit_status = base::character(),
+        cv_strategy = base::character(),
+        regularization_source = base::character()
+      )
+
+    res <-
+      summarise_sjsdm_tuning_candidates(data_tuning)
+
+    testthat::expect_equal(base::nrow(res), 0L)
+    testthat::expect_true(
+      "summary_status" %in% base::colnames(res)
+    )
+  }
+)
+
+testthat::test_that(
   "summarise_sjsdm_tuning_candidates() pools folds within repeats",
   {
     data_tuning <-

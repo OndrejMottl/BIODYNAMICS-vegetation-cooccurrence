@@ -1,4 +1,32 @@
 testthat::test_that(
+  "evaluate_sjsdm_cross_validated_predictions() records unavailable CV",
+  {
+    data_predictions <-
+      tibble::tibble(
+        repeat_id = base::integer(),
+        fold_id = base::integer(),
+        row_index = base::integer(),
+        taxon = base::character(),
+        observed = base::numeric(),
+        predicted_probability = base::numeric(),
+        prediction_status = base::character()
+      )
+
+    res <-
+      evaluate_sjsdm_cross_validated_predictions(data_predictions)
+
+    testthat::expect_equal(
+      base::nrow(res[["data_taxon_metrics"]]),
+      0L
+    )
+    testthat::expect_equal(
+      res[["data_community_summary"]][["metric_status"]],
+      base::rep("not_available_fold_infeasible", 3L)
+    )
+  }
+)
+
+testthat::test_that(
   "evaluate_sjsdm_cross_validated_predictions() pools folds by repeat",
   {
     data_predictions <-

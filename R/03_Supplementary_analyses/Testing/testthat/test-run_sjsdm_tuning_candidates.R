@@ -1,4 +1,45 @@
 testthat::test_that(
+  "run_sjsdm_tuning_candidates() supports fold-infeasible units",
+  {
+    data_assignments <-
+      tibble::tibble(
+        repeat_id = base::integer(),
+        fold_id = base::integer(),
+        location_id = base::character(),
+        n_samples = base::integer(),
+        row_indices = base::list()
+      )
+
+    data_candidates <-
+      make_sjsdm_regularization_candidates(
+        alpha_cov = 0.5,
+        alpha_coef = 0.5,
+        alpha_spatial = 0.5,
+        lambda_cov = 0,
+        lambda_coef = 0,
+        lambda_spatial = 0
+      )
+
+    res <-
+      run_sjsdm_tuning_candidates(
+        data_assignments = data_assignments,
+        data_candidates = data_candidates,
+        prepare_fold_function = base::identity,
+        fit_function = base::identity,
+        predict_function = base::identity
+      )
+
+    testthat::expect_equal(base::nrow(res), 0L)
+    testthat::expect_true(
+      base::all(
+        base::c("repeat_id", "fold_id", "candidate_id") %in%
+          base::colnames(res)
+      )
+    )
+  }
+)
+
+testthat::test_that(
   "run_sjsdm_tuning_candidates() isolates folds and returns metrics",
   {
     data_assignments <-

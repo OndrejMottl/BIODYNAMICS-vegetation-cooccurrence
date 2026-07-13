@@ -25,8 +25,7 @@ select_sjsdm_regularization <- function(
     selection_metric = "negative_log_likelihood_per_response") {
   assertthat::assert_that(
     base::is.data.frame(data_tuning_summary),
-    base::nrow(data_tuning_summary) > 0L,
-    msg = "data_tuning_summary must be a non-empty data frame."
+    msg = "data_tuning_summary must be a data frame."
   )
 
   assertthat::assert_that(
@@ -74,6 +73,12 @@ select_sjsdm_regularization <- function(
     base::is.numeric(data_tuning_summary[[selection_metric]]),
     msg = "selection_metric must identify a numeric column."
   )
+
+  if (
+    base::nrow(data_tuning_summary) == 0L
+  ) {
+    return(NULL)
+  }
 
   data_duplicate_repeats <-
     data_tuning_summary |>

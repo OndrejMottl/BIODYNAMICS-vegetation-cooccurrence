@@ -21,8 +21,7 @@
 summarise_sjsdm_tuning_candidates <- function(data_tuning = NULL) {
   assertthat::assert_that(
     base::is.data.frame(data_tuning),
-    base::nrow(data_tuning) > 0L,
-    msg = "data_tuning must be a non-empty data frame."
+    msg = "data_tuning must be a data frame."
   )
 
   vec_parameter_columns <-
@@ -57,7 +56,10 @@ summarise_sjsdm_tuning_candidates <- function(data_tuning = NULL) {
 
   assertthat::assert_that(
     base::all(vec_required_columns %in% base::colnames(data_tuning)),
-    msg = "data_tuning is missing required columns."
+    msg = stringr::str_c(
+      "data_tuning is missing required columns; it must be non-empty ",
+      "or an empty input must preserve the full runner schema."
+    )
   )
 
   assertthat::assert_that(
@@ -65,6 +67,33 @@ summarise_sjsdm_tuning_candidates <- function(data_tuning = NULL) {
     base::is.character(data_tuning[["fit_status"]]),
     msg = "Candidate identifiers and fit statuses must be character."
   )
+
+  if (
+    base::nrow(data_tuning) == 0L
+  ) {
+    res_empty <-
+      tibble::tibble(
+        repeat_id = base::integer(),
+        candidate_id = base::character(),
+        alpha_cov = base::numeric(),
+        alpha_coef = base::numeric(),
+        alpha_spatial = base::numeric(),
+        lambda_cov = base::numeric(),
+        lambda_coef = base::numeric(),
+        lambda_spatial = base::numeric(),
+        n_folds_total = base::integer(),
+        n_folds_successful = base::integer(),
+        n_response_values = base::integer(),
+        negative_log_likelihood_test = base::numeric(),
+        negative_log_likelihood_per_response = base::numeric(),
+        auc_macro_test = base::numeric(),
+        summary_status = base::character(),
+        cv_strategy = base::character(),
+        regularization_source = base::character()
+      )
+
+    return(res_empty)
+  }
 
   data_duplicate_folds <-
     data_tuning |>

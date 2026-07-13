@@ -9,8 +9,8 @@
 #' One-row selected candidate table containing the candidate identifier, the
 #' six sjSDM regularization parameters, and regularization source.
 #' @param data_sample_ids
-#' Sample metadata with unique sample and row identifiers plus location,
-#' dataset, and age columns.
+#' Sample metadata with `dataset_name` and `age`. Optional sample, row, and
+#' location identifiers are derived when absent.
 #' @param taxon_names
 #' Unique character vector defining the full response-taxon order.
 #' @param prepare_fold_function
@@ -60,8 +60,7 @@ run_sjsdm_selected_candidate_folds <- function(
     seed = 900723L) {
   assertthat::assert_that(
     base::is.data.frame(data_assignments),
-    base::nrow(data_assignments) > 0L,
-    msg = "data_assignments must be a non-empty data frame."
+    msg = "data_assignments must be a data frame."
   )
 
   vec_parameter_columns <-
@@ -107,34 +106,69 @@ run_sjsdm_selected_candidate_folds <- function(
     msg = "Selected candidate parameters must be finite numbers."
   )
 
-  vec_sample_columns <-
-    base::c(
-      "sample_id",
-      "row_index",
-      "location_id",
-      "dataset_name",
-      "age"
-    )
-
   assertthat::assert_that(
     base::is.data.frame(data_sample_ids),
     base::nrow(data_sample_ids) > 0L,
-    base::all(vec_sample_columns %in% base::colnames(data_sample_ids)),
-    msg = "data_sample_ids is missing required columns."
+    base::all(
+      base::c("dataset_name", "age") %in%
+        base::colnames(data_sample_ids)
+    ),
+    msg = "data_sample_ids must contain dataset_name and age."
   )
 
+  vec_sample_id <-
+    if (
+      "sample_id" %in% base::colnames(data_sample_ids)
+    ) {
+      base::as.character(data_sample_ids[["sample_id"]])
+    } else {
+      stringr::str_c(
+        data_sample_ids[["dataset_name"]],
+        "__",
+        data_sample_ids[["age"]]
+      )
+    }
+
+  vec_row_index <-
+    if (
+      "row_index" %in% base::colnames(data_sample_ids)
+    ) {
+      base::as.integer(data_sample_ids[["row_index"]])
+    } else {
+      base::seq_len(base::nrow(data_sample_ids))
+    }
+
+  vec_location_id <-
+    if (
+      "location_id" %in% base::colnames(data_sample_ids)
+    ) {
+      base::as.character(data_sample_ids[["location_id"]])
+    } else {
+      base::as.character(data_sample_ids[["dataset_name"]])
+    }
+
+  data_sample_ids_normalized <-
+    data_sample_ids |>
+    dplyr::mutate(
+      sample_id = .env[["vec_sample_id"]],
+      row_index = .env[["vec_row_index"]],
+      location_id = .env[["vec_location_id"]]
+    )
+
   assertthat::assert_that(
-    base::is.character(data_sample_ids[["sample_id"]]),
-    !base::any(base::is.na(data_sample_ids[["sample_id"]])),
-    !base::any(base::duplicated(data_sample_ids[["sample_id"]])),
-    base::is.numeric(data_sample_ids[["row_index"]]),
-    base::all(base::is.finite(data_sample_ids[["row_index"]])),
-    base::all(data_sample_ids[["row_index"]] >= 1L),
+    base::is.character(data_sample_ids_normalized[["sample_id"]]),
+    !base::any(base::is.na(data_sample_ids_normalized[["sample_id"]])),
+    !base::any(base::duplicated(data_sample_ids_normalized[["sample_id"]])),
+    base::is.numeric(data_sample_ids_normalized[["row_index"]]),
+    base::all(base::is.finite(data_sample_ids_normalized[["row_index"]])),
+    base::all(data_sample_ids_normalized[["row_index"]] >= 1L),
     base::all(
-      data_sample_ids[["row_index"]] ==
-        base::as.integer(data_sample_ids[["row_index"]])
+      data_sample_ids_normalized[["row_index"]] ==
+        base::as.integer(data_sample_ids_normalized[["row_index"]])
     ),
-    !base::any(base::duplicated(data_sample_ids[["row_index"]])),
+    !base::any(
+      base::duplicated(data_sample_ids_normalized[["row_index"]])
+    ),
     msg = "Sample and row identifiers must be unique and non-missing."
   )
 
@@ -166,6 +200,43 @@ run_sjsdm_selected_candidate_folds <- function(
     msg = "seed must be one non-negative integer."
   )
 
+  if (
+    base::nrow(data_assignments) == 0L
+  ) {
+    res_empty <-
+      base::list(
+        data_predictions = tibble::tibble(
+          repeat_id = base::integer(),
+          fold_id = base::integer(),
+          row_index = base::integer(),
+          location_id = base::character(),
+          dataset_name = base::character(),
+          age = base::numeric(),
+          taxon = base::character(),
+          observed = base::numeric(),
+          predicted_probability = base::numeric(),
+          null_probability = base::numeric(),
+          prediction_status = base::character()
+        ),
+        data_diagnostics = tibble::tibble(
+          repeat_id = base::integer(),
+          fold_id = base::integer(),
+          candidate_id = base::character(),
+          fit_seed = base::integer(),
+          n_train_samples = base::integer(),
+          n_test_samples = base::integer(),
+          n_taxa_retained = base::integer(),
+          n_effective_mev = base::integer(),
+          fit_status = base::character(),
+          error_message = base::character(),
+          cv_strategy = base::character(),
+          regularization_source = base::character()
+        )
+      )
+
+    return(res_empty)
+  }
+
   vec_assignment_indices <-
     data_assignments[["row_indices"]] |>
     base::unlist(use.names = FALSE) |>
@@ -174,7 +245,8 @@ run_sjsdm_selected_candidate_folds <- function(
 
   if (
     !base::all(
-      vec_assignment_indices %in% data_sample_ids[["row_index"]]
+      vec_assignment_indices %in%
+        data_sample_ids_normalized[["row_index"]]
     )
   ) {
     cli::cli_abort(
@@ -201,7 +273,7 @@ run_sjsdm_selected_candidate_folds <- function(
       list_fold_context,
       prediction_status) {
     data_test_samples <-
-      data_sample_ids |>
+      data_sample_ids_normalized |>
       dplyr::filter(
         .data[["row_index"]] %in%
           list_fold_context[["test_indices"]]
@@ -316,6 +388,7 @@ run_sjsdm_selected_candidate_folds <- function(
                 list_fold_context[["n_train_samples"]],
               n_test_samples = list_fold_context[["n_test_samples"]],
               n_taxa_retained = NA_integer_,
+              n_effective_mev = NA_integer_,
               fit_status = "preparation_error",
               error_message = error_message,
               cv_strategy = list_fold_context[["cv_strategy"]],
@@ -393,6 +466,7 @@ run_sjsdm_selected_candidate_folds <- function(
                 list_fold_context[["n_train_samples"]],
               n_test_samples = list_fold_context[["n_test_samples"]],
               n_taxa_retained = NA_integer_,
+              n_effective_mev = NA_integer_,
               fit_status = "preparation_error",
               error_message =
                 "Fold preparation outputs are not aligned.",
@@ -450,6 +524,18 @@ run_sjsdm_selected_candidate_folds <- function(
 
         vec_null_probability[vec_retained_taxa] <-
           base::colMeans(data_train_observed)
+
+        data_spatial_train <-
+          list_fold[["data_train_input"]][["data_spatial_to_fit"]]
+
+        n_effective_mev <-
+          if (
+            base::is.null(data_spatial_train)
+          ) {
+            0L
+          } else {
+            base::ncol(data_spatial_train)
+          }
 
         mod_fit <-
           tryCatch(
@@ -591,7 +677,7 @@ run_sjsdm_selected_candidate_folds <- function(
           )
 
         data_test_samples <-
-          data_sample_ids |>
+          data_sample_ids_normalized |>
           dplyr::filter(
             .data[["row_index"]] %in%
               list_fold_context[["test_indices"]]
@@ -661,6 +747,7 @@ run_sjsdm_selected_candidate_folds <- function(
             n_train_samples = base::nrow(data_train_observed),
             n_test_samples = base::nrow(data_test_observed_full),
             n_taxa_retained = base::length(vec_retained_taxa),
+            n_effective_mev = base::as.integer(n_effective_mev),
             fit_status = fold_status,
             error_message = error_message,
             cv_strategy = list_fold_context[["cv_strategy"]],

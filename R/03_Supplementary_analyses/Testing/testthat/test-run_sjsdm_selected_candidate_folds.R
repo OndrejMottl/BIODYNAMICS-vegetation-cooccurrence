@@ -58,6 +58,38 @@ make_selected_candidate_runner_test_data <- function() {
 }
 
 testthat::test_that(
+  "run_sjsdm_selected_candidate_folds() supports unavailable folds",
+  {
+    list_data <-
+      make_selected_candidate_runner_test_data()
+
+    data_assignments <-
+      list_data[["data_assignments"]][0, , drop = FALSE]
+
+    res <-
+      run_sjsdm_selected_candidate_folds(
+        data_assignments = data_assignments,
+        data_selected_candidate =
+          list_data[["data_selected_candidate"]],
+        data_sample_ids = list_data[["data_sample_ids"]],
+        taxon_names = base::colnames(list_data[["data_community"]]),
+        prepare_fold_function = base::identity,
+        fit_function = base::identity,
+        predict_function = base::identity
+      )
+
+    testthat::expect_equal(
+      base::nrow(res[["data_predictions"]]),
+      0L
+    )
+    testthat::expect_equal(
+      base::nrow(res[["data_diagnostics"]]),
+      0L
+    )
+  }
+)
+
+testthat::test_that(
   "run_sjsdm_selected_candidate_folds() returns complete OOF rows",
   {
     list_data <-
@@ -184,6 +216,10 @@ testthat::test_that(
     testthat::expect_equal(base::nrow(data_diagnostics), 2L)
     testthat::expect_true(
       base::all(data_diagnostics[["fit_status"]] == "ok")
+    )
+    testthat::expect_equal(
+      data_diagnostics[["n_effective_mev"]],
+      base::rep(0L, 2L)
     )
     testthat::expect_length(environment_capture[["fits"]], 2L)
 
