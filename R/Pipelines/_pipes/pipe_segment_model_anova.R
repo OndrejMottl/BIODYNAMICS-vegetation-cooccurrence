@@ -43,10 +43,16 @@ pipe_segment_model_anova <-
     targets::tar_target(
       description = "Get model anova",
       name = "model_anova",
-      command = get_anova(
-        mod = model_jsdm_selected,
-        n_samples = config_model_fitting$n_samples_anova,
-        verbose = TRUE
-      )
+      command = if (
+        base::is.null(model_jsdm_selected)
+      ) {
+        NULL
+      } else {
+        get_anova(
+          mod = model_jsdm_selected,
+          n_samples = config_model_fitting[["n_samples_anova"]],
+          verbose = TRUE
+        )
+      }
     )
   )

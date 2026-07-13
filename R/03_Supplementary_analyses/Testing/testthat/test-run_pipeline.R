@@ -103,6 +103,41 @@ testthat::test_that("run_pipeline() accepts store_suffix argument", {
   )
 })
 
+testthat::test_that("run_pipeline() limits execution to selected targets", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  vec_requested_targets <- NULL
+
+  testthat::local_mocked_bindings(
+    tar_make = function(names, ...) {
+      vec_requested_targets <<- names
+      base::invisible(NULL)
+    },
+    .package = "targets"
+  )
+
+  run_pipeline(
+    sel_script = tmp_script,
+    target_names = base::c(
+      "data_sjsdm_tuning_summary_genus",
+      "data_sjsdm_tuning_summary_family"
+    ),
+    check_default_config = FALSE,
+    plot_progress = FALSE
+  )
+
+  testthat::expect_equal(
+    vec_requested_targets,
+    base::c(
+      "data_sjsdm_tuning_summary_genus",
+      "data_sjsdm_tuning_summary_family"
+    )
+  )
+})
+
 testthat::test_that("run_pipeline() validates sel_script is a single string", {
   testthat::expect_error(
     run_pipeline(
