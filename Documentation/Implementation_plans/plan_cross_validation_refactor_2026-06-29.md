@@ -876,28 +876,28 @@ predictive outputs in targets and diagnostics.
 
 **Tasks:**
 
-- [ ] Add the finalized cross-validation configuration to `config.yml`, including
+- [x] Add the finalized cross-validation configuration to `config.yml`, including
   adaptive fold feasibility, production/CZ repeats, grid calibration, and small-sample
   policy.
-- [ ] Extend the Phase 1 `pipe_segment_model_cross_validation.R` with tuning,
+- [x] Extend the Phase 1 `pipe_segment_model_cross_validation.R` with tuning,
   selected-model prediction, and evaluation targets, and simplify
   `pipe_segment_model_fit.R` to final full-data fitting and fitted evaluation.
-- [ ] Add explicit targets for fold assignment, tuning candidates, tuning summary,
+- [x] Add explicit targets for fold assignment, tuning candidates, tuning summary,
   selected regularization, out-of-fold predictions, and cross-validated evaluation.
-- [ ] Add a scale/tier aggregation target that selects shared regularization before
+- [x] Add a scale/tier aggregation target that selects shared regularization before
   fold-infeasible IDs are fitted.
-- [ ] Update spatial runners to support the explicit tuning-summary stage, shared
+- [x] Update spatial runners to support the explicit tuning-summary stage, shared
   tier-selection stage, and final-fit stage without cross-store dependency cycles.
-- [ ] Update all six affected pipeline assemblies and their mapped target naming.
-- [ ] Replace ambiguous evaluation target structure with explicit fitted and predictive
+- [x] Update all six affected pipeline assemblies and their mapped target naming.
+- [x] Replace ambiguous evaluation target structure with explicit fitted and predictive
   outputs, then update diagnostics, result readers, and prediction input readers.
-- [ ] Add fold-balance and metric summaries to CZ diagnostics so failures are visible
+- [x] Add fold-balance and metric summaries to CZ diagnostics so failures are visible
   without manually reading target objects.
-- [ ] Propagate `cv_strategy`, effective folds, feasibility status, location/sample
+- [x] Propagate `cv_strategy`, effective folds, feasibility status, location/sample
   counts, and regularization source into final evaluation and decomposition summaries.
-- [ ] Add a common-regularization decomposition sensitivity path for representative
+- [x] Add a common-regularization decomposition sensitivity path for representative
   continental, regional, and local models before broad production execution.
-- [ ] Remove superseded package-native CV functions, tests, and config keys.
+- [x] Remove superseded package-native CV functions, tests, and config keys.
 - [ ] Update issue #135 acceptance criteria after user approval; do not mutate the issue
   automatically during implementation.
 
@@ -925,6 +925,34 @@ predictive outputs in targets and diagnostics.
   joined without silently mixing taxonomic resolutions or predictor structures.
 - Compare CZ runtime and target-store size with the first implementation.
 - Run the mandatory change-review workflow before closing the phase.
+
+**Phase 4 closure (2026-07-13):**
+
+- The full test suite passed with 3,125 assertions, no failures or warnings, and one
+  expected opt-in VegVault integration skip. Focused common-regularization tests passed
+  after the final review correction.
+- All six required manifests passed. The temporal and spatial tier-artifact manifests
+  and both common-regularization sensitivity manifests also passed.
+- A fresh CZ run completed in 48 minutes 53.4 seconds with zero errored targets. An
+  independent preceding fresh run completed in 48 minutes 55.3 seconds.
+- All CZ branches used five spatially stratified grouped folds. Paleo folds retained
+  whole cores and covered 27 locations and 205 samples; modern folds covered 1,860
+  genus/family plots and 1,893 functional-type plots with exhaustive row coverage.
+- Every selected-candidate fold fit succeeded. Community-level out-of-fold metrics were
+  finite for every branch: Tjur R2 ranged from 0.0244 to 0.142, AUC from 0.584 to
+  0.694, and log loss from 0.321 to 0.710. Fold-local taxon filtering produced explicit
+  `incomplete_predictions` statuses where a taxon was unavailable in some paleo or
+  functional-type folds.
+- Final CZ target-store sizes were 4.33 MB for paleo core, 34.19 MB for paleo spatial
+  resolution, and 126.85 MB for modern spatial resolution. No recoverable store or
+  runtime measurement exists for the first package-native implementation, so an exact
+  before/after comparison cannot be reported.
+- The review confirmed explicit fitted and predictive target names, immutable tier
+  artifacts, traceable regularization/model provenance, and removal of the superseded
+  package-native CV runner. One model-list ordering risk in the common sensitivity
+  workflow was corrected and covered by a regression test.
+- The issue was not modified during this closure because explicit user approval was not
+  provided. Runtime optimization is intentionally deferred to the next phase of work.
 
 ---
 
@@ -968,27 +996,27 @@ The core design is resolved. One calibration choice remains:
 Issue #135 was updated on 2026-06-29 to replace the first implementation scope with
 these acceptance criteria:
 
-- [ ] Folds are assigned at unique-location level and keep all paleo ages from a core
+- [x] Folds are assigned at unique-location level and keep all paleo ages from a core
   together.
-- [ ] Fold assignment is spatially stratified and reproducible for both paleo and modern
+- [x] Fold assignment is spatially stratified and reproducible for both paleo and modern
   data.
-- [ ] Fold count defaults to five and adapts toward leave-one-location-out when required
+- [x] Fold count defaults to five and adapts toward leave-one-location-out when required
   to preserve configured training-data quality thresholds.
-- [ ] Every spatial ID is classified as grouped k-fold, leave-one-location-out,
+- [x] Every spatial ID is classified as grouped k-fold, leave-one-location-out,
   tier-pooled regularization, or full-model-infeasible before fitting.
-- [ ] Taxon filtering, scaling, and MEM construction are training-only within each fold.
-- [ ] Held-out MEM predictors are interpolated from training MEMs using the production
+- [x] Taxon filtering, scaling, and MEM construction are training-only within each fold.
+- [x] Held-out MEM predictors are interpolated from training MEMs using the production
   prediction path.
-- [ ] Regularization is selected from held-out negative log likelihood.
-- [ ] Fold-infeasible but full-model-viable IDs use traceable tier-pooled
+- [x] Regularization is selected from held-out negative log likelihood.
+- [x] Fold-infeasible but full-model-viable IDs use traceable tier-pooled
   regularization rather than row-wise CV.
-- [ ] Every model exposes out-of-fold Tjur R2, AUC, log loss, taxon prevalence, and
+- [x] Every model exposes out-of-fold Tjur R2, AUC, log loss, taxon prevalence, and
   repeat/fold diagnostics.
-- [ ] Fitted and cross-validated metrics have explicit, non-overlapping names.
-- [ ] All active paleo and modern model pipelines use the shared workflow.
-- [ ] All changed functions are delivered through the documented TDD cycle.
-- [ ] Full tests, affected manifests, and fresh CZ paleo/modern runs pass.
-- [ ] Cross-scale decomposition outputs retain CV and regularization provenance and
+- [x] Fitted and cross-validated metrics have explicit, non-overlapping names.
+- [x] All active paleo and modern model pipelines use the shared workflow.
+- [x] All changed functions are delivered through the documented TDD cycle.
+- [x] Full tests, affected manifests, and fresh CZ paleo/modern runs pass.
+- [x] Cross-scale decomposition outputs retain CV and regularization provenance and
   include a common-regularization sensitivity comparison.
 
 ---
@@ -1002,6 +1030,6 @@ these acceptance criteria:
 - [x] Add only the lightweight Phase 1 CV targets before fold-local preprocessing and
   model-fitting orchestration are implemented.
 - [x] Keep each phase runnable and validated before beginning the next phase.
-- [ ] Record actual CZ runtime, fold balance, retained taxa, and predictive metrics.
-- [ ] Do not describe tuning-CV metrics as unbiased external performance unless nested
+- [x] Record actual CZ runtime, fold balance, retained taxa, and predictive metrics.
+- [x] Do not describe tuning-CV metrics as unbiased external performance unless nested
   or untouched outer validation is implemented.
