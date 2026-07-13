@@ -345,13 +345,13 @@ data_ft_dataset_summary |>
 ```{r}
 #| label: s3-load
 
-list_model_evaluation <-
+list_model_evaluation_fitted <-
   vec_resolutions |>
   rlang::set_names() |>
   purrr::map(
     .f = ~ {
       target_name <-
-        stringr::str_glue("model_evaluation_{.x}")
+        stringr::str_glue("model_evaluation_fitted_{.x}")
 
       tryCatch(
         targets::tar_read_raw(
@@ -371,6 +371,48 @@ list_model_evaluation <-
     }
   ) |>
   purrr::compact()
+
+list_model_evaluation_cross_validated <-
+  vec_resolutions |>
+  rlang::set_names() |>
+  purrr::map(
+    .f = ~ {
+      target_name <-
+        stringr::str_glue(
+          "model_evaluation_cross_validated_{.x}"
+        )
+
+      purrr::possibly(
+        .f = ~ targets::tar_read_raw(
+          target_name,
+          store = path_res_store
+        ),
+        otherwise = NULL
+      )()
+    }
+  ) |>
+  purrr::compact()
+
+list_cross_validation_fold_diagnostics <-
+  vec_resolutions |>
+  rlang::set_names() |>
+  purrr::map(
+    .f = ~ {
+      target_name <-
+        stringr::str_glue(
+          "data_sjsdm_out_of_fold_diagnostics_{.x}"
+        )
+
+      purrr::possibly(
+        .f = ~ targets::tar_read_raw(
+          target_name,
+          store = path_res_store
+        ),
+        otherwise = NULL
+      )()
+    }
+  ) |>
+  purrr::compact()
 ```
 
 ## 3.1 R² comparison across resolutions
@@ -381,9 +423,9 @@ list_model_evaluation <-
 #| fig-height: !expr fig_height_inch * 0.6
 
 if (
-  base::length(list_model_evaluation) > 0L
+  base::length(list_model_evaluation_fitted) > 0L
 ) {
-  list_model_evaluation |>
+  list_model_evaluation_fitted |>
     purrr::imap(
       .f = ~ {
         tibble::tibble(
@@ -423,11 +465,67 @@ if (
     ggplot2::theme_minimal() +
     ggplot2::theme(legend.position = "none")
 } else {
-  base::message("No model_evaluation targets found — Section 3 skipped.")
+  base::message(
+    "No fitted model-evaluation targets found - Section 3 skipped."
+  )
 }
 ```
 
-## 3.2 Per-species AUC distribution across resolutions
+## 3.2 Cross-validated predictive metrics
+
+```{r}
+#| label: s3-predictive-metrics
+
+if (
+  base::length(list_model_evaluation_cross_validated) > 0L
+) {
+  list_model_evaluation_cross_validated |>
+    purrr::imap(
+      .f = ~ .x |>
+        purrr::chuck("data_community_summary") |>
+        dplyr::mutate(resolution = .y, .before = 1L)
+    ) |>
+    purrr::list_rbind() |>
+    dplyr::arrange(
+      .data[["resolution"]],
+      .data[["repeat_id"]],
+      .data[["metric_id"]]
+    ) |>
+    tinytable::tt()
+}
+```
+
+## 3.3 Fold-fit and balance diagnostics
+
+```{r}
+#| label: s3-fold-diagnostics
+
+if (
+  base::length(list_cross_validation_fold_diagnostics) > 0L
+) {
+  list_cross_validation_fold_diagnostics |>
+    purrr::imap(
+      .f = ~ .x |>
+        dplyr::mutate(resolution = .y, .before = 1L)
+    ) |>
+    purrr::list_rbind() |>
+    dplyr::select(
+      "resolution",
+      "repeat_id",
+      "fold_id",
+      "n_train_samples",
+      "n_test_samples",
+      "n_taxa_retained",
+      "n_effective_mev",
+      "fit_status",
+      "cv_strategy",
+      "regularization_source"
+    ) |>
+    tinytable::tt()
+}
+```
+
+## 3.4 Fitted per-species AUC distribution across resolutions
 
 ```{r}
 #| label: s3-auc-violin
@@ -435,9 +533,9 @@ if (
 #| fig-height: !expr fig_height_inch
 
 if (
-  base::length(list_model_evaluation) > 0L
+  base::length(list_model_evaluation_fitted) > 0L
 ) {
-  list_model_evaluation |>
+  list_model_evaluation_fitted |>
     purrr::imap(
       .f = ~ {
         data_species_eval <-
@@ -484,7 +582,7 @@ if (
 }
 ```
 
-## 3.3 Per-species accuracy distribution across resolutions
+## 3.5 Fitted per-species accuracy distribution across resolutions
 
 ```{r}
 #| label: s3-accuracy-violin
@@ -492,9 +590,9 @@ if (
 #| fig-height: !expr fig_height_inch
 
 if (
-  base::length(list_model_evaluation) > 0L
+  base::length(list_model_evaluation_fitted) > 0L
 ) {
-  list_model_evaluation |>
+  list_model_evaluation_fitted |>
     purrr::imap(
       .f = ~ {
         data_species_eval <-
@@ -536,15 +634,15 @@ if (
 }
 ```
 
-## 3.4 Top-10 best and worst performing taxa per resolution
+## 3.6 Fitted top-10 best and worst performing taxa per resolution
 
 ```{r}
 #| label: s3-best-worst
 
 if (
-  base::length(list_model_evaluation) > 0L
+  base::length(list_model_evaluation_fitted) > 0L
 ) {
-  list_model_evaluation |>
+  list_model_evaluation_fitted |>
     purrr::imap(
       .f = ~ {
         data_species_eval <-

@@ -1,0 +1,45 @@
+Make sjSDM Regularization Candidates
+
+Description:
+
+     Builds a deterministic Cartesian product of configured sjSDM alpha
+     and lambda values for project-owned cross-validation tuning.
+
+Usage:
+
+     make_sjsdm_regularization_candidates(
+       alpha_cov = 0.5,
+       alpha_coef = 0.5,
+       alpha_spatial = 0.5,
+       lambda_cov = 0,
+       lambda_coef = 0,
+       lambda_spatial = 0
+     )
+
+Arguments:
+
+alpha_cov, alpha_coef, alpha_spatial: Non-empty numeric vectors of
+          unique finite alpha values between zero and one, inclusive.
+
+lambda_cov, lambda_coef, lambda_spatial: Non-empty numeric vectors of
+          unique finite non-negative lambda values.
+
+Details:
+
+     Input order does not affect the returned table. The same
+     configured value sets therefore produce the same candidate IDs in
+     every fold and repeat.
+
+Value:
+
+     Tibble with one row per unique candidate. Columns are
+     `candidate_id`, the three alpha values, and the three lambda
+     values. Rows are sorted by the six parameter values and IDs use
+     deterministic zero-padded sequence numbers.
+
+Examples:
+
+     make_sjsdm_regularization_candidates(
+       alpha_cov = c(0, 0.5),
+       lambda_cov = c(0, 0.1)
+     )

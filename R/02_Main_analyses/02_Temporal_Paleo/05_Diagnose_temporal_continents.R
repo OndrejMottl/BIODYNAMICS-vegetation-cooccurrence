@@ -121,7 +121,9 @@ purrr::pwalk(
       ) |>
       dplyr::mutate(
         age_name = base::paste0("timeslice_", age),
-        target_name = base::paste0("model_evaluation_", age_name)
+        target_name = stringr::str_glue(
+          "model_evaluation_fitted_{age_name}"
+        )
       )
 
     base::message(
@@ -149,7 +151,7 @@ purrr::pwalk(
           dplyr::filter(
             stringr::str_detect(
               string = name,
-              pattern = "^model_evaluation_timeslice_"
+              pattern = "^model_evaluation_fitted_timeslice_"
             )
           ) |>
           dplyr::rename(target_name = name),
@@ -210,7 +212,7 @@ purrr::pwalk(
       base::nrow(data_slices_successful) == 0L
     ) {
       base::message(
-        "No successful model_evaluation targets for '",
+        "No successful fitted model-evaluation targets for '",
         config_name, "'. Skipping metrics."
       )
       return(invisible(NULL))
@@ -243,7 +245,7 @@ purrr::pwalk(
       base::length(list_model_evaluation) == 0L
     ) {
       base::message(
-        "No model_evaluation targets readable for '", config_name,
+        "No fitted model-evaluation targets readable for '", config_name,
         "'. Skipping metrics."
       )
       return(invisible(NULL))

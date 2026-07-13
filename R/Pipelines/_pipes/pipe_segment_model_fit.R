@@ -10,7 +10,7 @@
 #                         2025
 #
 #----------------------------------------------------------#
-# definition of the target pipe, which is created to set up a simple model fitting
+# Definition of the target pipe, which sets up simple model fitting.
 
 
 #----------------------------------------------------------#
@@ -52,23 +52,47 @@ pipe_segment_model_fit <-
     targets::tar_target(
       description = "make JSDM model",
       name = "model_jsdm",
-      command = fit_jsdm_model(
-        data_to_fit = data_model_input,
-        abiotic_method = "linear",
-        sel_abiotic_formula = model_formula,
-        spatial_method = if (isTRUE(config_model_fitting$use_spatial)) "linear" else "none",
-        sel_spatial_formula = ~ 0 + .,
-        error_family = config_model_fitting$error_family,
-        device = "gpu",
-        parallel = config_model_fitting$n_cores,
-        sampling = config_model_fitting$n_sampling,
-        iter = config_model_fitting$n_iter,
-        step_size = config_model_fitting$n_step_size,
-        n_early_stopping = config_model_fitting$n_early_stopping,
-        seed = 900723,
-        verbose = TRUE,
-        compute_se = FALSE
-      )
+      command = if (
+        model_regularization_for_fit[["selection_status"]][[1L]] ==
+          "full_model_infeasible"
+      ) {
+        NULL
+      } else {
+        fit_jsdm_model(
+          data_to_fit = data_model_input,
+          abiotic_method = "linear",
+          sel_abiotic_formula = model_formula,
+          spatial_method = if (
+            base::isTRUE(config_model_fitting[["use_spatial"]])
+          ) {
+            "linear"
+          } else {
+            "none"
+          },
+          sel_spatial_formula = ~ 0 + .,
+          error_family = config_model_fitting[["error_family"]],
+          device = "gpu",
+          parallel = config_model_fitting[["n_cores"]],
+          sampling = config_model_fitting[["n_sampling"]],
+          iter = config_model_fitting[["n_iter"]],
+          step_size = config_model_fitting[["n_step_size"]],
+          n_early_stopping =
+            config_model_fitting[["n_early_stopping"]],
+          seed = 900723,
+          verbose = TRUE,
+          compute_se = FALSE,
+          alpha_cov = model_regularization_for_fit[["alpha_cov"]][[1L]],
+          alpha_coef = model_regularization_for_fit[["alpha_coef"]][[1L]],
+          alpha_spatial =
+            model_regularization_for_fit[["alpha_spatial"]][[1L]],
+          lambda_cov =
+            model_regularization_for_fit[["lambda_cov"]][[1L]],
+          lambda_coef =
+            model_regularization_for_fit[["lambda_coef"]][[1L]],
+          lambda_spatial =
+            model_regularization_for_fit[["lambda_spatial"]][[1L]]
+        )
+      }
     ),
     targets::tar_target(
       description = paste(
@@ -77,22 +101,36 @@ pipe_segment_model_fit <-
         "can be used independently of the GPU device setting"
       ),
       name = "model_jsdm_standard_errors",
-      command = compute_jsdm_se(
-        mod_jsdm = model_jsdm,
-        parallel = config_model_fitting$n_cores,
-        verbose = TRUE
-      )
+      command = if (
+        base::is.null(model_jsdm)
+      ) {
+        NULL
+      } else {
+        compute_jsdm_se(
+          mod_jsdm = model_jsdm,
+          parallel = config_model_fitting[["n_cores"]],
+          verbose = TRUE
+        )
+      }
     ),
     targets::tar_target(
-      description = "a workaround target to use the fitted model in the next steps",
+      description = stringr::str_c(
+        "a workaround target to use the fitted model in the next steps"
+      ),
       name = "model_jsdm_selected",
       command = model_jsdm_standard_errors
     ),
     targets::tar_target(
       description = "evaluate JSDM model",
-      name = "model_evaluation",
-      command = evaluate_jsdm(
-        mod_jsdm = model_jsdm_selected
-      )
+      name = "model_evaluation_fitted",
+      command = if (
+        base::is.null(model_jsdm_selected)
+      ) {
+        NULL
+      } else {
+        evaluate_jsdm(
+          mod_jsdm = model_jsdm_selected
+        )
+      }
     )
   )

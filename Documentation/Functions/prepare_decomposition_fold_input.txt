@@ -13,7 +13,7 @@ Usage:
        train_ids = NULL,
        test_ids = NULL
      )
-     
+
 Arguments:
 
    route: One-row route data frame or named list.
@@ -24,8 +24,29 @@ train_ids: Character vector of training sample row names.
 
 test_ids: Character vector of test sample row names.
 
+Details:
+
+     This route-specific wrapper delegates training-only MEM
+     construction and held-out projection to
+     `prepare_fold_spatial_predictors()`, then delegates common
+     response filtering, alignment, and predictor scaling to
+     `prepare_model_fold_input()`.
+
 Value:
 
-     Named list with training input, test input, test observations, and
-     fold diagnostics.
+     Named list returned by `prepare_model_fold_input()`, including
+     training input, test input, test observations, a taxon mapping,
+     model-input diagnostics, and fold-local spatial diagnostics.
 
+Examples:
+
+     ## Not run:
+
+     data_fold <-
+       prepare_decomposition_fold_input(
+         route = data_route,
+         inputs = list_decomposition_inputs,
+         train_ids = vec_train_ids,
+         test_ids = vec_test_ids
+       )
+     ## End(Not run)

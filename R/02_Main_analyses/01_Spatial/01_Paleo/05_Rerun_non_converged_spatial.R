@@ -66,7 +66,7 @@ data_grid_with_store <-
   data_grid |>
   dplyr::filter(store_exists)
 
-# Read model_evaluation_<res> for every unit × resolution and extract
+# Read model_evaluation_fitted_<res> for every unit x resolution and extract
 # convergence metrics. purrr::possibly() ensures NULL is returned
 # gracefully for any unit that did not reach this target.
 data_convergence <-
@@ -82,7 +82,7 @@ data_convergence <-
             .f = purrr::possibly(
               ~ targets::tar_read_raw(
                 name = stringr::str_glue(
-                  "model_evaluation_{tax_res_i}"
+                  "model_evaluation_fitted_{tax_res_i}"
                 ),
                 store = .x
               ),

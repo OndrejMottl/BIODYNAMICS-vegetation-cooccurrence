@@ -61,7 +61,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "read_spatial_model_results extracts ANOVA components and AUC summary",
+  "read_spatial_model_results separates fitted and predictive metrics",
   {
     path_store <-
       base::tempfile()
@@ -73,8 +73,13 @@ testthat::test_that(
         resolution_ids = "genus",
         meta_fn = function(...) {
           tibble::tibble(
-            name = c("model_anova_genus", "model_evaluation_genus"),
-            error = c(NA_character_, NA_character_)
+            name = c(
+              "model_anova_genus",
+              "model_evaluation_fitted_genus",
+              "model_evaluation_cross_validated_genus",
+              "data_sjsdm_model_provenance_genus"
+            ),
+            error = base::rep(NA_character_, 4L)
           )
         },
         read_target_fn = function(name, store) {
@@ -84,10 +89,50 @@ testthat::test_that(
             return(make_test_anova())
           }
 
-          list(
-            species = tibble::tibble(
-              species = c("taxon_a", "taxon_b"),
-              AUC = c(0.7, 0.9)
+          if (
+            name == "model_evaluation_fitted_genus"
+          ) {
+            return(
+              base::list(
+                species = tibble::tibble(
+                  species = c("taxon_a", "taxon_b"),
+                  AUC = c(0.7, 0.9)
+                )
+              )
+            )
+          }
+
+          if (
+            name == "data_sjsdm_model_provenance_genus"
+          ) {
+            return(
+              tibble::tibble(
+                cv_strategy =
+                  "spatially_stratified_group_kfold",
+                effective_folds = 5L,
+                cv_feasibility_status = "grouped_kfold_feasible",
+                n_locations = 12L,
+                n_samples = 40L,
+                n_taxa = 8L,
+                n_effective_mev = 3L,
+                regularization_source = "unit_cv",
+                source_tier = NA_character_,
+                candidate_id = "candidate_001"
+              )
+            )
+          }
+
+          base::list(
+            data_community_summary = tibble::tibble(
+              repeat_id = base::rep(1:2, each = 3L),
+              metric_id = base::rep(
+                c("tjur_r2", "auc", "log_loss"),
+                times = 2L
+              ),
+              summary_statistic = "mean",
+              estimate = c(0.2, 0.7, 0.4, 0.4, 0.9, 0.6),
+              n_taxa_evaluable = 2L,
+              metric_status = "ok"
             )
           )
         }
@@ -98,10 +143,31 @@ testthat::test_that(
       res$component,
       c("Abiotic", "Associations", "Spatial")
     )
-    testthat::expect_equal(res$resolution_id, rep("genus", 3L))
-    testthat::expect_equal(unique(res$auc_mean), 0.8)
-    testthat::expect_equal(unique(res$auc_median), 0.8)
-    testthat::expect_equal(unique(res$auc_n), 2L)
+    testthat::expect_equal(res[["resolution_id"]], rep("genus", 3L))
+    testthat::expect_equal(base::unique(res[["fitted_auc_mean"]]), 0.8)
+    testthat::expect_equal(base::unique(res[["fitted_auc_median"]]), 0.8)
+    testthat::expect_equal(base::unique(res[["fitted_auc_n"]]), 2L)
+    testthat::expect_equal(
+      base::unique(res[["predictive_tjur_r2_mean"]]),
+      0.3
+    )
+    testthat::expect_equal(
+      base::unique(res[["predictive_auc_mean"]]),
+      0.8
+    )
+    testthat::expect_equal(
+      base::unique(res[["predictive_log_loss_mean"]]),
+      0.5
+    )
+    testthat::expect_equal(
+      base::unique(res[["cv_strategy"]]),
+      "spatially_stratified_group_kfold"
+    )
+    testthat::expect_equal(
+      base::unique(res[["regularization_source"]]),
+      "unit_cv"
+    )
+    testthat::expect_equal(base::unique(res[["n_effective_mev"]]), 3L)
     testthat::expect_equal(
       base::sum(res$R2_Nagelkerke_percentage),
       100

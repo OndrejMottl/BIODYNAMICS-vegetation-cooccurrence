@@ -192,6 +192,14 @@ pipe_segment_config_model <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
+      description = "Configuration for model cross-validation",
+      name = "config_cross_validation",
+      command = get_active_config(
+        value = c("model_fitting", "cross_validation")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
       description = "Configuration for model fitting",
       name = "config_model_fitting",
       command = list(
@@ -207,7 +215,8 @@ pipe_segment_config_model <-
         spatial_mode = config_spatial_mode,
         use_spatial = config_use_spatial,
         use_age_in_formula = config_use_age_in_formula,
-        age_scale_mode = config_age_scale_mode
+        age_scale_mode = config_age_scale_mode,
+        cross_validation = config_cross_validation
       )
     )
   )

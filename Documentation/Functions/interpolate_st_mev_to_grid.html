@@ -1,120 +1,239 @@
-<!DOCTYPE html><html><head><title>R: Interpolate 3-D Spatiotemporal MEVs to Prediction Grid</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
-const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
-function processMathHTML() {
-    var l = document.getElementsByClassName('reqn');
-    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
-    return;
-}</script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
-    onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
-</head><body><div class="container"><main>
-
-<table style="width: 100%;"><tr><td>interpolate_st_mev_to_grid</td><td style="text-align: right;">R Documentation</td></tr></table>
-
-<h2>Interpolate 3-D Spatiotemporal MEVs to Prediction Grid</h2>
-
-<h3>Description</h3>
-
-<p>Uses Inverse Distance Weighting (IDW, power = 2) in a
-z-scored 3-D space '(x_km, y_km, age_kyr)' to approximate
-spatiotemporal Moran Eigenvector Map (MEM) values from
-training samples to prediction locations at a given age.
-The interpolated values are then scaled using the training
-spatial scale attributes.
-</p>
-
-
-<h3>Usage</h3>
-
-<pre><code class='language-R'>interpolate_st_mev_to_grid(
-  data_st_mev_samples = NULL,
-  data_coords_projected_train = NULL,
-  data_coords_projected_pred = NULL,
-  pred_age = NULL,
-  spatial_scale_attributes = NULL
-)
-</code></pre>
-
-
-<h3>Arguments</h3>
-
-<table role = "presentation">
-<tr><td><code id="data_st_mev_samples">data_st_mev_samples</code></td>
-<td>
-<p>A data frame with row names in the format
-'&quot;&lt;dataset_name&gt;__&lt;age&gt;&quot;' and unscaled spatiotemporal MEV
-columns ('mev_1', …), as returned by
-'compute_spatiotemporal_mev()'.</p>
-</td></tr>
-<tr><td><code id="data_coords_projected_train">data_coords_projected_train</code></td>
-<td>
-<p>A data frame with 'coord_x_km' and 'coord_y_km' columns
-and 'dataset_name' as row names (site level), as returned
-by 'project_coords_to_metric()'.</p>
-</td></tr>
-<tr><td><code id="data_coords_projected_pred">data_coords_projected_pred</code></td>
-<td>
-<p>A data frame with 'coord_x_km' and 'coord_y_km' columns
-and arbitrary row names identifying prediction locations,
-as returned by 'project_coords_to_metric()'.</p>
-</td></tr>
-<tr><td><code id="pred_age">pred_age</code></td>
-<td>
-<p>Numeric or integer scalar. Age in years BP at which
-predictions are made. Used as the temporal dimension of
-the prediction 3-D coordinate matrix ('age_kyr =
-pred_age / 1000').</p>
-</td></tr>
-<tr><td><code id="spatial_scale_attributes">spatial_scale_attributes</code></td>
-<td>
-<p>A named list of '&quot;scaled:center&quot;' and '&quot;scaled:scale&quot;'
-attributes per ST-MEV column, as returned by
-'scale_spatial_for_fit()' in the 'spatial_scale_attributes'
-element.</p>
-</td></tr>
-</table>
-
-
-<h3>Details</h3>
-
-<p>3-D coordinates '(x_km, y_km, age_kyr)' of the training
-samples are z-scored using 'colMeans' and column-wise
-standard deviations before computing Euclidean distances.
-This ensures the spatial and temporal extents contribute
-equally. The same z-score parameters are applied to the
-prediction grid coordinates, fixing the temporal dimension
-at 'pred_age / 1000'.
-</p>
-<p>This function handles the **3-D spatiotemporal case**.
-For models fitted with 'spatial_mode = &quot;spatial&quot;' use
-'interpolate_mev_to_grid()' instead.
-</p>
-
-
-<h3>Value</h3>
-
-<p>A data frame with the same row names as
-'data_coords_projected_pred' and one column per ST-MEV
-(names matching 'data_st_mev_samples'). All columns are
-scaled to match the training ST-MEV distribution.
-</p>
-
-
-<h3>See Also</h3>
-
-<p>[compute_spatiotemporal_mev()],
-[interpolate_mev_to_grid()],
-[project_coords_to_metric()],
-[scale_spatial_for_fit()]
-</p>
-
-</main>
-
-</div>
-</body></html>
+<!DOCTYPE html><html><head><title>R: Interpolate 3-D Spatiotemporal MEVs to Prediction Grid</title>
 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+
+<script type="text/javascript">
+
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
+function processMathHTML() {
+
+    var l = document.getElementsByClassName('reqn');
+
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
+    return;
+
+}</script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+
+    onload="processMathHTML();"></script>
+
+<link rel="stylesheet" type="text/css" href="R.css" />
+
+</head><body><div class="container"><main>
+
+
+
+<table style="width: 100%;"><tr><td>interpolate_st_mev_to_grid</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+
+
+<h2>Interpolate 3-D Spatiotemporal MEVs to Prediction Grid</h2>
+
+
+
+<h3>Description</h3>
+
+
+
+<p>Uses Inverse Distance Weighting (IDW, power = 2) in a
+
+z-scored 3-D space '(x_km, y_km, age_kyr)' to approximate
+
+spatiotemporal Moran Eigenvector Map (MEM) values from
+
+training samples to prediction locations at a given age.
+
+The interpolated values are then scaled using the training
+
+spatial scale attributes.
+
+</p>
+
+
+
+
+
+<h3>Usage</h3>
+
+
+
+<pre><code class='language-R'>interpolate_st_mev_to_grid(
+
+  data_st_mev_samples = NULL,
+
+  data_coords_projected_train = NULL,
+
+  data_coords_projected_pred = NULL,
+
+  pred_age = NULL,
+
+  spatial_scale_attributes = NULL
+
+)
+
+</code></pre>
+
+
+
+
+
+<h3>Arguments</h3>
+
+
+
+<table role = "presentation">
+
+<tr><td><code id="data_st_mev_samples">data_st_mev_samples</code></td>
+
+<td>
+
+<p>A data frame with row names in the format
+
+'&quot;&lt;dataset_name&gt;__&lt;age&gt;&quot;' and unscaled spatiotemporal MEV
+
+columns ('mev_1', …), as returned by
+
+'compute_spatiotemporal_mev()'.</p>
+
+</td></tr>
+
+<tr><td><code id="data_coords_projected_train">data_coords_projected_train</code></td>
+
+<td>
+
+<p>A data frame with 'coord_x_km' and 'coord_y_km' columns
+
+and 'dataset_name' as row names (site level), as returned
+
+by 'project_coords_to_metric()'.</p>
+
+</td></tr>
+
+<tr><td><code id="data_coords_projected_pred">data_coords_projected_pred</code></td>
+
+<td>
+
+<p>A data frame with 'coord_x_km' and 'coord_y_km' columns
+
+and arbitrary row names identifying prediction locations,
+
+as returned by 'project_coords_to_metric()'.</p>
+
+</td></tr>
+
+<tr><td><code id="pred_age">pred_age</code></td>
+
+<td>
+
+<p>Numeric or integer scalar. Age in years BP at which
+
+predictions are made. Used as the temporal dimension of
+
+the prediction 3-D coordinate matrix ('age_kyr =
+
+pred_age / 1000').</p>
+
+</td></tr>
+
+<tr><td><code id="spatial_scale_attributes">spatial_scale_attributes</code></td>
+
+<td>
+
+<p>Optional named list of '&quot;scaled:center&quot;' and '&quot;scaled:scale&quot;'
+
+attributes per ST-MEV column, as returned by
+
+'scale_spatial_for_fit()' in the 'spatial_scale_attributes'
+
+element. When 'NULL', unscaled interpolated values are returned for
+
+fold-local scaling.</p>
+
+</td></tr>
+
+</table>
+
+
+
+
+
+<h3>Details</h3>
+
+
+
+<p>3-D coordinates '(x_km, y_km, age_kyr)' of the training
+
+samples are z-scored using 'colMeans' and column-wise
+
+standard deviations before computing Euclidean distances.
+
+This ensures the spatial and temporal extents contribute
+
+equally. The same z-score parameters are applied to the
+
+prediction grid coordinates, fixing the temporal dimension
+
+at 'pred_age / 1000'.
+
+</p>
+
+<p>This function handles the **3-D spatiotemporal case**.
+
+For models fitted with 'spatial_mode = &quot;spatial&quot;' use
+
+'interpolate_mev_to_grid()' instead.
+
+</p>
+
+
+
+
+
+<h3>Value</h3>
+
+
+
+<p>A data frame with the same row names as
+
+'data_coords_projected_pred' and one column per ST-MEV
+
+(names matching 'data_st_mev_samples'). Columns are scaled when
+
+'spatial_scale_attributes' is supplied and otherwise remain unscaled.
+
+</p>
+
+
+
+
+
+<h3>See Also</h3>
+
+
+
+<p>[compute_spatiotemporal_mev()],
+
+[interpolate_mev_to_grid()],
+
+[project_coords_to_metric()],
+
+[scale_spatial_for_fit()]
+
+</p>
+
+
+
+</main>
+
+
+
+</div>
+
+</body></html>

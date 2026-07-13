@@ -1,0 +1,61 @@
+Run sjSDM Tuning Candidates
+
+Description:
+
+     Fits every deterministic regularization candidate independently on
+     each cross-validation training partition and scores held-out
+     probabilities.
+
+Usage:
+
+     run_sjsdm_tuning_candidates(
+       data_assignments = NULL,
+       data_candidates = NULL,
+       prepare_fold_function = NULL,
+       fit_function = NULL,
+       predict_function = NULL,
+       seed = 900723L,
+       epsilon = 1e-06
+     )
+
+Arguments:
+
+data_assignments: Location-level assignment table with `repeat_id`,
+          `fold_id`, `location_id`, `n_samples`, and `row_indices`.
+          Optional `cv_strategy` is propagated.
+
+data_candidates: Candidate table returned by
+          [make_sjsdm_regularization_candidates()].
+
+prepare_fold_function: Injectable function called with `train_indices`,
+          `test_indices`, `repeat_id`, and `fold_id`. It must return
+          `data_train_input`, `data_test_input`, and matrix
+          `data_test_observed`.
+
+fit_function: Injectable function called with `data_train_input`,
+          one-row `candidate`, and deterministic integer `seed`.
+
+predict_function: Injectable function called with fitted `object` and
+          `data_test_input`. It must return a probability matrix
+          aligned to `data_test_observed`.
+
+    seed: Single non-negative integer used to derive stable fit seeds.
+          Defaults to `900723L`.
+
+ epsilon: Probability clipping tolerance used for held-out log loss.
+          Defaults to `1e-6`.
+
+Details:
+
+     Fold preparation is run once per repeat and fold. Preparation,
+     fit, prediction, and scoring errors are retained as structured
+     status rows so a failed candidate does not abort the remaining
+     tuning grid.
+
+Value:
+
+     Compact tibble with one row per repeat, fold, and candidate. It
+     contains candidate parameters, fold counts, total and per-response
+     held-out negative log likelihood, macro AUC, fit status, error
+     text, CV strategy, and regularization source. Fitted objects and
+     prediction matrices are omitted.

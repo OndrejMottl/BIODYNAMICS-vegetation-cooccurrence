@@ -13,6 +13,9 @@
 #' `{target_store}/{store_suffix}/{pipeline_name}/`.
 #' Useful when iterating over many spatial units that share one config
 #' but each need an isolated store (e.g. `store_suffix = "eu_r01"`).
+#' @param target_names
+#' Optional character vector of target names to build. `NULL` builds the
+#' complete pipeline.
 #' @param level_separation
 #' Numeric value controlling the vertical separation between levels in the
 #' progress visualization network graph. Default is 100.
@@ -58,6 +61,7 @@
 run_pipeline <- function(
     sel_script,
     store_suffix = NULL,
+    target_names = NULL,
     level_separation = 100,
     check_default_config = TRUE,
     plot_progress = TRUE,
@@ -85,6 +89,16 @@ run_pipeline <- function(
         is.character(store_suffix) && length(store_suffix) == 1
       ),
     msg = "store_suffix must be NULL or a single string."
+  )
+
+  assertthat::assert_that(
+    base::is.null(target_names) ||
+      (
+        base::is.character(target_names) &&
+          base::length(target_names) > 0L &&
+          base::all(base::nzchar(target_names))
+      ),
+    msg = "target_names must be NULL or non-empty target names."
   )
 
   assertthat::assert_that(
@@ -312,11 +326,22 @@ run_pipeline <- function(
     base::is.null(tar_error)
   ) {
     tryCatch(
-      targets::tar_make(
-        script = sel_script_path,
-        store = sel_store_path,
-        reporter = "verbose"
-      ),
+      if (
+        base::is.null(target_names)
+      ) {
+        targets::tar_make(
+          script = sel_script_path,
+          store = sel_store_path,
+          reporter = "verbose"
+        )
+      } else {
+        targets::tar_make(
+          names = target_names,
+          script = sel_script_path,
+          store = sel_store_path,
+          reporter = "verbose"
+        )
+      },
       error = function(err) {
         tar_error <<- err
       }

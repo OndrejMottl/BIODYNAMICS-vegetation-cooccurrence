@@ -25,15 +25,16 @@
 #' the prediction 3-D coordinate matrix (`age_kyr =
 #' pred_age / 1000`).
 #' @param spatial_scale_attributes
-#' A named list of `"scaled:center"` and `"scaled:scale"`
+#' Optional named list of `"scaled:center"` and `"scaled:scale"`
 #' attributes per ST-MEV column, as returned by
 #' `scale_spatial_for_fit()` in the `spatial_scale_attributes`
-#' element.
+#' element. When `NULL`, unscaled interpolated values are returned for
+#' fold-local scaling.
 #' @return
 #' A data frame with the same row names as
 #' `data_coords_projected_pred` and one column per ST-MEV
-#' (names matching `data_st_mev_samples`). All columns are
-#' scaled to match the training ST-MEV distribution.
+#' (names matching `data_st_mev_samples`). Columns are scaled when
+#' `spatial_scale_attributes` is supplied and otherwise remain unscaled.
 #' @details
 #' 3-D coordinates `(x_km, y_km, age_kyr)` of the training
 #' samples are z-scored using `colMeans` and column-wise
@@ -95,9 +96,12 @@ interpolate_st_mev_to_grid <- function(
   )
 
   assertthat::assert_that(
-    is.list(spatial_scale_attributes),
-    length(spatial_scale_attributes) > 0,
-    msg = "spatial_scale_attributes must be a non-empty list"
+    base::is.null(spatial_scale_attributes) ||
+      (
+        base::is.list(spatial_scale_attributes) &&
+          base::length(spatial_scale_attributes) > 0L
+      ),
+    msg = "spatial_scale_attributes must be NULL or a non-empty list"
   )
 
   # 1. ST-MEV column names -----
@@ -198,23 +202,17 @@ interpolate_st_mev_to_grid <- function(
     base::rownames(data_coords_projected_pred)
 
   # 8. Scale using training spatial scale attributes -----
-  data_pred_st_mev_scaled <-
-    data_pred_st_mev_raw |>
-    dplyr::mutate(
-      dplyr::across(
-        .cols = dplyr::everything(),
-        .fns = ~ {
-          col_nm <- dplyr::cur_column()
-          center <- base::as.numeric(
-            spatial_scale_attributes[[col_nm]][["scaled:center"]]
-          )
-          sc <- base::as.numeric(
-            spatial_scale_attributes[[col_nm]][["scaled:scale"]]
-          )
-          (.x - center) / sc
-        }
+  res <-
+    if (
+      base::is.null(spatial_scale_attributes)
+    ) {
+      data_pred_st_mev_raw
+    } else {
+      apply_scale_attributes(
+        data_predictors = data_pred_st_mev_raw,
+        scale_attributes = spatial_scale_attributes
       )
-    )
+    }
 
-  return(data_pred_st_mev_scaled)
+  return(res)
 }

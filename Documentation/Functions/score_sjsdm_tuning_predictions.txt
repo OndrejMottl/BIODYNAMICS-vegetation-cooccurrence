@@ -1,0 +1,30 @@
+Score sjSDM Tuning Predictions
+
+Description:
+
+     Calculates compact held-out binomial tuning metrics from aligned
+     observed and predicted matrices.
+
+Usage:
+
+     score_sjsdm_tuning_predictions(
+       data_observed = NULL,
+       data_predicted = NULL,
+       epsilon = 1e-06
+     )
+
+Arguments:
+
+data_observed: Binary numeric matrix of held-out observations.
+
+data_predicted: Numeric matrix of held-out probabilities with matching
+          dimensions and dimnames. Missing prediction dimnames inherit
+          observation dimnames.
+
+ epsilon: Probability clipping tolerance strictly between zero and
+          `0.5`.
+
+Value:
+
+     One-row tibble with retained taxa, response-value count, total and
+     per-response negative log likelihood, and macro AUC.

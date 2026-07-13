@@ -40,8 +40,16 @@
 #' independent of the GPU device setting.
 #' @param biotic
 #' Optional biotic structure passed to `sjSDM::sjSDM()`. Defaults
-#' to `sjSDM::bioticStruct()`. Use `sjSDM::bioticStruct(diag =
-#' TRUE)` to fit a no-associations variant.
+#' to `NULL`, which creates `sjSDM::bioticStruct()` from the
+#' supplied `alpha_cov` and `lambda_cov`. Use
+#' `sjSDM::bioticStruct(diag = TRUE)` to fit a no-associations
+#' variant.
+#' @param alpha_cov,alpha_coef,alpha_spatial
+#' Elastic-net mixing parameters for biotic association covariance,
+#' abiotic coefficients, and spatial coefficients.
+#' @param lambda_cov,lambda_coef,lambda_spatial
+#' Non-negative regularization strengths for biotic association
+#' covariance, abiotic coefficients, and spatial coefficients.
 #' @param parallel
 #' Number of CPU cores to use for parallel processing.
 #' Only applicable if `device = "cpu"`. Default is `0L`
@@ -88,7 +96,13 @@ fit_jsdm_model <- function(
     device = c("cpu", "gpu"),
     parallel = 0L,
     compute_se = FALSE,
-    biotic = sjSDM::bioticStruct(),
+    biotic = NULL,
+    alpha_cov = 0.5,
+    alpha_coef = 0.5,
+    alpha_spatial = 0.5,
+    lambda_cov = 0,
+    lambda_coef = 0,
+    lambda_spatial = 0,
     ...,
     iter = 100L,
     n_early_stopping = NULL,
@@ -248,7 +262,7 @@ fit_jsdm_model <- function(
 
     flag_torch_compiled_with_cuda <-
       isFALSE(is.null(torch_cuda_version)) &&
-      nzchar(as.character(torch_cuda_version))
+        nzchar(as.character(torch_cuda_version))
 
     if (
       isFALSE(flag_torch_compiled_with_cuda)
@@ -307,6 +321,27 @@ fit_jsdm_model <- function(
     msg = "verbose must be a logical value of length 1"
   )
 
+  # This is exception to make small helper function
+  #   inside of function (small scope, not exported)
+  validate_regularization <- function(value, name, lower_bound) {
+    assertthat::assert_that(
+      base::is.numeric(value),
+      base::length(value) == 1L,
+      base::is.finite(value),
+      value >= lower_bound,
+      msg = stringr::str_glue(
+        "`{name}` must be a single finite number >= {lower_bound}."
+      )
+    )
+  }
+
+  validate_regularization(alpha_cov, "alpha_cov", 0)
+  validate_regularization(alpha_coef, "alpha_coef", 0)
+  validate_regularization(alpha_spatial, "alpha_spatial", 0)
+  validate_regularization(lambda_cov, "lambda_cov", 0)
+  validate_regularization(lambda_coef, "lambda_coef", 0)
+  validate_regularization(lambda_spatial, "lambda_spatial", 0)
+
   assertthat::assert_that(
     is.numeric(iter),
     length(iter) == 1,
@@ -363,7 +398,9 @@ fit_jsdm_model <- function(
         sjSDM::linear,
         list(
           data = data_spatial,
-          formula = sel_spatial_formula
+          formula = sel_spatial_formula,
+          lambda = lambda_spatial,
+          alpha = alpha_spatial
         )
       )
   } else if (spatial_method == "DNN") {
@@ -390,7 +427,9 @@ fit_jsdm_model <- function(
         sjSDM::linear,
         list(
           data = data_abiotic,
-          formula = sel_abiotic_formula
+          formula = sel_abiotic_formula,
+          lambda = lambda_coef,
+          alpha = alpha_coef
         )
       )
   } else {
@@ -426,6 +465,16 @@ fit_jsdm_model <- function(
 
   sel_control <-
     sjSDM::sjSDMControl(early_stopping_training = sel_early_stopping)
+
+  if (
+    base::is.null(biotic)
+  ) {
+    biotic <-
+      sjSDM::bioticStruct(
+        lambda = lambda_cov,
+        alpha = alpha_cov
+      )
+  }
 
   mod_sjsdm <-
     sjSDM::sjSDM(

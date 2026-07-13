@@ -1,0 +1,131 @@
+<!DOCTYPE html><html><head><title>R: Score sjSDM Tuning Predictions</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+
+<script type="text/javascript">
+
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
+function processMathHTML() {
+
+    var l = document.getElementsByClassName('reqn');
+
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
+    return;
+
+}</script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+
+    onload="processMathHTML();"></script>
+
+<link rel="stylesheet" type="text/css" href="R.css" />
+
+</head><body><div class="container"><main>
+
+
+
+<table style="width: 100%;"><tr><td>score_sjsdm_tuning_predictions</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+
+
+<h2>Score sjSDM Tuning Predictions</h2>
+
+
+
+<h3>Description</h3>
+
+
+
+<p>Calculates compact held-out binomial tuning metrics from aligned observed
+
+and predicted matrices.
+
+</p>
+
+
+
+
+
+<h3>Usage</h3>
+
+
+
+<pre><code class='language-R'>score_sjsdm_tuning_predictions(
+
+  data_observed = NULL,
+
+  data_predicted = NULL,
+
+  epsilon = 1e-06
+
+)
+
+</code></pre>
+
+
+
+
+
+<h3>Arguments</h3>
+
+
+
+<table role = "presentation">
+
+<tr><td><code id="data_observed">data_observed</code></td>
+
+<td>
+
+<p>Binary numeric matrix of held-out observations.</p>
+
+</td></tr>
+
+<tr><td><code id="data_predicted">data_predicted</code></td>
+
+<td>
+
+<p>Numeric matrix of held-out probabilities with matching dimensions and
+
+dimnames. Missing prediction dimnames inherit observation dimnames.</p>
+
+</td></tr>
+
+<tr><td><code id="epsilon">epsilon</code></td>
+
+<td>
+
+<p>Probability clipping tolerance strictly between zero and '0.5'.</p>
+
+</td></tr>
+
+</table>
+
+
+
+
+
+<h3>Value</h3>
+
+
+
+<p>One-row tibble with retained taxa, response-value count, total and
+
+per-response negative log likelihood, and macro AUC.
+
+</p>
+
+
+
+</main>
+
+
+
+</div>
+
+</body></html>

@@ -269,17 +269,20 @@ testthat::test_that(
 # ---- input validation: spatial_scale_attributes ----
 
 testthat::test_that(
-  "errors when spatial_scale_attributes is NULL",
+  "returns unscaled values when spatial attributes are NULL",
   {
-    testthat::expect_error(
+    res <-
       interpolate_st_mev_to_grid(
         data_st_mev_samples = .make_st_mev_samples(),
         data_coords_projected_train = .make_coords_train(),
         data_coords_projected_pred = .make_coords_pred(),
         pred_age = 0L,
         spatial_scale_attributes = NULL
-      ),
-      regexp = "spatial_scale_attributes"
+      )
+
+    testthat::expect_true(base::is.data.frame(res))
+    testthat::expect_true(
+      base::all(base::is.finite(base::as.matrix(res)))
     )
   }
 )

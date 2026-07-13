@@ -34,7 +34,35 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_temporal_europe")
 
 
 #----------------------------------------------------------#
-# 2. Run pipeline -----
+# 2. Build tuning summaries and shared tier artifact -----
+#----------------------------------------------------------#
+
+vec_age_lim <-
+  get_active_config(base::c("vegvault_data", "age_lim"))
+
+vec_tuning_target_names <-
+  stringr::str_c(
+    "data_sjsdm_tuning_summary_timeslice_",
+    base::seq(
+      from = base::min(vec_age_lim),
+      to = base::max(vec_age_lim),
+      by = get_active_config(base::c("data_processing", "time_step"))
+    )
+  )
+
+run_pipeline(
+  sel_script = "R/Pipelines/pipeline_paleo_temporal.R",
+  target_names = vec_tuning_target_names,
+  prebuild_interpolation = TRUE
+)
+
+run_pipeline(
+  sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R"
+)
+
+
+#----------------------------------------------------------#
+# 3. Complete temporal pipeline -----
 #----------------------------------------------------------#
 
 run_pipeline(

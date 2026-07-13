@@ -1,0 +1,40 @@
+Apply Training Scale Attributes
+
+Description:
+
+     Applies scale centres and optional scale factors learned from
+     training data to another predictor data frame without refitting
+     the transformation.
+
+Usage:
+
+     apply_scale_attributes(data_predictors = NULL, scale_attributes = NULL)
+
+Arguments:
+
+data_predictors: Data frame with row names and numeric predictor
+          columns.
+
+scale_attributes: Named list of scale attributes produced by
+          `scale_abiotic_for_fit()` or `scale_spatial_for_fit()`.
+
+Value:
+
+     Data frame with the original row names and columns ordered as
+     `scale_attributes`.
+
+Examples:
+
+     data_predictors <-
+       base::data.frame(temperature = base::c(8, 12))
+     scale_attributes <-
+       base::list(
+         temperature = base::list(
+           "scaled:center" = 10,
+           "scaled:scale" = 2
+         )
+       )
+     apply_scale_attributes(
+       data_predictors = data_predictors,
+       scale_attributes = scale_attributes
+    )

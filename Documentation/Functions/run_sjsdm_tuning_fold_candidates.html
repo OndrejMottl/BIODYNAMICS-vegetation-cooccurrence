@@ -1,0 +1,155 @@
+<!DOCTYPE html><html><head><title>R: Run sjSDM Tuning Candidates for One Fold</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+
+<script type="text/javascript">
+
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
+function processMathHTML() {
+
+    var l = document.getElementsByClassName('reqn');
+
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
+    return;
+
+}</script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+
+    onload="processMathHTML();"></script>
+
+<link rel="stylesheet" type="text/css" href="R.css" />
+
+</head><body><div class="container"><main>
+
+
+
+<table style="width: 100%;"><tr><td>run_sjsdm_tuning_fold_candidates</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+
+
+<h2>Run sjSDM Tuning Candidates for One Fold</h2>
+
+
+
+<h3>Description</h3>
+
+
+
+<p>Prepares one fold once, then fits, predicts, and scores every regularization
+
+candidate while preserving failures as compact status rows.
+
+</p>
+
+
+
+
+
+<h3>Usage</h3>
+
+
+
+<pre><code class='language-R'>run_sjsdm_tuning_fold_candidates(
+
+  data_candidates = NULL,
+
+  list_fold_context = NULL,
+
+  prepare_fold_function = NULL,
+
+  fit_function = NULL,
+
+  predict_function = NULL,
+
+  seed = 900723L,
+
+  epsilon = 1e-06
+
+)
+
+</code></pre>
+
+
+
+
+
+<h3>Arguments</h3>
+
+
+
+<table role = "presentation">
+
+<tr><td><code id="data_candidates">data_candidates</code></td>
+
+<td>
+
+<p>Candidate table returned by [make_sjsdm_regularization_candidates()].</p>
+
+</td></tr>
+
+<tr><td><code id="list_fold_context">list_fold_context</code></td>
+
+<td>
+
+<p>Fold metadata returned by [make_sjsdm_tuning_fold_context()].</p>
+
+</td></tr>
+
+<tr><td><code id="prepare_fold_function">prepare_fold_function</code>, <code id="fit_function">fit_function</code>, <code id="predict_function">predict_function</code></td>
+
+<td>
+
+<p>Injectable fold preparation, fit, and prediction functions documented by
+
+[run_sjsdm_tuning_candidates()].</p>
+
+</td></tr>
+
+<tr><td><code id="seed">seed</code></td>
+
+<td>
+
+<p>Non-negative base integer used to derive candidate fit seeds.</p>
+
+</td></tr>
+
+<tr><td><code id="epsilon">epsilon</code></td>
+
+<td>
+
+<p>Probability clipping tolerance passed to
+
+[score_sjsdm_tuning_predictions()].</p>
+
+</td></tr>
+
+</table>
+
+
+
+
+
+<h3>Value</h3>
+
+
+
+<p>Compact candidate-by-fold tuning table with metrics and structured status.
+
+</p>
+
+
+
+</main>
+
+
+
+</div>
+
+</body></html>

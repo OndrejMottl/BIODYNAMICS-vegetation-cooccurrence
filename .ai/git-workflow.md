@@ -28,6 +28,26 @@ Safe read-only operations that are always permitted: `git status`, `git log`,
 When a workflow step calls for a commit or push (e.g. at the end of the TDD
 cycle), **stop and tell the user what command to run** â€” do not run it.
 
+## Durable Change Naming
+
+Commit messages, pull-request titles, branch descriptions, release notes, and
+other long-lived change summaries must describe the implemented behaviour or
+domain outcome. Do not use time-specific implementation-plan labels such as
+`Phase 1`, `Phase 2`, `stage 3`, or similar sequencing as the change name;
+those labels lose meaning after the plan is complete.
+
+A phase or stage label may be mentioned only when directly referencing a pull
+request or issue that explicitly uses that label in its own title. Even then,
+the durable change summary should still state what behaviour changed.
+
+```text
+# Good
+CV: integrate adaptive spatial fold assignment across pipelines
+
+# Avoid
+CV: complete Phase 1
+```
+
 ## Branch Strategy
 
 This project uses `main` as the stable integration branch. All feature branches and worktrees **must** branch off `main`.

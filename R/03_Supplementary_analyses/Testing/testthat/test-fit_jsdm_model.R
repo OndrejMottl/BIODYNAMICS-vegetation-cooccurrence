@@ -868,3 +868,45 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "fit_jsdm_model() validates regularization settings",
+  {
+    mock_community <-
+      data.frame(
+        sp1 = base::c(1, 2, 3),
+        sp2 = base::c(4, 5, 6)
+      )
+    mock_abiotic <-
+      data.frame(
+        temp = base::c(10, 15, 20),
+        precip = base::c(100, 200, 300)
+      )
+
+    testthat::expect_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        alpha_coef = base::c(0.2, 0.8)
+      ),
+      "alpha_coef"
+    )
+
+    testthat::expect_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        lambda_cov = -0.1
+      ),
+      "lambda_cov"
+    )
+  }
+)

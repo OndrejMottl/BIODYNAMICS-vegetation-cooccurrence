@@ -44,9 +44,35 @@ vec_scale_ids <-
   ) |>
   dplyr::pull(scale_id)
 
+vec_tuning_target_names <-
+  stringr::str_c(
+    "data_sjsdm_tuning_summary_",
+    base::c("genus", "family", "functional_type")
+  )
+
 
 #----------------------------------------------------------#
-# 3. Run resolution pipeline for each spatial unit -----
+# 3. Build unit tuning summaries -----
+#----------------------------------------------------------#
+
+purrr::walk(
+  .progress = TRUE,
+  .x = vec_scale_ids,
+  .f = ~ run_pipeline(
+    sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
+    store_suffix = .x,
+    target_names = vec_tuning_target_names,
+    prebuild_interpolation = TRUE
+  )
+)
+
+run_pipeline(
+  sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R"
+)
+
+
+#----------------------------------------------------------#
+# 4. Complete resolution pipeline for each spatial unit -----
 #----------------------------------------------------------#
 
 tictoc::tic(
