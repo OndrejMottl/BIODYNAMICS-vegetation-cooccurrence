@@ -32,10 +32,24 @@ default:
     use_age_in_formula: true
     age_scale_mode: "z_score"
     cross_validation:
+      tier_id: "default"
+      common_regularization_sensitivity:
+        enabled: false
+        representative_scale_id: ~
       default_folds: 5
       assignment_repeats: 3
       assignment_seed: 900723
+      fit_seed: 900723
+      fit_device: "cpu"
       min_mem_locations: 4
+      regularization:
+        alpha_cov: !expr c(0.5)
+        alpha_coef: !expr c(0.5)
+        alpha_spatial: !expr c(0.5)
+        lambda_cov: !expr c(0, 0.1)
+        lambda_coef: !expr c(0, 0.1)
+        lambda_spatial: !expr c(0, 0.1)
+      selection_metric: "negative_log_likelihood_per_response"
       grid:
         target_locations_per_cell: 5
         size_multipliers: !expr 2^seq(-2, 3)
@@ -67,7 +81,15 @@ project_cz_paleo:
     n_early_stopping: ~
     spatial_mode: "spatiotemporal"
     cross_validation:
+      tier_id: "cz_paleo"
       assignment_repeats: 1
+      regularization:
+        alpha_cov: !expr c(0.5)
+        alpha_coef: !expr c(0.5)
+        alpha_spatial: !expr c(0.5)
+        lambda_cov: !expr c(0)
+        lambda_coef: !expr c(0)
+        lambda_spatial: !expr c(0)
 project_traits_reference:
   target_store: Data/targets/traits_reference
   data_processing:
@@ -88,6 +110,8 @@ project_paleo_temporal_europe:
     min_n_samples: 10
     n_interpolation_workers: 16
   model_fitting:
+    cross_validation:
+      tier_id: "paleo_temporal_europe"
     n_mev: 5
     n_cores: 24
     n_iter: 1000
@@ -107,6 +131,8 @@ project_paleo_temporal_america:
     min_n_samples: 10
     n_interpolation_workers: 16
   model_fitting:
+    cross_validation:
+      tier_id: "paleo_temporal_america"
     n_mev: 5
     n_cores: 24
     n_iter: 1000
@@ -126,6 +152,8 @@ project_paleo_temporal_asia:
     min_n_samples: 10
     n_interpolation_workers: 16
   model_fitting:
+    cross_validation:
+      tier_id: "paleo_temporal_asia"
     n_mev: 5
     n_cores: 24
     n_iter: 1000
@@ -146,6 +174,11 @@ project_paleo_spatial_continental:
     n_interpolation_workers: 16
   model_fitting:
     model_tuning_id: "paleo_spatial"
+    cross_validation:
+      tier_id: "paleo_spatial_continental"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "europe"
     n_mev: 5
     n_cores: 24
 project_paleo_spatial_regional:
@@ -162,6 +195,11 @@ project_paleo_spatial_regional:
     n_interpolation_workers: 8
   model_fitting:
     model_tuning_id: "paleo_spatial"
+    cross_validation:
+      tier_id: "paleo_spatial_regional"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005"
     n_mev: 4
     n_cores: 24
 project_paleo_spatial_local:
@@ -178,6 +216,11 @@ project_paleo_spatial_local:
     n_interpolation_workers: 4
   model_fitting:
     model_tuning_id: "paleo_spatial"
+    cross_validation:
+      tier_id: "paleo_spatial_local"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005_l014"
     n_mev: 3
     n_cores: 24
 project_modern_spatial_continental:
@@ -192,6 +235,11 @@ project_modern_spatial_continental:
     min_n_taxa: 5
   model_fitting:
     model_tuning_id: "modern_spatial"
+    cross_validation:
+      tier_id: "modern_spatial_continental"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "europe"
     use_age_in_formula: false
     use_spatial: true
     spatial_mode: "spatial"
@@ -209,6 +257,11 @@ project_modern_spatial_regional:
     min_n_taxa: 4
   model_fitting:
     model_tuning_id: "modern_spatial"
+    cross_validation:
+      tier_id: "modern_spatial_regional"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005"
     use_age_in_formula: false
     use_spatial: true
     spatial_mode: "spatial"
@@ -226,6 +279,11 @@ project_modern_spatial_local:
     min_n_taxa: 3
   model_fitting:
     model_tuning_id: "modern_spatial"
+    cross_validation:
+      tier_id: "modern_spatial_local"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005_l014"
     use_age_in_formula: false
     use_spatial: true
     spatial_mode: "spatial"
@@ -249,4 +307,12 @@ project_cz_modern:
     n_mev: 3
     n_cores: 24
     cross_validation:
+      tier_id: "cz_modern"
       assignment_repeats: 1
+      regularization:
+        alpha_cov: !expr c(0.5)
+        alpha_coef: !expr c(0.5)
+        alpha_spatial: !expr c(0.5)
+        lambda_cov: !expr c(0)
+        lambda_coef: !expr c(0)
+        lambda_spatial: !expr c(0)
