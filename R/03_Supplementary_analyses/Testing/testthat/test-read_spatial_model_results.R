@@ -140,10 +140,13 @@ testthat::test_that(
 
     testthat::expect_equal(base::nrow(res), 3L)
     testthat::expect_setequal(
-      res$component,
-      c("Abiotic", "Associations", "Spatial")
+      res[["component"]],
+      base::c("Abiotic", "Associations", "Spatial")
     )
-    testthat::expect_equal(res[["resolution_id"]], rep("genus", 3L))
+    testthat::expect_equal(
+      res[["resolution_id"]],
+      base::rep("genus", 3L)
+    )
     testthat::expect_equal(base::unique(res[["fitted_auc_mean"]]), 0.8)
     testthat::expect_equal(base::unique(res[["fitted_auc_median"]]), 0.8)
     testthat::expect_equal(base::unique(res[["fitted_auc_n"]]), 2L)
@@ -169,7 +172,7 @@ testthat::test_that(
     )
     testthat::expect_equal(base::unique(res[["n_effective_mev"]]), 3L)
     testthat::expect_equal(
-      base::sum(res$R2_Nagelkerke_percentage),
+      base::sum(res[["R2_Nagelkerke_percentage"]]),
       100
     )
   }

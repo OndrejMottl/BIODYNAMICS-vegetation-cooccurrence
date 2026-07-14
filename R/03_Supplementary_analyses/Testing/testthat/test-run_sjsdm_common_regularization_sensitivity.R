@@ -68,7 +68,7 @@ testthat::test_that(
         model_formula,
         config_model_fitting,
         data_regularization) {
-      structure(
+      base::structure(
         base::list(
           candidate_id = data_regularization[["candidate_id"]][[1L]],
           store = data_model_input[["store"]]
@@ -85,7 +85,10 @@ testthat::test_that(
     }
 
     anova_function <- function(mod, n_samples, verbose) {
-      structure(base::list(results = TRUE), class = "fake_anova")
+      base::structure(
+        base::list(results = TRUE),
+        class = "fake_anova"
+      )
     }
 
     extract_function <- function(anova_object, clamp_negative) {
