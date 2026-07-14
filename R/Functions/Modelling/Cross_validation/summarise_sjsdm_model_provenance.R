@@ -12,7 +12,9 @@
 #' held-out evaluation is unavailable.
 #' @return
 #' One-row tibble containing model context, feasibility, data counts, fold-fit
-#' counts, effective MEV and retained-taxon counts, and regularization source.
+#' counts, effective MEV minimum/maximum/status and retained-taxon counts, and
+#' regularization source. The legacy scalar `n_effective_mev` is retained when
+#' the count is constant across folds and is missing when counts vary.
 #' @examples
 #' \dontrun{
 #' summarise_sjsdm_model_provenance(
@@ -108,14 +110,29 @@ summarise_sjsdm_model_provenance <- function(
       base::integer()
     }
 
-  if (
-    dplyr::n_distinct(vec_effective_mev) > 1L
-  ) {
-    cli::cli_abort("Selected folds must use one effective MEV count.")
-  }
+  flag_valid_effective_mev <-
+    base::is.numeric(vec_effective_mev) &&
+    base::all(base::is.finite(vec_effective_mev)) &&
+    base::all(vec_effective_mev >= 0L) &&
+    base::all(vec_effective_mev <= .Machine[["integer.max"]]) &&
+    base::all(
+      vec_effective_mev == base::as.integer(vec_effective_mev)
+    )
 
-  vec_effective_mev_unique <-
-    base::unique(vec_effective_mev)
+  assertthat::assert_that(
+    flag_valid_effective_mev,
+    msg = "Effective MEV counts must be non-negative integers."
+  )
+
+  n_effective_mev_distinct <-
+    dplyr::n_distinct(vec_effective_mev)
+
+  effective_mev_status <-
+    dplyr::case_when(
+      n_effective_mev_distinct == 0L ~ "unavailable",
+      n_effective_mev_distinct == 1L ~ "constant_across_folds",
+      .default = "varies_by_fold"
+    )
 
   vec_taxa_retained <-
     if (
@@ -152,12 +169,27 @@ summarise_sjsdm_model_provenance <- function(
         NA_integer_
       },
       n_effective_mev = if (
-        base::length(vec_effective_mev_unique) == 1L
+        n_effective_mev_distinct == 1L
       ) {
-        vec_effective_mev_unique[[1L]]
+        vec_effective_mev[[1L]]
       } else {
         NA_integer_
-      }
+      },
+      n_effective_mev_min = if (
+        n_effective_mev_distinct > 0L
+      ) {
+        base::min(vec_effective_mev)
+      } else {
+        NA_integer_
+      },
+      n_effective_mev_max = if (
+        n_effective_mev_distinct > 0L
+      ) {
+        base::max(vec_effective_mev)
+      } else {
+        NA_integer_
+      },
+      effective_mev_status = effective_mev_status
     )
 
   res <-

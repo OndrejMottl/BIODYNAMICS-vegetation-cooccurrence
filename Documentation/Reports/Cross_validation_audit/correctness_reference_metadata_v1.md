@@ -41,6 +41,10 @@ Before correction, the new scorer test rejected the unknown `score_seed` argumen
 
 The CV-013 slice injects prediction and scoring backend failures and asserts the exact fold-level schema, structured status/message, missing metric fields, retained fit/score seeds, and prediction-error short circuit. The red phase exposed that the direct fold helper returned the complete schema in a different column order from the public tuning runner; the helper now normalizes every success/error path to the public order. The focused fold and public-runner tests passed 16 and 24 assertions, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3171`.
 
+## Fold-varying effective MEV provenance
+
+The CV-011 slice accepts effective MEV counts that vary after fold-local rank clamping. Per-fold counts remain in the fold diagnostics; model provenance now records `n_effective_mev_min`, `n_effective_mev_max`, and an explicit status while retaining the legacy scalar only for constant-rank runs. Before correction, the varying-rank fixture aborted with `Selected folds must use one effective MEV count.` After correction and validation hardening, constant, varying, unavailable, and malformed-count cases passed 31 focused assertions, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3189`.
+
 ## Manifest reference
 
 The following manifests parsed successfully after the initial tier-source correction and contained no duplicate target names.
