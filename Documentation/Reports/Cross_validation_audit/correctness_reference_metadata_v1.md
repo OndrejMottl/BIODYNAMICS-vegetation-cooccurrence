@@ -57,6 +57,10 @@ The CV-010 slice preflights the configured continental, regional, and local repr
 
 The CV-012 slice defines `negative_log_likelihood_per_response` within each repeat and candidate as summed held-out negative log likelihood divided by summed held-out response values. This scientific disposition was explicitly approved after considering #138's possible fold/repeat simplification and #141's requirement to preserve the stabilized estimand. Before correction, unequal folds with 10 and 30 response values produced the equal-fold result `0.25`; after correction they produce the pooled result `0.275`. Repartitioning the same loss and response evidence from two folds into four retains `0.275`. The focused summary tests passed 17 assertions, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3231`.
 
+## Project-owned decomposition CV documentation
+
+The CV-017 slice replaces the stale `sjSDM::sjSDM_cv()` claim in `make_repeated_cv_indices()` with its actual project-owned consumer, `run_decomposition_route_cv()`, and adds an executable example. The red source-contract test produced two expected failures; after correction it passed five focused assertions, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3233`. Targeted HTML, TXT, PDF, and QMD documentation plus the published function page and search entry were regenerated. Extracted PDF text contains the project-owned consumer and no stale package-native reference; all three PDF pages were rendered and visually inspected without clipping, overlap, or illegible content.
+
 ## Manifest reference
 
 The following manifests parsed successfully after the initial tier-source correction and contained no duplicate target names.

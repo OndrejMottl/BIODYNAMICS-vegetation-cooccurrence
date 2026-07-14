@@ -25,8 +25,8 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Creates reproducible repeated K-fold test-index lists for use with
-'sjSDM::sjSDM_cv()'.
+<p>Creates reproducible repeated K-fold test-index lists for project-owned
+decomposition cross-validation with [run_decomposition_route_cv()].
 </p>
 
 
@@ -68,6 +68,17 @@ function processMathHTML() {
 <p>A named list with one element per repeat. Each repeat is a named list
 of integer test indices, one element per fold.
 </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>make_repeated_cv_indices(
+  n_samples = 8L,
+  n_folds = 2L,
+  n_repeats = 2L,
+  seed = 900723L
+)
+</code></pre>
 
 </main>
 
