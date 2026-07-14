@@ -20,6 +20,7 @@
 | Reproducibility | Assignment, fit, and score seeds derive from the configured seed and are recorded without depending on ambient RNG state. | Assignment, tuning runner, joint scorer, and provenance tests. | Covered for assignment, fitting, and stochastic tuning scores. |
 | External-store completeness | Tier artifacts may be created only from readable summaries for every requested store-resolution pair, and external content must be reread on each tier run. | `collect_sjsdm_tuning_summaries()`, `pipeline_sjsdm_tier_tuning.R`, and Issue #139 regression tests. | Stabilized with a fail-closed policy in the initial slice. |
 | Spatial runner failure policy | Unit tuning-summary production is fail-fast before tier aggregation; post-selection full-unit completion may continue only while retaining one explicit outcome for every requested unit. | Six spatial runners, `run_pipeline_units_with_status()`, and orchestration contract tests. | Covered with `ok`/`error` status and error-message capture. |
+| Cross-tier sensitivity readiness | Common-regularization sensitivity may start only when every enabled tier's configured representative store exists; otherwise the local runner must complete with actionable skipped evidence. | `run_sjsdm_cross_tier_sensitivity()`, both local spatial runners, and readiness tests. | Covered with per-tier store and overall sensitivity statuses. |
 
 ## Public target-name contract
 
@@ -60,6 +61,7 @@ Mapped resolution pipelines suffix branch targets by resolution while preserving
 | Metrics | `ok`, incomplete-prediction status, metric-specific one-class/undefined status, or no-evaluable-taxa status. Negative valid Tjur R2 remains an estimate, not an error status. |
 | Tier source read | Initial Issue #139 policy is fail-closed: any unreadable requested store-resolution target aborts tier collection with the target and store in the error. |
 | Post-selection unit run | `ok` records completion; `error` retains the captured error message. Every requested unit has exactly one row. |
+| Common-sensitivity readiness | Representative stores are `ready`, `missing`, or `disabled`; profile sensitivity states are `completed`, `skipped_missing_store`, or `skipped_disabled`. |
 
 ## Store and provenance rules
 

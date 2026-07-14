@@ -49,6 +49,10 @@ The CV-011 slice accepts effective MEV counts that vary after fold-local rank cl
 
 The CV-009 slice applies one explicit two-stage policy to all six spatial runners. Unit tuning-summary production remains fail-fast because tier selection requires complete evidence. Post-selection full-unit execution continues after individual failures and returns one row per requested unit with `ok`/`error` status and the captured error message. In the red phase, the helper stub produced four expected failures. After implementation and review hardening of forwarded-argument guards, the helper and six-runner source contract passed 23 focused assertions, all six runner files parsed successfully, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3212`.
 
+## Cross-tier sensitivity readiness
+
+The CV-010 slice preflights the configured continental, regional, and local representative store directories before a local runner starts the all-tier common-regularization sensitivity pipeline. A missing store now produces per-tier `ready`/`missing` evidence and an overall `skipped_missing_store` status instead of aborting after the local workflow has completed. Disabled profiles remain visible as `disabled`/`skipped_disabled` rows, including a valid all-disabled no-op. The isolated reproduction confirmed that `fs::dir_ls()` raises `ENOENT` for an absent tier root. The red phase produced four expected failures; after correction and review hardening, the helper and local-runner contract passed 16 focused assertions, both local runners parsed successfully, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3228`.
+
 ## Manifest reference
 
 The following manifests parsed successfully after the initial tier-source correction and contained no duplicate target names.

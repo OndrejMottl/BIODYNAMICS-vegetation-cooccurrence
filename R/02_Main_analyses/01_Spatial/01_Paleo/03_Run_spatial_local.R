@@ -95,9 +95,12 @@ tictoc::toc()
 # 5. Run representative common-regularization sensitivity -----
 #----------------------------------------------------------#
 
-run_pipeline(
-  sel_script = stringr::str_c(
-    "R/Pipelines/",
-    "pipeline_sjsdm_common_regularization_sensitivity.R"
+data_common_sensitivity_status <-
+  run_sjsdm_cross_tier_sensitivity(
+    profile_ids = base::c(
+      "project_paleo_spatial_continental",
+      "project_paleo_spatial_regional",
+      "project_paleo_spatial_local"
+    ),
+    pipeline_name = "pipeline_paleo_spatial_resolution"
   )
-)
