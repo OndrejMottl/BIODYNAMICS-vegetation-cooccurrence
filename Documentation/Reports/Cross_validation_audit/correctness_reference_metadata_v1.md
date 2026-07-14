@@ -87,8 +87,72 @@ The following manifests parsed successfully after the initial tier-source correc
 | `project_paleo_spatial_continental` | `pipeline_sjsdm_tier_tuning.R` | 8 |
 | `project_paleo_spatial_local` | `pipeline_sjsdm_common_regularization_sensitivity.R` | 12 |
 
-## Pending scientific references
+## Fresh CZ correctness reference
 
-Fresh `project_cz_paleo` and `project_cz_modern` stores, artifact hashes/schemas, selected candidates, OOF metrics, provenance values, and contract-specific tolerances are not yet recorded in this version.
-The mandatory CZ runner uses `fresh_run = TRUE`; it was intentionally not started while an existing interactive R session had active workers.
-These references remain a closure requirement for Issue #139 and must be added without overwriting this metadata record.
+The mandatory `R/02_Main_analyses/Run_CZ_test.R` runner completed from fresh stores at `afca4e7969dc1a303fc590dc8c6147410968a5b9`. The unrelated single-chain R model in another project was left untouched. The runner rebuilt the following stores and every store reported zero errored targets:
+
+| Store | Pipeline result | Metadata rows | Targets with warnings |
+|---|---:|---:|---:|
+| `Data/targets/cz_paleo/pipeline_paleo_core` | 199 completed, 42 skipped in 4m 4.5s | 504 | 15 |
+| `Data/targets/cz_paleo/pipeline_paleo_resolution_test` | 302 completed, 42 skipped in 7m 2s | 608 | 21 |
+| `Data/targets/cz_modern/eu_r005_l014/pipeline_modern_spatial_resolution_test` | 2,143 completed, 0 skipped in 31m 19.4s | 2,406 | 8 |
+
+The warning counts are retained as execution metadata. They include expected model/runtime warnings; none was a target error. The runner also reported the existing `renv` out-of-sync state while confirming that the installed library was synchronized with the lockfile.
+
+### Selection, OOF, and evaluation values
+
+All seven units selected `candidate_001`, with `alpha_cov = alpha_coef = alpha_spatial = 0.5`, `lambda_cov = lambda_coef = lambda_spatial = 0`, `regularization_source = "unit_cv"`, and candidate-table hash `b1ec181e66cb1f650aadf945f81a4f52`. Each tuning summary used five successful folds out of five and had status `ok`. Each selected-fold diagnostic used fit seeds `1001724`, `1002724`, `1003724`, `1004724`, and `1005724`; all 35 fits had status `ok` and a constant effective MEV count of three.
+
+| Unit | Pooled NLL/response | Tuning AUC | OOF rows (`ok`; constant) | CV Tjur R2 | CV AUC | CV log loss | Evaluable taxa |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Paleo core, genus | 0.372794719882305 | 0.662205197009247 | 3,280 (3,154; 126) | 0.0822344302346783 | 0.584032815911536 | 0.709862222843946 | 13 |
+| Paleo resolution, family | 0.371306411530498 | 0.728270231977899 | 1,845 (1,435; 410) | 0.061437454146472 | 0.599024464483106 | 0.533153292955781 | 7 |
+| Paleo resolution, functional type | 0.339961223868591 | 0.715334310569551 | 1,640 (1,146; 494) | 0.142172007517578 | 0.694161845651381 | 0.673215889104419 | 4 |
+| Paleo resolution, genus | 0.372794719882305 | 0.662205197009247 | 3,280 (3,154; 126) | 0.0822344302346783 | 0.584032815911536 | 0.709862222843946 | 13 |
+| Modern resolution, family | 0.269548240774910 | 0.676424827975462 | 78,120 (78,120; 0) | 0.0348487214431627 | 0.678855584138029 | 0.387926020471409 | 42 |
+| Modern resolution, functional type | 0.307747827656280 | 0.652368233709273 | 9,465 (9,086; 379) | 0.0714288561540667 | 0.649644455402221 | 0.401579070433793 | 4 |
+| Modern resolution, genus | 0.201868481361653 | 0.688366184910107 | 169,260 (169,260; 0) | 0.0244397935445291 | 0.682972129949325 | 0.321386179863504 | 91 |
+
+`constant_in_training` OOF rows intentionally contain missing probabilities and are excluded from the evaluable-taxon summaries. All non-missing probabilities were within the asserted probability bounds. The fitted-model McFadden/Nagelkerke R2 references are, respectively: paleo genus `0.275477842757313`/`0.930932655793091`; paleo family `0.201289823833747`/`0.624092691349606`; paleo functional type `0.233779236151304`/`0.628291238106094`; modern family `0.230356335033106`/`0.998691852594157`; modern functional type `0.141903066162187`/`0.383288634847381`; and modern genus `0.299187419285322`/`0.999999767927401`.
+
+### Provenance reference
+
+Every unit recorded `selection_status = "selected"`, `cv_strategy = "spatially_stratified_group_kfold"`, `cv_feasibility_status = "grouped_kfold_feasible"`, one repeat, five successful fold fits, and `effective_mev_status = "constant_across_folds"`. Unit-specific dimensions were:
+
+| Unit | Locations | Samples | Taxa | Minimum taxa retained per fold |
+|---|---:|---:|---:|---:|
+| Paleo genus | 27 | 205 | 15 | 14 |
+| Paleo family | 27 | 205 | 6 | 7 |
+| Paleo functional type | 27 | 205 | 6 | 5 |
+| Modern family | 1,860 | 1,860 | 42 | 42 |
+| Modern functional type | 1,893 | 1,893 | 5 | 4 |
+| Modern genus | 1,860 | 1,860 | 91 | 91 |
+
+The family provenance reports six response taxa while seven taxa can be retained in a fold because fold-local filtering and the final fitted-model response inventory are deliberately separate provenance concepts.
+
+### Artifact hashes
+
+The values below are `targets` data hashes. The paleo core genus and paleo resolution genus artifacts are identical where their scientific content is identical. `data_sjsdm_tier_regularization_artifact*` has hash `d60541852a9ce986` and value `NULL` in every unit: this is the expected pre-tier sentinel because these CZ unit pipelines select from unit CV rather than consume a pooled tier artifact.
+
+| Unit | Tuning summary | Selected candidate | OOF predictions | OOF diagnostics | Provenance | CV evaluation | Fitted evaluation |
+|---|---|---|---|---|---|---|---|
+| Paleo core, genus | `73ba417c63322763` | `e08d7a665e80fb58` | `88a9a4f6749d4a5e` | `07c928b76744b3a0` | `5f0dcaaf038c9a7d` | `ae74e61f9a853be5` | `0ee206fbbf217ba6` |
+| Paleo resolution, family | `76c5c6ef0cddba8b` | `00fa954be5fafcd2` | `9eb16ee8ef3e3853` | `ae33229bd3a58ab4` | `eecbef50e84e9c2a` | `1ed5f60395f8d86d` | `d3d15d82c41bb4c3` |
+| Paleo resolution, functional type | `a455cad35bee9135` | `8a07d5008269db9e` | `a3d0da351a5d985f` | `af387ff19d4b7711` | `ca2b4d2e6c8dc12a` | `1982f76d0d406334` | `522009a6c236b9c2` |
+| Paleo resolution, genus | `73ba417c63322763` | `e08d7a665e80fb58` | `88a9a4f6749d4a5e` | `07c928b76744b3a0` | `5f0dcaaf038c9a7d` | `ae74e61f9a853be5` | `ab250c21722224fb` |
+| Modern resolution, family | `ed0949fa105fede3` | `d179a21cdc4ae902` | `16cecf1c2bb3995f` | `fc960498121655b0` | `c63003c886b72af2` | `16c2f1b27b9d2cb5` | `5d623d49baecb719` |
+| Modern resolution, functional type | `9f2c4af3d0c03a3a` | `0c73918e53b9ae34` | `e87786981d154b06` | `0af55dacabd1c465` | `23a6e25238baab1c` | `6164cc2b4429f398` | `489ea22ce5429b39` |
+| Modern resolution, genus | `abf84ab85d102927` | `49881f47561e6b39` | `c5da146959add926` | `22432f55f38cb514` | `7d890613c39753e3` | `922ea46f6c789ae5` | `0a53446e25643f39` |
+
+### Schema and comparison contract
+
+The fresh artifacts matched the v1 contract inventory. Exact column order is part of the structural reference:
+
+- Tuning summary: `repeat_id`, `candidate_id`, six regularization parameters, `n_folds_total`, `n_folds_successful`, `n_response_values`, `negative_log_likelihood_test`, `negative_log_likelihood_per_response`, `auc_macro_test`, `summary_status`, `cv_strategy`, `regularization_source`, `source_id`, `tier_id`, `taxonomic_resolution`, `response_family`, `predictor_structure`, `candidate_table_hash`.
+- Selected candidate: `candidate_id`, six regularization parameters, `selection_metric`, `selection_metric_value`, `n_repeats`, `candidate_rank`, `cv_strategy`, `regularization_source`.
+- OOF predictions: `repeat_id`, `fold_id`, `row_index`, `location_id`, `dataset_name`, `age`, `taxon`, `observed`, `predicted_probability`, `null_probability`, `prediction_status`.
+- OOF diagnostics: `repeat_id`, `fold_id`, `candidate_id`, `fit_seed`, `n_train_samples`, `n_test_samples`, `n_taxa_retained`, `n_effective_mev`, `fit_status`, `error_message`, `cv_strategy`, `regularization_source`.
+- Model provenance: the 24 fields recorded in the contract inventory, ending with `n_effective_mev`, `n_effective_mev_min`, `n_effective_mev_max`, and `effective_mev_status`.
+- CV evaluation: taxon metrics use `repeat_id`, `taxon`, `metric_id`, `estimate`, `metric_status`, `n_observations`, `n_presences`, `n_absences`, `prevalence`; community summaries use `repeat_id`, `metric_id`, `summary_statistic`, `estimate`, `n_taxa_evaluable`, `metric_status`.
+
+Future comparisons must match target presence, schema and column order, candidate ID and parameters, categorical statuses, seeds, row counts, and provenance counts exactly. Hash equality is the strongest same-environment check but is not required across supported runtime changes. For row-aligned numeric comparisons, use maximum absolute tolerance `1e-4` for OOF/null probabilities, pooled NLL per response, tuning/CV AUC, Tjur R2, log loss, and fitted R2. Missing-value positions must match exactly. Any candidate-selection change, status change, structural mismatch, or value outside tolerance requires scientific review rather than automatic acceptance.
