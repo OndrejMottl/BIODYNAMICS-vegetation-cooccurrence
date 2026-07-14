@@ -20,6 +20,18 @@
 | External-store invalidation reproduction before correction | A stable external path changed from `first` to `second`, while the thoroughly-cued downstream target remained cached as `first`; `stale_cache_reproduced = TRUE`. |
 | PR whitespace check | `git diff --check` reported no whitespace errors. |
 
+## Repeated-origin stabilization
+
+The next Issue #139 slice replaced the non-coprime y-origin multiplier with a deterministic reverse-order permutation.
+Before correction, the four-repeat fixture produced only two distinct grid signatures.
+After correction, the test matched the exact signatures for origin fractions `0`, `0.75`, `0.5`, and `0.25`; the focused test passed 10 assertions, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3132`.
+
+## Direct regularization validation
+
+The following Issue #139 slice added direct/final-fit upper-bound checks for `alpha_cov`, `alpha_coef`, and `alpha_spatial` while retaining finite non-negative lambda validation.
+Before correction, all three invalid alpha calls reached the Python backend and failed with an unrelated `ZeroDivisionError`.
+After correction, the focused fit test passed 52 assertions with parameter-specific R errors and explicit coverage of the inclusive zero/one alpha boundaries. The full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3144`.
+
 ## Manifest reference
 
 The following manifests parsed successfully after the initial tier-source correction and contained no duplicate target names.
