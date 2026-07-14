@@ -9,7 +9,7 @@
 #' @param data_st_mev_samples
 #' A data frame with row names in the format
 #' `"<dataset_name>__<age>"` and unscaled spatiotemporal MEV
-#' columns (`mev_1`, …), as returned by
+#' columns (`mev_1`, ...), as returned by
 #' `compute_spatiotemporal_mev()`.
 #' @param data_coords_projected_train
 #' A data frame with `coord_x_km` and `coord_y_km` columns

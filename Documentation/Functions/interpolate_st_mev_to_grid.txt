@@ -22,7 +22,7 @@ Arguments:
 
 data_st_mev_samples: A data frame with row names in the format
           `"<dataset_name>__<age>"` and unscaled spatiotemporal MEV
-          columns (`mev_1`, …), as returned by
+          columns (`mev_1`, ...), as returned by
           `compute_spatiotemporal_mev()`.
 
 data_coords_projected_train: A data frame with `coord_x_km` and
@@ -42,7 +42,7 @@ pred_age: Numeric or integer scalar. Age in years BP at which
 spatial_scale_attributes: Optional named list of `"scaled:center"` and
           `"scaled:scale"` attributes per ST-MEV column, as returned by
           `scale_spatial_for_fit()` in the `spatial_scale_attributes`
-          element. When`NULL`, unscaled interpolated values are
+          element. When `NULL`, unscaled interpolated values are
           returned for fold-local scaling.
 
 Details:

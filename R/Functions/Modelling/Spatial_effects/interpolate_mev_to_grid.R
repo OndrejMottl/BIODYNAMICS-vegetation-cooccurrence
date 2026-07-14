@@ -13,7 +13,7 @@
 #' site.
 #' @param data_mev_core
 #' A data frame with unscaled MEV columns (`mev_1`, `mev_2`,
-#' …) and `dataset_name` as row names, as returned by
+#' ...) and `dataset_name` as row names, as returned by
 #' `compute_spatial_mev()`.
 #' @param data_coords_projected_pred
 #' A data frame with `coord_x_km` and `coord_y_km` columns

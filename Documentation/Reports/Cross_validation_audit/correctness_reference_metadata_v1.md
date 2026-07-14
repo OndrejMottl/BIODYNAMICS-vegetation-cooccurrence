@@ -61,6 +61,12 @@ The CV-012 slice defines `negative_log_likelihood_per_response` within each repe
 
 The CV-017 slice replaces the stale `sjSDM::sjSDM_cv()` claim in `make_repeated_cv_indices()` with its actual project-owned consumer, `run_decomposition_route_cv()`, and adds an executable example. The red source-contract test produced two expected failures; after correction it passed five focused assertions, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3233`. Targeted HTML, TXT, PDF, and QMD documentation plus the published function page and search entry were regenerated. Extracted PDF text contains the project-owned consumer and no stale package-native reference; all three PDF pages were rendered and visually inspected without clipping, overlap, or illegible content.
 
+## Generated CV documentation synchronization
+
+The CV-005--CV-007 slice removes the generated artifacts and published pages for `run_predictive_ablation_cv()` and `apply_decomposition_scale_attributes()`, publishes the replacement `apply_scale_attributes()`, and rebuilds the full Quarto site so every embedded sidebar, search entry, listing, and sitemap reflects the current API. The red generated-documentation contract produced two expected failures and one pass; after regeneration it passed all three focused assertions. Inventory searches across raw function docs, function QMD, published function pages, search, listings, and sitemap returned zero matches for both deleted APIs. The full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3236`.
+
+The interpolation PDF build initially stopped before producing output because the two roxygen argument descriptions used a Unicode ellipsis. Replacing that glyph with the ASCII `...` retained the contract while allowing the PDF toolchain to complete. `interpolate_mev_to_grid.pdf` and `interpolate_st_mev_to_grid.pdf` each contain three pages; extracted text in both records optional scale attributes and the unscaled fallback. Every page was rendered at 2x resolution and visually inspected without clipping, overlap, broken glyphs, or illegible content.
+
 ## Manifest reference
 
 The following manifests parsed successfully after the initial tier-source correction and contained no duplicate target names.

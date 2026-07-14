@@ -58,7 +58,7 @@ site.</p>
 <tr><td><code id="data_mev_core">data_mev_core</code></td>
 <td>
 <p>A data frame with unscaled MEV columns ('mev_1', 'mev_2',
-…) and 'dataset_name' as row names, as returned by
+...) and 'dataset_name' as row names, as returned by
 'compute_spatial_mev()'.</p>
 </td></tr>
 <tr><td><code id="data_coords_projected_pred">data_coords_projected_pred</code></td>
