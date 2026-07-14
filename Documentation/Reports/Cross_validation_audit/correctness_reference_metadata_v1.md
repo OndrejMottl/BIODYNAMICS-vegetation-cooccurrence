@@ -71,6 +71,10 @@ The interpolation PDF build initially stopped before producing output because th
 
 The CV-014 closure slice regenerated `covr_report.html`, `covr_report.json`, and `covr_report_summary.json` from the stabilized function and test inventories. Both `run_predictive_ablation_cv` and `apply_decomposition_scale_attributes` have zero matches in the HTML and JSON reports. The replacement `apply_scale_attributes` and current tuning APIs, including `make_sjsdm_regularization_candidates` and `run_sjsdm_tuning_candidates`, are represented in both formats. The JSON report contains 4,261 coverage records, parses successfully, and reports 92.05% line coverage, up from the stale report's 89.59%. The full suite remained `FAIL 0 | WARN 0 | SKIP 1 | PASS 3236`.
 
+## Accepted maintainability handoff
+
+The remaining low-severity maintainability findings are explicitly accepted for [Issue #141](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/141), after #138 selects and benchmarks the production execution design. CV-015 and CV-016 feed #141's target-building and responsibility-boundary slices; CV-019 feeds its generated-artifact/documentation cleanup; and CV-020 feeds its responsibility/ownership cleanup. Deferring these changes keeps #139's stabilized behavior fixed for #138. None is a correctness defect, public-contract gap, or unresolved high/medium finding.
+
 ## Manifest reference
 
 The following manifests parsed successfully after the initial tier-source correction and contained no duplicate target names.
