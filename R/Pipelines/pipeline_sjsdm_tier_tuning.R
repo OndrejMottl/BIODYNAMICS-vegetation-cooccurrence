@@ -163,7 +163,8 @@ base::list(
     command = collect_sjsdm_tuning_summaries(
       store_paths = vec_sjsdm_unit_tuning_stores,
       resolution_ids = list_tuning_context[["resolution_ids"]]
-    )
+    ),
+    cue = targets::tar_cue(mode = "always")
   ),
   targets::tar_target(
     description = "Record tier-artifact creation time",

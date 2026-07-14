@@ -10,7 +10,9 @@
 #' Injectable target reader. Defaults to [targets::tar_read_raw()].
 #' @return
 #' Bound tuning-summary tibble with `source_store` and `resolution_id`
-#' provenance columns. Unavailable targets are skipped.
+#' provenance columns. Every requested store-resolution target must be
+#' readable. The function aborts with the failed store and target when
+#' evidence is incomplete.
 #' @examples
 #' \dontrun{
 #' collect_sjsdm_tuning_summaries(
@@ -66,14 +68,22 @@ collect_sjsdm_tuning_summaries <- function(
               store = .x
             ),
             error = function(error_condition) {
-              NULL
+              error_condition
             }
           )
 
         if (
-          base::is.null(data_summary)
+          base::inherits(data_summary, "error")
         ) {
-          return(NULL)
+          cli::cli_abort(
+            c(
+              "Could not read every requested tuning summary.",
+              "x" = stringr::str_glue(
+                "{target_name} in {.x}: ",
+                "{base::conditionMessage(data_summary)}"
+              )
+            )
+          )
         }
 
         if (
@@ -97,14 +107,7 @@ collect_sjsdm_tuning_summaries <- function(
             .before = 1L
           )
       }
-    ) |>
-    purrr::compact()
-
-  if (
-    base::length(list_summaries) == 0L
-  ) {
-    cli::cli_abort("No unit tuning summaries were available.")
-  }
+    )
 
   res <-
     list_summaries |>

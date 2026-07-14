@@ -1,14 +1,7 @@
 testthat::test_that(
-  "collect_sjsdm_tuning_summaries() reads successful unit summaries",
+  "collect_sjsdm_tuning_summaries() reads every requested summary",
   {
     read_target_function <- function(name, store) {
-      if (
-        store == "store_b" &&
-          name == "data_sjsdm_tuning_summary_family"
-      ) {
-        base::stop("target unavailable")
-      }
-
       tibble::tibble(
         source_id = base::basename(store),
         taxonomic_resolution = stringr::str_remove(
@@ -26,7 +19,7 @@ testthat::test_that(
         read_target_function = read_target_function
       )
 
-    testthat::expect_equal(base::nrow(res), 3L)
+    testthat::expect_equal(base::nrow(res), 4L)
     testthat::expect_setequal(
       res[["source_store"]],
       base::c("store_a", "store_b")
@@ -34,6 +27,53 @@ testthat::test_that(
     testthat::expect_setequal(
       res[["resolution_id"]],
       base::c("genus", "family")
+    )
+  }
+)
+
+testthat::test_that(
+  "collect_sjsdm_tuning_summaries() rejects partial evidence",
+  {
+    read_target_function <- function(name, store) {
+      if (
+        store == "store_b" &&
+          name == "data_sjsdm_tuning_summary_family"
+      ) {
+        base::stop("target unavailable")
+      }
+
+      tibble::tibble(
+        source_id = base::basename(store),
+        candidate_id = "candidate_001"
+      )
+    }
+
+    error_condition <-
+      testthat::expect_error(
+        collect_sjsdm_tuning_summaries(
+          store_paths = base::c("store_a", "store_b"),
+          resolution_ids = base::c("genus", "family"),
+          read_target_function = read_target_function
+        )
+      )
+
+    error_message <-
+      base::conditionMessage(error_condition)
+
+    testthat::expect_match(
+      error_message,
+      "Could not read every requested tuning summary",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      error_message,
+      "store_b",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      error_message,
+      "data_sjsdm_tuning_summary_family",
+      fixed = TRUE
     )
   }
 )
