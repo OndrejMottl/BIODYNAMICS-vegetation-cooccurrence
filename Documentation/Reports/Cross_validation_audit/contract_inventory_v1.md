@@ -19,6 +19,7 @@
 | Predictive evaluation | Selected-candidate probabilities are out-of-fold, pooled within repeat/taxon before Tjur R2, AUC, and log-loss evaluation; fitted evaluation remains separate. | Selected-fold runner, evaluator, pipeline targets, and tests. | Covered, including exact prediction/scoring error status contracts. |
 | Reproducibility | Assignment, fit, and score seeds derive from the configured seed and are recorded without depending on ambient RNG state. | Assignment, tuning runner, joint scorer, and provenance tests. | Covered for assignment, fitting, and stochastic tuning scores. |
 | External-store completeness | Tier artifacts may be created only from readable summaries for every requested store-resolution pair, and external content must be reread on each tier run. | `collect_sjsdm_tuning_summaries()`, `pipeline_sjsdm_tier_tuning.R`, and Issue #139 regression tests. | Stabilized with a fail-closed policy in the initial slice. |
+| Spatial runner failure policy | Unit tuning-summary production is fail-fast before tier aggregation; post-selection full-unit completion may continue only while retaining one explicit outcome for every requested unit. | Six spatial runners, `run_pipeline_units_with_status()`, and orchestration contract tests. | Covered with `ok`/`error` status and error-message capture. |
 
 ## Public target-name contract
 
@@ -58,6 +59,7 @@ Mapped resolution pipelines suffix branch targets by resolution while preserving
 | Prediction rows | `ok` plus explicit non-predictive states such as preparation/fit/prediction errors, unaligned held-out rows, or taxa constant in training. |
 | Metrics | `ok`, incomplete-prediction status, metric-specific one-class/undefined status, or no-evaluable-taxa status. Negative valid Tjur R2 remains an estimate, not an error status. |
 | Tier source read | Initial Issue #139 policy is fail-closed: any unreadable requested store-resolution target aborts tier collection with the target and store in the error. |
+| Post-selection unit run | `ok` records completion; `error` retains the captured error message. Every requested unit has exactly one row. |
 
 ## Store and provenance rules
 

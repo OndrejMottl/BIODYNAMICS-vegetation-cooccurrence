@@ -57,6 +57,7 @@ vec_tuning_target_names <-
 # 3. Build unit tuning summaries -----
 #----------------------------------------------------------#
 
+# This stage is fail-fast because tier selection requires every unit summary.
 purrr::walk(
   .progress = TRUE,
   .x = vec_scale_ids,
@@ -77,31 +78,14 @@ run_pipeline(
 # 4. Complete resolution pipeline for each spatial unit -----
 #----------------------------------------------------------#
 
+# Post-selection runs continue and retain one status row per spatial unit.
 tictoc::tic(
   "Running resolution pipelines (genus + family + FT) for all regional units"
 )
-purrr::walk(
-  .progress = TRUE,
-  .x = vec_scale_ids,
-  .f = ~ {
-    base::message(
-      "\n\nRunning resolution pipeline for spatial unit: ", .x, "\n\n"
-    )
-    tryCatch(
-      run_pipeline(
-        sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
-        store_suffix = .x,
-        prebuild_interpolation = TRUE
-      ),
-      error = function(err) {
-        base::message(
-          "Skipping spatial unit after pipeline error: ", .x,
-          "\nError: ",
-          conditionMessage(err),
-          "\n"
-        )
-      }
-    )
-  }
-)
+data_pipeline_status <-
+  run_pipeline_units_with_status(
+    scale_ids = vec_scale_ids,
+    sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
+    prebuild_interpolation = TRUE
+  )
 tictoc::toc()

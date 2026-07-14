@@ -45,6 +45,10 @@ The CV-013 slice injects prediction and scoring backend failures and asserts the
 
 The CV-011 slice accepts effective MEV counts that vary after fold-local rank clamping. Per-fold counts remain in the fold diagnostics; model provenance now records `n_effective_mev_min`, `n_effective_mev_max`, and an explicit status while retaining the legacy scalar only for constant-rank runs. Before correction, the varying-rank fixture aborted with `Selected folds must use one effective MEV count.` After correction and validation hardening, constant, varying, unavailable, and malformed-count cases passed 31 focused assertions, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3189`.
 
+## Spatial runner failure policy
+
+The CV-009 slice applies one explicit two-stage policy to all six spatial runners. Unit tuning-summary production remains fail-fast because tier selection requires complete evidence. Post-selection full-unit execution continues after individual failures and returns one row per requested unit with `ok`/`error` status and the captured error message. In the red phase, the helper stub produced four expected failures. After implementation and review hardening of forwarded-argument guards, the helper and six-runner source contract passed 23 focused assertions, all six runner files parsed successfully, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3212`.
+
 ## Manifest reference
 
 The following manifests parsed successfully after the initial tier-source correction and contained no duplicate target names.
