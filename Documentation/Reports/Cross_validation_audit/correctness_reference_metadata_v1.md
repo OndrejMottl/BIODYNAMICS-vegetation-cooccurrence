@@ -37,6 +37,10 @@ After correction, the focused fit test passed 52 assertions with parameter-speci
 The CV-003 slice added separately hashed deterministic fit and score seeds for every repeat, fold, and candidate ID and retained both in fold-level tuning output. Joint likelihood scoring now restores the caller's R RNG and available PyTorch CPU/CUDA RNG states after applying the score seed.
 Before correction, the new scorer test rejected the unknown `score_seed` argument and the runner lacked the provenance column and propagation path. After correction and review hardening, the focused scorer, fold-runner, and tuning-runner tests passed 20, 3, and 24 assertions. Coverage includes candidate-order independence, upper seed bounds, R restoration after normal and error paths, and PyTorch CPU determinism/restoration. The full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3158`.
 
+## Structured downstream tuning errors
+
+The CV-013 slice injects prediction and scoring backend failures and asserts the exact fold-level schema, structured status/message, missing metric fields, retained fit/score seeds, and prediction-error short circuit. The red phase exposed that the direct fold helper returned the complete schema in a different column order from the public tuning runner; the helper now normalizes every success/error path to the public order. The focused fold and public-runner tests passed 16 and 24 assertions, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3171`.
+
 ## Manifest reference
 
 The following manifests parsed successfully after the initial tier-source correction and contained no duplicate target names.

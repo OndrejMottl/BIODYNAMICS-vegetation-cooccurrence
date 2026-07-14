@@ -163,6 +163,27 @@ run_sjsdm_tuning_fold_candidates <- function(
       cv_strategy = list_fold_context[["cv_strategy"]],
       regularization_source = "unit_cv",
       .before = 1L
+    ) |>
+    dplyr::select(
+      "repeat_id",
+      "fold_id",
+      "candidate_id",
+      dplyr::all_of(vec_parameter_columns),
+      "fit_seed",
+      "score_seed",
+      "n_train_locations",
+      "n_test_locations",
+      "n_train_samples",
+      "n_test_samples",
+      "n_taxa_retained",
+      "n_response_values",
+      "negative_log_likelihood_test",
+      "negative_log_likelihood_per_response",
+      "auc_macro_test",
+      "fit_status",
+      "error_message",
+      "cv_strategy",
+      "regularization_source"
     )
 
   if (
@@ -183,9 +204,6 @@ run_sjsdm_tuning_fold_candidates <- function(
         data_result <-
           .x |>
           dplyr::select(-"candidate_index")
-
-        candidate_index <-
-          .x[["candidate_index"]][[1L]]
 
         candidate_id <-
           .x[["candidate_id"]][[1L]]
