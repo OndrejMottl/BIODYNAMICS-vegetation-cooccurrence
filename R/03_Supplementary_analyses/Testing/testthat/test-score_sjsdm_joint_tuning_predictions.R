@@ -166,5 +166,223 @@ testthat::test_that(
       ),
       "positive integer"
     )
+
+    testthat::expect_no_warning(
+      testthat::expect_error(
+        score_sjsdm_joint_tuning_predictions(
+          object = mod_fit,
+          data_test_input = data_test_input,
+          data_observed = data_observed,
+          data_predicted = data_predicted,
+          score_seed = base::as.double(
+            .Machine[["integer.max"]]
+          ) + 1
+        ),
+        "score_seed"
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "score_sjsdm_joint_tuning_predictions() restores deterministic RNG",
+  {
+    likelihood_function <- function(...) {
+      return(base::list(stats::runif(1L)))
+    }
+
+    mod_fit <-
+      base::structure(
+        base::list(
+          formula = stats::as.formula(~ 0 + temperature),
+          settings = base::list(step_size = 2L, sampling = 25L),
+          model = base::list(logLik = likelihood_function)
+        ),
+        class = "sjSDM"
+      )
+
+    data_observed <-
+      base::matrix(
+        data = base::c(0, 1),
+        ncol = 1L,
+        dimnames = base::list(
+          base::c("sample_a", "sample_b"),
+          "taxon_a"
+        )
+      )
+
+    data_predicted <-
+      base::matrix(
+        data = base::c(0.2, 0.8),
+        ncol = 1L,
+        dimnames = base::dimnames(data_observed)
+      )
+
+    data_test_input <-
+      base::list(
+        data_abiotic_to_fit = base::data.frame(
+          temperature = base::c(2, 4)
+        )
+      )
+
+    base::set.seed(81L)
+    seed_before_first_call <- .Random.seed
+
+    res_first <-
+      score_sjsdm_joint_tuning_predictions(
+        object = mod_fit,
+        data_test_input = data_test_input,
+        data_observed = data_observed,
+        data_predicted = data_predicted,
+        n_likelihood_draws = 3L,
+        score_seed = 42L
+      )
+
+    testthat::expect_identical(.Random.seed, seed_before_first_call)
+
+    base::set.seed(913L)
+    seed_before_second_call <- .Random.seed
+
+    res_second <-
+      score_sjsdm_joint_tuning_predictions(
+        object = mod_fit,
+        data_test_input = data_test_input,
+        data_observed = data_observed,
+        data_predicted = data_predicted,
+        n_likelihood_draws = 3L,
+        score_seed = 42L
+      )
+
+    testthat::expect_identical(.Random.seed, seed_before_second_call)
+    testthat::expect_equal(
+      res_first[["negative_log_likelihood_test"]],
+      res_second[["negative_log_likelihood_test"]]
+    )
+
+    mod_error <-
+      mod_fit
+
+    mod_error[["model"]][["logLik"]] <- function(...) {
+      stats::runif(1L)
+      base::stop("scoring failed")
+    }
+
+    base::set.seed(721L)
+    seed_before_error <- .Random.seed
+
+    testthat::expect_error(
+      score_sjsdm_joint_tuning_predictions(
+        object = mod_error,
+        data_test_input = data_test_input,
+        data_observed = data_observed,
+        data_predicted = data_predicted,
+        score_seed = 42L
+      ),
+      "scoring failed"
+    )
+
+    testthat::expect_identical(.Random.seed, seed_before_error)
+
+  }
+)
+
+testthat::test_that(
+  "score_sjsdm_joint_tuning_predictions() restores PyTorch RNG",
+  {
+    torch_module <-
+      tryCatch(
+        expr = reticulate::import(
+          module = "torch",
+          convert = FALSE,
+          delay_load = FALSE
+        ),
+        error = function(error_condition) {
+          NULL
+        }
+      )
+
+    testthat::skip_if(base::is.null(torch_module))
+
+    likelihood_function <- function(...) {
+      likelihood_value <-
+        torch_module$rand(1L)$item() |>
+        reticulate::py_to_r()
+
+      return(base::list(likelihood_value))
+    }
+
+    mod_fit <-
+      base::structure(
+        base::list(
+          formula = stats::as.formula(~ 0 + temperature),
+          settings = base::list(step_size = 2L, sampling = 25L),
+          model = base::list(logLik = likelihood_function)
+        ),
+        class = "sjSDM"
+      )
+
+    data_observed <-
+      base::matrix(
+        data = base::c(0, 1),
+        ncol = 1L,
+        dimnames = base::list(
+          base::c("sample_a", "sample_b"),
+          "taxon_a"
+        )
+      )
+
+    data_predicted <-
+      base::matrix(
+        data = base::c(0.2, 0.8),
+        ncol = 1L,
+        dimnames = base::dimnames(data_observed)
+      )
+
+    data_test_input <-
+      base::list(
+        data_abiotic_to_fit = base::data.frame(
+          temperature = base::c(2, 4)
+        )
+      )
+
+    torch_module$manual_seed(804L)
+    state_before <-
+      torch_module$get_rng_state()
+
+    res_first <-
+      score_sjsdm_joint_tuning_predictions(
+        object = mod_fit,
+        data_test_input = data_test_input,
+        data_observed = data_observed,
+        data_predicted = data_predicted,
+        n_likelihood_draws = 3L,
+        score_seed = 42L
+      )
+
+    flag_state_restored <-
+      torch_module$equal(
+        state_before,
+        torch_module$get_rng_state()
+      ) |>
+      reticulate::py_to_r() |>
+      base::isTRUE()
+
+    torch_module$manual_seed(991L)
+
+    res_second <-
+      score_sjsdm_joint_tuning_predictions(
+        object = mod_fit,
+        data_test_input = data_test_input,
+        data_observed = data_observed,
+        data_predicted = data_predicted,
+        n_likelihood_draws = 3L,
+        score_seed = 42L
+      )
+
+    testthat::expect_true(flag_state_restored)
+    testthat::expect_equal(
+      res_first[["negative_log_likelihood_test"]],
+      res_second[["negative_log_likelihood_test"]]
+    )
   }
 )

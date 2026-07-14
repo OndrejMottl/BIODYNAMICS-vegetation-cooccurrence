@@ -11,7 +11,7 @@
 #' documented by
 #' [run_sjsdm_tuning_candidates()].
 #' @param seed
-#' Non-negative base integer used to derive candidate fit seeds.
+#' Non-negative base integer used to derive candidate fit and score seeds.
 #' @param epsilon
 #' Probability clipping tolerance passed to
 #' [score_sjsdm_tuning_predictions()].
@@ -81,6 +81,7 @@ run_sjsdm_tuning_fold_candidates <- function(
     base::length(seed) == 1L &&
     base::is.finite(seed) &&
     seed >= 0L &&
+    seed <= .Machine[["integer.max"]] &&
     seed == base::as.integer(seed)
 
   assertthat::assert_that(
@@ -141,6 +142,7 @@ run_sjsdm_tuning_fold_candidates <- function(
       repeat_id = list_fold_context[["repeat_id"]],
       fold_id = list_fold_context[["fold_id"]],
       fit_seed = NA_integer_,
+      score_seed = NA_integer_,
       n_train_locations = list_fold_context[["n_train_locations"]],
       n_test_locations = list_fold_context[["n_test_locations"]],
       n_train_samples = list_fold_context[["n_train_samples"]],
@@ -185,13 +187,35 @@ run_sjsdm_tuning_fold_candidates <- function(
         candidate_index <-
           .x[["candidate_index"]][[1L]]
 
+        candidate_id <-
+          .x[["candidate_id"]][[1L]]
+
         fit_seed_value <-
-          (
-            base::as.double(seed) +
-              list_fold_context[["repeat_id"]] * 100000 +
-              list_fold_context[["fold_id"]] * 1000 +
-              candidate_index
-          ) %% .Machine[["integer.max"]] |>
+          stringr::str_c(
+            seed,
+            list_fold_context[["repeat_id"]],
+            list_fold_context[["fold_id"]],
+            candidate_id,
+            "fit",
+            sep = "|"
+          ) |>
+          digest::digest2int() |>
+          base::as.double() |>
+          base::`%%`(.Machine[["integer.max"]]) |>
+          base::as.integer()
+
+        score_seed_value <-
+          stringr::str_c(
+            seed,
+            list_fold_context[["repeat_id"]],
+            list_fold_context[["fold_id"]],
+            candidate_id,
+            "score",
+            sep = "|"
+          ) |>
+          digest::digest2int() |>
+          base::as.double() |>
+          base::`%%`(.Machine[["integer.max"]]) |>
           base::as.integer()
 
         data_candidate <-
@@ -214,6 +238,9 @@ run_sjsdm_tuning_fold_candidates <- function(
 
         data_result[["fit_seed"]] <-
           fit_seed_value
+
+        data_result[["score_seed"]] <-
+          score_seed_value
 
         if (
           base::inherits(mod_fit, "error")
@@ -255,12 +282,29 @@ run_sjsdm_tuning_fold_candidates <- function(
         data_metrics <-
           tryCatch(
             expr = {
-              score_function(
-                object = mod_fit,
-                data_test_input = list_fold[["data_test_input"]],
-                data_observed = data_observed,
-                data_predicted = data_predicted,
-                epsilon = epsilon
+              score_arguments <-
+                base::list(
+                  object = mod_fit,
+                  data_test_input = list_fold[["data_test_input"]],
+                  data_observed = data_observed,
+                  data_predicted = data_predicted,
+                  epsilon = epsilon
+                )
+
+              score_formal_names <-
+                base::names(base::formals(score_function))
+
+              if (
+                "score_seed" %in% score_formal_names ||
+                  "..." %in% score_formal_names
+              ) {
+                score_arguments[["score_seed"]] <-
+                  score_seed_value
+              }
+
+              base::do.call(
+                what = score_function,
+                args = score_arguments
               )
             },
             error = function(error_condition) {

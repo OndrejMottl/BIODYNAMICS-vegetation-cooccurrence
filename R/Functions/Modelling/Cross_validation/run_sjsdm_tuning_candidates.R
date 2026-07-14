@@ -19,12 +19,12 @@
 #' must return a probability matrix aligned to `data_test_observed`.
 #' @param score_function
 #' Injectable function called with the fitted object, test input, aligned
-#' observations and probabilities, and epsilon. Defaults to marginal binary
-#' prediction scoring; production sjSDM tuning supplies the joint-likelihood
-#' scorer.
+#' observations and probabilities, epsilon, and, when supported, a
+#' deterministic `score_seed`. Defaults to marginal binary prediction scoring;
+#' production sjSDM tuning supplies the joint-likelihood scorer.
 #' @param seed
-#' Single non-negative integer used to derive stable fit seeds. Defaults to
-#' `900723L`.
+#' Single non-negative integer used to derive stable fit and score seeds.
+#' Defaults to `900723L`.
 #' @param epsilon
 #' Probability clipping tolerance used for held-out log loss. Defaults to
 #' `1e-6`.
@@ -136,6 +136,7 @@ run_sjsdm_tuning_candidates <- function(
     base::length(seed) == 1L &&
     base::is.finite(seed) &&
     seed >= 0L &&
+    seed <= .Machine[["integer.max"]] &&
     seed == base::as.integer(seed)
 
   assertthat::assert_that(
@@ -170,6 +171,7 @@ run_sjsdm_tuning_candidates <- function(
         lambda_coef = base::numeric(),
         lambda_spatial = base::numeric(),
         fit_seed = base::integer(),
+        score_seed = base::integer(),
         n_train_locations = base::integer(),
         n_test_locations = base::integer(),
         n_train_samples = base::integer(),
@@ -268,6 +270,7 @@ run_sjsdm_tuning_candidates <- function(
       "candidate_id",
       dplyr::all_of(vec_parameter_columns),
       "fit_seed",
+      "score_seed",
       "n_train_locations",
       "n_test_locations",
       "n_train_samples",
