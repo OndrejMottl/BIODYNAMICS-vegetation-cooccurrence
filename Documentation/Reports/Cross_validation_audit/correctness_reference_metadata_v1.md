@@ -67,6 +67,10 @@ The CV-005--CV-007 slice removes the generated artifacts and published pages for
 
 The interpolation PDF build initially stopped before producing output because the two roxygen argument descriptions used a Unicode ellipsis. Replacing that glyph with the ASCII `...` retained the contract while allowing the PDF toolchain to complete. `interpolate_mev_to_grid.pdf` and `interpolate_st_mev_to_grid.pdf` each contain three pages; extracted text in both records optional scale attributes and the unscaled fallback. Every page was rendered at 2x resolution and visually inspected without clipping, overlap, broken glyphs, or illegible content.
 
+## Function coverage evidence
+
+The CV-014 closure slice regenerated `covr_report.html`, `covr_report.json`, and `covr_report_summary.json` from the stabilized function and test inventories. Both `run_predictive_ablation_cv` and `apply_decomposition_scale_attributes` have zero matches in the HTML and JSON reports. The replacement `apply_scale_attributes` and current tuning APIs, including `make_sjsdm_regularization_candidates` and `run_sjsdm_tuning_candidates`, are represented in both formats. The JSON report contains 4,261 coverage records, parses successfully, and reports 92.05% line coverage, up from the stale report's 89.59%. The full suite remained `FAIL 0 | WARN 0 | SKIP 1 | PASS 3236`.
+
 ## Manifest reference
 
 The following manifests parsed successfully after the initial tier-source correction and contained no duplicate target names.
