@@ -481,5 +481,27 @@ pipe_segment_model_cross_validation_from_shared <-
       command = evaluate_sjsdm_cross_validated_predictions(
         data_predictions = data_sjsdm_out_of_fold_predictions
       )
+    ),
+    targets::tar_target(
+      description = "Evaluate branch predictions within CV folds",
+      name = "data_sjsdm_fold_local_metrics",
+      command = evaluate_sjsdm_fold_predictions(
+        data_predictions = data_sjsdm_out_of_fold_predictions
+      )
+    ),
+    targets::tar_target(
+      description = "Aggregate branch fold-local prediction metrics",
+      name = "list_sjsdm_fold_metric_summaries",
+      command = summarise_sjsdm_fold_metrics(
+        data_fold_metrics = data_sjsdm_fold_local_metrics
+      )
+    ),
+    targets::tar_target(
+      description = "Summarise branch metrics across CV repeats",
+      name = "list_sjsdm_metric_repeat_distributions",
+      command = summarise_sjsdm_metric_repeats(
+        list_fold_metric_summaries =
+          list_sjsdm_fold_metric_summaries
+      )
     )
   )

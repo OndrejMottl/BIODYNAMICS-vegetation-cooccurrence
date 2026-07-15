@@ -44,7 +44,7 @@ The direct and from-shared routes expose the same public branch contract after a
 | Grouping and assignment | `data_cross_validation_locations`, `data_cross_validation_fold_resolution`, `data_cross_validation_assignments_initial`, `data_cross_validation_partition_diagnostics_initial`, `data_cross_validation_assignments`, `data_cross_validation_partition_diagnostics`, `data_cross_validation_feasibility` |
 | Candidate definition and tuning | `data_sjsdm_regularization_candidates`, `data_sjsdm_model_context`, `data_sjsdm_tuning_candidates`, `data_sjsdm_tuning_summary`, `data_sjsdm_selected_regularization_unit` |
 | Tier selection | `data_sjsdm_tier_regularization_artifact`, `model_regularization_for_fit` |
-| Selected OOF execution | `list_sjsdm_selected_fold_predictions`, `data_sjsdm_out_of_fold_predictions`, `data_sjsdm_out_of_fold_diagnostics` |
+| Selected OOF execution | `list_sjsdm_selected_fold_predictions`, `data_sjsdm_out_of_fold_predictions`, `data_sjsdm_out_of_fold_diagnostics`, `data_sjsdm_fold_local_metrics`, `list_sjsdm_fold_metric_summaries`, `list_sjsdm_metric_repeat_distributions` |
 | Evaluation and provenance | `data_sjsdm_model_provenance`, `model_evaluation_cross_validated` |
 
 The direct route additionally exposes `data_cross_validation_grid_candidates` and `data_cross_validation_grid_calibration`.
