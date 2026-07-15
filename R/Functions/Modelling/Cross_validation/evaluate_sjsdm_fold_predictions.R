@@ -10,8 +10,8 @@
 #' [evaluate_binary_log_loss()]. Defaults to 1e-6.
 #' @return
 #' Tibble with one row per repeat, fold, taxon, prediction source, and metric.
-#' Prediction sources are model and prevalence_null; metrics are Tjur R2,
-#' AUC, and binary log loss.
+#' Prediction sources are model and prevalence_null; metrics are Tjur R2, AUC,
+#' binary log loss, Brier score, calibration intercept, and calibration slope.
 #' @details
 #' Unlike [evaluate_sjsdm_cross_validated_predictions()], this function never
 #' pools probabilities from separately fitted fold models. Model and null
@@ -206,7 +206,14 @@ evaluate_sjsdm_fold_predictions <- function(
       res_incomplete <-
         tibble::tibble(
           prediction_source = prediction_source,
-          metric_id = base::c("tjur_r2", "auc", "log_loss"),
+          metric_id = base::c(
+            "tjur_r2",
+            "auc",
+            "log_loss",
+            "brier_score",
+            "calibration_intercept",
+            "calibration_slope"
+          ),
           estimate = NA_real_,
           metric_status = incomplete_status,
           n_observations = base::as.integer(n_observations),
@@ -276,8 +283,60 @@ evaluate_sjsdm_fold_predictions <- function(
         "prevalence"
       )
 
+    data_brier_score <-
+      evaluate_binary_brier_score(
+        observed = vec_observed,
+        predicted_probability = vec_probability
+      ) |>
+      dplyr::mutate(
+        metric_id = "brier_score",
+        estimate = .data[["brier_score"]]
+      ) |>
+      dplyr::select(
+        "metric_id",
+        "estimate",
+        "metric_status",
+        "n_observations",
+        "n_presences",
+        "n_absences",
+        "prevalence"
+      )
+
+    data_calibration <-
+      evaluate_binary_calibration(
+        observed = vec_observed,
+        predicted_probability = vec_probability,
+        epsilon = epsilon
+      )
+
+    data_calibration_metrics <-
+      tibble::tibble(
+        metric_id = base::c(
+          "calibration_intercept",
+          "calibration_slope"
+        ),
+        estimate = base::c(
+          data_calibration[["calibration_intercept"]],
+          data_calibration[["calibration_slope"]]
+        ),
+        metric_status = base::c(
+          data_calibration[["intercept_status"]],
+          data_calibration[["slope_status"]]
+        ),
+        n_observations = data_calibration[["n_observations"]],
+        n_presences = data_calibration[["n_presences"]],
+        n_absences = data_calibration[["n_absences"]],
+        prevalence = data_calibration[["prevalence"]]
+      )
+
     res_source <-
-      base::list(data_tjur, data_auc, data_log_loss) |>
+      base::list(
+        data_tjur,
+        data_auc,
+        data_log_loss,
+        data_brier_score,
+        data_calibration_metrics
+      ) |>
       purrr::list_rbind() |>
       dplyr::mutate(
         prediction_source = prediction_source,
@@ -379,7 +438,14 @@ evaluate_sjsdm_fold_predictions <- function(
       ),
       base::match(
         .data[["metric_id"]],
-        base::c("tjur_r2", "auc", "log_loss")
+        base::c(
+          "tjur_r2",
+          "auc",
+          "log_loss",
+          "brier_score",
+          "calibration_intercept",
+          "calibration_slope"
+        )
       )
     )
 

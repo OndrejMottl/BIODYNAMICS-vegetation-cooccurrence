@@ -107,7 +107,7 @@ their stability.
 
 - [ ] Add fold-macro and observation-weighted aggregation without pooling raw
   probabilities across fold models.
-- [ ] Add Brier score and calibration intercept/slope with explicit undefined
+- [x] Add Brier score and calibration intercept/slope with explicit undefined
   statuses for one-class or degenerate groups.
 - [ ] Add repeat-level distributions and intervals rather than reporting only
   point means.
