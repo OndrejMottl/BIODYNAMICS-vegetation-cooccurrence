@@ -90,6 +90,17 @@ project_cz_paleo:
         lambda_cov: !expr c(0)
         lambda_coef: !expr c(0)
         lambda_spatial: !expr c(0)
+project_cz_paleo_cv_reference:
+  inherits: project_cz_paleo
+  target_store: Data/targets/cz_paleo_cv_reference
+  model_fitting:
+    cross_validation:
+      tier_id: "cz_paleo_cv_reference"
+      assignment_repeats: 3
+      regularization:
+        lambda_cov: !expr c(0, 0.1)
+        lambda_coef: !expr c(0, 0.1)
+        lambda_spatial: !expr c(0, 0.1)
 project_traits_reference:
   target_store: Data/targets/traits_reference
   data_processing:
