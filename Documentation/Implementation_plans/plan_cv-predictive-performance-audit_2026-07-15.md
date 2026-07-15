@@ -109,7 +109,7 @@ their stability.
   probabilities across fold models.
 - [x] Add Brier score and calibration intercept/slope with explicit undefined
   statuses for one-class or degenerate groups.
-- [ ] Add repeat-level distributions and intervals rather than reporting only
+- [x] Add repeat-level distributions and intervals rather than reporting only
   point means.
 - [x] Report taxon coverage, fold coverage, prevalence, and class counts beside
   every community metric.
@@ -122,6 +122,12 @@ their stability.
 - Test macro versus observation-weighted summaries separately.
 - Test degenerate calibration and one-class status contracts.
 - Run focused tests and the full suite.
+
+**Phase status:** Complete on 2026-07-15. Fold-macro and
+observation-weighted summaries, paired improvements, coverage, calibration,
+and descriptive repeat intervals are implemented and applied to the CZ
+reference. The corrected evaluation consistently beats the prevalence null,
+but observed repeat Tjur R2 remains below the provisional `0.1` gate.
 
 ### Phase 3 - Pipeline integration and versioned evidence
 
