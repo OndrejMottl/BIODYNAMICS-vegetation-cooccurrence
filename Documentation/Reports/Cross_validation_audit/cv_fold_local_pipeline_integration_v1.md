@@ -68,5 +68,6 @@ segments to publish the three new targets and retain the historical target.
 
 The current model-provenance table does not yet contain a fitting-device field.
 Recording device, estimand, aggregation method, source, and schema in provenance
-therefore remains a separate Phase 3 task. The dedicated three-repeat CZ paleo
-reference also still needs its GPU rerun and CPU/GPU comparison.
+therefore remains a separate Phase 3 task. The dedicated three-repeat GPU rerun
+and CPU/GPU comparison are recorded in
+`cz_paleo_cpu_gpu_reference_comparison_v1.md`.

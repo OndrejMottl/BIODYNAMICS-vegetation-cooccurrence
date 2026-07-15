@@ -141,7 +141,7 @@ changing the v1 pooled contract.
 - [ ] Record the evaluation estimand, aggregation method, source, device, and
   schema in provenance.
 - [x] Update the correctness contract and create a versioned diagnostic report.
-- [ ] Re-run the isolated CZ paleo reference on GPU and compare CPU/GPU results
+- [x] Re-run the isolated CZ paleo reference on GPU and compare CPU/GPU results
   without overwriting the historical execution record.
 
 **Validation:**

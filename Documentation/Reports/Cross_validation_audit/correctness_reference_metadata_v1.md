@@ -160,3 +160,11 @@ Future comparisons must match target presence, schema and column order, candidat
 ## Dedicated real-CV reference
 
 The production-like CZ paleo reference run is recorded separately in [`cz_paleo_cv_reference_v1.md`](cz_paleo_cv_reference_v1.md). It used three assignment repeats and eight regularization candidates in an isolated store. All 120 tuning fits and all 15 selected-candidate refits succeeded; fully regularized `candidate_008` reduced mean held-out NLL/response from `0.384313689888821` to `0.306641469176137`. Mean OOF log loss was `0.367094477482017`, improving on the fold-prevalence null by `0.0220725980703752`, while mean Tjur R2 remained low at `0.0288530573204427`. The report retains exact repeat-level metrics, null comparisons, convergence evidence, provenance, schemas, hashes, execution interruption/resume evidence, and scientific limitations.
+
+The isolated GPU rerun and comparison are recorded in
+[`cz_paleo_cpu_gpu_reference_comparison_v1.md`](cz_paleo_cpu_gpu_reference_comparison_v1.md).
+CPU and GPU selected the same regularization candidate and produced identical
+OOF keys, seeds, fold statuses, and diagnostics. Proper scoring losses and the
+fold-local Tjur R2 conclusion were stable, although elementwise probabilities,
+AUC, and unstable calibration slopes did not meet strict `1e-4` numerical
+parity. The historical CPU store remains unchanged.

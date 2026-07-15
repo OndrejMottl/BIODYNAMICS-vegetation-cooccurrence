@@ -25,8 +25,13 @@ testthat::test_that(
         ~ stringr::str_starts(.x, "fit_device:")
       )
 
+    testthat::expect_gte(
+      base::length(vec_device_settings),
+      1L
+    )
+
     testthat::expect_equal(
-      vec_device_settings,
+      base::unique(vec_device_settings),
       'fit_device: "gpu"'
     )
 

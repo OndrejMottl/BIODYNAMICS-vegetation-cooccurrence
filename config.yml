@@ -101,6 +101,13 @@ project_cz_paleo_cv_reference:
         lambda_cov: !expr c(0, 0.1)
         lambda_coef: !expr c(0, 0.1)
         lambda_spatial: !expr c(0, 0.1)
+project_cz_paleo_cv_reference_gpu:
+  inherits: project_cz_paleo_cv_reference
+  target_store: Data/targets/cz_paleo_cv_reference_gpu
+  model_fitting:
+    cross_validation:
+      tier_id: "cz_paleo_cv_reference_gpu"
+      fit_device: "gpu"
 project_traits_reference:
   target_store: Data/targets/traits_reference
   data_processing:
