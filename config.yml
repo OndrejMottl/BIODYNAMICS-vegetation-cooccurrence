@@ -40,7 +40,7 @@ default:
       assignment_repeats: 3
       assignment_seed: 900723
       fit_seed: 900723
-      fit_device: "cpu"
+      fit_device: "gpu"
       min_mem_locations: 4
       regularization:
         alpha_cov: !expr c(0.5)
