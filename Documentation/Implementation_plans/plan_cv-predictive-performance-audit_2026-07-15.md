@@ -105,15 +105,15 @@ their stability.
 
 **Tasks:**
 
-- [ ] Add fold-macro and observation-weighted aggregation without pooling raw
+- [x] Add fold-macro and observation-weighted aggregation without pooling raw
   probabilities across fold models.
 - [x] Add Brier score and calibration intercept/slope with explicit undefined
   statuses for one-class or degenerate groups.
 - [ ] Add repeat-level distributions and intervals rather than reporting only
   point means.
-- [ ] Report taxon coverage, fold coverage, prevalence, and class counts beside
+- [x] Report taxon coverage, fold coverage, prevalence, and class counts beside
   every community metric.
-- [ ] Define paired model-minus-null deltas for discrimination and
+- [x] Define paired model-minus-null deltas for discrimination and
   null-minus-model deltas for loss metrics.
 
 **Validation:**
