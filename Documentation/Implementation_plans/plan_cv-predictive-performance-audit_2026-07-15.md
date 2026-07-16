@@ -273,6 +273,23 @@ rows for 41 locations across three repeats and five folds. The mandatory fresh
 Czechia gates finished with zero target errors in both paleo stores and the
 modern store; the clean modern rebuild completed 2,152 targets.
 
+**Scientific-reference result:** The fresh `eu_r005_l010` GPU benchmark
+completed all 15 fixed-candidate fold fits successfully. Mean fold-macro Tjur
+R2 is `0.168` (repeat estimates `0.169`, `0.167`, and `0.168`) and mean AUC is
+`0.798`. All repeats improve on the prevalence null for Tjur R2, AUC, log loss,
+and Brier score. Fourteen prespecified eligible taxa produce mean Tjur R2
+`0.208` and AUC `0.824`; 18 of 19 evaluable taxa have positive mean Tjur R2.
+The larger reference therefore passes the provisional `0.1` discrimination
+gate and supports a scientific-performance pass, while CZ remains a valid
+engineering stress test rather than the scientific benchmark. Calibration
+remains a caution: the all-taxa mean intercept is `0.265` and slope is `2.76`.
+The execution and artifact hashes are recorded in
+`paleo_local_cv_scientific_reference_v1.md`.
+The final harness passed 13 focused assertions and the full suite with 3,495
+passes and one expected integration skip. The mandatory fresh Czechia gate
+completed with exit code 0, and direct metadata checks found zero errors in all
+three rebuilt stores.
+
 ## Risks and mitigations
 
 | Risk | Likelihood | Mitigation |

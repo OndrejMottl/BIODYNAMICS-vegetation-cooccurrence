@@ -316,7 +316,10 @@ base::list(
       lambda_cov = base::c(0.1),
       lambda_coef = base::c(0.1),
       lambda_spatial = base::c(0.1)
-    )
+    ) |>
+      dplyr::mutate(
+        regularization_source = "fixed_external_reference"
+      )
   ),
   targets::tar_target(
     name = list_scientific_reference_fold_predictions,
@@ -374,6 +377,34 @@ base::list(
       minimum_prevalence = 0.05,
       maximum_prevalence = 0.95,
       minimum_evaluable_fraction = 0.8
+    )
+  ),
+  targets::tar_target(
+    name = vec_scientific_reference_eligible_taxa,
+    command = data_scientific_reference_taxon_eligibility |>
+      dplyr::filter(.data[["eligible"]]) |>
+      dplyr::pull("taxon")
+  ),
+  targets::tar_target(
+    name = data_scientific_reference_eligible_fold_metrics,
+    command = data_scientific_reference_fold_metrics |>
+      dplyr::filter(
+        .data[["taxon"]] %in%
+          vec_scientific_reference_eligible_taxa
+      )
+  ),
+  targets::tar_target(
+    name = list_scientific_reference_eligible_metric_summaries,
+    command = summarise_sjsdm_fold_metrics(
+      data_fold_metrics =
+        data_scientific_reference_eligible_fold_metrics
+    )
+  ),
+  targets::tar_target(
+    name = list_scientific_reference_eligible_repeat_distributions,
+    command = summarise_sjsdm_metric_repeats(
+      list_fold_metric_summaries =
+        list_scientific_reference_eligible_metric_summaries
     )
   )
 )

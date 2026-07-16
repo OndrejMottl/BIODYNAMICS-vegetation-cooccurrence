@@ -58,12 +58,22 @@ testthat::test_that(
     )
     testthat::expect_match(
       text_pipeline,
+      "list_scientific_reference_eligible_repeat_distributions",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_pipeline,
       "fit_device",
       fixed = TRUE
     )
     testthat::expect_match(
       text_pipeline,
       "lambda_cov = base::c(0.1)",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_pipeline,
+      'regularization_source = "fixed_external_reference"',
       fixed = TRUE
     )
 
