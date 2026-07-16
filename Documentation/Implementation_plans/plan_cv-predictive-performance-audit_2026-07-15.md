@@ -203,6 +203,8 @@ the scientific gate.
 
 **Tasks:**
 
+- [x] Define a first-pass coordinate search with one reference plus separate
+  covariance, abiotic-coefficient, and spatial-coefficient axes.
 - [ ] Test a wider lambda range such as `0`, `0.01`, `0.03`, `0.1`, `0.3`, and
   `1` using a sequential or structured search rather than all 216 combinations.
 - [ ] Diagnose covariance, coefficient, and spatial regularization separately.
@@ -219,6 +221,16 @@ the scientific gate.
 - Require improvement across repeats and taxa, not only the selected mean.
 - Confirm the winner is not on the search boundary before calling it optimal.
 - Run focused tests, the full suite, fresh affected pipelines, and review.
+
+**Search-design checkpoint:** The deterministic first pass contains 16
+candidates: the current `(0.1, 0.1, 0.1)` reference and five alternatives along
+each lambda axis. It records the varied axis and explicit lower/upper boundary
+flags while preserving the seven-column production candidate schema. This
+reduces the first GPU experiment from 216 to 16 candidates; combined axis values
+will be tested only after the first-pass response surface is observed. The
+generator passed 14 focused assertions, the full suite passed 3,445 assertions
+with the single opt-in integration skip, and the mandatory fresh CZ gate ended
+with exit code 0 and zero target errors in all three stores.
 
 ## Risks and mitigations
 
