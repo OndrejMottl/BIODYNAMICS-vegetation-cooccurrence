@@ -206,3 +206,22 @@ The component implementation passed 49 focused assertions, the full suite with
 3,430 passes and the single opt-in integration skip, and a fresh mandatory CZ
 gate with exit code 0. Direct metadata checks found zero errors in the paleo
 core, paleo resolution, and modern resolution stores.
+
+The Phase 5 structured regularization experiment is recorded in
+[`cz_paleo_structured_regularization_diagnostic_v1.md`](cz_paleo_structured_regularization_diagnostic_v1.md).
+The isolated GPU pipeline completed all 240 tuning fits and all 15 independent
+selected-candidate refits. Covariance lambda `0.01` minimized mean tuning NLL at
+`0.305712`, compared with `0.306926` for the `(0.1, 0.1, 0.1)` reference, but
+the improvement reversed in one of three repeats. The independently refitted
+candidate was worse than the reference on fold-macro AUC (`0.643` versus
+`0.661`), Tjur R2 (`0.0408` versus `0.0526`), log loss (`0.324` versus `0.308`),
+and Brier score (`0.0913` versus `0.0891`). The result is retained as evidence
+that regularization alone does not resolve the CZ scientific-performance
+failure; it does not change the accepted reference candidate.
+
+The structured-search contract passed 15 focused assertions and the full suite
+passed 3,460 assertions with no failures or warnings and one expected opt-in
+integration skip. The mandatory fresh CZ gate completed with exit code 0 in 56
+minutes 37 seconds. Metadata contained zero errors across 515 paleo-core rows,
+625 paleo-resolution rows, 2,423 modern-resolution rows, and 288 isolated
+structured-search rows.

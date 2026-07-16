@@ -205,9 +205,9 @@ the scientific gate.
 
 - [x] Define a first-pass coordinate search with one reference plus separate
   covariance, abiotic-coefficient, and spatial-coefficient axes.
-- [ ] Test a wider lambda range such as `0`, `0.01`, `0.03`, `0.1`, `0.3`, and
+- [x] Test a wider lambda range such as `0`, `0.01`, `0.03`, `0.1`, `0.3`, and
   `1` using a sequential or structured search rather than all 216 combinations.
-- [ ] Diagnose covariance, coefficient, and spatial regularization separately.
+- [x] Diagnose covariance, coefficient, and spatial regularization separately.
 - [ ] Retain negative log likelihood as the primary proper scoring rule while
   enforcing minimum discrimination and calibration guardrails.
 - [ ] Test whether sparse taxa should be excluded by a prespecified prevalence
@@ -231,6 +231,20 @@ will be tested only after the first-pass response surface is observed. The
 generator passed 14 focused assertions, the full suite passed 3,445 assertions
 with the single opt-in integration skip, and the mandatory fresh CZ gate ended
 with exit code 0 and zero target errors in all three stores.
+
+**First-pass result:** The isolated GPU search completed all 240 candidate fits
+and 15 independent selected-candidate refits. Covariance lambda `0.01` minimized
+mean tuning NLL, but improved it by only `0.001214` per response relative to the
+`0.1` reference and was worse in one of three repeats. Its independent refit was
+worse than the original reference on AUC, Tjur R2, log loss, and Brier score;
+mean Tjur R2 fell from `0.0526` to `0.0408`. The selected value is not a search
+boundary, but it fails the repeat-stability and scientific guardrails and must
+not replace the reference. Details are recorded in
+`cz_paleo_structured_regularization_diagnostic_v1.md`. The implementation
+passed 15 focused assertions and the full suite with 3,460 passes and one
+expected integration skip. The mandatory fresh CZ gate completed with exit
+code 0; direct metadata checks found zero target errors in all three rebuilt
+stores and the isolated structured-search store.
 
 ## Risks and mitigations
 
