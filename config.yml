@@ -247,6 +247,14 @@ project_paleo_spatial_local:
         representative_scale_id: "eu_r005_l014"
     n_mev: 3
     n_cores: 24
+project_paleo_local_cv_scientific_reference_gpu:
+  inherits: project_paleo_spatial_local
+  target_store: Data/targets/paleo_local_cv_scientific_reference_gpu
+  model_fitting:
+    cross_validation:
+      tier_id: "paleo_local_cv_scientific_reference_gpu"
+      assignment_repeats: 3
+      fit_device: "gpu"
 project_modern_spatial_continental:
   target_store: Data/targets/modern_spatial_continental
   vegvault_data:

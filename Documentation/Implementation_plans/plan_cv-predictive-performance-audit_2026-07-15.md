@@ -212,7 +212,7 @@ the scientific gate.
   enforcing minimum discrimination and calibration guardrails.
 - [x] Test whether sparse taxa should be excluded by a prespecified prevalence
   or fold-evaluability rule.
-- [ ] If CZ remains too unstable, choose a somewhat larger local model as the
+- [x] If CZ remains too unstable, choose a somewhat larger local model as the
   scientific reference while retaining CZ as an engineering stress test.
 
 **Validation:**
@@ -257,6 +257,21 @@ The candidate is rejected under both scopes. Details are recorded in
 focused assertions and the full suite with 3,482 passes and one expected
 integration skip. The mandatory fresh CZ gate completed with exit code 0;
 direct metadata checks found zero errors in every rebuilt and diagnostic store.
+
+**Scientific-reference selection checkpoint:** `eu_r005_l010` is selected as
+the larger paleo local scientific reference. It contains 878 aligned samples,
+41 locations, and 20 genus responses. Under fresh deterministic 3 x 5 spatial
+folds, 85% of taxon-fold combinations are evaluable and 16 of 20 taxa are
+evaluable in at least 80% of folds. This passes the pre-fit threshold while
+remaining substantially cheaper than `eu_r005_l006` (1,840 samples and 28
+taxa). CZ remains the small-sample engineering stress test. An isolated GPU
+pipeline now fixes regularization at `(0.1, 0.1, 0.1)` before fitting so the
+benchmark does not select and assess hyperparameters on the same folds.
+The harness passed 11 focused assertions and the full suite with 3,493 passes
+and one expected integration skip. A pre-fit build produced all 123 assignment
+rows for 41 locations across three repeats and five folds. The mandatory fresh
+Czechia gates finished with zero target errors in both paleo stores and the
+modern store; the clean modern rebuild completed 2,152 targets.
 
 ## Risks and mitigations
 
