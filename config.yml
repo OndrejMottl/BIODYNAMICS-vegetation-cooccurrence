@@ -108,6 +108,9 @@ project_cz_paleo_cv_reference_gpu:
     cross_validation:
       tier_id: "cz_paleo_cv_reference_gpu"
       fit_device: "gpu"
+project_cz_paleo_cv_component_reference_gpu:
+  inherits: project_cz_paleo_cv_reference_gpu
+  target_store: Data/targets/cz_paleo_cv_component_reference_gpu
 project_traits_reference:
   target_store: Data/targets/traits_reference
   data_processing:

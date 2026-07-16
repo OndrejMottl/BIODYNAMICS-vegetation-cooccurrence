@@ -192,3 +192,17 @@ mean exceeds the provisional threshold, while Pinus, Alnus, and Picea have no
 evaluable model discrimination estimates because constant training responses
 make their predictions unavailable. The evidence is classified as a technical
 CV pass and a provisional scientific-prediction failure.
+
+The controlled predictor-component comparison is recorded in
+[`cz_paleo_predictor_component_diagnostic_v1.md`](cz_paleo_predictor_component_diagnostic_v1.md).
+All 45 new GPU fold fits succeeded on identical assignments and seeds. Mean
+fold-macro Tjur R2 was `0` for intercept-only, `0.0251` for spatial-only,
+`0.0308` for abiotic-only, and `0.0526` for the full model. The full model
+improved every primary metric over both reduced predictor models in all three
+repeats. Both predictor blocks contain complementary signal, but the full model
+continues to fail the working `0.1` scientific gate.
+
+The component implementation passed 49 focused assertions, the full suite with
+3,430 passes and the single opt-in integration skip, and a fresh mandatory CZ
+gate with exit code 0. Direct metadata checks found zero errors in the paleo
+core, paleo resolution, and modern resolution stores.

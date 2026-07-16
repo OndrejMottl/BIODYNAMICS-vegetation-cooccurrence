@@ -163,7 +163,7 @@ standard and locate the source of any failure.
   user-specified minimum until formally confirmed.
 - [x] Require AUC uncertainty to support performance above `0.5` and require most
   evaluable taxa to have positive discrimination.
-- [ ] Compare prevalence, intercept-only, abiotic-only, spatial-only, and full
+- [x] Compare prevalence, intercept-only, abiotic-only, spatial-only, and full
   model baselines using identical folds.
 - [x] Diagnose taxa with sparse classes, constant training responses, unstable
   calibration, or consistently negative discrimination.
@@ -186,6 +186,15 @@ exceed `0.1` on average, and Pinus, Alnus, and Picea have no evaluable model
 discrimination estimates. Details are recorded in
 `cz_paleo_taxon_eligibility_diagnostic_v1.md`. The component-baseline comparison
 is the next unresolved diagnostic.
+
+**Component checkpoint:** The isolated GPU comparison completed all 45 reduced
+model fits successfully on the reference folds. Intercept-only, spatial-only,
+abiotic-only, and full-model fold-macro Tjur R2 values are `0`, `0.0251`,
+`0.0308`, and `0.0526`, respectively. The full model improves AUC, Tjur R2, log
+loss, and Brier score over both reduced predictor models in every repeat. Both
+predictor blocks therefore contain complementary signal, but their combination
+still fails the working `0.1` Tjur gate. Details are recorded in
+`cz_paleo_predictor_component_diagnostic_v1.md`.
 
 ### Phase 5 - Targeted improvement experiments
 
