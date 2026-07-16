@@ -52,7 +52,7 @@ Mapped resolution pipelines suffix branch targets by resolution while preserving
 | Fold-local evaluation | Long table keyed by repeat/fold/taxon, prediction source, and metric. It contains estimate/status, observation/class counts, and prevalence for Tjur R2, AUC, log loss, Brier score, calibration intercept, and calibration slope. |
 | Fold-metric summaries | Named list of source summaries and paired improvements. Both retain fold-macro and observation-weighted estimates plus fold/taxon/observation/class coverage; positive paired estimates always favor the model. |
 | Repeat-metric distributions | Named list of source and paired repeat distributions with mean, median, standard deviation, empirical 95 percent repeat bounds, repeat counts, and fold-taxon coverage. Paired output also records the proportion of positive repeats. |
-| Model provenance | Selected candidate/context/source/status, feasibility counts/strategy/status, repeat/fold success counts, retained-taxon count, and effective MEM scalar/minimum/maximum/status. The legacy scalar is populated only when effective rank is constant across folds. |
+| Model provenance | Selected candidate/context/source/status, feasibility counts/strategy/status, repeat/fold success counts, retained-taxon count, and effective MEM scalar/minimum/maximum/status. It also records fitting device, OOF prediction source, repeat/fold/taxon estimand, fold-macro and observation-weighted aggregation methods, and schema version `sjsdm_fold_local_cv_v1`. The legacy MEM scalar is populated only when effective rank is constant across folds. |
 
 ## Critical status vocabulary
 

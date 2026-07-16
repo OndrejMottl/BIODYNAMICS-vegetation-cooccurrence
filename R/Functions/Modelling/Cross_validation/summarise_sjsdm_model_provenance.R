@@ -10,24 +10,30 @@
 #' @param data_fold_diagnostics
 #' Selected-candidate fold diagnostics. An empty data frame is allowed when
 #' held-out evaluation is unavailable.
+#' @param fit_device
+#' Scalar fitting-device identifier. Must be `"cpu"` or `"gpu"`.
 #' @return
 #' One-row tibble containing model context, feasibility, data counts, fold-fit
 #' counts, effective MEV minimum/maximum/status and retained-taxon counts, and
-#' regularization source. The legacy scalar `n_effective_mev` is retained when
-#' the count is constant across folds and is missing when counts vary.
+#' regularization source. It also records the fitting device and versioned
+#' fold-local evaluation contract. The legacy scalar `n_effective_mev` is
+#' retained when the count is constant across folds and is missing when counts
+#' vary.
 #' @examples
 #' \dontrun{
 #' summarise_sjsdm_model_provenance(
 #'   data_feasibility = data_cross_validation_feasibility,
 #'   data_regularization = model_regularization_for_fit,
-#'   data_fold_diagnostics = data_sjsdm_out_of_fold_diagnostics
+#'   data_fold_diagnostics = data_sjsdm_out_of_fold_diagnostics,
+#'   fit_device = "gpu"
 #' )
 #' }
 #' @export
 summarise_sjsdm_model_provenance <- function(
     data_feasibility = NULL,
     data_regularization = NULL,
-    data_fold_diagnostics = NULL) {
+    data_fold_diagnostics = NULL,
+    fit_device = NULL) {
   vec_feasibility_columns <-
     base::c(
       "n_locations",
@@ -74,6 +80,14 @@ summarise_sjsdm_model_provenance <- function(
   assertthat::assert_that(
     base::is.data.frame(data_fold_diagnostics),
     msg = "data_fold_diagnostics must be a data frame."
+  )
+
+  assertthat::assert_that(
+    base::is.character(fit_device),
+    base::length(fit_device) == 1L,
+    !base::is.na(fit_device),
+    fit_device %in% base::c("cpu", "gpu"),
+    msg = "fit_device must be either 'cpu' or 'gpu'."
   )
 
   flag_has_fold_diagnostics <-
@@ -192,13 +206,24 @@ summarise_sjsdm_model_provenance <- function(
       effective_mev_status = effective_mev_status
     )
 
+  data_evaluation_provenance <-
+    tibble::tibble(
+      fit_device = fit_device,
+      evaluation_prediction_source = "out_of_fold",
+      evaluation_estimand = "repeat_fold_taxon",
+      evaluation_aggregation_methods =
+        "fold_macro;observation_weighted",
+      evaluation_schema_version = "sjsdm_fold_local_cv_v1"
+    )
+
   res <-
     dplyr::bind_cols(
       data_regularization |>
         dplyr::select(dplyr::all_of(vec_regularization_columns)),
       data_feasibility |>
         dplyr::select(dplyr::all_of(vec_feasibility_columns)),
-      data_fold_summary
+      data_fold_summary,
+      data_evaluation_provenance
     )
 
   return(res)

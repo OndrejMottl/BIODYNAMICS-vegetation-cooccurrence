@@ -40,10 +40,22 @@ testthat::test_that(
       summarise_sjsdm_model_provenance(
         data_feasibility = data_feasibility,
         data_regularization = data_regularization,
-        data_fold_diagnostics = data_fold_diagnostics
+        data_fold_diagnostics = data_fold_diagnostics,
+        fit_device = "gpu"
       )
 
     testthat::expect_equal(base::nrow(res), 1L)
+    testthat::expect_equal(base::ncol(res), 29L)
+    testthat::expect_equal(
+      utils::tail(base::names(res), 5L),
+      base::c(
+        "fit_device",
+        "evaluation_prediction_source",
+        "evaluation_estimand",
+        "evaluation_aggregation_methods",
+        "evaluation_schema_version"
+      )
+    )
     testthat::expect_equal(res[["n_repeats"]], 2L)
     testthat::expect_equal(res[["n_fold_fits"]], 10L)
     testthat::expect_equal(res[["n_successful_fold_fits"]], 10L)
@@ -56,9 +68,36 @@ testthat::test_that(
       "constant_across_folds"
     )
     testthat::expect_equal(res[["regularization_source"]], "unit_cv")
+    testthat::expect_equal(res[["fit_device"]], "gpu")
+    testthat::expect_equal(
+      res[["evaluation_prediction_source"]],
+      "out_of_fold"
+    )
+    testthat::expect_equal(
+      res[["evaluation_estimand"]],
+      "repeat_fold_taxon"
+    )
+    testthat::expect_equal(
+      res[["evaluation_aggregation_methods"]],
+      "fold_macro;observation_weighted"
+    )
+    testthat::expect_equal(
+      res[["evaluation_schema_version"]],
+      "sjsdm_fold_local_cv_v1"
+    )
     testthat::expect_equal(
       res[["cv_strategy"]],
       "spatially_stratified_group_kfold"
+    )
+
+    testthat::expect_error(
+      summarise_sjsdm_model_provenance(
+        data_feasibility = data_feasibility,
+        data_regularization = data_regularization,
+        data_fold_diagnostics = data_fold_diagnostics,
+        fit_device = "automatic"
+      ),
+      "fit_device must be either 'cpu' or 'gpu'"
     )
   }
 )
@@ -95,7 +134,8 @@ testthat::test_that(
       summarise_sjsdm_model_provenance(
         data_feasibility = data_feasibility,
         data_regularization = data_regularization,
-        data_fold_diagnostics = tibble::tibble()
+        data_fold_diagnostics = tibble::tibble(),
+        fit_device = "cpu"
       )
 
     testthat::expect_equal(res[["n_repeats"]], 0L)
@@ -112,6 +152,7 @@ testthat::test_that(
       res[["regularization_source"]],
       "tier_pooled"
     )
+    testthat::expect_equal(res[["fit_device"]], "cpu")
   }
 )
 
@@ -155,7 +196,8 @@ testthat::test_that(
       summarise_sjsdm_model_provenance(
         data_feasibility = data_feasibility,
         data_regularization = data_regularization,
-        data_fold_diagnostics = data_fold_diagnostics
+        data_fold_diagnostics = data_fold_diagnostics,
+        fit_device = "gpu"
       )
 
     testthat::expect_equal(base::nrow(res), 1L)
@@ -191,7 +233,8 @@ testthat::test_that(
             summarise_sjsdm_model_provenance(
               data_feasibility = data_feasibility,
               data_regularization = data_regularization,
-              data_fold_diagnostics = data_invalid_diagnostics
+              data_fold_diagnostics = data_invalid_diagnostics,
+              fit_device = "gpu"
             ),
             "Effective MEV counts must be non-negative integers"
           )

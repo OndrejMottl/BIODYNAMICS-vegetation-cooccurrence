@@ -67,6 +67,14 @@ testthat::test_that(
         ),
         1L
       )
+
+      testthat::expect_equal(
+        stringr::str_count(
+          string = pipe_text,
+          pattern = stringr::fixed("fit_device = purrr::chuck")
+        ),
+        1L
+      )
     }
   }
 )

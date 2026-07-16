@@ -152,7 +152,7 @@ The fresh artifacts matched the v1 contract inventory. Exact column order is par
 - Selected candidate: `candidate_id`, six regularization parameters, `selection_metric`, `selection_metric_value`, `n_repeats`, `candidate_rank`, `cv_strategy`, `regularization_source`.
 - OOF predictions: `repeat_id`, `fold_id`, `row_index`, `location_id`, `dataset_name`, `age`, `taxon`, `observed`, `predicted_probability`, `null_probability`, `prediction_status`.
 - OOF diagnostics: `repeat_id`, `fold_id`, `candidate_id`, `fit_seed`, `n_train_samples`, `n_test_samples`, `n_taxa_retained`, `n_effective_mev`, `fit_status`, `error_message`, `cv_strategy`, `regularization_source`.
-- Model provenance: the 24 fields recorded in the contract inventory, ending with `n_effective_mev`, `n_effective_mev_min`, `n_effective_mev_max`, and `effective_mev_status`.
+- Model provenance: the original reference contained 24 fields ending with `effective_mev_status`. The current additive contract appends `fit_device`, `evaluation_prediction_source`, `evaluation_estimand`, `evaluation_aggregation_methods`, and `evaluation_schema_version`. The 29-column extension preserves the historical field order and ends with schema version `sjsdm_fold_local_cv_v1`.
 - CV evaluation: taxon metrics use `repeat_id`, `taxon`, `metric_id`, `estimate`, `metric_status`, `n_observations`, `n_presences`, `n_absences`, `prevalence`; community summaries use `repeat_id`, `metric_id`, `summary_statistic`, `estimate`, `n_taxa_evaluable`, `metric_status`.
 
 Future comparisons must match target presence, schema and column order, candidate ID and parameters, categorical statuses, seeds, row counts, and provenance counts exactly. Hash equality is the strongest same-environment check but is not required across supported runtime changes. For row-aligned numeric comparisons, use maximum absolute tolerance `1e-4` for OOF/null probabilities, pooled NLL per response, tuning/CV AUC, Tjur R2, log loss, and fitted R2. Missing-value positions must match exactly. Any candidate-selection change, status change, structural mismatch, or value outside tolerance requires scientific review rather than automatic acceptance.
@@ -168,3 +168,18 @@ OOF keys, seeds, fold statuses, and diagnostics. Proper scoring losses and the
 fold-local Tjur R2 conclusion were stable, although elementwise probabilities,
 AUC, and unstable calibration slopes did not meet strict `1e-4` numerical
 parity. The historical CPU store remains unchanged.
+
+A subsequent fresh GPU reference verified the additive provenance extension.
+The one-row artifact recorded `gpu`, `out_of_fold`, `repeat_fold_taxon`,
+`fold_macro;observation_weighted`, and `sjsdm_fold_local_cv_v1` in the five new
+columns. All 120 tuning fits and all 15 selected-candidate fold refits succeeded,
+the store contained zero target errors, and the provenance data hash was
+`19cffe27d6c58bde`.
+
+The mandatory fresh CZ gate then verified the same 29-column contract across
+all seven direct and resolution units. Every row recorded the expected five
+values, and all three stores had zero errors and zero incomplete targets. The
+fresh provenance hashes were `0abfbcbf3c16ebb7` for paleo core/genus,
+`434559507b4415f4` for paleo family, `464cbb1f501ac889` for paleo functional
+type, `329cbbabb07d24b2` for modern family, `5abc60fd2eb43667` for modern genus,
+and `d136f2f1cc74c502` for modern functional type.

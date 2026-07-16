@@ -511,7 +511,12 @@ pipe_segment_model_cross_validation <-
         data_feasibility = data_cross_validation_feasibility,
         data_regularization = model_regularization_for_fit,
         data_fold_diagnostics =
-          data_sjsdm_out_of_fold_diagnostics
+          data_sjsdm_out_of_fold_diagnostics,
+        fit_device = purrr::chuck(
+          config_model_fitting,
+          "cross_validation",
+          "fit_device"
+        )
       )
     ),
     targets::tar_target(

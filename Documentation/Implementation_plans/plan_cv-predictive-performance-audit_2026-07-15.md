@@ -138,7 +138,7 @@ changing the v1 pooled contract.
 
 - [x] Add a separately named target for fold-local evaluation to direct and
   shared CV pipe segments.
-- [ ] Record the evaluation estimand, aggregation method, source, device, and
+- [x] Record the evaluation estimand, aggregation method, source, device, and
   schema in provenance.
 - [x] Update the correctness contract and create a versioned diagnostic report.
 - [x] Re-run the isolated CZ paleo reference on GPU and compare CPU/GPU results

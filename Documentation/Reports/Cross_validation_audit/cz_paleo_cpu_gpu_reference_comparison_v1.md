@@ -117,11 +117,12 @@ successful fold coverage, proper scoring losses, null-model improvements, and
 the low Tjur R2 conclusion are stable. AUC shifts modestly and calibration slope
 remains unusably unstable.
 
-Future reference and production fitting should use GPU, with the fitting device
-recorded in provenance. Exact CPU/GPU target hashes or probability equality
-should not be required. Most importantly, GPU fitting does not rescue the CZ
-model from the provisional Tjur R2 threshold: the estimate remains near `0.053`,
-well below `0.1`.
+Future reference and production fitting should use GPU. The subsequent
+provenance extension now records the fitting device and versioned fold-local
+evaluation contract. Exact CPU/GPU target hashes or probability equality should
+not be required. Most importantly, GPU fitting does not rescue the CZ model from
+the provisional Tjur R2 threshold: the estimate remains near `0.053`, well below
+`0.1`.
 
 ## Repository validation
 
