@@ -144,6 +144,22 @@ base::list(
     cue = targets::tar_cue(mode = "always")
   ),
   targets::tar_target(
+    name = data_reference_fold_metrics,
+    command = targets::tar_read_raw(
+      name = "data_sjsdm_fold_local_metrics",
+      store = path_gpu_reference_store
+    ),
+    cue = targets::tar_cue(mode = "always")
+  ),
+  targets::tar_target(
+    name = list_reference_metric_summaries,
+    command = targets::tar_read_raw(
+      name = "list_sjsdm_fold_metric_summaries",
+      store = path_gpu_reference_store
+    ),
+    cue = targets::tar_cue(mode = "always")
+  ),
+  targets::tar_target(
     name = list_sjsdm_structured_regularization_design,
     command = make_sjsdm_structured_regularization_candidates(
       alpha_cov = data_reference_selected_candidate[["alpha_cov"]][[1L]],
@@ -297,6 +313,80 @@ base::list(
     command = summarise_sjsdm_metric_repeats(
       list_fold_metric_summaries =
         list_sjsdm_structured_selected_metric_summaries
+    )
+  ),
+  targets::tar_target(
+    name = data_sjsdm_reference_taxon_eligibility,
+    command = assess_sjsdm_taxon_eligibility(
+      data_fold_metrics = data_reference_fold_metrics,
+      minimum_prevalence = 0.05,
+      maximum_prevalence = 0.95,
+      minimum_evaluable_fraction = 0.8
+    )
+  ),
+  targets::tar_target(
+    name = vec_sjsdm_eligible_taxa,
+    command = data_sjsdm_reference_taxon_eligibility |>
+      dplyr::filter(.data[["eligible"]]) |>
+      dplyr::pull("taxon")
+  ),
+  targets::tar_target(
+    name = data_reference_eligible_fold_metrics,
+    command = data_reference_fold_metrics |>
+      dplyr::filter(.data[["taxon"]] %in% vec_sjsdm_eligible_taxa)
+  ),
+  targets::tar_target(
+    name = data_sjsdm_structured_selected_eligible_fold_metrics,
+    command = data_sjsdm_structured_selected_fold_metrics |>
+      dplyr::filter(.data[["taxon"]] %in% vec_sjsdm_eligible_taxa)
+  ),
+  targets::tar_target(
+    name = list_reference_eligible_metric_summaries,
+    command = summarise_sjsdm_fold_metrics(
+      data_fold_metrics = data_reference_eligible_fold_metrics
+    )
+  ),
+  targets::tar_target(
+    name = list_sjsdm_structured_selected_eligible_metric_summaries,
+    command = summarise_sjsdm_fold_metrics(
+      data_fold_metrics =
+        data_sjsdm_structured_selected_eligible_fold_metrics
+    )
+  ),
+  targets::tar_target(
+    name = list_sjsdm_structured_selection_guardrails,
+    command = assess_sjsdm_candidate_guardrails(
+      data_tuning_summary =
+        data_sjsdm_structured_tuning_response_surface,
+      data_candidate_repeat_metrics =
+        list_sjsdm_structured_selected_metric_summaries |>
+        purrr::chuck("data_source_summaries"),
+      data_reference_repeat_metrics =
+        list_reference_metric_summaries |>
+        purrr::chuck("data_source_summaries"),
+      candidate_id = data_sjsdm_structured_selection_diagnostic |>
+        dplyr::pull("candidate_id"),
+      reference_candidate_id = data_sjsdm_structured_search_design |>
+        dplyr::filter(.data[["is_reference"]]) |>
+        dplyr::pull("candidate_id")
+    )
+  ),
+  targets::tar_target(
+    name = list_sjsdm_structured_eligible_selection_guardrails,
+    command = assess_sjsdm_candidate_guardrails(
+      data_tuning_summary =
+        data_sjsdm_structured_tuning_response_surface,
+      data_candidate_repeat_metrics =
+        list_sjsdm_structured_selected_eligible_metric_summaries |>
+        purrr::chuck("data_source_summaries"),
+      data_reference_repeat_metrics =
+        list_reference_eligible_metric_summaries |>
+        purrr::chuck("data_source_summaries"),
+      candidate_id = data_sjsdm_structured_selection_diagnostic |>
+        dplyr::pull("candidate_id"),
+      reference_candidate_id = data_sjsdm_structured_search_design |>
+        dplyr::filter(.data[["is_reference"]]) |>
+        dplyr::pull("candidate_id")
     )
   )
 )

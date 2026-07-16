@@ -208,9 +208,9 @@ the scientific gate.
 - [x] Test a wider lambda range such as `0`, `0.01`, `0.03`, `0.1`, `0.3`, and
   `1` using a sequential or structured search rather than all 216 combinations.
 - [x] Diagnose covariance, coefficient, and spatial regularization separately.
-- [ ] Retain negative log likelihood as the primary proper scoring rule while
+- [x] Retain negative log likelihood as the primary proper scoring rule while
   enforcing minimum discrimination and calibration guardrails.
-- [ ] Test whether sparse taxa should be excluded by a prespecified prevalence
+- [x] Test whether sparse taxa should be excluded by a prespecified prevalence
   or fold-evaluability rule.
 - [ ] If CZ remains too unstable, choose a somewhat larger local model as the
   scientific reference while retaining CZ as an engineering stress test.
@@ -245,6 +245,18 @@ passed 15 focused assertions and the full suite with 3,460 passes and one
 expected integration skip. The mandatory fresh CZ gate completed with exit
 code 0; direct metadata checks found zero target errors in all three rebuilt
 stores and the isolated structured-search store.
+
+**Guardrail checkpoint:** Candidate acceptance now requires NLL improvement in
+every tuning repeat, AUC non-inferiority, independent-refit non-inferiority, and
+mean Tjur R2 of at least `0.1`. The declared taxon sensitivity retains nine of
+16 taxa using prevalence `[0.05, 0.95]` and at least 80% evaluable folds. The
+reference Tjur R2 rises from `0.0526` to only `0.0686` in that subset, while the
+regularization winner reaches `0.0532` and remains worse than the reference.
+The candidate is rejected under both scopes. Details are recorded in
+`cz_paleo_selection_guardrail_diagnostic_v1.md`. The implementation passed 37
+focused assertions and the full suite with 3,482 passes and one expected
+integration skip. The mandatory fresh CZ gate completed with exit code 0;
+direct metadata checks found zero errors in every rebuilt and diagnostic store.
 
 ## Risks and mitigations
 

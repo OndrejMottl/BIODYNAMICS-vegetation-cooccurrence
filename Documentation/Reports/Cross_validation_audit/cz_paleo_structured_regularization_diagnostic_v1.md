@@ -115,6 +115,11 @@ produce stable, scientifically adequate performance, a somewhat larger local
 model should become the scientific reference while CZ remains an engineering
 stress test.
 
+That follow-up is complete and recorded in
+[`cz_paleo_selection_guardrail_diagnostic_v1.md`](cz_paleo_selection_guardrail_diagnostic_v1.md).
+The candidate is rejected under both the complete-community and declared
+eligible-taxa scopes; taxon filtering does not change the scientific decision.
+
 ## Reproducibility
 
 - Profile: `project_cz_paleo_cv_regularization_reference_gpu`

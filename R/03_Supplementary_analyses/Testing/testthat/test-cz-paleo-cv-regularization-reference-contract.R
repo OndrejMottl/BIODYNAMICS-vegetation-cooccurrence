@@ -18,7 +18,10 @@ testthat::test_that(
         "data_sjsdm_structured_selection_diagnostic",
         "list_sjsdm_structured_selected_fold_predictions",
         "data_sjsdm_structured_selected_fold_metrics",
-        "list_sjsdm_structured_selected_repeat_distributions"
+        "list_sjsdm_structured_selected_repeat_distributions",
+        "data_sjsdm_reference_taxon_eligibility",
+        "list_sjsdm_structured_selection_guardrails",
+        "list_sjsdm_structured_eligible_selection_guardrails"
       )
 
     purrr::walk(
@@ -46,7 +49,17 @@ testthat::test_that(
         text_pipeline,
         stringr::fixed("cue = targets::tar_cue(mode = \"always\")")
       ),
-      10L
+      12L
+    )
+    testthat::expect_match(
+      text_pipeline,
+      "assess_sjsdm_taxon_eligibility",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_pipeline,
+      "assess_sjsdm_candidate_guardrails",
+      fixed = TRUE
     )
     testthat::expect_false(
       stringr::str_detect(text_pipeline, "expand_grid")

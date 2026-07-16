@@ -225,3 +225,22 @@ integration skip. The mandatory fresh CZ gate completed with exit code 0 in 56
 minutes 37 seconds. Metadata contained zero errors across 515 paleo-core rows,
 625 paleo-resolution rows, 2,423 modern-resolution rows, and 288 isolated
 structured-search rows.
+
+The Phase 5 acceptance and sparse-taxon sensitivity are recorded in
+[`cz_paleo_selection_guardrail_diagnostic_v1.md`](cz_paleo_selection_guardrail_diagnostic_v1.md).
+The declared eligibility rule retained nine of 16 taxa. Their original-reference
+fold-macro Tjur R2 was `0.068596`, compared with `0.052599` across all taxa and
+the provisional scientific gate of `0.1`. The structured-search winner was
+rejected in both scopes because tuning NLL improved in only two of three
+repeats, every independent refit comparison deteriorated, and candidate Tjur
+R2 remained `0.040832` across all taxa and `0.053210` for eligible taxa. The
+incremental pipeline built the new evidence without new model fits and exited
+successfully with 20 targets completed and 12 skipped.
+
+The guardrail implementation passed 37 focused assertions and the full suite
+passed 3,482 assertions with no failures or warnings and one expected opt-in
+integration skip. The mandatory fresh CZ gate completed with exit code 0 in 43
+minutes 32 seconds. Metadata contained zero errors across 517 paleo-core rows,
+627 paleo-resolution rows, 2,425 modern-resolution rows, and 300 isolated
+regularization-diagnostic rows. A final incremental refresh completed 13
+targets, skipped 19 cached targets, and preserved all three diagnostic hashes.
