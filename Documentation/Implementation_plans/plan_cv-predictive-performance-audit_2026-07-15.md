@@ -290,6 +290,46 @@ passes and one expected integration skip. The mandatory fresh Czechia gate
 completed with exit code 0, and direct metadata checks found zero errors in all
 three rebuilt stores.
 
+### Phase 6 - Cross-validated predictive decomposition
+
+**Goal:** Test whether abiotic, spatial, and residual species-association
+components make repeatable contributions to prediction at unseen locations in
+the `eu_r005_l010` scientific reference.
+
+**Tasks:**
+
+- [ ] Reuse the scientific reference's identical deterministic three-repeat,
+  five-fold spatial assignments and fixed external regularization.
+- [ ] Fit full, no-abiotic, no-spatial, and no-associations variants with
+  fold-local preprocessing and held-out MEM interpolation preserved.
+- [ ] Report raw held-out changes in log loss and Brier score as the primary
+  component evidence, with Tjur R2 and AUC changes as discrimination
+  diagnostics.
+- [ ] Summarize uncertainty and evaluability across repeats, folds, taxa, and
+  the prespecified eligible-taxon subset.
+- [ ] Report normalized positive-loss shares only as a secondary predictive
+  summary and never as percentages of ecological variance explained.
+- [ ] Compare the predictive removal results with the full-data sjSDM ANOVA
+  fractions, explicitly documenting agreement, disagreement, shared signal,
+  and non-causal interpretation.
+- [ ] Record a versioned report and artifact provenance for the scientific
+  reference decomposition.
+
+**Validation:**
+
+- Require every model variant to use the same training and test rows within a
+  fold and preserve deterministic seeds and GPU provenance.
+- Confirm that the full-model metrics reproduce the scientific reference
+  within declared numerical tolerance.
+- Preserve negative component deltas before any secondary clamping and report
+  undefined shares rather than forcing a decomposition.
+- Run focused decomposition-contract tests, the full suite, the isolated GPU
+  reference pipeline, and the mandatory change-review workflow.
+
+**Phase status:** Planned. The existing Czechia component experiment establishes
+the execution pattern but does not satisfy this scientific-reference
+decomposition requirement.
+
 ## Risks and mitigations
 
 | Risk | Likelihood | Mitigation |
