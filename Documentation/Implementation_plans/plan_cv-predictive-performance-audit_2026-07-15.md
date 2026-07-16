@@ -161,13 +161,13 @@ standard and locate the source of any failure.
 
 - [ ] Agree on a prospective Tjur R2 threshold; treat `0.1` as the provisional
   user-specified minimum until formally confirmed.
-- [ ] Require AUC uncertainty to support performance above `0.5` and require most
+- [x] Require AUC uncertainty to support performance above `0.5` and require most
   evaluable taxa to have positive discrimination.
 - [ ] Compare prevalence, intercept-only, abiotic-only, spatial-only, and full
   model baselines using identical folds.
-- [ ] Diagnose taxa with sparse classes, constant training responses, unstable
+- [x] Diagnose taxa with sparse classes, constant training responses, unstable
   calibration, or consistently negative discrimination.
-- [ ] Classify the result independently as `technical_cv_status` and
+- [x] Classify the result independently as `technical_cv_status` and
   `scientific_prediction_status`.
 
 **Validation:**
@@ -176,6 +176,16 @@ standard and locate the source of any failure.
 - Record uncertainty, evaluable-taxon counts, and the decision rule with the
   result.
 - Do not declare scientific success from a community mean alone.
+
+**Phase checkpoint:** The no-refit GPU taxon audit passes the technical CV and
+AUC/majority-positive guardrails, but fails the provisional scientific Tjur
+gate. Fold-macro AUC is approximately `0.661` with all three repeat estimates
+above `0.5`; 116 of 159 evaluable fold-taxon Tjur estimates are positive.
+Nevertheless, mean Tjur remains approximately `0.053`, only Carpinus and Fagus
+exceed `0.1` on average, and Pinus, Alnus, and Picea have no evaluable model
+discrimination estimates. Details are recorded in
+`cz_paleo_taxon_eligibility_diagnostic_v1.md`. The component-baseline comparison
+is the next unresolved diagnostic.
 
 ### Phase 5 - Targeted improvement experiments
 

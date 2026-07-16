@@ -183,3 +183,12 @@ fresh provenance hashes were `0abfbcbf3c16ebb7` for paleo core/genus,
 `434559507b4415f4` for paleo family, `464cbb1f501ac889` for paleo functional
 type, `329cbbabb07d24b2` for modern family, `5abc60fd2eb43667` for modern genus,
 and `d136f2f1cc74c502` for modern functional type.
+
+The Phase 4 taxon-level interpretation is recorded in
+[`cz_paleo_taxon_eligibility_diagnostic_v1.md`](cz_paleo_taxon_eligibility_diagnostic_v1.md).
+The GPU artifact contains 159 evaluable fold-taxon Tjur estimates; 116 are
+positive, but only 30 reach `0.1`. Carpinus and Fagus are the only taxa whose
+mean exceeds the provisional threshold, while Pinus, Alnus, and Picea have no
+evaluable model discrimination estimates because constant training responses
+make their predictions unavailable. The evidence is classified as a technical
+CV pass and a provisional scientific-prediction failure.
