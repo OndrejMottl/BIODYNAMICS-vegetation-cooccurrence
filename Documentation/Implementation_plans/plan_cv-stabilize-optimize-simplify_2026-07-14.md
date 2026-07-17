@@ -104,23 +104,23 @@ stable reference contract suitable for performance measurement.
 
 **Tasks:**
 
-- [ ] Use `.ai/agents/changes-reviewer.agent.md` to inventory and review every file
+- [x] Use `.ai/agents/changes-reviewer.agent.md` to inventory and review every file
   in PR #137 before editing code.
-- [ ] Produce an architecture/store map covering fold preparation, fitting,
+- [x] Produce an architecture/store map covering fold preparation, fitting,
   prediction, evaluation, target dependencies, isolated stores, and artifacts.
-- [ ] Produce a contract inventory for target names, artifact schemas, statuses,
+- [x] Produce a contract inventory for target names, artifact schemas, statuses,
   grouped assignments, leakage protections, MEM interpolation, tier weighting,
   predictive metrics, deterministic seeds, and provenance.
-- [ ] Maintain a findings register with severity, file/line evidence, impact,
+- [x] Maintain a findings register with severity, file/line evidence, impact,
   correction, owner, and disposition.
-- [ ] Correct all high/medium correctness findings that affect scientific validity,
+- [x] Correct all high/medium correctness findings that affect scientific validity,
   contract reliability, or benchmark trustworthiness.
-- [ ] Explicitly disposition any non-blocking high/medium maintainability finding to
+- [x] Explicitly disposition any non-blocking maintainability finding to
   the final refactor issue; do not silently defer correctness findings.
-- [ ] Add contract-level regression tests and capture versioned correctness reference
+- [x] Add contract-level regression tests and capture versioned correctness reference
   outputs/metadata for the stabilized implementation.
-- [ ] Do not change candidate counts, repeats, folds, scheduling, fitting behavior,
-  or performance configuration.
+- [x] Preserve production candidate counts, repeats, folds, scheduling, fitting
+  behavior, and performance configuration; isolate diagnostic reference profiles.
 
 **Validation:**
 
@@ -142,6 +142,12 @@ stable reference contract suitable for performance measurement.
 
 **Handoff to Phase 2:** versioned architecture/store map, contract inventory,
 findings register, test suite, and correctness reference outputs/metadata.
+
+**Phase status:** Complete and ready for pull-request review. The final
+whole-branch review is recorded in `issue139_closure_review_v1.md`. All PR #137
+files are inventoried and reviewed, no high/medium finding remains unresolved,
+required validation evidence is versioned, and generated pipeline progress
+artifacts are included as a dedicated documentation commit.
 
 ### Phase 2 - Profile and reduce cross-validation runtime (#138)
 

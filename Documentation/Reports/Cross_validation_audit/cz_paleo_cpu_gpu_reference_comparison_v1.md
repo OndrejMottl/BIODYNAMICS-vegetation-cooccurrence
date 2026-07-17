@@ -1,8 +1,8 @@
 # CZ paleo CPU/GPU reference comparison (v1)
 
-**Recorded:** 2026-07-15  
+**Recorded:** 2026-07-15
 **Historical CPU store:**
-`Data/targets/cz_paleo_cv_reference/pipeline_paleo_core`  
+`Data/targets/cz_paleo_cv_reference/pipeline_paleo_core`
 **Fresh GPU store:**
 `Data/targets/cz_paleo_cv_reference_gpu/pipeline_paleo_core`
 

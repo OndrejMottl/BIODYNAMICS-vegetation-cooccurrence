@@ -13,7 +13,8 @@
 #   Data/Input/spatial_grid.csv and runs pipeline_paleo_spatial_resolution.R
 #   for each one in sequence (genus + family + functional_type).
 # Each unit gets an isolated targets store at:
-#   Data/targets/paleo_spatial_local/{scale_id}/pipeline_paleo_spatial_resolution/
+#   Data/targets/paleo_spatial_local/{scale_id}/
+#   pipeline_paleo_spatial_resolution/
 
 
 #----------------------------------------------------------#
