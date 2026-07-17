@@ -406,5 +406,42 @@ base::list(
       list_fold_metric_summaries =
         list_scientific_reference_eligible_metric_summaries
     )
+  ),
+  targets::tar_target(
+    name = list_scientific_reference_performance_policy,
+    command = get_active_config("scientific_performance")
+  ),
+  targets::tar_target(
+    name = list_scientific_reference_performance_assessment,
+    command = assess_sjsdm_scientific_performance(
+      data_model_repeat_metrics =
+        list_scientific_reference_metric_summaries |>
+        purrr::chuck("data_source_summaries"),
+      data_paired_repeat_metrics =
+        list_scientific_reference_metric_summaries |>
+        purrr::chuck("data_paired_improvements"),
+      data_eligible_model_repeat_metrics =
+        list_scientific_reference_eligible_metric_summaries |>
+        purrr::chuck("data_source_summaries"),
+      data_taxon_eligibility =
+        data_scientific_reference_taxon_eligibility,
+      data_fold_diagnostics =
+        list_scientific_reference_fold_predictions |>
+        purrr::chuck("data_diagnostics"),
+      data_predictions =
+        list_scientific_reference_fold_predictions |>
+        purrr::chuck("data_predictions"),
+      list_policy = list_scientific_reference_performance_policy
+    )
+  ),
+  targets::tar_target(
+    name = data_scientific_reference_performance_criteria,
+    command = list_scientific_reference_performance_assessment |>
+      purrr::chuck("data_performance_criteria")
+  ),
+  targets::tar_target(
+    name = data_scientific_reference_performance_decision,
+    command = list_scientific_reference_performance_assessment |>
+      purrr::chuck("data_performance_decision")
   )
 )

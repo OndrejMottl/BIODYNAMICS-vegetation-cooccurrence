@@ -28,6 +28,22 @@ testthat::test_that(
       ),
       3L
     )
+    testthat::expect_equal(
+      purrr::chuck(
+        config_reference,
+        "scientific_performance",
+        "policy_version"
+      ),
+      "sjsdm_scientific_performance_v1"
+    )
+    testthat::expect_equal(
+      purrr::chuck(
+        config_reference,
+        "scientific_performance",
+        "minimum_mean_tjur_r2"
+      ),
+      0.1
+    )
 
     path_pipeline <-
       here::here(
@@ -59,6 +75,16 @@ testthat::test_that(
     testthat::expect_match(
       text_pipeline,
       "list_scientific_reference_eligible_repeat_distributions",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_pipeline,
+      "data_scientific_reference_performance_criteria",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_pipeline,
+      "data_scientific_reference_performance_decision",
       fixed = TRUE
     )
     testthat::expect_match(

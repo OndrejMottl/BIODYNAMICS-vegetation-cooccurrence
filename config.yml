@@ -250,6 +250,15 @@ project_paleo_spatial_local:
 project_paleo_local_cv_scientific_reference_gpu:
   inherits: project_paleo_spatial_local
   target_store: Data/targets/paleo_local_cv_scientific_reference_gpu
+  scientific_performance:
+    policy_version: "sjsdm_scientific_performance_v1"
+    minimum_mean_tjur_r2: 0.1
+    minimum_repeat_auc: 0.5
+    minimum_positive_taxon_fraction: 0.8
+    require_log_loss_improvement_all_repeats: true
+    require_brier_improvement_all_repeats: true
+    minimum_taxon_fold_evaluable_fraction: 0.8
+    calibration_role: "diagnostic"
   model_fitting:
     cross_validation:
       tier_id: "paleo_local_cv_scientific_reference_gpu"

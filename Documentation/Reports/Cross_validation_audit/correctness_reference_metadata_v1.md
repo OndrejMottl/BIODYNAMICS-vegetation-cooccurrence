@@ -244,3 +244,24 @@ minutes 32 seconds. Metadata contained zero errors across 517 paleo-core rows,
 627 paleo-resolution rows, 2,425 modern-resolution rows, and 300 isolated
 regularization-diagnostic rows. A final incremental refresh completed 13
 targets, skipped 19 cached targets, and preserved all three diagnostic hashes.
+
+## Versioned scientific-performance decision
+
+Policy `sjsdm_scientific_performance_v1` makes the scientific-reference
+decision executable rather than leaving it as report prose. It separates
+technical CV validity, held-out predictive skill, and calibration. Required
+scientific evidence includes all- and eligible-taxon mean Tjur R2 of at least
+`0.1`, AUC above `0.5` in every repeat, positive log-loss and Brier improvement
+in every repeat, at least 80% positive taxa, and at least 80% fold-taxon
+evaluability. Tjur R2 is explicitly not interpreted as percent variance
+explained.
+
+The `eu_r005_l010` reference passes all nine technical/scientific criteria.
+Its minimum repeat AUC is `0.777`, minimum log-loss improvement is `0.0826`,
+minimum Brier improvement is `0.0336`, positive-taxon fraction is `0.947`, and
+minimum repeat Tjur evaluability is `0.840`. The executable statuses are
+`technical_cv_status = pass`, `scientific_prediction_status = pass`, and
+`calibration_status = caution`. The policy, assessment, criteria, and decision
+hashes are `c6829cc0c376ba58`, `6d70ba767d55d5c0`, `ad00fab32fcdb3d0`, and
+`b85a1b2e4eb42af5`, respectively. The deterministic GPU prediction artifact
+reproduced hash `58dfb9ed9d89f853`, and the store contains zero target errors.

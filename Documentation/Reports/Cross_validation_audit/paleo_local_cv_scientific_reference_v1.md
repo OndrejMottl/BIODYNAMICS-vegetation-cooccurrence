@@ -8,11 +8,11 @@
 
 ## Decision
 
-The larger European paleo local reference passes the provisional scientific
-predictive-performance gate. Mean fold-macro Tjur R2 is `0.168`, and all three
-repeat estimates exceed the working threshold of `0.1`. Mean AUC is `0.798`,
-and the model improves over the fold-training-prevalence null for every primary
-metric in every repeat.
+The larger European paleo local reference passes the versioned
+`sjsdm_scientific_performance_v1` decision contract. Mean fold-macro Tjur R2 is
+`0.168`, and all three repeat estimates exceed the operational threshold of
+`0.1`. Mean AUC is `0.798`, and the model improves over the
+fold-training-prevalence null for every primary metric in every repeat.
 
 This changes the interpretation of the Czechia result. The low Czechia Tjur R2
 does not show that the model class or CV implementation is generally unusable.
@@ -40,11 +40,34 @@ probabilities are interpreted as fully calibrated occurrence risks.
 | Regularization source | `fixed_external_reference` |
 | Alpha `(cov, coef, spatial)` | `(0.5, 0.5, 0.5)` |
 | Lambda `(cov, coef, spatial)` | `(0.1, 0.1, 0.1)` |
-| Pipeline completion | 22 targets, 0 errors |
-| Total pipeline time | approximately 2 minutes 13 seconds |
+| Pipeline completion | 30 targets, 0 errors |
+| Latest deterministic GPU rebuild | approximately 1 minute 45 seconds |
 
 Regularization was fixed before the benchmark. The run therefore did not tune
 and evaluate hyperparameters on the same folds.
+
+## Formal decision criteria
+
+The versioned policy was formalized after the exploratory audit and is
+prospective for future reference runs. It is not presented as preregistration
+of this completed benchmark. All nine required criteria pass:
+
+| Criterion | Observed | Required |
+|---|---:|---:|
+| Successful fold-fit contract | 1 | 1 |
+| OOF prediction/status contract | 1 | 1 |
+| All-taxa mean Tjur R2 | 0.168 | >= 0.1 |
+| Eligible-taxa mean Tjur R2 | 0.208 | >= 0.1 |
+| Minimum repeat AUC | 0.777 | > 0.5 |
+| Minimum repeat log-loss improvement | 0.0826 | > 0 |
+| Minimum repeat Brier improvement | 0.0336 | > 0 |
+| Positive-taxon fraction | 0.947 | >= 0.8 |
+| Minimum repeat Tjur evaluability | 0.840 | >= 0.8 |
+
+The 498 `constant_in_training` prediction rows are accepted explicit
+evaluability outcomes with undefined probabilities, not technical errors.
+Full policy semantics are recorded in
+`scientific_performance_decision_contract_v1.md`.
 
 ## All-taxa performance
 
@@ -140,6 +163,9 @@ Store:
 | `data_scientific_reference_taxon_eligibility` | `c7a377d94328b17b` |
 | `list_scientific_reference_repeat_distributions` | `b8c466adc62bb503` |
 | `list_scientific_reference_eligible_repeat_distributions` | `5605298663da9126` |
+| `list_scientific_reference_performance_policy` | `c6829cc0c376ba58` |
+| `data_scientific_reference_performance_criteria` | `ad00fab32fcdb3d0` |
+| `data_scientific_reference_performance_decision` | `b85a1b2e4eb42af5` |
 
 The fold-prediction artifact contains 52,680 taxon-observation rows. All 15 fit
 diagnostics report `ok`, use three effective MEM axes, and record
@@ -148,7 +174,8 @@ diagnostics report `ok`, use three effective MEM axes, and record
 ## Status
 
 - `technical_cv_status`: **pass**
-- `scientific_prediction_status`: **pass under the provisional Tjur R2 gate**
+- `scientific_prediction_status`: **pass under
+  `sjsdm_scientific_performance_v1`**
 - `calibration_status`: **caution; discrimination passes but probabilities are
   not perfectly calibrated**
 - Czechia role: **engineering stress test**

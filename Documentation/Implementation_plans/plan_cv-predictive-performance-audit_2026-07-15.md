@@ -159,8 +159,9 @@ standard and locate the source of any failure.
 
 **Tasks:**
 
-- [ ] Agree on a prospective Tjur R2 threshold; treat `0.1` as the provisional
-  user-specified minimum until formally confirmed.
+- [x] Adopt `0.1` as a versioned operational Tjur R2 screening threshold,
+  explicitly not as a percentage of ecological variance explained, and require
+  repeatable AUC, proper-score, taxon-consistency, and evaluability evidence.
 - [x] Require AUC uncertainty to support performance above `0.5` and require most
   evaluable taxa to have positive discrimination.
 - [x] Compare prevalence, intercept-only, abiotic-only, spatial-only, and full
@@ -186,6 +187,15 @@ exceed `0.1` on average, and Pinus, Alnus, and Picea have no evaluable model
 discrimination estimates. Details are recorded in
 `cz_paleo_taxon_eligibility_diagnostic_v1.md`. The component-baseline comparison
 is the next unresolved diagnostic.
+
+**Final decision-contract checkpoint:** The prospective rule is formalized as
+`sjsdm_scientific_performance_v1`. It requires all- and eligible-taxon mean
+Tjur R2 of at least `0.1`, repeat AUC above `0.5`, positive log-loss and Brier
+improvement in every repeat, at least 80% positive taxa, and at least 80%
+fold-taxon evaluability. Technical validity and calibration are classified
+separately. The `eu_r005_l010` reference passes every required criterion with a
+calibration caution. Details are recorded in
+`scientific_performance_decision_contract_v1.md`.
 
 **Component checkpoint:** The isolated GPU comparison completed all 45 reduced
 model fits successfully on the reference folds. Intercept-only, spatial-only,
