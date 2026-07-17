@@ -3,8 +3,8 @@
 #' Creates a model-fitting configuration and abiotic formula for a controlled
 #' predictor-component comparison.
 #' @param predictor_structure
-#' One of `"intercept_only"`, `"abiotic_only"`, `"spatial_only"`, or
-#' `"abiotic_spatial"`.
+#' One of `"intercept_only"`, `"abiotic_only"`, `"spatial_only"`,
+#' `"abiotic_spatial"`, or `"abiotic_spatial_no_associations"`.
 #' @param config_model_fitting
 #' Base model-fitting configuration. It is copied before `use_spatial` is set.
 #' @param model_formula
@@ -34,7 +34,8 @@ configure_sjsdm_predictor_structure <- function(
       "intercept_only",
       "abiotic_only",
       "spatial_only",
-      "abiotic_spatial"
+      "abiotic_spatial",
+      "abiotic_spatial_no_associations"
     )
 
   assertthat::assert_that(
@@ -57,11 +58,22 @@ configure_sjsdm_predictor_structure <- function(
 
   uses_abiotic <-
     predictor_structure %in%
-    base::c("abiotic_only", "abiotic_spatial")
+    base::c(
+      "abiotic_only",
+      "abiotic_spatial",
+      "abiotic_spatial_no_associations"
+    )
 
   uses_spatial <-
     predictor_structure %in%
-    base::c("spatial_only", "abiotic_spatial")
+    base::c(
+      "spatial_only",
+      "abiotic_spatial",
+      "abiotic_spatial_no_associations"
+    )
+
+  uses_associations <-
+    predictor_structure != "abiotic_spatial_no_associations"
 
   config_model_fitting_structure <-
     purrr::list_modify(
@@ -83,6 +95,7 @@ configure_sjsdm_predictor_structure <- function(
       predictor_structure = predictor_structure,
       uses_abiotic = uses_abiotic,
       uses_spatial = uses_spatial,
+      uses_associations = uses_associations,
       config_model_fitting = config_model_fitting_structure,
       model_formula = model_formula_structure
     )

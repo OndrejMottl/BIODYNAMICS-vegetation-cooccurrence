@@ -326,9 +326,12 @@ the `eu_r005_l010` scientific reference.
 - Run focused decomposition-contract tests, the full suite, the isolated GPU
   reference pipeline, and the mandatory change-review workflow.
 
-**Phase status:** Planned. The existing Czechia component experiment establishes
-the execution pattern but does not satisfy this scientific-reference
-decomposition requirement.
+**Phase status:** In progress. The first implementation slice adds an explicit
+no-associations fitting contract and an isolated 18-target GPU pipeline that
+reuses the scientific reference's assignments, fixed candidate, eligibility
+table, and full-model fold metrics. The three reduced variants and final
+predictive summaries have not yet been executed; raw component-effect
+summaries remain the next implementation slice.
 
 ## Risks and mitigations
 

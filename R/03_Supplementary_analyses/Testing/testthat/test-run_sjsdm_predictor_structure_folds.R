@@ -62,7 +62,7 @@ testthat::test_that(
 
     res <-
       run_sjsdm_predictor_structure_folds(
-        predictor_structure = "spatial_only",
+        predictor_structure = "abiotic_spatial_no_associations",
         data_assignments = tibble::tibble(repeat_id = 1L),
         data_selected_candidate = data_candidate,
         data_community_matrix = base::matrix(
@@ -99,21 +99,23 @@ testthat::test_that(
     )
     testthat::expect_equal(
       base::deparse(list_fit[["sel_abiotic_formula"]]),
-      "~1"
+      "~age"
     )
     testthat::expect_true(
       list_fit[["config_model_fitting"]][["use_spatial"]]
     )
     testthat::expect_equal(list_fit[["device"]], "gpu")
     testthat::expect_equal(list_fit[["seed"]], 123L)
+    testthat::expect_s3_class(list_fit[["biotic"]], "bioticStruct")
+    testthat::expect_true(list_fit[["biotic"]][["diag"]])
     testthat::expect_equal(list_runner[["taxon_names"]], "taxon_a")
     testthat::expect_equal(
       res[["data_predictions"]][["predictor_structure"]],
-      "spatial_only"
+      "abiotic_spatial_no_associations"
     )
     testthat::expect_equal(
       res[["data_diagnostics"]][["predictor_structure"]],
-      "spatial_only"
+      "abiotic_spatial_no_associations"
     )
   }
 )

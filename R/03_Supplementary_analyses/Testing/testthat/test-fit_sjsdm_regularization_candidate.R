@@ -35,6 +35,9 @@ testthat::test_that(
         lambda_spatial = 0.6
       )
 
+    biotic_structure <-
+      base::list(diagonal = TRUE)
+
     res <-
       fit_sjsdm_regularization_candidate(
         data_train_input = data_train_input,
@@ -51,6 +54,7 @@ testthat::test_that(
         ),
         seed = 123L,
         device = "cpu",
+        biotic = biotic_structure,
         fit_function = fit_function
       )
 
@@ -67,6 +71,10 @@ testthat::test_that(
     testthat::expect_equal(list_args[["seed"]], 123L)
     testthat::expect_equal(list_args[["device"]], "cpu")
     testthat::expect_equal(list_args[["parallel"]], 4L)
+    testthat::expect_equal(
+      list_args[["biotic"]],
+      base::list(diagonal = TRUE)
+    )
   }
 )
 

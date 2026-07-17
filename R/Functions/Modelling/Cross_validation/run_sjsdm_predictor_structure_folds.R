@@ -28,7 +28,8 @@
 #' Regularization and assignments are fixed by the supplied reference inputs.
 #' The helper changes predictor inclusion only. Intercept-only and spatial-only
 #' structures use an environmental intercept because sjSDM requires an
-#' environmental component.
+#' environmental component. The no-associations structure retains abiotic and
+#' spatial predictors while restricting the biotic covariance to its diagonal.
 #' @examples
 #' \dontrun{
 #' run_sjsdm_predictor_structure_folds(
@@ -89,6 +90,15 @@ run_sjsdm_predictor_structure_folds <- function(
   model_formula_structure <-
     list_structure[["model_formula"]]
 
+  biotic_structure <-
+    if (
+      list_structure[["uses_associations"]]
+    ) {
+      NULL
+    } else {
+      sjSDM::bioticStruct(diag = TRUE)
+    }
+
   list_fold_results <-
     runner_function(
       data_assignments = data_assignments,
@@ -120,7 +130,8 @@ run_sjsdm_predictor_structure_folds <- function(
           sel_abiotic_formula = model_formula_structure,
           config_model_fitting = config_model_fitting_structure,
           seed = seed,
-          device = device
+          device = device,
+          biotic = biotic_structure
         )
       },
       predict_function = predict_function,

@@ -13,10 +13,16 @@ testthat::test_that(
 
     list_expected <-
       base::list(
-        intercept_only = base::list(FALSE, FALSE, FALSE, "~1"),
-        abiotic_only = base::list(TRUE, FALSE, FALSE, "~age + bio_1"),
-        spatial_only = base::list(FALSE, TRUE, TRUE, "~1"),
-        abiotic_spatial = base::list(TRUE, TRUE, TRUE, "~age + bio_1")
+        intercept_only =
+          base::list(FALSE, FALSE, TRUE, FALSE, "~1"),
+        abiotic_only =
+          base::list(TRUE, FALSE, TRUE, FALSE, "~age + bio_1"),
+        spatial_only =
+          base::list(FALSE, TRUE, TRUE, TRUE, "~1"),
+        abiotic_spatial =
+          base::list(TRUE, TRUE, TRUE, TRUE, "~age + bio_1"),
+        abiotic_spatial_no_associations =
+          base::list(TRUE, TRUE, FALSE, TRUE, "~age + bio_1")
       )
 
     purrr::iwalk(
@@ -35,6 +41,7 @@ testthat::test_that(
             "predictor_structure",
             "uses_abiotic",
             "uses_spatial",
+            "uses_associations",
             "config_model_fitting",
             "model_formula"
           )
@@ -42,13 +49,14 @@ testthat::test_that(
         testthat::expect_equal(res[["predictor_structure"]], .y)
         testthat::expect_equal(res[["uses_abiotic"]], .x[[1L]])
         testthat::expect_equal(res[["uses_spatial"]], .x[[2L]])
+        testthat::expect_equal(res[["uses_associations"]], .x[[3L]])
         testthat::expect_equal(
           res[["config_model_fitting"]][["use_spatial"]],
-          .x[[3L]]
+          .x[[4L]]
         )
         testthat::expect_equal(
           base::deparse(res[["model_formula"]], width.cutoff = 500L),
-          .x[[4L]]
+          .x[[5L]]
         )
       }
     )

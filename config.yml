@@ -255,6 +255,9 @@ project_paleo_local_cv_scientific_reference_gpu:
       tier_id: "paleo_local_cv_scientific_reference_gpu"
       assignment_repeats: 3
       fit_device: "gpu"
+project_paleo_local_cv_decomposition_reference_gpu:
+  inherits: project_paleo_local_cv_scientific_reference_gpu
+  target_store: Data/targets/paleo_local_cv_decomposition_reference_gpu
 project_modern_spatial_continental:
   target_store: Data/targets/modern_spatial_continental
   vegvault_data:
