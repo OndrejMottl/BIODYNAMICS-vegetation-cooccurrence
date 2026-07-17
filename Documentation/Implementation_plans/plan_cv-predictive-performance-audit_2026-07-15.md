@@ -298,21 +298,21 @@ the `eu_r005_l010` scientific reference.
 
 **Tasks:**
 
-- [ ] Reuse the scientific reference's identical deterministic three-repeat,
+- [x] Reuse the scientific reference's identical deterministic three-repeat,
   five-fold spatial assignments and fixed external regularization.
-- [ ] Fit full, no-abiotic, no-spatial, and no-associations variants with
+- [x] Fit full, no-abiotic, no-spatial, and no-associations variants with
   fold-local preprocessing and held-out MEM interpolation preserved.
-- [ ] Report raw held-out changes in log loss and Brier score as the primary
+- [x] Report raw held-out changes in log loss and Brier score as the primary
   component evidence, with Tjur R2 and AUC changes as discrimination
   diagnostics.
-- [ ] Summarize uncertainty and evaluability across repeats, folds, taxa, and
+- [x] Summarize uncertainty and evaluability across repeats, folds, taxa, and
   the prespecified eligible-taxon subset.
-- [ ] Report normalized positive-loss shares only as a secondary predictive
+- [x] Report normalized positive-loss shares only as a secondary predictive
   summary and never as percentages of ecological variance explained.
-- [ ] Compare the predictive removal results with the full-data sjSDM ANOVA
+- [x] Compare the predictive removal results with the full-data sjSDM ANOVA
   fractions, explicitly documenting agreement, disagreement, shared signal,
   and non-causal interpretation.
-- [ ] Record a versioned report and artifact provenance for the scientific
+- [x] Record a versioned report and artifact provenance for the scientific
   reference decomposition.
 
 **Validation:**
@@ -326,12 +326,14 @@ the `eu_r005_l010` scientific reference.
 - Run focused decomposition-contract tests, the full suite, the isolated GPU
   reference pipeline, and the mandatory change-review workflow.
 
-**Phase status:** In progress. The first implementation slice adds an explicit
-no-associations fitting contract and an isolated 18-target GPU pipeline that
-reuses the scientific reference's assignments, fixed candidate, eligibility
-table, and full-model fold metrics. The three reduced variants and final
-predictive summaries have not yet been executed; raw component-effect
-summaries remain the next implementation slice.
+**Phase status:** Complete. The GPU decomposition completed all 45
+reduced fits successfully. Abiotic removal has the largest held-out effect;
+association removal has a smaller repeatable proper-score and Tjur R2 effect;
+spatial removal has a small proper-score and Tjur R2 effect but does not reduce
+AUC. Results and hashes are recorded in
+`paleo_local_cv_predictive_decomposition_v1.md`. Full-data ANOVA agrees on the
+qualitative ordering but produces large shared and negative fractions, so the
+held-out removal experiment remains the primary scientific evidence.
 
 ## Risks and mitigations
 

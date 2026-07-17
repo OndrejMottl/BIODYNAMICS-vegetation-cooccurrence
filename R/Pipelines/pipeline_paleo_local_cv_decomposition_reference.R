@@ -57,6 +57,12 @@ path_scientific_reference_store <-
     "pipeline_paleo_local_cv_scientific_reference"
   )
 
+path_full_data_reference_store <-
+  here::here(
+    "Data/targets/paleo_spatial_local/eu_r005_l010/",
+    "pipeline_paleo_spatial_resolution"
+  )
+
 
 #----------------------------------------------------------#
 # 1. Pipeline definition -----
@@ -150,6 +156,21 @@ base::list(
       store = path_scientific_reference_store
     ),
     cue = targets::tar_cue(mode = "always")
+  ),
+  targets::tar_target(
+    name = model_scientific_reference_full_data_anova,
+    command = targets::tar_read_raw(
+      name = "model_anova_genus",
+      store = path_full_data_reference_store
+    ),
+    cue = targets::tar_cue(mode = "always")
+  ),
+  targets::tar_target(
+    name = data_scientific_reference_full_data_anova_fractions,
+    command = extract_anova_fractions(
+      anova_object = model_scientific_reference_full_data_anova,
+      clamp_negative = FALSE
+    )
   ),
   targets::tar_target(
     name = list_scientific_reference_no_abiotic_fold_predictions,
@@ -267,5 +288,53 @@ base::list(
           dplyr::mutate(variant = .y, .before = 1L)
       ) |>
       purrr::list_rbind()
+  ),
+  targets::tar_target(
+    name = data_scientific_reference_decomposition_comparisons,
+    command = compare_sjsdm_decomposition_fold_metrics(
+      data_fold_metrics =
+        data_scientific_reference_decomposition_fold_metrics,
+      data_taxon_eligibility =
+        data_scientific_reference_taxon_eligibility
+    )
+  ),
+  targets::tar_target(
+    name = list_scientific_reference_decomposition_effects,
+    command = summarise_sjsdm_decomposition_effects(
+      data_comparisons =
+        data_scientific_reference_decomposition_comparisons
+    )
+  ),
+  targets::tar_target(
+    name = data_scientific_reference_decomposition_fold_effects,
+    command = list_scientific_reference_decomposition_effects |>
+      purrr::chuck("data_fold_effects")
+  ),
+  targets::tar_target(
+    name = data_scientific_reference_decomposition_repeat_effects,
+    command = list_scientific_reference_decomposition_effects |>
+      purrr::chuck("data_repeat_effects")
+  ),
+  targets::tar_target(
+    name = data_scientific_reference_decomposition_summary,
+    command = list_scientific_reference_decomposition_effects |>
+      purrr::chuck("data_summary")
+  ),
+  targets::tar_target(
+    name = list_scientific_reference_decomposition_loss_shares,
+    command = compute_sjsdm_decomposition_loss_shares(
+      data_repeat_effects =
+        data_scientific_reference_decomposition_repeat_effects
+    )
+  ),
+  targets::tar_target(
+    name = data_scientific_reference_decomposition_repeat_loss_shares,
+    command = list_scientific_reference_decomposition_loss_shares |>
+      purrr::chuck("data_repeat_shares")
+  ),
+  targets::tar_target(
+    name = data_scientific_reference_decomposition_loss_share_summary,
+    command = list_scientific_reference_decomposition_loss_shares |>
+      purrr::chuck("data_share_summary")
   )
 )

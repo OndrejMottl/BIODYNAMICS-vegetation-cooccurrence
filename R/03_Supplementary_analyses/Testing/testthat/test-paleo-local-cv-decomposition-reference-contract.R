@@ -38,6 +38,16 @@ testthat::test_that(
       "pipeline_paleo_local_cv_scientific_reference",
       fixed = TRUE
     )
+    testthat::expect_match(
+      text_pipeline,
+      "paleo_spatial_local/eu_r005_l010/",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_pipeline,
+      "data_scientific_reference_full_data_anova_fractions",
+      fixed = TRUE
+    )
 
     list_expected_variants <-
       base::list(
@@ -67,6 +77,21 @@ testthat::test_that(
     testthat::expect_match(
       text_pipeline,
       "data_scientific_reference_decomposition_fold_metrics",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_pipeline,
+      "data_scientific_reference_decomposition_comparisons",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_pipeline,
+      "data_scientific_reference_decomposition_summary",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_pipeline,
+      "data_scientific_reference_decomposition_loss_share_summary",
       fixed = TRUE
     )
     testthat::expect_match(
