@@ -1,7 +1,7 @@
 #' @title Make Repeated Cross-Validation Indices
 #' @description
-#' Creates reproducible repeated K-fold test-index lists for use with
-#' `sjSDM::sjSDM_cv()`.
+#' Creates reproducible repeated K-fold test-index lists for project-owned
+#' decomposition cross-validation with [run_decomposition_route_cv()].
 #' @param n_samples
 #' Single integer. Number of samples to split into folds.
 #' @param n_folds
@@ -13,6 +13,13 @@
 #' @return
 #' A named list with one element per repeat. Each repeat is a named list
 #' of integer test indices, one element per fold.
+#' @examples
+#' make_repeated_cv_indices(
+#'   n_samples = 8L,
+#'   n_folds = 2L,
+#'   n_repeats = 2L,
+#'   seed = 900723L
+#' )
 #' @export
 make_repeated_cv_indices <- function(
     n_samples,

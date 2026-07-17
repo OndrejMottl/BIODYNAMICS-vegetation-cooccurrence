@@ -56,6 +56,7 @@ vec_tuning_target_names <-
 # 3. Build unit tuning summaries -----
 #----------------------------------------------------------#
 
+# This stage is fail-fast because tier selection requires every unit summary.
 purrr::walk(
   .progress = TRUE,
   .x = vec_scale_ids,
@@ -75,42 +76,14 @@ run_pipeline(
 # 4. Complete resolution pipeline for each spatial unit -----
 #----------------------------------------------------------#
 
+# Post-selection runs continue and retain one status row per spatial unit.
 tictoc::tic(
   "Running modern resolution pipelines for all local units"
 )
-vec_pipeline_errors <-
-  vec_scale_ids |>
-  rlang::set_names() |>
-  purrr::map_chr(
-    .progress = TRUE,
-    .f = ~ {
-      base::message(
-        "\n\nRunning modern resolution pipeline for spatial unit: ",
-        .x,
-        "\n\n"
-      )
-      tryCatch(
-        expr = {
-          run_pipeline(
-            sel_script = "R/Pipelines/pipeline_modern_spatial_resolution.R",
-            store_suffix = .x
-          )
-          NA_character_
-        },
-        error = function(err) {
-          vec_error_message <-
-            base::conditionMessage(err)
-
-          base::message(
-            "\n\nModern local pipeline failed for spatial unit: ", .x,
-            "\n", vec_error_message,
-            "\nContinuing with the next spatial unit.\n\n"
-          )
-
-          vec_error_message
-        }
-      )
-    }
+data_pipeline_status <-
+  run_pipeline_units_with_status(
+    scale_ids = vec_scale_ids,
+    sel_script = "R/Pipelines/pipeline_modern_spatial_resolution.R"
   )
 tictoc::toc()
 
@@ -119,27 +92,12 @@ tictoc::toc()
 # 5. Run representative common-regularization sensitivity -----
 #----------------------------------------------------------#
 
-run_pipeline(
-  sel_script = stringr::str_c(
-    "R/Pipelines/",
-    "pipeline_sjsdm_common_regularization_sensitivity.R"
+data_common_sensitivity_status <-
+  run_sjsdm_cross_tier_sensitivity(
+    profile_ids = base::c(
+      "project_modern_spatial_continental",
+      "project_modern_spatial_regional",
+      "project_modern_spatial_local"
+    ),
+    pipeline_name = "pipeline_modern_spatial_resolution"
   )
-)
-
-data_pipeline_errors <-
-  tibble::tibble(
-    scale_id = base::names(vec_pipeline_errors),
-    error_message = base::unname(vec_pipeline_errors)
-  ) |>
-  dplyr::filter(
-    !base::is.na(.data$error_message)
-  )
-
-if (
-  base::nrow(data_pipeline_errors) > 0L
-) {
-  base::message(
-    "\nModern local spatial pipelines completed with failures for: ",
-    stringr::str_c(data_pipeline_errors[["scale_id"]], collapse = ", ")
-  )
-}

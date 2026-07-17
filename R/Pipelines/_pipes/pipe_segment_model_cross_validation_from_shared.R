@@ -472,7 +472,12 @@ pipe_segment_model_cross_validation_from_shared <-
         data_feasibility = data_cross_validation_feasibility,
         data_regularization = model_regularization_for_fit,
         data_fold_diagnostics =
-          data_sjsdm_out_of_fold_diagnostics
+          data_sjsdm_out_of_fold_diagnostics,
+        fit_device = purrr::chuck(
+          config_model_fitting,
+          "cross_validation",
+          "fit_device"
+        )
       )
     ),
     targets::tar_target(
@@ -480,6 +485,28 @@ pipe_segment_model_cross_validation_from_shared <-
       name = "model_evaluation_cross_validated",
       command = evaluate_sjsdm_cross_validated_predictions(
         data_predictions = data_sjsdm_out_of_fold_predictions
+      )
+    ),
+    targets::tar_target(
+      description = "Evaluate branch predictions within CV folds",
+      name = "data_sjsdm_fold_local_metrics",
+      command = evaluate_sjsdm_fold_predictions(
+        data_predictions = data_sjsdm_out_of_fold_predictions
+      )
+    ),
+    targets::tar_target(
+      description = "Aggregate branch fold-local prediction metrics",
+      name = "list_sjsdm_fold_metric_summaries",
+      command = summarise_sjsdm_fold_metrics(
+        data_fold_metrics = data_sjsdm_fold_local_metrics
+      )
+    ),
+    targets::tar_target(
+      description = "Summarise branch metrics across CV repeats",
+      name = "list_sjsdm_metric_repeat_distributions",
+      command = summarise_sjsdm_metric_repeats(
+        list_fold_metric_summaries =
+          list_sjsdm_fold_metric_summaries
       )
     )
   )

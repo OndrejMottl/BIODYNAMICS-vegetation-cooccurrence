@@ -16,12 +16,15 @@
 #' @param n_likelihood_draws
 #' Positive integer number of stochastic likelihood evaluations to average.
 #' Defaults to `20L`, matching `sjSDM::sjSDM_cv()`.
+#' @param score_seed
+#' Non-negative integer used for deterministic stochastic likelihood draws.
 #' @return
 #' One-row tibble with retained taxa, response-value count, total joint
 #' negative log likelihood, joint loss per response, and macro AUC.
 #' @details
 #' Test design matrices are reconstructed from the fitted model formulas.
 #' Likelihood sampling and batch size are read from the fitted model settings.
+#' The caller's R and available PyTorch random-number states are restored.
 #' @examples
 #' \dontrun{
 #' score_sjsdm_joint_tuning_predictions(
@@ -38,7 +41,8 @@ score_sjsdm_joint_tuning_predictions <- function(
     data_observed = NULL,
     data_predicted = NULL,
     epsilon = 1e-6,
-    n_likelihood_draws = 20L) {
+    n_likelihood_draws = 20L,
+    score_seed = 900723L) {
   assertthat::assert_that(
     base::inherits(object, "sjSDM"),
     msg = "`object` must inherit from `sjSDM`."
@@ -62,6 +66,118 @@ score_sjsdm_joint_tuning_predictions <- function(
     flag_valid_draws,
     msg = "`n_likelihood_draws` must be a positive integer."
   )
+
+  flag_valid_score_seed <-
+    base::is.numeric(score_seed) &&
+    base::length(score_seed) == 1L &&
+    base::is.finite(score_seed) &&
+    score_seed >= 0L &&
+    score_seed <= .Machine[["integer.max"]] &&
+    score_seed == base::as.integer(score_seed)
+
+  assertthat::assert_that(
+    flag_valid_score_seed,
+    msg = "`score_seed` must be a single non-negative integer."
+  )
+
+  score_seed <-
+    base::as.integer(score_seed)
+
+  flag_had_r_seed <-
+    base::exists(
+      x = ".Random.seed",
+      envir = base::globalenv(),
+      inherits = FALSE
+    )
+
+  if (
+    flag_had_r_seed
+  ) {
+    old_r_seed <-
+      base::get(
+        x = ".Random.seed",
+        envir = base::globalenv(),
+        inherits = FALSE
+      )
+  } else {
+    old_r_seed <- NULL
+  }
+
+  base::on.exit(
+    expr = {
+      if (
+        flag_had_r_seed
+      ) {
+        base::assign(
+          x = ".Random.seed",
+          value = old_r_seed,
+          envir = base::globalenv()
+        )
+      } else if (
+        base::exists(
+          x = ".Random.seed",
+          envir = base::globalenv(),
+          inherits = FALSE
+        )
+      ) {
+        base::rm(
+          list = ".Random.seed",
+          envir = base::globalenv()
+        )
+      }
+    },
+    add = TRUE
+  )
+
+  torch_module <-
+    tryCatch(
+      expr = reticulate::import(
+        module = "torch",
+        convert = FALSE,
+        delay_load = FALSE
+      ),
+      error = function(error_condition) {
+        NULL
+      }
+    )
+
+  if (
+    !base::is.null(torch_module)
+  ) {
+    old_torch_cpu_state <-
+      torch_module$get_rng_state()
+
+    flag_cuda_available <-
+      torch_module$cuda$is_available() |>
+      reticulate::py_to_r() |>
+      base::isTRUE()
+
+    if (
+      flag_cuda_available
+    ) {
+      old_torch_cuda_states <-
+        torch_module$cuda$get_rng_state_all()
+    } else {
+      old_torch_cuda_states <- NULL
+    }
+
+    base::on.exit(
+      expr = {
+        torch_module$set_rng_state(old_torch_cpu_state)
+
+        if (
+          flag_cuda_available
+        ) {
+          torch_module$cuda$set_rng_state_all(old_torch_cuda_states)
+        }
+      },
+      add = TRUE
+    )
+
+    torch_module$manual_seed(score_seed)
+  }
+
+  base::set.seed(score_seed)
 
   data_probability_metrics <-
     score_sjsdm_tuning_predictions(

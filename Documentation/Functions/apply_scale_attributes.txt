@@ -37,4 +37,4 @@ Examples:
      apply_scale_attributes(
        data_predictors = data_predictors,
        scale_attributes = scale_attributes
-    )
+     )

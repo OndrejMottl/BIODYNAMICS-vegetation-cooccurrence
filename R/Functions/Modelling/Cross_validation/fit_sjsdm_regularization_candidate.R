@@ -16,6 +16,10 @@
 #' Deterministic integer seed for the candidate fit.
 #' @param device
 #' Device passed to [fit_jsdm_model()]. Defaults to `"cpu"`.
+#' @param biotic
+#' Optional sjSDM biotic structure. `NULL` retains the regularized covariance
+#' structure created by [fit_jsdm_model()]. A diagonal structure disables
+#' residual cross-taxon associations for predictive decomposition.
 #' @param fit_function
 #' Injectable fit function. Defaults to [fit_jsdm_model()].
 #' @return
@@ -31,6 +35,7 @@ fit_sjsdm_regularization_candidate <- function(
     config_model_fitting = NULL,
     seed = 900723L,
     device = "cpu",
+    biotic = NULL,
     fit_function = fit_jsdm_model) {
   vec_parameter_columns <-
     base::c(
@@ -101,6 +106,7 @@ fit_sjsdm_regularization_candidate <- function(
       sel_spatial_formula = stats::as.formula("~ 0 + ."),
       error_family = config_model_fitting[["error_family"]],
       device = device,
+      biotic = biotic,
       parallel = config_model_fitting[["n_cores"]],
       sampling = config_model_fitting[["n_sampling"]],
       iter = config_model_fitting[["n_iter"]],

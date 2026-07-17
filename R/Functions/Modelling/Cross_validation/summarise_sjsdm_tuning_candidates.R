@@ -5,10 +5,10 @@
 #' @param data_tuning
 #' Candidate-by-fold table returned by [run_sjsdm_tuning_candidates()].
 #' @return
-#' Tibble with one row per repeat and candidate. Fold-normalized held-out
-#' negative log likelihood is averaged equally across folds. Candidates are
-#' eligible only when every fold in the repeat has status "ok" and finite
-#' loss.
+#' Tibble with one row per repeat and candidate. Held-out negative log
+#' likelihood is summed across folds and divided by the total number of
+#' response values. Candidates are eligible only when every fold in the
+#' repeat has status "ok" and finite loss.
 #' @details
 #' Candidate parameters, cross-validation strategy, and regularization source
 #' must be constant for a candidate within a repeat. Incomplete candidates are
@@ -177,9 +177,8 @@ summarise_sjsdm_tuning_candidates <- function(data_tuning = NULL) {
       ),
       negative_log_likelihood_per_response = dplyr::if_else(
         .data[["candidate_complete"]],
-        base::mean(
-          .data[["negative_log_likelihood_per_response"]]
-        ),
+        base::sum(.data[["negative_log_likelihood_test"]]) /
+          base::sum(.data[["n_response_values"]]),
         NA_real_
       ),
       auc_macro_test = dplyr::if_else(

@@ -224,8 +224,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../Documentation/Website/Documentation/Functions/apply_decomposition_scale_attributes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">apply_decomposition_scale_attributes()</span></a>
+  <a href="../../../../Documentation/Website/Documentation/Functions/apply_scale_attributes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">apply_scale_attributes()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1016,6 +1016,18 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/make_sjsdm_regularization_candidates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_sjsdm_regularization_candidates()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/make_sjsdm_tuning_fold_context.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">make_sjsdm_tuning_fold_context()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/make_trait_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">make_trait_table()</span></a>
   </div>
@@ -1136,6 +1148,18 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_fold_spatial_predictors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">prepare_fold_spatial_predictors()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_model_fold_input.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">prepare_model_fold_input()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/prepare_spatial_predictors_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_spatial_predictors_for_fit()</span></a>
   </div>
@@ -1268,8 +1292,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../Documentation/Website/Documentation/Functions/run_predictive_ablation_cv.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">run_predictive_ablation_cv()</span></a>
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_candidates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">run_sjsdm_tuning_candidates()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_fold_candidates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">run_sjsdm_tuning_fold_candidates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1352,6 +1382,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../Documentation/Website/Documentation/Functions/score_sjsdm_tuning_predictions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">score_sjsdm_tuning_predictions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/select_ft_groups_by_silhouette.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">select_ft_groups_by_silhouette()</span></a>
   </div>
@@ -1566,7 +1602,7 @@ Numeric or integer scalar. Age in years BP at which predictions are made. Used a
 </td>
 <td>
 <p>
-A named list of ‘"scaled:center"’ and ‘"scaled:scale"’ attributes per ST-MEV column, as returned by ‘scale_spatial_for_fit()’ in the ‘spatial_scale_attributes’ element.
+Optional named list of ‘"scaled:center"’ and ‘"scaled:scale"’ attributes per ST-MEV column, as returned by ‘scale_spatial_for_fit()’ in the ‘spatial_scale_attributes’ element. When ‘NULL’, unscaled interpolated values are returned for fold-local scaling.
 </p>
 </td>
 </tr>
@@ -1584,7 +1620,7 @@ This function handles the <strong>3-D spatiotemporal case</strong>. For models f
 Value
 </h3>
 <p>
-A data frame with the same row names as ‘data_coords_projected_pred’ and one column per ST-MEV (names matching ‘data_st_mev_samples’). All columns are scaled to match the training ST-MEV distribution.
+A data frame with the same row names as ‘data_coords_projected_pred’ and one column per ST-MEV (names matching ‘data_st_mev_samples’). Columns are scaled when ‘spatial_scale_attributes’ is supplied and otherwise remain unscaled.
 </p>
 <h3 class="anchored">
 See Also

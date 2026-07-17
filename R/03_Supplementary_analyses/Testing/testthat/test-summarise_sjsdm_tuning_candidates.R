@@ -100,7 +100,12 @@ testthat::test_that(
     )
     testthat::expect_equal(
       res[["negative_log_likelihood_per_response"]],
-      base::c(0.25, 0.25, 0.4, 0.4)
+      base::c(0.275, 0.275, 0.4, 0.4)
+    )
+    testthat::expect_equal(
+      res[["negative_log_likelihood_per_response"]],
+      res[["negative_log_likelihood_test"]] /
+        res[["n_response_values"]]
     )
     testthat::expect_equal(res[["n_response_values"]], base::rep(40L, 4L))
     testthat::expect_true(base::all(res[["summary_status"]] == "ok"))
@@ -149,6 +154,62 @@ testthat::test_that(
           ]
         )
       )
+    )
+  }
+)
+
+testthat::test_that(
+  "pooled per-response loss is invariant to fold partitioning",
+  {
+    make_tuning_data <- function(
+        n_response_values,
+        negative_log_likelihood_test) {
+      tibble::tibble(
+        repeat_id = 1L,
+        fold_id = base::seq_along(n_response_values),
+        candidate_id = "candidate_001",
+        alpha_cov = 0.5,
+        alpha_coef = 0.5,
+        alpha_spatial = 0.5,
+        lambda_cov = 0.1,
+        lambda_coef = 0.1,
+        lambda_spatial = 0.1,
+        n_response_values = n_response_values,
+        negative_log_likelihood_test =
+          negative_log_likelihood_test,
+        negative_log_likelihood_per_response =
+          negative_log_likelihood_test / n_response_values,
+        auc_macro_test = 0.75,
+        fit_status = "ok",
+        cv_strategy = "spatially_stratified_group_kfold",
+        regularization_source = "unit_cv"
+      )
+    }
+
+    data_two_folds <-
+      make_tuning_data(
+        n_response_values = base::c(10L, 30L),
+        negative_log_likelihood_test = base::c(2, 9)
+      )
+
+    data_four_folds <-
+      make_tuning_data(
+        n_response_values = base::rep(10L, 4L),
+        negative_log_likelihood_test = base::c(2, 3, 3, 3)
+      )
+
+    result <-
+      base::list(data_two_folds, data_four_folds) |>
+      purrr::map(summarise_sjsdm_tuning_candidates) |>
+      purrr::list_rbind()
+
+    testthat::expect_identical(
+      result[["n_folds_total"]],
+      base::c(2L, 4L)
+    )
+    testthat::expect_equal(
+      result[["negative_log_likelihood_per_response"]],
+      base::rep(0.275, 2L)
     )
   }
 )

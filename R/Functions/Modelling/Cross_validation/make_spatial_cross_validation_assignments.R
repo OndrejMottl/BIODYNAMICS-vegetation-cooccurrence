@@ -239,8 +239,14 @@ make_spatial_cross_validation_assignments <- function(
         shift_x_fraction <-
           (repeat_id - 1L) / n_repeats
 
+        # The reverse-order multiplier is coprime to the repeat count, so
+        # every requested y-origin is used exactly once.
         shift_y_fraction <-
-          (((repeat_id - 1L) * 2L) %% n_repeats) / n_repeats
+          (
+            (
+              (repeat_id - 1L) * (n_repeats - 1L)
+            ) %% n_repeats
+          ) / n_repeats
 
         grid_origin_x <-
           base::min(vec_coord_x) -

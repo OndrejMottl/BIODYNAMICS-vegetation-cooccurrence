@@ -13,7 +13,8 @@
 #   Data/Input/spatial_grid.csv and runs pipeline_paleo_spatial_resolution.R
 #   for each one in sequence (genus + family + functional_type).
 # Each unit gets an isolated targets store at:
-#   Data/targets/paleo_spatial_local/{scale_id}/pipeline_paleo_spatial_resolution/
+#   Data/targets/paleo_spatial_local/{scale_id}/
+#   pipeline_paleo_spatial_resolution/
 
 
 #----------------------------------------------------------#
@@ -57,6 +58,7 @@ vec_tuning_target_names <-
 # 3. Build unit tuning summaries -----
 #----------------------------------------------------------#
 
+# This stage is fail-fast because tier selection requires every unit summary.
 purrr::walk(
   .progress = TRUE,
   .x = vec_scale_ids,
@@ -77,33 +79,16 @@ run_pipeline(
 # 4. Complete resolution pipeline for each spatial unit -----
 #----------------------------------------------------------#
 
+# Post-selection runs continue and retain one status row per spatial unit.
 tictoc::tic(
   "Running resolution pipelines (genus + family + FT) for all local units"
 )
-purrr::walk(
-  .x = vec_scale_ids,
-  .progress = TRUE,
-  .f = ~ {
-    base::message(
-      "\n\nRunning resolution pipeline for spatial unit: ", .x, "\n\n"
-    )
-    tryCatch(
-      run_pipeline(
-        sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
-        store_suffix = .x,
-        prebuild_interpolation = TRUE
-      ),
-      error = function(err) {
-        base::message(
-          "Skipping spatial unit after pipeline error: ", .x,
-          "\nError: ",
-          conditionMessage(err),
-          "\n"
-        )
-      }
-    )
-  }
-)
+data_pipeline_status <-
+  run_pipeline_units_with_status(
+    scale_ids = vec_scale_ids,
+    sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
+    prebuild_interpolation = TRUE
+  )
 tictoc::toc()
 
 
@@ -111,9 +96,12 @@ tictoc::toc()
 # 5. Run representative common-regularization sensitivity -----
 #----------------------------------------------------------#
 
-run_pipeline(
-  sel_script = stringr::str_c(
-    "R/Pipelines/",
-    "pipeline_sjsdm_common_regularization_sensitivity.R"
+data_common_sensitivity_status <-
+  run_sjsdm_cross_tier_sensitivity(
+    profile_ids = base::c(
+      "project_paleo_spatial_continental",
+      "project_paleo_spatial_regional",
+      "project_paleo_spatial_local"
+    ),
+    pipeline_name = "pipeline_paleo_spatial_resolution"
   )
-)

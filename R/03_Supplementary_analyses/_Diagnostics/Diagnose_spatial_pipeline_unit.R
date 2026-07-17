@@ -152,9 +152,9 @@ model_evaluation_fitted <-
   )()
 
 if (
-  is.null(model_evaluation_fitted)
+  base::is.null(model_evaluation_fitted)
 ) {
-  message("Target 'model_evaluation_fitted' not available.")
+  base::message("Target 'model_evaluation_fitted' not available.")
 } else {
   convergence_info <-
     model_evaluation_fitted |>

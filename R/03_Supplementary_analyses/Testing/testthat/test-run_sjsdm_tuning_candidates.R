@@ -66,6 +66,9 @@ testthat::test_that(
     environment_capture[["fits"]] <-
       base::list()
 
+    environment_capture[["score_seeds"]] <-
+      base::integer()
+
     prepare_fold_function <- function(
         train_indices,
         test_indices,
@@ -157,6 +160,28 @@ testthat::test_that(
       return(res)
     }
 
+    score_function <- function(
+        object,
+        data_test_input,
+        data_observed,
+        data_predicted,
+        epsilon,
+        score_seed) {
+      environment_capture[["score_seeds"]] <-
+        base::c(
+          environment_capture[["score_seeds"]],
+          score_seed
+        )
+
+      return(
+        score_sjsdm_tuning_predictions(
+          data_observed = data_observed,
+          data_predicted = data_predicted,
+          epsilon = epsilon
+        )
+      )
+    }
+
     res <-
       run_sjsdm_tuning_candidates(
         data_assignments = data_assignments,
@@ -164,6 +189,7 @@ testthat::test_that(
         prepare_fold_function = prepare_fold_function,
         fit_function = fit_function,
         predict_function = predict_function,
+        score_function = score_function,
         seed = 100L
       )
 
@@ -181,6 +207,7 @@ testthat::test_that(
         "lambda_coef",
         "lambda_spatial",
         "fit_seed",
+        "score_seed",
         "n_train_locations",
         "n_test_locations",
         "n_train_samples",
@@ -219,6 +246,15 @@ testthat::test_that(
     )
     testthat::expect_length(environment_capture[["partitions"]], 2L)
     testthat::expect_length(environment_capture[["fits"]], 4L)
+    testthat::expect_length(base::unique(res[["fit_seed"]]), 4L)
+    testthat::expect_length(base::unique(res[["score_seed"]]), 4L)
+    testthat::expect_false(
+      base::any(res[["fit_seed"]] == res[["score_seed"]])
+    )
+    testthat::expect_equal(
+      environment_capture[["score_seeds"]],
+      res[["score_seed"]]
+    )
 
     res_repeated <-
       run_sjsdm_tuning_candidates(
@@ -227,10 +263,54 @@ testthat::test_that(
         prepare_fold_function = prepare_fold_function,
         fit_function = fit_function,
         predict_function = predict_function,
+        score_function = score_function,
         seed = 100L
       )
 
     testthat::expect_equal(res, res_repeated)
+
+    res_reordered <-
+      run_sjsdm_tuning_candidates(
+        data_assignments = data_assignments,
+        data_candidates = data_candidates[2:1, ],
+        prepare_fold_function = prepare_fold_function,
+        fit_function = fit_function,
+        predict_function = predict_function,
+        score_function = score_function,
+        seed = 100L
+      )
+
+    data_seed_reference <-
+      res |>
+      dplyr::arrange(
+        .data[["repeat_id"]],
+        .data[["fold_id"]],
+        .data[["candidate_id"]]
+      ) |>
+      dplyr::select(
+        "repeat_id",
+        "fold_id",
+        "candidate_id",
+        "fit_seed",
+        "score_seed"
+      )
+
+    data_seed_reordered <-
+      res_reordered |>
+      dplyr::arrange(
+        .data[["repeat_id"]],
+        .data[["fold_id"]],
+        .data[["candidate_id"]]
+      ) |>
+      dplyr::select(
+        "repeat_id",
+        "fold_id",
+        "candidate_id",
+        "fit_seed",
+        "score_seed"
+      )
+
+    testthat::expect_equal(data_seed_reordered, data_seed_reference)
   }
 )
 
@@ -395,7 +475,8 @@ testthat::test_that(
         data_test_input,
         data_observed,
         data_predicted,
-        epsilon) {
+        epsilon,
+        score_seed) {
       res <-
         tibble::tibble(
           n_taxa_retained = 1L,

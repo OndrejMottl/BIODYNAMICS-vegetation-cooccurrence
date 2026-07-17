@@ -40,7 +40,7 @@ default:
       assignment_repeats: 3
       assignment_seed: 900723
       fit_seed: 900723
-      fit_device: "cpu"
+      fit_device: "gpu"
       min_mem_locations: 4
       regularization:
         alpha_cov: !expr c(0.5)
@@ -90,6 +90,30 @@ project_cz_paleo:
         lambda_cov: !expr c(0)
         lambda_coef: !expr c(0)
         lambda_spatial: !expr c(0)
+project_cz_paleo_cv_reference:
+  inherits: project_cz_paleo
+  target_store: Data/targets/cz_paleo_cv_reference
+  model_fitting:
+    cross_validation:
+      tier_id: "cz_paleo_cv_reference"
+      assignment_repeats: 3
+      regularization:
+        lambda_cov: !expr c(0, 0.1)
+        lambda_coef: !expr c(0, 0.1)
+        lambda_spatial: !expr c(0, 0.1)
+project_cz_paleo_cv_reference_gpu:
+  inherits: project_cz_paleo_cv_reference
+  target_store: Data/targets/cz_paleo_cv_reference_gpu
+  model_fitting:
+    cross_validation:
+      tier_id: "cz_paleo_cv_reference_gpu"
+      fit_device: "gpu"
+project_cz_paleo_cv_component_reference_gpu:
+  inherits: project_cz_paleo_cv_reference_gpu
+  target_store: Data/targets/cz_paleo_cv_component_reference_gpu
+project_cz_paleo_cv_regularization_reference_gpu:
+  inherits: project_cz_paleo_cv_reference_gpu
+  target_store: Data/targets/cz_paleo_cv_regularization_reference_gpu
 project_traits_reference:
   target_store: Data/targets/traits_reference
   data_processing:
@@ -223,6 +247,26 @@ project_paleo_spatial_local:
         representative_scale_id: "eu_r005_l014"
     n_mev: 3
     n_cores: 24
+project_paleo_local_cv_scientific_reference_gpu:
+  inherits: project_paleo_spatial_local
+  target_store: Data/targets/paleo_local_cv_scientific_reference_gpu
+  scientific_performance:
+    policy_version: "sjsdm_scientific_performance_v1"
+    minimum_mean_tjur_r2: 0.1
+    minimum_repeat_auc: 0.5
+    minimum_positive_taxon_fraction: 0.8
+    require_log_loss_improvement_all_repeats: true
+    require_brier_improvement_all_repeats: true
+    minimum_taxon_fold_evaluable_fraction: 0.8
+    calibration_role: "diagnostic"
+  model_fitting:
+    cross_validation:
+      tier_id: "paleo_local_cv_scientific_reference_gpu"
+      assignment_repeats: 3
+      fit_device: "gpu"
+project_paleo_local_cv_decomposition_reference_gpu:
+  inherits: project_paleo_local_cv_scientific_reference_gpu
+  target_store: Data/targets/paleo_local_cv_decomposition_reference_gpu
 project_modern_spatial_continental:
   target_store: Data/targets/modern_spatial_continental
   vegvault_data:

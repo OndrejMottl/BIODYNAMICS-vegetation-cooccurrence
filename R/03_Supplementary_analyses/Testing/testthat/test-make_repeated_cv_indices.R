@@ -55,3 +55,24 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "make_repeated_cv_indices() documents the project-owned consumer",
+  {
+    source_text <-
+      here::here(
+        "R/Functions/Modelling/Decomposition_diagnostics",
+        "make_repeated_cv_indices.R"
+      ) |>
+      base::readLines(warn = FALSE) |>
+      stringr::str_c(collapse = "\n")
+
+    testthat::expect_match(
+      source_text,
+      "run_decomposition_route_cv"
+    )
+    testthat::expect_false(
+      stringr::str_detect(source_text, "sjSDM_cv")
+    )
+  }
+)

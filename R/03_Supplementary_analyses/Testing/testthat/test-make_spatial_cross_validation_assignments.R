@@ -134,6 +134,54 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "make_spatial_cross_validation_assignments() covers repeat origins",
+  {
+    data_locations <-
+      tibble::tibble(
+        location_id = stringr::str_c("plot_", base::seq_len(8L)),
+        coord_x_km = base::rep(0, 8L),
+        coord_y_km = base::c(0, 1, 2, 3, 4, 6, 7, 8),
+        n_samples = base::rep(1L, 8L),
+        row_indices = base::as.list(base::seq_len(8L))
+      )
+
+    data_assignments <-
+      make_spatial_cross_validation_assignments(
+        data_locations = data_locations,
+        n_folds = 2L,
+        n_repeats = 4L,
+        grid_cell_size_km = 5,
+        seed = 900723L
+      )
+
+    data_repeat_signatures <-
+      data_assignments |>
+      dplyr::arrange(.data[["repeat_id"]], .data[["location_id"]]) |>
+      dplyr::group_by(.data[["repeat_id"]]) |>
+      dplyr::summarise(
+        grid_signature = stringr::str_c(
+          .data[["grid_cell_id"]],
+          collapse = "|"
+        ),
+        .groups = "drop"
+      )
+
+    expected_signatures <-
+      base::c(
+        "x0_y0|x0_y0|x0_y0|x0_y0|x0_y0|x0_y1|x0_y1|x0_y1",
+        "x0_y0|x0_y0|x0_y1|x0_y1|x0_y1|x0_y1|x0_y2|x0_y2",
+        "x0_y0|x0_y0|x0_y0|x0_y1|x0_y1|x0_y1|x0_y1|x0_y2",
+        "x0_y0|x0_y0|x0_y0|x0_y0|x0_y1|x0_y1|x0_y1|x0_y1"
+      )
+
+    testthat::expect_equal(
+      data_repeat_signatures[["grid_signature"]],
+      expected_signatures
+    )
+  }
+)
+
+testthat::test_that(
   "make_spatial_cross_validation_assignments() validates fold count",
   {
     data_locations <-

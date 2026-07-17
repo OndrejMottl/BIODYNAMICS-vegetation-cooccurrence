@@ -267,13 +267,13 @@ testthat::test_that(
     testthat::skip_if_not_installed("sjSDM")
 
     mock_community <-
-      data.frame(
+      base::data.frame(
         sp1 = c(5.2, 3.1, 4.8, 2.9, 6.1),
         sp2 = c(2.3, 4.5, 3.2, 5.1, 1.9),
         sp3 = c(7.1, 4.2, 5.9, 3.8, 6.5)
       )
     mock_abiotic <-
-      data.frame(
+      base::data.frame(
         temp = c(15.2, 18.3, 12.7, 20.1, 16.5),
         precip = c(850, 920, 780, 1050, 890)
       )
@@ -873,15 +873,53 @@ testthat::test_that(
   "fit_jsdm_model() validates regularization settings",
   {
     mock_community <-
-      data.frame(
+      base::data.frame(
         sp1 = base::c(1, 2, 3),
         sp2 = base::c(4, 5, 6)
       )
     mock_abiotic <-
-      data.frame(
+      base::data.frame(
         temp = base::c(10, 15, 20),
         precip = base::c(100, 200, 300)
       )
+    base_arguments <-
+      base::list(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        iter = 0L
+      )
+
+    for (
+      alpha_name in base::c("alpha_cov", "alpha_coef", "alpha_spatial")
+    ) {
+      for (boundary_value in base::c(0, 1)) {
+        boundary_arguments <-
+          base::c(
+            base_arguments,
+            stats::setNames(base::list(boundary_value), alpha_name)
+          )
+
+        testthat::expect_error(
+          base::do.call(fit_jsdm_model, boundary_arguments),
+          "iter"
+        )
+      }
+
+      negative_arguments <-
+        base::c(
+          base_arguments,
+          stats::setNames(base::list(-0.1), alpha_name)
+        )
+
+      testthat::expect_error(
+        base::do.call(fit_jsdm_model, negative_arguments),
+        base::paste0(alpha_name, ".*between zero and one")
+      )
+    }
 
     testthat::expect_error(
       fit_jsdm_model(
@@ -894,6 +932,48 @@ testthat::test_that(
         alpha_coef = base::c(0.2, 0.8)
       ),
       "alpha_coef"
+    )
+
+    testthat::expect_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        alpha_cov = 1.1,
+        iter = 1L
+      ),
+      "alpha_cov.*between zero and one"
+    )
+
+    testthat::expect_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        alpha_coef = 1.1,
+        iter = 1L
+      ),
+      "alpha_coef.*between zero and one"
+    )
+
+    testthat::expect_error(
+      fit_jsdm_model(
+        data_to_fit = base::list(
+          data_community_to_fit = base::as.matrix(mock_community),
+          data_abiotic_to_fit = mock_abiotic
+        ),
+        sel_abiotic_formula = stats::as.formula("~ temp + precip"),
+        spatial_method = "none",
+        alpha_spatial = 1.1,
+        iter = 1L
+      ),
+      "alpha_spatial.*between zero and one"
     )
 
     testthat::expect_error(

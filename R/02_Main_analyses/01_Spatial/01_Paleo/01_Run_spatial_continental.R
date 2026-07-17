@@ -13,7 +13,8 @@
 #   Data/Input/spatial_grid.csv and runs pipeline_paleo_spatial_resolution.R
 #   for each one in sequence (genus + family + functional_type).
 # Each unit gets an isolated targets store at:
-#   Data/targets/paleo_spatial_continental/{scale_id}/pipeline_paleo_spatial_resolution/
+#   Data/targets/paleo_spatial_continental/{scale_id}/
+#   pipeline_paleo_spatial_resolution/
 
 
 #----------------------------------------------------------#
@@ -55,6 +56,7 @@ vec_tuning_target_names <-
 # 3. Build unit tuning summaries -----
 #----------------------------------------------------------#
 
+# This stage is fail-fast because tier selection requires every unit summary.
 purrr::walk(
   .progress = TRUE,
   .x = vec_scale_ids,
@@ -75,21 +77,14 @@ run_pipeline(
 # 4. Complete resolution pipeline for each spatial unit -----
 #----------------------------------------------------------#
 
+# Post-selection runs continue and retain one status row per spatial unit.
 tictoc::tic(
   "Running resolution pipelines (genus + family + FT) for all continental units"
 )
-purrr::walk(
-  .progress = TRUE,
-  .x = vec_scale_ids,
-  .f = ~ {
-    base::message(
-      "\n\nRunning resolution pipeline for spatial unit: ", .x, "\n\n"
-    )
-    run_pipeline(
-      sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
-      store_suffix = .x,
-      prebuild_interpolation = TRUE
-    )
-  }
-)
+data_pipeline_status <-
+  run_pipeline_units_with_status(
+    scale_ids = vec_scale_ids,
+    sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
+    prebuild_interpolation = TRUE
+  )
 tictoc::toc()

@@ -46,7 +46,8 @@
 #' variant.
 #' @param alpha_cov,alpha_coef,alpha_spatial
 #' Elastic-net mixing parameters for biotic association covariance,
-#' abiotic coefficients, and spatial coefficients.
+#' abiotic coefficients, and spatial coefficients. Each must be between zero
+#' and one, inclusive.
 #' @param lambda_cov,lambda_coef,lambda_spatial
 #' Non-negative regularization strengths for biotic association
 #' covariance, abiotic coefficients, and spatial coefficients.
@@ -321,26 +322,56 @@ fit_jsdm_model <- function(
     msg = "verbose must be a logical value of length 1"
   )
 
-  # This is exception to make small helper function
-  #   inside of function (small scope, not exported)
-  validate_regularization <- function(value, name, lower_bound) {
-    assertthat::assert_that(
-      base::is.numeric(value),
-      base::length(value) == 1L,
-      base::is.finite(value),
-      value >= lower_bound,
-      msg = stringr::str_glue(
-        "`{name}` must be a single finite number >= {lower_bound}."
-      )
-    )
-  }
+  assertthat::assert_that(
+    base::is.numeric(alpha_cov),
+    base::length(alpha_cov) == 1L,
+    base::is.finite(alpha_cov),
+    alpha_cov >= 0,
+    alpha_cov <= 1,
+    msg = "`alpha_cov` must be a finite number between zero and one."
+  )
 
-  validate_regularization(alpha_cov, "alpha_cov", 0)
-  validate_regularization(alpha_coef, "alpha_coef", 0)
-  validate_regularization(alpha_spatial, "alpha_spatial", 0)
-  validate_regularization(lambda_cov, "lambda_cov", 0)
-  validate_regularization(lambda_coef, "lambda_coef", 0)
-  validate_regularization(lambda_spatial, "lambda_spatial", 0)
+  assertthat::assert_that(
+    base::is.numeric(alpha_coef),
+    base::length(alpha_coef) == 1L,
+    base::is.finite(alpha_coef),
+    alpha_coef >= 0,
+    alpha_coef <= 1,
+    msg = "`alpha_coef` must be a finite number between zero and one."
+  )
+
+  assertthat::assert_that(
+    base::is.numeric(alpha_spatial),
+    base::length(alpha_spatial) == 1L,
+    base::is.finite(alpha_spatial),
+    alpha_spatial >= 0,
+    alpha_spatial <= 1,
+    msg = "`alpha_spatial` must be a finite number between zero and one."
+  )
+
+  assertthat::assert_that(
+    base::is.numeric(lambda_cov),
+    base::length(lambda_cov) == 1L,
+    base::is.finite(lambda_cov),
+    lambda_cov >= 0,
+    msg = "`lambda_cov` must be one finite non-negative number."
+  )
+
+  assertthat::assert_that(
+    base::is.numeric(lambda_coef),
+    base::length(lambda_coef) == 1L,
+    base::is.finite(lambda_coef),
+    lambda_coef >= 0,
+    msg = "`lambda_coef` must be one finite non-negative number."
+  )
+
+  assertthat::assert_that(
+    base::is.numeric(lambda_spatial),
+    base::length(lambda_spatial) == 1L,
+    base::is.finite(lambda_spatial),
+    lambda_spatial >= 0,
+    msg = "`lambda_spatial` must be one finite non-negative number."
+  )
 
   assertthat::assert_that(
     is.numeric(iter),
