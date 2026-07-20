@@ -12,6 +12,9 @@
 #' runs one non-nested unit store, as used by temporal mapped pipelines.
 #' @param prebuild_interpolation
 #' Logical forwarded to [run_pipeline()] for unit executions.
+#' @param fresh_run
+#' Logical. When true, destroys unit stores on their first round and the tier
+#' store before its first aggregation. Later rounds always resume.
 #' @param tuning_strategy
 #' Character scalar, `"exhaustive"` or `"staged"`.
 #' @param n_rounds
@@ -26,6 +29,7 @@ run_sjsdm_tuning_sequence <- function(
     tuning_target_names = NULL,
     unit_store_suffixes = NULL,
     prebuild_interpolation = FALSE,
+    fresh_run = FALSE,
     tuning_strategy = NULL,
     n_rounds = NULL,
     run_pipeline_function = run_pipeline) {
@@ -61,6 +65,13 @@ run_sjsdm_tuning_sequence <- function(
     base::length(prebuild_interpolation) == 1L,
     !base::is.na(prebuild_interpolation),
     msg = "prebuild_interpolation must be one logical value."
+  )
+
+  assertthat::assert_that(
+    base::is.logical(fresh_run),
+    base::length(fresh_run) == 1L,
+    !base::is.na(fresh_run),
+    msg = "fresh_run must be one logical value."
   )
 
   assertthat::assert_that(
@@ -108,6 +119,9 @@ run_sjsdm_tuning_sequence <- function(
     }
 
   for (round_id in vec_round_ids) {
+    fresh_round <-
+      fresh_run && round_id == 1L
+
     if (
       base::is.null(unit_store_suffixes)
     ) {
@@ -118,7 +132,8 @@ run_sjsdm_tuning_sequence <- function(
         code = run_pipeline_function(
           sel_script = unit_pipeline,
           target_names = tuning_target_names,
-          prebuild_interpolation = prebuild_interpolation
+          prebuild_interpolation = prebuild_interpolation,
+          fresh_run = fresh_round
         )
       )
     } else {
@@ -131,7 +146,8 @@ run_sjsdm_tuning_sequence <- function(
             sel_script = unit_pipeline,
             store_suffix = store_suffix,
             target_names = tuning_target_names,
-            prebuild_interpolation = prebuild_interpolation
+            prebuild_interpolation = prebuild_interpolation,
+            fresh_run = fresh_round
           )
         )
       }
@@ -141,7 +157,8 @@ run_sjsdm_tuning_sequence <- function(
       tuning_strategy == "exhaustive"
     ) {
       run_pipeline_function(
-        sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R"
+        sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R",
+        fresh_run = fresh_round
       )
     } else {
       tier_target_name <-
@@ -158,7 +175,8 @@ run_sjsdm_tuning_sequence <- function(
 
       run_pipeline_function(
         sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R",
-        target_names = tier_target_name
+        target_names = tier_target_name,
+        fresh_run = fresh_round
       )
     }
   }

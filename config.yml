@@ -102,6 +102,7 @@ project_cz_paleo_cv_reference:
   inherits: project_cz_paleo
   target_store: Data/targets/cz_paleo_cv_reference
   model_fitting:
+    model_tuning_id: paleo_core
     cross_validation:
       tier_id: "cz_paleo_cv_reference"
       assignment_repeats: 3
@@ -116,6 +117,15 @@ project_cz_paleo_cv_reference_gpu:
     cross_validation:
       tier_id: "cz_paleo_cv_reference_gpu"
       fit_device: "gpu"
+project_cz_paleo_cv_staged_reference_gpu:
+  inherits: project_cz_paleo_cv_reference_gpu
+  target_store: Data/targets/cz_paleo_cv_staged_reference_gpu
+  model_fitting:
+    cross_validation:
+      tuning_strategy: "staged"
+      staged_search:
+        repeat_order: !expr c(1L, 2L, 3L)
+        survivor_counts: !expr c(4L, 2L)
 project_cz_paleo_cv_component_reference_gpu:
   inherits: project_cz_paleo_cv_reference_gpu
   target_store: Data/targets/cz_paleo_cv_component_reference_gpu

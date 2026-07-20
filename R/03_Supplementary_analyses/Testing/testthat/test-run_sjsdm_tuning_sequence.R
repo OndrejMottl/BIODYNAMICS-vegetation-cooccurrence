@@ -9,14 +9,16 @@ testthat::test_that(
         script = base::character(),
         suffix = base::character(),
         targets = base::character(),
-        max_round = base::character()
+        max_round = base::character(),
+        fresh_run = base::logical()
       )
 
     run_pipeline_function <- function(
         sel_script,
         store_suffix = NULL,
         target_names = NULL,
-        prebuild_interpolation = FALSE) {
+        prebuild_interpolation = FALSE,
+        fresh_run = FALSE) {
       environment_calls[["data"]] <-
         dplyr::bind_rows(
           environment_calls[["data"]],
@@ -27,7 +29,8 @@ testthat::test_that(
             max_round = base::Sys.getenv(
               "SJSMD_TUNING_MAX_ROUND",
               unset = ""
-            )
+            ),
+            fresh_run = fresh_run
           )
         )
 
@@ -40,6 +43,7 @@ testthat::test_that(
         tuning_target_names = base::c("summary_genus", "summary_family"),
         unit_store_suffixes = base::c("unit_a", "unit_b"),
         prebuild_interpolation = TRUE,
+        fresh_run = TRUE,
         tuning_strategy = "staged",
         n_rounds = 3L,
         run_pipeline_function = run_pipeline_function
@@ -76,6 +80,20 @@ testthat::test_that(
     testthat::expect_identical(
       data_calls[["max_round"]],
       base::c("1", "1", "", "2", "2", "", "3", "3", "")
+    )
+    testthat::expect_identical(
+      data_calls[["fresh_run"]],
+      base::c(
+        TRUE,
+        TRUE,
+        TRUE,
+        FALSE,
+        FALSE,
+        FALSE,
+        FALSE,
+        FALSE,
+        FALSE
+      )
     )
   }
 )

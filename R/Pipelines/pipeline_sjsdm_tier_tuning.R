@@ -106,6 +106,11 @@ list_tuning_context <-
         ),
         nested_unit_stores = TRUE
       ),
+      paleo_core = base::list(
+        pipeline_name = "pipeline_paleo_core",
+        resolution_ids = "genus",
+        nested_unit_stores = FALSE
+      ),
       modern_spatial = base::list(
         pipeline_name = "pipeline_modern_spatial_resolution",
         resolution_ids = base::c("genus", "family", "ft_modern"),
