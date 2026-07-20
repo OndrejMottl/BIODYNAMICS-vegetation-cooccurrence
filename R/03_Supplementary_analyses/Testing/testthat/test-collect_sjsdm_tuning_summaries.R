@@ -154,6 +154,41 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "collect_sjsdm_tuning_summaries() reads exact direct-unit targets",
+  {
+    environment_reads <-
+      base::new.env(parent = base::emptyenv())
+    environment_reads[["names"]] <-
+      base::character()
+
+    read_target_function <- function(name, store) {
+      environment_reads[["names"]] <-
+        base::c(environment_reads[["names"]], name)
+
+      tibble::tibble(
+        source_id = "unit",
+        taxonomic_resolution = "genus",
+        candidate_id = "candidate_001"
+      )
+    }
+
+    res <-
+      collect_sjsdm_tuning_summaries(
+        store_paths = "direct_store",
+        resolution_ids = "genus",
+        target_names = "data_sjsdm_tuning_summary",
+        read_target_function = read_target_function
+      )
+
+    testthat::expect_identical(
+      environment_reads[["names"]],
+      "data_sjsdm_tuning_summary"
+    )
+    testthat::expect_identical(res[["resolution_id"]], "genus")
+  }
+)
+
+testthat::test_that(
   "collect_sjsdm_tuning_summaries() validates the target prefix",
   {
     testthat::expect_error(

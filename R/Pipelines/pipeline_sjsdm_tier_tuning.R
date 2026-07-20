@@ -109,6 +109,7 @@ list_tuning_context <-
       paleo_core = base::list(
         pipeline_name = "pipeline_paleo_core",
         resolution_ids = "genus",
+        target_names = "data_sjsdm_tuning_summary",
         nested_unit_stores = FALSE
       ),
       modern_spatial = base::list(
@@ -195,7 +196,8 @@ list_sjsdm_tier_common_targets <-
     name = data_sjsdm_tier_tuning_summaries,
     command = collect_sjsdm_tuning_summaries(
       store_paths = vec_sjsdm_unit_tuning_stores,
-      resolution_ids = list_tuning_context[["resolution_ids"]]
+      resolution_ids = list_tuning_context[["resolution_ids"]],
+      target_names = list_tuning_context[["target_names"]]
     ),
     cue = targets::tar_cue(mode = "always")
   ),
