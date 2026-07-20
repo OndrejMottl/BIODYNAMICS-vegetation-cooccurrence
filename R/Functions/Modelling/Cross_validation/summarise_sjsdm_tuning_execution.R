@@ -6,6 +6,8 @@
 #' Fold-level tuning table from [run_sjsdm_tuning_candidates()].
 #' @param data_schedule
 #' Validated schedule from [build_sjsdm_tuning_schedule()].
+#' @param data_work_items
+#' Optional work-item table from [build_sjsdm_tuning_work_items()].
 #' @return
 #' One-row execution-provenance tibble containing strategy identifiers, fit
 #' counts, prediction source, and fit-reduction fraction relative to the former
@@ -20,7 +22,8 @@
 #' @export
 summarise_sjsdm_tuning_execution <- function(
     data_tuning = NULL,
-    data_schedule = NULL) {
+    data_schedule = NULL,
+    data_work_items = NULL) {
   vec_tuning_columns <-
     base::c("repeat_id", "fold_id", "candidate_id", "fit_status")
 
@@ -48,6 +51,35 @@ summarise_sjsdm_tuning_execution <- function(
   )
 
   if (
+    !base::is.null(data_work_items)
+  ) {
+    assertthat::assert_that(
+      base::is.data.frame(data_work_items),
+      base::all(
+        base::c(
+          "work_item_id",
+          "repeat_id",
+          "fold_id",
+          "candidate_id"
+        ) %in% base::colnames(data_work_items)
+      ),
+      !base::any(
+        base::duplicated(data_work_items[["work_item_id"]])
+      ),
+      msg = "data_work_items has invalid execution identities."
+    )
+  }
+
+  n_work_items_materialized <-
+    if (
+      base::is.null(data_work_items)
+    ) {
+      base::nrow(data_tuning)
+    } else {
+      base::nrow(data_work_items)
+    }
+
+  if (
     base::nrow(data_tuning) == 0L
   ) {
     return(
@@ -56,7 +88,11 @@ summarise_sjsdm_tuning_execution <- function(
         tuning_strategy_version =
           data_schedule[["strategy_version"]][[1L]],
         evaluation_prediction_source = "tuning_prediction_cache",
+        work_item_identity_version = "sjsdm_cv_work_item_v1",
+        restart_boundary = "repeat_fold_candidate",
         n_rounds = base::nrow(data_schedule),
+        n_work_items_materialized =
+          base::as.integer(n_work_items_materialized),
         n_fold_preparations = 0L,
         n_fits_executed = 0L,
         n_successful_fits = 0L,
@@ -120,7 +156,11 @@ summarise_sjsdm_tuning_execution <- function(
       tuning_strategy_version =
         data_schedule[["strategy_version"]][[1L]],
       evaluation_prediction_source = "tuning_prediction_cache",
+      work_item_identity_version = "sjsdm_cv_work_item_v1",
+      restart_boundary = "repeat_fold_candidate",
       n_rounds = base::nrow(data_schedule),
+      n_work_items_materialized =
+        base::as.integer(n_work_items_materialized),
       n_fold_preparations = base::as.integer(n_fold_partitions),
       n_fits_executed = base::as.integer(n_fits_executed),
       n_successful_fits = base::sum(data_tuning[["fit_status"]] == "ok"),

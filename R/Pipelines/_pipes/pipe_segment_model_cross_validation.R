@@ -360,11 +360,10 @@ pipe_segment_model_cross_validation <-
       )
     ),
     targets::tar_target(
-      description = "Fit candidates and retain compact OOF probabilities",
-      name = "list_sjsdm_tuning_execution",
-      command = run_sjsdm_tuning_candidates(
+      description = "Prepare each tuning fold once",
+      name = "list_sjsdm_prepared_tuning_folds",
+      command = prepare_sjsdm_tuning_folds(
         data_assignments = data_cross_validation_assignments,
-        data_candidates = data_sjsdm_regularization_candidates,
         prepare_fold_function = function(
             train_indices,
             test_indices,
@@ -382,7 +381,29 @@ pipe_segment_model_cross_validation <-
             repeat_id = repeat_id,
             fold_id = fold_id
           )
-        },
+        }
+      )
+    ),
+    targets::tar_target(
+      description = "Build deterministic candidate-fold work items",
+      name = "data_sjsdm_tuning_work_items",
+      command = build_sjsdm_tuning_work_items(
+        data_assignments = data_cross_validation_assignments,
+        data_candidates = data_sjsdm_regularization_candidates,
+        seed = purrr::chuck(
+          config_model_fitting,
+          "cross_validation",
+          "fit_seed"
+        )
+      ),
+      iteration = "vector"
+    ),
+    targets::tar_target(
+      description = "Execute one restartable candidate-fold fit",
+      name = "list_sjsdm_tuning_work_item_result",
+      command = run_sjsdm_tuning_work_item(
+        data_work_item = data_sjsdm_tuning_work_items,
+        list_prepared_folds = list_sjsdm_prepared_tuning_folds,
         fit_function = function(data_train_input, candidate, seed) {
           fit_sjsdm_regularization_candidate(
             data_train_input = data_train_input,
@@ -399,12 +420,17 @@ pipe_segment_model_cross_validation <-
         },
         predict_function = predict_sjsdm_probability_matrix,
         score_function = score_sjsdm_joint_tuning_predictions,
-        seed = purrr::chuck(
-          config_model_fitting,
-          "cross_validation",
-          "fit_seed"
-        ),
-        retain_prediction_cache = TRUE
+        epsilon = 1e-6
+      ),
+      pattern = map(data_sjsdm_tuning_work_items),
+      iteration = "list"
+    ),
+    targets::tar_target(
+      description = "Combine granular tuning metrics and predictions",
+      name = "list_sjsdm_tuning_execution",
+      command = combine_sjsdm_tuning_work_items(
+        list_work_item_results =
+          list_sjsdm_tuning_work_item_result
       )
     ),
     targets::tar_target(
@@ -424,7 +450,8 @@ pipe_segment_model_cross_validation <-
       name = "data_sjsdm_tuning_execution_provenance",
       command = summarise_sjsdm_tuning_execution(
         data_tuning = data_sjsdm_tuning_candidates,
-        data_schedule = data_sjsdm_tuning_schedule
+        data_schedule = data_sjsdm_tuning_schedule,
+        data_work_items = data_sjsdm_tuning_work_items
       )
     ),
     targets::tar_target(

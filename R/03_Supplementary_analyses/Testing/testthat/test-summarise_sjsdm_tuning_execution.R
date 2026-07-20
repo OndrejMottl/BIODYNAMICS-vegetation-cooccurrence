@@ -19,7 +19,14 @@ testthat::test_that(
     data_result <-
       summarise_sjsdm_tuning_execution(
         data_tuning = data_tuning,
-        data_schedule = data_schedule
+        data_schedule = data_schedule,
+        data_work_items = data_tuning |>
+          dplyr::mutate(
+            work_item_id = stringr::str_c(
+              "item_",
+              dplyr::row_number()
+            )
+          )
       )
 
     testthat::expect_identical(data_result[["n_fits_executed"]], 120L)
@@ -34,6 +41,18 @@ testthat::test_that(
     testthat::expect_identical(
       data_result[["evaluation_prediction_source"]],
       "tuning_prediction_cache"
+    )
+    testthat::expect_identical(
+      data_result[["work_item_identity_version"]],
+      "sjsdm_cv_work_item_v1"
+    )
+    testthat::expect_identical(
+      data_result[["restart_boundary"]],
+      "repeat_fold_candidate"
+    )
+    testthat::expect_identical(
+      data_result[["n_work_items_materialized"]],
+      120L
     )
   }
 )

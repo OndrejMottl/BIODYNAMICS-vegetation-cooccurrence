@@ -22,7 +22,22 @@ testthat::test_that(
 
         testthat::expect_match(
           text_pipe,
-          "retain_prediction_cache = TRUE",
+          "prepare_sjsdm_tuning_folds(",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
+          "build_sjsdm_tuning_work_items(",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
+          "run_sjsdm_tuning_work_item(",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
+          "pattern = map(data_sjsdm_tuning_work_items)",
           fixed = TRUE
         )
         testthat::expect_match(
