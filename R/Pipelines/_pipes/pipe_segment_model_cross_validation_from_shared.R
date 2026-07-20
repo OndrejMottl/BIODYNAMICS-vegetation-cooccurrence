@@ -346,8 +346,8 @@ pipe_segment_model_cross_validation_from_shared <-
       )
     ),
     targets::tar_target(
-      description = "Build deterministic branch candidate-fold work items",
-      name = "data_sjsdm_tuning_work_items",
+      description = "Build every deterministic branch tuning work item",
+      name = "data_sjsdm_all_tuning_work_items",
       command = build_sjsdm_tuning_work_items(
         data_assignments = data_cross_validation_assignments,
         data_candidates = data_sjsdm_regularization_candidates,
@@ -356,7 +356,63 @@ pipe_segment_model_cross_validation_from_shared <-
           "cross_validation",
           "fit_seed"
         )
-      ),
+      )
+    ),
+    targets::tar_target(
+      description = "Discover branch tier-wide tuning decisions",
+      name = "list_sjsdm_available_tier_decisions",
+      command = if (
+        data_sjsdm_tuning_schedule[["tuning_strategy"]][[1L]] ==
+          "exhaustive"
+      ) {
+        base::list()
+      } else {
+        max_round <-
+          base::Sys.getenv(
+            "SJSMD_TUNING_MAX_ROUND",
+            unset = base::as.character(
+              base::nrow(data_sjsdm_tuning_schedule)
+            )
+          ) |>
+          base::as.integer()
+
+        assertthat::assert_that(
+          base::is.finite(max_round),
+          max_round >= 1L,
+          max_round <= base::nrow(data_sjsdm_tuning_schedule),
+          msg = "SJSMD_TUNING_MAX_ROUND is outside the schedule."
+        )
+
+        collect_sjsdm_available_tier_decisions(
+          store_path = here::here(
+            get_active_config("target_store"),
+            "pipeline_sjsdm_tier_tuning"
+          ),
+          data_model_context = data_sjsdm_model_context,
+          n_non_final_rounds = base::min(
+            base::nrow(data_sjsdm_tuning_schedule) - 1L,
+            max_round - 1L
+          )
+        )
+      },
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = "Authorize cumulative branch tuning work items",
+      name = "data_sjsdm_tuning_work_items",
+      command = if (
+        data_sjsdm_tuning_schedule[["tuning_strategy"]][[1L]] ==
+          "exhaustive"
+      ) {
+        data_sjsdm_all_tuning_work_items
+      } else {
+        build_sjsdm_cumulative_tuning_work_items(
+          data_work_items = data_sjsdm_all_tuning_work_items,
+          data_schedule = data_sjsdm_tuning_schedule,
+          list_prior_decisions =
+            list_sjsdm_available_tier_decisions
+        )
+      },
       iteration = "vector"
     ),
     targets::tar_target(

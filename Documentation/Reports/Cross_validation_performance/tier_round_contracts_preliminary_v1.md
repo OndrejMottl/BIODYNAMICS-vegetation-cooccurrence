@@ -61,14 +61,14 @@ Post-run target metadata contained no errors:
 The regenerated files under `Documentation/Progress/` are validation output,
 not part of this source checkpoint.
 
-## Remaining work before staged activation
+## Subsequent implementation
 
-The unit target graph must next expose cumulative round execution: round one
-may run without a tier artifact, while later rounds may append only candidates
-authorized by the preceding tier decision. Existing dynamic work-item branches
-must remain reusable as that set expands. The tier graph and shared spatial and
-temporal runners must then enforce the sequence of unit round, tier aggregation,
-survivor publication, and unit resume.
+The unit target graph now exposes cumulative round execution: round one runs
+without a tier artifact, while later rounds append only candidates authorized
+by the preceding tier decision. Existing dynamic work-item identities are
+preserved as the authorized set expands. The tier graph and shared spatial and
+temporal runners now enforce unit round, tier aggregation, survivor publication,
+and unit resume boundaries.
 
 Staged tuning must remain disabled until paired exhaustive-versus-staged CZ
 fixtures and the specified scientific and runtime decision gates pass.

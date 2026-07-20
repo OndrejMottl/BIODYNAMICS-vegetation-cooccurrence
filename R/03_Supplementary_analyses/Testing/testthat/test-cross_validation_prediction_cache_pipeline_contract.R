@@ -32,6 +32,31 @@ testthat::test_that(
         )
         testthat::expect_match(
           text_pipe,
+          "collect_sjsdm_available_tier_decisions(",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
+          "build_sjsdm_cumulative_tuning_work_items(",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
+          "base::Sys.getenv(",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
+          "SJSMD_TUNING_MAX_ROUND",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
+          'name = "data_sjsdm_all_tuning_work_items"',
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
           "run_sjsdm_tuning_work_item(",
           fixed = TRUE
         )

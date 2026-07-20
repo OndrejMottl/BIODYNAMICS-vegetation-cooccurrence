@@ -50,15 +50,23 @@ vec_tuning_target_names <-
     )
   )
 
-run_pipeline(
-  sel_script = "R/Pipelines/pipeline_paleo_temporal.R",
-  target_names = vec_tuning_target_names,
-  level_separation = 100,
-  prebuild_interpolation = TRUE
-)
-
-run_pipeline(
-  sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R"
+run_sjsdm_tuning_sequence(
+  unit_pipeline = "R/Pipelines/pipeline_paleo_temporal.R",
+  tuning_target_names = vec_tuning_target_names,
+  prebuild_interpolation = TRUE,
+  tuning_strategy = get_active_config(
+    base::c("model_fitting", "cross_validation", "tuning_strategy")
+  ),
+  n_rounds = base::length(
+    get_active_config(
+      base::c(
+        "model_fitting",
+        "cross_validation",
+        "staged_search",
+        "repeat_order"
+      )
+    )
+  )
 )
 
 

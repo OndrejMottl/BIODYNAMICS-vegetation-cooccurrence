@@ -30,3 +30,31 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "tier tuning declares explicit staged round boundaries",
+  {
+    text_pipeline <-
+      readr::read_file(
+        here::here("R/Pipelines/pipeline_sjsdm_tier_tuning.R")
+      )
+
+    vec_required_text <-
+      base::c(
+        "build_sjsdm_tier_survivor_artifacts(",
+        "data_sjsdm_tier_survivor_decisions_round_1",
+        "data_sjsdm_tier_survivor_decisions_round_2",
+        "data_sjsdm_tier_survivor_decisions_round_3",
+        "data_sjsdm_tier_regularization_artifacts"
+      )
+
+    purrr::walk(
+      vec_required_text,
+      .f = ~ testthat::expect_match(
+        text_pipeline,
+        .x,
+        fixed = TRUE
+      )
+    )
+  }
+)

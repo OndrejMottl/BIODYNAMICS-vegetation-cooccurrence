@@ -9,15 +9,20 @@
 #' Staged schedule returned by [build_sjsdm_tuning_schedule()].
 #' @param round_id
 #' Positive integer tuning-round identifier represented by the summaries.
+#' @param data_prior_decisions
+#' Tier-wide decisions from the preceding round. Required after round one and
+#' used to restrict cumulative evidence to the candidates entering this round.
 #' @return
 #' Named list containing `data_survivor_decisions`,
-#' `data_source_candidate_loss`, and `data_candidate_aggregation` tibbles.
-#' Decision rows retain model context, strategy, round, and repeat provenance.
+#' `data_source_candidate_loss`, `data_candidate_aggregation`, and the
+#' cumulative `data_tuning_entering` tibble. Decision rows retain model
+#' context, strategy, round, and repeat provenance.
 #' @export
 build_sjsdm_tier_survivor_artifacts <- function(
     data_tuning_summary = NULL,
     data_schedule = NULL,
-    round_id = NULL) {
+    round_id = NULL,
+    data_prior_decisions = NULL) {
   vec_context_columns <-
     base::c(
       "tier_id",
@@ -87,16 +92,193 @@ build_sjsdm_tier_survivor_artifacts <- function(
   repeat_id <-
     data_round[["repeat_id"]][[1L]]
 
+  vec_expected_repeats <-
+    data_schedule |>
+    dplyr::filter(.data[["round_id"]] <= .env[["round_id"]]) |>
+    dplyr::pull(.data[["repeat_id"]]) |>
+    base::sort()
+
+  data_tuning_available <-
+    data_tuning_summary |>
+    dplyr::filter(
+      .data[["repeat_id"]] %in% .env[["vec_expected_repeats"]]
+    )
+
   if (
-    !base::all(data_tuning_summary[["repeat_id"]] == repeat_id)
+    base::nrow(data_tuning_available) == 0L
   ) {
     cli::cli_abort(
-      "Every summary must represent the configured repeat for the round."
+      "No tuning summaries contain the configured repeats for the round."
+    )
+  }
+
+  if (
+    round_id == 1L
+  ) {
+    if (
+      !base::is.null(data_prior_decisions)
+    ) {
+      cli::cli_abort("Round one must not use preceding tier decisions.")
+    }
+
+    data_tuning_entering <-
+      data_tuning_available
+  } else {
+    if (
+      base::is.null(data_prior_decisions)
+    ) {
+      cli::cli_abort(
+        "Later rounds require the preceding tier decisions."
+      )
+    }
+
+    vec_decision_columns <-
+      base::c(
+        vec_context_columns,
+        "round_id",
+        "candidate_id",
+        "staged_decision"
+      )
+
+    assertthat::assert_that(
+      base::is.data.frame(data_prior_decisions),
+      base::all(
+        vec_decision_columns %in%
+          base::colnames(data_prior_decisions)
+      ),
+      msg = "data_prior_decisions is incomplete."
+    )
+
+    data_previous_round <-
+      data_schedule |>
+      dplyr::filter(.data[["round_id"]] == .env[["round_id"]] - 1L)
+
+    n_previous_entering <-
+      data_previous_round[["n_candidates_entering"]][[1L]]
+
+    n_current_entering <-
+      data_round[["n_candidates_entering"]][[1L]]
+
+    data_decision_counts <-
+      data_prior_decisions |>
+      dplyr::group_by(
+        dplyr::across(dplyr::all_of(vec_context_columns))
+      ) |>
+      dplyr::summarise(
+        n_decisions = dplyr::n_distinct(.data[["candidate_id"]]),
+        n_survivors = base::sum(
+          .data[["staged_decision"]] == "survive"
+        ),
+        n_round_ids = dplyr::n_distinct(.data[["round_id"]]),
+        prior_round_id = dplyr::first(.data[["round_id"]]),
+        .groups = "drop"
+      )
+
+    flag_complete_prior_decisions <-
+      base::all(
+        data_decision_counts[["n_decisions"]] ==
+          n_previous_entering
+      ) &&
+      base::all(
+        data_decision_counts[["n_survivors"]] ==
+          n_current_entering
+      ) &&
+      base::all(data_decision_counts[["n_round_ids"]] == 1L) &&
+      base::all(
+        data_decision_counts[["prior_round_id"]] == round_id - 1L
+      )
+
+    if (
+      !flag_complete_prior_decisions
+    ) {
+      cli::cli_abort(
+        "Preceding tier decisions are incomplete or inconsistent."
+      )
+    }
+
+    data_summary_contexts <-
+      data_tuning_available |>
+      dplyr::distinct(
+        dplyr::across(dplyr::all_of(vec_context_columns))
+      )
+
+    data_decision_contexts <-
+      data_prior_decisions |>
+      dplyr::distinct(
+        dplyr::across(dplyr::all_of(vec_context_columns))
+      )
+
+    flag_contexts_match <-
+      base::nrow(
+        dplyr::anti_join(
+          data_summary_contexts,
+          data_decision_contexts,
+          by = vec_context_columns
+        )
+      ) == 0L &&
+      base::nrow(
+        dplyr::anti_join(
+          data_decision_contexts,
+          data_summary_contexts,
+          by = vec_context_columns
+        )
+      ) == 0L
+
+    if (
+      !flag_contexts_match
+    ) {
+      cli::cli_abort(
+        "Summary and tier-decision model contexts must match."
+      )
+    }
+
+    data_survivors <-
+      data_prior_decisions |>
+      dplyr::filter(.data[["staged_decision"]] == "survive") |>
+      dplyr::select(
+        dplyr::all_of(vec_context_columns),
+        "candidate_id"
+      )
+
+    data_tuning_entering <-
+      data_tuning_available |>
+      dplyr::inner_join(
+        data_survivors,
+        by = base::c(vec_context_columns, "candidate_id")
+      )
+  }
+
+  data_repeat_sets <-
+    data_tuning_entering |>
+    dplyr::group_by(
+      dplyr::across(dplyr::all_of(vec_context_columns)),
+      .data[["source_id"]],
+      .data[["candidate_id"]]
+    ) |>
+    dplyr::summarise(
+      repeat_ids = base::list(
+        base::sort(base::unique(.data[["repeat_id"]]))
+      ),
+      .groups = "drop"
+    )
+
+  flag_complete_repeats <-
+    data_repeat_sets[["repeat_ids"]] |>
+    purrr::map_lgl(
+      .f = ~ base::identical(.x, vec_expected_repeats)
+    ) |>
+    base::all()
+
+  if (
+    !flag_complete_repeats
+  ) {
+    cli::cli_abort(
+      "Every candidate must contain all configured repeats through the round."
     )
   }
 
   list_context_summaries <-
-    data_tuning_summary |>
+    data_tuning_entering |>
     dplyr::group_by(
       dplyr::across(dplyr::all_of(vec_context_columns))
     ) |>
@@ -193,7 +375,8 @@ build_sjsdm_tier_survivor_artifacts <- function(
           strategy_version = strategy_version,
           repeat_id = base::as.integer(repeat_id),
           .before = 1L
-        )
+        ),
+      data_tuning_entering = data_tuning_entering
     )
 
   return(res)
