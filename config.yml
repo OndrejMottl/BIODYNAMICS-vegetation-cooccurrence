@@ -33,6 +33,11 @@ default:
     age_scale_mode: "z_score"
     cross_validation:
       tier_id: "default"
+      tuning_strategy: "exhaustive"
+      staged_search:
+        strategy_version: "sjsdm_staged_tuning_v1"
+        repeat_order: !expr c(1L, 2L, 3L)
+        survivor_counts: !expr c(4L, 2L)
       common_regularization_sensitivity:
         enabled: false
         representative_scale_id: ~
@@ -82,7 +87,10 @@ project_cz_paleo:
     spatial_mode: "spatiotemporal"
     cross_validation:
       tier_id: "cz_paleo"
+      tuning_strategy: "exhaustive"
       assignment_repeats: 1
+      staged_search:
+        repeat_order: !expr c(1L)
       regularization:
         alpha_cov: !expr c(0.5)
         alpha_coef: !expr c(0.5)
@@ -352,7 +360,10 @@ project_cz_modern:
     n_cores: 24
     cross_validation:
       tier_id: "cz_modern"
+      tuning_strategy: "exhaustive"
       assignment_repeats: 1
+      staged_search:
+        repeat_order: !expr c(1L)
       regularization:
         alpha_cov: !expr c(0.5)
         alpha_coef: !expr c(0.5)

@@ -28,11 +28,16 @@
 #' @param epsilon
 #' Probability clipping tolerance used for held-out log loss. Defaults to
 #' `1e-6`.
+#' @param retain_prediction_cache
+#' Logical. When true, retain compact fold metadata and candidate probability
+#' matrices so selected OOF artifacts can be assembled without refitting.
 #' @return
 #' Compact tibble with one row per repeat, fold, and candidate. It contains
 #' candidate parameters, fold counts, total and per-response held-out negative
 #' log likelihood, macro AUC, fit status, error text, CV strategy, and
-#' regularization source. Fitted objects and prediction matrices are omitted.
+#' regularization source. Fitted objects and prediction matrices are omitted
+#' by default. With `retain_prediction_cache = TRUE`, a named list contains
+#' the unchanged tuning table and one compact cache entry per fold.
 #' @details
 #' Fold preparation is run once per repeat and fold. Preparation, fit,
 #' prediction, and scoring errors are retained as structured status rows so a
@@ -46,7 +51,8 @@ run_sjsdm_tuning_candidates <- function(
     predict_function = NULL,
     score_function = score_sjsdm_tuning_predictions,
     seed = 900723L,
-    epsilon = 1e-6) {
+    epsilon = 1e-6,
+    retain_prediction_cache = FALSE) {
   assertthat::assert_that(
     base::is.data.frame(data_assignments),
     msg = "`data_assignments` must be a data frame."
@@ -156,6 +162,13 @@ run_sjsdm_tuning_candidates <- function(
     msg = "`epsilon` must be a finite number between zero and 0.5."
   )
 
+  assertthat::assert_that(
+    base::is.logical(retain_prediction_cache),
+    base::length(retain_prediction_cache) == 1L,
+    !base::is.na(retain_prediction_cache),
+    msg = "retain_prediction_cache must be one logical value."
+  )
+
   if (
     base::nrow(data_assignments) == 0L
   ) {
@@ -186,6 +199,18 @@ run_sjsdm_tuning_candidates <- function(
         cv_strategy = base::character(),
         regularization_source = base::character()
       )
+
+    if (
+      retain_prediction_cache
+    ) {
+      res_empty_cache <-
+        base::list(
+          data_tuning = res_empty,
+          list_prediction_cache = base::list()
+        )
+
+      return(res_empty_cache)
+    }
 
     return(res_empty)
   }
@@ -239,7 +264,7 @@ run_sjsdm_tuning_candidates <- function(
     dplyr::distinct(.data[["repeat_id"]], .data[["fold_id"]]) |>
     dplyr::arrange(.data[["repeat_id"]], .data[["fold_id"]])
 
-  res <-
+  list_fold_results <-
     purrr::map2(
       .x = data_fold_keys[["repeat_id"]],
       .y = data_fold_keys[["fold_id"]],
@@ -259,11 +284,26 @@ run_sjsdm_tuning_candidates <- function(
           predict_function = predict_function,
           score_function = score_function,
           seed = seed,
-          epsilon = epsilon
+          epsilon = epsilon,
+          retain_prediction_cache = retain_prediction_cache
         )
       }
-    ) |>
-    purrr::list_rbind() |>
+    )
+
+  data_tuning <-
+    if (
+      retain_prediction_cache
+    ) {
+      list_fold_results |>
+        purrr::map("data_tuning") |>
+        purrr::list_rbind()
+    } else {
+      list_fold_results |>
+        purrr::list_rbind()
+    }
+
+  data_tuning <-
+    data_tuning |>
     dplyr::select(
       "repeat_id",
       "fold_id",
@@ -286,5 +326,18 @@ run_sjsdm_tuning_candidates <- function(
       "regularization_source"
     )
 
-  return(res)
+  if (
+    retain_prediction_cache
+  ) {
+    res_cache <-
+      base::list(
+        data_tuning = data_tuning,
+        list_prediction_cache = list_fold_results |>
+          purrr::map("list_prediction_cache")
+      )
+
+    return(res_cache)
+  }
+
+  return(data_tuning)
 }

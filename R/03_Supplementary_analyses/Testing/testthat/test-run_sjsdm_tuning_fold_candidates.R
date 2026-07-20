@@ -229,3 +229,124 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "run_sjsdm_tuning_fold_candidates() retains compact predictions",
+  {
+    data_candidates <-
+      make_sjsdm_regularization_candidates(
+        lambda_cov = base::c(0, 0.1)
+      )
+
+    list_fold_context <-
+      base::list(
+        repeat_id = 1L,
+        fold_id = 1L,
+        train_indices = base::c(1L, 2L),
+        test_indices = base::c(3L, 4L),
+        n_train_locations = 2L,
+        n_test_locations = 2L,
+        n_train_samples = 2L,
+        n_test_samples = 2L,
+        cv_strategy = "spatially_stratified_group_kfold"
+      )
+
+    data_observed <-
+      base::matrix(
+        data = base::c(0, 1, 1, 0),
+        nrow = 2L,
+        dimnames = base::list(
+          base::c("sample_3", "sample_4"),
+          base::c("taxon_a", "taxon_b")
+        )
+      )
+
+    environment_calls <-
+      base::new.env(parent = base::emptyenv())
+
+    environment_calls[["prepare_count"]] <- 0L
+
+    prepare_fold_function <- function(...) {
+      environment_calls[["prepare_count"]] <-
+        environment_calls[["prepare_count"]] + 1L
+
+      return(
+        base::list(
+          data_train_input = base::list(),
+          data_test_input = base::list(),
+          data_train_observed = data_observed,
+          data_test_observed = data_observed,
+          data_test_observed_full = data_observed,
+          test_sample_ids = base::rownames(data_observed),
+          data_taxa_mapping = tibble::tibble(
+            taxon = base::colnames(data_observed),
+            retained = TRUE,
+            status = "retained"
+          )
+        )
+      )
+    }
+
+    fit_function <- function(data_train_input, candidate, seed) {
+      return(candidate)
+    }
+
+    predict_function <- function(object, data_test_input) {
+      return(data_observed * 0.8 + 0.1)
+    }
+
+    score_function <- function(
+        object,
+        data_test_input,
+        data_observed,
+        data_predicted,
+        epsilon,
+        score_seed) {
+      return(
+        base::list(
+          n_taxa_retained = 2L,
+          n_response_values = 4L,
+          negative_log_likelihood_test = 1,
+          negative_log_likelihood_per_response = 0.25,
+          auc_macro_test = 1
+        )
+      )
+    }
+
+    list_result <-
+      run_sjsdm_tuning_fold_candidates(
+        data_candidates = data_candidates,
+        list_fold_context = list_fold_context,
+        prepare_fold_function = prepare_fold_function,
+        fit_function = fit_function,
+        predict_function = predict_function,
+        score_function = score_function,
+        retain_prediction_cache = TRUE
+      )
+
+    testthat::expect_named(
+      list_result,
+      base::c("data_tuning", "list_prediction_cache")
+    )
+    testthat::expect_identical(
+      environment_calls[["prepare_count"]],
+      1L
+    )
+    testthat::expect_length(
+      list_result[["list_prediction_cache"]][[
+        "list_candidate_predictions"
+      ]],
+      2L
+    )
+    testthat::expect_true(
+      base::all(
+        purrr::map_lgl(
+          list_result[["list_prediction_cache"]][[
+            "list_candidate_predictions"
+          ]],
+          ~ base::is.matrix(.x[["data_predicted"]])
+        )
+      )
+    )
+  }
+)

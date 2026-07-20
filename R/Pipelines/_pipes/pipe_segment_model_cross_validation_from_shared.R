@@ -295,8 +295,34 @@ pipe_segment_model_cross_validation_from_shared <-
       )
     ),
     targets::tar_target(
-      description = "Fit and score every branch unit-CV candidate",
-      name = "data_sjsdm_tuning_candidates",
+      description = "Validate the branch CV tuning schedule",
+      name = "data_sjsdm_tuning_schedule",
+      command = build_sjsdm_tuning_schedule(
+        tuning_strategy = purrr::chuck(
+          config_model_fitting,
+          "cross_validation",
+          "tuning_strategy"
+        ),
+        n_candidates = base::nrow(
+          data_sjsdm_regularization_candidates
+        ),
+        repeat_ids = purrr::chuck(
+          config_model_fitting,
+          "cross_validation",
+          "staged_search",
+          "repeat_order"
+        ),
+        survivor_counts = purrr::chuck(
+          config_model_fitting,
+          "cross_validation",
+          "staged_search",
+          "survivor_counts"
+        )
+      )
+    ),
+    targets::tar_target(
+      description = "Fit branch candidates and retain OOF probabilities",
+      name = "list_sjsdm_tuning_execution",
       command = run_sjsdm_tuning_candidates(
         data_assignments = data_cross_validation_assignments,
         data_candidates = data_sjsdm_regularization_candidates,
@@ -338,7 +364,36 @@ pipe_segment_model_cross_validation_from_shared <-
           config_model_fitting,
           "cross_validation",
           "fit_seed"
-        )
+        ),
+        retain_prediction_cache = TRUE
+      )
+    ),
+    targets::tar_target(
+      description = "Publish branch fold-level tuning metrics",
+      name = "data_sjsdm_tuning_candidates",
+      command = list_sjsdm_tuning_execution |>
+        purrr::chuck("data_tuning")
+    ),
+    targets::tar_target(
+      description = "Publish branch tuning-time OOF probability cache",
+      name = "list_sjsdm_tuning_prediction_cache",
+      command = list_sjsdm_tuning_execution |>
+        purrr::chuck("list_prediction_cache")
+    ),
+    targets::tar_target(
+      description = "Record branch tuning execution provenance",
+      name = "data_sjsdm_tuning_execution_provenance",
+      command = summarise_sjsdm_tuning_execution(
+        data_tuning = data_sjsdm_tuning_candidates,
+        data_schedule = data_sjsdm_tuning_schedule
+      )
+    ),
+    targets::tar_target(
+      description = "Collect branch fold and candidate stage timings",
+      name = "data_sjsdm_tuning_stage_timings",
+      command = collect_sjsdm_tuning_timings(
+        list_prediction_cache =
+          list_sjsdm_tuning_prediction_cache
       )
     ),
     targets::tar_target(
@@ -406,51 +461,15 @@ pipe_segment_model_cross_validation_from_shared <-
       )
     ),
     targets::tar_target(
-      description = "Rerun branch selected candidate for OOF predictions",
+      description = "Assemble branch selected OOF predictions from cache",
       name = "list_sjsdm_selected_fold_predictions",
-      command = run_sjsdm_selected_candidate_folds(
+      command = assemble_sjsdm_cached_selected_folds(
         data_assignments = data_cross_validation_assignments,
         data_selected_candidate = model_regularization_for_fit,
         data_sample_ids = data_sample_ids_checked,
         taxon_names = base::colnames(data_community_model_matrix),
-        prepare_fold_function = function(
-            train_indices,
-            test_indices,
-            repeat_id,
-            fold_id) {
-          prepare_sjsdm_cross_validation_fold(
-            data_community_matrix = data_community_model_matrix,
-            data_abiotic_wide = data_abiotic_wide,
-            data_coords_projected = data_coords_projected,
-            data_sample_ids = data_sample_ids_checked,
-            train_indices = train_indices,
-            test_indices = test_indices,
-            config_model_fitting = config_model_fitting,
-            config_data_processing = config_data_processing,
-            repeat_id = repeat_id,
-            fold_id = fold_id
-          )
-        },
-        fit_function = function(data_train_input, candidate, seed) {
-          fit_sjsdm_regularization_candidate(
-            data_train_input = data_train_input,
-            candidate = candidate,
-            sel_abiotic_formula = model_formula,
-            config_model_fitting = config_model_fitting,
-            seed = seed,
-            device = purrr::chuck(
-              config_model_fitting,
-              "cross_validation",
-              "fit_device"
-            )
-          )
-        },
-        predict_function = predict_sjsdm_probability_matrix,
-        seed = purrr::chuck(
-          config_model_fitting,
-          "cross_validation",
-          "fit_seed"
-        )
+        list_prediction_cache =
+          list_sjsdm_tuning_prediction_cache
       )
     ),
     targets::tar_target(
