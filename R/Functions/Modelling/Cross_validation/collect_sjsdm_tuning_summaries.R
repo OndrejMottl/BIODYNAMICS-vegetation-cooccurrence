@@ -6,6 +6,10 @@
 #' Non-empty character vector of unit targets-store paths.
 #' @param resolution_ids
 #' Non-empty character vector of mapped model-resolution identifiers.
+#' @param target_prefix
+#' Non-empty character scalar placed before each resolution identifier.
+#' Defaults to the existing public tuning-summary target prefix. Explicit
+#' round prefixes allow the tier store to collect one staged round at a time.
 #' @param read_target_function
 #' Injectable target reader. Defaults to [targets::tar_read_raw()].
 #' @return
@@ -24,6 +28,7 @@
 collect_sjsdm_tuning_summaries <- function(
     store_paths = NULL,
     resolution_ids = NULL,
+    target_prefix = "data_sjsdm_tuning_summary",
     read_target_function = targets::tar_read_raw) {
   assertthat::assert_that(
     base::is.character(store_paths),
@@ -37,6 +42,14 @@ collect_sjsdm_tuning_summaries <- function(
     base::length(resolution_ids) > 0L,
     base::all(base::nzchar(resolution_ids)),
     msg = "resolution_ids must contain non-empty identifiers."
+  )
+
+  assertthat::assert_that(
+    base::is.character(target_prefix),
+    base::length(target_prefix) == 1L,
+    !base::is.na(target_prefix),
+    base::nzchar(target_prefix),
+    msg = "target_prefix must be one non-empty string."
   )
 
   assertthat::assert_that(
@@ -57,7 +70,7 @@ collect_sjsdm_tuning_summaries <- function(
       .f = ~ {
         target_name <-
           stringr::str_glue(
-            "data_sjsdm_tuning_summary_{.y}"
+            "{target_prefix}_{.y}"
           ) |>
           base::as.character()
 
