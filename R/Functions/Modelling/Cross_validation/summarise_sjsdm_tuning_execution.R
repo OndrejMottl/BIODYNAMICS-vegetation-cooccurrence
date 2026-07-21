@@ -112,29 +112,50 @@ summarise_sjsdm_tuning_execution <- function(
       n_candidates_executed =
         dplyr::n_distinct(.data[["candidate_id"]]),
       .groups = "drop"
-    ) |>
-    dplyr::left_join(
-      data_schedule |>
-        dplyr::select("repeat_id", "n_candidates_entering"),
-      by = dplyr::join_by(repeat_id),
-      relationship = "one-to-one"
     )
 
-  flag_schedule_matches <-
-    base::nrow(data_repeat_execution) == base::nrow(data_schedule) &&
-    base::all(
-      data_repeat_execution[["n_candidates_executed"]] ==
-        data_repeat_execution[["n_candidates_entering"]]
-    )
+  tuning_strategy <-
+    data_schedule[["tuning_strategy"]][[1L]]
+
+  if (
+    tuning_strategy == "exhaustive"
+  ) {
+    # Exhaustive orchestration has one restart boundary that executes every
+    #   configured repeat, so its active schedule may contain only round one.
+    n_candidates_initial <-
+      base::max(data_schedule[["n_candidates_entering"]])
+
+    flag_schedule_matches <-
+      base::all(
+        data_repeat_execution[["n_candidates_executed"]] ==
+          n_candidates_initial
+      )
+  } else {
+    data_repeat_execution <-
+      data_repeat_execution |>
+      dplyr::left_join(
+        data_schedule |>
+          dplyr::select("repeat_id", "n_candidates_entering"),
+        by = dplyr::join_by(repeat_id),
+        relationship = "one-to-one"
+      )
+
+    flag_schedule_matches <-
+      base::nrow(data_repeat_execution) == base::nrow(data_schedule) &&
+      base::all(
+        data_repeat_execution[["n_candidates_executed"]] ==
+          data_repeat_execution[["n_candidates_entering"]]
+      )
+
+    n_candidates_initial <-
+      base::max(data_schedule[["n_candidates_entering"]])
+  }
 
   if (
     !flag_schedule_matches
   ) {
     cli::cli_abort("Executed candidates do not match the tuning schedule.")
   }
-
-  n_candidates_initial <-
-    base::max(data_schedule[["n_candidates_entering"]])
 
   n_fold_partitions <-
     base::sum(data_repeat_execution[["n_folds"]])

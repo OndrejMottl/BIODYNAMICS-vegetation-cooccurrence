@@ -105,6 +105,38 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "summarise_sjsdm_tuning_execution() accepts one exhaustive boundary",
+  {
+    data_tuning <-
+      tidyr::crossing(
+        repeat_id = 1:3,
+        fold_id = 1:5,
+        candidate_id = stringr::str_c("candidate_", 1:8)
+      ) |>
+      dplyr::mutate(fit_status = "ok")
+
+    data_schedule <-
+      build_sjsdm_tuning_schedule(
+        tuning_strategy = "exhaustive",
+        n_candidates = 8L,
+        repeat_ids = 1:3
+      ) |>
+      dplyr::slice_head(n = 1L)
+
+    data_result <-
+      summarise_sjsdm_tuning_execution(
+        data_tuning = data_tuning,
+        data_schedule = data_schedule
+      )
+
+    testthat::expect_identical(data_result[["n_fits_executed"]], 120L)
+    testthat::expect_identical(data_result[["n_fold_preparations"]], 15L)
+    testthat::expect_identical(data_result[["n_fits_exhaustive"]], 120L)
+    testthat::expect_identical(data_result[["n_fits_historical"]], 135L)
+  }
+)
+
+testthat::test_that(
   "summarise_sjsdm_tuning_execution() handles units without folds",
   {
     data_tuning <-
