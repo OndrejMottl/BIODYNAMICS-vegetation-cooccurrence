@@ -76,5 +76,5 @@ run_sjsdm_tuning_sequence(
 
 run_pipeline(
   sel_script = "R/Pipelines/pipeline_paleo_temporal.R",
-  prebuild_interpolation = TRUE
+  prebuild_interpolation = FALSE
 )

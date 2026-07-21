@@ -10,7 +10,9 @@ testthat::test_that(
         suffix = base::character(),
         targets = base::character(),
         max_round = base::character(),
-        fresh_run = base::logical()
+        fresh_run = base::logical(),
+        prebuild_interpolation = base::logical(),
+        plot_progress = base::logical()
       )
 
     run_pipeline_function <- function(
@@ -18,7 +20,8 @@ testthat::test_that(
         store_suffix = NULL,
         target_names = NULL,
         prebuild_interpolation = FALSE,
-        fresh_run = FALSE) {
+        fresh_run = FALSE,
+        plot_progress = TRUE) {
       environment_calls[["data"]] <-
         dplyr::bind_rows(
           environment_calls[["data"]],
@@ -30,7 +33,9 @@ testthat::test_that(
               "SJSMD_TUNING_MAX_ROUND",
               unset = ""
             ),
-            fresh_run = fresh_run
+            fresh_run = fresh_run,
+            prebuild_interpolation = prebuild_interpolation,
+            plot_progress = plot_progress
           )
         )
 
@@ -94,6 +99,14 @@ testthat::test_that(
         FALSE,
         FALSE
       )
+    )
+    testthat::expect_identical(
+      data_calls[["prebuild_interpolation"]],
+      base::c(TRUE, TRUE, FALSE, base::rep(FALSE, 6L))
+    )
+    testthat::expect_identical(
+      data_calls[["plot_progress"]],
+      base::c(base::rep(FALSE, 8L), TRUE)
     )
   }
 )
@@ -191,6 +204,51 @@ testthat::test_that(
       .f = ~ testthat::expect_match(
         readr::read_file(.x),
         "run_sjsdm_tuning_sequence(",
+        fixed = TRUE
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "shared runners skip redundant post-selection interpolation",
+  {
+    vec_runner_paths <-
+      base::c(
+        here::here(
+          "R/02_Main_analyses/01_Spatial/01_Paleo/",
+          base::c(
+            "01_Run_spatial_continental.R",
+            "02_Run_spatial_regional.R",
+            "03_Run_spatial_local.R"
+          )
+        ),
+        here::here(
+          "R/02_Main_analyses/01_Spatial/02_Contemporary/",
+          base::c(
+            "01_Run_modern_continental.R",
+            "02_Run_modern_regional.R",
+            "03_Run_modern_local.R"
+          )
+        ),
+        here::here(
+          "R/02_Main_analyses/02_Temporal_Paleo/",
+          base::c(
+            "01_Run_temporal_europe.R",
+            "02_Run_temporal_america.R",
+            "03_Run_temporal_asia.R"
+          )
+        ),
+        here::here(
+          "R/02_Main_analyses/Run_CZ_paleo_cv_staged_reference_gpu.R"
+        )
+      )
+
+    purrr::walk(
+      vec_runner_paths,
+      .f = ~ testthat::expect_match(
+        readr::read_file(.x),
+        "prebuild_interpolation = FALSE",
         fixed = TRUE
       )
     )

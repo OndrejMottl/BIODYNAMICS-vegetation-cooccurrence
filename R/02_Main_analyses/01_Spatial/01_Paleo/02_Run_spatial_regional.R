@@ -92,6 +92,6 @@ data_pipeline_status <-
   run_pipeline_units_with_status(
     scale_ids = vec_scale_ids,
     sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
-    prebuild_interpolation = TRUE
+    prebuild_interpolation = FALSE
   )
 tictoc::toc()

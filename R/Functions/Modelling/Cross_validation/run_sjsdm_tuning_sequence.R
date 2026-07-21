@@ -97,7 +97,6 @@ run_sjsdm_tuning_sequence <- function(
     base::is.function(run_pipeline_function),
     msg = "run_pipeline_function must be a function."
   )
-
   n_rounds <-
     base::as.integer(n_rounds)
 
@@ -121,6 +120,10 @@ run_sjsdm_tuning_sequence <- function(
   for (round_id in vec_round_ids) {
     fresh_round <-
       fresh_run && round_id == 1L
+    prebuild_round <-
+      prebuild_interpolation && round_id == 1L
+    final_round <-
+      round_id == base::max(vec_round_ids)
 
     if (
       base::is.null(unit_store_suffixes)
@@ -132,8 +135,9 @@ run_sjsdm_tuning_sequence <- function(
         code = run_pipeline_function(
           sel_script = unit_pipeline,
           target_names = tuning_target_names,
-          prebuild_interpolation = prebuild_interpolation,
-          fresh_run = fresh_round
+          prebuild_interpolation = prebuild_round,
+          fresh_run = fresh_round,
+          plot_progress = FALSE
         )
       )
     } else {
@@ -146,8 +150,9 @@ run_sjsdm_tuning_sequence <- function(
             sel_script = unit_pipeline,
             store_suffix = store_suffix,
             target_names = tuning_target_names,
-            prebuild_interpolation = prebuild_interpolation,
-            fresh_run = fresh_round
+            prebuild_interpolation = prebuild_round,
+            fresh_run = fresh_round,
+            plot_progress = FALSE
           )
         )
       }
@@ -158,7 +163,8 @@ run_sjsdm_tuning_sequence <- function(
     ) {
       run_pipeline_function(
         sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R",
-        fresh_run = fresh_round
+        fresh_run = fresh_round,
+        plot_progress = final_round
       )
     } else {
       tier_target_name <-
@@ -176,7 +182,8 @@ run_sjsdm_tuning_sequence <- function(
       run_pipeline_function(
         sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R",
         target_names = tier_target_name,
-        fresh_run = fresh_round
+        fresh_run = fresh_round,
+        plot_progress = final_round
       )
     }
   }
