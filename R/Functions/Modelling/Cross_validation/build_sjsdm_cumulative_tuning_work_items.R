@@ -69,10 +69,12 @@ build_sjsdm_cumulative_tuning_work_items <- function(
           return(base::as.integer(.x[["round_id"]][[1L]]))
         }
       )
+    vec_decision_round_ids_unnamed <-
+      base::unname(vec_decision_round_ids)
 
     if (
       !base::identical(
-        vec_decision_round_ids,
+        vec_decision_round_ids_unnamed,
         base::seq_len(n_prior_decisions)
       )
     ) {

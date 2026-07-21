@@ -148,6 +148,36 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "build_sjsdm_cumulative_tuning_work_items() accepts named round lists",
+  {
+    data_round_one <-
+      make_cumulative_decision_test_data(
+        round_id = 1L,
+        candidate_ids = base::c(
+          "candidate_001",
+          "candidate_002",
+          "candidate_003",
+          "candidate_004"
+        ),
+        survivor_ids = base::c("candidate_001", "candidate_002")
+      )
+
+    res <-
+      build_sjsdm_cumulative_tuning_work_items(
+        data_work_items = make_cumulative_work_item_test_data(),
+        data_schedule = make_cumulative_schedule_test_data(),
+        list_prior_decisions = base::list(round_1 = data_round_one)
+      )
+
+    testthat::expect_equal(base::nrow(res), 12L)
+    testthat::expect_identical(
+      base::unique(res[["round_id"]]),
+      base::c(1L, 2L)
+    )
+  }
+)
+
+testthat::test_that(
   "build_sjsdm_cumulative_tuning_work_items() stops after final round",
   {
     data_round_one <-
