@@ -12,7 +12,8 @@ testthat::test_that(
         max_round = base::character(),
         fresh_run = base::logical(),
         prebuild_interpolation = base::logical(),
-        plot_progress = base::logical()
+        plot_progress = base::logical(),
+        callr_isolated = base::logical()
       )
 
     run_pipeline_function <- function(
@@ -21,7 +22,8 @@ testthat::test_that(
         target_names = NULL,
         prebuild_interpolation = FALSE,
         fresh_run = FALSE,
-        plot_progress = TRUE) {
+        plot_progress = TRUE,
+        callr_function = callr::r) {
       environment_calls[["data"]] <-
         dplyr::bind_rows(
           environment_calls[["data"]],
@@ -35,7 +37,8 @@ testthat::test_that(
             ),
             fresh_run = fresh_run,
             prebuild_interpolation = prebuild_interpolation,
-            plot_progress = plot_progress
+            plot_progress = plot_progress,
+            callr_isolated = !base::is.null(callr_function)
           )
         )
 
@@ -107,6 +110,10 @@ testthat::test_that(
     testthat::expect_identical(
       data_calls[["plot_progress"]],
       base::c(base::rep(FALSE, 8L), TRUE)
+    )
+    testthat::expect_identical(
+      data_calls[["callr_isolated"]],
+      base::rep(base::c(TRUE, TRUE, FALSE), times = 3L)
     )
   }
 )

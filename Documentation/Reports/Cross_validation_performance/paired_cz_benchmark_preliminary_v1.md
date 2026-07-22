@@ -84,3 +84,6 @@ a correctness requirement in the current project environment.
 The first pair must be archived as pre-optimization evidence. Clean paired
 repetitions must restart from the committed optimized implementation before
 formal gate evaluation.
+
+The completed three-pair post-optimization decision is recorded in
+[`paired_cz_benchmark_post_optimization_v1.md`](paired_cz_benchmark_post_optimization_v1.md).

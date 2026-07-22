@@ -164,7 +164,8 @@ run_sjsdm_tuning_sequence <- function(
       run_pipeline_function(
         sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R",
         fresh_run = fresh_round,
-        plot_progress = final_round
+        plot_progress = final_round,
+        callr_function = NULL
       )
     } else {
       tier_target_name <-
@@ -183,7 +184,8 @@ run_sjsdm_tuning_sequence <- function(
         sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R",
         target_names = tier_target_name,
         fresh_run = fresh_round,
-        plot_progress = final_round
+        plot_progress = final_round,
+        callr_function = NULL
       )
     }
   }

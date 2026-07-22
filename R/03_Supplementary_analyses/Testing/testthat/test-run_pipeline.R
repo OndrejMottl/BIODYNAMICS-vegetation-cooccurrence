@@ -138,6 +138,32 @@ testthat::test_that("run_pipeline() limits execution to selected targets", {
   )
 })
 
+testthat::test_that("run_pipeline() forwards the callr backend", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  captured_callr_function <- callr::r
+
+  testthat::local_mocked_bindings(
+    tar_make = function(callr_function, ...) {
+      captured_callr_function <<- callr_function
+      base::invisible(NULL)
+    },
+    .package = "targets"
+  )
+
+  run_pipeline(
+    sel_script = tmp_script,
+    callr_function = NULL,
+    check_default_config = FALSE,
+    plot_progress = FALSE
+  )
+
+  testthat::expect_null(captured_callr_function)
+})
+
 testthat::test_that("run_pipeline() validates sel_script is a single string", {
   testthat::expect_error(
     run_pipeline(
