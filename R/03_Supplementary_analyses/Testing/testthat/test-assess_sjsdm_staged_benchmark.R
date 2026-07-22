@@ -63,18 +63,7 @@ make_sjsdm_staged_benchmark_fixture <- function(
     )
 
   list_policy <-
-    base::list(
-      policy_version = "issue138_staged_benchmark_v1",
-      minimum_median_wall_reduction = 0.20,
-      minimum_each_wall_reduction = 0.15,
-      minimum_fit_reduction = 0.40,
-      maximum_store_growth = 0.25,
-      maximum_memory_growth = 0.10,
-      maximum_log_loss_regression = 0.005,
-      maximum_auc_regression = 0.01,
-      maximum_tjur_r2_regression = 0.01,
-      maximum_coverage_regression = 0.02
-    )
+    get_sjsdm_staged_benchmark_policy()
 
   return(
     base::list(
@@ -129,6 +118,27 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "assess_sjsdm_staged_benchmark() uses the frozen policy by default",
+  {
+    list_fixture <-
+      make_sjsdm_staged_benchmark_fixture()
+
+    res <-
+      assess_sjsdm_staged_benchmark(
+        data_benchmark_runs = list_fixture |>
+          purrr::chuck("data_benchmark_runs")
+      )
+
+    testthat::expect_identical(
+      res |>
+        purrr::chuck("data_benchmark_decision") |>
+        dplyr::pull(.data[["policy_version"]]),
+      "issue138_staged_benchmark_v2"
+    )
+  }
+)
+
+testthat::test_that(
   "assess_sjsdm_staged_benchmark() reports failed resource gates",
   {
     list_fixture <-
@@ -139,7 +149,7 @@ testthat::test_that(
       dplyr::mutate(
         wall_seconds = dplyr::if_else(
           .data[["tuning_strategy"]] == "staged",
-          90,
+          91,
           .data[["wall_seconds"]]
         ),
         gpu_memory_failure = .data[["tuning_strategy"]] == "staged"

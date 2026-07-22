@@ -7,13 +7,14 @@
 #' fit counts, predictive metrics, technical hashes, and selection evidence.
 #' @param list_policy
 #' Named list containing the versioned issue 138 acceptance thresholds.
+#' Defaults to [get_sjsdm_staged_benchmark_policy()].
 #' @return
 #' A named list containing paired comparisons, criterion-level gate results,
 #' and a one-row benchmark decision.
 #' @export
 assess_sjsdm_staged_benchmark <- function(
     data_benchmark_runs = NULL,
-    list_policy = NULL) {
+    list_policy = get_sjsdm_staged_benchmark_policy()) {
   vec_required_columns <-
     base::c(
       "repetition_id",

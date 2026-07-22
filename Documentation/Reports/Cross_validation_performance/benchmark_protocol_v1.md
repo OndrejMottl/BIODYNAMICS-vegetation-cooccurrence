@@ -113,3 +113,11 @@ exactly before numeric tolerance is applied.
 Every result report records accepted and rejected designs, fit arithmetic,
 wall-time variance, storage trade-offs, scientific comparison, and the maximum
 allowable performance regression handed to issue #141.
+
+## Subsequent policy revision
+
+The original wall-time thresholds above remain the historical version-one
+contract. Before measuring the committed in-process tier optimization, the
+runtime thresholds were revised to a 15% median and a 10% per-pair minimum.
+The rationale and unchanged safeguards are frozen in
+[`benchmark_policy_revision_v2.md`](benchmark_policy_revision_v2.md).

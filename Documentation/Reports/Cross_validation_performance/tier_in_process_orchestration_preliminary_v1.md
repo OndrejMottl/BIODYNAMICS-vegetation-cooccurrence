@@ -63,3 +63,7 @@ the intended startup overhead, but it is not a clean paired benchmark.
 After this change is committed, staged and exhaustive CZ runs must be repeated
 from fresh stores. Production remains `exhaustive` until the versioned gate
 evaluator passes clean committed evidence.
+
+Before those new measurements, the runtime acceptance threshold was revised
+and frozen in
+[`benchmark_policy_revision_v2.md`](benchmark_policy_revision_v2.md).

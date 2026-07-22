@@ -73,3 +73,7 @@ These values are diagnostic only and must not enter paired gate calculations.
 Production remains exhaustive. Clean staged and exhaustive repetitions must be
 rerun after this collector fix is committed; only those runs may enter the
 paired gate evaluator.
+
+The later version-two runtime policy is recorded in
+[`benchmark_policy_revision_v2.md`](benchmark_policy_revision_v2.md). The
+original validation above remains evidence for the version-one evaluator.
