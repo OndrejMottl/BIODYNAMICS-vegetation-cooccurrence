@@ -89,3 +89,7 @@ and preserve the passing fit-count, storage, technical, and scientific gates.
 The next shared orchestration optimization and its preliminary validation are
 recorded in
 [`tier_in_process_orchestration_preliminary_v1.md`](tier_in_process_orchestration_preliminary_v1.md).
+
+The subsequent committed three-pair benchmark passed the revised version-two
+policy and is recorded in
+[`paired_cz_benchmark_post_in_process_v2.md`](paired_cz_benchmark_post_in_process_v2.md).

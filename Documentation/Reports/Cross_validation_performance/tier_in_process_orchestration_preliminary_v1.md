@@ -67,3 +67,7 @@ evaluator passes clean committed evidence.
 Before those new measurements, the runtime acceptance threshold was revised
 and frozen in
 [`benchmark_policy_revision_v2.md`](benchmark_policy_revision_v2.md).
+
+The three clean post-commit pairs passed that policy. Measurements and the
+formal decision are recorded in
+[`paired_cz_benchmark_post_in_process_v2.md`](paired_cz_benchmark_post_in_process_v2.md).

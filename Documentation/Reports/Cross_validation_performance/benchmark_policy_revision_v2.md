@@ -48,3 +48,7 @@ All other version-one safeguards remain unchanged:
 Production remains `exhaustive` until three clean post-`54287622` pairs pass
 the complete version-two contract. Continental and temporal validation starts
 only after that CZ decision.
+
+The required clean pairs subsequently passed all version-two gates. Their
+measurements and formal decision are recorded in
+[`paired_cz_benchmark_post_in_process_v2.md`](paired_cz_benchmark_post_in_process_v2.md).
