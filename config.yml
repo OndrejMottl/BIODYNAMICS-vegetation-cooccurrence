@@ -386,6 +386,8 @@ project_cz_modern:
 project_issue138_paleo_spatial_continental_europe_staged:
   inherits: project_paleo_spatial_continental
   target_store: Data/targets/issue138_validation/paleo_continental_europe
+  data_processing:
+    n_interpolation_workers: 4
   model_fitting:
     cross_validation:
       tier_id: "issue138_paleo_continental_europe"
@@ -395,6 +397,8 @@ project_issue138_paleo_spatial_continental_europe_staged:
 project_issue138_modern_spatial_continental_europe_staged:
   inherits: project_modern_spatial_continental
   target_store: Data/targets/issue138_validation/modern_continental_europe
+  data_processing:
+    n_interpolation_workers: 4
   model_fitting:
     cross_validation:
       tier_id: "issue138_modern_continental_europe"
@@ -404,6 +408,8 @@ project_issue138_modern_spatial_continental_europe_staged:
 project_paleo_temporal_issue138_europe_staged:
   inherits: project_paleo_temporal_europe
   target_store: Data/targets/issue138_validation/temporal_europe_16000
+  data_processing:
+    n_interpolation_workers: 4
   vegvault_data:
     age_lim: !expr c(16000, 16000)
   model_fitting:
@@ -413,6 +419,8 @@ project_paleo_temporal_issue138_europe_staged:
 project_paleo_temporal_issue138_america_staged:
   inherits: project_paleo_temporal_america
   target_store: Data/targets/issue138_validation/temporal_america_19000
+  data_processing:
+    n_interpolation_workers: 4
   vegvault_data:
     age_lim: !expr c(19000, 19000)
   model_fitting:
@@ -422,6 +430,8 @@ project_paleo_temporal_issue138_america_staged:
 project_paleo_temporal_issue138_asia_staged:
   inherits: project_paleo_temporal_asia
   target_store: Data/targets/issue138_validation/temporal_asia_6500
+  data_processing:
+    n_interpolation_workers: 4
   vegvault_data:
     age_lim: !expr c(6500, 6500)
   model_fitting:

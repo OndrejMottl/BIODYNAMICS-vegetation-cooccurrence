@@ -32,6 +32,14 @@ testthat::test_that(
             ),
           "genus"
         )
+        testthat::expect_identical(
+          list_config |>
+            purrr::chuck(
+              "data_processing",
+              "n_interpolation_workers"
+            ),
+          4L
+        )
       }
     )
   }
@@ -70,7 +78,49 @@ testthat::test_that(
             ),
           "staged"
         )
+        testthat::expect_identical(
+          list_config |>
+            purrr::chuck(
+              "data_processing",
+              "n_interpolation_workers"
+            ),
+          4L
+        )
       }
+    )
+  }
+)
+
+testthat::test_that(
+  "issue 138 sampler tolerates isolated Windows query failures",
+  {
+    text_harness <-
+      readr::read_file(
+        here::here(
+          "R/03_Supplementary_analyses/Testing",
+          "Run_issue138_cv_benchmark.ps1"
+        )
+      )
+
+    testthat::expect_match(
+      text_harness,
+      "$maximumConsecutiveSamplingFailures = 30",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_harness,
+      "$consecutiveSamplingFailures += 1",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_harness,
+      "$consecutiveSamplingFailures = 0",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_harness,
+      "Stop-Process -Id $lastKnownProcessIds",
+      fixed = TRUE
     )
   }
 )

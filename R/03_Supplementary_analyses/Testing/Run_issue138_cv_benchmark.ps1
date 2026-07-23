@@ -44,6 +44,7 @@ $samplePath = Join-Path $resultDirectory "resource_samples.csv"
 $metadataPath = Join-Path $resultDirectory "environment.json"
 $summaryPath = Join-Path $resultDirectory "run_summary.json"
 $harnessErrorPath = Join-Path $resultDirectory "harness_error.txt"
+$samplingWarningPath = Join-Path $resultDirectory "sampling_warnings.log"
 $rscriptPath = (Get-Command Rscript).Source
 
 $vegvaultPath = Join-Path $repositoryRoot "Data/Input/VegVault.sqlite"
@@ -169,64 +170,90 @@ $peakSystemUsedBytes = 0L
 $peakVramMib = 0.0
 $gpuMemoryFailure = $false
 $sampleHeaderWritten = $false
+$maximumConsecutiveSamplingFailures = 30
+$consecutiveSamplingFailures = 0
+$lastKnownProcessIds = @($process.Id)
 
 try {
   while (-not $process.HasExited) {
-    $sampledAt = Get-Date
-    $processIds = Get-DescendantProcessIds -RootProcessId $process.Id
-    $processes = Get-Process -Id $processIds -ErrorAction SilentlyContinue
-    $workingSetBytes = ($processes | Measure-Object WorkingSet64 -Sum).Sum
+    try {
+      $sampledAt = Get-Date
+      $processIds = Get-DescendantProcessIds -RootProcessId $process.Id
+      $lastKnownProcessIds = @($processIds)
+      $processes = Get-Process -Id $processIds -ErrorAction SilentlyContinue
+      $workingSetBytes = ($processes | Measure-Object WorkingSet64 -Sum).Sum
 
-    if ($null -eq $workingSetBytes) {
-      $workingSetBytes = 0L
-    }
+      if ($null -eq $workingSetBytes) {
+        $workingSetBytes = 0L
+      }
 
-    $systemMemory = Get-CimInstance Win32_OperatingSystem
-    $systemUsedBytes = (
-      $systemMemory.TotalVisibleMemorySize -
-        $systemMemory.FreePhysicalMemory
-    ) * 1KB
+      $systemMemory = Get-CimInstance Win32_OperatingSystem
+      $systemUsedBytes = (
+        $systemMemory.TotalVisibleMemorySize -
+          $systemMemory.FreePhysicalMemory
+      ) * 1KB
 
-    $gpuSampleRaw = & nvidia-smi `
-      --query-gpu=utilization.gpu,memory.used,temperature.gpu,power.draw `
-      --format=csv,noheader,nounits
-    $gpuValues = $gpuSampleRaw -split "," |
-      ForEach-Object { $_.Trim() }
+      $gpuSampleRaw = & nvidia-smi `
+        --query-gpu=utilization.gpu,memory.used,temperature.gpu,power.draw `
+        --format=csv,noheader,nounits
+      $gpuValues = $gpuSampleRaw -split "," |
+        ForEach-Object { $_.Trim() }
 
-    $gpuUtilization = Convert-GpuMetric $gpuValues[0]
-    $vramUsedMib = Convert-GpuMetric $gpuValues[1]
-    $gpuTemperature = Convert-GpuMetric $gpuValues[2]
-    $gpuPowerWatts = Convert-GpuMetric $gpuValues[3]
+      $gpuUtilization = Convert-GpuMetric $gpuValues[0]
+      $vramUsedMib = Convert-GpuMetric $gpuValues[1]
+      $gpuTemperature = Convert-GpuMetric $gpuValues[2]
+      $gpuPowerWatts = Convert-GpuMetric $gpuValues[3]
 
-    $peakWorkingSetBytes = [Math]::Max(
-      $peakWorkingSetBytes,
-      $workingSetBytes
-    )
-    $peakSystemUsedBytes = [Math]::Max(
-      $peakSystemUsedBytes,
-      $systemUsedBytes
-    )
-    if (-not [double]::IsNaN($vramUsedMib)) {
-      $peakVramMib = [Math]::Max($peakVramMib, $vramUsedMib)
-    }
+      $peakWorkingSetBytes = [Math]::Max(
+        $peakWorkingSetBytes,
+        $workingSetBytes
+      )
+      $peakSystemUsedBytes = [Math]::Max(
+        $peakSystemUsedBytes,
+        $systemUsedBytes
+      )
+      if (-not [double]::IsNaN($vramUsedMib)) {
+        $peakVramMib = [Math]::Max($peakVramMib, $vramUsedMib)
+      }
 
-    $sample = [pscustomobject]@{
-      sampled_at = $sampledAt.ToString("o")
-      elapsed_seconds = ($sampledAt - $startedAt).TotalSeconds
-      process_count = $processes.Count
-      process_working_set_bytes = $workingSetBytes
-      system_used_memory_bytes = $systemUsedBytes
-      gpu_utilization_percent = $gpuUtilization
-      vram_used_mib = $vramUsedMib
-      gpu_temperature_celsius = $gpuTemperature
-      gpu_power_watts = $gpuPowerWatts
-    }
+      $sample = [pscustomobject]@{
+        sampled_at = $sampledAt.ToString("o")
+        elapsed_seconds = ($sampledAt - $startedAt).TotalSeconds
+        process_count = $processes.Count
+        process_working_set_bytes = $workingSetBytes
+        system_used_memory_bytes = $systemUsedBytes
+        gpu_utilization_percent = $gpuUtilization
+        vram_used_mib = $vramUsedMib
+        gpu_temperature_celsius = $gpuTemperature
+        gpu_power_watts = $gpuPowerWatts
+      }
 
-    if ($sampleHeaderWritten) {
-      $sample | Export-Csv -LiteralPath $samplePath -NoTypeInformation -Append
-    } else {
-      $sample | Export-Csv -LiteralPath $samplePath -NoTypeInformation
-      $sampleHeaderWritten = $true
+      if ($sampleHeaderWritten) {
+        $sample |
+          Export-Csv -LiteralPath $samplePath -NoTypeInformation -Append
+      } else {
+        $sample | Export-Csv -LiteralPath $samplePath -NoTypeInformation
+        $sampleHeaderWritten = $true
+      }
+
+      $consecutiveSamplingFailures = 0
+    } catch {
+      $consecutiveSamplingFailures += 1
+      $samplingWarning = [ordered]@{
+        sampled_at = (Get-Date).ToString("o")
+        consecutive_failures = $consecutiveSamplingFailures
+        message = $_.Exception.Message
+      }
+      $samplingWarning |
+        ConvertTo-Json -Compress |
+        Add-Content -LiteralPath $samplingWarningPath -Encoding utf8
+
+      if (
+        $consecutiveSamplingFailures -ge
+          $maximumConsecutiveSamplingFailures
+      ) {
+        throw
+      }
     }
 
     Start-Sleep -Seconds $SampleIntervalSeconds
@@ -234,7 +261,7 @@ try {
   }
 } catch {
   $_ | Out-String | Set-Content -LiteralPath $harnessErrorPath -Encoding utf8
-  Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
+  Stop-Process -Id $lastKnownProcessIds -Force -ErrorAction SilentlyContinue
   throw
 }
 
