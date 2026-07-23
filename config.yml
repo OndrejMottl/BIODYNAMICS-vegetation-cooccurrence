@@ -38,6 +38,8 @@ default:
         strategy_version: "sjsdm_staged_tuning_v1"
         repeat_order: !expr c(1L, 2L, 3L)
         survivor_counts: !expr c(4L, 2L)
+      tuning_context:
+        resolution_ids: ~
       common_regularization_sensitivity:
         enabled: false
         representative_scale_id: ~
@@ -381,3 +383,48 @@ project_cz_modern:
         lambda_cov: !expr c(0)
         lambda_coef: !expr c(0)
         lambda_spatial: !expr c(0)
+project_issue138_paleo_spatial_continental_europe_staged:
+  inherits: project_paleo_spatial_continental
+  target_store: Data/targets/issue138_validation/paleo_continental_europe
+  model_fitting:
+    cross_validation:
+      tier_id: "issue138_paleo_continental_europe"
+      tuning_strategy: "staged"
+      tuning_context:
+        resolution_ids: !expr c("genus")
+project_issue138_modern_spatial_continental_europe_staged:
+  inherits: project_modern_spatial_continental
+  target_store: Data/targets/issue138_validation/modern_continental_europe
+  model_fitting:
+    cross_validation:
+      tier_id: "issue138_modern_continental_europe"
+      tuning_strategy: "staged"
+      tuning_context:
+        resolution_ids: !expr c("genus")
+project_paleo_temporal_issue138_europe_staged:
+  inherits: project_paleo_temporal_europe
+  target_store: Data/targets/issue138_validation/temporal_europe_16000
+  vegvault_data:
+    age_lim: !expr c(16000, 16000)
+  model_fitting:
+    cross_validation:
+      tier_id: "issue138_temporal_europe_16000"
+      tuning_strategy: "staged"
+project_paleo_temporal_issue138_america_staged:
+  inherits: project_paleo_temporal_america
+  target_store: Data/targets/issue138_validation/temporal_america_19000
+  vegvault_data:
+    age_lim: !expr c(19000, 19000)
+  model_fitting:
+    cross_validation:
+      tier_id: "issue138_temporal_america_19000"
+      tuning_strategy: "staged"
+project_paleo_temporal_issue138_asia_staged:
+  inherits: project_paleo_temporal_asia
+  target_store: Data/targets/issue138_validation/temporal_asia_6500
+  vegvault_data:
+    age_lim: !expr c(6500, 6500)
+  model_fitting:
+    cross_validation:
+      tier_id: "issue138_temporal_asia_6500"
+      tuning_strategy: "staged"

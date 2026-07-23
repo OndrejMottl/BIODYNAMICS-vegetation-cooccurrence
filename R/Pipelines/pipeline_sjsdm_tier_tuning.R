@@ -131,6 +131,22 @@ if (
   cli::cli_abort("Tier tuning requires a supported model configuration.")
 }
 
+list_cross_validation_config <-
+  get_active_config(
+    base::c("model_fitting", "cross_validation")
+  )
+
+list_tuning_context <-
+  resolve_sjsdm_tuning_context(
+    list_default_context = list_tuning_context,
+    resolution_ids = purrr::pluck(
+      list_cross_validation_config,
+      "tuning_context",
+      "resolution_ids",
+      .default = NULL
+    )
+  )
+
 
 #----------------------------------------------------------#
 # 2. Pipeline definition -----
