@@ -106,6 +106,12 @@ list_tuning_context <-
         ),
         nested_unit_stores = TRUE
       ),
+      paleo_core = base::list(
+        pipeline_name = "pipeline_paleo_core",
+        resolution_ids = "genus",
+        target_names = "data_sjsdm_tuning_summary",
+        nested_unit_stores = FALSE
+      ),
       modern_spatial = base::list(
         pipeline_name = "pipeline_modern_spatial_resolution",
         resolution_ids = base::c("genus", "family", "ft_modern"),
@@ -125,12 +131,56 @@ if (
   cli::cli_abort("Tier tuning requires a supported model configuration.")
 }
 
+list_cross_validation_config <-
+  get_active_config(
+    base::c("model_fitting", "cross_validation")
+  )
+
+list_tuning_context <-
+  resolve_sjsdm_tuning_context(
+    list_default_context = list_tuning_context,
+    resolution_ids = purrr::pluck(
+      list_cross_validation_config,
+      "tuning_context",
+      "resolution_ids",
+      .default = NULL
+    )
+  )
+
 
 #----------------------------------------------------------#
 # 2. Pipeline definition -----
 #----------------------------------------------------------#
 
-base::list(
+active_tuning_strategy <-
+  get_active_config(
+    base::c(
+      "model_fitting",
+      "cross_validation",
+      "tuning_strategy"
+    )
+  )
+
+if (
+  active_tuning_strategy == "staged" &&
+    base::length(
+      get_active_config(
+        base::c(
+          "model_fitting",
+          "cross_validation",
+          "staged_search",
+          "repeat_order"
+        )
+      )
+    ) != 3L
+) {
+  cli::cli_abort(
+    "The staged tier pipeline currently requires exactly three rounds."
+  )
+}
+
+list_sjsdm_tier_common_targets <-
+  base::list(
   targets::tar_target(
     description = "Discover completed spatial-unit targets stores",
     name = vec_sjsdm_unit_tuning_stores,
@@ -162,7 +212,8 @@ base::list(
     name = data_sjsdm_tier_tuning_summaries,
     command = collect_sjsdm_tuning_summaries(
       store_paths = vec_sjsdm_unit_tuning_stores,
-      resolution_ids = list_tuning_context[["resolution_ids"]]
+      resolution_ids = list_tuning_context[["resolution_ids"]],
+      target_names = list_tuning_context[["target_names"]]
     ),
     cue = targets::tar_cue(mode = "always")
   ),
@@ -173,13 +224,144 @@ base::list(
     cue = targets::tar_cue(mode = "always")
   ),
   targets::tar_target(
-    description = "Build compatible tier regularization artifacts",
-    name = list_sjsdm_tier_tuning_artifacts,
-    command = build_sjsdm_tier_tuning_artifacts(
-      data_tuning_summary = data_sjsdm_tier_tuning_summaries,
-      created_at = sjsdm_tier_artifact_created_at
+    description = "Validate the tier-wide tuning schedule",
+    name = data_sjsdm_tier_tuning_schedule,
+    command = build_sjsdm_tuning_schedule(
+      tuning_strategy = get_active_config(
+        base::c(
+          "model_fitting",
+          "cross_validation",
+          "tuning_strategy"
+        )
+      ),
+      n_candidates = dplyr::n_distinct(
+        data_sjsdm_tier_tuning_summaries[["candidate_id"]]
+      ),
+      repeat_ids = get_active_config(
+        base::c(
+          "model_fitting",
+          "cross_validation",
+          "staged_search",
+          "repeat_order"
+        )
+      ),
+      survivor_counts = get_active_config(
+        base::c(
+          "model_fitting",
+          "cross_validation",
+          "staged_search",
+          "survivor_counts"
+        )
+      )
     )
-  ),
+  )
+)
+
+list_sjsdm_tier_round_targets <-
+  if (
+    active_tuning_strategy == "staged"
+  ) {
+    base::list(
+      targets::tar_target(
+        description = "Pool tier evidence and select round-one survivors",
+        name = list_sjsdm_tier_survivor_artifacts_round_1,
+        command = build_sjsdm_tier_survivor_artifacts(
+          data_tuning_summary = data_sjsdm_tier_tuning_summaries,
+          data_schedule = data_sjsdm_tier_tuning_schedule,
+          round_id = 1L
+        )
+      ),
+      targets::tar_target(
+        description = "Publish tier-wide round-one survivor decisions",
+        name = data_sjsdm_tier_survivor_decisions_round_1,
+        command = list_sjsdm_tier_survivor_artifacts_round_1 |>
+          purrr::chuck("data_survivor_decisions")
+      ),
+      targets::tar_target(
+        description = "Publish round-one tier candidate aggregation",
+        name = data_sjsdm_tier_candidate_aggregation_round_1,
+        command = list_sjsdm_tier_survivor_artifacts_round_1 |>
+          purrr::chuck("data_candidate_aggregation")
+      ),
+      targets::tar_target(
+        description = "Pool cumulative tier evidence for round two",
+        name = list_sjsdm_tier_survivor_artifacts_round_2,
+        command = build_sjsdm_tier_survivor_artifacts(
+          data_tuning_summary = data_sjsdm_tier_tuning_summaries,
+          data_schedule = data_sjsdm_tier_tuning_schedule,
+          round_id = 2L,
+          data_prior_decisions =
+            data_sjsdm_tier_survivor_decisions_round_1
+        )
+      ),
+      targets::tar_target(
+        description = "Publish tier-wide round-two survivor decisions",
+        name = data_sjsdm_tier_survivor_decisions_round_2,
+        command = list_sjsdm_tier_survivor_artifacts_round_2 |>
+          purrr::chuck("data_survivor_decisions")
+      ),
+      targets::tar_target(
+        description = "Publish round-two tier candidate aggregation",
+        name = data_sjsdm_tier_candidate_aggregation_round_2,
+        command = list_sjsdm_tier_survivor_artifacts_round_2 |>
+          purrr::chuck("data_candidate_aggregation")
+      ),
+      targets::tar_target(
+        description = "Select the winner from complete finalist evidence",
+        name = list_sjsdm_tier_survivor_artifacts_round_3,
+        command = build_sjsdm_tier_survivor_artifacts(
+          data_tuning_summary = data_sjsdm_tier_tuning_summaries,
+          data_schedule = data_sjsdm_tier_tuning_schedule,
+          round_id = 3L,
+          data_prior_decisions =
+            data_sjsdm_tier_survivor_decisions_round_2
+        )
+      ),
+      targets::tar_target(
+        description = "Publish tier-wide final winner decisions",
+        name = data_sjsdm_tier_survivor_decisions_round_3,
+        command = list_sjsdm_tier_survivor_artifacts_round_3 |>
+          purrr::chuck("data_survivor_decisions")
+      ),
+      targets::tar_target(
+        description = "Publish finalist tier candidate aggregation",
+        name = data_sjsdm_tier_candidate_aggregation_round_3,
+        command = list_sjsdm_tier_survivor_artifacts_round_3 |>
+          purrr::chuck("data_candidate_aggregation")
+      )
+    )
+  } else {
+    base::list()
+  }
+
+target_sjsdm_tier_tuning_artifacts <-
+  if (
+    active_tuning_strategy == "staged"
+  ) {
+    targets::tar_target(
+      description = "Build staged tier regularization artifacts",
+      name = list_sjsdm_tier_tuning_artifacts,
+      command = build_sjsdm_tier_tuning_artifacts(
+        data_tuning_summary =
+          list_sjsdm_tier_survivor_artifacts_round_3 |>
+          purrr::chuck("data_tuning_entering"),
+        created_at = sjsdm_tier_artifact_created_at
+      )
+    )
+  } else {
+    targets::tar_target(
+      description = "Build exhaustive tier regularization artifacts",
+      name = list_sjsdm_tier_tuning_artifacts,
+      command = build_sjsdm_tier_tuning_artifacts(
+        data_tuning_summary = data_sjsdm_tier_tuning_summaries,
+        created_at = sjsdm_tier_artifact_created_at
+      )
+    )
+  }
+
+list_sjsdm_tier_public_targets <-
+  base::list(
+  target_sjsdm_tier_tuning_artifacts,
   targets::tar_target(
     description = "Publish selected tier regularization artifacts",
     name = data_sjsdm_tier_regularization_artifacts,
@@ -204,4 +386,10 @@ base::list(
     command = list_sjsdm_tier_tuning_artifacts |>
       purrr::chuck("data_selection_sensitivity")
   )
+)
+
+base::c(
+  list_sjsdm_tier_common_targets,
+  list_sjsdm_tier_round_targets,
+  list_sjsdm_tier_public_targets
 )

@@ -57,18 +57,23 @@ vec_tuning_target_names <-
 #----------------------------------------------------------#
 
 # This stage is fail-fast because tier selection requires every unit summary.
-purrr::walk(
-  .progress = TRUE,
-  .x = vec_scale_ids,
-  .f = ~ run_pipeline(
-    sel_script = "R/Pipelines/pipeline_modern_spatial_resolution.R",
-    store_suffix = .x,
-    target_names = vec_tuning_target_names
+run_sjsdm_tuning_sequence(
+  unit_pipeline = "R/Pipelines/pipeline_modern_spatial_resolution.R",
+  tuning_target_names = vec_tuning_target_names,
+  unit_store_suffixes = vec_scale_ids,
+  tuning_strategy = get_active_config(
+    base::c("model_fitting", "cross_validation", "tuning_strategy")
+  ),
+  n_rounds = base::length(
+    get_active_config(
+      base::c(
+        "model_fitting",
+        "cross_validation",
+        "staged_search",
+        "repeat_order"
+      )
+    )
   )
-)
-
-run_pipeline(
-  sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R"
 )
 
 
@@ -83,6 +88,7 @@ tictoc::tic(
 data_pipeline_status <-
   run_pipeline_units_with_status(
     scale_ids = vec_scale_ids,
-    sel_script = "R/Pipelines/pipeline_modern_spatial_resolution.R"
+    sel_script = "R/Pipelines/pipeline_modern_spatial_resolution.R",
+    prebuild_interpolation = FALSE
   )
 tictoc::toc()

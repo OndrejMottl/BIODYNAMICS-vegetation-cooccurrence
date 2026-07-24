@@ -36,6 +36,10 @@
 #' using parallel dynamic branches before running the complete pipeline.
 #' The worker count is read from
 #' `data_processing$n_interpolation_workers`. Default is `FALSE`.
+#' @param callr_function
+#' Function used by [targets::tar_make()] to launch the pipeline process.
+#' Defaults to [callr::r()]. Supply `NULL` only for small graphs that are safe
+#' to execute in the current orchestration process.
 #' @return
 #' No return value. Function is called for side effects: executes the
 #' targets pipeline and saves progress visualization to the documentation
@@ -66,7 +70,8 @@ run_pipeline <- function(
     check_default_config = TRUE,
     plot_progress = TRUE,
     fresh_run = FALSE,
-    prebuild_interpolation = FALSE) {
+    prebuild_interpolation = FALSE,
+    callr_function = callr::r) {
   assertthat::assert_that(
     is.character(sel_script),
     length(sel_script) == 1,
@@ -129,6 +134,11 @@ run_pipeline <- function(
       "prebuild_interpolation must be a single logical value",
       "(TRUE or FALSE)."
     )
+  )
+
+  assertthat::assert_that(
+    base::is.null(callr_function) || base::is.function(callr_function),
+    msg = "callr_function must be NULL or a function."
   )
 
   if (
@@ -298,7 +308,8 @@ run_pipeline <- function(
             names = tidyselect::all_of("data_community_interpolated"),
             script = sel_script_path,
             store = sel_store_path,
-            reporter = "verbose"
+            reporter = "verbose",
+            callr_function = callr_function
           )
         }
       ),
@@ -332,14 +343,16 @@ run_pipeline <- function(
         targets::tar_make(
           script = sel_script_path,
           store = sel_store_path,
-          reporter = "verbose"
+          reporter = "verbose",
+          callr_function = callr_function
         )
       } else {
         targets::tar_make(
           names = target_names,
           script = sel_script_path,
           store = sel_store_path,
-          reporter = "verbose"
+          reporter = "verbose",
+          callr_function = callr_function
         )
       },
       error = function(err) {

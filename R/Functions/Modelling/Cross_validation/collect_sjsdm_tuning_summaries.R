@@ -6,6 +6,13 @@
 #' Non-empty character vector of unit targets-store paths.
 #' @param resolution_ids
 #' Non-empty character vector of mapped model-resolution identifiers.
+#' @param target_prefix
+#' Non-empty character scalar placed before each resolution identifier.
+#' Defaults to the existing public tuning-summary target prefix. Explicit
+#' round prefixes allow the tier store to collect one staged round at a time.
+#' @param target_names
+#' Optional character vector paired with `resolution_ids`. When supplied,
+#' reads these exact public target names instead of constructing suffixed names.
 #' @param read_target_function
 #' Injectable target reader. Defaults to [targets::tar_read_raw()].
 #' @return
@@ -24,6 +31,8 @@
 collect_sjsdm_tuning_summaries <- function(
     store_paths = NULL,
     resolution_ids = NULL,
+    target_prefix = "data_sjsdm_tuning_summary",
+    target_names = NULL,
     read_target_function = targets::tar_read_raw) {
   assertthat::assert_that(
     base::is.character(store_paths),
@@ -40,32 +49,63 @@ collect_sjsdm_tuning_summaries <- function(
   )
 
   assertthat::assert_that(
+    base::is.character(target_prefix),
+    base::length(target_prefix) == 1L,
+    !base::is.na(target_prefix),
+    base::nzchar(target_prefix),
+    msg = "target_prefix must be one non-empty string."
+  )
+
+  assertthat::assert_that(
+    base::is.null(target_names) ||
+      (
+        base::is.character(target_names) &&
+          base::length(target_names) == base::length(resolution_ids) &&
+          base::all(!base::is.na(target_names)) &&
+          base::all(base::nzchar(target_names))
+      ),
+    msg = "target_names must be NULL or one non-empty name per resolution."
+  )
+
+  assertthat::assert_that(
     base::is.function(read_target_function),
     msg = "read_target_function must be a function."
   )
 
+  vec_target_names <-
+    if (
+      base::is.null(target_names)
+    ) {
+      stringr::str_glue(
+        "{target_prefix}_{resolution_ids}"
+      ) |>
+        base::as.character()
+    } else {
+      target_names
+    }
+
+  data_resolution_targets <-
+    tibble::tibble(
+      resolution_id = resolution_ids,
+      target_name = vec_target_names
+    ) |>
+    dplyr::distinct()
+
   data_store_resolution <-
     tidyr::crossing(
       source_store = base::unique(store_paths),
-      resolution_id = base::unique(resolution_ids)
+      data_resolution_targets
     )
 
   list_summaries <-
-    purrr::map2(
-      .x = data_store_resolution[["source_store"]],
-      .y = data_store_resolution[["resolution_id"]],
-      .f = ~ {
-        target_name <-
-          stringr::str_glue(
-            "data_sjsdm_tuning_summary_{.y}"
-          ) |>
-          base::as.character()
-
+    purrr::pmap(
+      .l = data_store_resolution,
+      .f = function(source_store, resolution_id, target_name) {
         data_summary <-
           tryCatch(
             expr = read_target_function(
               name = target_name,
-              store = .x
+              store = source_store
             ),
             error = function(error_condition) {
               error_condition
@@ -79,7 +119,7 @@ collect_sjsdm_tuning_summaries <- function(
             c(
               "Could not read every requested tuning summary.",
               "x" = stringr::str_glue(
-                "{target_name} in {.x}: ",
+                "{target_name} in {source_store}: ",
                 "{base::conditionMessage(data_summary)}"
               )
             )
@@ -96,12 +136,15 @@ collect_sjsdm_tuning_summaries <- function(
 
         data_summary |>
           dplyr::mutate(
-            source_store = .x,
-            resolution_id = .y,
+            source_store = .env[["source_store"]],
+            resolution_id = .env[["resolution_id"]],
             source_id = dplyr::if_else(
               .data[["source_id"]] == "unit" &
-                stringr::str_starts(.y, "timeslice_"),
-              .y,
+                stringr::str_starts(
+                  .env[["resolution_id"]],
+                  "timeslice_"
+                ),
+              .env[["resolution_id"]],
               .data[["source_id"]]
             ),
             .before = 1L

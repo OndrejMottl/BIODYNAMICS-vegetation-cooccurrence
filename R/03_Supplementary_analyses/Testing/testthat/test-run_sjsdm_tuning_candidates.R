@@ -40,6 +40,87 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "run_sjsdm_tuning_candidates() retains one cache per fold",
+  {
+    data_assignments <-
+      tibble::tibble(
+        repeat_id = base::rep(1L, 2L),
+        fold_id = 1:2,
+        location_id = base::c("location_1", "location_2"),
+        n_samples = base::rep(1L, 2L),
+        row_indices = base::list(1L, 2L),
+        cv_strategy = "leave_one_location_out"
+      )
+
+    data_candidates <-
+      make_sjsdm_regularization_candidates(lambda_cov = 0)
+
+    prepare_fold_function <- function(...) {
+      data_observed <-
+        base::matrix(
+          data = 1,
+          nrow = 1L,
+          dimnames = base::list("sample", "taxon")
+        )
+
+      return(
+        base::list(
+          data_train_input = base::list(),
+          data_test_input = base::list(),
+          data_train_observed = data_observed,
+          data_test_observed = data_observed,
+          data_test_observed_full = data_observed,
+          test_sample_ids = "sample",
+          data_taxa_mapping = tibble::tibble(
+            taxon = "taxon",
+            retained = TRUE,
+            status = "retained"
+          )
+        )
+      )
+    }
+
+    fit_function <- function(data_train_input, candidate, seed) {
+      return(candidate)
+    }
+
+    predict_function <- function(object, data_test_input) {
+      return(base::matrix(0.8, nrow = 1L))
+    }
+
+    score_function <- function(...) {
+      return(
+        base::list(
+          n_taxa_retained = 1L,
+          n_response_values = 1L,
+          negative_log_likelihood_test = 0.2,
+          negative_log_likelihood_per_response = 0.2,
+          auc_macro_test = NA_real_
+        )
+      )
+    }
+
+    list_result <-
+      run_sjsdm_tuning_candidates(
+        data_assignments = data_assignments,
+        data_candidates = data_candidates,
+        prepare_fold_function = prepare_fold_function,
+        fit_function = fit_function,
+        predict_function = predict_function,
+        score_function = score_function,
+        retain_prediction_cache = TRUE
+      )
+
+    testthat::expect_named(
+      list_result,
+      base::c("data_tuning", "list_prediction_cache")
+    )
+    testthat::expect_length(list_result[["list_prediction_cache"]], 2L)
+    testthat::expect_equal(base::nrow(list_result[["data_tuning"]]), 2L)
+  }
+)
+
+testthat::test_that(
   "run_sjsdm_tuning_candidates() isolates folds and returns metrics",
   {
     data_assignments <-

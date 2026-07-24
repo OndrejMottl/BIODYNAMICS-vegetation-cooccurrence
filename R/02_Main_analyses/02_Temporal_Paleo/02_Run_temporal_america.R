@@ -10,8 +10,8 @@
 #
 #----------------------------------------------------------#
 # Runs the time-slice pipeline for the North American region.
-# Uses project_paleo_temporal_america configuration (lon -130–-60°W, lat 30–70°N,
-#   0–20 kyr BP, 500-yr steps).
+# Uses project_paleo_temporal_america configuration
+#   (lon -130–-60°W, lat 30–70°N, 0–20 kyr BP, 500-yr steps).
 # Target store: Data/targets/paleo_temporal_america/pipeline_paleo_temporal/
 
 
@@ -50,14 +50,23 @@ vec_tuning_target_names <-
     )
   )
 
-run_pipeline(
-  sel_script = "R/Pipelines/pipeline_paleo_temporal.R",
-  target_names = vec_tuning_target_names,
-  prebuild_interpolation = TRUE
-)
-
-run_pipeline(
-  sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R"
+run_sjsdm_tuning_sequence(
+  unit_pipeline = "R/Pipelines/pipeline_paleo_temporal.R",
+  tuning_target_names = vec_tuning_target_names,
+  prebuild_interpolation = TRUE,
+  tuning_strategy = get_active_config(
+    base::c("model_fitting", "cross_validation", "tuning_strategy")
+  ),
+  n_rounds = base::length(
+    get_active_config(
+      base::c(
+        "model_fitting",
+        "cross_validation",
+        "staged_search",
+        "repeat_order"
+      )
+    )
+  )
 )
 
 
@@ -67,5 +76,5 @@ run_pipeline(
 
 run_pipeline(
   sel_script = "R/Pipelines/pipeline_paleo_temporal.R",
-  prebuild_interpolation = TRUE
+  prebuild_interpolation = FALSE
 )

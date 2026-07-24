@@ -15,8 +15,13 @@
 #' @param epsilon
 #' Probability clipping tolerance passed to
 #' [score_sjsdm_tuning_predictions()].
+#' @param retain_prediction_cache
+#' Logical. When true, return compact prepared-fold metadata and candidate
+#' probability matrices alongside the unchanged tuning table.
 #' @return
 #' Compact candidate-by-fold tuning table with metrics and structured status.
+#' When `retain_prediction_cache` is true, returns a named list containing that
+#' table and a compact fold prediction cache without fitted model objects.
 #' @export
 run_sjsdm_tuning_fold_candidates <- function(
     data_candidates = NULL,
@@ -26,7 +31,8 @@ run_sjsdm_tuning_fold_candidates <- function(
     predict_function = NULL,
     score_function = score_sjsdm_tuning_predictions,
     seed = 900723L,
-    epsilon = 1e-6) {
+    epsilon = 1e-6,
+    retain_prediction_cache = FALSE) {
   vec_parameter_columns <-
     base::c(
       "alpha_cov",
@@ -101,6 +107,16 @@ run_sjsdm_tuning_fold_candidates <- function(
     msg = "`epsilon` must be a finite number between zero and 0.5."
   )
 
+  assertthat::assert_that(
+    base::is.logical(retain_prediction_cache),
+    base::length(retain_prediction_cache) == 1L,
+    !base::is.na(retain_prediction_cache),
+    msg = "retain_prediction_cache must be one logical value."
+  )
+
+  preparation_started <-
+    base::proc.time()[["elapsed"]]
+
   list_fold <-
     tryCatch(
       expr = {
@@ -113,11 +129,25 @@ run_sjsdm_tuning_fold_candidates <- function(
           )
 
         vec_required_fold_elements <-
-          base::c(
-            "data_train_input",
-            "data_test_input",
-            "data_test_observed"
-          )
+          if (
+            retain_prediction_cache
+          ) {
+            base::c(
+              "data_train_input",
+              "data_test_input",
+              "data_train_observed",
+              "data_test_observed",
+              "data_test_observed_full",
+              "test_sample_ids",
+              "data_taxa_mapping"
+            )
+          } else {
+            base::c(
+              "data_train_input",
+              "data_test_input",
+              "data_test_observed"
+            )
+          }
 
         if (
           !base::is.list(list_prepared) ||
@@ -135,6 +165,9 @@ run_sjsdm_tuning_fold_candidates <- function(
         error_condition
       }
     )
+
+  preparation_seconds <-
+    base::proc.time()[["elapsed"]] - preparation_started
 
   data_fold_candidates <-
     data_candidates |>
@@ -189,13 +222,30 @@ run_sjsdm_tuning_fold_candidates <- function(
   if (
     base::inherits(list_fold, "error")
   ) {
+    if (
+      retain_prediction_cache
+    ) {
+      res_error <-
+        base::list(
+          data_tuning = data_fold_candidates,
+          list_prediction_cache = base::list(
+            list_fold_context = list_fold_context,
+            list_prepared_fold = NULL,
+            preparation_seconds = preparation_seconds,
+            list_candidate_predictions = base::list()
+          )
+        )
+
+      return(res_error)
+    }
+
     return(data_fold_candidates)
   }
 
   data_observed <-
     list_fold[["data_test_observed"]]
 
-  res <-
+  list_candidate_results <-
     data_fold_candidates |>
     dplyr::mutate(candidate_index = base::seq_len(dplyr::n())) |>
     dplyr::group_split(.data[["candidate_index"]]) |>
@@ -240,6 +290,9 @@ run_sjsdm_tuning_fold_candidates <- function(
           data_result |>
           dplyr::select(dplyr::all_of(vec_candidate_columns))
 
+        fit_started <-
+          base::proc.time()[["elapsed"]]
+
         mod_fit <-
           tryCatch(
             expr = {
@@ -253,6 +306,9 @@ run_sjsdm_tuning_fold_candidates <- function(
               error_condition
             }
           )
+
+        fit_seconds <-
+          base::proc.time()[["elapsed"]] - fit_started
 
         data_result[["fit_seed"]] <-
           fit_seed_value
@@ -269,8 +325,26 @@ run_sjsdm_tuning_fold_candidates <- function(
           data_result[["error_message"]] <-
             base::conditionMessage(mod_fit)
 
-          return(data_result)
+          return(
+            base::list(
+              data_tuning = data_result,
+              list_prediction = base::list(
+                candidate_id = candidate_id,
+                fit_seed = fit_seed_value,
+                fit_status = "fit_error",
+                error_message = base::conditionMessage(mod_fit),
+                data_predicted = NULL,
+                fit_seconds = fit_seconds,
+                prediction_seconds = NA_real_,
+                scoring_seconds = NA_real_
+              )
+            )
+          )
+
         }
+
+        prediction_started <-
+          base::proc.time()[["elapsed"]]
 
         data_predicted <-
           tryCatch(
@@ -285,6 +359,9 @@ run_sjsdm_tuning_fold_candidates <- function(
             }
           )
 
+        prediction_seconds <-
+          base::proc.time()[["elapsed"]] - prediction_started
+
         if (
           base::inherits(data_predicted, "error")
         ) {
@@ -294,8 +371,27 @@ run_sjsdm_tuning_fold_candidates <- function(
           data_result[["error_message"]] <-
             base::conditionMessage(data_predicted)
 
-          return(data_result)
+          return(
+            base::list(
+              data_tuning = data_result,
+              list_prediction = base::list(
+                candidate_id = candidate_id,
+                fit_seed = fit_seed_value,
+                fit_status = "prediction_error",
+                error_message =
+                  base::conditionMessage(data_predicted),
+                data_predicted = NULL,
+                fit_seconds = fit_seconds,
+                prediction_seconds = prediction_seconds,
+                scoring_seconds = NA_real_
+              )
+            )
+          )
+
         }
+
+        scoring_started <-
+          base::proc.time()[["elapsed"]]
 
         data_metrics <-
           tryCatch(
@@ -330,6 +426,9 @@ run_sjsdm_tuning_fold_candidates <- function(
             }
           )
 
+        scoring_seconds <-
+          base::proc.time()[["elapsed"]] - scoring_started
+
         if (
           base::inherits(data_metrics, "error")
         ) {
@@ -339,7 +438,22 @@ run_sjsdm_tuning_fold_candidates <- function(
           data_result[["error_message"]] <-
             base::conditionMessage(data_metrics)
 
-          return(data_result)
+          return(
+            base::list(
+              data_tuning = data_result,
+              list_prediction = base::list(
+                candidate_id = candidate_id,
+                fit_seed = fit_seed_value,
+                fit_status = "scoring_error",
+                error_message = base::conditionMessage(data_metrics),
+                data_predicted = base::as.matrix(data_predicted),
+                fit_seconds = fit_seconds,
+                prediction_seconds = prediction_seconds,
+                scoring_seconds = scoring_seconds
+              )
+            )
+          )
+
         }
 
         vec_metric_names <-
@@ -360,10 +474,76 @@ run_sjsdm_tuning_fold_candidates <- function(
         data_result[["error_message"]] <-
           NA_character_
 
-        return(data_result)
+        return(
+          base::list(
+            data_tuning = data_result,
+            list_prediction = base::list(
+              candidate_id = candidate_id,
+              fit_seed = fit_seed_value,
+              fit_status = "ok",
+              error_message = NA_character_,
+              data_predicted = base::as.matrix(data_predicted),
+              fit_seconds = fit_seconds,
+              prediction_seconds = prediction_seconds,
+              scoring_seconds = scoring_seconds
+            )
+          )
+        )
       }
-    ) |>
+    )
+
+  data_tuning <-
+    list_candidate_results |>
+    purrr::map("data_tuning") |>
     purrr::list_rbind()
+
+  if (
+    !retain_prediction_cache
+  ) {
+    return(data_tuning)
+  }
+
+  vec_cache_fold_elements <-
+    base::c(
+      "data_train_observed",
+      "data_test_observed",
+      "data_test_observed_full",
+      "test_sample_ids",
+      "data_taxa_mapping",
+      "data_spatial_diagnostics"
+    )
+
+  list_prepared_fold_cache <-
+    list_fold[
+      base::intersect(
+        vec_cache_fold_elements,
+        base::names(list_fold)
+      )
+    ]
+
+  data_spatial_train <-
+    list_fold[["data_train_input"]][["data_spatial_to_fit"]]
+
+  list_prepared_fold_cache[["n_effective_mev"]] <-
+    if (
+      base::is.null(data_spatial_train)
+    ) {
+      0L
+    } else {
+      base::ncol(data_spatial_train)
+    }
+
+  res <-
+    base::list(
+      data_tuning = data_tuning,
+      list_prediction_cache = base::list(
+        list_fold_context = list_fold_context,
+        list_prepared_fold = list_prepared_fold_cache,
+        preparation_seconds = preparation_seconds,
+        list_candidate_predictions = list_candidate_results |>
+          purrr::map("list_prediction")
+      )
+    )
 
   return(res)
 }
