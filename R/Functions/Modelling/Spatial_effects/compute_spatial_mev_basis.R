@@ -31,7 +31,7 @@ compute_spatial_mev_basis <- function(
     fast_eigenvectors = 200L,
     fast_seed = 900723L,
     exact_function = sjSDM::generateSpatialEV,
-    fast_function = spmoran::meigen_f) {
+    fast_function = NULL) {
   assertthat::assert_that(
     base::is.data.frame(data_coords_projected),
     msg = "data_coords_projected must be a data frame"
@@ -93,8 +93,7 @@ compute_spatial_mev_basis <- function(
 
   assertthat::assert_that(
     base::is.function(exact_function),
-    base::is.function(fast_function),
-    msg = "Exact and fast MEM construction arguments must be functions."
+    msg = "The exact MEM construction argument must be a function."
   )
 
   fast_seed_integer <-
@@ -149,6 +148,17 @@ compute_spatial_mev_basis <- function(
     engine_method <- "sjsdm_exact"
     projection_method <- "idw"
   } else {
+    if (
+      base::is.null(fast_function)
+    ) {
+      fast_function <- spmoran::meigen_f
+    }
+
+    assertthat::assert_that(
+      base::is.function(fast_function),
+      msg = "The fast MEM construction argument must be a function."
+    )
+
     list_fast_basis <-
       withr::with_seed(
         seed = fast_seed_integer,

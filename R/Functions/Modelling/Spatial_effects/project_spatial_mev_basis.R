@@ -26,7 +26,7 @@ project_spatial_mev_basis <- function(
     spatial_scale_attributes = NULL,
     projection_chunk_size = 5000L,
     exact_projection_function = interpolate_mev_to_grid,
-    fast_projection_function = spmoran::meigen0) {
+    fast_projection_function = NULL) {
   assertthat::assert_that(
     base::is.list(list_spatial_mev_basis),
     base::is.data.frame(list_spatial_mev_basis[["data_mev"]]),
@@ -54,8 +54,7 @@ project_spatial_mev_basis <- function(
 
   assertthat::assert_that(
     base::is.function(exact_projection_function),
-    base::is.function(fast_projection_function),
-    msg = "Exact and fast projection arguments must be functions."
+    msg = "The exact MEM projection argument must be a function."
   )
 
   mat_pred_coords <-
@@ -100,7 +99,14 @@ project_spatial_mev_basis <- function(
   vec_column_signs <-
     list_projection_basis[["column_signs"]]
 
+  if (
+    base::is.null(fast_projection_function)
+  ) {
+    fast_projection_function <- spmoran::meigen0
+  }
+
   assertthat::assert_that(
+    base::is.function(fast_projection_function),
     base::is.numeric(vec_column_indices),
     base::is.numeric(vec_column_signs),
     base::length(vec_column_indices) == base::length(vec_column_signs),
@@ -191,4 +197,3 @@ project_spatial_mev_basis <- function(
 
   return(res)
 }
-

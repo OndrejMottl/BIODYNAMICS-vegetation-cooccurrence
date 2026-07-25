@@ -7,9 +7,13 @@
 **Blocks:** Remaining representative modern validation for Issue #138
 
 **Progress:** Phases 1-3 passed focused, full-suite, CZ, structural, and native
-paired predictive gates. Phase 4 repetition 143 is running in an isolated
-store; its 19,864-location shared Nyström core completed in 0.969 seconds and
-passed the stage that failed repetition 113.
+paired predictive gates. Phase 4 completed all 70 staged continental fits,
+cached selected-candidate OOF assembly, final fitting, and CV evaluation
+without a dense allocation or GPU-memory failure. A completed-store resume
+repeated no candidate fit. The validation store was resumed after correcting a
+shared fold-configuration propagation defect, so a formally clean empty-store
+timing repetition remains a benchmark-policy decision rather than an
+implementation blocker.
 
 ---
 

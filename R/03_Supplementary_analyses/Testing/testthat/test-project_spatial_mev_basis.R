@@ -127,4 +127,3 @@ testthat::test_that(
     testthat::expect_identical(environment_capture[["chunk_size"]], 64L)
   }
 )
-
