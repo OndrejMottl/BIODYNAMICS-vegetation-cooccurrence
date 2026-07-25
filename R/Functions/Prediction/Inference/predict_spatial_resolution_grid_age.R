@@ -26,6 +26,9 @@
 #' @param spatial_interpolate_fn
 #' Spatial interpolation function. If `NULL` (default),
 #' [interpolate_mev_to_grid()] is used.
+#' @param spatial_basis_project_fn
+#' Reusable-basis projection function. If `NULL` (default),
+#' [project_spatial_mev_basis()] is used when basis state is available.
 #' @param spatiotemporal_interpolate_fn
 #' Spatiotemporal interpolation function. If `NULL` (default),
 #' [interpolate_st_mev_to_grid()] is used.
@@ -60,6 +63,7 @@ predict_spatial_resolution_grid_age <- function(
     spatial_mode = "spatiotemporal",
     climate_fn = NULL,
     spatial_interpolate_fn = NULL,
+    spatial_basis_project_fn = NULL,
     spatiotemporal_interpolate_fn = NULL,
     predict_fn = NULL) {
   assertthat::assert_that(
@@ -85,6 +89,12 @@ predict_spatial_resolution_grid_age <- function(
   }
 
   if (
+    base::is.null(spatial_basis_project_fn)
+  ) {
+    spatial_basis_project_fn <- project_spatial_mev_basis
+  }
+
+  if (
     base::is.null(spatiotemporal_interpolate_fn)
   ) {
     spatiotemporal_interpolate_fn <- interpolate_st_mev_to_grid
@@ -98,6 +108,11 @@ predict_spatial_resolution_grid_age <- function(
   assertthat::assert_that(
     base::is.function(spatial_interpolate_fn),
     msg = "`spatial_interpolate_fn` must be a function."
+  )
+
+  assertthat::assert_that(
+    base::is.function(spatial_basis_project_fn),
+    msg = "`spatial_basis_project_fn` must be a function."
   )
 
   assertthat::assert_that(
@@ -174,19 +189,38 @@ predict_spatial_resolution_grid_age <- function(
   if (
     spatial_mode == "spatial"
   ) {
+    list_spatial_basis <-
+      prediction_inputs[["list_spatial_mev_core_basis"]]
+
     data_spatial_predictors <-
-      spatial_interpolate_fn(
-        data_coords_projected_train = prediction_inputs |>
-          purrr::chuck("data_coords_projected"),
-        data_mev_core = prediction_inputs |>
-          purrr::chuck("data_spatial_mev_core"),
-        data_coords_projected_pred = data_grid_coords_valid,
-        spatial_scale_attributes = prediction_inputs |>
-          purrr::chuck(
-            "data_model_input",
-            "spatial_scale_attributes"
+      if (
+        base::is.null(list_spatial_basis)
+      ) {
+        spatial_interpolate_fn(
+          data_coords_projected_train = prediction_inputs |>
+            purrr::chuck("data_coords_projected"),
+          data_mev_core = prediction_inputs |>
+            purrr::chuck("data_spatial_mev_core"),
+          data_coords_projected_pred = data_grid_coords_valid,
+          spatial_scale_attributes = prediction_inputs |>
+            purrr::chuck(
+              "data_model_input",
+              "spatial_scale_attributes"
+            )
           )
-      )
+      } else {
+        spatial_basis_project_fn(
+          list_spatial_mev_basis = list_spatial_basis,
+          data_coords_projected_train = prediction_inputs |>
+            purrr::chuck("data_coords_projected"),
+          data_coords_projected_pred = data_grid_coords_valid,
+          spatial_scale_attributes = prediction_inputs |>
+            purrr::chuck(
+              "data_model_input",
+              "spatial_scale_attributes"
+            )
+        )
+      }
   } else if (
     spatial_mode == "spatiotemporal"
   ) {

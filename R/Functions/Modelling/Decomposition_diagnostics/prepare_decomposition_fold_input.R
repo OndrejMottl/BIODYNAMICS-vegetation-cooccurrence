@@ -102,7 +102,8 @@ prepare_decomposition_fold_input <- function(
       train_ids = train_ids,
       test_ids = test_ids,
       spatial_mode = spatial_mode,
-      n_mev = config_spatial_predictors[["n_mev"]]
+      n_mev = config_spatial_predictors[["n_mev"]],
+      spatial_mev_config = config_spatial_predictors[["spatial_mev"]]
     )
 
   res_model_input <-
@@ -124,6 +125,9 @@ prepare_decomposition_fold_input <- function(
       base::list(
         data_spatial_diagnostics = list_spatial_fold[[
           "data_diagnostics"
+        ]],
+        data_spatial_provenance = list_spatial_fold[[
+          "data_provenance"
         ]]
       )
     )

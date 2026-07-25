@@ -170,6 +170,113 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "prepare_fold_spatial_predictors() reuses a fold-local fast basis",
+  {
+    list_data <-
+      make_fold_spatial_test_data()
+
+    environment_capture <-
+      base::new.env(parent = base::emptyenv())
+
+    compute_basis_function <- function(
+        data_coords_projected,
+        n_mev,
+        strategy,
+        exact_max_locations,
+        fast_eigenvectors,
+        fast_seed) {
+      environment_capture[["compute_ids"]] <-
+        base::rownames(data_coords_projected)
+      environment_capture[["strategy"]] <- strategy
+      environment_capture[["fast_seed"]] <- fast_seed
+
+      data_mev <-
+        base::data.frame(
+          mev_1 = data_coords_projected[["coord_x_km"]]
+        )
+      base::rownames(data_mev) <-
+        base::rownames(data_coords_projected)
+
+      return(
+        base::list(
+          data_mev = data_mev,
+          projection_basis = base::list(method = "spmoran_nystrom"),
+          data_provenance = tibble::tibble(
+            strategy_selected = "fast"
+          )
+        )
+      )
+    }
+
+    project_basis_function <- function(
+        list_spatial_mev_basis,
+        data_coords_projected_train,
+        data_coords_projected_pred,
+        spatial_scale_attributes,
+        projection_chunk_size) {
+      environment_capture[["projection_train_ids"]] <-
+        base::rownames(data_coords_projected_train)
+      environment_capture[["projection_test_ids"]] <-
+        base::rownames(data_coords_projected_pred)
+      environment_capture[["projection_chunk_size"]] <-
+        projection_chunk_size
+
+      data_mev <-
+        base::data.frame(
+          mev_1 = data_coords_projected_pred[["coord_x_km"]]
+        )
+      base::rownames(data_mev) <-
+        base::rownames(data_coords_projected_pred)
+
+      return(data_mev)
+    }
+
+    spatial_mev_config <-
+      base::list(
+        strategy = "fast",
+        exact_max_locations = 1999L,
+        fast_eigenvectors = 200L,
+        fast_seed = 900723L,
+        projection_chunk_size = 25L
+      )
+
+    res <-
+      prepare_fold_spatial_predictors(
+        data_coords_projected = list_data[["data_coords"]],
+        data_sample_ids = list_data[["data_samples"]],
+        train_ids = base::c("a__0", "b__0", "c__0", "d__0"),
+        test_ids = "e__0",
+        spatial_mode = "spatial",
+        n_mev = 1L,
+        spatial_mev_config = spatial_mev_config,
+        compute_spatial_basis_function = compute_basis_function,
+        project_spatial_basis_function = project_basis_function
+      )
+
+    testthat::expect_equal(
+      environment_capture[["compute_ids"]],
+      base::c("a", "b", "c", "d")
+    )
+    testthat::expect_equal(
+      environment_capture[["projection_train_ids"]],
+      base::c("a", "b", "c", "d")
+    )
+    testthat::expect_equal(
+      environment_capture[["projection_test_ids"]],
+      "e__0"
+    )
+    testthat::expect_identical(
+      environment_capture[["projection_chunk_size"]],
+      25L
+    )
+    testthat::expect_identical(
+      res[["data_provenance"]][["strategy_selected"]],
+      "fast"
+    )
+  }
+)
+
+testthat::test_that(
   "prepare_fold_spatial_predictors() records unavailable MEVs",
   {
     list_data <-

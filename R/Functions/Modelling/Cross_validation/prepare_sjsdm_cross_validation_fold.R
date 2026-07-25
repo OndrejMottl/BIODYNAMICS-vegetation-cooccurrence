@@ -192,6 +192,7 @@ prepare_sjsdm_cross_validation_fold <- function(
         test_ids = vec_test_ids,
         spatial_mode = config_model_fitting[["spatial_mode"]],
         n_mev = config_model_fitting[["n_mev"]],
+        spatial_mev_config = config_model_fitting[["spatial_mev"]],
         compute_spatial_function = compute_spatial_function,
         compute_spatiotemporal_function = compute_spatiotemporal_function,
         interpolate_spatial_function = interpolate_spatial_function,
@@ -236,7 +237,9 @@ prepare_sjsdm_cross_validation_fold <- function(
         res_model_input,
         base::list(
           data_spatial_diagnostics =
-            list_spatial_fold[["data_diagnostics"]]
+            list_spatial_fold[["data_diagnostics"]],
+          data_spatial_provenance =
+            list_spatial_fold[["data_provenance"]]
         )
       )
     } else {
