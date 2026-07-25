@@ -132,6 +132,14 @@ pipe_segment_config_model <-
       ),
       cue = targets::tar_cue(mode = "always")
     ),
+    targets::tar_target(
+      description = "Configuration for scalable spatial MEM construction",
+      name = "config_spatial_mev",
+      command = get_active_config(
+        value = c("model_fitting", "spatial_mev")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
     # config_error_family is defined in pipe_segment_config_common.R so it is
     #   available to all pipelines including pipeline_paleo_spatial_resolution.R
     #   (which does not source this file). Referenced as a target dep below.
@@ -210,6 +218,7 @@ pipe_segment_config_model <-
         n_early_stopping = config_n_early_stopping,
         n_samples_anova = config_n_samples_anova,
         n_mev = config_n_mev,
+        spatial_mev = config_spatial_mev,
         error_family = config_error_family,
         spatial_crs = config_spatial_crs,
         spatial_mode = config_spatial_mode,

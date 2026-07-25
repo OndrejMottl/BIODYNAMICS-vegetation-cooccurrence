@@ -2,8 +2,18 @@
 
 **Date:** 2026-07-24  
 **Author:** Codex following the repository large-change planning workflow  
-**Status:** Draft; scientific-method approval required before implementation  
-**Parent work:** Issue #138, shared cross-validation runtime optimization
+**Status:** Approved for implementation
+**Issue:** #143
+**Blocks:** Remaining representative modern validation for Issue #138
+
+**Progress:** Phases 1-3 passed focused, full-suite, CZ, structural, and native
+paired predictive gates. Phase 4 completed all 70 staged continental fits,
+cached selected-candidate OOF assembly, final fitting, and CV evaluation
+without a dense allocation or GPU-memory failure. A completed-store resume
+repeated no candidate fit. The validation store was resumed after correcting a
+shared fold-configuration propagation defect, so a formally clean empty-store
+timing repetition remains a benchmark-policy decision rather than an
+implementation blocker.
 
 ---
 
@@ -56,9 +66,11 @@ The preferred implementation is therefore:
    a shared limit.
 2. **Fast mode:** use the package-backed Nyström approximation for inputs above
    the shared limit.
-3. **Automatic mode:** choose exact or fast from the unique-location count and
+3. **Automatic mode:** choose exact or fast from the input-location count and
    a common dense-work threshold, never from project, continent, or pipeline
-   identity.
+   identity. The input count governs dense-allocation safety; the separate
+   unique-location count governs whether the low-rank basis has enough spatial
+   support.
 4. **Fold-local projection:** construct the fast basis from training locations
    only and project it to held-out locations with the matching Nyström
    extension. Never construct the basis using held-out locations.
@@ -145,6 +157,11 @@ Rules:
   unchanged and the small fixtures continue to test the reference path.
 
 No production profile may override these values based on continent identity.
+
+This refines the initial design wording: allocation risk depends on the number
+of input rows even when some coordinates are duplicated. Unique-coordinate
+counts remain explicit in validation and provenance but cannot safely replace
+the input count at the dense-path boundary.
 
 ---
 
@@ -268,8 +285,8 @@ without the dense-MEM failure.
 
 ## Decision gates
 
-Implementation can begin after approval of the package-backed Nyström strategy.
-Production `auto` mode can be enabled only if all of the following hold:
+The package-backed Nyström strategy was approved on 2026-07-24. Production
+`auto` mode can be enabled only if all of the following hold:
 
 - exact small-input behavior remains compatible;
 - deterministic paired fixtures pass;
@@ -316,9 +333,9 @@ the exact path and evaluate another published scalable basis construction.
 
 ---
 
-## Approval question
+## Approval record
 
-Approve the package-backed Nyström fast path as the candidate shared method,
+The package-backed Nyström fast path is approved as the candidate shared method,
 subject to the exact-versus-fast scientific gates above. Approval authorizes
 implementation and testing; it does not authorize enabling production
 `auto` mode if the gates fail.

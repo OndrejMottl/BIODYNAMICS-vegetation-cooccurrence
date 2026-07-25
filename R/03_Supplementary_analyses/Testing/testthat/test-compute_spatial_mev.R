@@ -417,3 +417,29 @@ testthat::test_that(
     testthat::expect_equal(res_1, res_2)
   }
 )
+
+testthat::test_that(
+  "compute_spatial_mev() fails before unsafe dense construction",
+  {
+    data_coords <-
+      tibble::tibble(
+        dataset_name = c(
+          "site_A", "site_B", "site_C", "site_D", "site_E"
+        ),
+        coord_x_km = c(100.0, 400.0, 700.0, 200.0, 600.0),
+        coord_y_km = c(100.0, 500.0, 900.0, 300.0, 700.0)
+      ) |>
+      tibble::column_to_rownames("dataset_name")
+
+    testthat::expect_error(
+      compute_spatial_mev(
+        data_coords_projected = data_coords,
+        n_mev = 2L,
+        strategy = "exact",
+        exact_max_locations = 4L,
+        fast_eigenvectors = 200L
+      ),
+      regexp = "dense MEM safety limit"
+    )
+  }
+)

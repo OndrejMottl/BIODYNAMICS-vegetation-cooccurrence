@@ -190,6 +190,121 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "predict_spatial_resolution_grid_age() uses reusable basis when present",
+  {
+    climate_fn <- function(
+        data_grid,
+        age,
+        abiotic_variables,
+        x_lim,
+        y_lim,
+        cache_dir) {
+      return(
+        tibble::tibble(
+          grid_id = c(1L, 2L),
+          coord_long = c(10, 11),
+          coord_lat = c(50, 51),
+          bio1 = c(4, 8),
+          age = age
+        )
+      )
+    }
+
+    basis_project_fn <- function(
+        list_spatial_mev_basis,
+        data_coords_projected_train,
+        data_coords_projected_pred,
+        spatial_scale_attributes) {
+      testthat::expect_identical(
+        list_spatial_mev_basis[["basis_id"]],
+        "shared_basis"
+      )
+
+      return(
+        base::data.frame(
+          mev_1 = c(0.1, 0.2)
+        )
+      )
+    }
+
+    list_prediction_inputs <-
+      base::list(
+        mod_jsdm = base::list(species = c("A", "B")),
+        data_model_input = base::list(
+          scale_attributes = base::list(
+            age = base::list("scaled:center" = 0),
+            bio1 = base::list(
+              "scaled:center" = 6,
+              "scaled:scale" = 2
+            )
+          ),
+          spatial_scale_attributes = base::list(
+            mev_1 = base::list(
+              "scaled:center" = 0,
+              "scaled:scale" = 1
+            )
+          )
+        ),
+        data_coords_projected = base::data.frame(
+          coord_x_km = c(0, 1),
+          coord_y_km = c(0, 1)
+        ),
+        data_spatial_mev_core = base::data.frame(
+          mev_1 = c(0.1, 0.2)
+        ),
+        list_spatial_mev_core_basis = base::list(
+          basis_id = "shared_basis"
+        )
+      )
+
+    data_grid <-
+      tibble::tibble(
+        grid_id = c(1L, 2L),
+        coord_long = c(10, 11),
+        coord_lat = c(50, 51)
+      )
+
+    data_coords_projected <-
+      base::data.frame(
+        coord_x_km = c(0, 1),
+        coord_y_km = c(0, 1)
+      )
+    base::rownames(data_coords_projected) <- c("grid_1", "grid_2")
+
+    res <-
+      predict_spatial_resolution_grid_age(
+        prediction_inputs = list_prediction_inputs,
+        data_grid = data_grid,
+        data_grid_coords_projected = data_coords_projected,
+        age = 0,
+        abiotic_variables = "bio1",
+        x_lim = c(10, 11),
+        y_lim = c(50, 51),
+        cache_dir = base::tempdir(),
+        spatial_mode = "spatial",
+        climate_fn = climate_fn,
+        spatial_interpolate_fn = function(...) {
+          cli::cli_abort("Legacy interpolation should not run.")
+        },
+        spatial_basis_project_fn = basis_project_fn,
+        predict_fn = function(object, newdata, SP, type) {
+          testthat::expect_equal(SP[["mev_1"]], c(0.1, 0.2))
+
+          return(
+            base::matrix(
+              c(0.3, 0.7, 0.2, 0.8),
+              nrow = 2,
+              dimnames = base::list(NULL, c("A", "B"))
+            )
+          )
+        }
+      )
+
+    testthat::expect_equal(base::nrow(res), 4L)
+  }
+)
+
+testthat::test_that(
   "predict_spatial_resolution_grid_age() supports spatiotemporal mode",
   {
     climate_fn <- function(

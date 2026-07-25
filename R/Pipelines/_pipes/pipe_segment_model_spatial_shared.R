@@ -55,6 +55,9 @@ pipe_segment_model_spatial_shared <-
         ),
         n_mev = get_active_config(
           value = c("model_fitting", "n_mev")
+        ),
+        spatial_mev = get_active_config(
+          value = c("model_fitting", "spatial_mev")
         )
       ),
       cue = targets::tar_cue(mode = "always")
@@ -67,30 +70,41 @@ pipe_segment_model_spatial_shared <-
       name = "data_coords_projected",
       command = project_coords_to_metric(
         data_coords = data_coords_analysis,
-        target_crs = config_spatial_predictors$spatial_crs
+        target_crs = config_spatial_predictors |>
+          purrr::chuck("spatial_crs")
       )
     ),
     targets::tar_target(
       description = stringr::str_c(
-        "Compute shared 2-D Moran eigenvector maps from ",
-        "unique core km locations"
+        "Compute reusable shared 2-D Moran eigenvector basis from ",
+        "core km locations"
+      ),
+      name = "list_spatial_mev_core_basis",
+      command = compute_shared_spatial_mev_basis(
+        data_coords_projected = data_coords_projected,
+        config_spatial_predictors = config_spatial_predictors
+      )
+    ),
+    targets::tar_target(
+      description = stringr::str_c(
+        "Expose shared 2-D Moran eigenvectors with the existing ",
+        "public data-frame schema"
       ),
       name = "data_spatial_mev_core",
-      command = {
-        if (
-          isFALSE(config_spatial_predictors$use_spatial)
-        ) {
-          NULL
-        } else if (
-          config_spatial_predictors$spatial_mode == "spatial"
-        ) {
-          compute_spatial_mev(
-            data_coords_projected = data_coords_projected,
-            n_mev = config_spatial_predictors$n_mev
-          )
-        } else {
-          NULL
-        }
-      }
+      command = extract_spatial_mev_basis_component(
+        list_spatial_mev_basis = list_spatial_mev_core_basis,
+        component_name = "data_mev"
+      )
+    ),
+    targets::tar_target(
+      description = stringr::str_c(
+        "Record the shared spatial MEM strategy, basis size, ",
+        "projection method, and timing"
+      ),
+      name = "data_spatial_mev_provenance",
+      command = extract_spatial_mev_basis_component(
+        list_spatial_mev_basis = list_spatial_mev_core_basis,
+        component_name = "data_provenance"
+      )
     )
   )

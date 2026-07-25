@@ -11,6 +11,9 @@
 #' [targets::tar_read_raw()].
 #' @param meta_fn
 #' Function used by [read_targets_store_meta()] to read metadata.
+#' @param include_spatial_basis
+#' Logical scalar. When `TRUE`, append the additive reusable 2-D basis target.
+#' Default is `FALSE` to preserve the existing public return schema.
 #' @return
 #' Named list of model, model input, coordinate, and spatial predictor targets.
 #' @examples
@@ -25,7 +28,8 @@ read_spatial_resolution_prediction_inputs <- function(
     store_path,
     resolution_id = "genus",
     read_target_fn = targets::tar_read_raw,
-    meta_fn = targets::tar_meta) {
+    meta_fn = targets::tar_meta,
+    include_spatial_basis = FALSE) {
   assertthat::assert_that(
     base::is.character(store_path) &&
       base::length(store_path) == 1L &&
@@ -48,6 +52,13 @@ read_spatial_resolution_prediction_inputs <- function(
   assertthat::assert_that(
     base::is.function(meta_fn),
     msg = "`meta_fn` must be a function."
+  )
+
+  assertthat::assert_that(
+    base::is.logical(include_spatial_basis),
+    base::length(include_spatial_basis) == 1L,
+    !base::is.na(include_spatial_basis),
+    msg = "`include_spatial_basis` must be TRUE or FALSE."
   )
 
   vec_target_names <-
@@ -108,6 +119,37 @@ read_spatial_resolution_prediction_inputs <- function(
         store = store_path
       )
     )
+
+  res_inputs <-
+    if (
+      include_spatial_basis
+    ) {
+      spatial_basis_target <- "list_spatial_mev_core_basis"
+
+      list_spatial_basis <-
+        if (
+          check_target_succeeded(
+            data_meta = data_meta,
+            target_name = spatial_basis_target
+          )
+        ) {
+          read_target_fn(
+            name = spatial_basis_target,
+            store = store_path
+          )
+        } else {
+          NULL
+        }
+
+      base::c(
+        res_inputs,
+        base::list(
+          list_spatial_mev_core_basis = list_spatial_basis
+        )
+      )
+    } else {
+      res_inputs
+    }
 
   return(res_inputs)
 }

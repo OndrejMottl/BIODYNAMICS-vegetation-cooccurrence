@@ -28,6 +28,12 @@ default:
     error_family: "binomial"
     spatial_crs: 3035
     spatial_mode: "spatial"
+    spatial_mev:
+      strategy: "auto"
+      exact_max_locations: 1999
+      fast_eigenvectors: 200
+      fast_seed: 900723
+      projection_chunk_size: 5000
     use_spatial: true
     use_age_in_formula: true
     age_scale_mode: "z_score"
@@ -405,6 +411,12 @@ project_issue138_modern_spatial_continental_europe_staged:
       tuning_strategy: "staged"
       tuning_context:
         resolution_ids: !expr c("genus")
+project_issue143_modern_spatial_continental_europe_shared_mem:
+  inherits: project_issue138_modern_spatial_continental_europe_staged
+  target_store: Data/targets/issue143_validation/modern_continental_europe
+  model_fitting:
+    cross_validation:
+      tier_id: "issue143_modern_continental_europe_shared_mem"
 project_paleo_temporal_issue138_europe_staged:
   inherits: project_paleo_temporal_europe
   target_store: Data/targets/issue138_validation/temporal_europe_16000

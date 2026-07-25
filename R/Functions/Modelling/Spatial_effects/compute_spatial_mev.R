@@ -1,25 +1,29 @@
 #' @title Compute Moran Eigenvector Maps for Spatial Filtering
 #' @description
-#' Computes Moran Eigenvector Maps (MEMs) from projected
-#' core locations (km) using
-#' `sjSDM::generateSpatialEV()` and returns the first
-#' `n_mev` eigenvectors as a data frame suitable for
-#' `prepare_spatial_predictors_for_fit()`.
+#' Computes Moran Eigenvector Maps (MEMs) from projected core locations using
+#' the shared exact or low-rank strategy and returns the public predictor data
+#' frame used by [prepare_spatial_predictors_for_fit()].
 #' @param data_coords_projected
 #' A data frame with `dataset_name` as row names and
 #' columns `coord_x_km` and `coord_y_km`, as returned by
 #' `project_coords_to_metric()`. Must have more than 3 rows
 #' (required by `sjSDM::generateSpatialEV()`). Each row
-#' represents one unique core/site location.
+#' represents one core/site location.
 #' @param n_mev
 #' A positive integer giving the number of eigenvectors to
-#' return. The actual count of positive Moran eigenvectors
-#' produced by `sjSDM::generateSpatialEV()` for the
-#' supplied coordinates depends on the spatial structure
-#' of the sites and is typically small (often 2). If
-#' `n_mev` exceeds the available count, it is clamped
-#' down automatically and a `cli::cli_warn()` message is
-#' emitted. Default is `20L`.
+#' return. If `n_mev` exceeds the available count, it is clamped down with a
+#' warning. Default is `20L`.
+#' @param strategy
+#' Shared construction strategy: `"exact"`, `"fast"`, or `"auto"`.
+#' Automatic selection uses the shared location boundary.
+#' @param exact_max_locations
+#' Largest input allowed to use dense exact construction. Default is `1999L`.
+#' @param fast_eigenvectors
+#' Low-rank basis size reserved for fast construction. It must be at least
+#' `n_mev`. Default is `200L`.
+#' @param fast_seed
+#' Positive integer used locally for deterministic fast-basis knot selection.
+#' Default is `900723L`.
 #' @return
 #' A data frame with the same row names as
 #' `data_coords_projected`, and `n_mev` columns named
@@ -37,12 +41,11 @@
 #' responsible for expanding to sample level via
 #' `prepare_spatial_predictors_for_fit()`.
 #'
-#' `sjSDM::generateSpatialEV()` returns only eigenvectors
-#' with positive eigenvalues; the count often equals 2 for
-#' 2-D coordinate sets. If `n_mev` exceeds the number of
-#' positive eigenvectors actually produced, the function
-#' automatically lowers `n_mev` to that count, emits a
-#' `cli::cli_warn()` message, and continues normally.
+#' Exact construction uses `sjSDM::generateSpatialEV()`. Fast construction
+#' uses the package-backed Nyström basis from `spmoran::meigen_f()`. This
+#' compatibility wrapper returns only the public values; callers that need
+#' held-out projection state or provenance should use
+#' [compute_spatial_mev_basis()].
 #' @seealso
 #'   [project_coords_to_metric()],
 #'   [prepare_spatial_predictors_for_fit()],
@@ -50,91 +53,23 @@
 #' @export
 compute_spatial_mev <- function(
     data_coords_projected = NULL,
-    n_mev = 20L) {
-  assertthat::assert_that(
-    is.data.frame(data_coords_projected),
-    msg = "data_coords_projected must be a data frame"
-  )
-
-  assertthat::assert_that(
-    all(
-      c("coord_x_km", "coord_y_km") %in%
-        base::names(data_coords_projected)
-    ),
-    msg = paste0(
-      "data_coords_projected must contain columns",
-      " 'coord_x_km' and 'coord_y_km'"
+    n_mev = 20L,
+    strategy = "exact",
+    exact_max_locations = 1999L,
+    fast_eigenvectors = 200L,
+    fast_seed = 900723L) {
+  list_basis <-
+    compute_spatial_mev_basis(
+      data_coords_projected = data_coords_projected,
+      n_mev = n_mev,
+      strategy = strategy,
+      exact_max_locations = exact_max_locations,
+      fast_eigenvectors = fast_eigenvectors,
+      fast_seed = fast_seed
     )
-  )
-
-  assertthat::assert_that(
-    nrow(data_coords_projected) > 3,
-    msg = paste0(
-      "data_coords_projected must have more than 3 rows",
-      " (required by sjSDM::generateSpatialEV())"
-    )
-  )
-
-  assertthat::assert_that(
-    is.numeric(n_mev) || is.integer(n_mev),
-    length(n_mev) == 1,
-    n_mev >= 1,
-    msg = "n_mev must be a single positive integer"
-  )
-
-  n_mev <- base::as.integer(n_mev)
-
-  # 1. Build km-coordinate matrix -----
-
-  mat_coords_km <-
-    data_coords_projected |>
-    dplyr::select(coord_x_km, coord_y_km) |>
-    base::as.matrix()
-
-  # 2. Compute Moran eigenvectors -----
-
-  mat_mev_raw <-
-    sjSDM::generateSpatialEV(
-      coords = mat_coords_km
-    )
-
-  # Force to matrix: sjSDM returns a vector when exactly
-  # one positive eigenvalue is found (drops the dimension)
-  mat_mev_all <-
-    base::as.matrix(mat_mev_raw)
-
-  # 3. Post-call validation: clamp n_mev if needed -----
-
-  n_produced <-
-    base::ncol(mat_mev_all)
-
-  if (
-    n_mev > n_produced
-  ) {
-    cli::cli_warn(
-      c(
-        "{n_mev} MEV(s) requested; only {n_produced} positive.",
-        "i" = "Lowering n_mev from {n_mev} to {n_produced}."
-      )
-    )
-    n_mev <- n_produced
-  }
-
-  # 4. Select first n_mev columns -----
-
-  mat_mev <-
-    mat_mev_all[, base::seq_len(n_mev), drop = FALSE]
-
-  # 5. Coerce to data frame with named columns -----
-
-  vec_col_names <-
-    base::paste0("mev_", base::seq_len(n_mev))
 
   res <-
-    base::as.data.frame(mat_mev)
-
-  base::colnames(res) <- vec_col_names
-  base::rownames(res) <- base::rownames(data_coords_projected)
+    list_basis[["data_mev"]]
 
   return(res)
 }

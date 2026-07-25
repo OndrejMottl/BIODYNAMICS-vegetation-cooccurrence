@@ -27,6 +27,9 @@
 #' element. Used to bring interpolated MEV values onto the
 #' same scale as the training spatial predictors. When `NULL`,
 #' unscaled interpolated values are returned for fold-local scaling.
+#' @param chunk_size
+#' Positive integer limiting the number of prediction locations included in
+#' one distance matrix. Default is `5000L`.
 #' @return
 #' A data frame with the same row names as
 #' `data_coords_projected_pred` and one column per MEV
@@ -53,7 +56,8 @@ interpolate_mev_to_grid <- function(
     data_coords_projected_train = NULL,
     data_mev_core = NULL,
     data_coords_projected_pred = NULL,
-    spatial_scale_attributes = NULL) {
+    spatial_scale_attributes = NULL,
+    chunk_size = 5000L) {
   assertthat::assert_that(
     is.data.frame(data_coords_projected_train),
     all(
@@ -94,6 +98,18 @@ interpolate_mev_to_grid <- function(
     msg = "spatial_scale_attributes must be NULL or a non-empty list"
   )
 
+  assertthat::assert_that(
+    base::is.numeric(chunk_size),
+    base::length(chunk_size) == 1L,
+    base::is.finite(chunk_size),
+    chunk_size >= 1,
+    chunk_size == base::as.integer(chunk_size),
+    msg = "`chunk_size` must be one finite positive integer."
+  )
+
+  chunk_size_integer <-
+    base::as.integer(chunk_size)
+
   # 1. Combine training km coords and unscaled MEV values -----
   vec_mev_cols <-
     base::names(data_mev_core)
@@ -118,38 +134,72 @@ interpolate_mev_to_grid <- function(
     dplyr::select(coord_x_km, coord_y_km) |>
     base::as.matrix()
 
-  # 3. 2-D Euclidean distances (rows = pred, cols = train) -----
-  mat_dist_km <-
-    base::sqrt(
-      base::outer(
-        mat_xy_pred_km[, 1], mat_xy_train_km[, 1], `-`
-      )^2 +
-        base::outer(
-          mat_xy_pred_km[, 2], mat_xy_train_km[, 2], `-`
-        )^2
-    )
-
-  # 4. IDW weights (power = 2, epsilon avoids div-by-zero) -----
-  mat_idw_weights <-
-    1 / (mat_dist_km^2 + 1e-10)
-
-  mat_idw_weights <-
-    mat_idw_weights / base::rowSums(mat_idw_weights)
-
-  # 5. Interpolate unscaled MEV values -----
+  # 3. Prepare training MEV values -----
   mat_train_mev <-
     data_train_mev_coords |>
     dplyr::select(dplyr::all_of(vec_mev_cols)) |>
     base::as.matrix()
 
+  # 4. Interpolate prediction chunks with bounded distance matrices -----
+  vec_pred_rows <-
+    base::seq_len(base::nrow(mat_xy_pred_km))
+
+  vec_chunk_ids <-
+    base::ceiling(vec_pred_rows / chunk_size_integer)
+
+  list_pred_mev_chunks <-
+    base::unique(vec_chunk_ids) |>
+    purrr::map(
+      .f = ~ {
+        vec_selected_rows <-
+          vec_pred_rows[vec_chunk_ids == .x]
+
+        mat_xy_pred_chunk <-
+          mat_xy_pred_km[
+            vec_selected_rows,
+            ,
+            drop = FALSE
+          ]
+
+        mat_dist_km <-
+          base::sqrt(
+            base::outer(
+              mat_xy_pred_chunk[, 1],
+              mat_xy_train_km[, 1],
+              `-`
+            )^2 +
+              base::outer(
+                mat_xy_pred_chunk[, 2],
+                mat_xy_train_km[, 2],
+                `-`
+              )^2
+          )
+
+        mat_idw_weights <-
+          1 / (mat_dist_km^2 + 1e-10)
+
+        mat_idw_weights_normalized <-
+          mat_idw_weights / base::rowSums(mat_idw_weights)
+
+        res_chunk <-
+          mat_idw_weights_normalized %*% mat_train_mev
+
+        return(res_chunk)
+      }
+    )
+
+  mat_pred_mev_raw <-
+    list_pred_mev_chunks |>
+    purrr::reduce(.f = base::rbind)
+
   data_pred_mev_raw <-
-    base::as.data.frame(mat_idw_weights %*% mat_train_mev)
+    base::as.data.frame(mat_pred_mev_raw)
 
   base::colnames(data_pred_mev_raw) <- vec_mev_cols
   base::rownames(data_pred_mev_raw) <-
     base::rownames(data_coords_projected_pred)
 
-  # 6. Scale using training spatial scale attributes -----
+  # 5. Scale using training spatial scale attributes -----
   res <-
     if (
       base::is.null(spatial_scale_attributes)

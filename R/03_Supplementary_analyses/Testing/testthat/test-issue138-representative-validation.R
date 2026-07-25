@@ -176,3 +176,103 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "issue 143 continental validation inherits the shared MEM strategy",
+  {
+    profile_id <-
+      "project_issue143_modern_spatial_continental_europe_shared_mem"
+
+    list_config <-
+      config::get(config = profile_id)
+
+    testthat::expect_identical(
+      list_config |>
+        purrr::chuck("model_fitting", "spatial_mev", "strategy"),
+      "auto"
+    )
+    testthat::expect_identical(
+      list_config |>
+        purrr::chuck(
+          "model_fitting",
+          "spatial_mev",
+          "exact_max_locations"
+        ),
+      1999L
+    )
+    testthat::expect_identical(
+      list_config |>
+        purrr::chuck(
+          "model_fitting",
+          "cross_validation",
+          "tuning_strategy"
+        ),
+      "staged"
+    )
+    testthat::expect_identical(
+      list_config[["target_store"]],
+      "Data/targets/issue143_validation/modern_continental_europe"
+    )
+
+    path_runner <-
+      here::here(
+        "R/02_Main_analyses",
+        "Run_issue143_modern_continental_europe_shared_mem.R"
+      )
+
+    testthat::expect_true(fs::file_exists(path_runner))
+    testthat::expect_match(
+      readr::read_file(path_runner),
+      "run_issue138_representative_validation(",
+      fixed = TRUE
+    )
+    testthat::expect_false(
+      stringr::str_detect(
+        readr::read_file(path_runner),
+        stringr::fixed("model_anova_genus")
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "model fitting configs propagate the shared MEM strategy to folds",
+  {
+    text_shared <-
+      readr::read_file(
+        here::here(
+          "R/Pipelines/_pipes/pipe_segment_config_model.R"
+        )
+      )
+    text_resolution <-
+      readr::read_file(
+        here::here(
+          paste0(
+            "R/Pipelines/_pipes/",
+            "pipe_segment_config_model_by_resolution.R"
+          )
+        )
+      )
+
+    testthat::expect_match(
+      text_shared,
+      'name = "config_spatial_mev"',
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_shared,
+      "spatial_mev = config_spatial_mev",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_resolution,
+      "spatial_mev = get_active_config(",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_resolution,
+      'value = c("model_fitting", "spatial_mev")',
+      fixed = TRUE
+    )
+  }
+)

@@ -22,3 +22,9 @@ Documentation/Functions_test_coverage/
 Documentation/Reports/
 Documentation/Materials/
 Documentation/Progress/
+Documentation/Website/Documentation/Functions/
+
+# Generated presentation artefacts and caches
+Documentation/Presentations/IAVS_2026/figures/
+Documentation/Presentations/IAVS_2026/index_cache/
+Documentation/Presentations/IAVS_2026/_output/

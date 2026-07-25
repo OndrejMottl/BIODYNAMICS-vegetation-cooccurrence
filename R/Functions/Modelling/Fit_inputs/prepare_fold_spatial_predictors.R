@@ -14,10 +14,15 @@
 #' `"spatiotemporal"`.
 #' @param n_mev
 #' Positive integer giving the requested number of Moran eigenvectors.
+#' @param spatial_mev_config
+#' Optional shared 2-D MEM strategy configuration. When `NULL`, the legacy
+#' compute and interpolation functions are retained for compatibility tests.
 #' @param compute_spatial_function,compute_spatiotemporal_function
 #' Functions used to compute 2-D and spatiotemporal Moran eigenvectors.
 #' @param interpolate_spatial_function,interpolate_spatiotemporal_function
 #' Functions used to project training Moran eigenvectors to held-out samples.
+#' @param compute_spatial_basis_function,project_spatial_basis_function
+#' Functions used to construct and project an explicit reusable 2-D basis.
 #' @return
 #' Named list with unscaled training and held-out spatial predictor data
 #' frames plus fold-level spatial diagnostics, including requested, available,
@@ -42,10 +47,13 @@ prepare_fold_spatial_predictors <- function(
     test_ids = NULL,
     spatial_mode = NULL,
     n_mev = NULL,
+    spatial_mev_config = NULL,
     compute_spatial_function = compute_spatial_mev,
     compute_spatiotemporal_function = compute_spatiotemporal_mev,
     interpolate_spatial_function = interpolate_mev_to_grid,
-    interpolate_spatiotemporal_function = interpolate_st_mev_to_grid) {
+    interpolate_spatiotemporal_function = interpolate_st_mev_to_grid,
+    compute_spatial_basis_function = compute_spatial_mev_basis,
+    project_spatial_basis_function = project_spatial_mev_basis) {
   assertthat::assert_that(
     base::is.data.frame(data_coords_projected),
     base::all(
@@ -109,12 +117,20 @@ prepare_fold_spatial_predictors <- function(
       compute_spatial_function,
       compute_spatiotemporal_function,
       interpolate_spatial_function,
-      interpolate_spatiotemporal_function
+      interpolate_spatiotemporal_function,
+      compute_spatial_basis_function,
+      project_spatial_basis_function
     )
 
   assertthat::assert_that(
     base::all(purrr::map_lgl(list_functions, base::is.function)),
     msg = "All compute and interpolation arguments must be functions."
+  )
+
+  assertthat::assert_that(
+    base::is.null(spatial_mev_config) ||
+      base::is.list(spatial_mev_config),
+    msg = "`spatial_mev_config` must be NULL or a list."
   )
 
   data_samples_identified <-
@@ -212,11 +228,35 @@ prepare_fold_spatial_predictors <- function(
     if (
       spatial_mode == "spatial"
     ) {
+      list_spatial_basis <-
+        if (
+          base::is.null(spatial_mev_config)
+        ) {
+          NULL
+        } else {
+          compute_spatial_basis_function(
+            data_coords_projected = data_coords_train,
+            n_mev = n_mev,
+            strategy = spatial_mev_config[["strategy"]],
+            exact_max_locations =
+              spatial_mev_config[["exact_max_locations"]],
+            fast_eigenvectors =
+              spatial_mev_config[["fast_eigenvectors"]],
+            fast_seed = spatial_mev_config[["fast_seed"]]
+          )
+        }
+
       data_mev_core <-
-        compute_spatial_function(
-          data_coords_projected = data_coords_train,
-          n_mev = n_mev
-        )
+        if (
+          base::is.null(list_spatial_basis)
+        ) {
+          compute_spatial_function(
+            data_coords_projected = data_coords_train,
+            n_mev = n_mev
+          )
+        } else {
+          list_spatial_basis[["data_mev"]]
+        }
 
       data_train_raw_unordered <-
         prepare_spatial_predictors_for_fit(
@@ -236,16 +276,36 @@ prepare_fold_spatial_predictors <- function(
         tibble::column_to_rownames(".row_name")
 
       data_test_raw_unordered <-
-        interpolate_spatial_function(
-          data_coords_projected_train = data_coords_train,
-          data_mev_core = data_mev_core,
-          data_coords_projected_pred = data_test_coords,
-          spatial_scale_attributes = NULL
-        )
+        if (
+          base::is.null(list_spatial_basis)
+        ) {
+          interpolate_spatial_function(
+            data_coords_projected_train = data_coords_train,
+            data_mev_core = data_mev_core,
+            data_coords_projected_pred = data_test_coords,
+            spatial_scale_attributes = NULL
+          )
+        } else {
+          project_spatial_basis_function(
+            list_spatial_mev_basis = list_spatial_basis,
+            data_coords_projected_train = data_coords_train,
+            data_coords_projected_pred = data_test_coords,
+            spatial_scale_attributes = NULL,
+            projection_chunk_size =
+              spatial_mev_config[["projection_chunk_size"]]
+          )
+        }
 
       base::list(
         train = data_train_raw_unordered,
-        test = data_test_raw_unordered
+        test = data_test_raw_unordered,
+        provenance = if (
+          base::is.null(list_spatial_basis)
+        ) {
+          NULL
+        } else {
+          list_spatial_basis[["data_provenance"]]
+        }
       )
     } else {
       data_samples_train <-
@@ -308,7 +368,8 @@ prepare_fold_spatial_predictors <- function(
 
       base::list(
         train = data_train_raw_unordered,
-        test = data_test_raw_unordered
+        test = data_test_raw_unordered,
+        provenance = NULL
       )
     }
 
@@ -384,7 +445,8 @@ prepare_fold_spatial_predictors <- function(
     base::list(
       data_spatial_train = data_spatial_train,
       data_spatial_test = data_spatial_test,
-      data_diagnostics = data_diagnostics
+      data_diagnostics = data_diagnostics,
+      data_provenance = list_spatial_raw[["provenance"]]
     )
 
   return(res)
