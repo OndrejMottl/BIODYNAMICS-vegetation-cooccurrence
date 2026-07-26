@@ -363,7 +363,14 @@ pipe_segment_model_cross_validation <-
       description = "Prepare each tuning fold once",
       name = "list_sjsdm_prepared_tuning_folds",
       command = prepare_sjsdm_tuning_folds(
-        data_assignments = data_cross_validation_assignments,
+        data_assignments = if (
+          data_cross_validation_feasibility[["cv_strategy"]][[1L]] ==
+            "none"
+        ) {
+          data_cross_validation_assignments[0L, , drop = FALSE]
+        } else {
+          data_cross_validation_assignments
+        },
         prepare_fold_function = function(
             train_indices,
             test_indices,
@@ -388,9 +395,19 @@ pipe_segment_model_cross_validation <-
       description = "Build every deterministic candidate-fold work item",
       name = "data_sjsdm_all_tuning_work_items",
       command = {
+        data_tuning_assignments <-
+          if (
+            data_cross_validation_feasibility[["cv_strategy"]][[1L]] ==
+              "none"
+          ) {
+            data_cross_validation_assignments[0L, , drop = FALSE]
+          } else {
+            data_cross_validation_assignments
+          }
+
         data_work_items <-
           build_sjsdm_tuning_work_items(
-            data_assignments = data_cross_validation_assignments,
+            data_assignments = data_tuning_assignments,
             data_candidates = data_sjsdm_regularization_candidates,
             seed = purrr::chuck(
               config_model_fitting,
@@ -399,10 +416,15 @@ pipe_segment_model_cross_validation <-
             )
           )
 
-        validate_sjsdm_tuning_repeat_coverage(
-          data_work_items = data_work_items,
-          data_schedule = data_sjsdm_tuning_schedule
-        )
+        if (
+          data_cross_validation_feasibility[["cv_strategy"]][[1L]] !=
+            "none"
+        ) {
+          validate_sjsdm_tuning_repeat_coverage(
+            data_work_items = data_work_items,
+            data_schedule = data_sjsdm_tuning_schedule
+          )
+        }
 
         data_work_items
       }
@@ -411,6 +433,11 @@ pipe_segment_model_cross_validation <-
       description = "Discover completed tier-wide tuning decisions",
       name = "list_sjsdm_available_tier_decisions",
       command = if (
+        data_cross_validation_feasibility[["cv_strategy"]][[1L]] ==
+          "none"
+      ) {
+        base::list()
+      } else if (
         data_sjsdm_tuning_schedule[["tuning_strategy"]][[1L]] ==
           "exhaustive"
       ) {
@@ -450,6 +477,11 @@ pipe_segment_model_cross_validation <-
       description = "Authorize cumulative staged tuning work items",
       name = "data_sjsdm_tuning_work_items",
       command = if (
+        data_cross_validation_feasibility[["cv_strategy"]][[1L]] ==
+          "none"
+      ) {
+        data_sjsdm_all_tuning_work_items
+      } else if (
         data_sjsdm_tuning_schedule[["tuning_strategy"]][[1L]] ==
           "exhaustive"
       ) {
@@ -465,10 +497,18 @@ pipe_segment_model_cross_validation <-
       iteration = "vector"
     ),
     targets::tar_target(
+      description = "Guarantee a branch without materializing a model fit",
+      name = "data_sjsdm_tuning_branch_work_items",
+      command = make_sjsdm_tuning_branch_work_items(
+        data_work_items = data_sjsdm_tuning_work_items
+      ),
+      iteration = "vector"
+    ),
+    targets::tar_target(
       description = "Execute one restartable candidate-fold fit",
       name = "list_sjsdm_tuning_work_item_result",
       command = run_sjsdm_tuning_work_item(
-        data_work_item = data_sjsdm_tuning_work_items,
+        data_work_item = data_sjsdm_tuning_branch_work_items,
         list_prepared_folds = list_sjsdm_prepared_tuning_folds,
         fit_function = function(data_train_input, candidate, seed) {
           fit_sjsdm_regularization_candidate(
@@ -488,7 +528,7 @@ pipe_segment_model_cross_validation <-
         score_function = score_sjsdm_joint_tuning_predictions,
         epsilon = 1e-6
       ),
-      pattern = map(data_sjsdm_tuning_work_items),
+      pattern = map(data_sjsdm_tuning_branch_work_items),
       iteration = "list"
     ),
     targets::tar_target(
@@ -560,25 +600,39 @@ pipe_segment_model_cross_validation <-
     targets::tar_target(
       description = "Select one unit-CV regularization candidate",
       name = "data_sjsdm_selected_regularization_unit",
-      command = select_sjsdm_regularization(
-        data_tuning_summary = data_sjsdm_tuning_summary,
-        selection_metric = purrr::chuck(
-          config_model_fitting,
-          "cross_validation",
-          "selection_metric"
+      command = if (
+        data_cross_validation_feasibility[["cv_strategy"]][[1L]] ==
+          "none"
+      ) {
+        tibble::tibble()
+      } else {
+        select_sjsdm_regularization(
+          data_tuning_summary = data_sjsdm_tuning_summary,
+          selection_metric = purrr::chuck(
+            config_model_fitting,
+            "cross_validation",
+            "selection_metric"
+          )
         )
-      )
+      }
     ),
     targets::tar_target(
       description = "Read compatible shared tier regularization",
       name = "data_sjsdm_tier_regularization_artifact",
-      command = read_sjsdm_tier_tuning_artifact(
-        store_path = here::here(
-          get_active_config("target_store"),
-          "pipeline_sjsdm_tier_tuning"
-        ),
-        data_model_context = data_sjsdm_model_context
-      ),
+      command = if (
+        data_cross_validation_feasibility[["cv_feasibility_status"]][[1L]] ==
+          "full_model_infeasible"
+      ) {
+        tibble::tibble()
+      } else {
+        read_sjsdm_tier_tuning_artifact(
+          store_path = here::here(
+            get_active_config("target_store"),
+            "pipeline_sjsdm_tier_tuning"
+          ),
+          data_model_context = data_sjsdm_model_context
+        )
+      },
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
@@ -595,14 +649,21 @@ pipe_segment_model_cross_validation <-
     targets::tar_target(
       description = "Assemble selected OOF predictions from tuning cache",
       name = "list_sjsdm_selected_fold_predictions",
-      command = assemble_sjsdm_cached_selected_folds(
-        data_assignments = data_cross_validation_assignments,
-        data_selected_candidate = model_regularization_for_fit,
-        data_sample_ids = data_sample_ids_checked,
-        taxon_names = base::colnames(data_community_model_matrix),
-        list_prediction_cache =
-          list_sjsdm_tuning_prediction_cache
-      )
+      command = if (
+        data_cross_validation_feasibility[["cv_strategy"]][[1L]] ==
+          "none"
+      ) {
+        make_sjsdm_empty_selected_fold_artifacts()
+      } else {
+        assemble_sjsdm_cached_selected_folds(
+          data_assignments = data_cross_validation_assignments,
+          data_selected_candidate = model_regularization_for_fit,
+          data_sample_ids = data_sample_ids_checked,
+          taxon_names = base::colnames(data_community_model_matrix),
+          list_prediction_cache =
+            list_sjsdm_tuning_prediction_cache
+        )
+      }
     ),
     targets::tar_target(
       description = "Selected-candidate out-of-fold prediction table",

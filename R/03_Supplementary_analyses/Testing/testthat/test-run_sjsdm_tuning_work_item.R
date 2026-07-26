@@ -143,6 +143,73 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "run_sjsdm_tuning_work_item() skips an inapplicable sentinel",
+  {
+    data_work_items <-
+      build_sjsdm_tuning_work_items(
+        data_assignments = tibble::tibble(
+          repeat_id = base::integer(),
+          fold_id = base::integer(),
+          location_id = base::character(),
+          n_samples = base::integer(),
+          row_indices = base::list()
+        ),
+        data_candidates = make_sjsdm_regularization_candidates(
+          alpha_cov = 0.5,
+          alpha_coef = 0.5,
+          alpha_spatial = 0.5,
+          lambda_cov = 0,
+          lambda_coef = 0,
+          lambda_spatial = 0
+        )
+      )
+
+    data_branch_items <-
+      make_sjsdm_tuning_branch_work_items(
+        data_work_items = data_work_items
+      )
+
+    callback_called <- FALSE
+
+    callback <- function(...) {
+      callback_called <<- TRUE
+      base::stop("The no-model sentinel executed a callback.")
+    }
+
+    res <-
+      run_sjsdm_tuning_work_item(
+        data_work_item = data_branch_items,
+        list_prepared_folds = base::list(),
+        fit_function = callback,
+        predict_function = callback,
+        score_function = callback
+      )
+
+    testthat::expect_false(callback_called)
+    testthat::expect_equal(
+      res[["work_item_id"]],
+      "sjsdm_cv_not_applicable"
+    )
+    testthat::expect_equal(base::nrow(res[["data_tuning"]]), 0L)
+    testthat::expect_null(res[["list_prediction_cache"]])
+
+    data_combined <-
+      combine_sjsdm_tuning_work_items(
+        list_work_item_results = base::list(res)
+      )
+
+    testthat::expect_equal(
+      base::nrow(data_combined[["data_tuning"]]),
+      0L
+    )
+    testthat::expect_length(
+      data_combined[["list_prediction_cache"]],
+      0L
+    )
+  }
+)
+
+testthat::test_that(
   "granular and monolithic tuning execution are equivalent",
   {
     data_assignments <-

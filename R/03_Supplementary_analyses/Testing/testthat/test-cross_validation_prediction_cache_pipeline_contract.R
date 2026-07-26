@@ -67,12 +67,22 @@ testthat::test_that(
         )
         testthat::expect_match(
           text_pipe,
-          "pattern = map(data_sjsdm_tuning_work_items)",
+          "make_sjsdm_tuning_branch_work_items(",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
+          "pattern = map(data_sjsdm_tuning_branch_work_items)",
           fixed = TRUE
         )
         testthat::expect_match(
           text_pipe,
           "assemble_sjsdm_cached_selected_folds(",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
+          "make_sjsdm_empty_selected_fold_artifacts()",
           fixed = TRUE
         )
         testthat::expect_false(

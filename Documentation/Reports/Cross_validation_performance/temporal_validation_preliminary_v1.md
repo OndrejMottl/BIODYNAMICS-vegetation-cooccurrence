@@ -3,7 +3,7 @@
 Date: 2026-07-26  
 Branch: `issue138-production-staged`  
 Status: preliminary; Europe and America temporal gates passed; no Asia slice
-is currently applicable
+is currently applicable; the shared no-model short circuit is validated
 
 ## Clean Europe run
 
@@ -161,15 +161,80 @@ terminated by the calling shell timeout while its child R process continued,
 so this run is correctness evidence only and has no valid monitored-resource
 summary.
 
-The failed 6,500- and 7,000-year stores are retained. Together they show that
-the shared engine fails closed for missing repeats, but does not yet short
-circuit tuning when feasibility has already selected no model.
+The failed 6,500- and 7,000-year stores are retained. At that point, they
+showed that the shared engine failed closed for missing repeats but did not
+yet short circuit tuning when feasibility had already selected no model.
+
+## Shared no-model short circuit
+
+The shared engine now stops before fold preparation whenever feasibility
+selects `cv_strategy = "none"`. The public work-item table remains a typed
+zero-row artifact. A single internal `tuning_applicable = FALSE` sentinel
+allows `{targets}` to materialize its dynamic branch without calling model
+fitting, prediction, or scoring code.
+
+The same shared path now:
+
+- returns typed zero-row tuning metrics, prediction caches, stage timings,
+  OOF predictions, and fold diagnostics;
+- resolves regularization to `selection_status =
+  "full_model_infeasible"` without a candidate ID;
+- returns the existing three-metric cross-validation summary with
+  `not_available_fold_infeasible` statuses;
+- records zero fold fits in model provenance;
+- returns `NULL` for the final model; and
+- stops the unit/tier orchestration before tier aggregation and later rounds
+  when every successfully read unit tuning summary is empty.
+
+The orchestration evidence check remains fail-closed: every requested
+store/target combination must be readable and must contain a data frame.
+Mixed tiers continue whenever at least one unit contributes candidate
+evidence.
+
+## Resumed Asia 7,000-year validation
+
+The retained Asia 7,000-year store was resumed without repeating the earlier
+70 diagnostic fits. The invalidated target graph completed 31 targets and
+skipped 209 cached targets; `{targets}` reported 7.6 seconds of target work.
+
+The rebuilt artifacts contained:
+
+- zero public tuning work items;
+- one internal no-op branch sentinel;
+- zero candidate metrics and zero tuning-summary rows;
+- zero OOF predictions and zero fold diagnostics with preserved schemas;
+- one provenance row with `cv_strategy = "none"`,
+  `cv_feasibility_status = "full_model_infeasible"`,
+  `selection_status = "full_model_infeasible"`, and zero successful or total
+  fold fits;
+- three community evaluation rows with zero evaluable taxa and
+  `not_available_fold_infeasible`; and
+- a `NULL` final model.
+
+No target error or warning was recorded for these public artifacts.
+
+## Regression validation
+
+Focused no-model, orchestration, prediction-cache, OOF evaluation, timing,
+regularization, and provenance tests passed. The complete suite passed 3,984
+assertions with zero failures or warnings and one expected opt-in VegVault
+integration skip.
+
+The required fresh CZ workflows also completed:
+
+- paleo core: 222 completed and 43 expected skipped targets;
+- paleo resolution: 363 completed and 43 expected skipped targets; and
+- modern resolution: 2,203 completed targets.
+
+All three stores contained zero target errors. Recorded warnings were existing
+package-build, configuration-expression, classification-coverage, and
+zero-variance-predictor notices rather than CV or model failures.
 
 ## Next gate
 
-Add a shared pre-fit feasibility short circuit so `cv_strategy = "none"`
-produces compatible typed no-model artifacts without candidate fits or OOF
-cache assembly. Validate that behavior with focused tests and a resumed Asia
-diagnostic. Asia should be recorded as not applicable to staged-performance
-comparison unless a future data/configuration change yields a slice that
-passes the existing scientific safeguards.
+Asia remains not applicable to staged-performance comparison unless a future
+data or configuration change yields a slice that passes the existing
+scientific safeguards. No Asia-specific threshold or fallback is warranted.
+The next Issue 138 gate is final review of the production-staged change set
+and consolidation of the CZ, continental, Europe, America, and no-model
+evidence for the pull request and Issue 141 decision record.

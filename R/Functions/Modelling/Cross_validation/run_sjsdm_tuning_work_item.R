@@ -3,7 +3,8 @@
 #' Fits, predicts, and scores one deterministic candidate/fold work item using
 #' a previously prepared fold.
 #' @param data_work_item
-#' One-row work item from [build_sjsdm_tuning_work_items()].
+#' One-row work item from [make_sjsdm_tuning_branch_work_items()]. The optional
+#' `tuning_applicable = FALSE` sentinel returns without fitting.
 #' @param list_prepared_folds
 #' Prepared fold list from [prepare_sjsdm_tuning_folds()].
 #' @param fit_function,predict_function,score_function
@@ -54,6 +55,41 @@ run_sjsdm_tuning_work_item <- function(
     base::is.function(score_function),
     msg = "Granular tuning work-item inputs are incomplete."
   )
+
+  tuning_applicable <-
+    if (
+      "tuning_applicable" %in% base::colnames(data_work_item)
+    ) {
+      data_work_item[["tuning_applicable"]][[1L]]
+    } else {
+      TRUE
+    }
+
+  assertthat::assert_that(
+    base::is.logical(tuning_applicable),
+    base::length(tuning_applicable) == 1L,
+    !base::is.na(tuning_applicable),
+    msg = "tuning_applicable must be one non-missing logical value."
+  )
+
+  if (
+    !tuning_applicable
+  ) {
+    data_empty_tuning <-
+      combine_sjsdm_tuning_work_items(
+        list_work_item_results = base::list()
+      ) |>
+      purrr::chuck("data_tuning")
+
+    res_not_applicable <-
+      base::list(
+        work_item_id = data_work_item[["work_item_id"]][[1L]],
+        data_tuning = data_empty_tuning,
+        list_prediction_cache = NULL
+      )
+
+    return(res_not_applicable)
+  }
 
   fold_key <-
     data_work_item[["fold_key"]][[1L]]
