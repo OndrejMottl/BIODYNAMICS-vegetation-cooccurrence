@@ -31,19 +31,19 @@ pipelines must consume the same implementation.
 8. Freeze the selected design, rejected alternatives, benchmark evidence,
    public contract, and allowable regression for issue 141.
 
-## Current implementation boundary
+## Completed implementation boundary
 
-Steps 1--6 are complete. Exact prediction reuse, deterministic work items,
-tier-wide survivor selection, isolated round orchestration, and restartable
-execution are integrated into the shared engine. Three clean paired CZ
-repetitions passed the approved version-two computational and scientific
-gates. Representative paleo and modern continental validations also completed
-without CV or GPU-memory failure after the shared spatial-MEM scalability fix.
+Steps 1--8 are complete. Exact prediction reuse, deterministic work items,
+tier-wide survivor selection, isolated round orchestration, restartable
+execution, and the shared no-model short circuit are integrated into the
+common engine. Three clean paired CZ repetitions passed the approved
+version-two computational and scientific gates. Representative paleo and
+modern continental validations also completed without CV or GPU-memory
+failure after the shared spatial-MEM scalability fix.
 
 The production default is switched to `staged` on
 `issue138-production-staged`; reduced CZ and explicit exhaustive reference
-profiles remain `exhaustive`. The remaining step-7 gate is representative
-Europe, America, and Asia temporal-slice validation.
+profiles remain `exhaustive`.
 
 A clean Europe 16,000-year diagnostic exposed a single-repeat
 leave-one-location-out fallback that is incompatible with the three-round
@@ -55,9 +55,20 @@ The comparable 6,500-year slice supplies three grouped five-fold repeats in
 Europe and is configured for all three temporal validation regions.
 Representative runners end at final-model, cross-validated evaluation, and
 provenance targets so the separate ANOVA workload cannot obscure CV
-acceptance timing. Diagnostic evidence is recorded in
+acceptance timing.
+
+Comparable Europe and America 6,500-year temporal validations passed. No Asia
+slice currently passes the existing scientific safeguards for staged
+comparison. The shared engine now handles `full_model_infeasible` units with
+zero fits and compatible typed artifacts instead of introducing an
+Asia-specific fallback.
+
+Temporal evidence is recorded in
 `Documentation/Reports/Cross_validation_performance/`
-`temporal_validation_preliminary_v1.md`.
+`temporal_validation_preliminary_v1.md`. The accepted design, rejected
+alternatives, frozen public contract, benchmark decision, and allowable
+Issue 141 regression are consolidated in
+`Documentation/Reports/Cross_validation_performance/issue141_handoff_v1.md`.
 
 ## Mandatory safeguards
 
