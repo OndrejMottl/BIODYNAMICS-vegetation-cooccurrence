@@ -30,7 +30,7 @@ testthat::test_that(
           tibble::tibble(
             script = sel_script,
             suffix = dplyr::coalesce(store_suffix, "tier"),
-            targets = base::paste(target_names, collapse = ","),
+            targets = stringr::str_c(target_names, collapse = ","),
             max_round = base::Sys.getenv(
               "SJSMD_TUNING_MAX_ROUND",
               unset = ""
@@ -42,7 +42,7 @@ testthat::test_that(
           )
         )
 
-      return(invisible(NULL))
+      return(base::invisible(NULL))
     }
 
     res <-
@@ -54,7 +54,8 @@ testthat::test_that(
         fresh_run = TRUE,
         tuning_strategy = "staged",
         n_rounds = 3L,
-        run_pipeline_function = run_pipeline_function
+        run_pipeline_function = run_pipeline_function,
+        has_tuning_evidence_function = function(...) TRUE
       )
 
     data_calls <-
@@ -130,7 +131,7 @@ testthat::test_that(
       environment_calls[["n"]] <-
         environment_calls[["n"]] + 1L
 
-      return(invisible(NULL))
+      return(base::invisible(NULL))
     }
 
     res <-
@@ -140,7 +141,8 @@ testthat::test_that(
         unit_store_suffixes = base::c("unit_a", "unit_b"),
         tuning_strategy = "exhaustive",
         n_rounds = 3L,
-        run_pipeline_function = run_pipeline_function
+        run_pipeline_function = run_pipeline_function,
+        has_tuning_evidence_function = function(...) TRUE
       )
 
     testthat::expect_null(res)
@@ -160,7 +162,7 @@ testthat::test_that(
       environment_calls[["n"]] <-
         environment_calls[["n"]] + 1L
 
-      return(invisible(NULL))
+      return(base::invisible(NULL))
     }
 
     run_sjsdm_tuning_sequence(
@@ -168,10 +170,78 @@ testthat::test_that(
       tuning_target_names = "summary_timeslice_0",
       tuning_strategy = "staged",
       n_rounds = 3L,
-      run_pipeline_function = run_pipeline_function
+      run_pipeline_function = run_pipeline_function,
+      has_tuning_evidence_function = function(...) TRUE
     )
 
     testthat::expect_identical(environment_calls[["n"]], 6L)
+  }
+)
+
+testthat::test_that(
+  "run_sjsdm_tuning_sequence() stops when all unit evidence is empty",
+  {
+    environment_calls <- base::new.env(parent = base::emptyenv())
+    environment_calls[["data"]] <- tibble::tibble()
+    environment_calls[["evidence_checks"]] <- 0L
+
+    run_pipeline_function <- function(
+        sel_script,
+        store_suffix = NULL,
+        ...) {
+      environment_calls[["data"]] <-
+        dplyr::bind_rows(
+          environment_calls[["data"]],
+          tibble::tibble(
+            script = sel_script,
+            suffix = dplyr::coalesce(store_suffix, "tier")
+          )
+        )
+
+      return(base::invisible(NULL))
+    }
+
+    has_tuning_evidence_function <- function(store_paths, target_names) {
+      environment_calls[["evidence_checks"]] <-
+        environment_calls[["evidence_checks"]] + 1L
+
+      testthat::expect_setequal(
+        store_paths,
+        base::file.path(
+          "targets_root",
+          base::c("unit_a", "unit_b"),
+          "unit_pipeline"
+        )
+      )
+      testthat::expect_identical(target_names, "summary_genus")
+
+      return(FALSE)
+    }
+
+    res <-
+      run_sjsdm_tuning_sequence(
+        unit_pipeline = "unit_pipeline.R",
+        tuning_target_names = "summary_genus",
+        unit_store_suffixes = base::c("unit_a", "unit_b"),
+        tuning_strategy = "staged",
+        n_rounds = 3L,
+        run_pipeline_function = run_pipeline_function,
+        has_tuning_evidence_function = has_tuning_evidence_function,
+        target_store = "targets_root"
+      )
+
+    testthat::expect_null(res)
+    testthat::expect_identical(
+      environment_calls[["data"]],
+      tibble::tibble(
+        script = base::rep("unit_pipeline.R", 2L),
+        suffix = base::c("unit_a", "unit_b")
+      )
+    )
+    testthat::expect_identical(
+      environment_calls[["evidence_checks"]],
+      1L
+    )
   }
 )
 

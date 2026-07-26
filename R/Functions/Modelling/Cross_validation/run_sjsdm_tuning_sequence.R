@@ -21,6 +21,11 @@
 #' Positive integer configured repeat/tuning-round count.
 #' @param run_pipeline_function
 #' Injectable pipeline runner. Defaults to [run_pipeline()].
+#' @param has_tuning_evidence_function
+#' Injectable fail-closed evidence checker. Defaults to
+#' [has_sjsdm_tuning_evidence()].
+#' @param target_store
+#' Root targets-store path. Defaults to the active configuration value.
 #' @return
 #' Invisible `NULL`. Pipeline stores contain the durable results.
 #' @export
@@ -32,7 +37,9 @@ run_sjsdm_tuning_sequence <- function(
     fresh_run = FALSE,
     tuning_strategy = NULL,
     n_rounds = NULL,
-    run_pipeline_function = run_pipeline) {
+    run_pipeline_function = run_pipeline,
+    has_tuning_evidence_function = has_sjsdm_tuning_evidence,
+    target_store = get_active_config("target_store")) {
   assertthat::assert_that(
     base::is.character(unit_pipeline),
     base::length(unit_pipeline) == 1L,
@@ -97,8 +104,40 @@ run_sjsdm_tuning_sequence <- function(
     base::is.function(run_pipeline_function),
     msg = "run_pipeline_function must be a function."
   )
+  assertthat::assert_that(
+    base::is.function(has_tuning_evidence_function),
+    msg = "has_tuning_evidence_function must be a function."
+  )
+  assertthat::assert_that(
+    base::is.character(target_store),
+    base::length(target_store) == 1L,
+    !base::is.na(target_store),
+    base::nzchar(target_store),
+    msg = "target_store must be one non-empty path."
+  )
   n_rounds <-
     base::as.integer(n_rounds)
+
+  sel_pipeline_name <-
+    unit_pipeline |>
+    base::basename() |>
+    tools::file_path_sans_ext()
+
+  vec_unit_store_paths <-
+    if (
+      base::is.null(unit_store_suffixes)
+    ) {
+      base::file.path(
+        target_store,
+        sel_pipeline_name
+      )
+    } else {
+      base::file.path(
+        target_store,
+        unit_store_suffixes,
+        sel_pipeline_name
+      )
+    }
 
   if (
     tuning_strategy == "staged" && n_rounds != 3L
@@ -117,7 +156,9 @@ run_sjsdm_tuning_sequence <- function(
       1L
     }
 
-  for (round_id in vec_round_ids) {
+  for (
+    round_id in vec_round_ids
+  ) {
     fresh_round <-
       fresh_run && round_id == 1L
     prebuild_round <-
@@ -141,7 +182,9 @@ run_sjsdm_tuning_sequence <- function(
         )
       )
     } else {
-      for (store_suffix in unit_store_suffixes) {
+      for (
+        store_suffix in unit_store_suffixes
+      ) {
         withr::with_envvar(
           new = base::c(
             SJSMD_TUNING_MAX_ROUND = base::as.character(round_id)
@@ -156,6 +199,28 @@ run_sjsdm_tuning_sequence <- function(
           )
         )
       }
+    }
+
+    flag_has_tuning_evidence <-
+      has_tuning_evidence_function(
+        store_paths = vec_unit_store_paths,
+        target_names = tuning_target_names
+      )
+
+    assertthat::assert_that(
+      base::is.logical(flag_has_tuning_evidence),
+      base::length(flag_has_tuning_evidence) == 1L,
+      !base::is.na(flag_has_tuning_evidence),
+      msg = stringr::str_c(
+        "has_tuning_evidence_function must return one ",
+        "non-missing logical value."
+      )
+    )
+
+    if (
+      !flag_has_tuning_evidence
+    ) {
+      return(base::invisible(NULL))
     }
 
     if (

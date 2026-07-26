@@ -164,11 +164,13 @@ targets_models_by_age <-
 # pipe_segment_network_summary_by_age similarly indexes
 #   targets_models_by_age[["data_network_metrics"]] at source time.
 source(
-  file = file.path(path_pipe_parts, "pipe_segment_model_summary_by_age.R")
+  file = file.path(path_pipe_parts, "pipe_segment_model_summary_by_age.R"),
+  local = TRUE
 )
 
 source(
-  file = file.path(path_pipe_parts, "pipe_segment_network_summary_by_age.R")
+  file = file.path(path_pipe_parts, "pipe_segment_network_summary_by_age.R"),
+  local = TRUE
 )
 
 #--------------------------------------------------#

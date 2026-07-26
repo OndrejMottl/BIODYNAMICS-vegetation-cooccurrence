@@ -4,6 +4,14 @@ Canonical git, branch, worktree, review, and merge workflow guidance for this re
 
 # Git Workflow Instructions
 
+## Commit Message Requests
+
+Before suggesting, generating, or reviewing any commit message, read
+`.github/commit-instructions.md` in the current turn. Treat that file as the
+canonical source for commit-message format, subject selection, banned words,
+length, and response shape. Do not rely on remembered conventions or general
+commit-message styles.
+
 ## CRITICAL: The User Is in Full Control of Version Control
 
 **Never perform any state-changing git operation without explicit user instruction.** The user must ask for it by name (e.g. "please commit", "push this", "merge the branch"). Do not infer intent â€” always wait for a direct request.

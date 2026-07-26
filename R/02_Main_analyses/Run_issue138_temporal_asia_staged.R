@@ -19,8 +19,8 @@ run_issue138_representative_validation(
   final_target_names = base::c(
     "model_jsdm_selected_timeslice_6500",
     "model_evaluation_cross_validated_timeslice_6500",
-    "data_sjsdm_model_provenance_timeslice_6500",
-    "model_anova_timeslice_6500"
+    "data_sjsdm_model_provenance_timeslice_6500"
   ),
-  prebuild_interpolation = TRUE
+  prebuild_interpolation = TRUE,
+  fresh_run = FALSE
 )

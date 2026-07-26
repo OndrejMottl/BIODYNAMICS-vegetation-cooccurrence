@@ -262,6 +262,29 @@ run_pipeline <- function(
           vec_prebuild_target_name <- data_prebuild_target_meta[["name"]]
           vec_prebuild_error <- data_prebuild_target_meta[["error"]]
 
+          vec_shared_target_names <-
+            base::c(
+              "data_community_proportions_shared",
+              "data_age_uncertainty_shared"
+            )
+
+          vec_shared_targets_to_refresh <-
+            base::intersect(
+              vec_shared_target_names,
+              vec_prebuild_target_name
+            )
+
+          if (
+            base::length(vec_shared_targets_to_refresh) > 0L
+          ) {
+            targets::tar_invalidate(
+              names = tidyselect::all_of(
+                vec_shared_targets_to_refresh
+              ),
+              store = sel_store_path
+            )
+          }
+
           flag_prebuild_interpolation_target <-
             stringr::str_detect(
               string = vec_prebuild_target_name,
@@ -304,12 +327,19 @@ run_pipeline <- function(
             )
           }
 
-          targets::tar_make(
-            names = tidyselect::all_of("data_community_interpolated"),
-            script = sel_script_path,
-            store = sel_store_path,
-            reporter = "verbose",
-            callr_function = callr_function
+          base::tryCatch(
+            targets::tar_make(
+              names = tidyselect::all_of(
+                "data_community_interpolated"
+              ),
+              script = sel_script_path,
+              store = sel_store_path,
+              reporter = "verbose",
+              callr_function = NULL
+            ),
+            finally = targets::tar_unblock_process(
+              store = sel_store_path
+            )
           )
         }
       ),
@@ -336,6 +366,25 @@ run_pipeline <- function(
   if (
     base::is.null(tar_error)
   ) {
+    data_target_errors_before <-
+      targets::tar_meta(
+        fields = tidyselect::any_of(
+          base::c("name", "error", "time")
+        ),
+        store = sel_store_path,
+        complete_only = FALSE
+      )
+
+    if (
+      !"time" %in% base::colnames(data_target_errors_before)
+    ) {
+      data_target_errors_before[["time"]] <-
+        base::rep(
+          base::as.POSIXct(NA),
+          base::nrow(data_target_errors_before)
+        )
+    }
+
     tryCatch(
       if (
         base::is.null(target_names)
@@ -359,6 +408,48 @@ run_pipeline <- function(
         tar_error <<- err
       }
     )
+
+    data_target_errors_after <-
+      targets::tar_meta(
+        fields = tidyselect::any_of(
+          base::c("name", "error", "time")
+        ),
+        store = sel_store_path,
+        complete_only = FALSE
+      )
+
+    if (
+      !"time" %in% base::colnames(data_target_errors_after)
+    ) {
+      data_target_errors_after[["time"]] <-
+        base::rep(
+          base::as.POSIXct(NA),
+          base::nrow(data_target_errors_after)
+        )
+    }
+
+    data_new_target_errors <-
+      get_new_targets_errors(
+        data_errors_before = data_target_errors_before,
+        data_errors_after = data_target_errors_after
+      )
+
+    if (
+      base::is.null(tar_error) &&
+        base::nrow(data_new_target_errors) > 0L
+    ) {
+      first_error <-
+        data_new_target_errors[1L, , drop = FALSE]
+
+      tar_error <-
+        base::simpleError(
+          stringr::str_glue(
+            "{base::nrow(data_new_target_errors)} target(s) errored; ",
+            "first error in '{first_error[['name']][[1L]]}': ",
+            "{first_error[['error']][[1L]]}"
+          )
+        )
+    }
   }
 
   if (

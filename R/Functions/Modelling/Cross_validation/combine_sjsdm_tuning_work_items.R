@@ -15,8 +15,19 @@ combine_sjsdm_tuning_work_items <- function(
     msg = "list_work_item_results must be a list."
   )
 
+  flag_all_results_empty <-
+    base::length(list_work_item_results) > 0L &&
+    list_work_item_results |>
+      purrr::map_lgl(
+        ~ base::is.list(.x) &&
+          base::is.data.frame(.x[["data_tuning"]]) &&
+          base::nrow(.x[["data_tuning"]]) == 0L
+      ) |>
+      base::all()
+
   if (
-    base::length(list_work_item_results) == 0L
+    base::length(list_work_item_results) == 0L ||
+      flag_all_results_empty
   ) {
     return(
       base::list(
