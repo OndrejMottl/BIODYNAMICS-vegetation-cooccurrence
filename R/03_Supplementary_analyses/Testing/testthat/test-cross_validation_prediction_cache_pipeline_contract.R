@@ -32,6 +32,11 @@ testthat::test_that(
         )
         testthat::expect_match(
           text_pipe,
+          "validate_sjsdm_tuning_repeat_coverage(",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
           "collect_sjsdm_available_tier_decisions(",
           fixed = TRUE
         )

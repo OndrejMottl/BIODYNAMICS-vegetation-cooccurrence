@@ -46,7 +46,47 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "issue 138 temporal profiles select one staged slice",
+  "production tuning is staged while reduced CZ profiles stay exhaustive",
+  {
+    list_default <-
+      config::get(config = "default")
+    list_cz_paleo <-
+      config::get(config = "project_cz_paleo")
+    list_cz_modern <-
+      config::get(config = "project_cz_modern")
+
+    testthat::expect_identical(
+      list_default |>
+        purrr::chuck(
+          "model_fitting",
+          "cross_validation",
+          "tuning_strategy"
+        ),
+      "staged"
+    )
+    testthat::expect_identical(
+      list_cz_paleo |>
+        purrr::chuck(
+          "model_fitting",
+          "cross_validation",
+          "tuning_strategy"
+        ),
+      "exhaustive"
+    )
+    testthat::expect_identical(
+      list_cz_modern |>
+        purrr::chuck(
+          "model_fitting",
+          "cross_validation",
+          "tuning_strategy"
+        ),
+      "exhaustive"
+    )
+  }
+)
+
+testthat::test_that(
+  "issue 138 temporal profiles preprocess fully for one staged slice",
   {
     vec_profiles <-
       base::c(
@@ -55,7 +95,7 @@ testthat::test_that(
         "project_paleo_temporal_issue138_asia_staged"
       )
     vec_ages <-
-      base::c(16000, 19000, 6500)
+      base::rep(6500, 3L)
 
     purrr::walk2(
       vec_profiles,
@@ -67,7 +107,17 @@ testthat::test_that(
         testthat::expect_identical(
           list_config |>
             purrr::chuck("vegvault_data", "age_lim"),
-          base::rep(expected_age, 2L)
+          base::c(0, 20000)
+        )
+        testthat::expect_identical(
+          list_config |>
+            purrr::chuck(
+              "model_fitting",
+              "cross_validation",
+              "tuning_context",
+              "resolution_ids"
+            ),
+          base::paste0("timeslice_", expected_age)
         )
         testthat::expect_identical(
           list_config |>
@@ -122,6 +172,16 @@ testthat::test_that(
       "Stop-Process -Id $lastKnownProcessIds",
       fixed = TRUE
     )
+    testthat::expect_match(
+      text_harness,
+      "[System.IO.FileShare]::None",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_harness,
+      "Another benchmark already owns target store",
+      fixed = TRUE
+    )
   }
 )
 
@@ -166,11 +226,25 @@ testthat::test_that(
     purrr::walk(
       vec_runner_paths,
       function(path_runner) {
+        text_runner <-
+          readr::read_file(path_runner)
+
         testthat::expect_true(fs::file_exists(path_runner))
         testthat::expect_match(
-          readr::read_file(path_runner),
+          text_runner,
           "run_issue138_representative_validation(",
           fixed = TRUE
+        )
+        testthat::expect_match(
+          text_runner,
+          "fresh_run = FALSE",
+          fixed = TRUE
+        )
+        testthat::expect_false(
+          stringr::str_detect(
+            text_runner,
+            stringr::fixed("model_anova")
+          )
         )
       }
     )

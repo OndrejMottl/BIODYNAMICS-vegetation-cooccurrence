@@ -31,9 +31,32 @@ $targetStoreAbsolute = Join-Path $repositoryRoot $TargetStore
 $resultDirectory = Join-Path `
   $repositoryRoot `
   "Data/Temp/issue138/$TuningStrategy/repetition_$RepetitionId"
+$lockDirectory = Join-Path `
+  $repositoryRoot `
+  "Data/Temp/issue138/.locks"
+$lockId = $TargetStore -replace "[^A-Za-z0-9]+", "_"
+$lockPath = Join-Path `
+  $lockDirectory `
+  "$TuningStrategy`_$lockId.lock"
 
 if (Test-Path -LiteralPath $resultDirectory) {
   throw "Benchmark result directory already exists: $resultDirectory"
+}
+
+New-Item -ItemType Directory -Path $lockDirectory -Force | Out-Null
+
+try {
+  $benchmarkLockStream = [System.IO.File]::Open(
+    $lockPath,
+    [System.IO.FileMode]::OpenOrCreate,
+    [System.IO.FileAccess]::ReadWrite,
+    [System.IO.FileShare]::None
+  )
+} catch {
+  throw (
+    "Another benchmark already owns target store '$TargetStore'. " +
+    "Lock: $lockPath"
+  )
 }
 
 New-Item -ItemType Directory -Path $resultDirectory | Out-Null

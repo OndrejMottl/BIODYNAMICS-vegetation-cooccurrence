@@ -33,12 +33,31 @@ pipelines must consume the same implementation.
 
 ## Current implementation boundary
 
-The first executable slice implements steps 1--4 at the shared engine level.
-Exact prediction reuse is integrated into both shared pipe segments and is
-enabled under the exhaustive strategy. Staged schedule and survivor contracts
-are implemented but staged production execution remains disabled until step 5
-is complete and step 6 passes. This prevents per-unit pruning and prevents an
-unvalidated search procedure from reaching continental production runs.
+Steps 1--6 are complete. Exact prediction reuse, deterministic work items,
+tier-wide survivor selection, isolated round orchestration, and restartable
+execution are integrated into the shared engine. Three clean paired CZ
+repetitions passed the approved version-two computational and scientific
+gates. Representative paleo and modern continental validations also completed
+without CV or GPU-memory failure after the shared spatial-MEM scalability fix.
+
+The production default is switched to `staged` on
+`issue138-production-staged`; reduced CZ and explicit exhaustive reference
+profiles remain `exhaustive`. The remaining step-7 gate is representative
+Europe, America, and Asia temporal-slice validation.
+
+A clean Europe 16,000-year diagnostic exposed a single-repeat
+leave-one-location-out fallback that is incompatible with the three-round
+staged schedule. Its apparent zero exit was also false because target errors
+were retained under `{targets}` error mode `null`. The shared runner now
+checks staged repeat coverage before fitting, propagates new target errors,
+locks target stores, and retains restart-safe shared interpolation inputs.
+The comparable 6,500-year slice supplies three grouped five-fold repeats in
+Europe and is configured for all three temporal validation regions.
+Representative runners end at final-model, cross-validated evaluation, and
+provenance targets so the separate ANOVA workload cannot obscure CV
+acceptance timing. Diagnostic evidence is recorded in
+`Documentation/Reports/Cross_validation_performance/`
+`temporal_validation_preliminary_v1.md`.
 
 ## Mandatory safeguards
 

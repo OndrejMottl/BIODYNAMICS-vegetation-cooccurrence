@@ -387,15 +387,25 @@ pipe_segment_model_cross_validation <-
     targets::tar_target(
       description = "Build every deterministic candidate-fold work item",
       name = "data_sjsdm_all_tuning_work_items",
-      command = build_sjsdm_tuning_work_items(
-        data_assignments = data_cross_validation_assignments,
-        data_candidates = data_sjsdm_regularization_candidates,
-        seed = purrr::chuck(
-          config_model_fitting,
-          "cross_validation",
-          "fit_seed"
+      command = {
+        data_work_items <-
+          build_sjsdm_tuning_work_items(
+            data_assignments = data_cross_validation_assignments,
+            data_candidates = data_sjsdm_regularization_candidates,
+            seed = purrr::chuck(
+              config_model_fitting,
+              "cross_validation",
+              "fit_seed"
+            )
+          )
+
+        validate_sjsdm_tuning_repeat_coverage(
+          data_work_items = data_work_items,
+          data_schedule = data_sjsdm_tuning_schedule
         )
-      )
+
+        data_work_items
+      }
     ),
     targets::tar_target(
       description = "Discover completed tier-wide tuning decisions",

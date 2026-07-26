@@ -164,6 +164,56 @@ testthat::test_that("run_pipeline() forwards the callr backend", {
   testthat::expect_null(captured_callr_function)
 })
 
+testthat::test_that("run_pipeline() propagates targets error metadata", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  n_meta_calls <- 0L
+
+  testthat::local_mocked_bindings(
+    tar_make = function(...) {
+      base::invisible(NULL)
+    },
+    tar_meta = function(...) {
+      n_meta_calls <<-
+        n_meta_calls + 1L
+
+      if (
+        n_meta_calls == 1L
+      ) {
+        return(
+          tibble::tibble(
+            name = base::character(),
+            error = base::character(),
+            time = base::as.POSIXct(base::character())
+          )
+        )
+      }
+
+      tibble::tibble(
+        name = "failed_target",
+        error = "fit failed",
+        time = base::as.POSIXct(
+          "2026-07-25 12:00:00",
+          tz = "UTC"
+        )
+      )
+    },
+    .package = "targets"
+  )
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      check_default_config = FALSE,
+      plot_progress = FALSE
+    ),
+    "first error in 'failed_target': fit failed"
+  )
+})
+
 testthat::test_that("run_pipeline() validates sel_script is a single string", {
   testthat::expect_error(
     run_pipeline(
@@ -345,6 +395,7 @@ testthat::test_that("run_pipeline() prebuilds then runs full build", {
     },
     tar_meta = function(...) {
       flag_meta_crew_mori <<-
+        flag_meta_crew_mori ||
         base::identical(
           base::Sys.getenv("BIODYNAMICS_PREPROCESSING_BACKEND"),
           "crew_mori"

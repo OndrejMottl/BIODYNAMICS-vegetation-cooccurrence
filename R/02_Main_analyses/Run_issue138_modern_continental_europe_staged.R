@@ -21,8 +21,8 @@ run_issue138_representative_validation(
   final_target_names = base::c(
     "model_jsdm_selected_genus",
     "model_evaluation_cross_validated_genus",
-    "data_sjsdm_model_provenance_genus",
-    "model_anova_genus"
+    "data_sjsdm_model_provenance_genus"
   ),
-  store_suffix = "europe"
+  store_suffix = "europe",
+  fresh_run = FALSE
 )

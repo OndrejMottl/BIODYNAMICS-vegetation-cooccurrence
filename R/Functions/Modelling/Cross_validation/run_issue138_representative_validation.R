@@ -14,6 +14,9 @@
 #' Optional isolated spatial-unit store suffix.
 #' @param prebuild_interpolation
 #' Logical controlling the first-round interpolation prebuild.
+#' @param fresh_run
+#' Logical controlling whether the first tuning round clears its isolated
+#' target store. Use `FALSE` to resume completed work items.
 #' @param run_sequence_function
 #' Injectable tuning-sequence function used by tests.
 #' @param run_pipeline_function
@@ -28,6 +31,7 @@ run_issue138_representative_validation <- function(
     final_target_names = NULL,
     store_suffix = NULL,
     prebuild_interpolation = FALSE,
+    fresh_run = TRUE,
     run_sequence_function = run_sjsdm_tuning_sequence,
     run_pipeline_function = run_pipeline) {
   flag_valid_active_config <-
@@ -96,6 +100,10 @@ run_issue138_representative_validation <- function(
     msg = "prebuild_interpolation must be TRUE or FALSE."
   )
   assertthat::assert_that(
+    assertthat::is.flag(fresh_run),
+    msg = "fresh_run must be TRUE or FALSE."
+  )
+  assertthat::assert_that(
     base::is.function(run_sequence_function),
     base::is.function(run_pipeline_function),
     msg = "Validation execution dependencies must be functions."
@@ -121,7 +129,7 @@ run_issue138_representative_validation <- function(
         tuning_target_names = tuning_target_names,
         unit_store_suffixes = store_suffix,
         prebuild_interpolation = prebuild_interpolation,
-        fresh_run = TRUE,
+        fresh_run = fresh_run,
         tuning_strategy = purrr::chuck(
           list_cross_validation,
           "tuning_strategy"

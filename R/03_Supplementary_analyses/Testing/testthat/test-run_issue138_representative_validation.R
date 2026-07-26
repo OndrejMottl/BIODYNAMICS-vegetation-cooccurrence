@@ -1,5 +1,5 @@
 testthat::test_that(
-  "run_issue138_representative_validation() uses shared fresh rounds",
+  "run_issue138_representative_validation() controls shared resume",
   {
     environment_calls <-
       base::new.env(parent = base::emptyenv())
@@ -33,6 +33,7 @@ testthat::test_that(
         ),
         store_suffix = "europe",
         prebuild_interpolation = TRUE,
+        fresh_run = FALSE,
         run_sequence_function = sequence_function,
         run_pipeline_function = pipeline_function
       )
@@ -40,7 +41,7 @@ testthat::test_that(
     testthat::expect_null(res)
     testthat::expect_identical(
       environment_calls$sequence[["fresh_run"]],
-      TRUE
+      FALSE
     )
     testthat::expect_identical(
       environment_calls$sequence[["tuning_strategy"]],
@@ -92,6 +93,16 @@ testthat::test_that(
         final_target_names = "model"
       ),
       "tuning_target_names"
+    )
+    testthat::expect_error(
+      run_issue138_representative_validation(
+        active_config = "profile",
+        unit_pipeline = "pipeline.R",
+        tuning_target_names = "summary",
+        final_target_names = "model",
+        fresh_run = NA
+      ),
+      "fresh_run"
     )
   }
 )

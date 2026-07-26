@@ -5,6 +5,9 @@
 #' retaining a separate private copy.
 #' @param data
 #' A data frame to share across local worker processes.
+#' @param registry_key
+#' Optional non-empty key used to retain the shared object in a
+#' process-local registry. Reusing a key replaces the previous region.
 #' @return
 #' A data frame-like shared-memory object created by [mori::share()].
 #' @details
@@ -16,10 +19,20 @@
 #' data_shared <- share_interpolation_data(data = data_example)
 #' @seealso [mori::share()]
 #' @export
-share_interpolation_data <- function(data) {
+share_interpolation_data <- function(data, registry_key = NULL) {
   assertthat::assert_that(
     base::is.data.frame(data),
     msg = "'data' must be a data frame"
+  )
+  assertthat::assert_that(
+    base::is.null(registry_key) ||
+      (
+        base::is.character(registry_key) &&
+          base::length(registry_key) == 1L &&
+          !base::is.na(registry_key) &&
+          base::nzchar(registry_key)
+      ),
+    msg = "'registry_key' must be NULL or one non-empty string"
   )
 
   if (
@@ -33,6 +46,37 @@ share_interpolation_data <- function(data) {
 
   res_data <-
     mori::share(data)
+
+  registry <-
+    base::getOption(
+      "biodynamics.interpolation_shared_registry"
+    )
+
+  if (
+    !base::is.environment(registry)
+  ) {
+    registry <-
+      base::new.env(parent = base::emptyenv())
+
+    base::options(
+      biodynamics.interpolation_shared_registry = registry
+    )
+  }
+
+  selected_registry_key <-
+    if (
+      base::is.null(registry_key)
+    ) {
+      mori::shared_name(res_data)
+    } else {
+      registry_key
+    }
+
+  base::assign(
+    x = selected_registry_key,
+    value = res_data,
+    envir = registry
+  )
 
   base::return(res_data)
 }

@@ -68,7 +68,8 @@ pipe_segment_community_prepare_paleo <-
       description = "Share community proportions for interpolation workers",
       name = "data_community_proportions_shared",
       command = share_interpolation_data(
-        data = data_community_proportions
+        data = data_community_proportions,
+        registry_key = "data_community_proportions"
       ),
       deployment = "main",
       memory = "persistent"
@@ -77,7 +78,8 @@ pipe_segment_community_prepare_paleo <-
       description = "Share age uncertainty for interpolation workers",
       name = "data_age_uncertainty_shared",
       command = share_interpolation_data(
-        data = data_age_uncertainty
+        data = data_age_uncertainty,
+        registry_key = "data_age_uncertainty"
       ),
       deployment = "main",
       memory = "persistent"
