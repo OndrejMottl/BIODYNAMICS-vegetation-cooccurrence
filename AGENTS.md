@@ -12,6 +12,7 @@ correct source documents.
 | R scripts, pipelines, modelling, data processing, visualisation | `.ai/r-coding.md` |
 | R functions, roxygen2 docs, function tests | `.ai/r-functions.md` |
 | Git, branches, worktrees, commits, review workflow | `.ai/git-workflow.md` |
+| Suggesting or writing a commit message | `.ai/git-workflow.md`, then `.github/commit-instructions.md` |
 | Quarto documents or website work | `.ai/quarto.md` |
 | Debugging or bug fixes | `.ai/debugging.md` |
 | Reviewing changed files | `.ai/review-checklist.md` |
