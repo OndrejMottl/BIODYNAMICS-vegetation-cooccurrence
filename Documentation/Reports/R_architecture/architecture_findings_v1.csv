@@ -138,6 +138,10 @@ function_naming,report_only,R/Functions/Utility/Validation/check_data_sample_ids
 function_naming,report_only,R/Functions/Utility/Validation/check_min_n_cores.R,check_min_n_cores,#155,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Utility/Validation/check_presence_of_vegvault.R,check_presence_of_vegvault,#155,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Visualisation/Legends_and_colours/mix_variance_component_colours.R,mix_variance_component_colours,#155,Review leading verb `mix` against version 1.
+missing_function,report_only,R/Functions/Utility/Config/get_active_config.R,NA,#150,Record the approved function move or removal.
+missing_function,report_only,R/Functions/Utility/Config/get_config_value_with_fallback.R,NA,#150,Record the approved function move or removal.
+missing_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-get_active_config.R,NA,#150,Record the approved script move or removal.
+missing_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-get_config_value_with_fallback.R,NA,#150,Record the approved script move or removal.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/assemble_sjsdm_cached_selected_folds.R,get_cache_record;prepare_fold_function;fit_function;predict_function,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/assess_sjsdm_candidate_guardrails.R,prepare_tuning_candidate;prepare_repeat_metrics,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/evaluate_sjsdm_fold_predictions.R,evaluate_source,#141,Extract or explicitly retain the named nested helper.
@@ -158,22 +162,20 @@ nested_named_helper,report_only,R/Functions/Time/Interpolation/interpolate_data.
 nested_named_helper,report_only,R/Functions/Utility/Paths_and_stores/get_model_tuning_params.R,get_required_integer;get_optional_integer,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Utility/Pipeline/monitor_pipeline_progress.R,monitor_server,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Visualisation/Data_preparation/prepare_spatial_variance_waffle_data.R,collapse_observation_id,#155,Extract or explicitly retain the named nested helper.
-script_placement,report_only,R/02_Main_analyses/01_Spatial/01_Paleo/04_Diagnose_spatial_pipelines.R,NA,#152,Move this `diagnostic` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/01_Spatial/01_Paleo/05_Rerun_non_converged_spatial.R,NA,#152,Move this `supplementary_or_processing` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/01_Spatial/02_Contemporary/00_Diagnose_modern_preprocessing.R,NA,#152,Move this `diagnostic` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/01_Spatial/02_Contemporary/06_Tune_modern_spatial_convergence.R,NA,#152,Move this `sensitivity` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/02_Temporal_Paleo/05_Diagnose_temporal_continents.R,NA,#152,Move this `diagnostic` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_CZ_paleo_cv_component_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_CZ_paleo_cv_reference.R,NA,#141,Move this `reference` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_CZ_paleo_cv_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_CZ_paleo_cv_regularization_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_CZ_paleo_cv_staged_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_CZ_test.R,NA,#152,Move this `supplementary_or_processing` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_issue138_modern_continental_europe_staged.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_issue138_paleo_continental_europe_staged.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_issue138_temporal_america_staged.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_issue138_temporal_asia_staged.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_issue138_temporal_europe_staged.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_issue143_modern_continental_europe_shared_mem.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_paleo_local_cv_decomposition_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
-script_placement,report_only,R/02_Main_analyses/Run_paleo_local_cv_scientific_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
+uninventoried_function,report_only,R/Functions/Utility/Config/Generation/run_configuration_generation.R,NA,#150,Add the active function to the versioned inventory.
+uninventoried_function,report_only,R/Functions/Utility/Config/load_active_config_value.R,NA,#150,Add the active function to the versioned inventory.
+uninventoried_function,report_only,R/Functions/Utility/Config/load_config.R,NA,#150,Add the active function to the versioned inventory.
+uninventoried_function,report_only,R/Functions/Utility/Config/load_config_value.R,NA,#150,Add the active function to the versioned inventory.
+uninventoried_function,report_only,R/Functions/Utility/Config/load_config_value_with_fallback.R,NA,#150,Add the active function to the versioned inventory.
+uninventoried_function,report_only,R/Functions/Utility/Config/validate_config_profile_selection.R,NA,#150,Add the active function to the versioned inventory.
+uninventoried_script,report_only,R/03_Supplementary_analyses/One_time/Issues/issue_151/bootstrap_configuration_sources.R,NA,#150,Add the active script to the versioned inventory.
+uninventoried_script,report_only,R/03_Supplementary_analyses/One_time/Issues/issue_151/create_configuration_profile_inventory.R,NA,#150,Add the active script to the versioned inventory.
+uninventoried_script,report_only,R/03_Supplementary_analyses/One_time/Issues/issue_151/create_configuration_profile_reference.R,NA,#150,Add the active script to the versioned inventory.
+uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_active_config_value.R,NA,#150,Add the active script to the versioned inventory.
+uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_config.R,NA,#150,Add the active script to the versioned inventory.
+uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_config_value.R,NA,#150,Add the active script to the versioned inventory.
+uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_config_value_with_fallback.R,NA,#150,Add the active script to the versioned inventory.
+uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-run_configuration_generation.R,NA,#150,Add the active script to the versioned inventory.
+uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-validate_config_profile_selection.R,NA,#150,Add the active script to the versioned inventory.
+uninventoried_script,report_only,R/03_Supplementary_analyses/Validation/Configuration/Check_configuration.R,NA,#150,Add the active script to the versioned inventory.
+uninventoried_script,report_only,R/03_Supplementary_analyses/Validation/Configuration/Generate_configuration.R,NA,#150,Add the active script to the versioned inventory.

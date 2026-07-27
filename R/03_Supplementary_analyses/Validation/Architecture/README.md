@@ -31,10 +31,12 @@ contract, pipeline target declarations, and test references. It writes:
 Review generated diffs before accepting them. A changed inventory may represent
 a legitimate migration or an unclassified file, function, or target.
 
-The checker writes report-only findings to
-`Documentation/Reports/R_architecture/architecture_findings_v1.csv`. Findings
-do not fail the command in version 1; the owning migration issue resolves them
-before #157 makes the corresponding rule blocking.
+The checker writes findings to
+`Documentation/Reports/R_architecture/architecture_findings_v1.csv`.
+Main-analysis placement is blocking: only inventoried production analyses may
+remain under `R/02_Main_analyses`. Function naming, function placement, and
+other not-yet-migrated contracts remain report-only until their owning issues
+make them blocking.
 
 ## Interpretation limits
 

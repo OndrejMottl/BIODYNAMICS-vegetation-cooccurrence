@@ -231,20 +231,19 @@ It may not contain:
 ```text
 R/
 |-- 02_Main_analyses/
-|   |-- Spatial/
-|   |   |-- Paleo/
-|   |   |   |-- Runners/
-|   |   |   |-- Synthesis/
-|   |   |   `-- Visualisation/
-|   |   `-- Modern/
-|   |       |-- Runners/
-|   |       |-- Synthesis/
-|   |       `-- Visualisation/
-|   `-- Temporal/
-|       `-- Paleo/
-|           |-- Runners/
-|           |-- Synthesis/
-|           `-- Visualisation/
+|   |-- 01_Spatial/
+|   |   |-- 01_Paleo/
+|   |   |   |-- 01_Runners/
+|   |   |   |-- 02_Synthesis/
+|   |   |   `-- 03_Visualisation/
+|   |   `-- 02_Modern/
+|   |       |-- 01_Runners/
+|   |       |-- 02_Synthesis/
+|   |       `-- 03_Visualisation/
+|   `-- 02_Temporal/
+|       `-- 01_Paleo/
+|           |-- 01_Runners/
+|           `-- 02_Visualisation/
 `-- 03_Supplementary_analyses/
     |-- Diagnostics/
     |   |-- Data_processing/
@@ -270,6 +269,11 @@ R/
 The implementation inventory records the exact current-to-target path for every
 file. Folder names should be standardised consistently in the migration; avoid
 case-only rename operations on Windows.
+
+Main-analysis domain, capability, and script names use two-digit numeric
+prefixes to make the supported execution order explicit. Supplementary
+workflows remain organised by role and do not imply a universal execution
+sequence.
 
 ### Proposed function tree
 
@@ -860,8 +864,8 @@ analyses.
   reusable supported runner when they remain operationally necessary.
 - [ ] Move test/smoke runners into `Testing/Smoke/`.
 - [ ] Add a README to every new non-main workflow folder.
-- [ ] Rename durable scripts to lower snake case and remove numeric ordering
-  where directory structure already supplies the order.
+- [ ] Rename durable scripts consistently and apply two-digit numeric prefixes
+  to main-analysis folders and scripts so their execution order is explicit.
 - [ ] Update all source, command, documentation, and workflow references.
 - [ ] Add a blocking allowlist/classification check for
   `R/02_Main_analyses`.
