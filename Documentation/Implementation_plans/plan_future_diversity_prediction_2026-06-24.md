@@ -21,7 +21,7 @@ The repository already contains reusable prediction infrastructure in the supple
 - `R/Functions/Prediction/Grids/build_land_prediction_grid.R`
 - `R/Functions/Prediction/Inference/predict_spatial_resolution_grid_age.R`
 - `R/Functions/Prediction/Climate/extract_prediction_climate.R`
-- `R/Functions/Abiotic/Ingest/get_chelsa_raster.R`
+- `R/Functions/Data/Abiotic/Ingest/get_chelsa_raster.R`
 
 That stack currently supports age-based hindcasting using CHELSA-TraCE21k. It does not yet support future scenario metadata, future-climate raster acquisition, or a main-analysis orchestration layer.
 
@@ -58,7 +58,7 @@ GitHub issue search was not completed while drafting this plan because the curre
 - `config.yml`
 - `R/02_Main_analyses/01_Spatial/02_Modern/02_Synthesis/02_compare_paleo_modern.R`
 - `R/03_Supplementary_analyses/Prediction/Predict_on_full_grid.R`
-- `R/Functions/Abiotic/Ingest/get_chelsa_raster.R`
+- `R/Functions/Data/Abiotic/Ingest/get_chelsa_raster.R`
 - `R/Functions/Prediction/Climate/extract_prediction_climate.R`
 - `R/Functions/Prediction/Inference/predict_spatial_resolution_grid_age.R`
 - `R/Functions/Prediction/Inputs/read_spatial_resolution_prediction_inputs.R`
@@ -66,7 +66,8 @@ GitHub issue search was not completed while drafting this plan because the curre
 - `R/Pipelines/pipeline_paleo_spatial_resolution.R`
 - `R/Pipelines/pipeline_modern_spatial_resolution.R`
 - `R/Pipelines/_pipes/pipe_segment_abiotic_extract.R`
-- New future-climate ingest helpers under `R/Functions/Abiotic/` or `R/Functions/Prediction/Climate/`
+- New future-climate ingest helpers under `R/Functions/Data/Abiotic/` or
+  `R/Functions/Prediction/Climate/`
 - New future-prediction orchestration helpers under `R/Functions/Prediction/`
 - New targeted tests in `R/03_Supplementary_analyses/Testing/testthat/`
 - New main-analysis runner(s) under `R/02_Main_analyses/01_Spatial/03_Future/01_Runners/`

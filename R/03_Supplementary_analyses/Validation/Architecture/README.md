@@ -3,10 +3,8 @@
 ## Purpose and backstory
 
 This folder supports issue #150 and the repository-wide refactor tracked by
-issue #149. It records the pre-migration R architecture before files and
-symbols move.
-The first inventory is intentionally a baseline: current paths remain the
-intended paths until the owning issue records an approved replacement.
+issue #149. It records the baseline R architecture and the approved
+replacement paths and symbols as each owning issue completes its migration.
 
 ## Status and entry point
 
@@ -15,8 +13,9 @@ Status: active validation tooling.
 Run from the repository root:
 
 ```powershell
-Rscript R/03_Supplementary_analyses/Validation/Architecture/generate_r_architecture_inventories.R
-Rscript R/03_Supplementary_analyses/Validation/Architecture/check_r_architecture.R
+$path_architecture = "R/03_Supplementary_analyses/Validation/Architecture"
+Rscript "$path_architecture/generate_r_architecture_inventories.R"
+Rscript "$path_architecture/check_r_architecture.R"
 ```
 
 ## Inputs and outputs
@@ -24,9 +23,11 @@ Rscript R/03_Supplementary_analyses/Validation/Architecture/check_r_architecture
 The generator parses active R files, the deterministic function-loader
 contract, pipeline target declarations, and test references. It writes:
 
-- `Documentation/Implementation_inventories/R_architecture/r_script_path_inventory_v1.csv`;
-- `Documentation/Implementation_inventories/R_architecture/r_function_inventory_v1.csv`;
-- `Documentation/Implementation_inventories/R_architecture/r_contract_inventory_v1.csv`.
+Under `Documentation/Implementation_inventories/R_architecture/`:
+
+- `r_script_path_inventory_v1.csv`;
+- `r_function_inventory_v1.csv`;
+- `r_contract_inventory_v1.csv`.
 
 Review generated diffs before accepting them. A changed inventory may represent
 a legitimate migration or an unclassified file, function, or target.
@@ -34,15 +35,18 @@ a legitimate migration or an unclassified file, function, or target.
 The checker writes findings to
 `Documentation/Reports/R_architecture/architecture_findings_v1.csv`.
 Main-analysis placement is blocking: only inventoried production analyses may
-remain under `R/02_Main_analyses`. Function naming, function placement, and
+remain under `R/02_Main_analyses`. Migrated Abiotic functions and their
+mirrored tests are also checked as blocking contracts. Function naming and
 other not-yet-migrated contracts remain report-only until their owning issues
 make them blocking.
 
 ## Interpretation limits
 
-Caller discovery is static text matching and does not prove runtime reachability.
+Caller discovery is static text matching and does not prove runtime
+reachability.
 Literal target discovery covers direct `targets::tar_target()` declarations;
-dynamic target builders remain owned by their function and pipeline inventories.
+dynamic target builders remain owned by their function and pipeline
+inventories.
 Scientific and public-contract status must be reviewed by the owning issue
 before a persisted name changes.
 

@@ -45,6 +45,13 @@ data_functions <-
       "r_function_inventory_v1.csv"
     ),
     show_col_types = FALSE
+  ) |>
+  dplyr::mutate(
+    active_path = dplyr::if_else(
+      .data[["migration_status"]] == "migrated",
+      .data[["intended_path"]],
+      .data[["current_path"]]
+    )
   )
 
 path_repository_root <-
@@ -129,12 +136,12 @@ vec_missing_scripts <-
 vec_uninventoried_functions <-
   base::setdiff(
     vec_function_paths_current,
-    data_functions[["current_path"]]
+    data_functions[["active_path"]]
   )
 
 vec_missing_functions <-
   base::setdiff(
-    data_functions[["current_path"]],
+    data_functions[["active_path"]],
     vec_function_paths_current
   )
 
@@ -234,18 +241,153 @@ data_main_analysis_findings <-
     message = "Only production analyses may remain in R/02_Main_analyses."
   )
 
+vec_abiotic_function_paths_current <-
+  vec_function_paths_current |>
+  purrr::keep(
+    ~ stringr::str_starts(
+      .x,
+      "R/Functions/Data/Abiotic/"
+    )
+  )
+
+data_migrated_abiotic_functions <-
+  data_functions |>
+  dplyr::filter(
+    stringr::str_starts(
+      .data[["current_path"]],
+      "R/Functions/Abiotic/"
+    ),
+    .data[["owning_issue"]] == "#153",
+    .data[["migration_status"]] == "migrated",
+    stringr::str_starts(
+      .data[["active_path"]],
+      "R/Functions/Data/Abiotic/"
+    )
+  )
+
+vec_allowed_abiotic_function_paths <-
+  data_migrated_abiotic_functions |>
+  dplyr::pull(.data[["active_path"]])
+
+vec_legacy_abiotic_function_paths <-
+  base::intersect(
+    vec_function_paths_current,
+    data_migrated_abiotic_functions[["current_path"]]
+  )
+
+vec_invalid_abiotic_function_paths <-
+  base::union(
+    vec_legacy_abiotic_function_paths,
+    base::union(
+      base::setdiff(
+        vec_abiotic_function_paths_current,
+        vec_allowed_abiotic_function_paths
+      ),
+      base::setdiff(
+        vec_allowed_abiotic_function_paths,
+        vec_abiotic_function_paths_current
+      )
+    )
+  )
+
+data_abiotic_function_findings <-
+  tibble::tibble(
+    finding_type = "abiotic_function_placement",
+    severity = "blocking",
+    current_path = vec_invalid_abiotic_function_paths,
+    symbol = NA_character_,
+    owning_issue = "#153",
+    message = stringr::str_c(
+      "Abiotic functions must match the migrated ",
+      "R/Functions/Data/Abiotic inventory."
+    )
+  )
+
+path_abiotic_test_root <-
+  stringr::str_c(
+    "R/03_Supplementary_analyses/Testing/testthat/",
+    "Data/Abiotic/"
+  )
+
+vec_abiotic_test_paths_current <-
+  vec_script_paths_current |>
+  purrr::keep(
+    ~ stringr::str_starts(
+      .x,
+      path_abiotic_test_root
+    )
+  )
+
+data_migrated_abiotic_tests <-
+  data_scripts |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#153",
+    .data[["classification"]] == "test",
+    .data[["migration_status"]] == "migrated",
+    stringr::str_starts(
+      .data[["active_path"]],
+      path_abiotic_test_root
+    )
+  )
+
+vec_allowed_abiotic_test_paths <-
+  data_migrated_abiotic_tests |>
+  dplyr::pull(.data[["active_path"]])
+
+vec_legacy_abiotic_test_paths <-
+  base::intersect(
+    vec_script_paths_current,
+    data_migrated_abiotic_tests[["current_path"]]
+  )
+
+vec_invalid_abiotic_test_paths <-
+  base::union(
+    vec_legacy_abiotic_test_paths,
+    base::union(
+      base::setdiff(
+        vec_abiotic_test_paths_current,
+        vec_allowed_abiotic_test_paths
+      ),
+      base::setdiff(
+        vec_allowed_abiotic_test_paths,
+        vec_abiotic_test_paths_current
+      )
+    )
+  )
+
+data_abiotic_test_findings <-
+  tibble::tibble(
+    finding_type = "abiotic_test_placement",
+    severity = "blocking",
+    current_path = vec_invalid_abiotic_test_paths,
+    symbol = NA_character_,
+    owning_issue = "#153",
+    message = stringr::str_c(
+      "Abiotic tests must mirror the migrated ",
+      "R/Functions/Data/Abiotic hierarchy."
+    )
+  )
+
 data_naming_findings <-
   data_functions |>
   dplyr::filter(.data[["naming_status"]] == "review_in_owning_issue") |>
-  dplyr::transmute(
+  dplyr::mutate(
     finding_type = "function_naming",
     severity = "report_only",
-    current_path = .data[["current_path"]],
+    current_path = .data[["active_path"]],
     symbol = .data[["function_name"]],
     owning_issue = .data[["owning_issue"]],
     message = stringr::str_glue(
       "Review leading verb `{.data[['leading_verb']]}` against version 1."
     )
+  ) |>
+  dplyr::select(
+    "finding_type",
+    "severity",
+    "current_path",
+    "symbol",
+    "owning_issue",
+    "message"
   )
 
 data_nested_findings <-
@@ -253,13 +395,21 @@ data_nested_findings <-
   dplyr::filter(
     .data[["nested_helper_disposition"]] == "review_in_owning_issue"
   ) |>
-  dplyr::transmute(
+  dplyr::mutate(
     finding_type = "nested_named_helper",
     severity = "report_only",
-    current_path = .data[["current_path"]],
+    current_path = .data[["active_path"]],
     symbol = .data[["nested_helpers"]],
     owning_issue = .data[["owning_issue"]],
     message = "Extract or explicitly retain the named nested helper."
+  ) |>
+  dplyr::select(
+    "finding_type",
+    "severity",
+    "current_path",
+    "symbol",
+    "owning_issue",
+    "message"
   )
 
 data_findings <-
@@ -267,6 +417,8 @@ data_findings <-
     data_findings,
     data_placement_findings,
     data_main_analysis_findings,
+    data_abiotic_function_findings,
+    data_abiotic_test_findings,
     data_naming_findings,
     data_nested_findings
   ) |>
@@ -328,7 +480,7 @@ cli::cli_inform(
       "{base::nrow(data_finding_summary)} types."
     ),
     "i" = stringr::str_c(
-      "Main-analysis placement is blocking;",
+      "Main-analysis and migrated Abiotic placement are blocking;",
       "unmigrated architecture contracts remain report-only.",
       sep = " "
     ),
