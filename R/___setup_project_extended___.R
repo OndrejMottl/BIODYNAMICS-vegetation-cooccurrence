@@ -82,25 +82,12 @@ base::sapply(
 # 3. Load functions and verify data access -----
 #----------------------------------------------------------#
 
-vec_function_paths <-
-  base::list.files(
-    path = here::here("R/Functions/"),
-    pattern = "*.R",
-    recursive = TRUE,
-    full.names = TRUE
-  ) |>
-  purrr::discard(
-    ~ stringr::str_detect(.x, "_outdated|_legacy")
+data_function_inventory <-
+  load_project_functions(
+    path_function_root = here::here("R/Functions"),
+    environment_target = current_env,
+    vec_excluded_directory_names = "_legacy"
   )
-
-if (
-  base::length(vec_function_paths) > 0
-) {
-  base::sapply(
-    vec_function_paths,
-    base::source
-  )
-}
 
 check_presence_of_vegvault()
 

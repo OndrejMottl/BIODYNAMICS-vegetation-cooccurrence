@@ -1,0 +1,179 @@
+finding_type,severity,current_path,symbol,owning_issue,message
+function_naming,report_only,R/Functions/Abiotic/Ingest/get_abiotic_data.R,get_abiotic_data,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Abiotic/Ingest/get_chelsa_raster.R,get_chelsa_raster,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Abiotic/Predictors/get_predictor_collinearity.R,get_predictor_collinearity,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Abiotic/Validation/check_abiotic_interpolation_contract.R,check_abiotic_interpolation_contract,#153,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Community/Classification/append_missing_taxa_to_template.R,append_missing_taxa_to_template,#153,Review leading verb `append` against version 1.
+function_naming,report_only,R/Functions/Community/Classification/check_and_report_missing_taxa.R,check_and_report_missing_taxa,#153,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Community/Classification/combine_classification_tables.R,combine_classification_tables,#153,Review leading verb `combine` against version 1.
+function_naming,report_only,R/Functions/Community/Classification/get_aux_classification_table.R,get_aux_classification_table,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Community/Classification/get_taxa_classification.R,get_taxa_classification,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Community/Classification/get_taxa_without_classification.R,get_taxa_without_classification,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Community/Classification/make_classification_table.R,make_classification_table,#153,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Community/Classification/remap_classification_table_by_community_taxa.R,remap_classification_table_by_community_taxa,#153,Review leading verb `remap` against version 1.
+function_naming,report_only,R/Functions/Community/Ingest/get_community_data.R,get_community_data,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Community/Modern_data/make_modern_data_quality_report.R,make_modern_data_quality_report,#153,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Community/Modern_data/normalize_coordinates.R,normalize_coordinates,#153,Review leading verb `normalize` against version 1.
+function_naming,report_only,R/Functions/Community/Quality_control/check_modern_data_impossible_values.R,check_modern_data_impossible_values,#153,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Community/Quality_control/detect_colocated_community_records.R,detect_colocated_community_records,#153,Review leading verb `detect` against version 1.
+function_naming,report_only,R/Functions/Community/Quality_control/detect_duplicate_communities.R,detect_duplicate_communities,#153,Review leading verb `detect` against version 1.
+function_naming,report_only,R/Functions/Community/Quality_control/detect_duplicate_metadata_keys.R,detect_duplicate_metadata_keys,#153,Review leading verb `detect` against version 1.
+function_naming,report_only,R/Functions/Community/Quality_control/detect_duplicate_sites.R,detect_duplicate_sites,#153,Review leading verb `detect` against version 1.
+function_naming,report_only,R/Functions/Community/Quality_control/make_community_record_signatures.R,make_community_record_signatures,#153,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Community/Taxa/get_community_taxa.R,get_community_taxa,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Community/Taxa/get_pollen_sum.R,get_pollen_sum,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Community/Transformation/binarize_community_data.R,binarize_community_data,#153,Review leading verb `binarize` against version 1.
+function_naming,report_only,R/Functions/Community/Transformation/make_community_data_long.R,make_community_data_long,#153,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Community/Transformation/make_community_proportions.R,make_community_proportions,#153,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Community/Transformation/replace_na_community_data_with_zeros.R,replace_na_community_data_with_zeros,#153,Review leading verb `replace` against version 1.
+function_naming,report_only,R/Functions/Community/Transformation/transform_to_proportions.R,transform_to_proportions,#153,Review leading verb `transform` against version 1.
+function_naming,report_only,R/Functions/Data_access/Vegvault/read_vegvault_scalar.R,read_vegvault_scalar,#155,Review leading verb `read` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/adapt_cross_validation_assignments.R,adapt_cross_validation_assignments,#141,Review leading verb `adapt` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/assemble_sjsdm_cached_selected_folds.R,assemble_sjsdm_cached_selected_folds,#141,Review leading verb `assemble` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/assess_cross_validation_feasibility.R,assess_cross_validation_feasibility,#141,Review leading verb `assess` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/assess_sjsdm_candidate_guardrails.R,assess_sjsdm_candidate_guardrails,#141,Review leading verb `assess` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/assess_sjsdm_scientific_performance.R,assess_sjsdm_scientific_performance,#141,Review leading verb `assess` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/assess_sjsdm_staged_benchmark.R,assess_sjsdm_staged_benchmark,#141,Review leading verb `assess` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/assess_sjsdm_taxon_eligibility.R,assess_sjsdm_taxon_eligibility,#141,Review leading verb `assess` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/assess_spatial_mev_paired_benchmark.R,assess_spatial_mev_paired_benchmark,#141,Review leading verb `assess` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/calibrate_cross_validation_grid_from_resolution.R,calibrate_cross_validation_grid_from_resolution,#141,Review leading verb `calibrate` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/calibrate_cross_validation_grid_size.R,calibrate_cross_validation_grid_size,#141,Review leading verb `calibrate` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/collect_sjsdm_available_tier_decisions.R,collect_sjsdm_available_tier_decisions,#141,Review leading verb `collect` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/collect_sjsdm_tuning_summaries.R,collect_sjsdm_tuning_summaries,#141,Review leading verb `collect` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/collect_sjsdm_tuning_timings.R,collect_sjsdm_tuning_timings,#141,Review leading verb `collect` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/combine_sjsdm_tuning_work_items.R,combine_sjsdm_tuning_work_items,#141,Review leading verb `combine` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/compare_sjsdm_decomposition_fold_metrics.R,compare_sjsdm_decomposition_fold_metrics,#141,Review leading verb `compare` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/configure_sjsdm_predictor_structure.R,configure_sjsdm_predictor_structure,#141,Review leading verb `configure` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/get_sjsdm_staged_benchmark_policy.R,get_sjsdm_staged_benchmark_policy,#141,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_cross_validation_assignments_from_resolution.R,make_cross_validation_assignments_from_resolution,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_cross_validation_branch_assignments.R,make_cross_validation_branch_assignments,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_cross_validation_grid_candidates.R,make_cross_validation_grid_candidates,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_cross_validation_grid_candidates_from_resolution.R,make_cross_validation_grid_candidates_from_resolution,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_cross_validation_location_table.R,make_cross_validation_location_table,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_cross_validation_partition_diagnostics.R,make_cross_validation_partition_diagnostics,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_leave_one_location_out_assignments.R,make_leave_one_location_out_assignments,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_sjsdm_empty_selected_fold_artifacts.R,make_sjsdm_empty_selected_fold_artifacts,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_sjsdm_regularization_candidates.R,make_sjsdm_regularization_candidates,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_sjsdm_structured_regularization_candidates.R,make_sjsdm_structured_regularization_candidates,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_sjsdm_tuning_branch_work_items.R,make_sjsdm_tuning_branch_work_items,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_sjsdm_tuning_fold_context.R,make_sjsdm_tuning_fold_context,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/make_spatial_cross_validation_assignments.R,make_spatial_cross_validation_assignments,#141,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/read_sjsdm_tier_survivor_decisions.R,read_sjsdm_tier_survivor_decisions,#141,Review leading verb `read` against version 1.
+function_naming,report_only,R/Functions/Modelling/Cross_validation/read_sjsdm_tier_tuning_artifact.R,read_sjsdm_tier_tuning_artifact,#141,Review leading verb `read` against version 1.
+function_naming,report_only,R/Functions/Modelling/Decomposition_diagnostics/get_decomposition_route_sample_ids.R,get_decomposition_route_sample_ids,#154,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Modelling/Decomposition_diagnostics/make_decomposition_diagnostic_routes.R,make_decomposition_diagnostic_routes,#154,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Decomposition_diagnostics/make_decomposition_env_formula.R,make_decomposition_env_formula,#154,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Decomposition_diagnostics/make_repeated_cv_indices.R,make_repeated_cv_indices,#154,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Decomposition_diagnostics/refresh_cz_decomposition_upstream.R,refresh_cz_decomposition_upstream,#154,Review leading verb `refresh` against version 1.
+function_naming,report_only,R/Functions/Modelling/Diagnostics/check_convergence_jsdm.R,check_convergence_jsdm,#154,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Modelling/Diagnostics/check_cuda_gpu_runtime.R,check_cuda_gpu_runtime,#154,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Modelling/Diagnostics/check_torch_cuda_details.R,.check_torch_cuda_details,#154,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Modelling/Diagnostics/verify_sjsdm_setup.R,verify_sjsdm_setup,#154,Review leading verb `verify` against version 1.
+function_naming,report_only,R/Functions/Modelling/Evaluation/read_spatial_model_results.R,read_spatial_model_results,#154,Review leading verb `read` against version 1.
+function_naming,report_only,R/Functions/Modelling/Fit_inputs/apply_scale_attributes.R,apply_scale_attributes,#154,Review leading verb `apply` against version 1.
+function_naming,report_only,R/Functions/Modelling/Fit_inputs/assemble_data_to_fit.R,assemble_data_to_fit,#154,Review leading verb `assemble` against version 1.
+function_naming,report_only,R/Functions/Modelling/Fit_inputs/make_env_formula.R,make_env_formula,#154,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Modelling/Spatial_effects/compare_spatial_mev_subspaces.R,compare_spatial_mev_subspaces,#154,Review leading verb `compare` against version 1.
+function_naming,report_only,R/Functions/Modelling/Tuning/check_target_succeeded.R,check_target_succeeded,#154,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Modelling/Tuning/coerce_null_to_na_integer.R,coerce_null_to_na_integer,#154,Review leading verb `coerce` against version 1.
+function_naming,report_only,R/Functions/Modelling/Tuning/read_model_evaluation_target.R,read_model_evaluation_target,#154,Review leading verb `read` against version 1.
+function_naming,report_only,R/Functions/Modelling/Tuning/read_targets_store_meta.R,read_targets_store_meta,#154,Review leading verb `read` against version 1.
+function_naming,report_only,R/Functions/Modelling/Variance_partitioning/get_anova.R,get_anova,#154,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Modelling/Variance_partitioning/recalculate_anova_components.R,recalculate_anova_components,#154,Review leading verb `recalculate` against version 1.
+function_naming,report_only,R/Functions/Prediction/Inference/assert_prediction_probabilities.R,assert_prediction_probabilities,#155,Review leading verb `assert` against version 1.
+function_naming,report_only,R/Functions/Prediction/Inputs/read_spatial_resolution_prediction_inputs.R,read_spatial_resolution_prediction_inputs,#155,Review leading verb `read` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Animations/format_age_label.R,format_age_label,#155,Review leading verb `format` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Design_tokens/flatten_design_tokens.R,flatten_design_tokens,#155,Review leading verb `flatten` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Design_tokens/flatten_token_node.R,flatten_token_node,#155,Review leading verb `flatten` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Design_tokens/format_scss_value.R,format_scss_value,#155,Review leading verb `format` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Design_tokens/format_token_name.R,format_token_name,#155,Review leading verb `format` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Design_tokens/write_oracle_generated_scss.R,write_oracle_generated_scss,#155,Review leading verb `write` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Formatting/format_count.R,format_count,#155,Review leading verb `format` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Oracle_palettes/get_oracle_continuous_palette.R,get_oracle_continuous_palette,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Oracle_palettes/get_oracle_discrete_palette.R,get_oracle_discrete_palette,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Oracle_palettes/get_oracle_palette_values.R,get_oracle_palette_values,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Oracle_theme/create_oracle_theme.R,create_oracle_theme,#155,Review leading verb `create` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/add_panel.R,add_panel,#155,Review leading verb `add` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/generate_qr_code.R,generate_qr_code,#155,Review leading verb `generate` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/node_box.R,node_box,#155,Review leading verb `node` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Paths_and_config/get_presentation_dir.R,get_presentation_dir,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Targets/count_successful_targets.R,count_successful_targets,#155,Review leading verb `count` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_meta_or_empty.R,read_target_meta_or_empty,#155,Review leading verb `read` against version 1.
+function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_or_null.R,read_target_or_null,#155,Review leading verb `read` against version 1.
+function_naming,report_only,R/Functions/Time/Ages/add_age_to_samples.R,add_age_to_samples,#153,Review leading verb `add` against version 1.
+function_naming,report_only,R/Functions/Time/Ages/get_sample_ages.R,get_sample_ages,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Time/Interpolation/share_interpolation_data.R,share_interpolation_data,#153,Review leading verb `share` against version 1.
+function_naming,report_only,R/Functions/Time/Interpolation_jobs/make_community_interpolation_index.R,make_community_interpolation_index,#153,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Time/Interpolation_jobs/make_community_interpolation_jobs.R,make_community_interpolation_jobs,#153,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Traits/Classification/get_functional_type_classification.R,get_functional_type_classification,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Traits/Classification/get_functional_type_classification_path.R,get_functional_type_classification_path,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Traits/Classification/make_trait_table.R,make_trait_table,#153,Review leading verb `make` against version 1.
+function_naming,report_only,R/Functions/Traits/Classification/read_functional_type_classification.R,read_functional_type_classification,#153,Review leading verb `read` against version 1.
+function_naming,report_only,R/Functions/Traits/Cleaning/clean_raw_trait_data.R,clean_raw_trait_data,#153,Review leading verb `clean` against version 1.
+function_naming,report_only,R/Functions/Traits/Corrections/apply_trait_corrections.R,apply_trait_corrections,#153,Review leading verb `apply` against version 1.
+function_naming,report_only,R/Functions/Traits/Ingest/get_trait_domain_names_from_vegvault.R,get_trait_domain_names_from_vegvault,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Traits/Reports/add_iqr_outlier_flag.R,add_iqr_outlier_flag,#153,Review leading verb `add` against version 1.
+function_naming,report_only,R/Functions/Traits/Reports/check_trait_coverage.R,check_trait_coverage,#153,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Traits/Reports/generate_trait_qc_report.R,generate_trait_qc_report,#153,Review leading verb `generate` against version 1.
+function_naming,report_only,R/Functions/Traits/Reports/get_family_trait_summary.R,get_family_trait_summary,#153,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Config/get_active_config.R,get_active_config,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Config/get_config_value_with_fallback.R,get_config_value_with_fallback,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Config/get_preprocessing_controller.R,get_preprocessing_controller,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Coordinates/get_coords.R,get_coords,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Coordinates/get_spatial_window.R,get_spatial_window,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Parsing/add_age_column_from_rownames.R,add_age_column_from_rownames,#155,Review leading verb `add` against version 1.
+function_naming,report_only,R/Functions/Utility/Parsing/add_dataset_name_column_from_rownames.R,add_dataset_name_column_from_rownames,#155,Review leading verb `add` against version 1.
+function_naming,report_only,R/Functions/Utility/Parsing/get_age_from_string.R,get_age_from_string,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Parsing/get_continent_id_from_scale_id.R,get_continent_id_from_scale_id,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Parsing/get_dataset_name_from_string.R,get_dataset_name_from_string,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_functional_type_classification_path_from_store.R,get_functional_type_classification_path_from_store,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_latest_dated_file_path.R,get_latest_dated_file_path,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_model_tuning_param_for_scale_and_resolution.R,get_model_tuning_param_for_scale_and_resolution,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_model_tuning_params.R,get_model_tuning_params,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_scale_id_from_store.R,get_scale_id_from_store,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Pipeline/get_new_targets_errors.R,get_new_targets_errors,#155,Review leading verb `get` against version 1.
+function_naming,report_only,R/Functions/Utility/Pipeline/monitor_pipeline_progress.R,monitor_pipeline_progress,#155,Review leading verb `monitor` against version 1.
+function_naming,report_only,R/Functions/Utility/Validation/align_sample_ids.R,align_sample_ids,#155,Review leading verb `align` against version 1.
+function_naming,report_only,R/Functions/Utility/Validation/check_data_sample_ids_n.R,check_data_sample_ids_n,#155,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Utility/Validation/check_min_n_cores.R,check_min_n_cores,#155,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Utility/Validation/check_presence_of_vegvault.R,check_presence_of_vegvault,#155,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Visualisation/Legends_and_colours/mix_variance_component_colours.R,mix_variance_component_colours,#155,Review leading verb `mix` against version 1.
+nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/assemble_sjsdm_cached_selected_folds.R,get_cache_record;prepare_fold_function;fit_function;predict_function,#141,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/assess_sjsdm_candidate_guardrails.R,prepare_tuning_candidate;prepare_repeat_metrics,#141,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/evaluate_sjsdm_fold_predictions.R,evaluate_source,#141,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/run_sjsdm_selected_candidate_folds.R,make_prediction_skeleton,#141,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/run_sjsdm_tuning_work_item.R,prepare_cached_fold,#141,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Decomposition_diagnostics/compute_predictive_decomposition_shares.R,make_undefined_rows;compute_one_fold,#154,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Decomposition_diagnostics/compute_predictive_performance_shares.R,make_undefined_rows;compute_one_fold,#154,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Decomposition_diagnostics/load_decomposition_diagnostic_inputs.R,read_target;read_model_fitting_config,#154,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Decomposition_diagnostics/run_decomposition_route_cv.R,make_empty_variant;fit_one_variant,#154,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Decomposition_diagnostics/summarise_decomposition_routes.R,get_loss,#154,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Evaluation/evaluate_binary_calibration.R,fit_calibration_model,#154,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_fold_spatial_predictors.R,make_sample_partition,#154,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_model_fold_input.R,make_abiotic_partition,#154,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Variance_partitioning/recalculate_anova_components.R,get_val;compute_shapley,#154,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/build_base_terminal_plot.R,make_scanline_data;make_noise_data;add_terminal_canvas;theme_terminal_blank,#155,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Time/Interpolation/interpolate_community_data_with_uncertainty.R,interpolate_fossil_core,#153,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Time/Interpolation/interpolate_data.R,muffle_package_version_warning;interpolate_group,#153,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Utility/Paths_and_stores/get_model_tuning_params.R,get_required_integer;get_optional_integer,#155,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Utility/Pipeline/monitor_pipeline_progress.R,monitor_server,#155,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Visualisation/Data_preparation/prepare_spatial_variance_waffle_data.R,collapse_observation_id,#155,Extract or explicitly retain the named nested helper.
+script_placement,report_only,R/02_Main_analyses/01_Spatial/01_Paleo/04_Diagnose_spatial_pipelines.R,NA,#152,Move this `diagnostic` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/01_Spatial/01_Paleo/05_Rerun_non_converged_spatial.R,NA,#152,Move this `supplementary_or_processing` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/01_Spatial/02_Contemporary/00_Diagnose_modern_preprocessing.R,NA,#152,Move this `diagnostic` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/01_Spatial/02_Contemporary/06_Tune_modern_spatial_convergence.R,NA,#152,Move this `sensitivity` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/02_Temporal_Paleo/05_Diagnose_temporal_continents.R,NA,#152,Move this `diagnostic` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_CZ_paleo_cv_component_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_CZ_paleo_cv_reference.R,NA,#141,Move this `reference` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_CZ_paleo_cv_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_CZ_paleo_cv_regularization_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_CZ_paleo_cv_staged_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_CZ_test.R,NA,#152,Move this `supplementary_or_processing` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_issue138_modern_continental_europe_staged.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_issue138_paleo_continental_europe_staged.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_issue138_temporal_america_staged.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_issue138_temporal_asia_staged.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_issue138_temporal_europe_staged.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_issue143_modern_continental_europe_shared_mem.R,NA,#141,Move this `issue_reproduction` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_paleo_local_cv_decomposition_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
+script_placement,report_only,R/02_Main_analyses/Run_paleo_local_cv_scientific_reference_gpu.R,NA,#141,Move this `reference` workflow from main analyses.
