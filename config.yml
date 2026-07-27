@@ -1,3 +1,10 @@
+# GENERATED FILE - DO NOT EDIT DIRECTLY.
+# Edit Configuration fragments and run the documented generator.
+
+# Source: Configuration/Defaults/default.yml
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
 default:
   target_store: default
   seed: 1234
@@ -70,6 +77,328 @@ default:
         lower_quantile_probability: 0.25
         max_fold_location_difference: 1
         max_fold_sample_difference: !expr Inf
+  _profile:
+    role: base
+    status: active
+    selectable: false
+    pipeline: shared
+    description: "Shared defaults inherited by project profiles."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      []
+
+
+# Source: Configuration/Profiles/Main/Paleo/spatial.yml
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_paleo_spatial_continental:
+  target_store: Data/targets/paleo_spatial_continental
+  vegvault_data:
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    min_n_taxa: 5
+    n_cores: 24
+    n_interpolation_workers: 16
+  model_fitting:
+    model_tuning_id: "paleo_spatial"
+    cross_validation:
+      tier_id: "paleo_spatial_continental"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "europe"
+    n_mev: 5
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_spatial
+    description: "Main continental paleo-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/01_Paleo/01_Run_spatial_continental.R
+
+project_paleo_spatial_regional:
+  target_store: Data/targets/paleo_spatial_regional
+  vegvault_data:
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    min_n_taxa: 4
+    n_cores: 24
+    n_interpolation_workers: 8
+  model_fitting:
+    model_tuning_id: "paleo_spatial"
+    cross_validation:
+      tier_id: "paleo_spatial_regional"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005"
+    n_mev: 4
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_spatial
+    description: "Main regional paleo-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/01_Paleo/02_Run_spatial_regional.R
+
+project_paleo_spatial_local:
+  target_store: Data/targets/paleo_spatial_local
+  vegvault_data:
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 5
+    min_n_taxa: 3
+    n_cores: 24
+    n_interpolation_workers: 4
+  model_fitting:
+    model_tuning_id: "paleo_spatial"
+    cross_validation:
+      tier_id: "paleo_spatial_local"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005_l014"
+    n_mev: 3
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_spatial
+    description: "Main local paleo-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/01_Paleo/03_Run_spatial_local.R
+
+
+# Source: Configuration/Profiles/Main/Paleo/temporal.yml
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_paleo_temporal_europe:
+  target_store: Data/targets/paleo_temporal_europe
+  vegvault_data:
+    x_lim: !expr c(-10, 40)
+    y_lim: !expr c(35, 70)
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    n_interpolation_workers: 16
+  model_fitting:
+    cross_validation:
+      tier_id: "paleo_temporal_europe"
+    n_mev: 5
+    n_cores: 24
+    n_iter: 1000
+    n_sampling: 150
+    n_samples_anova: 500
+    n_early_stopping: ~
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_temporal
+    description: "Main European paleo-temporal analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/02_Temporal_Paleo/01_Run_temporal_europe.R
+
+project_paleo_temporal_america:
+  target_store: Data/targets/paleo_temporal_america
+  vegvault_data:
+    x_lim: !expr c(-130, -60)
+    y_lim: !expr c(30, 70)
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    n_interpolation_workers: 16
+  model_fitting:
+    cross_validation:
+      tier_id: "paleo_temporal_america"
+    n_mev: 5
+    n_cores: 24
+    n_iter: 1000
+    n_sampling: 150
+    n_samples_anova: 500
+    n_early_stopping: ~
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_temporal
+    description: "Main American paleo-temporal analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/02_Temporal_Paleo/02_Run_temporal_america.R
+
+project_paleo_temporal_asia:
+  target_store: Data/targets/paleo_temporal_asia
+  vegvault_data:
+    x_lim: !expr c(60, 140)
+    y_lim: !expr c(50, 75)
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    n_interpolation_workers: 16
+  model_fitting:
+    cross_validation:
+      tier_id: "paleo_temporal_asia"
+    n_mev: 5
+    n_cores: 24
+    n_iter: 1000
+    n_sampling: 150
+    n_samples_anova: 500
+    n_early_stopping: ~
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_temporal
+    description: "Main Asian paleo-temporal analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/02_Temporal_Paleo/03_Run_temporal_asia.R
+
+
+# Source: Configuration/Profiles/Main/Modern/spatial.yml
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_modern_spatial_continental:
+  target_store: Data/targets/modern_spatial_continental
+  vegvault_data:
+    age_lim: !expr c(0, 0)
+    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    min_n_taxa: 5
+  model_fitting:
+    model_tuning_id: "modern_spatial"
+    cross_validation:
+      tier_id: "modern_spatial_continental"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "europe"
+    use_age_in_formula: false
+    use_spatial: true
+    spatial_mode: "spatial"
+    n_mev: 5
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: modern_spatial
+    description: "Main continental modern-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/02_Contemporary/01_Run_modern_continental.R
+
+project_modern_spatial_regional:
+  target_store: Data/targets/modern_spatial_regional
+  vegvault_data:
+    age_lim: !expr c(0, 0)
+    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    min_n_taxa: 4
+  model_fitting:
+    model_tuning_id: "modern_spatial"
+    cross_validation:
+      tier_id: "modern_spatial_regional"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005"
+    use_age_in_formula: false
+    use_spatial: true
+    spatial_mode: "spatial"
+    n_mev: 4
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: modern_spatial
+    description: "Main regional modern-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/02_Contemporary/02_Run_modern_regional.R
+
+project_modern_spatial_local:
+  target_store: Data/targets/modern_spatial_local
+  vegvault_data:
+    age_lim: !expr c(0, 0)
+    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 5
+    min_n_taxa: 3
+  model_fitting:
+    model_tuning_id: "modern_spatial"
+    cross_validation:
+      tier_id: "modern_spatial_local"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005_l014"
+    use_age_in_formula: false
+    use_spatial: true
+    spatial_mode: "spatial"
+    n_mev: 3
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: modern_spatial
+    description: "Main local modern-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/02_Contemporary/03_Run_modern_local.R
+
+
+# Source: Configuration/Profiles/Validation/cz_smoke.yml
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
 project_cz_paleo:
   target_store: Data/targets/cz_paleo
   continent_id: "europe"
@@ -106,259 +435,17 @@ project_cz_paleo:
         lambda_cov: !expr c(0)
         lambda_coef: !expr c(0)
         lambda_spatial: !expr c(0)
-project_cz_paleo_cv_reference:
-  inherits: project_cz_paleo
-  target_store: Data/targets/cz_paleo_cv_reference
-  model_fitting:
-    model_tuning_id: paleo_core
-    cross_validation:
-      tier_id: "cz_paleo_cv_reference"
-      assignment_repeats: 3
-      regularization:
-        lambda_cov: !expr c(0, 0.1)
-        lambda_coef: !expr c(0, 0.1)
-        lambda_spatial: !expr c(0, 0.1)
-project_cz_paleo_cv_reference_gpu:
-  inherits: project_cz_paleo_cv_reference
-  target_store: Data/targets/cz_paleo_cv_reference_gpu
-  model_fitting:
-    cross_validation:
-      tier_id: "cz_paleo_cv_reference_gpu"
-      fit_device: "gpu"
-project_cz_paleo_cv_staged_reference_gpu:
-  inherits: project_cz_paleo_cv_reference_gpu
-  target_store: Data/targets/cz_paleo_cv_staged_reference_gpu
-  model_fitting:
-    cross_validation:
-      tuning_strategy: "staged"
-      staged_search:
-        repeat_order: !expr c(1L, 2L, 3L)
-        survivor_counts: !expr c(4L, 2L)
-project_cz_paleo_cv_component_reference_gpu:
-  inherits: project_cz_paleo_cv_reference_gpu
-  target_store: Data/targets/cz_paleo_cv_component_reference_gpu
-project_cz_paleo_cv_regularization_reference_gpu:
-  inherits: project_cz_paleo_cv_reference_gpu
-  target_store: Data/targets/cz_paleo_cv_regularization_reference_gpu
-project_traits_reference:
-  target_store: Data/targets/traits_reference
-  data_processing:
-    ft_groups_min: 5
-    ft_groups_max: 30
-    ft_metric: "gower"
-    ft_method: "average"
-project_paleo_temporal_europe:
-  target_store: Data/targets/paleo_temporal_europe
-  vegvault_data:
-    x_lim: !expr c(-10, 40)
-    y_lim: !expr c(35, 70)
-    age_lim: !expr c(0, 20e3)
-    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
-    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
-  data_processing:
-    taxonomic_resolution: "genus"
-    min_n_samples: 10
-    n_interpolation_workers: 16
-  model_fitting:
-    cross_validation:
-      tier_id: "paleo_temporal_europe"
-    n_mev: 5
-    n_cores: 24
-    n_iter: 1000
-    n_sampling: 150
-    n_samples_anova: 500
-    n_early_stopping: ~
-project_paleo_temporal_america:
-  target_store: Data/targets/paleo_temporal_america
-  vegvault_data:
-    x_lim: !expr c(-130, -60)
-    y_lim: !expr c(30, 70)
-    age_lim: !expr c(0, 20e3)
-    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
-    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
-  data_processing:
-    taxonomic_resolution: "genus"
-    min_n_samples: 10
-    n_interpolation_workers: 16
-  model_fitting:
-    cross_validation:
-      tier_id: "paleo_temporal_america"
-    n_mev: 5
-    n_cores: 24
-    n_iter: 1000
-    n_sampling: 150
-    n_samples_anova: 500
-    n_early_stopping: ~
-project_paleo_temporal_asia:
-  target_store: Data/targets/paleo_temporal_asia
-  vegvault_data:
-    x_lim: !expr c(60, 140)
-    y_lim: !expr c(50, 75)
-    age_lim: !expr c(0, 20e3)
-    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
-    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
-  data_processing:
-    taxonomic_resolution: "genus"
-    min_n_samples: 10
-    n_interpolation_workers: 16
-  model_fitting:
-    cross_validation:
-      tier_id: "paleo_temporal_asia"
-    n_mev: 5
-    n_cores: 24
-    n_iter: 1000
-    n_sampling: 150
-    n_samples_anova: 500
-    n_early_stopping: ~
-project_paleo_spatial_continental:
-  target_store: Data/targets/paleo_spatial_continental
-  vegvault_data:
-    age_lim: !expr c(0, 20e3)
-    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
-    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
-  data_processing:
-    taxonomic_resolution: "genus"
-    min_n_samples: 10
-    min_n_taxa: 5
-    n_cores: 24
-    n_interpolation_workers: 16
-  model_fitting:
-    model_tuning_id: "paleo_spatial"
-    cross_validation:
-      tier_id: "paleo_spatial_continental"
-      common_regularization_sensitivity:
-        enabled: true
-        representative_scale_id: "europe"
-    n_mev: 5
-    n_cores: 24
-project_paleo_spatial_regional:
-  target_store: Data/targets/paleo_spatial_regional
-  vegvault_data:
-    age_lim: !expr c(0, 20e3)
-    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
-    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
-  data_processing:
-    taxonomic_resolution: "genus"
-    min_n_samples: 10
-    min_n_taxa: 4
-    n_cores: 24
-    n_interpolation_workers: 8
-  model_fitting:
-    model_tuning_id: "paleo_spatial"
-    cross_validation:
-      tier_id: "paleo_spatial_regional"
-      common_regularization_sensitivity:
-        enabled: true
-        representative_scale_id: "eu_r005"
-    n_mev: 4
-    n_cores: 24
-project_paleo_spatial_local:
-  target_store: Data/targets/paleo_spatial_local
-  vegvault_data:
-    age_lim: !expr c(0, 20e3)
-    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
-    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
-  data_processing:
-    taxonomic_resolution: "genus"
-    min_n_samples: 5
-    min_n_taxa: 3
-    n_cores: 24
-    n_interpolation_workers: 4
-  model_fitting:
-    model_tuning_id: "paleo_spatial"
-    cross_validation:
-      tier_id: "paleo_spatial_local"
-      common_regularization_sensitivity:
-        enabled: true
-        representative_scale_id: "eu_r005_l014"
-    n_mev: 3
-    n_cores: 24
-project_paleo_local_cv_scientific_reference_gpu:
-  inherits: project_paleo_spatial_local
-  target_store: Data/targets/paleo_local_cv_scientific_reference_gpu
-  scientific_performance:
-    policy_version: "sjsdm_scientific_performance_v1"
-    minimum_mean_tjur_r2: 0.1
-    minimum_repeat_auc: 0.5
-    minimum_positive_taxon_fraction: 0.8
-    require_log_loss_improvement_all_repeats: true
-    require_brier_improvement_all_repeats: true
-    minimum_taxon_fold_evaluable_fraction: 0.8
-    calibration_role: "diagnostic"
-  model_fitting:
-    cross_validation:
-      tier_id: "paleo_local_cv_scientific_reference_gpu"
-      assignment_repeats: 3
-      fit_device: "gpu"
-project_paleo_local_cv_decomposition_reference_gpu:
-  inherits: project_paleo_local_cv_scientific_reference_gpu
-  target_store: Data/targets/paleo_local_cv_decomposition_reference_gpu
-project_modern_spatial_continental:
-  target_store: Data/targets/modern_spatial_continental
-  vegvault_data:
-    age_lim: !expr c(0, 0)
-    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
-    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
-  data_processing:
-    taxonomic_resolution: "genus"
-    min_n_samples: 10
-    min_n_taxa: 5
-  model_fitting:
-    model_tuning_id: "modern_spatial"
-    cross_validation:
-      tier_id: "modern_spatial_continental"
-      common_regularization_sensitivity:
-        enabled: true
-        representative_scale_id: "europe"
-    use_age_in_formula: false
-    use_spatial: true
-    spatial_mode: "spatial"
-    n_mev: 5
-    n_cores: 24
-project_modern_spatial_regional:
-  target_store: Data/targets/modern_spatial_regional
-  vegvault_data:
-    age_lim: !expr c(0, 0)
-    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
-    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
-  data_processing:
-    taxonomic_resolution: "genus"
-    min_n_samples: 10
-    min_n_taxa: 4
-  model_fitting:
-    model_tuning_id: "modern_spatial"
-    cross_validation:
-      tier_id: "modern_spatial_regional"
-      common_regularization_sensitivity:
-        enabled: true
-        representative_scale_id: "eu_r005"
-    use_age_in_formula: false
-    use_spatial: true
-    spatial_mode: "spatial"
-    n_mev: 4
-    n_cores: 24
-project_modern_spatial_local:
-  target_store: Data/targets/modern_spatial_local
-  vegvault_data:
-    age_lim: !expr c(0, 0)
-    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
-    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
-  data_processing:
-    taxonomic_resolution: "genus"
-    min_n_samples: 5
-    min_n_taxa: 3
-  model_fitting:
-    model_tuning_id: "modern_spatial"
-    cross_validation:
-      tier_id: "modern_spatial_local"
-      common_regularization_sensitivity:
-        enabled: true
-        representative_scale_id: "eu_r005_l014"
-    use_age_in_formula: false
-    use_spatial: true
-    spatial_mode: "spatial"
-    n_mev: 3
-    n_cores: 24
+  _profile:
+    role: smoke
+    status: active
+    selectable: true
+    pipeline: paleo_smoke
+    description: "Small Czech paleo workflow for smoke validation."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_test.R
+
 project_cz_modern:
   target_store: Data/targets/cz_modern
   vegvault_data:
@@ -389,6 +476,181 @@ project_cz_modern:
         lambda_cov: !expr c(0)
         lambda_coef: !expr c(0)
         lambda_spatial: !expr c(0)
+  _profile:
+    role: smoke
+    status: active
+    selectable: true
+    pipeline: modern_spatial_smoke
+    description: "Small Czech modern workflow for smoke validation."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_test.R
+
+
+# Source: Configuration/Profiles/References/cross_validation.yml
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_cz_paleo_cv_reference:
+  inherits: project_cz_paleo
+  target_store: Data/targets/cz_paleo_cv_reference
+  model_fitting:
+    model_tuning_id: paleo_core
+    cross_validation:
+      tier_id: "cz_paleo_cv_reference"
+      assignment_repeats: 3
+      regularization:
+        lambda_cov: !expr c(0, 0.1)
+        lambda_coef: !expr c(0, 0.1)
+        lambda_spatial: !expr c(0, 0.1)
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_core_cv
+    description: "Frozen CPU reference for Czech paleo cross-validation."
+    related_issue: 139
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_paleo_cv_reference.R
+
+project_cz_paleo_cv_reference_gpu:
+  inherits: project_cz_paleo_cv_reference
+  target_store: Data/targets/cz_paleo_cv_reference_gpu
+  model_fitting:
+    cross_validation:
+      tier_id: "cz_paleo_cv_reference_gpu"
+      fit_device: "gpu"
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_core_cv
+    description: "Frozen GPU reference for Czech paleo cross-validation."
+    related_issue: 139
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_paleo_cv_reference_gpu.R
+
+project_cz_paleo_cv_staged_reference_gpu:
+  inherits: project_cz_paleo_cv_reference_gpu
+  target_store: Data/targets/cz_paleo_cv_staged_reference_gpu
+  model_fitting:
+    cross_validation:
+      tuning_strategy: "staged"
+      staged_search:
+        repeat_order: !expr c(1L, 2L, 3L)
+        survivor_counts: !expr c(4L, 2L)
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_core_cv
+    description: "Frozen staged GPU reference paired with the exhaustive reference."
+    related_issue: 138
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_paleo_cv_staged_reference_gpu.R
+
+project_cz_paleo_cv_component_reference_gpu:
+  inherits: project_cz_paleo_cv_reference_gpu
+  target_store: Data/targets/cz_paleo_cv_component_reference_gpu
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_cv_component_reference
+    description: "Frozen Czech paleo component reference workflow."
+    related_issue: 139
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_paleo_cv_component_reference_gpu.R
+
+project_cz_paleo_cv_regularization_reference_gpu:
+  inherits: project_cz_paleo_cv_reference_gpu
+  target_store: Data/targets/cz_paleo_cv_regularization_reference_gpu
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_cv_regularization_reference
+    description: "Frozen Czech paleo regularization reference workflow."
+    related_issue: 139
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_paleo_cv_regularization_reference_gpu.R
+
+project_paleo_local_cv_scientific_reference_gpu:
+  inherits: project_paleo_spatial_local
+  target_store: Data/targets/paleo_local_cv_scientific_reference_gpu
+  scientific_performance:
+    policy_version: "sjsdm_scientific_performance_v1"
+    minimum_mean_tjur_r2: 0.1
+    minimum_repeat_auc: 0.5
+    minimum_positive_taxon_fraction: 0.8
+    require_log_loss_improvement_all_repeats: true
+    require_brier_improvement_all_repeats: true
+    minimum_taxon_fold_evaluable_fraction: 0.8
+    calibration_role: "diagnostic"
+  model_fitting:
+    cross_validation:
+      tier_id: "paleo_local_cv_scientific_reference_gpu"
+      assignment_repeats: 3
+      fit_device: "gpu"
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_local_cv
+    description: "Frozen local paleo scientific-performance reference."
+    related_issue: 141
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_paleo_local_cv_scientific_reference_gpu.R
+
+project_paleo_local_cv_decomposition_reference_gpu:
+  inherits: project_paleo_local_cv_scientific_reference_gpu
+  target_store: Data/targets/paleo_local_cv_decomposition_reference_gpu
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_local_cv_decomposition
+    description: "Frozen local paleo decomposition reference."
+    related_issue: 141
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_paleo_local_cv_decomposition_reference_gpu.R
+
+
+# Source: Configuration/Profiles/References/traits.yml
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_traits_reference:
+  target_store: Data/targets/traits_reference
+  data_processing:
+    ft_groups_min: 5
+    ft_groups_max: 30
+    ft_metric: "gower"
+    ft_method: "average"
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: traits
+    description: "Reference profile for the functional-trait pipeline."
+    related_issue: ~
+    retirement: "Retain while the functional-trait reference pipeline is supported."
+    supported_runners:
+      - R/01_Data_processing/Traits/Run_trait_analyses.R
+
+
+# Source: Configuration/Profiles/One_time/Issues/issue_138.yml
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
 project_issue138_paleo_spatial_continental_europe_staged:
   inherits: project_paleo_spatial_continental
   target_store: Data/targets/issue138_validation/paleo_continental_europe
@@ -400,6 +662,17 @@ project_issue138_paleo_spatial_continental_europe_staged:
       tuning_strategy: "staged"
       tuning_context:
         resolution_ids: !expr c("genus")
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_138_paleo_spatial
+    description: "Issue 138 staged continental paleo benchmark."
+    related_issue: 138
+    retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue138_paleo_continental_europe_staged.R
+
 project_issue138_modern_spatial_continental_europe_staged:
   inherits: project_modern_spatial_continental
   target_store: Data/targets/issue138_validation/modern_continental_europe
@@ -411,12 +684,17 @@ project_issue138_modern_spatial_continental_europe_staged:
       tuning_strategy: "staged"
       tuning_context:
         resolution_ids: !expr c("genus")
-project_issue143_modern_spatial_continental_europe_shared_mem:
-  inherits: project_issue138_modern_spatial_continental_europe_staged
-  target_store: Data/targets/issue143_validation/modern_continental_europe
-  model_fitting:
-    cross_validation:
-      tier_id: "issue143_modern_continental_europe_shared_mem"
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_138_modern_spatial
+    description: "Issue 138 staged continental modern benchmark."
+    related_issue: 138
+    retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue138_modern_continental_europe_staged.R
+
 project_paleo_temporal_issue138_europe_staged:
   inherits: project_paleo_temporal_europe
   target_store: Data/targets/issue138_validation/temporal_europe_6500
@@ -428,6 +706,17 @@ project_paleo_temporal_issue138_europe_staged:
       tuning_strategy: "staged"
       tuning_context:
         resolution_ids: !expr c("timeslice_6500")
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_138_paleo_temporal
+    description: "Issue 138 staged European temporal benchmark."
+    related_issue: 138
+    retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue138_temporal_europe_staged.R
+
 project_paleo_temporal_issue138_america_staged:
   inherits: project_paleo_temporal_america
   target_store: Data/targets/issue138_validation/temporal_america_6500
@@ -439,6 +728,17 @@ project_paleo_temporal_issue138_america_staged:
       tuning_strategy: "staged"
       tuning_context:
         resolution_ids: !expr c("timeslice_6500")
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_138_paleo_temporal
+    description: "Issue 138 staged American temporal benchmark."
+    related_issue: 138
+    retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue138_temporal_america_staged.R
+
 project_paleo_temporal_issue138_asia_staged:
   inherits: project_paleo_temporal_asia
   target_store: Data/targets/issue138_validation/temporal_asia_6500
@@ -450,3 +750,35 @@ project_paleo_temporal_issue138_asia_staged:
       tuning_strategy: "staged"
       tuning_context:
         resolution_ids: !expr c("timeslice_6500")
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_138_paleo_temporal
+    description: "Issue 138 staged Asian temporal benchmark."
+    related_issue: 138
+    retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue138_temporal_asia_staged.R
+
+
+# Source: Configuration/Profiles/One_time/Issues/issue_143.yml
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_issue143_modern_spatial_continental_europe_shared_mem:
+  inherits: project_issue138_modern_spatial_continental_europe_staged
+  target_store: Data/targets/issue143_validation/modern_continental_europe
+  model_fitting:
+    cross_validation:
+      tier_id: "issue143_modern_continental_europe_shared_mem"
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_143_modern_spatial
+    description: "Issue 143 shared-MEM continental modern benchmark."
+    related_issue: 143
+    retirement: "Archive only after the shared-MEM implementation no longer requires Issue 143 reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue143_modern_continental_europe_shared_mem.R

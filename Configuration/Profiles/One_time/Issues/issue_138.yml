@@ -1,0 +1,112 @@
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_issue138_paleo_spatial_continental_europe_staged:
+  inherits: project_paleo_spatial_continental
+  target_store: Data/targets/issue138_validation/paleo_continental_europe
+  data_processing:
+    n_interpolation_workers: 4
+  model_fitting:
+    cross_validation:
+      tier_id: "issue138_paleo_continental_europe"
+      tuning_strategy: "staged"
+      tuning_context:
+        resolution_ids: !expr c("genus")
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_138_paleo_spatial
+    description: "Issue 138 staged continental paleo benchmark."
+    related_issue: 138
+    retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue138_paleo_continental_europe_staged.R
+
+project_issue138_modern_spatial_continental_europe_staged:
+  inherits: project_modern_spatial_continental
+  target_store: Data/targets/issue138_validation/modern_continental_europe
+  data_processing:
+    n_interpolation_workers: 4
+  model_fitting:
+    cross_validation:
+      tier_id: "issue138_modern_continental_europe"
+      tuning_strategy: "staged"
+      tuning_context:
+        resolution_ids: !expr c("genus")
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_138_modern_spatial
+    description: "Issue 138 staged continental modern benchmark."
+    related_issue: 138
+    retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue138_modern_continental_europe_staged.R
+
+project_paleo_temporal_issue138_europe_staged:
+  inherits: project_paleo_temporal_europe
+  target_store: Data/targets/issue138_validation/temporal_europe_6500
+  data_processing:
+    n_interpolation_workers: 4
+  model_fitting:
+    cross_validation:
+      tier_id: "issue138_temporal_europe_6500"
+      tuning_strategy: "staged"
+      tuning_context:
+        resolution_ids: !expr c("timeslice_6500")
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_138_paleo_temporal
+    description: "Issue 138 staged European temporal benchmark."
+    related_issue: 138
+    retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue138_temporal_europe_staged.R
+
+project_paleo_temporal_issue138_america_staged:
+  inherits: project_paleo_temporal_america
+  target_store: Data/targets/issue138_validation/temporal_america_6500
+  data_processing:
+    n_interpolation_workers: 4
+  model_fitting:
+    cross_validation:
+      tier_id: "issue138_temporal_america_6500"
+      tuning_strategy: "staged"
+      tuning_context:
+        resolution_ids: !expr c("timeslice_6500")
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_138_paleo_temporal
+    description: "Issue 138 staged American temporal benchmark."
+    related_issue: 138
+    retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue138_temporal_america_staged.R
+
+project_paleo_temporal_issue138_asia_staged:
+  inherits: project_paleo_temporal_asia
+  target_store: Data/targets/issue138_validation/temporal_asia_6500
+  data_processing:
+    n_interpolation_workers: 4
+  model_fitting:
+    cross_validation:
+      tier_id: "issue138_temporal_asia_6500"
+      tuning_strategy: "staged"
+      tuning_context:
+        resolution_ids: !expr c("timeslice_6500")
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_138_paleo_temporal
+    description: "Issue 138 staged Asian temporal benchmark."
+    related_issue: 138
+    retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue138_temporal_asia_staged.R

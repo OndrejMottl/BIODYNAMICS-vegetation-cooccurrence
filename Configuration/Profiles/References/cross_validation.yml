@@ -1,0 +1,133 @@
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_cz_paleo_cv_reference:
+  inherits: project_cz_paleo
+  target_store: Data/targets/cz_paleo_cv_reference
+  model_fitting:
+    model_tuning_id: paleo_core
+    cross_validation:
+      tier_id: "cz_paleo_cv_reference"
+      assignment_repeats: 3
+      regularization:
+        lambda_cov: !expr c(0, 0.1)
+        lambda_coef: !expr c(0, 0.1)
+        lambda_spatial: !expr c(0, 0.1)
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_core_cv
+    description: "Frozen CPU reference for Czech paleo cross-validation."
+    related_issue: 139
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_paleo_cv_reference.R
+
+project_cz_paleo_cv_reference_gpu:
+  inherits: project_cz_paleo_cv_reference
+  target_store: Data/targets/cz_paleo_cv_reference_gpu
+  model_fitting:
+    cross_validation:
+      tier_id: "cz_paleo_cv_reference_gpu"
+      fit_device: "gpu"
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_core_cv
+    description: "Frozen GPU reference for Czech paleo cross-validation."
+    related_issue: 139
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_paleo_cv_reference_gpu.R
+
+project_cz_paleo_cv_staged_reference_gpu:
+  inherits: project_cz_paleo_cv_reference_gpu
+  target_store: Data/targets/cz_paleo_cv_staged_reference_gpu
+  model_fitting:
+    cross_validation:
+      tuning_strategy: "staged"
+      staged_search:
+        repeat_order: !expr c(1L, 2L, 3L)
+        survivor_counts: !expr c(4L, 2L)
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_core_cv
+    description: "Frozen staged GPU reference paired with the exhaustive reference."
+    related_issue: 138
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_paleo_cv_staged_reference_gpu.R
+
+project_cz_paleo_cv_component_reference_gpu:
+  inherits: project_cz_paleo_cv_reference_gpu
+  target_store: Data/targets/cz_paleo_cv_component_reference_gpu
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_cv_component_reference
+    description: "Frozen Czech paleo component reference workflow."
+    related_issue: 139
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_paleo_cv_component_reference_gpu.R
+
+project_cz_paleo_cv_regularization_reference_gpu:
+  inherits: project_cz_paleo_cv_reference_gpu
+  target_store: Data/targets/cz_paleo_cv_regularization_reference_gpu
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_cv_regularization_reference
+    description: "Frozen Czech paleo regularization reference workflow."
+    related_issue: 139
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_paleo_cv_regularization_reference_gpu.R
+
+project_paleo_local_cv_scientific_reference_gpu:
+  inherits: project_paleo_spatial_local
+  target_store: Data/targets/paleo_local_cv_scientific_reference_gpu
+  scientific_performance:
+    policy_version: "sjsdm_scientific_performance_v1"
+    minimum_mean_tjur_r2: 0.1
+    minimum_repeat_auc: 0.5
+    minimum_positive_taxon_fraction: 0.8
+    require_log_loss_improvement_all_repeats: true
+    require_brier_improvement_all_repeats: true
+    minimum_taxon_fold_evaluable_fraction: 0.8
+    calibration_role: "diagnostic"
+  model_fitting:
+    cross_validation:
+      tier_id: "paleo_local_cv_scientific_reference_gpu"
+      assignment_repeats: 3
+      fit_device: "gpu"
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_local_cv
+    description: "Frozen local paleo scientific-performance reference."
+    related_issue: 141
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_paleo_local_cv_scientific_reference_gpu.R
+
+project_paleo_local_cv_decomposition_reference_gpu:
+  inherits: project_paleo_local_cv_scientific_reference_gpu
+  target_store: Data/targets/paleo_local_cv_decomposition_reference_gpu
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: paleo_local_cv_decomposition
+    description: "Frozen local paleo decomposition reference."
+    related_issue: 141
+    retirement: "Retain while Issue 141 contract validation uses this reference."
+    supported_runners:
+      - R/02_Main_analyses/Run_paleo_local_cv_decomposition_reference_gpu.R

@@ -1,0 +1,98 @@
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_paleo_spatial_continental:
+  target_store: Data/targets/paleo_spatial_continental
+  vegvault_data:
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    min_n_taxa: 5
+    n_cores: 24
+    n_interpolation_workers: 16
+  model_fitting:
+    model_tuning_id: "paleo_spatial"
+    cross_validation:
+      tier_id: "paleo_spatial_continental"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "europe"
+    n_mev: 5
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_spatial
+    description: "Main continental paleo-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/01_Paleo/01_Run_spatial_continental.R
+
+project_paleo_spatial_regional:
+  target_store: Data/targets/paleo_spatial_regional
+  vegvault_data:
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    min_n_taxa: 4
+    n_cores: 24
+    n_interpolation_workers: 8
+  model_fitting:
+    model_tuning_id: "paleo_spatial"
+    cross_validation:
+      tier_id: "paleo_spatial_regional"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005"
+    n_mev: 4
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_spatial
+    description: "Main regional paleo-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/01_Paleo/02_Run_spatial_regional.R
+
+project_paleo_spatial_local:
+  target_store: Data/targets/paleo_spatial_local
+  vegvault_data:
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 5
+    min_n_taxa: 3
+    n_cores: 24
+    n_interpolation_workers: 4
+  model_fitting:
+    model_tuning_id: "paleo_spatial"
+    cross_validation:
+      tier_id: "paleo_spatial_local"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005_l014"
+    n_mev: 3
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_spatial
+    description: "Main local paleo-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/01_Paleo/03_Run_spatial_local.R
