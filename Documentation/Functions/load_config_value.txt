@@ -1,0 +1,33 @@
+Load Named Configuration Value
+
+Description:
+
+     Loads one nested value from a named project configuration.
+
+Usage:
+
+     load_config_value(config_id, value, file = here::here("config.yml"))
+
+Arguments:
+
+config_id: Single non-empty configuration identifier declared in the
+          YAML file.
+
+   value: Character vector specifying the nested configuration key
+          path.
+
+    file: Path to the generated YAML configuration file.
+
+Details:
+
+     Use [load_config()] when the complete named configuration is
+     needed. This function is the canonical project boundary around
+     [config::get()] for values from an explicitly named configuration.
+
+Value:
+
+     The value associated with the requested key path.
+
+See Also:
+
+     [load_config()], [load_active_config_value()]

@@ -1,0 +1,19 @@
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_issue143_modern_spatial_continental_europe_shared_mem:
+  inherits: project_issue138_modern_spatial_continental_europe_staged
+  target_store: Data/targets/issue143_validation/modern_continental_europe
+  model_fitting:
+    cross_validation:
+      tier_id: "issue143_modern_continental_europe_shared_mem"
+  _profile:
+    role: one_time
+    status: frozen
+    selectable: false
+    pipeline: issue_143_modern_spatial
+    description: "Issue 143 shared-MEM continental modern benchmark."
+    related_issue: 143
+    retirement: "Archive only after the shared-MEM implementation no longer requires Issue 143 reproduction."
+    supported_runners:
+      - R/02_Main_analyses/Run_issue143_modern_continental_europe_shared_mem.R

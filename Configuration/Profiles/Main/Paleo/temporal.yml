@@ -1,0 +1,98 @@
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_paleo_temporal_europe:
+  target_store: Data/targets/paleo_temporal_europe
+  vegvault_data:
+    x_lim: !expr c(-10, 40)
+    y_lim: !expr c(35, 70)
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    n_interpolation_workers: 16
+  model_fitting:
+    cross_validation:
+      tier_id: "paleo_temporal_europe"
+    n_mev: 5
+    n_cores: 24
+    n_iter: 1000
+    n_sampling: 150
+    n_samples_anova: 500
+    n_early_stopping: ~
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_temporal
+    description: "Main European paleo-temporal analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/02_Temporal_Paleo/01_Run_temporal_europe.R
+
+project_paleo_temporal_america:
+  target_store: Data/targets/paleo_temporal_america
+  vegvault_data:
+    x_lim: !expr c(-130, -60)
+    y_lim: !expr c(30, 70)
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    n_interpolation_workers: 16
+  model_fitting:
+    cross_validation:
+      tier_id: "paleo_temporal_america"
+    n_mev: 5
+    n_cores: 24
+    n_iter: 1000
+    n_sampling: 150
+    n_samples_anova: 500
+    n_early_stopping: ~
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_temporal
+    description: "Main American paleo-temporal analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/02_Temporal_Paleo/02_Run_temporal_america.R
+
+project_paleo_temporal_asia:
+  target_store: Data/targets/paleo_temporal_asia
+  vegvault_data:
+    x_lim: !expr c(60, 140)
+    y_lim: !expr c(50, 75)
+    age_lim: !expr c(0, 20e3)
+    sel_dataset_type: !expr c("fossil_pollen_archive","gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    n_interpolation_workers: 16
+  model_fitting:
+    cross_validation:
+      tier_id: "paleo_temporal_asia"
+    n_mev: 5
+    n_cores: 24
+    n_iter: 1000
+    n_sampling: 150
+    n_samples_anova: 500
+    n_early_stopping: ~
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: paleo_temporal
+    description: "Main Asian paleo-temporal analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/02_Temporal_Paleo/03_Run_temporal_asia.R

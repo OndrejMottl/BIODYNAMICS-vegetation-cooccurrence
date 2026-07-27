@@ -25,7 +25,7 @@ source(
 )
 
 if (
-  config::is_active("default")
+  !base::nzchar(base::Sys.getenv("R_CONFIG_ACTIVE"))
 ) {
   Sys.setenv(R_CONFIG_ACTIVE = "project_modern_spatial_continental")
 }
@@ -93,7 +93,7 @@ sel_script <-
 
 sel_store <-
   here::here(
-    get_active_config("target_store"),
+    load_active_config_value("target_store"),
     sel_scale_id,
     "pipeline_modern_spatial_resolution"
   )

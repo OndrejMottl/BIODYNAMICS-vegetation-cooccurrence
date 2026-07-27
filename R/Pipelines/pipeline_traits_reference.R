@@ -71,7 +71,9 @@
 #
 #   targets::tar_make(
 #     script = here::here("R/Pipelines/pipeline_traits_reference.R"),
-#     store  = here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
+#     store = here::here(
+#       "Data/targets/traits_reference_reference/pipeline_traits_reference"
+#     )
 #   )
 #
 # To force re-extraction from VegVault (not done automatically):
@@ -114,7 +116,7 @@ targets::tar_source(
 )
 
 targets::tar_option_set(
-  seed = get_active_config("seed"),
+  seed = load_active_config_value("seed"),
   format = "qs"
 )
 

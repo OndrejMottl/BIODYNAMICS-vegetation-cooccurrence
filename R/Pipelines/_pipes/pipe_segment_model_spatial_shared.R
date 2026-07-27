@@ -44,19 +44,19 @@ pipe_segment_model_spatial_shared <-
       description = "Shared spatial-predictor configuration",
       name = "config_spatial_predictors",
       command = base::list(
-        use_spatial = get_active_config(
+        use_spatial = load_active_config_value(
           value = c("model_fitting", "use_spatial")
         ),
-        spatial_mode = get_active_config(
+        spatial_mode = load_active_config_value(
           value = c("model_fitting", "spatial_mode")
         ),
-        spatial_crs = get_active_config(
+        spatial_crs = load_active_config_value(
           value = c("model_fitting", "spatial_crs")
         ),
-        n_mev = get_active_config(
+        n_mev = load_active_config_value(
           value = c("model_fitting", "n_mev")
         ),
-        spatial_mev = get_active_config(
+        spatial_mev = load_active_config_value(
           value = c("model_fitting", "spatial_mev")
         )
       ),

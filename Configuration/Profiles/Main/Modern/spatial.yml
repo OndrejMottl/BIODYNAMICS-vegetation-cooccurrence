@@ -1,0 +1,101 @@
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_modern_spatial_continental:
+  target_store: Data/targets/modern_spatial_continental
+  vegvault_data:
+    age_lim: !expr c(0, 0)
+    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    min_n_taxa: 5
+  model_fitting:
+    model_tuning_id: "modern_spatial"
+    cross_validation:
+      tier_id: "modern_spatial_continental"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "europe"
+    use_age_in_formula: false
+    use_spatial: true
+    spatial_mode: "spatial"
+    n_mev: 5
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: modern_spatial
+    description: "Main continental modern-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/02_Contemporary/01_Run_modern_continental.R
+
+project_modern_spatial_regional:
+  target_store: Data/targets/modern_spatial_regional
+  vegvault_data:
+    age_lim: !expr c(0, 0)
+    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 10
+    min_n_taxa: 4
+  model_fitting:
+    model_tuning_id: "modern_spatial"
+    cross_validation:
+      tier_id: "modern_spatial_regional"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005"
+    use_age_in_formula: false
+    use_spatial: true
+    spatial_mode: "spatial"
+    n_mev: 4
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: modern_spatial
+    description: "Main regional modern-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/02_Contemporary/02_Run_modern_regional.R
+
+project_modern_spatial_local:
+  target_store: Data/targets/modern_spatial_local
+  vegvault_data:
+    age_lim: !expr c(0, 0)
+    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 5
+    min_n_taxa: 3
+  model_fitting:
+    model_tuning_id: "modern_spatial"
+    cross_validation:
+      tier_id: "modern_spatial_local"
+      common_regularization_sensitivity:
+        enabled: true
+        representative_scale_id: "eu_r005_l014"
+    use_age_in_formula: false
+    use_spatial: true
+    spatial_mode: "spatial"
+    n_mev: 3
+    n_cores: 24
+  _profile:
+    role: main
+    status: active
+    selectable: true
+    pipeline: modern_spatial
+    description: "Main local modern-spatial analysis."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/01_Spatial/02_Contemporary/03_Run_modern_local.R

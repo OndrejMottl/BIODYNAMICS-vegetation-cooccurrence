@@ -47,7 +47,7 @@ vec_function_files <-
 targets::tar_source(files = vec_function_files)
 
 targets::tar_option_set(
-  seed = get_active_config("seed"),
+  seed = load_active_config_value("seed"),
   format = "qs"
 )
 
@@ -131,7 +131,7 @@ base::list(
     name = config_scientific_reference_model_fitting,
     command = purrr::list_modify(
       config_source_model_fitting,
-      cross_validation = get_active_config("model_fitting") |>
+      cross_validation = load_active_config_value("model_fitting") |>
         purrr::chuck("cross_validation")
     )
   ),
@@ -409,7 +409,7 @@ base::list(
   ),
   targets::tar_target(
     name = list_scientific_reference_performance_policy,
-    command = get_active_config("scientific_performance")
+    command = load_active_config_value("scientific_performance")
   ),
   targets::tar_target(
     name = list_scientific_reference_performance_assessment,

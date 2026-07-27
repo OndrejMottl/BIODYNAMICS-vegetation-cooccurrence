@@ -9,7 +9,7 @@ Usage:
 
      save_progress_visualisation(
        sel_script,
-       sel_store = get_active_config("target_store"),
+       sel_store = load_active_config_value("target_store"),
        output_file = "project_status",
        output_dir = here::here("Documentation/Progress"),
        background_color = "#141B22",
@@ -68,4 +68,3 @@ Value:
 
      No return value. Called for side effects: saves HTML and PNG files
      to a store-specific subdirectory within `output_dir`.
-

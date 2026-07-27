@@ -1,0 +1,20 @@
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_traits_reference:
+  target_store: Data/targets/traits_reference
+  data_processing:
+    ft_groups_min: 5
+    ft_groups_max: 30
+    ft_metric: "gower"
+    ft_method: "average"
+  _profile:
+    role: reference
+    status: frozen
+    selectable: false
+    pipeline: traits
+    description: "Reference profile for the functional-trait pipeline."
+    related_issue: ~
+    retirement: "Retain while the functional-trait reference pipeline is supported."
+    supported_runners:
+      - R/01_Data_processing/Traits/Run_trait_analyses.R

@@ -12,6 +12,8 @@ testthat::test_that(
         max_round = base::character(),
         fresh_run = base::logical(),
         prebuild_interpolation = base::logical(),
+        vec_allowed_profile_roles = base::character(),
+        vec_allowed_profile_statuses = base::character(),
         plot_progress = base::logical(),
         callr_isolated = base::logical()
       )
@@ -22,6 +24,8 @@ testthat::test_that(
         target_names = NULL,
         prebuild_interpolation = FALSE,
         fresh_run = FALSE,
+        vec_allowed_profile_roles = NULL,
+        vec_allowed_profile_statuses = NULL,
         plot_progress = TRUE,
         callr_function = callr::r) {
       environment_calls[["data"]] <-
@@ -37,6 +41,16 @@ testthat::test_that(
             ),
             fresh_run = fresh_run,
             prebuild_interpolation = prebuild_interpolation,
+            vec_allowed_profile_roles =
+              stringr::str_c(
+                vec_allowed_profile_roles,
+                collapse = ","
+              ),
+            vec_allowed_profile_statuses =
+              stringr::str_c(
+                vec_allowed_profile_statuses,
+                collapse = ","
+              ),
             plot_progress = plot_progress,
             callr_isolated = !base::is.null(callr_function)
           )
@@ -55,6 +69,8 @@ testthat::test_that(
         tuning_strategy = "staged",
         n_rounds = 3L,
         run_pipeline_function = run_pipeline_function,
+        vec_allowed_profile_roles = "reference",
+        vec_allowed_profile_statuses = "frozen",
         has_tuning_evidence_function = function(...) TRUE
       )
 
@@ -115,6 +131,14 @@ testthat::test_that(
     testthat::expect_identical(
       data_calls[["callr_isolated"]],
       base::rep(base::c(TRUE, TRUE, FALSE), times = 3L)
+    )
+    testthat::expect_identical(
+      base::unique(data_calls[["vec_allowed_profile_roles"]]),
+      "reference"
+    )
+    testthat::expect_identical(
+      base::unique(data_calls[["vec_allowed_profile_statuses"]]),
+      "frozen"
     )
   }
 )

@@ -21,6 +21,12 @@
 #' Positive integer configured repeat/tuning-round count.
 #' @param run_pipeline_function
 #' Injectable pipeline runner. Defaults to [run_pipeline()].
+#' @param vec_allowed_profile_roles
+#' Profile roles forwarded to [run_pipeline()]. Production callers should
+#' retain `c("main", "smoke")`; dedicated runners authorize other roles.
+#' @param vec_allowed_profile_statuses
+#' Profile statuses forwarded to [run_pipeline()]. Production callers should
+#' retain `"active"`.
 #' @param has_tuning_evidence_function
 #' Injectable fail-closed evidence checker. Defaults to
 #' [has_sjsdm_tuning_evidence()].
@@ -38,8 +44,10 @@ run_sjsdm_tuning_sequence <- function(
     tuning_strategy = NULL,
     n_rounds = NULL,
     run_pipeline_function = run_pipeline,
+    vec_allowed_profile_roles = base::c("main", "smoke"),
+    vec_allowed_profile_statuses = "active",
     has_tuning_evidence_function = has_sjsdm_tuning_evidence,
-    target_store = get_active_config("target_store")) {
+    target_store = load_active_config_value("target_store")) {
   assertthat::assert_that(
     base::is.character(unit_pipeline),
     base::length(unit_pipeline) == 1L,
@@ -178,6 +186,8 @@ run_sjsdm_tuning_sequence <- function(
           target_names = tuning_target_names,
           prebuild_interpolation = prebuild_round,
           fresh_run = fresh_round,
+          vec_allowed_profile_roles = vec_allowed_profile_roles,
+          vec_allowed_profile_statuses = vec_allowed_profile_statuses,
           plot_progress = FALSE
         )
       )
@@ -195,6 +205,8 @@ run_sjsdm_tuning_sequence <- function(
             target_names = tuning_target_names,
             prebuild_interpolation = prebuild_round,
             fresh_run = fresh_round,
+            vec_allowed_profile_roles = vec_allowed_profile_roles,
+            vec_allowed_profile_statuses = vec_allowed_profile_statuses,
             plot_progress = FALSE
           )
         )
@@ -229,6 +241,8 @@ run_sjsdm_tuning_sequence <- function(
       run_pipeline_function(
         sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R",
         fresh_run = fresh_round,
+        vec_allowed_profile_roles = vec_allowed_profile_roles,
+        vec_allowed_profile_statuses = vec_allowed_profile_statuses,
         plot_progress = final_round,
         callr_function = NULL
       )
@@ -249,6 +263,8 @@ run_sjsdm_tuning_sequence <- function(
         sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R",
         target_names = tier_target_name,
         fresh_run = fresh_round,
+        vec_allowed_profile_roles = vec_allowed_profile_roles,
+        vec_allowed_profile_statuses = vec_allowed_profile_statuses,
         plot_progress = final_round,
         callr_function = NULL
       )

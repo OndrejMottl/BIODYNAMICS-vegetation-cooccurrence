@@ -57,7 +57,7 @@ targets::tar_source(
 
 # set seed for reproducibility
 targets::tar_option_set(
-  seed = get_active_config("seed"),
+  seed = load_active_config_value("seed"),
   format = "qs",
   controller = get_preprocessing_controller(),
   error = "null"
@@ -120,10 +120,10 @@ c(
 #   when switching between projects (project_cz_paleo,
 #   project_paleo_temporal_europe, ...).
 vec_age_lim <-
-  get_active_config(c("vegvault_data", "age_lim"))
+  load_active_config_value(c("vegvault_data", "age_lim"))
 
 vec_time_step <-
-  get_active_config(c("data_processing", "time_step"))
+  load_active_config_value(c("data_processing", "time_step"))
 
 data_to_map_age <-
   tibble::tibble(

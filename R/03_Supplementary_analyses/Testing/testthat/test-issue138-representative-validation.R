@@ -340,7 +340,7 @@ testthat::test_that(
     )
     testthat::expect_match(
       text_resolution,
-      "spatial_mev = get_active_config(",
+      "spatial_mev = load_active_config_value(",
       fixed = TRUE
     )
     testthat::expect_match(

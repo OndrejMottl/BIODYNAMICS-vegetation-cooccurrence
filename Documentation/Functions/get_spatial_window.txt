@@ -35,5 +35,4 @@ Value:
 
 See Also:
 
-     get_active_config
-
+     load_active_config_value

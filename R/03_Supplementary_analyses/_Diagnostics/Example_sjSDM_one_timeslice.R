@@ -52,7 +52,7 @@ flag_verbose <- FALSE
 
 set_store <-
   paste0(
-    get_active_config("target_store"), "/pipeline_paleo_core/"
+    load_active_config_value("target_store"), "/pipeline_paleo_core/"
   ) |>
   here::here()
 
@@ -153,12 +153,12 @@ scale_attrs_1k <-
 #----------------------------------------------------------#
 
 x_lim_pred <-
-  get_active_config(
+  load_active_config_value(
     value = c("vegvault_data", "x_lim")
   )
 
 y_lim_pred <-
-  get_active_config(
+  load_active_config_value(
     value = c("vegvault_data", "y_lim")
   )
 

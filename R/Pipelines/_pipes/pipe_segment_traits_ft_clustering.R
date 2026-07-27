@@ -56,7 +56,7 @@ pipe_segment_traits_ft_clustering <-
       description = "Read ft_groups_max for FT clustering from config",
       name = ft_groups_max_clustering,
       command = base::as.integer(
-        get_config_value_with_fallback(
+        load_config_value_with_fallback(
           config_section = "data_processing",
           config_key = "ft_groups_max",
           fallback_config = "project_traits_reference"
@@ -75,7 +75,7 @@ pipe_segment_traits_ft_clustering <-
       description = "Read ft_groups_min for FT clustering from config",
       name = ft_groups_min_clustering,
       command = base::as.integer(
-        get_config_value_with_fallback(
+        load_config_value_with_fallback(
           config_section = "data_processing",
           config_key = "ft_groups_min",
           fallback_config = "project_traits_reference"
@@ -94,7 +94,7 @@ pipe_segment_traits_ft_clustering <-
     targets::tar_target(
       description = "Read dissimilarity metric for FT clustering from config",
       name = metric_ft_clustering,
-      command = get_config_value_with_fallback(
+      command = load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_metric",
         fallback_config = "project_traits_reference"
@@ -110,7 +110,7 @@ pipe_segment_traits_ft_clustering <-
     targets::tar_target(
       description = "Read hclust method for FT clustering from config",
       name = method_ft_clustering,
-      command = get_config_value_with_fallback(
+      command = load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_method",
         fallback_config = "project_traits_reference"

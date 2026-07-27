@@ -609,7 +609,7 @@ vec_pipelines <- "pipeline_basic"
 set_store <-
   vec_pipelines %>%
   paste0(
-    get_active_config("target_store"), "/", ., "/"
+    load_active_config_value("target_store"), "/", ., "/"
   ) %>%
   here::here()
 ```
@@ -938,15 +938,15 @@ mod_hmsc <-
   mod_hmsc_with_eval %>%
   purrr::chuck("mod")
 
-n_samples <- get_active_config(
+n_samples <- load_active_config_value(
   value = c("model_fitting", "samples")
 )
 
-n_validation_folds <- get_active_config(
+n_validation_folds <- load_active_config_value(
   value = c("model_fitting", "cross_validation_folds")
 )
 
-n_cores <- get_active_config(
+n_cores <- load_active_config_value(
   value = c("model_fitting", "n_cores")
 )
 
@@ -955,14 +955,14 @@ n_samples_total <- n_samples * n_cores
 
 char_abiotic_vars <-
   paste(
-    get_active_config(
+    load_active_config_value(
       c("vegvault_data", "sel_abiotic_var_name")
     ),
     collapse = ", "
   )
 
 char_taxonomic_resolution <-
-  get_active_config(
+  load_active_config_value(
     c("data_processing", "taxonomic_resolution")
   )
 ```
@@ -1385,7 +1385,7 @@ data_species_associations_total %>%
 #| warning: false
 #| include: false
 age_lim <-
-  get_active_config(
+  load_active_config_value(
     value = c("vegvault_data", "age_lim")
   )
 
@@ -1393,13 +1393,13 @@ vec_age_slices <-
   seq(
     min(age_lim),
     max(age_lim),
-    get_active_config(
+    load_active_config_value(
       value = c("data_processing", "time_step")
     )
   )
 
 x_lim <-
-  get_active_config(
+  load_active_config_value(
     value = c("vegvault_data", "x_lim")
   )
 
@@ -1407,7 +1407,7 @@ x_lim_max <- max(x_lim, na.rm = TRUE)
 x_lim_min <- min(x_lim, na.rm = TRUE)
 
 y_lim <-
-  get_active_config(
+  load_active_config_value(
     value = c("vegvault_data", "y_lim")
   )
 
@@ -1506,7 +1506,7 @@ data_coords <-
 random_coors_knots <-
   Hmsc::constructKnots(
     sData = data_coords,
-    minKnotDist = get_active_config(
+    minKnotDist = load_active_config_value(
       c("data_processing", "min_distance_of_gpp_knots")
     )
   )
@@ -1768,7 +1768,7 @@ data_predicted_sel_taxa %>%
     caption = paste(
       paste(
         "HMSC model with space (GPP; minimum distance of",
-        get_active_config(
+        load_active_config_value(
           c("data_processing", "min_distance_of_gpp_knots")
         ),
         ") and age as random effect"
@@ -1905,7 +1905,7 @@ data_predicted_richness %>%
     caption = paste(
       paste(
         "HMSC model with space (GPP; minimum distance of",
-        get_active_config(
+        load_active_config_value(
           c("data_processing", "min_distance_of_gpp_knots")
         ),
         ") and age as random effect"
@@ -2069,7 +2069,7 @@ vec_pipelines <- "pipeline_time"
 set_store <-
   vec_pipelines %>%
   paste0(
-    get_active_config("target_store"), "/", ., "/"
+    load_active_config_value("target_store"), "/", ., "/"
   ) %>%
   here::here()
 

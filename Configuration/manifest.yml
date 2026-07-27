@@ -1,0 +1,15 @@
+version: 1
+output: config.yml
+catalog: Configuration/Generated/profile_catalog.md
+semantic_reference: Documentation/Implementation_inventories/Configuration/configuration_profile_reference_v1.rds
+maximum_inheritance_depth: 4
+fragments:
+  - Configuration/Defaults/default.yml
+  - Configuration/Profiles/Main/Paleo/spatial.yml
+  - Configuration/Profiles/Main/Paleo/temporal.yml
+  - Configuration/Profiles/Main/Modern/spatial.yml
+  - Configuration/Profiles/Validation/cz_smoke.yml
+  - Configuration/Profiles/References/cross_validation.yml
+  - Configuration/Profiles/References/traits.yml
+  - Configuration/Profiles/One_time/Issues/issue_138.yml
+  - Configuration/Profiles/One_time/Issues/issue_143.yml

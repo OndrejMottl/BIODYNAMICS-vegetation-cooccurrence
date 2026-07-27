@@ -23,7 +23,7 @@
 #' have to appear in the plot. Defaults to `5L`.
 #' @param graphical_options
 #' Named list with elements `width`, `height`, `units`, `dpi`, and
-#' `bg`, as returned by `get_active_config("graphical")`. Passed to
+#' `bg`, as returned by `load_active_config_value("graphical")`. Passed to
 #' `ggview::canvas()`.
 #' @param verbose
 #' Logical. If `TRUE` (default), the number of taxa shown in the plot
@@ -62,7 +62,7 @@
 #'   )
 #'
 #' graphical_options <-
-#'   get_active_config("graphical")
+#'   load_active_config_value("graphical")
 #'
 #' p <-
 #'   plot_family_trait_comparison(

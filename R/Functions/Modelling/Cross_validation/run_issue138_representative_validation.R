@@ -113,7 +113,7 @@ run_issue138_representative_validation <- function(
     new = base::c(R_CONFIG_ACTIVE = active_config),
     code = {
       list_cross_validation <-
-        get_active_config(
+        load_active_config_value(
           base::c("model_fitting", "cross_validation")
         )
 
@@ -135,7 +135,9 @@ run_issue138_representative_validation <- function(
           "tuning_strategy"
         ),
         n_rounds = base::length(vec_repeat_order),
-        run_pipeline_function = run_pipeline_function
+        run_pipeline_function = run_pipeline_function,
+        vec_allowed_profile_roles = "one_time",
+        vec_allowed_profile_statuses = "frozen"
       )
 
       run_pipeline_function(
@@ -143,7 +145,9 @@ run_issue138_representative_validation <- function(
         store_suffix = store_suffix,
         target_names = final_target_names,
         fresh_run = FALSE,
-        prebuild_interpolation = FALSE
+        prebuild_interpolation = FALSE,
+        vec_allowed_profile_roles = "one_time",
+        vec_allowed_profile_statuses = "frozen"
       )
     }
   )

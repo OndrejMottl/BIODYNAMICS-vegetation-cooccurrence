@@ -100,19 +100,19 @@ prediction_inputs <-
   )
 
 age_lim <-
-  get_active_config(c("vegvault_data", "age_lim"))
+  load_active_config_value(c("vegvault_data", "age_lim"))
 
 time_step <-
-  get_active_config(c("data_processing", "time_step"))
+  load_active_config_value(c("data_processing", "time_step"))
 
 selected_abiotic_variables <-
-  get_active_config(c("vegvault_data", "sel_abiotic_var_name"))
+  load_active_config_value(c("vegvault_data", "sel_abiotic_var_name"))
 
 spatial_mode <-
-  get_active_config(c("model_fitting", "spatial_mode"))
+  load_active_config_value(c("model_fitting", "spatial_mode"))
 
 spatial_crs <-
-  get_active_config(c("model_fitting", "spatial_crs"))
+  load_active_config_value(c("model_fitting", "spatial_crs"))
 
 vec_age_slices <-
   base::seq(

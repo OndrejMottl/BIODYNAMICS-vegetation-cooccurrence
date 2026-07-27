@@ -1,0 +1,74 @@
+---
+format: html
+title: load_active_config_value()
+
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script>
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>load_active_config_value</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load Value from Active Configuration</h2>
+
+<h3>Description</h3>
+
+<p>Loads one nested value from the active project configuration.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>load_active_config_value(value, file = here::here("config.yml"))
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="value">value</code></td>
+<td>
+<p>A character vector specifying the configuration key(s) to retrieve.</p>
+</td></tr>
+<tr><td><code id="file">file</code></td>
+<td>
+<p>Path to the YAML configuration file (default: &quot;config.yml&quot;).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The active configuration is set by 'R_CONFIG_ACTIVE'. An unset or empty
+value uses 'default'. Explicit named access belongs in [load_config()] or
+[load_config_value()].
+</p>
+
+
+<h3>Value</h3>
+
+<p>The value associated with the specified key path.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[load_config()], [load_config_value()]
+</p>
+
+</main>
+
+</div>
+</body></html>

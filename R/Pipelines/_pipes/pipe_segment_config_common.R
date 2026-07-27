@@ -55,7 +55,7 @@ pipe_segment_config_common <-
           ) |>
             purrr::chuck("x_lim")
         } else {
-          get_active_config(
+          load_active_config_value(
             value = c("vegvault_data", "x_lim")
           )
         }
@@ -75,7 +75,7 @@ pipe_segment_config_common <-
           ) |>
             purrr::chuck("y_lim")
         } else {
-          get_active_config(
+          load_active_config_value(
             value = c("vegvault_data", "y_lim")
           )
         }
@@ -85,23 +85,29 @@ pipe_segment_config_common <-
     targets::tar_target(
       description = "Configuration for VegVault data extraction - agelim",
       name = "config_age_lim",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("vegvault_data", "age_lim")
       ),
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = "Configuration for VegVault data extraction - abiotic variable name",
+      description = paste(
+        "Configuration for VegVault data extraction",
+        "- abiotic variable name"
+      ),
       name = "config_sel_abiotic_var_name",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("vegvault_data", "sel_abiotic_var_name")
       ),
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = "Configuration for VegVault data extraction - dataset type",
+      description = paste(
+        "Configuration for VegVault data extraction",
+        "- dataset type"
+      ),
       name = "config_sel_dataset_type",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("vegvault_data", "sel_dataset_type")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -121,15 +127,18 @@ pipe_segment_config_common <-
     targets::tar_target(
       description = "Configuration for data processing - time step",
       name = "config_time_step",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("data_processing", "time_step")
       ),
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = "Configuration for data processing - minimal proportion of pollen",
+      description = paste(
+        "Configuration for data processing",
+        "- minimal proportion of pollen"
+      ),
       name = "config_minimal_proportion_of_pollen",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("data_processing", "minimal_proportion_of_pollen")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -137,7 +146,7 @@ pipe_segment_config_common <-
     targets::tar_target(
       description = "Configuration for data processing - number of taxa",
       name = "config_number_of_taxa",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("data_processing", "number_of_taxa")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -145,7 +154,7 @@ pipe_segment_config_common <-
     targets::tar_target(
       description = "Configuration for data processing - taxonomic resolution",
       name = "config_taxonomic_resolution",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("data_processing", "taxonomic_resolution")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -153,7 +162,7 @@ pipe_segment_config_common <-
     targets::tar_target(
       description = "Configuration for data processing - min n cores",
       name = "config_min_n_cores",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("data_processing", "min_n_cores")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -161,7 +170,7 @@ pipe_segment_config_common <-
     targets::tar_target(
       description = "Configuration for data processing - n cores",
       name = "config_data_n_cores",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("data_processing", "n_cores")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -169,7 +178,7 @@ pipe_segment_config_common <-
     targets::tar_target(
       description = "Configuration for data processing - min n samples",
       name = "config_min_n_samples",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("data_processing", "min_n_samples")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -180,7 +189,7 @@ pipe_segment_config_common <-
         " minimum number of taxa to run model"
       ),
       name = "config_min_n_taxa",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("data_processing", "min_n_taxa")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -210,7 +219,7 @@ pipe_segment_config_common <-
         " (e.g. 'binomial' for presence-absence)"
       ),
       name = "config_error_family",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("model_fitting", "error_family")
       ),
       cue = targets::tar_cue(mode = "always")

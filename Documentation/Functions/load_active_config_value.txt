@@ -1,0 +1,30 @@
+Load Value from Active Configuration
+
+Description:
+
+     Loads one nested value from the active project configuration.
+
+Usage:
+
+     load_active_config_value(value, file = here::here("config.yml"))
+
+Arguments:
+
+   value: A character vector specifying the configuration key(s) to
+          retrieve.
+
+    file: Path to the YAML configuration file (default: "config.yml").
+
+Details:
+
+     The active configuration is set by `R_CONFIG_ACTIVE`. An unset or
+     empty value uses `default`. Explicit named access belongs in
+     [load_config()] or [load_config_value()].
+
+Value:
+
+     The value associated with the specified key path.
+
+See Also:
+
+     [load_config()], [load_config_value()]

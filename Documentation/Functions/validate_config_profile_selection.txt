@@ -1,0 +1,37 @@
+Validate the Active Configuration Profile Selection
+
+Description:
+
+     Checks that the active profile is explicitly authorized for a
+     runner.
+
+Usage:
+
+     validate_config_profile_selection(
+       vec_allowed_roles = base::c("main", "smoke"),
+       vec_allowed_statuses = "active",
+       file = here::here("config.yml")
+     )
+
+Arguments:
+
+vec_allowed_roles: Non-empty character vector of profile roles
+          authorized by the caller. Production runners should retain
+          the default `c("main", "smoke")`.
+
+vec_allowed_statuses: Non-empty character vector of profile statuses
+          authorized by the caller. Production runners should retain
+          the default `"active"`.
+
+    file: Path to the generated YAML configuration file.
+
+Details:
+
+     Base and archived profiles are never executable. Main and smoke
+     profiles must also declare `selectable: true`. Dedicated reference
+     or one-time runners may explicitly authorize their role and
+     status.
+
+Value:
+
+     The validated `_profile` metadata, invisibly.

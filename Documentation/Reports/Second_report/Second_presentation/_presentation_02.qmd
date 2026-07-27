@@ -69,7 +69,7 @@ vec_pipelines <- "pipeline_basic"
 set_store <-
   here::here(
     base::paste0(
-      get_active_config("target_store"),
+      load_active_config_value("target_store"),
       "/",
       vec_pipelines,
       "/"
@@ -1125,22 +1125,22 @@ scale_attributes <-
 
 # EU config values
 x_lim <-
-  get_active_config(c("vegvault_data", "x_lim"))
+  load_active_config_value(c("vegvault_data", "x_lim"))
 
 y_lim <-
-  get_active_config(c("vegvault_data", "y_lim"))
+  load_active_config_value(c("vegvault_data", "y_lim"))
 
 sel_abiotic_var_name <-
-  get_active_config(c("vegvault_data", "sel_abiotic_var_name"))
+  load_active_config_value(c("vegvault_data", "sel_abiotic_var_name"))
 
 spatial_crs <-
-  get_active_config(c("model_fitting", "spatial_crs"))
+  load_active_config_value(c("model_fitting", "spatial_crs"))
 
 use_spatial <-
-  get_active_config(c("model_fitting", "use_spatial"))
+  load_active_config_value(c("model_fitting", "use_spatial"))
 
 spatial_mode <-
-  get_active_config(c("model_fitting", "spatial_mode"))
+  load_active_config_value(c("model_fitting", "spatial_mode"))
 
 # Conditionally load spatial targets
 data_spatial_mev_core <- NULL

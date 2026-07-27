@@ -1,0 +1,116 @@
+<!DOCTYPE html><html><head><title>R: Run Common sjSDM Sensitivity When Stores Are Ready</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_sjsdm_cross_tier_sensitivity</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run Common sjSDM Sensitivity When Stores Are Ready</h2>
+
+<h3>Description</h3>
+
+<p>Checks every enabled tier's configured representative model store before
+running the cross-tier common-regularization sensitivity pipeline.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_sjsdm_cross_tier_sensitivity(
+  profile_ids = NULL,
+  pipeline_name = NULL,
+  sensitivity_script = base::file.path("R", "Pipelines",
+    "pipeline_sjsdm_common_regularization_sensitivity.R"),
+  config_file = here::here("config.yml"),
+  project_root = here::here(),
+  config_load_function = load_config,
+  dir_exists_function = fs::dir_exists,
+  run_pipeline_function = run_pipeline
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr><td><code id="profile_ids">profile_ids</code></td>
+<td>
+<p>Non-empty character vector of unique spatial configuration profile IDs.</p>
+</td></tr>
+<tr><td><code id="pipeline_name">pipeline_name</code></td>
+<td>
+<p>Single spatial-resolution pipeline directory name.</p>
+</td></tr>
+<tr><td><code id="sensitivity_script">sensitivity_script</code></td>
+<td>
+<p>Common-regularization sensitivity pipeline script path.</p>
+</td></tr>
+<tr><td><code id="config_file">config_file</code></td>
+<td>
+<p>Configuration file passed to 'config_load_function'.</p>
+</td></tr>
+<tr><td><code id="project_root">project_root</code></td>
+<td>
+<p>Project root used to resolve configured relative target-store paths.</p>
+</td></tr>
+<tr><td><code id="config_load_function">config_load_function</code></td>
+<td>
+<p>Injectable complete-configuration loader. Defaults to [load_config()].</p>
+</td></tr>
+<tr><td><code id="dir_exists_function">dir_exists_function</code></td>
+<td>
+<p>Injectable directory-existence predicate. Defaults to [fs::dir_exists()].</p>
+</td></tr>
+<tr><td><code id="run_pipeline_function">run_pipeline_function</code></td>
+<td>
+<p>Injectable pipeline runner. Defaults to [run_pipeline()].</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The sensitivity pipeline is an all-tier operation. It is not started unless
+every configured representative store exists, so a standalone local runner
+can finish without failing on absent continental or regional stores.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Tibble with one row per requested profile, its representative store status,
+and a sensitivity status of '&quot;completed&quot;', '&quot;skipped_missing_store&quot;', or
+'&quot;skipped_disabled&quot;'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+run_sjsdm_cross_tier_sensitivity(
+  profile_ids = c(
+    "project_paleo_spatial_continental",
+    "project_paleo_spatial_regional",
+    "project_paleo_spatial_local"
+  ),
+  pipeline_name = "pipeline_paleo_spatial_resolution"
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

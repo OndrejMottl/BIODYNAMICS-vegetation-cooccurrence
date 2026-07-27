@@ -97,7 +97,7 @@ targets::tar_source(
 
 # set seed for reproducibility
 targets::tar_option_set(
-  seed = get_active_config("seed"),
+  seed = load_active_config_value("seed"),
   format = "qs",
   controller = get_preprocessing_controller(),
   error = "continue"

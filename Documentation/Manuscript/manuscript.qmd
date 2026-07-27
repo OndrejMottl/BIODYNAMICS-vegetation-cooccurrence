@@ -59,7 +59,7 @@ vec_pipeline <- "pipeline_basic"
 
 set_store <-
   base::paste0(
-    get_active_config("target_store"), "/", vec_pipeline, "/"
+    load_active_config_value("target_store"), "/", vec_pipeline, "/"
   ) |>
   here::here()
 ```

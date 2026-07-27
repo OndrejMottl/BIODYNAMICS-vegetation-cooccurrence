@@ -1,0 +1,90 @@
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+project_cz_paleo:
+  target_store: Data/targets/cz_paleo
+  continent_id: "europe"
+  vegvault_data:
+    x_lim: !expr c(12, 18.9)
+    y_lim: !expr c(48.5, 51.5)
+    age_lim: !expr c(0, 5000)
+    sel_dataset_type: !expr c("fossil_pollen_archive", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio12")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 5
+    min_n_taxa: 4
+    n_cores: 24
+    n_interpolation_workers: 16
+  model_fitting:
+    n_mev: 3
+    n_cores: 24
+    n_iter: 500
+    n_step_size: ~
+    n_samples_anova: 100
+    n_early_stopping: ~
+    spatial_mode: "spatiotemporal"
+    cross_validation:
+      tier_id: "cz_paleo"
+      tuning_strategy: "exhaustive"
+      assignment_repeats: 1
+      staged_search:
+        repeat_order: !expr c(1L)
+      regularization:
+        alpha_cov: !expr c(0.5)
+        alpha_coef: !expr c(0.5)
+        alpha_spatial: !expr c(0.5)
+        lambda_cov: !expr c(0)
+        lambda_coef: !expr c(0)
+        lambda_spatial: !expr c(0)
+  _profile:
+    role: smoke
+    status: active
+    selectable: true
+    pipeline: paleo_smoke
+    description: "Small Czech paleo workflow for smoke validation."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_test.R
+
+project_cz_modern:
+  target_store: Data/targets/cz_modern
+  vegvault_data:
+    age_lim: !expr c(0, 0)
+    sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
+    sel_abiotic_var_name: !expr c("bio1", "bio4", "bio6", "bio12", "bio15", "bio18", "bio19")
+  data_processing:
+    taxonomic_resolution: "genus"
+    min_n_samples: 5
+    min_n_taxa: 3
+  model_fitting:
+    model_tuning_id: "modern_spatial"
+    use_age_in_formula: false
+    use_spatial: true
+    spatial_mode: "spatial"
+    n_mev: 3
+    n_cores: 24
+    cross_validation:
+      tier_id: "cz_modern"
+      tuning_strategy: "exhaustive"
+      assignment_repeats: 1
+      staged_search:
+        repeat_order: !expr c(1L)
+      regularization:
+        alpha_cov: !expr c(0.5)
+        alpha_coef: !expr c(0.5)
+        alpha_spatial: !expr c(0.5)
+        lambda_cov: !expr c(0)
+        lambda_coef: !expr c(0)
+        lambda_spatial: !expr c(0)
+  _profile:
+    role: smoke
+    status: active
+    selectable: true
+    pipeline: modern_spatial_smoke
+    description: "Small Czech modern workflow for smoke validation."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      - R/02_Main_analyses/Run_CZ_test.R

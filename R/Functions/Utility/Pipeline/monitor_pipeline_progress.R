@@ -143,11 +143,10 @@ monitor_pipeline_progress <- function(
   )
 
   sel_target_store <-
-    config::get(
+    load_config_value(
+      config_id = sel_config,
       value = "target_store",
-      config = sel_config,
-      file = path_config,
-      use_parent = FALSE
+      file = path_config
     )
 
   assertthat::assert_that(

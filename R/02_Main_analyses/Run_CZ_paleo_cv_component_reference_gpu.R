@@ -41,5 +41,7 @@ run_pipeline(
   sel_script =
     "R/Pipelines/pipeline_cz_paleo_cv_component_reference.R",
   fresh_run = TRUE,
-  prebuild_interpolation = FALSE
+  prebuild_interpolation = FALSE,
+  vec_allowed_profile_roles = "reference",
+  vec_allowed_profile_statuses = "frozen"
 )

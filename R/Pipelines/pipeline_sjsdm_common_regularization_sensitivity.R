@@ -49,7 +49,7 @@ vec_function_files <-
 targets::tar_source(files = vec_function_files)
 
 targets::tar_option_set(
-  seed = get_active_config("seed"),
+  seed = load_active_config_value("seed"),
   format = "qs"
 )
 
@@ -59,7 +59,7 @@ targets::tar_option_set(
 #----------------------------------------------------------#
 
 model_tuning_id <-
-  get_active_config(
+  load_active_config_value(
     base::c("model_fitting", "model_tuning_id")
   )
 
@@ -101,8 +101,8 @@ if (
 
 read_profile_context <- function(profile_id) {
   list_config <-
-    config::get(
-      config = profile_id,
+    load_config(
+      config_id = profile_id,
       file = here::here("config.yml")
     )
 

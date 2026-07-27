@@ -50,7 +50,7 @@ source(
 # Graphical options are read from the default config because this
 #   script produces a single combined output, not per-continent outputs.
 graphical_options <-
-  get_active_config("graphical")
+  load_active_config_value("graphical")
 
 path_output <-
   here::here("Outputs/Figures/Temporal_continents")

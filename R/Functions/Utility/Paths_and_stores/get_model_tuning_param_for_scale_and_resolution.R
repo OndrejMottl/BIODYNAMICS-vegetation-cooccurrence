@@ -55,7 +55,7 @@ get_model_tuning_param_for_scale_and_resolution <- function(
     base::is.null(resolution_id)
   ) {
     resolution_id <-
-      get_active_config(
+      load_active_config_value(
         value = c("data_processing", "taxonomic_resolution"),
         file = config_file
       )
@@ -66,7 +66,7 @@ get_model_tuning_param_for_scale_and_resolution <- function(
   ) {
     params <-
       get_model_tuning_params(
-        analysis_id = get_active_config(
+        analysis_id = load_active_config_value(
           value = c("model_fitting", "model_tuning_id"),
           file = config_file
         ),
@@ -79,7 +79,7 @@ get_model_tuning_param_for_scale_and_resolution <- function(
   }
 
   return(
-    get_active_config(
+    load_active_config_value(
       value = c("model_fitting", param_id),
       file = config_file
     )

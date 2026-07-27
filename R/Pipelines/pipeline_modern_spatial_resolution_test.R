@@ -50,7 +50,7 @@ targets::tar_source(
 )
 
 targets::tar_option_set(
-  seed = get_active_config("seed"),
+  seed = load_active_config_value("seed"),
   format = "qs",
   error = "continue"
 )

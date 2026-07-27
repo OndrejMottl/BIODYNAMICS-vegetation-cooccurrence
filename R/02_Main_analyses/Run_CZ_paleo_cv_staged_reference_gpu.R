@@ -42,11 +42,11 @@ run_sjsdm_tuning_sequence(
   tuning_target_names = "data_sjsdm_tuning_summary",
   prebuild_interpolation = TRUE,
   fresh_run = TRUE,
-  tuning_strategy = get_active_config(
+  tuning_strategy = load_active_config_value(
     base::c("model_fitting", "cross_validation", "tuning_strategy")
   ),
   n_rounds = base::length(
-    get_active_config(
+    load_active_config_value(
       base::c(
         "model_fitting",
         "cross_validation",
@@ -54,7 +54,9 @@ run_sjsdm_tuning_sequence(
         "repeat_order"
       )
     )
-  )
+  ),
+  vec_allowed_profile_roles = "reference",
+  vec_allowed_profile_statuses = "frozen"
 )
 
 
@@ -64,5 +66,7 @@ run_sjsdm_tuning_sequence(
 
 run_pipeline(
   sel_script = "R/Pipelines/pipeline_paleo_core.R",
-  prebuild_interpolation = FALSE
+  prebuild_interpolation = FALSE,
+  vec_allowed_profile_roles = "reference",
+  vec_allowed_profile_statuses = "frozen"
 )

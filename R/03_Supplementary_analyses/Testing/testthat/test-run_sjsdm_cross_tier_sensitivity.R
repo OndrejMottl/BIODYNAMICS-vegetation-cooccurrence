@@ -24,9 +24,9 @@ testthat::test_that(
     environment_run[["called"]] <-
       FALSE
 
-    config_get_function <- function(config, file) {
+    config_load_function <- function(config_id, file) {
       testthat::expect_identical(file, "config.yml")
-      make_common_sensitivity_config(config)
+      make_common_sensitivity_config(config_id)
     }
 
     dir_exists_function <- function(path) {
@@ -47,7 +47,7 @@ testthat::test_that(
           pipeline_name = "pipeline_resolution",
           config_file = "config.yml",
           project_root = "project_root",
-          config_get_function = config_get_function,
+          config_load_function = config_load_function,
           dir_exists_function = dir_exists_function,
           run_pipeline_function = run_pipeline_function
         ),
@@ -93,10 +93,10 @@ testthat::test_that(
         sensitivity_script = "sensitivity.R",
         config_file = "config.yml",
         project_root = "project_root",
-        config_get_function = function(config, file) {
+        config_load_function = function(config_id, file) {
           make_common_sensitivity_config(
-            profile_id = config,
-            enabled = config == "profile_a"
+            profile_id = config_id,
+            enabled = config_id == "profile_a"
           )
         },
         dir_exists_function = function(path) {
@@ -141,9 +141,9 @@ testthat::test_that(
           pipeline_name = "pipeline_resolution",
           config_file = "config.yml",
           project_root = "project_root",
-          config_get_function = function(config, file) {
+          config_load_function = function(config_id, file) {
             make_common_sensitivity_config(
-              profile_id = config,
+              profile_id = config_id,
               enabled = FALSE
             )
           },

@@ -1,0 +1,85 @@
+# Human-authored configuration source.
+# Regenerate config.yml; do not copy this fragment manually.
+
+default:
+  target_store: default
+  seed: 1234
+  graphical:
+    width: 2000
+    height: 1600
+    units: "px"
+    dpi: 300
+    bg: "white"
+    panel_scale: 3.2
+  data_processing:
+    time_step: 500
+    number_of_taxa: !expr Inf
+    minimal_proportion_of_pollen: 0.01
+    min_n_cores: 5
+    n_cores: 12
+    n_interpolation_workers: 4
+    min_n_samples: 1
+    min_n_taxa: 5
+  model_fitting:
+    n_cores: 5
+    n_mev: 2
+    n_iter: 500
+    n_sampling: 200
+    n_step_size: ~
+    n_early_stopping: ~
+    n_samples_anova: 1000
+    error_family: "binomial"
+    spatial_crs: 3035
+    spatial_mode: "spatial"
+    spatial_mev:
+      strategy: "auto"
+      exact_max_locations: 1999
+      fast_eigenvectors: 200
+      fast_seed: 900723
+      projection_chunk_size: 5000
+    use_spatial: true
+    use_age_in_formula: true
+    age_scale_mode: "z_score"
+    cross_validation:
+      tier_id: "default"
+      tuning_strategy: "staged"
+      staged_search:
+        strategy_version: "sjsdm_staged_tuning_v1"
+        repeat_order: !expr c(1L, 2L, 3L)
+        survivor_counts: !expr c(4L, 2L)
+      tuning_context:
+        resolution_ids: ~
+      common_regularization_sensitivity:
+        enabled: false
+        representative_scale_id: ~
+      default_folds: 5
+      assignment_repeats: 3
+      assignment_seed: 900723
+      fit_seed: 900723
+      fit_device: "gpu"
+      min_mem_locations: 4
+      regularization:
+        alpha_cov: !expr c(0.5)
+        alpha_coef: !expr c(0.5)
+        alpha_spatial: !expr c(0.5)
+        lambda_cov: !expr c(0, 0.1)
+        lambda_coef: !expr c(0, 0.1)
+        lambda_spatial: !expr c(0, 0.1)
+      selection_metric: "negative_log_likelihood_per_response"
+      grid:
+        target_locations_per_cell: 5
+        size_multipliers: !expr 2^seq(-2, 3)
+        occupancy_criterion: "median"
+        lower_quantile_probability: 0.25
+        max_fold_location_difference: 1
+        max_fold_sample_difference: !expr Inf
+  _profile:
+    role: base
+    status: active
+    selectable: false
+    pipeline: shared
+    description: "Shared defaults inherited by project profiles."
+    related_issue: ~
+    retirement: ~
+    supported_runners:
+      []

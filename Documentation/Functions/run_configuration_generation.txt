@@ -1,0 +1,35 @@
+Run Project Configuration Generation
+
+Description:
+
+     Validates modular configuration sources and materialises tracked
+     artifacts.
+
+Usage:
+
+     run_configuration_generation(
+       path_manifest = here::here("Configuration/manifest.yml"),
+       path_source_root = here::here(),
+       path_destination_root = path_source_root
+     )
+
+Arguments:
+
+path_manifest: Path to the configuration ordering manifest.
+
+path_source_root: Repository root used to resolve manifest fragment and
+          reference paths.
+
+path_destination_root: Root under which generated artifact paths are
+          written.
+
+Details:
+
+     The function validates the complete source set and semantic
+     reference in a temporary directory before writing either
+     destination artifact.
+
+Value:
+
+     Data frame describing validated profiles and their generated
+     catalog fields.

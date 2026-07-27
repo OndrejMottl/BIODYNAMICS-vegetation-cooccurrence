@@ -41,5 +41,7 @@ base::Sys.setenv(
 run_pipeline(
   sel_script = "R/Pipelines/pipeline_paleo_core.R",
   fresh_run = TRUE,
-  prebuild_interpolation = TRUE
+  prebuild_interpolation = TRUE,
+  vec_allowed_profile_roles = "reference",
+  vec_allowed_profile_statuses = "frozen"
 )

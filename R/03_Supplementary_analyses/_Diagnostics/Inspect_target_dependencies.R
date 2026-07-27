@@ -34,7 +34,7 @@ sel_script <-
 scale_id <- "europe"
 
 graphical_options <-
-  get_active_config("graphical")
+  load_active_config_value("graphical")
 
 
 #----------------------------------------------------------#
@@ -52,7 +52,7 @@ name_pipeline <-
 
 path_store <-
   here::here(
-    get_active_config("target_store"),
+    load_active_config_value("target_store"),
     scale_id,
     name_pipeline
   )
