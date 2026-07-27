@@ -21,7 +21,7 @@ project_issue138_paleo_spatial_continental_europe_staged:
     related_issue: 138
     retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
     supported_runners:
-      - R/02_Main_analyses/Run_issue138_paleo_continental_europe_staged.R
+      - R/03_Supplementary_analyses/One_time/Issues/issue_138/run_paleo_continental_europe_staged.R
 
 project_issue138_modern_spatial_continental_europe_staged:
   inherits: project_modern_spatial_continental
@@ -43,7 +43,7 @@ project_issue138_modern_spatial_continental_europe_staged:
     related_issue: 138
     retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
     supported_runners:
-      - R/02_Main_analyses/Run_issue138_modern_continental_europe_staged.R
+      - R/03_Supplementary_analyses/One_time/Issues/issue_138/run_modern_continental_europe_staged.R
 
 project_paleo_temporal_issue138_europe_staged:
   inherits: project_paleo_temporal_europe
@@ -65,7 +65,7 @@ project_paleo_temporal_issue138_europe_staged:
     related_issue: 138
     retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
     supported_runners:
-      - R/02_Main_analyses/Run_issue138_temporal_europe_staged.R
+      - R/03_Supplementary_analyses/One_time/Issues/issue_138/run_temporal_europe_staged.R
 
 project_paleo_temporal_issue138_america_staged:
   inherits: project_paleo_temporal_america
@@ -87,7 +87,7 @@ project_paleo_temporal_issue138_america_staged:
     related_issue: 138
     retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
     supported_runners:
-      - R/02_Main_analyses/Run_issue138_temporal_america_staged.R
+      - R/03_Supplementary_analyses/One_time/Issues/issue_138/run_temporal_america_staged.R
 
 project_paleo_temporal_issue138_asia_staged:
   inherits: project_paleo_temporal_asia
@@ -109,4 +109,4 @@ project_paleo_temporal_issue138_asia_staged:
     related_issue: 138
     retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
     supported_runners:
-      - R/02_Main_analyses/Run_issue138_temporal_asia_staged.R
+      - R/03_Supplementary_analyses/One_time/Issues/issue_138/run_temporal_asia_staged.R

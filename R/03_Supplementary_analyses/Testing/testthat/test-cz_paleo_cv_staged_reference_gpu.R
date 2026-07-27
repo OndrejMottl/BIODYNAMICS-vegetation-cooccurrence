@@ -63,7 +63,7 @@ testthat::test_that(
   {
     path_runner <-
       here::here(
-        "R/02_Main_analyses/Run_CZ_paleo_cv_staged_reference_gpu.R"
+        "R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_staged_reference_gpu.R"
       )
 
     testthat::expect_true(fs::file_exists(path_runner))

@@ -16,4 +16,4 @@ project_issue143_modern_spatial_continental_europe_shared_mem:
     related_issue: 143
     retirement: "Archive only after the shared-MEM implementation no longer requires Issue 143 reproduction."
     supported_runners:
-      - R/02_Main_analyses/Run_issue143_modern_continental_europe_shared_mem.R
+      - R/03_Supplementary_analyses/One_time/Issues/issue_143/run_modern_continental_europe_shared_mem.R

@@ -49,7 +49,7 @@ A non-destructive resume against the completed staged CZ store:
 The complete suite passed with 3,791 assertions, zero failures, zero warnings,
 and one expected VegVault integration skip.
 
-Fresh `Run_CZ_test.R` completed in 1,911.7 seconds with exit code 0. Fresh
+Fresh `run_cz_pipelines.R` completed in 1,911.7 seconds with exit code 0. Fresh
 target metadata contained 552 paleo-core, 692 paleo-resolution, and 2,490
 modern-resolution rows, with zero errors in every public store. The staged CZ
 reference stores also retained zero unit and tier errors after resume.

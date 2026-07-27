@@ -7,7 +7,7 @@
 
 ## Result
 
-`Rscript R/02_Main_analyses/Run_CZ_test.R` completed successfully from fresh
+`Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R` completed successfully from fresh
 stores in 1,991 seconds (33 minutes 11 seconds). The three stores contained
 3,631 metadata rows and zero target errors. The earlier correctness-reference
 run took about 42 minutes 26 seconds, so this single unpaired observation is

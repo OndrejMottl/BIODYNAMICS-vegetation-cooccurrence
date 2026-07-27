@@ -56,7 +56,7 @@ GitHub issue search was not completed while drafting this plan because the curre
 ### Affected files / components
 
 - `config.yml`
-- `R/02_Main_analyses/01_Spatial/02_Contemporary/05_Compare_paleo_modern.R`
+- `R/02_Main_analyses/01_Spatial/02_Modern/02_Synthesis/02_compare_paleo_modern.R`
 - `R/03_Supplementary_analyses/Prediction/Predict_on_full_grid.R`
 - `R/Functions/Abiotic/Ingest/get_chelsa_raster.R`
 - `R/Functions/Prediction/Climate/extract_prediction_climate.R`
@@ -69,7 +69,7 @@ GitHub issue search was not completed while drafting this plan because the curre
 - New future-climate ingest helpers under `R/Functions/Abiotic/` or `R/Functions/Prediction/Climate/`
 - New future-prediction orchestration helpers under `R/Functions/Prediction/`
 - New targeted tests in `R/03_Supplementary_analyses/Testing/testthat/`
-- New main-analysis runner(s) under `R/02_Main_analyses/01_Spatial/03_Future/`
+- New main-analysis runner(s) under `R/02_Main_analyses/01_Spatial/03_Future/01_Runners/`
 - Likely new targets pipeline under `R/Pipelines/` for future prediction outputs
 - Outputs under `Outputs/Data/`, `Outputs/Figures/`, and `Outputs/Tables/`
 
@@ -138,7 +138,7 @@ Recommended climate data/tool choice:
 **Tasks:**
 - [ ] Add future-prediction configuration entries to `config.yml`, including target store, scale id, climate backend, scenario ids, horizon years, selected abiotic variables, cache paths, and prediction output controls.
 - [ ] Create a new targets pipeline, likely `R/Pipelines/pipeline_future_spatial_prediction.R`, that branches over model source (`paleo`, `modern`), scenario, and horizon.
-- [ ] Add a new main-analysis runner under `R/02_Main_analyses/01_Spatial/03_Future/` that sets the active configuration and runs the future-prediction pipeline for Europe.
+- [ ] Add a new main-analysis runner under `R/02_Main_analyses/01_Spatial/03_Future/01_Runners/` that sets the active configuration and runs the future-prediction pipeline for Europe.
 - [ ] Reuse `build_spatial_model_store_index()` and `read_spatial_resolution_prediction_inputs()` so the new pipeline reads the already fitted continental stores rather than refitting models.
 - [ ] Build stable target objects for prediction grids, future climate slices, predicted probabilities, and expected genus richness summaries.
 - [ ] Write outputs to repository-standard locations in `Outputs/Data/`, `Outputs/Figures/`, and `Outputs/Tables/`.
@@ -184,7 +184,7 @@ Recommended climate data/tool choice:
 **Tasks:**
 - [ ] Add summary helpers that compare paleo and modern future predictions on a shared grid and emit tidy comparison tables, with uncertainty ranges propagated from Phase 3 estimates.
 - [ ] Add map-generation scripts or helpers under the new future-analysis folder for scenario maps, delta maps, paleo-vs-modern difference surfaces, and uncertainty maps.
-- [ ] Extend the current comparison logic conceptually used in `05_Compare_paleo_modern.R` so future outputs can be summarised in the same repository style, including uncertainty in paleo-vs-modern comparison deltas.
+- [ ] Extend the current comparison logic conceptually used in `02_compare_paleo_modern.R` so future outputs can be summarised in the same repository style, including uncertainty in paleo-vs-modern comparison deltas.
 - [ ] Generate scenario-comparison summaries for 2050 and 2100, with uncertainty ranges for mean differences.
 - [ ] Save figure and table outputs with date-stamped or config-stamped names consistent with the existing output structure; ensure uncertainty ranges are included in all tables.
 - [ ] Document the interpretation guardrails directly in code comments or helper names where necessary, especially that paleo-driven future projections are methodological extrapolations rather than the same inferential object as modern projections, and that uncertainty estimates come from model-parameter and spatial error sources.

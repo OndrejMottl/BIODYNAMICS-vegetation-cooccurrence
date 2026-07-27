@@ -65,7 +65,7 @@ and one expected integration skip.
 
 ## Exhaustive CZ regression
 
-`Rscript R/02_Main_analyses/Run_CZ_test.R` completed with exit code 0 in
+`Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R` completed with exit code 0 in
 1,951.7 seconds (32 minutes 31.7 seconds). All active CZ profiles remained
 explicitly exhaustive.
 

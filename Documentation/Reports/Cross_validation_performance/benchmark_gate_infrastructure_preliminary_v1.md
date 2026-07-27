@@ -64,7 +64,7 @@ These values are diagnostic only and must not enter paired gate calculations.
   scientific-review outcomes.
 - The complete suite passed with 3,771 assertions, zero failures, zero
   warnings, and one expected integration skip.
-- Fresh `Run_CZ_test.R` completed in 1,889.1 seconds with exit code 0.
+- Fresh `run_cz_pipelines.R` completed in 1,889.1 seconds with exit code 0.
 - Fresh target metadata contained 552 paleo-core, 692 paleo-resolution, and
   2,490 modern-resolution rows, with zero errors in every store.
 - Changed R files parse, remain within 80 characters, and the PowerShell

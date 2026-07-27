@@ -89,7 +89,7 @@ The following manifests parsed successfully after the initial tier-source correc
 
 ## Fresh CZ correctness reference
 
-The mandatory `R/02_Main_analyses/Run_CZ_test.R` runner completed from fresh stores at `afca4e7969dc1a303fc590dc8c6147410968a5b9`. The unrelated single-chain R model in another project was left untouched. The runner rebuilt the following stores and every store reported zero errored targets:
+The mandatory `R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R` runner completed from fresh stores at `afca4e7969dc1a303fc590dc8c6147410968a5b9`. The unrelated single-chain R model in another project was left untouched. The runner rebuilt the following stores and every store reported zero errored targets:
 
 | Store | Pipeline result | Metadata rows | Targets with warnings |
 |---|---:|---:|---:|

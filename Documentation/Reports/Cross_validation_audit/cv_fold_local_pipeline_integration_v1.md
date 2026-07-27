@@ -1,7 +1,7 @@
 # Fold-local CV pipeline integration (v1)
 
 **Recorded:** 2026-07-15
-**Validation runner:** `R/02_Main_analyses/Run_CZ_test.R`
+**Validation runner:** `R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R`
 **Validation result:** completed with exit code 0
 
 ## Purpose

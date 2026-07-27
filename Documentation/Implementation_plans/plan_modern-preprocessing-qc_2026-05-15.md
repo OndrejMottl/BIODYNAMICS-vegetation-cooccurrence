@@ -48,7 +48,7 @@ pipeline as independent, inspectable targets, and (4) corresponding updates to
 
 | File | Change |
 |------|--------|
-| `R/02_Main_analyses/01_Spatial/01_Contemporary/Explore_modern_data_quality_2026-05-15.R` | **New** — diagnostic script |
+| `R/03_Supplementary_analyses/Diagnostics/Data_processing/Spatial/Modern/diagnose_modern_data_quality.R` | **New** — diagnostic script |
 | `R/Functions/Community/deduplicate_modern_sites.R` | **New** |
 | `R/Functions/Community/<further_qc_functions>.R` | **New** — to be confirmed after Phase 1 |
 | `R/Pipelines/_pipes/pipe_segment_community_qc_modern.R` | **New** |
@@ -140,7 +140,7 @@ build.
 **Tasks:**
 
 - [ ] Create
-  `R/02_Main_analyses/01_Spatial/01_Contemporary/Explore_modern_data_quality_2026-05-15.R`
+  `R/03_Supplementary_analyses/Diagnostics/Data_processing/Spatial/Modern/diagnose_modern_data_quality.R`
 - [ ] Source `R/___setup_project___.R` at the top
 - [ ] Set `R_CONFIG_ACTIVE = "project_modern_spatial_continental"` (use a small
   spatial window if needed to keep execution fast)

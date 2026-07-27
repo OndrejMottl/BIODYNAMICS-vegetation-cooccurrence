@@ -275,27 +275,27 @@ testthat::test_that(
     vec_runner_paths <-
       base::c(
         here::here(
-          "R/02_Main_analyses/01_Spatial/01_Paleo/",
+          "R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/",
           base::c(
-            "01_Run_spatial_continental.R",
-            "02_Run_spatial_regional.R",
-            "03_Run_spatial_local.R"
+            "01_run_spatial_continental.R",
+            "02_run_spatial_regional.R",
+            "03_run_spatial_local.R"
           )
         ),
         here::here(
-          "R/02_Main_analyses/01_Spatial/02_Contemporary/",
+          "R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/",
           base::c(
-            "01_Run_modern_continental.R",
-            "02_Run_modern_regional.R",
-            "03_Run_modern_local.R"
+            "01_run_modern_continental.R",
+            "02_run_modern_regional.R",
+            "03_run_modern_local.R"
           )
         ),
         here::here(
-          "R/02_Main_analyses/02_Temporal_Paleo/",
+          "R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/",
           base::c(
-            "01_Run_temporal_europe.R",
-            "02_Run_temporal_america.R",
-            "03_Run_temporal_asia.R"
+            "01_run_temporal_europe.R",
+            "02_run_temporal_america.R",
+            "03_run_temporal_asia.R"
           )
         )
       )
@@ -317,31 +317,31 @@ testthat::test_that(
     vec_runner_paths <-
       base::c(
         here::here(
-          "R/02_Main_analyses/01_Spatial/01_Paleo/",
+          "R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/",
           base::c(
-            "01_Run_spatial_continental.R",
-            "02_Run_spatial_regional.R",
-            "03_Run_spatial_local.R"
+            "01_run_spatial_continental.R",
+            "02_run_spatial_regional.R",
+            "03_run_spatial_local.R"
           )
         ),
         here::here(
-          "R/02_Main_analyses/01_Spatial/02_Contemporary/",
+          "R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/",
           base::c(
-            "01_Run_modern_continental.R",
-            "02_Run_modern_regional.R",
-            "03_Run_modern_local.R"
+            "01_run_modern_continental.R",
+            "02_run_modern_regional.R",
+            "03_run_modern_local.R"
           )
         ),
         here::here(
-          "R/02_Main_analyses/02_Temporal_Paleo/",
+          "R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/",
           base::c(
-            "01_Run_temporal_europe.R",
-            "02_Run_temporal_america.R",
-            "03_Run_temporal_asia.R"
+            "01_run_temporal_europe.R",
+            "02_run_temporal_america.R",
+            "03_run_temporal_asia.R"
           )
         ),
         here::here(
-          "R/02_Main_analyses/Run_CZ_paleo_cv_staged_reference_gpu.R"
+          "R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_staged_reference_gpu.R"
         )
       )
 

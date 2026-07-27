@@ -39,7 +39,7 @@ Validation gate before user review:
 - source project setup in a fresh `Rscript`
 - run affected `targets::tar_manifest()` checks for pipelines that source moved files directly
 - run `Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`
-- run `Rscript R/02_Main_analyses/Run_CZ_test.R`
+- run `Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R`
 
 ### Phase 2: Conservative Renames
 
@@ -105,7 +105,7 @@ Validation gate before user review:
 - targeted tests for every extracted function
 - full test suite
 - `Rscript Documentation/Presentations/IAVS_2026/R/render.R`
-- `Rscript R/02_Main_analyses/Run_CZ_test.R`
+- `Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R`
 
 ## Unused Function Report
 

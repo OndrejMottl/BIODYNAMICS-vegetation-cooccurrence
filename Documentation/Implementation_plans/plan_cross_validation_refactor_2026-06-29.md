@@ -750,7 +750,7 @@ tested predictive metric definitions before changing model fitting.
   shifts, and complete row coverage.
 - Test known Tjur values, negative Tjur values, undefined one-class taxa, probability
   clipping, and pooled rather than fold-averaged metrics.
-- Run the full test suite and `Rscript R/02_Main_analyses/Run_CZ_test.R` at the required
+- Run the full test suite and `Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R` at the required
   TDD closure point.
 - Run the mandatory change-review workflow before closing the phase.
 
@@ -758,7 +758,7 @@ tested predictive metric definitions before changing model fitting.
 
 - The full test suite passed with 2,838 assertions, no failures or warnings, and one
   expected opt-in VegVault integration skip.
-- Fresh `Run_CZ_test.R` validation completed in 30 minutes 42 seconds. The paleo core,
+- Fresh `run_cz_pipelines.R` validation completed in 30 minutes 42 seconds. The paleo core,
   paleo resolution, and modern resolution stores contained zero errored targets.
 - The median-occupancy rule selected a 266 km grid for CZ paleo and a 50.3 km grid for
   CZ modern. Both retained a maximum fold-location difference of one.
@@ -913,7 +913,7 @@ predictive outputs in targets and diagnostics.
   - `pipeline_modern_spatial_resolution_test.R`;
   - `pipeline_modern_spatial_resolution.R`.
 - Run `Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`.
-- Run `Rscript R/02_Main_analyses/Run_CZ_test.R` from fresh CZ stores.
+- Run `Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R` from fresh CZ stores.
 - Inspect CZ fold tables to confirm whole paleo cores, spatial coverage in every fold,
   modern plot coverage, and configured fold counts.
 - Exercise all feasible strategy states with focused fixtures or representative stores:

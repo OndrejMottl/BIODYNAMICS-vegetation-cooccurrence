@@ -11,8 +11,8 @@
 #
 #----------------------------------------------------------#
 # Definition of the basic target pipe.
-# Note that this script should be executed
-#   by other scripts (eg, `01_Run_pipelines.R`).
+# Run this pipeline through a supported production, smoke,
+#   or dedicated reference runner.
 
 #----------------------------------------------------------#
 # 0. Setup -----

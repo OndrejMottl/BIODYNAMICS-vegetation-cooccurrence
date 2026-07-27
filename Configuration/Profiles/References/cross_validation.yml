@@ -22,7 +22,7 @@ project_cz_paleo_cv_reference:
     related_issue: 139
     retirement: "Retain while Issue 141 contract validation uses this reference."
     supported_runners:
-      - R/02_Main_analyses/Run_CZ_paleo_cv_reference.R
+      - R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_reference.R
 
 project_cz_paleo_cv_reference_gpu:
   inherits: project_cz_paleo_cv_reference
@@ -40,7 +40,7 @@ project_cz_paleo_cv_reference_gpu:
     related_issue: 139
     retirement: "Retain while Issue 141 contract validation uses this reference."
     supported_runners:
-      - R/02_Main_analyses/Run_CZ_paleo_cv_reference_gpu.R
+      - R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_reference_gpu.R
 
 project_cz_paleo_cv_staged_reference_gpu:
   inherits: project_cz_paleo_cv_reference_gpu
@@ -60,7 +60,7 @@ project_cz_paleo_cv_staged_reference_gpu:
     related_issue: 138
     retirement: "Retain while Issue 141 contract validation uses this reference."
     supported_runners:
-      - R/02_Main_analyses/Run_CZ_paleo_cv_staged_reference_gpu.R
+      - R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_staged_reference_gpu.R
 
 project_cz_paleo_cv_component_reference_gpu:
   inherits: project_cz_paleo_cv_reference_gpu
@@ -74,7 +74,7 @@ project_cz_paleo_cv_component_reference_gpu:
     related_issue: 139
     retirement: "Retain while Issue 141 contract validation uses this reference."
     supported_runners:
-      - R/02_Main_analyses/Run_CZ_paleo_cv_component_reference_gpu.R
+      - R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_component_reference_gpu.R
 
 project_cz_paleo_cv_regularization_reference_gpu:
   inherits: project_cz_paleo_cv_reference_gpu
@@ -88,7 +88,7 @@ project_cz_paleo_cv_regularization_reference_gpu:
     related_issue: 139
     retirement: "Retain while Issue 141 contract validation uses this reference."
     supported_runners:
-      - R/02_Main_analyses/Run_CZ_paleo_cv_regularization_reference_gpu.R
+      - R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_regularization_reference_gpu.R
 
 project_paleo_local_cv_scientific_reference_gpu:
   inherits: project_paleo_spatial_local
@@ -116,7 +116,7 @@ project_paleo_local_cv_scientific_reference_gpu:
     related_issue: 141
     retirement: "Retain while Issue 141 contract validation uses this reference."
     supported_runners:
-      - R/02_Main_analyses/Run_paleo_local_cv_scientific_reference_gpu.R
+      - R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_paleo_local_cv_scientific_reference_gpu.R
 
 project_paleo_local_cv_decomposition_reference_gpu:
   inherits: project_paleo_local_cv_scientific_reference_gpu
@@ -130,4 +130,4 @@ project_paleo_local_cv_decomposition_reference_gpu:
     related_issue: 141
     retirement: "Retain while Issue 141 contract validation uses this reference."
     supported_runners:
-      - R/02_Main_analyses/Run_paleo_local_cv_decomposition_reference_gpu.R
+      - R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_paleo_local_cv_decomposition_reference_gpu.R

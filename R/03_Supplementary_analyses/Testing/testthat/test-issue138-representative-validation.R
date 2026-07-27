@@ -213,13 +213,17 @@ testthat::test_that(
   {
     vec_runner_paths <-
       here::here(
-        "R/02_Main_analyses",
+        "R",
+        "03_Supplementary_analyses",
+        "One_time",
+        "Issues",
+        "issue_138",
         base::c(
-          "Run_issue138_paleo_continental_europe_staged.R",
-          "Run_issue138_modern_continental_europe_staged.R",
-          "Run_issue138_temporal_europe_staged.R",
-          "Run_issue138_temporal_america_staged.R",
-          "Run_issue138_temporal_asia_staged.R"
+          "run_paleo_continental_europe_staged.R",
+          "run_modern_continental_europe_staged.R",
+          "run_temporal_europe_staged.R",
+          "run_temporal_america_staged.R",
+          "run_temporal_asia_staged.R"
         )
       )
 
@@ -290,8 +294,12 @@ testthat::test_that(
 
     path_runner <-
       here::here(
-        "R/02_Main_analyses",
-        "Run_issue143_modern_continental_europe_shared_mem.R"
+        "R",
+        "03_Supplementary_analyses",
+        "One_time",
+        "Issues",
+        "issue_143",
+        "run_modern_continental_europe_shared_mem.R"
       )
 
     testthat::expect_true(fs::file_exists(path_runner))

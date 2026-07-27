@@ -12,8 +12,9 @@
 # Loads ANOVA results from all paleo spatial units and combines
 #   them into a single long tibble with a `taxonomic_scale`
 #   column. The combined tibble is saved to Outputs/Data/ for
-#   downstream use by 08_Plot_resolution_comparison.R, and dated
-#   unit and summary tables are saved for modern-parity figures.
+#   downstream use by
+#   `02_plot_variance_waffle_by_scale_and_taxonomic_resolution.R`.
+#   Dated unit and summary tables support modern-parity figures.
 
 #----------------------------------------------------------#
 # 0. Setup -----

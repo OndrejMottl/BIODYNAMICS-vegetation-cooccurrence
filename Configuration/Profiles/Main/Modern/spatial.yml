@@ -32,7 +32,7 @@ project_modern_spatial_continental:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/02_Contemporary/01_Run_modern_continental.R
+      - R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/01_run_modern_continental.R
 
 project_modern_spatial_regional:
   target_store: Data/targets/modern_spatial_regional
@@ -65,7 +65,7 @@ project_modern_spatial_regional:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/02_Contemporary/02_Run_modern_regional.R
+      - R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/02_run_modern_regional.R
 
 project_modern_spatial_local:
   target_store: Data/targets/modern_spatial_local
@@ -98,4 +98,4 @@ project_modern_spatial_local:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/02_Contemporary/03_Run_modern_local.R
+      - R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/03_run_modern_local.R

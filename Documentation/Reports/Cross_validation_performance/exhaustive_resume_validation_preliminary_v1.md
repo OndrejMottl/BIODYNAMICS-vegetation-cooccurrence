@@ -61,7 +61,7 @@ subsequent resume time must not be combined or used as an exhaustive baseline.
 - The focused provenance tests passed with 18 assertions.
 - The complete suite passed with 3,777 assertions, zero failures, zero
   warnings, and one expected integration skip.
-- Fresh `Run_CZ_test.R` completed in 1,939.1 seconds with exit code 0.
+- Fresh `run_cz_pipelines.R` completed in 1,939.1 seconds with exit code 0.
 - Fresh target metadata contained 552 paleo-core, 692 paleo-resolution, and
   2,490 modern-resolution rows, with zero errors in every store.
 - `git diff --check` passed for the implementation and regression test.

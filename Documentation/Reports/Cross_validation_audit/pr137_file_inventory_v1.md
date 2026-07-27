@@ -68,19 +68,19 @@ Review status is updated only after the responsible reviewer has explicitly insp
 | A | `Documentation/Website/Documentation/Functions/run_sjsdm_tuning_candidates.qmd` | Quarto/generated documentation | tests-docs reviewer | Reviewed |
 | A | `Documentation/Website/Documentation/Functions/run_sjsdm_tuning_fold_candidates.qmd` | Quarto/generated documentation | tests-docs reviewer | Reviewed |
 | A | `Documentation/Website/Documentation/Functions/score_sjsdm_tuning_predictions.qmd` | Quarto/generated documentation | tests-docs reviewer | Reviewed |
-| M | `R/02_Main_analyses/01_Spatial/01_Paleo/01_Run_spatial_continental.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/01_Spatial/01_Paleo/02_Run_spatial_regional.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/01_Spatial/01_Paleo/03_Run_spatial_local.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/01_Spatial/01_Paleo/04_Diagnose_spatial_pipelines.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/01_Spatial/01_Paleo/05_Rerun_non_converged_spatial.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/01_Spatial/02_Contemporary/01_Run_modern_continental.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/01_Spatial/02_Contemporary/02_Run_modern_regional.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/01_Spatial/02_Contemporary/03_Run_modern_local.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/01_Spatial/02_Contemporary/06_Tune_modern_spatial_convergence.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/02_Temporal_Paleo/01_Run_temporal_europe.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/02_Temporal_Paleo/02_Run_temporal_america.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/02_Temporal_Paleo/03_Run_temporal_asia.R` | Runner/orchestration | pipelines reviewer | Reviewed |
-| M | `R/02_Main_analyses/02_Temporal_Paleo/05_Diagnose_temporal_continents.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/01_run_spatial_continental.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/02_run_spatial_regional.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/03_run_spatial_local.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/03_Supplementary_analyses/Diagnostics/Pipelines/Spatial/Paleo/diagnose_spatial_pipelines.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/03_Supplementary_analyses/Sensitivity/Modelling/Spatial/Paleo/rerun_non_converged_spatial_models.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/01_run_modern_continental.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/02_run_modern_regional.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/03_run_modern_local.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/03_Supplementary_analyses/Sensitivity/Modelling/Spatial/Modern/tune_modern_spatial_convergence.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/01_run_temporal_europe.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/02_run_temporal_america.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/03_run_temporal_asia.R` | Runner/orchestration | pipelines reviewer | Reviewed |
+| M | `R/03_Supplementary_analyses/Diagnostics/Pipelines/Temporal/Paleo/diagnose_temporal_continents.R` | Runner/orchestration | pipelines reviewer | Reviewed |
 | A | `R/03_Supplementary_analyses/Testing/testthat/test-adapt_cross_validation_assignments.R` | Function/contract test | tests-docs reviewer | Reviewed |
 | A | `R/03_Supplementary_analyses/Testing/testthat/test-aggregate_sjsdm_tuning_by_tier.R` | Function/contract test | tests-docs reviewer | Reviewed |
 | D | `R/03_Supplementary_analyses/Testing/testthat/test-apply_decomposition_scale_attributes.R` | Function/contract test | tests-docs reviewer | Reviewed |
