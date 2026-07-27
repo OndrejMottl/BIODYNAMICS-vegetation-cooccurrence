@@ -1,0 +1,68 @@
+Run the Shared sjSDM Tuning Sequence
+
+Description:
+
+     Orchestrates isolated unit and tier stores for exhaustive or
+     staged tuning. Staged execution alternates one cumulative unit
+     round with one tier-wide survivor target, then publishes the
+     existing final tier artifact.
+
+Usage:
+
+     run_sjsdm_tuning_sequence(
+       unit_pipeline = NULL,
+       tuning_target_names = NULL,
+       unit_store_suffixes = NULL,
+       prebuild_interpolation = FALSE,
+       fresh_run = FALSE,
+       tuning_strategy = NULL,
+       n_rounds = NULL,
+       run_pipeline_function = run_pipeline,
+       vec_allowed_profile_roles = base::c("main", "smoke"),
+       vec_allowed_profile_statuses = "active",
+       has_tuning_evidence_function = has_sjsdm_tuning_evidence,
+       target_store = load_active_config_value("target_store")
+     )
+
+Arguments:
+
+unit_pipeline: Character scalar path to the unit pipeline script.
+
+tuning_target_names: Non-empty character vector of public unit
+          tuning-summary targets.
+
+unit_store_suffixes: Optional character vector of isolated spatial-unit
+          store suffixes. `NULL` runs one non-nested unit store, as
+          used by temporal mapped pipelines.
+
+prebuild_interpolation: Logical forwarded to [run_pipeline()] for unit
+          executions.
+
+fresh_run: Logical. When true, destroys unit stores on their first
+          round and the tier store before its first aggregation. Later
+          rounds always resume.
+
+tuning_strategy: Character scalar, `"exhaustive"` or `"staged"`.
+
+n_rounds: Positive integer configured repeat/tuning-round count.
+
+run_pipeline_function: Injectable pipeline runner. Defaults to
+          [run_pipeline()].
+
+vec_allowed_profile_roles: Profile roles forwarded to [run_pipeline()].
+          Production callers should retain `c("main", "smoke")`;
+          dedicated runners authorize other roles.
+
+vec_allowed_profile_statuses: Profile statuses forwarded to
+          [run_pipeline()]. Production callers should retain
+          `"active"`.
+
+has_tuning_evidence_function: Injectable fail-closed evidence checker.
+          Defaults to [has_sjsdm_tuning_evidence()].
+
+target_store: Root targets-store path. Defaults to the active
+          configuration value.
+
+Value:
+
+     Invisible `NULL`. Pipeline stores contain the durable results.

@@ -44,7 +44,7 @@ sel_min_n: Positive integer scalar. Minimum number of records a taxon
 
 graphical_options: Named list with elements `width`, `height`, `units`,
           `dpi`, and `bg`, as returned by
-          `get_active_config("graphical")`. Passed to
+          `load_active_config_value("graphical")`. Passed to
           `ggview::canvas()`.
 
  verbose: Logical. If `TRUE` (default), the number of taxa shown in the
@@ -93,7 +93,7 @@ Examples:
        )
      
      graphical_options <-
-       get_active_config("graphical")
+       load_active_config_value("graphical")
      
      p <-
        plot_family_trait_comparison(

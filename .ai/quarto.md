@@ -154,7 +154,7 @@ This applies to:
 - model metrics (AUC, RÂ², RMSE)
 - summary statistics reported in text
 - any value that could change if data or code changes
-- **analysis parameters and thresholds stored in `config.yml`** â€” these must be read via `config::get()` in a code chunk and referenced as inline R expressions, even though they are deliberate analysis choices. Hardcoding them in prose means the text silently diverges from the actual values whenever the configuration is updated.
+- **analysis parameters and thresholds stored in `config.yml`** â€” these must be read via `load_active_config_value()` or `load_config_value()` in a code chunk and referenced as inline R expressions, even though they are deliberate analysis choices. Hardcoding them in prose means the text silently diverges from the actual values whenever the configuration is updated.
 
 The only acceptable literals in prose are values that are truly external constants â€” e.g. a standard geographic projection code such as `EPSG:3035`, or a published database version number that cannot change.
 
@@ -172,8 +172,8 @@ Declare a named setup chunk (e.g. `config-thresholds`) early in the file that re
 here::i_am("Documentation/Manuscript/sections/your_file.qmd")
 
 config_spatial_continental <-
-  config::get(
-    config = "project_paleo_spatial_continental",
+  load_config(
+    config_id = "project_paleo_spatial_continental",
     file = here::here("config.yml")
   )
 
@@ -210,7 +210,7 @@ Always wrap library calls in `suppressMessages(suppressWarnings({...}))` when lo
 
 ## Reading `{targets}` Outputs in Pages
 
-The target store path is composed of **two parts**: the project-level store directory (from `config.yml` via `get_active_config()`) and the **pipeline type** subdirectory (e.g. `"pipeline_paleo_core"`, `"pipeline_paleo_temporal"`).
+The target store path is composed of **two parts**: the project-level store directory (from `config.yml` via `load_active_config_value()`) and the **pipeline type** subdirectory (e.g. `"pipeline_paleo_core"`, `"pipeline_paleo_temporal"`).
 
 Build the store path first, then pass it to `tar_read()`:
 
@@ -227,7 +227,7 @@ vec_pipelines <- "pipeline_paleo_core"
 #   {target_store from config}/{pipeline_name}/
 set_store <-
   here::here(
-    get_active_config("target_store"),
+    load_active_config_value("target_store"),
     vec_pipelines
   )
 
@@ -245,7 +245,7 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_temporal_europe")
 ```
 
-This determines which `target_store` path is returned by `get_active_config("target_store")`. Combined with the pipeline subdirectory, each project x pipeline combination has its own isolated store.
+This determines which `target_store` path is returned by `load_active_config_value("target_store")`. Combined with the pipeline subdirectory, each project x pipeline combination has its own isolated store.
 
 ---
 

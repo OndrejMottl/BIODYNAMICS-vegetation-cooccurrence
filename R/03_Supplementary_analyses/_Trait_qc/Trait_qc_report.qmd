@@ -40,7 +40,7 @@ sel_domain_filter <- params$sel_domain_filter
 # --------------------------------------------------------------
 
 graphical_options <-
-  get_active_config("graphical")
+  load_active_config_value("graphical")
 
 # Path to the manual corrections file.
 path_corrections <-

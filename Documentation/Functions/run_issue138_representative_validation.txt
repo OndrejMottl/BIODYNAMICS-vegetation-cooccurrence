@@ -1,0 +1,52 @@
+Run an Issue 138 Representative Validation
+
+Description:
+
+     Runs staged tuning and selected final targets for one bounded
+     validation profile through the shared sjSDM orchestration engine.
+
+Usage:
+
+     run_issue138_representative_validation(
+       active_config = NULL,
+       unit_pipeline = NULL,
+       tuning_target_names = NULL,
+       final_target_names = NULL,
+       store_suffix = NULL,
+       prebuild_interpolation = FALSE,
+       fresh_run = TRUE,
+       run_sequence_function = run_sjsdm_tuning_sequence,
+       run_pipeline_function = run_pipeline
+     )
+
+Arguments:
+
+active_config: Non-default configuration profile used for the
+          validation.
+
+unit_pipeline: Unit pipeline script passed to
+          [run_sjsdm_tuning_sequence()].
+
+tuning_target_names: Public tuning-summary targets included in the
+          validation.
+
+final_target_names: Final model, evaluation, and provenance targets to
+          complete.
+
+store_suffix: Optional isolated spatial-unit store suffix.
+
+prebuild_interpolation: Logical controlling the first-round
+          interpolation prebuild.
+
+fresh_run: Logical controlling whether the first tuning round clears
+          its isolated target store. Use `FALSE` to resume completed
+          work items.
+
+run_sequence_function: Injectable tuning-sequence function used by
+          tests.
+
+run_pipeline_function: Injectable pipeline runner used by tests.
+
+Value:
+
+     Invisible `NULL`. Results are written to isolated target stores.

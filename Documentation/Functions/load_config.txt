@@ -1,0 +1,31 @@
+Load Named Configuration
+
+Description:
+
+     Loads one complete resolved project configuration by its
+     identifier.
+
+Usage:
+
+     load_config(config_id, file = here::here("config.yml"))
+
+Arguments:
+
+config_id: Single non-empty configuration identifier declared in the
+          YAML file.
+
+    file: Path to the generated YAML configuration file.
+
+Details:
+
+     Use [load_config_value()] when only one nested configuration value
+     is needed. This function is the canonical project boundary around
+     [config::get()] for complete named configurations.
+
+Value:
+
+     The complete resolved named configuration.
+
+See Also:
+
+     [load_config_value()], [load_active_config_value()]

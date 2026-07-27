@@ -899,6 +899,21 @@ list_result <- purrr::map(
 
 Use parallel processing only for CPU-intensive, independent operations where the computation cost clearly exceeds the parallelisation overhead. Avoid parallelising fast or memory-intensive operations.
 
+## Configuration Access
+
+Treat `R/Functions/Utility/Config/` as the project boundary around
+`{config}`:
+
+- use `load_active_config_value()` for one value from `R_CONFIG_ACTIVE`;
+- use `load_config_value()` for one value from a named configuration;
+- use `load_config()` only when the complete named configuration is needed;
+- use `load_config_value_with_fallback()` when an active value may fall back
+  to a named configuration;
+- do not call `config::get()` or `config::is_active()` from runtime scripts,
+  pipelines, or reusable functions;
+- edit human-authored files under `Configuration/`, then regenerate the
+  tracked root `config.yml`.
+
 ## Visualisation Conventions
 
 # Visualisation Guidelines
@@ -925,10 +940,10 @@ At the start of every script that produces plots, load the graphical options onc
 ```r
 # Graphical options shared across all plots in this script.
 graphical_options <-
-  get_active_config("graphical")
+  load_active_config_value("graphical")
 ```
 
-This must be placed **after** `Sys.setenv(R_CONFIG_ACTIVE = "...")` so that `get_active_config()` resolves the correct configuration.
+This must be placed **after** `Sys.setenv(R_CONFIG_ACTIVE = "...")` so that `load_active_config_value()` resolves the correct configuration.
 
 ## Applying Canvas Dimensions
 
@@ -1041,7 +1056,7 @@ base::dir.create(
 
 # Graphical options shared across all plots in this script.
 graphical_options <-
-  get_active_config("graphical")
+  load_active_config_value("graphical")
 
 
 #----------------------------------------------------------#
@@ -1077,7 +1092,7 @@ ggview::save_ggplot(
 
 | Rule | Correct | Avoid |
 |------|---------|-------|
-| Load options once per script | `graphical_options <- get_active_config("graphical")` | Hardcoding values |
+| Load options once per script | `graphical_options <- load_active_config_value("graphical")` | Hardcoding values |
 | Apply dimensions | `+ ggview::canvas(width = graphical_options[["width"]], ...)` | `+ ggview::canvas(width = 2000, ...)` |
 | Save plots | `ggview::save_ggplot(plot = ..., file = ...)` | `ggplot2::ggsave(...)` |
 | Layer order | Facets -> Scales -> Labs -> Theme -> Canvas -> Geoms | Geoms before setup layers |

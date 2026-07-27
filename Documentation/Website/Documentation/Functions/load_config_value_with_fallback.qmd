@@ -1,13 +1,13 @@
 ---
 format: html
-title: get_config_value_with_fallback()
----
+title: load_config_value_with_fallback()
+
 
 <html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
+<script>
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -16,12 +16,12 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
+<link rel="stylesheet" type="text/css" href="R.css">
 </head><body><div class="container"><main>
 
-<table style="width: 100%;"><tr><td>get_config_value_with_fallback</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>load_config_value_with_fallback</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Get Configuration Value with Fallback</h2>
+<h2>Load Configuration Value with Fallback</h2>
 
 <h3>Description</h3>
 
@@ -33,7 +33,7 @@ a named fallback configuration.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>get_config_value_with_fallback(
+<pre><code class='language-R'>load_config_value_with_fallback(
   config_section,
   config_key,
   fallback_config = "default",
@@ -89,17 +89,17 @@ from 'fallback_config' when the active configuration does not define
 
 <h3>See Also</h3>
 
-<p>[get_active_config()]
+<p>[load_active_config_value()], [load_config_value()]
 </p>
 
 
 <h3>Examples</h3>
 
-<pre><code class='language-R'>get_config_value_with_fallback(
+<pre><code class='language-R'>load_config_value_with_fallback(
   config_section = "data_processing",
   config_key = "min_n_samples"
 )
-get_config_value_with_fallback(
+load_config_value_with_fallback(
   config_section = "data_processing",
   config_key = "ft_groups_min",
   fallback_config = "project_traits_reference"
@@ -110,4 +110,3 @@ get_config_value_with_fallback(
 
 </div>
 </body></html>
-

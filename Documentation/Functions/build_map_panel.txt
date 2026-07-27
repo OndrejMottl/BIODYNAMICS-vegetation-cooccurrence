@@ -58,8 +58,8 @@ sf_world: 'sf' object. World polygon basemap used as the background
           layer.
 
 graphical_options: Named list of canvas settings (e.g. from
-          'get_active_config("graphical")'); must contain 'width',
-          'height', 'units', 'dpi', 'bg'.
+          'load_active_config_value("graphical")'); must contain
+          'width', 'height', 'units', 'dpi', 'bg'.
 
 show_x_axis: Logical scalar. When 'FALSE', x-axis text and tick marks
           are hidden. Default 'TRUE'.
@@ -88,4 +88,3 @@ Value:
 See Also:
 
      'extract_anova_fractions', 'recalculate_anova_components'
-

@@ -1,4 +1,4 @@
-Get Configuration Value with Fallback
+Load Configuration Value with Fallback
 
 Description:
 
@@ -8,7 +8,7 @@ Description:
 
 Usage:
 
-     get_config_value_with_fallback(
+     load_config_value_with_fallback(
        config_section,
        config_key,
        fallback_config = "default",
@@ -47,15 +47,15 @@ Value:
 
 See Also:
 
-     [get_active_config()]
+     [load_active_config_value()], [load_config_value()]
 
 Examples:
 
-     get_config_value_with_fallback(
+     load_config_value_with_fallback(
        config_section = "data_processing",
        config_key = "min_n_samples"
      )
-     get_config_value_with_fallback(
+     load_config_value_with_fallback(
        config_section = "data_processing",
        config_key = "ft_groups_min",
        fallback_config = "project_traits_reference"

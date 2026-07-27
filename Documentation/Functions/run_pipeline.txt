@@ -3,18 +3,23 @@ Run Pipeline
 Description:
 
      Executes a targets pipeline from a specified script and saves
-     progress visualization. Prevents execution if default
-     configuration is active.
+     progress visualization. Rejects profiles not authorized for the
+     runner.
 
 Usage:
 
      run_pipeline(
        sel_script,
        store_suffix = NULL,
+       target_names = NULL,
        level_separation = 100,
-       check_default_config = TRUE,
+       flag_validate_profile_selection = TRUE,
+       vec_allowed_profile_roles = base::c("main", "smoke"),
+       vec_allowed_profile_statuses = "active",
        plot_progress = TRUE,
-       fresh_run = FALSE
+       fresh_run = FALSE,
+       prebuild_interpolation = FALSE,
+       callr_function = callr::r
      )
      
 Arguments:
@@ -31,13 +36,22 @@ store_suffix: Optional character string appended as a sub-directory
           iterating over many spatial units that share one config but
           each need an isolated store (e.g. `store_suffix = "eu_r01"`).
 
+target_names: Optional character vector of target names to build.
+          `NULL` builds the complete pipeline.
+
 level_separation: Numeric value controlling the vertical separation
           between levels in the progress visualization network graph.
           Default is 100.
 
-check_default_config: Logical indicating whether to check if the
-          default configuration is active and stop execution if TRUE.
-          Default is TRUE.
+flag_validate_profile_selection: Logical controlling validation of the
+          active profile role and status. Disable only for isolated
+          tests that inject all configuration behavior.
+
+vec_allowed_profile_roles: Profile roles authorized by this runner.
+          Defaults to production roles `c("main", "smoke")`.
+
+vec_allowed_profile_statuses: Profile statuses authorized by this
+          runner. Defaults to `"active"`.
 
 plot_progress: Logical indicating whether to save a progress
           visualisation after the pipeline completes. Default is TRUE.
@@ -48,6 +62,17 @@ fresh_run: Logical indicating whether to destroy the existing target
           `targets::tar_destroy(destroy = "all", store = ...)` prior to
           `targets::tar_make()`. Default is `FALSE`.
 
+prebuild_interpolation: Logical indicating whether to prebuild
+          `data_community_interpolated` using parallel dynamic branches
+          before running the complete pipeline. The worker count is
+          read from `data_processing$n_interpolation_workers`. Default
+          is `FALSE`.
+
+callr_function: Function used by [targets::tar_make()] to launch the
+          pipeline process. Defaults to [callr::r()]. Supply `NULL`
+          only for small graphs that are safe to execute in the current
+          orchestration process.
+
 Details:
 
      The function constructs pipeline-specific target store paths based
@@ -57,7 +82,12 @@ Details:
      every target is rebuilt from scratch. It uses
      `targets::tar_make()` to execute the pipeline and then calls
      `save_progress_visualisation()` to generate a network
-     visualization of the pipeline status.
+     visualization of the pipeline status. When `prebuild_interpolation
+     = TRUE`, the function first executes only
+     `data_community_interpolated` with the `crew_mori` preprocessing
+     backend. Once that call returns, the complete pipeline is executed
+     with [targets::tar_make()]. Thus downstream GPU-dependent model
+     targets remain sequentially scheduled.
 
 Value:
 
@@ -67,5 +97,5 @@ Value:
 
 See Also:
 
-     save_progress_visualisation, targets::tar_make
-
+     [save_progress_visualisation()], [targets::tar_make()],
+     [crew::crew_controller_local()]
