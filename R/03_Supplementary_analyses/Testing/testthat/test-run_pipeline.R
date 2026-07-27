@@ -1,4 +1,4 @@
-testthat::test_that("run_pipeline() errors when default config is active", {
+testthat::test_that("run_pipeline() rejects the base profile", {
   tmp_script <-
     withr::local_tempfile(fileext = ".R")
 
@@ -17,8 +17,9 @@ testthat::test_that("run_pipeline() errors when default config is active", {
   testthat::expect_error(
     run_pipeline(
       sel_script = tmp_script,
-      check_default_config = TRUE
-    )
+      flag_validate_profile_selection = TRUE
+    ),
+    "base profile"
   )
 })
 
@@ -45,27 +46,13 @@ testthat::test_that("run_pipeline() bypasses config guard when disabled", {
     .package = "targets"
   )
 
-  flag_default_config_guard_fired <- FALSE
-
-  tryCatch(
+  testthat::expect_no_error(
     run_pipeline(
       sel_script = tmp_script,
-      check_default_config = FALSE,
+      flag_validate_profile_selection = FALSE,
       plot_progress = FALSE
-    ),
-    error = function(e) {
-      if (
-        stringr::str_detect(
-          string = base::conditionMessage(e),
-          pattern = "default config is active"
-        )
-      ) {
-        flag_default_config_guard_fired <<- TRUE
-      }
-    }
+    )
   )
-
-  testthat::expect_false(flag_default_config_guard_fired)
 })
 
 testthat::test_that("run_pipeline() accepts store_suffix argument", {
@@ -89,16 +76,16 @@ testthat::test_that("run_pipeline() accepts store_suffix argument", {
       run_pipeline(
         sel_script = tmp_script,
         store_suffix = "eu_r01",
-        check_default_config = TRUE
+        flag_validate_profile_selection = TRUE
       ),
       error = function(e) e
     )
 
-  # Error should be the default-config guard, not an "unused argument" error
+  # Error should be the profile guard, not an "unused argument" error.
   testthat::expect_true(
     stringr::str_detect(
       string = base::conditionMessage(err),
-      pattern = "default config is active"
+      pattern = "base profile"
     )
   )
 })
@@ -125,7 +112,7 @@ testthat::test_that("run_pipeline() limits execution to selected targets", {
       "data_sjsdm_tuning_summary_genus",
       "data_sjsdm_tuning_summary_family"
     ),
-    check_default_config = FALSE,
+    flag_validate_profile_selection = FALSE,
     plot_progress = FALSE
   )
 
@@ -157,7 +144,7 @@ testthat::test_that("run_pipeline() forwards the callr backend", {
   run_pipeline(
     sel_script = tmp_script,
     callr_function = NULL,
-    check_default_config = FALSE,
+    flag_validate_profile_selection = FALSE,
     plot_progress = FALSE
   )
 
@@ -207,7 +194,7 @@ testthat::test_that("run_pipeline() propagates targets error metadata", {
   testthat::expect_error(
     run_pipeline(
       sel_script = tmp_script,
-      check_default_config = FALSE,
+      flag_validate_profile_selection = FALSE,
       plot_progress = FALSE
     ),
     "first error in 'failed_target': fit failed"
@@ -306,7 +293,7 @@ testthat::test_that("run_pipeline() validates plot_progress is logical", {
 })
 
 testthat::test_that(
-  "run_pipeline() validates check_default_config is logical",
+  "run_pipeline() validates flag_validate_profile_selection is logical",
   {
     tmp_script <-
       withr::local_tempfile(fileext = ".R")
@@ -316,14 +303,14 @@ testthat::test_that(
     testthat::expect_error(
       run_pipeline(
         sel_script = tmp_script,
-        check_default_config = "yes"
+        flag_validate_profile_selection = "yes"
       )
     )
 
     testthat::expect_error(
       run_pipeline(
         sel_script = tmp_script,
-        check_default_config = 1L
+        flag_validate_profile_selection = 1L
       )
     )
   }
@@ -450,7 +437,7 @@ testthat::test_that("run_pipeline() prebuilds then runs full build", {
 
   run_pipeline(
     sel_script = tmp_script,
-    check_default_config = FALSE,
+    flag_validate_profile_selection = FALSE,
     plot_progress = FALSE,
     prebuild_interpolation = TRUE
   )
@@ -549,7 +536,7 @@ testthat::test_that("run_pipeline() repairs errored prebuild targets", {
 
   run_pipeline(
     sel_script = tmp_script,
-    check_default_config = FALSE,
+    flag_validate_profile_selection = FALSE,
     plot_progress = FALSE,
     prebuild_interpolation = TRUE
   )
@@ -602,7 +589,7 @@ testthat::test_that("run_pipeline() calls tar_destroy when fresh_run = TRUE", {
 
   run_pipeline(
     sel_script = tmp_script,
-    check_default_config = FALSE,
+    flag_validate_profile_selection = FALSE,
     plot_progress = FALSE,
     fresh_run = TRUE
   )
@@ -639,7 +626,7 @@ testthat::test_that("run_pipeline() skips tar_destroy when fresh_run = FALSE", {
 
   run_pipeline(
     sel_script = tmp_script,
-    check_default_config = FALSE,
+    flag_validate_profile_selection = FALSE,
     plot_progress = FALSE,
     fresh_run = FALSE
   )

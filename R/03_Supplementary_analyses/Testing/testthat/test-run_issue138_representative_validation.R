@@ -56,6 +56,14 @@ testthat::test_that(
       "europe"
     )
     testthat::expect_identical(
+      environment_calls$sequence[["vec_allowed_profile_roles"]],
+      "one_time"
+    )
+    testthat::expect_identical(
+      environment_calls$sequence[["vec_allowed_profile_statuses"]],
+      "frozen"
+    )
+    testthat::expect_identical(
       environment_calls$pipeline[["target_names"]],
       base::c(
         "model_anova_genus",
@@ -65,6 +73,14 @@ testthat::test_that(
     testthat::expect_identical(
       environment_calls$pipeline[["fresh_run"]],
       FALSE
+    )
+    testthat::expect_identical(
+      environment_calls$pipeline[["vec_allowed_profile_roles"]],
+      "one_time"
+    )
+    testthat::expect_identical(
+      environment_calls$pipeline[["vec_allowed_profile_statuses"]],
+      "frozen"
     )
     testthat::expect_identical(
       environment_calls$active_sequence,

@@ -54,7 +54,9 @@ run_sjsdm_tuning_sequence(
         "repeat_order"
       )
     )
-  )
+  ),
+  vec_allowed_profile_roles = "reference",
+  vec_allowed_profile_statuses = "frozen"
 )
 
 
@@ -64,5 +66,7 @@ run_sjsdm_tuning_sequence(
 
 run_pipeline(
   sel_script = "R/Pipelines/pipeline_paleo_core.R",
-  prebuild_interpolation = FALSE
+  prebuild_interpolation = FALSE,
+  vec_allowed_profile_roles = "reference",
+  vec_allowed_profile_statuses = "frozen"
 )

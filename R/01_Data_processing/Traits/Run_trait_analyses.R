@@ -62,5 +62,7 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_traits_reference")
 #----------------------------------------------------------#
 
 run_pipeline(
-  sel_script = "R/Pipelines/pipeline_traits_reference.R"
+  sel_script = "R/Pipelines/pipeline_traits_reference.R",
+  vec_allowed_profile_roles = "reference",
+  vec_allowed_profile_statuses = "frozen"
 )

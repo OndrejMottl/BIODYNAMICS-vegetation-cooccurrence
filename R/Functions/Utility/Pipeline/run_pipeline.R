@@ -1,7 +1,7 @@
 #' @title Run Pipeline
 #' @description
 #' Executes a targets pipeline from a specified script and saves progress
-#' visualization. Prevents execution if default configuration is active.
+#' visualization. Rejects profiles not authorized for the runner.
 #' @param sel_script
 #' Path to the pipeline script to execute (relative to project root).
 #' @param store_suffix
@@ -19,9 +19,14 @@
 #' @param level_separation
 #' Numeric value controlling the vertical separation between levels in the
 #' progress visualization network graph. Default is 100.
-#' @param check_default_config
-#' Logical indicating whether to check if the default configuration is
-#' active and stop execution if TRUE. Default is TRUE.
+#' @param flag_validate_profile_selection
+#' Logical controlling validation of the active profile role and status.
+#' Disable only for isolated tests that inject all configuration behavior.
+#' @param vec_allowed_profile_roles
+#' Profile roles authorized by this runner. Defaults to production roles
+#' `c("main", "smoke")`.
+#' @param vec_allowed_profile_statuses
+#' Profile statuses authorized by this runner. Defaults to `"active"`.
 #' @param fresh_run
 #' Logical indicating whether to destroy the existing target store before
 #' running the pipeline, forcing all targets to be re-computed from
@@ -67,7 +72,9 @@ run_pipeline <- function(
     store_suffix = NULL,
     target_names = NULL,
     level_separation = 100,
-    check_default_config = TRUE,
+    flag_validate_profile_selection = TRUE,
+    vec_allowed_profile_roles = base::c("main", "smoke"),
+    vec_allowed_profile_statuses = "active",
     plot_progress = TRUE,
     fresh_run = FALSE,
     prebuild_interpolation = FALSE,
@@ -114,8 +121,11 @@ run_pipeline <- function(
   )
 
   assertthat::assert_that(
-    assertthat::is.flag(check_default_config),
-    msg = "check_default_config must be a single logical value (TRUE or FALSE)."
+    assertthat::is.flag(flag_validate_profile_selection),
+    msg = paste(
+      "flag_validate_profile_selection must be a single logical value",
+      "(TRUE or FALSE)."
+    )
   )
 
   assertthat::assert_that(
@@ -142,14 +152,11 @@ run_pipeline <- function(
   )
 
   if (
-    isTRUE(check_default_config) && config::is_active("default")
+    isTRUE(flag_validate_profile_selection)
   ) {
-    stop(
-      paste(
-        "The default config is active. Please set specific config.", "\n",
-        "See `config.yaml` for available options.", "\n",
-        "use Sys.setenv(R_CONFIG_ACTIVE = 'XXX') to set the config."
-      )
+    validate_config_profile_selection(
+      vec_allowed_roles = vec_allowed_profile_roles,
+      vec_allowed_statuses = vec_allowed_profile_statuses
     )
   }
 
