@@ -88,7 +88,6 @@ default:
     supported_runners:
       []
 
-
 # Source: Configuration/Profiles/Main/Paleo/spatial.yml
 # Human-authored configuration source.
 # Regenerate config.yml; do not copy this fragment manually.
@@ -189,7 +188,6 @@ project_paleo_spatial_local:
     supported_runners:
       - R/02_Main_analyses/01_Spatial/01_Paleo/03_Run_spatial_local.R
 
-
 # Source: Configuration/Profiles/Main/Paleo/temporal.yml
 # Human-authored configuration source.
 # Regenerate config.yml; do not copy this fragment manually.
@@ -289,7 +287,6 @@ project_paleo_temporal_asia:
     retirement: ~
     supported_runners:
       - R/02_Main_analyses/02_Temporal_Paleo/03_Run_temporal_asia.R
-
 
 # Source: Configuration/Profiles/Main/Modern/spatial.yml
 # Human-authored configuration source.
@@ -394,7 +391,6 @@ project_modern_spatial_local:
     supported_runners:
       - R/02_Main_analyses/01_Spatial/02_Contemporary/03_Run_modern_local.R
 
-
 # Source: Configuration/Profiles/Validation/cz_smoke.yml
 # Human-authored configuration source.
 # Regenerate config.yml; do not copy this fragment manually.
@@ -486,7 +482,6 @@ project_cz_modern:
     retirement: ~
     supported_runners:
       - R/02_Main_analyses/Run_CZ_test.R
-
 
 # Source: Configuration/Profiles/References/cross_validation.yml
 # Human-authored configuration source.
@@ -623,7 +618,6 @@ project_paleo_local_cv_decomposition_reference_gpu:
     supported_runners:
       - R/02_Main_analyses/Run_paleo_local_cv_decomposition_reference_gpu.R
 
-
 # Source: Configuration/Profiles/References/traits.yml
 # Human-authored configuration source.
 # Regenerate config.yml; do not copy this fragment manually.
@@ -645,7 +639,6 @@ project_traits_reference:
     retirement: "Retain while the functional-trait reference pipeline is supported."
     supported_runners:
       - R/01_Data_processing/Traits/Run_trait_analyses.R
-
 
 # Source: Configuration/Profiles/One_time/Issues/issue_138.yml
 # Human-authored configuration source.
@@ -760,7 +753,6 @@ project_paleo_temporal_issue138_asia_staged:
     retirement: "Archive only after Issue 141 no longer requires Issue 138 benchmark reproduction."
     supported_runners:
       - R/02_Main_analyses/Run_issue138_temporal_asia_staged.R
-
 
 # Source: Configuration/Profiles/One_time/Issues/issue_143.yml
 # Human-authored configuration source.
