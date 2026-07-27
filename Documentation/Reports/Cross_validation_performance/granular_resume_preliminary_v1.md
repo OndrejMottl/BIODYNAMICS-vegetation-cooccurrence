@@ -27,7 +27,7 @@ This establishes restart at candidate/fold fit boundaries for the exhaustive
 engine. Tier-wide staged round boundaries remain a separate orchestration
 slice; staged production tuning is still disabled.
 
-The mandatory fresh `Run_CZ_test.R` workflow then completed in 1,953 seconds
+The mandatory fresh `run_cz_pipelines.R` workflow then completed in 1,953 seconds
 (32 minutes 33 seconds). It materialized 35 independent tuning work-item
 branches across the seven CZ profiles, and all 3,699 target metadata rows had
 zero errors. Every profile reported five materialized work items, five executed

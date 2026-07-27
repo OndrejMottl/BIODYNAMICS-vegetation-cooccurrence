@@ -59,7 +59,7 @@ specifications and old tuning values are not reliable priors.
   temporal, and CZ test pipelines.
 - Run:
   - `Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`
-  - `Rscript R/02_Main_analyses/Run_CZ_test.R`
+  - `Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R`
 - Run the read-only `changes-reviewer` workflow on all changed files.
 
 ## Assumptions

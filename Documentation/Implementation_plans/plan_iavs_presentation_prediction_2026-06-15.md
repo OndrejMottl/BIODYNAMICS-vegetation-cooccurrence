@@ -49,7 +49,7 @@ Use these targets:
 - Run:
   - targeted helper tests,
   - `Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`,
-  - `Rscript R/02_Main_analyses/Run_CZ_test.R` because new helpers in `R/Functions` are auto-sourced by main setup.
+  - `Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R` because new helpers in `R/Functions` are auto-sourced by main setup.
 - Run the read-only changes-reviewer workflow after each implementation phase for instruction compliance; treat this separately from tests and rendering.
 
 ## Assumptions

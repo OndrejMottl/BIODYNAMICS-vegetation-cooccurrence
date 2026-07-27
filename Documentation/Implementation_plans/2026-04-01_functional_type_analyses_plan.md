@@ -21,8 +21,8 @@ Extend the existing spatial pipeline (continental/regional/local) to run at thre
 - **FT clustering**: Per continent — one FT classification per continental unit in `spatial_grid.csv`, reused for all regional/local units within it
 - **Taxa without traits**: Dropped from FT analysis
 - **k selection**: Data-driven — average silhouette width on hierarchical dendrogram cuts (k = 2..`k_max`)
-- **Pipeline branching**: `tar_map()` over `spatial_grid.csv` rows × `c("family", "functional_type")` only — genus is excluded because results already exist and recomputing them would duplicate `04_Analyse_spatial_patterns.R` output; no separate `config.yml` entries needed
-- **Genus results preserved**: Existing per-unit genus stores (`Data/targets/spatial_{scale}/{scale_id}/pipeline_basic/`) are not invalidated or touched; `04_Analyse_spatial_patterns.R` continues to read from them unchanged
+- **Pipeline branching**: `tar_map()` over `spatial_grid.csv` rows × `c("family", "functional_type")` only — genus is excluded because results already exist and recomputing them would duplicate `01_analyse_spatial_patterns.R` output; no separate `config.yml` entries needed
+- **Genus results preserved**: Existing per-unit genus stores (`Data/targets/spatial_{scale}/{scale_id}/pipeline_basic/`) are not invalidated or touched; `01_analyse_spatial_patterns.R` continues to read from them unchanged
 - **Validation-first**: A new `pipeline_test_resolution.R` (Phase E0) runs all three resolutions on `project_cz` first; Phase F3 (full spatial scale-up for family + FT) starts only after this testbed passes for all resolutions
 - **Human QC integration**: `tar_file()` + guard target (`trait_corrections_validated`) within `pipeline_traits.R`; pipeline stops automatically until corrections are marked `CHECKED = TRUE`
 - **Convergence parameters**: `spatial_grid.csv` extended with resolution-specific columns (`n_iter_family`, `n_iter_ft`, etc.); values start as copies of genus-tuned values and are updated after convergence testing per resolution
@@ -337,12 +337,12 @@ The `inherits:`-based config entries (`project_spatial_continental_family`, `pro
 
 **Prerequisite**: Phase F0 (E0 validation) must pass before this phase starts.
 
-- Genus results in existing per-unit stores (`Data/targets/spatial_{scale}/{scale_id}/pipeline_basic/`) are **preserved and not recomputed** — recomputing them would duplicate the validated results already read by `04_Analyse_spatial_patterns.R`
+- Genus results in existing per-unit stores (`Data/targets/spatial_{scale}/{scale_id}/pipeline_basic/`) are **preserved and not recomputed** — recomputing them would duplicate the validated results already read by `01_analyse_spatial_patterns.R`
 - `tar_map()` is added over `c("family", "functional_type")` only, producing named targets per unit × resolution (e.g. `model_anova_eu_r001_family`, `model_anova_eu_r001_ft`)
 - Spatial runner scripts continue to iterate over `scale_ids` from `spatial_grid.csv`; within each unit, the new `tar_map()` runs the family and FT pipelines alongside the untouched genus store
 - The resolution branching lives in `pipe_segment_community_resolution.R` (Phase E0a) — `pipeline_basic.R` itself is not structurally changed for the genus path
-- **Touches**: `R/02_Main_analyses/01_Spatial/01_Run_spatial_continental.R`, `02_Run_spatial_regional.R`, `03_Run_spatial_local.R`
-- **Does NOT change**: existing genus target stores or `04_Analyse_spatial_patterns.R`
+- **Touches**: `R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/01_run_spatial_continental.R`, `02_run_spatial_regional.R`, `03_run_spatial_local.R`
+- **Does NOT change**: existing genus target stores or `01_analyse_spatial_patterns.R`
 
 ---
 
@@ -350,16 +350,16 @@ The `inherits:`-based config entries (`project_spatial_continental_family`, `pro
 
 ### G1 — Script: combine results across resolutions
 
-- Reads **genus** ANOVA results from the existing per-unit stores using the same pattern as `04_Analyse_spatial_patterns.R` (`Data/targets/spatial_{scale}/{scale_id}/pipeline_basic/`, target name `model_anova`)
+- Reads **genus** ANOVA results from the existing per-unit stores using the same pattern as `01_analyse_spatial_patterns.R` (`Data/targets/spatial_{scale}/{scale_id}/pipeline_basic/`, target name `model_anova`)
 - Reads **family and FT** ANOVA results from the new `tar_map()` stores produced in Phase F3 (target names `model_anova_{scale_id}_family`, `model_anova_{scale_id}_ft`)
 - Combines all three into a long tibble with a `taxonomic_resolution` column (`"genus"` | `"family"` | `"functional_type"`)
 - Save to `Outputs/Data/`
-- **New file**: `R/02_Main_analyses/01_Spatial/07_Compare_resolutions.R`
+- **New file**: `R/02_Main_analyses/01_Spatial/01_Paleo/02_Synthesis/01_compare_resolutions.R`
 
 ### G2 — Script: plot resolution comparison
 
 - Plot ANOVA variance fractions (environment / space / biotic co-occurrence) by resolution and spatial scale
-- **New file**: `R/02_Main_analyses/01_Spatial/08_Plot_resolution_comparison.R`
+- **New file**: `R/02_Main_analyses/01_Spatial/01_Paleo/03_Visualisation/01_plot_resolution_comparison.R`
 
 ---
 
@@ -373,11 +373,11 @@ The `inherits:`-based config entries (`project_spatial_continental_family`, `pro
 | `R/02_Main_analyses/_pipes/pipe_segment_community_resolution.R` | **new** — Phase E0a; resolution routing downstream of community data segment |
 | `R/02_Main_analyses/_pipes/pipe_segment_community_data.R` | **NO CHANGES** |
 | `R/02_Main_analyses/pipeline_basic.R` | **NO CHANGES** to structure; genus path untouched |
-| `R/02_Main_analyses/01_Spatial/01_Run_spatial_continental.R` | add `tar_map()` over family + FT (Phase F3) |
-| `R/02_Main_analyses/01_Spatial/02_Run_spatial_regional.R` | add `tar_map()` over family + FT (Phase F3) |
-| `R/02_Main_analyses/01_Spatial/03_Run_spatial_local.R` | add `tar_map()` over family + FT (Phase F3) |
-| `R/02_Main_analyses/01_Spatial/07_Compare_resolutions.R` | **new** — Phase G1 |
-| `R/02_Main_analyses/01_Spatial/08_Plot_resolution_comparison.R` | **new** — Phase G2 |
+| `R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/01_run_spatial_continental.R` | add `tar_map()` over family + FT (Phase F3) |
+| `R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/02_run_spatial_regional.R` | add `tar_map()` over family + FT (Phase F3) |
+| `R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/03_run_spatial_local.R` | add `tar_map()` over family + FT (Phase F3) |
+| `R/02_Main_analyses/01_Spatial/01_Paleo/02_Synthesis/01_compare_resolutions.R` | **new** — Phase G1 |
+| `R/02_Main_analyses/01_Spatial/01_Paleo/03_Visualisation/01_plot_resolution_comparison.R` | **new** — Phase G2 |
 | `Data/Input/spatial_grid.csv` | extend with resolution-specific fitting parameter columns (Phase F2) |
 | `Data/Input/trait_manual_corrections.csv` | exists ✅; CSV with `CHECKED` column |
 | `R/Functions/Traits/generate_trait_qc_report.R` | exists ✅ |
@@ -426,6 +426,6 @@ The `inherits:`-based config entries (`project_spatial_continental_family`, `pro
 - [ ] After Phase E0a: `pipe_segment_community_resolution.R` routes correctly — community data is classified to genus/family/FT depending on `tax_res`
 - [ ] After Phase E0b: `pipeline_test_resolution.R` runs all 3 resolutions for `project_cz` without error
 - [ ] F0 gate: genus output from `pipeline_test_resolution.R` matches existing `pipeline_basic.R` output for `project_cz`
-- [ ] After Phase F3: family and FT `model_anova` targets generated for all spatial units; existing per-unit genus stores untouched; `04_Analyse_spatial_patterns.R` still reads genus results correctly
+- [ ] After Phase F3: family and FT `model_anova` targets generated for all spatial units; existing per-unit genus stores untouched; `01_analyse_spatial_patterns.R` still reads genus results correctly
 - [ ] After any function work: `Rscript R/03_Supplementary_analyses/Run_tests.R` passes without error
 - [ ] After Phase G: comparison plots render without error

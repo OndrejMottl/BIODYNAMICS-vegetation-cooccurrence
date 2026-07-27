@@ -44,7 +44,7 @@ The complete test suite passed:
 
 ## Fresh CZ regression
 
-`Rscript R/02_Main_analyses/Run_CZ_test.R` completed with exit code 0 in
+`Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R` completed with exit code 0 in
 1,896.9 seconds (31 minutes 36.9 seconds). The active CZ configurations remain
 explicitly exhaustive, so this is a compatibility regression run and not a
 staged-search runtime result.

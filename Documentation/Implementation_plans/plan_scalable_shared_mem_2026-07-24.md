@@ -189,7 +189,7 @@ results.
   numerical tolerance.
 - Affected target manifests resolve without public target renaming.
 - The full suite passes because this changes shared modelling infrastructure.
-- A fresh `R/02_Main_analyses/Run_CZ_test.R` passes and uses exact mode.
+- A fresh `R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R` passes and uses exact mode.
 
 ### Phase 2 - Add the deterministic fast basis and fold-local projection
 

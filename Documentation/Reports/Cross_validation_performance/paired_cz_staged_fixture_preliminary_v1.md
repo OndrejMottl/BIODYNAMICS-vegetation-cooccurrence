@@ -19,7 +19,7 @@ survivor counts `c(4, 2)`.
 
 ## Shared orchestration
 
-`Run_CZ_paleo_cv_staged_reference_gpu.R` uses the same
+`run_cz_paleo_cv_staged_reference_gpu.R` uses the same
 `run_sjsdm_tuning_sequence()` helper as every spatial and temporal production
 runner. The shared tier pipeline now recognizes `paleo_core` as one direct unit
 with genus resolution. This is a normal non-nested tier context, equivalent in

@@ -8,7 +8,7 @@
 ## Scope
 
 This validation ran the repository-wide test suite and all three workflows from
-`R/02_Main_analyses/Run_CZ_test.R`. The shared strategy remained `exact`, as
+`R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R`. The shared strategy remained `exact`, as
 required before downstream Nyström equivalence is accepted.
 
 ## Test suite

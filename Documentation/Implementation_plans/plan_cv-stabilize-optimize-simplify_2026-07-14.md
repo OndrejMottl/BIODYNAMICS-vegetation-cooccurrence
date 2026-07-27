@@ -131,7 +131,7 @@ stable reference contract suitable for performance measurement.
   `pipeline_paleo_spatial_resolution.R`, `pipeline_modern_spatial_resolution.R`,
   `pipeline_paleo_temporal.R`, `pipeline_sjsdm_tier_tuning.R`, and
   `pipeline_sjsdm_common_regularization_sensitivity.R`.
-- Run `R/02_Main_analyses/Run_CZ_test.R` with fresh `project_cz_paleo` and
+- Run `R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R` with fresh `project_cz_paleo` and
   `project_cz_modern` target stores. Both workflows must complete, emit the expected
   tier/OOF/evaluation/provenance artifacts, and match documented correctness
   reference values within contract-specific tolerances.

@@ -10,7 +10,7 @@ This reference supplements the fast mandatory CZ smoke test with a real, reprodu
 
 ## Configuration
 
-The `project_cz_paleo_cv_reference` profile inherits the CZ paleo data and model configuration while isolating output in `Data/targets/cz_paleo_cv_reference`. The dedicated runner is `R/02_Main_analyses/Run_CZ_paleo_cv_reference.R`; the existing `Run_CZ_test.R` smoke test is unchanged.
+The `project_cz_paleo_cv_reference` profile inherits the CZ paleo data and model configuration while isolating output in `Data/targets/cz_paleo_cv_reference`. The dedicated runner is `R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_reference.R`; the existing `run_cz_pipelines.R` smoke test is unchanged.
 
 | Setting | Reference value |
 |---|---|
@@ -36,7 +36,7 @@ The `project_cz_paleo_cv_reference` profile inherits the CZ paleo data and model
 - Final store metadata contained 504 rows, zero errored targets, and 15 targets with retained warnings.
 - The full-data selected model early-stopped after 179 epochs, with tail-loss slope `0` and median tail-loss difference `0`.
 - The full regression suite before execution reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3249`; the skip was the documented opt-in VegVault integration test.
-- The unchanged mandatory `Run_CZ_test.R` gate was then rerun fresh. Paleo core completed 199 targets with 42 skipped, paleo resolution completed 302 with 42 skipped, and modern resolution completed 2,143 with none skipped. Store metadata reported zero errors in all three stores.
+- The unchanged mandatory `run_cz_pipelines.R` gate was then rerun fresh. Paleo core completed 199 targets with 42 skipped, paleo resolution completed 302 with 42 skipped, and modern resolution completed 2,143 with none skipped. Store metadata reported zero errors in all three stores.
 
 ## Candidate selection
 
