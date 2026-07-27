@@ -56,6 +56,24 @@ CV: integrate adaptive spatial fold assignment across pipelines
 CV: complete Phase 1
 ```
 
+## Pull Request Issue Relationships
+
+Write each issue relationship on its own Markdown list line using the bare
+`#issue` reference. GitHub automatically links the reference and renders the
+issue title. Do not construct a manual Markdown link or use unlisted trailing
+lines.
+
+Use this format:
+
+```markdown
+- Closes #150
+- Part of #149
+- Enables #141
+```
+
+Apply the same list format to other relationships, such as `Blocked by`,
+`Depends on`, or `Follow-up to`.
+
 ## Branch Strategy
 
 This project uses `main` as the stable integration branch. All feature branches and worktrees **must** branch off `main`.
