@@ -31,7 +31,7 @@ library(
 )
 
 # Set Czech project config BEFORE sourcing setup so that
-# get_active_config() resolves the correct values.
+# load_active_config_value() resolves the correct values.
 Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
 suppressMessages(
@@ -41,7 +41,7 @@ suppressMessages(
 )
 
 graphical_options <-
-  get_active_config("graphical")
+  load_active_config_value("graphical")
 
 # Printing a ggplot that contains ggview::canvas() calls rstudioapi and
 # errors outside RStudio. Wrap every plot print with this helper so the
@@ -62,16 +62,16 @@ n_iter_use <- 100L
 #----------------------------------------------------------#
 
 x_lim <-
-  get_active_config(c("vegvault_data", "x_lim"))
+  load_active_config_value(c("vegvault_data", "x_lim"))
 
 y_lim <-
-  get_active_config(c("vegvault_data", "y_lim"))
+  load_active_config_value(c("vegvault_data", "y_lim"))
 
 age_lim <-
-  get_active_config(c("vegvault_data", "age_lim"))
+  load_active_config_value(c("vegvault_data", "age_lim"))
 
 timestep <-
-  get_active_config(c("data_processing", "time_step"))
+  load_active_config_value(c("data_processing", "time_step"))
 
 age_min <- base::min(age_lim)
 age_max <- base::max(age_lim)
@@ -223,7 +223,8 @@ n_samples_total <-
 
 base::cat(
   stringr::str_glue(
-    "Samples matched to age uncertainty: {n_samples_matched} / {n_samples_total}\n\n"
+    "Samples matched to age uncertainty: ",
+    "{n_samples_matched} / {n_samples_total}\n\n"
   )
 )
 
@@ -553,7 +554,7 @@ ggview::save_ggplot(
 n_iter_actual <-
   base::min(n_iter_use, n_iterations)
 
-set.seed(get_active_config("seed"))
+set.seed(load_active_config_value("seed"))
 vec_random_iterations <-
   base::sample(
     x = seq_len(n_iterations),
@@ -642,9 +643,13 @@ plot_diff_dist <-
     trans = "log1p"
   ) +
   ggplot2::labs(
-    title = "Distribution of differences: uncertainty-median vs. consensus approach",
+    title = stringr::str_c(
+      "Distribution of differences: uncertainty-median ",
+      "vs. consensus approach"
+    ),
     subtitle = stringr::str_glue(
-      "Czech project | {n_datasets} cores | {n_iter_actual} of {n_iterations} iterations"
+      "Czech project | {n_datasets} cores | ",
+      "{n_iter_actual} of {n_iterations} iterations"
     )
   ) +
   ggplot2::theme_classic() +
@@ -717,7 +722,8 @@ plot_diff_by_age <-
   ggplot2::labs(
     title = "How does the difference vary across time?",
     subtitle = stringr::str_glue(
-      "Czech project | {n_datasets} cores | {n_iter_actual} of {n_iterations} iterations"
+      "Czech project | {n_datasets} cores | ",
+      "{n_iter_actual} of {n_iterations} iterations"
     )
   ) +
   ggplot2::theme_classic() +

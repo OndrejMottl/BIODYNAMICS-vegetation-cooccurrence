@@ -27,7 +27,7 @@ base::source(
 
 # Graphical options shared across all plots in this script.
 graphical_options <-
-  get_active_config("graphical")
+  load_active_config_value("graphical")
 
 
 #----------------------------------------------------------#
@@ -206,7 +206,10 @@ data_errors_by_target <-
       ) ~ "memory_issue",
       stringr::str_detect(
         error,
-        "Failed to extract VegVault data for this spatial unit|VegVault extraction returned zero rows"
+        stringr::str_c(
+          "Failed to extract VegVault data for this spatial unit",
+          "|VegVault extraction returned zero rows"
+        )
       ) ~ "vegvault_extract_failure",
       stringr::str_detect(error, "Not enough cores in this spatial window") ~
         "insufficient_cores",

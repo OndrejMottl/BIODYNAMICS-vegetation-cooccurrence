@@ -1,5 +1,5 @@
 testthat::test_that(
-  "get_config_value_with_fallback() rejects invalid config_section",
+  "load_config_value_with_fallback() rejects invalid config_section",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -41,7 +41,7 @@ testthat::test_that(
     base::Sys.setenv(R_CONFIG_ACTIVE = "default")
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = base::c("data_processing", "other"),
         config_key = "min_n_samples",
         fallback_config = "project_traits_reference",
@@ -51,7 +51,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "",
         config_key = "min_n_samples",
         fallback_config = "project_traits_reference",
@@ -63,7 +63,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_config_value_with_fallback() rejects invalid config_key",
+  "load_config_value_with_fallback() rejects invalid config_key",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -105,7 +105,7 @@ testthat::test_that(
     base::Sys.setenv(R_CONFIG_ACTIVE = "default")
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = base::c("min_n_samples", "min_n_taxa"),
         fallback_config = "project_traits_reference",
@@ -115,7 +115,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "",
         fallback_config = "project_traits_reference",
@@ -127,7 +127,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_config_value_with_fallback() rejects invalid fallback_config",
+  "load_config_value_with_fallback() rejects invalid fallback_config",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -169,7 +169,7 @@ testthat::test_that(
     base::Sys.setenv(R_CONFIG_ACTIVE = "default")
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
         fallback_config = base::c("default", "project_traits_reference"),
@@ -179,7 +179,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
         fallback_config = "",
@@ -191,7 +191,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_config_value_with_fallback() rejects unreadable non-YAML files",
+  "load_config_value_with_fallback() rejects unreadable non-YAML files",
   {
     path_missing <-
       base::tempfile(fileext = ".yml")
@@ -221,7 +221,7 @@ testthat::test_that(
     base::Sys.setenv(R_CONFIG_ACTIVE = "default")
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
         fallback_config = "project_traits_reference",
@@ -231,7 +231,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
         fallback_config = "project_traits_reference",
@@ -241,7 +241,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
         fallback_config = "project_traits_reference",
@@ -251,7 +251,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
         fallback_config = "project_traits_reference",
@@ -263,7 +263,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_config_value_with_fallback() reads active config values",
+  "load_config_value_with_fallback() reads active config values",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -310,7 +310,7 @@ testthat::test_that(
     base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
     value_config <-
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
         fallback_config = "default",
@@ -323,7 +323,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_config_value_with_fallback() uses default when active is unset",
+  "load_config_value_with_fallback() uses default when active is unset",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -365,7 +365,7 @@ testthat::test_that(
     base::Sys.unsetenv("R_CONFIG_ACTIVE")
 
     value_config <-
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
         fallback_config = "project_traits_reference",
@@ -377,7 +377,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_config_value_with_fallback() uses the named fallback config",
+  "load_config_value_with_fallback() uses the named fallback config",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -425,7 +425,7 @@ testthat::test_that(
     base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
     value_groups <-
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_groups_min",
         fallback_config = "project_traits_reference",
@@ -433,7 +433,7 @@ testthat::test_that(
       )
 
     value_method <-
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_method",
         fallback_config = "project_traits_reference",
@@ -446,7 +446,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_config_value_with_fallback() prefers fallback over default",
+  "load_config_value_with_fallback() prefers fallback over default",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -493,7 +493,7 @@ testthat::test_that(
     base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
     value_config <-
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_groups_min",
         fallback_config = "project_traits_reference",
@@ -505,7 +505,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_config_value_with_fallback() prefers active over fallback",
+  "load_config_value_with_fallback() prefers active over fallback",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -552,7 +552,7 @@ testthat::test_that(
     base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
     value_config <-
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_groups_min",
         fallback_config = "project_traits_reference",
@@ -564,7 +564,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_config_value_with_fallback() errors when key is missing",
+  "load_config_value_with_fallback() errors when key is missing",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -611,7 +611,7 @@ testthat::test_that(
     base::Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_method",
         fallback_config = "project_traits_reference",
@@ -623,7 +623,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_config_value_with_fallback() errors on unknown fallback config",
+  "load_config_value_with_fallback() errors on unknown fallback config",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -660,7 +660,7 @@ testthat::test_that(
     base::Sys.setenv(R_CONFIG_ACTIVE = "default")
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_groups_min",
         fallback_config = "project_traits_reference",
@@ -672,7 +672,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_config_value_with_fallback() errors on unknown active config",
+  "load_config_value_with_fallback() errors on unknown active config",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -714,7 +714,7 @@ testthat::test_that(
     base::Sys.setenv(R_CONFIG_ACTIVE = "project_missing")
 
     testthat::expect_error(
-      get_config_value_with_fallback(
+      load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "min_n_samples",
         fallback_config = "default",

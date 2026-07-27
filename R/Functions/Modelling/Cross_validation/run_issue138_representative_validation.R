@@ -113,7 +113,7 @@ run_issue138_representative_validation <- function(
     new = base::c(R_CONFIG_ACTIVE = active_config),
     code = {
       list_cross_validation <-
-        get_active_config(
+        load_active_config_value(
           base::c("model_fitting", "cross_validation")
         )
 

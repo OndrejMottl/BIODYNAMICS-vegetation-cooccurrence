@@ -40,7 +40,7 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_traits_reference")
 
 # Graphical options shared across all plots in this script.
 graphical_options <-
-  get_active_config("graphical")
+  load_active_config_value("graphical")
 
 
 #----------------------------------------------------------#
@@ -52,7 +52,7 @@ vec_pipelines <- "pipeline_traits_reference"
 path_target_store <-
   here::here(
     stringr::str_glue(
-      "{get_active_config('target_store')}/{vec_pipelines}/"
+      "{load_active_config_value('target_store')}/{vec_pipelines}/"
     )
   )
 

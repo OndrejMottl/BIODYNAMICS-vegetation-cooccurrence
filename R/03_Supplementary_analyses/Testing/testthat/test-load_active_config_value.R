@@ -1,37 +1,37 @@
 # Input Validation
 
-testthat::test_that("get_active_config() errors when value is NULL", {
+testthat::test_that("load_active_config_value() errors when value is NULL", {
   testthat::expect_error(
-    get_active_config(NULL)
+    load_active_config_value(NULL)
   )
 })
 
-testthat::test_that("get_active_config() errors when value is non-character", {
+testthat::test_that("active config values require character paths", {
   testthat::expect_error(
-    get_active_config(123)
+    load_active_config_value(123)
   )
 })
 
 testthat::test_that(
-  "get_active_config() errors when value is empty character",
+  "load_active_config_value() errors when value is empty character",
   {
     testthat::expect_error(
-      get_active_config(base::character())
+      load_active_config_value(base::character())
     )
   }
 )
 
 testthat::test_that(
-  "get_active_config() errors when file does not exist",
+  "load_active_config_value() errors when file does not exist",
   {
     testthat::expect_error(
-      get_active_config("key1", "non_existent.yml")
+      load_active_config_value("key1", "non_existent.yml")
     )
   }
 )
 
 testthat::test_that(
-  "get_active_config() errors when file has wrong extension",
+  "load_active_config_value() errors when file has wrong extension",
   {
     path_temp <-
       base::tempfile(fileext = ".txt")
@@ -39,7 +39,7 @@ testthat::test_that(
     base::writeLines("key1: value1", path_temp)
 
     testthat::expect_error(
-      get_active_config("key1", path_temp)
+      load_active_config_value("key1", path_temp)
     )
 
     base::unlink(path_temp)
@@ -49,7 +49,7 @@ testthat::test_that(
 # Output Structure
 
 testthat::test_that(
-  "get_active_config() returns value from a valid YAML file",
+  "load_active_config_value() returns value from a valid YAML file",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -65,7 +65,7 @@ testthat::test_that(
     )
 
     result <-
-      get_active_config("key1", path_temp)
+      load_active_config_value("key1", path_temp)
 
     testthat::expect_false(base::is.null(result))
     testthat::expect_type(result, "character")
@@ -77,7 +77,7 @@ testthat::test_that(
 # Functional Correctness
 
 testthat::test_that(
-  "get_active_config() retrieves the correct value",
+  "load_active_config_value() retrieves the correct value",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -93,7 +93,7 @@ testthat::test_that(
     )
 
     result <-
-      get_active_config("key1", path_temp)
+      load_active_config_value("key1", path_temp)
 
     testthat::expect_equal(result, "value1")
 
@@ -102,7 +102,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_active_config() retrieves a different key correctly",
+  "load_active_config_value() retrieves a different key correctly",
   {
     path_temp <-
       base::tempfile(fileext = ".yml")
@@ -118,7 +118,7 @@ testthat::test_that(
     )
 
     result <-
-      get_active_config("key2", path_temp)
+      load_active_config_value("key2", path_temp)
 
     testthat::expect_equal(result, "value2")
 

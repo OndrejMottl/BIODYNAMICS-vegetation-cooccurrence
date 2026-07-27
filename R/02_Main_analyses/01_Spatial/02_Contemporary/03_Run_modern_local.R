@@ -61,11 +61,11 @@ run_sjsdm_tuning_sequence(
   unit_pipeline = "R/Pipelines/pipeline_modern_spatial_resolution.R",
   tuning_target_names = vec_tuning_target_names,
   unit_store_suffixes = vec_scale_ids,
-  tuning_strategy = get_active_config(
+  tuning_strategy = load_active_config_value(
     base::c("model_fitting", "cross_validation", "tuning_strategy")
   ),
   n_rounds = base::length(
-    get_active_config(
+    load_active_config_value(
       base::c(
         "model_fitting",
         "cross_validation",

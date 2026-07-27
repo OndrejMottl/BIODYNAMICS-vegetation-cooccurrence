@@ -38,7 +38,7 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_temporal_america")
 #----------------------------------------------------------#
 
 vec_age_lim <-
-  get_active_config(base::c("vegvault_data", "age_lim"))
+  load_active_config_value(base::c("vegvault_data", "age_lim"))
 
 vec_tuning_target_names <-
   stringr::str_c(
@@ -46,7 +46,7 @@ vec_tuning_target_names <-
     base::seq(
       from = base::min(vec_age_lim),
       to = base::max(vec_age_lim),
-      by = get_active_config(base::c("data_processing", "time_step"))
+      by = load_active_config_value(base::c("data_processing", "time_step"))
     )
   )
 
@@ -54,11 +54,11 @@ run_sjsdm_tuning_sequence(
   unit_pipeline = "R/Pipelines/pipeline_paleo_temporal.R",
   tuning_target_names = vec_tuning_target_names,
   prebuild_interpolation = TRUE,
-  tuning_strategy = get_active_config(
+  tuning_strategy = load_active_config_value(
     base::c("model_fitting", "cross_validation", "tuning_strategy")
   ),
   n_rounds = base::length(
-    get_active_config(
+    load_active_config_value(
       base::c(
         "model_fitting",
         "cross_validation",

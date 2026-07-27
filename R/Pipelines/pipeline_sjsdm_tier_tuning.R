@@ -49,7 +49,7 @@ vec_function_files <-
 targets::tar_source(files = vec_function_files)
 
 targets::tar_option_set(
-  seed = get_active_config("seed"),
+  seed = load_active_config_value("seed"),
   format = "qs"
 )
 
@@ -59,7 +59,7 @@ targets::tar_option_set(
 #----------------------------------------------------------#
 
 model_tuning_id <-
-  get_active_config(
+  load_active_config_value(
     value = base::c("model_fitting", "model_tuning_id")
   )
 
@@ -77,10 +77,10 @@ list_tuning_context <-
     flag_temporal_config
   ) {
     vec_age_lim <-
-      get_active_config(base::c("vegvault_data", "age_lim"))
+      load_active_config_value(base::c("vegvault_data", "age_lim"))
 
     time_step <-
-      get_active_config(base::c("data_processing", "time_step"))
+      load_active_config_value(base::c("data_processing", "time_step"))
 
     base::list(
       pipeline_name = "pipeline_paleo_temporal",
@@ -132,7 +132,7 @@ if (
 }
 
 list_cross_validation_config <-
-  get_active_config(
+  load_active_config_value(
     base::c("model_fitting", "cross_validation")
   )
 
@@ -153,7 +153,7 @@ list_tuning_context <-
 #----------------------------------------------------------#
 
 active_tuning_strategy <-
-  get_active_config(
+  load_active_config_value(
     base::c(
       "model_fitting",
       "cross_validation",
@@ -164,7 +164,7 @@ active_tuning_strategy <-
 if (
   active_tuning_strategy == "staged" &&
     base::length(
-      get_active_config(
+      load_active_config_value(
         base::c(
           "model_fitting",
           "cross_validation",
@@ -186,7 +186,7 @@ list_sjsdm_tier_common_targets <-
     name = vec_sjsdm_unit_tuning_stores,
     command = {
       target_store_root <-
-        here::here(get_active_config("target_store"))
+        here::here(load_active_config_value("target_store"))
 
       unit_store_roots <-
         if (
@@ -227,7 +227,7 @@ list_sjsdm_tier_common_targets <-
     description = "Validate the tier-wide tuning schedule",
     name = data_sjsdm_tier_tuning_schedule,
     command = build_sjsdm_tuning_schedule(
-      tuning_strategy = get_active_config(
+      tuning_strategy = load_active_config_value(
         base::c(
           "model_fitting",
           "cross_validation",
@@ -237,7 +237,7 @@ list_sjsdm_tier_common_targets <-
       n_candidates = dplyr::n_distinct(
         data_sjsdm_tier_tuning_summaries[["candidate_id"]]
       ),
-      repeat_ids = get_active_config(
+      repeat_ids = load_active_config_value(
         base::c(
           "model_fitting",
           "cross_validation",
@@ -245,7 +245,7 @@ list_sjsdm_tier_common_targets <-
           "repeat_order"
         )
       ),
-      survivor_counts = get_active_config(
+      survivor_counts = load_active_config_value(
         base::c(
           "model_fitting",
           "cross_validation",

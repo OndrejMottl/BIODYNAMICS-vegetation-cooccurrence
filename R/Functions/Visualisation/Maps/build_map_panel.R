@@ -42,7 +42,7 @@
 #' background layer.
 #' @param graphical_options
 #' Named list of canvas settings (e.g. from
-#' \code{get_active_config("graphical")}); must contain
+#' \code{load_active_config_value("graphical")}); must contain
 #' \code{width}, \code{height}, \code{units},
 #' \code{dpi}, \code{bg}.
 #' @param show_x_axis

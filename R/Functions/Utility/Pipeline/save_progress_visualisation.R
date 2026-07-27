@@ -47,7 +47,7 @@
 #' @export
 save_progress_visualisation <- function(
     sel_script,
-    sel_store = get_active_config("target_store"),
+    sel_store = load_active_config_value("target_store"),
     output_file = "project_status",
     output_dir = here::here(
       "Documentation/Progress"

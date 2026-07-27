@@ -34,7 +34,7 @@ base::dir.create(
 
 # Graphical options shared across all plots in this script.
 graphical_options <-
-  get_active_config("graphical")
+  load_active_config_value("graphical")
 
 tag_date <-
   base::format(base::Sys.Date(), "%Y-%m-%d")

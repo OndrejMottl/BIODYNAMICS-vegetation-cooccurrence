@@ -64,7 +64,7 @@ sel_min_n <- 5L
 
 # Graphical options shared across all plots in this script.
 graphical_options <-
-  get_active_config("graphical")
+  load_active_config_value("graphical")
 
 # Path to the manual corrections file.
 path_corrections <-
@@ -72,7 +72,9 @@ path_corrections <-
 
 # Target store for the traits pipeline.
 path_traits_store <-
-  here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
+  here::here(
+    "Data/targets/traits_reference_reference/pipeline_traits_reference"
+  )
 
 
 #----------------------------------------------------------#
@@ -139,7 +141,10 @@ base::message(
   "Loaded data_traits_raw: ",
   base::nrow(data_traits_raw), " rows, ",
   dplyr::n_distinct(dplyr::pull(data_traits_raw, taxon_name)), " taxa, ",
-  dplyr::n_distinct(dplyr::pull(data_traits_raw, trait_domain_name)), " domains."
+  dplyr::n_distinct(
+    dplyr::pull(data_traits_raw, trait_domain_name)
+  ),
+  " domains."
 )
 
 
@@ -445,9 +450,17 @@ if (
   !sel_domain %in% dplyr::pull(data_traits_raw, trait_domain_name)
 ) {
   base::stop(
-    stringr::str_glue(
-      "'{sel_domain}' not found in data_traits_raw.\n",
-      "Valid domains: {stringr::str_c(base::unique(dplyr::pull(data_traits_raw, trait_domain_name)), collapse = ', ')}"
+    stringr::str_c(
+      stringr::str_glue(
+        "'{sel_domain}' not found in data_traits_raw.\n"
+      ),
+      "Valid domains: ",
+      stringr::str_c(
+        base::unique(
+          dplyr::pull(data_traits_raw, trait_domain_name)
+        ),
+        collapse = ", "
+      )
     )
   )
 }
@@ -527,7 +540,11 @@ data_corrections_current <-
 base::message(
   "Correction written for '", sel_taxon, "' x '", sel_domain, "'.",
   "\n  action = ", sel_action,
-  if (sel_action == "scale") stringr::str_glue("  scale_factor = {sel_scale_factor}"),
+  if (
+    sel_action == "scale"
+  ) {
+    stringr::str_glue("  scale_factor = {sel_scale_factor}")
+  },
   "\n  Total corrections: ", base::nrow(data_corrections_current)
 )
 

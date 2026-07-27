@@ -461,7 +461,7 @@ pipe_segment_model_cross_validation <-
 
         collect_sjsdm_available_tier_decisions(
           store_path = here::here(
-            get_active_config("target_store"),
+            load_active_config_value("target_store"),
             "pipeline_sjsdm_tier_tuning"
           ),
           data_model_context = data_sjsdm_model_context,
@@ -627,7 +627,7 @@ pipe_segment_model_cross_validation <-
       } else {
         read_sjsdm_tier_tuning_artifact(
           store_path = here::here(
-            get_active_config("target_store"),
+            load_active_config_value("target_store"),
             "pipeline_sjsdm_tier_tuning"
           ),
           data_model_context = data_sjsdm_model_context

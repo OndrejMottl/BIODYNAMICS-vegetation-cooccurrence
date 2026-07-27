@@ -20,7 +20,7 @@
 #' constructs the bounding box vectors. Validation ensures the file
 #' is readable, has a `.csv` extension, and that exactly one row
 #' matches the requested `scale_id`.
-#' @seealso get_active_config
+#' @seealso load_active_config_value
 #' @export
 get_spatial_window <- function(
     scale_id,

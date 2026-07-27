@@ -168,13 +168,13 @@ run_pipeline <- function(
       is.null(store_suffix)
     ) {
       paste0(
-        get_active_config("target_store"), "/",
+        load_active_config_value("target_store"), "/",
         sel_pipeline_name, "/"
       )
     } else {
       {
         paste0(
-          get_active_config("target_store"), "/",
+          load_active_config_value("target_store"), "/",
           store_suffix, "/",
           sel_pipeline_name, "/"
         )
@@ -207,7 +207,7 @@ run_pipeline <- function(
     isTRUE(prebuild_interpolation)
   ) {
     interpolation_workers <-
-      get_active_config("data_processing") |>
+      load_active_config_value("data_processing") |>
       purrr::chuck("n_interpolation_workers")
 
     assertthat::assert_that(

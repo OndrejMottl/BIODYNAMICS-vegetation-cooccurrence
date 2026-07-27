@@ -9,11 +9,11 @@
 #' @param sensitivity_script
 #' Common-regularization sensitivity pipeline script path.
 #' @param config_file
-#' Configuration file passed to `config_get_function`.
+#' Configuration file passed to `config_load_function`.
 #' @param project_root
 #' Project root used to resolve configured relative target-store paths.
-#' @param config_get_function
-#' Injectable configuration reader. Defaults to [config::get()].
+#' @param config_load_function
+#' Injectable complete-configuration loader. Defaults to [load_config()].
 #' @param dir_exists_function
 #' Injectable directory-existence predicate. Defaults to [fs::dir_exists()].
 #' @param run_pipeline_function
@@ -48,7 +48,7 @@ run_sjsdm_cross_tier_sensitivity <- function(
     ),
     config_file = here::here("config.yml"),
     project_root = here::here(),
-    config_get_function = config::get,
+    config_load_function = load_config,
     dir_exists_function = fs::dir_exists,
     run_pipeline_function = run_pipeline) {
   flag_valid_profile_ids <-
@@ -90,7 +90,7 @@ run_sjsdm_cross_tier_sensitivity <- function(
   )
 
   assertthat::assert_that(
-    base::is.function(config_get_function),
+    base::is.function(config_load_function),
     base::is.function(dir_exists_function),
     base::is.function(run_pipeline_function),
     msg = "Common-sensitivity orchestration backends must be functions."
@@ -101,8 +101,8 @@ run_sjsdm_cross_tier_sensitivity <- function(
     purrr::map(
       .f = function(profile_id) {
         list_config <-
-          config_get_function(
-            config = profile_id,
+          config_load_function(
+            config_id = profile_id,
             file = config_file
           )
 

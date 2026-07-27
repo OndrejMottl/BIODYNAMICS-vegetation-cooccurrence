@@ -98,7 +98,7 @@ purrr::pwalk(
     Sys.setenv(R_CONFIG_ACTIVE = config_name)
 
     graphical_options <-
-      get_active_config("graphical")
+      load_active_config_value("graphical")
 
 
     #--------------------------------------------------#
@@ -106,10 +106,10 @@ purrr::pwalk(
     #--------------------------------------------------#
 
     vec_age_lim <-
-      get_active_config(c("vegvault_data", "age_lim"))
+      load_active_config_value(c("vegvault_data", "age_lim"))
 
     n_time_step <-
-      get_active_config(c("data_processing", "time_step"))
+      load_active_config_value(c("data_processing", "time_step"))
 
     data_to_map_age <-
       tibble::tibble(
@@ -160,7 +160,9 @@ purrr::pwalk(
       dplyr::mutate(
         status = dplyr::case_when(
           !base::is.na(error) ~ "failed",
-          base::is.na(error) & target_name %in% data_tar_meta$name ~ "successful",
+          base::is.na(error) &
+            target_name %in% data_tar_meta$name ~
+            "successful",
           .default = "not_run"
         )
       )
@@ -282,7 +284,13 @@ purrr::pwalk(
           dplyr::select(age_name, age),
         by = dplyr::join_by(age_name)
       ) |>
-      dplyr::select(age, age_name, linear_trend_slope, median_diff, converged) |>
+      dplyr::select(
+        age,
+        age_name,
+        linear_trend_slope,
+        median_diff,
+        converged
+      ) |>
       dplyr::arrange(age)
 
     print(data_convergence_summary, n = Inf)

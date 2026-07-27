@@ -160,7 +160,7 @@ cli::cli_inform(
 #   the project analyses.
 set_store <-
   base::paste0(
-    get_active_config("target_store"),
+    load_active_config_value("target_store"),
     "/pipeline_paleo_core/"
   ) |>
   here::here()

@@ -1,4 +1,4 @@
-#' @title Get Configuration Value with Fallback
+#' @title Load Configuration Value with Fallback
 #' @description
 #' Retrieves a configuration value from the active configuration. If
 #' the key is absent there, the function falls back to the same key in
@@ -27,18 +27,18 @@
 #' Both the active config name and `fallback_config` must exist in the
 #' YAML file.
 #' @examples
-#' get_config_value_with_fallback(
+#' load_config_value_with_fallback(
 #'   config_section = "data_processing",
 #'   config_key = "min_n_samples"
 #' )
-#' get_config_value_with_fallback(
+#' load_config_value_with_fallback(
 #'   config_section = "data_processing",
 #'   config_key = "ft_groups_min",
 #'   fallback_config = "project_traits_reference"
 #' )
-#' @seealso [get_active_config()]
+#' @seealso [load_active_config_value()], [load_config_value()]
 #' @export
-get_config_value_with_fallback <- function(
+load_config_value_with_fallback <- function(
     config_section,
     config_key,
     fallback_config = "default",
@@ -147,8 +147,5 @@ get_config_value_with_fallback <- function(
     )
   }
 
-  res_value <-
-    value_config
-
-  return(res_value)
+  return(value_config)
 }

@@ -19,10 +19,9 @@ make_pipe_segment_ft_classification_continental <- function(
     data_source_prefix = NULL,
     traits_store_expr = quote(
       here::here(
-        config::get(
+        load_config_value(
+          config_id = "project_traits_reference",
           value = "target_store",
-          config = "project_traits_reference",
-          use_parent = FALSE,
           file = here::here("config.yml")
         ),
         "pipeline_traits_reference"
@@ -82,7 +81,7 @@ make_pipe_segment_ft_classification_continental <- function(
               here::here("Data/Processed/Traits")
 
             continent_id <-
-              get_active_config("continent_id")
+              load_active_config_value("continent_id")
 
             file_name_base <-
               stringr::str_glue(
@@ -209,7 +208,7 @@ make_pipe_segment_ft_classification_continental <- function(
         description = "Read ft_groups_max for FT clustering from config",
         name = ft_groups_max_continental,
         command = base::as.integer(
-          get_config_value_with_fallback(
+          load_config_value_with_fallback(
             config_section = "data_processing",
             config_key = "ft_groups_max",
             fallback_config = "project_traits_reference"
@@ -221,7 +220,7 @@ make_pipe_segment_ft_classification_continental <- function(
         description = "Read ft_groups_min for FT clustering from config",
         name = ft_groups_min_continental,
         command = base::as.integer(
-          get_config_value_with_fallback(
+          load_config_value_with_fallback(
             config_section = "data_processing",
             config_key = "ft_groups_min",
             fallback_config = "project_traits_reference"
@@ -232,7 +231,7 @@ make_pipe_segment_ft_classification_continental <- function(
       targets::tar_target(
         description = "Read dissimilarity metric for FT clustering from config",
         name = metric_ft_continental,
-        command = get_config_value_with_fallback(
+        command = load_config_value_with_fallback(
           config_section = "data_processing",
           config_key = "ft_metric",
           fallback_config = "project_traits_reference"
@@ -240,9 +239,11 @@ make_pipe_segment_ft_classification_continental <- function(
         cue = targets::tar_cue("always")
       ),
       targets::tar_target(
-        description = "Read hclust linkage method for FT clustering from config",
+        description = paste(
+          "Read hclust linkage method for FT clustering from config"
+        ),
         name = method_ft_continental,
-        command = get_config_value_with_fallback(
+        command = load_config_value_with_fallback(
           config_section = "data_processing",
           config_key = "ft_method",
           fallback_config = "project_traits_reference"
@@ -257,7 +258,9 @@ make_pipe_segment_ft_classification_continental <- function(
       # stays independent of the traits pipeline's data store path
       # and both pipelines can run in separate processes.
       targets::tar_target_raw(
-        description = "Resolve the traits reference target store for FT clustering",
+        description = paste(
+          "Resolve the traits reference target store for FT clustering"
+        ),
         name = "path_traits_reference_store",
         command = traits_store_expr,
         cue = targets::tar_cue(mode = "always")

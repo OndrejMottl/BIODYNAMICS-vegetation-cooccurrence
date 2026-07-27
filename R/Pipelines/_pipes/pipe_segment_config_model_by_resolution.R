@@ -69,7 +69,7 @@ pipe_segment_config_model_by_resolution <-
       name = "config_model_fitting",
       command = {
         base::list(
-          n_cores = get_active_config(
+          n_cores = load_active_config_value(
             value = c("model_fitting", "n_cores")
           ),
           n_iter = get_model_tuning_param_for_scale_and_resolution(
@@ -93,29 +93,29 @@ pipe_segment_config_model_by_resolution <-
             param_id = "n_samples_anova",
             resolution_id = resolution_id
           ),
-          n_mev = get_active_config(
+          n_mev = load_active_config_value(
             value = c("model_fitting", "n_mev")
           ),
-          spatial_mev = get_active_config(
+          spatial_mev = load_active_config_value(
             value = c("model_fitting", "spatial_mev")
           ),
           error_family = config_error_family,
-          spatial_crs = get_active_config(
+          spatial_crs = load_active_config_value(
             value = c("model_fitting", "spatial_crs")
           ),
-          spatial_mode = get_active_config(
+          spatial_mode = load_active_config_value(
             value = c("model_fitting", "spatial_mode")
           ),
-          use_spatial = get_active_config(
+          use_spatial = load_active_config_value(
             value = c("model_fitting", "use_spatial")
           ),
-          use_age_in_formula = get_active_config(
+          use_age_in_formula = load_active_config_value(
             value = c("model_fitting", "use_age_in_formula")
           ),
-          age_scale_mode = get_active_config(
+          age_scale_mode = load_active_config_value(
             value = c("model_fitting", "age_scale_mode")
           ),
-          cross_validation = get_active_config(
+          cross_validation = load_active_config_value(
             value = c("model_fitting", "cross_validation")
           )
         )

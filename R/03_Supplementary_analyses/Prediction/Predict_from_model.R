@@ -34,10 +34,9 @@ mod_hmsc_with_eval <-
   targets::tar_read(
     name = "mod_hmsc_to_use",
     store = here::here(
-      config::get(
+      load_config_value(
+        config_id = "project_cz_paleo",
         value = "target_store",
-        config = "project_cz_paleo",
-        use_parent = FALSE,
         file = here::here("config.yml")
       )
     )
@@ -51,7 +50,7 @@ mod_hmsc <-
 
 
 age_lim <-
-  get_active_config(
+  load_active_config_value(
     value = c("vegvault_data", "age_lim")
   )
 
@@ -59,13 +58,13 @@ vec_age_slices <-
   seq(
     min(age_lim),
     max(age_lim),
-    get_active_config(
+    load_active_config_value(
       value = c("data_processing", "time_step")
     )
   )
 
 x_lim <-
-  get_active_config(
+  load_active_config_value(
     value = c("vegvault_data", "x_lim")
   )
 
@@ -73,7 +72,7 @@ x_lim_max <- max(x_lim, na.rm = TRUE)
 x_lim_min <- min(x_lim, na.rm = TRUE)
 
 y_lim <-
-  get_active_config(
+  load_active_config_value(
     value = c("vegvault_data", "y_lim")
   )
 
@@ -160,7 +159,7 @@ data_coords <-
 random_coors_knots <-
   Hmsc::constructKnots(
     sData = data_coords,
-    minKnotDist = get_active_config(
+    minKnotDist = load_active_config_value(
       c("data_processing", "min_distance_of_gpp_knots")
     )
   )
@@ -245,10 +244,9 @@ data_to_fit <-
   targets::tar_read(
     name = "data_model_input",
     store = here::here(
-      config::get(
+      load_config_value(
+        config_id = "project_cz_paleo",
         value = "target_store",
-        config = "project_cz_paleo",
-        use_parent = FALSE,
         file = here::here("config.yml")
       )
     )
@@ -423,7 +421,7 @@ as_tibble(study_design) %>%
     title = paste(
       "Predicted occurrence of",
       sel_taxa,
-      get_active_config(
+      load_active_config_value(
         c("data_processing", "taxonomic_resolution")
       ),
       " for Czechia"
@@ -432,7 +430,7 @@ as_tibble(study_design) %>%
     caption = paste(
       paste(
         "HMSC model with space (GPP; minimum distance of",
-        get_active_config(
+        load_active_config_value(
           c("data_processing", "min_distance_of_gpp_knots")
         ),
         ") and age as random effect"
@@ -440,7 +438,7 @@ as_tibble(study_design) %>%
       paste(
         "Climatic variables:",
         paste(
-          get_active_config(
+          load_active_config_value(
             c("vegvault_data", "sel_abiotic_var_name")
           ),
           collapse = ", "
@@ -448,15 +446,15 @@ as_tibble(study_design) %>%
       ),
       paste(
         "Model fitted with",
-        get_active_config(
+        load_active_config_value(
           c("model_fitting", "n_cores")
         ),
         "cores,",
-        get_active_config(
+        load_active_config_value(
           c("model_fitting", "samples")
         ),
         "samples,",
-        get_active_config(
+        load_active_config_value(
           c("model_fitting", "cross_validation_folds")
         ),
         "cross-validation folds"

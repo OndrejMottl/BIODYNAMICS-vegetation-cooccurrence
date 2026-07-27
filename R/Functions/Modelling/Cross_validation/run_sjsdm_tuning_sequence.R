@@ -39,7 +39,7 @@ run_sjsdm_tuning_sequence <- function(
     n_rounds = NULL,
     run_pipeline_function = run_pipeline,
     has_tuning_evidence_function = has_sjsdm_tuning_evidence,
-    target_store = get_active_config("target_store")) {
+    target_store = load_active_config_value("target_store")) {
   assertthat::assert_that(
     base::is.character(unit_pipeline),
     base::length(unit_pipeline) == 1L,

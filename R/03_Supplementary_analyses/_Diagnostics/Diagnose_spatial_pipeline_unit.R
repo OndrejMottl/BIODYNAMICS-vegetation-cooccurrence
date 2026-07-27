@@ -32,7 +32,7 @@ sel_scale_id <- "NULL"
 
 # Graphical options shared across all plots in this script.
 graphical_options <-
-  get_active_config("graphical")
+  load_active_config_value("graphical")
 
 
 #----------------------------------------------------------#

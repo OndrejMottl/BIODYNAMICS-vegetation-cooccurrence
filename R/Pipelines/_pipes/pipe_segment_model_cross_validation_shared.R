@@ -43,7 +43,7 @@ pipe_segment_model_cross_validation_shared <-
     targets::tar_target(
       description = "Read shared cross-validation configuration",
       name = "config_cross_validation_shared",
-      command = get_active_config(
+      command = load_active_config_value(
         value = base::c("model_fitting", "cross_validation")
       ),
       cue = targets::tar_cue(mode = "always")

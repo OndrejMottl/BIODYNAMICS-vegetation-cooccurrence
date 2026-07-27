@@ -61,7 +61,7 @@ pipe_segment_config_model <-
     targets::tar_target(
       description = "Configuration for model fitting - n_cores",
       name = "config_n_cores",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("model_fitting", "n_cores")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -127,7 +127,7 @@ pipe_segment_config_model <-
         " number of Moran eigenvectors"
       ),
       name = "config_n_mev",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("model_fitting", "n_mev")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -135,7 +135,7 @@ pipe_segment_config_model <-
     targets::tar_target(
       description = "Configuration for scalable spatial MEM construction",
       name = "config_spatial_mev",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("model_fitting", "spatial_mev")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -149,7 +149,7 @@ pipe_segment_config_model <-
         " as an EPSG code (e.g. 3035 for ETRS89-LAEA Europe)"
       ),
       name = "config_spatial_crs",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("model_fitting", "spatial_crs")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -161,7 +161,7 @@ pipe_segment_config_model <-
         " 'spatiotemporal' (3-D MEVs)"
       ),
       name = "config_spatial_mode",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("model_fitting", "spatial_mode")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -172,7 +172,7 @@ pipe_segment_config_model <-
         " TRUE to include MEV spatial predictors, FALSE to omit"
       ),
       name = "config_use_spatial",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("model_fitting", "use_spatial")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -183,7 +183,7 @@ pipe_segment_config_model <-
         " TRUE for (bio * age) interaction, FALSE for additive only"
       ),
       name = "config_use_age_in_formula",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("model_fitting", "use_age_in_formula")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -194,7 +194,7 @@ pipe_segment_config_model <-
         " 'z_score' for production fitting, 'center' for legacy checks"
       ),
       name = "config_age_scale_mode",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("model_fitting", "age_scale_mode")
       ),
       cue = targets::tar_cue(mode = "always")
@@ -202,7 +202,7 @@ pipe_segment_config_model <-
     targets::tar_target(
       description = "Configuration for model cross-validation",
       name = "config_cross_validation",
-      command = get_active_config(
+      command = load_active_config_value(
         value = c("model_fitting", "cross_validation")
       ),
       cue = targets::tar_cue(mode = "always")

@@ -473,7 +473,7 @@ testthat::test_that("run_pipeline() prebuilds then runs full build", {
   testthat::expect_equal(
     base::as.integer(n_prebuild_workers_env),
     purrr::chuck(
-      get_active_config("data_processing"),
+      load_active_config_value("data_processing"),
       "n_interpolation_workers"
     )
   )
