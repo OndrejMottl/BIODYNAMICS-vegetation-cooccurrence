@@ -144,7 +144,7 @@ All tests must pass before proceeding. If a previously passing test now fails, t
 **This step is mandatory for all implementation work**  -  bug fixes, new features, refactors, and pipeline changes  -  not only for debugging sessions. After cleaning up, verify end-to-end by running the CZ validation script. The run must complete without unexpected errors:
 
 ```powershell
-Rscript R/02_Main_analyses/Run_CZ_test.R
+Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R
 ```
 
 **Do not consider a bug fix complete until this step passes without errors.**
@@ -164,7 +164,7 @@ Note: steps 6, 7, and 8 must all pass  -  the targeted test catches regressions 
 | 5 | `Remove-Item` all temp debug files |
 | 6 | Run `testthat::test_file()` for the changed function  -  passes |
 | 7 | `Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`  -  all tests pass |
-| 8 | `Rscript R/02_Main_analyses/Run_CZ_test.R`  -  no errors |
+| 8 | `Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R`  -  no errors |
 
 ---
 

@@ -272,40 +272,40 @@ list_supported_runners <-
   stats::setNames(
     object = base::list(
       base::character(),
-      "R/02_Main_analyses/Run_CZ_test.R",
-      "R/02_Main_analyses/Run_CZ_paleo_cv_reference.R",
-      "R/02_Main_analyses/Run_CZ_paleo_cv_reference_gpu.R",
-      "R/02_Main_analyses/Run_CZ_paleo_cv_staged_reference_gpu.R",
-      "R/02_Main_analyses/Run_CZ_paleo_cv_component_reference_gpu.R",
-      "R/02_Main_analyses/Run_CZ_paleo_cv_regularization_reference_gpu.R",
+      "R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R",
+      "R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_reference.R",
+      "R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_reference_gpu.R",
+      "R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_staged_reference_gpu.R",
+      "R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_component_reference_gpu.R",
+      "R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_regularization_reference_gpu.R",
       "R/01_Data_processing/Traits/Run_trait_analyses.R",
-      "R/02_Main_analyses/02_Temporal_Paleo/01_Run_temporal_europe.R",
-      "R/02_Main_analyses/02_Temporal_Paleo/02_Run_temporal_america.R",
-      "R/02_Main_analyses/02_Temporal_Paleo/03_Run_temporal_asia.R",
-      "R/02_Main_analyses/01_Spatial/01_Paleo/01_Run_spatial_continental.R",
-      "R/02_Main_analyses/01_Spatial/01_Paleo/02_Run_spatial_regional.R",
-      "R/02_Main_analyses/01_Spatial/01_Paleo/03_Run_spatial_local.R",
-      "R/02_Main_analyses/Run_paleo_local_cv_scientific_reference_gpu.R",
-      "R/02_Main_analyses/Run_paleo_local_cv_decomposition_reference_gpu.R",
+      "R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/01_run_temporal_europe.R",
+      "R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/02_run_temporal_america.R",
+      "R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/03_run_temporal_asia.R",
+      "R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/01_run_spatial_continental.R",
+      "R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/02_run_spatial_regional.R",
+      "R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/03_run_spatial_local.R",
+      "R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_paleo_local_cv_scientific_reference_gpu.R",
+      "R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_paleo_local_cv_decomposition_reference_gpu.R",
       paste0(
-        "R/02_Main_analyses/01_Spatial/02_Contemporary/",
-        "01_Run_modern_continental.R"
+        "R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/",
+        "01_run_modern_continental.R"
       ),
       paste0(
-        "R/02_Main_analyses/01_Spatial/02_Contemporary/",
-        "02_Run_modern_regional.R"
+        "R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/",
+        "02_run_modern_regional.R"
       ),
       paste0(
-        "R/02_Main_analyses/01_Spatial/02_Contemporary/",
-        "03_Run_modern_local.R"
+        "R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/",
+        "03_run_modern_local.R"
       ),
-      "R/02_Main_analyses/Run_CZ_test.R",
-      "R/02_Main_analyses/Run_issue138_paleo_continental_europe_staged.R",
-      "R/02_Main_analyses/Run_issue138_modern_continental_europe_staged.R",
-      "R/02_Main_analyses/Run_issue143_modern_continental_europe_shared_mem.R",
-      "R/02_Main_analyses/Run_issue138_temporal_europe_staged.R",
-      "R/02_Main_analyses/Run_issue138_temporal_america_staged.R",
-      "R/02_Main_analyses/Run_issue138_temporal_asia_staged.R"
+      "R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R",
+      "R/03_Supplementary_analyses/One_time/Issues/issue_138/run_paleo_continental_europe_staged.R",
+      "R/03_Supplementary_analyses/One_time/Issues/issue_138/run_modern_continental_europe_staged.R",
+      "R/03_Supplementary_analyses/One_time/Issues/issue_143/run_modern_continental_europe_shared_mem.R",
+      "R/03_Supplementary_analyses/One_time/Issues/issue_138/run_temporal_europe_staged.R",
+      "R/03_Supplementary_analyses/One_time/Issues/issue_138/run_temporal_america_staged.R",
+      "R/03_Supplementary_analyses/One_time/Issues/issue_138/run_temporal_asia_staged.R"
     ),
     nm = vec_profile_ids
   )

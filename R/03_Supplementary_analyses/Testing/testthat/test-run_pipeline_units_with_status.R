@@ -137,21 +137,21 @@ testthat::test_that(
       here::here(
         base::c(
           base::rep(
-            "R/02_Main_analyses/01_Spatial/01_Paleo",
+            "R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners",
             3L
           ),
           base::rep(
-            "R/02_Main_analyses/01_Spatial/02_Contemporary",
+            "R/02_Main_analyses/01_Spatial/02_Modern/01_Runners",
             3L
           )
         ),
         base::c(
-          "01_Run_spatial_continental.R",
-          "02_Run_spatial_regional.R",
-          "03_Run_spatial_local.R",
-          "01_Run_modern_continental.R",
-          "02_Run_modern_regional.R",
-          "03_Run_modern_local.R"
+          "01_run_spatial_continental.R",
+          "02_run_spatial_regional.R",
+          "03_run_spatial_local.R",
+          "01_run_modern_continental.R",
+          "02_run_modern_regional.R",
+          "03_run_modern_local.R"
         )
       )
 

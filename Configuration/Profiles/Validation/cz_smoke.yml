@@ -46,7 +46,7 @@ project_cz_paleo:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/Run_CZ_test.R
+      - R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R
 
 project_cz_modern:
   target_store: Data/targets/cz_modern
@@ -87,4 +87,4 @@ project_cz_modern:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/Run_CZ_test.R
+      - R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R

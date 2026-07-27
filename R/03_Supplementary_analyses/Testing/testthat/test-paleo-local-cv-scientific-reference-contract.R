@@ -105,7 +105,7 @@ testthat::test_that(
 
     path_runner <-
       here::here(
-        "R/02_Main_analyses/Run_paleo_local_cv_scientific_reference_gpu.R"
+        "R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_paleo_local_cv_scientific_reference_gpu.R"
       )
     text_runner <-
       readr::read_file(path_runner)

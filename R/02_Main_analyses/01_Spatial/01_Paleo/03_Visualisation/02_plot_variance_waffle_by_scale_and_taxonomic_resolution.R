@@ -10,9 +10,9 @@
 #
 #----------------------------------------------------------#
 # Produces the unit-level waffle plot for paleo Associations
-#   variance from the latest paleo spatial unit table. The newer
-#   09_Visualise_variance_partitioning.R script also saves this plot
-#   alongside the stacked variance-partitioning figure.
+#   variance from the latest paleo spatial unit table.
+#   `03_plot_variance_stack_and_biotic_spread.R` provides the
+#   complementary stacked variance-partitioning figure.
 
 
 #----------------------------------------------------------#

@@ -72,13 +72,13 @@ if (
   isTRUE(flag_run_all)
 ) {
   c(
-    "01_Run_temporal_europe.R",
-    "02_Run_temporal_america.R",
-    "03_Run_temporal_asia.R"
+    "01_run_temporal_europe.R",
+    "02_run_temporal_america.R",
+    "03_run_temporal_asia.R"
   ) |>
     purrr::walk(
       .f = ~ here::here(
-        "R/02_Main_analyses/02_Temporal_Paleo/",
+        "R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/",
         .x
       ) |>
         source()

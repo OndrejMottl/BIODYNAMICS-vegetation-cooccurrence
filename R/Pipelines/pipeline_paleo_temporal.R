@@ -15,8 +15,8 @@
 #   - Runs anova variance decomposition per slice
 #   - Aggregates anova components (F_A, F_B, F_S, ...)
 #     across all slices into a single summary table
-# Note that this script should be executed
-#   by other scripts (eg, `01_Run_pipelines.R`).
+# Run this pipeline through the supported
+#   `run_temporal_<continent>.R` scripts.
 
 #----------------------------------------------------------#
 # 0. Setup -----

@@ -31,7 +31,7 @@ project_paleo_temporal_europe:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/02_Temporal_Paleo/01_Run_temporal_europe.R
+      - R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/01_run_temporal_europe.R
 
 project_paleo_temporal_america:
   target_store: Data/targets/paleo_temporal_america
@@ -63,7 +63,7 @@ project_paleo_temporal_america:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/02_Temporal_Paleo/02_Run_temporal_america.R
+      - R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/02_run_temporal_america.R
 
 project_paleo_temporal_asia:
   target_store: Data/targets/paleo_temporal_asia
@@ -95,4 +95,4 @@ project_paleo_temporal_asia:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/02_Temporal_Paleo/03_Run_temporal_asia.R
+      - R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/03_run_temporal_asia.R
