@@ -7,35 +7,35 @@
 #' Produces the same
 #' output column structure as `classify_taxonomic_resolution()`
 #' so it can be used as a drop-in replacement downstream.
-#' @param data
+#' @param data_source
 #' A data frame containing community data with columns
 #' `taxon`, `dataset_name`, `age`, and `value`. Other identifier
 #' columns such as `sample_name` are preserved.
-#' @param data_ft_classification
+#' @param data_functional_type_classification
 #' A data frame mapping taxa to functional types. Must contain
 #' columns `taxon_name` (character) and `functional_type`
 #' (integer). Typically produced by `cluster_functional_types()`
 #' and loaded via `get_functional_type_classification()`.
-#' @param verbose
+#' @param flag_verbose
 #' Logical. If `TRUE` (default), informational progress messages
 #' are printed to the console via `cli`. Note: the warning issued
 #' when taxa are absent from `data_ft_classification` is always
 #' emitted regardless of this flag.
 #' @return
-#' A data frame with the same column names as `data`. The
+#' A data frame with the same column names as `data_source`. The
 #' `taxon` column is replaced by functional-type labels of the
 #' form `"FT_1"`, `"FT_2"`, etc. `value` is aggregated
 #' (summed) by all original identifier columns and `taxon`. All
 #' identifier combinations present after FT classification are
 #' preserved (true negatives kept via a cross-reference join).
-#' Taxa not found in `data_ft_classification` are dropped with
+#' Taxa not found in `data_functional_type_classification` are dropped with
 #' a `cli::cli_warn()` message.
 #' @details
 #' Steps performed:
 #' \enumerate{
 #'   \item Validate arguments.
-#'   \item Left-join `data` to `data_ft_classification` on
-#'     `data$taxon == data_ft_classification$taxon_name`.
+#'   \item Left-join `data_source` to
+#'     `data_functional_type_classification` on their taxon names.
 #'   \item Drop unmatched taxa (NA functional type) with a
 #'     warning.
 #'   \item Create `taxon` labels `"FT_{functional_type}"`.
@@ -49,74 +49,93 @@
 #'   [cluster_functional_types()]
 #' @export
 classify_to_functional_type <- function(
-    data,
-    data_ft_classification,
-    verbose = TRUE) {
+    data_source,
+    data_functional_type_classification,
+    flag_verbose = TRUE) {
   assertthat::assert_that(
-    base::is.data.frame(data),
-    msg = "'data' must be a data frame."
+    base::is.data.frame(data_source),
+    msg = "'data_source' must be a data frame."
   )
 
   assertthat::assert_that(
     base::all(
       c("taxon", "dataset_name", "age", "value") %in%
-        base::colnames(data)
+        base::colnames(data_source)
     ),
-    msg = "'data' must contain columns: taxon, dataset_name, age, and value."
+    msg = stringr::str_c(
+      "'data_source' must contain columns: taxon, dataset_name, ",
+      "age, and value."
+    )
   )
 
   assertthat::assert_that(
-    base::is.data.frame(data_ft_classification),
-    msg = "'data_ft_classification' must be a data frame."
+    base::is.data.frame(data_functional_type_classification),
+    msg = "'data_functional_type_classification' must be a data frame."
   )
 
   assertthat::assert_that(
-    "taxon_name" %in% base::colnames(data_ft_classification),
-    msg = "'data_ft_classification' must contain column 'taxon_name'."
+    "taxon_name" %in%
+      base::colnames(data_functional_type_classification),
+    msg = stringr::str_c(
+      "'data_functional_type_classification' must contain column ",
+      "'taxon_name'."
+    )
   )
 
   assertthat::assert_that(
-    "functional_type" %in% base::colnames(data_ft_classification),
-    msg = "'data_ft_classification' must contain column 'functional_type'."
+    "functional_type" %in%
+      base::colnames(data_functional_type_classification),
+    msg = stringr::str_c(
+      "'data_functional_type_classification' must contain column ",
+      "'functional_type'."
+    )
   )
 
   assertthat::assert_that(
-    base::is.logical(verbose) && base::length(verbose) == 1L,
-    msg = "'verbose' must be a single logical value."
+    base::is.logical(flag_verbose) &&
+      base::length(flag_verbose) == 1L,
+    msg = "'flag_verbose' must be a single logical value."
   )
 
   # Join FT classification to community data on taxon name.
-  data_joined <-
-    data |>
+  data_community_joined <-
+    data_source |>
     dplyr::left_join(
-      data_ft_classification |>
+      data_functional_type_classification |>
         dplyr::select(taxon_name, functional_type),
       by = dplyr::join_by("taxon" == "taxon_name")
     )
 
   # Warn and drop taxa not present in the FT classification table.
-  vec_unmatched <-
-    data_joined |>
+  vec_unmatched_taxa <-
+    data_community_joined |>
     dplyr::filter(base::is.na(functional_type)) |>
     dplyr::distinct(taxon) |>
     dplyr::pull(taxon)
 
-  n_unmatched <-
-    base::length(vec_unmatched)
+  n_unmatched_taxa <-
+    base::length(vec_unmatched_taxa)
 
   if (
-    n_unmatched > 0
+    n_unmatched_taxa > 0
   ) {
     cli::cli_warn(
       c(
-        "!" = "{n_unmatched} taxon/taxa not found in 'data_ft_classification' and {?was/were} dropped.",
-        "i" = "Check that the FT classification was built from the same taxa present in the community data."
+        "!" = stringr::str_c(
+          n_unmatched_taxa,
+          " taxon/taxa not found in ",
+          "'data_functional_type_classification'; unmatched rows were dropped."
+        ),
+        "i" = stringr::str_c(
+          "Check that the functional-type classification was built from ",
+          "the same taxa present in the community data."
+        )
       )
     )
   }
 
-  data_classified <-
-    data_joined |>
+  data_community_with_functional_types <-
+    data_community_joined |>
     dplyr::filter(!base::is.na(functional_type)) |>
     dplyr::mutate(
       taxon = stringr::str_glue("FT_{functional_type}")
@@ -126,42 +145,42 @@ classify_to_functional_type <- function(
   # If all taxa were unmatched, return an empty data frame with the
   # correct column names and column types.
   if (
-    base::nrow(data_classified) == 0L
+    base::nrow(data_community_with_functional_types) == 0L
   ) {
-    res <-
-      data[0L, base::colnames(data)]
+    res_community_classified <-
+      data_source[0L, base::colnames(data_source)]
 
-    return(res)
+    return(res_community_classified)
   }
 
-  vec_identifier_cols <-
+  vec_identifier_columns <-
     base::setdiff(
-      base::colnames(data),
+      base::colnames(data_source),
       c("taxon", "value")
     )
 
   # Build a cross-reference of all identifier/taxon combinations
   # present after classification. This is used in the full-join below
   # to preserve true-negative cells.
-  data_dataset_age_cross_ref <-
-    data_classified |>
+  data_dataset_age_cross_reference <-
+    data_community_with_functional_types |>
     dplyr::distinct(
       dplyr::across(
         dplyr::all_of(
-          c(vec_identifier_cols, "taxon")
+          c(vec_identifier_columns, "taxon")
         )
       )
     )
 
   # Aggregate pollen proportions by identifier columns and FT taxon,
   # then restore true-negative cells via a full join.
-  res <-
-    data_classified |>
+  res_community_classified <-
+    data_community_with_functional_types |>
     tidyr::drop_na(value) |>
     dplyr::group_by(
       dplyr::across(
         dplyr::all_of(
-          c(vec_identifier_cols, "taxon")
+          c(vec_identifier_columns, "taxon")
         )
       )
     ) |>
@@ -170,19 +189,19 @@ classify_to_functional_type <- function(
       value = base::sum(value, na.rm = TRUE)
     ) |>
     dplyr::full_join(
-      data_dataset_age_cross_ref,
-      by = c(vec_identifier_cols, "taxon")
+      data_dataset_age_cross_reference,
+      by = c(vec_identifier_columns, "taxon")
     ) |>
     dplyr::arrange(
       dplyr::across(
         dplyr::all_of(
-          c(vec_identifier_cols, "taxon")
+          c(vec_identifier_columns, "taxon")
         )
       )
     ) |>
     dplyr::select(
-      base::colnames(data)
+      base::colnames(data_source)
     )
 
-  return(res)
+  return(res_community_classified)
 }

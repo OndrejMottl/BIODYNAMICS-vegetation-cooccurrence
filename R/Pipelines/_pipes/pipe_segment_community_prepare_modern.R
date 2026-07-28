@@ -138,9 +138,10 @@ pipe_segment_community_prepare_modern <-
       description = "Classify modern community data to configured resolution",
       name = "data_community_classified",
       command = classify_taxonomic_resolution(
-        data = data_community_plantae,
+        data_source = data_community_plantae,
         data_classification_table = data_combined_classification_table,
-        taxonomic_resolution = config_data_processing$taxonomic_resolution
+        vec_taxonomic_resolution =
+          config_data_processing$taxonomic_resolution
       )
     )
   )

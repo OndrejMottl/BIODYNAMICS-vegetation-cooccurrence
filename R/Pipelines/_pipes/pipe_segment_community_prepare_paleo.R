@@ -125,9 +125,9 @@ pipe_segment_community_prepare_paleo <-
       description = "Classify community data to specific taxonomic resolution",
       name = "data_community_classified",
       command = classify_taxonomic_resolution(
-        data = data_community_plantae,
+        data_source = data_community_plantae,
         data_classification_table = data_combined_classification_table,
-        taxonomic_resolution = purrr::chuck(
+        vec_taxonomic_resolution = purrr::chuck(
           config_data_processing,
           "taxonomic_resolution"
         )

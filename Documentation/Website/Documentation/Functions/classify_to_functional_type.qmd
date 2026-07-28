@@ -37,27 +37,31 @@ so it can be used as a drop-in replacement downstream.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>classify_to_functional_type(data, data_ft_classification, verbose = TRUE)
+<pre><code class='language-R'>classify_to_functional_type(
+  data_source,
+  data_functional_type_classification,
+  flag_verbose = TRUE
+)
 </code></pre>
 
 
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="data">data</code></td>
+<tr><td><code id="data_source">data_source</code></td>
 <td>
 <p>A data frame containing community data with columns
 'taxon', 'dataset_name', 'age', and 'value'. Other identifier
 columns such as 'sample_name' are preserved.</p>
 </td></tr>
-<tr><td><code id="data_ft_classification">data_ft_classification</code></td>
+<tr><td><code id="data_functional_type_classification">data_functional_type_classification</code></td>
 <td>
 <p>A data frame mapping taxa to functional types. Must contain
 columns 'taxon_name' (character) and 'functional_type'
 (integer). Typically produced by 'cluster_functional_types()'
 and loaded via 'get_functional_type_classification()'.</p>
 </td></tr>
-<tr><td><code id="verbose">verbose</code></td>
+<tr><td><code id="flag_verbose">flag_verbose</code></td>
 <td>
 <p>Logical. If 'TRUE' (default), informational progress messages
 are printed to the console via 'cli'. Note: the warning issued
@@ -76,8 +80,8 @@ emitted regardless of this flag.</p>
 <li><p> Validate arguments.
 </p>
 </li>
-<li><p> Left-join 'data' to 'data_ft_classification' on
-'data$taxon == data_ft_classification$taxon_name'.
+<li><p> Left-join 'data_source' to
+'data_functional_type_classification' on their taxon names.
 </p>
 </li>
 <li><p> Drop unmatched taxa (NA functional type) with a
@@ -100,13 +104,13 @@ to preserve true negatives.
 
 <h3>Value</h3>
 
-<p>A data frame with the same column names as 'data'. The
+<p>A data frame with the same column names as 'data_source'. The
 'taxon' column is replaced by functional-type labels of the
 form '&quot;FT_1&quot;', '&quot;FT_2&quot;', etc. 'value' is aggregated
 (summed) by all original identifier columns and 'taxon'. All
 identifier combinations present after FT classification are
 preserved (true negatives kept via a cross-reference join).
-Taxa not found in 'data_ft_classification' are dropped with
+Taxa not found in 'data_functional_type_classification' are dropped with
 a 'cli::cli_warn()' message.
 </p>
 

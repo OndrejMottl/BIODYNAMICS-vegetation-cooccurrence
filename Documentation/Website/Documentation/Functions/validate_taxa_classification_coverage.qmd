@@ -1,0 +1,113 @@
+---
+format: html
+title: validate_taxa_classification_coverage()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>validate_taxa_classification_coverage</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Validate taxonomic-classification coverage</h2>
+
+<h3>Description</h3>
+
+<p>Validates that all community taxa have been classified. When
+missing taxa are found, stops with an informative error message
+listing the count of unclassified taxa. Returns 'TRUE' invisibly
+when no taxa are missing.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>validate_taxa_classification_coverage(
+  vec_taxa_without_classification,
+  file_missing_taxa_template = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="vec_taxa_without_classification">vec_taxa_without_classification</code></td>
+<td>
+<p>A character vector of taxon names that could not be classified
+automatically or via the auxiliary table. An empty vector
+('character(0)') signals full coverage and causes the function
+to return silently.</p>
+</td></tr>
+<tr><td><code id="file_missing_taxa_template">file_missing_taxa_template</code></td>
+<td>
+<p>'NULL' by default. Optional placeholder for a targets file
+dependency. When supplied in a pipeline, it ensures the missing
+taxa CSV is written before the error is raised.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The missing taxa are stored as a targets object
+'data_missing_taxa_template' in the pipeline store. Inspect them
+with 'targets::tar_read(&quot;data_missing_taxa_template&quot;)'. During a
+pipeline run the same rows are also appended to
+'Data/Input/missing_taxa_template.csv' for manual review. The
+object is a 'tibble' with columns 'sel_name', 'kingdom',
+'phylum', 'class', 'order', 'family', 'genus', and 'species';
+rank columns are left as 'NA' for manual completion. Fill in the
+missing classifications and copy or append rows to
+'Data/Input/aux_classification_table.csv', then re-run the
+pipeline. Use the helper script in
+'R/03_Supplementary_analyses/Classification/'
+to coalesce templates across all pipeline stores into one CSV.
+</p>
+
+
+<h3>Value</h3>
+
+<p>'TRUE' invisibly when every taxon is classified.
+Stops with an error when any taxa are missing.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[load_auxiliary_classification_table()],
+[build_combined_classification_table()],
+[select_unclassified_taxa()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>validate_taxa_classification_coverage(
+  vec_taxa_without_classification = base::character(0)
+)
+
+base::try(
+  validate_taxa_classification_coverage(
+    vec_taxa_without_classification = base::c("Taxon_a")
+  )
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
+

@@ -1,28 +1,28 @@
 #' @title Classify Dataset Prefix
 #' @description
 #' Classifies dataset names into `bien`, `splot`, or `other` groups.
-#' @param data_source
+#' @param vec_dataset_names
 #' A character vector of dataset names.
 #' @return
 #' A character vector with values `bien`, `splot`, or `other`.
 #' @export
-classify_dataset_prefix <- function(data_source = NULL) {
+classify_dataset_prefix <- function(vec_dataset_names = NULL) {
   assertthat::assert_that(
-    base::is.character(data_source),
-    msg = "data_source must be a character vector."
+    base::is.character(vec_dataset_names),
+    msg = "vec_dataset_names must be a character vector."
   )
 
   assertthat::assert_that(
-    !base::any(base::is.na(data_source)),
-    msg = "data_source must not contain NA values."
+    !base::any(base::is.na(vec_dataset_names)),
+    msg = "vec_dataset_names must not contain NA values."
   )
 
-  res <-
+  res_dataset_prefixes <-
     dplyr::case_when(
-      stringr::str_detect(data_source, "^bien_") ~ "bien",
-      stringr::str_detect(data_source, "^splot_") ~ "splot",
+      stringr::str_detect(vec_dataset_names, "^bien_") ~ "bien",
+      stringr::str_detect(vec_dataset_names, "^splot_") ~ "splot",
       TRUE ~ "other"
     )
 
-  return(res)
+  return(res_dataset_prefixes)
 }

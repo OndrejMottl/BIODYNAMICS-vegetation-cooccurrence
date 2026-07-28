@@ -10,52 +10,54 @@ Description:
 Usage:
 
      classify_taxonomic_resolution(
-       data,
+       data_source,
        data_classification_table,
-       taxonomic_resolution,
-       verbose = TRUE
+       vec_taxonomic_resolution,
+       flag_verbose = TRUE
      )
      
 Arguments:
 
-    data: A data frame containing taxon data with columns including
+data_source: A data frame containing taxon data with columns including
           'taxon', 'dataset_name', 'age', and 'value'.
 
 data_classification_table: A data frame mapping 'sel_name' to taxonomic
           levels. Must contain at least one rank column at or below
-          `taxonomic_resolution` (e.g. 'family', 'genus', 'species').
+          `vec_taxonomic_resolution` (e.g. 'family', 'genus',
+          'species').
 
-taxonomic_resolution: A character string specifying the finest
+vec_taxonomic_resolution: A character string specifying the finest
           taxonomic level to use. Must be one of `'kingdom'`,
           `'phylum'`, `'class'`, `'order'`, `'family'`, `'genus'`, or
           `'species'`. Taxa will be classified at this rank if
           possible, or at the coarsest available rank below it if not
           (fallback behaviour).
 
- verbose: Logical. If `TRUE` (default), classification warnings and
+flag_verbose: Logical. If `TRUE` (default), classification warnings and
           fallback messages are printed.
 
 Details:
 
      Performs a left join to map taxa to all available rank columns up
-     to and including `taxonomic_resolution`. The finest non-NA rank is
-     then selected via `dplyr::coalesce()` applied from finest to
-     coarsest. This means a taxon known only to family when genus is
+     to and including `vec_taxonomic_resolution`. The finest non-NA
+     rank is then selected via `dplyr::coalesce()` applied from finest
+     to coarsest. This means a taxon known only to family when genus is
      requested will be assigned to its family name rather than dropped.
      Taxa with no valid classification at any available rank are
      removed with a `cli::cli_warn()` warning. Taxa that fall back to a
      coarser rank are reported via `cli::cli_inform()`. Ranks finer
-     than `taxonomic_resolution` (e.g. species when genus is requested)
-     are never used, even when present in the classification table. The
-     NA-drop step prevents a column literally named NA appearing in the
-     community matrix produced by downstream `pivot_wider()` calls.
+     than `vec_taxonomic_resolution` (e.g. species when genus is
+     requested) are never used, even when present in the classification
+     table. The NA-drop step prevents a column literally named NA
+     appearing in the community matrix produced by downstream
+     `pivot_wider()` calls.
 
 Value:
 
      A data frame with taxa classified to the finest available rank at
-     or below `taxonomic_resolution` and pollen proportions aggregated
-     accordingly. The output preserves all dataset_name and age
-     combinations for true negatives.
+     or below `vec_taxonomic_resolution` and pollen proportions
+     aggregated accordingly. The output preserves all dataset_name and
+     age combinations for true negatives.
 
 See Also:
 

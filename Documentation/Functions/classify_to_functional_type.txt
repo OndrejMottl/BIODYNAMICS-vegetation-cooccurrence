@@ -11,24 +11,29 @@ Description:
 
 Usage:
 
-     classify_to_functional_type(data, data_ft_classification, verbose = TRUE)
+     classify_to_functional_type(
+       data_source,
+       data_functional_type_classification,
+       flag_verbose = TRUE
+     )
      
 Arguments:
 
-    data: A data frame containing community data with columns `taxon`,
-          `dataset_name`, `age`, and `value`. Other identifier columns
-          such as `sample_name` are preserved.
+data_source: A data frame containing community data with columns
+          `taxon`, `dataset_name`, `age`, and `value`. Other identifier
+          columns such as `sample_name` are preserved.
 
-data_ft_classification: A data frame mapping taxa to functional types.
-          Must contain columns `taxon_name` (character) and
-          `functional_type` (integer). Typically produced by
-          `cluster_functional_types()` and loaded via
+data_functional_type_classification: A data frame mapping taxa to
+          functional types. Must contain columns `taxon_name`
+          (character) and `functional_type` (integer). Typically
+          produced by `cluster_functional_types()` and loaded via
           `get_functional_type_classification()`.
 
- verbose: Logical. If `TRUE` (default), informational progress messages
-          are printed to the console via `cli`. Note: the warning
-          issued when taxa are absent from `data_ft_classification` is
-          always emitted regardless of this flag.
+flag_verbose: Logical. If `TRUE` (default), informational progress
+          messages are printed to the console via `cli`. Note: the
+          warning issued when taxa are absent from
+          `data_ft_classification` is always emitted regardless of this
+          flag.
 
 Details:
 
@@ -36,8 +41,8 @@ Details:
 
        1. Validate arguments.
 
-       2. Left-join `data` to `data_ft_classification` on `data$taxon
-          == data_ft_classification$taxon_name`.
+       2. Left-join `data_source` to
+          `data_functional_type_classification` on their taxon names.
 
        3. Drop unmatched taxa (NA functional type) with a warning.
 
@@ -50,14 +55,14 @@ Details:
 
 Value:
 
-     A data frame with the same column names as `data`. The `taxon`
-     column is replaced by functional-type labels of the form `"FT_1"`,
-     `"FT_2"`, etc. `value` is aggregated (summed) by all original
-     identifier columns and `taxon`. All identifier combinations
-     present after FT classification are preserved (true negatives kept
-     via a cross-reference join). Taxa not found in
-     `data_ft_classification` are dropped with a `cli::cli_warn()`
-     message.
+     A data frame with the same column names as `data_source`. The
+     `taxon` column is replaced by functional-type labels of the form
+     `"FT_1"`, `"FT_2"`, etc. `value` is aggregated (summed) by all
+     original identifier columns and `taxon`. All identifier
+     combinations present after FT classification are preserved (true
+     negatives kept via a cross-reference join). Taxa not found in
+     `data_functional_type_classification` are dropped with a
+     `cli::cli_warn()` message.
 
 See Also:
 

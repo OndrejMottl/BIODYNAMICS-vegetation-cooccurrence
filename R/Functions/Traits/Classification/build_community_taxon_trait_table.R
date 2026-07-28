@@ -25,9 +25,9 @@
 #' A wide-format taxonomic classification table with one row
 #' per `sel_name` and columns `sel_name`, `kingdom`,
 #' `phylum`, `class`, `order`, `family`, `genus`, `species`.
-#' Typically produced by `make_classification_table()` and
+#' Typically produced by `build_classification_table()` and
 #' combined with manual overrides via
-#' `combine_classification_tables()`. `sel_name` must match
+#' `build_combined_classification_table()`. `sel_name` must match
 #' the `taxon_name` values in `data_traits` (after trait
 #' QC and correction).
 #' @param data_community_classification_table
@@ -37,7 +37,7 @@
 #' as it appears in the community data) and the seven rank
 #' columns `kingdom`, `phylum`, `class`, `order`, `family`,
 #' `genus`, `species`. Typically the output of
-#' `combine_classification_tables()` applied to the pollen
+#' `build_combined_classification_table()` applied to the pollen
 #' community. `sel_name` provides the allow-list of community
 #' taxa; each taxon is resolved to its finest available rank
 #' (via `resolve_classification_to_finest_rank()`) to look up
@@ -86,8 +86,8 @@
 #'   \item Pivot wide: `taxon_name` (pollen taxon) ×
 #'     trait domain columns.
 #' }
-#' @seealso [make_classification_table()],
-#'   [combine_classification_tables()],
+#' @seealso [build_classification_table()],
+#'   [build_combined_classification_table()],
 #'   [resolve_classification_to_finest_rank()],
 #'   [cluster_functional_types()],
 #'   [classify_to_functional_type()]
@@ -189,7 +189,7 @@ build_community_taxon_trait_table <- function(
   data_community_to_canonical <-
     resolve_classification_to_finest_rank(
       data_classification_table = data_community_classification_table,
-      column_name_taxon = "canonical_name"
+      vec_taxon_column_name = "canonical_name"
     )
 
   vec_canonical_names <-

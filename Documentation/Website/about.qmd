@@ -226,12 +226,12 @@ The workflow combines automated classification, project-specific auxiliary table
 
 | Target or helper | Description |
 |---|---|
-| [`get_taxa_classification()`](Documentation/Functions/get_taxa_classification.qmd) | Retrieves taxonomic classifications |
-| [`get_aux_classification_table()`](Documentation/Functions/get_aux_classification_table.qmd) | Reads project-specific manual classifications |
-| [`combine_classification_tables()`](Documentation/Functions/combine_classification_tables.qmd) | Combines automatic and auxiliary classifications |
-| [`get_taxa_without_classification()`](Documentation/Functions/get_taxa_without_classification.qmd) | Identifies unresolved taxa |
-| [`append_missing_taxa_to_template()`](Documentation/Functions/append_missing_taxa_to_template.qmd) | Updates missing-taxon templates for review |
-| [`check_and_report_missing_taxa()`](Documentation/Functions/check_and_report_missing_taxa.qmd) | Produces explicit missing-classification reports |
+| [`load_taxa_classification()`](Documentation/Functions/load_taxa_classification.qmd) | Loads taxonomic classifications |
+| [`load_auxiliary_classification_table()`](Documentation/Functions/load_auxiliary_classification_table.qmd) | Loads project-specific manual classifications |
+| [`build_combined_classification_table()`](Documentation/Functions/build_combined_classification_table.qmd) | Builds the combined automatic and auxiliary classification table |
+| [`select_unclassified_taxa()`](Documentation/Functions/select_unclassified_taxa.qmd) | Selects unresolved taxa |
+| [`save_missing_taxa_template()`](Documentation/Functions/save_missing_taxa_template.qmd) | Saves missing-taxon templates for review |
+| [`validate_taxa_classification_coverage()`](Documentation/Functions/validate_taxa_classification_coverage.qmd) | Validates taxonomic-classification coverage |
 
 This stage supports the later genus, family, and functional-type branches.
 :::

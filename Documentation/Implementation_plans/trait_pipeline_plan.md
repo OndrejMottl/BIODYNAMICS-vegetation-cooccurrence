@@ -46,13 +46,13 @@ Four focused changes across five files:
 ### Replace section 3 with taxospace classification pipeline
 
 1. Extract `taxon_name_genus` (first word) for unique genera — same as before
-2. Map `get_taxa_classification()` over `vec_unique_genera` -> `list_genus_classifications`
-3. `make_classification_table(list_genus_classifications)` -> `data_genus_classification_table`
-4. `get_aux_classification_table()` -> `data_aux_classification_table`
-5. `combine_classification_tables()` -> `data_combined_genus_classification`
+2. Map `load_taxa_classification()` over `vec_unique_genera` -> `list_genus_classifications`
+3. `build_classification_table(list_genus_classifications)` -> `data_genus_classification_table`
+4. `load_auxiliary_classification_table()` -> `data_aux_classification_table`
+5. `build_combined_classification_table()` -> `data_combined_genus_classification`
 6. Report: genera classified / total
 
-Note: `get_taxa_classification()` already filters to Plantae — non-plant genera excluded automatically
+Note: `load_taxa_classification()` already filters to Plantae — non-plant genera excluded automatically
 
 ### Replace section 4 with community-taxon matching
 
@@ -112,7 +112,7 @@ Output filename prefix: `"data_trait_table_genus_"` -> `"data_trait_table_"`
 - Containment (not overlap) for continental detection — avoids ambiguous edge cases
 - `taxon_name_genus` kept as intermediate column; `taxon_community` is the output linking column
 - `species` rank excluded from matching pivot (taxa are species-level, not community-level)
-- Non-plant genera excluded automatically by `get_taxa_classification()` Plantae filter
+- Non-plant genera excluded automatically by `load_taxa_classification()` Plantae filter
 
 ## Implementation Progress
 

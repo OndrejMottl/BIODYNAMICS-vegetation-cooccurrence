@@ -20,7 +20,7 @@
 #' taxa with 'kingdom = NA', is treated as non-plant and removed.
 #' When any taxa are dropped, 'cli::cli_warn()' is issued reporting
 #' the count and the full vector of removed taxon names.
-#' Note: the upstream 'get_taxa_classification()' already filters
+#' Note: the upstream 'load_taxa_classification()' already filters
 #' to Plantae during the taxospace lookup, so in practice this
 #' function mainly catches taxa that are genuinely unclassifiable
 #' (i.e. not found in any classification source).

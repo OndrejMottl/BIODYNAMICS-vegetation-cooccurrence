@@ -1,0 +1,67 @@
+<!DOCTYPE html><html><head><title>R: Build a Classification Table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_classification_table</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build a Classification Table</h2>
+
+<h3>Description</h3>
+
+<p>Creates a wide-format taxonomic classification table from a list of taxon
+classification outputs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_classification_table(list_taxa_classifications)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="list_taxa_classifications">list_taxa_classifications</code></td>
+<td>
+<p>A list of data frames. Each data frame is expected to
+contain 'sel_name' and a nested 'classification' column. The nested
+'classification' table should contain 'rank' and 'name' columns.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function removes 'NULL' list elements, binds rows across all entries,
+unnests 'classification', filters to standard taxonomic ranks ('kingdom',
+'phylum', 'class', 'order', 'family', 'genus', 'species'), removes
+duplicate 'sel_name'-'rank'-'name' combinations, and pivots to wide format.
+'values_fn = dplyr::first' is used as a defensive guard if multiple names
+are present for the same taxon and rank.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame in wide format with up to eight columns ('sel_name'
+plus one column per taxonomic rank) and one row per 'sel_name'. Ranks
+not available for a given taxon are 'NA'.
+</p>
+
+</main>
+
+</div>
+</body></html>

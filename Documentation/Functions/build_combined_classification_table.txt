@@ -1,0 +1,50 @@
+Build a combined classification table
+
+Description:
+
+     Merges the automatically generated classification table with a
+     manually curated auxiliary table. When the same `sel_name` entry
+     exists in both tables the auxiliary (manual) row takes priority,
+     overriding the automatic classification entirely.
+
+Usage:
+
+     build_combined_classification_table(
+       data_classification_table,
+       data_auxiliary_classification_table
+     )
+     
+Arguments:
+
+data_classification_table: A data frame produced by
+          `build_classification_table()` with columns `sel_name`,
+          `kingdom`, `phylum`, `class`, `order`, `family`, `genus`, and
+          `species`.
+
+data_auxiliary_classification_table: A data frame produced by
+          `load_auxiliary_classification_table()` with columns
+          `sel_name`, `kingdom`, `phylum`, `class`, `order`, `family`,
+          `genus`, and `species`. May be an empty tibble (zero rows)
+          when no manual overrides exist.
+
+Details:
+
+     Binding is performed by placing auxiliary rows before automatic
+     rows and then retaining the first occurrence of each `sel_name`
+     via `dplyr::distinct()`. This guarantees that manual
+     classifications always win regardless of their relative
+     completeness.
+
+Value:
+
+     A tibble with columns `sel_name`, `kingdom`, `phylum`, `class`,
+     `order`, `family`, `genus`, and `species` containing all unique
+     taxa from both inputs. Manual entries override automatic ones on
+     `sel_name` collision. Only columns present in both inputs are
+     retained (intersection).
+
+See Also:
+
+     [load_auxiliary_classification_table()],
+     [build_classification_table()], [classify_taxonomic_resolution()]
+

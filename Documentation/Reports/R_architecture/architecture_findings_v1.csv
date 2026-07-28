@@ -1,12 +1,4 @@
 finding_type,severity,current_path,symbol,owning_issue,message
-function_naming,report_only,R/Functions/Data/Community/Classification/Reference_tables/append_missing_taxa_to_template.R,append_missing_taxa_to_template,#153,Review leading verb `append` against version 1.
-function_naming,report_only,R/Functions/Data/Community/Classification/Reference_tables/check_and_report_missing_taxa.R,check_and_report_missing_taxa,#153,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Data/Community/Classification/Reference_tables/combine_classification_tables.R,combine_classification_tables,#153,Review leading verb `combine` against version 1.
-function_naming,report_only,R/Functions/Data/Community/Classification/Reference_tables/get_taxa_without_classification.R,get_taxa_without_classification,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Data/Community/Classification/Reference_tables/make_classification_table.R,make_classification_table,#153,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Data/Community/Classification/Taxonomic_resolution/remap_classification_table_by_community_taxa.R,remap_classification_table_by_community_taxa,#153,Review leading verb `remap` against version 1.
-function_naming,report_only,R/Functions/Data/Community/Ingest/Classification/get_aux_classification_table.R,get_aux_classification_table,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Data/Community/Ingest/Classification/get_taxa_classification.R,get_taxa_classification,#153,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Data/Community/Quality_control/Colocation/detect_colocated_community_records.R,detect_colocated_community_records,#153,Review leading verb `detect` against version 1.
 function_naming,report_only,R/Functions/Data/Community/Quality_control/Duplicates/detect_duplicate_communities.R,detect_duplicate_communities,#153,Review leading verb `detect` against version 1.
 function_naming,report_only,R/Functions/Data/Community/Quality_control/Duplicates/detect_duplicate_metadata_keys.R,detect_duplicate_metadata_keys,#153,Review leading verb `detect` against version 1.

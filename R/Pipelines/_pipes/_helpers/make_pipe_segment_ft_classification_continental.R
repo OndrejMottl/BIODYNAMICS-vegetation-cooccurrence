@@ -120,8 +120,9 @@ make_pipe_segment_ft_classification_continental <- function(
               {
                 data_reference_filtered <-
                   classify_to_functional_type(
-                    data = data_community_classified,
-                    data_ft_classification = data_ft_reference
+                    data_source = data_community_classified,
+                    data_functional_type_classification =
+                      data_ft_reference
                   ) |>
                   filter_rare_taxa(
                     minimal_proportion = config_minimal_proportion_of_pollen
@@ -304,10 +305,10 @@ make_pipe_segment_ft_classification_continental <- function(
           "for FT trait matching"
         ),
         name = data_community_classified_taxa_classification,
-        command = remap_classification_table_by_community_taxa(
+        command = prepare_classification_table_for_community_taxa(
           data_classification_table = data_combined_classification_table,
           data_community_classified = data_community_classified,
-          taxonomic_resolution = config_data_processing |>
+          vec_taxonomic_resolution = config_data_processing |>
             purrr::chuck("taxonomic_resolution")
         )
       ),

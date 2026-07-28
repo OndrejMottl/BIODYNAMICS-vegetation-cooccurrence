@@ -1,6 +1,6 @@
 testthat::test_that("classify_taxonomic_resolution() return correct class", {
   set.seed(900723)
-  data_dummy <-
+  data_community <-
     data.frame(
       dataset_name = "dataset_1",
       age = 0,
@@ -8,7 +8,7 @@ testthat::test_that("classify_taxonomic_resolution() return correct class", {
       value = runif(6, 0, 1)
     )
 
-  classification_table_dummy <-
+  data_classification_table <-
     data.frame(
       sel_name = paste0("Taxon_", 1:6),
       family = c(
@@ -25,23 +25,23 @@ testthat::test_that("classify_taxonomic_resolution() return correct class", {
       )
     )
 
-  res <-
+  res_community_classified <-
     classify_taxonomic_resolution(
-      data = data_dummy,
-      data_classification_table = classification_table_dummy,
-      taxonomic_resolution = "genus"
+      data_source = data_community,
+      data_classification_table = data_classification_table,
+      vec_taxonomic_resolution = "genus"
     )
 
-  testthat::expect_s3_class(res, "data.frame")
+  testthat::expect_s3_class(res_community_classified, "data.frame")
 
   testthat::expect_true(
-    all(c("dataset_name", "age", "taxon", "value") %in% colnames(res))
+    all(c("dataset_name", "age", "taxon", "value") %in% colnames(res_community_classified))
   )
 })
 
-testthat::test_that("classify_taxonomic_resolution() return correct data", {
+testthat::test_that("classify_taxonomic_resolution() return correct data_source", {
   set.seed(900723)
-  data_dummy <-
+  data_community <-
     data.frame(
       dataset_name = "dataset_1",
       age = 0,
@@ -49,7 +49,7 @@ testthat::test_that("classify_taxonomic_resolution() return correct data", {
       value = runif(6, 0, 1)
     )
 
-  classification_table_dummy <-
+  data_classification_table <-
     data.frame(
       sel_name = paste0("Taxon_", 1:6),
       family = c(
@@ -66,32 +66,32 @@ testthat::test_that("classify_taxonomic_resolution() return correct data", {
       )
     )
 
-  res <-
+  res_community_classified <-
     classify_taxonomic_resolution(
-      data = data_dummy,
-      data_classification_table = classification_table_dummy,
-      taxonomic_resolution = "genus"
+      data_source = data_community,
+      data_classification_table = data_classification_table,
+      vec_taxonomic_resolution = "genus"
     )
 
-  expected_res <-
+  data_expected <-
     tibble::tibble(
       dataset_name = "dataset_1",
       age = 0,
       taxon = c("Genus_A", "Genus_B", "Genus_C", "Genus_D"),
       value = c(
-        sum(data_dummy$value[1:2]),
-        data_dummy$value[3],
-        sum(data_dummy$value[4:5]),
-        data_dummy$value[6]
+        sum(data_community$value[1:2]),
+        data_community$value[3],
+        sum(data_community$value[4:5]),
+        data_community$value[6]
       )
     )
 
-  testthat::expect_equal(res, expected_res)
+  testthat::expect_equal(res_community_classified, data_expected)
 })
 
 testthat::test_that("classify_taxonomic_resolution() handles invalid input", {
   set.seed(900723)
-  data_dummy <-
+  data_community <-
     data.frame(
       dataset_name = "dataset_1",
       age = 0,
@@ -99,7 +99,7 @@ testthat::test_that("classify_taxonomic_resolution() handles invalid input", {
       value = runif(6, 0, 1)
     )
 
-  classification_table_dummy <-
+  data_classification_table <-
     data.frame(
       sel_name = paste0("Taxon_", 1:6),
       family = c(
@@ -118,89 +118,89 @@ testthat::test_that("classify_taxonomic_resolution() handles invalid input", {
 
   testthat::expect_error(
     classify_taxonomic_resolution(
-      data = NULL,
-      data_classification_table = classification_table_dummy,
-      taxonomic_resolution = "genus"
+      data_source = NULL,
+      data_classification_table = data_classification_table,
+      vec_taxonomic_resolution = "genus"
     )
   )
 
   testthat::expect_error(
     classify_taxonomic_resolution(
-      data = data.frame(),
-      data_classification_table = classification_table_dummy,
-      taxonomic_resolution = "genus"
+      data_source = data.frame(),
+      data_classification_table = data_classification_table,
+      vec_taxonomic_resolution = "genus"
     )
   )
 
   testthat::expect_error(
     classify_taxonomic_resolution(
-      data = NA,
-      data_classification_table = classification_table_dummy,
-      taxonomic_resolution = "genus"
+      data_source = NA,
+      data_classification_table = data_classification_table,
+      vec_taxonomic_resolution = "genus"
     )
   )
 
   testthat::expect_error(
     classify_taxonomic_resolution(
-      data = "invalid_data",
-      data_classification_table = classification_table_dummy,
-      taxonomic_resolution = "genus"
+      data_source = "invalid_data",
+      data_classification_table = data_classification_table,
+      vec_taxonomic_resolution = "genus"
     )
   )
 
   testthat::expect_error(
     classify_taxonomic_resolution(
-      data = data_dummy,
+      data_source = data_community,
       data_classification_table = NULL,
-      taxonomic_resolution = "genus"
+      vec_taxonomic_resolution = "genus"
     )
   )
 
   testthat::expect_error(
     classify_taxonomic_resolution(
-      data = data_dummy,
+      data_source = data_community,
       data_classification_table = data.frame(),
-      taxonomic_resolution = "genus"
+      vec_taxonomic_resolution = "genus"
     )
   )
 
   testthat::expect_error(
     classify_taxonomic_resolution(
-      data = data_dummy,
+      data_source = data_community,
       data_classification_table = NA,
-      taxonomic_resolution = "genus"
+      vec_taxonomic_resolution = "genus"
     )
   )
 
   testthat::expect_error(
     classify_taxonomic_resolution(
-      data = data_dummy,
+      data_source = data_community,
       data_classification_table = "invalid_table",
-      taxonomic_resolution = "genus"
+      vec_taxonomic_resolution = "genus"
     )
   )
 
   testthat::expect_error(
     classify_taxonomic_resolution(
-      data = data_dummy,
-      data_classification_table = classification_table_dummy,
-      taxonomic_resolution = NULL
+      data_source = data_community,
+      data_classification_table = data_classification_table,
+      vec_taxonomic_resolution = NULL
     )
   )
 
   testthat::expect_error(
     classify_taxonomic_resolution(
-      data = data_dummy,
-      data_classification_table = classification_table_dummy,
-      taxonomic_resolution = "non_existent"
+      data_source = data_community,
+      data_classification_table = data_classification_table,
+      vec_taxonomic_resolution = "non_existent"
     )
   )
 
   testthat::expect_error(
     classify_taxonomic_resolution(
-      data = data_dummy,
-      data_classification_table = classification_table_dummy,
-      taxonomic_resolution = NA
+      data_source = data_community,
+      data_classification_table = data_classification_table,
+      vec_taxonomic_resolution = NA
     )
   )
 })
@@ -209,7 +209,7 @@ testthat::test_that(
   "classify_taxonomic_resolution() accepts all seven taxonomic ranks",
   {
     set.seed(900723)
-    data_dummy <-
+    data_community <-
       data.frame(
         dataset_name = "dataset_1",
         age = 0,
@@ -217,7 +217,7 @@ testthat::test_that(
         value = runif(4, 0, 1)
       )
 
-    classification_table_dummy <-
+    data_classification_table <-
       data.frame(
         sel_name = paste0("Taxon_", 1:4),
         kingdom = c("Kingdom_A", "Kingdom_A", "Kingdom_A", "Kingdom_A"),
@@ -237,9 +237,9 @@ testthat::test_that(
     ) {
       testthat::expect_no_error(
         classify_taxonomic_resolution(
-          data = data_dummy,
-          data_classification_table = classification_table_dummy,
-          taxonomic_resolution = sel_rank
+          data_source = data_community,
+          data_classification_table = data_classification_table,
+          vec_taxonomic_resolution = sel_rank
         )
       )
     }
@@ -252,7 +252,7 @@ testthat::test_that(
     set.seed(900723)
     # Taxon_3: family only (genus NA) — falls back to Family_B
     # Taxon_4: both family and genus NA — dropped with warning
-    data_dummy <-
+    data_community <-
       data.frame(
         dataset_name = "dataset_1",
         age = 0,
@@ -260,7 +260,7 @@ testthat::test_that(
         value = stats::runif(4, 0, 1)
       )
 
-    classification_table_dummy <-
+    data_classification_table <-
       data.frame(
         sel_name = paste0("Taxon_", 1:4),
         family = c(
@@ -269,35 +269,35 @@ testthat::test_that(
         genus = c("Genus_A", "Genus_B", NA_character_, NA_character_)
       )
 
-    res <-
+    res_community_classified <-
       testthat::expect_warning(
         classify_taxonomic_resolution(
-          data = data_dummy,
-          data_classification_table = classification_table_dummy,
-          taxonomic_resolution = "genus"
+          data_source = data_community,
+          data_classification_table = data_classification_table,
+          vec_taxonomic_resolution = "genus"
         )
       )
 
     # No NA taxa in output
     testthat::expect_false(
-      base::any(base::is.na(dplyr::pull(res, taxon)))
+      base::any(base::is.na(dplyr::pull(res_community_classified, taxon)))
     )
 
     # Fully classified taxa present
     testthat::expect_true(
       base::all(
-        c("Genus_A", "Genus_B") %in% dplyr::pull(res, taxon)
+        c("Genus_A", "Genus_B") %in% dplyr::pull(res_community_classified, taxon)
       )
     )
 
     # Taxon_3 falls back to its family name — present as Family_B
     testthat::expect_true(
-      "Family_B" %in% dplyr::pull(res, taxon)
+      "Family_B" %in% dplyr::pull(res_community_classified, taxon)
     )
 
     # Taxon_4 had no classification at any rank — absent
     testthat::expect_false(
-      base::any(dplyr::pull(res, taxon) == "Taxon_4")
+      base::any(dplyr::pull(res_community_classified, taxon) == "Taxon_4")
     )
   }
 )
@@ -307,7 +307,7 @@ testthat::test_that(
   {
     set.seed(900723)
     # Taxon_3 classifiable only to family; should appear as Family_B
-    data_dummy <-
+    data_community <-
       data.frame(
         dataset_name = "dataset_1",
         age = 0,
@@ -315,7 +315,7 @@ testthat::test_that(
         value = stats::runif(4, 0, 1)
       )
 
-    classification_table_dummy <-
+    data_classification_table <-
       data.frame(
         sel_name = paste0("Taxon_", 1:4),
         family = c(
@@ -327,40 +327,40 @@ testthat::test_that(
       )
 
     # Fallback to coarser rank should not trigger a warning
-    res <-
+    res_community_classified <-
       testthat::expect_no_warning(
         classify_taxonomic_resolution(
-          data = data_dummy,
-          data_classification_table = classification_table_dummy,
-          taxonomic_resolution = "genus"
+          data_source = data_community,
+          data_classification_table = data_classification_table,
+          vec_taxonomic_resolution = "genus"
         )
       )
 
     # Taxon_3 appears under its family name
     testthat::expect_true(
-      "Family_B" %in% dplyr::pull(res, taxon)
+      "Family_B" %in% dplyr::pull(res_community_classified, taxon)
     )
 
     # Genus-level taxa still present
     testthat::expect_true(
       base::all(
         c("Genus_A", "Genus_B", "Genus_C") %in%
-          dplyr::pull(res, taxon)
+          dplyr::pull(res_community_classified, taxon)
       )
     )
 
     # No NA taxa in output
     testthat::expect_false(
-      base::any(base::is.na(dplyr::pull(res, taxon)))
+      base::any(base::is.na(dplyr::pull(res_community_classified, taxon)))
     )
 
     # Pollen of Taxon_3 is not merged with any other taxon
-    n_family_b_rows <-
-      res |>
+    n_family_b_taxa <-
+      res_community_classified |>
       dplyr::filter(taxon == "Family_B") |>
       base::nrow()
 
-    testthat::expect_equal(n_family_b_rows, 1L)
+    testthat::expect_equal(n_family_b_taxa, 1L)
   }
 )
 
@@ -370,7 +370,7 @@ testthat::test_that(
     set.seed(900723)
     # Taxon_1: has species but no genus — should fall back to family,
     #   NOT use species (which is finer than the requested genus level)
-    data_dummy <-
+    data_community <-
       data.frame(
         dataset_name = "dataset_1",
         age = 0,
@@ -378,7 +378,7 @@ testthat::test_that(
         value = stats::runif(2, 0, 1)
       )
 
-    classification_table_dummy <-
+    data_classification_table <-
       data.frame(
         sel_name = c("Taxon_1", "Taxon_2"),
         family = c("Family_A", "Family_B"),
@@ -386,32 +386,32 @@ testthat::test_that(
         species = c("Species_A", "Species_B")
       )
 
-    res <-
+    res_community_classified <-
       testthat::expect_no_warning(
         classify_taxonomic_resolution(
-          data = data_dummy,
-          data_classification_table = classification_table_dummy,
-          taxonomic_resolution = "genus"
+          data_source = data_community,
+          data_classification_table = data_classification_table,
+          vec_taxonomic_resolution = "genus"
         )
       )
 
     # Taxon_1 should be Family_A (not Species_A)
     testthat::expect_true(
-      "Family_A" %in% dplyr::pull(res, taxon)
+      "Family_A" %in% dplyr::pull(res_community_classified, taxon)
     )
 
     # Species_A must not appear — it exceeds the requested resolution
     testthat::expect_false(
-      "Species_A" %in% dplyr::pull(res, taxon)
+      "Species_A" %in% dplyr::pull(res_community_classified, taxon)
     )
 
     # Taxon_2 classified at genus level as expected
     testthat::expect_true(
-      "Genus_B" %in% dplyr::pull(res, taxon)
+      "Genus_B" %in% dplyr::pull(res_community_classified, taxon)
     )
 
     testthat::expect_false(
-      base::any(base::is.na(dplyr::pull(res, taxon)))
+      base::any(base::is.na(dplyr::pull(res_community_classified, taxon)))
     )
   }
 )
@@ -420,7 +420,7 @@ testthat::test_that(
   "classify_taxonomic_resolution() no warning when no NA taxa",
   {
     set.seed(900723)
-    data_dummy <-
+    data_community <-
       data.frame(
         dataset_name = "dataset_1",
         age = 0,
@@ -428,7 +428,7 @@ testthat::test_that(
         value = stats::runif(3, 0, 1)
       )
 
-    classification_table_dummy <-
+    data_classification_table <-
       data.frame(
         sel_name = paste0("Taxon_", 1:3),
         genus = c("Genus_A", "Genus_B", "Genus_C")
@@ -436,9 +436,9 @@ testthat::test_that(
 
     testthat::expect_no_warning(
       classify_taxonomic_resolution(
-        data = data_dummy,
-        data_classification_table = classification_table_dummy,
-        taxonomic_resolution = "genus"
+        data_source = data_community,
+        data_classification_table = data_classification_table,
+        vec_taxonomic_resolution = "genus"
       )
     )
   }
