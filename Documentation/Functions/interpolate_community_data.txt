@@ -6,13 +6,16 @@ Description:
 
 Usage:
 
-     interpolate_community_data(data, ...)
-     
+     interpolate_community_data(data, n_cores = 1, ...)
+
 Arguments:
 
     data: A data frame with columns `dataset_name`, `taxon`, `age`, and
-          `pollen_prop`. Must already be in proportion form — see
-          [make_community_proportions()].
+          `value`. Must already be in proportion form — see
+          [prepare_community_proportions()].
+
+ n_cores: Number of cores to use for interpolation. Passed to
+          [interpolate_data()].
 
      ...: Additional arguments passed to [interpolate_data()], such as
           `timestep`, `age_min`, and `age_max`.
@@ -21,7 +24,7 @@ Details:
 
      Calls [interpolate_data()] grouped by `dataset_name` and `taxon`.
      Data must be converted to proportions before calling this function
-     using [make_community_proportions()].
+     using [prepare_community_proportions()].
 
 Value:
 
@@ -30,5 +33,4 @@ Value:
 
 See Also:
 
-     [make_community_proportions()], [interpolate_data()]
-
+     [prepare_community_proportions()], [interpolate_data()]

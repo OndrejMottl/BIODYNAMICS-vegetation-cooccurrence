@@ -4,7 +4,7 @@
 #' @param data
 #' A data frame with columns `dataset_name`, `taxon`, `age`, and
 #' `value`. Must already be in proportion form — see
-#' [make_community_proportions()].
+#' [prepare_community_proportions()].
 #' @param n_cores
 #' Number of cores to use for interpolation. Passed to
 #' [interpolate_data()].
@@ -17,8 +17,8 @@
 #' @details
 #' Calls [interpolate_data()] grouped by `dataset_name` and `taxon`.
 #' Data must be converted to proportions before calling this function
-#' using [make_community_proportions()].
-#' @seealso [make_community_proportions()], [interpolate_data()]
+#' using [prepare_community_proportions()].
+#' @seealso [prepare_community_proportions()], [interpolate_data()]
 #' @export
 interpolate_community_data <- function(data, n_cores = 1, ...) {
   assertthat::assert_that(
@@ -30,7 +30,7 @@ interpolate_community_data <- function(data, n_cores = 1, ...) {
     "value" %in% base::colnames(data),
     msg = stringr::str_c(
       "data must contain a 'value' column.",
-      "Use make_community_proportions() first.",
+      "Use prepare_community_proportions() first.",
       sep = " "
     )
   )

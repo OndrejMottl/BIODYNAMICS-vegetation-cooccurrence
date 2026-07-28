@@ -43,8 +43,8 @@ pipe_segment_community_prepare_paleo <-
     targets::tar_target(
       description = "Transform community counts to proportions",
       name = "data_community_proportions",
-      command = make_community_proportions(
-        data = data_community_long_ages
+      command = prepare_community_proportions(
+        data_community = data_community_long_ages
       )
     ),
     targets::tar_target(

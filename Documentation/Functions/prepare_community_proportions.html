@@ -1,9 +1,4 @@
----
-format: html
-title: make_community_proportions()
----
-
-<html><head>
+<!DOCTYPE html><html><head><title>R: Prepare Community Proportions</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -19,27 +14,27 @@ function processMathHTML() {
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body><div class="container"><main>
 
-<table style="width: 100%;"><tr><td>make_community_proportions</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>prepare_community_proportions</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Make Community Proportions</h2>
+<h2>Prepare Community Proportions</h2>
 
 <h3>Description</h3>
 
-<p>Transforms community pollen count data into proportions, normalising
+<p>Prepares community pollen-count data as proportions, normalising
 each sample by its total pollen count.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>make_community_proportions(data = NULL)
+<pre><code class='language-R'>prepare_community_proportions(data_community = NULL)
 </code></pre>
 
 
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="data">data</code></td>
+<tr><td><code id="data_community">data_community</code></td>
 <td>
 <p>A data frame with columns 'dataset_name', 'sample_name', 'taxon',
 'age', and 'pollen_count'. Must contain a 'pollen_count' column with
@@ -50,9 +45,10 @@ raw pollen counts.</p>
 
 <h3>Details</h3>
 
-<p>Computes per-sample totals using 'get_pollen_sum()' and normalises
-counts via 'transform_to_proportions()'. The result is suitable for
-passing to 'interpolate_community_data()'.
+<p>Summarises per-sample totals using
+[summarise_pollen_counts_by_sample()] and computes proportions with
+[compute_pollen_proportions()]. The result is suitable for passing to
+[interpolate_community_data()].
 </p>
 
 
@@ -67,11 +63,10 @@ dropped.
 
 <h3>See Also</h3>
 
-<p>[interpolate_community_data()], [transform_to_proportions()]
+<p>[interpolate_community_data()], [compute_pollen_proportions()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

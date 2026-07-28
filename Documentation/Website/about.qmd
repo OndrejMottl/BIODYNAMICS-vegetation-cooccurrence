@@ -211,7 +211,7 @@ This stage keeps the raw taxon names and sample metadata available for classific
 | Community extraction | [`get_community_data()`](Documentation/Functions/get_community_data.qmd) | Extract community records from the VegVault object |
 | Long conversion | [`make_community_data_long()`](Documentation/Functions/make_community_data_long.qmd) | Convert community data to tidy long format |
 | Age attachment | [`add_age_to_samples()`](Documentation/Functions/add_age_to_samples.qmd) | Attach sample ages before interpolation or filtering |
-| Pollen sums | [`get_pollen_sum()`](Documentation/Functions/get_pollen_sum.qmd) | Calculate pollen sums used in proportional filtering |
+| Pollen sums | [`summarise_pollen_counts_by_sample()`](Documentation/Functions/summarise_pollen_counts_by_sample.qmd) | Summarise pollen sums used in proportional filtering |
 :::
 
 ### 3. Taxonomic Classification
@@ -248,7 +248,7 @@ The workflow converts counts to proportions, propagates sample ages, extracts ag
 
 | Step | Target or function | Description |
 |---|---|---|
-| Proportions | [`make_community_proportions()`](Documentation/Functions/make_community_proportions.qmd) | Converts counts to proportional abundance |
+| Proportions | [`prepare_community_proportions()`](Documentation/Functions/prepare_community_proportions.qmd) | Prepare counts as proportional abundance |
 | Age uncertainty | [`extract_age_uncertainty_from_vegvault()`](Documentation/Functions/extract_age_uncertainty_from_vegvault.qmd) | Retrieves age uncertainty information |
 | Interpolation index | [`make_community_interpolation_index()`](Documentation/Functions/make_community_interpolation_index.qmd) | Builds interpolation jobs for fossil sequences |
 | Interpolation jobs | [`make_community_interpolation_jobs()`](Documentation/Functions/make_community_interpolation_jobs.qmd) | Splits interpolation work into branchable units |

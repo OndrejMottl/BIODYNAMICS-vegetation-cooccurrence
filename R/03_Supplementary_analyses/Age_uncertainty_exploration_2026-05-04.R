@@ -166,7 +166,9 @@ data_community_long_ages <-
   )
 
 data_community_proportions <-
-  make_community_proportions(data = data_community_long_ages)
+  prepare_community_proportions(
+    data_community = data_community_long_ages
+  )
 
 n_datasets <-
   dplyr::n_distinct(

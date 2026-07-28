@@ -1,0 +1,34 @@
+Prepare Community Proportions
+
+Description:
+
+     Prepares community pollen-count data as proportions, normalising
+     each sample by its total pollen count.
+
+Usage:
+
+     prepare_community_proportions(data_community = NULL)
+
+Arguments:
+
+data_community: A data frame with columns `dataset_name`,
+          `sample_name`, `taxon`, `age`, and `pollen_count`. Must
+          contain a `pollen_count` column with raw pollen counts.
+
+Details:
+
+     Summarises per-sample totals using
+     [summarise_pollen_counts_by_sample()] and computes proportions
+     with [compute_pollen_proportions()]. The result is suitable for
+     passing to [interpolate_community_data()].
+
+Value:
+
+     A data frame with the same structure as the input, but with
+     `pollen_count` replaced by `value` (pollen counts divided by
+     sample-level total). The `pollen_count` and `pollen_sum` columns
+     are dropped.
+
+See Also:
+
+     [interpolate_community_data()], [compute_pollen_proportions()]

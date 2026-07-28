@@ -10,7 +10,7 @@
 #' @param data
 #' A data frame with columns `dataset_name`, `sample_name`, `taxon`,
 #' `age`, and `value`. Must already be in proportion form — see
-#' [make_community_proportions()].
+#' [prepare_community_proportions()].
 #' @param data_age_uncertainty
 #' A tibble produced by [extract_age_uncertainty_from_vegvault()],
 #' with columns `dataset_name` (character), `sample_name` (character),
