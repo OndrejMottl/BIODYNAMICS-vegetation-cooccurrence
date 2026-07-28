@@ -33,7 +33,9 @@ deduplicate_modern_community_data <- function(
     normalize_coordinates(data_source = data_coordinates)
 
   data_record_signatures <-
-    make_community_record_signatures(data_source = data_source)
+    build_community_record_signatures(
+      data_community = data_source
+    )
 
   data_record_coordinates <-
     data_record_signatures |>

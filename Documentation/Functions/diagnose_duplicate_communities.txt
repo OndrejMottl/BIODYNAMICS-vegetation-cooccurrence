@@ -1,0 +1,21 @@
+Diagnose Duplicate Modern Communities
+
+Description:
+
+     Returns modern sample records with identical sorted community
+     composition.
+
+Usage:
+
+     diagnose_duplicate_communities(data_community = NULL)
+
+Arguments:
+
+data_community: A long-format community data frame with `dataset_name`,
+          `sample_name`, `age`, `taxon`, and `pollen_count` columns.
+
+Value:
+
+     A tibble with one row per record involved in a duplicated
+     community signature. Returns a zero-row tibble when no duplicate
+     communities are detected.

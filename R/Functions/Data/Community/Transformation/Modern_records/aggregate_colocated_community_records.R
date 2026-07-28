@@ -44,8 +44,8 @@ aggregate_colocated_community_records <- function(
     normalize_coordinates(data_source = data_coordinates)
 
   data_colocated_report <-
-    detect_colocated_community_records(
-      data_source = data_source,
+    diagnose_colocated_community_records(
+      data_community = data_source,
       data_coordinates = data_coordinates_named
     )
 
@@ -97,7 +97,9 @@ aggregate_colocated_community_records <- function(
   }
 
   data_record_signatures <-
-    make_community_record_signatures(data_source = data_source)
+    build_community_record_signatures(
+      data_community = data_source
+    )
 
   data_aggregation_map <-
     data_record_signatures |>

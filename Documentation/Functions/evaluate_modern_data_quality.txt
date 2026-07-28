@@ -1,0 +1,34 @@
+Evaluate Modern Data Quality
+
+Description:
+
+     Evaluates modern community preprocessing and returns a compact QA
+     report.
+
+Usage:
+
+     evaluate_modern_data_quality(
+       data_community = NULL,
+       data_sample_ages = NULL,
+       data_coordinates = NULL,
+       flag_abort_on_impossible_values = TRUE
+     )
+
+Arguments:
+
+data_community: A long-format community data frame with `dataset_name`,
+          `sample_name`, `age`, `taxon`, and `pollen_count` columns.
+
+data_sample_ages: A sample-age data frame with `dataset_name`,
+          `sample_name`, and `age` columns.
+
+data_coordinates: A coordinate data frame with dataset names in a
+          `dataset_name` column or row names.
+
+flag_abort_on_impossible_values: Logical. If `TRUE` (default),
+          impossible values abort the QA gate.
+
+Value:
+
+     A named list containing duplicate-site, duplicate-community,
+     duplicate-key, impossible-value, and summary tables.

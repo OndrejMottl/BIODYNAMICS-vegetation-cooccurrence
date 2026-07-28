@@ -142,11 +142,11 @@ data_abiotic_interpolated <-
 #----------------------------------------------------------#
 
 list_quality_report <-
-  make_modern_data_quality_report(
-    data_source = data_community_long_ages,
+  evaluate_modern_data_quality(
+    data_community = data_community_long_ages,
     data_sample_ages = data_sample_ages,
     data_coordinates = data_coords,
-    abort_on_impossible = FALSE
+    flag_abort_on_impossible_values = FALSE
   )
 
 list_deduplication <-

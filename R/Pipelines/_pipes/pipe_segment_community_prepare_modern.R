@@ -40,10 +40,10 @@ suppressMessages(
 pipe_segment_community_prepare_modern <-
   list(
     targets::tar_target(
-      description = "Report modern community preprocessing QA issues",
+      description = "Evaluate modern community preprocessing quality",
       name = "data_modern_quality_report",
-      command = make_modern_data_quality_report(
-        data_source = data_community_long_ages,
+      command = evaluate_modern_data_quality(
+        data_community = data_community_long_ages,
         data_sample_ages = data_sample_ages,
         data_coordinates = data_coords
       )

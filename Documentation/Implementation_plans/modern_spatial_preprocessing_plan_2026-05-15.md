@@ -47,11 +47,11 @@ Validation:
 Convert the diagnostic logic into reusable functions with tests.
 
 Functions to build:
-- detect_duplicate_sites()
-- detect_duplicate_communities()
-- detect_duplicate_metadata_keys()
-- check_modern_data_impossible_values()
-- make_modern_data_quality_report()
+- diagnose_duplicate_sites()
+- diagnose_duplicate_communities()
+- diagnose_duplicate_metadata_keys()
+- diagnose_modern_data_impossible_values()
+- evaluate_modern_data_quality()
 
 Validation:
 - Add targeted testthat coverage for each function
