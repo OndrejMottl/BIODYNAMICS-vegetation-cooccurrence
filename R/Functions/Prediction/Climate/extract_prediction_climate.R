@@ -13,9 +13,9 @@
 #' @param y_lim
 #' Numeric latitude range used for raster cropping.
 #' @param cache_dir
-#' Character scalar cache directory passed to [get_chelsa_raster()].
+#' Character scalar cache directory passed to [load_chelsa_raster()].
 #' @param raster_fn
-#' Raster-loading function. Defaults to [get_chelsa_raster()].
+#' Raster-loading function. Defaults to [load_chelsa_raster()].
 #' @return
 #' Tibble with grid coordinates, age, and extracted abiotic columns.
 #' @examples
@@ -37,7 +37,7 @@ extract_prediction_climate <- function(
     x_lim,
     y_lim,
     cache_dir,
-    raster_fn = get_chelsa_raster) {
+    raster_fn = load_chelsa_raster) {
   assertthat::assert_that(
     base::is.data.frame(data_grid) &&
       base::all(
@@ -87,11 +87,11 @@ extract_prediction_climate <- function(
       .f = ~ {
         rast_bio <-
           raster_fn(
-            chelsa_var = .x,
+            abiotic_variable_name = .x,
             age = age,
             x_lim = x_lim,
             y_lim = y_lim,
-            cache_dir = cache_dir
+            dir_cache = cache_dir
           )
 
         data_extract <-

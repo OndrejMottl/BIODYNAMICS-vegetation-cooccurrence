@@ -1,4 +1,4 @@
-testthat::test_that("get_abiotic_data returns a data frame", {
+testthat::test_that("extract_abiotic_data returns a data frame", {
   data_example <-
     tibble::tibble(
       dataset_name = c("dataset1", "dataset2"),
@@ -17,13 +17,13 @@ testthat::test_that("get_abiotic_data returns a data frame", {
     )
 
   result <-
-    get_abiotic_data(data_example)
+    extract_abiotic_data(data_example)
 
   testthat::expect_s3_class(result, "data.frame")
 })
 
 
-testthat::test_that("get_abiotic_data produces expected results", {
+testthat::test_that("extract_abiotic_data produces expected results", {
   data_example <-
     tibble::tibble(
       dataset_name = c("dataset1", "dataset2"),
@@ -42,7 +42,7 @@ testthat::test_that("get_abiotic_data produces expected results", {
     )
 
   result <-
-    get_abiotic_data(data_example)
+    extract_abiotic_data(data_example)
 
   testthat::expect_equal(
     base::colnames(result),
@@ -55,13 +55,13 @@ testthat::test_that("get_abiotic_data produces expected results", {
   )
 })
 
-testthat::test_that("get_abiotic_data handles invalid input", {
-  testthat::expect_error(get_abiotic_data(NULL))
-  testthat::expect_error(get_abiotic_data(123))
+testthat::test_that("extract_abiotic_data handles invalid input", {
+  testthat::expect_error(extract_abiotic_data(NULL))
+  testthat::expect_error(extract_abiotic_data(123))
 })
 
 testthat::test_that(
-  "get_abiotic_data errors when required columns are missing",
+  "extract_abiotic_data errors when required columns are missing",
   {
     data_no_dataset_name <-
       tibble::tibble(
@@ -73,7 +73,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      get_abiotic_data(data_no_dataset_name),
+      extract_abiotic_data(data_no_dataset_name),
       regexp = "dataset_name"
     )
 
@@ -84,7 +84,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      get_abiotic_data(data_no_abiotic_col),
+      extract_abiotic_data(data_no_abiotic_col),
       regexp = "data_abiotic"
     )
   }

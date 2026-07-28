@@ -1,6 +1,6 @@
 ---
 format: html
-title: check_abiotic_interpolation_contract()
+title: validate_abiotic_interpolation_contract()
 ---
 
 <html><head>
@@ -19,9 +19,9 @@ function processMathHTML() {
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body><div class="container"><main>
 
-<table style="width: 100%;"><tr><td>check_abiotic_interpolation_contract</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>validate_abiotic_interpolation_contract</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Check Abiotic Interpolation Contract</h2>
+<h2>Validate Abiotic Interpolation Contract</h2>
 
 <h3>Description</h3>
 
@@ -32,10 +32,10 @@ interpolation contract and do not contain age-uncertainty routing artifacts.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>check_abiotic_interpolation_contract(
-  data,
-  by = "dataset_name",
-  age_var = "age"
+<pre><code class='language-R'>validate_abiotic_interpolation_contract(
+  data_source,
+  grouping_variables = "dataset_name",
+  age_variable_name = "age"
 )
 </code></pre>
 
@@ -43,16 +43,16 @@ interpolation contract and do not contain age-uncertainty routing artifacts.
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="data">data</code></td>
+<tr><td><code id="data_source">data_source</code></td>
 <td>
 <p>A data frame containing abiotic data to interpolate.</p>
 </td></tr>
-<tr><td><code id="by">by</code></td>
+<tr><td><code id="grouping_variables">grouping_variables</code></td>
 <td>
 <p>A character vector of column names that will be used to group interpolation.
 Must not include uncertainty iteration columns.</p>
 </td></tr>
-<tr><td><code id="age_var">age_var</code></td>
+<tr><td><code id="age_variable_name">age_variable_name</code></td>
 <td>
 <p>Name of the age variable column used for interpolation. Must not be
 'age_uncertainty'.</p>
@@ -71,7 +71,7 @@ uncertainty columns or uncertainty-routing arguments reach the abiotic path.
 
 <h3>Value</h3>
 
-<p>The input 'data', invisibly, when the contract is valid.
+<p>The input 'data_source', invisibly, when the contract is valid.
 </p>
 
 

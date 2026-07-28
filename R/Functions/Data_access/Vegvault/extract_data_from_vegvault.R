@@ -13,7 +13,7 @@
 #' A data frame containing the extracted data.
 #' @details
 #' The function extends the supplied plan with the following steps:
-#'   `get_abiotic_data()` -> `select_abiotic_var_by_name()` ->
+#'   `vaultkeepr::get_abiotic_data()` -> `select_abiotic_var_by_name()` ->
 #'   `get_taxa()` -> `extract_data()`
 #'
 #' Input validation and plan construction (geographic/temporal

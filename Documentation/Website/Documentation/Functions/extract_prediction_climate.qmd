@@ -39,7 +39,7 @@ cell coordinates.
   x_lim,
   y_lim,
   cache_dir,
-  raster_fn = get_chelsa_raster
+  raster_fn = load_chelsa_raster
 )
 </code></pre>
 
@@ -69,11 +69,11 @@ cell coordinates.
 </td></tr>
 <tr><td><code id="cache_dir">cache_dir</code></td>
 <td>
-<p>Character scalar cache directory passed to [get_chelsa_raster()].</p>
+<p>Character scalar cache directory passed to [load_chelsa_raster()].</p>
 </td></tr>
 <tr><td><code id="raster_fn">raster_fn</code></td>
 <td>
-<p>Raster-loading function. Defaults to [get_chelsa_raster()].</p>
+<p>Raster-loading function. Defaults to [load_chelsa_raster()].</p>
 </td></tr>
 </table>
 

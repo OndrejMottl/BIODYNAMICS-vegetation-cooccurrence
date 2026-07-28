@@ -1,5 +1,8 @@
 testthat::test_that(
-  "check_abiotic_interpolation_contract() accepts deterministic abiotic input",
+  stringr::str_c(
+    "validate_abiotic_interpolation_contract() accepts deterministic ",
+    "abiotic input"
+  ),
   {
     data_abiotic <- tibble::tibble(
       dataset_name = "dataset1",
@@ -9,17 +12,20 @@ testthat::test_that(
     )
 
     testthat::expect_invisible(
-      check_abiotic_interpolation_contract(
-        data = data_abiotic,
-        by = base::c("dataset_name", "abiotic_variable_name"),
-        age_var = "age"
+      validate_abiotic_interpolation_contract(
+        data_source = data_abiotic,
+        grouping_variables = base::c(
+          "dataset_name",
+          "abiotic_variable_name"
+        ),
+        age_variable_name = "age"
       )
     )
   }
 )
 
 testthat::test_that(
-  "check_abiotic_interpolation_contract() rejects uncertainty columns",
+  "validate_abiotic_interpolation_contract() rejects uncertainty columns",
   {
     data_abiotic <- tibble::tibble(
       dataset_name = "dataset1",
@@ -29,15 +35,18 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      check_abiotic_interpolation_contract(
-        data = dplyr::mutate(data_abiotic, iteration = 1L)
+      validate_abiotic_interpolation_contract(
+        data_source = dplyr::mutate(data_abiotic, iteration = 1L)
       ),
       regexp = "uncertainty"
     )
 
     testthat::expect_error(
-      check_abiotic_interpolation_contract(
-        data = dplyr::mutate(data_abiotic, age_uncertainty = age)
+      validate_abiotic_interpolation_contract(
+        data_source = dplyr::mutate(
+          data_abiotic,
+          age_uncertainty = age
+        )
       ),
       regexp = "uncertainty"
     )
@@ -45,7 +54,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "check_abiotic_interpolation_contract() rejects uncertainty routing args",
+  "validate_abiotic_interpolation_contract() rejects uncertainty routing args",
   {
     data_abiotic <- tibble::tibble(
       dataset_name = "dataset1",
@@ -55,17 +64,17 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      check_abiotic_interpolation_contract(
-        data = data_abiotic,
-        by = base::c("dataset_name", "iteration")
+      validate_abiotic_interpolation_contract(
+        data_source = data_abiotic,
+        grouping_variables = base::c("dataset_name", "iteration")
       ),
       regexp = "uncertainty"
     )
 
     testthat::expect_error(
-      check_abiotic_interpolation_contract(
-        data = data_abiotic,
-        age_var = "age_uncertainty"
+      validate_abiotic_interpolation_contract(
+        data_source = data_abiotic,
+        age_variable_name = "age_uncertainty"
       ),
       regexp = "uncertainty"
     )
@@ -83,9 +92,12 @@ testthat::test_that(
     )
 
     result <- data_abiotic |>
-      check_abiotic_interpolation_contract(
-        by = base::c("dataset_name", "abiotic_variable_name"),
-        age_var = "age"
+      validate_abiotic_interpolation_contract(
+        grouping_variables = base::c(
+          "dataset_name",
+          "abiotic_variable_name"
+        ),
+        age_variable_name = "age"
       ) |>
       interpolate_data(
         value_var = "abiotic_value",

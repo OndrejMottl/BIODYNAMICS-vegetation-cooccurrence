@@ -51,6 +51,11 @@ data_functions <-
       .data[["migration_status"]] == "migrated",
       .data[["intended_path"]],
       .data[["current_path"]]
+    ),
+    active_symbol = dplyr::if_else(
+      .data[["migration_status"]] == "migrated",
+      .data[["intended_function"]],
+      .data[["function_name"]]
     )
   )
 
@@ -303,6 +308,31 @@ data_abiotic_function_findings <-
     )
   )
 
+data_abiotic_naming_findings <-
+  data_migrated_abiotic_functions |>
+  dplyr::filter(
+    .data[["naming_status"]] != "canonical_or_domain_verb"
+  ) |>
+  dplyr::mutate(
+    finding_type = "abiotic_function_naming",
+    severity = "blocking",
+    current_path = .data[["active_path"]],
+    symbol = .data[["active_symbol"]],
+    owning_issue = .data[["owning_issue"]],
+    message = stringr::str_c(
+      "Migrated Abiotic functions must use an approved canonical ",
+      "or domain verb."
+    )
+  ) |>
+  dplyr::select(
+    "finding_type",
+    "severity",
+    "current_path",
+    "symbol",
+    "owning_issue",
+    "message"
+  )
+
 path_abiotic_test_root <-
   stringr::str_c(
     "R/03_Supplementary_analyses/Testing/testthat/",
@@ -375,7 +405,7 @@ data_naming_findings <-
     finding_type = "function_naming",
     severity = "report_only",
     current_path = .data[["active_path"]],
-    symbol = .data[["function_name"]],
+    symbol = .data[["active_symbol"]],
     owning_issue = .data[["owning_issue"]],
     message = stringr::str_glue(
       "Review leading verb `{.data[['leading_verb']]}` against version 1."
@@ -418,6 +448,7 @@ data_findings <-
     data_placement_findings,
     data_main_analysis_findings,
     data_abiotic_function_findings,
+    data_abiotic_naming_findings,
     data_abiotic_test_findings,
     data_naming_findings,
     data_nested_findings
@@ -480,7 +511,8 @@ cli::cli_inform(
       "{base::nrow(data_finding_summary)} types."
     ),
     "i" = stringr::str_c(
-      "Main-analysis and migrated Abiotic placement are blocking;",
+      "Main-analysis placement and migrated Abiotic placement/naming",
+      "are blocking;",
       "unmigrated architecture contracts remain report-only.",
       sep = " "
     ),

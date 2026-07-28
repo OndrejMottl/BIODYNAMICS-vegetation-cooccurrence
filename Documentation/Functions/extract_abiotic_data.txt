@@ -1,4 +1,4 @@
-Get Abiotic Data
+Extract Abiotic Data
 
 Description:
 
@@ -7,11 +7,11 @@ Description:
 
 Usage:
 
-     get_abiotic_data(data = NULL)
+     extract_abiotic_data(data_source = NULL)
      
 Arguments:
 
-    data: A data frame. Must contain the columns `dataset_name` and
+data_source: A data frame. Must contain the columns `dataset_name` and
           `data_abiotic`.
 
 Details:

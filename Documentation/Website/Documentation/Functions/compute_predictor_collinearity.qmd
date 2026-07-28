@@ -1,6 +1,6 @@
 ---
 format: html
-title: get_predictor_collinearity()
+title: compute_predictor_collinearity()
 ---
 
 <html><head>
@@ -19,9 +19,9 @@ function processMathHTML() {
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body><div class="container"><main>
 
-<table style="width: 100%;"><tr><td>get_predictor_collinearity</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>compute_predictor_collinearity</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Get predictor collinearity</h2>
+<h2>Compute Predictor Collinearity</h2>
 
 <h3>Description</h3>
 
@@ -36,7 +36,7 @@ collinearity analysis.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>get_predictor_collinearity(data_source)
+<pre><code class='language-R'>compute_predictor_collinearity(data_source)
 </code></pre>
 
 
@@ -82,7 +82,7 @@ names that were retained.
 <h3>See Also</h3>
 
 <p>[collinear::collinear()] for the underlying collinearity method,
-[get_abiotic_data()] for producing the expected input format.
+[extract_abiotic_data()] for producing the expected input format.
 </p>
 
 </main>

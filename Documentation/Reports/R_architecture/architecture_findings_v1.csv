@@ -23,10 +23,6 @@ function_naming,report_only,R/Functions/Community/Transformation/make_community_
 function_naming,report_only,R/Functions/Community/Transformation/make_community_proportions.R,make_community_proportions,#153,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Community/Transformation/replace_na_community_data_with_zeros.R,replace_na_community_data_with_zeros,#153,Review leading verb `replace` against version 1.
 function_naming,report_only,R/Functions/Community/Transformation/transform_to_proportions.R,transform_to_proportions,#153,Review leading verb `transform` against version 1.
-function_naming,report_only,R/Functions/Data/Abiotic/Ingest/get_chelsa_raster.R,get_chelsa_raster,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Data/Abiotic/Transformation/Predictor_selection/get_predictor_collinearity.R,get_predictor_collinearity,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Data/Abiotic/Transformation/get_abiotic_data.R,get_abiotic_data,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Data/Abiotic/Validation/check_abiotic_interpolation_contract.R,check_abiotic_interpolation_contract,#153,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Data_access/Vegvault/read_vegvault_scalar.R,read_vegvault_scalar,#155,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/adapt_cross_validation_assignments.R,adapt_cross_validation_assignments,#141,Review leading verb `adapt` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/assemble_sjsdm_cached_selected_folds.R,assemble_sjsdm_cached_selected_folds,#141,Review leading verb `assemble` against version 1.

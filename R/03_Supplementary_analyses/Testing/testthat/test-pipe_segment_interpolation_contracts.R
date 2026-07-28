@@ -35,7 +35,7 @@ testthat::test_that(
       base::any(
         stringr::str_detect(
           string = vec_abiotic_pipe_lines,
-          pattern = "check_abiotic_interpolation_contract"
+          pattern = "validate_abiotic_interpolation_contract"
         )
       )
     )

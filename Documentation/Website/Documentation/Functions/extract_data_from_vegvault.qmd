@@ -56,7 +56,7 @@ names to select (e.g. '&quot;bio1&quot;').</p>
 <h3>Details</h3>
 
 <p>The function extends the supplied plan with the following steps:
-'get_abiotic_data()' -&gt; 'select_abiotic_var_by_name()' -&gt;
+'vaultkeepr::get_abiotic_data()' -&gt; 'select_abiotic_var_by_name()' -&gt;
 'get_taxa()' -&gt; 'extract_data()'
 </p>
 <p>Input validation and plan construction (geographic/temporal

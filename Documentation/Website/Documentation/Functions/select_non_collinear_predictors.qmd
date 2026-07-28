@@ -28,13 +28,13 @@ function processMathHTML() {
 <p>Filters a data frame of abiotic variables, retaining only predictors
 identified as non-collinear by a collinearity analysis. The selection
 is taken from the 'result$selection' element of a 'collinear_output'
-object (as returned by 'get_predictor_collinearity()').
+object (as returned by 'compute_predictor_collinearity()').
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>select_non_collinear_predictors(data_source = NULL, collinearity_res = NULL)
+<pre><code class='language-R'>select_non_collinear_predictors(data_source = NULL, res_collinearity = NULL)
 </code></pre>
 
 
@@ -47,10 +47,10 @@ object (as returned by 'get_predictor_collinearity()').
 named 'abiotic_variable_name' whose values are matched against the
 selected predictors.</p>
 </td></tr>
-<tr><td><code id="collinearity_res">collinearity_res</code></td>
+<tr><td><code id="res_collinearity">res_collinearity</code></td>
 <td>
 <p>A 'collinear_output' object (as returned by
-'get_predictor_collinearity()'). Must contain a 'result$selection'
+'compute_predictor_collinearity()'). Must contain a 'result$selection'
 element — a non-empty character vector of selected predictor names.</p>
 </td></tr>
 </table>
@@ -75,7 +75,7 @@ non-collinear predictors.
 
 <h3>See Also</h3>
 
-<p>[get_predictor_collinearity()]
+<p>[compute_predictor_collinearity()]
 </p>
 
 </main>

@@ -1,13 +1,13 @@
 testthat::test_that(
-  "get_predictor_collinearity() validates data_source type",
+  "compute_predictor_collinearity() validates data_source type",
   {
     testthat::expect_error(
-      get_predictor_collinearity(NULL),
+      compute_predictor_collinearity(NULL),
       regexp = "data_source must be a data frame"
     )
 
     testthat::expect_error(
-      get_predictor_collinearity(list(
+      compute_predictor_collinearity(list(
         abiotic_variable_name = "temp",
         abiotic_value = 10
       )),
@@ -15,7 +15,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_predictor_collinearity(1:5),
+      compute_predictor_collinearity(1:5),
       regexp = "data_source must be a data frame"
     )
   }
@@ -23,11 +23,11 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "get_predictor_collinearity() validates required columns",
+  "compute_predictor_collinearity() validates required columns",
   {
     # Missing abiotic_value
     testthat::expect_error(
-      get_predictor_collinearity(
+      compute_predictor_collinearity(
         data.frame(abiotic_variable_name = "temp")
       ),
       regexp = "abiotic_variable_name.*abiotic_value"
@@ -35,7 +35,7 @@ testthat::test_that(
 
     # Missing abiotic_variable_name
     testthat::expect_error(
-      get_predictor_collinearity(
+      compute_predictor_collinearity(
         data.frame(abiotic_value = 10)
       ),
       regexp = "abiotic_variable_name.*abiotic_value"
@@ -43,7 +43,7 @@ testthat::test_that(
 
     # Neither column present
     testthat::expect_error(
-      get_predictor_collinearity(
+      compute_predictor_collinearity(
         data.frame(x = 1, y = 2)
       ),
       regexp = "abiotic_variable_name.*abiotic_value"
@@ -53,7 +53,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "get_predictor_collinearity() returns a collinear_output object",
+  "compute_predictor_collinearity() returns a collinear_output object",
   {
     set.seed(900723)
 
@@ -71,7 +71,7 @@ testthat::test_that(
       )
 
     res <-
-      get_predictor_collinearity(
+      compute_predictor_collinearity(
         data_source = data_source
       )
 
@@ -81,7 +81,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "get_predictor_collinearity() output contains result$selection",
+  "compute_predictor_collinearity() output contains result$selection",
   {
     set.seed(900723)
 
@@ -99,7 +99,7 @@ testthat::test_that(
       )
 
     res <-
-      get_predictor_collinearity(
+      compute_predictor_collinearity(
         data_source = data_source
       )
 
@@ -112,7 +112,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "get_predictor_collinearity() selection is subset of wide-format columns",
+  "compute_predictor_collinearity() selection is subset of wide-format columns",
   {
     set.seed(900723)
 
@@ -131,7 +131,7 @@ testthat::test_that(
       )
 
     res <-
-      get_predictor_collinearity(
+      compute_predictor_collinearity(
         data_source = data_source
       )
 
@@ -148,7 +148,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "get_predictor_collinearity() drops the 'age' column before analysis",
+  "compute_predictor_collinearity() drops the 'age' column before analysis",
   {
     set.seed(900723)
 
@@ -169,7 +169,7 @@ testthat::test_that(
       )
 
     res <-
-      get_predictor_collinearity(
+      compute_predictor_collinearity(
         data_source = data_source
       )
 
@@ -179,7 +179,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "get_predictor_collinearity() removes highly collinear predictors",
+  "compute_predictor_collinearity() removes highly collinear predictors",
   {
     set.seed(900723)
 
@@ -198,7 +198,7 @@ testthat::test_that(
       )
 
     res <-
-      get_predictor_collinearity(
+      compute_predictor_collinearity(
         data_source = data_source
       )
 
@@ -213,7 +213,7 @@ testthat::test_that(
 
 testthat::test_that(
   paste0(
-    "get_predictor_collinearity() ",
+    "compute_predictor_collinearity() ",
     "all columns have zero variance — aborts"
   ),
   {
@@ -231,7 +231,7 @@ testthat::test_that(
     # before aborting; we test the abort here
     testthat::expect_error(
       base::suppressWarnings(
-        get_predictor_collinearity(
+        compute_predictor_collinearity(
           data_source = data_source
         )
       ),
@@ -243,7 +243,7 @@ testthat::test_that(
 
 testthat::test_that(
   paste0(
-    "get_predictor_collinearity() ",
+    "compute_predictor_collinearity() ",
     "some columns have zero variance — warns and succeeds"
   ),
   {
@@ -268,7 +268,7 @@ testthat::test_that(
 
     res <-
       testthat::expect_warning(
-        get_predictor_collinearity(
+        compute_predictor_collinearity(
           data_source = data_source
         ),
         regexp = "zero-variance"

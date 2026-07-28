@@ -35,10 +35,11 @@ a legitimate migration or an unclassified file, function, or target.
 The checker writes findings to
 `Documentation/Reports/R_architecture/architecture_findings_v1.csv`.
 Main-analysis placement is blocking: only inventoried production analyses may
-remain under `R/02_Main_analyses`. Migrated Abiotic functions and their
-mirrored tests are also checked as blocking contracts. Function naming and
-other not-yet-migrated contracts remain report-only until their owning issues
-make them blocking.
+remain under `R/02_Main_analyses`. Migrated Abiotic functions, their approved
+canonical or domain verbs, and their mirrored tests are also checked as
+blocking contracts. Function naming for not-yet-migrated domains and other
+architecture contracts remain report-only until their owning issues make them
+blocking.
 
 ## Interpretation limits
 

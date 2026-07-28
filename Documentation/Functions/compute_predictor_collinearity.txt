@@ -1,4 +1,4 @@
-Get predictor collinearity
+Compute Predictor Collinearity
 
 Description:
 
@@ -11,7 +11,7 @@ Description:
 
 Usage:
 
-     get_predictor_collinearity(data_source)
+     compute_predictor_collinearity(data_source)
      
 Arguments:
 
@@ -45,5 +45,5 @@ Value:
 See Also:
 
      [collinear::collinear()] for the underlying collinearity method,
-     [get_abiotic_data()] for producing the expected input format.
+     [extract_abiotic_data()] for producing the expected input format.
 

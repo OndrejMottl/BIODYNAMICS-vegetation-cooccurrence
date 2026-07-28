@@ -1,12 +1,12 @@
-#' @title Get and Cache a CHELSA-TraCE21k Raster
+#' @title Load and Cache a CHELSA-TraCE21k Raster
 #' @description
-#' Downloads a cropped CHELSA-TraCE21k raster for a given
+#' Loads a cropped CHELSA-TraCE21k raster for a given
 #' bioclim variable and age slice. If a cached `.tif` already
-#' exists in `cache_dir` it is returned immediately without
+#' exists in `dir_cache` it is returned immediately without
 #' re-downloading. Absolute-temperature variables (`bio1`,
 #' `bio6`) are corrected from Kelvin to degrees Celsius
 #' (subtract 273.15) before the raster is written to cache.
-#' @param chelsa_var
+#' @param abiotic_variable_name
 #' Character scalar. Project-level bioclim variable name,
 #' e.g. `"bio1"`, `"bio4"`, `"bio12"`. Single-digit numbers
 #' are zero-padded internally to match CHELSA file names
@@ -21,9 +21,10 @@
 #' @param y_lim
 #' Numeric vector of length 2. Latitude extent
 #' `c(min, max)` for cropping the downloaded raster.
-#' @param cache_dir
+#' @param dir_cache
 #' Character scalar. Path to the directory where the cropped
-#' raster is cached as `{chelsa_var}_{age}_{xmin}_{xmax}_{ymin}_{ymax}.tif`.
+#' raster is cached as
+#' `{abiotic_variable_name}_{age}_{xmin}_{xmax}_{ymin}_{ymax}.tif`.
 #' The extent values are rounded to 2 decimal places so the cache
 #' is shared across calls with identical extents. The directory must
 #' already exist before calling this function.
@@ -39,7 +40,7 @@
 #'
 #' The remote raster is accessed via GDAL `/vsicurl/`, so an
 #' internet connection is required the first time each
-#' `(chelsa_var, age, x_lim, y_lim)` combination is requested.
+#' `(abiotic_variable_name, age, x_lim, y_lim)` combination is requested.
 #' Subsequent calls load from the cached `.tif` and need no
 #' connection. The geographic extent (rounded to 2 decimal
 #' places) is embedded in the cache filename, so rasters with
@@ -55,78 +56,90 @@
 #'   [interpolate_st_mev_to_grid()],
 #'   [project_coords_to_metric()]
 #' @export
-get_chelsa_raster <- function(
-    chelsa_var = NULL,
+load_chelsa_raster <- function(
+    abiotic_variable_name = NULL,
     age = NULL,
     x_lim = NULL,
     y_lim = NULL,
-    cache_dir = NULL) {
+    dir_cache = NULL) {
   assertthat::assert_that(
-    assertthat::is.string(chelsa_var),
-    msg = "chelsa_var must be a single character string"
+    assertthat::is.string(abiotic_variable_name),
+    msg = "abiotic_variable_name must be a single character string"
   )
 
   assertthat::assert_that(
-    (is.numeric(age) || is.integer(age)) && length(age) == 1L,
+    (base::is.numeric(age) || base::is.integer(age)) &&
+      base::length(age) == 1L,
     msg = "age must be a single numeric or integer value"
   )
 
   assertthat::assert_that(
-    is.numeric(x_lim) && length(x_lim) == 2L,
+    base::is.numeric(x_lim) && base::length(x_lim) == 2L,
     msg = "x_lim must be a numeric vector of length 2"
   )
 
   assertthat::assert_that(
-    is.numeric(y_lim) && length(y_lim) == 2L,
+    base::is.numeric(y_lim) && base::length(y_lim) == 2L,
     msg = "y_lim must be a numeric vector of length 2"
   )
 
   assertthat::assert_that(
-    assertthat::is.string(cache_dir),
-    base::dir.exists(cache_dir),
-    msg = "cache_dir must be a string path to an existing directory"
+    assertthat::is.string(dir_cache),
+    base::dir.exists(dir_cache),
+    msg = "dir_cache must be a string path to an existing directory"
   )
 
   # 1. Map project variable name to CHELSA file name -----
   # Pad single-digit bio numbers: "bio1" -> "bio01"
-  chelsa_var_name <-
-    stringr::str_replace(chelsa_var, "^bio(\\d)$", "bio0\\1")
+  name_chelsa_variable <-
+    stringr::str_replace(
+      abiotic_variable_name,
+      "^bio(\\d)$",
+      "bio0\\1"
+    )
 
   # 2. Build cache file path -----
   # Include rounded extent in filename so rasters cropped to different
   # geographic areas never share the same cache entry.
-  cache_extent_tag <-
-    base::paste(
-      base::round(base::min(x_lim), 2L),
-      base::round(base::max(x_lim), 2L),
-      base::round(base::min(y_lim), 2L),
-      base::round(base::max(y_lim), 2L),
-      sep = "_"
+  str_cache_extent <-
+    stringr::str_c(
+      base::c(
+        base::round(base::min(x_lim), 2L),
+        base::round(base::max(x_lim), 2L),
+        base::round(base::min(y_lim), 2L),
+        base::round(base::max(y_lim), 2L)
+      ),
+      collapse = "_"
     )
 
-  cache_file <-
+  file_chelsa_raster <-
     base::file.path(
-      cache_dir,
-      base::paste0(
-        chelsa_var, "_", age, "_", cache_extent_tag, ".tif"
+      dir_cache,
+      stringr::str_c(
+        abiotic_variable_name,
+        "_",
+        age,
+        "_",
+        str_cache_extent,
+        ".tif"
       )
     )
 
   # 3. Return from cache if available -----
-  if (base::file.exists(cache_file)) {
-    return(terra::rast(cache_file))
+  if (base::file.exists(file_chelsa_raster)) {
+    base::return(terra::rast(file_chelsa_raster))
   }
 
   # 4. Download and crop from CHELSA-TraCE21k -----
-  chelsa_base_url <-
-    base::paste0(
+  url_chelsa_base <-
+    stringr::str_c(
       "/vsicurl/https://os.zhdk.cloud.switch.ch/",
       "chelsa01/chelsa_trace21k/global/bioclim/"
     )
 
   # The present slice uses the special step "0000";
   # all other ages use sprintf("-%03d", age %/% 100).
-  chelsa_time_step <-
+  id_chelsa_time_step <-
     if (base::as.integer(age) == 0L) {
       "0000"
     } else {
@@ -136,41 +149,47 @@ get_chelsa_raster <- function(
       )
     }
 
-  url_rast <-
-    base::paste0(
-      chelsa_base_url,
-      chelsa_var_name, "/",
+  url_chelsa_raster <-
+    stringr::str_c(
+      url_chelsa_base,
+      name_chelsa_variable,
+      "/",
       "CHELSA_TraCE21k_",
-      chelsa_var_name, "_",
-      chelsa_time_step,
+      name_chelsa_variable,
+      "_",
+      id_chelsa_time_step,
       "_V.1.0.tif"
     )
 
-  ext_rast <-
+  extent_crop <-
     terra::ext(
       base::min(x_lim), base::max(x_lim),
       base::min(y_lim), base::max(y_lim)
     )
 
-  rast_raw <-
-    terra::rast(url_rast) |>
-    terra::crop(y = ext_rast)
+  raster_chelsa_raw <-
+    terra::rast(url_chelsa_raster) |>
+    terra::crop(y = extent_crop)
 
   # 5. Apply Kelvin -> Celsius correction where needed -----
   # bio1 (mean annual temp) and bio6 (min temp coldest month)
   #   are absolute temperatures stored in Kelvin.
   # bio4 (temp seasonality) is a std dev — no offset needed.
-  vec_kelvin_vars <- c("bio1", "bio6")
+  vec_kelvin_variables <- base::c("bio1", "bio6")
 
-  rast_out <-
-    if (chelsa_var %in% vec_kelvin_vars) {
-      rast_raw - 273.15
+  raster_chelsa <-
+    if (abiotic_variable_name %in% vec_kelvin_variables) {
+      raster_chelsa_raw - 273.15
     } else {
-      rast_raw
+      raster_chelsa_raw
     }
 
   # 6. Write to cache and return -----
-  terra::writeRaster(rast_out, cache_file, overwrite = TRUE)
+  terra::writeRaster(
+    raster_chelsa,
+    file_chelsa_raster,
+    overwrite = TRUE
+  )
 
-  return(rast_out)
+  base::return(raster_chelsa)
 }

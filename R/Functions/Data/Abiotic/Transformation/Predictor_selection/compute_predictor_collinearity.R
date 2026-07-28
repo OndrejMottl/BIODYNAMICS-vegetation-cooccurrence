@@ -1,4 +1,4 @@
-#' @title Get predictor collinearity
+#' @title Compute Predictor Collinearity
 #' @description
 #' Analyses collinearity among abiotic predictors in a long-format
 #' data frame and returns a `collinear_output` object produced by
@@ -31,20 +31,20 @@
 #' remains, the function aborts via `cli::cli_abort()`.
 #' @seealso
 #' [collinear::collinear()] for the underlying collinearity method,
-#' [get_abiotic_data()] for producing the expected input format.
+#' [extract_abiotic_data()] for producing the expected input format.
 #' @export
-get_predictor_collinearity <- function(data_source) {
+compute_predictor_collinearity <- function(data_source) {
   assertthat::assert_that(
-    is.data.frame(data_source),
+    base::is.data.frame(data_source),
     msg = "data_source must be a data frame"
   )
 
   assertthat::assert_that(
-    all(
-      c("abiotic_variable_name", "abiotic_value") %in%
-        colnames(data_source)
+    base::all(
+      base::c("abiotic_variable_name", "abiotic_value") %in%
+        base::colnames(data_source)
     ),
-    msg = paste0(
+    msg = stringr::str_c(
       "data_source must contain columns",
       " 'abiotic_variable_name' and 'abiotic_value'"
     )
@@ -55,9 +55,9 @@ get_predictor_collinearity <- function(data_source) {
   vec_predictor_names <-
     dplyr::pull(data_source, abiotic_variable_name) |>
     base::unique() |>
-    base::setdiff(c("age"))
+    base::setdiff("age")
 
-  data_wide <-
+  data_predictors_wide <-
     data_source |>
     tidyr::pivot_wider(
       names_from = abiotic_variable_name,
@@ -68,8 +68,8 @@ get_predictor_collinearity <- function(data_source) {
       !dplyr::any_of(c("age"))
     )
 
-  vec_has_variation <-
-    data_wide |>
+  vec_predictor_has_variation <-
+    data_predictors_wide |>
     dplyr::select(
       dplyr::any_of(vec_predictor_names)
     ) |>
@@ -77,36 +77,41 @@ get_predictor_collinearity <- function(data_source) {
       .f = ~ stats::sd(.x, na.rm = TRUE) > 0
     )
 
-  vec_cols_zero_var <-
-    base::names(vec_has_variation)[!vec_has_variation]
+  vec_zero_variance_predictors <-
+    base::names(vec_predictor_has_variation)[
+      !vec_predictor_has_variation
+    ]
 
   if (
-    base::length(vec_cols_zero_var) > 0
+    base::length(vec_zero_variance_predictors) > 0L
   ) {
     cli::cli_warn(
-      c(
-        "!" = paste0(
-          "{base::length(vec_cols_zero_var)} zero-variance column(s) ",
+      base::c(
+        "!" = stringr::str_c(
+          "{base::length(vec_zero_variance_predictors)} ",
+          "zero-variance column(s) ",
           "dropped before collinearity analysis:"
         ),
-        "i" = "{.val {vec_cols_zero_var}}"
+        "i" = "{.val {vec_zero_variance_predictors}}"
       )
     )
   }
 
-  vec_cols_with_variation <-
-    base::names(vec_has_variation)[vec_has_variation]
+  vec_variable_predictors <-
+    base::names(vec_predictor_has_variation)[
+      vec_predictor_has_variation
+    ]
 
   if (
-    base::length(vec_cols_with_variation) == 0L
+    base::length(vec_variable_predictors) == 0L
   ) {
     cli::cli_abort(
-      c(
-        "x" = paste0(
+      base::c(
+        "x" = stringr::str_c(
           "No columns with non-zero variance remain after ",
           "removing constant columns."
         ),
-        "i" = paste0(
+        "i" = stringr::str_c(
           "All {base::length(vec_predictor_names)} predictor column(s)",
           " have zero variance."
         )
@@ -114,42 +119,42 @@ get_predictor_collinearity <- function(data_source) {
     )
   }
 
-  res <-
-    data_wide |>
+  res_collinearity <-
+    data_predictors_wide |>
     dplyr::select(
-      dplyr::all_of(vec_cols_with_variation)
+      dplyr::all_of(vec_variable_predictors)
     ) |>
     collinear::collinear(quiet = TRUE)
 
   assertthat::assert_that(
-    inherits(res, "collinear_output"),
-    msg = paste0(
+    base::inherits(res_collinearity, "collinear_output"),
+    msg = stringr::str_c(
       "Output of collinear::collinear()",
       " should be a collinear_output object"
     )
   )
 
   assertthat::assert_that(
-    "result" %in% names(res),
-    msg = paste0(
+    "result" %in% base::names(res_collinearity),
+    msg = stringr::str_c(
       "Output of collinear::collinear()",
       " should contain a 'result' element"
     )
   )
 
   assertthat::assert_that(
-    "selection" %in% names(res$result),
-    msg = paste0(
+    "selection" %in% base::names(res_collinearity$result),
+    msg = stringr::str_c(
       "Output of collinear::collinear()",
       " should contain a 'selection' element in the 'result'"
     )
   )
 
   assertthat::assert_that(
-    is.character(res$result$selection),
-    length(res$result$selection) > 0,
+    base::is.character(res_collinearity$result$selection),
+    base::length(res_collinearity$result$selection) > 0L,
     msg = "Selection of predictors should be a non-empty character vector"
   )
 
-  return(res)
+  base::return(res_collinearity)
 }

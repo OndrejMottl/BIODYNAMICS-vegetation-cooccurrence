@@ -1279,12 +1279,12 @@ data_climate <-
         purrr::map(
           .f = ~ {
             rast_bio <-
-              get_chelsa_raster(
-                chelsa_var = .x,
+              load_chelsa_raster(
+                abiotic_variable_name = .x,
                 age = age_i,
                 x_lim = x_lim,
                 y_lim = y_lim,
-                cache_dir = path_chelsa_cache
+                dir_cache = path_chelsa_cache
               )
 
             terra::extract(

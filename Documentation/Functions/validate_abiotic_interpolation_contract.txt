@@ -1,4 +1,4 @@
-Check Abiotic Interpolation Contract
+Validate Abiotic Interpolation Contract
 
 Description:
 
@@ -8,22 +8,22 @@ Description:
 
 Usage:
 
-     check_abiotic_interpolation_contract(
-       data,
-       by = "dataset_name",
-       age_var = "age"
+     validate_abiotic_interpolation_contract(
+       data_source,
+       grouping_variables = "dataset_name",
+       age_variable_name = "age"
      )
      
 Arguments:
 
-    data: A data frame containing abiotic data to interpolate.
+data_source: A data frame containing abiotic data to interpolate.
 
-      by: A character vector of column names that will be used to group
-          interpolation. Must not include uncertainty iteration
-          columns.
+grouping_variables: A character vector of column names that will be
+          used to group interpolation. Must not include uncertainty
+          iteration columns.
 
- age_var: Name of the age variable column used for interpolation. Must
-          not be `age_uncertainty`.
+age_variable_name: Name of the age variable column used for
+          interpolation. Must not be `age_uncertainty`.
 
 Details:
 
@@ -35,7 +35,7 @@ Details:
 
 Value:
 
-     The input `data`, invisibly, when the contract is valid.
+     The input `data_source`, invisibly, when the contract is valid.
 
 See Also:
 

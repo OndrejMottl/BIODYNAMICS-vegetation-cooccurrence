@@ -26,12 +26,12 @@
 testthat::test_that(
   "select_non_collinear_predictors() rejects non-data-frame data_source",
   {
-    collinear_res <- .make_collinear_output(c("temp"))
+    res_collinearity <- .make_collinear_output(c("temp"))
 
     testthat::expect_error(
       select_non_collinear_predictors(
         data_source = "not_a_df",
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       ),
       regexp = "data_source must be a data frame"
     )
@@ -39,7 +39,7 @@ testthat::test_that(
     testthat::expect_error(
       select_non_collinear_predictors(
         data_source = list(a = 1),
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       ),
       regexp = "data_source must be a data frame"
     )
@@ -47,7 +47,7 @@ testthat::test_that(
     testthat::expect_error(
       select_non_collinear_predictors(
         data_source = NULL,
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       ),
       regexp = "data_source must be a data frame"
     )
@@ -55,32 +55,32 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "select_non_collinear_predictors() rejects wrong collinearity_res type",
+  "select_non_collinear_predictors() rejects wrong res_collinearity type",
   {
     data_abiotic <- .make_abiotic_df()
 
     testthat::expect_error(
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = list(result = list(selection = "temp"))
+        res_collinearity = list(result = list(selection = "temp"))
       ),
-      regexp = "collinearity_res must be a collinear_output object"
+      regexp = "res_collinearity must be a collinear_output object"
     )
 
     testthat::expect_error(
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = NULL
+        res_collinearity = NULL
       ),
-      regexp = "collinearity_res must be a collinear_output object"
+      regexp = "res_collinearity must be a collinear_output object"
     )
 
     testthat::expect_error(
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = "not_an_object"
+        res_collinearity = "not_an_object"
       ),
-      regexp = "collinearity_res must be a collinear_output object"
+      regexp = "res_collinearity must be a collinear_output object"
     )
   }
 )
@@ -98,9 +98,9 @@ testthat::test_that(
     testthat::expect_error(
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = bad_res
+        res_collinearity = bad_res
       ),
-      regexp = "collinearity_res should contain a 'result' element"
+      regexp = "res_collinearity should contain a 'result' element"
     )
   }
 )
@@ -118,9 +118,9 @@ testthat::test_that(
     testthat::expect_error(
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = bad_res
+        res_collinearity = bad_res
       ),
-      regexp = "collinearity_res\\$result should contain a 'selection' element"
+      regexp = "res_collinearity\\$result should contain a 'selection' element"
     )
   }
 )
@@ -134,7 +134,7 @@ testthat::test_that(
     testthat::expect_error(
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = bad_res
+        res_collinearity = bad_res
       ),
       regexp = "Selection of predictors should be a non-empty character vector"
     )
@@ -150,7 +150,7 @@ testthat::test_that(
     testthat::expect_error(
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = bad_res
+        res_collinearity = bad_res
       ),
       regexp = "Selection of predictors should be a non-empty character vector"
     )
@@ -161,12 +161,12 @@ testthat::test_that(
   "select_non_collinear_predictors() errors when no rows match selection",
   {
     data_abiotic <- .make_abiotic_df(c("temp", "precip"))
-    collinear_res <- .make_collinear_output(c("ndvi"))
+    res_collinearity <- .make_collinear_output(c("ndvi"))
 
     testthat::expect_error(
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       ),
       regexp = "No predictors selected after filtering"
     )
@@ -181,12 +181,12 @@ testthat::test_that(
   "select_non_collinear_predictors() returns a data frame",
   {
     data_abiotic <- .make_abiotic_df()
-    collinear_res <- .make_collinear_output(c("temp", "precip"))
+    res_collinearity <- .make_collinear_output(c("temp", "precip"))
 
     res <-
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       )
 
     testthat::expect_true(base::is.data.frame(res))
@@ -197,12 +197,12 @@ testthat::test_that(
   "select_non_collinear_predictors() preserves all columns of data_source",
   {
     data_abiotic <- .make_abiotic_df()
-    collinear_res <- .make_collinear_output(c("temp"))
+    res_collinearity <- .make_collinear_output(c("temp"))
 
     res <-
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       )
 
     testthat::expect_equal(
@@ -220,12 +220,12 @@ testthat::test_that(
   "select_non_collinear_predictors() keeps only selected predictors",
   {
     data_abiotic <- .make_abiotic_df(c("temp", "precip", "ndvi", "ph"))
-    collinear_res <- .make_collinear_output(c("temp", "ndvi"))
+    res_collinearity <- .make_collinear_output(c("temp", "ndvi"))
 
     res <-
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       )
 
     testthat::expect_equal(base::nrow(res), 2L)
@@ -247,12 +247,12 @@ testthat::test_that(
   "select_non_collinear_predictors() works when selection equals all rows",
   {
     data_abiotic <- .make_abiotic_df(c("temp", "precip", "ndvi"))
-    collinear_res <- .make_collinear_output(c("temp", "precip", "ndvi"))
+    res_collinearity <- .make_collinear_output(c("temp", "precip", "ndvi"))
 
     res <-
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       )
 
     testthat::expect_equal(base::nrow(res), 3L)
@@ -264,15 +264,18 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "select_non_collinear_predictors() works when selection is a single predictor",
+  stringr::str_c(
+    "select_non_collinear_predictors() works when selection ",
+    "is a single predictor"
+  ),
   {
     data_abiotic <- .make_abiotic_df(c("temp", "precip", "ndvi"))
-    collinear_res <- .make_collinear_output("precip")
+    res_collinearity <- .make_collinear_output("precip")
 
     res <-
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       )
 
     testthat::expect_equal(base::nrow(res), 1L)
@@ -287,12 +290,12 @@ testthat::test_that(
   "select_non_collinear_predictors() ignores unmatched selection names",
   {
     data_abiotic <- .make_abiotic_df(c("temp", "precip"))
-    collinear_res <- .make_collinear_output(c("temp", "ndvi"))
+    res_collinearity <- .make_collinear_output(c("temp", "ndvi"))
 
     res <-
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       )
 
     testthat::expect_equal(base::nrow(res), 1L)
@@ -313,12 +316,12 @@ testthat::test_that(
         units = c("C", "mm", "index"),
         stringsAsFactors = FALSE
       )
-    collinear_res <- .make_collinear_output(c("precip"))
+    res_collinearity <- .make_collinear_output(c("precip"))
 
     res <-
       select_non_collinear_predictors(
         data_source = data_abiotic,
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       )
 
     testthat::expect_equal(dplyr::pull(res, value), 200.0)
@@ -343,12 +346,12 @@ testthat::test_that(
       )
     vec_selection <-
       base::sample(vec_names, size = 100)
-    collinear_res <- .make_collinear_output(vec_selection)
+    res_collinearity <- .make_collinear_output(vec_selection)
 
     res <-
       select_non_collinear_predictors(
         data_source = data_large,
-        collinearity_res = collinear_res
+        res_collinearity = res_collinearity
       )
 
     testthat::expect_true(base::is.data.frame(res))
