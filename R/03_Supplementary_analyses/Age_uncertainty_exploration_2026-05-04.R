@@ -151,10 +151,14 @@ data_vegvault_extracted <-
   )
 
 data_community <-
-  get_community_data(data_vegvault_extracted)
+  extract_community_records(
+    data_vegvault = data_vegvault_extracted
+  )
 
 data_community_long <-
-  make_community_data_long(data_community)
+  reshape_community_to_long(
+    data_community = data_community
+  )
 
 data_sample_ages <-
   get_sample_ages(data_vegvault_extracted)

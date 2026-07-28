@@ -1,0 +1,37 @@
+Replace Missing Community Counts with Zeros
+
+Description:
+
+     Replaces missing values in wide taxon-count columns with zeros.
+
+Usage:
+
+     replace_missing_community_counts_with_zeros(data_community = NULL)
+
+Arguments:
+
+data_community: A wide data frame containing `dataset_name`,
+          `sample_name`, and at least one taxon-count column.
+
+Details:
+
+     Identifier columns are preserved without modification. Taxon
+     columns must be numeric because zero represents an observed
+     absence.
+
+Value:
+
+     The input data frame with missing taxon counts replaced by zeros.
+
+Examples:
+
+     data_community <-
+       tibble::tibble(
+         dataset_name = "example",
+         sample_name = "sample_1",
+         Pinus = NA_real_
+       )
+
+     replace_missing_community_counts_with_zeros(
+       data_community = data_community
+     )

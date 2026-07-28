@@ -41,18 +41,22 @@ suppressMessages(
 pipe_segment_community_extract <-
   list(
     targets::tar_target(
-      description = "Extract community data",
+      description = "Extract nested community records",
       name = "data_community",
       command = {
         # Ensure core-count guard has passed before extracting community data
         force(check_n_cores)
-        get_community_data(data_vegvault_extracted)
+        extract_community_records(
+          data_vegvault = data_vegvault_extracted
+        )
       }
     ),
     targets::tar_target(
-      description = "Get community data into long-format",
+      description = "Reshape community data to long format",
       name = "data_community_long",
-      command = make_community_data_long(data_community)
+      command = reshape_community_to_long(
+        data_community = data_community
+      )
     ),
     targets::tar_target(
       description = "Get sample ages",

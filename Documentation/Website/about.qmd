@@ -208,8 +208,8 @@ This stage keeps the raw taxon names and sample metadata available for classific
 
 | Step | Target or helper | Role |
 |---|---|---|
-| Community extraction | [`get_community_data()`](Documentation/Functions/get_community_data.qmd) | Extract community records from the VegVault object |
-| Long conversion | [`make_community_data_long()`](Documentation/Functions/make_community_data_long.qmd) | Convert community data to tidy long format |
+| Community extraction | [`extract_community_records()`](Documentation/Functions/extract_community_records.qmd) | Extract nested community records from the VegVault object |
+| Long conversion | [`reshape_community_to_long()`](Documentation/Functions/reshape_community_to_long.qmd) | Reshape community records to tidy long format |
 | Age attachment | [`add_age_to_samples()`](Documentation/Functions/add_age_to_samples.qmd) | Attach sample ages before interpolation or filtering |
 | Pollen sums | [`summarise_pollen_counts_by_sample()`](Documentation/Functions/summarise_pollen_counts_by_sample.qmd) | Summarise pollen sums used in proportional filtering |
 :::
@@ -304,7 +304,7 @@ The same input data can be routed to genus-level, family-level, or functional-ty
 | Family | Resolve taxa to family-level community columns |
 | Functional type | Collapse taxon presences to functional-type groups |
 
-Key helpers include [`classify_taxonomic_resolution()`](Documentation/Functions/classify_taxonomic_resolution.qmd), [`resolve_classification_to_finest_rank()`](Documentation/Functions/resolve_classification_to_finest_rank.qmd), [`classify_to_functional_type()`](Documentation/Functions/classify_to_functional_type.qmd), and [`replace_na_community_data_with_zeros()`](Documentation/Functions/replace_na_community_data_with_zeros.qmd).
+Key helpers include [`classify_taxonomic_resolution()`](Documentation/Functions/classify_taxonomic_resolution.qmd), [`resolve_classification_to_finest_rank()`](Documentation/Functions/resolve_classification_to_finest_rank.qmd), [`classify_to_functional_type()`](Documentation/Functions/classify_to_functional_type.qmd), and [`replace_missing_community_counts_with_zeros()`](Documentation/Functions/replace_missing_community_counts_with_zeros.qmd).
 
 Functional-type classifications are generated before the resolution branches need them.
 Spatial-resolution pipelines read those classifications with helpers such as [`get_functional_type_classification_path_from_store()`](Documentation/Functions/get_functional_type_classification_path_from_store.qmd) and [`read_functional_type_classification()`](Documentation/Functions/read_functional_type_classification.qmd).

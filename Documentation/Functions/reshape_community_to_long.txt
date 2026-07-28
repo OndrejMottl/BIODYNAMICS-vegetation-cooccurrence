@@ -1,0 +1,35 @@
+Reshape Community Data to Long Format
+
+Description:
+
+     Reshapes wide community counts to one taxon observation per row.
+
+Usage:
+
+     reshape_community_to_long(data_community = NULL)
+
+Arguments:
+
+data_community: A wide data frame containing `dataset_name`,
+          `sample_name`, and at least one taxon-count column.
+
+Details:
+
+     Missing taxon counts are omitted from the returned long data.
+
+Value:
+
+     A data frame in long format with columns `dataset_name`,
+     `sample_name`, `taxon`, and `pollen_count`.
+
+Examples:
+
+     data_community <-
+       tibble::tibble(
+         dataset_name = "example",
+         sample_name = "sample_1",
+         Pinus = 10,
+         Betula = 5
+       )
+
+     reshape_community_to_long(data_community = data_community)
