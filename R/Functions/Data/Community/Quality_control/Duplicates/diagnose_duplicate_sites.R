@@ -10,7 +10,7 @@
 #' @export
 diagnose_duplicate_sites <- function(data_coordinates = NULL) {
   data_coordinates_normalised <-
-    normalize_coordinates(data_source = data_coordinates)
+    normalise_coordinates(data_coordinates = data_coordinates)
 
   res_duplicate_sites <-
     data_coordinates_normalised |>

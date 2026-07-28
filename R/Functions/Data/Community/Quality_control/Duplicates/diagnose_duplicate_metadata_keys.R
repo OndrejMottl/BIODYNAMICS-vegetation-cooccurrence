@@ -38,8 +38,8 @@ diagnose_duplicate_metadata_keys <- function(
     )
   )
 
-  data_coordinates_named <-
-    normalize_coordinates(data_source = data_coordinates)
+  data_coordinates_normalised <-
+    normalise_coordinates(data_coordinates = data_coordinates)
 
   data_duplicate_community_keys <-
     data_community |>
@@ -82,7 +82,7 @@ diagnose_duplicate_metadata_keys <- function(
     )
 
   data_duplicate_coordinate_keys <-
-    data_coordinates_named |>
+    data_coordinates_normalised |>
     dplyr::group_by(dataset_name) |>
     dplyr::summarise(
       n_records = dplyr::n(),

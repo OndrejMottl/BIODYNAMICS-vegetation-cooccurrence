@@ -539,6 +539,40 @@ data_community_quality_control_naming_findings <-
     "message"
   )
 
+data_migrated_community_modern_record_functions <-
+  data_migrated_community_functions |>
+  dplyr::filter(
+    stringr::str_starts(
+      .data[["active_path"]],
+      "R/Functions/Data/Community/Transformation/Modern_records/"
+    )
+  )
+
+data_community_modern_record_naming_findings <-
+  data_migrated_community_modern_record_functions |>
+  dplyr::filter(
+    .data[["naming_status"]] != "canonical_or_domain_verb"
+  ) |>
+  dplyr::mutate(
+    finding_type = "community_modern_record_function_naming",
+    severity = "blocking",
+    current_path = .data[["active_path"]],
+    symbol = .data[["active_symbol"]],
+    owning_issue = .data[["owning_issue"]],
+    message = stringr::str_c(
+      "Migrated Community modern-record functions must use an approved ",
+      "canonical or domain verb."
+    )
+  ) |>
+  dplyr::select(
+    "finding_type",
+    "severity",
+    "current_path",
+    "symbol",
+    "owning_issue",
+    "message"
+  )
+
 path_community_test_root <-
   stringr::str_c(
     "R/03_Supplementary_analyses/Testing/testthat/",
@@ -659,6 +693,7 @@ data_findings <-
     data_community_function_findings,
     data_community_classification_naming_findings,
     data_community_quality_control_naming_findings,
+    data_community_modern_record_naming_findings,
     data_community_test_findings,
     data_naming_findings,
     data_nested_findings
@@ -723,7 +758,7 @@ cli::cli_inform(
     "i" = stringr::str_c(
       "Main-analysis placement, migrated Abiotic placement/naming,",
       "migrated Community placement, and migrated Community",
-      "classification/quality-control naming are blocking;",
+      "classification/quality-control/modern-record naming are blocking;",
       "unmigrated architecture contracts remain report-only.",
       sep = " "
     ),

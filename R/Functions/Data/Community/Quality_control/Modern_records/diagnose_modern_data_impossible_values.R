@@ -17,15 +17,19 @@ diagnose_modern_data_impossible_values <- function(
     data_coordinates = NULL) {
   validate_community_source(data_source = data_community)
 
-  data_coordinates_named <-
-    normalize_coordinates(data_source = data_coordinates)
+  data_coordinates_normalised <-
+    normalise_coordinates(data_coordinates = data_coordinates)
 
   assertthat::assert_that(
-    base::is.numeric(dplyr::pull(data_coordinates_named, coord_long)),
+    base::is.numeric(
+      dplyr::pull(data_coordinates_normalised, coord_long)
+    ),
     msg = "coord_long must be numeric."
   )
   assertthat::assert_that(
-    base::is.numeric(dplyr::pull(data_coordinates_named, coord_lat)),
+    base::is.numeric(
+      dplyr::pull(data_coordinates_normalised, coord_lat)
+    ),
     msg = "coord_lat must be numeric."
   )
 
@@ -86,7 +90,7 @@ diagnose_modern_data_impossible_values <- function(
     )
 
   data_impossible_coordinates <-
-    data_coordinates_named |>
+    data_coordinates_normalised |>
     tidyr::pivot_longer(
       cols = dplyr::all_of(
         base::c("coord_long", "coord_lat")

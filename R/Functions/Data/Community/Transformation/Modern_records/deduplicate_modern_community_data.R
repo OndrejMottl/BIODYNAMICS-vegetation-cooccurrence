@@ -29,8 +29,8 @@ deduplicate_modern_community_data <- function(
 
   validate_community_source(data_source = data_source)
 
-  data_coordinates_named <-
-    normalize_coordinates(data_source = data_coordinates)
+  data_coordinates_normalised <-
+    normalise_coordinates(data_coordinates = data_coordinates)
 
   data_record_signatures <-
     build_community_record_signatures(
@@ -40,7 +40,7 @@ deduplicate_modern_community_data <- function(
   data_record_coordinates <-
     data_record_signatures |>
     dplyr::left_join(
-      data_coordinates_named,
+      data_coordinates_normalised,
       by = dplyr::join_by(dataset_name)
     )
 

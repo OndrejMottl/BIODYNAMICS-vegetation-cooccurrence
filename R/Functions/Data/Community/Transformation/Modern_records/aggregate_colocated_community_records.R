@@ -40,13 +40,13 @@ aggregate_colocated_community_records <- function(
     )
   )
 
-  data_coordinates_named <-
-    normalize_coordinates(data_source = data_coordinates)
+  data_coordinates_normalised <-
+    normalise_coordinates(data_coordinates = data_coordinates)
 
   data_colocated_report <-
     diagnose_colocated_community_records(
       data_community = data_source,
-      data_coordinates = data_coordinates_named
+      data_coordinates = data_coordinates_normalised
     )
 
   data_cross_database_colocations <-
@@ -104,7 +104,7 @@ aggregate_colocated_community_records <- function(
   data_aggregation_map <-
     data_record_signatures |>
     dplyr::left_join(
-      data_coordinates_named,
+      data_coordinates_normalised,
       by = dplyr::join_by(dataset_name)
     ) |>
     dplyr::mutate(source_prefix = classify_dataset_prefix(dataset_name)) |>
@@ -228,7 +228,7 @@ aggregate_colocated_community_records <- function(
     dplyr::arrange(dataset_name, age, abiotic_variable_name)
 
   data_coords_unaffected <-
-    data_coordinates_named |>
+    data_coordinates_normalised |>
     dplyr::anti_join(
       data_aggregation_map |>
         dplyr::distinct(original_dataset_name) |>

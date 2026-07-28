@@ -3,7 +3,7 @@ testthat::test_that(
   {
     testthat::expect_error(
       diagnose_duplicate_sites(data_coordinates = "not data"),
-      regexp = "data_source"
+      regexp = "data_coordinates"
     )
 
     data_coordinates_missing_columns <- tibble::tibble(dataset_name = "a")

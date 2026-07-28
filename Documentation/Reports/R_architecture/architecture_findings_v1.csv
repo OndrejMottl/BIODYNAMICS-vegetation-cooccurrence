@@ -3,7 +3,6 @@ function_naming,report_only,R/Functions/Data/Community/Transformation/Data_shape
 function_naming,report_only,R/Functions/Data/Community/Transformation/Data_shape/get_community_data.R,get_community_data,#153,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Data/Community/Transformation/Data_shape/make_community_data_long.R,make_community_data_long,#153,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Data/Community/Transformation/Data_shape/replace_na_community_data_with_zeros.R,replace_na_community_data_with_zeros,#153,Review leading verb `replace` against version 1.
-function_naming,report_only,R/Functions/Data/Community/Transformation/Modern_records/normalize_coordinates.R,normalize_coordinates,#153,Review leading verb `normalize` against version 1.
 function_naming,report_only,R/Functions/Data/Community/Transformation/Proportions/get_pollen_sum.R,get_pollen_sum,#153,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Data/Community/Transformation/Proportions/make_community_proportions.R,make_community_proportions,#153,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Data/Community/Transformation/Proportions/transform_to_proportions.R,transform_to_proportions,#153,Review leading verb `transform` against version 1.
