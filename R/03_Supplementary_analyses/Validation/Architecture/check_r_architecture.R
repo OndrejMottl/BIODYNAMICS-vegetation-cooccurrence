@@ -398,6 +398,133 @@ data_abiotic_test_findings <-
     )
   )
 
+vec_community_function_paths_current <-
+  vec_function_paths_current |>
+  purrr::keep(
+    ~ stringr::str_starts(
+      .x,
+      "R/Functions/Data/Community/"
+    )
+  )
+
+data_migrated_community_functions <-
+  data_functions |>
+  dplyr::filter(
+    stringr::str_starts(
+      .data[["current_path"]],
+      "R/Functions/Community/"
+    ),
+    .data[["owning_issue"]] == "#153",
+    .data[["migration_status"]] == "migrated",
+    stringr::str_starts(
+      .data[["active_path"]],
+      "R/Functions/Data/Community/"
+    )
+  )
+
+vec_allowed_community_function_paths <-
+  data_migrated_community_functions |>
+  dplyr::pull(.data[["active_path"]])
+
+vec_legacy_community_function_paths <-
+  base::intersect(
+    vec_function_paths_current,
+    data_migrated_community_functions[["current_path"]]
+  )
+
+vec_invalid_community_function_paths <-
+  base::union(
+    vec_legacy_community_function_paths,
+    base::union(
+      base::setdiff(
+        vec_community_function_paths_current,
+        vec_allowed_community_function_paths
+      ),
+      base::setdiff(
+        vec_allowed_community_function_paths,
+        vec_community_function_paths_current
+      )
+    )
+  )
+
+data_community_function_findings <-
+  tibble::tibble(
+    finding_type = "community_function_placement",
+    severity = "blocking",
+    current_path = vec_invalid_community_function_paths,
+    symbol = NA_character_,
+    owning_issue = "#153",
+    message = stringr::str_c(
+      "Community functions must match the migrated ",
+      "R/Functions/Data/Community inventory."
+    )
+  )
+
+path_community_test_root <-
+  stringr::str_c(
+    "R/03_Supplementary_analyses/Testing/testthat/",
+    "Data/Community/"
+  )
+
+vec_community_test_paths_current <-
+  vec_script_paths_current |>
+  purrr::keep(
+    ~ stringr::str_starts(
+      .x,
+      path_community_test_root
+    )
+  )
+
+data_migrated_community_tests <-
+  data_scripts |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#153",
+    .data[["classification"]] == "test",
+    .data[["migration_status"]] == "migrated",
+    stringr::str_starts(
+      .data[["active_path"]],
+      path_community_test_root
+    )
+  )
+
+vec_allowed_community_test_paths <-
+  data_migrated_community_tests |>
+  dplyr::pull(.data[["active_path"]])
+
+vec_legacy_community_test_paths <-
+  base::intersect(
+    vec_script_paths_current,
+    data_migrated_community_tests[["current_path"]]
+  )
+
+vec_invalid_community_test_paths <-
+  base::union(
+    vec_legacy_community_test_paths,
+    base::union(
+      base::setdiff(
+        vec_community_test_paths_current,
+        vec_allowed_community_test_paths
+      ),
+      base::setdiff(
+        vec_allowed_community_test_paths,
+        vec_community_test_paths_current
+      )
+    )
+  )
+
+data_community_test_findings <-
+  tibble::tibble(
+    finding_type = "community_test_placement",
+    severity = "blocking",
+    current_path = vec_invalid_community_test_paths,
+    symbol = NA_character_,
+    owning_issue = "#153",
+    message = stringr::str_c(
+      "Community tests must mirror the migrated ",
+      "R/Functions/Data/Community hierarchy."
+    )
+  )
+
 data_naming_findings <-
   data_functions |>
   dplyr::filter(.data[["naming_status"]] == "review_in_owning_issue") |>
@@ -450,6 +577,8 @@ data_findings <-
     data_abiotic_function_findings,
     data_abiotic_naming_findings,
     data_abiotic_test_findings,
+    data_community_function_findings,
+    data_community_test_findings,
     data_naming_findings,
     data_nested_findings
   ) |>
@@ -511,8 +640,8 @@ cli::cli_inform(
       "{base::nrow(data_finding_summary)} types."
     ),
     "i" = stringr::str_c(
-      "Main-analysis placement and migrated Abiotic placement/naming",
-      "are blocking;",
+      "Main-analysis placement, migrated Abiotic placement/naming,",
+      "and migrated Community placement are blocking;",
       "unmigrated architecture contracts remain report-only.",
       sep = " "
     ),

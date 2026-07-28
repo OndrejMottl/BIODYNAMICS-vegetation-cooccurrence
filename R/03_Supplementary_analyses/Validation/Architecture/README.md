@@ -37,7 +37,9 @@ The checker writes findings to
 Main-analysis placement is blocking: only inventoried production analyses may
 remain under `R/02_Main_analyses`. Migrated Abiotic functions, their approved
 canonical or domain verbs, and their mirrored tests are also checked as
-blocking contracts. Function naming for not-yet-migrated domains and other
+blocking contracts. Migrated Community function placement and mirrored tests
+are blocking, while Community naming remains report-only until its semantic
+migration batch. Function naming for other not-yet-migrated domains and other
 architecture contracts remain report-only until their owning issues make them
 blocking.
 
