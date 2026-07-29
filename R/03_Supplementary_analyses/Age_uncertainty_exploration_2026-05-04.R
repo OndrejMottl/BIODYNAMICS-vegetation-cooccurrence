@@ -161,12 +161,14 @@ data_community_long <-
   )
 
 data_sample_ages <-
-  get_sample_ages(data_vegvault_extracted)
+  extract_sample_ages(
+    data_vegvault = data_vegvault_extracted
+  )
 
 data_community_long_ages <-
-  add_age_to_samples(
-    data_community = data_community_long,
-    data_ages = data_sample_ages
+  join_sample_ages(
+    data_records = data_community_long,
+    data_sample_ages = data_sample_ages
   )
 
 data_community_proportions <-

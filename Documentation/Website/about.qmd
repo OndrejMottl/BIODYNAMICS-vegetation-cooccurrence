@@ -63,7 +63,7 @@ The current workflow removes invariant predictors, evaluates collinearity, and r
 
 | Target | Function | Description |
 |---|---|---|
-| `data_abiotic_ages` | [`add_age_to_samples()`](Documentation/Functions/add_age_to_samples.qmd) | Abiotic records with sample age attached |
+| `data_abiotic_ages` | [`join_sample_ages()`](Documentation/Functions/join_sample_ages.qmd) | Abiotic records joined to sample ages |
 | `data_abiotic_selected` | [`select_non_collinear_predictors()`](Documentation/Functions/select_non_collinear_predictors.qmd) | Non-redundant predictor subset |
 | `data_abiotic_interpolated` | [`interpolate_data()`](Documentation/Functions/interpolate_data.qmd) | Climate records interpolated to the configured time grid where needed |
 | `data_abiotic_scaled_list` | [`scale_abiotic_for_fit()`](Documentation/Functions/scale_abiotic_for_fit.qmd) | Centred and scaled predictors plus scaling attributes |
@@ -210,7 +210,7 @@ This stage keeps the raw taxon names and sample metadata available for classific
 |---|---|---|
 | Community extraction | [`extract_community_records()`](Documentation/Functions/extract_community_records.qmd) | Extract nested community records from the VegVault object |
 | Long conversion | [`reshape_community_to_long()`](Documentation/Functions/reshape_community_to_long.qmd) | Reshape community records to tidy long format |
-| Age attachment | [`add_age_to_samples()`](Documentation/Functions/add_age_to_samples.qmd) | Attach sample ages before interpolation or filtering |
+| Age join | [`join_sample_ages()`](Documentation/Functions/join_sample_ages.qmd) | Join sample ages before interpolation or filtering |
 | Pollen sums | [`summarise_pollen_counts_by_sample()`](Documentation/Functions/summarise_pollen_counts_by_sample.qmd) | Summarise pollen sums used in proportional filtering |
 :::
 

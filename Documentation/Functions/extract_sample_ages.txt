@@ -1,0 +1,36 @@
+Extract Sample Ages
+
+Description:
+
+     Extracts sample ages from an in-memory VegVault result.
+
+Usage:
+
+     extract_sample_ages(data_vegvault = NULL)
+
+Arguments:
+
+data_vegvault: A data frame containing `dataset_name` and nested
+          `data_samples` columns.
+
+Details:
+
+     This function extracts an in-memory component. It does not load
+     data from persistent storage.
+
+Value:
+
+     A data frame with columns `dataset_name`, `sample_name`, and
+     `age`.
+
+Examples:
+
+     data_vegvault <-
+       tibble::tibble(
+         dataset_name = "example",
+         data_samples = base::list(
+           tibble::tibble(sample_name = "sample_1", age = 100)
+         )
+       )
+
+     extract_sample_ages(data_vegvault = data_vegvault)

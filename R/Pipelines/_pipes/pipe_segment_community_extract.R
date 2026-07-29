@@ -59,13 +59,18 @@ pipe_segment_community_extract <-
       )
     ),
     targets::tar_target(
-      description = "Get sample ages",
+      description = "Extract sample ages",
       name = "data_sample_ages",
-      command = get_sample_ages(data_vegvault_extracted)
+      command = extract_sample_ages(
+        data_vegvault = data_vegvault_extracted
+      )
     ),
     targets::tar_target(
-      description = "Add sample ages to community data",
+      description = "Join sample ages to community data",
       name = "data_community_long_ages",
-      command = add_age_to_samples(data_community_long, data_sample_ages)
+      command = join_sample_ages(
+        data_records = data_community_long,
+        data_sample_ages = data_sample_ages
+      )
     )
   )

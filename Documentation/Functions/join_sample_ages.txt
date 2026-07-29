@@ -1,0 +1,45 @@
+Join Sample Ages
+
+Description:
+
+     Joins sample ages to records using dataset and sample identifiers.
+
+Usage:
+
+     join_sample_ages(data_records = NULL, data_sample_ages = NULL)
+
+Arguments:
+
+data_records: A data frame containing `dataset_name` and `sample_name`.
+
+data_sample_ages: A data frame containing `dataset_name`,
+          `sample_name`, and `age`.
+
+Details:
+
+     The age table must have at most one row per dataset-sample key.
+     Unmatched records are retained with a missing age.
+
+Value:
+
+     `data_records` with the matching `age` column joined.
+
+Examples:
+
+     data_records <-
+       tibble::tibble(
+         dataset_name = "example",
+         sample_name = "sample_1",
+         value = 10
+       )
+     data_sample_ages <-
+       tibble::tibble(
+         dataset_name = "example",
+         sample_name = "sample_1",
+         age = 100
+       )
+
+     join_sample_ages(
+       data_records = data_records,
+       data_sample_ages = data_sample_ages
+     )

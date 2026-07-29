@@ -46,9 +46,12 @@ pipe_segment_abiotic_extract <-
       command = extract_abiotic_data(data_vegvault_extracted)
     ),
     targets::tar_target(
-      description = "Add sample ages to abiotic data",
+      description = "Join sample ages to abiotic data",
       name = "data_abiotic_ages",
-      command = add_age_to_samples(data_abiotic, data_sample_ages) |>
+      command = join_sample_ages(
+        data_records = data_abiotic,
+        data_sample_ages = data_sample_ages
+      ) |>
         dplyr::select(-sample_name)
     ),
     targets::tar_target(

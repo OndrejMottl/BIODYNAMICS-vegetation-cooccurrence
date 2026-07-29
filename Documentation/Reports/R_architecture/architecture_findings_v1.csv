@@ -72,8 +72,6 @@ function_naming,report_only,R/Functions/Presentation/IAVS/Paths_and_config/get_p
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/count_successful_targets.R,count_successful_targets,#155,Review leading verb `count` against version 1.
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_meta_or_empty.R,read_target_meta_or_empty,#155,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_or_null.R,read_target_or_null,#155,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Time/Ages/add_age_to_samples.R,add_age_to_samples,#153,Review leading verb `add` against version 1.
-function_naming,report_only,R/Functions/Time/Ages/get_sample_ages.R,get_sample_ages,#153,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Time/Interpolation/share_interpolation_data.R,share_interpolation_data,#153,Review leading verb `share` against version 1.
 function_naming,report_only,R/Functions/Time/Interpolation_jobs/make_community_interpolation_index.R,make_community_interpolation_index,#153,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Time/Interpolation_jobs/make_community_interpolation_jobs.R,make_community_interpolation_jobs,#153,Review leading verb `make` against version 1.
