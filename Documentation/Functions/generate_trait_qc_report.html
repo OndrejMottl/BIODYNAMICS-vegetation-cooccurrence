@@ -138,13 +138,11 @@ outlier when '|trait_value - median| &gt; outlier_iqr_multiplier * IQR',
 
 computed across all records in that domain regardless of taxon.
 
-Default: &lsquo;3'. The default follows Tukey&rsquo;s &quot;extreme outlier&quot; fence
+Default: '3'. This conservative symmetric median-IQR screen is
 
-(3 × IQR), which reliably catches unit mix-ups (e.g. mm vs. cm,
+intended to catch unit mix-ups while tolerating broad cross-taxon
 
-a 10 × scale difference) while remaining more conservative than
-
-the classic 1.5 × whisker rule.</p>
+variation.</p>
 
 </td></tr>
 
@@ -160,9 +158,9 @@ within each taxon × domain group. A record is flagged when
 
 and the taxon has at least 'min_records_per_taxon' records in the domain.
 
-Default: &lsquo;1.5' (Tukey&rsquo;s standard whisker fence). This is tighter than
+Default: '1.5'. This is tighter than the domain-level
 
-the domain-level 'outlier_iqr_multiplier' because within-taxon
+'outlier_iqr_multiplier' because within-taxon
 
 variability should be far smaller than cross-taxon variability;
 
@@ -210,7 +208,7 @@ where
 
 '|trait_value - domain_median| &gt; outlier_iqr_multiplier * domain_IQR'
 
-(default 3, Tukey's extreme-outlier fence). Applied to all records.
+(default 3). Applied to all records.
 
 </p>
 
@@ -222,7 +220,7 @@ where
 
 '|trait_value - taxon_median| &gt; outlier_iqr_multiplier_taxon * taxon_IQR'
 
-(default 1.5, standard Tukey whisker). Applied only when the taxon
+(default 1.5). Applied only when the taxon
 
 has at least 'min_records_per_taxon' records in the domain and when
 
@@ -322,7 +320,7 @@ domain and whose trait value falls more than
 
 
 
-<p>[load_trait_corrections()],
+<p>[flag_trait_outliers()], [load_trait_corrections()],
 
 [validate_trait_corrections()], [correct_trait_records()]
 

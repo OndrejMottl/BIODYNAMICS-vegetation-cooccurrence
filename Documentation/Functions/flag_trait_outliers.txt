@@ -1,0 +1,66 @@
+Flag Trait Outliers Within Groups
+
+Description:
+
+     Adds `n_group_records` and `is_trait_outlier` columns to grouped
+     trait records using a symmetric median-IQR fence. The caller is
+     responsible for grouping `data_trait_records` with
+     `dplyr::group_by()` before calling this function. The returned
+     data frame is always ungrouped.
+
+Usage:
+
+     flag_trait_outliers(
+       data_trait_records,
+       trait_value_column = "trait_value",
+       iqr_multiplier,
+       minimum_group_size = NULL
+     )
+
+Arguments:
+
+data_trait_records: A grouped data frame (e.g. created by
+          `dplyr::group_by()`). Must contain the column named by
+          `trait_value_column`.
+
+trait_value_column: Character scalar. Name of the numeric column to
+          test. Default: `"trait_value"`.
+
+iqr_multiplier: Positive numeric scalar. IQR fence multiplier. A value
+          is flagged when `|value - group_median| > iqr_multiplier *
+          group_IQR`.
+
+minimum_group_size: Optional positive integer scalar. When supplied,
+          `is_trait_outlier` is set to `FALSE` for groups with fewer
+          than `minimum_group_size` records or with an IQR of zero.
+          Default: `NULL` (no group-size guard applied).
+
+Details:
+
+     The IQR fence is `[group_median - iqr_multiplier * group_IQR,
+     group_median + iqr_multiplier * group_IQR]`. Values outside this
+     range receive `is_trait_outlier = TRUE`.
+
+     When `minimum_group_size` is not `NULL`, an additional guard is
+     applied: groups with fewer than `minimum_group_size` records or a
+     `group_IQR` of zero always receive `is_trait_outlier = FALSE`.
+
+     Designed for use in pipes where the caller sets up grouping: ```r
+     data_traits |> dplyr::group_by(trait_domain_name) |>
+     flag_trait_outliers(iqr_multiplier = 3) ```
+
+Value:
+
+     An ungrouped data frame with the same rows and columns as
+     `data_trait_records` plus two additional columns:
+
+     `n_group_records` Integer. Number of records in the group.
+
+     `is_trait_outlier` Logical. `TRUE` when the record's value falls
+          outside the IQR fence; `FALSE` otherwise.  When
+          `minimum_group_size` is supplied, also `FALSE` for groups
+          that are too small or have zero IQR.
+
+See Also:
+
+     [filter_trait_outliers()], [generate_trait_qc_report()]

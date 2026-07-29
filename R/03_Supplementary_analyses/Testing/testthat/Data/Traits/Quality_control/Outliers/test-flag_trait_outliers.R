@@ -1,34 +1,34 @@
 testthat::test_that(
-  "add_iqr_outlier_flag() errors on non-data-frame data",
+  "flag_trait_outliers() errors on non-data-frame data",
   {
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = "not_a_df",
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = "not_a_df",
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
     )
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = NULL,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = NULL,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
     )
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = base::c(1, 2, 3),
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = base::c(1, 2, 3),
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() errors on ungrouped data frame",
+  "flag_trait_outliers() errors on ungrouped data frame",
   {
     data_ungrouped <-
       tibble::tibble(
@@ -37,17 +37,17 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_ungrouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_ungrouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() errors when col_value missing",
+  "flag_trait_outliers() errors when trait_value_column missing",
   {
     data_grouped <-
       tibble::tibble(
@@ -57,17 +57,17 @@ testthat::test_that(
       dplyr::group_by(group)
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "no_such_col",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "no_such_col",
+        iqr_multiplier = 1.5
       )
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() errors on invalid col_value arg",
+  "flag_trait_outliers() errors on invalid trait_value_column arg",
   {
     data_grouped <-
       tibble::tibble(
@@ -77,25 +77,25 @@ testthat::test_that(
       dplyr::group_by(group)
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = 123,
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = 123,
+        iqr_multiplier = 1.5
       )
     )
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = base::c("trait_value", "group"),
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = base::c("trait_value", "group"),
+        iqr_multiplier = 1.5
       )
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() errors when multiplier is missing",
+  "flag_trait_outliers() errors when iqr_multiplier is missing",
   {
     data_grouped <-
       tibble::tibble(
@@ -105,16 +105,16 @@ testthat::test_that(
       dplyr::group_by(group)
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value"
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value"
       )
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() errors on invalid multiplier",
+  "flag_trait_outliers() errors on invalid iqr_multiplier",
   {
     data_grouped <-
       tibble::tibble(
@@ -124,41 +124,41 @@ testthat::test_that(
       dplyr::group_by(group)
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = "large"
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = "large"
       )
     )
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = -1
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = -1
       )
     )
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 0
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 0
       )
     )
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = base::c(1.5, 2.5)
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = base::c(1.5, 2.5)
       )
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() errors on invalid min_n",
+  "flag_trait_outliers() errors on invalid minimum_group_size",
   {
     data_grouped <-
       tibble::tibble(
@@ -168,45 +168,45 @@ testthat::test_that(
       dplyr::group_by(group)
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5,
-        min_n = "five"
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5,
+        minimum_group_size = "five"
       )
     )
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5,
-        min_n = -1L
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5,
+        minimum_group_size = -1L
       )
     )
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5,
-        min_n = 0L
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5,
+        minimum_group_size = 0L
       )
     )
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5,
-        min_n = base::c(3L, 5L)
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5,
+        minimum_group_size = base::c(3L, 5L)
       )
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() errors on non-numeric col_value column",
+  "flag_trait_outliers() errors on non-numeric trait_value_column column",
   {
     data_grouped <-
       tibble::tibble(
@@ -216,17 +216,17 @@ testthat::test_that(
       dplyr::group_by(group)
 
     testthat::expect_error(
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() returns a data frame",
+  "flag_trait_outliers() returns a data frame",
   {
     data_grouped <-
       tibble::tibble(
@@ -236,10 +236,10 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     testthat::expect_true(
@@ -249,7 +249,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() returns an ungrouped data frame",
+  "flag_trait_outliers() returns an ungrouped data frame",
   {
     data_grouped <-
       tibble::tibble(
@@ -259,10 +259,10 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     testthat::expect_equal(
@@ -273,7 +273,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() adds n_group and is_outlier columns",
+  "flag_trait_outliers() adds n_group_records and is_trait_outlier columns",
   {
     data_grouped <-
       tibble::tibble(
@@ -283,27 +283,27 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     col_names <-
       base::colnames(res)
 
     testthat::expect_true(
-      "n_group" %in% col_names
+      "n_group_records" %in% col_names
     )
 
     testthat::expect_true(
-      "is_outlier" %in% col_names
+      "is_trait_outlier" %in% col_names
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() n_group is integer type",
+  "flag_trait_outliers() n_group_records is integer type",
   {
     data_grouped <-
       tibble::tibble(
@@ -313,21 +313,21 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     testthat::expect_type(
-      dplyr::pull(res, n_group),
+      dplyr::pull(res, n_group_records),
       "integer"
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() is_outlier is logical type",
+  "flag_trait_outliers() is_trait_outlier is logical type",
   {
     data_grouped <-
       tibble::tibble(
@@ -337,21 +337,21 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     testthat::expect_type(
-      dplyr::pull(res, is_outlier),
+      dplyr::pull(res, is_trait_outlier),
       "logical"
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() preserves row count",
+  "flag_trait_outliers() preserves row count",
   {
     data_grouped <-
       tibble::tibble(
@@ -361,10 +361,10 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     testthat::expect_equal(
@@ -375,7 +375,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() flags clear outlier in one group",
+  "flag_trait_outliers() flags clear outlier in one group",
   {
     # One group, 9 normal values + 1 extreme outlier
     trait_vals <-
@@ -389,32 +389,32 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     # Only the extreme value (1000) should be flagged
-    vec_is_outlier <-
-      dplyr::pull(res, is_outlier)
+    vec_is_trait_outlier <-
+      dplyr::pull(res, is_trait_outlier)
 
     vec_values <-
       dplyr::pull(res, trait_value)
 
     testthat::expect_true(
-      vec_is_outlier[base::which(vec_values == 1000)]
+      vec_is_trait_outlier[base::which(vec_values == 1000)]
     )
 
     testthat::expect_equal(
-      base::sum(vec_is_outlier),
+      base::sum(vec_is_trait_outlier),
       1L
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() does not confuse outliers across groups",
+  "flag_trait_outliers() does not confuse outliers across groups",
   {
     # Group A: normal values; Group B: outlier only in B
     data_grouped <-
@@ -431,10 +431,10 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     res_a <-
@@ -446,20 +446,20 @@ testthat::test_that(
     # No outliers in group A
     testthat::expect_true(
       base::all(
-        dplyr::pull(res_a, is_outlier) == FALSE
+        dplyr::pull(res_a, is_trait_outlier) == FALSE
       )
     )
 
     # Exactly one outlier in group B
     testthat::expect_equal(
-      base::sum(dplyr::pull(res_b, is_outlier)),
+      base::sum(dplyr::pull(res_b, is_trait_outlier)),
       1L
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() flags no outlier when IQR is zero",
+  "flag_trait_outliers() flags no outlier when IQR is zero",
   {
     data_grouped <-
       tibble::tibble(
@@ -469,22 +469,22 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     testthat::expect_true(
       base::all(
-        dplyr::pull(res, is_outlier) == FALSE
+        dplyr::pull(res, is_trait_outlier) == FALSE
       )
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() computes correct n_group per group",
+  "flag_trait_outliers() computes correct n_group_records per group",
   {
     data_grouped <-
       tibble::tibble(
@@ -500,10 +500,10 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     res_a <-
@@ -513,17 +513,17 @@ testthat::test_that(
       dplyr::filter(res, group == "B")
 
     testthat::expect_true(
-      base::all(dplyr::pull(res_a, n_group) == 4L)
+      base::all(dplyr::pull(res_a, n_group_records) == 4L)
     )
 
     testthat::expect_true(
-      base::all(dplyr::pull(res_b, n_group) == 7L)
+      base::all(dplyr::pull(res_b, n_group_records) == 7L)
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() symmetric fence flags both tails",
+  "flag_trait_outliers() symmetric fence flags both tails",
   {
     # Median 50, IQR 20 (Q1=40, Q3=60)
     # Fence: [50 - 1.5*20, 50 + 1.5*20] = [20, 80]
@@ -540,48 +540,48 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     vec_values <-
       dplyr::pull(res, trait_value)
 
-    vec_is_outlier <-
-      dplyr::pull(res, is_outlier)
+    vec_is_trait_outlier <-
+      dplyr::pull(res, is_trait_outlier)
 
     testthat::expect_true(
-      vec_is_outlier[base::which(vec_values == 10)]
+      vec_is_trait_outlier[base::which(vec_values == 10)]
     )
 
     testthat::expect_true(
-      vec_is_outlier[base::which(vec_values == 90)]
+      vec_is_trait_outlier[base::which(vec_values == 90)]
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() with min_n: small group not flagged",
+  "flag_trait_outliers() with minimum_group_size: small group not flagged",
   {
-    # Group A: only 2 rows, min_n = 3, extreme value present
+    # Group A: only 2 rows, minimum_group_size = 3, extreme value present
     data_grouped <-
       tibble::tibble(
         group = base::c("A", "A", "B", "B", "B", "B", "B"),
         trait_value = base::c(
-          1, 99999,               # group A: extreme but n < min_n
-          10, 11, 10, 11, 99999  # group B: extreme and n >= min_n
+          1, 99999,               # group A: extreme but n < minimum_group_size
+          10, 11, 10, 11, 99999  # group B: extreme and n >= minimum_group_size
         )
       ) |>
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5,
-        min_n = 3L
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5,
+        minimum_group_size = 3L
       )
 
     res_a <-
@@ -589,16 +589,16 @@ testthat::test_that(
 
     testthat::expect_true(
       base::all(
-        dplyr::pull(res_a, is_outlier) == FALSE
+        dplyr::pull(res_a, is_trait_outlier) == FALSE
       )
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() with min_n: zero IQR not flagged",
+  "flag_trait_outliers() with minimum_group_size: zero IQR not flagged",
   {
-    # Group with all identical values: IQR = 0, min_n supplied
+    # Group with all identical values: IQR = 0, minimum_group_size supplied
     data_grouped <-
       tibble::tibble(
         group = base::rep("a", 5L),
@@ -607,25 +607,25 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5,
-        min_n = 3L
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5,
+        minimum_group_size = 3L
       )
 
     testthat::expect_true(
       base::all(
-        dplyr::pull(res, is_outlier) == FALSE
+        dplyr::pull(res, is_trait_outlier) == FALSE
       )
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() with min_n: large group still flagged",
+  "flag_trait_outliers() with minimum_group_size: large group still flagged",
   {
-    # Group with >= min_n and clear outlier
+    # Group with >= minimum_group_size and clear outlier
     trait_vals <-
       base::c(10, 11, 10, 9, 11, 10, 10, 11, 9, 1000)
 
@@ -637,27 +637,27 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5,
-        min_n = 5L
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5,
+        minimum_group_size = 5L
       )
 
     vec_values <-
       dplyr::pull(res, trait_value)
 
-    vec_is_outlier <-
-      dplyr::pull(res, is_outlier)
+    vec_is_trait_outlier <-
+      dplyr::pull(res, is_trait_outlier)
 
     testthat::expect_true(
-      vec_is_outlier[base::which(vec_values == 1000)]
+      vec_is_trait_outlier[base::which(vec_values == 1000)]
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() n_group computed regardless of min_n",
+  "flag_trait_outliers() always computes group record counts",
   {
     data_grouped <-
       tibble::tibble(
@@ -673,11 +673,11 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5,
-        min_n = 5L
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5,
+        minimum_group_size = 5L
       )
 
     res_small <-
@@ -687,17 +687,17 @@ testthat::test_that(
       dplyr::filter(res, group == "large")
 
     testthat::expect_true(
-      base::all(dplyr::pull(res_small, n_group) == 2L)
+      base::all(dplyr::pull(res_small, n_group_records) == 2L)
     )
 
     testthat::expect_true(
-      base::all(dplyr::pull(res_large, n_group) == 8L)
+      base::all(dplyr::pull(res_large, n_group_records) == 8L)
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() single-row group: is_outlier FALSE",
+  "flag_trait_outliers() single-row group: is_trait_outlier FALSE",
   {
     data_grouped <-
       tibble::tibble(
@@ -707,23 +707,23 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5
       )
 
     res_solo <-
       dplyr::filter(res, group == "solo")
 
     testthat::expect_false(
-      dplyr::pull(res_solo, is_outlier)
+      dplyr::pull(res_solo, is_trait_outlier)
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() single-row group: FALSE with min_n",
+  "flag_trait_outliers() single-row group: FALSE with minimum_group_size",
   {
     data_grouped <-
       tibble::tibble(
@@ -733,24 +733,24 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 1.5,
-        min_n = 3L
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 1.5,
+        minimum_group_size = 3L
       )
 
     res_solo <-
       dplyr::filter(res, group == "solo")
 
     testthat::expect_false(
-      dplyr::pull(res_solo, is_outlier)
+      dplyr::pull(res_solo, is_trait_outlier)
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() works with non-default col_value",
+  "flag_trait_outliers() works with non-default trait_value_column",
   {
     data_grouped <-
       tibble::tibble(
@@ -762,31 +762,31 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "my_value",
-        multiplier = 1.5
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "my_value",
+        iqr_multiplier = 1.5
       )
 
     vec_values <-
       dplyr::pull(res, my_value)
 
-    vec_is_outlier <-
-      dplyr::pull(res, is_outlier)
+    vec_is_trait_outlier <-
+      dplyr::pull(res, is_trait_outlier)
 
     testthat::expect_true(
-      vec_is_outlier[base::which(vec_values == 1000)]
+      vec_is_trait_outlier[base::which(vec_values == 1000)]
     )
 
     testthat::expect_equal(
-      base::sum(vec_is_outlier),
+      base::sum(vec_is_trait_outlier),
       1L
     )
   }
 )
 
 testthat::test_that(
-  "add_iqr_outlier_flag() works on large synthetic dataset",
+  "flag_trait_outliers() works on large synthetic dataset",
   {
     base::set.seed(900723)
 
@@ -809,10 +809,10 @@ testthat::test_that(
       dplyr::group_by(group)
 
     res <-
-      add_iqr_outlier_flag(
-        data = data_grouped,
-        col_value = "trait_value",
-        multiplier = 3
+      flag_trait_outliers(
+        data_trait_records = data_grouped,
+        trait_value_column = "trait_value",
+        iqr_multiplier = 3
       )
 
     testthat::expect_true(
@@ -827,16 +827,16 @@ testthat::test_that(
     col_names <-
       base::colnames(res)
 
-    testthat::expect_true("n_group" %in% col_names)
-    testthat::expect_true("is_outlier" %in% col_names)
+    testthat::expect_true("n_group_records" %in% col_names)
+    testthat::expect_true("is_trait_outlier" %in% col_names)
 
     testthat::expect_type(
-      dplyr::pull(res, n_group),
+      dplyr::pull(res, n_group_records),
       "integer"
     )
 
     testthat::expect_type(
-      dplyr::pull(res, is_outlier),
+      dplyr::pull(res, is_trait_outlier),
       "logical"
     )
   }

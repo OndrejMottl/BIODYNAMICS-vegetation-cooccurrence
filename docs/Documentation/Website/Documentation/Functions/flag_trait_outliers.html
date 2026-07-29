@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>add_iqr_outlier_flag() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>flag_trait_outliers() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_iqr_outlier_flag.html">add_iqr_outlier_flag()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/flag_trait_outliers.html">flag_trait_outliers()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -170,12 +170,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/add_iqr_outlier_flag.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">add_iqr_outlier_flag()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/add_model_evaluation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">add_model_evaluation()</span></a>
   </div>
@@ -214,12 +208,6 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/apply_scale_attributes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">apply_scale_attributes()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/apply_trait_corrections.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">apply_trait_corrections()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -285,7 +273,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/build_map_panel.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">build_map_panel()</span></a>
+ <span class="menu-text">Build Map Panel</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -398,12 +386,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/clean_raw_trait_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">clean_raw_trait_data()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/cluster_functional_types.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">cluster_functional_types()</span></a>
   </div>
@@ -488,6 +470,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/correct_trait_records.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">correct_trait_records()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/count_successful_targets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">count_successful_targets()</span></a>
   </div>
@@ -560,12 +548,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/extract_and_clean_continent_traits.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">extract_and_clean_continent_traits()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/extract_anova_fractions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_anova_fractions()</span></a>
   </div>
@@ -602,12 +584,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/extract_traits_from_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">extract_traits_from_vegvault()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/filter_by_n_samples.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_by_n_samples()</span></a>
   </div>
@@ -622,6 +598,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/filter_community_by_n_taxa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_community_by_n_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/filter_complete_trait_records.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_complete_trait_records()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -664,6 +646,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/fit_jsdm_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">fit_jsdm_model()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/flag_trait_outliers.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">flag_trait_outliers()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -855,19 +843,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/get_spatial_window.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">get_spatial_window()</span></a>
+ <span class="menu-text">Get Spatial Window</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/get_species_association.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_species_association()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/get_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">get_trait_domain_names_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -915,7 +897,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_active_config_value.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_active_config_value()</span></a>
+ <span class="menu-text">Load Active Config Value</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -933,25 +915,31 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_config.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_config()</span></a>
+ <span class="menu-text">Load Config</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_config_value.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_config_value()</span></a>
+ <span class="menu-text">Load Config Value</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_config_value_with_fallback.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_config_value_with_fallback()</span></a>
+ <span class="menu-text">Load Config Value with Fallback</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_continental_rows.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_continental_rows()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_continental_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_continental_trait_records_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -970,6 +958,24 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_taxa_classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_taxa_classification()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_trait_corrections()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_trait_domain_names_from_vegvault()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_trait_records_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1059,7 +1065,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/plot_family_trait_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">plot_family_trait_comparison()</span></a>
+ <span class="menu-text">End(Not run)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1126,12 +1132,6 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/prepare_community_proportions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_community_proportions()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_continent_trait_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">prepare_continent_trait_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1311,7 +1311,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_cross_tier_sensitivity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">run_sjsdm_cross_tier_sensitivity()</span></a>
+ <span class="menu-text">End(Not run)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1329,7 +1329,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_sequence.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">run_sjsdm_tuning_sequence()</span></a>
+ <span class="menu-text">Run Sjsdm Tuning Sequence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1353,7 +1353,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/save_progress_visualisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">save_progress_visualisation()</span></a>
+ <span class="menu-text">Save Progress Visualisation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1420,6 +1420,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/score_sjsdm_tuning_predictions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">score_sjsdm_tuning_predictions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_continental_trait_table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">select_continental_trait_table()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1545,9 +1551,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_iqr_outlier_flag.html">add_iqr_outlier_flag()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/flag_trait_outliers.html">flag_trait_outliers()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">add_iqr_outlier_flag()</h1>
+<h1 class="title">flag_trait_outliers()</h1>
 </div>
 
 
@@ -1585,7 +1591,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-add_iqr_outlier_flag
+flag_trait_outliers
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -1593,18 +1599,23 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Add IQR Outlier Flag to a Grouped Data Frame
+Flag Trait Outliers Within Groups
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-Adds two columns — ‘n_group’ and ‘is_outlier’ — to a pre-grouped data frame using a fence based on the interquartile range (Tukey’s method). The caller is responsible for grouping ‘data’ with ‘dplyr::group_by()’ before passing it to this function; the returned data frame is always ungrouped.
+Adds ‘n_group_records’ and ‘is_trait_outlier’ columns to grouped trait records using a symmetric median-IQR fence. The caller is responsible for grouping ‘data_trait_records’ with ‘dplyr::group_by()’ before calling this function. The returned data frame is always ungrouped.
 </p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">add_iqr_outlier_flag(data, col_value = "trait_value", multiplier, min_n = NULL)
+<pre><code class="language-R">flag_trait_outliers(
+  data_trait_records,
+  trait_value_column = "trait_value",
+  iqr_multiplier,
+  minimum_group_size = NULL
+)
 </code></pre>
 <h3 class="anchored">
 Arguments
@@ -1612,17 +1623,17 @@ Arguments
 <table role="presentation">
 <tbody><tr>
 <td>
-<code id="data">data</code>
+<code id="data_trait_records">data_trait_records</code>
 </td>
 <td>
 <p>
-A grouped data frame (e.g.&nbsp;created by ‘dplyr::group_by()’). Must contain the column named by ‘col_value’.
+A grouped data frame (e.g.&nbsp;created by ‘dplyr::group_by()’). Must contain the column named by ‘trait_value_column’.
 </p>
 </td>
 </tr>
 <tr>
 <td>
-<code id="col_value">col_value</code>
+<code id="trait_value_column">trait_value_column</code>
 </td>
 <td>
 <p>
@@ -1632,21 +1643,21 @@ Character scalar. Name of the numeric column to test. Default: ‘"trait_value"�
 </tr>
 <tr>
 <td>
-<code id="multiplier">multiplier</code>
+<code id="iqr_multiplier">iqr_multiplier</code>
 </td>
 <td>
 <p>
-Positive numeric scalar. IQR fence multiplier. A value is flagged when ‘|value - group_median| &gt; multiplier * group_IQR’.
+Positive numeric scalar. IQR fence multiplier. A value is flagged when ‘|value - group_median| &gt; iqr_multiplier * group_IQR’.
 </p>
 </td>
 </tr>
 <tr>
 <td>
-<code id="min_n">min_n</code>
+<code id="minimum_group_size">minimum_group_size</code>
 </td>
 <td>
 <p>
-Optional positive integer scalar. When supplied, ‘is_outlier’ is set to ‘FALSE’ for groups with fewer than ‘min_n’ records or with an IQR of zero (no meaningful spread). Default: ‘NULL’ (no group-size guard applied).
+Optional positive integer scalar. When supplied, ‘is_trait_outlier’ is set to ‘FALSE’ for groups with fewer than ‘minimum_group_size’ records or with an IQR of zero. Default: ‘NULL’ (no group-size guard applied).
 </p>
 </td>
 </tr>
@@ -1655,23 +1666,23 @@ Optional positive integer scalar. When supplied, ‘is_outlier’ is set to ‘F
 Details
 </h3>
 <p>
-The IQR fence is ‘[group_median - multiplier * group_IQR, group_median + multiplier * group_IQR]’. Values outside this range receive ‘is_outlier = TRUE’.
+The IQR fence is ‘[group_median - iqr_multiplier * group_IQR, group_median + iqr_multiplier * group_IQR]’. Values outside this range receive ‘is_trait_outlier = TRUE’.
 </p>
 <p>
-When ‘min_n’ is not ‘NULL’, an additional guard is applied: groups with fewer than ‘min_n’ records or a ‘group_IQR’ of zero always receive ‘is_outlier = FALSE’.
+When ‘minimum_group_size’ is not ‘NULL’, an additional guard is applied: groups with fewer than ‘minimum_group_size’ records or a ‘group_IQR’ of zero always receive ‘is_trait_outlier = FALSE’.
 </p>
 <p>
-Designed for use in pipes where the caller sets up grouping: “‘r data_traits |&gt; dplyr::group_by(trait_domain_name) |&gt; add_iqr_outlier_flag(multiplier = 3) “’
+Designed for use in pipes where the caller sets up grouping: “‘r data_traits |&gt; dplyr::group_by(trait_domain_name) |&gt; flag_trait_outliers(iqr_multiplier = 3) “’
 </p>
 <h3 class="anchored">
 Value
 </h3>
 <p>
-An ungrouped data frame with the same rows and columns as ‘data’ plus two additional columns:
+An ungrouped data frame with the same rows and columns as ‘data_trait_records’ plus two additional columns:
 </p>
 <dl>
 <dt>
-‘n_group’
+‘n_group_records’
 </dt>
 <dd>
 <p>
@@ -1679,11 +1690,11 @@ Integer. Number of records in the group.
 </p>
 </dd>
 <dt>
-‘is_outlier’
+‘is_trait_outlier’
 </dt>
 <dd>
 <p>
-Logical. ‘TRUE’ when the record’s value falls outside the IQR fence; ‘FALSE’ otherwise. When ‘min_n’ is supplied, also ‘FALSE’ for groups that are too small or have zero IQR.
+Logical. ‘TRUE’ when the record’s value falls outside the IQR fence; ‘FALSE’ otherwise. When ‘minimum_group_size’ is supplied, also ‘FALSE’ for groups that are too small or have zero IQR.
 </p>
 </dd>
 </dl>
@@ -2109,7 +2120,7 @@ See Also
     </div>
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/add_iqr_outlier_flag.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/flag_trait_outliers.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

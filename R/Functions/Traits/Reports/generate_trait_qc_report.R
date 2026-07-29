@@ -22,17 +22,16 @@
 #' Positive numeric scalar. A domain value is flagged as a suspected
 #' outlier when `|trait_value - median| > outlier_iqr_multiplier * IQR`,
 #' computed across all records in that domain regardless of taxon.
-#' Default: `3`. The default follows Tukey's "extreme outlier" fence
-#' (3 × IQR), which reliably catches unit mix-ups (e.g. mm vs. cm,
-#' a 10 × scale difference) while remaining more conservative than
-#' the classic 1.5 × whisker rule.
+#' Default: `3`. This conservative symmetric median-IQR screen is
+#' intended to catch unit mix-ups while tolerating broad cross-taxon
+#' variation.
 #' @param outlier_iqr_multiplier_taxon
 #' Positive numeric scalar. The stricter IQR multiplier applied
 #' within each taxon × domain group. A record is flagged when
 #' `|trait_value - taxon_median| > outlier_iqr_multiplier_taxon * taxon_IQR`
 #' and the taxon has at least `min_records_per_taxon` records in the domain.
-#' Default: `1.5` (Tukey's standard whisker fence). This is tighter than
-#' the domain-level `outlier_iqr_multiplier` because within-taxon
+#' Default: `1.5`. This is tighter than the domain-level
+#' `outlier_iqr_multiplier` because within-taxon
 #' variability should be far smaller than cross-taxon variability;
 #' any record deviating by more than 1.5 × the within-taxon IQR is
 #' suspicious even when it is not an extreme cross-domain outlier.
@@ -69,11 +68,11 @@
 #'   \item **Domain level** (`suspected_outlier_taxa_domain`): flags values
 #'     where
 #'     `|trait_value - domain_median| > outlier_iqr_multiplier * domain_IQR`
-#'     (default 3, Tukey's extreme-outlier fence). Applied to all records.
+#'     (default 3). Applied to all records.
 #'   \item **Taxon level** (`suspected_outlier_taxa_taxon`): flags values
 #'     where
 #'     `|trait_value - taxon_median| > outlier_iqr_multiplier_taxon * taxon_IQR`
-#'     (default 1.5, standard Tukey whisker). Applied only when the taxon
+#'     (default 1.5). Applied only when the taxon
 #'     has at least `min_records_per_taxon` records in the domain and when
 #'     `taxon_IQR > 0`. This stricter check catches within-taxon
 #'     inconsistencies that the cross-taxon check would miss.
@@ -109,7 +108,7 @@
 #'   data_traits = data_traits,
 #'   path_corrections = path_corrections
 #' )
-#' @seealso [load_trait_corrections()],
+#' @seealso [flag_trait_outliers()], [load_trait_corrections()],
 #'   [validate_trait_corrections()], [correct_trait_records()]
 #' @export
 generate_trait_qc_report <- function(
@@ -210,16 +209,16 @@ generate_trait_qc_report <- function(
   )
 
   # Compute per-domain stats with outlier flags
-  data_with_outlier_flag <-
+  data_flagged_by_domain <-
     data_traits |>
     dplyr::group_by(trait_domain_name) |>
-    add_iqr_outlier_flag(
-      col_value = "trait_value",
-      multiplier = outlier_iqr_multiplier
+    flag_trait_outliers(
+      trait_value_column = "trait_value",
+      iqr_multiplier = outlier_iqr_multiplier
     )
 
   data_summary <-
-    data_with_outlier_flag |>
+    data_flagged_by_domain |>
     dplyr::group_by(trait_domain_name) |>
     dplyr::summarize(
       n_records = dplyr::n(),
@@ -230,31 +229,31 @@ generate_trait_qc_report <- function(
       lwr_90 = stats::quantile(trait_value, probs = 0.05, na.rm = TRUE),
       upr_90 = stats::quantile(trait_value, probs = 0.95, na.rm = TRUE),
       IQR = stats::IQR(trait_value, na.rm = TRUE),
-      n_suspected_outliers = base::sum(is_outlier, na.rm = TRUE),
+      n_suspected_outliers = base::sum(is_trait_outlier, na.rm = TRUE),
       .groups = "drop"
     )
 
   vec_outlier_taxa_domain <-
-    data_with_outlier_flag |>
-    dplyr::filter(is_outlier) |>
+    data_flagged_by_domain |>
+    dplyr::filter(is_trait_outlier) |>
     dplyr::pull(taxon_name) |>
     base::unique()
 
   # Compute per-domain x taxon stats with stricter outlier flags.
-  # Applied only when n_group >= min_records_per_taxon and IQR > 0
-  # (IQR = 0 means all values are identical; no meaningful outlier).
-  data_with_taxon_outlier_flag <-
+  # Applied only when n_group_records >= min_records_per_taxon
+  # and IQR > 0 (IQR = 0 means all values are identical).
+  data_flagged_by_taxon <-
     data_traits |>
     dplyr::group_by(trait_domain_name, taxon_name) |>
-    add_iqr_outlier_flag(
-      col_value = "trait_value",
-      multiplier = outlier_iqr_multiplier_taxon,
-      min_n = min_records_per_taxon
+    flag_trait_outliers(
+      trait_value_column = "trait_value",
+      iqr_multiplier = outlier_iqr_multiplier_taxon,
+      minimum_group_size = min_records_per_taxon
     )
 
   data_summary_taxon <-
-    data_with_taxon_outlier_flag |>
-    dplyr::filter(n_group >= min_records_per_taxon) |>
+    data_flagged_by_taxon |>
+    dplyr::filter(n_group_records >= min_records_per_taxon) |>
     dplyr::group_by(trait_domain_name, taxon_name) |>
     dplyr::summarize(
       n_records = dplyr::n(),
@@ -262,13 +261,13 @@ generate_trait_qc_report <- function(
       median = stats::median(trait_value, na.rm = TRUE),
       sd = stats::sd(trait_value, na.rm = TRUE),
       IQR = stats::IQR(trait_value, na.rm = TRUE),
-      n_suspected_outliers_taxon = base::sum(is_outlier, na.rm = TRUE),
+      n_suspected_outliers_taxon = base::sum(is_trait_outlier, na.rm = TRUE),
       .groups = "drop"
     )
 
   vec_outlier_taxa_taxon <-
-    data_with_taxon_outlier_flag |>
-    dplyr::filter(is_outlier) |>
+    data_flagged_by_taxon |>
+    dplyr::filter(is_trait_outlier) |>
     dplyr::pull(taxon_name) |>
     base::unique()
 

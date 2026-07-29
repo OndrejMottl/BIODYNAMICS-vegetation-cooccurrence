@@ -40,23 +40,21 @@ path_qc_report: Character scalar or `NULL`. Optional path to the CSV QC
 outlier_iqr_multiplier: Positive numeric scalar. A domain value is
           flagged as a suspected outlier when `|trait_value - median| >
           outlier_iqr_multiplier * IQR`, computed across all records in
-          that domain regardless of taxon. Default: `3`. The default
-          follows Tukey's "extreme outlier" fence (3 × IQR), which
-          reliably catches unit mix-ups (e.g. mm vs. cm, a 10 × scale
-          difference) while remaining more conservative than the
-          classic 1.5 × whisker rule.
+          that domain regardless of taxon. Default: `3`. This
+          conservative symmetric median-IQR screen is intended to catch
+          unit mix-ups while tolerating broad cross-taxon variation.
 
 outlier_iqr_multiplier_taxon: Positive numeric scalar. The stricter IQR
           multiplier applied within each taxon × domain group. A record
           is flagged when `|trait_value - taxon_median| >
           outlier_iqr_multiplier_taxon * taxon_IQR` and the taxon has
           at least `min_records_per_taxon` records in the domain.
-          Default: `1.5` (Tukey's standard whisker fence). This is
-          tighter than the domain-level `outlier_iqr_multiplier`
-          because within-taxon variability should be far smaller than
-          cross-taxon variability; any record deviating by more than
-          1.5 × the within-taxon IQR is suspicious even when it is not
-          an extreme cross-domain outlier.
+          Default: `1.5`. This is tighter than the domain-level
+          `outlier_iqr_multiplier` because within-taxon variability
+          should be far smaller than cross-taxon variability; any
+          record deviating by more than 1.5 × the within-taxon IQR is
+          suspicious even when it is not an extreme cross-domain
+          outlier.
 
 min_records_per_taxon: Positive integer scalar. Minimum number of
           records a taxon must have within a domain before the
@@ -70,14 +68,14 @@ Details:
 
        1. **Domain level** (`suspected_outlier_taxa_domain`): flags
           values where `|trait_value - domain_median| >
-          outlier_iqr_multiplier * domain_IQR` (default 3, Tukey's
-          extreme-outlier fence). Applied to all records.
+          outlier_iqr_multiplier * domain_IQR` (default 3). Applied to
+          all records.
 
        2. **Taxon level** (`suspected_outlier_taxa_taxon`): flags
           values where `|trait_value - taxon_median| >
-          outlier_iqr_multiplier_taxon * taxon_IQR` (default 1.5,
-          standard Tukey whisker). Applied only when the taxon has at
-          least `min_records_per_taxon` records in the domain and when
+          outlier_iqr_multiplier_taxon * taxon_IQR` (default 1.5).
+          Applied only when the taxon has at least
+          `min_records_per_taxon` records in the domain and when
           `taxon_IQR > 0`. This stricter check catches within-taxon
           inconsistencies that the cross-taxon check would miss.
 
@@ -115,8 +113,8 @@ Value:
 
 See Also:
 
-     [load_trait_corrections()], [validate_trait_corrections()],
-     [correct_trait_records()]
+     [flag_trait_outliers()], [load_trait_corrections()],
+     [validate_trait_corrections()], [correct_trait_records()]
 
 Examples:
 

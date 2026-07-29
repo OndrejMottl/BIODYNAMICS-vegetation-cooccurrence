@@ -2,29 +2,29 @@ testthat::test_that(
   "filter_trait_outliers() validates data argument",
   {
     testthat::expect_error(
-      filter_trait_outliers(data = "not a data frame")
+      filter_trait_outliers(data_trait_records = "not a data frame")
     )
 
     testthat::expect_error(
-      filter_trait_outliers(data = NULL)
+      filter_trait_outliers(data_trait_records = NULL)
     )
 
     testthat::expect_error(
       filter_trait_outliers(
-        data = base::list(trait_value = 1:5)
+        data_trait_records = base::list(trait_value = 1:5)
       )
     )
 
     testthat::expect_error(
       filter_trait_outliers(
-        data = base::matrix(1:6, nrow = 2)
+        data_trait_records = base::matrix(1:6, nrow = 2)
       )
     )
   }
 )
 
 testthat::test_that(
-  "filter_trait_outliers() validates trait_col argument",
+  "filter_trait_outliers() validates trait_value_column argument",
   {
     data_test <-
       tibble::tibble(
@@ -35,29 +35,29 @@ testthat::test_that(
 
     testthat::expect_error(
       filter_trait_outliers(
-        data = data_test,
-        trait_col = 123
+        data_trait_records = data_test,
+        trait_value_column = 123
       )
     )
 
     testthat::expect_error(
       filter_trait_outliers(
-        data = data_test,
-        trait_col = base::c("trait_value", "extra")
+        data_trait_records = data_test,
+        trait_value_column = base::c("trait_value", "extra")
       )
     )
 
     testthat::expect_error(
       filter_trait_outliers(
-        data = data_test,
-        trait_col = "nonexistent_col"
+        data_trait_records = data_test,
+        trait_value_column = "nonexistent_col"
       )
     )
   }
 )
 
 testthat::test_that(
-  "filter_trait_outliers() validates group_cols argument",
+  "filter_trait_outliers() validates grouping_columns argument",
   {
     data_test <-
       tibble::tibble(
@@ -68,15 +68,15 @@ testthat::test_that(
 
     testthat::expect_error(
       filter_trait_outliers(
-        data = data_test,
-        group_cols = 123
+        data_trait_records = data_test,
+        grouping_columns = 123
       )
     )
 
     testthat::expect_error(
       filter_trait_outliers(
-        data = data_test,
-        group_cols = base::c("taxon_name", "nonexistent")
+        data_trait_records = data_test,
+        grouping_columns = base::c("taxon_name", "nonexistent")
       )
     )
   }
@@ -94,21 +94,21 @@ testthat::test_that(
 
     testthat::expect_error(
       filter_trait_outliers(
-        data = data_test,
+        data_trait_records = data_test,
         iqr_multiplier = "1.5"
       )
     )
 
     testthat::expect_error(
       filter_trait_outliers(
-        data = data_test,
+        data_trait_records = data_test,
         iqr_multiplier = 0
       )
     )
 
     testthat::expect_error(
       filter_trait_outliers(
-        data = data_test,
+        data_trait_records = data_test,
         iqr_multiplier = -1
       )
     )
@@ -126,7 +126,7 @@ testthat::test_that(
       )
 
     res <-
-      filter_trait_outliers(data = data_test)
+      filter_trait_outliers(data_trait_records = data_test)
 
     testthat::expect_true(
       base::is.data.frame(res)
@@ -151,7 +151,7 @@ testthat::test_that(
 
     res <-
       filter_trait_outliers(
-        data = data_test,
+        data_trait_records = data_test,
         iqr_multiplier = 1.5
       )
 
@@ -174,7 +174,7 @@ testthat::test_that(
       )
 
     res <-
-      filter_trait_outliers(data = data_test)
+      filter_trait_outliers(data_trait_records = data_test)
 
     testthat::expect_equal(base::nrow(res), 3L)
   }
@@ -195,7 +195,7 @@ testthat::test_that(
 
     res <-
       filter_trait_outliers(
-        data = data_test,
+        data_trait_records = data_test,
         iqr_multiplier = 1.5
       )
 
@@ -218,7 +218,7 @@ testthat::test_that(
 
     testthat::expect_message(
       filter_trait_outliers(
-        data = data_test,
+        data_trait_records = data_test,
         iqr_multiplier = 1.5
       )
     )
@@ -236,7 +236,7 @@ testthat::test_that(
       )
 
     res <-
-      filter_trait_outliers(data = data_test)
+      filter_trait_outliers(data_trait_records = data_test)
 
     testthat::expect_true(base::is.data.frame(res))
     testthat::expect_equal(base::nrow(res), 0L)
@@ -254,7 +254,7 @@ testthat::test_that(
       )
 
     res <-
-      filter_trait_outliers(data = data_test)
+      filter_trait_outliers(data_trait_records = data_test)
 
     testthat::expect_equal(base::nrow(res), 1L)
   }

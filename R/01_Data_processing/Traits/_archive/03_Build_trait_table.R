@@ -126,14 +126,15 @@ cli::cli_inform(
 
 data_traits_no_outliers <-
   filter_trait_outliers(
-    data = data_traits_classified,
-    trait_col = "trait_value",
-    group_cols = "trait_domain_name",
+    data_trait_records = data_traits_classified,
+    trait_value_column = "trait_value",
+    grouping_columns = "trait_domain_name",
     iqr_multiplier = 1.5
   ) |>
   filter_trait_outliers(
-    trait_col = "trait_value",
-    group_cols = base::c("trait_domain_name", "taxon_community"),
+    trait_value_column = "trait_value",
+    grouping_columns =
+      base::c("trait_domain_name", "taxon_community"),
     iqr_multiplier = 1.5
   )
 
