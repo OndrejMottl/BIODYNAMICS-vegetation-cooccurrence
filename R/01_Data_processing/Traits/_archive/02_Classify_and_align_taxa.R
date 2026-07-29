@@ -130,13 +130,15 @@ path_manual_corrections <-
 
 data_corrections_validated <-
   validate_trait_corrections(
-    path_corrections = path_manual_corrections
+    data_trait_corrections = load_trait_corrections(
+      path_trait_corrections = path_manual_corrections
+    )
   )
 
 data_traits <-
-  apply_trait_corrections(
-    data_traits = data_traits,
-    data_corrections = data_corrections_validated
+  correct_trait_records(
+    data_trait_records = data_traits,
+    data_trait_corrections = data_corrections_validated
   )
 
 cli::cli_inform(

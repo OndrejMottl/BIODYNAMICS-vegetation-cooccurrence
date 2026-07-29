@@ -21,7 +21,7 @@ Usage:
        outlier_iqr_multiplier_taxon = 1.5,
        min_records_per_taxon = 10L
      )
-     
+
 Arguments:
 
 data_traits: A data frame in long format with at least the columns
@@ -115,7 +115,8 @@ Value:
 
 See Also:
 
-     [validate_trait_corrections()], [apply_trait_corrections()]
+     [load_trait_corrections()], [validate_trait_corrections()],
+     [correct_trait_records()]
 
 Examples:
 
@@ -126,21 +127,20 @@ Examples:
          trait_name = base::rep("LMA", 12L),
          trait_value = base::seq(10, 21, by = 1)
        )
-     
+
      path_corrections <-
        base::tempfile(fileext = ".csv")
-     
+
      path_qc_report <-
        base::tempfile(fileext = ".csv")
-     
+
      generate_trait_qc_report(
        data_traits = data_traits,
        path_corrections = path_corrections,
        path_qc_report = path_qc_report
      )
-     
+
      generate_trait_qc_report(
        data_traits = data_traits,
        path_corrections = path_corrections
      )
-     

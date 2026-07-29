@@ -557,7 +557,9 @@ base::message(
 
 data_corrections_validated <-
   validate_trait_corrections(
-    path_corrections = path_corrections
+    data_trait_corrections = load_trait_corrections(
+      path_trait_corrections = path_corrections
+    )
   )
 
 base::message(

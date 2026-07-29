@@ -44,8 +44,8 @@
 #' Plot layer order follows project conventions: `ggplot()` -> facets
 #' -> scales -> labels -> theme -> `ggview::canvas()` -> geoms.
 #' @seealso
-#' [generate_trait_qc_report()], [apply_trait_corrections()],
-#' [validate_trait_corrections()]
+#' [generate_trait_qc_report()], [load_trait_corrections()],
+#' [validate_trait_corrections()], [correct_trait_records()]
 #' @examples
 #' \dontrun{
 #' data_raw <-

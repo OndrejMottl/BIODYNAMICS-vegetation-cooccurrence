@@ -109,7 +109,8 @@
 #'   data_traits = data_traits,
 #'   path_corrections = path_corrections
 #' )
-#' @seealso [validate_trait_corrections()], [apply_trait_corrections()]
+#' @seealso [load_trait_corrections()],
+#'   [validate_trait_corrections()], [correct_trait_records()]
 #' @export
 generate_trait_qc_report <- function(
     data_traits,

@@ -91,7 +91,7 @@ Functional types are generated as reference classifications and then consumed by
 | Trait table | `pipe_segment_traits_table.R` | Build taxon-by-trait summaries |
 | Functional clustering | `pipe_segment_traits_ft_clustering.R` | Cluster taxa into functional types |
 
-Key helper functions include [`load_trait_records_from_vegvault()`](Documentation/Functions/load_trait_records_from_vegvault.qmd), [`filter_complete_trait_records()`](Documentation/Functions/filter_complete_trait_records.qmd), [`apply_trait_corrections()`](Documentation/Functions/apply_trait_corrections.qmd), [`aggregate_trait_values()`](Documentation/Functions/aggregate_trait_values.qmd), and [`cluster_functional_types()`](Documentation/Functions/cluster_functional_types.qmd).
+Key helper functions include [`load_trait_records_from_vegvault()`](Documentation/Functions/load_trait_records_from_vegvault.qmd), [`filter_complete_trait_records()`](Documentation/Functions/filter_complete_trait_records.qmd), [`correct_trait_records()`](Documentation/Functions/correct_trait_records.qmd), [`aggregate_trait_values()`](Documentation/Functions/aggregate_trait_values.qmd), and [`cluster_functional_types()`](Documentation/Functions/cluster_functional_types.qmd).
 :::
 
 ## Analysis Axes

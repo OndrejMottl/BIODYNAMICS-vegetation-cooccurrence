@@ -17,7 +17,8 @@
 #   exists after the classification join).
 #
 # The existing QC functions (generate_trait_qc_report,
-#   validate_trait_corrections, apply_trait_corrections)
+#   load_trait_corrections, validate_trait_corrections,
+#   correct_trait_records)
 #   are reused: taxon_resolved is temporarily renamed to
 #   taxon_name before each call and renamed back afterwards.
 #
@@ -116,8 +117,8 @@ pipe_segment_traits_qc_classified <-
     ),
 
     # ── 3. HUMAN REVIEW GUARD ───────────────────────────
-    # Calls validate_trait_corrections(), which aborts with an
-    # informative error when any row has CHECKED != TRUE.
+    # Loads the corrections file, then validate_trait_corrections()
+    # aborts with an informative error when CHECKED != TRUE.
     # The pipeline CANNOT proceed past this point until a human has:
     #   1. Reviewed Data/Temp/trait_qc_report_{date}.csv
     #   2. Filled in Data/Input/trait_manual_corrections_classified.csv
@@ -126,24 +127,28 @@ pipe_segment_traits_qc_classified <-
       description = "GUARD: validate all classified corrections signed off",
       name = trait_corrections_classified_validated,
       command = validate_trait_corrections(
-        path_corrections = file_trait_corrections_classified
+        data_trait_corrections = load_trait_corrections(
+          path_trait_corrections =
+            file_trait_corrections_classified
+        )
       )
     ),
 
     # ── 4. Apply corrections ────────────────────────────
     # taxon_resolved is renamed to taxon_name before
-    # apply_trait_corrections (which expects that column name) and
+    # correct_trait_records() (which expects that column name) and
     # renamed back afterwards so downstream targets receive the
     # consistent taxon_resolved column.
     targets::tar_target(
       description = "Apply resolved-taxon corrections to classified data",
       name = data_traits_classified_corrected,
       command = {
-        apply_trait_corrections(
-          data_traits = data_traits_classified |>
+        correct_trait_records(
+          data_trait_records = data_traits_classified |>
             dplyr::select(-"taxon_name") |>
             dplyr::rename(taxon_name = "taxon_resolved"),
-          data_corrections = trait_corrections_classified_validated
+          data_trait_corrections =
+            trait_corrections_classified_validated
         ) |>
           dplyr::rename(taxon_resolved = "taxon_name")
       }

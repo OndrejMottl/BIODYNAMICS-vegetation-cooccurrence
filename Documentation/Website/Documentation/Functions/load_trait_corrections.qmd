@@ -1,6 +1,6 @@
 ---
 format: html
-title: validate_trait_corrections()
+title: load_trait_corrections()
 ---
 
 <html><head>
@@ -35,11 +35,11 @@ function processMathHTML() {
 
 
 
-<table style="width: 100%;"><tr><td>validate_trait_corrections</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>load_trait_corrections</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 
 
-<h2>Validate Trait Correction Approval</h2>
+<h2>Load Trait Corrections</h2>
 
 
 
@@ -47,13 +47,9 @@ function processMathHTML() {
 
 
 
-<p>Checks that every trait-correction row has been reviewed by a
+<p>Loads a trait-corrections CSV file without applying or approving
 
-human. Acts as a pipeline guard: if any row has a 'CHECKED' value
-
-that is not 'TRUE', the function calls 'cli::cli_abort()' so the
-
-pipeline stops until a human has signed off every row.
+its instructions.
 
 </p>
 
@@ -65,7 +61,7 @@ pipeline stops until a human has signed off every row.
 
 
 
-<pre><code class='language-R'>validate_trait_corrections(data_trait_corrections)
+<pre><code class='language-R'>load_trait_corrections(path_trait_corrections)
 
 </code></pre>
 
@@ -79,13 +75,13 @@ pipeline stops until a human has signed off every row.
 
 <table role = "presentation">
 
-<tr><td><code id="data_trait_corrections">data_trait_corrections</code></td>
+<tr><td><code id="path_trait_corrections">path_trait_corrections</code></td>
 
 <td>
 
-<p>A data frame loaded by [load_trait_corrections()]. Must contain a
+<p>A single character string giving the path to a trait-corrections
 
-logical 'CHECKED' column.</p>
+CSV file.</p>
 
 </td></tr>
 
@@ -95,31 +91,13 @@ logical 'CHECKED' column.</p>
 
 
 
-<h3>Details</h3>
-
-
-
-<p>The abort message reports exactly how many rows have not been
-
-validated and instructs the user to set 'CHECKED = TRUE' after
-
-reviewing.
-
-</p>
-
-
-
-
-
 <h3>Value</h3>
 
 
 
-<p>A tibble of validated corrections (all rows have 'CHECKED == TRUE')
+<p>A tibble containing the correction instructions stored in
 
-when every row is approved. Aborts via 'cli::cli_abort()' if any
-
-row is not yet validated.
+'path_trait_corrections'.
 
 </p>
 
@@ -131,7 +109,7 @@ row is not yet validated.
 
 
 
-<p>[load_trait_corrections()], [correct_trait_records()],
+<p>[validate_trait_corrections()], [correct_trait_records()],
 
 [generate_trait_qc_report()]
 

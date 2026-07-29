@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>apply_trait_corrections() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>load_trait_corrections() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/apply_trait_corrections.html">apply_trait_corrections()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/load_trait_corrections.html">load_trait_corrections()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -218,12 +218,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/apply_trait_corrections.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">apply_trait_corrections()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/assemble_data_to_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">assemble_data_to_fit()</span></a>
   </div>
@@ -285,7 +279,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/build_map_panel.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">build_map_panel()</span></a>
+ <span class="menu-text">Build Map Panel</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -398,12 +392,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/clean_raw_trait_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">clean_raw_trait_data()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/cluster_functional_types.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">cluster_functional_types()</span></a>
   </div>
@@ -488,6 +476,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/correct_trait_records.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">correct_trait_records()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/count_successful_targets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">count_successful_targets()</span></a>
   </div>
@@ -560,12 +554,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/extract_and_clean_continent_traits.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">extract_and_clean_continent_traits()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/extract_anova_fractions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_anova_fractions()</span></a>
   </div>
@@ -602,12 +590,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/extract_traits_from_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">extract_traits_from_vegvault()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/filter_by_n_samples.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_by_n_samples()</span></a>
   </div>
@@ -622,6 +604,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/filter_community_by_n_taxa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_community_by_n_taxa()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/filter_complete_trait_records.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_complete_trait_records()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -855,19 +843,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/get_spatial_window.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">get_spatial_window()</span></a>
+ <span class="menu-text">Get Spatial Window</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/get_species_association.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_species_association()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/get_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">get_trait_domain_names_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -915,7 +897,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_active_config_value.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_active_config_value()</span></a>
+ <span class="menu-text">Load Active Config Value</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -933,25 +915,31 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_config.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_config()</span></a>
+ <span class="menu-text">Load Config</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_config_value.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_config_value()</span></a>
+ <span class="menu-text">Load Config Value</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_config_value_with_fallback.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_config_value_with_fallback()</span></a>
+ <span class="menu-text">Load Config Value with Fallback</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_continental_rows.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_continental_rows()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_continental_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_continental_trait_records_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -970,6 +958,24 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_taxa_classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_taxa_classification()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_corrections.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">load_trait_corrections()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_trait_domain_names_from_vegvault()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_trait_records_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1059,7 +1065,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/plot_family_trait_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">plot_family_trait_comparison()</span></a>
+ <span class="menu-text">End(Not run)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1126,12 +1132,6 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/prepare_community_proportions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_community_proportions()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_continent_trait_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">prepare_continent_trait_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1311,7 +1311,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_cross_tier_sensitivity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">run_sjsdm_cross_tier_sensitivity()</span></a>
+ <span class="menu-text">End(Not run)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1329,7 +1329,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_sequence.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">run_sjsdm_tuning_sequence()</span></a>
+ <span class="menu-text">Run Sjsdm Tuning Sequence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1353,7 +1353,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/save_progress_visualisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">save_progress_visualisation()</span></a>
+ <span class="menu-text">Save Progress Visualisation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1420,6 +1420,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/score_sjsdm_tuning_predictions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">score_sjsdm_tuning_predictions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_continental_trait_table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">select_continental_trait_table()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1545,9 +1551,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/apply_trait_corrections.html">apply_trait_corrections()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/load_trait_corrections.html">load_trait_corrections()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">apply_trait_corrections()</h1>
+<h1 class="title">load_trait_corrections()</h1>
 </div>
 
 
@@ -1568,16 +1574,22 @@ ul.task-list li input[type="checkbox"] {
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<p><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css"></p>
 <script type="text/javascript">
+
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
 function processMathHTML() {
+
     var l = document.getElementsByClassName('reqn');
+
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
     return;
+
 }</script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js" onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css">
+<p><link rel="stylesheet" type="text/css" href="R.css"></p>
 
 
 <div class="container">
@@ -1585,7 +1597,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-apply_trait_corrections
+load_trait_corrections
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -1593,18 +1605,20 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Apply Manual Trait Corrections
+Load Trait Corrections
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-Applies human-reviewed corrections from the trait manual corrections tibble to a long-format trait data frame. Rows with ‘action = "exclude"’ are removed. Rows with ‘action = "scale"’ have their ‘trait_value’ multiplied by ‘scale_factor’. Correction rows whose (‘taxon_name’ × ‘trait_domain_name’) combination does not match any record in ‘data_traits’ are reported via ‘cli::cli_warn()’.
-</p>
+</p><p>Loads a trait-corrections CSV file without applying or approving</p>
+<p>its instructions.</p>
+<p></p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">apply_trait_corrections(data_traits, data_corrections)
+<pre><code class="language-R">load_trait_corrections(path_trait_corrections)
+
 </code></pre>
 <h3 class="anchored">
 Arguments
@@ -1612,43 +1626,30 @@ Arguments
 <table role="presentation">
 <tbody><tr>
 <td>
-<code id="data_traits">data_traits</code>
+<code id="path_trait_corrections">path_trait_corrections</code>
 </td>
 <td>
 <p>
-A data frame in long format with at least the columns ‘taxon_name’, ‘trait_domain_name’, and ‘trait_value’.
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="data_corrections">data_corrections</code>
-</td>
-<td>
-<p>
-A tibble of validated corrections as returned by [validate_trait_corrections()]. Expected columns: ‘taxon_name’, ‘trait_domain_name’, ‘action’ (‘"exclude"’ | ‘"scale"’), ‘scale_factor’ (numeric).
-</p>
+</p><p>A single character string giving the path to a trait-corrections</p>
+CSV file.
+<p></p>
 </td>
 </tr>
 </tbody></table>
 <h3 class="anchored">
-Details
-</h3>
-<p>
-Corrections that do not match any trait record are warned about but do not cause an error. If ‘data_corrections’ is empty (zero rows), ‘data_traits’ is returned unchanged.
-</p>
-<h3 class="anchored">
 Value
 </h3>
 <p>
-A tibble with the same columns as ‘data_traits’ but with corrected values: excluded records removed and scaled records multiplied by ‘scale_factor’.
-</p>
+</p><p>A tibble containing the correction instructions stored in</p>
+<p>‘path_trait_corrections’.</p>
+<p></p>
 <h3 class="anchored">
 See Also
 </h3>
 <p>
-[validate_trait_corrections()], [generate_trait_qc_report()]
-</p>
+</p><p>[validate_trait_corrections()], [correct_trait_records()],</p>
+<p>[generate_trait_qc_report()]</p>
+<p></p>
 </main>
 </div>
 
@@ -2065,7 +2066,7 @@ See Also
     </div>
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/apply_trait_corrections.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/load_trait_corrections.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
