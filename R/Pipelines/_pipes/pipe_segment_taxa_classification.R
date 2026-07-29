@@ -41,9 +41,11 @@ suppressMessages(
 pipe_segment_taxa_classification <-
   list(
     targets::tar_target(
-      description = "Build vector of all taxa in community data",
+      description = "Extract all taxa from community data",
       name = "vec_community_taxa",
-      command = get_community_taxa(data_community_long)
+      command = extract_community_taxa(
+        data_community = data_community_long
+      )
     ),
     targets::tar_target(
       description = "Validate taxa vector before dynamic branching",

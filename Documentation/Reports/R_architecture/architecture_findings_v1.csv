@@ -1,5 +1,4 @@
 finding_type,severity,current_path,symbol,owning_issue,message
-function_naming,report_only,R/Functions/Data/Community/Transformation/Taxa_selection/get_community_taxa.R,get_community_taxa,#153,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Data_access/Vegvault/read_vegvault_scalar.R,read_vegvault_scalar,#155,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/adapt_cross_validation_assignments.R,adapt_cross_validation_assignments,#141,Review leading verb `adapt` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/assemble_sjsdm_cached_selected_folds.R,assemble_sjsdm_cached_selected_folds,#141,Review leading verb `assemble` against version 1.
