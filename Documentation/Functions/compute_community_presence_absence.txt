@@ -1,0 +1,55 @@
+Compute Community Presence-Absence Matrix
+
+Description:
+
+     Computes a binary presence-absence matrix from numeric community
+     proportions or counts. Positive values become `1L`; zeros and
+     missing values become `0L`.
+
+Usage:
+
+     compute_community_presence_absence(mat_community = NULL)
+
+Arguments:
+
+mat_community: A numeric matrix with samples as rows and taxa as
+          columns, as returned by `prepare_community_for_fit()`. Values
+          must be non-negative.
+
+Details:
+
+     Presence-absence conversion before `filter_constant_taxa()` is
+     essential when using a binomial error family: a taxon recorded at
+     non-zero varying proportions in every sample has positive SD on
+     the proportion scale but becomes a constant-1 column after
+     conversion inside the model, causing implicit intercept
+     saturation. Applying this function first ensures that
+     `filter_constant_taxa()` removes such taxa before they reach the
+     model.
+
+     For other error families (e.g., Gaussian, future hurdle models)
+     the raw proportional matrix should be passed to
+     `filter_constant_taxa()` directly; use the `error_family`
+     configuration key to control this choice in the pipeline.
+
+Value:
+
+     An integer matrix with the same dimensions and dimnames as
+     `mat_community`, containing only `0L` and `1L`.
+
+See Also:
+
+     [prepare_community_for_fit()], [filter_constant_taxa()],
+     [assemble_data_to_fit()]
+
+Examples:
+
+     mat_community <-
+       base::matrix(
+         base::c(0, 0.25, NA_real_, 1),
+         nrow = 2
+       )
+
+     compute_community_presence_absence(
+       mat_community = mat_community
+     )

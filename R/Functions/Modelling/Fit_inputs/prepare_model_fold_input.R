@@ -329,8 +329,8 @@ prepare_model_fold_input <- function(
     if (
       error_family == "binomial"
     ) {
-      binarize_community_data(
-        data_community_matrix = data_community_train_raw
+      compute_community_presence_absence(
+        mat_community = data_community_train_raw
       )
     } else {
       data_community_train_raw
@@ -340,8 +340,8 @@ prepare_model_fold_input <- function(
     if (
       error_family == "binomial"
     ) {
-      binarize_community_data(
-        data_community_matrix = data_community_test_raw
+      compute_community_presence_absence(
+        mat_community = data_community_test_raw
       )
     } else {
       data_community_test_raw

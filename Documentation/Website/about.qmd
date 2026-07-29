@@ -345,7 +345,7 @@ Community data are made wide and binarised, abiotic predictors are prepared and 
 | Target or function | Description |
 |---|---|
 | [`prepare_community_for_fit()`](Documentation/Functions/prepare_community_for_fit.qmd) | Converts long community records to a model matrix |
-| [`binarize_community_data()`](Documentation/Functions/binarize_community_data.qmd) | Converts the response to binary presence/absence |
+| [`compute_community_presence_absence()`](Documentation/Functions/compute_community_presence_absence.qmd) | Computes the binary presence/absence response |
 | [`prepare_abiotic_for_fit()`](Documentation/Functions/prepare_abiotic_for_fit.qmd) | Prepares abiotic predictors in wide form |
 | [`scale_abiotic_for_fit()`](Documentation/Functions/scale_abiotic_for_fit.qmd) | Scales abiotic predictors and saves scaling attributes |
 | [`prepare_coords_for_fit()`](Documentation/Functions/prepare_coords_for_fit.qmd) | Prepares coordinate tables for modelling |

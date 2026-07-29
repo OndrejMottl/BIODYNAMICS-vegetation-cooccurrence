@@ -102,8 +102,8 @@ get_decomposition_route_sample_ids <- function(
           if (
             error_family == "binomial"
           ) {
-            binarize_community_data(
-              data_community_matrix = data_community_age
+            compute_community_presence_absence(
+              mat_community = data_community_age
             )
           } else {
             data_community_age

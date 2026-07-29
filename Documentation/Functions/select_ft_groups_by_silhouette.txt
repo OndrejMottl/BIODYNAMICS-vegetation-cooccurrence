@@ -13,11 +13,11 @@ Description:
      least `min_n_taxa` non-constant FT columns. The filter chain
      applied is: `filter_rare_taxa()`, `filter_community_by_n_cores()`,
      `filter_by_n_samples()`, `prepare_community_for_fit()`, optionally
-     `binarize_community_data()` (when `error_family` is `"binomial"`),
-     and `filter_constant_taxa()`. The number of surviving columns is
-     compared to `min_n_taxa`. Among viable candidates the
-     highest-silhouette `k` is returned. If no `k` is viable an error
-     is raised via `cli::cli_abort()`.
+     `compute_community_presence_absence()` (when `error_family` is
+     `"binomial"`), and `filter_constant_taxa()`. The number of
+     surviving columns is compared to `min_n_taxa`. Among viable
+     candidates the highest-silhouette `k` is returned. If no `k` is
+     viable an error is raised via `cli::cli_abort()`.
 
 Usage:
 
@@ -33,7 +33,7 @@ Usage:
        min_n_samples,
        error_family
      )
-     
+
 Arguments:
 
 dist_mat: A `dist` object produced by `compute_dissimilarity_matrix()`.
@@ -81,9 +81,10 @@ min_n_samples: A single positive integer. Forwarded to
           spatio-temporal samples (`(dataset_name, age)` combinations).
 
 error_family: A single character string (e.g. `"binomial"`). When
-          `"binomial"`, `binarize_community_data()` is applied to the
-          wide community matrix before `filter_constant_taxa()` during
-          the viability check, mirroring the pipeline step.
+          `"binomial"`, `compute_community_presence_absence()` is
+          applied to the wide community matrix before
+          `filter_constant_taxa()` during the viability check,
+          mirroring the pipeline step.
 
 Details:
 
@@ -104,7 +105,8 @@ Details:
        4. `prepare_community_for_fit()` (wide matrix, using all
           surviving samples as their own IDs).
 
-       5. `binarize_community_data()` if `error_family == "binomial"`.
+       5. `compute_community_presence_absence()` if `error_family ==
+          "binomial"`.
 
        6. `filter_constant_taxa()`.
 
@@ -129,4 +131,3 @@ See Also:
 
      [compute_dissimilarity_matrix()], [fit_hclust()],
      [cluster_functional_types()]
-

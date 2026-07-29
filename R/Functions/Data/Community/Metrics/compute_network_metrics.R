@@ -29,7 +29,7 @@
 #' If the binarized matrix has no positive entries (i.e. no
 #' species observed in any sample), an error is raised.
 #' @seealso [assemble_data_to_fit()],
-#'   [binarize_community_data()]
+#'   [compute_community_presence_absence()]
 #' @export
 compute_network_metrics <- function(
     data_to_fit = NULL,

@@ -61,8 +61,8 @@ pipe_segment_model_prepare_response <-
         if (
           config_model_fitting$error_family == "binomial"
         ) {
-          binarize_community_data(
-            data_community_matrix = data_community_model_matrix
+          compute_community_presence_absence(
+            mat_community = data_community_model_matrix
           )
         } else {
           data_community_model_matrix

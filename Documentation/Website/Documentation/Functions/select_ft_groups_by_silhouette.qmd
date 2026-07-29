@@ -37,7 +37,7 @@ leave at least 'min_n_taxa' non-constant FT columns. The
 filter chain applied is: 'filter_rare_taxa()',
 'filter_community_by_n_cores()', 'filter_by_n_samples()',
 'prepare_community_for_fit()', optionally
-'binarize_community_data()' (when 'error_family' is
+'compute_community_presence_absence()' (when 'error_family' is
 '&quot;binomial&quot;'), and 'filter_constant_taxa()'. The number of
 surviving columns is compared to 'min_n_taxa'. Among viable
 candidates the highest-silhouette 'k' is returned. If no
@@ -110,7 +110,7 @@ that group exceeds this threshold.</p>
 <td>
 <p>A single positive integer. The minimum number of
 non-constant FT columns (i.e. groups present in strictly
-between 0 
+between 0
 'minimal_proportion') that a candidate 'k' must produce to
 be considered viable.</p>
 </td></tr>
@@ -132,7 +132,7 @@ combinations).</p>
 <tr><td><code id="error_family">error_family</code></td>
 <td>
 <p>A single character string (e.g. '&quot;binomial&quot;'). When
-'&quot;binomial&quot;', 'binarize_community_data()' is applied to
+'&quot;binomial&quot;', 'compute_community_presence_absence()' is applied to
 the wide community matrix before 'filter_constant_taxa()'
 during the viability check, mirroring the pipeline step.</p>
 </td></tr>
@@ -166,7 +166,7 @@ the actual pipeline filter chain in sequence:
 using all surviving samples as their own IDs).
 </p>
 </li>
-<li><p> 'binarize_community_data()' if
+<li><p> 'compute_community_presence_absence()' if
 'error_family == &quot;binomial&quot;'.
 </p>
 </li>
@@ -212,4 +212,3 @@ groups (&gt;= 'ft_groups_min' after clamping).
 
 </div>
 </body></html>
-

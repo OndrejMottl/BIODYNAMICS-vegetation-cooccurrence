@@ -12,7 +12,7 @@
 #' filter chain applied is: `filter_rare_taxa()`,
 #' `filter_community_by_n_cores()`, `filter_by_n_samples()`,
 #' `prepare_community_for_fit()`, optionally
-#' `binarize_community_data()` (when `error_family` is
+#' `compute_community_presence_absence()` (when `error_family` is
 #' `"binomial"`), and `filter_constant_taxa()`. The number of
 #' surviving columns is compared to `min_n_taxa`. Among viable
 #' candidates the highest-silhouette `k` is returned. If no
@@ -65,7 +65,7 @@
 #' combinations).
 #' @param error_family
 #' A single character string (e.g. `"binomial"`). When
-#' `"binomial"`, `binarize_community_data()` is applied to
+#' `"binomial"`, `compute_community_presence_absence()` is applied to
 #' the wide community matrix before `filter_constant_taxa()`
 #' during the viability check, mirroring the pipeline step.
 #' @return
@@ -87,7 +87,7 @@
 #'   \item `filter_by_n_samples()`.
 #'   \item `prepare_community_for_fit()` (wide matrix,
 #'     using all surviving samples as their own IDs).
-#'   \item `binarize_community_data()` if
+#'   \item `compute_community_presence_absence()` if
 #'     `error_family == "binomial"`.
 #'   \item `filter_constant_taxa()`.
 #' }
@@ -313,8 +313,8 @@ select_ft_groups_by_silhouette <- function(
 
             if (error_family == "binomial") {
               data_matrix <-
-                binarize_community_data(
-                  data_community_matrix = data_matrix
+                compute_community_presence_absence(
+                  mat_community = data_matrix
                 )
             }
 

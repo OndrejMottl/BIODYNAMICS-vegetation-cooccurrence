@@ -13,7 +13,7 @@ Usage:
        data_to_fit = NULL,
        vec_indices = c("connectance", "nestedness", "modularity")
      )
-     
+
 Arguments:
 
 data_to_fit: A named list as returned by `assemble_data_to_fit()`. Must
@@ -45,5 +45,4 @@ Value:
 
 See Also:
 
-     [assemble_data_to_fit()], [binarize_community_data()]
-
+     [assemble_data_to_fit()], [compute_community_presence_absence()]
