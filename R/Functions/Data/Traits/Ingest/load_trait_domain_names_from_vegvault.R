@@ -1,8 +1,8 @@
-#' @title Get Trait Domain Names from VegVault
+#' @title Load Trait Domain Names from VegVault
 #' @description
-#' Queries the VegVault SQLite database to retrieve all unique trait
+#' Loads all unique trait
 #' domain names from the `TraitsDomain` table.
-#' @param path_to_vegvault
+#' @param path_vegvault
 #' A character string specifying the path to the VegVault SQLite
 #' database (default: `here::here("Data/Input/VegVault.sqlite")`).
 #' @param verbose
@@ -26,66 +26,61 @@
 #'   7. Asserts that at least one domain name was found.
 #'   8. Optionally logs the result via `cli::cli_inform()`.
 #'   9. Returns the character vector of domain names.
-#' @seealso [extract_traits_from_vegvault()]
+#' @seealso [load_trait_records_from_vegvault()]
 #' @export
-get_trait_domain_names_from_vegvault <- function(
-    path_to_vegvault = here::here(
+load_trait_domain_names_from_vegvault <- function(
+    path_vegvault = here::here(
       "Data/Input/VegVault.sqlite"
     ),
     verbose = TRUE) {
   assertthat::assert_that(
-    base::is.character(path_to_vegvault) &&
-      base::length(path_to_vegvault) == 1L,
-    msg = paste0(
-      "'path_to_vegvault' must be a single character string."
-    )
+    base::is.character(path_vegvault) &&
+      base::length(path_vegvault) == 1L,
+    msg = "'path_vegvault' must be a single character string."
   )
 
   assertthat::assert_that(
     base::is.logical(verbose) &&
       base::length(verbose) == 1L,
-    msg = paste0(
-      "'verbose' must be a single logical value (TRUE or FALSE)."
-    )
+    msg = "'verbose' must be a single logical value (TRUE or FALSE)."
   )
 
-  check_presence_of_vegvault(path_to_vegvault)
+  check_presence_of_vegvault(path_vegvault)
 
-  vegvault_conn <-
+  connection_vegvault <-
     DBI::dbConnect(
       RSQLite::SQLite(),
-      path_to_vegvault
+      path_vegvault
     )
+  base::on.exit(DBI::dbDisconnect(connection_vegvault), add = TRUE)
 
-  vec_domains <-
-    dplyr::tbl(vegvault_conn, "TraitsDomain") |>
+  vec_trait_domain_names <-
+    dplyr::tbl(connection_vegvault, "TraitsDomain") |>
     dplyr::distinct(.data[["trait_domain_name"]]) |>
     dplyr::collect() |>
     dplyr::pull("trait_domain_name")
 
-  DBI::dbDisconnect(vegvault_conn)
-
-  vec_domains <-
-    vec_domains[!base::is.na(vec_domains)]
+  vec_trait_domain_names <-
+    vec_trait_domain_names[!base::is.na(vec_trait_domain_names)]
 
   assertthat::assert_that(
-    base::length(vec_domains) >= 1L,
+    base::length(vec_trait_domain_names) >= 1L,
     msg = "No trait domain names found in TraitsDomain table."
   )
 
   if (
-    isTRUE(verbose)
+    base::isTRUE(verbose)
   ) {
     cli::cli_inform(
       c(
-        "v" = base::paste0(
-          base::length(vec_domains),
+        "v" = stringr::str_c(
+          base::length(vec_trait_domain_names),
           " trait domain(s) found: ",
-          base::paste(vec_domains, collapse = " | ")
+          stringr::str_c(vec_trait_domain_names, collapse = " | ")
         )
       )
     )
   }
 
-  return(vec_domains)
+  return(vec_trait_domain_names)
 }

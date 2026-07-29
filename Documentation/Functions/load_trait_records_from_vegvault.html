@@ -1,9 +1,4 @@
----
-format: html
-title: extract_traits_from_vegvault()
----
-
-<html><head>
+<!DOCTYPE html><html><head><title>R: Load Trait Records from VegVault</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -19,13 +14,13 @@ function processMathHTML() {
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body><div class="container"><main>
 
-<table style="width: 100%;"><tr><td>extract_traits_from_vegvault</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>load_trait_records_from_vegvault</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Extract Trait Data from VegVault</h2>
+<h2>Load Trait Records from VegVault</h2>
 
 <h3>Description</h3>
 
-<p>Extracts functional trait data from the VegVault SQLite database for
+<p>Loads functional trait records from the VegVault SQLite database for
 specified trait domains. Optional geographic filtering limits records
 to datasets within the specified longitude/latitude bounding box.
 Taxon names are returned as-is ('classify_to = NULL') for downstream
@@ -35,11 +30,11 @@ manual classification.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>extract_traits_from_vegvault(
-  path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
-  sel_trait_domain_names = NULL,
-  x_lim = NULL,
-  y_lim = NULL
+<pre><code class='language-R'>load_trait_records_from_vegvault(
+  path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+  vec_trait_domain_names = NULL,
+  vec_longitude_limits = NULL,
+  vec_latitude_limits = NULL
 )
 </code></pre>
 
@@ -47,27 +42,29 @@ manual classification.
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="path_to_vegvault">path_to_vegvault</code></td>
+<tr><td><code id="path_vegvault">path_vegvault</code></td>
 <td>
 <p>A character string specifying the path to the VegVault SQLite database
 (default: 'here::here(&quot;Data/Input/VegVault.sqlite&quot;)').</p>
 </td></tr>
-<tr><td><code id="sel_trait_domain_names">sel_trait_domain_names</code></td>
+<tr><td><code id="vec_trait_domain_names">vec_trait_domain_names</code></td>
 <td>
-<p>A character vector specifying the trait domain names to extract
+<p>A character vector specifying the trait domain names to load
 (e.g. 'c(&quot;Specific leaf area (SLA)&quot;, &quot;Plant height vegetative&quot;)').</p>
 </td></tr>
-<tr><td><code id="x_lim">x_lim</code></td>
+<tr><td><code id="vec_longitude_limits">vec_longitude_limits</code></td>
 <td>
 <p>A numeric vector of length 2 giving the longitude limits
 'c(min, max)' for geographic filtering. Must be supplied together
-with 'y_lim'. If 'NULL' (default) no geographic filter is applied.</p>
+with 'vec_latitude_limits'. If 'NULL' (default) no geographic filter is
+applied.</p>
 </td></tr>
-<tr><td><code id="y_lim">y_lim</code></td>
+<tr><td><code id="vec_latitude_limits">vec_latitude_limits</code></td>
 <td>
 <p>A numeric vector of length 2 giving the latitude limits
 'c(min, max)' for geographic filtering. Must be supplied together
-with 'x_lim'. If 'NULL' (default) no geographic filter is applied.</p>
+with 'vec_longitude_limits'. If 'NULL' (default) no geographic filter is
+applied.</p>
 </td></tr>
 </table>
 
@@ -87,13 +84,13 @@ via 'cli::cli_abort()' with the original message preserved.
 4. Retrieves trait values using 'classify_to = NULL' to preserve raw
 taxon names for downstream manual classification via the same
 taxospace + auxiliary-table pipeline used for community data.
-5. Returns the extracted data as a flat data frame.
+5. Returns the loaded data as a flat data frame.
 </p>
 
 
 <h3>Value</h3>
 
-<p>A flat data frame containing extracted trait records with columns
+<p>A flat data frame containing loaded trait records with columns
 including 'taxon_name' (original, unclassified), 'trait_domain_name',
 'trait_name', and 'trait_value'.
 </p>
@@ -108,4 +105,3 @@ including 'taxon_name' (original, unclassified), 'trait_domain_name',
 
 </div>
 </body></html>
-

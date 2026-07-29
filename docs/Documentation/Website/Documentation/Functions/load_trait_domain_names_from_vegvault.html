@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>extract_traits_from_vegvault() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>load_trait_domain_names_from_vegvault() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/extract_traits_from_vegvault.html">extract_traits_from_vegvault()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/load_trait_domain_names_from_vegvault.html">load_trait_domain_names_from_vegvault()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -285,7 +285,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/build_map_panel.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">build_map_panel()</span></a>
+ <span class="menu-text">Build Map Panel</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -602,12 +602,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/extract_traits_from_vegvault.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">extract_traits_from_vegvault()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/filter_by_n_samples.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_by_n_samples()</span></a>
   </div>
@@ -855,19 +849,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/get_spatial_window.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">get_spatial_window()</span></a>
+ <span class="menu-text">Get Spatial Window</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/get_species_association.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_species_association()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/get_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">get_trait_domain_names_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -915,7 +903,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_active_config_value.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_active_config_value()</span></a>
+ <span class="menu-text">Load Active Config Value</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -933,19 +921,19 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_config.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_config()</span></a>
+ <span class="menu-text">Load Config</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_config_value.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_config_value()</span></a>
+ <span class="menu-text">Load Config Value</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_config_value_with_fallback.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_config_value_with_fallback()</span></a>
+ <span class="menu-text">Load Config Value with Fallback</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -970,6 +958,18 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_taxa_classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_taxa_classification()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">load_trait_domain_names_from_vegvault()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_trait_records_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1059,7 +1059,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/plot_family_trait_comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">plot_family_trait_comparison()</span></a>
+ <span class="menu-text">End(Not run)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1089,7 +1089,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/plot_trait_group_distribution.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">plot_trait_group_distribution()</span></a>
+ <span class="menu-text">End(Not run)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1311,7 +1311,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_cross_tier_sensitivity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">run_sjsdm_cross_tier_sensitivity()</span></a>
+ <span class="menu-text">End(Not run)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1329,7 +1329,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_sequence.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">run_sjsdm_tuning_sequence()</span></a>
+ <span class="menu-text">Run Sjsdm Tuning Sequence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1353,7 +1353,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/save_progress_visualisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">save_progress_visualisation()</span></a>
+ <span class="menu-text">Save Progress Visualisation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1545,9 +1545,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/extract_traits_from_vegvault.html">extract_traits_from_vegvault()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/load_trait_domain_names_from_vegvault.html">load_trait_domain_names_from_vegvault()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">extract_traits_from_vegvault()</h1>
+<h1 class="title">load_trait_domain_names_from_vegvault()</h1>
 </div>
 
 
@@ -1585,7 +1585,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-extract_traits_from_vegvault
+load_trait_domain_names_from_vegvault
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -1593,22 +1593,20 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Extract Trait Data from VegVault
+Load Trait Domain Names from VegVault
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-Extracts functional trait data from the VegVault SQLite database for specified trait domains. Optional geographic filtering limits records to datasets within the specified longitude/latitude bounding box. Taxon names are returned as-is (‘classify_to = NULL’) for downstream manual classification.
+Loads all unique trait domain names from the ‘TraitsDomain’ table.
 </p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">extract_traits_from_vegvault(
-  path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
-  sel_trait_domain_names = NULL,
-  x_lim = NULL,
-  y_lim = NULL
+<pre><code class="language-R">load_trait_domain_names_from_vegvault(
+  path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+  verbose = TRUE
 )
 </code></pre>
 <h3 class="anchored">
@@ -1617,7 +1615,7 @@ Arguments
 <table role="presentation">
 <tbody><tr>
 <td>
-<code id="path_to_vegvault">path_to_vegvault</code>
+<code id="path_vegvault">path_vegvault</code>
 </td>
 <td>
 <p>
@@ -1627,31 +1625,11 @@ A character string specifying the path to the VegVault SQLite database (default:
 </tr>
 <tr>
 <td>
-<code id="sel_trait_domain_names">sel_trait_domain_names</code>
+<code id="verbose">verbose</code>
 </td>
 <td>
 <p>
-A character vector specifying the trait domain names to extract (e.g.&nbsp;‘c("Specific leaf area (SLA)", "Plant height vegetative")’).
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="x_lim">x_lim</code>
-</td>
-<td>
-<p>
-A numeric vector of length 2 giving the longitude limits ‘c(min, max)’ for geographic filtering. Must be supplied together with ‘y_lim’. If ‘NULL’ (default) no geographic filter is applied.
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="y_lim">y_lim</code>
-</td>
-<td>
-<p>
-A numeric vector of length 2 giving the latitude limits ‘c(min, max)’ for geographic filtering. Must be supplied together with ‘x_lim’. If ‘NULL’ (default) no geographic filter is applied.
+Logical. If ‘TRUE’ (default), progress messages are printed to the console via ‘cli’. Set to ‘FALSE’ to suppress all console output.
 </p>
 </td>
 </tr>
@@ -1665,23 +1643,27 @@ The function performs the following steps:
 <p>
 </p><ol type="1">
 <li>Validates input parameters.</li>
-<li>Checks the presence of the VegVault SQLite database.</li>
-<li>Builds the vaultkeepr query plan (lazy SQL). If geographic limits are supplied, datasets are filtered to the bounding box using ‘vaultkeepr::select_dataset_by_geo()’ before sample retrieval. If vaultkeepr raises an error during plan assembly (e.g.&nbsp;no data for the given domain names), the error is caught and re-thrown via ‘cli::cli_abort()’ with the original message preserved.</li>
-<li>Retrieves trait values using ‘classify_to = NULL’ to preserve raw taxon names for downstream manual classification via the same taxospace + auxiliary-table pipeline used for community data.</li>
-<li>Returns the extracted data as a flat data frame.</li>
+<li>Checks the presence of the VegVault SQLite database using ‘check_presence_of_vegvault()’.</li>
+<li>Opens a DBI connection to the SQLite database.</li>
+<li>Queries the ‘TraitsDomain’ table for distinct ‘trait_domain_name’ values and collects results.</li>
+<li>Closes the database connection.</li>
+<li>Removes ‘NA’ values from the result.</li>
+<li>Asserts that at least one domain name was found.</li>
+<li>Optionally logs the result via ‘cli::cli_inform()’.</li>
+<li>Returns the character vector of domain names.</li>
 </ol>
 <p></p>
 <h3 class="anchored">
 Value
 </h3>
 <p>
-A flat data frame containing extracted trait records with columns including ‘taxon_name’ (original, unclassified), ‘trait_domain_name’, ‘trait_name’, and ‘trait_value’.
+A character vector of unique, non-‘NA’ trait domain names found in the ‘TraitsDomain’ table.
 </p>
 <h3 class="anchored">
 See Also
 </h3>
 <p>
-[extract_data_from_vegvault()]
+[load_trait_records_from_vegvault()]
 </p>
 </main>
 </div>
@@ -2099,7 +2081,7 @@ See Also
     </div>
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/extract_traits_from_vegvault.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/load_trait_domain_names_from_vegvault.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

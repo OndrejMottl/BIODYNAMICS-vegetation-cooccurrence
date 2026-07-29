@@ -9,52 +9,52 @@ path_test_db <-
 # ----------------------------------------------------------#
 
 testthat::test_that(
-  "get_trait_domain_names_from_vegvault() errors on non-char path",
+  "load_trait_domain_names_from_vegvault() errors on non-char path",
   {
     testthat::expect_error(
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = 123
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = 123
       )
     )
 
     testthat::expect_error(
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = TRUE
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = TRUE
       )
     )
 
     testthat::expect_error(
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = NULL
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = NULL
       )
     )
   }
 )
 
 testthat::test_that(
-  "get_trait_domain_names_from_vegvault() errors on path length > 1",
+  "load_trait_domain_names_from_vegvault() errors on path length > 1",
   {
     testthat::expect_error(
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = base::c("a.sqlite", "b.sqlite")
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = base::c("a.sqlite", "b.sqlite")
       )
     )
   }
 )
 
 testthat::test_that(
-  "get_trait_domain_names_from_vegvault() errors on non-logical verbose",
+  "load_trait_domain_names_from_vegvault() errors on non-logical verbose",
   {
     testthat::expect_error(
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = "any.sqlite",
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = "any.sqlite",
         verbose = "yes"
       )
     )
 
     testthat::expect_error(
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = "any.sqlite",
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = "any.sqlite",
         verbose = 1L
       )
     )
@@ -62,11 +62,11 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_trait_domain_names_from_vegvault() errors for missing database",
+  "load_trait_domain_names_from_vegvault() errors for missing database",
   {
     testthat::expect_error(
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = "nonexistent_path.sqlite",
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = "nonexistent_path.sqlite",
         verbose = FALSE
       )
     )
@@ -78,7 +78,7 @@ testthat::test_that(
 # ----------------------------------------------------------#
 
 testthat::test_that(
-  "get_trait_domain_names_from_vegvault() returns character vector",
+  "load_trait_domain_names_from_vegvault() returns character vector",
   {
     conn <-
       DBI::dbConnect(
@@ -99,8 +99,8 @@ testthat::test_that(
     DBI::dbDisconnect(conn)
 
     result <-
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = here::here(path_test_db),
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = here::here(path_test_db),
         verbose = FALSE
       )
 
@@ -111,7 +111,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_trait_domain_names_from_vegvault() returns length >= 1",
+  "load_trait_domain_names_from_vegvault() returns length >= 1",
   {
     conn <-
       DBI::dbConnect(
@@ -132,8 +132,8 @@ testthat::test_that(
     DBI::dbDisconnect(conn)
 
     result <-
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = here::here(path_test_db),
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = here::here(path_test_db),
         verbose = FALSE
       )
 
@@ -148,7 +148,7 @@ testthat::test_that(
 # ----------------------------------------------------------#
 
 testthat::test_that(
-  "get_trait_domain_names_from_vegvault() returns correct values",
+  "load_trait_domain_names_from_vegvault() returns correct values",
   {
     vec_expected_domains <- base::c("SLA", "Plant height")
 
@@ -171,8 +171,8 @@ testthat::test_that(
     DBI::dbDisconnect(conn)
 
     result <-
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = here::here(path_test_db),
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = here::here(path_test_db),
         verbose = FALSE
       )
 
@@ -185,7 +185,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_trait_domain_names_from_vegvault() filters out NA values",
+  "load_trait_domain_names_from_vegvault() filters out NA values",
   {
     conn <-
       DBI::dbConnect(
@@ -206,8 +206,8 @@ testthat::test_that(
     DBI::dbDisconnect(conn)
 
     result <-
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = here::here(path_test_db),
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = here::here(path_test_db),
         verbose = FALSE
       )
 
@@ -218,7 +218,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_trait_domain_names_from_vegvault() errors when all NA",
+  "load_trait_domain_names_from_vegvault() errors when all NA",
   {
     conn <-
       DBI::dbConnect(
@@ -239,8 +239,8 @@ testthat::test_that(
     DBI::dbDisconnect(conn)
 
     testthat::expect_error(
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = here::here(path_test_db),
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = here::here(path_test_db),
         verbose = FALSE
       )
     )
@@ -275,8 +275,8 @@ testthat::test_that(
     DBI::dbDisconnect(conn)
 
     testthat::expect_no_message(
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = here::here(path_test_db),
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = here::here(path_test_db),
         verbose = FALSE
       )
     )
@@ -307,8 +307,8 @@ testthat::test_that(
     DBI::dbDisconnect(conn)
 
     testthat::expect_message(
-      get_trait_domain_names_from_vegvault(
-        path_to_vegvault = here::here(path_test_db),
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = here::here(path_test_db),
         verbose = TRUE
       )
     )

@@ -602,8 +602,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/extract_traits_from_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">extract_traits_from_vegvault()</span></a>
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_trait_records_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -866,8 +866,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/get_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">get_trait_domain_names_from_vegvault()</span></a>
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_trait_domain_names_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1666,7 +1666,7 @@ The function performs the following steps:
 </p><ol type="1">
 <li>Validates all input arguments.</li>
 <li>Derives the bounding-box limits and scale identifier from ‘data_continental_rows’.</li>
-<li>Calls [extract_traits_from_vegvault()] to retrieve raw records.</li>
+<li>Calls [load_trait_records_from_vegvault()] to retrieve raw records.</li>
 <li>Calls [clean_raw_trait_data()] to drop incomplete rows.</li>
 <li>Calls [resolve_trait_taxon_ids()] to replace numeric IDs with taxon names.</li>
 <li>Returns the final tibble with taxon-name columns only.</li>
@@ -1682,7 +1682,7 @@ A tibble with columns ‘taxon_name’, ‘trait_domain_name’, ‘trait_name�
 See Also
 </h3>
 <p>
-[extract_traits_from_vegvault()], [clean_raw_trait_data()], [resolve_trait_taxon_ids()]
+[load_trait_records_from_vegvault()], [clean_raw_trait_data()], [resolve_trait_taxon_ids()]
 </p>
 </main>
 </div>

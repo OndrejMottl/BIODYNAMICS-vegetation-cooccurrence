@@ -11,7 +11,7 @@ Four focused changes across five files:
 
 ---
 
-## Phase 1 — `R/Functions/Traits/extract_traits_from_vegvault.R`
+## Phase 1 — `R/Functions/Traits/load_trait_records_from_vegvault.R`
 
 - Add `x_lim = NULL` and `y_lim = NULL` optional parameters (NULL = no geo filter)
 - When provided: insert `vaultkeepr::select_dataset_by_geo(lat_lim = y_lim, long_lim = x_lim, verbose = FALSE)` AFTER `select_dataset_by_type()`, BEFORE `get_samples()`
@@ -118,7 +118,7 @@ Output filename prefix: `"data_trait_table_genus_"` -> `"data_trait_table_"`
 
 | Phase | File | Status |
 |-------|------|--------|
-| 1 | `R/Functions/Traits/extract_traits_from_vegvault.R` | ✅ DONE |
+| 1 | `R/Functions/Traits/load_trait_records_from_vegvault.R` | ✅ DONE |
 | 2 | `R/02_Main_analyses/02_Trait_analyses/01_Extract_trait_data.R` | ✅ DONE |
 | 3 | `R/02_Main_analyses/02_Trait_analyses/02_Classify_and_align_taxa.R` | ✅ DONE |
 | 4 | `R/Functions/Traits/check_trait_coverage.R` | ❌ NEXT |

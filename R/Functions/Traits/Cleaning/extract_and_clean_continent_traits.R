@@ -28,12 +28,12 @@
 #'   1. Validates all input arguments.
 #'   2. Derives the bounding-box limits and scale identifier from
 #'      `data_continental_rows`.
-#'   3. Calls [extract_traits_from_vegvault()] to retrieve raw records.
+#'   3. Calls [load_trait_records_from_vegvault()] to retrieve raw records.
 #'   4. Calls [clean_raw_trait_data()] to drop incomplete rows.
 #'   5. Calls [resolve_trait_taxon_ids()] to replace numeric IDs with
 #'      taxon names.
 #'   6. Returns the final tibble with taxon-name columns only.
-#' @seealso [extract_traits_from_vegvault()], [clean_raw_trait_data()],
+#' @seealso [load_trait_records_from_vegvault()], [clean_raw_trait_data()],
 #'   [resolve_trait_taxon_ids()]
 #' @export
 extract_and_clean_continent_traits <- function(
@@ -144,11 +144,11 @@ extract_and_clean_continent_traits <- function(
   }
 
   data_raw <-
-    extract_traits_from_vegvault(
-      path_to_vegvault = path_to_vegvault,
-      sel_trait_domain_names = vec_trait_domain_names,
-      x_lim = vec_x_lim,
-      y_lim = vec_y_lim
+    load_trait_records_from_vegvault(
+      path_vegvault = path_to_vegvault,
+      vec_trait_domain_names = vec_trait_domain_names,
+      vec_longitude_limits = vec_x_lim,
+      vec_latitude_limits = vec_y_lim
     )
 
   data_clean <-

@@ -1,21 +1,20 @@
-Get Trait Domain Names from VegVault
+Load Trait Domain Names from VegVault
 
 Description:
 
-     Queries the VegVault SQLite database to retrieve all unique trait
-     domain names from the `TraitsDomain` table.
+     Loads all unique trait domain names from the `TraitsDomain` table.
 
 Usage:
 
-     get_trait_domain_names_from_vegvault(
-       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+     load_trait_domain_names_from_vegvault(
+       path_vegvault = here::here("Data/Input/VegVault.sqlite"),
        verbose = TRUE
      )
-     
+
 Arguments:
 
-path_to_vegvault: A character string specifying the path to the
-          VegVault SQLite database (default:
+path_vegvault: A character string specifying the path to the VegVault
+          SQLite database (default:
           `here::here("Data/Input/VegVault.sqlite")`).
 
  verbose: Logical. If `TRUE` (default), progress messages are printed
@@ -43,5 +42,4 @@ Value:
 
 See Also:
 
-     [extract_traits_from_vegvault()]
-
+     [load_trait_records_from_vegvault()]

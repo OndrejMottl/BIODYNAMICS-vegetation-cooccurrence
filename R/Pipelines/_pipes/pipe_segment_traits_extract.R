@@ -88,8 +88,8 @@ pipe_segment_traits_extract <-
     targets::tar_target(
       description = "Discover all trait domain names from VegVault",
       name = vec_trait_domain_names,
-      command = get_trait_domain_names_from_vegvault(
-        path_to_vegvault = here::here(
+      command = load_trait_domain_names_from_vegvault(
+        path_vegvault = here::here(
           "Data/Input/VegVault.sqlite"
         ),
         verbose = TRUE

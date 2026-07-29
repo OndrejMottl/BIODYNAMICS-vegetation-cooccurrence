@@ -78,7 +78,7 @@ all console output.</p>
 <p>1. Validates all input arguments.
 2. Derives the bounding-box limits and scale identifier from
 'data_continental_rows'.
-3. Calls [extract_traits_from_vegvault()] to retrieve raw records.
+3. Calls [load_trait_records_from_vegvault()] to retrieve raw records.
 4. Calls [clean_raw_trait_data()] to drop incomplete rows.
 5. Calls [resolve_trait_taxon_ids()] to replace numeric IDs with
 taxon names.
@@ -96,7 +96,7 @@ ID-resolved trait records for the supplied continental unit.
 
 <h3>See Also</h3>
 
-<p>[extract_traits_from_vegvault()], [clean_raw_trait_data()],
+<p>[load_trait_records_from_vegvault()], [clean_raw_trait_data()],
 [resolve_trait_taxon_ids()]
 </p>
 
@@ -104,4 +104,3 @@ ID-resolved trait records for the supplied continental unit.
 
 </div>
 </body></html>
-

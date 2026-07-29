@@ -78,7 +78,6 @@ function_naming,report_only,R/Functions/Traits/Classification/make_trait_table.R
 function_naming,report_only,R/Functions/Traits/Classification/read_functional_type_classification.R,read_functional_type_classification,#153,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Traits/Cleaning/clean_raw_trait_data.R,clean_raw_trait_data,#153,Review leading verb `clean` against version 1.
 function_naming,report_only,R/Functions/Traits/Corrections/apply_trait_corrections.R,apply_trait_corrections,#153,Review leading verb `apply` against version 1.
-function_naming,report_only,R/Functions/Traits/Ingest/get_trait_domain_names_from_vegvault.R,get_trait_domain_names_from_vegvault,#153,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Traits/Reports/add_iqr_outlier_flag.R,add_iqr_outlier_flag,#153,Review leading verb `add` against version 1.
 function_naming,report_only,R/Functions/Traits/Reports/check_trait_coverage.R,check_trait_coverage,#153,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Traits/Reports/generate_trait_qc_report.R,generate_trait_qc_report,#153,Review leading verb `generate` against version 1.

@@ -1,8 +1,8 @@
-Extract Trait Data from VegVault
+Load Trait Records from VegVault
 
 Description:
 
-     Extracts functional trait data from the VegVault SQLite database
+     Loads functional trait records from the VegVault SQLite database
      for specified trait domains. Optional geographic filtering limits
      records to datasets within the specified longitude/latitude
      bounding box. Taxon names are returned as-is (`classify_to =
@@ -10,32 +10,32 @@ Description:
 
 Usage:
 
-     extract_traits_from_vegvault(
-       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
-       sel_trait_domain_names = NULL,
-       x_lim = NULL,
-       y_lim = NULL
+     load_trait_records_from_vegvault(
+       path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       vec_trait_domain_names = NULL,
+       vec_longitude_limits = NULL,
+       vec_latitude_limits = NULL
      )
-     
+
 Arguments:
 
-path_to_vegvault: A character string specifying the path to the
-          VegVault SQLite database (default:
+path_vegvault: A character string specifying the path to the VegVault
+          SQLite database (default:
           `here::here("Data/Input/VegVault.sqlite")`).
 
-sel_trait_domain_names: A character vector specifying the trait domain
-          names to extract (e.g. `c("Specific leaf area (SLA)", "Plant
+vec_trait_domain_names: A character vector specifying the trait domain
+          names to load (e.g. `c("Specific leaf area (SLA)", "Plant
           height vegetative")`).
 
-   x_lim: A numeric vector of length 2 giving the longitude limits
-          `c(min, max)` for geographic filtering. Must be supplied
-          together with `y_lim`. If `NULL` (default) no geographic
-          filter is applied.
+vec_longitude_limits: A numeric vector of length 2 giving the longitude
+          limits `c(min, max)` for geographic filtering. Must be
+          supplied together with `vec_latitude_limits`. If `NULL`
+          (default) no geographic filter is applied.
 
-   y_lim: A numeric vector of length 2 giving the latitude limits
-          `c(min, max)` for geographic filtering. Must be supplied
-          together with `x_lim`. If `NULL` (default) no geographic
-          filter is applied.
+vec_latitude_limits: A numeric vector of length 2 giving the latitude
+          limits `c(min, max)` for geographic filtering. Must be
+          supplied together with `vec_longitude_limits`. If `NULL`
+          (default) no geographic filter is applied.
 
 Details:
 
@@ -52,15 +52,14 @@ Details:
      Retrieves trait values using `classify_to = NULL` to preserve raw
      taxon names for downstream manual classification via the same
      taxospace + auxiliary-table pipeline used for community data.  5.
-     Returns the extracted data as a flat data frame.
+     Returns the loaded data as a flat data frame.
 
 Value:
 
-     A flat data frame containing extracted trait records with columns
+     A flat data frame containing loaded trait records with columns
      including `taxon_name` (original, unclassified),
      `trait_domain_name`, `trait_name`, and `trait_value`.
 
 See Also:
 
      [extract_data_from_vegvault()]
-

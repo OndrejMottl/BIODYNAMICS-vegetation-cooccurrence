@@ -41,7 +41,7 @@ removes rows where 'taxon_id' or 'trait_value' is 'NA'.
 <table role = "presentation">
 <tr><td><code id="data_raw">data_raw</code></td>
 <td>
-<p>A data frame returned by [extract_traits_from_vegvault()].
+<p>A data frame returned by [load_trait_records_from_vegvault()].
 Expected to contain at least the columns 'taxon_id',
 'trait_domain_name', 'trait_name', and 'trait_value'.</p>
 </td></tr>
@@ -66,7 +66,7 @@ or 'trait_value' is 'NA' removed.
 
 <h3>See Also</h3>
 
-<p>[extract_traits_from_vegvault()],
+<p>[load_trait_records_from_vegvault()],
 [resolve_trait_taxon_ids()]
 </p>
 
@@ -74,4 +74,3 @@ or 'trait_value' is 'NA' removed.
 
 </div>
 </body></html>
-

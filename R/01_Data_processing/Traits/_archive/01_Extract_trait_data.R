@@ -48,7 +48,7 @@ base::dir.create(
   recursive = TRUE
 )
 
-path_to_vegvault <-
+path_vegvault <-
   here::here("Data/Input/VegVault.sqlite")
 
 
@@ -58,7 +58,7 @@ path_to_vegvault <-
 
 # Load the full spatial grid and keep only the three continental-
 #   scale rows (europe, america, asia). Each row supplies the
-#   bounding box for one call to extract_traits_from_vegvault().
+#   bounding box for one call to load_trait_records_from_vegvault().
 data_spatial_grid <-
   readr::read_csv(
     file = here::here("Data/Input/spatial_grid.csv"),
@@ -106,7 +106,7 @@ cli::cli_inform(
 vegvault_conn_discovery <-
   DBI::dbConnect(
     RSQLite::SQLite(),
-    path_to_vegvault
+    path_vegvault
   )
 
 vec_trait_domain_names <-
@@ -156,13 +156,13 @@ purrr::walk(
       data_row |>
       dplyr::pull("scale_id")
 
-    vec_x_lim <-
+    vec_vec_longitude_limits <-
       base::c(
         data_row |> dplyr::pull("x_min"),
         data_row |> dplyr::pull("x_max")
       )
 
-    vec_y_lim <-
+    vec_vec_latitude_limits <-
       base::c(
         data_row |> dplyr::pull("y_min"),
         data_row |> dplyr::pull("y_max")
@@ -177,9 +177,9 @@ purrr::walk(
         ),
         " " = base::paste0(
           "Bounds: lon [",
-          vec_x_lim[1], ", ", vec_x_lim[2],
+          vec_vec_longitude_limits[1], ", ", vec_vec_longitude_limits[2],
           "], lat [",
-          vec_y_lim[1], ", ", vec_y_lim[2], "]."
+          vec_vec_latitude_limits[1], ", ", vec_vec_latitude_limits[2], "]."
         ),
         " " = base::paste0(
           "Domains (", base::length(vec_trait_domain_names),
@@ -198,11 +198,11 @@ purrr::walk(
     #--------------------------------------------------#
 
     data_traits_raw <-
-      extract_traits_from_vegvault(
-        path_to_vegvault = path_to_vegvault,
-        sel_trait_domain_names = vec_trait_domain_names,
-        x_lim = vec_x_lim,
-        y_lim = vec_y_lim
+      load_trait_records_from_vegvault(
+        path_vegvault = path_vegvault,
+        vec_trait_domain_names = vec_trait_domain_names,
+        vec_longitude_limits = vec_vec_longitude_limits,
+        vec_latitude_limits = vec_vec_latitude_limits
       )
 
     cli::cli_inform(
@@ -255,7 +255,7 @@ purrr::walk(
     vegvault_conn <-
       DBI::dbConnect(
         RSQLite::SQLite(),
-        path_to_vegvault
+        path_vegvault
       )
 
     data_taxon_lookup <-
