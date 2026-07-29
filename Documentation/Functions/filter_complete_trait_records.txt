@@ -1,4 +1,4 @@
-Clean Raw Trait Data
+Filter Complete Trait Records
 
 Description:
 
@@ -7,18 +7,18 @@ Description:
 
 Usage:
 
-     clean_raw_trait_data(data_raw)
+     filter_complete_trait_records(data_trait_records_raw)
 
 Arguments:
 
-data_raw: A data frame returned by
+data_trait_records_raw: A data frame returned by
           [load_trait_records_from_vegvault()]. Expected to contain at
           least the columns `taxon_id`, `trait_domain_name`,
           `trait_name`, and `trait_value`.
 
 Details:
 
-     Uses [dplyr::any_of()] for the column selection so the function
+     Uses [dplyr::any_of()] for column selection so the function
      tolerates input data frames that already lack one of the optional
      columns without error.
 

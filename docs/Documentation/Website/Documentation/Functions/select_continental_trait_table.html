@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>clean_raw_trait_data() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>select_continental_trait_table() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/clean_raw_trait_data.html">clean_raw_trait_data()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/select_continental_trait_table.html">select_continental_trait_table()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -398,8 +398,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/clean_raw_trait_data.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">clean_raw_trait_data()</span></a>
+  <a href="../../../../Documentation/Website/Documentation/Functions/filter_complete_trait_records.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">filter_complete_trait_records()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -560,8 +560,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/extract_and_clean_continent_traits.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">extract_and_clean_continent_traits()</span></a>
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_continental_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_continental_trait_records_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -602,8 +602,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_trait_records_from_vegvault()</span></a>
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_traits_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">extract_traits_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -866,8 +866,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_trait_domain_names_from_vegvault()</span></a>
+  <a href="../../../../Documentation/Website/Documentation/Functions/get_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">get_trait_domain_names_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1130,8 +1130,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_continent_trait_data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">prepare_continent_trait_data()</span></a>
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_continental_trait_table.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">select_continental_trait_table()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1545,9 +1545,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/clean_raw_trait_data.html">clean_raw_trait_data()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/select_continental_trait_table.html">select_continental_trait_table()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">clean_raw_trait_data()</h1>
+<h1 class="title">select_continental_trait_table()</h1>
 </div>
 
 
@@ -1568,16 +1568,22 @@ ul.task-list li input[type="checkbox"] {
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<p><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css"></p>
 <script type="text/javascript">
+
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
 function processMathHTML() {
+
     var l = document.getElementsByClassName('reqn');
+
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
     return;
+
 }</script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js" onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css">
+<p><link rel="stylesheet" type="text/css" href="R.css"></p>
 
 
 <div class="container">
@@ -1585,7 +1591,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-clean_raw_trait_data
+select_continental_trait_table
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -1593,18 +1599,29 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Clean Raw Trait Data
+Select a Continental Trait Table
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-Selects the required columns from a raw trait data frame and removes rows where ‘taxon_id’ or ‘trait_value’ is ‘NA’.
-</p>
+</p><p>Filters and subsets the wide trait table to taxa present in a</p>
+<p>single continental unit. Removes taxa where all trait values are</p>
+<p>‘NA’.</p>
+<p></p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">clean_raw_trait_data(data_raw)
+<pre><code class="language-R">select_continental_trait_table(
+
+  scale_id,
+
+  data_trait_table,
+
+  data_trait_records_classified
+
+)
+
 </code></pre>
 <h3 class="anchored">
 Arguments
@@ -1612,12 +1629,39 @@ Arguments
 <table role="presentation">
 <tbody><tr>
 <td>
-<code id="data_raw">data_raw</code>
+<code id="scale_id">scale_id</code>
 </td>
 <td>
 <p>
-A data frame returned by [load_trait_records_from_vegvault()]. Expected to contain at least the columns ‘taxon_id’, ‘trait_domain_name’, ‘trait_name’, and ‘trait_value’.
-</p>
+</p><p>A single non-empty character string identifying the continental</p>
+<p>unit (e.g.&nbsp;‘"europe"’, ‘"america"’, ‘"asia"’). Must match a</p>
+<p>value in the ‘scale_id’ column of</p>
+‘data_trait_records_classified’.
+<p></p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="data_trait_table">data_trait_table</code>
+</td>
+<td>
+<p>
+</p><p>A wide tibble (rows = taxa, columns = ‘taxon_name’ + trait</p>
+<p>domain columns) as produced by ‘make_trait_table()’. Must</p>
+contain a ‘taxon_name’ column.
+<p></p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="data_trait_records_classified">data_trait_records_classified</code>
+</td>
+<td>
+<p>
+</p><p>A tibble with at least columns ‘scale_id’ (character) and</p>
+<p>‘taxon_resolved’ (character), used to identify which taxa</p>
+belong to ‘scale_id’.
+<p></p>
 </td>
 </tr>
 </tbody></table>
@@ -1625,20 +1669,45 @@ A data frame returned by [load_trait_records_from_vegvault()]. Expected to conta
 Details
 </h3>
 <p>
-Uses [dplyr::any_of()] for the column selection so the function tolerates input data frames that already lack one of the optional columns without error.
-</p>
+</p><p><strong>Steps</strong>:</p>
+<p></p>
+<ol>
+<li>
+<p>
+</p><p>Filter ‘data_trait_records_classified’ to rows where</p>
+<p>‘scale_id’ matches the requested continental unit and collect</p>
+<p>‘distinct(taxon_resolved)’.</p>
+<p></p>
+</li>
+<li>
+<p>
+</p><p>Use ‘dplyr::semi_join()’ to subset ‘data_trait_table’</p>
+<p>to those taxa (‘taxon_name == taxon_resolved’).</p>
+<p></p>
+</li>
+<li>
+<p>
+</p><p>Remove rows where all trait columns (i.e.&nbsp;all columns</p>
+<p>except ‘taxon_name’) are ‘NA’.</p>
+<p></p>
+</li>
+</ol>
 <h3 class="anchored">
 Value
 </h3>
 <p>
-A tibble with columns ‘taxon_id’, ‘trait_domain_name’, ‘trait_name’, and ‘trait_value’, with all rows where ‘taxon_id’ or ‘trait_value’ is ‘NA’ removed.
-</p>
+</p><p>A tibble with the same column structure as ‘data_trait_table’</p>
+<p>(i.e.&nbsp;‘taxon_name’ + trait domain columns) but restricted to</p>
+<p>taxa present in ‘scale_id’ and with at least one non-‘NA’</p>
+<p>trait value.</p>
+<p></p>
 <h3 class="anchored">
 See Also
 </h3>
 <p>
-[load_trait_records_from_vegvault()], [resolve_trait_taxon_ids()]
-</p>
+</p><p>[save_ft_classification_for_continent()],</p>
+<p>[cluster_functional_types()]</p>
+<p></p>
 </main>
 </div>
 
@@ -2055,7 +2124,7 @@ See Also
     </div>
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/clean_raw_trait_data.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/select_continental_trait_table.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

@@ -3052,5 +3052,41 @@
       "Functions",
       "load_trait_domain_names_from_vegvault()"
     ]
+  },
+  {
+    "objectID": "Documentation/Website/Documentation/Functions/filter_complete_trait_records.html",
+    "href": "Documentation/Website/Documentation/Functions/filter_complete_trait_records.html",
+    "title": "filter_complete_trait_records()",
+    "section": "",
+    "text": "filter_complete_trait_records\n\n\nR Documentation\n\n\n\n\nFilter Complete Trait Records\n\n\nDescription\n\n\nSelects the required columns from a raw trait data frame and\nremoves rows where ‘taxon_id’ or ‘trait_value’ is ‘NA’.\n\n\nUsage\n\nfilter_complete_trait_records(data_trait_records_raw)\n\n\n\nArguments\n\n\n\n\ndata_trait_records_raw\n\n\n\nA data frame returned by [load_trait_records_from_vegvault()].\nExpected to contain at least the columns ‘taxon_id’,\n‘trait_domain_name’, ‘trait_name’, and ‘trait_value’.\n\n\n\n\n\nDetails\n\n\nUses [dplyr::any_of()] for column selection so the function\ntolerates input data frames that already lack one of the optional\ncolumns without error.\n\n\nValue\n\n\nA tibble with columns ‘taxon_id’, ‘trait_domain_name’,\n‘trait_name’, and ‘trait_value’, with all rows where ‘taxon_id’\nor ‘trait_value’ is ‘NA’ removed.\n\n\nSee Also\n\n\n[load_trait_records_from_vegvault()],\n[resolve_trait_taxon_ids()]\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Code Reference",
+      "Functions",
+      "filter_complete_trait_records()"
+    ]
+  },
+  {
+    "objectID": "Documentation/Website/Documentation/Functions/load_continental_trait_records_from_vegvault.html",
+    "href": "Documentation/Website/Documentation/Functions/load_continental_trait_records_from_vegvault.html",
+    "title": "load_continental_trait_records_from_vegvault()",
+    "section": "",
+    "text": "load_continental_trait_records_from_vegvault\n\n\nR Documentation\n\n\n\n\nLoad Continental Trait Records from VegVault\n\n\nDescription\n\n\nLoads raw trait data from VegVault for a single continental\nbounding box, removes incomplete records, and translates numeric\ntaxon IDs to taxon names. Optionally prints progress messages.\n\n\nUsage\n\nload_continental_trait_records_from_vegvault(\n\n  data_continental_unit,\n\n  vec_trait_domain_names,\n\n  path_vegvault = here::here(\"Data/Input/VegVault.sqlite\"),\n\n  verbose = TRUE\n\n)\n\n\n\nArguments\n\n\n\n\ndata_continental_unit\n\n\n\nA single-row data frame (one continental unit from the spatial\ngrid) with columns ‘scale_id’, ‘x_min’, ‘x_max’, ‘y_min’,\nand ‘y_max’.\n\n\n\n\n\nvec_trait_domain_names\n\n\n\nA non-empty character vector of trait domain names to extract\n(e.g. ‘c(\"Specific leaf area (SLA)\", \"Plant height vegetative\")’).\n\n\n\n\n\npath_vegvault\n\n\n\nA single character string giving the path to the VegVault\nSQLite database\n(default: ‘here::here(\"Data/Input/VegVault.sqlite\")’).\n\n\n\n\n\nverbose\n\n\n\nA single logical value. If ‘TRUE’ (default), progress messages\nare printed via ‘cli::cli_inform()’. Set to ‘FALSE’ to suppress\nall console output.\n\n\n\n\n\nDetails\n\n\nThe function performs the following steps:\n\n\n\nValidates all input arguments.\nDerives the bounding-box limits and scale identifier from\n\n‘data_continental_unit’.\n\nCalls [load_trait_records_from_vegvault()] to retrieve raw records.\nCalls [filter_complete_trait_records()] to drop incomplete rows.\nCalls [resolve_trait_taxon_ids()] to replace numeric IDs with\n\ntaxon names.\n\nReturns the final tibble with taxon-name columns only.\n\n\n\nValue\n\n\nA tibble with columns ‘taxon_name’, ‘trait_domain_name’,\n‘trait_name’, and ‘trait_value’, containing the cleaned and\nID-resolved trait records for the supplied continental unit.\n\n\nSee Also\n\n\n[load_trait_records_from_vegvault()],\n[filter_complete_trait_records()], [resolve_trait_taxon_ids()]\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Code Reference",
+      "Functions",
+      "load_continental_trait_records_from_vegvault()"
+    ]
+  },
+  {
+    "objectID": "Documentation/Website/Documentation/Functions/select_continental_trait_table.html",
+    "href": "Documentation/Website/Documentation/Functions/select_continental_trait_table.html",
+    "title": "select_continental_trait_table()",
+    "section": "",
+    "text": "select_continental_trait_table\n\n\nR Documentation\n\n\n\n\nSelect a Continental Trait Table\n\n\nDescription\n\n\nFilters and subsets the wide trait table to taxa present in a\nsingle continental unit. Removes taxa where all trait values are\n‘NA’.\n\n\nUsage\n\nselect_continental_trait_table(\n\n  scale_id,\n\n  data_trait_table,\n\n  data_trait_records_classified\n\n)\n\n\n\nArguments\n\n\n\n\nscale_id\n\n\n\nA single non-empty character string identifying the continental\nunit (e.g. ‘\"europe\"’, ‘\"america\"’, ‘\"asia\"’). Must match a\nvalue in the ‘scale_id’ column of\n‘data_trait_records_classified’.\n\n\n\n\n\ndata_trait_table\n\n\n\nA wide tibble (rows = taxa, columns = ‘taxon_name’ + trait\ndomain columns) as produced by ‘make_trait_table()’. Must\ncontain a ‘taxon_name’ column.\n\n\n\n\n\ndata_trait_records_classified\n\n\n\nA tibble with at least columns ‘scale_id’ (character) and\n‘taxon_resolved’ (character), used to identify which taxa\nbelong to ‘scale_id’.\n\n\n\n\n\nDetails\n\n\nSteps:\n\n\n\n\nFilter ‘data_trait_records_classified’ to rows where\n‘scale_id’ matches the requested continental unit and collect\n‘distinct(taxon_resolved)’.\n\n\n\n\nUse ‘dplyr::semi_join()’ to subset ‘data_trait_table’\nto those taxa (‘taxon_name == taxon_resolved’).\n\n\n\n\nRemove rows where all trait columns (i.e. all columns\nexcept ‘taxon_name’) are ‘NA’.\n\n\n\n\nValue\n\n\nA tibble with the same column structure as ‘data_trait_table’\n(i.e. ‘taxon_name’ + trait domain columns) but restricted to\ntaxa present in ‘scale_id’ and with at least one non-‘NA’\ntrait value.\n\n\nSee Also\n\n\n[save_ft_classification_for_continent()],\n[cluster_functional_types()]\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Code Reference",
+      "Functions",
+      "select_continental_trait_table()"
+    ]
   }
 ]

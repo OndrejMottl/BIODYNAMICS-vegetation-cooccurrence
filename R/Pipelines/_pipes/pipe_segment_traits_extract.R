@@ -111,10 +111,10 @@ pipe_segment_traits_extract <-
         vec_scale_id <-
           dplyr::pull(data_continental_rows, "scale_id")
 
-        extract_and_clean_continent_traits(
-          data_continental_rows = data_continental_rows,
+        load_continental_trait_records_from_vegvault(
+          data_continental_unit = data_continental_rows,
           vec_trait_domain_names = vec_trait_domain_names,
-          path_to_vegvault = here::here(
+          path_vegvault = here::here(
             "Data/Input/VegVault.sqlite"
           ),
           verbose = TRUE

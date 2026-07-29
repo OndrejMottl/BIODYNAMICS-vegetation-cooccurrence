@@ -1,5 +1,5 @@
 testthat::test_that(
-  "prepare_continent_trait_data() errors on non-char continent_id",
+  "select_continental_trait_table() errors on non-char scale_id",
   {
     data_trait_table <-
       tibble::tibble(
@@ -7,25 +7,25 @@ testthat::test_that(
         sla = base::c(1.0, 2.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe"),
         taxon_resolved = base::c("A")
       )
 
     testthat::expect_error(
-      prepare_continent_trait_data(
-        continent_id = 1L,
+      select_continental_trait_table(
+        scale_id = 1L,
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
     )
   }
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() errors on length > 1 continent_id",
+  "select_continental_trait_table() errors on length > 1 scale_id",
   {
     data_trait_table <-
       tibble::tibble(
@@ -33,25 +33,25 @@ testthat::test_that(
         sla = base::c(1.0, 2.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe"),
         taxon_resolved = base::c("A")
       )
 
     testthat::expect_error(
-      prepare_continent_trait_data(
-        continent_id = base::c("europe", "asia"),
+      select_continental_trait_table(
+        scale_id = base::c("europe", "asia"),
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
     )
   }
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() errors on empty string continent_id",
+  "select_continental_trait_table() errors on empty string scale_id",
   {
     data_trait_table <-
       tibble::tibble(
@@ -59,45 +59,45 @@ testthat::test_that(
         sla = base::c(1.0, 2.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe"),
         taxon_resolved = base::c("A")
       )
 
     testthat::expect_error(
-      prepare_continent_trait_data(
-        continent_id = "",
+      select_continental_trait_table(
+        scale_id = "",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
     )
   }
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() errors on non-df trait_table",
+  "select_continental_trait_table() errors on non-df trait_table",
   {
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe"),
         taxon_resolved = base::c("A")
       )
 
     testthat::expect_error(
-      prepare_continent_trait_data(
-        continent_id = "europe",
+      select_continental_trait_table(
+        scale_id = "europe",
         data_trait_table = "not_a_df",
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
     )
   }
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() errors on missing taxon_name col",
+  "select_continental_trait_table() errors on missing taxon_name col",
   {
     data_trait_table <-
       tibble::tibble(
@@ -105,25 +105,25 @@ testthat::test_that(
         sla = base::c(1.0, 2.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe"),
         taxon_resolved = base::c("A")
       )
 
     testthat::expect_error(
-      prepare_continent_trait_data(
-        continent_id = "europe",
+      select_continental_trait_table(
+        scale_id = "europe",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
     )
   }
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() errors on non-df classified",
+  "select_continental_trait_table() errors on non-df classified",
   {
     data_trait_table <-
       tibble::tibble(
@@ -132,17 +132,17 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      prepare_continent_trait_data(
-        continent_id = "europe",
+      select_continental_trait_table(
+        scale_id = "europe",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected = "not_a_df"
+        data_trait_records_classified = "not_a_df"
       )
     )
   }
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() errors on missing scale_id col",
+  "select_continental_trait_table() errors on missing scale_id col",
   {
     data_trait_table <-
       tibble::tibble(
@@ -150,25 +150,25 @@ testthat::test_that(
         sla = base::c(1.0, 2.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         region = base::c("europe"),
         taxon_resolved = base::c("A")
       )
 
     testthat::expect_error(
-      prepare_continent_trait_data(
-        continent_id = "europe",
+      select_continental_trait_table(
+        scale_id = "europe",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
     )
   }
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() errors on missing taxon_resolved col",
+  "select_continental_trait_table() errors on missing taxon_resolved col",
   {
     data_trait_table <-
       tibble::tibble(
@@ -176,25 +176,25 @@ testthat::test_that(
         sla = base::c(1.0, 2.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe"),
         taxon_name = base::c("A")
       )
 
     testthat::expect_error(
-      prepare_continent_trait_data(
-        continent_id = "europe",
+      select_continental_trait_table(
+        scale_id = "europe",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
     )
   }
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() returns a tibble",
+  "select_continental_trait_table() returns a tibble",
   {
     data_trait_table <-
       tibble::tibble(
@@ -203,26 +203,26 @@ testthat::test_that(
         height = base::c(0.5, 1.0, 1.5, 2.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe", "europe", "asia"),
         taxon_resolved = base::c("A", "B", "C")
       )
 
-    res <-
-      prepare_continent_trait_data(
-        continent_id = "europe",
+    data_trait_table_selected <-
+      select_continental_trait_table(
+        scale_id = "europe",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
 
-    testthat::expect_s3_class(res, "tbl_df")
+    testthat::expect_s3_class(data_trait_table_selected, "tbl_df")
   }
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() returns only continent taxa",
+  "select_continental_trait_table() returns only continent taxa",
   {
     data_trait_table <-
       tibble::tibble(
@@ -231,24 +231,24 @@ testthat::test_that(
         height = base::c(0.5, 1.0, 1.5, 2.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe", "europe", "asia"),
         taxon_resolved = base::c("A", "B", "C")
       )
 
-    res <-
-      prepare_continent_trait_data(
-        continent_id = "europe",
+    data_trait_table_selected <-
+      select_continental_trait_table(
+        scale_id = "europe",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
 
     vec_taxa <-
-      dplyr::pull(res, taxon_name)
+      dplyr::pull(data_trait_table_selected, taxon_name)
 
-    testthat::expect_equal(base::nrow(res), 2L)
+    testthat::expect_equal(base::nrow(data_trait_table_selected), 2L)
     testthat::expect_true(
       base::all(vec_taxa %in% base::c("A", "B"))
     )
@@ -256,7 +256,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() excludes taxa from other continents",
+  "select_continental_trait_table() excludes taxa from other continents",
   {
     data_trait_table <-
       tibble::tibble(
@@ -265,22 +265,22 @@ testthat::test_that(
         height = base::c(0.5, 1.0, 1.5, 2.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe", "europe", "asia"),
         taxon_resolved = base::c("A", "B", "C")
       )
 
-    res <-
-      prepare_continent_trait_data(
-        continent_id = "europe",
+    data_trait_table_selected <-
+      select_continental_trait_table(
+        scale_id = "europe",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
 
     vec_taxa <-
-      dplyr::pull(res, taxon_name)
+      dplyr::pull(data_trait_table_selected, taxon_name)
 
     testthat::expect_false("C" %in% vec_taxa)
     testthat::expect_false("D" %in% vec_taxa)
@@ -288,7 +288,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() removes all-NA trait taxa",
+  "select_continental_trait_table() removes all-NA trait taxa",
   {
     data_trait_table <-
       tibble::tibble(
@@ -297,24 +297,24 @@ testthat::test_that(
         height = base::c(0.5, NA, NA)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe", "europe", "europe"),
         taxon_resolved = base::c("A", "B", "C")
       )
 
-    res <-
-      prepare_continent_trait_data(
-        continent_id = "europe",
+    data_trait_table_selected <-
+      select_continental_trait_table(
+        scale_id = "europe",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
 
     vec_taxa <-
-      dplyr::pull(res, taxon_name)
+      dplyr::pull(data_trait_table_selected, taxon_name)
 
-    testthat::expect_equal(base::nrow(res), 1L)
+    testthat::expect_equal(base::nrow(data_trait_table_selected), 1L)
     testthat::expect_true("A" %in% vec_taxa)
     testthat::expect_false("B" %in% vec_taxa)
     testthat::expect_false("C" %in% vec_taxa)
@@ -322,7 +322,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() keeps taxa with partial NAs",
+  "select_continental_trait_table() keeps taxa with partial NAs",
   {
     data_trait_table <-
       tibble::tibble(
@@ -331,26 +331,26 @@ testthat::test_that(
         height = base::c(NA, 1.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe", "europe"),
         taxon_resolved = base::c("A", "B")
       )
 
-    res <-
-      prepare_continent_trait_data(
-        continent_id = "europe",
+    data_trait_table_selected <-
+      select_continental_trait_table(
+        scale_id = "europe",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
 
-    testthat::expect_equal(base::nrow(res), 2L)
+    testthat::expect_equal(base::nrow(data_trait_table_selected), 2L)
   }
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() preserves all input columns",
+  "select_continental_trait_table() preserves all input columns",
   {
     data_trait_table <-
       tibble::tibble(
@@ -359,29 +359,29 @@ testthat::test_that(
         height = base::c(0.5, 1.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe", "europe"),
         taxon_resolved = base::c("A", "B")
       )
 
-    res <-
-      prepare_continent_trait_data(
-        continent_id = "europe",
+    data_trait_table_selected <-
+      select_continental_trait_table(
+        scale_id = "europe",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
 
     testthat::expect_equal(
-      base::colnames(res),
+      base::colnames(data_trait_table_selected),
       base::colnames(data_trait_table)
     )
   }
 )
 
 testthat::test_that(
-  "prepare_continent_trait_data() returns 0 rows for missing continent",
+  "select_continental_trait_table() returns 0 rows for missing continent",
   {
     data_trait_table <-
       tibble::tibble(
@@ -389,20 +389,20 @@ testthat::test_that(
         sla = base::c(1.0, 2.0)
       )
 
-    data_traits_classified_corrected <-
+    data_trait_records_classified <-
       tibble::tibble(
         scale_id = base::c("europe", "europe"),
         taxon_resolved = base::c("A", "B")
       )
 
-    res <-
-      prepare_continent_trait_data(
-        continent_id = "antarctica",
+    data_trait_table_selected <-
+      select_continental_trait_table(
+        scale_id = "antarctica",
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
-          data_traits_classified_corrected
+        data_trait_records_classified =
+          data_trait_records_classified
       )
 
-    testthat::expect_equal(base::nrow(res), 0L)
+    testthat::expect_equal(base::nrow(data_trait_table_selected), 0L)
   }
 )

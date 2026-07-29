@@ -1,16 +1,16 @@
-#' @title Extract and Clean Trait Data for One Continental Unit
+#' @title Load Continental Trait Records from VegVault
 #' @description
-#' Extracts raw trait data from VegVault for a single continental
+#' Loads raw trait data from VegVault for a single continental
 #' bounding box, removes incomplete records, and translates numeric
 #' taxon IDs to taxon names. Optionally prints progress messages.
-#' @param data_continental_rows
+#' @param data_continental_unit
 #' A single-row data frame (one continental unit from the spatial
 #' grid) with columns `scale_id`, `x_min`, `x_max`, `y_min`,
 #' and `y_max`.
 #' @param vec_trait_domain_names
 #' A non-empty character vector of trait domain names to extract
 #' (e.g. `c("Specific leaf area (SLA)", "Plant height vegetative")`).
-#' @param path_to_vegvault
+#' @param path_vegvault
 #' A single character string giving the path to the VegVault
 #' SQLite database
 #' (default: `here::here("Data/Input/VegVault.sqlite")`).
@@ -27,44 +27,40 @@
 #'
 #'   1. Validates all input arguments.
 #'   2. Derives the bounding-box limits and scale identifier from
-#'      `data_continental_rows`.
+#'      `data_continental_unit`.
 #'   3. Calls [load_trait_records_from_vegvault()] to retrieve raw records.
-#'   4. Calls [clean_raw_trait_data()] to drop incomplete rows.
+#'   4. Calls [filter_complete_trait_records()] to drop incomplete rows.
 #'   5. Calls [resolve_trait_taxon_ids()] to replace numeric IDs with
 #'      taxon names.
 #'   6. Returns the final tibble with taxon-name columns only.
-#' @seealso [load_trait_records_from_vegvault()], [clean_raw_trait_data()],
-#'   [resolve_trait_taxon_ids()]
+#' @seealso [load_trait_records_from_vegvault()],
+#'   [filter_complete_trait_records()], [resolve_trait_taxon_ids()]
 #' @export
-extract_and_clean_continent_traits <- function(
-    data_continental_rows,
+load_continental_trait_records_from_vegvault <- function(
+    data_continental_unit,
     vec_trait_domain_names,
-    path_to_vegvault = here::here(
+    path_vegvault = here::here(
       "Data/Input/VegVault.sqlite"
     ),
     verbose = TRUE) {
   assertthat::assert_that(
-    base::is.data.frame(data_continental_rows),
-    msg = paste0(
-      "'data_continental_rows' must be a data frame."
-    )
+    base::is.data.frame(data_continental_unit),
+    msg = "'data_continental_unit' must be a data frame."
   )
 
   assertthat::assert_that(
-    base::nrow(data_continental_rows) >= 1L,
-    msg = paste0(
-      "'data_continental_rows' must have at least one row."
-    )
+    base::nrow(data_continental_unit) >= 1L,
+    msg = "'data_continental_unit' must have at least one row."
   )
 
   assertthat::assert_that(
     base::all(
       base::c(
         "scale_id", "x_min", "x_max", "y_min", "y_max"
-      ) %in% base::names(data_continental_rows)
+      ) %in% base::names(data_continental_unit)
     ),
-    msg = paste0(
-      "'data_continental_rows' must contain columns: ",
+    msg = stringr::str_c(
+      "'data_continental_unit' must contain columns: ",
       "'scale_id', 'x_min', 'x_max', 'y_min', 'y_max'."
     )
   )
@@ -72,25 +68,24 @@ extract_and_clean_continent_traits <- function(
   assertthat::assert_that(
     base::is.character(vec_trait_domain_names) &&
       base::length(vec_trait_domain_names) > 0L,
-    msg = paste0(
+    msg = stringr::str_c(
       "'vec_trait_domain_names' must be a non-empty ",
       "character vector."
     )
   )
 
   assertthat::assert_that(
-    base::is.character(path_to_vegvault) &&
-      base::length(path_to_vegvault) == 1L,
-    msg = paste0(
-      "'path_to_vegvault' must be a single character string."
-    )
+    base::is.character(path_vegvault) &&
+      base::length(path_vegvault) == 1L,
+    msg = "'path_vegvault' must be a single character string."
   )
 
   assertthat::assert_that(
-    base::file.exists(path_to_vegvault),
-    msg = base::paste0(
+    base::file.exists(path_vegvault),
+    msg = stringr::str_c(
       "VegVault database not found at: '",
-      path_to_vegvault, "'."
+      path_vegvault,
+      "'."
     )
   )
 
@@ -100,40 +95,48 @@ extract_and_clean_continent_traits <- function(
     msg = "'verbose' must be a single logical value."
   )
 
-  vec_scale_id <-
-    data_continental_rows |>
+  scale_id <-
+    data_continental_unit |>
     dplyr::pull("scale_id")
 
-  vec_x_lim <-
+  vec_longitude_limits <-
     base::c(
-      data_continental_rows |> dplyr::pull("x_min"),
-      data_continental_rows |> dplyr::pull("x_max")
+      data_continental_unit |> dplyr::pull("x_min"),
+      data_continental_unit |> dplyr::pull("x_max")
     )
 
-  vec_y_lim <-
+  vec_latitude_limits <-
     base::c(
-      data_continental_rows |> dplyr::pull("y_min"),
-      data_continental_rows |> dplyr::pull("y_max")
+      data_continental_unit |> dplyr::pull("y_min"),
+      data_continental_unit |> dplyr::pull("y_max")
     )
 
   if (
-    isTRUE(verbose)
+    base::isTRUE(verbose)
   ) {
     cli::cli_inform(
-      c(
-        "i" = base::paste0(
-          "Extracting traits for '", vec_scale_id, "'."
+      base::c(
+        "i" = stringr::str_c(
+          "Loading traits for '",
+          scale_id,
+          "'."
         ),
-        " " = base::paste0(
+        " " = stringr::str_c(
           "Bounds: lon [",
-          vec_x_lim[1L], ", ", vec_x_lim[2L],
+          vec_longitude_limits[1L],
+          ", ",
+          vec_longitude_limits[2L],
           "], lat [",
-          vec_y_lim[1L], ", ", vec_y_lim[2L], "]."
+          vec_latitude_limits[1L],
+          ", ",
+          vec_latitude_limits[2L],
+          "]."
         ),
-        " " = base::paste0(
+        " " = stringr::str_c(
           "Domains (",
-          base::length(vec_trait_domain_names), "): ",
-          base::paste(
+          base::length(vec_trait_domain_names),
+          "): ",
+          stringr::str_c(
             vec_trait_domain_names,
             collapse = " | "
           )
@@ -143,35 +146,40 @@ extract_and_clean_continent_traits <- function(
     )
   }
 
-  data_raw <-
+  data_trait_records_raw <-
     load_trait_records_from_vegvault(
-      path_vegvault = path_to_vegvault,
+      path_vegvault = path_vegvault,
       vec_trait_domain_names = vec_trait_domain_names,
-      vec_longitude_limits = vec_x_lim,
-      vec_latitude_limits = vec_y_lim
+      vec_longitude_limits = vec_longitude_limits,
+      vec_latitude_limits = vec_latitude_limits
     )
 
-  data_clean <-
-    clean_raw_trait_data(data_raw = data_raw)
+  data_trait_records_complete <-
+    filter_complete_trait_records(
+      data_trait_records_raw = data_trait_records_raw
+    )
 
-  res_result <-
+  data_trait_records_resolved <-
     resolve_trait_taxon_ids(
-      data_clean = data_clean,
-      path_to_vegvault = path_to_vegvault
+      data_clean = data_trait_records_complete,
+      path_to_vegvault = path_vegvault
     )
 
   if (
-    isTRUE(verbose)
+    base::isTRUE(verbose)
   ) {
     cli::cli_inform(
-      c(
-        "v" = base::paste0(
-          "'", vec_scale_id, "': extracted ",
-          base::nrow(res_result), " records."
+      base::c(
+        "v" = stringr::str_c(
+          "'",
+          scale_id,
+          "': loaded ",
+          base::nrow(data_trait_records_resolved),
+          " records."
         )
       )
     )
   }
 
-  return(res_result)
+  return(data_trait_records_resolved)
 }

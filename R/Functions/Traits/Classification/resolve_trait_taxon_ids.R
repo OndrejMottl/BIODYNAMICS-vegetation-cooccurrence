@@ -6,7 +6,7 @@
 #' for `taxon_name` (standard left-join behaviour).
 #' @param data_clean
 #' A data frame with at least the column `taxon_id` (integer or
-#' numeric), typically the output of [clean_raw_trait_data()].
+#' numeric), typically the output of [filter_complete_trait_records()].
 #' @param path_to_vegvault
 #' A single character string giving the path to the VegVault
 #' SQLite database
@@ -21,8 +21,8 @@
 #' and immediately disconnects. The connection is always closed —
 #' even if the join step errors — through standard sequential
 #' disconnect after collect.
-#' @seealso [clean_raw_trait_data()],
-#'   [extract_and_clean_continent_traits()]
+#' @seealso [filter_complete_trait_records()],
+#'   [load_continental_trait_records_from_vegvault()]
 #' @export
 resolve_trait_taxon_ids <- function(
     data_clean,

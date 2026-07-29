@@ -406,79 +406,79 @@ data_abiotic_test_findings <-
     )
   )
 
-path_trait_ingest_function_root <-
-  "R/Functions/Data/Traits/Ingest/"
+path_trait_function_root <-
+  "R/Functions/Data/Traits/"
 
-vec_trait_ingest_function_paths_current <-
+vec_trait_function_paths_current <-
   vec_function_paths_current[
     stringr::str_starts(
       vec_function_paths_current,
-      path_trait_ingest_function_root
+      path_trait_function_root
     )
   ]
 
-data_migrated_trait_ingest_functions <-
+data_migrated_trait_functions <-
   data_functions |>
   dplyr::filter(
     .data[["owning_issue"]] == "#153",
     .data[["migration_status"]] == "migrated",
     stringr::str_starts(
       .data[["active_path"]],
-      path_trait_ingest_function_root
+      path_trait_function_root
     )
   )
 
-vec_allowed_trait_ingest_function_paths <-
-  data_migrated_trait_ingest_functions |>
+vec_allowed_trait_function_paths <-
+  data_migrated_trait_functions |>
   dplyr::pull(.data[["active_path"]])
 
-vec_legacy_trait_ingest_function_paths <-
+vec_legacy_trait_function_paths <-
   base::intersect(
     vec_function_paths_current,
-    data_migrated_trait_ingest_functions[["current_path"]]
+    data_migrated_trait_functions[["current_path"]]
   )
 
-vec_invalid_trait_ingest_function_paths <-
+vec_invalid_trait_function_paths <-
   base::union(
-    vec_legacy_trait_ingest_function_paths,
+    vec_legacy_trait_function_paths,
     base::union(
       base::setdiff(
-        vec_trait_ingest_function_paths_current,
-        vec_allowed_trait_ingest_function_paths
+        vec_trait_function_paths_current,
+        vec_allowed_trait_function_paths
       ),
       base::setdiff(
-        vec_allowed_trait_ingest_function_paths,
-        vec_trait_ingest_function_paths_current
+        vec_allowed_trait_function_paths,
+        vec_trait_function_paths_current
       )
     )
   )
 
-data_trait_ingest_function_findings <-
+data_trait_function_findings <-
   tibble::tibble(
-    finding_type = "trait_ingest_function_placement",
+    finding_type = "trait_function_placement",
     severity = "blocking",
-    current_path = vec_invalid_trait_ingest_function_paths,
+    current_path = vec_invalid_trait_function_paths,
     symbol = NA_character_,
     owning_issue = "#153",
     message = stringr::str_c(
-      "Trait-ingest functions must match the migrated ",
-      "R/Functions/Data/Traits/Ingest inventory."
+      "Trait functions must match the migrated ",
+      "R/Functions/Data/Traits inventory."
     )
   )
 
-data_trait_ingest_naming_findings <-
-  data_migrated_trait_ingest_functions |>
+data_trait_naming_findings <-
+  data_migrated_trait_functions |>
   dplyr::filter(
     .data[["naming_status"]] != "canonical_or_domain_verb"
   ) |>
   dplyr::mutate(
-    finding_type = "trait_ingest_function_naming",
+    finding_type = "trait_function_naming",
     severity = "blocking",
     current_path = .data[["active_path"]],
     symbol = .data[["active_symbol"]],
     owning_issue = .data[["owning_issue"]],
     message = stringr::str_c(
-      "Migrated trait-ingest functions must use an approved ",
+      "Migrated trait functions must use an approved ",
       "canonical or domain verb."
     )
   ) |>
@@ -491,21 +491,21 @@ data_trait_ingest_naming_findings <-
     "message"
   )
 
-path_trait_ingest_test_root <-
+path_trait_test_root <-
   stringr::str_c(
     "R/03_Supplementary_analyses/Testing/testthat/",
-    "Data/Traits/Ingest/"
+    "Data/Traits/"
   )
 
-vec_trait_ingest_test_paths_current <-
+vec_trait_test_paths_current <-
   vec_script_paths_current[
     stringr::str_starts(
       vec_script_paths_current,
-      path_trait_ingest_test_root
+      path_trait_test_root
     )
   ]
 
-data_migrated_trait_ingest_tests <-
+data_migrated_trait_tests <-
   data_scripts |>
   dplyr::filter(
     .data[["owning_issue"]] == "#153",
@@ -513,45 +513,45 @@ data_migrated_trait_ingest_tests <-
     .data[["migration_status"]] == "migrated",
     stringr::str_starts(
       .data[["active_path"]],
-      path_trait_ingest_test_root
+      path_trait_test_root
     )
   )
 
-vec_allowed_trait_ingest_test_paths <-
-  data_migrated_trait_ingest_tests |>
+vec_allowed_trait_test_paths <-
+  data_migrated_trait_tests |>
   dplyr::pull(.data[["active_path"]])
 
-vec_legacy_trait_ingest_test_paths <-
+vec_legacy_trait_test_paths <-
   base::intersect(
     vec_script_paths_current,
-    data_migrated_trait_ingest_tests[["current_path"]]
+    data_migrated_trait_tests[["current_path"]]
   )
 
-vec_invalid_trait_ingest_test_paths <-
+vec_invalid_trait_test_paths <-
   base::union(
-    vec_legacy_trait_ingest_test_paths,
+    vec_legacy_trait_test_paths,
     base::union(
       base::setdiff(
-        vec_trait_ingest_test_paths_current,
-        vec_allowed_trait_ingest_test_paths
+        vec_trait_test_paths_current,
+        vec_allowed_trait_test_paths
       ),
       base::setdiff(
-        vec_allowed_trait_ingest_test_paths,
-        vec_trait_ingest_test_paths_current
+        vec_allowed_trait_test_paths,
+        vec_trait_test_paths_current
       )
     )
   )
 
-data_trait_ingest_test_findings <-
+data_trait_test_findings <-
   tibble::tibble(
-    finding_type = "trait_ingest_test_placement",
+    finding_type = "trait_test_placement",
     severity = "blocking",
-    current_path = vec_invalid_trait_ingest_test_paths,
+    current_path = vec_invalid_trait_test_paths,
     symbol = NA_character_,
     owning_issue = "#153",
     message = stringr::str_c(
-      "Trait-ingest tests must mirror the migrated ",
-      "R/Functions/Data/Traits/Ingest hierarchy."
+      "Trait tests must mirror the migrated ",
+      "R/Functions/Data/Traits hierarchy."
     )
   )
 
@@ -1314,9 +1314,9 @@ data_findings <-
     data_abiotic_function_findings,
     data_abiotic_naming_findings,
     data_abiotic_test_findings,
-    data_trait_ingest_function_findings,
-    data_trait_ingest_naming_findings,
-    data_trait_ingest_test_findings,
+    data_trait_function_findings,
+    data_trait_naming_findings,
+    data_trait_test_findings,
     data_community_function_findings,
     data_community_classification_naming_findings,
     data_community_quality_control_naming_findings,
@@ -1398,7 +1398,7 @@ cli::cli_inform(
       "classification, quality-control, modern-record, proportion,",
       "data-shape, and taxa-selection naming, plus migrated Time/Ages",
       "and Time/Interpolation placement, naming, and retirement are",
-      "blocking; migrated trait-ingest placement and naming are also",
+      "blocking; migrated trait placement and naming are also",
       "blocking;",
       "unmigrated architecture contracts remain report-only.",
       sep = " "

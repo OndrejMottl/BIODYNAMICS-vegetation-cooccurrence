@@ -130,10 +130,10 @@ pipe_segment_traits_ft_clustering <-
         "Filter trait table to taxa for one continent"
       ),
       name = data_continent_traits,
-      command = prepare_continent_trait_data(
-        continent_id = dplyr::pull(data_continental_rows, "scale_id"),
+      command = select_continental_trait_table(
+        scale_id = dplyr::pull(data_continental_rows, "scale_id"),
         data_trait_table = data_trait_table,
-        data_traits_classified_corrected =
+        data_trait_records_classified =
           data_traits_classified_corrected
       ),
       pattern = map(data_continental_rows)

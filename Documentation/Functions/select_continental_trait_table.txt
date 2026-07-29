@@ -1,4 +1,4 @@
-Prepare Trait Data for One Continental Unit
+Select a Continental Trait Table
 
 Description:
 
@@ -8,33 +8,33 @@ Description:
 
 Usage:
 
-     prepare_continent_trait_data(
-       continent_id,
+     select_continental_trait_table(
+       scale_id,
        data_trait_table,
-       data_traits_classified_corrected
+       data_trait_records_classified
      )
-     
+
 Arguments:
 
-continent_id: A single non-empty character string identifying the
+scale_id: A single non-empty character string identifying the
           continental unit (e.g. `"europe"`, `"america"`, `"asia"`).
           Must match a value in the `scale_id` column of
-          `data_traits_classified_corrected`.
+          `data_trait_records_classified`.
 
 data_trait_table: A wide tibble (rows = taxa, columns = `taxon_name` +
           trait domain columns) as produced by `make_trait_table()`.
           Must contain a `taxon_name` column.
 
-data_traits_classified_corrected: A tibble with at least columns
+data_trait_records_classified: A tibble with at least columns
           `scale_id` (character) and `taxon_resolved` (character), used
-          to identify which taxa belong to `continent_id`.
+          to identify which taxa belong to `scale_id`.
 
 Details:
 
      **Steps**:
 
-       1. Filter `data_traits_classified_corrected` to rows where
-          `scale_id == continent_id` and collect
+       1. Filter `data_trait_records_classified` to rows where
+          `scale_id` matches the requested continental unit and collect
           `distinct(taxon_resolved)`.
 
        2. Use `dplyr::semi_join()` to subset `data_trait_table` to
@@ -47,11 +47,9 @@ Value:
 
      A tibble with the same column structure as `data_trait_table`
      (i.e. `taxon_name` + trait domain columns) but restricted to taxa
-     present in `continent_id` and with at least one non-`NA` trait
-     value.
+     present in `scale_id` and with at least one non-`NA` trait value.
 
 See Also:
 
      [save_ft_classification_for_continent()],
      [cluster_functional_types()]
-

@@ -13,12 +13,12 @@ Usage:
        data_clean,
        path_to_vegvault = here::here("Data/Input/VegVault.sqlite")
      )
-     
+
 Arguments:
 
 data_clean: A data frame with at least the column `taxon_id` (integer
           or numeric), typically the output of
-          [clean_raw_trait_data()].
+          [filter_complete_trait_records()].
 
 path_to_vegvault: A single character string giving the path to the
           VegVault SQLite database (default:
@@ -40,5 +40,5 @@ Value:
 
 See Also:
 
-     [clean_raw_trait_data()], [extract_and_clean_continent_traits()]
-
+     [filter_complete_trait_records()],
+     [load_continental_trait_records_from_vegvault()]

@@ -16,7 +16,7 @@ Usage:
        data_source_prefix = NULL,
        verbose = TRUE
      )
-     
+
 Arguments:
 
 continent_id: A single non-empty character string identifying the
@@ -59,7 +59,7 @@ Details:
 
      Data filtering, distance computation, hierarchical clustering,
      ft-groups selection are all handled upstream by
-     `prepare_continent_trait_data()`,
+     `select_continental_trait_table()`,
      `compute_dissimilarity_matrix()`, `fit_hclust()`, and
      `cluster_functional_types()` respectively.
 
@@ -76,7 +76,6 @@ Value:
 
 See Also:
 
-     [prepare_continent_trait_data()],
+     [select_continental_trait_table()],
      [compute_dissimilarity_matrix()], [fit_hclust()],
      [cluster_functional_types()]
-

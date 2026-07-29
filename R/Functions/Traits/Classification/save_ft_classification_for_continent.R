@@ -49,9 +49,9 @@
 #' }
 #' Data filtering, distance computation, hierarchical clustering,
 #' ft-groups selection are all handled upstream by
-#' `prepare_continent_trait_data()`, `compute_dissimilarity_matrix()`,
+#' `select_continental_trait_table()`, `compute_dissimilarity_matrix()`,
 #' `fit_hclust()`, and `cluster_functional_types()` respectively.
-#' @seealso [prepare_continent_trait_data()],
+#' @seealso [select_continental_trait_table()],
 #'   [compute_dissimilarity_matrix()], [fit_hclust()],
 #'   [cluster_functional_types()]
 #' @export
