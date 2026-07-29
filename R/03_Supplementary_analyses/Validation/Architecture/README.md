@@ -40,9 +40,11 @@ canonical or domain verbs, and their mirrored tests are also checked as
 blocking contracts. Migrated Community function placement and mirrored tests
 are blocking, with naming blocked for the Community capabilities whose
 semantic migrations are complete. Migrated Time/Ages function placement,
-canonical naming, and mirrored tests are blocking. Function naming for other
-not-yet-migrated domains and other architecture contracts remain report-only
-until their owning issues make them blocking.
+canonical naming, and mirrored tests are blocking. Migrated
+Time/Interpolation branching and shared-memory functions, their active tests,
+and exact `_legacy` retirement paths are also blocking. Function naming for
+other not-yet-migrated domains and other architecture contracts remain
+report-only until their owning issues make them blocking.
 
 ## Interpretation limits
 

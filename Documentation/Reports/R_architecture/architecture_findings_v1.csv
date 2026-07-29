@@ -72,9 +72,6 @@ function_naming,report_only,R/Functions/Presentation/IAVS/Paths_and_config/get_p
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/count_successful_targets.R,count_successful_targets,#155,Review leading verb `count` against version 1.
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_meta_or_empty.R,read_target_meta_or_empty,#155,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_or_null.R,read_target_or_null,#155,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Time/Interpolation/share_interpolation_data.R,share_interpolation_data,#153,Review leading verb `share` against version 1.
-function_naming,report_only,R/Functions/Time/Interpolation_jobs/make_community_interpolation_index.R,make_community_interpolation_index,#153,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Time/Interpolation_jobs/make_community_interpolation_jobs.R,make_community_interpolation_jobs,#153,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Traits/Classification/get_functional_type_classification.R,get_functional_type_classification,#153,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Traits/Classification/get_functional_type_classification_path.R,get_functional_type_classification_path,#153,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Traits/Classification/make_trait_table.R,make_trait_table,#153,Review leading verb `make` against version 1.

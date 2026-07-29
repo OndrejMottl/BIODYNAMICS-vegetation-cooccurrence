@@ -33,9 +33,9 @@ and interpolates that dataset.
 <h3>Usage</h3>
 
 <pre><code class='language-R'>interpolate_community_dataset_from_shared_inputs(
-  data_interpolation_index,
-  data,
-  data_age_uncertainty,
+  list_interpolation_index = NULL,
+  data_community = NULL,
+  data_age_uncertainty = NULL,
   n_cores = 1L,
   ...
 )
@@ -45,12 +45,12 @@ and interpolates that dataset.
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="data_interpolation_index">data_interpolation_index</code></td>
+<tr><td><code id="list_interpolation_index">list_interpolation_index</code></td>
 <td>
-<p>A metadata object produced by [make_community_interpolation_index()].
+<p>A metadata object produced by [build_community_interpolation_index()].
 It must contain 'dataset_name' and 'flag_empty' elements.</p>
 </td></tr>
-<tr><td><code id="data">data</code></td>
+<tr><td><code id="data_community">data_community</code></td>
 <td>
 <p>Shared or regular community proportion data with a 'dataset_name'
 column.</p>
@@ -90,7 +90,7 @@ branch.
 
 <h3>See Also</h3>
 
-<p>[make_community_interpolation_index()],
+<p>[build_community_interpolation_index()],
 [interpolate_community_data_with_uncertainty()]
 </p>
 
@@ -110,10 +110,15 @@ data_uncertainty &lt;- tibble::tibble(
   iteration = base::integer(),
   age_uncertainty = base::numeric()
 )
-index &lt;- base::list(dataset_name = "core_a", flag_empty = FALSE)
+list_interpolation_index &lt;-
+  base::list(
+    dataset_name = "core_a",
+    flag_empty = FALSE
+  )
+
 interpolate_community_dataset_from_shared_inputs(
-  data_interpolation_index = index,
-  data = data_example,
+  list_interpolation_index = list_interpolation_index,
+  data_community = data_example,
   data_age_uncertainty = data_uncertainty,
   age_min = 0,
   age_max = 500,
@@ -125,4 +130,3 @@ interpolate_community_dataset_from_shared_inputs(
 
 </div>
 </body></html>
-

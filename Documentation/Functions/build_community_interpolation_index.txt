@@ -1,17 +1,17 @@
-Make Community Interpolation Index
+Build Community Interpolation Index
 
 Description:
 
-     Creates small per-dataset branch metadata for paleo community
+     Builds small per-dataset branch metadata for paleo community
      interpolation.
 
 Usage:
 
-     make_community_interpolation_index(data)
-     
+     build_community_interpolation_index(data_community = NULL)
+
 Arguments:
 
-    data: A data frame containing a `dataset_name` column.
+data_community: A data frame containing a `dataset_name` column.
 
 Details:
 
@@ -30,6 +30,11 @@ See Also:
 
 Examples:
 
-     data_example <- tibble::tibble(dataset_name = c("core_b", "core_a"))
-     make_community_interpolation_index(data = data_example)
-     
+     data_community <-
+       tibble::tibble(
+         dataset_name = base::c("core_b", "core_a")
+       )
+
+     build_community_interpolation_index(
+       data_community = data_community
+     )

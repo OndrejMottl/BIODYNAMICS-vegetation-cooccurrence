@@ -65,30 +65,30 @@ pipe_segment_community_prepare_paleo <-
         )
     ),
     targets::tar_target(
-      description = "Share community proportions for interpolation workers",
+      description = "Build shared community interpolation input",
       name = "data_community_proportions_shared",
-      command = share_interpolation_data(
-        data = data_community_proportions,
+      command = build_shared_interpolation_data(
+        data_interpolation = data_community_proportions,
         registry_key = "data_community_proportions"
       ),
       deployment = "main",
       memory = "persistent"
     ),
     targets::tar_target(
-      description = "Share age uncertainty for interpolation workers",
+      description = "Build shared age-uncertainty interpolation input",
       name = "data_age_uncertainty_shared",
-      command = share_interpolation_data(
-        data = data_age_uncertainty,
+      command = build_shared_interpolation_data(
+        data_interpolation = data_age_uncertainty,
         registry_key = "data_age_uncertainty"
       ),
       deployment = "main",
       memory = "persistent"
     ),
     targets::tar_target(
-      description = "Create per-dataset community interpolation index",
+      description = "Build per-dataset community interpolation index",
       name = "list_community_interpolation_index",
-      command = make_community_interpolation_index(
-        data = data_community_proportions
+      command = build_community_interpolation_index(
+        data_community = data_community_proportions
       ),
       iteration = "list"
     ),
@@ -96,8 +96,8 @@ pipe_segment_community_prepare_paleo <-
       description = "Interpolate one paleo community dataset",
       name = "data_community_interpolated_dataset",
       command = interpolate_community_dataset_from_shared_inputs(
-        data_interpolation_index = list_community_interpolation_index,
-        data = data_community_proportions_shared,
+        list_interpolation_index = list_community_interpolation_index,
+        data_community = data_community_proportions_shared,
         data_age_uncertainty = data_age_uncertainty_shared,
         timestep = purrr::chuck(config_data_processing, "time_step"),
         age_min = base::min(config_age_lim),

@@ -8,20 +8,20 @@ Description:
 Usage:
 
      interpolate_community_dataset_from_shared_inputs(
-       data_interpolation_index,
-       data,
-       data_age_uncertainty,
+       list_interpolation_index = NULL,
+       data_community = NULL,
+       data_age_uncertainty = NULL,
        n_cores = 1L,
        ...
      )
-     
+
 Arguments:
 
-data_interpolation_index: A metadata object produced by
-          [make_community_interpolation_index()]. It must contain
+list_interpolation_index: A metadata object produced by
+          [build_community_interpolation_index()]. It must contain
           `dataset_name` and `flag_empty` elements.
 
-    data: Shared or regular community proportion data with a
+data_community: Shared or regular community proportion data with a
           `dataset_name` column.
 
 data_age_uncertainty: Shared or regular age-uncertainty data with a
@@ -47,7 +47,7 @@ Value:
 
 See Also:
 
-     [make_community_interpolation_index()],
+     [build_community_interpolation_index()],
      [interpolate_community_data_with_uncertainty()]
 
 Examples:
@@ -65,13 +65,17 @@ Examples:
        iteration = base::integer(),
        age_uncertainty = base::numeric()
      )
-     index <- base::list(dataset_name = "core_a", flag_empty = FALSE)
+     list_interpolation_index <-
+       base::list(
+         dataset_name = "core_a",
+         flag_empty = FALSE
+       )
+
      interpolate_community_dataset_from_shared_inputs(
-       data_interpolation_index = index,
-       data = data_example,
+       list_interpolation_index = list_interpolation_index,
+       data_community = data_example,
        data_age_uncertainty = data_uncertainty,
        age_min = 0,
        age_max = 500,
        timestep = 500
      )
-     

@@ -7,8 +7,10 @@ hierarchy. The `Ages/` tests cover extracting sample ages from an in-memory
 VegVault result and joining them to keyed records. The join contract rejects
 duplicate age keys so records cannot be multiplied silently.
 
-Interpolation and interpolation-job tests will move into this hierarchy with
-their corresponding function refactor.
+Active dynamic-branch and shared-memory tests now live under `Interpolation/`;
+its README records the retired self-contained job-builder design. Remaining
+core interpolation tests will move into this hierarchy with their
+corresponding function refactor.
 
 ## Running the tests
 

@@ -47,15 +47,19 @@ data_functions <-
     show_col_types = FALSE
   ) |>
   dplyr::mutate(
-    active_path = dplyr::if_else(
-      .data[["migration_status"]] == "migrated",
-      .data[["intended_path"]],
-      .data[["current_path"]]
+    active_path = dplyr::case_when(
+      .data[["migration_status"]] == "migrated" ~
+        .data[["intended_path"]],
+      .data[["migration_status"]] == "retired_to_legacy" ~
+        NA_character_,
+      TRUE ~ .data[["current_path"]]
     ),
-    active_symbol = dplyr::if_else(
-      .data[["migration_status"]] == "migrated",
-      .data[["intended_function"]],
-      .data[["function_name"]]
+    active_symbol = dplyr::case_when(
+      .data[["migration_status"]] == "migrated" ~
+        .data[["intended_function"]],
+      .data[["migration_status"]] == "retired_to_legacy" ~
+        NA_character_,
+      TRUE ~ .data[["function_name"]]
     )
   )
 
@@ -111,6 +115,10 @@ vec_function_paths_current <-
     data_functions_current[["path_relative"]]
   )
 
+vec_function_paths_inventoried <-
+  data_functions[["active_path"]] |>
+  purrr::discard(base::is.na)
+
 
 #----------------------------------------------------------#
 # 2. Build report-only findings -----
@@ -141,12 +149,12 @@ vec_missing_scripts <-
 vec_uninventoried_functions <-
   base::setdiff(
     vec_function_paths_current,
-    data_functions[["active_path"]]
+    vec_function_paths_inventoried
   )
 
 vec_missing_functions <-
   base::setdiff(
-    data_functions[["active_path"]],
+    vec_function_paths_inventoried,
     vec_function_paths_current
   )
 
@@ -895,6 +903,208 @@ data_time_ages_test_findings <-
     )
   )
 
+path_time_interpolation_function_root <-
+  "R/Functions/Data/Time/Interpolation/"
+
+vec_time_interpolation_function_paths_current <-
+  vec_function_paths_current |>
+  purrr::keep(
+    ~ stringr::str_starts(
+      .x,
+      path_time_interpolation_function_root
+    )
+  )
+
+data_migrated_time_interpolation_functions <-
+  data_functions |>
+  dplyr::filter(
+    (
+      stringr::str_starts(
+        .data[["current_path"]],
+        "R/Functions/Time/Interpolation/"
+      ) |
+        stringr::str_starts(
+          .data[["current_path"]],
+          "R/Functions/Time/Interpolation_jobs/"
+        )
+    ),
+    .data[["owning_issue"]] == "#153",
+    .data[["migration_status"]] == "migrated",
+    stringr::str_starts(
+      .data[["active_path"]],
+      path_time_interpolation_function_root
+    )
+  )
+
+vec_allowed_time_interpolation_function_paths <-
+  data_migrated_time_interpolation_functions |>
+  dplyr::pull(.data[["active_path"]])
+
+vec_legacy_time_interpolation_function_paths <-
+  base::intersect(
+    vec_function_paths_current,
+    data_migrated_time_interpolation_functions[["current_path"]]
+  )
+
+vec_invalid_time_interpolation_function_paths <-
+  base::union(
+    vec_legacy_time_interpolation_function_paths,
+    base::union(
+      base::setdiff(
+        vec_time_interpolation_function_paths_current,
+        vec_allowed_time_interpolation_function_paths
+      ),
+      base::setdiff(
+        vec_allowed_time_interpolation_function_paths,
+        vec_time_interpolation_function_paths_current
+      )
+    )
+  )
+
+data_time_interpolation_function_findings <-
+  tibble::tibble(
+    finding_type = "time_interpolation_function_placement",
+    severity = "blocking",
+    current_path = vec_invalid_time_interpolation_function_paths,
+    symbol = NA_character_,
+    owning_issue = "#153",
+    message = stringr::str_c(
+      "Time/Interpolation functions must match the migrated ",
+      "R/Functions/Data/Time/Interpolation inventory."
+    )
+  )
+
+data_time_interpolation_naming_findings <-
+  data_migrated_time_interpolation_functions |>
+  dplyr::filter(
+    .data[["naming_status"]] != "canonical_or_domain_verb"
+  ) |>
+  dplyr::mutate(
+    finding_type = "time_interpolation_function_naming",
+    severity = "blocking",
+    current_path = .data[["active_path"]],
+    symbol = .data[["active_symbol"]],
+    owning_issue = .data[["owning_issue"]],
+    message = stringr::str_c(
+      "Migrated Time/Interpolation functions must use an approved ",
+      "canonical or domain verb."
+    )
+  ) |>
+  dplyr::select(
+    "finding_type",
+    "severity",
+    "current_path",
+    "symbol",
+    "owning_issue",
+    "message"
+  )
+
+data_retired_time_interpolation_functions <-
+  data_functions |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#153",
+    .data[["migration_status"]] == "retired_to_legacy"
+  )
+
+data_time_interpolation_retirement_findings <-
+  data_retired_time_interpolation_functions |>
+  dplyr::filter(
+    !stringr::str_detect(
+      .data[["intended_path"]],
+      "(^|/)_legacy(/|$)"
+    ) |
+      !.data[["intended_path"]] %in% vec_r_relative_paths
+  ) |>
+  dplyr::mutate(
+    finding_type = "time_interpolation_function_retirement",
+    severity = "blocking",
+    current_path = .data[["intended_path"]],
+    symbol = .data[["intended_function"]],
+    owning_issue = .data[["owning_issue"]],
+    message = stringr::str_c(
+      "Retired Time/Interpolation functions must remain below ",
+      "an exact `_legacy` directory."
+    )
+  ) |>
+  dplyr::select(
+    "finding_type",
+    "severity",
+    "current_path",
+    "symbol",
+    "owning_issue",
+    "message"
+  )
+
+path_time_interpolation_test_root <-
+  stringr::str_c(
+    "R/03_Supplementary_analyses/Testing/testthat/",
+    "Data/Time/Interpolation/"
+  )
+
+vec_time_interpolation_test_paths_current <-
+  vec_script_paths_current |>
+  purrr::keep(
+    ~ stringr::str_starts(
+      .x,
+      path_time_interpolation_test_root
+    ) &&
+      !stringr::str_detect(
+        .x,
+        "(^|/)_outdated(/|$)"
+      )
+  )
+
+data_migrated_time_interpolation_tests <-
+  data_scripts |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#153",
+    .data[["classification"]] == "test",
+    .data[["lifecycle_status"]] == "active",
+    .data[["migration_status"]] == "migrated",
+    stringr::str_starts(
+      .data[["active_path"]],
+      path_time_interpolation_test_root
+    )
+  )
+
+vec_allowed_time_interpolation_test_paths <-
+  data_migrated_time_interpolation_tests |>
+  dplyr::pull(.data[["active_path"]])
+
+vec_legacy_time_interpolation_test_paths <-
+  base::intersect(
+    vec_script_paths_current,
+    data_migrated_time_interpolation_tests[["current_path"]]
+  )
+
+vec_invalid_time_interpolation_test_paths <-
+  base::union(
+    vec_legacy_time_interpolation_test_paths,
+    base::union(
+      base::setdiff(
+        vec_time_interpolation_test_paths_current,
+        vec_allowed_time_interpolation_test_paths
+      ),
+      base::setdiff(
+        vec_allowed_time_interpolation_test_paths,
+        vec_time_interpolation_test_paths_current
+      )
+    )
+  )
+
+data_time_interpolation_test_findings <-
+  tibble::tibble(
+    finding_type = "time_interpolation_test_placement",
+    severity = "blocking",
+    current_path = vec_invalid_time_interpolation_test_paths,
+    symbol = NA_character_,
+    owning_issue = "#153",
+    message = stringr::str_c(
+      "Active Time/Interpolation tests must mirror the migrated ",
+      "R/Functions/Data/Time/Interpolation hierarchy."
+    )
+  )
+
 data_naming_findings <-
   data_functions |>
   dplyr::filter(.data[["naming_status"]] == "review_in_owning_issue") |>
@@ -958,6 +1168,10 @@ data_findings <-
     data_time_ages_function_findings,
     data_time_ages_naming_findings,
     data_time_ages_test_findings,
+    data_time_interpolation_function_findings,
+    data_time_interpolation_naming_findings,
+    data_time_interpolation_retirement_findings,
+    data_time_interpolation_test_findings,
     data_naming_findings,
     data_nested_findings
   ) |>
@@ -1023,7 +1237,8 @@ cli::cli_inform(
       "migrated Community placement, and migrated Community",
       "classification, quality-control, modern-record, proportion,",
       "data-shape, and taxa-selection naming, plus migrated Time/Ages",
-      "placement and naming, are blocking;",
+      "and Time/Interpolation placement, naming, and retirement are",
+      "blocking;",
       "unmigrated architecture contracts remain report-only.",
       sep = " "
     ),

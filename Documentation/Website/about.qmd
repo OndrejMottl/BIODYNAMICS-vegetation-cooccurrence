@@ -250,8 +250,8 @@ The workflow converts counts to proportions, propagates sample ages, extracts ag
 |---|---|---|
 | Proportions | [`prepare_community_proportions()`](Documentation/Functions/prepare_community_proportions.qmd) | Prepare counts as proportional abundance |
 | Age uncertainty | [`extract_age_uncertainty_from_vegvault()`](Documentation/Functions/extract_age_uncertainty_from_vegvault.qmd) | Retrieves age uncertainty information |
-| Interpolation index | [`make_community_interpolation_index()`](Documentation/Functions/make_community_interpolation_index.qmd) | Builds interpolation jobs for fossil sequences |
-| Interpolation jobs | [`make_community_interpolation_jobs()`](Documentation/Functions/make_community_interpolation_jobs.qmd) | Splits interpolation work into branchable units |
+| Shared inputs | [`build_shared_interpolation_data()`](Documentation/Functions/build_shared_interpolation_data.qmd) | Builds read-only shared-memory inputs for interpolation workers |
+| Interpolation index | [`build_community_interpolation_index()`](Documentation/Functions/build_community_interpolation_index.qmd) | Builds small per-dataset branch metadata |
 | Dataset interpolation | [`interpolate_community_dataset_from_shared_inputs()`](Documentation/Functions/interpolate_community_dataset_from_shared_inputs.qmd) | Interpolates one dataset from shared inputs |
 | Community interpolation | [`interpolate_community_data()`](Documentation/Functions/interpolate_community_data.qmd) | Combines interpolated community records |
 | Plantae filter | [`filter_non_plantae_taxa()`](Documentation/Functions/filter_non_plantae_taxa.qmd) | Removes non-plant records |
