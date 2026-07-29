@@ -15,10 +15,11 @@
 #' @details
 #' Abiotic predictors must use deterministic sample ages. Age uncertainty is
 #' restricted to paleo community interpolation through
-#' [interpolate_community_data_with_uncertainty()]. This guard fails fast if
+#' [interpolate_paleo_community_with_age_uncertainty()]. This guard fails fast if
 #' uncertainty columns or uncertainty-routing arguments reach the abiotic path.
 #' @seealso
-#' [interpolate_data()], [interpolate_community_data_with_uncertainty()]
+#' [interpolate_grouped_time_series()],
+#' [interpolate_paleo_community_with_age_uncertainty()]
 #' @export
 validate_abiotic_interpolation_contract <- function(
     data_source,

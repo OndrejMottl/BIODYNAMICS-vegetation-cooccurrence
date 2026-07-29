@@ -37,7 +37,7 @@
 #' @seealso
 #'   [build_vegvault_plan()],
 #'   [extract_data_from_vegvault()],
-#'   [interpolate_community_data_with_uncertainty()]
+#'   [interpolate_paleo_community_with_age_uncertainty()]
 #' @export
 extract_age_uncertainty_from_vegvault <- function(
     plan,

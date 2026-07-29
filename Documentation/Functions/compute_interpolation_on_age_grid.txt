@@ -1,0 +1,47 @@
+Compute Interpolation on an Age Grid
+
+Description:
+
+     Computes interpolated values on a regular age grid for one numeric
+     series.
+
+Usage:
+
+     .compute_interpolation_on_age_grid(
+       data_time_series_group,
+       age_variable_name,
+       value_variable_name,
+       interpolation_method,
+       extrapolation_rule,
+       ties_function,
+       age_min,
+       age_max,
+       time_step
+     )
+
+Arguments:
+
+data_time_series_group: A data frame containing one age column and one
+          value column.
+
+age_variable_name: Name of the numeric age column.
+
+value_variable_name: Name of the numeric value column.
+
+interpolation_method: Interpolation method passed to [stats::approx()].
+
+extrapolation_rule: Numeric extrapolation rule passed to
+          [stats::approx()].
+
+ties_function: Function used by [stats::approx()] to combine tied ages.
+
+ age_min: Minimum age in the output grid.
+
+ age_max: Maximum age in the output grid.
+
+time_step: Positive spacing between consecutive ages in the output
+          grid.
+
+Value:
+
+     A tibble containing the interpolated age and value columns.

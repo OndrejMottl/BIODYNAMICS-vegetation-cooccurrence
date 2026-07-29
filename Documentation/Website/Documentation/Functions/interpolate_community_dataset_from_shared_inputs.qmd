@@ -62,13 +62,13 @@ column.</p>
 <tr><td><code id="n_cores">n_cores</code></td>
 <td>
 <p>Number of cores passed to
-[interpolate_community_data_with_uncertainty()]. Dynamic target
+[interpolate_paleo_community_with_age_uncertainty()]. Dynamic target
 branches should use '1L'.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
 <p>Additional arguments passed to
-[interpolate_community_data_with_uncertainty()].</p>
+[interpolate_paleo_community_with_age_uncertainty()].</p>
 </td></tr>
 </table>
 
@@ -91,7 +91,7 @@ branch.
 <h3>See Also</h3>
 
 <p>[build_community_interpolation_index()],
-[interpolate_community_data_with_uncertainty()]
+[interpolate_paleo_community_with_age_uncertainty()]
 </p>
 
 
@@ -122,7 +122,7 @@ interpolate_community_dataset_from_shared_inputs(
   data_age_uncertainty = data_uncertainty,
   age_min = 0,
   age_max = 500,
-  timestep = 500
+  time_step = 500
 )
 </code></pre>
 

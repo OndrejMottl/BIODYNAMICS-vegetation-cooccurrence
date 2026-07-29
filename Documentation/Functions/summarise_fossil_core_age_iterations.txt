@@ -1,0 +1,40 @@
+Summarise Fossil-Core Age Iterations
+
+Description:
+
+     Interpolates bounded batches of fossil age-model iterations and
+     returns median community proportions across all iterations.
+
+Usage:
+
+     .summarise_fossil_core_age_iterations(
+       dataset_name,
+       data_community,
+       data_age_uncertainty,
+       max_expanded_rows,
+       list_interpolation_arguments,
+       interpolate_grouped_time_series_function
+     )
+
+Arguments:
+
+dataset_name: Fossil-core dataset identifier.
+
+data_community: Nested community proportions for one fossil core.
+
+data_age_uncertainty: Nested age-model iteration records for the same
+          fossil core.
+
+max_expanded_rows: Maximum approximate expanded observation rows
+          processed per batch.
+
+list_interpolation_arguments: Additional arguments forwarded to
+          [interpolate_grouped_time_series()].
+
+interpolate_grouped_time_series_function: Grouped interpolation
+          function supplied explicitly for dependency-safe execution
+          inside a dynamic target branch.
+
+Value:
+
+     Median interpolated proportions by dataset, taxon, and age.

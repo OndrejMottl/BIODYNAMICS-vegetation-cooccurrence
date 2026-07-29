@@ -99,7 +99,7 @@ pipe_segment_community_prepare_paleo <-
         list_interpolation_index = list_community_interpolation_index,
         data_community = data_community_proportions_shared,
         data_age_uncertainty = data_age_uncertainty_shared,
-        timestep = purrr::chuck(config_data_processing, "time_step"),
+        time_step = purrr::chuck(config_data_processing, "time_step"),
         age_min = base::min(config_age_lim),
         age_max = base::max(config_age_lim),
         n_cores = 1L

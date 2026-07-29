@@ -54,12 +54,12 @@ testthat::test_that(
       dplyr::filter(.data[["dataset_name"]] == "core_a")
 
     data_community_expected <-
-      interpolate_community_data_with_uncertainty(
-        data = data_community_selected,
+      interpolate_paleo_community_with_age_uncertainty(
+        data_community = data_community_selected,
         data_age_uncertainty = data_uncertainty,
         age_min = 0,
         age_max = 500,
-        timestep = 500,
+        time_step = 500,
         n_cores = 1L
       )
 
@@ -73,7 +73,7 @@ testthat::test_that(
         data_age_uncertainty = data_age_uncertainty_shared,
         age_min = 0,
         age_max = 500,
-        timestep = 500,
+        time_step = 500,
         n_cores = 1L
       )
 
@@ -114,7 +114,7 @@ testthat::test_that(
         data_age_uncertainty = data_uncertainty,
         age_min = 0,
         age_max = 500,
-        timestep = 500,
+        time_step = 500,
         n_cores = 1L
       )
 
@@ -179,7 +179,7 @@ testthat::test_that(
         data_age_uncertainty = data_age_uncertainty,
         age_min = 0,
         age_max = 500,
-        timestep = 500,
+        time_step = 500,
         n_cores = 1L
       )
 

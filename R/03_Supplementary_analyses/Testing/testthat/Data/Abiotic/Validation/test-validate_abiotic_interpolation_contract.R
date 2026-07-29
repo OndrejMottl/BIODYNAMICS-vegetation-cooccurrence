@@ -99,12 +99,15 @@ testthat::test_that(
         ),
         age_variable_name = "age"
       ) |>
-      interpolate_data(
-        value_var = "abiotic_value",
-        by = base::c("dataset_name", "abiotic_variable_name"),
+      interpolate_grouped_time_series(
+        value_variable_name = "abiotic_value",
+        grouping_variables = base::c(
+          "dataset_name",
+          "abiotic_variable_name"
+        ),
         age_min = 0,
         age_max = 1000,
-        timestep = 500
+        time_step = 500
       )
 
     testthat::expect_false("iteration" %in% base::colnames(result))

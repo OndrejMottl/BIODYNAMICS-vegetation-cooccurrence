@@ -124,8 +124,6 @@ nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_fold_sp
 nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_model_fold_input.R,make_abiotic_partition,#154,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Variance_partitioning/recalculate_anova_components.R,get_val;compute_shapley,#154,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/build_base_terminal_plot.R,make_scanline_data;make_noise_data;add_terminal_canvas;theme_terminal_blank,#155,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Time/Interpolation/interpolate_community_data_with_uncertainty.R,interpolate_fossil_core,#153,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Time/Interpolation/interpolate_data.R,muffle_package_version_warning;interpolate_group,#153,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Utility/Paths_and_stores/get_model_tuning_params.R,get_required_integer;get_optional_integer,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Utility/Pipeline/monitor_pipeline_progress.R,monitor_server,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Visualisation/Data_preparation/prepare_spatial_variance_waffle_data.R,collapse_observation_id,#155,Extract or explicitly retain the named nested helper.

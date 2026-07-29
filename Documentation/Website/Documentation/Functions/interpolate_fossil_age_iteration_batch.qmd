@@ -1,0 +1,86 @@
+---
+format: html
+title: interpolate_fossil_age_iteration_batch()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>.interpolate_fossil_age_iteration_batch</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpolate One Fossil Age-Iteration Batch</h2>
+
+<h3>Description</h3>
+
+<p>Expands one fossil community dataset across selected age-model iterations
+and interpolates each taxon-iteration series on a shared age grid.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>.interpolate_fossil_age_iteration_batch(
+  vec_iterations,
+  dataset_name,
+  data_community,
+  data_age_uncertainty,
+  list_interpolation_arguments,
+  interpolate_grouped_time_series_function
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="vec_iterations">vec_iterations</code></td>
+<td>
+<p>Integer age-model iterations included in the batch.</p>
+</td></tr>
+<tr><td><code id="dataset_name">dataset_name</code></td>
+<td>
+<p>Dataset identifier restored after joining the nested community records.</p>
+</td></tr>
+<tr><td><code id="data_community">data_community</code></td>
+<td>
+<p>Nested community proportions with 'sample_name', 'taxon', and 'value'.</p>
+</td></tr>
+<tr><td><code id="data_age_uncertainty">data_age_uncertainty</code></td>
+<td>
+<p>Nested age-model records with 'sample_name', 'iteration', and
+'age_uncertainty'.</p>
+</td></tr>
+<tr><td><code id="list_interpolation_arguments">list_interpolation_arguments</code></td>
+<td>
+<p>Additional arguments forwarded to [interpolate_grouped_time_series()].</p>
+</td></tr>
+<tr><td><code id="interpolate_grouped_time_series_function">interpolate_grouped_time_series_function</code></td>
+<td>
+<p>Grouped interpolation function supplied explicitly for dependency-safe
+execution inside a dynamic target branch.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Interpolated community proportions for every selected age-model iteration.
+</p>
+
+</main>
+
+</div>
+</body></html>

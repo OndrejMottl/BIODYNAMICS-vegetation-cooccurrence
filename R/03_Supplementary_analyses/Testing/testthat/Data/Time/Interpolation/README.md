@@ -4,6 +4,10 @@
 
 Issue #153 split temporal interpolation tests by runtime responsibility:
 
+- `Core/` covers grouped interpolation, validation, and sequential/parallel
+  equivalence;
+- `Community/Age_uncertainty/` covers paleo community interpolation across
+  bounded age-model iteration batches;
 - `Branching/` covers small per-dataset indexes and dynamic branch execution;
 - `Shared_memory/` covers read-only worker inputs backed by `{mori}`;
 - `_outdated/Jobs/` preserves the former self-contained job-builder tests for
@@ -20,6 +24,8 @@ Run active focused tests after sourcing `R/___setup_project___.R`:
 ```r
 base::c(
   "Branching",
+  "Community/Age_uncertainty",
+  "Core",
   "Shared_memory"
 ) |>
   purrr::walk(

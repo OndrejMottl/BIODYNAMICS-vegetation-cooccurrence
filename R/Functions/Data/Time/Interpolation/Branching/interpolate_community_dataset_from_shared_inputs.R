@@ -12,11 +12,11 @@
 #' Shared or regular age-uncertainty data with a `dataset_name` column.
 #' @param n_cores
 #' Number of cores passed to
-#' [interpolate_community_data_with_uncertainty()]. Dynamic target
+#' [interpolate_paleo_community_with_age_uncertainty()]. Dynamic target
 #' branches should use `1L`.
 #' @param ...
 #' Additional arguments passed to
-#' [interpolate_community_data_with_uncertainty()].
+#' [interpolate_paleo_community_with_age_uncertainty()].
 #' @return
 #' A data frame with columns `dataset_name`, `taxon`, `age`, and
 #' `value`.
@@ -50,11 +50,11 @@
 #'   data_age_uncertainty = data_uncertainty,
 #'   age_min = 0,
 #'   age_max = 500,
-#'   timestep = 500
+#'   time_step = 500
 #' )
 #' @seealso
 #'   [build_community_interpolation_index()],
-#'   [interpolate_community_data_with_uncertainty()]
+#'   [interpolate_paleo_community_with_age_uncertainty()]
 #' @export
 interpolate_community_dataset_from_shared_inputs <- function(
     list_interpolation_index = NULL,
@@ -155,8 +155,8 @@ interpolate_community_dataset_from_shared_inputs <- function(
   }
 
   res_community_interpolated <-
-    interpolate_community_data_with_uncertainty(
-      data = data_community_selected,
+    interpolate_paleo_community_with_age_uncertainty(
+      data_community = data_community_selected,
       data_age_uncertainty = data_age_uncertainty_selected,
       n_cores = n_cores,
       ...

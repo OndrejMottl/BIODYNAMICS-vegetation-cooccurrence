@@ -67,11 +67,10 @@ one dataset instead of loading the complete continental inputs.
 
 <h3>See Also</h3>
 
-<p>[interpolate_community_data_with_uncertainty()]
+<p>[interpolate_paleo_community_with_age_uncertainty()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

@@ -44,7 +44,7 @@ testthat::test_that(
       base::any(
         stringr::str_detect(
           string = vec_abiotic_pipe_lines,
-          pattern = "interpolate_community_data_with_uncertainty"
+          pattern = "interpolate_paleo_community_with_age_uncertainty"
         )
       )
     )

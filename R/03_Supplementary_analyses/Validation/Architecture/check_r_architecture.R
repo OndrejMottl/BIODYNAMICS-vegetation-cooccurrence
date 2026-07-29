@@ -923,9 +923,13 @@ data_migrated_time_interpolation_functions <-
         .data[["current_path"]],
         "R/Functions/Time/Interpolation/"
       ) |
+      stringr::str_starts(
+        .data[["current_path"]],
+        "R/Functions/Time/Interpolation_jobs/"
+      ) |
         stringr::str_starts(
           .data[["current_path"]],
-          "R/Functions/Time/Interpolation_jobs/"
+          path_time_interpolation_function_root
         )
     ),
     .data[["owning_issue"]] == "#153",
@@ -943,7 +947,11 @@ vec_allowed_time_interpolation_function_paths <-
 vec_legacy_time_interpolation_function_paths <-
   base::intersect(
     vec_function_paths_current,
-    data_migrated_time_interpolation_functions[["current_path"]]
+    data_migrated_time_interpolation_functions |>
+      dplyr::filter(
+        .data[["current_path"]] != .data[["active_path"]]
+      ) |>
+      dplyr::pull(.data[["current_path"]])
   )
 
 vec_invalid_time_interpolation_function_paths <-

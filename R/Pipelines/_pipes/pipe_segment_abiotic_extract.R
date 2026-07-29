@@ -85,10 +85,16 @@ pipe_segment_abiotic_extract <-
               ),
               age_variable_name = "age"
             ) |>
-            interpolate_data(
-              value_var = "abiotic_value",
-              by = base::c("dataset_name", "abiotic_variable_name"),
-              timestep = purrr::chuck(config_data_processing, "time_step"),
+            interpolate_grouped_time_series(
+              value_variable_name = "abiotic_value",
+              grouping_variables = base::c(
+                "dataset_name",
+                "abiotic_variable_name"
+              ),
+              time_step = purrr::chuck(
+                config_data_processing,
+                "time_step"
+              ),
               age_min = base::min(config_age_lim),
               age_max = base::max(config_age_lim),
               n_cores = purrr::chuck(config_data_processing, "n_cores")

@@ -13,7 +13,7 @@
 #' @details
 #' Each job is self-contained so a dynamic target branch only retrieves
 #' one dataset instead of loading the complete continental inputs.
-#' @seealso [interpolate_community_data_with_uncertainty()]
+#' @seealso [interpolate_paleo_community_with_age_uncertainty()]
 #' @export
 make_community_interpolation_jobs <- function(
     data,

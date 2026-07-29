@@ -15,8 +15,10 @@
 #' Summarises per-sample totals using
 #' [summarise_pollen_counts_by_sample()] and computes proportions with
 #' [compute_pollen_proportions()]. The result is suitable for passing to
-#' [interpolate_community_data()].
-#' @seealso [interpolate_community_data()], [compute_pollen_proportions()]
+#' [interpolate_paleo_community_with_age_uncertainty()].
+#' @seealso
+#' [interpolate_paleo_community_with_age_uncertainty()],
+#' [compute_pollen_proportions()]
 #' @export
 prepare_community_proportions <- function(data_community = NULL) {
   assertthat::assert_that(

@@ -65,7 +65,7 @@ The current workflow removes invariant predictors, evaluates collinearity, and r
 |---|---|---|
 | `data_abiotic_ages` | [`join_sample_ages()`](Documentation/Functions/join_sample_ages.qmd) | Abiotic records joined to sample ages |
 | `data_abiotic_selected` | [`select_non_collinear_predictors()`](Documentation/Functions/select_non_collinear_predictors.qmd) | Non-redundant predictor subset |
-| `data_abiotic_interpolated` | [`interpolate_data()`](Documentation/Functions/interpolate_data.qmd) | Climate records interpolated to the configured time grid where needed |
+| `data_abiotic_interpolated` | [`interpolate_grouped_time_series()`](Documentation/Functions/interpolate_grouped_time_series.qmd) | Climate records interpolated to the configured time grid where needed |
 | `data_abiotic_scaled_list` | [`scale_abiotic_for_fit()`](Documentation/Functions/scale_abiotic_for_fit.qmd) | Centred and scaled predictors plus scaling attributes |
 
 Predictor screening and scaling are performed inside each target store, so each spatial unit, time-slice workflow, and data source can have its own model-ready predictor matrix.
@@ -253,7 +253,7 @@ The workflow converts counts to proportions, propagates sample ages, extracts ag
 | Shared inputs | [`build_shared_interpolation_data()`](Documentation/Functions/build_shared_interpolation_data.qmd) | Builds read-only shared-memory inputs for interpolation workers |
 | Interpolation index | [`build_community_interpolation_index()`](Documentation/Functions/build_community_interpolation_index.qmd) | Builds small per-dataset branch metadata |
 | Dataset interpolation | [`interpolate_community_dataset_from_shared_inputs()`](Documentation/Functions/interpolate_community_dataset_from_shared_inputs.qmd) | Interpolates one dataset from shared inputs |
-| Community interpolation | [`interpolate_community_data()`](Documentation/Functions/interpolate_community_data.qmd) | Combines interpolated community records |
+| Paleo community interpolation | [`interpolate_paleo_community_with_age_uncertainty()`](Documentation/Functions/interpolate_paleo_community_with_age_uncertainty.qmd) | Interpolates consensus ages and fossil age-model iterations |
 | Plantae filter | [`filter_non_plantae_taxa()`](Documentation/Functions/filter_non_plantae_taxa.qmd) | Removes non-plant records |
 | Rare-taxon filter | [`filter_rare_taxa()`](Documentation/Functions/filter_rare_taxa.qmd) | Removes low-proportion records |
 | Core and sample filters | [`filter_community_by_n_cores()`](Documentation/Functions/filter_community_by_n_cores.qmd), [`filter_by_n_samples()`](Documentation/Functions/filter_by_n_samples.qmd) | Enforce data-density requirements |
