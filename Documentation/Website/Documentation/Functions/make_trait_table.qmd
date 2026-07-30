@@ -88,11 +88,10 @@ directly from the values in 'trait_col'.
 
 <h3>See Also</h3>
 
-<p>[aggregate_trait_values()], [check_trait_coverage()]
+<p>[aggregate_trait_values()], [summarise_trait_coverage()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

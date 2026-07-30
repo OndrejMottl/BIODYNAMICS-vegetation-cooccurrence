@@ -15,7 +15,7 @@ Usage:
        trait_col = "trait_domain_name",
        value_col = "trait_value_aggregated"
      )
-     
+
 Arguments:
 
     data: A data frame in long format with one row per taxon x trait
@@ -45,5 +45,4 @@ Value:
 
 See Also:
 
-     [aggregate_trait_values()], [check_trait_coverage()]
-
+     [aggregate_trait_values()], [summarise_trait_coverage()]

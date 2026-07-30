@@ -199,33 +199,37 @@ cli::cli_inform(
 
 
 #----------------------------------------------------------#
-# 6. Check coverage -----
+# 6. Summarise coverage -----
 #----------------------------------------------------------#
 
 cli::cli_inform(
-  c("i" = "Checking trait coverage against community taxa.")
+  base::c("i" = "Summarising trait coverage of community taxa.")
 )
 
-list_coverage <-
-  check_trait_coverage(
-    vec_community_taxa = vec_community_taxa,
+trait_coverage_summary <-
+  summarise_trait_coverage(
+    community_taxa = vec_community_taxa,
     data_trait_table = data_trait_table
   )
 
 base::cat("\n--- Coverage report ---\n")
 base::cat(
-  "Covered:", list_coverage[["n_covered"]],
-  "/", list_coverage[["n_community_taxa"]],
-  base::paste0("(", list_coverage[["pct_covered"]], "%)\n")
+  "Covered:", trait_coverage_summary[["n_covered_taxa"]],
+  "/", trait_coverage_summary[["n_community_taxa"]],
+  base::paste0(
+    "(",
+    trait_coverage_summary[["coverage_percent"]],
+    "%)\n"
+  )
 )
 
 if (
-  base::length(list_coverage[["vec_missing_taxa"]]) > 0
+  base::length(trait_coverage_summary[["missing_taxa"]]) > 0L
 ) {
   base::cat("Missing taxa (first 20):\n")
-  print(
+  base::print(
     utils::head(
-      base::sort(list_coverage[["vec_missing_taxa"]]),
+      base::sort(trait_coverage_summary[["missing_taxa"]]),
       20
     )
   )

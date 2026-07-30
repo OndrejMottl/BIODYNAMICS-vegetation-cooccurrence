@@ -25,7 +25,7 @@
 #' Wraps `tidyr::pivot_wider()`. If a taxon x trait combination appears
 #' more than once, only the first value is retained
 #' (`values_fn = dplyr::first`).
-#' @seealso [aggregate_trait_values()], [check_trait_coverage()]
+#' @seealso [aggregate_trait_values()], [summarise_trait_coverage()]
 #' @export
 make_trait_table <- function(
     data,

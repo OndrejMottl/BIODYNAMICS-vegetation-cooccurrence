@@ -76,7 +76,6 @@ function_naming,report_only,R/Functions/Traits/Classification/get_functional_typ
 function_naming,report_only,R/Functions/Traits/Classification/get_functional_type_classification_path.R,get_functional_type_classification_path,#153,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Traits/Classification/make_trait_table.R,make_trait_table,#153,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Traits/Classification/read_functional_type_classification.R,read_functional_type_classification,#153,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Traits/Reports/check_trait_coverage.R,check_trait_coverage,#153,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Traits/Reports/generate_trait_qc_report.R,generate_trait_qc_report,#153,Review leading verb `generate` against version 1.
 function_naming,report_only,R/Functions/Traits/Reports/get_family_trait_summary.R,get_family_trait_summary,#153,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Utility/Config/get_active_config.R,get_active_config,#155,Review leading verb `get` against version 1.

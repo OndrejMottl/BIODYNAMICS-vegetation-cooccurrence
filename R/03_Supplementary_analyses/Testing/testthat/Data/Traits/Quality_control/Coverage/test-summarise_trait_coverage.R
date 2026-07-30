@@ -1,5 +1,5 @@
 testthat::test_that(
-  "check_trait_coverage() validates vec_community_taxa",
+  "summarise_trait_coverage() validates community_taxa",
   {
     data_trait <-
       tibble::tibble(
@@ -7,22 +7,22 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      check_trait_coverage(
-        vec_community_taxa = 123,
+      summarise_trait_coverage(
+        community_taxa = 123,
         data_trait_table = data_trait
       )
     )
 
     testthat::expect_error(
-      check_trait_coverage(
-        vec_community_taxa = base::character(0),
+      summarise_trait_coverage(
+        community_taxa = base::character(0),
         data_trait_table = data_trait
       )
     )
 
     testthat::expect_error(
-      check_trait_coverage(
-        vec_community_taxa = NULL,
+      summarise_trait_coverage(
+        community_taxa = NULL,
         data_trait_table = data_trait
       )
     )
@@ -30,28 +30,28 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "check_trait_coverage() validates data_trait_table",
+  "summarise_trait_coverage() validates data_trait_table",
   {
     vec_taxa <-
       base::c("Genus_A", "Genus_B")
 
     testthat::expect_error(
-      check_trait_coverage(
-        vec_community_taxa = vec_taxa,
+      summarise_trait_coverage(
+        community_taxa = vec_taxa,
         data_trait_table = "not a data frame"
       )
     )
 
     testthat::expect_error(
-      check_trait_coverage(
-        vec_community_taxa = vec_taxa,
+      summarise_trait_coverage(
+        community_taxa = vec_taxa,
         data_trait_table = NULL
       )
     )
 
     testthat::expect_error(
-      check_trait_coverage(
-        vec_community_taxa = vec_taxa,
+      summarise_trait_coverage(
+        community_taxa = vec_taxa,
         data_trait_table = tibble::tibble(
           genus_name = base::c("Genus_A")
         )
@@ -61,7 +61,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "check_trait_coverage() returns list with correct names",
+  "summarise_trait_coverage() returns list with correct names",
   {
     vec_taxa <-
       base::c("Genus_A", "Genus_B")
@@ -72,8 +72,8 @@ testthat::test_that(
       )
 
     res <-
-      check_trait_coverage(
-        vec_community_taxa = vec_taxa,
+      summarise_trait_coverage(
+        community_taxa = vec_taxa,
         data_trait_table = data_trait
       )
 
@@ -82,10 +82,10 @@ testthat::test_that(
     expected_names <-
       base::c(
         "n_community_taxa",
-        "n_covered",
-        "pct_covered",
-        "vec_missing_taxa",
-        "vec_extra_taxa"
+        "n_covered_taxa",
+        "coverage_percent",
+        "missing_taxa",
+        "extra_taxa"
       )
 
     testthat::expect_named(
@@ -97,7 +97,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "check_trait_coverage() result elements have correct types",
+  "summarise_trait_coverage() result elements have correct types",
   {
     vec_taxa <-
       base::c("Genus_A", "Genus_B")
@@ -108,8 +108,8 @@ testthat::test_that(
       )
 
     res <-
-      check_trait_coverage(
-        vec_community_taxa = vec_taxa,
+      summarise_trait_coverage(
+        community_taxa = vec_taxa,
         data_trait_table = data_trait
       )
 
@@ -120,29 +120,29 @@ testthat::test_that(
     )
 
     testthat::expect_true(
-      base::is.numeric(purrr::chuck(res, "n_covered"))
+      base::is.numeric(purrr::chuck(res, "n_covered_taxa"))
     )
 
     testthat::expect_true(
-      base::is.numeric(purrr::chuck(res, "pct_covered"))
+      base::is.numeric(purrr::chuck(res, "coverage_percent"))
     )
 
     testthat::expect_true(
       base::is.character(
-        purrr::chuck(res, "vec_missing_taxa")
+        purrr::chuck(res, "missing_taxa")
       )
     )
 
     testthat::expect_true(
       base::is.character(
-        purrr::chuck(res, "vec_extra_taxa")
+        purrr::chuck(res, "extra_taxa")
       )
     )
   }
 )
 
 testthat::test_that(
-  "check_trait_coverage() computes correct coverage values",
+  "summarise_trait_coverage() computes correct coverage values",
   {
     vec_taxa <-
       base::c("Genus_A", "Genus_B", "Genus_C", "Genus_D")
@@ -153,8 +153,8 @@ testthat::test_that(
       )
 
     res <-
-      check_trait_coverage(
-        vec_community_taxa = vec_taxa,
+      summarise_trait_coverage(
+        community_taxa = vec_taxa,
         data_trait_table = data_trait
       )
 
@@ -164,17 +164,17 @@ testthat::test_that(
     )
 
     testthat::expect_equal(
-      purrr::chuck(res, "n_covered"),
+      purrr::chuck(res, "n_covered_taxa"),
       2L
     )
 
     testthat::expect_equal(
-      purrr::chuck(res, "pct_covered"),
+      purrr::chuck(res, "coverage_percent"),
       50.0
     )
 
     vec_missing <-
-      base::sort(purrr::chuck(res, "vec_missing_taxa"))
+      base::sort(purrr::chuck(res, "missing_taxa"))
 
     testthat::expect_equal(
       vec_missing,
@@ -182,14 +182,14 @@ testthat::test_that(
     )
 
     testthat::expect_equal(
-      purrr::chuck(res, "vec_extra_taxa"),
+      purrr::chuck(res, "extra_taxa"),
       "Genus_E"
     )
   }
 )
 
 testthat::test_that(
-  "check_trait_coverage() handles 100% coverage correctly",
+  "summarise_trait_coverage() handles 100% coverage correctly",
   {
     vec_taxa <-
       base::c("Genus_A", "Genus_B")
@@ -200,30 +200,30 @@ testthat::test_that(
       )
 
     res <-
-      check_trait_coverage(
-        vec_community_taxa = vec_taxa,
+      summarise_trait_coverage(
+        community_taxa = vec_taxa,
         data_trait_table = data_trait
       )
 
     testthat::expect_equal(
-      purrr::chuck(res, "n_covered"),
+      purrr::chuck(res, "n_covered_taxa"),
       purrr::chuck(res, "n_community_taxa")
     )
 
     testthat::expect_equal(
-      purrr::chuck(res, "pct_covered"),
+      purrr::chuck(res, "coverage_percent"),
       100.0
     )
 
     testthat::expect_length(
-      purrr::chuck(res, "vec_missing_taxa"),
+      purrr::chuck(res, "missing_taxa"),
       0L
     )
   }
 )
 
 testthat::test_that(
-  "check_trait_coverage() handles 0% coverage correctly",
+  "summarise_trait_coverage() handles 0% coverage correctly",
   {
     vec_taxa <-
       base::c("Genus_A", "Genus_B")
@@ -234,25 +234,25 @@ testthat::test_that(
       )
 
     res <-
-      check_trait_coverage(
-        vec_community_taxa = vec_taxa,
+      summarise_trait_coverage(
+        community_taxa = vec_taxa,
         data_trait_table = data_trait
       )
 
     testthat::expect_equal(
-      purrr::chuck(res, "n_covered"),
+      purrr::chuck(res, "n_covered_taxa"),
       0L
     )
 
     testthat::expect_equal(
-      purrr::chuck(res, "pct_covered"),
+      purrr::chuck(res, "coverage_percent"),
       0.0
     )
   }
 )
 
 testthat::test_that(
-  "check_trait_coverage() rounds pct_covered to 1 decimal",
+  "summarise_trait_coverage() rounds coverage_percent to 1 decimal",
   {
     vec_taxa <-
       base::c("Genus_A", "Genus_B", "Genus_C")
@@ -263,13 +263,13 @@ testthat::test_that(
       )
 
     res <-
-      check_trait_coverage(
-        vec_community_taxa = vec_taxa,
+      summarise_trait_coverage(
+        community_taxa = vec_taxa,
         data_trait_table = data_trait
       )
 
     pct <-
-      purrr::chuck(res, "pct_covered")
+      purrr::chuck(res, "coverage_percent")
 
     testthat::expect_equal(
       base::round(pct, 1),
@@ -279,7 +279,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "check_trait_coverage() emits a message to the console",
+  "summarise_trait_coverage() emits a message to the console",
   {
     vec_taxa <-
       base::c("Genus_A", "Genus_B")
@@ -290,8 +290,8 @@ testthat::test_that(
       )
 
     testthat::expect_message(
-      check_trait_coverage(
-        vec_community_taxa = vec_taxa,
+      summarise_trait_coverage(
+        community_taxa = vec_taxa,
         data_trait_table = data_trait
       )
     )

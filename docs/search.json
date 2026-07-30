@@ -2396,7 +2396,7 @@
     "href": "Documentation/Website/Documentation/Functions/make_trait_table.html",
     "title": "make_trait_table()",
     "section": "",
-    "text": "make_trait_table\n\n\nR Documentation\n\n\n\n\nMake Wide-Format Species x Traits Table\n\n\nDescription\n\n\nPivots a long-format aggregated trait data frame into a wide-format table with one row per taxon and one column per trait domain. This produces the genus x traits matrix used for functional type assignment.\n\n\nUsage\n\nmake_trait_table(\n  data,\n  taxon_col = \"taxon_name\",\n  trait_col = \"trait_domain_name\",\n  value_col = \"trait_value_aggregated\"\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame in long format with one row per taxon x trait combination. Must contain at least the columns specified by ‘taxon_col’, ‘trait_col’, and ‘value_col’.\n\n\n\n\n\ntaxon_col\n\n\n\nA character string naming the column containing taxon (genus) names. Default: ‘\"taxon_name\"’.\n\n\n\n\n\ntrait_col\n\n\n\nA character string naming the column containing trait domain names. Default: ‘\"trait_domain_name\"’.\n\n\n\n\n\nvalue_col\n\n\n\nA character string naming the column containing aggregated trait values. Default: ‘\"trait_value_aggregated\"’.\n\n\n\n\n\nDetails\n\n\nWraps ‘tidyr::pivot_wider()’. If a taxon x trait combination appears more than once, only the first value is retained (‘values_fn = dplyr::first’).\n\n\nValue\n\n\nA tibble with one row per taxon and one column per trait domain, plus the taxon name column. Column names for traits are taken directly from the values in ‘trait_col’.\n\n\nSee Also\n\n\n[aggregate_trait_values()], [check_trait_coverage()]\n\n\n\n\n\n\n\n\n Back to top",
+    "text": "make_trait_table\n\n\nR Documentation\n\n\n\n\nMake Wide-Format Species x Traits Table\n\n\nDescription\n\n\nPivots a long-format aggregated trait data frame into a wide-format table with one row per taxon and one column per trait domain. This produces the genus x traits matrix used for functional type assignment.\n\n\nUsage\n\nmake_trait_table(\n  data,\n  taxon_col = \"taxon_name\",\n  trait_col = \"trait_domain_name\",\n  value_col = \"trait_value_aggregated\"\n)\n\n\nArguments\n\n\n\n\ndata\n\n\n\nA data frame in long format with one row per taxon x trait combination. Must contain at least the columns specified by ‘taxon_col’, ‘trait_col’, and ‘value_col’.\n\n\n\n\n\ntaxon_col\n\n\n\nA character string naming the column containing taxon (genus) names. Default: ‘\"taxon_name\"’.\n\n\n\n\n\ntrait_col\n\n\n\nA character string naming the column containing trait domain names. Default: ‘\"trait_domain_name\"’.\n\n\n\n\n\nvalue_col\n\n\n\nA character string naming the column containing aggregated trait values. Default: ‘\"trait_value_aggregated\"’.\n\n\n\n\n\nDetails\n\n\nWraps ‘tidyr::pivot_wider()’. If a taxon x trait combination appears more than once, only the first value is retained (‘values_fn = dplyr::first’).\n\n\nValue\n\n\nA tibble with one row per taxon and one column per trait domain, plus the taxon name column. Column names for traits are taken directly from the values in ‘trait_col’.\n\n\nSee Also\n\n\n[aggregate_trait_values()], [summarise_trait_coverage()]\n\n\n\n\n\n\n\n\n Back to top",
     "crumbs": [
       "Code Reference",
       "Functions",
@@ -3123,6 +3123,18 @@
       "Code Reference",
       "Functions",
       "flag_trait_outliers()"
+    ]
+  },
+  {
+    "objectID": "Documentation/Website/Documentation/Functions/summarise_trait_coverage.html",
+    "href": "Documentation/Website/Documentation/Functions/summarise_trait_coverage.html",
+    "title": "summarise_trait_coverage()",
+    "section": "",
+    "text": "summarise_trait_coverage\n\n\nR Documentation\n\n\n\n\nSummarise Trait Coverage of Community Taxa\n\n\nDescription\n\n\nCompares a character vector of taxon names from the community data against the taxa present in a wide-format trait table. Reports the proportion of community taxa covered by trait data and identifies which taxa are missing or extra.\n\n\nUsage\n\nsummarise_trait_coverage(community_taxa, data_trait_table)\n\n\nArguments\n\n\n\n\ncommunity_taxa\n\n\n\nA character vector of unique taxon names from the community data.\n\n\n\n\n\ndata_trait_table\n\n\n\nA wide-format trait table as returned by [make_trait_table()], with a ‘taxon_name’ column.\n\n\n\n\n\nDetails\n\n\nA summary of coverage statistics is printed to the console via ‘cli::cli_inform()’.\n\n\nValue\n\n\nA named list with the following elements:\n\n\n\nn_community_taxa\n\n\n\nTotal number of unique taxa in the community vector.\n\n\n\nn_covered_taxa\n\n\n\nNumber of community taxa present in the trait table.\n\n\n\ncoverage_percent\n\n\n\nCoverage as a percentage, rounded to one decimal place.\n\n\n\nmissing_taxa\n\n\n\nCharacter vector of community taxa absent from the trait table.\n\n\n\nextra_taxa\n\n\n\nCharacter vector of taxa in the trait table not found in the community.\n\n\n\n\nSee Also\n\n\n[make_trait_table()]\n\n\n\n\n\n\n\n\n Back to top",
+    "crumbs": [
+      "Code Reference",
+      "Functions",
+      "summarise_trait_coverage()"
     ]
   }
 ]

@@ -1,10 +1,10 @@
-#' @title Check Trait Coverage Against Community Taxa
+#' @title Summarise Trait Coverage of Community Taxa
 #' @description
 #' Compares a character vector of taxon names from the community data
 #' against the taxa present in a wide-format trait table. Reports the
 #' proportion of community taxa covered by trait data and identifies
 #' which taxa are missing or extra.
-#' @param vec_community_taxa
+#' @param community_taxa
 #' A character vector of unique taxon names from the community data.
 #' @param data_trait_table
 #' A wide-format trait table as returned by [make_trait_table()], with
@@ -14,13 +14,13 @@
 #' \describe{
 #'   \item{n_community_taxa}{Total number of unique taxa in the
 #'     community vector.}
-#'   \item{n_covered}{Number of community taxa present in the trait
+#'   \item{n_covered_taxa}{Number of community taxa present in the trait
 #'     table.}
-#'   \item{pct_covered}{Coverage as a percentage, rounded to one
+#'   \item{coverage_percent}{Coverage as a percentage, rounded to one
 #'     decimal place.}
-#'   \item{vec_missing_taxa}{Character vector of community taxa
+#'   \item{missing_taxa}{Character vector of community taxa
 #'     absent from the trait table.}
-#'   \item{vec_extra_taxa}{Character vector of taxa in the trait
+#'   \item{extra_taxa}{Character vector of taxa in the trait
 #'     table not found in the community.}
 #' }
 #' @details
@@ -28,14 +28,14 @@
 #' `cli::cli_inform()`.
 #' @seealso [make_trait_table()]
 #' @export
-check_trait_coverage <- function(
-    vec_community_taxa,
+summarise_trait_coverage <- function(
+    community_taxa,
     data_trait_table) {
   assertthat::assert_that(
-    base::is.character(vec_community_taxa) &&
-      base::length(vec_community_taxa) > 0L,
-    msg = paste0(
-      "'vec_community_taxa' must be a non-empty ",
+    base::is.character(community_taxa) &&
+      base::length(community_taxa) > 0L,
+    msg = base::paste0(
+      "'community_taxa' must be a non-empty ",
       "character vector."
     )
   )
@@ -47,57 +47,57 @@ check_trait_coverage <- function(
 
   assertthat::assert_that(
     "taxon_name" %in% base::colnames(data_trait_table),
-    msg = paste0(
+    msg = base::paste0(
       "'data_trait_table' must contain a 'taxon_name' column."
     )
   )
 
-  vec_trait_genera <-
+  trait_taxa <-
     data_trait_table |>
-    dplyr::pull(taxon_name)
+    dplyr::pull(.data[["taxon_name"]])
 
   n_community_taxa <-
-    base::length(vec_community_taxa)
+    base::length(community_taxa)
 
-  vec_covered <-
-    base::intersect(vec_community_taxa, vec_trait_genera)
+  covered_taxa <-
+    base::intersect(community_taxa, trait_taxa)
 
-  n_covered <-
-    base::length(vec_covered)
+  n_covered_taxa <-
+    base::length(covered_taxa)
 
-  pct_covered <-
-    base::round(n_covered / n_community_taxa * 100, 1)
+  coverage_percent <-
+    base::round(n_covered_taxa / n_community_taxa * 100, 1)
 
-  vec_missing_taxa <-
-    base::setdiff(vec_community_taxa, vec_trait_genera)
+  missing_taxa <-
+    base::setdiff(community_taxa, trait_taxa)
 
-  vec_extra_taxa <-
-    base::setdiff(vec_trait_genera, vec_community_taxa)
+  extra_taxa <-
+    base::setdiff(trait_taxa, community_taxa)
 
   cli::cli_inform(
-    c(
+    base::c(
       "i" = base::paste0(
-        "Trait coverage: ", n_covered, " / ",
+        "Trait coverage: ", n_covered_taxa, " / ",
         n_community_taxa, " community taxa (",
-        pct_covered, "%)."
+        coverage_percent, "%)."
       ),
       "i" = base::paste0(
-        base::length(vec_missing_taxa),
+        base::length(missing_taxa),
         " taxa missing from trait table; ",
-        base::length(vec_extra_taxa),
+        base::length(extra_taxa),
         " extra taxa in trait table."
       )
     )
   )
 
-  res <-
+  trait_coverage_summary <-
     base::list(
       n_community_taxa = n_community_taxa,
-      n_covered = n_covered,
-      pct_covered = pct_covered,
-      vec_missing_taxa = vec_missing_taxa,
-      vec_extra_taxa = vec_extra_taxa
+      n_covered_taxa = n_covered_taxa,
+      coverage_percent = coverage_percent,
+      missing_taxa = missing_taxa,
+      extra_taxa = extra_taxa
     )
 
-  return(res)
+  return(trait_coverage_summary)
 }

@@ -1,6 +1,6 @@
 ---
 format: html
-title: check_trait_coverage()
+title: summarise_trait_coverage()
 ---
 
 <html><head>
@@ -19,9 +19,9 @@ function processMathHTML() {
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body><div class="container"><main>
 
-<table style="width: 100%;"><tr><td>check_trait_coverage</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>summarise_trait_coverage</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Check Trait Coverage Against Community Taxa</h2>
+<h2>Summarise Trait Coverage of Community Taxa</h2>
 
 <h3>Description</h3>
 
@@ -34,14 +34,14 @@ which taxa are missing or extra.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>check_trait_coverage(vec_community_taxa, data_trait_table)
+<pre><code class='language-R'>summarise_trait_coverage(community_taxa, data_trait_table)
 </code></pre>
 
 
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="vec_community_taxa">vec_community_taxa</code></td>
+<tr><td><code id="community_taxa">community_taxa</code></td>
 <td>
 <p>A character vector of unique taxon names from the community data.</p>
 </td></tr>
@@ -69,16 +69,16 @@ a 'taxon_name' column.</p>
 <dt>n_community_taxa</dt><dd><p>Total number of unique taxa in the
 community vector.</p>
 </dd>
-<dt>n_covered</dt><dd><p>Number of community taxa present in the trait
+<dt>n_covered_taxa</dt><dd><p>Number of community taxa present in the trait
 table.</p>
 </dd>
-<dt>pct_covered</dt><dd><p>Coverage as a percentage, rounded to one
+<dt>coverage_percent</dt><dd><p>Coverage as a percentage, rounded to one
 decimal place.</p>
 </dd>
-<dt>vec_missing_taxa</dt><dd><p>Character vector of community taxa
+<dt>missing_taxa</dt><dd><p>Character vector of community taxa
 absent from the trait table.</p>
 </dd>
-<dt>vec_extra_taxa</dt><dd><p>Character vector of taxa in the trait
+<dt>extra_taxa</dt><dd><p>Character vector of taxa in the trait
 table not found in the community.</p>
 </dd>
 </dl>
@@ -94,4 +94,3 @@ table not found in the community.</p>
 
 </div>
 </body></html>
-
