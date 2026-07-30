@@ -7,7 +7,7 @@
 #' @param community_taxa
 #' A character vector of unique taxon names from the community data.
 #' @param data_trait_table
-#' A wide-format trait table as returned by [make_trait_table()], with
+#' A wide-format trait table as returned by [build_trait_table()], with
 #' a `taxon_name` column.
 #' @return
 #' A named list with the following elements:
@@ -26,7 +26,7 @@
 #' @details
 #' A summary of coverage statistics is printed to the console via
 #' `cli::cli_inform()`.
-#' @seealso [make_trait_table()]
+#' @seealso [build_trait_table()]
 #' @export
 summarise_trait_coverage <- function(
     community_taxa,

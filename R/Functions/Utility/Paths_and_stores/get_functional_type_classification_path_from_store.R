@@ -37,7 +37,7 @@
 #' )
 #' @seealso
 #' get_scale_id_from_store, get_continent_id_from_scale_id,
-#' get_functional_type_classification
+#' load_latest_functional_type_classification
 #' @export
 get_functional_type_classification_path_from_store <- function(
     store = targets::tar_path_store(),
@@ -104,10 +104,10 @@ get_functional_type_classification_path_from_store <- function(
     )
 
   res_path <-
-    get_functional_type_classification_path(
+    resolve_functional_type_classification_path(
       continent_id = continent_id,
-      data_source_prefix = data_source_prefix,
-      path_processed = path_processed
+      classification_source_prefix = data_source_prefix,
+      path_classification_directory = path_processed
     )
 
   return(res_path)

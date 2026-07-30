@@ -161,8 +161,8 @@ load_continental_trait_records_from_vegvault <- function(
 
   data_trait_records_resolved <-
     resolve_trait_taxon_ids(
-      data_clean = data_trait_records_complete,
-      path_to_vegvault = path_vegvault
+      data_trait_records = data_trait_records_complete,
+      path_vegvault = path_vegvault
     )
 
   if (

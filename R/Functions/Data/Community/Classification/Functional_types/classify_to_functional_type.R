@@ -14,8 +14,8 @@
 #' @param data_functional_type_classification
 #' A data frame mapping taxa to functional types. Must contain
 #' columns `taxon_name` (character) and `functional_type`
-#' (integer). Typically produced by `cluster_functional_types()`
-#' and loaded via `get_functional_type_classification()`.
+#' (integer). Typically produced by `assign_functional_type_clusters()`
+#' and loaded via `load_latest_functional_type_classification()`.
 #' @param flag_verbose
 #' Logical. If `TRUE` (default), informational progress messages
 #' are printed to the console via `cli`. Note: the warning issued
@@ -45,8 +45,8 @@
 #'     to preserve true negatives.
 #' }
 #' @seealso [classify_taxonomic_resolution()],
-#'   [get_functional_type_classification()],
-#'   [cluster_functional_types()]
+#'   [load_latest_functional_type_classification()],
+#'   [assign_functional_type_clusters()]
 #' @export
 classify_to_functional_type <- function(
     data_source,

@@ -86,7 +86,7 @@ pipe_segment_traits_ft_clustering <-
 
     # ── 3. Read dissimilarity metric from config ────────
     # This scalar target supplies the distance metric passed into
-    # compute_dissimilarity_matrix() for every continent branch.
+    # compute_trait_dissimilarity() for every continent branch.
     # Keeping the metric in its own target makes it easy to see when a
     # graph invalidation is caused by a change in clustering settings.
     # If absent from the active config, the helper falls back to the
@@ -151,9 +151,9 @@ pipe_segment_traits_ft_clustering <-
         "Compute dissimilarity matrix for one continent"
       ),
       name = dist_continent,
-      command = compute_dissimilarity_matrix(
-        data = data_continent_traits,
-        metric = metric_ft_clustering
+      command = compute_trait_dissimilarity(
+        data_trait_table = data_continent_traits,
+        distance_metric = metric_ft_clustering
       ),
       pattern = map(data_continent_traits)
     ),
@@ -169,9 +169,9 @@ pipe_segment_traits_ft_clustering <-
         "Fit hierarchical clustering for one continent"
       ),
       name = hclust_continent,
-      command = fit_hclust(
-        dist_mat = dist_continent,
-        method = method_ft_clustering
+      command = fit_hierarchical_clustering(
+        trait_dissimilarity = dist_continent,
+        clustering_method = method_ft_clustering
       ),
       pattern = map(dist_continent)
     ),
@@ -181,7 +181,7 @@ pipe_segment_traits_ft_clustering <-
     # Each branch evaluates candidate cuts of the dendrogram and returns
     # the optimal number_of_ft_groups as a plain integer so the selected
     # value is directly inspectable in the target graph and metadata.
-    # select_ft_groups_by_silhouette() clamps ft_groups_max to the
+    # select_functional_type_group_count() clamps ft_groups_max to the
     # number of valid observations minus one, and then clamps
     # ft_groups_min if necessary, so small continent subsets still run.
     targets::tar_target(
@@ -189,11 +189,11 @@ pipe_segment_traits_ft_clustering <-
         "Select optimal number of FT groups via silhouette for one continent"
       ),
       name = ft_groups_chosen_continent,
-      command = select_ft_groups_by_silhouette(
-        dist_mat = dist_continent,
-        hclust_obj = hclust_continent,
-        ft_groups_min = ft_groups_min_clustering,
-        ft_groups_max = ft_groups_max_clustering
+      command = select_functional_type_group_count(
+        trait_dissimilarity = dist_continent,
+        hierarchical_clustering = hclust_continent,
+        functional_type_group_count_min = ft_groups_min_clustering,
+        functional_type_group_count_max = ft_groups_max_clustering
       ),
       pattern = map(
         dist_continent,
@@ -212,11 +212,11 @@ pipe_segment_traits_ft_clustering <-
         "Cluster taxa into FTs for one continent"
       ),
       name = ft_result_continent,
-      command = cluster_functional_types(
-        data = data_continent_traits,
-        dist_mat = dist_continent,
-        hclust_obj = hclust_continent,
-        number_of_ft_groups = ft_groups_chosen_continent,
+      command = assign_functional_type_clusters(
+        data_trait_table = data_continent_traits,
+        trait_dissimilarity = dist_continent,
+        hierarchical_clustering = hclust_continent,
+        functional_type_group_count = ft_groups_chosen_continent,
         verbose = TRUE
       ),
       pattern = map(
@@ -239,9 +239,9 @@ pipe_segment_traits_ft_clustering <-
         "Save FT classification for one continent to .qs file"
       ),
       name = file_ft_classification_paleo,
-      command = save_ft_classification_for_continent(
+      command = save_continental_functional_type_classification(
         continent_id = dplyr::pull(data_continental_rows, "scale_id"),
-        data_classification = ft_result_continent,
+        data_functional_type_classification = ft_result_continent,
         verbose = TRUE
       ),
       pattern = map(

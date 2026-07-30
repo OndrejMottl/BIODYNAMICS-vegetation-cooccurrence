@@ -470,7 +470,7 @@
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/aggregate_trait_values.html</loc>
-    <lastmod>2026-07-29T09:33:54.805Z</lastmod>
+    <lastmod>2026-07-30T13:58:32.969Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/apply_scale_attributes.html</loc>
@@ -826,7 +826,7 @@
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/resolve_trait_taxon_ids.html</loc>
-    <lastmod>2026-07-29T09:33:56.428Z</lastmod>
+    <lastmod>2026-07-30T13:19:35.610Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/run_decomposition_route_cv.html</loc>
@@ -967,5 +967,33 @@
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/render_trait_quality_control_report.html</loc>
     <lastmod>2026-07-30T11:22:46.197Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/load_functional_type_classification.html</loc>
+    <lastmod>2026-07-30T13:19:35.609Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/compute_trait_dissimilarity.html</loc>
+    <lastmod>2026-07-30T13:19:35.612Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/fit_hierarchical_clustering.html</loc>
+    <lastmod>2026-07-30T13:19:35.613Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/save_continental_functional_type_classification.html</loc>
+    <lastmod>2026-07-30T13:19:35.611Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/assign_functional_type_clusters.html</loc>
+    <lastmod>2026-07-30T13:58:32.960Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/load_latest_functional_type_classification.html</loc>
+    <lastmod>2026-07-30T13:58:32.969Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/select_functional_type_group_count.html</loc>
+    <lastmod>2026-07-30T13:58:32.969Z</lastmod>
   </url>
 </urlset>

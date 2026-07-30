@@ -152,10 +152,13 @@ cli::cli_inform(
 
 data_traits_aggregated <-
   aggregate_trait_values(
-    data = data_traits_no_outliers,
-    trait_col = "trait_value",
-    group_cols = base::c("taxon_community", "trait_domain_name"),
-    fn = "median"
+    data_trait_values = data_traits_no_outliers,
+    trait_value_column = "trait_value",
+    group_columns = base::c(
+      "taxon_community",
+      "trait_domain_name"
+    ),
+    aggregation_method = "median"
   )
 
 cli::cli_inform(
@@ -174,11 +177,11 @@ cli::cli_inform(
 #----------------------------------------------------------#
 
 data_trait_table <-
-  make_trait_table(
-    data = data_traits_aggregated,
-    taxon_col = "taxon_community",
-    trait_col = "trait_domain_name",
-    value_col = "trait_value_aggregated"
+  build_trait_table(
+    data_aggregated_trait_values = data_traits_aggregated,
+    taxon_column = "taxon_community",
+    trait_domain_column = "trait_domain_name",
+    trait_value_column = "trait_value_aggregated"
   ) |>
   dplyr::rename(
     taxon_name = taxon_community

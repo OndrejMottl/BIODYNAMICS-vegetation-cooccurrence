@@ -91,7 +91,7 @@ Functional types are generated as reference classifications and then consumed by
 | Trait table | `pipe_segment_traits_table.R` | Build taxon-by-trait summaries |
 | Functional clustering | `pipe_segment_traits_ft_clustering.R` | Cluster taxa into functional types |
 
-Key helper functions include [`load_trait_records_from_vegvault()`](Documentation/Functions/load_trait_records_from_vegvault.qmd), [`filter_complete_trait_records()`](Documentation/Functions/filter_complete_trait_records.qmd), [`correct_trait_records()`](Documentation/Functions/correct_trait_records.qmd), [`aggregate_trait_values()`](Documentation/Functions/aggregate_trait_values.qmd), and [`cluster_functional_types()`](Documentation/Functions/cluster_functional_types.qmd).
+Key helper functions include [`load_trait_records_from_vegvault()`](Documentation/Functions/load_trait_records_from_vegvault.qmd), [`filter_complete_trait_records()`](Documentation/Functions/filter_complete_trait_records.qmd), [`correct_trait_records()`](Documentation/Functions/correct_trait_records.qmd), [`aggregate_trait_values()`](Documentation/Functions/aggregate_trait_values.qmd), and [`assign_functional_type_clusters()`](Documentation/Functions/assign_functional_type_clusters.qmd).
 :::
 
 ## Analysis Axes
@@ -307,7 +307,7 @@ The same input data can be routed to genus-level, family-level, or functional-ty
 Key helpers include [`classify_taxonomic_resolution()`](Documentation/Functions/classify_taxonomic_resolution.qmd), [`resolve_classification_to_finest_rank()`](Documentation/Functions/resolve_classification_to_finest_rank.qmd), [`classify_to_functional_type()`](Documentation/Functions/classify_to_functional_type.qmd), and [`replace_missing_community_counts_with_zeros()`](Documentation/Functions/replace_missing_community_counts_with_zeros.qmd).
 
 Functional-type classifications are generated before the resolution branches need them.
-Spatial-resolution pipelines read those classifications with helpers such as [`get_functional_type_classification_path_from_store()`](Documentation/Functions/get_functional_type_classification_path_from_store.qmd) and [`read_functional_type_classification()`](Documentation/Functions/read_functional_type_classification.qmd).
+Spatial-resolution pipelines read those classifications with helpers such as [`get_functional_type_classification_path_from_store()`](Documentation/Functions/get_functional_type_classification_path_from_store.qmd) and [`load_functional_type_classification()`](Documentation/Functions/load_functional_type_classification.qmd).
 :::
 
 ### 7. Data Alignment

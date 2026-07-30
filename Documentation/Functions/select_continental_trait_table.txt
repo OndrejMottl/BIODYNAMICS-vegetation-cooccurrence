@@ -22,7 +22,7 @@ scale_id: A single non-empty character string identifying the
           `data_trait_records_classified`.
 
 data_trait_table: A wide tibble (rows = taxa, columns = `taxon_name` +
-          trait domain columns) as produced by `make_trait_table()`.
+          trait domain columns) as produced by `build_trait_table()`.
           Must contain a `taxon_name` column.
 
 data_trait_records_classified: A tibble with at least columns
@@ -51,5 +51,5 @@ Value:
 
 See Also:
 
-     [save_ft_classification_for_continent()],
-     [cluster_functional_types()]
+     [save_continental_functional_type_classification()],
+     [assign_functional_type_clusters()]

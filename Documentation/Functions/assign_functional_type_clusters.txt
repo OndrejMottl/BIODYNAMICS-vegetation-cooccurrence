@@ -1,0 +1,88 @@
+Assign Functional-Type Clusters
+
+Description:
+
+     Assigns taxa into functional types (FTs) using a pre-computed
+     Gower dissimilarity matrix, a pre-fitted hierarchical clustering
+     object, and a predetermined number of groups
+     `functional_type_group_count`. The number of groups is expected to
+     have been chosen upstream via
+     `select_functional_type_group_count()`.
+
+Usage:
+
+     assign_functional_type_clusters(
+       data_trait_table,
+       trait_dissimilarity,
+       hierarchical_clustering,
+       functional_type_group_count,
+       taxon_column = "taxon_name",
+       verbose = TRUE
+     )
+
+Arguments:
+
+data_trait_table: A data frame with one row per taxon. Must contain a
+          character column (identified by `taxon_column`) holding taxon
+          names. Must have at least 4 rows and `nrow(data_trait_table)`
+          must be strictly greater than `functional_type_group_count`.
+
+trait_dissimilarity: A `dist` object produced by
+          `compute_trait_dissimilarity()`. Must inherit class `"dist"`.
+          All distance values must be finite.
+
+hierarchical_clustering: An `hclust` object produced by
+          `fit_hierarchical_clustering()`. Must inherit class
+          `"hclust"`.
+
+functional_type_group_count: A single positive integer giving the
+          number of functional-type groups to cut the dendrogram at.
+          Must be at least 2 and less than `nrow(data_trait_table)`.
+
+taxon_column: A single character string naming the column in
+          `data_trait_table` that contains taxon names. Default:
+          `"taxon_name"`.
+
+ verbose: A single logical. If `TRUE` (default), prints the chosen
+          `functional_type_group_count` via `cli::cli_inform()`.
+
+Details:
+
+     **Algorithm**:
+
+       1. Cut the dendrogram at `functional_type_group_count` via
+          `stats::cutree()`.
+
+       2. Compute per-taxon silhouette widths via
+          `cluster::silhouette()`.
+
+       3. Return a tibble of taxon names, cluster assignments, and
+          silhouette widths.
+
+     Distance computation (Inf -> NA, daisy, NaN -> 1.0) and
+     hierarchical clustering are handled upstream by
+     `compute_trait_dissimilarity()` and
+     `fit_hierarchical_clustering()` respectively. FT-groups selection
+     is handled upstream by `select_functional_type_group_count()`. If
+     `nrow(data_trait_table) < 4` or `functional_type_group_count >=
+     nrow(data_trait_table)`, the function aborts with an informative
+     error.
+
+Value:
+
+     A tibble with columns:
+
+     taxon_name Taxon names (same values as
+          `data_trait_table[[taxon_column]]`). Column name is always
+          `"taxon_name"` regardless of `taxon_column`.
+
+     functional_type Integer label (1..`functional_type_group_count`)
+          giving the functional-type cluster assignment for each taxon.
+
+     silhouette_width Per-taxon silhouette width for the chosen
+          `functional_type_group_count` solution.
+
+See Also:
+
+     [compute_trait_dissimilarity()], [fit_hierarchical_clustering()],
+     [select_functional_type_group_count()]

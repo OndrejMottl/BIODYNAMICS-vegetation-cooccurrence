@@ -140,8 +140,8 @@ make_pipe_segment_ft_classification_continental <- function(
                 n_taxa_after_filters <-
                   data_reference_filtered |>
                   dplyr::pull("taxon") |>
-                  unique() |>
-                  length()
+                  base::unique() |>
+                  base::length()
 
                 tibble::tibble(
                   reference_available = TRUE,
@@ -152,14 +152,14 @@ make_pipe_segment_ft_classification_continental <- function(
                   error_message = NA_character_
                 )
               },
-              error = function(e) {
+              error = function(condition) {
                 tibble::tibble(
                   reference_available = TRUE,
                   reference_path = reference_path,
                   n_taxa_after_filters = 0L,
                   min_n_taxa = config_min_n_taxa,
                   viable = FALSE,
-                  error_message = conditionMessage(e)
+                  error_message = base::conditionMessage(condition)
                 )
               }
             )
@@ -178,20 +178,22 @@ make_pipe_segment_ft_classification_continental <- function(
         {
           base::force(check_ft_reference_classification_paleo)
 
-          save_ft_classification_for_continent(
+          save_continental_functional_type_classification(
             continent_id = .(ft_classification_id_expr),
-            data_classification = ft_result_continental_unit,
-            data_source_prefix = .(data_source_prefix),
+            data_functional_type_classification =
+              ft_result_continental_unit,
+            classification_source_prefix = .(data_source_prefix),
             verbose = TRUE
           )
         }
       )
     } else {
       bquote(
-        save_ft_classification_for_continent(
+        save_continental_functional_type_classification(
           continent_id = .(ft_classification_id_expr),
-          data_classification = ft_result_continental_unit,
-          data_source_prefix = .(data_source_prefix),
+          data_functional_type_classification =
+            ft_result_continental_unit,
+          classification_source_prefix = .(data_source_prefix),
           verbose = TRUE
         )
       )
@@ -328,10 +330,10 @@ make_pipe_segment_ft_classification_continental <- function(
         ),
         name = data_community_taxon_traits,
         command = build_community_taxon_trait_table(
-          data_traits = data_traits_for_ft |>
+          data_trait_records = data_traits_for_ft |>
             dplyr::rename(taxon_name = "taxon_resolved"),
-          data_classification_table = data_classification_table_for_ft,
-          data_community_classification_table =
+          data_trait_taxonomy = data_classification_table_for_ft,
+          data_community_taxonomy =
             data_community_classified_taxa_classification,
           verbose = TRUE
         )
@@ -341,9 +343,9 @@ make_pipe_segment_ft_classification_continental <- function(
       targets::tar_target(
         description = "Compute dissimilarity matrix for FT clustering",
         name = dist_ft_continental,
-        command = compute_dissimilarity_matrix(
-          data = data_community_taxon_traits,
-          metric = metric_ft_continental
+        command = compute_trait_dissimilarity(
+          data_trait_table = data_community_taxon_traits,
+          distance_metric = metric_ft_continental
         )
       ),
 
@@ -351,9 +353,9 @@ make_pipe_segment_ft_classification_continental <- function(
       targets::tar_target(
         description = "Fit hierarchical clustering dendrogram for FTs",
         name = hclust_ft_continental,
-        command = fit_hclust(
-          dist_mat = dist_ft_continental,
-          method = method_ft_continental
+        command = fit_hierarchical_clustering(
+          trait_dissimilarity = dist_ft_continental,
+          clustering_method = method_ft_continental
         )
       ),
 
@@ -364,11 +366,13 @@ make_pipe_segment_ft_classification_continental <- function(
           "by maximising average silhouette width"
         ),
         name = ft_groups_chosen_continental,
-        command = select_ft_groups_by_silhouette(
-          dist_mat = dist_ft_continental,
-          hclust_obj = hclust_ft_continental,
-          ft_groups_min = ft_groups_min_continental,
-          ft_groups_max = ft_groups_max_continental,
+        command = select_functional_type_group_count(
+          trait_dissimilarity = dist_ft_continental,
+          hierarchical_clustering = hclust_ft_continental,
+          functional_type_group_count_min =
+            ft_groups_min_continental,
+          functional_type_group_count_max =
+            ft_groups_max_continental,
           data_community = data_community_classified,
           minimal_proportion = config_minimal_proportion_of_pollen,
           min_n_taxa = config_min_n_taxa,
@@ -382,11 +386,12 @@ make_pipe_segment_ft_classification_continental <- function(
       targets::tar_target(
         description = "Cluster community taxa into functional types",
         name = ft_result_continental_unit,
-        command = cluster_functional_types(
-          data = data_community_taxon_traits,
-          dist_mat = dist_ft_continental,
-          hclust_obj = hclust_ft_continental,
-          number_of_ft_groups = ft_groups_chosen_continental,
+        command = assign_functional_type_clusters(
+          data_trait_table = data_community_taxon_traits,
+          trait_dissimilarity = dist_ft_continental,
+          hierarchical_clustering = hclust_ft_continental,
+          functional_type_group_count =
+            ft_groups_chosen_continental,
           verbose = TRUE
         )
       )

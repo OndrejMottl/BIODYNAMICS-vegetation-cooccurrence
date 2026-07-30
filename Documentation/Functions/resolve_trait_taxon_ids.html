@@ -62,9 +62,9 @@ for 'taxon_name' (standard left-join behaviour).
 
 <pre><code class='language-R'>resolve_trait_taxon_ids(
 
-  data_clean,
+  data_trait_records,
 
-  path_to_vegvault = here::here("Data/Input/VegVault.sqlite")
+  path_vegvault = here::here("Data/Input/VegVault.sqlite")
 
 )
 
@@ -80,7 +80,7 @@ for 'taxon_name' (standard left-join behaviour).
 
 <table role = "presentation">
 
-<tr><td><code id="data_clean">data_clean</code></td>
+<tr><td><code id="data_trait_records">data_trait_records</code></td>
 
 <td>
 
@@ -90,7 +90,7 @@ numeric), typically the output of [filter_complete_trait_records()].</p>
 
 </td></tr>
 
-<tr><td><code id="path_to_vegvault">path_to_vegvault</code></td>
+<tr><td><code id="path_vegvault">path_vegvault</code></td>
 
 <td>
 
@@ -114,13 +114,9 @@ SQLite database
 
 <p>Opens a fresh database connection, loads the 'Taxa' table, filters
 
-it to only the IDs present in 'data_clean', performs a left join,
+it to only the IDs present in 'data_trait_records', performs a left
 
-and immediately disconnects. The connection is always closed —
-
-even if the join step errors — through standard sequential
-
-disconnect after collect.
+join, and closes the connection via 'on.exit()'.
 
 </p>
 

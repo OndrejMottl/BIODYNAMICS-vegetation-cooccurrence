@@ -58,8 +58,8 @@ columns such as 'sample_name' are preserved.</p>
 <td>
 <p>A data frame mapping taxa to functional types. Must contain
 columns 'taxon_name' (character) and 'functional_type'
-(integer). Typically produced by 'cluster_functional_types()'
-and loaded via 'get_functional_type_classification()'.</p>
+(integer). Typically produced by 'assign_functional_type_clusters()'
+and loaded via 'load_latest_functional_type_classification()'.</p>
 </td></tr>
 <tr><td><code id="flag_verbose">flag_verbose</code></td>
 <td>
@@ -118,12 +118,11 @@ a 'cli::cli_warn()' message.
 <h3>See Also</h3>
 
 <p>[classify_taxonomic_resolution()],
-[get_functional_type_classification()],
-[cluster_functional_types()]
+[load_latest_functional_type_classification()],
+[assign_functional_type_clusters()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

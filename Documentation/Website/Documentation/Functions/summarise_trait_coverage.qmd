@@ -47,7 +47,7 @@ which taxa are missing or extra.
 </td></tr>
 <tr><td><code id="data_trait_table">data_trait_table</code></td>
 <td>
-<p>A wide-format trait table as returned by [make_trait_table()], with
+<p>A wide-format trait table as returned by [build_trait_table()], with
 a 'taxon_name' column.</p>
 </td></tr>
 </table>
@@ -87,7 +87,7 @@ table not found in the community.</p>
 
 <h3>See Also</h3>
 
-<p>[make_trait_table()]
+<p>[build_trait_table()]
 </p>
 
 </main>

@@ -1,0 +1,49 @@
+Build Wide-Format Species x Traits Table
+
+Description:
+
+     Pivots a long-format aggregated trait data frame into a
+     wide-format table with one row per taxon and one column per trait
+     domain. This produces the genus x traits matrix used for
+     functional type assignment.
+
+Usage:
+
+     build_trait_table(
+       data_aggregated_trait_values,
+       taxon_column = "taxon_name",
+       trait_domain_column = "trait_domain_name",
+       trait_value_column = "trait_value_aggregated"
+     )
+
+Arguments:
+
+data_aggregated_trait_values: A data frame in long format with one row
+          per taxon x trait combination. Must contain at least the
+          columns specified by `taxon_column`, `trait_domain_column`,
+          and `trait_value_column`.
+
+taxon_column: A character string naming the column containing taxon
+          (genus) names. Default: `"taxon_name"`.
+
+trait_domain_column: A character string naming the column containing
+          trait domain names. Default: `"trait_domain_name"`.
+
+trait_value_column: A character string naming the column containing
+          aggregated trait values. Default: `"trait_value_aggregated"`.
+
+Details:
+
+     Wraps `tidyr::pivot_wider()`. If a taxon x trait combination
+     appears more than once, only the first value is retained
+     (`values_fn = dplyr::first`).
+
+Value:
+
+     A tibble with one row per taxon and one column per trait domain,
+     plus the taxon name column. Column names for traits are taken
+     directly from the values in `trait_domain_column`.
+
+See Also:
+
+     [aggregate_trait_values()], [summarise_trait_coverage()]

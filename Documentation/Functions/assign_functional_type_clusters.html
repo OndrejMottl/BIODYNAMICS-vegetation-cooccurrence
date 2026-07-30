@@ -1,0 +1,287 @@
+<!DOCTYPE html><html><head><title>R: Assign Functional-Type Clusters</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+
+<script type="text/javascript">
+
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
+function processMathHTML() {
+
+    var l = document.getElementsByClassName('reqn');
+
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
+    return;
+
+}</script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+
+    onload="processMathHTML();"></script>
+
+<link rel="stylesheet" type="text/css" href="R.css" />
+
+</head><body><div class="container"><main>
+
+
+
+<table style="width: 100%;"><tr><td>assign_functional_type_clusters</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+
+
+<h2>Assign Functional-Type Clusters</h2>
+
+
+
+<h3>Description</h3>
+
+
+
+<p>Assigns taxa into functional types (FTs) using a pre-computed
+
+Gower dissimilarity matrix, a pre-fitted hierarchical
+
+clustering object, and a predetermined number of groups
+
+'functional_type_group_count'. The number of groups is expected to
+
+have been chosen upstream via 'select_functional_type_group_count()'.
+
+</p>
+
+
+
+
+
+<h3>Usage</h3>
+
+
+
+<pre><code class='language-R'>assign_functional_type_clusters(
+
+  data_trait_table,
+
+  trait_dissimilarity,
+
+  hierarchical_clustering,
+
+  functional_type_group_count,
+
+  taxon_column = "taxon_name",
+
+  verbose = TRUE
+
+)
+
+</code></pre>
+
+
+
+
+
+<h3>Arguments</h3>
+
+
+
+<table role = "presentation">
+
+<tr><td><code id="data_trait_table">data_trait_table</code></td>
+
+<td>
+
+<p>A data frame with one row per taxon. Must contain a character
+
+column (identified by 'taxon_column') holding taxon names.
+
+Must have at least 4 rows and 'nrow(data_trait_table)' must be
+
+strictly greater than 'functional_type_group_count'.</p>
+
+</td></tr>
+
+<tr><td><code id="trait_dissimilarity">trait_dissimilarity</code></td>
+
+<td>
+
+<p>A 'dist' object produced by 'compute_trait_dissimilarity()'. Must
+
+inherit class '&quot;dist&quot;'. All distance values must be finite.</p>
+
+</td></tr>
+
+<tr><td><code id="hierarchical_clustering">hierarchical_clustering</code></td>
+
+<td>
+
+<p>An 'hclust' object produced by 'fit_hierarchical_clustering()'. Must inherit
+
+class '&quot;hclust&quot;'.</p>
+
+</td></tr>
+
+<tr><td><code id="functional_type_group_count">functional_type_group_count</code></td>
+
+<td>
+
+<p>A single positive integer giving the number of functional-type
+
+groups to cut the dendrogram at. Must be at least 2 and less
+
+than 'nrow(data_trait_table)'.</p>
+
+</td></tr>
+
+<tr><td><code id="taxon_column">taxon_column</code></td>
+
+<td>
+
+<p>A single character string naming the column in 'data_trait_table' that
+
+contains taxon names. Default: '&quot;taxon_name&quot;'.</p>
+
+</td></tr>
+
+<tr><td><code id="verbose">verbose</code></td>
+
+<td>
+
+<p>A single logical. If 'TRUE' (default), prints the chosen
+
+'functional_type_group_count' via 'cli::cli_inform()'.</p>
+
+</td></tr>
+
+</table>
+
+
+
+
+
+<h3>Details</h3>
+
+
+
+<p>**Algorithm**:
+
+</p>
+
+
+
+<ol>
+
+<li><p> Cut the dendrogram at 'functional_type_group_count'
+
+via 'stats::cutree()'.
+
+</p>
+
+</li>
+
+<li><p> Compute per-taxon silhouette widths via
+
+'cluster::silhouette()'.
+
+</p>
+
+</li>
+
+<li><p> Return a tibble of taxon names, cluster assignments,
+
+and silhouette widths.
+
+</p>
+
+</li></ol>
+
+
+
+<p>Distance computation (Inf -&gt; NA, daisy, NaN -&gt; 1.0) and
+
+hierarchical clustering are handled upstream by
+
+'compute_trait_dissimilarity()' and 'fit_hierarchical_clustering()' respectively.
+
+FT-groups selection is handled upstream by
+
+'select_functional_type_group_count()'.
+
+If 'nrow(data_trait_table) &lt; 4' or
+
+'functional_type_group_count &gt;= nrow(data_trait_table)',
+
+the function aborts with an informative error.
+
+</p>
+
+
+
+
+
+<h3>Value</h3>
+
+
+
+<p>A tibble with columns:
+
+</p>
+
+
+
+<dl>
+
+<dt>taxon_name</dt><dd><p>Taxon names (same values as
+
+'data_trait_table[[taxon_column]]'). Column name is always
+
+'&quot;taxon_name&quot;' regardless of 'taxon_column'.</p>
+
+</dd>
+
+<dt>functional_type</dt><dd><p>Integer label
+
+(1..'functional_type_group_count')
+
+giving the functional-type cluster assignment for each
+
+taxon.</p>
+
+</dd>
+
+<dt>silhouette_width</dt><dd><p>Per-taxon silhouette width for
+
+the chosen 'functional_type_group_count' solution.</p>
+
+</dd>
+
+</dl>
+
+
+
+
+
+
+
+<h3>See Also</h3>
+
+
+
+<p>[compute_trait_dissimilarity()], [fit_hierarchical_clustering()],
+
+[select_functional_type_group_count()]
+
+</p>
+
+
+
+</main>
+
+
+
+</div>
+
+</body></html>

@@ -17,7 +17,7 @@ community_taxa: A character vector of unique taxon names from the
           community data.
 
 data_trait_table: A wide-format trait table as returned by
-          [make_trait_table()], with a `taxon_name` column.
+          [build_trait_table()], with a `taxon_name` column.
 
 Details:
 
@@ -45,4 +45,4 @@ Value:
 
 See Also:
 
-     [make_trait_table()]
+     [build_trait_table()]

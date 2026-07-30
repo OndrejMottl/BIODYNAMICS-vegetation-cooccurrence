@@ -72,10 +72,6 @@ function_naming,report_only,R/Functions/Presentation/IAVS/Paths_and_config/get_p
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/count_successful_targets.R,count_successful_targets,#155,Review leading verb `count` against version 1.
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_meta_or_empty.R,read_target_meta_or_empty,#155,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_or_null.R,read_target_or_null,#155,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Traits/Classification/get_functional_type_classification.R,get_functional_type_classification,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Traits/Classification/get_functional_type_classification_path.R,get_functional_type_classification_path,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Traits/Classification/make_trait_table.R,make_trait_table,#153,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Traits/Classification/read_functional_type_classification.R,read_functional_type_classification,#153,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Utility/Config/get_active_config.R,get_active_config,#155,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Utility/Config/get_config_value_with_fallback.R,get_config_value_with_fallback,#155,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Utility/Config/get_preprocessing_controller.R,get_preprocessing_controller,#155,Review leading verb `get` against version 1.

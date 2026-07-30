@@ -10,7 +10,7 @@
 #' `data_trait_records_classified`.
 #' @param data_trait_table
 #' A wide tibble (rows = taxa, columns = `taxon_name` + trait
-#' domain columns) as produced by `make_trait_table()`. Must
+#' domain columns) as produced by `build_trait_table()`. Must
 #' contain a `taxon_name` column.
 #' @param data_trait_records_classified
 #' A tibble with at least columns `scale_id` (character) and
@@ -32,8 +32,8 @@
 #'   \item Remove rows where all trait columns (i.e. all columns
 #'     except `taxon_name`) are `NA`.
 #' }
-#' @seealso [save_ft_classification_for_continent()],
-#'   [cluster_functional_types()]
+#' @seealso [save_continental_functional_type_classification()],
+#'   [assign_functional_type_clusters()]
 #' @export
 select_continental_trait_table <- function(
     scale_id,
