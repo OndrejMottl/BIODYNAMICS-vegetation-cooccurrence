@@ -114,14 +114,14 @@ return value to display it.
 <h3>See Also</h3>
 
 <p>[summarise_taxonomic_group_traits()],
-[plot_trait_group_distribution()],
+[plot_focal_trait_distribution()],
 [generate_trait_qc_report()]
 </p>
 
 
 <h3>Examples</h3>
 
-<pre><code class='language-R'>## Not run: 
+<pre><code class='language-R'>## Not run:
 data_taxonomic_trait_summary &lt;-
   summarise_taxonomic_group_traits(
     data_trait_records = data_traits_raw,

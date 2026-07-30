@@ -43,7 +43,7 @@
 #' -> scales -> labels -> theme -> `ggview::canvas()` -> geoms.
 #' @seealso
 #' [summarise_taxonomic_group_traits()],
-#' [plot_trait_group_distribution()],
+#' [plot_focal_trait_distribution()],
 #' [generate_trait_qc_report()]
 #' @examples
 #' \dontrun{

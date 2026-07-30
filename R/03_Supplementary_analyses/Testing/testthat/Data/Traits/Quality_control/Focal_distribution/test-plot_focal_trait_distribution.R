@@ -1,14 +1,14 @@
 testthat::test_that(
-  "data_group_raw must be a data frame",
+  "data_focal_trait_records must be a data frame",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -27,33 +27,33 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = NULL,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = NULL,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = c(1, 2, 3),
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = c(1, 2, 3),
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = base::list(a = 1),
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = base::list(a = 1),
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -62,9 +62,9 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "data_group_raw must have required columns",
+  "data_focal_trait_records must have required columns",
   {
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -89,11 +89,11 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_missing_trait_value,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_missing_trait_value,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -106,11 +106,11 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_missing_trait_name,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_missing_trait_name,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -123,11 +123,11 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_missing_domain,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_missing_domain,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -136,9 +136,9 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "data_group_raw trait_value must be numeric",
+  "data_focal_trait_records trait_value must be numeric",
   {
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -164,11 +164,11 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_char_values,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_char_values,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -177,9 +177,9 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "data_group_raw must have at least 1 row",
+  "data_focal_trait_records must have at least 1 row",
   {
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -205,11 +205,11 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_empty,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_empty,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -218,9 +218,9 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "data_group_summary must be a data frame",
+  "data_focal_trait_summary must be a data frame",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
@@ -237,22 +237,22 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = NULL,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = NULL,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = base::list(mean = 3),
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = base::list(mean = 3),
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -261,9 +261,9 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "data_group_summary must have exactly 1 row",
+  "data_focal_trait_summary must have exactly 1 row",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
@@ -279,7 +279,7 @@ testthat::test_that(
         bg = "white"
       )
 
-    data_summary_multi_row <-
+    data_focal_summary_multi_row <-
       tibble::tibble(
         mean = c(1, 2),
         median = c(1, 2),
@@ -289,11 +289,11 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_multi_row,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_multi_row,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -302,9 +302,9 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "data_group_summary must have required columns",
+  "data_focal_trait_summary must have required columns",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
@@ -320,7 +320,7 @@ testthat::test_that(
         bg = "white"
       )
 
-    data_summary_missing_mean <-
+    data_focal_summary_missing_mean <-
       tibble::tibble(
         median = 3.5,
         IQR = 2.5,
@@ -329,17 +329,17 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_missing_mean,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_missing_mean,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
-    data_summary_missing_iqr <-
+    data_focal_summary_missing_iqr <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -348,17 +348,17 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_missing_iqr,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_missing_iqr,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
-    data_summary_missing_n_outliers <-
+    data_focal_summary_missing_n_outliers <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -367,17 +367,17 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_missing_n_outliers,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_missing_n_outliers,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
-    data_summary_missing_fraction <-
+    data_focal_summary_missing_fraction <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -386,11 +386,11 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_missing_fraction,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_missing_fraction,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -399,16 +399,16 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "sel_taxon must be a character scalar",
+  "focal_taxon must be a character scalar",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -427,44 +427,44 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = NULL,
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = NULL,
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = NA_character_,
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = NA_character_,
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = 42,
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = 42,
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = c("Taxon A", "Taxon B"),
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = c("Taxon A", "Taxon B"),
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -473,16 +473,16 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "sel_domain must be a character scalar",
+  "trait_domain must be a character scalar",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -501,44 +501,44 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = NULL,
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = NULL,
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = NA_character_,
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = NA_character_,
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = 1L,
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = 1L,
         graphical_options = list_graphical,
         verbose = FALSE
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = c("Leaf Area", "Root Area"),
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = c("Leaf Area", "Root Area"),
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -549,14 +549,14 @@ testthat::test_that(
 testthat::test_that(
   "graphical_options must be a list with required elements",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -566,22 +566,22 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = "not a list",
         verbose = FALSE
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = NULL,
         verbose = FALSE
       )
@@ -596,11 +596,11 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical_no_width,
         verbose = FALSE
       )
@@ -615,11 +615,11 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical_no_bg,
         verbose = FALSE
       )
@@ -630,14 +630,14 @@ testthat::test_that(
 testthat::test_that(
   "verbose must be a logical scalar",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -656,33 +656,33 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = "yes"
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = 1L
       )
     )
 
     testthat::expect_error(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = c(TRUE, FALSE)
       )
@@ -693,14 +693,14 @@ testthat::test_that(
 testthat::test_that(
   "returns a ggplot2 object",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -719,11 +719,11 @@ testthat::test_that(
       )
 
     res <-
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -741,14 +741,14 @@ testthat::test_that(
 testthat::test_that(
   "return value is not auto-printed",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -770,11 +770,11 @@ testthat::test_that(
     # and not produce any output side-effects automatically
     res <-
       testthat::expect_no_condition(
-        plot_trait_group_distribution(
-          data_group_raw = data_raw_single,
-          data_group_summary = data_summary_valid,
-          sel_taxon = "Quercus robur",
-          sel_domain = "Leaf Area",
+        plot_focal_trait_distribution(
+          data_focal_trait_records = data_focal_records_single,
+          data_focal_trait_summary = data_focal_summary_valid,
+          focal_taxon = "Quercus robur",
+          trait_domain = "Leaf Area",
           graphical_options = list_graphical,
           verbose = FALSE
         )
@@ -789,14 +789,14 @@ testthat::test_that(
 testthat::test_that(
   "verbose = TRUE emits a message with fence info",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -815,11 +815,11 @@ testthat::test_that(
       )
 
     testthat::expect_message(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = TRUE
       )
@@ -830,14 +830,14 @@ testthat::test_that(
 testthat::test_that(
   "verbose = FALSE suppresses fence messages",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -856,11 +856,11 @@ testthat::test_that(
       )
 
     testthat::expect_no_message(
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -871,14 +871,14 @@ testthat::test_that(
 testthat::test_that(
   "single trait_name: title contains taxon and domain",
   {
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -897,11 +897,11 @@ testthat::test_that(
       )
 
     res <-
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -923,7 +923,7 @@ testthat::test_that(
 testthat::test_that(
   "multiple trait_names: plot facets by trait_name",
   {
-    data_raw_multi <-
+    data_focal_records_multi <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 6),
         trait_name = c(
@@ -933,7 +933,7 @@ testthat::test_that(
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -952,11 +952,11 @@ testthat::test_that(
       )
 
     res <-
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_multi,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_multi,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -982,14 +982,14 @@ testthat::test_that(
     # Q1 = 2, Q3 = 4.25, IQR = 2.25
     # outer upper = 4.25 + 3 * 2.25 = 11
     # 100 >> 11, so it is an extreme outlier
-    data_raw_single <-
+    data_focal_records_single <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 100),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
@@ -1008,11 +1008,11 @@ testthat::test_that(
       )
 
     res <-
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_single,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_single,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -1038,14 +1038,14 @@ testthat::test_that(
     # inner upper = 4 + 1.5*2 = 7  -> mild outlier: 8
     # outer upper = 4 + 3*2   = 10 -> extreme outlier: >10
     # So value 8 should be a mild outlier
-    data_raw_mild <-
+    data_focal_records_mild <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 8),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 3.83,
         median = 3.5,
@@ -1064,11 +1064,11 @@ testthat::test_that(
       )
 
     res <-
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_mild,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_mild,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )
@@ -1082,14 +1082,14 @@ testthat::test_that(
 testthat::test_that(
   "fence classification: within-fence values flagged correctly",
   {
-    data_raw_clean <-
+    data_focal_records_clean <-
       tibble::tibble(
         trait_value = c(1, 2, 3, 4, 5, 6),
         trait_name = base::rep("Leaf area (mm2)", 6L),
         trait_domain_name = base::rep("Leaf Area", 6L)
       )
 
-    data_summary_valid <-
+    data_focal_summary_valid <-
       tibble::tibble(
         mean = 3.5,
         median = 3.5,
@@ -1108,11 +1108,11 @@ testthat::test_that(
       )
 
     res <-
-      plot_trait_group_distribution(
-        data_group_raw = data_raw_clean,
-        data_group_summary = data_summary_valid,
-        sel_taxon = "Quercus robur",
-        sel_domain = "Leaf Area",
+      plot_focal_trait_distribution(
+        data_focal_trait_records = data_focal_records_clean,
+        data_focal_trait_summary = data_focal_summary_valid,
+        focal_taxon = "Quercus robur",
+        trait_domain = "Leaf Area",
         graphical_options = list_graphical,
         verbose = FALSE
       )

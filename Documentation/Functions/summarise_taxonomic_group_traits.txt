@@ -60,7 +60,7 @@ Value:
 
 See Also:
 
-     [generate_trait_qc_report()], [plot_trait_group_distribution()]
+     [generate_trait_qc_report()], [plot_focal_trait_distribution()]
 
 Examples:
 

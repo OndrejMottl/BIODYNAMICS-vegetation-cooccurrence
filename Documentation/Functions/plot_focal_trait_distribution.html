@@ -1,9 +1,4 @@
----
-format: html
-title: plot_trait_group_distribution()
----
-
-<html><head>
+<!DOCTYPE html><html><head><title>R: Plot a Focal Taxon-Domain Trait Distribution</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -35,11 +30,11 @@ function processMathHTML() {
 
 
 
-<table style="width: 100%;"><tr><td>plot_trait_group_distribution</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>plot_focal_trait_distribution</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 
 
-<h2>Plot Raw Trait Value Distribution for One Taxon-Domain Group</h2>
+<h2>Plot a Focal Taxon-Domain Trait Distribution</h2>
 
 
 
@@ -49,7 +44,7 @@ function processMathHTML() {
 
 <p>Builds a 'ggplot2' strip + boxplot showing every raw trait value for
 
-a single 'taxon_name x trait_domain_name' group, with colour-coded
+one focal 'taxon_name x trait_domain_name' slice, with colour-coded
 
 Tukey fence flags and horizontal fence lines for both the standard
 
@@ -65,15 +60,15 @@ Tukey fence flags and horizontal fence lines for both the standard
 
 
 
-<pre><code class='language-R'>plot_trait_group_distribution(
+<pre><code class='language-R'>plot_focal_trait_distribution(
 
-  data_group_raw,
+  data_focal_trait_records,
 
-  data_group_summary,
+  data_focal_trait_summary,
 
-  sel_taxon,
+  focal_taxon,
 
-  sel_domain,
+  trait_domain,
 
   graphical_options,
 
@@ -93,11 +88,11 @@ Tukey fence flags and horizontal fence lines for both the standard
 
 <table role = "presentation">
 
-<tr><td><code id="data_group_raw">data_group_raw</code></td>
+<tr><td><code id="data_focal_trait_records">data_focal_trait_records</code></td>
 
 <td>
 
-<p>A tibble of raw trait observations for one taxon x domain group.
+<p>A tibble of raw trait observations for one focal taxon-domain slice.
 
 Must contain columns 'trait_value' (numeric), 'trait_name'
 
@@ -105,11 +100,11 @@ Must contain columns 'trait_value' (numeric), 'trait_name'
 
 </td></tr>
 
-<tr><td><code id="data_group_summary">data_group_summary</code></td>
+<tr><td><code id="data_focal_trait_summary">data_focal_trait_summary</code></td>
 
 <td>
 
-<p>A single-row tibble of per-group QC statistics, as produced by
+<p>A single-row tibble of focal-slice QC statistics, as produced by
 
 'generate_trait_qc_report()'. Must contain numeric columns 'mean',
 
@@ -119,7 +114,7 @@ Must contain columns 'trait_value' (numeric), 'trait_name'
 
 </td></tr>
 
-<tr><td><code id="sel_taxon">sel_taxon</code></td>
+<tr><td><code id="focal_taxon">focal_taxon</code></td>
 
 <td>
 
@@ -129,7 +124,7 @@ plot title.</p>
 
 </td></tr>
 
-<tr><td><code id="sel_domain">sel_domain</code></td>
+<tr><td><code id="trait_domain">trait_domain</code></td>
 
 <td>
 
@@ -171,7 +166,7 @@ are printed to the console via 'cli::cli_inform()'.</p>
 
 
 
-<p>The function computes Q1, Q3, and IQR from 'data_group_raw' and
+<p>The function computes Q1, Q3, and IQR from 'data_focal_trait_records' and
 
 derives four fence values:
 
@@ -185,7 +180,7 @@ derives four fence values:
 
 '&quot;mild outlier (1.5x IQR)&quot;', or '&quot;extreme outlier (3x IQR)&quot;'.
 
-When 'data_group_raw' contains more than one distinct 'trait_name',
+When 'data_focal_trait_records' contains more than one distinct 'trait_name',
 
 observations are faceted by 'trait_name'; otherwise the x-axis shows
 
@@ -235,9 +230,9 @@ return value to display it.
 
 
 
-<pre><code class='language-R'>## Not run: 
+<pre><code class='language-R'>## Not run:
 
-data_raw &lt;-
+data_focal_trait_records &lt;-
 
   data_traits_raw |&gt;
 
@@ -253,7 +248,7 @@ data_raw &lt;-
 
 
 
-data_summary &lt;-
+data_focal_trait_summary &lt;-
 
   data_qc_report |&gt;
 
@@ -275,15 +270,15 @@ graphical_options &lt;-
 
 p &lt;-
 
-  plot_trait_group_distribution(
+  plot_focal_trait_distribution(
 
-    data_group_raw = data_raw,
+    data_focal_trait_records = data_focal_trait_records,
 
-    data_group_summary = data_summary,
+    data_focal_trait_summary = data_focal_trait_summary,
 
-    sel_taxon = "Anacyclus clavatus",
+    focal_taxon = "Anacyclus clavatus",
 
-    sel_domain = "Leaf Area",
+    trait_domain = "Leaf Area",
 
     graphical_options = graphical_options
 

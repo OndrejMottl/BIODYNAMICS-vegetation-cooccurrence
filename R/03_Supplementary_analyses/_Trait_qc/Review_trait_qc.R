@@ -286,7 +286,7 @@ data_focal_trait_summary |>
 ## 3.2. Raw values (sorted) -----
 #--------------------------------------------------#
 
-data_group_raw <-
+data_focal_trait_records <-
   data_traits_raw |>
   dplyr::filter(
     taxon_name == sel_taxon,
@@ -295,7 +295,7 @@ data_group_raw <-
   dplyr::arrange(trait_value)
 
 base::message("\n--- Raw values (ascending) ---")
-data_group_raw |>
+data_focal_trait_records |>
   base::print(n = Inf)
 
 
@@ -304,11 +304,11 @@ data_group_raw |>
 #--------------------------------------------------#
 
 plot_group <-
-  plot_trait_group_distribution(
-    data_group_raw = data_group_raw,
-    data_group_summary = data_focal_trait_summary,
-    sel_taxon = sel_taxon,
-    sel_domain = sel_domain,
+  plot_focal_trait_distribution(
+    data_focal_trait_records = data_focal_trait_records,
+    data_focal_trait_summary = data_focal_trait_summary,
+    focal_taxon = sel_taxon,
+    trait_domain = sel_domain,
     graphical_options = graphical_options
   )
 

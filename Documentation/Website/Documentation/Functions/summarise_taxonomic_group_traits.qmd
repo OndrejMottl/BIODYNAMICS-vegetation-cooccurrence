@@ -107,7 +107,7 @@ only records for 'focal_taxon' are summarised.
 
 <h3>See Also</h3>
 
-<p>[generate_trait_qc_report()], [plot_trait_group_distribution()]
+<p>[generate_trait_qc_report()], [plot_focal_trait_distribution()]
 </p>
 
 
