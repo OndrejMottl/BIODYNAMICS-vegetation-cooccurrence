@@ -48,7 +48,7 @@ characters replaced by underscores.
   path_qmd = here::here("R/03_Supplementary_analyses/_Trait_qc/Trait_qc_report.qmd"),
   path_docs_dir = here::here("docs/R/03_Supplementary_analyses/_Trait_qc"),
   sel_max_pages = NULL,
-  sel_min_n_family = 5L,
+  minimum_records_taxonomic = 5L,
   verbose = TRUE
 )
 </code></pre>
@@ -87,11 +87,10 @@ before the file is moved. Default: 'here::here(
 <p>Positive integer scalar or 'NULL'. Maximum number of pages to
 render. When 'NULL' (default) there is no cap.</p>
 </td></tr>
-<tr><td><code id="sel_min_n_family">sel_min_n_family</code></td>
+<tr><td><code id="minimum_records_taxonomic">minimum_records_taxonomic</code></td>
 <td>
-<p>Positive integer scalar. Minimum number of taxa from the same
-family that must be present for the family comparison panel to
-be rendered. Default: '5L'.</p>
+<p>Positive integer scalar. Minimum records per taxon required for
+inclusion in the taxonomic comparison panel. Default: '5L'.</p>
 </td></tr>
 <tr><td><code id="verbose">verbose</code></td>
 <td>
@@ -106,7 +105,7 @@ found.</p>
 <h3>Details</h3>
 
 <p>The function calls 'quarto::quarto_render()' with 'execute_params'
-set to 'sel_max_pages', 'sel_min_n_family', and
+set to 'sel_max_pages', 'minimum_records_taxonomic', and
 'sel_domain_filter'. The rendered file is expected at
 'file.path(path_docs_dir, &lt;output_filename&gt;)'. If found it is
 moved to 'path_output_dir' and compressed; if not found a warning
@@ -130,4 +129,3 @@ moving a PDF to 'path_output_dir'.
 
 </div>
 </body></html>
-

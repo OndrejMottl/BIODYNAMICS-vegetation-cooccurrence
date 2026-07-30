@@ -32,10 +32,9 @@
 #' @param sel_max_pages
 #' Positive integer scalar or `NULL`. Maximum number of pages to
 #' render. When `NULL` (default) there is no cap.
-#' @param sel_min_n_family
-#' Positive integer scalar. Minimum number of taxa from the same
-#' family that must be present for the family comparison panel to
-#' be rendered. Default: `5L`.
+#' @param minimum_records_taxonomic
+#' Positive integer scalar. Minimum records per taxon required for
+#' inclusion in the taxonomic comparison panel. Default: `5L`.
 #' @param verbose
 #' Logical. If `TRUE` (default), a progress message with the output
 #' path is printed to the console via `cli::cli_inform()`. A warning
@@ -46,7 +45,7 @@
 #' moving a PDF to `path_output_dir`.
 #' @details
 #' The function calls `quarto::quarto_render()` with `execute_params`
-#' set to `sel_max_pages`, `sel_min_n_family`, and
+#' set to `sel_max_pages`, `minimum_records_taxonomic`, and
 #' `sel_domain_filter`. The rendered file is expected at
 #' `file.path(path_docs_dir, <output_filename>)`. If found it is
 #' moved to `path_output_dir` and compressed; if not found a warning
@@ -64,7 +63,7 @@ render_trait_qc_pdf <- function(
       "docs/R/03_Supplementary_analyses/_Trait_qc"
     ),
     sel_max_pages = NULL,
-    sel_min_n_family = 5L,
+    minimum_records_taxonomic = 5L,
     verbose = TRUE) {
   assertthat::assert_that(
     base::is.null(sel_domain_filter) ||
@@ -96,11 +95,11 @@ render_trait_qc_pdf <- function(
   )
 
   assertthat::assert_that(
-    base::is.numeric(sel_min_n_family) &&
-      base::length(sel_min_n_family) == 1L &&
-      sel_min_n_family > 0L,
+    base::is.numeric(minimum_records_taxonomic) &&
+      base::length(minimum_records_taxonomic) == 1L &&
+      minimum_records_taxonomic > 0L,
     msg = stringr::str_glue(
-      "'sel_min_n_family' must be a single positive number."
+      "'minimum_records_taxonomic' must be a single positive number."
     )
   )
 
@@ -140,7 +139,7 @@ render_trait_qc_pdf <- function(
     input = path_qmd,
     execute_params = base::list(
       sel_max_pages = sel_max_pages,
-      sel_min_n_family = sel_min_n_family,
+      minimum_records_taxonomic = minimum_records_taxonomic,
       sel_domain_filter = sel_domain_filter
     ),
     output_file = base::as.character(sel_output_filename)

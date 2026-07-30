@@ -1,0 +1,82 @@
+Summarise Traits Within a Taxonomic Group
+
+Description:
+
+     Resolves the taxonomic group containing `focal_taxon`, collects
+     records for taxa in that group and `trait_domain`, and returns
+     per-taxon summary statistics sorted by `median`.
+
+Usage:
+
+     summarise_taxonomic_group_traits(
+       data_trait_records,
+       data_taxon_classification,
+       focal_taxon,
+       trait_domain,
+       taxonomic_rank = "family",
+       verbose = TRUE
+     )
+
+Arguments:
+
+data_trait_records: A data frame of raw trait observations. Must
+          contain columns `taxon_name` (character), `trait_domain_name`
+          (character), and `trait_value` (numeric).
+
+data_taxon_classification: A data frame mapping taxon names to
+          taxonomic ranks. Must contain `sel_name` and the column named
+          by `taxonomic_rank`.
+
+focal_taxon: Character scalar. Name of the focal taxon to look up.
+
+trait_domain: Character scalar. Trait domain to summarise (matched
+          against `trait_domain_name` in `data_trait_records`).
+
+taxonomic_rank: Character scalar. Name of the taxonomic rank column in
+          `data_taxon_classification` to use for grouping (e.g.
+          `"family"`, `"genus"`, `"order"`). Defaults to `"family"`.
+
+ verbose: Logical. If `TRUE` (default), progress messages are printed
+          to the console via `cli`.
+
+Details:
+
+     1. The function looks up `focal_taxon` in
+     `data_taxon_classification` to resolve `taxonomic_rank`. 2. All
+     taxa sharing that rank value are identified. 3.
+     `data_trait_records` is filtered to those taxa and `trait_domain`,
+     then grouped by `taxon_name`. 4. If the rank value cannot be
+     resolved (taxon absent from classification or the rank column is
+     `NA`), only the focal taxon's own records are summarised.
+
+Value:
+
+     A tibble with one row per taxon that has data for `trait_domain`
+     within the same `taxonomic_rank` group as `focal_taxon`. Columns:
+     `taxon_name`, `n_records`, `minimum`, `lower_quartile`, `median`,
+     `mean`, `upper_quartile`, and `maximum`. Rows are sorted ascending
+     by `median`. If the focal taxon or rank value cannot be resolved,
+     only records for `focal_taxon` are summarised.
+
+See Also:
+
+     [generate_trait_qc_report()], [plot_trait_group_distribution()]
+
+Examples:
+
+     ## Not run:
+
+     data_aux_classification <-
+       readr::read_csv(
+         here::here("Data/Input/aux_classification_table.csv"),
+         show_col_types = FALSE
+       )
+
+     data_taxonomic_trait_summary <-
+       summarise_taxonomic_group_traits(
+         data_trait_records = data_traits_raw,
+         data_taxon_classification = data_aux_classification,
+         focal_taxon = "Anacyclus clavatus",
+         trait_domain = "Leaf Area"
+       )
+     ## End(Not run)

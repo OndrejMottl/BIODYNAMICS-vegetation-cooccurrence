@@ -60,26 +60,26 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "render_trait_qc_pdf() errors on invalid sel_min_n_family",
+  "render_trait_qc_pdf() errors on invalid minimum_records_taxonomic",
   {
     testthat::expect_error(
-      render_trait_qc_pdf(sel_min_n_family = "five")
+      render_trait_qc_pdf(minimum_records_taxonomic = "five")
     )
 
     testthat::expect_error(
-      render_trait_qc_pdf(sel_min_n_family = 0L)
+      render_trait_qc_pdf(minimum_records_taxonomic = 0L)
     )
 
     testthat::expect_error(
-      render_trait_qc_pdf(sel_min_n_family = -1L)
+      render_trait_qc_pdf(minimum_records_taxonomic = -1L)
     )
 
     testthat::expect_error(
-      render_trait_qc_pdf(sel_min_n_family = NULL)
+      render_trait_qc_pdf(minimum_records_taxonomic = NULL)
     )
 
     testthat::expect_error(
-      render_trait_qc_pdf(sel_min_n_family = c(3L, 5L))
+      render_trait_qc_pdf(minimum_records_taxonomic = c(3L, 5L))
     )
   }
 )

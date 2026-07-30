@@ -3,7 +3,7 @@ title: "Trait QC Review Report"
 date: today
 params:
   sel_max_pages: null
-  sel_min_n_family: 5
+  minimum_records_taxonomic: 5
   sel_domain_filter: null
 format:
   pdf:
@@ -29,9 +29,9 @@ source(
 )
 
 # --- Tunables (overridden by Quarto params when passed) -------
-sel_min_n_family <-
+minimum_records_taxonomic <-
   base::as.integer(
-    params$sel_min_n_family
+    params$minimum_records_taxonomic
   )
 
 sel_max_pages <- params$sel_max_pages
@@ -101,7 +101,7 @@ data_traits_raw <-
     store = path_traits_store
   )
 
-data_classification <-
+data_taxon_classification <-
   targets::tar_read(
     data_combined_classification_table_traits,
     store = path_traits_store
@@ -321,7 +321,7 @@ purrr::walk(
             .data[["trait_domain_name"]] == sel_domain
           )
 
-        data_group_summary <-
+        data_focal_trait_summary <-
           data_row |>
           dplyr::select(
             "mean",
@@ -386,30 +386,31 @@ purrr::walk(
         plot_dist <-
           plot_trait_group_distribution(
             data_group_raw = data_group_raw,
-            data_group_summary = data_group_summary,
+            data_group_summary = data_focal_trait_summary,
             sel_taxon = sel_taxon,
             sel_domain = sel_domain,
             graphical_options = graphical_options,
             verbose = FALSE
           )
 
-        # ---- Plot: family comparison ------------------------
-        data_family_comparison <-
-          get_family_trait_summary(
-            data_traits_raw = data_traits_raw,
-            data_classification = data_classification,
-            sel_taxon = sel_taxon,
-            sel_domain = sel_domain,
+        # ---- Plot: taxonomic comparison ------------------------
+        data_taxonomic_trait_summary <-
+          summarise_taxonomic_group_traits(
+            data_trait_records = data_traits_raw,
+            data_taxon_classification = data_taxon_classification,
+            focal_taxon = sel_taxon,
+            trait_domain = sel_domain,
+            taxonomic_rank = "family",
             verbose = FALSE
           )
 
-        plot_family <-
-          plot_family_trait_comparison(
-            data_family_comparison = data_family_comparison,
-            data_group_summary = data_group_summary,
-            sel_taxon = sel_taxon,
-            sel_domain = sel_domain,
-            sel_min_n = sel_min_n_family,
+        plot_taxonomic_comparison <-
+          plot_taxonomic_trait_comparison(
+            data_taxonomic_trait_summary = data_taxonomic_trait_summary,
+            data_focal_trait_summary = data_focal_trait_summary,
+            focal_taxon = sel_taxon,
+            trait_domain = sel_domain,
+            minimum_records = minimum_records_taxonomic,
             graphical_options = graphical_options,
             verbose = FALSE
           )
@@ -481,7 +482,7 @@ purrr::walk(
         #   arise when combining ggview-classed plots with | .
         plot_row_top <-
           patchwork::wrap_plots(
-            plot_dist, plot_family,
+            plot_dist, plot_taxonomic_comparison,
             ncol = 2L
           )
 

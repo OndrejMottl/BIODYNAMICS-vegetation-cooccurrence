@@ -56,9 +56,9 @@ sel_scale_factor <- NA_real_
 # For Section 4: free-text reason / notes (optional).
 sel_notes <- ""
 
-# Minimum number of measurements for a taxon to appear in the
-#   filtered family comparison table and plot in Section 3.4.
-sel_min_n <- 5L
+# Minimum number of records for a taxon to appear in the
+#   taxonomic comparison table and plot in Section 3.4.
+minimum_records_taxonomic <- 5L
 
 # ----------------------------------------------------------
 
@@ -256,7 +256,7 @@ if (
 ## 3.1. QC summary row -----
 #--------------------------------------------------#
 
-data_group_summary <-
+data_focal_trait_summary <-
   data_qc_report |>
   dplyr::filter(
     taxon_name == sel_taxon,
@@ -264,7 +264,7 @@ data_group_summary <-
   )
 
 if (
-  base::nrow(data_group_summary) == 0L
+  base::nrow(data_focal_trait_summary) == 0L
 ) {
   base::stop(
     "No QC report entry found for taxon '", sel_taxon,
@@ -274,7 +274,7 @@ if (
 }
 
 base::message("\n--- QC summary: ", sel_taxon, " x ", sel_domain, " ---")
-data_group_summary |>
+data_focal_trait_summary |>
   dplyr::select(
     trait_domain_name, taxon_name, n_records, mean, median,
     sd, IQR, n_suspected_outliers_taxon, outlier_fraction
@@ -306,7 +306,7 @@ data_group_raw |>
 plot_group <-
   plot_trait_group_distribution(
     data_group_raw = data_group_raw,
-    data_group_summary = data_group_summary,
+    data_group_summary = data_focal_trait_summary,
     sel_taxon = sel_taxon,
     sel_domain = sel_domain,
     graphical_options = graphical_options
@@ -316,29 +316,29 @@ base::print(plot_group)
 
 
 #--------------------------------------------------#
-## 3.4. Family-level comparison -----
+## 3.4. Taxonomic comparison -----
 #--------------------------------------------------#
 
-data_classification <-
+data_taxon_classification <-
   targets::tar_read(
     data_combined_classification_table_traits,
     store = path_traits_store
   )
 
-data_family_comparison <-
-  get_family_trait_summary(
-    data_traits_raw = data_traits_raw,
-    data_classification = data_classification,
-    sel_taxon = sel_taxon,
-    sel_domain = sel_domain,
-    sel_rank = "family",
+data_taxonomic_trait_summary <-
+  summarise_taxonomic_group_traits(
+    data_trait_records = data_traits_raw,
+    data_taxon_classification = data_taxon_classification,
+    focal_taxon = sel_taxon,
+    trait_domain = sel_domain,
+    taxonomic_rank = "family",
     verbose = TRUE
   )
 
 # Annotate with mean/median ratio to flag taxa with
 #   probable internal outliers (ratio >> 1 is suspicious).
-data_family_comparison_annotated <-
-  data_family_comparison |>
+data_taxonomic_trait_summary_annotated <-
+  data_taxonomic_trait_summary |>
   dplyr::mutate(
     mean_median_ratio = dplyr::if_else(
       .data[["median"]] > 0,
@@ -355,25 +355,27 @@ data_family_comparison_annotated <-
 # Full table sorted by median.
 base::message(
   "\n--- All taxa (n = ",
-  base::nrow(data_family_comparison_annotated),
+  base::nrow(data_taxonomic_trait_summary_annotated),
   ") ---"
 )
-base::print(data_family_comparison_annotated, n = Inf)
+base::print(data_taxonomic_trait_summary_annotated, n = Inf)
 
-# Filtered table: only taxa with at least sel_min_n measurements.
-data_family_filtered <-
-  data_family_comparison_annotated |>
-  dplyr::filter(.data[["n"]] >= sel_min_n)
+# Filtered table: only taxa with enough records.
+data_taxonomic_trait_filtered <-
+  data_taxonomic_trait_summary_annotated |>
+  dplyr::filter(
+    .data[["n_records"]] >= minimum_records_taxonomic
+  )
 
 base::message(
-  "\n--- Filtered: n >= ", sel_min_n,
-  " (", base::nrow(data_family_filtered), " taxa) ---"
+  "\n--- Filtered: n >= ", minimum_records_taxonomic,
+  " (", base::nrow(data_taxonomic_trait_filtered), " taxa) ---"
 )
-base::print(data_family_filtered, n = Inf)
+base::print(data_taxonomic_trait_filtered, n = Inf)
 
 # Percentile rank of sel_taxon in the filtered distribution.
 vec_sel_median <-
-  data_family_comparison |>
+  data_taxonomic_trait_summary |>
   dplyr::filter(.data[["taxon_name"]] == sel_taxon) |>
   dplyr::pull(.data[["median"]])
 
@@ -382,7 +384,7 @@ if (
     !base::is.na(vec_sel_median[[1L]])
 ) {
   vec_filtered_medians <-
-    data_family_filtered |>
+    data_taxonomic_trait_filtered |>
     dplyr::pull(.data[["median"]])
 
   percentile_rank <-
@@ -393,23 +395,24 @@ if (
 
   base::message(
     "\n", sel_taxon, " sits at the ",
-    percentile_rank, "th percentile of the filtered family distribution."
+    percentile_rank,
+    "th percentile of the filtered taxonomic-group distribution."
   )
 }
 
 # Log-scale strip plot: grey dots = all filtered taxa,
 #   red dot = sel_taxon.
-plot_family_comparison <-
-  plot_family_trait_comparison(
-    data_family_comparison = data_family_comparison,
-    data_group_summary = data_group_summary,
-    sel_taxon = sel_taxon,
-    sel_domain = sel_domain,
-    sel_min_n = sel_min_n,
+plot_taxonomic_comparison <-
+  plot_taxonomic_trait_comparison(
+    data_taxonomic_trait_summary = data_taxonomic_trait_summary,
+    data_focal_trait_summary = data_focal_trait_summary,
+    focal_taxon = sel_taxon,
+    trait_domain = sel_domain,
+    minimum_records = minimum_records_taxonomic,
     graphical_options = graphical_options
   )
 
-base::print(plot_family_comparison)
+base::print(plot_taxonomic_comparison)
 
 
 #----------------------------------------------------------#

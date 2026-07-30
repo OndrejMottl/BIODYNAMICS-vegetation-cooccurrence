@@ -22,10 +22,10 @@ Usage:
        path_qmd = here::here("R/03_Supplementary_analyses/_Trait_qc/Trait_qc_report.qmd"),
        path_docs_dir = here::here("docs/R/03_Supplementary_analyses/_Trait_qc"),
        sel_max_pages = NULL,
-       sel_min_n_family = 5L,
+       minimum_records_taxonomic = 5L,
        verbose = TRUE
      )
-     
+
 Arguments:
 
 sel_domain_filter: Character scalar or `NULL`. When `NULL`, all domains
@@ -47,9 +47,9 @@ path_docs_dir: Character scalar. Directory that Quarto writes its
 sel_max_pages: Positive integer scalar or `NULL`. Maximum number of
           pages to render. When `NULL` (default) there is no cap.
 
-sel_min_n_family: Positive integer scalar. Minimum number of taxa from
-          the same family that must be present for the family
-          comparison panel to be rendered. Default: `5L`.
+minimum_records_taxonomic: Positive integer scalar. Minimum records per
+          taxon required for inclusion in the taxonomic comparison
+          panel. Default: `5L`.
 
  verbose: Logical. If `TRUE` (default), a progress message with the
           output path is printed to the console via
@@ -59,7 +59,7 @@ sel_min_n_family: Positive integer scalar. Minimum number of taxa from
 Details:
 
      The function calls `quarto::quarto_render()` with `execute_params`
-     set to `sel_max_pages`, `sel_min_n_family`, and
+     set to `sel_max_pages`, `minimum_records_taxonomic`, and
      `sel_domain_filter`. The rendered file is expected at
      `file.path(path_docs_dir, <output_filename>)`. If found it is
      moved to `path_output_dir` and compressed; if not found a warning
@@ -73,4 +73,3 @@ Value:
 See Also:
 
      [generate_trait_qc_report()]
-

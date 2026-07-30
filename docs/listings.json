@@ -2,7 +2,6 @@
   {
     "listing": "/Documentation/Website/Documentation/documentation.html",
     "items": [
-      "/Documentation/Website/Documentation/Functions/plot_family_trait_comparison.html",
       "/Documentation/Website/Documentation/Functions/run_sjsdm_cross_tier_sensitivity.html",
       "/Documentation/Website/Documentation/Functions/add_age_column_from_rownames.html",
       "/Documentation/Website/Documentation/Functions/add_dataset_name_column_from_rownames.html",
@@ -100,7 +99,6 @@
       "/Documentation/Website/Documentation/Functions/get_coords.html",
       "/Documentation/Website/Documentation/Functions/get_dataset_name_from_string.html",
       "/Documentation/Website/Documentation/Functions/get_decomposition_route_sample_ids.html",
-      "/Documentation/Website/Documentation/Functions/get_family_trait_summary.html",
       "/Documentation/Website/Documentation/Functions/get_functional_type_classification.html",
       "/Documentation/Website/Documentation/Functions/get_functional_type_classification_path.html",
       "/Documentation/Website/Documentation/Functions/get_functional_type_classification_path_from_store.html",
@@ -152,6 +150,7 @@
       "/Documentation/Website/Documentation/Functions/plot_spatial_biotic_component.html",
       "/Documentation/Website/Documentation/Functions/plot_spatial_variance_stack.html",
       "/Documentation/Website/Documentation/Functions/plot_spatial_variance_waffle.html",
+      "/Documentation/Website/Documentation/Functions/plot_taxonomic_trait_comparison.html",
       "/Documentation/Website/Documentation/Functions/plot_trait_group_distribution.html",
       "/Documentation/Website/Documentation/Functions/plot_variance_component_triangle_legend.html",
       "/Documentation/Website/Documentation/Functions/predict_spatial_resolution_grid_age.html",
@@ -216,6 +215,7 @@
       "/Documentation/Website/Documentation/Functions/summarise_predictive_decomposition.html",
       "/Documentation/Website/Documentation/Functions/summarise_spatial_biotic_component.html",
       "/Documentation/Website/Documentation/Functions/summarise_spatial_variance_stack.html",
+      "/Documentation/Website/Documentation/Functions/summarise_taxonomic_group_traits.html",
       "/Documentation/Website/Documentation/Functions/summarise_trait_coverage.html",
       "/Documentation/Website/Documentation/Functions/validate_abiotic_interpolation_contract.html",
       "/Documentation/Website/Documentation/Functions/validate_community_source.html",

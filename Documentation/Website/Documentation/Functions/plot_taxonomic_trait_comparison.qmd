@@ -1,13 +1,13 @@
 ---
 format: html
-title: plot_family_trait_comparison()
-
+title: plot_taxonomic_trait_comparison()
+---
 
 <html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script>
+<script type="text/javascript">
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
 function processMathHTML() {
     var l = document.getElementsByClassName('reqn');
@@ -16,31 +16,31 @@ function processMathHTML() {
 }</script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
     onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css">
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body><div class="container"><main>
 
-<table style="width: 100%;"><tr><td>plot_family_trait_comparison</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>plot_taxonomic_trait_comparison</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Plot Family-Level Trait Comparison for a Focal Taxon</h2>
+<h2>Plot a Taxonomic Trait Comparison</h2>
 
 <h3>Description</h3>
 
 <p>Builds a 'ggplot2' log<sub>10</sub>-scale
 strip plot comparing the median trait value of a focal taxon against
-all other taxa in the same taxonomic family. Grey jittered dots
-represent all family members that meet the minimum record threshold;
+taxa in the selected taxonomic group. Grey jittered dots represent
+group members that meet the minimum record threshold;
 a firebrick point marks the focal taxon.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>plot_family_trait_comparison(
-  data_family_comparison,
-  data_group_summary,
-  sel_taxon,
-  sel_domain,
-  sel_min_n = 5L,
+<pre><code class='language-R'>plot_taxonomic_trait_comparison(
+  data_taxonomic_trait_summary,
+  data_focal_trait_summary,
+  focal_taxon,
+  trait_domain,
+  minimum_records = 5L,
   graphical_options,
   verbose = TRUE
 )
@@ -50,28 +50,27 @@ a firebrick point marks the focal taxon.
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="data_family_comparison">data_family_comparison</code></td>
+<tr><td><code id="data_taxonomic_trait_summary">data_taxonomic_trait_summary</code></td>
 <td>
-<p>A tibble of per-taxon summary statistics for all taxa in the same
-taxonomic family as 'sel_taxon', as returned by
-[get_family_trait_summary()]. Must contain columns 'taxon_name'
-(character), 'n' (integer), and 'median' (numeric).</p>
+<p>A tibble of per-taxon summary statistics returned by
+[summarise_taxonomic_group_traits()]. Must contain 'taxon_name',
+'n_records', and 'median'.</p>
 </td></tr>
-<tr><td><code id="data_group_summary">data_group_summary</code></td>
+<tr><td><code id="data_focal_trait_summary">data_focal_trait_summary</code></td>
 <td>
 <p>A single-row tibble of per-group QC statistics for the focal taxon,
 as produced by [generate_trait_qc_report()]. Must contain a numeric
 column 'median' used to place the firebrick reference point.</p>
 </td></tr>
-<tr><td><code id="sel_taxon">sel_taxon</code></td>
+<tr><td><code id="focal_taxon">focal_taxon</code></td>
 <td>
 <p>Character scalar. Name of the focal taxon. Used in the plot title.</p>
 </td></tr>
-<tr><td><code id="sel_domain">sel_domain</code></td>
+<tr><td><code id="trait_domain">trait_domain</code></td>
 <td>
 <p>Character scalar. Trait domain being inspected. Used in axis labels.</p>
 </td></tr>
-<tr><td><code id="sel_min_n">sel_min_n</code></td>
+<tr><td><code id="minimum_records">minimum_records</code></td>
 <td>
 <p>Positive integer scalar. Minimum number of records a taxon must
 have to appear in the plot. Defaults to '5L'.</p>
@@ -85,18 +84,19 @@ have to appear in the plot. Defaults to '5L'.</p>
 <tr><td><code id="verbose">verbose</code></td>
 <td>
 <p>Logical. If 'TRUE' (default), the number of taxa shown in the plot
-after the 'sel_min_n' filter is reported via 'cli::cli_inform()'.</p>
+after the 'minimum_records' filter is reported via
+'cli::cli_inform()'.</p>
 </td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>All taxa in 'data_family_comparison' with 'n &gt;= sel_min_n' are
+<p>All taxa with 'n_records &gt;= minimum_records' are
 shown as grey jittered points on a log<sub>
-10</sub> x-axis. The focal taxon's median  (from
-'data_group_summary') is overlaid as a larger firebrick point.
-When no family members meet the 'sel_min_n' threshold the grey
+10</sub> x-axis. The focal taxon's median from
+'data_focal_trait_summary' is overlaid as a larger firebrick point.
+When no group members meet the threshold the grey
 layer is empty and only the focal taxon point is drawn.
 </p>
 <p>Plot layer order follows project conventions: 'ggplot2::ggplot()'
@@ -113,7 +113,8 @@ return value to display it.
 
 <h3>See Also</h3>
 
-<p>[get_family_trait_summary()], [plot_trait_group_distribution()],
+<p>[summarise_taxonomic_group_traits()],
+[plot_trait_group_distribution()],
 [generate_trait_qc_report()]
 </p>
 
@@ -121,12 +122,12 @@ return value to display it.
 <h3>Examples</h3>
 
 <pre><code class='language-R'>## Not run: 
-data_family &lt;-
-  get_family_trait_summary(
-    data_traits_raw = data_traits_raw,
-    data_classification = data_classification,
-    sel_taxon = "Anacyclus clavatus",
-    sel_domain = "Leaf Area"
+data_taxonomic_trait_summary &lt;-
+  summarise_taxonomic_group_traits(
+    data_trait_records = data_traits_raw,
+    data_taxon_classification = data_classification,
+    focal_taxon = "Anacyclus clavatus",
+    trait_domain = "Leaf Area"
   )
 
 data_summary &lt;-
@@ -140,12 +141,12 @@ graphical_options &lt;-
   load_active_config_value("graphical")
 
 p &lt;-
-  plot_family_trait_comparison(
-    data_family_comparison = data_family,
-    data_group_summary = data_summary,
-    sel_taxon = "Anacyclus clavatus",
-    sel_domain = "Leaf Area",
-    sel_min_n = 5L,
+  plot_taxonomic_trait_comparison(
+    data_taxonomic_trait_summary = data_taxonomic_trait_summary,
+    data_focal_trait_summary = data_summary,
+    focal_taxon = "Anacyclus clavatus",
+    trait_domain = "Leaf Area",
+    minimum_records = 5L,
     graphical_options = graphical_options
   )
 

@@ -1,23 +1,23 @@
-# Input validation: data_traits_raw -----
+# Input validation: data_trait_records -----
 
-testthat::test_that("error if data_traits_raw is not a data frame", {
+testthat::test_that("error if data_trait_records is not a data frame", {
   data_class <-
     tibble::tibble(
       sel_name = base::c("Taxon_a"),
       family   = base::c("Asteraceae")
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw    = "not_a_df",
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = "not_a_df",
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   )
 })
 
-testthat::test_that("error if data_traits_raw missing required columns", {
+testthat::test_that("error if data_trait_records missing required columns", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::c("Taxon_a"),
@@ -30,17 +30,17 @@ testthat::test_that("error if data_traits_raw missing required columns", {
       family   = base::c("Asteraceae")
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   )
 })
 
-testthat::test_that("error if data_traits_raw missing taxon_name column", {
+testthat::test_that("error if data_trait_records missing taxon_name column", {
   data_traits <-
     tibble::tibble(
       trait_domain_name = base::c("Leaf Area"),
@@ -52,19 +52,19 @@ testthat::test_that("error if data_traits_raw missing taxon_name column", {
       family   = base::c("Asteraceae")
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   )
 })
 
-# Input validation: data_classification -----
+# Input validation: data_taxon_classification -----
 
-testthat::test_that("error if data_classification is not a data frame", {
+testthat::test_that("error if data_taxon_classification is not a data frame", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::c("Taxon_a"),
@@ -72,17 +72,17 @@ testthat::test_that("error if data_classification is not a data frame", {
       trait_value       = base::c(10)
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = 42L,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = 42L,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   )
 })
 
-testthat::test_that("error if data_classification missing sel_name column", {
+testthat::test_that("error if data_taxon_classification missing sel_name column", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::c("Taxon_a"),
@@ -95,17 +95,17 @@ testthat::test_that("error if data_classification missing sel_name column", {
       # sel_name intentionally absent
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   )
 })
 
-testthat::test_that("error if data_classification missing family column", {
+testthat::test_that("error if data_taxon_classification missing family column", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::c("Taxon_a"),
@@ -118,19 +118,19 @@ testthat::test_that("error if data_classification missing family column", {
       # family intentionally absent
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   )
 })
 
-# Input validation: sel_taxon -----
+# Input validation: focal_taxon -----
 
-testthat::test_that("error if sel_taxon is not character", {
+testthat::test_that("error if focal_taxon is not character", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::c("Taxon_a"),
@@ -143,17 +143,17 @@ testthat::test_that("error if sel_taxon is not character", {
       family   = base::c("Asteraceae")
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = 1L,
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = 1L,
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   )
 })
 
-testthat::test_that("error if sel_taxon has length > 1", {
+testthat::test_that("error if focal_taxon has length > 1", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::c("Taxon_a"),
@@ -166,19 +166,19 @@ testthat::test_that("error if sel_taxon has length > 1", {
       family   = base::c("Asteraceae")
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = base::c("Taxon_a", "Taxon_b"),
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = base::c("Taxon_a", "Taxon_b"),
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   )
 })
 
-# Input validation: sel_domain -----
+# Input validation: trait_domain -----
 
-testthat::test_that("error if sel_domain is not character", {
+testthat::test_that("error if trait_domain is not character", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::c("Taxon_a"),
@@ -191,17 +191,17 @@ testthat::test_that("error if sel_domain is not character", {
       family   = base::c("Asteraceae")
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = 1L,
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = 1L,
       verbose            = FALSE
     )
   )
 })
 
-testthat::test_that("error if sel_domain has length > 1", {
+testthat::test_that("error if trait_domain has length > 1", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::c("Taxon_a"),
@@ -214,19 +214,19 @@ testthat::test_that("error if sel_domain has length > 1", {
       family   = base::c("Asteraceae")
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = base::c("Leaf Area", "Plant Height"),
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = base::c("Leaf Area", "Plant Height"),
       verbose            = FALSE
     )
   )
 })
 
-# Input validation: sel_rank -----
+# Input validation: taxonomic_rank -----
 
-testthat::test_that("error if sel_rank is not character", {
+testthat::test_that("error if taxonomic_rank is not character", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::c("Taxon_a"),
@@ -239,18 +239,18 @@ testthat::test_that("error if sel_rank is not character", {
       family   = base::c("Asteraceae")
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw     = data_traits,
-      data_classification = data_class,
-      sel_taxon           = "Taxon_a",
-      sel_domain          = "Leaf Area",
-      sel_rank            = 1L,
+    summarise_taxonomic_group_traits(
+      data_trait_records     = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon           = "Taxon_a",
+      trait_domain          = "Leaf Area",
+      taxonomic_rank            = 1L,
       verbose             = FALSE
     )
   )
 })
 
-testthat::test_that("error if sel_rank has length > 1", {
+testthat::test_that("error if taxonomic_rank has length > 1", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::c("Taxon_a"),
@@ -263,19 +263,19 @@ testthat::test_that("error if sel_rank has length > 1", {
       family   = base::c("Asteraceae")
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw     = data_traits,
-      data_classification = data_class,
-      sel_taxon           = "Taxon_a",
-      sel_domain          = "Leaf Area",
-      sel_rank            = base::c("family", "genus"),
+    summarise_taxonomic_group_traits(
+      data_trait_records     = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon           = "Taxon_a",
+      trait_domain          = "Leaf Area",
+      taxonomic_rank            = base::c("family", "genus"),
       verbose             = FALSE
     )
   )
 })
 
 testthat::test_that(
-  "error if data_classification missing sel_rank column", {
+  "error if data_taxon_classification missing taxonomic_rank column", {
     data_traits <-
       tibble::tibble(
         taxon_name        = base::c("Taxon_a"),
@@ -289,12 +289,12 @@ testthat::test_that(
         # No genus column
       )
     testthat::expect_error(
-      get_family_trait_summary(
-        data_traits_raw     = data_traits,
-        data_classification = data_class,
-        sel_taxon           = "Taxon_a",
-        sel_domain          = "Leaf Area",
-        sel_rank            = "genus",
+      summarise_taxonomic_group_traits(
+        data_trait_records     = data_traits,
+        data_taxon_classification = data_class,
+        focal_taxon           = "Taxon_a",
+        trait_domain          = "Leaf Area",
+        taxonomic_rank            = "genus",
         verbose             = FALSE
       )
     )
@@ -316,11 +316,11 @@ testthat::test_that("error if verbose is not logical", {
       family   = base::c("Asteraceae")
     )
   testthat::expect_error(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = "yes"
     )
   )
@@ -341,11 +341,11 @@ testthat::test_that("returns a tibble", {
       family   = base::c("Asteraceae")
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   testthat::expect_true(tibble::is_tibble(res))
@@ -364,16 +364,16 @@ testthat::test_that("has exactly the expected columns", {
       family   = base::c("Asteraceae")
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   testthat::expect_named(
     res,
-    base::c("taxon_name", "n", "min", "q25", "median", "mean", "q75", "max")
+    base::c("taxon_name", "n_records", "minimum", "lower_quartile", "median", "mean", "upper_quartile", "maximum")
   )
 })
 
@@ -390,11 +390,11 @@ testthat::test_that("taxon_name column is character", {
       family   = base::c("Asteraceae")
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   vec_taxon <-
@@ -402,7 +402,7 @@ testthat::test_that("taxon_name column is character", {
   testthat::expect_true(base::is.character(vec_taxon))
 })
 
-testthat::test_that("n column is integer or numeric >= 1", {
+testthat::test_that("n_records column is integer or numeric >= 1", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::rep("Taxon_a", 3L),
@@ -415,15 +415,15 @@ testthat::test_that("n column is integer or numeric >= 1", {
       family   = base::c("Asteraceae")
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   vec_n <-
-    dplyr::pull(res, n)
+    dplyr::pull(res, n_records)
   testthat::expect_true(base::is.numeric(vec_n) || base::is.integer(vec_n))
   testthat::expect_true(base::all(vec_n >= 1))
 })
@@ -441,30 +441,30 @@ testthat::test_that("numeric summary columns are numeric", {
       family   = base::c("Asteraceae")
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   vec_min <-
-    dplyr::pull(res, min)
-  vec_q25 <-
-    dplyr::pull(res, q25)
+    dplyr::pull(res, minimum)
+  vec_lower_quartile <-
+    dplyr::pull(res, lower_quartile)
   vec_median <-
     dplyr::pull(res, median)
   vec_mean <-
     dplyr::pull(res, mean)
-  vec_q75 <-
-    dplyr::pull(res, q75)
+  vec_upper_quartile <-
+    dplyr::pull(res, upper_quartile)
   vec_max <-
-    dplyr::pull(res, max)
+    dplyr::pull(res, maximum)
   testthat::expect_true(base::is.numeric(vec_min))
-  testthat::expect_true(base::is.numeric(vec_q25))
+  testthat::expect_true(base::is.numeric(vec_lower_quartile))
   testthat::expect_true(base::is.numeric(vec_median))
   testthat::expect_true(base::is.numeric(vec_mean))
-  testthat::expect_true(base::is.numeric(vec_q75))
+  testthat::expect_true(base::is.numeric(vec_upper_quartile))
   testthat::expect_true(base::is.numeric(vec_max))
 })
 
@@ -487,11 +487,11 @@ testthat::test_that("returns 3 rows when 3 family taxa have data", {
       family   = base::rep("Asteraceae", 3L)
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   testthat::expect_equal(base::nrow(res), 3L)
@@ -521,11 +521,11 @@ testthat::test_that("result is sorted ascending by median", {
       family   = base::rep("Asteraceae", 3L)
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   vec_medians <-
@@ -533,9 +533,9 @@ testthat::test_that("result is sorted ascending by median", {
   testthat::expect_true(!base::is.unsorted(vec_medians))
 })
 
-# Functional correctness: correct n values -----
+# Functional correctness: correct n_records values -----
 
-testthat::test_that("n values match observation counts per taxon", {
+testthat::test_that("n_records values match observation counts per taxon", {
   data_traits <-
     tibble::tibble(
       taxon_name = base::c(
@@ -552,11 +552,11 @@ testthat::test_that("n values match observation counts per taxon", {
       family   = base::rep("Asteraceae", 3L)
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   res_a <-
@@ -566,11 +566,11 @@ testthat::test_that("n values match observation counts per taxon", {
   res_c <-
     dplyr::filter(res, taxon_name == "Taxon_c")
   n_a <-
-    dplyr::pull(res_a, n)
+    dplyr::pull(res_a, n_records)
   n_b <-
-    dplyr::pull(res_b, n)
+    dplyr::pull(res_b, n_records)
   n_c <-
-    dplyr::pull(res_c, n)
+    dplyr::pull(res_c, n_records)
   testthat::expect_equal(n_a, 3L)
   testthat::expect_equal(n_b, 2L)
   testthat::expect_equal(n_c, 3L)
@@ -595,34 +595,34 @@ testthat::test_that("correct stats for Taxon_a with values 10 20 30", {
       family   = base::rep("Asteraceae", 3L)
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   res_a <-
     dplyr::filter(res, taxon_name == "Taxon_a")
   val_min <-
-    dplyr::pull(res_a, min)
+    dplyr::pull(res_a, minimum)
   val_max <-
-    dplyr::pull(res_a, max)
+    dplyr::pull(res_a, maximum)
   val_median <-
     dplyr::pull(res_a, median)
   val_mean <-
     dplyr::pull(res_a, mean)
-  val_q25 <-
-    dplyr::pull(res_a, q25)
+  val_lower_quartile <-
+    dplyr::pull(res_a, lower_quartile)
   vec_vals <-
     base::c(10, 20, 30)
-  expected_q25 <-
+  expected_lower_quartile <-
     stats::quantile(vec_vals, 0.25, names = FALSE)
   testthat::expect_equal(val_min, 10)
   testthat::expect_equal(val_max, 30)
   testthat::expect_equal(val_median, 20)
   testthat::expect_equal(val_mean, 20)
-  testthat::expect_equal(val_q25, expected_q25)
+  testthat::expect_equal(val_lower_quartile, expected_lower_quartile)
 })
 
 # Functional correctness: domain filtering -----
@@ -650,17 +650,17 @@ testthat::test_that("domain filtering excludes other domain observations", {
       family   = base::rep("Asteraceae", 3L)
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   res_a <-
     dplyr::filter(res, taxon_name == "Taxon_a")
   n_a <-
-    dplyr::pull(res_a, n)
+    dplyr::pull(res_a, n_records)
   testthat::expect_equal(n_a, 3L)
 })
 
@@ -685,15 +685,15 @@ testthat::test_that("only requested domain data in result", {
       family   = base::rep("Asteraceae", 2L)
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   val_max_a <-
-    dplyr::pull(dplyr::filter(res, taxon_name == "Taxon_a"), max)
+    dplyr::pull(dplyr::filter(res, taxon_name == "Taxon_a"), maximum)
   testthat::expect_true(val_max_a < 999)
 })
 
@@ -712,11 +712,11 @@ testthat::test_that("fallback: taxon not in classification gives 1 row", {
       family   = base::c("Asteraceae")
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Missing_taxon",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Missing_taxon",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   testthat::expect_equal(base::nrow(res), 1L)
@@ -727,7 +727,7 @@ testthat::test_that("fallback: taxon not in classification gives 1 row", {
 
 # Functional correctness: fallback when family is NA -----
 
-testthat::test_that("fallback: NA family gives 1 row for sel_taxon", {
+testthat::test_that("fallback: NA family gives 1 row for focal_taxon", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::rep("Taxon_a", 3L),
@@ -740,11 +740,11 @@ testthat::test_that("fallback: NA family gives 1 row for sel_taxon", {
       family   = base::c(NA_character_)
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   testthat::expect_equal(base::nrow(res), 1L)
@@ -765,18 +765,18 @@ testthat::test_that("0-row result with correct cols when no domain data", {
       family   = base::c("Asteraceae")
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   testthat::expect_equal(base::nrow(res), 0L)
   testthat::expect_true(tibble::is_tibble(res))
   testthat::expect_named(
     res,
-    base::c("taxon_name", "n", "min", "q25", "median", "mean", "q75", "max")
+    base::c("taxon_name", "n_records", "minimum", "lower_quartile", "median", "mean", "upper_quartile", "maximum")
   )
 })
 
@@ -799,11 +799,11 @@ testthat::test_that("only taxa with domain data are in result rows", {
       family   = base::rep("Asteraceae", 3L)
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   testthat::expect_equal(base::nrow(res), 2L)
@@ -824,11 +824,11 @@ testthat::test_that("verbose TRUE emits a message", {
       family   = base::c("Asteraceae")
     )
   testthat::expect_message(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = TRUE
     )
   )
@@ -847,11 +847,11 @@ testthat::test_that("verbose FALSE emits no message", {
       family   = base::c("Asteraceae")
     )
   testthat::expect_no_message(
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   )
@@ -872,17 +872,17 @@ testthat::test_that("single taxon in family: result has 1 row", {
       family   = base::c("Asteraceae")
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   testthat::expect_equal(base::nrow(res), 1L)
 })
 
-testthat::test_that("only sel_taxon in family: result has 1 row", {
+testthat::test_that("only focal_taxon in family: result has 1 row", {
   data_traits <-
     tibble::tibble(
       taxon_name        = base::rep("Taxon_a", 3L),
@@ -895,11 +895,11 @@ testthat::test_that("only sel_taxon in family: result has 1 row", {
       family   = base::c("Asteraceae", "Poaceae")
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw    = data_traits,
-      data_classification = data_class,
-      sel_taxon          = "Taxon_a",
-      sel_domain         = "Leaf Area",
+    summarise_taxonomic_group_traits(
+      data_trait_records    = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon          = "Taxon_a",
+      trait_domain         = "Leaf Area",
       verbose            = FALSE
     )
   testthat::expect_equal(base::nrow(res), 1L)
@@ -908,9 +908,9 @@ testthat::test_that("only sel_taxon in family: result has 1 row", {
   testthat::expect_equal(vec_taxon, "Taxon_a")
 })
 
-# Functional correctness: non-default sel_rank -----
+# Functional correctness: non-default taxonomic_rank -----
 
-testthat::test_that("sel_rank = genus groups by genus column", {
+testthat::test_that("taxonomic_rank = genus groups by genus column", {
   data_traits <-
     tibble::tibble(
       taxon_name = base::c(
@@ -930,12 +930,12 @@ testthat::test_that("sel_rank = genus groups by genus column", {
       )
     )
   res <-
-    get_family_trait_summary(
-      data_traits_raw     = data_traits,
-      data_classification = data_class,
-      sel_taxon           = "Taxon_a",
-      sel_domain          = "Leaf Area",
-      sel_rank            = "genus",
+    summarise_taxonomic_group_traits(
+      data_trait_records     = data_traits,
+      data_taxon_classification = data_class,
+      focal_taxon           = "Taxon_a",
+      trait_domain          = "Leaf Area",
+      taxonomic_rank            = "genus",
       verbose             = FALSE
     )
   # Only taxa in the same genus as Taxon_a (Genus_one):

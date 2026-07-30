@@ -43,8 +43,8 @@ sel_mode <- "by_domain"
 # Cap pages per render (NULL = no cap)
 sel_max_pages <- NULL
 
-# Minimum family count for the family comparison panel
-sel_min_n_family <- 5L
+# Minimum record count for the taxonomic comparison panel
+minimum_records_taxonomic <- 5L
 
 
 #----------------------------------------------------------#
@@ -111,7 +111,7 @@ if (
       sel_domain_filter = .x,
       path_output_dir = path_output_dir,
       sel_max_pages = sel_max_pages,
-      sel_min_n_family = sel_min_n_family
+      minimum_records_taxonomic = minimum_records_taxonomic
     )
   )
 
@@ -126,6 +126,6 @@ if (
     sel_domain_filter = NULL,
     path_output_dir = path_output_dir,
     sel_max_pages = sel_max_pages,
-    sel_min_n_family = sel_min_n_family
+    minimum_records_taxonomic = minimum_records_taxonomic
   )
 }
