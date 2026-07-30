@@ -16,7 +16,7 @@
 #' validated and instructs the user to set `CHECKED = TRUE` after
 #' reviewing.
 #' @seealso [load_trait_corrections()], [correct_trait_records()],
-#'   [generate_trait_qc_report()]
+#'   [write_trait_quality_control_report()]
 #' @export
 validate_trait_corrections <- function(data_trait_corrections) {
   assertthat::assert_that(

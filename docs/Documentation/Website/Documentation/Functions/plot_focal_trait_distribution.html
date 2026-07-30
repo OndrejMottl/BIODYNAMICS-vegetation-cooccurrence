@@ -692,12 +692,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/generate_trait_qc_report.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">generate_trait_qc_report()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/get_age_from_string.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_age_from_string()</span></a>
   </div>
@@ -1238,8 +1232,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/render_trait_qc_pdf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">render_trait_qc_pdf()</span></a>
+  <a href="../../../../Documentation/Website/Documentation/Functions/render_trait_quality_control_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">render_trait_quality_control_report()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1536,6 +1530,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">write_oracle_generated_scss()</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/write_trait_quality_control_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">write_trait_quality_control_report()</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -1639,7 +1639,7 @@ A tibble of raw trait observations for one focal taxon-domain slice. Must contai
 </td>
 <td>
 <p>
-A single-row tibble of focal-slice QC statistics, as produced by ‘generate_trait_qc_report()’. Must contain numeric columns ‘mean’, ‘median’, ‘IQR’, and integer columns ‘n_suspected_outliers_taxon’ (integer) and ‘outlier_fraction’ (numeric).
+A single-row tibble of focal-slice QC statistics, as produced by ‘write_trait_quality_control_report()’. Must contain numeric columns ‘mean’, ‘median’, ‘IQR’, and integer columns ‘n_suspected_outliers_taxon’ (integer) and ‘outlier_fraction’ (numeric).
 </p>
 </td>
 </tr>
@@ -1706,7 +1706,7 @@ A ‘ggplot2’ object. The plot is not printed; call ‘print()’ on the retur
 See Also
 </h3>
 <p>
-[generate_trait_qc_report()], [load_trait_corrections()], [validate_trait_corrections()], [correct_trait_records()]
+[write_trait_quality_control_report()], [load_trait_corrections()], [validate_trait_corrections()], [correct_trait_records()]
 </p>
 <h3 class="anchored">
 Examples

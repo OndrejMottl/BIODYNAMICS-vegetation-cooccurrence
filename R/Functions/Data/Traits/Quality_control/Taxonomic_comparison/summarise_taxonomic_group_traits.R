@@ -39,7 +39,7 @@
 #'    classification or the rank column is `NA`), only the focal
 #'    taxon's own records are summarised.
 #' @seealso
-#' [generate_trait_qc_report()], [plot_focal_trait_distribution()]
+#' [write_trait_quality_control_report()], [plot_focal_trait_distribution()]
 #' @examples
 #' \dontrun{
 #' data_aux_classification <-

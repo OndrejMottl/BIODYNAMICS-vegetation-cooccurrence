@@ -3,22 +3,26 @@
 #
 #                 Vegetation Co-occurrence
 #
-#             Generate Trait QC Review Report
+#             Render Trait Quality-Control Reports
 #
 #                       O. Mottl
 #                         2026
 #
 #----------------------------------------------------------#
-# Renders R/03_Supplementary_analyses/Trait_qc/Trait_qc_report.qmd
-#   to dated PDFs in Outputs/Reports/.
+# Renders the trait quality-control review document to dated PDFs in
+#   Outputs/Reports/.
 #
 # Mode "by_domain" (default): one PDF per trait domain.
 # Mode "all_in_one":          one PDF containing all domains.
 #
 # Usage:
-#   source("R/03_Supplementary_analyses/Trait_qc/Generate_trait_qc_report.R")
-#   or
-#   Rscript R/03_Supplementary_analyses/Trait_qc/Generate_trait_qc_report.R
+#   source(
+#     paste0(
+#       "R/03_Supplementary_analyses/Diagnostics/Data_processing/",
+#       "Traits/Quality_control/render_trait_quality_control_reports.R"
+#     )
+#   )
+#   The same file can be passed to `Rscript` from a shell.
 
 
 #----------------------------------------------------------#
@@ -38,24 +42,30 @@ source(
 
 # "by_domain" : one PDF per trait domain (recommended)
 # "all_in_one": single PDF containing all domains
-sel_mode <- "by_domain"
+report_mode <- "by_domain"
+
+report_mode <-
+  base::match.arg(
+    report_mode,
+    choices = base::c("by_domain", "all_in_one")
+  )
 
 # Cap pages per render (NULL = no cap)
-sel_max_pages <- NULL
+maximum_pages <- NULL
 
 # Minimum record count for the taxonomic comparison panel
-minimum_records_taxonomic <- 5L
+minimum_taxonomic_records <- 5L
 
 
 #----------------------------------------------------------#
 # 2. Output directory -----
 #----------------------------------------------------------#
 
-path_output_dir <-
+path_report_directory <-
   here::here("Outputs/Reports")
 
 fs::dir_create(
-  path_output_dir,
+  path_report_directory,
   recurse = TRUE
 )
 
@@ -64,14 +74,14 @@ fs::dir_create(
 # 3. Locate QC report -----
 #----------------------------------------------------------#
 
-vec_qc_report_paths <-
+trait_quality_control_report_paths <-
   fs::dir_ls(
     here::here("Data/Temp"),
     regexp = "trait_qc_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
   )
 
 if (
-  base::length(vec_qc_report_paths) == 0L
+  base::length(trait_quality_control_report_paths) == 0L
 ) {
   cli::cli_abort(
     c(
@@ -81,14 +91,14 @@ if (
   )
 }
 
-path_qc_report <-
-  vec_qc_report_paths |>
+path_trait_quality_control_report <-
+  trait_quality_control_report_paths |>
   base::sort() |>
   utils::tail(1L)
 
-data_qc_domains <-
+trait_domains <-
   readr::read_csv(
-    path_qc_report,
+    path_trait_quality_control_report,
     show_col_types = FALSE
   ) |>
   dplyr::filter(.data[["n_suspected_outliers_taxon"]] > 0L) |>
@@ -102,30 +112,36 @@ data_qc_domains <-
 #----------------------------------------------------------#
 
 if (
-  sel_mode == "by_domain"
+  report_mode == "by_domain"
 ) {
+  render_trait_domain_report <- function(trait_domain) {
+    render_trait_quality_control_report(
+      trait_domain_filter = trait_domain,
+      path_report_directory = path_report_directory,
+      maximum_pages = maximum_pages,
+      minimum_taxonomic_records = minimum_taxonomic_records
+    )
+
+    return(base::invisible(NULL))
+  }
+
   purrr::walk(
     .progress = TRUE,
-    .x = data_qc_domains,
-    .f = ~ render_trait_qc_pdf(
-      sel_domain_filter = .x,
-      path_output_dir = path_output_dir,
-      sel_max_pages = sel_max_pages,
-      minimum_records_taxonomic = minimum_records_taxonomic
-    )
+    .x = trait_domains,
+    .f = render_trait_domain_report
   )
 
   cli::cli_inform(
     c(
-      "v" = "Rendered {base::length(data_qc_domains)} domain PDF(s)",
-      "i" = "Output directory: {path_output_dir}"
+      "v" = "Rendered {base::length(trait_domains)} domain PDF(s)",
+      "i" = "Output directory: {path_report_directory}"
     )
   )
 } else {
-  render_trait_qc_pdf(
-    sel_domain_filter = NULL,
-    path_output_dir = path_output_dir,
-    sel_max_pages = sel_max_pages,
-    minimum_records_taxonomic = minimum_records_taxonomic
+  render_trait_quality_control_report(
+    trait_domain_filter = NULL,
+    path_report_directory = path_report_directory,
+    maximum_pages = maximum_pages,
+    minimum_taxonomic_records = minimum_taxonomic_records
   )
 }

@@ -10,7 +10,7 @@
 #' (character), and `trait_domain_name` (character).
 #' @param data_focal_trait_summary
 #' A single-row tibble of focal-slice QC statistics, as produced by
-#' `generate_trait_qc_report()`. Must contain numeric columns `mean`,
+#' `write_trait_quality_control_report()`. Must contain numeric columns `mean`,
 #' `median`, `IQR`, and integer columns `n_suspected_outliers_taxon`
 #' (integer) and `outlier_fraction` (numeric).
 #' @param focal_taxon
@@ -44,7 +44,7 @@
 #' Plot layer order follows project conventions: `ggplot()` -> facets
 #' -> scales -> labels -> theme -> `ggview::canvas()` -> geoms.
 #' @seealso
-#' [generate_trait_qc_report()], [load_trait_corrections()],
+#' [write_trait_quality_control_report()], [load_trait_corrections()],
 #' [validate_trait_corrections()], [correct_trait_records()]
 #' @examples
 #' \dontrun{

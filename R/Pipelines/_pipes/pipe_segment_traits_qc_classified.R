@@ -16,7 +16,7 @@
 #   pre-classification QC cannot detect (taxon_resolved only
 #   exists after the classification join).
 #
-# The existing QC functions (generate_trait_qc_report,
+# The existing QC functions (write_trait_quality_control_report,
 #   load_trait_corrections, validate_trait_corrections,
 #   correct_trait_records)
 #   are reused: taxon_resolved is temporarily renamed to
@@ -83,16 +83,16 @@ pipe_segment_traits_qc_classified <-
     #   • creates Data/Input/trait_manual_corrections_classified.csv
     #     (header only) if the file does not already exist
     # taxon_resolved is renamed to taxon_name before the call because
-    # generate_trait_qc_report expects a taxon_name column.
+    # write_trait_quality_control_report expects a taxon_name column.
     targets::tar_target(
       description = "Generate post-classification QC report by resolved taxon",
       name = trait_qc_report_classified,
-      command = generate_trait_qc_report(
-        data_traits = data_traits_classified |>
+      command = write_trait_quality_control_report(
+        data_trait_records = data_traits_classified |>
           dplyr::select(-"taxon_name") |>
           dplyr::rename(taxon_name = "taxon_resolved"),
 
-        path_corrections = here::here(
+        path_trait_corrections = here::here(
           "Data/Input/trait_manual_corrections_classified.csv"
         )
       )

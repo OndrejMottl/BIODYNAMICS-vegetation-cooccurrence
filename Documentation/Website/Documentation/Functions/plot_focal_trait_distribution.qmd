@@ -57,7 +57,7 @@ Must contain columns 'trait_value' (numeric), 'trait_name'
 <tr><td><code id="data_focal_trait_summary">data_focal_trait_summary</code></td>
 <td>
 <p>A single-row tibble of focal-slice QC statistics, as produced by
-'generate_trait_qc_report()'. Must contain numeric columns 'mean',
+'write_trait_quality_control_report()'. Must contain numeric columns 'mean',
 'median', 'IQR', and integer columns 'n_suspected_outliers_taxon'
 (integer) and 'outlier_fraction' (numeric).</p>
 </td></tr>
@@ -112,7 +112,7 @@ return value to display it.
 
 <h3>See Also</h3>
 
-<p>[generate_trait_qc_report()], [load_trait_corrections()],
+<p>[write_trait_quality_control_report()], [load_trait_corrections()],
 [validate_trait_corrections()], [correct_trait_records()]
 </p>
 

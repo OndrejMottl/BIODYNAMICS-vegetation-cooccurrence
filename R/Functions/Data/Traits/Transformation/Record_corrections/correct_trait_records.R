@@ -23,7 +23,7 @@
 #' do not cause an error. If `data_trait_corrections` is empty,
 #' `data_trait_records` is returned unchanged.
 #' @seealso [load_trait_corrections()],
-#'   [validate_trait_corrections()], [generate_trait_qc_report()]
+#'   [validate_trait_corrections()], [write_trait_quality_control_report()]
 #' @export
 correct_trait_records <- function(
     data_trait_records,

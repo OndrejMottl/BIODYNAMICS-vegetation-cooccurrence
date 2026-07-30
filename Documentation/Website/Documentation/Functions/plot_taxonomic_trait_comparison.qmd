@@ -59,7 +59,7 @@ a firebrick point marks the focal taxon.
 <tr><td><code id="data_focal_trait_summary">data_focal_trait_summary</code></td>
 <td>
 <p>A single-row tibble of per-group QC statistics for the focal taxon,
-as produced by [generate_trait_qc_report()]. Must contain a numeric
+as produced by [write_trait_quality_control_report()]. Must contain a numeric
 column 'median' used to place the firebrick reference point.</p>
 </td></tr>
 <tr><td><code id="focal_taxon">focal_taxon</code></td>
@@ -115,7 +115,7 @@ return value to display it.
 
 <p>[summarise_taxonomic_group_traits()],
 [plot_focal_trait_distribution()],
-[generate_trait_qc_report()]
+[write_trait_quality_control_report()]
 </p>
 
 

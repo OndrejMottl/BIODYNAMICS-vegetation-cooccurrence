@@ -26,10 +26,11 @@ data_focal_trait_records: A tibble of raw trait observations for one
           (character).
 
 data_focal_trait_summary: A single-row tibble of focal-slice QC
-          statistics, as produced by `generate_trait_qc_report()`. Must
-          contain numeric columns `mean`, `median`, `IQR`, and integer
-          columns `n_suspected_outliers_taxon` (integer) and
-          `outlier_fraction` (numeric).
+          statistics, as produced by
+          `write_trait_quality_control_report()`. Must contain numeric
+          columns `mean`, `median`, `IQR`, and integer columns
+          `n_suspected_outliers_taxon` (integer) and `outlier_fraction`
+          (numeric).
 
 focal_taxon: Character scalar. Name of the taxon being inspected. Used
           in the plot title.
@@ -69,8 +70,9 @@ Value:
 
 See Also:
 
-     [generate_trait_qc_report()], [load_trait_corrections()],
-     [validate_trait_corrections()], [correct_trait_records()]
+     [write_trait_quality_control_report()],
+     [load_trait_corrections()], [validate_trait_corrections()],
+     [correct_trait_records()]
 
 Examples:
 

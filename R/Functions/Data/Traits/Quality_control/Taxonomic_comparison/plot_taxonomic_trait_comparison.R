@@ -11,7 +11,7 @@
 #' `n_records`, and `median`.
 #' @param data_focal_trait_summary
 #' A single-row tibble of per-group QC statistics for the focal taxon,
-#' as produced by [generate_trait_qc_report()]. Must contain a numeric
+#' as produced by [write_trait_quality_control_report()]. Must contain a numeric
 #' column `median` used to place the firebrick reference point.
 #' @param focal_taxon
 #' Character scalar. Name of the focal taxon. Used in the plot title.
@@ -44,7 +44,7 @@
 #' @seealso
 #' [summarise_taxonomic_group_traits()],
 #' [plot_focal_trait_distribution()],
-#' [generate_trait_qc_report()]
+#' [write_trait_quality_control_report()]
 #' @examples
 #' \dontrun{
 #' data_taxonomic_trait_summary <-

@@ -9,7 +9,7 @@
 #' A tibble containing the correction instructions stored in
 #' `path_trait_corrections`.
 #' @seealso [validate_trait_corrections()], [correct_trait_records()],
-#'   [generate_trait_qc_report()]
+#'   [write_trait_quality_control_report()]
 #' @export
 load_trait_corrections <- function(path_trait_corrections) {
   assertthat::assert_that(

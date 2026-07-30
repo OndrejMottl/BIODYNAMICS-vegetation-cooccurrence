@@ -692,12 +692,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/generate_trait_qc_report.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">generate_trait_qc_report()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/get_age_from_string.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">get_age_from_string()</span></a>
   </div>
@@ -1238,8 +1232,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/render_trait_qc_pdf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">render_trait_qc_pdf()</span></a>
+  <a href="../../../../Documentation/Website/Documentation/Functions/render_trait_quality_control_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">render_trait_quality_control_report()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1536,6 +1530,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">write_oracle_generated_scss()</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/write_trait_quality_control_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">write_trait_quality_control_report()</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -1640,7 +1640,7 @@ A tibble of per-taxon summary statistics returned by [summarise_taxonomic_group_
 </td>
 <td>
 <p>
-A single-row tibble of per-group QC statistics for the focal taxon, as produced by [generate_trait_qc_report()]. Must contain a numeric column ‘median’ used to place the firebrick reference point.
+A single-row tibble of per-group QC statistics for the focal taxon, as produced by [write_trait_quality_control_report()]. Must contain a numeric column ‘median’ used to place the firebrick reference point.
 </p>
 </td>
 </tr>
@@ -1714,7 +1714,7 @@ A ‘ggplot2’ object. The plot is not printed; call ‘print()’ on the retur
 See Also
 </h3>
 <p>
-[summarise_taxonomic_group_traits()], [plot_focal_trait_distribution()], [generate_trait_qc_report()]
+[summarise_taxonomic_group_traits()], [plot_focal_trait_distribution()], [write_trait_quality_control_report()]
 </p>
 <h3 class="anchored">
 Examples

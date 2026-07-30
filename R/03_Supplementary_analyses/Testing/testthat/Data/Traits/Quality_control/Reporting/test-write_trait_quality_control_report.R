@@ -1,26 +1,26 @@
-call_generate_trait_qc_report <-
+call_write_trait_quality_control_report <-
   function(...) {
-    generate_trait_qc_report(
+    write_trait_quality_control_report(
       ...,
-      path_qc_report = base::tempfile(fileext = ".csv")
+      path_trait_quality_control_report = base::tempfile(fileext = ".csv")
     )
   }
 
 
 testthat::test_that(
-  "generate_trait_qc_report() errors on non-data-frame input",
+  "write_trait_quality_control_report() errors on non-data-frame input",
   {
     testthat::expect_error(
-      call_generate_trait_qc_report(data_traits = "not a df")
+      call_write_trait_quality_control_report(data_trait_records = "not a df")
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(data_traits = NULL)
+      call_write_trait_quality_control_report(data_trait_records = NULL)
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = base::c(1, 2, 3)
+      call_write_trait_quality_control_report(
+        data_trait_records = base::c(1, 2, 3)
       )
     )
   }
@@ -28,9 +28,9 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "generate_trait_qc_report() writes report to custom path_qc_report",
+  "write_trait_quality_control_report() writes report to custom path_trait_quality_control_report",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::rep("Quercus", 12L),
         trait_domain_name = base::rep("SLA", 12L),
@@ -44,10 +44,10 @@ testthat::test_that(
     path_temp_report <-
       base::tempfile(fileext = ".csv")
 
-    generate_trait_qc_report(
-      data_traits = data_traits,
-      path_corrections = path_temp_corrections,
-      path_qc_report = path_temp_report
+    write_trait_quality_control_report(
+      data_trait_records = data_trait_records,
+      path_trait_corrections = path_temp_corrections,
+      path_trait_quality_control_report = path_temp_report
     )
 
     testthat::expect_true(
@@ -80,9 +80,9 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "generate_trait_qc_report() writes default date-stamped report",
+  "write_trait_quality_control_report() writes default date-stamped report",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::rep("Quercus", 12L),
         trait_domain_name = base::rep("SLA", 12L),
@@ -105,16 +105,18 @@ testthat::test_that(
       base::unlink(path_default_report)
     }
 
+    return_fixed_report_date <- function() {
+      return(base::as.Date("2099-12-31"))
+    }
+
     testthat::local_mocked_bindings(
-      Sys.Date = function() {
-        base::as.Date("2099-12-31")
-      },
+      Sys.Date = return_fixed_report_date,
       .package = "base"
     )
 
-    generate_trait_qc_report(
-      data_traits = data_traits,
-      path_corrections = path_temp_corrections
+    write_trait_quality_control_report(
+      data_trait_records = data_trait_records,
+      path_trait_corrections = path_temp_corrections
     )
 
     testthat::expect_true(
@@ -127,44 +129,44 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "generate_trait_qc_report() errors on missing columns",
+  "write_trait_quality_control_report() errors on missing columns",
   {
     path_temp <-
       base::tempfile(fileext = ".csv")
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = tibble::tibble(
+      call_write_trait_quality_control_report(
+        data_trait_records = tibble::tibble(
           taxon_name = "A",
           trait_domain_name = "SLA",
           trait_name = "LMA"
           # trait_value missing
         ),
-        path_corrections = path_temp
+        path_trait_corrections = path_temp
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = tibble::tibble(
+      call_write_trait_quality_control_report(
+        data_trait_records = tibble::tibble(
           taxon_name = "A",
           trait_domain_name = "SLA",
           trait_value = 10
           # trait_name missing
         ),
-        path_corrections = path_temp
+        path_trait_corrections = path_temp
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = tibble::tibble(
+      call_write_trait_quality_control_report(
+        data_trait_records = tibble::tibble(
           trait_domain_name = "SLA",
           trait_name = "LMA",
           trait_value = 10
           # taxon_name missing
         ),
-        path_corrections = path_temp
+        path_trait_corrections = path_temp
       )
     )
   }
@@ -172,9 +174,9 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "generate_trait_qc_report() errors on bad path_corrections",
+  "write_trait_quality_control_report() errors on bad path_trait_corrections",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = "Quercus",
         trait_domain_name = "SLA",
@@ -183,23 +185,23 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = 123L
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = 123L
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = NULL
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = NULL
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = base::c("a.csv", "b.csv")
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = base::c("a.csv", "b.csv")
       )
     )
   }
@@ -207,9 +209,9 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "generate_trait_qc_report() errors on bad outlier_iqr_multiplier",
+  "write_trait_quality_control_report() errors on bad domain_iqr_multiplier",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = "Quercus",
         trait_domain_name = "SLA",
@@ -221,34 +223,34 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        outlier_iqr_multiplier = "three"
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        domain_iqr_multiplier = "three"
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        outlier_iqr_multiplier = -1
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        domain_iqr_multiplier = -1
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        outlier_iqr_multiplier = 0
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        domain_iqr_multiplier = 0
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        outlier_iqr_multiplier = base::c(3, 5)
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        domain_iqr_multiplier = base::c(3, 5)
       )
     )
   }
@@ -256,12 +258,12 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "custom outlier_iqr_multiplier changes which taxa are flagged",
+  "custom domain_iqr_multiplier changes which taxa are flagged",
   {
     # Values: 10, 11, 12, 50. IQR=2, median=11.
     # At multiplier=3:  threshold=6  => 50 is outlier  (|50-11|=39 > 6)
     # At multiplier=20: threshold=40 => 50 is NOT outlier (39 < 40)
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c("A", "B", "C", "Borderline"),
         trait_domain_name = base::rep("SLA", 4L),
@@ -274,10 +276,10 @@ testthat::test_that(
 
     # strict: Borderline is flagged
     list_strict <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        outlier_iqr_multiplier = 3
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        domain_iqr_multiplier = 3
       )
 
     testthat::expect_true(
@@ -287,10 +289,10 @@ testthat::test_that(
 
     # lenient: Borderline is NOT flagged
     list_lenient <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        outlier_iqr_multiplier = 20
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        domain_iqr_multiplier = 20
       )
 
     testthat::expect_false(
@@ -302,9 +304,9 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "generate_trait_qc_report() returns named list",
+  "write_trait_quality_control_report() returns named list",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c("Quercus", "Pinus"),
         trait_domain_name = base::c("SLA", "SLA"),
@@ -316,9 +318,9 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp
       )
 
     testthat::expect_type(list_result, "list")
@@ -340,7 +342,7 @@ testthat::test_that(
 testthat::test_that(
   "summary_by_domain is a tibble with one row per domain",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c(
           "Quercus", "Pinus", "Betula", "Betula"
@@ -358,9 +360,9 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp
       )
 
     data_summary <-
@@ -377,7 +379,7 @@ testthat::test_that(
 testthat::test_that(
   "summary_by_domain has all required columns",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c("Quercus", "Pinus"),
         trait_domain_name = base::c("SLA", "SLA"),
@@ -389,9 +391,9 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp
       )
 
     data_summary <-
@@ -423,7 +425,7 @@ testthat::test_that(
 testthat::test_that(
   "suspected_outlier_taxa_domain and _taxon are character vectors",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c("Quercus", "Pinus"),
         trait_domain_name = base::c("SLA", "SLA"),
@@ -435,9 +437,9 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp
       )
 
     testthat::expect_true(
@@ -459,7 +461,7 @@ testthat::test_that(
   "summary_by_domain: n_records and n_taxa are correct",
   {
     # SLA: 3 records, 2 unique taxa; Height: 1 record, 1 taxon
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c(
           "Quercus", "Pinus", "Quercus", "Betula"
@@ -477,9 +479,9 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp
       )
 
     data_summary <-
@@ -506,7 +508,7 @@ testthat::test_that(
   "summary_by_domain: median is correct",
   {
     # median of c(10, 12, 11) = 11
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c("A", "B", "C"),
         trait_domain_name = base::c("SLA", "SLA", "SLA"),
@@ -518,9 +520,9 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp
       )
 
     data_summary <-
@@ -541,7 +543,7 @@ testthat::test_that(
     # With n=16, Q1=10, Q3=12, IQR=2, median=11, threshold=3*2=6.
     # Extreme=999: |999-11|=988 > 6 => is outlier.
     # Normal values: |10-11|=1 and |12-11|=1, both < 6.
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c(
           base::paste0("T", base::formatC(1:15, width = 2L, flag = "0")),
@@ -559,9 +561,9 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp
       )
 
     vec_outliers <-
@@ -583,7 +585,7 @@ testthat::test_that(
   "n_suspected_outliers matches outlier count in domain",
   {
     # Two outliers in SLA
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c(
           "A", "B", "C", "Ext1", "Ext2"
@@ -597,9 +599,9 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp
       )
 
     data_summary <-
@@ -616,7 +618,7 @@ testthat::test_that(
 testthat::test_that(
   "no outlier taxa when all values are normal",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c("A", "B", "C"),
         trait_domain_name = base::c("SLA", "SLA", "SLA"),
@@ -628,9 +630,9 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp
       )
 
     vec_outliers <-
@@ -644,7 +646,7 @@ testthat::test_that(
 testthat::test_that(
   "creates corrections template when file is absent",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c("Quercus", "Pinus"),
         trait_domain_name = base::c("SLA", "SLA"),
@@ -658,9 +660,9 @@ testthat::test_that(
     # File must not exist before the call
     testthat::expect_false(base::file.exists(path_temp))
 
-    call_generate_trait_qc_report(
-      data_traits = data_traits,
-      path_corrections = path_temp
+    call_write_trait_quality_control_report(
+      data_trait_records = data_trait_records,
+      path_trait_corrections = path_temp
     )
 
     # File should now exist
@@ -698,7 +700,7 @@ testthat::test_that(
 testthat::test_that(
   "does NOT overwrite existing corrections file",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c("Quercus", "Pinus"),
         trait_domain_name = base::c("SLA", "SLA"),
@@ -722,9 +724,9 @@ testthat::test_that(
       path_temp
     )
 
-    call_generate_trait_qc_report(
-      data_traits = data_traits,
-      path_corrections = path_temp
+    call_write_trait_quality_control_report(
+      data_trait_records = data_trait_records,
+      path_trait_corrections = path_temp
     )
 
     data_after <-
@@ -747,7 +749,7 @@ testthat::test_that(
 testthat::test_that(
   "single domain single taxon: zero outliers",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = "Quercus",
         trait_domain_name = "SLA",
@@ -759,9 +761,9 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp
       )
 
     data_summary <-
@@ -783,9 +785,9 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "generate_trait_qc_report() errors on bad outlier_iqr_multiplier_taxon",
+  "write_trait_quality_control_report() errors on bad taxon_iqr_multiplier",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = "Quercus",
         trait_domain_name = "SLA",
@@ -797,34 +799,34 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        outlier_iqr_multiplier_taxon = "one-and-a-half"
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        taxon_iqr_multiplier = "one-and-a-half"
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        outlier_iqr_multiplier_taxon = -1
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        taxon_iqr_multiplier = -1
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        outlier_iqr_multiplier_taxon = 0
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        taxon_iqr_multiplier = 0
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        outlier_iqr_multiplier_taxon = base::c(1.5, 2.0)
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        taxon_iqr_multiplier = base::c(1.5, 2.0)
       )
     )
   }
@@ -832,9 +834,9 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "generate_trait_qc_report() errors on bad min_records_per_taxon",
+  "write_trait_quality_control_report() errors on bad minimum_taxon_records",
   {
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = "Quercus",
         trait_domain_name = "SLA",
@@ -846,26 +848,26 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        min_records_per_taxon = "ten"
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        minimum_taxon_records = "ten"
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        min_records_per_taxon = 0
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        minimum_taxon_records = 0
       )
     )
 
     testthat::expect_error(
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        min_records_per_taxon = base::c(5, 10)
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        minimum_taxon_records = base::c(5, 10)
       )
     )
   }
@@ -876,7 +878,7 @@ testthat::test_that(
   "summary_by_domain_taxon is a tibble with required columns",
   {
     # 12 records for Quercus x SLA so the per-taxon summary is computed
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c(
           base::rep("Quercus", 12L),
@@ -894,10 +896,10 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        min_records_per_taxon = 10L
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        minimum_taxon_records = 10L
       )
 
     data_summary_taxon <-
@@ -927,11 +929,11 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "summary_by_domain_taxon excludes taxa below min_records_per_taxon",
+  "summary_by_domain_taxon excludes taxa below minimum_taxon_records",
   {
     # Quercus: 12 records (>= 10) => included
     # Pinus:    3 records (<  10) => excluded
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c(
           base::rep("Quercus", 12L),
@@ -949,10 +951,10 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        min_records_per_taxon = 10L
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        minimum_taxon_records = 10L
       )
 
     data_summary_taxon <-
@@ -975,7 +977,7 @@ testthat::test_that(
     # SmallTaxon has only 5 records (< 10) but with one extreme value.
     # LargeTaxon has 15 records with all normal values.
     # SmallTaxon must NOT appear in suspected_outlier_taxa_taxon.
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c(
           base::rep("SmallTaxon", 5L),
@@ -995,10 +997,10 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        min_records_per_taxon = 10L
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        minimum_taxon_records = 10L
       )
 
     vec_taxon_outliers <-
@@ -1018,7 +1020,7 @@ testthat::test_that(
     # Within-taxon: IQR of the 10 normal records = 2, median = 11.
     # |9999 - 11| = 9988 >> 1.5 * 2 = 3 => flagged.
     # NormalTaxon: 15 records, all normal => not flagged.
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::c(
           base::rep("LargeTaxon", 11L),
@@ -1042,11 +1044,11 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        min_records_per_taxon = 10L,
-        outlier_iqr_multiplier_taxon = 1.5
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        minimum_taxon_records = 10L,
+        taxon_iqr_multiplier = 1.5
       )
 
     vec_taxon_outliers <-
@@ -1067,7 +1069,7 @@ testthat::test_that(
   "taxon-level check does not flag when taxon_IQR is zero",
   {
     # AllSame: 12 identical records; IQR = 0 -- no outlier can be defined.
-    data_traits <-
+    data_trait_records <-
       tibble::tibble(
         taxon_name = base::rep("AllSame", 12L),
         trait_domain_name = base::rep("SLA", 12L),
@@ -1079,10 +1081,10 @@ testthat::test_that(
       base::tempfile(fileext = ".csv")
 
     list_result <-
-      call_generate_trait_qc_report(
-        data_traits = data_traits,
-        path_corrections = path_temp,
-        min_records_per_taxon = 10L
+      call_write_trait_quality_control_report(
+        data_trait_records = data_trait_records,
+        path_trait_corrections = path_temp,
+        minimum_taxon_records = 10L
       )
 
     vec_taxon_outliers <-

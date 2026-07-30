@@ -113,7 +113,7 @@ that are too small or have zero IQR.</p>
 
 <h3>See Also</h3>
 
-<p>[filter_trait_outliers()], [generate_trait_qc_report()]
+<p>[filter_trait_outliers()], [write_trait_quality_control_report()]
 </p>
 
 </main>

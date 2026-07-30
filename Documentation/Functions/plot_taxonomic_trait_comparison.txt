@@ -28,8 +28,9 @@ data_taxonomic_trait_summary: A tibble of per-taxon summary statistics
 
 data_focal_trait_summary: A single-row tibble of per-group QC
           statistics for the focal taxon, as produced by
-          [generate_trait_qc_report()]. Must contain a numeric column
-          `median` used to place the firebrick reference point.
+          [write_trait_quality_control_report()]. Must contain a
+          numeric column `median` used to place the firebrick reference
+          point.
 
 focal_taxon: Character scalar. Name of the focal taxon. Used in the
           plot title.
@@ -68,7 +69,8 @@ Value:
 See Also:
 
      [summarise_taxonomic_group_traits()],
-     [plot_focal_trait_distribution()], [generate_trait_qc_report()]
+     [plot_focal_trait_distribution()],
+     [write_trait_quality_control_report()]
 
 Examples:
 

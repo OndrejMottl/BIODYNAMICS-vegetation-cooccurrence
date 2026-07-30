@@ -71,9 +71,9 @@ pipe_segment_traits_qc <-
     targets::tar_target(
       description = "Generate trait QC report and create corrections template",
       name = trait_qc_report,
-      command = generate_trait_qc_report(
-        data_traits = data_traits_raw,
-        path_corrections = here::here(
+      command = write_trait_quality_control_report(
+        data_trait_records = data_traits_raw,
+        path_trait_corrections = here::here(
           "Data/Input/trait_manual_corrections.csv"
         )
       )

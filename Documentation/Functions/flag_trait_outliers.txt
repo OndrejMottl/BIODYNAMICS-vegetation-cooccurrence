@@ -63,4 +63,4 @@ Value:
 
 See Also:
 
-     [filter_trait_outliers()], [generate_trait_qc_report()]
+     [filter_trait_outliers()], [write_trait_quality_control_report()]

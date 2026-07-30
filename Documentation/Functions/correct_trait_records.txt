@@ -38,4 +38,4 @@ Value:
 See Also:
 
      [load_trait_corrections()], [validate_trait_corrections()],
-     [generate_trait_qc_report()]
+     [write_trait_quality_control_report()]

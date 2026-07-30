@@ -1,0 +1,528 @@
+---
+title: "Trait QC Review Report"
+date: today
+params:
+  maximum_pages: null
+  minimum_taxonomic_records: 5
+  trait_domain_filter: null
+format:
+  pdf:
+    geometry: "a3paper,landscape,margin=1cm"
+    toc: true
+    toc-depth: 2
+    fig-width: 16
+    fig-height: 9
+    keep-tex: false
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+
+library(here)
+
+source(
+  here::here("R/___setup_project___.R")
+)
+
+# --- Tunables (overridden by Quarto params when passed) -------
+minimum_taxonomic_records <-
+  base::as.integer(
+    params$minimum_taxonomic_records
+  )
+
+maximum_pages <- params$maximum_pages
+
+trait_domain_filter <- params$trait_domain_filter
+# --------------------------------------------------------------
+
+graphical_options <-
+  load_active_config_value("graphical")
+
+# Path to the manual corrections file.
+path_trait_corrections <-
+  here::here("Data/Input/trait_manual_corrections.csv")
+
+# Target store for the traits pipeline.
+path_trait_store <-
+  here::here(
+    "Data/targets/traits_reference_reference/pipeline_traits_reference"
+  )
+
+#--- Load QC report -------------------------------------------
+trait_quality_control_report_paths <-
+  fs::dir_ls(
+    here::here("Data/Temp"),
+    regexp = "trait_qc_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
+  )
+
+if (
+  base::length(trait_quality_control_report_paths) == 0L
+) {
+  cli::cli_abort(
+    c(
+      "No trait_qc_report_*.csv found in Data/Temp/.",
+      "i" = "Run the traits pipeline to generate it."
+    )
+  )
+}
+
+path_trait_quality_control_report <-
+  trait_quality_control_report_paths |>
+  base::sort() |>
+  utils::tail(1L)
+
+data_trait_quality_control_report <-
+  readr::read_csv(
+    path_trait_quality_control_report,
+    show_col_types = FALSE
+  ) |>
+  dplyr::mutate(
+    outlier_fraction = .data[["n_suspected_outliers_taxon"]] /
+      .data[["n_records"]]
+  )
+
+#--- Load raw trait values ------------------------------------
+if (
+  !fs::dir_exists(path_trait_store)
+) {
+  cli::cli_abort(
+    c(
+      "Traits target store not found at: {path_trait_store}",
+      "i" = "Run the traits pipeline first."
+    )
+  )
+}
+
+data_traits_raw <-
+  targets::tar_read(
+    data_traits_raw,
+    store = path_trait_store
+  )
+
+data_taxon_classification <-
+  targets::tar_read(
+    data_combined_classification_table_traits,
+    store = path_trait_store
+  )
+
+#--- Load corrections file ------------------------------------
+if (
+  base::file.exists(path_trait_corrections)
+) {
+  data_corrections_current <-
+    readr::read_csv(
+      path_trait_corrections,
+      show_col_types = FALSE
+    )
+} else {
+  data_corrections_current <-
+    tibble::tibble(
+      taxon_name = base::character(0L),
+      trait_domain_name = base::character(0L)
+    )
+}
+```
+
+```{r}
+#| label: prepare-data
+
+# ----- Quality-control recommendation function ---------------
+recommend_trait_quality_control_action <- function(
+    record_count,
+    outlier_fraction,
+    outlier_count,
+    interquartile_range,
+    mean_median_ratio,
+    outlier_direction) {
+  recommendation_result <-
+    dplyr::case_when(
+      interquartile_range == 0 ~
+        base::list(
+          label = "ZERO-IQR",
+          colour = "#2166ac",
+          suggestion = "Values identical; artefact likely"
+        ),
+      record_count <= 5L ~
+        base::list(
+          label = "SMALL SAMPLE",
+          colour = "#999999",
+          suggestion = "Too few records to assess"
+        ),
+      mean_median_ratio >= 5 & outlier_direction != "MIXED" ~
+        base::list(
+          label = "SCALE ISSUE",
+          colour = "#d73027",
+          suggestion = stringr::str_glue(
+            "scale_factor = {
+              1 / 10^base::round(base::log10(mean_median_ratio))
+            }"
+          )
+        ),
+      outlier_fraction >= 0.5 ~
+        base::list(
+          label = "HIGH FRACTION",
+          colour = "#d73027",
+          suggestion = "Consider exclude"
+        ),
+      outlier_fraction < 0.1 &
+        outlier_count == 1L &
+        record_count >= 10L ~
+        base::list(
+          label = "PROBABLY OK",
+          colour = "#1a9641",
+          suggestion = "Single outlier in large sample"
+        ),
+      .default =
+        base::list(
+          label = "REVIEW",
+          colour = "#f46d43",
+          suggestion = "Manual review required"
+        )
+    )
+  return(recommendation_result)
+}
+
+# ----- Compute derived columns --------------------------------
+data_flagged_trait_groups <-
+  data_trait_quality_control_report |>
+  dplyr::filter(.data[["n_suspected_outliers_taxon"]] > 0L) |>
+  dplyr::mutate(
+    mean_median_ratio = dplyr::if_else(
+      .data[["median"]] > 0,
+      .data[["mean"]] / .data[["median"]],
+      NA_real_
+    ),
+    cv_pct = dplyr::if_else(
+      .data[["mean"]] > 0,
+      .data[["sd"]] / .data[["mean"]] * 100,
+      NA_real_
+    ),
+    priority_score =
+      .data[["outlier_fraction"]] *
+        base::log10(.data[["n_records"]] + 1)
+  ) |>
+  dplyr::left_join(
+    data_corrections_current |>
+      dplyr::select(
+        "taxon_name",
+        "trait_domain_name"
+      ) |>
+      dplyr::mutate(already_corrected = TRUE),
+    by = dplyr::join_by(taxon_name, trait_domain_name)
+  ) |>
+  dplyr::mutate(
+    already_corrected = tidyr::replace_na(.data[["already_corrected"]], FALSE)
+  ) |>
+  dplyr::arrange(
+    .data[["trait_domain_name"]],
+    dplyr::desc(.data[["priority_score"]])
+  )
+
+# Apply domain filter.
+if (
+  !base::is.null(trait_domain_filter)
+) {
+  data_flagged_trait_groups <-
+    data_flagged_trait_groups |>
+    dplyr::filter(
+      .data[["trait_domain_name"]] == trait_domain_filter
+    )
+}
+
+# Apply page cap.
+if (
+  !base::is.null(maximum_pages)
+) {
+  data_flagged_trait_groups <-
+    data_flagged_trait_groups |>
+    utils::head(maximum_pages)
+}
+```
+
+```{r}
+#| label: generate-pages
+#| results: 'asis'
+
+base::set.seed(900723)
+
+trait_domains <-
+  data_flagged_trait_groups |>
+  dplyr::pull(.data[["trait_domain_name"]]) |>
+  base::unique()
+
+render_trait_quality_control_row <- function(
+    row_index,
+    data_trait_domain,
+    trait_domain) {
+  data_row <-
+    data_trait_domain |>
+    dplyr::slice(row_index)
+
+focal_taxon <-
+  data_row |>
+  dplyr::pull(.data[["taxon_name"]])
+
+record_count <-
+  data_row |>
+  dplyr::pull(.data[["n_records"]])
+
+outlier_count <-
+  data_row |>
+  dplyr::pull(.data[["n_suspected_outliers_taxon"]]) |>
+  base::as.integer()
+
+outlier_fraction <-
+  data_row |>
+  dplyr::pull(.data[["outlier_fraction"]])
+
+interquartile_range <-
+  data_row |>
+  dplyr::pull(.data[["IQR"]])
+
+mean_median_ratio <-
+  data_row |>
+  dplyr::pull(.data[["mean_median_ratio"]])
+
+coefficient_of_variation <-
+  data_row |>
+  dplyr::pull(.data[["cv_pct"]])
+
+priority_score <-
+  data_row |>
+  dplyr::pull(.data[["priority_score"]])
+
+already_corrected <-
+  data_row |>
+  dplyr::pull(.data[["already_corrected"]])
+
+# Outlier direction (ALL HIGH / ALL LOW / MIXED).
+data_focal_trait_records <-
+  data_traits_raw |>
+  dplyr::filter(
+    .data[["taxon_name"]] == focal_taxon,
+    .data[["trait_domain_name"]] == trait_domain
+  )
+
+data_focal_trait_summary <-
+  data_row |>
+  dplyr::select(
+    "mean",
+    "median",
+    "IQR",
+    "sd",
+    "n_records",
+    "n_suspected_outliers_taxon",
+    "outlier_fraction"
+  )
+
+trait_values <-
+  data_focal_trait_records |>
+  dplyr::pull(.data[["trait_value"]])
+
+lower_quartile <-
+  stats::quantile(trait_values, probs = 0.25, na.rm = TRUE)
+
+upper_quartile <-
+  stats::quantile(trait_values, probs = 0.75, na.rm = TRUE)
+
+focal_interquartile_range <-
+  base::unname(upper_quartile - lower_quartile)
+
+upper_fence <-
+  base::unname(upper_quartile + 1.5 * focal_interquartile_range)
+
+lower_fence <-
+  base::unname(lower_quartile - 1.5 * focal_interquartile_range)
+
+outlier_values <-
+  trait_values[trait_values > upper_fence | trait_values < lower_fence]
+
+outlier_direction <-
+  dplyr::case_when(
+    base::all(outlier_values > upper_fence) ~ "ALL HIGH",
+    base::all(outlier_values < lower_fence) ~ "ALL LOW",
+    .default = "MIXED"
+  )
+
+# Heuristic recommendation.
+quality_control_recommendation <-
+  recommend_trait_quality_control_action(
+    record_count = record_count,
+    outlier_fraction = outlier_fraction,
+    outlier_count = outlier_count,
+    interquartile_range = interquartile_range,
+    mean_median_ratio = mean_median_ratio,
+    outlier_direction = outlier_direction
+  )
+
+recommendation_label <-
+  purrr::chuck(quality_control_recommendation, "label")
+
+recommendation_colour <-
+  purrr::chuck(quality_control_recommendation, "colour")
+
+recommendation_suggestion <-
+  purrr::chuck(quality_control_recommendation, "suggestion")
+
+# ---- Plot: raw distribution -------------------------
+plot_focal_distribution <-
+  plot_focal_trait_distribution(
+    data_focal_trait_records = data_focal_trait_records,
+    data_focal_trait_summary = data_focal_trait_summary,
+    focal_taxon = focal_taxon,
+    trait_domain = trait_domain,
+    graphical_options = graphical_options,
+    verbose = FALSE
+  )
+
+# ---- Plot: taxonomic comparison ------------------------
+data_taxonomic_trait_summary <-
+  summarise_taxonomic_group_traits(
+    data_trait_records = data_traits_raw,
+    data_taxon_classification = data_taxon_classification,
+    focal_taxon = focal_taxon,
+    trait_domain = trait_domain,
+    taxonomic_rank = "family",
+    verbose = FALSE
+  )
+
+plot_taxonomic_comparison <-
+  plot_taxonomic_trait_comparison(
+    data_taxonomic_trait_summary = data_taxonomic_trait_summary,
+    data_focal_trait_summary = data_focal_trait_summary,
+    focal_taxon = focal_taxon,
+    trait_domain = trait_domain,
+    minimum_records = minimum_taxonomic_records,
+    graphical_options = graphical_options,
+    verbose = FALSE
+  )
+
+# ---- Panel: stats + heuristic label -----------------
+corrected_text <-
+  dplyr::if_else(
+    already_corrected,
+    "YES  [already corrected]",
+    "no"
+  )
+
+outlier_percentage <-
+  base::round(outlier_fraction * 100, 1)
+
+stats_text <-
+  stringr::str_glue(
+    "n = {record_count}  |  ",
+    "outliers = {outlier_count} ({outlier_percentage}%)  |  ",
+    "direction = {outlier_direction}  |  ",
+    "CV = {base::round(coefficient_of_variation, 1)}%  |  ",
+    "mean/median = {base::round(mean_median_ratio, 2)}  |  ",
+    "priority = {base::round(priority_score, 3)}  |  ",
+    "corrected = {corrected_text}"
+  )
+
+plot_quality_control_summary <-
+  ggplot2::ggplot() +
+  ggplot2::xlim(0, 1) +
+  ggplot2::ylim(0, 1) +
+  ggplot2::theme_void() +
+  ggplot2::annotate(
+    "rect",
+    xmin = -Inf,
+    xmax = Inf,
+    ymin = -Inf,
+    ymax = Inf,
+    fill = recommendation_colour,
+    alpha = 0.15
+  ) +
+  ggplot2::annotate(
+    "text",
+    x = 0.5,
+    y = 0.65,
+    label = recommendation_label,
+    size = 7,
+    fontface = "bold",
+    colour = recommendation_colour
+  ) +
+  ggplot2::annotate(
+    "text",
+    x = 0.5,
+    y = 0.35,
+    label = recommendation_suggestion,
+    size = 4,
+    colour = "grey30"
+  ) +
+  ggplot2::annotate(
+    "text",
+    x = 0.5,
+    y = 0.1,
+    label = stats_text,
+    size = 3,
+    colour = "grey40"
+  )
+
+# ---- Compose with patchwork -------------------------
+# wrap_plots() avoids S7 operator dispatch issues that
+#   arise when combining ggview-classed plots with | .
+plot_comparison_row <-
+  patchwork::wrap_plots(
+    plot_focal_distribution, plot_taxonomic_comparison,
+    ncol = 2L
+  )
+
+plot_quality_control_review <-
+  plot_comparison_row /
+  plot_quality_control_summary +
+  patchwork::plot_layout(heights = c(0.70, 0.30)) +
+  patchwork::plot_annotation(
+    title = stringr::str_glue(
+      "{focal_taxon}  \u2014  {trait_domain}"
+    ),
+    subtitle = stringr::str_glue(
+      "Heuristic: {recommendation_label}  |  Suggestion: {recommendation_suggestion}"
+    ),
+    theme = ggplot2::theme(
+      plot.title = ggplot2::element_text(
+        size = 14,
+        face = "bold"
+      ),
+      plot.subtitle = ggplot2::element_text(
+        size = 10,
+        colour = recommendation_colour
+      )
+    )
+  )
+
+  base::print(plot_quality_control_review)
+
+  base::cat("\n\n\\newpage\n\n")
+}
+
+render_trait_quality_control_domain <- function(trait_domain) {
+  base::cat(
+    stringr::str_glue("\n\n## {trait_domain}\n\n")
+  )
+
+  data_trait_domain <-
+    data_flagged_trait_groups |>
+    dplyr::filter(
+      .data[["trait_domain_name"]] == trait_domain
+    )
+
+  purrr::walk(
+    .x = base::seq_len(base::nrow(data_trait_domain)),
+    .f = render_trait_quality_control_row,
+    data_trait_domain = data_trait_domain,
+    trait_domain = trait_domain
+  )
+
+  return(base::invisible(NULL))
+}
+
+purrr::walk(
+  .x = trait_domains,
+  .f = render_trait_quality_control_domain
+)
+```

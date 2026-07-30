@@ -47,7 +47,7 @@
 #'   flag_trait_outliers(iqr_multiplier = 3)
 #' ```
 #' @seealso
-#' [filter_trait_outliers()], [generate_trait_qc_report()]
+#' [filter_trait_outliers()], [write_trait_quality_control_report()]
 #' @export
 flag_trait_outliers <- function(
     data_trait_records,
