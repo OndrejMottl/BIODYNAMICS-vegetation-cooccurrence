@@ -14,7 +14,7 @@ Usage:
      classify_to_functional_type(
        data_source,
        data_functional_type_classification,
-       flag_verbose = TRUE
+       verbose = TRUE
      )
 
 Arguments:
@@ -29,11 +29,9 @@ data_functional_type_classification: A data frame mapping taxa to
           produced by `assign_functional_type_clusters()` and loaded
           via `load_latest_functional_type_classification()`.
 
-flag_verbose: Logical. If `TRUE` (default), informational progress
-          messages are printed to the console via `cli`. Note: the
-          warning issued when taxa are absent from
-          `data_ft_classification` is always emitted regardless of this
-          flag.
+ verbose: Logical. Reserved for informational progress messages. The
+          warning emitted when unmatched taxa are dropped is always
+          shown because it reports data loss.
 
 Details:
 

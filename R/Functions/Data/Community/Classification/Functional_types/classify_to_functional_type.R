@@ -16,11 +16,10 @@
 #' columns `taxon_name` (character) and `functional_type`
 #' (integer). Typically produced by `assign_functional_type_clusters()`
 #' and loaded via `load_latest_functional_type_classification()`.
-#' @param flag_verbose
-#' Logical. If `TRUE` (default), informational progress messages
-#' are printed to the console via `cli`. Note: the warning issued
-#' when taxa are absent from `data_ft_classification` is always
-#' emitted regardless of this flag.
+#' @param verbose
+#' Logical. Reserved for informational progress messages. The warning
+#' emitted when unmatched taxa are dropped is always shown because it
+#' reports data loss.
 #' @return
 #' A data frame with the same column names as `data_source`. The
 #' `taxon` column is replaced by functional-type labels of the
@@ -51,7 +50,7 @@
 classify_to_functional_type <- function(
     data_source,
     data_functional_type_classification,
-    flag_verbose = TRUE) {
+    verbose = TRUE) {
   assertthat::assert_that(
     base::is.data.frame(data_source),
     msg = "'data_source' must be a data frame."
@@ -92,9 +91,9 @@ classify_to_functional_type <- function(
   )
 
   assertthat::assert_that(
-    base::is.logical(flag_verbose) &&
-      base::length(flag_verbose) == 1L,
-    msg = "'flag_verbose' must be a single logical value."
+    base::is.logical(verbose) &&
+      base::length(verbose) == 1L,
+    msg = "'verbose' must be a single logical value."
   )
 
   # Join FT classification to community data on taxon name.

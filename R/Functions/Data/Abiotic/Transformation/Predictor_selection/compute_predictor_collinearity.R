@@ -11,6 +11,9 @@
 #' `abiotic_variable_name` (character, predictor names) and
 #' `abiotic_value` (numeric, predictor values).  An optional `age`
 #' column is silently dropped before analysis.
+#' @param verbose
+#' Logical scalar. If `TRUE`, warn when zero-variance predictors are
+#' removed before the collinearity analysis.
 #' @return
 #' A `collinear_output` object as returned by
 #' `collinear::collinear()`. The object contains a `result` element
@@ -33,7 +36,9 @@
 #' [collinear::collinear()] for the underlying collinearity method,
 #' [extract_abiotic_data()] for producing the expected input format.
 #' @export
-compute_predictor_collinearity <- function(data_source) {
+compute_predictor_collinearity <- function(
+    data_source,
+    verbose = TRUE) {
   assertthat::assert_that(
     base::is.data.frame(data_source),
     msg = "data_source must be a data frame"
@@ -48,6 +53,11 @@ compute_predictor_collinearity <- function(data_source) {
       "data_source must contain columns",
       " 'abiotic_variable_name' and 'abiotic_value'"
     )
+  )
+
+  assertthat::assert_that(
+    base::is.logical(verbose) && base::length(verbose) == 1L,
+    msg = "'verbose' must be a single logical value."
   )
 
   # Capture predictor names before pivoting so the variation check
@@ -83,7 +93,8 @@ compute_predictor_collinearity <- function(data_source) {
     ]
 
   if (
-    base::length(vec_zero_variance_predictors) > 0L
+    base::length(vec_zero_variance_predictors) > 0L &&
+      base::isTRUE(verbose)
   ) {
     cli::cli_warn(
       base::c(

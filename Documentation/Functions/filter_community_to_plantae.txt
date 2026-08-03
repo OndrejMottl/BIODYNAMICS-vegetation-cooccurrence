@@ -8,8 +8,12 @@ Description:
 
 Usage:
 
-     filter_community_to_plantae(data_community, data_classification_table)
-     
+     filter_community_to_plantae(
+       data_community,
+       data_classification_table,
+       verbose = TRUE
+     )
+
 Arguments:
 
 data_community: A data frame containing community data with at minimum
@@ -18,6 +22,9 @@ data_community: A data frame containing community data with at minimum
 data_classification_table: A data frame with columns 'sel_name' and
           'kingdom', mapping taxon names to their kingdom
           classification.
+
+ verbose: Logical scalar. If `TRUE`, warn when non-Plantae or
+          unclassified taxa are removed.
 
 Details:
 
@@ -43,4 +50,3 @@ See Also:
 
      [classify_taxonomic_resolution()],
      [filter_community_by_minimum_proportion()]
-

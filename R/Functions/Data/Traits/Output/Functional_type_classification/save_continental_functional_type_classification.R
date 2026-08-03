@@ -76,9 +76,7 @@ save_continental_functional_type_classification <- function(
   assertthat::assert_that(
     base::is.character(path_classification_directory),
     base::length(path_classification_directory) == 1L,
-    msg = base::paste0(
-      "`path_classification_directory` must be a single character string."
-    )
+    msg = "`path_classification_directory` must be a character string."
   )
 
   if (
@@ -102,7 +100,9 @@ save_continental_functional_type_classification <- function(
   )
 
   classification_file_prefix <-
-    if (base::is.null(classification_source_prefix)) {
+    if (
+      base::is.null(classification_source_prefix)
+    ) {
       ""
     } else {
       stringr::str_glue("{classification_source_prefix}_")
@@ -134,7 +134,9 @@ save_continental_functional_type_classification <- function(
       )
     )
 
-  if (base::isTRUE(verbose)) {
+  if (
+    base::isTRUE(verbose)
+  ) {
     cli::cli_inform(
       c(
         "i" = stringr::str_glue(

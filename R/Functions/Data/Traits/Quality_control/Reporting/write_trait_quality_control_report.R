@@ -127,17 +127,17 @@ write_trait_quality_control_report <- function(
   required_columns <-
     base::c("taxon_name", "trait_domain_name", "trait_name", "trait_value")
 
+  missing_required_columns <-
+    base::setdiff(
+      required_columns,
+      base::colnames(data_trait_records)
+    )
+
   assertthat::assert_that(
-    base::all(required_columns %in% base::colnames(data_trait_records)),
-    msg = base::paste0(
+    base::length(missing_required_columns) == 0L,
+    msg = stringr::str_c(
       "data_trait_records is missing required columns: ",
-      base::paste(
-        base::setdiff(
-          required_columns,
-          base::colnames(data_trait_records)
-        ),
-        collapse = ", "
-      )
+      stringr::str_c(missing_required_columns, collapse = ", ")
     )
   )
 
@@ -154,7 +154,7 @@ write_trait_quality_control_report <- function(
   assertthat::assert_that(
     base::is.null(path_trait_quality_control_report) ||
       base::is.character(path_trait_quality_control_report),
-    msg = base::paste0(
+    msg = stringr::str_c(
       "path_trait_quality_control_report must be NULL or a ",
       "character string."
     )
@@ -319,7 +319,7 @@ write_trait_quality_control_report <- function(
     path_trait_quality_control_report <-
       here::here(
         "Data/Temp",
-        base::paste0("trait_qc_report_", report_date, ".csv")
+        stringr::str_glue("trait_qc_report_{report_date}.csv")
       )
   }
 

@@ -11,14 +11,17 @@ Description:
 
 Usage:
 
-     compute_predictor_collinearity(data_source)
-     
+     compute_predictor_collinearity(data_source, verbose = TRUE)
+
 Arguments:
 
 data_source: A data frame in long format containing at minimum the
           columns `abiotic_variable_name` (character, predictor names)
           and `abiotic_value` (numeric, predictor values).  An optional
           `age` column is silently dropped before analysis.
+
+ verbose: Logical scalar. If `TRUE`, warn when zero-variance predictors
+          are removed before the collinearity analysis.
 
 Details:
 
@@ -46,4 +49,3 @@ See Also:
 
      [collinear::collinear()] for the underlying collinearity method,
      [extract_abiotic_data()] for producing the expected input format.
-

@@ -24,7 +24,9 @@ validate_trait_corrections <- function(data_trait_corrections) {
     msg = "data_trait_corrections must be a data frame."
   )
 
-  if (!"CHECKED" %in% base::colnames(data_trait_corrections)) {
+  if (
+    !"CHECKED" %in% base::colnames(data_trait_corrections)
+  ) {
     cli::cli_abort(
       "Corrections file is missing the required {.field CHECKED} column."
     )
@@ -37,7 +39,9 @@ validate_trait_corrections <- function(data_trait_corrections) {
   n_unchecked <-
     base::sum(vec_not_checked)
 
-  if (n_unchecked > 0L) {
+  if (
+    n_unchecked > 0L
+  ) {
     cli::cli_abort(
       c(
         "{n_unchecked} row{?s} have not been validated (CHECKED != TRUE).",

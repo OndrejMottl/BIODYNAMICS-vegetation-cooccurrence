@@ -369,7 +369,7 @@ data_taxonomic_trait_summary_annotated <-
     ),
     taxon_name = dplyr::if_else(
       .data[["taxon_name"]] == focal_taxon,
-      base::paste0(.data[["taxon_name"]], "  *"),
+      stringr::str_c(.data[["taxon_name"]], "  *"),
       .data[["taxon_name"]]
     )
   )

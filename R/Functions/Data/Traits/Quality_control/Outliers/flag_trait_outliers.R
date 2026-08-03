@@ -61,7 +61,7 @@ flag_trait_outliers <- function(
 
   assertthat::assert_that(
     base::length(dplyr::group_vars(data_trait_records)) > 0L,
-    msg = base::paste0(
+    msg = stringr::str_c(
       "'data_trait_records' must be a grouped data frame. ",
       "Use dplyr::group_by() before calling this function."
     )
@@ -75,16 +75,16 @@ flag_trait_outliers <- function(
 
   assertthat::assert_that(
     trait_value_column %in% base::colnames(data_trait_records),
-    msg = base::paste0(
-      "'trait_value_column' column '", trait_value_column,
-      "' not found in 'data_trait_records'."
+    msg = stringr::str_glue(
+      "'trait_value_column' column '{trait_value_column}' not found ",
+      "in 'data_trait_records'."
     )
   )
 
   assertthat::assert_that(
     base::is.numeric(data_trait_records[[trait_value_column]]),
-    msg = base::paste0(
-      "Column '", trait_value_column, "' must be numeric."
+    msg = stringr::str_glue(
+      "Column '{trait_value_column}' must be numeric."
     )
   )
 
@@ -92,9 +92,7 @@ flag_trait_outliers <- function(
     base::is.numeric(iqr_multiplier) &&
       base::length(iqr_multiplier) == 1L &&
       iqr_multiplier > 0,
-    msg = base::paste0(
-      "'iqr_multiplier' must be a single positive numeric."
-    )
+    msg = "'iqr_multiplier' must be a single positive numeric."
   )
 
   if (
@@ -104,9 +102,7 @@ flag_trait_outliers <- function(
       base::is.numeric(minimum_group_size) &&
         base::length(minimum_group_size) == 1L &&
         minimum_group_size >= 1,
-      msg = base::paste0(
-        "'minimum_group_size' must be a single positive numeric."
-      )
+      msg = "'minimum_group_size' must be a single positive numeric."
     )
   }
 

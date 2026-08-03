@@ -297,3 +297,19 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "summarise_trait_coverage() can suppress console messages",
+  {
+    data_trait_table <-
+      tibble::tibble(taxon_name = "Taxon A")
+
+    testthat::expect_silent(
+      summarise_trait_coverage(
+        community_taxa = "Taxon A",
+        data_trait_table = data_trait_table,
+        verbose = FALSE
+      )
+    )
+  }
+)

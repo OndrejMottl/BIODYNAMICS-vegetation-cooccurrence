@@ -45,9 +45,9 @@ build_trait_table <- function(
 
   assertthat::assert_that(
     taxon_column %in% base::colnames(data_aggregated_trait_values),
-    msg = base::paste0(
-      "'taxon_column' column '", taxon_column,
-      "' not found in 'data_aggregated_trait_values'."
+    msg = stringr::str_glue(
+      "'taxon_column' column '{taxon_column}' not found in ",
+      "'data_aggregated_trait_values'."
     )
   )
 
@@ -59,9 +59,9 @@ build_trait_table <- function(
 
   assertthat::assert_that(
     trait_domain_column %in% base::colnames(data_aggregated_trait_values),
-    msg = base::paste0(
-      "'trait_domain_column' column '", trait_domain_column,
-      "' not found in 'data_aggregated_trait_values'."
+    msg = stringr::str_glue(
+      "'trait_domain_column' column '{trait_domain_column}' not found in ",
+      "'data_aggregated_trait_values'."
     )
   )
 
@@ -73,9 +73,9 @@ build_trait_table <- function(
 
   assertthat::assert_that(
     trait_value_column %in% base::colnames(data_aggregated_trait_values),
-    msg = base::paste0(
-      "'trait_value_column' column '", trait_value_column,
-      "' not found in 'data_aggregated_trait_values'."
+    msg = stringr::str_glue(
+      "'trait_value_column' column '{trait_value_column}' not found in ",
+      "'data_aggregated_trait_values'."
     )
   )
 

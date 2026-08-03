@@ -100,7 +100,7 @@ plot_focal_trait_distribution <- function(
       c("trait_value", "trait_name", "trait_domain_name") %in%
         base::colnames(data_focal_trait_records)
     ),
-    msg = base::paste0(
+    msg = stringr::str_c(
       "data_focal_trait_records must contain columns: ",
       "'trait_value', 'trait_name', 'trait_domain_name'."
     )
@@ -110,7 +110,7 @@ plot_focal_trait_distribution <- function(
     base::is.numeric(
       dplyr::pull(data_focal_trait_records, trait_value)
     ),
-    msg = "data_focal_trait_records$trait_value must be numeric."
+    msg = "Column 'trait_value' in data_focal_trait_records must be numeric."
   )
 
   assertthat::assert_that(
@@ -130,7 +130,7 @@ plot_focal_trait_distribution <- function(
         "n_suspected_outliers_taxon", "outlier_fraction"
       ) %in% base::colnames(data_focal_trait_summary)
     ),
-    msg = base::paste0(
+    msg = stringr::str_c(
       "data_focal_trait_summary must contain columns: 'mean', 'median', ",
       "'IQR', 'n_suspected_outliers_taxon', 'outlier_fraction'."
     )
@@ -176,7 +176,7 @@ plot_focal_trait_distribution <- function(
       c("width", "height", "units", "dpi", "bg") %in%
         base::names(graphical_options)
     ),
-    msg = base::paste0(
+    msg = stringr::str_c(
       "graphical_options must contain elements: ",
       "'width', 'height', 'units', 'dpi', 'bg'."
     )
@@ -294,8 +294,8 @@ plot_focal_trait_distribution <- function(
       name = "Flag status"
     ) +
     ggplot2::labs(
-      title = base::paste0(focal_taxon, "  \u00d7  ", trait_domain),
-      subtitle = base::paste0(
+      title = stringr::str_glue("{focal_taxon}  \u00d7  {trait_domain}"),
+      subtitle = stringr::str_c(
         "n = ", base::nrow(data_focal_trait_records),
         "   |   mean = ",
         base::round(
@@ -376,7 +376,7 @@ plot_focal_trait_distribution <- function(
     base::isTRUE(verbose)
   ) {
     cli::cli_inform(
-      base::paste0(
+      stringr::str_c(
         "Fences: inner = [",
         base::round(inner_lower_fence, 3L), ", ",
         base::round(inner_upper_fence, 3L), "]",

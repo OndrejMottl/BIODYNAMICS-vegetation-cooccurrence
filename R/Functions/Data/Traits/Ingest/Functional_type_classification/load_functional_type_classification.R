@@ -12,9 +12,7 @@ load_functional_type_classification <- function(path_classification_file) {
       base::length(path_classification_file) == 1L &&
       assertthat::is.readable(path_classification_file) &&
       assertthat::has_extension(path_classification_file, "qs"),
-    msg = base::paste0(
-      "`path_classification_file` must be a single readable `.qs` file."
-    )
+    msg = "`path_classification_file` must be a single readable `.qs` file."
   )
 
   data_functional_type_classification <-

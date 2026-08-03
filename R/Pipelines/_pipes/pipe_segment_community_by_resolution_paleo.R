@@ -92,7 +92,7 @@ pipe_segment_community_by_resolution_paleo <-
             data_source = data_community_classified,
             data_classification_table = data_combined_classification_table,
             vec_taxonomic_resolution = resolution_id,
-            flag_verbose = FALSE
+            verbose = FALSE
           )
         }
       }

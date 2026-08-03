@@ -55,7 +55,7 @@
 #' A tibble with one row per community taxon that could be
 #' matched to at least one trait observation. Contains a
 #' `taxon_name` column (the original pollen taxon name from
-#' `data_community_taxonomy$sel_name`) plus one
+#' `sel_name` column in `data_community_taxonomy`) plus one
 #' numeric column per distinct `trait_domain_name`. Community
 #' taxa with no trait match are silently absent (not filled
 #' with `NA` rows). The column order is `taxon_name` followed
@@ -218,7 +218,7 @@ build_community_taxon_trait_table <- function(
       values_to = "canonical_name"
     ) |>
     dplyr::filter(!base::is.na(.data$canonical_name)) |>
-    dplyr::filter(.data$canonical_name %in% canonical_taxon_names) |>
+    dplyr::filter(.data[["canonical_name"]] %in% canonical_taxon_names) |>
     dplyr::select(
       dplyr::all_of(base::c("sel_name", "canonical_name"))
     ) |>

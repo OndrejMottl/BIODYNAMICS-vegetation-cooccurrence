@@ -295,12 +295,12 @@ testthat::test_that(
   "select_unclassified_taxa() works at moderate scale",
   {
     vec_taxa <-
-      base::paste0("taxon_", base::seq_len(1000))
+      stringr::str_glue("taxon_{base::seq_len(1000)}")
 
     # Classify the first 800; 200 should be missing
     data_classification_table <-
       data.frame(
-        sel_name = base::paste0("taxon_", base::seq_len(800))
+        sel_name = stringr::str_glue("taxon_{base::seq_len(800)}")
       )
 
     res_unclassified_taxa <-

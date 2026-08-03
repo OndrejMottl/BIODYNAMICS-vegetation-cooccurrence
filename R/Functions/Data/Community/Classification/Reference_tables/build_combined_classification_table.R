@@ -40,10 +40,7 @@ build_combined_classification_table <- function(
 
   assertthat::assert_that(
     "sel_name" %in% base::colnames(data_classification_table),
-    msg = base::paste(
-      "data_classification_table must contain",
-      "a 'sel_name' column"
-    )
+    msg = "data_classification_table must contain a 'sel_name' column"
   )
 
   assertthat::assert_that(
@@ -54,8 +51,8 @@ build_combined_classification_table <- function(
   assertthat::assert_that(
     "sel_name" %in%
       base::colnames(data_auxiliary_classification_table),
-    msg = base::paste(
-      "data_auxiliary_classification_table must contain",
+    msg = stringr::str_c(
+      "data_auxiliary_classification_table must contain ",
       "a 'sel_name' column"
     )
   )

@@ -115,7 +115,7 @@ data_ft_all <-
           "Data/Processed/Traits"
         )
       ) |>
-        dplyr::mutate(continent_id = .env$continent_id)
+        dplyr::mutate(continent_id = .env[["continent_id"]])
     }
   ) |>
   purrr::list_rbind()

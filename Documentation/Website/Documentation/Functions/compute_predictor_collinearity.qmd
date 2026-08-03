@@ -36,7 +36,7 @@ collinearity analysis.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>compute_predictor_collinearity(data_source)
+<pre><code class='language-R'>compute_predictor_collinearity(data_source, verbose = TRUE)
 </code></pre>
 
 
@@ -49,6 +49,11 @@ collinearity analysis.
 'abiotic_variable_name' (character, predictor names) and
 'abiotic_value' (numeric, predictor values).  An optional 'age'
 column is silently dropped before analysis.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical scalar. If 'TRUE', warn when zero-variance predictors are
+removed before the collinearity analysis.</p>
 </td></tr>
 </table>
 
@@ -89,4 +94,3 @@ names that were retained.
 
 </div>
 </body></html>
-

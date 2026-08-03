@@ -38,7 +38,7 @@ accordingly. Supported resolutions are 'kingdom', 'phylum', 'class',
   data_source,
   data_classification_table,
   vec_taxonomic_resolution,
-  flag_verbose = TRUE
+  verbose = TRUE
 )
 </code></pre>
 
@@ -65,7 +65,7 @@ Must be one of ''kingdom'&lsquo;, '&rsquo;phylum'&lsquo;, '&rsquo;class'&lsquo;,
 this rank if possible, or at the coarsest available rank below it
 if not (fallback behaviour).</p>
 </td></tr>
-<tr><td><code id="flag_verbose">flag_verbose</code></td>
+<tr><td><code id="verbose">verbose</code></td>
 <td>
 <p>Logical. If 'TRUE' (default), classification warnings and fallback
 messages are printed.</p>
@@ -109,4 +109,3 @@ combinations for true negatives.
 
 </div>
 </body></html>
-

@@ -45,9 +45,7 @@ load_latest_functional_type_classification <- function(
     base::is.character(path_classification_directory) &&
       base::length(path_classification_directory) == 1L &&
       base::dir.exists(path_classification_directory),
-    msg = base::paste0(
-      "'path_classification_directory' must be a single existing directory."
-    )
+    msg = "'path_classification_directory' must be an existing directory."
   )
 
   path_classification_file <-

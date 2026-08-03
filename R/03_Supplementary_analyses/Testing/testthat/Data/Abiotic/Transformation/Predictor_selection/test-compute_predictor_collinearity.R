@@ -295,6 +295,13 @@ testthat::test_that(
         regexp = "zero-variance"
       )
 
+    testthat::expect_silent(
+      compute_predictor_collinearity(
+        data_source = data_source,
+        verbose = FALSE
+      )
+    )
+
     testthat::expect_s3_class(res, "collinear_output")
 
     vec_selection <-

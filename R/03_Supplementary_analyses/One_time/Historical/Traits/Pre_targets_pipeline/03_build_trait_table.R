@@ -80,7 +80,7 @@ cli::cli_inform(
 #----------------------------------------------------------#
 
 set_store <-
-  base::paste0(
+  stringr::str_c(
     load_active_config_value("target_store"),
     "/pipeline_paleo_core/"
   ) |>

@@ -141,7 +141,7 @@ pipe_segment_community_prepare_modern <-
         data_source = data_community_plantae,
         data_classification_table = data_combined_classification_table,
         vec_taxonomic_resolution =
-          config_data_processing$taxonomic_resolution
+          config_data_processing[["taxonomic_resolution"]]
       )
     )
   )

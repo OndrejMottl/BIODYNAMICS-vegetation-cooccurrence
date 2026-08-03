@@ -13,9 +13,9 @@ Usage:
        data_source,
        data_classification_table,
        vec_taxonomic_resolution,
-       flag_verbose = TRUE
+       verbose = TRUE
      )
-     
+
 Arguments:
 
 data_source: A data frame containing taxon data with columns including
@@ -33,7 +33,7 @@ vec_taxonomic_resolution: A character string specifying the finest
           possible, or at the coarsest available rank below it if not
           (fallback behaviour).
 
-flag_verbose: Logical. If `TRUE` (default), classification warnings and
+ verbose: Logical. If `TRUE` (default), classification warnings and
           fallback messages are printed.
 
 Details:
@@ -63,4 +63,3 @@ See Also:
 
      [filter_community_to_plantae()],
      [filter_community_by_minimum_proportion()]
-

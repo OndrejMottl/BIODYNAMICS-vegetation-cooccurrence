@@ -72,7 +72,7 @@ so it can be used as a drop-in replacement downstream.
 
   data_functional_type_classification,
 
-  flag_verbose = TRUE
+  verbose = TRUE
 
 )
 
@@ -114,17 +114,15 @@ and loaded via 'load_latest_functional_type_classification()'.</p>
 
 </td></tr>
 
-<tr><td><code id="flag_verbose">flag_verbose</code></td>
+<tr><td><code id="verbose">verbose</code></td>
 
 <td>
 
-<p>Logical. If 'TRUE' (default), informational progress messages
+<p>Logical. Reserved for informational progress messages. The warning
 
-are printed to the console via 'cli'. Note: the warning issued
+emitted when unmatched taxa are dropped is always shown because it
 
-when taxa are absent from 'data_ft_classification' is always
-
-emitted regardless of this flag.</p>
+reports data loss.</p>
 
 </td></tr>
 

@@ -9,6 +9,9 @@
 #' @param data_classification_table
 #' A data frame with columns 'sel_name' and 'kingdom', mapping
 #' taxon names to their kingdom classification.
+#' @param verbose
+#' Logical scalar. If `TRUE`, warn when non-Plantae or unclassified
+#' taxa are removed.
 #' @return
 #' A data frame identical in structure to `data_community` but with all rows
 #' belonging to non-Plantae taxa removed. Taxa with 'kingdom = NA'
@@ -30,7 +33,8 @@
 #' @export
 filter_community_to_plantae <- function(
     data_community,
-    data_classification_table) {
+    data_classification_table,
+    verbose = TRUE) {
   assertthat::assert_that(
     base::is.data.frame(data_community),
     msg = "data_community must be a data frame"
@@ -57,6 +61,11 @@ filter_community_to_plantae <- function(
     )
   )
 
+  assertthat::assert_that(
+    base::is.logical(verbose) && base::length(verbose) == 1L,
+    msg = "'verbose' must be a single logical value."
+  )
+
   data_community_with_kingdom <-
     data_community |>
     dplyr::left_join(
@@ -74,7 +83,8 @@ filter_community_to_plantae <- function(
     dplyr::pull(taxon)
 
   if (
-    base::length(vec_removed_taxa) > 0L
+    base::length(vec_removed_taxa) > 0L &&
+      base::isTRUE(verbose)
   ) {
     cli::cli_warn(
       base::c(

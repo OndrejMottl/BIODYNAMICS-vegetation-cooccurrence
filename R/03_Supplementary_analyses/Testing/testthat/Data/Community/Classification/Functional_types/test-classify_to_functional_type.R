@@ -181,10 +181,10 @@ testthat::test_that(
   }
 )
 
-# -- Input validation: flag_verbose argument ---------------------------------------
+# -- Input validation: verbose argument ---------------------------------------
 
 testthat::test_that(
-  "classify_to_functional_type() errors if flag_verbose not logical",
+  "classify_to_functional_type() errors if verbose not logical",
   {
     data_community <-
       tibble::tibble(
@@ -204,7 +204,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = "yes"
+        verbose = "yes"
       )
     )
   }
@@ -233,7 +233,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     testthat::expect_s3_class(res_community_classified, "data.frame")
@@ -261,7 +261,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     testthat::expect_true(
@@ -294,7 +294,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     testthat::expect_equal(
@@ -326,7 +326,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     testthat::expect_equal(
@@ -335,7 +335,7 @@ testthat::test_that(
     )
 
     testthat::expect_equal(
-      base::unique(res_community_classified$sample_name),
+      base::unique(res_community_classified[["sample_name"]]),
       "sample_a"
     )
   }
@@ -364,7 +364,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     vec_taxa <-
@@ -399,7 +399,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     vec_taxa <-
@@ -432,7 +432,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     vec_proportions <-
@@ -470,7 +470,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     data_result_dataset_1 <-
@@ -513,7 +513,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     vec_dataset_names <-
@@ -547,7 +547,7 @@ testthat::test_that(
         classify_to_functional_type(
           data_source = data_community,
           data_functional_type_classification = data_functional_type_classification,
-          flag_verbose = FALSE
+          verbose = FALSE
         )
       )
 
@@ -579,7 +579,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
     )
   }
@@ -607,7 +607,7 @@ testthat::test_that(
         classify_to_functional_type(
           data_source = data_community,
           data_functional_type_classification = data_functional_type_classification,
-          flag_verbose = FALSE
+          verbose = FALSE
         )
       )
 
@@ -645,7 +645,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     vec_taxa <-
@@ -693,7 +693,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     vec_dataset_names <-
@@ -732,7 +732,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
 
     vec_proportions <-
@@ -746,10 +746,10 @@ testthat::test_that(
   }
 )
 
-# -- flag_verbose = FALSE suppresses messages --------------------------------------
+# -- verbose = FALSE suppresses messages --------------------------------------
 
 testthat::test_that(
-  "classify_to_functional_type() flag_verbose=FALSE suppresses messages",
+  "classify_to_functional_type() verbose=FALSE suppresses messages",
   {
     data_community <-
       tibble::tibble(
@@ -769,7 +769,7 @@ testthat::test_that(
       classify_to_functional_type(
         data_source = data_community,
         data_functional_type_classification = data_functional_type_classification,
-        flag_verbose = FALSE
+        verbose = FALSE
       )
     )
   }

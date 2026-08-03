@@ -9,7 +9,7 @@ Description:
 
 Usage:
 
-     summarise_trait_coverage(community_taxa, data_trait_table)
+     summarise_trait_coverage(community_taxa, data_trait_table, verbose = TRUE)
 
 Arguments:
 
@@ -18,6 +18,8 @@ community_taxa: A character vector of unique taxon names from the
 
 data_trait_table: A wide-format trait table as returned by
           [build_trait_table()], with a `taxon_name` column.
+
+ verbose: Logical scalar. If `TRUE`, print the coverage summary.
 
 Details:
 

@@ -416,6 +416,14 @@ testthat::test_that(
         data_trait_corrections = data_trait_corrections
       )
     )
+
+    testthat::expect_silent(
+      correct_trait_records(
+        data_trait_records = data_trait_records,
+        data_trait_corrections = data_trait_corrections,
+        verbose = FALSE
+      )
+    )
   }
 )
 

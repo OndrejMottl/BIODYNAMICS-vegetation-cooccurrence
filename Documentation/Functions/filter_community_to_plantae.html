@@ -58,7 +58,15 @@ the kingdom assignment for each taxon.
 
 
 
-<pre><code class='language-R'>filter_community_to_plantae(data_community, data_classification_table)
+<pre><code class='language-R'>filter_community_to_plantae(
+
+  data_community,
+
+  data_classification_table,
+
+  verbose = TRUE
+
+)
 
 </code></pre>
 
@@ -89,6 +97,16 @@ named 'taxon'.</p>
 <p>A data frame with columns 'sel_name' and 'kingdom', mapping
 
 taxon names to their kingdom classification.</p>
+
+</td></tr>
+
+<tr><td><code id="verbose">verbose</code></td>
+
+<td>
+
+<p>Logical scalar. If 'TRUE', warn when non-Plantae or unclassified
+
+taxa are removed.</p>
 
 </td></tr>
 

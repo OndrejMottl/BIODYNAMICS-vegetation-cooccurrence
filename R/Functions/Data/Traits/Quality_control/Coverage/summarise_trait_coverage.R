@@ -9,6 +9,8 @@
 #' @param data_trait_table
 #' A wide-format trait table as returned by [build_trait_table()], with
 #' a `taxon_name` column.
+#' @param verbose
+#' Logical scalar. If `TRUE`, print the coverage summary.
 #' @return
 #' A named list with the following elements:
 #' \describe{
@@ -30,11 +32,12 @@
 #' @export
 summarise_trait_coverage <- function(
     community_taxa,
-    data_trait_table) {
+    data_trait_table,
+    verbose = TRUE) {
   assertthat::assert_that(
     base::is.character(community_taxa) &&
       base::length(community_taxa) > 0L,
-    msg = base::paste0(
+    msg = stringr::str_c(
       "'community_taxa' must be a non-empty ",
       "character vector."
     )
@@ -47,9 +50,12 @@ summarise_trait_coverage <- function(
 
   assertthat::assert_that(
     "taxon_name" %in% base::colnames(data_trait_table),
-    msg = base::paste0(
-      "'data_trait_table' must contain a 'taxon_name' column."
-    )
+    msg = "'data_trait_table' must contain a 'taxon_name' column."
+  )
+
+  assertthat::assert_that(
+    base::is.logical(verbose) && base::length(verbose) == 1L,
+    msg = "'verbose' must be a single logical value."
   )
 
   trait_taxa <-
@@ -74,21 +80,22 @@ summarise_trait_coverage <- function(
   extra_taxa <-
     base::setdiff(trait_taxa, community_taxa)
 
-  cli::cli_inform(
-    base::c(
-      "i" = base::paste0(
-        "Trait coverage: ", n_covered_taxa, " / ",
-        n_community_taxa, " community taxa (",
-        coverage_percent, "%)."
-      ),
-      "i" = base::paste0(
-        base::length(missing_taxa),
-        " taxa missing from trait table; ",
-        base::length(extra_taxa),
-        " extra taxa in trait table."
+  if (
+    base::isTRUE(verbose)
+  ) {
+    cli::cli_inform(
+      base::c(
+        "i" = stringr::str_glue(
+          "Trait coverage: {n_covered_taxa} / {n_community_taxa} ",
+          "community taxa ({coverage_percent}%)."
+        ),
+        "i" = stringr::str_glue(
+          "{base::length(missing_taxa)} taxa missing from trait table; ",
+          "{base::length(extra_taxa)} extra taxa in trait table."
+        )
       )
     )
-  )
+  }
 
   trait_coverage_summary <-
     base::list(

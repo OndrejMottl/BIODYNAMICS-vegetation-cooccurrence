@@ -17,7 +17,7 @@
 #' `'family'`, `'genus'`, or `'species'`. Taxa will be classified at
 #' this rank if possible, or at the coarsest available rank below it
 #' if not (fallback behaviour).
-#' @param flag_verbose
+#' @param verbose
 #' Logical. If `TRUE` (default), classification warnings and fallback
 #' messages are printed.
 #' @return
@@ -45,7 +45,7 @@ classify_taxonomic_resolution <- function(
     data_source,
     data_classification_table,
     vec_taxonomic_resolution,
-    flag_verbose = TRUE) {
+    verbose = TRUE) {
   assertthat::assert_that(
     base::is.data.frame(data_source),
     msg = "data_source must be a data frame"
@@ -56,8 +56,8 @@ classify_taxonomic_resolution <- function(
       base::c("taxon", "dataset_name", "age", "value") %in%
         base::colnames(data_source)
     ),
-    msg = base::paste(
-      "data_source must contain columns:",
+    msg = stringr::str_c(
+      "data_source must contain columns: ",
       "taxon, dataset_name, age, and value"
     )
   )
@@ -76,9 +76,9 @@ classify_taxonomic_resolution <- function(
   )
 
   assertthat::assert_that(
-    base::is.logical(flag_verbose) &&
-      base::length(flag_verbose) == 1L,
-    msg = "flag_verbose must be a single logical value"
+    base::is.logical(verbose) &&
+      base::length(verbose) == 1L,
+    msg = "verbose must be a single logical value"
   )
 
   vec_all_ranks <-
@@ -89,9 +89,9 @@ classify_taxonomic_resolution <- function(
 
   assertthat::assert_that(
     vec_taxonomic_resolution %in% vec_all_ranks,
-    msg = base::paste(
-      "vec_taxonomic_resolution must be one of",
-      "'kingdom', 'phylum', 'class', 'order',",
+    msg = stringr::str_c(
+      "vec_taxonomic_resolution must be one of ",
+      "'kingdom', 'phylum', 'class', 'order', ",
       "'family', 'genus', or 'species'"
     )
   )
@@ -114,14 +114,15 @@ classify_taxonomic_resolution <- function(
       base::colnames(data_classification_table)
     )
 
+  vec_target_rank_names <-
+    stringr::str_c(vec_target_ranks, collapse = ", ")
+
   assertthat::assert_that(
     base::length(vec_available_ranks) > 0,
-    msg = base::paste0(
-      "data_classification_table must contain at least one ",
-      "rank column at or below '",
-      vec_taxonomic_resolution,
-      "'. Expected one of: ",
-      base::paste(vec_target_ranks, collapse = ", ")
+    msg = stringr::str_glue(
+      "data_classification_table must contain a rank column at or below ",
+      "'{vec_taxonomic_resolution}'. Expected one of: ",
+      "{vec_target_rank_names}"
     )
   )
 
@@ -149,7 +150,9 @@ classify_taxonomic_resolution <- function(
 
   # Report taxa that fell back to a coarser rank.
   #   These are kept in the data but flagged informally.
-  if (vec_taxonomic_resolution %in% vec_available_ranks) {
+  if (
+    vec_taxonomic_resolution %in% vec_available_ranks
+  ) {
     n_fallback_taxa <-
       data_community_joined |>
       dplyr::filter(
@@ -163,11 +166,11 @@ classify_taxonomic_resolution <- function(
 
     if (
       n_fallback_taxa > 0 &&
-        base::isTRUE(flag_verbose)
+        base::isTRUE(verbose)
     ) {
       cli::cli_inform(
         c(
-          "i" = base::paste0(
+          "i" = stringr::str_c(
             "{n_fallback_taxa} taxon/taxa could not be classified ",
             "to '{vec_taxonomic_resolution}' and ",
             "{?was/were} assigned to a coarser rank."
@@ -192,17 +195,17 @@ classify_taxonomic_resolution <- function(
 
   if (
     n_unclassified_taxa > 0 &&
-      base::isTRUE(flag_verbose)
+      base::isTRUE(verbose)
   ) {
     cli::cli_warn(
       c(
-        "!" = base::paste0(
+        "!" = stringr::str_c(
           "{n_unclassified_taxa} taxon/taxa ",
           "ha{?s/ve} no classification at any available ",
           "rank up to '{vec_taxonomic_resolution}' and ",
           "{?was/were} dropped."
         ),
-        "i" = base::paste0(
+        "i" = stringr::str_c(
           "Check the classification table for missing ",
           "rank values up to '{vec_taxonomic_resolution}'."
         )

@@ -41,9 +41,9 @@ aggregate_trait_values <- function(
 
   assertthat::assert_that(
     trait_value_column %in% base::colnames(data_trait_values),
-    msg = base::paste0(
-      "'trait_value_column' column '", trait_value_column,
-      "' not found in 'data_trait_values'."
+    msg = stringr::str_glue(
+      "'trait_value_column' column '{trait_value_column}' not found ",
+      "in 'data_trait_values'."
     )
   )
 
@@ -53,17 +53,17 @@ aggregate_trait_values <- function(
     msg = "'group_columns' must be a character vector."
   )
 
+  vec_missing_group_columns <-
+    base::setdiff(
+      group_columns,
+      base::colnames(data_trait_values)
+    )
+
   assertthat::assert_that(
-    base::all(group_columns %in% base::colnames(data_trait_values)),
-    msg = base::paste0(
+    base::length(vec_missing_group_columns) == 0L,
+    msg = stringr::str_glue(
       "All 'group_columns' must exist in 'data_trait_values'. Missing: ",
-      base::paste(
-        base::setdiff(
-          group_columns,
-          base::colnames(data_trait_values)
-        ),
-        collapse = ", "
-      )
+      "{stringr::str_c(vec_missing_group_columns, collapse = ', ')}"
     )
   )
 
@@ -71,7 +71,9 @@ aggregate_trait_values <- function(
     base::match.arg(aggregation_method)
 
   aggregation_function <-
-    if (aggregation_method == "median") {
+    if (
+      aggregation_method == "median"
+    ) {
       stats::median
     } else {
       base::mean

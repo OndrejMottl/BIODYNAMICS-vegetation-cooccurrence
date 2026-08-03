@@ -449,15 +449,15 @@ testthat::test_that(
       purrr::chuck(res_built, "layout", "panel_scales_x", 1L)
 
     testthat::expect_true(
-      base::inherits(x_scale$trans, "transform") ||
-        base::inherits(x_scale$trans, "Trans") ||
+      base::inherits(x_scale[["trans"]], "transform") ||
+        base::inherits(x_scale[["trans"]], "Trans") ||
         base::grepl(
           "log",
-          base::class(x_scale$trans)[[1L]],
+          base::class(x_scale[["trans"]])[[1L]],
           ignore.case = TRUE
         ) ||
         base::isTRUE(
-          x_scale$trans$name == "log-10"
+          x_scale[["trans"]][["name"]] == "log-10"
         )
     )
   }

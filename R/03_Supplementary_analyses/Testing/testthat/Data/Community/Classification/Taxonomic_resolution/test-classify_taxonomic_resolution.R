@@ -79,10 +79,10 @@ testthat::test_that("classify_taxonomic_resolution() return correct data_source"
       age = 0,
       taxon = c("Genus_A", "Genus_B", "Genus_C", "Genus_D"),
       value = c(
-        sum(data_community$value[1:2]),
-        data_community$value[3],
-        sum(data_community$value[4:5]),
-        data_community$value[6]
+        base::sum(data_community[["value"]][1:2]),
+        data_community[["value"]][3],
+        base::sum(data_community[["value"]][4:5]),
+        data_community[["value"]][6]
       )
     )
 

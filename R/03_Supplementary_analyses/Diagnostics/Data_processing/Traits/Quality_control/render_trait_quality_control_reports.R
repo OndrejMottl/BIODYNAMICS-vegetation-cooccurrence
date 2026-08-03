@@ -17,7 +17,7 @@
 #
 # Usage:
 #   source(
-#     paste0(
+#     stringr::str_c(
 #       "R/03_Supplementary_analyses/Diagnostics/Data_processing/",
 #       "Traits/Quality_control/render_trait_quality_control_reports.R"
 #     )

@@ -16,6 +16,8 @@
 #' @param iqr_multiplier
 #' A positive numeric scalar controlling the fence width, equivalent to
 #' k in the standard boxplot formula. Default: `1.5`.
+#' @param verbose
+#' Logical scalar. If `TRUE`, print the number of removed records.
 #' @return
 #' A data frame with the same columns as the input but with outlier rows
 #' removed. The number of removed rows is reported via
@@ -31,7 +33,8 @@ filter_trait_outliers <- function(
     data_trait_records,
     trait_value_column = "trait_value",
     grouping_columns = c("taxon_name", "trait_domain_name"),
-    iqr_multiplier = 1.5) {
+    iqr_multiplier = 1.5,
+    verbose = TRUE) {
   assertthat::assert_that(
     base::is.data.frame(data_trait_records),
     msg = "'data_trait_records' must be a data frame."
@@ -45,9 +48,9 @@ filter_trait_outliers <- function(
 
   assertthat::assert_that(
     trait_value_column %in% base::colnames(data_trait_records),
-    msg = base::paste0(
-      "'trait_value_column' column '", trait_value_column,
-      "' not found in 'data_trait_records'."
+    msg = stringr::str_glue(
+      "'trait_value_column' column '{trait_value_column}' not found ",
+      "in 'data_trait_records'."
     )
   )
 
@@ -57,20 +60,18 @@ filter_trait_outliers <- function(
     msg = "'grouping_columns' must be a character vector."
   )
 
+  vec_missing_grouping_columns <-
+    base::setdiff(
+      grouping_columns,
+      base::colnames(data_trait_records)
+    )
+
   assertthat::assert_that(
-    base::all(
-      grouping_columns %in% base::colnames(data_trait_records)
-    ),
-    msg = base::paste0(
+    base::length(vec_missing_grouping_columns) == 0L,
+    msg = stringr::str_glue(
       "All 'grouping_columns' must exist in 'data_trait_records'. ",
       "Missing: ",
-      base::paste(
-        base::setdiff(
-          grouping_columns,
-          base::colnames(data_trait_records)
-        ),
-        collapse = ", "
-      )
+      "{stringr::str_c(vec_missing_grouping_columns, collapse = ', ')}"
     )
   )
 
@@ -78,9 +79,12 @@ filter_trait_outliers <- function(
     base::is.numeric(iqr_multiplier) &&
       base::length(iqr_multiplier) == 1L &&
       iqr_multiplier > 0,
-    msg = paste0(
-      "'iqr_multiplier' must be a single positive numeric."
-    )
+    msg = "'iqr_multiplier' must be a single positive numeric."
+  )
+
+  assertthat::assert_that(
+    base::is.logical(verbose) && base::length(verbose) == 1L,
+    msg = "'verbose' must be a single logical value."
   )
 
   if (
@@ -128,19 +132,24 @@ filter_trait_outliers <- function(
   n_removed_records <-
     n_input_records - base::nrow(data_filtered_trait_records)
 
-  cli::cli_inform(
-    c(
-      "i" = base::paste0(
-        "Removed ", n_removed_records, " outlier row(s) from ",
-        n_input_records, " total rows (",
-        base::round(
-          n_removed_records / n_input_records * 100,
-          1
-        ),
-        "%)."
+  if (
+    base::isTRUE(verbose)
+  ) {
+    percent_records_removed <-
+      base::round(
+        n_removed_records / n_input_records * 100,
+        1
+      )
+
+    cli::cli_inform(
+      c(
+        "i" = stringr::str_glue(
+          "Removed {n_removed_records} outlier row(s) from ",
+          "{n_input_records} total rows ({percent_records_removed}%)."
+        )
       )
     )
-  )
+  }
 
   return(data_filtered_trait_records)
 }

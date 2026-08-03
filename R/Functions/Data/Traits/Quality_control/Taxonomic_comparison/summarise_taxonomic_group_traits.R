@@ -74,7 +74,7 @@ summarise_taxonomic_group_traits <- function(
       c("taxon_name", "trait_domain_name", "trait_value") %in%
         base::names(data_trait_records)
     ),
-    msg = base::paste0(
+    msg = stringr::str_c(
       "'data_trait_records' must contain columns ",
       "'taxon_name', 'trait_domain_name', and 'trait_value'."
     )
@@ -120,9 +120,9 @@ summarise_taxonomic_group_traits <- function(
       c("sel_name", taxonomic_rank) %in%
         base::names(data_taxon_classification)
     ),
-    msg = base::paste0(
+    msg = stringr::str_glue(
       "'data_taxon_classification' must contain columns ",
-      "'sel_name' and '", taxonomic_rank, "'."
+      "'sel_name' and '{taxonomic_rank}'."
     )
   )
 
@@ -202,7 +202,7 @@ summarise_taxonomic_group_traits <- function(
     base::isTRUE(verbose)
   ) {
     cli::cli_inform(
-      base::paste0(
+      stringr::str_c(
         taxonomic_rank, " comparison: ",
         if (
           !base::is.na(taxonomic_group)

@@ -14,7 +14,8 @@ Usage:
        data_trait_records,
        trait_value_column = "trait_value",
        grouping_columns = c("taxon_name", "trait_domain_name"),
-       iqr_multiplier = 1.5
+       iqr_multiplier = 1.5,
+       verbose = TRUE
      )
 
 Arguments:
@@ -33,6 +34,9 @@ grouping_columns: A character vector of column names used to define
 iqr_multiplier: A positive numeric scalar controlling the fence width,
           equivalent to k in the standard boxplot formula. Default:
           `1.5`.
+
+ verbose: Logical scalar. If `TRUE`, print the number of removed
+          records.
 
 Details:
 

@@ -222,6 +222,14 @@ testthat::test_that(
         iqr_multiplier = 1.5
       )
     )
+
+    testthat::expect_silent(
+      filter_trait_outliers(
+        data_trait_records = data_test,
+        iqr_multiplier = 1.5,
+        verbose = FALSE
+      )
+    )
   }
 )
 

@@ -99,6 +99,14 @@ testthat::test_that(
         )
       )
 
+    testthat::expect_silent(
+      filter_community_to_plantae(
+        data_community = data_dummy,
+        data_classification_table = classification_table_dummy,
+        verbose = FALSE
+      )
+    )
+
     testthat::expect_equal(base::nrow(res), 2L)
 
     testthat::expect_true(

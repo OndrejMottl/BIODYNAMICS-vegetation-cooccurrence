@@ -40,16 +40,13 @@ resolve_trait_taxon_ids <- function(
   assertthat::assert_that(
     base::is.character(path_vegvault) &&
       base::length(path_vegvault) == 1L,
-    msg = base::paste0(
-      "'path_vegvault' must be a single character string."
-    )
+    msg = "'path_vegvault' must be a single character string."
   )
 
   assertthat::assert_that(
     base::file.exists(path_vegvault),
-    msg = base::paste0(
-      "VegVault database not found at: '",
-      path_vegvault, "'."
+    msg = stringr::str_glue(
+      "VegVault database not found at: '{path_vegvault}'."
     )
   )
 

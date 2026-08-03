@@ -126,7 +126,9 @@ load_chelsa_raster <- function(
     )
 
   # 3. Return from cache if available -----
-  if (base::file.exists(file_chelsa_raster)) {
+  if (
+    base::file.exists(file_chelsa_raster)
+  ) {
     base::return(terra::rast(file_chelsa_raster))
   }
 
@@ -178,7 +180,9 @@ load_chelsa_raster <- function(
   vec_kelvin_variables <- base::c("bio1", "bio6")
 
   raster_chelsa <-
-    if (abiotic_variable_name %in% vec_kelvin_variables) {
+    if (
+      abiotic_variable_name %in% vec_kelvin_variables
+    ) {
       raster_chelsa_raw - 273.15
     } else {
       raster_chelsa_raw

@@ -11,7 +11,11 @@ Description:
 
 Usage:
 
-     correct_trait_records(data_trait_records, data_trait_corrections)
+     correct_trait_records(
+       data_trait_records,
+       data_trait_corrections,
+       verbose = TRUE
+     )
 
 Arguments:
 
@@ -22,6 +26,9 @@ data_trait_corrections: A tibble of approved corrections as returned by
           [validate_trait_corrections()]. Expected columns:
           `taxon_name`, `trait_domain_name`, `action` (`"exclude"` |
           `"scale"`), `scale_factor` (numeric).
+
+ verbose: Logical scalar. If `TRUE`, report correction rows that do not
+          match any trait record.
 
 Details:
 

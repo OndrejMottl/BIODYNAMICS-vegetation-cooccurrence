@@ -36,7 +36,11 @@ record in 'data_trait_records' are reported via 'cli::cli_warn()'.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>correct_trait_records(data_trait_records, data_trait_corrections)
+<pre><code class='language-R'>correct_trait_records(
+  data_trait_records,
+  data_trait_corrections,
+  verbose = TRUE
+)
 </code></pre>
 
 
@@ -54,6 +58,11 @@ record in 'data_trait_records' are reported via 'cli::cli_warn()'.
 [validate_trait_corrections()]. Expected columns: 'taxon_name',
 'trait_domain_name', 'action' ('&quot;exclude&quot;' | '&quot;scale&quot;'),
 'scale_factor' (numeric).</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical scalar. If 'TRUE', report correction rows that do not match
+any trait record.</p>
 </td></tr>
 </table>
 

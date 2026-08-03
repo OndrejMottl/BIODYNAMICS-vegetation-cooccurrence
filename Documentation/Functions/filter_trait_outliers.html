@@ -68,7 +68,9 @@ fence logic used by boxplots: \[Q1 - k*IQR, Q3 + k*IQR\].
 
   grouping_columns = c("taxon_name", "trait_domain_name"),
 
-  iqr_multiplier = 1.5
+  iqr_multiplier = 1.5,
+
+  verbose = TRUE
 
 )
 
@@ -121,6 +123,14 @@ detection. Default: 'c(&quot;taxon_name&quot;, &quot;trait_domain_name&quot;)'.<
 <p>A positive numeric scalar controlling the fence width, equivalent to
 
 k in the standard boxplot formula. Default: '1.5'.</p>
+
+</td></tr>
+
+<tr><td><code id="verbose">verbose</code></td>
+
+<td>
+
+<p>Logical scalar. If 'TRUE', print the number of removed records.</p>
 
 </td></tr>
 

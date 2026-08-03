@@ -134,7 +134,7 @@ prepare_classification_table_for_community_taxa <- function(
         purrr::reduce(dplyr::coalesce)
     ) |>
     dplyr::filter(
-      .data$classified_name %in% vec_classified_taxa
+      .data[["classified_name"]] %in% vec_classified_taxa
     ) |>
     dplyr::mutate(
       .is_direct =

@@ -14,6 +14,9 @@
 #' [validate_trait_corrections()]. Expected columns: `taxon_name`,
 #' `trait_domain_name`, `action` (`"exclude"` | `"scale"`),
 #' `scale_factor` (numeric).
+#' @param verbose
+#' Logical scalar. If `TRUE`, report correction rows that do not match
+#' any trait record.
 #' @return
 #' A tibble with the same columns as `data_trait_records`, with
 #' excluded records removed and scaled records multiplied by
@@ -27,7 +30,8 @@
 #' @export
 correct_trait_records <- function(
     data_trait_records,
-    data_trait_corrections) {
+    data_trait_corrections,
+    verbose = TRUE) {
   assertthat::assert_that(
     base::is.data.frame(data_trait_records),
     msg = "data_trait_records must be a data frame."
@@ -36,20 +40,17 @@ correct_trait_records <- function(
   vec_required_trait_columns <-
     base::c("taxon_name", "trait_domain_name", "trait_value")
 
+  vec_missing_trait_columns <-
+    base::setdiff(
+      vec_required_trait_columns,
+      base::colnames(data_trait_records)
+    )
+
   assertthat::assert_that(
-    base::all(
-      vec_required_trait_columns %in%
-        base::colnames(data_trait_records)
-    ),
-    msg = base::paste0(
+    base::length(vec_missing_trait_columns) == 0L,
+    msg = stringr::str_glue(
       "data_trait_records is missing required columns: ",
-      base::paste(
-        base::setdiff(
-          vec_required_trait_columns,
-          base::colnames(data_trait_records)
-        ),
-        collapse = ", "
-      )
+      "{stringr::str_c(vec_missing_trait_columns, collapse = ', ')}"
     )
   )
 
@@ -61,21 +62,23 @@ correct_trait_records <- function(
   vec_required_correction_columns <-
     base::c("taxon_name", "trait_domain_name", "action", "scale_factor")
 
-  assertthat::assert_that(
-    base::all(
-      vec_required_correction_columns %in%
-        base::colnames(data_trait_corrections)
-    ),
-    msg = base::paste0(
-      "data_trait_corrections is missing required columns: ",
-      base::paste(
-        base::setdiff(
-          vec_required_correction_columns,
-          base::colnames(data_trait_corrections)
-        ),
-        collapse = ", "
-      )
+  vec_missing_correction_columns <-
+    base::setdiff(
+      vec_required_correction_columns,
+      base::colnames(data_trait_corrections)
     )
+
+  assertthat::assert_that(
+    base::length(vec_missing_correction_columns) == 0L,
+    msg = stringr::str_glue(
+      "data_trait_corrections is missing required columns: ",
+      "{stringr::str_c(vec_missing_correction_columns, collapse = ', ')}"
+    )
+  )
+
+  assertthat::assert_that(
+    base::is.logical(verbose) && base::length(verbose) == 1L,
+    msg = "'verbose' must be a single logical value."
   )
 
   if (
@@ -100,13 +103,14 @@ correct_trait_records <- function(
     )
 
   if (
-    base::nrow(data_unmatched_corrections) > 0L
+    base::nrow(data_unmatched_corrections) > 0L &&
+      base::isTRUE(verbose)
   ) {
     n_unmatched_corrections <-
       base::nrow(data_unmatched_corrections)
 
     cli::cli_warn(
-      base::paste0(
+      stringr::str_c(
         "{n_unmatched_corrections} correction{?s} ",
         "did not match any trait record."
       )

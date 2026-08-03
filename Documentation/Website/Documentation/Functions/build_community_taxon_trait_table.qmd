@@ -155,7 +155,7 @@ trait domain columns.
 <p>A tibble with one row per community taxon that could be
 matched to at least one trait observation. Contains a
 'taxon_name' column (the original pollen taxon name from
-'data_community_taxonomy$sel_name') plus one
+'sel_name' column in 'data_community_taxonomy') plus one
 numeric column per distinct 'trait_domain_name'. Community
 taxa with no trait match are silently absent (not filled
 with 'NA' rows). The column order is 'taxon_name' followed

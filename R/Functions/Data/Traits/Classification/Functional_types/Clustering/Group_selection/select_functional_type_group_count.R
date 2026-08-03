@@ -137,9 +137,7 @@ select_functional_type_group_count <- function(
     ) &&
       base::length(functional_type_group_count_max) == 1L &&
       functional_type_group_count_max >= 2L,
-    msg = base::paste0(
-      "'functional_type_group_count_max' must be a single integer >= 2."
-    )
+    msg = "'functional_type_group_count_max' must be an integer >= 2."
   )
 
   assertthat::assert_that(
@@ -149,9 +147,7 @@ select_functional_type_group_count <- function(
     ) &&
       base::length(functional_type_group_count_min) == 1L &&
       functional_type_group_count_min >= 2L,
-    msg = base::paste0(
-      "'functional_type_group_count_min' must be a single integer >= 2."
-    )
+    msg = "'functional_type_group_count_min' must be an integer >= 2."
   )
 
   assertthat::assert_that(
