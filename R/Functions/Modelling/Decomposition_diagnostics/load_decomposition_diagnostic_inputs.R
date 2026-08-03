@@ -65,7 +65,7 @@ load_decomposition_diagnostic_inputs <- function(
   res <-
     base::list(
       data_sample_ids = read_target(
-        stringr::str_glue("data_sample_ids_count_validated_{resolution_id}")
+        stringr::str_glue("data_sample_ids_checked_{resolution_id}")
       ),
       data_community_matrix = read_target(
         stringr::str_glue("data_community_model_matrix_{resolution_id}")

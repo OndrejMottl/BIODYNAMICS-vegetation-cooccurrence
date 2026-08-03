@@ -58,7 +58,7 @@ pipe_segment_sample_filter_age <-
       ),
       name = "data_sample_ids",
       command = align_sample_ids(
-        data_community_long = data_community_taxa_selected,
+        data_community_long = data_community_analysis_subset,
         data_abiotic_long = data_abiotic_analysis |>
           dplyr::group_by(
             dplyr::across(
@@ -80,7 +80,7 @@ pipe_segment_sample_filter_age <-
         "before any expensive",
         " data preparation or model fitting"
       ),
-      name = "data_sample_ids_count_validated",
+      name = "data_sample_ids_checked",
       command = validate_sample_count(
         data_sample_ids = data_sample_ids,
         minimum_sample_count = purrr::chuck(

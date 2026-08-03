@@ -134,7 +134,7 @@ pipe_segment_config_common <-
     ),
     targets::tar_target(
       description = "Configuration: minimum pollen proportion",
-      name = "config_minimum_proportion",
+      name = "config_minimal_proportion_of_pollen",
       command = load_active_config_value(
         value = c("data_processing", "minimal_proportion_of_pollen")
       ),
@@ -142,7 +142,7 @@ pipe_segment_config_common <-
     ),
     targets::tar_target(
       description = "Configuration: maximum taxon count",
-      name = "config_maximum_taxon_count",
+      name = "config_number_of_taxa",
       command = load_active_config_value(
         value = c("data_processing", "number_of_taxa")
       ),
@@ -158,7 +158,7 @@ pipe_segment_config_common <-
     ),
     targets::tar_target(
       description = "Configuration: minimum core count",
-      name = "config_minimum_core_count",
+      name = "config_min_n_cores",
       command = load_active_config_value(
         value = c("data_processing", "min_n_cores")
       ),
@@ -174,7 +174,7 @@ pipe_segment_config_common <-
     ),
     targets::tar_target(
       description = "Configuration: minimum sample count",
-      name = "config_minimum_sample_count",
+      name = "config_min_n_samples",
       command = load_active_config_value(
         value = c("data_processing", "min_n_samples")
       ),
@@ -182,7 +182,7 @@ pipe_segment_config_common <-
     ),
     targets::tar_target(
       description = "Configuration: minimum taxon count for model fitting",
-      name = "config_minimum_taxon_count",
+      name = "config_min_n_taxa",
       command = load_active_config_value(
         value = c("data_processing", "min_n_taxa")
       ),
@@ -193,13 +193,13 @@ pipe_segment_config_common <-
       name = "config_data_processing",
       command = list(
         time_step = config_time_step,
-        number_of_taxa = config_maximum_taxon_count,
-        minimal_proportion_of_pollen = config_minimum_proportion,
+        number_of_taxa = config_number_of_taxa,
+        minimal_proportion_of_pollen = config_minimal_proportion_of_pollen,
         taxonomic_resolution = config_taxonomic_resolution,
-        min_n_cores = config_minimum_core_count,
+        min_n_cores = config_min_n_cores,
         n_cores = config_data_n_cores,
-        min_n_samples = config_minimum_sample_count,
-        min_n_taxa = config_minimum_taxon_count
+        min_n_samples = config_min_n_samples,
+        min_n_taxa = config_min_n_taxa
       )
     ),
     #--------------------------------------------------#

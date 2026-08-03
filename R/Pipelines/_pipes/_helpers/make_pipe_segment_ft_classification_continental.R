@@ -75,7 +75,7 @@ make_pipe_segment_ft_classification_continental <- function(
             "Check whether the existing whole-continent FT file ",
             "is viable for this project testbed"
           ),
-          name = validation_ft_reference_classification_paleo,
+          name = check_ft_reference_classification_paleo,
           command = {
             path_processed <-
               here::here("Data/Processed/Traits")
@@ -103,7 +103,7 @@ make_pipe_segment_ft_classification_continental <- function(
                   reference_available = FALSE,
                   reference_path = NA_character_,
                   taxon_count_after_filters = NA_integer_,
-                  minimum_taxon_count = config_minimum_taxon_count,
+                  minimum_taxon_count = config_min_n_taxa,
                   viable = FALSE,
                   error_message = NA_character_
                 )
@@ -121,7 +121,7 @@ make_pipe_segment_ft_classification_continental <- function(
                 reference_available = TRUE,
                 reference_path = reference_path,
                 taxon_count_after_filters = 0L,
-                minimum_taxon_count = config_minimum_taxon_count,
+                minimum_taxon_count = config_min_n_taxa,
                 viable = FALSE,
                 error_message = base::conditionMessage(condition)
               )
@@ -137,16 +137,16 @@ make_pipe_segment_ft_classification_continental <- function(
                   ) |>
                   filter_community_by_minimum_proportion(
                     minimum_proportion =
-                      config_minimum_proportion
+                      config_minimal_proportion_of_pollen
                   ) |>
                   filter_community_by_minimum_core_count(
-                    minimum_core_count = config_minimum_core_count
+                    minimum_core_count = config_min_n_cores
                   ) |>
                   filter_community_by_minimum_sample_count(
-                    minimum_sample_count = config_minimum_sample_count
+                    minimum_sample_count = config_min_n_samples
                   ) |>
                   select_top_taxa_by_group_occurrence(
-                    maximum_taxon_count = config_maximum_taxon_count
+                    maximum_taxon_count = config_number_of_taxa
                   )
 
                 taxon_count_after_filters <-
@@ -159,9 +159,9 @@ make_pipe_segment_ft_classification_continental <- function(
                   reference_available = TRUE,
                   reference_path = reference_path,
                   taxon_count_after_filters = taxon_count_after_filters,
-                  minimum_taxon_count = config_minimum_taxon_count,
+                  minimum_taxon_count = config_min_n_taxa,
                   viable = taxon_count_after_filters >=
-                    config_minimum_taxon_count,
+                    config_min_n_taxa,
                   error_message = NA_character_
                 )
               },
@@ -180,7 +180,7 @@ make_pipe_segment_ft_classification_continental <- function(
     ) {
       bquote(
         {
-          base::force(validation_ft_reference_classification_paleo)
+          base::force(check_ft_reference_classification_paleo)
 
           save_continental_functional_type_classification(
             continent_id = .(ft_classification_id_expr),
@@ -378,10 +378,10 @@ make_pipe_segment_ft_classification_continental <- function(
           functional_type_group_count_max =
             ft_groups_max_continental,
           data_community = data_community_classified,
-          minimum_proportion = config_minimum_proportion,
-          minimum_taxon_count = config_minimum_taxon_count,
-          minimum_core_count = config_minimum_core_count,
-          minimum_sample_count = config_minimum_sample_count,
+          minimum_proportion = config_minimal_proportion_of_pollen,
+          minimum_taxon_count = config_min_n_taxa,
+          minimum_core_count = config_min_n_cores,
+          minimum_sample_count = config_min_n_samples,
           error_family = config_error_family
         )
       ),

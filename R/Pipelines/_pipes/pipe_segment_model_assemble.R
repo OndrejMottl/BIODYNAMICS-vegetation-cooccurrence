@@ -44,7 +44,7 @@ pipe_segment_model_assemble <-
       description = "Validate and assemble data list for fitting",
       name = "data_model_input",
       command = assemble_data_to_fit(
-        data_community_filtered = data_community_taxon_count_validated,
+        data_community_filtered = data_community_n_taxa_checked,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
         data_spatial_scaled_list = data_spatial_scaled_list
       )

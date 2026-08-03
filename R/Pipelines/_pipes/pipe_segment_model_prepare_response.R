@@ -84,7 +84,7 @@ pipe_segment_model_prepare_response <-
         "Stop pipeline if fewer than the minimum number of taxa remain ",
         "after filtering"
       ),
-      name = "data_community_taxon_count_validated",
+      name = "data_community_n_taxa_checked",
       command = validate_community_taxon_count(
         data_community_matrix = data_community_filtered,
         minimum_taxon_count = purrr::chuck(

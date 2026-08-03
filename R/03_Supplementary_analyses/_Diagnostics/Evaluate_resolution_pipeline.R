@@ -83,13 +83,13 @@ cli::cli_alert_info("{n_warnings} target(s) produced warnings.")
 
 data_community_basic <-
   targets::tar_read(
-    data_community_taxa_selected,
+    data_community_analysis_subset,
     store = store_basic
   )
 
 data_community_genus <-
   targets::tar_read(
-    data_community_taxa_selected_genus,
+    data_community_analysis_subset_genus,
     store = store_test
   )
 
@@ -213,7 +213,7 @@ if (
 
 data_community_family <-
   targets::tar_read(
-    data_community_taxa_selected_family,
+    data_community_analysis_subset_family,
     store = store_test
   )
 
@@ -265,7 +265,7 @@ if (
 
 data_community_ft <-
   targets::tar_read(
-    data_community_taxa_selected_functional_type,
+    data_community_analysis_subset_functional_type,
     store = store_test
   )
 

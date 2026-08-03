@@ -17,7 +17,7 @@ make_community_filter_targets <- function(input_name) {
   list(
     targets::tar_target_raw(
       description = "Filter community records below minimum proportion",
-      name = "data_community_proportion_filtered",
+      name = "data_community_rare_filtered",
       command = bquote(
         filter_community_by_minimum_proportion(
           data_community = .(as.symbol(input_name)),
@@ -31,10 +31,10 @@ make_community_filter_targets <- function(input_name) {
 
     targets::tar_target_raw(
       description = "Filter taxa below the minimum core count",
-      name = "data_community_core_count_filtered",
+      name = "data_community_filtered_cores",
       command = quote(
         filter_community_by_minimum_core_count(
-          data_community = data_community_proportion_filtered,
+          data_community = data_community_rare_filtered,
           minimum_core_count = purrr::chuck(
             config_data_processing,
             "min_n_cores"
@@ -45,10 +45,10 @@ make_community_filter_targets <- function(input_name) {
 
     targets::tar_target_raw(
       description = "Filter taxa below the minimum sample count",
-      name = "data_community_sample_count_filtered",
+      name = "data_community_filtered_samples",
       command = quote(
         filter_community_by_minimum_sample_count(
-          data_community = data_community_core_count_filtered,
+          data_community = data_community_filtered_cores,
           minimum_sample_count = purrr::chuck(
             config_data_processing,
             "min_n_samples"
@@ -59,10 +59,10 @@ make_community_filter_targets <- function(input_name) {
 
     targets::tar_target_raw(
       description = "Select top taxa by group occurrence",
-      name = "data_community_taxa_selected",
+      name = "data_community_analysis_subset",
       command = quote(
         select_top_taxa_by_group_occurrence(
-          data_community = data_community_sample_count_filtered,
+          data_community = data_community_filtered_samples,
           maximum_taxon_count = purrr::chuck(
             config_data_processing,
             "number_of_taxa"

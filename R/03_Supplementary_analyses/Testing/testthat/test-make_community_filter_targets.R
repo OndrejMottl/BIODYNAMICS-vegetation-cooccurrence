@@ -36,10 +36,10 @@ testthat::test_that(
     testthat::expect_identical(
       vec_target_names,
       c(
-        "data_community_proportion_filtered",
-        "data_community_core_count_filtered",
-        "data_community_sample_count_filtered",
-        "data_community_taxa_selected"
+        "data_community_rare_filtered",
+        "data_community_filtered_cores",
+        "data_community_filtered_samples",
+        "data_community_analysis_subset"
       )
     )
   }

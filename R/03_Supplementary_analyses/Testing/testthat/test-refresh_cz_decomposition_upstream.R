@@ -10,7 +10,7 @@ testthat::test_that(
     tar_meta_fn <- function(fields, complete_only, store) {
       tibble::tibble(
         name = c(
-          "data_sample_ids_count_validated_genus",
+          "data_sample_ids_checked_genus",
           "data_community_model_matrix_genus",
           "data_abiotic_wide_genus",
           "data_spatial_mev_core",
@@ -47,7 +47,7 @@ testthat::test_that(
 
     tar_meta_fn <- function(fields, complete_only, store) {
       tibble::tibble(
-        name = "data_sample_ids_count_validated_genus",
+        name = "data_sample_ids_checked_genus",
         error = NA_character_
       )
     }
