@@ -120,7 +120,7 @@ testthat::test_that(
         data_source = data_abiotic,
         res_collinearity = bad_res
       ),
-      regexp = "res_collinearity\\$result should contain a 'selection' element"
+      regexp = "res_collinearity result should contain a 'selection' element"
     )
   }
 )
@@ -337,7 +337,7 @@ testthat::test_that(
   "select_non_collinear_predictors() handles moderately large data frames",
   {
     vec_names <-
-      base::paste0("var_", base::seq_len(500))
+      stringr::str_glue("var_{base::seq_len(500)}")
     data_large <-
       data.frame(
         abiotic_variable_name = vec_names,

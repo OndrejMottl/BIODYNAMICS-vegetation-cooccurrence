@@ -81,7 +81,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "compute_predictor_collinearity() output contains result$selection",
+  "compute_predictor_collinearity() returns a predictor selection",
   {
     set.seed(900723)
 
@@ -103,10 +103,16 @@ testthat::test_that(
         data_source = data_source
       )
 
-    testthat::expect_true("result" %in% names(res))
-    testthat::expect_true("selection" %in% names(res$result))
-    testthat::expect_type(res$result$selection, "character")
-    testthat::expect_gt(length(res$result$selection), 0)
+    res_result <-
+      purrr::chuck(res, "result")
+
+    vec_selection <-
+      purrr::chuck(res_result, "selection")
+
+    testthat::expect_true("result" %in% base::names(res))
+    testthat::expect_true("selection" %in% base::names(res_result))
+    testthat::expect_type(vec_selection, "character")
+    testthat::expect_gt(base::length(vec_selection), 0L)
   }
 )
 
@@ -135,13 +141,18 @@ testthat::test_that(
         data_source = data_source
       )
 
+    vec_selection <-
+      res |>
+      purrr::chuck("result") |>
+      purrr::chuck("selection")
+
     # After pivot_wider the candidate pool includes the id column
     # ('sample_name') plus the predictor columns
     vec_candidate_cols <-
       c(vec_predictor_names, "sample_name")
 
     testthat::expect_true(
-      all(res$result$selection %in% vec_candidate_cols)
+      base::all(vec_selection %in% vec_candidate_cols)
     )
   }
 )
@@ -173,7 +184,12 @@ testthat::test_that(
         data_source = data_source
       )
 
-    testthat::expect_false("age" %in% res$result$selection)
+    vec_selection <-
+      res |>
+      purrr::chuck("result") |>
+      purrr::chuck("selection")
+
+    testthat::expect_false("age" %in% vec_selection)
   }
 )
 
@@ -202,17 +218,22 @@ testthat::test_that(
         data_source = data_source
       )
 
+    vec_selection <-
+      res |>
+      purrr::chuck("result") |>
+      purrr::chuck("selection")
+
     # At most one of the two near-identical predictors should be
     # retained in the selection
     testthat::expect_false(
-      all(c("temp", "temp2") %in% res$result$selection)
+      base::all(base::c("temp", "temp2") %in% vec_selection)
     )
   }
 )
 
 
 testthat::test_that(
-  paste0(
+  stringr::str_c(
     "compute_predictor_collinearity() ",
     "all columns have zero variance — aborts"
   ),
@@ -242,7 +263,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  paste0(
+  stringr::str_c(
     "compute_predictor_collinearity() ",
     "some columns have zero variance — warns and succeeds"
   ),
@@ -275,11 +296,17 @@ testthat::test_that(
       )
 
     testthat::expect_s3_class(res, "collinear_output")
+
+    vec_selection <-
+      res |>
+      purrr::chuck("result") |>
+      purrr::chuck("selection")
+
     testthat::expect_true(
-      base::length(res$result$selection) > 0
+      base::length(vec_selection) > 0L
     )
     testthat::expect_false(
-      "const_var" %in% res$result$selection
+      "const_var" %in% vec_selection
     )
   }
 )

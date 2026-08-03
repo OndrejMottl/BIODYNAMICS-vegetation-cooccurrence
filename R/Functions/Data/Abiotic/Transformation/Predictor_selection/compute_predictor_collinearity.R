@@ -142,17 +142,23 @@ compute_predictor_collinearity <- function(data_source) {
     )
   )
 
+  res_collinearity_result <-
+    purrr::chuck(res_collinearity, "result")
+
   assertthat::assert_that(
-    "selection" %in% base::names(res_collinearity$result),
+    "selection" %in% base::names(res_collinearity_result),
     msg = stringr::str_c(
       "Output of collinear::collinear()",
       " should contain a 'selection' element in the 'result'"
     )
   )
 
+  vec_predictors_selected <-
+    purrr::chuck(res_collinearity_result, "selection")
+
   assertthat::assert_that(
-    base::is.character(res_collinearity$result$selection),
-    base::length(res_collinearity$result$selection) > 0L,
+    base::is.character(vec_predictors_selected),
+    base::length(vec_predictors_selected) > 0L,
     msg = "Selection of predictors should be a non-empty character vector"
   )
 
