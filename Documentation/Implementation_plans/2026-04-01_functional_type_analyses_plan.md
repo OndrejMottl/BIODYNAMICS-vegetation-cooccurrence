@@ -117,7 +117,7 @@ On first `tar_make()`: pipeline stops at `trait_corrections_validated` with a `c
 
 - Remove hardcoded `c("Leaf mass per area", "Plant heigh")`
 - Query VegVault to discover all available `trait_domain_name` values first (use `vaultkeepr` call, then `dplyr::distinct(trait_domain_name)`)
-- Pass the full vector to `extract_traits_from_vegvault()`
+- Pass the full vector to `load_trait_records_from_vegvault()`
 - Output file name unchanged: `data_traits_{date}.qs`
 - **Touches**: `R/02_Main_analyses/03_Trait_analyses/01_Extract_trait_data.R`
 

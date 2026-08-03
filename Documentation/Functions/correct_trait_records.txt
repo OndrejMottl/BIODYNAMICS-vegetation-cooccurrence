@@ -1,0 +1,48 @@
+Correct Trait Records
+
+Description:
+
+     Corrects a long-format trait-record table using human-approved
+     correction instructions. Rows with `action = "exclude"` are
+     removed. Rows with `action = "scale"` have their `trait_value`
+     multiplied by `scale_factor`. Correction rows whose (`taxon_name`
+     × `trait_domain_name`) combination does not match any record in
+     `data_trait_records` are reported via `cli::cli_warn()`.
+
+Usage:
+
+     correct_trait_records(
+       data_trait_records,
+       data_trait_corrections,
+       verbose = TRUE
+     )
+
+Arguments:
+
+data_trait_records: A data frame in long format with at least the
+          columns `taxon_name`, `trait_domain_name`, and `trait_value`.
+
+data_trait_corrections: A tibble of approved corrections as returned by
+          [validate_trait_corrections()]. Expected columns:
+          `taxon_name`, `trait_domain_name`, `action` (`"exclude"` |
+          `"scale"`), `scale_factor` (numeric).
+
+ verbose: Logical scalar. If `TRUE`, report correction rows that do not
+          match any trait record.
+
+Details:
+
+     Corrections that do not match any trait record are warned about
+     but do not cause an error. If `data_trait_corrections` is empty,
+     `data_trait_records` is returned unchanged.
+
+Value:
+
+     A tibble with the same columns as `data_trait_records`, with
+     excluded records removed and scaled records multiplied by
+     `scale_factor`.
+
+See Also:
+
+     [load_trait_corrections()], [validate_trait_corrections()],
+     [write_trait_quality_control_report()]

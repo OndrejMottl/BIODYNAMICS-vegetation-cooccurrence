@@ -13,7 +13,7 @@ Usage:
        path_processed = here::here("Data/Processed/Traits"),
        data_source_prefix = NULL
      )
-     
+
 Arguments:
 
    store: A single character string giving the targets store path.
@@ -49,7 +49,7 @@ Value:
 See Also:
 
      get_scale_id_from_store, get_continent_id_from_scale_id,
-     get_functional_type_classification
+     load_latest_functional_type_classification
 
 Examples:
 
@@ -59,4 +59,3 @@ Examples:
          "pipeline_paleo_spatial_resolution"
        )
      )
-     

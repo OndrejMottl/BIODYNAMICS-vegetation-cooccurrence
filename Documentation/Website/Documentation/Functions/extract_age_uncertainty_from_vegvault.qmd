@@ -96,11 +96,10 @@ uncertainty data are available.
 
 <p>[build_vegvault_plan()],
 [extract_data_from_vegvault()],
-[interpolate_community_data_with_uncertainty()]
+[interpolate_paleo_community_with_age_uncertainty()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

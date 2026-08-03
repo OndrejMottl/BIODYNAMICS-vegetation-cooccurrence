@@ -1,0 +1,108 @@
+Interpolate Paleo Community Data with Age Uncertainty
+
+Description:
+
+     Interpolates paleo community proportions to a regular time grid
+     while incorporating per-sample age-model iterations for fossil
+     pollen archives. Datasets without age-uncertainty records are
+     interpolated using consensus ages. Fossil pollen archives are
+     interpolated across their age-model iterations and reduced to the
+     median proportion at each grid point.
+
+Usage:
+
+     interpolate_paleo_community_with_age_uncertainty(
+       data_community,
+       data_age_uncertainty,
+       n_cores = 1L,
+       max_expanded_rows = 4e+06,
+       ...
+     )
+
+Arguments:
+
+data_community: A data frame with columns `dataset_name`,
+          `sample_name`, `taxon`, `age`, and `value`. Must already be
+          in proportion form — see [prepare_community_proportions()].
+
+data_age_uncertainty: A tibble produced by
+          [extract_age_uncertainty_from_vegvault()], with columns
+          `dataset_name` (character), `sample_name` (character),
+          `iteration` (integer), and `age_uncertainty` (double). Rows
+          for dataset names absent from `data_community` are silently
+          ignored.
+
+ n_cores: Number of workers to use for consensus-age interpolation.
+          Fossil-core parallelism is handled by dynamic `targets`
+          branches in the paleo pipeline; use `1` for branched fossil
+          inputs.
+
+max_expanded_rows: Maximum approximate number of expanded fossil
+          observation rows processed in one interpolation batch
+          (default: `4e6`). Lower values reduce peak memory use at the
+          cost of more interpolation calls.
+
+     ...: Additional arguments passed to
+          [interpolate_grouped_time_series()], such as `time_step`,
+          `age_min`, and `age_max`.
+
+Details:
+
+     Datasets present in `data_community` that have no matching rows in
+     `data_age_uncertainty` are treated as gridpoints and interpolated
+     using consensus ages. This ensures the function degrades
+     gracefully when age uncertainty data are partially available.
+
+     The uncertainty-aware interpolation proceeds as follows for each
+     fossil core: 1. The consensus `age` column is dropped and replaced
+     with `age_uncertainty` (renamed to `age`) from
+     `data_age_uncertainty`, expanding the data to one row per original
+     observation per age-model iteration.  2.
+     [interpolate_grouped_time_series()] is called grouped by
+     `c("dataset_name", "taxon", "iteration")`.  3. The median `value`
+     across iterations is computed for each `(dataset_name, taxon,
+     age)` combination.
+
+     Fossil cores are joined and interpolated one dataset at a time, in
+     bounded batches of age-model iterations, before each core is
+     reduced. This bounds the expansion in continental runs, where
+     joining all cores simultaneously can exceed available memory.
+
+     In the paleo pipelines, inputs are split into one dynamic target
+     branch per dataset before this function is called. `targets`
+     therefore caches reduced core outputs and schedules parallel work
+     externally.
+
+Value:
+
+     A data frame with columns `dataset_name`, `taxon`, `age`, and
+     `value` at regular time intervals. For fossil pollen archive
+     datasets, `value` is the median across age-model iterations.
+
+See Also:
+
+     [extract_age_uncertainty_from_vegvault()],
+     [interpolate_grouped_time_series()]
+
+Examples:
+
+     data_community <- tibble::tibble(
+       dataset_name = base::rep("core_a", 2L),
+       sample_name = base::c("sample_1", "sample_2"),
+       taxon = base::rep("Taxon", 2L),
+       age = base::c(0, 100),
+       value = base::c(0.25, 0.75)
+     )
+     data_age_uncertainty <- tibble::tibble(
+       dataset_name = base::character(),
+       sample_name = base::character(),
+       iteration = base::integer(),
+       age_uncertainty = base::numeric()
+     )
+     interpolate_paleo_community_with_age_uncertainty(
+       data_community = data_community,
+       data_age_uncertainty = data_age_uncertainty,
+       age_min = 0,
+       age_max = 100,
+       time_step = 100
+     )

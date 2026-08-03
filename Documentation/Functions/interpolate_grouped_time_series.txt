@@ -1,0 +1,73 @@
+Interpolate Grouped Time Series
+
+Description:
+
+     Interpolates grouped numeric time series to a regular age grid.
+
+Usage:
+
+     interpolate_grouped_time_series(
+       data_time_series = NULL,
+       grouping_variables = "dataset_name",
+       age_variable_name = "age",
+       value_variable_name = "value",
+       interpolation_method = "linear",
+       extrapolation_rule = 1,
+       ties_function = base::mean,
+       age_min = 0,
+       age_max = 12000,
+       time_step = 500,
+       n_cores = 1,
+       show_progress = TRUE
+     )
+
+Arguments:
+
+data_time_series: A data frame containing grouping, age, and value
+          columns.
+
+grouping_variables: A character vector of column names that define
+          independent time series.
+
+age_variable_name: Name of the numeric age column.
+
+value_variable_name: Name of the numeric value column.
+
+interpolation_method: Interpolation method passed to [stats::approx()].
+
+extrapolation_rule: Numeric extrapolation rule passed to
+          [stats::approx()].
+
+ties_function: Function used by [stats::approx()] to combine tied ages.
+
+ age_min: Minimum age in the output grid.
+
+ age_max: Maximum age in the output grid.
+
+time_step: Positive spacing between consecutive ages in the output
+          grid.
+
+ n_cores: Number of workers. Use `1` for sequential `purrr::map()`
+          execution or a larger integer for parallel
+          `furrr::future_map()` execution.
+
+show_progress: Logical indicating whether supported map operations
+          display progress.
+
+Details:
+
+     Each unique combination of `grouping_variables` is interpolated
+     independently with [stats::approx()]. Groups that cannot be
+     interpolated return no rows.
+
+     Parallel execution temporarily owns the active `future` plan. The
+     previous plan is restored when the function exits.
+
+Value:
+
+     A data frame containing the grouping columns and interpolated age
+     and value columns.
+
+See Also:
+
+     [stats::approx()]

@@ -1,0 +1,20 @@
+Muffle Package-Version Warnings
+
+Description:
+
+     Suppresses package build-version warnings replayed by future
+     workers.
+
+Usage:
+
+     .muffle_package_version_warning(condition_captured)
+
+Arguments:
+
+condition_captured: A warning condition passed by
+          [base::withCallingHandlers()].
+
+Value:
+
+     `NULL`, invisibly. Matching package-version warnings are muffled
+     through the active warning restart.

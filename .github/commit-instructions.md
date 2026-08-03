@@ -21,7 +21,7 @@ The subject identifies *what was changed*. The summary states *what was done*.
 Use the function name with parentheses:
 
 - add_anova(): correct column name mismatch
-- filter_rare_taxa(): add minimum occurrence threshold argument
+- filter_community_by_minimum_proportion(): adjust threshold validation
 
 ### Single pipeline or pipe segment edited
 
@@ -71,7 +71,7 @@ Do not use: *enhance*, *feat*, *feature*, *fix* (use a specific verb instead, e.
 ## Examples
 
 - add_anova(): correct wrong grouping variable reference
-- filter_rare_taxa(): add minimum occurrence threshold argument
+- filter_community_by_minimum_proportion(): adjust threshold validation
 - pipe_segment_community_prepare_paleo: adjust taxa filtering step
 - Selection of environmental variables: add collinearity check
 - sjSDM-spatial component: switch to exponential decay kernel

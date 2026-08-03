@@ -1,0 +1,108 @@
+Plot a Taxonomic Trait Comparison
+
+Description:
+
+     Builds a `ggplot2` log10-scale strip plot comparing the median
+     trait value of a focal taxon against taxa in the selected
+     taxonomic group. Grey jittered dots represent group members that
+     meet the minimum record threshold; a firebrick point marks the
+     focal taxon.
+
+Usage:
+
+     plot_taxonomic_trait_comparison(
+       data_taxonomic_trait_summary,
+       data_focal_trait_summary,
+       focal_taxon,
+       trait_domain,
+       minimum_records = 5L,
+       graphical_options,
+       verbose = TRUE
+     )
+
+Arguments:
+
+data_taxonomic_trait_summary: A tibble of per-taxon summary statistics
+          returned by [summarise_taxonomic_group_traits()]. Must
+          contain `taxon_name`, `n_records`, and `median`.
+
+data_focal_trait_summary: A single-row tibble of per-group QC
+          statistics for the focal taxon, as produced by
+          [write_trait_quality_control_report()]. Must contain a
+          numeric column `median` used to place the firebrick reference
+          point.
+
+focal_taxon: Character scalar. Name of the focal taxon. Used in the
+          plot title.
+
+trait_domain: Character scalar. Trait domain being inspected. Used in
+          axis labels.
+
+minimum_records: Positive integer scalar. Minimum number of records a
+          taxon must have to appear in the plot. Defaults to `5L`.
+
+graphical_options: Named list with elements `width`, `height`, `units`,
+          `dpi`, and `bg`, as returned by
+          `load_active_config_value("graphical")`. Passed to
+          `ggview::canvas()`.
+
+ verbose: Logical. If `TRUE` (default), the number of taxa shown in the
+          plot after the `minimum_records` filter is reported via
+          `cli::cli_inform()`.
+
+Details:
+
+     All taxa with `n_records >= minimum_records` are shown as grey
+     jittered points on a log10 x-axis. The focal taxon's median from
+     `data_focal_trait_summary` is overlaid as a larger firebrick
+     point. When no group members meet the threshold the grey layer is
+     empty and only the focal taxon point is drawn.
+
+     Plot layer order follows project conventions: `ggplot2::ggplot()`
+     -> scales -> labels -> theme -> `ggview::canvas()` -> geoms.
+
+Value:
+
+     A `ggplot2` object. The plot is not printed; call `print()` on the
+     return value to display it.
+
+See Also:
+
+     [summarise_taxonomic_group_traits()],
+     [plot_focal_trait_distribution()],
+     [write_trait_quality_control_report()]
+
+Examples:
+
+     ## Not run:
+
+     data_taxonomic_trait_summary <-
+       summarise_taxonomic_group_traits(
+         data_trait_records = data_traits_raw,
+         data_taxon_classification = data_classification,
+         focal_taxon = "Anacyclus clavatus",
+         trait_domain = "Leaf Area"
+       )
+
+     data_summary <-
+       data_qc_report |>
+       dplyr::filter(
+         taxon_name == "Anacyclus clavatus",
+         trait_domain_name == "Leaf Area"
+       )
+
+     graphical_options <-
+       load_active_config_value("graphical")
+
+     p <-
+       plot_taxonomic_trait_comparison(
+         data_taxonomic_trait_summary = data_taxonomic_trait_summary,
+         data_focal_trait_summary = data_summary,
+         focal_taxon = "Anacyclus clavatus",
+         trait_domain = "Leaf Area",
+         minimum_records = 5L,
+         graphical_options = graphical_options
+       )
+
+     base::print(p)
+     ## End(Not run)

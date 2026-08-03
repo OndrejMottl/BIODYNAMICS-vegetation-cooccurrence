@@ -11,7 +11,7 @@ Four focused changes across five files:
 
 ---
 
-## Phase 1 — `R/Functions/Traits/extract_traits_from_vegvault.R`
+## Phase 1 — `R/Functions/Traits/load_trait_records_from_vegvault.R`
 
 - Add `x_lim = NULL` and `y_lim = NULL` optional parameters (NULL = no geo filter)
 - When provided: insert `vaultkeepr::select_dataset_by_geo(lat_lim = y_lim, long_lim = x_lim, verbose = FALSE)` AFTER `select_dataset_by_type()`, BEFORE `get_samples()`
@@ -46,13 +46,13 @@ Four focused changes across five files:
 ### Replace section 3 with taxospace classification pipeline
 
 1. Extract `taxon_name_genus` (first word) for unique genera — same as before
-2. Map `get_taxa_classification()` over `vec_unique_genera` -> `list_genus_classifications`
-3. `make_classification_table(list_genus_classifications)` -> `data_genus_classification_table`
-4. `get_aux_classification_table()` -> `data_aux_classification_table`
-5. `combine_classification_tables()` -> `data_combined_genus_classification`
+2. Map `load_taxa_classification()` over `vec_unique_genera` -> `list_genus_classifications`
+3. `build_classification_table(list_genus_classifications)` -> `data_genus_classification_table`
+4. `load_auxiliary_classification_table()` -> `data_aux_classification_table`
+5. `build_combined_classification_table()` -> `data_combined_genus_classification`
 6. Report: genera classified / total
 
-Note: `get_taxa_classification()` already filters to Plantae — non-plant genera excluded automatically
+Note: `load_taxa_classification()` already filters to Plantae — non-plant genera excluded automatically
 
 ### Replace section 4 with community-taxon matching
 
@@ -112,13 +112,13 @@ Output filename prefix: `"data_trait_table_genus_"` -> `"data_trait_table_"`
 - Containment (not overlap) for continental detection — avoids ambiguous edge cases
 - `taxon_name_genus` kept as intermediate column; `taxon_community` is the output linking column
 - `species` rank excluded from matching pivot (taxa are species-level, not community-level)
-- Non-plant genera excluded automatically by `get_taxa_classification()` Plantae filter
+- Non-plant genera excluded automatically by `load_taxa_classification()` Plantae filter
 
 ## Implementation Progress
 
 | Phase | File | Status |
 |-------|------|--------|
-| 1 | `R/Functions/Traits/extract_traits_from_vegvault.R` | ✅ DONE |
+| 1 | `R/Functions/Traits/load_trait_records_from_vegvault.R` | ✅ DONE |
 | 2 | `R/02_Main_analyses/02_Trait_analyses/01_Extract_trait_data.R` | ✅ DONE |
 | 3 | `R/02_Main_analyses/02_Trait_analyses/02_Classify_and_align_taxa.R` | ✅ DONE |
 | 4 | `R/Functions/Traits/check_trait_coverage.R` | ❌ NEXT |

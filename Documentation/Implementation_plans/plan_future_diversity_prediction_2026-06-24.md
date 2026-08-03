@@ -21,7 +21,7 @@ The repository already contains reusable prediction infrastructure in the supple
 - `R/Functions/Prediction/Grids/build_land_prediction_grid.R`
 - `R/Functions/Prediction/Inference/predict_spatial_resolution_grid_age.R`
 - `R/Functions/Prediction/Climate/extract_prediction_climate.R`
-- `R/Functions/Abiotic/Ingest/get_chelsa_raster.R`
+- `R/Functions/Data/Abiotic/Ingest/load_chelsa_raster.R`
 
 That stack currently supports age-based hindcasting using CHELSA-TraCE21k. It does not yet support future scenario metadata, future-climate raster acquisition, or a main-analysis orchestration layer.
 
@@ -58,7 +58,7 @@ GitHub issue search was not completed while drafting this plan because the curre
 - `config.yml`
 - `R/02_Main_analyses/01_Spatial/02_Modern/02_Synthesis/02_compare_paleo_modern.R`
 - `R/03_Supplementary_analyses/Prediction/Predict_on_full_grid.R`
-- `R/Functions/Abiotic/Ingest/get_chelsa_raster.R`
+- `R/Functions/Data/Abiotic/Ingest/load_chelsa_raster.R`
 - `R/Functions/Prediction/Climate/extract_prediction_climate.R`
 - `R/Functions/Prediction/Inference/predict_spatial_resolution_grid_age.R`
 - `R/Functions/Prediction/Inputs/read_spatial_resolution_prediction_inputs.R`
@@ -66,7 +66,8 @@ GitHub issue search was not completed while drafting this plan because the curre
 - `R/Pipelines/pipeline_paleo_spatial_resolution.R`
 - `R/Pipelines/pipeline_modern_spatial_resolution.R`
 - `R/Pipelines/_pipes/pipe_segment_abiotic_extract.R`
-- New future-climate ingest helpers under `R/Functions/Abiotic/` or `R/Functions/Prediction/Climate/`
+- New future-climate ingest helpers under `R/Functions/Data/Abiotic/` or
+  `R/Functions/Prediction/Climate/`
 - New future-prediction orchestration helpers under `R/Functions/Prediction/`
 - New targeted tests in `R/03_Supplementary_analyses/Testing/testthat/`
 - New main-analysis runner(s) under `R/02_Main_analyses/01_Spatial/03_Future/01_Runners/`
@@ -85,7 +86,7 @@ Promote the current supplementary prediction stack into a generic prediction sub
 
 Refactor direction (backward compatibility not required—clean modularity prioritized):
 
-- Fully replace `get_chelsa_raster()` with a backend-aware climate-raster acquisition system that supports both historical CHELSA-TraCE21k and future CMIP6 rasters.
+- Fully replace `load_chelsa_raster()` with a backend-aware climate-raster acquisition system that supports both historical CHELSA-TraCE21k and future CMIP6 rasters.
 - Consolidate climate extraction logic so a single generic helper replaces the current age-only `extract_prediction_climate()`.
 - Replace `predict_spatial_resolution_grid_age()` with a new generic prediction helper that accepts a `prediction_context` parameter bundle.
 - Represent prediction context explicitly as metadata: model source, scale id, resolution id, climate backend, scenario id, horizon year, and optional age.
@@ -115,8 +116,8 @@ Recommended climate data/tool choice:
 **Goal:** Convert the current age-only prediction helpers into a backend-aware prediction subsystem that can support both historical and future climate inputs without breaking existing hindcast workflows.
 
 **Tasks:**
-- [ ] Audit the current supplementary prediction stack and identify shared responsibilities split across `Predict_on_full_grid.R`, `extract_prediction_climate()`, `predict_spatial_resolution_grid_age()`, and `get_chelsa_raster()`.
-- [ ] Design and implement a backend-aware climate-raster acquisition system that replaces `get_chelsa_raster()` with support for both historical CHELSA-TraCE21k and future CMIP6 scenarios.
+- [ ] Audit the current supplementary prediction stack and identify shared responsibilities split across `Predict_on_full_grid.R`, `extract_prediction_climate()`, `predict_spatial_resolution_grid_age()`, and `load_chelsa_raster()`.
+- [ ] Design and implement a backend-aware climate-raster acquisition system that replaces `load_chelsa_raster()` with support for both historical CHELSA-TraCE21k and future CMIP6 scenarios.
 - [ ] Refactor `extract_prediction_climate()` into a generic climate extraction helper that accepts a climate-raster backend and `prediction_context` metadata.
 - [ ] Replace `predict_spatial_resolution_grid_age()` with a new generic prediction helper `predict_from_model_context()` that accepts `prediction_context` and delegates to climate and spatial-interpolation backends.
 - [ ] Add explicit validation for unsupported climate backends, missing rasters, extrapolation-prone predictors, and naming mismatches between climate rasters and model abiotic variables.

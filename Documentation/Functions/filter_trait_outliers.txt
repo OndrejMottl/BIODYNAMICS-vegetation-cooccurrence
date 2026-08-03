@@ -11,27 +11,32 @@ Description:
 Usage:
 
      filter_trait_outliers(
-       data,
-       trait_col = "trait_value",
-       group_cols = c("taxon_name", "trait_domain_name"),
-       iqr_multiplier = 1.5
+       data_trait_records,
+       trait_value_column = "trait_value",
+       grouping_columns = c("taxon_name", "trait_domain_name"),
+       iqr_multiplier = 1.5,
+       verbose = TRUE
      )
-     
+
 Arguments:
 
-    data: A data frame in long format with at least the columns
-          specified by `trait_col` and `group_cols`.
+data_trait_records: A data frame in long format with at least the
+          columns specified by `trait_value_column` and
+          `grouping_columns`.
 
-trait_col: A character string naming the numeric column containing
-          trait values. Default: `"trait_value"`.
+trait_value_column: A character string naming the numeric column
+          containing trait values. Default: `"trait_value"`.
 
-group_cols: A character vector of column names used to define groups
-          for outlier detection. Default: `c("taxon_name",
+grouping_columns: A character vector of column names used to define
+          groups for outlier detection. Default: `c("taxon_name",
           "trait_domain_name")`.
 
 iqr_multiplier: A positive numeric scalar controlling the fence width,
           equivalent to k in the standard boxplot formula. Default:
           `1.5`.
+
+ verbose: Logical scalar. If `TRUE`, print the number of removed
+          records.
 
 Details:
 
@@ -48,5 +53,4 @@ Value:
 
 See Also:
 
-     [aggregate_trait_values()]
-
+     [flag_trait_outliers()], [aggregate_trait_values()]

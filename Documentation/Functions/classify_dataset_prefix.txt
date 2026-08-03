@@ -6,11 +6,11 @@ Description:
 
 Usage:
 
-     classify_dataset_prefix(data_source = NULL)
+     classify_dataset_prefix(vec_dataset_names = NULL)
      
 Arguments:
 
-data_source: A character vector of dataset names.
+vec_dataset_names: A character vector of dataset names.
 
 Value:
 

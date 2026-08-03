@@ -1,0 +1,46 @@
+Validate Sample Count
+
+Description:
+
+     Guards against running downstream data preparation and model
+     fitting on a time slice with too few `(dataset_name, age)`
+     combinations. Returns `data_sample_ids` unchanged when the row
+     count is at least `minimum_sample_count`. Stops with an
+     informative error when the count falls below the threshold,
+     preventing expensive model fitting on near-empty slices.
+
+Usage:
+
+     validate_sample_count(data_sample_ids = NULL, minimum_sample_count = 1)
+
+Arguments:
+
+data_sample_ids: A data frame with at least the columns `dataset_name`
+          and `age`, as returned by `align_sample_ids()`. Each row
+          represents one valid `(dataset_name, age)` pair.
+
+minimum_sample_count: A single positive integer giving the minimum
+          number of samples (rows) required to proceed with data
+          preparation and model fitting. Default is 1.
+
+Details:
+
+     The check counts `nrow(data_sample_ids)` after the time-slice
+     filter has been applied by `align_sample_ids(subset_age = ...)`.
+     If the count falls below `minimum_sample_count`,
+     `cli::cli_abort()` is called with a message that reports the
+     actual sample count and the threshold, allowing the user to adjust
+     the configuration or the input data. This check is intended to be
+     placed in the per-slice pipeline (e.g.
+     `pipe_segment_sample_filter_age`) so that slices without
+     sufficient data fail immediately, before any expensive preparation
+     or model fitting.
+
+Value:
+
+     The input `data_sample_ids` unchanged, when `nrow(data_sample_ids)
+     >= minimum_sample_count`.
+
+See Also:
+
+     [align_sample_ids()], [validate_community_taxon_count()]

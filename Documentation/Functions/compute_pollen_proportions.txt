@@ -1,0 +1,27 @@
+Compute Pollen Proportions
+
+Description:
+
+     Computes row-level pollen proportions from supplied sample totals.
+
+Usage:
+
+     compute_pollen_proportions(data_community = NULL, data_pollen_sums = NULL)
+
+Arguments:
+
+data_community: A data frame containing `sample_name` and
+          `pollen_count` columns.
+
+data_pollen_sums: A data frame containing `sample_name` and
+          `pollen_sum` columns.
+
+Details:
+
+     Joins the input data with total pollen counts and stores the
+     calculated proportion in `value`.
+
+Value:
+
+     A data frame with pollen proportions, excluding `pollen_sum` and
+     `pollen_count` columns.

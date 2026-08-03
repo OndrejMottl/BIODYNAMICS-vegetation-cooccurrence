@@ -1,0 +1,50 @@
+Summarise Trait Coverage of Community Taxa
+
+Description:
+
+     Compares a character vector of taxon names from the community data
+     against the taxa present in a wide-format trait table. Reports the
+     proportion of community taxa covered by trait data and identifies
+     which taxa are missing or extra.
+
+Usage:
+
+     summarise_trait_coverage(community_taxa, data_trait_table, verbose = TRUE)
+
+Arguments:
+
+community_taxa: A character vector of unique taxon names from the
+          community data.
+
+data_trait_table: A wide-format trait table as returned by
+          [build_trait_table()], with a `taxon_name` column.
+
+ verbose: Logical scalar. If `TRUE`, print the coverage summary.
+
+Details:
+
+     A summary of coverage statistics is printed to the console via
+     `cli::cli_inform()`.
+
+Value:
+
+     A named list with the following elements:
+
+     n_community_taxa Total number of unique taxa in the community
+          vector.
+
+     n_covered_taxa Number of community taxa present in the trait
+          table.
+
+     coverage_percent Coverage as a percentage, rounded to one decimal
+          place.
+
+     missing_taxa Character vector of community taxa absent from the
+          trait table.
+
+     extra_taxa Character vector of taxa in the trait table not found
+          in the community.
+
+See Also:
+
+     [build_trait_table()]

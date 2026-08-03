@@ -31,14 +31,14 @@ function processMathHTML() {
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>classify_dataset_prefix(data_source = NULL)
+<pre><code class='language-R'>classify_dataset_prefix(vec_dataset_names = NULL)
 </code></pre>
 
 
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="data_source">data_source</code></td>
+<tr><td><code id="vec_dataset_names">vec_dataset_names</code></td>
 <td>
 <p>A character vector of dataset names.</p>
 </td></tr>

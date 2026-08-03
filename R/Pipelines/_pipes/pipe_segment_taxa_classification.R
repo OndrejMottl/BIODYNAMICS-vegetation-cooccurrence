@@ -41,9 +41,11 @@ suppressMessages(
 pipe_segment_taxa_classification <-
   list(
     targets::tar_target(
-      description = "Make vector of all taxa in community data",
+      description = "Extract all taxa from community data",
       name = "vec_community_taxa",
-      command = get_community_taxa(data_community_long)
+      command = extract_community_taxa(
+        data_community = data_community_long
+      )
     ),
     targets::tar_target(
       description = "Validate taxa vector before dynamic branching",
@@ -69,16 +71,16 @@ pipe_segment_taxa_classification <-
       }
     ),
     targets::tar_target(
-      description = "Get classification for each taxon",
+      description = "Load classification for each taxon",
       name = "data_community_taxa_classification",
-      command = get_taxa_classification(vec_community_taxa_checked),
+      command = load_taxa_classification(vec_community_taxa_checked),
       pattern = map(vec_community_taxa_checked)
     ),
     targets::tar_target(
-      description = "Make classification table for community data",
+      description = "Build classification table for community data",
       name = "data_classification_table",
-      command = make_classification_table(
-        data = data_community_taxa_classification
+      command = build_classification_table(
+        list_taxa_classifications = data_community_taxa_classification
       )
     ),
     targets::tar_target(
@@ -90,22 +92,24 @@ pipe_segment_taxa_classification <-
     targets::tar_target(
       description = "Load auxiliary classification table from CSV",
       name = "data_aux_classification_table",
-      command = get_aux_classification_table(
-        file_path = file_aux_classification_table
+      command = load_auxiliary_classification_table(
+        file_auxiliary_classification_table =
+          file_aux_classification_table
       )
     ),
     targets::tar_target(
-      description = "Combine auto and auxiliary classification tables",
+      description = "Build combined automatic and auxiliary classification",
       name = "data_combined_classification_table",
-      command = combine_classification_tables(
+      command = build_combined_classification_table(
         data_classification_table = data_classification_table,
-        data_aux_classification_table = data_aux_classification_table
+        data_auxiliary_classification_table =
+          data_aux_classification_table
       )
     ),
     targets::tar_target(
-      description = "Identify taxa without classification",
+      description = "Select taxa without classification",
       name = "vec_taxa_without_classification",
-      command = get_taxa_without_classification(
+      command = select_unclassified_taxa(
         vec_community_taxa = vec_community_taxa,
         data_classification_table = data_combined_classification_table
       )
@@ -125,11 +129,11 @@ pipe_segment_taxa_classification <-
       )
     ),
     targets::tar_target(
-      description = "Append missing taxa to template CSV",
+      description = "Save missing taxa to template CSV",
       name = "file_missing_taxa_template",
-      command = append_missing_taxa_to_template(
+      command = save_missing_taxa_template(
         data_missing_taxa = data_missing_taxa_template,
-        file_path = here::here(
+        file_missing_taxa_template = here::here(
           "Data/Input/missing_taxa_template.csv"
         ),
         data_classification_table = data_combined_classification_table
@@ -137,9 +141,9 @@ pipe_segment_taxa_classification <-
       format = "file"
     ),
     targets::tar_target(
-      description = "Check all taxa are classified; error if not",
+      description = "Validate that all taxa are classified",
       name = "check_taxa_classification",
-      command = check_and_report_missing_taxa(
+      command = validate_taxa_classification_coverage(
         vec_taxa_without_classification = vec_taxa_without_classification,
         file_missing_taxa_template = file_missing_taxa_template
       )

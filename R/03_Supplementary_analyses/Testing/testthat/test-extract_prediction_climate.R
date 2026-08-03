@@ -12,8 +12,16 @@ testthat::test_that(
         vals = c(1, 2, 3, 4)
       )
 
-    raster_fn <- function(chelsa_var, age, x_lim, y_lim, cache_dir) {
-      return(rast_test + base::as.numeric(chelsa_var == "bio2"))
+    raster_fn <- function(
+        abiotic_variable_name,
+        age,
+        x_lim,
+        y_lim,
+        dir_cache) {
+      return(
+        rast_test +
+          base::as.numeric(abiotic_variable_name == "bio2")
+      )
     }
 
     data_grid <-
@@ -56,7 +64,12 @@ testthat::test_that(
         vals = c(1, 2, 3, 4)
       )
 
-    raster_fn <- function(chelsa_var, age, x_lim, y_lim, cache_dir) {
+    raster_fn <- function(
+        abiotic_variable_name,
+        age,
+        x_lim,
+        y_lim,
+        dir_cache) {
       return(rast_test)
     }
 
@@ -95,7 +108,12 @@ testthat::test_that(
         vals = c(1, 2, 3, 4)
       )
 
-    raster_fn <- function(chelsa_var, age, x_lim, y_lim, cache_dir) {
+    raster_fn <- function(
+        abiotic_variable_name,
+        age,
+        x_lim,
+        y_lim,
+        dir_cache) {
       return(rast_test)
     }
 

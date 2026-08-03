@@ -16,12 +16,12 @@
 make_community_filter_targets <- function(input_name) {
   list(
     targets::tar_target_raw(
-      description = "Filter rare taxa from community data",
+      description = "Filter community records below minimum proportion",
       name = "data_community_rare_filtered",
       command = bquote(
-        filter_rare_taxa(
-          data = .(as.symbol(input_name)),
-          minimal_proportion = purrr::chuck(
+        filter_community_by_minimum_proportion(
+          data_community = .(as.symbol(input_name)),
+          minimum_proportion = purrr::chuck(
             config_data_processing,
             "minimal_proportion_of_pollen"
           )
@@ -30,23 +30,26 @@ make_community_filter_targets <- function(input_name) {
     ),
 
     targets::tar_target_raw(
-      description = "Filter taxa not present in enough cores",
+      description = "Filter taxa below the minimum core count",
       name = "data_community_filtered_cores",
       command = quote(
-        filter_community_by_n_cores(
-          data = data_community_rare_filtered,
-          min_n_cores = purrr::chuck(config_data_processing, "min_n_cores")
+        filter_community_by_minimum_core_count(
+          data_community = data_community_rare_filtered,
+          minimum_core_count = purrr::chuck(
+            config_data_processing,
+            "min_n_cores"
+          )
         )
       )
     ),
 
     targets::tar_target_raw(
-      description = "Filter taxa not present in enough samples",
+      description = "Filter taxa below the minimum sample count",
       name = "data_community_filtered_samples",
       command = quote(
-        filter_by_n_samples(
-          data = data_community_filtered_cores,
-          min_n_samples = purrr::chuck(
+        filter_community_by_minimum_sample_count(
+          data_community = data_community_filtered_cores,
+          minimum_sample_count = purrr::chuck(
             config_data_processing,
             "min_n_samples"
           )
@@ -55,12 +58,15 @@ make_community_filter_targets <- function(input_name) {
     ),
 
     targets::tar_target_raw(
-      description = "Select number of taxa to include",
+      description = "Select top taxa by group occurrence",
       name = "data_community_analysis_subset",
       command = quote(
-        select_n_taxa(
-          data = data_community_filtered_samples,
-          n_taxa = purrr::chuck(config_data_processing, "number_of_taxa")
+        select_top_taxa_by_group_occurrence(
+          data_community = data_community_filtered_samples,
+          maximum_taxon_count = purrr::chuck(
+            config_data_processing,
+            "number_of_taxa"
+          )
         )
       )
     )

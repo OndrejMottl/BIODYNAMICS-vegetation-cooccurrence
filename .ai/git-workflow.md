@@ -36,6 +36,23 @@ Safe read-only operations that are always permitted: `git status`, `git log`,
 When a workflow step calls for a commit or push (e.g. at the end of the TDD
 cycle), **stop and tell the user what command to run** â€” do not run it.
 
+## Tracked File Moves and Renames
+
+Repository refactors must use `git mv` for every tracked file or directory
+move. This preserves rename intent and avoids moving the same files twice.
+
+- Treat `git mv` as a staging operation because it updates the Git index.
+- If the user has not explicitly authorised `git mv` or staging, do not move
+  tracked paths yet. Complete read-only planning and ask for that authorisation
+  before the path-move batch.
+- Once authorised, create any required destination directories and use
+  `git mv` as the first and only move operation.
+- Never move tracked files first with `Move-Item`, `mv`, an editor, or a
+  filesystem API and then replay the moves later with `git mv`.
+- After the batch, verify `git status --short`, confirm the expected renames
+  with `git diff --cached --summary`, and run `git diff --cached --check`.
+- Do not commit or push unless the user separately authorises those actions.
+
 ## Durable Change Naming
 
 Commit messages, pull-request titles, branch descriptions, release notes, and

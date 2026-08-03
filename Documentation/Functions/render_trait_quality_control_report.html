@@ -1,0 +1,259 @@
+<!DOCTYPE html><html><head><title>R: Render a Trait Quality-Control Report</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+
+<script type="text/javascript">
+
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
+function processMathHTML() {
+
+    var l = document.getElementsByClassName('reqn');
+
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
+    return;
+
+}</script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+
+    onload="processMathHTML();"></script>
+
+<link rel="stylesheet" type="text/css" href="R.css" />
+
+</head><body><div class="container"><main>
+
+
+
+<table style="width: 100%;"><tr><td>render_trait_quality_control_report</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+
+
+<h2>Render a Trait Quality-Control Report</h2>
+
+
+
+<h3>Description</h3>
+
+
+
+<p>Renders 'trait_quality_control_report.qmd' to a dated PDF for one trait
+
+domain (or for all domains when 'trait_domain_filter' is 'NULL'),
+
+moves the rendered file from the Quarto docs output directory to
+
+'path_report_directory', and compresses it in-place with
+
+'qpdf::pdf_compress()'.
+
+</p>
+
+<p>The output filename follows one of two patterns depending on
+
+'trait_domain_filter':
+
+- 'NULL': 'trait_qc_report_Sys.Date().pdf'
+
+- character: 'trait_qc_&lt;slug&gt;_Sys.Date().pdf'
+
+where '&lt;slug&gt;' is 'trait_domain_filter' with all non-alphanumeric
+
+characters replaced by underscores.
+
+</p>
+
+
+
+
+
+<h3>Usage</h3>
+
+
+
+<pre><code class='language-R'>render_trait_quality_control_report(
+
+  trait_domain_filter = NULL,
+
+  path_report_directory = here::here("Outputs/Reports"),
+
+  path_report_source = here::here("R", "03_Supplementary_analyses", "Diagnostics",
+
+    "Data_processing", "Traits", "Quality_control", "trait_quality_control_report.qmd"),
+
+  path_render_directory = here::here("docs", "R", "03_Supplementary_analyses",
+
+    "Diagnostics", "Data_processing", "Traits", "Quality_control"),
+
+  maximum_pages = NULL,
+
+  minimum_taxonomic_records = 5L,
+
+  verbose = TRUE
+
+)
+
+</code></pre>
+
+
+
+
+
+<h3>Arguments</h3>
+
+
+
+<table role = "presentation">
+
+<tr><td><code id="trait_domain_filter">trait_domain_filter</code></td>
+
+<td>
+
+<p>Character scalar or 'NULL'. When 'NULL', all domains are rendered
+
+into a single PDF. When a character scalar, only taxa from that
+
+trait domain are included. Default: 'NULL'.</p>
+
+</td></tr>
+
+<tr><td><code id="path_report_directory">path_report_directory</code></td>
+
+<td>
+
+<p>Character scalar. Directory where the compressed PDF is saved.
+
+Default: 'here::here(&quot;Outputs/Reports&quot;)'.</p>
+
+</td></tr>
+
+<tr><td><code id="path_report_source">path_report_source</code></td>
+
+<td>
+
+<p>Character scalar. Path to the Quarto source document.
+
+Default: 'here::here(
+
+&quot;R&quot;, &quot;03_Supplementary_analyses&quot;, &quot;Diagnostics&quot;, &quot;Data_processing&quot;,
+
+&quot;Traits&quot;, &quot;Quality_control&quot;, &quot;trait_quality_control_report.qmd&quot;
+
+)'.</p>
+
+</td></tr>
+
+<tr><td><code id="path_render_directory">path_render_directory</code></td>
+
+<td>
+
+<p>Character scalar. Directory that Quarto writes its output to
+
+before the file is moved. Default: 'here::here(
+
+&quot;docs&quot;, &quot;R&quot;, &quot;03_Supplementary_analyses&quot;, &quot;Diagnostics&quot;,
+
+&quot;Data_processing&quot;, &quot;Traits&quot;, &quot;Quality_control&quot;
+
+)'.</p>
+
+</td></tr>
+
+<tr><td><code id="maximum_pages">maximum_pages</code></td>
+
+<td>
+
+<p>Positive integer scalar or 'NULL'. Maximum number of pages to
+
+render. When 'NULL' (default) there is no cap.</p>
+
+</td></tr>
+
+<tr><td><code id="minimum_taxonomic_records">minimum_taxonomic_records</code></td>
+
+<td>
+
+<p>Positive integer scalar. Minimum records per taxon required for
+
+inclusion in the taxonomic comparison panel. Default: '5L'.</p>
+
+</td></tr>
+
+<tr><td><code id="verbose">verbose</code></td>
+
+<td>
+
+<p>Logical. If 'TRUE' (default), a progress message with the output
+
+path is printed to the console via 'cli::cli_inform()'. A warning
+
+is emitted via 'cli::cli_warn()' if the rendered file cannot be
+
+found.</p>
+
+</td></tr>
+
+</table>
+
+
+
+
+
+<h3>Details</h3>
+
+
+
+<p>The function calls 'quarto::quarto_render()' with 'execute_params'
+
+set to 'maximum_pages', 'minimum_taxonomic_records', and
+
+'trait_domain_filter'. The rendered file is expected at
+
+'file.path(path_render_directory, &lt;output_filename&gt;)'. If found it is
+
+moved to 'path_report_directory' and compressed; if not found a warning
+
+is emitted and nothing is moved.
+
+</p>
+
+
+
+
+
+<h3>Value</h3>
+
+
+
+<p>Invisible 'NULL'. Called for its side effects: rendering and
+
+moving a PDF to 'path_report_directory'.
+
+</p>
+
+
+
+
+
+<h3>See Also</h3>
+
+
+
+<p>[write_trait_quality_control_report()]
+
+</p>
+
+
+
+</main>
+
+
+
+</div>
+
+</body></html>

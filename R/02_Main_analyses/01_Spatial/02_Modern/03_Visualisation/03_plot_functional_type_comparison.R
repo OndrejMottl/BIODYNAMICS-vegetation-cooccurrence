@@ -63,27 +63,27 @@ data_ft_reassignment <-
       sel_continent <- .x
 
       file_paleo_ft <-
-        get_functional_type_classification_path(
+        resolve_functional_type_classification_path(
           continent_id = sel_continent
         )
 
       file_modern_ft <-
-        get_functional_type_classification_path(
+        resolve_functional_type_classification_path(
           continent_id = sel_continent,
-          data_source_prefix = "modern"
+          classification_source_prefix = "modern"
         )
 
       data_paleo_ft <-
-        read_functional_type_classification(
-          file = file_paleo_ft
+        load_functional_type_classification(
+          path_classification_file = file_paleo_ft
         ) |>
         dplyr::rename(
           functional_type_paleo = functional_type
         )
 
       data_modern_ft <-
-        read_functional_type_classification(
-          file = file_modern_ft
+        load_functional_type_classification(
+          path_classification_file = file_modern_ft
         ) |>
         dplyr::rename(
           functional_type_modern = functional_type

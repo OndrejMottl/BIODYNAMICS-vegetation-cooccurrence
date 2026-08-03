@@ -1,0 +1,127 @@
+<!DOCTYPE html><html><head><title>R: Interpolate Grouped Time Series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>interpolate_grouped_time_series</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpolate Grouped Time Series</h2>
+
+<h3>Description</h3>
+
+<p>Interpolates grouped numeric time series to a regular age grid.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>interpolate_grouped_time_series(
+  data_time_series = NULL,
+  grouping_variables = "dataset_name",
+  age_variable_name = "age",
+  value_variable_name = "value",
+  interpolation_method = "linear",
+  extrapolation_rule = 1,
+  ties_function = base::mean,
+  age_min = 0,
+  age_max = 12000,
+  time_step = 500,
+  n_cores = 1,
+  show_progress = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_time_series">data_time_series</code></td>
+<td>
+<p>A data frame containing grouping, age, and value columns.</p>
+</td></tr>
+<tr><td><code id="grouping_variables">grouping_variables</code></td>
+<td>
+<p>A character vector of column names that define independent time series.</p>
+</td></tr>
+<tr><td><code id="age_variable_name">age_variable_name</code></td>
+<td>
+<p>Name of the numeric age column.</p>
+</td></tr>
+<tr><td><code id="value_variable_name">value_variable_name</code></td>
+<td>
+<p>Name of the numeric value column.</p>
+</td></tr>
+<tr><td><code id="interpolation_method">interpolation_method</code></td>
+<td>
+<p>Interpolation method passed to [stats::approx()].</p>
+</td></tr>
+<tr><td><code id="extrapolation_rule">extrapolation_rule</code></td>
+<td>
+<p>Numeric extrapolation rule passed to [stats::approx()].</p>
+</td></tr>
+<tr><td><code id="ties_function">ties_function</code></td>
+<td>
+<p>Function used by [stats::approx()] to combine tied ages.</p>
+</td></tr>
+<tr><td><code id="age_min">age_min</code></td>
+<td>
+<p>Minimum age in the output grid.</p>
+</td></tr>
+<tr><td><code id="age_max">age_max</code></td>
+<td>
+<p>Maximum age in the output grid.</p>
+</td></tr>
+<tr><td><code id="time_step">time_step</code></td>
+<td>
+<p>Positive spacing between consecutive ages in the output grid.</p>
+</td></tr>
+<tr><td><code id="n_cores">n_cores</code></td>
+<td>
+<p>Number of workers. Use '1' for sequential 'purrr::map()' execution or a
+larger integer for parallel 'furrr::future_map()' execution.</p>
+</td></tr>
+<tr><td><code id="show_progress">show_progress</code></td>
+<td>
+<p>Logical indicating whether supported map operations display progress.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Each unique combination of 'grouping_variables' is interpolated
+independently with [stats::approx()]. Groups that cannot be interpolated
+return no rows.
+</p>
+<p>Parallel execution temporarily owns the active 'future' plan. The previous
+plan is restored when the function exits.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame containing the grouping columns and interpolated age and value
+columns.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[stats::approx()]
+</p>
+
+</main>
+
+</div>
+</body></html>

@@ -133,10 +133,7 @@ pipe_segment_config_common <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = paste(
-        "Configuration for data processing",
-        "- minimal proportion of pollen"
-      ),
+      description = "Configuration: minimum pollen proportion",
       name = "config_minimal_proportion_of_pollen",
       command = load_active_config_value(
         value = c("data_processing", "minimal_proportion_of_pollen")
@@ -144,7 +141,7 @@ pipe_segment_config_common <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = "Configuration for data processing - number of taxa",
+      description = "Configuration: maximum taxon count",
       name = "config_number_of_taxa",
       command = load_active_config_value(
         value = c("data_processing", "number_of_taxa")
@@ -160,7 +157,7 @@ pipe_segment_config_common <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = "Configuration for data processing - min n cores",
+      description = "Configuration: minimum core count",
       name = "config_min_n_cores",
       command = load_active_config_value(
         value = c("data_processing", "min_n_cores")
@@ -176,7 +173,7 @@ pipe_segment_config_common <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = "Configuration for data processing - min n samples",
+      description = "Configuration: minimum sample count",
       name = "config_min_n_samples",
       command = load_active_config_value(
         value = c("data_processing", "min_n_samples")
@@ -184,10 +181,7 @@ pipe_segment_config_common <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = paste0(
-        "Configuration for data processing -",
-        " minimum number of taxa to run model"
-      ),
+      description = "Configuration: minimum taxon count for model fitting",
       name = "config_min_n_taxa",
       command = load_active_config_value(
         value = c("data_processing", "min_n_taxa")

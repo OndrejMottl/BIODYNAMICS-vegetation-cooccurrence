@@ -1,29 +1,27 @@
-Validate Trait Manual Corrections File
+Validate Trait Correction Approval
 
 Description:
 
-     Reads the trait manual corrections CSV file and checks that every
-     row has been reviewed by a human. Acts as a pipeline guard: if any
-     row has a `CHECKED` value that is not `TRUE` (i.e. is `NA`,
-     `FALSE`, or absent), the function calls `cli::cli_abort()` listing
-     the number of unchecked rows so the pipeline stops until a human
-     has signed off the file.
+     Checks that every trait-correction row has been reviewed by a
+     human. Acts as a pipeline guard: if any row has a `CHECKED` value
+     that is not `TRUE`, the function calls `cli::cli_abort()` so the
+     pipeline stops until a human has signed off every row.
 
 Usage:
 
-     validate_trait_corrections(path_corrections)
-     
+     validate_trait_corrections(data_trait_corrections)
+
 Arguments:
 
-path_corrections: A character scalar giving the file path to
-          `trait_manual_corrections.csv`.
+data_trait_corrections: A data frame loaded by
+          [load_trait_corrections()]. Must contain a logical `CHECKED`
+          column.
 
 Details:
 
-     The expected CSV columns are: `taxon_name`, `trait_domain_name`,
-     `action`, `scale_factor`, `notes`, `CHECKED`. The abort message
-     reports exactly how many rows have not been validated and
-     instructs the user to set `CHECKED = TRUE` after reviewing.
+     The abort message reports exactly how many rows have not been
+     validated and instructs the user to set `CHECKED = TRUE` after
+     reviewing.
 
 Value:
 
@@ -33,5 +31,5 @@ Value:
 
 See Also:
 
-     [generate_trait_qc_report()], [apply_trait_corrections()]
-
+     [load_trait_corrections()], [correct_trait_records()],
+     [write_trait_quality_control_report()]

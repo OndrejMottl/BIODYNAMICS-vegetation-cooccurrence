@@ -20,13 +20,22 @@ source(
 
 library(document)
 
-purrr::walk(
-  .x = list.files(
+vec_function_files <-
+  fs::dir_ls(
     path = here::here("R/Functions"),
-    full.names = TRUE,
-    pattern = "\\.R$",
-    recursive = TRUE
-  ),
+    recurse = TRUE,
+    type = "file",
+    regexp = "[.]R$"
+  ) |>
+  purrr::discard(
+    ~ stringr::str_detect(
+      .x,
+      "(^|[/\\\\])_legacy([/\\\\]|$)"
+    )
+  )
+
+purrr::walk(
+  .x = vec_function_files,
   .f = purrr::possibly(
     .f = ~ document::document(
       file = .x,
@@ -43,11 +52,17 @@ purrr::walk(
 
 # Make QUARTO site for each function
 vec_html_files <-
-  list.files(
+  fs::dir_ls(
     path = here::here("Documentation/Functions"),
-    pattern = "\\.html$",
-    full.names = TRUE,
-    recursive = TRUE
+    recurse = TRUE,
+    type = "file",
+    regexp = "[.]html$"
+  ) |>
+  purrr::discard(
+    ~ stringr::str_detect(
+      .x,
+      "(^|[/\\\\])_legacy([/\\\\]|$)"
+    )
   )
 
 purrr::walk(

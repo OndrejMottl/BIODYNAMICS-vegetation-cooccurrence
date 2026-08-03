@@ -1,0 +1,25 @@
+Load Trait Corrections
+
+Description:
+
+     Loads a trait-corrections CSV file without applying or approving
+     its instructions.
+
+Usage:
+
+     load_trait_corrections(path_trait_corrections)
+
+Arguments:
+
+path_trait_corrections: A single character string giving the path to a
+          trait-corrections CSV file.
+
+Value:
+
+     A tibble containing the correction instructions stored in
+     `path_trait_corrections`.
+
+See Also:
+
+     [validate_trait_corrections()], [correct_trait_records()],
+     [write_trait_quality_control_report()]

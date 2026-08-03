@@ -1,0 +1,122 @@
+---
+format: html
+title: flag_trait_outliers()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>flag_trait_outliers</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Flag Trait Outliers Within Groups</h2>
+
+<h3>Description</h3>
+
+<p>Adds 'n_group_records' and 'is_trait_outlier' columns to grouped
+trait records using a symmetric median-IQR fence. The caller is
+responsible for grouping 'data_trait_records' with
+'dplyr::group_by()' before calling this function. The returned data
+frame is always ungrouped.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>flag_trait_outliers(
+  data_trait_records,
+  trait_value_column = "trait_value",
+  iqr_multiplier,
+  minimum_group_size = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_trait_records">data_trait_records</code></td>
+<td>
+<p>A grouped data frame (e.g. created by 'dplyr::group_by()').
+Must contain the column named by 'trait_value_column'.</p>
+</td></tr>
+<tr><td><code id="trait_value_column">trait_value_column</code></td>
+<td>
+<p>Character scalar. Name of the numeric column to test.
+Default: '&quot;trait_value&quot;'.</p>
+</td></tr>
+<tr><td><code id="iqr_multiplier">iqr_multiplier</code></td>
+<td>
+<p>Positive numeric scalar. IQR fence multiplier. A value is
+flagged when
+'|value - group_median| &gt; iqr_multiplier * group_IQR'.</p>
+</td></tr>
+<tr><td><code id="minimum_group_size">minimum_group_size</code></td>
+<td>
+<p>Optional positive integer scalar. When supplied,
+'is_trait_outlier' is set to 'FALSE' for groups with fewer than
+'minimum_group_size' records or with an IQR of zero. Default:
+'NULL' (no group-size guard applied).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The IQR fence is
+'[group_median - iqr_multiplier * group_IQR,
+group_median + iqr_multiplier * group_IQR]'.
+Values outside this range receive 'is_trait_outlier = TRUE'.
+</p>
+<p>When 'minimum_group_size' is not 'NULL', an additional guard is
+applied: groups with fewer than 'minimum_group_size' records or a
+'group_IQR' of zero always receive 'is_trait_outlier = FALSE'.
+</p>
+<p>Designed for use in pipes where the caller sets up grouping:
+&ldquo;'r
+data_traits |&gt;
+dplyr::group_by(trait_domain_name) |&gt;
+flag_trait_outliers(iqr_multiplier = 3)
+&ldquo;'
+</p>
+
+
+<h3>Value</h3>
+
+<p>An ungrouped data frame with the same rows and columns as
+'data_trait_records' plus two additional columns:
+</p>
+
+<dl>
+<dt>'n_group_records'</dt><dd><p>Integer. Number of records in the group.</p>
+</dd>
+<dt>'is_trait_outlier'</dt><dd><p>Logical. &lsquo;TRUE' when the record&rsquo;s
+value falls outside the IQR fence; 'FALSE' otherwise.
+When 'minimum_group_size' is supplied, also 'FALSE' for groups
+that are too small or have zero IQR.</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p>[filter_trait_outliers()], [write_trait_quality_control_report()]
+</p>
+
+</main>
+
+</div>
+</body></html>

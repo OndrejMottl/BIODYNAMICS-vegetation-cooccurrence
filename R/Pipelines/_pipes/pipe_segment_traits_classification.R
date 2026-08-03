@@ -70,7 +70,7 @@ pipe_segment_traits_classification <-
     targets::tar_target(
       description = "Classify each trait taxon via taxospace",
       name = data_trait_taxa_classification,
-      command = get_taxa_classification(vec_unique_trait_taxa),
+      command = load_taxa_classification(vec_unique_trait_taxa),
       pattern = map(vec_unique_trait_taxa)
     ),
 
@@ -78,8 +78,8 @@ pipe_segment_traits_classification <-
     targets::tar_target(
       description = "Build full classification table for trait taxa",
       name = data_classification_table_traits,
-      command = make_classification_table(
-        data = data_trait_taxa_classification
+      command = build_classification_table(
+        list_taxa_classifications = data_trait_taxa_classification
       )
     ),
 
@@ -102,27 +102,28 @@ pipe_segment_traits_classification <-
     targets::tar_target(
       description = "Load shared auxiliary classification table",
       name = data_aux_classification_table_traits,
-      command = get_aux_classification_table(
-        file_path = file_aux_classification_table_traits
+      command = load_auxiliary_classification_table(
+        file_auxiliary_classification_table =
+          file_aux_classification_table_traits
       )
     ),
 
     # ── 6. Combine auto + auxiliary classifications ──────
     targets::tar_target(
-      description = "Combine automatic and auxiliary trait classifications",
+      description = "Build combined automatic and auxiliary classifications",
       name = data_combined_classification_table_traits,
-      command = combine_classification_tables(
+      command = build_combined_classification_table(
         data_classification_table = data_classification_table_traits,
-        data_aux_classification_table =
+        data_auxiliary_classification_table =
           data_aux_classification_table_traits
       )
     ),
 
     # ── 7. Detect unclassified taxa ──────────────────────
     targets::tar_target(
-      description = "Find trait taxa without any classification",
+      description = "Select trait taxa without any classification",
       name = vec_trait_taxa_without_classification,
-      command = get_taxa_without_classification(
+      command = select_unclassified_taxa(
         vec_community_taxa = vec_unique_trait_taxa,
         data_classification_table =
           data_combined_classification_table_traits
@@ -147,11 +148,11 @@ pipe_segment_traits_classification <-
 
     # ── 9. Append missing taxa to shared CSV template ───
     targets::tar_target(
-      description = "Append missing trait taxa to template CSV",
+      description = "Save missing trait taxa to template CSV",
       name = file_missing_trait_taxa_template,
-      command = append_missing_taxa_to_template(
+      command = save_missing_taxa_template(
         data_missing_taxa = data_missing_trait_taxa_template,
-        file_path = here::here(
+        file_missing_taxa_template = here::here(
           "Data/Input/missing_taxa_template.csv"
         ),
         data_classification_table = data_combined_classification_table_traits
@@ -164,7 +165,7 @@ pipe_segment_traits_classification <-
     # Data/Input/missing_taxa_template.csv so the user can review
     # them and add the needed manual classifications.
     targets::tar_target(
-      description = "Check all trait taxa are classified; stop if not",
+      description = "Validate that all trait taxa are classified",
       name = check_trait_taxa_classification,
       command = {
         base::force(file_missing_trait_taxa_template)
@@ -207,7 +208,7 @@ pipe_segment_traits_classification <-
         resolve_classification_to_finest_rank(
           data_classification_table =
             data_combined_classification_table_traits,
-          column_name_taxon = "taxon_resolved"
+          vec_taxon_column_name = "taxon_resolved"
         )
       }
     ),

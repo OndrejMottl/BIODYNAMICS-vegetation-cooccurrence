@@ -43,8 +43,8 @@ pipe_segment_community_prepare_paleo <-
     targets::tar_target(
       description = "Transform community counts to proportions",
       name = "data_community_proportions",
-      command = make_community_proportions(
-        data = data_community_long_ages
+      command = prepare_community_proportions(
+        data_community = data_community_long_ages
       )
     ),
     targets::tar_target(
@@ -65,30 +65,30 @@ pipe_segment_community_prepare_paleo <-
         )
     ),
     targets::tar_target(
-      description = "Share community proportions for interpolation workers",
+      description = "Build shared community interpolation input",
       name = "data_community_proportions_shared",
-      command = share_interpolation_data(
-        data = data_community_proportions,
+      command = build_shared_interpolation_data(
+        data_interpolation = data_community_proportions,
         registry_key = "data_community_proportions"
       ),
       deployment = "main",
       memory = "persistent"
     ),
     targets::tar_target(
-      description = "Share age uncertainty for interpolation workers",
+      description = "Build shared age-uncertainty interpolation input",
       name = "data_age_uncertainty_shared",
-      command = share_interpolation_data(
-        data = data_age_uncertainty,
+      command = build_shared_interpolation_data(
+        data_interpolation = data_age_uncertainty,
         registry_key = "data_age_uncertainty"
       ),
       deployment = "main",
       memory = "persistent"
     ),
     targets::tar_target(
-      description = "Create per-dataset community interpolation index",
+      description = "Build per-dataset community interpolation index",
       name = "list_community_interpolation_index",
-      command = make_community_interpolation_index(
-        data = data_community_proportions
+      command = build_community_interpolation_index(
+        data_community = data_community_proportions
       ),
       iteration = "list"
     ),
@@ -96,10 +96,10 @@ pipe_segment_community_prepare_paleo <-
       description = "Interpolate one paleo community dataset",
       name = "data_community_interpolated_dataset",
       command = interpolate_community_dataset_from_shared_inputs(
-        data_interpolation_index = list_community_interpolation_index,
-        data = data_community_proportions_shared,
+        list_interpolation_index = list_community_interpolation_index,
+        data_community = data_community_proportions_shared,
         data_age_uncertainty = data_age_uncertainty_shared,
-        timestep = purrr::chuck(config_data_processing, "time_step"),
+        time_step = purrr::chuck(config_data_processing, "time_step"),
         age_min = base::min(config_age_lim),
         age_max = base::max(config_age_lim),
         n_cores = 1L
@@ -116,8 +116,8 @@ pipe_segment_community_prepare_paleo <-
     targets::tar_target(
       description = "Remove non-Plantae taxa from community data",
       name = "data_community_plantae",
-      command = filter_non_plantae_taxa(
-        data = data_community_interpolated,
+      command = filter_community_to_plantae(
+        data_community = data_community_interpolated,
         data_classification_table = data_combined_classification_table
       )
     ),
@@ -125,9 +125,9 @@ pipe_segment_community_prepare_paleo <-
       description = "Classify community data to specific taxonomic resolution",
       name = "data_community_classified",
       command = classify_taxonomic_resolution(
-        data = data_community_plantae,
+        data_source = data_community_plantae,
         data_classification_table = data_combined_classification_table,
-        taxonomic_resolution = purrr::chuck(
+        vec_taxonomic_resolution = purrr::chuck(
           config_data_processing,
           "taxonomic_resolution"
         )

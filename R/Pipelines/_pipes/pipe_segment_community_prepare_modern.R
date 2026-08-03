@@ -40,10 +40,10 @@ suppressMessages(
 pipe_segment_community_prepare_modern <-
   list(
     targets::tar_target(
-      description = "Report modern community preprocessing QA issues",
+      description = "Evaluate modern community preprocessing quality",
       name = "data_modern_quality_report",
-      command = make_modern_data_quality_report(
-        data_source = data_community_long_ages,
+      command = evaluate_modern_data_quality(
+        data_community = data_community_long_ages,
         data_sample_ages = data_sample_ages,
         data_coordinates = data_coords
       )
@@ -130,7 +130,7 @@ pipe_segment_community_prepare_modern <-
       name = "data_community_plantae",
       command = data_community_analysis |>
         dplyr::rename(value = "pollen_count") |>
-        filter_non_plantae_taxa(
+        filter_community_to_plantae(
           data_classification_table = data_combined_classification_table
         )
     ),
@@ -138,9 +138,10 @@ pipe_segment_community_prepare_modern <-
       description = "Classify modern community data to configured resolution",
       name = "data_community_classified",
       command = classify_taxonomic_resolution(
-        data = data_community_plantae,
+        data_source = data_community_plantae,
         data_classification_table = data_combined_classification_table,
-        taxonomic_resolution = config_data_processing$taxonomic_resolution
+        vec_taxonomic_resolution =
+          config_data_processing[["taxonomic_resolution"]]
       )
     )
   )

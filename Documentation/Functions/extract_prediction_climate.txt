@@ -14,7 +14,7 @@ Usage:
        x_lim,
        y_lim,
        cache_dir,
-       raster_fn = get_chelsa_raster
+       raster_fn = load_chelsa_raster
      )
      
 Arguments:
@@ -31,9 +31,9 @@ abiotic_variables: Character vector of CHELSA variable names.
    y_lim: Numeric latitude range used for raster cropping.
 
 cache_dir: Character scalar cache directory passed to
-          [get_chelsa_raster()].
+          [load_chelsa_raster()].
 
-raster_fn: Raster-loading function. Defaults to [get_chelsa_raster()].
+raster_fn: Raster-loading function. Defaults to [load_chelsa_raster()].
 
 Value:
 

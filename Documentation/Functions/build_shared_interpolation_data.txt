@@ -1,0 +1,44 @@
+Build Shared Interpolation Data
+
+Description:
+
+     Builds a shared-memory interpolation data object using
+     [mori::share()] so local worker processes can read it without each
+     retaining a separate private copy.
+
+Usage:
+
+     build_shared_interpolation_data(data_interpolation = NULL, registry_key = NULL)
+
+Arguments:
+
+data_interpolation: A data frame to share across local worker
+          processes.
+
+registry_key: Optional non-empty key used to retain the shared object
+          in a process-local registry. Reusing a key replaces the
+          previous region.
+
+Details:
+
+     The returned object must be treated as read-only. Mutating it in a
+     worker can force R to create private copies and remove the memory
+     benefit.
+
+Value:
+
+     A data frame-like shared-memory object created by [mori::share()].
+
+See Also:
+
+     [mori::share()]
+
+Examples:
+
+     data_interpolation <-
+       tibble::tibble(dataset_name = "core_a")
+
+     data_shared <-
+       build_shared_interpolation_data(
+         data_interpolation = data_interpolation
+       )

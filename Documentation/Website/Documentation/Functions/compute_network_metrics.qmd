@@ -90,11 +90,10 @@ species observed in any sample), an error is raised.
 <h3>See Also</h3>
 
 <p>[assemble_data_to_fit()],
-[binarize_community_data()]
+[compute_community_presence_absence()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

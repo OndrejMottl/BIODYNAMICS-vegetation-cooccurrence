@@ -35,9 +35,9 @@ accordingly. Supported resolutions are 'kingdom', 'phylum', 'class',
 <h3>Usage</h3>
 
 <pre><code class='language-R'>classify_taxonomic_resolution(
-  data,
+  data_source,
   data_classification_table,
-  taxonomic_resolution,
+  vec_taxonomic_resolution,
   verbose = TRUE
 )
 </code></pre>
@@ -46,7 +46,7 @@ accordingly. Supported resolutions are 'kingdom', 'phylum', 'class',
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="data">data</code></td>
+<tr><td><code id="data_source">data_source</code></td>
 <td>
 <p>A data frame containing taxon data with columns including 'taxon',
 'dataset_name', 'age', and 'value'.</p>
@@ -54,10 +54,10 @@ accordingly. Supported resolutions are 'kingdom', 'phylum', 'class',
 <tr><td><code id="data_classification_table">data_classification_table</code></td>
 <td>
 <p>A data frame mapping 'sel_name' to taxonomic levels. Must contain
-at least one rank column at or below 'taxonomic_resolution'
+at least one rank column at or below 'vec_taxonomic_resolution'
 (e.g. 'family', 'genus', 'species').</p>
 </td></tr>
-<tr><td><code id="taxonomic_resolution">taxonomic_resolution</code></td>
+<tr><td><code id="vec_taxonomic_resolution">vec_taxonomic_resolution</code></td>
 <td>
 <p>A character string specifying the finest taxonomic level to use.
 Must be one of ''kingdom'&lsquo;, '&rsquo;phylum'&lsquo;, '&rsquo;class'&lsquo;, '&rsquo;order'',
@@ -76,14 +76,14 @@ messages are printed.</p>
 <h3>Details</h3>
 
 <p>Performs a left join to map taxa to all available rank columns up
-to and including 'taxonomic_resolution'. The finest non-NA rank is
+to and including 'vec_taxonomic_resolution'. The finest non-NA rank is
 then selected via 'dplyr::coalesce()' applied from finest to
 coarsest. This means a taxon known only to family when genus is
 requested will be assigned to its family name rather than dropped.
 Taxa with no valid classification at any available rank are removed
 with a 'cli::cli_warn()' warning. Taxa that fall back to a coarser
 rank are reported via 'cli::cli_inform()'. Ranks finer than
-'taxonomic_resolution' (e.g. species when genus is requested) are
+'vec_taxonomic_resolution' (e.g. species when genus is requested) are
 never used, even when present in the classification table. The
 NA-drop step prevents a column literally named NA appearing in the
 community matrix produced by downstream 'pivot_wider()' calls.
@@ -93,7 +93,7 @@ community matrix produced by downstream 'pivot_wider()' calls.
 <h3>Value</h3>
 
 <p>A data frame with taxa classified to the finest available rank at
-or below 'taxonomic_resolution' and pollen proportions aggregated
+or below 'vec_taxonomic_resolution' and pollen proportions aggregated
 accordingly. The output preserves all dataset_name and age
 combinations for true negatives.
 </p>
@@ -101,11 +101,11 @@ combinations for true negatives.
 
 <h3>See Also</h3>
 
-<p>[filter_non_plantae_taxa()], [filter_rare_taxa()]
+<p>[filter_community_to_plantae()],
+[filter_community_by_minimum_proportion()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

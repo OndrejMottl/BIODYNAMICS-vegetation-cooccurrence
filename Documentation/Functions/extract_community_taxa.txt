@@ -1,0 +1,32 @@
+Extract Community Taxa
+
+Description:
+
+     Extracts unique taxon names from in-memory long community data.
+
+Usage:
+
+     extract_community_taxa(data_community = NULL)
+
+Arguments:
+
+data_community: A data frame containing a `taxon` column.
+
+Details:
+
+     Taxa retain their first-seen order. An empty community aborts
+     because downstream classification and model fitting require at
+     least one taxon.
+
+Value:
+
+     A character vector of unique taxon names present in the data.
+
+Examples:
+
+     data_community <-
+       tibble::tibble(
+         taxon = base::c("Pinus", "Betula", "Pinus")
+       )
+
+     extract_community_taxa(data_community = data_community)

@@ -107,11 +107,15 @@ data_ft_all <-
   vec_continent_ids |>
   purrr::map(
     .f = ~ {
-      get_functional_type_classification(
-        continent_id = .x,
-        path_processed = here::here("Data/Processed/Traits")
+      continent_id <- .x
+
+      load_latest_functional_type_classification(
+        continent_id = continent_id,
+        path_classification_directory = here::here(
+          "Data/Processed/Traits"
+        )
       ) |>
-        dplyr::mutate(continent_id = .x)
+        dplyr::mutate(continent_id = .env[["continent_id"]])
     }
   ) |>
   purrr::list_rbind()
@@ -186,36 +190,42 @@ data_ft_classified <-
 data_purity <-
   base::as.character(vec_ranks) |>
   purrr::map(
-    .f = ~ data_ft_classified |>
-      tidyr::drop_na(
-        dplyr::all_of(base::c("functional_type", .x))
-      ) |>
-      dplyr::group_by(
-        continent_id,
-        dplyr::across(dplyr::all_of(.x)),
-        functional_type
-      ) |>
-      dplyr::summarise(
-        n = dplyr::n(),
-        .groups = "drop"
-      ) |>
-      dplyr::group_by(
-        continent_id,
-        dplyr::across(dplyr::all_of(.x))
-      ) |>
-      dplyr::mutate(
-        n_total = base::sum(n),
-        prop = n / n_total
-      ) |>
-      dplyr::summarise(
-        dominant_ft_prop = base::max(prop),
-        n_taxa = dplyr::first(n_total),
-        n_ft = dplyr::n_distinct(functional_type),
-        .groups = "drop"
-      ) |>
-      dplyr::filter(n_taxa >= n_minimum_clade_size) |>
-      dplyr::rename(clade_name = dplyr::all_of(.x)) |>
-      dplyr::mutate(rank = .x)
+    .f = ~ {
+      taxonomic_rank <- .x
+
+      data_ft_classified |>
+        tidyr::drop_na(
+          dplyr::all_of(base::c("functional_type", taxonomic_rank))
+        ) |>
+        dplyr::group_by(
+          continent_id,
+          dplyr::across(dplyr::all_of(taxonomic_rank)),
+          functional_type
+        ) |>
+        dplyr::summarise(
+          n = dplyr::n(),
+          .groups = "drop"
+        ) |>
+        dplyr::group_by(
+          continent_id,
+          dplyr::across(dplyr::all_of(taxonomic_rank))
+        ) |>
+        dplyr::mutate(
+          n_total = base::sum(n),
+          prop = n / n_total
+        ) |>
+        dplyr::summarise(
+          dominant_ft_prop = base::max(prop),
+          n_taxa = dplyr::first(n_total),
+          n_ft = dplyr::n_distinct(functional_type),
+          .groups = "drop"
+        ) |>
+        dplyr::filter(n_taxa >= n_minimum_clade_size) |>
+        dplyr::rename(
+          clade_name = dplyr::all_of(taxonomic_rank)
+        ) |>
+        dplyr::mutate(rank = taxonomic_rank)
+    }
   ) |>
   purrr::list_rbind() |>
   dplyr::mutate(

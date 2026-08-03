@@ -19,9 +19,11 @@
 #                                     + outlier summary;
 #                                     writes Data/Temp/trait_qc_report_*.csv
 #                                     (per-domain×taxon summary);
-#                                     creates Data/Input/trait_manual_corrections.csv
+#                                     creates
+#                                     Data/Input/trait_manual_corrections.csv
 #                                     if it does not yet exist
-#   2. file_trait_corrections        - tracks the corrections CSV (format="file")
+#   2. file_trait_corrections        - tracks the corrections CSV
+#                                      (format = "file")
 #   3. trait_corrections_validated   – GUARD: aborts when any row has
 #                                      CHECKED != TRUE; requires human sign-off
 #   4. data_traits_corrected         – corrections applied to raw trait data
@@ -69,9 +71,9 @@ pipe_segment_traits_qc <-
     targets::tar_target(
       description = "Generate trait QC report and create corrections template",
       name = trait_qc_report,
-      command = generate_trait_qc_report(
-        data_traits = data_traits_raw,
-        path_corrections = here::here(
+      command = write_trait_quality_control_report(
+        data_trait_records = data_traits_raw,
+        path_trait_corrections = here::here(
           "Data/Input/trait_manual_corrections.csv"
         )
       )
@@ -94,8 +96,8 @@ pipe_segment_traits_qc <-
     ),
 
     # ── 3. HUMAN REVIEW GUARD ───────────────────────────
-    # Calls validate_trait_corrections(), which aborts with an
-    # informative error when any row has CHECKED != TRUE.
+    # Loads the corrections file, then validate_trait_corrections()
+    # aborts with an informative error when CHECKED != TRUE.
     # The pipeline CANNOT proceed past this point until a human has:
     #   1. Reviewed Data/Temp/trait_qc_report_{date}.csv
     #   2. Filled in Data/Input/trait_manual_corrections.csv
@@ -104,7 +106,9 @@ pipe_segment_traits_qc <-
       description = "GUARD: validate all correction rows are signed off",
       name = trait_corrections_validated,
       command = validate_trait_corrections(
-        path_corrections = file_trait_corrections
+        data_trait_corrections = load_trait_corrections(
+          path_trait_corrections = file_trait_corrections
+        )
       )
     ),
 
@@ -114,9 +118,9 @@ pipe_segment_traits_qc <-
     targets::tar_target(
       description = "Apply human-reviewed corrections to raw trait data",
       name = data_traits_corrected,
-      command = apply_trait_corrections(
-        data_traits = data_traits_raw,
-        data_corrections = trait_corrections_validated
+      command = correct_trait_records(
+        data_trait_records = data_traits_raw,
+        data_trait_corrections = trait_corrections_validated
       )
     )
   )

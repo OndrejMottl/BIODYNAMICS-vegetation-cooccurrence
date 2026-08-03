@@ -26,7 +26,8 @@
 #       classification, from pipe_segment_taxa_classification)
 #   - config_data_processing
 #       (taxonomic_resolution, minimal_proportion_of_pollen)
-#   - config_min_n_taxa (minimum viable non-constant FT groups)
+#   - config_min_n_taxa
+#       (minimum viable non-constant FT groups)
 #   - data_traits_classified_corrected  \  read from
 #   - data_combined_classification_table_traits ) traits store
 #

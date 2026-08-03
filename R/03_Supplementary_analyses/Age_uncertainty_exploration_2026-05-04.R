@@ -70,7 +70,7 @@ y_lim <-
 age_lim <-
   load_active_config_value(c("vegvault_data", "age_lim"))
 
-timestep <-
+time_step <-
   load_active_config_value(c("data_processing", "time_step"))
 
 age_min <- base::min(age_lim)
@@ -151,22 +151,30 @@ data_vegvault_extracted <-
   )
 
 data_community <-
-  get_community_data(data_vegvault_extracted)
+  extract_community_records(
+    data_vegvault = data_vegvault_extracted
+  )
 
 data_community_long <-
-  make_community_data_long(data_community)
+  reshape_community_to_long(
+    data_community = data_community
+  )
 
 data_sample_ages <-
-  get_sample_ages(data_vegvault_extracted)
+  extract_sample_ages(
+    data_vegvault = data_vegvault_extracted
+  )
 
 data_community_long_ages <-
-  add_age_to_samples(
-    data_community = data_community_long,
-    data_ages = data_sample_ages
+  join_sample_ages(
+    data_records = data_community_long,
+    data_sample_ages = data_sample_ages
   )
 
 data_community_proportions <-
-  make_community_proportions(data = data_community_long_ages)
+  prepare_community_proportions(
+    data_community = data_community_long_ages
+  )
 
 n_datasets <-
   dplyr::n_distinct(
@@ -230,7 +238,8 @@ base::cat(
 
 # Build per-iteration community data frame:
 # replace consensus age with the iteration-specific age estimate,
-# and add the iteration column so interpolate_data() can nest by it.
+# and add the iteration column so interpolate_grouped_time_series() can
+# nest by it.
 data_community_iter <-
   data_community_proportions |>
   dplyr::select("dataset_name", "sample_name", "taxon", "pollen_prop") |>
@@ -286,9 +295,10 @@ data_current_raw <-
   )
 
 data_current <-
-  interpolate_community_data(
-    data = data_community_proportions,
-    timestep = timestep,
+  interpolate_grouped_time_series(
+    data_time_series = data_community_proportions,
+    grouping_variables = base::c("dataset_name", "taxon"),
+    time_step = time_step,
     age_min = age_min,
     age_max = age_max
   )
@@ -331,9 +341,13 @@ data_iter_single <-
     dataset_name == sel_dataset_name,
     taxon == sel_taxon
   ) |>
-  interpolate_data(
-    by = c("dataset_name", "taxon", "iteration"),
-    timestep = timestep,
+  interpolate_grouped_time_series(
+    grouping_variables = base::c(
+      "dataset_name",
+      "taxon",
+      "iteration"
+    ),
+    time_step = time_step,
     age_min = age_min,
     age_max = age_max
   )
@@ -443,9 +457,13 @@ ggview::save_ggplot(
 data_iter_core_all_taxa <-
   data_community_iter |>
   dplyr::filter(dataset_name == sel_dataset_name) |>
-  interpolate_data(
-    by = c("dataset_name", "taxon", "iteration"),
-    timestep = timestep,
+  interpolate_grouped_time_series(
+    grouping_variables = base::c(
+      "dataset_name",
+      "taxon",
+      "iteration"
+    ),
+    time_step = time_step,
     age_min = age_min,
     age_max = age_max
   ) |>
@@ -574,9 +592,13 @@ data_community_iter_limited <-
 
 data_iter_all <-
   data_community_iter_limited |>
-  interpolate_data(
-    by = c("dataset_name", "taxon", "iteration"),
-    timestep = timestep,
+  interpolate_grouped_time_series(
+    grouping_variables = base::c(
+      "dataset_name",
+      "taxon",
+      "iteration"
+    ),
+    time_step = time_step,
     age_min = age_min,
     age_max = age_max
   )

@@ -21,8 +21,8 @@ sel_abiotic_var_name: A non-empty character vector specifying the
 Details:
 
      The function extends the supplied plan with the following steps:
-     `get_abiotic_data()` -> `select_abiotic_var_by_name()` ->
-     `get_taxa()` -> `extract_data()`
+     `vaultkeepr::get_abiotic_data()` -> `select_abiotic_var_by_name()`
+     -> `get_taxa()` -> `extract_data()`
 
      Input validation and plan construction (geographic/temporal
      filters, dataset type selection) are handled by

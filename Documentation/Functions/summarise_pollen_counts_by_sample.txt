@@ -1,0 +1,23 @@
+Summarise Pollen Counts by Sample
+
+Description:
+
+     Summarises the total pollen count for each sample.
+
+Usage:
+
+     summarise_pollen_counts_by_sample(data_community = NULL)
+
+Arguments:
+
+data_community: A data frame containing `sample_name` and
+          `pollen_count` columns.
+
+Details:
+
+     Missing values in `pollen_count` are ignored.
+
+Value:
+
+     A data frame with two columns: `sample_name` and `pollen_sum`,
+     where `pollen_sum` is the total pollen count for each sample.

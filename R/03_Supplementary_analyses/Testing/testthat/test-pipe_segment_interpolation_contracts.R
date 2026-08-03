@@ -35,7 +35,7 @@ testthat::test_that(
       base::any(
         stringr::str_detect(
           string = vec_abiotic_pipe_lines,
-          pattern = "check_abiotic_interpolation_contract"
+          pattern = "validate_abiotic_interpolation_contract"
         )
       )
     )
@@ -44,7 +44,7 @@ testthat::test_that(
       base::any(
         stringr::str_detect(
           string = vec_abiotic_pipe_lines,
-          pattern = "interpolate_community_data_with_uncertainty"
+          pattern = "interpolate_paleo_community_with_age_uncertainty"
         )
       )
     )
@@ -66,7 +66,7 @@ testthat::test_that(
       base::any(
         stringr::str_detect(
           string = vec_paleo_pipe_lines,
-          pattern = "share_interpolation_data"
+          pattern = "build_shared_interpolation_data"
         )
       )
     )
@@ -75,7 +75,7 @@ testthat::test_that(
       base::any(
         stringr::str_detect(
           string = vec_paleo_pipe_lines,
-          pattern = "make_community_interpolation_index"
+          pattern = "build_community_interpolation_index"
         )
       )
     )

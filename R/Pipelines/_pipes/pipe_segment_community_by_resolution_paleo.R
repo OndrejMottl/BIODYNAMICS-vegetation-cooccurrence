@@ -82,16 +82,16 @@ pipe_segment_community_by_resolution_paleo <-
           resolution_id == "functional_type"
         ) {
           classify_to_functional_type(
-            data = data_community_classified,
-            data_ft_classification = qs2::qs_read(
+            data_source = data_community_classified,
+            data_functional_type_classification = qs2::qs_read(
               file_ft_classification_paleo
             )
           )
         } else {
           classify_taxonomic_resolution(
-            data = data_community_classified,
+            data_source = data_community_classified,
             data_classification_table = data_combined_classification_table,
-            taxonomic_resolution = resolution_id,
+            vec_taxonomic_resolution = resolution_id,
             verbose = FALSE
           )
         }

@@ -1,0 +1,22 @@
+Diagnose Duplicate Modern Sites
+
+Description:
+
+     Returns modern datasets that share the same geographic
+     coordinates.
+
+Usage:
+
+     diagnose_duplicate_sites(data_coordinates = NULL)
+
+Arguments:
+
+data_coordinates: A data frame with `coord_long` and `coord_lat`
+          columns. Dataset names may be stored either in a
+          `dataset_name` column or in row names.
+
+Value:
+
+     A tibble with one row per dataset involved in a duplicated
+     coordinate group. Returns a zero-row tibble when no duplicate
+     sites are detected.

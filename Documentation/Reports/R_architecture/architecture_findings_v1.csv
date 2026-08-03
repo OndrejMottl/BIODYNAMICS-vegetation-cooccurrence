@@ -1,32 +1,4 @@
 finding_type,severity,current_path,symbol,owning_issue,message
-function_naming,report_only,R/Functions/Abiotic/Ingest/get_abiotic_data.R,get_abiotic_data,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Abiotic/Ingest/get_chelsa_raster.R,get_chelsa_raster,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Abiotic/Predictors/get_predictor_collinearity.R,get_predictor_collinearity,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Abiotic/Validation/check_abiotic_interpolation_contract.R,check_abiotic_interpolation_contract,#153,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Community/Classification/append_missing_taxa_to_template.R,append_missing_taxa_to_template,#153,Review leading verb `append` against version 1.
-function_naming,report_only,R/Functions/Community/Classification/check_and_report_missing_taxa.R,check_and_report_missing_taxa,#153,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Community/Classification/combine_classification_tables.R,combine_classification_tables,#153,Review leading verb `combine` against version 1.
-function_naming,report_only,R/Functions/Community/Classification/get_aux_classification_table.R,get_aux_classification_table,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Community/Classification/get_taxa_classification.R,get_taxa_classification,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Community/Classification/get_taxa_without_classification.R,get_taxa_without_classification,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Community/Classification/make_classification_table.R,make_classification_table,#153,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Community/Classification/remap_classification_table_by_community_taxa.R,remap_classification_table_by_community_taxa,#153,Review leading verb `remap` against version 1.
-function_naming,report_only,R/Functions/Community/Ingest/get_community_data.R,get_community_data,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Community/Modern_data/make_modern_data_quality_report.R,make_modern_data_quality_report,#153,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Community/Modern_data/normalize_coordinates.R,normalize_coordinates,#153,Review leading verb `normalize` against version 1.
-function_naming,report_only,R/Functions/Community/Quality_control/check_modern_data_impossible_values.R,check_modern_data_impossible_values,#153,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Community/Quality_control/detect_colocated_community_records.R,detect_colocated_community_records,#153,Review leading verb `detect` against version 1.
-function_naming,report_only,R/Functions/Community/Quality_control/detect_duplicate_communities.R,detect_duplicate_communities,#153,Review leading verb `detect` against version 1.
-function_naming,report_only,R/Functions/Community/Quality_control/detect_duplicate_metadata_keys.R,detect_duplicate_metadata_keys,#153,Review leading verb `detect` against version 1.
-function_naming,report_only,R/Functions/Community/Quality_control/detect_duplicate_sites.R,detect_duplicate_sites,#153,Review leading verb `detect` against version 1.
-function_naming,report_only,R/Functions/Community/Quality_control/make_community_record_signatures.R,make_community_record_signatures,#153,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Community/Taxa/get_community_taxa.R,get_community_taxa,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Community/Taxa/get_pollen_sum.R,get_pollen_sum,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Community/Transformation/binarize_community_data.R,binarize_community_data,#153,Review leading verb `binarize` against version 1.
-function_naming,report_only,R/Functions/Community/Transformation/make_community_data_long.R,make_community_data_long,#153,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Community/Transformation/make_community_proportions.R,make_community_proportions,#153,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Community/Transformation/replace_na_community_data_with_zeros.R,replace_na_community_data_with_zeros,#153,Review leading verb `replace` against version 1.
-function_naming,report_only,R/Functions/Community/Transformation/transform_to_proportions.R,transform_to_proportions,#153,Review leading verb `transform` against version 1.
 function_naming,report_only,R/Functions/Data_access/Vegvault/read_vegvault_scalar.R,read_vegvault_scalar,#155,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/adapt_cross_validation_assignments.R,adapt_cross_validation_assignments,#141,Review leading verb `adapt` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/assemble_sjsdm_cached_selected_folds.R,assemble_sjsdm_cached_selected_folds,#141,Review leading verb `assemble` against version 1.
@@ -100,22 +72,6 @@ function_naming,report_only,R/Functions/Presentation/IAVS/Paths_and_config/get_p
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/count_successful_targets.R,count_successful_targets,#155,Review leading verb `count` against version 1.
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_meta_or_empty.R,read_target_meta_or_empty,#155,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_or_null.R,read_target_or_null,#155,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Time/Ages/add_age_to_samples.R,add_age_to_samples,#153,Review leading verb `add` against version 1.
-function_naming,report_only,R/Functions/Time/Ages/get_sample_ages.R,get_sample_ages,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Time/Interpolation/share_interpolation_data.R,share_interpolation_data,#153,Review leading verb `share` against version 1.
-function_naming,report_only,R/Functions/Time/Interpolation_jobs/make_community_interpolation_index.R,make_community_interpolation_index,#153,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Time/Interpolation_jobs/make_community_interpolation_jobs.R,make_community_interpolation_jobs,#153,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Traits/Classification/get_functional_type_classification.R,get_functional_type_classification,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Traits/Classification/get_functional_type_classification_path.R,get_functional_type_classification_path,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Traits/Classification/make_trait_table.R,make_trait_table,#153,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Traits/Classification/read_functional_type_classification.R,read_functional_type_classification,#153,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Traits/Cleaning/clean_raw_trait_data.R,clean_raw_trait_data,#153,Review leading verb `clean` against version 1.
-function_naming,report_only,R/Functions/Traits/Corrections/apply_trait_corrections.R,apply_trait_corrections,#153,Review leading verb `apply` against version 1.
-function_naming,report_only,R/Functions/Traits/Ingest/get_trait_domain_names_from_vegvault.R,get_trait_domain_names_from_vegvault,#153,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Traits/Reports/add_iqr_outlier_flag.R,add_iqr_outlier_flag,#153,Review leading verb `add` against version 1.
-function_naming,report_only,R/Functions/Traits/Reports/check_trait_coverage.R,check_trait_coverage,#153,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Traits/Reports/generate_trait_qc_report.R,generate_trait_qc_report,#153,Review leading verb `generate` against version 1.
-function_naming,report_only,R/Functions/Traits/Reports/get_family_trait_summary.R,get_family_trait_summary,#153,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Utility/Config/get_active_config.R,get_active_config,#155,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Utility/Config/get_config_value_with_fallback.R,get_config_value_with_fallback,#155,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Utility/Config/get_preprocessing_controller.R,get_preprocessing_controller,#155,Review leading verb `get` against version 1.
@@ -134,8 +90,6 @@ function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_scale_id_fr
 function_naming,report_only,R/Functions/Utility/Pipeline/get_new_targets_errors.R,get_new_targets_errors,#155,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Utility/Pipeline/monitor_pipeline_progress.R,monitor_pipeline_progress,#155,Review leading verb `monitor` against version 1.
 function_naming,report_only,R/Functions/Utility/Validation/align_sample_ids.R,align_sample_ids,#155,Review leading verb `align` against version 1.
-function_naming,report_only,R/Functions/Utility/Validation/check_data_sample_ids_n.R,check_data_sample_ids_n,#155,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Utility/Validation/check_min_n_cores.R,check_min_n_cores,#155,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Utility/Validation/check_presence_of_vegvault.R,check_presence_of_vegvault,#155,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Visualisation/Legends_and_colours/mix_variance_component_colours.R,mix_variance_component_colours,#155,Review leading verb `mix` against version 1.
 missing_function,report_only,R/Functions/Utility/Config/get_active_config.R,NA,#150,Record the approved function move or removal.
@@ -157,8 +111,6 @@ nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_fold_sp
 nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_model_fold_input.R,make_abiotic_partition,#154,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Variance_partitioning/recalculate_anova_components.R,get_val;compute_shapley,#154,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/build_base_terminal_plot.R,make_scanline_data;make_noise_data;add_terminal_canvas;theme_terminal_blank,#155,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Time/Interpolation/interpolate_community_data_with_uncertainty.R,interpolate_fossil_core,#153,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Time/Interpolation/interpolate_data.R,muffle_package_version_warning;interpolate_group,#153,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Utility/Paths_and_stores/get_model_tuning_params.R,get_required_integer;get_optional_integer,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Utility/Pipeline/monitor_pipeline_progress.R,monitor_server,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Visualisation/Data_preparation/prepare_spatial_variance_waffle_data.R,collapse_observation_id,#155,Extract or explicitly retain the named nested helper.

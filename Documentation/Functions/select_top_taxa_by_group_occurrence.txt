@@ -1,0 +1,34 @@
+Select Top Taxa by Group Occurrence
+
+Description:
+
+     Selects the most frequently occurring taxa according to the number
+     of distinct groups in which each taxon occurs.
+
+Usage:
+
+     select_top_taxa_by_group_occurrence(
+       data_community = NULL,
+       maximum_taxon_count = Inf,
+       grouping_column_name = "dataset_name"
+     )
+
+Arguments:
+
+data_community: A community data frame containing `taxon` and the
+          column named by `grouping_column_name`.
+
+maximum_taxon_count: A positive numeric scalar giving the maximum
+          number of taxa to retain. Defaults to `Inf`.
+
+grouping_column_name: A character scalar naming the column used to
+          count distinct occurrences. Defaults to `"dataset_name"`.
+
+Details:
+
+     Taxa are ranked by their number of distinct `grouping_column_name`
+     values, with taxon name used to break ties.
+
+Value:
+
+     The input community data restricted to the selected taxa.

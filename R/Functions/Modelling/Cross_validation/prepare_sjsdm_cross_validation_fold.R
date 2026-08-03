@@ -225,7 +225,7 @@ prepare_sjsdm_cross_validation_fold <- function(
       train_ids = vec_train_ids,
       test_ids = vec_test_ids,
       error_family = config_model_fitting[["error_family"]],
-      min_n_taxa = config_data_processing[["min_n_taxa"]],
+      minimum_taxon_count = config_data_processing[["min_n_taxa"]],
       age_scale_mode = age_scale_mode
     )
 

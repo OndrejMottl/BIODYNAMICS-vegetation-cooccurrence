@@ -1,0 +1,166 @@
+#' @title Interpolate Community Dataset from Shared Inputs
+#' @description
+#' Filters shared paleo community preprocessing inputs to one dataset
+#' and interpolates that dataset.
+#' @param list_interpolation_index
+#' A metadata object produced by [build_community_interpolation_index()].
+#' It must contain `dataset_name` and `flag_empty` elements.
+#' @param data_community
+#' Shared or regular community proportion data with a `dataset_name`
+#' column.
+#' @param data_age_uncertainty
+#' Shared or regular age-uncertainty data with a `dataset_name` column.
+#' @param n_cores
+#' Number of cores passed to
+#' [interpolate_paleo_community_with_age_uncertainty()]. Dynamic target
+#' branches should use `1L`.
+#' @param ...
+#' Additional arguments passed to
+#' [interpolate_paleo_community_with_age_uncertainty()].
+#' @return
+#' A data frame with columns `dataset_name`, `taxon`, `age`, and
+#' `value`.
+#' @details
+#' The function keeps dynamic branch payloads small by receiving only a
+#' dataset identifier and filtering larger shared inputs inside the
+#' branch.
+#' @examples
+#' data_example <- tibble::tibble(
+#'   dataset_name = "core_a",
+#'   sample_name = "sample_a",
+#'   taxon = "Taxon",
+#'   age = 0,
+#'   value = 1
+#' )
+#' data_uncertainty <- tibble::tibble(
+#'   dataset_name = base::character(),
+#'   sample_name = base::character(),
+#'   iteration = base::integer(),
+#'   age_uncertainty = base::numeric()
+#' )
+#' list_interpolation_index <-
+#'   base::list(
+#'     dataset_name = "core_a",
+#'     flag_empty = FALSE
+#'   )
+#'
+#' interpolate_community_dataset_from_shared_inputs(
+#'   list_interpolation_index = list_interpolation_index,
+#'   data_community = data_example,
+#'   data_age_uncertainty = data_uncertainty,
+#'   age_min = 0,
+#'   age_max = 500,
+#'   time_step = 500
+#' )
+#' @seealso
+#'   [build_community_interpolation_index()],
+#'   [interpolate_paleo_community_with_age_uncertainty()]
+#' @export
+interpolate_community_dataset_from_shared_inputs <- function(
+    list_interpolation_index = NULL,
+    data_community = NULL,
+    data_age_uncertainty = NULL,
+    n_cores = 1L,
+    ...) {
+  assertthat::assert_that(
+    base::is.list(list_interpolation_index),
+    msg = "list_interpolation_index must be a list"
+  )
+
+  assertthat::assert_that(
+    base::all(
+      base::c("dataset_name", "flag_empty") %in%
+        base::names(list_interpolation_index)
+    ),
+    msg = stringr::str_c(
+      "list_interpolation_index must contain `dataset_name`",
+      "and `flag_empty` elements",
+      sep = " "
+    )
+  )
+
+  assertthat::assert_that(
+    base::is.data.frame(data_community),
+    msg = "data_community must be a data frame"
+  )
+
+  assertthat::assert_that(
+    "dataset_name" %in% base::colnames(data_community),
+    msg = "data_community must contain a `dataset_name` column"
+  )
+
+  assertthat::assert_that(
+    base::is.data.frame(data_age_uncertainty),
+    msg = "data_age_uncertainty must be a data frame"
+  )
+
+  assertthat::assert_that(
+    "dataset_name" %in% base::colnames(data_age_uncertainty),
+    msg = stringr::str_c(
+      "data_age_uncertainty must contain a `dataset_name`",
+      "column",
+      sep = " "
+    )
+  )
+
+  assertthat::assert_that(
+    base::is.numeric(n_cores) &&
+      base::length(n_cores) == 1L &&
+      base::is.finite(n_cores) &&
+      n_cores >= 1L &&
+      n_cores == base::as.integer(n_cores),
+    msg = "n_cores must be a single positive integer"
+  )
+
+  flag_empty <-
+    purrr::chuck(list_interpolation_index, "flag_empty")
+
+  assertthat::assert_that(
+    assertthat::is.flag(flag_empty),
+    msg = "flag_empty must be a single logical value"
+  )
+
+  data_community_selected <-
+    data_community |>
+    dplyr::slice(0L)
+
+  data_age_uncertainty_selected <-
+    data_age_uncertainty |>
+    dplyr::slice(0L)
+
+  if (
+    !base::isTRUE(flag_empty)
+  ) {
+    dataset_name <-
+      purrr::chuck(list_interpolation_index, "dataset_name")
+
+    assertthat::assert_that(
+      base::is.character(dataset_name) &&
+        base::length(dataset_name) == 1L &&
+        !base::is.na(dataset_name),
+      msg = "dataset_name must be a single non-missing string"
+    )
+
+    data_community_selected <-
+      data_community |>
+      dplyr::filter(
+        .data[["dataset_name"]] == .env[["dataset_name"]]
+      )
+
+    data_age_uncertainty_selected <-
+      data_age_uncertainty |>
+      dplyr::filter(
+        .data[["dataset_name"]] == .env[["dataset_name"]]
+      )
+  }
+
+  res_community_interpolated <-
+    interpolate_paleo_community_with_age_uncertainty(
+      data_community = data_community_selected,
+      data_age_uncertainty = data_age_uncertainty_selected,
+      n_cores = n_cores,
+      ...
+    )
+
+  return(res_community_interpolated)
+}

@@ -1,0 +1,57 @@
+Build Spatial Grid Tiles
+
+Description:
+
+     Builds clipped regular grid tiles for one parent spatial unit.
+
+Usage:
+
+     build_spatial_grid_tiles(
+       parent_scale_id = NULL,
+       x_minimum_parent = NULL,
+       x_maximum_parent = NULL,
+       y_minimum_parent = NULL,
+       y_maximum_parent = NULL,
+       tile_size_degrees = NULL,
+       scale_name = NULL,
+       scale_id_prefix = NULL
+     )
+
+Arguments:
+
+parent_scale_id: A non-empty character scalar identifying the parent
+          spatial unit.
+
+x_minimum_parent, x_maximum_parent: Finite numeric scalars giving the
+          horizontal parent bounds.
+
+y_minimum_parent, y_maximum_parent: Finite numeric scalars giving the
+          vertical parent bounds.
+
+tile_size_degrees: A positive finite numeric scalar giving the square
+          tile size in degrees.
+
+scale_name: A non-empty character scalar naming the output spatial
+          scale.
+
+scale_id_prefix: A non-empty character scalar prepended to sequential
+          tile identifiers.
+
+Value:
+
+     A tibble with one row per non-empty clipped tile and the columns
+     `scale_id`, `scale`, `parent_id`, `x_min`, `x_max`, `y_min`, and
+     `y_max`.
+
+Examples:
+
+     build_spatial_grid_tiles(
+       parent_scale_id = "europe",
+       x_minimum_parent = -10,
+       x_maximum_parent = 40,
+       y_minimum_parent = 35,
+       y_maximum_parent = 70,
+       tile_size_degrees = 20,
+       scale_name = "regional",
+       scale_id_prefix = "eu_r"
+     )

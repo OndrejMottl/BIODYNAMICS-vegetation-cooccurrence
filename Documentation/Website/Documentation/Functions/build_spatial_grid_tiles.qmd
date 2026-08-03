@@ -1,0 +1,101 @@
+---
+format: html
+title: build_spatial_grid_tiles()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_spatial_grid_tiles</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build Spatial Grid Tiles</h2>
+
+<h3>Description</h3>
+
+<p>Builds clipped regular grid tiles for one parent spatial unit.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_spatial_grid_tiles(
+  parent_scale_id = NULL,
+  x_minimum_parent = NULL,
+  x_maximum_parent = NULL,
+  y_minimum_parent = NULL,
+  y_maximum_parent = NULL,
+  tile_size_degrees = NULL,
+  scale_name = NULL,
+  scale_id_prefix = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="parent_scale_id">parent_scale_id</code></td>
+<td>
+<p>A non-empty character scalar identifying the parent spatial unit.</p>
+</td></tr>
+<tr><td><code id="x_minimum_parent">x_minimum_parent</code>, <code id="x_maximum_parent">x_maximum_parent</code></td>
+<td>
+<p>Finite numeric scalars giving the horizontal parent bounds.</p>
+</td></tr>
+<tr><td><code id="y_minimum_parent">y_minimum_parent</code>, <code id="y_maximum_parent">y_maximum_parent</code></td>
+<td>
+<p>Finite numeric scalars giving the vertical parent bounds.</p>
+</td></tr>
+<tr><td><code id="tile_size_degrees">tile_size_degrees</code></td>
+<td>
+<p>A positive finite numeric scalar giving the square tile size in degrees.</p>
+</td></tr>
+<tr><td><code id="scale_name">scale_name</code></td>
+<td>
+<p>A non-empty character scalar naming the output spatial scale.</p>
+</td></tr>
+<tr><td><code id="scale_id_prefix">scale_id_prefix</code></td>
+<td>
+<p>A non-empty character scalar prepended to sequential tile identifiers.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tibble with one row per non-empty clipped tile and the columns 'scale_id',
+'scale', 'parent_id', 'x_min', 'x_max', 'y_min', and 'y_max'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>build_spatial_grid_tiles(
+  parent_scale_id = "europe",
+  x_minimum_parent = -10,
+  x_maximum_parent = 40,
+  y_minimum_parent = 35,
+  y_maximum_parent = 70,
+  tile_size_degrees = 20,
+  scale_name = "regional",
+  scale_id_prefix = "eu_r"
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

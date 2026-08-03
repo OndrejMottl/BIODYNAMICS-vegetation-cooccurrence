@@ -1,0 +1,55 @@
+Select a Continental Trait Table
+
+Description:
+
+     Filters and subsets the wide trait table to taxa present in a
+     single continental unit. Removes taxa where all trait values are
+     `NA`.
+
+Usage:
+
+     select_continental_trait_table(
+       scale_id,
+       data_trait_table,
+       data_trait_records_classified
+     )
+
+Arguments:
+
+scale_id: A single non-empty character string identifying the
+          continental unit (e.g. `"europe"`, `"america"`, `"asia"`).
+          Must match a value in the `scale_id` column of
+          `data_trait_records_classified`.
+
+data_trait_table: A wide tibble (rows = taxa, columns = `taxon_name` +
+          trait domain columns) as produced by `build_trait_table()`.
+          Must contain a `taxon_name` column.
+
+data_trait_records_classified: A tibble with at least columns
+          `scale_id` (character) and `taxon_resolved` (character), used
+          to identify which taxa belong to `scale_id`.
+
+Details:
+
+     **Steps**:
+
+       1. Filter `data_trait_records_classified` to rows where
+          `scale_id` matches the requested continental unit and collect
+          `distinct(taxon_resolved)`.
+
+       2. Use `dplyr::semi_join()` to subset `data_trait_table` to
+          those taxa (`taxon_name == taxon_resolved`).
+
+       3. Remove rows where all trait columns (i.e. all columns except
+          `taxon_name`) are `NA`.
+
+Value:
+
+     A tibble with the same column structure as `data_trait_table`
+     (i.e. `taxon_name` + trait domain columns) but restricted to taxa
+     present in `scale_id` and with at least one non-`NA` trait value.
+
+See Also:
+
+     [save_continental_functional_type_classification()],
+     [assign_functional_type_clusters()]

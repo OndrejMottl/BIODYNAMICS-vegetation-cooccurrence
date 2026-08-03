@@ -1,0 +1,167 @@
+<!DOCTYPE html><html><head><title>R: Join Sample Ages</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+
+<script type="text/javascript">
+
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+
+function processMathHTML() {
+
+    var l = document.getElementsByClassName('reqn');
+
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+
+    return;
+
+}</script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+
+    onload="processMathHTML();"></script>
+
+<link rel="stylesheet" type="text/css" href="R.css" />
+
+</head><body><div class="container"><main>
+
+
+
+<table style="width: 100%;"><tr><td>join_sample_ages</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+
+
+<h2>Join Sample Ages</h2>
+
+
+
+<h3>Description</h3>
+
+
+
+<p>Joins sample ages to records using dataset and sample identifiers.
+
+</p>
+
+
+
+
+
+<h3>Usage</h3>
+
+
+
+<pre><code class='language-R'>join_sample_ages(data_records = NULL, data_sample_ages = NULL)
+
+</code></pre>
+
+
+
+
+
+<h3>Arguments</h3>
+
+
+
+<table role = "presentation">
+
+<tr><td><code id="data_records">data_records</code></td>
+
+<td>
+
+<p>A data frame containing 'dataset_name' and 'sample_name'.</p>
+
+</td></tr>
+
+<tr><td><code id="data_sample_ages">data_sample_ages</code></td>
+
+<td>
+
+<p>A data frame containing 'dataset_name', 'sample_name', and 'age'.</p>
+
+</td></tr>
+
+</table>
+
+
+
+
+
+<h3>Details</h3>
+
+
+
+<p>The age table must have at most one row per dataset-sample key. Unmatched
+
+records are retained with a missing age.
+
+</p>
+
+
+
+
+
+<h3>Value</h3>
+
+
+
+<p>'data_records' with the matching 'age' column joined.
+
+</p>
+
+
+
+
+
+<h3>Examples</h3>
+
+
+
+<pre><code class='language-R'>data_records &lt;-
+
+  tibble::tibble(
+
+    dataset_name = "example",
+
+    sample_name = "sample_1",
+
+    value = 10
+
+  )
+
+data_sample_ages &lt;-
+
+  tibble::tibble(
+
+    dataset_name = "example",
+
+    sample_name = "sample_1",
+
+    age = 100
+
+  )
+
+
+
+join_sample_ages(
+
+  data_records = data_records,
+
+  data_sample_ages = data_sample_ages
+
+)
+
+</code></pre>
+
+
+
+</main>
+
+
+
+</div>
+
+</body></html>
