@@ -47,7 +47,7 @@ assertthat::assert_that(
   msg = paste0(
     "No 'data_traits_classified_*.qs' file found in '",
     path_output,
-    "'. Run 02_Classify_and_align_taxa.R first."
+    "'. Run 02_classify_and_align_taxa.R first."
   )
 )
 

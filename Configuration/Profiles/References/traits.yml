@@ -17,4 +17,4 @@ project_traits_reference:
     related_issue: ~
     retirement: "Retain while the functional-trait reference pipeline is supported."
     supported_runners:
-      - R/01_Data_processing/Traits/Run_trait_analyses.R
+      - R/03_Supplementary_analyses/Validation/Scientific_references/Traits/run_traits_reference_pipeline.R

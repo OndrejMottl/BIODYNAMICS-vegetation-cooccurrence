@@ -3,13 +3,13 @@
 #
 #                 Vegetation Co-occurrence
 #
-#              Run trait analyses: master runner
+#              Run traits reference pipeline
 #
 #                       O. Mottl
 #                         2026
 #
 #----------------------------------------------------------#
-# Master runner for the full trait analysis {targets} pipeline.
+# Stable runner for the full traits reference {targets} pipeline.
 # A single run_pipeline() call runs all four segments in sequence:
 #
 #   Segment 1 — Extract raw trait data from VegVault per continent

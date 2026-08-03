@@ -62,7 +62,7 @@ assertthat::assert_that(
   msg = base::paste0(
     "No 'data_traits_*.qs' file found in '",
     path_output,
-    "'. Run 01_Extract_trait_data.R first."
+    "'. Run 01_extract_trait_data.R first."
   )
 )
 

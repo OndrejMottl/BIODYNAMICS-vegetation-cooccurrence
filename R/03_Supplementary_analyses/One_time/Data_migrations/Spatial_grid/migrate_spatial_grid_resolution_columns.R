@@ -36,7 +36,7 @@
 #   that 'continent_id' already exists.
 #
 # Run ONCE, then commit the updated spatial_grid.csv.
-# Do NOT regenerate via Generate_spatial_grid.R — that script
+# Do NOT run build_spatial_grid_catalogue.R because that script
 #   overwrites all manually tuned convergence parameters.
 
 

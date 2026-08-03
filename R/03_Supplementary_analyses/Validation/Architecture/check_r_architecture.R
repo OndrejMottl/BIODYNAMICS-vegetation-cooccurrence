@@ -254,6 +254,51 @@ data_main_analysis_findings <-
     message = "Only production analyses may remain in R/02_Main_analyses."
   )
 
+data_migrated_data_processing_scripts <-
+  data_scripts |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#153",
+    .data[["migration_status"]] == "migrated",
+    stringr::str_starts(
+      .data[["current_path"]],
+      "R/01_Data_processing/"
+    )
+  )
+
+vec_allowed_data_processing_script_paths <-
+  data_migrated_data_processing_scripts |>
+  dplyr::pull(.data[["active_path"]])
+
+vec_legacy_data_processing_script_paths <-
+  vec_script_paths_current[
+    stringr::str_starts(
+      vec_script_paths_current,
+      "R/01_Data_processing/"
+    )
+  ]
+
+vec_invalid_data_processing_script_paths <-
+  base::union(
+    vec_legacy_data_processing_script_paths,
+    base::setdiff(
+      vec_allowed_data_processing_script_paths,
+      vec_script_paths_current
+    )
+  )
+
+data_data_processing_script_findings <-
+  tibble::tibble(
+    finding_type = "data_processing_script_placement",
+    severity = "blocking",
+    current_path = vec_invalid_data_processing_script_paths,
+    symbol = NA_character_,
+    owning_issue = "#153",
+    message = stringr::str_c(
+      "Migrated R/01 data-processing scripts must remain in their ",
+      "approved scientific-reference or historical locations."
+    )
+  )
+
 vec_abiotic_function_paths_current <-
   vec_function_paths_current |>
   purrr::keep(
@@ -552,6 +597,137 @@ data_trait_test_findings <-
     message = stringr::str_c(
       "Trait tests must mirror the migrated ",
       "R/Functions/Data/Traits hierarchy."
+    )
+  )
+
+path_spatial_function_root <-
+  "R/Functions/Data/Spatial/"
+
+vec_spatial_function_paths_current <-
+  vec_function_paths_current[
+    stringr::str_starts(
+      vec_function_paths_current,
+      path_spatial_function_root
+    )
+  ]
+
+data_migrated_spatial_functions <-
+  data_functions |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#153",
+    .data[["migration_status"]] == "migrated",
+    stringr::str_starts(
+      .data[["active_path"]],
+      path_spatial_function_root
+    )
+  )
+
+vec_allowed_spatial_function_paths <-
+  data_migrated_spatial_functions |>
+  dplyr::pull(.data[["active_path"]])
+
+vec_invalid_spatial_function_paths <-
+  base::union(
+    base::setdiff(
+      vec_spatial_function_paths_current,
+      vec_allowed_spatial_function_paths
+    ),
+    base::setdiff(
+      vec_allowed_spatial_function_paths,
+      vec_spatial_function_paths_current
+    )
+  )
+
+data_spatial_function_findings <-
+  tibble::tibble(
+    finding_type = "spatial_function_placement",
+    severity = "blocking",
+    current_path = vec_invalid_spatial_function_paths,
+    symbol = NA_character_,
+    owning_issue = "#153",
+    message = stringr::str_c(
+      "Spatial functions must match the migrated ",
+      "R/Functions/Data/Spatial inventory."
+    )
+  )
+
+data_spatial_naming_findings <-
+  data_migrated_spatial_functions |>
+  dplyr::filter(
+    .data[["naming_status"]] != "canonical_or_domain_verb"
+  ) |>
+  dplyr::mutate(
+    finding_type = "spatial_function_naming",
+    severity = "blocking",
+    current_path = .data[["active_path"]],
+    symbol = .data[["active_symbol"]],
+    owning_issue = .data[["owning_issue"]],
+    message = stringr::str_c(
+      "Migrated Spatial functions must use an approved canonical ",
+      "or domain verb."
+    )
+  ) |>
+  dplyr::select(
+    "finding_type",
+    "severity",
+    "current_path",
+    "symbol",
+    "owning_issue",
+    "message"
+  )
+
+path_spatial_test_root <-
+  stringr::str_c(
+    "R/03_Supplementary_analyses/Testing/testthat/",
+    "Data/Spatial/"
+  )
+
+vec_spatial_test_paths_current <-
+  vec_script_paths_current[
+    stringr::str_starts(
+      vec_script_paths_current,
+      path_spatial_test_root
+    )
+  ]
+
+data_migrated_spatial_tests <-
+  data_scripts |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#153",
+    .data[["classification"]] == "test",
+    .data[["migration_status"]] == "migrated",
+    stringr::str_starts(
+      .data[["active_path"]],
+      path_spatial_test_root
+    )
+  )
+
+vec_allowed_spatial_test_paths <-
+  data_migrated_spatial_tests |>
+  dplyr::pull(.data[["active_path"]])
+
+vec_invalid_spatial_test_paths <-
+  base::union(
+    base::setdiff(
+      vec_spatial_test_paths_current,
+      vec_allowed_spatial_test_paths
+    ),
+    base::setdiff(
+      vec_allowed_spatial_test_paths,
+      vec_spatial_test_paths_current
+    )
+  )
+
+data_spatial_test_findings <-
+  tibble::tibble(
+    finding_type = "spatial_test_placement",
+    severity = "blocking",
+    current_path = vec_invalid_spatial_test_paths,
+    symbol = NA_character_,
+    owning_issue = "#153",
+    message = stringr::str_c(
+      "Spatial tests must mirror the migrated ",
+      "R/Functions/Data/Spatial hierarchy."
     )
   )
 
@@ -1311,12 +1487,16 @@ data_findings <-
     data_findings,
     data_placement_findings,
     data_main_analysis_findings,
+    data_data_processing_script_findings,
     data_abiotic_function_findings,
     data_abiotic_naming_findings,
     data_abiotic_test_findings,
     data_trait_function_findings,
     data_trait_naming_findings,
     data_trait_test_findings,
+    data_spatial_function_findings,
+    data_spatial_naming_findings,
+    data_spatial_test_findings,
     data_community_function_findings,
     data_community_classification_naming_findings,
     data_community_quality_control_naming_findings,
@@ -1399,7 +1579,8 @@ cli::cli_inform(
       "data-shape, and taxa-selection naming, plus migrated Time/Ages",
       "and Time/Interpolation placement, naming, and retirement are",
       "blocking; migrated trait placement and naming are also",
-      "blocking;",
+      "blocking; migrated R/01 scripts and Spatial functions/tests are",
+      "also blocking;",
       "unmigrated architecture contracts remain report-only.",
       sep = " "
     ),
