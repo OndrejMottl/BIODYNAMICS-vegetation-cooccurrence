@@ -44,7 +44,10 @@ canonical naming, and mirrored tests are blocking. Migrated
 Time/Interpolation branching and shared-memory functions, their active tests,
 and exact `_legacy` retirement paths are also blocking. Function naming for
 other not-yet-migrated domains and other architecture contracts remain
-report-only until their owning issues make them blocking.
+report-only until their owning issues make them blocking. Non-CV modelling
+functions and tests now use their Issue #154 capability paths, while naming,
+helper extraction, and deferred #141/#155 ownership remain report-only until
+Issue #154 completes.
 
 ## Interpretation limits
 

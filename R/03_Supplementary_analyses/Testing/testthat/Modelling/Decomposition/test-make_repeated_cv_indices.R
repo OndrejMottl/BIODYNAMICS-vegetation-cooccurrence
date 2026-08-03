@@ -61,7 +61,7 @@ testthat::test_that(
   {
     source_text <-
       here::here(
-        "R/Functions/Modelling/Decomposition_diagnostics",
+        "R/Functions/Modelling/Decomposition",
         "make_repeated_cv_indices.R"
       ) |>
       base::readLines(warn = FALSE) |>
