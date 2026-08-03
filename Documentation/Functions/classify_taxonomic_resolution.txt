@@ -61,5 +61,6 @@ Value:
 
 See Also:
 
-     [filter_non_plantae_taxa()], [filter_rare_taxa()]
+     [filter_community_to_plantae()],
+     [filter_community_by_minimum_proportion()]
 

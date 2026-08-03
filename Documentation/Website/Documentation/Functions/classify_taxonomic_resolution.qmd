@@ -101,7 +101,8 @@ combinations for true negatives.
 
 <h3>See Also</h3>
 
-<p>[filter_non_plantae_taxa()], [filter_rare_taxa()]
+<p>[filter_community_to_plantae()],
+[filter_community_by_minimum_proportion()]
 </p>
 
 </main>

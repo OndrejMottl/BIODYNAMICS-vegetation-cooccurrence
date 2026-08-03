@@ -49,7 +49,7 @@ pipe_segment_sample_alignment <-
       ),
       name = "data_sample_ids",
       command = align_sample_ids(
-        data_community_long = data_community_analysis_subset,
+        data_community_long = data_community_taxa_selected,
         data_abiotic_long = data_abiotic_analysis |>
           dplyr::group_by(dataset_name, age) |>
           dplyr::filter(base::all(!base::is.na(abiotic_value))) |>
@@ -58,15 +58,18 @@ pipe_segment_sample_alignment <-
       )
     ),
     targets::tar_target(
-      description = paste0(
-        "Fail early if the dataset has fewer than",
-        " min_n_samples samples, before any expensive",
+      description = stringr::str_c(
+        "Fail early if the dataset has fewer than the minimum samples ",
+        "before any expensive",
         " data preparation or model fitting"
       ),
-      name = "data_sample_ids_checked",
-      command = check_data_sample_ids_n(
+      name = "data_sample_ids_count_validated",
+      command = validate_sample_count(
         data_sample_ids = data_sample_ids,
-        min_n_samples = config_data_processing$min_n_samples
+        minimum_sample_count = purrr::chuck(
+          config_data_processing,
+          "min_n_samples"
+        )
       )
     )
   )

@@ -56,11 +56,13 @@ silhouette width computed from 'trait_dissimilarity'.
 
 chain for each candidate 'k' and only considers values that
 
-leave at least 'min_n_taxa' non-constant FT columns. The
+leave at least 'minimum_taxon_count' non-constant FT columns. The
 
-filter chain applied is: 'filter_rare_taxa()',
+filter chain applied is: 'filter_community_by_minimum_proportion()',
 
-'filter_community_by_n_cores()', 'filter_by_n_samples()',
+'filter_community_by_minimum_core_count()',
+
+'filter_community_by_minimum_sample_count()',
 
 'prepare_community_for_fit()', optionally
 
@@ -68,7 +70,7 @@ filter chain applied is: 'filter_rare_taxa()',
 
 '&quot;binomial&quot;'), and 'filter_constant_taxa()'. The number of
 
-surviving columns is compared to 'min_n_taxa'. Among viable
+surviving columns is compared to 'minimum_taxon_count'. Among viable
 
 candidates the highest-silhouette 'k' is returned. If no
 
@@ -96,13 +98,13 @@ candidates the highest-silhouette 'k' is returned. If no
 
   data_community,
 
-  minimal_proportion,
+  minimum_proportion,
 
-  min_n_taxa,
+  minimum_taxon_count,
 
-  min_n_cores,
+  minimum_core_count,
 
-  min_n_samples,
+  minimum_sample_count,
 
   error_family
 
@@ -190,7 +192,7 @@ viability filter chain for each candidate 'k'.</p>
 
 </td></tr>
 
-<tr><td><code id="minimal_proportion">minimal_proportion</code></td>
+<tr><td><code id="minimum_proportion">minimum_proportion</code></td>
 
 <td>
 
@@ -202,7 +204,7 @@ that group exceeds this threshold.</p>
 
 </td></tr>
 
-<tr><td><code id="min_n_taxa">min_n_taxa</code></td>
+<tr><td><code id="minimum_taxon_count">minimum_taxon_count</code></td>
 
 <td>
 
@@ -212,19 +214,19 @@ non-constant FT columns (i.e. groups present in strictly
 
 between 0
 
-'minimal_proportion') that a candidate 'k' must produce to
+'minimum_proportion') that a candidate 'k' must produce to
 
 be considered viable.</p>
 
 </td></tr>
 
-<tr><td><code id="min_n_cores">min_n_cores</code></td>
+<tr><td><code id="minimum_core_count">minimum_core_count</code></td>
 
 <td>
 
 <p>A single positive integer. Forwarded to
 
-'filter_community_by_n_cores()' during the viability check
+'filter_community_by_minimum_core_count()' during the viability check
 
 to remove FT groups present in fewer than this many
 
@@ -232,13 +234,13 @@ distinct cores ('dataset_name' values).</p>
 
 </td></tr>
 
-<tr><td><code id="min_n_samples">min_n_samples</code></td>
+<tr><td><code id="minimum_sample_count">minimum_sample_count</code></td>
 
 <td>
 
 <p>A single positive integer. Forwarded to
 
-'filter_by_n_samples()' during the viability check to
+'filter_community_by_minimum_sample_count()' during the viability check to
 
 remove FT groups present in fewer than this many distinct
 
@@ -298,19 +300,21 @@ the actual pipeline filter chain in sequence:
 
 <ol>
 
-<li><p> 'filter_rare_taxa()' at 'minimal_proportion'.
+<li><p> 'filter_community_by_minimum_proportion()' at
+
+'minimum_proportion'.
 
 </p>
 
 </li>
 
-<li><p> 'filter_community_by_n_cores()'.
+<li><p> 'filter_community_by_minimum_core_count()'.
 
 </p>
 
 </li>
 
-<li><p> 'filter_by_n_samples()'.
+<li><p> 'filter_community_by_minimum_sample_count()'.
 
 </p>
 
@@ -358,7 +362,7 @@ treated as zero.
 
 <li><p> If at least one 'k' has viability count &gt;=
 
-'min_n_taxa': return the highest-silhouette among
+'minimum_taxon_count': return the highest-silhouette among
 
 those 'k' values.
 

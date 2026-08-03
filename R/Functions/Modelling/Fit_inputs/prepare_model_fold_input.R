@@ -15,7 +15,7 @@
 #' @param error_family
 #' Character scalar naming the model error family. Binomial responses are
 #' converted to presence-absence before training-only taxon filtering.
-#' @param min_n_taxa
+#' @param minimum_taxon_count
 #' Positive integer giving the minimum retained training taxa.
 #' @param age_scale_mode
 #' Character scalar passed to `scale_abiotic_for_fit()`. Supported values are
@@ -48,7 +48,7 @@
 #'   train_ids = base::c("a__0", "b__0", "c__0"),
 #'   test_ids = "d__0",
 #'   error_family = "binomial",
-#'   min_n_taxa = 1L,
+#'   minimum_taxon_count = 1L,
 #'   age_scale_mode = "center"
 #' )
 #' @export
@@ -60,7 +60,7 @@ prepare_model_fold_input <- function(
     train_ids = NULL,
     test_ids = NULL,
     error_family = NULL,
-    min_n_taxa = NULL,
+    minimum_taxon_count = NULL,
     age_scale_mode = "z_score") {
   assertthat::assert_that(
     base::is.matrix(data_community_matrix),
@@ -122,12 +122,12 @@ prepare_model_fold_input <- function(
   )
 
   assertthat::assert_that(
-    base::is.numeric(min_n_taxa),
-    base::length(min_n_taxa) == 1L,
-    base::is.finite(min_n_taxa),
-    min_n_taxa >= 1,
-    min_n_taxa == base::as.integer(min_n_taxa),
-    msg = "`min_n_taxa` must be one finite positive number."
+    base::is.numeric(minimum_taxon_count),
+    base::length(minimum_taxon_count) == 1L,
+    base::is.finite(minimum_taxon_count),
+    minimum_taxon_count >= 1,
+    minimum_taxon_count == base::as.integer(minimum_taxon_count),
+    msg = "`minimum_taxon_count` must be one finite positive number."
   )
 
   assertthat::assert_that(
@@ -353,9 +353,9 @@ prepare_model_fold_input <- function(
     )
 
   data_community_train_checked <-
-    filter_community_by_n_taxa(
+    validate_community_taxon_count(
       data_community_matrix = data_community_train_variable,
-      min_n_taxa = min_n_taxa
+      minimum_taxon_count = minimum_taxon_count
     )
 
   vec_taxa_full <-

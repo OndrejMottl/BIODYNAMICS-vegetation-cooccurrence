@@ -1,0 +1,35 @@
+Filter Community by Minimum Proportion
+
+Description:
+
+     Retains community records whose value meets a minimum proportion
+     threshold.
+
+Usage:
+
+     filter_community_by_minimum_proportion(
+       data_community = NULL,
+       minimum_proportion = 0.01
+     )
+
+Arguments:
+
+data_community: A data frame containing taxon abundance data. Must
+          include a column named 'value' with numeric proportions or
+          abundances.
+
+minimum_proportion: Numeric value between 0 and 1 specifying the
+          minimum proportion threshold for retaining taxa. Default is
+          0.01 (one percent).
+
+Details:
+
+     The function validates that `minimum_proportion` is a numeric
+     value between 0 and 1. After filtering, it checks that at least
+     one taxon remains in the dataset. If no taxa meet the threshold,
+     an error is raised suggesting the threshold may be too high.
+
+Value:
+
+     A filtered data frame containing only taxa that meet or exceed the
+     minimum proportion threshold. Preserves all original columns.

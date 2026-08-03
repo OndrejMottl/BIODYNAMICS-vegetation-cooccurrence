@@ -59,7 +59,7 @@ testthat::test_that(
         train_ids = base::c("a__0", "b__0", "c__0"),
         test_ids = "d__0",
         error_family = "binomial",
-        min_n_taxa = 1L,
+        minimum_taxon_count = 1L,
         age_scale_mode = "center"
       )
 
@@ -109,7 +109,7 @@ testthat::test_that(
         train_ids = base::c("a__0", "b__0", "c__0"),
         test_ids = "d__0",
         error_family = "binomial",
-        min_n_taxa = 1L,
+        minimum_taxon_count = 1L,
         age_scale_mode = "center"
       )
 
@@ -152,7 +152,7 @@ testthat::test_that(
         train_ids = base::c("a__0", "b__0", "c__0"),
         test_ids = "d__0",
         error_family = "binomial",
-        min_n_taxa = 1L,
+        minimum_taxon_count = 1L,
         age_scale_mode = "center"
       )
 
@@ -233,7 +233,7 @@ testthat::test_that(
         train_ids = base::c("a__0", "b__0", "c__0"),
         test_ids = "d__0",
         error_family = "binomial",
-        min_n_taxa = 1L,
+        minimum_taxon_count = 1L,
         age_scale_mode = "center"
       )
 
@@ -277,7 +277,7 @@ testthat::test_that(
         train_ids = base::c("a__0", "b__0", "c__0"),
         test_ids = "d__0",
         error_family = "binomial",
-        min_n_taxa = 1L,
+        minimum_taxon_count = 1L,
         age_scale_mode = "center"
       )
 
@@ -346,7 +346,7 @@ testthat::test_that(
         train_ids = base::c("a__0", "b__0", "c__0"),
         test_ids = "d__0",
         error_family = "binomial",
-        min_n_taxa = 1L,
+        minimum_taxon_count = 1L,
         age_scale_mode = "center"
       )
 
@@ -360,7 +360,7 @@ testthat::test_that(
         train_ids = base::c("a__0", "b__0", "c__0"),
         test_ids = "d__0",
         error_family = "binomial",
-        min_n_taxa = 1L,
+        minimum_taxon_count = 1L,
         age_scale_mode = "center"
       )
 
@@ -390,7 +390,7 @@ testthat::test_that(
         train_ids = base::c("c__0", "a__0", "b__0"),
         test_ids = "d__0",
         error_family = "binomial",
-        min_n_taxa = 1L,
+        minimum_taxon_count = 1L,
         age_scale_mode = "center"
       )
 
@@ -425,7 +425,7 @@ testthat::test_that(
         train_ids = base::c("a__0", "b__0", "c__0"),
         test_ids = "d__0",
         error_family = "binomial",
-        min_n_taxa = 1L,
+        minimum_taxon_count = 1L,
         age_scale_mode = "center"
       )
 
@@ -453,7 +453,7 @@ testthat::test_that(
         train_ids = base::c("a__0", "b__0", "c__0"),
         test_ids = "c__0",
         error_family = "binomial",
-        min_n_taxa = 1L,
+        minimum_taxon_count = 1L,
         age_scale_mode = "center"
       ),
       "must be disjoint"

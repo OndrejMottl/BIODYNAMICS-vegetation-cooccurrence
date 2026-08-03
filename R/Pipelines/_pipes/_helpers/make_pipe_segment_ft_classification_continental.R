@@ -75,7 +75,7 @@ make_pipe_segment_ft_classification_continental <- function(
             "Check whether the existing whole-continent FT file ",
             "is viable for this project testbed"
           ),
-          name = check_ft_reference_classification_paleo,
+          name = validation_ft_reference_classification_paleo,
           command = {
             path_processed <-
               here::here("Data/Processed/Traits")
@@ -102,8 +102,8 @@ make_pipe_segment_ft_classification_continental <- function(
                 tibble::tibble(
                   reference_available = FALSE,
                   reference_path = NA_character_,
-                  n_taxa_after_filters = NA_integer_,
-                  min_n_taxa = config_min_n_taxa,
+                  taxon_count_after_filters = NA_integer_,
+                  minimum_taxon_count = config_minimum_taxon_count,
                   viable = FALSE,
                   error_message = NA_character_
                 )
@@ -116,6 +116,17 @@ make_pipe_segment_ft_classification_continental <- function(
             data_ft_reference <-
               qs2::qs_read(reference_path)
 
+            build_reference_filter_failure <- function(condition) {
+              tibble::tibble(
+                reference_available = TRUE,
+                reference_path = reference_path,
+                taxon_count_after_filters = 0L,
+                minimum_taxon_count = config_minimum_taxon_count,
+                viable = FALSE,
+                error_message = base::conditionMessage(condition)
+              )
+            }
+
             base::tryCatch(
               {
                 data_reference_filtered <-
@@ -124,20 +135,21 @@ make_pipe_segment_ft_classification_continental <- function(
                     data_functional_type_classification =
                       data_ft_reference
                   ) |>
-                  filter_rare_taxa(
-                    minimal_proportion = config_minimal_proportion_of_pollen
+                  filter_community_by_minimum_proportion(
+                    minimum_proportion =
+                      config_minimum_proportion
                   ) |>
-                  filter_community_by_n_cores(
-                    min_n_cores = config_min_n_cores
+                  filter_community_by_minimum_core_count(
+                    minimum_core_count = config_minimum_core_count
                   ) |>
-                  filter_by_n_samples(
-                    min_n_samples = config_min_n_samples
+                  filter_community_by_minimum_sample_count(
+                    minimum_sample_count = config_minimum_sample_count
                   ) |>
-                  select_n_taxa(
-                    n_taxa = config_number_of_taxa
+                  select_top_taxa_by_group_occurrence(
+                    maximum_taxon_count = config_maximum_taxon_count
                   )
 
-                n_taxa_after_filters <-
+                taxon_count_after_filters <-
                   data_reference_filtered |>
                   dplyr::pull("taxon") |>
                   base::unique() |>
@@ -146,22 +158,14 @@ make_pipe_segment_ft_classification_continental <- function(
                 tibble::tibble(
                   reference_available = TRUE,
                   reference_path = reference_path,
-                  n_taxa_after_filters = n_taxa_after_filters,
-                  min_n_taxa = config_min_n_taxa,
-                  viable = n_taxa_after_filters >= config_min_n_taxa,
+                  taxon_count_after_filters = taxon_count_after_filters,
+                  minimum_taxon_count = config_minimum_taxon_count,
+                  viable = taxon_count_after_filters >=
+                    config_minimum_taxon_count,
                   error_message = NA_character_
                 )
               },
-              error = function(condition) {
-                tibble::tibble(
-                  reference_available = TRUE,
-                  reference_path = reference_path,
-                  n_taxa_after_filters = 0L,
-                  min_n_taxa = config_min_n_taxa,
-                  viable = FALSE,
-                  error_message = base::conditionMessage(condition)
-                )
-              }
+              error = build_reference_filter_failure
             )
           }
         )
@@ -176,7 +180,7 @@ make_pipe_segment_ft_classification_continental <- function(
     ) {
       bquote(
         {
-          base::force(check_ft_reference_classification_paleo)
+          base::force(validation_ft_reference_classification_paleo)
 
           save_continental_functional_type_classification(
             continent_id = .(ft_classification_id_expr),
@@ -374,10 +378,10 @@ make_pipe_segment_ft_classification_continental <- function(
           functional_type_group_count_max =
             ft_groups_max_continental,
           data_community = data_community_classified,
-          minimal_proportion = config_minimal_proportion_of_pollen,
-          min_n_taxa = config_min_n_taxa,
-          min_n_cores = config_min_n_cores,
-          min_n_samples = config_min_n_samples,
+          minimum_proportion = config_minimum_proportion,
+          minimum_taxon_count = config_minimum_taxon_count,
+          minimum_core_count = config_minimum_core_count,
+          minimum_sample_count = config_minimum_sample_count,
           error_family = config_error_family
         )
       ),

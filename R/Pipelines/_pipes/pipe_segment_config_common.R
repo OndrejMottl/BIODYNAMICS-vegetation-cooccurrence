@@ -133,19 +133,16 @@ pipe_segment_config_common <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = paste(
-        "Configuration for data processing",
-        "- minimal proportion of pollen"
-      ),
-      name = "config_minimal_proportion_of_pollen",
+      description = "Configuration: minimum pollen proportion",
+      name = "config_minimum_proportion",
       command = load_active_config_value(
         value = c("data_processing", "minimal_proportion_of_pollen")
       ),
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = "Configuration for data processing - number of taxa",
-      name = "config_number_of_taxa",
+      description = "Configuration: maximum taxon count",
+      name = "config_maximum_taxon_count",
       command = load_active_config_value(
         value = c("data_processing", "number_of_taxa")
       ),
@@ -160,8 +157,8 @@ pipe_segment_config_common <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = "Configuration for data processing - min n cores",
-      name = "config_min_n_cores",
+      description = "Configuration: minimum core count",
+      name = "config_minimum_core_count",
       command = load_active_config_value(
         value = c("data_processing", "min_n_cores")
       ),
@@ -176,19 +173,16 @@ pipe_segment_config_common <-
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = "Configuration for data processing - min n samples",
-      name = "config_min_n_samples",
+      description = "Configuration: minimum sample count",
+      name = "config_minimum_sample_count",
       command = load_active_config_value(
         value = c("data_processing", "min_n_samples")
       ),
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
-      description = paste0(
-        "Configuration for data processing -",
-        " minimum number of taxa to run model"
-      ),
-      name = "config_min_n_taxa",
+      description = "Configuration: minimum taxon count for model fitting",
+      name = "config_minimum_taxon_count",
       command = load_active_config_value(
         value = c("data_processing", "min_n_taxa")
       ),
@@ -199,13 +193,13 @@ pipe_segment_config_common <-
       name = "config_data_processing",
       command = list(
         time_step = config_time_step,
-        number_of_taxa = config_number_of_taxa,
-        minimal_proportion_of_pollen = config_minimal_proportion_of_pollen,
+        number_of_taxa = config_maximum_taxon_count,
+        minimal_proportion_of_pollen = config_minimum_proportion,
         taxonomic_resolution = config_taxonomic_resolution,
-        min_n_cores = config_min_n_cores,
+        min_n_cores = config_minimum_core_count,
         n_cores = config_data_n_cores,
-        min_n_samples = config_min_n_samples,
-        min_n_taxa = config_min_n_taxa
+        min_n_samples = config_minimum_sample_count,
+        min_n_taxa = config_minimum_taxon_count
       )
     ),
     #--------------------------------------------------#

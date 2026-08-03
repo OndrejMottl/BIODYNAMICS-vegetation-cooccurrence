@@ -61,9 +61,9 @@ set_store <-
 # 1. Load intermediate pipeline targets -----
 #----------------------------------------------------------#
 
-data_community_analysis_subset <-
+data_community_taxa_selected <-
   targets::tar_read(
-    name = "data_community_analysis_subset",
+    name = "data_community_taxa_selected",
     store = set_store
   )
 
@@ -100,7 +100,7 @@ data_sample_ids_1k <-
 # inside fit_jsdm_model(error_family = "binomial").
 data_community_binary_1k <-
   prepare_community_for_fit(
-    data_community_long = data_community_analysis_subset,
+    data_community_long = data_community_taxa_selected,
     data_sample_ids = data_sample_ids_1k
   ) %>%
   { (. > 0) * 1L } |>
@@ -802,7 +802,7 @@ data_sample_ids_s4 <-
 # Community: binarise + filter constant taxa over all slices
 data_community_binary_s4 <-
   prepare_community_for_fit(
-    data_community_long = data_community_analysis_subset,
+    data_community_long = data_community_taxa_selected,
     data_sample_ids = data_sample_ids_s4
   ) %>%
   { (. > 0) * 1L } |>

@@ -27,9 +27,9 @@
 # The three resolutions are created by tarchetypes::tar_map()
 #   over pipe_segment_community_by_resolution_paleo and all downstream
 #   pipe segments (alignment -> model_anova), producing targets:
-#     data_community_analysis_subset_genus, model_anova_genus
-#     data_community_analysis_subset_family, model_anova_family
-#     data_community_analysis_subset_functional_type,
+#     data_community_taxa_selected_genus, model_anova_genus
+#     data_community_taxa_selected_family, model_anova_family
+#     data_community_taxa_selected_functional_type,
 #       model_anova_functional_type
 #
 # The upstream segments (config -> vegvault -> community extract,
@@ -138,7 +138,7 @@ c(
 #   These are used inside tarchetypes::tar_map() and are NOT
 #   added to the top-level list directly.  tar_map() appends a
 #   resolution suffix to every target name they define, e.g.
-#   data_community_analysis_subset_genus, model_anova_family.
+#   data_community_taxa_selected_genus, model_anova_family.
 c(
   "_helpers/make_community_filter_targets.R",
   "pipe_segment_community_by_resolution_paleo.R",

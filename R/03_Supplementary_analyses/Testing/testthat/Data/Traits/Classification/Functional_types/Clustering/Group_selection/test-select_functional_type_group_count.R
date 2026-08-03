@@ -320,10 +320,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 6L,
         data_community = data_community_fix,
-        minimal_proportion = 0.05,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
 
@@ -373,10 +373,10 @@ testthat::test_that(
         functional_type_group_count_min = 4L,
         functional_type_group_count_max = 6L,
         data_community = data_community_fix,
-        minimal_proportion = 0.05,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
 
@@ -428,10 +428,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 5L,
         data_community = data_community_fix,
-        minimal_proportion = 0.05,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
 
@@ -481,10 +481,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 5L,
         data_community = data_community_fix,
-        minimal_proportion = 0.05,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
 
@@ -533,10 +533,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 5L,
         data_community = data_community_fix,
-        minimal_proportion = 0.05,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
 
@@ -585,10 +585,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 4L,
         data_community = data_community_fix,
-        minimal_proportion = 0.05,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
 
@@ -639,10 +639,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 2L,
         data_community = data_community_fix,
-        minimal_proportion = 0.05,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
 
@@ -693,10 +693,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 8L,
         data_community = data_community_fix,
-        minimal_proportion = 0.05,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
 
@@ -730,10 +730,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = base::c("sp_1", "sp_2"),
-        minimal_proportion = 0.1,
-        min_n_taxa = 2L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.1,
+        minimum_taxon_count = 2L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       ),
       regexp = "data_community"
@@ -772,10 +772,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_no_pollen,
-        minimal_proportion = 0.1,
-        min_n_taxa = 2L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.1,
+        minimum_taxon_count = 2L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       ),
       regexp = "data_community"
@@ -785,7 +785,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "select_functional_type_group_count() rejects minimal_proportion >= 1",
+  "select_functional_type_group_count() rejects minimum_proportion >= 1",
   {
     mat_data <-
       base::matrix(
@@ -815,10 +815,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_minimal,
-        minimal_proportion = 1.5,
-        min_n_taxa = 2L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 1.5,
+        minimum_taxon_count = 2L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
     )
@@ -827,7 +827,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "select_functional_type_group_count() rejects minimal_proportion = 0",
+  "select_functional_type_group_count() rejects minimum_proportion = 0",
   {
     mat_data <-
       base::matrix(
@@ -857,10 +857,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_minimal,
-        minimal_proportion = 0,
-        min_n_taxa = 2L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0,
+        minimum_taxon_count = 2L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
     )
@@ -869,7 +869,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "select_functional_type_group_count() rejects min_n_taxa = 0",
+  "select_functional_type_group_count() rejects minimum_taxon_count = 0",
   {
     mat_data <-
       base::matrix(
@@ -899,10 +899,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_minimal,
-        minimal_proportion = 0.1,
-        min_n_taxa = 0L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.1,
+        minimum_taxon_count = 0L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
     )
@@ -964,10 +964,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_9,
-        minimal_proportion = 0.10,
-        min_n_taxa = 2L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.10,
+        minimum_taxon_count = 2L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
 
@@ -1014,10 +1014,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_10,
-        minimal_proportion = 0.10,
-        min_n_taxa = 3L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.10,
+        minimum_taxon_count = 3L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       ),
       regexp = "No viable"
@@ -1032,7 +1032,7 @@ testthat::test_that(
     # Same 6-taxon design: sp_1..sp_4 at 0.01, sp_5..sp_6 at 0.99
     # k=2 silhouette = 1.0 (max), k=3 = 0.33 -> k=2 wins.
     # Community: G2={sp_5,sp_6} absent in samples 3,4 -> non-constant
-    # -> k=2 is viable with min_n_taxa=1.
+    # -> k=2 is viable with minimum_taxon_count=1.
     # With viability k=2 is still selected (same as without).
     data_traits_11 <-
       tibble::tibble(
@@ -1077,10 +1077,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_11,
-        minimal_proportion = 0.10,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.10,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
 
@@ -1090,7 +1090,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "select_functional_type_group_count() rejects non-integer min_n_cores",
+  "select_functional_type_group_count() rejects non-integer minimum_core_count",
   {
     mat_data <-
       base::matrix(
@@ -1120,20 +1120,20 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_minimal,
-        minimal_proportion = 0.1,
-        min_n_taxa = 2L,
-        min_n_cores = "five",
-        min_n_samples = 1L,
+        minimum_proportion = 0.1,
+        minimum_taxon_count = 2L,
+        minimum_core_count = "five",
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       ),
-      regexp = "min_n_cores"
+      regexp = "minimum_core_count"
     )
   }
 )
 
 
 testthat::test_that(
-  "select_functional_type_group_count() rejects min_n_cores less than 1",
+  "select_functional_type_group_count() rejects minimum_core_count less than 1",
   {
     mat_data <-
       base::matrix(
@@ -1163,20 +1163,20 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_minimal,
-        minimal_proportion = 0.1,
-        min_n_taxa = 2L,
-        min_n_cores = 0L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.1,
+        minimum_taxon_count = 2L,
+        minimum_core_count = 0L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       ),
-      regexp = "min_n_cores"
+      regexp = "minimum_core_count"
     )
   }
 )
 
 
 testthat::test_that(
-  "select_functional_type_group_count() group excluded by min_n_cores filter",
+  "group-count selection applies the minimum core count",
   {
     # 8 taxa in 3 trait clusters (k=3 is structurally correct):
     #   sp_1..sp_4: trait 0.01 (ubiquitous across all 3 cores -> constant)
@@ -1188,12 +1188,12 @@ testthat::test_that(
     # -> hclust merges B+C first -> at k=2: G1={A}, G2={B,C}
     #                            -> at k=3: G1={A}, G2={B}, G3={C}
     #
-    # Without min_n_cores (min_n_taxa=2):
+    # Without minimum_core_count (minimum_taxon_count=2):
     #   k=2: G2={sp5..sp8} non-constant, n_nc=1 < 2 -> non-viable
     #   k=3: G2={sp5,6} non-constant AND G3={sp7,8} non-constant -> n_nc=2 >= 2
     #        -> viable -> k=3 selected
     #
-    # With min_n_cores=2 (min_n_taxa=2):
+    # With minimum_core_count=2 (minimum_taxon_count=2):
     #   k=2: G2 n_cores=2 (d1+d2) qualifies; n_nc=1 < 2 -> non-viable
     #   k=3: G2={sp5,6} n_cores=2 qualifies; G3={sp7,8} n_cores=1 -> filtered
     #        n_nc=1 < 2 -> non-viable
@@ -1237,7 +1237,7 @@ testthat::test_that(
         )
       )
 
-    # Without min_n_cores: k=3 is viable (n_nc=2 >= min_n_taxa=2) -> k=3
+    # With one required core, k = 3 remains viable.
     res_no_cores <-
       select_functional_type_group_count(
         trait_dissimilarity = dist_obj_12,
@@ -1245,14 +1245,14 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_12,
-        minimal_proportion = 0.05,
-        min_n_taxa = 2L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 2L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       )
 
-    # With min_n_cores=2: both k=2 and k=3 non-viable -> error
+    # With minimum_core_count=2: both k=2 and k=3 non-viable -> error
     testthat::expect_error(
       select_functional_type_group_count(
         trait_dissimilarity = dist_obj_12,
@@ -1260,10 +1260,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_12,
-        minimal_proportion = 0.05,
-        min_n_taxa = 2L,
-        min_n_cores = 2L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 2L,
+        minimum_core_count = 2L,
+        minimum_sample_count = 1L,
         error_family = "gaussian"
       ),
       regexp = "No viable"
@@ -1275,7 +1275,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "select_functional_type_group_count() rejects non-integer min_n_samples",
+  "group-count selection rejects non-integer sample counts",
   {
     mat_data <-
       base::matrix(
@@ -1305,20 +1305,20 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_minimal,
-        minimal_proportion = 0.1,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = "five",
+        minimum_proportion = 0.1,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = "five",
         error_family = "gaussian"
       ),
-      regexp = "min_n_samples"
+      regexp = "minimum_sample_count"
     )
   }
 )
 
 
 testthat::test_that(
-  "select_functional_type_group_count() rejects min_n_samples less than 1",
+  "group-count selection rejects sample counts below one",
   {
     mat_data <-
       base::matrix(
@@ -1348,13 +1348,13 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_minimal,
-        minimal_proportion = 0.1,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = 0L,
+        minimum_proportion = 0.1,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 0L,
         error_family = "gaussian"
       ),
-      regexp = "min_n_samples"
+      regexp = "minimum_sample_count"
     )
   }
 )
@@ -1391,10 +1391,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 3L,
         data_community = data_community_minimal,
-        minimal_proportion = 0.1,
-        min_n_taxa = 1L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.1,
+        minimum_taxon_count = 1L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = 42L
       ),
       regexp = "error_family"
@@ -1409,7 +1409,7 @@ testthat::test_that(
     # 4 taxa in 2 trait clusters:
     #   G1 = {sp_1, sp_2}: trait 0.01 — present in d1 only (sometimes absent)
     #   G2 = {sp_3, sp_4}: trait 0.99 — always present at varying proportions
-    #                                    all above minimal_proportion
+    #                                    all above minimum_proportion
     #
     # FT-level community (k=2, functional_type_group_count_min = functional_type_group_count_max = 2):
     #
@@ -1419,12 +1419,12 @@ testthat::test_that(
     # Without error_family (no binarisation):
     #   G1 col: [0.20, 0.20, 0, 0]      -> non-constant -> counted
     #   G2 col: [0.20, 0.24, 0.16, 0.18] -> non-constant -> counted
-    #   n_nc = 2 >= min_n_taxa=2 -> viable -> NO warning
+    #   n_nc = 2 >= minimum_taxon_count=2 -> viable -> NO warning
     #
     # With error_family="binomial":
     #   G1 binarised: [1, 1, 0, 0]  -> non-constant -> counted
     #   G2 binarised: [1, 1, 1, 1]  -> constant     -> removed
-    #   n_nc = 1 < min_n_taxa=2     -> non-viable   -> WARNING
+    #   n_nc = 1 < minimum_taxon_count=2     -> non-viable   -> WARNING
     data_traits_14 <-
       tibble::tibble(
         taxon_name = stringr::str_c("sp_", base::seq_len(4L)),
@@ -1438,7 +1438,7 @@ testthat::test_that(
       fit_hierarchical_clustering(trait_dissimilarity = dist_obj_14)
 
     # 2 cores x 2 ages = 4 samples; sp_1,sp_2 absent in d2; sp_3,sp_4 always
-    # present at varying proportions all above minimal_proportion=0.05.
+    # present at varying proportions all above minimum_proportion=0.05.
     data_community_14 <-
       tibble::tibble(
         taxon = base::rep(
@@ -1474,16 +1474,16 @@ testthat::test_that(
           functional_type_group_count_min = 2L,
           functional_type_group_count_max = 2L,
           data_community = data_community_14,
-          minimal_proportion = 0.05,
-          min_n_taxa = 2L,
-          min_n_cores = 1L,
-          min_n_samples = 1L,
+          minimum_proportion = 0.05,
+          minimum_taxon_count = 2L,
+          minimum_core_count = 1L,
+          minimum_sample_count = 1L,
           error_family = "gaussian"
         )
     )
 
     # With error_family="binomial": G2 binarises to all-1 -> constant
-    # -> n_nc=1 < min_n_taxa=2 -> non-viable -> error
+    # -> n_nc=1 < minimum_taxon_count=2 -> non-viable -> error
     testthat::expect_error(
       select_functional_type_group_count(
         trait_dissimilarity = dist_obj_14,
@@ -1491,10 +1491,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 2L,
         data_community = data_community_14,
-        minimal_proportion = 0.05,
-        min_n_taxa = 2L,
-        min_n_cores = 1L,
-        min_n_samples = 1L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 2L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 1L,
         error_family = "binomial"
       ),
       regexp = "No viable"
@@ -1506,7 +1506,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "select_functional_type_group_count() group excluded by min_n_samples filter",
+  "group-count selection applies the minimum sample count",
   {
     # 4 taxa in 2 trait clusters:
     #   G1 = {sp_1, sp_2}: trait 0.01 — present in all 4 samples at varying
@@ -1518,18 +1518,18 @@ testthat::test_that(
     #
     # FT-level sums after inner_join (k=2):
     #   G1: (d1,1)=0.20, (d1,2)=0.24, (d2,1)=0.16, (d2,2)=0.18 — all > 0.05
-    #   G2: (d1,1)=0.20 only — rest 0.00 -> filtered by filter_rare_taxa
+    #   G2: (d1,1)=0.20 only — rest 0.00 -> removed by proportion filter
     #
     # data_sample_ids (common to both branches): {(d1,1),(d1,2),(d2,1),(d2,2)}
     #
-    # Without min_n_samples (min_n_taxa=2):
+    # Without minimum_sample_count (minimum_taxon_count=2):
     #   Matrix: G1=[0.20,0.24,0.16,0.18] non-constant;
     #           G2=[0.20,0,0,0] non-constant
     #   n_nc=2 >= 2 -> viable -> NO warning
     #
-    # With min_n_samples=2:
-    #   G2 has only 1 distinct (dataset_name, age) -> filter_by_n_samples removes it
-    #   n_nc=1 < min_n_taxa=2 -> non-viable -> WARNING
+    # With minimum_sample_count=2:
+    #   G2 has only 1 distinct sample -> minimum sample filter removes it
+    #   n_nc=1 < minimum_taxon_count=2 -> non-viable -> WARNING
     data_traits_15 <-
       tibble::tibble(
         taxon_name = stringr::str_c("sp_", base::seq_len(4L)),
@@ -1570,7 +1570,7 @@ testthat::test_that(
         )
       )
 
-    # Without min_n_samples: G1 and G2 both non-constant -> viable -> no warning
+    # With one required sample, G1 and G2 remain viable.
     testthat::expect_no_warning(
       res_no_samples <-
         select_functional_type_group_count(
@@ -1579,16 +1579,16 @@ testthat::test_that(
           functional_type_group_count_min = 2L,
           functional_type_group_count_max = 2L,
           data_community = data_community_15,
-          minimal_proportion = 0.05,
-          min_n_taxa = 2L,
-          min_n_cores = 1L,
-          min_n_samples = 1L,
+          minimum_proportion = 0.05,
+          minimum_taxon_count = 2L,
+          minimum_core_count = 1L,
+          minimum_sample_count = 1L,
           error_family = "gaussian"
         )
     )
 
-    # With min_n_samples=2: G2 has only 1 sample -> filtered
-    # -> n_nc=1 < min_n_taxa=2 -> non-viable -> error
+    # With minimum_sample_count=2: G2 has only 1 sample -> filtered
+    # -> n_nc=1 < minimum_taxon_count=2 -> non-viable -> error
     testthat::expect_error(
       select_functional_type_group_count(
         trait_dissimilarity = dist_obj_15,
@@ -1596,10 +1596,10 @@ testthat::test_that(
         functional_type_group_count_min = 2L,
         functional_type_group_count_max = 2L,
         data_community = data_community_15,
-        minimal_proportion = 0.05,
-        min_n_taxa = 2L,
-        min_n_cores = 1L,
-        min_n_samples = 2L,
+        minimum_proportion = 0.05,
+        minimum_taxon_count = 2L,
+        minimum_core_count = 1L,
+        minimum_sample_count = 2L,
         error_family = "gaussian"
       ),
       regexp = "No viable"

@@ -190,7 +190,7 @@ The extraction produces parallel data objects that remain separate through prepr
 |---|---|---|
 | `data_vegvault_extracted` | [`extract_data_from_vegvault()`](Documentation/Functions/extract_data_from_vegvault.qmd) | Raw community and abiotic records from VegVault |
 | `data_coords` | [`get_coords()`](Documentation/Functions/get_coords.qmd) | One coordinate pair per `dataset_name` |
-| `check_n_cores` | [`check_min_n_cores()`](Documentation/Functions/check_min_n_cores.qmd) | Guard for minimum available compute resources |
+| `validation_available_core_count` | [`validate_available_core_count()`](Documentation/Functions/validate_available_core_count.qmd) | Guard for the minimum number of pollen cores |
 
 The extraction segment is reused by paleo, modern, and development pipelines.
 Target store isolation is controlled by the active configuration and, for spatial workflows, by `store_suffix`.
@@ -254,9 +254,11 @@ The workflow converts counts to proportions, propagates sample ages, extracts ag
 | Interpolation index | [`build_community_interpolation_index()`](Documentation/Functions/build_community_interpolation_index.qmd) | Builds small per-dataset branch metadata |
 | Dataset interpolation | [`interpolate_community_dataset_from_shared_inputs()`](Documentation/Functions/interpolate_community_dataset_from_shared_inputs.qmd) | Interpolates one dataset from shared inputs |
 | Paleo community interpolation | [`interpolate_paleo_community_with_age_uncertainty()`](Documentation/Functions/interpolate_paleo_community_with_age_uncertainty.qmd) | Interpolates consensus ages and fossil age-model iterations |
-| Plantae filter | [`filter_non_plantae_taxa()`](Documentation/Functions/filter_non_plantae_taxa.qmd) | Removes non-plant records |
-| Rare-taxon filter | [`filter_rare_taxa()`](Documentation/Functions/filter_rare_taxa.qmd) | Removes low-proportion records |
-| Core and sample filters | [`filter_community_by_n_cores()`](Documentation/Functions/filter_community_by_n_cores.qmd), [`filter_by_n_samples()`](Documentation/Functions/filter_by_n_samples.qmd) | Enforce data-density requirements |
+| Plantae filter | [`filter_community_to_plantae()`](Documentation/Functions/filter_community_to_plantae.qmd) | Retains plant records |
+| Proportion filter | [`filter_community_by_minimum_proportion()`](Documentation/Functions/filter_community_by_minimum_proportion.qmd) | Removes low-proportion records |
+| Core and sample filters | [`filter_community_by_minimum_core_count()`](Documentation/Functions/filter_community_by_minimum_core_count.qmd), [`filter_community_by_minimum_sample_count()`](Documentation/Functions/filter_community_by_minimum_sample_count.qmd) | Enforce data-density requirements |
+| Taxon ranking | [`select_top_taxa_by_group_occurrence()`](Documentation/Functions/select_top_taxa_by_group_occurrence.qmd) | Retains the most widespread taxa |
+| Matrix guard | [`validate_community_taxon_count()`](Documentation/Functions/validate_community_taxon_count.qmd) | Stops model fitting when too few taxa remain |
 
 Age uncertainty and interpolation are central to the paleo workflow because fossil samples are irregularly spaced and have uncertainty from age-depth modelling.
 :::
@@ -326,7 +328,7 @@ The pipeline retains only sample identifiers that can be matched across communit
 |---|---|
 | Spatial | [`align_sample_ids()`](Documentation/Functions/align_sample_ids.qmd) computes the intersection across community, abiotic, and coordinate records for the whole spatial unit |
 | Temporal | The time-slice branch supplies an age value and filters aligned samples to that target slice |
-| Validation | [`check_data_sample_ids_n()`](Documentation/Functions/check_data_sample_ids_n.qmd) checks whether enough samples remain |
+| Validation | [`validate_sample_count()`](Documentation/Functions/validate_sample_count.qmd) checks whether enough samples remain |
 
 All model matrices use a consistent sample-key convention derived from `dataset_name` and `age`.
 This allows community, abiotic, coordinate, and spatial predictor matrices to be checked for identical row order before fitting.

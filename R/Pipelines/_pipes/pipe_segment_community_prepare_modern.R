@@ -130,7 +130,7 @@ pipe_segment_community_prepare_modern <-
       name = "data_community_plantae",
       command = data_community_analysis |>
         dplyr::rename(value = "pollen_count") |>
-        filter_non_plantae_taxa(
+        filter_community_to_plantae(
           data_classification_table = data_combined_classification_table
         )
     ),

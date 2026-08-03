@@ -22,6 +22,27 @@ Before creating a new helper function, search the existing project helpers and n
 
 Prefer clean, DRY code over narrow one-off helpers. If an existing helper already does something very similar, extend or adjust that helper and its tests so it supports the new use case while preserving its existing contract. Create a new helper only when reusing or generalising the existing one would make its purpose misleading, add unsafe branching, or break established behaviour. When a helper is extended, update its roxygen2 documentation and tests, and run the affected tests to confirm the original behaviour still passes.
 
+### Substantive Refactors by Default
+
+When a task is described as a function or architecture refactor, each work
+chunk should improve semantic ownership and the public or internal API, not
+only formatting or syntax. Review function names against their actual
+behavior even when an existing inventory maps a name to itself; automated
+architecture checks verify the approved map but do not prove that a name is
+clear.
+
+A substantive function-refactor chunk should normally include the relevant:
+
+- capability folder structure and mirrored test structure;
+- function and file names;
+- argument and local-object names;
+- callers, pipeline targets, tests, inventories, and generated documentation;
+- focused behavioral validation and old-name reference checks.
+
+Isolated style cleanup is still useful, but describe and scope it as cleanup
+rather than presenting it as the main refactor outcome. Use `git mv` for every
+tracked move or rename, following `.ai/git-workflow.md`.
+
 **All function creation and editing follows Test-Driven Development (TDD).** The mandatory cycle is:
 1. Write (or update) the roxygen2 spec stub first
 2. Write unit tests against the spec  -  before any implementation exists

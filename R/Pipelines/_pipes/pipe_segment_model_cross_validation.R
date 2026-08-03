@@ -46,7 +46,7 @@ pipe_segment_model_cross_validation <-
       ),
       name = "data_cross_validation_locations",
       command = make_cross_validation_location_table(
-        data_sample_ids = data_sample_ids_checked,
+        data_sample_ids = data_sample_ids_count_validated,
         data_coords_projected = data_coords_projected
       )
     ),
@@ -380,7 +380,7 @@ pipe_segment_model_cross_validation <-
             data_community_matrix = data_community_model_matrix,
             data_abiotic_wide = data_abiotic_wide,
             data_coords_projected = data_coords_projected,
-            data_sample_ids = data_sample_ids_checked,
+            data_sample_ids = data_sample_ids_count_validated,
             train_indices = train_indices,
             test_indices = test_indices,
             config_model_fitting = config_model_fitting,
@@ -658,7 +658,7 @@ pipe_segment_model_cross_validation <-
         assemble_sjsdm_cached_selected_folds(
           data_assignments = data_cross_validation_assignments,
           data_selected_candidate = model_regularization_for_fit,
-          data_sample_ids = data_sample_ids_checked,
+          data_sample_ids = data_sample_ids_count_validated,
           taxon_names = base::colnames(data_community_model_matrix),
           list_prediction_cache =
             list_sjsdm_tuning_prediction_cache

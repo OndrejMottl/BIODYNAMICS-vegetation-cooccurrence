@@ -90,8 +90,6 @@ function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_scale_id_fr
 function_naming,report_only,R/Functions/Utility/Pipeline/get_new_targets_errors.R,get_new_targets_errors,#155,Review leading verb `get` against version 1.
 function_naming,report_only,R/Functions/Utility/Pipeline/monitor_pipeline_progress.R,monitor_pipeline_progress,#155,Review leading verb `monitor` against version 1.
 function_naming,report_only,R/Functions/Utility/Validation/align_sample_ids.R,align_sample_ids,#155,Review leading verb `align` against version 1.
-function_naming,report_only,R/Functions/Utility/Validation/check_data_sample_ids_n.R,check_data_sample_ids_n,#155,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Utility/Validation/check_min_n_cores.R,check_min_n_cores,#155,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Utility/Validation/check_presence_of_vegvault.R,check_presence_of_vegvault,#155,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Visualisation/Legends_and_colours/mix_variance_component_colours.R,mix_variance_component_colours,#155,Review leading verb `mix` against version 1.
 missing_function,report_only,R/Functions/Utility/Config/get_active_config.R,NA,#150,Record the approved function move or removal.

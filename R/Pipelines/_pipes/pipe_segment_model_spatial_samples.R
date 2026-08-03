@@ -56,12 +56,12 @@ pipe_segment_model_spatial_samples <-
         ) {
           prepare_spatial_predictors_for_fit(
             data_spatial = data_spatial_mev_core,
-            data_sample_ids = data_sample_ids_checked
+            data_sample_ids = data_sample_ids_count_validated
           )
         } else {
           compute_spatiotemporal_mev(
             data_coords_projected = data_coords_projected,
-            data_sample_ids = data_sample_ids_checked,
+            data_sample_ids = data_sample_ids_count_validated,
             n_mev = config_spatial_predictors$n_mev
           )
         }

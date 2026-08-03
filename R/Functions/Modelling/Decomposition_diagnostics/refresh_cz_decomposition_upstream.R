@@ -79,7 +79,7 @@ refresh_cz_decomposition_upstream <- function(
 
   vec_required_targets <-
     c(
-      "data_sample_ids_checked_genus",
+      "data_sample_ids_count_validated_genus",
       "data_community_model_matrix_genus",
       "data_abiotic_wide_genus",
       "data_spatial_mev_core",

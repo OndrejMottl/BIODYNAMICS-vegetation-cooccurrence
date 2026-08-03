@@ -81,13 +81,16 @@ pipe_segment_model_prepare_response <-
     ),
     targets::tar_target(
       description = stringr::str_c(
-        "Stop pipeline if fewer than min_n_taxa taxa remain ",
+        "Stop pipeline if fewer than the minimum number of taxa remain ",
         "after filtering"
       ),
-      name = "data_community_n_taxa_checked",
-      command = filter_community_by_n_taxa(
+      name = "data_community_taxon_count_validated",
+      command = validate_community_taxon_count(
         data_community_matrix = data_community_filtered,
-        min_n_taxa = config_data_processing$min_n_taxa
+        minimum_taxon_count = purrr::chuck(
+          config_data_processing,
+          "min_n_taxa"
+        )
       )
     )
   )

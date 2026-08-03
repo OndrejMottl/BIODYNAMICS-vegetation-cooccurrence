@@ -116,8 +116,8 @@ pipe_segment_community_prepare_paleo <-
     targets::tar_target(
       description = "Remove non-Plantae taxa from community data",
       name = "data_community_plantae",
-      command = filter_non_plantae_taxa(
-        data = data_community_interpolated,
+      command = filter_community_to_plantae(
+        data_community = data_community_interpolated,
         data_classification_table = data_combined_classification_table
       )
     ),

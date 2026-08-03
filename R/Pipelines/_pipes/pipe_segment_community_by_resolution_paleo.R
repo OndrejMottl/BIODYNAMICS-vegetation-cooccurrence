@@ -28,7 +28,7 @@
 #   "functional_type"   ->  classify_to_functional_type()
 #
 # All five targets produced here are renamed by tar_map() with a
-#   resolution suffix, e.g. data_community_analysis_subset_genus.
+#   resolution suffix, e.g. data_community_taxa_selected_genus.
 #
 # NOTE: the community extract, taxonomy classification, and paleo
 #   preprocess segments must be sourced BEFORE this segment so that
@@ -98,10 +98,10 @@ pipe_segment_community_by_resolution_paleo <-
       }
     ),
 
-    # This target name (data_community_analysis_subset) is the same as the
+    # This target name (data_community_taxa_selected) is the same as the
     #   one produced by pipe_segment_community_filter.R.  When used
-    #   inside tar_map() it becomes data_community_analysis_subset_genus,
-    #   data_community_analysis_subset_family, etc., and the downstream
+    #   inside tar_map() it becomes data_community_taxa_selected_genus,
+    #   data_community_taxa_selected_family, etc., and the downstream
     #   segments (alignment -> model_anova) reference the correct
     #   branch-suffixed version automatically.
     make_community_filter_targets("data_community_by_resolution")

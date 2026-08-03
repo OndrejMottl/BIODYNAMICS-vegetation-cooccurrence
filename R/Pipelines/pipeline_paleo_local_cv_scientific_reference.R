@@ -114,7 +114,7 @@ base::list(
   targets::tar_target(
     name = data_scientific_reference_sample_ids,
     command = targets::tar_read_raw(
-      name = "data_sample_ids_checked_genus",
+      name = "data_sample_ids_count_validated_genus",
       store = path_source_store
     ),
     cue = targets::tar_cue(mode = "always")

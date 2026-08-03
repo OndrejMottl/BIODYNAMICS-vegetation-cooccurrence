@@ -38,7 +38,8 @@
 #' never used, even when present in the classification table. The
 #' NA-drop step prevents a column literally named NA appearing in the
 #' community matrix produced by downstream `pivot_wider()` calls.
-#' @seealso [filter_non_plantae_taxa()], [filter_rare_taxa()]
+#' @seealso [filter_community_to_plantae()],
+#' [filter_community_by_minimum_proportion()]
 #' @export
 classify_taxonomic_resolution <- function(
     data_source,

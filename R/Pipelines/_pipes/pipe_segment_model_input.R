@@ -56,8 +56,8 @@ pipe_segment_model_input <-
       description = "Prepare community data for fitting",
       name = "data_community_model_matrix",
       command = prepare_community_for_fit(
-        data_community_long = data_community_analysis_subset,
-        data_sample_ids = data_sample_ids_checked
+        data_community_long = data_community_taxa_selected,
+        data_sample_ids = data_sample_ids_count_validated
       )
     ),
     targets::tar_target(
@@ -65,7 +65,7 @@ pipe_segment_model_input <-
       name = "data_abiotic_wide",
       command = prepare_abiotic_for_fit(
         data_abiotic_long = data_abiotic_analysis,
-        data_sample_ids = data_sample_ids_checked
+        data_sample_ids = data_sample_ids_count_validated
       )
     )
   )

@@ -7,13 +7,14 @@
 #'
 #' The function also simulates the downstream pipeline filter
 #' chain for each candidate `k` and only considers values that
-#' leave at least `min_n_taxa` non-constant FT columns. The
-#' filter chain applied is: `filter_rare_taxa()`,
-#' `filter_community_by_n_cores()`, `filter_by_n_samples()`,
+#' leave at least `minimum_taxon_count` non-constant FT columns. The
+#' filter chain applied is: `filter_community_by_minimum_proportion()`,
+#' `filter_community_by_minimum_core_count()`,
+#' `filter_community_by_minimum_sample_count()`,
 #' `prepare_community_for_fit()`, optionally
 #' `compute_community_presence_absence()` (when `error_family` is
 #' `"binomial"`), and `filter_constant_taxa()`. The number of
-#' surviving columns is compared to `min_n_taxa`. Among viable
+#' surviving columns is compared to `minimum_taxon_count`. Among viable
 #' candidates the highest-silhouette `k` is returned. If no
 #' `k` is viable an error is raised via `cli::cli_abort()`.
 #' @param trait_dissimilarity
@@ -41,24 +42,24 @@
 #' `classify_to_functional_type()` or
 #' `classify_taxonomic_resolution()`. Used to run the
 #' viability filter chain for each candidate `k`.
-#' @param minimal_proportion
+#' @param minimum_proportion
 #' A single numeric value in (0, 1). A sample is considered
 #' to contain an FT group when the summed `value` for
 #' that group exceeds this threshold.
-#' @param min_n_taxa
+#' @param minimum_taxon_count
 #' A single positive integer. The minimum number of
 #' non-constant FT columns (i.e. groups present in strictly
 #' between 0 % and 100 % of samples after binarization at
-#' `minimal_proportion`) that a candidate `k` must produce to
+#' `minimum_proportion`) that a candidate `k` must produce to
 #' be considered viable.
-#' @param min_n_cores
+#' @param minimum_core_count
 #' A single positive integer. Forwarded to
-#' `filter_community_by_n_cores()` during the viability check
+#' `filter_community_by_minimum_core_count()` during the viability check
 #' to remove FT groups present in fewer than this many
 #' distinct cores (`dataset_name` values).
-#' @param min_n_samples
+#' @param minimum_sample_count
 #' A single positive integer. Forwarded to
-#' `filter_by_n_samples()` during the viability check to
+#' `filter_community_by_minimum_sample_count()` during the viability check to
 #' remove FT groups present in fewer than this many distinct
 #' spatio-temporal samples (`(dataset_name, age)`
 #' combinations).
@@ -82,9 +83,10 @@
 #' `(dataset_name, age, ft_group)`) and then passed through
 #' the actual pipeline filter chain in sequence:
 #' \enumerate{
-#'   \item `filter_rare_taxa()` at `minimal_proportion`.
-#'   \item `filter_community_by_n_cores()`.
-#'   \item `filter_by_n_samples()`.
+#'   \item `filter_community_by_minimum_proportion()` at
+#'     `minimum_proportion`.
+#'   \item `filter_community_by_minimum_core_count()`.
+#'   \item `filter_community_by_minimum_sample_count()`.
 #'   \item `prepare_community_for_fit()` (wide matrix,
 #'     using all surviving samples as their own IDs).
 #'   \item `compute_community_presence_absence()` if
@@ -98,7 +100,7 @@
 #' Selection proceeds as follows:
 #' \enumerate{
 #'   \item If at least one `k` has viability count >=
-#'     `min_n_taxa`: return the highest-silhouette among
+#'     `minimum_taxon_count`: return the highest-silhouette among
 #'     those `k` values.
 #'   \item If no `k` is viable: abort with `cli::cli_abort()`.
 #' }
@@ -113,10 +115,10 @@ select_functional_type_group_count <- function(
     functional_type_group_count_min = 10L,
     functional_type_group_count_max = 25L,
     data_community,
-    minimal_proportion,
-    min_n_taxa,
-    min_n_cores,
-    min_n_samples,
+    minimum_proportion,
+    minimum_taxon_count,
+    minimum_core_count,
+    minimum_sample_count,
     error_family) {
   assertthat::assert_that(
     base::inherits(trait_dissimilarity, "dist"),
@@ -181,32 +183,41 @@ select_functional_type_group_count <- function(
   )
 
   assertthat::assert_that(
-    base::is.numeric(minimal_proportion) &&
-      base::length(minimal_proportion) == 1L &&
-      minimal_proportion > 0 &&
-      minimal_proportion < 1,
-    msg = "'minimal_proportion' must be a single numeric in (0, 1)."
+    base::is.numeric(minimum_proportion) &&
+      base::length(minimum_proportion) == 1L &&
+      minimum_proportion > 0 &&
+      minimum_proportion < 1,
+    msg = "'minimum_proportion' must be a single numeric in (0, 1)."
   )
 
   assertthat::assert_that(
-    (base::is.numeric(min_n_taxa) || base::is.integer(min_n_taxa)) &&
-      base::length(min_n_taxa) == 1L &&
-      min_n_taxa >= 1L,
-    msg = "'min_n_taxa' must be a single positive integer."
+    (
+      base::is.numeric(minimum_taxon_count) ||
+        base::is.integer(minimum_taxon_count)
+    ) &&
+      base::length(minimum_taxon_count) == 1L &&
+      minimum_taxon_count >= 1L,
+    msg = "'minimum_taxon_count' must be a single positive integer."
   )
 
   assertthat::assert_that(
-    (base::is.numeric(min_n_cores) || base::is.integer(min_n_cores)) &&
-      base::length(min_n_cores) == 1L &&
-      min_n_cores >= 1L,
-    msg = "'min_n_cores' must be a single positive integer."
+    (
+      base::is.numeric(minimum_core_count) ||
+        base::is.integer(minimum_core_count)
+    ) &&
+      base::length(minimum_core_count) == 1L &&
+      minimum_core_count >= 1L,
+    msg = "'minimum_core_count' must be a single positive integer."
   )
 
   assertthat::assert_that(
-    (base::is.numeric(min_n_samples) || base::is.integer(min_n_samples)) &&
-      base::length(min_n_samples) == 1L &&
-      min_n_samples >= 1L,
-    msg = "'min_n_samples' must be a single positive integer."
+    (
+      base::is.numeric(minimum_sample_count) ||
+        base::is.integer(minimum_sample_count)
+    ) &&
+      base::length(minimum_sample_count) == 1L &&
+      minimum_sample_count >= 1L,
+    msg = "'minimum_sample_count' must be a single positive integer."
   )
 
   assertthat::assert_that(
@@ -236,6 +247,10 @@ select_functional_type_group_count <- function(
       functional_type_group_count_min,
       functional_type_group_count_max
     )
+
+  return_zero_on_filter_error <- function(condition) {
+    return(0L)
+  }
 
   mean_silhouette_widths <-
     candidate_group_counts |>
@@ -300,21 +315,21 @@ select_functional_type_group_count <- function(
         base::tryCatch(
           {
             data_functional_type_community <-
-              filter_rare_taxa(
-                data = data_functional_type_community,
-                minimal_proportion = minimal_proportion
+              filter_community_by_minimum_proportion(
+                data_community = data_functional_type_community,
+                minimum_proportion = minimum_proportion
               )
 
             data_functional_type_community <-
-              filter_community_by_n_cores(
-                data = data_functional_type_community,
-                min_n_cores = min_n_cores
+              filter_community_by_minimum_core_count(
+                data_community = data_functional_type_community,
+                minimum_core_count = minimum_core_count
               )
 
             data_functional_type_community <-
-              filter_by_n_samples(
-                data = data_functional_type_community,
-                min_n_samples = min_n_samples
+              filter_community_by_minimum_sample_count(
+                data_community = data_functional_type_community,
+                minimum_sample_count = minimum_sample_count
               )
 
             data_sample_ids <-
@@ -347,25 +362,23 @@ select_functional_type_group_count <- function(
             base::ncol(matrix_functional_type_community) |>
               base::as.integer()
           },
-          error = function(condition) {
-            return(0L)
-          }
+          error = return_zero_on_filter_error
         )
       }
     )
 
   viable_candidates <-
-    surviving_group_counts >= min_n_taxa
+    surviving_group_counts >= minimum_taxon_count
 
   if (
     !base::any(viable_candidates)
-    ) {
+  ) {
     cli::cli_abort(
       base::c(
         "x" = stringr::str_glue(
           "No viable k in {functional_type_group_count_min}..",
           "{functional_type_group_count_max} produces >=",
-          " {min_n_taxa} non-constant FT groups after",
+          " {minimum_taxon_count} non-constant FT groups after",
           " the pipeline filter chain."
         )
       )
