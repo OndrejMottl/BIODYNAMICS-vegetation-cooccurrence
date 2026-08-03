@@ -74,7 +74,7 @@ load_taxa_classification <- function(
   file_taxa_classification_cache <-
     base::file.path(
       dir_taxa_classification_cache,
-      base::paste0(vec_cache_file_name, ".qs")
+      stringr::str_glue("{vec_cache_file_name}.qs")
     )
 
   # Return from cache if a previous successful result exists -----

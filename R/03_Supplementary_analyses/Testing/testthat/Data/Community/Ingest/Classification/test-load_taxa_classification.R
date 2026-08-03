@@ -83,7 +83,7 @@ testthat::test_that("load_taxa_classification() handles invalid input", {
   )
 })
 
-testthat::test_that("load_taxa_classification() validates dir_taxa_classification_cache type", {
+testthat::test_that("load_taxa_classification() validates cache path", {
   testthat::expect_error(
     load_taxa_classification(
       vec_taxa = "Betula pendula",
@@ -92,11 +92,13 @@ testthat::test_that("load_taxa_classification() validates dir_taxa_classificatio
   )
 })
 
-testthat::test_that("load_taxa_classification() creates dir_taxa_classification_cache if absent", {
+testthat::test_that("load_taxa_classification() creates missing cache", {
   dir_taxa_classification_cache <-
     base::file.path(
       base::tempdir(),
-      base::paste0("taxospace_new_", base::format(base::Sys.time(), "%s"))
+      stringr::str_glue(
+        "taxospace_new_{base::format(base::Sys.time(), '%s')}"
+      )
     )
 
   testthat::expect_false(base::dir.exists(dir_taxa_classification_cache))
@@ -168,7 +170,7 @@ testthat::test_that("load_taxa_classification() loads from cache on hit", {
   file_taxa_classification_cache <-
     base::file.path(
       dir_taxa_classification_cache,
-      base::paste0(vec_cache_file_name, ".qs")
+      stringr::str_glue("{vec_cache_file_name}.qs")
     )
 
   qs2::qs_save(data_taxa_classification_fake, file_taxa_classification_cache)

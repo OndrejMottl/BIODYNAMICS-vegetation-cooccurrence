@@ -68,8 +68,8 @@ load_auxiliary_classification_table <- function(
   assertthat::assert_that(
     "sel_name" %in%
       base::colnames(data_auxiliary_classification_table_raw),
-    msg = base::paste(
-      "aux_classification_table.csv must contain",
+    msg = stringr::str_c(
+      "aux_classification_table.csv must contain ",
       "a 'sel_name' column"
     )
   )
@@ -91,12 +91,10 @@ load_auxiliary_classification_table <- function(
     purrr::reduce(
       .x = vec_missing_columns,
       .init = data_auxiliary_classification_table_raw,
-      .f = function(data_accumulated, vec_column_name) {
-        data_accumulated |>
-          dplyr::mutate(
-            !!vec_column_name := NA_character_
-          )
-      }
+      .f = ~ .x |>
+        dplyr::mutate(
+          !!.y := NA_character_
+        )
     )
 
   res_auxiliary_classification_table <-
