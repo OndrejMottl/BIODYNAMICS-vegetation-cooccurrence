@@ -1,4 +1,4 @@
-#' @title Assemble Final Data List for Model Fitting
+#' @title Build the sjSDM Model Input
 #' @description
 #' Validates that the community matrix and scaled abiotic data
 #' share the same sample rows in the same order, then bundles
@@ -43,7 +43,7 @@
 #' @seealso [filter_constant_taxa()], [scale_abiotic_for_fit()],
 #'   [scale_spatial_for_fit()], [fit_jsdm_model()]
 #' @export
-assemble_data_to_fit <- function(
+build_jsdm_fit_input <- function(
     data_community_filtered = NULL,
     data_abiotic_scaled_list = NULL,
     data_spatial_scaled_list = NULL) {

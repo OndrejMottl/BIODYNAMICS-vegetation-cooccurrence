@@ -1,59 +1,59 @@
 testthat::test_that(
-  "make_env_formula() validates input type", {
+  "build_jsdm_environment_formula() validates input type", {
     testthat::expect_error(
-      make_env_formula(data = "not a data frame"),
+      build_jsdm_environment_formula(data = "not a data frame"),
       "data must be a data frame"
     )
 
     testthat::expect_error(
-      make_env_formula(data = NULL),
+      build_jsdm_environment_formula(data = NULL),
       "data must be a data frame"
     )
 
     testthat::expect_error(
-      make_env_formula(data = list(x = 1, y = 2)),
+      build_jsdm_environment_formula(data = list(x = 1, y = 2)),
       "data must be a data frame"
     )
 
     testthat::expect_error(
-      make_env_formula(data = matrix(1:4, nrow = 2)),
+      build_jsdm_environment_formula(data = matrix(1:4, nrow = 2)),
       "data must be a data frame"
     )
 
     testthat::expect_error(
-      make_env_formula(data = c(1, 2, 3)),
+      build_jsdm_environment_formula(data = c(1, 2, 3)),
       "data must be a data frame"
     )
   }
 )
 
 testthat::test_that(
-  "make_env_formula() validates data frame has columns", {
+  "build_jsdm_environment_formula() validates data frame has columns", {
     data_empty_cols <- data.frame()[1:5, ]
 
     testthat::expect_error(
-      make_env_formula(data = data_empty_cols),
+      build_jsdm_environment_formula(data = data_empty_cols),
       "data must have at least one column"
     )
   }
 )
 
 testthat::test_that(
-  "make_env_formula() validates data frame has rows", {
+  "build_jsdm_environment_formula() validates data frame has rows", {
     data_empty_rows <- data.frame(x = numeric(0), y = numeric(0))
 
     testthat::expect_error(
-      make_env_formula(data = data_empty_rows),
+      build_jsdm_environment_formula(data = data_empty_rows),
       "data must have at least one row"
     )
   }
 )
 
 testthat::test_that(
-  "make_env_formula() returns formula object", {
+  "build_jsdm_environment_formula() returns formula object", {
     data_test <- data.frame(temp = c(10, 15), precip = c(500, 600))
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     testthat::expect_true(inherits(res, "formula"))
 
@@ -62,14 +62,14 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() creates correct formula without age", {
+  "build_jsdm_environment_formula() creates correct formula without age", {
     data_test <-
       data.frame(
         temp = c(10, 15),
         precip = c(500, 600)
       )
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     expected_formula <- as.formula(" ~ temp + precip")
 
@@ -88,7 +88,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() creates correct formula with age", {
+  "build_jsdm_environment_formula() creates correct formula with age", {
     data_test <-
       data.frame(
         age = c(100, 200),
@@ -96,7 +96,7 @@ testthat::test_that(
         precip = c(500, 600)
       )
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     expected_formula <-
       as.formula(" ~  (temp + precip) * age - age")
@@ -118,10 +118,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() handles single column without age", {
+  "build_jsdm_environment_formula() handles single column without age", {
     data_test <- data.frame(var1 = c(1, 2, 3))
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     expected_formula <- as.formula(" ~ var1")
 
@@ -130,10 +130,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() handles single column with age", {
+  "build_jsdm_environment_formula() handles single column with age", {
     data_test <- data.frame(age = c(100, 200, 300), var1 = c(1, 2, 3))
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     expected_formula <- as.formula(" ~ (var1) * age - age")
 
@@ -142,7 +142,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() handles multiple columns without age", {
+  "build_jsdm_environment_formula() handles multiple columns without age", {
     data_test <-
       data.frame(
         var1 = c(1, 2),
@@ -151,7 +151,7 @@ testthat::test_that(
         var4 = c(7, 8)
       )
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     expected_formula <-
       as.formula(" ~ var1 + var2 + var3 + var4")
@@ -171,7 +171,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() handles multiple columns with age", {
+  "build_jsdm_environment_formula() handles multiple columns with age", {
     data_test <-
       data.frame(
         age = c(100, 200),
@@ -180,7 +180,7 @@ testthat::test_that(
         var3 = c(5, 6)
       )
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     expected_formula <-
       as.formula(" ~ (var1 + var2 + var3) * age - age")
@@ -202,18 +202,21 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() rejects age as only column", {
+  "build_jsdm_environment_formula() rejects age as only column", {
     data_test <- data.frame(age = c(100, 200, 300))
 
     testthat::expect_error(
-      make_env_formula(data = data_test),
-      "data must have at least one column other than 'age' when 'age' is present"
+      build_jsdm_environment_formula(data = data_test),
+      base::paste0(
+        "data must have at least one column other than 'age'",
+        " when 'age' is present"
+      )
     )
   }
 )
 
 testthat::test_that(
-  "make_env_formula() preserves column order in formula", {
+  "build_jsdm_environment_formula() preserves column order in formula", {
     data_test <-
       data.frame(
         z_var = c(1, 2),
@@ -221,7 +224,7 @@ testthat::test_that(
         m_var = c(5, 6)
       )
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     formula_text <- as.character(res)[2]
 
@@ -238,7 +241,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() handles special characters in column names", {
+  "environment formula handles special characters in column names", {
     data_test <-
       data.frame(
         `var.1` = c(1, 2),
@@ -247,7 +250,7 @@ testthat::test_that(
 
     colnames(data_test) <- c("var.1", "var_2")
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     testthat::expect_true(inherits(res, "formula"))
 
@@ -260,14 +263,14 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() handles NA values in data", {
+  "build_jsdm_environment_formula() handles NA values in data", {
     data_test <-
       data.frame(
         var1 = c(1, NA, 3),
         var2 = c(NA, 2, 3)
       )
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     testthat::expect_true(inherits(res, "formula"))
 
@@ -278,7 +281,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() handles larger dataset", {
+  "build_jsdm_environment_formula() handles larger dataset", {
     set.seed(900723)
 
     data_test <-
@@ -293,7 +296,7 @@ testthat::test_that(
     colnames(data_test) <-
       paste0("var", seq_len(ncol(data_test)))
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     testthat::expect_true(inherits(res, "formula"))
 
@@ -308,10 +311,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() formula excludes intercept", {
+  "build_jsdm_environment_formula() formula excludes intercept", {
     data_test <- data.frame(temp = c(10, 15), precip = c(500, 600))
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     formula_text <- deparse(res)
 
@@ -320,14 +323,14 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() handles tibble input", {
+  "build_jsdm_environment_formula() handles tibble input", {
     data_test <-
       tibble::tibble(
         temp = c(10, 15),
         precip = c(500, 600)
       )
 
-    res <- make_env_formula(data = data_test)
+    res <- build_jsdm_environment_formula(data = data_test)
 
     testthat::expect_true(inherits(res, "formula"))
 
@@ -338,28 +341,28 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() validates use_age argument", {
+  "build_jsdm_environment_formula() validates use_age argument", {
     data_test <- data.frame(bio1 = c(10, 15), bio12 = c(500, 600))
 
     testthat::expect_error(
-      make_env_formula(data = data_test, use_age = "yes"),
+      build_jsdm_environment_formula(data = data_test, use_age = "yes"),
       "use_age must be a single logical value"
     )
 
     testthat::expect_error(
-      make_env_formula(data = data_test, use_age = 1),
+      build_jsdm_environment_formula(data = data_test, use_age = 1),
       "use_age must be a single logical value"
     )
 
     testthat::expect_error(
-      make_env_formula(data = data_test, use_age = NA),
+      build_jsdm_environment_formula(data = data_test, use_age = NA),
       "use_age must be a single logical value"
     )
   }
 )
 
 testthat::test_that(
-  "make_env_formula() use_age = FALSE with age column gives additive formula", {
+  "environment formula excludes present age when requested", {
     data_test <-
       data.frame(
         age = c(100, 200),
@@ -368,7 +371,7 @@ testthat::test_that(
       )
 
     res <-
-      make_env_formula(data = data_test, use_age = FALSE)
+      build_jsdm_environment_formula(data = data_test, use_age = FALSE)
 
     expected_formula <- as.formula(" ~ bio1 + bio12")
 
@@ -383,7 +386,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() use_age = FALSE without age column gives additive formula", {
+  "environment formula stays additive without age when requested", {
     data_test <-
       data.frame(
         bio1 = c(10, 15),
@@ -391,17 +394,17 @@ testthat::test_that(
       )
 
     res_default <-
-      make_env_formula(data = data_test)
+      build_jsdm_environment_formula(data = data_test)
 
     res_explicit <-
-      make_env_formula(data = data_test, use_age = FALSE)
+      build_jsdm_environment_formula(data = data_test, use_age = FALSE)
 
     testthat::expect_equal(res_default, res_explicit)
   }
 )
 
 testthat::test_that(
-  "make_env_formula() use_age = TRUE with age column gives interaction formula", {
+  "environment formula uses age interactions when requested", {
     data_test <-
       data.frame(
         age = c(100, 200),
@@ -410,7 +413,7 @@ testthat::test_that(
       )
 
     res <-
-      make_env_formula(data = data_test, use_age = TRUE)
+      build_jsdm_environment_formula(data = data_test, use_age = TRUE)
 
     expected_formula <- as.formula(" ~  (bio1 + bio12) * age - age")
 
@@ -425,11 +428,11 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_env_formula() use_age = FALSE with only age-and-one column gives additive formula", {
+  "environment formula keeps one predictor when age is excluded", {
     data_test <- data.frame(age = c(100, 200, 300), var1 = c(1, 2, 3))
 
     res <-
-      make_env_formula(data = data_test, use_age = FALSE)
+      build_jsdm_environment_formula(data = data_test, use_age = FALSE)
 
     expected_formula <- as.formula(" ~ var1")
 

@@ -28,7 +28,7 @@
 #' more than one sample is present. When only one row exists,
 #' only centring is applied.
 #' @seealso [prepare_spatial_predictors_for_fit()],
-#'   [assemble_data_to_fit()]
+#'   [build_jsdm_fit_input()]
 #' @export
 scale_spatial_for_fit <- function(data_spatial = NULL) {
   assertthat::assert_that(

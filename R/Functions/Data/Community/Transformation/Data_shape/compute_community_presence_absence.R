@@ -36,7 +36,7 @@
 #'   mat_community = mat_community
 #' )
 #' @seealso [prepare_community_for_fit()],
-#'   [filter_constant_taxa()], [assemble_data_to_fit()]
+#'   [filter_constant_taxa()], [build_jsdm_fit_input()]
 #' @export
 compute_community_presence_absence <- function(
     mat_community = NULL) {

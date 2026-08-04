@@ -356,7 +356,7 @@ Community data are made wide and binarised, abiotic predictors are prepared and 
 | [`compute_spatiotemporal_mev()`](Documentation/Functions/compute_spatiotemporal_mev.qmd) | Computes spatiotemporal Moran Eigenvector Maps |
 | [`prepare_spatial_predictors_for_fit()`](Documentation/Functions/prepare_spatial_predictors_for_fit.qmd) | Expands or aligns MEM predictors to model samples |
 | [`scale_spatial_for_fit()`](Documentation/Functions/scale_spatial_for_fit.qmd) | Scales MEM predictors |
-| [`assemble_data_to_fit()`](Documentation/Functions/assemble_data_to_fit.qmd) | Validates and assembles the final model input list |
+| [`build_jsdm_fit_input()`](Documentation/Functions/build_jsdm_fit_input.qmd) | Validates and assembles the final model input list |
 
 For spatial analyses, MEMs are computed from geographic distances among sites.
 For temporal analyses, MEMs can be computed from sample-level spatiotemporal coordinates so that broad temporal and spatial autocorrelation are handled together.
@@ -375,7 +375,7 @@ The residual covariance is the association signal of interest, but it is interpr
 
 | Target or function | Description |
 |---|---|
-| [`make_env_formula()`](Documentation/Functions/make_env_formula.qmd) | Builds the environmental model formula |
+| [`build_jsdm_environment_formula()`](Documentation/Functions/build_jsdm_environment_formula.qmd) | Builds the environmental model formula |
 | [`fit_jsdm_model()`](Documentation/Functions/fit_jsdm_model.qmd) | Fits the `{sjSDM}` model |
 | [`compute_jsdm_se()`](Documentation/Functions/compute_jsdm_se.qmd) | Computes post-hoc standard errors |
 | [`evaluate_jsdm()`](Documentation/Functions/evaluate_jsdm.qmd) | Summarises model fit and species-level performance |

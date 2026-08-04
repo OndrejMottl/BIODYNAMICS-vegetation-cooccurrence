@@ -27,7 +27,7 @@
 #' falls below `minimum_taxon_count`, `cli::cli_abort()` is called with
 #' a message that reports the actual count and the threshold,
 #' allowing the user to adjust the configuration or the data.
-#' @seealso [filter_constant_taxa()], [assemble_data_to_fit()]
+#' @seealso [filter_constant_taxa()], [build_jsdm_fit_input()]
 #' @export
 validate_community_taxon_count <- function(
     data_community_matrix = NULL,

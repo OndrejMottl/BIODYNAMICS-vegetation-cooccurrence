@@ -1,4 +1,4 @@
-#' @title Make Environmental Formula
+#' @title Build the sjSDM Environmental Formula
 #' @description
 #' Creates a formula for environmental variables from abiotic data. If an
 #' 'age' column is present and `use_age = TRUE`, creates interaction terms
@@ -26,7 +26,7 @@
 #' interactions are present.
 #' @seealso [check_and_prepare_data_for_fit()]
 #' @export
-make_env_formula <- function(data, use_age = TRUE) {
+build_jsdm_environment_formula <- function(data, use_age = TRUE) {
   assertthat::assert_that(
     is.data.frame(data),
     msg = "data must be a data frame"
@@ -59,13 +59,17 @@ make_env_formula <- function(data, use_age = TRUE) {
 
     assertthat::assert_that(
       length(vec_names) > 0,
-      msg = "data must have at least one column other than 'age' when 'age' is present"
+      msg = base::paste0(
+        "data must have at least one column other than 'age'",
+        " when 'age' is present"
+      )
     )
 
     formula_text <-
       paste0(
         " ~ ",
-       # the expected formula for 2 bio variables is: ~ (bio1 + bio12) * age - age
+        # Expected for two variables:
+        # ~ (bio1 + bio12) * age - age
         " (",
         paste0(vec_names, collapse = " + "),
         ") * age - age"

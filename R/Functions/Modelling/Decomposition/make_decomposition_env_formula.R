@@ -25,7 +25,7 @@ make_decomposition_env_formula <- function(
     age_formula_mode == "none"
   ) {
     return(
-      make_env_formula(
+      build_jsdm_environment_formula(
         data = data,
         use_age = FALSE
       )
@@ -36,7 +36,7 @@ make_decomposition_env_formula <- function(
     age_formula_mode == "interaction"
   ) {
     return(
-      make_env_formula(
+      build_jsdm_environment_formula(
         data = data,
         use_age = TRUE
       )

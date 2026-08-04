@@ -9,7 +9,8 @@
 #' @param data_coords_projected_train
 #' Training coordinates required for exact IDW compatibility.
 #' @param spatial_scale_attributes
-#' Optional training scale attributes passed to [apply_scale_attributes()].
+#' Optional training scale attributes passed to
+#' [scale_predictors_with_training_attributes()].
 #' @param projection_chunk_size
 #' Positive integer limiting prediction rows processed in one operation.
 #' @param exact_projection_function
@@ -189,7 +190,7 @@ project_spatial_mev_basis <- function(
     ) {
       data_projected_raw
     } else {
-      apply_scale_attributes(
+      scale_predictors_with_training_attributes(
         data_predictors = data_projected_raw,
         scale_attributes = spatial_scale_attributes
       )

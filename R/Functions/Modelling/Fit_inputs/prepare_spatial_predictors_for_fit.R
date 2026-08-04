@@ -29,7 +29,7 @@
 #' spatial predictor columns are present.
 #' @seealso
 #'   [project_coords_to_metric()], [align_sample_ids()],
-#'   [assemble_data_to_fit()], [prepare_coords_for_fit()]
+#'   [build_jsdm_fit_input()], [prepare_coords_for_fit()]
 #' @export
 prepare_spatial_predictors_for_fit <- function(
     data_spatial = NULL,

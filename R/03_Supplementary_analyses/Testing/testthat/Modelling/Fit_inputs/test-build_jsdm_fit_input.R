@@ -1,5 +1,5 @@
 testthat::test_that(
-  "assemble_data_to_fit() errors if community not a matrix",
+  "build_jsdm_fit_input() errors if community not a matrix",
   {
     data_abiotic_scaled_list <-
       base::list(
@@ -12,7 +12,7 @@ testthat::test_that(
         scale_attributes = base::list()
       )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = base::as.data.frame(
           base::matrix(c(0, 1, 1, 0), nrow = 2)
         ),
@@ -23,7 +23,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() errors if abiotic list missing keys",
+  "build_jsdm_fit_input() errors if abiotic list missing keys",
   {
     data_community_filtered <-
       base::matrix(
@@ -36,7 +36,7 @@ testthat::test_that(
         )
       )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = base::list(
           data_abiotic_scaled = tibble::tibble()
@@ -48,7 +48,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() errors on mismatched row counts",
+  "build_jsdm_fit_input() errors on mismatched row counts",
   {
     data_community_filtered <-
       base::matrix(
@@ -72,7 +72,7 @@ testthat::test_that(
         scale_attributes = base::list()
       )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list
       )
@@ -81,7 +81,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() errors on mismatched row names",
+  "build_jsdm_fit_input() errors on mismatched row names",
   {
     data_community_filtered <-
       base::matrix(
@@ -104,7 +104,7 @@ testthat::test_that(
         scale_attributes = base::list()
       )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list
       )
@@ -113,7 +113,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() returns a named list",
+  "build_jsdm_fit_input() returns a named list",
   {
     data_community_filtered <-
       base::matrix(
@@ -138,7 +138,7 @@ testthat::test_that(
         )
       )
     res <-
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list
       )
@@ -156,7 +156,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() community element is the input matrix",
+  "build_jsdm_fit_input() community element is the input matrix",
   {
     data_community_filtered <-
       base::matrix(
@@ -179,7 +179,7 @@ testthat::test_that(
         scale_attributes = base::list()
       )
     res <-
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list
       )
@@ -194,7 +194,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() abiotic element is the scaled df",
+  "build_jsdm_fit_input() abiotic element is the scaled df",
   {
     data_community_filtered <-
       base::matrix(
@@ -219,7 +219,7 @@ testthat::test_that(
         scale_attributes = base::list()
       )
     res <-
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list
       )
@@ -234,7 +234,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() scale_attributes passed through",
+  "build_jsdm_fit_input() scale_attributes passed through",
   {
     data_community_filtered <-
       base::matrix(
@@ -262,7 +262,7 @@ testthat::test_that(
         )
       )
     res <-
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list
       )
@@ -283,7 +283,7 @@ testthat::test_that(
 #----------------------------------------------------------#
 
 testthat::test_that(
-  "assemble_data_to_fit() errors if spatial list missing keys",
+  "build_jsdm_fit_input() errors if spatial list missing keys",
   {
     data_community_filtered <-
       base::matrix(
@@ -306,7 +306,7 @@ testthat::test_that(
         scale_attributes = base::list()
       )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
         data_spatial_scaled_list = base::list(
@@ -319,7 +319,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() errors on spatial row count mismatch",
+  "build_jsdm_fit_input() errors on spatial row count mismatch",
   {
     data_community_filtered <-
       base::matrix(
@@ -353,7 +353,7 @@ testthat::test_that(
         spatial_scale_attributes = base::list()
       )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
         data_spatial_scaled_list = data_spatial_scaled_list
@@ -363,7 +363,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() errors on spatial row name mismatch",
+  "build_jsdm_fit_input() errors on spatial row name mismatch",
   {
     data_community_filtered <-
       base::matrix(
@@ -397,7 +397,7 @@ testthat::test_that(
         spatial_scale_attributes = base::list()
       )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
         data_spatial_scaled_list = data_spatial_scaled_list
@@ -407,7 +407,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() includes spatial in result when given",
+  "build_jsdm_fit_input() includes spatial in result when given",
   {
     data_community_filtered <-
       base::matrix(
@@ -445,7 +445,7 @@ testthat::test_that(
         )
       )
     res <-
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
         data_spatial_scaled_list = data_spatial_scaled_list
@@ -461,7 +461,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() spatial_scale_attributes in result",
+  "build_jsdm_fit_input() spatial_scale_attributes in result",
   {
     data_community_filtered <-
       base::matrix(
@@ -497,7 +497,7 @@ testthat::test_that(
         )
       )
     res <-
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
         data_spatial_scaled_list = data_spatial_scaled_list
@@ -518,7 +518,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() omits spatial keys when NULL",
+  "build_jsdm_fit_input() omits spatial keys when NULL",
   {
     data_community_filtered <-
       base::matrix(
@@ -541,7 +541,7 @@ testthat::test_that(
         scale_attributes = base::list()
       )
     res <-
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list
       )
@@ -555,7 +555,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() errors if abiotic list missing keys",
+  "build_jsdm_fit_input() errors if abiotic list missing keys",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -567,7 +567,7 @@ testthat::test_that(
       )
     )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = base::list(
           data_abiotic_scaled = tibble::tibble()
@@ -579,7 +579,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() errors on mismatched row counts",
+  "build_jsdm_fit_input() errors on mismatched row counts",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -601,7 +601,7 @@ testthat::test_that(
       scale_attributes = base::list()
     )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list
       )
@@ -610,7 +610,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() errors on mismatched row names",
+  "build_jsdm_fit_input() errors on mismatched row names",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -631,7 +631,7 @@ testthat::test_that(
       scale_attributes = base::list()
     )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list
       )
@@ -640,7 +640,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() returns a named list",
+  "build_jsdm_fit_input() returns a named list",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -662,7 +662,7 @@ testthat::test_that(
         age = base::list("scaled:center" = 50)
       )
     )
-    res <- assemble_data_to_fit(
+    res <- build_jsdm_fit_input(
       data_community_filtered = data_community_filtered,
       data_abiotic_scaled_list = data_abiotic_scaled_list
     )
@@ -680,7 +680,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() community element is the input matrix",
+  "build_jsdm_fit_input() community element is the input matrix",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -700,7 +700,7 @@ testthat::test_that(
         tibble::column_to_rownames(".row_name"),
       scale_attributes = base::list()
     )
-    res <- assemble_data_to_fit(
+    res <- build_jsdm_fit_input(
       data_community_filtered = data_community_filtered,
       data_abiotic_scaled_list = data_abiotic_scaled_list
     )
@@ -714,7 +714,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() abiotic element is the scaled df",
+  "build_jsdm_fit_input() abiotic element is the scaled df",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -735,7 +735,7 @@ testthat::test_that(
       data_abiotic_scaled = data_abiotic_df,
       scale_attributes = base::list()
     )
-    res <- assemble_data_to_fit(
+    res <- build_jsdm_fit_input(
       data_community_filtered = data_community_filtered,
       data_abiotic_scaled_list = data_abiotic_scaled_list
     )
@@ -749,7 +749,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() scale_attributes passed through",
+  "build_jsdm_fit_input() scale_attributes passed through",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -774,7 +774,7 @@ testthat::test_that(
         )
       )
     )
-    res <- assemble_data_to_fit(
+    res <- build_jsdm_fit_input(
       data_community_filtered = data_community_filtered,
       data_abiotic_scaled_list = data_abiotic_scaled_list
     )
@@ -794,7 +794,7 @@ testthat::test_that(
 #----------------------------------------------------------#
 
 testthat::test_that(
-  "assemble_data_to_fit() errors if spatial list missing keys",
+  "build_jsdm_fit_input() errors if spatial list missing keys",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -815,7 +815,7 @@ testthat::test_that(
       scale_attributes = base::list()
     )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
         data_spatial_scaled_list = base::list(
@@ -828,7 +828,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() errors on spatial row count mismatch",
+  "build_jsdm_fit_input() errors on spatial row count mismatch",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -859,7 +859,7 @@ testthat::test_that(
       spatial_scale_attributes = base::list()
     )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
         data_spatial_scaled_list = data_spatial_scaled_list
@@ -869,7 +869,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() errors on spatial row name mismatch",
+  "build_jsdm_fit_input() errors on spatial row name mismatch",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -900,7 +900,7 @@ testthat::test_that(
       spatial_scale_attributes = base::list()
     )
     testthat::expect_error(
-      assemble_data_to_fit(
+      build_jsdm_fit_input(
         data_community_filtered = data_community_filtered,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
         data_spatial_scaled_list = data_spatial_scaled_list
@@ -910,7 +910,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() includes spatial in result when given",
+  "build_jsdm_fit_input() includes spatial in result when given",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -943,7 +943,7 @@ testthat::test_that(
         coord_y_km = base::list("scaled:center" = 2900)
       )
     )
-    res <- assemble_data_to_fit(
+    res <- build_jsdm_fit_input(
       data_community_filtered = data_community_filtered,
       data_abiotic_scaled_list = data_abiotic_scaled_list,
       data_spatial_scaled_list = data_spatial_scaled_list
@@ -959,7 +959,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() spatial_scale_attributes in result",
+  "build_jsdm_fit_input() spatial_scale_attributes in result",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -991,7 +991,7 @@ testthat::test_that(
         coord_x_km = base::list("scaled:center" = vec_center_x)
       )
     )
-    res <- assemble_data_to_fit(
+    res <- build_jsdm_fit_input(
       data_community_filtered = data_community_filtered,
       data_abiotic_scaled_list = data_abiotic_scaled_list,
       data_spatial_scaled_list = data_spatial_scaled_list
@@ -1012,7 +1012,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_data_to_fit() omits spatial keys when NULL",
+  "build_jsdm_fit_input() omits spatial keys when NULL",
   {
     data_community_filtered <- base::matrix(
       c(0, 1, 1, 0),
@@ -1032,7 +1032,7 @@ testthat::test_that(
         tibble::column_to_rownames(".row_name"),
       scale_attributes = base::list()
     )
-    res <- assemble_data_to_fit(
+    res <- build_jsdm_fit_input(
       data_community_filtered = data_community_filtered,
       data_abiotic_scaled_list = data_abiotic_scaled_list
     )

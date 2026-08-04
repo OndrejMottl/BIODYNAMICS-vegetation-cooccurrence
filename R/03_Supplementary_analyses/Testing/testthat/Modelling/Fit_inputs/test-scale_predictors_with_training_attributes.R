@@ -1,5 +1,5 @@
 testthat::test_that(
-  "apply_scale_attributes() applies training transformations",
+  "training attributes scale predictors",
   {
     data_predictors <-
       base::data.frame(
@@ -20,7 +20,7 @@ testthat::test_that(
       )
 
     res <-
-      apply_scale_attributes(
+      scale_predictors_with_training_attributes(
         data_predictors = data_predictors,
         scale_attributes = scale_attributes
       )
@@ -36,7 +36,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "apply_scale_attributes() validates scaled columns",
+  "scale_predictors_with_training_attributes() validates scaled columns",
   {
     data_predictors <-
       base::data.frame(age = base::c(1, 2))
@@ -48,7 +48,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      apply_scale_attributes(
+      scale_predictors_with_training_attributes(
         data_predictors = data_predictors,
         scale_attributes = scale_attributes
       ),
@@ -58,7 +58,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "apply_scale_attributes() validates transformation values",
+  "scale_predictors_with_training_attributes() validates transformation values",
   {
     data_predictors <-
       base::data.frame(age = base::c(1, 2))
@@ -72,7 +72,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      apply_scale_attributes(
+      scale_predictors_with_training_attributes(
         data_predictors = data_predictors,
         scale_attributes = scale_attributes
       ),

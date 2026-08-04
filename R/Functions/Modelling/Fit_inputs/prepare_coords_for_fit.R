@@ -21,7 +21,7 @@
 #' coordinates across all its valid sample ages. The row-name
 #' format matches that of the community matrix and abiotic data
 #' frame produced by the respective preparation functions.
-#' @seealso [align_sample_ids()], [assemble_data_to_fit()]
+#' @seealso [align_sample_ids()], [build_jsdm_fit_input()]
 #' @export
 prepare_coords_for_fit <- function(
     data_coords = NULL,

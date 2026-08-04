@@ -20,9 +20,9 @@
 #' with `NA` or zero `value` are dropped before pivoting.
 #' The function widens the data and converts the result to a matrix
 #' directly, so the output is ready for `filter_constant_taxa()`
-#' and `assemble_data_to_fit()`.
+#' and `build_jsdm_fit_input()`.
 #' @seealso [align_sample_ids()], [filter_constant_taxa()],
-#'   [assemble_data_to_fit()]
+#'   [build_jsdm_fit_input()]
 #' @export
 prepare_community_for_fit <- function(
     data_community_long = NULL,

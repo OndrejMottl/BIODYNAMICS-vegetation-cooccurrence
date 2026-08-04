@@ -9,7 +9,7 @@
 #' Returns the first `n_mev` eigenvectors as a data frame
 #' with row names in `"dataset_name__age"` format, ready
 #' for `scale_spatial_for_fit()` and
-#' `assemble_data_to_fit()`.
+#' `build_jsdm_fit_input()`.
 #' @param data_coords_projected
 #' A data frame with `dataset_name` as row names and
 #' columns `coord_x_km` and `coord_y_km`, as returned by
@@ -68,7 +68,7 @@
 #'   [project_coords_to_metric()],
 #'   [align_sample_ids()],
 #'   [scale_spatial_for_fit()],
-#'   [assemble_data_to_fit()]
+#'   [build_jsdm_fit_input()]
 #' @export
 compute_spatiotemporal_mev <- function(
     data_coords_projected = NULL,

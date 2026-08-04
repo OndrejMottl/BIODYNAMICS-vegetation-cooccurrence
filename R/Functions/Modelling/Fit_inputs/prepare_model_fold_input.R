@@ -430,7 +430,7 @@ prepare_model_fold_input <- function(
     tibble::column_to_rownames(".row_name")
 
   data_abiotic_test_scaled <-
-    apply_scale_attributes(
+    scale_predictors_with_training_attributes(
       data_predictors = data_abiotic_test_raw,
       scale_attributes = list_abiotic_train_scaled[["scale_attributes"]]
     )
@@ -465,7 +465,7 @@ prepare_model_fold_input <- function(
         )
 
       data_spatial_test_transformed <-
-        apply_scale_attributes(
+        scale_predictors_with_training_attributes(
           data_predictors = data_spatial_test_aligned,
           scale_attributes = list_spatial_train_fitted[[
             "spatial_scale_attributes"
@@ -492,7 +492,7 @@ prepare_model_fold_input <- function(
     purrr::chuck("test")
 
   data_train_input <-
-    assemble_data_to_fit(
+    build_jsdm_fit_input(
       data_community_filtered = data_community_train_checked,
       data_abiotic_scaled_list = list_abiotic_train_aligned,
       data_spatial_scaled_list = list_spatial_train_scaled

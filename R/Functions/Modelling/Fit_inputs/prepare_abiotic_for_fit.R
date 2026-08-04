@@ -24,7 +24,7 @@
 #' parsing row names. Row names are added by
 #' `scale_abiotic_for_fit()` as part of the scaling step.
 #' @seealso [align_sample_ids()], [scale_abiotic_for_fit()],
-#'   [assemble_data_to_fit()]
+#'   [build_jsdm_fit_input()]
 #' @export
 prepare_abiotic_for_fit <- function(
     data_abiotic_long = NULL,

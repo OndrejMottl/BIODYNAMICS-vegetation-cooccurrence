@@ -39,9 +39,6 @@ function_naming,report_only,R/Functions/Modelling/Decomposition/make_repeated_cv
 function_naming,report_only,R/Functions/Modelling/Decomposition/refresh_cz_decomposition_upstream.R,refresh_cz_decomposition_upstream,#154,Review leading verb `refresh` against version 1.
 function_naming,report_only,R/Functions/Modelling/Evaluation/read_model_evaluation_target.R,read_model_evaluation_target,#154,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Modelling/Evaluation/read_spatial_model_results.R,read_spatial_model_results,#154,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Modelling/Fit_inputs/apply_scale_attributes.R,apply_scale_attributes,#154,Review leading verb `apply` against version 1.
-function_naming,report_only,R/Functions/Modelling/Fit_inputs/assemble_data_to_fit.R,assemble_data_to_fit,#154,Review leading verb `assemble` against version 1.
-function_naming,report_only,R/Functions/Modelling/Fit_inputs/make_env_formula.R,make_env_formula,#154,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Modelling/Fitting/Diagnostics/check_convergence_jsdm.R,check_convergence_jsdm,#154,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Modelling/Fitting/Runtime/check_cuda_gpu_runtime.R,check_cuda_gpu_runtime,#154,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Modelling/Fitting/Runtime/check_torch_cuda_details.R,.check_torch_cuda_details,#154,Review leading verb `check` against version 1.

@@ -208,7 +208,7 @@ interpolate_st_mev_to_grid <- function(
     ) {
       data_pred_st_mev_raw
     } else {
-      apply_scale_attributes(
+      scale_predictors_with_training_attributes(
         data_predictors = data_pred_st_mev_raw,
         scale_attributes = spatial_scale_attributes
       )

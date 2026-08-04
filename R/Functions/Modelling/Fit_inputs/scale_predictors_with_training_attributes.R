@@ -1,4 +1,4 @@
-#' @title Apply Training Scale Attributes
+#' @title Scale Predictors with Training Attributes
 #' @description
 #' Applies scale centres and optional scale factors learned from training data
 #' to another predictor data frame without refitting the transformation.
@@ -20,12 +20,12 @@
 #'       "scaled:scale" = 2
 #'     )
 #'   )
-#' apply_scale_attributes(
+#' scale_predictors_with_training_attributes(
 #'   data_predictors = data_predictors,
 #'   scale_attributes = scale_attributes
 #' )
 #' @export
-apply_scale_attributes <- function(
+scale_predictors_with_training_attributes <- function(
     data_predictors = NULL,
     scale_attributes = NULL) {
   assertthat::assert_that(

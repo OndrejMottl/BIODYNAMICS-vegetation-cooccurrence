@@ -43,7 +43,7 @@ pipe_segment_model_assemble <-
     targets::tar_target(
       description = "Validate and assemble data list for fitting",
       name = "data_model_input",
-      command = assemble_data_to_fit(
+      command = build_jsdm_fit_input(
         data_community_filtered = data_community_n_taxa_checked,
         data_abiotic_scaled_list = data_abiotic_scaled_list,
         data_spatial_scaled_list = data_spatial_scaled_list
