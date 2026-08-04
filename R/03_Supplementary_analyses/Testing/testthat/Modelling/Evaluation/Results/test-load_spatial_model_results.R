@@ -10,19 +10,27 @@ make_test_store_index <- function(store_path, store_exists = TRUE) {
 }
 
 make_test_anova <- function() {
-  list(
+  base::list(
     results = tibble::tibble(
-      models = c("F_A", "F_B", "F_S", "F_AB", "F_AS", "F_BS", "F_ABS"),
-      `R2 Nagelkerke` = c(1, 2, 3, 0, 0, 0, 0)
+      models = base::c(
+        "F_A",
+        "F_B",
+        "F_S",
+        "F_AB",
+        "F_AS",
+        "F_BS",
+        "F_ABS"
+      ),
+      `R2 Nagelkerke` = base::c(1, 2, 3, 0, 0, 0, 0)
     )
   )
 }
 
 testthat::test_that(
-  "read_spatial_model_results skips missing stores without reading metadata",
+  "load_spatial_model_results skips missing stores without reading metadata",
   {
     res <-
-      read_spatial_model_results(
+      load_spatial_model_results(
         store_index = make_test_store_index(
           store_path = "missing-store",
           store_exists = FALSE
@@ -38,14 +46,14 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "read_spatial_model_results skips stores without successful ANOVA target",
+  "load_spatial_model_results skips stores without successful ANOVA target",
   {
     path_store <-
       base::tempfile()
     base::dir.create(path_store)
 
     res <-
-      read_spatial_model_results(
+      load_spatial_model_results(
         store_index = make_test_store_index(path_store),
         resolution_ids = "genus",
         meta_fn = function(...) {
@@ -61,19 +69,19 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "read_spatial_model_results separates fitted and predictive metrics",
+  "load_spatial_model_results separates fitted and predictive metrics",
   {
     path_store <-
       base::tempfile()
     base::dir.create(path_store)
 
     res <-
-      read_spatial_model_results(
+      load_spatial_model_results(
         store_index = make_test_store_index(path_store),
         resolution_ids = "genus",
         meta_fn = function(...) {
           tibble::tibble(
-            name = c(
+            name = base::c(
               "model_anova_genus",
               "model_evaluation_fitted_genus",
               "model_evaluation_cross_validated_genus",
@@ -95,8 +103,8 @@ testthat::test_that(
             return(
               base::list(
                 species = tibble::tibble(
-                  species = c("taxon_a", "taxon_b"),
-                  AUC = c(0.7, 0.9)
+                  species = base::c("taxon_a", "taxon_b"),
+                  AUC = base::c(0.7, 0.9)
                 )
               )
             )
@@ -126,11 +134,11 @@ testthat::test_that(
             data_community_summary = tibble::tibble(
               repeat_id = base::rep(1:2, each = 3L),
               metric_id = base::rep(
-                c("tjur_r2", "auc", "log_loss"),
+                base::c("tjur_r2", "auc", "log_loss"),
                 times = 2L
               ),
               summary_statistic = "mean",
-              estimate = c(0.2, 0.7, 0.4, 0.4, 0.9, 0.6),
+              estimate = base::c(0.2, 0.7, 0.4, 0.4, 0.9, 0.6),
               n_taxa_evaluable = 2L,
               metric_status = "ok"
             )
@@ -179,10 +187,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "read_spatial_model_results can require non-empty results",
+  "load_spatial_model_results can require non-empty results",
   {
     testthat::expect_error(
-      read_spatial_model_results(
+      load_spatial_model_results(
         store_index = make_test_store_index(
           store_path = "missing-store",
           store_exists = FALSE
@@ -191,6 +199,39 @@ testthat::test_that(
         require_non_empty = TRUE
       ),
       regexp = "No successful spatial model results"
+    )
+  }
+)
+
+testthat::test_that(
+  "load_spatial_model_results preserves evaluation store validation",
+  {
+    testthat::expect_error(
+      load_spatial_model_results(
+        store_index = make_test_store_index(store_path = 1),
+        resolution_ids = "genus",
+        meta_fn = function(...) {
+          tibble::tibble(
+            name = base::c(
+              "model_anova_genus",
+              "model_evaluation_fitted_genus"
+            ),
+            error = base::rep(NA_character_, 2L)
+          )
+        },
+        read_target_fn = function(name, store) {
+          if (
+            name == "model_anova_genus"
+          ) {
+            return(make_test_anova())
+          }
+
+          base::list(
+            species = tibble::tibble(AUC = 0.8)
+          )
+        }
+      ),
+      regexp = "store_path"
     )
   }
 )

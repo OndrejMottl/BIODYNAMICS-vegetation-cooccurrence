@@ -47,7 +47,7 @@ data_store_index <-
   )
 
 data_modern_results <-
-  read_spatial_model_results(
+  load_spatial_model_results(
     store_index = data_store_index,
     resolution_ids = c("genus", "family", "ft_modern"),
     require_non_empty = TRUE

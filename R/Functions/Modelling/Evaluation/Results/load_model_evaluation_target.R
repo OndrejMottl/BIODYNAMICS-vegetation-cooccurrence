@@ -1,6 +1,6 @@
-#' @title Read a Model Evaluation Target
+#' @title Load a Model Evaluation Target
 #' @description
-#' Reads one explicit fitted or cross-validated model-evaluation target from a
+#' Loads one explicit fitted or cross-validated model-evaluation target from a
 #' targets store. If the target cannot be read, `NULL` is returned.
 #' @param store_path
 #' A single character string with the targets store path.
@@ -15,14 +15,14 @@
 #' The model evaluation object, or `NULL` if it cannot be read.
 #' @examples
 #' \dontrun{
-#' read_model_evaluation_target(
+#' load_model_evaluation_target(
 #'   store_path = "Data/targets/modern_spatial_continental/europe",
 #'   resolution_id = "genus",
 #'   evaluation_type = "cross_validated"
 #' )
 #' }
 #' @export
-read_model_evaluation_target <- function(
+load_model_evaluation_target <- function(
     store_path,
     resolution_id,
     evaluation_type = base::c("fitted", "cross_validated"),

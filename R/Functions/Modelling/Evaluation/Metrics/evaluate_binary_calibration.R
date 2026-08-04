@@ -62,36 +62,6 @@ evaluate_binary_calibration <- function(
   intercept_status <- class_status
   slope_status <- class_status
 
-  fit_calibration_model <- function(
-      formula_calibration,
-      data_calibration) {
-    flag_fit_warning <- FALSE
-
-    mod_calibration <-
-      base::withCallingHandlers(
-        base::tryCatch(
-          stats::glm(
-            formula = formula_calibration,
-            data = data_calibration,
-            family = stats::binomial()
-          ),
-          error = function(condition) NULL
-        ),
-        warning = function(condition) {
-          flag_fit_warning <<- TRUE
-          base::invokeRestart("muffleWarning")
-        }
-      )
-
-    res_fit <-
-      base::list(
-        model = mod_calibration,
-        flag_warning = flag_fit_warning
-      )
-
-    return(res_fit)
-  }
-
   if (
     class_status == "ok"
   ) {
@@ -111,7 +81,7 @@ evaluate_binary_calibration <- function(
       )
 
     list_intercept_fit <-
-      fit_calibration_model(
+      .fit_binary_calibration_model(
         formula_calibration =
           observed ~ 1 + offset(predicted_logit),
         data_calibration = data_calibration
@@ -168,7 +138,7 @@ evaluate_binary_calibration <- function(
       slope_status <- "undefined_separation"
     } else {
       list_slope_fit <-
-        fit_calibration_model(
+        .fit_binary_calibration_model(
           formula_calibration = observed ~ predicted_logit,
           data_calibration = data_calibration
         )

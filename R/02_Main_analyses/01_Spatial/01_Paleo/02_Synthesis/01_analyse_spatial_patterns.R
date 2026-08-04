@@ -63,7 +63,7 @@ data_anova_results <-
   build_spatial_model_store_index(
     data_source = "paleo"
   ) |>
-  read_spatial_model_results(
+  load_spatial_model_results(
     resolution_ids = vec_taxonomic_resolutions,
     require_non_empty = TRUE
   ) |>

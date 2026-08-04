@@ -28,54 +28,58 @@
 #' @export
 evaluate_jsdm <- function(mod_jsdm = NULL) {
   assertthat::assert_that(
-    inherits(mod_jsdm, "sjSDM"),
+    base::inherits(mod_jsdm, "sjSDM"),
     msg = "mod_jsdm must be of class sjSDM"
   )
 
   # Extract observed and predicted values
   obs_data <-
-    mod_jsdm$data$Y
+    mod_jsdm |>
+    purrr::chuck("data") |>
+    purrr::chuck("Y")
+
   pred_prob <-
-    predict(mod_jsdm, newdata = NULL)
+    stats::predict(mod_jsdm, newdata = NULL)
 
   vec_species <-
-    seq_len(ncol(obs_data)) |>
-    rlang::set_names(colnames(obs_data))
-
-  # Initialize evaluation list
-  list_eval <-
-    list(
-      model = NULL,
-      species = NULL,
-      convergence = NULL
-    )
+    base::seq_len(base::ncol(obs_data)) |>
+    rlang::set_names(base::colnames(obs_data))
 
   # 1. R-squared metrics
   # Note: sjSDM::Rsquared() prints to console regardless of verbose = FALSE;
   #   capture.output() suppresses this unwanted output.
   invisible(
     utils::capture.output(
-      vec_r2 <- c(
+      vec_r2 <- base::c(
         sjSDM::Rsquared(mod_jsdm, method = "McFadden", verbose = FALSE),
         sjSDM::Rsquared(mod_jsdm, method = "Nagelkerke", verbose = FALSE)
       )
     )
   )
 
-  list_eval$model <-
-    rlang::set_names(vec_r2, c("R2-McFadden", "R2-Nagelkerke"))
+  vec_model_metrics <-
+    rlang::set_names(
+      vec_r2,
+      base::c("R2-McFadden", "R2-Nagelkerke")
+    )
 
   # 2. Species-level metrics
+  family_name <-
+    mod_jsdm |>
+    purrr::chuck("family") |>
+    purrr::chuck("family") |>
+    purrr::chuck("family")
+
   if (
-    mod_jsdm$family$family$family == "binomial"
+    family_name == "binomial"
   ) {
     # AUC per species
     vec_auc <-
       vec_species |>
       purrr::map_dbl(
         ~ Metrics::auc(
-          actual = as.data.frame(obs_data)[, .x],
-          predicted = as.data.frame(pred_prob)[, .x]
+          actual = obs_data[, .x],
+          predicted = pred_prob[, .x]
         )
       )
 
@@ -86,8 +90,8 @@ evaluate_jsdm <- function(mod_jsdm = NULL) {
       vec_species |>
       purrr::map_dbl(
         ~ Metrics::accuracy(
-          actual = as.data.frame(obs_data)[, .x],
-          predicted = as.data.frame(pred_binary)[, .x]
+          actual = obs_data[, .x],
+          predicted = pred_binary[, .x]
         )
       )
 
@@ -96,14 +100,14 @@ evaluate_jsdm <- function(mod_jsdm = NULL) {
       vec_species |>
       purrr::map_dbl(
         ~ Metrics::logLoss(
-          actual = as.data.frame(obs_data)[, .x],
-          predicted = as.data.frame(pred_prob)[, .x]
+          actual = obs_data[, .x],
+          predicted = pred_prob[, .x]
         )
       )
 
-    list_eval$species <-
+    data_species_metrics <-
       tibble::tibble(
-        species = colnames(obs_data),
+        species = base::colnames(obs_data),
         AUC = vec_auc,
         Accuracy = vec_accuracy,
         LogLoss = vec_logloss
@@ -113,19 +117,28 @@ evaluate_jsdm <- function(mod_jsdm = NULL) {
     vec_rmse <-
       vec_species |>
       purrr::map_dbl(
-        ~ sqrt(mean((obs_data[, .x] - pred_prob[, .x])^2))
+        ~ base::sqrt(
+          base::mean((obs_data[, .x] - pred_prob[, .x])^2)
+        )
       )
 
-    list_eval$species <-
+    data_species_metrics <-
       tibble::tibble(
-        species = colnames(obs_data),
+        species = base::colnames(obs_data),
         RMSE = vec_rmse
       )
   }
 
   # 3. Convergence diagnostics
-  list_eval$convergence <-
+  list_convergence <-
     diagnose_jsdm_convergence(mod_jsdm)
 
-  return(list_eval)
+  res <-
+    base::list(
+      model = vec_model_metrics,
+      species = data_species_metrics,
+      convergence = list_convergence
+    )
+
+  return(res)
 }

@@ -1,6 +1,6 @@
 ---
 format: html
-title: read_model_evaluation_target()
+title: load_model_evaluation_target()
 ---
 
 <html><head>
@@ -19,22 +19,23 @@ function processMathHTML() {
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body><div class="container"><main>
 
-<table style="width: 100%;"><tr><td>read_model_evaluation_target</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>load_model_evaluation_target</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Read a Model Evaluation Target</h2>
+<h2>Load a Model Evaluation Target</h2>
 
 <h3>Description</h3>
 
-<p>Reads one 'model_evaluation_&lt;resolution&gt;' target from a targets store.
-If the target cannot be read, 'NULL' is returned.
+<p>Loads one explicit fitted or cross-validated model-evaluation target from a
+targets store. If the target cannot be loaded, 'NULL' is returned.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>read_model_evaluation_target(
+<pre><code class='language-R'>load_model_evaluation_target(
   store_path,
   resolution_id,
+  evaluation_type = base::c("fitted", "cross_validated"),
   read_target_fn = targets::tar_read_raw
 )
 </code></pre>
@@ -51,6 +52,10 @@ If the target cannot be read, 'NULL' is returned.
 <td>
 <p>A single non-empty character string identifying the model resolution.</p>
 </td></tr>
+<tr><td><code id="evaluation_type">evaluation_type</code></td>
+<td>
+<p>Evaluation target type. One of 'fitted' or 'cross_validated'.</p>
+</td></tr>
 <tr><td><code id="read_target_fn">read_target_fn</code></td>
 <td>
 <p>Function used to read the target. Defaults to
@@ -61,16 +66,17 @@ If the target cannot be read, 'NULL' is returned.
 
 <h3>Value</h3>
 
-<p>The model evaluation object, or 'NULL' if it cannot be read.
+<p>The model evaluation object, or 'NULL' if it cannot be loaded.
 </p>
 
 
 <h3>Examples</h3>
 
 <pre><code class='language-R'>## Not run: 
-read_model_evaluation_target(
+load_model_evaluation_target(
   store_path = "Data/targets/modern_spatial_continental/europe",
-  resolution_id = "genus"
+  resolution_id = "genus",
+  evaluation_type = "cross_validated"
 )
 
 ## End(Not run)

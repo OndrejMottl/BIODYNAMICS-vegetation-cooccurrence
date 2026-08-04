@@ -37,8 +37,6 @@ function_naming,report_only,R/Functions/Modelling/Decomposition/make_decompositi
 function_naming,report_only,R/Functions/Modelling/Decomposition/make_decomposition_env_formula.R,make_decomposition_env_formula,#154,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Modelling/Decomposition/make_repeated_cv_indices.R,make_repeated_cv_indices,#154,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Modelling/Decomposition/refresh_cz_decomposition_upstream.R,refresh_cz_decomposition_upstream,#154,Review leading verb `refresh` against version 1.
-function_naming,report_only,R/Functions/Modelling/Evaluation/read_model_evaluation_target.R,read_model_evaluation_target,#154,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Modelling/Evaluation/read_spatial_model_results.R,read_spatial_model_results,#154,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Modelling/Tuning/check_target_succeeded.R,check_target_succeeded,#155,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Modelling/Tuning/coerce_null_to_na_integer.R,coerce_null_to_na_integer,#155,Review leading verb `coerce` against version 1.
 function_naming,report_only,R/Functions/Modelling/Tuning/read_targets_store_meta.R,read_targets_store_meta,#155,Review leading verb `read` against version 1.
@@ -98,7 +96,6 @@ nested_named_helper,report_only,R/Functions/Modelling/Decomposition/compute_pred
 nested_named_helper,report_only,R/Functions/Modelling/Decomposition/load_decomposition_diagnostic_inputs.R,read_target;read_model_fitting_config,#154,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Decomposition/run_decomposition_route_cv.R,make_empty_variant;fit_one_variant,#154,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Decomposition/summarise_decomposition_routes.R,get_loss,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Evaluation/evaluate_binary_calibration.R,fit_calibration_model,#154,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_fold_spatial_predictors.R,make_sample_partition,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_model_fold_input.R,make_abiotic_partition,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Variance_partitioning/recalculate_anova_components.R,get_val;compute_shapley,#154,Extract or explicitly retain the named nested helper.

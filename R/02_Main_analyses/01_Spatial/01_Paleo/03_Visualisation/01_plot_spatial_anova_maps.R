@@ -99,7 +99,7 @@ vec_tax_res <-
   rlang::set_names()
 
 data_assoc_pct <-
-  read_spatial_model_results(
+  load_spatial_model_results(
     store_index = data_store_index,
     resolution_ids = vec_tax_res
   ) |>

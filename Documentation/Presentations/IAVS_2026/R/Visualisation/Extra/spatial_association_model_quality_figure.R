@@ -138,7 +138,7 @@ data_store_index <-
   )
 
 data_spatial_results <-
-  read_spatial_model_results(
+  load_spatial_model_results(
     store_index = data_store_index,
     resolution_ids = base::names(vec_resolution_labels),
     require_non_empty = TRUE

@@ -13,7 +13,7 @@
 #' Number of CPU cores to use for the data loader during SE
 #' computation. Passed to the `parallel` argument of
 #' `sjSDM::getSe()`. Default is `0L` (no parallelisation).
-#' Use `config.model_fitting$n_cores` from the project
+#' Use the `n_cores` value from `config.model_fitting` in the project
 #' configuration to exploit all available cores.
 #' @param step_size
 #' Batch size for stochastic gradient descent used during SE
@@ -26,7 +26,7 @@
 #' which is recommended when running inside a pipeline target
 #' to monitor long-running SE computation.
 #' @return
-#' The input `mod_jsdm` object with its `$se` field populated
+#' The input `mod_jsdm` object with its `se` field populated
 #' with the computed standard errors.
 #' @details
 #' `sjSDM::getSe()` uses CPU for SE computation regardless of the
@@ -52,48 +52,42 @@ compute_jsdm_se <- function(
     step_size = NULL,
     verbose = FALSE) {
   assertthat::assert_that(
-    inherits(mod_jsdm, "sjSDM"),
-    msg = paste0(
+    base::inherits(mod_jsdm, "sjSDM"),
+    msg = stringr::str_c(
       "`mod_jsdm` must be an object of class 'sjSDM'.",
       " Use `fit_jsdm_model()` to produce one."
     )
   )
 
   assertthat::assert_that(
-    is.numeric(parallel),
-    length(parallel) == 1L,
+    base::is.numeric(parallel),
+    base::length(parallel) == 1L,
     parallel >= 0L,
-    msg = paste0(
-      "`parallel` must be a single non-negative numeric value"
-    )
+    msg = "`parallel` must be a single non-negative numeric value"
   )
 
   assertthat::assert_that(
-    is.null(step_size) ||
-      (is.numeric(step_size) && length(step_size) == 1L &&
+    base::is.null(step_size) ||
+      (base::is.numeric(step_size) && base::length(step_size) == 1L &&
         step_size > 0L),
-    msg = paste0(
-      "`step_size` must be NULL or a single positive numeric value"
-    )
+    msg = "`step_size` must be NULL or a single positive numeric value"
   )
 
   assertthat::assert_that(
-    is.logical(verbose),
-    length(verbose) == 1L,
-    !is.na(verbose),
-    msg = paste0(
-      "`verbose` must be a single non-NA logical value"
-    )
+    base::is.logical(verbose),
+    base::length(verbose) == 1L,
+    !base::is.na(verbose),
+    msg = "`verbose` must be a single non-NA logical value"
   )
 
   if (
-    isTRUE(verbose)
+    base::isTRUE(verbose)
   ) {
     mod_with_se <-
       sjSDM::getSe(
         object = mod_jsdm,
         step_size = step_size,
-        parallel = as.integer(parallel)
+        parallel = base::as.integer(parallel)
       )
   } else {
     # Suppress both R stdout and Python/reticulate stdout.
@@ -109,7 +103,7 @@ compute_jsdm_se <- function(
             sjSDM::getSe(
               object = mod_jsdm,
               step_size = step_size,
-              parallel = as.integer(parallel)
+              parallel = base::as.integer(parallel)
             )
         },
         type = "output"

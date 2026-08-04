@@ -47,7 +47,7 @@ data_modern_results <-
   build_spatial_model_store_index(
     data_source = "modern"
   ) |>
-  read_spatial_model_results(
+  load_spatial_model_results(
     resolution_ids = c("genus", "family", "ft_modern"),
     require_non_empty = TRUE
   )
@@ -56,7 +56,7 @@ data_paleo_results <-
   build_spatial_model_store_index(
     data_source = "paleo"
   ) |>
-  read_spatial_model_results(
+  load_spatial_model_results(
     resolution_ids = c("genus", "family", "functional_type"),
     require_non_empty = TRUE
   )

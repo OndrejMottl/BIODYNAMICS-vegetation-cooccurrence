@@ -1,6 +1,6 @@
 ---
 format: html
-title: read_spatial_model_results()
+title: load_spatial_model_results()
 ---
 
 <html><head>
@@ -19,13 +19,13 @@ function processMathHTML() {
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body><div class="container"><main>
 
-<table style="width: 100%;"><tr><td>read_spatial_model_results</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table style="width: 100%;"><tr><td>load_spatial_model_results</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Read Spatial Model Results</h2>
+<h2>Load Spatial Model Results</h2>
 
 <h3>Description</h3>
 
-<p>Reads successful spatial model ANOVA and evaluation targets from
+<p>Loads successful spatial model ANOVA and evaluation targets from
 indexed targets stores and returns one summary row per
 store-resolution-component combination.
 </p>
@@ -33,7 +33,7 @@ store-resolution-component combination.
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>read_spatial_model_results(
+<pre><code class='language-R'>load_spatial_model_results(
   store_index,
   resolution_ids,
   read_target_fn = targets::tar_read_raw,
@@ -56,24 +56,25 @@ store-resolution-component combination.
 </td></tr>
 <tr><td><code id="read_target_fn">read_target_fn</code></td>
 <td>
-<p>Function used to read one target. Defaults to
+<p>Function used to load one target. Defaults to
 [targets::tar_read_raw()].</p>
 </td></tr>
 <tr><td><code id="meta_fn">meta_fn</code></td>
 <td>
-<p>Function used to read target metadata. Defaults to
+<p>Function used to load target metadata. Defaults to
 [targets::tar_meta()].</p>
 </td></tr>
 <tr><td><code id="require_non_empty">require_non_empty</code></td>
 <td>
-<p>Logical. If 'TRUE', error when no rows are read.</p>
+<p>Logical. If 'TRUE', error when no rows are loaded.</p>
 </td></tr>
 </table>
 
 
 <h3>Value</h3>
 
-<p>A tibble with ANOVA component percentages and AUC summaries.
+<p>A tibble with ANOVA component percentages, explicitly labelled fitted AUC,
+and cross-validated predictive Tjur R2, AUC, and log loss.
 </p>
 
 </main>

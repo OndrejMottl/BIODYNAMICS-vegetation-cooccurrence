@@ -55,7 +55,7 @@ testthat::test_that(
     testthat::expect_error(
       compute_jsdm_se(
         mod_jsdm = mock_sjsdm,
-        parallel = c(1, 2)
+        parallel = base::c(1, 2)
       ),
       "`parallel` must be a single non-negative numeric"
     )
@@ -131,7 +131,7 @@ testthat::test_that(
     testthat::expect_error(
       compute_jsdm_se(
         mod_jsdm = mock_sjsdm,
-        verbose = c(TRUE, FALSE)
+        verbose = base::c(TRUE, FALSE)
       ),
       "`verbose` must be a single non-NA logical value"
     )
@@ -156,7 +156,7 @@ testthat::test_that(
       message = "PyTorch not available, skipping sjSDM tests"
     )
 
-    set.seed(900723)
+    base::set.seed(900723)
 
     com <-
       sjSDM::simulate_SDM(
@@ -167,9 +167,11 @@ testthat::test_that(
 
     mod_jsdm <-
       sjSDM::sjSDM(
-        Y = com$response,
+        Y = com |>
+          purrr::chuck("response"),
         env = sjSDM::linear(
-          data = com$env_weights,
+          data = com |>
+            purrr::chuck("env_weights"),
           formula = ~ X1 + X2 + X3
         ),
         iter = 5L,
@@ -198,7 +200,7 @@ testthat::test_that(
       message = "PyTorch not available, skipping sjSDM tests"
     )
 
-    set.seed(900723)
+    base::set.seed(900723)
 
     com <-
       sjSDM::simulate_SDM(
@@ -209,9 +211,11 @@ testthat::test_that(
 
     mod_jsdm <-
       sjSDM::sjSDM(
-        Y = com$response,
+        Y = com |>
+          purrr::chuck("response"),
         env = sjSDM::linear(
-          data = com$env_weights,
+          data = com |>
+            purrr::chuck("env_weights"),
           formula = ~ X1 + X2 + X3
         ),
         iter = 5L,
