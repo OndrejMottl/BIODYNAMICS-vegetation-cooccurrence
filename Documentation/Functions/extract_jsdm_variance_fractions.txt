@@ -1,0 +1,47 @@
+Extract Variance Fractions from a Single sjSDM Object
+
+Description:
+
+     Extracts specified variance partitioning fractions from a single
+     sjSDManova object, returning a two-column tibble with fraction
+     labels and their Nagelkerke R² values.
+
+Usage:
+
+     extract_jsdm_variance_fractions(
+       anova_object,
+       vec_anova_fractions = base::c("F_A", "F_B", "F_S", "F_AB", "F_AS", "F_BS", "F_ABS"),
+       clamp_negative = TRUE
+     )
+
+Arguments:
+
+anova_object: A single sjSDManova-like list containing a named
+          `"results"` element with columns `models` and `"R2
+          Nagelkerke"`.
+
+vec_anova_fractions: A non-empty character vector of fraction codes to
+          retain (e.g. `c("F_A", "F_B", "F_S")`).
+
+clamp_negative: A single logical (default `TRUE`). If `TRUE`, negative
+          Nagelkerke R² values are clamped to 0.
+
+Details:
+
+     Accesses the named `"results"` element with `purrr::chuck()`,
+     filters the requested fraction codes, and translates them to
+     human-readable component labels.
+
+Value:
+
+     A tibble with columns:
+
+     component Character. Human-readable component label (e.g.
+          "Abiotic", "Associations", "Spatial").
+
+     R2_Nagelkerke Numeric. Nagelkerke R² value for each fraction,
+          optionally clamped to [0, Inf).
+
+See Also:
+
+     [aggregate_jsdm_variance_components()]

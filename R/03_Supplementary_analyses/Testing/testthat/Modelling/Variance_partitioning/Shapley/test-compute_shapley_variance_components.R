@@ -58,30 +58,30 @@ data_with_negatives <-
 #----------------------------------------------------------#
 
 testthat::test_that(
-  "recalculate_anova_components() rejects non-data-frame",
+  "compute_shapley_variance_components() rejects non-data-frame",
   {
     testthat::expect_error(
-      recalculate_anova_components(data_source = NULL)
+      compute_shapley_variance_components(data_source = NULL)
     )
 
     testthat::expect_error(
-      recalculate_anova_components(
+      compute_shapley_variance_components(
         data_source = base::list(age = 1, R2_Nagelkerke = 1)
       )
     )
 
     testthat::expect_error(
-      recalculate_anova_components(data_source = "string")
+      compute_shapley_variance_components(data_source = "string")
     )
 
     testthat::expect_error(
-      recalculate_anova_components(data_source = 42)
+      compute_shapley_variance_components(data_source = 42)
     )
   }
 )
 
 testthat::test_that(
-  "recalculate_anova_components() rejects empty data frame",
+  "compute_shapley_variance_components() rejects empty data frame",
   {
     data_empty <-
       tibble::tibble(
@@ -91,13 +91,13 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      recalculate_anova_components(data_source = data_empty)
+      compute_shapley_variance_components(data_source = data_empty)
     )
   }
 )
 
 testthat::test_that(
-  "recalculate_anova_components() rejects missing columns",
+  "compute_shapley_variance_components() rejects missing columns",
   {
     data_no_age <-
       tibble::tibble(
@@ -106,7 +106,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      recalculate_anova_components(data_source = data_no_age)
+      compute_shapley_variance_components(data_source = data_no_age)
     )
 
     data_no_r2 <-
@@ -116,7 +116,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      recalculate_anova_components(data_source = data_no_r2)
+      compute_shapley_variance_components(data_source = data_no_r2)
     )
 
     data_no_component <-
@@ -126,7 +126,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      recalculate_anova_components(data_source = data_no_component)
+      compute_shapley_variance_components(data_source = data_no_component)
     )
   }
 )
@@ -136,10 +136,10 @@ testthat::test_that(
 #----------------------------------------------------------#
 
 testthat::test_that(
-  "recalculate_anova_components() returns a data frame",
+  "compute_shapley_variance_components() returns a data frame",
   {
     res <-
-      recalculate_anova_components(data_source = data_three_unique)
+      compute_shapley_variance_components(data_source = data_three_unique)
 
     testthat::expect_true(
       base::is.data.frame(res)
@@ -148,10 +148,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() adds percentage column",
+  "compute_shapley_variance_components() adds percentage column",
   {
     res <-
-      recalculate_anova_components(data_source = data_three_unique)
+      compute_shapley_variance_components(data_source = data_three_unique)
 
     testthat::expect_true(
       "R2_Nagelkerke_percentage" %in% base::colnames(res)
@@ -160,10 +160,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() preserves age and component columns",
+  "compute_shapley_variance_components() preserves age and component columns",
   {
     res <-
-      recalculate_anova_components(data_source = data_three_unique)
+      compute_shapley_variance_components(data_source = data_three_unique)
 
     testthat::expect_true(
       base::all(
@@ -174,10 +174,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() adds R2_Nagelkerke_adjusted column",
+  "compute_shapley_variance_components() adds R2_Nagelkerke_adjusted column",
   {
     res <-
-      recalculate_anova_components(data_source = data_three_unique)
+      compute_shapley_variance_components(data_source = data_three_unique)
 
     testthat::expect_true(
       "R2_Nagelkerke_adjusted" %in% base::colnames(res)
@@ -186,10 +186,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() returns 3 rows per age",
+  "compute_shapley_variance_components() returns 3 rows per age",
   {
     res <-
-      recalculate_anova_components(data_source = data_three_unique)
+      compute_shapley_variance_components(data_source = data_three_unique)
 
     # data_three_unique has 2 ages, each with 3 unique components
     testthat::expect_equal(
@@ -200,10 +200,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() drops intersection rows",
+  "compute_shapley_variance_components() drops intersection rows",
   {
     res <-
-      recalculate_anova_components(data_source = data_all_seven)
+      compute_shapley_variance_components(data_source = data_all_seven)
 
     vec_components <-
       dplyr::pull(res, component)
@@ -228,10 +228,10 @@ testthat::test_that(
 #----------------------------------------------------------#
 
 testthat::test_that(
-  "recalculate_anova_components() percentages sum to 100 per age",
+  "compute_shapley_variance_components() percentages sum to 100 per age",
   {
     res <-
-      recalculate_anova_components(data_source = data_three_unique)
+      compute_shapley_variance_components(data_source = data_three_unique)
 
     vec_sums <-
       res |>
@@ -249,7 +249,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() computes correct percentages",
+  "compute_shapley_variance_components() computes correct percentages",
   {
     # Three unique components, no intersections: Shapley equals
     # the raw unique fractions.  Abiotic=0.3, Assoc=0.5,
@@ -262,7 +262,7 @@ testthat::test_that(
       )
 
     res <-
-      recalculate_anova_components(data_source = data_simple)
+      compute_shapley_variance_components(data_source = data_simple)
 
     vec_pct <-
       dplyr::pull(res, R2_Nagelkerke_percentage)
@@ -276,7 +276,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() single unique row gives 100%",
+  "compute_shapley_variance_components() single unique row gives 100%",
   {
     # One component per age; with Shapley (3 rows always) the
     # present component must reach 100% and others 0%.
@@ -288,7 +288,7 @@ testthat::test_that(
       )
 
     res <-
-      recalculate_anova_components(data_source = data_single_per_age)
+      compute_shapley_variance_components(data_source = data_single_per_age)
 
     # age = 0: Abiotic_adj = 0.4, others 0 -> Abiotic = 100%
     pct_abiotic_age0 <-
@@ -317,7 +317,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() equal R2 values split evenly",
+  "compute_shapley_variance_components() equal R2 values split evenly",
   {
     data_equal <-
       tibble::tibble(
@@ -327,7 +327,7 @@ testthat::test_that(
       )
 
     res <-
-      recalculate_anova_components(data_source = data_equal)
+      compute_shapley_variance_components(data_source = data_equal)
 
     vec_pct <-
       dplyr::pull(res, R2_Nagelkerke_percentage)
@@ -341,7 +341,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() ages computed independently",
+  "compute_shapley_variance_components() ages computed independently",
   {
     # Two unique components per age; output has 3 rows per age.
     # Filter to the present components to verify independence.
@@ -356,7 +356,7 @@ testthat::test_that(
       )
 
     res <-
-      recalculate_anova_components(data_source = data_two_ages)
+      compute_shapley_variance_components(data_source = data_two_ages)
 
     # age = 0: Abiotic_adj=0.6, Spatial_adj=0.4 -> 60%, 40%
     vec_pct_age0 <-
@@ -391,12 +391,12 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() Shapley adjusted values sum to total",
+  "compute_shapley_variance_components() Shapley adjusted values sum to total",
   {
     # data_all_seven total = sum of all 7 fractions = 0.99.
     # Shapley adjusted values must also sum to 0.99.
     res <-
-      recalculate_anova_components(data_source = data_all_seven)
+      compute_shapley_variance_components(data_source = data_all_seven)
 
     vec_adj <-
       dplyr::pull(res, R2_Nagelkerke_adjusted)
@@ -410,7 +410,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() Shapley correctly allocates intersection terms",
+  stringr::str_c(
+    "compute_shapley_variance_components() Shapley correctly allocates ",
+    "intersection terms"
+  ),
   {
     # data_all_seven: F_A=0.3, F_B=0.4, F_S=0.2,
     #   F_AB=0.05, F_AS=0.02, F_BS=0.01, F_ABS=0.01
@@ -418,7 +421,7 @@ testthat::test_that(
     # Assoc_adj    = 0.4  + 0.05/2 + 0.01/2 + 0.01/3
     # Spatial_adj  = 0.2  + 0.02/2 + 0.01/2 + 0.01/3
     res <-
-      recalculate_anova_components(data_source = data_all_seven)
+      compute_shapley_variance_components(data_source = data_all_seven)
 
     vec_adj <-
       dplyr::pull(res, R2_Nagelkerke_adjusted)
@@ -439,14 +442,14 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() clamps negatives before allocation",
+  "compute_shapley_variance_components() clamps negatives before allocation",
   {
     # data_with_negatives: F_A=-0.1 -> 0, F_B=0.5, F_S=0.2,
     #   F_AS=-0.3 -> 0
     # Abiotic_adj = 0, Assoc_adj = 0.5, Spatial_adj = 0.2
     # total = 0.7
     res <-
-      recalculate_anova_components(data_source = data_with_negatives)
+      compute_shapley_variance_components(data_source = data_with_negatives)
 
     vec_adj <-
       dplyr::pull(res, R2_Nagelkerke_adjusted)
@@ -469,7 +472,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() large intersection does not inflate unique component",
+  stringr::str_c(
+    "compute_shapley_variance_components() large intersection does not ",
+    "inflate unique component"
+  ),
   {
     # User scenario: F_A=0.1, F_B=0.2, F_S=0.1, F_AS=5.0.
     # Without Shapley, the unique denominator would be 0.4 and
@@ -489,7 +495,7 @@ testthat::test_that(
       )
 
     res <-
-      recalculate_anova_components(
+      compute_shapley_variance_components(
         data_source = data_large_intersection
       )
 
@@ -516,10 +522,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "recalculate_anova_components() zero sum produces NA",
+  "compute_shapley_variance_components() zero sum produces NA",
   {
     res <-
-      recalculate_anova_components(data_source = data_zero_sum)
+      compute_shapley_variance_components(data_source = data_zero_sum)
 
     vec_pct <-
       dplyr::pull(res, R2_Nagelkerke_percentage)

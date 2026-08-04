@@ -52,14 +52,14 @@ pipe_segment_model_summary_by_age <-
         " by age slice"
       ),
       name = "data_anova_components_by_age",
-      command = aggregate_anova_components(
+      command = aggregate_jsdm_variance_components(
         list_model_anova = list_model_anova_by_age
       )
     ),
     targets::tar_target(
       description = "Tranform anova components into percentages",
       name = "data_anova_components_by_age_percentage",
-      command = recalculate_anova_components(
+      command = compute_shapley_variance_components(
         data_source = data_anova_components_by_age
       )
     )

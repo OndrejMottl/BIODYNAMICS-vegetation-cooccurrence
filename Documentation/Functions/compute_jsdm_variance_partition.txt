@@ -1,4 +1,4 @@
-Get ANOVA for sjSDM Model
+Compute Variance Partitioning for an sjSDM Model
 
 Description:
 
@@ -8,8 +8,8 @@ Description:
 
 Usage:
 
-     get_anova(mod, n_samples = 5000L, verbose = FALSE)
-     
+     compute_jsdm_variance_partition(mod, n_samples = 5000L, verbose = FALSE)
+
 Arguments:
 
      mod: A fitted model object of class `sjSDM`.
@@ -37,4 +37,3 @@ Value:
 See Also:
 
      [fit_jsdm_model()]
-

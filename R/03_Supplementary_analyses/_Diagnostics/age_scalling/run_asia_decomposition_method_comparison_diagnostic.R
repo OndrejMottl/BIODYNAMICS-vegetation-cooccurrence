@@ -486,7 +486,7 @@ compute_anova_shares <- function(mod_full, route_id, repeat_id, fold_id) {
 
   anova_object <-
     tryCatch(
-      expr = get_anova(
+      expr = compute_jsdm_variance_partition(
         mod = mod_full,
         n_samples = n_samples_anova,
         verbose = FALSE
@@ -510,9 +510,9 @@ compute_anova_shares <- function(mod_full, route_id, repeat_id, fold_id) {
   }
 
   res <-
-    extract_anova_fractions(anova_object = anova_object) |>
+    extract_jsdm_variance_fractions(anova_object = anova_object) |>
     dplyr::mutate(age = 0) |>
-    recalculate_anova_components() |>
+    compute_shapley_variance_components() |>
     dplyr::transmute(
       route_id = route_id,
       repeat_id = repeat_id,

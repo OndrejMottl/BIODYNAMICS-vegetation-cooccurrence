@@ -273,12 +273,12 @@ if (
   message("Target 'model_anova' not available.")
 } else {
   data_anova_fractions <-
-    extract_anova_fractions(
+    extract_jsdm_variance_fractions(
       anova_object = model_anova,
       clamp_negative = TRUE
     ) |>
     dplyr::mutate(age = 0) |>
-    recalculate_anova_components() |>
+    compute_shapley_variance_components() |>
     dplyr::arrange(dplyr::desc(R2_Nagelkerke_percentage))
 
   message("ANOVA fractions for: ", sel_scale_id)

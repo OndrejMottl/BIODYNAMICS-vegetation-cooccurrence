@@ -406,10 +406,10 @@ This is the main comparative quantity used across spatial scale, time, data sour
 
 | Target or function | Description |
 |---|---|
-| [`get_anova()`](Documentation/Functions/get_anova.qmd) | Runs Monte Carlo ANOVA decomposition for the fitted model |
-| [`extract_anova_fractions()`](Documentation/Functions/extract_anova_fractions.qmd) | Extracts named A, S, B, and shared fractions |
-| [`aggregate_anova_components()`](Documentation/Functions/aggregate_anova_components.qmd) | Aggregates decomposition outputs across temporal branches |
-| [`recalculate_anova_components()`](Documentation/Functions/recalculate_anova_components.qmd) | Converts raw fractions into comparable component summaries |
+| [`compute_jsdm_variance_partition()`](Documentation/Functions/compute_jsdm_variance_partition.qmd) | Runs Monte Carlo ANOVA decomposition for the fitted model |
+| [`extract_jsdm_variance_fractions()`](Documentation/Functions/extract_jsdm_variance_fractions.qmd) | Extracts named A, S, B, and shared fractions |
+| [`aggregate_jsdm_variance_components()`](Documentation/Functions/aggregate_jsdm_variance_components.qmd) | Aggregates decomposition outputs across temporal branches |
+| [`compute_shapley_variance_components()`](Documentation/Functions/compute_shapley_variance_components.qmd) | Converts raw fractions into comparable component summaries |
 
 **Components**:
 

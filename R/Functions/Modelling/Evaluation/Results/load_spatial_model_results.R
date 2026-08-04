@@ -131,7 +131,7 @@ load_spatial_model_results <- function(
               }
 
               data_anova <-
-                extract_anova_fractions(
+                extract_jsdm_variance_fractions(
                   anova_object = model_anova,
                   clamp_negative = TRUE
                 ) |>
@@ -220,7 +220,7 @@ load_spatial_model_results <- function(
                 )
 
               data_anova |>
-                recalculate_anova_components() |>
+                compute_shapley_variance_components() |>
                 dplyr::mutate(
                   data_source = store_row |>
                     dplyr::pull("data_source") |>

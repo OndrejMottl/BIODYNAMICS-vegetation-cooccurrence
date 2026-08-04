@@ -17,29 +17,29 @@ make_mock_anova_obj <- function(
 }
 
 testthat::test_that(
-  "aggregate_anova_components() rejects non-list inputs",
+  "aggregate_jsdm_variance_components() rejects non-list inputs",
   {
     testthat::expect_error(
-      aggregate_anova_components(list_model_anova = NULL),
+      aggregate_jsdm_variance_components(list_model_anova = NULL),
       "'list_model_anova' must be a list."
     )
 
     testthat::expect_error(
-      aggregate_anova_components(
+      aggregate_jsdm_variance_components(
         list_model_anova = "a string"
       ),
       "'list_model_anova' must be a list."
     )
 
     testthat::expect_error(
-      aggregate_anova_components(list_model_anova = 42),
+      aggregate_jsdm_variance_components(list_model_anova = 42),
       "'list_model_anova' must be a list."
     )
   }
 )
 
 testthat::test_that(
-  "aggregate_anova_components() returns data frame with cols",
+  "aggregate_jsdm_variance_components() returns data frame with cols",
   {
     list_input <-
       base::list(
@@ -47,7 +47,7 @@ testthat::test_that(
       )
 
     res <-
-      aggregate_anova_components(
+      aggregate_jsdm_variance_components(
         list_model_anova = list_input
       )
 
@@ -62,7 +62,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "aggregate_anova_components() returns 7 rows per slice",
+  "aggregate_jsdm_variance_components() returns 7 rows per slice",
   {
     list_input <-
       base::list(
@@ -70,7 +70,7 @@ testthat::test_that(
       )
 
     res <-
-      aggregate_anova_components(
+      aggregate_jsdm_variance_components(
         list_model_anova = list_input
       )
 
@@ -79,7 +79,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "aggregate_anova_components() parses age from slice name",
+  "aggregate_jsdm_variance_components() parses age from slice name",
   {
     list_input <-
       base::list(
@@ -87,7 +87,7 @@ testthat::test_that(
       )
 
     res <-
-      aggregate_anova_components(
+      aggregate_jsdm_variance_components(
         list_model_anova = list_input
       )
 
@@ -100,7 +100,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "aggregate_anova_components() aggregates multiple slices",
+  "aggregate_jsdm_variance_components() aggregates multiple slices",
   {
     list_input <-
       base::list(
@@ -109,7 +109,7 @@ testthat::test_that(
       )
 
     res <-
-      aggregate_anova_components(
+      aggregate_jsdm_variance_components(
         list_model_anova = list_input
       )
 
@@ -124,7 +124,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "aggregate_anova_components() translates codes to labels",
+  "aggregate_jsdm_variance_components() translates codes to labels",
   {
     list_input <-
       base::list(
@@ -132,7 +132,7 @@ testthat::test_that(
       )
 
     res <-
-      aggregate_anova_components(
+      aggregate_jsdm_variance_components(
         list_model_anova = list_input
       )
 
@@ -152,7 +152,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "aggregate_anova_components() clamps negative R2 to zero",
+  "aggregate_jsdm_variance_components() clamps negative R2 to zero",
   {
     vec_r2_neg <-
       c(-0.05, 0.20, 0.30, 0.05, -0.10, 0.05, 0.25)
@@ -165,7 +165,7 @@ testthat::test_that(
       )
 
     res <-
-      aggregate_anova_components(
+      aggregate_jsdm_variance_components(
         list_model_anova = list_input
       )
 
@@ -177,7 +177,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "aggregate_anova_components() silently drops NULL entries",
+  "aggregate_jsdm_variance_components() silently drops NULL entries",
   {
     list_input <-
       base::list(
@@ -186,7 +186,7 @@ testthat::test_that(
       )
 
     res <-
-      aggregate_anova_components(
+      aggregate_jsdm_variance_components(
         list_model_anova = list_input
       )
 
@@ -195,7 +195,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "aggregate_anova_components() drops entries without results",
+  "aggregate_jsdm_variance_components() drops entries without results",
   {
     list_no_results <-
       base::list(other_element = 1L)
@@ -207,7 +207,7 @@ testthat::test_that(
       )
 
     res <-
-      aggregate_anova_components(
+      aggregate_jsdm_variance_components(
         list_model_anova = list_input
       )
 
@@ -216,10 +216,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "aggregate_anova_components() returns empty tibble for empty list",
+  "aggregate_jsdm_variance_components() returns empty tibble for empty list",
   {
     res <-
-      aggregate_anova_components(
+      aggregate_jsdm_variance_components(
         list_model_anova = base::list()
       )
 

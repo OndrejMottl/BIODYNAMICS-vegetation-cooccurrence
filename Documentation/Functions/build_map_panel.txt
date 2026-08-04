@@ -26,7 +26,7 @@ Usage:
        col_label = NULL,
        row_label = NULL
      )
-     
+
 Arguments:
 
 sel_continent: Character scalar. Continent identifier (e.g. '"europe"',
@@ -87,4 +87,5 @@ Value:
 
 See Also:
 
-     'extract_anova_fractions', 'recalculate_anova_components'
+     'extract_jsdm_variance_fractions',
+     'compute_shapley_variance_components'

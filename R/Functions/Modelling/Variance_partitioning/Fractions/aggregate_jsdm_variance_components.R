@@ -1,13 +1,13 @@
-#' @title Aggregate ANOVA Variance Components Across Time Slices
+#' @title Aggregate sjSDM Variance Components Across Time Slices
 #' @description
 #' Extracts variance partitioning fractions from a named list
 #' of sjSDM ANOVA objects and assembles a long-format tibble
-#' with one row per age × component combination.
+#' with one row per age and component combination.
 #' @param list_model_anova
 #' A named list of sjSDManova objects, one per time slice.
 #' Names must end with a numeric age value
-#' (e.g. "timeslice_500"). NULL entries and objects without a
-#' \code{$results} element are silently discarded.
+#' (e.g. `"timeslice_500"`). `NULL` entries and objects without
+#' a named `"results"` element are silently discarded.
 #' @return
 #' A tibble with columns:
 #' \describe{
@@ -19,36 +19,42 @@
 #'     component, clamped to [0, Inf).}
 #' }
 #' @details
-#' The age is parsed from the list element name by extracting
-#' the trailing digit sequence (e.g. "timeslice_500" -> 500).
-#' Fraction extraction, code-to-label translation, and
-#' negative R² clamping are delegated to
-#' [extract_anova_fractions()] (called with
-#' \code{clamp_negative = TRUE}).
-#' @seealso [get_anova()], [extract_anova_fractions()]
+#' The age is parsed from the trailing digit sequence in each
+#' list-element name. Fraction extraction and negative-value
+#' clamping are delegated to [extract_jsdm_variance_fractions()].
+#' @seealso [compute_jsdm_variance_partition()],
+#'   [extract_jsdm_variance_fractions()]
 #' @export
-aggregate_anova_components <- function(list_model_anova) {
+aggregate_jsdm_variance_components <- function(list_model_anova) {
   assertthat::assert_that(
     base::is.list(list_model_anova),
     msg = "'list_model_anova' must be a list."
   )
 
   vec_anova_fractions <-
-    c("F_A", "F_B", "F_S", "F_AB", "F_AS", "F_BS", "F_ABS")
+    base::c(
+      "F_A",
+      "F_B",
+      "F_S",
+      "F_AB",
+      "F_AS",
+      "F_BS",
+      "F_ABS"
+    )
 
   res <-
     list_model_anova |>
     purrr::discard(
-      ~ base::is.null(.x) || !("results" %in% base::names(.x))
+      ~ base::is.null(.x) || !"results" %in% base::names(.x)
     ) |>
     purrr::imap(
       .f = ~ {
         age_val <-
           .y |>
           stringr::str_extract("\\d+$") |>
-          as.numeric()
+          base::as.numeric()
 
-        extract_anova_fractions(
+        extract_jsdm_variance_fractions(
           anova_object = .x,
           vec_anova_fractions = vec_anova_fractions,
           clamp_negative = TRUE

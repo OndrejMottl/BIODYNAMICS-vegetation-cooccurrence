@@ -1,29 +1,27 @@
-Aggregate ANOVA Variance Components Across Time Slices
+Aggregate sjSDM Variance Components Across Time Slices
 
 Description:
 
      Extracts variance partitioning fractions from a named list of
      sjSDM ANOVA objects and assembles a long-format tibble with one
-     row per age × component combination.
+     row per age and component combination.
 
 Usage:
 
-     aggregate_anova_components(list_model_anova)
-     
+     aggregate_jsdm_variance_components(list_model_anova)
+
 Arguments:
 
 list_model_anova: A named list of sjSDManova objects, one per time
           slice. Names must end with a numeric age value (e.g.
-          "timeslice_500"). NULL entries and objects without a
-          '$results' element are silently discarded.
+          `"timeslice_500"`). `NULL` entries and objects without a
+          named `"results"` element are silently discarded.
 
 Details:
 
-     The age is parsed from the list element name by extracting the
-     trailing digit sequence (e.g. "timeslice_500" -> 500). Fraction
-     extraction, code-to-label translation, and negative R² clamping
-     are delegated to [extract_anova_fractions()] (called with
-     'clamp_negative = TRUE').
+     The age is parsed from the trailing digit sequence in each
+     list-element name. Fraction extraction and negative-value clamping
+     are delegated to [extract_jsdm_variance_fractions()].
 
 Value:
 
@@ -39,5 +37,5 @@ Value:
 
 See Also:
 
-     [get_anova()], [extract_anova_fractions()]
-
+     [compute_jsdm_variance_partition()],
+     [extract_jsdm_variance_fractions()]

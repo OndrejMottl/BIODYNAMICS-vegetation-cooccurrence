@@ -70,8 +70,8 @@
 #' the automatic bounding box added by
 #' \code{ggplot2::geom_sf()}.
 #' @seealso
-#' \code{\link{extract_anova_fractions}},
-#' \code{\link{recalculate_anova_components}}
+#' \code{\link{extract_jsdm_variance_fractions}},
+#' \code{\link{compute_shapley_variance_components}}
 #' @export
 build_map_panel <-
   function(

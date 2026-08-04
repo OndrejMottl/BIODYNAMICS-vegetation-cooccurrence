@@ -725,7 +725,7 @@ if (
     purrr::imap(
       .f = ~ {
         tryCatch(
-          extract_anova_fractions(anova_obj = .x) |>
+          extract_jsdm_variance_fractions(anova_obj = .x) |>
             dplyr::mutate(resolution = .y),
           error = function(e) {
             base::message(

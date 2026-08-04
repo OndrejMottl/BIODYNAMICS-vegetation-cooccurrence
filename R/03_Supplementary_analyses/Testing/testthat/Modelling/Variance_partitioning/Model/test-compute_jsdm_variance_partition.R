@@ -1,41 +1,47 @@
 testthat::test_that(
-  "get_anova() validates input class - rejects non-sjSDM objects",
+  stringr::str_c(
+    "compute_jsdm_variance_partition() validates input class - ",
+    "rejects non-sjSDM objects"
+  ),
   {
     testthat::expect_error(
-      get_anova(mod = NULL),
+      compute_jsdm_variance_partition(mod = NULL),
       "The model must be of class 'sjSDM'."
     )
 
     testthat::expect_error(
-      get_anova(mod = list()),
+      compute_jsdm_variance_partition(mod = list()),
       "The model must be of class 'sjSDM'."
     )
 
     testthat::expect_error(
-      get_anova(mod = 42),
+      compute_jsdm_variance_partition(mod = 42),
       "The model must be of class 'sjSDM'."
     )
 
     testthat::expect_error(
-      get_anova(mod = "a string"),
+      compute_jsdm_variance_partition(mod = "a string"),
       "The model must be of class 'sjSDM'."
     )
 
     testthat::expect_error(
-      get_anova(mod = data.frame(x = 1)),
+      compute_jsdm_variance_partition(mod = data.frame(x = 1)),
       "The model must be of class 'sjSDM'."
     )
   }
 )
 
 testthat::test_that(
-  "get_anova() validates input class - rejects lm/glm objects",
+  stringr::str_c(
+    "compute_jsdm_variance_partition() validates input class - ",
+    "rejects lm/glm objects"
+  ),
   {
     mod_lm <-
       stats::lm(formula = mpg ~ wt, data = mtcars)
 
     testthat::expect_error(
-      get_anova(mod = mod_lm),
+      compute_jsdm_variance_partition(mod = mod_lm),
       "The model must be of class 'sjSDM'."
     )
 
@@ -47,14 +53,17 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      get_anova(mod = mod_glm),
+      compute_jsdm_variance_partition(mod = mod_glm),
       "The model must be of class 'sjSDM'."
     )
   }
 )
 
 testthat::test_that(
-  "get_anova() functional output requires real sjSDM model",
+  stringr::str_c(
+    "compute_jsdm_variance_partition() functional output requires ",
+    "real sjSDM model"
+  ),
   {
     testthat::skip_if_not_installed("sjSDM")
 
@@ -95,13 +104,13 @@ testthat::test_that(
 
 
     anova_res <-
-      get_anova(mod = mod)
+      compute_jsdm_variance_partition(mod = mod)
     testthat::expect_s3_class(anova_res, "sjSDManova")
   }
 )
 
 testthat::test_that(
-  "get_anova() verbose argument controls printed output",
+  "compute_jsdm_variance_partition() verbose argument controls printed output",
   {
     testthat::skip_if_not_installed("sjSDM")
 
@@ -140,22 +149,22 @@ testthat::test_that(
 
     # invalid verbose inputs must error
     testthat::expect_error(
-      get_anova(mod = mod, verbose = 1L),
+      compute_jsdm_variance_partition(mod = mod, verbose = 1L),
       "verbose must be a single logical value"
     )
 
     testthat::expect_error(
-      get_anova(mod = mod, verbose = "yes"),
+      compute_jsdm_variance_partition(mod = mod, verbose = "yes"),
       "verbose must be a single logical value"
     )
 
     testthat::expect_error(
-      get_anova(mod = mod, verbose = NA),
+      compute_jsdm_variance_partition(mod = mod, verbose = NA),
       "verbose must be a single logical value"
     )
 
     testthat::expect_error(
-      get_anova(mod = mod, verbose = c(TRUE, FALSE)),
+      compute_jsdm_variance_partition(mod = mod, verbose = c(TRUE, FALSE)),
       "verbose must be a single logical value"
     )
 
@@ -163,17 +172,17 @@ testthat::test_that(
     # cannot be captured by utils::capture.output(); test that both
     # values are accepted without error and return the correct class
     anova_quiet <-
-      get_anova(mod = mod, verbose = FALSE)
+      compute_jsdm_variance_partition(mod = mod, verbose = FALSE)
     testthat::expect_s3_class(anova_quiet, "sjSDManova")
 
     anova_verbose <-
-      get_anova(mod = mod, verbose = TRUE)
+      compute_jsdm_variance_partition(mod = mod, verbose = TRUE)
     testthat::expect_s3_class(anova_verbose, "sjSDManova")
   }
 )
 
 testthat::test_that(
-  "get_anova() validates n_samples argument",
+  "compute_jsdm_variance_partition() validates n_samples argument",
   {
     testthat::skip_if_not_installed("sjSDM")
 
@@ -212,31 +221,31 @@ testthat::test_that(
 
     # Non-integer n_samples must error
     testthat::expect_error(
-      get_anova(mod = mod, n_samples = 1.5),
+      compute_jsdm_variance_partition(mod = mod, n_samples = 1.5),
       "n_samples must be a single positive integer."
     )
 
     # Zero must error (not a positive count)
     testthat::expect_error(
-      get_anova(mod = mod, n_samples = 0L),
+      compute_jsdm_variance_partition(mod = mod, n_samples = 0L),
       "n_samples must be a single positive integer."
     )
 
     # Negative must error
     testthat::expect_error(
-      get_anova(mod = mod, n_samples = -5L),
+      compute_jsdm_variance_partition(mod = mod, n_samples = -5L),
       "n_samples must be a single positive integer."
     )
 
     # Non-numeric must error
     testthat::expect_error(
-      get_anova(mod = mod, n_samples = "100"),
+      compute_jsdm_variance_partition(mod = mod, n_samples = "100"),
       "n_samples must be a single positive integer."
     )
 
     # Valid small integer passes and returns sjSDManova
     anova_res <-
-      get_anova(mod = mod, n_samples = 10L)
+      compute_jsdm_variance_partition(mod = mod, n_samples = 10L)
     testthat::expect_s3_class(anova_res, "sjSDManova")
   }
 )

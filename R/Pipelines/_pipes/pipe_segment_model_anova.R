@@ -48,7 +48,7 @@ pipe_segment_model_anova <-
       ) {
         NULL
       } else {
-        get_anova(
+        compute_jsdm_variance_partition(
           mod = model_jsdm_selected,
           n_samples = config_model_fitting[["n_samples_anova"]],
           verbose = TRUE

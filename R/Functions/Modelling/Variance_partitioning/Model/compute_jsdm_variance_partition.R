@@ -1,4 +1,4 @@
-#' @title Get ANOVA for sjSDM Model
+#' @title Compute Variance Partitioning for an sjSDM Model
 #' @description
 #' Computes the ANOVA decomposition for a fitted sjSDM model,
 #' partitioning variance explained by environmental and spatial
@@ -23,12 +23,12 @@
 #' publication-quality results, 3000–5000 is recommended.
 #' @seealso [fit_jsdm_model()]
 #' @export
-get_anova <- function(
+compute_jsdm_variance_partition <- function(
     mod,
     n_samples = 5000L,
     verbose = FALSE) {
   assertthat::assert_that(
-    inherits(mod, "sjSDM"),
+    base::inherits(mod, "sjSDM"),
     msg = "The model must be of class 'sjSDM'."
   )
 
@@ -39,12 +39,16 @@ get_anova <- function(
 
   assertthat::assert_that(
     assertthat::is.flag(verbose),
-    !is.na(verbose) && length(verbose) == 1L,
+    !base::is.na(verbose) && base::length(verbose) == 1L,
     msg = "verbose must be a single logical value (TRUE or FALSE)."
   )
 
   res <-
-    sjSDM:::anova.sjSDM(mod, samples = n_samples, verbose = verbose)
+    sjSDM:::anova.sjSDM(
+      mod,
+      samples = n_samples,
+      verbose = verbose
+    )
 
   return(res)
 }

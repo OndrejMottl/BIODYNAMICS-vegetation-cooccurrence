@@ -17,10 +17,10 @@ make_mock_anova_obj <- function(
 }
 
 testthat::test_that(
-  "extract_anova_fractions() errors if anova_object not list",
+  "extract_jsdm_variance_fractions() errors if anova_object not list",
   {
     testthat::expect_error(
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = "not a list",
         vec_anova_fractions = c("F_A")
       ),
@@ -28,7 +28,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = 42L,
         vec_anova_fractions = c("F_A")
       ),
@@ -38,13 +38,13 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "extract_anova_fractions() errors if fractions not character",
+  "extract_jsdm_variance_fractions() errors if fractions not character",
   {
     obj <-
       make_mock_anova_obj()
 
     testthat::expect_error(
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = c(1L, 2L)
       ),
@@ -54,13 +54,13 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "extract_anova_fractions() errors if fractions is empty",
+  "extract_jsdm_variance_fractions() errors if fractions is empty",
   {
     obj <-
       make_mock_anova_obj()
 
     testthat::expect_error(
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = base::character(0)
       ),
@@ -70,13 +70,13 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "extract_anova_fractions() errors if clamp_negative not flag",
+  "extract_jsdm_variance_fractions() errors if clamp_negative not flag",
   {
     obj <-
       make_mock_anova_obj()
 
     testthat::expect_error(
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = c("F_A"),
         clamp_negative = c(TRUE, FALSE)
@@ -85,7 +85,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = c("F_A"),
         clamp_negative = "yes"
@@ -94,7 +94,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = c("F_A"),
         clamp_negative = 1L
@@ -105,13 +105,13 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "extract_anova_fractions() returns data frame with correct cols",
+  "extract_jsdm_variance_fractions() returns data frame with correct cols",
   {
     obj <-
       make_mock_anova_obj()
 
     res <-
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = c("F_A", "F_B")
       )
@@ -126,19 +126,19 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "extract_anova_fractions() returns correct number of rows",
+  "extract_jsdm_variance_fractions() returns correct number of rows",
   {
     obj <-
       make_mock_anova_obj()
 
     res_three <-
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = c("F_A", "F_B", "F_S")
       )
 
     res_all <-
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = c(
           "F_A", "F_B", "F_S",
@@ -152,13 +152,13 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "extract_anova_fractions() returns only requested fractions",
+  "extract_jsdm_variance_fractions() returns only requested fractions",
   {
     obj <-
       make_mock_anova_obj()
 
     res <-
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = c("F_A", "F_S")
       )
@@ -176,13 +176,13 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "extract_anova_fractions() translates all codes to labels",
+  "extract_jsdm_variance_fractions() translates all codes to labels",
   {
     obj <-
       make_mock_anova_obj()
 
     res <-
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = c(
           "F_A", "F_B", "F_S",
@@ -223,7 +223,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "extract_anova_fractions() clamps negative R2 to 0",
+  "extract_jsdm_variance_fractions() clamps negative R2 to 0",
   {
     vec_r2_neg <-
       c(-0.05, 0.20, 0.30, 0.05, -0.10, 0.05, 0.25)
@@ -232,7 +232,7 @@ testthat::test_that(
       make_mock_anova_obj(r2_values = vec_r2_neg)
 
     res <-
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = c("F_A", "F_AS"),
         clamp_negative = TRUE
@@ -246,7 +246,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "extract_anova_fractions() preserves negative R2 values",
+  "extract_jsdm_variance_fractions() preserves negative R2 values",
   {
     vec_r2_neg <-
       c(-0.05, 0.20, 0.30, 0.05, -0.10, 0.05, 0.25)
@@ -255,7 +255,7 @@ testthat::test_that(
       make_mock_anova_obj(r2_values = vec_r2_neg)
 
     res <-
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj,
         vec_anova_fractions = c("F_A", "F_AS"),
         clamp_negative = FALSE
@@ -275,14 +275,14 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "extract_anova_fractions() errors if results element missing",
+  "extract_jsdm_variance_fractions() errors if results element missing",
   {
     obj_no_results <-
       base::list(other_element = 1L)
     base::class(obj_no_results) <- "sjSDManova"
 
     testthat::expect_error(
-      extract_anova_fractions(
+      extract_jsdm_variance_fractions(
         anova_object = obj_no_results,
         vec_anova_fractions = c("F_A")
       )
