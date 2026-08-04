@@ -71,7 +71,7 @@ interpolate_st_mev_to_grid <- function(
       c("coord_x_km", "coord_y_km") %in%
         base::names(data_coords_projected_train)
     ),
-    msg = paste0(
+    msg = stringr::str_c(
       "data_coords_projected_train must be a data frame",
       " with columns 'coord_x_km' and 'coord_y_km'"
     )
@@ -83,7 +83,7 @@ interpolate_st_mev_to_grid <- function(
       c("coord_x_km", "coord_y_km") %in%
         base::names(data_coords_projected_pred)
     ),
-    msg = paste0(
+    msg = stringr::str_c(
       "data_coords_projected_pred must be a data frame",
       " with columns 'coord_x_km' and 'coord_y_km'"
     )
@@ -141,7 +141,9 @@ interpolate_st_mev_to_grid <- function(
     base::colMeans(mat_3d_train_raw)
 
   vec_3d_scale <-
-    base::apply(mat_3d_train_raw, 2, stats::sd)
+    mat_3d_train_raw |>
+    base::as.data.frame() |>
+    purrr::map_dbl(.f = stats::sd)
 
   mat_3d_train_z <-
     base::scale(

@@ -1,5 +1,5 @@
 testthat::test_that(
-  "compare_spatial_mev_subspaces() ignores signs and rotations",
+  "compute_spatial_mev_subspace_similarity() ignores signs and rotations",
   {
     mat_reference <-
       base::cbind(
@@ -20,7 +20,7 @@ testthat::test_that(
       mat_reference %*% rotation
 
     res <-
-      compare_spatial_mev_subspaces(
+      compute_spatial_mev_subspace_similarity(
         data_mev_reference = mat_reference,
         data_mev_candidate = mat_candidate
       )
@@ -39,7 +39,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "compare_spatial_mev_subspaces() detects different subspaces",
+  "compute_spatial_mev_subspace_similarity() detects different subspaces",
   {
     mat_reference <-
       base::cbind(
@@ -54,7 +54,7 @@ testthat::test_that(
       )
 
     res <-
-      compare_spatial_mev_subspaces(
+      compute_spatial_mev_subspace_similarity(
         data_mev_reference = mat_reference,
         data_mev_candidate = mat_candidate
       )

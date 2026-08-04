@@ -39,7 +39,6 @@ function_naming,report_only,R/Functions/Modelling/Decomposition/make_repeated_cv
 function_naming,report_only,R/Functions/Modelling/Decomposition/refresh_cz_decomposition_upstream.R,refresh_cz_decomposition_upstream,#154,Review leading verb `refresh` against version 1.
 function_naming,report_only,R/Functions/Modelling/Evaluation/read_model_evaluation_target.R,read_model_evaluation_target,#154,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Modelling/Evaluation/read_spatial_model_results.R,read_spatial_model_results,#154,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Modelling/Spatial_effects/compare_spatial_mev_subspaces.R,compare_spatial_mev_subspaces,#154,Review leading verb `compare` against version 1.
 function_naming,report_only,R/Functions/Modelling/Tuning/check_target_succeeded.R,check_target_succeeded,#155,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Modelling/Tuning/coerce_null_to_na_integer.R,coerce_null_to_na_integer,#155,Review leading verb `coerce` against version 1.
 function_naming,report_only,R/Functions/Modelling/Tuning/read_targets_store_meta.R,read_targets_store_meta,#155,Review leading verb `read` against version 1.

@@ -64,7 +64,7 @@ interpolate_mev_to_grid <- function(
       c("coord_x_km", "coord_y_km") %in%
         base::names(data_coords_projected_train)
     ),
-    msg = paste0(
+    msg = stringr::str_c(
       "data_coords_projected_train must be a data frame",
       " with columns 'coord_x_km' and 'coord_y_km'"
     )
@@ -83,7 +83,7 @@ interpolate_mev_to_grid <- function(
       c("coord_x_km", "coord_y_km") %in%
         base::names(data_coords_projected_pred)
     ),
-    msg = paste0(
+    msg = stringr::str_c(
       "data_coords_projected_pred must be a data frame",
       " with columns 'coord_x_km' and 'coord_y_km'"
     )

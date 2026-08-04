@@ -84,7 +84,7 @@ compute_spatiotemporal_mev <- function(
       c("coord_x_km", "coord_y_km") %in%
         base::names(data_coords_projected)
     ),
-    msg = base::paste0(
+    msg = stringr::str_c(
       "data_coords_projected must contain columns",
       " 'coord_x_km' and 'coord_y_km'"
     )
@@ -100,7 +100,7 @@ compute_spatiotemporal_mev <- function(
       c("dataset_name", "age") %in%
         base::names(data_sample_ids)
     ),
-    msg = base::paste0(
+    msg = stringr::str_c(
       "data_sample_ids must contain columns",
       " 'dataset_name' and 'age'"
     )
@@ -127,12 +127,12 @@ compute_spatiotemporal_mev <- function(
     ) |>
     dplyr::mutate(
       age_kyr = age / 1000,
-      .row_name = base::paste0(dataset_name, "__", age)
+      .row_name = stringr::str_c(dataset_name, "__", age)
     )
 
   assertthat::assert_that(
     nrow(data_samples_3d) >= 3,
-    msg = base::paste0(
+    msg = stringr::str_c(
       "The joined sample × site data must have at least",
       " 3 rows (required by sjSDM::generateSpatialEV())"
     )
@@ -189,13 +189,15 @@ compute_spatiotemporal_mev <- function(
   # 6. Coerce to data frame with named columns -----
 
   vec_col_names <-
-    base::paste0("mev_", base::seq_len(n_mev))
+    stringr::str_c("mev_", base::seq_len(n_mev))
 
   res <-
     base::as.data.frame(mat_mev)
 
   base::colnames(res) <- vec_col_names
-  base::rownames(res) <- data_samples_3d$.row_name
+  base::rownames(res) <-
+    data_samples_3d |>
+    dplyr::pull(.row_name)
 
   return(res)
 }

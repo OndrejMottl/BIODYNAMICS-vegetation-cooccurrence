@@ -140,64 +140,36 @@ compute_spatial_mev_basis <- function(
   if (
     list_strategy[["strategy_selected"]] == "exact"
   ) {
-    mat_mev_all <-
-      exact_function(coords = mat_coords) |>
-      base::as.matrix()
-
-    list_fast_basis <- NULL
-    engine_method <- "sjsdm_exact"
-    projection_method <- "idw"
+    list_engine_result <-
+      .compute_exact_spatial_mev_basis(
+        mat_coords = mat_coords,
+        exact_function = exact_function
+      )
   } else {
-    if (
-      base::is.null(fast_function)
-    ) {
-      fast_function <- spmoran::meigen_f
-    }
-
-    assertthat::assert_that(
-      base::is.function(fast_function),
-      msg = "The fast MEM construction argument must be a function."
-    )
-
-    list_fast_basis <-
-      withr::with_seed(
-        seed = fast_seed_integer,
-        code = fast_function(
-          coords = mat_coords,
-          model = "exp",
-          enum = list_strategy[["fast_eigenvectors"]],
-          threshold = 0,
-          interact = FALSE
-        )
+    list_engine_result <-
+      .compute_fast_spatial_mev_basis(
+        mat_coords = mat_coords,
+        fast_eigenvectors = list_strategy[["fast_eigenvectors"]],
+        fast_seed = fast_seed_integer,
+        fast_function = fast_function
       )
-
-    assertthat::assert_that(
-      base::is.list(list_fast_basis),
-      base::is.matrix(list_fast_basis[["sf"]]),
-      msg = "Fast MEM construction must return a matrix in `sf`."
-    )
-
-    mat_mev_all <-
-      list_fast_basis[["sf"]]
-
-    fast_flag <-
-      list_fast_basis |>
-      purrr::chuck("other", "fast")
-
-    if (
-      !base::identical(base::as.integer(fast_flag), 1L)
-    ) {
-      cli::cli_abort(
-        c(
-          "The requested fast MEM strategy did not use Nyström.",
-          "i" = "Use at least 2,000 locations for the package fast path."
-        )
-      )
-    }
-
-    engine_method <- "spmoran_nystrom"
-    projection_method <- engine_method
   }
+
+  mat_mev_all <-
+    list_engine_result |>
+    purrr::chuck("mat_mev_all")
+
+  list_fast_basis <-
+    list_engine_result |>
+    purrr::chuck("list_fast_basis")
+
+  engine_method <-
+    list_engine_result |>
+    purrr::chuck("engine_method")
+
+  projection_method <-
+    list_engine_result |>
+    purrr::chuck("projection_method")
 
   assertthat::assert_that(
     base::nrow(mat_mev_all) == base::nrow(mat_coords),

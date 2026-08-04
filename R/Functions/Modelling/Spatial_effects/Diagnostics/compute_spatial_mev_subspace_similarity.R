@@ -1,14 +1,14 @@
-#' @title Compare Spatial MEM Subspaces
+#' @title Compute Spatial MEM Subspace Similarity
 #' @description
-#' Compares two spatial MEM bases with sign- and rotation-invariant canonical
-#' correlations and principal angles.
+#' Computes sign- and rotation-invariant similarity between two spatial MEM
+#' bases using canonical correlations and principal angles.
 #' @param data_mev_reference,data_mev_candidate
 #' Numeric data frames or matrices with aligned rows.
 #' @return
 #' One-row tibble containing aligned row count, compared dimension, canonical
 #' correlation summaries, and the largest principal angle in degrees.
 #' @export
-compare_spatial_mev_subspaces <- function(
+compute_spatial_mev_subspace_similarity <- function(
     data_mev_reference,
     data_mev_candidate) {
   mat_reference <-
