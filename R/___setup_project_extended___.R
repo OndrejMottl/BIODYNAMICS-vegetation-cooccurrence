@@ -111,8 +111,7 @@ if (
 if (
   isFALSE(flag_cuda_runtime_checked)
 ) {
-  check_cuda_gpu_runtime(
-    fail_on_error = FALSE,
+  diagnose_sjsdm_gpu_runtime(
     verbose = TRUE
   )
 
@@ -127,5 +126,5 @@ if (
 if (
   isTRUE(base::interactive())
 ) {
-  verify_sjsdm_setup()
+  diagnose_sjsdm_setup()
 }

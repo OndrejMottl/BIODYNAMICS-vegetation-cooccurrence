@@ -1,20 +1,18 @@
-#' @title Verify sjSDM Setup
+#' @title Diagnose the sjSDM Setup
 #'
 #' @description
-#' Comprehensive verification of sjSDM installation, including Python
-#' environment, PyTorch, CUDA support, and sjSDM functionality.
-#' This function checks that Radian and sjSDM are using the same
-#' Python environment and that all dependencies are properly installed.
+#' Comprehensive non-aborting diagnosis of the sjSDM installation, including
+#' Python, PyTorch, CUDA support, and sjSDM functionality.
 #'
 #' @param run_test_model Logical. Should a test model be fitted to
-#' verify full functionality? Default is TRUE.
+#' diagnose full functionality? Defaults to `interactive()`.
 #'
-#' @return Invisible list with verification results. Called primarily
-#' for side effects (printing verification status).
+#' @return Invisible list with diagnostic results. Called primarily for
+#' side effects.
 #'
 #' @details
 #' This function performs the following checks:
-#' 1. Radian configuration (correct Python environment)
+#' 1. Interactive runtime availability
 #' 2. Python version and location
 #' 3. PyTorch installation and version
 #' 4. CUDA/GPU availability
@@ -22,23 +20,23 @@
 #' 6. sjSDM Python dependencies
 #' 7. Test model fitting (optional)
 #'
-#' All checks print their status with [OK] (success) or [FAIL] (failure).
-#' If any critical check fails, the function provides troubleshooting
-#' guidance.
+#' All checks print their status with [OK], [WARN], or [FAIL]. Failures are
+#' represented in the returned list rather than raised as errors.
 #'
 #' @seealso
 #' \code{\link[reticulate]{py_config}}
 #' \code{\link[sjSDM]{sjSDM}}
 #'
 #' @export
-verify_sjsdm_setup <- function(run_test_model = interactive()) {
+diagnose_sjsdm_setup <- function(run_test_model = base::interactive()) {
   # Detect runtime environment
-  in_rstudio <- Sys.getenv("RSTUDIO") == "1"
+  in_rstudio <- base::Sys.getenv("RSTUDIO") == "1"
+  radian_path <- base::Sys.which("radian")
 
   # Initialize results list
   results <-
-    list(
-      radian_ok = FALSE,
+    base::list(
+      radian_ok = in_rstudio || base::nzchar(radian_path),
       python_ok = FALSE,
       pytorch_ok = FALSE,
       cuda_available = FALSE,
@@ -48,12 +46,12 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
 
 
   cat("=============================================================\n")
-  cat("           sjSDM Setup Verification\n")
+  cat("           sjSDM Setup Diagnostics\n")
 
   if (in_rstudio) {
     cat("           Running in: RStudio\n")
   } else {
-    cat("           Running in: VS Code / Radian\n")
+    cat("           Running in: standard R session\n")
   }
 
   cat("=============================================================\n")
@@ -61,63 +59,20 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
 
 
   #----------------------------------------------------------#
-  # 1. Check Radian / Python environment configuration -----
+  # 1. Diagnose interactive runtime -----
   #----------------------------------------------------------#
 
+  cat("1. Diagnosing Interactive Runtime\n")
+  cat("   ----------------------------------------\n")
+
   if (in_rstudio) {
-    cat("1. Checking RStudio Python Configuration\n")
-    cat("   ----------------------------------------\n")
-
-    reticulate_python <- Sys.getenv("RETICULATE_PYTHON")
-
-    if (
-      nchar(reticulate_python) > 0 &&
-        grepl("r-sjsdm", reticulate_python, ignore.case = TRUE)
-    ) {
-      results$radian_ok <- TRUE
-      cat("   [OK] RETICULATE_PYTHON points to r-sjsdm environment\n")
-      cat("   Path: ", reticulate_python, "\n")
-    } else if (nchar(reticulate_python) > 0) {
-      cat("   [WARN] RETICULATE_PYTHON is set but not pointing to r-sjsdm\n")
-      cat("   Current: ", reticulate_python, "\n")
-      cat("   Fix: Set RETICULATE_PYTHON in project .Renviron:\n")
-      cat("   RETICULATE_PYTHON=C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm/python.exe\n")
-    } else {
-      cat("   [WARN] RETICULATE_PYTHON not set in .Renviron\n")
-      cat("   sjSDM may not find PyTorch\n")
-      cat("   Fix: Add to project .Renviron file:\n")
-      cat("   RETICULATE_PYTHON=C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm/python.exe\n")
-      cat("   Then restart R\n")
-    }
+    cat("   [OK] Running in RStudio\n")
+  } else if (base::nzchar(radian_path)) {
+    cat("   [OK] Radian is available\n")
+    cat("   Path: ", radian_path, "\n")
   } else {
-    cat("1. Checking Radian Configuration\n")
-    cat("   ----------------------------------------\n")
-
-    radian_path <-
-      tryCatch(
-        expr = {
-          system("where radian", intern = TRUE)[1]
-        },
-        error = function(e) NA
-      )
-
-    expected_path <-
-      "C:\\Users\\ondre\\AppData\\Local\\r-miniconda\\envs\\r-sjsdm\\Scripts\\radian.exe"
-
-    if (
-      isFALSE(is.na(radian_path)) &&
-        grepl("r-sjsdm", radian_path, ignore.case = TRUE)
-    ) {
-      results$radian_ok <- TRUE
-      cat("   [OK] Radian is from r-sjsdm environment\n")
-      cat("   Path: ", radian_path, "\n")
-    } else {
-      cat("   [FAIL] Radian not from r-sjsdm environment\n")
-      cat("   Current: ", radian_path, "\n")
-      cat("   Expected: ", expected_path, "\n")
-      cat("\n   Fix: Update VS Code settings:\n")
-      cat('   "r.rterm.windows": "', expected_path, '"\n', sep = "")
-    }
+    cat("   [WARN] Radian is not available on PATH\n")
+    cat("   This does not prevent sjSDM from running in R\n")
   }
 
   cat("\n")
@@ -152,21 +107,26 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
   if (
     isFALSE(is.null(py_conf))
   ) {
-    results$python_ok <- TRUE
-    python_path <- py_conf$python
-    python_version <- py_conf$version
+    results <-
+      results |>
+      purrr::list_modify(python_ok = TRUE)
+    python_path <-
+      py_conf |>
+      purrr::chuck("python")
+    python_version <-
+      py_conf |>
+      purrr::chuck("version")
 
     cat("   [OK] Python found\n")
     cat("   Version: ", as.character(python_version), "\n")
     cat("   Path: ", python_path, "\n")
 
-    if (
-      grepl("r-sjsdm", python_path, ignore.case = TRUE)
-    ) {
-      cat("   [OK] Using r-sjsdm environment\n")
+    configured_python <- base::Sys.getenv("RETICULATE_PYTHON")
+
+    if (base::nzchar(configured_python)) {
+      cat("   [OK] RETICULATE_PYTHON is configured\n")
     } else {
-      cat("   [WARN] Warning: Not using r-sjsdm environment\n")
-      cat("   This may cause issues\n")
+      cat("   [WARN] RETICULATE_PYTHON is not explicitly configured\n")
     }
   } else {
     cat("   [FAIL] Python configuration failed\n")
@@ -182,33 +142,49 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
   cat("   ----------------------------------------\n")
 
   torch_results <-
-    .check_torch_cuda_details(
-      fail_on_error = FALSE,
-      verbose = FALSE
-    )
+    diagnose_sjsdm_gpu_runtime(verbose = FALSE)
 
   if (
-    isTRUE(torch_results$torch_available)
+    torch_results |>
+      purrr::chuck("torch_available") |>
+      isTRUE()
   ) {
-    results$pytorch_ok <- TRUE
-    pytorch_version <- torch_results$torch_version
+    results <-
+      results |>
+      purrr::list_modify(pytorch_ok = TRUE)
+    pytorch_version <-
+      torch_results |>
+      purrr::chuck("torch_version")
 
     cat("   [OK] PyTorch is installed\n")
     cat("   Version: ", pytorch_version, "\n")
 
-    results$cuda_available <-
-      torch_results$cuda_runtime_available
+    cuda_runtime_available <-
+      torch_results |>
+      purrr::chuck("cuda_runtime_available")
+    results <-
+      results |>
+      purrr::list_modify(
+        cuda_available = cuda_runtime_available
+      )
 
-    if (torch_results$cuda_runtime_available) {
+    if (cuda_runtime_available) {
       cat("   [OK] CUDA available (GPU mode)\n")
-      cat("   CUDA version: ", torch_results$cuda_version, "\n")
+      cuda_version <-
+        torch_results |>
+        purrr::chuck("cuda_version")
+      gpu_device_names <-
+        torch_results |>
+        purrr::chuck("gpu_device_names")
+      cat("   CUDA version: ", cuda_version, "\n")
 
       if (
-        base::length(torch_results$gpu_device_names) > 0L
+        base::length(gpu_device_names) > 0L
       ) {
         cat(
           "   GPU: ",
-          torch_results$gpu_device_names[[1L]],
+          gpu_device_names |>
+            purrr::chuck(1L),
           "\n"
         )
       }
@@ -219,9 +195,7 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
     }
   } else {
     cat("   [FAIL] PyTorch not found\n")
-    cat("\n   Fix: Reinstall PyTorch in r-sjsdm environment\n")
-    cat("   Run in PowerShell:\n")
-    cat('   & "C:\\Users\\ondre\\AppData\\Local\\r-miniconda\\Scripts\\conda.exe" run -n r-sjsdm pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121\n')
+    cat("\n   Install PyTorch in the active Python environment\n")
   }
 
   cat("\n")
@@ -243,7 +217,7 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
     sjsdm_loaded <-
       tryCatch(
         expr = {
-          library(sjSDM)
+          base::getExportedValue("sjSDM", "sjSDM")
           TRUE
         },
         error = function(e) FALSE,
@@ -254,7 +228,9 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
       )
 
     if (sjsdm_loaded) {
-      results$sjsdm_ok <- TRUE
+      results <-
+        results |>
+        purrr::list_modify(sjsdm_ok = TRUE)
       cat("   [OK] sjSDM loaded successfully\n")
       cat("   All Python dependencies available\n")
     } else {
@@ -275,7 +251,8 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
 
   if (
     run_test_model &&
-      results$sjsdm_ok
+      results |>
+        purrr::chuck("sjsdm_ok")
   ) {
     cat("5. Running Test Model\n")
     cat("   ----------------------------------------\n")
@@ -293,18 +270,25 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
 
           model <-
             sjSDM::sjSDM(
-              Y = community$response,
+              Y =
+                community |>
+                purrr::chuck("response"),
               env = sjSDM::linear(
-                data = community$env_weights,
+                data =
+                  community |>
+                  purrr::chuck("env_weights"),
                 formula = ~ X1 + X2 + X3
               ),
               verbose = FALSE
             )
 
           cat("   [OK] Test model fitted successfully\n")
-          cat("   LogLik: ", model$logLik[[1]], "\n")
+          model_log_likelihood <-
+            model |>
+            purrr::chuck("logLik") |>
+            purrr::chuck(1L)
+          cat("   LogLik: ", model_log_likelihood, "\n")
 
-          results$test_model_ok <- TRUE
           TRUE
         },
         error = function(e) {
@@ -313,16 +297,29 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
           FALSE
         }
       )
+
+    if (isTRUE(test_result)) {
+      results <-
+        results |>
+        purrr::list_modify(test_model_ok = TRUE)
+    }
   }
 
   #----------------------------------------------------------#
   # 6. Summary -----
   #----------------------------------------------------------#
 
+  python_ok <-
+    results |>
+    purrr::chuck("python_ok")
+  pytorch_ok <-
+    results |>
+    purrr::chuck("pytorch_ok")
+  sjsdm_ok <-
+    results |>
+    purrr::chuck("sjsdm_ok")
   all_critical_ok <-
-    results$python_ok &&
-      results$pytorch_ok &&
-      results$sjsdm_ok
+    python_ok && pytorch_ok && sjsdm_ok
 
   # In RStudio, radian_ok reflects RETICULATE_PYTHON configuration;
   # it is informational and doesn't block the critical check.
@@ -332,19 +329,19 @@ verify_sjsdm_setup <- function(run_test_model = interactive()) {
     cat("Issues found:\n")
 
     if (
-      isFALSE(results$python_ok)
+      isFALSE(python_ok)
     ) {
       cat("  - Python configuration issue\n")
     }
 
     if (
-      isFALSE(results$pytorch_ok)
+      isFALSE(pytorch_ok)
     ) {
       cat("  - PyTorch not available\n")
     }
 
     if (
-      isFALSE(results$sjsdm_ok)
+      isFALSE(sjsdm_ok)
     ) {
       cat("  - sjSDM not working\n")
     }

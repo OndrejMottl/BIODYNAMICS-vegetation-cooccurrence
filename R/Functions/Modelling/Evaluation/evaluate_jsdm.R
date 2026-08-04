@@ -11,7 +11,7 @@
 #' - `species`: A tibble with one row per species and columns:
 #'   species, AUC, Accuracy, LogLoss (binomial) or RMSE (other
 #'   families)
-#' - `convergence`: A list from [check_convergence_jsdm()] with
+#' - `convergence`: A list from [diagnose_jsdm_convergence()] with
 #'   `linear_trend_slope`, `median_diff`, `convergence_plot`, and
 #'   `note`
 #' @details
@@ -20,11 +20,11 @@
 #' for binary predictions. For other model families, RMSE is computed
 #' per species.
 #'
-#' Convergence is assessed via [check_convergence_jsdm()], which
+#' Convergence is assessed via [diagnose_jsdm_convergence()], which
 #' analyses the training loss history. A `linear_trend_slope` < 0.01
 #' and `median_diff` < 1 in the returned `convergence` element
 #' indicate that the model has converged.
-#' @seealso sjSDM::Rsquared, Metrics::auc, check_convergence_jsdm
+#' @seealso sjSDM::Rsquared, Metrics::auc, diagnose_jsdm_convergence
 #' @export
 evaluate_jsdm <- function(mod_jsdm = NULL) {
   assertthat::assert_that(
@@ -125,7 +125,7 @@ evaluate_jsdm <- function(mod_jsdm = NULL) {
 
   # 3. Convergence diagnostics
   list_eval$convergence <-
-    check_convergence_jsdm(mod_jsdm)
+    diagnose_jsdm_convergence(mod_jsdm)
 
   return(list_eval)
 }

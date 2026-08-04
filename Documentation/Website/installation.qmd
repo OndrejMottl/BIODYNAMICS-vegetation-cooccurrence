@@ -29,11 +29,11 @@ After restoring R packages, initialise the backend with:
 sjSDM::install_sjSDM()
 ```
 
-You can then verify the setup with the project helper:
+You can then diagnose the setup with the project helper:
 
 ```r
 source("R/___setup_project___.R")
-verify_sjsdm_setup()
+diagnose_sjsdm_setup()
 ```
 
 ## Run a Pipeline

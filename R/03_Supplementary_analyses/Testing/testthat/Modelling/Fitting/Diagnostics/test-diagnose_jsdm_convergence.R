@@ -1,27 +1,27 @@
 testthat::test_that(
-  "check_convergence_jsdm() rejects non-sjSDM input",
+  "diagnose_jsdm_convergence() rejects non-sjSDM input",
   {
     testthat::skip_if_not_installed("sjSDM")
 
     testthat::expect_error(
-      check_convergence_jsdm(mod_jsdm = NULL),
+      diagnose_jsdm_convergence(mod_jsdm = NULL),
       "mod_jsdm must be of class 'sjSDM'"
     )
 
     testthat::expect_error(
-      check_convergence_jsdm(mod_jsdm = base::list()),
+      diagnose_jsdm_convergence(mod_jsdm = base::list()),
       "mod_jsdm must be of class 'sjSDM'"
     )
 
     testthat::expect_error(
-      check_convergence_jsdm(mod_jsdm = "not a model"),
+      diagnose_jsdm_convergence(mod_jsdm = "not a model"),
       "mod_jsdm must be of class 'sjSDM'"
     )
   }
 )
 
 testthat::test_that(
-  "check_convergence_jsdm() errors when history is too short",
+  "diagnose_jsdm_convergence() errors when history is too short",
   {
     testthat::skip_if_not_installed("sjSDM")
 
@@ -57,14 +57,14 @@ testthat::test_that(
       purrr::chuck(mod_short, "history")[1:5]
 
     testthat::expect_error(
-      check_convergence_jsdm(mod_jsdm = mod_short),
-      "mod_jsdm\\$history must be a numeric vector of length >= 10"
+      diagnose_jsdm_convergence(mod_jsdm = mod_short),
+      "mod_jsdm\\[\\['history'\\]\\] must be a numeric vector of length >= 10"
     )
   }
 )
 
 testthat::test_that(
-  "check_convergence_jsdm() returns list with correct names",
+  "diagnose_jsdm_convergence() returns list with correct names",
   {
     testthat::skip_if_not_installed("sjSDM")
 
@@ -97,7 +97,7 @@ testthat::test_that(
       )
 
     result <-
-      check_convergence_jsdm(mod_jsdm = mod_example)
+      diagnose_jsdm_convergence(mod_jsdm = mod_example)
 
     testthat::expect_type(result, "list")
     testthat::expect_named(
@@ -115,7 +115,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "check_convergence_jsdm() returns correct types for each element",
+  "diagnose_jsdm_convergence() returns correct types for each element",
   {
     testthat::skip_if_not_installed("sjSDM")
 
@@ -148,7 +148,7 @@ testthat::test_that(
       )
 
     result <-
-      check_convergence_jsdm(mod_jsdm = mod_example)
+      diagnose_jsdm_convergence(mod_jsdm = mod_example)
 
     # Numeric diagnostics
     testthat::expect_type(
@@ -207,7 +207,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "check_convergence_jsdm() detects trailing zeros (early stopping)",
+  "diagnose_jsdm_convergence() detects trailing zeros (early stopping)",
   {
     testthat::skip_if_not_installed("sjSDM")
 
@@ -246,7 +246,7 @@ testthat::test_that(
       )
 
     result <-
-      check_convergence_jsdm(mod_jsdm = mod_es)
+      diagnose_jsdm_convergence(mod_jsdm = mod_es)
 
     testthat::expect_true(
       purrr::chuck(result, "epochs_run") == 30
@@ -264,7 +264,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "check_convergence_jsdm() no early stopping if no trailing zeros",
+  "diagnose_jsdm_convergence() no early stopping without trailing zeros",
   {
     testthat::skip_if_not_installed("sjSDM")
 
@@ -300,7 +300,7 @@ testthat::test_that(
       base::seq(5, 1, length.out = 50)
 
     result <-
-      check_convergence_jsdm(mod_jsdm = mod_full)
+      diagnose_jsdm_convergence(mod_jsdm = mod_full)
 
     testthat::expect_false(
       purrr::chuck(result, "early_stopping_triggered")

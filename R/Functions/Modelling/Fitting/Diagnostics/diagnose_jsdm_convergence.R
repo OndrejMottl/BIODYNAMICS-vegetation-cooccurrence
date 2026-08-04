@@ -1,4 +1,4 @@
-#' @title Check sjSDM Model Convergence
+#' @title Diagnose sjSDM Model Convergence
 #' @description
 #' Assesses whether a fitted sjSDM model has converged by analysing
 #' the training loss history stored in the model object.
@@ -22,7 +22,7 @@
 #'   when early stopping was not triggered).
 #' - `early_stopping_triggered`: Logical. `TRUE` when the model
 #'   stopped before exhausting its epoch budget (i.e. trailing
-#'   zeros were detected in `mod_jsdm$history`).
+#'   zeros were detected in `mod_jsdm[["history"]]`).
 #' @details
 #' The function uses the `history` component of the fitted sjSDM
 #' model, which stores the per-epoch negative log-likelihood values
@@ -45,19 +45,21 @@
 #'    spikes). The recommended threshold is < 1.
 #' @seealso [fit_jsdm_model()], [evaluate_jsdm()]
 #' @export
-check_convergence_jsdm <- function(mod_jsdm = NULL) {
+diagnose_jsdm_convergence <- function(mod_jsdm = NULL) {
   assertthat::assert_that(
     inherits(mod_jsdm, "sjSDM"),
     msg = "mod_jsdm must be of class 'sjSDM'"
   )
 
-  loss_history <- mod_jsdm$history
+  loss_history <-
+    mod_jsdm |>
+    purrr::chuck("history")
 
   assertthat::assert_that(
     is.numeric(loss_history),
-    msg = paste(
-      "mod_jsdm$history must be a numeric vector of length >= 10.",
-      "Did you fit the model with enough iterations?"
+    msg = stringr::str_c(
+      "mod_jsdm[['history']] must be a numeric vector of length >= 10.",
+      " Did you fit the model with enough iterations?"
     )
   )
 
@@ -77,9 +79,9 @@ check_convergence_jsdm <- function(mod_jsdm = NULL) {
 
   assertthat::assert_that(
     length(loss_history) >= 10L,
-    msg = paste(
-      "mod_jsdm$history must be a numeric vector of length >= 10.",
-      "Did you fit the model with enough iterations?"
+    msg = stringr::str_c(
+      "mod_jsdm[['history']] must be a numeric vector of length >= 10.",
+      " Did you fit the model with enough iterations?"
     )
   )
 
@@ -158,9 +160,9 @@ check_convergence_jsdm <- function(mod_jsdm = NULL) {
       linear_trend_slope = linear_trend_slope,
       median_diff = median_diff,
       convergence_plot = p_convergence,
-      note = paste(
+      note = stringr::str_c(
         "Linear trend slope on tail should be < 0.01.",
-        "Median difference in tail should be < 1."
+        " Median difference in tail should be < 1."
       ),
       epochs_run = base::as.integer(last_epoch),
       early_stopping_triggered = early_stopping_triggered

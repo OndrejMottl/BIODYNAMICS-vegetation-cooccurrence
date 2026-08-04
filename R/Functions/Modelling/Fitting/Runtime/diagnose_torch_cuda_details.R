@@ -1,10 +1,7 @@
-#' @title Internal: Check Torch and CUDA Details
+#' @title Diagnose Torch and CUDA Details
 #' @description
-#' Shared helper function to avoid code duplication between
-#' `verify_sjsdm_setup()` and `check_cuda_gpu_runtime()`.
-#' Safely introspects PyTorch and CUDA availability.
-#' @param fail_on_error
-#' Logical. If `TRUE`, abort on torch/CUDA errors.
+#' Non-aborting internal helper shared by the GPU-runtime and setup
+#' diagnostics. Safely introspects PyTorch and CUDA availability.
 #' @param verbose
 #' Logical. If `TRUE`, print diagnostic messages.
 #' @return
@@ -19,8 +16,7 @@
 #' - `status_ok`: both compilation and runtime successful
 #' @keywords internal
 #' @noRd
-.check_torch_cuda_details <- function(
-    fail_on_error = FALSE,
+.diagnose_torch_cuda_details <- function(
     verbose = FALSE) {
   res <-
     base::list(
@@ -48,30 +44,36 @@
     is.null(torch)
   ) {
     if (
-      isTRUE(fail_on_error)
+      isTRUE(verbose)
     ) {
-      cli::cli_abort(
-        c(
-          "GPU preflight failed: Python package {.pkg torch} not found.",
-          "i" = paste0(
-            "Install CUDA wheels in the active environment with: ",
-            "pip install --upgrade --force-reinstall torch torchvision ",
-            "torchaudio --index-url https://download.pytorch.org/whl/cu121"
-          )
-        )
+      cli::cli_warn(
+        c("!" = "Python package {.pkg torch} is unavailable.")
       )
     }
 
     return(res)
   }
 
-  res$torch_available <- TRUE
-  res$torch_version <- as.character(torch$`__version__`)
+  res <-
+    res |>
+    purrr::list_modify(
+      torch_available = TRUE,
+      torch_version =
+        torch |>
+        reticulate::py_get_attr("__version__") |>
+        base::as.character()
+    )
+
+  torch_cuda <-
+    torch |>
+    reticulate::py_get_attr("cuda")
 
   torch_cuda_version <-
     tryCatch(
       expr = {
-        torch$version$cuda
+        torch |>
+          reticulate::py_get_attr("version") |>
+          reticulate::py_get_attr("cuda")
       },
       error = function(e) {
         NULL
@@ -82,20 +84,31 @@
     isFALSE(is.null(torch_cuda_version)) &&
     nzchar(as.character(torch_cuda_version))
 
-  res$torch_compiled_cuda <- flag_compiled_with_cuda
-  res$cuda_version <- as.character(torch_cuda_version)
+  res <-
+    res |>
+    purrr::list_modify(
+      torch_compiled_cuda = flag_compiled_with_cuda,
+      cuda_version = base::as.character(torch_cuda_version)
+    )
 
   flag_cuda_runtime_available <-
     tryCatch(
       expr = {
-        isTRUE(torch$cuda$is_available())
+        torch_cuda |>
+          reticulate::py_get_attr("is_available") |>
+          base::do.call(args = base::list()) |>
+          base::isTRUE()
       },
       error = function(e) {
         FALSE
       }
     )
 
-  res$cuda_runtime_available <- flag_cuda_runtime_available
+  res <-
+    res |>
+    purrr::list_modify(
+      cuda_runtime_available = flag_cuda_runtime_available
+    )
 
   if (
     isTRUE(flag_cuda_runtime_available)
@@ -103,25 +116,35 @@
     device_count <-
       tryCatch(
         expr = {
-          as.integer(torch$cuda$device_count())
+          torch_cuda |>
+            reticulate::py_get_attr("device_count") |>
+            base::do.call(args = base::list()) |>
+            base::as.integer()
         },
         error = function(e) {
           NA_integer_
         }
       )
 
-    res$gpu_device_count <- device_count
+    res <-
+      res |>
+      purrr::list_modify(gpu_device_count = device_count)
 
     if (
       isTRUE(!is.na(device_count)) && device_count > 0L
     ) {
-      res$gpu_device_names <-
+      get_device_name <-
+        torch_cuda |>
+        reticulate::py_get_attr("get_device_name")
+
+      gpu_device_names <-
         purrr::map_chr(
           .x = base::seq_len(device_count) - 1L,
           .f = ~ {
             tryCatch(
               expr = {
-                as.character(torch$cuda$get_device_name(.x))
+                get_device_name(.x) |>
+                  base::as.character()
               },
               error = function(e) {
                 "Unknown GPU"
@@ -129,24 +152,32 @@
             )
           }
         )
+
+      res <-
+        res |>
+        purrr::list_modify(gpu_device_names = gpu_device_names)
     }
   }
 
-  res$status_ok <-
+  status_ok <-
     isTRUE(flag_compiled_with_cuda) &&
     isTRUE(flag_cuda_runtime_available)
 
+  res <-
+    res |>
+    purrr::list_modify(status_ok = status_ok)
+
   if (
-    isFALSE(res$status_ok) &&
-      isTRUE(fail_on_error)
+    isFALSE(status_ok) &&
+      isTRUE(verbose)
   ) {
-    cli::cli_abort(
+    cli::cli_warn(
       c(
-        "GPU preflight failed.",
-        "i" = "Torch is CUDA-compiled but runtime cannot see a GPU,",
-        "i" = "or torch is not CUDA-compiled in this environment.",
-        "i" = "Fix NVIDIA driver/device visibility and verify the active",
-        "i" = "RETICULATE_PYTHON environment uses CUDA torch wheels."
+        "!" = "The current torch runtime cannot use a CUDA GPU.",
+        "i" = stringr::str_c(
+          "Check the torch build, device visibility, and the active",
+          " Python environment."
+        )
       )
     )
   }

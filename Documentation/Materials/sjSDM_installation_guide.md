@@ -379,8 +379,8 @@ library(sjSDM)
 # Verify with diagnostic
 install_diagnostic()
 
-# Run full verification (RStudio-aware)
-verify_sjsdm_setup()
+# Run full setup diagnostics
+diagnose_sjsdm_setup()
 ```
 
 > If `py_config()` shows the wrong Python path, make sure `.Renviron` is in the project root and you have restarted R.
@@ -393,8 +393,8 @@ Open a new R terminal in VS Code (Terminal → New Terminal → R Terminal) and 
 library(here)
 source(here::here("R/___setup_project___.R"))
 
-# Run comprehensive verification
-verify_sjsdm_setup()
+# Run comprehensive diagnostics
+diagnose_sjsdm_setup()
 ```
 
 
@@ -758,7 +758,7 @@ library(sjSDM)
 | PyTorch | `.../r-sjsdm/Lib/site-packages/torch/` |
 | VS Code settings | `%APPDATA%\Code\User\settings.json` |
 | Workspace settings | `.vscode/settings.json` (if using) |
-| Verification function | `R/Functions/Modelling/Fitting/Runtime/verify_sjsdm_setup.R` |
+| Setup diagnostic | `R/Functions/Modelling/Fitting/Runtime/diagnose_sjsdm_setup.R` |
 
 ## Performance Notes
 
@@ -926,12 +926,12 @@ conda env create -f sjsdm_environment.yml
 
 ## Getting Help
 
-### Check Verification Status
+### Check Setup Status
 
 Always start with:
 
 ```r
-verify_sjsdm_setup()
+diagnose_sjsdm_setup()
 ```
 
 This shows exactly what's working and what needs fixing.
@@ -941,7 +941,7 @@ This shows exactly what's working and what needs fixing.
 For detailed diagnostics:
 
 ```r
-verify_sjsdm_setup(verbose = TRUE)
+diagnose_sjsdm_gpu_runtime(verbose = TRUE)
 ```
 
 ### Common Error Messages
@@ -964,8 +964,9 @@ Always run these when troubleshooting:
 library(sjSDM)
 install_diagnostic()
 
-# Our verification function
-verify_sjsdm_setup(verbose = TRUE)
+# Project setup and GPU diagnostics
+diagnose_sjsdm_setup()
+diagnose_sjsdm_gpu_runtime(verbose = TRUE)
 
 # Python configuration
 reticulate::py_config()

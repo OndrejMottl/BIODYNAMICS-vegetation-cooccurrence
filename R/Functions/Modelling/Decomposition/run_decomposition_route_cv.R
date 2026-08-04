@@ -15,7 +15,7 @@
 #' @param predict_fn
 #' Prediction function. Defaults to `stats::predict()`.
 #' @param convergence_fn
-#' Convergence function. Defaults to `check_convergence_jsdm()`.
+#' Convergence function. Defaults to `diagnose_jsdm_convergence()`.
 #' @param verbose
 #' Logical. If `TRUE`, progress messages are printed.
 #' @return
@@ -28,7 +28,7 @@ run_decomposition_route_cv <- function(
     fit_config = base::list(),
     fit_fn = fit_jsdm_model,
     predict_fn = stats::predict,
-    convergence_fn = check_convergence_jsdm,
+    convergence_fn = diagnose_jsdm_convergence,
     verbose = TRUE) {
   assertthat::assert_that(
     base::is.data.frame(route) || base::is.list(route),

@@ -377,7 +377,7 @@ fit_variant <- function(
 
   convergence <-
     tryCatch(
-      expr = check_convergence_jsdm(mod_fit),
+      expr = diagnose_jsdm_convergence(mod_fit),
       error = function(error_condition) {
         error_condition
       }
