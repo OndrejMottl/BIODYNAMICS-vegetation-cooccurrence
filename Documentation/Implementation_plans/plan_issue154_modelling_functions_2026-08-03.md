@@ -365,3 +365,20 @@ from the recursive loader. Seven have no active callers. The only match for
 `@seealso` entry in `make_env_formula.R`. Nine HMSC-related tests remain under
 `Testing/testthat/_outdated` and are excluded by the test runner. Repeat this
 caller scan immediately before retirement.
+
+## Final interface and access audit
+
+Before final acceptance in Chunk 10:
+
+- Recheck every function under an `Internal/` directory and every dot-prefixed
+  helper. Internal functions should be limited to small, simple, or repetitive
+  implementation details.
+- Treat `.fit_decomposition_variant()` as an explicit first candidate for
+  promotion to a normal reusable function. Promote any substantial domain
+  workflow that has its own meaningful contract, tests, or documentation.
+- Scan all active functions under `R/Functions/` again for `$` access, not only
+  files changed by Issue #154. Resolve in-scope occurrences and explicitly
+  record the owner of any justified deferral.
+- Require the final change review to confirm that no substantial reusable
+  function remains accidentally internal and no prohibited `$` access remains
+  in active functions.

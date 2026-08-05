@@ -218,7 +218,7 @@ run_one_checkpoint <- function(
     fold_id
 
   data_result <-
-    run_decomposition_route_cv(
+    run_decomposition_diagnostic_folds(
       route = route,
       inputs = diagnostic_inputs,
       cv_indices = cv_indices_single,
@@ -246,13 +246,13 @@ data_variant_metrics <-
         .x
 
       data_route_sample_ids <-
-        get_decomposition_route_sample_ids(
+        select_decomposition_route_samples(
           route = route_i,
           inputs = diagnostic_inputs
         )
 
       cv_indices <-
-        make_repeated_cv_indices(
+        build_repeated_diagnostic_fold_indices(
           n_samples = base::nrow(data_route_sample_ids),
           n_folds = n_folds,
           n_repeats = n_repeats,
@@ -283,7 +283,7 @@ data_variant_metrics <-
   purrr::list_rbind()
 
 diagnostic_summary <-
-  summarise_decomposition_routes(
+  summarise_decomposition_diagnostic_routes(
     variant_metrics = data_variant_metrics
   )
 

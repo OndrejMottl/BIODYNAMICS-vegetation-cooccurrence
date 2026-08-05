@@ -32,11 +32,6 @@ function_naming,report_only,R/Functions/Modelling/Cross_validation/make_sjsdm_tu
 function_naming,report_only,R/Functions/Modelling/Cross_validation/make_spatial_cross_validation_assignments.R,make_spatial_cross_validation_assignments,#141,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/read_sjsdm_tier_survivor_decisions.R,read_sjsdm_tier_survivor_decisions,#141,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/read_sjsdm_tier_tuning_artifact.R,read_sjsdm_tier_tuning_artifact,#141,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Modelling/Decomposition/get_decomposition_route_sample_ids.R,get_decomposition_route_sample_ids,#154,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Modelling/Decomposition/make_decomposition_diagnostic_routes.R,make_decomposition_diagnostic_routes,#154,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Modelling/Decomposition/make_decomposition_env_formula.R,make_decomposition_env_formula,#154,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Modelling/Decomposition/make_repeated_cv_indices.R,make_repeated_cv_indices,#154,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Modelling/Decomposition/refresh_cz_decomposition_upstream.R,refresh_cz_decomposition_upstream,#154,Review leading verb `refresh` against version 1.
 function_naming,report_only,R/Functions/Modelling/Tuning/check_target_succeeded.R,check_target_succeeded,#155,Review leading verb `check` against version 1.
 function_naming,report_only,R/Functions/Modelling/Tuning/coerce_null_to_na_integer.R,coerce_null_to_na_integer,#155,Review leading verb `coerce` against version 1.
 function_naming,report_only,R/Functions/Modelling/Tuning/read_targets_store_meta.R,read_targets_store_meta,#155,Review leading verb `read` against version 1.
@@ -89,11 +84,6 @@ nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/assess_sj
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/evaluate_sjsdm_fold_predictions.R,evaluate_source,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/run_sjsdm_selected_candidate_folds.R,make_prediction_skeleton,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/run_sjsdm_tuning_work_item.R,prepare_cached_fold,#141,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Decomposition/compute_predictive_decomposition_shares.R,make_undefined_rows;compute_one_fold,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Decomposition/compute_predictive_performance_shares.R,make_undefined_rows;compute_one_fold,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Decomposition/load_decomposition_diagnostic_inputs.R,read_target;read_model_fitting_config,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Decomposition/run_decomposition_route_cv.R,make_empty_variant;fit_one_variant,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Decomposition/summarise_decomposition_routes.R,get_loss,#154,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_fold_spatial_predictors.R,make_sample_partition,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_model_fold_input.R,make_abiotic_partition,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/build_base_terminal_plot.R,make_scanline_data;make_noise_data;add_terminal_canvas;theme_terminal_blank,#155,Extract or explicitly retain the named nested helper.

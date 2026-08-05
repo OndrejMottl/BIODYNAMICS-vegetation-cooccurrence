@@ -1,0 +1,13 @@
+Make Decomposition Diagnostic Routes
+
+Description:
+
+     Returns the controlled CZ decomposition diagnostic route table.
+
+Usage:
+
+     build_decomposition_diagnostic_routes()
+
+Value:
+
+     A tibble with route identifiers and route settings.

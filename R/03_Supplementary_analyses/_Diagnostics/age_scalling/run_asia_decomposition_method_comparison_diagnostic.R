@@ -251,7 +251,7 @@ fit_variant <- function(
       stats::as.formula("~ 0 + abiotic_constant")
   } else {
     formula_abiotic <-
-      make_decomposition_env_formula(
+      build_decomposition_environment_formula(
         data = data_train_variant[["data_abiotic_to_fit"]],
         age_formula_mode = route[["age_formula_mode"]][[1L]]
       )
@@ -578,7 +578,7 @@ run_one_checkpoint <- function(route, repeat_id, fold_id, test_indices) {
   }
 
   data_route_sample_ids <-
-    get_decomposition_route_sample_ids(
+    select_decomposition_route_samples(
       route = route,
       inputs = diagnostic_inputs
     )
@@ -719,13 +719,13 @@ list_checkpoint_results <-
         .x
 
       data_route_sample_ids <-
-        get_decomposition_route_sample_ids(
+        select_decomposition_route_samples(
           route = route_i,
           inputs = diagnostic_inputs
         )
 
       cv_indices <-
-        make_repeated_cv_indices(
+        build_repeated_diagnostic_fold_indices(
           n_samples = base::nrow(data_route_sample_ids),
           n_folds = n_folds,
           n_repeats = n_repeats,

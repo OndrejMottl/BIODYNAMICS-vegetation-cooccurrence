@@ -73,7 +73,7 @@ device_override <- "gpu"
 #----------------------------------------------------------#
 
 data_run_metadata <-
-  refresh_cz_decomposition_upstream(
+  run_decomposition_upstream_refresh(
     refresh_upstream = refresh_upstream,
     store_path = store_path,
     pipeline_script = pipeline_script,
@@ -124,7 +124,7 @@ fit_config <-
 #----------------------------------------------------------#
 
 data_routes <-
-  make_decomposition_diagnostic_routes()
+  build_decomposition_diagnostic_routes()
 
 data_variant_metrics <-
   data_routes |>
@@ -135,20 +135,20 @@ data_variant_metrics <-
         .x
 
       data_route_sample_ids <-
-        get_decomposition_route_sample_ids(
+        select_decomposition_route_samples(
           route = route_i,
           inputs = diagnostic_inputs
         )
 
       cv_indices <-
-        make_repeated_cv_indices(
+        build_repeated_diagnostic_fold_indices(
           n_samples = base::nrow(data_route_sample_ids),
           n_folds = n_folds,
           n_repeats = n_repeats,
           seed = seed_cv
         )
 
-      run_decomposition_route_cv(
+      run_decomposition_diagnostic_folds(
         route = route_i,
         inputs = diagnostic_inputs,
         cv_indices = cv_indices,
@@ -160,7 +160,7 @@ data_variant_metrics <-
   purrr::list_rbind()
 
 diagnostic_summary <-
-  summarise_decomposition_routes(
+  summarise_decomposition_diagnostic_routes(
     variant_metrics = data_variant_metrics
   )
 
