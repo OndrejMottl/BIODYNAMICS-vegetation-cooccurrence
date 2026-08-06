@@ -4,147 +4,75 @@ title: compute_shapley_variance_components()
 ---
 
 <html><head>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-
 <script type="text/javascript">
-
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
-
 function processMathHTML() {
-
     var l = document.getElementsByClassName('reqn');
-
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
-
     return;
-
 }</script>
-
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
-
     onload="processMathHTML();"></script>
-
 <link rel="stylesheet" type="text/css" href="R.css" />
-
 </head><body><div class="container"><main>
-
-
 
 <table style="width: 100%;"><tr><td>compute_shapley_variance_components</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-
-
 <h2>Compute Shapley-Allocated Variance Components</h2>
-
-
 
 <h3>Description</h3>
 
-
-
 <p>Converts a long-format variance-partitioning table into
-
 per-age percentages for Abiotic, Associations, and Spatial
-
 components using equal-split Shapley allocation.
-
 </p>
-
-
-
 
 
 <h3>Usage</h3>
 
-
-
 <pre><code class='language-R'>compute_shapley_variance_components(data_source)
-
 </code></pre>
-
-
-
 
 
 <h3>Arguments</h3>
 
-
-
 <table role = "presentation">
-
 <tr><td><code id="data_source">data_source</code></td>
-
 <td>
-
 <p>A non-empty data frame with columns 'age', 'component', and
-
 'R2_Nagelkerke'. Missing intersection labels are treated as
-
 zero, and negative R² values are clamped to zero.</p>
-
 </td></tr>
-
 </table>
-
-
-
 
 
 <h3>Details</h3>
 
-
-
 <p>Each two-way intersection is split equally between its two
-
 components, and the three-way intersection is split equally
-
 among all three components. The adjusted values therefore sum
-
 to the total of all seven clamped fractions.
-
 </p>
-
-
-
 
 
 <h3>Value</h3>
 
-
-
 <p>A tibble with exactly three rows per age and columns 'age',
-
 'component', 'R2_Nagelkerke_adjusted', and
-
 'R2_Nagelkerke_percentage'.
-
 </p>
-
-
-
 
 
 <h3>See Also</h3>
 
-
-
 <p>[extract_jsdm_variance_fractions()],
-
 [aggregate_jsdm_variance_components()]
-
 </p>
-
-
 
 </main>
 
-
-
 </div>
-
 </body></html>

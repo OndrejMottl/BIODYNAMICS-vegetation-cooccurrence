@@ -403,13 +403,178 @@ data_contract_inventory <-
 
 
 #----------------------------------------------------------#
-# 5. Write version-one inventories -----
+# 5. Preserve approved migration decisions -----
 #----------------------------------------------------------#
 
 path_output <-
   here::here(
     "Documentation/Implementation_inventories/R_architecture"
   )
+
+path_function_inventory <-
+  base::file.path(path_output, "r_function_inventory_v1.csv")
+
+if (
+  base::file.exists(path_function_inventory)
+) {
+  data_function_inventory_current <-
+    data_function_inventory
+
+  data_function_inventory_existing <-
+    readr::read_csv(
+      file = path_function_inventory,
+      show_col_types = FALSE
+    )
+
+  vec_function_inventory_columns <-
+    base::colnames(data_function_inventory_existing)
+
+  data_function_active_contracts <-
+    data_function_inventory_existing |>
+    dplyr::mutate(
+      active_path = dplyr::case_when(
+        .data[["migration_status"]] == "migrated" ~
+          .data[["intended_path"]],
+        .data[["migration_status"]] == "retired_to_legacy" ~
+          NA_character_,
+        TRUE ~ .data[["current_path"]]
+      ),
+      active_function = dplyr::case_when(
+        .data[["migration_status"]] == "migrated" ~
+          .data[["intended_function"]],
+        .data[["migration_status"]] == "retired_to_legacy" ~
+          NA_character_,
+        TRUE ~ .data[["function_name"]]
+      )
+    )
+
+  data_function_dynamic_fields <-
+    data_function_inventory_current |>
+    dplyr::select(
+      current_path_current = "current_path",
+      function_name_current = "function_name",
+      callers_current = "callers",
+      matching_tests_current = "matching_tests",
+      nested_helpers_current = "nested_helpers",
+      nested_helper_disposition_current =
+        "nested_helper_disposition"
+    )
+
+  data_function_inventory_existing <-
+    data_function_active_contracts |>
+    dplyr::left_join(
+      data_function_dynamic_fields,
+      by = dplyr::join_by(
+        active_path == current_path_current,
+        active_function == function_name_current
+      ),
+      multiple = "error"
+    ) |>
+    dplyr::mutate(
+      callers = dplyr::coalesce(
+        .data[["callers_current"]],
+        .data[["callers"]]
+      ),
+      matching_tests = dplyr::coalesce(
+        .data[["matching_tests_current"]],
+        .data[["matching_tests"]]
+      ),
+      nested_helpers = dplyr::coalesce(
+        .data[["nested_helpers_current"]],
+        .data[["nested_helpers"]]
+      ),
+      nested_helper_disposition = dplyr::coalesce(
+        .data[["nested_helper_disposition_current"]],
+        .data[["nested_helper_disposition"]]
+      )
+    ) |>
+    dplyr::select(dplyr::all_of(vec_function_inventory_columns))
+
+  data_function_inventory_new <-
+    data_function_inventory_current |>
+    dplyr::anti_join(
+      data_function_active_contracts |>
+        dplyr::filter(!base::is.na(.data[["active_path"]])),
+      by = dplyr::join_by(
+        current_path == active_path,
+        function_name == active_function
+      )
+    )
+
+  data_function_inventory <-
+    dplyr::bind_rows(
+      data_function_inventory_existing,
+      data_function_inventory_new
+    )
+}
+
+path_script_inventory <-
+  base::file.path(path_output, "r_script_path_inventory_v1.csv")
+
+if (
+  base::file.exists(path_script_inventory)
+) {
+  data_script_inventory_current <-
+    data_script_inventory
+
+  data_script_inventory_existing <-
+    readr::read_csv(
+      file = path_script_inventory,
+      show_col_types = FALSE
+    ) |>
+    dplyr::mutate(
+      active_path = dplyr::if_else(
+        .data[["migration_status"]] == "migrated",
+        .data[["intended_path"]],
+        .data[["current_path"]]
+      )
+    )
+
+  data_script_inventory_new <-
+    data_script_inventory_current |>
+    dplyr::anti_join(
+      data_script_inventory_existing,
+      by = dplyr::join_by(current_path == active_path)
+    )
+
+  data_script_inventory <-
+    dplyr::bind_rows(
+      data_script_inventory_existing |>
+        dplyr::select(-"active_path"),
+      data_script_inventory_new
+    )
+}
+
+path_contract_inventory <-
+  base::file.path(path_output, "r_contract_inventory_v1.csv")
+
+if (
+  base::file.exists(path_contract_inventory)
+) {
+  data_contract_inventory_existing <-
+    readr::read_csv(
+      file = path_contract_inventory,
+      show_col_types = FALSE
+    )
+
+  data_contract_inventory_new <-
+    data_contract_inventory |>
+    dplyr::anti_join(
+      data_contract_inventory_existing,
+      by = dplyr::join_by(contract_name, source_path)
+    )
+
+  data_contract_inventory <-
+    dplyr::bind_rows(
+      data_contract_inventory_existing,
+      data_contract_inventory_new
+    )
+}
+
+
+#----------------------------------------------------------#
+# 6. Write version-one inventories -----
+#----------------------------------------------------------#
 
 base::dir.create(
   path = path_output,
@@ -419,24 +584,18 @@ base::dir.create(
 
 readr::write_csv(
   x = data_script_inventory,
-  file = base::file.path(
-    path_output,
-    "r_script_path_inventory_v1.csv"
-  )
+  file = path_script_inventory,
+  na = ""
 )
 readr::write_csv(
   x = data_function_inventory,
-  file = base::file.path(
-    path_output,
-    "r_function_inventory_v1.csv"
-  )
+  file = path_function_inventory,
+  na = ""
 )
 readr::write_csv(
   x = data_contract_inventory,
-  file = base::file.path(
-    path_output,
-    "r_contract_inventory_v1.csv"
-  )
+  file = path_contract_inventory,
+  na = ""
 )
 
 cli::cli_inform(

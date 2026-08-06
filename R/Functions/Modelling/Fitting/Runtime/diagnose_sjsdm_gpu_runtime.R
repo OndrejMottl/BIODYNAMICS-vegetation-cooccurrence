@@ -92,7 +92,7 @@ diagnose_sjsdm_gpu_runtime <- function(
   }
 
   torch_results <-
-    .diagnose_torch_cuda_details(
+    diagnose_torch_cuda_details(
       verbose = verbose
     )
 

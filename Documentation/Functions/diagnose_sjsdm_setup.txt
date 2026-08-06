@@ -1,0 +1,36 @@
+Diagnose the sjSDM Setup
+
+Description:
+
+     Comprehensive non-aborting diagnosis of the sjSDM installation,
+     including Python, PyTorch, CUDA support, and sjSDM functionality.
+
+Usage:
+
+     diagnose_sjsdm_setup(run_test_model = base::interactive())
+
+Arguments:
+
+run_test_model: Logical. Should a test model be fitted to diagnose full
+          functionality? Defaults to `interactive()`.
+
+Details:
+
+     This function performs the following checks: 1. Interactive
+     runtime availability 2. Python version and location 3. PyTorch
+     installation and version 4. CUDA/GPU availability 5. sjSDM package
+     installation 6. sjSDM Python dependencies 7. Test model fitting
+     (optional)
+
+     All checks print their status with [OK], [WARN], or [FAIL].
+     Failures are represented in the returned list rather than raised
+     as errors.
+
+Value:
+
+     Invisible list with diagnostic results. Called primarily for side
+     effects.
+
+See Also:
+
+     'py_config' 'sjSDM'

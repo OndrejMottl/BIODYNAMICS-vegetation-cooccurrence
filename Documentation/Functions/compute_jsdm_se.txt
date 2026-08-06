@@ -17,7 +17,7 @@ Usage:
        step_size = NULL,
        verbose = FALSE
      )
-     
+
 Arguments:
 
 mod_jsdm: An object of class `sjSDM` returned by `fit_jsdm_model()` or
@@ -26,8 +26,8 @@ mod_jsdm: An object of class `sjSDM` returned by `fit_jsdm_model()` or
 parallel: Number of CPU cores to use for the data loader during SE
           computation. Passed to the `parallel` argument of
           `sjSDM::getSe()`. Default is `0L` (no parallelisation). Use
-          `config.model_fitting$n_cores` from the project configuration
-          to exploit all available cores.
+          the `n_cores` value from `config.model_fitting` in the
+          project configuration to exploit all available cores.
 
 step_size: Batch size for stochastic gradient descent used during SE
           computation. Passed to `sjSDM::getSe()`. Default is `NULL`,
@@ -58,10 +58,9 @@ Details:
 
 Value:
 
-     The input `mod_jsdm` object with its `$se` field populated with
-     the computed standard errors.
+     The input `mod_jsdm` object with its `se` field populated with the
+     computed standard errors.
 
 See Also:
 
      `sjSDM::getSe`, `fit_jsdm_model`
-

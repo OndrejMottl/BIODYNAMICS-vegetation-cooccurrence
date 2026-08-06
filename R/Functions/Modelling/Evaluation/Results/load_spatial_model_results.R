@@ -195,7 +195,7 @@ load_spatial_model_results <- function(
                 }
 
               data_predictive_metrics <-
-                .summarise_predictive_model_metrics(
+                summarise_predictive_model_metrics(
                   model_evaluation_cross_validated =
                     model_evaluation_cross_validated
                 )

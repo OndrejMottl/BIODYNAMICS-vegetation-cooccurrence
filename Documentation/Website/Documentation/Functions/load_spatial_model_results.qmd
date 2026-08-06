@@ -25,8 +25,8 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Loads successful spatial model ANOVA and evaluation targets from
-indexed targets stores and returns one summary row per
+<p>Loads successful spatial model ANOVA and evaluation targets from indexed
+targets stores and returns one summary row per
 store-resolution-component combination.
 </p>
 
@@ -81,4 +81,3 @@ and cross-validated predictive Tjur R2, AUC, and log loss.
 
 </div>
 </body></html>
-

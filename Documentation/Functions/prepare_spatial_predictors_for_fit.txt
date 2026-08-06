@@ -10,7 +10,7 @@ Description:
 Usage:
 
      prepare_spatial_predictors_for_fit(data_spatial = NULL, data_sample_ids = NULL)
-     
+
 Arguments:
 
 data_spatial: A data frame with `dataset_name` as row names and one or
@@ -43,5 +43,4 @@ Value:
 See Also:
 
      [project_coords_to_metric()], [align_sample_ids()],
-     [assemble_data_to_fit()], [prepare_coords_for_fit()]
-
+     [build_jsdm_fit_input()], [prepare_coords_for_fit()]

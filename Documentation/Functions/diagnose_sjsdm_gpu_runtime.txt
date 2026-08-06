@@ -1,0 +1,31 @@
+Diagnose the sjSDM GPU Runtime
+
+Description:
+
+     Performs a non-aborting diagnostic of the Python, torch, and CUDA
+     runtime used by sjSDM. Strict GPU-only workflows should call
+     `validate_sjsdm_gpu_runtime()`.
+
+Usage:
+
+     diagnose_sjsdm_gpu_runtime(verbose = TRUE)
+
+Arguments:
+
+ verbose: Logical. If `TRUE` (default), progress and diagnostics are
+          printed.
+
+Details:
+
+     This diagnostic always returns a result. Missing requirements are
+     represented by false or missing fields rather than an abort.
+
+Value:
+
+     A named list with diagnostic fields, including success flags,
+     torch version, CUDA version, and GPU names.
+
+See Also:
+
+     [fit_jsdm_model()], [validate_sjsdm_gpu_runtime()],
+     [diagnose_sjsdm_setup()]

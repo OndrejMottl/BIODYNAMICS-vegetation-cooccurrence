@@ -1,0 +1,70 @@
+---
+format: html
+title: compute_shared_spatial_mev_basis()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_shared_spatial_mev_basis</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute the Shared Spatial MEM Basis</h2>
+
+<h3>Description</h3>
+
+<p>Applies the common spatial-predictor configuration and constructs the
+reusable 2-D MEM basis when spatial predictors are enabled.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_shared_spatial_mev_basis(
+  data_coords_projected,
+  config_spatial_predictors,
+  compute_basis_function = compute_spatial_mev_basis
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_coords_projected">data_coords_projected</code></td>
+<td>
+<p>Projected input coordinates.</p>
+</td></tr>
+<tr><td><code id="config_spatial_predictors">config_spatial_predictors</code></td>
+<td>
+<p>Shared spatial-predictor configuration.</p>
+</td></tr>
+<tr><td><code id="compute_basis_function">compute_basis_function</code></td>
+<td>
+<p>Basis constructor. Defaults to [compute_spatial_mev_basis()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Reusable spatial MEM basis list, or 'NULL' when 2-D spatial predictors are
+disabled.
+</p>
+
+</main>
+
+</div>
+</body></html>

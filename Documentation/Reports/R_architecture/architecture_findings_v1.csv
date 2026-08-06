@@ -79,6 +79,7 @@ missing_function,report_only,R/Functions/Utility/Config/get_active_config.R,NA,#
 missing_function,report_only,R/Functions/Utility/Config/get_config_value_with_fallback.R,NA,#150,Record the approved function move or removal.
 missing_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-get_active_config.R,NA,#150,Record the approved script move or removal.
 missing_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-get_config_value_with_fallback.R,NA,#150,Record the approved script move or removal.
+nested_named_helper,report_only,R/Functions/Data/Traits/Classification/Functional_types/Clustering/Group_selection/select_functional_type_group_count.R,return_zero_on_filter_error,#153,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/assemble_sjsdm_cached_selected_folds.R,get_cache_record;prepare_fold_function;fit_function;predict_function,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/assess_sjsdm_candidate_guardrails.R,prepare_tuning_candidate;prepare_repeat_metrics,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/evaluate_sjsdm_fold_predictions.R,evaluate_source,#141,Extract or explicitly retain the named nested helper.
@@ -87,23 +88,7 @@ nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/run_sjsdm
 nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_fold_spatial_predictors.R,make_sample_partition,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_model_fold_input.R,make_abiotic_partition,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/build_base_terminal_plot.R,make_scanline_data;make_noise_data;add_terminal_canvas;theme_terminal_blank,#155,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Utility/Config/validate_config_profile_selection.R,validate_allowed_values,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Utility/Paths_and_stores/get_model_tuning_params.R,get_required_integer;get_optional_integer,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Utility/Pipeline/monitor_pipeline_progress.R,monitor_server,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Visualisation/Data_preparation/prepare_spatial_variance_waffle_data.R,collapse_observation_id,#155,Extract or explicitly retain the named nested helper.
-uninventoried_function,report_only,R/Functions/Utility/Config/Generation/run_configuration_generation.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_function,report_only,R/Functions/Utility/Config/load_active_config_value.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_function,report_only,R/Functions/Utility/Config/load_config.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_function,report_only,R/Functions/Utility/Config/load_config_value.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_function,report_only,R/Functions/Utility/Config/load_config_value_with_fallback.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_function,report_only,R/Functions/Utility/Config/validate_config_profile_selection.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/One_time/Issues/issue_151/bootstrap_configuration_sources.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/One_time/Issues/issue_151/create_configuration_profile_inventory.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/One_time/Issues/issue_151/create_configuration_profile_reference.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_active_config_value.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_config.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_config_value.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_config_value_with_fallback.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-run_configuration_generation.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-validate_config_profile_selection.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Validation/Configuration/Check_configuration.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Validation/Configuration/Generate_configuration.R,NA,#150,Add the active script to the versioned inventory.

@@ -1,7 +1,7 @@
 #' @title Diagnose Torch and CUDA Details
 #' @description
-#' Non-aborting internal helper shared by the GPU-runtime and setup
-#' diagnostics. Safely introspects PyTorch and CUDA availability.
+#' Non-aborting diagnostic that safely introspects PyTorch and CUDA
+#' availability for the sjSDM runtime checks.
 #' @param verbose
 #' Logical. If `TRUE`, print diagnostic messages.
 #' @return
@@ -14,10 +14,16 @@
 #' - `gpu_device_count`: number of visible GPUs
 #' - `gpu_device_names`: names of visible GPU devices
 #' - `status_ok`: both compilation and runtime successful
-#' @keywords internal
-#' @noRd
-.diagnose_torch_cuda_details <- function(
+#' @export
+diagnose_torch_cuda_details <- function(
     verbose = FALSE) {
+  assertthat::assert_that(
+    base::is.logical(verbose),
+    base::length(verbose) == 1L,
+    !base::is.na(verbose),
+    msg = "verbose must be TRUE or FALSE"
+  )
+
   res <-
     base::list(
       torch_available = FALSE,
@@ -26,12 +32,12 @@
       cuda_version = NA_character_,
       cuda_runtime_available = FALSE,
       gpu_device_count = NA_integer_,
-      gpu_device_names = character(0),
+      gpu_device_names = base::character(0),
       status_ok = FALSE
     )
 
   torch <-
-    tryCatch(
+    base::tryCatch(
       expr = {
         reticulate::import("torch")
       },
@@ -41,13 +47,13 @@
     )
 
   if (
-    is.null(torch)
+    base::is.null(torch)
   ) {
     if (
-      isTRUE(verbose)
+      base::isTRUE(verbose)
     ) {
       cli::cli_warn(
-        c("!" = "Python package {.pkg torch} is unavailable.")
+        base::c("!" = "Python package {.pkg torch} is unavailable.")
       )
     }
 
@@ -69,7 +75,7 @@
     reticulate::py_get_attr("cuda")
 
   torch_cuda_version <-
-    tryCatch(
+    base::tryCatch(
       expr = {
         torch |>
           reticulate::py_get_attr("version") |>
@@ -81,8 +87,8 @@
     )
 
   flag_compiled_with_cuda <-
-    isFALSE(is.null(torch_cuda_version)) &&
-    nzchar(as.character(torch_cuda_version))
+    base::isFALSE(base::is.null(torch_cuda_version)) &&
+    base::nzchar(base::as.character(torch_cuda_version))
 
   res <-
     res |>
@@ -92,7 +98,7 @@
     )
 
   flag_cuda_runtime_available <-
-    tryCatch(
+    base::tryCatch(
       expr = {
         torch_cuda |>
           reticulate::py_get_attr("is_available") |>
@@ -111,10 +117,10 @@
     )
 
   if (
-    isTRUE(flag_cuda_runtime_available)
+    base::isTRUE(flag_cuda_runtime_available)
   ) {
     device_count <-
-      tryCatch(
+      base::tryCatch(
         expr = {
           torch_cuda |>
             reticulate::py_get_attr("device_count") |>
@@ -131,7 +137,7 @@
       purrr::list_modify(gpu_device_count = device_count)
 
     if (
-      isTRUE(!is.na(device_count)) && device_count > 0L
+      base::isTRUE(!base::is.na(device_count)) && device_count > 0L
     ) {
       get_device_name <-
         torch_cuda |>
@@ -141,7 +147,7 @@
         purrr::map_chr(
           .x = base::seq_len(device_count) - 1L,
           .f = ~ {
-            tryCatch(
+            base::tryCatch(
               expr = {
                 get_device_name(.x) |>
                   base::as.character()
@@ -160,19 +166,19 @@
   }
 
   status_ok <-
-    isTRUE(flag_compiled_with_cuda) &&
-    isTRUE(flag_cuda_runtime_available)
+    base::isTRUE(flag_compiled_with_cuda) &&
+    base::isTRUE(flag_cuda_runtime_available)
 
   res <-
     res |>
     purrr::list_modify(status_ok = status_ok)
 
   if (
-    isFALSE(status_ok) &&
-      isTRUE(verbose)
+    base::isFALSE(status_ok) &&
+      base::isTRUE(verbose)
   ) {
     cli::cli_warn(
-      c(
+      base::c(
         "!" = "The current torch runtime cannot use a CUDA GPU.",
         "i" = stringr::str_c(
           "Check the torch build, device visibility, and the active",

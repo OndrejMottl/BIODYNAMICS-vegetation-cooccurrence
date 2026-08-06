@@ -4,187 +4,95 @@ title: extract_jsdm_variance_fractions()
 ---
 
 <html><head>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-
 <script type="text/javascript">
-
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
-
 function processMathHTML() {
-
     var l = document.getElementsByClassName('reqn');
-
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
-
     return;
-
 }</script>
-
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
-
     onload="processMathHTML();"></script>
-
 <link rel="stylesheet" type="text/css" href="R.css" />
-
 </head><body><div class="container"><main>
-
-
 
 <table style="width: 100%;"><tr><td>extract_jsdm_variance_fractions</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-
-
 <h2>Extract Variance Fractions from a Single sjSDM Object</h2>
-
-
 
 <h3>Description</h3>
 
-
-
 <p>Extracts specified variance partitioning fractions from a
-
 single sjSDManova object, returning a two-column tibble with
-
 fraction labels and their Nagelkerke R² values.
-
 </p>
-
-
-
 
 
 <h3>Usage</h3>
 
-
-
 <pre><code class='language-R'>extract_jsdm_variance_fractions(
-
   anova_object,
-
   vec_anova_fractions = base::c("F_A", "F_B", "F_S", "F_AB", "F_AS", "F_BS", "F_ABS"),
-
   clamp_negative = TRUE
-
 )
-
 </code></pre>
-
-
-
 
 
 <h3>Arguments</h3>
 
-
-
 <table role = "presentation">
-
 <tr><td><code id="anova_object">anova_object</code></td>
-
 <td>
-
 <p>A single sjSDManova-like list containing a named
-
 '&quot;results&quot;' element with columns 'models' and
-
 '&quot;R2 Nagelkerke&quot;'.</p>
-
 </td></tr>
-
 <tr><td><code id="vec_anova_fractions">vec_anova_fractions</code></td>
-
 <td>
-
 <p>A non-empty character vector of fraction codes to retain
-
 (e.g. 'c(&quot;F_A&quot;, &quot;F_B&quot;, &quot;F_S&quot;)').</p>
-
 </td></tr>
-
 <tr><td><code id="clamp_negative">clamp_negative</code></td>
-
 <td>
-
 <p>A single logical (default 'TRUE'). If 'TRUE', negative
-
 Nagelkerke R² values are clamped to 0.</p>
-
 </td></tr>
-
 </table>
-
-
-
 
 
 <h3>Details</h3>
 
-
-
 <p>Accesses the named '&quot;results&quot;' element with 'purrr::chuck()',
-
 filters the requested fraction codes, and translates them to
-
 human-readable component labels.
-
 </p>
-
-
-
 
 
 <h3>Value</h3>
 
-
-
 <p>A tibble with columns:
-
 </p>
 
-
-
 <dl>
-
 <dt>component</dt><dd><p>Character. Human-readable component label
-
 (e.g. &quot;Abiotic&quot;, &quot;Associations&quot;, &quot;Spatial&quot;).</p>
-
 </dd>
-
 <dt>R2_Nagelkerke</dt><dd><p>Numeric. Nagelkerke R² value for
-
 each fraction, optionally clamped to [0, Inf).</p>
-
 </dd>
-
 </dl>
-
-
-
-
 
 
 
 <h3>See Also</h3>
 
-
-
 <p>[aggregate_jsdm_variance_components()]
-
 </p>
-
-
 
 </main>
 
-
-
 </div>
-
 </body></html>

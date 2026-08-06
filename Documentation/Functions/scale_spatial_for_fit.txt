@@ -9,7 +9,7 @@ Description:
 Usage:
 
      scale_spatial_for_fit(data_spatial = NULL)
-     
+
 Arguments:
 
 data_spatial: A data frame with row names in the format
@@ -40,5 +40,4 @@ Value:
 
 See Also:
 
-     [prepare_spatial_predictors_for_fit()], [assemble_data_to_fit()]
-
+     [prepare_spatial_predictors_for_fit()], [build_jsdm_fit_input()]

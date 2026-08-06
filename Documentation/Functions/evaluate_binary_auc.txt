@@ -1,0 +1,31 @@
+Evaluate Binary AUC
+
+Description:
+
+     Calculates area under the receiver operating characteristic curve
+     from binary observations and predicted probabilities using average
+     ranks.
+
+Usage:
+
+     evaluate_binary_auc(observed = NULL, predicted_probability = NULL)
+
+Arguments:
+
+observed: Numeric binary observation vector.
+
+predicted_probability: Numeric predicted-probability vector aligned
+          with `observed`.
+
+Value:
+
+     One-row tibble containing `auc`, `metric_status`, observation
+     counts, and prevalence. AUC is `NA` when either response class is
+     absent.
+
+Examples:
+
+     evaluate_binary_auc(
+       observed = c(0, 0, 1, 1),
+       predicted_probability = c(0.1, 0.3, 0.6, 0.8)
+     )

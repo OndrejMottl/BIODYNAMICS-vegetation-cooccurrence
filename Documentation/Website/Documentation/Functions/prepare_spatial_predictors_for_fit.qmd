@@ -82,11 +82,10 @@ any 'NA' in the spatial predictors are dropped.
 <h3>See Also</h3>
 
 <p>[project_coords_to_metric()], [align_sample_ids()],
-[assemble_data_to_fit()], [prepare_coords_for_fit()]
+[build_jsdm_fit_input()], [prepare_coords_for_fit()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

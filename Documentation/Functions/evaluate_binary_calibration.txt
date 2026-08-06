@@ -1,0 +1,46 @@
+Evaluate Binary Calibration
+
+Description:
+
+     Estimates calibration-in-the-large and calibration slope on the
+     logit scale while preserving explicit statuses for non-estimable
+     cases.
+
+Usage:
+
+     evaluate_binary_calibration(
+       observed = NULL,
+       predicted_probability = NULL,
+       epsilon = 1e-06
+     )
+
+Arguments:
+
+observed: Numeric binary observation vector.
+
+predicted_probability: Numeric predicted-probability vector aligned
+          with `observed`.
+
+ epsilon: Single numeric clipping tolerance strictly between zero and
+          `0.5`. Defaults to `1e-6`.
+
+Details:
+
+     Both coefficients are undefined for one-class observations. The
+     slope is additionally undefined for constant predictions or
+     complete separation.
+
+Value:
+
+     One-row tibble containing the calibration intercept, calibration
+     slope, separate estimation statuses, observation counts,
+     prevalence, and clipping tolerance. The intercept is estimated
+     with predicted logits as an offset; the slope is estimated jointly
+     with a free intercept.
+
+Examples:
+
+     evaluate_binary_calibration(
+       observed = c(0, 1, 0, 1),
+       predicted_probability = c(0.2, 0.4, 0.6, 0.8)
+     )

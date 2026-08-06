@@ -176,7 +176,7 @@ run_decomposition_diagnostic_folds <- function(
 
               list_variants |>
                 purrr::imap(
-                  .f = ~ .fit_decomposition_variant(
+                  .f = ~ fit_decomposition_variant(
                     data_fold_input = data_fold_input,
                     route_id = route_id,
                     repeat_id = repeat_id,

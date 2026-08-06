@@ -1,0 +1,53 @@
+Fit One Predictive Decomposition Variant
+
+Description:
+
+     Fits, diagnoses, predicts, and evaluates one model variant for one
+     diagnostic fold.
+
+Usage:
+
+     fit_decomposition_variant(
+       data_fold_input,
+       route_id,
+       repeat_id,
+       fold_id,
+       variant_name,
+       list_variant,
+       age_formula_mode,
+       config_model_fitting,
+       fit_config,
+       fit_fn,
+       predict_fn,
+       convergence_fn
+     )
+
+Arguments:
+
+data_fold_input: Prepared train and test inputs for one fold.
+
+route_id: Diagnostic route identifier.
+
+repeat_id: Repeated-fold identifier.
+
+ fold_id: Fold identifier.
+
+variant_name: Model variant identifier.
+
+list_variant: Variant-specific spatial and biotic settings.
+
+age_formula_mode: Environmental age-formula mode.
+
+config_model_fitting: Model-fitting configuration.
+
+fit_config: Optional fitting overrides.
+
+  fit_fn: Injected model-fitting function.
+
+predict_fn: Injected prediction function.
+
+convergence_fn: Injected convergence diagnostic function.
+
+Value:
+
+     One-row variant metric and diagnostic tibble.

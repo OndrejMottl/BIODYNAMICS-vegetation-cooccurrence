@@ -70,7 +70,7 @@ compute_predictive_performance_shares <- function(
       .keep = TRUE
     ) |>
     purrr::map(
-      .f = ~ .compute_predictive_fold_shares(
+      .f = ~ compute_predictive_fold_shares(
         data_fold = .x,
         value_column = metric_column,
         direction = "higher",

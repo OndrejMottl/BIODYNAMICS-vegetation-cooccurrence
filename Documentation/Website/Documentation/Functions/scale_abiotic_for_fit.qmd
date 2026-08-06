@@ -89,11 +89,10 @@ which can be used to back-transform predictions.</p>
 
 <h3>See Also</h3>
 
-<p>[prepare_abiotic_for_fit()], [assemble_data_to_fit()]
+<p>[prepare_abiotic_for_fit()], [build_jsdm_fit_input()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

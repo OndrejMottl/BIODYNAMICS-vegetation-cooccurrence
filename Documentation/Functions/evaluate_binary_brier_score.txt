@@ -1,0 +1,31 @@
+Evaluate Binary Brier Score
+
+Description:
+
+     Calculates the mean squared error between binary observations and
+     predicted probabilities.
+
+Usage:
+
+     evaluate_binary_brier_score(observed = NULL, predicted_probability = NULL)
+
+Arguments:
+
+observed: Numeric binary observation vector.
+
+predicted_probability: Numeric predicted-probability vector aligned
+          with `observed`.
+
+Value:
+
+     One-row tibble containing `brier_score`, `metric_status`,
+     observation counts, and prevalence. Valid one-class inputs retain
+     a finite Brier score because this metric does not require both
+     classes.
+
+Examples:
+
+     evaluate_binary_brier_score(
+       observed = c(0, 1),
+       predicted_probability = c(0.25, 0.75)
+     )

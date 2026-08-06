@@ -1,0 +1,38 @@
+Evaluate Binary Log Loss
+
+Description:
+
+     Calculates mean binary cross-entropy after clipping probabilities
+     away from zero and one.
+
+Usage:
+
+     evaluate_binary_log_loss(
+       observed = NULL,
+       predicted_probability = NULL,
+       epsilon = 1e-06
+     )
+
+Arguments:
+
+observed: Numeric binary observation vector.
+
+predicted_probability: Numeric predicted-probability vector aligned
+          with `observed`.
+
+ epsilon: Single numeric clipping tolerance strictly between zero and
+          `0.5`. Defaults to `1e-6`.
+
+Value:
+
+     One-row tibble containing `log_loss`, `metric_status`, observation
+     counts, prevalence, and the clipping tolerance. Valid one-class
+     inputs retain a finite log loss because this metric does not
+     require both classes.
+
+Examples:
+
+     evaluate_binary_log_loss(
+       observed = c(0, 1),
+       predicted_probability = c(0.25, 0.75)
+     )

@@ -31,6 +31,9 @@ Under `Documentation/Implementation_inventories/R_architecture/`:
 
 Review generated diffs before accepting them. A changed inventory may represent
 a legitimate migration or an unclassified file, function, or target.
+Regeneration preserves existing migration, ownership, naming, retirement, and
+persisted-target decisions. It refreshes dynamic caller and test references
+and appends newly discovered entries.
 
 The checker writes findings to
 `Documentation/Reports/R_architecture/architecture_findings_v1.csv`.
@@ -45,11 +48,11 @@ Time/Interpolation branching and shared-memory functions, their active tests,
 and exact `_legacy` retirement paths are also blocking. Function naming for
 other not-yet-migrated domains and other architecture contracts remain
 report-only until their owning issues make them blocking. Non-CV modelling
-functions and tests now use their Issue #154 capability paths, while naming,
-helper extraction, and deferred #141/#155 ownership remain report-only until
-Issue #154 completes. The retired HMSC function symbols, their former
-`R/Functions/Modelling/_legacy` paths, and their obsolete tests are blocking
-contracts and must not return.
+placement, naming, mirrored tests, approved internal-helper classification,
+and prohibited `$` access are blocking Issue #154 contracts. Deferred #141 and
+#155 functions remain with their owners. The retired HMSC function symbols,
+their former `R/Functions/Modelling/_legacy` paths, and their obsolete tests
+are blocking contracts and must not return.
 
 ## Interpretation limits
 

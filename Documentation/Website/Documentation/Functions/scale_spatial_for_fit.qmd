@@ -84,11 +84,10 @@ predictions.</p>
 <h3>See Also</h3>
 
 <p>[prepare_spatial_predictors_for_fit()],
-[assemble_data_to_fit()]
+[build_jsdm_fit_input()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

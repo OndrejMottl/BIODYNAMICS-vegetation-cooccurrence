@@ -1,0 +1,25 @@
+Diagnose Torch and CUDA Details
+
+Description:
+
+     Non-aborting diagnostic that safely introspects PyTorch and CUDA
+     availability for the sjSDM runtime checks.
+
+Usage:
+
+     diagnose_torch_cuda_details(verbose = FALSE)
+
+Arguments:
+
+ verbose: Logical. If `TRUE`, print diagnostic messages.
+
+Value:
+
+     Named list with torch/CUDA diagnostic results: -
+     `torch_available`: torch import success - `torch_version`: version
+     string - `torch_compiled_cuda`: CUDA compilation flag -
+     `cuda_version`: CUDA version (if compiled) -
+     `cuda_runtime_available`: GPU visibility at runtime -
+     `gpu_device_count`: number of visible GPUs - `gpu_device_names`:
+     names of visible GPU devices - `status_ok`: both compilation and
+     runtime successful

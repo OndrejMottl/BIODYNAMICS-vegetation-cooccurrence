@@ -10,7 +10,7 @@ Description:
 Usage:
 
      prepare_coords_for_fit(data_coords = NULL, data_sample_ids = NULL)
-     
+
 Arguments:
 
 data_coords: A data frame with `dataset_name` as row names and columns
@@ -36,5 +36,4 @@ Value:
 
 See Also:
 
-     [align_sample_ids()], [assemble_data_to_fit()]
-
+     [align_sample_ids()], [build_jsdm_fit_input()]

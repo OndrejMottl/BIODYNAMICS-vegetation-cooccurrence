@@ -147,7 +147,7 @@ compute_spatial_mev_basis <- function(
       )
   } else {
     list_engine_result <-
-      .compute_fast_spatial_mev_basis(
+      compute_fast_spatial_mev_basis(
         mat_coords = mat_coords,
         fast_eigenvectors = list_strategy[["fast_eigenvectors"]],
         fast_seed = fast_seed_integer,

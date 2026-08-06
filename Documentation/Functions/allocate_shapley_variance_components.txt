@@ -1,0 +1,24 @@
+Allocate Shapley Variance Components
+
+Description:
+
+     Allocates unique variance fractions directly and divides shared
+     fractions equally among their contributing abiotic, association,
+     and spatial components.
+
+Usage:
+
+     allocate_shapley_variance_components(data_slice, group_keys)
+
+Arguments:
+
+data_slice: One grouped variance-fraction data frame.
+
+group_keys: Group keys supplied by [dplyr::group_modify()]. The values
+          are accepted to preserve the group-modification function
+          contract.
+
+Value:
+
+     A three-row tibble containing the allocated variance for each
+     component.

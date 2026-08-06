@@ -44,7 +44,7 @@ compute_shapley_variance_components <- function(data_source) {
         base::pmax(.data[["R2_Nagelkerke"]], 0)
     ) |>
     dplyr::group_by(.data[["age"]]) |>
-    dplyr::group_modify(.allocate_shapley_variance_components) |>
+    dplyr::group_modify(allocate_shapley_variance_components) |>
     dplyr::ungroup() |>
     dplyr::group_by(.data[["age"]]) |>
     dplyr::mutate(

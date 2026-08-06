@@ -1,0 +1,19 @@
+Summarise Predictive Model Metrics
+
+Description:
+
+     Averages successful community-level predictive metrics across
+     repeats.
+
+Usage:
+
+     summarise_predictive_model_metrics(model_evaluation_cross_validated)
+
+Arguments:
+
+model_evaluation_cross_validated: Cross-validated model-evaluation
+          object, or `NULL`.
+
+Value:
+
+     A one-row tibble containing Tjur R2, AUC, and log-loss summaries.

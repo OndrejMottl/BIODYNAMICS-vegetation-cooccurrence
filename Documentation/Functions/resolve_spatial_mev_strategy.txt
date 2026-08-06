@@ -1,0 +1,49 @@
+Resolve the Shared Spatial MEM Construction Strategy
+
+Description:
+
+     Validates shared Moran eigenvector construction settings and
+     resolves `"auto"` to the exact or fast implementation using only
+     the number of input spatial locations.
+
+Usage:
+
+     resolve_spatial_mev_strategy(
+       strategy = NULL,
+       n_locations = NULL,
+       n_mev = NULL,
+       exact_max_locations = NULL,
+       fast_eigenvectors = NULL
+     )
+
+Arguments:
+
+strategy: Character scalar. One of `"exact"`, `"fast"`, or `"auto"`.
+
+n_locations: Positive integer giving the number of input spatial
+          locations.
+
+   n_mev: Positive integer giving the number of public Moran
+          eigenvectors requested.
+
+exact_max_locations: Positive integer giving the largest input allowed
+          to use dense exact construction.
+
+fast_eigenvectors: Positive integer giving the low-rank basis size for
+          fast construction. It must be at least `n_mev`.
+
+Value:
+
+     Named list containing the requested and selected strategies,
+     strategy version, validated counts, and shared exact/fast
+     settings.
+
+Examples:
+
+     resolve_spatial_mev_strategy(
+       strategy = "auto",
+       n_locations = 2000L,
+       n_mev = 3L,
+       exact_max_locations = 1999L,
+       fast_eigenvectors = 200L
+     )

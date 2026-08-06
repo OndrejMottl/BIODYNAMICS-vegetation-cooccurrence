@@ -1,0 +1,30 @@
+Compute One Fold of Predictive Decomposition Shares
+
+Description:
+
+     Converts full and reduced model values into the established loss
+     or higher-is-better metric share schema.
+
+Usage:
+
+     compute_predictive_fold_shares(
+       data_fold,
+       value_column,
+       direction = base::c("lower", "higher"),
+       metric_name = value_column
+     )
+
+Arguments:
+
+data_fold: One repeat-fold data frame containing full and reduced
+          variants.
+
+value_column: Name of the loss or performance column.
+
+direction: Either `"lower"` for loss or `"higher"` for performance.
+
+metric_name: Output metric label used when `direction = "higher"`.
+
+Value:
+
+     A three-row tibble containing component shares for one fold.

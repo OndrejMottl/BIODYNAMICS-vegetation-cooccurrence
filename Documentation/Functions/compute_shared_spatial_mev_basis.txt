@@ -1,0 +1,28 @@
+Compute the Shared Spatial MEM Basis
+
+Description:
+
+     Applies the common spatial-predictor configuration and constructs
+     the reusable 2-D MEM basis when spatial predictors are enabled.
+
+Usage:
+
+     compute_shared_spatial_mev_basis(
+       data_coords_projected,
+       config_spatial_predictors,
+       compute_basis_function = compute_spatial_mev_basis
+     )
+
+Arguments:
+
+data_coords_projected: Projected input coordinates.
+
+config_spatial_predictors: Shared spatial-predictor configuration.
+
+compute_basis_function: Basis constructor. Defaults to
+          [compute_spatial_mev_basis()].
+
+Value:
+
+     Reusable spatial MEM basis list, or `NULL` when 2-D spatial
+     predictors are disabled.

@@ -1,0 +1,84 @@
+<!DOCTYPE html><html><head><title>R: Evaluate Binary Calibration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>evaluate_binary_calibration</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate Binary Calibration</h2>
+
+<h3>Description</h3>
+
+<p>Estimates calibration-in-the-large and calibration slope on the logit scale
+while preserving explicit statuses for non-estimable cases.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>evaluate_binary_calibration(
+  observed = NULL,
+  predicted_probability = NULL,
+  epsilon = 1e-06
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="observed">observed</code></td>
+<td>
+<p>Numeric binary observation vector.</p>
+</td></tr>
+<tr><td><code id="predicted_probability">predicted_probability</code></td>
+<td>
+<p>Numeric predicted-probability vector aligned with 'observed'.</p>
+</td></tr>
+<tr><td><code id="epsilon">epsilon</code></td>
+<td>
+<p>Single numeric clipping tolerance strictly between zero and '0.5'.
+Defaults to '1e-6'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Both coefficients are undefined for one-class observations. The slope is
+additionally undefined for constant predictions or complete separation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>One-row tibble containing the calibration intercept, calibration slope,
+separate estimation statuses, observation counts, prevalence, and clipping
+tolerance. The intercept is estimated with predicted logits as an offset;
+the slope is estimated jointly with a free intercept.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>evaluate_binary_calibration(
+  observed = c(0, 1, 0, 1),
+  predicted_probability = c(0.2, 0.4, 0.6, 0.8)
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

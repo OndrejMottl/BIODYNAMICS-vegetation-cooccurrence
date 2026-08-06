@@ -1,0 +1,41 @@
+Build an Empty Decomposition Variant Result
+
+Description:
+
+     Internal helper that constructs the stable failed-variant result
+     schema.
+
+Usage:
+
+     .build_empty_decomposition_variant(
+       route_id,
+       repeat_id,
+       fold_id,
+       variant,
+       status,
+       error_message,
+       warning_text = NA_character_,
+       diagnostics = NULL
+     )
+
+Arguments:
+
+route_id: Diagnostic route identifier.
+
+repeat_id: Repeated-fold identifier.
+
+ fold_id: Fold identifier.
+
+ variant: Model variant identifier.
+
+  status: Failure status.
+
+error_message: Captured error message.
+
+warning_text: Collapsed warning text.
+
+diagnostics: Optional one-row fold diagnostics.
+
+Value:
+
+     One-row failed-variant tibble.

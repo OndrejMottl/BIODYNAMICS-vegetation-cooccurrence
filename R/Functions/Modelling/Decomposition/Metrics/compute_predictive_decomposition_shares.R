@@ -49,7 +49,7 @@ compute_predictive_decomposition_shares <- function(data_fold_metrics) {
       .keep = TRUE
     ) |>
     purrr::map(
-      .f = ~ .compute_predictive_fold_shares(
+      .f = ~ compute_predictive_fold_shares(
         data_fold = .x,
         value_column = "loss",
         direction = "lower"

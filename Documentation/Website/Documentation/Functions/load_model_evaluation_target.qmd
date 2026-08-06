@@ -26,7 +26,7 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>Loads one explicit fitted or cross-validated model-evaluation target from a
-targets store. If the target cannot be loaded, 'NULL' is returned.
+targets store. If the target cannot be read, 'NULL' is returned.
 </p>
 
 
@@ -54,7 +54,7 @@ targets store. If the target cannot be loaded, 'NULL' is returned.
 </td></tr>
 <tr><td><code id="evaluation_type">evaluation_type</code></td>
 <td>
-<p>Evaluation target type. One of 'fitted' or 'cross_validated'.</p>
+<p>Evaluation target type. One of '&quot;fitted&quot;' or '&quot;cross_validated&quot;'.</p>
 </td></tr>
 <tr><td><code id="read_target_fn">read_target_fn</code></td>
 <td>
@@ -66,13 +66,13 @@ targets store. If the target cannot be loaded, 'NULL' is returned.
 
 <h3>Value</h3>
 
-<p>The model evaluation object, or 'NULL' if it cannot be loaded.
+<p>The model evaluation object, or 'NULL' if it cannot be read.
 </p>
 
 
 <h3>Examples</h3>
 
-<pre><code class='language-R'>## Not run: 
+<pre><code class='language-R'>## Not run:
 load_model_evaluation_target(
   store_path = "Data/targets/modern_spatial_continental/europe",
   resolution_id = "genus",
@@ -86,4 +86,3 @@ load_model_evaluation_target(
 
 </div>
 </body></html>
-
