@@ -1438,6 +1438,81 @@ data_time_interpolation_test_findings <-
     )
   )
 
+path_retired_hmsc_function_root <-
+  "R/Functions/Modelling/_legacy/"
+
+vec_retired_hmsc_symbols <-
+  base::c(
+    "add_model_evaluation",
+    "check_and_prepare_data_for_fit",
+    "fit_hmsc_model",
+    "get_better_model_based_on_fit",
+    "get_random_structure_for_model",
+    "get_significant_associations",
+    "get_species_association",
+    "make_hmsc_model"
+  )
+
+vec_retired_hmsc_test_paths <-
+  stringr::str_c(
+    "R/03_Supplementary_analyses/Testing/testthat/_outdated/",
+    base::c(
+      "test-add_model_evaluation.R",
+      "test-check_and_prepare_data_for_fit.R",
+      "test-fit_hmsc_model.R",
+      "test-get_better_model_based_on_fit.R",
+      "test-get_random_structure_for_model.R",
+      "test-get_significant_associations .R",
+      "test-get_species_association.R",
+      "test-make_hmsc_model.R",
+      "test-prepare_data_for_fit.R"
+    )
+  )
+
+vec_returned_hmsc_function_paths <-
+  vec_r_relative_paths[
+    stringr::str_starts(
+      vec_r_relative_paths,
+      path_retired_hmsc_function_root
+    )
+  ]
+
+vec_returned_hmsc_test_paths <-
+  base::intersect(
+    vec_r_relative_paths,
+    vec_retired_hmsc_test_paths
+  )
+
+data_hmsc_retirement_path_findings <-
+  tibble::tibble(
+    finding_type = "hmsc_retirement_path",
+    severity = "blocking",
+    current_path = base::c(
+      vec_returned_hmsc_function_paths,
+      vec_returned_hmsc_test_paths
+    ),
+    symbol = NA_character_,
+    owning_issue = "#154",
+    message = "Retired HMSC functions and tests must not return."
+  )
+
+data_hmsc_retirement_symbol_findings <-
+  data_functions_current |>
+  dplyr::filter(
+    .data[["function_name"]] %in% vec_retired_hmsc_symbols
+  ) |>
+  dplyr::transmute(
+    finding_type = "hmsc_retirement_symbol",
+    severity = "blocking",
+    current_path = stringr::str_c(
+      "R/Functions/",
+      .data[["path_relative"]]
+    ),
+    symbol = .data[["function_name"]],
+    owning_issue = "#154",
+    message = "Retired HMSC function symbols must not return."
+  )
+
 data_naming_findings <-
   data_functions |>
   dplyr::filter(.data[["naming_status"]] == "review_in_owning_issue") |>
@@ -1512,6 +1587,8 @@ data_findings <-
     data_time_interpolation_naming_findings,
     data_time_interpolation_retirement_findings,
     data_time_interpolation_test_findings,
+    data_hmsc_retirement_path_findings,
+    data_hmsc_retirement_symbol_findings,
     data_naming_findings,
     data_nested_findings
   ) |>
@@ -1578,7 +1655,8 @@ cli::cli_inform(
       "classification, quality-control, modern-record, proportion,",
       "data-shape, and taxa-selection naming, plus migrated Time/Ages",
       "and Time/Interpolation placement, naming, and retirement are",
-      "blocking; migrated trait placement and naming are also",
+      "blocking; retired HMSC paths and symbols are blocking;",
+      "migrated trait placement and naming are also",
       "blocking; migrated R/01 scripts and Spatial functions/tests are",
       "also blocking;",
       "unmigrated architecture contracts remain report-only.",

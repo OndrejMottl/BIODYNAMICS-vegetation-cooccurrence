@@ -24,7 +24,6 @@
 #' - Without age column, or `use_age = FALSE`: ~ var1 + var2 + ...
 #' The formula removes intercept terms and individual variable terms when
 #' interactions are present.
-#' @seealso [check_and_prepare_data_for_fit()]
 #' @export
 build_jsdm_environment_formula <- function(data, use_age = TRUE) {
   assertthat::assert_that(

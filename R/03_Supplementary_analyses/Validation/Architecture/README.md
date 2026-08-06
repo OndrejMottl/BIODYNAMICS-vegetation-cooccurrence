@@ -47,7 +47,9 @@ other not-yet-migrated domains and other architecture contracts remain
 report-only until their owning issues make them blocking. Non-CV modelling
 functions and tests now use their Issue #154 capability paths, while naming,
 helper extraction, and deferred #141/#155 ownership remain report-only until
-Issue #154 completes.
+Issue #154 completes. The retired HMSC function symbols, their former
+`R/Functions/Modelling/_legacy` paths, and their obsolete tests are blocking
+contracts and must not return.
 
 ## Interpretation limits
 
