@@ -214,7 +214,7 @@ data_convergence <-
               if (
                 base::isTRUE(model_ran)
               ) {
-                read_model_evaluation_target(
+                load_model_evaluation_target(
                   store_path = data_store_row[["store_path"]],
                   resolution_id = resolution_id,
                   evaluation_type = "fitted"

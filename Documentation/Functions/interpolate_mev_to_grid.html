@@ -35,7 +35,8 @@ same scale as those seen during model fitting.
   data_coords_projected_train = NULL,
   data_mev_core = NULL,
   data_coords_projected_pred = NULL,
-  spatial_scale_attributes = NULL
+  spatial_scale_attributes = NULL,
+  chunk_size = 5000L
 )
 </code></pre>
 
@@ -71,6 +72,11 @@ attributes per MEV column, as returned by
 element. Used to bring interpolated MEV values onto the
 same scale as the training spatial predictors. When 'NULL',
 unscaled interpolated values are returned for fold-local scaling.</p>
+</td></tr>
+<tr><td><code id="chunk_size">chunk_size</code></td>
+<td>
+<p>Positive integer limiting the number of prediction locations included in
+one distance matrix. Default is '5000L'.</p>
 </td></tr>
 </table>
 

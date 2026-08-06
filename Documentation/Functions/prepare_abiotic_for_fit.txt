@@ -9,7 +9,7 @@ Description:
 Usage:
 
      prepare_abiotic_for_fit(data_abiotic_long = NULL, data_sample_ids = NULL)
-     
+
 Arguments:
 
 data_abiotic_long: A data frame in long format with columns
@@ -39,5 +39,4 @@ Value:
 See Also:
 
      [align_sample_ids()], [scale_abiotic_for_fit()],
-     [assemble_data_to_fit()]
-
+     [build_jsdm_fit_input()]

@@ -32,26 +32,9 @@ function_naming,report_only,R/Functions/Modelling/Cross_validation/make_sjsdm_tu
 function_naming,report_only,R/Functions/Modelling/Cross_validation/make_spatial_cross_validation_assignments.R,make_spatial_cross_validation_assignments,#141,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/read_sjsdm_tier_survivor_decisions.R,read_sjsdm_tier_survivor_decisions,#141,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/read_sjsdm_tier_tuning_artifact.R,read_sjsdm_tier_tuning_artifact,#141,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Modelling/Decomposition_diagnostics/get_decomposition_route_sample_ids.R,get_decomposition_route_sample_ids,#154,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Modelling/Decomposition_diagnostics/make_decomposition_diagnostic_routes.R,make_decomposition_diagnostic_routes,#154,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Modelling/Decomposition_diagnostics/make_decomposition_env_formula.R,make_decomposition_env_formula,#154,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Modelling/Decomposition_diagnostics/make_repeated_cv_indices.R,make_repeated_cv_indices,#154,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Modelling/Decomposition_diagnostics/refresh_cz_decomposition_upstream.R,refresh_cz_decomposition_upstream,#154,Review leading verb `refresh` against version 1.
-function_naming,report_only,R/Functions/Modelling/Diagnostics/check_convergence_jsdm.R,check_convergence_jsdm,#154,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Modelling/Diagnostics/check_cuda_gpu_runtime.R,check_cuda_gpu_runtime,#154,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Modelling/Diagnostics/check_torch_cuda_details.R,.check_torch_cuda_details,#154,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Modelling/Diagnostics/verify_sjsdm_setup.R,verify_sjsdm_setup,#154,Review leading verb `verify` against version 1.
-function_naming,report_only,R/Functions/Modelling/Evaluation/read_spatial_model_results.R,read_spatial_model_results,#154,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Modelling/Fit_inputs/apply_scale_attributes.R,apply_scale_attributes,#154,Review leading verb `apply` against version 1.
-function_naming,report_only,R/Functions/Modelling/Fit_inputs/assemble_data_to_fit.R,assemble_data_to_fit,#154,Review leading verb `assemble` against version 1.
-function_naming,report_only,R/Functions/Modelling/Fit_inputs/make_env_formula.R,make_env_formula,#154,Review leading verb `make` against version 1.
-function_naming,report_only,R/Functions/Modelling/Spatial_effects/compare_spatial_mev_subspaces.R,compare_spatial_mev_subspaces,#154,Review leading verb `compare` against version 1.
-function_naming,report_only,R/Functions/Modelling/Tuning/check_target_succeeded.R,check_target_succeeded,#154,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Modelling/Tuning/coerce_null_to_na_integer.R,coerce_null_to_na_integer,#154,Review leading verb `coerce` against version 1.
-function_naming,report_only,R/Functions/Modelling/Tuning/read_model_evaluation_target.R,read_model_evaluation_target,#154,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Modelling/Tuning/read_targets_store_meta.R,read_targets_store_meta,#154,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Modelling/Variance_partitioning/get_anova.R,get_anova,#154,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Modelling/Variance_partitioning/recalculate_anova_components.R,recalculate_anova_components,#154,Review leading verb `recalculate` against version 1.
+function_naming,report_only,R/Functions/Modelling/Tuning/check_target_succeeded.R,check_target_succeeded,#155,Review leading verb `check` against version 1.
+function_naming,report_only,R/Functions/Modelling/Tuning/coerce_null_to_na_integer.R,coerce_null_to_na_integer,#155,Review leading verb `coerce` against version 1.
+function_naming,report_only,R/Functions/Modelling/Tuning/read_targets_store_meta.R,read_targets_store_meta,#155,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Prediction/Inference/assert_prediction_probabilities.R,assert_prediction_probabilities,#155,Review leading verb `assert` against version 1.
 function_naming,report_only,R/Functions/Prediction/Inputs/read_spatial_resolution_prediction_inputs.R,read_spatial_resolution_prediction_inputs,#155,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Presentation/IAVS/Animations/format_age_label.R,format_age_label,#155,Review leading verb `format` against version 1.
@@ -96,38 +79,16 @@ missing_function,report_only,R/Functions/Utility/Config/get_active_config.R,NA,#
 missing_function,report_only,R/Functions/Utility/Config/get_config_value_with_fallback.R,NA,#150,Record the approved function move or removal.
 missing_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-get_active_config.R,NA,#150,Record the approved script move or removal.
 missing_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-get_config_value_with_fallback.R,NA,#150,Record the approved script move or removal.
+nested_named_helper,report_only,R/Functions/Data/Traits/Classification/Functional_types/Clustering/Group_selection/select_functional_type_group_count.R,return_zero_on_filter_error,#153,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/assemble_sjsdm_cached_selected_folds.R,get_cache_record;prepare_fold_function;fit_function;predict_function,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/assess_sjsdm_candidate_guardrails.R,prepare_tuning_candidate;prepare_repeat_metrics,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/evaluate_sjsdm_fold_predictions.R,evaluate_source,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/run_sjsdm_selected_candidate_folds.R,make_prediction_skeleton,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/run_sjsdm_tuning_work_item.R,prepare_cached_fold,#141,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Decomposition_diagnostics/compute_predictive_decomposition_shares.R,make_undefined_rows;compute_one_fold,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Decomposition_diagnostics/compute_predictive_performance_shares.R,make_undefined_rows;compute_one_fold,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Decomposition_diagnostics/load_decomposition_diagnostic_inputs.R,read_target;read_model_fitting_config,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Decomposition_diagnostics/run_decomposition_route_cv.R,make_empty_variant;fit_one_variant,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Decomposition_diagnostics/summarise_decomposition_routes.R,get_loss,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Evaluation/evaluate_binary_calibration.R,fit_calibration_model,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_fold_spatial_predictors.R,make_sample_partition,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_model_fold_input.R,make_abiotic_partition,#154,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Modelling/Variance_partitioning/recalculate_anova_components.R,get_val;compute_shapley,#154,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_fold_spatial_predictors.R,make_sample_partition,#141,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_model_fold_input.R,make_abiotic_partition,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/build_base_terminal_plot.R,make_scanline_data;make_noise_data;add_terminal_canvas;theme_terminal_blank,#155,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,R/Functions/Utility/Config/validate_config_profile_selection.R,validate_allowed_values,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Utility/Paths_and_stores/get_model_tuning_params.R,get_required_integer;get_optional_integer,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Utility/Pipeline/monitor_pipeline_progress.R,monitor_server,#155,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Visualisation/Data_preparation/prepare_spatial_variance_waffle_data.R,collapse_observation_id,#155,Extract or explicitly retain the named nested helper.
-uninventoried_function,report_only,R/Functions/Utility/Config/Generation/run_configuration_generation.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_function,report_only,R/Functions/Utility/Config/load_active_config_value.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_function,report_only,R/Functions/Utility/Config/load_config.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_function,report_only,R/Functions/Utility/Config/load_config_value.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_function,report_only,R/Functions/Utility/Config/load_config_value_with_fallback.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_function,report_only,R/Functions/Utility/Config/validate_config_profile_selection.R,NA,#150,Add the active function to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/One_time/Issues/issue_151/bootstrap_configuration_sources.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/One_time/Issues/issue_151/create_configuration_profile_inventory.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/One_time/Issues/issue_151/create_configuration_profile_reference.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_active_config_value.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_config.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_config_value.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-load_config_value_with_fallback.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-run_configuration_generation.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-validate_config_profile_selection.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Validation/Configuration/Check_configuration.R,NA,#150,Add the active script to the versioned inventory.
-uninventoried_script,report_only,R/03_Supplementary_analyses/Validation/Configuration/Generate_configuration.R,NA,#150,Add the active script to the versioned inventory.

@@ -1438,6 +1438,331 @@ data_time_interpolation_test_findings <-
     )
   )
 
+path_retired_hmsc_function_root <-
+  "R/Functions/Modelling/_legacy/"
+
+vec_retired_hmsc_symbols <-
+  base::c(
+    "add_model_evaluation",
+    "check_and_prepare_data_for_fit",
+    "fit_hmsc_model",
+    "get_better_model_based_on_fit",
+    "get_random_structure_for_model",
+    "get_significant_associations",
+    "get_species_association",
+    "make_hmsc_model"
+  )
+
+vec_retired_hmsc_test_paths <-
+  stringr::str_c(
+    "R/03_Supplementary_analyses/Testing/testthat/_outdated/",
+    base::c(
+      "test-add_model_evaluation.R",
+      "test-check_and_prepare_data_for_fit.R",
+      "test-fit_hmsc_model.R",
+      "test-get_better_model_based_on_fit.R",
+      "test-get_random_structure_for_model.R",
+      "test-get_significant_associations .R",
+      "test-get_species_association.R",
+      "test-make_hmsc_model.R",
+      "test-prepare_data_for_fit.R"
+    )
+  )
+
+vec_returned_hmsc_function_paths <-
+  vec_r_relative_paths[
+    stringr::str_starts(
+      vec_r_relative_paths,
+      path_retired_hmsc_function_root
+    )
+  ]
+
+vec_returned_hmsc_test_paths <-
+  base::intersect(
+    vec_r_relative_paths,
+    vec_retired_hmsc_test_paths
+  )
+
+data_hmsc_retirement_path_findings <-
+  tibble::tibble(
+    finding_type = "hmsc_retirement_path",
+    severity = "blocking",
+    current_path = base::c(
+      vec_returned_hmsc_function_paths,
+      vec_returned_hmsc_test_paths
+    ),
+    symbol = NA_character_,
+    owning_issue = "#154",
+    message = "Retired HMSC functions and tests must not return."
+  )
+
+data_hmsc_retirement_symbol_findings <-
+  data_functions_current |>
+  dplyr::filter(
+    .data[["function_name"]] %in% vec_retired_hmsc_symbols
+  ) |>
+  dplyr::transmute(
+    finding_type = "hmsc_retirement_symbol",
+    severity = "blocking",
+    current_path = stringr::str_c(
+      "R/Functions/",
+      .data[["path_relative"]]
+    ),
+    symbol = .data[["function_name"]],
+    owning_issue = "#154",
+    message = "Retired HMSC function symbols must not return."
+  )
+
+data_migrated_issue154_functions <-
+  data_functions |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#154",
+    .data[["migration_status"]] == "migrated"
+  )
+
+vec_allowed_issue154_function_paths <-
+  data_migrated_issue154_functions |>
+  dplyr::pull(.data[["active_path"]])
+
+vec_legacy_issue154_function_paths <-
+  base::intersect(
+    vec_function_paths_current,
+    data_migrated_issue154_functions |>
+      dplyr::filter(
+        .data[["current_path"]] != .data[["active_path"]]
+      ) |>
+      dplyr::pull(.data[["current_path"]])
+  )
+
+vec_invalid_issue154_function_paths <-
+  base::union(
+    vec_legacy_issue154_function_paths,
+    base::setdiff(
+      vec_allowed_issue154_function_paths,
+      vec_function_paths_current
+    )
+  )
+
+data_issue154_function_placement_findings <-
+  tibble::tibble(
+    finding_type = "issue154_function_placement",
+    severity = "blocking",
+    current_path = vec_invalid_issue154_function_paths,
+    symbol = NA_character_,
+    owning_issue = "#154",
+    message = stringr::str_c(
+      "Migrated non-CV modelling functions must remain at their ",
+      "approved capability paths."
+    )
+  )
+
+data_issue154_naming_findings <-
+  data_migrated_issue154_functions |>
+  dplyr::filter(
+    .data[["naming_status"]] != "canonical_or_domain_verb"
+  ) |>
+  dplyr::transmute(
+    finding_type = "issue154_function_naming",
+    severity = "blocking",
+    current_path = .data[["active_path"]],
+    symbol = .data[["active_symbol"]],
+    owning_issue = "#154",
+    message = "Migrated modelling functions must use approved verbs."
+  )
+
+path_issue154_test_root <-
+  stringr::str_c(
+    "R/03_Supplementary_analyses/Testing/testthat/",
+    "Modelling/"
+  )
+
+data_migrated_issue154_tests <-
+  data_scripts |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#154",
+    .data[["classification"]] == "test",
+    .data[["migration_status"]] == "migrated",
+    stringr::str_starts(
+      .data[["active_path"]],
+      path_issue154_test_root
+    )
+  )
+
+vec_allowed_issue154_test_paths <-
+  data_migrated_issue154_tests |>
+  dplyr::pull(.data[["active_path"]])
+
+vec_legacy_issue154_test_paths <-
+  base::intersect(
+    vec_script_paths_current,
+    data_migrated_issue154_tests |>
+      dplyr::filter(
+        .data[["current_path"]] != .data[["active_path"]]
+      ) |>
+      dplyr::pull(.data[["current_path"]])
+  )
+
+vec_invalid_issue154_test_paths <-
+  base::union(
+    vec_legacy_issue154_test_paths,
+    base::setdiff(
+      vec_allowed_issue154_test_paths,
+      vec_script_paths_current
+    )
+  )
+
+data_issue154_test_placement_findings <-
+  tibble::tibble(
+    finding_type = "issue154_test_placement",
+    severity = "blocking",
+    current_path = vec_invalid_issue154_test_paths,
+    symbol = NA_character_,
+    owning_issue = "#154",
+    message = stringr::str_c(
+      "Migrated non-CV modelling tests must remain at their ",
+      "approved capability paths."
+    )
+  )
+
+data_issue154_test_mirror_findings <-
+  data_migrated_issue154_functions |>
+  dplyr::mutate(
+    expected_test_path = .data[["active_path"]] |>
+      stringr::str_replace(
+        "^R/Functions/Modelling/",
+        path_issue154_test_root
+      ) |>
+      stringr::str_replace(
+        "/([^/]+)[.]R$",
+        "/test-\\1.R"
+      ),
+    has_mirrored_test = dplyr::coalesce(
+      stringr::str_detect(
+        .data[["matching_tests"]],
+        stringr::fixed(.data[["expected_test_path"]])
+      ),
+      FALSE
+    )
+  ) |>
+  dplyr::filter(!.data[["has_mirrored_test"]]) |>
+  dplyr::transmute(
+    finding_type = "issue154_test_mirror",
+    severity = "blocking",
+    current_path = .data[["expected_test_path"]],
+    symbol = .data[["active_symbol"]],
+    owning_issue = "#154",
+    message = "Each migrated modelling function needs a mirrored test."
+  )
+
+vec_allowed_issue154_internal_paths <-
+  base::c(
+    "R/Functions/Modelling/Decomposition/Internal/" |>
+      stringr::str_c("build_empty_decomposition_variant.R"),
+    "R/Functions/Modelling/Decomposition/Internal/" |>
+      stringr::str_c("load_decomposition_model_fitting_config.R"),
+    "R/Functions/Modelling/Decomposition/Internal/" |>
+      stringr::str_c("load_decomposition_target.R"),
+    "R/Functions/Modelling/Decomposition/Internal/" |>
+      stringr::str_c("resolve_decomposition_fold_loss.R"),
+    "R/Functions/Modelling/Evaluation/Internal/" |>
+      stringr::str_c("build_empty_spatial_model_results.R"),
+    "R/Functions/Modelling/Evaluation/Internal/" |>
+      stringr::str_c("fit_binary_calibration_model.R"),
+    "R/Functions/Modelling/Evaluation/Internal/" |>
+      stringr::str_c("load_successful_model_target.R"),
+    "R/Functions/Modelling/Evaluation/Internal/" |>
+      stringr::str_c("summarise_fitted_auc.R"),
+    "R/Functions/Modelling/Evaluation/Internal/" |>
+      stringr::str_c("summarise_model_provenance.R"),
+    "R/Functions/Modelling/Fitting/Internal/" |>
+      stringr::str_c("build_sjsdm_predictor_structure.R"),
+    "R/Functions/Modelling/Fitting/Internal/" |>
+      stringr::str_c("prepare_sjsdm_response.R"),
+    "R/Functions/Modelling/Fitting/Internal/" |>
+      stringr::str_c("resolve_sjsdm_device.R"),
+    "R/Functions/Modelling/Fitting/Internal/" |>
+      stringr::str_c("resolve_sjsdm_early_stopping.R"),
+    "R/Functions/Modelling/Spatial_effects/Basis/Internal/" |>
+      stringr::str_c("compute_exact_spatial_mev_basis.R"),
+    "R/Functions/Modelling/Variance_partitioning/Internal/" |>
+      stringr::str_c("lookup_jsdm_variance_component.R")
+  )
+
+vec_issue154_internal_paths_current <-
+  vec_function_paths_current[
+    stringr::str_detect(
+      vec_function_paths_current,
+      "^R/Functions/Modelling/.*/Internal/"
+    )
+  ]
+
+vec_invalid_issue154_internal_paths <-
+  base::union(
+    base::setdiff(
+      vec_issue154_internal_paths_current,
+      vec_allowed_issue154_internal_paths
+    ),
+    base::setdiff(
+      vec_allowed_issue154_internal_paths,
+      vec_issue154_internal_paths_current
+    )
+  )
+
+data_issue154_internal_findings <-
+  tibble::tibble(
+    finding_type = "issue154_internal_contract",
+    severity = "blocking",
+    current_path = vec_invalid_issue154_internal_paths,
+    symbol = NA_character_,
+    owning_issue = "#154",
+    message = stringr::str_c(
+      "Internal modelling functions must match the reviewed small-helper ",
+      "allowlist."
+    )
+  )
+
+vec_issue154_active_paths <-
+  data_functions |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#154",
+    !base::is.na(.data[["active_path"]])
+  ) |>
+  dplyr::pull(.data[["active_path"]]) |>
+  base::intersect(vec_function_paths_current)
+
+data_issue154_dollar_access_findings <-
+  purrr::map_dfr(
+    .x = vec_issue154_active_paths,
+    .f = function(path_current) {
+      vec_lines <-
+        base::readLines(
+          con = here::here(path_current),
+          warn = FALSE,
+          encoding = "UTF-8"
+        )
+
+      vec_match_indices <-
+        base::which(
+          stringr::str_detect(
+            vec_lines,
+            "[A-Za-z0-9_.]+[$][A-Za-z.]"
+          )
+        )
+
+      tibble::tibble(
+        finding_type = "issue154_dollar_access",
+        severity = "blocking",
+        current_path = base::rep(
+          path_current,
+          base::length(vec_match_indices)
+        ),
+        symbol = stringr::str_c("line_", vec_match_indices),
+        owning_issue = "#154",
+        message = "Replace prohibited `$` access in modelling functions."
+      )
+    }
+  )
+
 data_naming_findings <-
   data_functions |>
   dplyr::filter(.data[["naming_status"]] == "review_in_owning_issue") |>
@@ -1512,6 +1837,14 @@ data_findings <-
     data_time_interpolation_naming_findings,
     data_time_interpolation_retirement_findings,
     data_time_interpolation_test_findings,
+    data_hmsc_retirement_path_findings,
+    data_hmsc_retirement_symbol_findings,
+    data_issue154_function_placement_findings,
+    data_issue154_naming_findings,
+    data_issue154_test_placement_findings,
+    data_issue154_test_mirror_findings,
+    data_issue154_internal_findings,
+    data_issue154_dollar_access_findings,
     data_naming_findings,
     data_nested_findings
   ) |>
@@ -1578,7 +1911,10 @@ cli::cli_inform(
       "classification, quality-control, modern-record, proportion,",
       "data-shape, and taxa-selection naming, plus migrated Time/Ages",
       "and Time/Interpolation placement, naming, and retirement are",
-      "blocking; migrated trait placement and naming are also",
+      "blocking; retired HMSC paths and symbols are blocking; Issue #154",
+      "placement, naming, mirrored tests, internal classification, and",
+      "dollar-access rules are blocking;",
+      "migrated trait placement and naming are also",
       "blocking; migrated R/01 scripts and Spatial functions/tests are",
       "also blocking;",
       "unmigrated architecture contracts remain report-only.",

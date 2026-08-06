@@ -1,0 +1,60 @@
+<!DOCTYPE html><html><head><title>R: Diagnose Torch and CUDA Details</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>diagnose_torch_cuda_details</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Diagnose Torch and CUDA Details</h2>
+
+<h3>Description</h3>
+
+<p>Non-aborting diagnostic that safely introspects PyTorch and CUDA
+availability for the sjSDM runtime checks.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>diagnose_torch_cuda_details(verbose = FALSE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE', print diagnostic messages.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list with torch/CUDA diagnostic results:
+- 'torch_available': torch import success
+- 'torch_version': version string
+- 'torch_compiled_cuda': CUDA compilation flag
+- 'cuda_version': CUDA version (if compiled)
+- 'cuda_runtime_available': GPU visibility at runtime
+- 'gpu_device_count': number of visible GPUs
+- 'gpu_device_names': names of visible GPU devices
+- 'status_ok': both compilation and runtime successful
+</p>
+
+</main>
+
+</div>
+</body></html>

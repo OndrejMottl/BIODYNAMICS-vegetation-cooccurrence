@@ -5,7 +5,7 @@
 #' whole-network metrics via `bipartite::networklevel()`.
 #' Returns a tidy tibble with one row per metric.
 #' @param data_to_fit
-#' A named list as returned by `assemble_data_to_fit()`. Must
+#' A named list as returned by `build_jsdm_fit_input()`. Must
 #' contain the element `data_community_to_fit`, a numeric
 #' matrix with samples as rows and taxa as columns.
 #' @param vec_indices
@@ -28,7 +28,7 @@
 #'
 #' If the binarized matrix has no positive entries (i.e. no
 #' species observed in any sample), an error is raised.
-#' @seealso [assemble_data_to_fit()],
+#' @seealso [build_jsdm_fit_input()],
 #'   [compute_community_presence_absence()]
 #' @export
 compute_network_metrics <- function(

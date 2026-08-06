@@ -9,7 +9,7 @@ Description:
      extents contribute equally to the Euclidean distance structure.
      Returns the first `n_mev` eigenvectors as a data frame with row
      names in `"dataset_name__age"` format, ready for
-     `scale_spatial_for_fit()` and `assemble_data_to_fit()`.
+     `scale_spatial_for_fit()` and `build_jsdm_fit_input()`.
 
 Usage:
 
@@ -18,7 +18,7 @@ Usage:
        data_sample_ids = NULL,
        n_mev = 20L
      )
-     
+
 Arguments:
 
 data_coords_projected: A data frame with `dataset_name` as row names
@@ -74,5 +74,4 @@ See Also:
 
      [compute_spatial_mev()], [project_coords_to_metric()],
      [align_sample_ids()], [scale_spatial_for_fit()],
-     [assemble_data_to_fit()]
-
+     [build_jsdm_fit_input()]

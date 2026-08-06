@@ -22,7 +22,7 @@
 #' binomial-only binarisation check and is now a tracked
 #' pipeline target.
 #' @seealso [prepare_community_for_fit()],
-#'   [assemble_data_to_fit()]
+#'   [build_jsdm_fit_input()]
 #' @export
 filter_constant_taxa <- function(
     data_community_matrix = NULL) {

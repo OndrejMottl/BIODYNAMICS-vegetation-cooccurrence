@@ -1,0 +1,96 @@
+---
+format: html
+title: compute_spatial_mev_basis()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_spatial_mev_basis</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute a Reusable Spatial MEM Basis</h2>
+
+<h3>Description</h3>
+
+<p>Computes exact or low-rank Moran eigenvectors and retains explicit state
+required to project the same basis to held-out locations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_spatial_mev_basis(
+  data_coords_projected = NULL,
+  n_mev = 20L,
+  strategy = "exact",
+  exact_max_locations = 1999L,
+  fast_eigenvectors = 200L,
+  fast_seed = 900723L,
+  exact_function = sjSDM::generateSpatialEV,
+  fast_function = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_coords_projected">data_coords_projected</code></td>
+<td>
+<p>Data frame with 'coord_x_km' and 'coord_y_km' columns and unique row names.</p>
+</td></tr>
+<tr><td><code id="n_mev">n_mev</code></td>
+<td>
+<p>Positive integer giving the number of public eigenvectors requested.</p>
+</td></tr>
+<tr><td><code id="strategy">strategy</code>, <code id="exact_max_locations">exact_max_locations</code>, <code id="fast_eigenvectors">fast_eigenvectors</code></td>
+<td>
+<p>Shared strategy settings validated by [resolve_spatial_mev_strategy()].</p>
+</td></tr>
+<tr><td><code id="fast_seed">fast_seed</code></td>
+<td>
+<p>Positive integer used locally for deterministic Nyström knot selection.</p>
+</td></tr>
+<tr><td><code id="exact_function">exact_function</code></td>
+<td>
+<p>Exact Moran-eigenvector function. Defaults to
+[sjSDM::generateSpatialEV()].</p>
+</td></tr>
+<tr><td><code id="fast_function">fast_function</code></td>
+<td>
+<p>Fast Moran-eigenvector function. Defaults to [spmoran::meigen_f()].</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Exact results retain the current sjSDM values unchanged. Fast results use
+an exponential-kernel basis and orient each selected eigenvector
+deterministically. The orientation is retained for matching projection.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Named list with 'data_mev', 'projection_basis', and one-row
+'data_provenance'.
+</p>
+
+</main>
+
+</div>
+</body></html>

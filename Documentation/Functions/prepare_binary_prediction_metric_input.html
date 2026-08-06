@@ -1,0 +1,71 @@
+<!DOCTYPE html><html><head><title>R: Prepare Binary Prediction Metric Input</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_binary_prediction_metric_input</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare Binary Prediction Metric Input</h2>
+
+<h3>Description</h3>
+
+<p>Validates aligned binary observations and predicted probabilities and
+computes counts shared by predictive metric evaluators.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_binary_prediction_metric_input(
+  observed = NULL,
+  predicted_probability = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="observed">observed</code></td>
+<td>
+<p>Numeric vector containing only zero and one.</p>
+</td></tr>
+<tr><td><code id="predicted_probability">predicted_probability</code></td>
+<td>
+<p>Numeric vector of predicted probabilities in the closed interval '[0, 1]',
+aligned one-to-one with 'observed'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list containing validated observation and probability vectors,
+observation counts, prevalence, and 'class_status'. The status is '&quot;ok&quot;',
+'&quot;undefined_no_presences&quot;', or '&quot;undefined_no_absences&quot;'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>prepare_binary_prediction_metric_input(
+  observed = c(0, 1),
+  predicted_probability = c(0.2, 0.8)
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html><html><head><title>R: Resolve One Decomposition Fold Loss</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>.resolve_decomposition_fold_loss</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Resolve One Decomposition Fold Loss</h2>
+
+<h3>Description</h3>
+
+<p>Internal helper that returns a loss only when one variant row matches.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>.resolve_decomposition_fold_loss(data_fold, variant_name)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_fold">data_fold</code></td>
+<td>
+<p>One route-repeat-fold data frame.</p>
+</td></tr>
+<tr><td><code id="variant_name">variant_name</code></td>
+<td>
+<p>Variant identifier to look up.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>One numeric loss or 'NA_real_' when the match is not unique.
+</p>
+
+</main>
+
+</div>
+</body></html>

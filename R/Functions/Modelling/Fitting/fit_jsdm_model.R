@@ -178,7 +178,7 @@ fit_jsdm_model <- function(
   ) {
     assertthat::assert_that(
       "data_spatial_to_fit" %in% names(data_to_fit),
-      msg = paste0(
+      msg = stringr::str_c(
         "`data_to_fit` must contain `data_spatial_to_fit`",
         " when spatial_method is not 'none'"
       )
@@ -210,98 +210,19 @@ fit_jsdm_model <- function(
 
   device <- match.arg(device)
 
-  # Validate GPU runtime before fitting in GPU mode.
-  # This keeps failures explicit and avoids deep, opaque torch errors.
-  if (
-    device == "gpu"
-  ) {
-    if (
-      isFALSE(requireNamespace("reticulate", quietly = TRUE))
-    ) {
-      cli::cli_abort(
-        c(
-          "GPU mode requires the {.pkg reticulate} package.",
-          "i" = "Install it with install.packages('reticulate')."
-        )
-      )
-    }
+  device_settings <-
+    .resolve_sjsdm_device(
+      device = device,
+      parallel = parallel
+    )
 
-    torch <-
-      tryCatch(
-        expr = {
-          reticulate::import("torch")
-        },
-        error = function(e) {
-          NULL
-        }
-      )
+  device <-
+    device_settings |>
+    purrr::chuck("device")
 
-    if (
-      is.null(torch)
-    ) {
-      cli::cli_abort(
-        c(
-          "GPU mode requires Python package {.pkg torch}.",
-          "i" = paste0(
-            "Install CUDA wheels in your active conda env with: ",
-            "pip install torch torchvision torchaudio ",
-            "--index-url https://download.pytorch.org/whl/cu121"
-          )
-        )
-      )
-    }
-
-    torch_cuda_version <-
-      tryCatch(
-        expr = {
-          torch$version$cuda
-        },
-        error = function(e) {
-          NULL
-        }
-      )
-
-    flag_torch_compiled_with_cuda <-
-      isFALSE(is.null(torch_cuda_version)) &&
-        nzchar(as.character(torch_cuda_version))
-
-    if (
-      isFALSE(flag_torch_compiled_with_cuda)
-    ) {
-      cli::cli_abort(
-        c(
-          "Torch is installed, but not compiled with CUDA.",
-          "i" = paste0(
-            "Reinstall CUDA wheels in your active conda env: ",
-            "pip install --upgrade --force-reinstall torch torchvision ",
-            "torchaudio --index-url https://download.pytorch.org/whl/cu121"
-          )
-        )
-      )
-    }
-
-    flag_cuda_runtime_available <-
-      tryCatch(
-        expr = {
-          isTRUE(torch$cuda$is_available())
-        },
-        error = function(e) {
-          FALSE
-        }
-      )
-
-    if (
-      isFALSE(flag_cuda_runtime_available)
-    ) {
-      cli::cli_abort(
-        c(
-          "GPU mode requested, but CUDA runtime is not available.",
-          "i" = "Torch reports a CUDA build, but no visible GPU device.",
-          "i" = "Check NVIDIA driver health and GPU visibility on this host."
-        )
-      )
-    }
-  }
+  parallel <-
+    device_settings |>
+    purrr::chuck("parallel")
 
   # Validate numeric and logical arguments
   assertthat::assert_that(
@@ -377,7 +298,7 @@ fit_jsdm_model <- function(
     is.numeric(iter),
     length(iter) == 1,
     iter > 0,
-    msg = paste0(
+    msg = stringr::str_c(
       "`iter` must be a single positive numeric value of length 1"
     )
   )
@@ -385,117 +306,61 @@ fit_jsdm_model <- function(
   assertthat::assert_that(
     is.null(n_early_stopping) ||
       (is.numeric(n_early_stopping) && length(n_early_stopping) == 1),
-    msg = paste0(
+    msg = stringr::str_c(
       "`n_early_stopping` must be NULL or a single numeric",
       " value of length 1"
     )
   )
 
-  # Handle device/parallel conflict
-  if (
-    device == "gpu" && parallel > 0L
-  ) {
-    message(
-      paste0(
-        "Parallel processing is not supported when device = 'gpu'.",
-        " Setting parallel to 0L."
-      )
+  response_settings <-
+    .prepare_sjsdm_response(
+      data_community = data_community,
+      error_family = error_family
     )
-    parallel <- 0L
-  }
 
-  # Convert community data to presence/absence for binomial
-  if (
-    error_family == "binomial"
-  ) {
-    data_community <-
-      data_community > 0
+  data_community <-
+    response_settings |>
+    purrr::chuck("data_community")
 
-    error_family <- binomial("probit")
-  } else {
-    error_family <- gaussian()
-  }
+  error_family <-
+    response_settings |>
+    purrr::chuck("error_family")
 
-  # Build spatial structure
-  # Note: sjSDM::linear/DNN use match.call() internally and re-evaluate
-  #   formula symbols in parent.env(environment()) = namespace:sjSDM.
-  #   Using do.call passes the formula as an already-evaluated object
-  #   (class "formula"), so the bare-name eval branch is never triggered.
-  if (
-    spatial_method == "linear"
-  ) {
-    spatial <-
-      do.call(
-        sjSDM::linear,
-        list(
-          data = data_spatial,
-          formula = sel_spatial_formula,
-          lambda = lambda_spatial,
-          alpha = alpha_spatial
-        )
-      )
-  } else if (spatial_method == "DNN") {
-    spatial <-
-      do.call(
-        sjSDM::DNN,
-        list(
-          data = data_spatial,
-          formula = sel_spatial_formula
-        )
-      )
-  } else if (spatial_method == "none") {
-    spatial <- NULL
-  }
+  spatial <-
+    .build_sjsdm_predictor_structure(
+      data_predictors = data_spatial,
+      predictor_formula = sel_spatial_formula,
+      predictor_method = spatial_method,
+      lambda = lambda_spatial,
+      alpha = alpha_spatial
+    )
 
   # Build abiotic (environmental) structure
   # Note: data_abiotic is already scaled upstream by
   #   scale_abiotic_for_fit(); no additional scaling is applied.
-  if (
-    abiotic_method == "linear"
-  ) {
-    sel_biotic <-
-      do.call(
-        sjSDM::linear,
-        list(
-          data = data_abiotic,
-          formula = sel_abiotic_formula,
-          lambda = lambda_coef,
-          alpha = alpha_coef
-        )
-      )
-  } else {
-    sel_biotic <-
-      do.call(
-        sjSDM::DNN,
-        list(
-          data = data_abiotic,
-          formula = sel_abiotic_formula
-        )
-      )
-  }
+  sel_biotic <-
+    .build_sjsdm_predictor_structure(
+      data_predictors = data_abiotic,
+      predictor_formula = sel_abiotic_formula,
+      predictor_method = abiotic_method,
+      lambda = lambda_coef,
+      alpha = alpha_coef
+    )
 
   # Three-tier early stopping patience:
   #  "NULL"  -> auto: round(iter * 0.20), ensuring >= 20% of budget
   #  <= 0  -> 0 (disabled, maps to sjSDMControl's "disabled" value)
   #  > 0   -> max(value, round(iter * 0.20)), floor at 20% of iter
   sel_early_stopping <-
-    if (
-      base::is.null(n_early_stopping)
-    ) {
-      base::as.integer(base::round(iter * 0.20))
-    } else if (
-      n_early_stopping <= 0
-    ) {
-      0L
-    } else {
-      base::max(
-        base::as.integer(n_early_stopping),
-        base::as.integer(base::round(iter * 0.20))
-      )
-    }
+    .resolve_sjsdm_early_stopping(
+      iter = iter,
+      n_early_stopping = n_early_stopping
+    )
 
   sel_control <-
-    sjSDM::sjSDMControl(early_stopping_training = sel_early_stopping)
+    sjSDM::sjSDMControl(
+      early_stopping_training = sel_early_stopping
+    )
 
   if (
     base::is.null(biotic)

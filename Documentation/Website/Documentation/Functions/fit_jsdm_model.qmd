@@ -43,6 +43,13 @@ configurations.
   device = c("cpu", "gpu"),
   parallel = 0L,
   compute_se = FALSE,
+  biotic = NULL,
+  alpha_cov = 0.5,
+  alpha_coef = 0.5,
+  alpha_spatial = 0.5,
+  lambda_cov = 0,
+  lambda_coef = 0,
+  lambda_spatial = 0,
   ...,
   iter = 100L,
   n_early_stopping = NULL,
@@ -111,6 +118,25 @@ post-hoc approach via 'compute_jsdm_se()' in a separate
 pipeline target, which allows CPU parallelisation
 independent of the GPU device setting.</p>
 </td></tr>
+<tr><td><code id="biotic">biotic</code></td>
+<td>
+<p>Optional biotic structure passed to 'sjSDM::sjSDM()'. Defaults
+to 'NULL', which creates 'sjSDM::bioticStruct()' from the
+supplied 'alpha_cov' and 'lambda_cov'. Use
+'sjSDM::bioticStruct(diag = TRUE)' to fit a no-associations
+variant.</p>
+</td></tr>
+<tr><td><code id="alpha_cov">alpha_cov</code>, <code id="alpha_coef">alpha_coef</code>, <code id="alpha_spatial">alpha_spatial</code></td>
+<td>
+<p>Elastic-net mixing parameters for biotic association covariance,
+abiotic coefficients, and spatial coefficients. Each must be between zero
+and one, inclusive.</p>
+</td></tr>
+<tr><td><code id="lambda_cov">lambda_cov</code>, <code id="lambda_coef">lambda_coef</code>, <code id="lambda_spatial">lambda_spatial</code></td>
+<td>
+<p>Non-negative regularization strengths for biotic association
+covariance, abiotic coefficients, and spatial coefficients.</p>
+</td></tr>
 <tr><td><code id="...">...</code></td>
 <td>
 <p>Additional arguments passed to 'sjSDM::sjSDM()' (e.g.
@@ -167,4 +193,3 @@ returned with a warning.
 
 </div>
 </body></html>
-

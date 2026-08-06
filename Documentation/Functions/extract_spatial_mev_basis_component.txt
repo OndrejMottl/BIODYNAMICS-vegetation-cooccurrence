@@ -1,0 +1,20 @@
+Extract an Optional Spatial MEM Basis Component
+
+Description:
+
+     Extracts one explicit component from a reusable spatial MEM basis
+     while preserving `NULL` when the basis is disabled.
+
+Usage:
+
+     extract_spatial_mev_basis_component(list_spatial_mev_basis, component_name)
+
+Arguments:
+
+list_spatial_mev_basis: Reusable spatial MEM basis list or `NULL`.
+
+component_name: Character scalar naming the component to extract.
+
+Value:
+
+     Selected component or `NULL`.

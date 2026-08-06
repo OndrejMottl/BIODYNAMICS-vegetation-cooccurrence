@@ -167,7 +167,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_scientific_reference_full_data_anova_fractions,
-    command = extract_anova_fractions(
+    command = extract_jsdm_variance_fractions(
       anova_object = model_scientific_reference_full_data_anova,
       clamp_negative = FALSE
     )

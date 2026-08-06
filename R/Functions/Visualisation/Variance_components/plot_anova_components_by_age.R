@@ -6,7 +6,7 @@
 #' A data frame or tibble with columns \code{age} (numeric),
 #' \code{component} (character), and \code{R2_Nagelkerke}
 #' (numeric). Typically the output of
-#' \code{\link{aggregate_anova_components}()}.
+#' \code{\link{aggregate_jsdm_variance_components}()}.
 #' @param title
 #' Optional character string for the plot title.
 #' Defaults to \code{NULL} (no title).
@@ -19,7 +19,7 @@
 #' The x-axis is reversed so that older ages appear on the left
 #' and the y-axis is clamped to [0, NA]. Each variance component
 #' is drawn as a coloured line with points.
-#' @seealso [aggregate_anova_components()]
+#' @seealso [aggregate_jsdm_variance_components()]
 #' @export
 plot_anova_components_by_age <- function(
     data_anova_components,

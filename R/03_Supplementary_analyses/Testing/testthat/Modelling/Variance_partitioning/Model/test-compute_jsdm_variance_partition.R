@@ -1,0 +1,251 @@
+testthat::test_that(
+  stringr::str_c(
+    "compute_jsdm_variance_partition() validates input class - ",
+    "rejects non-sjSDM objects"
+  ),
+  {
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = NULL),
+      "The model must be of class 'sjSDM'."
+    )
+
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = list()),
+      "The model must be of class 'sjSDM'."
+    )
+
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = 42),
+      "The model must be of class 'sjSDM'."
+    )
+
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = "a string"),
+      "The model must be of class 'sjSDM'."
+    )
+
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = data.frame(x = 1)),
+      "The model must be of class 'sjSDM'."
+    )
+  }
+)
+
+testthat::test_that(
+  stringr::str_c(
+    "compute_jsdm_variance_partition() validates input class - ",
+    "rejects lm/glm objects"
+  ),
+  {
+    mod_lm <-
+      stats::lm(formula = mpg ~ wt, data = mtcars)
+
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = mod_lm),
+      "The model must be of class 'sjSDM'."
+    )
+
+    mod_glm <-
+      stats::glm(
+        formula = am ~ wt,
+        data = mtcars,
+        family = stats::binomial()
+      )
+
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = mod_glm),
+      "The model must be of class 'sjSDM'."
+    )
+  }
+)
+
+testthat::test_that(
+  stringr::str_c(
+    "compute_jsdm_variance_partition() functional output requires ",
+    "real sjSDM model"
+  ),
+  {
+    testthat::skip_if_not_installed("sjSDM")
+
+    base::set.seed(900723)
+    data_dummy <-
+      sjSDM::simulate_SDM(env = 3L, species = 10L, sites = 100L)
+
+    data_community <-
+      purrr::pluck(data_dummy, "response")
+    data_abiotic <-
+      purrr::pluck(data_dummy, "env_weights")
+    data_coords <-
+      data.frame(
+        base::matrix(
+          data = stats::rnorm(n = 200, mean = 0, sd = 0.3),
+          nrow = 100,
+          ncol = 2
+        )
+      ) # Spatial coordinates
+
+
+    # Fit model:
+    mod <-
+      sjSDM::sjSDM(
+        Y = data_community,
+        env = sjSDM::linear(
+          data = data_abiotic,
+          formula = ~ X1 + X2 + X3
+        ),
+        spatial = sjSDM::linear(
+          data = data_coords,
+          formula = ~ 0 + X1 * X2
+        ),
+        family = stats::binomial(link = "probit"),
+        verbose = FALSE,
+        iter = 20L
+      ) # Increase iter for real analysis
+
+
+    anova_res <-
+      compute_jsdm_variance_partition(mod = mod)
+    testthat::expect_s3_class(anova_res, "sjSDManova")
+  }
+)
+
+testthat::test_that(
+  "compute_jsdm_variance_partition() verbose argument controls printed output",
+  {
+    testthat::skip_if_not_installed("sjSDM")
+
+    base::set.seed(900723)
+    data_dummy <-
+      sjSDM::simulate_SDM(env = 3L, species = 10L, sites = 100L)
+
+    data_community <-
+      purrr::pluck(data_dummy, "response")
+    data_abiotic <-
+      purrr::pluck(data_dummy, "env_weights")
+    data_coords <-
+      data.frame(
+        base::matrix(
+          data = stats::rnorm(n = 200, mean = 0, sd = 0.3),
+          nrow = 100,
+          ncol = 2
+        )
+      )
+
+    mod <-
+      sjSDM::sjSDM(
+        Y = data_community,
+        env = sjSDM::linear(
+          data = data_abiotic,
+          formula = ~ X1 + X2 + X3
+        ),
+        spatial = sjSDM::linear(
+          data = data_coords,
+          formula = ~ 0 + X1 * X2
+        ),
+        family = stats::binomial(link = "probit"),
+        verbose = FALSE,
+        iter = 20L
+      )
+
+    # invalid verbose inputs must error
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = mod, verbose = 1L),
+      "verbose must be a single logical value"
+    )
+
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = mod, verbose = "yes"),
+      "verbose must be a single logical value"
+    )
+
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = mod, verbose = NA),
+      "verbose must be a single logical value"
+    )
+
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = mod, verbose = c(TRUE, FALSE)),
+      "verbose must be a single logical value"
+    )
+
+    # verbose output goes via Python/reticulate to the terminal and
+    # cannot be captured by utils::capture.output(); test that both
+    # values are accepted without error and return the correct class
+    anova_quiet <-
+      compute_jsdm_variance_partition(mod = mod, verbose = FALSE)
+    testthat::expect_s3_class(anova_quiet, "sjSDManova")
+
+    anova_verbose <-
+      compute_jsdm_variance_partition(mod = mod, verbose = TRUE)
+    testthat::expect_s3_class(anova_verbose, "sjSDManova")
+  }
+)
+
+testthat::test_that(
+  "compute_jsdm_variance_partition() validates n_samples argument",
+  {
+    testthat::skip_if_not_installed("sjSDM")
+
+    base::set.seed(900723)
+    data_dummy <-
+      sjSDM::simulate_SDM(env = 3L, species = 10L, sites = 100L)
+
+    data_community <-
+      purrr::pluck(data_dummy, "response")
+    data_abiotic <-
+      purrr::pluck(data_dummy, "env_weights")
+    data_coords <-
+      data.frame(
+        base::matrix(
+          data = stats::rnorm(n = 200, mean = 0, sd = 0.3),
+          nrow = 100,
+          ncol = 2
+        )
+      )
+
+    mod <-
+      sjSDM::sjSDM(
+        Y = data_community,
+        env = sjSDM::linear(
+          data = data_abiotic,
+          formula = ~ X1 + X2 + X3
+        ),
+        spatial = sjSDM::linear(
+          data = data_coords,
+          formula = ~ 0 + X1 * X2
+        ),
+        family = stats::binomial(link = "probit"),
+        verbose = FALSE,
+        iter = 20L
+      )
+
+    # Non-integer n_samples must error
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = mod, n_samples = 1.5),
+      "n_samples must be a single positive integer."
+    )
+
+    # Zero must error (not a positive count)
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = mod, n_samples = 0L),
+      "n_samples must be a single positive integer."
+    )
+
+    # Negative must error
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = mod, n_samples = -5L),
+      "n_samples must be a single positive integer."
+    )
+
+    # Non-numeric must error
+    testthat::expect_error(
+      compute_jsdm_variance_partition(mod = mod, n_samples = "100"),
+      "n_samples must be a single positive integer."
+    )
+
+    # Valid small integer passes and returns sjSDManova
+    anova_res <-
+      compute_jsdm_variance_partition(mod = mod, n_samples = 10L)
+    testthat::expect_s3_class(anova_res, "sjSDManova")
+  }
+)

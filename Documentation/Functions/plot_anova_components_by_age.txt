@@ -12,13 +12,13 @@ Usage:
        title = NULL,
        subtitle = NULL
      )
-     
+
 Arguments:
 
 data_anova_components: A data frame or tibble with columns 'age'
           (numeric), 'component' (character), and 'R2_Nagelkerke'
           (numeric). Typically the output of
-          'aggregate_anova_components()'.
+          'aggregate_jsdm_variance_components()'.
 
    title: Optional character string for the plot title. Defaults to
           'NULL' (no title).
@@ -38,5 +38,4 @@ Value:
 
 See Also:
 
-     [aggregate_anova_components()]
-
+     [aggregate_jsdm_variance_components()]

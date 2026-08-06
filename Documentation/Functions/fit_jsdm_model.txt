@@ -18,12 +18,19 @@ Usage:
        device = c("cpu", "gpu"),
        parallel = 0L,
        compute_se = FALSE,
+       biotic = NULL,
+       alpha_cov = 0.5,
+       alpha_coef = 0.5,
+       alpha_spatial = 0.5,
+       lambda_cov = 0,
+       lambda_coef = 0,
+       lambda_spatial = 0,
        ...,
        iter = 100L,
        n_early_stopping = NULL,
        verbose = FALSE
      )
-     
+
 Arguments:
 
 data_to_fit: A list containing the data to fit the model. Must include:
@@ -67,6 +74,21 @@ compute_se: Logical indicating whether to compute standard errors
           pipeline target, which allows CPU parallelisation independent
           of the GPU device setting.
 
+  biotic: Optional biotic structure passed to `sjSDM::sjSDM()`.
+          Defaults to `NULL`, which creates `sjSDM::bioticStruct()`
+          from the supplied `alpha_cov` and `lambda_cov`. Use
+          `sjSDM::bioticStruct(diag = TRUE)` to fit a no-associations
+          variant.
+
+alpha_cov, alpha_coef, alpha_spatial: Elastic-net mixing parameters for
+          biotic association covariance, abiotic coefficients, and
+          spatial coefficients. Each must be between zero and one,
+          inclusive.
+
+lambda_cov, lambda_coef, lambda_spatial: Non-negative regularization
+          strengths for biotic association covariance, abiotic
+          coefficients, and spatial coefficients.
+
      ...: Additional arguments passed to `sjSDM::sjSDM()` (e.g.
           `sampling`, `step_size`, `seed`). Do NOT pass `iter`,
           `control` or `early_stopping` directly — use the dedicated
@@ -105,4 +127,3 @@ Value:
 See Also:
 
      sjSDM::sjSDM, sjSDM::linear, sjSDM::DNN, compute_jsdm_se
-

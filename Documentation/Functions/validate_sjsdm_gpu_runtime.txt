@@ -1,0 +1,28 @@
+Validate the sjSDM GPU Runtime
+
+Description:
+
+     Runs strict validation for GPU-only sjSDM workflows using the
+     structured result from `diagnose_sjsdm_gpu_runtime()`.
+
+Usage:
+
+     validate_sjsdm_gpu_runtime(verbose = TRUE)
+
+Arguments:
+
+ verbose: Logical. If `TRUE` (default), diagnostics are printed.
+
+Details:
+
+     Unlike `diagnose_sjsdm_gpu_runtime()`, this function aborts when
+     reticulate, torch, a CUDA-enabled torch build, or a visible CUDA
+     device is unavailable.
+
+Value:
+
+     The successful named GPU-runtime diagnostic list.
+
+See Also:
+
+     [diagnose_sjsdm_gpu_runtime()], [fit_jsdm_model()]

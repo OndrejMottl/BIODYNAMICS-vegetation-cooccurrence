@@ -1,0 +1,53 @@
+<!DOCTYPE html><html><head><title>R: Compute Spatial MEM Subspace Similarity</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_spatial_mev_subspace_similarity</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute Spatial MEM Subspace Similarity</h2>
+
+<h3>Description</h3>
+
+<p>Computes sign- and rotation-invariant similarity between two spatial MEM
+bases using canonical correlations and principal angles.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_spatial_mev_subspace_similarity(data_mev_reference, data_mev_candidate)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_mev_reference">data_mev_reference</code>, <code id="data_mev_candidate">data_mev_candidate</code></td>
+<td>
+<p>Numeric data frames or matrices with aligned rows.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>One-row tibble containing aligned row count, compared dimension, canonical
+correlation summaries, and the largest principal angle in degrees.
+</p>
+
+</main>
+
+</div>
+</body></html>

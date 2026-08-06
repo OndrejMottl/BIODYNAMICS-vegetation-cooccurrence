@@ -58,7 +58,7 @@ CPU cores without being constrained by the GPU device setting.
 <p>Number of CPU cores to use for the data loader during SE
 computation. Passed to the 'parallel' argument of
 'sjSDM::getSe()'. Default is '0L' (no parallelisation).
-Use 'config.model_fitting$n_cores' from the project
+Use the 'n_cores' value from 'config.model_fitting' in the project
 configuration to exploit all available cores.</p>
 </td></tr>
 <tr><td><code id="step_size">step_size</code></td>
@@ -99,7 +99,7 @@ an informative message.
 
 <h3>Value</h3>
 
-<p>The input 'mod_jsdm' object with its '$se' field populated
+<p>The input 'mod_jsdm' object with its 'se' field populated
 with the computed standard errors.
 </p>
 
@@ -113,4 +113,3 @@ with the computed standard errors.
 
 </div>
 </body></html>
-

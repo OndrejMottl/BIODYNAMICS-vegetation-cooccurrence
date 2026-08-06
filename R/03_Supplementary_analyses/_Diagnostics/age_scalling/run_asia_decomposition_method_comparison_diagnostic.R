@@ -251,7 +251,7 @@ fit_variant <- function(
       stats::as.formula("~ 0 + abiotic_constant")
   } else {
     formula_abiotic <-
-      make_decomposition_env_formula(
+      build_decomposition_environment_formula(
         data = data_train_variant[["data_abiotic_to_fit"]],
         age_formula_mode = route[["age_formula_mode"]][[1L]]
       )
@@ -377,7 +377,7 @@ fit_variant <- function(
 
   convergence <-
     tryCatch(
-      expr = check_convergence_jsdm(mod_fit),
+      expr = diagnose_jsdm_convergence(mod_fit),
       error = function(error_condition) {
         error_condition
       }
@@ -486,7 +486,7 @@ compute_anova_shares <- function(mod_full, route_id, repeat_id, fold_id) {
 
   anova_object <-
     tryCatch(
-      expr = get_anova(
+      expr = compute_jsdm_variance_partition(
         mod = mod_full,
         n_samples = n_samples_anova,
         verbose = FALSE
@@ -510,9 +510,9 @@ compute_anova_shares <- function(mod_full, route_id, repeat_id, fold_id) {
   }
 
   res <-
-    extract_anova_fractions(anova_object = anova_object) |>
+    extract_jsdm_variance_fractions(anova_object = anova_object) |>
     dplyr::mutate(age = 0) |>
-    recalculate_anova_components() |>
+    compute_shapley_variance_components() |>
     dplyr::transmute(
       route_id = route_id,
       repeat_id = repeat_id,
@@ -578,7 +578,7 @@ run_one_checkpoint <- function(route, repeat_id, fold_id, test_indices) {
   }
 
   data_route_sample_ids <-
-    get_decomposition_route_sample_ids(
+    select_decomposition_route_samples(
       route = route,
       inputs = diagnostic_inputs
     )
@@ -719,13 +719,13 @@ list_checkpoint_results <-
         .x
 
       data_route_sample_ids <-
-        get_decomposition_route_sample_ids(
+        select_decomposition_route_samples(
           route = route_i,
           inputs = diagnostic_inputs
         )
 
       cv_indices <-
-        make_repeated_cv_indices(
+        build_repeated_diagnostic_fold_indices(
           n_samples = base::nrow(data_route_sample_ids),
           n_folds = n_folds,
           n_repeats = n_repeats,

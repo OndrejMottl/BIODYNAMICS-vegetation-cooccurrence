@@ -1,0 +1,22 @@
+Compute Spatial MEM Subspace Similarity
+
+Description:
+
+     Computes sign- and rotation-invariant similarity between two
+     spatial MEM bases using canonical correlations and principal
+     angles.
+
+Usage:
+
+     compute_spatial_mev_subspace_similarity(data_mev_reference, data_mev_candidate)
+
+Arguments:
+
+data_mev_reference, data_mev_candidate: Numeric data frames or matrices
+          with aligned rows.
+
+Value:
+
+     One-row tibble containing aligned row count, compared dimension,
+     canonical correlation summaries, and the largest principal angle
+     in degrees.

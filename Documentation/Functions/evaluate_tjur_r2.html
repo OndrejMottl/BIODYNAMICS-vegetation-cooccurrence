@@ -1,0 +1,67 @@
+<!DOCTYPE html><html><head><title>R: Evaluate Tjur R-Squared</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>evaluate_tjur_r2</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate Tjur R-Squared</h2>
+
+<h3>Description</h3>
+
+<p>Calculates Tjur's coefficient of discrimination from binary observations
+and predicted probabilities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>evaluate_tjur_r2(observed = NULL, predicted_probability = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="observed">observed</code></td>
+<td>
+<p>Numeric binary observation vector.</p>
+</td></tr>
+<tr><td><code id="predicted_probability">predicted_probability</code></td>
+<td>
+<p>Numeric predicted-probability vector aligned with 'observed'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>One-row tibble containing 'tjur_r2', 'metric_status', observation counts,
+and prevalence. Tjur R-squared is 'NA' when either response class is absent.
+Negative values are retained.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>evaluate_tjur_r2(
+  observed = c(0, 0, 1, 1),
+  predicted_probability = c(0.1, 0.3, 0.6, 0.8)
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -43,7 +43,7 @@ supplied by 'align_sample_ids()'.
 <tr><td><code id="data_community_long">data_community_long</code></td>
 <td>
 <p>A data frame in long format with columns 'dataset_name', 'age',
-'taxon', and 'pollen_prop'.</p>
+'taxon', and 'value'.</p>
 </td></tr>
 <tr><td><code id="data_sample_ids">data_sample_ids</code></td>
 <td>
@@ -56,10 +56,10 @@ supplied by 'align_sample_ids()'.
 <h3>Details</h3>
 
 <p>Only samples present in 'data_sample_ids' are retained. Rows
-with 'NA' or zero 'pollen_prop' are dropped before pivoting.
+with 'NA' or zero 'value' are dropped before pivoting.
 The function widens the data and converts the result to a matrix
 directly, so the output is ready for 'filter_constant_taxa()'
-and 'assemble_data_to_fit()'.
+and 'build_jsdm_fit_input()'.
 </p>
 
 
@@ -76,11 +76,10 @@ ordered by 'dataset_name' then 'age', matching the order in
 <h3>See Also</h3>
 
 <p>[align_sample_ids()], [filter_constant_taxa()],
-[assemble_data_to_fit()]
+[build_jsdm_fit_input()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

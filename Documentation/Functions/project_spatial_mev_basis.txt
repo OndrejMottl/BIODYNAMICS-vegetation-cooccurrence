@@ -1,0 +1,44 @@
+Project a Reusable Spatial MEM Basis
+
+Description:
+
+     Projects exact or fast training MEMs to held-out locations with
+     the matching construction method.
+
+Usage:
+
+     project_spatial_mev_basis(
+       list_spatial_mev_basis = NULL,
+       data_coords_projected_pred = NULL,
+       data_coords_projected_train = NULL,
+       spatial_scale_attributes = NULL,
+       projection_chunk_size = 5000L,
+       exact_projection_function = interpolate_mev_to_grid,
+       fast_projection_function = NULL
+     )
+
+Arguments:
+
+list_spatial_mev_basis: List returned by [compute_spatial_mev_basis()].
+
+data_coords_projected_pred: Projected coordinates for prediction
+          locations.
+
+data_coords_projected_train: Training coordinates required for exact
+          IDW compatibility.
+
+spatial_scale_attributes: Optional training scale attributes passed to
+          [scale_predictors_with_training_attributes()].
+
+projection_chunk_size: Positive integer limiting prediction rows
+          processed in one operation.
+
+exact_projection_function: Exact-basis projection function. Defaults to
+          [interpolate_mev_to_grid()].
+
+fast_projection_function: Fast-basis projection function. Defaults to
+          [spmoran::meigen0()].
+
+Value:
+
+     Data frame of projected `mev_*` columns in prediction-row order.

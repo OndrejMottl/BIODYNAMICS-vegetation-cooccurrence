@@ -15,7 +15,8 @@ Usage:
        data_coords_projected_train = NULL,
        data_mev_core = NULL,
        data_coords_projected_pred = NULL,
-       spatial_scale_attributes = NULL
+       spatial_scale_attributes = NULL,
+       chunk_size = 5000L
      )
 
 Arguments:
@@ -41,6 +42,10 @@ spatial_scale_attributes: Optional named list of `"scaled:center"` and
           scale as the training spatial predictors. When `NULL`,
           unscaled interpolated values are returned for fold-local
           scaling.
+
+chunk_size: Positive integer limiting the number of prediction
+          locations included in one distance matrix. Default is
+          `5000L`.
 
 Details:
 

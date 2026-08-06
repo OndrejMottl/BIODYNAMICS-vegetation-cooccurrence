@@ -31,7 +31,7 @@
 #' dropped via `tidyr::drop_na()` before scaling. The returned
 #' `scale_attributes` list preserves the same structure as
 #' `attributes(scale(x))[-1]` (i.e., `dim` excluded).
-#' @seealso [prepare_abiotic_for_fit()], [assemble_data_to_fit()]
+#' @seealso [prepare_abiotic_for_fit()], [build_jsdm_fit_input()]
 #' @export
 scale_abiotic_for_fit <- function(
     data_abiotic_wide = NULL,

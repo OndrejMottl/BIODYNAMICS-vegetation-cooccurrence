@@ -34,7 +34,7 @@ contribute equally to the Euclidean distance structure.
 Returns the first 'n_mev' eigenvectors as a data frame
 with row names in '&quot;dataset_name__age&quot;' format, ready
 for 'scale_spatial_for_fit()' and
-'assemble_data_to_fit()'.
+'build_jsdm_fit_input()'.
 </p>
 
 
@@ -127,11 +127,10 @@ matching the ordering produced by
 [project_coords_to_metric()],
 [align_sample_ids()],
 [scale_spatial_for_fit()],
-[assemble_data_to_fit()]
+[build_jsdm_fit_input()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

@@ -1,0 +1,51 @@
+Compute a Reusable Spatial MEM Basis
+
+Description:
+
+     Computes exact or low-rank Moran eigenvectors and retains explicit
+     state required to project the same basis to held-out locations.
+
+Usage:
+
+     compute_spatial_mev_basis(
+       data_coords_projected = NULL,
+       n_mev = 20L,
+       strategy = "exact",
+       exact_max_locations = 1999L,
+       fast_eigenvectors = 200L,
+       fast_seed = 900723L,
+       exact_function = sjSDM::generateSpatialEV,
+       fast_function = NULL
+     )
+
+Arguments:
+
+data_coords_projected: Data frame with `coord_x_km` and `coord_y_km`
+          columns and unique row names.
+
+   n_mev: Positive integer giving the number of public eigenvectors
+          requested.
+
+strategy, exact_max_locations, fast_eigenvectors: Shared strategy
+          settings validated by [resolve_spatial_mev_strategy()].
+
+fast_seed: Positive integer used locally for deterministic Nyström knot
+          selection.
+
+exact_function: Exact Moran-eigenvector function. Defaults to
+          [sjSDM::generateSpatialEV()].
+
+fast_function: Fast Moran-eigenvector function. Defaults to
+          [spmoran::meigen_f()].
+
+Details:
+
+     Exact results retain the current sjSDM values unchanged. Fast
+     results use an exponential-kernel basis and orient each selected
+     eigenvector deterministically. The orientation is retained for
+     matching projection.
+
+Value:
+
+     Named list with `data_mev`, `projection_basis`, and one-row
+     `data_provenance`.

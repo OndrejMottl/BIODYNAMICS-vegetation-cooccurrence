@@ -8,7 +8,7 @@ Description:
 Usage:
 
      evaluate_jsdm(mod_jsdm = NULL)
-     
+
 Arguments:
 
 mod_jsdm: A fitted sjSDM model object. Must be of class 'sjSDM'.
@@ -20,7 +20,7 @@ Details:
      for binary predictions. For other model families, RMSE is computed
      per species.
 
-     Convergence is assessed via [check_convergence_jsdm()], which
+     Convergence is assessed via [diagnose_jsdm_convergence()], which
      analyses the training loss history. A `linear_trend_slope` < 0.01
      and `median_diff` < 1 in the returned `convergence` element
      indicate that the model has converged.
@@ -31,10 +31,9 @@ Value:
      R-squared values (McFadden, Nagelkerke) - `species`: A tibble with
      one row per species and columns: species, AUC, Accuracy, LogLoss
      (binomial) or RMSE (other families) - `convergence`: A list from
-     [check_convergence_jsdm()] with `linear_trend_slope`,
+     [diagnose_jsdm_convergence()] with `linear_trend_slope`,
      `median_diff`, `convergence_plot`, and `note`
 
 See Also:
 
-     sjSDM::Rsquared, Metrics::auc, check_convergence_jsdm
-
+     sjSDM::Rsquared, Metrics::auc, diagnose_jsdm_convergence

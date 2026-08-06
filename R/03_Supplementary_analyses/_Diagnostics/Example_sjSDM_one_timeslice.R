@@ -289,7 +289,7 @@ if (flag_verbose) {
 
 # Assemble data — no spatial component
 data_to_fit_s1 <-
-  assemble_data_to_fit(
+  build_jsdm_fit_input(
     data_community_filtered = data_community_binary_1k,
     data_abiotic_scaled_list = data_abiotic_scaled_list_1k
   )
@@ -662,7 +662,7 @@ data_grid_mev_scaled <-
 #----------------------------------------------------------#
 
 data_to_fit_s3 <-
-  assemble_data_to_fit(
+  build_jsdm_fit_input(
     data_community_filtered = data_community_binary_1k,
     data_abiotic_scaled_list = data_abiotic_scaled_list_1k,
     data_spatial_scaled_list = data_spatial_scaled_list_1k
@@ -898,7 +898,7 @@ data_st_mev_scaled_1k <-
   ) |>
   tibble::column_to_rownames("sample_id")
 
-# Rebuild the list structure expected by assemble_data_to_fit():
+# Rebuild the list structure expected by build_jsdm_fit_input():
 # scaled data is the sel_age subset; scale attributes come from
 # the full multi-slice computation.
 data_st_spatial_scaled_list_1k <-
@@ -1091,7 +1091,7 @@ data_grid_abiotic_scaled_s4 <-
 # ST-MEVs; the bio formula stays ~ bio1 + bio12 so
 # no bio:age interaction distorts the sel_age prediction.
 data_to_fit_s4 <-
-  assemble_data_to_fit(
+  build_jsdm_fit_input(
     data_community_filtered = data_community_binary_s4,
     data_abiotic_scaled_list = data_abiotic_scaled_list_s4,
     data_spatial_scaled_list = data_st_spatial_scaled_list_s4
@@ -1101,7 +1101,7 @@ mod_s4 <-
   fit_jsdm_model(
     data_to_fit = data_to_fit_s4,
     abiotic_method = "linear",
-    sel_abiotic_formula = make_env_formula(
+    sel_abiotic_formula = build_jsdm_environment_formula(
       data = data_to_fit_s4$data_abiotic_to_fit,
       use_age = FALSE
     ),

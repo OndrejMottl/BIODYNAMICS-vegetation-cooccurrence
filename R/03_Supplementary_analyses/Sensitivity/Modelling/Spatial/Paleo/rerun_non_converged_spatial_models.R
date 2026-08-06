@@ -130,7 +130,7 @@ data_convergence <-
   ) |>
   purrr::list_rbind() |>
   dplyr::mutate(
-    # Thresholds per check_convergence_jsdm() documentation:
+    # Thresholds per diagnose_jsdm_convergence() documentation:
     #   slope < 0.01 and diff < 1 indicate convergence
     converged = linear_trend_slope < 0.01 & median_diff < 1
   )

@@ -14,9 +14,11 @@
 #' @param standard_error_function
 #' Injectable standard-error function. Defaults to [compute_jsdm_se()].
 #' @param anova_function
-#' Injectable decomposition function. Defaults to [get_anova()].
+#' Injectable decomposition function. Defaults to
+#' [compute_jsdm_variance_partition()].
 #' @param extract_function
-#' Injectable ANOVA extractor. Defaults to [extract_anova_fractions()].
+#' Injectable ANOVA extractor. Defaults to
+#' [extract_jsdm_variance_fractions()].
 #' @return
 #' Named list containing fitted models, ANOVA objects, model-level provenance,
 #' and a long decomposition table. Individual failures are retained with an
@@ -28,8 +30,8 @@ run_sjsdm_common_regularization_sensitivity <- function(
     read_target_function = targets::tar_read_raw,
     fit_function = NULL,
     standard_error_function = compute_jsdm_se,
-    anova_function = get_anova,
-    extract_function = extract_anova_fractions) {
+    anova_function = compute_jsdm_variance_partition,
+    extract_function = extract_jsdm_variance_fractions) {
   vec_index_columns <-
     base::c(
       "model_id",

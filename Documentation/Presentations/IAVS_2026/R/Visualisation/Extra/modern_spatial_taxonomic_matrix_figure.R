@@ -143,7 +143,7 @@ data_modern_unit <-
   build_spatial_model_store_index(
     data_source = "modern"
   ) |>
-  read_spatial_model_results(
+  load_spatial_model_results(
     resolution_ids = base::c(
       "genus",
       "family",

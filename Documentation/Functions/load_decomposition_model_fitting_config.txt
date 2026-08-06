@@ -1,0 +1,26 @@
+Load Decomposition Model-Fitting Configuration
+
+Description:
+
+     Internal loader that prefers the shared configuration target and
+     falls back to the taxonomic-resolution-specific target.
+
+Usage:
+
+     .load_decomposition_model_fitting_config(
+       store_path,
+       resolution_id,
+       tar_read_fn
+     )
+
+Arguments:
+
+store_path: Targets store path.
+
+resolution_id: Taxonomic resolution suffix.
+
+tar_read_fn: Function used to read targets.
+
+Value:
+
+     The model-fitting configuration value.

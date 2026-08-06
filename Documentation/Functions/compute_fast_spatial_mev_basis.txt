@@ -1,0 +1,30 @@
+Compute the Fast Spatial MEM Basis Engine Result
+
+Description:
+
+     Fixed-seed Nyström-strategy implementation for
+     [compute_spatial_mev_basis()].
+
+Usage:
+
+     compute_fast_spatial_mev_basis(
+       mat_coords,
+       fast_eigenvectors,
+       fast_seed,
+       fast_function = NULL
+     )
+
+Arguments:
+
+mat_coords: Numeric projected-coordinate matrix.
+
+fast_eigenvectors: Positive integer controlling the low-rank basis.
+
+fast_seed: Positive integer used locally for knot selection.
+
+fast_function: Fast Moran-eigenvector construction function.
+
+Value:
+
+     Named list containing the complete MEV matrix, fast projection
+     state, engine method, and projection method.

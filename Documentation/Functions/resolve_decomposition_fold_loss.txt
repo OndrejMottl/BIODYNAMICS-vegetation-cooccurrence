@@ -1,0 +1,20 @@
+Resolve One Decomposition Fold Loss
+
+Description:
+
+     Internal helper that returns a loss only when one variant row
+     matches.
+
+Usage:
+
+     .resolve_decomposition_fold_loss(data_fold, variant_name)
+
+Arguments:
+
+data_fold: One route-repeat-fold data frame.
+
+variant_name: Variant identifier to look up.
+
+Value:
+
+     One numeric loss or `NA_real_` when the match is not unique.

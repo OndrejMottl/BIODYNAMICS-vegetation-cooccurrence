@@ -1,0 +1,35 @@
+Compute Shapley-Allocated Variance Components
+
+Description:
+
+     Converts a long-format variance-partitioning table into per-age
+     percentages for Abiotic, Associations, and Spatial components
+     using equal-split Shapley allocation.
+
+Usage:
+
+     compute_shapley_variance_components(data_source)
+
+Arguments:
+
+data_source: A non-empty data frame with columns `age`, `component`,
+          and `R2_Nagelkerke`. Missing intersection labels are treated
+          as zero, and negative R² values are clamped to zero.
+
+Details:
+
+     Each two-way intersection is split equally between its two
+     components, and the three-way intersection is split equally among
+     all three components. The adjusted values therefore sum to the
+     total of all seven clamped fractions.
+
+Value:
+
+     A tibble with exactly three rows per age and columns `age`,
+     `component`, `R2_Nagelkerke_adjusted`, and
+     `R2_Nagelkerke_percentage`.
+
+See Also:
+
+     [extract_jsdm_variance_fractions()],
+     [aggregate_jsdm_variance_components()]

@@ -1,0 +1,34 @@
+Prepare Binary Prediction Metric Input
+
+Description:
+
+     Validates aligned binary observations and predicted probabilities
+     and computes counts shared by predictive metric evaluators.
+
+Usage:
+
+     prepare_binary_prediction_metric_input(
+       observed = NULL,
+       predicted_probability = NULL
+     )
+
+Arguments:
+
+observed: Numeric vector containing only zero and one.
+
+predicted_probability: Numeric vector of predicted probabilities in the
+          closed interval `[0, 1]`, aligned one-to-one with `observed`.
+
+Value:
+
+     Named list containing validated observation and probability
+     vectors, observation counts, prevalence, and `class_status`. The
+     status is `"ok"`, `"undefined_no_presences"`, or
+     `"undefined_no_absences"`.
+
+Examples:
+
+     prepare_binary_prediction_metric_input(
+       observed = c(0, 1),
+       predicted_probability = c(0.2, 0.8)
+     )

@@ -1,0 +1,22 @@
+Load One Decomposition Target
+
+Description:
+
+     Internal adapter that forwards a target name and store to the
+     injected target-reading function.
+
+Usage:
+
+     .load_decomposition_target(target_name, store_path, tar_read_fn)
+
+Arguments:
+
+target_name: Target name to load.
+
+store_path: Targets store path.
+
+tar_read_fn: Function used to read targets.
+
+Value:
+
+     The loaded target value.

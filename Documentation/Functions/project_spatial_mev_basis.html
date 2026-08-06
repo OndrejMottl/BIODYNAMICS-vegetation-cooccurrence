@@ -1,0 +1,85 @@
+<!DOCTYPE html><html><head><title>R: Project a Reusable Spatial MEM Basis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>project_spatial_mev_basis</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Project a Reusable Spatial MEM Basis</h2>
+
+<h3>Description</h3>
+
+<p>Projects exact or fast training MEMs to held-out locations with the
+matching construction method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>project_spatial_mev_basis(
+  list_spatial_mev_basis = NULL,
+  data_coords_projected_pred = NULL,
+  data_coords_projected_train = NULL,
+  spatial_scale_attributes = NULL,
+  projection_chunk_size = 5000L,
+  exact_projection_function = interpolate_mev_to_grid,
+  fast_projection_function = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="list_spatial_mev_basis">list_spatial_mev_basis</code></td>
+<td>
+<p>List returned by [compute_spatial_mev_basis()].</p>
+</td></tr>
+<tr><td><code id="data_coords_projected_pred">data_coords_projected_pred</code></td>
+<td>
+<p>Projected coordinates for prediction locations.</p>
+</td></tr>
+<tr><td><code id="data_coords_projected_train">data_coords_projected_train</code></td>
+<td>
+<p>Training coordinates required for exact IDW compatibility.</p>
+</td></tr>
+<tr><td><code id="spatial_scale_attributes">spatial_scale_attributes</code></td>
+<td>
+<p>Optional training scale attributes passed to
+[scale_predictors_with_training_attributes()].</p>
+</td></tr>
+<tr><td><code id="projection_chunk_size">projection_chunk_size</code></td>
+<td>
+<p>Positive integer limiting prediction rows processed in one operation.</p>
+</td></tr>
+<tr><td><code id="exact_projection_function">exact_projection_function</code></td>
+<td>
+<p>Exact-basis projection function. Defaults to [interpolate_mev_to_grid()].</p>
+</td></tr>
+<tr><td><code id="fast_projection_function">fast_projection_function</code></td>
+<td>
+<p>Fast-basis projection function. Defaults to [spmoran::meigen0()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Data frame of projected 'mev_*' columns in prediction-row order.
+</p>
+
+</main>
+
+</div>
+</body></html>

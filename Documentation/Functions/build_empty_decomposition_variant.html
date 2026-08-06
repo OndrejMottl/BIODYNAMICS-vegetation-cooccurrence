@@ -1,0 +1,88 @@
+<!DOCTYPE html><html><head><title>R: Build an Empty Decomposition Variant Result</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>.build_empty_decomposition_variant</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build an Empty Decomposition Variant Result</h2>
+
+<h3>Description</h3>
+
+<p>Internal helper that constructs the stable failed-variant result schema.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>.build_empty_decomposition_variant(
+  route_id,
+  repeat_id,
+  fold_id,
+  variant,
+  status,
+  error_message,
+  warning_text = NA_character_,
+  diagnostics = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="route_id">route_id</code></td>
+<td>
+<p>Diagnostic route identifier.</p>
+</td></tr>
+<tr><td><code id="repeat_id">repeat_id</code></td>
+<td>
+<p>Repeated-fold identifier.</p>
+</td></tr>
+<tr><td><code id="fold_id">fold_id</code></td>
+<td>
+<p>Fold identifier.</p>
+</td></tr>
+<tr><td><code id="variant">variant</code></td>
+<td>
+<p>Model variant identifier.</p>
+</td></tr>
+<tr><td><code id="status">status</code></td>
+<td>
+<p>Failure status.</p>
+</td></tr>
+<tr><td><code id="error_message">error_message</code></td>
+<td>
+<p>Captured error message.</p>
+</td></tr>
+<tr><td><code id="warning_text">warning_text</code></td>
+<td>
+<p>Collapsed warning text.</p>
+</td></tr>
+<tr><td><code id="diagnostics">diagnostics</code></td>
+<td>
+<p>Optional one-row fold diagnostics.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>One-row failed-variant tibble.
+</p>
+
+</main>
+
+</div>
+</body></html>

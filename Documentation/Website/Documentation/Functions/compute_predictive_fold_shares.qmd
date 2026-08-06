@@ -1,0 +1,74 @@
+---
+format: html
+title: compute_predictive_fold_shares()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_predictive_fold_shares</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute One Fold of Predictive Decomposition Shares</h2>
+
+<h3>Description</h3>
+
+<p>Converts full and reduced model values into the established loss or
+higher-is-better metric share schema.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_predictive_fold_shares(
+  data_fold,
+  value_column,
+  direction = base::c("lower", "higher"),
+  metric_name = value_column
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_fold">data_fold</code></td>
+<td>
+<p>One repeat-fold data frame containing full and reduced variants.</p>
+</td></tr>
+<tr><td><code id="value_column">value_column</code></td>
+<td>
+<p>Name of the loss or performance column.</p>
+</td></tr>
+<tr><td><code id="direction">direction</code></td>
+<td>
+<p>Either '&quot;lower&quot;' for loss or '&quot;higher&quot;' for performance.</p>
+</td></tr>
+<tr><td><code id="metric_name">metric_name</code></td>
+<td>
+<p>Output metric label used when 'direction = &quot;higher&quot;'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A three-row tibble containing component shares for one fold.
+</p>
+
+</main>
+
+</div>
+</body></html>
