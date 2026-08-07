@@ -13,6 +13,18 @@ base::source(
   here::here("R", "___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -93,7 +105,7 @@ data_example_point_colour <-
   dplyr::mutate(
     observation_id = "example"
   ) |>
-  mix_variance_component_colours(
+  compute_variance_component_colours(
     vec_component_colours = vec_component_colours,
     vec_required_components = base::names(vec_component_colours),
     observation_id_column = "observation_id",

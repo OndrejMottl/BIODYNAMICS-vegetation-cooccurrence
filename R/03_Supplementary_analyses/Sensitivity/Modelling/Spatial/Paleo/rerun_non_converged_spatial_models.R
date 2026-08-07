@@ -154,7 +154,7 @@ data_diagnostic_summary <-
     model_tuning = purrr::map2(
       .x = scale_id,
       .y = tax_res,
-      .f = ~ get_model_tuning_params(
+      .f = ~ load_model_tuning_parameters(
         analysis_id = "paleo_spatial",
         scale_id = .x,
         resolution_id = .y

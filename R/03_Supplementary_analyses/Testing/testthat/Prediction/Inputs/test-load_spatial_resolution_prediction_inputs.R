@@ -1,0 +1,131 @@
+testthat::test_that(
+  "load_spatial_resolution_prediction_inputs() reads suffixed targets",
+  {
+    data_meta <-
+      tibble::tibble(
+        name = c(
+          "model_jsdm_selected_genus",
+          "data_model_input_genus",
+          "data_coords_projected",
+          "data_spatial_mev_core",
+          "data_spatial_mev_samples_genus",
+          "data_spatial_scaled_list_genus"
+        ),
+        error = NA_character_
+      )
+
+    meta_fn <- function(...) {
+      return(data_meta)
+    }
+
+    read_target_fn <- function(name, store) {
+      return(base::list(name = name, store = store))
+    }
+
+    res <-
+      load_spatial_resolution_prediction_inputs(
+        store_path = "mock_store",
+        resolution_id = "genus",
+        read_target_fn = read_target_fn,
+        meta_fn = meta_fn
+      )
+
+    testthat::expect_named(
+      res,
+      c(
+        "mod_jsdm",
+        "data_model_input",
+        "data_coords_projected",
+        "data_spatial_mev_core",
+        "data_spatial_mev_samples",
+        "data_spatial_scaled_list"
+      )
+    )
+    testthat::expect_equal(
+      purrr::pluck(res, "mod_jsdm", "name"),
+      "model_jsdm_selected_genus"
+    )
+  }
+)
+
+testthat::test_that(
+  "load_spatial_resolution_prediction_inputs() errors on missing target",
+  {
+    data_meta <-
+      tibble::tibble(
+        name = "model_jsdm_selected_genus",
+        error = NA_character_
+      )
+
+    meta_fn <- function(...) {
+      return(data_meta)
+    }
+
+    read_target_fn <- function(name, store) {
+      return(NULL)
+    }
+
+    testthat::expect_error(
+      load_spatial_resolution_prediction_inputs(
+        store_path = "mock_store",
+        resolution_id = "genus",
+        read_target_fn = read_target_fn,
+        meta_fn = meta_fn
+      ),
+      regexp = "missing or errored"
+    )
+  }
+)
+
+testthat::test_that(
+  "load_spatial_resolution_prediction_inputs() optionally reads basis state",
+  {
+    data_meta <-
+      tibble::tibble(
+        name = c(
+          "model_jsdm_selected_genus",
+          "data_model_input_genus",
+          "data_coords_projected",
+          "data_spatial_mev_core",
+          "data_spatial_mev_samples_genus",
+          "data_spatial_scaled_list_genus",
+          "list_spatial_mev_core_basis"
+        ),
+        error = NA_character_
+      )
+
+    res <-
+      load_spatial_resolution_prediction_inputs(
+        store_path = "mock_store",
+        resolution_id = "genus",
+        read_target_fn = function(name, store) {
+          return(base::list(name = name, store = store))
+        },
+        meta_fn = function(...) {
+          return(data_meta)
+        },
+        include_spatial_basis = TRUE
+      )
+
+    testthat::expect_named(
+      res,
+      c(
+        "mod_jsdm",
+        "data_model_input",
+        "data_coords_projected",
+        "data_spatial_mev_core",
+        "data_spatial_mev_samples",
+        "data_spatial_scaled_list",
+        "list_spatial_mev_core_basis"
+      )
+    )
+    testthat::expect_equal(
+      purrr::pluck(
+        res,
+        "list_spatial_mev_core_basis",
+        "name"
+      ),
+      "list_spatial_mev_core_basis"
+    )
+  }
+)

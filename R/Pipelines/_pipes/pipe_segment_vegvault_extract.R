@@ -58,7 +58,7 @@ pipe_segment_vegvault_extract <-
           purrr::chuck(config_vegvault_data, "sel_abiotic_var_name")
 
         sel_scale_id <-
-          get_scale_id_from_store()
+          resolve_scale_id_from_store()
 
         data_extracted <-
           tryCatch(
@@ -154,7 +154,7 @@ pipe_segment_vegvault_extract <-
     targets::tar_target(
       description = "Get coordinates of the VegVault data",
       name = "data_coords",
-      command = get_coords(data_vegvault_extracted)
+      command = extract_dataset_coordinates(data_vegvault_extracted)
     ),
     targets::tar_target(
       description = paste0(

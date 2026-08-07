@@ -13,6 +13,18 @@ base::source(
   here::here("R", "___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -144,7 +156,7 @@ data_spatial_results <-
     require_non_empty = TRUE
   ) |>
   dplyr::mutate(
-    continent_id = get_continent_id_from_scale_id(
+    continent_id = resolve_continent_ids_from_scale_ids(
       scale_id = .data$scale_id,
       file = here::here("Data", "Input", "spatial_grid.csv")
     )
@@ -368,7 +380,7 @@ figure_spatial_association_quality <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  create_oracle_theme(
+  build_oracle_theme(
     base_family = font_family,
     base_size = 12
   ) +

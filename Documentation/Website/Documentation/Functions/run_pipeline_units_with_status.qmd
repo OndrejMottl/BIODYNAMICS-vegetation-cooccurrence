@@ -1,0 +1,107 @@
+---
+format: html
+title: run_pipeline_units_with_status()
+---
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_pipeline_units_with_status</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run Pipeline Units With Status Capture</h2>
+
+<h3>Description</h3>
+
+<p>Runs one isolated pipeline store per unit, continuing after unit failures
+while retaining an explicit status row for every requested unit.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_pipeline_units_with_status(
+  scale_ids = NULL,
+  sel_script = NULL,
+  run_pipeline_function = run_pipeline,
+  progress = TRUE,
+  ...,
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="scale_ids">scale_ids</code></td>
+<td>
+<p>Non-empty character vector of unique spatial unit identifiers.</p>
+</td></tr>
+<tr><td><code id="sel_script">sel_script</code></td>
+<td>
+<p>Single pipeline script path passed to 'run_pipeline_function'.</p>
+</td></tr>
+<tr><td><code id="run_pipeline_function">run_pipeline_function</code></td>
+<td>
+<p>Injectable pipeline runner called with 'sel_script', 'store_suffix', and
+arguments supplied through '...'. Defaults to [run_pipeline()].</p>
+</td></tr>
+<tr><td><code id="progress">progress</code></td>
+<td>
+<p>Logical scalar controlling the progress indicator. Defaults to 'TRUE'.</p>
+</td></tr>
+<tr><td><code id="...">...</code></td>
+<td>
+<p>Additional named arguments passed to 'run_pipeline_function'.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical scalar controlling per-unit status messages. Defaults to 'TRUE'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This helper is intended for post-selection full-unit execution. Upstream
+tuning-summary production remains fail-fast so tier selection cannot use
+incomplete evidence.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Tibble with one row per requested unit and columns 'scale_id',
+'pipeline_status' ('&quot;ok&quot;' or '&quot;error&quot;'), and 'error_message'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+run_pipeline_units_with_status(
+  scale_ids = c("eu_r01", "eu_r02"),
+  sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
+  prebuild_interpolation = TRUE
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

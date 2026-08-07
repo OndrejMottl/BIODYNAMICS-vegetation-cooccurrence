@@ -57,7 +57,7 @@ targets::tar_source(
 targets::tar_option_set(
   seed = load_active_config_value("seed"),
   format = "qs",
-  controller = get_preprocessing_controller()
+  controller = build_preprocessing_controller()
   # now we need NOT to set the error option to "null" because we want to
   #   see the errors in the pipeline
   # error = "null"

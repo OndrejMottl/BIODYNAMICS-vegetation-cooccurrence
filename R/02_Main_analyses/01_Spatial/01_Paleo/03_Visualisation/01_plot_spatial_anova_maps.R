@@ -107,7 +107,7 @@ data_assoc_pct <-
     .data$component == "Associations"
   ) |>
   dplyr::mutate(
-    continent = get_continent_id_from_scale_id(
+    continent = resolve_continent_ids_from_scale_ids(
       scale_id = .data$scale_id,
       file = here::here("Data/Input/spatial_grid.csv")
     )
@@ -240,7 +240,7 @@ list_panels <-
               rlang::set_names() |>
               purrr::map(
                 .f = ~ {
-                  build_map_panel(
+                  plot_spatial_anova_map_panel(
                     sel_continent = sel_continent,
                     sel_scale = sel_scale,
                     sel_resolution = .x,

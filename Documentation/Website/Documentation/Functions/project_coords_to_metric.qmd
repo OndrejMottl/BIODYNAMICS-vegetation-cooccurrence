@@ -46,7 +46,7 @@ columns.
 <td>
 <p>A data frame with 'dataset_name' as row names and columns
 'coord_long' and 'coord_lat' (decimal degrees, WGS84), as
-returned by 'get_coords()'.</p>
+returned by 'extract_dataset_coordinates()'.</p>
 </td></tr>
 <tr><td><code id="target_crs">target_crs</code></td>
 <td>
@@ -98,11 +98,10 @@ preserved unchanged in the output.
 
 <h3>See Also</h3>
 
-<p>[get_coords()], [prepare_spatial_predictors_for_fit()]
+<p>[extract_dataset_coordinates()], [prepare_spatial_predictors_for_fit()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

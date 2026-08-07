@@ -1,0 +1,28 @@
+Build a Pipeline Progress Monitor Server
+
+Description:
+
+     Builds the Shiny server function used by the targets progress
+     monitor.
+
+Usage:
+
+     build_pipeline_progress_monitor_server(
+       monitor_id,
+       path_monitor_config,
+       flag_refresh_automatically
+     )
+
+Arguments:
+
+monitor_id: Single character string identifying the targets watch
+          module.
+
+path_monitor_config: Path to the temporary targets configuration file.
+
+flag_refresh_automatically: Logical indicating whether automatic
+          refresh remains enabled at startup.
+
+Value:
+
+     A Shiny server function.

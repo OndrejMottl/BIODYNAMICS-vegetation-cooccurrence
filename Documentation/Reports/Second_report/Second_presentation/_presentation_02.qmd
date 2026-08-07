@@ -1,5 +1,5 @@
 ---
-format: 
+format:
   revealjs:
     slide-number: true
     theme: [default, custom_theme.scss]
@@ -78,7 +78,7 @@ set_store <-
 
 verbose <- FALSE
 
-check_presence_of_vegvault()
+validate_vegvault_presence()
 ```
 
 ```{r}
@@ -414,8 +414,8 @@ include_local_figure("Logos/VegVault_logo.png")
 
 ::::: {.column width="50%"}
 
-* A global SQLite database linking [interdisciplinary]{.text-background-green .text-bold} **plot-based** vegetation data! 
-* Links to functional **traits**, **climate** variables, and soil properties 
+* A global SQLite database linking [interdisciplinary]{.text-background-green .text-bold} **plot-based** vegetation data!
+* Links to functional **traits**, **climate** variables, and soil properties
 * Built for exploring **biodiversity** dynamics across [time & space]{.text-background-blue .text-bold}
 * Open Source & [Reproducible]{.text-background-brown .text-bold}
 * 🔗Learn more: [bit.ly/VegVault](https://bit.ly/VegVault)
@@ -474,14 +474,14 @@ include_local_figure("QR/qr_vegvault.svg")
 
 :::: {.columns}
 
-#### Data sources 
+#### Data sources
 
 ::: {.column width="40%"}
 
 - 🌿 [**Paleoecological records**]{.text-background-brown .text-bold} ([Neotoma]{.text-italic}, [FOSSILPOL]{.text-italic})
 - 🌱 [**Contemporary vegetation**]{.text-background-green .text-bold} ([sPlotOpen]{.text-italic}, [BIEN]{.text-italic})
 - 🌾 **Functional traits** ([BIEN]{.text-italic}, [TRY]{.text-italic})
-- 🌍 **Climate & soil data** ([CHELSA]{.text-italic}, [WoSIS]{.text-italic})  
+- 🌍 **Climate & soil data** ([CHELSA]{.text-italic}, [WoSIS]{.text-italic})
 :::
 
 ::: {.column width="60%"}
@@ -516,7 +516,7 @@ The main methodology is [Joined Species Distribution Modelling]{.text-background
 
 ## scaled JSDM - {sjSDM} package
 
-- scales up to large datasets 
+- scales up to large datasets
 - GPU-accelerated via Python / PyTorch
 
 ```{r}
@@ -648,19 +648,19 @@ flowchart LR
 
 ::: {.column width="50%"}
 
-**1. Data extraction** 
+**1. Data extraction**
 
 - lon −10–40°, lat 35–70°
 - 0–20 kyr BP
 - fossil pollen + 7 CHELSA bioclim vars
 
-**2. Community data** 
+**2. Community data**
 
 - counts → pollen %
 - 500-yr steps
 - genus-level; rare/sparse taxa removed; binarised
 
-**3. Abiotic data** 
+**3. Abiotic data**
 
 - 500-yr steps
 - collinear predictors removed
@@ -669,21 +669,21 @@ flowchart LR
 
 ::: {.column width="50%"}
 
-**4. Alignment** 
+**4. Alignment**
 
 - community × abiotic × coordinates intersected
 
-**5. Model preparation** 
+**5. Model preparation**
 
 - z-score scaling
 - 5 MEV spatial maps
 
-**6. sjSDM fitting** 
+**6. sjSDM fitting**
 
 - env formula (age * bioclim)
 - spatial (MEV)
 
-**7. Evaluation & ANOVA** 
+**7. Evaluation & ANOVA**
 
 - 5-fold CV (AUC)
 - variance partitioning: env / space / biotic
@@ -916,8 +916,8 @@ data_community <-
   data_to_fit %>%
   purrr::chuck("data_community_to_fit") %>%
   base::as.data.frame() %>%
-  add_dataset_name_column_from_rownames() %>%
-  add_age_column_from_rownames() %>%
+  prepare_dataset_name_column_from_rownames() %>%
+  prepare_age_column_from_rownames() %>%
   tibble::as_tibble()
 
 data_community_timeslice <-
@@ -1013,7 +1013,7 @@ list_data_community_binary <-
 
 set.seed(900723)
 data_network_metrics <-
-list_data_community_binary |> 
+list_data_community_binary |>
   purrr::map(
     .progress = verbose,
     .f = ~ bipartite::networklevel(.x, index = c("connectance", "nestedness")) %>%
@@ -1379,7 +1379,7 @@ data_pred_long <-
   )
 ```
 
-## 
+##
 
 ```{r}
 #| label: eu-prediction-plot-save
@@ -1394,8 +1394,8 @@ data_observed <-
   data_to_fit |>
   purrr::chuck("data_community_to_fit") |>
   base::as.data.frame() |>
-  add_dataset_name_column_from_rownames() |>
-  add_age_column_from_rownames() |>
+  prepare_dataset_name_column_from_rownames() |>
+  prepare_age_column_from_rownames() |>
   tibble::as_tibble() |>
   tidyr::pivot_longer(
     cols = -c(dataset_name, age),

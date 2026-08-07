@@ -19,7 +19,7 @@
 #   have different convergence parameters (n_iter, n_sampling,
 #   n_step_size, n_early_stopping) stored in model tuning CSVs.
 #   This segment builds a per-resolution config_model_fitting
-#   by calling get_model_tuning_params() with the active resolution
+#   by calling load_model_tuning_parameters() with the active resolution
 #   value substituted by tarchetypes::tar_map().
 #
 # When inside tar_map() this segment produces:
@@ -63,7 +63,7 @@ pipe_segment_config_model_by_resolution <-
       description = stringr::str_c(
         "Resolution-specific model fitting configuration.",
         " Reads fitting params from the resolution-specific columns",
-        " from the model tuning CSV via get_model_tuning_params().",
+        " from the model tuning CSV via load_model_tuning_parameters().",
         " resolution_id is injected by tarchetypes::tar_map()."
       ),
       name = "config_model_fitting",
@@ -72,27 +72,28 @@ pipe_segment_config_model_by_resolution <-
           n_cores = load_active_config_value(
             value = c("model_fitting", "n_cores")
           ),
-          n_iter = get_model_tuning_param_for_scale_and_resolution(
+          n_iter = load_model_tuning_parameter_for_scale_and_resolution(
             param_id = "n_iter",
             resolution_id = resolution_id
           ),
-          n_sampling = get_model_tuning_param_for_scale_and_resolution(
+          n_sampling = load_model_tuning_parameter_for_scale_and_resolution(
             param_id = "n_sampling",
             resolution_id = resolution_id
           ),
-          n_step_size = get_model_tuning_param_for_scale_and_resolution(
+          n_step_size = load_model_tuning_parameter_for_scale_and_resolution(
             param_id = "n_step_size",
             resolution_id = resolution_id
           ),
           n_early_stopping =
-            get_model_tuning_param_for_scale_and_resolution(
+            load_model_tuning_parameter_for_scale_and_resolution(
               param_id = "n_early_stopping",
               resolution_id = resolution_id
             ),
-          n_samples_anova = get_model_tuning_param_for_scale_and_resolution(
-            param_id = "n_samples_anova",
-            resolution_id = resolution_id
-          ),
+          n_samples_anova =
+            load_model_tuning_parameter_for_scale_and_resolution(
+              param_id = "n_samples_anova",
+              resolution_id = resolution_id
+            ),
           n_mev = load_active_config_value(
             value = c("model_fitting", "n_mev")
           ),

@@ -126,7 +126,7 @@ the script name and active configuration. When 'fresh_run = TRUE',
 the target store is destroyed with
 'targets::tar_destroy(destroy = &quot;all&quot;)' before execution so that every
 target is rebuilt from scratch. It uses 'targets::tar_make()' to
-execute the pipeline and then calls 'save_progress_visualisation()' to
+execute the pipeline and then calls 'save_pipeline_progress_visualisation()' to
 generate a network visualization of the pipeline status. When
 'prebuild_interpolation = TRUE', the function first executes only
 'data_community_interpolated' with the 'crew_mori' preprocessing
@@ -146,7 +146,7 @@ folder.
 
 <h3>See Also</h3>
 
-<p>[save_progress_visualisation()],
+<p>[save_pipeline_progress_visualisation()],
 [targets::tar_make()],
 [crew::crew_controller_local()]
 </p>

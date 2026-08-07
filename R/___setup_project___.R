@@ -52,7 +52,7 @@ vec_package_names <-
 
 base::source(
   file = here::here(
-    "R/Functions/Utility/Project_setup/load_project_functions.R"
+    "R/Functions/Pipeline/Definitions/load_project_functions.R"
   ),
   local = current_env
 )
@@ -84,7 +84,7 @@ if (
       vec_excluded_directory_names = "_legacy"
     )
 
-  check_presence_of_vegvault()
+  validate_vegvault_presence()
 
   n_preprocessing_workers <-
     base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKERS")

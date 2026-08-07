@@ -151,7 +151,7 @@ load_spatial_model_results <- function(
 
               model_evaluation_fitted <-
                 if (
-                  check_target_succeeded(
+                  has_target_succeeded(
                     data_meta,
                     target_evaluation_fitted
                   )
@@ -179,7 +179,7 @@ load_spatial_model_results <- function(
 
               model_evaluation_cross_validated <-
                 if (
-                  check_target_succeeded(
+                  has_target_succeeded(
                     data_meta,
                     target_evaluation_cross_validated
                   )

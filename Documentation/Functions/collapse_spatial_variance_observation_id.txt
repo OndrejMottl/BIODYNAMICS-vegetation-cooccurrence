@@ -1,0 +1,18 @@
+Collapse a Spatial Variance Observation ID
+
+Description:
+
+     Combines the identifying values for one spatial-variance
+     observation.
+
+Usage:
+
+     collapse_spatial_variance_observation_id(...)
+
+Arguments:
+
+     ...: Scalar values comprising one observation identifier.
+
+Value:
+
+     Single character string with values separated by `"__"`.

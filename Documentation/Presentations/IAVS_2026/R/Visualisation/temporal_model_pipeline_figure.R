@@ -13,6 +13,18 @@ base::source(
   here::here("R", "___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -129,7 +141,7 @@ data_slice_boxes <-
 
 data_input_boxes <-
   dplyr::bind_rows(
-    node_box(
+    build_schematic_node_box(
       id = "community",
       label = "COMMUNITY",
       x = 20,
@@ -140,7 +152,7 @@ data_input_boxes <-
       text_colour = colour_community,
       text_size = 3.55
     ),
-    node_box(
+    build_schematic_node_box(
       id = "abiotic",
       label = "ABIOTIC",
       x = 50,
@@ -151,7 +163,7 @@ data_input_boxes <-
       text_colour = colour_climate,
       text_size = 3.55
     ),
-    node_box(
+    build_schematic_node_box(
       id = "coords",
       label = "COORDS",
       x = 78,
@@ -166,7 +178,7 @@ data_input_boxes <-
 
 data_process_boxes <-
   dplyr::bind_rows(
-    node_box(
+    build_schematic_node_box(
       id = "network",
       label = "NETWORK\nDIAGNOSTICS",
       x = 66,
@@ -177,7 +189,7 @@ data_process_boxes <-
       text_colour = colour_shared,
       text_size = 3.05
     ),
-    node_box(
+    build_schematic_node_box(
       id = "model",
       label = "{sjSDM}",
       x = 34,
@@ -190,7 +202,7 @@ data_process_boxes <-
     )
   )
 
-data_node_boxes <-
+data_build_schematic_node_boxes <-
   dplyr::bind_rows(
     data_input_boxes,
     data_process_boxes
@@ -256,7 +268,7 @@ figure_temporal_pipeline <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  create_oracle_theme(base_family = font_family, base_size = 11) +
+  build_oracle_theme(base_family = font_family, base_size = 11) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(
       fill = vec_oracle_palette[["background"]],
@@ -313,7 +325,7 @@ figure_temporal_pipeline <-
     alpha = 0.82
   ) +
   ggplot2::geom_rect(
-    data = data_node_boxes,
+    data = data_build_schematic_node_boxes,
     mapping = ggplot2::aes(
       xmin = xmin,
       xmax = xmax,
@@ -326,7 +338,7 @@ figure_temporal_pipeline <-
     alpha = 0.82
   ) +
   ggplot2::geom_text(
-    data = data_node_boxes,
+    data = data_build_schematic_node_boxes,
     mapping = ggplot2::aes(
       x = x,
       y = y,

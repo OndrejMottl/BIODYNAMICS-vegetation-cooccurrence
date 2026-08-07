@@ -19,7 +19,7 @@
     store_path,
     read_target_fn) {
   if (
-    !check_target_succeeded(data_meta, target_name)
+    !has_target_succeeded(data_meta, target_name)
   ) {
     return(NULL)
   }

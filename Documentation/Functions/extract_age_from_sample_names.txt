@@ -1,0 +1,19 @@
+Extract Age from String
+
+Description:
+
+     Extracts the age value from a vector of strings, taking all
+     characters after the double underscore ("__").
+
+Usage:
+
+     extract_age_from_sample_names(vec_names)
+
+Arguments:
+
+vec_names: A character vector containing names with the format
+          "dataset__age".
+
+Value:
+
+     A character vector of age values.

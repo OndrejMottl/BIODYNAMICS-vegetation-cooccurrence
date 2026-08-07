@@ -264,7 +264,7 @@ data_taxa_eval <-
 
 data_taxa_n_ages_with_absent <-
   data_to_fit$data_community_to_fit %>%
-  add_age_column_from_rownames() %>%
+  prepare_age_column_from_rownames() %>%
   tidyr::pivot_longer(
     cols = -c(age),
     names_to = "taxon",
@@ -320,8 +320,8 @@ sel_taxa <- "Fraxinus"
 data_observed <-
   data_to_fit %>%
   purrr::chuck("data_community_to_fit") %>%
-  add_age_column_from_rownames() %>%
-  add_dataset_name_column_from_rownames() %>%
+  prepare_age_column_from_rownames() %>%
+  prepare_dataset_name_column_from_rownames() %>%
   as_tibble() %>%
   dplyr::left_join(
     data_to_fit$data_coords_to_fit %>%

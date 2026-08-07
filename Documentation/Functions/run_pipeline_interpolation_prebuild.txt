@@ -1,0 +1,23 @@
+Run a Pipeline Interpolation Prebuild
+
+Description:
+
+     Repairs failed interpolation targets and prebuilds shared
+     interpolation branches with the configured preprocessing workers.
+
+Usage:
+
+     run_pipeline_interpolation_prebuild(pipeline_script, pipeline_store, workers)
+
+Arguments:
+
+pipeline_script: Path to the selected targets pipeline script.
+
+pipeline_store: Path to the selected targets store.
+
+ workers: Positive integer number of preprocessing workers.
+
+Value:
+
+     `NULL`, invisibly. The function is called for targets side
+     effects.

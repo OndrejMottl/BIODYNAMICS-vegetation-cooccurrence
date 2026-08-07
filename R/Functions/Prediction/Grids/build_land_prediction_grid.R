@@ -47,7 +47,7 @@ build_land_prediction_grid <- function(
   )
 
   list_window <-
-    get_spatial_window(
+    load_spatial_window(
       scale_id = scale_id,
       file = path_spatial_grid
     )

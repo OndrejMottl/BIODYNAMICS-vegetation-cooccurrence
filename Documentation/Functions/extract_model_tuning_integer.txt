@@ -1,0 +1,29 @@
+Extract a Model Tuning Integer
+
+Description:
+
+     Extracts one integer value from a one-row model tuning table.
+
+Usage:
+
+     extract_model_tuning_integer(
+       data_tuning_row,
+       column_name,
+       scale_id,
+       required = TRUE
+     )
+
+Arguments:
+
+data_tuning_row: One-row data frame containing model tuning values.
+
+column_name: Single character string naming the value to extract.
+
+scale_id: Single character string used in validation messages.
+
+required: Logical indicating whether a missing value should raise an
+          error.
+
+Value:
+
+     A single integer, or `NULL` for an optional missing value.

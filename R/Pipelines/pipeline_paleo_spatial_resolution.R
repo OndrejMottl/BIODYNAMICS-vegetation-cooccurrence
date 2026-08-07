@@ -99,7 +99,7 @@ targets::tar_source(
 targets::tar_option_set(
   seed = load_active_config_value("seed"),
   format = "qs",
-  controller = get_preprocessing_controller(),
+  controller = build_preprocessing_controller(),
   error = "continue"
 )
 
@@ -172,7 +172,7 @@ c(
 #   genus- and family-level pollen taxa are covered correctly.
 #   The produced .qs file is saved to Data/Processed/Traits/ so
 #   regional and local pipelines for the same continent can look
-#   it up via get_functional_type_classification_path_from_store().
+#   it up via resolve_functional_type_classification_path_from_store().
 #
 # For regional and local runs, the pre-computed .qs produced by
 #   the continental pipeline is looked up by continent_id and
@@ -209,7 +209,7 @@ if (
           "for the continent that owns this spatial unit"
         ),
         name = file_ft_classification_paleo,
-        command = get_functional_type_classification_path_from_store(),
+        command = resolve_functional_type_classification_path_from_store(),
         format = "file"
       )
     )

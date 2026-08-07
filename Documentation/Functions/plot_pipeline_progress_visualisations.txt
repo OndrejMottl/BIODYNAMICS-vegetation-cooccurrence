@@ -1,0 +1,30 @@
+Plot Pipeline Progress Visualisations
+
+Description:
+
+     Builds full and targets-only pipeline progress visualisations in
+     memory.
+
+Usage:
+
+     plot_pipeline_progress_visualisations(
+       sel_script,
+       sel_store,
+       physics = TRUE,
+       level_separation = 250
+     )
+
+Arguments:
+
+sel_script: Pipeline script passed to [targets::tar_visnetwork()].
+
+sel_store: Path to the targets store.
+
+ physics: Logical indicating whether network physics are enabled
+          initially.
+
+level_separation: Numeric separation between network levels.
+
+Value:
+
+     Named list with `full` and `static` `visNetwork` objects.

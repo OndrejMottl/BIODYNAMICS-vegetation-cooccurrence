@@ -31,10 +31,16 @@ data_scripts <-
     show_col_types = FALSE
   ) |>
   dplyr::mutate(
-    active_path = dplyr::if_else(
-      .data[["migration_status"]] == "migrated",
-      .data[["intended_path"]],
-      .data[["current_path"]]
+    active_path = dplyr::case_when(
+      .data[["migration_status"]] == "migrated" ~
+        .data[["intended_path"]],
+      .data[["migration_status"]] %in%
+        base::c(
+          "retired_to_legacy",
+          "retired",
+          "localized_to_presentation"
+        ) ~ NA_character_,
+      TRUE ~ .data[["current_path"]]
     )
   )
 
@@ -50,14 +56,24 @@ data_functions <-
     active_path = dplyr::case_when(
       .data[["migration_status"]] == "migrated" ~
         .data[["intended_path"]],
-      .data[["migration_status"]] == "retired_to_legacy" ~
+      .data[["migration_status"]] %in%
+        base::c(
+          "retired_to_legacy",
+          "retired",
+          "localized_to_presentation"
+        ) ~
         NA_character_,
       TRUE ~ .data[["current_path"]]
     ),
     active_symbol = dplyr::case_when(
       .data[["migration_status"]] == "migrated" ~
         .data[["intended_function"]],
-      .data[["migration_status"]] == "retired_to_legacy" ~
+      .data[["migration_status"]] %in%
+        base::c(
+          "retired_to_legacy",
+          "retired",
+          "localized_to_presentation"
+        ) ~
         NA_character_,
       TRUE ~ .data[["function_name"]]
     )
@@ -97,7 +113,7 @@ vec_script_paths_current <-
 
 base::source(
   file = here::here(
-    "R/Functions/Utility/Project_setup/load_project_functions.R"
+    "R/Functions/Pipeline/Definitions/load_project_functions.R"
   ),
   local = base::environment()
 )
@@ -142,7 +158,8 @@ vec_uninventoried_scripts <-
 
 vec_missing_scripts <-
   base::setdiff(
-    data_scripts[["active_path"]],
+    data_scripts[["active_path"]] |>
+      purrr::discard(base::is.na),
     vec_script_paths_current
   )
 
@@ -465,7 +482,7 @@ vec_trait_function_paths_current <-
 data_migrated_trait_functions <-
   data_functions |>
   dplyr::filter(
-    .data[["owning_issue"]] == "#153",
+    .data[["owning_issue"]] %in% base::c("#153", "#155"),
     .data[["migration_status"]] == "migrated",
     stringr::str_starts(
       .data[["active_path"]],
@@ -553,7 +570,7 @@ vec_trait_test_paths_current <-
 data_migrated_trait_tests <-
   data_scripts |>
   dplyr::filter(
-    .data[["owning_issue"]] == "#153",
+    .data[["owning_issue"]] %in% base::c("#153", "#155"),
     .data[["classification"]] == "test",
     .data[["migration_status"]] == "migrated",
     stringr::str_starts(
@@ -614,7 +631,7 @@ vec_spatial_function_paths_current <-
 data_migrated_spatial_functions <-
   data_functions |>
   dplyr::filter(
-    .data[["owning_issue"]] == "#153",
+    .data[["owning_issue"]] %in% base::c("#153", "#155"),
     .data[["migration_status"]] == "migrated",
     stringr::str_starts(
       .data[["active_path"]],
@@ -693,7 +710,7 @@ vec_spatial_test_paths_current <-
 data_migrated_spatial_tests <-
   data_scripts |>
   dplyr::filter(
-    .data[["owning_issue"]] == "#153",
+    .data[["owning_issue"]] %in% base::c("#153", "#155"),
     .data[["classification"]] == "test",
     .data[["migration_status"]] == "migrated",
     stringr::str_starts(
@@ -1763,6 +1780,345 @@ data_issue154_dollar_access_findings <-
     }
   )
 
+data_issue155_functions <-
+  data_functions |>
+  dplyr::filter(.data[["owning_issue"]] == "#155")
+
+data_migrated_issue155_functions <-
+  data_issue155_functions |>
+  dplyr::filter(.data[["migration_status"]] == "migrated")
+
+data_localized_issue155_functions <-
+  data_issue155_functions |>
+  dplyr::filter(
+    .data[["migration_status"]] == "localized_to_presentation"
+  )
+
+data_retired_issue155_functions <-
+  data_issue155_functions |>
+  dplyr::filter(.data[["migration_status"]] == "retired")
+
+data_issue155_function_placement_findings <-
+  data_migrated_issue155_functions |>
+  dplyr::filter(
+    !base::file.exists(here::here(.data[["active_path"]])) |
+      (
+        .data[["current_path"]] != .data[["active_path"]] &
+          base::file.exists(here::here(.data[["current_path"]]))
+      )
+  ) |>
+  dplyr::transmute(
+    finding_type = "issue155_function_placement",
+    severity = "blocking",
+    current_path = .data[["active_path"]],
+    symbol = .data[["active_symbol"]],
+    owning_issue = "#155",
+    message = stringr::str_c(
+      "Issue #155 functions must remain at their approved capability paths."
+    )
+  )
+
+data_issue155_localization_findings <-
+  data_localized_issue155_functions |>
+  dplyr::filter(
+    !base::file.exists(here::here(.data[["intended_path"]])) |
+      base::file.exists(here::here(.data[["current_path"]]))
+  ) |>
+  dplyr::transmute(
+    finding_type = "issue155_presentation_localization",
+    severity = "blocking",
+    current_path = .data[["intended_path"]],
+    symbol = .data[["intended_function"]],
+    owning_issue = "#155",
+    message = "IAVS-only helpers must remain presentation-local."
+  )
+
+data_issue155_retirement_path_findings <-
+  data_retired_issue155_functions |>
+  dplyr::filter(base::file.exists(here::here(.data[["current_path"]]))) |>
+  dplyr::transmute(
+    finding_type = "issue155_retirement_path",
+    severity = "blocking",
+    current_path = .data[["current_path"]],
+    symbol = .data[["function_name"]],
+    owning_issue = "#155",
+    message = "Retired Issue #155 function paths must not return."
+  )
+
+vec_issue155_inactive_symbols <-
+  base::unique(
+    base::c(
+      data_localized_issue155_functions[["function_name"]],
+      data_localized_issue155_functions[["intended_function"]],
+      data_retired_issue155_functions[["function_name"]]
+    )
+  )
+
+data_issue155_inactive_symbol_findings <-
+  data_functions_current |>
+  dplyr::filter(
+    .data[["function_name"]] %in% vec_issue155_inactive_symbols
+  ) |>
+  dplyr::transmute(
+    finding_type = "issue155_inactive_symbol",
+    severity = "blocking",
+    current_path = stringr::str_c(
+      "R/Functions/",
+      .data[["path_relative"]]
+    ),
+    symbol = .data[["function_name"]],
+    owning_issue = "#155",
+    message = "Retired and presentation-local symbols must not load globally."
+  )
+
+data_issue155_naming_findings <-
+  data_migrated_issue155_functions |>
+  dplyr::filter(
+    .data[["naming_status"]] != "canonical_or_domain_verb"
+  ) |>
+  dplyr::transmute(
+    finding_type = "issue155_function_naming",
+    severity = "blocking",
+    current_path = .data[["active_path"]],
+    symbol = .data[["active_symbol"]],
+    owning_issue = "#155",
+    message = "Migrated Issue #155 functions must use approved verbs."
+  )
+
+data_issue155_test_mirror_findings <-
+  data_migrated_issue155_functions |>
+  dplyr::mutate(
+    expected_test_path = .data[["active_path"]] |>
+      stringr::str_replace(
+        "^R/Functions/",
+        "R/03_Supplementary_analyses/Testing/testthat/"
+      ) |>
+      stringr::str_replace(
+        "/([^/]+)[.]R$",
+        "/test-\\1.R"
+      ),
+    has_mirrored_test = base::file.exists(
+      here::here(.data[["expected_test_path"]])
+    )
+  ) |>
+  dplyr::filter(!.data[["has_mirrored_test"]]) |>
+  dplyr::transmute(
+    finding_type = "issue155_test_mirror",
+    severity = "blocking",
+    current_path = .data[["expected_test_path"]],
+    symbol = .data[["active_symbol"]],
+    owning_issue = "#155",
+    message = "Each migrated Issue #155 function needs a mirrored test."
+  )
+
+data_issue155_nested_findings <-
+  data_migrated_issue155_functions |>
+  dplyr::filter(
+    !base::is.na(.data[["nested_helpers"]]) &
+      .data[["nested_helpers"]] != ""
+  ) |>
+  dplyr::transmute(
+    finding_type = "issue155_nested_helper",
+    severity = "blocking",
+    current_path = .data[["active_path"]],
+    symbol = .data[["nested_helpers"]],
+    owning_issue = "#155",
+    message = "Issue #155 functions must not retain named nested helpers."
+  )
+
+data_issue155_scripts <-
+  data_scripts |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#155",
+    .data[["migration_status"]] %in%
+      base::c("migrated", "localized_to_presentation")
+  )
+
+data_issue155_script_placement_findings <-
+  data_issue155_scripts |>
+  dplyr::filter(
+    !base::file.exists(here::here(.data[["intended_path"]])) |
+      (
+        .data[["current_path"]] != .data[["intended_path"]] &
+          base::file.exists(here::here(.data[["current_path"]]))
+      )
+  ) |>
+  dplyr::transmute(
+    finding_type = "issue155_script_placement",
+    severity = "blocking",
+    current_path = .data[["intended_path"]],
+    symbol = NA_character_,
+    owning_issue = "#155",
+    message = "Issue #155 scripts and tests must remain at approved paths."
+  )
+
+data_issue155_retired_script_findings <-
+  data_scripts |>
+  dplyr::filter(
+    .data[["owning_issue"]] == "#155",
+    .data[["migration_status"]] == "retired",
+    base::file.exists(here::here(.data[["current_path"]]))
+  ) |>
+  dplyr::transmute(
+    finding_type = "issue155_retired_script",
+    severity = "blocking",
+    current_path = .data[["current_path"]],
+    symbol = NA_character_,
+    owning_issue = "#155",
+    message = "Retired Issue #155 scripts must not return."
+  )
+
+vec_issue155_scope_paths_current <-
+  vec_function_paths_current[
+    stringr::str_detect(
+      vec_function_paths_current,
+      stringr::str_c(
+        "^R/Functions/(Pipeline/|Prediction/|Visualisation/|",
+        "Data/Samples/|Data/Spatial/(Coordinates|Grid_catalogue)/|",
+        "Data_access/(Files|Vegvault/Validation)/)"
+      )
+    ) |
+      vec_function_paths_current %in%
+        data_migrated_issue155_functions[["active_path"]]
+  ]
+
+data_issue155_inventory_findings <-
+  tibble::tibble(
+    finding_type = "issue155_missing_inventory_row",
+    severity = "blocking",
+    current_path = base::setdiff(
+      vec_issue155_scope_paths_current,
+      data_functions[["active_path"]] |>
+        purrr::discard(base::is.na)
+    ),
+    symbol = NA_character_,
+    owning_issue = "#155",
+    message = "Every Issue #155-owned function needs a current inventory row."
+  )
+
+vec_issue155_forbidden_directories <-
+  base::c(
+    "R/Functions/Utility",
+    "R/Functions/Presentation/IAVS"
+  )
+
+data_issue155_directory_findings <-
+  tibble::tibble(
+    finding_type = "issue155_forbidden_directory",
+    severity = "blocking",
+    current_path = vec_issue155_forbidden_directories[
+      base::dir.exists(here::here(vec_issue155_forbidden_directories))
+    ],
+    symbol = NA_character_,
+    owning_issue = "#155",
+    message = stringr::str_c(
+      "Utility and globally loaded IAVS directories must not return."
+    )
+  )
+
+vec_issue155_active_documentation_names <-
+  data_migrated_issue155_functions[["active_symbol"]] |>
+  base::unique()
+
+vec_issue155_required_documentation_paths <-
+  base::c(
+    base::file.path(
+      "Documentation/Functions",
+      base::as.vector(
+        base::outer(
+          vec_issue155_active_documentation_names,
+          base::c(".html", ".txt"),
+          base::paste0
+        )
+      )
+    ),
+    base::file.path(
+      "Documentation/Website/Documentation/Functions",
+      base::paste0(
+        vec_issue155_active_documentation_names,
+        ".qmd"
+      )
+    ),
+    base::file.path(
+      "docs/Documentation/Website/Documentation/Functions",
+      base::paste0(
+        vec_issue155_active_documentation_names,
+        ".html"
+      )
+    )
+  )
+
+data_issue155_missing_documentation_findings <-
+  tibble::tibble(
+    finding_type = "issue155_missing_documentation",
+    severity = "blocking",
+    current_path = vec_issue155_required_documentation_paths[
+      !base::file.exists(
+        here::here(vec_issue155_required_documentation_paths)
+      )
+    ],
+    symbol = NA_character_,
+    owning_issue = "#155",
+    message = "Active Issue #155 functions need current generated pages."
+  )
+
+vec_issue155_renamed_symbols <-
+  data_migrated_issue155_functions |>
+  dplyr::filter(
+    .data[["function_name"]] != .data[["intended_function"]]
+  ) |>
+  dplyr::pull(.data[["function_name"]])
+
+vec_issue155_stale_documentation_names <-
+  base::unique(
+    base::c(
+      vec_issue155_inactive_symbols,
+      vec_issue155_renamed_symbols
+    )
+  )
+
+vec_issue155_stale_documentation_paths <-
+  base::c(
+    base::file.path(
+      "Documentation/Functions",
+      base::as.vector(
+        base::outer(
+          vec_issue155_stale_documentation_names,
+          base::c(".html", ".pdf", ".txt"),
+          base::paste0
+        )
+      )
+    ),
+    base::file.path(
+      "Documentation/Website/Documentation/Functions",
+      base::paste0(
+        vec_issue155_stale_documentation_names,
+        ".qmd"
+      )
+    ),
+    base::file.path(
+      "docs/Documentation/Website/Documentation/Functions",
+      base::paste0(
+        vec_issue155_stale_documentation_names,
+        ".html"
+      )
+    )
+  )
+
+data_issue155_stale_documentation_findings <-
+  tibble::tibble(
+    finding_type = "issue155_stale_documentation",
+    severity = "blocking",
+    current_path = vec_issue155_stale_documentation_paths[
+      base::file.exists(
+        here::here(vec_issue155_stale_documentation_paths)
+      )
+    ],
+    symbol = NA_character_,
+    owning_issue = "#155",
+    message = "Retired, renamed, and IAVS-local pages must not return."
+  )
+
 data_naming_findings <-
   data_functions |>
   dplyr::filter(.data[["naming_status"]] == "review_in_owning_issue") |>
@@ -1845,6 +2201,19 @@ data_findings <-
     data_issue154_test_mirror_findings,
     data_issue154_internal_findings,
     data_issue154_dollar_access_findings,
+    data_issue155_function_placement_findings,
+    data_issue155_localization_findings,
+    data_issue155_retirement_path_findings,
+    data_issue155_inactive_symbol_findings,
+    data_issue155_naming_findings,
+    data_issue155_test_mirror_findings,
+    data_issue155_nested_findings,
+    data_issue155_script_placement_findings,
+    data_issue155_retired_script_findings,
+    data_issue155_inventory_findings,
+    data_issue155_directory_findings,
+    data_issue155_missing_documentation_findings,
+    data_issue155_stale_documentation_findings,
     data_naming_findings,
     data_nested_findings
   ) |>
@@ -1913,7 +2282,9 @@ cli::cli_inform(
       "and Time/Interpolation placement, naming, and retirement are",
       "blocking; retired HMSC paths and symbols are blocking; Issue #154",
       "placement, naming, mirrored tests, internal classification, and",
-      "dollar-access rules are blocking;",
+      "dollar-access rules are blocking; Issue #155 ownership, naming,",
+      "mirrored tests, retirement, localisation, and nested-helper rules",
+      "plus generated-documentation freshness are blocking;",
       "migrated trait placement and naming are also",
       "blocking; migrated R/01 scripts and Spatial functions/tests are",
       "also blocking;",

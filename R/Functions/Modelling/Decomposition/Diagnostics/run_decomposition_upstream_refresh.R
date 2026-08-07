@@ -92,7 +92,7 @@ run_decomposition_upstream_refresh <- function(
   vec_missing_targets <-
     vec_required_targets |>
     purrr::discard(
-      .p = ~ check_target_succeeded(
+      .p = ~ has_target_succeeded(
         data_meta = data_meta,
         target_name = .x
       )

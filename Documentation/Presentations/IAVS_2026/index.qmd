@@ -28,6 +28,18 @@ source(
   here::here("R/___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 list_oracle_design <-
   load_design_config(
     path = here::here(
@@ -389,7 +401,7 @@ Due to [data availability]{.text-emphasis-underline-dotted}, I will focus on the
 #| eval: true
 #| output: false
 #| cache: true
-generate_qr_code(
+save_qr_code(
   url = "https://bit.ly/VegVault",
   name = "vegvault",
   background_color = vec_oracle_palette[["background"]],
@@ -1394,7 +1406,7 @@ vec_continental_store_paths <-
 data_continental_community <-
   vec_continental_store_paths |>
   purrr::map(
-    .f = ~ read_target_or_null(
+    .f = ~ load_target_or_null(
       target_name = "data_community_analysis",
       store_path = .x
     )
@@ -1412,7 +1424,7 @@ if (
 }
 
 data_traits_classified_corrected <-
-  read_target_or_null(
+  load_target_or_null(
     target_name = "data_traits_classified_corrected",
     store_path = path_traits_store
   )
@@ -1429,7 +1441,7 @@ number_of_spatial_models <-
   data_spatial_store_index |>
   dplyr::pull(.data$store_path) |>
   purrr::map_int(
-    .f = ~ count_successful_targets(
+    .f = ~ compute_successful_target_count(
       store_path = .x,
       target_pattern = "^model_evaluation_(genus|family|functional_type)$"
     )
@@ -1440,7 +1452,7 @@ number_of_temporal_models <-
   data_temporal_store_index |>
   dplyr::pull(.data$store_path) |>
   purrr::map_int(
-    .f = ~ count_successful_targets(
+    .f = ~ compute_successful_target_count(
       store_path = .x,
       target_pattern = "^model_evaluation_timeslice_"
     )
@@ -1454,7 +1466,7 @@ number_of_functional_types_raw <-
   purrr::map_int(
     .f = ~ {
       data_functional_type_matrix <-
-        read_target_or_null(
+        load_target_or_null(
           target_name = "data_community_model_matrix_functional_type",
           store_path = .x
         )
@@ -1636,7 +1648,7 @@ Interested in [macroecology]{.text-emphasis-caps .text-emphasis-chip .text-color
 #| eval: true
 #| output: false
 #| cache: true
-generate_qr_code(
+save_qr_code(
   url = "https://bit.ly/ondrej_mottl",
   name = "personal_web",
   background_color = vec_oracle_palette[["background"]],
@@ -1686,7 +1698,7 @@ I am also a huge nerd so I would be very happy to talk about any of the topics, 
 #| eval: true
 #| output: false
 #| cache: true
-generate_qr_code(
+save_qr_code(
   url = "https://bit.ly/BIODYNAMICS_project",
   name = "biodynamics_web",
   background_color = vec_oracle_palette[["background"]],

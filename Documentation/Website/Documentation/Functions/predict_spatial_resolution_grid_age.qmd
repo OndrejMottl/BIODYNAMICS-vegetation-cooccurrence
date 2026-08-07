@@ -44,6 +44,7 @@ returns long-format taxon occurrence probabilities.
   spatial_mode = "spatiotemporal",
   climate_fn = NULL,
   spatial_interpolate_fn = NULL,
+  spatial_basis_project_fn = NULL,
   spatiotemporal_interpolate_fn = NULL,
   predict_fn = NULL
 )
@@ -55,7 +56,7 @@ returns long-format taxon occurrence probabilities.
 <table role = "presentation">
 <tr><td><code id="prediction_inputs">prediction_inputs</code></td>
 <td>
-<p>Named list returned by [read_spatial_resolution_prediction_inputs()].</p>
+<p>Named list returned by [load_spatial_resolution_prediction_inputs()].</p>
 </td></tr>
 <tr><td><code id="data_grid">data_grid</code></td>
 <td>
@@ -99,6 +100,11 @@ returns long-format taxon occurrence probabilities.
 <p>Spatial interpolation function. If 'NULL' (default),
 [interpolate_mev_to_grid()] is used.</p>
 </td></tr>
+<tr><td><code id="spatial_basis_project_fn">spatial_basis_project_fn</code></td>
+<td>
+<p>Reusable-basis projection function. If 'NULL' (default),
+[project_spatial_mev_basis()] is used when basis state is available.</p>
+</td></tr>
 <tr><td><code id="spatiotemporal_interpolate_fn">spatiotemporal_interpolate_fn</code></td>
 <td>
 <p>Spatiotemporal interpolation function. If 'NULL' (default),
@@ -120,7 +126,7 @@ returns long-format taxon occurrence probabilities.
 
 <h3>Examples</h3>
 
-<pre><code class='language-R'>## Not run: 
+<pre><code class='language-R'>## Not run:
 predict_spatial_resolution_grid_age(
   prediction_inputs = prediction_inputs,
   data_grid = data_grid,
@@ -139,4 +145,3 @@ predict_spatial_resolution_grid_age(
 
 </div>
 </body></html>
-

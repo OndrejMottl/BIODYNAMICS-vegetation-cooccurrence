@@ -13,6 +13,18 @@ base::source(
   here::here("R", "___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -123,7 +135,7 @@ colour_modularity <-
 
 load_slide_temporal_inventory <- function() {
   data_continents <-
-    load_continental_rows(
+    load_continental_spatial_grid_rows(
       path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
     ) |>
     dplyr::select(scale_id) |>

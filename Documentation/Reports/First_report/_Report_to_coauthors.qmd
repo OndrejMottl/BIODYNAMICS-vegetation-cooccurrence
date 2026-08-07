@@ -617,8 +617,8 @@ data_taxa_eval <-
 data_observed <-
   data_to_fit %>%
   purrr::chuck("data_community_to_fit") %>%
-  add_age_column_from_rownames() %>%
-  add_dataset_name_column_from_rownames() %>%
+  prepare_age_column_from_rownames() %>%
+  prepare_dataset_name_column_from_rownames() %>%
   as_tibble() %>%
   dplyr::left_join(
     data_to_fit %>%
@@ -1010,7 +1010,7 @@ targets::tar_read(
 
 ### Coocurences as food webs
 
-We can think about the co-occurrence networks as bipartite networks (e.g., plants and their pollinators), where individual plots are one layer and species are another layer. 
+We can think about the co-occurrence networks as bipartite networks (e.g., plants and their pollinators), where individual plots are one layer and species are another layer.
 
 
 Example of one time slice:
@@ -1024,8 +1024,8 @@ Example of one time slice:
 data_community <-
   data_to_fit %>%
   purrr::chuck("data_community_to_fit") %>%
-  add_dataset_name_column_from_rownames() %>%
-  add_age_column_from_rownames() %>%
+  prepare_dataset_name_column_from_rownames() %>%
+  prepare_age_column_from_rownames() %>%
   tibble::as_tibble()
 
 data_community_timeslice <-

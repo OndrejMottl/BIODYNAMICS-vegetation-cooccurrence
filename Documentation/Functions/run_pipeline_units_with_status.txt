@@ -1,0 +1,60 @@
+Run Pipeline Units With Status Capture
+
+Description:
+
+     Runs one isolated pipeline store per unit, continuing after unit
+     failures while retaining an explicit status row for every
+     requested unit.
+
+Usage:
+
+     run_pipeline_units_with_status(
+       scale_ids = NULL,
+       sel_script = NULL,
+       run_pipeline_function = run_pipeline,
+       progress = TRUE,
+       ...,
+       verbose = TRUE
+     )
+
+Arguments:
+
+scale_ids: Non-empty character vector of unique spatial unit
+          identifiers.
+
+sel_script: Single pipeline script path passed to
+          `run_pipeline_function`.
+
+run_pipeline_function: Injectable pipeline runner called with
+          `sel_script`, `store_suffix`, and arguments supplied through
+          `...`. Defaults to [run_pipeline()].
+
+progress: Logical scalar controlling the progress indicator. Defaults
+          to `TRUE`.
+
+     ...: Additional named arguments passed to `run_pipeline_function`.
+
+ verbose: Logical scalar controlling per-unit status messages. Defaults
+          to `TRUE`.
+
+Details:
+
+     This helper is intended for post-selection full-unit execution.
+     Upstream tuning-summary production remains fail-fast so tier
+     selection cannot use incomplete evidence.
+
+Value:
+
+     Tibble with one row per requested unit and columns `scale_id`,
+     `pipeline_status` (`"ok"` or `"error"`), and `error_message`.
+
+Examples:
+
+     ## Not run:
+
+     run_pipeline_units_with_status(
+       scale_ids = c("eu_r01", "eu_r02"),
+       sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
+       prebuild_interpolation = TRUE
+     )
+     ## End(Not run)

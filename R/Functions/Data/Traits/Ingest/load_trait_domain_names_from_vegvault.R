@@ -17,7 +17,7 @@
 #'
 #'   1. Validates input parameters.
 #'   2. Checks the presence of the VegVault SQLite database using
-#'      `check_presence_of_vegvault()`.
+#'      `validate_vegvault_presence()`.
 #'   3. Opens a DBI connection to the SQLite database.
 #'   4. Queries the `TraitsDomain` table for distinct
 #'      `trait_domain_name` values and collects results.
@@ -45,7 +45,7 @@ load_trait_domain_names_from_vegvault <- function(
     msg = "'verbose' must be a single logical value (TRUE or FALSE)."
   )
 
-  check_presence_of_vegvault(path_vegvault)
+  validate_vegvault_presence(path_vegvault)
 
   connection_vegvault <-
     DBI::dbConnect(

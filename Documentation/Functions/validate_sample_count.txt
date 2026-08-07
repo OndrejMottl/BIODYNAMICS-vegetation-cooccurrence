@@ -1,9 +1,9 @@
-Validate Sample Count
+Validate Sample Coun
 
 Description:
 
      Guards against running downstream data preparation and model
-     fitting on a time slice with too few `(dataset_name, age)`
+     fitting on a time slice with too few `(dataset_name, age)
      combinations. Returns `data_sample_ids` unchanged when the row
      count is at least `minimum_sample_count`. Stops with an
      informative error when the count falls below the threshold,
@@ -15,7 +15,7 @@ Usage:
 
 Arguments:
 
-data_sample_ids: A data frame with at least the columns `dataset_name`
+data_sample_ids: A data frame with at least the columns `dataset_name
           and `age`, as returned by `align_sample_ids()`. Each row
           represents one valid `(dataset_name, age)` pair.
 
@@ -29,10 +29,10 @@ Details:
      filter has been applied by `align_sample_ids(subset_age = ...)`.
      If the count falls below `minimum_sample_count`,
      `cli::cli_abort()` is called with a message that reports the
-     actual sample count and the threshold, allowing the user to adjust
+     actual sample count and the threshold, allowing the user to adjus
      the configuration or the input data. This check is intended to be
      placed in the per-slice pipeline (e.g.
-     `pipe_segment_sample_filter_age`) so that slices without
+     `pipe_segment_sample_filter_age`) so that slices withou
      sufficient data fail immediately, before any expensive preparation
      or model fitting.
 

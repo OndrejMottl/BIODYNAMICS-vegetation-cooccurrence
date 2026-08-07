@@ -1,5 +1,5 @@
 ---
-format: 
+format:
   revealjs:
     slide-number: true
     theme: [default, custom_theme.scss]
@@ -52,7 +52,7 @@ include_local_figure <- function(data_source) {
   )
 }
 
-check_presence_of_vegvault()
+validate_vegvault_presence()
 ```
 
 ```{r}
@@ -208,7 +208,7 @@ include_local_figure("Logos/BIODYNAMICS.png")
 ::: {.incremental}
 
 1. [Assemble an **interdisciplinary database** that integrates present and past vegetation records with their functional traits and abiotic environments since the Last Glacial Maximum]{.text-color-blue} (✅)
-2. Identify how [**biotic interactions**]{.text-background-pink .text-bold} scale up to form and **maintain biodiversity patterns** at various [spatial/temporal/taxonomic]{.text-background-blue .text-bold} scales 
+2. Identify how [**biotic interactions**]{.text-background-pink .text-bold} scale up to form and **maintain biodiversity patterns** at various [spatial/temporal/taxonomic]{.text-background-blue .text-bold} scales
 3. [Improve the capacity to **predict global biodiversity patterns** by including scale-dependent information about biotic interactions]{.text-color-blue} (maybe❔)
 
 :::
@@ -228,8 +228,8 @@ include_local_figure("Logos/VegVault_logo.png")
 
 ::::: {.column width="50%" .incremental}
 
-* A global SQLite database linking [interdisciplinary]{.text-background-green .text-bold} **plot-based** vegetation data! 
-* Links to functional **traits**, **climate** variables, and soil properties 
+* A global SQLite database linking [interdisciplinary]{.text-background-green .text-bold} **plot-based** vegetation data!
+* Links to functional **traits**, **climate** variables, and soil properties
 * Built for exploring **biodiversity** dynamics across [time & space]{.text-background-blue .text-bold}
 * Open Source & [Reproducible]{.text-background-brown .text-bold}
 * 🔗Learn more: [bit.ly/VegVault](https://bit.ly/VegVault)
@@ -279,14 +279,14 @@ include_local_figure("QR/qr_vegvault.svg")
 
 :::: {.columns .fragment}
 
-#### Data sources 
+#### Data sources
 
 ::: {.column width="40%" .incremental}
 
 - 🌿 [**Paleoecological records**]{.text-background-brown .text-bold} ([Neotoma]{.text-italic}, [FOSSILPOL]{.text-italic})
 - 🌱 [**Contemporary vegetation**]{.text-background-green .text-bold} ([sPlotOpen]{.text-italic}, [BIEN]{.text-italic})
 - 🌾 **Functional traits** ([BIEN]{.text-italic}, [TRY]{.text-italic})
-- 🌍 **Climate & soil data** ([CHELSA]{.text-italic}, [WoSIS]{.text-italic})  
+- 🌍 **Climate & soil data** ([CHELSA]{.text-italic}, [WoSIS]{.text-italic})
 :::
 
 ::: {.column width="60%"}
@@ -316,7 +316,7 @@ include_local_figure("VegVault/assembly_viz_04.png")
 ::: {.incremental fragment-index=3}
 
 - Integration of paleo and contemporary data
-- [Plot-based]{.text-background-green .text-bold} vegetation records 
+- [Plot-based]{.text-background-green .text-bold} vegetation records
    + not just species occurrences
    + [true negatives!]{.text-background-pink .text-bold}
 
@@ -352,9 +352,9 @@ include_local_figure("VegVault/assembly_viz_04.png")
 
 - [Sample-specific]{.text-background-green .text-bold} abiotic data
    + mapped to spatio-temporal grids
-   + paleo and contemporary 
+   + paleo and contemporary
 - Selected variables for [vegetation studies]{.text-background-brown .text-bold}
-   + e.g. temperature, precipitation, soil type, etc. 
+   + e.g. temperature, precipitation, soil type, etc.
 
 :::
 
@@ -409,15 +409,15 @@ Figures from [VegVault presentation](https://ondrejmottl.github.io/VegVault-Pres
 
 ::: {.incremental fragment-index=2}
 
-- [Trait domains]{.text-background-blue .text-bold} 
+- [Trait domains]{.text-background-blue .text-bold}
     + pooling of traits across sources
-    + Following [Diaz et al. (2016)]{.text-italic .text-background-green .text-color-white} 
+    + Following [Diaz et al. (2016)]{.text-italic .text-background-green .text-color-white}
 
 :::
 
 ::: {.incremental fragment-index=4}
 
-- [Taxonomic harmonisation]{.text-background-pink .text-bold} via GBIF backbone and `{taxospace}`📦  
+- [Taxonomic harmonisation]{.text-background-pink .text-bold} via GBIF backbone and `{taxospace}`📦
    + unified taxonomy across dataset vegetation, fossil pollen and traits
 
 :::
@@ -440,7 +440,7 @@ Trait source |Trait name| Trait Domain|
 
 ::: {.incremental}
 
- - [Non-random cooccurrences]{.text-background-blue .text-bold} after accounting for environmental filtering 
+ - [Non-random cooccurrences]{.text-background-blue .text-bold} after accounting for environmental filtering
 - Can be positive (facilitation) or negative (competition)
 - Are [scale dependent]{.text-background-green .text-bold} (?)
 
@@ -494,7 +494,7 @@ Trait source |Trait name| Trait Domain|
 
 <br>
 
-To address the objectives and research questions, I am developing a large code base with [modular]{.text-background-green .text-bold} and [reusable]{.text-background-blue .text-bold} **data-analysis pipelines** 
+To address the objectives and research questions, I am developing a large code base with [modular]{.text-background-green .text-bold} and [reusable]{.text-background-blue .text-bold} **data-analysis pipelines**
 
 ```{r}
 #| label: sjSDM
@@ -511,7 +511,7 @@ The main methodology is [Joined Species Distribution Modelling]{.text-background
 [{sjSDM}](https://cran.r-project.org/web/packages/sjSDM/vignettes/sjSDM_Introduction.html)
 :::
 
-## Hierarchical Modelling of Species Communities (HMSC) 
+## Hierarchical Modelling of Species Communities (HMSC)
 
 <br>
 
@@ -542,7 +542,7 @@ include_local_figure("Hmsc/61506-ele_ms_figures-1_3_4.png.webp")
 
 ```{r}
 #| label: extract-codecov
-#| echo: false 
+#| echo: false
 #| message: false
 #| warning: false
 #| include: false
@@ -550,7 +550,7 @@ include_local_figure("Hmsc/61506-ele_ms_figures-1_3_4.png.webp")
 var_codecov <-
   jsonlite::fromJSON(
     here::here("Documentation/Functions_test_coverage/covr_report_summary.json")
-  )  %>% 
+  )  %>%
   purrr::chuck("value")
 ```
 
@@ -880,7 +880,7 @@ include_local_figure("Logos/targets_logo.svg")
 ::: {.column width="70%" .incremental}
 - The pipeline is implemented using the `{targets}` R package 📦
   - Each step is a function producing [_targets_]{.text-background-green .text-bold}
-  - Each pipeline is constructed using [_pipe segments_]{.text-background-blue .text-bold} 
+  - Each pipeline is constructed using [_pipe segments_]{.text-background-blue .text-bold}
     - this allows for modular and reusable code (see later slides)
 
 :::
@@ -1052,7 +1052,7 @@ mod_full_waic <-
   Hmsc::computeWAIC()
 ```
 
-- I am selecting model based on the [WAIC value]{.text-background-green .text-bold} 
+- I am selecting model based on the [WAIC value]{.text-background-green .text-bold}
   - there is option to use ThurR2 as well
   - This is done automatically to select NULL or FULL model.
 
@@ -1636,8 +1636,8 @@ data_taxa_eval <-
 data_observed <-
   data_to_fit %>%
   purrr::chuck("data_community_to_fit") %>%
-  add_age_column_from_rownames() %>%
-  add_dataset_name_column_from_rownames() %>%
+  prepare_age_column_from_rownames() %>%
+  prepare_dataset_name_column_from_rownames() %>%
   as_tibble() %>%
   dplyr::left_join(
     data_to_fit %>%
@@ -2161,7 +2161,7 @@ data_species_associations_by_age_to_plot <-
     legend.title = ggplot2::element_blank(),
     legend.position = "bottom"
   )
-  
+
 ```
 
 ```{r}
@@ -2211,7 +2211,7 @@ _There is so much more to do! Here are some ideas for [next steps]{.text-backgro
   - Set up HPC at Metacentrum
   - use scalable joint Species Distribution Model ({sjSDM})?
 
-::: 
+:::
 
 ## Methodological improvements
 
@@ -2219,7 +2219,7 @@ _There is so much more to do! Here are some ideas for [next steps]{.text-backgro
 
 ::: {.incremental}
 
-- Move beyond presence-absence data 
+- Move beyond presence-absence data
   - use the [hurdle model]{.text-background-blue .text-bold}
 - Implement [functional traits]{.text-background-green .text-bold} in the model
 - Implement the functional types classification
@@ -2232,7 +2232,7 @@ _There is so much more to do! Here are some ideas for [next steps]{.text-backgro
 <br>
 
 ::: {.incremental}
- - Co-occurrence networks can be seen as [bipartite networks]{.text-background-blue .text-bold} 
+ - Co-occurrence networks can be seen as [bipartite networks]{.text-background-blue .text-bold}
   - first layer: [individual plots]{.text-background-green .text-bold}
   - second layer: [taxa]{.text-background-brown .text-bold}
 
@@ -2250,8 +2250,8 @@ sel_age <- 2000
 data_community <-
   data_to_fit %>%
   purrr::chuck("data_community_to_fit") %>%
-  add_dataset_name_column_from_rownames() %>%
-  add_age_column_from_rownames() %>%
+  prepare_dataset_name_column_from_rownames() %>%
+  prepare_age_column_from_rownames() %>%
   tibble::as_tibble()
 
 data_community_timeslice <-

@@ -4,6 +4,18 @@ base::source(
   here::here("R", "___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 list_oracle_design <-
   load_design_config(
     path = here::here(

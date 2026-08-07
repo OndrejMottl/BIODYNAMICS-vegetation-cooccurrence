@@ -61,7 +61,7 @@ resolve_functional_type_classification_path <- function(
 
   path_classification_file <-
     base::tryCatch(
-      expr = get_latest_dated_file_path(
+      expr = resolve_latest_dated_file_path(
         file_name_base = classification_file_stem,
         path_directory = path_classification_directory,
         file_extension = "qs"

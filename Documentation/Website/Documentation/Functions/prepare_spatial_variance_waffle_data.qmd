@@ -81,7 +81,7 @@ historical behaviour. When 'NULL', the first value in
 <tr><td><code id="method">method</code></td>
 <td>
 <p>Character string selecting the colour-mixing method passed to
-[mix_variance_component_colours()].</p>
+[compute_variance_component_colours()].</p>
 </td></tr>
 </table>
 
@@ -141,4 +141,3 @@ prepare_spatial_variance_waffle_data(
 
 </div>
 </body></html>
-

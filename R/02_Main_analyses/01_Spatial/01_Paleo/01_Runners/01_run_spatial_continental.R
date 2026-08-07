@@ -40,7 +40,7 @@ Sys.setenv(R_CONFIG_ACTIVE = "project_paleo_spatial_continental")
 #----------------------------------------------------------#
 
 vec_scale_ids <-
-  load_continental_rows(
+  load_continental_spatial_grid_rows(
     path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
   ) |>
   dplyr::pull(scale_id)

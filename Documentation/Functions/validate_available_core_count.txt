@@ -5,18 +5,20 @@ Description:
      Verifies that the number of cores (distinct pollen sites) in the
      current spatial window meets the minimum required for analysis.
      The check is intended as an early guard in the pipeline, applied
-     directly to `data_coords` (output of `get_coords()`) before any
-     expensive community-data processing begins.
+     directly to `data_coords` (output of
+     `extract_dataset_coordinates()`) before any expensive
+     community-data processing begins.
 
 Usage:
 
      validate_available_core_count(data_coords = NULL, minimum_core_count = 2)
-     
+
 Arguments:
 
 data_coords: A data frame of site coordinates, one row per core, as
-          returned by `get_coords()`. Gridpoints are already excluded
-          by that function, so every row represents a real pollen core.
+          returned by `extract_dataset_coordinates()`. Gridpoints are
+          already excluded by that function, so every row represents a
+          real pollen core.
 
 minimum_core_count: A single positive numeric value specifying the
           minimum number of distinct cores required. Typically sourced
@@ -36,5 +38,5 @@ Value:
 
 See Also:
 
-     [get_coords()], [filter_community_by_minimum_core_count()]
-
+     [extract_dataset_coordinates()],
+     [filter_community_by_minimum_core_count()]

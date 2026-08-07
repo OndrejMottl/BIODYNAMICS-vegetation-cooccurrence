@@ -34,7 +34,7 @@ source(
 #----------------------------------------------------------#
 
 data_continents <-
-  load_continental_rows(
+  load_continental_spatial_grid_rows(
     path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
   ) |>
   dplyr::select(scale_id) |>
