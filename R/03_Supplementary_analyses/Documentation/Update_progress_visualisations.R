@@ -11,7 +11,8 @@
 #----------------------------------------------------------#
 
 # Re-generates every project_status HTML (and PNG) file under
-# Documentation/Progress/ using the current save_progress_visualisation(),
+# Documentation/Progress/ using the current
+# save_pipeline_progress_visualisation(),
 # which applies the BIODYNAMICS brand theme (dark background, brand fonts,
 # brand-coloured edges).
 #
@@ -20,7 +21,7 @@
 #      "pipeline_paleo_core" or "pipeline_paleo_temporal".
 #   2. Maps the pipeline name to the corresponding pipeline script in
 #      R/Pipelines/.
-#   3. Calls save_progress_visualisation() for each store found.
+#   3. Calls save_pipeline_progress_visualisation() for each store found.
 #
 # Run interactively or via:
 #   Rscript R/03_Supplementary_analyses/Redo_progress_visualisations.R
@@ -103,7 +104,7 @@ vec_store_dirs |>
       )
 
       tryCatch(
-        save_progress_visualisation(
+        save_pipeline_progress_visualisation(
           sel_script = sel_script,
           sel_store = store_path
         ),

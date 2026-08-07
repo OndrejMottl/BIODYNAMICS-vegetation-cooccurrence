@@ -14,12 +14,10 @@
 library(here)
 
 base::source(
-  here::here(
-    "R/Functions/Utility/Pipeline/monitor_pipeline_progress.R"
-  )
+  here::here("R/___setup_project___.R")
 )
 
-monitor_pipeline_progress(
+run_pipeline_progress_monitor(
   sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
   sel_config = "project_paleo_spatial_continental",
   store_suffix = "europe"

@@ -127,6 +127,31 @@ testthat::test_that(
       ),
       "sel_script"
     )
+
+    testthat::expect_error(
+      run_pipeline_units_with_status(
+        scale_ids = "unit_a",
+        sel_script = "pipeline.R",
+        run_pipeline_function = function(...) NULL,
+        verbose = "yes"
+      ),
+      "verbose"
+    )
+  }
+)
+
+testthat::test_that(
+  "run_pipeline_units_with_status() supports quiet execution",
+  {
+    testthat::expect_no_message(
+      run_pipeline_units_with_status(
+        scale_ids = "unit_a",
+        sel_script = "pipeline.R",
+        run_pipeline_function = function(...) NULL,
+        progress = FALSE,
+        verbose = FALSE
+      )
+    )
   }
 )
 

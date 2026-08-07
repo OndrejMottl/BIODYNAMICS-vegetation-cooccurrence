@@ -1,4 +1,4 @@
-testthat::test_that("get_new_targets_errors() detects new and retried errors", {
+testthat::test_that("extract_new_target_errors() detects new and retried errors", {
   time_before <-
     base::as.POSIXct("2026-07-25 12:00:00", tz = "UTC")
 
@@ -20,7 +20,7 @@ testthat::test_that("get_new_targets_errors() detects new and retried errors", {
     )
 
   res <-
-    get_new_targets_errors(
+    extract_new_target_errors(
       data_errors_before = data_before,
       data_errors_after = data_after
     )
@@ -31,7 +31,7 @@ testthat::test_that("get_new_targets_errors() detects new and retried errors", {
   )
 })
 
-testthat::test_that("get_new_targets_errors() ignores missing errors", {
+testthat::test_that("extract_new_target_errors() ignores missing errors", {
   data_empty <-
     tibble::tibble(
       name = "target",
@@ -41,7 +41,7 @@ testthat::test_that("get_new_targets_errors() ignores missing errors", {
 
   testthat::expect_equal(
     base::nrow(
-      get_new_targets_errors(
+      extract_new_target_errors(
         data_errors_before = data_empty,
         data_errors_after = data_empty
       )

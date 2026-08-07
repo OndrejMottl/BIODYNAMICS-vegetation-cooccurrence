@@ -55,7 +55,7 @@
 #' the target store is destroyed with
 #' `targets::tar_destroy(destroy = "all")` before execution so that every
 #' target is rebuilt from scratch. It uses `targets::tar_make()` to
-#' execute the pipeline and then calls `save_progress_visualisation()` to
+#' execute the pipeline and then calls `save_pipeline_progress_visualisation()` to
 #' generate a network visualization of the pipeline status. When
 #' `prebuild_interpolation = TRUE`, the function first executes only
 #' `data_community_interpolated` with the `crew_mori` preprocessing
@@ -63,7 +63,7 @@
 #' with [targets::tar_make()]. Thus downstream GPU-dependent model
 #' targets remain sequentially scheduled.
 #' @seealso
-#'   [save_progress_visualisation()],
+#'   [save_pipeline_progress_visualisation()],
 #'   [targets::tar_make()],
 #'   [crew::crew_controller_local()]
 #' @export
@@ -163,31 +163,12 @@ run_pipeline <- function(
   sel_script_path <-
     here::here(sel_script)
 
-  sel_pipeline_name <-
-    stringr::str_replace(
-      string = basename(sel_script_path),
-      pattern = ".R$",
-      replacement = ""
-    )
-
   sel_store_path <-
-    if (
-      is.null(store_suffix)
-    ) {
-      paste0(
-        load_active_config_value("target_store"), "/",
-        sel_pipeline_name, "/"
-      )
-    } else {
-      {
-        paste0(
-          load_active_config_value("target_store"), "/",
-          store_suffix, "/",
-          sel_pipeline_name, "/"
-        )
-      } |>
-        here::here()
-    }
+    resolve_pipeline_store_path(
+      pipeline_script = sel_script_path,
+      target_store = load_active_config_value("target_store"),
+      store_suffix = store_suffix
+    )
 
   # Optionally wipe the store so all targets are rebuilt from scratch.
   # TAR_ASK is set to "false" for the duration of tar_destroy() to
@@ -232,123 +213,11 @@ run_pipeline <- function(
     interpolation_workers <-
       base::as.integer(interpolation_workers)
 
-    tryCatch(
-      withr::with_envvar(
-        new = base::c(
-          BIODYNAMICS_PREPROCESSING_WORKER = "true",
-          BIODYNAMICS_PREPROCESSING_BACKEND = "crew_mori",
-          BIODYNAMICS_PREPROCESSING_WORKERS =
-            base::as.character(interpolation_workers)
-        ),
-        code = {
-          data_prebuild_target_meta <-
-            tryCatch(
-              suppressWarnings(
-                targets::tar_meta(
-                  fields = tidyselect::any_of(
-                    base::c("name", "error")
-                  ),
-                  store = sel_store_path,
-                  complete_only = FALSE
-                )
-              ),
-              error = function(err) {
-                tibble::tibble(
-                  name = base::character(),
-                  error = base::character()
-                )
-              }
-            )
-
-          if (
-            !"error" %in% base::colnames(data_prebuild_target_meta)
-          ) {
-            data_prebuild_target_meta[["error"]] <- NA_character_
-          }
-
-          vec_prebuild_target_name <- data_prebuild_target_meta[["name"]]
-          vec_prebuild_error <- data_prebuild_target_meta[["error"]]
-
-          vec_shared_target_names <-
-            base::c(
-              "data_community_proportions_shared",
-              "data_age_uncertainty_shared"
-            )
-
-          vec_shared_targets_to_refresh <-
-            base::intersect(
-              vec_shared_target_names,
-              vec_prebuild_target_name
-            )
-
-          if (
-            base::length(vec_shared_targets_to_refresh) > 0L
-          ) {
-            targets::tar_invalidate(
-              names = tidyselect::all_of(
-                vec_shared_targets_to_refresh
-              ),
-              store = sel_store_path
-            )
-          }
-
-          flag_prebuild_interpolation_target <-
-            stringr::str_detect(
-              string = vec_prebuild_target_name,
-              pattern = stringr::str_c(
-                "^(",
-                "data_community_proportions_shared",
-                "|data_age_uncertainty_shared",
-                "|data_community_interpolated_dataset",
-                "|data_community_interpolated",
-                ")"
-              )
-            )
-
-          flag_prebuild_target_errored <-
-            !base::is.na(vec_prebuild_error) &
-            base::nzchar(vec_prebuild_error)
-
-          vec_errored_prebuild_targets <-
-            vec_prebuild_target_name[
-              flag_prebuild_interpolation_target &
-                flag_prebuild_target_errored
-            ]
-
-          if (
-            base::length(vec_errored_prebuild_targets) > 0L
-          ) {
-            vec_targets_to_invalidate <-
-              base::unique(
-                base::c(
-                  vec_errored_prebuild_targets,
-                  "data_community_interpolated"
-                )
-              )
-
-            targets::tar_invalidate(
-              names = tidyselect::any_of(
-                vec_targets_to_invalidate
-              ),
-              store = sel_store_path
-            )
-          }
-
-          base::tryCatch(
-            targets::tar_make(
-              names = tidyselect::all_of(
-                "data_community_interpolated"
-              ),
-              script = sel_script_path,
-              store = sel_store_path,
-              reporter = "verbose",
-              callr_function = NULL
-            ),
-            finally = targets::tar_unblock_process(
-              store = sel_store_path
-            )
-          )
-        }
+    base::tryCatch(
+      run_pipeline_interpolation_prebuild(
+        pipeline_script = sel_script_path,
+        pipeline_store = sel_store_path,
+        workers = interpolation_workers
       ),
       error = function(err) {
         prebuild_error <<- err
@@ -358,12 +227,12 @@ run_pipeline <- function(
     if (
       !base::is.null(prebuild_error)
     ) {
-      warning(
-        paste(
+      base::warning(
+        base::paste(
           "Interpolation prebuild failed and will be skipped.",
           "Continuing with full tar_make().",
           "Prebuild error:",
-          conditionMessage(prebuild_error)
+          base::conditionMessage(prebuild_error)
         ),
         call. = FALSE
       )
@@ -374,13 +243,21 @@ run_pipeline <- function(
     base::is.null(tar_error)
   ) {
     data_target_errors_before <-
-      targets::tar_meta(
-        fields = tidyselect::any_of(
-          base::c("name", "error", "time")
-        ),
-        store = sel_store_path,
-        complete_only = FALSE
+      load_targets_store_metadata(
+        store_path = sel_store_path,
+        fields = base::c("name", "error", "time")
       )
+
+    if (
+      base::is.null(data_target_errors_before)
+    ) {
+      data_target_errors_before <-
+        tibble::tibble(
+          name = base::character(),
+          error = base::character(),
+          time = base::as.POSIXct(base::character())
+        )
+    }
 
     if (
       !"time" %in% base::colnames(data_target_errors_before)
@@ -417,13 +294,21 @@ run_pipeline <- function(
     )
 
     data_target_errors_after <-
-      targets::tar_meta(
-        fields = tidyselect::any_of(
-          base::c("name", "error", "time")
-        ),
-        store = sel_store_path,
-        complete_only = FALSE
+      load_targets_store_metadata(
+        store_path = sel_store_path,
+        fields = base::c("name", "error", "time")
       )
+
+    if (
+      base::is.null(data_target_errors_after)
+    ) {
+      data_target_errors_after <-
+        tibble::tibble(
+          name = base::character(),
+          error = base::character(),
+          time = base::as.POSIXct(base::character())
+        )
+    }
 
     if (
       !"time" %in% base::colnames(data_target_errors_after)
@@ -436,7 +321,7 @@ run_pipeline <- function(
     }
 
     data_new_target_errors <-
-      get_new_targets_errors(
+      extract_new_target_errors(
         data_errors_before = data_target_errors_before,
         data_errors_after = data_target_errors_after
       )
@@ -462,7 +347,7 @@ run_pipeline <- function(
   if (
     isTRUE(plot_progress)
   ) {
-    save_progress_visualisation(
+    save_pipeline_progress_visualisation(
       sel_script = sel_script_path,
       sel_store = sel_store_path,
       level_separation = level_separation

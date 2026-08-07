@@ -9,7 +9,7 @@
 #' @return
 #' A tibble of new error records with `name`, `error`, and `time` columns.
 #' @export
-get_new_targets_errors <- function(
+extract_new_target_errors <- function(
     data_errors_before = NULL,
     data_errors_after = NULL) {
   vec_required_columns <-

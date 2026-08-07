@@ -11,6 +11,8 @@
 #' arguments supplied through `...`. Defaults to [run_pipeline()].
 #' @param progress
 #' Logical scalar controlling the progress indicator. Defaults to `TRUE`.
+#' @param verbose
+#' Logical scalar controlling per-unit status messages. Defaults to `TRUE`.
 #' @param ...
 #' Additional named arguments passed to `run_pipeline_function`.
 #' @return
@@ -34,7 +36,8 @@ run_pipeline_units_with_status <- function(
     sel_script = NULL,
     run_pipeline_function = run_pipeline,
     progress = TRUE,
-    ...) {
+    ...,
+    verbose = TRUE) {
   flag_valid_scale_ids <-
     base::is.character(scale_ids) &&
     base::length(scale_ids) > 0L &&
@@ -63,6 +66,11 @@ run_pipeline_units_with_status <- function(
   assertthat::assert_that(
     assertthat::is.flag(progress),
     msg = "`progress` must be `TRUE` or `FALSE`."
+  )
+
+  assertthat::assert_that(
+    assertthat::is.flag(verbose),
+    msg = "`verbose` must be `TRUE` or `FALSE`."
   )
 
   additional_arguments <-
@@ -95,10 +103,14 @@ run_pipeline_units_with_status <- function(
     purrr::map(
       .progress = progress,
       .f = function(scale_id) {
-        base::message(
-          "Running pipeline for spatial unit: ",
-          scale_id
-        )
+        if (
+          base::isTRUE(verbose)
+        ) {
+          base::message(
+            "Running pipeline for spatial unit: ",
+            scale_id
+          )
+        }
 
         error_condition <-
           tryCatch(
@@ -127,12 +139,16 @@ run_pipeline_units_with_status <- function(
           error_message <-
             base::conditionMessage(error_condition)
 
-          base::message(
-            "Pipeline failed for spatial unit ",
-            scale_id,
-            ": ",
-            error_message
-          )
+          if (
+            base::isTRUE(verbose)
+          ) {
+            base::message(
+              "Pipeline failed for spatial unit ",
+              scale_id,
+              ": ",
+              error_message
+            )
+          }
 
           pipeline_status <-
             "error"

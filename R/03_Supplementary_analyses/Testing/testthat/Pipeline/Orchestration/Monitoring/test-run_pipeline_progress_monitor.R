@@ -1,5 +1,5 @@
 testthat::test_that(
-  "monitor_pipeline_progress() resolves a non-spatial store",
+  "run_pipeline_progress_monitor() resolves a non-spatial store",
   {
     list_config_call <- NULL
     list_ui_call <- NULL
@@ -33,7 +33,7 @@ testthat::test_that(
       .package = "shiny"
     )
 
-    monitor_pipeline_progress(
+    run_pipeline_progress_monitor(
       sel_script = "R/Pipelines/pipeline_paleo_core.R",
       sel_config = "project_cz_paleo",
       verbose = FALSE
@@ -63,7 +63,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "monitor_pipeline_progress() resolves a suffixed spatial store",
+  "run_pipeline_progress_monitor() resolves a suffixed spatial store",
   {
     sel_store <- NULL
 
@@ -87,7 +87,7 @@ testthat::test_that(
       .package = "shiny"
     )
 
-    monitor_pipeline_progress(
+    run_pipeline_progress_monitor(
       sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
       sel_config = "project_paleo_spatial_continental",
       store_suffix = "europe",
@@ -106,10 +106,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "monitor_pipeline_progress() validates selections and controls",
+  "run_pipeline_progress_monitor() validates selections and controls",
   {
     testthat::expect_error(
-      monitor_pipeline_progress(
+      run_pipeline_progress_monitor(
         sel_script = "missing_pipeline.R",
         sel_config = "project_cz_paleo"
       ),
@@ -117,7 +117,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      monitor_pipeline_progress(
+      run_pipeline_progress_monitor(
         sel_script = "R/Pipelines/pipeline_paleo_core.R",
         sel_config = "missing_config"
       ),
@@ -130,7 +130,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      monitor_pipeline_progress(
+      run_pipeline_progress_monitor(
         sel_script = "R/Pipelines/pipeline_paleo_core.R",
         sel_config = "project_cz_paleo"
       ),
@@ -138,7 +138,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      monitor_pipeline_progress(
+      run_pipeline_progress_monitor(
         sel_script = "R/Pipelines/pipeline_paleo_core.R",
         sel_config = "project_cz_paleo",
         sel_initial_display = "invalid"
@@ -147,7 +147,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      monitor_pipeline_progress(
+      run_pipeline_progress_monitor(
         sel_script = "R/Pipelines/pipeline_paleo_core.R",
         sel_config = "project_cz_paleo",
         flag_refresh_automatically = "no"
@@ -156,7 +156,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      monitor_pipeline_progress(
+      run_pipeline_progress_monitor(
         sel_script = "R/Pipelines/pipeline_paleo_core.R",
         sel_config = "project_cz_paleo",
         verbose = "yes"
@@ -165,7 +165,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      monitor_pipeline_progress(
+      run_pipeline_progress_monitor(
         sel_script = "R/Pipelines/pipeline_paleo_core.R",
         sel_config = "project_cz_paleo",
         seconds_refresh = Inf
@@ -176,7 +176,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "monitor_pipeline_progress() supports silent dashboard construction",
+  "run_pipeline_progress_monitor() supports silent dashboard construction",
   {
     flag_message_sent <- FALSE
     list_ui_call <- NULL
@@ -210,7 +210,7 @@ testthat::test_that(
       .package = "shiny"
     )
 
-    monitor_pipeline_progress(
+    run_pipeline_progress_monitor(
       sel_script = "R/Pipelines/pipeline_paleo_core.R",
       sel_config = "project_cz_paleo",
       seconds_refresh = 20,
@@ -231,7 +231,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "monitor_pipeline_progress() pauses refresh at server startup",
+  "run_pipeline_progress_monitor() pauses refresh at server startup",
   {
     monitor_server <- NULL
     flag_pause_sent <- FALSE
@@ -266,7 +266,7 @@ testthat::test_that(
         .package = "shiny"
       )
 
-      monitor_pipeline_progress(
+      run_pipeline_progress_monitor(
         sel_script = "R/Pipelines/pipeline_paleo_core.R",
         sel_config = "project_cz_paleo",
         flag_refresh_automatically = FALSE,

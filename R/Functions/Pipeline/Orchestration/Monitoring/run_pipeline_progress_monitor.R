@@ -31,13 +31,13 @@
 #' monitoring fast. Stop a running monitor with `Ctrl+C`.
 #' @examples
 #' \dontrun{
-#' monitor_pipeline_progress(
+#' run_pipeline_progress_monitor(
 #'   sel_script = "R/Pipelines/pipeline_paleo_spatial_resolution.R",
 #'   sel_config = "project_paleo_spatial_continental",
 #'   store_suffix = "europe"
 #' )
 #'
-#' monitor_pipeline_progress(
+#' run_pipeline_progress_monitor(
 #'   sel_script = "R/Pipelines/pipeline_paleo_core.R",
 #'   sel_config = "project_cz_paleo"
 #' )
@@ -47,7 +47,7 @@
 #'   [targets::tar_watch_ui()],
 #'   [targets::tar_watch_server()]
 #' @export
-monitor_pipeline_progress <- function(
+run_pipeline_progress_monitor <- function(
     sel_script,
     sel_config,
     store_suffix = NULL,
@@ -158,27 +158,17 @@ monitor_pipeline_progress <- function(
     )
   )
 
-  sel_pipeline_name <-
-    stringr::str_remove(
-      string = base::basename(sel_script_path),
-      pattern = "\\.R$"
+  sel_store_path <-
+    resolve_pipeline_store_path(
+      pipeline_script = sel_script_path,
+      target_store = sel_target_store,
+      store_suffix = store_suffix
     )
 
-  sel_store_path <-
-    if (
-      base::is.null(store_suffix)
-    ) {
-      here::here(
-        sel_target_store,
-        sel_pipeline_name
-      )
-    } else {
-      here::here(
-        sel_target_store,
-        store_suffix,
-        sel_pipeline_name
-      )
-    }
+  sel_pipeline_name <-
+    sel_script_path |>
+    base::basename() |>
+    tools::file_path_sans_ext()
 
   assertthat::assert_that(
     fs::dir_exists(sel_store_path),
@@ -237,28 +227,12 @@ monitor_pipeline_progress <- function(
           spinner = TRUE
         )
 
-      monitor_server <- function(input, output, session) {
-        if (
-          base::isFALSE(flag_refresh_automatically)
-        ) {
-          session$onFlushed(
-            function() {
-              shinyWidgets::updateMaterialSwitch(
-                session = session,
-                inputId = shiny::NS(monitor_id)("watch"),
-                value = FALSE
-              )
-            },
-            once = TRUE
-          )
-        }
-
-        targets::tar_watch_server(
-          id = monitor_id,
-          config = path_monitor_config,
-          project = "main"
+      monitor_server <-
+        build_pipeline_progress_monitor_server(
+          monitor_id = monitor_id,
+          path_monitor_config = path_monitor_config,
+          flag_refresh_automatically = flag_refresh_automatically
         )
-      }
 
       base::print(
         shiny::shinyApp(
