@@ -13,6 +13,18 @@ base::source(
   here::here("R", "___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -398,7 +410,7 @@ plot_parameters <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  create_oracle_theme(
+  build_oracle_theme(
     base_family = font_family,
     base_size = 8.5
   ) +
@@ -515,7 +527,7 @@ plot_auc <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  create_oracle_theme(
+  build_oracle_theme(
     base_family = font_family,
     base_size = 8.5
   ) +

@@ -13,6 +13,18 @@ base::source(
   here::here("R", "___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -122,7 +134,7 @@ vec_continent_ids <-
 #----------------------------------------------------------#
 
 data_temporal_inventory <-
-  load_continental_rows(
+  load_continental_spatial_grid_rows(
     path_spatial_grid = here::here("Data", "Input", "spatial_grid.csv")
   ) |>
   dplyr::select("scale_id") |>
@@ -347,7 +359,7 @@ figure_temporal_association_modularity <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  create_oracle_theme(
+  build_oracle_theme(
     base_family = font_family,
     base_size = 12
   ) +

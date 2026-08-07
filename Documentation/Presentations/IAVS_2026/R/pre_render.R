@@ -11,15 +11,23 @@ library(here)
 
 here::i_am("Documentation/Presentations/IAVS_2026/R/pre_render.R")
 
-source(
-  here::here("R/03_Supplementary_analyses/Presentation/load_design_config.R")
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
 )
+
+load_iavs_functions()
 
 list_oracle_design <-
   load_design_config()
 
 vec_scss_path <-
-  write_oracle_generated_scss(
+  save_generated_oracle_scss(
     design = list_oracle_design
   )
 

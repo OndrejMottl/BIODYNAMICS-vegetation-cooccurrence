@@ -13,6 +13,18 @@ base::source(
   here::here("R", "___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -192,7 +204,7 @@ store_path <-
   dplyr::pull("store_path")
 
 prediction_inputs <-
-  read_spatial_resolution_prediction_inputs(
+  load_spatial_resolution_prediction_inputs(
     store_path = store_path,
     resolution_id = selected_resolution_id
   )

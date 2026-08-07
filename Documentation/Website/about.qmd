@@ -25,8 +25,8 @@ For each analysis, records are extracted for the spatial window, temporal range,
 ## Technical details - data extraction
 
 The function [`extract_data_from_vegvault()`](Documentation/Functions/extract_data_from_vegvault.qmd) queries a local VegVault SQLite database and returns a unified tidy object containing community and abiotic records for the requested analysis.
-Coordinates are extracted with [`get_coords()`](Documentation/Functions/get_coords.qmd), which records one coordinate pair per dataset rather than one coordinate pair per sample.
-Database presence and accessibility are checked at session startup with [`check_presence_of_vegvault()`](Documentation/Functions/check_presence_of_vegvault.qmd).
+Coordinates are extracted with [`extract_dataset_coordinates()`](Documentation/Functions/extract_dataset_coordinates.qmd), which records one coordinate pair per dataset rather than one coordinate pair per sample.
+Database presence and accessibility are checked at session startup with [`validate_vegvault_presence()`](Documentation/Functions/validate_vegvault_presence.qmd).
 
 **Configuration-controlled extraction filters**:
 
@@ -189,7 +189,7 @@ The extraction produces parallel data objects that remain separate through prepr
 | Target | Function | Description |
 |---|---|---|
 | `data_vegvault_extracted` | [`extract_data_from_vegvault()`](Documentation/Functions/extract_data_from_vegvault.qmd) | Raw community and abiotic records from VegVault |
-| `data_coords` | [`get_coords()`](Documentation/Functions/get_coords.qmd) | One coordinate pair per `dataset_name` |
+| `data_coords` | [`extract_dataset_coordinates()`](Documentation/Functions/extract_dataset_coordinates.qmd) | One coordinate pair per `dataset_name` |
 | `validation_available_core_count` | [`validate_available_core_count()`](Documentation/Functions/validate_available_core_count.qmd) | Guard for the minimum number of pollen cores |
 
 The extraction segment is reused by paleo, modern, and development pipelines.
@@ -309,7 +309,7 @@ The same input data can be routed to genus-level, family-level, or functional-ty
 Key helpers include [`classify_taxonomic_resolution()`](Documentation/Functions/classify_taxonomic_resolution.qmd), [`resolve_classification_to_finest_rank()`](Documentation/Functions/resolve_classification_to_finest_rank.qmd), [`classify_to_functional_type()`](Documentation/Functions/classify_to_functional_type.qmd), and [`replace_missing_community_counts_with_zeros()`](Documentation/Functions/replace_missing_community_counts_with_zeros.qmd).
 
 Functional-type classifications are generated before the resolution branches need them.
-Spatial-resolution pipelines read those classifications with helpers such as [`get_functional_type_classification_path_from_store()`](Documentation/Functions/get_functional_type_classification_path_from_store.qmd) and [`load_functional_type_classification()`](Documentation/Functions/load_functional_type_classification.qmd).
+Spatial-resolution pipelines read those classifications with helpers such as [`resolve_functional_type_classification_path_from_store()`](Documentation/Functions/resolve_functional_type_classification_path_from_store.qmd) and [`load_functional_type_classification()`](Documentation/Functions/load_functional_type_classification.qmd).
 :::
 
 ### 7. Data Alignment
@@ -451,7 +451,7 @@ These outputs are useful for checking model behaviour and communicating palaeoec
 ::: {.callout-note collapse="true"}
 ## Technical details
 
-Relevant helpers include [`build_prediction_frame()`](Documentation/Functions/build_prediction_frame.qmd), [`build_land_prediction_grid()`](Documentation/Functions/build_land_prediction_grid.qmd), [`predict_spatial_resolution_grid_age()`](Documentation/Functions/predict_spatial_resolution_grid_age.qmd), [`save_prediction_animation()`](Documentation/Functions/save_prediction_animation.qmd), and [`save_temporal_trajectory_animation()`](Documentation/Functions/save_temporal_trajectory_animation.qmd).
+Project-wide prediction helpers include [`build_land_prediction_grid()`](Documentation/Functions/build_land_prediction_grid.qmd) and [`predict_spatial_resolution_grid_age()`](Documentation/Functions/predict_spatial_resolution_grid_age.qmd). Presentation-specific frame and animation helpers are maintained beside the IAVS 2026 presentation rather than in the global function API.
 
 Summary and plotting helpers include [`summarise_spatial_variance_stack()`](Documentation/Functions/summarise_spatial_variance_stack.qmd), [`summarise_spatial_biotic_component()`](Documentation/Functions/summarise_spatial_biotic_component.qmd), [`plot_spatial_variance_stack()`](Documentation/Functions/plot_spatial_variance_stack.qmd), [`plot_spatial_biotic_component()`](Documentation/Functions/plot_spatial_biotic_component.qmd), and [`plot_anova_components_by_age()`](Documentation/Functions/plot_anova_components_by_age.qmd).
 :::

@@ -13,6 +13,18 @@ base::source(
   here::here("R", "___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -109,7 +121,7 @@ path_to_vegvault <-
   here::here("Data", "Input", "VegVault.sqlite")
 
 flag_vegvault_present <-
-  check_presence_of_vegvault(path_to_vegvault)
+  validate_vegvault_presence(path_to_vegvault)
 
 if (
   isFALSE(flag_vegvault_present)
@@ -353,7 +365,7 @@ vec_frame_paths <-
   dplyr::pull(.data$frame_path)
 
 list_spatial_units_animation <-
-  build_gif_from_frames(
+  save_gif_from_frames(
     vec_frame_paths = vec_frame_paths,
     output_path = base::file.path(
       path_output,

@@ -13,6 +13,18 @@ base::source(
   here::here("R", "___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -171,7 +183,7 @@ y_shared <- c(125, 230)
 y_model <- 50
 
 data_source_box <-
-  node_box(
+  build_schematic_node_box(
     id = "source",
     label = "VegVault",
     x = x_centre,
@@ -185,7 +197,7 @@ data_source_box <-
 
 data_type_box <-
   dplyr::bind_rows(
-    node_box(
+    build_schematic_node_box(
       id = "community_stream",
       label = "COMMUNITY DATA",
       colour = colour_community,
@@ -194,7 +206,7 @@ data_type_box <-
       x = x_centre - (x_centre / 2),
       y = y_data_type
     ),
-    node_box(
+    build_schematic_node_box(
       id = "climate_stream",
       label = "ABCIOTIC DATA",
         colour = colour_climate,
@@ -207,7 +219,7 @@ data_type_box <-
 
 data_community_boxes <-
   dplyr::bind_rows(
-    node_box(
+    build_schematic_node_box(
       id = "community_counts",
       label = "counts\nto proportions",
       x = x_centre - (x_centre / 2),
@@ -217,7 +229,7 @@ data_community_boxes <-
       colour = colour_community,
       text_size = 2.95
     ),
-    node_box(
+    build_schematic_node_box(
       id = "community_age",
       label = "interpolate\nwith uncertainty",
       x = x_centre - (x_centre / 2),
@@ -227,7 +239,7 @@ data_community_boxes <-
       colour = colour_community,
       text_size = 2.85
     ),
-    node_box(
+    build_schematic_node_box(
       id = "community_taxa",
       label = "taxonomy\nharmonisation",
       x = x_centre - (x_centre / 2),
@@ -237,7 +249,7 @@ data_community_boxes <-
       colour = colour_community,
       text_size = 2.85
     ),
-    node_box(
+    build_schematic_node_box(
       id = "community_resolution",
       label = "select\nresolution",
       x = x_centre - (x_centre / 2),
@@ -251,7 +263,7 @@ data_community_boxes <-
 
 data_climate_boxes <-
   dplyr::bind_rows(
-    node_box(
+    build_schematic_node_box(
       id = "climate_candidates",
       label = "CHELSA\ncandidates",
       x = x_centre + (x_centre / 2),
@@ -262,7 +274,7 @@ data_climate_boxes <-
       text_colour = colour_climate,
       text_size = 2.95
     ),
-    node_box(
+    build_schematic_node_box(
       id = "climate_variance",
       label = "drop invariant\npredictors",
       x = x_centre + (x_centre / 2),
@@ -273,7 +285,7 @@ data_climate_boxes <-
       text_colour = colour_climate,
       text_size = 2.85
     ),
-    node_box(
+    build_schematic_node_box(
       id = "climate_screen",
       label = "select\nnon-collinear set",
       x = x_centre + (x_centre / 2),
@@ -284,7 +296,7 @@ data_climate_boxes <-
       text_colour = colour_climate,
       text_size = 2.75
     ),
-    node_box(
+    build_schematic_node_box(
       id = "climate_grid",
       label = "interpolate",
       x = x_centre + (x_centre / 2),
@@ -299,7 +311,7 @@ data_climate_boxes <-
 
 data_shared_boxes <-
   dplyr::bind_rows(
-    node_box(
+    build_schematic_node_box(
       id = "sample_filtering",
       label = "Sample filtering\nspatial/temporal",
       x = x_centre,
@@ -310,7 +322,7 @@ data_shared_boxes <-
       text_colour = colour_shared,
       text_size = 2.85
     ),
-    node_box(
+    build_schematic_node_box(
       id = "core_filtering",
       label = "Core filtering",
       x = x_centre,
@@ -324,7 +336,7 @@ data_shared_boxes <-
   )
 
 data_model_box <-
-  node_box(
+  build_schematic_node_box(
     id = "model",
     label = "Model",
     x = x_centre,
@@ -336,7 +348,7 @@ data_model_box <-
     text_size = 2.95
   )
 
-data_node_boxes <-
+data_build_schematic_node_boxes <-
   dplyr::bind_rows(
     data_source_box,
     data_community_boxes,
@@ -382,7 +394,7 @@ figure_climate_data_summary <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  create_oracle_theme(base_family = font_family, base_size = 11) +
+  build_oracle_theme(base_family = font_family, base_size = 11) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(
       fill = vec_oracle_palette[["background"]],
@@ -555,7 +567,7 @@ figure_climate_data_summary <-
    ) +
   # process nodes
   ggplot2::geom_rect(
-    data = data_node_boxes,
+    data = data_build_schematic_node_boxes,
     mapping = ggplot2::aes(
       xmin = xmin,
       xmax = xmax,
@@ -569,7 +581,7 @@ figure_climate_data_summary <-
   ) +
   # node labels
   ggplot2::geom_text(
-    data = data_node_boxes,
+    data = data_build_schematic_node_boxes,
     mapping = ggplot2::aes(
       x = x,
       y = y,

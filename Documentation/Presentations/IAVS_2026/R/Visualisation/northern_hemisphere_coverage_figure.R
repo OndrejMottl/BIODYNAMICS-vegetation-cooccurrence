@@ -13,6 +13,18 @@ base::source(
   here::here("R", "___setup_project___.R")
 )
 
+base::source(
+  here::here(
+    "Documentation",
+    "Presentations",
+    "IAVS_2026",
+    "R",
+    "load_iavs_functions.R"
+  )
+)
+
+load_iavs_functions()
+
 
 #----------------------------------------------------------#
 # 0. Setup -----
@@ -96,7 +108,7 @@ path_to_vegvault <-
   here::here("Data", "Input", "VegVault.sqlite")
 
 flag_vegvault_present <-
-  check_presence_of_vegvault(path_to_vegvault)
+  validate_vegvault_presence(path_to_vegvault)
 
 if (
   isFALSE(flag_vegvault_present)
@@ -280,7 +292,7 @@ figure_northern_hemisphere_coverage <-
     dpi = 300,
     bg = vec_oracle_palette[["background"]]
   ) +
-  create_oracle_theme(base_family = font_family, base_size = 6) +
+  build_oracle_theme(base_family = font_family, base_size = 6) +
   ggplot2::theme(
     plot.background = ggplot2::element_rect(
       fill = vec_oracle_palette[["background"]],
