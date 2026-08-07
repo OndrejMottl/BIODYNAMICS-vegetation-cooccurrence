@@ -10,7 +10,7 @@
 #' Function used to read targets. Defaults to
 #' [targets::tar_read_raw()].
 #' @param meta_fn
-#' Function used by [read_targets_store_meta()] to read metadata.
+#' Function used by [load_targets_store_metadata()] to read metadata.
 #' @param include_spatial_basis
 #' Logical scalar. When `TRUE`, append the additive reusable 2-D basis target.
 #' Default is `FALSE` to preserve the existing public return schema.
@@ -18,13 +18,13 @@
 #' Named list of model, model input, coordinate, and spatial predictor targets.
 #' @examples
 #' \dontrun{
-#' read_spatial_resolution_prediction_inputs(
+#' load_spatial_resolution_prediction_inputs(
 #'   store_path = "Data/targets/paleo_spatial_continental/europe",
 #'   resolution_id = "genus"
 #' )
 #' }
 #' @export
-read_spatial_resolution_prediction_inputs <- function(
+load_spatial_resolution_prediction_inputs <- function(
     store_path,
     resolution_id = "genus",
     read_target_fn = targets::tar_read_raw,
@@ -80,7 +80,7 @@ read_spatial_resolution_prediction_inputs <- function(
     )
 
   data_meta <-
-    read_targets_store_meta(
+    load_targets_store_metadata(
       store_path = store_path,
       meta_fn = meta_fn
     )
@@ -89,7 +89,7 @@ read_spatial_resolution_prediction_inputs <- function(
     vec_target_names[
       !purrr::map_lgl(
         .x = vec_target_names,
-        .f = ~ check_target_succeeded(
+        .f = ~ has_target_succeeded(
           data_meta = data_meta,
           target_name = .x
         )
@@ -128,7 +128,7 @@ read_spatial_resolution_prediction_inputs <- function(
 
       list_spatial_basis <-
         if (
-          check_target_succeeded(
+          has_target_succeeded(
             data_meta = data_meta,
             target_name = spatial_basis_target
           )

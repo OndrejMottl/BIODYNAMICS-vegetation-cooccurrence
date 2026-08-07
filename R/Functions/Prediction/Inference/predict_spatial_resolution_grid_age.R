@@ -3,7 +3,7 @@
 #' Builds abiotic and optional spatial predictors for one age slice and
 #' returns long-format taxon occurrence probabilities.
 #' @param prediction_inputs
-#' Named list returned by [read_spatial_resolution_prediction_inputs()].
+#' Named list returned by [load_spatial_resolution_prediction_inputs()].
 #' @param data_grid
 #' Prediction grid with `grid_id`, `coord_long`, and `coord_lat`.
 #' @param data_grid_coords_projected
@@ -250,7 +250,7 @@ predict_spatial_resolution_grid_age <- function(
     )
 
   mat_predictions <-
-    assert_prediction_probabilities(
+    validate_prediction_probabilities(
       data_predictions = mat_predictions
     )
 

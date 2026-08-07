@@ -94,7 +94,7 @@ store_path <-
   dplyr::pull("store_path")
 
 prediction_inputs <-
-  read_spatial_resolution_prediction_inputs(
+  load_spatial_resolution_prediction_inputs(
     store_path = store_path,
     resolution_id = selected_resolution_id
   )

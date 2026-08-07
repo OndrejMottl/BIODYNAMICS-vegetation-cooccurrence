@@ -10,11 +10,11 @@
 #' @return
 #' The input `data_predictions`, unchanged.
 #' @examples
-#' assert_prediction_probabilities(
+#' validate_prediction_probabilities(
 #'   data_predictions = matrix(c(0.1, 0.9), nrow = 1)
 #' )
 #' @export
-assert_prediction_probabilities <- function(
+validate_prediction_probabilities <- function(
     data_predictions,
     tolerance = 1e-8) {
   assertthat::assert_that(

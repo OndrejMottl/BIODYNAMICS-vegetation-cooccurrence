@@ -1,5 +1,5 @@
 testthat::test_that(
-  "read_spatial_resolution_prediction_inputs() reads suffixed targets",
+  "load_spatial_resolution_prediction_inputs() reads suffixed targets",
   {
     data_meta <-
       tibble::tibble(
@@ -23,7 +23,7 @@ testthat::test_that(
     }
 
     res <-
-      read_spatial_resolution_prediction_inputs(
+      load_spatial_resolution_prediction_inputs(
         store_path = "mock_store",
         resolution_id = "genus",
         read_target_fn = read_target_fn,
@@ -49,7 +49,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "read_spatial_resolution_prediction_inputs() errors on missing target",
+  "load_spatial_resolution_prediction_inputs() errors on missing target",
   {
     data_meta <-
       tibble::tibble(
@@ -66,7 +66,7 @@ testthat::test_that(
     }
 
     testthat::expect_error(
-      read_spatial_resolution_prediction_inputs(
+      load_spatial_resolution_prediction_inputs(
         store_path = "mock_store",
         resolution_id = "genus",
         read_target_fn = read_target_fn,
@@ -78,7 +78,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "read_spatial_resolution_prediction_inputs() optionally reads basis state",
+  "load_spatial_resolution_prediction_inputs() optionally reads basis state",
   {
     data_meta <-
       tibble::tibble(
@@ -95,7 +95,7 @@ testthat::test_that(
       )
 
     res <-
-      read_spatial_resolution_prediction_inputs(
+      load_spatial_resolution_prediction_inputs(
         store_path = "mock_store",
         resolution_id = "genus",
         read_target_fn = function(name, store) {

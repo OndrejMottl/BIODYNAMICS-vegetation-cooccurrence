@@ -1,5 +1,5 @@
 testthat::test_that(
-  "assert_prediction_probabilities() accepts bounded predictions",
+  "validate_prediction_probabilities() accepts bounded predictions",
   {
     mat_predictions <-
       base::matrix(
@@ -8,7 +8,7 @@ testthat::test_that(
       )
 
     res <-
-      assert_prediction_probabilities(
+      validate_prediction_probabilities(
         data_predictions = mat_predictions
       )
 
@@ -17,7 +17,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assert_prediction_probabilities() rejects invalid values",
+  "validate_prediction_probabilities() rejects invalid values",
   {
     mat_predictions <-
       base::matrix(
@@ -26,14 +26,14 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      assert_prediction_probabilities(
+      validate_prediction_probabilities(
         data_predictions = mat_predictions
       ),
       regexp = "probabilities"
     )
 
     testthat::expect_error(
-      assert_prediction_probabilities(
+      validate_prediction_probabilities(
         data_predictions = base::matrix(NA_real_, nrow = 1)
       ),
       regexp = "finite"
