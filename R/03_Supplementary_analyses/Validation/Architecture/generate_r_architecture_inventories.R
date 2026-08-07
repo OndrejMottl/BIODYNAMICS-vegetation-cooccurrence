@@ -22,7 +22,7 @@ path_repository_root <-
 
 path_loader <-
   here::here(
-    "R/Functions/Utility/Project_setup/load_project_functions.R"
+    "R/Functions/Pipeline/Definitions/load_project_functions.R"
   )
 
 base::source(
@@ -435,14 +435,24 @@ if (
       active_path = dplyr::case_when(
         .data[["migration_status"]] == "migrated" ~
           .data[["intended_path"]],
-        .data[["migration_status"]] == "retired_to_legacy" ~
+        .data[["migration_status"]] %in%
+          base::c(
+            "retired_to_legacy",
+            "retired",
+            "localized_to_presentation"
+          ) ~
           NA_character_,
         TRUE ~ .data[["current_path"]]
       ),
       active_function = dplyr::case_when(
         .data[["migration_status"]] == "migrated" ~
           .data[["intended_function"]],
-        .data[["migration_status"]] == "retired_to_legacy" ~
+        .data[["migration_status"]] %in%
+          base::c(
+            "retired_to_legacy",
+            "retired",
+            "localized_to_presentation"
+          ) ~
           NA_character_,
         TRUE ~ .data[["function_name"]]
       )
@@ -523,10 +533,16 @@ if (
       show_col_types = FALSE
     ) |>
     dplyr::mutate(
-      active_path = dplyr::if_else(
-        .data[["migration_status"]] == "migrated",
-        .data[["intended_path"]],
-        .data[["current_path"]]
+      active_path = dplyr::case_when(
+        .data[["migration_status"]] == "migrated" ~
+          .data[["intended_path"]],
+        .data[["migration_status"]] %in%
+          base::c(
+            "retired_to_legacy",
+            "retired",
+            "localized_to_presentation"
+          ) ~ NA_character_,
+        TRUE ~ .data[["current_path"]]
       )
     )
 

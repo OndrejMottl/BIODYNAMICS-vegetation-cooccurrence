@@ -1,5 +1,4 @@
 finding_type,severity,current_path,symbol,owning_issue,message
-function_naming,report_only,R/Functions/Data_access/Vegvault/read_vegvault_scalar.R,read_vegvault_scalar,#155,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/adapt_cross_validation_assignments.R,adapt_cross_validation_assignments,#141,Review leading verb `adapt` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/assemble_sjsdm_cached_selected_folds.R,assemble_sjsdm_cached_selected_folds,#141,Review leading verb `assemble` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/assess_cross_validation_feasibility.R,assess_cross_validation_feasibility,#141,Review leading verb `assess` against version 1.
@@ -32,51 +31,10 @@ function_naming,report_only,R/Functions/Modelling/Cross_validation/make_sjsdm_tu
 function_naming,report_only,R/Functions/Modelling/Cross_validation/make_spatial_cross_validation_assignments.R,make_spatial_cross_validation_assignments,#141,Review leading verb `make` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/read_sjsdm_tier_survivor_decisions.R,read_sjsdm_tier_survivor_decisions,#141,Review leading verb `read` against version 1.
 function_naming,report_only,R/Functions/Modelling/Cross_validation/read_sjsdm_tier_tuning_artifact.R,read_sjsdm_tier_tuning_artifact,#141,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Modelling/Tuning/check_target_succeeded.R,check_target_succeeded,#155,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Modelling/Tuning/coerce_null_to_na_integer.R,coerce_null_to_na_integer,#155,Review leading verb `coerce` against version 1.
-function_naming,report_only,R/Functions/Modelling/Tuning/read_targets_store_meta.R,read_targets_store_meta,#155,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Prediction/Inference/assert_prediction_probabilities.R,assert_prediction_probabilities,#155,Review leading verb `assert` against version 1.
-function_naming,report_only,R/Functions/Prediction/Inputs/read_spatial_resolution_prediction_inputs.R,read_spatial_resolution_prediction_inputs,#155,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Animations/format_age_label.R,format_age_label,#155,Review leading verb `format` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Design_tokens/flatten_design_tokens.R,flatten_design_tokens,#155,Review leading verb `flatten` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Design_tokens/flatten_token_node.R,flatten_token_node,#155,Review leading verb `flatten` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Design_tokens/format_scss_value.R,format_scss_value,#155,Review leading verb `format` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Design_tokens/format_token_name.R,format_token_name,#155,Review leading verb `format` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Design_tokens/write_oracle_generated_scss.R,write_oracle_generated_scss,#155,Review leading verb `write` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Formatting/format_count.R,format_count,#155,Review leading verb `format` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Oracle_palettes/get_oracle_continuous_palette.R,get_oracle_continuous_palette,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Oracle_palettes/get_oracle_discrete_palette.R,get_oracle_discrete_palette,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Oracle_palettes/get_oracle_palette_values.R,get_oracle_palette_values,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Oracle_theme/create_oracle_theme.R,create_oracle_theme,#155,Review leading verb `create` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/add_panel.R,add_panel,#155,Review leading verb `add` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/generate_qr_code.R,generate_qr_code,#155,Review leading verb `generate` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/node_box.R,node_box,#155,Review leading verb `node` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Paths_and_config/get_presentation_dir.R,get_presentation_dir,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Targets/count_successful_targets.R,count_successful_targets,#155,Review leading verb `count` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_meta_or_empty.R,read_target_meta_or_empty,#155,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Presentation/IAVS/Targets/read_target_or_null.R,read_target_or_null,#155,Review leading verb `read` against version 1.
-function_naming,report_only,R/Functions/Utility/Config/get_active_config.R,get_active_config,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Config/get_config_value_with_fallback.R,get_config_value_with_fallback,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Config/get_preprocessing_controller.R,get_preprocessing_controller,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Coordinates/get_coords.R,get_coords,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Coordinates/get_spatial_window.R,get_spatial_window,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Parsing/add_age_column_from_rownames.R,add_age_column_from_rownames,#155,Review leading verb `add` against version 1.
-function_naming,report_only,R/Functions/Utility/Parsing/add_dataset_name_column_from_rownames.R,add_dataset_name_column_from_rownames,#155,Review leading verb `add` against version 1.
-function_naming,report_only,R/Functions/Utility/Parsing/get_age_from_string.R,get_age_from_string,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Parsing/get_continent_id_from_scale_id.R,get_continent_id_from_scale_id,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Parsing/get_dataset_name_from_string.R,get_dataset_name_from_string,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_functional_type_classification_path_from_store.R,get_functional_type_classification_path_from_store,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_latest_dated_file_path.R,get_latest_dated_file_path,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_model_tuning_param_for_scale_and_resolution.R,get_model_tuning_param_for_scale_and_resolution,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_model_tuning_params.R,get_model_tuning_params,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Paths_and_stores/get_scale_id_from_store.R,get_scale_id_from_store,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Pipeline/get_new_targets_errors.R,get_new_targets_errors,#155,Review leading verb `get` against version 1.
-function_naming,report_only,R/Functions/Utility/Pipeline/monitor_pipeline_progress.R,monitor_pipeline_progress,#155,Review leading verb `monitor` against version 1.
-function_naming,report_only,R/Functions/Utility/Validation/align_sample_ids.R,align_sample_ids,#155,Review leading verb `align` against version 1.
-function_naming,report_only,R/Functions/Utility/Validation/check_presence_of_vegvault.R,check_presence_of_vegvault,#155,Review leading verb `check` against version 1.
-function_naming,report_only,R/Functions/Visualisation/Legends_and_colours/mix_variance_component_colours.R,mix_variance_component_colours,#155,Review leading verb `mix` against version 1.
-missing_function,report_only,R/Functions/Utility/Config/get_active_config.R,NA,#150,Record the approved function move or removal.
-missing_function,report_only,R/Functions/Utility/Config/get_config_value_with_fallback.R,NA,#150,Record the approved function move or removal.
+function_naming,report_only,NA,NA,#155,Review leading verb `coerce` against version 1.
+function_naming,report_only,NA,NA,#155,Review leading verb `add` against version 1.
+function_naming,report_only,NA,NA,#155,Review leading verb `get` against version 1.
+function_naming,report_only,NA,NA,#155,Review leading verb `get` against version 1.
 missing_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-get_active_config.R,NA,#150,Record the approved script move or removal.
 missing_script,report_only,R/03_Supplementary_analyses/Testing/testthat/test-get_config_value_with_fallback.R,NA,#150,Record the approved script move or removal.
 nested_named_helper,report_only,R/Functions/Data/Traits/Classification/Functional_types/Clustering/Group_selection/select_functional_type_group_count.R,return_zero_on_filter_error,#153,Extract or explicitly retain the named nested helper.
@@ -87,8 +45,4 @@ nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/run_sjsdm
 nested_named_helper,report_only,R/Functions/Modelling/Cross_validation/run_sjsdm_tuning_work_item.R,prepare_cached_fold,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_fold_spatial_predictors.R,make_sample_partition,#141,Extract or explicitly retain the named nested helper.
 nested_named_helper,report_only,R/Functions/Modelling/Fit_inputs/prepare_model_fold_input.R,make_abiotic_partition,#141,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Presentation/IAVS/Panels_and_animation/build_base_terminal_plot.R,make_scanline_data;make_noise_data;add_terminal_canvas;theme_terminal_blank,#155,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Utility/Config/validate_config_profile_selection.R,validate_allowed_values,#155,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Utility/Paths_and_stores/get_model_tuning_params.R,get_required_integer;get_optional_integer,#155,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Utility/Pipeline/monitor_pipeline_progress.R,monitor_server,#155,Extract or explicitly retain the named nested helper.
-nested_named_helper,report_only,R/Functions/Visualisation/Data_preparation/prepare_spatial_variance_waffle_data.R,collapse_observation_id,#155,Extract or explicitly retain the named nested helper.
+nested_named_helper,report_only,NA,make_scanline_data;make_noise_data;add_terminal_canvas;theme_terminal_blank,#155,Extract or explicitly retain the named nested helper.

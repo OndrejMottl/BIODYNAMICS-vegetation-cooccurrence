@@ -38,7 +38,7 @@ testthat::test_that(
 
     current_names <-
       base::c(
-        "apply_scale_attributes",
+        "scale_predictors_with_training_attributes",
         "interpolate_mev_to_grid",
         "interpolate_st_mev_to_grid"
       )
