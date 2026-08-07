@@ -1,0 +1,29 @@
+Resolve a Pipeline Store Path
+
+Description:
+
+     Resolves the target store for one pipeline script and optional
+     store suffix.
+
+Usage:
+
+     resolve_pipeline_store_path(
+       pipeline_script,
+       target_store = load_active_config_value("target_store"),
+       store_suffix = NULL
+     )
+
+Arguments:
+
+pipeline_script: Single character string containing a pipeline script
+          path.
+
+target_store: Root targets-store path. Defaults to the active
+          configuration value.
+
+store_suffix: Optional non-empty character string nested below
+          `target_store`.
+
+Value:
+
+     Absolute path to the pipeline-specific targets store.

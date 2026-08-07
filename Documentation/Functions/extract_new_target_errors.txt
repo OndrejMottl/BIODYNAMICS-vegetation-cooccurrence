@@ -1,0 +1,21 @@
+Get New Targets Errors
+
+Description:
+
+     Compares `targets` error metadata before and after a pipeline run
+     and returns errors newly recorded or retried by that run.
+
+Usage:
+
+     extract_new_target_errors(data_errors_before = NULL, data_errors_after = NULL)
+
+Arguments:
+
+data_errors_before: Error metadata captured before execution.
+
+data_errors_after: Error metadata captured after execution.
+
+Value:
+
+     A tibble of new error records with `name`, `error`, and `time`
+     columns.

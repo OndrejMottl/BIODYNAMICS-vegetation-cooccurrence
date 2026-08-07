@@ -26,7 +26,7 @@ Usage:
        triangle_x_offset = 0.16,
        method = base::c("perc_avg", "HCL")
      )
-     
+
 Arguments:
 
 vec_component_colours: Named character vector mapping component IDs to
@@ -71,9 +71,8 @@ title_size: Numeric scalar giving the size of the optional title.
 triangle_x_offset: Numeric scalar shifting the triangle horizontally.
 
   method: Character string selecting the colour-mixing method passed to
-          [mix_variance_component_colours()].
+          [compute_variance_component_colours()].
 
 Value:
 
      A `ggplot` object.
-

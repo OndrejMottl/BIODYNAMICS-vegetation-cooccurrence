@@ -1,0 +1,49 @@
+Save Pipeline Progress Visualisation
+
+Description:
+
+     Builds pipeline progress visualisations and saves HTML and PNG
+     artifacts.
+
+Usage:
+
+     save_pipeline_progress_visualisation(
+       sel_script,
+       sel_store = load_active_config_value("target_store"),
+       output_file = "project_status",
+       output_dir = here::here("Documentation/Progress"),
+       background_color = "#141B22",
+       physics = TRUE,
+       level_separation = 250,
+       plot_function = plot_pipeline_progress_visualisations
+     )
+
+Arguments:
+
+sel_script: Pipeline script passed to
+          [plot_pipeline_progress_visualisations()].
+
+sel_store: Path to the targets store directory.
+
+output_file: Base name for output files.
+
+output_dir: Root directory for progress artifacts.
+
+background_color: Background colour used for saved HTML widgets.
+
+ physics: Logical indicating whether network physics are enabled
+          initially.
+
+level_separation: Numeric separation between network levels.
+
+plot_function: Injectable progress-plot builder used for isolated
+          side-effect tests.
+
+Details:
+
+     Browser-backed PNG export is best effort. A PNG failure emits a
+     warning and leaves the two HTML outputs available to the caller.
+
+Value:
+
+     Named character vector containing paths written successfully.

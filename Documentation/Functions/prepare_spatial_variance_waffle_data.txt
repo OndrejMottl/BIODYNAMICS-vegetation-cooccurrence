@@ -16,7 +16,7 @@ Usage:
        anchor_component = "Associations",
        method = base::c("HCL", "perc_avg")
      )
-     
+
 Arguments:
 
 data_plot: Data frame returned by
@@ -42,7 +42,7 @@ anchor_component: Optional single component ID used to select one row
           `NULL`, the first value in `vec_required_components` is used.
 
   method: Character string selecting the colour-mixing method passed to
-          [mix_variance_component_colours()].
+          [compute_variance_component_colours()].
 
 Value:
 
@@ -82,7 +82,7 @@ Examples:
          ),
          component_total_percentage = base::c(50, 30, 20, 30, 30, 40)
        )
-     
+
      prepare_spatial_variance_waffle_data(
        data_plot = data_plot,
        vec_component_colours = base::c(
@@ -91,4 +91,3 @@ Examples:
          "Associations" = "#1B9E77"
        )
      )
-     

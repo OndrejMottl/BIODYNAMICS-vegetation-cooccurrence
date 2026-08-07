@@ -19,14 +19,15 @@ Usage:
        spatial_mode = "spatiotemporal",
        climate_fn = NULL,
        spatial_interpolate_fn = NULL,
+       spatial_basis_project_fn = NULL,
        spatiotemporal_interpolate_fn = NULL,
        predict_fn = NULL
      )
-     
+
 Arguments:
 
 prediction_inputs: Named list returned by
-          [read_spatial_resolution_prediction_inputs()].
+          [load_spatial_resolution_prediction_inputs()].
 
 data_grid: Prediction grid with `grid_id`, `coord_long`, and
           `coord_lat`.
@@ -53,6 +54,10 @@ climate_fn: Climate extraction function. If `NULL` (default),
 spatial_interpolate_fn: Spatial interpolation function. If `NULL`
           (default), [interpolate_mev_to_grid()] is used.
 
+spatial_basis_project_fn: Reusable-basis projection function. If `NULL`
+          (default), [project_spatial_mev_basis()] is used when basis
+          state is available.
+
 spatiotemporal_interpolate_fn: Spatiotemporal interpolation function.
           If `NULL` (default), [interpolate_st_mev_to_grid()] is used.
 
@@ -67,7 +72,7 @@ Value:
 Examples:
 
      ## Not run:
-     
+
      predict_spatial_resolution_grid_age(
        prediction_inputs = prediction_inputs,
        data_grid = data_grid,
@@ -79,4 +84,3 @@ Examples:
        cache_dir = "Data/Temp/chelsa/prediction"
      )
      ## End(Not run)
-     

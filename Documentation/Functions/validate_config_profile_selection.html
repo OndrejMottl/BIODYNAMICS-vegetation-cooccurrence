@@ -1,145 +1,73 @@
 <!DOCTYPE html><html><head><title>R: Validate the Active Configuration Profile Selection</title>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-
 <script type="text/javascript">
-
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
-
 function processMathHTML() {
-
     var l = document.getElementsByClassName('reqn');
-
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
-
     return;
-
 }</script>
-
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
-
     onload="processMathHTML();"></script>
-
 <link rel="stylesheet" type="text/css" href="R.css" />
-
 </head><body><div class="container"><main>
-
-
 
 <table style="width: 100%;"><tr><td>validate_config_profile_selection</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-
-
 <h2>Validate the Active Configuration Profile Selection</h2>
-
-
 
 <h3>Description</h3>
 
-
-
 <p>Checks that the active profile is explicitly authorized for a runner.
-
 </p>
-
-
-
 
 
 <h3>Usage</h3>
 
-
-
 <pre><code class='language-R'>validate_config_profile_selection(
-
   vec_allowed_roles = base::c("main", "smoke"),
-
   vec_allowed_statuses = "active",
-
   file = here::here("config.yml")
-
 )
-
 </code></pre>
-
-
-
 
 
 <h3>Arguments</h3>
 
-
-
 <table role = "presentation">
-
 <tr><td><code id="vec_allowed_roles">vec_allowed_roles</code></td>
-
 <td>
-
 <p>Non-empty character vector of profile roles authorized by the caller.
-
 Production runners should retain the default 'c(&quot;main&quot;, &quot;smoke&quot;)'.</p>
-
 </td></tr>
-
 <tr><td><code id="vec_allowed_statuses">vec_allowed_statuses</code></td>
-
 <td>
-
 <p>Non-empty character vector of profile statuses authorized by the caller.
-
 Production runners should retain the default '&quot;active&quot;'.</p>
-
 </td></tr>
-
 <tr><td><code id="file">file</code></td>
-
 <td>
-
 <p>Path to the generated YAML configuration file.</p>
-
 </td></tr>
-
 </table>
-
-
-
 
 
 <h3>Details</h3>
 
-
-
 <p>Base and archived profiles are never executable. Main and smoke profiles
-
 must also declare 'selectable: true'. Dedicated reference or one-time
-
 runners may explicitly authorize their role and status.
-
 </p>
-
-
-
 
 
 <h3>Value</h3>
 
-
-
 <p>The validated '_profile' metadata, invisibly.
-
 </p>
-
-
 
 </main>
 
-
-
 </div>
-
 </body></html>

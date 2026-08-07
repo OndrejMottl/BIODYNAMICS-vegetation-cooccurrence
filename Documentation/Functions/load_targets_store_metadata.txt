@@ -1,0 +1,36 @@
+Load Targets Store Metadata
+
+Description:
+
+     Reads target name and error metadata from one targets store. If
+     the metadata cannot be read, `NULL` is returned.
+
+Usage:
+
+     load_targets_store_metadata(
+       store_path,
+       meta_fn = targets::tar_meta,
+       fields = base::c("name", "error")
+     )
+
+Arguments:
+
+store_path: A single character string with the targets store path.
+
+ meta_fn: Function used to read metadata. Defaults to
+          [targets::tar_meta()].
+
+  fields: Non-empty character vector of metadata fields to request.
+
+Value:
+
+     A metadata data frame, or `NULL` if metadata cannot be read.
+
+Examples:
+
+     ## Not run:
+
+     load_targets_store_metadata(
+       store_path = "Data/targets/modern_spatial_continental/europe"
+     )
+     ## End(Not run)

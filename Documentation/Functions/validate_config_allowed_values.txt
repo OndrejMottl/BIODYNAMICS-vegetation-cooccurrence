@@ -1,0 +1,22 @@
+Validate Allowed Configuration Values
+
+Description:
+
+     Validates a non-empty, unique character vector against supported
+     values.
+
+Usage:
+
+     validate_config_allowed_values(vec_values, argument_name, vec_supported_values)
+
+Arguments:
+
+vec_values: Character vector supplied by a configuration caller.
+
+argument_name: Single character string naming the validated argument.
+
+vec_supported_values: Non-empty character vector of supported values.
+
+Value:
+
+     `NULL`, invisibly. The function aborts when validation fails.

@@ -1,303 +1,152 @@
 <!DOCTYPE html><html><head><title>R: Run Pipeline</title>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-
 <script type="text/javascript">
-
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
-
 function processMathHTML() {
-
     var l = document.getElementsByClassName('reqn');
-
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
-
     return;
-
 }</script>
-
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
-
     onload="processMathHTML();"></script>
-
 <link rel="stylesheet" type="text/css" href="R.css" />
-
 </head><body><div class="container"><main>
-
-
 
 <table style="width: 100%;"><tr><td>run_pipeline</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-
-
 <h2>Run Pipeline</h2>
-
-
 
 <h3>Description</h3>
 
-
-
 <p>Executes a targets pipeline from a specified script and saves progress
-
 visualization. Rejects profiles not authorized for the runner.
-
 </p>
-
-
-
 
 
 <h3>Usage</h3>
 
-
-
 <pre><code class='language-R'>run_pipeline(
-
   sel_script,
-
   store_suffix = NULL,
-
   target_names = NULL,
-
   level_separation = 100,
-
   flag_validate_profile_selection = TRUE,
-
   vec_allowed_profile_roles = base::c("main", "smoke"),
-
   vec_allowed_profile_statuses = "active",
-
   plot_progress = TRUE,
-
   fresh_run = FALSE,
-
   prebuild_interpolation = FALSE,
-
   callr_function = callr::r
-
 )
-
 </code></pre>
-
-
-
 
 
 <h3>Arguments</h3>
 
-
-
 <table role = "presentation">
-
 <tr><td><code id="sel_script">sel_script</code></td>
-
 <td>
-
 <p>Path to the pipeline script to execute (relative to project root).</p>
-
 </td></tr>
-
 <tr><td><code id="store_suffix">store_suffix</code></td>
-
 <td>
-
 <p>Optional character string appended as a sub-directory between the
-
 config-derived target store root and the pipeline name.
-
 When 'NULL' (default) the path is
-
 'target_store/pipeline_name/' — identical to the original
-
 behaviour. When set, the path becomes
-
 'target_store/store_suffix/pipeline_name/'.
-
 Useful when iterating over many spatial units that share one config
-
 but each need an isolated store (e.g. 'store_suffix = &quot;eu_r01&quot;').</p>
-
 </td></tr>
-
 <tr><td><code id="target_names">target_names</code></td>
-
 <td>
-
 <p>Optional character vector of target names to build. 'NULL' builds the
-
 complete pipeline.</p>
-
 </td></tr>
-
 <tr><td><code id="level_separation">level_separation</code></td>
-
 <td>
-
 <p>Numeric value controlling the vertical separation between levels in the
-
 progress visualization network graph. Default is 100.</p>
-
 </td></tr>
-
 <tr><td><code id="flag_validate_profile_selection">flag_validate_profile_selection</code></td>
-
 <td>
-
 <p>Logical controlling validation of the active profile role and status.
-
 Disable only for isolated tests that inject all configuration behavior.</p>
-
 </td></tr>
-
 <tr><td><code id="vec_allowed_profile_roles">vec_allowed_profile_roles</code></td>
-
 <td>
-
 <p>Profile roles authorized by this runner. Defaults to production roles
-
 'c(&quot;main&quot;, &quot;smoke&quot;)'.</p>
-
 </td></tr>
-
 <tr><td><code id="vec_allowed_profile_statuses">vec_allowed_profile_statuses</code></td>
-
 <td>
-
 <p>Profile statuses authorized by this runner. Defaults to '&quot;active&quot;'.</p>
-
 </td></tr>
-
 <tr><td><code id="plot_progress">plot_progress</code></td>
-
 <td>
-
 <p>Logical indicating whether to save a progress visualisation after the
-
 pipeline completes. Default is TRUE.</p>
-
 </td></tr>
-
 <tr><td><code id="fresh_run">fresh_run</code></td>
-
 <td>
-
 <p>Logical indicating whether to destroy the existing target store before
-
 running the pipeline, forcing all targets to be re-computed from
-
 scratch. When 'TRUE', calls
-
 'targets::tar_destroy(destroy = &quot;all&quot;, store = ...)' prior to
-
 'targets::tar_make()'. Default is 'FALSE'.</p>
-
 </td></tr>
-
 <tr><td><code id="prebuild_interpolation">prebuild_interpolation</code></td>
-
 <td>
-
 <p>Logical indicating whether to prebuild 'data_community_interpolated'
-
 using parallel dynamic branches before running the complete pipeline.
-
 The worker count is read from
-
 'data_processing$n_interpolation_workers'. Default is 'FALSE'.</p>
-
 </td></tr>
-
 <tr><td><code id="callr_function">callr_function</code></td>
-
 <td>
-
 <p>Function used by [targets::tar_make()] to launch the pipeline process.
-
 Defaults to [callr::r()]. Supply 'NULL' only for small graphs that are safe
-
 to execute in the current orchestration process.</p>
-
 </td></tr>
-
 </table>
-
-
-
 
 
 <h3>Details</h3>
 
-
-
 <p>The function constructs pipeline-specific target store paths based on
-
 the script name and active configuration. When 'fresh_run = TRUE',
-
 the target store is destroyed with
-
 'targets::tar_destroy(destroy = &quot;all&quot;)' before execution so that every
-
 target is rebuilt from scratch. It uses 'targets::tar_make()' to
-
-execute the pipeline and then calls 'save_progress_visualisation()' to
-
+execute the pipeline and then calls 'save_pipeline_progress_visualisation()' to
 generate a network visualization of the pipeline status. When
-
 'prebuild_interpolation = TRUE', the function first executes only
-
 'data_community_interpolated' with the 'crew_mori' preprocessing
-
 backend. Once that call returns, the complete pipeline is executed
-
 with [targets::tar_make()]. Thus downstream GPU-dependent model
-
 targets remain sequentially scheduled.
-
 </p>
-
-
-
 
 
 <h3>Value</h3>
 
-
-
 <p>No return value. Function is called for side effects: executes the
-
 targets pipeline and saves progress visualization to the documentation
-
 folder.
-
 </p>
-
-
-
 
 
 <h3>See Also</h3>
 
-
-
-<p>[save_progress_visualisation()],
-
+<p>[save_pipeline_progress_visualisation()],
 [targets::tar_make()],
-
 [crew::crew_controller_local()]
-
 </p>
-
-
 
 </main>
 
-
-
 </div>
-
 </body></html>

@@ -21,10 +21,10 @@ Usage:
        prebuild_interpolation = FALSE,
        callr_function = callr::r
      )
-     
+
 Arguments:
 
-sel_script: Path to the pipeline script to execute (relative to project
+sel_script: Path to the pipeline script to execute (relative to projec
           root).
 
 store_suffix: Optional character string appended as a sub-directory
@@ -33,7 +33,7 @@ store_suffix: Optional character string appended as a sub-directory
           `target_store/pipeline_name/` — identical to the original
           behaviour. When set, the path becomes
           `target_store/store_suffix/pipeline_name/`. Useful when
-          iterating over many spatial units that share one config but
+          iterating over many spatial units that share one config bu
           each need an isolated store (e.g. `store_suffix = "eu_r01"`).
 
 target_names: Optional character vector of target names to build.
@@ -56,7 +56,7 @@ vec_allowed_profile_statuses: Profile statuses authorized by this
 plot_progress: Logical indicating whether to save a progress
           visualisation after the pipeline completes. Default is TRUE.
 
-fresh_run: Logical indicating whether to destroy the existing target
+fresh_run: Logical indicating whether to destroy the existing targe
           store before running the pipeline, forcing all targets to be
           re-computed from scratch. When `TRUE`, calls
           `targets::tar_destroy(destroy = "all", store = ...)` prior to
@@ -65,12 +65,12 @@ fresh_run: Logical indicating whether to destroy the existing target
 prebuild_interpolation: Logical indicating whether to prebuild
           `data_community_interpolated` using parallel dynamic branches
           before running the complete pipeline. The worker count is
-          read from `data_processing$n_interpolation_workers`. Default
+          read from `data_processing$n_interpolation_workers`. Defaul
           is `FALSE`.
 
 callr_function: Function used by [targets::tar_make()] to launch the
-          pipeline process. Defaults to [callr::r()]. Supply `NULL`
-          only for small graphs that are safe to execute in the current
+          pipeline process. Defaults to [callr::r()]. Supply `NULL
+          only for small graphs that are safe to execute in the curren
           orchestration process.
 
 Details:
@@ -78,10 +78,10 @@ Details:
      The function constructs pipeline-specific target store paths based
      on the script name and active configuration. When `fresh_run =
      TRUE`, the target store is destroyed with
-     `targets::tar_destroy(destroy = "all")` before execution so that
+     `targets::tar_destroy(destroy = "all")` before execution so tha
      every target is rebuilt from scratch. It uses
      `targets::tar_make()` to execute the pipeline and then calls
-     `save_progress_visualisation()` to generate a network
+     `save_pipeline_progress_visualisation()` to generate a network
      visualization of the pipeline status. When `prebuild_interpolation
      = TRUE`, the function first executes only
      `data_community_interpolated` with the `crew_mori` preprocessing
@@ -97,5 +97,5 @@ Value:
 
 See Also:
 
-     [save_progress_visualisation()], [targets::tar_make()],
+     [save_pipeline_progress_visualisation()], [targets::tar_make()],
      [crew::crew_controller_local()]
