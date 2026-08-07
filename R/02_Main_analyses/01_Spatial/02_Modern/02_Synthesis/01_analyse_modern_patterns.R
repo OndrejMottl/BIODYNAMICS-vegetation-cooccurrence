@@ -53,7 +53,7 @@ data_modern_results <-
     require_non_empty = TRUE
   ) |>
   dplyr::mutate(
-    continent_id = get_continent_id_from_scale_id(
+    continent_id = resolve_continent_ids_from_scale_ids(
       scale_id = .data$scale_id,
       file = here::here("Data/Input/spatial_grid.csv")
     )

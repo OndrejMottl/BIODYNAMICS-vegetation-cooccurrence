@@ -86,7 +86,7 @@ vec_continent_shapes <-
 #----------------------------------------------------------#
 
 file_modern_unit <-
-  get_latest_dated_file_path(
+  resolve_latest_dated_file_path(
     file_name_base = "modern_patterns_unit",
     path_directory = here::here("Outputs/Tables"),
     file_extension = "csv"
@@ -98,7 +98,7 @@ data_modern_unit <-
     show_col_types = FALSE
   ) |>
   dplyr::mutate(
-    continent_id = get_continent_id_from_scale_id(
+    continent_id = resolve_continent_ids_from_scale_ids(
       scale_id = .data$scale_id,
       file = here::here("Data/Input/spatial_grid.csv")
     )

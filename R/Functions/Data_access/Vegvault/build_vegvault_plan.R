@@ -56,7 +56,7 @@ build_vegvault_plan <- function(
     msg = "'path_to_vegvault' must be a single character string"
   )
 
-  check_presence_of_vegvault(path_to_vegvault)
+  validate_vegvault_presence(path_to_vegvault)
 
   assertthat::assert_that(
     base::is.numeric(x_lim) && base::length(x_lim) == 2L,

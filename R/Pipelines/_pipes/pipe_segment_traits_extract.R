@@ -74,7 +74,7 @@ pipe_segment_traits_extract <-
     targets::tar_target(
       description = "Load continental rows from spatial grid",
       name = data_continental_rows,
-      command = load_continental_rows(
+      command = load_continental_spatial_grid_rows(
         path_spatial_grid = file_spatial_grid
       )
     ),

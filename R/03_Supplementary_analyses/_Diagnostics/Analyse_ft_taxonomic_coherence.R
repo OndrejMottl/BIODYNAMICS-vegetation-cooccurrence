@@ -96,7 +96,7 @@ data_resolution_to_finest <-
 #--------------------------------------------------#
 
 vec_continent_ids <-
-  load_continental_rows(
+  load_continental_spatial_grid_rows(
     path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
   ) |>
   dplyr::pull(scale_id)

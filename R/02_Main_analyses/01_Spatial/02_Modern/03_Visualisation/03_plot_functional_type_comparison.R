@@ -129,7 +129,7 @@ data_ft_heatmap <-
 #----------------------------------------------------------#
 
 file_comparison_unit <-
-  get_latest_dated_file_path(
+  resolve_latest_dated_file_path(
     file_name_base = "paleo_modern_patterns_comparison_unit",
     path_directory = here::here("Outputs/Tables"),
     file_extension = "csv"

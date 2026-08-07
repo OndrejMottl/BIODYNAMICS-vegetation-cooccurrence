@@ -154,7 +154,7 @@ pipe_segment_vegvault_extract <-
     targets::tar_target(
       description = "Get coordinates of the VegVault data",
       name = "data_coords",
-      command = get_coords(data_vegvault_extracted)
+      command = extract_dataset_coordinates(data_vegvault_extracted)
     ),
     targets::tar_target(
       description = paste0(

@@ -50,7 +50,7 @@ pipe_segment_config_common <-
         if (
           !is.null(sel_scale_id)
         ) {
-          get_spatial_window(
+          load_spatial_window(
             scale_id = sel_scale_id
           ) |>
             purrr::chuck("x_lim")
@@ -70,7 +70,7 @@ pipe_segment_config_common <-
         if (
           !is.null(sel_scale_id)
         ) {
-          get_spatial_window(
+          load_spatial_window(
             scale_id = sel_scale_id
           ) |>
             purrr::chuck("y_lim")

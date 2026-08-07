@@ -56,7 +56,7 @@ load_trait_records_from_vegvault <- function(
   )
 
   # Check if the VegVault file exists
-  check_presence_of_vegvault(path_vegvault)
+  validate_vegvault_presence(path_vegvault)
 
   assertthat::assert_that(
     base::is.character(vec_trait_domain_names) &&

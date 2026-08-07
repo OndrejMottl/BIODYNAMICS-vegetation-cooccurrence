@@ -115,8 +115,8 @@ if (flag_verbose) {
 data_obs_long_1k <-
   data_community_binary_1k |>
   base::as.data.frame() |>
-  add_dataset_name_column_from_rownames() |>
-  add_age_column_from_rownames() |>
+  prepare_dataset_name_column_from_rownames() |>
+  prepare_age_column_from_rownames() |>
   tidyr::pivot_longer(
     cols = -c(dataset_name, age),
     names_to = "taxon",

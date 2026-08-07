@@ -84,7 +84,7 @@ if (
       vec_excluded_directory_names = "_legacy"
     )
 
-  check_presence_of_vegvault()
+  validate_vegvault_presence()
 
   n_preprocessing_workers <-
     base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKERS")

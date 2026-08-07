@@ -407,7 +407,7 @@ make_pipe_segment_ft_classification_continental <- function(
       # Returns the path with format = "file" so {targets} hashes the
       # saved .qs file. Regional and local pipelines for the same
       # continent inherit this file via
-      # get_functional_type_classification_path_from_store().
+      # resolve_functional_type_classification_path_from_store().
       # The target NAME file_ft_classification_paleo is the interface
       # consumed by pipe_segment_community_by_resolution_paleo.
       targets::tar_target_raw(

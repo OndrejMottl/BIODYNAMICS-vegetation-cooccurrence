@@ -89,7 +89,7 @@ data_function_inventory <-
     vec_excluded_directory_names = "_legacy"
   )
 
-check_presence_of_vegvault()
+validate_vegvault_presence()
 
 
 #----------------------------------------------------------#

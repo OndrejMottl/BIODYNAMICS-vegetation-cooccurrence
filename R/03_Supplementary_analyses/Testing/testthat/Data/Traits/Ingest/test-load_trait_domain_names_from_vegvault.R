@@ -1,6 +1,6 @@
 # Helper path – a minimal SQLite created and removed inside each
 # DB-dependent test. Using a project-relative path so that
-# check_presence_of_vegvault() can resolve it via here::here().
+# validate_vegvault_presence() can resolve it via here::here().
 path_test_db <-
   "R/03_Supplementary_analyses/Testing/testthat/trait_domains_test.sqlite"
 

@@ -163,7 +163,7 @@ if (
           "for the continent that owns this spatial unit"
         ),
         name = file_ft_classification_modern,
-        command = get_functional_type_classification_path_from_store(
+        command = resolve_functional_type_classification_path_from_store(
           data_source_prefix = "modern"
         ),
         format = "file"
