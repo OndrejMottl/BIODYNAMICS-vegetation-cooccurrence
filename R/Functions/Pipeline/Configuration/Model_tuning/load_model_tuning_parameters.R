@@ -21,7 +21,7 @@
 #' `n_samples_anova`, and `n_early_stopping`. Missing `n_step_size` and
 #' `n_early_stopping` values are returned as `NULL`.
 #' @export
-get_model_tuning_params <- function(
+load_model_tuning_parameters <- function(
     analysis_id,
     scale_id,
     resolution_id,
@@ -131,38 +131,35 @@ get_model_tuning_params <- function(
     )
   )
 
-  get_required_integer <- function(column_name) {
-    value <- dplyr::pull(data_row, column_name)
-
-    assertthat::assert_that(
-      !base::is.na(value),
-      msg = stringr::str_glue(
-        "`{column_name}` must not be missing for scale_id '{scale_id}'."
-      )
-    )
-
-    base::as.integer(value)
-  }
-
-  get_optional_integer <- function(column_name) {
-    value <- dplyr::pull(data_row, column_name)
-
-    if (
-      base::is.na(value)
-    ) {
-      return(NULL)
-    }
-
-    base::as.integer(value)
-  }
-
   res <-
     list(
-      n_iter = get_required_integer("n_iter"),
-      n_step_size = get_optional_integer("n_step_size"),
-      n_sampling = get_required_integer("n_sampling"),
-      n_samples_anova = get_required_integer("n_samples_anova"),
-      n_early_stopping = get_optional_integer("n_early_stopping")
+      n_iter = extract_model_tuning_integer(
+        data_tuning_row = data_row,
+        column_name = "n_iter",
+        scale_id = scale_id
+      ),
+      n_step_size = extract_model_tuning_integer(
+        data_tuning_row = data_row,
+        column_name = "n_step_size",
+        scale_id = scale_id,
+        required = FALSE
+      ),
+      n_sampling = extract_model_tuning_integer(
+        data_tuning_row = data_row,
+        column_name = "n_sampling",
+        scale_id = scale_id
+      ),
+      n_samples_anova = extract_model_tuning_integer(
+        data_tuning_row = data_row,
+        column_name = "n_samples_anova",
+        scale_id = scale_id
+      ),
+      n_early_stopping = extract_model_tuning_integer(
+        data_tuning_row = data_row,
+        column_name = "n_early_stopping",
+        scale_id = scale_id,
+        required = FALSE
+      )
     )
 
   return(res)

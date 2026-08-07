@@ -14,9 +14,9 @@
 #'   name = "model_evaluation_fitted_genus",
 #'   error = NA_character_
 #' )
-#' check_target_succeeded(data_meta, "model_evaluation_fitted_genus")
+#' has_target_succeeded(data_meta, "model_evaluation_fitted_genus")
 #' @export
-check_target_succeeded <- function(data_meta, target_name) {
+has_target_succeeded <- function(data_meta, target_name) {
   assertthat::assert_that(
     base::is.character(target_name) &&
       base::length(target_name) == 1L &&

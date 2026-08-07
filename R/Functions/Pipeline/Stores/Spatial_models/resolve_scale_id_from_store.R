@@ -27,9 +27,9 @@
 #' candidate (`"project_cz_paleo"`) is not in the CSV, so `NULL` is
 #' returned. When the CSV file does not exist the function returns
 #' `NULL` gracefully.
-#' @seealso get_spatial_window, get_model_tuning_params
+#' @seealso load_spatial_window, load_model_tuning_parameters
 #' @export
-get_scale_id_from_store <- function(
+resolve_scale_id_from_store <- function(
     store = targets::tar_path_store(),
     file = here::here("Data/Input/spatial_grid.csv")) {
   assertthat::assert_that(

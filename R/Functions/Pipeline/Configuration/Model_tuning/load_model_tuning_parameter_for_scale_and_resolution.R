@@ -9,12 +9,12 @@
 #' `n_early_stopping`.
 #' @param scale_id
 #' Optional spatial unit identifier. Defaults to
-#' `get_scale_id_from_store()`. When `NULL`, values are read from
+#' `resolve_scale_id_from_store()`. When `NULL`, values are read from
 #' `config.yml`.
 #' @param resolution_id
 #' Optional model resolution. Defaults to the active
 #' `data_processing$taxonomic_resolution` config value. Spatial stores
-#' pass this to `get_model_tuning_params()`.
+#' pass this to `load_model_tuning_parameters()`.
 #' @param config_file
 #' Path to the YAML configuration file.
 #' Default: `here::here("config.yml")`.
@@ -24,11 +24,11 @@
 #' @return
 #' The requested parameter value. Optional tuning parameters may return
 #' `NULL`.
-#' @seealso get_model_tuning_params
+#' @seealso load_model_tuning_parameters
 #' @export
-get_model_tuning_param_for_scale_and_resolution <- function(
+load_model_tuning_parameter_for_scale_and_resolution <- function(
     param_id,
-    scale_id = get_scale_id_from_store(),
+    scale_id = resolve_scale_id_from_store(),
     resolution_id = NULL,
     config_file = here::here("config.yml"),
     dir = here::here("Data/Input/Model_tuning")) {
@@ -65,7 +65,7 @@ get_model_tuning_param_for_scale_and_resolution <- function(
     !base::is.null(scale_id)
   ) {
     params <-
-      get_model_tuning_params(
+      load_model_tuning_parameters(
         analysis_id = load_active_config_value(
           value = c("model_fitting", "model_tuning_id"),
           file = config_file

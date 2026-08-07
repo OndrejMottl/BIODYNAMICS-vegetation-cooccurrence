@@ -1,17 +1,17 @@
 testthat::test_that(
-  "get_preprocessing_controller() returns NULL outside crew_mori backend",
+  "build_preprocessing_controller() returns NULL outside crew_mori backend",
   {
     withr::local_envvar(
       BIODYNAMICS_PREPROCESSING_BACKEND = NA,
       BIODYNAMICS_PREPROCESSING_WORKERS = NA
     )
 
-    testthat::expect_null(get_preprocessing_controller())
+    testthat::expect_null(build_preprocessing_controller())
   }
 )
 
 testthat::test_that(
-  "get_preprocessing_controller() validates crew_mori worker count",
+  "build_preprocessing_controller() validates crew_mori worker count",
   {
     withr::local_envvar(
       BIODYNAMICS_PREPROCESSING_BACKEND = "crew_mori",
@@ -19,7 +19,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_preprocessing_controller(),
+      build_preprocessing_controller(),
       regexp = "BIODYNAMICS_PREPROCESSING_WORKERS"
     )
 
@@ -29,7 +29,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_preprocessing_controller(),
+      build_preprocessing_controller(),
       regexp = "positive integer"
     )
 
@@ -39,7 +39,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_preprocessing_controller(),
+      build_preprocessing_controller(),
       regexp = "positive integer"
     )
   }

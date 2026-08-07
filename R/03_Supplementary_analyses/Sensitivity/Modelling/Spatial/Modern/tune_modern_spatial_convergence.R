@@ -73,7 +73,7 @@ data_store_index <-
         if (
           fs::dir_exists(.x)
         ) {
-          return(read_targets_store_meta(.x))
+          return(load_targets_store_metadata(.x))
         }
         return(NULL)
       }
@@ -94,7 +94,7 @@ data_status_overview <-
             .f = ~ {
               resolution_id <- .x
 
-              check_target_succeeded(
+              has_target_succeeded(
                 data_meta = data_meta_i,
                 target_name = stringr::str_glue(
                   "model_evaluation_fitted_{resolution_id}"
@@ -205,7 +205,7 @@ data_convergence <-
               }
 
             model_ran <-
-              check_target_succeeded(
+              has_target_succeeded(
                 data_meta = data_meta,
                 target_name = target_name
               )
@@ -311,7 +311,7 @@ data_diagnostic_summary <-
     model_tuning = purrr::map2(
       .x = .data$scale_id,
       .y = .data$resolution_id,
-      .f = ~ get_model_tuning_params(
+      .f = ~ load_model_tuning_parameters(
         analysis_id = "modern_spatial",
         scale_id = .x,
         resolution_id = .y
@@ -323,9 +323,16 @@ data_diagnostic_summary <-
     ),
     n_step_size = purrr::map_int(
       .x = .data$model_tuning,
-      .f = ~ coerce_null_to_na_integer(
-        purrr::pluck(.x, "n_step_size")
-      )
+      .f = ~ {
+        value <-
+          purrr::pluck(.x, "n_step_size")
+
+        if (base::is.null(value)) {
+          NA_integer_
+        } else {
+          base::as.integer(value)
+        }
+      }
     ),
     n_sampling = purrr::map_int(
       .x = .data$model_tuning,
@@ -337,9 +344,16 @@ data_diagnostic_summary <-
     ),
     n_early_stopping = purrr::map_int(
       .x = .data$model_tuning,
-      .f = ~ coerce_null_to_na_integer(
-        purrr::pluck(.x, "n_early_stopping")
-      )
+      .f = ~ {
+        value <-
+          purrr::pluck(.x, "n_early_stopping")
+
+        if (base::is.null(value)) {
+          NA_integer_
+        } else {
+          base::as.integer(value)
+        }
+      }
     )
   ) |>
   dplyr::select(

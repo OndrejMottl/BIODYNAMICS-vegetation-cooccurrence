@@ -58,7 +58,7 @@ pipe_segment_vegvault_extract <-
           purrr::chuck(config_vegvault_data, "sel_abiotic_var_name")
 
         sel_scale_id <-
-          get_scale_id_from_store()
+          resolve_scale_id_from_store()
 
         data_extracted <-
           tryCatch(

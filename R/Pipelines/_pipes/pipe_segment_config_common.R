@@ -46,7 +46,7 @@ pipe_segment_config_common <-
       command = {
         # Spatial pipeline -> scale_id encoded in store path
         # Named project -> returns NULL, falls back to config.yml
-        sel_scale_id <- get_scale_id_from_store()
+        sel_scale_id <- resolve_scale_id_from_store()
         if (
           !is.null(sel_scale_id)
         ) {
@@ -66,7 +66,7 @@ pipe_segment_config_common <-
       description = "Configuration for VegVault data extraction - ylim",
       name = "config_y_lim",
       command = {
-        sel_scale_id <- get_scale_id_from_store()
+        sel_scale_id <- resolve_scale_id_from_store()
         if (
           !is.null(sel_scale_id)
         ) {

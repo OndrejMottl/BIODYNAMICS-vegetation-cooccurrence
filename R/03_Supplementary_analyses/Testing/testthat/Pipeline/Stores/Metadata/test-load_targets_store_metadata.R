@@ -1,5 +1,5 @@
 testthat::test_that(
-  "read_targets_store_meta() reads name and error metadata",
+  "load_targets_store_metadata() reads name and error metadata",
   {
     fake_meta <- function(fields, complete_only, store) {
       tibble::tibble(
@@ -10,7 +10,7 @@ testthat::test_that(
     }
 
     res <-
-      read_targets_store_meta(
+      load_targets_store_metadata(
         store_path = "store",
         meta_fn = fake_meta
       )
@@ -21,18 +21,30 @@ testthat::test_that(
     )
     testthat::expect_false(dplyr::pull(res, complete_only))
     testthat::expect_identical(dplyr::pull(res, store), "store")
+
+    res_with_time <-
+      load_targets_store_metadata(
+        store_path = "store",
+        meta_fn = fake_meta,
+        fields = base::c("name", "error", "time")
+      )
+
+    testthat::expect_identical(
+      dplyr::pull(res_with_time, field_count),
+      3L
+    )
   }
 )
 
 testthat::test_that(
-  "read_targets_store_meta() returns NULL when metadata read fails",
+  "load_targets_store_metadata() returns NULL when metadata read fails",
   {
     fake_meta <- function(fields, complete_only, store) {
       base::stop("cannot read")
     }
 
     res <-
-      read_targets_store_meta(
+      load_targets_store_metadata(
         store_path = "store",
         meta_fn = fake_meta
       )
@@ -42,18 +54,27 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "read_targets_store_meta() validates arguments",
+  "load_targets_store_metadata() validates arguments",
   {
     fake_meta <- function(fields, complete_only, store) {
       tibble::tibble()
     }
 
     testthat::expect_error(
-      read_targets_store_meta(
+      load_targets_store_metadata(
         store_path = character(),
         meta_fn = fake_meta
       ),
       regexp = "store_path"
+    )
+
+    testthat::expect_error(
+      load_targets_store_metadata(
+        store_path = "store",
+        meta_fn = fake_meta,
+        fields = base::c("name", "name")
+      ),
+      regexp = "fields"
     )
   }
 )

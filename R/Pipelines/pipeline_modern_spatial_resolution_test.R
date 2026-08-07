@@ -134,7 +134,7 @@ pipe_segment_ft_classification_modern_resolution_test <-
     output_target_name = "file_ft_classification_modern",
     ft_classification_id_expr = quote(
       {
-        sel_scale_id <- get_scale_id_from_store()
+        sel_scale_id <- resolve_scale_id_from_store()
 
         if (
           base::is.null(sel_scale_id)

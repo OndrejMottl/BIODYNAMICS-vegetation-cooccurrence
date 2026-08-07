@@ -20,38 +20,17 @@ validate_config_profile_selection <- function(
     vec_allowed_roles = base::c("main", "smoke"),
     vec_allowed_statuses = "active",
     file = here::here("config.yml")) {
-  validate_allowed_values <- function(
-      vec_values,
-      argument_name,
-      vec_supported_values) {
-    flag_valid_values <-
-      base::is.character(vec_values) &&
-      base::length(vec_values) > 0L &&
-      base::all(!base::is.na(vec_values)) &&
-      base::all(base::nzchar(vec_values)) &&
-      !base::any(base::duplicated(vec_values)) &&
-      base::all(vec_values %in% vec_supported_values)
-
-    assertthat::assert_that(
-      flag_valid_values,
-      msg = stringr::str_glue(
-        "`{argument_name}` must contain unique values from: ",
-        "{stringr::str_c(vec_supported_values, collapse = ', ')}."
-      )
-    )
-  }
-
   vec_supported_roles <-
     base::c("base", "main", "smoke", "reference", "one_time")
   vec_supported_statuses <-
     base::c("active", "frozen", "archived")
 
-  validate_allowed_values(
+  validate_config_allowed_values(
     vec_values = vec_allowed_roles,
     argument_name = "vec_allowed_roles",
     vec_supported_values = vec_supported_roles
   )
-  validate_allowed_values(
+  validate_config_allowed_values(
     vec_values = vec_allowed_statuses,
     argument_name = "vec_allowed_statuses",
     vec_supported_values = vec_supported_statuses

@@ -52,7 +52,7 @@ vec_package_names <-
 
 base::source(
   file = here::here(
-    "R/Functions/Utility/Project_setup/load_project_functions.R"
+    "R/Functions/Pipeline/Definitions/load_project_functions.R"
   ),
   local = current_env
 )

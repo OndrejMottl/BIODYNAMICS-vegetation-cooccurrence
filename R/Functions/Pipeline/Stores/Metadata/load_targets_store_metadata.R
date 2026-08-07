@@ -1,4 +1,4 @@
-#' @title Read Targets Store Metadata
+#' @title Load Targets Store Metadata
 #' @description
 #' Reads target name and error metadata from one targets store. If the
 #' metadata cannot be read, `NULL` is returned.
@@ -6,18 +6,21 @@
 #' A single character string with the targets store path.
 #' @param meta_fn
 #' Function used to read metadata. Defaults to [targets::tar_meta()].
+#' @param fields
+#' Non-empty character vector of metadata fields to request.
 #' @return
 #' A metadata data frame, or `NULL` if metadata cannot be read.
 #' @examples
 #' \dontrun{
-#' read_targets_store_meta(
+#' load_targets_store_metadata(
 #'   store_path = "Data/targets/modern_spatial_continental/europe"
 #' )
 #' }
 #' @export
-read_targets_store_meta <- function(
+load_targets_store_metadata <- function(
     store_path,
-    meta_fn = targets::tar_meta) {
+    meta_fn = targets::tar_meta,
+    fields = base::c("name", "error")) {
   assertthat::assert_that(
     base::is.character(store_path) &&
       base::length(store_path) == 1L &&
@@ -30,13 +33,24 @@ read_targets_store_meta <- function(
     msg = "`meta_fn` must be a function."
   )
 
+  assertthat::assert_that(
+    base::is.character(fields) &&
+      base::length(fields) > 0L &&
+      base::all(!base::is.na(fields)) &&
+      base::all(base::nzchar(fields)) &&
+      !base::any(base::duplicated(fields)),
+    msg = "`fields` must contain unique non-empty character strings."
+  )
+
   res <-
     purrr::possibly(
       .f = function(path) {
-        meta_fn(
-          fields = c("name", "error"),
-          complete_only = FALSE,
-          store = path
+        base::suppressWarnings(
+          meta_fn(
+            fields = fields,
+            complete_only = FALSE,
+            store = path
+          )
         )
       },
       otherwise = NULL

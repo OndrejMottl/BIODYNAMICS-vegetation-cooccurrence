@@ -59,7 +59,7 @@ targets::tar_source(
 targets::tar_option_set(
   seed = load_active_config_value("seed"),
   format = "qs",
-  controller = get_preprocessing_controller(),
+  controller = build_preprocessing_controller(),
   error = "null"
 )
 

@@ -1,5 +1,5 @@
 testthat::test_that(
-  "check_target_succeeded() returns TRUE for present target without error",
+  "has_target_succeeded() returns TRUE for present target without error",
   {
     data_meta <-
       tibble::tibble(
@@ -8,7 +8,7 @@ testthat::test_that(
       )
 
     res <-
-      check_target_succeeded(
+      has_target_succeeded(
         data_meta = data_meta,
         target_name = "model_evaluation_genus"
       )
@@ -18,10 +18,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "check_target_succeeded() returns FALSE for missing metadata",
+  "has_target_succeeded() returns FALSE for missing metadata",
   {
     res_null <-
-      check_target_succeeded(
+      has_target_succeeded(
         data_meta = NULL,
         target_name = "model_evaluation_genus"
       )
@@ -30,7 +30,7 @@ testthat::test_that(
       tibble::tibble(target = "model_evaluation_genus")
 
     res_missing_columns <-
-      check_target_succeeded(
+      has_target_succeeded(
         data_meta = data_meta_missing_columns,
         target_name = "model_evaluation_genus"
       )
@@ -41,7 +41,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "check_target_succeeded() returns FALSE for errored target",
+  "has_target_succeeded() returns FALSE for errored target",
   {
     data_meta <-
       tibble::tibble(
@@ -50,7 +50,7 @@ testthat::test_that(
       )
 
     res <-
-      check_target_succeeded(
+      has_target_succeeded(
         data_meta = data_meta,
         target_name = "model_evaluation_genus"
       )
@@ -60,7 +60,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "check_target_succeeded() validates target_name",
+  "has_target_succeeded() validates target_name",
   {
     data_meta <-
       tibble::tibble(
@@ -69,7 +69,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      check_target_succeeded(
+      has_target_succeeded(
         data_meta = data_meta,
         target_name = character()
       ),

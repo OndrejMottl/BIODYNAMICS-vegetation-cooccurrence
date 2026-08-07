@@ -99,7 +99,7 @@ targets::tar_source(
 targets::tar_option_set(
   seed = load_active_config_value("seed"),
   format = "qs",
-  controller = get_preprocessing_controller(),
+  controller = build_preprocessing_controller(),
   error = "continue"
 )
 
@@ -165,7 +165,7 @@ c(
 #--------------------------------------------------#
 
 # The test pipeline is not a spatial store, so it cannot use
-#   get_scale_id_from_store() as the FT classification id. It still
+#   resolve_scale_id_from_store() as the FT classification id. It still
 #   uses the same shared FT clustering factory as the spatial pipeline,
 #   but saves the de novo classification under the active project id.
 #   The optional reference check records whether the existing Europe-wide

@@ -44,7 +44,7 @@ write_scalar_tuning_file <- function(dir) {
 }
 
 testthat::test_that(
-  "get_model_tuning_param_for_scale_and_resolution returns one spatial value",
+  "load_model_tuning_parameter_for_scale_and_resolution returns one spatial value",
   {
     temp_dir <- withr::local_tempdir()
     path_config <- base::file.path(temp_dir, "config.yml")
@@ -54,7 +54,7 @@ testthat::test_that(
     withr::local_envvar(R_CONFIG_ACTIVE = "default")
 
     res <-
-      get_model_tuning_param_for_scale_and_resolution(
+      load_model_tuning_parameter_for_scale_and_resolution(
         param_id = "n_iter",
         scale_id = "eu_r001",
         config_file = path_config,
@@ -66,7 +66,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_model_tuning_param_for_scale_and_resolution preserves optional NULL",
+  "load_model_tuning_parameter_for_scale_and_resolution preserves optional NULL",
   {
     temp_dir <- withr::local_tempdir()
     path_config <- base::file.path(temp_dir, "config.yml")
@@ -76,7 +76,7 @@ testthat::test_that(
     withr::local_envvar(R_CONFIG_ACTIVE = "default")
 
     res <-
-      get_model_tuning_param_for_scale_and_resolution(
+      load_model_tuning_parameter_for_scale_and_resolution(
         param_id = "n_step_size",
         scale_id = "europe",
         config_file = path_config,
@@ -88,7 +88,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_model_tuning_param_for_scale_and_resolution falls back to config",
+  "load_model_tuning_parameter_for_scale_and_resolution falls back to config",
   {
     temp_dir <- withr::local_tempdir()
     path_config <- base::file.path(temp_dir, "config.yml")
@@ -100,7 +100,7 @@ testthat::test_that(
     withr::local_envvar(R_CONFIG_ACTIVE = "default")
 
     res <-
-      get_model_tuning_param_for_scale_and_resolution(
+      load_model_tuning_parameter_for_scale_and_resolution(
         param_id = "n_sampling",
         scale_id = NULL,
         config_file = path_config,
@@ -112,7 +112,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_model_tuning_param_for_scale_and_resolution errors on unknown param",
+  "load_model_tuning_parameter_for_scale_and_resolution errors on unknown param",
   {
     temp_dir <- withr::local_tempdir()
     path_config <- base::file.path(temp_dir, "config.yml")
@@ -121,7 +121,7 @@ testthat::test_that(
     withr::local_envvar(R_CONFIG_ACTIVE = "default")
 
     testthat::expect_error(
-      get_model_tuning_param_for_scale_and_resolution(
+      load_model_tuning_parameter_for_scale_and_resolution(
         param_id = "n_unknown",
         scale_id = NULL,
         config_file = path_config,

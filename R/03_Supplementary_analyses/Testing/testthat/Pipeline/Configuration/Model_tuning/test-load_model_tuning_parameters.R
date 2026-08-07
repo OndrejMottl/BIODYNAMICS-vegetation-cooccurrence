@@ -28,13 +28,13 @@ write_tuning_file <- function(dir,
 }
 
 testthat::test_that(
-  "get_model_tuning_params returns expected list structure",
+  "load_model_tuning_parameters returns expected list structure",
   {
     temp_dir <- base::tempdir()
     write_tuning_file(temp_dir)
 
     res <-
-      get_model_tuning_params(
+      load_model_tuning_parameters(
         analysis_id = "paleo_spatial",
         scale_id = "eu_r001",
         resolution_id = "genus",
@@ -61,7 +61,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_model_tuning_params maps FT resolution aliases to ft file",
+  "load_model_tuning_parameters maps FT resolution aliases to ft file",
   {
     temp_dir <- base::tempdir()
     write_tuning_file(
@@ -78,7 +78,7 @@ testthat::test_that(
     )
 
     res_functional_type <-
-      get_model_tuning_params(
+      load_model_tuning_parameters(
         analysis_id = "paleo_spatial",
         scale_id = "europe",
         resolution_id = "functional_type",
@@ -86,7 +86,7 @@ testthat::test_that(
       )
 
     res_ft_modern <-
-      get_model_tuning_params(
+      load_model_tuning_parameters(
         analysis_id = "paleo_spatial",
         scale_id = "europe",
         resolution_id = "ft_modern",
@@ -102,13 +102,13 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_model_tuning_params converts missing optional values to NULL",
+  "load_model_tuning_parameters converts missing optional values to NULL",
   {
     temp_dir <- base::tempdir()
     write_tuning_file(temp_dir)
 
     res <-
-      get_model_tuning_params(
+      load_model_tuning_parameters(
         analysis_id = "paleo_spatial",
         scale_id = "europe",
         resolution_id = "genus",
@@ -121,12 +121,12 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_model_tuning_params errors on missing tuning file",
+  "load_model_tuning_parameters errors on missing tuning file",
   {
     temp_dir <- base::tempdir()
 
     testthat::expect_error(
-      get_model_tuning_params(
+      load_model_tuning_parameters(
         analysis_id = "modern_spatial",
         scale_id = "europe",
         resolution_id = "genus",
@@ -138,13 +138,13 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_model_tuning_params errors on unknown resolution_id",
+  "load_model_tuning_parameters errors on unknown resolution_id",
   {
     temp_dir <- base::tempdir()
     write_tuning_file(temp_dir)
 
     testthat::expect_error(
-      get_model_tuning_params(
+      load_model_tuning_parameters(
         analysis_id = "paleo_spatial",
         scale_id = "europe",
         resolution_id = "species",
@@ -156,7 +156,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_model_tuning_params errors when required columns are missing",
+  "load_model_tuning_parameters errors when required columns are missing",
   {
     temp_dir <- base::tempdir()
     write_tuning_file(
@@ -168,7 +168,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_model_tuning_params(
+      load_model_tuning_parameters(
         analysis_id = "paleo_spatial",
         scale_id = "europe",
         resolution_id = "genus",
@@ -180,13 +180,13 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_model_tuning_params errors on unknown or duplicate scale_id",
+  "load_model_tuning_parameters errors on unknown or duplicate scale_id",
   {
     temp_dir <- base::tempdir()
     write_tuning_file(temp_dir)
 
     testthat::expect_error(
-      get_model_tuning_params(
+      load_model_tuning_parameters(
         analysis_id = "paleo_spatial",
         scale_id = "missing",
         resolution_id = "genus",
@@ -208,7 +208,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_model_tuning_params(
+      load_model_tuning_parameters(
         analysis_id = "paleo_spatial",
         scale_id = "europe",
         resolution_id = "genus",
@@ -220,7 +220,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "get_model_tuning_params errors when required values are missing",
+  "load_model_tuning_parameters errors when required values are missing",
   {
     temp_dir <- base::tempdir()
     write_tuning_file(
@@ -236,7 +236,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      get_model_tuning_params(
+      load_model_tuning_parameters(
         analysis_id = "paleo_spatial",
         scale_id = "europe",
         resolution_id = "genus",

@@ -15,7 +15,7 @@
 
 make_pipe_segment_ft_classification_continental <- function(
     output_target_name = "file_ft_classification_paleo",
-    ft_classification_id_expr = quote(get_scale_id_from_store()),
+    ft_classification_id_expr = quote(resolve_scale_id_from_store()),
     data_source_prefix = NULL,
     traits_store_expr = quote(
       here::here(

@@ -576,7 +576,7 @@ pipe_segment_model_cross_validation <-
       ) |>
         dplyr::mutate(
           source_id = {
-            scale_id <- get_scale_id_from_store()
+            scale_id <- resolve_scale_id_from_store()
 
             if (
               base::is.null(scale_id)

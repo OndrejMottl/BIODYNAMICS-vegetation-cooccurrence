@@ -10,7 +10,7 @@
 #' @param n_non_final_rounds
 #' Non-negative integer count of rounds that publish survivor decisions.
 #' @param read_meta_function
-#' Injectable metadata reader compatible with [read_targets_store_meta()].
+#' Injectable metadata reader compatible with [load_targets_store_metadata()].
 #' @param read_decision_function
 #' Injectable decision reader compatible with
 #' [read_sjsdm_tier_survivor_decisions()].
@@ -21,7 +21,7 @@ collect_sjsdm_available_tier_decisions <- function(
     store_path = NULL,
     data_model_context = NULL,
     n_non_final_rounds = NULL,
-    read_meta_function = read_targets_store_meta,
+    read_meta_function = load_targets_store_metadata,
     read_decision_function = read_sjsdm_tier_survivor_decisions) {
   assertthat::assert_that(
     base::is.character(store_path),

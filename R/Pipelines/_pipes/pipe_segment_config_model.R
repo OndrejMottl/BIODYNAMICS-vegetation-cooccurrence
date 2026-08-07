@@ -72,7 +72,7 @@ pipe_segment_config_model <-
         " number of training iterations"
       ),
       name = "config_n_iter",
-      command = get_model_tuning_param_for_scale_and_resolution(
+      command = load_model_tuning_parameter_for_scale_and_resolution(
         "n_iter"
       ),
       cue = targets::tar_cue(mode = "always")
@@ -83,7 +83,7 @@ pipe_segment_config_model <-
         " Monte Carlo samples per epoch"
       ),
       name = "config_n_sampling",
-      command = get_model_tuning_param_for_scale_and_resolution(
+      command = load_model_tuning_parameter_for_scale_and_resolution(
         "n_sampling"
       ),
       cue = targets::tar_cue(mode = "always")
@@ -94,7 +94,7 @@ pipe_segment_config_model <-
         " SGD mini-batch size (NULL = auto 10% of sites)"
       ),
       name = "config_n_step_size",
-      command = get_model_tuning_param_for_scale_and_resolution(
+      command = load_model_tuning_parameter_for_scale_and_resolution(
         "n_step_size"
       ),
       cue = targets::tar_cue(mode = "always")
@@ -105,7 +105,7 @@ pipe_segment_config_model <-
         " early stopping patience (epochs without improvement)"
       ),
       name = "config_n_early_stopping",
-      command = get_model_tuning_param_for_scale_and_resolution(
+      command = load_model_tuning_parameter_for_scale_and_resolution(
         "n_early_stopping"
       ),
       cue = targets::tar_cue(mode = "always")
@@ -116,7 +116,7 @@ pipe_segment_config_model <-
         " Monte Carlo samples for ANOVA variation partitioning"
       ),
       name = "config_n_samples_anova",
-      command = get_model_tuning_param_for_scale_and_resolution(
+      command = load_model_tuning_parameter_for_scale_and_resolution(
         "n_samples_anova"
       ),
       cue = targets::tar_cue(mode = "always")

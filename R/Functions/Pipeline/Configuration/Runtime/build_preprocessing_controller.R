@@ -12,10 +12,10 @@
 #' environment-driven so normal full-pipeline runs keep the default
 #' sequential scheduler.
 #' @examples
-#' get_preprocessing_controller()
+#' build_preprocessing_controller()
 #' @seealso [crew::crew_controller_local()]
 #' @export
-get_preprocessing_controller <- function() {
+build_preprocessing_controller <- function() {
   preprocessing_backend <-
     base::Sys.getenv("BIODYNAMICS_PREPROCESSING_BACKEND")
 
