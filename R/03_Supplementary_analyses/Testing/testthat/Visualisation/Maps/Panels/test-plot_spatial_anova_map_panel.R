@@ -78,10 +78,10 @@ ylim_fixture <-
 #----------------------------------------------------------#
 
 testthat::test_that(
-  "build_map_panel() rejects non-character sel_continent",
+  "plot_spatial_anova_map_panel() rejects non-character sel_continent",
   {
     testthat::expect_error(
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = 1L,
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -97,10 +97,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "build_map_panel() rejects non-length-2 xlim_val",
+  "plot_spatial_anova_map_panel() rejects non-length-2 xlim_val",
   {
     testthat::expect_error(
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -116,10 +116,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "build_map_panel() rejects non-numeric ylim_val",
+  "plot_spatial_anova_map_panel() rejects non-numeric ylim_val",
   {
     testthat::expect_error(
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -135,10 +135,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "build_map_panel() rejects non-data-frame grid",
+  "plot_spatial_anova_map_panel() rejects non-data-frame grid",
   {
     testthat::expect_error(
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -154,10 +154,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "build_map_panel() rejects non-sf sf_world",
+  "plot_spatial_anova_map_panel() rejects non-sf sf_world",
   {
     testthat::expect_error(
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -173,10 +173,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "build_map_panel() rejects graphical_options missing keys",
+  "plot_spatial_anova_map_panel() rejects graphical_options missing keys",
   {
     testthat::expect_error(
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -197,10 +197,10 @@ testthat::test_that(
 #----------------------------------------------------------#
 
 testthat::test_that(
-  "build_map_panel() returns a ggplot object",
+  "plot_spatial_anova_map_panel() returns a ggplot object",
   {
     res <-
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -227,7 +227,7 @@ testthat::test_that(
   "panel without cores has fewer layers than with cores",
   {
     res_with <-
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -240,7 +240,7 @@ testthat::test_that(
       )
 
     res_without <-
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -263,7 +263,7 @@ testthat::test_that(
   "panel with cores contains a GeomPoint layer",
   {
     res <-
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -296,7 +296,7 @@ testthat::test_that(
   "coord_sf xlim and ylim match supplied values",
   {
     res <-
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -329,10 +329,10 @@ testthat::test_that(
 #----------------------------------------------------------#
 
 testthat::test_that(
-  "build_map_panel() rejects non-logical show_x_axis",
+  "plot_spatial_anova_map_panel() rejects non-logical show_x_axis",
   {
     testthat::expect_error(
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -349,10 +349,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "build_map_panel() rejects non-logical show_y_axis",
+  "plot_spatial_anova_map_panel() rejects non-logical show_y_axis",
   {
     testthat::expect_error(
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -369,10 +369,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "build_map_panel() rejects numeric col_label",
+  "plot_spatial_anova_map_panel() rejects numeric col_label",
   {
     testthat::expect_error(
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -389,10 +389,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "build_map_panel() rejects numeric row_label",
+  "plot_spatial_anova_map_panel() rejects numeric row_label",
   {
     testthat::expect_error(
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -412,7 +412,7 @@ testthat::test_that(
   "col_label sets the plot title on the returned ggplot",
   {
     res <-
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -436,7 +436,7 @@ testthat::test_that(
   "row_label sets the y-axis label on the returned ggplot",
   {
     res <-
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -460,7 +460,7 @@ testthat::test_that(
   "show_x_axis = FALSE returns a valid ggplot",
   {
     res <-
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",
@@ -483,7 +483,7 @@ testthat::test_that(
   "show_y_axis = FALSE returns a valid ggplot",
   {
     res <-
-      build_map_panel(
+      plot_spatial_anova_map_panel(
         sel_continent = "europe",
         sel_scale = "continental",
         sel_resolution = "genus",

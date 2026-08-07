@@ -73,7 +73,7 @@
 #' \code{\link{extract_jsdm_variance_fractions}},
 #' \code{\link{compute_shapley_variance_components}}
 #' @export
-build_map_panel <-
+plot_spatial_anova_map_panel <-
   function(
     sel_continent,
     sel_scale,

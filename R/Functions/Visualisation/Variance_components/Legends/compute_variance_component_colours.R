@@ -46,7 +46,7 @@
 #'     component_share = base::c(50, 30, 20, 30, 30, 40)
 #'   )
 #'
-#' mix_variance_component_colours(
+#' compute_variance_component_colours(
 #'   data_component_shares = data_component_shares,
 #'   vec_component_colours = base::c(
 #'     "Abiotic" = "#D95F02",
@@ -55,7 +55,7 @@
 #'   )
 #' )
 #' @export
-mix_variance_component_colours <- function(
+compute_variance_component_colours <- function(
     data_component_shares,
     vec_component_colours,
     vec_required_components = base::c(

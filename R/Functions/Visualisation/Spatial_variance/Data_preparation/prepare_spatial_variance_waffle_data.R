@@ -23,7 +23,7 @@
 #' `vec_required_components` is used.
 #' @param method
 #' Character string selecting the colour-mixing method passed to
-#' [mix_variance_component_colours()].
+#' [compute_variance_component_colours()].
 #' @return
 #' A tibble with one row per observation and columns `tile_col`,
 #' `tile_row`, `tile_fill_colour`, and `point_colour`.
@@ -187,16 +187,6 @@ prepare_spatial_variance_waffle_data <- function(
     )
   }
 
-  collapse_observation_id <- function(...) {
-    vec_observation_values <-
-      base::c(...)
-
-    res_observation_id <-
-      stringr::str_c(vec_observation_values, collapse = "__")
-
-    base::return(res_observation_id)
-  }
-
   data_plot_prepared <-
     data_plot |>
     dplyr::mutate(
@@ -204,7 +194,7 @@ prepare_spatial_variance_waffle_data <- function(
         dplyr::pick(
           dplyr::all_of(vec_observation_columns)
         ),
-        collapse_observation_id
+        collapse_spatial_variance_observation_id
       )
     )
 
@@ -249,7 +239,7 @@ prepare_spatial_variance_waffle_data <- function(
     )
 
   data_mixed_colours <-
-    mix_variance_component_colours(
+    compute_variance_component_colours(
       data_component_shares = data_plot_prepared,
       vec_component_colours = vec_component_colours,
       vec_required_components = vec_required_components,

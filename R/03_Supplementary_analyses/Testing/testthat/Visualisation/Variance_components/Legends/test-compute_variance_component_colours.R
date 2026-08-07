@@ -1,5 +1,5 @@
 testthat::test_that(
-  "mix_variance_component_colours() returns deterministic HEX output",
+  "compute_variance_component_colours() returns deterministic HEX output",
   {
     data_component_shares <-
       tibble::tibble(
@@ -30,28 +30,28 @@ testthat::test_that(
       )
 
     res_first_hcl <-
-      mix_variance_component_colours(
+      compute_variance_component_colours(
         data_component_shares = data_component_shares,
         vec_component_colours = vec_component_colours,
         method = "HCL"
       )
 
     res_second_hcl <-
-      mix_variance_component_colours(
+      compute_variance_component_colours(
         data_component_shares = data_component_shares,
         vec_component_colours = vec_component_colours,
         method = "HCL"
       )
 
     res_first_perceptual <-
-      mix_variance_component_colours(
+      compute_variance_component_colours(
         data_component_shares = data_component_shares,
         vec_component_colours = vec_component_colours,
         method = "perc_avg"
       )
 
     res_second_perceptual <-
-      mix_variance_component_colours(
+      compute_variance_component_colours(
         data_component_shares = data_component_shares,
         vec_component_colours = vec_component_colours,
         method = "perc_avg"
@@ -79,7 +79,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "mix_variance_component_colours() supports perceptual averaging",
+  "compute_variance_component_colours() supports perceptual averaging",
   {
     data_component_shares <-
       tibble::tibble(
@@ -96,14 +96,14 @@ testthat::test_that(
       )
 
     res_hcl <-
-      mix_variance_component_colours(
+      compute_variance_component_colours(
         data_component_shares = data_component_shares,
         vec_component_colours = vec_component_colours,
         method = "HCL"
       )
 
     res_perceptual <-
-      mix_variance_component_colours(
+      compute_variance_component_colours(
         data_component_shares = data_component_shares,
         vec_component_colours = vec_component_colours,
         method = "perc_avg"
@@ -119,7 +119,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "mix_variance_component_colours() preserves pure component colours",
+  "compute_variance_component_colours() preserves pure component colours",
   {
     data_component_shares <-
       tibble::tibble(
@@ -136,7 +136,7 @@ testthat::test_that(
       )
 
     res_perceptual <-
-      mix_variance_component_colours(
+      compute_variance_component_colours(
         data_component_shares = data_component_shares,
         vec_component_colours = vec_component_colours,
         method = "perc_avg"
@@ -150,7 +150,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "mix_variance_component_colours() validates method",
+  "compute_variance_component_colours() validates method",
   {
     data_component_shares <-
       tibble::tibble(
@@ -167,7 +167,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      mix_variance_component_colours(
+      compute_variance_component_colours(
         data_component_shares = data_component_shares,
         vec_component_colours = vec_component_colours,
         method = "RGB"
@@ -178,7 +178,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "mix_variance_component_colours() errors on missing components",
+  "compute_variance_component_colours() errors on missing components",
   {
     data_component_shares <-
       tibble::tibble(
@@ -195,7 +195,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      mix_variance_component_colours(
+      compute_variance_component_colours(
         data_component_shares = data_component_shares,
         vec_component_colours = vec_component_colours
       ),
@@ -205,7 +205,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "mix_variance_component_colours() errors on invalid shares",
+  "compute_variance_component_colours() errors on invalid shares",
   {
     data_component_shares <-
       tibble::tibble(
@@ -222,7 +222,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      mix_variance_component_colours(
+      compute_variance_component_colours(
         data_component_shares = data_component_shares,
         vec_component_colours = vec_component_colours
       ),
@@ -232,7 +232,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "mix_variance_component_colours() errors on malformed compositions",
+  "compute_variance_component_colours() errors on malformed compositions",
   {
     data_component_shares <-
       tibble::tibble(
@@ -249,7 +249,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      mix_variance_component_colours(
+      compute_variance_component_colours(
         data_component_shares = data_component_shares,
         vec_component_colours = vec_component_colours
       ),

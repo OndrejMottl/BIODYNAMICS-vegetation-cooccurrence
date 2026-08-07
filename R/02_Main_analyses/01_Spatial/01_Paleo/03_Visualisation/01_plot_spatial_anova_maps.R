@@ -240,7 +240,7 @@ list_panels <-
               rlang::set_names() |>
               purrr::map(
                 .f = ~ {
-                  build_map_panel(
+                  plot_spatial_anova_map_panel(
                     sel_continent = sel_continent,
                     sel_scale = sel_scale,
                     sel_resolution = .x,

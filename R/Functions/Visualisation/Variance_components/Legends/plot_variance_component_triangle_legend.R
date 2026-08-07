@@ -41,7 +41,7 @@
 #' Numeric scalar shifting the triangle horizontally.
 #' @param method
 #' Character string selecting the colour-mixing method passed to
-#' [mix_variance_component_colours()].
+#' [compute_variance_component_colours()].
 #' @return
 #' A `ggplot` object.
 #' @export
@@ -261,7 +261,7 @@ plot_variance_component_triangle_legend <- function(
     )
 
   data_triangle_colours <-
-    mix_variance_component_colours(
+    compute_variance_component_colours(
       data_component_shares = data_triangle_components,
       vec_component_colours = vec_component_colours,
       vec_required_components = vec_required_components,
