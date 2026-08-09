@@ -14,7 +14,7 @@
 
 
 make_pipe_segment_ft_classification_continental <- function(
-    output_target_name = "file_ft_classification_paleo",
+    output_target_name = "file_functional_type_classification_paleo",
     ft_classification_id_expr = quote(resolve_scale_id_from_store()),
     data_source_prefix = NULL,
     traits_store_expr = quote(
@@ -75,7 +75,7 @@ make_pipe_segment_ft_classification_continental <- function(
             "Check whether the existing whole-continent FT file ",
             "is viable for this project testbed"
           ),
-          name = check_ft_reference_classification_paleo,
+          name = data_functional_type_reference_validation_paleo,
           command = {
             path_processed <-
               here::here("Data/Processed/Traits")
@@ -85,7 +85,7 @@ make_pipe_segment_ft_classification_continental <- function(
 
             file_name_base <-
               stringr::str_glue(
-                "data_ft_classification_{continent_id}"
+                "data_functional_type_classification_{continent_id}"
               )
 
             latest_file_name <-
@@ -180,12 +180,12 @@ make_pipe_segment_ft_classification_continental <- function(
     ) {
       bquote(
         {
-          base::force(check_ft_reference_classification_paleo)
+          base::force(data_functional_type_reference_validation_paleo)
 
           save_continental_functional_type_classification(
             continent_id = .(ft_classification_id_expr),
             data_functional_type_classification =
-              ft_result_continental_unit,
+              data_functional_type_classification_continental,
             classification_source_prefix = .(data_source_prefix),
             verbose = TRUE
           )
@@ -196,7 +196,7 @@ make_pipe_segment_ft_classification_continental <- function(
         save_continental_functional_type_classification(
           continent_id = .(ft_classification_id_expr),
           data_functional_type_classification =
-            ft_result_continental_unit,
+            data_functional_type_classification_continental,
           classification_source_prefix = .(data_source_prefix),
           verbose = TRUE
         )
@@ -213,7 +213,7 @@ make_pipe_segment_ft_classification_continental <- function(
       # value.
       targets::tar_target(
         description = "Read ft_groups_max for FT clustering from config",
-        name = ft_groups_max_continental,
+        name = config_functional_type_group_count_max_continental,
         command = base::as.integer(
           load_config_value_with_fallback(
             config_section = "data_processing",
@@ -225,7 +225,7 @@ make_pipe_segment_ft_classification_continental <- function(
       ),
       targets::tar_target(
         description = "Read ft_groups_min for FT clustering from config",
-        name = ft_groups_min_continental,
+        name = config_functional_type_group_count_min_continental,
         command = base::as.integer(
           load_config_value_with_fallback(
             config_section = "data_processing",
@@ -237,7 +237,7 @@ make_pipe_segment_ft_classification_continental <- function(
       ),
       targets::tar_target(
         description = "Read dissimilarity metric for FT clustering from config",
-        name = metric_ft_continental,
+        name = config_functional_type_distance_metric_continental,
         command = load_config_value_with_fallback(
           config_section = "data_processing",
           config_key = "ft_metric",
@@ -249,7 +249,7 @@ make_pipe_segment_ft_classification_continental <- function(
         description = paste(
           "Read hclust linkage method for FT clustering from config"
         ),
-        name = method_ft_continental,
+        name = config_functional_type_clustering_method_continental,
         command = load_config_value_with_fallback(
           config_section = "data_processing",
           config_key = "ft_method",
@@ -278,7 +278,7 @@ make_pipe_segment_ft_classification_continental <- function(
           "Load classified corrected traits from ",
           "shared traits pipeline store"
         ),
-        name = data_traits_for_ft,
+        name = data_traits_for_functional_type_classification,
         command = targets::tar_read(
           data_traits_classified_corrected,
           store = path_traits_reference_store
@@ -289,7 +289,7 @@ make_pipe_segment_ft_classification_continental <- function(
           "Load trait classification table from ",
           "shared traits pipeline store"
         ),
-        name = data_classification_table_for_ft,
+        name = data_classification_table_for_functional_types,
         command = targets::tar_read(
           data_combined_classification_table_traits,
           store = path_traits_reference_store
@@ -334,9 +334,9 @@ make_pipe_segment_ft_classification_continental <- function(
         ),
         name = data_community_taxon_traits,
         command = build_community_taxon_trait_table(
-          data_trait_records = data_traits_for_ft |>
+          data_trait_records = data_traits_for_functional_type_classification |>
             dplyr::rename(taxon_name = "taxon_resolved"),
-          data_trait_taxonomy = data_classification_table_for_ft,
+          data_trait_taxonomy = data_classification_table_for_functional_types,
           data_community_taxonomy =
             data_community_classified_taxa_classification,
           verbose = TRUE
@@ -346,20 +346,20 @@ make_pipe_segment_ft_classification_continental <- function(
       # ── 4. Compute pairwise dissimilarity matrix ──────────
       targets::tar_target(
         description = "Compute dissimilarity matrix for FT clustering",
-        name = dist_ft_continental,
+        name = data_functional_type_dissimilarity_continental,
         command = compute_trait_dissimilarity(
           data_trait_table = data_community_taxon_traits,
-          distance_metric = metric_ft_continental
+          distance_metric = config_functional_type_distance_metric_continental
         )
       ),
 
       # ── 5. Fit hierarchical clustering ───────────────────
       targets::tar_target(
         description = "Fit hierarchical clustering dendrogram for FTs",
-        name = hclust_ft_continental,
+        name = mod_functional_type_hierarchical_clustering_continental,
         command = fit_hierarchical_clustering(
-          trait_dissimilarity = dist_ft_continental,
-          clustering_method = method_ft_continental
+          trait_dissimilarity = data_functional_type_dissimilarity_continental,
+          clustering_method = config_functional_type_clustering_method_continental
         )
       ),
 
@@ -369,14 +369,14 @@ make_pipe_segment_ft_classification_continental <- function(
           "Select optimal FT group count ",
           "by maximising average silhouette width"
         ),
-        name = ft_groups_chosen_continental,
+        name = n_functional_type_groups_selected_continental,
         command = select_functional_type_group_count(
-          trait_dissimilarity = dist_ft_continental,
-          hierarchical_clustering = hclust_ft_continental,
+          trait_dissimilarity = data_functional_type_dissimilarity_continental,
+          hierarchical_clustering = mod_functional_type_hierarchical_clustering_continental,
           functional_type_group_count_min =
-            ft_groups_min_continental,
+            config_functional_type_group_count_min_continental,
           functional_type_group_count_max =
-            ft_groups_max_continental,
+            config_functional_type_group_count_max_continental,
           data_community = data_community_classified,
           minimum_proportion = config_minimal_proportion_of_pollen,
           minimum_taxon_count = config_min_n_taxa,
@@ -389,13 +389,13 @@ make_pipe_segment_ft_classification_continental <- function(
       # ── 7. Assign taxa to functional-type groups ─────────
       targets::tar_target(
         description = "Cluster community taxa into functional types",
-        name = ft_result_continental_unit,
+        name = data_functional_type_classification_continental,
         command = assign_functional_type_clusters(
           data_trait_table = data_community_taxon_traits,
-          trait_dissimilarity = dist_ft_continental,
-          hierarchical_clustering = hclust_ft_continental,
+          trait_dissimilarity = data_functional_type_dissimilarity_continental,
+          hierarchical_clustering = mod_functional_type_hierarchical_clustering_continental,
           functional_type_group_count =
-            ft_groups_chosen_continental,
+            n_functional_type_groups_selected_continental,
           verbose = TRUE
         )
       )
@@ -408,7 +408,7 @@ make_pipe_segment_ft_classification_continental <- function(
       # saved .qs file. Regional and local pipelines for the same
       # continent inherit this file via
       # resolve_functional_type_classification_path_from_store().
-      # The target NAME file_ft_classification_paleo is the interface
+      # The target NAME file_functional_type_classification_paleo is the interface
       # consumed by pipe_segment_community_by_resolution_paleo.
       targets::tar_target_raw(
         description = stringr::str_glue(

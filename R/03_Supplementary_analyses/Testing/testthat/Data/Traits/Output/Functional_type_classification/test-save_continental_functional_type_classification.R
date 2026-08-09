@@ -158,7 +158,7 @@ testthat::test_that(
         testthat::expect_true(
           base::grepl(
             pattern = stringr::str_c(
-              "^data_ft_classification_modern_europe_",
+              "^data_functional_type_classification_modern_europe_",
               "\\d{4}-\\d{2}-\\d{2}__[0-9a-f]+__\\.qs$"
             ),
             x = base::basename(res)
@@ -248,7 +248,7 @@ testthat::test_that(
         testthat::expect_true(
           base::grepl(
             pattern = stringr::str_c(
-              "^data_ft_classification_europe_",
+              "^data_functional_type_classification_europe_",
               "\\d{4}-\\d{2}-\\d{2}__[0-9a-f]+__\\.qs$"
             ),
             x = file_name

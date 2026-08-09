@@ -29,7 +29,7 @@ function processMathHTML() {
 continental unit from 'Data/Processed/Traits/'. The file is
 produced by 'pipe_segment_traits_ft_clustering' in
 'pipeline_traits_reference.R' and named
-'data_ft_classification_continent_id_YYYY-MM-DD.qs'.
+'data_functional_type_classification_continent_id_YYYY-MM-DD.qs'.
 </p>
 
 

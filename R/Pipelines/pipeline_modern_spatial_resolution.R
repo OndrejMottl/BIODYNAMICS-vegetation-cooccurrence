@@ -17,7 +17,7 @@
 #   pipeline_paleo_spatial_resolution.R. It shares the model fitting stack
 #   unchanged, but uses modern community preprocessing and tracks one
 #   FT files:
-#     file_ft_classification_modern
+#     file_functional_type_classification_modern
 #
 # Per-resolution targets are suffixed by resolution_id:
 #   _genus, _family, _ft_modern.
@@ -152,17 +152,17 @@ if (
     )
   )
 
-  list_file_ft_classification_modern <-
+  list_file_functional_type_classification_modern <-
     pipe_segment_ft_classification_modern_continental
 } else {
-  list_file_ft_classification_modern <-
+  list_file_functional_type_classification_modern <-
     base::list(
       targets::tar_target(
         description = stringr::str_glue(
           "Track the most recent modern FT classification file ",
           "for the continent that owns this spatial unit"
         ),
-        name = file_ft_classification_modern,
+        name = file_functional_type_classification_modern,
         command = resolve_functional_type_classification_path_from_store(
           data_source_prefix = "modern"
         ),
@@ -210,7 +210,7 @@ base::list(
   pipe_segment_abiotic_extract,
   pipe_segment_community_prepare_modern,
   list_config_modern_spatial_resolutions,
-  list_file_ft_classification_modern,
+  list_file_functional_type_classification_modern,
   pipe_segment_model_spatial_shared,
   pipe_segment_model_cross_validation_shared,
   targets_models_by_resolution

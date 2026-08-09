@@ -1,265 +1,133 @@
 <!DOCTYPE html><html><head><title>R: Save Functional-Type Classification for One Continental Unit</title>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-
 <script type="text/javascript">
-
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
-
 function processMathHTML() {
-
     var l = document.getElementsByClassName('reqn');
-
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
-
     return;
-
 }</script>
-
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
-
     onload="processMathHTML();"></script>
-
 <link rel="stylesheet" type="text/css" href="R.css" />
-
 </head><body><div class="container"><main>
-
-
 
 <table style="width: 100%;"><tr><td>save_continental_functional_type_classification</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-
-
 <h2>Save Functional-Type Classification for One Continental Unit</h2>
-
-
 
 <h3>Description</h3>
 
-
-
 <p>Saves a pre-computed functional-type classification tibble as a
-
 dated '.qs' file in 'path_processed'. The classification is
-
 produced upstream by 'assign_functional_type_clusters()' via the
-
-'ft_result_continent' pipeline target.
-
+'data_functional_type_classification_continent' pipeline target.
 </p>
-
-
-
 
 
 <h3>Usage</h3>
 
-
-
 <pre><code class='language-R'>save_continental_functional_type_classification(
-
   continent_id,
-
   data_functional_type_classification,
-
   path_classification_directory = here::here("Data/Processed/Traits"),
-
   classification_source_prefix = NULL,
-
   verbose = TRUE
-
 )
-
 </code></pre>
-
-
-
 
 
 <h3>Arguments</h3>
 
-
-
 <table role = "presentation">
-
 <tr><td><code id="continent_id">continent_id</code></td>
-
 <td>
-
 <p>A single non-empty character string identifying the continental
-
 unit (e.g. '&quot;europe&quot;', '&quot;america&quot;', '&quot;asia&quot;'). Used only for
-
 naming the output file.</p>
-
 </td></tr>
-
 <tr><td><code id="data_functional_type_classification">data_functional_type_classification</code></td>
-
 <td>
-
 <p>A data frame containing the functional-type classification, as
-
 returned in the 'classification' element of
-
 'assign_functional_type_clusters()'. Typically has columns
-
 'taxon_name', 'functional_type', and 'silhouette_width'.</p>
-
 </td></tr>
-
 <tr><td><code id="path_classification_directory">path_classification_directory</code></td>
-
 <td>
-
 <p>A single character string giving the directory where the '.qs'
-
 output file will be written. Default:
-
 'here::here(&quot;Data/Processed/Traits&quot;)'.</p>
-
 </td></tr>
-
 <tr><td><code id="classification_source_prefix">classification_source_prefix</code></td>
-
 <td>
-
 <p>Optional single non-empty character string to prepend to the
-
 'continent_id' portion of the file name. Use 'NULL' (default)
-
 for the historical paleo/global naming convention, or '&quot;modern&quot;'
-
 for modern-data functional-type classifications.</p>
-
 </td></tr>
-
 <tr><td><code id="verbose">verbose</code></td>
-
 <td>
-
 <p>Logical. If 'TRUE' (default), progress messages are printed
-
 to the console via 'cli'.</p>
-
 </td></tr>
-
 </table>
-
-
-
 
 
 <h3>Details</h3>
 
-
-
 <p>**Steps performed**:
-
 </p>
-
-
 
 <ol>
-
 <li><p> Validate arguments.
-
 </p>
-
 </li>
-
 <li><p> Save 'data_functional_type_classification' with
-
 'RUtilpol::save_latest_file()' as a dated '.qs' file in
-
 'path_classification_directory'. The file is only overwritten when the
-
 content has changed since the previous version.
-
 </p>
-
 </li>
-
 <li><p> Resolve the path of the just-saved file via
-
 'RUtilpol::get_latest_file_name()'.
-
 </p>
-
 </li>
-
 <li><p> Return the file path as a character string.
-
 </p>
-
 </li></ol>
 
-
-
 <p>Data filtering, distance computation, hierarchical clustering,
-
 ft-groups selection are all handled upstream by
-
 'select_continental_trait_table()', 'compute_trait_dissimilarity()',
-
 'fit_hierarchical_clustering()', and 'assign_functional_type_clusters()' respectively.
-
 </p>
-
-
-
 
 
 <h3>Value</h3>
 
-
-
 <p>A single character string: the absolute path to the '.qs' file
-
 that was written. The file is saved via
-
 'RUtilpol::save_latest_file()' using the name stem
-
-'data_ft_classification_continent_id'
-
+'data_functional_type_classification_continent_id'
 when 'classification_source_prefix = NULL', or
-
-'data_ft_classification_classification_source_prefix_continent_id'
-
+'data_functional_type_classification_classification_source_prefix_continent_id'
 otherwise. The final file name includes a date stamp and
-
 content hash appended by 'RUtilpol' (e.g.
-
-'data_ft_classification_europe_2026-05-07__abc123__.qs').
-
+'data_functional_type_classification_europe_2026-05-07__abc123__.qs').
 </p>
-
-
-
 
 
 <h3>See Also</h3>
 
-
-
 <p>[select_continental_trait_table()],
-
 [compute_trait_dissimilarity()], [fit_hierarchical_clustering()],
-
 [assign_functional_type_clusters()]
-
 </p>
-
-
 
 </main>
 
-
-
 </div>
-
 </body></html>

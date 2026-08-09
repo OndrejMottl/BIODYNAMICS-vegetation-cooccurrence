@@ -29,7 +29,7 @@
 #     community extract/classification/preprocess segments
 #        — genus-level community assembly
 #     pipe_segment_abiotic_extract — abiotic predictor assembly
-#     file_ft_classification_paleo — FT file tracker (continent lookup)
+#     file_functional_type_classification_paleo — FT file tracker (continent lookup)
 #
 #   PER-RESOLUTION (via tar_map over "genus", "family", "functional_type"):
 #     pipe_segment_config_model_by_resolution — per-resolution fitting config
@@ -194,21 +194,21 @@ if (
     )
   )
 
-  list_file_ft_classification_paleo <-
+  list_file_functional_type_classification_paleo <-
     make_pipe_segment_ft_classification_continental()
 } else {
   # Tracks the most recent FT classification .qs file for the
   #   continent that owns this spatial unit.
   #   Declared outside tar_map() so it is computed once and
   #   its hash is shared across both resolution branches.
-  list_file_ft_classification_paleo <-
+  list_file_functional_type_classification_paleo <-
     base::list(
       targets::tar_target(
         description = stringr::str_glue(
           "Track the most recent FT classification file ",
           "for the continent that owns this spatial unit"
         ),
-        name = file_ft_classification_paleo,
+        name = file_functional_type_classification_paleo,
         command = resolve_functional_type_classification_path_from_store(),
         format = "file"
       )
@@ -222,7 +222,7 @@ if (
 
 # Segment list replicated for each resolution.
 # tar_map() appends the resolution suffix to every target name,
-#   e.g. config_model_fitting_family, model_anova_family.
+#   e.g. config_model_fitting_family, list_jsdm_variance_partition_family.
 targets_per_resolution <-
   base::list(
     pipe_segment_config_model_by_resolution,
@@ -257,7 +257,7 @@ base::list(
   pipe_segment_taxa_classification,
   pipe_segment_community_prepare_paleo,
   pipe_segment_abiotic_extract,
-  list_file_ft_classification_paleo,
+  list_file_functional_type_classification_paleo,
   pipe_segment_model_spatial_shared,
   pipe_segment_model_cross_validation_shared,
   targets_models_by_resolution

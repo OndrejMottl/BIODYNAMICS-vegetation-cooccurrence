@@ -32,7 +32,7 @@
 #   - data_combined_classification_table_traits ) traits store
 #
 # Output:
-#   file_ft_classification_paleo — a format = "file" target pointing to
+#   file_functional_type_classification_paleo — a format = "file" target pointing to
 #     the saved .qs file in Data/Processed/Traits/. This target
 #     name is the interface consumed by
 #     pipe_segment_community_by_resolution_paleo (functional_type branch).

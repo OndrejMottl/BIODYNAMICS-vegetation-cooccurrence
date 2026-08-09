@@ -141,15 +141,15 @@ store_path <-
     "store_path"
   )
 
-dist_ft_continental <-
+data_functional_type_dissimilarity_continental <-
   targets::tar_read_raw(
-    name = "dist_ft_continental",
+    name = "data_functional_type_dissimilarity_continental",
     store = store_path
   )
 
 data_ft_classification <-
   targets::tar_read_raw(
-    name = "ft_result_continental_unit",
+    name = "data_functional_type_classification_continental",
     store = store_path
   ) |>
   dplyr::mutate(
@@ -162,10 +162,10 @@ data_ft_classification <-
 #----------------------------------------------------------#
 
 if (
-  !base::inherits(dist_ft_continental, "dist")
+  !base::inherits(data_functional_type_dissimilarity_continental, "dist")
 ) {
   cli::cli_abort(
-    "`dist_ft_continental` must inherit from class {.cls dist}."
+    "`data_functional_type_dissimilarity_continental` must inherit from class {.cls dist}."
   )
 }
 
@@ -185,25 +185,25 @@ vec_functional_type_keep <-
     "functional_type"
   )
 
-data_ft_classification_filtered <-
+data_functional_type_classification_filtered <-
   data_ft_classification |>
   dplyr::filter(
     .data$functional_type %in% vec_functional_type_keep
   )
 
 vec_taxa_keep <-
-  data_ft_classification_filtered |>
+  data_functional_type_classification_filtered |>
   dplyr::pull(
     "taxon_name"
   )
 
-dist_ft_continental_filtered <-
+data_functional_type_dissimilarity_continental_filtered <-
   stats::as.dist(
-    base::as.matrix(dist_ft_continental)[vec_taxa_keep, vec_taxa_keep]
+    base::as.matrix(data_functional_type_dissimilarity_continental)[vec_taxa_keep, vec_taxa_keep]
   )
 
 if (
-  base::attr(dist_ft_continental_filtered, "Size") < 3L
+  base::attr(data_functional_type_dissimilarity_continental_filtered, "Size") < 3L
 ) {
   cli::cli_abort(
     "Too few taxa remain after removing singleton functional types."
@@ -214,7 +214,7 @@ base::set.seed(900723)
 
 nmds_result <-
   vegan::metaMDS(
-    comm = dist_ft_continental_filtered,
+    comm = data_functional_type_dissimilarity_continental_filtered,
     k = 2L,
     try = 30L,
     trymax = 120L,
@@ -239,7 +239,7 @@ data_nmds <-
     .before = 1
   ) |>
   dplyr::inner_join(
-    y = data_ft_classification_filtered,
+    y = data_functional_type_classification_filtered,
     by = dplyr::join_by(taxon_name),
     multiple = "error"
   ) |>
@@ -250,7 +250,7 @@ data_nmds <-
   )
 
 if (
-  base::nrow(data_nmds) != base::attr(dist_ft_continental_filtered, "Size")
+  base::nrow(data_nmds) != base::attr(data_functional_type_dissimilarity_continental_filtered, "Size")
 ) {
   cli::cli_abort(
     "Some NMDS taxa could not be joined to functional-type labels."

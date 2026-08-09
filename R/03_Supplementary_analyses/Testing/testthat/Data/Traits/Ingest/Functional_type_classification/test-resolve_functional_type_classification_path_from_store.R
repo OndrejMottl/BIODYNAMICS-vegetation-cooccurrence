@@ -34,19 +34,19 @@ testthat::test_that(
         file_old <-
           base::file.path(
             path_processed,
-            "data_ft_classification_europe_2026-01-15.qs"
+            "data_functional_type_classification_europe_2026-01-15.qs"
           )
 
         file_new <-
           base::file.path(
             path_processed,
-            "data_ft_classification_europe_2026-04-15.qs"
+            "data_functional_type_classification_europe_2026-04-15.qs"
           )
 
         file_other <-
           base::file.path(
             path_processed,
-            "data_ft_classification_america_2026-04-15.qs"
+            "data_functional_type_classification_america_2026-04-15.qs"
           )
 
         base::file.create(file_old)
@@ -105,7 +105,7 @@ testthat::test_that(
         file_path <-
           base::file.path(
             path_processed,
-            "data_ft_classification_europe_2026-04-15.qs"
+            "data_functional_type_classification_europe_2026-04-15.qs"
           )
 
         base::file.create(file_path)
@@ -163,19 +163,19 @@ testthat::test_that(
         file_paleo_newer <-
           base::file.path(
             path_processed,
-            "data_ft_classification_europe_2026-05-15.qs"
+            "data_functional_type_classification_europe_2026-05-15.qs"
           )
 
         file_modern_old <-
           base::file.path(
             path_processed,
-            "data_ft_classification_modern_europe_2026-03-15.qs"
+            "data_functional_type_classification_modern_europe_2026-03-15.qs"
           )
 
         file_modern_new <-
           base::file.path(
             path_processed,
-            "data_ft_classification_modern_europe_2026-04-15.qs"
+            "data_functional_type_classification_modern_europe_2026-04-15.qs"
           )
 
         base::file.create(file_paleo_newer)

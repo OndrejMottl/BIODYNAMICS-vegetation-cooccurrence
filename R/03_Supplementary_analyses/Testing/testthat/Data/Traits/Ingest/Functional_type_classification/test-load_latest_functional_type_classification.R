@@ -94,7 +94,7 @@ testthat::test_that(
         file_europe <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_europe_2026-03-01.qs"
+            "data_functional_type_classification_europe_2026-03-01.qs"
           )
 
         qs2::qs_save(
@@ -127,7 +127,7 @@ testthat::test_that(
         file_path <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_europe_2026-03-01.qs"
+            "data_functional_type_classification_europe_2026-03-01.qs"
           )
 
         qs2::qs_save(
@@ -161,7 +161,7 @@ testthat::test_that(
         file_path <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_asia_2026-01-15.qs"
+            "data_functional_type_classification_asia_2026-01-15.qs"
           )
 
         qs2::qs_save(
@@ -198,7 +198,7 @@ testthat::test_that(
         file_path <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_america_2026-02-10.qs"
+            "data_functional_type_classification_america_2026-02-10.qs"
           )
 
         qs2::qs_save(
@@ -235,7 +235,7 @@ testthat::test_that(
         file_path <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_europe_2026-03-01.qs"
+            "data_functional_type_classification_europe_2026-03-01.qs"
           )
 
         qs2::qs_save(
@@ -272,7 +272,7 @@ testthat::test_that(
         file_path <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_europe_2026-03-01.qs"
+            "data_functional_type_classification_europe_2026-03-01.qs"
           )
 
         qs2::qs_save(
@@ -310,7 +310,7 @@ testthat::test_that(
         file_path <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_europe_2026-03-01.qs"
+            "data_functional_type_classification_europe_2026-03-01.qs"
           )
 
         qs2::qs_save(
@@ -354,13 +354,13 @@ testthat::test_that(
         file_old <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_europe_2026-01-01.qs"
+            "data_functional_type_classification_europe_2026-01-01.qs"
           )
 
         file_new <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_europe_2026-03-01.qs"
+            "data_functional_type_classification_europe_2026-03-01.qs"
           )
 
         qs2::qs_save(
