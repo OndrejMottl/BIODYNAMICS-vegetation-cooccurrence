@@ -26,8 +26,8 @@ data_focal_trait_summary_valid <-
     mean = 125,
     median = 120,
     sd = 30,
-    IQR = 45,
-    n_suspected_outliers_taxon = 2L,
+    iqr = 45,
+    n_suspected_outliers = 2L,
     outlier_fraction = 2 / 12
   )
 

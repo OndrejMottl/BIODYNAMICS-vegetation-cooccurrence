@@ -15,7 +15,7 @@
 #' @param path_trait_quality_control_report
 #' Character scalar or `NULL`. Optional path to the CSV quality-control report.
 #' If `NULL` (default), the function writes a date-stamped file to
-#' `Data/Temp/trait_qc_report_{YYYY-MM-DD}.csv`.
+#' `Data/Temp/trait_quality_control_report_{YYYY-MM-DD}.csv`.
 #' @param domain_iqr_multiplier
 #' Positive numeric scalar. A domain value is flagged as a suspected
 #' outlier when `|trait_value - median| > domain_iqr_multiplier * IQR`,
@@ -41,20 +41,20 @@
 #' @return
 #' A named list with four computed quality-control elements:
 #' \describe{
-#'   \item{`summary_by_domain`}{A tibble with one row per
+#'   \item{`data_summary_by_domain`}{A tibble with one row per
 #'     `trait_domain_name` containing: `n_records`, `n_taxa`,
-#'     `mean`, `median`, `sd`, `lwr_90`, `upr_90`, `IQR`,
+#'     `mean`, `median`, `sd`, `quantile_05`, `quantile_95`, `iqr`,
 #'     `n_suspected_outliers`.}
-#'   \item{`summary_by_domain_taxon`}{A tibble with one row per
+#'   \item{`data_summary_by_domain_taxon`}{A tibble with one row per
 #'     `trait_domain_name × taxon_name` combination where the taxon
 #'     has at least `minimum_taxon_records` records in that domain,
-#'     containing: `n_records`, `mean`, `median`, `sd`, `IQR`,
-#'     `n_suspected_outliers_taxon`.}
-#'   \item{`suspected_outlier_taxa_domain`}{A character vector of taxon
+#'     containing: `n_records`, `mean`, `median`, `sd`, `iqr`,
+#'     `n_suspected_outliers`.}
+#'   \item{`vec_suspected_outlier_taxa_domain`}{A character vector of taxon
 #'     names whose trait value in any domain falls more than
 #'     `domain_iqr_multiplier` × IQR from the domain median
 #'     (cross-taxon check).}
-#'   \item{`suspected_outlier_taxa_taxon`}{A character vector of taxon
+#'   \item{`vec_suspected_outlier_taxa_taxon`}{A character vector of taxon
 #'     names that have at least `minimum_taxon_records` records in a
 #'     domain and whose trait value falls more than
 #'     `taxon_iqr_multiplier` × IQR from their own taxon median
@@ -76,7 +76,7 @@
 #'     inconsistencies that the cross-taxon check would miss.
 #' }
 #' The CSV report contains the per-domain×taxon summary. By default it is
-#' written to `Data/Temp/trait_qc_report_{YYYY-MM-DD}.csv`, but an
+#' written to `Data/Temp/trait_quality_control_report_{YYYY-MM-DD}.csv`, but an
 #' explicit `path_trait_quality_control_report` can be supplied when the
 #' caller needs an isolated output location.
 #' The corrections template written when absent
@@ -231,19 +231,19 @@ write_trait_quality_control_report <- function(
       mean = base::mean(.data[["trait_value"]], na.rm = TRUE),
       median = stats::median(.data[["trait_value"]], na.rm = TRUE),
       sd = stats::sd(.data[["trait_value"]], na.rm = TRUE),
-      lwr_90 = stats::quantile(
+      quantile_05 = stats::quantile(
         .data[["trait_value"]],
         probs = 0.05,
         na.rm = TRUE,
         names = FALSE
       ),
-      upr_90 = stats::quantile(
+      quantile_95 = stats::quantile(
         .data[["trait_value"]],
         probs = 0.95,
         na.rm = TRUE,
         names = FALSE
       ),
-      IQR = stats::IQR(.data[["trait_value"]], na.rm = TRUE),
+      iqr = stats::IQR(.data[["trait_value"]], na.rm = TRUE),
       n_suspected_outliers = base::sum(
         .data[["is_trait_outlier"]],
         na.rm = TRUE
@@ -283,8 +283,8 @@ write_trait_quality_control_report <- function(
       mean = base::mean(.data[["trait_value"]], na.rm = TRUE),
       median = stats::median(.data[["trait_value"]], na.rm = TRUE),
       sd = stats::sd(.data[["trait_value"]], na.rm = TRUE),
-      IQR = stats::IQR(.data[["trait_value"]], na.rm = TRUE),
-      n_suspected_outliers_taxon = base::sum(
+      iqr = stats::IQR(.data[["trait_value"]], na.rm = TRUE),
+      n_suspected_outliers = base::sum(
         .data[["is_trait_outlier"]],
         na.rm = TRUE
       ),
@@ -319,7 +319,7 @@ write_trait_quality_control_report <- function(
     path_trait_quality_control_report <-
       here::here(
         "Data/Temp",
-        stringr::str_glue("trait_qc_report_{report_date}.csv")
+        stringr::str_glue("trait_quality_control_report_{report_date}.csv")
       )
   }
 
@@ -362,10 +362,10 @@ write_trait_quality_control_report <- function(
 
   return(
     base::list(
-      summary_by_domain = data_domain_summary,
-      summary_by_domain_taxon = data_taxon_summary,
-      suspected_outlier_taxa_domain = suspected_domain_outlier_taxa,
-      suspected_outlier_taxa_taxon = suspected_taxon_outlier_taxa
+      data_summary_by_domain = data_domain_summary,
+      data_summary_by_domain_taxon = data_taxon_summary,
+      vec_suspected_outlier_taxa_domain = suspected_domain_outlier_taxa,
+      vec_suspected_outlier_taxa_taxon = suspected_taxon_outlier_taxa
     )
   )
 }

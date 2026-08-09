@@ -71,7 +71,7 @@ testthat::test_that(
           "trait_domain_name",
           "taxon_name",
           "n_records",
-          "n_suspected_outliers_taxon"
+          "n_suspected_outliers"
         ) %in% base::colnames(data_report)
       )
     )
@@ -96,7 +96,7 @@ testthat::test_that(
     path_default_report <-
       here::here(
         "Data/Temp",
-        "trait_qc_report_2099-12-31.csv"
+        "trait_quality_control_report_2099-12-31.csv"
       )
 
     if (
@@ -284,7 +284,7 @@ testthat::test_that(
 
     testthat::expect_true(
       "Borderline" %in%
-        purrr::chuck(list_strict, "suspected_outlier_taxa_domain")
+        purrr::chuck(list_strict, "vec_suspected_outlier_taxa_domain")
     )
 
     # lenient: Borderline is NOT flagged
@@ -297,7 +297,7 @@ testthat::test_that(
 
     testthat::expect_false(
       "Borderline" %in%
-        purrr::chuck(list_lenient, "suspected_outlier_taxa_domain")
+        purrr::chuck(list_lenient, "vec_suspected_outlier_taxa_domain")
     )
   }
 )
@@ -328,10 +328,10 @@ testthat::test_that(
     testthat::expect_named(
       list_result,
       base::c(
-        "summary_by_domain",
-        "summary_by_domain_taxon",
-        "suspected_outlier_taxa_domain",
-        "suspected_outlier_taxa_taxon"
+        "data_summary_by_domain",
+        "data_summary_by_domain_taxon",
+        "vec_suspected_outlier_taxa_domain",
+        "vec_suspected_outlier_taxa_taxon"
       ),
       ignore.order = FALSE
     )
@@ -340,7 +340,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "summary_by_domain is a tibble with one row per domain",
+  "data_summary_by_domain is a tibble with one row per domain",
   {
     data_trait_records <-
       tibble::tibble(
@@ -366,7 +366,7 @@ testthat::test_that(
       )
 
     data_summary <-
-      purrr::chuck(list_result, "summary_by_domain")
+      purrr::chuck(list_result, "data_summary_by_domain")
 
     testthat::expect_s3_class(data_summary, "tbl_df")
 
@@ -377,7 +377,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "summary_by_domain has all required columns",
+  "data_summary_by_domain has all required columns",
   {
     data_trait_records <-
       tibble::tibble(
@@ -397,7 +397,7 @@ testthat::test_that(
       )
 
     data_summary <-
-      purrr::chuck(list_result, "summary_by_domain")
+      purrr::chuck(list_result, "data_summary_by_domain")
 
     vec_expected_cols <-
       base::c(
@@ -407,9 +407,9 @@ testthat::test_that(
         "mean",
         "median",
         "sd",
-        "lwr_90",
-        "upr_90",
-        "IQR",
+        "quantile_05",
+        "quantile_95",
+        "iqr",
         "n_suspected_outliers"
       )
 
@@ -423,7 +423,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "suspected_outlier_taxa_domain and _taxon are character vectors",
+  "vec_suspected_outlier_taxa_domain and _taxon are character vectors",
   {
     data_trait_records <-
       tibble::tibble(
@@ -444,13 +444,13 @@ testthat::test_that(
 
     testthat::expect_true(
       base::is.character(
-        purrr::chuck(list_result, "suspected_outlier_taxa_domain")
+        purrr::chuck(list_result, "vec_suspected_outlier_taxa_domain")
       )
     )
 
     testthat::expect_true(
       base::is.character(
-        purrr::chuck(list_result, "suspected_outlier_taxa_taxon")
+        purrr::chuck(list_result, "vec_suspected_outlier_taxa_taxon")
       )
     )
   }
@@ -458,7 +458,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "summary_by_domain: n_records and n_taxa are correct",
+  "data_summary_by_domain: n_records and n_taxa are correct",
   {
     # SLA: 3 records, 2 unique taxa; Height: 1 record, 1 taxon
     data_trait_records <-
@@ -485,7 +485,7 @@ testthat::test_that(
       )
 
     data_summary <-
-      purrr::chuck(list_result, "summary_by_domain")
+      purrr::chuck(list_result, "data_summary_by_domain")
 
     data_sla <-
       data_summary |>
@@ -505,7 +505,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "summary_by_domain: median is correct",
+  "data_summary_by_domain: median is correct",
   {
     # median of c(10, 12, 11) = 11
     data_trait_records <-
@@ -526,7 +526,7 @@ testthat::test_that(
       )
 
     data_summary <-
-      purrr::chuck(list_result, "summary_by_domain")
+      purrr::chuck(list_result, "data_summary_by_domain")
 
     testthat::expect_equal(
       dplyr::pull(data_summary, median),
@@ -567,7 +567,7 @@ testthat::test_that(
       )
 
     vec_outliers <-
-      purrr::chuck(list_result, "suspected_outlier_taxa_domain")
+      purrr::chuck(list_result, "vec_suspected_outlier_taxa_domain")
 
     testthat::expect_true(
       "Extreme" %in% vec_outliers
@@ -605,7 +605,7 @@ testthat::test_that(
       )
 
     data_summary <-
-      purrr::chuck(list_result, "summary_by_domain")
+      purrr::chuck(list_result, "data_summary_by_domain")
 
     testthat::expect_equal(
       dplyr::pull(data_summary, n_suspected_outliers),
@@ -636,7 +636,7 @@ testthat::test_that(
       )
 
     vec_outliers <-
-      purrr::chuck(list_result, "suspected_outlier_taxa_domain")
+      purrr::chuck(list_result, "vec_suspected_outlier_taxa_domain")
 
     testthat::expect_length(vec_outliers, 0L)
   }
@@ -767,7 +767,7 @@ testthat::test_that(
       )
 
     data_summary <-
-      purrr::chuck(list_result, "summary_by_domain")
+      purrr::chuck(list_result, "data_summary_by_domain")
 
     testthat::expect_equal(base::nrow(data_summary), 1L)
 
@@ -777,7 +777,7 @@ testthat::test_that(
     )
 
     vec_outliers <-
-      purrr::chuck(list_result, "suspected_outlier_taxa_domain")
+      purrr::chuck(list_result, "vec_suspected_outlier_taxa_domain")
 
     testthat::expect_length(vec_outliers, 0L)
   }
@@ -875,7 +875,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "summary_by_domain_taxon is a tibble with required columns",
+  "data_summary_by_domain_taxon is a tibble with required columns",
   {
     # 12 records for Quercus x SLA so the per-taxon summary is computed
     data_trait_records <-
@@ -903,7 +903,7 @@ testthat::test_that(
       )
 
     data_summary_taxon <-
-      purrr::chuck(list_result, "summary_by_domain_taxon")
+      purrr::chuck(list_result, "data_summary_by_domain_taxon")
 
     testthat::expect_s3_class(data_summary_taxon, "tbl_df")
 
@@ -915,8 +915,8 @@ testthat::test_that(
         "mean",
         "median",
         "sd",
-        "IQR",
-        "n_suspected_outliers_taxon"
+        "iqr",
+        "n_suspected_outliers"
       )
 
     testthat::expect_true(
@@ -929,7 +929,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "summary_by_domain_taxon excludes taxa below minimum_taxon_records",
+  "data_summary_by_domain_taxon excludes taxa below minimum_taxon_records",
   {
     # Quercus: 12 records (>= 10) => included
     # Pinus:    3 records (<  10) => excluded
@@ -958,7 +958,7 @@ testthat::test_that(
       )
 
     data_summary_taxon <-
-      purrr::chuck(list_result, "summary_by_domain_taxon")
+      purrr::chuck(list_result, "data_summary_by_domain_taxon")
 
     testthat::expect_true(
       "Quercus" %in% dplyr::pull(data_summary_taxon, taxon_name)
@@ -972,11 +972,11 @@ testthat::test_that(
 
 
 testthat::test_that(
-  "taxon below min_records threshold never in suspected_outlier_taxa_taxon",
+  "taxon below min_records threshold never in vec_suspected_outlier_taxa_taxon",
   {
     # SmallTaxon has only 5 records (< 10) but with one extreme value.
     # LargeTaxon has 15 records with all normal values.
-    # SmallTaxon must NOT appear in suspected_outlier_taxa_taxon.
+    # SmallTaxon must NOT appear in vec_suspected_outlier_taxa_taxon.
     data_trait_records <-
       tibble::tibble(
         taxon_name = base::c(
@@ -1004,7 +1004,7 @@ testthat::test_that(
       )
 
     vec_taxon_outliers <-
-      purrr::chuck(list_result, "suspected_outlier_taxa_taxon")
+      purrr::chuck(list_result, "vec_suspected_outlier_taxa_taxon")
 
     testthat::expect_false(
       "SmallTaxon" %in% vec_taxon_outliers
@@ -1052,7 +1052,7 @@ testthat::test_that(
       )
 
     vec_taxon_outliers <-
-      purrr::chuck(list_result, "suspected_outlier_taxa_taxon")
+      purrr::chuck(list_result, "vec_suspected_outlier_taxa_taxon")
 
     testthat::expect_true(
       "LargeTaxon" %in% vec_taxon_outliers
@@ -1068,7 +1068,7 @@ testthat::test_that(
 testthat::test_that(
   "taxon-level check does not flag when taxon_IQR is zero",
   {
-    # AllSame: 12 identical records; IQR = 0 -- no outlier can be defined.
+    # AllSame: 12 identical records; iqr = 0 -- no outlier can be defined.
     data_trait_records <-
       tibble::tibble(
         taxon_name = base::rep("AllSame", 12L),
@@ -1088,7 +1088,7 @@ testthat::test_that(
       )
 
     vec_taxon_outliers <-
-      purrr::chuck(list_result, "suspected_outlier_taxa_taxon")
+      purrr::chuck(list_result, "vec_suspected_outlier_taxa_taxon")
 
     testthat::expect_length(vec_taxon_outliers, 0L)
   }

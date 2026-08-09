@@ -56,7 +56,7 @@ path_trait_store <-
 trait_quality_control_report_paths <-
   fs::dir_ls(
     here::here("Data/Temp"),
-    regexp = "trait_qc_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
+    regexp = "trait_quality_control_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
   )
 
 if (
@@ -64,7 +64,7 @@ if (
 ) {
   cli::cli_abort(
     c(
-      "No trait_qc_report_*.csv found in Data/Temp/.",
+      "No trait_quality_control_report_*.csv found in Data/Temp/.",
       "i" = "Run the traits pipeline to generate it."
     )
   )
@@ -81,7 +81,7 @@ data_trait_quality_control_report <-
     show_col_types = FALSE
   ) |>
   dplyr::mutate(
-    outlier_fraction = .data[["n_suspected_outliers_taxon"]] /
+    outlier_fraction = .data[["n_suspected_outliers"]] /
       .data[["n_records"]]
   )
 
@@ -189,7 +189,7 @@ recommend_trait_quality_control_action <- function(
 # ----- Compute derived columns --------------------------------
 data_flagged_trait_groups <-
   data_trait_quality_control_report |>
-  dplyr::filter(.data[["n_suspected_outliers_taxon"]] > 0L) |>
+  dplyr::filter(.data[["n_suspected_outliers"]] > 0L) |>
   dplyr::mutate(
     mean_median_ratio = dplyr::if_else(
       .data[["median"]] > 0,
@@ -272,7 +272,7 @@ record_count <-
 
 outlier_count <-
   data_row |>
-  dplyr::pull(.data[["n_suspected_outliers_taxon"]]) |>
+  dplyr::pull(.data[["n_suspected_outliers"]]) |>
   base::as.integer()
 
 outlier_fraction <-
@@ -281,7 +281,7 @@ outlier_fraction <-
 
 interquartile_range <-
   data_row |>
-  dplyr::pull(.data[["IQR"]])
+  dplyr::pull(.data[["iqr"]])
 
 mean_median_ratio <-
   data_row |>
@@ -312,10 +312,10 @@ data_focal_trait_summary <-
   dplyr::select(
     "mean",
     "median",
-    "IQR",
+    "iqr",
     "sd",
     "n_records",
-    "n_suspected_outliers_taxon",
+    "n_suspected_outliers",
     "outlier_fraction"
   )
 

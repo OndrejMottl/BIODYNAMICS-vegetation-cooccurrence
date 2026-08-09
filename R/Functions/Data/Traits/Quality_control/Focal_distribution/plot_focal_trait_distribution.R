@@ -11,7 +11,7 @@
 #' @param data_focal_trait_summary
 #' A single-row tibble of focal-slice QC statistics, as produced by
 #' `write_trait_quality_control_report()`. Must contain numeric columns `mean`,
-#' `median`, `IQR`, and integer columns `n_suspected_outliers_taxon`
+#' `median`, `IQR`, and integer columns `n_suspected_outliers`
 #' (integer) and `outlier_fraction` (numeric).
 #' @param focal_taxon
 #' Character scalar. Name of the taxon being inspected. Used in the
@@ -126,13 +126,13 @@ plot_focal_trait_distribution <- function(
   assertthat::assert_that(
     base::all(
       c(
-        "mean", "median", "IQR",
-        "n_suspected_outliers_taxon", "outlier_fraction"
+        "mean", "median", "iqr",
+        "n_suspected_outliers", "outlier_fraction"
       ) %in% base::colnames(data_focal_trait_summary)
     ),
     msg = stringr::str_c(
       "data_focal_trait_summary must contain columns: 'mean', 'median', ",
-      "'IQR', 'n_suspected_outliers_taxon', 'outlier_fraction'."
+      "'IQR', 'n_suspected_outliers', 'outlier_fraction'."
     )
   )
 
@@ -313,18 +313,18 @@ plot_focal_trait_distribution <- function(
           ),
           3L
         ),
-        "   |   IQR = ",
+        "   |   iqr = ",
         base::round(
           dplyr::pull(
             data_focal_trait_summary,
-            .data[["IQR"]]
+            .data[["iqr"]]
           ),
           3L
         ),
         "   |   flagged = ",
         dplyr::pull(
           data_focal_trait_summary,
-          .data[["n_suspected_outliers_taxon"]]
+          .data[["n_suspected_outliers"]]
         ),
         " (",
         base::round(

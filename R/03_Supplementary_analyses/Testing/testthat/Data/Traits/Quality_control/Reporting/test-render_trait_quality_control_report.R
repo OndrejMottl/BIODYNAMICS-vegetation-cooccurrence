@@ -114,7 +114,7 @@ testthat::test_that(
 
     expected_name <-
       stringr::str_glue(
-        "trait_qc_report_{Sys.Date()}.pdf"
+        "trait_quality_control_report_{Sys.Date()}.pdf"
       )
 
     write_mock_rendered_report <- function(...) {
@@ -280,7 +280,7 @@ testthat::test_that(
 
     expected_name <-
       stringr::str_glue(
-        "trait_qc_report_{Sys.Date()}.pdf"
+        "trait_quality_control_report_{Sys.Date()}.pdf"
       )
 
     source_path <-
@@ -340,7 +340,7 @@ testthat::test_that(
 
     expected_name <-
       stringr::str_glue(
-        "trait_qc_report_{Sys.Date()}.pdf"
+        "trait_quality_control_report_{Sys.Date()}.pdf"
       )
 
     compress_calls <-
@@ -445,7 +445,7 @@ testthat::test_that(
 
     expected_name <-
       stringr::str_glue(
-        "trait_qc_report_{Sys.Date()}.pdf"
+        "trait_quality_control_report_{Sys.Date()}.pdf"
       )
 
     write_mock_rendered_report <- function(...) {
@@ -496,7 +496,7 @@ testthat::test_that(
 
     expected_name <-
       stringr::str_glue(
-        "trait_qc_report_{Sys.Date()}.pdf"
+        "trait_quality_control_report_{Sys.Date()}.pdf"
       )
 
     write_mock_rendered_report <- function(...) {
@@ -547,7 +547,7 @@ testthat::test_that(
 
     expected_name <-
       stringr::str_glue(
-        "trait_qc_report_{Sys.Date()}.pdf"
+        "trait_quality_control_report_{Sys.Date()}.pdf"
       )
 
     write_mock_rendered_report <- function(...) {

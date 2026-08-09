@@ -195,7 +195,7 @@ data_traits_raw |>
 vec_qc_report_paths <-
   fs::dir_ls(
     here::here("Data/Temp"),
-    regexp = "trait_qc_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
+    regexp = "trait_quality_control_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
   )
 
 if (
@@ -203,7 +203,7 @@ if (
 ) {
   cli::cli_warn(
     c(
-      "No trait_qc_report_*.csv found in Data/Temp/.",
+      "No trait_quality_control_report_*.csv found in Data/Temp/.",
       "i" = "Run the traits pipeline (Segment 2) to generate the report.",
       "i" = "Section 2 outputs will be skipped."
     )
@@ -227,7 +227,7 @@ if (
     ) |>
     dplyr::mutate(
       outlier_fraction =
-        .data[["n_suspected_outliers_taxon"]] / .data[["n_records"]]
+        .data[["n_suspected_outliers"]] / .data[["n_records"]]
     )
 }
 ```
@@ -245,7 +245,7 @@ if (
     dplyr::summarise(
       n_groups = dplyr::n(),
       n_flagged = base::sum(
-        .data[["n_suspected_outliers_taxon"]] > 0L,
+        .data[["n_suspected_outliers"]] > 0L,
         na.rm = TRUE
       ),
       mean_outlier_fraction = base::mean(
@@ -310,7 +310,7 @@ if (
       "taxon_name",
       "trait_domain_name",
       "n_records",
-      "n_suspected_outliers_taxon",
+      "n_suspected_outliers",
       "outlier_fraction"
     ) |>
     tinytable::tt()
@@ -524,14 +524,14 @@ base::cat(stringr::str_glue(
 vec_qc_class_paths <-
   fs::dir_ls(
     here::here("Data/Temp"),
-    regexp = "trait_qc_report_classified_\\d{4}-\\d{2}-\\d{2}\\.csv$"
+    regexp = "trait_quality_control_report_classified_\\d{4}-\\d{2}-\\d{2}\\.csv$"
   )
 
 if (
   base::length(vec_qc_class_paths) == 0L
 ) {
   base::message(
-    "No trait_qc_report_classified_*.csv found in Data/Temp/. ",
+    "No trait_quality_control_report_classified_*.csv found in Data/Temp/. ",
     "Section 5.2 skipped."
   )
 } else {
@@ -543,7 +543,7 @@ if (
   readr::read_csv(path_qc_class_report, show_col_types = FALSE) |>
     dplyr::mutate(
       outlier_fraction =
-        .data[["n_suspected_outliers_taxon"]] / .data[["n_records"]]
+        .data[["n_suspected_outliers"]] / .data[["n_records"]]
     ) |>
     dplyr::arrange(dplyr::desc(.data[["outlier_fraction"]])) |>
     utils::head(25L) |>
@@ -551,7 +551,7 @@ if (
       "taxon_name",
       "trait_domain_name",
       "n_records",
-      "n_suspected_outliers_taxon",
+      "n_suspected_outliers",
       "outlier_fraction"
     ) |>
     tinytable::tt()
@@ -778,16 +778,16 @@ list_continent_traits <-
   continent_branches("data_continent_traits")
 
 list_dist <-
-  continent_branches("dist_continent")
+  continent_branches("data_functional_type_dissimilarity_continent")
 
 list_hclust <-
-  continent_branches("hclust_continent")
+  continent_branches("mod_functional_type_hierarchical_clustering_continent")
 
 list_ft_groups_chosen <-
-  continent_branches("ft_groups_chosen_continent")
+  continent_branches("n_functional_type_groups_selected_continent")
 
 list_ft_result <-
-  continent_branches("ft_result_continent")
+  continent_branches("data_functional_type_classification_continent")
 ```
 
 ## 7.1 Trait matrix dimensions per continent

@@ -33,7 +33,7 @@ moves the rendered file from the Quarto docs output directory to
 </p>
 <p>The output filename follows one of two patterns depending on
 'trait_domain_filter':
-- 'NULL': 'trait_qc_report_Sys.Date().pdf'
+- 'NULL': 'trait_quality_control_report_Sys.Date().pdf'
 - character: 'trait_qc_&lt;slug&gt;_Sys.Date().pdf'
 where '&lt;slug&gt;' is 'trait_domain_filter' with all non-alphanumeric
 characters replaced by underscores.

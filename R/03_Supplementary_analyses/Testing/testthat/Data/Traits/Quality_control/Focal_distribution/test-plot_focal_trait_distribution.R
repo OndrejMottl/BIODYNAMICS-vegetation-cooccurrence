@@ -12,8 +12,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -68,8 +68,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -142,8 +142,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -183,8 +183,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -283,8 +283,8 @@ testthat::test_that(
       tibble::tibble(
         mean = c(1, 2),
         median = c(1, 2),
-        IQR = c(1, 2),
-        n_suspected_outliers_taxon = c(0L, 1L),
+        iqr = c(1, 2),
+        n_suspected_outliers = c(0L, 1L),
         outlier_fraction = c(0, 0.5)
       )
 
@@ -323,8 +323,8 @@ testthat::test_that(
     data_focal_summary_missing_mean <-
       tibble::tibble(
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -343,7 +343,7 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        n_suspected_outliers_taxon = 1L,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -362,7 +362,7 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
+        iqr = 2.5,
         outlier_fraction = 1 / 6
       )
 
@@ -381,8 +381,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L
+        iqr = 2.5,
+        n_suspected_outliers = 1L
       )
 
     testthat::expect_error(
@@ -412,8 +412,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -486,8 +486,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -560,8 +560,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -641,8 +641,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -704,8 +704,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -752,8 +752,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -800,8 +800,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -841,8 +841,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -882,8 +882,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -937,8 +937,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -979,7 +979,7 @@ testthat::test_that(
   "fence classification: extreme outlier beyond 3x IQR",
   {
     # With values 1..5 and 100:
-    # Q1 = 2, Q3 = 4.25, IQR = 2.25
+    # Q1 = 2, Q3 = 4.25, iqr = 2.25
     # outer upper = 4.25 + 3 * 2.25 = 11
     # 100 >> 11, so it is an extreme outlier
     data_focal_records_single <-
@@ -993,8 +993,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 19.17,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.5,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -1049,8 +1049,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 3.83,
         median = 3.5,
-        IQR = 2.0,
-        n_suspected_outliers_taxon = 1L,
+        iqr = 2.0,
+        n_suspected_outliers = 1L,
         outlier_fraction = 1 / 6
       )
 
@@ -1093,8 +1093,8 @@ testthat::test_that(
       tibble::tibble(
         mean = 3.5,
         median = 3.5,
-        IQR = 2.5,
-        n_suspected_outliers_taxon = 0L,
+        iqr = 2.5,
+        n_suspected_outliers = 0L,
         outlier_fraction = 0
       )
 

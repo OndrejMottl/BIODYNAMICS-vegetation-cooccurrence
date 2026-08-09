@@ -77,7 +77,7 @@ fs::dir_create(
 trait_quality_control_report_paths <-
   fs::dir_ls(
     here::here("Data/Temp"),
-    regexp = "trait_qc_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
+    regexp = "trait_quality_control_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
   )
 
 if (
@@ -85,7 +85,7 @@ if (
 ) {
   cli::cli_abort(
     c(
-      "No trait_qc_report_*.csv found in Data/Temp/.",
+      "No trait_quality_control_report_*.csv found in Data/Temp/.",
       "i" = "Run the traits pipeline to generate it."
     )
   )
@@ -101,7 +101,7 @@ trait_domains <-
     path_trait_quality_control_report,
     show_col_types = FALSE
   ) |>
-  dplyr::filter(.data[["n_suspected_outliers_taxon"]] > 0L) |>
+  dplyr::filter(.data[["n_suspected_outliers"]] > 0L) |>
   dplyr::pull(.data[["trait_domain_name"]]) |>
   base::unique() |>
   base::sort()
