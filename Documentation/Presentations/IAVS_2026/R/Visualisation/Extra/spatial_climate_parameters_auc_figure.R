@@ -156,10 +156,10 @@ store_path <-
     "store_path"
   )
 
-model_jsdm <-
+mod_jsdm <-
   targets::tar_read_raw(
     name = stringr::str_glue(
-      "model_jsdm_selected_{selected_resolution_id}"
+      "mod_jsdm_selected_{selected_resolution_id}"
     ),
     store = store_path
   )
@@ -202,15 +202,15 @@ vec_common_taxa <-
   head(10L)
 
 vec_terms <-
-  model_jsdm |>
+  mod_jsdm |>
   purrr::chuck("names")
 
 matrix_coefficients <-
-  stats::coef(model_jsdm) |>
+  stats::coef(mod_jsdm) |>
   purrr::chuck("env", 1)
 
 matrix_standard_errors <-
-  model_jsdm |>
+  mod_jsdm |>
   purrr::chuck("se")
 
 if (
@@ -257,10 +257,10 @@ data_standard_errors <-
 
 data_auc <-
   model_evaluation |>
-  purrr::chuck("species") |>
+  purrr::chuck("data_taxon_metrics") |>
   dplyr::mutate(
-    taxon = .data$species,
-    auc = base::as.numeric(.data$AUC)
+    taxon = .data$taxon_name,
+    auc = base::as.numeric(.data$auc)
   ) |>
   dplyr::select(
     "taxon",

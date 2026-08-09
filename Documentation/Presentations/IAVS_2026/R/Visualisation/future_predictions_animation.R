@@ -291,23 +291,23 @@ data_expected_richness <-
 
 model_r2_nagelkerke <-
   prediction_inputs |>
-  purrr::chuck("model_evaluation", "model", "R2-Nagelkerke") |>
+  purrr::chuck("model_evaluation", "vec_model_metrics", "r2_nagelkerke") |>
   base::unname()
 
-data_species_metrics <-
+data_taxon_metrics <-
   prediction_inputs |>
-  purrr::chuck("model_evaluation", "species")
+  purrr::chuck("model_evaluation", "data_taxon_metrics")
 
 auc_median <-
-  dplyr::pull(data_species_metrics, "AUC") |>
+  dplyr::pull(data_taxon_metrics, "auc") |>
   stats::median(na.rm = TRUE)
 
 auc_selected_taxon <-
-  data_species_metrics |>
+  data_taxon_metrics |>
   dplyr::filter(
-    .data$species == selected_taxon
+    .data$taxon_name == selected_taxon
   ) |>
-  dplyr::pull("AUC") |>
+  dplyr::pull("auc") |>
   base::as.numeric()
 
 data_coords_observed_raw <-

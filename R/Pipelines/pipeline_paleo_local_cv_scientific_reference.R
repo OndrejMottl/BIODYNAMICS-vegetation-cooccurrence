@@ -122,7 +122,7 @@ base::list(
   targets::tar_target(
     name = scientific_reference_model_formula,
     command = targets::tar_read_raw(
-      name = "model_formula_genus",
+      name = "formula_jsdm_environment_genus",
       store = path_source_store
     ),
     cue = targets::tar_cue(mode = "always")

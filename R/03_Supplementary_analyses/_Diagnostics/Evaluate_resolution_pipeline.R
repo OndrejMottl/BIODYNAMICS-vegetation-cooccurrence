@@ -168,26 +168,26 @@ if (
 ## 2.2. ANOVA variance partitioning -----
 #--------------------------------------------------#
 
-model_anova_basic <-
+list_jsdm_variance_partition_basic <-
   targets::tar_read(
-    model_anova,
+    list_jsdm_variance_partition,
     store = store_basic
   )
 
-model_anova_genus <-
+list_jsdm_variance_partition_genus <-
   targets::tar_read(
-    model_anova_genus,
+    list_jsdm_variance_partition_genus,
     store = store_test
   )
 
 results_basic <-
-  model_anova_basic$results
+  list_jsdm_variance_partition_basic$results
 
 results_genus <-
-  model_anova_genus$results
+  list_jsdm_variance_partition_genus$results
 
-cli::cli_text("pipeline_paleo_core  N = {model_anova_basic$N}")
-cli::cli_text("test_res genus  N = {model_anova_genus$N}")
+cli::cli_text("pipeline_paleo_core  N = {list_jsdm_variance_partition_basic$N}")
+cli::cli_text("test_res genus  N = {list_jsdm_variance_partition_genus$N}")
 
 anova_match <-
   isTRUE(

@@ -113,10 +113,10 @@ load_spatial_model_results <- function(
           purrr::map(
             .f = function(resolution_id) {
               target_anova <-
-                stringr::str_glue("model_anova_{resolution_id}") |>
+                stringr::str_glue("list_jsdm_variance_partition_{resolution_id}") |>
                 base::as.character()
 
-              model_anova <-
+              list_jsdm_variance_partition <-
                 .load_successful_model_target(
                   data_meta = data_meta,
                   target_name = target_anova,
@@ -125,14 +125,14 @@ load_spatial_model_results <- function(
                 )
 
               if (
-                base::is.null(model_anova)
+                base::is.null(list_jsdm_variance_partition)
               ) {
                 return(data_empty_result)
               }
 
               data_anova <-
                 extract_jsdm_variance_fractions(
-                  anova_object = model_anova,
+                  anova_object = list_jsdm_variance_partition,
                   clamp_negative = TRUE
                 ) |>
                 dplyr::mutate(age = 0)
@@ -145,11 +145,11 @@ load_spatial_model_results <- function(
 
               target_evaluation_fitted <-
                 stringr::str_glue(
-                  "model_evaluation_fitted_{resolution_id}"
+                  "list_jsdm_evaluation_fitted_{resolution_id}"
                 ) |>
                 base::as.character()
 
-              model_evaluation_fitted <-
+              list_jsdm_evaluation_fitted <-
                 if (
                   has_target_succeeded(
                     data_meta,
@@ -168,7 +168,7 @@ load_spatial_model_results <- function(
 
               data_fitted_auc <-
                 .summarise_fitted_auc(
-                  model_evaluation_fitted = model_evaluation_fitted
+                  list_jsdm_evaluation_fitted = list_jsdm_evaluation_fitted
                 )
 
               target_evaluation_cross_validated <-

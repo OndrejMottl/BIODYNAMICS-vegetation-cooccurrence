@@ -137,7 +137,7 @@ data_to_map_age <-
 
 # Assemble the per-slice segment list.
 # Each group of targets is namespaced by tarchetypes::tar_map,
-#   e.g. data_sample_ids_timeslice_0, model_jsdm_timeslice_0, etc.
+#   e.g. data_sample_ids_timeslice_0, mod_jsdm_timeslice_0, etc.
 targets_per_age_slice <-
   list(
     pipe_segment_sample_filter_age,
@@ -160,7 +160,7 @@ targets_models_by_age <-
 
 # Source result_summary_age only after targets_models_by_age exists,
 #   because tarchetypes::tar_combine() inside that segment
-#   indexes targets_models_by_age[["model_anova"]] at source time.
+#   indexes targets_models_by_age[["list_jsdm_variance_partition"]] at source time.
 # pipe_segment_network_summary_by_age similarly indexes
 #   targets_models_by_age[["data_network_metrics"]] at source time.
 source(

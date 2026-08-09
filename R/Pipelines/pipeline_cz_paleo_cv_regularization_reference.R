@@ -130,7 +130,7 @@ base::list(
   targets::tar_target(
     name = reference_model_formula,
     command = targets::tar_read_raw(
-      name = "model_formula",
+      name = "formula_jsdm_environment",
       store = path_gpu_reference_store
     ),
     cue = targets::tar_cue(mode = "always")

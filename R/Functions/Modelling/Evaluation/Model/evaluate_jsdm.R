@@ -6,12 +6,13 @@
 #' A fitted sjSDM model object. Must be of class 'sjSDM'.
 #' @return
 #' A list with three elements:
-#' - `model`: Named numeric vector of R-squared values
+#' - `vec_model_metrics`: Named numeric vector of R-squared values
 #'   (McFadden, Nagelkerke)
-#' - `species`: A tibble with one row per species and columns:
-#'   species, AUC, Accuracy, LogLoss (binomial) or RMSE (other
+#' - `data_taxon_metrics`: A tibble with one row per taxon and columns:
+#'   `taxon_name`, `auc`, `accuracy`, `log_loss` (binomial) or `rmse` (other
 #'   families)
-#' - `convergence`: A list from [diagnose_jsdm_convergence()] with
+#' - `list_convergence_diagnostics`: A list from
+#'   [diagnose_jsdm_convergence()] with
 #'   `linear_trend_slope`, `median_diff`, `convergence_plot`, and
 #'   `note`
 #' @details
@@ -60,7 +61,7 @@ evaluate_jsdm <- function(mod_jsdm = NULL) {
   vec_model_metrics <-
     rlang::set_names(
       vec_r2,
-      base::c("R2-McFadden", "R2-Nagelkerke")
+      base::c("r2_mcfadden", "r2_nagelkerke")
     )
 
   # 2. Species-level metrics
@@ -105,12 +106,12 @@ evaluate_jsdm <- function(mod_jsdm = NULL) {
         )
       )
 
-    data_species_metrics <-
+    data_taxon_metrics <-
       tibble::tibble(
-        species = base::colnames(obs_data),
-        AUC = vec_auc,
-        Accuracy = vec_accuracy,
-        LogLoss = vec_logloss
+        taxon_name = base::colnames(obs_data),
+        auc = vec_auc,
+        accuracy = vec_accuracy,
+        log_loss = vec_logloss
       )
   } else {
     # For non-binomial models, use RMSE
@@ -122,22 +123,22 @@ evaluate_jsdm <- function(mod_jsdm = NULL) {
         )
       )
 
-    data_species_metrics <-
+    data_taxon_metrics <-
       tibble::tibble(
-        species = base::colnames(obs_data),
-        RMSE = vec_rmse
+        taxon_name = base::colnames(obs_data),
+        rmse = vec_rmse
       )
   }
 
   # 3. Convergence diagnostics
-  list_convergence <-
+  list_convergence_diagnostics <-
     diagnose_jsdm_convergence(mod_jsdm)
 
   res <-
     base::list(
-      model = vec_model_metrics,
-      species = data_species_metrics,
-      convergence = list_convergence
+      vec_model_metrics = vec_model_metrics,
+      data_taxon_metrics = data_taxon_metrics,
+      list_convergence_diagnostics = list_convergence_diagnostics
     )
 
   return(res)

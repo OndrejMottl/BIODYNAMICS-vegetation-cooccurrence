@@ -218,7 +218,7 @@ data_model_quality <-
         purrr::pluck(
           model_evaluation,
           "model",
-          "R2-Nagelkerke",
+          "r2_nagelkerke",
           .default = NA_real_
         ) |>
         base::as.numeric()
@@ -227,7 +227,7 @@ data_model_quality <-
         purrr::pluck(
           model_evaluation,
           "model",
-          "R2-McFadden",
+          "r2_mcfadden",
           .default = NA_real_
         ) |>
         base::as.numeric()

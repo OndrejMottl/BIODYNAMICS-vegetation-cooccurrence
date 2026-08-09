@@ -327,8 +327,8 @@ eval_s1 <-
 if (flag_verbose) {
   cat("Stage 1 AUC by species:\n")
   print(
-    eval_s1$species |>
-      dplyr::arrange(dplyr::desc(AUC))
+    eval_s1$data_taxon_metrics |>
+      dplyr::arrange(dplyr::desc(auc))
   )
 }
 
@@ -447,8 +447,8 @@ eval_s2 <-
 if (flag_verbose) {
   cat("Stage 2 AUC by species:\n")
   print(
-    eval_s2$species |>
-      dplyr::arrange(dplyr::desc(AUC))
+    eval_s2$data_taxon_metrics |>
+      dplyr::arrange(dplyr::desc(auc))
   )
 }
 
@@ -702,8 +702,8 @@ eval_s3 <-
 if (flag_verbose) {
   cat("Stage 3 AUC by species:\n")
   print(
-    eval_s3$species |>
-      dplyr::arrange(dplyr::desc(AUC))
+    eval_s3$data_taxon_metrics |>
+      dplyr::arrange(dplyr::desc(auc))
   )
 }
 
@@ -1134,8 +1134,8 @@ eval_s4 <-
 if (flag_verbose) {
   cat("Stage 4 AUC by species:\n")
   print(
-    eval_s4$species |>
-      dplyr::arrange(dplyr::desc(AUC))
+    eval_s4$data_taxon_metrics |>
+      dplyr::arrange(dplyr::desc(auc))
   )
 }
 
@@ -1229,38 +1229,38 @@ plot(fig_s4)
 # Stages 1-3 train on the single sel_age slice.
 # Stage 4 trains on all vec_ages_s4 slices (needed for
 # genuine 3-D ST-MEV variance) with formula ~ bio1 + bio12.
-# AUC_s4 is in-sample over multiple time points so direct
-# magnitude comparisons with AUC_s1-s3 should be treated
+# auc_s4 is in-sample over multiple time points so direct
+# magnitude comparisons with auc_s1-s3 should be treated
 # with caution; the sign of delta_s3_s4 is the key metric.
 
 data_auc_comparison <-
-  eval_s1$species |>
-  dplyr::select(species, AUC) |>
-  dplyr::rename(AUC_s1 = AUC) |>
+  eval_s1$data_taxon_metrics |>
+  dplyr::select(taxon_name, auc) |>
+  dplyr::rename(auc_s1 = auc) |>
   dplyr::full_join(
-    eval_s2$species |>
-      dplyr::select(species, AUC) |>
-      dplyr::rename(AUC_s2 = AUC),
-    by = dplyr::join_by(species)
+    eval_s2$data_taxon_metrics |>
+      dplyr::select(taxon_name, auc) |>
+      dplyr::rename(auc_s2 = auc),
+    by = dplyr::join_by(taxon_name)
   ) |>
   dplyr::full_join(
-    eval_s3$species |>
-      dplyr::select(species, AUC) |>
-      dplyr::rename(AUC_s3 = AUC),
-    by = dplyr::join_by(species)
+    eval_s3$data_taxon_metrics |>
+      dplyr::select(taxon_name, auc) |>
+      dplyr::rename(auc_s3 = auc),
+    by = dplyr::join_by(taxon_name)
   ) |>
   dplyr::full_join(
-    eval_s4$species |>
-      dplyr::select(species, AUC) |>
-      dplyr::rename(AUC_s4 = AUC),
-    by = dplyr::join_by(species)
+    eval_s4$data_taxon_metrics |>
+      dplyr::select(taxon_name, auc) |>
+      dplyr::rename(auc_s4 = auc),
+    by = dplyr::join_by(taxon_name)
   ) |>
   dplyr::mutate(
-    delta_s1_s2 = AUC_s2 - AUC_s1,
-    delta_s2_s3 = AUC_s3 - AUC_s2,
-    delta_s3_s4 = AUC_s4 - AUC_s3
+    delta_s1_s2 = auc_s2 - auc_s1,
+    delta_s2_s3 = auc_s3 - auc_s2,
+    delta_s3_s4 = auc_s4 - auc_s3
   ) |>
-  dplyr::arrange(dplyr::desc(AUC_s4))
+  dplyr::arrange(dplyr::desc(auc_s4))
 
 if (flag_verbose) {
   cat("\nAUC comparison across all four stages:\n")
@@ -1279,4 +1279,4 @@ summary(data_pred_s3_long)
 summary(data_pred_s4_long)
 
 data_auc_comparison  |> 
-dplyr::filter(species == sel_taxon) 
+dplyr::filter(taxon_name == sel_taxon)

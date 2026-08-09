@@ -42,8 +42,8 @@ pipe_segment_model_summary_by_age <-
   list(
     tarchetypes::tar_combine(
       description = "Combine per-slice anova objects into a list",
-      name = "list_model_anova_by_age",
-      targets_models_by_age[["model_anova"]],
+      name = "list_jsdm_variance_partition_by_age",
+      targets_models_by_age[["list_jsdm_variance_partition"]],
       command = list(!!!.x)
     ),
     targets::tar_target(
@@ -53,7 +53,7 @@ pipe_segment_model_summary_by_age <-
       ),
       name = "data_anova_components_by_age",
       command = aggregate_jsdm_variance_components(
-        list_model_anova = list_model_anova_by_age
+        list_model_anova = list_jsdm_variance_partition_by_age
       )
     ),
     targets::tar_target(

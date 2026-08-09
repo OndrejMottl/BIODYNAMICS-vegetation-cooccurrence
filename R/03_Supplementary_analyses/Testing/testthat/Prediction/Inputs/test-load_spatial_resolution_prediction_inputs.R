@@ -4,7 +4,7 @@ testthat::test_that(
     data_meta <-
       tibble::tibble(
         name = c(
-          "model_jsdm_selected_genus",
+          "mod_jsdm_selected_genus",
           "data_model_input_genus",
           "data_coords_projected",
           "data_spatial_mev_core",
@@ -43,7 +43,7 @@ testthat::test_that(
     )
     testthat::expect_equal(
       purrr::pluck(res, "mod_jsdm", "name"),
-      "model_jsdm_selected_genus"
+      "mod_jsdm_selected_genus"
     )
   }
 )
@@ -53,7 +53,7 @@ testthat::test_that(
   {
     data_meta <-
       tibble::tibble(
-        name = "model_jsdm_selected_genus",
+        name = "mod_jsdm_selected_genus",
         error = NA_character_
       )
 
@@ -83,7 +83,7 @@ testthat::test_that(
     data_meta <-
       tibble::tibble(
         name = c(
-          "model_jsdm_selected_genus",
+          "mod_jsdm_selected_genus",
           "data_model_input_genus",
           "data_coords_projected",
           "data_spatial_mev_core",

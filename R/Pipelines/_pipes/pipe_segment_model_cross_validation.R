@@ -514,7 +514,7 @@ pipe_segment_model_cross_validation <-
           fit_sjsdm_regularization_candidate(
             data_train_input = data_train_input,
             candidate = candidate,
-            sel_abiotic_formula = model_formula,
+            sel_abiotic_formula = formula_jsdm_environment,
             config_model_fitting = config_model_fitting,
             seed = seed,
             device = purrr::chuck(

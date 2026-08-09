@@ -122,7 +122,7 @@ purrr::pwalk(
       dplyr::mutate(
         age_name = base::paste0("timeslice_", age),
         target_name = stringr::str_glue(
-          "model_evaluation_fitted_{age_name}"
+          "list_jsdm_evaluation_fitted_{age_name}"
         )
       )
 
@@ -151,7 +151,7 @@ purrr::pwalk(
           dplyr::filter(
             stringr::str_detect(
               string = name,
-              pattern = "^model_evaluation_fitted_timeslice_"
+              pattern = "^list_jsdm_evaluation_fitted_timeslice_"
             )
           ) |>
           dplyr::rename(target_name = name),
@@ -323,11 +323,11 @@ purrr::pwalk(
       purrr::imap(
         .f = ~ {
           vec_r2 <-
-            purrr::chuck(.x, "model")
+            purrr::chuck(.x, "vec_model_metrics")
           tibble::tibble(
             age_name = .y,
-            R2_McFadden = vec_r2["R2-McFadden"],
-            R2_Nagelkerke = vec_r2["R2-Nagelkerke"]
+            R2_McFadden = vec_r2["r2_mcfadden"],
+            R2_Nagelkerke = vec_r2["r2_nagelkerke"]
           )
         }
       ) |>
@@ -368,7 +368,7 @@ purrr::pwalk(
             dplyr::filter(age_name == .y) |>
             dplyr::pull(age)
 
-          purrr::chuck(.x, "convergence", "convergence_plot") +
+          purrr::chuck(.x, "list_convergence_diagnostics", "convergence_plot") +
             ggplot2::labs(
               subtitle = base::paste0(slice_age, " yr BP"),
               title = NULL

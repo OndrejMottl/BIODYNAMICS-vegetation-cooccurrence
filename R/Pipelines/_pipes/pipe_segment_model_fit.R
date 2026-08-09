@@ -42,7 +42,7 @@ pipe_segment_model_fit <-
   list(
     targets::tar_target(
       description = "predictor formulae to use for model fitting",
-      name = "model_formula",
+      name = "formula_jsdm_environment",
       command = data_model_input |>
         purrr::chuck("data_abiotic_to_fit") |>
         build_jsdm_environment_formula(
@@ -51,7 +51,7 @@ pipe_segment_model_fit <-
     ),
     targets::tar_target(
       description = "make JSDM model",
-      name = "model_jsdm",
+      name = "mod_jsdm",
       command = if (
         model_regularization_for_fit[["selection_status"]][[1L]] ==
           "full_model_infeasible"
@@ -61,7 +61,7 @@ pipe_segment_model_fit <-
         fit_jsdm_model(
           data_to_fit = data_model_input,
           abiotic_method = "linear",
-          sel_abiotic_formula = model_formula,
+          sel_abiotic_formula = formula_jsdm_environment,
           spatial_method = if (
             base::isTRUE(config_model_fitting[["use_spatial"]])
           ) {
@@ -100,14 +100,14 @@ pipe_segment_model_fit <-
         "separated from model fitting so that CPU parallelisation",
         "can be used independently of the GPU device setting"
       ),
-      name = "model_jsdm_standard_errors",
+      name = "mod_jsdm_with_standard_errors",
       command = if (
-        base::is.null(model_jsdm)
+        base::is.null(mod_jsdm)
       ) {
         NULL
       } else {
         compute_jsdm_se(
-          mod_jsdm = model_jsdm,
+          mod_jsdm = mod_jsdm,
           parallel = config_model_fitting[["n_cores"]],
           verbose = TRUE
         )
@@ -117,19 +117,19 @@ pipe_segment_model_fit <-
       description = stringr::str_c(
         "a workaround target to use the fitted model in the next steps"
       ),
-      name = "model_jsdm_selected",
-      command = model_jsdm_standard_errors
+      name = "mod_jsdm_selected",
+      command = mod_jsdm_with_standard_errors
     ),
     targets::tar_target(
       description = "evaluate JSDM model",
-      name = "model_evaluation_fitted",
+      name = "list_jsdm_evaluation_fitted",
       command = if (
-        base::is.null(model_jsdm_selected)
+        base::is.null(mod_jsdm_selected)
       ) {
         NULL
       } else {
         evaluate_jsdm(
-          mod_jsdm = model_jsdm_selected
+          mod_jsdm = mod_jsdm_selected
         )
       }
     )

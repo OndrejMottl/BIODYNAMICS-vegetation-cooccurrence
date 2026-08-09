@@ -28,7 +28,7 @@ testthat::test_that(
           "R/Pipelines/pipeline_paleo_spatial_resolution.R",
         tuning_target_names = "data_sjsdm_tuning_summary_genus",
         final_target_names = base::c(
-          "model_anova_genus",
+          "list_jsdm_variance_partition_genus",
           "model_evaluation_cross_validated_genus"
         ),
         store_suffix = "europe",
@@ -66,7 +66,7 @@ testthat::test_that(
     testthat::expect_identical(
       environment_calls$pipeline[["target_names"]],
       base::c(
-        "model_anova_genus",
+        "list_jsdm_variance_partition_genus",
         "model_evaluation_cross_validated_genus"
       )
     )

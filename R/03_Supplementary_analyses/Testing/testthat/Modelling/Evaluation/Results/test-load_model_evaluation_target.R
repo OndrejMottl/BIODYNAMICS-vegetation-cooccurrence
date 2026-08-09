@@ -18,7 +18,7 @@ testthat::test_that(
 
     testthat::expect_identical(
       purrr::chuck(res_fitted, "name"),
-      "model_evaluation_fitted_genus"
+      "list_jsdm_evaluation_fitted_genus"
     )
 
     res_cross_validated <-

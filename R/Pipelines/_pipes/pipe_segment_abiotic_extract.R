@@ -56,7 +56,7 @@ pipe_segment_abiotic_extract <-
     ),
     targets::tar_target(
       description = "Check collinearity of abiotic predictors",
-      name = "abiotic_collinearity",
+      name = "list_abiotic_collinearity",
       command = compute_predictor_collinearity(data_abiotic_ages)
     ),
     targets::tar_target(
@@ -64,7 +64,7 @@ pipe_segment_abiotic_extract <-
       name = "data_abiotic_selected",
       command = select_non_collinear_predictors(
         data_source = data_abiotic_ages,
-        res_collinearity = abiotic_collinearity
+        res_collinearity = list_abiotic_collinearity
       )
     ),
     targets::tar_target(

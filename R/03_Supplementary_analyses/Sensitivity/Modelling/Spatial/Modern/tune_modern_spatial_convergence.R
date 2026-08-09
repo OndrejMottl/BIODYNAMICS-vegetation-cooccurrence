@@ -97,7 +97,7 @@ data_status_overview <-
               has_target_succeeded(
                 data_meta = data_meta_i,
                 target_name = stringr::str_glue(
-                  "model_evaluation_fitted_{resolution_id}"
+                  "list_jsdm_evaluation_fitted_{resolution_id}"
                 )
               )
             }
@@ -144,7 +144,7 @@ data_convergence <-
             resolution_id <- .x
             target_name <-
               stringr::str_glue(
-                "model_evaluation_fitted_{resolution_id}"
+                "list_jsdm_evaluation_fitted_{resolution_id}"
               )
 
             data_target_row <-

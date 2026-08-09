@@ -58,7 +58,7 @@ testthat::test_that(
         resolution_ids = "genus",
         meta_fn = function(...) {
           tibble::tibble(
-            name = "model_anova_family",
+            name = "list_jsdm_variance_partition_family",
             error = NA_character_
           )
         }
@@ -82,8 +82,8 @@ testthat::test_that(
         meta_fn = function(...) {
           tibble::tibble(
             name = base::c(
-              "model_anova_genus",
-              "model_evaluation_fitted_genus",
+              "list_jsdm_variance_partition_genus",
+              "list_jsdm_evaluation_fitted_genus",
               "model_evaluation_cross_validated_genus",
               "data_sjsdm_model_provenance_genus"
             ),
@@ -92,19 +92,19 @@ testthat::test_that(
         },
         read_target_fn = function(name, store) {
           if (
-            name == "model_anova_genus"
+            name == "list_jsdm_variance_partition_genus"
           ) {
             return(make_test_anova())
           }
 
           if (
-            name == "model_evaluation_fitted_genus"
+            name == "list_jsdm_evaluation_fitted_genus"
           ) {
             return(
               base::list(
-                species = tibble::tibble(
-                  species = base::c("taxon_a", "taxon_b"),
-                  AUC = base::c(0.7, 0.9)
+                data_taxon_metrics = tibble::tibble(
+                  taxon_name = base::c("taxon_a", "taxon_b"),
+                  auc = base::c(0.7, 0.9)
                 )
               )
             )
@@ -213,21 +213,21 @@ testthat::test_that(
         meta_fn = function(...) {
           tibble::tibble(
             name = base::c(
-              "model_anova_genus",
-              "model_evaluation_fitted_genus"
+              "list_jsdm_variance_partition_genus",
+              "list_jsdm_evaluation_fitted_genus"
             ),
             error = base::rep(NA_character_, 2L)
           )
         },
         read_target_fn = function(name, store) {
           if (
-            name == "model_anova_genus"
+            name == "list_jsdm_variance_partition_genus"
           ) {
             return(make_test_anova())
           }
 
           base::list(
-            species = tibble::tibble(AUC = 0.8)
+            data_taxon_metrics = tibble::tibble(auc = 0.8)
           )
         }
       ),

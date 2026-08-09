@@ -19,7 +19,7 @@
 #       data segment at the config-level resolution, typically
 #       "genus" for project_cz_paleo)
 #   - data_combined_classification_table  (shared)
-#   - file_ft_classification_paleo  (tar_file target; tracked path to
+#   - file_functional_type_classification_paleo  (tar_file target; tracked path to
 #       the best-guess .qs FT classification for this continent)
 #   - resolution_id  (injected by tarchetypes::tar_map())
 #
@@ -84,7 +84,7 @@ pipe_segment_community_by_resolution_paleo <-
           classify_to_functional_type(
             data_source = data_community_classified,
             data_functional_type_classification = qs2::qs_read(
-              file_ft_classification_paleo
+              file_functional_type_classification_paleo
             )
           )
         } else {
@@ -102,7 +102,7 @@ pipe_segment_community_by_resolution_paleo <-
     #   one produced by pipe_segment_community_filter.R.  When used
     #   inside tar_map() it becomes data_community_analysis_subset_genus,
     #   data_community_analysis_subset_family, etc., and the downstream
-    #   segments (alignment -> model_anova) reference the correct
+    #   segments (alignment -> list_jsdm_variance_partition) reference the correct
     #   branch-suffixed version automatically.
     make_community_filter_targets("data_community_by_resolution")
   )

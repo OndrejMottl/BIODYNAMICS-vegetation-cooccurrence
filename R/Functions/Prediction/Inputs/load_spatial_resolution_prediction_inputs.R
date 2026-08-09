@@ -64,7 +64,7 @@ load_spatial_resolution_prediction_inputs <- function(
   vec_target_names <-
     base::c(
       mod_jsdm = stringr::str_glue(
-        "model_jsdm_selected_{resolution_id}"
+        "mod_jsdm_selected_{resolution_id}"
       ),
       data_model_input = stringr::str_glue(
         "data_model_input_{resolution_id}"
