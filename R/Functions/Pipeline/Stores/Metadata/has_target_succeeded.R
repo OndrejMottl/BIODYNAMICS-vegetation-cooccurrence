@@ -44,7 +44,7 @@ has_target_succeeded <- function(data_meta, target_name) {
   data_target_row <-
     data_meta |>
     dplyr::filter(
-      .data$name == .env$target_name
+      .data[["name"]] == .env[["target_name"]]
     )
 
   res <-

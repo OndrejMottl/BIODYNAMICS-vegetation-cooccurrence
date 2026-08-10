@@ -46,7 +46,10 @@ pipe_segment_model_fit <-
       command = data_model_input |>
         purrr::chuck("data_abiotic_to_fit") |>
         build_jsdm_environment_formula(
-          use_age = config_model_fitting$use_age_in_formula
+          use_age = purrr::chuck(
+            config_model_fitting,
+            "use_age_in_formula"
+          )
         )
     ),
     targets::tar_target(

@@ -202,7 +202,7 @@ testthat::test_that(
     )
 
     testthat::expect_identical(
-      environment_pipeline$list_tuning_context[["resolution_ids"]],
+      environment_pipeline[["list_tuning_context"]][["resolution_ids"]],
       "genus"
     )
   }

@@ -301,7 +301,7 @@ make_pipe_segment_ft_classification_continental <- function(
       #   sel_name (e.g., "Abies Alba", "Betulaceae Undiff",
       #   "ADIANTUM CAPILLUS-VENERIS"). After classify_taxonomic_
       #   resolution() those raw names become genus/family names
-      #   in data_community_classified$taxon ("Abies", "Betulaceae",
+#   in the taxon column of data_community_classified ("Abies", "Betulaceae",
       #   "Adiantum"). The FT classification output taxon_name must
       #   match those classified names so classify_to_functional_type()
       #   can join correctly.
@@ -325,7 +325,7 @@ make_pipe_segment_ft_classification_continental <- function(
       # resolve_classification_to_finest_rank(). Because
       # data_community_classified_taxa_classification uses classified
       # names as sel_name, the output taxon_name column matches
-      # data_community_classified$taxon exactly, so the join
+# the taxon column of data_community_classified exactly, so the join
       # in classify_to_functional_type() succeeds for all groups.
       targets::tar_target(
         description = stringr::str_glue(

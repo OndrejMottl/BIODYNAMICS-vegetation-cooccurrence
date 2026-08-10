@@ -50,15 +50,19 @@ data_continents <-
 
 base::message(
   "Continental configurations found: ",
-  base::paste(data_continents$config_name, collapse = ", ")
+  data_continents |>
+    dplyr::pull("config_name") |>
+    stringr::str_c(collapse = ", ")
 )
+
+vec_configs_with_stores <-
+  data_continents |>
+  dplyr::filter(.data[["store_exists"]]) |>
+  dplyr::pull("config_name")
 
 base::message(
   "Stores present: ",
-  base::paste(
-    data_continents$config_name[data_continents$store_exists],
-    collapse = ", "
-  )
+  stringr::str_c(vec_configs_with_stores, collapse = ", ")
 )
 
 
@@ -68,10 +72,10 @@ base::message(
 
 purrr::pwalk(
   .l = list(
-    scale_id = data_continents$scale_id,
-    config_name = data_continents$config_name,
-    store_path = data_continents$store_path,
-    store_exists = data_continents$store_exists
+    scale_id = dplyr::pull(data_continents, "scale_id"),
+    config_name = dplyr::pull(data_continents, "config_name"),
+    store_path = dplyr::pull(data_continents, "store_path"),
+    store_exists = dplyr::pull(data_continents, "store_exists")
   ),
   .f = function(
       scale_id,
@@ -126,11 +130,15 @@ purrr::pwalk(
         )
       )
 
+    vec_ages <-
+      data_to_map_age |>
+      dplyr::pull("age")
+
     base::message(
       "Time slices: ",
       base::nrow(data_to_map_age),
-      " (", base::min(data_to_map_age$age), "\u2013",
-      base::max(data_to_map_age$age), " yr BP by ", n_time_step, " yr)"
+      " (", base::min(vec_ages), "\u2013",
+      base::max(vec_ages), " yr BP by ", n_time_step, " yr)"
     )
 
 
@@ -143,6 +151,10 @@ purrr::pwalk(
         fields = c("name", "error"),
         store = store_path
       )
+
+    vec_completed_target_names <-
+      data_tar_meta |>
+      dplyr::pull("name")
 
     data_slice_status <-
       data_to_map_age |>
@@ -161,7 +173,7 @@ purrr::pwalk(
         status = dplyr::case_when(
           !base::is.na(error) ~ "failed",
           base::is.na(error) &
-            target_name %in% data_tar_meta$name ~
+            target_name %in% vec_completed_target_names ~
             "successful",
           .default = "not_run"
         )

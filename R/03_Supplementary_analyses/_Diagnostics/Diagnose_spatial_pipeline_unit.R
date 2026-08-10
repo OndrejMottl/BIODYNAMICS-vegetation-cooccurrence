@@ -160,14 +160,25 @@ if (
     list_jsdm_evaluation_fitted |>
     purrr::chuck("list_convergence_diagnostics")
 
-  convergence_info$convergence_plot +
+  plot_convergence <-
+    convergence_info |>
+    purrr::chuck("convergence_plot")
+
+  linear_trend_slope <-
+    convergence_info |>
+    purrr::chuck("linear_trend_slope")
+
+  median_diff <-
+    convergence_info |>
+    purrr::chuck("median_diff")
+
+  plot_convergence +
     ggplot2::labs(
       subtitle = sel_scale_id,
-      caption = paste0(
-        "Linear trend slope: ", convergence_info$linear_trend_slope,
-        "  (threshold < 0.01)\n",
-        "Median diff: ", convergence_info$median_diff,
-        "  (threshold < 1)"
+      caption = stringr::str_glue(
+        "Linear trend slope: {linear_trend_slope}  ",
+        "(threshold < 0.01)\n",
+        "Median diff: {median_diff}  (threshold < 1)"
       )
     ) +
     ggview::canvas(
