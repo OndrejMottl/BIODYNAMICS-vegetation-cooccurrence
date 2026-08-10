@@ -72,7 +72,7 @@ data_targets_meta <-
     )
   ) |>
   dplyr::mutate(
-    # Per-resolution success: the key model target (model_jsdm_selected_<res>)
+    # Per-resolution success: the key model target (mod_jsdm_selected_<res>)
     # must appear in metadata with no recorded error.
     # This allows other branches to error (e.g. insufficient-data
     # branches) while still tracking which resolution branches
@@ -86,7 +86,7 @@ data_targets_meta <-
           return(FALSE)
         }
         target_row <-
-          dplyr::filter(.x, name == "model_jsdm_selected_genus")
+          dplyr::filter(.x, name == "mod_jsdm_selected_genus")
         base::nrow(target_row) > 0L &&
           base::is.na(dplyr::pull(target_row, error))
       }
@@ -100,7 +100,7 @@ data_targets_meta <-
           return(FALSE)
         }
         target_row <-
-          dplyr::filter(.x, name == "model_jsdm_selected_family")
+          dplyr::filter(.x, name == "mod_jsdm_selected_family")
         base::nrow(target_row) > 0L &&
           base::is.na(dplyr::pull(target_row, error))
       }
@@ -114,7 +114,7 @@ data_targets_meta <-
           return(FALSE)
         }
         target_row <-
-          dplyr::filter(.x, name == "model_jsdm_selected_functional_type")
+          dplyr::filter(.x, name == "mod_jsdm_selected_functional_type")
         base::nrow(target_row) > 0L &&
           base::is.na(dplyr::pull(target_row, error))
       }
@@ -130,7 +130,7 @@ data_targets_successful <-
   dplyr::filter(store_exists)
 
 # Units where the store exists but at least one resolution branch's key
-# model target (model_jsdm_selected_<res>) did not succeed.
+# model target (mod_jsdm_selected_<res>) did not succeed.
 data_targets_failed <-
   data_targets_meta |>
   dplyr::filter(
@@ -310,7 +310,7 @@ vec_tax_res <-
 # Read fitted model evaluation for every successful unit and all three
 #   resolutions; sections 4.1 and 4.2 summarise across all
 #   scale_id × tax_res combinations.
-list_model_evaluation_fitted_all <-
+list_jsdm_evaluation_fitted_all <-
   vec_tax_res |>
   purrr::map(
     .f = ~ {
@@ -324,7 +324,7 @@ list_model_evaluation_fitted_all <-
           .f = purrr::possibly(
             ~ targets::tar_read_raw(
               name = stringr::str_glue(
-                "model_evaluation_fitted_{res_i}"
+                "list_jsdm_evaluation_fitted_{res_i}"
               ),
               store = .x
             ),
@@ -341,7 +341,7 @@ list_model_evaluation_fitted_all <-
 #--------------------------------------------------#
 
 data_convergence_summary <-
-  list_model_evaluation_fitted_all |>
+  list_jsdm_evaluation_fitted_all |>
   purrr::imap(
     .f = ~ {
       list_by_scale_i <- .x
@@ -427,11 +427,11 @@ list_plots <-
 
             list_convergence_plots_i <-
               purrr::chuck(
-                list_model_evaluation_fitted_all,
+                list_jsdm_evaluation_fitted_all,
                 tax_res_i
               ) |>
               purrr::imap(
-                .f = ~ purrr::chuck(.x, "convergence", "convergence_plot") +
+                .f = ~ purrr::chuck(.x, "list_convergence_diagnostics", "convergence_plot") +
                   ggplot2::labs(subtitle = .y, title = NULL) +
                   ggplot2::theme(
                     title = ggplot2::element_blank(),
@@ -441,7 +441,7 @@ list_plots <-
               purrr::keep_at(
                 base::names(
                   purrr::chuck(
-                    list_model_evaluation_fitted_all,
+                    list_jsdm_evaluation_fitted_all,
                     tax_res_i
                   )
                 )

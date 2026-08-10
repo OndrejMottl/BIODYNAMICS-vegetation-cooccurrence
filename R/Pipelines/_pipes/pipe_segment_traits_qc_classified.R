@@ -23,9 +23,9 @@
 #   taxon_name before each call and renamed back afterwards.
 #
 # Targets in execution order:
-#   1. trait_qc_report_classified
+#   1. list_trait_quality_control_report_classified
 #        per-domain and per-domain×genus stats + outlier summary;
-#        writes Data/Temp/trait_qc_report_{date}.csv
+#        writes Data/Temp/trait_quality_control_report_{date}.csv
 #        (overwrites the pre-classification report if both targets
 #        run on the same date);
 #        creates
@@ -33,7 +33,7 @@
 #        (header only) if it does not yet exist
 #   2. file_trait_corrections_classified
 #        tracks the corrections CSV (format = "file")
-#   3. trait_corrections_classified_validated
+#   3. data_trait_corrections_classified_validated
 #        GUARD: aborts when any row has CHECKED != TRUE;
 #        requires human sign-off
 #   4. data_traits_classified_corrected
@@ -78,7 +78,7 @@ pipe_segment_traits_qc_classified <-
 
     # ── 1. Generate QC report ───────────────────────────
     # Side effects:
-    #   • writes Data/Temp/trait_qc_report_{date}.csv
+    #   • writes Data/Temp/trait_quality_control_report_{date}.csv
     #     (per-domain×genus summary)
     #   • creates Data/Input/trait_manual_corrections_classified.csv
     #     (header only) if the file does not already exist
@@ -86,7 +86,7 @@ pipe_segment_traits_qc_classified <-
     # write_trait_quality_control_report expects a taxon_name column.
     targets::tar_target(
       description = "Generate post-classification QC report by resolved taxon",
-      name = trait_qc_report_classified,
+      name = list_trait_quality_control_report_classified,
       command = write_trait_quality_control_report(
         data_trait_records = data_traits_classified |>
           dplyr::select(-"taxon_name") |>
@@ -102,13 +102,13 @@ pipe_segment_traits_qc_classified <-
     # format = "file" causes {targets} to detect file changes (e.g.
     # when a human opens the CSV and adds/modifies rows). Downstream
     # targets automatically become outdated when the file is edited.
-    # trait_qc_report_classified is referenced to ensure the file is
+    # list_trait_quality_control_report_classified is referenced to ensure the file is
     # created before this target attempts to track it.
     targets::tar_target(
       description = "Track classified trait corrections CSV for changes",
       name = file_trait_corrections_classified,
       command = {
-        trait_qc_report_classified
+        list_trait_quality_control_report_classified
         here::here(
           "Data/Input/trait_manual_corrections_classified.csv"
         )
@@ -120,12 +120,12 @@ pipe_segment_traits_qc_classified <-
     # Loads the corrections file, then validate_trait_corrections()
     # aborts with an informative error when CHECKED != TRUE.
     # The pipeline CANNOT proceed past this point until a human has:
-    #   1. Reviewed Data/Temp/trait_qc_report_{date}.csv
+    #   1. Reviewed Data/Temp/trait_quality_control_report_{date}.csv
     #   2. Filled in Data/Input/trait_manual_corrections_classified.csv
     #   3. Set CHECKED = TRUE for every row
     targets::tar_target(
       description = "GUARD: validate all classified corrections signed off",
-      name = trait_corrections_classified_validated,
+      name = data_trait_corrections_classified_validated,
       command = validate_trait_corrections(
         data_trait_corrections = load_trait_corrections(
           path_trait_corrections =
@@ -148,7 +148,7 @@ pipe_segment_traits_qc_classified <-
             dplyr::select(-"taxon_name") |>
             dplyr::rename(taxon_name = "taxon_resolved"),
           data_trait_corrections =
-            trait_corrections_classified_validated
+            data_trait_corrections_classified_validated
         ) |>
           dplyr::rename(taxon_resolved = "taxon_name")
       }

@@ -54,7 +54,7 @@ pipe_segment_traits_ft_clustering <-
     # falls back to the traits config for shared FT defaults.
     targets::tar_target(
       description = "Read ft_groups_max for FT clustering from config",
-      name = ft_groups_max_clustering,
+      name = config_functional_type_group_count_max_clustering,
       command = base::as.integer(
         load_config_value_with_fallback(
           config_section = "data_processing",
@@ -73,7 +73,7 @@ pipe_segment_traits_ft_clustering <-
     # traits config for shared FT defaults.
     targets::tar_target(
       description = "Read ft_groups_min for FT clustering from config",
-      name = ft_groups_min_clustering,
+      name = config_functional_type_group_count_min_clustering,
       command = base::as.integer(
         load_config_value_with_fallback(
           config_section = "data_processing",
@@ -93,7 +93,7 @@ pipe_segment_traits_ft_clustering <-
     # traits config for shared FT defaults.
     targets::tar_target(
       description = "Read dissimilarity metric for FT clustering from config",
-      name = metric_ft_clustering,
+      name = config_functional_type_distance_metric_clustering,
       command = load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_metric",
@@ -109,7 +109,7 @@ pipe_segment_traits_ft_clustering <-
     # the helper falls back to the traits config for shared FT defaults.
     targets::tar_target(
       description = "Read hclust method for FT clustering from config",
-      name = method_ft_clustering,
+      name = config_functional_type_clustering_method,
       command = load_config_value_with_fallback(
         config_section = "data_processing",
         config_key = "ft_method",
@@ -150,16 +150,16 @@ pipe_segment_traits_ft_clustering <-
       description = stringr::str_glue(
         "Compute dissimilarity matrix for one continent"
       ),
-      name = dist_continent,
+      name = data_functional_type_dissimilarity_continent,
       command = compute_trait_dissimilarity(
         data_trait_table = data_continent_traits,
-        distance_metric = metric_ft_clustering
+        distance_metric = config_functional_type_distance_metric_clustering
       ),
       pattern = map(data_continent_traits)
     ),
 
     # ── 7. Fit per-continent hierarchical clustering ────
-    # Dynamic branch: one branch per dist_continent element.
+    # Dynamic branch: one branch per data_functional_type_dissimilarity_continent element.
     # Each branch fits the dendrogram from the previously computed
     # distance object using the shared linkage method target.
     # The output is kept separate from FT assignment so the tree can be
@@ -168,12 +168,12 @@ pipe_segment_traits_ft_clustering <-
       description = stringr::str_glue(
         "Fit hierarchical clustering for one continent"
       ),
-      name = hclust_continent,
+      name = mod_functional_type_hierarchical_clustering_continent,
       command = fit_hierarchical_clustering(
-        trait_dissimilarity = dist_continent,
-        clustering_method = method_ft_clustering
+        trait_dissimilarity = data_functional_type_dissimilarity_continent,
+        clustering_method = config_functional_type_clustering_method
       ),
-      pattern = map(dist_continent)
+      pattern = map(data_functional_type_dissimilarity_continent)
     ),
 
     # ── 8. Choose FT-group count for each continent ─────
@@ -188,16 +188,16 @@ pipe_segment_traits_ft_clustering <-
       description = stringr::str_glue(
         "Select optimal number of FT groups via silhouette for one continent"
       ),
-      name = ft_groups_chosen_continent,
+      name = n_functional_type_groups_selected_continent,
       command = select_functional_type_group_count(
-        trait_dissimilarity = dist_continent,
-        hierarchical_clustering = hclust_continent,
-        functional_type_group_count_min = ft_groups_min_clustering,
-        functional_type_group_count_max = ft_groups_max_clustering
+        trait_dissimilarity = data_functional_type_dissimilarity_continent,
+        hierarchical_clustering = mod_functional_type_hierarchical_clustering_continent,
+        functional_type_group_count_min = config_functional_type_group_count_min_clustering,
+        functional_type_group_count_max = config_functional_type_group_count_max_clustering
       ),
       pattern = map(
-        dist_continent,
-        hclust_continent
+        data_functional_type_dissimilarity_continent,
+        mod_functional_type_hierarchical_clustering_continent
       )
     ),
 
@@ -211,19 +211,19 @@ pipe_segment_traits_ft_clustering <-
       description = stringr::str_glue(
         "Cluster taxa into FTs for one continent"
       ),
-      name = ft_result_continent,
+      name = data_functional_type_classification_continent,
       command = assign_functional_type_clusters(
         data_trait_table = data_continent_traits,
-        trait_dissimilarity = dist_continent,
-        hierarchical_clustering = hclust_continent,
-        functional_type_group_count = ft_groups_chosen_continent,
+        trait_dissimilarity = data_functional_type_dissimilarity_continent,
+        hierarchical_clustering = mod_functional_type_hierarchical_clustering_continent,
+        functional_type_group_count = n_functional_type_groups_selected_continent,
         verbose = TRUE
       ),
       pattern = map(
         data_continent_traits,
-        dist_continent,
-        hclust_continent,
-        ft_groups_chosen_continent
+        data_functional_type_dissimilarity_continent,
+        mod_functional_type_hierarchical_clustering_continent,
+        n_functional_type_groups_selected_continent
       )
     ),
 
@@ -238,15 +238,15 @@ pipe_segment_traits_ft_clustering <-
       description = stringr::str_glue(
         "Save FT classification for one continent to .qs file"
       ),
-      name = file_ft_classification_paleo,
+      name = file_functional_type_classification_paleo,
       command = save_continental_functional_type_classification(
         continent_id = dplyr::pull(data_continental_rows, "scale_id"),
-        data_functional_type_classification = ft_result_continent,
+        data_functional_type_classification = data_functional_type_classification_continent,
         verbose = TRUE
       ),
       pattern = map(
         data_continental_rows,
-        ft_result_continent
+        data_functional_type_classification_continent
       ),
       format = "file"
     )

@@ -45,7 +45,7 @@ pipe_segment_community_extract <-
       name = "data_community",
       command = {
         # Ensure core-count guard has passed before extracting community data
-        force(check_n_cores)
+        force(flag_available_core_count_validated)
         extract_community_records(
           data_vegvault = data_vegvault_extracted
         )

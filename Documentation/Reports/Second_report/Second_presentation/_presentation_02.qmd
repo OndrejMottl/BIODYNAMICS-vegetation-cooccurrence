@@ -735,15 +735,15 @@ plot_target_graph_basic
 #| warning: false
 #| include: false
 #| cache: true
-model_anova <-
+list_jsdm_variance_partition <-
   targets::tar_read(
-    name = "model_anova",
+    name = "list_jsdm_variance_partition",
     store = set_store
   )
 
 # Extract the 7 disjoint fractions (R2 Nagelkerke) and clamp negatives to 0
 vec_euler_raw <-
-  model_anova |>
+  list_jsdm_variance_partition |>
   purrr::chuck("results") |>
   dplyr::filter(
     models %in% c("F_A", "F_B", "F_S", "F_AB", "F_AS", "F_BS", "F_ABS")

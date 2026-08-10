@@ -56,7 +56,7 @@ resolve_functional_type_classification_path <- function(
 
   classification_file_stem <-
     stringr::str_glue(
-      "data_ft_classification_{classification_file_prefix}{continent_id}"
+      "data_functional_type_classification_{classification_file_prefix}{continent_id}"
     )
 
   path_classification_file <-

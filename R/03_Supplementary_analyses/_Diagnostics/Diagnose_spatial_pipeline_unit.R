@@ -142,32 +142,43 @@ if (
 # 4. Convergence diagnostics -----
 #----------------------------------------------------------#
 
-model_evaluation_fitted <-
+list_jsdm_evaluation_fitted <-
   purrr::possibly(
     ~ targets::tar_read(
-      "model_evaluation_fitted",
+      "list_jsdm_evaluation_fitted",
       store = sel_store_path
     ),
     otherwise = NULL
   )()
 
 if (
-  base::is.null(model_evaluation_fitted)
+  base::is.null(list_jsdm_evaluation_fitted)
 ) {
-  base::message("Target 'model_evaluation_fitted' not available.")
+  base::message("Target 'list_jsdm_evaluation_fitted' not available.")
 } else {
   convergence_info <-
-    model_evaluation_fitted |>
-    purrr::chuck("convergence")
+    list_jsdm_evaluation_fitted |>
+    purrr::chuck("list_convergence_diagnostics")
 
-  convergence_info$convergence_plot +
+  plot_convergence <-
+    convergence_info |>
+    purrr::chuck("convergence_plot")
+
+  linear_trend_slope <-
+    convergence_info |>
+    purrr::chuck("linear_trend_slope")
+
+  median_diff <-
+    convergence_info |>
+    purrr::chuck("median_diff")
+
+  plot_convergence +
     ggplot2::labs(
       subtitle = sel_scale_id,
-      caption = paste0(
-        "Linear trend slope: ", convergence_info$linear_trend_slope,
-        "  (threshold < 0.01)\n",
-        "Median diff: ", convergence_info$median_diff,
-        "  (threshold < 1)"
+      caption = stringr::str_glue(
+        "Linear trend slope: {linear_trend_slope}  ",
+        "(threshold < 0.01)\n",
+        "Median diff: {median_diff}  (threshold < 1)"
       )
     ) +
     ggview::canvas(
@@ -185,11 +196,11 @@ if (
 #----------------------------------------------------------#
 
 if (
-  !is.null(model_evaluation_fitted)
+  !is.null(list_jsdm_evaluation_fitted)
 ) {
   data_species_eval <-
-    model_evaluation_fitted |>
-    purrr::chuck("species")
+    list_jsdm_evaluation_fitted |>
+    purrr::chuck("data_taxon_metrics")
 
   n_species <- nrow(data_species_eval)
 
@@ -198,14 +209,14 @@ if (
   # Top 10 by AUC
   message("\nTop 10 species (highest AUC):")
   data_species_eval |>
-    dplyr::arrange(dplyr::desc(AUC)) |>
+    dplyr::arrange(dplyr::desc(auc)) |>
     dplyr::slice_head(n = 10L) |>
     print()
 
   # Bottom 10 by AUC
   message("\nBottom 10 species (lowest AUC):")
   data_species_eval |>
-    dplyr::arrange(AUC) |>
+    dplyr::arrange(auc) |>
     dplyr::slice_head(n = 10L) |>
     print()
 }
@@ -258,23 +269,23 @@ if (
 # 7. ANOVA variance partition detail -----
 #----------------------------------------------------------#
 
-model_anova <-
+list_jsdm_variance_partition <-
   purrr::possibly(
     ~ targets::tar_read(
-      "model_anova",
+      "list_jsdm_variance_partition",
       store = sel_store_path
     ),
     otherwise = NULL
   )()
 
 if (
-  is.null(model_anova)
+  is.null(list_jsdm_variance_partition)
 ) {
-  message("Target 'model_anova' not available.")
+  message("Target 'list_jsdm_variance_partition' not available.")
 } else {
   data_anova_fractions <-
     extract_jsdm_variance_fractions(
-      anova_object = model_anova,
+      anova_object = list_jsdm_variance_partition,
       clamp_negative = TRUE
     ) |>
     dplyr::mutate(age = 0) |>

@@ -117,9 +117,9 @@ data_store_index <-
     data_source = "paleo"
   ) |>
   dplyr::filter(
-    .data$scale == selected_scale,
-    .data$scale_id == selected_scale_id,
-    .data$store_exists
+    .data[["scale"]] == selected_scale,
+    .data[["scale_id"]] == selected_scale_id,
+    .data[["store_exists"]]
   )
 
 if (
@@ -141,19 +141,19 @@ store_path <-
     "store_path"
   )
 
-dist_ft_continental <-
+data_functional_type_dissimilarity_continental <-
   targets::tar_read_raw(
-    name = "dist_ft_continental",
+    name = "data_functional_type_dissimilarity_continental",
     store = store_path
   )
 
 data_ft_classification <-
   targets::tar_read_raw(
-    name = "ft_result_continental_unit",
+    name = "data_functional_type_classification_continental",
     store = store_path
   ) |>
   dplyr::mutate(
-    functional_type = base::as.integer(.data$functional_type)
+    functional_type = base::as.integer(.data[["functional_type"]])
   )
 
 
@@ -162,48 +162,48 @@ data_ft_classification <-
 #----------------------------------------------------------#
 
 if (
-  !base::inherits(dist_ft_continental, "dist")
+  !base::inherits(data_functional_type_dissimilarity_continental, "dist")
 ) {
   cli::cli_abort(
-    "`dist_ft_continental` must inherit from class {.cls dist}."
+    "`data_functional_type_dissimilarity_continental` must inherit from class {.cls dist}."
   )
 }
 
 data_ft_counts <-
   data_ft_classification |>
   dplyr::count(
-    .data$functional_type,
+      .data[["functional_type"]],
     name = "n_taxa"
   )
 
 vec_functional_type_keep <-
   data_ft_counts |>
   dplyr::filter(
-    .data$n_taxa > 1L
+    .data[["n_taxa"]] > 1L
   ) |>
   dplyr::pull(
     "functional_type"
   )
 
-data_ft_classification_filtered <-
+data_functional_type_classification_filtered <-
   data_ft_classification |>
   dplyr::filter(
-    .data$functional_type %in% vec_functional_type_keep
+    .data[["functional_type"]] %in% vec_functional_type_keep
   )
 
 vec_taxa_keep <-
-  data_ft_classification_filtered |>
+  data_functional_type_classification_filtered |>
   dplyr::pull(
     "taxon_name"
   )
 
-dist_ft_continental_filtered <-
+data_functional_type_dissimilarity_continental_filtered <-
   stats::as.dist(
-    base::as.matrix(dist_ft_continental)[vec_taxa_keep, vec_taxa_keep]
+    base::as.matrix(data_functional_type_dissimilarity_continental)[vec_taxa_keep, vec_taxa_keep]
   )
 
 if (
-  base::attr(dist_ft_continental_filtered, "Size") < 3L
+  base::attr(data_functional_type_dissimilarity_continental_filtered, "Size") < 3L
 ) {
   cli::cli_abort(
     "Too few taxa remain after removing singleton functional types."
@@ -214,7 +214,7 @@ base::set.seed(900723)
 
 nmds_result <-
   vegan::metaMDS(
-    comm = dist_ft_continental_filtered,
+    comm = data_functional_type_dissimilarity_continental_filtered,
     k = 2L,
     try = 30L,
     trymax = 120L,
@@ -239,7 +239,7 @@ data_nmds <-
     .before = 1
   ) |>
   dplyr::inner_join(
-    y = data_ft_classification_filtered,
+    y = data_functional_type_classification_filtered,
     by = dplyr::join_by(taxon_name),
     multiple = "error"
   ) |>
@@ -250,7 +250,7 @@ data_nmds <-
   )
 
 if (
-  base::nrow(data_nmds) != base::attr(dist_ft_continental_filtered, "Size")
+  base::nrow(data_nmds) != base::attr(data_functional_type_dissimilarity_continental_filtered, "Size")
 ) {
   cli::cli_abort(
     "Some NMDS taxa could not be joined to functional-type labels."
@@ -281,15 +281,15 @@ data_ft_names <-
 data_ft_centroids <-
   data_nmds |>
   dplyr::group_by(
-    .data$functional_type,
-    .data$functional_type_label
+    .data[["functional_type"]],
+    .data[["functional_type_label"]]
   ) |>
   dplyr::summarise(
-    nmds_1 = stats::median(.data$nmds_1),
-    nmds_2 = stats::median(.data$nmds_2),
+      nmds_1 = stats::median(.data[["nmds_1"]]),
+      nmds_2 = stats::median(.data[["nmds_2"]]),
     n_taxa = dplyr::n(),
     silhouette_width = stats::median(
-      .data$silhouette_width,
+        .data[["silhouette_width"]],
       na.rm = TRUE
     ),
     .groups = "drop"
@@ -317,11 +317,11 @@ if (
 vec_ft_levels <-
   data_nmds |>
   dplyr::distinct(
-    .data$functional_type,
-    .data$functional_type_label
+    .data[["functional_type"]],
+    .data[["functional_type_label"]]
   ) |>
   dplyr::arrange(
-    .data$functional_type
+    .data[["functional_type"]]
   ) |>
   dplyr::pull(
     "functional_type_label"
@@ -364,8 +364,8 @@ if (
 data_ft_centroid_labels <-
   data_ft_centroids |>
   dplyr::arrange(
-    dplyr::desc(.data$n_taxa),
-    .data$functional_type
+    dplyr::desc(.data[["n_taxa"]]),
+    .data[["functional_type"]]
   ) |>
   dplyr::slice_head(
     n = 4L
@@ -385,8 +385,8 @@ plot_ordination <-
   data_nmds_linked |>
   ggplot2::ggplot(
     mapping = ggplot2::aes(
-      x = .data$nmds_1,
-      y = .data$nmds_2
+      x = .data[["nmds_1"]],
+      y = .data[["nmds_2"]]
     )
   ) +
   ggplot2::geom_hline(
@@ -403,9 +403,9 @@ plot_ordination <-
   ) +
   ggplot2::geom_segment(
     mapping = ggplot2::aes(
-      xend = .data$nmds_1_centroid,
-      yend = .data$nmds_2_centroid,
-      colour = .data$functional_type_label
+      xend = .data[["nmds_1_centroid"]],
+      yend = .data[["nmds_2_centroid"]],
+      colour = .data[["functional_type_label"]]
     ),
     linewidth = 0.2,
     alpha = 0.2,
@@ -413,7 +413,7 @@ plot_ordination <-
   ) +
   ggplot2::geom_point(
     mapping = ggplot2::aes(
-      fill = .data$functional_type_label
+      fill = .data[["functional_type_label"]]
     ),
     colour = vec_oracle_palette[["background"]],
     shape = 21,
@@ -424,7 +424,7 @@ plot_ordination <-
   ggplot2::geom_point(
     data = data_ft_centroids,
     mapping = ggplot2::aes(
-      color = .data$functional_type_label
+      color = .data[["functional_type_label"]]
     ),
     shape = 15,
     size = 2,
@@ -434,8 +434,8 @@ plot_ordination <-
   ggrepel::geom_label_repel(
     data = data_ft_centroid_labels,
     mapping = ggplot2::aes(
-      label = .data$centroid_label,
-      color = .data$functional_type_label
+      label = .data[["centroid_label"]],
+      color = .data[["functional_type_label"]]
     ),
     family = font_family,
     #colour = vec_oracle_palette[["text"]],

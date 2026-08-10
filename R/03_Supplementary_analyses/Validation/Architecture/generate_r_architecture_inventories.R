@@ -337,7 +337,7 @@ vec_target_sources <- base::character()
 pattern_literal_target <-
   stringr::str_c(
     "targets::tar_target(?:_raw)?\\s*\\(",
-    "\\s*name\\s*=\\s*([A-Za-z][A-Za-z0-9_]*)"
+    "(?s:.*?)\\bname\\s*=\\s*['\"]?([A-Za-z][A-Za-z0-9_]*)"
   )
 
 for (

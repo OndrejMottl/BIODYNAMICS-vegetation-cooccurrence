@@ -166,7 +166,7 @@ pipe_segment_traits_classification <-
     # them and add the needed manual classifications.
     targets::tar_target(
       description = "Validate that all trait taxa are classified",
-      name = check_trait_taxa_classification,
+      name = flag_trait_taxa_classification_validated,
       command = {
         base::force(file_missing_trait_taxa_template)
 
@@ -204,7 +204,7 @@ pipe_segment_traits_classification <-
       description = "Resolve each trait taxon to finest taxonomic rank",
       name = data_resolution_to_finest,
       command = {
-        base::force(check_trait_taxa_classification)
+        base::force(flag_trait_taxa_classification_validated)
         resolve_classification_to_finest_rank(
           data_classification_table =
             data_combined_classification_table_traits,

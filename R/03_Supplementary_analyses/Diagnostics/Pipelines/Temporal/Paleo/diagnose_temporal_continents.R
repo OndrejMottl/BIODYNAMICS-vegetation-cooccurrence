@@ -50,15 +50,19 @@ data_continents <-
 
 base::message(
   "Continental configurations found: ",
-  base::paste(data_continents$config_name, collapse = ", ")
+  data_continents |>
+    dplyr::pull("config_name") |>
+    stringr::str_c(collapse = ", ")
 )
+
+vec_configs_with_stores <-
+  data_continents |>
+  dplyr::filter(.data[["store_exists"]]) |>
+  dplyr::pull("config_name")
 
 base::message(
   "Stores present: ",
-  base::paste(
-    data_continents$config_name[data_continents$store_exists],
-    collapse = ", "
-  )
+  stringr::str_c(vec_configs_with_stores, collapse = ", ")
 )
 
 
@@ -68,10 +72,10 @@ base::message(
 
 purrr::pwalk(
   .l = list(
-    scale_id = data_continents$scale_id,
-    config_name = data_continents$config_name,
-    store_path = data_continents$store_path,
-    store_exists = data_continents$store_exists
+    scale_id = dplyr::pull(data_continents, "scale_id"),
+    config_name = dplyr::pull(data_continents, "config_name"),
+    store_path = dplyr::pull(data_continents, "store_path"),
+    store_exists = dplyr::pull(data_continents, "store_exists")
   ),
   .f = function(
       scale_id,
@@ -122,15 +126,19 @@ purrr::pwalk(
       dplyr::mutate(
         age_name = base::paste0("timeslice_", age),
         target_name = stringr::str_glue(
-          "model_evaluation_fitted_{age_name}"
+          "list_jsdm_evaluation_fitted_{age_name}"
         )
       )
+
+    vec_ages <-
+      data_to_map_age |>
+      dplyr::pull("age")
 
     base::message(
       "Time slices: ",
       base::nrow(data_to_map_age),
-      " (", base::min(data_to_map_age$age), "\u2013",
-      base::max(data_to_map_age$age), " yr BP by ", n_time_step, " yr)"
+      " (", base::min(vec_ages), "\u2013",
+      base::max(vec_ages), " yr BP by ", n_time_step, " yr)"
     )
 
 
@@ -144,6 +152,10 @@ purrr::pwalk(
         store = store_path
       )
 
+    vec_completed_target_names <-
+      data_tar_meta |>
+      dplyr::pull("name")
+
     data_slice_status <-
       data_to_map_age |>
       dplyr::left_join(
@@ -151,7 +163,7 @@ purrr::pwalk(
           dplyr::filter(
             stringr::str_detect(
               string = name,
-              pattern = "^model_evaluation_fitted_timeslice_"
+              pattern = "^list_jsdm_evaluation_fitted_timeslice_"
             )
           ) |>
           dplyr::rename(target_name = name),
@@ -161,7 +173,7 @@ purrr::pwalk(
         status = dplyr::case_when(
           !base::is.na(error) ~ "failed",
           base::is.na(error) &
-            target_name %in% data_tar_meta$name ~
+            target_name %in% vec_completed_target_names ~
             "successful",
           .default = "not_run"
         )
@@ -323,11 +335,11 @@ purrr::pwalk(
       purrr::imap(
         .f = ~ {
           vec_r2 <-
-            purrr::chuck(.x, "model")
+            purrr::chuck(.x, "vec_model_metrics")
           tibble::tibble(
             age_name = .y,
-            R2_McFadden = vec_r2["R2-McFadden"],
-            R2_Nagelkerke = vec_r2["R2-Nagelkerke"]
+            R2_McFadden = vec_r2["r2_mcfadden"],
+            R2_Nagelkerke = vec_r2["r2_nagelkerke"]
           )
         }
       ) |>
@@ -368,7 +380,7 @@ purrr::pwalk(
             dplyr::filter(age_name == .y) |>
             dplyr::pull(age)
 
-          purrr::chuck(.x, "convergence", "convergence_plot") +
+          purrr::chuck(.x, "list_convergence_diagnostics", "convergence_plot") +
             ggplot2::labs(
               subtitle = base::paste0(slice_age, " yr BP"),
               title = NULL

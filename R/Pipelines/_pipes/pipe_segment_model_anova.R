@@ -42,14 +42,14 @@ pipe_segment_model_anova <-
   list(
     targets::tar_target(
       description = "Get model anova",
-      name = "model_anova",
+      name = "list_jsdm_variance_partition",
       command = if (
-        base::is.null(model_jsdm_selected)
+        base::is.null(mod_jsdm_selected)
       ) {
         NULL
       } else {
         compute_jsdm_variance_partition(
-          mod = model_jsdm_selected,
+          mod = mod_jsdm_selected,
           n_samples = config_model_fitting[["n_samples_anova"]],
           verbose = TRUE
         )

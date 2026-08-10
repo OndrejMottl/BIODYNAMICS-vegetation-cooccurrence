@@ -63,12 +63,12 @@ data_store_index <-
   ) |>
   dplyr::mutate(
     store_path_display = fs::path_rel(
-      path = .data$store_path,
+      path = .data[["store_path"]],
       start = here::here()
     ) |>
       base::as.character(),
     data_meta = purrr::map(
-      .x = .data$store_path,
+      .x = .data[["store_path"]],
       .f = ~ {
         if (
           fs::dir_exists(.x)
@@ -84,7 +84,7 @@ data_status_overview <-
   data_store_index |>
   dplyr::mutate(
     n_finished_resolutions = purrr::map_int(
-      .x = .data$data_meta,
+      .x = .data[["data_meta"]],
       .f = ~ {
         data_meta_i <- .x
 
@@ -97,7 +97,7 @@ data_status_overview <-
               has_target_succeeded(
                 data_meta = data_meta_i,
                 target_name = stringr::str_glue(
-                  "model_evaluation_fitted_{resolution_id}"
+                  "list_jsdm_evaluation_fitted_{resolution_id}"
                 )
               )
             }
@@ -108,15 +108,15 @@ data_status_overview <-
       }
     )
   ) |>
-  dplyr::group_by(.data$scale) |>
+  dplyr::group_by(.data[["scale"]]) |>
   dplyr::summarise(
     n_total = dplyr::n(),
-    n_stores = base::sum(.data$store_exists),
+      n_stores = base::sum(.data[["store_exists"]]),
     n_with_any_finished_model = base::sum(
-      .data$n_finished_resolutions > 0L
+        .data[["n_finished_resolutions"]] > 0L
     ),
     n_finished_resolution_branches = base::sum(
-      .data$n_finished_resolutions
+        .data[["n_finished_resolutions"]]
     ),
     .groups = "drop"
   )
@@ -130,9 +130,9 @@ base::print(data_status_overview)
 
 data_convergence <-
   data_store_index |>
-  dplyr::filter(.data$store_exists) |>
+  dplyr::filter(.data[["store_exists"]]) |>
   dplyr::mutate(row_id = dplyr::row_number()) |>
-  dplyr::group_split(.data$row_id, .keep = FALSE) |>
+  dplyr::group_split(.data[["row_id"]], .keep = FALSE) |>
   purrr::map(
     .f = ~ {
       data_store_row <- .x
@@ -144,7 +144,7 @@ data_convergence <-
             resolution_id <- .x
             target_name <-
               stringr::str_glue(
-                "model_evaluation_fitted_{resolution_id}"
+                "list_jsdm_evaluation_fitted_{resolution_id}"
               )
 
             data_target_row <-
@@ -161,7 +161,7 @@ data_convergence <-
               } else {
                 data_meta |>
                   dplyr::filter(
-                    .data$name == .env$target_name
+      .data[["name"]] == .env[["target_name"]]
                   )
               }
 
@@ -180,10 +180,10 @@ data_convergence <-
                 data_meta |>
                   dplyr::filter(
                     stringr::str_ends(
-                      .data$name,
+      .data[["name"]],
                       stringr::str_glue("_{resolution_id}")
                     ),
-                    !base::is.na(.data$error)
+      !base::is.na(.data[["error"]])
                   ) |>
                   dplyr::select(name, error)
               }
@@ -197,7 +197,7 @@ data_convergence <-
                 data_resolution_errors |>
                   dplyr::mutate(
                     message = stringr::str_glue(
-                      "{.data$name}: {.data$error}"
+        "{.data[['name']]}: {.data[['error']]}"
                     )
                   ) |>
                   dplyr::pull(message) |>
@@ -272,9 +272,9 @@ data_convergence <-
   ) |>
   purrr::list_rbind() |>
   dplyr::mutate(
-    converged = .data$linear_trend_slope <
+      converged = .data[["linear_trend_slope"]] <
       threshold_linear_trend_slope &
-      .data$median_diff < threshold_median_diff
+        .data[["median_diff"]] < threshold_median_diff
   )
 
 data_convergence_table <-
@@ -284,13 +284,13 @@ data_convergence_table <-
 data_non_converged <-
   data_convergence |>
   dplyr::filter(
-    .data$model_ran &
-      !.data$converged
+    .data[["model_ran"]] &
+      !.data[["converged"]]
   )
 
 data_model_evaluation_unsuccessful <-
   data_convergence_table |>
-  dplyr::filter(!.data$model_ran) |>
+  dplyr::filter(!.data[["model_ran"]]) |>
   dplyr::select(
     scale,
     scale_id,
@@ -300,17 +300,17 @@ data_model_evaluation_unsuccessful <-
     store_path_display
   ) |>
   dplyr::arrange(
-    .data$scale,
-    .data$scale_id,
-    .data$resolution_id
+    .data[["scale"]],
+    .data[["scale_id"]],
+    .data[["resolution_id"]]
   )
 
 data_diagnostic_summary <-
   data_non_converged |>
   dplyr::mutate(
     model_tuning = purrr::map2(
-      .x = .data$scale_id,
-      .y = .data$resolution_id,
+      .x = .data[["scale_id"]],
+      .y = .data[["resolution_id"]],
       .f = ~ load_model_tuning_parameters(
         analysis_id = "modern_spatial",
         scale_id = .x,
@@ -318,11 +318,11 @@ data_diagnostic_summary <-
       )
     ),
     n_iter = purrr::map_int(
-      .x = .data$model_tuning,
+      .x = .data[["model_tuning"]],
       .f = ~ purrr::chuck(.x, "n_iter")
     ),
     n_step_size = purrr::map_int(
-      .x = .data$model_tuning,
+      .x = .data[["model_tuning"]],
       .f = ~ {
         value <-
           purrr::pluck(.x, "n_step_size")
@@ -335,15 +335,15 @@ data_diagnostic_summary <-
       }
     ),
     n_sampling = purrr::map_int(
-      .x = .data$model_tuning,
+      .x = .data[["model_tuning"]],
       .f = ~ purrr::chuck(.x, "n_sampling")
     ),
     n_samples_anova = purrr::map_int(
-      .x = .data$model_tuning,
+      .x = .data[["model_tuning"]],
       .f = ~ purrr::chuck(.x, "n_samples_anova")
     ),
     n_early_stopping = purrr::map_int(
-      .x = .data$model_tuning,
+      .x = .data[["model_tuning"]],
       .f = ~ {
         value <-
           purrr::pluck(.x, "n_early_stopping")
@@ -371,9 +371,9 @@ data_diagnostic_summary <-
     early_stopping_triggered
   ) |>
   dplyr::arrange(
-    .data$scale,
-    .data$scale_id,
-    .data$resolution_id
+      .data[["scale"]],
+      .data[["scale_id"]],
+      .data[["resolution_id"]]
   )
 
 base::message("\nModel evaluation branches without successful output:")
@@ -419,9 +419,9 @@ if (
               data_plot_source <-
                 data_convergence |>
                 dplyr::filter(
-                  .data$model_ran,
-                  .data$scale == .env$scale_i,
-                  .data$resolution_id == .env$resolution_id_i
+      .data[["model_ran"]],
+      .data[["scale"]] == .env[["scale_i"]],
+      .data[["resolution_id"]] == .env[["resolution_id_i"]]
                 )
 
               if (
@@ -527,7 +527,7 @@ if (
 
         vec_ids_i <-
           data_units_to_rerun |>
-          dplyr::filter(.data$scale == .env$scale_i) |>
+    dplyr::filter(.data[["scale"]] == .env[["scale_i"]]) |>
           dplyr::pull(scale_id)
 
         if (

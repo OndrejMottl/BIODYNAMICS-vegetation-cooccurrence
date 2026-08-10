@@ -3,7 +3,7 @@
 #' Saves a pre-computed functional-type classification tibble as a
 #' dated `.qs` file in `path_processed`. The classification is
 #' produced upstream by `assign_functional_type_clusters()` via the
-#' `ft_result_continent` pipeline target.
+#' `data_functional_type_classification_continent` pipeline target.
 #' @param continent_id
 #' A single non-empty character string identifying the continental
 #' unit (e.g. `"europe"`, `"america"`, `"asia"`). Used only for
@@ -29,12 +29,12 @@
 #' A single character string: the absolute path to the `.qs` file
 #' that was written. The file is saved via
 #' `RUtilpol::save_latest_file()` using the name stem
-#' `data_ft_classification_{continent_id}`
+#' `data_functional_type_classification_{continent_id}`
 #' when `classification_source_prefix = NULL`, or
-#' `data_ft_classification_{classification_source_prefix}_{continent_id}`
+#' `data_functional_type_classification_{classification_source_prefix}_{continent_id}`
 #' otherwise. The final file name includes a date stamp and
 #' content hash appended by `RUtilpol` (e.g.
-#' `data_ft_classification_europe_2026-05-07__abc123__.qs`).
+#' `data_functional_type_classification_europe_2026-05-07__abc123__.qs`).
 #' @details
 #' **Steps performed**:
 #' \enumerate{
@@ -110,7 +110,7 @@ save_continental_functional_type_classification <- function(
 
   classification_file_stem <-
     stringr::str_glue(
-      "data_ft_classification_",
+      "data_functional_type_classification_",
       "{classification_file_prefix}{continent_id}"
     )
 

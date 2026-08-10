@@ -15,16 +15,16 @@
 #   corrections to the raw trait data.
 #
 # Targets in execution order:
-#   1. trait_qc_report              – per-domain and per-domain×taxon stats
+#   1. list_trait_quality_control_report              – per-domain and per-domain×taxon stats
 #                                     + outlier summary;
-#                                     writes Data/Temp/trait_qc_report_*.csv
+#                                     writes Data/Temp/trait_quality_control_report_*.csv
 #                                     (per-domain×taxon summary);
 #                                     creates
 #                                     Data/Input/trait_manual_corrections.csv
 #                                     if it does not yet exist
 #   2. file_trait_corrections        - tracks the corrections CSV
 #                                      (format = "file")
-#   3. trait_corrections_validated   – GUARD: aborts when any row has
+#   3. data_trait_corrections_validated   – GUARD: aborts when any row has
 #                                      CHECKED != TRUE; requires human sign-off
 #   4. data_traits_corrected         – corrections applied to raw trait data
 #
@@ -65,12 +65,12 @@ pipe_segment_traits_qc <-
 
     # ── 1. Generate QC report ───────────────────────────
     # Side effects:
-    #   • writes Data/Temp/trait_qc_report_{date}.csv (per-domain×taxon summary)
+    #   • writes Data/Temp/trait_quality_control_report_{date}.csv (per-domain×taxon summary)
     #   • creates Data/Input/trait_manual_corrections.csv (header only)
     #     if the file does not already exist
     targets::tar_target(
       description = "Generate trait QC report and create corrections template",
-      name = trait_qc_report,
+      name = list_trait_quality_control_report,
       command = write_trait_quality_control_report(
         data_trait_records = data_traits_raw,
         path_trait_corrections = here::here(
@@ -83,13 +83,13 @@ pipe_segment_traits_qc <-
     # format = "file" causes {targets} to detect file changes (e.g.
     # when a human opens the CSV and adds/modifies rows). Downstream
     # targets automatically become outdated when the file is edited.
-    # trait_qc_report is referenced to ensure the file is created
+    # list_trait_quality_control_report is referenced to ensure the file is created
     # before this target attempts to track it.
     targets::tar_target(
       description = "Track trait manual corrections CSV for changes",
       name = file_trait_corrections,
       command = {
-        trait_qc_report
+        list_trait_quality_control_report
         here::here("Data/Input/trait_manual_corrections.csv")
       },
       format = "file"
@@ -99,12 +99,12 @@ pipe_segment_traits_qc <-
     # Loads the corrections file, then validate_trait_corrections()
     # aborts with an informative error when CHECKED != TRUE.
     # The pipeline CANNOT proceed past this point until a human has:
-    #   1. Reviewed Data/Temp/trait_qc_report_{date}.csv
+    #   1. Reviewed Data/Temp/trait_quality_control_report_{date}.csv
     #   2. Filled in Data/Input/trait_manual_corrections.csv
     #   3. Set CHECKED = TRUE for every row
     targets::tar_target(
       description = "GUARD: validate all correction rows are signed off",
-      name = trait_corrections_validated,
+      name = data_trait_corrections_validated,
       command = validate_trait_corrections(
         data_trait_corrections = load_trait_corrections(
           path_trait_corrections = file_trait_corrections
@@ -120,7 +120,7 @@ pipe_segment_traits_qc <-
       name = data_traits_corrected,
       command = correct_trait_records(
         data_trait_records = data_traits_raw,
-        data_trait_corrections = trait_corrections_validated
+        data_trait_corrections = data_trait_corrections_validated
       )
     )
   )

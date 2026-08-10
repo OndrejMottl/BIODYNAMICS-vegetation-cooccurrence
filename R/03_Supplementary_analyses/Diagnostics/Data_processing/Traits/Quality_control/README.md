@@ -7,7 +7,7 @@ the reusable functions, automated tests, and analyst-facing review scripts have
 separate homes.
 
 Run the traits reference pipeline before using these scripts.
-The pipeline writes the dated `trait_qc_report_*.csv` summary and creates the
+The pipeline writes the dated `trait_quality_control_report_*.csv` summary and creates the
 manual corrections template when it is absent.
 
 The files serve different review modes:

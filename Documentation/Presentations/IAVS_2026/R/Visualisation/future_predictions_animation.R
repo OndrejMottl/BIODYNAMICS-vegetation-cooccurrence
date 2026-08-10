@@ -184,8 +184,8 @@ data_store_index <-
     pipeline_name = "pipeline_paleo_spatial_resolution"
   ) |>
   dplyr::filter(
-    .data$scale_id == selected_scale_id,
-    .data$store_exists
+    .data[["scale_id"]] == selected_scale_id,
+    .data[["store_exists"]]
   )
 
 if (
@@ -271,7 +271,7 @@ data_predicted_long <-
 data_selected_taxon <-
   data_predicted_long |>
   dplyr::filter(
-    .data$taxon == selected_taxon
+    .data[["taxon"]] == selected_taxon
   )
 
 if (
@@ -291,23 +291,23 @@ data_expected_richness <-
 
 model_r2_nagelkerke <-
   prediction_inputs |>
-  purrr::chuck("model_evaluation", "model", "R2-Nagelkerke") |>
+  purrr::chuck("model_evaluation", "vec_model_metrics", "r2_nagelkerke") |>
   base::unname()
 
-data_species_metrics <-
+data_taxon_metrics <-
   prediction_inputs |>
-  purrr::chuck("model_evaluation", "species")
+  purrr::chuck("model_evaluation", "data_taxon_metrics")
 
 auc_median <-
-  dplyr::pull(data_species_metrics, "AUC") |>
+  dplyr::pull(data_taxon_metrics, "auc") |>
   stats::median(na.rm = TRUE)
 
 auc_selected_taxon <-
-  data_species_metrics |>
+  data_taxon_metrics |>
   dplyr::filter(
-    .data$species == selected_taxon
+    .data[["taxon_name"]] == selected_taxon
   ) |>
-  dplyr::pull("AUC") |>
+  dplyr::pull("auc") |>
   base::as.numeric()
 
 data_coords_observed_raw <-
@@ -361,8 +361,10 @@ data_observations_selected_species <-
   tibble::rownames_to_column(var = "sample_id") |>
   tibble::as_tibble() |>
   dplyr::mutate(
-    dataset_name = stringr::str_remove(.data$sample_id, "__.*$"),
-    age = base::as.integer(stringr::str_extract(.data$sample_id, "[0-9]+$")),
+    dataset_name = stringr::str_remove(.data[["sample_id"]], "__.*$"),
+    age = base::as.integer(
+      stringr::str_extract(.data[["sample_id"]], "[0-9]+$")
+    ),
   ) |>
   tidyr::pivot_longer(
     cols = -base::c("sample_id", "dataset_name", "age"),
@@ -370,8 +372,8 @@ data_observations_selected_species <-
     values_to = "observed_presence"
   ) |>
   dplyr::filter(
-    .data$observed_presence == 1L,
-    .data$taxon == selected_taxon
+    .data[["observed_presence"]] == 1L,
+    .data[["taxon"]] == selected_taxon
   ) |>
   dplyr::left_join(
     data_coords_observed |>
@@ -392,10 +394,10 @@ data_observations_selected_species <-
 data_world <-
   ggplot2::map_data(map = "world") |>
   dplyr::filter(
-    .data$long >= base::min(list_prediction_grid[["x_lim"]]) - 2,
-    .data$long <= base::max(list_prediction_grid[["x_lim"]]) + 2,
-    .data$lat >= base::min(list_prediction_grid[["y_lim"]]) - 2,
-    .data$lat <= base::max(list_prediction_grid[["y_lim"]]) + 2
+    .data[["long"]] >= base::min(list_prediction_grid[["x_lim"]]) - 2,
+    .data[["long"]] <= base::max(list_prediction_grid[["x_lim"]]) + 2,
+    .data[["lat"]] >= base::min(list_prediction_grid[["y_lim"]]) - 2,
+    .data[["lat"]] <= base::max(list_prediction_grid[["y_lim"]]) + 2
   )
 
 

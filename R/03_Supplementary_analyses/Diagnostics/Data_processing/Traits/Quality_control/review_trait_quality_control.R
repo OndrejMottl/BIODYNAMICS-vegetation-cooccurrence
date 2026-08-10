@@ -89,14 +89,14 @@ path_trait_store <-
 trait_quality_control_report_paths <-
   fs::dir_ls(
     here::here("Data/Temp"),
-    regexp = "trait_qc_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
+    regexp = "trait_quality_control_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
   )
 
 if (
   base::length(trait_quality_control_report_paths) == 0L
 ) {
   base::stop(
-    "No trait_qc_report_*.csv found in Data/Temp/.\n",
+    "No trait_quality_control_report_*.csv found in Data/Temp/.\n",
     "Run the traits pipeline to generate it."
   )
 }
@@ -118,7 +118,7 @@ data_trait_quality_control_report <-
   ) |>
   dplyr::mutate(
     outlier_fraction =
-      .data[["n_suspected_outliers_taxon"]] /
+      .data[["n_suspected_outliers"]] /
         .data[["n_records"]]
   )
 
@@ -189,7 +189,7 @@ base::message(
 
 data_flagged_trait_groups <-
   data_trait_quality_control_report |>
-  dplyr::filter(.data[["n_suspected_outliers_taxon"]] > 0L)
+  dplyr::filter(.data[["n_suspected_outliers"]] > 0L)
 
 # Apply domain filter if set.
 if (
@@ -243,7 +243,7 @@ data_flagged_trait_groups |>
     "trait_domain_name",
     "taxon_name",
     "n_records",
-    "n_suspected_outliers_taxon",
+    "n_suspected_outliers",
     "outlier_fraction",
     "correction_exists"
   ) |>
@@ -297,8 +297,8 @@ data_focal_trait_summary |>
     "mean",
     "median",
     "sd",
-    "IQR",
-    "n_suspected_outliers_taxon",
+    "iqr",
+    "n_suspected_outliers",
     "outlier_fraction"
   ) |>
   base::print()

@@ -15,6 +15,7 @@ Run from the repository root:
 ```powershell
 $path_architecture = "R/03_Supplementary_analyses/Validation/Architecture"
 Rscript "$path_architecture/generate_r_architecture_inventories.R"
+Rscript "$path_architecture/generate_persisted_contract_manifest_inventory.R"
 Rscript "$path_architecture/check_r_architecture.R"
 ```
 
@@ -28,6 +29,10 @@ Under `Documentation/Implementation_inventories/R_architecture/`:
 - `r_script_path_inventory_v1.csv`;
 - `r_function_inventory_v1.csv`;
 - `r_contract_inventory_v1.csv`.
+- `r_persisted_contract_migration_v1.csv`, the append-only Issue #156 rename
+  and owned-schema ledger;
+- `r_manifest_contract_inventory_v1.csv`, the manifest-derived target snapshot
+  for every configured profile and pipeline entry point.
 
 Review generated diffs before accepting them. A changed inventory may represent
 a legitimate migration or an unclassified file, function, or target.
@@ -59,8 +64,9 @@ are blocking contracts and must not return.
 Caller discovery is static text matching and does not prove runtime
 reachability.
 Literal target discovery covers direct `targets::tar_target()` declarations;
-dynamic target builders remain owned by their function and pipeline
-inventories.
+the manifest-derived Issue #156 inventory expands nested pipe builders and
+dynamic suffixes for configured profiles. Profiles without a standalone
+pipeline entry point are retained as explicit profile-only records.
 Scientific and public-contract status must be reviewed by the owning issue
 before a persisted name changes.
 

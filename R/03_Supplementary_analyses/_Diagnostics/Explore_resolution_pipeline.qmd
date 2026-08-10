@@ -90,7 +90,7 @@ vec_resolutions <-
 
 path_ft_file <-
   targets::tar_read(
-    file_ft_classification_paleo,
+    file_functional_type_classification_paleo,
     store = path_res_store
   )
 
@@ -345,13 +345,13 @@ data_ft_dataset_summary |>
 ```{r}
 #| label: s3-load
 
-list_model_evaluation_fitted <-
+list_jsdm_evaluation_fitted <-
   vec_resolutions |>
   rlang::set_names() |>
   purrr::map(
     .f = ~ {
       target_name <-
-        stringr::str_glue("model_evaluation_fitted_{.x}")
+        stringr::str_glue("list_jsdm_evaluation_fitted_{.x}")
 
       tryCatch(
         targets::tar_read_raw(
@@ -423,15 +423,15 @@ list_cross_validation_fold_diagnostics <-
 #| fig-height: !expr fig_height_inch * 0.6
 
 if (
-  base::length(list_model_evaluation_fitted) > 0L
+  base::length(list_jsdm_evaluation_fitted) > 0L
 ) {
-  list_model_evaluation_fitted |>
+  list_jsdm_evaluation_fitted |>
     purrr::imap(
       .f = ~ {
         tibble::tibble(
           resolution = .y,
-          r2_mcfadden = purrr::pluck(.x, "model", "R2-McFadden"),
-          r2_nagelkerke = purrr::pluck(.x, "model", "R2-Nagelkerke")
+          r2_mcfadden = purrr::pluck(.x, "vec_model_metrics", "r2_mcfadden"),
+          r2_nagelkerke = purrr::pluck(.x, "vec_model_metrics", "r2_nagelkerke")
         )
       }
     ) |>
@@ -533,9 +533,9 @@ if (
 #| fig-height: !expr fig_height_inch
 
 if (
-  base::length(list_model_evaluation_fitted) > 0L
+  base::length(list_jsdm_evaluation_fitted) > 0L
 ) {
-  list_model_evaluation_fitted |>
+  list_jsdm_evaluation_fitted |>
     purrr::imap(
       .f = ~ {
         data_species_eval <-
@@ -553,11 +553,11 @@ if (
     ) |>
     purrr::compact() |>
     purrr::list_rbind() |>
-    dplyr::filter(!base::is.na(.data[["AUC"]])) |>
+    dplyr::filter(!base::is.na(.data[["auc"]])) |>
     ggplot2::ggplot(
       ggplot2::aes(
         x = .data[["resolution"]],
-        y = .data[["AUC"]],
+        y = .data[["auc"]],
         fill = .data[["resolution"]]
       )
     ) +
@@ -590,9 +590,9 @@ if (
 #| fig-height: !expr fig_height_inch
 
 if (
-  base::length(list_model_evaluation_fitted) > 0L
+  base::length(list_jsdm_evaluation_fitted) > 0L
 ) {
-  list_model_evaluation_fitted |>
+  list_jsdm_evaluation_fitted |>
     purrr::imap(
       .f = ~ {
         data_species_eval <-
@@ -610,11 +610,11 @@ if (
     ) |>
     purrr::compact() |>
     purrr::list_rbind() |>
-    dplyr::filter(!base::is.na(.data[["Accuracy"]])) |>
+    dplyr::filter(!base::is.na(.data[["accuracy"]])) |>
     ggplot2::ggplot(
       ggplot2::aes(
         x = .data[["resolution"]],
-        y = .data[["Accuracy"]],
+        y = .data[["accuracy"]],
         fill = .data[["resolution"]]
       )
     ) +
@@ -640,9 +640,9 @@ if (
 #| label: s3-best-worst
 
 if (
-  base::length(list_model_evaluation_fitted) > 0L
+  base::length(list_jsdm_evaluation_fitted) > 0L
 ) {
-  list_model_evaluation_fitted |>
+  list_jsdm_evaluation_fitted |>
     purrr::imap(
       .f = ~ {
         data_species_eval <-
@@ -656,13 +656,13 @@ if (
 
         data_top_5 <-
           data_species_eval |>
-          dplyr::arrange(dplyr::desc(.data[["AUC"]])) |>
+          dplyr::arrange(dplyr::desc(.data[["auc"]])) |>
           utils::head(5L) |>
           dplyr::mutate(rank = "top 5")
 
         data_bottom_5 <-
           data_species_eval |>
-          dplyr::arrange(.data[["AUC"]]) |>
+          dplyr::arrange(.data[["auc"]]) |>
           utils::head(5L) |>
           dplyr::mutate(rank = "bottom 5")
 
@@ -684,13 +684,13 @@ if (
 ```{r}
 #| label: s4-load
 
-list_model_anova <-
+list_jsdm_variance_partition <-
   vec_resolutions |>
   rlang::set_names() |>
   purrr::map(
     .f = ~ {
       target_name <-
-        stringr::str_glue("model_anova_{.x}")
+        stringr::str_glue("list_jsdm_variance_partition_{.x}")
 
       tryCatch(
         targets::tar_read_raw(
@@ -718,10 +718,10 @@ list_model_anova <-
 #| label: s4-extract-fractions
 
 if (
-  base::length(list_model_anova) > 0L
+  base::length(list_jsdm_variance_partition) > 0L
 ) {
   list_anova_fractions <-
-    list_model_anova |>
+    list_jsdm_variance_partition |>
     purrr::imap(
       .f = ~ {
         tryCatch(
@@ -747,7 +747,7 @@ if (
   ))
 } else {
   list_anova_fractions <- base::list()
-  base::message("No model_anova targets found — Section 4 skipped.")
+  base::message("No list_jsdm_variance_partition targets found — Section 4 skipped.")
 }
 ```
 

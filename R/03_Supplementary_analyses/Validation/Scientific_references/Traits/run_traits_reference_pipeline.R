@@ -23,7 +23,7 @@
 #   Running run_pipeline() for the first time will complete segment 1 and
 #   the QC report target (segment 2, target 1), then STOP at the
 #   human-review guard.  At that point:
-#     1. Review  Data/Temp/trait_qc_report_{date}.csv
+#     1. Review  Data/Temp/trait_quality_control_report_{date}.csv
 #     2. Fill in Data/Input/trait_manual_corrections.csv
 #        (set CHECKED = TRUE for every row you have reviewed)
 #     3. Re-run run_pipeline() — the guard will now pass and the rest

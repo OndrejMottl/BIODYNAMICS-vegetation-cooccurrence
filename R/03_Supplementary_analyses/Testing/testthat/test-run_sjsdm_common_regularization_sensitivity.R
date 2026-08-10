@@ -40,7 +40,7 @@ testthat::test_that(
       base::switch(
         name,
         data_model_input_genus = base::list(store = store),
-        model_formula_genus = stats::as.formula("~ bio1"),
+        formula_jsdm_environment_genus = stats::as.formula("~ bio1"),
         config_model_fitting_genus = base::list(
           n_cores = 2L,
           n_samples_anova = 10L

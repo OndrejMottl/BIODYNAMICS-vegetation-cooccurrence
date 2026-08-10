@@ -11,10 +11,10 @@
 #' A single logical value.
 #' @examples
 #' data_meta <- tibble::tibble(
-#'   name = "model_evaluation_fitted_genus",
+#'   name = "list_jsdm_evaluation_fitted_genus",
 #'   error = NA_character_
 #' )
-#' has_target_succeeded(data_meta, "model_evaluation_fitted_genus")
+#' has_target_succeeded(data_meta, "list_jsdm_evaluation_fitted_genus")
 #' @export
 has_target_succeeded <- function(data_meta, target_name) {
   assertthat::assert_that(
@@ -44,7 +44,7 @@ has_target_succeeded <- function(data_meta, target_name) {
   data_target_row <-
     data_meta |>
     dplyr::filter(
-      .data$name == .env$target_name
+      .data[["name"]] == .env[["target_name"]]
     )
 
   res <-

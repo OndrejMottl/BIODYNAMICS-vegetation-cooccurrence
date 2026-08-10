@@ -19,7 +19,7 @@ run_issue138_representative_validation(
     "R/Pipelines/pipeline_paleo_spatial_resolution.R",
   tuning_target_names = "data_sjsdm_tuning_summary_genus",
   final_target_names = base::c(
-    "model_jsdm_selected_genus",
+    "mod_jsdm_selected_genus",
     "model_evaluation_cross_validated_genus",
     "data_sjsdm_model_provenance_genus"
   ),

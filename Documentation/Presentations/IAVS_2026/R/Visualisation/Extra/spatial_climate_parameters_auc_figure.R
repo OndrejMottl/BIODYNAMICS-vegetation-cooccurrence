@@ -132,9 +132,9 @@ data_store_index <-
     data_source = "paleo"
   ) |>
   dplyr::filter(
-    .data$scale == selected_scale,
-    .data$scale_id == selected_scale_id,
-    .data$store_exists
+    .data[["scale"]] == selected_scale,
+    .data[["scale_id"]] == selected_scale_id,
+    .data[["store_exists"]]
   )
 
 if (
@@ -156,10 +156,10 @@ store_path <-
     "store_path"
   )
 
-model_jsdm <-
+mod_jsdm <-
   targets::tar_read_raw(
     name = stringr::str_glue(
-      "model_jsdm_selected_{selected_resolution_id}"
+      "mod_jsdm_selected_{selected_resolution_id}"
     ),
     store = store_path
   )
@@ -202,15 +202,15 @@ vec_common_taxa <-
   head(10L)
 
 vec_terms <-
-  model_jsdm |>
+  mod_jsdm |>
   purrr::chuck("names")
 
 matrix_coefficients <-
-  stats::coef(model_jsdm) |>
+  stats::coef(mod_jsdm) |>
   purrr::chuck("env", 1)
 
 matrix_standard_errors <-
-  model_jsdm |>
+  mod_jsdm |>
   purrr::chuck("se")
 
 if (
@@ -257,10 +257,10 @@ data_standard_errors <-
 
 data_auc <-
   model_evaluation |>
-  purrr::chuck("species") |>
+  purrr::chuck("data_taxon_metrics") |>
   dplyr::mutate(
-    taxon = .data$species,
-    auc = base::as.numeric(.data$AUC)
+    taxon = .data[["taxon_name"]],
+    auc = base::as.numeric(.data[["auc"]])
   ) |>
   dplyr::select(
     "taxon",
@@ -283,14 +283,14 @@ data_parameter_plot <-
     multiple = "error"
   ) |>
   dplyr::filter(
-    .data$term %in% vec_climate_terms,
-    base::is.finite(.data$estimate),
-    base::is.finite(.data$standard_error),
-    .data$standard_error > 0
+    .data[["term"]] %in% vec_climate_terms,
+    base::is.finite(.data[["estimate"]]),
+    base::is.finite(.data[["standard_error"]]),
+    .data[["standard_error"]] > 0
   ) |>
   dplyr::mutate(
     term_label = stringr::str_replace_all(
-      string = .data$term,
+      string = .data[["term"]],
       pattern = ":",
       replacement = " x "
     )
@@ -307,48 +307,48 @@ if (
 vec_taxon_order <-
   data_auc |>
   dplyr::filter(
-    .data$taxon %in% data_parameter_plot[["taxon"]],
-    .data$taxon %in% vec_common_taxa
+    .data[["taxon"]] %in% data_parameter_plot[["taxon"]],
+    .data[["taxon"]] %in% vec_common_taxa
   ) |>
   dplyr::arrange(
-    .data$auc,
-    .data$taxon
+    .data[["auc"]],
+    .data[["taxon"]]
   ) |>
   dplyr::pull(
-    .data$taxon
+    "taxon"
   )
 
 data_to_plot_parameter <-
   data_parameter_plot |>
   dplyr::filter(
-    .data$taxon %in% vec_common_taxa
+    .data[["taxon"]] %in% vec_common_taxa
   ) |>
   dplyr::mutate(
     taxon = base::factor(
-      .data$taxon,
+      .data[["taxon"]],
       levels = vec_taxon_order
     ),
     term_complexity = dplyr::case_when(
       stringr::str_detect(
-        string = .data$term,
+        string = .data[["term"]],
         pattern = ":"
       ) ~ "interaction",
       TRUE ~ "main_effect"
     ),
     term_simple = stringr::str_remove(
-      string = .data$term,
+      string = .data[["term"]],
       pattern = ":age"
     ),
     term_translated = dplyr::case_when(
-      .data$term_simple == "bio1" ~ "MAT",
-      .data$term_simple == "bio4" ~ "TempSeason",
-      .data$term_simple == "bio15" ~ "PrecipSeason",
-      .data$term_simple == "bio18" ~ "PrecWarmQ",
-      .data$term_simple == "bio19" ~ "PrecColdQ",
-      TRUE ~ .data$term_simple
+      .data[["term_simple"]] == "bio1" ~ "MAT",
+      .data[["term_simple"]] == "bio4" ~ "TempSeason",
+      .data[["term_simple"]] == "bio15" ~ "PrecipSeason",
+      .data[["term_simple"]] == "bio18" ~ "PrecWarmQ",
+      .data[["term_simple"]] == "bio19" ~ "PrecColdQ",
+      TRUE ~ .data[["term_simple"]]
     ),
     term_simple_label = base::factor(
-      .data$term_translated,
+      .data[["term_translated"]],
       levels = c(
         "MAT",
         "TempSeason",
@@ -358,7 +358,7 @@ data_to_plot_parameter <-
       )
     ),
     term_label = base::factor(
-      .data$term_label,
+      .data[["term_label"]],
       levels = stringr::str_replace_all(
         string = vec_climate_terms,
         pattern = ":",
@@ -370,12 +370,12 @@ data_to_plot_parameter <-
 data_to_plot_auc <-
   data_auc |>
   dplyr::filter(
-    .data$taxon %in% vec_common_taxa,
-    base::is.finite(.data$auc)
+    .data[["taxon"]] %in% vec_common_taxa,
+    base::is.finite(.data[["auc"]])
   ) |>
   dplyr::mutate(
     taxon = base::factor(
-      .data$taxon,
+      .data[["taxon"]],
       levels = vec_taxon_order
     )
   )
@@ -389,9 +389,9 @@ plot_parameters <-
   data_to_plot_parameter |>
   ggplot2::ggplot(
     mapping = ggplot2::aes(
-      x = .data$estimate,
-      y = .data$taxon,
-      group = .data$term_complexity
+      x = .data[["estimate"]],
+      y = .data[["taxon"]],
+      group = .data[["term_complexity"]]
     )
   ) +
   ggplot2::facet_wrap(
@@ -478,8 +478,8 @@ plot_parameters <-
   ) +
   ggplot2::geom_linerange(
     mapping = ggplot2::aes(
-      xmin = .data$estimate - .data$standard_error,
-      xmax = .data$estimate + .data$standard_error
+      xmin = .data[["estimate"]] - .data[["standard_error"]],
+      xmax = .data[["estimate"]] + .data[["standard_error"]]
     ),
     orientation = "y",
     position = ggplot2::position_dodge(width = 0.6),
@@ -495,7 +495,7 @@ plot_parameters <-
   ) +
   ggplot2::geom_point(
     mapping = ggplot2::aes(
-      shape = .data$term_complexity
+      shape = .data[["term_complexity"]]
     ),
     position = ggplot2::position_dodge(width = 0.6),
     colour = vec_oracle_palette[["phosphor"]],
@@ -507,8 +507,8 @@ plot_auc <-
   data_to_plot_auc |>
   ggplot2::ggplot(
     mapping = ggplot2::aes(
-      x = .data$auc,
-      y = .data$taxon
+      x = .data[["auc"]],
+      y = .data[["taxon"]]
     )
   ) +
   ggplot2::scale_x_continuous(
@@ -566,8 +566,8 @@ plot_auc <-
   ggplot2::geom_segment(
     mapping = ggplot2::aes(
       x = 0.5,
-      xend = .data$auc,
-      yend = .data$taxon
+      xend = .data[["auc"]],
+      yend = .data[["taxon"]]
     ),
     colour = vec_oracle_palette[["border"]],
     linewidth = 0.22,

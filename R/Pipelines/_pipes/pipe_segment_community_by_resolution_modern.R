@@ -21,7 +21,7 @@ resolve_modern_community_resolution <- function(
   resolution_id,
   data_community_classified,
   data_combined_classification_table,
-  file_ft_classification_modern) {
+  file_functional_type_classification_modern) {
   if (
     resolution_id == "ft_modern"
   ) {
@@ -29,7 +29,7 @@ resolve_modern_community_resolution <- function(
       classify_to_functional_type(
         data_source = data_community_classified,
         data_functional_type_classification = qs2::qs_read(
-          file_ft_classification_modern
+          file_functional_type_classification_modern
         )
       )
   } else {
@@ -82,7 +82,7 @@ pipe_segment_community_by_resolution_modern <-
         data_community_classified = data_community_classified,
         data_combined_classification_table =
           data_combined_classification_table,
-        file_ft_classification_modern = file_ft_classification_modern
+        file_functional_type_classification_modern = file_functional_type_classification_modern
       )
     ),
     make_community_filter_targets(

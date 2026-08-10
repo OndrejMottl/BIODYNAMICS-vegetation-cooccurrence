@@ -62,10 +62,20 @@ load_model_evaluation_target <- function(
     base::match.arg(evaluation_type)
 
   target_name <-
-    stringr::str_glue(
-      "model_evaluation_{evaluation_type_selected}_{resolution_id}"
-    ) |>
-    base::as.character()
+    if (
+      evaluation_type_selected == "fitted"
+    ) {
+      stringr::str_glue(
+        "list_jsdm_evaluation_fitted_{resolution_id}"
+      )
+    } else {
+      stringr::str_glue(
+        "model_evaluation_cross_validated_{resolution_id}"
+      )
+    }
+
+  target_name <-
+    base::as.character(target_name)
 
   res <-
     purrr::possibly(

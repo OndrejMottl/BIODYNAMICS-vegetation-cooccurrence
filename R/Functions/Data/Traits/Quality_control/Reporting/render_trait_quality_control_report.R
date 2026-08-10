@@ -8,7 +8,7 @@
 #'
 #' The output filename follows one of two patterns depending on
 #' `trait_domain_filter`:
-#' - `NULL`: `trait_qc_report_{Sys.Date()}.pdf`
+#' - `NULL`: `trait_quality_control_report_{Sys.Date()}.pdf`
 #' - character: `trait_qc_{<slug>}_{Sys.Date()}.pdf`
 #'   where `<slug>` is `trait_domain_filter` with all non-alphanumeric
 #'   characters replaced by underscores.
@@ -128,7 +128,7 @@ render_trait_quality_control_report <- function(
   ) {
     output_filename <-
       stringr::str_glue(
-        "trait_qc_report_{Sys.Date()}.pdf"
+        "trait_quality_control_report_{Sys.Date()}.pdf"
       )
   } else {
     trait_domain_slug <-

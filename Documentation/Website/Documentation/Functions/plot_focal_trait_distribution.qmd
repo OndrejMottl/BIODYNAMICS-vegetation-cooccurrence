@@ -58,7 +58,7 @@ Must contain columns 'trait_value' (numeric), 'trait_name'
 <td>
 <p>A single-row tibble of focal-slice QC statistics, as produced by
 'write_trait_quality_control_report()'. Must contain numeric columns 'mean',
-'median', 'IQR', and integer columns 'n_suspected_outliers_taxon'
+'median', 'IQR', and integer columns 'n_suspected_outliers'
 (integer) and 'outlier_fraction' (numeric).</p>
 </td></tr>
 <tr><td><code id="focal_taxon">focal_taxon</code></td>

@@ -142,7 +142,7 @@ pipe_segment_taxa_classification <-
     ),
     targets::tar_target(
       description = "Validate that all taxa are classified",
-      name = "check_taxa_classification",
+      name = "flag_taxa_classification_validated",
       command = validate_taxa_classification_coverage(
         vec_taxa_without_classification = vec_taxa_without_classification,
         file_missing_taxa_template = file_missing_taxa_template

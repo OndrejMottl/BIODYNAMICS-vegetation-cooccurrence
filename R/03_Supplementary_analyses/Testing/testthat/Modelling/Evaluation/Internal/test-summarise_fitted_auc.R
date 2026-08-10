@@ -3,8 +3,8 @@ testthat::test_that(
   {
     data_result <-
       .summarise_fitted_auc(
-        model_evaluation_fitted = base::list(
-          species = tibble::tibble(AUC = base::c(0.7, NA_real_, 0.9))
+        list_jsdm_evaluation_fitted = base::list(
+          data_taxon_metrics = tibble::tibble(auc = base::c(0.7, NA_real_, 0.9))
         )
       )
 
@@ -18,7 +18,7 @@ testthat::test_that(
   ".summarise_fitted_auc() returns typed defaults for missing results",
   {
     data_result <-
-      .summarise_fitted_auc(model_evaluation_fitted = NULL)
+      .summarise_fitted_auc(list_jsdm_evaluation_fitted = NULL)
 
     testthat::expect_true(
       base::is.na(dplyr::pull(data_result, fitted_auc_mean))

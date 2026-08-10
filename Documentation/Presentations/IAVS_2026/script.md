@@ -612,7 +612,7 @@ Confidence: medium-low. This is the planned synthesis, not a final result claim.
 
 Estimated speaking time: 0:45
 
-Target/output mapping: synthesis of `model_anova*`,
+Target/output mapping: synthesis of `list_jsdm_variance_partition*`,
 `data_anova_components_by_age_percentage`, `data_network_metrics_by_age`, and
 `Outputs/Data/data_anova_results_*.qs`.
 

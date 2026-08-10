@@ -56,7 +56,11 @@ testthat::test_that(
     testthat::expect_length(result, 3)
     testthat::expect_named(
       result,
-      base::c("model", "species", "convergence")
+      base::c(
+        "vec_model_metrics",
+        "data_taxon_metrics",
+        "list_convergence_diagnostics"
+      )
     )
   }
 )
@@ -97,18 +101,18 @@ testthat::test_that(
 
     vec_model_metrics <-
       result |>
-      purrr::chuck("model")
+      purrr::chuck("vec_model_metrics")
 
     testthat::expect_type(vec_model_metrics, "double")
     testthat::expect_named(
       vec_model_metrics,
-      base::c("R2-McFadden", "R2-Nagelkerke")
+      base::c("r2_mcfadden", "r2_nagelkerke")
     )
     testthat::expect_true(
-      base::is.numeric(purrr::chuck(vec_model_metrics, "R2-McFadden"))
+      base::is.numeric(purrr::chuck(vec_model_metrics, "r2_mcfadden"))
     )
     testthat::expect_true(
-      base::is.numeric(purrr::chuck(vec_model_metrics, "R2-Nagelkerke"))
+      base::is.numeric(purrr::chuck(vec_model_metrics, "r2_nagelkerke"))
     )
   }
 )
@@ -151,32 +155,32 @@ testthat::test_that(
     result <-
       evaluate_jsdm(mod_jsdm = mod_example)
 
-    data_species_metrics <-
+    data_taxon_metrics <-
       result |>
-      purrr::chuck("species")
+      purrr::chuck("data_taxon_metrics")
 
     # Class and dimensions
-    testthat::expect_s3_class(data_species_metrics, "tbl_df")
+    testthat::expect_s3_class(data_taxon_metrics, "tbl_df")
     testthat::expect_equal(
-      base::nrow(data_species_metrics),
+      base::nrow(data_taxon_metrics),
       base::ncol(data_community)
     )
     testthat::expect_named(
-      data_species_metrics,
-      base::c("species", "AUC", "Accuracy", "LogLoss")
+      data_taxon_metrics,
+      base::c("taxon_name", "auc", "accuracy", "log_loss")
     )
 
     # Species names match community columns
     testthat::expect_equal(
-      dplyr::pull(data_species_metrics, "species"),
+      dplyr::pull(data_taxon_metrics, "taxon_name"),
       base::colnames(data_community)
     )
 
     # AUC bounded [0, 1]
     testthat::expect_true(
       base::all(
-        dplyr::pull(data_species_metrics, "AUC") >= 0 &
-          dplyr::pull(data_species_metrics, "AUC") <= 1,
+        dplyr::pull(data_taxon_metrics, "auc") >= 0 &
+          dplyr::pull(data_taxon_metrics, "auc") <= 1,
         na.rm = TRUE
       )
     )
@@ -184,8 +188,8 @@ testthat::test_that(
     # Accuracy bounded [0, 1]
     testthat::expect_true(
       base::all(
-        dplyr::pull(data_species_metrics, "Accuracy") >= 0 &
-          dplyr::pull(data_species_metrics, "Accuracy") <= 1,
+        dplyr::pull(data_taxon_metrics, "accuracy") >= 0 &
+          dplyr::pull(data_taxon_metrics, "accuracy") <= 1,
         na.rm = TRUE
       )
     )
@@ -193,7 +197,7 @@ testthat::test_that(
     # LogLoss is non-negative
     testthat::expect_true(
       base::all(
-        dplyr::pull(data_species_metrics, "LogLoss") >= 0,
+        dplyr::pull(data_taxon_metrics, "log_loss") >= 0,
         na.rm = TRUE
       )
     )
@@ -237,28 +241,28 @@ testthat::test_that(
     result <-
       evaluate_jsdm(mod_jsdm = mod_example)
 
-    data_species_metrics <-
+    data_taxon_metrics <-
       result |>
-      purrr::chuck("species")
+      purrr::chuck("data_taxon_metrics")
 
-    testthat::expect_s3_class(data_species_metrics, "tbl_df")
+    testthat::expect_s3_class(data_taxon_metrics, "tbl_df")
     testthat::expect_equal(
-      base::nrow(data_species_metrics),
+      base::nrow(data_taxon_metrics),
       base::ncol(data_community)
     )
     testthat::expect_named(
-      data_species_metrics,
-      base::c("species", "RMSE")
+      data_taxon_metrics,
+      base::c("taxon_name", "rmse")
     )
 
     testthat::expect_equal(
-      dplyr::pull(data_species_metrics, "species"),
+      dplyr::pull(data_taxon_metrics, "taxon_name"),
       base::colnames(data_community)
     )
 
     testthat::expect_true(
       base::all(
-        dplyr::pull(data_species_metrics, "RMSE") >= 0,
+        dplyr::pull(data_taxon_metrics, "rmse") >= 0,
         na.rm = TRUE
       )
     )
@@ -301,7 +305,7 @@ testthat::test_that(
 
     convergence <-
       result |>
-      purrr::chuck("convergence")
+      purrr::chuck("list_convergence_diagnostics")
 
     testthat::expect_type(convergence, "list")
     testthat::expect_length(convergence, 6L)

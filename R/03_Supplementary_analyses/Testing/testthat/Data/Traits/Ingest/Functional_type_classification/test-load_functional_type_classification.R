@@ -13,7 +13,7 @@ testthat::test_that(
         file_ft <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_europe_2026-05-23.qs"
+            "data_functional_type_classification_europe_2026-05-23.qs"
           )
 
         qs2::qs_save(

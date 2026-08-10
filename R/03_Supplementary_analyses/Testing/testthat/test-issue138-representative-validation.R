@@ -202,7 +202,7 @@ testthat::test_that(
     )
 
     testthat::expect_identical(
-      environment_pipeline$list_tuning_context[["resolution_ids"]],
+      environment_pipeline[["list_tuning_context"]][["resolution_ids"]],
       "genus"
     )
   }
@@ -247,7 +247,7 @@ testthat::test_that(
         testthat::expect_false(
           stringr::str_detect(
             text_runner,
-            stringr::fixed("model_anova")
+            stringr::fixed("list_jsdm_variance_partition")
           )
         )
       }
@@ -311,7 +311,7 @@ testthat::test_that(
     testthat::expect_false(
       stringr::str_detect(
         readr::read_file(path_runner),
-        stringr::fixed("model_anova_genus")
+        stringr::fixed("list_jsdm_variance_partition_genus")
       )
     )
   }

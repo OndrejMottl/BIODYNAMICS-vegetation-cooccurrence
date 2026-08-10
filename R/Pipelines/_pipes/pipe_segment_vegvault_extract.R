@@ -161,7 +161,7 @@ pipe_segment_vegvault_extract <-
         "Check that the spatial window contains enough cores",
         " before processing community data"
       ),
-      name = "check_n_cores",
+      name = "flag_available_core_count_validated",
       command = validate_available_core_count(
         data_coords = data_coords,
         minimum_core_count = config_min_n_cores

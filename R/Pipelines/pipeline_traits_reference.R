@@ -52,20 +52,20 @@
 #       <- add manual classifications, then re-run tar_make()
 #       (same file used by the community pipeline — one edit covers both)
 #
-#   Segment 2 — after trait_qc_report completes, open:
-#     Data/Temp/trait_qc_report_{date}.csv      <- review suspected outliers
+#   Segment 2 — after list_trait_quality_control_report completes, open:
+#     Data/Temp/trait_quality_control_report_{date}.csv      <- review suspected outliers
 #                                                   (per-domain x taxon summary)
 #     Data/Input/trait_manual_corrections.csv   <- fill in corrections
 #   Set CHECKED = TRUE for every row, then re-run tar_make() so the
-#   trait_corrections_validated guard target passes.
+#   data_trait_corrections_validated guard target passes.
 #
-#   Segment 4 — after trait_qc_report_classified completes, open:
-#     Data/Temp/trait_qc_report_{date}.csv
+#   Segment 4 — after list_trait_quality_control_report_classified completes, open:
+#     Data/Temp/trait_quality_control_report_{date}.csv
 #       <- review suspected outliers (per-domain x genus summary)
 #     Data/Input/trait_manual_corrections_classified.csv
 #       <- fill in corrections
 #   Set CHECKED = TRUE for every row, then re-run tar_make() so
-#   the trait_corrections_classified_validated guard target passes.
+#   the data_trait_corrections_classified_validated guard target passes.
 #
 # To run this pipeline:
 #

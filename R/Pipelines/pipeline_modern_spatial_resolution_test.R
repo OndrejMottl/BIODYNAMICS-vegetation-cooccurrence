@@ -131,7 +131,7 @@ list_config_modern_spatial_resolutions <-
 
 pipe_segment_ft_classification_modern_resolution_test <-
   make_pipe_segment_ft_classification_continental(
-    output_target_name = "file_ft_classification_modern",
+    output_target_name = "file_functional_type_classification_modern",
     ft_classification_id_expr = quote(
       {
         sel_scale_id <- resolve_scale_id_from_store()

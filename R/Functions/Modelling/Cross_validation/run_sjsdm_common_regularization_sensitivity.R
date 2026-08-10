@@ -149,10 +149,10 @@ run_sjsdm_common_regularization_sensitivity <- function(
                 store = store_path
               )
 
-            model_formula <-
+            formula_jsdm_environment <-
               read_target_function(
                 name = stringr::str_c(
-                  "model_formula_",
+                  "formula_jsdm_environment_",
                   resolution_id
                 ),
                 store = store_path
@@ -201,7 +201,7 @@ run_sjsdm_common_regularization_sensitivity <- function(
                 fit_jsdm_model(
                   data_to_fit = data_model_input,
                   abiotic_method = "linear",
-                  sel_abiotic_formula = model_formula,
+                  sel_abiotic_formula = formula_jsdm_environment,
                   spatial_method = if (
                     base::isTRUE(
                       config_model_fitting[["use_spatial"]]
@@ -240,7 +240,7 @@ run_sjsdm_common_regularization_sensitivity <- function(
               } else {
                 fit_function(
                   data_model_input = data_model_input,
-                  model_formula = model_formula,
+                  model_formula = formula_jsdm_environment,
                   config_model_fitting = config_model_fitting,
                   data_regularization = data_regularization
                 )
@@ -253,7 +253,7 @@ run_sjsdm_common_regularization_sensitivity <- function(
                 verbose = TRUE
               )
 
-            model_anova <-
+            list_jsdm_variance_partition <-
               anova_function(
                 mod = model_with_se,
                 n_samples =
@@ -307,7 +307,7 @@ run_sjsdm_common_regularization_sensitivity <- function(
 
             data_decomposition <-
               extract_function(
-                anova_object = model_anova,
+                anova_object = list_jsdm_variance_partition,
                 clamp_negative = TRUE
               ) |>
               dplyr::mutate(
@@ -332,7 +332,7 @@ run_sjsdm_common_regularization_sensitivity <- function(
 
             base::list(
               model = model_with_se,
-              anova = model_anova,
+              anova = list_jsdm_variance_partition,
               data_provenance = data_provenance,
               data_decomposition = data_decomposition
             )

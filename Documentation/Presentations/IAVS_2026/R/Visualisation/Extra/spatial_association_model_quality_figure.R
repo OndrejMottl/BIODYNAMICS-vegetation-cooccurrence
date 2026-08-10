@@ -157,7 +157,7 @@ data_spatial_results <-
   ) |>
   dplyr::mutate(
     continent_id = resolve_continent_ids_from_scale_ids(
-      scale_id = .data$scale_id,
+      scale_id = .data[["scale_id"]],
       file = here::here("Data", "Input", "spatial_grid.csv")
     )
   )
@@ -165,12 +165,12 @@ data_spatial_results <-
 data_association_variance <-
   data_spatial_results |>
   dplyr::filter(
-    .data$component == "Associations",
-    base::is.finite(.data$R2_Nagelkerke_percentage)
+    .data[["component"]] == "Associations",
+    base::is.finite(.data[["R2_Nagelkerke_percentage"]])
   ) |>
   dplyr::mutate(
     association_variance = base::pmax(
-      .data$R2_Nagelkerke_percentage,
+    .data[["R2_Nagelkerke_percentage"]],
       0
     )
   ) |>
@@ -187,7 +187,7 @@ data_association_variance <-
 data_model_quality <-
   data_store_index |>
   dplyr::filter(
-    .data$store_exists
+    .data[["store_exists"]]
   ) |>
   dplyr::select(
     "scale",
@@ -218,7 +218,7 @@ data_model_quality <-
         purrr::pluck(
           model_evaluation,
           "model",
-          "R2-Nagelkerke",
+          "r2_nagelkerke",
           .default = NA_real_
         ) |>
         base::as.numeric()
@@ -227,7 +227,7 @@ data_model_quality <-
         purrr::pluck(
           model_evaluation,
           "model",
-          "R2-McFadden",
+          "r2_mcfadden",
           .default = NA_real_
         ) |>
         base::as.numeric()
@@ -276,33 +276,33 @@ data_quality_plot <-
     multiple = "error"
   ) |>
   dplyr::filter(
-    base::is.finite(.data$model_r2_nagelkerke),
-    .data$model_r2_nagelkerke >= 0,
-    .data$model_r2_nagelkerke <= 1,
-    base::is.finite(.data$association_variance)
+    base::is.finite(.data[["model_r2_nagelkerke"]]),
+    .data[["model_r2_nagelkerke"]] >= 0,
+    .data[["model_r2_nagelkerke"]] <= 1,
+    base::is.finite(.data[["association_variance"]])
   ) |>
   dplyr::mutate(
     scale = base::factor(
-      .data$scale,
+      .data[["scale"]],
       levels = vec_scale_levels
     ),
     scale_label = dplyr::recode(
-      .x = .data$scale,
+        .x = .data[["scale"]],
       !!!vec_scale_labels
     ),
     scale_label = base::factor(
-      .data$scale_label,
+      .data[["scale_label"]],
       levels = vec_scale_labels
     ),
     resolution_label = dplyr::recode(
-      .x = .data$resolution_id,
+        .x = .data[["resolution_id"]],
       !!!vec_resolution_labels
     ),
     resolution_label = base::factor(
-      .data$resolution_label,
+      .data[["resolution_label"]],
       levels = vec_resolution_labels
     ),
-    continent_label = stringr::str_to_title(.data$continent_id)
+    continent_label = stringr::str_to_title(.data[["continent_id"]])
   )
 
 if (
@@ -322,8 +322,8 @@ figure_spatial_association_quality <-
   data_quality_plot |>
   ggplot2::ggplot(
     mapping = ggplot2::aes(
-      x = .data$model_r2_nagelkerke,
-      y = .data$association_variance
+      x = .data[["model_r2_nagelkerke"]],
+      y = .data[["association_variance"]]
     )
   ) +
   ggplot2::facet_wrap(
@@ -455,8 +455,8 @@ figure_spatial_association_quality <-
   ) +
   ggplot2::geom_point(
     mapping = ggplot2::aes(
-      shape = .data$continent_id,
-      size = .data$scale
+      shape = .data[["continent_id"]],
+      size = .data[["scale"]]
     ),
     colour = vec_oracle_palette[["phosphor"]],
     fill = vec_oracle_palette[["muted"]],

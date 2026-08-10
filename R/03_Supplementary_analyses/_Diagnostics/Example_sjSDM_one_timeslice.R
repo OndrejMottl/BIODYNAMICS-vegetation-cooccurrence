@@ -252,10 +252,10 @@ data_grid_abiotic_scaled <-
       .fns = ~ {
         col_nm <- dplyr::cur_column()
         center <- base::as.numeric(
-          scale_attrs_1k[[col_nm]]$"scaled:center"
+          purrr::chuck(scale_attrs_1k, col_nm, "scaled:center")
         )
         sc <- base::as.numeric(
-          scale_attrs_1k[[col_nm]]$"scaled:scale"
+          purrr::chuck(scale_attrs_1k, col_nm, "scaled:scale")
         )
         (.x - center) / sc
       }
@@ -266,14 +266,19 @@ data_grid_abiotic_scaled <-
 if (flag_verbose) {
   cat(
     "Grid bio1 range (scaled):",
-    base::round(base::range(data_grid_abiotic_scaled$bio1), 2),
+    data_grid_abiotic_scaled |>
+      dplyr::pull("bio1") |>
+      base::range() |>
+      base::round(2),
     "\n"
   )
   cat(
     "Training bio1 range (scaled):",
     base::round(
       base::range(
-        data_abiotic_scaled_list_1k$data_abiotic_scaled$bio1,
+        data_abiotic_scaled_list_1k |>
+          purrr::chuck("data_abiotic_scaled") |>
+          dplyr::pull("bio1"),
         na.rm = TRUE
       ),
       2
@@ -327,8 +332,9 @@ eval_s1 <-
 if (flag_verbose) {
   cat("Stage 1 AUC by species:\n")
   print(
-    eval_s1$species |>
-      dplyr::arrange(dplyr::desc(AUC))
+    eval_s1 |>
+      purrr::chuck("data_taxon_metrics") |>
+      dplyr::arrange(dplyr::desc(auc))
   )
 }
 
@@ -341,7 +347,9 @@ mat_pred_s1 <-
     type = "link"
   )
 
-base::colnames(mat_pred_s1) <- mod_s1$species
+base::colnames(mat_pred_s1) <-
+  mod_s1 |>
+  purrr::chuck("species")
 
 # Build long-format grid predictions
 data_pred_s1_long <-
@@ -447,8 +455,9 @@ eval_s2 <-
 if (flag_verbose) {
   cat("Stage 2 AUC by species:\n")
   print(
-    eval_s2$species |>
-      dplyr::arrange(dplyr::desc(AUC))
+    eval_s2 |>
+      purrr::chuck("data_taxon_metrics") |>
+      dplyr::arrange(dplyr::desc(auc))
   )
 }
 
@@ -459,7 +468,9 @@ mat_pred_s2 <-
     type = "link"
   )
 
-base::colnames(mat_pred_s2) <- mod_s2$species
+base::colnames(mat_pred_s2) <-
+  mod_s2 |>
+  purrr::chuck("species")
 
 data_pred_s2_long <-
   dplyr::bind_cols(
@@ -646,10 +657,18 @@ data_grid_mev_scaled <-
       .fns = ~ {
         col_nm <- dplyr::cur_column()
         center <- base::as.numeric(
-          spatial_scale_attrs_1k[[col_nm]]$"scaled:center"
+          purrr::chuck(
+            spatial_scale_attrs_1k,
+            col_nm,
+            "scaled:center"
+          )
         )
         sc <- base::as.numeric(
-          spatial_scale_attrs_1k[[col_nm]]$"scaled:scale"
+          purrr::chuck(
+            spatial_scale_attrs_1k,
+            col_nm,
+            "scaled:scale"
+          )
         )
         (.x - center) / sc
       }
@@ -702,8 +721,9 @@ eval_s3 <-
 if (flag_verbose) {
   cat("Stage 3 AUC by species:\n")
   print(
-    eval_s3$species |>
-      dplyr::arrange(dplyr::desc(AUC))
+    eval_s3 |>
+      purrr::chuck("data_taxon_metrics") |>
+      dplyr::arrange(dplyr::desc(auc))
   )
 }
 
@@ -715,7 +735,9 @@ mat_pred_s3 <-
     type = "link"
   )
 
-base::colnames(mat_pred_s3) <- mod_s3$species
+base::colnames(mat_pred_s3) <-
+  mod_s3 |>
+  purrr::chuck("species")
 
 data_pred_s3_long <-
   dplyr::bind_cols(
@@ -1040,10 +1062,18 @@ data_grid_st_mev_scaled <-
       .fns = ~ {
         col_nm <- dplyr::cur_column()
         center <- base::as.numeric(
-          st_spatial_scale_attrs_s4[[col_nm]]$"scaled:center"
+          purrr::chuck(
+            st_spatial_scale_attrs_s4,
+            col_nm,
+            "scaled:center"
+          )
         )
         sc <- base::as.numeric(
-          st_spatial_scale_attrs_s4[[col_nm]]$"scaled:scale"
+          purrr::chuck(
+            st_spatial_scale_attrs_s4,
+            col_nm,
+            "scaled:scale"
+          )
         )
         (.x - center) / sc
       }
@@ -1067,10 +1097,10 @@ data_grid_abiotic_scaled_s4 <-
       .fns = ~ {
         col_nm <- dplyr::cur_column()
         center <- base::as.numeric(
-          scale_attrs_s4[[col_nm]]$"scaled:center"
+          purrr::chuck(scale_attrs_s4, col_nm, "scaled:center")
         )
         sc <- base::as.numeric(
-          scale_attrs_s4[[col_nm]]$"scaled:scale"
+          purrr::chuck(scale_attrs_s4, col_nm, "scaled:scale")
         )
         (.x - center) / sc
       }
@@ -1102,7 +1132,7 @@ mod_s4 <-
     data_to_fit = data_to_fit_s4,
     abiotic_method = "linear",
     sel_abiotic_formula = build_jsdm_environment_formula(
-      data = data_to_fit_s4$data_abiotic_to_fit,
+      data = purrr::chuck(data_to_fit_s4, "data_abiotic_to_fit"),
       use_age = FALSE
     ),
     spatial_method = "linear",
@@ -1134,8 +1164,9 @@ eval_s4 <-
 if (flag_verbose) {
   cat("Stage 4 AUC by species:\n")
   print(
-    eval_s4$species |>
-      dplyr::arrange(dplyr::desc(AUC))
+    eval_s4 |>
+      purrr::chuck("data_taxon_metrics") |>
+      dplyr::arrange(dplyr::desc(auc))
   )
 }
 
@@ -1150,7 +1181,9 @@ mat_pred_s4 <-
     type = "link"
   )
 
-base::colnames(mat_pred_s4) <- mod_s4$species
+base::colnames(mat_pred_s4) <-
+  mod_s4 |>
+  purrr::chuck("species")
 
 data_pred_s4_long <-
   dplyr::bind_cols(
@@ -1229,38 +1262,42 @@ plot(fig_s4)
 # Stages 1-3 train on the single sel_age slice.
 # Stage 4 trains on all vec_ages_s4 slices (needed for
 # genuine 3-D ST-MEV variance) with formula ~ bio1 + bio12.
-# AUC_s4 is in-sample over multiple time points so direct
-# magnitude comparisons with AUC_s1-s3 should be treated
+# auc_s4 is in-sample over multiple time points so direct
+# magnitude comparisons with auc_s1-s3 should be treated
 # with caution; the sign of delta_s3_s4 is the key metric.
 
 data_auc_comparison <-
-  eval_s1$species |>
-  dplyr::select(species, AUC) |>
-  dplyr::rename(AUC_s1 = AUC) |>
+  eval_s1 |>
+  purrr::chuck("data_taxon_metrics") |>
+  dplyr::select(taxon_name, auc) |>
+  dplyr::rename(auc_s1 = auc) |>
   dplyr::full_join(
-    eval_s2$species |>
-      dplyr::select(species, AUC) |>
-      dplyr::rename(AUC_s2 = AUC),
-    by = dplyr::join_by(species)
+    eval_s2 |>
+      purrr::chuck("data_taxon_metrics") |>
+      dplyr::select(taxon_name, auc) |>
+      dplyr::rename(auc_s2 = auc),
+    by = dplyr::join_by(taxon_name)
   ) |>
   dplyr::full_join(
-    eval_s3$species |>
-      dplyr::select(species, AUC) |>
-      dplyr::rename(AUC_s3 = AUC),
-    by = dplyr::join_by(species)
+    eval_s3 |>
+      purrr::chuck("data_taxon_metrics") |>
+      dplyr::select(taxon_name, auc) |>
+      dplyr::rename(auc_s3 = auc),
+    by = dplyr::join_by(taxon_name)
   ) |>
   dplyr::full_join(
-    eval_s4$species |>
-      dplyr::select(species, AUC) |>
-      dplyr::rename(AUC_s4 = AUC),
-    by = dplyr::join_by(species)
+    eval_s4 |>
+      purrr::chuck("data_taxon_metrics") |>
+      dplyr::select(taxon_name, auc) |>
+      dplyr::rename(auc_s4 = auc),
+    by = dplyr::join_by(taxon_name)
   ) |>
   dplyr::mutate(
-    delta_s1_s2 = AUC_s2 - AUC_s1,
-    delta_s2_s3 = AUC_s3 - AUC_s2,
-    delta_s3_s4 = AUC_s4 - AUC_s3
+    delta_s1_s2 = auc_s2 - auc_s1,
+    delta_s2_s3 = auc_s3 - auc_s2,
+    delta_s3_s4 = auc_s4 - auc_s3
   ) |>
-  dplyr::arrange(dplyr::desc(AUC_s4))
+  dplyr::arrange(dplyr::desc(auc_s4))
 
 if (flag_verbose) {
   cat("\nAUC comparison across all four stages:\n")
@@ -1279,4 +1316,4 @@ summary(data_pred_s3_long)
 summary(data_pred_s4_long)
 
 data_auc_comparison  |> 
-dplyr::filter(species == sel_taxon) 
+dplyr::filter(taxon_name == sel_taxon)

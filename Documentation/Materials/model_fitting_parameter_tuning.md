@@ -109,9 +109,9 @@ Key metrics to inspect:
 Check the ANOVA output:
 
 ```r
-model_anova <- targets::tar_read("model_anova", store = set_store)
-summary(model_anova)
-plot(model_anova)
+list_jsdm_variance_partition <- targets::tar_read("list_jsdm_variance_partition", store = set_store)
+summary(list_jsdm_variance_partition)
+plot(list_jsdm_variance_partition)
 ```
 
 Rules of thumb:

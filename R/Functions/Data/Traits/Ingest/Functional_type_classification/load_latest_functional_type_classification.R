@@ -4,7 +4,7 @@
 #' continental unit from `Data/Processed/Traits/`. The file is
 #' produced by `pipe_segment_traits_ft_clustering` in
 #' `pipeline_traits_reference.R` and named
-#' `data_ft_classification_{continent_id}_{YYYY-MM-DD}.qs`.
+#' `data_functional_type_classification_{continent_id}_{YYYY-MM-DD}.qs`.
 #' @param continent_id
 #' A single non-empty character string identifying the continental
 #' unit (e.g. `"europe"`, `"america"`, `"asia"`). Must match exactly

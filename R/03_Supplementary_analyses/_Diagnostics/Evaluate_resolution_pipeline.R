@@ -53,7 +53,9 @@ meta_test <-
   )
 
 n_errors <-
-  sum(!is.na(meta_test$error))
+  base::sum(
+    !base::is.na(dplyr::pull(meta_test, "error"))
+  )
 
 if (
   n_errors == 0L
@@ -68,7 +70,9 @@ if (
 }
 
 n_warnings <-
-  sum(!is.na(meta_test$warnings))
+  base::sum(
+    !base::is.na(dplyr::pull(meta_test, "warnings"))
+  )
 
 cli::cli_alert_info("{n_warnings} target(s) produced warnings.")
 
@@ -94,27 +98,45 @@ data_community_genus <-
   )
 
 n_taxa_basic <-
-  dplyr::n_distinct(data_community_basic$taxon)
+  data_community_basic |>
+  dplyr::pull("taxon") |>
+  dplyr::n_distinct()
 
 n_taxa_genus <-
-  dplyr::n_distinct(data_community_genus$taxon)
+  data_community_genus |>
+  dplyr::pull("taxon") |>
+  dplyr::n_distinct()
 
 n_samples_basic <-
-  dplyr::n_distinct(data_community_basic$dataset_name, data_community_basic$age)
+  dplyr::n_distinct(
+    dplyr::pull(data_community_basic, "dataset_name"),
+    dplyr::pull(data_community_basic, "age")
+  )
 
 n_samples_genus <-
-  dplyr::n_distinct(data_community_genus$dataset_name, data_community_genus$age)
+  dplyr::n_distinct(
+    dplyr::pull(data_community_genus, "dataset_name"),
+    dplyr::pull(data_community_genus, "age")
+  )
 
 taxa_only_basic <-
   dplyr::setdiff(
-    unique(data_community_basic$taxon),
-    unique(data_community_genus$taxon)
+    data_community_basic |>
+      dplyr::pull("taxon") |>
+      base::unique(),
+    data_community_genus |>
+      dplyr::pull("taxon") |>
+      base::unique()
   )
 
 taxa_only_genus <-
   dplyr::setdiff(
-    unique(data_community_genus$taxon),
-    unique(data_community_basic$taxon)
+    data_community_genus |>
+      dplyr::pull("taxon") |>
+      base::unique(),
+    data_community_basic |>
+      dplyr::pull("taxon") |>
+      base::unique()
   )
 
 cli::cli_text(
@@ -168,26 +190,36 @@ if (
 ## 2.2. ANOVA variance partitioning -----
 #--------------------------------------------------#
 
-model_anova_basic <-
+list_jsdm_variance_partition_basic <-
   targets::tar_read(
-    model_anova,
+    list_jsdm_variance_partition,
     store = store_basic
   )
 
-model_anova_genus <-
+list_jsdm_variance_partition_genus <-
   targets::tar_read(
-    model_anova_genus,
+    list_jsdm_variance_partition_genus,
     store = store_test
   )
 
 results_basic <-
-  model_anova_basic$results
+  list_jsdm_variance_partition_basic |>
+  purrr::chuck("results")
 
 results_genus <-
-  model_anova_genus$results
+  list_jsdm_variance_partition_genus |>
+  purrr::chuck("results")
 
-cli::cli_text("pipeline_paleo_core  N = {model_anova_basic$N}")
-cli::cli_text("test_res genus  N = {model_anova_genus$N}")
+n_basic <-
+  list_jsdm_variance_partition_basic |>
+  purrr::chuck("N")
+
+n_genus <-
+  list_jsdm_variance_partition_genus |>
+  purrr::chuck("N")
+
+cli::cli_text("pipeline_paleo_core  N = {n_basic}")
+cli::cli_text("test_res genus  N = {n_genus}")
 
 anova_match <-
   isTRUE(
@@ -218,12 +250,14 @@ data_community_family <-
   )
 
 n_taxa_family <-
-  dplyr::n_distinct(data_community_family$taxon)
+  data_community_family |>
+  dplyr::pull("taxon") |>
+  dplyr::n_distinct()
 
 n_samples_family <-
   dplyr::n_distinct(
-    data_community_family$dataset_name,
-    data_community_family$age
+    dplyr::pull(data_community_family, "dataset_name"),
+    dplyr::pull(data_community_family, "age")
   )
 
 prop_range_family <-
@@ -242,9 +276,13 @@ cli::cli_text(
 cli::cli_text(
   "pollen_prop sum per sample: [{round(prop_range_family[1], 3)} — {round(prop_range_family[2], 3)}]"
 )
-cli::cli_text(
-  "Taxa: {stringr::str_c(sort(unique(data_community_family$taxon)), collapse = ', ')}"
-)
+vec_taxa_family <-
+  data_community_family |>
+  dplyr::pull("taxon") |>
+  base::unique() |>
+  base::sort()
+
+cli::cli_text("Taxa: {stringr::str_c(vec_taxa_family, collapse = ', ')}")
 
 if (
   n_taxa_family < n_taxa_genus
@@ -276,13 +314,21 @@ data_community_ft_resolved <-
   )
 
 n_taxa_ft <-
-  dplyr::n_distinct(data_community_ft$taxon)
+  data_community_ft |>
+  dplyr::pull("taxon") |>
+  dplyr::n_distinct()
 
 n_samples_ft <-
-  dplyr::n_distinct(data_community_ft$dataset_name, data_community_ft$age)
+  dplyr::n_distinct(
+    dplyr::pull(data_community_ft, "dataset_name"),
+    dplyr::pull(data_community_ft, "age")
+  )
 
 ft_labels <-
-  sort(unique(data_community_ft$taxon))
+  data_community_ft |>
+  dplyr::pull("taxon") |>
+  base::unique() |>
+  base::sort()
 
 all_ft_labelled <-
   all(stringr::str_detect(ft_labels, "^FT_\\d+$"))
@@ -297,8 +343,16 @@ prop_range_ft <-
 cli::cli_text(
   "n_FT groups (subset): {n_taxa_ft}"
 )
+n_functional_type_groups_resolved <-
+  data_community_ft_resolved |>
+  dplyr::pull("taxon") |>
+  dplyr::n_distinct()
+
 cli::cli_text(
-  "n_FT groups (resolved, before n-taxa filter): {dplyr::n_distinct(data_community_ft_resolved$taxon)}"
+  stringr::str_glue(
+    "n_FT groups (resolved, before n-taxa filter): ",
+    "{n_functional_type_groups_resolved}"
+  )
 )
 cli::cli_text(
   "n_samples: {n_samples_ft}"
@@ -335,10 +389,16 @@ coverage <-
   dplyr::mutate(coverage_pct = total_ft / total_genus * 100)
 
 median_coverage <-
-  round(stats::median(coverage$coverage_pct, na.rm = TRUE), 1)
+  coverage |>
+  dplyr::pull("coverage_pct") |>
+  stats::median(na.rm = TRUE) |>
+  base::round(1)
 
 range_coverage <-
-  round(range(coverage$coverage_pct, na.rm = TRUE), 1)
+  coverage |>
+  dplyr::pull("coverage_pct") |>
+  base::range(na.rm = TRUE) |>
+  base::round(1)
 
 cli::cli_text(
   "Pollen coverage vs. genus (%%): median = {median_coverage}%%, range = [{range_coverage[1]} — {range_coverage[2]}]"

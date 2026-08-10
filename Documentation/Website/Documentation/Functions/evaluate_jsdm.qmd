@@ -63,12 +63,13 @@ indicate that the model has converged.
 <h3>Value</h3>
 
 <p>A list with three elements:
-- 'model': Named numeric vector of R-squared values
+- 'vec_model_metrics': Named numeric vector of R-squared values
 (McFadden, Nagelkerke)
-- 'species': A tibble with one row per species and columns:
-species, AUC, Accuracy, LogLoss (binomial) or RMSE (other
+- 'data_taxon_metrics': A tibble with one row per taxon and columns:
+'taxon_name', 'auc', 'accuracy', 'log_loss' (binomial) or 'rmse' (other
 families)
-- 'convergence': A list from [diagnose_jsdm_convergence()] with
+- 'list_convergence_diagnostics': A list from
+[diagnose_jsdm_convergence()] with
 'linear_trend_slope', 'median_diff', 'convergence_plot', and
 'note'
 </p>

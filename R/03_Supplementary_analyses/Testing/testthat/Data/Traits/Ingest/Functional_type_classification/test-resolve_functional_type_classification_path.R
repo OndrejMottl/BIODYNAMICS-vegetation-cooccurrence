@@ -6,13 +6,13 @@ testthat::test_that(
         file_old <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_europe_2026-01-01.qs"
+            "data_functional_type_classification_europe_2026-01-01.qs"
           )
 
         file_new <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_europe_2026-05-23__hash__.qs"
+            "data_functional_type_classification_europe_2026-05-23__hash__.qs"
           )
 
         base::file.create(file_old)
@@ -38,7 +38,7 @@ testthat::test_that(
         file_modern <-
           base::file.path(
             base::getwd(),
-            "data_ft_classification_modern_europe_2026-05-23.qs"
+            "data_functional_type_classification_modern_europe_2026-05-23.qs"
           )
 
         base::file.create(file_modern)
@@ -51,6 +51,37 @@ testthat::test_that(
           )
 
         testthat::expect_equal(res, file_modern)
+      }
+    )
+  }
+)
+
+testthat::test_that(
+  "resolve_functional_type_classification_path() ignores legacy stems",
+  {
+    withr::with_tempdir(
+      {
+        file_new_convention <-
+          base::file.path(
+            base::getwd(),
+            "data_functional_type_classification_europe_2026-01-01.qs"
+          )
+        file_legacy_convention <-
+          base::file.path(
+            base::getwd(),
+            "data_ft_classification_europe_2026-12-31.qs"
+          )
+
+        base::file.create(file_new_convention)
+        base::file.create(file_legacy_convention)
+
+        res <-
+          resolve_functional_type_classification_path(
+            continent_id = "europe",
+            path_classification_directory = base::getwd()
+          )
+
+        testthat::expect_equal(res, file_new_convention)
       }
     )
   }
