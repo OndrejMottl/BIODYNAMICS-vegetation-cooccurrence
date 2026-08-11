@@ -47,7 +47,7 @@ vec_scale_ids <-
 
 vec_tuning_target_names <-
   stringr::str_c(
-    "data_sjsdm_tuning_summary_",
+    "list_sjsdm_cv_tuning_artifact_",
     base::c("genus", "family", "ft_modern")
   )
 

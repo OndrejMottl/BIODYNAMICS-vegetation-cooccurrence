@@ -39,7 +39,7 @@ base::Sys.setenv(
 
 run_sjsdm_tuning_sequence(
   unit_pipeline = "R/Pipelines/pipeline_paleo_core.R",
-  tuning_target_names = "data_sjsdm_tuning_summary",
+  tuning_target_names = "list_sjsdm_cv_tuning_artifact",
   prebuild_interpolation = TRUE,
   fresh_run = TRUE,
   tuning_strategy = load_active_config_value(

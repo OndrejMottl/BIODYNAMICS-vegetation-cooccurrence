@@ -70,7 +70,7 @@ pipe_segment_model_cross_validation_shared <-
     targets::tar_target(
       description = "Build shared pre-resolution location table",
       name = "data_cross_validation_locations_shared",
-      command = make_cross_validation_location_table(
+      command = build_cross_validation_location_table(
         data_sample_ids = data_cross_validation_sample_ids_shared,
         data_coords_projected = data_coords_projected
       )
@@ -98,7 +98,7 @@ pipe_segment_model_cross_validation_shared <-
     targets::tar_target(
       description = "Derive shared pre-resolution grid candidates",
       name = "data_cross_validation_grid_candidates_shared",
-      command = make_cross_validation_grid_candidates_from_resolution(
+      command = build_cross_validation_grid_candidates_from_resolution(
         data_locations = data_cross_validation_locations_shared,
         data_fold_resolution =
           data_cross_validation_fold_resolution_shared,
@@ -117,7 +117,7 @@ pipe_segment_model_cross_validation_shared <-
     targets::tar_target(
       description = "Calibrate the shared pre-resolution spatial grid",
       name = "data_cross_validation_grid_calibration_shared",
-      command = calibrate_cross_validation_grid_from_resolution(
+      command = compute_cross_validation_grid_calibration_from_resolution(
         data_locations = data_cross_validation_locations_shared,
         data_fold_resolution =
           data_cross_validation_fold_resolution_shared,
@@ -163,7 +163,7 @@ pipe_segment_model_cross_validation_shared <-
     targets::tar_target(
       description = "Assign shared pre-resolution locations to folds",
       name = "data_cross_validation_assignments_shared",
-      command = make_cross_validation_assignments_from_resolution(
+      command = build_cross_validation_assignments_from_resolution(
         data_locations = data_cross_validation_locations_shared,
         data_fold_resolution =
           data_cross_validation_fold_resolution_shared,
@@ -178,6 +178,35 @@ pipe_segment_model_cross_validation_shared <-
           "assignment_seed"
         ),
         assignment_source = "shared_pre_resolution"
+      )
+    ),
+    targets::tar_target(
+      description = "Publish the shared CV design v2 artifact",
+      name = "list_cross_validation_shared_design_artifact",
+      command = build_sjsdm_pipeline_artifact(
+        artifact_type = "cross_validation_shared_design",
+        payload = base::list(
+          data_sample_ids = data_cross_validation_sample_ids_shared,
+          data_locations = data_cross_validation_locations_shared,
+          data_fold_resolution =
+            data_cross_validation_fold_resolution_shared,
+          data_grid_candidates =
+            data_cross_validation_grid_candidates_shared,
+          data_grid_calibration =
+            data_cross_validation_grid_calibration_shared,
+          data_assignments = data_cross_validation_assignments_shared,
+          data_assignment_provenance = tibble::tibble(
+            assignment_source = "shared_pre_resolution",
+            assignment_seed = purrr::chuck(
+              config_cross_validation_shared,
+              "assignment_seed"
+            )
+          )
+        ),
+        pipeline_id = fs::path_ext_remove(
+          fs::path_file(targets::tar_config_get("script"))
+        ),
+        configuration_profile = base::Sys.getenv("R_CONFIG_ACTIVE")
       )
     )
   )

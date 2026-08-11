@@ -61,32 +61,46 @@ load_model_evaluation_target <- function(
   evaluation_type_selected <-
     base::match.arg(evaluation_type)
 
-  target_name <-
+  res <-
     if (
       evaluation_type_selected == "fitted"
     ) {
-      stringr::str_glue(
-        "list_jsdm_evaluation_fitted_{resolution_id}"
-      )
+      target_name <-
+        stringr::str_glue(
+          "list_jsdm_evaluation_fitted_{resolution_id}"
+        ) |>
+        base::as.character()
+
+      purrr::possibly(
+        .f = function() {
+          read_target_fn(
+            name = target_name,
+            store = store_path
+          )
+        },
+        otherwise = NULL
+      )()
     } else {
-      stringr::str_glue(
-        "model_evaluation_cross_validated_{resolution_id}"
-      )
+      purrr::possibly(
+        .f = function() {
+          load_sjsdm_cv_payload_field(
+            store_path = store_path,
+            v2_target_name = stringr::str_glue(
+              "list_sjsdm_cv_evaluation_artifact_{resolution_id}"
+            ) |>
+              base::as.character(),
+            artifact_type = "sjsdm_cv_evaluation",
+            payload_name = "list_pooled_evaluation",
+            v1_target_name = stringr::str_glue(
+              "model_evaluation_cross_validated_{resolution_id}"
+            ) |>
+              base::as.character(),
+            read_target_function = read_target_fn
+          )
+        },
+        otherwise = NULL
+      )()
     }
-
-  target_name <-
-    base::as.character(target_name)
-
-  res <-
-    purrr::possibly(
-      .f = function() {
-        read_target_fn(
-          name = target_name,
-          store = store_path
-        )
-      },
-      otherwise = NULL
-    )()
 
   return(res)
 }

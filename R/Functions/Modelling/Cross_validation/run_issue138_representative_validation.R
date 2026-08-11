@@ -7,9 +7,9 @@
 #' @param unit_pipeline
 #' Unit pipeline script passed to [run_sjsdm_tuning_sequence()].
 #' @param tuning_target_names
-#' Public tuning-summary targets included in the validation.
+#' Public v2 tuning-artifact targets included in the validation.
 #' @param final_target_names
-#' Final model, evaluation, and provenance targets to complete.
+#' Final model and v2 evaluation-artifact targets to complete.
 #' @param store_suffix
 #' Optional isolated spatial-unit store suffix.
 #' @param prebuild_interpolation

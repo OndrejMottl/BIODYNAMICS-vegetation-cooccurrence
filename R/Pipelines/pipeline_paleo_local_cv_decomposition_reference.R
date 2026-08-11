@@ -291,7 +291,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_scientific_reference_decomposition_comparisons,
-    command = compare_sjsdm_decomposition_fold_metrics(
+    command = compute_sjsdm_decomposition_fold_effects(
       data_fold_metrics =
         data_scientific_reference_decomposition_fold_metrics,
       data_taxon_eligibility =

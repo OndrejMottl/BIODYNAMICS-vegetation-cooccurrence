@@ -137,7 +137,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_scientific_reference_locations,
-    command = make_cross_validation_location_table(
+    command = build_cross_validation_location_table(
       data_sample_ids = data_scientific_reference_sample_ids,
       data_coords_projected =
         data_scientific_reference_coords_projected
@@ -167,7 +167,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_scientific_reference_grid_candidates,
-    command = make_cross_validation_grid_candidates_from_resolution(
+    command = build_cross_validation_grid_candidates_from_resolution(
       data_locations = data_scientific_reference_locations,
       data_fold_resolution =
         data_scientific_reference_fold_resolution,
@@ -187,7 +187,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_scientific_reference_grid_calibration,
-    command = calibrate_cross_validation_grid_from_resolution(
+    command = compute_cross_validation_grid_calibration_from_resolution(
       data_locations = data_scientific_reference_locations,
       data_fold_resolution =
         data_scientific_reference_fold_resolution,
@@ -239,7 +239,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_scientific_reference_assignments_initial,
-    command = make_cross_validation_assignments_from_resolution(
+    command = build_cross_validation_assignments_from_resolution(
       data_locations = data_scientific_reference_locations,
       data_fold_resolution =
         data_scientific_reference_fold_resolution,
@@ -260,7 +260,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_scientific_reference_partition_diagnostics_initial,
-    command = make_cross_validation_partition_diagnostics(
+    command = diagnose_cross_validation_partitions(
       data_locations = data_scientific_reference_locations,
       data_assignments =
         data_scientific_reference_assignments_initial,
@@ -282,7 +282,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_scientific_reference_assignments,
-    command = adapt_cross_validation_assignments(
+    command = resolve_cross_validation_assignments(
       data_locations = data_scientific_reference_locations,
       data_assignments =
         data_scientific_reference_assignments_initial,
@@ -309,7 +309,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_scientific_reference_candidate,
-    command = make_sjsdm_regularization_candidates(
+    command = build_sjsdm_regularization_candidates(
       alpha_cov = base::c(0.5),
       alpha_coef = base::c(0.5),
       alpha_spatial = base::c(0.5),
@@ -372,7 +372,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_scientific_reference_taxon_eligibility,
-    command = assess_sjsdm_taxon_eligibility(
+    command = evaluate_sjsdm_taxon_eligibility(
       data_fold_metrics = data_scientific_reference_fold_metrics,
       minimum_prevalence = 0.05,
       maximum_prevalence = 0.95,
@@ -413,7 +413,7 @@ base::list(
   ),
   targets::tar_target(
     name = list_scientific_reference_performance_assessment,
-    command = assess_sjsdm_scientific_performance(
+    command = evaluate_sjsdm_scientific_performance(
       data_model_repeat_metrics =
         list_scientific_reference_metric_summaries |>
         purrr::chuck("data_source_summaries"),

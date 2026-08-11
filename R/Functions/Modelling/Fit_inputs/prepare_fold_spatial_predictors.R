@@ -161,27 +161,19 @@ prepare_fold_spatial_predictors <- function(
     cli::cli_abort("Every fold sample must occur in `data_sample_ids`.")
   }
 
-  make_sample_partition <- function(vec_ids) {
-    res_partition <-
-      data_samples_identified |>
-      dplyr::filter(.data[[".row_name"]] %in% .env[["vec_ids"]]) |>
-      dplyr::mutate(
-        .fold_order = base::match(
-          .data[[".row_name"]],
-          .env[["vec_ids"]]
-        )
-      ) |>
-      dplyr::arrange(.data[[".fold_order"]]) |>
-      dplyr::select(-".fold_order")
-
-    return(res_partition)
-  }
-
   data_samples_train_identified <-
-    make_sample_partition(vec_ids = train_ids)
+    prepare_ordered_fold_partition(
+      data_partition_source = data_samples_identified,
+      partition_ids = train_ids,
+      id_column = ".row_name"
+    )
 
   data_samples_test_identified <-
-    make_sample_partition(vec_ids = test_ids)
+    prepare_ordered_fold_partition(
+      data_partition_source = data_samples_identified,
+      partition_ids = test_ids,
+      id_column = ".row_name"
+    )
 
   vec_train_locations <-
     data_samples_train_identified |>

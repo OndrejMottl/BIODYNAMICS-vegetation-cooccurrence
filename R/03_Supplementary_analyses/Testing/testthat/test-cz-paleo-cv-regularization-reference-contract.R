@@ -31,7 +31,7 @@ testthat::test_that(
 
     testthat::expect_match(
       text_pipeline,
-      "make_sjsdm_structured_regularization_candidates",
+      "build_sjsdm_structured_regularization_candidates",
       fixed = TRUE
     )
     testthat::expect_match(
@@ -53,12 +53,12 @@ testthat::test_that(
     )
     testthat::expect_match(
       text_pipeline,
-      "assess_sjsdm_taxon_eligibility",
+      "evaluate_sjsdm_taxon_eligibility",
       fixed = TRUE
     )
     testthat::expect_match(
       text_pipeline,
-      "assess_sjsdm_candidate_guardrails",
+      "evaluate_sjsdm_candidate_guardrails",
       fixed = TRUE
     )
     testthat::expect_false(
