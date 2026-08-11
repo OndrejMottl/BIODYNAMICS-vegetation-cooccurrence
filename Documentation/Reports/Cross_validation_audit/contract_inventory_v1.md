@@ -1,8 +1,6 @@
 # Cross-validation contract inventory (v1)
 
-**Audit date:** 2026-07-14
-**Issue:** #139
-**Reference implementation:** `a8ead627` plus the initial Issue #139 tier-source stabilization
+**Audit date:** 2026-07-14 **Issue:** #139 **Reference implementation:** `a8ead627` plus the initial Issue #139 tier-source stabilization
 
 ## Scientific invariants
 

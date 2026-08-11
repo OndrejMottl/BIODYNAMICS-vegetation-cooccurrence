@@ -1,11 +1,6 @@
 # Plan: R architecture and naming refactor
 
-**Date:** 2026-07-26
-**Author:** plan-large-changes agent
-**Status:** Approved
-**GitHub umbrella:** [#149](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/149)
-**Implementation issues:** [#150](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/150)
-through [#157](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/157)
+**Date:** 2026-07-26 **Author:** plan-large-changes agent **Status:** Approved **GitHub umbrella:** [#149](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/149) **Implementation issues:** [#150](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/150) through [#157](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/157)
 
 ---
 
@@ -14,32 +9,20 @@ through [#157](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrenc
 - Work in the current main worktree unless the user requests a separate worktree.
 - Treat this as a large, high-complexity, long-running refactor.
 - Do not add external R dependencies merely to support the refactor.
-- Keep the existing top-level roots (`R/02_Main_analyses`,
-  `R/03_Supplementary_analyses`, `R/Functions`, and `R/Pipelines`) during the
-  first migration. Standardise and deepen their internal structure.
+- Keep the existing top-level roots (`R/02_Main_analyses`, `R/03_Supplementary_analyses`, `R/Functions`, and `R/Pipelines`) during the first migration. Standardise and deepen their internal structure.
 - Include all active code under `R/`, with domain-sized implementation batches.
 - Preserve the public scientific and artifact contracts frozen for Issue #141.
 - Keep `{config}` as the runtime configuration reader.
-- Treat `Configuration/**` as the human-authored source and the tracked root
-  `config.yml` as a generated compatibility artifact.
-- Preserve all existing configuration profile IDs and resolved values during
-  the first structural migration.
+- Treat `Configuration/**` as the human-authored source and the tracked root `config.yml` as a generated compatibility artifact.
+- Preserve all existing configuration profile IDs and resolved values during the first structural migration.
 - Do not create compatibility wrappers without a demonstrated active consumer.
-- Do not perform state-changing Git or GitHub operations without explicit user
-  instruction.
+- Do not perform state-changing Git or GitHub operations without explicit user instruction.
 
 ---
 
 ## Background
 
-[Issue #141](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/141)
-is ready to start: its predecessors
-[#139](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/139)
-and
-[#138](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/138)
-are closed, and `main` contains the accepted staged cross-validation design.
-Issue #141 remains the final child of
-[#140](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/140).
+[Issue #141](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/141) is ready to start: its predecessors [#139](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/139) and [#138](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/138) are closed, and `main` contains the accepted staged cross-validation design. Issue #141 remains the final child of [#140](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/140).
 
 Issue #141 is narrower than the requested repository-wide refactor. It freezes:
 
@@ -50,59 +33,32 @@ Issue #141 is narrower than the requested repository-wide refactor. It freezes:
 - isolated unit and tier target stores; and
 - the staged-execution performance policy.
 
-The broader refactor therefore needs its own umbrella. Issue #141 should remain
-owned by #140 and be linked to the new umbrella as related required work, not
-reparented or silently broadened.
+The broader refactor therefore needs its own umbrella. Issue #141 should remain owned by #140 and be linked to the new umbrella as related required work, not reparented or silently broadened.
 
 ### Current inventory
 
 - `R/02_Main_analyses` contains 39 files.
-- Fourteen root-level files are CZ reference, issue-specific benchmark,
-  validation, or test runners rather than main analyses.
-- Additional diagnostic, convergence-tuning, and repair scripts are mixed into
-  the spatial and temporal main-analysis folders.
-- `R/03_Supplementary_analyses` contains 360 files, but most are in a flat
-  `Testing/testthat` folder or generated Quarto cache directories.
+- Fourteen root-level files are CZ reference, issue-specific benchmark, validation, or test runners rather than main analyses.
+- Additional diagnostic, convergence-tuning, and repair scripts are mixed into the spatial and temporal main-analysis folders.
+- `R/03_Supplementary_analyses` contains 360 files, but most are in a flat `Testing/testthat` folder or generated Quarto cache directories.
 - `R/Functions` contains 306 files.
 - `R/Functions/Modelling/Cross_validation` alone contains 75 function files.
-- The current function inventory uses 53 distinct leading verbs. The most common
-  are `get_` (40), `make_` (26), `build_` (19), `prepare_` (14), `run_` (13),
-  `read_` (10), and `load_` (3).
-- At least 30 named nested helpers occur inside function files, including the
-  Issue #139 deferred hotspots.
-- No current top-level function name uses `_simple` or `_basic`, but vague
-  `simple`, `basic`, `new`, `old`, and `final` variants occur among internal
-  objects.
-- `R/___setup_project___.R` recursively loads `R/Functions`, which makes deeper
-  folders feasible, but it does not currently reject duplicate symbols or make
-  source-order assumptions explicit.
-- The test and function-documentation tooling already enumerates source files
-  recursively. Test discovery under a mirrored nested test tree still needs an
-  executable verification.
-- `config.yml` contains 452 lines and 26 top-level entries: one `default`, nine
-  main profiles, two CZ smoke profiles, eight reference profiles, and six
-  issue-specific profiles.
-- Main, smoke, reference, and one-time profiles currently share one flat file
-  without an enforceable role or selectability contract.
-- Thirteen R files call `config::get()` directly, while additional callers use
-  `get_active_config()`. Configuration retrieval is therefore not yet
-  centralised behind one project function.
+- The current function inventory uses 53 distinct leading verbs. The most common are `get_` (40), `make_` (26), `build_` (19), `prepare_` (14), `run_` (13), `read_` (10), and `load_` (3).
+- At least 30 named nested helpers occur inside function files, including the Issue #139 deferred hotspots.
+- No current top-level function name uses `_simple` or `_basic`, but vague `simple`, `basic`, `new`, `old`, and `final` variants occur among internal objects.
+- `R/___setup_project___.R` recursively loads `R/Functions`, which makes deeper folders feasible, but it does not currently reject duplicate symbols or make source-order assumptions explicit.
+- The test and function-documentation tooling already enumerates source files recursively. Test discovery under a mirrored nested test tree still needs an executable verification.
+- `config.yml` contains 452 lines and 26 top-level entries: one `default`, nine main profiles, two CZ smoke profiles, eight reference profiles, and six issue-specific profiles.
+- Main, smoke, reference, and one-time profiles currently share one flat file without an enforceable role or selectability contract.
+- Thirteen R files call `config::get()` directly, while additional callers use `get_active_config()`. Configuration retrieval is therefore not yet centralised behind one project function.
 
-The earlier function-organisation PR #129 was useful but mostly reorganised
-presentation helpers. It did not establish repository-wide folder ownership,
-verb semantics, or enforceable migration rules.
+The earlier function-organisation PR #129 was useful but mostly reorganised presentation helpers. It did not establish repository-wide folder ownership, verb semantics, or enforceable migration rules.
 
 ---
 
 ## Goal
 
-Make every active R file easy to locate from its purpose, every reusable
-function easy to locate from its domain and lifecycle, and every function or
-object name explicit about what it does and returns. Make each configuration
-profile easy to find from its role, pipeline, and lifecycle. Close Issue #141
-without changing its frozen scientific, public-artifact, store, configuration,
-or performance contracts, then apply the same architectural discipline across
-the remaining R code in small, reviewable domain migrations.
+Make every active R file easy to locate from its purpose, every reusable function easy to locate from its domain and lifecycle, and every function or object name explicit about what it does and returns. Make each configuration profile easy to find from its role, pipeline, and lifecycle. Close Issue #141 without changing its frozen scientific, public-artifact, store, configuration, or performance contracts, then apply the same architectural discipline across the remaining R code in small, reviewable domain migrations.
 
 ---
 
@@ -110,16 +66,10 @@ the remaining R code in small, reviewable domain migrations.
 
 ### In scope
 
-- Classify every active R script as production analysis, diagnostic, validation,
-  reference generation, experiment, test, reusable function, pipeline
-  definition, or obsolete.
-- Restrict `R/02_Main_analyses` to stable main analysis runners, result
-  synthesis, and final visualisation scripts.
-- Move diagnostics, tests, validation workflows, sensitivity studies,
-  benchmarks, reference generators, issue reproductions, and one-time scripts
-  into explicit nested supplementary folders.
-- Add a standard README to every diagnostic, validation, experiment, benchmark,
-  archived, or one-time-script folder.
+- Classify every active R script as production analysis, diagnostic, validation, reference generation, experiment, test, reusable function, pipeline definition, or obsolete.
+- Restrict `R/02_Main_analyses` to stable main analysis runners, result synthesis, and final visualisation scripts.
+- Move diagnostics, tests, validation workflows, sensitivity studies, benchmarks, reference generators, issue reproductions, and one-time scripts into explicit nested supplementary folders.
+- Add a standard README to every diagnostic, validation, experiment, benchmark, archived, or one-time-script folder.
 - Reorganise `R/Functions` by domain, capability, and lifecycle.
 - Mirror the function hierarchy in the test hierarchy.
 - Split oversized function folders, especially cross-validation.
@@ -127,42 +77,26 @@ the remaining R code in small, reviewable domain migrations.
 - Define and apply semantic function verb contracts.
 - Rename files whenever their primary function or script entry point is renamed.
 - Rename local objects within the domain batch that owns the containing code.
-- Inventory persisted targets and artifacts separately from private local
-  objects.
-- Consolidate demonstrated schema, status, provenance, target-building, and
-  runner duplication required by Issue #141.
+- Inventory persisted targets and artifacts separately from private local objects.
+- Consolidate demonstrated schema, status, provenance, target-building, and runner duplication required by Issue #141.
 - Remove dead and stale paths within the domain batch that proves them unused.
-- Add report-only architecture and naming checks early, then make them blocking
-  as each domain is migrated.
-- Split the human-authored configuration into nested, role-specific source
-  fragments while retaining a generated root `config.yml` for `{config}`.
-- Define configuration profile roles, lifecycle metadata, and selectability
-  rules.
-- Add a deterministic configuration generator, semantic equivalence snapshot,
-  generated profile catalog, and generated-file drift check.
-- Centralise runtime configuration retrieval and guard production runners
-  against accidental use of reference or one-time profiles.
-- Update tests, configuration references, generated function documentation,
-  Quarto documents, READMEs, plans, and repository instructions affected by
-  path or name changes.
+- Add report-only architecture and naming checks early, then make them blocking as each domain is migrated.
+- Split the human-authored configuration into nested, role-specific source fragments while retaining a generated root `config.yml` for `{config}`.
+- Define configuration profile roles, lifecycle metadata, and selectability rules.
+- Add a deterministic configuration generator, semantic equivalence snapshot, generated profile catalog, and generated-file drift check.
+- Centralise runtime configuration retrieval and guard production runners against accidental use of reference or one-time profiles.
+- Update tests, configuration references, generated function documentation, Quarto documents, READMEs, plans, and repository instructions affected by path or name changes.
 
 ### Out of scope
 
-- Changing the scientific estimand, grouped CV behavior, fold-local
-  preprocessing, held-out MEM projection, tuning weights, or feasibility policy.
-- Changing Issue #138's accepted `8 -> 4 -> 2`, three-repeat, five-fold staged
-  execution policy.
+- Changing the scientific estimand, grouped CV behavior, fold-local preprocessing, held-out MEM projection, tuning weights, or feasibility policy.
+- Changing Issue #138's accepted `8 -> 4 -> 2`, three-repeat, five-fold staged execution policy.
 - Combining isolated unit and tier target stores.
-- Addressing downstream modern ANOVA runtime or temporal final-model
-  standard-error singularities as part of Issue #141.
-- Renaming frozen public Issue #141 targets or artifact fields without a
-  separately approved, compatibility-tested migration.
-- Introducing a package structure or exported public R package API in this
-  refactor.
-- Abandoning `{config}` or replacing it with a new runtime configuration
-  framework.
-- Changing configuration parameter values, profile IDs, or scientific behavior
-  in the structural configuration migration.
+- Addressing downstream modern ANOVA runtime or temporal final-model standard-error singularities as part of Issue #141.
+- Renaming frozen public Issue #141 targets or artifact fields without a separately approved, compatibility-tested migration.
+- Introducing a package structure or exported public R package API in this refactor.
+- Abandoning `{config}` or replacing it with a new runtime configuration framework.
+- Changing configuration parameter values, profile IDs, or scientific behavior in the structural configuration migration.
 - Retaining old function names through speculative compatibility wrappers.
 - A single repository-wide mechanical rename PR.
 - A standalone final validation-only or cleanup-only phase.
@@ -176,8 +110,7 @@ the remaining R code in small, reviewable domain migrations.
 - `R/Pipelines/**`
 - `Configuration/**` (new human-authored configuration sources and catalog)
 - `config.yml` (generated and tracked runtime artifact)
-- configuration access helpers, direct `config::get()` consumers, and their
-  tests and documentation
+- configuration access helpers, direct `config::get()` consumers, and their tests and documentation
 - `.ai/r-coding.md`
 - `.ai/r-functions.md`
 - other `.ai/` or `AGENTS.md` path references affected by approved moves
@@ -186,13 +119,9 @@ the remaining R code in small, reviewable domain migrations.
 - `Documentation/Functions_test_coverage/**`
 - `Documentation/Reports/Cross_validation_audit/**`
 - `Documentation/Reports/Cross_validation_performance/**`
-- implementation plans, reports, and generated documentation containing moved
-  paths or renamed symbols
+- implementation plans, reports, and generated documentation containing moved paths or renamed symbols
 
-Issue #141 specifically owns the active CV functions, CV pipeline segments,
-tier-tuning pipelines, CV runner/store orchestration, CV tests, CV reference
-generators, and Issue #138/139 handoff documentation. Each remaining file must
-be assigned to exactly one repository-refactor child issue before it moves.
+Issue #141 specifically owns the active CV functions, CV pipeline segments, tier-tuning pipelines, CV runner/store orchestration, CV tests, CV reference generators, and Issue #138/139 handoff documentation. Each remaining file must be assigned to exactly one repository-refactor child issue before it moves.
 
 ---
 
@@ -200,13 +129,10 @@ be assigned to exactly one repository-refactor child issue before it moves.
 
 ### One file, one owner, one purpose
 
-- Each R function file contains one top-level function and has the exact same
-  lower-snake-case basename.
+- Each R function file contains one top-level function and has the exact same lower-snake-case basename.
 - Each analysis or runner script has one obvious entry-point purpose.
-- Each file is assigned to one migration issue and is not moved in one issue
-  only to be substantially edited again in another.
-- Path-only moves and semantic renames are separate commits or PRs within a
-  domain issue.
+- Each file is assigned to one migration issue and is not moved in one issue only to be substantially edited again in another.
+- Path-only moves and semantic renames are separate commits or PRs within a domain issue.
 
 ### Main analyses are production-facing
 
@@ -266,14 +192,9 @@ R/
     `-- Documentation/
 ```
 
-The implementation inventory records the exact current-to-target path for every
-file. Folder names should be standardised consistently in the migration; avoid
-case-only rename operations on Windows.
+The implementation inventory records the exact current-to-target path for every file. Folder names should be standardised consistently in the migration; avoid case-only rename operations on Windows.
 
-Main-analysis domain, capability, and script names use two-digit numeric
-prefixes to make the supported execution order explicit. Supplementary
-workflows remain organised by role and do not imply a universal execution
-sequence.
+Main-analysis domain, capability, and script names use two-digit numeric prefixes to make the supported execution order explicit. Supplementary workflows remain organised by role and do not imply a universal execution sequence.
 
 ### Proposed function tree
 
@@ -324,9 +245,7 @@ R/Functions/
 `-- Validation/
 ```
 
-This is the initial taxonomy. The versioned path inventory is authoritative and
-must prevent catch-all folders such as a growing `Utility` or a second
-75-function capability folder.
+This is the initial taxonomy. The versioned path inventory is authoritative and must prevent catch-all folders such as a growing `Utility` or a second 75-function capability folder.
 
 Tests should mirror the function hierarchy:
 
@@ -339,16 +258,11 @@ R/03_Supplementary_analyses/Testing/testthat/
         `-- Evaluation/
 ```
 
-Shared fixtures belong under `Testing/Fixtures/<domain>/` and are sourced
-explicitly. Test-file-local fixtures stay local rather than leaking into the
-shared test environment.
+Shared fixtures belong under `Testing/Fixtures/<domain>/` and are sourced explicitly. Test-file-local fixtures stay local rather than leaking into the shared test environment.
 
 ### Configuration architecture
 
-Keep `{config}` and its existing runtime behavior, but move the authoring
-complexity into a navigable source tree. Human maintainers edit categorized
-fragments under `Configuration/`; a deterministic project function assembles
-them into the ordinary flat root `config.yml` expected by `{config}`.
+Keep `{config}` and its existing runtime behavior, but move the authoring complexity into a navigable source tree. Human maintainers edit categorized fragments under `Configuration/`; a deterministic project function assembles them into the ordinary flat root `config.yml` expected by `{config}`.
 
 ```text
 Configuration/
@@ -381,9 +295,7 @@ Configuration/
 config.yml  # generated and tracked; do not edit manually
 ```
 
-Each fragment remains valid `{config}`-style YAML with profiles as top-level
-keys. This permits deterministic textual assembly and avoids a second custom
-configuration semantics layer. For example:
+Each fragment remains valid `{config}`-style YAML with profiles as top-level keys. This permits deterministic textual assembly and avoids a second custom configuration semantics layer. For example:
 
 ```yaml
 base_paleo_spatial:
@@ -419,11 +331,7 @@ Every profile has `_profile` metadata with:
 - `related_issue`: required for issue-specific profiles; and
 - `retirement`: the archival or deletion criterion for temporary profiles.
 
-Base profiles use `role: base` and `selectable: false`. Normal production
-runners accept only `main` profiles, plus explicitly supported `smoke` profiles.
-Reference and one-time profiles require their dedicated validation or
-historical runner; they cannot be selected accidentally by a production entry
-point.
+Base profiles use `role: base` and `selectable: false`. Normal production runners accept only `main` profiles, plus explicitly supported `smoke` profiles. Reference and one-time profiles require their dedicated validation or historical runner; they cannot be selected accidentally by a production entry point.
 
 `Configuration/manifest.yml` is the only ordering authority:
 
@@ -448,27 +356,16 @@ The generator must:
 1. read the manifest and verify every listed fragment exists;
 2. parse fragments with `yaml` and reject duplicate top-level profile names;
 3. require exactly one `default` profile;
-4. validate `_profile` metadata, inheritance references, acyclicity, and a
-   documented maximum inheritance depth;
-5. assemble fragments in manifest order, preserving `!expr` values and useful
-   comments;
-6. parse the combined temporary file and resolve every selectable profile with
-   `config::get()`;
+4. validate `_profile` metadata, inheritance references, acyclicity, and a documented maximum inheritance depth;
+5. assemble fragments in manifest order, preserving `!expr` values and useful comments;
+6. parse the combined temporary file and resolve every selectable profile with `config::get()`;
 7. compare every resolved profile with the versioned semantic reference;
 8. write the tracked root `config.yml`; and
-9. generate `Configuration/Generated/profile_catalog.md` with each profile's
-   role, status, pipeline, inheritance, issue, and supported runner.
+9. generate `Configuration/Generated/profile_catalog.md` with each profile's role, status, pipeline, inheritance, issue, and supported runner.
 
-The generated file starts with a prominent source and regeneration notice. CI
-or an equivalent repository check regenerates it in a temporary location and
-fails when the tracked result is stale.
+The generated file starts with a prominent source and regeneration notice. CI or an equivalent repository check regenerates it in a temporary location and fails when the tracked result is stale.
 
-The initial migration is structural only. All 26 current profile IDs and their
-resolved values remain semantically identical. New base profiles may reduce
-duplication only when equivalence is proven for every descendant, and
-inheritance must remain shallow enough to understand from the generated
-catalog. Profile renames or parameter changes require later, separately
-approved behavior migrations.
+The initial migration is structural only. All 26 current profile IDs and their resolved values remain semantically identical. New base profiles may reduce duplication only when equivalence is proven for every descendant, and inheritance must remain shallow enough to understand from the generated catalog. Profile renames or parameter changes require later, separately approved behavior migrations.
 
 The authoring workflow is:
 
@@ -482,9 +379,7 @@ The authoring workflow is:
 
 ## Naming contract
 
-The standard is semantic, not merely a short allowlist. Each canonical verb
-must document its return behavior, side effects, allowed scope, forbidden
-synonyms, and examples in `.ai/r-coding.md`.
+The standard is semantic, not merely a short allowlist. Each canonical verb must document its return behavior, side effects, allowed scope, forbidden synonyms, and examples in `.ai/r-coding.md`.
 
 | Verb | Contract | Replace or disambiguate |
 |---|---|---|
@@ -508,23 +403,13 @@ synonyms, and examples in `.ai/r-coding.md`.
 | `plot_` | Return a plot object without saving it. | Saving belongs to `save_`. |
 | `render_` | Materialise a document or multi-file rendered output. | Keep distinct from returning a plot object. |
 
-Precise domain verbs remain allowed when they remove ambiguity, including
-`filter_`, `classify_`, `interpolate_`, `scale_`, `project_`, `cluster_`,
-`deduplicate_`, and `normalise_`. Each must have one meaning across the
-repository.
+Precise domain verbs remain allowed when they remove ambiguity, including `filter_`, `classify_`, `interpolate_`, `scale_`, `project_`, `cluster_`, `deduplicate_`, and `normalise_`. Each must have one meaning across the repository.
 
 ### Extraction versus loading
 
-`extract_` is allowed only for selecting a component from an already in-memory
-object. It must never mean reading a file, database, target store, or remote
-resource. All persistent retrieval uses `load_`.
+`extract_` is allowed only for selecting a component from an already in-memory object. It must never mean reading a file, database, target store, or remote resource. All persistent retrieval uses `load_`.
 
-Configuration retrieval follows the same contract. Rename
-`get_active_config()` to `load_active_config()`, update all callers, and make it
-the canonical runtime boundary around `config::get()`. Direct package calls
-remain only in the loader, configuration generator/equivalence tooling, and
-focused tests. Do not retain a compatibility alias unless the caller inventory
-demonstrates an active external consumer.
+Configuration retrieval follows the same contract. Rename `get_active_config()` to `load_active_config()`, update all callers, and make it the canonical runtime boundary around `config::get()`. Direct package calls remain only in the loader, configuration generator/equivalence tooling, and focused tests. Do not retain a compatibility alias unless the caller inventory demonstrates an active external consumer.
 
 ### Vague variants
 
@@ -532,16 +417,10 @@ Do not create pairs such as `xxx()` and `xxx_simple()` or `xxx_basic()`.
 
 For each existing or proposed variant:
 
-1. Use a strategy-specific name such as `_grouped`, `_pooled`,
-   `_from_shared_inputs`, `_without_spatial_effect`, or
-   `_for_reference_profile` when the distinction is a real domain concept.
-2. Use a documented `method` or `strategy` argument when the input/output
-   contracts are identical and only one policy axis differs.
-3. Use separate domain names when the algorithms or contracts are genuinely
-   different.
-4. Do not use `new`, `old`, `final`, `temp`, `simple`, or `basic` as a semantic
-   variant. `test` is allowed only for an actual training/test split or test
-   fixture.
+1. Use a strategy-specific name such as `_grouped`, `_pooled`, `_from_shared_inputs`, `_without_spatial_effect`, or `_for_reference_profile` when the distinction is a real domain concept.
+2. Use a documented `method` or `strategy` argument when the input/output contracts are identical and only one policy axis differs.
+3. Use separate domain names when the algorithms or contracts are genuinely different.
+4. Do not use `new`, `old`, `final`, `temp`, `simple`, or `basic` as a semantic variant. `test` is allowed only for an actual training/test split or test fixture.
 
 ### Object names
 
@@ -552,22 +431,15 @@ Use type- and role-explicit prefixes where the type is stable:
 - `config_`, `flag_`, `seed_`, `index_`, `formula_`, and `n_`;
 - `res_` only for a function's explicit return object.
 
-Use state suffixes such as `_raw`, `_validated`, `_aligned`, `_filtered`,
-`_prepared`, `_selected`, and `_summary`. Do not reassign a transformed object
-under the same name.
+Use state suffixes such as `_raw`, `_validated`, `_aligned`, `_filtered`, `_prepared`, `_selected`, and `_summary`. Do not reassign a transformed object under the same name.
 
-Local object renames occur inside the domain/function batch that owns the
-code. A later repository-wide local-variable pass is prohibited because it
-would create large low-value diffs. Persisted targets, artifact fields, store
-names, and configuration keys are inventoried separately because renaming them
-may invalidate stores or require a compatibility migration.
+Local object renames occur inside the domain/function batch that owns the code. A later repository-wide local-variable pass is prohibited because it would create large low-value diffs. Persisted targets, artifact fields, store names, and configuration keys are inventoried separately because renaming them may invalidate stores or require a compatibility migration.
 
 ---
 
 ## README contract for non-main workflows
 
-Every diagnostic, validation, sensitivity, benchmark, experiment, archived, or
-one-time-script folder must contain a README with:
+Every diagnostic, validation, sensitivity, benchmark, experiment, archived, or one-time-script folder must contain a README with:
 
 - purpose and backstory;
 - active, reference, experimental, or archival status;
@@ -580,9 +452,7 @@ one-time-script folder must contain a README with:
 - retirement or archival criteria; and
 - related issue, PR, report, or scientific decision.
 
-An issue number may remain in a durable path only under
-`One_time/Issues/<issue>/` or an equivalent explicit historical evidence
-folder.
+An issue number may remain in a durable path only under `One_time/Issues/<issue>/` or an equivalent explicit historical evidence folder.
 
 ---
 
@@ -629,11 +499,9 @@ Create versioned inventories before moving code:
    - stable semantic hashes used for equivalence checks;
    - the `{config}` and R versions used to create the reference.
 
-`Configuration/Generated/profile_catalog.md` is a regenerated human-readable
-view, not a replacement for the versioned inventory or semantic reference.
+`Configuration/Generated/profile_catalog.md` is a regenerated human-readable view, not a replacement for the versioned inventory or semantic reference.
 
-Inventories are append-only within the refactor: do not delete historical names
-after migration. Record status and replacement.
+Inventories are append-only within the refactor: do not delete historical names after migration. Record status and replacement.
 
 ---
 
@@ -649,12 +517,7 @@ Standards, inventories, and loader safety
                   `---> Blocking architecture enforcement
 ```
 
-Domain migrations may proceed only when they own disjoint files and do not
-depend on unmerged symbol renames. Merge sequentially from updated `main`.
-The configuration workstream exclusively owns structural changes to
-`Configuration/**`, the generated root `config.yml`, and the canonical
-configuration loader. Issue #141 consumes and validates its frozen profiles but
-does not reorganise the configuration file independently.
+Domain migrations may proceed only when they own disjoint files and do not depend on unmerged symbol renames. Merge sequentially from updated `main`. The configuration workstream exclusively owns structural changes to `Configuration/**`, the generated root `config.yml`, and the canonical configuration loader. Issue #141 consumes and validates its frozen profiles but does not reorganise the configuration file independently.
 
 ---
 
@@ -662,28 +525,20 @@ does not reorganise the configuration file independently.
 
 ### Define naming standards, inventories, and safe function loading
 
-**Goal:** Establish enforceable architecture contracts and a reliable baseline
-before any large move.
+**Goal:** Establish enforceable architecture contracts and a reliable baseline before any large move.
 
 **Tasks:**
 
 - [ ] Create the four versioned inventories listed above.
-- [ ] Classify all 39 main-analysis scripts and every active pipeline/function
-  file.
-- [ ] Mark every target/artifact as public/frozen, persisted-internal, or
-  private.
-- [ ] Update the R coding/function guidance through the repository's
-  proposal-first approval workflow.
+- [ ] Classify all 39 main-analysis scripts and every active pipeline/function file.
+- [ ] Mark every target/artifact as public/frozen, persisted-internal, or private.
+- [ ] Update the R coding/function guidance through the repository's proposal-first approval workflow.
 - [ ] Make function loading deterministic by sorting paths explicitly.
 - [ ] Reject duplicate top-level function symbols and duplicate basenames.
-- [ ] Reject function-file basename mismatches and multiple top-level function
-  declarations.
-- [ ] Reject top-level executable code in function files unless explicitly
-  allowlisted and justified.
-- [ ] Verify legacy exclusions are explicit rather than dependent on incidental
-  path matching.
-- [ ] Add report-only checks for script classification, folder placement,
-  naming, and stale path references.
+- [ ] Reject function-file basename mismatches and multiple top-level function declarations.
+- [ ] Reject top-level executable code in function files unless explicitly allowlisted and justified.
+- [ ] Verify legacy exclusions are explicit rather than dependent on incidental path matching.
+- [ ] Add report-only checks for script classification, folder placement, naming, and stale path references.
 
 **Validation:**
 
@@ -698,8 +553,7 @@ before any large move.
 
 ### Modularise and type pipeline configuration profiles
 
-**Goal:** Keep `{config}` at runtime while making main, smoke, reference, and
-one-time profiles easy to locate, inspect, and select safely.
+**Goal:** Keep `{config}` at runtime while making main, smoke, reference, and one-time profiles easy to locate, inspect, and select safely.
 
 **Owned scope:**
 
@@ -711,59 +565,36 @@ one-time profiles easy to locate, inspect, and select safely.
 
 **Tasks:**
 
-- [ ] Create the approved `Configuration/` tree, README, and deterministic
-  manifest.
-- [ ] Create the configuration profile inventory and semantic reference for all
-  26 current profiles before changing their structure.
-- [ ] Split the current flat profiles into default, base, main, validation,
-  reference, and issue-specific source fragments.
+- [ ] Create the approved `Configuration/` tree, README, and deterministic manifest.
+- [ ] Create the configuration profile inventory and semantic reference for all 26 current profiles before changing their structure.
+- [ ] Split the current flat profiles into default, base, main, validation, reference, and issue-specific source fragments.
 - [ ] Preserve every existing profile ID and resolved value.
-- [ ] Introduce only proven-equivalent base profiles and document a shallow
-  maximum inheritance depth.
-- [ ] Add complete `_profile` role, status, selectability, pipeline, issue, and
-  retirement metadata.
-- [ ] Build the deterministic generator for the tracked root `config.yml` and
-  generated profile catalog.
+- [ ] Introduce only proven-equivalent base profiles and document a shallow maximum inheritance depth.
+- [ ] Add complete `_profile` role, status, selectability, pipeline, issue, and retirement metadata.
+- [ ] Build the deterministic generator for the tracked root `config.yml` and generated profile catalog.
 - [ ] Preserve `{config}` features such as `!expr` and comments during assembly.
-- [ ] Rename `get_active_config()` to `load_active_config()`, update its callers,
-  and centralise direct `config::get()` calls behind it.
-- [ ] Add role/selectability guards so normal production runners reject base,
-  reference, archived, and one-time profiles.
-- [ ] Add README backstory, supported commands, outputs, and retirement policy
-  for historical issue-profile folders.
-- [ ] Add a blocking check that the generated `config.yml` and catalog match
-  their sources.
-- [ ] Do not delete or rename profiles until the caller and historical-reference
-  inventory proves the migration safe and the user separately approves it.
+- [ ] Rename `get_active_config()` to `load_active_config()`, update its callers, and centralise direct `config::get()` calls behind it.
+- [ ] Add role/selectability guards so normal production runners reject base, reference, archived, and one-time profiles.
+- [ ] Add README backstory, supported commands, outputs, and retirement policy for historical issue-profile folders.
+- [ ] Add a blocking check that the generated `config.yml` and catalog match their sources.
+- [ ] Do not delete or rename profiles until the caller and historical-reference inventory proves the migration safe and the user separately approves it.
 
 **Validation:**
 
-- Deep-compare and hash old/new resolved configuration values for all 26
-  profiles, including target-store, seed, graphical, data-processing,
-  model-fitting, and scientific-performance fields.
-- Require exactly one `default`; reject duplicate profile keys, missing
-  fragments, incomplete metadata, unknown parents, inheritance cycles, and
-  excessive inheritance depth.
-- Resolve every selectable profile from the generated file with
-  `config::get()`.
-- Verify every source fragment is listed exactly once in the manifest and every
-  manifest fragment is documented.
-- Verify direct `config::get()` calls remain only in the canonical loader,
-  generator/equivalence tooling, and focused tests.
-- Regenerate in a temporary location and prove the tracked `config.yml` and
-  profile catalog are current.
+- Deep-compare and hash old/new resolved configuration values for all 26 profiles, including target-store, seed, graphical, data-processing, model-fitting, and scientific-performance fields.
+- Require exactly one `default`; reject duplicate profile keys, missing fragments, incomplete metadata, unknown parents, inheritance cycles, and excessive inheritance depth.
+- Resolve every selectable profile from the generated file with `config::get()`.
+- Verify every source fragment is listed exactly once in the manifest and every manifest fragment is documented.
+- Verify direct `config::get()` calls remain only in the canonical loader, generator/equivalence tooling, and focused tests.
+- Regenerate in a temporary location and prove the tracked `config.yml` and profile catalog are current.
 - Generate all affected pipeline manifests.
 - Run fresh CZ paleo and modern smoke workflows.
-- Verify the frozen Issue #141 profile IDs and exact resolved values. If any
-  value changes, stop treating the change as structural and require the full
-  Issue #138 paired benchmark and separate approval.
-- Run focused configuration/runner tests, the full test suite, and the mandatory
-  change-review workflow before merging.
+- Verify the frozen Issue #141 profile IDs and exact resolved values. If any value changes, stop treating the change as structural and require the full Issue #138 paired benchmark and separate approval.
+- Run focused configuration/runner tests, the full test suite, and the mandatory change-review workflow before merging.
 
 ### Simplify the optimised cross-validation architecture and close #141
 
-**Goal:** Remove demonstrated CV duplication and clarify ownership while
-preserving the accepted scientific, public, store, and performance contracts.
+**Goal:** Remove demonstrated CV duplication and clarify ownership while preserving the accepted scientific, public, store, and performance contracts.
 
 **Owned scope:**
 
@@ -773,43 +604,25 @@ preserving the accepted scientific, public, store, and performance contracts.
 - tier-tuning and common-regularisation pipelines
 - CV-related runner/store orchestration
 - CV tests and fixtures
-- CV reference, benchmark, Issue #138, Issue #139, and Issue #143 scripts and
-  documentation
+- CV reference, benchmark, Issue #138, Issue #139, and Issue #143 scripts and documentation
 - CV-owned scripts currently misplaced in `R/02_Main_analyses`
 
-The configuration workstream owns the structural reorganisation of
-`config.yml`. Issue #141 validates and consumes its frozen CV profiles but does
-not rename them, change their resolved values, or edit the configuration
-architecture independently.
+The configuration workstream owns the structural reorganisation of `config.yml`. Issue #141 validates and consumes its frozen CV profiles but does not rename them, change their resolved values, or edit the configuration architecture independently.
 
 **Tasks:**
 
-- [ ] Split CV functions into assignments, feasibility, fold preparation,
-  candidate design, tuning planning/execution/aggregation/selection,
-  prediction, evaluation, contracts, and provenance.
-- [ ] Apply the canonical verb decisions to CV functions and matching files,
-  tests, callers, and generated documentation.
-- [ ] Extract the deferred named nested helpers from
-  `run_sjsdm_selected_candidate_folds.R`,
-  `prepare_fold_spatial_predictors.R`, and
-  `prepare_model_fold_input.R`, plus other coherent CV-owned helpers.
-- [ ] Extract the multi-statement tier-tuning `tar_target()` command deferred as
-  CV-015.
-- [ ] Consolidate demonstrated typed-empty schema, status, provenance, and
-  target-building duplication.
-- [ ] Separate fold preparation, fitting, prediction, scoring, selection, and
-  target declaration responsibilities.
-- [ ] Simplify runner sequencing and target-store reads without combining
-  isolated stores.
+- [ ] Split CV functions into assignments, feasibility, fold preparation, candidate design, tuning planning/execution/aggregation/selection, prediction, evaluation, contracts, and provenance.
+- [ ] Apply the canonical verb decisions to CV functions and matching files, tests, callers, and generated documentation.
+- [ ] Extract the deferred named nested helpers from `run_sjsdm_selected_candidate_folds.R`, `prepare_fold_spatial_predictors.R`, and `prepare_model_fold_input.R`, plus other coherent CV-owned helpers.
+- [ ] Extract the multi-statement tier-tuning `tar_target()` command deferred as CV-015.
+- [ ] Consolidate demonstrated typed-empty schema, status, provenance, and target-building duplication.
+- [ ] Separate fold preparation, fitting, prediction, scoring, selection, and target declaration responsibilities.
+- [ ] Simplify runner sequencing and target-store reads without combining isolated stores.
 - [ ] Localise the deferred CV test fixtures.
 - [ ] Add the deferred roxygen examples where executable examples are safe.
-- [ ] Move CV-specific diagnostics, reference generators, benchmark runners,
-  and issue reproductions from main analyses into the new supplementary tree,
-  with standard READMEs.
-- [ ] Remove CV dead paths only after caller and reference inventories prove
-  them unused.
-- [ ] Update #135, PR #137 documentation, #140, and #141 closure evidence to
-  describe the final architecture.
+- [ ] Move CV-specific diagnostics, reference generators, benchmark runners, and issue reproductions from main analyses into the new supplementary tree, with standard READMEs.
+- [ ] Remove CV dead paths only after caller and reference inventories prove them unused.
+- [ ] Update #135, PR #137 documentation, #140, and #141 closure evidence to describe the final architecture.
 
 **Slice gates:**
 
@@ -821,20 +634,15 @@ For every mergeable slice:
 - compare old/new caller and symbol inventories;
 - generate affected manifests;
 - run a fresh-store small representative `tar_make()` slice;
-- verify no stale old-path or old-symbol references remain outside the
-  inventory and historical records.
+- verify no stale old-path or old-symbol references remain outside the inventory and historical records.
 
-For every shared-infrastructure or performance-sensitive slice, also run the
-full suite and the relevant public-contract comparisons.
+For every shared-infrastructure or performance-sensitive slice, also run the full suite and the relevant public-contract comparisons.
 
 **Closure validation:**
 
-- Preserve the Issue #139 public target, schema, status, provenance, grouped
-  assignment, and correctness-reference contracts.
-- Match the paired CZ schema hash
-  `2d727fd54623501e0ac384e0674c17f3`.
-- Match the grouped-assignment hash
-  `ec5dcdda6049a504cb0b69f845c64aa8`.
+- Preserve the Issue #139 public target, schema, status, provenance, grouped assignment, and correctness-reference contracts.
+- Match the paired CZ schema hash `2d727fd54623501e0ac384e0674c17f3`.
+- Match the grouped-assignment hash `ec5dcdda6049a504cb0b69f845c64aa8`.
 - Run fresh CZ paleo and modern workflows.
 - Run applicable representative spatial/temporal workflows.
 - Re-run the exact Issue #138 paired protocol.
@@ -843,39 +651,31 @@ full suite and the relevant public-contract comparisons.
 - Keep target-store growth at or below 25%.
 - Keep paired peak RAM and VRAM growth at or below 10%.
 - Allow no GPU-memory failure.
-- Keep log-loss, AUC, Tjur R2, evaluable-taxon coverage, and candidate-selection
-  changes within the accepted Issue #141 guard.
+- Keep log-loss, AUC, Tjur R2, evaluable-taxon coverage, and candidate-selection changes within the accepted Issue #141 guard.
 - Parse/render affected Quarto and generated documentation.
 - Run the full test suite and all affected manifests.
 - Complete the mandatory change-review workflow before closing #141.
 
 ### Separate non-CV main analyses from supplementary workflows
 
-**Goal:** Make `R/02_Main_analyses` contain only stable production-facing
-analyses.
+**Goal:** Make `R/02_Main_analyses` contain only stable production-facing analyses.
 
 **Tasks:**
 
-- [ ] Move non-CV diagnostics such as spatial-pipeline, modern-preprocessing,
-  and temporal-continent diagnostics into `Diagnostics/`.
-- [ ] Move convergence tuning and other sensitivity investigations into
-  `Sensitivity/`.
-- [ ] Move one-time repair/rerun scripts into `One_time/` or replace them with a
-  reusable supported runner when they remain operationally necessary.
+- [ ] Move non-CV diagnostics such as spatial-pipeline, modern-preprocessing, and temporal-continent diagnostics into `Diagnostics/`.
+- [ ] Move convergence tuning and other sensitivity investigations into `Sensitivity/`.
+- [ ] Move one-time repair/rerun scripts into `One_time/` or replace them with a reusable supported runner when they remain operationally necessary.
 - [ ] Move test/smoke runners into `Testing/Smoke/`.
 - [ ] Add a README to every new non-main workflow folder.
-- [ ] Rename durable scripts consistently and apply two-digit numeric prefixes
-  to main-analysis folders and scripts so their execution order is explicit.
+- [ ] Rename durable scripts consistently and apply two-digit numeric prefixes to main-analysis folders and scripts so their execution order is explicit.
 - [ ] Update all source, command, documentation, and workflow references.
-- [ ] Add a blocking allowlist/classification check for
-  `R/02_Main_analyses`.
+- [ ] Add a blocking allowlist/classification check for `R/02_Main_analyses`.
 
 **Validation:**
 
 - Parse every moved script.
 - Verify every old path has zero active references.
-- Execute each supported diagnostic/validation entry point at least to its
-  configuration and input-preflight boundary.
+- Execute each supported diagnostic/validation entry point at least to its configuration and input-preflight boundary.
 - Run the relevant smoke workflow from its new path.
 - Generate affected pipeline manifests.
 - Run focused tests for path/configuration helpers.
@@ -885,8 +685,7 @@ analyses.
 
 ### Reorganise data-domain functions and tests
 
-**Goal:** Give abiotic, community, trait, and time functions clear lifecycle
-ownership without changing behavior.
+**Goal:** Give abiotic, community, trait, and time functions clear lifecycle ownership without changing behavior.
 
 **Domains:** `Abiotic`, `Community`, `Traits`, and `Time`.
 
@@ -897,8 +696,7 @@ ownership without changing behavior.
 - [ ] Rename functions and files using the approved naming map.
 - [ ] Rename local objects in the functions being edited.
 - [ ] Decompose coherent named nested helpers.
-- [ ] Consolidate duplicated helpers only with demonstrated equivalent
-  contracts.
+- [ ] Consolidate duplicated helpers only with demonstrated equivalent contracts.
 - [ ] Remove the domain's proven dead/legacy paths.
 - [ ] Update roxygen, tests, pipelines, scripts, and generated documentation.
 - [ ] Turn architecture/naming checks blocking for the migrated domain.
@@ -915,20 +713,15 @@ ownership without changing behavior.
 
 ### Reorganise modelling functions outside cross-validation
 
-**Goal:** Clarify model input, fitting, spatial effect, evaluation,
-decomposition, tuning, and variance-partitioning ownership.
+**Goal:** Clarify model input, fitting, spatial effect, evaluation, decomposition, tuning, and variance-partitioning ownership.
 
 **Tasks:**
 
-- [ ] Migrate `Fit_inputs`, `Fitting`, `Spatial_effects`, `Evaluation`,
-  `Decomposition_diagnostics`, `Diagnostics`, `Tuning`, and
-  `Variance_partitioning` in separate domain-sized batches.
-- [ ] Separate reusable modelling logic from diagnostic or scientific-reference
-  logic.
+- [ ] Migrate `Fit_inputs`, `Fitting`, `Spatial_effects`, `Evaluation`, `Decomposition_diagnostics`, `Diagnostics`, `Tuning`, and `Variance_partitioning` in separate domain-sized batches.
+- [ ] Separate reusable modelling logic from diagnostic or scientific-reference logic.
 - [ ] Rename functions/files and local objects using the approved maps.
 - [ ] Extract coherent named nested helpers.
-- [ ] Replace the `Utility`-style cross-domain ownership that belongs to
-  modelling.
+- [ ] Replace the `Utility`-style cross-domain ownership that belongs to modelling.
 - [ ] Remove proven dead/legacy modelling paths inside their owning batch.
 - [ ] Update tests, manifests, runners, and generated documentation.
 
@@ -944,19 +737,14 @@ decomposition, tuning, and variance-partitioning ownership.
 
 ### Reorganise pipeline, prediction, visualisation, and presentation helpers
 
-**Goal:** Remove catch-all utility ownership and align remaining helpers with
-their consumers and side effects.
+**Goal:** Remove catch-all utility ownership and align remaining helpers with their consumers and side effects.
 
 **Tasks:**
 
-- [ ] Move configuration, path/store, and orchestration helpers from `Utility`
-  into explicit pipeline or infrastructure capabilities.
-- [ ] Reorganise prediction helpers by inputs, inference, scaling, and
-  summaries.
-- [ ] Reorganise visualisation helpers by returned plot or prepared-data
-  contract.
-- [ ] Decide from active callers whether IAVS presentation helpers remain
-  project-wide reusable functions or move beside the presentation workflow.
+- [ ] Move configuration, path/store, and orchestration helpers from `Utility` into explicit pipeline or infrastructure capabilities.
+- [ ] Reorganise prediction helpers by inputs, inference, scaling, and summaries.
+- [ ] Reorganise visualisation helpers by returned plot or prepared-data contract.
+- [ ] Decide from active callers whether IAVS presentation helpers remain project-wide reusable functions or move beside the presentation workflow.
 - [ ] Apply function/file/local-object renames inside each owned batch.
 - [ ] Separate `plot_`, `save_`, and `render_` side-effect contracts.
 - [ ] Remove proven dead/legacy paths and update generated documentation.
@@ -973,22 +761,18 @@ their consumers and side effects.
 
 ### Migrate persisted internal targets and artifacts
 
-**Goal:** Standardise internal persisted names without breaking frozen public
-contracts or silently invalidating stores.
+**Goal:** Standardise internal persisted names without breaking frozen public contracts or silently invalidating stores.
 
 **Tasks:**
 
 - [ ] Exclude Issue #141 public target names and artifact fields by default.
-- [ ] For each proposed internal target rename, record consumers, store
-  invalidation, restart impact, and compatibility requirements.
-- [ ] Prefer leaving a persisted name unchanged when the clarity gain does not
-  justify invalidating expensive stores.
+- [ ] For each proposed internal target rename, record consumers, store invalidation, restart impact, and compatibility requirements.
+- [ ] Prefer leaving a persisted name unchanged when the clarity gain does not justify invalidating expensive stores.
 - [ ] Require explicit user approval for any public/frozen migration.
 - [ ] Add compatibility tests before an approved artifact/schema migration.
 - [ ] Rename private targets only inside the pipeline batch that owns them.
 - [ ] Record which stores need a clean rebuild and which can resume.
-- [ ] Remove old internal names only after every consumer and generated document
-  is migrated.
+- [ ] Remove old internal names only after every consumer and generated document is migrated.
 
 **Validation for each migration:**
 
@@ -1003,24 +787,19 @@ contracts or silently invalidating stores.
 
 ### Enforce the completed architecture
 
-**Goal:** Convert the report-only safeguards into durable blocking checks and
-publish an accurate architecture map.
+**Goal:** Convert the report-only safeguards into durable blocking checks and publish an accurate architecture map.
 
-This workstream adds maintained tooling and documentation; it is not a deferred
-cleanup or validation-only phase.
+This workstream adds maintained tooling and documentation; it is not a deferred cleanup or validation-only phase.
 
 **Tasks:**
 
-- [ ] Make duplicate-symbol, file/function mismatch, one-function-per-file,
-  stale-path, folder-placement, and migrated-domain naming checks blocking.
+- [ ] Make duplicate-symbol, file/function mismatch, one-function-per-file, stale-path, folder-placement, and migrated-domain naming checks blocking.
 - [ ] Add explicit exceptions only with owner, rationale, and review date.
 - [ ] Generate the final R architecture and dependency map.
 - [ ] Regenerate function documentation and coverage reports.
 - [ ] Verify README completeness for every non-main workflow folder.
-- [ ] Update repository instructions to describe the new structure and naming
-  contracts.
-- [ ] Close the umbrella only when every deferred exception has an accepted
-  follow-up issue.
+- [ ] Update repository instructions to describe the new structure and naming contracts.
+- [ ] Close the umbrella only when every deferred exception has an accepted follow-up issue.
 
 **Validation:**
 
@@ -1059,15 +838,10 @@ cleanup or validation-only phase.
 
 ## Open decisions
 
-- Whether a later, separately approved migration should rename the four
-  top-level R roots after their contents are stable. This plan assumes they
-  remain unchanged initially.
-- Whether IAVS presentation helpers still have active project-wide consumers or
-  should live beside the presentation.
-- Which persisted internal target names provide enough clarity benefit to
-  justify clean-store invalidation.
-- Whether a later behavior migration should rename configuration profile IDs.
-  This plan preserves every current ID during the structural migration.
+- Whether a later, separately approved migration should rename the four top-level R roots after their contents are stable. This plan assumes they remain unchanged initially.
+- Whether IAVS presentation helpers still have active project-wide consumers or should live beside the presentation.
+- Which persisted internal target names provide enough clarity benefit to justify clean-store invalidation.
+- Whether a later behavior migration should rename configuration profile IDs. This plan preserves every current ID during the structural migration.
 - Whether to create the proposed GitHub umbrella and child issues now.
 
 These decisions do not block the standards/inventory/loader workstream.
@@ -1078,12 +852,7 @@ These decisions do not block the standards/inventory/loader workstream.
 
 ### Existing Issue #141
 
-Keep
-[#141](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/141)
-as a child of #140. Update its body only through an explicitly approved GitHub
-write after the path/function inventories identify its exact owned files. Add
-the existing `🏗️refactor` label if the user approves; preserve its existing
-labels and metadata.
+Keep [#141](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/141) as a child of #140. Update its body only through an explicitly approved GitHub write after the path/function inventories identify its exact owned files. Add the existing `🏗️refactor` label if the user approves; preserve its existing labels and metadata.
 
 ### Umbrella issue #149
 
@@ -1456,7 +1225,4 @@ domains reach their approved structure.
 
 ## Recommended next action
 
-Begin #150 and the inventory/reference portion of #151 from updated `main`.
-Implement and validate the configuration generator before mass script moves or
-configuration edits. Do not begin mass moves or renames until the inventories,
-loader checks, and structural configuration equivalence gates are accepted.
+Begin #150 and the inventory/reference portion of #151 from updated `main`. Implement and validate the configuration generator before mass script moves or configuration edits. Do not begin mass moves or renames until the inventories, loader checks, and structural configuration equivalence gates are accepted.

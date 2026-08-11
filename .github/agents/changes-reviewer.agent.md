@@ -9,7 +9,6 @@ tools: [read, search, vscode]
 
 # Changes Reviewer Agent
 
-This Copilot custom-agent file is kept for Copilot discovery only.
-The canonical agent definition lives in `.ai/agents/changes-reviewer.agent.md`.
+This Copilot custom-agent file is kept for Copilot discovery only. The canonical agent definition lives in `.ai/agents/changes-reviewer.agent.md`.
 
 When running this agent, follow `.ai/agents/changes-reviewer.agent.md`. Keep this file's YAML frontmatter intact so Copilot can still discover the custom agent.

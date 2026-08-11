@@ -8,21 +8,13 @@
 
 ## Goal
 
-The current instruction and agent files live exclusively under `.github/`, which means
-only GitHub Copilot can discover them automatically. Collaborators using other AI
-coding assistants — OpenAI Codex CLI, Anthropic Claude Code, Google Gemini Code
-Assist, Cursor, Windsurf, and future systems — either miss all guidance or must
-manually point their tool at the right files. After this change, a shared `.ai/`
-folder will be the single source of truth for all instruction content, and each AI
-system will have a lightweight native entry-point file that routes to it. Copilot's
-existing `applyTo` feature is preserved; no current functionality regresses.
+The current instruction and agent files live exclusively under `.github/`, which means only GitHub Copilot can discover them automatically. Collaborators using other AI coding assistants — OpenAI Codex CLI, Anthropic Claude Code, Google Gemini Code Assist, Cursor, Windsurf, and future systems — either miss all guidance or must manually point their tool at the right files. After this change, a shared `.ai/` folder will be the single source of truth for all instruction content, and each AI system will have a lightweight native entry-point file that routes to it. Copilot's existing `applyTo` feature is preserved; no current functionality regresses.
 
 ---
 
 ## Background: AI System Conventions
 
-Each system has a different native convention for discovering project-level
-instructions. This is a summary of known standards:
+Each system has a different native convention for discovering project-level instructions. This is a summary of known standards:
 
 | System | Native file(s) | Notes |
 |--------|---------------|-------|
@@ -35,9 +27,7 @@ instructions. This is a summary of known standards:
 | **Antigravity / unknown systems** | Tool-specific (e.g. `.antigravity/rules.md`) | Recommended: follow the `AGENTS.md` fallback pattern; add a thin per-tool file pointing to `.ai/` when needed |
 | **Aider** | Reads `AGENTS.md` if present; also respects `CONVENTIONS.md` | |
 
-**Key insight**: `AGENTS.md` has emerged as the broadest-coverage universal
-convention and should be the primary entry point. Each other native file is a thin
-redirect that routes the tool to the same `.ai/` content.
+**Key insight**: `AGENTS.md` has emerged as the broadest-coverage universal convention and should be the primary entry point. Each other native file is a thin redirect that routes the tool to the same `.ai/` content.
 
 ---
 
@@ -46,23 +36,19 @@ redirect that routes the tool to the same `.ai/` content.
 ### In scope
 
 - Create `.ai/` folder as the canonical shared source of instruction content
-- Consolidate the 5 separate R coding instruction files into 2 `.ai/` files
-  (moderate refactor — merge related content, do not rewrite from scratch)
+- Consolidate the 5 separate R coding instruction files into 2 `.ai/` files (moderate refactor — merge related content, do not rewrite from scratch)
 - Move `.github/agents/` to `.ai/agents/` so agent definitions are system-agnostic
 - Create `AGENTS.md` at repo root (universal lightweight index)
 - Create `CLAUDE.md` at repo root (thin redirect for Claude Code)
 - Create `GEMINI.md` at repo root (thin redirect for Gemini)
 - Create `.cursor/rules/` with `.mdc` files for Cursor's native routing
 - Update `.github/copilot-instructions.md` to be a thin redirect to `AGENTS.md` + `.ai/`
-- Update `.github/instructions/*.instructions.md` files — keep `applyTo` frontmatter,
-  update body to reference the relevant `.ai/` file (content stays in `.ai/`)
-- Update all internal cross-references (subagent.instructions.md,
-  changes-reviewer.agent.md, plan-large-changes.agent.md)
+- Update `.github/instructions/*.instructions.md` files — keep `applyTo` frontmatter, update body to reference the relevant `.ai/` file (content stays in `.ai/`)
+- Update all internal cross-references (subagent.instructions.md, changes-reviewer.agent.md, plan-large-changes.agent.md)
 
 ### Out of scope
 
-- Changing any instruction *content* beyond what is needed for consolidation
-  (this is a restructure, not a rewrite)
+- Changing any instruction *content* beyond what is needed for consolidation (this is a restructure, not a rewrite)
 - Adding new rules, new workflows, or new test infrastructure
 - Modifying pipeline files, R source, or analysis scripts
 - Removing `.github/instructions/` — it is kept for Copilot's `applyTo` feature
@@ -108,17 +94,14 @@ redirect that routes the tool to the same `.ai/` content.
 
 **Files to keep unchanged:**
 
-- `.github/commit-instructions.md` — Copilot-specific commit message rules; too
-  short to merit moving
+- `.github/commit-instructions.md` — Copilot-specific commit message rules; too short to merit moving
 - All R source, pipeline, and analysis files — no changes
 
 ---
 
 ## Git Worktree Setup
 
-Follow `.github/instructions/git-workflow.instructions.md`.
-Create the GitHub issue first (see scaffold at the end of this plan) and name the
-branch after that issue.
+Follow `.github/instructions/git-workflow.instructions.md`. Create the GitHub issue first (see scaffold at the end of this plan) and name the branch after that issue.
 
 1. Verify `main` is current:
    ```powershell
@@ -152,9 +135,7 @@ branch after that issue.
 
 ## Refactoring Strategy
 
-The five R coding instruction files contain related but complementary rules. With
-**Moderate** refactor scope, the goal is to consolidate into a smaller number of
-coherent files — not to rewrite content.
+The five R coding instruction files contain related but complementary rules. With **Moderate** refactor scope, the goal is to consolidate into a smaller number of coherent files — not to rewrite content.
 
 **`.ai/r-coding.md`** — general R conventions:
 - Script structure, naming, syntax (from `r-coding.instructions.md`)
@@ -167,9 +148,7 @@ coherent files — not to rewrite content.
 - Roxygen2 documentation template and rules (from `make_roxygen2_documentation.instructions.md`)
 - Complete test-writing rules via testthat (from `make_test_file_for_a_function.instructions.md`)
 
-Both files use top-level `##` sections so any AI tool can navigate directly to the
-relevant section by keyword. The merge order within each file should mirror the
-natural authoring workflow (write → document → test).
+Both files use top-level `##` sections so any AI tool can navigate directly to the relevant section by keyword. The merge order within each file should mirror the natural authoring workflow (write → document → test).
 
 ---
 
@@ -180,42 +159,27 @@ natural authoring workflow (write → document → test).
 **Goal:** All instruction content exists in the new `.ai/` folder; no content is lost.
 
 **Tasks:**
-- [ ] Create `.ai/r-coding.md` by merging (in order): `r-coding.instructions.md`,
-      `r-coding-tidyverse.instructions.md`, `r-coding-performance.instructions.md`,
-      `r-coding-visualisation.instructions.md`. Strip YAML frontmatter; keep all body
-      content. Add a clear `##` section heading for each former file.
-- [ ] Create `.ai/r-functions.md` by merging (in order):
-      `r-coding-functions.instructions.md`,
-      `make_roxygen2_documentation.instructions.md`,
-      `make_test_file_for_a_function.instructions.md`.
-- [ ] Create `.ai/git-workflow.md` — copy body of `git-workflow.instructions.md`
-      (strip YAML frontmatter).
+- [ ] Create `.ai/r-coding.md` by merging (in order): `r-coding.instructions.md`, `r-coding-tidyverse.instructions.md`, `r-coding-performance.instructions.md`, `r-coding-visualisation.instructions.md`. Strip YAML frontmatter; keep all body content. Add a clear `##` section heading for each former file.
+- [ ] Create `.ai/r-functions.md` by merging (in order): `r-coding-functions.instructions.md`, `make_roxygen2_documentation.instructions.md`, `make_test_file_for_a_function.instructions.md`.
+- [ ] Create `.ai/git-workflow.md` — copy body of `git-workflow.instructions.md` (strip YAML frontmatter).
 - [ ] Create `.ai/quarto.md` — copy body of `quarto.instructions.md`.
 - [ ] Create `.ai/debugging.md` — copy body of `debugging.instructions.md`.
-- [ ] Create `.ai/review-checklist.md` — extract the review checklist rules from
-      `changes-reviewer.agent.md` Step 4 into a standalone file so any agent (not
-      just the changes-reviewer) can load them.
+- [ ] Create `.ai/review-checklist.md` — extract the review checklist rules from `changes-reviewer.agent.md` Step 4 into a standalone file so any agent (not just the changes-reviewer) can load them.
 - [ ] Create `.ai/agents/` folder and copy both agent files:
       - `.ai/agents/changes-reviewer.agent.md`
-      - `.ai/agents/plan-large-changes.agent.md`
-      Update internal path references within those agent files to use `.ai/`
-      (e.g. the instruction-file table in `changes-reviewer.agent.md` Step 2).
+      - `.ai/agents/plan-large-changes.agent.md` Update internal path references within those agent files to use `.ai/` (e.g. the instruction-file table in `changes-reviewer.agent.md` Step 2).
 
 **Validation:**
 - This phase is not complete until its validation passes.
-- Manually diff each `.ai/` file against its source(s) to confirm no content was
-  dropped.
+- Manually diff each `.ai/` file against its source(s) to confirm no content was dropped.
 - No test suite run needed — this phase creates documentation files only.
-- For any larger code change, run the mandatory change-review workflow from
-  `.github/copilot-instructions.md` before finalising. If subagent delegation
-  requires explicit user permission, ask before finalising.
+- For any larger code change, run the mandatory change-review workflow from `.github/copilot-instructions.md` before finalising. If subagent delegation requires explicit user permission, ask before finalising.
 
 ---
 
 ### Phase 2 — Add universal system entry-point files
 
-**Goal:** `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` exist at the repo root, and
-`.cursor/rules/` provides Cursor-native routing.
+**Goal:** `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` exist at the repo root, and `.cursor/rules/` provides Cursor-native routing.
 
 **Tasks:**
 - [ ] Create `AGENTS.md` at repo root with the following sections:
@@ -232,9 +196,7 @@ natural authoring workflow (write → document → test).
     | Reviewing code changes | `.ai/review-checklist.md` |
     | Agent/subagent workflows | `.ai/agents/` |
     ```
-  - Key absolute rules section (3–5 bullet points covering the most critical
-    project-wide constraints: `here::here()` for paths, `renv` for packages,
-    `targets` for pipeline, TDD cycle, squash-merge policy)
+  - Key absolute rules section (3–5 bullet points covering the most critical project-wide constraints: `here::here()` for paths, `renv` for packages, `targets` for pipeline, TDD cycle, squash-merge policy)
 - [ ] Create `CLAUDE.md` — thin redirect:
   ```markdown
   # CLAUDE.md
@@ -242,12 +204,9 @@ natural authoring workflow (write → document → test).
   All detailed instructions live in `.ai/`.
   ```
 - [ ] Create `GEMINI.md` — same thin redirect content as `CLAUDE.md`.
-- [ ] Create `.cursor/rules/project.mdc` with `alwaysApply: true` and content
-  matching the project overview + key absolute rules from `AGENTS.md`.
-- [ ] Create `.cursor/rules/r-coding.mdc` with `globs: ["**/*.R"]` and content
-  pointing to `.ai/r-coding.md`.
-- [ ] Create `.cursor/rules/r-functions.mdc` with
-  `globs: ["**/Functions/**/*.R", "**/Testing/**/*.R"]`.
+- [ ] Create `.cursor/rules/project.mdc` with `alwaysApply: true` and content matching the project overview + key absolute rules from `AGENTS.md`.
+- [ ] Create `.cursor/rules/r-coding.mdc` with `globs: ["**/*.R"]` and content pointing to `.ai/r-coding.md`.
+- [ ] Create `.cursor/rules/r-functions.mdc` with `globs: ["**/Functions/**/*.R", "**/Testing/**/*.R"]`.
 - [ ] Create `.cursor/rules/quarto.mdc` with `globs: ["**/*.qmd"]`.
 
 **Validation:**
@@ -261,8 +220,7 @@ natural authoring workflow (write → document → test).
 
 ### Phase 3 — Update Copilot files to thin redirects
 
-**Goal:** Copilot users see the same content via `.github/` as before, but the
-authoritative source is now `.ai/`. No Copilot functionality is lost.
+**Goal:** Copilot users see the same content via `.github/` as before, but the authoritative source is now `.ai/`. No Copilot functionality is lost.
 
 **Tasks:**
 - [ ] Update `.github/copilot-instructions.md`:
@@ -282,9 +240,7 @@ authoritative source is now `.ai/`. No Copilot functionality is lost.
     - Code review: read `.ai/review-checklist.md`
     - Agent files: `.ai/agents/`
     ```
-- [ ] For each `.github/instructions/*.instructions.md` file: keep the existing
-  YAML frontmatter block unchanged (`applyTo`, `description`); replace the body
-  with a one-liner redirect, e.g.:
+- [ ] For each `.github/instructions/*.instructions.md` file: keep the existing YAML frontmatter block unchanged (`applyTo`, `description`); replace the body with a one-liner redirect, e.g.:
   ```markdown
   See `.ai/r-coding.md` for all R coding conventions applicable to this file type.
   ```
@@ -294,8 +250,7 @@ authoritative source is now `.ai/`. No Copilot functionality is lost.
 
 **Validation:**
 - This phase is not complete until its validation passes.
-- Open a Copilot chat in VS Code and ask it to describe R coding conventions.
-  Confirm it reads `.ai/r-coding.md` rather than returning empty/wrong content.
+- Open a Copilot chat in VS Code and ask it to describe R coding conventions. Confirm it reads `.ai/r-coding.md` rather than returning empty/wrong content.
 - Verify the `applyTo` frontmatter is intact on each `.github/instructions/` file.
 - No test suite run needed — documentation files only.
 - For any larger code change, run the mandatory change-review workflow before finalising.
@@ -304,39 +259,28 @@ authoritative source is now `.ai/`. No Copilot functionality is lost.
 
 ### Phase 4 — Update internal cross-references and finalise
 
-**Goal:** All path references inside agent files, instruction files, and the
-copilot-instructions.md point to the new `.ai/` structure. Old `.github/agents/`
-files can be removed once `.ai/agents/` is confirmed working.
+**Goal:** All path references inside agent files, instruction files, and the copilot-instructions.md point to the new `.ai/` structure. Old `.github/agents/` files can be removed once `.ai/agents/` is confirmed working.
 
 **Tasks:**
 - [ ] In `.ai/agents/changes-reviewer.agent.md`:
-  - Update Step 2 instruction-file table — change all `.github/instructions/` paths
-    to `.ai/r-coding.md`, `.ai/r-functions.md`, etc.
+  - Update Step 2 instruction-file table — change all `.github/instructions/` paths to `.ai/r-coding.md`, `.ai/r-functions.md`, etc.
   - Update the reference to `.github/copilot-instructions.md` → `AGENTS.md`
 - [ ] In `.ai/agents/plan-large-changes.agent.md`:
-  - Update any `.github/instructions/` and `.github/agents/` path references
-    to the new `.ai/` locations
-- [ ] Verify `.github/copilot-instructions.md` skill/instruction `<file>` references
-  in the VS Code workspace settings or `.vscode/settings.json` (if any) still
-  resolve — adjust if needed
-- [ ] Delete (after explicit user confirmation) the original `.github/agents/` files
-  that have been superseded by `.ai/agents/`. **Do not delete without confirmation.**
-- [ ] Add a note in `.ai/agents/plan-large-changes.agent.md` that the tool list
-  should also reference `.ai/agents/` as the new location for agent files
+  - Update any `.github/instructions/` and `.github/agents/` path references to the new `.ai/` locations
+- [ ] Verify `.github/copilot-instructions.md` skill/instruction `<file>` references in the VS Code workspace settings or `.vscode/settings.json` (if any) still resolve — adjust if needed
+- [ ] Delete (after explicit user confirmation) the original `.github/agents/` files that have been superseded by `.ai/agents/`. **Do not delete without confirmation.**
+- [ ] Add a note in `.ai/agents/plan-large-changes.agent.md` that the tool list should also reference `.ai/agents/` as the new location for agent files
 
 **Validation:**
 - This phase is not complete until its validation passes.
 - Run `grep -r ".github/agents" .ai/ .github/` — should return zero matches.
-- Run `grep -r ".github/instructions" .ai/ AGENTS.md CLAUDE.md GEMINI.md` — should
-  return zero matches (all `.ai/` files should reference `.ai/` paths only).
+- Run `grep -r ".github/instructions" .ai/ AGENTS.md CLAUDE.md GEMINI.md` — should return zero matches (all `.ai/` files should reference `.ai/` paths only).
 - Run the full fast test suite to confirm no R code was accidentally affected:
   ```powershell
   Rscript R/03_Supplementary_analyses/Testing/Run_tests.R
   ```
-- Run `targets::tar_manifest()` for the most recently used pipeline config to
-  confirm the pipeline definition is unaffected.
-- For any larger code change, run the mandatory change-review workflow from
-  `.github/copilot-instructions.md` before finalising.
+- Run `targets::tar_manifest()` for the most recently used pipeline config to confirm the pipeline definition is unaffected.
+- For any larger code change, run the mandatory change-review workflow from `.github/copilot-instructions.md` before finalising.
 
 ---
 
@@ -368,8 +312,7 @@ files can be removed once `.ai/agents/` is confirmed working.
 
 ## GitHub Issue Scaffold
 
-> This issue is self-contained. Anyone reading it without this plan file should have
-> all context needed to act on it.
+> This issue is self-contained. Anyone reading it without this plan file should have all context needed to act on it.
 
 **Title:** Reorganise AI instruction files for multi-system support (AGENTS.md + .ai/)
 

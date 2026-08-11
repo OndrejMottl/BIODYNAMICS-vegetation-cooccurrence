@@ -3,11 +3,9 @@
 ## Summary
 Replace the placeholder slide 12 prediction animation with two real LGM-to-present GIFs built from the existing Europe continental genus model in `pipeline_paleo_spatial_resolution`.
 
-Use the existing store:
-`Data/targets/paleo_spatial_continental/europe/pipeline_paleo_spatial_resolution`
+Use the existing store: `Data/targets/paleo_spatial_continental/europe/pipeline_paleo_spatial_resolution`
 
-Use these targets:
-`model_jsdm_selected_genus`, `data_model_input_genus`, `data_coords_projected`, `data_spatial_mev_core`, `data_spatial_mev_samples_genus`, `data_spatial_scaled_list_genus`, `model_evaluation_genus`.
+Use these targets: `model_jsdm_selected_genus`, `data_model_input_genus`, `data_coords_projected`, `data_spatial_mev_core`, `data_spatial_mev_samples_genus`, `data_spatial_scaled_list_genus`, `model_evaluation_genus`.
 
 `Fagus` is the selected genus for the taxon animation. Diversity will be labelled as expected genus richness, calculated as the row-wise sum of predicted genus probabilities.
 

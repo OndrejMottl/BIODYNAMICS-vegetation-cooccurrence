@@ -1,11 +1,8 @@
 # Cross-validation audit findings register (v1)
 
-**Audit date:** 2026-07-14
-**Issue:** #139
-**Reviewed change:** `a8ead627` against `15ff5eb4`
+**Audit date:** 2026-07-14 **Issue:** #139 **Reviewed change:** `a8ead627` against `15ff5eb4`
 
-The register records confirmed findings from the complete PR #137 review.
-Line evidence refers to commit `a8ead627` unless a later correction updates the entry.
+The register records confirmed findings from the complete PR #137 review. Line evidence refers to commit `a8ead627` unless a later correction updates the entry.
 
 | ID | Severity | Category | Evidence | Impact | Correction | Owner | Disposition |
 |---|---|---|---|---|---|---|---|

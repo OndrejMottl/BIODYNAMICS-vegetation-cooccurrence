@@ -13,7 +13,6 @@ tools: [vscode/askQuestions, read/readFile, search/fileSearch, search/listDirect
 
 # Plan Large Changes Agent
 
-This Copilot custom-agent file is kept for Copilot discovery only.
-The canonical agent definition lives in `.ai/agents/plan-large-changes.agent.md`.
+This Copilot custom-agent file is kept for Copilot discovery only. The canonical agent definition lives in `.ai/agents/plan-large-changes.agent.md`.
 
 When running this agent, follow `.ai/agents/plan-large-changes.agent.md`. Keep this file's YAML frontmatter intact so Copilot can still discover the custom agent.

@@ -2,15 +2,11 @@
 
 ## Purpose and backstory
 
-This folder supports issue #150 and the repository-wide refactor tracked by
-issue #149. It records the baseline R architecture and the approved
-replacement paths and symbols as each owning issue completes its migration.
+This folder owns the maintained repository-wide R architecture contracts. It preserves the Issue #150 baseline, enforces completed migrations, and publishes the final dependency map delivered by Issue #157.
 
 ## Status and entry point
 
-Status: active validation tooling.
-
-Run from the repository root:
+Status: active blocking validation. Run from the repository root:
 
 ```powershell
 $path_architecture = "R/03_Supplementary_analyses/Validation/Architecture"
@@ -19,60 +15,24 @@ Rscript "$path_architecture/generate_persisted_contract_manifest_inventory.R"
 Rscript "$path_architecture/check_r_architecture.R"
 ```
 
-## Inputs and outputs
+The ordinary full test suite also runs the repository-level validator.
 
-The generator parses active R files, the deterministic function-loader
-contract, pipeline target declarations, and test references. It writes:
+## Prerequisites and configuration
 
-Under `Documentation/Implementation_inventories/R_architecture/`:
+Use a restored project environment. The checker reads the maintained script, function, persisted-contract, profile, and manifest inventories together with the exact exception ledger under `Documentation/Implementation_inventories/R_architecture/`.
 
-- `r_script_path_inventory_v1.csv`;
-- `r_function_inventory_v1.csv`;
-- `r_contract_inventory_v1.csv`.
-- `r_persisted_contract_migration_v1.csv`, the append-only Issue #156 rename
-  and owned-schema ledger;
-- `r_manifest_contract_inventory_v1.csv`, the manifest-derived target snapshot
-  for every configured profile and pipeline entry point.
+## Outputs and interpretation
 
-Review generated diffs before accepting them. A changed inventory may represent
-a legitimate migration or an unclassified file, function, or target.
-Regeneration preserves existing migration, ownership, naming, retirement, and
-persisted-target decisions. It refreshes dynamic caller and test references
-and appends newly discovered entries.
+`architecture_findings_v1.csv` is the preserved report-only handoff from PR #165 and is not rewritten. The maintained checker writes:
 
-The checker writes findings to
-`Documentation/Reports/R_architecture/architecture_findings_v1.csv`.
-Main-analysis placement is blocking: only inventoried production analyses may
-remain under `R/02_Main_analyses`. Migrated Abiotic functions, their approved
-canonical or domain verbs, and their mirrored tests are also checked as
-blocking contracts. Migrated Community function placement and mirrored tests
-are blocking, with naming blocked for the Community capabilities whose
-semantic migrations are complete. Migrated Time/Ages function placement,
-canonical naming, and mirrored tests are blocking. Migrated
-Time/Interpolation branching and shared-memory functions, their active tests,
-and exact `_legacy` retirement paths are also blocking. Function naming for
-other not-yet-migrated domains and other architecture contracts remain
-report-only until their owning issues make them blocking. Non-CV modelling
-placement, naming, mirrored tests, approved internal-helper classification,
-and prohibited `$` access are blocking Issue #154 contracts. Deferred #141 and
-#155 functions remain with their owners. The retired HMSC function symbols,
-their former `R/Functions/Modelling/_legacy` paths, and their obsolete tests
-are blocking contracts and must not return.
+- `architecture_findings_current.csv`, whose statuses are only `blocking` or `excepted`;
+- `r_architecture_dependency_map.md`, deterministically built from maintained inventories;
+- refreshed version-one inventories when the generator is explicitly run.
 
-## Interpretation limits
+All current contracts block unless they match one complete, exact row in `r_architecture_exceptions.csv`. The 39 current exceptions belong to Issue #141 and expire when #141 closes. Malformed, duplicate, orphaned, or unmatched exceptions fail validation.
 
-Caller discovery is static text matching and does not prove runtime
-reachability.
-Literal target discovery covers direct `targets::tar_target()` declarations;
-the manifest-derived Issue #156 inventory expands nested pipe builders and
-dynamic suffixes for configured profiles. Profiles without a standalone
-pipeline entry point are retained as explicit profile-only records.
-Scientific and public-contract status must be reviewed by the owning issue
-before a persisted name changes.
+Static caller discovery does not prove runtime reachability. Literal target discovery covers direct declarations, while the manifest inventory expands configured pipeline builders and dynamic suffixes. Scientific or public contracts still require review by their owning issue before a rename.
 
 ## Regeneration and retirement
 
-Regenerate after an approved architecture batch changes paths, symbols, or
-literal targets. Keep version 1 as the pre-migration record. Retire this tooling
-only after #157 replaces it with the final blocking architecture checks and
-documents the replacement.
+Regenerate after approved path, symbol, target, profile, or contract changes. Review generated diffs and run the checker twice when deterministic output is being verified. Keep the historical version-one report. This validator remains active after Issue #157; remove each Issue #141 exception when #141 resolves the corresponding finding.

@@ -1,8 +1,6 @@
 # Plan: Future Diversity Prediction Main Analyses
 
-**Date:** 2026-06-24
-**Author:** plan-large-changes agent
-**Status:** Draft
+**Date:** 2026-06-24 **Author:** plan-large-changes agent **Status:** Draft
 
 ---
 
@@ -66,8 +64,7 @@ GitHub issue search was not completed while drafting this plan because the curre
 - `R/Pipelines/pipeline_paleo_spatial_resolution.R`
 - `R/Pipelines/pipeline_modern_spatial_resolution.R`
 - `R/Pipelines/_pipes/pipe_segment_abiotic_extract.R`
-- New future-climate ingest helpers under `R/Functions/Data/Abiotic/` or
-  `R/Functions/Prediction/Climate/`
+- New future-climate ingest helpers under `R/Functions/Data/Abiotic/` or `R/Functions/Prediction/Climate/`
 - New future-prediction orchestration helpers under `R/Functions/Prediction/`
 - New targeted tests in `R/03_Supplementary_analyses/Testing/testthat/`
 - New main-analysis runner(s) under `R/02_Main_analyses/01_Spatial/03_Future/01_Runners/`

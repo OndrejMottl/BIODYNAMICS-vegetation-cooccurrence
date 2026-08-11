@@ -2,41 +2,21 @@
 
 ## Purpose
 
-This report tests whether the weak corrected CZ paleo cross-validation
-performance can be improved by changing sjSDM regularization. It is a Phase 5
-diagnostic in the predictive-performance audit. The experiment reuses the
-validated three-repeat, five-fold assignments and full abiotic-spatial predictor
-structure from the isolated GPU reference.
+This report tests whether the weak corrected CZ paleo cross-validation performance can be improved by changing sjSDM regularization. It is a Phase 5 diagnostic in the predictive-performance audit. The experiment reuses the validated three-repeat, five-fold assignments and full abiotic-spatial predictor structure from the isolated GPU reference.
 
-The search is deliberately structured rather than factorial. It compares the
-current `(lambda_cov, lambda_coef, lambda_spatial) = (0.1, 0.1, 0.1)` reference
-with five alternatives on each lambda axis: `0`, `0.01`, `0.03`, `0.3`, and
-`1`. This gives 16 candidates instead of 216 combinations. All alpha values
-remain `0.5`.
+The search is deliberately structured rather than factorial. It compares the current `(lambda_cov, lambda_coef, lambda_spatial) = (0.1, 0.1, 0.1)` reference with five alternatives on each lambda axis: `0`, `0.01`, `0.03`, `0.3`, and `1`. This gives 16 candidates instead of 216 combinations. All alpha values remain `0.5`.
 
 ## Execution result
 
-The fresh isolated GPU pipeline completed in 48 minutes 1.8 seconds. All 240
-tuning fits (16 candidates x 3 repeats x 5 folds) and all 15 independent
-selected-candidate refits completed with status `ok`. The selected refit
-produced 9,462 `ok` prediction rows and 378 `constant_in_training` rows. The
-target store contains no target errors.
+The fresh isolated GPU pipeline completed in 48 minutes 1.8 seconds. All 240 tuning fits (16 candidates x 3 repeats x 5 folds) and all 15 independent selected-candidate refits completed with status `ok`. The selected refit produced 9,462 `ok` prediction rows and 378 `constant_in_training` rows. The target store contains no target errors.
 
-The primary selection metric was pooled held-out negative log likelihood per
-response. AUC was retained as a discrimination diagnostic and was not used to
-select the candidate.
+The primary selection metric was pooled held-out negative log likelihood per response. AUC was retained as a discrimination diagnostic and was not used to select the candidate.
 
-The pipeline contract passed 15 focused assertions. The full test suite passed
-3,460 assertions with no failures or warnings and one expected opt-in
-integration skip. The mandatory fresh CZ validation completed with exit code 0
-in 56 minutes 37 seconds. Direct metadata checks found zero errors in the paleo
-core, paleo resolution, modern resolution, and structured-regularization
-stores.
+The pipeline contract passed 15 focused assertions. The full test suite passed 3,460 assertions with no failures or warnings and one expected opt-in integration skip. The mandatory fresh CZ validation completed with exit code 0 in 56 minutes 37 seconds. Direct metadata checks found zero errors in the paleo core, paleo resolution, modern resolution, and structured-regularization stores.
 
 ## Tuning response surface
 
-The table is ordered by mean negative log likelihood across repeats. Only one
-lambda changes from the reference in each non-reference row.
+The table is ordered by mean negative log likelihood across repeats. Only one lambda changes from the reference in each non-reference row.
 
 | Candidate | Axis | Axis value | Lambda covariance | Lambda coefficient | Lambda spatial | Mean NLL/response | NLL SD | Mean AUC |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
@@ -57,16 +37,11 @@ lambda changes from the reference in each non-reference row.
 | `candidate_007` | coefficient | 0.00 | 0.10 | 0.00 | 0.10 | 0.321419 | 0.014213 | 0.668379 |
 | `candidate_002` | covariance | 0.00 | 0.00 | 0.10 | 0.10 | 0.322831 | 0.023536 | 0.628429 |
 
-The selected covariance value, `0.01`, is an interior search value. The
-coefficient reference value `0.1` was better on NLL than every tested
-coefficient alternative. The spatial reference value `0.1` was also better
-than every tested spatial alternative, although `0.03` was close.
+The selected covariance value, `0.01`, is an interior search value. The coefficient reference value `0.1` was better on NLL than every tested coefficient alternative. The spatial reference value `0.1` was also better than every tested spatial alternative, although `0.03` was close.
 
 ## Repeat stability
 
-The selected candidate's average tuning NLL improved by only `0.001214` per
-response. The direction was favourable in two repeats and unfavourable in the
-third.
+The selected candidate's average tuning NLL improved by only `0.001214` per response. The direction was favourable in two repeats and unfavourable in the third.
 
 | Repeat | Reference NLL | Selected NLL | NLL improvement | Reference AUC | Selected AUC | AUC change |
 |---:|---:|---:|---:|---:|---:|---:|
@@ -74,14 +49,11 @@ third.
 | 2 | 0.304083 | 0.300273 | 0.003811 | 0.647221 | 0.648318 | 0.001097 |
 | 3 | 0.318624 | 0.320997 | -0.002372 | 0.642878 | 0.656045 | 0.013167 |
 
-This does not satisfy the planned requirement for improvement across repeats.
-The small mean difference is also much smaller than the between-repeat NLL
-variation.
+This does not satisfy the planned requirement for improvement across repeats. The small mean difference is also much smaller than the between-repeat NLL variation.
 
 ## Independent selected-candidate refit
 
-The independently refitted selected candidate did not reproduce a predictive
-improvement over the original GPU reference.
+The independently refitted selected candidate did not reproduce a predictive improvement over the original GPU reference.
 
 | Fold-macro model metric | Selected candidate | Original reference | Direction |
 |---|---:|---:|---|
@@ -90,35 +62,21 @@ improvement over the original GPU reference.
 | Log loss | 0.324 | 0.308 | worse |
 | Brier score | 0.0913 | 0.0891 | worse |
 
-The selected candidate still improves on the prevalence null for mean log loss
-(`0.324` versus `0.328`) and Brier score (`0.0913` versus `0.0968`), but its
-Tjur R2 remains far below the provisional `0.1` scientific gate. GPU fitting is
-not bitwise deterministic, so the independent refit is intentionally treated
-as a stability check rather than as the same fitted models used during tuning.
+The selected candidate still improves on the prevalence null for mean log loss (`0.324` versus `0.328`) and Brier score (`0.0913` versus `0.0968`), but its Tjur R2 remains far below the provisional `0.1` scientific gate. GPU fitting is not bitwise deterministic, so the independent refit is intentionally treated as a stability check rather than as the same fitted models used during tuning.
 
 ## Decision
 
-The structured search is an engineering success and a scientific non-success.
-It establishes that:
+The structured search is an engineering success and a scientific non-success. It establishes that:
 
 1. zero covariance regularization is clearly harmful;
 2. the tuning NLL surface is shallow around covariance lambda `0.01` to `0.3`;
 3. extreme coefficient and spatial settings do not solve weak prediction;
 4. the nominal NLL winner is not stable across repeats or an independent refit;
-5. regularization alone does not raise corrected CZ Tjur R2 to an acceptable
-   level.
+5. regularization alone does not raise corrected CZ Tjur R2 to an acceptable level.
 
-`candidate_003` must therefore not replace the existing reference or be called
-an optimized production setting. The next experiment should add explicit
-selection guardrails and test prespecified taxon eligibility. If those do not
-produce stable, scientifically adequate performance, a somewhat larger local
-model should become the scientific reference while CZ remains an engineering
-stress test.
+`candidate_003` must therefore not replace the existing reference or be called an optimized production setting. The next experiment should add explicit selection guardrails and test prespecified taxon eligibility. If those do not produce stable, scientifically adequate performance, a somewhat larger local model should become the scientific reference while CZ remains an engineering stress test.
 
-That follow-up is complete and recorded in
-[`cz_paleo_selection_guardrail_diagnostic_v1.md`](cz_paleo_selection_guardrail_diagnostic_v1.md).
-The candidate is rejected under both the complete-community and declared
-eligible-taxa scopes; taxon filtering does not change the scientific decision.
+That follow-up is complete and recorded in [`cz_paleo_selection_guardrail_diagnostic_v1.md`](cz_paleo_selection_guardrail_diagnostic_v1.md). The candidate is rejected under both the complete-community and declared eligible-taxa scopes; taxon filtering does not change the scientific decision.
 
 ## Reproducibility
 

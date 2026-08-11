@@ -16,9 +16,7 @@ Examples:
 - `pipeline_modern_spatial_resolution.R`
 - `pipeline_traits_reference.R`
 
-The source should name the data family (`paleo`, `modern`, `traits`). The
-scope should name the analysis geometry or purpose (`spatial`, `temporal`,
-`spatial_resolution`).
+The source should name the data family (`paleo`, `modern`, `traits`). The scope should name the analysis geometry or purpose (`spatial`, `temporal`, `spatial_resolution`).
 
 ## Pipe Segments
 
@@ -36,8 +34,7 @@ Examples:
 - `pipe_segment_model_input`
 - `pipe_segment_model_fit`
 
-Use `pipe_segment_*` for reusable pipeline construction blocks. Reserve
-`targets::tar_target()` names for the actual targets those segments create.
+Use `pipe_segment_*` for reusable pipeline construction blocks. Reserve `targets::tar_target()` names for the actual targets those segments create.
 
 ## Targets
 
@@ -55,18 +52,14 @@ Use these kind prefixes:
 - `model_` for fitted models and model-derived objects.
 - `check_` for validation or reporting targets.
 
-Avoid `path_` for file targets. Prefer `file_` because the target tracks a file
-dependency, not just a string path.
+Avoid `path_` for file targets. Prefer `file_` because the target tracks a file dependency, not just a string path.
 
 ## Branch labels
 
-Use `resolution_id` for resolution branches. Modern spatial-resolution branches
-use:
+Use `resolution_id` for resolution branches. Modern spatial-resolution branches use:
 
 ```r
 c("genus", "family", "ft_modern", "ft_paleo")
 ```
 
-The shorter FT labels keep target suffixes readable while preserving the
-scientific distinction between modern-derived and paleo-derived functional-type
-classifications.
+The shorter FT labels keep target suffixes readable while preserving the scientific distinction between modern-derived and paleo-derived functional-type classifications.

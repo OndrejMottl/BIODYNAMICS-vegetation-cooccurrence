@@ -1,8 +1,6 @@
 # CZ paleo real cross-validation reference (v1)
 
-**Recorded:** 2026-07-14
-**Issue:** #139
-**Reference base:** `05b1e4b74b9bdcd8b015bab8e08b7b6ba2d6ce7d`
+**Recorded:** 2026-07-14 **Issue:** #139 **Reference base:** `05b1e4b74b9bdcd8b015bab8e08b7b6ba2d6ce7d`
 
 ## Purpose
 

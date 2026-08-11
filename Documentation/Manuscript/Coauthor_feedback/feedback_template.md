@@ -9,17 +9,13 @@
 
 ## Instructions for co-authors
 
-Please fill in the table below for each comment. Reference the **line
-number** from the shared PDF (not page number). Use the **Type** column
-to classify your comment:
+Please fill in the table below for each comment. Reference the **line number** from the shared PDF (not page number). Use the **Type** column to classify your comment:
 
-- **Major** — affects scientific conclusions or requires substantial
-  rewriting
+- **Major** — affects scientific conclusions or requires substantial rewriting
 - **Minor** — clarification, incomplete argument, missing citation
 - **Editorial** — wording, grammar, formatting
 
-Return this file (renamed to `<YourName>_feedback.md`) to the
-corresponding author.
+Return this file (renamed to `<YourName>_feedback.md`) to the corresponding author.
 
 ---
 
@@ -39,7 +35,6 @@ corresponding author.
 
 ## General comments
 
-*Use this space for comments that apply to the manuscript as a whole
-rather than a specific line.*
+*Use this space for comments that apply to the manuscript as a whole rather than a specific line.*
 
 TODO: General comments here.

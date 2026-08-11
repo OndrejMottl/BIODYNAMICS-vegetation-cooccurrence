@@ -24,12 +24,7 @@ Prefer clean, DRY code over narrow one-off helpers. If an existing helper alread
 
 ### Substantive Refactors by Default
 
-When a task is described as a function or architecture refactor, each work
-chunk should improve semantic ownership and the public or internal API, not
-only formatting or syntax. Review function names against their actual
-behavior even when an existing inventory maps a name to itself; automated
-architecture checks verify the approved map but do not prove that a name is
-clear.
+When a task is described as a function or architecture refactor, each work chunk should improve semantic ownership and the public or internal API, not only formatting or syntax. Review function names against their actual behavior even when an existing inventory maps a name to itself; automated architecture checks verify the approved map but do not prove that a name is clear.
 
 A substantive function-refactor chunk should normally include the relevant:
 
@@ -39,9 +34,9 @@ A substantive function-refactor chunk should normally include the relevant:
 - callers, pipeline targets, tests, inventories, and generated documentation;
 - focused behavioral validation and old-name reference checks.
 
-Isolated style cleanup is still useful, but describe and scope it as cleanup
-rather than presenting it as the main refactor outcome. Use `git mv` for every
-tracked move or rename, following `.ai/git-workflow.md`.
+The maintained architecture validator makes placement, file/function matching, test inventory, naming status, nested-helper disposition, and generated function documentation blocking contracts. Do not add broad suppressions. Any temporary exception must match one finding exactly and declare its owner, rationale, and lifecycle expiry issue.
+
+Isolated style cleanup is still useful, but describe and scope it as cleanup rather than presenting it as the main refactor outcome. Use `git mv` for every tracked move or rename, following `.ai/git-workflow.md`.
 
 **All function creation and editing follows Test-Driven Development (TDD).** The mandatory cycle is:
 1. Write (or update) the roxygen2 spec stub first
@@ -132,16 +127,11 @@ if (base::sum(mat_binary) == 0L) {
 
 Use `cli::cli_warn()` and `cli::cli_inform()` for warnings and messages respectively.
 
-Do not use `cli::cli_abort()` for routine function argument assertions. Those
-checks should use `assertthat::assert_that()` so argument contracts stay
-separate from runtime data-content failures.
+Do not use `cli::cli_abort()` for routine function argument assertions. Those checks should use `assertthat::assert_that()` so argument contracts stay separate from runtime data-content failures.
 
 ## Verbose Argument for Console Output
 
-Any function that prints to the console (via `cli::cli_inform()` or
-`cli::cli_warn()`) **must** accept a `verbose` argument (default `TRUE`) and
-guard every print call with it. Only `cli::cli_abort()` (errors) should fire
-unconditionally â€” errors are never silenced.
+Any function that prints to the console (via `cli::cli_inform()` or `cli::cli_warn()`) **must** accept a `verbose` argument (default `TRUE`) and guard every print call with it. Only `cli::cli_abort()` (errors) should fire unconditionally â€” errors are never silenced.
 
 ```r
 # Good
@@ -169,7 +159,7 @@ my_function <- function(x) {
 - Document `verbose` in the roxygen2 block:
 
 ```r
-#' @param verbose 
+#' @param verbose
 #' Logical. If `TRUE` (default), progress messages are printed to
 #' the console via `cli`.
 ```
@@ -242,27 +232,26 @@ The roxygen2 documentation should be placed before the function declaration but 
 
 ```r
 #' @title Title of the function
-#' @description 
+#' @description
 #' Description of the function
-#' @param arg1 
+#' @param arg1
 #' Description of the first argument
-#' @param arg2 
+#' @param arg2
 #' Description of the second argument
-#' @param arg3 
+#' @param arg3
 #' Description of the third argument
-#' @return 
+#' @return
 #' Description of the return value
-#' @details 
+#' @details
 #' Details about the function
 #' @seealso Related functions or references
 #' @export
 ```
 
-If the function prints to the console, include a `verbose` parameter and
-document it:
+If the function prints to the console, include a `verbose` parameter and document it:
 
 ```r
-#' @param verbose 
+#' @param verbose
 #' Logical. If `TRUE` (default), progress messages are printed to
 #' the console via `cli`.
 ```
@@ -552,9 +541,7 @@ If function uses non-standard evaluation (NSE) or tidyverse programming (`{{ }}`
 **Dependencies:**
 
 - Use only base R and testthat (plus packages the function clearly depends on)
-- Do not call `library()` in test files. Use fully-qualified namespaces and
-  rely on `source(here::here("R/___setup_project___.R"))` when project setup is
-  needed before running the test.
+- Do not call `library()` in test files. Use fully-qualified namespaces and rely on `source(here::here("R/___setup_project___.R"))` when project setup is needed before running the test.
 
 **Precise expectations:**
 

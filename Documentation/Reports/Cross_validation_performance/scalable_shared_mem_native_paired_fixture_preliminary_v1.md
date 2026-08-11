@@ -1,14 +1,10 @@
 # Scalable shared MEM native paired fixture (preliminary v1)
 
-**Date:** 2026-07-24
-**Issue:** #143
-**Status:** Downstream gate passed; branch `auto` candidate is under validation
+**Date:** 2026-07-24 **Issue:** #143 **Status:** Downstream gate passed; branch `auto` candidate is under validation
 
 ## Purpose
 
-This fixture tests whether the shared Nyström MEM path preserves downstream
-held-out sjSDM behavior, rather than relying only on basis similarity. Exact
-and fast runs used identical:
+This fixture tests whether the shared Nyström MEM path preserves downstream held-out sjSDM behavior, rather than relying only on basis similarity. Exact and fast runs used identical:
 
 - 2,500 synthetic projected locations;
 - six binary taxa generated from spatial and abiotic gradients;
@@ -18,14 +14,11 @@ and fast runs used identical:
 - regularization candidate, sjSDM settings, and fit seeds;
 - shared prediction and fold-local evaluation functions.
 
-The fixture executed 30 native sjSDM fits: 15 exact and 15 fast. Five public
-MEM columns were retained from each basis. The fast construction requested 30
-Nyström eigenpairs, and every fast fold reported the real package fast path.
+The fixture executed 30 native sjSDM fits: 15 exact and 15 fast. Five public MEM columns were retained from each basis. The fast construction requested 30 Nyström eigenpairs, and every fast fold reported the real package fast path.
 
 ## Predictive results
 
-Metrics are fold-macro summaries from the existing shared CV evaluation stack.
-No predictions from separately fitted folds were pooled before scoring.
+Metrics are fold-macro summaries from the existing shared CV evaluation stack. No predictions from separately fitted folds were pooled before scoring.
 
 | Repeat | Strategy | Log loss | AUC | Tjur R2 | Coverage |
 |---:|---|---:|---:|---:|---:|
@@ -45,9 +38,7 @@ The gate evaluates the worst paired regression across repetitions:
 | Tjur R2 | -0.0062645 | 0.010 | Pass |
 | Evaluable-taxon coverage | 0.0000000 | 0.020 | Pass |
 
-Negative regression means that the fast path performed better. Log loss and
-Tjur R2 improved in every repeat. The small AUC reduction remained well inside
-the approved Issue 138 allowance.
+Negative regression means that the fast path performed better. Log loss and Tjur R2 improved in every repeat. The small AUC reduction remained well inside the approved Issue 138 allowance.
 
 ## Technical results
 
@@ -57,15 +48,11 @@ the approved Issue 138 allowance.
 - All 18,000 held-out taxon probabilities were finite and evaluable.
 - Every fold used a training-only basis and the matching held-out projection.
 - The instrumented full paired run completed in 180.91 seconds on CPU.
-- No GPU was used, so the result did not compete for GPU memory with another R
-  session.
+- No GPU was used, so the result did not compete for GPU memory with another R session.
 
 ## Runtime and basis evidence
 
-The runner records preparation, MEM construction, fitting, and prediction
-separately for each fold. Times below are sums across 15 folds per strategy.
-MEM time is a measured component of preparation time and is not added again in
-the combined stage total.
+The runner records preparation, MEM construction, fitting, and prediction separately for each fold. Times below are sums across 15 folds per strategy. MEM time is a measured component of preparation time and is not added again in the combined stage total.
 
 | Measure | Exact | Fast |
 |---|---:|---:|
@@ -77,42 +64,22 @@ the combined stage total.
 | Median retained basis object | 225,600 bytes | 913,568 bytes |
 | Estimated dense matrix per fold | 32,000,000 bytes | avoided |
 
-Fast MEM reduced measured fold preparation by 98.45% and the combined measured
-stages by 55.96%. Model fitting time was similar, which is expected because the
-same responses, candidate, retained five-column spatial input, and fitting
-budget were used. The larger retained fast basis is explicit projection state;
-it remained below one megabyte with 30 Nyström eigenpairs.
+Fast MEM reduced measured fold preparation by 98.45% and the combined measured stages by 55.96%. Model fitting time was similar, which is expected because the same responses, candidate, retained five-column spatial input, and fitting budget were used. The larger retained fast basis is explicit projection state; it remained below one megabyte with 30 Nyström eigenpairs.
 
-These figures isolate the bottleneck more clearly than whole-run wall time:
-almost all exact preparation time was MEM construction, while fitting became
-the dominant cost after the fast basis was enabled.
+These figures isolate the bottleneck more clearly than whole-run wall time: almost all exact preparation time was MEM construction, while fitting became the dominant cost after the fast basis was enabled.
 
-The focused benchmark runner, summarizer, and assessor tests pass with 17
-assertions and no warnings or skips.
+The focused benchmark runner, summarizer, and assessor tests pass with 17 assertions and no warnings or skips.
 
 ## Interpretation and limits
 
-This is direct downstream evidence that the low-rank basis can replace the
-dense basis without a meaningful predictive regression under controlled
-paired assignments. It is stronger than the earlier structural comparison,
-but it is still a synthetic fixture with six taxa, one candidate, five retained
-MEM columns, and a reduced iteration budget.
+This is direct downstream evidence that the low-rank basis can replace the dense basis without a meaningful predictive regression under controlled paired assignments. It is stronger than the earlier structural comparison, but it is still a synthetic fixture with six taxa, one candidate, five retained MEM columns, and a reduced iteration budget.
 
-It authorizes enabling `auto` on the Issue 143 branch to perform the final
-acceptance run; it does not yet authorize merging that setting into
-production. The remaining step is a clean representative modern continental
-run using the same shared implementation, with per-stage runtime, RAM/VRAM,
-storage, leakage, staged-fit, and cached-OOF evidence. No continent-specific
-method or threshold should be introduced for that run.
+It authorizes enabling `auto` on the Issue 143 branch to perform the final acceptance run; it does not yet authorize merging that setting into production. The remaining step is a clean representative modern continental run using the same shared implementation, with per-stage runtime, RAM/VRAM, storage, leakage, staged-fit, and cached-OOF evidence. No continent-specific method or threshold should be introduced for that run.
 
 ## Decision
 
-The Phase 3 downstream predictive gate passes. The common `auto` rule is now
-enabled on the Issue 143 branch for isolated continental repetition 143.
-Do not merge the production switch until that validation is clean. After it
-passes, return to the remaining Issue 138 staged-CV benchmark work.
+The Phase 3 downstream predictive gate passes. The common `auto` rule is now enabled on the Issue 143 branch for isolated continental repetition 143. Do not merge the production switch until that validation is clean. After it passes, return to the remaining Issue 138 staged-CV benchmark work.
 
 ## Method reference
 
-The candidate basis and held-out projection use the package-backed
-[`spmoran` 0.3.3 APIs](https://cran.r-project.org/web/packages/spmoran/spmoran.pdf).
+The candidate basis and held-out projection use the package-backed [`spmoran` 0.3.3 APIs](https://cran.r-project.org/web/packages/spmoran/spmoran.pdf).

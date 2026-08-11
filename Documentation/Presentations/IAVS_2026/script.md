@@ -1,10 +1,8 @@
 # IAVS 2026 ORACLE Talk Script
 
-This script defines the approved 18-slide ORACLE RevealJS main deck, comprising slides 00 through 17.
-It is result-led in structure, but result claims remain provisional until phase 5 replaces placeholders with verified target-store or `.qs` outputs.
+This script defines the approved 18-slide ORACLE RevealJS main deck, comprising slides 00 through 17. It is result-led in structure, but result claims remain provisional until phase 5 replaces placeholders with verified target-store or `.qs` outputs.
 
-Planned scientific through-line: test whether the co-occurrence signal is scale-dependent.
-The directional interpretation remains provisional until phase 5 validates and integrates result figures.
+Planned scientific through-line: test whether the co-occurrence signal is scale-dependent. The directional interpretation remains provisional until phase 5 validates and integrates result figures.
 
 ## Review Status
 
@@ -15,8 +13,7 @@ The directional interpretation remains provisional until phase 5 validates and i
 
 ## Timing Overview
 
-The phase-4 skeleton allocates 11:25 within the 12-minute speaking slot.
-Timings are rehearsal scaffolding and will be refined during the narrative pass.
+The phase-4 skeleton allocates 11:25 within the 12-minute speaking slot. Timings are rehearsal scaffolding and will be refined during the narrative pass.
 
 | Slide range | Focus | Time |
 | --- | --- | ---: |
@@ -38,17 +35,14 @@ Ondra dialogue:
 
 ---
 
-title of the talk
-My name
-Date
+title of the talk My name Date
 
 ## Slide 01
 
 Key bullets:
 
 - Introduce the talk as a query session with ORACLE, the ecological biosurveillance system.
-- Signal the 12-minute constraint: one question, one model system, one set of
-  cautious result slots.
+- Signal the 12-minute constraint: one question, one model system, one set of cautious result slots.
 
 status: to-be-implemented
 
@@ -64,10 +58,7 @@ Title: ORACLE: Observational Runtime for Analysis of Community-Level Ecology
 
 ORACLE dialogue:
 
-> System online.
-> Greetings Dr. Mottl. I am  Observational Runtime for Analysis of Community-Level Ecology, ORACLE for short. I am here to assist you in analyzing vegetation patterns on Earth.
-> Awaiting ecological query.
-> Proceed? Y/N?
+> System online. Greetings Dr. Mottl. I am  Observational Runtime for Analysis of Community-Level Ecology, ORACLE for short. I am here to assist you in analyzing vegetation patterns on Earth. Awaiting ecological query. Proceed? Y/N?
 
 Figure slot: `[GENAI]` atmospheric ORACLE terminal or biosurveillance portrait (a female head)
 
@@ -120,14 +111,9 @@ Title: Archive mounted: VegVault
 
 ORACLE dialogue:
 
-> VegVault database: publicly available, open source database.
-> VegVault scan complete. Community records, climate predictors, site coordinates, and functional traits are loaded as separate streams.
-> Due to the data availability, I will focus on Nothren Hemisphere of the Planet
+> VegVault database: publicly available, open source database. VegVault scan complete. Community records, climate predictors, site coordinates, and functional traits are loaded as separate streams. Due to the data availability, I will focus on Nothren Hemisphere of the Planet
 
-Figure slot 1: a line graph of globe focusing on Northen gemisphere with highlighs of North America, Europe, Asia
-Figure slot 2: data-ingestion schematic for Europe with three terminal panels:
-`modern vegetation`, `fossil pollen archives`, palaeoclimate predictors, and Functional Traits.
-Figure slot 3: QR code and DOI URL for VegVault
+Figure slot 1: a line graph of globe focusing on Northen gemisphere with highlighs of North America, Europe, Asia Figure slot 2: data-ingestion schematic for Europe with three terminal panels: `modern vegetation`, `fossil pollen archives`, palaeoclimate predictors, and Functional Traits. Figure slot 3: QR code and DOI URL for VegVault
 
 Ondra dialogue:
 
@@ -156,9 +142,7 @@ Title: Three analysis axes: spatial, time, and taxonomic resolution
 
 ORACLE dialogue:
 
-> Route selected
-> Spatial-resolution runs test scale and taxonomic aggregation level
-> Temporal slices test change through time
+> Route selected Spatial-resolution runs test scale and taxonomic aggregation level Temporal slices test change through time
 
 Figure slot: three cards with scheme for spatial (map), temporal (line curve), and taxonomic (phylogenetic tree).
 
@@ -192,12 +176,9 @@ Title: Data and climate streams: preparation
 
 ORACLE dialogue:
 
-> Data extracted, now preparation ...
-> Community stream normalised. Taxa are classified, filtered, and routed to the analysis resolution.
-> Climate stream screened. Redundant predictors are removed before model fitting.
+> Data extracted, now preparation ... Community stream normalised. Taxa are classified, filtered, and routed to the analysis resolution. Climate stream screened. Redundant predictors are removed before model fitting.
 
-Figure slot 1: compact step ladder: raw community, proportions, classification, rare-taxon filtering, analysis subset.
-Figure slot 2: terminal table of CHELSA variables and collinearity-filter status (the statuts can be represented as the amount of times the variable was selected as predictor).
+Figure slot 1: compact step ladder: raw community, proportions, classification, rare-taxon filtering, analysis subset. Figure slot 2: terminal table of CHELSA variables and collinearity-filter status (the statuts can be represented as the amount of times the variable was selected as predictor).
 
 Ondra dialogue:
 
@@ -207,8 +188,7 @@ Ondra dialogue:
 
 Key bullets:
 
-- sjSDM is used because the community matrix and spatial design are too large
-  for slower MCMC workflows.
+- sjSDM is used because the community matrix and spatial design are too large for slower MCMC workflows.
 - Climate predictors enter as the environment component.
 - Moran eigenvector maps represent spatial structure.
 - Residual species covariance is treated as the candidate association signal.
@@ -227,10 +207,7 @@ Title: Model core: environment, space, association
 
 ORACLE dialogue:
 
-> Model assembled.
-> Abiotic predictors explain shared response
-> Moran Eigenvector Maps (MEMs) absorb spatio-temporal autocorrelation
-> Residual covariance carries association signal.
+> Model assembled. Abiotic predictors explain shared response Moran Eigenvector Maps (MEMs) absorb spatio-temporal autocorrelation Residual covariance carries association signal.
 
 Figure slot: model block diagram: environment component, spatial MEM component, biotic or association component, and binomial community response.
 
@@ -260,8 +237,7 @@ Title: Variance decomposition: A, S, and residual association
 
 ORACLE dialogue:
 
-> Decomposition ready.
-> Report what remains after climate and spatial structure have made their claims.
+> Decomposition ready. Report what remains after climate and spatial structure have made their claims.
 
 Figure slot: variance partition schematic with abiotic, spatial, association, and shared fractions.
 
@@ -295,8 +271,7 @@ ORACLE dialogue:
 
 > Spatial scan configured. Units are nested from local to regional to continental.
 
-Figure slot 1: spatial map layout showing the size of individual unit scales (eg North America as example).
-Figure slot 2: tile plot showing 3 columns (scale), each tile (a unit) is colored by the the amount of association
+Figure slot 1: spatial map layout showing the size of individual unit scales (eg North America as example). Figure slot 2: tile plot showing 3 columns (scale), each tile (a unit) is colored by the the amount of association
 
 Ondra dialogue:
 
@@ -307,8 +282,7 @@ Ondra dialogue:
 Key bullets:
 
 - We are adding the taxonomic axis to the story
-- Genus, family, and functional-type models ask whether the signal depends on
-  biological resolution.
+- Genus, family, and functional-type models ask whether the signal depends on biological resolution.
 - The assumtion is that this should change the course of the patetrns
 - Each unit is also evaluated at genus, family, and functional-type resolution.
 - Surprisingly, there is very little effect
@@ -326,9 +300,7 @@ Query: Is the change in taxonomic resolution affecting the spatial patterns?
 
 ORACLE dialogue:
 
-> Query accepted
-> Adding taxonomic axis
-> Ploting the results
+> Query accepted Adding taxonomic axis Ploting the results
 
 Figure slot: Expland on the Figure 2 from previous slide. Now 3 columns (spatial scale) and 3 rows (taxonomic scale), each tile (a unit) is colored by the the amount of association
 
@@ -361,15 +333,9 @@ Query: Is the association signal stable through time?
 
 ORACLE dialogue:
 
-> Query accepted
-> Temporal mode selected. Slicing the data into 500-year windows
-> Network diagnostics loaded. Co-occurrence structure can change even when variance components look similar.
-> Each slice receives an independent analyses and diagnostics
-> Plotting the results
+> Query accepted Temporal mode selected. Slicing the data into 500-year windows Network diagnostics loaded. Co-occurrence structure can change even when variance components look similar. Each slice receives an independent analyses and diagnostics Plotting the results
 
-Figure slot 1: Distribution of data across the temporal axis, showing where the data are dense or sparse.
-Figure slot 2: schematic of bipartite network pipeline, highligting one time slice from figure 1.
-Figure slot 3: schematic of temporal pipeline, showing how each slice is processed independently.
+Figure slot 1: Distribution of data across the temporal axis, showing where the data are dense or sparse. Figure slot 2: schematic of bipartite network pipeline, highligting one time slice from figure 1. Figure slot 3: schematic of temporal pipeline, showing how each slice is processed independently.
 
 ORACLE dialogue:
 
@@ -398,9 +364,7 @@ ORACLE dialogue:
 
 > Plotting temporal trajectories.
 
-Figure slot 1: Animated gif of temporal changes of the network structure and the variance components (eg line plot of variance components through time, with the network structure changing in the background) for North America
-Figure slot 2: Same as figure slot 1 but for Europe
-Figure slot 3: Same as figure slot 1 but for Asia
+Figure slot 1: Animated gif of temporal changes of the network structure and the variance components (eg line plot of variance components through time, with the network structure changing in the background) for North America Figure slot 2: Same as figure slot 1 but for Europe Figure slot 3: Same as figure slot 1 but for Asia
 
 // check `Outputs/Figures/Temporal_continents/plot_temporal_continents_scaled.pdf`
 
@@ -424,9 +388,7 @@ Title: Synthesis
 
 ORACLE dialogue:
 
-> Weawing realities together: spatial patterns, taxonomic resolution, temporal dynamics.
-> Consulting deeeper resoing matrices
-> Summarizing results.
+> Weawing realities together: spatial patterns, taxonomic resolution, temporal dynamics. Consulting deeeper resoing matrices Summarizing results.
 
 Bulletpoint-terminal:
 
@@ -533,8 +495,7 @@ ORACLE dialogue:
 
 > Gate condition: community, climate, and coordinates must resolve to the same dataset-age index.
 
-Figure slot: intersection diagram for community, abiotic, and coordinate
-streams, ending in `dataset_name__age` identifiers.
+Figure slot: intersection diagram for community, abiotic, and coordinate streams, ending in `dataset_name__age` identifiers.
 
 ## Slide XXX
 
@@ -562,26 +523,21 @@ Title: Guardrails: interpolation and uncertainty
 
 ORACLE dialogue:
 
-> Chronology is not exact. Interpolation uncertainty is tracked before model
-> interpretation is trusted.
+> Chronology is not exact. Interpolation uncertainty is tracked before model interpretation is trusted.
 
 Figure slot: `Outputs/Figures/Supplementary/interpolation_uncertainty_*`.
 
 Key bullets:
 
 - Fossil archives are not perfectly synchronized through time.
-- Interpolation and age uncertainty affect which samples enter each analysis
-  window.
+- Interpolation and age uncertainty affect which samples enter each analysis window.
 - This slide protects the result story from sounding cleaner than the data are.
 
 Confidence: medium. Output figures exist; exact final placement pending Phase 5.
 
 Estimated speaking time: 0:30
 
-Target/output mapping:
-`Outputs/Figures/Supplementary/interpolation_uncertainty_comparison_all_taxa.png`,
-`Outputs/Figures/Supplementary/interpolation_uncertainty_comparison_by_age.png`,
-`data_age_uncertainty`.
+Target/output mapping: `Outputs/Figures/Supplementary/interpolation_uncertainty_comparison_all_taxa.png`, `Outputs/Figures/Supplementary/interpolation_uncertainty_comparison_by_age.png`, `data_age_uncertainty`.
 
 ## Slide XXX
 
@@ -593,28 +549,22 @@ Title: What ORACLE can say now
 
 ORACLE dialogue:
 
-> Interim inference: association signal is detectable, scale-dependent, and
-> requires verification before numerical reporting.
+> Interim inference: association signal is detectable, scale-dependent, and requires verification before numerical reporting.
 
-Figure slot: synthesis terminal panel with three rows: spatial scale,
-taxonomic resolution, temporal dynamics.
+Figure slot: synthesis terminal panel with three rows: spatial scale, taxonomic resolution, temporal dynamics.
 
 Key bullets:
 
-- Current result-led draft: local and regional spatial structure are the main
-  narrative focus.
+- Current result-led draft: local and regional spatial structure are the main narrative focus.
 - Taxonomic resolution modifies the visibility of association signal.
-- Temporal dynamics provide a stress test for whether the pattern persists
-  through changing climates.
+- Temporal dynamics provide a stress test for whether the pattern persists through changing climates.
 - All exact values remain pending target-store and `.qs` verification.
 
 Confidence: medium-low. This is the planned synthesis, not a final result claim.
 
 Estimated speaking time: 0:45
 
-Target/output mapping: synthesis of `list_jsdm_variance_partition*`,
-`data_anova_components_by_age_percentage`, `data_network_metrics_by_age`, and
-`Outputs/Data/data_anova_results_*.qs`.
+Target/output mapping: synthesis of `list_jsdm_variance_partition*`, `data_anova_components_by_age_percentage`, `data_network_metrics_by_age`, and `Outputs/Data/data_anova_results_*.qs`.
 
 ## Slide XXX
 
@@ -626,18 +576,14 @@ Title: Closing query: archive signal to ecological inference
 
 ORACLE dialogue:
 
-> Query remains active. The archive does not answer with certainty; it narrows
-> the space of plausible ecological explanations.
+> Query remains active. The archive does not answer with certainty; it narrows the space of plausible ecological explanations.
 
-Figure slot: `[GENAI]` closing atmospheric biosphere/archive terminal image,
-potentially reused as final-slide background.
+Figure slot: `[GENAI]` closing atmospheric biosphere/archive terminal image, potentially reused as final-slide background.
 
 Key bullets:
 
-- Close on the value of partitioning co-occurrence rather than simply mapping
-  it.
-- The ORACLE frame turns the final message into a controlled inference:
-  climate, space, and residual association must all be interrogated.
+- Close on the value of partitioning co-occurrence rather than simply mapping it.
+- The ORACLE frame turns the final message into a controlled inference: climate, space, and residual association must all be interrogated.
 - End with the next step: verified figures and a timed full slide deck.
 
 Confidence: high for closing frame; no numerical claim made.

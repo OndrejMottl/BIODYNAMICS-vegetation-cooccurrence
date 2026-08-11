@@ -2,9 +2,7 @@
 
 This file is a GitHub Copilot compatibility adapter.
 
-Canonical assistant guidance now lives in `.ai/`, with `AGENTS.md` as the
-universal entry point. Keep this file in place so Copilot continues to discover
-repository-level instructions.
+Canonical assistant guidance now lives in `.ai/`, with `AGENTS.md` as the universal entry point. Keep this file in place so Copilot continues to discover repository-level instructions.
 
 ## Canonical Guidance
 
@@ -21,9 +19,6 @@ repository-level instructions.
 
 ## Copilot-Specific Compatibility
 
-- `.github/instructions/*.instructions.md` files remain present for Copilot
-  `applyTo` routing.
-- `.github/agents/*.agent.md` files remain present for Copilot custom-agent
-  discovery.
-- Adapter files should stay short and point to `.ai/` so canonical guidance does
-  not drift.
+- `.github/instructions/*.instructions.md` files remain present for Copilot `applyTo` routing.
+- `.github/agents/*.agent.md` files remain present for Copilot custom-agent discovery.
+- Adapter files should stay short and point to `.ai/` so canonical guidance does not drift.

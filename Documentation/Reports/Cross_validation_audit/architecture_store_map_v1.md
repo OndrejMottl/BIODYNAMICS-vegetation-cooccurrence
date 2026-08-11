@@ -1,8 +1,6 @@
 # Cross-validation architecture and store map (v1)
 
-**Audit date:** 2026-07-14
-**Issue:** #139
-**Reference implementation:** `a8ead627`
+**Audit date:** 2026-07-14 **Issue:** #139 **Reference implementation:** `a8ead627`
 
 ## Execution architecture
 
@@ -47,8 +45,7 @@ The direct and from-shared routes expose the same public branch contract after a
 | Selected OOF execution | `list_sjsdm_selected_fold_predictions`, `data_sjsdm_out_of_fold_predictions`, `data_sjsdm_out_of_fold_diagnostics`, `data_sjsdm_fold_local_metrics`, `list_sjsdm_fold_metric_summaries`, `list_sjsdm_metric_repeat_distributions` |
 | Evaluation and provenance | `data_sjsdm_model_provenance`, `model_evaluation_cross_validated` |
 
-The direct route additionally exposes `data_cross_validation_grid_candidates` and `data_cross_validation_grid_calibration`.
-The shared route exposes the corresponding pre-branch targets with a `_shared` suffix.
+The direct route additionally exposes `data_cross_validation_grid_candidates` and `data_cross_validation_grid_calibration`. The shared route exposes the corresponding pre-branch targets with a `_shared` suffix.
 
 ## Store boundaries and orchestration
 

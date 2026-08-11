@@ -76,9 +76,7 @@ format:
 
 ## Prose Formatting
 
-Write prose with **each sentence on its own line** in the source file.
-A blank line separates paragraphs.
-This convention makes it easy to track changes, leave comments, and edit individual sentences in manuscript `.qmd` files without disturbing surrounding text.
+Write prose with **each sentence on its own line** in the source file. A blank line separates paragraphs. This convention makes it easy to track changes, leave comments, and edit individual sentences in manuscript `.qmd` files without disturbing surrounding text.
 
 **Never break a sentence mid-way through to stay within 80 characters (or any other column limit).** The 80-character line-length rule that applies to R scripts does **not** apply to `.qmd` files. A sentence must be kept whole on one line, regardless of its length.
 
@@ -219,8 +217,7 @@ library(targets)
 library(here)
 here::i_am("Documentation/Website/about.qmd")   # adjust path to current file
 
-# Pipeline type  -  must match the pipeline script name in
-# R/02_Main_analyses/
+# Pipeline type  -  must match the pipeline definition name in R/Pipelines/
 vec_pipelines <- "pipeline_paleo_core"
 
 # Construct the store path:
@@ -253,7 +250,7 @@ This determines which `target_store` path is returned by `load_active_config_val
 
 ### Saving and displaying plots
 
-**Plot generation code is always hidden** The visualisation code (ggplot2, gganimate, ggview) runs silently during rendering. 
+**Plot generation code is always hidden** The visualisation code (ggplot2, gganimate, ggview) runs silently during rendering.
 
 Never call `print()` or let ggplot2 render directly in a slide. Instead:
 

@@ -12,6 +12,8 @@ Return only the commit message line. Do not wrap it in code fences, backticks, q
 
 The subject identifies *what was changed*. The summary states *what was done*.
 
+Do not include issue numbers, pull-request numbers, or references such as `#157`, `Issue 157`, or `PR 165` in a commit message. Describe the durable behaviour or repository outcome instead. Record issue and pull-request relationships in the pull-request description or issue discussion.
+
 ---
 
 ## Subject Rules

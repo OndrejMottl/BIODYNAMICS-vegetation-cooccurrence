@@ -1,26 +1,18 @@
 # sjSDM scientific-performance decision contract v1
 
-**Recorded:** 2026-07-17
-**Policy version:** `sjsdm_scientific_performance_v1`
-**Reference unit:** `eu_r005_l010`
+**Recorded:** 2026-07-17 **Policy version:** `sjsdm_scientific_performance_v1` **Reference unit:** `eu_r005_l010`
 
 ## Purpose
 
-This contract separates three questions that must not be collapsed into one
-model-quality label:
+This contract separates three questions that must not be collapsed into one model-quality label:
 
 1. Did the cross-validation workflow execute correctly?
 2. Does the model show repeatable predictive skill at unseen locations?
-3. Are its probabilities sufficiently calibrated for interpretation as
-   occurrence risks?
+3. Are its probabilities sufficiently calibrated for interpretation as occurrence risks?
 
-Tjur R2 is a probability-discrimination measure in this contract. A value of
-`0.1` is not interpreted as 10% of ecological variance explained. It is an
-operational screening threshold adopted for future reference comparisons.
+Tjur R2 is a probability-discrimination measure in this contract. A value of `0.1` is not interpreted as 10% of ecological variance explained. It is an operational screening threshold adopted for future reference comparisons.
 
-The threshold was formalized after the exploratory CZ and `eu_r005_l010`
-audits. It is therefore a versioned prospective rule for future runs, not a
-claim that the completed reference analysis was preregistered.
+The threshold was formalized after the exploratory CZ and `eu_r005_l010` audits. It is therefore a versioned prospective rule for future runs, not a claim that the completed reference analysis was preregistered.
 
 ## Required scientific criteria
 
@@ -34,12 +26,7 @@ claim that the completed reference analysis was preregistered.
 | Taxon consistency | At least 80% of taxa with estimable mean Tjur R2 are positive | Prevents a community mean from hiding widespread negative discrimination. |
 | Evaluable coverage | Every repeat has at least 80% evaluable Tjur fold-taxon groups | Requires enough evidence to support the community summary. |
 
-The technical decision separately requires unique repeat/fold diagnostics with
-successful fits and a unique OOF prediction key for every emitted row.
-`constant_in_training` is an accepted explicit non-predictive status with an
-undefined probability; it reduces evaluability but is not a technical error.
-Preparation, fitting, alignment, or prediction failures do fail the technical
-contract.
+The technical decision separately requires unique repeat/fold diagnostics with successful fits and a unique OOF prediction key for every emitted row. `constant_in_training` is an accepted explicit non-predictive status with an undefined probability; it reduces evaluability but is not a technical error. Preparation, fitting, alignment, or prediction failures do fail the technical contract.
 
 ## Status vocabulary
 
@@ -49,15 +36,9 @@ contract.
 | `scientific_prediction_status` | `pass`, `fail_null_skill`, `fail_discrimination`, `insufficient_evidence` |
 | `calibration_status` | `acceptable`, `caution`, `not_evaluable` |
 
-A technical failure forces `scientific_prediction_status` to
-`insufficient_evidence`. Calibration remains diagnostic: it is reported
-independently and cannot silently convert demonstrated held-out skill into a
-failure or conceal poor calibration behind a scientific pass.
+A technical failure forces `scientific_prediction_status` to `insufficient_evidence`. Calibration remains diagnostic: it is reported independently and cannot silently convert demonstrated held-out skill into a failure or conceal poor calibration behind a scientific pass.
 
-Calibration is marked `caution` when the observed repeat range for the
-fold-macro calibration intercept does not contain zero or the corresponding
-slope range does not contain one. These repeat ranges are descriptive, not
-formal confidence intervals.
+Calibration is marked `caution` when the observed repeat range for the fold-macro calibration intercept does not contain zero or the corresponding slope range does not contain one. These repeat ranges are descriptive, not formal confidence intervals.
 
 ## Reference decision
 
@@ -83,10 +64,7 @@ The executable result is:
 
 ## Implementation and provenance
 
-The policy is declared under
-`project_paleo_local_cv_scientific_reference_gpu.scientific_performance` in
-`config.yml`. `assess_sjsdm_scientific_performance()` emits criterion-level and
-one-row decision artifacts in the isolated scientific-reference pipeline.
+The policy is declared under `project_paleo_local_cv_scientific_reference_gpu.scientific_performance` in `config.yml`. `assess_sjsdm_scientific_performance()` emits criterion-level and one-row decision artifacts in the isolated scientific-reference pipeline.
 
 | Target | Data hash |
 |---|---|
@@ -95,6 +73,4 @@ one-row decision artifacts in the isolated scientific-reference pipeline.
 | `data_scientific_reference_performance_criteria` | `ad00fab32fcdb3d0` |
 | `data_scientific_reference_performance_decision` | `b85a1b2e4eb42af5` |
 
-The policy integration run completed with zero target errors. The prediction
-artifact retained hash `58dfb9ed9d89f853`, confirming that the deterministic
-GPU reference evidence reproduced exactly.
+The policy integration run completed with zero target errors. The prediction artifact retained hash `58dfb9ed9d89f853`, confirming that the deterministic GPU reference evidence reproduced exactly.
