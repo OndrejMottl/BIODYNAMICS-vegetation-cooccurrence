@@ -5,7 +5,7 @@
 #' Fitted-model evaluation object, or `NULL`.
 #' @return
 #' A one-row tibble containing fitted AUC summary statistics.
-#' @noRd
+#' @keywords internal
 .summarise_fitted_auc <- function(list_jsdm_evaluation_fitted) {
   data_default <-
     tibble::tibble(

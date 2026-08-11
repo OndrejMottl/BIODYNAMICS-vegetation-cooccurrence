@@ -7,7 +7,7 @@
 #' Data frame containing observed responses and predicted logits.
 #' @return
 #' A list containing the fitted model and a warning flag.
-#' @noRd
+#' @keywords internal
 .fit_binary_calibration_model <- function(
     formula_calibration,
     data_calibration) {

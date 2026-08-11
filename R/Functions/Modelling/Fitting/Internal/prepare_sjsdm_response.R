@@ -6,7 +6,7 @@
 #' @param error_family Selected error-family name.
 #' @return Named list containing the prepared community matrix and family.
 #' @keywords internal
-#' @noRd
+#' @keywords internal
 .prepare_sjsdm_response <- function(
     data_community = NULL,
     error_family = c("gaussian", "binomial")) {

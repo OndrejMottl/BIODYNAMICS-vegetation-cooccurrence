@@ -12,7 +12,7 @@
 #' Function used to load the target.
 #' @return
 #' The loaded target object, or `NULL`.
-#' @noRd
+#' @keywords internal
 .load_successful_model_target <- function(
     data_meta,
     target_name,
