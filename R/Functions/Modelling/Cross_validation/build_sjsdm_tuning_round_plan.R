@@ -56,7 +56,7 @@ build_sjsdm_tuning_round_plan <- function(
     } else {
       dplyr::if_else(
         vec_final_round,
-        "data_sjsdm_tier_regularization_artifacts",
+        "list_sjsdm_tier_tuning_artifact",
         stringr::str_c(
           "data_sjsdm_tier_survivor_decisions_round_",
           vec_round_ids

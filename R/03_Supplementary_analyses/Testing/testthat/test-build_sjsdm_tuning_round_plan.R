@@ -8,7 +8,7 @@ testthat::test_that(
       base::c(
         "data_sjsdm_tier_survivor_decisions_round_1",
         "data_sjsdm_tier_survivor_decisions_round_2",
-        "data_sjsdm_tier_regularization_artifacts"
+        "list_sjsdm_tier_tuning_artifact"
       )
     )
   }
