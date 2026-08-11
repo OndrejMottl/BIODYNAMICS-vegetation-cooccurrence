@@ -959,66 +959,66 @@ flex: 0 0 auto;
 if (!Array.from) {
   Array.from = (function () {
     var toStr = Object.prototype.toString;
-    var isCallable = function (fn) { 
+    var isCallable = function (fn) {
       return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
     };
-    var toInteger = function (value) { 
-      var number = Number(value); 
+    var toInteger = function (value) {
+      var number = Number(value);
       if (isNaN(number)) { return 0; }
       if (number === 0 || !isFinite(number)) { return number; }
-      return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number)); 
+      return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
     };
     var maxSafeInteger = Math.pow(2, 53) - 1;
-    var toLength = function (value) { 
+    var toLength = function (value) {
       var len = toInteger(value);
       return Math.min(Math.max(len, 0), maxSafeInteger);
-    }; 
-  
+    };
+
     // La propriété length de la méthode vaut 1.
-    return function from(arrayLike/*, mapFn, thisArg */) { 
+    return function from(arrayLike/*, mapFn, thisArg */) {
       // 1. Soit C, la valeur this
       var C = this;
-      
+
       // 2. Soit items le ToObject(arrayLike).
-      var items = Object(arrayLike); 
-      
+      var items = Object(arrayLike);
+
       // 3. ReturnIfAbrupt(items).
-      if (arrayLike == null) { 
+      if (arrayLike == null) {
         throw new TypeError("Array.from doit utiliser un objet semblable à un tableau - null ou undefined ne peuvent pas être utilisés");
       }
-    
+
       // 4. Si mapfn est undefined, le mapping sera false.
       var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
       var T;
-      if (typeof mapFn !== 'undefined') {  
-        // 5. sinon      
+      if (typeof mapFn !== 'undefined') {
+        // 5. sinon
         // 5. a. si IsCallable(mapfn) est false, on lève une TypeError.
-        if (!isCallable(mapFn)) { 
-          throw new TypeError('Array.from: lorsqu il est utilisé le deuxième argument doit être une fonction'); 
+        if (!isCallable(mapFn)) {
+          throw new TypeError('Array.from: lorsqu il est utilisé le deuxième argument doit être une fonction');
         }
-     
+
         // 5. b. si thisArg a été fourni, T sera thisArg ; sinon T sera undefined.
-        if (arguments.length > 2) { 
+        if (arguments.length > 2) {
           T = arguments[2];
         }
       }
-    
+
       // 10. Soit lenValue pour Get(items, "length").
       // 11. Soit len pour ToLength(lenValue).
-      var len = toLength(items.length);  
-     
+      var len = toLength(items.length);
+
       // 13. Si IsConstructor(C) vaut true, alors
       // 13. a. Soit A le résultat de l'appel à la méthode interne [[Construct]] avec une liste en argument qui contient l'élément len.
       // 14. a. Sinon, soit A le résultat de ArrayCreate(len).
       var A = isCallable(C) ? Object(new C(len)) : new Array(len);
-   
+
       // 16. Soit k égal à 0.
-      var k = 0;  // 17. On répète tant que k < len… 
+      var k = 0;  // 17. On répète tant que k < len…
       var kValue;
       while (k < len) {
-        kValue = items[k]; 
+        kValue = items[k];
         if (mapFn) {
-          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k); 
+          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
         } else {
           A[k] = kValue;
         }
@@ -1075,7 +1075,7 @@ if (!Array.prototype.includes) {
         if (sameValueZero(o[k], searchElement)) {
           return true;
         }
-        // c. Augmenter la valeur de k de 1. 
+        // c. Augmenter la valeur de k de 1.
         k++;
       }
 
@@ -1094,7 +1094,7 @@ if (!Function.prototype.bind) {
       // closest thing possible to the ECMAScript 5 internal IsCallable function
       throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
     }
-    
+
     var aArgs = Array.prototype.slice.call(arguments, 1),
     fToBind = this,
     fNOP = function () {},
@@ -1104,10 +1104,10 @@ if (!Function.prototype.bind) {
                            : oThis,
                            aArgs.concat(Array.prototype.slice.call(arguments)));
     };
-    
+
     fNOP.prototype = this.prototype;
     fBound.prototype = new fNOP();
-    
+
     return fBound;
   };
 }
@@ -1119,18 +1119,18 @@ if (!Function.prototype.bind) {
 // for edges
 function edgeAsHardToRead(edge, hideColor1, hideColor2, network, type){
   //console.info("edgeAsHardToRead")
-  
+
   if(type === "edge"){
     //console.info("edge")
     //console.info(edge.id)
-    
+
     // saving color information (if we have)
     if (edge.hiddenColor === undefined && edge.color !== hideColor1 && edge.color !== hideColor2) {
       edge.hiddenColor = edge.color;
     }
     // set "hard to read" color
     edge.color = hideColor1;
-    
+
     // reset and save label
     if (edge.hiddenLabel === undefined) {
       edge.hiddenLabel = edge.label;
@@ -1161,14 +1161,14 @@ function edgeAsHardToRead(edge, hideColor1, hideColor2, network, type){
 }
 
 function resetOneEdge(edge, hideColor1, hideColor2, type){
-  
+
   /*console.info("resetOneEdge")
   console.info(type)
-  console.info(edge.id) 
+  console.info(edge.id)
   console.info(edge)
   console.info("edge.hiddenColor")
   console.info(edge.hiddenColor)*/
-  
+
   var treat_egde = false;
   if(type === "cluster"){
     if(edge.isHardToRead !== undefined){ // we have to reset this node
@@ -1180,7 +1180,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
     } else if(edge.color.color === hideColor1 || edge.color.color === hideColor2){
       treat_egde = true;
     }
-    
+
     if(treat_egde){
       // get back color
       if (edge.hiddenColor !== undefined) {
@@ -1189,7 +1189,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
       }else{
         delete edge.color;
       }
-        
+
       // finally, get back label
       if (edge.hiddenLabel !== undefined) {
         edge.label = edge.hiddenLabel;
@@ -1205,7 +1205,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
     }else{
       edge.color = null;
     }
-    
+
     // finally, get back label
     if (edge.hiddenLabel !== undefined) {
       edge.label = edge.hiddenLabel;
@@ -1216,7 +1216,7 @@ function resetOneEdge(edge, hideColor1, hideColor2, type){
 }
 
 function resetAllEdges(edges, hideColor1, hideColor2, network){
-  
+
   var edgesToReset = edges.get({
     fields: ['id', 'color', 'hiddenColor', 'label', 'hiddenLabel'],
     filter: function (item) {
@@ -1236,7 +1236,7 @@ function resetAllEdges(edges, hideColor1, hideColor2, network){
       edges_in_clusters = [];
     }
   }
-  
+
   var treat_edges_in_clusters = [];
   // all edges get their own color and their label back
   for (var i = 0; i < edgesToReset.length; i++) {
@@ -1252,7 +1252,7 @@ function resetAllEdges(edges, hideColor1, hideColor2, network){
       }
     }
   }
-  
+
   // some misunderstood bug on some cluster edges... so have a (bad) fix...
   var edges_in_clusters_ctrl = edges_in_clusters.filter(function(word,index){
     if(word.match(/^clusterEdge/i)){
@@ -1261,12 +1261,12 @@ function resetAllEdges(edges, hideColor1, hideColor2, network){
       } else {
         return false;
       }
-        
+
     }else{
         return false;
     }
   });
-  
+
   if(is_cluster_edges){
     if(edges_in_clusters_ctrl.length > 0){
        for (var j = 0; j < edges_in_clusters_ctrl.length; j++) {
@@ -1313,7 +1313,7 @@ function simpleResetNode(node, type){
 
 // for icon node
 function simpleIconResetNode(node, type){
-  if(type === "node"){  
+  if(type === "node"){
     // icon color
     node.icon.color = node.hiddenColor;
     node.hiddenColor = undefined;
@@ -1344,7 +1344,7 @@ function simpleIconResetNode(node, type){
 
 // for image node
 function simpleImageResetNode(node, imageType, type){
-  if(type === "node"){  
+  if(type === "node"){
     // get back color
     if (node.hiddenColor !== undefined) {
       node.color = node.hiddenColor;
@@ -1406,7 +1406,7 @@ function resetOneCluster(node, options, network){
         } else if(shape_options){
           final_shape = options.nodes.shape;
         }
-        
+
         node.setOptions({bodyHiddenColor : network.body.nodes[node.id].options.color});
         // and call good reset function
         if(final_shape === "icon"){
@@ -1462,7 +1462,7 @@ function resetOneNode(node, options, network){
         } else if(shape_options){
           final_shape = options.nodes.shape;
         }
-        
+
         // reset body information
         network.body.nodes[node.id].options.color = node.bodyHiddenColor;
 
@@ -1489,7 +1489,7 @@ function resetOneNode(node, options, network){
 
 // Global function to reset all node
 function resetAllNodes(nodes, update, options, network, all){
-  
+
   if(all === false){
       var nodesToReset = nodes.get({
       filter: function (item) {
@@ -1500,7 +1500,7 @@ function resetAllNodes(nodes, update, options, network, all){
   } else {
       var nodesToReset = nodes.get({returnType :'Array'});
   }
-  
+
   var have_cluster_nodes = false;
   var nodes_in_clusters;
   if(network !== undefined){
@@ -1547,7 +1547,7 @@ function simpleNodeAsHardToRead(node, hideColor1, hideColor2, type){
     if (node.hiddenColor === undefined && node.color !== hideColor1 && node.color !== hideColor2) {
       node.hiddenColor = node.color;
     }
-  
+
     // set "hard to read" color
     node.color = hideColor1;
     // reset and save label
@@ -1555,7 +1555,7 @@ function simpleNodeAsHardToRead(node, hideColor1, hideColor2, type){
       node.hiddenLabel = node.label;
       node.label = undefined;
     }
-  // cluster  
+  // cluster
   } else {
     // saving color information (if we have)
     if (node.options.hiddenColor === undefined && node.options.color !== hideColor1 && node.options.color !== hideColor2) {
@@ -1694,14 +1694,14 @@ function nodeAsHardToRead(node, options, hideColor1, hideColor2, network, type){
     } else if(shape_options){
       final_shape = options.nodes.shape;
     }
-    
+
     // information save in body nodes
     if(type === "node"){
       node.bodyHiddenColor = clone(network.body.nodes[node.id].options.color);
     } else {
       node.setOptions({bodyHiddenColor : clone(network.body.nodes[node.id].options.color)});
     }
-  
+
     // and call good function
     if(final_shape === "icon"){
       // find color for icon
@@ -1713,7 +1713,7 @@ function nodeAsHardToRead(node, options, hideColor1, hideColor2, network, type){
           icon_color = node.icon.color;
           find_color = true;
         }
-      } 
+      }
       // or in group ?
       if(find_color === false && is_group && options.groups !== undefined && options.groups[node.group].icon !== undefined){
         if(options.groups[node.group].icon.color !== undefined){
@@ -1726,7 +1726,7 @@ function nodeAsHardToRead(node, options, hideColor1, hideColor2, network, type){
         if(options.nodes.icon.color !== undefined){
           icon_color = options.nodes.icon.color;
         }
-      } 
+      }
       iconsNodeAsHardToRead(node, hideColor1, hideColor2, icon_color, type);
     } else if(final_shape === "image"){
       imageNodeAsHardToRead(node, "image", hideColor1, hideColor2, type);
@@ -1735,14 +1735,14 @@ function nodeAsHardToRead(node, options, hideColor1, hideColor2, network, type){
     } else {
       simpleNodeAsHardToRead(node, hideColor1, hideColor2, type);
     }
-    
+
     // finally set isHardToRead
     if(type === "node"){
       node.isHardToRead = true;
     } else {
       node.setOptions({isHardToRead : true});
     }
-  // special case of just to label  
+  // special case of just to label
   } else if(node.isHardToRead === true && node.label !== undefined){
     if(type === "node"){
       node.hiddenLabel = node.label;
@@ -1762,13 +1762,13 @@ function visNetworkdataframeToD3(df, type) {
   // variables we have specially to control
   /*var nodesctrl = ["color", "fixed", "font", "icon", "shadow", "scaling", "shapeProperties", "chosen", "heightConstraint", "image", "margin", "widthConstraint"];
   var edgesctrl = ["color", "font", "arrows", "shadow", "smooth", "scaling", "chosen", "widthConstraint"];*/
-  
+
   var names = [];
   var colnames = [];
   var length;
   var toctrl;
   var ctrlname;
-  
+
   for (var name in df) {
     if (df.hasOwnProperty(name))
       colnames.push(name);
@@ -1853,7 +1853,7 @@ function visNetworkdataframeToD3(df, type) {
 
 //----------------------------------------------------------------
 // Some utils functions
-//---------------------------------------------------------------- 
+//----------------------------------------------------------------
 
 //unique element in array
 function uniqueArray(arr, exclude_cluster, network) {
@@ -1872,17 +1872,17 @@ function uniqueArray(arr, exclude_cluster, network) {
 }
 
 function uniqueShiny(arr) {
-  return arr.filter(function (value, index, self) { 
+  return arr.filter(function (value, index, self) {
     return self.indexOf(value) === index;
   });
 };
 // clone an object
 function clone(obj) {
     if(obj === null || typeof(obj) != 'object')
-        return obj;    
-    var temp = new obj.constructor(); 
+        return obj;
+    var temp = new obj.constructor();
     for(var key in obj)
-        temp[key] = clone(obj[key]);    
+        temp[key] = clone(obj[key]);
     return temp;
 }
 // update a list
@@ -1931,7 +1931,7 @@ function setNodeIdList(selectList, params, nodes){
     selectList.setAttribute('style', params.style);
   }
   selectList.style.display = 'inline';
-      
+
   option = document.createElement("option");
   option.value = "";
   if(params.main === undefined){
@@ -1939,9 +1939,9 @@ function setNodeIdList(selectList, params, nodes){
   } else {
     option.text = params.main;
   }
-  
+
   selectList.appendChild(option);
-      
+
   // have to set for all nodes ?
   if(params.values === undefined){
     var info_node_list = nodes.get({
@@ -1984,7 +1984,7 @@ function setNodeIdList(selectList, params, nodes){
 
 //----------------------------------------------------------------
 // Collapsed function
-//---------------------------------------------------------------- 
+//----------------------------------------------------------------
 
 function networkOpenCluster(params){
   if (params.nodes.length === 1) {
@@ -1992,9 +1992,9 @@ function networkOpenCluster(params){
       var elid = this.body.container.id.substring(5);
       var fit = document.getElementById(elid).collapseFit;
       var resetHighlight = document.getElementById(elid).collapseResetHighlight;
-      
+
       if(document.getElementById(elid).collapseKeepCoord){
-        this.openCluster(params.nodes[0], 
+        this.openCluster(params.nodes[0],
         {releaseFunction : function(clusterPosition, containedNodesPositions) {
               return containedNodesPositions;
             }
@@ -2003,7 +2003,7 @@ function networkOpenCluster(params){
         this.openCluster(params.nodes[0]);
       }
 
-      
+
       if(resetHighlight){
         document.getElementById("nodeSelect"+elid).value = "";
         document.getElementById("nodeSelect"+elid).onchange();
@@ -2016,20 +2016,20 @@ function networkOpenCluster(params){
 }
 
 function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix, treeParams, network, elid) {
-  
+
   var set_position = true;
   var selectedNode;
   var j;
-  
+
   if(nodes[0] !== undefined){
-    
+
     for (var inodes = 0; inodes < nodes.length; inodes++) {
-      
+
       selectedNode = nodes[inodes];
       if(selectedNode !== undefined){
         if(network.isCluster(selectedNode)){
           //network.openCluster(selectedNode)
-          /*instance.network.openCluster(selectedNode, 
+          /*instance.network.openCluster(selectedNode,
           {releaseFunction : function(clusterPosition, containedNodesPositions) {
             return tmp_position;
           }})*/
@@ -2038,13 +2038,13 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
           var firstLevelNodes = [];
           var otherLevelNodes = [];
           var connectedToNodes = [];
-      
+
           item = network.body.data.nodes.get({
             filter: function (item) {
               return item.id == selectedNode;
             }
           });
-            
+
           connectedToNodes = network.body.data.edges.get({
           fields: ['id','to'],
             filter: function (item) {
@@ -2052,13 +2052,13 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
             },
             returnType :'Array'
           });
-          
-          
-          
+
+
+
           for (j = 0; j < connectedToNodes.length; j++) {
             firstLevelNodes = firstLevelNodes.concat(connectedToNodes[j].to);
           }
-    
+
           var currentConnectedToNodes = firstLevelNodes;
           while(currentConnectedToNodes.length !== 0){
             connectedToNodes = network.body.data.edges.get({
@@ -2068,7 +2068,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                 },
                 returnType :'Array'
             });
-                
+
             currentConnectedToNodes = [];
             var currentlength = otherLevelNodes.length;
             for (j = 0; j < connectedToNodes.length; j++) {
@@ -2077,7 +2077,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
             }
             if (otherLevelNodes.length === currentlength) { break; }
           }
-              
+
           var finalFirstLevelNodes = [];
           for (j = 0; j < firstLevelNodes.length; j++) {
             var findnode = network.clustering.findNode(firstLevelNodes[j])
@@ -2087,7 +2087,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
               finalFirstLevelNodes = finalFirstLevelNodes.concat(findnode[0]);
             }
           }
-          
+
           var finalClusterNodes = [];
           for (j = 0; j < otherLevelNodes.length; j++) {
             var findnode = network.clustering.findNode(otherLevelNodes[j])
@@ -2098,14 +2098,14 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
             }
           }
 
-          if(set_position){ 
+          if(set_position){
             network.storePositions();
           }
-    
+
           var clusterOptions = {
             joinCondition: function (nodesOptions) {
-              return nodesOptions.id === selectedNode || indexOf.call(finalFirstLevelNodes, nodesOptions.id, true) > -1 || 
-                  indexOf.call(finalClusterNodes, nodesOptions.id, true) > -1; 
+              return nodesOptions.id === selectedNode || indexOf.call(finalFirstLevelNodes, nodesOptions.id, true) > -1 ||
+                  indexOf.call(finalClusterNodes, nodesOptions.id, true) > -1;
               },
               processProperties: function(clusterOptions, childNodes) {
                 var click_node = network.body.data.nodes.get({
@@ -2114,12 +2114,12 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                   },
                   returnType :'Array'
                 });
-                
+
                 var is_hard_to_read = false;
                 if(click_node[0].isHardToRead !== undefined){
                   is_hard_to_read = click_node[0].isHardToRead;
                 }
-                
+
                 for (var i in click_node[0]) {
                   if(i !== "id" && i !== "isHardToRead"){
                     if(i === "label" && is_hard_to_read){
@@ -2131,7 +2131,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                     }
                   }
                 }
-                        
+
                 // gestion des tree
                 if(treeParams !== undefined){
                   if(treeParams.updateShape){
@@ -2140,19 +2140,19 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                     clusterOptions.shape = treeParams.shapeY
                   }
                 }
-                        
+
                 if(clusterOptions.label !== undefined){
                   clusterOptions.label = clusterOptions.label + " " + labelSuffix;
                 } else {
                   clusterOptions.label =  labelSuffix;
                 }
-                        
+
                 if(clusterOptions.borderWidth !== undefined){
                   clusterOptions.borderWidth = clusterOptions.borderWidth * 3;
                 } else {
                   clusterOptions.borderWidth =  3;
                 }
-                        
+
                 if(set_position){
                   if(click_node[0].x !== undefined){
                     clusterOptions.x = click_node[0].x;
@@ -2161,13 +2161,13 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
                     clusterOptions.y = click_node[0].y;
                   }
                 }
-                      
+
                 if(clusterParams !== undefined){
                   for (var j in clusterParams) {
                     clusterOptions[j]=  clusterParams[j];
                   }
                 }
-                    
+
               return clusterOptions;
             },
             clusterNodeProperties: {
@@ -2177,7 +2177,7 @@ function collapsedNetwork(nodes, fit, resetHighlight, clusterParams, labelSuffix
           network.cluster(clusterOptions);
         }
       }
-      
+
     }
     if(resetHighlight){
       document.getElementById("nodeSelect"+elid).value = "";
@@ -2194,14 +2194,14 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
   var j;
   var arr_nodes = [];
   var cluster_node;
-  
+
   var nodes_in_clusters = network.body.modules.clustering.clusteredNodes;
   if(Object.keys(nodes_in_clusters).length > 0){
     nodes_in_clusters = Object.keys(nodes_in_clusters);
   } else {
     nodes_in_clusters = []
   }
-    
+
   if(nodes !== undefined && nodes !== null){
     arr_nodes = nodes
   } else {
@@ -2213,7 +2213,7 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
     if(selectedNode !== undefined){
         if(network.isCluster(selectedNode)){
           if(keepCoord){
-            network.openCluster(selectedNode, 
+            network.openCluster(selectedNode,
               {releaseFunction : function(clusterPosition, containedNodesPositions) {
                     return containedNodesPositions;
                   }
@@ -2228,7 +2228,7 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
               cluster_node = network.clustering.findNode(selectedNode)[0];
               if(network.isCluster(cluster_node)){
                 if(keepCoord){
-                  network.openCluster(cluster_node, 
+                  network.openCluster(cluster_node,
                     {releaseFunction : function(clusterPosition, containedNodesPositions) {
                           return containedNodesPositions;
                         }
@@ -2239,7 +2239,7 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
               }
             }
           }
-        } 
+        }
       }
     }
   if(resetHighlight){
@@ -2253,9 +2253,9 @@ function uncollapsedNetwork(nodes, fit, resetHighlight, keepCoord, network, elid
 
 //----------------------------------------------------------------
 // All available functions/methods with visNetworkProxy
-//--------------------------------------------------------------- 
+//---------------------------------------------------------------
 if (HTMLWidgets.shinyMode){
-  
+
   // collapsed method
   Shiny.addCustomMessageHandler('visShinyCollapse', function(data){
       // get container id
@@ -2264,7 +2264,7 @@ if (HTMLWidgets.shinyMode){
         collapsedNetwork(data.nodes, data.fit, data.resetHighlight, data.clusterOptions, data.labelSuffix, undefined, el.chart, data.id)
       }
   });
-  
+
   // uncollapsed method
   Shiny.addCustomMessageHandler('visShinyUncollapse', function(data){
       // get container id
@@ -2280,7 +2280,7 @@ if (HTMLWidgets.shinyMode){
       var el = document.getElementById("graph"+data.id);
       if(el){
         var network = el.chart;
-        
+
         if(data.type === "once"){
           for (var key in data.events) {
             eval('network.once("' + key + '",' + data.events[key] + ')');
@@ -2296,7 +2296,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // moveNode method
   Shiny.addCustomMessageHandler('visShinyMoveNode', function(data){
       // get container id
@@ -2306,32 +2306,32 @@ if (HTMLWidgets.shinyMode){
         network.moveNode(data.nodeId, data.x, data.y);
       }
   });
-  
+
   // unselectAll method
   Shiny.addCustomMessageHandler('visShinyUnselectAll', function(data){
       // get container id
       var el = document.getElementById("graph"+data.id);
       if(el){
         var network = el.chart;
-        
+
         // reset selection
         document.getElementById("nodeSelect"+data.id).value = "";
         document.getElementById("nodeSelect"+data.id).onchange();
-        
+
         if(document.getElementById(data.id).selectActive === true){
             document.getElementById("selectedBy"+data.id).value = "";
             document.getElementById("selectedBy"+data.id).onchange();
         }
-        
+
         network.unselectAll();
       }
   });
-  
+
   // updateOptions in the network
   Shiny.addCustomMessageHandler('visShinyOptions', function(data){
       // get container id
       var el = document.getElementById("graph"+data.id);
-      
+
       if(el){
         var network = el.chart;
         var options = el.options;
@@ -2346,7 +2346,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
         }
-    
+
         //*************************
         // pre-treatment for icons (unicode)
         //*************************
@@ -2367,7 +2367,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
         }
-        
+
         if(data.options.nodes){
           if(data.options.nodes.icon){
             if(data.options.nodes.icon.code){
@@ -2384,12 +2384,12 @@ if (HTMLWidgets.shinyMode){
           }
         }
 
-        
+
         update(options, data.options);
         network.setOptions(options);
       }
   });
-  
+
   // setData the network
   Shiny.addCustomMessageHandler('visShinySetData', function(data){
       // get container id
@@ -2398,7 +2398,7 @@ if (HTMLWidgets.shinyMode){
         var network = el.chart;
         var newnodes = new vis.DataSet();
         var newedges = new vis.DataSet();
-		
+
         newnodes.add(visNetworkdataframeToD3(data.nodes, "nodes"));
         newedges.add(visNetworkdataframeToD3(data.edges, "edges"));
         var newdata = {
@@ -2408,7 +2408,7 @@ if (HTMLWidgets.shinyMode){
         network.setData(newdata);
       }
   });
-  
+
   // fit to a specific node
   Shiny.addCustomMessageHandler('visShinyFit', function(data){
     // get container id
@@ -2418,7 +2418,7 @@ if (HTMLWidgets.shinyMode){
         network.fit(data.options);
       }
   });
-  
+
   // focus on a node in the network
   Shiny.addCustomMessageHandler('visShinyFocus', function(data){
       // get container id
@@ -2428,7 +2428,7 @@ if (HTMLWidgets.shinyMode){
         network.focus(data.focusId, data.options);
       }
   });
-  
+
   // stabilize the network
   Shiny.addCustomMessageHandler('visShinyStabilize', function(data){
       // get container id
@@ -2448,7 +2448,7 @@ if (HTMLWidgets.shinyMode){
         network.startSimulation();
       }
   });
-  
+
   // stopSimulation on network
   Shiny.addCustomMessageHandler('visShinyStopSimulation', function(data){
       // get container id
@@ -2458,7 +2458,7 @@ if (HTMLWidgets.shinyMode){
         network.stopSimulation();
       }
   });
-  
+
   // get positions of the network
   Shiny.addCustomMessageHandler('visShinyGetPositions', function(data){
       // get container id
@@ -2466,7 +2466,7 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-        
+
         if(data.nodes !== undefined){
           pos = network.getPositions(data.nodes);
         }else{
@@ -2476,7 +2476,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // get edges data
   Shiny.addCustomMessageHandler('visShinyGetEdges', function(data){
       // get container id
@@ -2486,7 +2486,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, el.edges.get({returnType:"Object"}));
       }
   });
-  
+
   // get nodes data
   Shiny.addCustomMessageHandler('visShinyGetNodes', function(data){
       // get container id
@@ -2499,7 +2499,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, el.nodes.get({returnType:"Object"}));
       }
   });
-  
+
   // get selected edges
   Shiny.addCustomMessageHandler('visShinyGetSelectedEdges', function(data){
       // get container id
@@ -2511,7 +2511,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // get selected nodes
   Shiny.addCustomMessageHandler('visShinyGetSelectedNodes', function(data){
       // get container id
@@ -2523,7 +2523,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // getConnectedEdges
   Shiny.addCustomMessageHandler('visShinyGetConnectedEdges', function(data){
       // get container id
@@ -2535,7 +2535,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // getConnectedNodes
   Shiny.addCustomMessageHandler('visShinyGetConnectedNodes', function(data){
       // get container id
@@ -2547,7 +2547,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // getBoundingBox
   Shiny.addCustomMessageHandler('visShinyGetBoundingBox', function(data){
       // get container id
@@ -2559,7 +2559,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // get selection
   Shiny.addCustomMessageHandler('visShinyGetSelection', function(data){
       // get container id
@@ -2567,14 +2567,14 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-        
+
         pos = network.getSelection();
 
 		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // get scale
   Shiny.addCustomMessageHandler('visShinyGetScale', function(data){
       // get container id
@@ -2582,14 +2582,14 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-        
+
         pos = network.getScale();
 
 		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // store positions
   Shiny.addCustomMessageHandler('visShinyStorePositions', function(data){
       // get container id
@@ -2599,7 +2599,7 @@ if (HTMLWidgets.shinyMode){
         network.storePositions();
       }
   });
-  
+
   // get view position
   Shiny.addCustomMessageHandler('visShinyGetViewPosition', function(data){
       // get container id
@@ -2607,14 +2607,14 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos;
-        
+
         pos = network.getViewPosition();
 
 		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
-  
+
   // get view position
   Shiny.addCustomMessageHandler('visShinyGetOptionsFromConfigurator', function(data){
       // get container id
@@ -2625,7 +2625,7 @@ if (HTMLWidgets.shinyMode){
         Shiny.onInputChange(data.input, network.getOptionsFromConfigurator());
       }
   });
-  
+
   // Redraw the network
   Shiny.addCustomMessageHandler('visShinyRedraw', function(data){
       // get container id
@@ -2634,7 +2634,7 @@ if (HTMLWidgets.shinyMode){
         el.chart.redraw();
       }
   });
-  
+
   // select nodes
   Shiny.addCustomMessageHandler('visShinySelectNodes', function(data){
       // get container id
@@ -2653,7 +2653,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // select edges
   Shiny.addCustomMessageHandler('visShinySelectEdges', function(data){
       // get container id
@@ -2665,7 +2665,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // set selection
   Shiny.addCustomMessageHandler('visShinySetSelection', function(data){
       // get container id
@@ -2679,12 +2679,12 @@ if (HTMLWidgets.shinyMode){
           if(data.selection.nodes !== null){
             el.myclick({nodes : data.selection.nodes});
           } else {
-           el.myclick({nodes : []}); 
+           el.myclick({nodes : []});
           }
         }
       }
   });
-  
+
   function updateVisOptions(data){
         // get container id
         var graph = document.getElementById("graph"+data.id);
@@ -2694,7 +2694,7 @@ if (HTMLWidgets.shinyMode){
         var selectList2;
         var selectList;
         var reset = false;
-        
+
         if(graph){
           // reset nodes before ?
           if(document.getElementById(el.id).highlight){
@@ -2707,7 +2707,7 @@ if (HTMLWidgets.shinyMode){
             document.getElementById("nodeSelect"+data.id).value = "";
             document.getElementById("nodeSelect"+data.id).onchange();
           }
-          
+
           // collapse init
           if(data.options.collapse !== undefined){
             el.collapse = data.options.collapse.enabled;
@@ -2717,7 +2717,7 @@ if (HTMLWidgets.shinyMode){
             el.collapseLabelSuffix = data.options.collapse.labelSuffix;
             el.clusterOptions = data.options.collapse.clusterOptions;
           }
-          
+
           // highlight init
           if(data.options.highlight !== undefined){
             el.highlight = data.options.highlight.enabled;
@@ -2741,7 +2741,7 @@ if (HTMLWidgets.shinyMode){
               el.byselectionHighlight = data.options.byselection.highlight;
             }
           }
-          
+
           if(data.options.byselection !== undefined){
             selectList2 = document.getElementById("selectedBy"+data.id)
             selectList2.options.length = 0;
@@ -2753,9 +2753,9 @@ if (HTMLWidgets.shinyMode){
               } else {
                 option2.text = data.options.byselection.main;
               }
-              
+
               selectList2.appendChild(option2);
-      
+
               if(data.options.byselection.values !== undefined){
                 for (var i = 0; i < data.options.byselection.values.length; i++) {
                   option2 = document.createElement("option");
@@ -2790,7 +2790,7 @@ if (HTMLWidgets.shinyMode){
               document.getElementById("selectedBy"+data.id).onchange();
             }
           }
-          
+
           if(do_loop_by){
               var allNodes = graph.nodes.get({returnType:"Object"});
               var byselection_values = [];
@@ -2812,9 +2812,9 @@ if (HTMLWidgets.shinyMode){
                     }
                   }
                 }
-              } 
+              }
           }
-          
+
           // node id selection init
           if(data.options.idselection !== undefined){
             selectList = document.getElementById("nodeSelect"+data.id)
@@ -2830,7 +2830,7 @@ if (HTMLWidgets.shinyMode){
               el.idselection_useLabels = data.options.idselection.useLabels
             }
           }
-          
+
           if(data.options.idselection !== undefined){
             if(data.options.idselection.enabled === true && data.options.idselection.selected !== undefined){
               document.getElementById("nodeSelect"+data.id).value = data.options.idselection.selected;
@@ -2839,27 +2839,27 @@ if (HTMLWidgets.shinyMode){
           }
         }
   };
-      
+
   Shiny.addCustomMessageHandler('visShinyCustomOptions', updateVisOptions);
-  
+
   // udpate nodes data
   Shiny.addCustomMessageHandler('visShinyUpdateNodes', function(data){
       // get container id
       var el = document.getElementById("graph"+data.id);
       var main_el = document.getElementById(data.id);
-      
+
       if(data.legend === false){
         if(el){
           // get & transform nodes object
           var tmpnodes = visNetworkdataframeToD3(data.nodes, "nodes");
-          
+
           // reset some parameters / data before
           if (main_el.selectActive === true | main_el.highlightActive === true) {
 
             //reset nodes
             resetAllEdges(el.edges, el.highlightColor, el.byselectionColor, el.chart);
             resetAllNodes(el.nodes, true, el.options, el.chart, false);
-            
+
             if (main_el.selectActive === true){
               main_el.selectActive = false;
               resetList('selectedBy', data.id, 'selectedBy');
@@ -2871,25 +2871,25 @@ if (HTMLWidgets.shinyMode){
           }
           // update nodes
           el.nodes.update(tmpnodes);
-          
+
           // update options ?
           if(data.updateOptions){
             var dataOptions = {};
             dataOptions.options = {};
-          
+
             var updateOpts = false;
             if(document.getElementById("nodeSelect"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.idselection = {enabled : true, useLabels : main_el.idselection_useLabels};
             }
-      
+
             if(document.getElementById("selectedBy"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.byselection = {enabled : true, variable : main_el.byselection_variable, multiple : main_el.byselection_multiple};
             }
-          
+
             if(updateOpts){
               updateVisOptions(dataOptions);
             }
@@ -2932,7 +2932,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // remove nodes
   Shiny.addCustomMessageHandler('visShinyRemoveNodes', function(data){
       // get container id
@@ -2944,7 +2944,7 @@ if (HTMLWidgets.shinyMode){
           if (main_el.selectActive === true | main_el.highlightActive === true) {
             //reset nodes
             resetAllNodes(el.nodes, true, el.options, el.chart, false);
-            
+
             if (main_el.selectActive === true){
               main_el.selectActive = false;
               resetList('selectedBy', data.id, 'selectedBy');
@@ -2956,25 +2956,25 @@ if (HTMLWidgets.shinyMode){
           }
           // remove nodes
           el.nodes.remove(data.rmid);
-  
+
           // update options ?
           if(data.updateOptions){
             var dataOptions = {};
             dataOptions.options = {};
-          
+
             var updateOpts = false;
             if(document.getElementById("nodeSelect"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.idselection = {enabled : true, useLabels : main_el.idselection_useLabels};
             }
-      
+
             if(document.getElementById("selectedBy"+data.id).style.display === 'inline'){
               updateOpts = true;
               dataOptions.id  = data.id;
               dataOptions.options.byselection = {enabled : true, variable : main_el.byselection_variable, multiple : main_el.byselection_multiple};
             }
-          
+
             if(updateOpts){
               updateVisOptions(dataOptions);
             }
@@ -2990,7 +2990,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // remove edges
   Shiny.addCustomMessageHandler('visShinyRemoveEdges', function(data){
       // get container id
@@ -3011,7 +3011,7 @@ if (HTMLWidgets.shinyMode){
         }
       }
   });
-  
+
   // remove edges
   Shiny.addCustomMessageHandler('visShinySetTitle', function(data){
     if(data.main !== null){
@@ -3037,7 +3037,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
           div_title.style.display = 'block';
-        } 
+        }
       }
     }
     if(data.submain !== null){
@@ -3089,7 +3089,7 @@ if (HTMLWidgets.shinyMode){
             }
           }
           div_footer.style.display = 'block';
-        } 
+        }
       }
     }
   });
@@ -3116,18 +3116,18 @@ if (HTMLWidgets.shinyMode){
 
 //----------------------------------------------------------------
 // HTMLWidgets.widget Definition
-//--------------------------------------------------------------- 
+//---------------------------------------------------------------
 HTMLWidgets.widget({
-  
+
   name: 'visNetwork',
-  
+
   type: 'output',
-  
+
   initialize: function(el, width, height) {
     return {
     };
   },
-  
+
   renderValue: function(el, x, instance) {
     var data;
     var nodes;
@@ -3140,25 +3140,25 @@ HTMLWidgets.widget({
     var lastClusterZoomLevel = 0;
     var clusterFactor;
     var ctrlwait = 0;
-    
+
     // legend control
     var addlegend = false;
 
     // main div el.id
     var el_id = document.getElementById(el.id);
-    
+
     // test background
     el_id.style.background = x.background;
-    
+
     // clear el.id (for shiny...)
-    el_id.innerHTML = "";  
-    
+    el_id.innerHTML = "";
+
     // shared control with proxy function (is there a better way ?)
     el_id.highlightActive = false;
     el_id.selectActive = false;
     el_id.idselection = x.idselection.enabled;
     el_id.byselection = x.byselection.enabled;
-    
+
     if(x.highlight !== undefined){
       el_id.highlight = x.highlight.enabled;
       el_id.highlightColor = x.highlight.hideColor;
@@ -3182,13 +3182,13 @@ HTMLWidgets.widget({
       el_id.byselectionColor = 'rgba(200,200,200,0.5)';
       el_id.byselectionHighlight = false;
     }
-    
+
     if(x.idselection.enabled){
       el_id.idselection_useLabels = true;
     } else {
       el_id.idselection_useLabels = false;
     }
-    
+
     if(x.collapse !== undefined){
       if(x.collapse.enabled){
         el_id.collapse = true;
@@ -3206,7 +3206,7 @@ HTMLWidgets.widget({
       el_id.collapseLabelSuffix = " (cluster)";
       el_id.clusterOptions = undefined;
     }
-    
+
     if(x.tree !== undefined){
       el_id.tree = x.tree;
     }
@@ -3222,11 +3222,11 @@ HTMLWidgets.widget({
         }
       }
     }
-    
+
     var changeInput = function(id, data) {
             Shiny.onInputChange(el.id + '_' + id, data);
     };
-          
+
     //*************************
     //title
     //*************************
@@ -3234,13 +3234,13 @@ HTMLWidgets.widget({
     div_title.id = "title"+el.id;
     div_title.setAttribute('style','font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;');
     div_title.style.display = 'none';
-    el_id.appendChild(div_title);  
+    el_id.appendChild(div_title);
     if(x.main !== null){
       div_title.innerHTML = x.main.text;
       div_title.setAttribute('style',  x.main.style + ";background-color: inherit;");
       div_title.style.display = 'block';
     }
-    
+
     //*************************
     //subtitle
     //*************************
@@ -3248,13 +3248,13 @@ HTMLWidgets.widget({
     div_subtitle.id = "subtitle"+el.id;
     div_subtitle.setAttribute('style',  'font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;');
     div_subtitle.style.display = 'none';
-    el_id.appendChild(div_subtitle); 
+    el_id.appendChild(div_subtitle);
     if(x.submain !== null){
       div_subtitle.innerHTML = x.submain.text;
       div_subtitle.setAttribute('style',  x.submain.style + ";background-color: inherit;");
       div_title.style.display = 'block';
     }
- 
+
     //*************************
     //init idselection
     //*************************
@@ -3287,7 +3287,7 @@ HTMLWidgets.widget({
         resetList('selectedBy', el.id, 'selectedBy');
       }
     }
-      
+
     // id nodes selection : add a list on top left
     // actually only with nodes + edges data (not dot and gephi)
     var idList = document.createElement("select");
@@ -3295,17 +3295,17 @@ HTMLWidgets.widget({
     idList.style.display = 'none';
     idList.id = "nodeSelect"+el.id;
     el_id.appendChild(idList);
-      
+
     idList.onchange =  function(){
       if(instance.network){
         onIdChange(document.getElementById("nodeSelect"+el.id).value, false);
       }
     };
-      
+
     var hr = document.createElement("hr");
     hr.setAttribute('style', 'height:0px; visibility:hidden; margin-bottom:-1px;');
-    el_id.appendChild(hr);  
-      
+    el_id.appendChild(hr);
+
     //*************************
     //selectedBy
     //*************************
@@ -3320,7 +3320,7 @@ HTMLWidgets.widget({
           resetList('nodeSelect', el.id, 'selected');
         }
     }
-    
+
     // selectedBy : add a list on top left
     // actually only with nodes + edges data (not dot and gephi)
     //Create and append select list
@@ -3333,19 +3333,19 @@ HTMLWidgets.widget({
     byList.onchange =  function(){
       onByChange(document.getElementById("selectedBy"+el.id).value);
     };
-      
+
     if(el_id.byselection){
 
       el_id.byselection_values = x.byselection.values;
       el_id.byselection_variable = x.byselection.variable;
       el_id.byselection_multiple = x.byselection.multiple;
       var option2;
-      
+
       //Create and append select list
       var selectList2 = document.getElementById("selectedBy"+el.id);
       selectList2.setAttribute('style', x.byselection.style);
       selectList2.style.display = 'inline';
-      
+
       option2 = document.createElement("option");
       option2.value = "";
       if(x.byselection.main === undefined){
@@ -3355,7 +3355,7 @@ HTMLWidgets.widget({
       }
 
       selectList2.appendChild(option2);
-      
+
       //Create and append the options
       for (var i2 = 0; i2 < x.byselection.values.length; i2++) {
         option2 = document.createElement("option");
@@ -3363,12 +3363,12 @@ HTMLWidgets.widget({
         option2.text = x.byselection.values[i2];
         selectList2.appendChild(option2);
       }
-      
+
       if (window.Shiny){
         changeInput('selectedBy', document.getElementById("selectedBy"+el.id).value);
       }
     }
-    
+
     //*************************
     // pre-treatment for icons (unicode)
     //*************************
@@ -3389,7 +3389,7 @@ HTMLWidgets.widget({
         }
       }
     }
-    
+
     if(x.options.nodes.icon){
         if(x.options.nodes.icon.code){
           x.options.nodes.icon.code = JSON.parse( '"'+'\\u' + x.options.nodes.icon.code + '"');
@@ -3403,72 +3403,72 @@ HTMLWidgets.widget({
           x.options.nodes.color = x.options.nodes.icon.color;
         }
     }
-    
+
     //*************************
     //page structure
     //*************************
-    
+
     // divide page
     var maindiv  = document.createElement('div');
     maindiv.id = "maindiv"+el.id;
     maindiv.setAttribute('style', 'height:95%;background-color: inherit;');
     el_id.appendChild(maindiv);
-    
+
     var graph = document.createElement('div');
     graph.id = "graph"+el.id;
-    
+
     if(x.legend !== undefined){
       if((x.groups && x.legend.useGroups) || (x.legend.nodes !== undefined) || (x.legend.edges !== undefined)){
         addlegend = true;
       }
     }
-    
+
     //legend
     if(addlegend){
       var legendwidth = x.legend.width*100;
       var legend = document.createElement('div');
-      
+
       var pos = x.legend.position;
       var pos2 = "right";
       if(pos == "right"){
         pos2 = "left";
       }
-      
+
       legend.id = "legend"+el.id;
       legend.setAttribute('style', 'float:' + pos + '; width:'+legendwidth+'%;height:100%');
-      
+
       //legend title
       if(x.legend.main !== undefined){
         var legend_title = document.createElement('div');
         legend_title.innerHTML = x.legend.main.text;
         legend_title.setAttribute('style',  x.legend.main.style);
-        legend.appendChild(legend_title);  
-        
+        legend.appendChild(legend_title);
+
         legend.id = "legend_main"+el.id;
         var legend_network = document.createElement('div');
         legend_network.id = "legend"+el.id;
         legend_network.setAttribute('style', 'height:100%');
-        legend.appendChild(legend_network); 
+        legend.appendChild(legend_network);
       }
-      
+
       document.getElementById("maindiv"+el.id).appendChild(legend);
       graph.setAttribute('style', 'float:' + pos2 + '; width:'+(100-legendwidth)+'%;height:100%;background-color: inherit;');
     }else{
       graph.setAttribute('style', 'float:right; width:100%;height:100%;background-color: inherit;');
     }
-    
+
     document.getElementById("maindiv"+el.id).appendChild(graph);
-    
+
     //*************************
     //legend definition
     //*************************
     if(addlegend){
-      
+
       var legendnodes = new vis.DataSet();
       var legendedges = null;
       var datalegend;
       var tmpnodes;
-      
+
       // set some options
       var optionslegend = {
         interaction:{
@@ -3481,7 +3481,7 @@ HTMLWidgets.widget({
           stabilization: false
         }
       };
-      
+
       function range(start, length, step, rep){
         var a=[], b=start;
         while(a.length < length){
@@ -3495,7 +3495,7 @@ HTMLWidgets.widget({
         }
         return a;
       };
-      
+
       var mynetwork = document.getElementById('legend'+el.id);
       var lx = mynetwork.clientWidth / 2 + 50;
       var ly = mynetwork.clientHeight / 2 + 50;
@@ -3510,7 +3510,7 @@ HTMLWidgets.widget({
       if(tmp_lx === 0){
         tmp_lx = 1
       }
-      
+
       // construct nodes data if needed
       if(x.legend.nodes !== undefined){
         if(x.legend.nodesToDataframe){ // data in data.frame
@@ -3518,13 +3518,13 @@ HTMLWidgets.widget({
         } else { // data in list
           tmpnodes = x.legend.nodes;
         }
-        // only one element   
+        // only one element
         if(tmpnodes.length === undefined){
           tmpnodes = new Array(tmpnodes);
         }
       }
-      
-      // array of y position 
+
+      // array of y position
       if(x.groups && x.legend.useGroups && x.legend.nodes !== undefined){
         all_tmp_y = range(ly, x.groups.length + tmpnodes.length, step_y, ncol);
       } else if(x.groups && x.legend.useGroups && x.legend.nodes === undefined){
@@ -3532,23 +3532,23 @@ HTMLWidgets.widget({
       } else if(x.legend.useGroups === false && x.legend.nodes !== undefined){
         all_tmp_y = range(ly, tmpnodes.length, step_y, ncol);
       }
-      
+
       // want to view groups in legend
       if(x.groups && x.legend.useGroups){
         // create data
         for (var g1 = 0; g1 < x.groups.length; g1++){
-          
+
           if(g1 === 0){
             tmp_lx = lx;
           } else {
             tmp_lx = lx + g1%ncol * step_x;
           }
-          
+
           tmp_ly = all_tmp_y[g1];
           if(tmp_ly === 0){
             tmp_ly = 1
           }
-          
+
           legendnodes.add({id: null, x : tmp_lx, y : tmp_ly, label: x.groups[g1], group: x.groups[g1], value: 1, mass:1});
           edge_ly = tmp_ly;
         }
@@ -3564,7 +3564,7 @@ HTMLWidgets.widget({
       }
       // want to add custom nodes
       if(x.legend.nodes !== undefined){
-        
+
         // control icon
         for (var nd in tmpnodes){
           if(tmpnodes[nd].icon  && !x.legend.nodesToDataframe){
@@ -3588,7 +3588,7 @@ HTMLWidgets.widget({
           } else {
             tmp_lx = lx + (g+legendnodes.length)%ncol * step_x;
           }
-          
+
           tmp_ly = all_tmp_y[add_gr_y + g];
           if(tmp_lx === 0){
             tmp_lx = 1
@@ -3598,7 +3598,7 @@ HTMLWidgets.widget({
           }
           tmpnodes[g].x = tmp_lx;
           tmpnodes[g].y = tmp_ly;
-          
+
           if(tmpnodes[g].value === undefined && tmpnodes[g].size === undefined){
             tmpnodes[g].value = 1;
           }
@@ -3617,14 +3617,14 @@ HTMLWidgets.widget({
         } else {  // data in list
           legendedges = x.legend.edges;
         }
-        // only one element 
+        // only one element
         if(legendedges.length === undefined){
           legendedges = new Array(legendedges);
         }
 
         // set coordinates and options
         for (var edg = 0; edg < (legendedges.length); edg++){
-          
+
           var tmp_int = Math.floor(Math.random() * 1001);
           legendedges[edg].from = edg + "tmp_leg_edges_" + tmp_int + "_1";
           legendedges[edg].to = edg + "tmp_leg_edges_" + tmp_int + "_2";
@@ -3635,7 +3635,7 @@ HTMLWidgets.widget({
           if(legendedges[edg].arrows === undefined){
             legendedges[edg].arrows = 'to';
           }
-          
+
           if(legendedges[edg].width === undefined){
             legendedges[edg].width = 1;
           }
@@ -3644,7 +3644,7 @@ HTMLWidgets.widget({
           if(tmp_ly === 0){
             tmp_ly = 1
           }
-          
+
           if(ncol === 1){
             tmp_lx = lx - mynetwork.clientWidth/3;
             tmp_lx2 = lx + mynetwork.clientWidth/3;
@@ -3652,52 +3652,52 @@ HTMLWidgets.widget({
             tmp_lx = lx;
             tmp_lx2 = lx + (ncol-1) * step_x;
           }
-          
+
           if(tmp_lx === 0){
             tmp_lx = 1
           }
-          
+
           if(tmp_lx2 === 0){
             tmp_lx2 = 1
           }
-          
+
           legendnodes.add({id: edg + "tmp_leg_edges_" + tmp_int + "_1", x : tmp_lx, y : tmp_ly, size : 0.0001, hidden : false, shape : "square", mass:1});
           legendnodes.add({id: edg + "tmp_leg_edges_" + tmp_int + "_2", x : tmp_lx2, y : tmp_ly, size : 0.0001, hidden : false, shape : "square", mass:1});
         }
       }
-      
+
       // render legend network
       datalegend = {
-        nodes: legendnodes, 
-        edges: legendedges       
+        nodes: legendnodes,
+        edges: legendedges
       };
 
-      
+
       instance.legend = new vis.Network(document.getElementById("legend"+el.id), datalegend, optionslegend);
       //link network for update for re-use and update
       document.getElementById("legend"+el.id).network = instance.legend;
     }
-    
+
     //*************************
     // Main Network rendering
     //*************************
     if(x.nodes){
-      
+
       // network
       nodes = new vis.DataSet();
       edges = new vis.DataSet();
-      
+
       var tmpnodes;
       if(x.nodesToDataframe){ // data in data.frame
         tmpnodes = visNetworkdataframeToD3(x.nodes, "nodes")
       } else { // data in list
         tmpnodes = x.nodes;
       }
-      // only one element   
+      // only one element
       if(tmpnodes.length === undefined){
         tmpnodes = new Array(tmpnodes);
       }
-        
+
       // update coordinates if igraph
       if(x.igraphlayout !== undefined){
         // to improved
@@ -3705,7 +3705,7 @@ HTMLWidgets.widget({
         var igclientWidth = document.getElementById("graph"+el.id).clientWidth;
         var scalex = 100;
         var scaley = 100;
-        
+
         // current div visibled
         if(igclientWidth !== 0){
           var factor = igclientWidth / 1890;
@@ -3728,15 +3728,15 @@ HTMLWidgets.widget({
             }
           }
         }
-        
+
         for (var nd in tmpnodes) {
           tmpnodes[nd].x = tmpnodes[nd].x * scalex;
           tmpnodes[nd].y = tmpnodes[nd].y * scaley;
         }
       }
-      
+
       nodes.add(tmpnodes);
-      
+
       var tmpedges;
       if(x.edgesToDataframe){ // data in data.frame
         tmpedges = visNetworkdataframeToD3(x.edges, "edges")
@@ -3748,17 +3748,17 @@ HTMLWidgets.widget({
         if(tmpedges.length === undefined){
           tmpedges = new Array(tmpedges);
         }
-        edges.add(tmpedges);  
+        edges.add(tmpedges);
       }
-      
+
       // reset tmpnodes
       tmpnodes = null;
-      
+
       data = {
         nodes: nodes,
         edges: edges
       };
-      
+
       //save data for re-use and update
       document.getElementById("graph"+el.id).nodes = nodes;
       document.getElementById("graph"+el.id).edges = edges;
@@ -3771,8 +3771,8 @@ HTMLWidgets.widget({
       data = {
         gephi: x.gephi
       };
-    } 
-    
+    }
+
     var options = x.options;
 
     //*************************
@@ -3796,13 +3796,13 @@ HTMLWidgets.widget({
       div_editnode.classList.add('network-popUp');
       div_editnode.innerHTML = x.opts_manipulation.tab_edit_node;
       el_id.appendChild(div_editnode);
-      
+
       var div_editedge = document.createElement('div');
       div_editedge.id = 'editedge-popUp';
       div_editedge.classList.add('network-popUp');
       div_editedge.innerHTML = x.opts_manipulation.tab_edit_edge;
       el_id.appendChild(div_editedge);
-      
+
       if(x.options.manipulation.addNode === undefined){
         options.manipulation.addNode = function(data, callback) {
           document.getElementById('addnode-operation').innerHTML = "Add Node";
@@ -3860,7 +3860,7 @@ HTMLWidgets.widget({
       } else {
         options.manipulation.editNode = x.options.manipulation.editNode;
       }
-  
+
       if(x.options.manipulation.deleteNode === undefined){
         options.manipulation.deleteNode = function(data, callback) {
             var r = confirm("Do you want to delete " + data.nodes.length + " node(s) and " + data.edges.length + " edges ?");
@@ -3997,35 +3997,35 @@ HTMLWidgets.widget({
         options.manipulation.editEdge = x.options.manipulation.editEdge;
       }
     }
-    
+
     // create network
     instance.network = new vis.Network(document.getElementById("graph"+el.id), data, options);
     if (window.Shiny){
       Shiny.onInputChange(el.id + '_initialized', true);
     }
-    
+
     //*************************
     //add values to idselection
     //*************************
-    
-    if(el_id.idselection){  
+
+    if(el_id.idselection){
       var selectList = document.getElementById("nodeSelect"+el.id)
       setNodeIdList(selectList, x.idselection, nodes)
-      
+
       if (window.Shiny){
         changeInput('selected', document.getElementById("nodeSelect"+el.id).value);
       }
     }
-      
-    //console.info(instance.network)  
+
+    //console.info(instance.network)
     //save data for re-use and update
     document.getElementById("graph"+el.id).chart = instance.network;
     document.getElementById("graph"+el.id).options = options;
-    
+
     /////////
     // popup
     /////////
-    
+
     // Temporary variables to hold mouse x-y pos.s
     var tempX = 0
     var tempY = 0
@@ -4047,15 +4047,15 @@ HTMLWidgets.widget({
     var popupState = false;
     var popupTimeout = null;
     var vispopup = document.createElement("div");
-   
-    // disable vis.js tooltip 
+
+    // disable vis.js tooltip
     var style = document.createElement('style');
     style.type = 'text/css';
     style.innerHTML = 'div.vis-tooltip {display : none}';
     document.getElementsByTagName('head')[0].appendChild(style);
 
     var popupStyle = 'position: fixed;visibility:hidden;padding: 5px;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);max-width:400px;word-break: break-all'
-    
+
     if(x.tooltipStyle !== undefined){
       popupStyle = x.tooltipStyle
     }
@@ -4064,9 +4064,9 @@ HTMLWidgets.widget({
       popupStay = x.tooltipStay
     }
     vispopup.setAttribute('style', popupStyle)
-    
+
     document.getElementById("graph"+el.id).appendChild(vispopup);
-    
+
     // add some event listeners to avoid it disappearing when the mouse if over it.
     vispopup.addEventListener('mouseover',function () {
       if (popupTimeout !== null) {
@@ -4074,20 +4074,20 @@ HTMLWidgets.widget({
         popupTimeout = null;
       }
     });
-  
+
     // set the timeout when the mouse leaves it.
     vispopup.addEventListener('mouseout',function () {
       if (popupTimeout === null) {
         myHidePopup(100);
       }
     });
-    
+
     // use the popup event to show
     instance.network.on("showPopup", function(params) {
-      popupState = true;  
+      popupState = true;
       myShowPopup(params);
     })
-  
+
     // use the hide event to hide it
     instance.network.on("hidePopup", function(params) {
       // avoid double firing of this event, bug in 4.2.0
@@ -4096,18 +4096,18 @@ HTMLWidgets.widget({
         myHidePopup(popupStay);
       }
     })
-  
+
     // hiding the popup through css and a timeout
     function myHidePopup(delay) {
       popupTimeout = setTimeout(function() {vispopup.style.visibility = 'hidden';}, delay);
     }
-  
+
     // showing the popup
     function myShowPopup(id) {
       // get the data from the vis.DataSet
       var nodeData = nodes.get([id]);
       var edgeData = edges.get([id]);
-      
+
       // a node ?
       if(nodeData[0] !== null && nodeData[0] !== undefined){
         vispopup.innerHTML = nodeData[0].title;
@@ -4115,7 +4115,7 @@ HTMLWidgets.widget({
         vispopup.style.visibility = 'visible';
         vispopup.style.top = tempY - 20 +  "px";
         vispopup.style.left = tempX + 5 + "px";
-        
+
       } else if(edgeData[0] !== null && edgeData[0] !== undefined){
         // so it's perhaps a edge ?
         vispopup.innerHTML = edgeData[0].title;
@@ -4134,7 +4134,7 @@ HTMLWidgets.widget({
           vispopup.style.left = tempX + 5 + "px";
         }
       }
-      
+
       // for sparkline. Eval script...
       var any_script= vispopup.getElementsByTagName('script')
       for (var n = 0; n < any_script.length; n++){
@@ -4143,7 +4143,7 @@ HTMLWidgets.widget({
         }
       }
     }
-  
+
     //*************************
     // Events
     //*************************
@@ -4158,7 +4158,7 @@ HTMLWidgets.widget({
           instance.network.once(key, x.OnceEvents[key]);
       }
     }
-    
+
     if(x.ResetEvents !== undefined){
       for (var key in x.ResetEvents) {
           instance.network.off(key);
@@ -4171,11 +4171,11 @@ HTMLWidgets.widget({
     function selectedHighlight(value) {
       // get current nodes
       var allNodes = nodes.get({returnType:"Object"});
-       
+
       // first resetEdges
       resetAllEdges(edges, el_id.byselectionColor, el_id.highlightColor, instance.network);
-      var connectedNodes = [];  
-      
+      var connectedNodes = [];
+
       // get variable
       var sel = el_id.byselection_variable;
       // need to make an update?
@@ -4184,7 +4184,7 @@ HTMLWidgets.widget({
       if (value !== "") {
         var updateArray = [];
         el_id.selectActive = true;
-        
+
         // mark all nodes as hard to read.
         for (var nodeId in allNodes) {
           var value_in = false;
@@ -4244,9 +4244,9 @@ HTMLWidgets.widget({
             edgeAsHardToRead(edgesHardToRead[i], el_id.byselectionColor, el_id.highlightColor, instance.network, type = "edge")
           }
           edges.update(edgesHardToRead);
-            
+
           nodes.update(updateArray);
-          
+
           // select for highlight
           if(el_id.highlight && x.nodes && el_id.byselectionHighlight){
               neighbourhoodHighlight(connectedNodes, "click", el_id.highlightAlgorithm, false);
@@ -4259,14 +4259,14 @@ HTMLWidgets.widget({
         resetAllNodes(nodes, update, options, instance.network, false)
         el_id.selectActive = false
       }
-    } 
-  
+    }
+
     //*************************
     //Highlight
     //*************************
     var is_hovered = false;
     var is_clicked = false;
-    
+
     function neighbourhoodHighlight(params, action_type, algorithm, reset_selectedBy) {
 
       var nodes_in_clusters = instance.network.body.modules.clustering.clusteredNodes;
@@ -4279,26 +4279,26 @@ HTMLWidgets.widget({
         nodes_in_clusters = [];
         edges_in_clusters = [];
       }
-      
+
       var selectNode;
       // get nodes data
       var allNodes = nodes.get({returnType:"Object"});
 
       // cluster
       var array_cluster_id;
-      
-      // update 
+
+      // update
       var update = !(el_id.highlightActive === false && params.length === 0) | (el_id.selectActive === true && params.length === 0);
 
       if(!(action_type == "hover" && is_clicked)){
-        
+
         // first resetEdges
         resetAllEdges(edges, el_id.highlightColor, el_id.byselectionColor, instance.network);
 
         if (params.length > 0) {
           var is_cluster = instance.network.isCluster(params[0]);
           var selectedNode;
-          
+
           if(is_cluster){
             selectedNode = instance.network.getNodesInCluster(params[0]);
           } else {
@@ -4323,11 +4323,11 @@ HTMLWidgets.widget({
               }
             }
           }
-          
+
           el_id.highlightActive = true;
           var i,j;
           var degrees = el_id.degree;
-          
+
           // mark all nodes as hard to read.
           for (var nodeId in instance.network.body.nodes) {
             if(instance.network.isCluster(nodeId)){
@@ -4341,7 +4341,7 @@ HTMLWidgets.widget({
               }
             }
           }
- 
+
           if(algorithm === "all"){
             var connectedNodes;
             if(degrees > 0){
@@ -4353,7 +4353,7 @@ HTMLWidgets.widget({
             }else{
               connectedNodes = selectedNode;
             }
-            
+
             var allConnectedNodes = [];
             // get the nodes to color
             if(degrees >= 2){
@@ -4381,13 +4381,13 @@ HTMLWidgets.widget({
                   allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
                   if(have_cluster_nodes){
                     if(indexOf.call(nodes_in_clusters, allConnectedNodes[i], true) > -1){
-  
+
                       array_cluster_id = array_cluster_id.concat(instance.network.clustering.findNode(allConnectedNodes[i])[0]);
                     }
                   }
                 }
               }
-  
+
               if(array_cluster_id.length > 0){
                 array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
                 for (i = 0; i < array_cluster_id.length; i++) {
@@ -4398,7 +4398,7 @@ HTMLWidgets.widget({
 
             // all in degree nodes get their own color and their label back + main nodes
             connectedNodes = connectedNodes.concat(selectedNode);
-            
+
             if (window.Shiny){
               Shiny.onInputChange(el.id + '_highlight_color_id', uniqueShiny(connectedNodes));
             }
@@ -4406,8 +4406,8 @@ HTMLWidgets.widget({
               if (window.Shiny){
                 Shiny.onInputChange(el.id + '_highlight_label_id', allConnectedNodes.filter(function(x){ return !connectedNodes.includes(x)}));
               }
-            }  
-   
+            }
+
             array_cluster_id = [];
             for (i = 0; i < connectedNodes.length; i++) {
               resetOneNode(allNodes[connectedNodes[i]], options, instance.network);
@@ -4417,14 +4417,14 @@ HTMLWidgets.widget({
                 }
               }
             }
-            
+
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
                 resetOneCluster(instance.network.body.nodes[array_cluster_id[i]], options, instance.network);
               }
             }
-            
+
             // set some edges as hard to read
             var edgesHardToRead = edges.get({
               fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
@@ -4448,7 +4448,7 @@ HTMLWidgets.widget({
                 }
               }
             }
-            
+
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
@@ -4457,17 +4457,17 @@ HTMLWidgets.widget({
             }
             edges.update(edgesHardToRead);
           } else if(algorithm === "hierarchical"){
-            
+
             var degree_from = degrees.from;
             var degree_to = degrees.to;
             degrees = Math.max(degree_from, degree_to);
-            
+
             var allConnectedNodes = [];
             var currentConnectedFromNodes = [];
             var currentConnectedToNodes = [];
             var connectedFromNodes = [];
             var connectedToNodes = [];
-            
+
             if(degree_from > 0){
               connectedFromNodes = edges.get({
                 fields: ['from'],
@@ -4491,15 +4491,15 @@ HTMLWidgets.widget({
                 allConnectedNodes = allConnectedNodes.concat(connectedFromNodes[j].from);
                 currentConnectedFromNodes = currentConnectedFromNodes.concat(connectedFromNodes[j].from);
             }
-            
+
             for (j = 0; j < connectedToNodes.length; j++) {
                 allConnectedNodes = allConnectedNodes.concat(connectedToNodes[j].to);
                 currentConnectedToNodes = currentConnectedToNodes.concat(connectedToNodes[j].to);
             }
-            
+
             var go_from;
             var go_to;
-                
+
             if(degrees > 1){
               for (i = 2; i <= degrees; i++) {
                 go_from = false;
@@ -4539,13 +4539,13 @@ HTMLWidgets.widget({
                   for (j = 0; j < connectedToNodes.length; j++) {
                     allConnectedNodes = allConnectedNodes.concat(connectedToNodes[j].to);
                     currentConnectedToNodes = currentConnectedToNodes.concat(connectedToNodes[j].to);
-                  } 
+                  }
                 }
-                
+
                 if (go_from === false &&  go_to === false) { break;}
               }
             }
-            
+
             allConnectedNodes = uniqueArray(allConnectedNodes, true, instance.network).concat(selectedNode);
 
             var nodesWithLabel = [];
@@ -4555,7 +4555,7 @@ HTMLWidgets.widget({
                 for (j = 0; j < currentConnectedToNodes.length; j++) {
                     nodesWithLabel = nodesWithLabel.concat(instance.network.getConnectedNodes(currentConnectedToNodes[j]));
                 }
-                
+
                 for (j = 0; j < currentConnectedFromNodes.length; j++) {
                     nodesWithLabel = nodesWithLabel.concat(instance.network.getConnectedNodes(currentConnectedFromNodes[j]));
                 }
@@ -4579,7 +4579,7 @@ HTMLWidgets.widget({
                 }
               }
             }
-            
+
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
@@ -4597,23 +4597,23 @@ HTMLWidgets.widget({
                 }
               }
             }
-            
+
             if(array_cluster_id.length > 0){
               array_cluster_id = uniqueArray(array_cluster_id, false, instance.network);
               for (i = 0; i < array_cluster_id.length; i++) {
                  resetOneCluster(instance.network.body.nodes[array_cluster_id[i]], options, instance.network);
               }
             }
-             
-            if (window.Shiny){ 
+
+            if (window.Shiny){
               Shiny.onInputChange(el.id + '_highlight_color_id', uniqueShiny(allConnectedNodes));
             }
             if(el_id.highlightLabelOnly === true){
               if (window.Shiny){
                 Shiny.onInputChange(el.id + '_highlight_label_id', nodesWithLabel.filter(function(x) {return !allConnectedNodes.includes(x)}));
               }
-            }  
-            
+            }
+
             // set some edges as hard to read
             var edgesHardToRead = edges.get({
               fields: ['id', 'color', 'hiddenColor', 'hiddenLabel', 'label'],
@@ -4642,9 +4642,9 @@ HTMLWidgets.widget({
                  edgeAsHardToRead(instance.network.body.edges[array_cluster_id[i]].options, el_id.highlightColor, el_id.byselectionColor, instance.network, type = "cluster");
               }
             }
-            
+
             edges.update(edgesHardToRead);
-            
+
           }
 
           if(update){
@@ -4662,7 +4662,7 @@ HTMLWidgets.widget({
           }else{
             is_clicked = false;
           }
-        
+
         }
         else if (el_id.highlightActive === true | el_id.selectActive === true) {
           // reset nodeSelect list if actived
@@ -4673,7 +4673,7 @@ HTMLWidgets.widget({
           resetAllNodes(nodes, update, options, instance.network, false)
           el_id.highlightActive = false;
           is_clicked = false;
-          
+
           if (window.Shiny){
             Shiny.onInputChange(el.id + '_highlight_label_id', null)
             Shiny.onInputChange(el.id + '_highlight_color_id', null)
@@ -4685,7 +4685,7 @@ HTMLWidgets.widget({
         resetList("selectedBy", el.id, 'selectedBy');
       }
     }
-    
+
     function onClickIDSelection(selectedItems) {
       var selectNode;
       if(el_id.idselection){
@@ -4705,7 +4705,7 @@ HTMLWidgets.widget({
           }
         }else{
           resetList("nodeSelect", el.id, 'selected');
-        } 
+        }
       }
       if(el_id.byselection){
         // reset selectedBy list if actived
@@ -4715,7 +4715,7 @@ HTMLWidgets.widget({
         }
       }
     }
-    
+
     // shared click function (selectedNodes)
     document.getElementById("graph"+el.id).myclick = function(params){
         if(el_id.highlight && x.nodes){
@@ -4724,43 +4724,43 @@ HTMLWidgets.widget({
           onClickIDSelection(params)
         }
     };
-    
-    // Set event in relation with highlightNearest      
+
+    // Set event in relation with highlightNearest
     instance.network.on("click", function(params){
         if(el_id.highlight && x.nodes){
           neighbourhoodHighlight(params.nodes, "click", el_id.highlightAlgorithm, true);
         }else if((el_id.idselection || el_id.byselection) && x.nodes){
           onClickIDSelection(params)
-        } 
+        }
     });
-    
+
     instance.network.on("hoverNode", function(params){
       if(el_id.hoverNearest && x.nodes){
         neighbourhoodHighlight([params.node], "hover", el_id.highlightAlgorithm, true);
-      } 
+      }
     });
 
     instance.network.on("blurNode", function(params){
       if(el_id.hoverNearest && x.nodes){
         neighbourhoodHighlight([], "hover", el_id.highlightAlgorithm, true);
-      }      
+      }
     });
-    
+
     //*************************
     //collapse
     //*************************
     instance.network.on("doubleClick", function(params){
       if(el_id.collapse){
-        collapsedNetwork(params.nodes, el_id.collapseFit, el_id.collapseResetHighlight, 
+        collapsedNetwork(params.nodes, el_id.collapseFit, el_id.collapseResetHighlight,
           el_id.clusterOptions, el_id.collapseLabelSuffix,
-          el_id.tree, instance.network, el.id) 
+          el_id.tree, instance.network, el.id)
       }
-    }); 
-    
+    });
+
     if(el_id.collapse){
       instance.network.on("doubleClick", networkOpenCluster);
     }
-    
+
     //*************************
     //footer
     //*************************
@@ -4769,34 +4769,34 @@ HTMLWidgets.widget({
     div_footer.setAttribute('style',  'font-family:Georgia, Times New Roman, Times, serif;font-size:12px;text-align:center;background-color: inherit;');
     div_footer.style.display = 'none';
 
-    document.getElementById("graph" + el.id).appendChild(div_footer);  
+    document.getElementById("graph" + el.id).appendChild(div_footer);
     if(x.footer !== null){
       div_footer.innerHTML = x.footer.text;
       div_footer.setAttribute('style',  x.footer.style + ';background-color: inherit;');
-      div_footer.style.display = 'block'; 
+      div_footer.style.display = 'block';
     }
-    
+
     //*************************
     // export
     //*************************
     if(x.export !== undefined){
-      
+
       var downloaddiv = document.createElement('div');
       downloaddiv.setAttribute('style', 'float:right; width:100%;background-color: inherit;');
-      
+
       var downloadbutton = document.createElement("button");
       downloadbutton.setAttribute('style', x.export.css);
       downloadbutton.style.position = "relative";
       downloadbutton.id = "download"+el.id;
-      downloadbutton.appendChild(document.createTextNode(x.export.label)); 
+      downloadbutton.appendChild(document.createTextNode(x.export.label));
       downloaddiv.appendChild(downloadbutton);
-      
+
       var hr = document.createElement("hr");
       hr.setAttribute('style', 'height:5px; visibility:hidden; margin-bottom:-1px;');
-      downloaddiv.appendChild(hr);  
-      
+      downloaddiv.appendChild(hr);
+
       document.getElementById("maindiv"+el.id).appendChild(downloaddiv);
-      
+
       document.getElementById("download"+el.id).onclick = function() {
 
       // height control for export
@@ -4818,7 +4818,7 @@ HTMLWidgets.widget({
       if(x.background !== "transparent" && x.background !== "rgba(0, 0, 0, 0)"){
         export_background = x.background
       }
-      
+
       if(x.export.type !== "pdf"){
         html2canvas(el_id, {
           background: export_background,
@@ -4836,11 +4836,11 @@ HTMLWidgets.widget({
           onrendered: function(canvas) {
             var myImage = canvas.toDataURL("image/png", 1.0);
             //var imgWidth = (canvas.width * 25.4) / 24;
-            //var imgHeight = (canvas.height * 25.4) / 24; 
+            //var imgHeight = (canvas.height * 25.4) / 24;
             var table = new jsPDF('l', 'pt', [canvas.width, canvas.height]);
             table.addImage(myImage, 'JPEG', 0, 0, canvas.width, canvas.height);
             table.save(x.export.name);
-          } 
+          }
         });
       }
 
@@ -4863,7 +4863,7 @@ HTMLWidgets.widget({
         document.getElementById('editnode-cancelButton').onclick = null;
         document.getElementById('editnode-popUp').style.display = 'none';
       }
-      
+
       if(x.opts_manipulation.tab_edit_edge){
         document.getElementById('editedge-saveButton').onclick = null;
         document.getElementById('editedge-cancelButton').onclick = null;
@@ -4897,7 +4897,7 @@ HTMLWidgets.widget({
       update_obj.x = data.x;
       update_obj.y = data.y;
       nodes.update(update_obj);
-      
+
       if (window.Shiny){
         obj.cmd = cmd;
         Shiny.onInputChange(el.id + '_graphChange', obj);
@@ -4956,19 +4956,19 @@ HTMLWidgets.widget({
       clearPopUp();
       callback(null);
     }
-    
+
     //*************************
     // CLUSTERING
     //*************************
     if(x.clusteringGroup || x.clusteringColor || x.clusteringHubsize || x.clusteringConnection){
-      
+
       var clusterbutton = document.createElement("input");
       clusterbutton.id = "backbtn"+el.id;
-      clusterbutton.setAttribute('type', 'button');  
-      clusterbutton.setAttribute('value', 'Reinitialize clustering'); 
+      clusterbutton.setAttribute('type', 'button');
+      clusterbutton.setAttribute('value', 'Reinitialize clustering');
       clusterbutton.setAttribute('style', 'background-color:#FFFFFF;border: none');
       el_id.appendChild(clusterbutton);
-      
+
       clusterbutton.onclick =  function(){
         // reset some parameters / data before
         if (el_id.selectActive === true | el_id.highlightActive === true) {
@@ -4999,7 +4999,7 @@ HTMLWidgets.widget({
         instance.network.fit();
       }
     }
-    
+
     if(x.clusteringGroup || x.clusteringColor || x.clusteringOutliers || x.clusteringHubsize || x.clusteringConnection){
       // if we click on a node, we want to open it up!
       instance.network.on("doubleClick", function (params){
@@ -5021,7 +5021,7 @@ HTMLWidgets.widget({
                 },
                 returnType :'Array'
               });
-            
+
               clusterByGroup([array_group[0].group]);
             }
           }
@@ -5032,7 +5032,7 @@ HTMLWidgets.widget({
     //clustering Connection
     //*************************
     if(x.clusteringConnection){
-      
+
       function clusterByConnection() {
         for (var i = 0; i < x.clusteringConnection.nodes.length; i++) {
           instance.network.clusterByConnection(x.clusteringConnection.nodes[i])
@@ -5040,12 +5040,12 @@ HTMLWidgets.widget({
       }
       clusterByConnection();
     }
-    
+
     //*************************
     //clustering hubsize
     //*************************
     if(x.clusteringHubsize){
-      
+
       function clusterByHubsize() {
         var clusterOptionsByData = {
           processProperties: function(clusterOptions, childNodes) {
@@ -5081,12 +5081,12 @@ HTMLWidgets.widget({
           instance.network.clusterByHubsize(undefined, clusterOptionsByData);
         }
       }
-      
+
       clusterByHubsize();
     }
-    
+
     if(x.clusteringColor){
-      
+
     //*************************
     //clustering color
     //*************************
@@ -5133,7 +5133,7 @@ HTMLWidgets.widget({
           instance.network.cluster(clusterOptionsByData);
         }
       }
-      
+
       clusterByColor();
     }
 
@@ -5141,7 +5141,7 @@ HTMLWidgets.widget({
     //clustering groups
     //*************************
     if(x.clusteringGroup){
-      
+
       function clusterByGroup(groups) {
         var clusterOptionsByData;
         for (var i = 0; i < groups.length; i++) {
@@ -5152,7 +5152,7 @@ HTMLWidgets.widget({
             var sh = x.clusteringGroup.shape[j];
             var force = x.clusteringGroup.force[j];
             var sc_size = x.clusteringGroup.scale_size[j];
-            
+
             clusterOptionsByData = {
                 joinCondition: function (childOptions) {
                     return childOptions.group == group; //
@@ -5199,14 +5199,14 @@ HTMLWidgets.widget({
       }
       clusterByGroup(x.clusteringGroup.groups);
     }
-  
+
     //*************************
     //clustering by zoom
     //*************************
     if(x.clusteringOutliers){
-      
+
       clusterFactor = x.clusteringOutliers.clusterFactor;
-      
+
       // set the first initial zoom level
       instance.network.on('initRedraw', function() {
         if (lastClusterZoomLevel === 0) {
@@ -5249,7 +5249,7 @@ HTMLWidgets.widget({
                 clusterOptions.font = {size: childrenCount*5+30}
                 clusterOptions.id = 'cluster:' + clusterIndex;
                 clusters.push({id:'cluster:' + clusterIndex, scale:scale});
-                
+
                 if(cluster_level !== 9999999){
                   clusterOptions.level = cluster_level
                 }
@@ -5285,20 +5285,20 @@ HTMLWidgets.widget({
         };
         ctrlwait = 0;
     }
-    
+
     //******************
     // init selection
     //******************
-    if(el_id.idselection && x.nodes && x.idselection.selected !== undefined){ 
+    if(el_id.idselection && x.nodes && x.idselection.selected !== undefined){
       onIdChange(''+ x.idselection.selected, true);
     }
-      
-    if(el_id.byselection && x.nodes && x.byselection.selected !== undefined){ 
+
+    if(el_id.byselection && x.nodes && x.byselection.selected !== undefined){
       onByChange(x.byselection.selected);
       selectNode = document.getElementById('selectedBy'+el.id);
       selectNode.value = x.byselection.selected;
     }
-    
+
     // try to fix icons loading css bug...
     function iconsRedraw() {
       setTimeout(function(){
@@ -5308,31 +5308,31 @@ HTMLWidgets.widget({
           instance.legend.redraw();
       }, 250);
     };
-    
+
     if(x.iconsRedraw !== undefined){
       if(x.iconsRedraw){
         iconsRedraw();
         instance.network.once("stabilized", function(){iconsRedraw();})
       }
     }
-  }, 
-  
+  },
+
   resize: function(el, width, height, instance) {
       if(instance.network)
         instance.network.fit();
       if(instance.legend)
         instance.legend.fit();
   }
-  
+
 });
 </script>
 
 </head>
 <body style="background-color: rgba(20,27,34,1.000000);">
 <div id="htmlwidget_container">
-  <div class="visNetwork html-widget html-fill-item" id="htmlwidget-04649fde4bc16120ae64" style="width:960px;height:500px;"></div>
+  <div class="visNetwork html-widget html-fill-item" id="htmlwidget-dd2f9f0a1a8a6c28aac0" style="width:960px;height:500px;"></div>
 </div>
-<script type="application/json" data-for="htmlwidget-04649fde4bc16120ae64">{"x":{"nodes":{"name":["add_age_column_from_rownames","add_age_to_samples","add_dataset_name_column_from_rownames","add_iqr_outlier_flag","aggregate_anova_components","aggregate_trait_values","align_sample_ids","append_missing_taxa_to_template","apply_trait_corrections","assemble_data_to_fit","binarize_community_data","build_community_taxon_trait_table","build_map_panel","build_vegvault_plan","check_abiotic_interpolation_contract","check_and_report_missing_taxa","check_convergence_jsdm","check_data_sample_ids_n","check_min_n_cores","check_presence_of_vegvault","check_trait_coverage","check_trait_taxa_classification","classify_taxonomic_resolution","classify_to_functional_type","clean_raw_trait_data","cluster_functional_types","combine_classification_tables","compute_dissimilarity_matrix","compute_jsdm_se","compute_network_metrics","compute_spatial_mev","compute_spatiotemporal_mev","current_env","data_aux_classification_table_traits","data_classification_table_traits","data_combined_classification_table_traits","data_continental_rows","data_missing_trait_taxa_template","data_resolution_to_finest","data_trait_table","data_trait_taxa_classification","data_traits_aggregated","data_traits_classified","data_traits_classified_corrected","data_traits_continent","data_traits_corrected","data_traits_raw","evaluate_jsdm","extract_age_uncertainty_from_vegvault","extract_and_clean_continent_traits","extract_anova_fractions","extract_data_from_vegvault","extract_traits_from_vegvault","file_aux_classification_table_traits","file_missing_trait_taxa_template","file_spatial_grid","file_trait_corrections","file_trait_corrections_classified","filter_by_n_samples","filter_community_by_n_cores","filter_community_by_n_taxa","filter_constant_taxa","filter_non_plantae_taxa","filter_rare_taxa","filter_trait_outliers","fit_hclust","fit_jsdm_model","flag_already_synch","fun_list","generate_trait_qc_report","get_abiotic_data","get_active_config","get_age_from_string","get_anova","get_aux_classification_table","get_chelsa_raster","get_community_data","get_community_taxa","get_config_value_with_fallback","get_continent_id_from_scale_id","get_coords","get_dataset_name_from_string","get_family_trait_summary","get_functional_type_classification","get_functional_type_classification_path_from_store","get_pollen_sum","get_predictor_collinearity","get_sample_ages","get_scale_id_from_store","get_spatial_model_params","get_spatial_window","get_taxa_classification","get_taxa_without_classification","get_trait_domain_names_from_vegvault","interpolate_community_data","interpolate_community_data_with_uncertainty","interpolate_data","interpolate_mev_to_grid","interpolate_st_mev_to_grid","load_continental_rows","make_classification_table","make_community_data_long","make_community_proportions","make_env_formula","make_trait_table","package_list","path_pipe_parts","plot_anova_components_by_age","plot_family_trait_comparison","plot_network_metrics_by_age","plot_trait_group_distribution","prepare_abiotic_for_fit","prepare_community_for_fit","prepare_continent_trait_data","prepare_coords_for_fit","prepare_spatial_predictors_for_fit","project_coords_to_metric","recalculate_anova_components","remap_classification_table_by_community_taxa","render_trait_qc_pdf","replace_na_community_data_with_zeros","resolve_classification_to_finest_rank","resolve_trait_taxon_ids","run_pipeline","save_ft_classification_for_continent","save_progress_visualisation","scale_abiotic_for_fit","scale_spatial_for_fit","select_ft_groups_by_silhouette","select_n_taxa","select_non_collinear_predictors","trait_corrections_classified_validated","trait_corrections_validated","trait_qc_report","trait_qc_report_classified","transform_to_proportions","validate_trait_corrections","vec_fun_files","vec_trait_domain_names","vec_trait_taxa_without_classification","vec_unique_trait_taxa","verify_sjsdm_setup"],"type":["function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","stem","function","function","function","function","function","function","function","function","function","function","object","stem","stem","stem","stem","stem","stem","stem","pattern","stem","stem","stem","pattern","stem","stem","function","function","function","function","function","function","stem","stem","stem","stem","stem","function","function","function","function","function","function","function","function","function","object","object","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","object","object","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","stem","stem","stem","stem","function","function","object","stem","stem","stem","function"],"description":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"Check all trait taxa are classified; stop if not",null,null,null,null,null,null,null,null,null,null,null,"Load shared auxiliary classification table","Build full classification table for trait taxa","Combine automatic and auxiliary trait classifications","Load continental rows from spatial grid","Build missing-trait-taxa template tibble","Resolve each trait taxon to finest taxonomic rank","Build wide resolved-taxon Ã— traits matrix","Classify each trait taxon via taxospace","Aggregate trait values to median per taxon Ã— domain","Join resolved taxon name to corrected trait records","Apply resolved-taxon corrections to classified data","Extract trait data for one continental unit","Apply human-reviewed corrections to raw trait data","Combine all per-continent trait extractions",null,null,null,null,null,null,"Track shared auxiliary classification CSV","Append missing trait taxa to template CSV","Track spatial_grid.csv for changes","Track trait manual corrections CSV for changes","Track classified trait corrections CSV for changes",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"GUARD: validate all classified corrections signed off","GUARD: validate all correction rows are signed off","Generate trait QC report and create corrections template","Generate post-classification QC report by resolved taxon",null,null,null,"Discover all trait domain names from VegVault","Find trait taxa without any classification","Get unique trait taxon names after corrections",null],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","skipped","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","skipped","skipped","skipped","skipped","skipped","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","skipped","skipped","skipped","skipped","uptodate","uptodate","uptodate","skipped","skipped","skipped","uptodate"],"seconds":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0,null,null,null,null,null,null,null,null,null,null,null,0.032,0.375,0,0.125,0,0.641,0.171,0.954,0.859,1.703,0.015,607.375,0.015,0.203,null,null,null,null,null,null,0,0.328,0,0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0,0,7.328,7.5,null,null,null,0.235,0,0.062,null],"bytes":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,72,null,null,null,null,null,null,null,null,null,null,null,9323,131398,149214,670,229,75922,154349,21270,178834,41469271,28167499,28161425,28161310,28161310,null,null,null,null,null,null,43009,57,28785,64,64,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,370,370,342732,336072,null,null,null,176,68,58111,null],"branches":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,7562,null,null,null,3,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"label":["add_age_column_from_rownames","add_age_to_samples","add_dataset_name_column_from_rownames","add_iqr_outlier_flag","aggregate_anova_components","aggregate_trait_values","align_sample_ids","append_missing_taxa_to_template","apply_trait_corrections","assemble_data_to_fit","binarize_community_data","build_community_taxon_trait_table","build_map_panel","build_vegvault_plan","check_abiotic_interpolation_contract","check_and_report_missing_taxa","check_convergence_jsdm","check_data_sample_ids_n","check_min_n_cores","check_presence_of_vegvault","check_trait_coverage","check_trait_taxa_classification","classify_taxonomic_resolution","classify_to_functional_type","clean_raw_trait_data","cluster_functional_types","combine_classification_tables","compute_dissimilarity_matrix","compute_jsdm_se","compute_network_metrics","compute_spatial_mev","compute_spatiotemporal_mev","current_env","data_aux_classification_table_traits","data_classification_table_traits","data_combined_classification_table_traits","data_continental_rows","data_missing_trait_taxa_template","data_resolution_to_finest","data_trait_table","data_trait_taxa_classification","data_traits_aggregated","data_traits_classified","data_traits_classified_corrected","data_traits_continent","data_traits_corrected","data_traits_raw","evaluate_jsdm","extract_age_uncertainty_from_vegvault","extract_and_clean_continent_traits","extract_anova_fractions","extract_data_from_vegvault","extract_traits_from_vegvault","file_aux_classification_table_traits","file_missing_trait_taxa_template","file_spatial_grid","file_trait_corrections","file_trait_corrections_classified","filter_by_n_samples","filter_community_by_n_cores","filter_community_by_n_taxa","filter_constant_taxa","filter_non_plantae_taxa","filter_rare_taxa","filter_trait_outliers","fit_hclust","fit_jsdm_model","flag_already_synch","fun_list","generate_trait_qc_report","get_abiotic_data","get_active_config","get_age_from_string","get_anova","get_aux_classification_table","get_chelsa_raster","get_community_data","get_community_taxa","get_config_value_with_fallback","get_continent_id_from_scale_id","get_coords","get_dataset_name_from_string","get_family_trait_summary","get_functional_type_classification","get_functional_type_classification_path_from_store","get_pollen_sum","get_predictor_collinearity","get_sample_ages","get_scale_id_from_store","get_spatial_model_params","get_spatial_window","get_taxa_classification","get_taxa_without_classification","get_trait_domain_names_from_vegvault","interpolate_community_data","interpolate_community_data_with_uncertainty","interpolate_data","interpolate_mev_to_grid","interpolate_st_mev_to_grid","load_continental_rows","make_classification_table","make_community_data_long","make_community_proportions","make_env_formula","make_trait_table","package_list","path_pipe_parts","plot_anova_components_by_age","plot_family_trait_comparison","plot_network_metrics_by_age","plot_trait_group_distribution","prepare_abiotic_for_fit","prepare_community_for_fit","prepare_continent_trait_data","prepare_coords_for_fit","prepare_spatial_predictors_for_fit","project_coords_to_metric","recalculate_anova_components","remap_classification_table_by_community_taxa","render_trait_qc_pdf","replace_na_community_data_with_zeros","resolve_classification_to_finest_rank","resolve_trait_taxon_ids","run_pipeline","save_ft_classification_for_continent","save_progress_visualisation","scale_abiotic_for_fit","scale_spatial_for_fit","select_ft_groups_by_silhouette","select_n_taxa","select_non_collinear_predictors","trait_corrections_classified_validated","trait_corrections_validated","trait_qc_report","trait_qc_report_classified","transform_to_proportions","validate_trait_corrections","vec_fun_files","vec_trait_domain_names","vec_trait_taxa_without_classification","vec_unique_trait_taxa","verify_sjsdm_setup"],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#354823"],"id":["add_age_column_from_rownames","add_age_to_samples","add_dataset_name_column_from_rownames","add_iqr_outlier_flag","aggregate_anova_components","aggregate_trait_values","align_sample_ids","append_missing_taxa_to_template","apply_trait_corrections","assemble_data_to_fit","binarize_community_data","build_community_taxon_trait_table","build_map_panel","build_vegvault_plan","check_abiotic_interpolation_contract","check_and_report_missing_taxa","check_convergence_jsdm","check_data_sample_ids_n","check_min_n_cores","check_presence_of_vegvault","check_trait_coverage","check_trait_taxa_classification","classify_taxonomic_resolution","classify_to_functional_type","clean_raw_trait_data","cluster_functional_types","combine_classification_tables","compute_dissimilarity_matrix","compute_jsdm_se","compute_network_metrics","compute_spatial_mev","compute_spatiotemporal_mev","current_env","data_aux_classification_table_traits","data_classification_table_traits","data_combined_classification_table_traits","data_continental_rows","data_missing_trait_taxa_template","data_resolution_to_finest","data_trait_table","data_trait_taxa_classification","data_traits_aggregated","data_traits_classified","data_traits_classified_corrected","data_traits_continent","data_traits_corrected","data_traits_raw","evaluate_jsdm","extract_age_uncertainty_from_vegvault","extract_and_clean_continent_traits","extract_anova_fractions","extract_data_from_vegvault","extract_traits_from_vegvault","file_aux_classification_table_traits","file_missing_trait_taxa_template","file_spatial_grid","file_trait_corrections","file_trait_corrections_classified","filter_by_n_samples","filter_community_by_n_cores","filter_community_by_n_taxa","filter_constant_taxa","filter_non_plantae_taxa","filter_rare_taxa","filter_trait_outliers","fit_hclust","fit_jsdm_model","flag_already_synch","fun_list","generate_trait_qc_report","get_abiotic_data","get_active_config","get_age_from_string","get_anova","get_aux_classification_table","get_chelsa_raster","get_community_data","get_community_taxa","get_config_value_with_fallback","get_continent_id_from_scale_id","get_coords","get_dataset_name_from_string","get_family_trait_summary","get_functional_type_classification","get_functional_type_classification_path_from_store","get_pollen_sum","get_predictor_collinearity","get_sample_ages","get_scale_id_from_store","get_spatial_model_params","get_spatial_window","get_taxa_classification","get_taxa_without_classification","get_trait_domain_names_from_vegvault","interpolate_community_data","interpolate_community_data_with_uncertainty","interpolate_data","interpolate_mev_to_grid","interpolate_st_mev_to_grid","load_continental_rows","make_classification_table","make_community_data_long","make_community_proportions","make_env_formula","make_trait_table","package_list","path_pipe_parts","plot_anova_components_by_age","plot_family_trait_comparison","plot_network_metrics_by_age","plot_trait_group_distribution","prepare_abiotic_for_fit","prepare_community_for_fit","prepare_continent_trait_data","prepare_coords_for_fit","prepare_spatial_predictors_for_fit","project_coords_to_metric","recalculate_anova_components","remap_classification_table_by_community_taxa","render_trait_qc_pdf","replace_na_community_data_with_zeros","resolve_classification_to_finest_rank","resolve_trait_taxon_ids","run_pipeline","save_ft_classification_for_continent","save_progress_visualisation","scale_abiotic_for_fit","scale_spatial_for_fit","select_ft_groups_by_silhouette","select_n_taxa","select_non_collinear_predictors","trait_corrections_classified_validated","trait_corrections_validated","trait_qc_report","trait_qc_report_classified","transform_to_proportions","validate_trait_corrections","vec_fun_files","vec_trait_domain_names","vec_trait_taxa_without_classification","vec_unique_trait_taxa","verify_sjsdm_setup"],"level":[2,0,2,1,2,1,0,2,1,0,1,2,0,2,0,0,1,0,0,1,0,17,0,0,1,0,1,0,0,0,0,0,0,2,12,13,2,15,18,25,11,24,19,23,4,9,5,2,0,3,1,0,2,1,16,1,7,21,1,1,0,1,0,1,0,0,0,0,0,2,0,1,1,0,1,0,0,0,0,1,0,1,0,0,2,1,0,0,1,0,0,1,1,2,2,3,1,0,0,1,1,0,2,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,1,3,0,2,0,0,2,0,0,22,8,6,20,1,1,0,3,14,10,0],"shape":["triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","dot","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangleDown","dot","dot","dot","dot","dot","dot","dot","square","dot","dot","dot","square","dot","dot","triangle","triangle","triangle","triangle","triangle","triangle","dot","dot","dot","dot","dot","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangleDown","triangleDown","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangleDown","triangleDown","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","dot","dot","dot","dot","triangle","triangle","triangleDown","dot","dot","dot","triangle"]},"edges":{"from":["get_age_from_string","get_dataset_name_from_string","extract_anova_fractions","get_aux_classification_table","resolve_classification_to_finest_rank","check_presence_of_vegvault","vec_trait_taxa_without_classification","file_missing_trait_taxa_template","file_aux_classification_table_traits","get_aux_classification_table","make_classification_table","data_trait_taxa_classification","combine_classification_tables","data_aux_classification_table_traits","data_classification_table_traits","load_continental_rows","file_spatial_grid","vec_trait_taxa_without_classification","resolve_classification_to_finest_rank","check_trait_taxa_classification","data_combined_classification_table_traits","data_traits_aggregated","make_trait_table","vec_unique_trait_taxa","get_taxa_classification","aggregate_trait_values","data_traits_classified_corrected","data_resolution_to_finest","data_traits_corrected","apply_trait_corrections","trait_corrections_classified_validated","data_traits_classified","data_continental_rows","extract_and_clean_continent_traits","vec_trait_domain_names","trait_corrections_validated","data_traits_raw","apply_trait_corrections","data_traits_continent","check_convergence_jsdm","extract_traits_from_vegvault","resolve_trait_taxon_ids","clean_raw_trait_data","check_presence_of_vegvault","append_missing_taxa_to_template","data_combined_classification_table_traits","data_missing_trait_taxa_template","trait_qc_report","trait_qc_report_classified","add_iqr_outlier_flag","get_continent_id_from_scale_id","get_scale_id_from_store","check_presence_of_vegvault","interpolate_data","interpolate_data","interpolate_community_data","get_pollen_sum","transform_to_proportions","get_active_config","save_progress_visualisation","get_active_config","prepare_community_for_fit","binarize_community_data","filter_community_by_n_cores","filter_constant_taxa","filter_by_n_samples","filter_rare_taxa","file_trait_corrections_classified","validate_trait_corrections","validate_trait_corrections","file_trait_corrections","data_traits_raw","generate_trait_qc_report","generate_trait_qc_report","data_traits_classified","get_trait_domain_names_from_vegvault","vec_unique_trait_taxa","data_combined_classification_table_traits","get_taxa_without_classification","data_traits_corrected"],"to":["add_age_column_from_rownames","add_dataset_name_column_from_rownames","aggregate_anova_components","append_missing_taxa_to_template","build_community_taxon_trait_table","build_vegvault_plan","check_trait_taxa_classification","check_trait_taxa_classification","data_aux_classification_table_traits","data_aux_classification_table_traits","data_classification_table_traits","data_classification_table_traits","data_combined_classification_table_traits","data_combined_classification_table_traits","data_combined_classification_table_traits","data_continental_rows","data_continental_rows","data_missing_trait_taxa_template","data_resolution_to_finest","data_resolution_to_finest","data_resolution_to_finest","data_trait_table","data_trait_table","data_trait_taxa_classification","data_trait_taxa_classification","data_traits_aggregated","data_traits_aggregated","data_traits_classified","data_traits_classified","data_traits_classified_corrected","data_traits_classified_corrected","data_traits_classified_corrected","data_traits_continent","data_traits_continent","data_traits_continent","data_traits_corrected","data_traits_corrected","data_traits_corrected","data_traits_raw","evaluate_jsdm","extract_and_clean_continent_traits","extract_and_clean_continent_traits","extract_and_clean_continent_traits","extract_traits_from_vegvault","file_missing_trait_taxa_template","file_missing_trait_taxa_template","file_missing_trait_taxa_template","file_trait_corrections","file_trait_corrections_classified","generate_trait_qc_report","get_functional_type_classification_path_from_store","get_functional_type_classification_path_from_store","get_trait_domain_names_from_vegvault","interpolate_community_data","interpolate_community_data_with_uncertainty","interpolate_community_data_with_uncertainty","make_community_proportions","make_community_proportions","run_pipeline","run_pipeline","save_progress_visualisation","select_ft_groups_by_silhouette","select_ft_groups_by_silhouette","select_ft_groups_by_silhouette","select_ft_groups_by_silhouette","select_ft_groups_by_silhouette","select_ft_groups_by_silhouette","trait_corrections_classified_validated","trait_corrections_classified_validated","trait_corrections_validated","trait_corrections_validated","trait_qc_report","trait_qc_report","trait_qc_report_classified","trait_qc_report_classified","vec_trait_domain_names","vec_trait_taxa_without_classification","vec_trait_taxa_without_classification","vec_trait_taxa_without_classification","vec_unique_trait_taxa"],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":true,"font":{"color":"#E6EDF3","face":"IBM Plex Mono, monospace"}},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"},"color":{"color":"#2A3441","highlight":"#8DF59A","hover":"#48C7B8"},"font":{"color":"#98A6B3","strokeWidth":0}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"levelSeparation":100,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Skipped","Function","Regular\ntarget","Object","Dynamic\nbranches"],"color":["#354823","#7500D1","#899DA4","#899DA4","#899DA4","#899DA4"],"shape":["dot","dot","triangle","dot","triangleDown","square"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
-<script type="application/htmlwidget-sizing" data-for="htmlwidget-04649fde4bc16120ae64">{"viewer":{"width":450,"height":350,"padding":15,"fill":true},"browser":{"width":960,"height":500,"padding":40,"fill":false}}</script>
+<script type="application/json" data-for="htmlwidget-dd2f9f0a1a8a6c28aac0">{"x":{"nodes":{"name":[".build_empty_decomposition_variant",".build_empty_spatial_model_results",".build_sjsdm_predictor_structure",".compute_exact_spatial_mev_basis",".compute_interpolation_on_age_grid",".fit_binary_calibration_model",".interpolate_fossil_age_iteration_batch",".load_decomposition_model_fitting_config",".load_decomposition_target",".load_successful_model_target",".lookup_jsdm_variance_component",".muffle_package_version_warning",".prepare_sjsdm_response",".resolve_decomposition_fold_loss",".resolve_sjsdm_device",".resolve_sjsdm_early_stopping",".summarise_fitted_auc",".summarise_fossil_core_age_iterations",".summarise_model_provenance","adapt_cross_validation_assignments","aggregate_colocated_community_records","aggregate_jsdm_variance_components","aggregate_sjsdm_tuning_by_tier","aggregate_trait_values","align_sample_ids","allocate_shapley_variance_components","apply_r_architecture_exceptions","assemble_sjsdm_cached_selected_folds","assess_cross_validation_feasibility","assess_sjsdm_candidate_guardrails","assess_sjsdm_scientific_performance","assess_sjsdm_staged_benchmark","assess_sjsdm_taxon_eligibility","assess_spatial_mev_paired_benchmark","assign_functional_type_clusters","build_classification_table","build_combined_classification_table","build_community_interpolation_index","build_community_record_signatures","build_community_taxon_trait_table","build_decomposition_diagnostic_routes","build_decomposition_environment_formula","build_jsdm_environment_formula","build_jsdm_fit_input","build_land_prediction_grid","build_pipeline_progress_monitor_server","build_preprocessing_controller","build_r_architecture_dependency_map","build_repeated_diagnostic_fold_indices","build_shared_interpolation_data","build_sjsdm_common_regularization_artifact","build_sjsdm_common_regularization_artifacts","build_sjsdm_cumulative_tuning_work_items","build_sjsdm_tier_survivor_artifacts","build_sjsdm_tier_tuning_artifact","build_sjsdm_tier_tuning_artifacts","build_sjsdm_tuning_schedule","build_sjsdm_tuning_work_items","build_spatial_grid_tiles","build_spatial_model_store_index","build_trait_table","build_vegvault_plan","calibrate_cross_validation_grid_from_resolution","calibrate_cross_validation_grid_size","classify_dataset_prefix","classify_taxonomic_resolution","classify_to_functional_type","collapse_spatial_variance_observation_id","collect_sjsdm_available_tier_decisions","collect_sjsdm_tuning_summaries","collect_sjsdm_tuning_timings","combine_sjsdm_tuning_work_items","compare_sjsdm_decomposition_fold_metrics","compute_community_presence_absence","compute_decomposition_prediction_metrics","compute_fast_spatial_mev_basis","compute_jsdm_se","compute_jsdm_variance_partition","compute_network_metrics","compute_pollen_proportions","compute_predictive_decomposition_shares","compute_predictive_fold_shares","compute_predictive_performance_shares","compute_predictor_collinearity","compute_shapley_variance_components","compute_shared_spatial_mev_basis","compute_sjsdm_decomposition_loss_shares","compute_spatial_mev","compute_spatial_mev_basis","compute_spatial_mev_subspace_similarity","compute_spatiotemporal_mev","compute_trait_dissimilarity","compute_variance_component_colours","configure_sjsdm_predictor_structure","correct_trait_records","current_env","data_aux_classification_table_traits","data_classification_table_traits","data_combined_classification_table_traits","data_continental_rows","data_function_inventory","data_missing_trait_taxa_template","data_resolution_to_finest","data_trait_corrections_classified_validated","data_trait_corrections_validated","data_trait_table","data_trait_taxa_classification","data_traits_aggregated","data_traits_classified","data_traits_classified_corrected","data_traits_continent","data_traits_corrected","data_traits_raw","deduplicate_modern_community_data","diagnose_colocated_community_records","diagnose_duplicate_communities","diagnose_duplicate_metadata_keys","diagnose_duplicate_sites","diagnose_jsdm_convergence","diagnose_modern_data_impossible_values","diagnose_r_architecture","diagnose_sjsdm_gpu_runtime","diagnose_sjsdm_setup","diagnose_torch_cuda_details","evaluate_binary_auc","evaluate_binary_brier_score","evaluate_binary_calibration","evaluate_binary_log_loss","evaluate_jsdm","evaluate_modern_data_quality","evaluate_sjsdm_cross_validated_predictions","evaluate_sjsdm_fold_predictions","evaluate_tjur_r2","extract_abiotic_data","extract_age_from_sample_names","extract_age_uncertainty_from_vegvault","extract_community_records","extract_community_taxa","extract_data_from_vegvault","extract_dataset_coordinates","extract_dataset_name_from_sample_names","extract_jsdm_variance_fractions","extract_model_tuning_integer","extract_new_target_errors","extract_prediction_climate","extract_sample_ages","extract_spatial_mev_basis_component","file_aux_classification_table_traits","file_missing_trait_taxa_template","file_spatial_grid","file_trait_corrections","file_trait_corrections_classified","filter_community_by_minimum_core_count","filter_community_by_minimum_proportion","filter_community_by_minimum_sample_count","filter_community_to_plantae","filter_complete_trait_records","filter_constant_taxa","filter_trait_outliers","fit_decomposition_variant","fit_hierarchical_clustering","fit_jsdm_model","fit_sjsdm_regularization_candidate","flag_already_synch","flag_cuda_runtime_checked","flag_preprocessing_worker","flag_trait_outliers","flag_trait_taxa_classification_validated","get_sjsdm_staged_benchmark_policy","has_sjsdm_tuning_evidence","has_target_succeeded","interpolate_community_dataset_from_shared_inputs","interpolate_grouped_time_series","interpolate_mev_to_grid","interpolate_paleo_community_with_age_uncertainty","interpolate_st_mev_to_grid","join_sample_ages","list_trait_quality_control_report","list_trait_quality_control_report_classified","load_active_config_value","load_auxiliary_classification_table","load_chelsa_raster","load_config","load_config_value","load_config_value_with_fallback","load_continental_spatial_grid_rows","load_continental_trait_records_from_vegvault","load_decomposition_diagnostic_inputs","load_functional_type_classification","load_latest_functional_type_classification","load_model_evaluation_target","load_model_tuning_parameter_for_scale_and_resolution","load_model_tuning_parameters","load_project_functions","load_spatial_model_results","load_spatial_resolution_prediction_inputs","load_spatial_window","load_targets_store_metadata","load_taxa_classification","load_trait_corrections","load_trait_domain_names_from_vegvault","load_trait_records_from_vegvault","make_cross_validation_assignments_from_resolution","make_cross_validation_branch_assignments","make_cross_validation_grid_candidates","make_cross_validation_grid_candidates_from_resolution","make_cross_validation_location_table","make_cross_validation_partition_diagnostics","make_leave_one_location_out_assignments","make_sjsdm_empty_selected_fold_artifacts","make_sjsdm_regularization_candidates","make_sjsdm_structured_regularization_candidates","make_sjsdm_tuning_branch_work_items","make_sjsdm_tuning_fold_context","make_spatial_cross_validation_assignments","normalise_coordinates","path_pipe_parts","plot_anova_components_by_age","plot_focal_trait_distribution","plot_network_metrics_by_age","plot_pipeline_progress_visualisations","plot_spatial_anova_map_panel","plot_spatial_biotic_component","plot_spatial_variance_stack","plot_spatial_variance_waffle","plot_taxonomic_trait_comparison","plot_variance_component_triangle_legend","predict_sjsdm_probability_matrix","predict_spatial_resolution_grid_age","prepare_abiotic_for_fit","prepare_age_column_from_rownames","prepare_binary_prediction_metric_input","prepare_classification_table_for_community_taxa","prepare_community_for_fit","prepare_community_proportions","prepare_coords_for_fit","prepare_dataset_name_column_from_rownames","prepare_decomposition_fold_input","prepare_fold_spatial_predictors","prepare_model_fold_input","prepare_sjsdm_cross_validation_fold","prepare_sjsdm_tuning_folds","prepare_spatial_predictors_for_fit","prepare_spatial_variance_plot_data","prepare_spatial_variance_waffle_data","project_coords_to_metric","project_spatial_mev_basis","read_sjsdm_tier_survivor_decisions","read_sjsdm_tier_tuning_artifact","read_vegvault_scalar","render_trait_quality_control_report","replace_missing_community_counts_with_zeros","reshape_community_to_long","resolve_classification_to_finest_rank","resolve_continent_ids_from_scale_ids","resolve_cross_validation_fold_count","resolve_functional_type_classification_path","resolve_functional_type_classification_path_from_store","resolve_latest_dated_file_path","resolve_pipeline_store_path","resolve_scale_id_from_store","resolve_sjsdm_regularization_for_fit","resolve_sjsdm_tuning_context","resolve_spatial_mev_strategy","resolve_trait_taxon_ids","run_configuration_generation","run_decomposition_diagnostic_folds","run_decomposition_upstream_refresh","run_issue138_representative_validation","run_pipeline","run_pipeline_interpolation_prebuild","run_pipeline_progress_monitor","run_pipeline_units_with_status","run_sjsdm_common_regularization_sensitivity","run_sjsdm_cross_tier_sensitivity","run_sjsdm_predictor_structure_folds","run_sjsdm_selected_candidate_folds","run_sjsdm_tuning_candidates","run_sjsdm_tuning_fold_candidates","run_sjsdm_tuning_sequence","run_sjsdm_tuning_work_item","run_spatial_mev_paired_cv_fixture","save_continental_functional_type_classification","save_missing_taxa_template","save_pipeline_progress_visualisation","scale_abiotic_for_fit","scale_prediction_abiotic","scale_predictors_with_training_attributes","scale_spatial_for_fit","score_sjsdm_joint_tuning_predictions","score_sjsdm_tuning_predictions","select_continental_trait_table","select_decomposition_route_samples","select_functional_type_group_count","select_non_collinear_predictors","select_sjsdm_regularization","select_sjsdm_staged_survivors","select_sjsdm_tuning_round_work_items","select_top_taxa_by_group_occurrence","select_unclassified_taxa","summarise_decomposition_diagnostic_routes","summarise_expected_genus_richness","summarise_pollen_counts_by_sample","summarise_predictive_decomposition","summarise_predictive_model_metrics","summarise_sjsdm_decomposition_effects","summarise_sjsdm_fold_metrics","summarise_sjsdm_metric_repeats","summarise_sjsdm_model_provenance","summarise_sjsdm_tuning_candidates","summarise_sjsdm_tuning_execution","summarise_spatial_biotic_component","summarise_spatial_mev_benchmark_predictions","summarise_spatial_variance_stack","summarise_taxonomic_group_traits","summarise_trait_coverage","validate_abiotic_interpolation_contract","validate_available_core_count","validate_community_source","validate_community_taxon_count","validate_config_allowed_values","validate_config_profile_selection","validate_prediction_probabilities","validate_r_architecture","validate_sample_count","validate_sjsdm_gpu_runtime","validate_sjsdm_tuning_repeat_coverage","validate_taxa_classification_coverage","validate_trait_corrections","validate_vegvault_presence","vec_fun_files","vec_package_names","vec_package_names_full","vec_trait_domain_names","vec_trait_taxa_without_classification","vec_unique_trait_taxa","write_trait_quality_control_report"],"type":["function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","object","stem","stem","stem","stem","object","stem","stem","stem","stem","stem","pattern","stem","stem","stem","pattern","stem","stem","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","stem","stem","stem","stem","stem","function","function","function","function","function","function","function","function","function","function","function","object","object","object","function","stem","function","function","function","function","function","function","function","function","function","stem","stem","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","object","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","function","object","object","object","stem","stem","stem","function"],"description":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"Load shared auxiliary classification table","Build full classification table for trait taxa","Build combined automatic and auxiliary classifications","Load continental rows from spatial grid",null,"Build missing-trait-taxa template tibble","Resolve each trait taxon to finest taxonomic rank","GUARD: validate all classified corrections signed off","GUARD: validate all correction rows are signed off","Build wide resolved-taxon × traits matrix","Classify each trait taxon via taxospace","Aggregate trait values to median per taxon × domain","Join resolved taxon name to corrected trait records","Apply resolved-taxon corrections to classified data","Extract trait data for one continental unit","Apply human-reviewed corrections to raw trait data","Combine all per-continent trait extractions",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"Track shared auxiliary classification CSV","Save missing trait taxa to template CSV","Track spatial_grid.csv for changes","Track trait manual corrections CSV for changes","Track classified trait corrections CSV for changes",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"Validate that all trait taxa are classified",null,null,null,null,null,null,null,null,null,"Generate trait QC report and create corrections template","Generate post-classification QC report by resolved taxon",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"Discover all trait domain names from VegVault","Select trait taxa without any classification","Get unique trait taxon names after corrections",null],"status":["uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","skipped","skipped","skipped","skipped","uptodate","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","skipped","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","skipped","skipped","skipped","skipped","skipped","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","skipped","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","skipped","skipped","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","uptodate","skipped","skipped","skipped","uptodate"],"seconds":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0.032,0.422,0.015,0.078,null,0,0.312,0,0,0.109,39.463999999999,0.8120000000000001,0.484,0,596.141,0.016,0.172,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0,0.016,0,0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0,null,null,null,null,null,null,null,null,null,7.797,6.953,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0.219,0,0.062,null],"bytes":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,9610,131865,149620,489,null,229,76022,227,227,154349,2686952,178834,41469271,28167499,28161425,28161310,28161310,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,43840,56,14164,64,64,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,72,null,null,null,null,null,null,null,null,null,343035,336205,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,176,68,58111,null],"branches":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,7562,null,null,null,3,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"label":[".build_empty_decomposition_variant",".build_empty_spatial_model_results",".build_sjsdm_predictor_structure",".compute_exact_spatial_mev_basis",".compute_interpolation_on_age_grid",".fit_binary_calibration_model",".interpolate_fossil_age_iteration_batch",".load_decomposition_model_fitting_config",".load_decomposition_target",".load_successful_model_target",".lookup_jsdm_variance_component",".muffle_package_version_warning",".prepare_sjsdm_response",".resolve_decomposition_fold_loss",".resolve_sjsdm_device",".resolve_sjsdm_early_stopping",".summarise_fitted_auc",".summarise_fossil_core_age_iterations",".summarise_model_provenance","adapt_cross_validation_assignments","aggregate_colocated_community_records","aggregate_jsdm_variance_components","aggregate_sjsdm_tuning_by_tier","aggregate_trait_values","align_sample_ids","allocate_shapley_variance_components","apply_r_architecture_exceptions","assemble_sjsdm_cached_selected_folds","assess_cross_validation_feasibility","assess_sjsdm_candidate_guardrails","assess_sjsdm_scientific_performance","assess_sjsdm_staged_benchmark","assess_sjsdm_taxon_eligibility","assess_spatial_mev_paired_benchmark","assign_functional_type_clusters","build_classification_table","build_combined_classification_table","build_community_interpolation_index","build_community_record_signatures","build_community_taxon_trait_table","build_decomposition_diagnostic_routes","build_decomposition_environment_formula","build_jsdm_environment_formula","build_jsdm_fit_input","build_land_prediction_grid","build_pipeline_progress_monitor_server","build_preprocessing_controller","build_r_architecture_dependency_map","build_repeated_diagnostic_fold_indices","build_shared_interpolation_data","build_sjsdm_common_regularization_artifact","build_sjsdm_common_regularization_artifacts","build_sjsdm_cumulative_tuning_work_items","build_sjsdm_tier_survivor_artifacts","build_sjsdm_tier_tuning_artifact","build_sjsdm_tier_tuning_artifacts","build_sjsdm_tuning_schedule","build_sjsdm_tuning_work_items","build_spatial_grid_tiles","build_spatial_model_store_index","build_trait_table","build_vegvault_plan","calibrate_cross_validation_grid_from_resolution","calibrate_cross_validation_grid_size","classify_dataset_prefix","classify_taxonomic_resolution","classify_to_functional_type","collapse_spatial_variance_observation_id","collect_sjsdm_available_tier_decisions","collect_sjsdm_tuning_summaries","collect_sjsdm_tuning_timings","combine_sjsdm_tuning_work_items","compare_sjsdm_decomposition_fold_metrics","compute_community_presence_absence","compute_decomposition_prediction_metrics","compute_fast_spatial_mev_basis","compute_jsdm_se","compute_jsdm_variance_partition","compute_network_metrics","compute_pollen_proportions","compute_predictive_decomposition_shares","compute_predictive_fold_shares","compute_predictive_performance_shares","compute_predictor_collinearity","compute_shapley_variance_components","compute_shared_spatial_mev_basis","compute_sjsdm_decomposition_loss_shares","compute_spatial_mev","compute_spatial_mev_basis","compute_spatial_mev_subspace_similarity","compute_spatiotemporal_mev","compute_trait_dissimilarity","compute_variance_component_colours","configure_sjsdm_predictor_structure","correct_trait_records","current_env","data_aux_classification_table_traits","data_classification_table_traits","data_combined_classification_table_traits","data_continental_rows","data_function_inventory","data_missing_trait_taxa_template","data_resolution_to_finest","data_trait_corrections_classified_validated","data_trait_corrections_validated","data_trait_table","data_trait_taxa_classification","data_traits_aggregated","data_traits_classified","data_traits_classified_corrected","data_traits_continent","data_traits_corrected","data_traits_raw","deduplicate_modern_community_data","diagnose_colocated_community_records","diagnose_duplicate_communities","diagnose_duplicate_metadata_keys","diagnose_duplicate_sites","diagnose_jsdm_convergence","diagnose_modern_data_impossible_values","diagnose_r_architecture","diagnose_sjsdm_gpu_runtime","diagnose_sjsdm_setup","diagnose_torch_cuda_details","evaluate_binary_auc","evaluate_binary_brier_score","evaluate_binary_calibration","evaluate_binary_log_loss","evaluate_jsdm","evaluate_modern_data_quality","evaluate_sjsdm_cross_validated_predictions","evaluate_sjsdm_fold_predictions","evaluate_tjur_r2","extract_abiotic_data","extract_age_from_sample_names","extract_age_uncertainty_from_vegvault","extract_community_records","extract_community_taxa","extract_data_from_vegvault","extract_dataset_coordinates","extract_dataset_name_from_sample_names","extract_jsdm_variance_fractions","extract_model_tuning_integer","extract_new_target_errors","extract_prediction_climate","extract_sample_ages","extract_spatial_mev_basis_component","file_aux_classification_table_traits","file_missing_trait_taxa_template","file_spatial_grid","file_trait_corrections","file_trait_corrections_classified","filter_community_by_minimum_core_count","filter_community_by_minimum_proportion","filter_community_by_minimum_sample_count","filter_community_to_plantae","filter_complete_trait_records","filter_constant_taxa","filter_trait_outliers","fit_decomposition_variant","fit_hierarchical_clustering","fit_jsdm_model","fit_sjsdm_regularization_candidate","flag_already_synch","flag_cuda_runtime_checked","flag_preprocessing_worker","flag_trait_outliers","flag_trait_taxa_classification_validated","get_sjsdm_staged_benchmark_policy","has_sjsdm_tuning_evidence","has_target_succeeded","interpolate_community_dataset_from_shared_inputs","interpolate_grouped_time_series","interpolate_mev_to_grid","interpolate_paleo_community_with_age_uncertainty","interpolate_st_mev_to_grid","join_sample_ages","list_trait_quality_control_report","list_trait_quality_control_report_classified","load_active_config_value","load_auxiliary_classification_table","load_chelsa_raster","load_config","load_config_value","load_config_value_with_fallback","load_continental_spatial_grid_rows","load_continental_trait_records_from_vegvault","load_decomposition_diagnostic_inputs","load_functional_type_classification","load_latest_functional_type_classification","load_model_evaluation_target","load_model_tuning_parameter_for_scale_and_resolution","load_model_tuning_parameters","load_project_functions","load_spatial_model_results","load_spatial_resolution_prediction_inputs","load_spatial_window","load_targets_store_metadata","load_taxa_classification","load_trait_corrections","load_trait_domain_names_from_vegvault","load_trait_records_from_vegvault","make_cross_validation_assignments_from_resolution","make_cross_validation_branch_assignments","make_cross_validation_grid_candidates","make_cross_validation_grid_candidates_from_resolution","make_cross_validation_location_table","make_cross_validation_partition_diagnostics","make_leave_one_location_out_assignments","make_sjsdm_empty_selected_fold_artifacts","make_sjsdm_regularization_candidates","make_sjsdm_structured_regularization_candidates","make_sjsdm_tuning_branch_work_items","make_sjsdm_tuning_fold_context","make_spatial_cross_validation_assignments","normalise_coordinates","path_pipe_parts","plot_anova_components_by_age","plot_focal_trait_distribution","plot_network_metrics_by_age","plot_pipeline_progress_visualisations","plot_spatial_anova_map_panel","plot_spatial_biotic_component","plot_spatial_variance_stack","plot_spatial_variance_waffle","plot_taxonomic_trait_comparison","plot_variance_component_triangle_legend","predict_sjsdm_probability_matrix","predict_spatial_resolution_grid_age","prepare_abiotic_for_fit","prepare_age_column_from_rownames","prepare_binary_prediction_metric_input","prepare_classification_table_for_community_taxa","prepare_community_for_fit","prepare_community_proportions","prepare_coords_for_fit","prepare_dataset_name_column_from_rownames","prepare_decomposition_fold_input","prepare_fold_spatial_predictors","prepare_model_fold_input","prepare_sjsdm_cross_validation_fold","prepare_sjsdm_tuning_folds","prepare_spatial_predictors_for_fit","prepare_spatial_variance_plot_data","prepare_spatial_variance_waffle_data","project_coords_to_metric","project_spatial_mev_basis","read_sjsdm_tier_survivor_decisions","read_sjsdm_tier_tuning_artifact","read_vegvault_scalar","render_trait_quality_control_report","replace_missing_community_counts_with_zeros","reshape_community_to_long","resolve_classification_to_finest_rank","resolve_continent_ids_from_scale_ids","resolve_cross_validation_fold_count","resolve_functional_type_classification_path","resolve_functional_type_classification_path_from_store","resolve_latest_dated_file_path","resolve_pipeline_store_path","resolve_scale_id_from_store","resolve_sjsdm_regularization_for_fit","resolve_sjsdm_tuning_context","resolve_spatial_mev_strategy","resolve_trait_taxon_ids","run_configuration_generation","run_decomposition_diagnostic_folds","run_decomposition_upstream_refresh","run_issue138_representative_validation","run_pipeline","run_pipeline_interpolation_prebuild","run_pipeline_progress_monitor","run_pipeline_units_with_status","run_sjsdm_common_regularization_sensitivity","run_sjsdm_cross_tier_sensitivity","run_sjsdm_predictor_structure_folds","run_sjsdm_selected_candidate_folds","run_sjsdm_tuning_candidates","run_sjsdm_tuning_fold_candidates","run_sjsdm_tuning_sequence","run_sjsdm_tuning_work_item","run_spatial_mev_paired_cv_fixture","save_continental_functional_type_classification","save_missing_taxa_template","save_pipeline_progress_visualisation","scale_abiotic_for_fit","scale_prediction_abiotic","scale_predictors_with_training_attributes","scale_spatial_for_fit","score_sjsdm_joint_tuning_predictions","score_sjsdm_tuning_predictions","select_continental_trait_table","select_decomposition_route_samples","select_functional_type_group_count","select_non_collinear_predictors","select_sjsdm_regularization","select_sjsdm_staged_survivors","select_sjsdm_tuning_round_work_items","select_top_taxa_by_group_occurrence","select_unclassified_taxa","summarise_decomposition_diagnostic_routes","summarise_expected_genus_richness","summarise_pollen_counts_by_sample","summarise_predictive_decomposition","summarise_predictive_model_metrics","summarise_sjsdm_decomposition_effects","summarise_sjsdm_fold_metrics","summarise_sjsdm_metric_repeats","summarise_sjsdm_model_provenance","summarise_sjsdm_tuning_candidates","summarise_sjsdm_tuning_execution","summarise_spatial_biotic_component","summarise_spatial_mev_benchmark_predictions","summarise_spatial_variance_stack","summarise_taxonomic_group_traits","summarise_trait_coverage","validate_abiotic_interpolation_contract","validate_available_core_count","validate_community_source","validate_community_taxon_count","validate_config_allowed_values","validate_config_profile_selection","validate_prediction_probabilities","validate_r_architecture","validate_sample_count","validate_sjsdm_gpu_runtime","validate_sjsdm_tuning_repeat_coverage","validate_taxa_classification_coverage","validate_trait_corrections","validate_vegvault_presence","vec_fun_files","vec_package_names","vec_package_names_full","vec_trait_domain_names","vec_trait_taxa_without_classification","vec_unique_trait_taxa","write_trait_quality_control_report"],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#354823"],"id":[".build_empty_decomposition_variant",".build_empty_spatial_model_results",".build_sjsdm_predictor_structure",".compute_exact_spatial_mev_basis",".compute_interpolation_on_age_grid",".fit_binary_calibration_model",".interpolate_fossil_age_iteration_batch",".load_decomposition_model_fitting_config",".load_decomposition_target",".load_successful_model_target",".lookup_jsdm_variance_component",".muffle_package_version_warning",".prepare_sjsdm_response",".resolve_decomposition_fold_loss",".resolve_sjsdm_device",".resolve_sjsdm_early_stopping",".summarise_fitted_auc",".summarise_fossil_core_age_iterations",".summarise_model_provenance","adapt_cross_validation_assignments","aggregate_colocated_community_records","aggregate_jsdm_variance_components","aggregate_sjsdm_tuning_by_tier","aggregate_trait_values","align_sample_ids","allocate_shapley_variance_components","apply_r_architecture_exceptions","assemble_sjsdm_cached_selected_folds","assess_cross_validation_feasibility","assess_sjsdm_candidate_guardrails","assess_sjsdm_scientific_performance","assess_sjsdm_staged_benchmark","assess_sjsdm_taxon_eligibility","assess_spatial_mev_paired_benchmark","assign_functional_type_clusters","build_classification_table","build_combined_classification_table","build_community_interpolation_index","build_community_record_signatures","build_community_taxon_trait_table","build_decomposition_diagnostic_routes","build_decomposition_environment_formula","build_jsdm_environment_formula","build_jsdm_fit_input","build_land_prediction_grid","build_pipeline_progress_monitor_server","build_preprocessing_controller","build_r_architecture_dependency_map","build_repeated_diagnostic_fold_indices","build_shared_interpolation_data","build_sjsdm_common_regularization_artifact","build_sjsdm_common_regularization_artifacts","build_sjsdm_cumulative_tuning_work_items","build_sjsdm_tier_survivor_artifacts","build_sjsdm_tier_tuning_artifact","build_sjsdm_tier_tuning_artifacts","build_sjsdm_tuning_schedule","build_sjsdm_tuning_work_items","build_spatial_grid_tiles","build_spatial_model_store_index","build_trait_table","build_vegvault_plan","calibrate_cross_validation_grid_from_resolution","calibrate_cross_validation_grid_size","classify_dataset_prefix","classify_taxonomic_resolution","classify_to_functional_type","collapse_spatial_variance_observation_id","collect_sjsdm_available_tier_decisions","collect_sjsdm_tuning_summaries","collect_sjsdm_tuning_timings","combine_sjsdm_tuning_work_items","compare_sjsdm_decomposition_fold_metrics","compute_community_presence_absence","compute_decomposition_prediction_metrics","compute_fast_spatial_mev_basis","compute_jsdm_se","compute_jsdm_variance_partition","compute_network_metrics","compute_pollen_proportions","compute_predictive_decomposition_shares","compute_predictive_fold_shares","compute_predictive_performance_shares","compute_predictor_collinearity","compute_shapley_variance_components","compute_shared_spatial_mev_basis","compute_sjsdm_decomposition_loss_shares","compute_spatial_mev","compute_spatial_mev_basis","compute_spatial_mev_subspace_similarity","compute_spatiotemporal_mev","compute_trait_dissimilarity","compute_variance_component_colours","configure_sjsdm_predictor_structure","correct_trait_records","current_env","data_aux_classification_table_traits","data_classification_table_traits","data_combined_classification_table_traits","data_continental_rows","data_function_inventory","data_missing_trait_taxa_template","data_resolution_to_finest","data_trait_corrections_classified_validated","data_trait_corrections_validated","data_trait_table","data_trait_taxa_classification","data_traits_aggregated","data_traits_classified","data_traits_classified_corrected","data_traits_continent","data_traits_corrected","data_traits_raw","deduplicate_modern_community_data","diagnose_colocated_community_records","diagnose_duplicate_communities","diagnose_duplicate_metadata_keys","diagnose_duplicate_sites","diagnose_jsdm_convergence","diagnose_modern_data_impossible_values","diagnose_r_architecture","diagnose_sjsdm_gpu_runtime","diagnose_sjsdm_setup","diagnose_torch_cuda_details","evaluate_binary_auc","evaluate_binary_brier_score","evaluate_binary_calibration","evaluate_binary_log_loss","evaluate_jsdm","evaluate_modern_data_quality","evaluate_sjsdm_cross_validated_predictions","evaluate_sjsdm_fold_predictions","evaluate_tjur_r2","extract_abiotic_data","extract_age_from_sample_names","extract_age_uncertainty_from_vegvault","extract_community_records","extract_community_taxa","extract_data_from_vegvault","extract_dataset_coordinates","extract_dataset_name_from_sample_names","extract_jsdm_variance_fractions","extract_model_tuning_integer","extract_new_target_errors","extract_prediction_climate","extract_sample_ages","extract_spatial_mev_basis_component","file_aux_classification_table_traits","file_missing_trait_taxa_template","file_spatial_grid","file_trait_corrections","file_trait_corrections_classified","filter_community_by_minimum_core_count","filter_community_by_minimum_proportion","filter_community_by_minimum_sample_count","filter_community_to_plantae","filter_complete_trait_records","filter_constant_taxa","filter_trait_outliers","fit_decomposition_variant","fit_hierarchical_clustering","fit_jsdm_model","fit_sjsdm_regularization_candidate","flag_already_synch","flag_cuda_runtime_checked","flag_preprocessing_worker","flag_trait_outliers","flag_trait_taxa_classification_validated","get_sjsdm_staged_benchmark_policy","has_sjsdm_tuning_evidence","has_target_succeeded","interpolate_community_dataset_from_shared_inputs","interpolate_grouped_time_series","interpolate_mev_to_grid","interpolate_paleo_community_with_age_uncertainty","interpolate_st_mev_to_grid","join_sample_ages","list_trait_quality_control_report","list_trait_quality_control_report_classified","load_active_config_value","load_auxiliary_classification_table","load_chelsa_raster","load_config","load_config_value","load_config_value_with_fallback","load_continental_spatial_grid_rows","load_continental_trait_records_from_vegvault","load_decomposition_diagnostic_inputs","load_functional_type_classification","load_latest_functional_type_classification","load_model_evaluation_target","load_model_tuning_parameter_for_scale_and_resolution","load_model_tuning_parameters","load_project_functions","load_spatial_model_results","load_spatial_resolution_prediction_inputs","load_spatial_window","load_targets_store_metadata","load_taxa_classification","load_trait_corrections","load_trait_domain_names_from_vegvault","load_trait_records_from_vegvault","make_cross_validation_assignments_from_resolution","make_cross_validation_branch_assignments","make_cross_validation_grid_candidates","make_cross_validation_grid_candidates_from_resolution","make_cross_validation_location_table","make_cross_validation_partition_diagnostics","make_leave_one_location_out_assignments","make_sjsdm_empty_selected_fold_artifacts","make_sjsdm_regularization_candidates","make_sjsdm_structured_regularization_candidates","make_sjsdm_tuning_branch_work_items","make_sjsdm_tuning_fold_context","make_spatial_cross_validation_assignments","normalise_coordinates","path_pipe_parts","plot_anova_components_by_age","plot_focal_trait_distribution","plot_network_metrics_by_age","plot_pipeline_progress_visualisations","plot_spatial_anova_map_panel","plot_spatial_biotic_component","plot_spatial_variance_stack","plot_spatial_variance_waffle","plot_taxonomic_trait_comparison","plot_variance_component_triangle_legend","predict_sjsdm_probability_matrix","predict_spatial_resolution_grid_age","prepare_abiotic_for_fit","prepare_age_column_from_rownames","prepare_binary_prediction_metric_input","prepare_classification_table_for_community_taxa","prepare_community_for_fit","prepare_community_proportions","prepare_coords_for_fit","prepare_dataset_name_column_from_rownames","prepare_decomposition_fold_input","prepare_fold_spatial_predictors","prepare_model_fold_input","prepare_sjsdm_cross_validation_fold","prepare_sjsdm_tuning_folds","prepare_spatial_predictors_for_fit","prepare_spatial_variance_plot_data","prepare_spatial_variance_waffle_data","project_coords_to_metric","project_spatial_mev_basis","read_sjsdm_tier_survivor_decisions","read_sjsdm_tier_tuning_artifact","read_vegvault_scalar","render_trait_quality_control_report","replace_missing_community_counts_with_zeros","reshape_community_to_long","resolve_classification_to_finest_rank","resolve_continent_ids_from_scale_ids","resolve_cross_validation_fold_count","resolve_functional_type_classification_path","resolve_functional_type_classification_path_from_store","resolve_latest_dated_file_path","resolve_pipeline_store_path","resolve_scale_id_from_store","resolve_sjsdm_regularization_for_fit","resolve_sjsdm_tuning_context","resolve_spatial_mev_strategy","resolve_trait_taxon_ids","run_configuration_generation","run_decomposition_diagnostic_folds","run_decomposition_upstream_refresh","run_issue138_representative_validation","run_pipeline","run_pipeline_interpolation_prebuild","run_pipeline_progress_monitor","run_pipeline_units_with_status","run_sjsdm_common_regularization_sensitivity","run_sjsdm_cross_tier_sensitivity","run_sjsdm_predictor_structure_folds","run_sjsdm_selected_candidate_folds","run_sjsdm_tuning_candidates","run_sjsdm_tuning_fold_candidates","run_sjsdm_tuning_sequence","run_sjsdm_tuning_work_item","run_spatial_mev_paired_cv_fixture","save_continental_functional_type_classification","save_missing_taxa_template","save_pipeline_progress_visualisation","scale_abiotic_for_fit","scale_prediction_abiotic","scale_predictors_with_training_attributes","scale_spatial_for_fit","score_sjsdm_joint_tuning_predictions","score_sjsdm_tuning_predictions","select_continental_trait_table","select_decomposition_route_samples","select_functional_type_group_count","select_non_collinear_predictors","select_sjsdm_regularization","select_sjsdm_staged_survivors","select_sjsdm_tuning_round_work_items","select_top_taxa_by_group_occurrence","select_unclassified_taxa","summarise_decomposition_diagnostic_routes","summarise_expected_genus_richness","summarise_pollen_counts_by_sample","summarise_predictive_decomposition","summarise_predictive_model_metrics","summarise_sjsdm_decomposition_effects","summarise_sjsdm_fold_metrics","summarise_sjsdm_metric_repeats","summarise_sjsdm_model_provenance","summarise_sjsdm_tuning_candidates","summarise_sjsdm_tuning_execution","summarise_spatial_biotic_component","summarise_spatial_mev_benchmark_predictions","summarise_spatial_variance_stack","summarise_taxonomic_group_traits","summarise_trait_coverage","validate_abiotic_interpolation_contract","validate_available_core_count","validate_community_source","validate_community_taxon_count","validate_config_allowed_values","validate_config_profile_selection","validate_prediction_probabilities","validate_r_architecture","validate_sample_count","validate_sjsdm_gpu_runtime","validate_sjsdm_tuning_repeat_coverage","validate_taxa_classification_coverage","validate_trait_corrections","validate_vegvault_presence","vec_fun_files","vec_package_names","vec_package_names_full","vec_trait_domain_names","vec_trait_taxa_without_classification","vec_unique_trait_taxa","write_trait_quality_control_report"],"level":[1,1,1,1,1,1,1,2,1,2,1,1,1,1,4,1,1,2,1,2,4,2,1,1,0,2,1,3,1,0,0,2,0,2,0,1,1,0,2,2,0,2,1,1,2,1,0,0,0,0,2,3,2,2,2,3,0,0,0,0,1,2,3,2,1,0,0,1,2,0,0,1,0,1,1,1,1,1,0,1,2,1,2,0,3,3,0,3,2,0,1,0,1,1,1,0,2,12,13,2,0,15,18,22,8,25,11,24,19,23,4,9,5,3,3,3,2,2,1,2,2,2,3,1,2,2,2,2,2,4,3,3,2,0,1,0,0,0,0,0,1,1,1,1,2,0,0,1,16,1,7,21,1,1,1,0,1,1,0,3,0,5,6,0,0,0,1,17,1,1,1,4,2,2,3,2,0,6,20,2,1,1,1,1,0,1,3,3,1,3,1,3,2,0,4,2,1,1,1,1,2,2,2,4,1,2,0,0,1,0,0,0,0,1,1,1,0,0,0,0,1,0,0,0,3,0,2,1,4,0,2,1,0,1,2,0,2,5,4,2,5,2,1,0,2,1,3,1,0,0,0,0,0,1,1,0,2,3,1,3,1,0,0,1,1,0,6,5,6,4,2,4,5,6,5,7,2,5,4,5,5,7,0,2,3,1,1,1,1,4,3,0,2,2,0,0,1,1,0,1,3,0,1,1,1,0,1,0,0,0,0,0,4,0,0,0,0,0,1,1,1,2,1,0,0,3,0,0,1,1,0,0,0,3,14,10,2],"shape":["triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangleDown","dot","dot","dot","dot","triangleDown","dot","dot","dot","dot","dot","square","dot","dot","dot","square","dot","dot","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","dot","dot","dot","dot","dot","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangleDown","triangleDown","triangleDown","triangle","dot","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","dot","dot","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangleDown","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangle","triangleDown","triangleDown","triangleDown","dot","dot","dot","triangle"]},"edges":{"from":[".load_decomposition_target","has_target_succeeded","validate_sjsdm_gpu_runtime",".interpolate_fossil_age_iteration_batch","make_leave_one_location_out_assignments","assess_cross_validation_feasibility","classify_dataset_prefix","normalise_coordinates","validate_community_source","build_community_record_signatures","diagnose_colocated_community_records","extract_jsdm_variance_fractions",".lookup_jsdm_variance_component","run_sjsdm_selected_candidate_folds","get_sjsdm_staged_benchmark_policy","get_sjsdm_staged_benchmark_policy","validate_community_source","resolve_classification_to_finest_rank","build_jsdm_environment_formula","project_coords_to_metric","load_spatial_window","aggregate_sjsdm_tuning_by_tier","build_sjsdm_common_regularization_artifact","select_sjsdm_tuning_round_work_items","select_sjsdm_staged_survivors","aggregate_sjsdm_tuning_by_tier","aggregate_sjsdm_tuning_by_tier","build_sjsdm_tier_tuning_artifact","validate_vegvault_presence","calibrate_cross_validation_grid_size","make_spatial_cross_validation_assignments","read_sjsdm_tier_survivor_decisions","load_targets_store_metadata","compute_predictive_fold_shares","compute_predictive_fold_shares","allocate_shapley_variance_components","compute_spatial_mev_basis","compute_spatial_mev_basis",".compute_exact_spatial_mev_basis","resolve_spatial_mev_strategy","compute_fast_spatial_mev_basis","file_aux_classification_table_traits","load_auxiliary_classification_table","data_trait_taxa_classification","build_classification_table","data_aux_classification_table_traits","build_combined_classification_table","data_classification_table_traits","load_continental_spatial_grid_rows","file_spatial_grid","vec_trait_taxa_without_classification","data_combined_classification_table_traits","flag_trait_taxa_classification_validated","resolve_classification_to_finest_rank","validate_trait_corrections","load_trait_corrections","file_trait_corrections_classified","file_trait_corrections","validate_trait_corrections","load_trait_corrections","data_traits_aggregated","build_trait_table","vec_unique_trait_taxa","load_taxa_classification","data_traits_classified_corrected","aggregate_trait_values","data_traits_corrected","data_resolution_to_finest","data_trait_corrections_classified_validated","data_traits_classified","correct_trait_records","data_continental_rows","load_continental_trait_records_from_vegvault","vec_trait_domain_names","correct_trait_records","data_traits_raw","data_trait_corrections_validated","data_traits_continent","validate_community_source","build_community_record_signatures","normalise_coordinates","classify_dataset_prefix","normalise_coordinates","validate_community_source","build_community_record_signatures","build_community_record_signatures","normalise_coordinates","validate_community_source","normalise_coordinates","normalise_coordinates","validate_community_source","apply_r_architecture_exceptions","diagnose_torch_cuda_details","diagnose_sjsdm_gpu_runtime","prepare_binary_prediction_metric_input","prepare_binary_prediction_metric_input","prepare_binary_prediction_metric_input",".fit_binary_calibration_model","prepare_binary_prediction_metric_input","diagnose_jsdm_convergence","diagnose_modern_data_impossible_values","diagnose_duplicate_communities","diagnose_duplicate_sites","diagnose_duplicate_metadata_keys","evaluate_binary_auc","evaluate_binary_log_loss","evaluate_tjur_r2","evaluate_binary_log_loss","evaluate_binary_brier_score","evaluate_binary_calibration","evaluate_tjur_r2","evaluate_binary_auc","prepare_binary_prediction_metric_input","load_chelsa_raster","save_missing_taxa_template","data_missing_trait_taxa_template","data_combined_classification_table_traits","list_trait_quality_control_report","list_trait_quality_control_report_classified",".build_empty_decomposition_variant","compute_decomposition_prediction_metrics","build_decomposition_environment_formula",".resolve_sjsdm_early_stopping",".resolve_sjsdm_device",".build_sjsdm_predictor_structure",".prepare_sjsdm_response","fit_jsdm_model","vec_trait_taxa_without_classification","file_missing_trait_taxa_template","interpolate_paleo_community_with_age_uncertainty",".muffle_package_version_warning",".compute_interpolation_on_age_grid","scale_predictors_with_training_attributes",".summarise_fossil_core_age_iterations","interpolate_grouped_time_series","scale_predictors_with_training_attributes","write_trait_quality_control_report","data_traits_raw","write_trait_quality_control_report","data_traits_classified","load_config_value","resolve_trait_taxon_ids","filter_complete_trait_records","load_trait_records_from_vegvault",".load_decomposition_target",".load_decomposition_model_fitting_config","resolve_functional_type_classification_path","load_functional_type_classification","load_model_tuning_parameters","resolve_scale_id_from_store","load_active_config_value","extract_model_tuning_integer",".summarise_fitted_auc","load_model_evaluation_target",".build_empty_spatial_model_results","extract_jsdm_variance_fractions",".summarise_model_provenance","compute_shapley_variance_components","has_target_succeeded","summarise_predictive_model_metrics",".load_successful_model_target","has_target_succeeded","load_targets_store_metadata","validate_vegvault_presence","validate_vegvault_presence","make_leave_one_location_out_assignments","make_spatial_cross_validation_assignments","make_cross_validation_assignments_from_resolution","calibrate_cross_validation_grid_from_resolution","make_cross_validation_grid_candidates_from_resolution","make_cross_validation_grid_candidates","plot_variance_component_triangle_legend","compute_variance_component_colours","project_spatial_mev_basis","extract_prediction_climate","scale_prediction_abiotic","interpolate_st_mev_to_grid","interpolate_mev_to_grid","validate_prediction_probabilities","extract_age_from_sample_names","summarise_pollen_counts_by_sample","compute_pollen_proportions","extract_dataset_name_from_sample_names","prepare_model_fold_input","select_decomposition_route_samples","prepare_fold_spatial_predictors","prepare_spatial_predictors_for_fit","interpolate_st_mev_to_grid","project_spatial_mev_basis","compute_spatial_mev_basis","compute_spatial_mev","interpolate_mev_to_grid","compute_spatiotemporal_mev","build_jsdm_fit_input","filter_constant_taxa","scale_predictors_with_training_attributes","compute_community_presence_absence","scale_spatial_for_fit","validate_community_taxon_count","scale_abiotic_for_fit","compute_spatial_mev","prepare_fold_spatial_predictors","interpolate_st_mev_to_grid","prepare_model_fold_input","compute_spatiotemporal_mev","interpolate_mev_to_grid","make_sjsdm_tuning_fold_context","collapse_spatial_variance_observation_id","compute_variance_component_colours","scale_predictors_with_training_attributes","interpolate_mev_to_grid","resolve_latest_dated_file_path","resolve_functional_type_classification_path","resolve_continent_ids_from_scale_ids","resolve_scale_id_from_store","load_active_config_value",".build_empty_decomposition_variant","diagnose_jsdm_convergence","fit_jsdm_model","select_decomposition_route_samples","prepare_decomposition_fold_input","fit_decomposition_variant","run_pipeline","has_target_succeeded","run_sjsdm_tuning_sequence","load_active_config_value","run_pipeline","extract_new_target_errors","load_targets_store_metadata","resolve_pipeline_store_path","run_pipeline_interpolation_prebuild","load_active_config_value","save_pipeline_progress_visualisation","validate_config_profile_selection","load_targets_store_metadata","resolve_pipeline_store_path","load_config_value","build_pipeline_progress_monitor_server","run_pipeline","fit_jsdm_model","extract_jsdm_variance_fractions","compute_jsdm_se","compute_jsdm_variance_partition","load_config","run_pipeline","prepare_sjsdm_cross_validation_fold","predict_sjsdm_probability_matrix","fit_sjsdm_regularization_candidate","run_sjsdm_selected_candidate_folds","configure_sjsdm_predictor_structure","make_sjsdm_tuning_fold_context","make_sjsdm_tuning_fold_context","score_sjsdm_tuning_predictions","run_sjsdm_tuning_fold_candidates","score_sjsdm_tuning_predictions","run_pipeline","has_sjsdm_tuning_evidence","load_active_config_value","combine_sjsdm_tuning_work_items","run_sjsdm_tuning_fold_candidates","score_sjsdm_tuning_predictions","predict_sjsdm_probability_matrix","prepare_sjsdm_cross_validation_fold","fit_sjsdm_regularization_candidate","summarise_spatial_mev_benchmark_predictions","load_auxiliary_classification_table","load_active_config_value","plot_pipeline_progress_visualisations","score_sjsdm_tuning_predictions","evaluate_binary_auc","filter_constant_taxa","compute_community_presence_absence","filter_community_by_minimum_core_count","filter_constant_taxa","filter_community_by_minimum_proportion","prepare_community_for_fit","filter_community_by_minimum_sample_count","compute_community_presence_absence","compute_predictive_decomposition_shares","summarise_predictive_decomposition",".resolve_decomposition_fold_loss","evaluate_sjsdm_fold_predictions","summarise_sjsdm_fold_metrics","validate_config_allowed_values","load_config_value","diagnose_sjsdm_gpu_runtime","load_trait_domain_names_from_vegvault","data_combined_classification_table_traits","select_unclassified_taxa","vec_unique_trait_taxa","data_traits_corrected","flag_trait_outliers"],"to":[".load_decomposition_model_fitting_config",".load_successful_model_target",".resolve_sjsdm_device",".summarise_fossil_core_age_iterations","adapt_cross_validation_assignments","adapt_cross_validation_assignments","aggregate_colocated_community_records","aggregate_colocated_community_records","aggregate_colocated_community_records","aggregate_colocated_community_records","aggregate_colocated_community_records","aggregate_jsdm_variance_components","allocate_shapley_variance_components","assemble_sjsdm_cached_selected_folds","assess_sjsdm_staged_benchmark","assess_spatial_mev_paired_benchmark","build_community_record_signatures","build_community_taxon_trait_table","build_decomposition_environment_formula","build_land_prediction_grid","build_land_prediction_grid","build_sjsdm_common_regularization_artifact","build_sjsdm_common_regularization_artifacts","build_sjsdm_cumulative_tuning_work_items","build_sjsdm_tier_survivor_artifacts","build_sjsdm_tier_survivor_artifacts","build_sjsdm_tier_tuning_artifact","build_sjsdm_tier_tuning_artifacts","build_vegvault_plan","calibrate_cross_validation_grid_from_resolution","calibrate_cross_validation_grid_size","collect_sjsdm_available_tier_decisions","collect_sjsdm_available_tier_decisions","compute_predictive_decomposition_shares","compute_predictive_performance_shares","compute_shapley_variance_components","compute_shared_spatial_mev_basis","compute_spatial_mev","compute_spatial_mev_basis","compute_spatial_mev_basis","compute_spatial_mev_basis","data_aux_classification_table_traits","data_aux_classification_table_traits","data_classification_table_traits","data_classification_table_traits","data_combined_classification_table_traits","data_combined_classification_table_traits","data_combined_classification_table_traits","data_continental_rows","data_continental_rows","data_missing_trait_taxa_template","data_resolution_to_finest","data_resolution_to_finest","data_resolution_to_finest","data_trait_corrections_classified_validated","data_trait_corrections_classified_validated","data_trait_corrections_classified_validated","data_trait_corrections_validated","data_trait_corrections_validated","data_trait_corrections_validated","data_trait_table","data_trait_table","data_trait_taxa_classification","data_trait_taxa_classification","data_traits_aggregated","data_traits_aggregated","data_traits_classified","data_traits_classified","data_traits_classified_corrected","data_traits_classified_corrected","data_traits_classified_corrected","data_traits_continent","data_traits_continent","data_traits_continent","data_traits_corrected","data_traits_corrected","data_traits_corrected","data_traits_raw","deduplicate_modern_community_data","deduplicate_modern_community_data","deduplicate_modern_community_data","diagnose_colocated_community_records","diagnose_colocated_community_records","diagnose_colocated_community_records","diagnose_colocated_community_records","diagnose_duplicate_communities","diagnose_duplicate_metadata_keys","diagnose_duplicate_metadata_keys","diagnose_duplicate_sites","diagnose_modern_data_impossible_values","diagnose_modern_data_impossible_values","diagnose_r_architecture","diagnose_sjsdm_gpu_runtime","diagnose_sjsdm_setup","evaluate_binary_auc","evaluate_binary_brier_score","evaluate_binary_calibration","evaluate_binary_calibration","evaluate_binary_log_loss","evaluate_jsdm","evaluate_modern_data_quality","evaluate_modern_data_quality","evaluate_modern_data_quality","evaluate_modern_data_quality","evaluate_sjsdm_cross_validated_predictions","evaluate_sjsdm_cross_validated_predictions","evaluate_sjsdm_cross_validated_predictions","evaluate_sjsdm_fold_predictions","evaluate_sjsdm_fold_predictions","evaluate_sjsdm_fold_predictions","evaluate_sjsdm_fold_predictions","evaluate_sjsdm_fold_predictions","evaluate_tjur_r2","extract_prediction_climate","file_missing_trait_taxa_template","file_missing_trait_taxa_template","file_missing_trait_taxa_template","file_trait_corrections","file_trait_corrections_classified","fit_decomposition_variant","fit_decomposition_variant","fit_decomposition_variant","fit_jsdm_model","fit_jsdm_model","fit_jsdm_model","fit_jsdm_model","fit_sjsdm_regularization_candidate","flag_trait_taxa_classification_validated","flag_trait_taxa_classification_validated","interpolate_community_dataset_from_shared_inputs","interpolate_grouped_time_series","interpolate_grouped_time_series","interpolate_mev_to_grid","interpolate_paleo_community_with_age_uncertainty","interpolate_paleo_community_with_age_uncertainty","interpolate_st_mev_to_grid","list_trait_quality_control_report","list_trait_quality_control_report","list_trait_quality_control_report_classified","list_trait_quality_control_report_classified","load_active_config_value","load_continental_trait_records_from_vegvault","load_continental_trait_records_from_vegvault","load_continental_trait_records_from_vegvault","load_decomposition_diagnostic_inputs","load_decomposition_diagnostic_inputs","load_latest_functional_type_classification","load_latest_functional_type_classification","load_model_tuning_parameter_for_scale_and_resolution","load_model_tuning_parameter_for_scale_and_resolution","load_model_tuning_parameter_for_scale_and_resolution","load_model_tuning_parameters","load_spatial_model_results","load_spatial_model_results","load_spatial_model_results","load_spatial_model_results","load_spatial_model_results","load_spatial_model_results","load_spatial_model_results","load_spatial_model_results","load_spatial_model_results","load_spatial_resolution_prediction_inputs","load_spatial_resolution_prediction_inputs","load_trait_domain_names_from_vegvault","load_trait_records_from_vegvault","make_cross_validation_assignments_from_resolution","make_cross_validation_assignments_from_resolution","make_cross_validation_branch_assignments","make_cross_validation_branch_assignments","make_cross_validation_branch_assignments","make_cross_validation_grid_candidates_from_resolution","plot_spatial_variance_waffle","plot_variance_component_triangle_legend","predict_spatial_resolution_grid_age","predict_spatial_resolution_grid_age","predict_spatial_resolution_grid_age","predict_spatial_resolution_grid_age","predict_spatial_resolution_grid_age","predict_spatial_resolution_grid_age","prepare_age_column_from_rownames","prepare_community_proportions","prepare_community_proportions","prepare_dataset_name_column_from_rownames","prepare_decomposition_fold_input","prepare_decomposition_fold_input","prepare_decomposition_fold_input","prepare_fold_spatial_predictors","prepare_fold_spatial_predictors","prepare_fold_spatial_predictors","prepare_fold_spatial_predictors","prepare_fold_spatial_predictors","prepare_fold_spatial_predictors","prepare_fold_spatial_predictors","prepare_model_fold_input","prepare_model_fold_input","prepare_model_fold_input","prepare_model_fold_input","prepare_model_fold_input","prepare_model_fold_input","prepare_model_fold_input","prepare_sjsdm_cross_validation_fold","prepare_sjsdm_cross_validation_fold","prepare_sjsdm_cross_validation_fold","prepare_sjsdm_cross_validation_fold","prepare_sjsdm_cross_validation_fold","prepare_sjsdm_cross_validation_fold","prepare_sjsdm_tuning_folds","prepare_spatial_variance_waffle_data","prepare_spatial_variance_waffle_data","project_spatial_mev_basis","project_spatial_mev_basis","resolve_functional_type_classification_path","resolve_functional_type_classification_path_from_store","resolve_functional_type_classification_path_from_store","resolve_functional_type_classification_path_from_store","resolve_pipeline_store_path","run_decomposition_diagnostic_folds","run_decomposition_diagnostic_folds","run_decomposition_diagnostic_folds","run_decomposition_diagnostic_folds","run_decomposition_diagnostic_folds","run_decomposition_diagnostic_folds","run_decomposition_upstream_refresh","run_decomposition_upstream_refresh","run_issue138_representative_validation","run_issue138_representative_validation","run_issue138_representative_validation","run_pipeline","run_pipeline","run_pipeline","run_pipeline","run_pipeline","run_pipeline","run_pipeline","run_pipeline_interpolation_prebuild","run_pipeline_progress_monitor","run_pipeline_progress_monitor","run_pipeline_progress_monitor","run_pipeline_units_with_status","run_sjsdm_common_regularization_sensitivity","run_sjsdm_common_regularization_sensitivity","run_sjsdm_common_regularization_sensitivity","run_sjsdm_common_regularization_sensitivity","run_sjsdm_cross_tier_sensitivity","run_sjsdm_cross_tier_sensitivity","run_sjsdm_predictor_structure_folds","run_sjsdm_predictor_structure_folds","run_sjsdm_predictor_structure_folds","run_sjsdm_predictor_structure_folds","run_sjsdm_predictor_structure_folds","run_sjsdm_selected_candidate_folds","run_sjsdm_tuning_candidates","run_sjsdm_tuning_candidates","run_sjsdm_tuning_candidates","run_sjsdm_tuning_fold_candidates","run_sjsdm_tuning_sequence","run_sjsdm_tuning_sequence","run_sjsdm_tuning_sequence","run_sjsdm_tuning_work_item","run_sjsdm_tuning_work_item","run_sjsdm_tuning_work_item","run_spatial_mev_paired_cv_fixture","run_spatial_mev_paired_cv_fixture","run_spatial_mev_paired_cv_fixture","run_spatial_mev_paired_cv_fixture","save_missing_taxa_template","save_pipeline_progress_visualisation","save_pipeline_progress_visualisation","score_sjsdm_joint_tuning_predictions","score_sjsdm_tuning_predictions","select_decomposition_route_samples","select_decomposition_route_samples","select_functional_type_group_count","select_functional_type_group_count","select_functional_type_group_count","select_functional_type_group_count","select_functional_type_group_count","select_functional_type_group_count","summarise_decomposition_diagnostic_routes","summarise_decomposition_diagnostic_routes","summarise_decomposition_diagnostic_routes","summarise_spatial_mev_benchmark_predictions","summarise_spatial_mev_benchmark_predictions","validate_config_profile_selection","validate_config_profile_selection","validate_sjsdm_gpu_runtime","vec_trait_domain_names","vec_trait_taxa_without_classification","vec_trait_taxa_without_classification","vec_trait_taxa_without_classification","vec_unique_trait_taxa","write_trait_quality_control_report"],"color":["#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#354823","#7500D1","#7500D1","#7500D1","#7500D1","#7500D1","#354823"],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":true,"font":{"color":"#E6EDF3","face":"IBM Plex Mono, monospace"}},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"},"color":{"color":"#2A3441","highlight":"#8DF59A","hover":"#48C7B8"},"font":{"color":"#98A6B3","strokeWidth":0}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"levelSeparation":100,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Skipped","Function","Object","Regular\ntarget","Dynamic\nbranches"],"color":["#354823","#7500D1","#899DA4","#899DA4","#899DA4","#899DA4"],"shape":["dot","dot","triangle","triangleDown","dot","square"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
+<script type="application/htmlwidget-sizing" data-for="htmlwidget-dd2f9f0a1a8a6c28aac0">{"viewer":{"width":450,"height":350,"padding":15,"fill":true},"browser":{"width":960,"height":500,"padding":40,"fill":false}}</script>
 </body>
 </html>
