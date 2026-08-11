@@ -1,5 +1,5 @@
 testthat::test_that(
-  "assess_sjsdm_candidate_guardrails() accepts stable improvement",
+  "evaluate_sjsdm_candidate_guardrails() accepts stable improvement",
   {
     data_tuning <-
       tidyr::crossing(
@@ -50,7 +50,7 @@ testthat::test_that(
     }
 
     res <-
-      assess_sjsdm_candidate_guardrails(
+      evaluate_sjsdm_candidate_guardrails(
         data_tuning_summary = data_tuning,
         data_candidate_repeat_metrics = make_metrics("candidate"),
         data_reference_repeat_metrics = make_metrics("reference"),
@@ -74,7 +74,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assess_sjsdm_candidate_guardrails() exposes every failed rule",
+  "evaluate_sjsdm_candidate_guardrails() exposes every failed rule",
   {
     data_tuning <-
       tibble::tibble(
@@ -123,7 +123,7 @@ testthat::test_that(
     }
 
     res <-
-      assess_sjsdm_candidate_guardrails(
+      evaluate_sjsdm_candidate_guardrails(
         data_tuning_summary = data_tuning,
         data_candidate_repeat_metrics = make_metrics("candidate"),
         data_reference_repeat_metrics = make_metrics("reference"),
@@ -156,7 +156,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assess_sjsdm_candidate_guardrails() rejects incomplete repeat metrics",
+  "evaluate_sjsdm_candidate_guardrails() rejects incomplete repeat metrics",
   {
     data_tuning <-
       tidyr::crossing(
@@ -195,7 +195,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      assess_sjsdm_candidate_guardrails(
+      evaluate_sjsdm_candidate_guardrails(
         data_tuning_summary = data_tuning,
         data_candidate_repeat_metrics = data_incomplete,
         data_reference_repeat_metrics = data_metrics,

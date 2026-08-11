@@ -3,7 +3,7 @@
 #' Fits, predicts, and scores one deterministic candidate/fold work item using
 #' a previously prepared fold.
 #' @param data_work_item
-#' One-row work item from [make_sjsdm_tuning_branch_work_items()]. The optional
+#' One-row work item from [build_sjsdm_tuning_branch_work_items()]. The optional
 #' `tuning_applicable = FALSE` sentinel returns without fitting.
 #' @param list_prepared_folds
 #' Prepared fold list from [prepare_sjsdm_tuning_folds()].
@@ -76,9 +76,7 @@ run_sjsdm_tuning_work_item <- function(
     !tuning_applicable
   ) {
     data_empty_tuning <-
-      combine_sjsdm_tuning_work_items(
-        list_work_item_results = base::list()
-      ) |>
+      build_sjsdm_empty_tuning_result() |>
       purrr::chuck("data_tuning")
 
     res_not_applicable <-
@@ -103,45 +101,133 @@ run_sjsdm_tuning_work_item <- function(
     cli::cli_abort("The work item's prepared fold is unavailable.")
   }
 
-  prepare_cached_fold <- function(...) {
-    if (
-      list_prepared_record[["preparation_status"]] != "ok"
-    ) {
-      base::stop(list_prepared_record[["error_message"]])
-    }
-
-    return(list_prepared_record[["list_prepared_fold"]])
-  }
-
-  list_result <-
-    run_sjsdm_tuning_fold_candidates(
-      data_candidates = data_work_item |>
-        dplyr::select(
-          "candidate_id",
-          dplyr::all_of(vec_parameter_columns)
-        ),
-      list_fold_context =
-        list_prepared_record[["list_fold_context"]],
-      prepare_fold_function = prepare_cached_fold,
-      fit_function = fit_function,
-      predict_function = predict_function,
-      score_function = score_function,
-      seed = data_work_item[["tuning_seed"]][[1L]],
-      epsilon = epsilon,
-      retain_prediction_cache = TRUE
+  data_candidate <-
+    data_work_item |>
+    dplyr::select(
+      "candidate_id",
+      dplyr::all_of(vec_parameter_columns)
     )
 
-  list_result[["list_prediction_cache"]][[
-    "preparation_seconds"
-  ]] <-
-    list_prepared_record[["preparation_seconds"]]
+  list_fold_context <-
+    list_prepared_record[["list_fold_context"]]
+
+  list_prepared_fold <-
+    list_prepared_record[["list_prepared_fold"]]
+
+  vec_required_fold_elements <-
+    base::c(
+      "data_train_input",
+      "data_test_input",
+      "data_train_observed",
+      "data_test_observed",
+      "data_test_observed_full",
+      "test_sample_ids",
+      "data_taxa_mapping"
+    )
+
+  flag_valid_preparation <-
+    base::identical(
+      list_prepared_record[["preparation_status"]],
+      "ok"
+    ) &&
+    base::is.list(list_prepared_fold) &&
+    base::all(
+      vec_required_fold_elements %in% base::names(list_prepared_fold)
+    ) &&
+    base::is.matrix(list_prepared_fold[["data_test_observed"]])
+
+  if (
+    !flag_valid_preparation
+  ) {
+    error_message <-
+      if (
+        base::identical(
+          list_prepared_record[["preparation_status"]],
+          "ok"
+        )
+      ) {
+        "Fold preparation returned an invalid result."
+      } else {
+        list_prepared_record[["error_message"]]
+      }
+
+    list_candidate_result <-
+      build_sjsdm_candidate_fold_result(
+        data_candidate = data_candidate,
+        list_fold_context = list_fold_context,
+        fit_status = "preparation_error",
+        error_message = error_message
+      )
+
+    list_prediction_cache <-
+      base::list(
+        list_fold_context = list_fold_context,
+        list_prepared_fold = NULL,
+        preparation_seconds =
+          list_prepared_record[["preparation_seconds"]],
+        list_candidate_predictions = base::list()
+      )
+  } else {
+    list_candidate_result <-
+      run_sjsdm_prepared_tuning_candidate(
+        data_candidate = data_candidate,
+        list_prepared_fold = list_prepared_fold,
+        list_fold_context = list_fold_context,
+        fit_function = fit_function,
+        predict_function = predict_function,
+        score_function = score_function,
+        seed = data_work_item[["tuning_seed"]][[1L]],
+        epsilon = epsilon
+      )
+
+    vec_cache_fold_elements <-
+      base::c(
+        "data_train_observed",
+        "data_test_observed",
+        "data_test_observed_full",
+        "test_sample_ids",
+        "data_taxa_mapping",
+        "data_spatial_diagnostics"
+      )
+
+    list_prepared_fold_cache <-
+      list_prepared_fold[
+        base::intersect(
+          vec_cache_fold_elements,
+          base::names(list_prepared_fold)
+        )
+      ]
+
+    data_spatial_train <-
+      list_prepared_fold[["data_train_input"]][[
+        "data_spatial_to_fit"
+      ]]
+
+    list_prepared_fold_cache[["n_effective_mev"]] <-
+      if (
+        base::is.null(data_spatial_train)
+      ) {
+        0L
+      } else {
+        base::ncol(data_spatial_train)
+      }
+
+    list_prediction_cache <-
+      base::list(
+        list_fold_context = list_fold_context,
+        list_prepared_fold = list_prepared_fold_cache,
+        preparation_seconds =
+          list_prepared_record[["preparation_seconds"]],
+        list_candidate_predictions =
+          base::list(list_candidate_result[["list_prediction"]])
+      )
+  }
 
   res <-
     base::list(
       work_item_id = data_work_item[["work_item_id"]][[1L]],
-      data_tuning = list_result[["data_tuning"]],
-      list_prediction_cache =
-        list_result[["list_prediction_cache"]]
+      data_tuning = list_candidate_result[["data_tuning"]],
+      list_prediction_cache = list_prediction_cache
     )
 
   return(res)

@@ -6,7 +6,7 @@
 #' Location-level assignment table with `repeat_id`, `fold_id`, `location_id`,
 #' `n_samples`, and `row_indices`. Optional `cv_strategy` is propagated.
 #' @param data_candidates
-#' Candidate table returned by [make_sjsdm_regularization_candidates()].
+#' Candidate table returned by [build_sjsdm_regularization_candidates()].
 #' @param prepare_fold_function
 #' Injectable function called with `train_indices`, `test_indices`,
 #' `repeat_id`, and `fold_id`. It must return `data_train_input`,
@@ -270,7 +270,7 @@ run_sjsdm_tuning_candidates <- function(
       .y = data_fold_keys[["fold_id"]],
       .f = ~ {
         list_fold_context <-
-          make_sjsdm_tuning_fold_context(
+          build_sjsdm_tuning_fold_context(
             data_assignments = data_assignments,
             repeat_id = .x,
             fold_id = .y

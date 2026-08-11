@@ -3,9 +3,9 @@
 #' Prepares one fold once, then fits, predicts, and scores every regularization
 #' candidate while preserving failures as compact status rows.
 #' @param data_candidates
-#' Candidate table returned by [make_sjsdm_regularization_candidates()].
+#' Candidate table returned by [build_sjsdm_regularization_candidates()].
 #' @param list_fold_context
-#' Fold metadata returned by [make_sjsdm_tuning_fold_context()].
+#' Fold metadata returned by [build_sjsdm_tuning_fold_context()].
 #' @param prepare_fold_function,fit_function,predict_function,score_function
 #' Injectable fold preparation, fit, prediction, and scoring functions
 #' documented by
@@ -242,254 +242,24 @@ run_sjsdm_tuning_fold_candidates <- function(
     return(data_fold_candidates)
   }
 
-  data_observed <-
-    list_fold[["data_test_observed"]]
-
   list_candidate_results <-
-    data_fold_candidates |>
+    data_candidates |>
     dplyr::mutate(candidate_index = base::seq_len(dplyr::n())) |>
     dplyr::group_split(.data[["candidate_index"]]) |>
     purrr::map(
-      .f = ~ {
-        data_result <-
-          .x |>
-          dplyr::select(-"candidate_index")
-
-        candidate_id <-
-          .x[["candidate_id"]][[1L]]
-
-        fit_seed_value <-
-          stringr::str_c(
-            seed,
-            list_fold_context[["repeat_id"]],
-            list_fold_context[["fold_id"]],
-            candidate_id,
-            "fit",
-            sep = "|"
-          ) |>
-          digest::digest2int() |>
-          base::as.double() |>
-          base::`%%`(.Machine[["integer.max"]]) |>
-          base::as.integer()
-
-        score_seed_value <-
-          stringr::str_c(
-            seed,
-            list_fold_context[["repeat_id"]],
-            list_fold_context[["fold_id"]],
-            candidate_id,
-            "score",
-            sep = "|"
-          ) |>
-          digest::digest2int() |>
-          base::as.double() |>
-          base::`%%`(.Machine[["integer.max"]]) |>
-          base::as.integer()
-
-        data_candidate <-
-          data_result |>
-          dplyr::select(dplyr::all_of(vec_candidate_columns))
-
-        fit_started <-
-          base::proc.time()[["elapsed"]]
-
-        mod_fit <-
-          tryCatch(
-            expr = {
-              fit_function(
-                data_train_input = list_fold[["data_train_input"]],
-                candidate = data_candidate,
-                seed = fit_seed_value
-              )
-            },
-            error = function(error_condition) {
-              error_condition
-            }
-          )
-
-        fit_seconds <-
-          base::proc.time()[["elapsed"]] - fit_started
-
-        data_result[["fit_seed"]] <-
-          fit_seed_value
-
-        data_result[["score_seed"]] <-
-          score_seed_value
-
-        if (
-          base::inherits(mod_fit, "error")
-        ) {
-          data_result[["fit_status"]] <-
-            "fit_error"
-
-          data_result[["error_message"]] <-
-            base::conditionMessage(mod_fit)
-
-          return(
-            base::list(
-              data_tuning = data_result,
-              list_prediction = base::list(
-                candidate_id = candidate_id,
-                fit_seed = fit_seed_value,
-                fit_status = "fit_error",
-                error_message = base::conditionMessage(mod_fit),
-                data_predicted = NULL,
-                fit_seconds = fit_seconds,
-                prediction_seconds = NA_real_,
-                scoring_seconds = NA_real_
-              )
-            )
-          )
-
-        }
-
-        prediction_started <-
-          base::proc.time()[["elapsed"]]
-
-        data_predicted <-
-          tryCatch(
-            expr = {
-              predict_function(
-                object = mod_fit,
-                data_test_input = list_fold[["data_test_input"]]
-              )
-            },
-            error = function(error_condition) {
-              error_condition
-            }
-          )
-
-        prediction_seconds <-
-          base::proc.time()[["elapsed"]] - prediction_started
-
-        if (
-          base::inherits(data_predicted, "error")
-        ) {
-          data_result[["fit_status"]] <-
-            "prediction_error"
-
-          data_result[["error_message"]] <-
-            base::conditionMessage(data_predicted)
-
-          return(
-            base::list(
-              data_tuning = data_result,
-              list_prediction = base::list(
-                candidate_id = candidate_id,
-                fit_seed = fit_seed_value,
-                fit_status = "prediction_error",
-                error_message =
-                  base::conditionMessage(data_predicted),
-                data_predicted = NULL,
-                fit_seconds = fit_seconds,
-                prediction_seconds = prediction_seconds,
-                scoring_seconds = NA_real_
-              )
-            )
-          )
-
-        }
-
-        scoring_started <-
-          base::proc.time()[["elapsed"]]
-
-        data_metrics <-
-          tryCatch(
-            expr = {
-              score_arguments <-
-                base::list(
-                  object = mod_fit,
-                  data_test_input = list_fold[["data_test_input"]],
-                  data_observed = data_observed,
-                  data_predicted = data_predicted,
-                  epsilon = epsilon
-                )
-
-              score_formal_names <-
-                base::names(base::formals(score_function))
-
-              if (
-                "score_seed" %in% score_formal_names ||
-                  "..." %in% score_formal_names
-              ) {
-                score_arguments[["score_seed"]] <-
-                  score_seed_value
-              }
-
-              base::do.call(
-                what = score_function,
-                args = score_arguments
-              )
-            },
-            error = function(error_condition) {
-              error_condition
-            }
-          )
-
-        scoring_seconds <-
-          base::proc.time()[["elapsed"]] - scoring_started
-
-        if (
-          base::inherits(data_metrics, "error")
-        ) {
-          data_result[["fit_status"]] <-
-            "scoring_error"
-
-          data_result[["error_message"]] <-
-            base::conditionMessage(data_metrics)
-
-          return(
-            base::list(
-              data_tuning = data_result,
-              list_prediction = base::list(
-                candidate_id = candidate_id,
-                fit_seed = fit_seed_value,
-                fit_status = "scoring_error",
-                error_message = base::conditionMessage(data_metrics),
-                data_predicted = base::as.matrix(data_predicted),
-                fit_seconds = fit_seconds,
-                prediction_seconds = prediction_seconds,
-                scoring_seconds = scoring_seconds
-              )
-            )
-          )
-
-        }
-
-        vec_metric_names <-
-          base::c(
-            "n_taxa_retained",
-            "n_response_values",
-            "negative_log_likelihood_test",
-            "negative_log_likelihood_per_response",
-            "auc_macro_test"
-          )
-
-        data_result[vec_metric_names] <-
-          data_metrics[vec_metric_names]
-
-        data_result[["fit_status"]] <-
-          "ok"
-
-        data_result[["error_message"]] <-
-          NA_character_
-
-        return(
-          base::list(
-            data_tuning = data_result,
-            list_prediction = base::list(
-              candidate_id = candidate_id,
-              fit_seed = fit_seed_value,
-              fit_status = "ok",
-              error_message = NA_character_,
-              data_predicted = base::as.matrix(data_predicted),
-              fit_seconds = fit_seconds,
-              prediction_seconds = prediction_seconds,
-              scoring_seconds = scoring_seconds
-            )
-          )
-        )
-      }
+      .f = ~ run_sjsdm_prepared_tuning_candidate(
+        data_candidate = dplyr::select(
+          .data = .x,
+          dplyr::all_of(vec_candidate_columns)
+        ),
+        list_prepared_fold = list_fold,
+        list_fold_context = list_fold_context,
+        fit_function = fit_function,
+        predict_function = predict_function,
+        score_function = score_function,
+        seed = seed,
+        epsilon = epsilon
+      )
     )
 
   data_tuning <-

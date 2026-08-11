@@ -23,7 +23,7 @@
 #' loss, and Brier score in every repeat, and the scientific Tjur R2 gate.
 #' @examples
 #' \dontrun{
-#' assess_sjsdm_candidate_guardrails(
+#' evaluate_sjsdm_candidate_guardrails(
 #'   data_tuning_summary = data_tuning,
 #'   data_candidate_repeat_metrics = data_candidate_metrics,
 #'   data_reference_repeat_metrics = data_reference_metrics,
@@ -32,7 +32,7 @@
 #' )
 #' }
 #' @export
-assess_sjsdm_candidate_guardrails <- function(
+evaluate_sjsdm_candidate_guardrails <- function(
     data_tuning_summary = NULL,
     data_candidate_repeat_metrics = NULL,
     data_reference_repeat_metrics = NULL,
@@ -105,56 +105,19 @@ assess_sjsdm_candidate_guardrails <- function(
     msg = "data_tuning_summary is missing required columns."
   )
 
-  prepare_tuning_candidate <- function(selected_candidate_id, suffix) {
-    data_selected <-
-      data_tuning_summary |>
-      dplyr::filter(
-        .data[["candidate_id"]] == selected_candidate_id
-      ) |>
-      dplyr::select(
-        "repeat_id",
-        "negative_log_likelihood_per_response",
-        "auc_macro_test",
-        "summary_status"
-      )
-
-    data_duplicate_repeats <-
-      data_selected |>
-      dplyr::count(.data[["repeat_id"]]) |>
-      dplyr::filter(.data[["n"]] != 1L)
-
-    if (
-      base::nrow(data_selected) == 0L ||
-      base::nrow(data_duplicate_repeats) > 0L ||
-      !base::all(data_selected[["summary_status"]] == "ok") ||
-      !base::all(
-        base::is.finite(
-          data_selected[["negative_log_likelihood_per_response"]]
-        )
-      ) ||
-      !base::all(base::is.finite(data_selected[["auc_macro_test"]]))
-    ) {
-      cli::cli_abort(
-        "Each assessed candidate must have one complete row per repeat."
-      )
-    }
-
-    res_selected <-
-      data_selected |>
-      dplyr::select(-"summary_status") |>
-      dplyr::rename_with(
-        ~ stringr::str_c(.x, suffix),
-        -"repeat_id"
-      )
-
-    return(res_selected)
-  }
-
   data_candidate_tuning <-
-    prepare_tuning_candidate(candidate_id, "_candidate")
+    prepare_sjsdm_guardrail_tuning_candidate(
+      data_tuning_summary = data_tuning_summary,
+      selected_candidate_id = candidate_id,
+      suffix = "_candidate"
+    )
 
   data_reference_tuning <-
-    prepare_tuning_candidate(reference_candidate_id, "_reference")
+    prepare_sjsdm_guardrail_tuning_candidate(
+      data_tuning_summary = data_tuning_summary,
+      selected_candidate_id = reference_candidate_id,
+      suffix = "_reference"
+    )
 
   data_tuning_comparison <-
     dplyr::inner_join(
@@ -213,85 +176,18 @@ assess_sjsdm_candidate_guardrails <- function(
   vec_guardrail_metrics <-
     base::c("auc", "brier_score", "log_loss", "tjur_r2")
 
-  prepare_repeat_metrics <- function(data_metrics, suffix) {
-    data_selected <-
-      data_metrics |>
-      dplyr::filter(
-        .data[["prediction_source"]] == "model",
-        .data[["aggregation_id"]] == "fold_macro",
-        .data[["metric_id"]] %in% vec_guardrail_metrics
-      ) |>
-      dplyr::select("repeat_id", "metric_id", "estimate")
-
-    data_duplicate_metrics <-
-      data_selected |>
-      dplyr::count(
-        .data[["repeat_id"]],
-        .data[["metric_id"]]
-      ) |>
-      dplyr::filter(.data[["n"]] != 1L)
-
-    if (
-      base::nrow(data_duplicate_metrics) > 0L ||
-      base::nrow(data_selected) == 0L ||
-      !base::all(base::is.finite(data_selected[["estimate"]]))
-    ) {
-      cli::cli_abort(
-        "Repeat metrics must be unique, complete, and finite."
-      )
-    }
-
-    data_wide <-
-      data_selected |>
-      tidyr::pivot_wider(
-        names_from = "metric_id",
-        values_from = "estimate"
-      )
-
-    flag_all_metric_columns <-
-      base::all(vec_guardrail_metrics %in% base::colnames(data_wide))
-
-    flag_complete_repeat_metrics <-
-      flag_all_metric_columns &&
-      base::all(
-        base::is.finite(
-          base::as.matrix(
-            dplyr::select(
-              data_wide,
-              dplyr::all_of(vec_guardrail_metrics)
-            )
-          )
-        )
-      )
-
-    if (
-      !flag_complete_repeat_metrics
-    ) {
-      cli::cli_abort(
-        "Every repeat must contain every guardrail metric."
-      )
-    }
-
-    res_wide <-
-      data_wide |>
-      dplyr::rename_with(
-        ~ stringr::str_c(.x, suffix),
-        -"repeat_id"
-      )
-
-    return(res_wide)
-  }
-
   data_candidate_refit <-
-    prepare_repeat_metrics(
-      data_candidate_repeat_metrics,
-      "_candidate"
+    prepare_sjsdm_guardrail_repeat_metrics(
+      data_metrics = data_candidate_repeat_metrics,
+      suffix = "_candidate",
+      guardrail_metrics = vec_guardrail_metrics
     )
 
   data_reference_refit <-
-    prepare_repeat_metrics(
-      data_reference_repeat_metrics,
-      "_reference"
+    prepare_sjsdm_guardrail_repeat_metrics(
+      data_metrics = data_reference_repeat_metrics,
+      suffix = "_reference",
+      guardrail_metrics = vec_guardrail_metrics
     )
 
   data_refit_comparison <-

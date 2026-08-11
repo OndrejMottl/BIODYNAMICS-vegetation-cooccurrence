@@ -7,7 +7,7 @@
 #' [run_sjsdm_tuning_candidates()].
 #' @param data_candidates
 #' Candidate table returned by
-#' [make_sjsdm_regularization_candidates()].
+#' [build_sjsdm_regularization_candidates()].
 #' @param seed
 #' Non-negative base integer used by the tuning engine.
 #' @return

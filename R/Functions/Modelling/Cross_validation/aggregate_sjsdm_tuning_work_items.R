@@ -8,7 +8,7 @@
 #' Named list with `data_tuning` and `list_prediction_cache`, matching the rich
 #' return contract of [run_sjsdm_tuning_candidates()].
 #' @export
-combine_sjsdm_tuning_work_items <- function(
+aggregate_sjsdm_tuning_work_items <- function(
     list_work_item_results = NULL) {
   assertthat::assert_that(
     base::is.list(list_work_item_results),
@@ -29,37 +29,7 @@ combine_sjsdm_tuning_work_items <- function(
     base::length(list_work_item_results) == 0L ||
       flag_all_results_empty
   ) {
-    return(
-      base::list(
-        data_tuning = tibble::tibble(
-          repeat_id = base::integer(),
-          fold_id = base::integer(),
-          candidate_id = base::character(),
-          alpha_cov = base::numeric(),
-          alpha_coef = base::numeric(),
-          alpha_spatial = base::numeric(),
-          lambda_cov = base::numeric(),
-          lambda_coef = base::numeric(),
-          lambda_spatial = base::numeric(),
-          fit_seed = base::integer(),
-          score_seed = base::integer(),
-          n_train_locations = base::integer(),
-          n_test_locations = base::integer(),
-          n_train_samples = base::integer(),
-          n_test_samples = base::integer(),
-          n_taxa_retained = base::integer(),
-          n_response_values = base::integer(),
-          negative_log_likelihood_test = base::numeric(),
-          negative_log_likelihood_per_response = base::numeric(),
-          auc_macro_test = base::numeric(),
-          fit_status = base::character(),
-          error_message = base::character(),
-          cv_strategy = base::character(),
-          regularization_source = base::character()
-        ),
-        list_prediction_cache = base::list()
-      )
-    )
+    return(build_sjsdm_empty_tuning_result())
   }
 
   flag_valid_results <-

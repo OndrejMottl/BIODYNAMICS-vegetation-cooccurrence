@@ -11,7 +11,7 @@ testthat::test_that(
       )
 
     data_candidates <-
-      make_sjsdm_regularization_candidates(
+      build_sjsdm_regularization_candidates(
         alpha_cov = 0.5,
         alpha_coef = 0.5,
         alpha_spatial = 0.5,
@@ -53,7 +53,7 @@ testthat::test_that(
       )
 
     data_candidates <-
-      make_sjsdm_regularization_candidates(lambda_cov = 0)
+      build_sjsdm_regularization_candidates(lambda_cov = 0)
 
     prepare_fold_function <- function(...) {
       data_observed <-
@@ -134,7 +134,7 @@ testthat::test_that(
       )
 
     data_candidates <-
-      make_sjsdm_regularization_candidates(
+      build_sjsdm_regularization_candidates(
         lambda_cov = base::c(0, 0.1)
       )
 
@@ -409,7 +409,7 @@ testthat::test_that(
       )
 
     data_candidates <-
-      make_sjsdm_regularization_candidates(
+      build_sjsdm_regularization_candidates(
         lambda_cov = base::c(0, 0.1)
       )
 
@@ -506,7 +506,7 @@ testthat::test_that(
       )
 
     data_candidates <-
-      make_sjsdm_regularization_candidates(lambda_cov = 0)
+      build_sjsdm_regularization_candidates(lambda_cov = 0)
 
     prepare_fold_function <- function(
         train_indices,

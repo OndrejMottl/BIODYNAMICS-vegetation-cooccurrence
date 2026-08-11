@@ -2,7 +2,7 @@ testthat::test_that(
   "run_sjsdm_tuning_fold_candidates() retains preparation errors",
   {
     data_candidates <-
-      make_sjsdm_regularization_candidates(
+      build_sjsdm_regularization_candidates(
         lambda_cov = base::c(0, 0.1)
       )
 
@@ -56,7 +56,7 @@ testthat::test_that(
   "run_sjsdm_tuning_fold_candidates() retains downstream errors",
   {
     data_candidates <-
-      make_sjsdm_regularization_candidates(
+      build_sjsdm_regularization_candidates(
         lambda_cov = base::c(0, 0.1)
       )
 
@@ -234,7 +234,7 @@ testthat::test_that(
   "run_sjsdm_tuning_fold_candidates() retains compact predictions",
   {
     data_candidates <-
-      make_sjsdm_regularization_candidates(
+      build_sjsdm_regularization_candidates(
         lambda_cov = base::c(0, 0.1)
       )
 
