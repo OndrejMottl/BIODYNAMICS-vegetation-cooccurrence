@@ -1,5 +1,5 @@
 testthat::test_that(
-  "make_leave_one_location_out_assignments() preserves locations",
+  "build_leave_one_location_out_assignments() preserves locations",
   {
     data_locations <-
       tibble::tibble(
@@ -15,7 +15,7 @@ testthat::test_that(
       )
 
     data_assignments <-
-      make_leave_one_location_out_assignments(
+      build_leave_one_location_out_assignments(
         data_locations = data_locations,
         repeat_id = 2L
       )
@@ -56,7 +56,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_leave_one_location_out_assignments() validates row coverage",
+  "build_leave_one_location_out_assignments() validates row coverage",
   {
     data_locations <-
       tibble::tibble(
@@ -66,7 +66,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      make_leave_one_location_out_assignments(data_locations),
+      build_leave_one_location_out_assignments(data_locations),
       "exactly one location"
     )
   }

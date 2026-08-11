@@ -3,7 +3,7 @@
 #' Assigns each complete sampling location to its own held-out fold using the
 #' shared cross-validation assignment schema.
 #' @param data_locations
-#' Location table returned by [make_cross_validation_location_table()] with
+#' Location table returned by [build_cross_validation_location_table()] with
 #' `location_id`, `n_samples`, and `row_indices` columns.
 #' @param repeat_id
 #' Single positive integer identifying the assignment repeat. Defaults to
@@ -19,9 +19,9 @@
 #'     n_samples = c(2L, 1L),
 #'     row_indices = list(c(1L, 2L), 3L)
 #'   )
-#' make_leave_one_location_out_assignments(data_locations)
+#' build_leave_one_location_out_assignments(data_locations)
 #' @export
-make_leave_one_location_out_assignments <- function(
+build_leave_one_location_out_assignments <- function(
     data_locations = NULL,
     repeat_id = 1L) {
   assertthat::assert_that(

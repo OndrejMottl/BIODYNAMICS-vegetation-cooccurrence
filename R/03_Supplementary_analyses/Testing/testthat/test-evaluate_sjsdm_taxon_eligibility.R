@@ -1,5 +1,5 @@
 testthat::test_that(
-  "assess_sjsdm_taxon_eligibility() applies declared fold rules",
+  "evaluate_sjsdm_taxon_eligibility() applies declared fold rules",
   {
     data_metrics <-
       tidyr::crossing(
@@ -33,7 +33,7 @@ testthat::test_that(
       )
 
     res <-
-      assess_sjsdm_taxon_eligibility(data_fold_metrics = data_metrics)
+      evaluate_sjsdm_taxon_eligibility(data_fold_metrics = data_metrics)
 
     testthat::expect_equal(
       dplyr::filter(res, .data[["taxon"]] == "eligible") |>
@@ -60,7 +60,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assess_sjsdm_taxon_eligibility() reports combined failures",
+  "evaluate_sjsdm_taxon_eligibility() reports combined failures",
   {
     data_metrics <-
       tibble::tibble(
@@ -78,7 +78,7 @@ testthat::test_that(
       )
 
     res <-
-      assess_sjsdm_taxon_eligibility(data_fold_metrics = data_metrics)
+      evaluate_sjsdm_taxon_eligibility(data_fold_metrics = data_metrics)
 
     testthat::expect_false(res[["eligible"]])
     testthat::expect_equal(
@@ -89,7 +89,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assess_sjsdm_taxon_eligibility() validates thresholds",
+  "evaluate_sjsdm_taxon_eligibility() validates thresholds",
   {
     data_empty <-
       tibble::tibble(
@@ -107,7 +107,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      assess_sjsdm_taxon_eligibility(
+      evaluate_sjsdm_taxon_eligibility(
         data_fold_metrics = data_empty,
         minimum_prevalence = 0.6,
         maximum_prevalence = 0.4
@@ -118,7 +118,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assess_sjsdm_taxon_eligibility() excludes non-ok finite estimates",
+  "evaluate_sjsdm_taxon_eligibility() excludes non-ok finite estimates",
   {
     data_metrics <-
       tibble::tibble(
@@ -136,7 +136,7 @@ testthat::test_that(
       )
 
     res <-
-      assess_sjsdm_taxon_eligibility(
+      evaluate_sjsdm_taxon_eligibility(
         data_fold_metrics = data_metrics,
         minimum_evaluable_fraction = 0.5
       )

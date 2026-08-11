@@ -3,7 +3,7 @@
 #' Assigns complete sampling locations to deterministic spatially stratified
 #' folds while balancing grid-cell coverage, location counts, and sample counts.
 #' @param data_locations
-#' Location table returned by [make_cross_validation_location_table()] with
+#' Location table returned by [build_cross_validation_location_table()] with
 #' projected coordinates, sample counts, and sample-row indices.
 #' @param n_folds
 #' Single integer greater than one and no greater than the location count.
@@ -34,13 +34,13 @@
 #'     n_samples = rep(1L, 4L),
 #'     row_indices = list(1L, 2L, 3L, 4L)
 #'   )
-#' make_spatial_cross_validation_assignments(
+#' build_spatial_cross_validation_assignments(
 #'   data_locations = data_locations,
 #'   n_folds = 2L,
 #'   grid_cell_size_km = 5
 #' )
 #' @export
-make_spatial_cross_validation_assignments <- function(
+build_spatial_cross_validation_assignments <- function(
     data_locations = NULL,
     n_folds = 5L,
     n_repeats = 1L,

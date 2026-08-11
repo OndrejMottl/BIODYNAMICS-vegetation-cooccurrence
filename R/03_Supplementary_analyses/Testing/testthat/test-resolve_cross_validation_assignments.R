@@ -1,5 +1,5 @@
 testthat::test_that(
-  "adapt_cross_validation_assignments() falls back to LOO",
+  "resolve_cross_validation_assignments() falls back to LOO",
   {
     data_locations <-
       tibble::tibble(
@@ -37,7 +37,7 @@ testthat::test_that(
       )
 
     data_adapted <-
-      adapt_cross_validation_assignments(
+      resolve_cross_validation_assignments(
         data_locations = data_locations,
         data_assignments = data_assignments,
         data_partition_diagnostics = data_diagnostics,
@@ -64,7 +64,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "adapt_cross_validation_assignments() preserves feasible grouped folds",
+  "resolve_cross_validation_assignments() preserves feasible grouped folds",
   {
     data_locations <-
       tibble::tibble(
@@ -102,7 +102,7 @@ testthat::test_that(
       )
 
     data_adapted <-
-      adapt_cross_validation_assignments(
+      resolve_cross_validation_assignments(
         data_locations = data_locations,
         data_assignments = data_assignments,
         data_partition_diagnostics = data_diagnostics,
@@ -117,10 +117,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "adapt_cross_validation_assignments() validates provenance",
+  "resolve_cross_validation_assignments() validates provenance",
   {
     testthat::expect_error(
-      adapt_cross_validation_assignments(
+      resolve_cross_validation_assignments(
         data_locations = tibble::tibble(location_id = "a"),
         data_assignments = tibble::tibble(),
         data_partition_diagnostics = tibble::tibble(),

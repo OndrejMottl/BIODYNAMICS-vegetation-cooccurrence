@@ -1,5 +1,5 @@
 testthat::test_that(
-  "make_cross_validation_location_table() preserves whole locations",
+  "build_cross_validation_location_table() preserves whole locations",
   {
     data_sample_ids <-
       tibble::tibble(
@@ -15,7 +15,7 @@ testthat::test_that(
       )
 
     data_locations <-
-      make_cross_validation_location_table(
+      build_cross_validation_location_table(
         data_sample_ids = data_sample_ids,
         data_coords_projected = data_coords_projected
       )
@@ -51,7 +51,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_location_table() supports modern plots",
+  "build_cross_validation_location_table() supports modern plots",
   {
     data_sample_ids <-
       tibble::tibble(plot_id = base::c("plot_1", "plot_2", "plot_3"))
@@ -64,7 +64,7 @@ testthat::test_that(
       )
 
     data_locations <-
-      make_cross_validation_location_table(
+      build_cross_validation_location_table(
         data_sample_ids = data_sample_ids,
         data_coords_projected = data_coords_projected,
         location_column = "plot_id"
@@ -82,7 +82,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_location_table() validates alignment",
+  "build_cross_validation_location_table() validates alignment",
   {
     data_sample_ids <-
       tibble::tibble(dataset_name = base::c("core_a", "core_missing"))
@@ -95,7 +95,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      make_cross_validation_location_table(
+      build_cross_validation_location_table(
         data_sample_ids = data_sample_ids,
         data_coords_projected = data_coords_projected
       ),
@@ -110,7 +110,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      make_cross_validation_location_table(
+      build_cross_validation_location_table(
         data_sample_ids = data_sample_ids,
         data_coords_projected = data_coords_non_finite
       ),
@@ -120,7 +120,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_location_table() validates arguments",
+  "build_cross_validation_location_table() validates arguments",
   {
     data_sample_ids <-
       tibble::tibble(dataset_name = "core_a")
@@ -133,7 +133,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      make_cross_validation_location_table(
+      build_cross_validation_location_table(
         data_sample_ids = base::c("core_a"),
         data_coords_projected = data_coords_projected
       ),
@@ -141,7 +141,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      make_cross_validation_location_table(
+      build_cross_validation_location_table(
         data_sample_ids = data_sample_ids,
         data_coords_projected = data_coords_projected,
         location_column = "missing"

@@ -1,5 +1,5 @@
 testthat::test_that(
-  "make_spatial_cross_validation_assignments() preserves locations",
+  "build_spatial_cross_validation_assignments() preserves locations",
   {
     data_locations <-
       tibble::tibble(
@@ -20,7 +20,7 @@ testthat::test_that(
       )
 
     data_assignments <-
-      make_spatial_cross_validation_assignments(
+      build_spatial_cross_validation_assignments(
         data_locations = data_locations,
         n_folds = 3L,
         n_repeats = 2L,
@@ -78,7 +78,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_spatial_cross_validation_assignments() is deterministic",
+  "build_spatial_cross_validation_assignments() is deterministic",
   {
     data_locations <-
       tibble::tibble(
@@ -95,7 +95,7 @@ testthat::test_that(
 
     base::set.seed(900723L)
     data_first <-
-      make_spatial_cross_validation_assignments(
+      build_spatial_cross_validation_assignments(
         data_locations = data_locations,
         n_folds = 3L,
         n_repeats = 2L,
@@ -106,7 +106,7 @@ testthat::test_that(
       stats::runif(1L)
 
     data_second <-
-      make_spatial_cross_validation_assignments(
+      build_spatial_cross_validation_assignments(
         data_locations = data_locations,
         n_folds = 3L,
         n_repeats = 2L,
@@ -134,7 +134,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_spatial_cross_validation_assignments() covers repeat origins",
+  "build_spatial_cross_validation_assignments() covers repeat origins",
   {
     data_locations <-
       tibble::tibble(
@@ -146,7 +146,7 @@ testthat::test_that(
       )
 
     data_assignments <-
-      make_spatial_cross_validation_assignments(
+      build_spatial_cross_validation_assignments(
         data_locations = data_locations,
         n_folds = 2L,
         n_repeats = 4L,
@@ -182,7 +182,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_spatial_cross_validation_assignments() validates fold count",
+  "build_spatial_cross_validation_assignments() validates fold count",
   {
     data_locations <-
       tibble::tibble(
@@ -194,7 +194,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      make_spatial_cross_validation_assignments(
+      build_spatial_cross_validation_assignments(
         data_locations = data_locations,
         n_folds = 3L,
         grid_cell_size_km = 5

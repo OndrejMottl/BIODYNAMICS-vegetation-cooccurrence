@@ -3,7 +3,7 @@
 #' Runs spatial-grid calibration only when the resolved cross-validation
 #' strategy uses spatially stratified grouped folds.
 #' @param data_locations
-#' Location table returned by [make_cross_validation_location_table()].
+#' Location table returned by [build_cross_validation_location_table()].
 #' @param data_fold_resolution
 #' One-row table returned by [resolve_cross_validation_fold_count()].
 #' @param candidate_grid_cell_sizes_km
@@ -13,7 +13,7 @@
 #' @param occupancy_criterion,target_locations_per_cell,
 #' lower_quantile_probability,max_fold_location_difference,
 #' max_fold_sample_difference,seed
-#' Arguments passed to [calibrate_cross_validation_grid_size()].
+#' Arguments passed to [compute_cross_validation_grid_calibration()].
 #' @return
 #' Grid-calibration tibble. Leave-one-location-out and no-holdout strategies
 #' return a zero-row tibble with the stable calibration schema.
@@ -28,13 +28,13 @@
 #'   )
 #' data_resolution <-
 #'   resolve_cross_validation_fold_count(6L, 5L)
-#' calibrate_cross_validation_grid_from_resolution(
+#' compute_cross_validation_grid_calibration_from_resolution(
 #'   data_locations = data_locations,
 #'   data_fold_resolution = data_resolution,
 #'   candidate_grid_cell_sizes_km = c(1, 10)
 #' )
 #' @export
-calibrate_cross_validation_grid_from_resolution <- function(
+compute_cross_validation_grid_calibration_from_resolution <- function(
     data_locations = NULL,
     data_fold_resolution = NULL,
     candidate_grid_cell_sizes_km = NULL,
@@ -107,7 +107,7 @@ calibrate_cross_validation_grid_from_resolution <- function(
     dplyr::pull("effective_folds")
 
   res <-
-    calibrate_cross_validation_grid_size(
+    compute_cross_validation_grid_calibration(
       data_locations = data_locations,
       candidate_grid_cell_sizes_km = candidate_grid_cell_sizes_km,
       n_folds = effective_folds_value,

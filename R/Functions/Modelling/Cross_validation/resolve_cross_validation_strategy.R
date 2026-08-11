@@ -34,7 +34,7 @@
 #'     n_train_taxa = 10L,
 #'     n_train_mem_locations = 7L
 #'   )
-#' assess_cross_validation_feasibility(
+#' resolve_cross_validation_strategy(
 #'   data_partition_diagnostics = data_diagnostics,
 #'   min_train_locations = 5L,
 #'   min_train_samples = 5L,
@@ -42,7 +42,7 @@
 #'   min_mem_locations = 4L
 #' )
 #' @export
-assess_cross_validation_feasibility <- function(
+resolve_cross_validation_strategy <- function(
     data_partition_diagnostics = NULL,
     min_train_locations = NULL,
     min_train_samples = NULL,

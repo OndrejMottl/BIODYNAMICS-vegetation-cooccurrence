@@ -3,16 +3,16 @@
 #' Replaces infeasible grouped folds with leave-one-location-out assignments
 #' before an ID is classified for tier-pooled regularization.
 #' @param data_locations
-#' Location table returned by [make_cross_validation_location_table()].
+#' Location table returned by [build_cross_validation_location_table()].
 #' @param data_assignments
 #' Initial assignment table with `cv_strategy` and `assignment_source`.
 #' @param data_partition_diagnostics
 #' Initial diagnostics returned by
-#' [make_cross_validation_partition_diagnostics()].
+#' [diagnose_cross_validation_partitions()].
 #' @param min_train_locations,min_train_samples,min_train_taxa,
 #' min_mem_locations
 #' Positive integer feasibility thresholds passed to
-#' [assess_cross_validation_feasibility()].
+#' [resolve_cross_validation_strategy()].
 #' @return
 #' The initial assignment table when it is feasible or does not use grouped
 #' folds. Infeasible grouped folds are replaced by leave-one-location-out
@@ -46,7 +46,7 @@
 #'     n_train_taxa = 1L,
 #'     n_train_mem_locations = 6L
 #'   )
-#' adapt_cross_validation_assignments(
+#' resolve_cross_validation_assignments(
 #'   data_locations = data_locations,
 #'   data_assignments = data_assignments,
 #'   data_partition_diagnostics = data_diagnostics,
@@ -56,7 +56,7 @@
 #'   min_mem_locations = 4L
 #' )
 #' @export
-adapt_cross_validation_assignments <- function(
+resolve_cross_validation_assignments <- function(
     data_locations = NULL,
     data_assignments = NULL,
     data_partition_diagnostics = NULL,
@@ -84,7 +84,7 @@ adapt_cross_validation_assignments <- function(
   )
 
   data_initial_feasibility <-
-    assess_cross_validation_feasibility(
+    resolve_cross_validation_strategy(
       data_partition_diagnostics = data_partition_diagnostics,
       min_train_locations = min_train_locations,
       min_train_samples = min_train_samples,
@@ -114,7 +114,7 @@ adapt_cross_validation_assignments <- function(
   }
 
   data_leave_one_out_assignments <-
-    make_leave_one_location_out_assignments(
+    build_leave_one_location_out_assignments(
       data_locations = data_locations
     )
 

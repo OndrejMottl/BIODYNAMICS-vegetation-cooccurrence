@@ -1,5 +1,5 @@
 testthat::test_that(
-  "calibrate_cross_validation_grid_size() selects finest grid",
+  "compute_cross_validation_grid_calibration() selects finest grid",
   {
     data_locations <-
       tibble::tibble(
@@ -16,7 +16,7 @@ testthat::test_that(
       )
 
     data_calibration <-
-      calibrate_cross_validation_grid_size(
+      compute_cross_validation_grid_calibration(
         data_locations = data_locations,
         candidate_grid_cell_sizes_km = base::c(1, 10, 100),
         n_folds = 3L,
@@ -63,7 +63,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "calibrate_cross_validation_grid_size() reports no eligible grid",
+  "compute_cross_validation_grid_calibration() reports no eligible grid",
   {
     data_locations <-
       tibble::tibble(
@@ -75,7 +75,7 @@ testthat::test_that(
       )
 
     data_calibration <-
-      calibrate_cross_validation_grid_size(
+      compute_cross_validation_grid_calibration(
         data_locations = data_locations,
         candidate_grid_cell_sizes_km = base::c(5, 10),
         n_folds = 3L,

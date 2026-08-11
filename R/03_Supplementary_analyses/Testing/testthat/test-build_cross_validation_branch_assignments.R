@@ -1,5 +1,5 @@
 testthat::test_that(
-  "make_cross_validation_branch_assignments() reuses valid assignments",
+  "build_cross_validation_branch_assignments() reuses valid assignments",
   {
     data_locations <-
       tibble::tibble(
@@ -15,14 +15,14 @@ testthat::test_that(
         min_train_locations = 5L
       )
     data_shared_assignments <-
-      make_spatial_cross_validation_assignments(
+      build_spatial_cross_validation_assignments(
         data_locations = data_locations,
         n_folds = 5L,
         grid_cell_size_km = 10
       )
 
     data_assignments <-
-      make_cross_validation_branch_assignments(
+      build_cross_validation_branch_assignments(
         data_locations = data_locations,
         data_fold_resolution = data_resolution,
         data_shared_assignments = data_shared_assignments
@@ -40,7 +40,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_branch_assignments() recalibrates invalid subsets",
+  "build_cross_validation_branch_assignments() recalibrates invalid subsets",
   {
     data_shared_locations <-
       tibble::tibble(
@@ -72,7 +72,7 @@ testthat::test_that(
       )
 
     data_assignments <-
-      make_cross_validation_branch_assignments(
+      build_cross_validation_branch_assignments(
         data_locations = data_branch_locations,
         data_fold_resolution = data_resolution,
         data_shared_assignments = data_shared_assignments,
@@ -92,7 +92,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_branch_assignments() supports no holdout",
+  "build_cross_validation_branch_assignments() supports no holdout",
   {
     data_locations <-
       tibble::tibble(
@@ -109,7 +109,7 @@ testthat::test_that(
       )
 
     data_assignments <-
-      make_cross_validation_branch_assignments(
+      build_cross_validation_branch_assignments(
         data_locations = data_locations,
         data_fold_resolution = data_resolution,
         data_shared_assignments = tibble::tibble()
@@ -133,10 +133,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_branch_assignments() validates locations",
+  "build_cross_validation_branch_assignments() validates locations",
   {
     testthat::expect_error(
-      make_cross_validation_branch_assignments(
+      build_cross_validation_branch_assignments(
         data_locations = tibble::tibble(location_id = "a"),
         data_fold_resolution = tibble::tibble(
           cv_strategy = "none",

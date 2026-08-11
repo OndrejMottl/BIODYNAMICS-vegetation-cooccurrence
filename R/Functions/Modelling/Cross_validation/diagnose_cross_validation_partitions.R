@@ -3,7 +3,7 @@
 #' Calculates full-model and fold-training counts from location assignments and
 #' aligned binary community responses for feasibility assessment.
 #' @param data_locations
-#' Location table returned by [make_cross_validation_location_table()].
+#' Location table returned by [build_cross_validation_location_table()].
 #' @param data_assignments
 #' Assignment table returned by a cross-validation assignment helper. May be
 #' empty when `cv_strategy = "none"` and only full-model diagnostics are
@@ -23,7 +23,7 @@
 #' Logical scalar. If `TRUE`, prepend the full-model diagnostic row. Defaults
 #' to `TRUE`.
 #' @return
-#' Tibble matching [assess_cross_validation_feasibility()] input, with one
+#' Tibble matching [resolve_cross_validation_strategy()] input, with one
 #' optional full-model row and one row per repeat and fold.
 #' @details
 #' Taxon viability is learned independently within each training partition. A
@@ -39,15 +39,15 @@
 #'     row_indices = list(1L, 2L)
 #'   )
 #' data_assignments <-
-#'   make_leave_one_location_out_assignments(data_locations)
-#' make_cross_validation_partition_diagnostics(
+#'   build_leave_one_location_out_assignments(data_locations)
+#' diagnose_cross_validation_partitions(
 #'   data_locations = data_locations,
 #'   data_assignments = data_assignments,
 #'   data_community_matrix = matrix(c(0, 1), ncol = 1L),
 #'   cv_strategy = "leave_one_location_out"
 #' )
 #' @export
-make_cross_validation_partition_diagnostics <- function(
+diagnose_cross_validation_partitions <- function(
     data_locations = NULL,
     data_assignments = NULL,
     data_community_matrix = NULL,

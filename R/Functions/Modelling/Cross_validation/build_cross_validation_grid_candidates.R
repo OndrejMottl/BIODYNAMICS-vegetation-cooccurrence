@@ -3,7 +3,7 @@
 #' Derives candidate spatial-grid widths from projected extent, location
 #' density, and a target number of locations per occupied cell.
 #' @param data_locations
-#' Location table returned by [make_cross_validation_location_table()] with
+#' Location table returned by [build_cross_validation_location_table()] with
 #' finite `coord_x_km` and `coord_y_km` columns.
 #' @param target_locations_per_cell
 #' Single positive numeric target occupancy. Defaults to `5`.
@@ -25,13 +25,13 @@
 #'     coord_x_km = c(0, 0, 10, 10),
 #'     coord_y_km = c(0, 10, 0, 10)
 #'   )
-#' make_cross_validation_grid_candidates(
+#' build_cross_validation_grid_candidates(
 #'   data_locations = data_locations,
 #'   target_locations_per_cell = 1,
 #'   grid_size_multipliers = c(0.5, 1, 2)
 #' )
 #' @export
-make_cross_validation_grid_candidates <- function(
+build_cross_validation_grid_candidates <- function(
     data_locations = NULL,
     target_locations_per_cell = 5,
     grid_size_multipliers = 2 ^ base::seq(-2, 2)) {

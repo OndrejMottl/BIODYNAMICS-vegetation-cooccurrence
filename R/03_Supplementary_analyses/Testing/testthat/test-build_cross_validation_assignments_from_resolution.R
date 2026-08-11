@@ -1,5 +1,5 @@
 testthat::test_that(
-  "make_cross_validation_assignments_from_resolution() dispatches grouped CV",
+  "build_cross_validation_assignments_from_resolution() dispatches grouped CV",
   {
     data_locations <-
       tibble::tibble(
@@ -22,7 +22,7 @@ testthat::test_that(
       )
 
     data_assignments <-
-      make_cross_validation_assignments_from_resolution(
+      build_cross_validation_assignments_from_resolution(
         data_locations = data_locations,
         data_fold_resolution = data_resolution,
         data_grid_calibration = data_calibration,
@@ -52,7 +52,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_assignments_from_resolution() dispatches LOO",
+  "build_cross_validation_assignments_from_resolution() dispatches LOO",
   {
     data_locations <-
       tibble::tibble(
@@ -69,7 +69,7 @@ testthat::test_that(
       )
 
     data_assignments <-
-      make_cross_validation_assignments_from_resolution(
+      build_cross_validation_assignments_from_resolution(
         data_locations = data_locations,
         data_fold_resolution = data_resolution,
         data_grid_calibration = tibble::tibble()
@@ -86,7 +86,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_assignments_from_resolution() preserves empty schema",
+  "build_cross_validation_assignments_from_resolution() preserves empty schema",
   {
     data_locations <-
       tibble::tibble(
@@ -103,7 +103,7 @@ testthat::test_that(
       )
 
     data_assignments <-
-      make_cross_validation_assignments_from_resolution(
+      build_cross_validation_assignments_from_resolution(
         data_locations = data_locations,
         data_fold_resolution = data_resolution,
         data_grid_calibration = tibble::tibble()
@@ -127,7 +127,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_assignments_from_resolution() validates provenance",
+  "build_cross_validation_assignments_from_resolution() validates provenance",
   {
     data_locations <-
       tibble::tibble(
@@ -144,7 +144,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      make_cross_validation_assignments_from_resolution(
+      build_cross_validation_assignments_from_resolution(
         data_locations = data_locations,
         data_fold_resolution = data_resolution,
         data_grid_calibration = tibble::tibble(),

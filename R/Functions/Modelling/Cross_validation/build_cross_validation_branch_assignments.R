@@ -4,7 +4,7 @@
 #' when coverage and balance remain valid, otherwise recalibrates that branch.
 #' @param data_locations
 #' Branch location table returned by
-#' [make_cross_validation_location_table()].
+#' [build_cross_validation_location_table()].
 #' @param data_fold_resolution
 #' One-row branch table returned by [resolve_cross_validation_fold_count()].
 #' @param data_shared_assignments
@@ -30,14 +30,14 @@
 #' data_resolution <-
 #'   resolve_cross_validation_fold_count(6L, 5L)
 #' data_shared <-
-#'   make_leave_one_location_out_assignments(data_locations)
-#' make_cross_validation_branch_assignments(
+#'   build_leave_one_location_out_assignments(data_locations)
+#' build_cross_validation_branch_assignments(
 #'   data_locations = data_locations,
 #'   data_fold_resolution = data_resolution,
 #'   data_shared_assignments = data_shared
 #' )
 #' @export
-make_cross_validation_branch_assignments <- function(
+build_cross_validation_branch_assignments <- function(
     data_locations = NULL,
     data_fold_resolution = NULL,
     data_shared_assignments = NULL,
@@ -89,7 +89,7 @@ make_cross_validation_branch_assignments <- function(
     cv_strategy_value == "none"
   ) {
     res_no_holdout <-
-      make_cross_validation_assignments_from_resolution(
+      build_cross_validation_assignments_from_resolution(
         data_locations = data_locations,
         data_fold_resolution = data_fold_resolution,
         data_grid_calibration = tibble::tibble(),
@@ -246,7 +246,7 @@ make_cross_validation_branch_assignments <- function(
   }
 
   data_branch_grid_candidates <-
-    make_cross_validation_grid_candidates_from_resolution(
+    build_cross_validation_grid_candidates_from_resolution(
       data_locations = data_locations,
       data_fold_resolution = data_fold_resolution,
       target_locations_per_cell = target_locations_per_cell,
@@ -254,7 +254,7 @@ make_cross_validation_branch_assignments <- function(
     )
 
   data_branch_grid_calibration <-
-    calibrate_cross_validation_grid_from_resolution(
+    compute_cross_validation_grid_calibration_from_resolution(
       data_locations = data_locations,
       data_fold_resolution = data_fold_resolution,
       candidate_grid_cell_sizes_km = dplyr::pull(
@@ -271,7 +271,7 @@ make_cross_validation_branch_assignments <- function(
     )
 
   res_fallback <-
-    make_cross_validation_assignments_from_resolution(
+    build_cross_validation_assignments_from_resolution(
       data_locations = data_locations,
       data_fold_resolution = data_fold_resolution,
       data_grid_calibration = data_branch_grid_calibration,

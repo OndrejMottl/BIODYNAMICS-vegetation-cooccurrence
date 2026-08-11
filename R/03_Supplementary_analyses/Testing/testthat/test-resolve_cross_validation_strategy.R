@@ -1,5 +1,5 @@
 testthat::test_that(
-  "assess_cross_validation_feasibility() selects strategy states",
+  "resolve_cross_validation_strategy() selects strategy states",
   {
     data_full <-
       tibble::tibble(
@@ -45,7 +45,7 @@ testthat::test_that(
       )
 
     data_grouped_result <-
-      assess_cross_validation_feasibility(
+      resolve_cross_validation_strategy(
         data_partition_diagnostics = data_partitions,
         min_train_locations = 5L,
         min_train_samples = 40L,
@@ -64,7 +64,7 @@ testthat::test_that(
           .data[["n_train_samples"]]
         )
       ) |>
-      assess_cross_validation_feasibility(
+      resolve_cross_validation_strategy(
         min_train_locations = 5L,
         min_train_samples = 40L,
         min_train_taxa = 5L,
@@ -88,7 +88,7 @@ testthat::test_that(
           .data[["n_train_taxa"]]
         )
       ) |>
-      assess_cross_validation_feasibility(
+      resolve_cross_validation_strategy(
         min_train_locations = 5L,
         min_train_samples = 40L,
         min_train_taxa = 5L,
@@ -104,7 +104,7 @@ testthat::test_that(
           .data[["n_train_taxa"]]
         )
       ) |>
-      assess_cross_validation_feasibility(
+      resolve_cross_validation_strategy(
         min_train_locations = 5L,
         min_train_samples = 40L,
         min_train_taxa = 5L,
@@ -135,7 +135,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assess_cross_validation_feasibility() isolates repeats",
+  "resolve_cross_validation_strategy() isolates repeats",
   {
     data_diagnostics <-
       tibble::tibble(
@@ -161,7 +161,7 @@ testthat::test_that(
       )
 
     data_result <-
-      assess_cross_validation_feasibility(
+      resolve_cross_validation_strategy(
         data_partition_diagnostics = data_diagnostics,
         min_train_locations = 2L,
         min_train_samples = 10L,
@@ -180,7 +180,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assess_cross_validation_feasibility() validates diagnostics",
+  "resolve_cross_validation_strategy() validates diagnostics",
   {
     data_invalid <-
       tibble::tibble(
@@ -190,7 +190,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      assess_cross_validation_feasibility(
+      resolve_cross_validation_strategy(
         data_partition_diagnostics = data_invalid,
         min_train_locations = 5L,
         min_train_samples = 5L,

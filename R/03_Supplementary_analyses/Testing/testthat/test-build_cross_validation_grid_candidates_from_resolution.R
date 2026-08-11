@@ -1,5 +1,5 @@
 testthat::test_that(
-  "make_cross_validation_grid_candidates_from_resolution() dispatches",
+  "build_cross_validation_grid_candidates_from_resolution() dispatches",
   {
     data_locations <-
       tibble::tibble(
@@ -21,14 +21,14 @@ testthat::test_that(
       )
 
     data_grouped_candidates <-
-      make_cross_validation_grid_candidates_from_resolution(
+      build_cross_validation_grid_candidates_from_resolution(
         data_locations = data_locations,
         data_fold_resolution = data_grouped_resolution,
         target_locations_per_cell = 5,
         grid_size_multipliers = base::c(0.5, 1)
       )
     data_gridless_candidates <-
-      make_cross_validation_grid_candidates_from_resolution(
+      build_cross_validation_grid_candidates_from_resolution(
         data_locations = data_locations[1:6, ],
         data_fold_resolution = data_gridless_resolution
       )
@@ -43,10 +43,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_grid_candidates_from_resolution() validates strategy",
+  "build_cross_validation_grid_candidates_from_resolution() validates strategy",
   {
     testthat::expect_error(
-      make_cross_validation_grid_candidates_from_resolution(
+      build_cross_validation_grid_candidates_from_resolution(
         data_locations = tibble::tibble(),
         data_fold_resolution = tibble::tibble(
           cv_strategy = "unsupported"

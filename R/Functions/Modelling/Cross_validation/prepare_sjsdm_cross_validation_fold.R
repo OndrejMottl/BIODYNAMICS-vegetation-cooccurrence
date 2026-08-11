@@ -135,30 +135,18 @@ prepare_sjsdm_cross_validation_fold <- function(
   )
 
   data_train_samples <-
-    data_sample_ids_normalized |>
-    dplyr::filter(
-      .data[["row_index"]] %in% .env[["train_indices_integer"]]
-    ) |>
-    dplyr::mutate(
-      .fold_order = base::match(
-        .data[["row_index"]],
-        .env[["train_indices_integer"]]
-      )
-    ) |>
-    dplyr::arrange(.data[[".fold_order"]])
+    prepare_ordered_fold_partition(
+      data_partition_source = data_sample_ids_normalized,
+      partition_ids = train_indices_integer,
+      id_column = "row_index"
+    )
 
   data_test_samples <-
-    data_sample_ids_normalized |>
-    dplyr::filter(
-      .data[["row_index"]] %in% .env[["test_indices_integer"]]
-    ) |>
-    dplyr::mutate(
-      .fold_order = base::match(
-        .data[["row_index"]],
-        .env[["test_indices_integer"]]
-      )
-    ) |>
-    dplyr::arrange(.data[[".fold_order"]])
+    prepare_ordered_fold_partition(
+      data_partition_source = data_sample_ids_normalized,
+      partition_ids = test_indices_integer,
+      id_column = "row_index"
+    )
 
   if (
     base::nrow(data_train_samples) !=

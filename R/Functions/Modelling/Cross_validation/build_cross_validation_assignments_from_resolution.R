@@ -3,11 +3,11 @@
 #' Dispatches a resolved cross-validation strategy to spatially stratified or
 #' leave-one-location-out assignment while preserving one assignment schema.
 #' @param data_locations
-#' Location table returned by [make_cross_validation_location_table()].
+#' Location table returned by [build_cross_validation_location_table()].
 #' @param data_fold_resolution
 #' One-row table returned by [resolve_cross_validation_fold_count()].
 #' @param data_grid_calibration
-#' Table returned by [calibrate_cross_validation_grid_from_resolution()].
+#' Table returned by [compute_cross_validation_grid_calibration_from_resolution()].
 #' @param n_repeats
 #' Positive integer number of deterministic spatial assignment repeats.
 #' @param seed
@@ -29,13 +29,13 @@
 #'   )
 #' data_resolution <-
 #'   resolve_cross_validation_fold_count(6L, 5L)
-#' make_cross_validation_assignments_from_resolution(
+#' build_cross_validation_assignments_from_resolution(
 #'   data_locations = data_locations,
 #'   data_fold_resolution = data_resolution,
 #'   data_grid_calibration = tibble::tibble()
 #' )
 #' @export
-make_cross_validation_assignments_from_resolution <- function(
+build_cross_validation_assignments_from_resolution <- function(
     data_locations = NULL,
     data_fold_resolution = NULL,
     data_grid_calibration = NULL,
@@ -121,7 +121,7 @@ make_cross_validation_assignments_from_resolution <- function(
     if (
       cv_strategy_value == "leave_one_location_out"
     ) {
-      make_leave_one_location_out_assignments(
+      build_leave_one_location_out_assignments(
         data_locations = data_locations
       )
     } else {
@@ -147,7 +147,7 @@ make_cross_validation_assignments_from_resolution <- function(
         data_fold_resolution |>
         dplyr::pull("effective_folds")
 
-      make_spatial_cross_validation_assignments(
+      build_spatial_cross_validation_assignments(
         data_locations = data_locations,
         n_folds = effective_folds_value,
         n_repeats = n_repeats,

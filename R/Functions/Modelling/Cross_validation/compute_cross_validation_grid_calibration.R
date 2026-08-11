@@ -3,7 +3,7 @@
 #' Compares candidate spatial-grid sizes using occupied-cell density and fold
 #' balance, then marks the finest eligible candidate.
 #' @param data_locations
-#' Location table returned by [make_cross_validation_location_table()].
+#' Location table returned by [build_cross_validation_location_table()].
 #' @param candidate_grid_cell_sizes_km
 #' Numeric vector of unique positive candidate grid-cell widths in kilometres.
 #' @param n_folds
@@ -30,7 +30,7 @@
 #' diagnostics, eligibility, selection status, and a single `selected` flag
 #' when at least one candidate is eligible.
 #' @details
-#' Candidate assignments use [make_spatial_cross_validation_assignments()].
+#' Candidate assignments use [build_spatial_cross_validation_assignments()].
 #' Eligibility requires the configured occupancy statistic and both balance
 #' thresholds. Among eligible candidates, the smallest cell size is selected.
 #' @examples
@@ -42,13 +42,13 @@
 #'     n_samples = rep(1L, 6),
 #'     row_indices = as.list(seq_len(6L))
 #'   )
-#' calibrate_cross_validation_grid_size(
+#' compute_cross_validation_grid_calibration(
 #'   data_locations = data_locations,
 #'   candidate_grid_cell_sizes_km = c(1, 10),
 #'   n_folds = 3L
 #' )
 #' @export
-calibrate_cross_validation_grid_size <- function(
+compute_cross_validation_grid_calibration <- function(
     data_locations = NULL,
     candidate_grid_cell_sizes_km = NULL,
     n_folds = 5L,
@@ -189,7 +189,7 @@ calibrate_cross_validation_grid_size <- function(
         grid_cell_size <- .x
 
         data_assignments <-
-          make_spatial_cross_validation_assignments(
+          build_spatial_cross_validation_assignments(
             data_locations = data_locations,
             n_folds = n_folds_integer,
             n_repeats = n_repeats_integer,

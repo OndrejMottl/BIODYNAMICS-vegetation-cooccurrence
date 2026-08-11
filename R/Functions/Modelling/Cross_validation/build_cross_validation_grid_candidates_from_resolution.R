@@ -3,11 +3,11 @@
 #' Derives spatial-grid candidates only for spatially stratified grouped
 #' cross-validation.
 #' @param data_locations
-#' Location table returned by [make_cross_validation_location_table()].
+#' Location table returned by [build_cross_validation_location_table()].
 #' @param data_fold_resolution
 #' One-row table returned by [resolve_cross_validation_fold_count()].
 #' @param target_locations_per_cell,grid_size_multipliers
-#' Arguments passed to [make_cross_validation_grid_candidates()].
+#' Arguments passed to [build_cross_validation_grid_candidates()].
 #' @return
 #' Grid-candidate tibble. Gridless strategies return a zero-row tibble with
 #' the stable candidate schema.
@@ -22,12 +22,12 @@
 #'   )
 #' data_resolution <-
 #'   resolve_cross_validation_fold_count(6L, 5L)
-#' make_cross_validation_grid_candidates_from_resolution(
+#' build_cross_validation_grid_candidates_from_resolution(
 #'   data_locations = data_locations,
 #'   data_fold_resolution = data_resolution
 #' )
 #' @export
-make_cross_validation_grid_candidates_from_resolution <- function(
+build_cross_validation_grid_candidates_from_resolution <- function(
     data_locations = NULL,
     data_fold_resolution = NULL,
     target_locations_per_cell = 5,
@@ -81,7 +81,7 @@ make_cross_validation_grid_candidates_from_resolution <- function(
   }
 
   res <-
-    make_cross_validation_grid_candidates(
+    build_cross_validation_grid_candidates(
       data_locations = data_locations,
       target_locations_per_cell = target_locations_per_cell,
       grid_size_multipliers = grid_size_multipliers

@@ -29,12 +29,12 @@
 #'     coord_y_km = c(30, 40),
 #'     row.names = c("core_a", "core_b")
 #'   )
-#' make_cross_validation_location_table(
+#' build_cross_validation_location_table(
 #'   data_sample_ids = data_sample_ids,
 #'   data_coords_projected = data_coords_projected
 #' )
 #' @export
-make_cross_validation_location_table <- function(
+build_cross_validation_location_table <- function(
     data_sample_ids = NULL,
     data_coords_projected = NULL,
     location_column = "dataset_name") {

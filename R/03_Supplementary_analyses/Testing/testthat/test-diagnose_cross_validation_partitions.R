@@ -1,5 +1,5 @@
 testthat::test_that(
-  "make_cross_validation_partition_diagnostics() counts training data",
+  "diagnose_cross_validation_partitions() counts training data",
   {
     data_locations <-
       tibble::tibble(
@@ -40,7 +40,7 @@ testthat::test_that(
       base::c("variable", "rare", "constant")
 
     data_diagnostics <-
-      make_cross_validation_partition_diagnostics(
+      diagnose_cross_validation_partitions(
         data_locations = data_locations,
         data_assignments = data_assignments,
         data_community_matrix = data_community_matrix,
@@ -88,7 +88,7 @@ testthat::test_that(
     )
 
     data_feasibility <-
-      assess_cross_validation_feasibility(
+      resolve_cross_validation_strategy(
         data_partition_diagnostics = data_diagnostics,
         min_train_locations = 2L,
         min_train_samples = 4L,
@@ -104,7 +104,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_partition_diagnostics() validates alignment",
+  "diagnose_cross_validation_partitions() validates alignment",
   {
     data_locations <-
       tibble::tibble(
@@ -114,14 +114,14 @@ testthat::test_that(
       )
 
     data_assignments <-
-      make_leave_one_location_out_assignments(data_locations)
+      build_leave_one_location_out_assignments(data_locations)
 
     data_community_invalid <-
       base::matrix(1, nrow = 3L)
     base::colnames(data_community_invalid) <- "taxon_a"
 
     testthat::expect_error(
-      make_cross_validation_partition_diagnostics(
+      diagnose_cross_validation_partitions(
         data_locations = data_locations,
         data_assignments = data_assignments,
         data_community_matrix = data_community_invalid,
@@ -133,7 +133,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_partition_diagnostics() supports no holdout",
+  "diagnose_cross_validation_partitions() supports no holdout",
   {
     data_locations <-
       tibble::tibble(
@@ -160,7 +160,7 @@ testthat::test_that(
       )
 
     data_diagnostics <-
-      make_cross_validation_partition_diagnostics(
+      diagnose_cross_validation_partitions(
         data_locations = data_locations,
         data_assignments = data_assignments,
         data_community_matrix = data_community_matrix,

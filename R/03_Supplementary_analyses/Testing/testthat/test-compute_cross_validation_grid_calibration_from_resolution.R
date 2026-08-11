@@ -1,5 +1,5 @@
 testthat::test_that(
-  "calibrate_cross_validation_grid_from_resolution() dispatches grouped CV",
+  "compute_cross_validation_grid_calibration_from_resolution() dispatches grouped CV",
   {
     data_locations <-
       tibble::tibble(
@@ -19,7 +19,7 @@ testthat::test_that(
       )
 
     data_calibration <-
-      calibrate_cross_validation_grid_from_resolution(
+      compute_cross_validation_grid_calibration_from_resolution(
         data_locations = data_locations,
         data_fold_resolution = data_resolution,
         candidate_grid_cell_sizes_km = base::c(1, 10, 100),
@@ -36,7 +36,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "calibrate_cross_validation_grid_from_resolution() skips gridless CV",
+  "compute_cross_validation_grid_calibration_from_resolution() skips gridless CV",
   {
     data_locations <-
       tibble::tibble(
@@ -53,7 +53,7 @@ testthat::test_that(
       )
 
     data_calibration <-
-      calibrate_cross_validation_grid_from_resolution(
+      compute_cross_validation_grid_calibration_from_resolution(
         data_locations = data_locations,
         data_fold_resolution = data_resolution,
         candidate_grid_cell_sizes_km = base::c(1, 10)
@@ -82,10 +82,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "calibrate_cross_validation_grid_from_resolution() validates resolution",
+  "compute_cross_validation_grid_calibration_from_resolution() validates resolution",
   {
     testthat::expect_error(
-      calibrate_cross_validation_grid_from_resolution(
+      compute_cross_validation_grid_calibration_from_resolution(
         data_locations = tibble::tibble(),
         data_fold_resolution = tibble::tibble(),
         candidate_grid_cell_sizes_km = 1

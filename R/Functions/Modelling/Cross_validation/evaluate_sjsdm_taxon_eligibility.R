@@ -20,10 +20,10 @@
 #' by their observation counts.
 #' @examples
 #' \dontrun{
-#' assess_sjsdm_taxon_eligibility(data_fold_metrics = data_metrics)
+#' evaluate_sjsdm_taxon_eligibility(data_fold_metrics = data_metrics)
 #' }
 #' @export
-assess_sjsdm_taxon_eligibility <- function(
+evaluate_sjsdm_taxon_eligibility <- function(
     data_fold_metrics = NULL,
     minimum_prevalence = 0.05,
     maximum_prevalence = 0.95,

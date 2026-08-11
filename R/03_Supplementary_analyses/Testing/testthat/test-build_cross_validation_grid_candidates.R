@@ -1,5 +1,5 @@
 testthat::test_that(
-  "make_cross_validation_grid_candidates() derives widths from density",
+  "build_cross_validation_grid_candidates() derives widths from density",
   {
     data_locations <-
       tibble::tibble(
@@ -11,7 +11,7 @@ testthat::test_that(
       )
 
     data_candidates <-
-      make_cross_validation_grid_candidates(
+      build_cross_validation_grid_candidates(
         data_locations = data_locations,
         target_locations_per_cell = 1,
         grid_size_multipliers = base::c(0.5, 1, 2)
@@ -47,7 +47,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "make_cross_validation_grid_candidates() rejects zero-area extent",
+  "build_cross_validation_grid_candidates() rejects zero-area extent",
   {
     data_locations <-
       tibble::tibble(
@@ -56,7 +56,7 @@ testthat::test_that(
       )
 
     testthat::expect_error(
-      make_cross_validation_grid_candidates(data_locations),
+      build_cross_validation_grid_candidates(data_locations),
       "positive extent"
     )
   }
