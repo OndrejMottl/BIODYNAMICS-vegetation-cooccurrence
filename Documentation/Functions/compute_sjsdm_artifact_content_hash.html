@@ -1,0 +1,87 @@
+<!DOCTYPE html><html><head><title>R: Compute an sjSDM Artifact Content Hash</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_sjsdm_artifact_content_hash</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute an sjSDM Artifact Content Hash</h2>
+
+<h3>Description</h3>
+
+<p>Computes the stable xxHash64 identity of one v2 artifact while excluding
+materialization and migration-trace provenance.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_sjsdm_artifact_content_hash(
+  schema_version = NULL,
+  artifact_type = NULL,
+  payload = NULL,
+  provenance = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="schema_version">schema_version</code></td>
+<td>
+<p>Non-empty character scalar schema version.</p>
+</td></tr>
+<tr><td><code id="artifact_type">artifact_type</code></td>
+<td>
+<p>Registered non-empty character scalar artifact type.</p>
+</td></tr>
+<tr><td><code id="payload">payload</code></td>
+<td>
+<p>Non-empty named list containing the artifact payload.</p>
+</td></tr>
+<tr><td><code id="provenance">provenance</code></td>
+<td>
+<p>One-row provenance data frame containing the common provenance fields.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Character scalar xxHash64 content digest.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>compute_sjsdm_artifact_content_hash(
+  schema_version = "2.0.0",
+  artifact_type = "sjsdm_cv_predictions",
+  payload = list(data_predictions = tibble::tibble()),
+  provenance = tibble::tibble(
+    created_at = as.POSIXct("2026-08-11", tz = "UTC"),
+    pipeline_id = "pipeline_paleo_core",
+    configuration_profile = "project_cz_paleo",
+    source_schema_version = "2.0.0",
+    migration_applied = FALSE,
+    migration_function = NA_character_
+  )
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

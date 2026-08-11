@@ -1,0 +1,111 @@
+---
+format: html
+title: build_spatial_cross_validation_assignments()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_spatial_cross_validation_assignments</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make Spatial Cross-Validation Assignments</h2>
+
+<h3>Description</h3>
+
+<p>Assigns complete sampling locations to deterministic spatially stratified
+folds while balancing grid-cell coverage, location counts, and sample counts.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_spatial_cross_validation_assignments(
+  data_locations = NULL,
+  n_folds = 5L,
+  n_repeats = 1L,
+  grid_cell_size_km = NULL,
+  seed = 900723L
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_locations">data_locations</code></td>
+<td>
+<p>Location table returned by [build_cross_validation_location_table()] with
+projected coordinates, sample counts, and sample-row indices.</p>
+</td></tr>
+<tr><td><code id="n_folds">n_folds</code></td>
+<td>
+<p>Single integer greater than one and no greater than the location count.</p>
+</td></tr>
+<tr><td><code id="n_repeats">n_repeats</code></td>
+<td>
+<p>Single positive integer. Grid origins and within-cell ordering change
+deterministically between repeats. Defaults to '1L'.</p>
+</td></tr>
+<tr><td><code id="grid_cell_size_km">grid_cell_size_km</code></td>
+<td>
+<p>Single positive numeric grid-cell width in projected kilometres.</p>
+</td></tr>
+<tr><td><code id="seed">seed</code></td>
+<td>
+<p>Single finite integer used for reproducible within-cell ordering. Defaults
+to '900723L'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Locations in the most populated cells are assigned first. For each
+location, folds are ranked lexicographically by existing locations from the
+same grid cell, total locations, total represented samples, and fold ID.
+Grid origins shift deterministically between repeats to expose sensitivity
+to arbitrary grid boundaries. The caller's random-number state is restored.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Tibble with 'repeat_id', 'fold_id', 'location_id', 'grid_cell_id',
+'n_samples', and 'row_indices'. Every location occurs exactly once per
+repeat and every sample row remains attached to its complete location.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data_locations &lt;-
+  tibble::tibble(
+    location_id = c("a", "b", "c", "d"),
+    coord_x_km = c(0, 1, 10, 11),
+    coord_y_km = c(0, 1, 10, 11),
+    n_samples = rep(1L, 4L),
+    row_indices = list(1L, 2L, 3L, 4L)
+  )
+build_spatial_cross_validation_assignments(
+  data_locations = data_locations,
+  n_folds = 2L,
+  grid_cell_size_km = 5
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -15,6 +15,12 @@ convert_v1_sjsdm_tier_tuning_artifact <- function(
     configuration_profile = NULL,
     created_at = base::Sys.time(),
     v1_schema_hash = "2d727fd54623501e0ac384e0674c17f3") {
+  payload[["data_regularization_selection"]] <-
+    convert_v1_sjsdm_tier_regularization_selection(
+      data_selection =
+        payload[["data_regularization_selection"]]
+    )
+
   res <-
     convert_sjsdm_v1_artifact(
       artifact_type = "sjsdm_tier_tuning",
@@ -28,4 +34,3 @@ convert_v1_sjsdm_tier_tuning_artifact <- function(
 
   return(res)
 }
-

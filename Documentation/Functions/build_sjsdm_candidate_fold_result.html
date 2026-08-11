@@ -1,0 +1,93 @@
+<!DOCTYPE html><html><head><title>R: Build One sjSDM Candidate-Fold Result</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_sjsdm_candidate_fold_result</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build One sjSDM Candidate-Fold Result</h2>
+
+<h3>Description</h3>
+
+<p>Constructs one typed tuning row and its compact prediction-cache record for
+a completed or failed candidate lifecycle.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_sjsdm_candidate_fold_result(
+  data_candidate = NULL,
+  list_fold_context = NULL,
+  fit_seed = NA_integer_,
+  score_seed = NA_integer_,
+  fit_status = NULL,
+  error_message = NA_character_,
+  data_metrics = NULL,
+  data_predicted = NULL,
+  fit_seconds = NA_real_,
+  prediction_seconds = NA_real_,
+  scoring_seconds = NA_real_
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_candidate">data_candidate</code></td>
+<td>
+<p>One-row candidate table with the candidate identifier and six parameters.</p>
+</td></tr>
+<tr><td><code id="list_fold_context">list_fold_context</code></td>
+<td>
+<p>Fold context containing identifiers, sizes, and the CV strategy.</p>
+</td></tr>
+<tr><td><code id="fit_seed">fit_seed</code>, <code id="score_seed">score_seed</code></td>
+<td>
+<p>Derived candidate seeds, or typed missing integers before candidate work.</p>
+</td></tr>
+<tr><td><code id="fit_status">fit_status</code></td>
+<td>
+<p>One of 'preparation_error', 'fit_error', 'prediction_error',
+'scoring_error', or 'ok'.</p>
+</td></tr>
+<tr><td><code id="error_message">error_message</code></td>
+<td>
+<p>Character failure message, or a missing character value for success.</p>
+</td></tr>
+<tr><td><code id="data_metrics">data_metrics</code></td>
+<td>
+<p>Optional named list of the five candidate scoring metrics.</p>
+</td></tr>
+<tr><td><code id="data_predicted">data_predicted</code></td>
+<td>
+<p>Optional held-out probability matrix. Fitted model objects are never stored.</p>
+</td></tr>
+<tr><td><code id="fit_seconds">fit_seconds</code>, <code id="prediction_seconds">prediction_seconds</code>, <code id="scoring_seconds">scoring_seconds</code></td>
+<td>
+<p>Candidate lifecycle timings in seconds.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list containing one-row 'data_tuning' and 'list_prediction'.
+</p>
+
+</main>
+
+</div>
+</body></html>

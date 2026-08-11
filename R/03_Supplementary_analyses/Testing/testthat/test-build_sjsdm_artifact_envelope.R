@@ -12,12 +12,18 @@ testthat::test_that(
       )
 
     list_artifact <-
+      build_sjsdm_empty_selected_fold_artifacts()
+
+    payload <-
+      base::list(
+        data_predictions = list_artifact[["data_predictions"]],
+        data_fold_diagnostics = list_artifact[["data_diagnostics"]]
+      )
+
+    list_artifact <-
       build_sjsdm_artifact_envelope(
         artifact_type = "sjsdm_cv_predictions",
-        payload = base::list(
-          data_predictions = tibble::tibble(value = 1),
-          data_fold_diagnostics = tibble::tibble(status = "ok")
-        ),
+        payload = payload,
         provenance = provenance
       )
 

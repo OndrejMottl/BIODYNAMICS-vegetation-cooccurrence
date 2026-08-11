@@ -16,7 +16,7 @@ Usage:
        cache_dir,
        raster_fn = load_chelsa_raster
      )
-     
+
 Arguments:
 
 data_grid: Data frame with `grid_id`, `coord_long`, and `coord_lat`
@@ -42,7 +42,7 @@ Value:
 Examples:
 
      ## Not run:
-     
+
      extract_prediction_climate(
        data_grid = data_grid,
        age = 0,
@@ -52,4 +52,3 @@ Examples:
        cache_dir = "Data/Temp/chelsa/prediction"
      )
      ## End(Not run)
-     

@@ -13,7 +13,7 @@ Usage:
 Arguments:
 
 data_comparisons: Output from
-          [compare_sjsdm_decomposition_fold_metrics()].
+          [compute_sjsdm_decomposition_fold_effects()].
 
 Details:
 

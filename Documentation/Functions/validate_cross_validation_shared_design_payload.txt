@@ -1,0 +1,17 @@
+Validate the cross validation shared design Payload
+
+Description:
+
+     Applies the artifact-specific registered payload contract.
+
+Usage:
+
+     validate_cross_validation_shared_design_payload(payload = NULL)
+
+Arguments:
+
+ payload: Named artifact payload.
+
+Value:
+
+     Invisible `TRUE`; invalid payloads abort.

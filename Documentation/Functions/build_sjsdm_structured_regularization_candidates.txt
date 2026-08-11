@@ -1,0 +1,56 @@
+Make Structured sjSDM Regularization Candidates
+
+Description:
+
+     Builds a deterministic first-pass coordinate search around one
+     reference regularization candidate without creating a Cartesian
+     product.
+
+Usage:
+
+     build_sjsdm_structured_regularization_candidates(
+       alpha_cov = 0.5,
+       alpha_coef = 0.5,
+       alpha_spatial = 0.5,
+       lambda_cov_reference = 0.1,
+       lambda_coef_reference = 0.1,
+       lambda_spatial_reference = 0.1,
+       lambda_values = base::c(0, 0.01, 0.03, 0.1, 0.3, 1)
+     )
+
+Arguments:
+
+alpha_cov, alpha_coef, alpha_spatial: Fixed finite elastic-net mixing
+          values between zero and one.
+
+lambda_cov_reference, lambda_coef_reference: Reference covariance and
+          abiotic-coefficient lambda values.
+
+lambda_spatial_reference: Reference spatial-coefficient lambda value.
+
+lambda_values: Unique finite non-negative values searched separately
+          along each lambda axis. The vector must contain every
+          reference value, with each reference strictly inside the
+          search range.
+
+Details:
+
+     The reference candidate appears once. Every other candidate
+     changes exactly one lambda while holding the remaining lambdas at
+     their reference values. With six shared lambda values and one
+     shared reference, this produces 16 candidates instead of a 216-row
+     Cartesian product. Input order does not affect candidate
+     identifiers.
+
+Value:
+
+     Named list containing `data_candidates`, which follows the
+     production tuning-candidate schema, and `data_search_design`,
+     which records the varied axis, axis value, reference status, and
+     lower/upper boundary flags.
+
+Examples:
+
+     build_sjsdm_structured_regularization_candidates(
+       lambda_values = c(0, 0.01, 0.03, 0.1, 0.3, 1)
+     )

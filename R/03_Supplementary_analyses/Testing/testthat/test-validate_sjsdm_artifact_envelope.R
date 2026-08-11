@@ -1,10 +1,13 @@
 testthat::test_that(
   "validate_sjsdm_artifact_envelope() accepts valid v2",
   {
+    list_empty <-
+      build_sjsdm_empty_selected_fold_artifacts()
+
     payload <-
       base::list(
-        data_predictions = tibble::tibble(value = 1),
-        data_fold_diagnostics = tibble::tibble(status = "ok")
+        data_predictions = list_empty[["data_predictions"]],
+        data_fold_diagnostics = list_empty[["data_diagnostics"]]
       )
 
     provenance <-
@@ -18,24 +21,11 @@ testthat::test_that(
       )
 
     content_hash <-
-      digest::digest(
-        base::list(
-          schema_version = "2.0.0",
-          artifact_type = "sjsdm_cv_predictions",
-          payload = payload,
-          provenance = provenance |>
-            dplyr::select(
-              -dplyr::all_of(
-                base::c(
-                  "created_at",
-                  "source_schema_version",
-                  "migration_applied",
-                  "migration_function"
-                )
-              )
-            )
-        ),
-        algo = "xxhash64"
+      compute_sjsdm_artifact_content_hash(
+        schema_version = "2.0.0",
+        artifact_type = "sjsdm_cv_predictions",
+        payload = payload,
+        provenance = provenance
       )
 
     list_artifact <-
@@ -52,6 +42,33 @@ testthat::test_that(
         list_artifact = list_artifact,
         expected_artifact_type = "sjsdm_cv_predictions"
       )
+    )
+  }
+)
+
+testthat::test_that(
+  "validate_sjsdm_artifact_envelope() couples migration provenance",
+  {
+    list_empty <-
+      build_sjsdm_empty_selected_fold_artifacts()
+
+    testthat::expect_error(
+      build_sjsdm_artifact_envelope(
+        artifact_type = "sjsdm_cv_predictions",
+        payload = base::list(
+          data_predictions = list_empty[["data_predictions"]],
+          data_fold_diagnostics = list_empty[["data_diagnostics"]]
+        ),
+        provenance = tibble::tibble(
+          created_at = base::as.POSIXct("2026-08-11", tz = "UTC"),
+          pipeline_id = "pipeline_test",
+          configuration_profile = "project_test",
+          source_schema_version = "1.0.0",
+          migration_applied = FALSE,
+          migration_function = NA_character_
+        )
+      ),
+      "provenance"
     )
   }
 )

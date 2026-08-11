@@ -73,7 +73,7 @@ build_sjsdm_tier_tuning_artifact <- function(
   data_artifact <-
     data_primary_selection |>
     dplyr::mutate(
-      artifact_schema_version = "1.0.0",
+      artifact_schema_version = "2.0.0",
       regularization_source = "tier_pooled",
       source_tier = .data[["tier_id"]],
       source_ids = base::list(vec_source_ids),

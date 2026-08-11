@@ -19,7 +19,7 @@ Usage:
 Arguments:
 
 data_work_item: One-row work item from
-          [make_sjsdm_tuning_branch_work_items()]. The optional
+          [build_sjsdm_tuning_branch_work_items()]. The optional
           `tuning_applicable = FALSE` sentinel returns without fitting.
 
 list_prepared_folds: Prepared fold list from

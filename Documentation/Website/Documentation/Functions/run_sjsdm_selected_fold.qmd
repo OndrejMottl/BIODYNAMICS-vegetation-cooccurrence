@@ -1,0 +1,86 @@
+---
+format: html
+title: run_sjsdm_selected_fold()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_sjsdm_selected_fold</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run One Selected sjSDM Fold</h2>
+
+<h3>Description</h3>
+
+<p>Prepares, fits, and predicts one live selected-candidate fold, then delegates
+all persisted row construction to [build_sjsdm_selected_fold_artifacts()].
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_sjsdm_selected_fold(
+  list_fold_context = NULL,
+  data_candidate = NULL,
+  data_sample_ids = NULL,
+  taxon_names = NULL,
+  regularization_source = NULL,
+  prepare_fold_function = NULL,
+  fit_function = NULL,
+  predict_function = NULL,
+  seed = 900723L
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="list_fold_context">list_fold_context</code></td>
+<td>
+<p>Fold context returned by [build_sjsdm_tuning_fold_context()].</p>
+</td></tr>
+<tr><td><code id="data_candidate">data_candidate</code></td>
+<td>
+<p>One-row selected candidate table without provenance-only fields.</p>
+</td></tr>
+<tr><td><code id="data_sample_ids">data_sample_ids</code>, <code id="taxon_names">taxon_names</code></td>
+<td>
+<p>Normalized sample metadata and full ordered response-taxon names.</p>
+</td></tr>
+<tr><td><code id="regularization_source">regularization_source</code></td>
+<td>
+<p>Source label for the selected regularization candidate.</p>
+</td></tr>
+<tr><td><code id="prepare_fold_function">prepare_fold_function</code>, <code id="fit_function">fit_function</code>, <code id="predict_function">predict_function</code></td>
+<td>
+<p>Injectable selected-fold lifecycle functions.</p>
+</td></tr>
+<tr><td><code id="seed">seed</code></td>
+<td>
+<p>Non-negative base integer used to derive the stable fold fit seed.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list with one fold's prediction and diagnostic artifacts.
+</p>
+
+</main>
+
+</div>
+</body></html>

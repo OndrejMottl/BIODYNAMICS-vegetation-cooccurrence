@@ -27,10 +27,10 @@ active_config: Non-default configuration profile used for the
 unit_pipeline: Unit pipeline script passed to
           [run_sjsdm_tuning_sequence()].
 
-tuning_target_names: Public tuning-summary targets included in the
+tuning_target_names: Public v2 tuning-artifact targets included in the
           validation.
 
-final_target_names: Final model, evaluation, and provenance targets to
+final_target_names: Final model and v2 evaluation-artifact targets to
           complete.
 
 store_suffix: Optional isolated spatial-unit store suffix.

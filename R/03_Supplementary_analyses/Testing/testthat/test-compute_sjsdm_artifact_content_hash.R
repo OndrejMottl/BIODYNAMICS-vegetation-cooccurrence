@@ -51,6 +51,56 @@ testthat::test_that(
 
     testthat::expect_match(hash_native, "^[0-9a-f]{16}$")
     testthat::expect_identical(hash_native, hash_migrated)
+}
+)
+
+testthat::test_that(
+  "compute_sjsdm_artifact_content_hash() ignores payload creation time",
+  {
+    provenance <-
+      tibble::tibble(
+        created_at = base::as.POSIXct("2026-08-11", tz = "UTC"),
+        pipeline_id = "pipeline_test",
+        configuration_profile = "project_test",
+        source_schema_version = "2.0.0",
+        migration_applied = FALSE,
+        migration_function = NA_character_
+      )
+
+    payload_a <-
+      base::list(
+        data_selection = tibble::tibble(
+          candidate_id = "candidate_001",
+          created_at = base::as.POSIXct("2026-08-11", tz = "UTC")
+        )
+      )
+
+    payload_b <-
+      payload_a |>
+      purrr::map(
+        ~ dplyr::mutate(
+          .x,
+          created_at = base::as.POSIXct("2026-08-12", tz = "UTC")
+        )
+      )
+
+    hash_a <-
+      compute_sjsdm_artifact_content_hash(
+        schema_version = "2.0.0",
+        artifact_type = "sjsdm_cv_predictions",
+        payload = payload_a,
+        provenance = provenance
+      )
+
+    hash_b <-
+      compute_sjsdm_artifact_content_hash(
+        schema_version = "2.0.0",
+        artifact_type = "sjsdm_cv_predictions",
+        payload = payload_b,
+        provenance = provenance
+      )
+
+    testthat::expect_identical(hash_a, hash_b)
   }
 )
 

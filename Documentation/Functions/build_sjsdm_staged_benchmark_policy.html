@@ -1,0 +1,42 @@
+<!DOCTYPE html><html><head><title>R: Get the Versioned sjSDM Staged Benchmark Policy</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_sjsdm_staged_benchmark_policy</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get the Versioned sjSDM Staged Benchmark Policy</h2>
+
+<h3>Description</h3>
+
+<p>Returns the frozen issue 138 runtime, resource, technical, and scientific
+acceptance thresholds for paired staged-versus-exhaustive benchmarks.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_sjsdm_staged_benchmark_policy()
+</code></pre>
+
+
+<h3>Value</h3>
+
+<p>A named list containing the policy version and numeric gate thresholds.
+</p>
+
+</main>
+
+</div>
+</body></html>

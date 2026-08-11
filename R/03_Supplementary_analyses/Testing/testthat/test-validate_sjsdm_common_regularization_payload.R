@@ -1,23 +1,42 @@
 testthat::test_that(
-  "validate_sjsdm_common_regularization_payload() enforces its registered payload",
+  "validate_sjsdm_common_regularization_payload() is exact",
   {
-    vec_payload_names <-
-      build_sjsdm_artifact_registry()[["sjsdm_common_regularization"]]
     payload <-
-      stats::setNames(
-        purrr::map(
-          vec_payload_names,
-          ~ if (stringr::str_starts(.x, "list_")) {
-            base::list()
-          } else {
-            tibble::tibble()
-          }
-        ),
-        vec_payload_names
+      make_sjsdm_common_payload_fixture()
+
+    testthat::expect_true(
+      validate_sjsdm_common_regularization_payload(payload)
+    )
+
+    payload_duplicate <-
+      payload
+
+    payload_duplicate[["data_model_index"]] <-
+      dplyr::bind_rows(
+        payload_duplicate[["data_model_index"]],
+        payload_duplicate[["data_model_index"]]
       )
 
-    testthat::expect_true(validate_sjsdm_common_regularization_payload(payload))
-    testthat::expect_error(validate_sjsdm_common_regularization_payload(payload[-1L]), "registered contract")
+    testthat::expect_error(
+      validate_sjsdm_common_regularization_payload(
+        payload_duplicate
+      ),
+      "duplicate"
+    )
+
+    payload_bad_status <-
+      payload
+
+    payload_bad_status[["data_sensitivity_provenance"]][[
+      "fit_status"
+    ]] <-
+      "unknown"
+
+    testthat::expect_error(
+      validate_sjsdm_common_regularization_payload(
+        payload_bad_status
+      ),
+      "invalid status"
+    )
   }
 )
-

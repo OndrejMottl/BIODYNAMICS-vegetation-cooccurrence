@@ -1,0 +1,25 @@
+Build sjSDM Tuning Store Paths
+
+Description:
+
+     Resolves isolated unit-store paths for one unit pipeline.
+
+Usage:
+
+     build_sjsdm_tuning_store_paths(
+       unit_pipeline = NULL,
+       unit_store_suffixes = NULL,
+       target_store = NULL
+     )
+
+Arguments:
+
+unit_pipeline: Unit pipeline script path.
+
+unit_store_suffixes: Optional nested store suffixes.
+
+target_store: Root targets-store path.
+
+Value:
+
+     Character vector of deterministic unit-store paths.

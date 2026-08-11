@@ -1,0 +1,39 @@
+Validate an sjSDM Artifact Table
+
+Description:
+
+     Applies an exact column, type, key, row-count, and status contract
+     to one table nested anywhere inside a v2 cross-validation
+     artifact.
+
+Usage:
+
+     validate_sjsdm_artifact_table(
+       data_value = NULL,
+       table_name = NULL,
+       columns = NULL,
+       types = NULL,
+       keys = NULL,
+       statuses = base::list(),
+       n_rows = NULL
+     )
+
+Arguments:
+
+data_value: Artifact table.
+
+table_name: Human-readable payload field name.
+
+ columns: Exact ordered column names.
+
+   types: Exact named base types returned by [base::typeof()].
+
+    keys: Optional unique key columns.
+
+statuses: Optional named list of allowed character values.
+
+  n_rows: Optional exact row count.
+
+Value:
+
+     Invisible `TRUE`; invalid tables abort.

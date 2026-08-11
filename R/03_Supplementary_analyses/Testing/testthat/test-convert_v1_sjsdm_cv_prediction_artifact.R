@@ -1,20 +1,8 @@
 testthat::test_that(
   "convert_v1_sjsdm_cv_prediction_artifact() upgrades the frozen v1 fixture",
   {
-    vec_payload_names <-
-      build_sjsdm_artifact_registry()[["sjsdm_cv_predictions"]]
     payload <-
-      stats::setNames(
-        purrr::map(
-          vec_payload_names,
-          ~ if (stringr::str_starts(.x, "list_")) {
-            base::list()
-          } else {
-            tibble::tibble()
-          }
-        ),
-        vec_payload_names
-      )
+      make_sjsdm_prediction_payload_fixture()
 
     res <-
       convert_v1_sjsdm_cv_prediction_artifact(
@@ -30,4 +18,3 @@ testthat::test_that(
     )
   }
 )
-

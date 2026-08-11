@@ -351,6 +351,10 @@ pipe_segment_model_cross_validation <-
           data_feasibility = data_cross_validation_feasibility,
           data_route_provenance = tibble::tibble(
             assignment_route = "direct",
+            assignment_source = dplyr::first(
+              data_cross_validation_assignments[["assignment_source"]],
+              default = "direct"
+            ),
             assignment_seed = purrr::chuck(
               config_model_fitting,
               "cross_validation",

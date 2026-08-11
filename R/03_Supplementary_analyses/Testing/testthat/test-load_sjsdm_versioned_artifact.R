@@ -1,12 +1,15 @@
 testthat::test_that(
   "load_sjsdm_versioned_artifact() prefers canonical v2 output",
   {
+    list_empty <-
+      build_sjsdm_empty_selected_fold_artifacts()
+
     list_v2 <-
       build_sjsdm_pipeline_artifact(
         artifact_type = "sjsdm_cv_predictions",
         payload = base::list(
-          data_predictions = tibble::tibble(value = 1),
-          data_fold_diagnostics = tibble::tibble(status = "ok")
+          data_predictions = list_empty[["data_predictions"]],
+          data_fold_diagnostics = list_empty[["data_diagnostics"]]
         ),
         pipeline_id = "pipeline_test",
         configuration_profile = "project_test"

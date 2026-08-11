@@ -1,19 +1,51 @@
 testthat::test_that(
   "convert_v1_sjsdm_cv_tuning_artifact() upgrades the frozen v1 fixture",
   {
-    vec_payload_names <-
-      build_sjsdm_artifact_registry()[["sjsdm_cv_tuning"]]
+    data_candidates <-
+      build_sjsdm_regularization_candidates(
+        alpha_cov = 0,
+        alpha_coef = 0,
+        alpha_spatial = 0,
+        lambda_cov = 0.1,
+        lambda_coef = 0.1,
+        lambda_spatial = 0.1
+      )
+
+    data_schedule <-
+      build_sjsdm_tuning_schedule(
+        tuning_strategy = "exhaustive",
+        n_candidates = 1L,
+        repeat_ids = 1L
+      )
+
+    data_empty_metrics <-
+      build_sjsdm_empty_tuning_result()[["data_tuning"]]
+
+    data_empty_summary <-
+      summarise_sjsdm_tuning_candidates(data_empty_metrics) |>
+      dplyr::mutate(
+        source_id = base::character(),
+        tier_id = base::character(),
+        taxonomic_resolution = base::character(),
+        response_family = base::character(),
+        predictor_structure = base::character(),
+        candidate_table_hash = base::character()
+      )
+
     payload <-
-      stats::setNames(
-        purrr::map(
-          vec_payload_names,
-          ~ if (stringr::str_starts(.x, "list_")) {
-            base::list()
-          } else {
-            tibble::tibble()
-          }
+      base::list(
+        data_candidates = data_candidates,
+        data_schedule = data_schedule,
+        data_candidate_fold_metrics = data_empty_metrics,
+        data_candidate_repeat_summary = data_empty_summary,
+        data_stage_timings = summarise_sjsdm_tuning_timings(
+          list_prediction_cache = base::list()
         ),
-        vec_payload_names
+        data_execution_provenance = summarise_sjsdm_tuning_execution(
+          data_tuning = data_empty_metrics,
+          data_schedule = data_schedule
+        ),
+        list_prediction_cache = base::list()
       )
 
     res <-
@@ -30,4 +62,3 @@ testthat::test_that(
     )
   }
 )
-

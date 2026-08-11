@@ -1,0 +1,17 @@
+Validate the sjsdm cv predictions Payload
+
+Description:
+
+     Applies the artifact-specific registered payload contract.
+
+Usage:
+
+     validate_sjsdm_cv_prediction_payload(payload = NULL)
+
+Arguments:
+
+ payload: Named artifact payload.
+
+Value:
+
+     Invisible `TRUE`; invalid payloads abort.

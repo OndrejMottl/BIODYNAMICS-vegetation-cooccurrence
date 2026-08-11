@@ -1,0 +1,56 @@
+---
+format: html
+title: convert_v1_sjsdm_tier_regularization_selection()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>convert_v1_sjsdm_tier_regularization_selection</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert a v1 sjSDM Tier Regularization Selection</h2>
+
+<h3>Description</h3>
+
+<p>Validates the frozen v1 tier-selection table and upgrades its embedded
+schema marker without changing scientific content or creation provenance.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>convert_v1_sjsdm_tier_regularization_selection(data_selection = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_selection">data_selection</code></td>
+<td>
+<p>Frozen v1 tier-selection table.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Exact v2 tier-selection table.
+</p>
+
+</main>
+
+</div>
+</body></html>

@@ -85,11 +85,14 @@ compute_sjsdm_artifact_content_hash <- function(
       -dplyr::all_of(vec_excluded_provenance)
     )
 
+  list_stable_payload <-
+    prepare_sjsdm_artifact_hash_payload(payload)
+
   list_hash_content <-
     base::list(
       schema_version = schema_version,
       artifact_type = artifact_type,
-      payload = payload,
+      payload = list_stable_payload,
       provenance = data_stable_provenance
     )
 

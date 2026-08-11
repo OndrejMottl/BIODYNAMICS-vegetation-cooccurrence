@@ -273,6 +273,7 @@ build_sjsdm_selected_fold_artifacts <- function(
       relationship = "many-to-one"
     ) |>
     dplyr::mutate(
+      observed = base::as.numeric(.data[["observed"]]),
       null_probability = base::unname(
         vec_null_probability[.data[["taxon"]]]
       ),

@@ -12,7 +12,7 @@ Usage:
        data_predicted_long,
        value_column = "predicted_probability"
      )
-     
+
 Arguments:
 
 data_predicted_long: Long prediction data with one row per grid cell,
@@ -37,4 +37,3 @@ Examples:
          predicted_probability = c(0.2, 0.3)
        )
      )
-     

@@ -1,0 +1,14 @@
+Build an Empty Unit Regularization Selection
+
+Description:
+
+     Constructs the exact typed-empty unit-selection table used when
+     unit-level cross-validation is scientifically inapplicable.
+
+Usage:
+
+     build_sjsdm_empty_unit_regularization_selection()
+
+Value:
+
+     Typed empty unit regularization-selection tibble.

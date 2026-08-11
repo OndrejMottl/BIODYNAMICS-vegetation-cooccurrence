@@ -9,8 +9,8 @@
 #' @param read_target_function
 #' Injectable target reader. Defaults to [targets::tar_read_raw()].
 #' @return
-#' One matching artifact row, or `NULL` when the shared target is unavailable
-#' or does not yet contain the requested context.
+#' One matching artifact row, or an exact typed-empty table when the shared
+#' target is unavailable or does not yet contain the requested context.
 #' @examples
 #' \dontrun{
 #' load_sjsdm_tier_tuning_artifact(
@@ -65,9 +65,12 @@ load_sjsdm_tier_tuning_artifact <- function(
       }
     )
 
+  flag_v1_fallback <-
+    base::is.null(list_artifact_v2)
+
   data_artifacts <-
     if (
-      base::is.null(list_artifact_v2)
+      flag_v1_fallback
     ) {
       tryCatch(
         expr = read_target_function(
@@ -92,7 +95,16 @@ load_sjsdm_tier_tuning_artifact <- function(
   if (
     base::is.null(data_artifacts)
   ) {
-    return(NULL)
+    return(build_sjsdm_empty_tier_regularization_selection())
+  }
+
+  if (
+    flag_v1_fallback
+  ) {
+    data_artifacts <-
+      convert_v1_sjsdm_tier_regularization_selection(
+        data_selection = data_artifacts
+      )
   }
 
   assertthat::assert_that(
@@ -117,7 +129,7 @@ load_sjsdm_tier_tuning_artifact <- function(
   if (
     base::nrow(data_matching) == 0L
   ) {
-    return(NULL)
+    return(build_sjsdm_empty_tier_regularization_selection())
   }
 
   if (

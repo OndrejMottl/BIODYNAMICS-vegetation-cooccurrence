@@ -1,0 +1,34 @@
+Validate an sjSDM Artifact Envelope
+
+Description:
+
+     Validates the common v2 envelope, registered payload names,
+     provenance, and deterministic content hash.
+
+Usage:
+
+     validate_sjsdm_artifact_envelope(
+       list_artifact = NULL,
+       expected_artifact_type = NULL
+     )
+
+Arguments:
+
+list_artifact: Named list containing one persisted v2 artifact.
+
+expected_artifact_type: Optional character scalar required artifact
+          type.
+
+Value:
+
+     Invisible `TRUE`. Invalid artifacts abort.
+
+Examples:
+
+     ## Not run:
+
+     validate_sjsdm_artifact_envelope(
+       list_artifact = list_sjsdm_cv_prediction_artifact,
+       expected_artifact_type = "sjsdm_cv_predictions"
+     )
+     ## End(Not run)

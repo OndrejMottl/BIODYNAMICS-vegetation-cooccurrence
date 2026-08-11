@@ -1,0 +1,79 @@
+<!DOCTYPE html><html><head><title>R: Build an sjSDM Pipeline Artifact</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_sjsdm_pipeline_artifact</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build an sjSDM Pipeline Artifact</h2>
+
+<h3>Description</h3>
+
+<p>Builds common provenance and a validated v2 envelope at a pipeline stage
+boundary.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_sjsdm_pipeline_artifact(
+  artifact_type = NULL,
+  payload = NULL,
+  pipeline_id = NULL,
+  configuration_profile = NULL,
+  created_at = base::Sys.time(),
+  stable_provenance = base::list()
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="artifact_type">artifact_type</code></td>
+<td>
+<p>Registered artifact type.</p>
+</td></tr>
+<tr><td><code id="payload">payload</code></td>
+<td>
+<p>Exact named payload list.</p>
+</td></tr>
+<tr><td><code id="pipeline_id">pipeline_id</code></td>
+<td>
+<p>Pipeline identifier.</p>
+</td></tr>
+<tr><td><code id="configuration_profile">configuration_profile</code></td>
+<td>
+<p>Active configuration profile.</p>
+</td></tr>
+<tr><td><code id="created_at">created_at</code></td>
+<td>
+<p>Finite creation time.</p>
+</td></tr>
+<tr><td><code id="stable_provenance">stable_provenance</code></td>
+<td>
+<p>Optional stable scientific provenance.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Validated v2 artifact envelope.
+</p>
+
+</main>
+
+</div>
+</body></html>

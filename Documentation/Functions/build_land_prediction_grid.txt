@@ -15,7 +15,7 @@ Usage:
        path_spatial_grid = here::here("Data/Input/spatial_grid.csv"),
        land_polygons = NULL
      )
-     
+
 Arguments:
 
 scale_id: Character scalar identifying a spatial unit in
@@ -39,11 +39,10 @@ Value:
 Examples:
 
      ## Not run:
-     
+
      build_land_prediction_grid(
        scale_id = "europe",
        grid_resolution = 0.5,
        target_crs = 3035L
      )
      ## End(Not run)
-     

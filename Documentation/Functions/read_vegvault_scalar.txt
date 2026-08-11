@@ -8,7 +8,7 @@ Description:
 Usage:
 
      read_vegvault_scalar(conn, sql)
-     
+
 Arguments:
 
     conn: Active DBI connection.
@@ -22,9 +22,8 @@ Value:
 Examples:
 
      ## Not run:
-     
+
      con <- DBI::dbConnect(RSQLite::SQLite(), "Data/Input/VegVault.sqlite")
      on.exit(DBI::dbDisconnect(con), add = TRUE)
      read_vegvault_scalar(con, "select count(*) from Datasets")
      ## End(Not run)
-     

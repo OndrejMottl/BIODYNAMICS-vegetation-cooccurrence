@@ -1,0 +1,72 @@
+<!DOCTYPE html><html><head><title>R: Run One sjSDM Tier Tuning Round</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_sjsdm_tuning_tier_round</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run One sjSDM Tier Tuning Round</h2>
+
+<h3>Description</h3>
+
+<p>Runs one explicit tier survivor or final artifact target without a nested
+callr boundary.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_sjsdm_tuning_tier_round(
+  tuning_strategy = NULL,
+  tier_target_name = NULL,
+  fresh_round = FALSE,
+  final_round = FALSE,
+  run_pipeline_function = run_pipeline,
+  vec_allowed_profile_roles = base::c("main", "smoke"),
+  vec_allowed_profile_statuses = "active"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="tuning_strategy">tuning_strategy</code>, <code id="tier_target_name">tier_target_name</code></td>
+<td>
+<p>Strategy and optional staged tier target.</p>
+</td></tr>
+<tr><td><code id="fresh_round">fresh_round</code>, <code id="final_round">final_round</code></td>
+<td>
+<p>First- and final-round flags.</p>
+</td></tr>
+<tr><td><code id="run_pipeline_function">run_pipeline_function</code></td>
+<td>
+<p>Injectable pipeline runner.</p>
+</td></tr>
+<tr><td><code id="vec_allowed_profile_roles">vec_allowed_profile_roles</code>, <code id="vec_allowed_profile_statuses">vec_allowed_profile_statuses</code></td>
+<td>
+<p>Allowed profile metadata forwarded to the runner.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Invisible 'NULL'.
+</p>
+
+</main>
+
+</div>
+</body></html>

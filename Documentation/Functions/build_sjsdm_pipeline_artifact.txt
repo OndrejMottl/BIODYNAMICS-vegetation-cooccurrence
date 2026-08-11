@@ -1,0 +1,35 @@
+Build an sjSDM Pipeline Artifact
+
+Description:
+
+     Builds common provenance and a validated v2 envelope at a pipeline
+     stage boundary.
+
+Usage:
+
+     build_sjsdm_pipeline_artifact(
+       artifact_type = NULL,
+       payload = NULL,
+       pipeline_id = NULL,
+       configuration_profile = NULL,
+       created_at = base::Sys.time(),
+       stable_provenance = base::list()
+     )
+
+Arguments:
+
+artifact_type: Registered artifact type.
+
+ payload: Exact named payload list.
+
+pipeline_id: Pipeline identifier.
+
+configuration_profile: Active configuration profile.
+
+created_at: Finite creation time.
+
+stable_provenance: Optional stable scientific provenance.
+
+Value:
+
+     Validated v2 artifact envelope.

@@ -311,7 +311,7 @@ pipe_segment_model_cross_validation_execution <-
         data_cross_validation_feasibility[["cv_strategy"]][[1L]] ==
           "none"
       ) {
-        tibble::tibble()
+        build_sjsdm_empty_unit_regularization_selection()
       } else {
         select_sjsdm_regularization(
           data_tuning_summary = data_sjsdm_candidate_repeat_summary,
@@ -330,7 +330,7 @@ pipe_segment_model_cross_validation_execution <-
         data_cross_validation_feasibility[["cv_feasibility_status"]][[1L]] ==
           "full_model_infeasible"
       ) {
-        tibble::tibble()
+        build_sjsdm_empty_tier_regularization_selection()
       } else {
         load_sjsdm_tier_tuning_artifact(
           store_path = here::here(

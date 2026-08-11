@@ -2,25 +2,29 @@ testthat::test_that(
   "load_sjsdm_tier_tuning_artifact() selects a compatible artifact",
   {
     data_artifacts <-
-      tibble::tibble(
-        tier_id = "paleo_spatial_regional",
-        taxonomic_resolution = base::c("genus", "family"),
-        response_family = "binomial",
-        predictor_structure = "spatial=TRUE;mode=spatial",
-        candidate_table_hash = "candidate_hash",
-        candidate_id = base::c("candidate_001", "candidate_002")
-      )
+      make_sjsdm_tier_payload_fixture(
+        schema_version = "1.0.0"
+      )[["data_regularization_selection"]]
 
     data_context <-
       data_artifacts |>
-      dplyr::filter(.data[["taxonomic_resolution"]] == "family") |>
-      dplyr::select(-"candidate_id")
+      dplyr::select(
+        "tier_id",
+        "taxonomic_resolution",
+        "response_family",
+        "predictor_structure",
+        "candidate_table_hash"
+      )
 
     res <-
       load_sjsdm_tier_tuning_artifact(
         store_path = "tier_store",
         data_model_context = data_context,
         read_target_function = function(name, store) {
+          if (name == "list_sjsdm_tier_tuning_artifact") {
+            base::stop("v2 target unavailable")
+          }
+
           testthat::expect_equal(
             name,
             "data_sjsdm_tier_regularization_artifacts"
@@ -31,7 +35,11 @@ testthat::test_that(
       )
 
     testthat::expect_equal(base::nrow(res), 1L)
-    testthat::expect_equal(res[["candidate_id"]], "candidate_002")
+    testthat::expect_equal(res[["candidate_id"]], "candidate_001")
+    testthat::expect_equal(
+      res[["artifact_schema_version"]],
+      "2.0.0"
+    )
   }
 )
 
@@ -56,6 +64,9 @@ testthat::test_that(
         }
       )
 
-    testthat::expect_null(res)
+    testthat::expect_identical(
+      res,
+      build_sjsdm_empty_tier_regularization_selection()
+    )
   }
 )

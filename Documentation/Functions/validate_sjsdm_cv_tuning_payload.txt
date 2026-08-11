@@ -1,0 +1,17 @@
+Validate the sjsdm cv tuning Payload
+
+Description:
+
+     Applies the artifact-specific registered payload contract.
+
+Usage:
+
+     validate_sjsdm_cv_tuning_payload(payload = NULL)
+
+Arguments:
+
+ payload: Named artifact payload.
+
+Value:
+
+     Invisible `TRUE`; invalid payloads abort.

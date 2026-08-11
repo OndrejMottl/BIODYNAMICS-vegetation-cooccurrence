@@ -19,7 +19,7 @@ data_assignments: Cross-validation assignments accepted by
           [run_sjsdm_tuning_candidates()].
 
 data_candidates: Candidate table returned by
-          [make_sjsdm_regularization_candidates()].
+          [build_sjsdm_regularization_candidates()].
 
     seed: Non-negative base integer used by the tuning engine.
 

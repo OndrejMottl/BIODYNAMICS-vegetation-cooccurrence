@@ -1,0 +1,18 @@
+Build an Empty sjSDM Tuning Result
+
+Description:
+
+     Constructs the typed empty tuning table and prediction cache used
+     when no candidate-fold work item is applicable.
+
+Usage:
+
+     build_sjsdm_empty_tuning_result()
+
+Value:
+
+     Named list with `data_tuning` and `list_prediction_cache`.
+
+Examples:
+
+     build_sjsdm_empty_tuning_result()

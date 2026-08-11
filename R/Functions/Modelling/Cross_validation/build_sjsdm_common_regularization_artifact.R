@@ -251,7 +251,7 @@ build_sjsdm_common_regularization_artifact <- function(
   data_artifact <-
     data_selection |>
     dplyr::mutate(
-      artifact_schema_version = "1.0.0",
+      artifact_schema_version = "2.0.0",
       created_at = created_at,
       source_tier = "common_spatial",
       regularization_source = "common_spatial_sensitivity",

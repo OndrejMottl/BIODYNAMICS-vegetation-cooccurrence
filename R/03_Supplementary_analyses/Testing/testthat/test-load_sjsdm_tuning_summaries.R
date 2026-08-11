@@ -36,24 +36,64 @@ testthat::test_that(
   "load_sjsdm_tuning_summaries() reads native v2 artifacts",
   {
     read_target_function <- function(name, store) {
-      vec_payload_names <-
-        build_sjsdm_artifact_registry()[["sjsdm_cv_tuning"]]
-      payload <-
-        stats::setNames(
-          purrr::map(
-            vec_payload_names,
-            ~ if (stringr::str_starts(.x, "list_")) {
-              base::list()
-            } else {
-              tibble::tibble()
-            }
-          ),
-          vec_payload_names
+      data_candidates <-
+        build_sjsdm_regularization_candidates(
+          alpha_cov = 0,
+          alpha_coef = 0,
+          alpha_spatial = 0,
+          lambda_cov = 0.1,
+          lambda_coef = 0.1,
+          lambda_spatial = 0.1
         )
-      payload[["data_candidate_repeat_summary"]] <-
-        tibble::tibble(
-          source_id = "unit",
-          candidate_id = "candidate_001"
+
+      data_schedule <-
+        build_sjsdm_tuning_schedule(
+          tuning_strategy = "exhaustive",
+          n_candidates = 1L,
+          repeat_ids = 1L
+        )
+
+      data_empty_metrics <-
+        build_sjsdm_empty_tuning_result()[["data_tuning"]]
+
+      payload <-
+        base::list(
+          data_candidates = data_candidates,
+          data_schedule = data_schedule,
+          data_candidate_fold_metrics = data_empty_metrics,
+          data_candidate_repeat_summary = tibble::tibble(
+            repeat_id = 1L,
+            candidate_id = "candidate_001",
+            alpha_cov = 0,
+            alpha_coef = 0,
+            alpha_spatial = 0,
+            lambda_cov = 0.1,
+            lambda_coef = 0.1,
+            lambda_spatial = 0.1,
+            n_folds_total = 1L,
+            n_folds_successful = 1L,
+            n_response_values = 1L,
+            negative_log_likelihood_test = 0.1,
+            negative_log_likelihood_per_response = 0.1,
+            auc_macro_test = 0.7,
+            summary_status = "ok",
+            cv_strategy = "spatially_stratified_group_kfold",
+            regularization_source = "unit_cv",
+            source_id = "unit",
+            tier_id = "paleo",
+            taxonomic_resolution = "genus",
+            response_family = "binomial",
+            predictor_structure = "full",
+            candidate_table_hash = "candidate_hash"
+          ),
+          data_stage_timings = summarise_sjsdm_tuning_timings(
+            list_prediction_cache = base::list()
+          ),
+          data_execution_provenance = summarise_sjsdm_tuning_execution(
+            data_tuning = data_empty_metrics,
+            data_schedule = data_schedule
+          ),
+          list_prediction_cache = base::list()
         )
 
       build_sjsdm_artifact_envelope(

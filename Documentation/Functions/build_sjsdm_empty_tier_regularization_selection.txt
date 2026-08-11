@@ -1,0 +1,15 @@
+Build an Empty Tier Regularization Selection
+
+Description:
+
+     Constructs the exact typed-empty tier-selection table used when a
+     shared tier artifact is unavailable or does not contain the
+     requested context.
+
+Usage:
+
+     build_sjsdm_empty_tier_regularization_selection()
+
+Value:
+
+     Typed empty tier regularization-selection tibble.

@@ -196,10 +196,22 @@ validate_sjsdm_artifact_envelope <- function(
       )
     )
 
+  flag_valid_source_version <-
+    if (
+      base::identical(migration_applied, TRUE)
+    ) {
+      base::identical(source_schema_version, "1.0.0")
+    } else {
+      base::identical(migration_applied, FALSE) &&
+        base::identical(source_schema_version, "2.0.0") &&
+        base::is.na(migration_function)
+    }
+
   assertthat::assert_that(
     flag_valid_created_at,
     flag_valid_character_provenance,
     flag_valid_migration,
+    flag_valid_source_version,
     msg = "Artifact provenance values are invalid."
   )
 

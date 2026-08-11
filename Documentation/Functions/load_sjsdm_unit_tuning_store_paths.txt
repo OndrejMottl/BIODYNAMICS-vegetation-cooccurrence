@@ -1,0 +1,24 @@
+Load sjSDM Unit Tuning Store Paths
+
+Description:
+
+     Discovers existing unit stores for the tier pipeline from one
+     resolved tuning context.
+
+Usage:
+
+     load_sjsdm_unit_tuning_store_paths(
+       list_tuning_context = NULL,
+       target_store = load_active_config_value("target_store")
+     )
+
+Arguments:
+
+list_tuning_context: Context containing `pipeline_name` and
+          `nested_unit_stores`.
+
+target_store: Root targets-store path.
+
+Value:
+
+     Existing unit tuning-store paths.

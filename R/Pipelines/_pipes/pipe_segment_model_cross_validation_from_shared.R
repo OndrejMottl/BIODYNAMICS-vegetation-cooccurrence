@@ -315,7 +315,8 @@ pipe_segment_model_cross_validation_from_shared <-
             assignment_source = dplyr::first(
               data_cross_validation_assignments[["assignment_source"]],
               default = "unknown"
-            )
+            ),
+            assignment_seed = NA_integer_
           )
         ),
         pipeline_id = fs::path_ext_remove(

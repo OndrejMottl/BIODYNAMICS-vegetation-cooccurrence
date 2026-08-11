@@ -1,10 +1,13 @@
 testthat::test_that(
   "convert_sjsdm_v1_artifact() requires the frozen fixture",
   {
+    list_empty <-
+      build_sjsdm_empty_selected_fold_artifacts()
+
     payload <-
       base::list(
-        data_predictions = tibble::tibble(value = 1),
-        data_fold_diagnostics = tibble::tibble(status = "ok")
+        data_predictions = list_empty[["data_predictions"]],
+        data_fold_diagnostics = list_empty[["data_diagnostics"]]
       )
     list_artifact <-
       convert_sjsdm_v1_artifact(
