@@ -50,7 +50,8 @@ targets::tar_source(files = vec_function_files)
 
 targets::tar_option_set(
   seed = load_active_config_value("seed"),
-  format = "qs"
+  format = "qs",
+  deployment = "main"
 )
 
 

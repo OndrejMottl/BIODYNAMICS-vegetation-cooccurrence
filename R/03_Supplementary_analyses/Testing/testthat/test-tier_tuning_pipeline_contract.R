@@ -46,7 +46,8 @@ testthat::test_that(
         "data_sjsdm_tier_survivor_decisions_round_2",
         "data_sjsdm_tier_survivor_decisions_round_3",
         "list_sjsdm_tier_tuning_artifact",
-        "target_store = load_active_config_value(\"target_store\")"
+        "target_store = load_active_config_value(\"target_store\")",
+        "deployment = \"main\""
       )
 
     purrr::walk(
