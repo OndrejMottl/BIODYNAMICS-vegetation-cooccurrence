@@ -29,13 +29,13 @@ flowchart TD
 | issue_reproduction | 6 |
 | main_analysis | 19 |
 | one_time | 4 |
-| pipeline_definition | 45 |
+| pipeline_definition | 46 |
 | project_setup | 3 |
 | reference | 13 |
 | scientific_reference | 2 |
 | sensitivity | 1 |
 | supplementary_or_processing | 19 |
-| test | 337 |
+| test | 380 |
 
 ## Function capabilities
 
@@ -49,7 +49,7 @@ flowchart TD
 | Data/Traits | 29 |
 | Data_access/Files | 1 |
 | Data_access/Vegvault | 5 |
-| Modelling/Cross_validation | 75 |
+| Modelling/Cross_validation | 117 |
 | Modelling/Decomposition | 19 |
 | Modelling/Evaluation | 16 |
 | Modelling/Fit_inputs | 11 |
@@ -98,14 +98,13 @@ flowchart TD
 | `R/Pipelines/_pipes/pipe_segment_ft_classification_continental.R` | Data/Traits | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_anova.R` | Modelling/Variance_partitioning | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_assemble.R` | Modelling/Fit_inputs | 1 |
-| `R/Pipelines/_pipes/pipe_segment_model_cross_validation.R` | Modelling/Cross_validation | 33 |
-| `R/Pipelines/_pipes/pipe_segment_model_cross_validation.R` | Pipeline/Configuration | 1 |
-| `R/Pipelines/_pipes/pipe_segment_model_cross_validation.R` | Pipeline/Stores | 1 |
-| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_from_shared.R` | Modelling/Cross_validation | 31 |
-| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_from_shared.R` | Pipeline/Configuration | 1 |
-| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_from_shared.R` | Pipeline/Stores | 1 |
+| `R/Pipelines/_pipes/pipe_segment_model_cross_validation.R` | Modelling/Cross_validation | 10 |
+| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_execution.R` | Modelling/Cross_validation | 25 |
+| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_execution.R` | Pipeline/Configuration | 1 |
+| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_execution.R` | Pipeline/Stores | 1 |
+| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_from_shared.R` | Modelling/Cross_validation | 8 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_shared.R` | Data/Samples | 1 |
-| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_shared.R` | Modelling/Cross_validation | 5 |
+| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_shared.R` | Modelling/Cross_validation | 6 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_shared.R` | Pipeline/Configuration | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_fit.R` | Modelling/Evaluation | 2 |
 | `R/Pipelines/_pipes/pipe_segment_model_fit.R` | Modelling/Fit_inputs | 1 |
@@ -172,14 +171,13 @@ flowchart TD
 
 | Contract type | Scope | Contracts |
 |---|---|---:|
-| literal_target | persisted_internal | 338 |
-| literal_target | public_or_frozen_cv_review | 50 |
+| literal_target | persisted_internal | 358 |
+| literal_target | public_or_frozen_cv_review | 63 |
 
 ## Architecture exceptions
 
 | Owner | Expiry issue | Exact exceptions |
 |---|---|---:|
-| #141 | #141 | 39 |
 
 Exceptions match one exact current finding. They become invalid when their expiry issue closes and must then be removed or replaced by an approved canonical decision.
 
