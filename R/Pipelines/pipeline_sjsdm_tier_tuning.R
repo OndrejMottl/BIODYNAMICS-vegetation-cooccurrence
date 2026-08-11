@@ -185,7 +185,8 @@ list_sjsdm_tier_common_targets <-
     description = "Discover completed spatial-unit targets stores",
     name = vec_sjsdm_unit_tuning_stores,
     command = load_sjsdm_unit_tuning_store_paths(
-      list_tuning_context = list_tuning_context
+      list_tuning_context = list_tuning_context,
+      target_store = load_active_config_value("target_store")
     ),
     cue = targets::tar_cue(mode = "always")
   ),
