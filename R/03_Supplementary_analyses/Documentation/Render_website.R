@@ -32,6 +32,45 @@ quarto::quarto_render(
   quarto_args = "--no-clean"
 )
 
+vec_generated_text_files <-
+  base::c(
+    here::here("docs/index.html"),
+    fs::dir_ls(
+      path = here::here("docs/Documentation/Website"),
+      recurse = TRUE,
+      type = "file",
+      regexp = "[.]html$"
+    )
+  )
+
+purrr::walk(
+  .x = vec_generated_text_files,
+  .f = ~ {
+    vec_lines <-
+      base::readLines(
+        con = .x,
+        warn = FALSE,
+        encoding = "UTF-8"
+      ) |>
+      stringr::str_replace("[[:blank:]]+$", "")
+
+    while (
+      base::length(vec_lines) > 0L &&
+        vec_lines[[base::length(vec_lines)]] == ""
+    ) {
+      vec_lines <- vec_lines[-base::length(vec_lines)]
+    }
+
+    readr::write_lines(
+      x = vec_lines,
+      file = .x,
+      sep = "\n"
+    )
+
+    return(invisible(NULL))
+  }
+)
+
 cli::cli_inform(
   c("v" = "Website rendered to {here::here('docs')}.")
 )

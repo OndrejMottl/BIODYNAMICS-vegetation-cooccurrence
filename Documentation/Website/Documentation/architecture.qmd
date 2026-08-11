@@ -1,0 +1,12 @@
+---
+title: "R Architecture"
+date: 2026/08/10
+date-format: long
+date-modified: last-modified
+---
+
+This page is generated from the maintained script, function, configuration,
+contract, and manifest inventories. It documents lifecycle ownership and the
+temporary Issue #141 exception boundary.
+
+{{< include ../../Reports/R_architecture/r_architecture_dependency_map.md >}}
