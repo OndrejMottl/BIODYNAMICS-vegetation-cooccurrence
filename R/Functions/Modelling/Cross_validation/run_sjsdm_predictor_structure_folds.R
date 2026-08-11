@@ -3,7 +3,7 @@
 #' Applies one controlled predictor structure to deterministic
 #' selected-candidate folds and returns labelled predictions and diagnostics.
 #' @param predictor_structure
-#' Structure passed to [configure_sjsdm_predictor_structure()].
+#' Structure passed to [build_sjsdm_predictor_comparison_structure()].
 #' @param data_assignments,data_selected_candidate,data_community_matrix
 #' Cross-validation assignments, selected regularization, and response matrix.
 #' @param data_abiotic_wide,data_coords_projected,data_sample_ids
@@ -78,7 +78,7 @@ run_sjsdm_predictor_structure_folds <- function(
   )
 
   list_structure <-
-    configure_sjsdm_predictor_structure(
+    build_sjsdm_predictor_comparison_structure(
       predictor_structure = predictor_structure,
       config_model_fitting = config_model_fitting,
       model_formula = model_formula

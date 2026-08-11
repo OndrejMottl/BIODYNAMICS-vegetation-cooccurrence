@@ -6,9 +6,9 @@
 #' Named list with empty `data_predictions` and `data_diagnostics` tibbles
 #' matching [run_sjsdm_selected_candidate_folds()].
 #' @examples
-#' make_sjsdm_empty_selected_fold_artifacts()
+#' build_sjsdm_empty_selected_fold_artifacts()
 #' @export
-make_sjsdm_empty_selected_fold_artifacts <- function() {
+build_sjsdm_empty_selected_fold_artifacts <- function() {
   res <-
     base::list(
       data_predictions = tibble::tibble(

@@ -19,13 +19,13 @@
 #' by the caller. The intercept-only structure can retain sjSDM's biotic
 #' covariance and is therefore distinct from a fold-prevalence null.
 #' @examples
-#' configure_sjsdm_predictor_structure(
+#' build_sjsdm_predictor_comparison_structure(
 #'   predictor_structure = "abiotic_only",
 #'   config_model_fitting = list(use_spatial = TRUE),
 #'   model_formula = stats::as.formula("~ age")
 #' )
 #' @export
-configure_sjsdm_predictor_structure <- function(
+build_sjsdm_predictor_comparison_structure <- function(
     predictor_structure = NULL,
     config_model_fitting = NULL,
     model_formula = NULL) {

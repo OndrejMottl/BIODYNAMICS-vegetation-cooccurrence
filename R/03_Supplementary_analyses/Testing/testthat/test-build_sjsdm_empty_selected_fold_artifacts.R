@@ -1,8 +1,8 @@
 testthat::test_that(
-  "make_sjsdm_empty_selected_fold_artifacts() preserves schemas",
+  "build_sjsdm_empty_selected_fold_artifacts() preserves schemas",
   {
     res <-
-      make_sjsdm_empty_selected_fold_artifacts()
+      build_sjsdm_empty_selected_fold_artifacts()
 
     testthat::expect_named(
       res,

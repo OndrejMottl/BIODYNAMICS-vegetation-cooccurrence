@@ -1,5 +1,5 @@
 testthat::test_that(
-  "assemble_sjsdm_cached_selected_folds() reuses tuning probabilities",
+  "build_sjsdm_cached_selected_folds() reuses tuning probabilities",
   {
     data_assignments <-
       tibble::tibble(
@@ -12,7 +12,7 @@ testthat::test_that(
       )
 
     data_selected_candidate <-
-      make_sjsdm_regularization_candidates(lambda_cov = 0) |>
+      build_sjsdm_regularization_candidates(lambda_cov = 0) |>
       dplyr::mutate(regularization_source = "unit_cv")
 
     data_sample_ids <-
@@ -81,7 +81,7 @@ testthat::test_that(
       )
 
     list_result <-
-      assemble_sjsdm_cached_selected_folds(
+      build_sjsdm_cached_selected_folds(
         data_assignments = data_assignments,
         data_selected_candidate = data_selected_candidate,
         data_sample_ids = data_sample_ids,
@@ -113,7 +113,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "assemble_sjsdm_cached_selected_folds() rejects missing fold caches",
+  "build_sjsdm_cached_selected_folds() rejects missing fold caches",
   {
     data_assignments <-
       tibble::tibble(
@@ -125,11 +125,11 @@ testthat::test_that(
       )
 
     data_selected_candidate <-
-      make_sjsdm_regularization_candidates(lambda_cov = 0) |>
+      build_sjsdm_regularization_candidates(lambda_cov = 0) |>
       dplyr::mutate(regularization_source = "unit_cv")
 
     testthat::expect_error(
-      assemble_sjsdm_cached_selected_folds(
+      build_sjsdm_cached_selected_folds(
         data_assignments = data_assignments,
         data_selected_candidate = data_selected_candidate,
         data_sample_ids = tibble::tibble(

@@ -1,5 +1,5 @@
 testthat::test_that(
-  "configure_sjsdm_predictor_structure() maps component models",
+  "build_sjsdm_predictor_comparison_structure() maps component models",
   {
     config_model_fitting <-
       base::list(
@@ -29,7 +29,7 @@ testthat::test_that(
       .x = list_expected,
       .f = ~ {
         res <-
-          configure_sjsdm_predictor_structure(
+          build_sjsdm_predictor_comparison_structure(
             predictor_structure = .y,
             config_model_fitting = config_model_fitting,
             model_formula = model_formula
@@ -66,10 +66,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "configure_sjsdm_predictor_structure() validates its contract",
+  "build_sjsdm_predictor_comparison_structure() validates its contract",
   {
     testthat::expect_error(
-      configure_sjsdm_predictor_structure(
+      build_sjsdm_predictor_comparison_structure(
         predictor_structure = "unknown",
         config_model_fitting = base::list(use_spatial = TRUE),
         model_formula = stats::as.formula("~ age")
@@ -78,7 +78,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      configure_sjsdm_predictor_structure(
+      build_sjsdm_predictor_comparison_structure(
         predictor_structure = "abiotic_only",
         config_model_fitting = NULL,
         model_formula = stats::as.formula("~ age")
@@ -87,7 +87,7 @@ testthat::test_that(
     )
 
     testthat::expect_error(
-      configure_sjsdm_predictor_structure(
+      build_sjsdm_predictor_comparison_structure(
         predictor_structure = "abiotic_only",
         config_model_fitting = base::list(use_spatial = TRUE),
         model_formula = "~ age"
