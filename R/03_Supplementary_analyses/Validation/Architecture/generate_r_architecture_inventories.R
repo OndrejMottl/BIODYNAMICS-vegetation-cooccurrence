@@ -105,6 +105,10 @@ data_function_inventory <-
     owning_issue = dplyr::case_when(
       stringr::str_detect(
         .data[["current_path"]],
+        "/Pipeline/Definitions/Architecture/"
+      ) ~ "#157",
+      stringr::str_detect(
+        .data[["current_path"]],
         "load_project_functions[.]R$"
       ) ~ "#150",
       stringr::str_detect(
@@ -129,7 +133,7 @@ data_function_inventory <-
         "score", "evaluate", "select", "run", "plot",
         "render", "filter", "classify", "interpolate",
         "scale", "project", "cluster", "deduplicate",
-        "normalise", "extract"
+        "normalise", "extract", "apply"
       ) ~ "canonical_or_domain_verb",
       TRUE ~ "review_in_owning_issue"
     ),
@@ -280,11 +284,18 @@ data_script_inventory <-
     owning_issue = dplyr::case_when(
       stringr::str_detect(
         .data[["current_path"]],
+        stringr::str_c(
+          "(Validation/Architecture|Testing/testthat/Pipeline/",
+          "Definitions/Architecture)"
+        )
+      ) ~ "#157",
+      stringr::str_detect(
+        .data[["current_path"]],
         "(cross_validation|_cv_|issue138|issue143)"
       ) ~ "#141",
       stringr::str_detect(
         .data[["current_path"]],
-        "Validation/Architecture|___setup_project"
+        "___setup_project"
       ) ~ "#150",
       stringr::str_detect(
         .data[["current_path"]],
