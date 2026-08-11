@@ -3,7 +3,7 @@
 #' Aggregates paired component-removal effects using taxon means within folds
 #' and fold means within repeats for all and eligible taxa.
 #' @param data_comparisons
-#' Output from [compare_sjsdm_decomposition_fold_metrics()].
+#' Output from [compute_sjsdm_decomposition_fold_effects()].
 #' @return
 #' A named list containing fold effects, repeat effects, and descriptive
 #' repeat summaries with 95 percent quantile intervals.
