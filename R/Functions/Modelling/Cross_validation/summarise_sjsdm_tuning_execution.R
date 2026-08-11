@@ -131,17 +131,24 @@ summarise_sjsdm_tuning_execution <- function(
           n_candidates_initial
       )
   } else {
+    data_schedule_prefix <-
+      data_schedule |>
+      dplyr::slice_head(n = base::nrow(data_repeat_execution))
+
     data_repeat_execution <-
       data_repeat_execution |>
       dplyr::left_join(
-        data_schedule |>
+        data_schedule_prefix |>
           dplyr::select("repeat_id", "n_candidates_entering"),
         by = dplyr::join_by(repeat_id),
         relationship = "one-to-one"
       )
 
     flag_schedule_matches <-
-      base::nrow(data_repeat_execution) == base::nrow(data_schedule) &&
+      base::identical(
+        data_repeat_execution[["repeat_id"]],
+        data_schedule_prefix[["repeat_id"]]
+      ) &&
       base::all(
         data_repeat_execution[["n_candidates_executed"]] ==
           data_repeat_execution[["n_candidates_entering"]]
