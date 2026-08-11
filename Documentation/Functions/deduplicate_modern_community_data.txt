@@ -12,7 +12,7 @@ Usage:
        data_coordinates = NULL,
        data_quality_report = NULL
      )
-     
+
 Arguments:
 
 data_source: A long-format community data frame with `dataset_name`,
@@ -30,4 +30,3 @@ Value:
 
      A named list with `data_community` and `data_dropped_records`
      elements.
-

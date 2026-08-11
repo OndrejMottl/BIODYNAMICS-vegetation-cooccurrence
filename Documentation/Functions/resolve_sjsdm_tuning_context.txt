@@ -1,0 +1,25 @@
+Resolve the sjSDM Tier Tuning Context
+
+Description:
+
+     Applies an optional configured resolution subset to a pipeline's
+     default tier-tuning context.
+
+Usage:
+
+     resolve_sjsdm_tuning_context(
+       list_default_context = NULL,
+       resolution_ids = NULL
+     )
+
+Arguments:
+
+list_default_context: Named list describing the pipeline, resolution
+          IDs, and store layout.
+
+resolution_ids: Optional non-empty character subset of the default
+          resolution IDs.
+
+Value:
+
+     The validated tuning context with any configured subset applied.

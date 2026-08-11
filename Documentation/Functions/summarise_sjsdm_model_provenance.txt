@@ -1,0 +1,50 @@
+Summarise sjSDM Model Provenance
+
+Description:
+
+     Combines cross-validation feasibility, selected regularization,
+     and selected-fold diagnostics into one model-level provenance row.
+
+Usage:
+
+     summarise_sjsdm_model_provenance(
+       data_feasibility = NULL,
+       data_regularization = NULL,
+       data_fold_diagnostics = NULL,
+       fit_device = NULL
+     )
+
+Arguments:
+
+data_feasibility: One-row cross-validation feasibility table.
+
+data_regularization: One-row selected regularization table returned by
+          [resolve_sjsdm_regularization_for_fit()].
+
+data_fold_diagnostics: Selected-candidate fold diagnostics. An empty
+          data frame is allowed when held-out evaluation is
+          unavailable.
+
+fit_device: Scalar fitting-device identifier. Must be `"cpu"` or
+          `"gpu"`.
+
+Value:
+
+     One-row tibble containing model context, feasibility, data counts,
+     fold-fit counts, effective MEV minimum/maximum/status and
+     retained-taxon counts, and regularization source. It also records
+     the fitting device and versioned fold-local evaluation contract.
+     The legacy scalar `n_effective_mev` is retained when the count is
+     constant across folds and is missing when counts vary.
+
+Examples:
+
+     ## Not run:
+
+     summarise_sjsdm_model_provenance(
+       data_feasibility = data_cross_validation_feasibility,
+       data_regularization = model_regularization_for_fit,
+       data_fold_diagnostics = data_sjsdm_out_of_fold_diagnostics,
+       fit_device = "gpu"
+     )
+     ## End(Not run)

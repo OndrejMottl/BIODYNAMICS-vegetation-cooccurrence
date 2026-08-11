@@ -1,0 +1,69 @@
+---
+format: html
+title: predict_sjsdm_probability_matrix()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>predict_sjsdm_probability_matrix</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Predict sjSDM Probability Matrix</h2>
+
+<h3>Description</h3>
+
+<p>Predicts held-out probabilities from a fitted sjSDM object using fold-local
+test inputs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>predict_sjsdm_probability_matrix(
+  object = NULL,
+  data_test_input = NULL,
+  predict_function = stats::predict
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="object">object</code></td>
+<td>
+<p>Fitted sjSDM-like model object.</p>
+</td></tr>
+<tr><td><code id="data_test_input">data_test_input</code></td>
+<td>
+<p>Fold-local test input containing 'data_abiotic_to_fit' and optionally
+'data_spatial_to_fit'.</p>
+</td></tr>
+<tr><td><code id="predict_function">predict_function</code></td>
+<td>
+<p>Injectable prediction function. Defaults to [stats::predict()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Numeric matrix of probabilities aligned to the test input rows.
+</p>
+
+</main>
+
+</div>
+</body></html>

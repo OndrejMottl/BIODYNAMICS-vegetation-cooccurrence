@@ -1,0 +1,78 @@
+---
+format: html
+title: build_sjsdm_tier_survivor_artifacts()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_sjsdm_tier_survivor_artifacts</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build sjSDM Tier Survivor Artifacts</h2>
+
+<h3>Description</h3>
+
+<p>Pools one tuning round across every source ID in each compatible model
+context, then records the tier-wide candidates that may enter the next
+round. Pruning never occurs from a single unit's evidence.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_sjsdm_tier_survivor_artifacts(
+  data_tuning_summary = NULL,
+  data_schedule = NULL,
+  round_id = NULL,
+  data_prior_decisions = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_tuning_summary">data_tuning_summary</code></td>
+<td>
+<p>Bound unit tuning summaries for exactly one staged round.</p>
+</td></tr>
+<tr><td><code id="data_schedule">data_schedule</code></td>
+<td>
+<p>Staged schedule returned by [build_sjsdm_tuning_schedule()].</p>
+</td></tr>
+<tr><td><code id="round_id">round_id</code></td>
+<td>
+<p>Positive integer tuning-round identifier represented by the summaries.</p>
+</td></tr>
+<tr><td><code id="data_prior_decisions">data_prior_decisions</code></td>
+<td>
+<p>Tier-wide decisions from the preceding round. Required after round one and
+used to restrict cumulative evidence to the candidates entering this round.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list containing 'data_survivor_decisions',
+'data_source_candidate_loss', 'data_candidate_aggregation', and the
+cumulative 'data_tuning_entering' tibble. Decision rows retain model
+context, strategy, round, and repeat provenance.
+</p>
+
+</main>
+
+</div>
+</body></html>

@@ -1,0 +1,68 @@
+---
+format: html
+title: resolve_sjsdm_device()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>.resolve_sjsdm_device</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Resolve the sjSDM Fitting Device</h2>
+
+<h3>Description</h3>
+
+<p>Internal helper that validates GPU runtime requirements and resolves the
+CPU-parallelism setting for the selected fitting device.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>.resolve_sjsdm_device(
+  device = c("cpu", "gpu"),
+  parallel = 0L,
+  gpu_runtime_validator = validate_sjsdm_gpu_runtime
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="device">device</code></td>
+<td>
+<p>Selected sjSDM device.</p>
+</td></tr>
+<tr><td><code id="parallel">parallel</code></td>
+<td>
+<p>Requested CPU parallelism.</p>
+</td></tr>
+<tr><td><code id="gpu_runtime_validator">gpu_runtime_validator</code></td>
+<td>
+<p>Injectable strict GPU runtime validator.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list containing 'device' and 'parallel'.
+</p>
+
+</main>
+
+</div>
+</body></html>

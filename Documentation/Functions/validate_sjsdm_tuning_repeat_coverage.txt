@@ -1,0 +1,27 @@
+Validate sjSDM Tuning Repeat Coverage
+
+Description:
+
+     Verifies that deterministic work items contain every repeat
+     required by a staged tuning schedule before any candidate-fold
+     fits execute.
+
+Usage:
+
+     validate_sjsdm_tuning_repeat_coverage(
+       data_work_items = NULL,
+       data_schedule = NULL
+     )
+
+Arguments:
+
+data_work_items: Complete work-item table returned by
+          [build_sjsdm_tuning_work_items()].
+
+data_schedule: Tuning schedule returned by
+          [build_sjsdm_tuning_schedule()].
+
+Value:
+
+     Invisible `TRUE`. The function aborts when staged repeats are
+     unavailable or candidate fold coverage is inconsistent.

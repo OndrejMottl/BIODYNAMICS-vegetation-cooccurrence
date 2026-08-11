@@ -1,0 +1,111 @@
+<!DOCTYPE html><html><head><title>R: Prepare One sjSDM Cross-Validation Fold</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_sjsdm_cross_validation_fold</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare One sjSDM Cross-Validation Fold</h2>
+
+<h3>Description</h3>
+
+<p>Converts location-assignment row indices to sample identifiers, rebuilds
+fold-local spatial predictors when needed, and prepares train/test model
+inputs with training-only response filtering and predictor scaling.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_sjsdm_cross_validation_fold(
+  data_community_matrix = NULL,
+  data_abiotic_wide = NULL,
+  data_coords_projected = NULL,
+  data_sample_ids = NULL,
+  train_indices = NULL,
+  test_indices = NULL,
+  config_model_fitting = NULL,
+  config_data_processing = NULL,
+  repeat_id = NULL,
+  fold_id = NULL,
+  compute_spatial_function = compute_spatial_mev,
+  compute_spatiotemporal_function = compute_spatiotemporal_mev,
+  interpolate_spatial_function = interpolate_mev_to_grid,
+  interpolate_spatiotemporal_function = interpolate_st_mev_to_grid
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_community_matrix">data_community_matrix</code></td>
+<td>
+<p>Raw community matrix with sample identifiers as row names.</p>
+</td></tr>
+<tr><td><code id="data_abiotic_wide">data_abiotic_wide</code></td>
+<td>
+<p>Wide abiotic data frame with 'dataset_name', 'age', and predictors.</p>
+</td></tr>
+<tr><td><code id="data_coords_projected">data_coords_projected</code></td>
+<td>
+<p>Projected coordinates used for fold-local MEM construction.</p>
+</td></tr>
+<tr><td><code id="data_sample_ids">data_sample_ids</code></td>
+<td>
+<p>Sample metadata containing 'dataset_name' and 'age'. Optional 'sample_id',
+'row_index', and 'location_id' columns are derived when absent.</p>
+</td></tr>
+<tr><td><code id="train_indices">train_indices</code>, <code id="test_indices">test_indices</code></td>
+<td>
+<p>Integer row indices defining the fold training and held-out samples.</p>
+</td></tr>
+<tr><td><code id="config_model_fitting">config_model_fitting</code>, <code id="config_data_processing">config_data_processing</code></td>
+<td>
+<p>Active project configuration lists.</p>
+</td></tr>
+<tr><td><code id="repeat_id">repeat_id</code>, <code id="fold_id">fold_id</code></td>
+<td>
+<p>Fold identifiers. They are accepted for runner compatibility and retained
+by downstream diagnostics.</p>
+</td></tr>
+<tr><td><code id="compute_spatial_function">compute_spatial_function</code>, <code id="compute_spatiotemporal_function">compute_spatiotemporal_function</code></td>
+<td>
+<p>Functions used by [prepare_fold_spatial_predictors()] to build MEMs.</p>
+</td></tr>
+<tr><td><code id="interpolate_spatial_function">interpolate_spatial_function</code>, <code id="interpolate_spatiotemporal_function">interpolate_spatiotemporal_function</code></td>
+<td>
+<p>Functions used by [prepare_fold_spatial_predictors()] to project MEMs.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This helper is the production adapter between location-level CV assignment
+tables and the generic fold-local preparation functions shared with
+decomposition diagnostics.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Named list returned by [prepare_model_fold_input()], with optional
+'data_spatial_diagnostics' when spatial predictors are enabled.
+</p>
+
+</main>
+
+</div>
+</body></html>

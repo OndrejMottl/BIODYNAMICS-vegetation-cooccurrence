@@ -1,0 +1,69 @@
+Prepare One sjSDM Cross-Validation Fold
+
+Description:
+
+     Converts location-assignment row indices to sample identifiers,
+     rebuilds fold-local spatial predictors when needed, and prepares
+     train/test model inputs with training-only response filtering and
+     predictor scaling.
+
+Usage:
+
+     prepare_sjsdm_cross_validation_fold(
+       data_community_matrix = NULL,
+       data_abiotic_wide = NULL,
+       data_coords_projected = NULL,
+       data_sample_ids = NULL,
+       train_indices = NULL,
+       test_indices = NULL,
+       config_model_fitting = NULL,
+       config_data_processing = NULL,
+       repeat_id = NULL,
+       fold_id = NULL,
+       compute_spatial_function = compute_spatial_mev,
+       compute_spatiotemporal_function = compute_spatiotemporal_mev,
+       interpolate_spatial_function = interpolate_mev_to_grid,
+       interpolate_spatiotemporal_function = interpolate_st_mev_to_grid
+     )
+
+Arguments:
+
+data_community_matrix: Raw community matrix with sample identifiers as
+          row names.
+
+data_abiotic_wide: Wide abiotic data frame with `dataset_name`, `age`,
+          and predictors.
+
+data_coords_projected: Projected coordinates used for fold-local MEM
+          construction.
+
+data_sample_ids: Sample metadata containing `dataset_name` and `age`.
+          Optional `sample_id`, `row_index`, and `location_id` columns
+          are derived when absent.
+
+train_indices, test_indices: Integer row indices defining the fold
+          training and held-out samples.
+
+config_model_fitting, config_data_processing: Active project
+          configuration lists.
+
+repeat_id, fold_id: Fold identifiers. They are accepted for runner
+          compatibility and retained by downstream diagnostics.
+
+compute_spatial_function, compute_spatiotemporal_function: Functions
+          used by [prepare_fold_spatial_predictors()] to build MEMs.
+
+interpolate_spatial_function, interpolate_spatiotemporal_function:
+          Functions used by [prepare_fold_spatial_predictors()] to
+          project MEMs.
+
+Details:
+
+     This helper is the production adapter between location-level CV
+     assignment tables and the generic fold-local preparation functions
+     shared with decomposition diagnostics.
+
+Value:
+
+     Named list returned by [prepare_model_fold_input()], with optional
+     `data_spatial_diagnostics` when spatial predictors are enabled.

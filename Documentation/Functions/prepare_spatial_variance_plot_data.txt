@@ -15,7 +15,7 @@ Usage:
        scale_source_to_percentage = FALSE,
        sum_over_100_action = "error"
      )
-     
+
 Arguments:
 
 data_unit: Data frame with one row per spatial unit, resolution, and
@@ -46,4 +46,3 @@ Value:
      A tibble containing the original columns plus `scale` as an
      ordered factor, `resolution_label` as an ordered factor,
      `component_label`, and `component_total_percentage`.
-

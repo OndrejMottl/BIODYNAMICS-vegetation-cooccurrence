@@ -1,0 +1,46 @@
+Aggregate sjSDM Tuning by Tier
+
+Description:
+
+     Aggregates normalized candidate loss within source IDs and then
+     across a compatible spatial tier using equal source-ID weighting.
+
+Usage:
+
+     aggregate_sjsdm_tuning_by_tier(
+       data_tuning_summary = NULL,
+       include_sample_weighted = TRUE
+     )
+
+Arguments:
+
+data_tuning_summary: Repeat-level tuning summaries from
+          [summarise_sjsdm_tuning_candidates()] with source and
+          model-context columns.
+
+include_sample_weighted: Logical scalar. When true, also reports a
+          sensitivity selection weighted by the number of observed
+          response values contributed by each source ID.
+
+Details:
+
+     Input rows must describe one tier, taxonomic resolution, response
+     family, predictor structure, and candidate-table hash. Every
+     source ID must provide the same candidate identifiers and
+     parameter values. Candidates with an incomplete result for any
+     source ID remain visible but are not selectable.
+
+Value:
+
+     Named list with source_candidate_loss, candidate_aggregation, and
+     selection_sensitivity tibbles. The primary selection always uses
+     equal source-ID weighting.
+
+Examples:
+
+     ## Not run:
+
+     aggregate_sjsdm_tuning_by_tier(
+       data_tuning_summary = data_tuning_summary
+     )
+     ## End(Not run)

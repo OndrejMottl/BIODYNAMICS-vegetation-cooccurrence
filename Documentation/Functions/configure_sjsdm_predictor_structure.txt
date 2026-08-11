@@ -1,0 +1,48 @@
+Configure an sjSDM Predictor Structure
+
+Description:
+
+     Creates a model-fitting configuration and abiotic formula for a
+     controlled predictor-component comparison.
+
+Usage:
+
+     configure_sjsdm_predictor_structure(
+       predictor_structure = NULL,
+       config_model_fitting = NULL,
+       model_formula = NULL
+     )
+
+Arguments:
+
+predictor_structure: One of `"intercept_only"`, `"abiotic_only"`,
+          `"spatial_only"`, `"abiotic_spatial"`, or
+          `"abiotic_spatial_no_associations"`.
+
+config_model_fitting: Base model-fitting configuration. It is copied
+          before `use_spatial` is set.
+
+model_formula: Full abiotic model formula. Intercept-only and
+          spatial-only structures replace it with `~ 1` because sjSDM
+          requires an environmental component.
+
+Details:
+
+     This helper changes predictor inclusion only. Regularization,
+     folds, seeds, fitting device, response filtering, and all other
+     settings remain controlled by the caller. The intercept-only
+     structure can retain sjSDM's biotic covariance and is therefore
+     distinct from a fold-prevalence null.
+
+Value:
+
+     Named list containing the structure identifier, component flags,
+     modified model-fitting configuration, and formula.
+
+Examples:
+
+     configure_sjsdm_predictor_structure(
+       predictor_structure = "abiotic_only",
+       config_model_fitting = list(use_spatial = TRUE),
+       model_formula = stats::as.formula("~ age")
+     )

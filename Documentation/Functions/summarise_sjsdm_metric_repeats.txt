@@ -1,0 +1,40 @@
+Summarise sjSDM Metric Repeats
+
+Description:
+
+     Summarises the distribution of repeat-level source estimates and
+     paired improvements returned by [summarise_sjsdm_fold_metrics()].
+
+Usage:
+
+     summarise_sjsdm_metric_repeats(list_fold_metric_summaries = NULL)
+
+Arguments:
+
+list_fold_metric_summaries: Named list returned by
+          [summarise_sjsdm_fold_metrics()].
+
+Details:
+
+     The 95 percent bounds are the 2.5th and 97.5th percentiles of
+     repeat-level estimates. They describe stability across the
+     supplied repeated splits and are not population-level confidence
+     intervals.
+
+Value:
+
+     Named list containing `data_source_repeat_distributions` and
+     `data_paired_repeat_distributions`. Each table reports the mean,
+     median, standard deviation, empirical 95 percent repeat interval,
+     repeat counts, and fold-taxon coverage across repeats. Paired
+     output also reports the proportion of evaluable repeats with
+     positive model improvement.
+
+Examples:
+
+     ## Not run:
+
+     summarise_sjsdm_metric_repeats(
+       list_fold_metric_summaries = list_fold_metric_summaries
+     )
+     ## End(Not run)

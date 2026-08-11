@@ -1,0 +1,14 @@
+Build an Empty Spatial Model Result
+
+Description:
+
+     Creates the typed zero-row schema returned when no model results
+     can be loaded.
+
+Usage:
+
+     .build_empty_spatial_model_results()
+
+Value:
+
+     A zero-row tibble with the spatial model result schema.

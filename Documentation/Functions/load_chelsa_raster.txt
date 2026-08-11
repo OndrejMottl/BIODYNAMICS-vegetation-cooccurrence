@@ -18,7 +18,7 @@ Usage:
        y_lim = NULL,
        dir_cache = NULL
      )
-     
+
 Arguments:
 
 abiotic_variable_name: Character scalar. Project-level bioclim variable
@@ -73,4 +73,3 @@ See Also:
 
      [interpolate_mev_to_grid()], [interpolate_st_mev_to_grid()],
      [project_coords_to_metric()]
-

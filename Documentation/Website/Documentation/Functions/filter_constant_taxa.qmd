@@ -3,7 +3,6 @@ format: html
 title: filter_constant_taxa()
 ---
 
-<html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -74,11 +73,10 @@ unchanged.
 <h3>See Also</h3>
 
 <p>[prepare_community_for_fit()],
-[assemble_data_to_fit()]
+[build_jsdm_fit_input()]
 </p>
 
 </main>
 
 </div>
 </body></html>
-

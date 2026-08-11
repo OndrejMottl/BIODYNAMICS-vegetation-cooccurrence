@@ -1,0 +1,71 @@
+<!DOCTYPE html><html><head><title>R: Summarise Spatial MEM Benchmark Predictions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>summarise_spatial_mev_benchmark_predictions</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarise Spatial MEM Benchmark Predictions</h2>
+
+<h3>Description</h3>
+
+<p>Converts paired exact or fast out-of-fold predictions into one benchmark
+row per repetition using the shared fold-local evaluation definitions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>summarise_spatial_mev_benchmark_predictions(
+  data_predictions = NULL,
+  spatial_mev_strategy = NULL,
+  technical_cv_status = "pass",
+  assignment_hash = NULL,
+  artifact_schema_hash = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_predictions">data_predictions</code></td>
+<td>
+<p>Long out-of-fold prediction table accepted by
+[evaluate_sjsdm_fold_predictions()].</p>
+</td></tr>
+<tr><td><code id="spatial_mev_strategy">spatial_mev_strategy</code></td>
+<td>
+<p>Spatial MEM strategy used to produce the predictions.</p>
+</td></tr>
+<tr><td><code id="technical_cv_status">technical_cv_status</code></td>
+<td>
+<p>Technical status recorded for the benchmark run.</p>
+</td></tr>
+<tr><td><code id="assignment_hash">assignment_hash</code>, <code id="artifact_schema_hash">artifact_schema_hash</code></td>
+<td>
+<p>Stable identifiers used to verify paired technical equivalence.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Tibble with one row per repetition and spatial MEM strategy.
+</p>
+
+</main>
+
+</div>
+</body></html>

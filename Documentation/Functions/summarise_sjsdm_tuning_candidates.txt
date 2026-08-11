@@ -1,0 +1,36 @@
+Summarise sjSDM Tuning Candidates
+
+Description:
+
+     Pools fold-level tuning metrics within each repeat and candidate
+     while retaining structured completeness diagnostics.
+
+Usage:
+
+     summarise_sjsdm_tuning_candidates(data_tuning = NULL)
+
+Arguments:
+
+data_tuning: Candidate-by-fold table returned by
+          [run_sjsdm_tuning_candidates()].
+
+Details:
+
+     Candidate parameters, cross-validation strategy, and
+     regularization source must be constant for a candidate within a
+     repeat. Incomplete candidates are retained with summary status
+     "incomplete" and missing aggregate metrics.
+
+Value:
+
+     Tibble with one row per repeat and candidate. Held-out negative
+     log likelihood is summed across folds and divided by the total
+     number of response values. Candidates are eligible only when every
+     fold in the repeat has status "ok" and finite loss.
+
+Examples:
+
+     ## Not run:
+
+     summarise_sjsdm_tuning_candidates(data_tuning = data_tuning)
+     ## End(Not run)

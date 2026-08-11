@@ -23,7 +23,7 @@ function processMathHTML() {
 <p>Guards against running downstream data preparation and model
 fitting on a time slice with too few
 '(dataset_name, age)' combinations. Returns
-'data_sample_ids' unchanged when the row count is at leas
+'data_sample_ids' unchanged when the row count is at least
 'minimum_sample_count'. Stops with an informative error when the
 count falls below the threshold, preventing expensive model
 fitting on near-empty slices.

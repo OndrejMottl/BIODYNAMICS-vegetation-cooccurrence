@@ -10,7 +10,7 @@ Description:
 Usage:
 
      select_unclassified_taxa(vec_community_taxa, data_classification_table)
-     
+
 Arguments:
 
 vec_community_taxa: A non-empty character vector of taxon names present
@@ -37,4 +37,3 @@ Value:
 See Also:
 
      [classify_taxonomic_resolution()]
-

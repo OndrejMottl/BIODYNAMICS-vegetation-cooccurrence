@@ -1,0 +1,30 @@
+Build sjSDM Tuning Work Items
+
+Description:
+
+     Builds deterministic repeat, fold, and candidate work items for
+     granular cross-validation execution and restart.
+
+Usage:
+
+     build_sjsdm_tuning_work_items(
+       data_assignments = NULL,
+       data_candidates = NULL,
+       seed = 900723L
+     )
+
+Arguments:
+
+data_assignments: Cross-validation assignments accepted by
+          [run_sjsdm_tuning_candidates()].
+
+data_candidates: Candidate table returned by
+          [make_sjsdm_regularization_candidates()].
+
+    seed: Non-negative base integer used by the tuning engine.
+
+Value:
+
+     Tibble with one row per repeat, fold, and candidate.
+     `work_item_id` is a deterministic digest of the fold membership,
+     candidate parameters, and base seed.

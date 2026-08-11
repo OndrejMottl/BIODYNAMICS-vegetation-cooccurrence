@@ -1,0 +1,39 @@
+Check for Shared sjSDM Tuning Evidence
+
+Description:
+
+     Reads every requested unit tuning summary and reports whether at
+     least one contains candidate evidence. Missing, unreadable, or
+     malformed summaries fail closed.
+
+Usage:
+
+     has_sjsdm_tuning_evidence(
+       store_paths = NULL,
+       target_names = NULL,
+       read_target_function = targets::tar_read_raw
+     )
+
+Arguments:
+
+store_paths: Non-empty character vector of unit targets-store paths.
+
+target_names: Non-empty character vector of tuning-summary target
+          names.
+
+read_target_function: Injectable target reader. Defaults to
+          [targets::tar_read_raw()].
+
+Value:
+
+     One logical value.
+
+Examples:
+
+     ## Not run:
+
+     has_sjsdm_tuning_evidence(
+       store_paths = "Data/targets/unit/pipeline",
+       target_names = "data_sjsdm_tuning_summary"
+     )
+     ## End(Not run)

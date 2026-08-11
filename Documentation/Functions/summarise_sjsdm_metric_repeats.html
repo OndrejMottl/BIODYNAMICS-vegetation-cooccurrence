@@ -1,0 +1,75 @@
+<!DOCTYPE html><html><head><title>R: Summarise sjSDM Metric Repeats</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>summarise_sjsdm_metric_repeats</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarise sjSDM Metric Repeats</h2>
+
+<h3>Description</h3>
+
+<p>Summarises the distribution of repeat-level source estimates and paired
+improvements returned by [summarise_sjsdm_fold_metrics()].
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>summarise_sjsdm_metric_repeats(list_fold_metric_summaries = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="list_fold_metric_summaries">list_fold_metric_summaries</code></td>
+<td>
+<p>Named list returned by [summarise_sjsdm_fold_metrics()].</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The 95 percent bounds are the 2.5th and 97.5th percentiles of repeat-level
+estimates. They describe stability across the supplied repeated splits and
+are not population-level confidence intervals.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Named list containing 'data_source_repeat_distributions' and
+'data_paired_repeat_distributions'. Each table reports the mean, median,
+standard deviation, empirical 95 percent repeat interval, repeat counts, and
+fold-taxon coverage across repeats. Paired output also reports the proportion
+of evaluable repeats with positive model improvement.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+summarise_sjsdm_metric_repeats(
+  list_fold_metric_summaries = list_fold_metric_summaries
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

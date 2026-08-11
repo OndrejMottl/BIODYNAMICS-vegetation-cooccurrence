@@ -1,0 +1,47 @@
+Resolve sjSDM Regularization for Final Fit
+
+Description:
+
+     Resolves unit-CV, tier-pooled, or no-model regularization from
+     feasibility status and compatible selection artifacts.
+
+Usage:
+
+     resolve_sjsdm_regularization_for_fit(
+       data_feasibility = NULL,
+       data_model_context = NULL,
+       data_unit_selection = NULL,
+       data_tier_artifact = NULL
+     )
+
+Arguments:
+
+data_feasibility: One-row feasibility table containing
+          cv_feasibility_status.
+
+data_model_context: One-row table containing tier, taxonomic
+          resolution, response family, predictor structure, and
+          candidate-table hash.
+
+data_unit_selection: Optional one-row unit-CV candidate selection.
+
+data_tier_artifact: Optional one-row tier artifact returned by
+          [build_sjsdm_tier_tuning_artifact()].
+
+Value:
+
+     One-row tibble containing model context, feasibility status,
+     selected candidate parameters, regularization source, source tier,
+     and selection status. Full-model-infeasible inputs return explicit
+     missing parameters.
+
+Examples:
+
+     ## Not run:
+
+     resolve_sjsdm_regularization_for_fit(
+       data_feasibility = data_feasibility,
+       data_model_context = data_model_context,
+       data_unit_selection = data_unit_selection
+     )
+     ## End(Not run)

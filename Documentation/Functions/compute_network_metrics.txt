@@ -16,7 +16,7 @@ Usage:
 
 Arguments:
 
-data_to_fit: A named list as returned by `assemble_data_to_fit()`. Must
+data_to_fit: A named list as returned by `build_jsdm_fit_input()`. Must
           contain the element `data_community_to_fit`, a numeric matrix
           with samples as rows and taxa as columns.
 
@@ -45,4 +45,4 @@ Value:
 
 See Also:
 
-     [assemble_data_to_fit()], [compute_community_presence_absence()]
+     [build_jsdm_fit_input()], [compute_community_presence_absence()]

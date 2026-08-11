@@ -1,0 +1,42 @@
+Diagnose R Architecture
+
+Description:
+
+     Converts current raw architecture findings into the maintained
+     findings contract after applying explicit repository exceptions.
+
+Usage:
+
+     diagnose_r_architecture(data_findings, data_exceptions)
+
+Arguments:
+
+data_findings: Data frame of current raw architecture findings.
+
+data_exceptions: Data frame using the maintained exception-ledger
+          schema.
+
+Value:
+
+     A data frame using the maintained architecture-findings schema.
+
+Examples:
+
+     diagnose_r_architecture(
+       data_findings = tibble::tibble(
+         finding_type = character(),
+         current_path = character(),
+         symbol = character(),
+         owning_issue = character(),
+         message = character()
+       ),
+       data_exceptions = tibble::tibble(
+         exception_id = character(),
+         finding_type = character(),
+         current_path = character(),
+         symbol = character(),
+         owner_issue = character(),
+         rationale = character(),
+         expiry_issue = character()
+       )
+     )

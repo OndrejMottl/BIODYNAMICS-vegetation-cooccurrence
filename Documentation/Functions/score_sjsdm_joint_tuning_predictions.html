@@ -1,0 +1,107 @@
+<!DOCTYPE html><html><head><title>R: Score Joint sjSDM Tuning Predictions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>score_sjsdm_joint_tuning_predictions</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Score Joint sjSDM Tuning Predictions</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the held-out joint sjSDM negative log likelihood and probability
+diagnostics used by regularization tuning.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>score_sjsdm_joint_tuning_predictions(
+  object = NULL,
+  data_test_input = NULL,
+  data_observed = NULL,
+  data_predicted = NULL,
+  epsilon = 1e-06,
+  n_likelihood_draws = 20L,
+  score_seed = 900723L
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="object">object</code></td>
+<td>
+<p>Fitted 'sjSDM' object containing the model likelihood callback, formulas,
+and fit settings.</p>
+</td></tr>
+<tr><td><code id="data_test_input">data_test_input</code></td>
+<td>
+<p>Fold-local test input containing 'data_abiotic_to_fit' and, for spatial
+models, 'data_spatial_to_fit'.</p>
+</td></tr>
+<tr><td><code id="data_observed">data_observed</code>, <code id="data_predicted">data_predicted</code></td>
+<td>
+<p>Aligned binary observations and marginal predicted probabilities.</p>
+</td></tr>
+<tr><td><code id="epsilon">epsilon</code></td>
+<td>
+<p>Probability clipping tolerance passed to
+[score_sjsdm_tuning_predictions()].</p>
+</td></tr>
+<tr><td><code id="n_likelihood_draws">n_likelihood_draws</code></td>
+<td>
+<p>Positive integer number of stochastic likelihood evaluations to average.
+Defaults to '20L', matching 'sjSDM::sjSDM_cv()'.</p>
+</td></tr>
+<tr><td><code id="score_seed">score_seed</code></td>
+<td>
+<p>Non-negative integer used for deterministic stochastic likelihood draws.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Test design matrices are reconstructed from the fitted model formulas.
+Likelihood sampling and batch size are read from the fitted model settings.
+The caller's R and available PyTorch random-number states are restored.
+</p>
+
+
+<h3>Value</h3>
+
+<p>One-row tibble with retained taxa, response-value count, total joint
+negative log likelihood, joint loss per response, and macro AUC.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+score_sjsdm_joint_tuning_predictions(
+  object = mod_fit,
+  data_test_input = list_test_input,
+  data_observed = data_test_observed,
+  data_predicted = data_test_predicted
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

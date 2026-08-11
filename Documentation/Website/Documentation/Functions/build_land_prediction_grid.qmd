@@ -3,7 +3,6 @@ format: html
 title: build_land_prediction_grid()
 ---
 
-<html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -78,7 +77,7 @@ and 'y_lim'.
 
 <h3>Examples</h3>
 
-<pre><code class='language-R'>## Not run: 
+<pre><code class='language-R'>## Not run:
 build_land_prediction_grid(
   scale_id = "europe",
   grid_resolution = 0.5,
@@ -92,4 +91,3 @@ build_land_prediction_grid(
 
 </div>
 </body></html>
-

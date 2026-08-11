@@ -11,7 +11,7 @@ Usage:
        plot_title,
        vec_component_colours
      )
-     
+
 Arguments:
 
 data_component_stack: Data frame returned by
@@ -25,4 +25,3 @@ vec_component_colours: Named character vector mapping component labels
 Value:
 
      A `ggplot` object.
-

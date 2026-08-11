@@ -18,7 +18,7 @@ Usage:
        age_lim = NULL,
        sel_dataset_type = NULL
      )
-     
+
 Arguments:
 
 path_to_vegvault: A character string specifying the path to the
@@ -61,4 +61,3 @@ See Also:
 
      [extract_data_from_vegvault()],
      [extract_age_uncertainty_from_vegvault()]
-

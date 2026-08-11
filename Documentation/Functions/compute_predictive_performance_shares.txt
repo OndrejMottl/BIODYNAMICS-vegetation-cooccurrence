@@ -12,7 +12,7 @@ Usage:
        metric_column,
        metric_name = metric_column
      )
-     
+
 Arguments:
 
 data_fold_metrics: Data frame with columns `repeat_id`, `fold_id`,
@@ -29,4 +29,3 @@ metric_name: Single character string used in the output. Defaults to
 Value:
 
      A tibble with one row per repeat, fold, and component.
-

@@ -40,7 +40,7 @@ Value:
 See Also:
 
      [prepare_community_for_fit()], [filter_constant_taxa()],
-     [assemble_data_to_fit()]
+     [build_jsdm_fit_input()]
 
 Examples:
 

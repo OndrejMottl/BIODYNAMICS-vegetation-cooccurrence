@@ -1,421 +1,211 @@
 <!DOCTYPE html><html><head><title>R: Select Functional-Type Group Count</title>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-
 <script type="text/javascript">
-
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
-
 function processMathHTML() {
-
     var l = document.getElementsByClassName('reqn');
-
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
-
     return;
-
 }</script>
-
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
-
     onload="processMathHTML();"></script>
-
 <link rel="stylesheet" type="text/css" href="R.css" />
-
 </head><body><div class="container"><main>
-
-
 
 <table style="width: 100%;"><tr><td>select_functional_type_group_count</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-
-
 <h2>Select Functional-Type Group Count</h2>
-
-
 
 <h3>Description</h3>
 
-
-
 <p>Sweeps 'functional_type_group_count_min' ..
-
 'functional_type_group_count_max', cuts the dendrogram at each value,
-
 and returns the group count that maximises the average
-
 silhouette width computed from 'trait_dissimilarity'.
-
 </p>
-
 <p>The function also simulates the downstream pipeline filter
-
 chain for each candidate 'k' and only considers values that
-
 leave at least 'minimum_taxon_count' non-constant FT columns. The
-
 filter chain applied is: 'filter_community_by_minimum_proportion()',
-
 'filter_community_by_minimum_core_count()',
-
 'filter_community_by_minimum_sample_count()',
-
 'prepare_community_for_fit()', optionally
-
 'compute_community_presence_absence()' (when 'error_family' is
-
 '&quot;binomial&quot;'), and 'filter_constant_taxa()'. The number of
-
 surviving columns is compared to 'minimum_taxon_count'. Among viable
-
 candidates the highest-silhouette 'k' is returned. If no
-
 'k' is viable an error is raised via 'cli::cli_abort()'.
-
 </p>
-
-
-
 
 
 <h3>Usage</h3>
 
-
-
 <pre><code class='language-R'>select_functional_type_group_count(
-
   trait_dissimilarity,
-
   hierarchical_clustering,
-
   functional_type_group_count_min = 10L,
-
   functional_type_group_count_max = 25L,
-
   data_community,
-
   minimum_proportion,
-
   minimum_taxon_count,
-
   minimum_core_count,
-
   minimum_sample_count,
-
   error_family
-
 )
-
 </code></pre>
-
-
-
 
 
 <h3>Arguments</h3>
 
-
-
 <table role = "presentation">
-
 <tr><td><code id="trait_dissimilarity">trait_dissimilarity</code></td>
-
 <td>
-
 <p>A 'dist' object produced by 'compute_trait_dissimilarity()'.
-
 Must inherit class '&quot;dist&quot;'.</p>
-
 </td></tr>
-
 <tr><td><code id="hierarchical_clustering">hierarchical_clustering</code></td>
-
 <td>
-
 <p>An 'hclust' object produced by 'fit_hierarchical_clustering()'. Must inherit
-
 class '&quot;hclust&quot;'.</p>
-
 </td></tr>
-
 <tr><td><code id="functional_type_group_count_min">functional_type_group_count_min</code></td>
-
 <td>
-
 <p>A single positive integer giving the minimum number of
-
 functional-type groups to evaluate. Must be at least 2 and
-
 no greater than 'functional_type_group_count_max'. Default: '10L'.</p>
-
 </td></tr>
-
 <tr><td><code id="functional_type_group_count_max">functional_type_group_count_max</code></td>
-
 <td>
-
 <p>A single positive integer giving the maximum number of
-
 functional-type groups to evaluate. Must be at least 2. If
-
 'functional_type_group_count_max' is greater than or equal to the number of
-
 observations, it is silently clamped to
-
 'n_observations - 1L'. After clamping the maximum,
-
 'functional_type_group_count_min' is silently clamped to
-
 the adjusted maximum to handle datasets with
-
 very few taxa without erroring. Default: '25L'.</p>
-
 </td></tr>
-
 <tr><td><code id="data_community">data_community</code></td>
-
 <td>
-
 <p>A long-format data frame with columns 'taxon',
-
 'dataset_name', 'age', and 'value', as produced by
-
 'classify_to_functional_type()' or
-
 'classify_taxonomic_resolution()'. Used to run the
-
 viability filter chain for each candidate 'k'.</p>
-
 </td></tr>
-
 <tr><td><code id="minimum_proportion">minimum_proportion</code></td>
-
 <td>
-
 <p>A single numeric value in (0, 1). A sample is considered
-
 to contain an FT group when the summed 'value' for
-
 that group exceeds this threshold.</p>
-
 </td></tr>
-
 <tr><td><code id="minimum_taxon_count">minimum_taxon_count</code></td>
-
 <td>
-
 <p>A single positive integer. The minimum number of
-
 non-constant FT columns (i.e. groups present in strictly
-
 between 0
-
 'minimum_proportion') that a candidate 'k' must produce to
-
 be considered viable.</p>
-
 </td></tr>
-
 <tr><td><code id="minimum_core_count">minimum_core_count</code></td>
-
 <td>
-
 <p>A single positive integer. Forwarded to
-
 'filter_community_by_minimum_core_count()' during the viability check
-
 to remove FT groups present in fewer than this many
-
 distinct cores ('dataset_name' values).</p>
-
 </td></tr>
-
 <tr><td><code id="minimum_sample_count">minimum_sample_count</code></td>
-
 <td>
-
 <p>A single positive integer. Forwarded to
-
 'filter_community_by_minimum_sample_count()' during the viability check to
-
 remove FT groups present in fewer than this many distinct
-
 spatio-temporal samples ('(dataset_name, age)'
-
 combinations).</p>
-
 </td></tr>
-
 <tr><td><code id="error_family">error_family</code></td>
-
 <td>
-
 <p>A single character string (e.g. '&quot;binomial&quot;'). When
-
 '&quot;binomial&quot;', 'compute_community_presence_absence()' is applied to
-
 the wide community matrix before 'filter_constant_taxa()'
-
 during the viability check, mirroring the pipeline step.</p>
-
 </td></tr>
-
 </table>
-
-
-
 
 
 <h3>Details</h3>
 
-
-
 <p>For each candidate group count in
-
 'functional_type_group_count_min'..
-
 'functional_type_group_count_max' the function calls
-
 'stats::cutree()' followed by 'cluster::silhouette()' and
-
 records the mean silhouette width.
-
 </p>
-
 <p>For each candidate 'k' the community data are aggregated
-
 to the FT level (summed 'value' per
-
 '(dataset_name, age, ft_group)') and then passed through
-
 the actual pipeline filter chain in sequence:
-
 </p>
-
-
 
 <ol>
-
 <li><p> 'filter_community_by_minimum_proportion()' at
-
 'minimum_proportion'.
-
 </p>
-
 </li>
-
 <li><p> 'filter_community_by_minimum_core_count()'.
-
 </p>
-
 </li>
-
 <li><p> 'filter_community_by_minimum_sample_count()'.
-
 </p>
-
 </li>
-
 <li><p> 'prepare_community_for_fit()' (wide matrix,
-
 using all surviving samples as their own IDs).
-
 </p>
-
 </li>
-
 <li><p> 'compute_community_presence_absence()' if
-
 'error_family == &quot;binomial&quot;'.
-
 </p>
-
 </li>
-
 <li><p> 'filter_constant_taxa()'.
-
 </p>
-
 </li></ol>
-
-
 
 <p>The number of surviving columns is the viability count. If
-
 any step errors (e.g. all taxa removed), the count is
-
 treated as zero.
-
 </p>
-
 <p>Selection proceeds as follows:
-
 </p>
-
-
 
 <ol>
-
 <li><p> If at least one 'k' has viability count &gt;=
-
 'minimum_taxon_count': return the highest-silhouette among
-
 those 'k' values.
-
 </p>
-
 </li>
-
 <li><p> If no 'k' is viable: abort with 'cli::cli_abort()'.
-
 </p>
-
 </li></ol>
 
-
-
 <p>Ties are broken by 'base::which.max()' (first occurrence).
-
 </p>
-
-
-
 
 
 <h3>Value</h3>
 
-
-
 <p>A single integer giving the optimal number of functional-type
-
 groups (&gt;= 'functional_type_group_count_min' after clamping).
-
 </p>
-
-
-
 
 
 <h3>See Also</h3>
 
-
-
 <p>[compute_trait_dissimilarity()], [fit_hierarchical_clustering()],
-
 [assign_functional_type_clusters()]
-
 </p>
-
-
 
 </main>
 
-
-
 </div>
-
 </body></html>

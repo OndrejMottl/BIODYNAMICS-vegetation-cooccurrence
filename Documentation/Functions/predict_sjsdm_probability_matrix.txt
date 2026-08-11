@@ -1,0 +1,28 @@
+Predict sjSDM Probability Matrix
+
+Description:
+
+     Predicts held-out probabilities from a fitted sjSDM object using
+     fold-local test inputs.
+
+Usage:
+
+     predict_sjsdm_probability_matrix(
+       object = NULL,
+       data_test_input = NULL,
+       predict_function = stats::predict
+     )
+
+Arguments:
+
+  object: Fitted sjSDM-like model object.
+
+data_test_input: Fold-local test input containing `data_abiotic_to_fit`
+          and optionally `data_spatial_to_fit`.
+
+predict_function: Injectable prediction function. Defaults to
+          [stats::predict()].
+
+Value:
+
+     Numeric matrix of probabilities aligned to the test input rows.

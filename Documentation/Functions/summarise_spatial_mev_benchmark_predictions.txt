@@ -1,0 +1,34 @@
+Summarise Spatial MEM Benchmark Predictions
+
+Description:
+
+     Converts paired exact or fast out-of-fold predictions into one
+     benchmark row per repetition using the shared fold-local
+     evaluation definitions.
+
+Usage:
+
+     summarise_spatial_mev_benchmark_predictions(
+       data_predictions = NULL,
+       spatial_mev_strategy = NULL,
+       technical_cv_status = "pass",
+       assignment_hash = NULL,
+       artifact_schema_hash = NULL
+     )
+
+Arguments:
+
+data_predictions: Long out-of-fold prediction table accepted by
+          [evaluate_sjsdm_fold_predictions()].
+
+spatial_mev_strategy: Spatial MEM strategy used to produce the
+          predictions.
+
+technical_cv_status: Technical status recorded for the benchmark run.
+
+assignment_hash, artifact_schema_hash: Stable identifiers used to
+          verify paired technical equivalence.
+
+Value:
+
+     Tibble with one row per repetition and spatial MEM strategy.

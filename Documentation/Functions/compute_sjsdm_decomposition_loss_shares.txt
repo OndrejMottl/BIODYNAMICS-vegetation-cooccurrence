@@ -1,0 +1,35 @@
+Compute sjSDM Predictive Loss Shares
+
+Description:
+
+     Normalizes positive repeat-level log-loss effects across removed
+     components.
+
+Usage:
+
+     compute_sjsdm_decomposition_loss_shares(data_repeat_effects = NULL)
+
+Arguments:
+
+data_repeat_effects: Repeat table returned by
+          [summarise_sjsdm_decomposition_effects()].
+
+Details:
+
+     Negative effects are retained in `mean_delta_full_advantage` but
+     contribute zero to normalized shares. Shares are undefined when no
+     component has a positive effect. These are relative
+     predictive-loss shares, not ecological variance fractions, and
+     component overlap prevents causal interpretation.
+
+Value:
+
+     A named list containing repeat-level shares and descriptive share
+     summaries.
+
+Examples:
+
+     ## Not run:
+
+     compute_sjsdm_decomposition_loss_shares(data_repeat_effects)
+     ## End(Not run)

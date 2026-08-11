@@ -1,0 +1,20 @@
+Look Up a JSDM Variance Component
+
+Description:
+
+     Returns the first clamped variance value for a named component, or
+     zero when the component is absent.
+
+Usage:
+
+     .lookup_jsdm_variance_component(data_slice, component_name)
+
+Arguments:
+
+data_slice: Data frame containing `component` and `R2_clamped` columns.
+
+component_name: Character scalar naming the requested component.
+
+Value:
+
+     Numeric scalar containing the first matching value or zero.

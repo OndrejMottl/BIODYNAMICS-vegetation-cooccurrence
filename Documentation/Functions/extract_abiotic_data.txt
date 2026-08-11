@@ -8,7 +8,7 @@ Description:
 Usage:
 
      extract_abiotic_data(data_source = NULL)
-     
+
 Arguments:
 
 data_source: A data frame. Must contain the columns `dataset_name` and
@@ -23,4 +23,3 @@ Value:
 
      A data frame with columns `dataset_name`, `sample_name`,
      `abiotic_variable_name`, and `abiotic_value`.
-

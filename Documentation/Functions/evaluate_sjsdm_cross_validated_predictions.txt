@@ -1,0 +1,47 @@
+Evaluate sjSDM Cross-Validated Predictions
+
+Description:
+
+     Pools selected-candidate out-of-fold predictions within each
+     repeat and taxon, then calculates taxon and community predictive
+     metrics.
+
+Usage:
+
+     evaluate_sjsdm_cross_validated_predictions(
+       data_predictions = NULL,
+       epsilon = 1e-06
+     )
+
+Arguments:
+
+data_predictions: Long selected-candidate prediction table returned in
+          the data-prediction element of
+          [run_sjsdm_selected_candidate_folds()].
+
+ epsilon: Probability clipping tolerance passed to
+          [evaluate_binary_log_loss()]. Defaults to 1e-6.
+
+Details:
+
+     Folds are pooled before metrics are calculated. Any non-ok
+     prediction row makes all metrics for that repeat and taxon
+     incomplete. One-class pooled responses retain the metric-specific
+     undefined statuses from the binary evaluators, while binary log
+     loss remains evaluable.
+
+Value:
+
+     Named list containing data_taxon_metrics and
+     data_community_summary. Taxon metrics have one row per repeat,
+     taxon, and metric. Community summaries contain the mean finite
+     estimate across evaluable taxa for each repeat and metric.
+
+Examples:
+
+     ## Not run:
+
+     evaluate_sjsdm_cross_validated_predictions(
+       data_predictions = data_predictions
+     )
+     ## End(Not run)

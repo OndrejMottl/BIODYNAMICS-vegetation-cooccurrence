@@ -8,7 +8,7 @@ Description:
 Usage:
 
      summarise_predictive_decomposition(data_shares)
-     
+
 Arguments:
 
 data_shares: Data frame returned by
@@ -18,4 +18,3 @@ data_shares: Data frame returned by
 Value:
 
      A tibble with one row per component.
-

@@ -13,7 +13,7 @@ Usage:
        data_classification_table,
        data_auxiliary_classification_table
      )
-     
+
 Arguments:
 
 data_classification_table: A data frame produced by
@@ -47,4 +47,3 @@ See Also:
 
      [load_auxiliary_classification_table()],
      [build_classification_table()], [classify_taxonomic_resolution()]
-

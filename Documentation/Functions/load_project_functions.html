@@ -1,0 +1,85 @@
+<!DOCTYPE html><html><head><title>R: Load Project Functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>load_project_functions</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load Project Functions</h2>
+
+<h3>Description</h3>
+
+<p>Validates and deterministically loads the active project function tree.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>load_project_functions(
+  path_function_root,
+  environment_target,
+  vec_excluded_directory_names = base::character()
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="path_function_root">path_function_root</code></td>
+<td>
+<p>A single existing directory containing project function files.</p>
+</td></tr>
+<tr><td><code id="environment_target">environment_target</code></td>
+<td>
+<p>The environment into which validated functions are loaded.</p>
+</td></tr>
+<tr><td><code id="vec_excluded_directory_names">vec_excluded_directory_names</code></td>
+<td>
+<p>Character vector of exact directory names to exclude with all descendants.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Validation occurs before any function is loaded. Each active file must
+contain exactly one top-level function declaration and no other top-level
+expressions. Function names must match file basenames; a single leading dot
+is allowed for an internal function. Duplicate symbols and case-insensitive
+duplicate basenames are rejected.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame describing the validated functions in source order.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+load_project_functions(
+  path_function_root = here::here("R/Functions"),
+  environment_target = base::globalenv()
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -1,0 +1,48 @@
+Load Project Functions
+
+Description:
+
+     Validates and deterministically loads the active project function
+     tree.
+
+Usage:
+
+     load_project_functions(
+       path_function_root,
+       environment_target,
+       vec_excluded_directory_names = base::character()
+     )
+
+Arguments:
+
+path_function_root: A single existing directory containing project
+          function files.
+
+environment_target: The environment into which validated functions are
+          loaded.
+
+vec_excluded_directory_names: Character vector of exact directory names
+          to exclude with all descendants.
+
+Details:
+
+     Validation occurs before any function is loaded. Each active file
+     must contain exactly one top-level function declaration and no
+     other top-level expressions. Function names must match file
+     basenames; a single leading dot is allowed for an internal
+     function. Duplicate symbols and case-insensitive duplicate
+     basenames are rejected.
+
+Value:
+
+     A data frame describing the validated functions in source order.
+
+Examples:
+
+     ## Not run:
+
+     load_project_functions(
+       path_function_root = here::here("R/Functions"),
+       environment_target = base::globalenv()
+     )
+     ## End(Not run)

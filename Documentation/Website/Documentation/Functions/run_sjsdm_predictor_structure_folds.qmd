@@ -1,0 +1,137 @@
+---
+format: html
+title: run_sjsdm_predictor_structure_folds()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_sjsdm_predictor_structure_folds</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run One sjSDM Predictor Structure Across Selected Folds</h2>
+
+<h3>Description</h3>
+
+<p>Applies one controlled predictor structure to deterministic
+selected-candidate folds and returns labelled predictions and diagnostics.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_sjsdm_predictor_structure_folds(
+  predictor_structure = NULL,
+  data_assignments = NULL,
+  data_selected_candidate = NULL,
+  data_community_matrix = NULL,
+  data_abiotic_wide = NULL,
+  data_coords_projected = NULL,
+  data_sample_ids = NULL,
+  config_model_fitting = NULL,
+  config_data_processing = NULL,
+  model_formula = NULL,
+  device = "gpu",
+  seed = 900723L,
+  prepare_fold_function = prepare_sjsdm_cross_validation_fold,
+  fit_candidate_function = fit_sjsdm_regularization_candidate,
+  runner_function = run_sjsdm_selected_candidate_folds,
+  predict_function = predict_sjsdm_probability_matrix
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="predictor_structure">predictor_structure</code></td>
+<td>
+<p>Structure passed to [configure_sjsdm_predictor_structure()].</p>
+</td></tr>
+<tr><td><code id="data_assignments">data_assignments</code>, <code id="data_selected_candidate">data_selected_candidate</code>, <code id="data_community_matrix">data_community_matrix</code></td>
+<td>
+<p>Cross-validation assignments, selected regularization, and response matrix.</p>
+</td></tr>
+<tr><td><code id="data_abiotic_wide">data_abiotic_wide</code>, <code id="data_coords_projected">data_coords_projected</code>, <code id="data_sample_ids">data_sample_ids</code></td>
+<td>
+<p>Abiotic predictors, projected coordinates, and aligned sample metadata.</p>
+</td></tr>
+<tr><td><code id="config_model_fitting">config_model_fitting</code>, <code id="config_data_processing">config_data_processing</code></td>
+<td>
+<p>Model-fitting and data-processing configurations used by fold preparation.</p>
+</td></tr>
+<tr><td><code id="model_formula">model_formula</code></td>
+<td>
+<p>Full abiotic formula used when abiotic predictors are enabled.</p>
+</td></tr>
+<tr><td><code id="device">device</code></td>
+<td>
+<p>Fitting device passed to [fit_sjsdm_regularization_candidate()].</p>
+</td></tr>
+<tr><td><code id="seed">seed</code></td>
+<td>
+<p>Base selected-fold seed passed to
+[run_sjsdm_selected_candidate_folds()].</p>
+</td></tr>
+<tr><td><code id="prepare_fold_function">prepare_fold_function</code>, <code id="fit_candidate_function">fit_candidate_function</code>, <code id="runner_function">runner_function</code></td>
+<td>
+<p>Injectable functions for fold preparation, candidate fitting, and selected
+fold orchestration.</p>
+</td></tr>
+<tr><td><code id="predict_function">predict_function</code></td>
+<td>
+<p>Injectable held-out prediction function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Regularization and assignments are fixed by the supplied reference inputs.
+The helper changes predictor inclusion only. Intercept-only and spatial-only
+structures use an environmental intercept because sjSDM requires an
+environmental component. The no-associations structure retains abiotic and
+spatial predictors while restricting the biotic covariance to its diagonal.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Named list containing labelled 'data_predictions' and 'data_diagnostics'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+run_sjsdm_predictor_structure_folds(
+  predictor_structure = "abiotic_only",
+  data_assignments = data_assignments,
+  data_selected_candidate = data_selected_candidate,
+  data_community_matrix = data_community_matrix,
+  data_abiotic_wide = data_abiotic_wide,
+  data_coords_projected = data_coords_projected,
+  data_sample_ids = data_sample_ids,
+  config_model_fitting = config_model_fitting,
+  config_data_processing = config_data_processing,
+  model_formula = model_formula
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

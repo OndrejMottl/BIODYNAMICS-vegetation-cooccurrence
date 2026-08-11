@@ -1,0 +1,134 @@
+---
+format: html
+title: calibrate_cross_validation_grid_size()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>calibrate_cross_validation_grid_size</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calibrate Cross-Validation Grid Size</h2>
+
+<h3>Description</h3>
+
+<p>Compares candidate spatial-grid sizes using occupied-cell density and fold
+balance, then marks the finest eligible candidate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>calibrate_cross_validation_grid_size(
+  data_locations = NULL,
+  candidate_grid_cell_sizes_km = NULL,
+  n_folds = 5L,
+  n_repeats = 1L,
+  occupancy_criterion = "median",
+  target_locations_per_cell = NULL,
+  lower_quantile_probability = 0.25,
+  max_fold_location_difference = 1L,
+  max_fold_sample_difference = Inf,
+  seed = 900723L
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_locations">data_locations</code></td>
+<td>
+<p>Location table returned by [make_cross_validation_location_table()].</p>
+</td></tr>
+<tr><td><code id="candidate_grid_cell_sizes_km">candidate_grid_cell_sizes_km</code></td>
+<td>
+<p>Numeric vector of unique positive candidate grid-cell widths in kilometres.</p>
+</td></tr>
+<tr><td><code id="n_folds">n_folds</code></td>
+<td>
+<p>Single integer greater than one and no greater than the location count.</p>
+</td></tr>
+<tr><td><code id="n_repeats">n_repeats</code></td>
+<td>
+<p>Single positive integer used to evaluate deterministic origin shifts.</p>
+</td></tr>
+<tr><td><code id="occupancy_criterion">occupancy_criterion</code></td>
+<td>
+<p>Character scalar: '&quot;minimum&quot;', '&quot;lower_quantile&quot;', or '&quot;median&quot;'.</p>
+</td></tr>
+<tr><td><code id="target_locations_per_cell">target_locations_per_cell</code></td>
+<td>
+<p>Positive numeric occupancy target. Defaults to 'n_folds' when 'NULL'.</p>
+</td></tr>
+<tr><td><code id="lower_quantile_probability">lower_quantile_probability</code></td>
+<td>
+<p>Probability used by '&quot;lower_quantile&quot;', between zero and '0.5'. Defaults
+to '0.25'.</p>
+</td></tr>
+<tr><td><code id="max_fold_location_difference">max_fold_location_difference</code></td>
+<td>
+<p>Maximum allowed difference between the largest and smallest fold location
+counts within any repeat. Defaults to '1L'.</p>
+</td></tr>
+<tr><td><code id="max_fold_sample_difference">max_fold_sample_difference</code></td>
+<td>
+<p>Maximum allowed difference between fold sample counts within any repeat.
+Defaults to 'Inf' so it is diagnostic until calibrated explicitly.</p>
+</td></tr>
+<tr><td><code id="seed">seed</code></td>
+<td>
+<p>Single non-negative integer assignment seed. Defaults to '900723L'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Candidate assignments use [make_spatial_cross_validation_assignments()].
+Eligibility requires the configured occupancy statistic and both balance
+thresholds. Among eligible candidates, the smallest cell size is selected.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Tibble with one row per candidate grid size, occupancy and balance
+diagnostics, eligibility, selection status, and a single 'selected' flag
+when at least one candidate is eligible.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data_locations &lt;-
+  tibble::tibble(
+    location_id = letters[1:6],
+    coord_x_km = c(0, 1, 2, 10, 11, 12),
+    coord_y_km = rep(0, 6),
+    n_samples = rep(1L, 6),
+    row_indices = as.list(seq_len(6L))
+  )
+calibrate_cross_validation_grid_size(
+  data_locations = data_locations,
+  candidate_grid_cell_sizes_km = c(1, 10),
+  n_folds = 3L
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -1,0 +1,101 @@
+---
+format: html
+title: run_spatial_mev_paired_cv_fixture()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_spatial_mev_paired_cv_fixture</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run a Paired Spatial MEM Cross-Validation Fixture</h2>
+
+<h3>Description</h3>
+
+<p>Runs exact and fast spatial MEM construction through identical fold
+preparation, sjSDM fitting, and held-out prediction work.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_spatial_mev_paired_cv_fixture(
+  data_community_matrix = NULL,
+  data_abiotic_wide = NULL,
+  data_coords_projected = NULL,
+  data_sample_ids = NULL,
+  data_assignments = NULL,
+  candidate = NULL,
+  sel_abiotic_formula = NULL,
+  config_model_fitting = NULL,
+  config_data_processing = NULL,
+  device = "cpu",
+  prepare_function = prepare_sjsdm_cross_validation_fold,
+  fit_function = fit_sjsdm_regularization_candidate,
+  predict_function = predict_sjsdm_probability_matrix
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_community_matrix">data_community_matrix</code>, <code id="data_abiotic_wide">data_abiotic_wide</code>, <code id="data_coords_projected">data_coords_projected</code></td>
+<td>
+<p>Model inputs accepted by [prepare_sjsdm_cross_validation_fold()].</p>
+</td></tr>
+<tr><td><code id="data_sample_ids">data_sample_ids</code></td>
+<td>
+<p>Sample metadata accepted by [prepare_sjsdm_cross_validation_fold()].</p>
+</td></tr>
+<tr><td><code id="data_assignments">data_assignments</code></td>
+<td>
+<p>Table containing 'repeat_id', 'fold_id', and 'row_index'. Each row index must
+occur once in every repeat.</p>
+</td></tr>
+<tr><td><code id="candidate">candidate</code></td>
+<td>
+<p>One regularization candidate accepted by
+[fit_sjsdm_regularization_candidate()].</p>
+</td></tr>
+<tr><td><code id="sel_abiotic_formula">sel_abiotic_formula</code></td>
+<td>
+<p>Abiotic formula passed to [fit_sjsdm_regularization_candidate()].</p>
+</td></tr>
+<tr><td><code id="config_model_fitting">config_model_fitting</code>, <code id="config_data_processing">config_data_processing</code></td>
+<td>
+<p>Shared model and data-processing configurations.</p>
+</td></tr>
+<tr><td><code id="device">device</code></td>
+<td>
+<p>Device passed to [fit_sjsdm_regularization_candidate()].</p>
+</td></tr>
+<tr><td><code id="prepare_function">prepare_function</code>, <code id="fit_function">fit_function</code>, <code id="predict_function">predict_function</code></td>
+<td>
+<p>Injectable production adapters used for focused orchestration tests.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list containing paired benchmark rows, predictions, and fold
+diagnostics.
+</p>
+
+</main>
+
+</div>
+</body></html>

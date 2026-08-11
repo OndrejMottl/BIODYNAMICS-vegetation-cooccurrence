@@ -15,10 +15,13 @@ Usage:
        test_ids = NULL,
        spatial_mode = NULL,
        n_mev = NULL,
+       spatial_mev_config = NULL,
        compute_spatial_function = compute_spatial_mev,
        compute_spatiotemporal_function = compute_spatiotemporal_mev,
        interpolate_spatial_function = interpolate_mev_to_grid,
-       interpolate_spatiotemporal_function = interpolate_st_mev_to_grid
+       interpolate_spatiotemporal_function = interpolate_st_mev_to_grid,
+       compute_spatial_basis_function = compute_spatial_mev_basis,
+       project_spatial_basis_function = project_spatial_mev_basis
      )
 
 Arguments:
@@ -39,12 +42,20 @@ spatial_mode: Character scalar. Supported values are `"spatial"` and
    n_mev: Positive integer giving the requested number of Moran
           eigenvectors.
 
+spatial_mev_config: Optional shared 2-D MEM strategy configuration.
+          When `NULL`, the legacy compute and interpolation functions
+          are retained for compatibility tests.
+
 compute_spatial_function, compute_spatiotemporal_function: Functions
           used to compute 2-D and spatiotemporal Moran eigenvectors.
 
 interpolate_spatial_function, interpolate_spatiotemporal_function:
           Functions used to project training Moran eigenvectors to
           held-out samples.
+
+compute_spatial_basis_function, project_spatial_basis_function:
+          Functions used to construct and project an explicit reusable
+          2-D basis.
 
 Value:
 

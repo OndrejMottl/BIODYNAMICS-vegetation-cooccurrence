@@ -1,0 +1,108 @@
+<!DOCTYPE html><html><head><title>R: Assess sjSDM Candidate Guardrails</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>assess_sjsdm_candidate_guardrails</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Assess sjSDM Candidate Guardrails</h2>
+
+<h3>Description</h3>
+
+<p>Compares a tuning candidate with its reference across tuning repeats and an
+independent fold-local refit.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>assess_sjsdm_candidate_guardrails(
+  data_tuning_summary = NULL,
+  data_candidate_repeat_metrics = NULL,
+  data_reference_repeat_metrics = NULL,
+  candidate_id = NULL,
+  reference_candidate_id = NULL,
+  maximum_discrimination_decrease = 0.01,
+  minimum_tjur_r2 = 0.1
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_tuning_summary">data_tuning_summary</code></td>
+<td>
+<p>Repeat-by-candidate tuning summary.</p>
+</td></tr>
+<tr><td><code id="data_candidate_repeat_metrics">data_candidate_repeat_metrics</code></td>
+<td>
+<p>Candidate repeat metrics from [summarise_sjsdm_fold_metrics()].</p>
+</td></tr>
+<tr><td><code id="data_reference_repeat_metrics">data_reference_repeat_metrics</code></td>
+<td>
+<p>Reference repeat metrics with the same schema as the candidate metrics.</p>
+</td></tr>
+<tr><td><code id="candidate_id">candidate_id</code></td>
+<td>
+<p>Candidate identifier to assess.</p>
+</td></tr>
+<tr><td><code id="reference_candidate_id">reference_candidate_id</code></td>
+<td>
+<p>Reference identifier used for comparison.</p>
+</td></tr>
+<tr><td><code id="maximum_discrimination_decrease">maximum_discrimination_decrease</code></td>
+<td>
+<p>Largest allowed repeat-level decrease in AUC or Tjur R2. Defaults to '0.01'.</p>
+</td></tr>
+<tr><td><code id="minimum_tjur_r2">minimum_tjur_r2</code></td>
+<td>
+<p>Minimum candidate mean fold-macro Tjur R2. Defaults to '0.1'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Acceptance requires lower tuning NLL in every repeat, tuning AUC within the
+discrimination tolerance, non-inferior independent-refit AUC, Tjur R2, log
+loss, and Brier score in every repeat, and the scientific Tjur R2 gate.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list containing tuning-repeat comparisons, independent-refit
+comparisons, and a one-row guardrail summary.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+assess_sjsdm_candidate_guardrails(
+  data_tuning_summary = data_tuning,
+  data_candidate_repeat_metrics = data_candidate_metrics,
+  data_reference_repeat_metrics = data_reference_metrics,
+  candidate_id = "candidate_002",
+  reference_candidate_id = "candidate_001"
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

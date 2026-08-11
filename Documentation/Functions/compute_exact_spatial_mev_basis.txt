@@ -1,0 +1,20 @@
+Compute the Exact Spatial MEM Basis Engine Result
+
+Description:
+
+     Internal exact-strategy helper for [compute_spatial_mev_basis()].
+
+Usage:
+
+     .compute_exact_spatial_mev_basis(mat_coords, exact_function)
+
+Arguments:
+
+mat_coords: Numeric projected-coordinate matrix.
+
+exact_function: Exact Moran-eigenvector construction function.
+
+Value:
+
+     Named list containing the complete MEV matrix, empty fast-basis
+     state, engine method, and projection method.

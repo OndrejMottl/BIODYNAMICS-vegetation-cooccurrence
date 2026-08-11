@@ -1,0 +1,33 @@
+Validate R Architecture
+
+Description:
+
+     Enforces the maintained architecture-findings contract and aborts
+     when any unresolved blocking finding remains.
+
+Usage:
+
+     validate_r_architecture(data_findings)
+
+Arguments:
+
+data_findings: Data frame returned by `diagnose_r_architecture()`.
+
+Value:
+
+     The validated findings data frame.
+
+Examples:
+
+     validate_r_architecture(
+       data_findings = tibble::tibble(
+         finding_id = character(),
+         finding_type = character(),
+         current_path = character(),
+         symbol = character(),
+         owner_issue = character(),
+         message = character(),
+         resolution_status = character(),
+         exception_id = character()
+       )
+     )

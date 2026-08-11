@@ -26,7 +26,7 @@ Details:
      The function performs the following steps:
 
      1. Validates input parameters.  2. Checks the presence of the
-     VegVault SQLite database using `check_presence_of_vegvault()`.  3.
+     VegVault SQLite database using `validate_vegvault_presence()`.  3.
      Opens a DBI connection to the SQLite database.  4. Queries the
      `TraitsDomain` table for distinct `trait_domain_name` values and
      collects results.  5. Closes the database connection.  6. Removes

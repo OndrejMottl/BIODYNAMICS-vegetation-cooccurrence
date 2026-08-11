@@ -1,0 +1,42 @@
+Summarise sjSDM Tuning Execution
+
+Description:
+
+     Records the shared tuning strategy, executed fit count,
+     prepared-fold count, and selected-candidate refits avoided through
+     probability reuse.
+
+Usage:
+
+     summarise_sjsdm_tuning_execution(
+       data_tuning = NULL,
+       data_schedule = NULL,
+       data_work_items = NULL
+     )
+
+Arguments:
+
+data_tuning: Fold-level tuning table from
+          [run_sjsdm_tuning_candidates()].
+
+data_schedule: Validated schedule from [build_sjsdm_tuning_schedule()].
+
+data_work_items: Optional work-item table from
+          [build_sjsdm_tuning_work_items()].
+
+Value:
+
+     One-row execution-provenance tibble containing strategy
+     identifiers, fit counts, prediction source, and fit-reduction
+     fraction relative to the former unconditional selected-candidate
+     refit path.
+
+Examples:
+
+     ## Not run:
+
+     summarise_sjsdm_tuning_execution(
+       data_tuning = data_sjsdm_tuning_candidates,
+       data_schedule = data_sjsdm_tuning_schedule
+     )
+     ## End(Not run)

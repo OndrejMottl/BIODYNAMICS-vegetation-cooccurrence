@@ -12,7 +12,7 @@ Usage:
        resolution_id = "genus",
        tar_read_fn = targets::tar_read_raw
      )
-     
+
 Arguments:
 
 store_path: Targets store path.
@@ -25,4 +25,3 @@ tar_read_fn: Function used to read targets. Defaults to
 Value:
 
      Named list with upstream data and configuration objects.
-

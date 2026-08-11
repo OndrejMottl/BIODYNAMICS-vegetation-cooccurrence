@@ -1,0 +1,34 @@
+Build Cumulative sjSDM Tuning Work Items
+
+Description:
+
+     Expands staged tuning through the first unfinished round while
+     preserving deterministic work-item identities from all completed
+     rounds. A later round is included only when the preceding
+     tier-wide survivor decision is available.
+
+Usage:
+
+     build_sjsdm_cumulative_tuning_work_items(
+       data_work_items = NULL,
+       data_schedule = NULL,
+       list_prior_decisions = base::list()
+     )
+
+Arguments:
+
+data_work_items: Complete work-item table returned by
+          [build_sjsdm_tuning_work_items()].
+
+data_schedule: Staged schedule returned by
+          [build_sjsdm_tuning_schedule()].
+
+list_prior_decisions: Ordered list of consecutive tier-wide decision
+          tables, beginning with round one. An empty list authorizes
+          round one only.
+
+Value:
+
+     Cumulative work-item tibble through the first authorized
+     unfinished round. Existing `work_item_id` values are preserved for
+     dynamic-branch reuse.

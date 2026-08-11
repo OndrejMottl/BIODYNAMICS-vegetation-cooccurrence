@@ -1,0 +1,43 @@
+Build Common Spatial sjSDM Regularization Artifact
+
+Description:
+
+     Selects one candidate from normalized tuning losses using equal
+     source-ID weighting within each spatial tier and equal weighting
+     across tiers.
+
+Usage:
+
+     build_sjsdm_common_regularization_artifact(
+       data_tuning_summary = NULL,
+       created_at = NULL
+     )
+
+Arguments:
+
+data_tuning_summary: Repeat-level tuning summaries spanning compatible
+          spatial tiers.
+
+created_at: Single POSIX date-time supplied by the orchestration layer.
+
+Details:
+
+     Taxonomic resolution, response family, candidate hash, candidate
+     IDs, and candidate parameters must be compatible. Predictor
+     structures may differ across tiers and are retained explicitly in
+     the artifact.
+
+Value:
+
+     Named list containing a one-row artifact, tier_candidate_loss, and
+     candidate_aggregation tibbles.
+
+Examples:
+
+     ## Not run:
+
+     build_sjsdm_common_regularization_artifact(
+       data_tuning_summary = data_tuning_summary,
+       created_at = base::Sys.time()
+     )
+     ## End(Not run)

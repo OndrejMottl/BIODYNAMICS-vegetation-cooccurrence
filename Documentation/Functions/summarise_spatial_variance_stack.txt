@@ -8,7 +8,7 @@ Description:
 Usage:
 
      summarise_spatial_variance_stack(data_plot, vec_component_levels)
-     
+
 Arguments:
 
 data_plot: Data frame returned by
@@ -21,4 +21,3 @@ Value:
 
      A tibble with one row per scale, resolution label, and component
      label.
-

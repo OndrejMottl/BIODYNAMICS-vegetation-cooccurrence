@@ -1,0 +1,67 @@
+Assess sjSDM Scientific Predictive Performance
+
+Description:
+
+     Applies a versioned predictive-performance policy to repeated
+     spatial CV evidence while keeping technical validity and
+     calibration separate.
+
+Usage:
+
+     assess_sjsdm_scientific_performance(
+       data_model_repeat_metrics = NULL,
+       data_paired_repeat_metrics = NULL,
+       data_eligible_model_repeat_metrics = NULL,
+       data_taxon_eligibility = NULL,
+       data_fold_diagnostics = NULL,
+       data_predictions = NULL,
+       list_policy = NULL
+     )
+
+Arguments:
+
+data_model_repeat_metrics: Repeat-level model metrics from
+          `summarise_sjsdm_fold_metrics()`.
+
+data_paired_repeat_metrics: Repeat-level model-minus-null improvements
+          from the same summary.
+
+data_eligible_model_repeat_metrics: Repeat-level model metrics
+          restricted to prespecified eligible taxa.
+
+data_taxon_eligibility: Taxon eligibility table containing
+          `mean_tjur_r2` and `eligible`.
+
+data_fold_diagnostics: Fold fitting diagnostics.
+
+data_predictions: Out-of-fold prediction rows.
+
+list_policy: Named policy list containing the versioned thresholds and
+          requirements.
+
+Details:
+
+     Tjur R2 is treated as a discrimination measure, not a percentage
+     of variance explained. Calibration is diagnostic and cannot
+     silently override the held-out discrimination and proper-score
+     decision.
+
+Value:
+
+     A named list containing criterion-level evidence and a one-row
+     decision.
+
+Examples:
+
+     ## Not run:
+
+     assess_sjsdm_scientific_performance(
+       data_model_repeat_metrics = data_model_metrics,
+       data_paired_repeat_metrics = data_improvements,
+       data_eligible_model_repeat_metrics = data_eligible_metrics,
+       data_taxon_eligibility = data_eligibility,
+       data_fold_diagnostics = data_diagnostics,
+       data_predictions = data_predictions,
+       list_policy = list_policy
+     )
+     ## End(Not run)

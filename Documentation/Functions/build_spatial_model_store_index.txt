@@ -13,7 +13,7 @@ Usage:
        pipeline_name = NULL,
        path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
      )
-     
+
 Arguments:
 
 data_source: A single character string. Must be `"paleo"` or
@@ -30,4 +30,3 @@ Value:
 
      A tibble with columns `data_source`, `scale`, `scale_id`,
      `pipeline_name`, `store_path`, and `store_exists`.
-

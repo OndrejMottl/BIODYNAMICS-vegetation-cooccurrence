@@ -1,0 +1,124 @@
+---
+format: html
+title: make_cross_validation_partition_diagnostics()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>make_cross_validation_partition_diagnostics</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make Cross-Validation Partition Diagnostics</h2>
+
+<h3>Description</h3>
+
+<p>Calculates full-model and fold-training counts from location assignments and
+aligned binary community responses for feasibility assessment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>make_cross_validation_partition_diagnostics(
+  data_locations = NULL,
+  data_assignments = NULL,
+  data_community_matrix = NULL,
+  cv_strategy = NULL,
+  min_taxon_locations = 1L,
+  min_taxon_samples = 1L,
+  include_full_model = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_locations">data_locations</code></td>
+<td>
+<p>Location table returned by [make_cross_validation_location_table()].</p>
+</td></tr>
+<tr><td><code id="data_assignments">data_assignments</code></td>
+<td>
+<p>Assignment table returned by a cross-validation assignment helper. May be
+empty when 'cv_strategy = &quot;none&quot;' and only full-model diagnostics are
+required.</p>
+</td></tr>
+<tr><td><code id="data_community_matrix">data_community_matrix</code></td>
+<td>
+<p>Numeric binary matrix with one row per original sample row and one column per
+taxon. Row positions must match location 'row_indices'.</p>
+</td></tr>
+<tr><td><code id="cv_strategy">cv_strategy</code></td>
+<td>
+<p>Character scalar identifying the candidate strategy. Either
+'&quot;spatially_stratified_group_kfold&quot;', '&quot;leave_one_location_out&quot;', or
+'&quot;none&quot;' for full-model-only diagnostics.</p>
+</td></tr>
+<tr><td><code id="min_taxon_locations">min_taxon_locations</code></td>
+<td>
+<p>Positive integer minimum number of training locations with a taxon presence.</p>
+</td></tr>
+<tr><td><code id="min_taxon_samples">min_taxon_samples</code></td>
+<td>
+<p>Positive integer minimum number of training samples with a taxon presence.</p>
+</td></tr>
+<tr><td><code id="include_full_model">include_full_model</code></td>
+<td>
+<p>Logical scalar. If 'TRUE', prepend the full-model diagnostic row. Defaults
+to 'TRUE'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Taxon viability is learned independently within each training partition. A
+retained binary taxon must meet both occurrence thresholds and contain at
+least one absence. MEM location counts equal the number of training
+locations; additional mode-specific MEM checks can raise the threshold in
+the feasibility assessor.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Tibble matching [assess_cross_validation_feasibility()] input, with one
+optional full-model row and one row per repeat and fold.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data_locations &lt;-
+  tibble::tibble(
+    location_id = c("a", "b"),
+    n_samples = c(1L, 1L),
+    row_indices = list(1L, 2L)
+  )
+data_assignments &lt;-
+  make_leave_one_location_out_assignments(data_locations)
+make_cross_validation_partition_diagnostics(
+  data_locations = data_locations,
+  data_assignments = data_assignments,
+  data_community_matrix = matrix(c(0, 1), ncol = 1L),
+  cv_strategy = "leave_one_location_out"
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

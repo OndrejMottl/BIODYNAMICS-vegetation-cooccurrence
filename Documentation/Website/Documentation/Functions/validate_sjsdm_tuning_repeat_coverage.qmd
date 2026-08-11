@@ -1,0 +1,64 @@
+---
+format: html
+title: validate_sjsdm_tuning_repeat_coverage()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>validate_sjsdm_tuning_repeat_coverage</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Validate sjSDM Tuning Repeat Coverage</h2>
+
+<h3>Description</h3>
+
+<p>Verifies that deterministic work items contain every repeat required by
+a staged tuning schedule before any candidate-fold fits execute.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>validate_sjsdm_tuning_repeat_coverage(
+  data_work_items = NULL,
+  data_schedule = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_work_items">data_work_items</code></td>
+<td>
+<p>Complete work-item table returned by [build_sjsdm_tuning_work_items()].</p>
+</td></tr>
+<tr><td><code id="data_schedule">data_schedule</code></td>
+<td>
+<p>Tuning schedule returned by [build_sjsdm_tuning_schedule()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Invisible 'TRUE'. The function aborts when staged repeats are unavailable
+or candidate fold coverage is inconsistent.
+</p>
+
+</main>
+
+</div>
+</body></html>

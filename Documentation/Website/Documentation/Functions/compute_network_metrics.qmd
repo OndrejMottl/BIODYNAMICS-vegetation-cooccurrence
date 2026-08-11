@@ -3,7 +3,6 @@ format: html
 title: compute_network_metrics()
 ---
 
-<html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -46,7 +45,7 @@ Returns a tidy tibble with one row per metric.
 <table role = "presentation">
 <tr><td><code id="data_to_fit">data_to_fit</code></td>
 <td>
-<p>A named list as returned by 'assemble_data_to_fit()'. Must
+<p>A named list as returned by 'build_jsdm_fit_input()'. Must
 contain the element 'data_community_to_fit', a numeric
 matrix with samples as rows and taxa as columns.</p>
 </td></tr>
@@ -89,7 +88,7 @@ species observed in any sample), an error is raised.
 
 <h3>See Also</h3>
 
-<p>[assemble_data_to_fit()],
+<p>[build_jsdm_fit_input()],
 [compute_community_presence_absence()]
 </p>
 

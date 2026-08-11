@@ -1,0 +1,37 @@
+Run One sjSDM Tuning Work Item
+
+Description:
+
+     Fits, predicts, and scores one deterministic candidate/fold work
+     item using a previously prepared fold.
+
+Usage:
+
+     run_sjsdm_tuning_work_item(
+       data_work_item = NULL,
+       list_prepared_folds = NULL,
+       fit_function = NULL,
+       predict_function = NULL,
+       score_function = score_sjsdm_tuning_predictions,
+       epsilon = 1e-06
+     )
+
+Arguments:
+
+data_work_item: One-row work item from
+          [make_sjsdm_tuning_branch_work_items()]. The optional
+          `tuning_applicable = FALSE` sentinel returns without fitting.
+
+list_prepared_folds: Prepared fold list from
+          [prepare_sjsdm_tuning_folds()].
+
+fit_function, predict_function, score_function: Injectable functions
+          documented by [run_sjsdm_tuning_candidates()].
+
+ epsilon: Probability clipping tolerance passed to the score function.
+
+Value:
+
+     Named list containing `work_item_id`, one-row `data_tuning`, and
+     one compact prediction-cache record. Fitted model objects are
+     omitted.

@@ -1,0 +1,108 @@
+<!DOCTYPE html><html><head><title>R: Build R Architecture Dependency Map</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_r_architecture_dependency_map</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build R Architecture Dependency Map</h2>
+
+<h3>Description</h3>
+
+<p>Builds deterministic Markdown describing repository R ownership,
+pipeline/profile/store relationships, persisted contracts, and exceptions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_r_architecture_dependency_map(
+  data_scripts,
+  data_functions,
+  data_contracts,
+  data_manifests,
+  data_exceptions
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_scripts">data_scripts</code></td>
+<td>
+<p>Script-path inventory data frame.</p>
+</td></tr>
+<tr><td><code id="data_functions">data_functions</code></td>
+<td>
+<p>Function inventory data frame.</p>
+</td></tr>
+<tr><td><code id="data_contracts">data_contracts</code></td>
+<td>
+<p>Persisted-contract inventory data frame.</p>
+</td></tr>
+<tr><td><code id="data_manifests">data_manifests</code></td>
+<td>
+<p>Manifest-derived profile and target inventory data frame.</p>
+</td></tr>
+<tr><td><code id="data_exceptions">data_exceptions</code></td>
+<td>
+<p>Maintained architecture-exception ledger.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Character vector containing the architecture map Markdown.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>build_r_architecture_dependency_map(
+  data_scripts = tibble::tibble(
+    classification = "main_analysis",
+    migration_status = "migrated"
+  ),
+  data_functions = tibble::tibble(
+    current_path = "R/Functions/example.R",
+    intended_path = "R/Functions/example.R",
+    migration_status = "baseline_recorded",
+    callers = "R/Pipelines/_pipes/pipe_segment_example.R"
+  ),
+  data_contracts = tibble::tibble(
+    contract_type = "literal_target",
+    contract_scope = "persisted_internal"
+  ),
+  data_manifests = tibble::tibble(
+    profile_id = "example",
+    profile_role = "smoke",
+    pipeline_id = "example",
+    pipeline_script = "R/Pipelines/example.R",
+    target_store = "Data/targets/example",
+    manifest_target_count = 1L
+  ),
+  data_exceptions = tibble::tibble(
+    exception_id = character(),
+    owner_issue = character(),
+    expiry_issue = character()
+  )
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -1,0 +1,52 @@
+Apply R Architecture Exceptions
+
+Description:
+
+     Matches explicit architecture exceptions to current findings and
+     assigns each finding a blocking or excepted resolution status.
+
+Usage:
+
+     apply_r_architecture_exceptions(data_findings, data_exceptions)
+
+Arguments:
+
+data_findings: Data frame with finding type, path, symbol, owner, and
+          message columns.
+
+data_exceptions: Data frame using the maintained architecture-exception
+          ledger schema.
+
+Details:
+
+     Exceptions match on finding type, path, symbol, and owner issue.
+     Duplicate, malformed, or orphaned exceptions are rejected or
+     returned as blocking findings so exceptions cannot silently
+     outlive their owned finding.
+
+Value:
+
+     A data frame using the maintained architecture-findings schema.
+
+Examples:
+
+     data_findings <-
+       tibble::tibble(
+         finding_type = "function_naming",
+         current_path = "R/Functions/example.R",
+         symbol = "example",
+         owning_issue = "#1",
+         message = "Review the function name."
+       )
+     apply_r_architecture_exceptions(
+       data_findings = data_findings,
+       data_exceptions = tibble::tibble(
+         exception_id = character(),
+         finding_type = character(),
+         current_path = character(),
+         symbol = character(),
+         owner_issue = character(),
+         rationale = character(),
+         expiry_issue = character()
+       )
+     )

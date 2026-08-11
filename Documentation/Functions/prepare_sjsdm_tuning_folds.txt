@@ -1,0 +1,27 @@
+Prepare sjSDM Tuning Folds
+
+Description:
+
+     Prepares every repeat/fold partition exactly once for reuse by
+     granular candidate work items.
+
+Usage:
+
+     prepare_sjsdm_tuning_folds(
+       data_assignments = NULL,
+       prepare_fold_function = NULL
+     )
+
+Arguments:
+
+data_assignments: Cross-validation assignments accepted by
+          [run_sjsdm_tuning_candidates()].
+
+prepare_fold_function: Injectable preparation function documented by
+          [run_sjsdm_tuning_candidates()].
+
+Value:
+
+     List with one keyed entry per fold. Each entry contains fold
+     context, preparation timing, and either the prepared inputs or a
+     structured error.

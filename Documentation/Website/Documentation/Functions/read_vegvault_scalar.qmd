@@ -3,7 +3,6 @@ format: html
 title: read_vegvault_scalar()
 ---
 
-<html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -58,7 +57,7 @@ the first value from the first column.
 
 <h3>Examples</h3>
 
-<pre><code class='language-R'>## Not run: 
+<pre><code class='language-R'>## Not run:
 con &lt;- DBI::dbConnect(RSQLite::SQLite(), "Data/Input/VegVault.sqlite")
 on.exit(DBI::dbDisconnect(con), add = TRUE)
 read_vegvault_scalar(con, "select count(*) from Datasets")
@@ -70,4 +69,3 @@ read_vegvault_scalar(con, "select count(*) from Datasets")
 
 </div>
 </body></html>
-

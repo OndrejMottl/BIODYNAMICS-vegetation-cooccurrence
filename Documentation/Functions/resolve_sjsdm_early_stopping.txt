@@ -1,0 +1,20 @@
+Resolve sjSDM Early-Stopping Patience
+
+Description:
+
+     Internal helper that preserves the three-tier early-stopping
+     semantics used by `fit_jsdm_model()`.
+
+Usage:
+
+     .resolve_sjsdm_early_stopping(iter = 100L, n_early_stopping = NULL)
+
+Arguments:
+
+    iter: Positive number of fitting epochs.
+
+n_early_stopping: Requested patience or `NULL` for automatic mode.
+
+Value:
+
+     Integer early-stopping patience passed to `sjSDMControl()`.

@@ -1,0 +1,130 @@
+---
+format: html
+title: run_sjsdm_selected_candidate_folds()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_sjsdm_selected_candidate_folds</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run Selected sjSDM Candidate Across Folds</h2>
+
+<h3>Description</h3>
+
+<p>Refits one selected regularization candidate independently in every fold
+and materializes aligned out-of-fold probabilities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_sjsdm_selected_candidate_folds(
+  data_assignments = NULL,
+  data_selected_candidate = NULL,
+  data_sample_ids = NULL,
+  taxon_names = NULL,
+  prepare_fold_function = NULL,
+  fit_function = NULL,
+  predict_function = NULL,
+  seed = 900723L
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_assignments">data_assignments</code></td>
+<td>
+<p>Location-level assignment table accepted by
+[run_sjsdm_tuning_candidates()].</p>
+</td></tr>
+<tr><td><code id="data_selected_candidate">data_selected_candidate</code></td>
+<td>
+<p>One-row selected candidate table containing the candidate identifier, the
+six sjSDM regularization parameters, and regularization source.</p>
+</td></tr>
+<tr><td><code id="data_sample_ids">data_sample_ids</code></td>
+<td>
+<p>Sample metadata with 'dataset_name' and 'age'. Optional sample, row, and
+location identifiers are derived when absent.</p>
+</td></tr>
+<tr><td><code id="taxon_names">taxon_names</code></td>
+<td>
+<p>Unique character vector defining the full response-taxon order.</p>
+</td></tr>
+<tr><td><code id="prepare_fold_function">prepare_fold_function</code></td>
+<td>
+<p>Injectable function called with training and test row indices plus repeat
+and fold identifiers. It must return train/test inputs, retained train/test
+response matrices, the full test response matrix, aligned test sample
+identifiers, and the fold taxon mapping.</p>
+</td></tr>
+<tr><td><code id="fit_function">fit_function</code></td>
+<td>
+<p>Injectable function called with the prepared training input, selected
+candidate, and deterministic fit seed.</p>
+</td></tr>
+<tr><td><code id="predict_function">predict_function</code></td>
+<td>
+<p>Injectable function called with the fitted object and prepared test input.
+It must return probabilities aligned to retained test observations.</p>
+</td></tr>
+<tr><td><code id="seed">seed</code></td>
+<td>
+<p>Single non-negative integer used to derive stable fold fit seeds.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The prediction table deliberately omits the candidate identifier. Selected
+candidate provenance remains in the separate fold diagnostics and selected
+candidate artifact. Taxa not retained in a training fold remain as rows with
+missing probabilities and their taxon-mapping status.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Named list with data-prediction and data-diagnostic tibbles. Predictions
+contain one row per repeat, sample, and full-response taxon, including
+observed values, predictions, training-fold null probabilities, and explicit
+status. Diagnostics record one structured fit status per fold.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+run_sjsdm_selected_candidate_folds(
+  data_assignments = data_assignments,
+  data_selected_candidate = data_selected_candidate,
+  data_sample_ids = data_sample_ids,
+  taxon_names = taxon_names,
+  prepare_fold_function = prepare_fold_function,
+  fit_function = fit_function,
+  predict_function = predict_function
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
