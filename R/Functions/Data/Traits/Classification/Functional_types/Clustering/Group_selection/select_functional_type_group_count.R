@@ -244,10 +244,6 @@ select_functional_type_group_count <- function(
       functional_type_group_count_max
     )
 
-  return_zero_on_filter_error <- function(condition) {
-    return(0L)
-  }
-
   mean_silhouette_widths <-
     candidate_group_counts |>
     purrr::map_dbl(
@@ -358,7 +354,9 @@ select_functional_type_group_count <- function(
             base::ncol(matrix_functional_type_community) |>
               base::as.integer()
           },
-          error = return_zero_on_filter_error
+          error = function(condition) {
+            return(0L)
+          }
         )
       }
     )
