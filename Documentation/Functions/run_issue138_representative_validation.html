@@ -1,189 +1,95 @@
 <!DOCTYPE html><html><head><title>R: Run an Issue 138 Representative Validation</title>
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-
 <script type="text/javascript">
-
 const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
-
 function processMathHTML() {
-
     var l = document.getElementsByClassName('reqn');
-
     for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
-
     return;
-
 }</script>
-
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
-
     onload="processMathHTML();"></script>
-
 <link rel="stylesheet" type="text/css" href="R.css" />
-
 </head><body><div class="container"><main>
-
-
 
 <table style="width: 100%;"><tr><td>run_issue138_representative_validation</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-
-
 <h2>Run an Issue 138 Representative Validation</h2>
-
-
 
 <h3>Description</h3>
 
-
-
 <p>Runs staged tuning and selected final targets for one bounded validation
-
 profile through the shared sjSDM orchestration engine.
-
 </p>
-
-
-
 
 
 <h3>Usage</h3>
 
-
-
 <pre><code class='language-R'>run_issue138_representative_validation(
-
   active_config = NULL,
-
   unit_pipeline = NULL,
-
   tuning_target_names = NULL,
-
   final_target_names = NULL,
-
   store_suffix = NULL,
-
   prebuild_interpolation = FALSE,
-
   fresh_run = TRUE,
-
   run_sequence_function = run_sjsdm_tuning_sequence,
-
   run_pipeline_function = run_pipeline
-
 )
-
 </code></pre>
-
-
-
 
 
 <h3>Arguments</h3>
 
-
-
 <table role = "presentation">
-
 <tr><td><code id="active_config">active_config</code></td>
-
 <td>
-
 <p>Non-default configuration profile used for the validation.</p>
-
 </td></tr>
-
 <tr><td><code id="unit_pipeline">unit_pipeline</code></td>
-
 <td>
-
 <p>Unit pipeline script passed to [run_sjsdm_tuning_sequence()].</p>
-
 </td></tr>
-
 <tr><td><code id="tuning_target_names">tuning_target_names</code></td>
-
 <td>
-
 <p>Public tuning-summary targets included in the validation.</p>
-
 </td></tr>
-
 <tr><td><code id="final_target_names">final_target_names</code></td>
-
 <td>
-
 <p>Final model, evaluation, and provenance targets to complete.</p>
-
 </td></tr>
-
 <tr><td><code id="store_suffix">store_suffix</code></td>
-
 <td>
-
 <p>Optional isolated spatial-unit store suffix.</p>
-
 </td></tr>
-
 <tr><td><code id="prebuild_interpolation">prebuild_interpolation</code></td>
-
 <td>
-
 <p>Logical controlling the first-round interpolation prebuild.</p>
-
 </td></tr>
-
 <tr><td><code id="fresh_run">fresh_run</code></td>
-
 <td>
-
 <p>Logical controlling whether the first tuning round clears its isolated
-
 target store. Use 'FALSE' to resume completed work items.</p>
-
 </td></tr>
-
 <tr><td><code id="run_sequence_function">run_sequence_function</code></td>
-
 <td>
-
 <p>Injectable tuning-sequence function used by tests.</p>
-
 </td></tr>
-
 <tr><td><code id="run_pipeline_function">run_pipeline_function</code></td>
-
 <td>
-
 <p>Injectable pipeline runner used by tests.</p>
-
 </td></tr>
-
 </table>
-
-
-
 
 
 <h3>Value</h3>
 
-
-
 <p>Invisible 'NULL'. Results are written to isolated target stores.
-
 </p>
-
-
 
 </main>
 
-
-
 </div>
-
 </body></html>

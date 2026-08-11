@@ -22,7 +22,7 @@ After a pipeline run completes, use this guide to assess whether the model conve
 Run the `check_convergence()` helper on the fitted model:
 
 ```r
-targets::tar_read("mod_jsdm", store = set_store)  |> 
+targets::tar_read("mod_jsdm", store = set_store)  |>
   check_convergence()
 ```
 
@@ -153,17 +153,17 @@ project_cz:
 Then invalidate only the affected targets and re-run:
 
 ```r
-Sys.setenv(R_CONFIG_ACTIVE = "project_cz")
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
 
 # Check what will be rebuilt
 targets::tar_outdated(
-  script = here::here("R/02_Main_analyses/pipeline_basic.R"),
+  script = here::here("R/Pipelines/pipeline_paleo_core.R"),
   store = set_store
 )
 
 # Re-run
 run_pipeline(
-  sel_script = "R/02_Main_analyses/pipeline_basic.R",
+  sel_script = "R/Pipelines/pipeline_paleo_core.R",
   level_separation = 100
 )
 ```

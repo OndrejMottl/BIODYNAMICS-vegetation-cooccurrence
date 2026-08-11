@@ -48,8 +48,7 @@ Miniconda manages Python environments and packages.
    - ✓ Add Miniconda3 to PATH environment variable (check this box)
    - ✓ Register Miniconda3 as default Python
 
-**Verify installation:**
-Open PowerShell and run:
+**Verify installation:** Open PowerShell and run:
 
 ```powershell
 conda --version
@@ -683,13 +682,9 @@ Here's what gets installed and where:
 
 ### How It Works - The Complete Flow
 
-1. **VS Code Opens Terminal**
-   → Reads `r.rterm.windows` setting
-   → Launches `radian.exe` from r-sjsdm environment
+1. **VS Code Opens Terminal** → Reads `r.rterm.windows` setting → Launches `radian.exe` from r-sjsdm environment
 
-2. **Radian Starts**
-   → Uses Python 3.10.19 from r-sjsdm conda environment
-   → Starts R session with this Python available
+2. **Radian Starts** → Uses Python 3.10.19 from r-sjsdm conda environment → Starts R session with this Python available
 
 3. **Load sjSDM in R**
 
@@ -697,14 +692,9 @@ Here's what gets installed and where:
    library(sjSDM)
    ```
 
-   → R's reticulate package looks for Python
-   → Finds Python already initialized by Radian
-   → Uses same Python environment (r-sjsdm)
-   → Finds PyTorch already installed in this environment
+   → R's reticulate package looks for Python → Finds Python already initialized by Radian → Uses same Python environment (r-sjsdm) → Finds PyTorch already installed in this environment
 
-4. **Success!**
-   → No conflicts, no manual configuration
-   → Everything uses same Python environment
+4. **Success!** → No conflicts, no manual configuration → Everything uses same Python environment
 
 ### Why This Approach Works
 

@@ -1,0 +1,93 @@
+---
+format: html
+title: run_sjsdm_common_regularization_sensitivity()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_sjsdm_common_regularization_sensitivity</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run Common-Regularization sjSDM Sensitivity Models</h2>
+
+<h3>Description</h3>
+
+<p>Reads prepared representative-model inputs, refits each model with a common
+spatial regularization artifact, and returns decomposition and provenance.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_sjsdm_common_regularization_sensitivity(
+  data_model_index = NULL,
+  data_artifacts = NULL,
+  read_target_function = targets::tar_read_raw,
+  fit_function = NULL,
+  standard_error_function = compute_jsdm_se,
+  anova_function = compute_jsdm_variance_partition,
+  extract_function = extract_jsdm_variance_fractions
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_model_index">data_model_index</code></td>
+<td>
+<p>Model index with model_id, tier_id, scale_id, resolution_id, and store_path.</p>
+</td></tr>
+<tr><td><code id="data_artifacts">data_artifacts</code></td>
+<td>
+<p>Common artifacts from [build_sjsdm_common_regularization_artifacts()].</p>
+</td></tr>
+<tr><td><code id="read_target_function">read_target_function</code></td>
+<td>
+<p>Injectable target reader. Defaults to [targets::tar_read_raw()].</p>
+</td></tr>
+<tr><td><code id="fit_function">fit_function</code></td>
+<td>
+<p>Injectable high-level model-fitting function. It receives prepared input,
+formula, fitting configuration, and one regularization artifact.</p>
+</td></tr>
+<tr><td><code id="standard_error_function">standard_error_function</code></td>
+<td>
+<p>Injectable standard-error function. Defaults to [compute_jsdm_se()].</p>
+</td></tr>
+<tr><td><code id="anova_function">anova_function</code></td>
+<td>
+<p>Injectable decomposition function. Defaults to
+[compute_jsdm_variance_partition()].</p>
+</td></tr>
+<tr><td><code id="extract_function">extract_function</code></td>
+<td>
+<p>Injectable ANOVA extractor. Defaults to
+[extract_jsdm_variance_fractions()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list containing fitted models, ANOVA objects, model-level provenance,
+and a long decomposition table. Individual failures are retained with an
+explicit status and do not discard successful representative models.
+</p>
+
+</main>
+
+</div>
+</body></html>

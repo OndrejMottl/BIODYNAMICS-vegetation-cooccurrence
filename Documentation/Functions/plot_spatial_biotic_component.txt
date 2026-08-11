@@ -12,7 +12,7 @@ Usage:
        plot_title,
        vec_continent_shapes = NULL
      )
-     
+
 Arguments:
 
 data_plot: Data frame returned by
@@ -29,4 +29,3 @@ vec_continent_shapes: Optional named numeric vector mapping
 Value:
 
      A `ggplot` object.
-

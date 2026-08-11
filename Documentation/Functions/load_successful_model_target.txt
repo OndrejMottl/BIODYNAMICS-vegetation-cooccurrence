@@ -1,0 +1,29 @@
+Load a Successful Model Target
+
+Description:
+
+     Loads a target only when its targets metadata records successful
+     completion. Read failures are represented by `NULL`.
+
+Usage:
+
+     .load_successful_model_target(
+       data_meta,
+       target_name,
+       store_path,
+       read_target_fn
+     )
+
+Arguments:
+
+data_meta: Targets metadata containing target names and errors.
+
+target_name: Single target name to load.
+
+store_path: Targets store path.
+
+read_target_fn: Function used to load the target.
+
+Value:
+
+     The loaded target object, or `NULL`.

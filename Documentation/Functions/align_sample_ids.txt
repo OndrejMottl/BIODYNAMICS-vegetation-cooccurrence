@@ -16,7 +16,7 @@ Usage:
        data_coords = NULL,
        subset_age = NULL
      )
-     
+
 Arguments:
 
 data_community_long: A data frame in long format containing at least
@@ -50,4 +50,3 @@ See Also:
 
      [prepare_community_for_fit()], [prepare_abiotic_for_fit()],
      [prepare_coords_for_fit()]
-

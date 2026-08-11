@@ -1,0 +1,18 @@
+Summarise Fitted AUC
+
+Description:
+
+     Summarises finite species-level AUC values from fitted-model
+     evaluation.
+
+Usage:
+
+     .summarise_fitted_auc(list_jsdm_evaluation_fitted)
+
+Arguments:
+
+list_jsdm_evaluation_fitted: Fitted-model evaluation object, or `NULL`.
+
+Value:
+
+     A one-row tibble containing fitted AUC summary statistics.

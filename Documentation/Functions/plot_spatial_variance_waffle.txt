@@ -25,7 +25,7 @@ Usage:
        triangle_legend_arguments = base::list(),
        triangle_legend_rel_width = 0.34
      )
-     
+
 Arguments:
 
 data_waffle: Data frame returned by
@@ -80,4 +80,3 @@ triangle_legend_rel_width: Numeric scalar giving the relative width of
 Value:
 
      A `ggplot` object.
-

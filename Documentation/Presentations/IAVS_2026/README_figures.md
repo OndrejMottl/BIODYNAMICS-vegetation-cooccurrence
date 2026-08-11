@@ -1,8 +1,6 @@
 # IAVS 2026 Figure Register
 
-This file is the source of truth for figures used in the IAVS 2026 ORACLE RevealJS presentation.
-If a figure is not listed here, it is not selected for the current deck.
-The register keeps the visual guidance, the selected figure inventory, and the regeneration steps in one place.
+This file is the source of truth for figures used in the IAVS 2026 ORACLE RevealJS presentation. If a figure is not listed here, it is not selected for the current deck. The register keeps the visual guidance, the selected figure inventory, and the regeneration steps in one place.
 
 ## Note
 
@@ -18,8 +16,7 @@ The terminal was originally named MOTHER during development, but the final prese
 
 ## Visual Guidance Location
 
-Detailed visual guidance is maintained in `Documentation/Presentations/IAVS_2026/VISUAL_GUIDE.md`.
-That file is the canonical place for style evolution, prompt standards, R plotting settings, Quarto conventions, and SCSS implementation details.
+Detailed visual guidance is maintained in `Documentation/Presentations/IAVS_2026/VISUAL_GUIDE.md`. That file is the canonical place for style evolution, prompt standards, R plotting settings, Quarto conventions, and SCSS implementation details.
 
 This register keeps only the figure inventory and implementation status.
 
@@ -35,8 +32,7 @@ This register keeps only the figure inventory and implementation status.
 
 ## Selected Figure Checklist
 
-This is the list of figures currently needed for the kept presentation concept.
-It includes the one R-generated figure that is being kept and the GenAI story assets that are being kept.
+This is the list of figures currently needed for the kept presentation concept. It includes the one R-generated figure that is being kept and the GenAI story assets that are being kept.
 
 | Role | Asset | Source | Slide use | State |
 | --- | --- | --- | --- | --- |
@@ -57,8 +53,7 @@ It includes the one R-generated figure that is being kept and the GenAI story as
 
 ## Script-Derived Figure Checklist
 
-This is the full checklist extracted from `script.md`.
-It shows the figure needs for the main talk and the optional extra slides that may be added later.
+This is the full checklist extracted from `script.md`. It shows the figure needs for the main talk and the optional extra slides that may be added later.
 
 ### Main Deck
 
@@ -97,8 +92,7 @@ It shows the figure needs for the main talk and the optional extra slides that m
 
 ### Phase 4 Placeholder Contract
 
-Phase 4 deliberately renders labelled placeholders for output-derived figures rather than showing simulated or unverified analytical evidence.
-The following slots are visible in `index.qmd` and are assigned to phase 5 unless marked as final-delivery content.
+Phase 4 deliberately renders labelled placeholders for output-derived figures rather than showing simulated or unverified analytical evidence. The following slots are visible in `index.qmd` and are assigned to phase 5 unless marked as final-delivery content.
 
 | Slide | Placeholder content | Replacement phase |
 | --- | --- | --- |
@@ -111,9 +105,7 @@ The following slots are visible in `index.qmd` and are assigned to phase 5 unles
 | 12 | Verified synthesis statements | Phase 5 |
 | 16 | Public URL, licence, QR code, and final resource/DOI access | Phase 8 |
 
-Placeholders on slides 03 and 05-12 are laid out as large replacement stages rather than small cards, so verified figures can be inserted in phase 5 without shrinking analytical content.
-The VegVault access/QR slot is consolidated on slide 16 rather than competing with the large slide-03 map field.
-Slide 10 reserves one composite multipanel field for coverage, network, and repeated-slice diagnostics.
+Placeholders on slides 03 and 05-12 are laid out as large replacement stages rather than small cards, so verified figures can be inserted in phase 5 without shrinking analytical content. The VegVault access/QR slot is consolidated on slide 16 rather than competing with the large slide-03 map field. Slide 10 reserves one composite multipanel field for coverage, network, and repeated-slice diagnostics.
 
 ### Optional Extra Slides
 
@@ -141,8 +133,7 @@ Slide 10 reserves one composite multipanel field for coverage, network, and repe
 
 ## Canonical Figure
 
-The canonical committed figure is the deterministic R-generated asset below.
-It is the only R-generated story figure currently kept in the register.
+The canonical committed figure is the deterministic R-generated asset below. It is the only R-generated story figure currently kept in the register.
 
 | Asset | Type | Source | License | Generation method | State |
 | --- | --- | --- | --- | --- | --- |
@@ -150,9 +141,7 @@ It is the only R-generated story figure currently kept in the register.
 
 ## Kept GenAI Figures
 
-These GenAI story assets are retained for the presentation as narrative or atmospheric visuals only.
-They must not be reused as evidence from the vegetation co-occurrence pipelines.
-The prompt IDs are recorded in `figures/story/genai_drafts/PROMPTS.md`.
+These GenAI story assets are retained for the presentation as narrative or atmospheric visuals only. They must not be reused as evidence from the vegetation co-occurrence pipelines. The prompt IDs are recorded in `figures/story/genai_drafts/PROMPTS.md`.
 
 | Asset | Intended use | Prompt ID | Prompt variant | State |
 | --- | --- | --- | --- | --- |
@@ -162,8 +151,7 @@ The prompt IDs are recorded in `figures/story/genai_drafts/PROMPTS.md`.
 
 ## New GenAI Drafts For Review
 
-The following text-free conceptual assets were generated for the outstanding main-deck story slots.
-They are not pipeline results and should be accepted or replaced during slide review.
+The following text-free conceptual assets were generated for the outstanding main-deck story slots. They are not pipeline results and should be accepted or replaced during slide review.
 
 | Asset | Intended use | Prompt ID | Source and generation method | License/provenance note | State |
 | --- | --- | --- | --- | --- | --- |

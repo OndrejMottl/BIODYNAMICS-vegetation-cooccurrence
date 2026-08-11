@@ -10,6 +10,8 @@ Usage:
      score_sjsdm_tuning_predictions(
        data_observed = NULL,
        data_predicted = NULL,
+       object = NULL,
+       data_test_input = NULL,
        epsilon = 1e-06
      )
 
@@ -20,6 +22,10 @@ data_observed: Binary numeric matrix of held-out observations.
 data_predicted: Numeric matrix of held-out probabilities with matching
           dimensions and dimnames. Missing prediction dimnames inherit
           observation dimnames.
+
+object, data_test_input: Optional fitted object and test input accepted
+          for compatibility with the tuning-runner scoring callback.
+          Marginal probability scoring ignores them.
 
  epsilon: Probability clipping tolerance strictly between zero and
           `0.5`.

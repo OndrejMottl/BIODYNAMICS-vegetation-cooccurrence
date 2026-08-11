@@ -132,10 +132,8 @@ Current file content (the active file in the editor) has these specific strings 
 
 ### Roxygen docs
 
-- `@title Check Trait Coverage Against Community Genera`
-  -> `@title Check Trait Coverage Against Community Taxa`
-- `@description` first line: `Compares a character vector of genus names from the community data`
-  -> `Compares a character vector of taxon names from the community data`
+- `@title Check Trait Coverage Against Community Genera` -> `@title Check Trait Coverage Against Community Taxa`
+- `@description` first line: `Compares a character vector of genus names from the community data` -> `Compares a character vector of taxon names from the community data`
 - `@description` second line: `proportion of community genera covered` -> `proportion of community taxa covered`
 - `@description` last phrase: `which genera are missing or extra` -> `which taxa are missing or extra`
 - `@param vec_community_genera` -> `@param vec_community_taxa`

@@ -1,0 +1,52 @@
+Collect sjSDM Tuning Summaries
+
+Description:
+
+     Reads compact resolution-specific tuning summaries from isolated
+     unit targets stores for a shared tier-selection stage.
+
+Usage:
+
+     collect_sjsdm_tuning_summaries(
+       store_paths = NULL,
+       resolution_ids = NULL,
+       target_prefix = "data_sjsdm_tuning_summary",
+       target_names = NULL,
+       read_target_function = targets::tar_read_raw
+     )
+
+Arguments:
+
+store_paths: Non-empty character vector of unit targets-store paths.
+
+resolution_ids: Non-empty character vector of mapped model-resolution
+          identifiers.
+
+target_prefix: Non-empty character scalar placed before each resolution
+          identifier. Defaults to the existing public tuning-summary
+          target prefix. Explicit round prefixes allow the tier store
+          to collect one staged round at a time.
+
+target_names: Optional character vector paired with `resolution_ids`.
+          When supplied, reads these exact public target names instead
+          of constructing suffixed names.
+
+read_target_function: Injectable target reader. Defaults to
+          [targets::tar_read_raw()].
+
+Value:
+
+     Bound tuning-summary tibble with `source_store` and
+     `resolution_id` provenance columns. Every requested
+     store-resolution target must be readable. The function aborts with
+     the failed store and target when evidence is incomplete.
+
+Examples:
+
+     ## Not run:
+
+     collect_sjsdm_tuning_summaries(
+       store_paths = c("store_a", "store_b"),
+       resolution_ids = c("genus", "family")
+     )
+     ## End(Not run)

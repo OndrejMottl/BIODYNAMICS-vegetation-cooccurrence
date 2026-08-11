@@ -1,0 +1,87 @@
+---
+format: html
+title: aggregate_sjsdm_tuning_by_tier()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>aggregate_sjsdm_tuning_by_tier</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Aggregate sjSDM Tuning by Tier</h2>
+
+<h3>Description</h3>
+
+<p>Aggregates normalized candidate loss within source IDs and then across a
+compatible spatial tier using equal source-ID weighting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>aggregate_sjsdm_tuning_by_tier(
+  data_tuning_summary = NULL,
+  include_sample_weighted = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_tuning_summary">data_tuning_summary</code></td>
+<td>
+<p>Repeat-level tuning summaries from
+[summarise_sjsdm_tuning_candidates()] with source and model-context columns.</p>
+</td></tr>
+<tr><td><code id="include_sample_weighted">include_sample_weighted</code></td>
+<td>
+<p>Logical scalar. When true, also reports a sensitivity selection weighted by
+the number of observed response values contributed by each source ID.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Input rows must describe one tier, taxonomic resolution, response family,
+predictor structure, and candidate-table hash. Every source ID must provide
+the same candidate identifiers and parameter values. Candidates with an
+incomplete result for any source ID remain visible but are not selectable.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Named list with source_candidate_loss, candidate_aggregation, and
+selection_sensitivity tibbles. The primary selection always uses equal
+source-ID weighting.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+aggregate_sjsdm_tuning_by_tier(
+  data_tuning_summary = data_tuning_summary
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

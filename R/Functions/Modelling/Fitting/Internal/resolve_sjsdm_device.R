@@ -7,7 +7,7 @@
 #' @param gpu_runtime_validator Injectable strict GPU runtime validator.
 #' @return Named list containing `device` and `parallel`.
 #' @keywords internal
-#' @noRd
+#' @keywords internal
 .resolve_sjsdm_device <- function(
     device = c("cpu", "gpu"),
     parallel = 0L,

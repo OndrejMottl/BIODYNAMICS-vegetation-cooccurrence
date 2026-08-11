@@ -1,0 +1,50 @@
+Run Common-Regularization sjSDM Sensitivity Models
+
+Description:
+
+     Reads prepared representative-model inputs, refits each model with
+     a common spatial regularization artifact, and returns
+     decomposition and provenance.
+
+Usage:
+
+     run_sjsdm_common_regularization_sensitivity(
+       data_model_index = NULL,
+       data_artifacts = NULL,
+       read_target_function = targets::tar_read_raw,
+       fit_function = NULL,
+       standard_error_function = compute_jsdm_se,
+       anova_function = compute_jsdm_variance_partition,
+       extract_function = extract_jsdm_variance_fractions
+     )
+
+Arguments:
+
+data_model_index: Model index with model_id, tier_id, scale_id,
+          resolution_id, and store_path.
+
+data_artifacts: Common artifacts from
+          [build_sjsdm_common_regularization_artifacts()].
+
+read_target_function: Injectable target reader. Defaults to
+          [targets::tar_read_raw()].
+
+fit_function: Injectable high-level model-fitting function. It receives
+          prepared input, formula, fitting configuration, and one
+          regularization artifact.
+
+standard_error_function: Injectable standard-error function. Defaults
+          to [compute_jsdm_se()].
+
+anova_function: Injectable decomposition function. Defaults to
+          [compute_jsdm_variance_partition()].
+
+extract_function: Injectable ANOVA extractor. Defaults to
+          [extract_jsdm_variance_fractions()].
+
+Value:
+
+     Named list containing fitted models, ANOVA objects, model-level
+     provenance, and a long decomposition table. Individual failures
+     are retained with an explicit status and do not discard successful
+     representative models.

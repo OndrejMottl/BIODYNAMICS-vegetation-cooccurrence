@@ -6,11 +6,7 @@ Canonical git, branch, worktree, review, and merge workflow guidance for this re
 
 ## Commit Message Requests
 
-Before suggesting, generating, or reviewing any commit message, read
-`.github/commit-instructions.md` in the current turn. Treat that file as the
-canonical source for commit-message format, subject selection, banned words,
-length, and response shape. Do not rely on remembered conventions or general
-commit-message styles.
+Before suggesting, generating, or reviewing any commit message, read `.github/commit-instructions.md` in the current turn. Treat that file as the canonical source for commit-message format, subject selection, banned words, length, and response shape. Do not rely on remembered conventions or general commit-message styles.
 
 ## CRITICAL: The User Is in Full Control of Version Control
 
@@ -27,43 +23,30 @@ Forbidden without explicit user instruction:
 - `git branch -d` / `git branch -D` (branch deletion)
 - `git worktree remove`
 - Creating pull requests via any tool or MCP call
-- Any MCP/tool-based equivalent: `mcp_gitkraken_git_add_or_commit`,
-  `mcp_gitkraken_git_push`, `mcp_gitkraken_pull_request_create`, etc.
+- Any MCP/tool-based equivalent: `mcp_gitkraken_git_add_or_commit`, `mcp_gitkraken_git_push`, `mcp_gitkraken_pull_request_create`, etc.
 
-Safe read-only operations that are always permitted: `git status`, `git log`,
-`git diff`, `git branch` (list), `git worktree list`.
+Safe read-only operations that are always permitted: `git status`, `git log`, `git diff`, `git branch` (list), `git worktree list`.
 
-When a workflow step calls for a commit or push (e.g. at the end of the TDD
-cycle), **stop and tell the user what command to run** â€” do not run it.
+When a workflow step calls for a commit or push (e.g. at the end of the TDD cycle), **stop and tell the user what command to run** â€” do not run it.
 
 ## Tracked File Moves and Renames
 
-Repository refactors must use `git mv` for every tracked file or directory
-move. This preserves rename intent and avoids moving the same files twice.
+Repository refactors must use `git mv` for every tracked file or directory move. This preserves rename intent and avoids moving the same files twice.
 
 - Treat `git mv` as a staging operation because it updates the Git index.
-- If the user has not explicitly authorised `git mv` or staging, do not move
-  tracked paths yet. Complete read-only planning and ask for that authorisation
-  before the path-move batch.
-- Once authorised, create any required destination directories and use
-  `git mv` as the first and only move operation.
-- Never move tracked files first with `Move-Item`, `mv`, an editor, or a
-  filesystem API and then replay the moves later with `git mv`.
-- After the batch, verify `git status --short`, confirm the expected renames
-  with `git diff --cached --summary`, and run `git diff --cached --check`.
+- If the user has not explicitly authorised `git mv` or staging, do not move tracked paths yet. Complete read-only planning and ask for that authorisation before the path-move batch.
+- Once authorised, create any required destination directories and use `git mv` as the first and only move operation.
+- Never move tracked files first with `Move-Item`, `mv`, an editor, or a filesystem API and then replay the moves later with `git mv`.
+- After the batch, verify `git status --short`, confirm the expected renames with `git diff --cached --summary`, and run `git diff --cached --check`.
 - Do not commit or push unless the user separately authorises those actions.
 
 ## Durable Change Naming
 
-Commit messages, pull-request titles, branch descriptions, release notes, and
-other long-lived change summaries must describe the implemented behaviour or
-domain outcome. Do not use time-specific implementation-plan labels such as
-`Phase 1`, `Phase 2`, `stage 3`, or similar sequencing as the change name;
-those labels lose meaning after the plan is complete.
+Commit messages, pull-request titles, branch descriptions, release notes, and other long-lived change summaries must describe the implemented behaviour or domain outcome. Do not use time-specific implementation-plan labels such as `Phase 1`, `Phase 2`, `stage 3`, or similar sequencing as the change name; those labels lose meaning after the plan is complete.
 
-A phase or stage label may be mentioned only when directly referencing a pull
-request or issue that explicitly uses that label in its own title. Even then,
-the durable change summary should still state what behaviour changed.
+Commit messages must not contain issue numbers, pull-request numbers, or references such as `#157`, `Issue 157`, or `PR 165`. Describe the durable change itself and keep issue relationships in the pull-request description or issue discussion.
+
+A phase or stage label may be mentioned only when directly referencing a pull request or issue that explicitly uses that label in its own title. Even then, the durable change summary should still state what behaviour changed.
 
 ```text
 # Good
@@ -75,10 +58,7 @@ CV: complete Phase 1
 
 ## Pull Request Issue Relationships
 
-Write each issue relationship on its own Markdown list line using the bare
-`#issue` reference. GitHub automatically links the reference and renders the
-issue title. Do not construct a manual Markdown link or use unlisted trailing
-lines.
+Write each issue relationship on its own Markdown list line using the bare `#issue` reference. GitHub automatically links the reference and renders the issue title. Do not construct a manual Markdown link or use unlisted trailing lines.
 
 Use this format:
 
@@ -88,8 +68,11 @@ Use this format:
 - Enables #141
 ```
 
-Apply the same list format to other relationships, such as `Blocked by`,
-`Depends on`, or `Follow-up to`.
+Apply the same list format to other relationships, such as `Blocked by`, `Depends on`, or `Follow-up to`.
+
+## GitHub Markdown Formatting
+
+Do not hard-wrap issue descriptions, pull-request descriptions, or comments at 80 characters or any other fixed width. Keep each prose paragraph and each list item on one source line, and use line breaks only for meaningful Markdown structure. The repository's 80-character limit applies only to R source code.
 
 ## Branch Strategy
 

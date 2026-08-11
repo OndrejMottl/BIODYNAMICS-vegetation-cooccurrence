@@ -1,0 +1,101 @@
+<!DOCTYPE html><html><head><title>R: Make Cross-Validation Assignments From Fold Resolution</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>make_cross_validation_assignments_from_resolution</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make Cross-Validation Assignments From Fold Resolution</h2>
+
+<h3>Description</h3>
+
+<p>Dispatches a resolved cross-validation strategy to spatially stratified or
+leave-one-location-out assignment while preserving one assignment schema.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>make_cross_validation_assignments_from_resolution(
+  data_locations = NULL,
+  data_fold_resolution = NULL,
+  data_grid_calibration = NULL,
+  n_repeats = 1L,
+  seed = 900723L,
+  assignment_source = "per_id"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_locations">data_locations</code></td>
+<td>
+<p>Location table returned by [make_cross_validation_location_table()].</p>
+</td></tr>
+<tr><td><code id="data_fold_resolution">data_fold_resolution</code></td>
+<td>
+<p>One-row table returned by [resolve_cross_validation_fold_count()].</p>
+</td></tr>
+<tr><td><code id="data_grid_calibration">data_grid_calibration</code></td>
+<td>
+<p>Table returned by [calibrate_cross_validation_grid_from_resolution()].</p>
+</td></tr>
+<tr><td><code id="n_repeats">n_repeats</code></td>
+<td>
+<p>Positive integer number of deterministic spatial assignment repeats.</p>
+</td></tr>
+<tr><td><code id="seed">seed</code></td>
+<td>
+<p>Non-negative integer assignment seed.</p>
+</td></tr>
+<tr><td><code id="assignment_source">assignment_source</code></td>
+<td>
+<p>Non-empty character scalar recording assignment provenance.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Tibble with the shared assignment columns plus 'cv_strategy' and
+'assignment_source'. A no-holdout resolution returns a zero-row tibble with
+the same schema.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>data_locations &lt;-
+  tibble::tibble(
+    location_id = base::letters[1:6],
+    coord_x_km = base::seq_len(6L),
+    coord_y_km = base::seq_len(6L),
+    n_samples = base::rep(1L, 6L),
+    row_indices = base::as.list(base::seq_len(6L))
+  )
+data_resolution &lt;-
+  resolve_cross_validation_fold_count(6L, 5L)
+make_cross_validation_assignments_from_resolution(
+  data_locations = data_locations,
+  data_fold_resolution = data_resolution,
+  data_grid_calibration = tibble::tibble()
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

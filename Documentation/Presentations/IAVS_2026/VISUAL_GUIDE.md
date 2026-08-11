@@ -1,7 +1,6 @@
 # IAVS 2026 ORACLE Visual Guide
 
-This is the canonical visual guidance for the IAVS 2026 ORACLE presentation.
-Use this file to define, refine, and version all visual decisions.
+This is the canonical visual guidance for the IAVS 2026 ORACLE presentation. Use this file to define, refine, and version all visual decisions.
 
 ## Scope
 
@@ -14,8 +13,7 @@ This guide covers:
 - Quarto slide conventions
 - SCSS implementation patterns
 
-This guide does not replace the figure register.
-Figure inventory and implementation state are tracked in `README_figures.md`.
+This guide does not replace the figure register. Figure inventory and implementation state are tracked in `README_figures.md`.
 
 ## Design Direction
 
@@ -50,8 +48,7 @@ QUERY -> PROCESS -> INTERPRET -> SIGNAL
 
 ## Palette and Typography
 
-Use `design_config.json` as the final authority.
-The values below are the working defaults unless superseded there.
+Use `design_config.json` as the final authority. The values below are the working defaults unless superseded there.
 
 ### Palette roles
 
@@ -94,8 +91,7 @@ This may change as the deck evolves, but keep the archetype system for layout co
 
 ## GenAI Prompt Standards
 
-The canonical prompt log is `figures/story/genai_drafts/PROMPTS.md`.
-Use these standards for future prompts.
+The canonical prompt log is `figures/story/genai_drafts/PROMPTS.md`. Use these standards for future prompts.
 
 ### Core prompt template
 
@@ -177,8 +173,7 @@ Avoid:
 
 ## SCSS Implementation Guidance
 
-Centralize tokens and reuse classes.
-Avoid per-slide ad-hoc colour overrides.
+Centralize tokens and reuse classes. Avoid per-slide ad-hoc colour overrides.
 
 ### Token scaffold
 

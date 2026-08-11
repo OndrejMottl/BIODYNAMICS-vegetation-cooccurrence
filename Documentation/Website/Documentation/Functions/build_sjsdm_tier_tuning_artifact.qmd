@@ -1,0 +1,94 @@
+---
+format: html
+title: build_sjsdm_tier_tuning_artifact()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_sjsdm_tier_tuning_artifact</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build sjSDM Tier Tuning Artifact</h2>
+
+<h3>Description</h3>
+
+<p>Runs compatible tier-level tuning aggregation and publishes an immutable
+selected-candidate artifact with complete provenance.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_sjsdm_tier_tuning_artifact(
+  data_tuning_summary = NULL,
+  created_at = NULL,
+  include_sample_weighted = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_tuning_summary">data_tuning_summary</code></td>
+<td>
+<p>Source-ID tuning summaries accepted by
+[aggregate_sjsdm_tuning_by_tier()].</p>
+</td></tr>
+<tr><td><code id="created_at">created_at</code></td>
+<td>
+<p>Single POSIX date-time supplied explicitly by the orchestration layer.</p>
+</td></tr>
+<tr><td><code id="include_sample_weighted">include_sample_weighted</code></td>
+<td>
+<p>Logical passed to [aggregate_sjsdm_tuning_by_tier()].</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The artifact always selects the equal-ID result. Sample-weighted selection
+is retained only as a sensitivity report.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Named list containing artifact, source_candidate_loss,
+candidate_aggregation, and selection_sensitivity. The artifact is a one-row
+tibble with selected parameters, model context, source IDs, selection rule,
+candidate-table hash, creation time, and schema version.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+build_sjsdm_tier_tuning_artifact(
+  data_tuning_summary = data_tuning_summary,
+  created_at = base::as.POSIXct(
+    "2026-07-05 12:00:00",
+    tz = "UTC"
+  )
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

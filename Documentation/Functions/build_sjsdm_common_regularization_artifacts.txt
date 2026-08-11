@@ -1,0 +1,26 @@
+Build Compatible Common sjSDM Regularization Artifacts
+
+Description:
+
+     Splits cross-tier tuning summaries by compatible response context
+     and builds one common regularization artifact for each context.
+
+Usage:
+
+     build_sjsdm_common_regularization_artifacts(
+       data_tuning_summary = NULL,
+       created_at = NULL
+     )
+
+Arguments:
+
+data_tuning_summary: Non-empty tuning-summary table spanning spatial
+          tiers and model contexts.
+
+created_at: Single POSIX date-time passed to
+          [build_sjsdm_common_regularization_artifact()].
+
+Value:
+
+     Named list containing bound artifact, tier-loss, and
+     candidate-aggregation tibbles.

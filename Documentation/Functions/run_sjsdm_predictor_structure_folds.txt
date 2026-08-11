@@ -1,0 +1,91 @@
+Run One sjSDM Predictor Structure Across Selected Folds
+
+Description:
+
+     Applies one controlled predictor structure to deterministic
+     selected-candidate folds and returns labelled predictions and
+     diagnostics.
+
+Usage:
+
+     run_sjsdm_predictor_structure_folds(
+       predictor_structure = NULL,
+       data_assignments = NULL,
+       data_selected_candidate = NULL,
+       data_community_matrix = NULL,
+       data_abiotic_wide = NULL,
+       data_coords_projected = NULL,
+       data_sample_ids = NULL,
+       config_model_fitting = NULL,
+       config_data_processing = NULL,
+       model_formula = NULL,
+       device = "gpu",
+       seed = 900723L,
+       prepare_fold_function = prepare_sjsdm_cross_validation_fold,
+       fit_candidate_function = fit_sjsdm_regularization_candidate,
+       runner_function = run_sjsdm_selected_candidate_folds,
+       predict_function = predict_sjsdm_probability_matrix
+     )
+
+Arguments:
+
+predictor_structure: Structure passed to
+          [configure_sjsdm_predictor_structure()].
+
+data_assignments, data_selected_candidate, data_community_matrix:
+          Cross-validation assignments, selected regularization, and
+          response matrix.
+
+data_abiotic_wide, data_coords_projected, data_sample_ids: Abiotic
+          predictors, projected coordinates, and aligned sample
+          metadata.
+
+config_model_fitting, config_data_processing: Model-fitting and
+          data-processing configurations used by fold preparation.
+
+model_formula: Full abiotic formula used when abiotic predictors are
+          enabled.
+
+  device: Fitting device passed to
+          [fit_sjsdm_regularization_candidate()].
+
+    seed: Base selected-fold seed passed to
+          [run_sjsdm_selected_candidate_folds()].
+
+prepare_fold_function, fit_candidate_function, runner_function:
+          Injectable functions for fold preparation, candidate fitting,
+          and selected fold orchestration.
+
+predict_function: Injectable held-out prediction function.
+
+Details:
+
+     Regularization and assignments are fixed by the supplied reference
+     inputs. The helper changes predictor inclusion only.
+     Intercept-only and spatial-only structures use an environmental
+     intercept because sjSDM requires an environmental component. The
+     no-associations structure retains abiotic and spatial predictors
+     while restricting the biotic covariance to its diagonal.
+
+Value:
+
+     Named list containing labelled `data_predictions` and
+     `data_diagnostics`.
+
+Examples:
+
+     ## Not run:
+
+     run_sjsdm_predictor_structure_folds(
+       predictor_structure = "abiotic_only",
+       data_assignments = data_assignments,
+       data_selected_candidate = data_selected_candidate,
+       data_community_matrix = data_community_matrix,
+       data_abiotic_wide = data_abiotic_wide,
+       data_coords_projected = data_coords_projected,
+       data_sample_ids = data_sample_ids,
+       config_model_fitting = config_model_fitting,
+       config_data_processing = config_data_processing,
+       model_formula = model_formula
+     )
+     ## End(Not run)

@@ -4,18 +4,13 @@
 
 Issue #153 split temporal interpolation tests by runtime responsibility:
 
-- `Core/` covers grouped interpolation, validation, and sequential/parallel
-  equivalence;
-- `Community/Age_uncertainty/` covers paleo community interpolation across
-  bounded age-model iteration batches;
+- `Core/` covers grouped interpolation, validation, and sequential/parallel equivalence;
+- `Community/Age_uncertainty/` covers paleo community interpolation across bounded age-model iteration batches;
 - `Branching/` covers small per-dataset indexes and dynamic branch execution;
 - `Shared_memory/` covers read-only worker inputs backed by `{mori}`;
-- `_outdated/Jobs/` preserves the former self-contained job-builder tests for
-  historical comparison only.
+- `_outdated/Jobs/` preserves the former self-contained job-builder tests for historical comparison only.
 
-The old job builder copied nested data into every branch. Production pipelines
-now keep the large inputs in shared memory and branch over small metadata
-objects.
+The old job builder copied nested data into every branch. Production pipelines now keep the large inputs in shared memory and branch over small metadata objects.
 
 ## Running the tests
 

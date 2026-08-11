@@ -1,0 +1,23 @@
+Prepare the sjSDM Response and Error Family
+
+Description:
+
+     Internal helper that preserves the response preparation performed
+     by `fit_jsdm_model()`.
+
+Usage:
+
+     .prepare_sjsdm_response(
+       data_community = NULL,
+       error_family = c("gaussian", "binomial")
+     )
+
+Arguments:
+
+data_community: Community response matrix.
+
+error_family: Selected error-family name.
+
+Value:
+
+     Named list containing the prepared community matrix and family.

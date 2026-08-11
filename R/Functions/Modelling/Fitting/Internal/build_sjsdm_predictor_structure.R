@@ -7,7 +7,7 @@
 #' @param lambda,alpha Regularisation settings for linear structures.
 #' @return An sjSDM predictor structure or `NULL`.
 #' @keywords internal
-#' @noRd
+#' @keywords internal
 .build_sjsdm_predictor_structure <- function(
     data_predictors = NULL,
     predictor_formula = NULL,

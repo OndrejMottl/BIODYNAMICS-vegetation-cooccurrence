@@ -6,7 +6,7 @@
 #' @param n_early_stopping Requested patience or `NULL` for automatic mode.
 #' @return Integer early-stopping patience passed to `sjSDMControl()`.
 #' @keywords internal
-#' @noRd
+#' @keywords internal
 .resolve_sjsdm_early_stopping <- function(
     iter = 100L,
     n_early_stopping = NULL) {

@@ -43,4 +43,4 @@ Value:
 
 See Also:
 
-     [filter_constant_taxa()], [assemble_data_to_fit()]
+     [filter_constant_taxa()], [build_jsdm_fit_input()]

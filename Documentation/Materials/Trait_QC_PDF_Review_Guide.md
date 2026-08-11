@@ -1,8 +1,6 @@
 # Trait QC PDF Review Guide
 
-**Project:** BIODYNAMICS - Vegetation Co-occurrence
-**Task:** Reviewing flagged trait values and suggesting corrections
-**Version:** 2026-04-10
+**Project:** BIODYNAMICS - Vegetation Co-occurrence **Task:** Reviewing flagged trait values and suggesting corrections **Version:** 2026-04-10
 
 ---
 
@@ -223,20 +221,15 @@ Always add a brief note in the **Comments** column explaining your reasoning, es
 
 ## Frequently asked questions
 
-**Q: Should I look up the species in a reference?**
-A: Only if you are genuinely uncertain and the case is important. For routine reviews, the family comparison panel is usually sufficient context.
+**Q: Should I look up the species in a reference?** A: Only if you are genuinely uncertain and the case is important. For routine reviews, the family comparison panel is usually sufficient context.
 
-**Q: What counts as a "biologically impossible" value?**
-A: Examples: negative trait values (all traits here are positive by definition); leaf area > 1 m2 for a herbaceous plant; stem density > 5 g/cm3 (wood is denser than water at ~1 g/cm3, most wood is 0.2-1.2 g/cm3). When in doubt, mark `Uncertain`.
+**Q: What counts as a "biologically impossible" value?** A: Examples: negative trait values (all traits here are positive by definition); leaf area > 1 m2 for a herbaceous plant; stem density > 5 g/cm3 (wood is denser than water at ~1 g/cm3, most wood is 0.2-1.2 g/cm3). When in doubt, mark `Uncertain`.
 
-**Q: The family comparison shows no grey dots. What do I do?**
-A: The taxon's family has no other members with enough records. Rely on the distribution plot alone.
+**Q: The family comparison shows no grey dots. What do I do?** A: The taxon's family has no other members with enough records. Rely on the distribution plot alone.
 
-**Q: The page says `corrected = YES [already corrected]`. Should I still review it?**
-A: Yes. The correction was applied automatically based on earlier rules. Your job is to check that the correction looks adequate based on the plots.
+**Q: The page says `corrected = YES [already corrected]`. Should I still review it?** A: Yes. The correction was applied automatically based on earlier rules. Your job is to check that the correction looks adequate based on the plots.
 
-**Q: There are multiple facets in the distribution plot. Why?**
-A: The trait domain contains records collected with different measurement units or methods (e.g. leaf area in mm2 from one database and in cm2 from another). Each facet is one measurement variant. Outliers in one facet but not another are a strong sign of a unit mismatch.
+**Q: There are multiple facets in the distribution plot. Why?** A: The trait domain contains records collected with different measurement units or methods (e.g. leaf area in mm2 from one database and in cm2 from another). Each facet is one measurement variant. Outliers in one facet but not another are a strong sign of a unit mismatch.
 
 ---
 

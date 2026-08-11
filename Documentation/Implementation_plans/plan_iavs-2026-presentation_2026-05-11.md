@@ -1,23 +1,16 @@
 # Plan: IAVS 2026 Conference Presentation — MOTHER Terminal
 
-**Date:** 2026-05-11
-**Author:** plan-large-changes agent
-**Status:** Final (Open Questions Answered)
+**Date:** 2026-05-11 **Author:** plan-large-changes agent **Status:** Final (Open Questions Answered)
 
 ---
 
 ## Goal
 
-Build a complete, publicly-deployed Quarto RevealJS presentation for the IAVS 2026
-conference (22 June 2026) that frames the BIODYNAMICS vegetation co-occurrence
-research as an interaction with **MOTHER** — a retro sci-fi ecological
-biosurveillance terminal inspired by the *Alien* MU-TH-UR 6000 computer. The
-presentation will:
+Build a complete, publicly-deployed Quarto RevealJS presentation for the IAVS 2026 conference (22 June 2026) that frames the BIODYNAMICS vegetation co-occurrence research as an interaction with **MOTHER** — a retro sci-fi ecological biosurveillance terminal inspired by the *Alien* MU-TH-UR 6000 computer. The presentation will:
 - Cover the full talk arc (motivation → data → methods → results → synthesis)
 - Fit within a 12-minute oral slot (+ 3 minutes discussion)
 - Exceed 20 slides in a 16:9 aspect ratio
-- Deliver a visually consistent dark-phosphor-green aesthetic across all slide types,
-  ggplot2 figures, and atmospheric story visuals
+- Deliver a visually consistent dark-phosphor-green aesthetic across all slide types, ggplot2 figures, and atmospheric story visuals
 - Be published to the project GitHub Pages site as an integrated sub-section
 
 ---
@@ -26,30 +19,19 @@ presentation will:
 
 ### In scope
 
-- **GitHub Pages integration**: the presentation is integrated into the main project
-  `_quarto.yml` website. The presentation folder
-  `Documentation/Presentations/IAVS_2026/` renders as part of the regular site build
-  and appears under `/presentations/iavs-2026/` on the live site.
-- Presentation Quarto sub-project in `Documentation/Presentations/IAVS_2026/`
-  with its own `_quarto.yml`, SCSS, and asset folder
-- A **single source of truth** for all design constants: `design_config.json` (colors,
-  fonts, sizing)
-- An R preprocessing script that reads `design_config.json` at render time and generates
-  R objects + auto-generated SCSS file (`mother_generated.scss`)
-- A presentation-local `theme_mother()` ggplot2 helper script (not a project-level
-  function with tests)
-- SCSS CRT visual system (scanlines, phosphor glow, blinking cursor, MOTHER dialogue
-  boxes, slide archetypes)
+- **GitHub Pages integration**: the presentation is integrated into the main project `_quarto.yml` website. The presentation folder `Documentation/Presentations/IAVS_2026/` renders as part of the regular site build and appears under `/presentations/iavs-2026/` on the live site.
+- Presentation Quarto sub-project in `Documentation/Presentations/IAVS_2026/` with its own `_quarto.yml`, SCSS, and asset folder
+- A **single source of truth** for all design constants: `design_config.json` (colors, fonts, sizing)
+- An R preprocessing script that reads `design_config.json` at render time and generates R objects + auto-generated SCSS file (`mother_generated.scss`)
+- A presentation-local `theme_mother()` ggplot2 helper script (not a project-level function with tests)
+- SCSS CRT visual system (scanlines, phosphor glow, blinking cursor, MOTHER dialogue boxes, slide archetypes)
 - Talk script (narrative, MOTHER dialogue, slide-by-slide content plan)
 - Slide template QMD defining all reusable Quarto div classes
-- Atmospheric / story figures (R-generated ggplot2 art, AI-generated via ChatGPT or
-  similar, or web-sourced Creative Commons images)
-- Result figure integration: real `tar_read()` outputs for pipeline-generated data,
-  simulated R placeholders for unavailable targets
+- Atmospheric / story figures (R-generated ggplot2 art, AI-generated via ChatGPT or similar, or web-sourced Creative Commons images)
+- Result figure integration: real `tar_read()` outputs for pipeline-generated data, simulated R placeholders for unavailable targets
 - ggplot2 styling of all result figures using the local MOTHER theme
 - Time-fitted narrative: 12-minute presentation (slides timed and scripted accordingly)
-- Iterative passes: script → first slides → figure integration → visual polish →
-  second content pass → final delivery
+- Iterative passes: script → first slides → figure integration → visual polish → second content pass → final delivery
 
 ### Out of scope
 
@@ -62,15 +44,13 @@ presentation will:
 - New directory tree: `Documentation/Presentations/IAVS_2026/` (all files new)
 - Modified: `_quarto.yml` (at root) — add presentation section to render and sidebar
 - `Data/Temp/presentation/` — reference images and brainstorm documents (read-only)
-- Git worktree: new branch `<N>-presentation-iavs-2026` in
-  `..\BIODYNAMICS_presentation_iavs_2026`
+- Git worktree: new branch `<N>-presentation-iavs-2026` in `..\BIODYNAMICS_presentation_iavs_2026`
 
 ---
 
 ## Git Worktree Setup
 
-Follow `.github/instructions/git-workflow.instructions.md`.
-Create the GitHub umbrella issue first, then name the branch after it.
+Follow `.github/instructions/git-workflow.instructions.md`. Create the GitHub umbrella issue first, then name the branch after it.
 
 1. Ensure `main` is current:
    ```powershell
@@ -89,8 +69,7 @@ Create the GitHub umbrella issue first, then name the branch after it.
    ```powershell
    code -n ..\BIODYNAMICS_presentation_iavs_2026
    ```
-5. Symlink VegVault (elevated cmd — only needed if result figures require live
-   pipeline reads):
+5. Symlink VegVault (elevated cmd — only needed if result figures require live pipeline reads):
    ```cmd
    mklink "D:\GITHUB\BIODYNAMICS_presentation_iavs_2026\Data\Input\VegVault.sqlite" ^
           "D:\GITHUB\BIODYNAMICS_vegetation_cooccurrence\Data\Input\VegVault.sqlite"
@@ -104,26 +83,15 @@ Create the GitHub umbrella issue first, then name the branch after it.
 
 ## Refactoring Strategy
 
-The integration scope is "Large" but is **additive only** — no existing analysis or
-pipeline code is changed. The integration work is:
+The integration scope is "Large" but is **additive only** — no existing analysis or pipeline code is changed. The integration work is:
 
-- **Single source of truth for design**: `design_config.json` holds all MOTHER colors,
-  typography, and sizing constants. One edit point for the entire visual system.
-- **R preprocessing pipeline**: `R/load_design_config.R` reads the JSON at render time,
-  exports R objects (`col_palette`, `typography` etc.) for use by `theme_mother()`,
-  and writes `mother_generated.scss` for SCSS to import.
-- **Shared graphical vocabulary**: all figures and slides pull from the same config
-  objects, ensuring consistency across R and CSS.
-- **Shared figure pipeline**: a local `figures/` directory holds all presentation
-  figures. A dedicated `R/make_figures.R` script produces or copies every figure used.
-- **Quarto div system**: all slide archetypes (section/story, problem, query, pipeline,
-  result-one, result-multi, closing) are defined as CSS classes and used consistently.
-- **Figure source discipline**: `figures/README_figures.md` records for each figure
-  whether it is real (`tar_read()` target name), simulated (R script), or externally
-  sourced (URL/tool + license).
-- **GitHub Pages integration**: minimal modification to root `_quarto.yml` to include
-  the presentation folder in the site render. The presentation appears as a dedicated
-  sub-section on the live site.
+- **Single source of truth for design**: `design_config.json` holds all MOTHER colors, typography, and sizing constants. One edit point for the entire visual system.
+- **R preprocessing pipeline**: `R/load_design_config.R` reads the JSON at render time, exports R objects (`col_palette`, `typography` etc.) for use by `theme_mother()`, and writes `mother_generated.scss` for SCSS to import.
+- **Shared graphical vocabulary**: all figures and slides pull from the same config objects, ensuring consistency across R and CSS.
+- **Shared figure pipeline**: a local `figures/` directory holds all presentation figures. A dedicated `R/make_figures.R` script produces or copies every figure used.
+- **Quarto div system**: all slide archetypes (section/story, problem, query, pipeline, result-one, result-multi, closing) are defined as CSS classes and used consistently.
+- **Figure source discipline**: `figures/README_figures.md` records for each figure whether it is real (`tar_read()` target name), simulated (R script), or externally sourced (URL/tool + license).
+- **GitHub Pages integration**: minimal modification to root `_quarto.yml` to include the presentation folder in the site render. The presentation appears as a dedicated sub-section on the live site.
 
 Order of integration steps — each phase leaves the presentation in a renderable state:
 
@@ -141,9 +109,7 @@ Order of integration steps — each phase leaves the presentation in a renderabl
 
 ### Phase 1 — Infrastructure & Visual System
 
-**Goal:** A rendering Quarto RevealJS project with the full MOTHER visual framework
-applied, proven on a 3-slide proof-of-concept. Design config is the single source of
-truth. GitHub Pages integration is configured.
+**Goal:** A rendering Quarto RevealJS project with the full MOTHER visual framework applied, proven on a 3-slide proof-of-concept. Design config is the single source of truth. GitHub Pages integration is configured.
 
 **Estimated window:** Days 1–3 (by ~14 May 2026)
 
@@ -201,29 +167,22 @@ truth. GitHub Pages integration is configured.
   - Pre-render hook to call `source("R/load_design_config.R")` before rendering
 - [ ] Update root `_quarto.yml`:
   - Add `Documentation/Presentations/IAVS_2026/` to the render list
-  - Add a "Presentations" sidebar item linking to the presentation (e.g., under
-    `/presentations/iavs-2026/`)
+  - Add a "Presentations" sidebar item linking to the presentation (e.g., under `/presentations/iavs-2026/`)
 - [ ] Implement `mother.scss`:
   - Import `mother_generated.scss` at the top
   - Use CSS variables (`var(--col-bg)`, etc.) for all colors and sizing
-  - Scanline overlay, phosphor glow, blinking cursor, `mother-says` dialogue box,
-    monochrome image filter, glow animations
-  - Slide-archetype CSS classes (`.section-slide`, `.query-slide`, `.result-one`,
-    `.result-multipanel`, `.problem`, `.pipeline`)
+  - Scanline overlay, phosphor glow, blinking cursor, `mother-says` dialogue box, monochrome image filter, glow animations
+  - Slide-archetype CSS classes (`.section-slide`, `.query-slide`, `.result-one`, `.result-multipanel`, `.problem`, `.pipeline`)
 - [ ] Implement `R/theme_mother.R`:
   - Source or reference the loaded `col_palette` and `typography`
   - Create `theme_mother()` function returning a ggplot2 theme
   - Use palette values for all color and size parameters
   - Set `base_size` to at least 18 for projection legibility
 - [ ] Implement `R/palette_mother.R`:
-  - Will be auto-populated by `load_design_config.R`, or define empty stubs for IDE
-    purposes
-- [ ] Draft 3 proof-of-concept slides (title boot, query, result-one with dummy
-  figure) and confirm render
-- [ ] Test that the presentation folder renders independently:
-  `quarto render Documentation/Presentations/IAVS_2026/`
-- [ ] Test that the full site renders with the presentation integrated:
-  `quarto render` at the root
+  - Will be auto-populated by `load_design_config.R`, or define empty stubs for IDE purposes
+- [ ] Draft 3 proof-of-concept slides (title boot, query, result-one with dummy figure) and confirm render
+- [ ] Test that the presentation folder renders independently: `quarto render Documentation/Presentations/IAVS_2026/`
+- [ ] Test that the full site renders with the presentation integrated: `quarto render` at the root
 
 **Validation:**
 - `quarto render Documentation/Presentations/IAVS_2026/` completes without errors
@@ -232,22 +191,16 @@ truth. GitHub Pages integration is configured.
 - All 3 demo slide types display correctly in browser
 - SCSS scanline, cursor blink, and MOTHER dialogue box render as expected
 - `load_design_config.R` can be sourced independently in R without errors
-- `theme_mother()` sourced in an R session produces a correct ggplot2 object with
-  colors from the config
-- Changing one color in `design_config.json` and re-rendering updates both SCSS and
-  ggplot2 figures
-- Root `_quarto.yml` modifications are minimal and non-breaking; existing site renders
-  correctly
-- *This phase does not meet the larger-code-change threshold for the mandatory
-  subagent review (no source, pipeline, analysis, or test files modified).*
+- `theme_mother()` sourced in an R session produces a correct ggplot2 object with colors from the config
+- Changing one color in `design_config.json` and re-rendering updates both SCSS and ggplot2 figures
+- Root `_quarto.yml` modifications are minimal and non-breaking; existing site renders correctly
+- *This phase does not meet the larger-code-change threshold for the mandatory subagent review (no source, pipeline, analysis, or test files modified).*
 
 ---
 
 ### Phase 2 — Talk Script & Slide Architecture
 
-**Goal:** A written slide-by-slide script mapping every slide to its archetype,
-MOTHER dialogue, figure slot, and content — the blueprint for all QMD authoring.
-Script must fit within 12 minutes of oral presentation time.
+**Goal:** A written slide-by-slide script mapping every slide to its archetype, MOTHER dialogue, figure slot, and content — the blueprint for all QMD authoring. Script must fit within 12 minutes of oral presentation time.
 
 **Estimated window:** Days 3–6 (by ~17 May 2026)
 
@@ -257,20 +210,15 @@ Script must fit within 12 minutes of oral presentation time.
   - Story/premise (why hidden interactions matter)
   - Mission / data axes (spatial, temporal, taxonomic)
   - MOTHER companion introduction
-  - Methods: data ingestion, model framework, latent space, network inference,
-    uncertainty quantification
-  - Results (one query per major result): temporal dynamics, spatial patterns,
-    taxonomic signals, environmental drivers
+  - Methods: data ingestion, model framework, latent space, network inference, uncertainty quantification
+  - Results (one query per major result): temporal dynamics, spatial patterns, taxonomic signals, environmental drivers
   - Synthesis / key insights
   - Implications & conservation
   - Limitations & future work
   - Closing transmission
-- [ ] For each slide, record: slide number, archetype, title, MOTHER prompt, MOTHER
-  dialogue text, figure slot (type + source), key bullets, confidence/status line
-- [ ] Estimate speaking time per slide (target: 12 minutes total, ~45 seconds per
-  slide for >20 slides)
-- [ ] Decide which slides need atmospheric story figures vs. real data figures vs.
-  simulated R figures
+- [ ] For each slide, record: slide number, archetype, title, MOTHER prompt, MOTHER dialogue text, figure slot (type + source), key bullets, confidence/status line
+- [ ] Estimate speaking time per slide (target: 12 minutes total, ~45 seconds per slide for >20 slides)
+- [ ] Decide which slides need atmospheric story figures vs. real data figures vs. simulated R figures
 - [ ] Map result slides to specific `tar_read()` target names
 - [ ] Flag slides needing AI / web-sourced story art as `[GENAI]`
 
@@ -284,46 +232,36 @@ Script must fit within 12 minutes of oral presentation time.
 
 ### Phase 3 — Atmospheric & Story Figures
 
-**Goal:** All non-data "story" figures (particle clouds, network art, world map base,
-MOTHER portrait) are produced and placed in `figures/story/`. AI image generation
-approach (ChatGPT, DALL-E, or similar) is tested and integrated.
+**Goal:** All non-data "story" figures (particle clouds, network art, world map base, MOTHER portrait) are produced and placed in `figures/story/`. AI image generation approach (ChatGPT, DALL-E, or similar) is tested and integrated.
 
 **Estimated window:** Days 6–10 (by ~21 May 2026)
 
 **Tasks:**
-- [ ] Test AI image generation tool (ChatGPT's image generation, or external tool like
-  DALL-E): establish workflow and style prompts
-- [ ] Title boot slide: animated terminal log (pure CSS/HTML in QMD — no external
-  figure)
-- [ ] "Hidden majority" particle scatter: R/ggplot2 — random point cloud with
-  observed/hidden contrast
+- [ ] Test AI image generation tool (ChatGPT's image generation, or external tool like DALL-E): establish workflow and style prompts
+- [ ] Title boot slide: animated terminal log (pure CSS/HTML in QMD — no external figure)
+- [ ] "Hidden majority" particle scatter: R/ggplot2 — random point cloud with observed/hidden contrast
 - [ ] Abstract network art: R/igraph + ggraph — network with MOTHER palette
 - [ ] Latent space trajectory art: R/ggplot2 swarm/trajectory illustration
 - [ ] World map base (for spatial results): R/sf + ggplot2 in MOTHER theme
-- [ ] MOTHER companion portrait (`assets/mother_face.png`): AI-generated via chosen
-  tool; license and generation notes recorded in `README_figures.md`
-- [ ] Atmospheric planet/biosphere image: AI-generated, Creative Commons sourced, or
-  generated in R; license noted
+- [ ] MOTHER companion portrait (`assets/mother_face.png`): AI-generated via chosen tool; license and generation notes recorded in `README_figures.md`
+- [ ] Atmospheric planet/biosphere image: AI-generated, Creative Commons sourced, or generated in R; license noted
 - [ ] All story figures styled with MOTHER palette and saved to `figures/story/`
 
 **Validation:**
 - All figures render in slides without visual overflow
 - Colors match `col_palette` constants from `design_config.json`
-- `README_figures.md` lists every figure with source, license, and generation method
-  (e.g., "AI: ChatGPT image generation, license: CC-BY")
+- `README_figures.md` lists every figure with source, license, and generation method (e.g., "AI: ChatGPT image generation, license: CC-BY")
 
 ---
 
 ### Phase 4 — First Pass: All Slides (Skeleton)
 
-**Goal:** Every slide exists in `index.qmd` with correct archetype, placeholder figure,
-and MOTHER dialogue populated from the approved script. Slide count confirmed ≥ 20.
+**Goal:** Every slide exists in `index.qmd` with correct archetype, placeholder figure, and MOTHER dialogue populated from the approved script. Slide count confirmed ≥ 20.
 
 **Estimated window:** Days 10–16 (by ~27 May 2026)
 
 **Tasks:**
-- [ ] Translate every slide from `script.md` into QMD using the established div
-  archetypes
+- [ ] Translate every slide from `script.md` into QMD using the established div archetypes
 - [ ] Insert story figures (Phase 3) into their slots
 - [ ] Insert labelled grey-box placeholder calls for all missing result figures
 - [ ] Verify slide count ≥ 20; adjust granularity if needed
@@ -341,16 +279,13 @@ and MOTHER dialogue populated from the approved script. Slide count confirmed �
 
 ### Phase 5 — Result Figure Integration
 
-**Goal:** Every result-slide placeholder is replaced with a real or convincingly
-simulated figure styled with `theme_mother()`.
+**Goal:** Every result-slide placeholder is replaced with a real or convincingly simulated figure styled with `theme_mother()`.
 
 **Estimated window:** Days 16–24 (by ~4 June 2026)
 
 **Tasks:**
-- [ ] Create `R/make_figures.R` — master script that produces all presentation figures
-  and saves to `figures/results/`
-- [ ] Source pipeline data via `tar_read()` to extract data for each result figure.
-  Targets to produce:
+- [ ] Create `R/make_figures.R` — master script that produces all presentation figures and saves to `figures/results/`
+- [ ] Source pipeline data via `tar_read()` to extract data for each result figure. Targets to produce:
   - Co-occurrence network snapshot (2020)
   - Temporal stability (Jaccard similarity over time)
   - Spatial hotspot map (mean edge probability)
@@ -359,10 +294,8 @@ simulated figure styled with `theme_mother()`.
   - Taxonomic signals (within vs. between clades)
   - Uncertainty / posterior credible intervals example
 - [ ] For each target: extract → apply `theme_mother()` → save PNG
-- [ ] For unavailable targets: generate plausible simulated data in R; mark
-  `[SIMULATED]` in `README_figures.md`
-- [ ] Style all figures at 1920×1080 canvas size (to match display resolution);
-  test for font size (base_size ≥ 18) and overflow
+- [ ] For unavailable targets: generate plausible simulated data in R; mark `[SIMULATED]` in `README_figures.md`
+- [ ] Style all figures at 1920×1080 canvas size (to match display resolution); test for font size (base_size ≥ 18) and overflow
 - [ ] Update `README_figures.md` with source, license, and real vs. simulated status
 
 **Validation:**
@@ -375,36 +308,30 @@ simulated figure styled with `theme_mother()`.
 
 ### Phase 6 — Visual Polish Pass
 
-**Goal:** Every slide meets the MOTHER aesthetic fully — glow, color semantics,
-typography, layout precision, and transitions.
+**Goal:** Every slide meets the MOTHER aesthetic fully — glow, color semantics, typography, layout precision, and transitions.
 
 **Estimated window:** Days 24–30 (by ~10 June 2026)
 
 **Tasks:**
-- [ ] SCSS refinements via `design_config.json`: glow intensity, scanline density,
-  cursor speed, visual effect parameters; test on dark projected background
+- [ ] SCSS refinements via `design_config.json`: glow intensity, scanline density, cursor speed, visual effect parameters; test on dark projected background
 - [ ] Typography audit: confirm fonts load in browser; specify monospace fallbacks
-- [ ] Color semantic audit: cyan = spatial, amber = temporal, violet = latent,
-  coral = warning
+- [ ] Color semantic audit: cyan = spatial, amber = temporal, violet = latent, coral = warning
 - [ ] Layout audit: no text overflow, no clipped figures across all slide types
 - [ ] Animation/transition audit: fade-to-black between sections; fragment order
-- [ ] MOTHER dialogue box refinements: consistent padding, amber `MOTHER>` prefix,
-  spacing
+- [ ] MOTHER dialogue box refinements: consistent padding, amber `MOTHER>` prefix, spacing
 - [ ] Slide footer/header system: session ID, version string, slide numbers if desired
 
 **Validation:**
 - Full render reviewed slide-by-slide in browser at 1920×1080
 - Colleague or peer review for legibility at projection distance
 - No browser console errors (font loading, SCSS)
-- Visual consistency check: all figures, dialogue boxes, and text use the MOTHER
-  palette
+- Visual consistency check: all figures, dialogue boxes, and text use the MOTHER palette
 
 ---
 
 ### Phase 7 — Second Content & Narrative Pass
 
-**Goal:** All slide text, MOTHER dialogue, and narrative flow are tightened and
-scientifically accurate. 12-minute timing is confirmed.
+**Goal:** All slide text, MOTHER dialogue, and narrative flow are tightened and scientifically accurate. 12-minute timing is confirmed.
 
 **Estimated window:** Days 30–35 (by ~15 June 2026)
 
@@ -412,8 +339,7 @@ scientifically accurate. 12-minute timing is confirmed.
 - [ ] Read every slide as continuous narrative; fix gaps and redundancies
 - [ ] Tighten MOTHER dialogue to ≤ 4 lines per panel
 - [ ] Cross-check all factual claims against `script.md` and the abstract
-- [ ] Confirm all three abstract expectations (scale, rapid-change, taxonomic-grain)
-  appear explicitly in methods and results slides
+- [ ] Confirm all three abstract expectations (scale, rapid-change, taxonomic-grain) appear explicitly in methods and results slides
 - [ ] Refine confidence/status lines to reflect actual model outputs
 - [ ] Update speaker notes with finalized timing per slide (≤ 12 minutes total)
 - [ ] Verify talk fits the conference oral time slot (12 min presentation)
@@ -428,32 +354,26 @@ scientifically accurate. 12-minute timing is confirmed.
 
 ### Phase 8 — Final Polish & Delivery Prep
 
-**Goal:** Presentation is conference-ready and deployed to GitHub Pages. Export
-formats tested, accessibility pass complete, rehearsal confirmed.
+**Goal:** Presentation is conference-ready and deployed to GitHub Pages. Export formats tested, accessibility pass complete, rehearsal confirmed.
 
 **Estimated window:** Days 35–40 (by ~20 June 2026)
 
 **Tasks:**
-- [ ] Replace remaining `[SIMULATED]` figures with real pipeline outputs if targets
-  are now computed
+- [ ] Replace remaining `[SIMULATED]` figures with real pipeline outputs if targets are now computed
 - [ ] Export self-contained HTML backup (for local/USB backup on conference day)
 - [ ] Export PDF backup via `decktape` or RevealJS-PDF renderer; verify legibility
-- [ ] Accessibility pass: alt-text on all figures, color-contrast check on text-over
-  backgrounds
+- [ ] Accessibility pass: alt-text on all figures, color-contrast check on text-over backgrounds
 - [ ] Final rehearsal: time the talk with all pauses and transitions; confirm ≤ 12 min
 - [ ] Commit and push all presentation files to the GitHub branch
-- [ ] Verify that the full site renders correctly with the presentation integrated:
-  `quarto render` at root
-- [ ] Prepare deployment instructions for user (confirm GitHub Pages auto-deploy is
-  active, or provide manual deployment command)
+- [ ] Verify that the full site renders correctly with the presentation integrated: `quarto render` at root
+- [ ] Prepare deployment instructions for user (confirm GitHub Pages auto-deploy is active, or provide manual deployment command)
 
 **Validation:**
 - HTML backup renders fully offline
 - PDF backup is legible at A4/letter scale
 - Talk times ≤ 12 minutes in final rehearsal
 - Root `_quarto.yml` site still builds and renders correctly
-- Presentation appears correctly on the live GitHub Pages site (or is ready for
-  immediate deploy)
+- Presentation appears correctly on the live GitHub Pages site (or is ready for immediate deploy)
 - User confirms readiness for conference presentation
 
 ---
@@ -482,19 +402,15 @@ Impact: Phase 7 and Phase 8 are timed to fit ≤ 12 minutes; speaker notes track
 
 **2. Should the presentation be published to GitHub Pages?**  
 ✅ Yes, integrated into the main project site under `/presentations/iavs-2026/`  
-Approach: `Documentation/Presentations/IAVS_2026/` is added to the root `_quarto.yml`
-render list, so the presentation builds and deploys alongside the main website.
+Approach: `Documentation/Presentations/IAVS_2026/` is added to the root `_quarto.yml` render list, so the presentation builds and deploys alongside the main website.
 
 **3. Which AI tool for story images (MOTHER face, atmospheric planet)?**  
 ✅ Will be tested (likely ChatGPT or similar) in Phase 3  
-Impact: Phase 3 timeline includes testing and workflow establishment; AI-generated
-figures are documented with license/generation notes in `README_figures.md`.
+Impact: Phase 3 timeline includes testing and workflow establishment; AI-generated figures are documented with license/generation notes in `README_figures.md`.
 
 **4. Are any result figures already available in `_targets/`?**  
 ✅ No; pipeline provides data only  
-Impact: All result figures in Phase 5 are produced fresh via `tar_read()` extraction.
-Simulated placeholders are used in Phases 1–4 and swapped for real figures as targets
-become available.
+Impact: All result figures in Phase 5 are produced fresh via `tar_read()` extraction. Simulated placeholders are used in Phases 1–4 and swapped for real figures as targets become available.
 
 ---
 

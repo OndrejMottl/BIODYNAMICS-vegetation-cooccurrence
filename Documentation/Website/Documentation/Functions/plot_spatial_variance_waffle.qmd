@@ -3,7 +3,6 @@ format: html
 title: plot_spatial_variance_waffle()
 ---
 
-<html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -142,4 +141,3 @@ Required when 'flag_show_fill_legend = TRUE'.</p>
 
 </div>
 </body></html>
-

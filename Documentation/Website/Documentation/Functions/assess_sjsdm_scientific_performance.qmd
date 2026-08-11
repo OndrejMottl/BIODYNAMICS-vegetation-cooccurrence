@@ -1,0 +1,113 @@
+---
+format: html
+title: assess_sjsdm_scientific_performance()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>assess_sjsdm_scientific_performance</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Assess sjSDM Scientific Predictive Performance</h2>
+
+<h3>Description</h3>
+
+<p>Applies a versioned predictive-performance policy to repeated spatial CV
+evidence while keeping technical validity and calibration separate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>assess_sjsdm_scientific_performance(
+  data_model_repeat_metrics = NULL,
+  data_paired_repeat_metrics = NULL,
+  data_eligible_model_repeat_metrics = NULL,
+  data_taxon_eligibility = NULL,
+  data_fold_diagnostics = NULL,
+  data_predictions = NULL,
+  list_policy = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_model_repeat_metrics">data_model_repeat_metrics</code></td>
+<td>
+<p>Repeat-level model metrics from 'summarise_sjsdm_fold_metrics()'.</p>
+</td></tr>
+<tr><td><code id="data_paired_repeat_metrics">data_paired_repeat_metrics</code></td>
+<td>
+<p>Repeat-level model-minus-null improvements from the same summary.</p>
+</td></tr>
+<tr><td><code id="data_eligible_model_repeat_metrics">data_eligible_model_repeat_metrics</code></td>
+<td>
+<p>Repeat-level model metrics restricted to prespecified eligible taxa.</p>
+</td></tr>
+<tr><td><code id="data_taxon_eligibility">data_taxon_eligibility</code></td>
+<td>
+<p>Taxon eligibility table containing 'mean_tjur_r2' and 'eligible'.</p>
+</td></tr>
+<tr><td><code id="data_fold_diagnostics">data_fold_diagnostics</code></td>
+<td>
+<p>Fold fitting diagnostics.</p>
+</td></tr>
+<tr><td><code id="data_predictions">data_predictions</code></td>
+<td>
+<p>Out-of-fold prediction rows.</p>
+</td></tr>
+<tr><td><code id="list_policy">list_policy</code></td>
+<td>
+<p>Named policy list containing the versioned thresholds and requirements.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Tjur R2 is treated as a discrimination measure, not a percentage of
+variance explained. Calibration is diagnostic and cannot silently override
+the held-out discrimination and proper-score decision.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A named list containing criterion-level evidence and a one-row decision.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+assess_sjsdm_scientific_performance(
+  data_model_repeat_metrics = data_model_metrics,
+  data_paired_repeat_metrics = data_improvements,
+  data_eligible_model_repeat_metrics = data_eligible_metrics,
+  data_taxon_eligibility = data_eligibility,
+  data_fold_diagnostics = data_diagnostics,
+  data_predictions = data_predictions,
+  list_policy = list_policy
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

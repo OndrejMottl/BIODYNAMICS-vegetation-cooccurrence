@@ -19,15 +19,7 @@ R/03_Supplementary_analyses/_Diagnostics/age_scalling/run_cz_decomposition_age_z
 # A tibble: 9 × 15
   route_id      component share_median lwr_95  upr_95 n_defined n_total n_failed
   <chr>         <chr>            <dbl>  <dbl>   <dbl>     <dbl>   <dbl>    <dbl>
-1 pooled_spati… Abiotic           30.8  0      73.6          25      25        0
-2 pooled_spati… Associat…          0    0       3.26         25      25        0
-3 pooled_spati… Spatial           69.2 26.4    99.4          25      25        0
-4 pooled_spati… Abiotic           48.1  0.905 100            25      25        0
-5 pooled_spati… Associat…          0    0       0            25      25        0
-6 pooled_spati… Spatial           51.9  0      99.1          25      25        0
-7 pooled_spati… Abiotic           24.4  0      63.0          25      25        0
-8 pooled_spati… Associat…          0    0       0.548        25      25        0
-9 pooled_spati… Spatial           75.6 37.0   100            25      25        0
+1 pooled_spati… Abiotic           30.8  0      73.6          25      25        0 2 pooled_spati… Associat…          0    0       3.26         25      25        0 3 pooled_spati… Spatial           69.2 26.4    99.4          25      25        0 4 pooled_spati… Abiotic           48.1  0.905 100            25      25        0 5 pooled_spati… Associat…          0    0       0            25      25        0 6 pooled_spati… Spatial           51.9  0      99.1          25      25        0 7 pooled_spati… Abiotic           24.4  0      63.0          25      25        0 8 pooled_spati… Associat…          0    0       0.548        25      25        0 9 pooled_spati… Spatial           75.6 37.0   100            25      25        0
 # ℹ 7 more variables: proportion_defined <dbl>, n_folds <dbl>,
 #   n_converged_folds <dbl>, proportion_full_beats_no_abiotic <dbl>,
 #   proportion_full_beats_no_spatial <dbl>,
@@ -39,17 +31,14 @@ R/03_Supplementary_analyses/_Diagnostics/age_scalling/run_cz_decomposition_age_z
 # A tibble: 3 × 3
   route_id                                status n_variant_fits
   <chr>                                   <chr>           <int>
-1 pooled_spatiotemporal_age_z_interaction ok                100
-2 pooled_spatiotemporal_age_z_main        ok                100
-3 pooled_spatiotemporal_no_age            ok                100
+1 pooled_spatiotemporal_age_z_interaction ok                100 2 pooled_spatiotemporal_age_z_main        ok                100 3 pooled_spatiotemporal_no_age            ok                100
 
 ## Full-Model Loss Compared With No-Age Reference
 
 # A tibble: 2 × 6
   route_id                     n_pairs n_age_beats_no_age proportion_age_beats…¹
   <chr>                          <int>              <int>                  <dbl>
-1 pooled_spatiotemporal_age_z…      25                 12                   0.48
-2 pooled_spatiotemporal_age_z…      25                 19                   0.76
+1 pooled_spatiotemporal_age_z…      25                 12                   0.48 2 pooled_spatiotemporal_age_z…      25                 19                   0.76
 # ℹ abbreviated name: ¹​proportion_age_beats_no_age
 # ℹ 2 more variables: mean_delta_loss_age_minus_no_age <dbl>,
 #   median_delta_loss_age_minus_no_age <dbl>

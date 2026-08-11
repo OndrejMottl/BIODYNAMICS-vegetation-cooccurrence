@@ -7,7 +7,7 @@ Description:
 Usage:
 
      validate_community_source(data_source = NULL, check_numeric = TRUE)
-     
+
 Arguments:
 
 data_source: A long-format community data frame with `dataset_name`,
@@ -19,4 +19,3 @@ check_numeric: Logical. If `TRUE` (default), `age` and `pollen_count`
 Value:
 
      The input data frame, invisibly, when validation succeeds.
-

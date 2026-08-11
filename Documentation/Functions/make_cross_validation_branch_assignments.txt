@@ -1,0 +1,66 @@
+Make Cross-Validation Branch Assignments
+
+Description:
+
+     Reuses a shared pre-resolution assignment for a
+     response-resolution branch when coverage and balance remain valid,
+     otherwise recalibrates that branch.
+
+Usage:
+
+     make_cross_validation_branch_assignments(
+       data_locations = NULL,
+       data_fold_resolution = NULL,
+       data_shared_assignments = NULL,
+       target_locations_per_cell = 5,
+       grid_size_multipliers = 2^base::seq(-2, 2),
+       n_repeats = 1L,
+       occupancy_criterion = "median",
+       lower_quantile_probability = 0.25,
+       max_fold_location_difference = 1L,
+       max_fold_sample_difference = Inf,
+       seed = 900723L
+     )
+
+Arguments:
+
+data_locations: Branch location table returned by
+          [make_cross_validation_location_table()].
+
+data_fold_resolution: One-row branch table returned by
+          [resolve_cross_validation_fold_count()].
+
+data_shared_assignments: Assignment table built from the shared
+          pre-resolution sample universe.
+
+target_locations_per_cell, grid_size_multipliers, n_repeats:
+          occupancy_criterion,lower_quantile_probability,
+          max_fold_location_difference,max_fold_sample_difference,seed
+          Grid-calibration and assignment controls used only when
+          branch fallback is required.
+
+Value:
+
+     Assignment tibble with the stable assignment schema.
+     `assignment_source` is `"shared_pre_resolution"`,
+     `"branch_fallback"`, or `"branch_no_holdout"`.
+
+Examples:
+
+     data_locations <-
+       tibble::tibble(
+         location_id = base::letters[1:6],
+         coord_x_km = base::seq_len(6L),
+         coord_y_km = base::seq_len(6L),
+         n_samples = base::rep(1L, 6L),
+         row_indices = base::as.list(base::seq_len(6L))
+       )
+     data_resolution <-
+       resolve_cross_validation_fold_count(6L, 5L)
+     data_shared <-
+       make_leave_one_location_out_assignments(data_locations)
+     make_cross_validation_branch_assignments(
+       data_locations = data_locations,
+       data_fold_resolution = data_resolution,
+       data_shared_assignments = data_shared
+     )

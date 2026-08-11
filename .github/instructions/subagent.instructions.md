@@ -7,9 +7,7 @@ description: >
 
 # Assistant and Subagent Routing
 
-Canonical assistant guidance now lives in `.ai/`. This Copilot instruction file
-is retained as a compatibility adapter for tools that still inspect
-`.github/instructions/`.
+Canonical assistant guidance now lives in `.ai/`. This Copilot instruction file is retained as a compatibility adapter for tools that still inspect `.github/instructions/`.
 
 ## Canonical Task Map
 
@@ -27,13 +25,9 @@ is retained as a compatibility adapter for tools that still inspect
 
 ## Compatibility Wrappers
 
-- `.github/copilot-instructions.md` remains for Copilot repository-level
-  discovery.
-- `.github/instructions/*.instructions.md` remains for Copilot `applyTo`
-  routing.
+- `.github/copilot-instructions.md` remains for Copilot repository-level discovery.
+- `.github/instructions/*.instructions.md` remains for Copilot `applyTo` routing.
 - `.github/agents/*.agent.md` remains for Copilot custom-agent discovery.
-- `CLAUDE.md`, `GEMINI.md`, and `.cursor/rules/*.mdc` route other tools to the
-  same canonical `.ai/` files.
+- `CLAUDE.md`, `GEMINI.md`, and `.cursor/rules/*.mdc` route other tools to the same canonical `.ai/` files.
 
-The `.ai/` files are the source of truth. Do not duplicate long-form policy in
-adapter files.
+The `.ai/` files are the source of truth. Do not duplicate long-form policy in adapter files.

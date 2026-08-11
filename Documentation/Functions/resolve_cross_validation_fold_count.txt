@@ -1,0 +1,53 @@
+Resolve Cross-Validation Fold Count
+
+Description:
+
+     Resolves the smallest viable location-level fold count from a
+     default toward leave-one-location-out while preserving a minimum
+     training-location count.
+
+Usage:
+
+     resolve_cross_validation_fold_count(
+       n_locations = NULL,
+       min_train_locations = NULL,
+       default_folds = 5L
+     )
+
+Arguments:
+
+n_locations: Single positive integer. Number of unique sampling
+          locations available.
+
+min_train_locations: Single positive integer. Minimum number of
+          locations required in every training partition and in the
+          full model.
+
+default_folds: Single integer greater than one. Preferred grouped fold
+          count. Defaults to `5L`.
+
+Details:
+
+     Balanced grouped folds are assessed using the largest possible
+     test fold, `ceiling(n_locations / effective_folds)`. If the
+     preferred fold count would remove too many locations, fold count
+     increases until every training partition is viable. A fold count
+     equal to `n_locations` is classified as leave-one-location-out. A
+     full-model-viable ID with no viable holdout is classified for
+     tier-pooled regularization. Other sample, response, and MEM checks
+     belong to the separate CV feasibility assessment.
+
+Value:
+
+     One-row tibble with `n_locations`, `default_folds`,
+     `effective_folds`, `min_train_locations`,
+     `min_training_locations_actual`, `cv_strategy`, and
+     `cv_feasibility_status`. `effective_folds` is `NA` when
+     location-level holdout is infeasible.
+
+Examples:
+
+     resolve_cross_validation_fold_count(
+       n_locations = 7L,
+       min_train_locations = 5L
+     )

@@ -1,0 +1,43 @@
+Build an sjSDM Tuning Schedule
+
+Description:
+
+     Validates exhaustive or staged cross-validation tuning settings
+     and builds the deterministic repeat-level candidate budget used by
+     every model pipeline.
+
+Usage:
+
+     build_sjsdm_tuning_schedule(
+       tuning_strategy = NULL,
+       n_candidates = NULL,
+       repeat_ids = NULL,
+       survivor_counts = NULL
+     )
+
+Arguments:
+
+tuning_strategy: Character scalar. Either `"exhaustive"` or `"staged"`.
+
+n_candidates: Positive integer number of regularization candidates.
+
+repeat_ids: Unique positive integer repeat identifiers in execution
+          order.
+
+survivor_counts: Integer counts retained after each non-final staged
+          round. Ignored for exhaustive tuning.
+
+Value:
+
+     Tibble with one row per tuning round and columns
+     `tuning_strategy`, `strategy_version`, `round_id`, `repeat_id`,
+     `n_candidates_entering`, and `n_candidates_surviving`.
+
+Examples:
+
+     build_sjsdm_tuning_schedule(
+       tuning_strategy = "staged",
+       n_candidates = 8L,
+       repeat_ids = 1:3,
+       survivor_counts = c(4L, 2L)
+     )

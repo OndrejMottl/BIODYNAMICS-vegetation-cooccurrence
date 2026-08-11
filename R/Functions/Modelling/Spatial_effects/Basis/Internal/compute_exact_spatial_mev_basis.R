@@ -7,7 +7,7 @@
 #' Named list containing the complete MEV matrix, empty fast-basis state,
 #' engine method, and projection method.
 #' @keywords internal
-#' @noRd
+#' @keywords internal
 .compute_exact_spatial_mev_basis <- function(
     mat_coords,
     exact_function) {

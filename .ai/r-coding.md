@@ -2,6 +2,27 @@
 
 Canonical R coding guidance for this repository. Copilot, Cursor, Codex, Claude, Gemini, and other assistants should treat this file as the shared source of truth for R scripts, tidyverse usage, performance, and visualisation.
 
+## Repository Architecture
+
+The four maintained R roots have distinct lifecycle owners:
+
+- `R/Functions/` owns reusable capability functions;
+- `R/Pipelines/` owns active pipeline definitions and pipe segments;
+- `R/02_Main_analyses/` owns only allowlisted production runners;
+- `R/03_Supplementary_analyses/` owns documented diagnostics, validation, tests, scientific references, sensitivity work, and one-time provenance.
+
+Function files contain exactly one matching top-level function. Use an approved canonical or domain verb and place tests in the inventoried capability hierarchy. Never revive retired paths or symbols in active code or guidance. Architecture exceptions are exact rows with an owner and expiry issue; remove them when the expiry issue closes.
+
+After architecture changes, run:
+
+```powershell
+Rscript R/03_Supplementary_analyses/Validation/Architecture/generate_r_architecture_inventories.R
+Rscript R/03_Supplementary_analyses/Validation/Architecture/generate_persisted_contract_manifest_inventory.R
+Rscript R/03_Supplementary_analyses/Validation/Architecture/check_r_architecture.R
+```
+
+The maintained dependency map is generated at `Documentation/Reports/R_architecture/r_architecture_dependency_map.md`.
+
 ## Base R Coding Conventions
 
 # R Coding Conventions and Style Guide
@@ -24,12 +45,12 @@ Example of a header:
 #----------------------------------------------------------#
 #
 #
-#                     Project name 
+#                     Project name
 #
 #                      Script name
 #                      - continue
 #
-#                       Authors 
+#                       Authors
 #                        Year
 #
 #----------------------------------------------------------#
@@ -109,7 +130,7 @@ function(
 
 No line of **R code** should be longer than 80 characters (including R comments). Users can visualise the 80 characters line in selected IDE.
 
-> **Note:** This 80-character limit applies to R source code only. Markdown prose  -  such as text in `.md` files, `.qmd` files, instruction files, README files, or any other documentation  -  is **not** subject to this limit. Let markdown text wrap naturally.
+> **Mandatory scope:** This 80-character limit applies to R source code only. Never hard-wrap Markdown or GitHub prose at 80 characters or any other fixed width. Keep `.md` paragraphs and list items on single source lines and let the editor or renderer wrap them visually. Keep complete `.qmd` sentences on single source lines as required by `.ai/quarto.md`.
 
 ## Naming Conventions
 
@@ -285,8 +306,7 @@ Use the **magrittr pipe `%>%`** when the native pipe cannot be used cleanly:
   vec_diversity %>%
     { . + 1 }
   ```
-- Piping into `return()` or other special constructs inside a function body
-  where `|>` would be ambiguous.
+- Piping into `return()` or other special constructs inside a function body where `|>` would be ambiguous.
 
 #### 3. After a Function Argument
 
@@ -433,9 +453,7 @@ targets::tar_target(
 )
 ```
 
-If the logic is complex enough to need multiple statements and `{ }`,
-**extract it into a dedicated function** in `R/Functions/` and call that
-function from `command` instead:
+If the logic is complex enough to need multiple statements and `{ }`, **extract it into a dedicated function** in `R/Functions/` and call that function from `command` instead:
 
 ```r
 # Bad â€” inline multi-statement block
@@ -574,8 +592,7 @@ data_diversity$species_richness
 list_params$n_iter
 ```
 
-**Never use `base::attr()` to attach metadata to R objects.**
-Attributes are invisible, not type-checked, and silently stripped by many tidyverse operations (e.g. `dplyr::mutate()`, `tibble::as_tibble()`). Keep every piece of information as an explicit, named object â€” a column in a data frame, a named element in a list, or, in a `{targets}` pipeline, a dedicated target (see the Pipeline Management section in `AGENTS.md`).
+**Never use `base::attr()` to attach metadata to R objects.** Attributes are invisible, not type-checked, and silently stripped by many tidyverse operations (e.g. `dplyr::mutate()`, `tibble::as_tibble()`). Keep every piece of information as an explicit, named object â€” a column in a data frame, a named element in a list, or, in a `{targets}` pipeline, a dedicated target (see the Pipeline Management section in `AGENTS.md`).
 
 ```r
 # Avoid
@@ -611,13 +628,10 @@ data_diversity |>
 
 Do not use `dplyr::transmute()`.
 
-`transmute()` is superseded in dplyr and should not be suggested or introduced
-in this repository. Use one of these patterns instead:
+`transmute()` is superseded in dplyr and should not be suggested or introduced in this repository. Use one of these patterns instead:
 
-- Use `dplyr::mutate()` when you are adding or transforming columns and want
-  to keep existing columns.
-- Use `dplyr::mutate()` followed by `dplyr::select()` when you want to keep
-  only a subset of columns.
+- Use `dplyr::mutate()` when you are adding or transforming columns and want to keep existing columns.
+- Use `dplyr::mutate()` followed by `dplyr::select()` when you want to keep only a subset of columns.
 - Use `dplyr::summarise()` for grouped reductions.
 
 ```r
@@ -834,7 +848,7 @@ Use the native pipe `|>` to chain operations instead of nesting function calls. 
 # Good â€” pipe-based, reads in execution order
 filter_data() |>
   fit_model() |>
-  summarise_data() |> 
+  summarise_data() |>
   plot_data()
 
 # Avoid â€” nested, reads inside-out
@@ -901,18 +915,15 @@ Use parallel processing only for CPU-intensive, independent operations where the
 
 ## Configuration Access
 
-Treat `R/Functions/Utility/Config/` as the project boundary around
-`{config}`:
+Treat `R/Functions/Pipeline/Configuration/` as the project boundary around `{config}`:
 
 - use `load_active_config_value()` for one value from `R_CONFIG_ACTIVE`;
 - use `load_config_value()` for one value from a named configuration;
 - use `load_config()` only when the complete named configuration is needed;
-- use `load_config_value_with_fallback()` when an active value may fall back
-  to a named configuration;
-- do not call `config::get()` or `config::is_active()` from runtime scripts,
-  pipelines, or reusable functions;
-- edit human-authored files under `Configuration/`, then regenerate the
-  tracked root `config.yml`.
+- use `load_config_value_with_fallback()` when an active value may fall back to a named configuration;
+- do not call `config::get()` or `config::is_active()` from runtime scripts, pipelines, or reusable functions;
+- edit human-authored files under `Configuration/`, then run `R/03_Supplementary_analyses/Validation/Configuration/Generate_configuration.R` to regenerate the tracked root `config.yml` and profile catalog;
+- run `Check_configuration.R` from the same directory to fail on generated drift.
 
 ## Visualisation Conventions
 

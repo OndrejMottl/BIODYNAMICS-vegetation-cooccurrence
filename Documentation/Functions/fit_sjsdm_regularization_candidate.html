@@ -1,0 +1,100 @@
+<!DOCTYPE html><html><head><title>R: Fit One sjSDM Regularization Candidate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>fit_sjsdm_regularization_candidate</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit One sjSDM Regularization Candidate</h2>
+
+<h3>Description</h3>
+
+<p>Fits one prepared training fold with regularization parameters from a
+deterministic candidate table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>fit_sjsdm_regularization_candidate(
+  data_train_input = NULL,
+  candidate = NULL,
+  sel_abiotic_formula = NULL,
+  config_model_fitting = NULL,
+  seed = 900723L,
+  device = "cpu",
+  biotic = NULL,
+  fit_function = fit_jsdm_model
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_train_input">data_train_input</code></td>
+<td>
+<p>Fold-local training input returned by
+[prepare_sjsdm_cross_validation_fold()].</p>
+</td></tr>
+<tr><td><code id="candidate">candidate</code></td>
+<td>
+<p>One-row candidate table containing 'candidate_id' and the six sjSDM
+regularization parameters.</p>
+</td></tr>
+<tr><td><code id="sel_abiotic_formula">sel_abiotic_formula</code></td>
+<td>
+<p>Abiotic model formula passed to [fit_jsdm_model()].</p>
+</td></tr>
+<tr><td><code id="config_model_fitting">config_model_fitting</code></td>
+<td>
+<p>Active model-fitting configuration list.</p>
+</td></tr>
+<tr><td><code id="seed">seed</code></td>
+<td>
+<p>Deterministic integer seed for the candidate fit.</p>
+</td></tr>
+<tr><td><code id="device">device</code></td>
+<td>
+<p>Device passed to [fit_jsdm_model()]. Defaults to '&quot;cpu&quot;'.</p>
+</td></tr>
+<tr><td><code id="biotic">biotic</code></td>
+<td>
+<p>Optional sjSDM biotic structure. 'NULL' retains the regularized covariance
+structure created by [fit_jsdm_model()]. A diagonal structure disables
+residual cross-taxon associations for predictive decomposition.</p>
+</td></tr>
+<tr><td><code id="fit_function">fit_function</code></td>
+<td>
+<p>Injectable fit function. Defaults to [fit_jsdm_model()].</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The adapter keeps regularization forwarding in one tested place so tuning
+and selected-candidate reruns use identical fitting arguments.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Fitted model object returned by 'fit_function'.
+</p>
+
+</main>
+
+</div>
+</body></html>

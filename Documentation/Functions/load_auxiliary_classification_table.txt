@@ -13,7 +13,7 @@ Usage:
        file_auxiliary_classification_table =
          here::here("Data/Input/aux_classification_table.csv")
      )
-     
+
 Arguments:
 
 file_auxiliary_classification_table: A length-1 character string giving
@@ -45,4 +45,3 @@ See Also:
 
      [build_combined_classification_table()],
      [validate_taxa_classification_coverage()]
-

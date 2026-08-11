@@ -1,8 +1,6 @@
 # Cross-validation correctness reference metadata (v1)
 
-**Recorded:** 2026-07-14
-**Issue:** #139
-**Reference base:** `a8ead627`
+**Recorded:** 2026-07-14 **Issue:** #139 **Reference base:** `a8ead627`
 
 ## Environment
 
@@ -22,20 +20,15 @@
 
 ## Repeated-origin stabilization
 
-The next Issue #139 slice replaced the non-coprime y-origin multiplier with a deterministic reverse-order permutation.
-Before correction, the four-repeat fixture produced only two distinct grid signatures.
-After correction, the test matched the exact signatures for origin fractions `0`, `0.75`, `0.5`, and `0.25`; the focused test passed 10 assertions, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3132`.
+The next Issue #139 slice replaced the non-coprime y-origin multiplier with a deterministic reverse-order permutation. Before correction, the four-repeat fixture produced only two distinct grid signatures. After correction, the test matched the exact signatures for origin fractions `0`, `0.75`, `0.5`, and `0.25`; the focused test passed 10 assertions, and the full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3132`.
 
 ## Direct regularization validation
 
-The following Issue #139 slice added direct/final-fit upper-bound checks for `alpha_cov`, `alpha_coef`, and `alpha_spatial` while retaining finite non-negative lambda validation.
-Before correction, all three invalid alpha calls reached the Python backend and failed with an unrelated `ZeroDivisionError`.
-After correction, the focused fit test passed 52 assertions with parameter-specific R errors and explicit coverage of the inclusive zero/one alpha boundaries. The full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3144`.
+The following Issue #139 slice added direct/final-fit upper-bound checks for `alpha_cov`, `alpha_coef`, and `alpha_spatial` while retaining finite non-negative lambda validation. Before correction, all three invalid alpha calls reached the Python backend and failed with an unrelated `ZeroDivisionError`. After correction, the focused fit test passed 52 assertions with parameter-specific R errors and explicit coverage of the inclusive zero/one alpha boundaries. The full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3144`.
 
 ## Deterministic stochastic tuning scores
 
-The CV-003 slice added separately hashed deterministic fit and score seeds for every repeat, fold, and candidate ID and retained both in fold-level tuning output. Joint likelihood scoring now restores the caller's R RNG and available PyTorch CPU/CUDA RNG states after applying the score seed.
-Before correction, the new scorer test rejected the unknown `score_seed` argument and the runner lacked the provenance column and propagation path. After correction and review hardening, the focused scorer, fold-runner, and tuning-runner tests passed 20, 3, and 24 assertions. Coverage includes candidate-order independence, upper seed bounds, R restoration after normal and error paths, and PyTorch CPU determinism/restoration. The full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3158`.
+The CV-003 slice added separately hashed deterministic fit and score seeds for every repeat, fold, and candidate ID and retained both in fold-level tuning output. Joint likelihood scoring now restores the caller's R RNG and available PyTorch CPU/CUDA RNG states after applying the score seed. Before correction, the new scorer test rejected the unknown `score_seed` argument and the runner lacked the provenance column and propagation path. After correction and review hardening, the focused scorer, fold-runner, and tuning-runner tests passed 20, 3, and 24 assertions. Coverage includes candidate-order independence, upper seed bounds, R restoration after normal and error paths, and PyTorch CPU determinism/restoration. The full suite reported `FAIL 0 | WARN 0 | SKIP 1 | PASS 3158`.
 
 ## Structured downstream tuning errors
 
@@ -161,107 +154,28 @@ Future comparisons must match target presence, schema and column order, candidat
 
 The production-like CZ paleo reference run is recorded separately in [`cz_paleo_cv_reference_v1.md`](cz_paleo_cv_reference_v1.md). It used three assignment repeats and eight regularization candidates in an isolated store. All 120 tuning fits and all 15 selected-candidate refits succeeded; fully regularized `candidate_008` reduced mean held-out NLL/response from `0.384313689888821` to `0.306641469176137`. Mean OOF log loss was `0.367094477482017`, improving on the fold-prevalence null by `0.0220725980703752`, while mean Tjur R2 remained low at `0.0288530573204427`. The report retains exact repeat-level metrics, null comparisons, convergence evidence, provenance, schemas, hashes, execution interruption/resume evidence, and scientific limitations.
 
-The isolated GPU rerun and comparison are recorded in
-[`cz_paleo_cpu_gpu_reference_comparison_v1.md`](cz_paleo_cpu_gpu_reference_comparison_v1.md).
-CPU and GPU selected the same regularization candidate and produced identical
-OOF keys, seeds, fold statuses, and diagnostics. Proper scoring losses and the
-fold-local Tjur R2 conclusion were stable, although elementwise probabilities,
-AUC, and unstable calibration slopes did not meet strict `1e-4` numerical
-parity. The historical CPU store remains unchanged.
+The isolated GPU rerun and comparison are recorded in [`cz_paleo_cpu_gpu_reference_comparison_v1.md`](cz_paleo_cpu_gpu_reference_comparison_v1.md). CPU and GPU selected the same regularization candidate and produced identical OOF keys, seeds, fold statuses, and diagnostics. Proper scoring losses and the fold-local Tjur R2 conclusion were stable, although elementwise probabilities, AUC, and unstable calibration slopes did not meet strict `1e-4` numerical parity. The historical CPU store remains unchanged.
 
-A subsequent fresh GPU reference verified the additive provenance extension.
-The one-row artifact recorded `gpu`, `out_of_fold`, `repeat_fold_taxon`,
-`fold_macro;observation_weighted`, and `sjsdm_fold_local_cv_v1` in the five new
-columns. All 120 tuning fits and all 15 selected-candidate fold refits succeeded,
-the store contained zero target errors, and the provenance data hash was
-`19cffe27d6c58bde`.
+A subsequent fresh GPU reference verified the additive provenance extension. The one-row artifact recorded `gpu`, `out_of_fold`, `repeat_fold_taxon`, `fold_macro;observation_weighted`, and `sjsdm_fold_local_cv_v1` in the five new columns. All 120 tuning fits and all 15 selected-candidate fold refits succeeded, the store contained zero target errors, and the provenance data hash was `19cffe27d6c58bde`.
 
-The mandatory fresh CZ gate then verified the same 29-column contract across
-all seven direct and resolution units. Every row recorded the expected five
-values, and all three stores had zero errors and zero incomplete targets. The
-fresh provenance hashes were `0abfbcbf3c16ebb7` for paleo core/genus,
-`434559507b4415f4` for paleo family, `464cbb1f501ac889` for paleo functional
-type, `329cbbabb07d24b2` for modern family, `5abc60fd2eb43667` for modern genus,
-and `d136f2f1cc74c502` for modern functional type.
+The mandatory fresh CZ gate then verified the same 29-column contract across all seven direct and resolution units. Every row recorded the expected five values, and all three stores had zero errors and zero incomplete targets. The fresh provenance hashes were `0abfbcbf3c16ebb7` for paleo core/genus, `434559507b4415f4` for paleo family, `464cbb1f501ac889` for paleo functional type, `329cbbabb07d24b2` for modern family, `5abc60fd2eb43667` for modern genus, and `d136f2f1cc74c502` for modern functional type.
 
-The Phase 4 taxon-level interpretation is recorded in
-[`cz_paleo_taxon_eligibility_diagnostic_v1.md`](cz_paleo_taxon_eligibility_diagnostic_v1.md).
-The GPU artifact contains 159 evaluable fold-taxon Tjur estimates; 116 are
-positive, but only 30 reach `0.1`. Carpinus and Fagus are the only taxa whose
-mean exceeds the provisional threshold, while Pinus, Alnus, and Picea have no
-evaluable model discrimination estimates because constant training responses
-make their predictions unavailable. The evidence is classified as a technical
-CV pass and a provisional scientific-prediction failure.
+The Phase 4 taxon-level interpretation is recorded in [`cz_paleo_taxon_eligibility_diagnostic_v1.md`](cz_paleo_taxon_eligibility_diagnostic_v1.md). The GPU artifact contains 159 evaluable fold-taxon Tjur estimates; 116 are positive, but only 30 reach `0.1`. Carpinus and Fagus are the only taxa whose mean exceeds the provisional threshold, while Pinus, Alnus, and Picea have no evaluable model discrimination estimates because constant training responses make their predictions unavailable. The evidence is classified as a technical CV pass and a provisional scientific-prediction failure.
 
-The controlled predictor-component comparison is recorded in
-[`cz_paleo_predictor_component_diagnostic_v1.md`](cz_paleo_predictor_component_diagnostic_v1.md).
-All 45 new GPU fold fits succeeded on identical assignments and seeds. Mean
-fold-macro Tjur R2 was `0` for intercept-only, `0.0251` for spatial-only,
-`0.0308` for abiotic-only, and `0.0526` for the full model. The full model
-improved every primary metric over both reduced predictor models in all three
-repeats. Both predictor blocks contain complementary signal, but the full model
-continues to fail the working `0.1` scientific gate.
+The controlled predictor-component comparison is recorded in [`cz_paleo_predictor_component_diagnostic_v1.md`](cz_paleo_predictor_component_diagnostic_v1.md). All 45 new GPU fold fits succeeded on identical assignments and seeds. Mean fold-macro Tjur R2 was `0` for intercept-only, `0.0251` for spatial-only, `0.0308` for abiotic-only, and `0.0526` for the full model. The full model improved every primary metric over both reduced predictor models in all three repeats. Both predictor blocks contain complementary signal, but the full model continues to fail the working `0.1` scientific gate.
 
-The component implementation passed 49 focused assertions, the full suite with
-3,430 passes and the single opt-in integration skip, and a fresh mandatory CZ
-gate with exit code 0. Direct metadata checks found zero errors in the paleo
-core, paleo resolution, and modern resolution stores.
+The component implementation passed 49 focused assertions, the full suite with 3,430 passes and the single opt-in integration skip, and a fresh mandatory CZ gate with exit code 0. Direct metadata checks found zero errors in the paleo core, paleo resolution, and modern resolution stores.
 
-The Phase 5 structured regularization experiment is recorded in
-[`cz_paleo_structured_regularization_diagnostic_v1.md`](cz_paleo_structured_regularization_diagnostic_v1.md).
-The isolated GPU pipeline completed all 240 tuning fits and all 15 independent
-selected-candidate refits. Covariance lambda `0.01` minimized mean tuning NLL at
-`0.305712`, compared with `0.306926` for the `(0.1, 0.1, 0.1)` reference, but
-the improvement reversed in one of three repeats. The independently refitted
-candidate was worse than the reference on fold-macro AUC (`0.643` versus
-`0.661`), Tjur R2 (`0.0408` versus `0.0526`), log loss (`0.324` versus `0.308`),
-and Brier score (`0.0913` versus `0.0891`). The result is retained as evidence
-that regularization alone does not resolve the CZ scientific-performance
-failure; it does not change the accepted reference candidate.
+The Phase 5 structured regularization experiment is recorded in [`cz_paleo_structured_regularization_diagnostic_v1.md`](cz_paleo_structured_regularization_diagnostic_v1.md). The isolated GPU pipeline completed all 240 tuning fits and all 15 independent selected-candidate refits. Covariance lambda `0.01` minimized mean tuning NLL at `0.305712`, compared with `0.306926` for the `(0.1, 0.1, 0.1)` reference, but the improvement reversed in one of three repeats. The independently refitted candidate was worse than the reference on fold-macro AUC (`0.643` versus `0.661`), Tjur R2 (`0.0408` versus `0.0526`), log loss (`0.324` versus `0.308`), and Brier score (`0.0913` versus `0.0891`). The result is retained as evidence that regularization alone does not resolve the CZ scientific-performance failure; it does not change the accepted reference candidate.
 
-The structured-search contract passed 15 focused assertions and the full suite
-passed 3,460 assertions with no failures or warnings and one expected opt-in
-integration skip. The mandatory fresh CZ gate completed with exit code 0 in 56
-minutes 37 seconds. Metadata contained zero errors across 515 paleo-core rows,
-625 paleo-resolution rows, 2,423 modern-resolution rows, and 288 isolated
-structured-search rows.
+The structured-search contract passed 15 focused assertions and the full suite passed 3,460 assertions with no failures or warnings and one expected opt-in integration skip. The mandatory fresh CZ gate completed with exit code 0 in 56 minutes 37 seconds. Metadata contained zero errors across 515 paleo-core rows, 625 paleo-resolution rows, 2,423 modern-resolution rows, and 288 isolated structured-search rows.
 
-The Phase 5 acceptance and sparse-taxon sensitivity are recorded in
-[`cz_paleo_selection_guardrail_diagnostic_v1.md`](cz_paleo_selection_guardrail_diagnostic_v1.md).
-The declared eligibility rule retained nine of 16 taxa. Their original-reference
-fold-macro Tjur R2 was `0.068596`, compared with `0.052599` across all taxa and
-the provisional scientific gate of `0.1`. The structured-search winner was
-rejected in both scopes because tuning NLL improved in only two of three
-repeats, every independent refit comparison deteriorated, and candidate Tjur
-R2 remained `0.040832` across all taxa and `0.053210` for eligible taxa. The
-incremental pipeline built the new evidence without new model fits and exited
-successfully with 20 targets completed and 12 skipped.
+The Phase 5 acceptance and sparse-taxon sensitivity are recorded in [`cz_paleo_selection_guardrail_diagnostic_v1.md`](cz_paleo_selection_guardrail_diagnostic_v1.md). The declared eligibility rule retained nine of 16 taxa. Their original-reference fold-macro Tjur R2 was `0.068596`, compared with `0.052599` across all taxa and the provisional scientific gate of `0.1`. The structured-search winner was rejected in both scopes because tuning NLL improved in only two of three repeats, every independent refit comparison deteriorated, and candidate Tjur R2 remained `0.040832` across all taxa and `0.053210` for eligible taxa. The incremental pipeline built the new evidence without new model fits and exited successfully with 20 targets completed and 12 skipped.
 
-The guardrail implementation passed 37 focused assertions and the full suite
-passed 3,482 assertions with no failures or warnings and one expected opt-in
-integration skip. The mandatory fresh CZ gate completed with exit code 0 in 43
-minutes 32 seconds. Metadata contained zero errors across 517 paleo-core rows,
-627 paleo-resolution rows, 2,425 modern-resolution rows, and 300 isolated
-regularization-diagnostic rows. A final incremental refresh completed 13
-targets, skipped 19 cached targets, and preserved all three diagnostic hashes.
+The guardrail implementation passed 37 focused assertions and the full suite passed 3,482 assertions with no failures or warnings and one expected opt-in integration skip. The mandatory fresh CZ gate completed with exit code 0 in 43 minutes 32 seconds. Metadata contained zero errors across 517 paleo-core rows, 627 paleo-resolution rows, 2,425 modern-resolution rows, and 300 isolated regularization-diagnostic rows. A final incremental refresh completed 13 targets, skipped 19 cached targets, and preserved all three diagnostic hashes.
 
 ## Versioned scientific-performance decision
 
-Policy `sjsdm_scientific_performance_v1` makes the scientific-reference
-decision executable rather than leaving it as report prose. It separates
-technical CV validity, held-out predictive skill, and calibration. Required
-scientific evidence includes all- and eligible-taxon mean Tjur R2 of at least
-`0.1`, AUC above `0.5` in every repeat, positive log-loss and Brier improvement
-in every repeat, at least 80% positive taxa, and at least 80% fold-taxon
-evaluability. Tjur R2 is explicitly not interpreted as percent variance
-explained.
+Policy `sjsdm_scientific_performance_v1` makes the scientific-reference decision executable rather than leaving it as report prose. It separates technical CV validity, held-out predictive skill, and calibration. Required scientific evidence includes all- and eligible-taxon mean Tjur R2 of at least `0.1`, AUC above `0.5` in every repeat, positive log-loss and Brier improvement in every repeat, at least 80% positive taxa, and at least 80% fold-taxon evaluability. Tjur R2 is explicitly not interpreted as percent variance explained.
 
-The `eu_r005_l010` reference passes all nine technical/scientific criteria.
-Its minimum repeat AUC is `0.777`, minimum log-loss improvement is `0.0826`,
-minimum Brier improvement is `0.0336`, positive-taxon fraction is `0.947`, and
-minimum repeat Tjur evaluability is `0.840`. The executable statuses are
-`technical_cv_status = pass`, `scientific_prediction_status = pass`, and
-`calibration_status = caution`. The policy, assessment, criteria, and decision
-hashes are `c6829cc0c376ba58`, `6d70ba767d55d5c0`, `ad00fab32fcdb3d0`, and
-`b85a1b2e4eb42af5`, respectively. The deterministic GPU prediction artifact
-reproduced hash `58dfb9ed9d89f853`, and the store contains zero target errors.
+The `eu_r005_l010` reference passes all nine technical/scientific criteria. Its minimum repeat AUC is `0.777`, minimum log-loss improvement is `0.0826`, minimum Brier improvement is `0.0336`, positive-taxon fraction is `0.947`, and minimum repeat Tjur evaluability is `0.840`. The executable statuses are `technical_cv_status = pass`, `scientific_prediction_status = pass`, and `calibration_status = caution`. The policy, assessment, criteria, and decision hashes are `c6829cc0c376ba58`, `6d70ba767d55d5c0`, `ad00fab32fcdb3d0`, and `b85a1b2e4eb42af5`, respectively. The deterministic GPU prediction artifact reproduced hash `58dfb9ed9d89f853`, and the store contains zero target errors.

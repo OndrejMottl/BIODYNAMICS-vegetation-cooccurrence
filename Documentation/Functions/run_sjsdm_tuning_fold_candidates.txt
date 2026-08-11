@@ -14,8 +14,10 @@ Usage:
        prepare_fold_function = NULL,
        fit_function = NULL,
        predict_function = NULL,
+       score_function = score_sjsdm_tuning_predictions,
        seed = 900723L,
-       epsilon = 1e-06
+       epsilon = 1e-06,
+       retain_prediction_cache = FALSE
      )
 
 Arguments:
@@ -26,16 +28,23 @@ data_candidates: Candidate table returned by
 list_fold_context: Fold metadata returned by
           [make_sjsdm_tuning_fold_context()].
 
-prepare_fold_function, fit_function, predict_function: Injectable fold
-          preparation, fit, and prediction functions documented by
-          [run_sjsdm_tuning_candidates()].
+prepare_fold_function, fit_function, predict_function, score_function:
+          Injectable fold preparation, fit, prediction, and scoring
+          functions documented by [run_sjsdm_tuning_candidates()].
 
-    seed: Non-negative base integer used to derive candidate fit seeds.
+    seed: Non-negative base integer used to derive candidate fit and
+          score seeds.
 
  epsilon: Probability clipping tolerance passed to
           [score_sjsdm_tuning_predictions()].
 
+retain_prediction_cache: Logical. When true, return compact
+          prepared-fold metadata and candidate probability matrices
+          alongside the unchanged tuning table.
+
 Value:
 
      Compact candidate-by-fold tuning table with metrics and structured
-     status.
+     status. When `retain_prediction_cache` is true, returns a named
+     list containing that table and a compact fold prediction cache
+     without fitted model objects.

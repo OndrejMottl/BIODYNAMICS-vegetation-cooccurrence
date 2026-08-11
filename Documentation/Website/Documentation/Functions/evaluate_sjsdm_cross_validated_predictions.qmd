@@ -1,0 +1,88 @@
+---
+format: html
+title: evaluate_sjsdm_cross_validated_predictions()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>evaluate_sjsdm_cross_validated_predictions</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate sjSDM Cross-Validated Predictions</h2>
+
+<h3>Description</h3>
+
+<p>Pools selected-candidate out-of-fold predictions within each repeat and
+taxon, then calculates taxon and community predictive metrics.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>evaluate_sjsdm_cross_validated_predictions(
+  data_predictions = NULL,
+  epsilon = 1e-06
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_predictions">data_predictions</code></td>
+<td>
+<p>Long selected-candidate prediction table returned in the data-prediction
+element of [run_sjsdm_selected_candidate_folds()].</p>
+</td></tr>
+<tr><td><code id="epsilon">epsilon</code></td>
+<td>
+<p>Probability clipping tolerance passed to
+[evaluate_binary_log_loss()]. Defaults to 1e-6.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Folds are pooled before metrics are calculated. Any non-ok prediction row
+makes all metrics for that repeat and taxon incomplete. One-class pooled
+responses retain the metric-specific undefined statuses from the binary
+evaluators, while binary log loss remains evaluable.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Named list containing data_taxon_metrics and data_community_summary.
+Taxon metrics have one row per repeat, taxon, and metric. Community
+summaries contain the mean finite estimate across evaluable taxa for each
+repeat and metric.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+evaluate_sjsdm_cross_validated_predictions(
+  data_predictions = data_predictions
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

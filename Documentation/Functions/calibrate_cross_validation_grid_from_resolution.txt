@@ -1,0 +1,63 @@
+Calibrate Cross-Validation Grid From Fold Resolution
+
+Description:
+
+     Runs spatial-grid calibration only when the resolved
+     cross-validation strategy uses spatially stratified grouped folds.
+
+Usage:
+
+     calibrate_cross_validation_grid_from_resolution(
+       data_locations = NULL,
+       data_fold_resolution = NULL,
+       candidate_grid_cell_sizes_km = NULL,
+       n_repeats = 1L,
+       occupancy_criterion = "median",
+       target_locations_per_cell = NULL,
+       lower_quantile_probability = 0.25,
+       max_fold_location_difference = 1L,
+       max_fold_sample_difference = Inf,
+       seed = 900723L
+     )
+
+Arguments:
+
+data_locations: Location table returned by
+          [make_cross_validation_location_table()].
+
+data_fold_resolution: One-row table returned by
+          [resolve_cross_validation_fold_count()].
+
+candidate_grid_cell_sizes_km: Numeric vector of candidate grid-cell
+          widths in kilometres.
+
+n_repeats: Positive integer number of deterministic assignment repeats.
+
+occupancy_criterion, target_locations_per_cell:
+          lower_quantile_probability,max_fold_location_difference,
+          max_fold_sample_difference,seed Arguments passed to
+          [calibrate_cross_validation_grid_size()].
+
+Value:
+
+     Grid-calibration tibble. Leave-one-location-out and no-holdout
+     strategies return a zero-row tibble with the stable calibration
+     schema.
+
+Examples:
+
+     data_locations <-
+       tibble::tibble(
+         location_id = base::letters[1:6],
+         coord_x_km = base::seq_len(6L),
+         coord_y_km = base::seq_len(6L),
+         n_samples = base::rep(1L, 6L),
+         row_indices = base::as.list(base::seq_len(6L))
+       )
+     data_resolution <-
+       resolve_cross_validation_fold_count(6L, 5L)
+     calibrate_cross_validation_grid_from_resolution(
+       data_locations = data_locations,
+       data_fold_resolution = data_resolution,
+       candidate_grid_cell_sizes_km = c(1, 10)
+     )

@@ -13,7 +13,7 @@ Usage:
        vec_taxa = NULL,
        dir_taxa_classification_cache = here::here("Data/Temp/taxospace")
      )
-     
+
 Arguments:
 
 vec_taxa: A character vector of taxon names to classify.
@@ -42,4 +42,3 @@ See Also:
 
      [taxospace::get_classification()], [qs2::qs_read()],
      [qs2::qs_save()]
-

@@ -6,9 +6,14 @@ project:
     - Documentation/Progress/
     - Documentation/Functions_test_coverage/
     - Documentation/Presentations/IAVS_2026/_output/
+    - "!Data/**"
   render:
     - "index.qmd"
     - "Documentation/Website/**/*.qmd"
+    - "!Data/**"
+    - "!Documentation/Implementation_plans/**"
+    - "!Documentation/Presentations/**"
+    - "!R/**"
 
 website:
   title: "BIODYNAMICS-vegetation-cooccurrence"
@@ -45,6 +50,8 @@ website:
         contents:
           - text: "Overview"
             href: Documentation/Website/Documentation/documentation.qmd
+          - text: "R Architecture"
+            href: Documentation/Website/Documentation/architecture.qmd
           - section: "Functions"
             contents: "Documentation/Website/Documentation/Functions/*.qmd"
 

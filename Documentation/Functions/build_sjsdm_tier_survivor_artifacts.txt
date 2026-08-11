@@ -1,0 +1,39 @@
+Build sjSDM Tier Survivor Artifacts
+
+Description:
+
+     Pools one tuning round across every source ID in each compatible
+     model context, then records the tier-wide candidates that may
+     enter the next round. Pruning never occurs from a single unit's
+     evidence.
+
+Usage:
+
+     build_sjsdm_tier_survivor_artifacts(
+       data_tuning_summary = NULL,
+       data_schedule = NULL,
+       round_id = NULL,
+       data_prior_decisions = NULL
+     )
+
+Arguments:
+
+data_tuning_summary: Bound unit tuning summaries for exactly one staged
+          round.
+
+data_schedule: Staged schedule returned by
+          [build_sjsdm_tuning_schedule()].
+
+round_id: Positive integer tuning-round identifier represented by the
+          summaries.
+
+data_prior_decisions: Tier-wide decisions from the preceding round.
+          Required after round one and used to restrict cumulative
+          evidence to the candidates entering this round.
+
+Value:
+
+     Named list containing `data_survivor_decisions`,
+     `data_source_candidate_loss`, `data_candidate_aggregation`, and
+     the cumulative `data_tuning_entering` tibble. Decision rows retain
+     model context, strategy, round, and repeat provenance.

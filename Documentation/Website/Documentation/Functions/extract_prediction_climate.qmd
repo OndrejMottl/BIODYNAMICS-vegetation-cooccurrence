@@ -3,7 +3,6 @@ format: html
 title: extract_prediction_climate()
 ---
 
-<html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -86,7 +85,7 @@ cell coordinates.
 
 <h3>Examples</h3>
 
-<pre><code class='language-R'>## Not run: 
+<pre><code class='language-R'>## Not run:
 extract_prediction_climate(
   data_grid = data_grid,
   age = 0,
@@ -103,4 +102,3 @@ extract_prediction_climate(
 
 </div>
 </body></html>
-

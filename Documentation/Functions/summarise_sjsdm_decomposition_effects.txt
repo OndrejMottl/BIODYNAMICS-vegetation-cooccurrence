@@ -1,0 +1,34 @@
+Summarize Matched-Fold sjSDM Decomposition Effects
+
+Description:
+
+     Aggregates paired component-removal effects using taxon means
+     within folds and fold means within repeats for all and eligible
+     taxa.
+
+Usage:
+
+     summarise_sjsdm_decomposition_effects(data_comparisons = NULL)
+
+Arguments:
+
+data_comparisons: Output from
+          [compare_sjsdm_decomposition_fold_metrics()].
+
+Details:
+
+     Only pairs with status `"ok"` and finite raw effects are
+     summarized. Negative component effects remain negative at every
+     aggregation level.
+
+Value:
+
+     A named list containing fold effects, repeat effects, and
+     descriptive repeat summaries with 95 percent quantile intervals.
+
+Examples:
+
+     ## Not run:
+
+     summarise_sjsdm_decomposition_effects(data_comparisons)
+     ## End(Not run)

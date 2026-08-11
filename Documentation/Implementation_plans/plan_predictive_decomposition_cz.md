@@ -198,8 +198,7 @@ Likely touch points:
 
 - R/Functions/Modelling for new ablation and decomposition helpers
 - R/03_Supplementary_analyses/Testing/testthat for unit tests
-- Documentation/Reports/Diagnostics/age_scalling/cz_predictive_pilot
-  for pilot outputs
+- Documentation/Reports/Diagnostics/age_scalling/cz_predictive_pilot for pilot outputs
 
 Possible later integration path:
 

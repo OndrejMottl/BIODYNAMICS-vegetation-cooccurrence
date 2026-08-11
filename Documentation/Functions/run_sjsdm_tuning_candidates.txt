@@ -14,8 +14,10 @@ Usage:
        prepare_fold_function = NULL,
        fit_function = NULL,
        predict_function = NULL,
+       score_function = score_sjsdm_tuning_predictions,
        seed = 900723L,
-       epsilon = 1e-06
+       epsilon = 1e-06,
+       retain_prediction_cache = FALSE
      )
 
 Arguments:
@@ -39,11 +41,21 @@ predict_function: Injectable function called with fitted `object` and
           `data_test_input`. It must return a probability matrix
           aligned to `data_test_observed`.
 
-    seed: Single non-negative integer used to derive stable fit seeds.
-          Defaults to `900723L`.
+score_function: Injectable function called with the fitted object, test
+          input, aligned observations and probabilities, epsilon, and,
+          when supported, a deterministic `score_seed`. Defaults to
+          marginal binary prediction scoring; production sjSDM tuning
+          supplies the joint-likelihood scorer.
+
+    seed: Single non-negative integer used to derive stable fit and
+          score seeds. Defaults to `900723L`.
 
  epsilon: Probability clipping tolerance used for held-out log loss.
           Defaults to `1e-6`.
+
+retain_prediction_cache: Logical. When true, retain compact fold
+          metadata and candidate probability matrices so selected OOF
+          artifacts can be assembled without refitting.
 
 Details:
 
@@ -58,4 +70,6 @@ Value:
      contains candidate parameters, fold counts, total and per-response
      held-out negative log likelihood, macro AUC, fit status, error
      text, CV strategy, and regularization source. Fitted objects and
-     prediction matrices are omitted.
+     prediction matrices are omitted by default. With
+     `retain_prediction_cache = TRUE`, a named list contains the
+     unchanged tuning table and one compact cache entry per fold.

@@ -1,0 +1,51 @@
+Build sjSDM Tier Tuning Artifact
+
+Description:
+
+     Runs compatible tier-level tuning aggregation and publishes an
+     immutable selected-candidate artifact with complete provenance.
+
+Usage:
+
+     build_sjsdm_tier_tuning_artifact(
+       data_tuning_summary = NULL,
+       created_at = NULL,
+       include_sample_weighted = TRUE
+     )
+
+Arguments:
+
+data_tuning_summary: Source-ID tuning summaries accepted by
+          [aggregate_sjsdm_tuning_by_tier()].
+
+created_at: Single POSIX date-time supplied explicitly by the
+          orchestration layer.
+
+include_sample_weighted: Logical passed to
+          [aggregate_sjsdm_tuning_by_tier()].
+
+Details:
+
+     The artifact always selects the equal-ID result. Sample-weighted
+     selection is retained only as a sensitivity report.
+
+Value:
+
+     Named list containing artifact, source_candidate_loss,
+     candidate_aggregation, and selection_sensitivity. The artifact is
+     a one-row tibble with selected parameters, model context, source
+     IDs, selection rule, candidate-table hash, creation time, and
+     schema version.
+
+Examples:
+
+     ## Not run:
+
+     build_sjsdm_tier_tuning_artifact(
+       data_tuning_summary = data_tuning_summary,
+       created_at = base::as.POSIXct(
+         "2026-07-05 12:00:00",
+         tz = "UTC"
+       )
+     )
+     ## End(Not run)

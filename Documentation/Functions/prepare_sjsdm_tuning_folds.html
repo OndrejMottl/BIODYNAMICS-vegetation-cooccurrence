@@ -1,0 +1,62 @@
+<!DOCTYPE html><html><head><title>R: Prepare sjSDM Tuning Folds</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_sjsdm_tuning_folds</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare sjSDM Tuning Folds</h2>
+
+<h3>Description</h3>
+
+<p>Prepares every repeat/fold partition exactly once for reuse by granular
+candidate work items.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_sjsdm_tuning_folds(
+  data_assignments = NULL,
+  prepare_fold_function = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_assignments">data_assignments</code></td>
+<td>
+<p>Cross-validation assignments accepted by
+[run_sjsdm_tuning_candidates()].</p>
+</td></tr>
+<tr><td><code id="prepare_fold_function">prepare_fold_function</code></td>
+<td>
+<p>Injectable preparation function documented by
+[run_sjsdm_tuning_candidates()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>List with one keyed entry per fold. Each entry contains fold context,
+preparation timing, and either the prepared inputs or a structured error.
+</p>
+
+</main>
+
+</div>
+</body></html>

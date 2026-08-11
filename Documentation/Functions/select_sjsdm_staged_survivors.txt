@@ -1,0 +1,43 @@
+Select sjSDM Staged-Tuning Survivors
+
+Description:
+
+     Deterministically ranks complete tier-pooled candidate evidence
+     and returns the candidates allowed to enter the next tuning round.
+
+Usage:
+
+     select_sjsdm_staged_survivors(
+       data_candidate_aggregation = NULL,
+       survivor_count = NULL,
+       round_id = NULL
+     )
+
+Arguments:
+
+data_candidate_aggregation: Candidate aggregation table containing
+          `candidate_id`, `normalized_loss_equal_id`, and
+          `aggregation_status`.
+
+survivor_count: Positive integer number of candidates to retain.
+
+round_id: Positive integer tuning-round identifier.
+
+Value:
+
+     Tibble containing `round_id`, `candidate_id`, `candidate_rank`,
+     `normalized_loss_equal_id`, and `staged_decision` for every
+     candidate. Candidates are ordered by loss and then candidate
+     identifier.
+
+Examples:
+
+     select_sjsdm_staged_survivors(
+       data_candidate_aggregation = tibble::tibble(
+         candidate_id = c("candidate_001", "candidate_002"),
+         normalized_loss_equal_id = c(0.2, 0.3),
+         aggregation_status = c("ok", "ok")
+       ),
+       survivor_count = 1L,
+       round_id = 1L
+     )

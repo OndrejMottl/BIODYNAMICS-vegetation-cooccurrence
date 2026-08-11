@@ -1,0 +1,30 @@
+Build an sjSDM Predictor Structure
+
+Description:
+
+     Internal helper that builds linear, DNN, or absent predictor
+     structures.
+
+Usage:
+
+     .build_sjsdm_predictor_structure(
+       data_predictors = NULL,
+       predictor_formula = NULL,
+       predictor_method = c("linear", "DNN", "none"),
+       lambda = 0,
+       alpha = 0.5
+     )
+
+Arguments:
+
+data_predictors: Predictor data frame or `NULL` for no structure.
+
+predictor_formula: Formula passed to the sjSDM structure constructor.
+
+predictor_method: One of `"linear"`, `"DNN"`, or `"none"`.
+
+lambda, alpha: Regularisation settings for linear structures.
+
+Value:
+
+     An sjSDM predictor structure or `NULL`.

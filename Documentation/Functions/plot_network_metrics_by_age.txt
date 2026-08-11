@@ -14,7 +14,7 @@ Usage:
        title = NULL,
        subtitle = NULL
      )
-     
+
 Arguments:
 
 data_network_metrics: A data frame or tibble with columns 'age'
@@ -44,4 +44,3 @@ Value:
 See Also:
 
      [compute_network_metrics()]
-

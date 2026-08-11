@@ -121,7 +121,7 @@ base::source(
 data_functions_current <-
   load_project_functions(
     path_function_root = here::here("R/Functions"),
-    environment_target = base::new.env(parent = base::globalenv()),
+    environment_target = base::environment(),
     vec_excluded_directory_names = "_legacy"
   )
 
@@ -1424,7 +1424,11 @@ vec_allowed_time_interpolation_test_paths <-
 vec_legacy_time_interpolation_test_paths <-
   base::intersect(
     vec_script_paths_current,
-    data_migrated_time_interpolation_tests[["current_path"]]
+    data_migrated_time_interpolation_tests |>
+      dplyr::filter(
+        .data[["current_path"]] != .data[["active_path"]]
+      ) |>
+      dplyr::pull(.data[["current_path"]])
   )
 
 vec_invalid_time_interpolation_test_paths <-
@@ -2121,7 +2125,11 @@ data_issue155_stale_documentation_findings <-
 
 data_naming_findings <-
   data_functions |>
-  dplyr::filter(.data[["naming_status"]] == "review_in_owning_issue") |>
+  dplyr::filter(
+    !base::is.na(.data[["active_path"]]),
+    !base::is.na(.data[["active_symbol"]]),
+    .data[["naming_status"]] == "review_in_owning_issue"
+  ) |>
   dplyr::mutate(
     finding_type = "function_naming",
     severity = "report_only",
@@ -2144,6 +2152,8 @@ data_naming_findings <-
 data_nested_findings <-
   data_functions |>
   dplyr::filter(
+    !base::is.na(.data[["active_path"]]),
+    !base::is.na(.data[["active_symbol"]]),
     .data[["nested_helper_disposition"]] == "review_in_owning_issue"
   ) |>
   dplyr::mutate(
@@ -2163,7 +2173,458 @@ data_nested_findings <-
     "message"
   )
 
-data_findings <-
+data_active_function_contracts <-
+  data_functions |>
+  dplyr::filter(
+    !base::is.na(.data[["active_path"]]),
+    !base::is.na(.data[["active_symbol"]]),
+    stringr::str_starts(.data[["active_path"]], "R/Functions/")
+  ) |>
+  dplyr::mutate(
+    has_inventory_test = purrr::map_lgl(
+      .data[["matching_tests"]],
+      .f = ~ {
+        test_paths <- .x
+
+        if (
+          base::is.na(test_paths) ||
+            test_paths == ""
+        ) {
+          return(FALSE)
+        }
+
+        vec_test_paths <-
+          stringr::str_split(test_paths, ";", simplify = FALSE)[[1]]
+
+        return(
+          base::any(base::file.exists(here::here(vec_test_paths)))
+        )
+      }
+    )
+  )
+
+data_global_test_mirror_findings <-
+  data_active_function_contracts |>
+  dplyr::filter(!.data[["has_inventory_test"]]) |>
+  dplyr::mutate(
+    finding_type = "missing_mirrored_test",
+    severity = "blocking",
+    current_path = .data[["active_path"]],
+    symbol = .data[["active_symbol"]],
+    owning_issue = "#157",
+    message = stringr::str_c(
+      "Every active project function needs an inventoried test file."
+    )
+  ) |>
+  dplyr::select(
+    "finding_type",
+    "severity",
+    "current_path",
+    "symbol",
+    "owning_issue",
+    "message"
+  )
+
+vec_workflow_readme_paths <-
+  base::c(
+    "R/03_Supplementary_analyses/README.md",
+    "R/03_Supplementary_analyses/_Diagnostics/README.md",
+    "R/03_Supplementary_analyses/_Diagnostics/age_scalling/README.md",
+    "R/03_Supplementary_analyses/Classification/README.md",
+    stringr::str_c(
+      "R/03_Supplementary_analyses/Diagnostics/Data_processing/",
+      "Spatial/Modern/README.md"
+    ),
+    stringr::str_c(
+      "R/03_Supplementary_analyses/Diagnostics/Data_processing/",
+      "Traits/Quality_control/README.md"
+    ),
+    stringr::str_c(
+      "R/03_Supplementary_analyses/Diagnostics/Pipelines/",
+      "Spatial/Paleo/README.md"
+    ),
+    stringr::str_c(
+      "R/03_Supplementary_analyses/Diagnostics/Pipelines/",
+      "Temporal/Paleo/README.md"
+    ),
+    "R/03_Supplementary_analyses/Documentation/README.md",
+    stringr::str_c(
+      "R/03_Supplementary_analyses/One_time/Data_migrations/",
+      "Spatial_grid/README.md"
+    ),
+    stringr::str_c(
+      "R/03_Supplementary_analyses/One_time/Historical/Traits/",
+      "Pre_targets_pipeline/README.md"
+    ),
+    stringr::str_c(
+      "R/03_Supplementary_analyses/One_time/Issues/",
+      base::c(
+        "issue_138/README.md",
+        "issue_143/README.md",
+        "issue_151/README.md"
+      )
+    ),
+    "R/03_Supplementary_analyses/Prediction/README.md",
+    stringr::str_c(
+      "R/03_Supplementary_analyses/Sensitivity/Modelling/Spatial/",
+      base::c("Modern/README.md", "Paleo/README.md")
+    ),
+    "R/03_Supplementary_analyses/Testing/README.md",
+    "R/03_Supplementary_analyses/Testing/Smoke/README.md",
+    "R/03_Supplementary_analyses/Validation/Architecture/README.md",
+    "R/03_Supplementary_analyses/Validation/Configuration/README.md",
+    stringr::str_c(
+      "R/03_Supplementary_analyses/Validation/Cross_validation/",
+      "Reference_runs/README.md"
+    ),
+    stringr::str_c(
+      "R/03_Supplementary_analyses/Validation/Scientific_references/",
+      base::c(
+        "Spatial_grid/README.md",
+        "Traits/README.md"
+      )
+    )
+  )
+
+vec_required_readme_headings <-
+  base::c(
+    "## Purpose and backstory",
+    "## Status and entry point",
+    "## Prerequisites and configuration",
+    "## Outputs and interpretation",
+    "## Regeneration and retirement"
+  )
+
+data_workflow_readme_findings <-
+  purrr::map(
+    .x = vec_workflow_readme_paths,
+    .f = ~ {
+      readme_path <- .x
+      path_absolute <- here::here(readme_path)
+
+      if (!base::file.exists(path_absolute)) {
+        return(
+          tibble::tibble(
+            finding_type = "missing_workflow_readme",
+            severity = "blocking",
+            current_path = readme_path,
+            symbol = NA_character_,
+            owning_issue = "#157",
+            message = "Every maintained workflow root needs a README."
+          )
+        )
+      }
+
+      vec_lines <-
+        base::readLines(
+          con = path_absolute,
+          warn = FALSE,
+          encoding = "UTF-8"
+        )
+      vec_missing_headings <-
+        base::setdiff(vec_required_readme_headings, vec_lines)
+
+      return(
+        tibble::tibble(
+          finding_type = "workflow_readme_contract",
+          severity = "blocking",
+          current_path = readme_path,
+          symbol = vec_missing_headings,
+          owning_issue = "#157",
+          message = stringr::str_c(
+            "Workflow README is missing required section: ",
+            vec_missing_headings
+          )
+        )
+      )
+    }
+  ) |>
+  purrr::list_rbind()
+
+data_active_documentation_contracts <-
+  data_active_function_contracts |>
+  dplyr::mutate(
+    function_name = .data[["active_path"]] |>
+      fs::path_file() |>
+      fs::path_ext_remove()
+  ) |>
+  dplyr::select("function_name") |>
+  dplyr::distinct() |>
+  dplyr::arrange(.data[["function_name"]])
+
+data_documentation_artifact_types <-
+  tibble::tribble(
+    ~artifact_root, ~artifact_extension,
+    "Documentation/Functions", "html",
+    "Documentation/Functions", "txt",
+    "Documentation/Functions", "pdf",
+    "Documentation/Website/Documentation/Functions", "qmd",
+    "docs/Documentation/Website/Documentation/Functions", "html"
+  )
+
+data_required_documentation_artifacts <-
+  tidyr::crossing(
+    data_active_documentation_contracts,
+    data_documentation_artifact_types
+  ) |>
+  dplyr::mutate(
+    artifact_path = stringr::str_c(
+      .data[["artifact_root"]],
+      "/",
+      .data[["function_name"]],
+      ".",
+      .data[["artifact_extension"]]
+    )
+  )
+
+data_missing_documentation_artifact_findings <-
+  data_required_documentation_artifacts |>
+  dplyr::filter(
+    !base::file.exists(here::here(.data[["artifact_path"]]))
+  ) |>
+  dplyr::mutate(
+    finding_type = "missing_function_documentation_artifact",
+    severity = "blocking",
+    current_path = .data[["artifact_path"]],
+    symbol = .data[["function_name"]],
+    owning_issue = "#157",
+    message = "Every active function needs every generated artifact."
+  ) |>
+  dplyr::select(
+    "finding_type",
+    "severity",
+    "current_path",
+    "symbol",
+    "owning_issue",
+    "message"
+  )
+
+data_stale_documentation_artifact_findings <-
+  purrr::pmap(
+    .l = data_documentation_artifact_types,
+    .f = ~ {
+      artifact_root <- ..1
+      artifact_extension <- ..2
+      path_artifact_root <- here::here(artifact_root)
+
+      if (!base::dir.exists(path_artifact_root)) {
+        return(tibble::tibble())
+      }
+
+      vec_artifact_paths <-
+        fs::dir_ls(
+          path = path_artifact_root,
+          type = "file",
+          regexp = stringr::str_c("[.]", artifact_extension, "$")
+        )
+      vec_stale_paths <-
+        vec_artifact_paths[
+          !fs::path_ext_remove(fs::path_file(vec_artifact_paths)) %in%
+            data_active_documentation_contracts[["function_name"]]
+        ]
+
+      return(
+        tibble::tibble(
+          finding_type = "stale_function_documentation_artifact",
+          severity = "blocking",
+          current_path = fs::path_rel(
+            vec_stale_paths,
+            start = here::here()
+          ) |>
+            stringr::str_replace_all("\\\\", "/"),
+          symbol = fs::path_ext_remove(fs::path_file(vec_stale_paths)),
+          owning_issue = "#157",
+          message = stringr::str_c(
+            "Generated function pages must match active function basenames."
+          )
+        )
+      )
+    }
+  ) |>
+  purrr::list_rbind()
+
+vec_active_reference_roots <-
+  base::c(
+    "README.md",
+    "AGENTS.md",
+    "_quarto.yml",
+    "index.qmd",
+    ".ai",
+    ".github",
+    "Configuration",
+    "R/Functions",
+    "R/Pipelines",
+    "R/02_Main_analyses",
+    "R/03_Supplementary_analyses/Classification",
+    "R/03_Supplementary_analyses/Diagnostics",
+    "R/03_Supplementary_analyses/Documentation",
+    "R/03_Supplementary_analyses/Prediction",
+    "R/03_Supplementary_analyses/Sensitivity",
+    "R/03_Supplementary_analyses/Testing",
+    "R/03_Supplementary_analyses/Validation/Configuration",
+    "R/03_Supplementary_analyses/Validation/Cross_validation",
+    "R/03_Supplementary_analyses/Validation/Scientific_references",
+    "Documentation/Website",
+    "Documentation/Manuscript",
+    "Documentation/Materials",
+    "Documentation/Presentations/IAVS_2026"
+  )
+
+vec_active_reference_files <-
+  purrr::map(
+    .x = vec_active_reference_roots,
+    .f = ~ {
+      path_root <- here::here(.x)
+
+      if (base::dir.exists(path_root)) {
+        return(
+          fs::dir_ls(
+            path = path_root,
+            recurse = TRUE,
+            type = "file",
+            regexp = "[.](R|r|Rmd|rmd|qmd|md|yml|yaml)$"
+          )
+        )
+      }
+
+      if (base::file.exists(path_root)) {
+        return(path_root)
+      }
+
+      return(base::character())
+    }
+  ) |>
+  base::unlist(use.names = FALSE) |>
+  base::unique() |>
+  purrr::discard(
+    ~ stringr::str_detect(
+      .x,
+      stringr::str_c(
+        "Documentation[/\\\\]Website[/\\\\]Documentation",
+        "[/\\\\]Functions[/\\\\]"
+      )
+    )
+  )
+
+vec_forbidden_active_references <-
+  base::c(
+    "R/Functions/Utility/Config/",
+    "R/02_Main_analyses/pipeline_",
+    "R/01_Data_processing/",
+    "R/Functions/Abiotic/",
+    "R/Functions/Community/",
+    "R/Functions/Spatial/",
+    "R/Functions/Traits/"
+  )
+
+data_stale_active_reference_findings <-
+  purrr::map(
+    .x = vec_active_reference_files,
+    .f = ~ {
+      reference_path <- .x
+      reference_text <-
+        base::readLines(
+          con = reference_path,
+          warn = FALSE,
+          encoding = "UTF-8"
+        ) |>
+        stringr::str_c(collapse = "\n")
+      vec_matches <-
+        vec_forbidden_active_references[
+          stringr::str_detect(
+            reference_text,
+            stringr::fixed(vec_forbidden_active_references)
+          )
+        ]
+
+      return(
+        tibble::tibble(
+          finding_type = "stale_active_reference",
+          severity = "blocking",
+          current_path = fs::path_rel(
+            reference_path,
+            start = here::here()
+          ) |>
+            stringr::str_replace_all("\\\\", "/"),
+          symbol = vec_matches,
+          owning_issue = "#157",
+          message = stringr::str_c(
+            "Active code or guidance contains retired reference: ",
+            vec_matches
+          )
+        )
+      )
+    }
+  ) |>
+  purrr::list_rbind()
+
+vec_retired_function_symbols <-
+  data_functions |>
+  dplyr::filter(
+    .data[["migration_status"]] == "migrated",
+    !base::is.na(.data[["function_name"]]),
+    !base::is.na(.data[["intended_function"]]),
+    .data[["function_name"]] != .data[["intended_function"]]
+  ) |>
+  dplyr::pull(.data[["function_name"]]) |>
+  base::unique() |>
+  base::sort()
+
+vec_active_symbol_reference_files <-
+  vec_active_reference_files |>
+  purrr::discard(
+    ~ stringr::str_detect(
+      .x,
+      "R[/\\\\]03_Supplementary_analyses[/\\\\]Testing[/\\\\]"
+    )
+  )
+
+data_stale_active_symbol_findings <-
+  purrr::map(
+    .x = vec_active_symbol_reference_files,
+    .f = ~ {
+      reference_path <- .x
+      reference_text <-
+        base::readLines(
+          con = reference_path,
+          warn = FALSE,
+          encoding = "UTF-8"
+        ) |>
+        stringr::str_c(collapse = "\n")
+      vec_patterns <-
+        stringr::str_c(
+          "(?<!::)",
+          "(?<![[:alnum:]_.])",
+          stringr::str_escape(vec_retired_function_symbols),
+          "(?![[:alnum:]_.])"
+        )
+      vec_matches <-
+        vec_retired_function_symbols[
+          stringr::str_detect(reference_text, vec_patterns)
+        ]
+
+      return(
+        tibble::tibble(
+          finding_type = "stale_active_symbol",
+          severity = "blocking",
+          current_path = fs::path_rel(
+            reference_path,
+            start = here::here()
+          ) |>
+            stringr::str_replace_all("\\\\", "/"),
+          symbol = vec_matches,
+          owning_issue = "#157",
+          message = stringr::str_c(
+            "Active code or guidance contains retired symbol: ",
+            vec_matches
+          )
+        )
+      )
+    }
+  ) |>
+  purrr::list_rbind()
+
+data_findings_raw <-
   dplyr::bind_rows(
     data_findings,
     data_placement_findings,
@@ -2215,12 +2676,33 @@ data_findings <-
     data_issue155_missing_documentation_findings,
     data_issue155_stale_documentation_findings,
     data_naming_findings,
-    data_nested_findings
+    data_nested_findings,
+    data_global_test_mirror_findings,
+    data_workflow_readme_findings,
+    data_missing_documentation_artifact_findings,
+    data_stale_documentation_artifact_findings,
+    data_stale_active_reference_findings,
+    data_stale_active_symbol_findings
   ) |>
   dplyr::arrange(
     .data[["finding_type"]],
     .data[["current_path"]],
     .data[["symbol"]]
+  )
+
+data_exceptions <-
+  readr::read_csv(
+    file = base::file.path(
+      path_inventory_root,
+      "r_architecture_exceptions.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+data_findings_current <-
+  diagnose_r_architecture(
+    data_findings = data_findings_raw,
+    data_exceptions = data_exceptions
   )
 
 
@@ -2238,60 +2720,74 @@ base::dir.create(
 )
 
 readr::write_csv(
-  x = data_findings,
+  x = data_findings_current,
   file = base::file.path(
     path_report_root,
-    "architecture_findings_v1.csv"
+    "architecture_findings_current.csv"
   )
 )
 
 data_finding_summary <-
-  data_findings |>
-  dplyr::count(.data[["finding_type"]], name = "n_findings")
-
-data_blocking_findings <-
-  data_findings |>
-  dplyr::filter(.data[["severity"]] == "blocking")
-
-if (
-  base::nrow(data_blocking_findings) > 0L
-) {
-  cli::cli_abort(
-    base::c(
-      "x" = "R architecture validation found blocking placement errors.",
-      "i" = stringr::str_c(
-        data_blocking_findings[["current_path"]],
-        collapse = ", "
-      )
-    )
+  data_findings_current |>
+  dplyr::count(
+    .data[["resolution_status"]],
+    .data[["finding_type"]],
+    name = "n_findings"
   )
-}
+
+data_contracts <-
+  readr::read_csv(
+    file = base::file.path(
+      path_inventory_root,
+      "r_contract_inventory_v1.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+data_manifests <-
+  readr::read_csv(
+    file = base::file.path(
+      path_inventory_root,
+      "r_manifest_contract_inventory_v1.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+vec_architecture_map <-
+  build_r_architecture_dependency_map(
+    data_scripts = data_scripts,
+    data_functions = data_functions,
+    data_contracts = data_contracts,
+    data_manifests = data_manifests,
+    data_exceptions = data_exceptions
+  )
+
+readr::write_lines(
+  x = vec_architecture_map,
+  file = base::file.path(
+    path_report_root,
+    "r_architecture_dependency_map.md"
+  )
+)
+
+data_findings_validated <-
+  validate_r_architecture(data_findings = data_findings_current)
 
 cli::cli_inform(
   base::c(
     "v" = "R architecture validation completed.",
     "i" = stringr::str_glue(
-      "{base::nrow(data_findings)} findings across ",
+      "{base::nrow(data_findings_validated)} findings across ",
       "{base::nrow(data_finding_summary)} types."
     ),
     "i" = stringr::str_c(
-      "Main-analysis placement, migrated Abiotic placement/naming,",
-      "migrated Community placement, and migrated Community",
-      "classification, quality-control, modern-record, proportion,",
-      "data-shape, and taxa-selection naming, plus migrated Time/Ages",
-      "and Time/Interpolation placement, naming, and retirement are",
-      "blocking; retired HMSC paths and symbols are blocking; Issue #154",
-      "placement, naming, mirrored tests, internal classification, and",
-      "dollar-access rules are blocking; Issue #155 ownership, naming,",
-      "mirrored tests, retirement, localisation, and nested-helper rules",
-      "plus generated-documentation freshness are blocking;",
-      "migrated trait placement and naming are also",
-      "blocking; migrated R/01 scripts and Spatial functions/tests are",
-      "also blocking;",
-      "unmigrated architecture contracts remain report-only.",
+      "All current architecture findings are blocking unless they match",
+      "one exact maintained exception. Report-only status is retired.",
       sep = " "
     ),
     "i" = stringr::str_c(
+      data_finding_summary[["resolution_status"]],
+      "/",
       data_finding_summary[["finding_type"]],
       ": ",
       data_finding_summary[["n_findings"]],

@@ -1,0 +1,72 @@
+<!DOCTYPE html><html><head><title>R: Summarise sjSDM Tuning Candidates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>summarise_sjsdm_tuning_candidates</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarise sjSDM Tuning Candidates</h2>
+
+<h3>Description</h3>
+
+<p>Pools fold-level tuning metrics within each repeat and candidate while
+retaining structured completeness diagnostics.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>summarise_sjsdm_tuning_candidates(data_tuning = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_tuning">data_tuning</code></td>
+<td>
+<p>Candidate-by-fold table returned by [run_sjsdm_tuning_candidates()].</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Candidate parameters, cross-validation strategy, and regularization source
+must be constant for a candidate within a repeat. Incomplete candidates are
+retained with summary status &quot;incomplete&quot; and missing aggregate metrics.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Tibble with one row per repeat and candidate. Held-out negative log
+likelihood is summed across folds and divided by the total number of
+response values. Candidates are eligible only when every fold in the
+repeat has status &quot;ok&quot; and finite loss.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+summarise_sjsdm_tuning_candidates(data_tuning = data_tuning)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

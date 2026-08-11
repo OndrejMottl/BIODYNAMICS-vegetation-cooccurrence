@@ -32,6 +32,8 @@ Function pages are generated from roxygen2 documentation and should not be edite
 The active pipeline entry points live in `R/Pipelines/`.
 Reusable pipeline construction blocks live in `R/Pipelines/_pipes/`.
 The generated reference below links the lower-level functions used by those pipelines.
+The maintained [R architecture map](architecture.qmd) documents lifecycle,
+profile, pipeline, target-store, capability, and validation relationships.
 
 ## All Functions
 

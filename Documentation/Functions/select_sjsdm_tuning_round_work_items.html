@@ -1,0 +1,74 @@
+<!DOCTYPE html><html><head><title>R: Select sjSDM Tuning-Round Work Items</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>select_sjsdm_tuning_round_work_items</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Select sjSDM Tuning-Round Work Items</h2>
+
+<h3>Description</h3>
+
+<p>Selects the deterministic work items allowed to execute in one staged
+tuning round. Later rounds require the previous tier-wide survivor
+decision and fail closed when that evidence is absent or inconsistent.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>select_sjsdm_tuning_round_work_items(
+  data_work_items = NULL,
+  data_schedule = NULL,
+  round_id = NULL,
+  data_prior_decisions = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_work_items">data_work_items</code></td>
+<td>
+<p>Work-item table returned by [build_sjsdm_tuning_work_items()].</p>
+</td></tr>
+<tr><td><code id="data_schedule">data_schedule</code></td>
+<td>
+<p>Staged schedule returned by [build_sjsdm_tuning_schedule()].</p>
+</td></tr>
+<tr><td><code id="round_id">round_id</code></td>
+<td>
+<p>Positive integer tuning-round identifier to select.</p>
+</td></tr>
+<tr><td><code id="data_prior_decisions">data_prior_decisions</code></td>
+<td>
+<p>Tier-wide decision table returned by
+[select_sjsdm_staged_survivors()] for the preceding round. Must be 'NULL'
+for round one.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Work-item tibble for the configured repeat and tier-wide candidate set,
+with 'round_id' added as the first column. Existing 'work_item_id' values
+are preserved so completed fits remain reusable.
+</p>
+
+</main>
+
+</div>
+</body></html>

@@ -1,0 +1,18 @@
+Summarise Model Provenance
+
+Description:
+
+     Selects the first provenance row and fills absent fields with
+     typed values.
+
+Usage:
+
+     .summarise_model_provenance(data_provenance)
+
+Arguments:
+
+data_provenance: Model-provenance data frame, or `NULL`.
+
+Value:
+
+     A one-row provenance tibble.

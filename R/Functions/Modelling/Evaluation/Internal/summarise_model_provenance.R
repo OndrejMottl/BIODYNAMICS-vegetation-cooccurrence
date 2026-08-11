@@ -5,7 +5,7 @@
 #' Model-provenance data frame, or `NULL`.
 #' @return
 #' A one-row provenance tibble.
-#' @noRd
+#' @keywords internal
 .summarise_model_provenance <- function(data_provenance) {
   data_defaults <-
     tibble::tibble(

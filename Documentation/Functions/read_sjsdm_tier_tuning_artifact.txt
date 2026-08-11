@@ -1,0 +1,39 @@
+Read sjSDM Tier Tuning Artifact
+
+Description:
+
+     Reads the shared tier artifact table and selects the row matching
+     one unit model context.
+
+Usage:
+
+     read_sjsdm_tier_tuning_artifact(
+       store_path = NULL,
+       data_model_context = NULL,
+       read_target_function = targets::tar_read_raw
+     )
+
+Arguments:
+
+store_path: Character scalar path to the dedicated tier-tuning targets
+          store.
+
+data_model_context: One-row model-context table.
+
+read_target_function: Injectable target reader. Defaults to
+          [targets::tar_read_raw()].
+
+Value:
+
+     One matching artifact row, or `NULL` when the shared target is
+     unavailable or does not yet contain the requested context.
+
+Examples:
+
+     ## Not run:
+
+     read_sjsdm_tier_tuning_artifact(
+       store_path = "Data/targets/paleo/pipeline_sjsdm_tier_tuning",
+       data_model_context = data_sjsdm_model_context
+     )
+     ## End(Not run)

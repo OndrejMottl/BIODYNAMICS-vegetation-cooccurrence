@@ -1,0 +1,64 @@
+Score Joint sjSDM Tuning Predictions
+
+Description:
+
+     Calculates the held-out joint sjSDM negative log likelihood and
+     probability diagnostics used by regularization tuning.
+
+Usage:
+
+     score_sjsdm_joint_tuning_predictions(
+       object = NULL,
+       data_test_input = NULL,
+       data_observed = NULL,
+       data_predicted = NULL,
+       epsilon = 1e-06,
+       n_likelihood_draws = 20L,
+       score_seed = 900723L
+     )
+
+Arguments:
+
+  object: Fitted `sjSDM` object containing the model likelihood
+          callback, formulas, and fit settings.
+
+data_test_input: Fold-local test input containing `data_abiotic_to_fit`
+          and, for spatial models, `data_spatial_to_fit`.
+
+data_observed, data_predicted: Aligned binary observations and marginal
+          predicted probabilities.
+
+ epsilon: Probability clipping tolerance passed to
+          [score_sjsdm_tuning_predictions()].
+
+n_likelihood_draws: Positive integer number of stochastic likelihood
+          evaluations to average. Defaults to `20L`, matching
+          `sjSDM::sjSDM_cv()`.
+
+score_seed: Non-negative integer used for deterministic stochastic
+          likelihood draws.
+
+Details:
+
+     Test design matrices are reconstructed from the fitted model
+     formulas. Likelihood sampling and batch size are read from the
+     fitted model settings. The caller's R and available PyTorch
+     random-number states are restored.
+
+Value:
+
+     One-row tibble with retained taxa, response-value count, total
+     joint negative log likelihood, joint loss per response, and macro
+     AUC.
+
+Examples:
+
+     ## Not run:
+
+     score_sjsdm_joint_tuning_predictions(
+       object = mod_fit,
+       data_test_input = list_test_input,
+       data_observed = data_test_observed,
+       data_predicted = data_test_predicted
+     )
+     ## End(Not run)

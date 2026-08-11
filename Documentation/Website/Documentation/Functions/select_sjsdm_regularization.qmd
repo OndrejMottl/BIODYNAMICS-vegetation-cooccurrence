@@ -1,0 +1,83 @@
+---
+format: html
+title: select_sjsdm_regularization()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>select_sjsdm_regularization</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Select sjSDM Regularization</h2>
+
+<h3>Description</h3>
+
+<p>Selects one regularization candidate from repeat-level tuning summaries.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>select_sjsdm_regularization(
+  data_tuning_summary = NULL,
+  selection_metric = "negative_log_likelihood_per_response"
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_tuning_summary">data_tuning_summary</code></td>
+<td>
+<p>Repeat-by-candidate table returned by
+[summarise_sjsdm_tuning_candidates()].</p>
+</td></tr>
+<tr><td><code id="selection_metric">selection_metric</code></td>
+<td>
+<p>Metric minimized during selection. Defaults to normalized held-out negative
+log likelihood, &quot;negative_log_likelihood_per_response&quot;.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A candidate is eligible only when every represented repeat is complete.
+The selection metric is averaged equally across repeats. Lower values are
+preferred, and exact ties are resolved by lexical candidate identifier.
+</p>
+
+
+<h3>Value</h3>
+
+<p>One-row tibble containing the selected candidate parameters, criterion name
+and value, repeat count, deterministic candidate rank, and regularization
+source.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+select_sjsdm_regularization(data_tuning_summary = data_summary)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -10,7 +10,7 @@ Usage:
        data_observed = NULL,
        data_predicted = NULL
      )
-     
+
 Arguments:
 
 data_observed: Observed test response matrix.
@@ -21,4 +21,3 @@ data_predicted: Predicted probability matrix aligned to
 Value:
 
      One-row tibble with log-loss, Brier, pooled AUC, and macro-AUC.
-

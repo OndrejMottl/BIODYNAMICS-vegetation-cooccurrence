@@ -1,0 +1,54 @@
+Run a Paired Spatial MEM Cross-Validation Fixture
+
+Description:
+
+     Runs exact and fast spatial MEM construction through identical
+     fold preparation, sjSDM fitting, and held-out prediction work.
+
+Usage:
+
+     run_spatial_mev_paired_cv_fixture(
+       data_community_matrix = NULL,
+       data_abiotic_wide = NULL,
+       data_coords_projected = NULL,
+       data_sample_ids = NULL,
+       data_assignments = NULL,
+       candidate = NULL,
+       sel_abiotic_formula = NULL,
+       config_model_fitting = NULL,
+       config_data_processing = NULL,
+       device = "cpu",
+       prepare_function = prepare_sjsdm_cross_validation_fold,
+       fit_function = fit_sjsdm_regularization_candidate,
+       predict_function = predict_sjsdm_probability_matrix
+     )
+
+Arguments:
+
+data_community_matrix, data_abiotic_wide, data_coords_projected: Model
+          inputs accepted by [prepare_sjsdm_cross_validation_fold()].
+
+data_sample_ids: Sample metadata accepted by
+          [prepare_sjsdm_cross_validation_fold()].
+
+data_assignments: Table containing `repeat_id`, `fold_id`, and
+          `row_index`. Each row index must occur once in every repeat.
+
+candidate: One regularization candidate accepted by
+          [fit_sjsdm_regularization_candidate()].
+
+sel_abiotic_formula: Abiotic formula passed to
+          [fit_sjsdm_regularization_candidate()].
+
+config_model_fitting, config_data_processing: Shared model and
+          data-processing configurations.
+
+  device: Device passed to [fit_sjsdm_regularization_candidate()].
+
+prepare_function, fit_function, predict_function: Injectable production
+          adapters used for focused orchestration tests.
+
+Value:
+
+     Named list containing paired benchmark rows, predictions, and fold
+     diagnostics.

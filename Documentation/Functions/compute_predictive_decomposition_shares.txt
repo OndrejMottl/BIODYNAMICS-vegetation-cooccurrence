@@ -9,7 +9,7 @@ Description:
 Usage:
 
      compute_predictive_decomposition_shares(data_fold_metrics)
-     
+
 Arguments:
 
 data_fold_metrics: Data frame with columns `repeat_id`, `fold_id`,
@@ -19,4 +19,3 @@ data_fold_metrics: Data frame with columns `repeat_id`, `fold_id`,
 Value:
 
      A tibble with one row per repeat, fold, and component.
-

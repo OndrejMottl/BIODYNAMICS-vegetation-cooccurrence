@@ -14,19 +14,14 @@
 
 ## Summary
 
-Implement Issue #154 as one layered pull request from the clean `main` commit
-`b9acfeae`, following PR #162's path-first, capability-by-capability pattern.
+Implement Issue #154 as one layered pull request from the clean `main` commit `b9acfeae`, following PR #162's path-first, capability-by-capability pattern.
 
 - Work on `refactor/issue154-modelling` in the current worktree.
-- Preserve scientific behaviour, function outputs, target names, artifact
-  schemas, seeds, convergence semantics, and store compatibility.
+- Preserve scientific behaviour, function outputs, target names, artifact schemas, seeds, convergence semantics, and store compatibility.
 - Keep `R/Functions/Modelling/Cross_validation/**` under #141.
 - Leave persisted renames to #156 and pipeline/store reorganisation to #155.
-- Use dependency-ordered work chunks for ownership, fit inputs, fitting,
-  runtime diagnostics, spatial effects, evaluation, variance partitioning,
-  decomposition, legacy retirement, and final validation.
-- Treat one reviewable pull request as the eventual deliverable. Pushing and
-  opening it require separate explicit user confirmation.
+- Use dependency-ordered work chunks for ownership, fit inputs, fitting, runtime diagnostics, spatial effects, evaluation, variance partitioning, decomposition, legacy retirement, and final validation.
+- Treat one reviewable pull request as the eventual deliverable. Pushing and opening it require separate explicit user confirmation.
 
 ## Working agreement
 
@@ -34,14 +29,11 @@ After every work chunk:
 
 1. Run focused validation and `git diff --cached --check`.
 2. Stage only files belonging to that chunk.
-3. Report staged files, validation results, residual risks, and a suggested
-   durable commit message.
+3. Report staged files, validation results, residual risks, and a suggested durable commit message.
 4. Stop and wait for user review.
 5. Treat `continue` as permission for the next chunk only.
 
-Never commit, push, open a pull request, or modify remote GitHub state without
-a separate explicit instruction. Before starting another chunk, verify that
-the preceding staged changes were committed or otherwise resolved.
+Never commit, push, open a pull request, or modify remote GitHub state without a separate explicit instruction. Before starting another chunk, verify that the preceding staged changes were committed or otherwise resolved.
 
 ## Scope and ownership boundaries
 
@@ -57,12 +49,9 @@ the preceding staged changes were committed or otherwise resolved.
 
 ### Explicit deferrals
 
-- Leave `prepare_model_fold_input()` and
-  `prepare_fold_spatial_predictors()` unchanged for #141.
-- Leave `check_target_succeeded()`, `read_targets_store_meta()`, and
-  `coerce_null_to_na_integer()` unchanged and record them as #155 work.
-- Do not change CV algorithms, tuning policy, scientific estimands,
-  prediction features, persisted names, or public artifact schemas.
+- Leave `prepare_model_fold_input()` and `prepare_fold_spatial_predictors()` unchanged for #141.
+- Leave `check_target_succeeded()`, `read_targets_store_meta()`, and `coerce_null_to_na_integer()` unchanged and record them as #155 work.
+- Do not change CV algorithms, tuning policy, scientific estimands, prediction features, persisted names, or public artifact schemas.
 
 ## Approved interface changes
 
@@ -89,81 +78,60 @@ the preceding staged changes were committed or otherwise resolved.
 | Decomposition | `run_decomposition_route_cv()` | `run_decomposition_diagnostic_folds()` |
 | Decomposition | `summarise_decomposition_routes()` | `summarise_decomposition_diagnostic_routes()` |
 
-Keep `fit_jsdm_model()` and existing canonical `compute_*`, `evaluate_*`,
-`prepare_*`, `project_*`, and `summarise_*` interfaces unless a later work
-chunk demonstrates a documented ownership problem.
+Keep `fit_jsdm_model()` and existing canonical `compute_*`, `evaluate_*`, `prepare_*`, `project_*`, and `summarise_*` interfaces unless a later work chunk demonstrates a documented ownership problem.
 
-Renamed internal functions receive no compatibility aliases. Update active
-callers, tests, diagnostic scripts, and generated references atomically.
-Persisted targets, result columns, statuses, and provenance fields remain
-unchanged.
+Renamed internal functions receive no compatibility aliases. Update active callers, tests, diagnostic scripts, and generated references atomically. Persisted targets, result columns, statuses, and provenance fields remain unchanged.
 
 ## Work chunks
 
 ### 1. Plan and contract baseline
 
 - Create the working branch and save this implementation plan.
-- Record functions, callers, affected manifests, target names, schema tests,
-  and fixed-seed numerical fixtures.
+- Record functions, callers, affected manifests, target names, schema tests, and fixed-seed numerical fixtures.
 - Make no production-code changes.
 
-Suggested commit message:
-`Document the non-CV modelling refactor contract`
+Suggested commit message: `Document the non-CV modelling refactor contract`
 
 ### 2. Ownership and directory layout
 
-- Move active functions and tests into the approved modelling hierarchy using
-  `git mv`.
+- Move active functions and tests into the approved modelling hierarchy using `git mv`.
 - Keep the chunk path-only and verify that the loaded-symbol set is unchanged.
 - Record #141 and #155 deferrals in the architecture inventories.
 
-Suggested commit message:
-`Organise modelling functions by capability ownership`
+Suggested commit message: `Organise modelling functions by capability ownership`
 
 ### 3. Model input preparation
 
-- Apply the three fit-input renames while preserving arguments, defaults,
-  formulas, scaling attributes, and returned list names.
+- Apply the three fit-input renames while preserving arguments, defaults, formulas, scaling attributes, and returned list names.
 - Keep fold-local preparation untouched for #141.
 - Validate through the `data_model_input` target.
 
-Suggested commit message:
-`Clarify model input construction and scaling interfaces`
+Suggested commit message: `Clarify model input construction and scaling interfaces`
 
 ### 4. Model fitting and runtime diagnostics
 
 - Keep `fit_jsdm_model()` as the public orchestrator.
-- Extract private helpers for response preparation, predictor construction,
-  device selection, and early-stopping resolution.
-- Separate non-aborting diagnostics from strict validation and remove
-  machine-specific setup paths.
-- Preserve fitting parameters, seeds, regularisation, selected-model
-  behaviour, and the returned model structure.
+- Extract private helpers for response preparation, predictor construction, device selection, and early-stopping resolution.
+- Separate non-aborting diagnostics from strict validation and remove machine-specific setup paths.
+- Preserve fitting parameters, seeds, regularisation, selected-model behaviour, and the returned model structure.
 
-Suggested commit message:
-`Separate model fitting from runtime diagnostics`
+Suggested commit message: `Separate model fitting from runtime diagnostics`
 
 ### 5. Spatial effects
 
 - Organise basis, projection, and diagnostic functions.
-- Extract exact and fast MEV strategies only when fixed-seed equivalence is
-  demonstrated.
-- Preserve algorithms, projection state, provenance, output dimensions, and
-  deterministic behaviour.
+- Extract exact and fast MEV strategies only when fixed-seed equivalence is demonstrated.
+- Preserve algorithms, projection state, provenance, output dimensions, and deterministic behaviour.
 
-Suggested commit message:
-`Organise spatial effect basis and projection logic`
+Suggested commit message: `Organise spatial effect basis and projection logic`
 
 ### 6. Evaluation and result loading
 
 - Apply the evaluation loader names.
-- Extract private store-loading, empty-result, fitted/predictive metric,
-  calibration, and provenance helpers.
-- Preserve metric definitions, output columns, statuses, and missing-result
-  behaviour.
+- Extract private store-loading, empty-result, fitted/predictive metric, calibration, and provenance helpers.
+- Preserve metric definitions, output columns, statuses, and missing-result behaviour.
 
-Suggested commit message:
-`Clarify model evaluation and result loading contracts`
+Suggested commit message: `Clarify model evaluation and result loading contracts`
 
 ### 7. Variance partitioning
 
@@ -171,46 +139,34 @@ Suggested commit message:
 - Extract private component-lookup and Shapley-allocation helpers.
 - Preserve all `model_anova` and by-age target names and artifact schemas.
 
-Suggested commit message:
-`Clarify variance partitioning and Shapley calculations`
+Suggested commit message: `Clarify variance partitioning and Shapley calculations`
 
 ### 8. Predictive decomposition and diagnostics
 
-- Separate reusable predictive-decomposition calculations from diagnostic
-  route orchestration.
+- Separate reusable predictive-decomposition calculations from diagnostic route orchestration.
 - Apply the approved canonical names.
-- Extract repeated fold-loss, variant-fit, empty-result, and input-loading
-  logic.
-- Update diagnostic callers without moving their scripts, which remain #155
-  work.
+- Extract repeated fold-loss, variant-fit, empty-result, and input-loading logic.
+- Update diagnostic callers without moving their scripts, which remain #155 work.
 
-Suggested commit message:
-`Separate predictive decomposition from diagnostic routes`
+Suggested commit message: `Separate predictive decomposition from diagnostic routes`
 
 ### 9. Legacy HMSC retirement
 
 - Repeat active-caller and generated-documentation scans.
-- Remove the eight unused HMSC functions, obsolete tests, and stale
-  references.
+- Remove the eight unused HMSC functions, obsolete tests, and stale references.
 - Add architecture assertions preventing their return.
 
-Suggested commit message:
-`Retire unused HMSC modelling functions`
+Suggested commit message: `Retire unused HMSC modelling functions`
 
 ### 10. Architecture, documentation, and integration validation
 
-- Regenerate inventories and make migrated Issue #154 placement, naming,
-  mirrored tests, and retirement paths blocking.
+- Regenerate inventories and make migrated Issue #154 placement, naming, mirrored tests, and retirement paths blocking.
 - Regenerate function and dependent documentation artifacts.
-- Run the complete test suite and supported three-pipeline Czechia smoke
-  workflow.
-- Complete the mandatory read-only change review and resolve actionable
-  findings.
-- Compare final manifests, schemas, statuses, provenance, and fixed-seed
-  results with this baseline.
+- Run the complete test suite and supported three-pipeline Czechia smoke workflow.
+- Complete the mandatory read-only change review and resolve actionable findings.
+- Compare final manifests, schemas, statuses, provenance, and fixed-seed results with this baseline.
 
-Suggested commit message:
-`Enforce and document the modelling architecture`
+Suggested commit message: `Enforce and document the modelling architecture`
 
 ## Validation requirements
 
@@ -218,12 +174,10 @@ For every capability chunk:
 
 - Add or move specification tests before semantic implementation.
 - Parse changed R files and source `R/___setup_project___.R` in a clean session.
-- Run focused mirrored tests, including happy paths, edge cases, validation
-  failures, empty results, non-convergence, and relevant runtime diagnostics.
+- Run focused mirrored tests, including happy paths, edge cases, validation failures, empty results, non-convergence, and relevant runtime diagnostics.
 - Compare affected manifests and persisted target-name sets with the baseline.
 - Run a fresh dependency-closed capability slice.
-- Compare classes, dimensions, names, schemas, statuses, provenance, and
-  fixed-seed numerical results using existing tolerances.
+- Compare classes, dimensions, names, schemas, statuses, provenance, and fixed-seed numerical results using existing tolerances.
 - Run `git diff --cached --check` after staging.
 
 Final acceptance additionally requires:
@@ -232,8 +186,7 @@ Final acceptance additionally requires:
 - `Rscript R/03_Supplementary_analyses/Testing/Run_tests.R`.
 - `Rscript R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R`.
 - The repository master documentation renderer.
-- No stale old symbols, paths, generated pages, or unintended persisted-name
-  changes.
+- No stale old symbols, paths, generated pages, or unintended persisted-name changes.
 - A clean mandatory change review against all repository instructions.
 
 ## Contract baseline
@@ -263,22 +216,16 @@ The function inventory contains 56 active non-CV modelling functions:
 | `Tuning` | 4 |
 | `Variance_partitioning` | 4 |
 
-The inventory records 53 distinct matching test paths. Twenty functions require
-an owning-issue naming decision, and nine functions contain nested helpers to
-review. These are the exact review sets encoded by
-`r_function_inventory_v1.csv`; regeneration must resolve Issue #154 rows while
-retaining the explicit #141 and #155 deferrals.
+The inventory records 53 distinct matching test paths. Twenty functions require an owning-issue naming decision, and nine functions contain nested helpers to review. These are the exact review sets encoded by `r_function_inventory_v1.csv`; regeneration must resolve Issue #154 rows while retaining the explicit #141 and #155 deferrals.
 
 ### Caller baseline
 
 The 56 functions are called by these active modelling pipe segments:
 
 - `pipe_segment_model_input.R` and `pipe_segment_model_prepare_response.R`;
-- `pipe_segment_model_spatial_shared.R` and
-  `pipe_segment_model_spatial_samples.R`;
+- `pipe_segment_model_spatial_shared.R` and `pipe_segment_model_spatial_samples.R`;
 - `pipe_segment_model_assemble.R` and `pipe_segment_model_fit.R`;
-- `pipe_segment_model_anova.R` and
-  `pipe_segment_model_summary_by_age.R`; and
+- `pipe_segment_model_anova.R` and `pipe_segment_model_summary_by_age.R`; and
 - `pipeline_paleo_local_cv_decomposition_reference.R`.
 
 The shared segments are consumed by six pipeline entry points:
@@ -290,16 +237,11 @@ The shared segments are consumed by six pipeline entry points:
 - `pipeline_modern_spatial_resolution.R`; and
 - `pipeline_modern_spatial_resolution_test.R`.
 
-Five age-scaling decomposition diagnostics, four other modelling/pipeline
-diagnostics, and two spatial sensitivity/repair scripts are also active
-callers. Their paths remain owned by #155; Issue #154 updates only their calls
-to renamed modelling functions.
+Five age-scaling decomposition diagnostics, four other modelling/pipeline diagnostics, and two spatial sensitivity/repair scripts are also active callers. Their paths remain owned by #155; Issue #154 updates only their calls to renamed modelling functions.
 
 ### Manifest and target-name baseline
 
-Manifest digests were computed under `R_CONFIG_ACTIVE=project_cz_paleo` from
-newline-delimited `target_name=command` records. The digest therefore detects
-both target-name and command-expression drift.
+Manifest digests were computed under `R_CONFIG_ACTIVE=project_cz_paleo` from newline-delimited `target_name=command` records. The digest therefore detects both target-name and command-expression drift.
 
 | Pipeline | Targets | MD5 digest |
 |---|---:|---|
@@ -313,26 +255,16 @@ both target-name and command-expression drift.
 
 Protected shared modelling targets include:
 
-- `data_community_model_matrix`, `data_abiotic_wide`,
-  `data_abiotic_scaled_list`, and `data_community_prepared`;
-- `config_spatial_predictors`, `data_coords_projected`,
-  `list_spatial_mev_core_basis`, `data_spatial_mev_core`,
-  `data_spatial_mev_provenance`, and `data_spatial_mev_samples`;
-- `data_spatial_scaled_list`, `data_model_input`, `model_formula`,
-  `model_jsdm`, `model_jsdm_standard_errors`, `model_jsdm_selected`, and
-  `model_evaluation_fitted`; and
-- `model_anova`, `list_model_anova_by_age`,
-  `data_anova_components_by_age`, and
-  `data_anova_components_by_age_percentage`.
+- `data_community_model_matrix`, `data_abiotic_wide`, `data_abiotic_scaled_list`, and `data_community_prepared`;
+- `config_spatial_predictors`, `data_coords_projected`, `list_spatial_mev_core_basis`, `data_spatial_mev_core`, `data_spatial_mev_provenance`, and `data_spatial_mev_samples`;
+- `data_spatial_scaled_list`, `data_model_input`, `model_formula`, `model_jsdm`, `model_jsdm_standard_errors`, `model_jsdm_selected`, and `model_evaluation_fitted`; and
+- `model_anova`, `list_model_anova_by_age`, `data_anova_components_by_age`, and `data_anova_components_by_age_percentage`.
 
-The decomposition reference pipeline declares 28 persisted-internal contracts
-owned by #156. Its complete target-name set is represented by the manifest
-digest and `r_contract_inventory_v1.csv`; none may be renamed in Issue #154.
+The decomposition reference pipeline declares 28 persisted-internal contracts owned by #156. Its complete target-name set is represented by the manifest digest and `r_contract_inventory_v1.csv`; none may be renamed in Issue #154.
 
 ### Schema and fixed-seed fixture baseline
 
-Existing tests are the executable schema and numerical baseline. Their file
-hashes prevent silent weakening while functions and tests move together.
+Existing tests are the executable schema and numerical baseline. Their file hashes prevent silent weakening while functions and tests move together.
 
 | Capability fixture | SHA-256 |
 |---|---|
@@ -351,34 +283,17 @@ hashes prevent silent weakening while functions and tests move together.
 | `test-compute_predictive_decomposition_shares.R` | `012A5BFEBDABE456E53A5E834D07A51F4E7045018BC7B07B409E365E311730BF` |
 | `test-run_decomposition_route_cv.R` | `942214EAA9B44F56EE7C15B6B0ACC8204BB840041779B685EF515DF29AD1DFB0` |
 
-These fixtures cover named structures, result classes and dimensions,
-statuses, provenance, formulas, scaling attributes, variance fractions,
-decomposition shares, and fixed-seed fitting or spatial calculations. Later
-chunks may rename and strengthen them, but must preserve or explicitly extend
-their behavioural assertions.
+These fixtures cover named structures, result classes and dimensions, statuses, provenance, formulas, scaling attributes, variance fractions, decomposition shares, and fixed-seed fitting or spatial calculations. Later chunks may rename and strengthen them, but must preserve or explicitly extend their behavioural assertions.
 
 ### Legacy baseline
 
-`R/Functions/Modelling/_legacy` contains eight HMSC functions and is excluded
-from the recursive loader. Seven have no active callers. The only match for
-`check_and_prepare_data_for_fit()` outside legacy and outdated tests is a stale
-`@seealso` entry in `make_env_formula.R`. Nine HMSC-related tests remain under
-`Testing/testthat/_outdated` and are excluded by the test runner. Repeat this
-caller scan immediately before retirement.
+`R/Functions/Modelling/_legacy` contains eight HMSC functions and is excluded from the recursive loader. Seven have no active callers. The only match for `check_and_prepare_data_for_fit()` outside legacy and outdated tests is a stale `@seealso` entry in `make_env_formula.R`. Nine HMSC-related tests remain under `Testing/testthat/_outdated` and are excluded by the test runner. Repeat this caller scan immediately before retirement.
 
 ## Final interface and access audit
 
 Before final acceptance in Chunk 10:
 
-- Recheck every function under an `Internal/` directory and every dot-prefixed
-  helper. Internal functions should be limited to small, simple, or repetitive
-  implementation details.
-- Treat `.fit_decomposition_variant()` as an explicit first candidate for
-  promotion to a normal reusable function. Promote any substantial domain
-  workflow that has its own meaningful contract, tests, or documentation.
-- Scan all active functions under `R/Functions/` again for `$` access, not only
-  files changed by Issue #154. Resolve in-scope occurrences and explicitly
-  record the owner of any justified deferral.
-- Require the final change review to confirm that no substantial reusable
-  function remains accidentally internal and no prohibited `$` access remains
-  in active functions.
+- Recheck every function under an `Internal/` directory and every dot-prefixed helper. Internal functions should be limited to small, simple, or repetitive implementation details.
+- Treat `.fit_decomposition_variant()` as an explicit first candidate for promotion to a normal reusable function. Promote any substantial domain workflow that has its own meaningful contract, tests, or documentation.
+- Scan all active functions under `R/Functions/` again for `$` access, not only files changed by Issue #154. Resolve in-scope occurrences and explicitly record the owner of any justified deferral.
+- Require the final change review to confirm that no substantial reusable function remains accidentally internal and no prohibited `$` access remains in active functions.

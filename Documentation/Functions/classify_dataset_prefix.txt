@@ -7,7 +7,7 @@ Description:
 Usage:
 
      classify_dataset_prefix(vec_dataset_names = NULL)
-     
+
 Arguments:
 
 vec_dataset_names: A character vector of dataset names.
@@ -15,4 +15,3 @@ vec_dataset_names: A character vector of dataset names.
 Value:
 
      A character vector with values `bien`, `splot`, or `other`.
-

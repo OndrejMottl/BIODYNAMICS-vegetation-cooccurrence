@@ -1,0 +1,40 @@
+Collect Available sjSDM Tier Decisions
+
+Description:
+
+     Discovers consecutive completed staged-round decisions in the
+     isolated tier store. A missing next round is a normal
+     orchestration boundary; errored targets, decision gaps, and
+     malformed existing artifacts abort.
+
+Usage:
+
+     collect_sjsdm_available_tier_decisions(
+       store_path = NULL,
+       data_model_context = NULL,
+       n_non_final_rounds = NULL,
+       read_meta_function = load_targets_store_metadata,
+       read_decision_function = read_sjsdm_tier_survivor_decisions
+     )
+
+Arguments:
+
+store_path: Character scalar path to the dedicated tier-tuning targets
+          store.
+
+data_model_context: One-row model-context table used to select decision
+          rows.
+
+n_non_final_rounds: Non-negative integer count of rounds that publish
+          survivor decisions.
+
+read_meta_function: Injectable metadata reader compatible with
+          [load_targets_store_metadata()].
+
+read_decision_function: Injectable decision reader compatible with
+          [read_sjsdm_tier_survivor_decisions()].
+
+Value:
+
+     Ordered list of consecutive decision tibbles beginning with round
+     one.

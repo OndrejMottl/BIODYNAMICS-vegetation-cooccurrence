@@ -66,13 +66,12 @@ For **each changed file**, systematically check it against all applicable instru
 
 - Script header present and correctly formatted
 - Section headers use the prescribed hierarchy and `-----` suffix
-- Lines â‰¤ 80 characters
+- R source lines are no longer than 80 characters; Markdown and GitHub prose is never hard-wrapped to a fixed width
 - Indentation: 2 spaces, no tabs
 - `<-` for assignment (not `=`)
 - After `<-`, RHS function calls are on a **new line** (user memory rule)
 - Explicit namespace (`pkg::function()`) for all non-base calls
-- No use of superseded `dplyr::transmute()`; prefer `dplyr::mutate()` and
-  `dplyr::select()`
+- No use of superseded `dplyr::transmute()`; prefer `dplyr::mutate()` and `dplyr::select()`
 - No `library()` / `require()` inside functions
 - `here::here()` for all file paths
 - Snake_case names (Capital_snake_style for files/folders, snake_case for variables/arguments)
@@ -95,8 +94,7 @@ For **each changed file**, systematically check it against all applicable instru
 - Uses `testthat::test_that()` / `testthat::describe()` blocks
 - Tests based on the function **spec** not implementation internals
 - Covers: happy path, edge cases, error conditions
-- No `library()` calls â€” functions are accessed via namespace or loaded by
-  `source(here::here("R/___setup_project___.R"))`
+- No `library()` calls â€” functions are accessed via namespace or loaded by `source(here::here("R/___setup_project___.R"))`
 - Assignment newline rule respected (user memory)
 - Quantile column names use `lwr`/`upr` pattern if applicable
 

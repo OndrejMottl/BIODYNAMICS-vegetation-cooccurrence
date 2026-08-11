@@ -2,16 +2,11 @@
 
 ## Scope
 
-This audit closes the final interface and access checks added to the Issue
-#154 implementation plan. It covers active functions loaded from
-`R/Functions/`, excluding exact `_legacy` directories.
+This audit closes the final interface and access checks added to the Issue #154 implementation plan. It covers active functions loaded from `R/Functions/`, excluding exact `_legacy` directories.
 
 ## Internal-function review
 
-The review considered all 20 functions in a modelling `Internal/` directory
-and the one additional dot-prefixed runtime helper. Internal functions are
-retained only when they are small, simple, or repetitive implementation
-details.
+The review considered all 20 functions in a modelling `Internal/` directory and the one additional dot-prefixed runtime helper. Internal functions are retained only when they are small, simple, or repetitive implementation details.
 
 ### Promoted to normal functions
 
@@ -46,9 +41,7 @@ details.
 
 ## Dollar-access scan
 
-The repository-wide scan covered 325 active function files. It found 247 raw
-`$` matches across 38 files. Raw matches include access expressions, regular
-expressions, documentation text, error messages, and generated SCSS strings.
+The repository-wide scan covered 325 active function files. It found 247 raw `$` matches across 38 files. Raw matches include access expressions, regular expressions, documentation text, error messages, and generated SCSS strings.
 
 | Owner | Files | Raw matches | Disposition |
 |---|---:|---:|---|
@@ -58,7 +51,4 @@ expressions, documentation text, error messages, and generated SCSS strings.
 | #153 data functions | 5 | 13 | Deferred to the data-architecture owner; the raw set mixes tidy-evaluation access and text. |
 | #155 shared functions and workflows | 30 | 223 | Deferred to shared utility, prediction, presentation, visualisation, and tuning ownership; the raw set mixes access and literal text. |
 
-`check_target_succeeded()` remains explicitly owned by #155 as agreed in the
-Issue #154 plan. Its `.data$name` and `.env$target_name` access is therefore
-recorded, not changed here. No `$` access remains in the active non-CV
-modelling functions owned by Issue #154.
+`check_target_succeeded()` remains explicitly owned by #155 as agreed in the Issue #154 plan. Its `.data$name` and `.env$target_name` access is therefore recorded, not changed here. No `$` access remains in the active non-CV modelling functions owned by Issue #154.

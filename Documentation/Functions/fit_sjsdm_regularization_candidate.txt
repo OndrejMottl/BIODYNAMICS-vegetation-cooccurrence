@@ -1,0 +1,53 @@
+Fit One sjSDM Regularization Candidate
+
+Description:
+
+     Fits one prepared training fold with regularization parameters
+     from a deterministic candidate table.
+
+Usage:
+
+     fit_sjsdm_regularization_candidate(
+       data_train_input = NULL,
+       candidate = NULL,
+       sel_abiotic_formula = NULL,
+       config_model_fitting = NULL,
+       seed = 900723L,
+       device = "cpu",
+       biotic = NULL,
+       fit_function = fit_jsdm_model
+     )
+
+Arguments:
+
+data_train_input: Fold-local training input returned by
+          [prepare_sjsdm_cross_validation_fold()].
+
+candidate: One-row candidate table containing `candidate_id` and the
+          six sjSDM regularization parameters.
+
+sel_abiotic_formula: Abiotic model formula passed to
+          [fit_jsdm_model()].
+
+config_model_fitting: Active model-fitting configuration list.
+
+    seed: Deterministic integer seed for the candidate fit.
+
+  device: Device passed to [fit_jsdm_model()]. Defaults to `"cpu"`.
+
+  biotic: Optional sjSDM biotic structure. `NULL` retains the
+          regularized covariance structure created by
+          [fit_jsdm_model()]. A diagonal structure disables residual
+          cross-taxon associations for predictive decomposition.
+
+fit_function: Injectable fit function. Defaults to [fit_jsdm_model()].
+
+Details:
+
+     The adapter keeps regularization forwarding in one tested place so
+     tuning and selected-candidate reruns use identical fitting
+     arguments.
+
+Value:
+
+     Fitted model object returned by `fit_function`.

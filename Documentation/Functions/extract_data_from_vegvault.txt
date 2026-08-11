@@ -9,7 +9,7 @@ Description:
 Usage:
 
      extract_data_from_vegvault(plan, sel_abiotic_var_name = NULL)
-     
+
 Arguments:
 
     plan: A vaultkeepr plan object, typically created by
@@ -35,4 +35,3 @@ Value:
 See Also:
 
      [build_vegvault_plan()], [extract_age_uncertainty_from_vegvault()]
-

@@ -1,0 +1,21 @@
+Combine sjSDM Tuning Work Items
+
+Description:
+
+     Combines granular candidate/fold results into the established
+     tuning table and fold-organized compact prediction cache.
+
+Usage:
+
+     combine_sjsdm_tuning_work_items(list_work_item_results = NULL)
+
+Arguments:
+
+list_work_item_results: List of results from
+          [run_sjsdm_tuning_work_item()].
+
+Value:
+
+     Named list with `data_tuning` and `list_prediction_cache`,
+     matching the rich return contract of
+     [run_sjsdm_tuning_candidates()].

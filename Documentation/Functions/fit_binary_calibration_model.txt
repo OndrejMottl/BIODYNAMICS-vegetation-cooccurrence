@@ -1,0 +1,21 @@
+Fit a Binary Calibration Model
+
+Description:
+
+     Fits one binomial calibration model while recording suppressed
+     warnings.
+
+Usage:
+
+     .fit_binary_calibration_model(formula_calibration, data_calibration)
+
+Arguments:
+
+formula_calibration: Formula used for the calibration model.
+
+data_calibration: Data frame containing observed responses and
+          predicted logits.
+
+Value:
+
+     A list containing the fitted model and a warning flag.

@@ -4,7 +4,7 @@
 #' loaded.
 #' @return
 #' A zero-row tibble with the spatial model result schema.
-#' @noRd
+#' @keywords internal
 .build_empty_spatial_model_results <- function() {
   res <-
     tibble::tibble(

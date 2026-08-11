@@ -1,0 +1,68 @@
+Assess Cross-Validation Feasibility
+
+Description:
+
+     Evaluates full-model and candidate training-partition diagnostics
+     and selects the first viable cross-validation strategy.
+
+Usage:
+
+     assess_cross_validation_feasibility(
+       data_partition_diagnostics = NULL,
+       min_train_locations = NULL,
+       min_train_samples = NULL,
+       min_train_taxa = NULL,
+       min_mem_locations = NULL
+     )
+
+Arguments:
+
+data_partition_diagnostics: Data frame with one row for the full model
+          and one row per candidate training partition. Required
+          columns are `cv_strategy`, `repeat_id`, `effective_folds`,
+          `fold_id`, `n_train_locations`, `n_train_samples`,
+          `n_train_taxa`, and `n_train_mem_locations`. Supported
+          strategies are `"full_model"`,
+          `"spatially_stratified_group_kfold"`, and
+          `"leave_one_location_out"`.
+
+min_train_locations, min_train_samples, min_train_taxa: Positive
+          integer thresholds required in the full model and every
+          selected training partition.
+
+min_mem_locations: Positive integer minimum number of locations
+          required for MEM construction.
+
+Details:
+
+     The full model is checked first. Viable grouped candidates are
+     preferred in ascending fold-count order, followed by
+     leave-one-location-out. A viable full model without any viable
+     holdout requires tier-pooled regularization.
+
+Value:
+
+     One-row tibble containing full-data counts, feasibility flags,
+     selected `cv_strategy`, `effective_folds`, and
+     `cv_feasibility_status`.
+
+Examples:
+
+     data_diagnostics <-
+       tibble::tibble(
+         cv_strategy = "full_model",
+         repeat_id = 0L,
+         effective_folds = NA_integer_,
+         fold_id = 0L,
+         n_train_locations = 7L,
+         n_train_samples = 70L,
+         n_train_taxa = 10L,
+         n_train_mem_locations = 7L
+       )
+     assess_cross_validation_feasibility(
+       data_partition_diagnostics = data_diagnostics,
+       min_train_locations = 5L,
+       min_train_samples = 5L,
+       min_train_taxa = 3L,
+       min_mem_locations = 4L
+     )

@@ -1,0 +1,38 @@
+Select sjSDM Tuning-Round Work Items
+
+Description:
+
+     Selects the deterministic work items allowed to execute in one
+     staged tuning round. Later rounds require the previous tier-wide
+     survivor decision and fail closed when that evidence is absent or
+     inconsistent.
+
+Usage:
+
+     select_sjsdm_tuning_round_work_items(
+       data_work_items = NULL,
+       data_schedule = NULL,
+       round_id = NULL,
+       data_prior_decisions = NULL
+     )
+
+Arguments:
+
+data_work_items: Work-item table returned by
+          [build_sjsdm_tuning_work_items()].
+
+data_schedule: Staged schedule returned by
+          [build_sjsdm_tuning_schedule()].
+
+round_id: Positive integer tuning-round identifier to select.
+
+data_prior_decisions: Tier-wide decision table returned by
+          [select_sjsdm_staged_survivors()] for the preceding round.
+          Must be `NULL` for round one.
+
+Value:
+
+     Work-item tibble for the configured repeat and tier-wide candidate
+     set, with `round_id` added as the first column. Existing
+     `work_item_id` values are preserved so completed fits remain
+     reusable.

@@ -3,7 +3,6 @@ format: html
 title: load_trait_domain_names_from_vegvault()
 ---
 
-<html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -62,7 +61,7 @@ output.</p>
 </p>
 <p>1. Validates input parameters.
 2. Checks the presence of the VegVault SQLite database using
-'check_presence_of_vegvault()'.
+'validate_vegvault_presence()'.
 3. Opens a DBI connection to the SQLite database.
 4. Queries the 'TraitsDomain' table for distinct
 'trait_domain_name' values and collects results.

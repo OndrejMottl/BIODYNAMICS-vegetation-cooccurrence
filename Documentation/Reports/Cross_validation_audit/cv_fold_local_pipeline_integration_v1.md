@@ -1,15 +1,10 @@
 # Fold-local CV pipeline integration (v1)
 
-**Recorded:** 2026-07-15
-**Validation runner:** `R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R`
-**Validation result:** completed with exit code 0
+**Recorded:** 2026-07-15 **Validation runner:** `R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R` **Validation result:** completed with exit code 0
 
 ## Purpose
 
-This checkpoint integrates the corrected fold-local predictive evaluation into
-both cross-validation pipe segments. It publishes the corrected outputs under
-new target names while retaining `model_evaluation_cross_validated` as the
-historical pooled compatibility artifact.
+This checkpoint integrates the corrected fold-local predictive evaluation into both cross-validation pipe segments. It publishes the corrected outputs under new target names while retaining `model_evaluation_cross_validated` as the historical pooled compatibility artifact.
 
 The new target chain is:
 
@@ -19,9 +14,7 @@ The new target chain is:
 
 ## Fresh CZ validation
 
-The complete CZ test runner was executed after the integration. GPU/CUDA
-preflight passed, and all three rebuilt target stores completed without a
-recorded target error.
+The complete CZ test runner was executed after the integration. GPU/CUDA preflight passed, and all three rebuilt target stores completed without a recorded target error.
 
 | Store | New targets | Target errors |
 |---|---:|---:|
@@ -29,18 +22,13 @@ recorded target error.
 | CZ paleo resolution test | 9 | 0 |
 | CZ modern spatial resolution test | 9 | 0 |
 
-The resolution stores each contain one complete three-target chain per
-taxonomic branch. Paleo produced `genus`, `family`, and `functional_type`
-branches; modern produced `genus`, `family`, and `ft_modern` branches.
+The resolution stores each contain one complete three-target chain per taxonomic branch. Paleo produced `genus`, `family`, and `functional_type` branches; modern produced `genus`, `family`, and `ft_modern` branches.
 
 ## Direct paleo artifact contract
 
-The fresh CZ paleo core output contains 960 fold-local metric rows and 11
-columns:
+The fresh CZ paleo core output contains 960 fold-local metric rows and 11 columns:
 
-`repeat_id`, `fold_id`, `taxon`, `prediction_source`, `metric_id`, `estimate`,
-`metric_status`, `n_observations`, `n_presences`, `n_absences`, and
-`prevalence`.
+`repeat_id`, `fold_id`, `taxon`, `prediction_source`, `metric_id`, `estimate`, `metric_status`, `n_observations`, `n_presences`, `n_absences`, and `prevalence`.
 
 The aggregation artifact contains:
 
@@ -62,8 +50,7 @@ The fresh direct-store data hashes are:
 
 ## Provenance extension
 
-The final Phase 3 slice extended `data_sjsdm_model_provenance` additively from
-24 to 29 columns. The five appended fields are:
+The final Phase 3 slice extended `data_sjsdm_model_provenance` additively from 24 to 29 columns. The five appended fields are:
 
 - `fit_device`;
 - `evaluation_prediction_source`;
@@ -71,15 +58,9 @@ The final Phase 3 slice extended `data_sjsdm_model_provenance` additively from
 - `evaluation_aggregation_methods`;
 - `evaluation_schema_version`.
 
-A fresh isolated GPU reference recorded `gpu`, `out_of_fold`,
-`repeat_fold_taxon`, `fold_macro;observation_weighted`, and
-`sjsdm_fold_local_cv_v1`, respectively. The artifact retained three repeats,
-15 successful fold fits out of 15, and had data hash `19cffe27d6c58bde`.
-The store reported zero target errors; all 120 tuning fits also had status `ok`.
+A fresh isolated GPU reference recorded `gpu`, `out_of_fold`, `repeat_fold_taxon`, `fold_macro;observation_weighted`, and `sjsdm_fold_local_cv_v1`, respectively. The artifact retained three repeats, 15 successful fold fits out of 15, and had data hash `19cffe27d6c58bde`. The store reported zero target errors; all 120 tuning fits also had status `ok`.
 
-The full regression suite reported 3,381 passes, zero failures, and the single
-documented opt-in VegVault integration skip. The mandatory fresh CZ gate then
-completed successfully and validated all seven provenance artifacts:
+The full regression suite reported 3,381 passes, zero failures, and the single documented opt-in VegVault integration skip. The mandatory fresh CZ gate then completed successfully and validated all seven provenance artifacts:
 
 | Unit | Provenance hash |
 |---|---|
@@ -91,18 +72,10 @@ completed successfully and validated all seven provenance artifacts:
 | Modern resolution, genus | `5abc60fd2eb43667` |
 | Modern resolution, functional type | `d136f2f1cc74c502` |
 
-All three stores had zero target errors and zero incomplete targets. Every
-provenance target contained one row, 29 columns, and the expected five values.
+All three stores had zero target errors and zero incomplete targets. Every provenance target contained one row, 29 columns, and the expected five values.
 
 ## Compatibility and remaining work
 
-The integration is additive: it does not rename or replace the pooled v1
-evaluation target. A contract test now requires both direct and from-shared
-segments to publish the three new targets and retain the historical target.
+The integration is additive: it does not rename or replace the pooled v1 evaluation target. A contract test now requires both direct and from-shared segments to publish the three new targets and retain the historical target.
 
-The historical 24 provenance fields retain their order and meaning. The five
-evaluation fields are appended, so consumers selecting existing columns remain
-compatible. The dedicated three-repeat GPU rerun and CPU/GPU comparison are
-recorded in `cz_paleo_cpu_gpu_reference_comparison_v1.md`. Phase 3 is complete;
-the predictive-performance decision and model-component experiments remain
-Phase 4 work.
+The historical 24 provenance fields retain their order and meaning. The five evaluation fields are appended, so consumers selecting existing columns remain compatible. The dedicated three-repeat GPU rerun and CPU/GPU comparison are recorded in `cz_paleo_cpu_gpu_reference_comparison_v1.md`. Phase 3 is complete; the predictive-performance decision and model-component experiments remain Phase 4 work.

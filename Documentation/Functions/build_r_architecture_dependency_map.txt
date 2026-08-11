@@ -1,0 +1,66 @@
+Build R Architecture Dependency Map
+
+Description:
+
+     Builds deterministic Markdown describing repository R ownership,
+     pipeline/profile/store relationships, persisted contracts, and
+     exceptions.
+
+Usage:
+
+     build_r_architecture_dependency_map(
+       data_scripts,
+       data_functions,
+       data_contracts,
+       data_manifests,
+       data_exceptions
+     )
+
+Arguments:
+
+data_scripts: Script-path inventory data frame.
+
+data_functions: Function inventory data frame.
+
+data_contracts: Persisted-contract inventory data frame.
+
+data_manifests: Manifest-derived profile and target inventory data
+          frame.
+
+data_exceptions: Maintained architecture-exception ledger.
+
+Value:
+
+     Character vector containing the architecture map Markdown.
+
+Examples:
+
+     build_r_architecture_dependency_map(
+       data_scripts = tibble::tibble(
+         classification = "main_analysis",
+         migration_status = "migrated"
+       ),
+       data_functions = tibble::tibble(
+         current_path = "R/Functions/example.R",
+         intended_path = "R/Functions/example.R",
+         migration_status = "baseline_recorded",
+         callers = "R/Pipelines/_pipes/pipe_segment_example.R"
+       ),
+       data_contracts = tibble::tibble(
+         contract_type = "literal_target",
+         contract_scope = "persisted_internal"
+       ),
+       data_manifests = tibble::tibble(
+         profile_id = "example",
+         profile_role = "smoke",
+         pipeline_id = "example",
+         pipeline_script = "R/Pipelines/example.R",
+         target_store = "Data/targets/example",
+         manifest_target_count = 1L
+       ),
+       data_exceptions = tibble::tibble(
+         exception_id = character(),
+         owner_issue = character(),
+         expiry_issue = character()
+       )
+     )

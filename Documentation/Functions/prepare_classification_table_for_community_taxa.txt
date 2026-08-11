@@ -19,7 +19,7 @@ Usage:
        data_community_classified,
        vec_taxonomic_resolution
      )
-     
+
 Arguments:
 
 data_classification_table: A data frame mapping raw taxon names
@@ -65,4 +65,3 @@ See Also:
      [classify_taxonomic_resolution()],
      [resolve_classification_to_finest_rank()],
      [build_community_taxon_trait_table()]
-

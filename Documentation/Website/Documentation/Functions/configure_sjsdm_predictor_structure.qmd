@@ -1,0 +1,90 @@
+---
+format: html
+title: configure_sjsdm_predictor_structure()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>configure_sjsdm_predictor_structure</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Configure an sjSDM Predictor Structure</h2>
+
+<h3>Description</h3>
+
+<p>Creates a model-fitting configuration and abiotic formula for a controlled
+predictor-component comparison.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>configure_sjsdm_predictor_structure(
+  predictor_structure = NULL,
+  config_model_fitting = NULL,
+  model_formula = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="predictor_structure">predictor_structure</code></td>
+<td>
+<p>One of '&quot;intercept_only&quot;', '&quot;abiotic_only&quot;', '&quot;spatial_only&quot;',
+'&quot;abiotic_spatial&quot;', or '&quot;abiotic_spatial_no_associations&quot;'.</p>
+</td></tr>
+<tr><td><code id="config_model_fitting">config_model_fitting</code></td>
+<td>
+<p>Base model-fitting configuration. It is copied before 'use_spatial' is set.</p>
+</td></tr>
+<tr><td><code id="model_formula">model_formula</code></td>
+<td>
+<p>Full abiotic model formula. Intercept-only and spatial-only structures
+replace it with '~ 1' because sjSDM requires an environmental component.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This helper changes predictor inclusion only. Regularization, folds, seeds,
+fitting device, response filtering, and all other settings remain controlled
+by the caller. The intercept-only structure can retain sjSDM's biotic
+covariance and is therefore distinct from a fold-prevalence null.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Named list containing the structure identifier, component flags, modified
+model-fitting configuration, and formula.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>configure_sjsdm_predictor_structure(
+  predictor_structure = "abiotic_only",
+  config_model_fitting = list(use_spatial = TRUE),
+  model_formula = stats::as.formula("~ age")
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

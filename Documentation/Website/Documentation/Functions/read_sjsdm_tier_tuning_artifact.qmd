@@ -1,0 +1,81 @@
+---
+format: html
+title: read_sjsdm_tier_tuning_artifact()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>read_sjsdm_tier_tuning_artifact</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read sjSDM Tier Tuning Artifact</h2>
+
+<h3>Description</h3>
+
+<p>Reads the shared tier artifact table and selects the row matching one unit
+model context.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>read_sjsdm_tier_tuning_artifact(
+  store_path = NULL,
+  data_model_context = NULL,
+  read_target_function = targets::tar_read_raw
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="store_path">store_path</code></td>
+<td>
+<p>Character scalar path to the dedicated tier-tuning targets store.</p>
+</td></tr>
+<tr><td><code id="data_model_context">data_model_context</code></td>
+<td>
+<p>One-row model-context table.</p>
+</td></tr>
+<tr><td><code id="read_target_function">read_target_function</code></td>
+<td>
+<p>Injectable target reader. Defaults to [targets::tar_read_raw()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>One matching artifact row, or 'NULL' when the shared target is unavailable
+or does not yet contain the requested context.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+read_sjsdm_tier_tuning_artifact(
+  store_path = "Data/targets/paleo/pipeline_sjsdm_tier_tuning",
+  data_model_context = data_sjsdm_model_context
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

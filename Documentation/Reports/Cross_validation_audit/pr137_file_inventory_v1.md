@@ -1,13 +1,8 @@
 # PR #137 file inventory (v1)
 
-**Audit date:** 2026-07-14
-**Issue:** #139
-**Reviewed change:** `a8ead627` against its first parent `15ff5eb4`
-**Inventory size:** 197 paths
+**Audit date:** 2026-07-14 **Issue:** #139 **Reviewed change:** `a8ead627` against its first parent `15ff5eb4` **Inventory size:** 197 paths
 
-This inventory is the authoritative file boundary for the Issue #139 read-only audit.
-Rename entries show the source and destination separated by an arrow.
-Review status is updated only after the responsible reviewer has explicitly inspected the file.
+This inventory is the authoritative file boundary for the Issue #139 read-only audit. Rename entries show the source and destination separated by an arrow. Review status is updated only after the responsible reviewer has explicitly inspected the file.
 
 | Change | Path | Classification | Review owner | Review status |
 |---|---|---|---|---|

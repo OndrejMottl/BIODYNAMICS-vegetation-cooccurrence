@@ -1,0 +1,39 @@
+Summarise sjSDM Fold Metrics
+
+Description:
+
+     Aggregates fold-local sjSDM prediction metrics without pooling
+     predictions from separately fitted models.
+
+Usage:
+
+     summarise_sjsdm_fold_metrics(data_fold_metrics = NULL)
+
+Arguments:
+
+data_fold_metrics: Long metric table returned by
+          [evaluate_sjsdm_fold_predictions()].
+
+Details:
+
+     Paired improvements use model-minus-null for Tjur R2 and AUC, and
+     null-minus-model for log loss and Brier score. Calibration
+     coefficients are summarised by source but are not converted to
+     directional improvements.
+
+Value:
+
+     Named list containing `data_source_summaries` and
+     `data_paired_improvements`. Both tables contain repeat-level
+     fold-macro and observation-weighted estimates with fold, taxon,
+     observation, and class coverage. Paired improvements are positive
+     when the model is better than the prevalence null.
+
+Examples:
+
+     ## Not run:
+
+     summarise_sjsdm_fold_metrics(
+       data_fold_metrics = data_fold_metrics
+     )
+     ## End(Not run)

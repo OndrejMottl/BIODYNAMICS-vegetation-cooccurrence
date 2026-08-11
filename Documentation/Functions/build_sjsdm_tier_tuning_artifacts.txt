@@ -1,0 +1,40 @@
+Build sjSDM Tier Tuning Artifacts
+
+Description:
+
+     Splits collected tuning summaries by compatible model context and
+     builds one tier-level selected-regularization artifact per
+     context.
+
+Usage:
+
+     build_sjsdm_tier_tuning_artifacts(
+       data_tuning_summary = NULL,
+       created_at = NULL,
+       include_sample_weighted = TRUE
+     )
+
+Arguments:
+
+data_tuning_summary: Bound unit tuning summaries accepted by
+          [aggregate_sjsdm_tuning_by_tier()].
+
+created_at: Single finite POSIX date-time recorded in every artifact.
+
+include_sample_weighted: Logical passed to
+          [build_sjsdm_tier_tuning_artifact()].
+
+Value:
+
+     Named list of bound artifact, source-loss, candidate-aggregation,
+     and selection-sensitivity tibbles.
+
+Examples:
+
+     ## Not run:
+
+     build_sjsdm_tier_tuning_artifacts(
+       data_tuning_summary = data_tuning_summary,
+       created_at = base::Sys.time()
+     )
+     ## End(Not run)

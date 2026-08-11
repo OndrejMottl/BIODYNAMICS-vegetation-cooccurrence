@@ -14,7 +14,7 @@ Usage:
        data_classification_table,
        vec_taxon_column_name = "taxon_resolved"
      )
-     
+
 Arguments:
 
 data_classification_table: A wide-format data frame (e.g. output of
@@ -48,4 +48,3 @@ Value:
 See Also:
 
      [build_classification_table()]
-

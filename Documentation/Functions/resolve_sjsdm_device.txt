@@ -1,0 +1,27 @@
+Resolve the sjSDM Fitting Device
+
+Description:
+
+     Internal helper that validates GPU runtime requirements and
+     resolves the CPU-parallelism setting for the selected fitting
+     device.
+
+Usage:
+
+     .resolve_sjsdm_device(
+       device = c("cpu", "gpu"),
+       parallel = 0L,
+       gpu_runtime_validator = validate_sjsdm_gpu_runtime
+     )
+
+Arguments:
+
+  device: Selected sjSDM device.
+
+parallel: Requested CPU parallelism.
+
+gpu_runtime_validator: Injectable strict GPU runtime validator.
+
+Value:
+
+     Named list containing `device` and `parallel`.

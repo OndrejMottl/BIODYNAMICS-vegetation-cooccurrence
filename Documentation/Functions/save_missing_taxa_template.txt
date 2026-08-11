@@ -17,7 +17,7 @@ Usage:
        file_missing_taxa_template = here::here("Data/Input/missing_taxa_template.csv"),
        data_classification_table = NULL
      )
-     
+
 Arguments:
 
 data_missing_taxa: A tibble with columns `sel_name`, `kingdom`,
@@ -63,4 +63,3 @@ See Also:
      [load_auxiliary_classification_table()],
      [select_unclassified_taxa()],
      [validate_taxa_classification_coverage()]
-
