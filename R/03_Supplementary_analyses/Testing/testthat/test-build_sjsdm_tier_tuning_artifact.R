@@ -54,7 +54,7 @@ testthat::test_that(
     testthat::expect_equal(base::nrow(data_artifact), 1L)
     testthat::expect_equal(
       data_artifact[["artifact_schema_version"]],
-      "1.0.0"
+      "2.0.0"
     )
     testthat::expect_equal(
       data_artifact[["candidate_id"]],

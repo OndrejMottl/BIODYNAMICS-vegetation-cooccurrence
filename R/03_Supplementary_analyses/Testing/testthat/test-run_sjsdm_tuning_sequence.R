@@ -100,7 +100,7 @@ testthat::test_that(
     )
     testthat::expect_identical(
       data_calls[["targets"]][[9L]],
-      "data_sjsdm_tier_regularization_artifacts"
+      "list_sjsdm_tier_tuning_artifact"
     )
     testthat::expect_identical(
       data_calls[["max_round"]],

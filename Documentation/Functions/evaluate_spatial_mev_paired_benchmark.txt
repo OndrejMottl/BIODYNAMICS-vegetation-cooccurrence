@@ -1,0 +1,26 @@
+Assess a Paired Spatial MEM Benchmark
+
+Description:
+
+     Compares exact and fast spatial MEM runs on identical repetitions
+     against the Issue 138 technical and predictive regression
+     allowances.
+
+Usage:
+
+     evaluate_spatial_mev_paired_benchmark(
+       data_benchmark_runs = NULL,
+       list_policy = build_sjsdm_staged_benchmark_policy()
+     )
+
+Arguments:
+
+data_benchmark_runs: One row per repetition and spatial MEM strategy.
+
+list_policy: Issue 138 benchmark policy. Defaults to
+          [build_sjsdm_staged_benchmark_policy()].
+
+Value:
+
+     Named list with paired comparisons, gate results, and one decision
+     row.

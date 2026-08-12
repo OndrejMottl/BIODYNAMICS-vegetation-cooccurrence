@@ -1,0 +1,26 @@
+Prepare One Candidate's Refit Guardrail Metrics
+
+Description:
+
+     Validates and reshapes complete fold-macro repeat metrics for one
+     candidate.
+
+Usage:
+
+     prepare_sjsdm_guardrail_repeat_metrics(
+       data_metrics = NULL,
+       suffix = NULL,
+       guardrail_metrics = base::c("auc", "brier_score", "log_loss", "tjur_r2")
+     )
+
+Arguments:
+
+data_metrics: Long repeat-metric evidence.
+
+  suffix: Suffix appended to metric columns.
+
+guardrail_metrics: Required metric identifiers.
+
+Value:
+
+     One row per repeat with suffixed guardrail metrics.

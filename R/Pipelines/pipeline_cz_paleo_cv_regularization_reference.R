@@ -81,17 +81,24 @@ base::list(
   ),
   targets::tar_target(
     name = data_reference_assignments,
-    command = targets::tar_read_raw(
-      name = "data_cross_validation_assignments",
-      store = path_gpu_reference_store
+    command = load_sjsdm_cv_payload_field(
+      store_path = path_gpu_reference_store,
+      v2_target_name = "list_cross_validation_design_artifact",
+      artifact_type = "cross_validation_design",
+      payload_name = "data_assignments",
+      v1_target_name = "data_cross_validation_assignments"
     ),
     cue = targets::tar_cue(mode = "always")
   ),
   targets::tar_target(
     name = data_reference_selected_candidate,
-    command = targets::tar_read_raw(
-      name = "model_regularization_for_fit",
-      store = path_gpu_reference_store
+    command = load_sjsdm_cv_payload_field(
+      store_path = path_gpu_reference_store,
+      v2_target_name =
+        "list_sjsdm_regularization_selection_artifact",
+      artifact_type = "sjsdm_regularization_selection",
+      payload_name = "data_selection_for_fit",
+      v1_target_name = "model_regularization_for_fit"
     ),
     cue = targets::tar_cue(mode = "always")
   ),
@@ -161,7 +168,7 @@ base::list(
   ),
   targets::tar_target(
     name = list_sjsdm_structured_regularization_design,
-    command = make_sjsdm_structured_regularization_candidates(
+    command = build_sjsdm_structured_regularization_candidates(
       alpha_cov = data_reference_selected_candidate[["alpha_cov"]][[1L]],
       alpha_coef =
         data_reference_selected_candidate[["alpha_coef"]][[1L]],
@@ -317,7 +324,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_sjsdm_reference_taxon_eligibility,
-    command = assess_sjsdm_taxon_eligibility(
+    command = evaluate_sjsdm_taxon_eligibility(
       data_fold_metrics = data_reference_fold_metrics,
       minimum_prevalence = 0.05,
       maximum_prevalence = 0.95,
@@ -355,7 +362,7 @@ base::list(
   ),
   targets::tar_target(
     name = list_sjsdm_structured_selection_guardrails,
-    command = assess_sjsdm_candidate_guardrails(
+    command = evaluate_sjsdm_candidate_guardrails(
       data_tuning_summary =
         data_sjsdm_structured_tuning_response_surface,
       data_candidate_repeat_metrics =
@@ -373,7 +380,7 @@ base::list(
   ),
   targets::tar_target(
     name = list_sjsdm_structured_eligible_selection_guardrails,
-    command = assess_sjsdm_candidate_guardrails(
+    command = evaluate_sjsdm_candidate_guardrails(
       data_tuning_summary =
         data_sjsdm_structured_tuning_response_surface,
       data_candidate_repeat_metrics =

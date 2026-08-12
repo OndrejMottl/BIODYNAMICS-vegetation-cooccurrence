@@ -1,0 +1,55 @@
+Run One Prepared sjSDM Tuning Candidate
+
+Description:
+
+     Fits, predicts, and scores one regularization candidate against
+     one previously prepared cross-validation fold.
+
+Usage:
+
+     run_sjsdm_prepared_tuning_candidate(
+       data_candidate = NULL,
+       list_prepared_fold = NULL,
+       list_fold_context = NULL,
+       fit_function = NULL,
+       predict_function = NULL,
+       score_function = score_sjsdm_tuning_predictions,
+       seed = 900723L,
+       epsilon = 1e-06
+     )
+
+Arguments:
+
+data_candidate: One-row candidate table with candidate ID and six
+          regularization values.
+
+list_prepared_fold: Prepared fold containing train input, test input,
+          and observed test data.
+
+list_fold_context: Fold identifiers, sample/location counts, and
+          cross-validation strategy.
+
+fit_function, predict_function, score_function: Injectable fitting,
+          prediction, and scoring functions.
+
+    seed: Non-negative base integer used to derive fit and score seeds.
+
+ epsilon: Probability clipping tolerance passed to the score function.
+
+Value:
+
+     Named list containing one-row `data_tuning` and compact
+     `list_prediction` output without a fitted model object.
+
+Examples:
+
+     ## Not run:
+
+     run_sjsdm_prepared_tuning_candidate(
+       data_candidate = data_candidate,
+       list_prepared_fold = list_prepared_fold,
+       list_fold_context = list_fold_context,
+       fit_function = fit_sjsdm_model,
+       predict_function = predict_sjsdm_model
+     )
+     ## End(Not run)

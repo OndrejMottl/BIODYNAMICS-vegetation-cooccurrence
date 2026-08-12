@@ -12,7 +12,7 @@ testthat::test_that(
       )
 
     data_candidates <-
-      make_sjsdm_regularization_candidates(lambda_cov = 0)
+      build_sjsdm_regularization_candidates(lambda_cov = 0)
 
     data_observed <-
       base::matrix(
@@ -72,7 +72,7 @@ testthat::test_that(
       )
 
     list_combined <-
-      combine_sjsdm_tuning_work_items(list_results)
+      aggregate_sjsdm_tuning_work_items(list_results)
 
     testthat::expect_named(
       list_combined,
@@ -97,10 +97,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "combine_sjsdm_tuning_work_items() returns typed empty results",
+  "aggregate_sjsdm_tuning_work_items() returns typed empty results",
   {
     list_combined <-
-      combine_sjsdm_tuning_work_items(base::list())
+      aggregate_sjsdm_tuning_work_items(base::list())
 
     testthat::expect_equal(
       base::nrow(list_combined[["data_tuning"]]),
@@ -154,7 +154,7 @@ testthat::test_that(
           n_samples = base::integer(),
           row_indices = base::list()
         ),
-        data_candidates = make_sjsdm_regularization_candidates(
+        data_candidates = build_sjsdm_regularization_candidates(
           alpha_cov = 0.5,
           alpha_coef = 0.5,
           alpha_spatial = 0.5,
@@ -165,7 +165,7 @@ testthat::test_that(
       )
 
     data_branch_items <-
-      make_sjsdm_tuning_branch_work_items(
+      build_sjsdm_tuning_branch_work_items(
         data_work_items = data_work_items
       )
 
@@ -194,7 +194,7 @@ testthat::test_that(
     testthat::expect_null(res[["list_prediction_cache"]])
 
     data_combined <-
-      combine_sjsdm_tuning_work_items(
+      aggregate_sjsdm_tuning_work_items(
         list_work_item_results = base::list(res)
       )
 
@@ -223,7 +223,7 @@ testthat::test_that(
       )
 
     data_candidates <-
-      make_sjsdm_regularization_candidates(
+      build_sjsdm_regularization_candidates(
         lambda_cov = base::c(0, 0.1)
       )
 
@@ -313,7 +313,7 @@ testthat::test_that(
           score_function = score_function
         )
       ) |>
-      combine_sjsdm_tuning_work_items()
+      aggregate_sjsdm_tuning_work_items()
 
     testthat::expect_identical(
       list_granular[["data_tuning"]],
@@ -353,7 +353,7 @@ testthat::test_that(
       )
 
     data_candidates <-
-      make_sjsdm_regularization_candidates(
+      build_sjsdm_regularization_candidates(
         lambda_cov = base::c(0, 0.1)
       )
 
@@ -406,7 +406,7 @@ testthat::test_that(
           }
         )
       ) |>
-      combine_sjsdm_tuning_work_items()
+      aggregate_sjsdm_tuning_work_items()
 
     testthat::expect_identical(
       list_combined[["data_tuning"]][["fit_status"]],
@@ -419,6 +419,80 @@ testthat::test_that(
       ],
       "candidate failed",
       all = TRUE
+    )
+  }
+)
+
+testthat::test_that(
+  "granular work items preserve prepared-fold failures",
+  {
+    data_assignments <-
+      tibble::tibble(
+        repeat_id = base::rep(1L, 2L),
+        fold_id = 1:2,
+        location_id = base::c("a", "b"),
+        n_samples = base::rep(1L, 2L),
+        row_indices = base::list(1L, 2L),
+        cv_strategy = "leave_one_location_out"
+      )
+
+    list_prepared_folds <-
+      prepare_sjsdm_tuning_folds(
+        data_assignments = data_assignments,
+        prepare_fold_function = function(...) {
+          base::stop("prepared fold failed")
+        }
+      )
+
+    data_work_item <-
+      build_sjsdm_tuning_work_items(
+        data_assignments = data_assignments,
+        data_candidates =
+          build_sjsdm_regularization_candidates(lambda_cov = 0)
+      ) |>
+      dplyr::slice(1L)
+
+    callback_called <- FALSE
+
+    callback <- function(...) {
+      callback_called <<- TRUE
+      base::stop("Candidate callback must not run.")
+    }
+
+    rlang::local_bindings(
+      run_sjsdm_tuning_fold_candidates = function(...) {
+        base::stop("The cached preparation adapter was called.")
+      },
+      .env = base::globalenv()
+    )
+
+    res <-
+      run_sjsdm_tuning_work_item(
+        data_work_item = data_work_item,
+        list_prepared_folds = list_prepared_folds,
+        fit_function = callback,
+        predict_function = callback,
+        score_function = callback
+      )
+
+    testthat::expect_false(callback_called)
+    testthat::expect_identical(
+      res[["data_tuning"]][["fit_status"]],
+      "preparation_error"
+    )
+    testthat::expect_identical(
+      res[["data_tuning"]][["fit_seed"]],
+      NA_integer_
+    )
+    testthat::expect_match(
+      res[["data_tuning"]][["error_message"]],
+      "prepared fold failed"
+    )
+    testthat::expect_length(
+      res[["list_prediction_cache"]][[
+        "list_candidate_predictions"
+      ]],
+      0L
     )
   }
 )

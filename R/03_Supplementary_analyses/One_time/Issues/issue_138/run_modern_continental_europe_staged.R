@@ -17,11 +17,10 @@ run_issue138_representative_validation(
     "project_issue138_modern_spatial_continental_europe_staged",
   unit_pipeline =
     "R/Pipelines/pipeline_modern_spatial_resolution.R",
-  tuning_target_names = "data_sjsdm_tuning_summary_genus",
+  tuning_target_names = "list_sjsdm_cv_tuning_artifact_genus",
   final_target_names = base::c(
     "mod_jsdm_selected_genus",
-    "model_evaluation_cross_validated_genus",
-    "data_sjsdm_model_provenance_genus"
+    "list_sjsdm_cv_evaluation_artifact_genus"
   ),
   store_suffix = "europe",
   fresh_run = FALSE

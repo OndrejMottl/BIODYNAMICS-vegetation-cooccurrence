@@ -1,0 +1,28 @@
+Validate an sjSDM Artifact Payload
+
+Description:
+
+     Validates the exact registered payload names, container types, and
+     duplicate rows for one v2 artifact type.
+
+Usage:
+
+     validate_sjsdm_artifact_payload(
+       artifact_type = NULL,
+       payload = NULL,
+       list_table_contracts = base::list()
+     )
+
+Arguments:
+
+artifact_type: Registered artifact type.
+
+ payload: Named payload list.
+
+list_table_contracts: Optional named list of exact table contracts.
+          Each contract may define `columns`, `types`, `keys`,
+          `statuses`, and `n_rows`.
+
+Value:
+
+     Invisible `TRUE`; invalid payloads abort.

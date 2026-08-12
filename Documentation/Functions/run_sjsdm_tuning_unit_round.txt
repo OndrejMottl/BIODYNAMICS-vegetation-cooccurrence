@@ -1,0 +1,38 @@
+Run One sjSDM Unit Tuning Round
+
+Description:
+
+     Runs one cumulative tuning round across isolated unit stores while
+     preserving the round environment variable and first-round
+     semantics.
+
+Usage:
+
+     run_sjsdm_tuning_unit_round(
+       round_id = NULL,
+       unit_pipeline = NULL,
+       tuning_target_names = NULL,
+       unit_store_suffixes = NULL,
+       prebuild_round = FALSE,
+       fresh_round = FALSE,
+       run_pipeline_function = run_pipeline,
+       vec_allowed_profile_roles = base::c("main", "smoke"),
+       vec_allowed_profile_statuses = "active"
+     )
+
+Arguments:
+
+round_id, unit_pipeline, tuning_target_names, unit_store_suffixes:
+          Round identifier and unit execution inputs.
+
+prebuild_round, fresh_round: First-round interpolation and store-reset
+          flags.
+
+run_pipeline_function: Injectable pipeline runner.
+
+vec_allowed_profile_roles, vec_allowed_profile_statuses: Allowed
+          profile metadata forwarded to the runner.
+
+Value:
+
+     Invisible `NULL`.

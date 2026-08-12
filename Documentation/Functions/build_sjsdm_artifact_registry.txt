@@ -1,0 +1,19 @@
+Build the sjSDM Artifact Registry
+
+Description:
+
+     Defines every supported cross-validation v2 artifact type and its
+     exact ordered payload names.
+
+Usage:
+
+     build_sjsdm_artifact_registry()
+
+Value:
+
+     Named list mapping artifact types to character vectors of payload
+     names.
+
+Examples:
+
+     build_sjsdm_artifact_registry()

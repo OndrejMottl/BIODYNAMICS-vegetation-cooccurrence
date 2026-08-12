@@ -14,7 +14,7 @@ Usage:
        fallback_config = "default",
        file = here::here("config.yml")
      )
-     
+
 Arguments:
 
 config_section: A single character string naming the configuration
@@ -60,4 +60,3 @@ Examples:
        config_key = "ft_groups_min",
        fallback_config = "project_traits_reference"
      )
-     

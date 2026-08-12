@@ -1,0 +1,98 @@
+---
+format: html
+title: build_sjsdm_structured_regularization_candidates()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_sjsdm_structured_regularization_candidates</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make Structured sjSDM Regularization Candidates</h2>
+
+<h3>Description</h3>
+
+<p>Builds a deterministic first-pass coordinate search around one reference
+regularization candidate without creating a Cartesian product.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_sjsdm_structured_regularization_candidates(
+  alpha_cov = 0.5,
+  alpha_coef = 0.5,
+  alpha_spatial = 0.5,
+  lambda_cov_reference = 0.1,
+  lambda_coef_reference = 0.1,
+  lambda_spatial_reference = 0.1,
+  lambda_values = base::c(0, 0.01, 0.03, 0.1, 0.3, 1)
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="alpha_cov">alpha_cov</code>, <code id="alpha_coef">alpha_coef</code>, <code id="alpha_spatial">alpha_spatial</code></td>
+<td>
+<p>Fixed finite elastic-net mixing values between zero and one.</p>
+</td></tr>
+<tr><td><code id="lambda_cov_reference">lambda_cov_reference</code>, <code id="lambda_coef_reference">lambda_coef_reference</code></td>
+<td>
+<p>Reference covariance and abiotic-coefficient lambda values.</p>
+</td></tr>
+<tr><td><code id="lambda_spatial_reference">lambda_spatial_reference</code></td>
+<td>
+<p>Reference spatial-coefficient lambda value.</p>
+</td></tr>
+<tr><td><code id="lambda_values">lambda_values</code></td>
+<td>
+<p>Unique finite non-negative values searched separately along each lambda
+axis. The vector must contain every reference value, with each reference
+strictly inside the search range.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The reference candidate appears once. Every other candidate changes exactly
+one lambda while holding the remaining lambdas at their reference values.
+With six shared lambda values and one shared reference, this produces 16
+candidates instead of a 216-row Cartesian product. Input order does not
+affect candidate identifiers.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Named list containing 'data_candidates', which follows the production
+tuning-candidate schema, and 'data_search_design', which records the varied
+axis, axis value, reference status, and lower/upper boundary flags.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>build_sjsdm_structured_regularization_candidates(
+  lambda_values = c(0, 0.01, 0.03, 0.1, 0.3, 1)
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -1,0 +1,35 @@
+Evaluate One sjSDM Fold Prediction Source
+
+Description:
+
+     Computes the registered binary metrics for one model or
+     prevalence-null probability vector, including typed incomplete
+     rows.
+
+Usage:
+
+     evaluate_sjsdm_prediction_source_metrics(
+       vec_observed = NULL,
+       vec_probability = NULL,
+       prediction_source = NULL,
+       flag_complete = NULL,
+       incomplete_status = NULL,
+       epsilon = 1e-06
+     )
+
+Arguments:
+
+vec_observed, vec_probability: Binary observations and aligned
+          probabilities.
+
+prediction_source: Source identifier stored in every metric row.
+
+flag_complete: Logical indicating whether probabilities are complete.
+
+incomplete_status: Status used for typed incomplete metric rows.
+
+ epsilon: Probability clipping tolerance for log loss and calibration.
+
+Value:
+
+     Six-row source-metric tibble.

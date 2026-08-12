@@ -1,0 +1,28 @@
+Collect sjSDM Tuning Stage Timings
+
+Description:
+
+     Converts compact fold prediction caches into a long timing table
+     for fold preparation, fitting, prediction, and scoring stages.
+
+Usage:
+
+     summarise_sjsdm_tuning_timings(list_prediction_cache = NULL)
+
+Arguments:
+
+list_prediction_cache: Fold caches returned by
+          [run_sjsdm_tuning_candidates()] when prediction caching is
+          enabled.
+
+Value:
+
+     Long tibble with repeat, fold, optional candidate, stage, elapsed
+     seconds, and execution status.
+
+Examples:
+
+     ## Not run:
+
+     summarise_sjsdm_tuning_timings(list_sjsdm_tuning_prediction_cache)
+     ## End(Not run)

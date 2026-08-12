@@ -1,0 +1,45 @@
+Run One Selected sjSDM Fold
+
+Description:
+
+     Prepares, fits, and predicts one live selected-candidate fold,
+     then delegates all persisted row construction to
+     [build_sjsdm_selected_fold_artifacts()].
+
+Usage:
+
+     run_sjsdm_selected_fold(
+       list_fold_context = NULL,
+       data_candidate = NULL,
+       data_sample_ids = NULL,
+       taxon_names = NULL,
+       regularization_source = NULL,
+       prepare_fold_function = NULL,
+       fit_function = NULL,
+       predict_function = NULL,
+       seed = 900723L
+     )
+
+Arguments:
+
+list_fold_context: Fold context returned by
+          [build_sjsdm_tuning_fold_context()].
+
+data_candidate: One-row selected candidate table without
+          provenance-only fields.
+
+data_sample_ids, taxon_names: Normalized sample metadata and full
+          ordered response-taxon names.
+
+regularization_source: Source label for the selected regularization
+          candidate.
+
+prepare_fold_function, fit_function, predict_function: Injectable
+          selected-fold lifecycle functions.
+
+    seed: Non-negative base integer used to derive the stable fold fit
+          seed.
+
+Value:
+
+     Named list with one fold's prediction and diagnostic artifacts.

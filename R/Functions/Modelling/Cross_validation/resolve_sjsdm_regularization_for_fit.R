@@ -90,6 +90,16 @@ resolve_sjsdm_regularization_for_fit <- function(
     data_model_context |>
     dplyr::select(dplyr::all_of(vec_context_columns))
 
+  vec_output_columns <-
+    base::c(
+      vec_context_columns,
+      vec_candidate_columns,
+      "cv_feasibility_status",
+      "regularization_source",
+      "source_tier",
+      "selection_status"
+    )
+
   if (
     cv_feasibility_status == "full_model_infeasible"
   ) {
@@ -109,7 +119,10 @@ resolve_sjsdm_regularization_for_fit <- function(
         selection_status = "full_model_infeasible"
       )
 
-    return(res_no_model)
+    return(
+      res_no_model |>
+        dplyr::select(dplyr::all_of(vec_output_columns))
+    )
   }
 
   flag_unit_cv <-
@@ -162,7 +175,10 @@ resolve_sjsdm_regularization_for_fit <- function(
         selection_status = "selected"
       )
 
-    return(res_unit)
+    return(
+      res_unit |>
+        dplyr::select(dplyr::all_of(vec_output_columns))
+    )
   }
 
   assertthat::assert_that(
@@ -214,5 +230,9 @@ resolve_sjsdm_regularization_for_fit <- function(
       selection_status = "selected"
     )
 
-  return(res_tier)
+  res <-
+    res_tier |>
+    dplyr::select(dplyr::all_of(vec_output_columns))
+
+  return(res)
 }

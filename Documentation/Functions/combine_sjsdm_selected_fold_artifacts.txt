@@ -1,0 +1,28 @@
+Combine Selected sjSDM Fold Artifacts
+
+Description:
+
+     Combines, deterministically orders, and validates complete
+     out-of-fold coverage across selected-candidate fold results.
+
+Usage:
+
+     combine_sjsdm_selected_fold_artifacts(
+       list_fold_results = NULL,
+       data_assignments = NULL,
+       taxon_names = NULL
+     )
+
+Arguments:
+
+list_fold_results: List of fold results from
+          [run_sjsdm_selected_fold()] or the cached builder.
+
+data_assignments: Location-level fold assignment table used to derive
+          expected coverage.
+
+taxon_names: Full ordered response-taxon names.
+
+Value:
+
+     Named list with combined predictions and fold diagnostics.

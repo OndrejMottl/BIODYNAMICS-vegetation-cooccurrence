@@ -1,0 +1,23 @@
+Build an sjSDM Tuning Round Plan
+
+Description:
+
+     Constructs the deterministic exhaustive or cumulative staged
+     orchestration plan. Staged execution preserves the optimized
+     three-round 8 to 4 to 2 policy encoded by the tuning schedule.
+
+Usage:
+
+     build_sjsdm_tuning_round_plan(tuning_strategy = NULL, n_rounds = NULL)
+
+Arguments:
+
+tuning_strategy: `exhaustive` or `staged`.
+
+n_rounds: Configured positive round count. Staged execution requires
+          three rounds.
+
+Value:
+
+     Tibble with round identifiers, final-round flags, and tier target
+     names.

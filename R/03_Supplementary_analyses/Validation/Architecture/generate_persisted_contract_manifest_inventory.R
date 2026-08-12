@@ -11,7 +11,7 @@
 #
 #----------------------------------------------------------#
 # Expand every configured pipeline/profile into its resolved targets for
-# Issue #156. This inventory complements the append-only migration ledger.
+# Issue #141 v2 contract. This inventory complements the frozen v1 inventory.
 
 
 #----------------------------------------------------------#
@@ -245,7 +245,7 @@ readr::write_csv(
   data_manifest_inventory,
   here::here(
     "Documentation/Implementation_inventories/R_architecture",
-    "r_manifest_contract_inventory_v1.csv"
+    "r_manifest_contract_inventory_v2.csv"
   ),
   na = ""
 )

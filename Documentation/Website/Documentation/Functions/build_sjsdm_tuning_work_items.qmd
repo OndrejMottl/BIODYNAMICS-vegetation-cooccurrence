@@ -50,7 +50,7 @@ cross-validation execution and restart.
 <tr><td><code id="data_candidates">data_candidates</code></td>
 <td>
 <p>Candidate table returned by
-[make_sjsdm_regularization_candidates()].</p>
+[build_sjsdm_regularization_candidates()].</p>
 </td></tr>
 <tr><td><code id="seed">seed</code></td>
 <td>

@@ -58,11 +58,11 @@ profile through the shared sjSDM orchestration engine.
 </td></tr>
 <tr><td><code id="tuning_target_names">tuning_target_names</code></td>
 <td>
-<p>Public tuning-summary targets included in the validation.</p>
+<p>Public v2 tuning-artifact targets included in the validation.</p>
 </td></tr>
 <tr><td><code id="final_target_names">final_target_names</code></td>
 <td>
-<p>Final model, evaluation, and provenance targets to complete.</p>
+<p>Final model and v2 evaluation-artifact targets to complete.</p>
 </td></tr>
 <tr><td><code id="store_suffix">store_suffix</code></td>
 <td>

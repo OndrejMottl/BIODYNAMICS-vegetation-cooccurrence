@@ -2,6 +2,14 @@ testthat::test_that(
   "load_model_evaluation_target() loads explicit evaluation targets",
   {
     fake_reader <- function(name, store) {
+      if (
+        stringr::str_starts(
+          name,
+          "list_sjsdm_cv_evaluation_artifact"
+        )
+      ) {
+        base::stop("canonical target unavailable")
+      }
       base::list(
         name = name,
         store = store

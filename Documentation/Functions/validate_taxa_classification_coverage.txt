@@ -13,7 +13,7 @@ Usage:
        vec_taxa_without_classification,
        file_missing_taxa_template = NULL
      )
-     
+
 Arguments:
 
 vec_taxa_without_classification: A character vector of taxon names that
@@ -58,10 +58,9 @@ Examples:
      validate_taxa_classification_coverage(
        vec_taxa_without_classification = base::character(0)
      )
-     
+
      base::try(
        validate_taxa_classification_coverage(
          vec_taxa_without_classification = base::c("Taxon_a")
        )
      )
-     

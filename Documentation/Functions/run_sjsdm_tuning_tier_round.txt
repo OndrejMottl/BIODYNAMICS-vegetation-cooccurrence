@@ -1,0 +1,34 @@
+Run One sjSDM Tier Tuning Round
+
+Description:
+
+     Runs one explicit tier survivor or final artifact target without a
+     nested callr boundary.
+
+Usage:
+
+     run_sjsdm_tuning_tier_round(
+       tuning_strategy = NULL,
+       tier_target_name = NULL,
+       fresh_round = FALSE,
+       final_round = FALSE,
+       run_pipeline_function = run_pipeline,
+       vec_allowed_profile_roles = base::c("main", "smoke"),
+       vec_allowed_profile_statuses = "active"
+     )
+
+Arguments:
+
+tuning_strategy, tier_target_name: Strategy and optional staged tier
+          target.
+
+fresh_round, final_round: First- and final-round flags.
+
+run_pipeline_function: Injectable pipeline runner.
+
+vec_allowed_profile_roles, vec_allowed_profile_statuses: Allowed
+          profile metadata forwarded to the runner.
+
+Value:
+
+     Invisible `NULL`.

@@ -167,7 +167,7 @@ base::list(
             base::file.path(list_spatial_project[["pipeline_name"]]) |>
             purrr::keep(fs::dir_exists)
 
-          collect_sjsdm_tuning_summaries(
+          load_sjsdm_tuning_summaries(
             store_paths = vec_store_paths,
             resolution_ids = list_spatial_project[["resolution_ids"]]
           )
@@ -262,5 +262,25 @@ base::list(
     name = data_sjsdm_common_sensitivity_decomposition,
     command = list_sjsdm_common_sensitivity_results |>
       purrr::chuck("data_decomposition")
+  ),
+  targets::tar_target(
+    description = "Publish the common-regularization v2 artifact",
+    name = list_sjsdm_common_regularization_artifact,
+    command = build_sjsdm_pipeline_artifact(
+      artifact_type = "sjsdm_common_regularization",
+      payload = base::list(
+        data_regularization_selection =
+          data_sjsdm_common_regularization_artifacts,
+        data_candidate_aggregation =
+          data_sjsdm_common_candidate_aggregation,
+        data_model_index = data_sjsdm_common_model_index,
+        data_sensitivity_provenance =
+          data_sjsdm_common_sensitivity_provenance
+      ),
+      pipeline_id =
+        "pipeline_sjsdm_common_regularization_sensitivity",
+      configuration_profile = base::Sys.getenv("R_CONFIG_ACTIVE"),
+      created_at = sjsdm_common_artifact_created_at
+    )
   )
 )

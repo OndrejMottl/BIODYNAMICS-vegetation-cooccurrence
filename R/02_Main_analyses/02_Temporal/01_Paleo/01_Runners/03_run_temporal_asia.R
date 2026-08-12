@@ -42,7 +42,7 @@ vec_age_lim <-
 
 vec_tuning_target_names <-
   stringr::str_c(
-    "data_sjsdm_tuning_summary_timeslice_",
+    "list_sjsdm_cv_tuning_artifact_timeslice_",
     base::seq(
       from = base::min(vec_age_lim),
       to = base::max(vec_age_lim),

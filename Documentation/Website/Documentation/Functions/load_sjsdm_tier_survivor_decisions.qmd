@@ -1,0 +1,74 @@
+---
+format: html
+title: load_sjsdm_tier_survivor_decisions()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>load_sjsdm_tier_survivor_decisions</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read sjSDM Tier Survivor Decisions</h2>
+
+<h3>Description</h3>
+
+<p>Reads one round's survivor decisions from the isolated tier-tuning store
+and selects the rows matching one unit model context. Missing, malformed,
+or ambiguous evidence aborts so unit pipelines cannot prune locally.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>load_sjsdm_tier_survivor_decisions(
+  store_path = NULL,
+  data_model_context = NULL,
+  round_id = NULL,
+  read_target_function = targets::tar_read_raw
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="store_path">store_path</code></td>
+<td>
+<p>Character scalar path to the dedicated tier-tuning targets store.</p>
+</td></tr>
+<tr><td><code id="data_model_context">data_model_context</code></td>
+<td>
+<p>One-row model-context table.</p>
+</td></tr>
+<tr><td><code id="round_id">round_id</code></td>
+<td>
+<p>Positive integer identifier of the completed tier tuning round.</p>
+</td></tr>
+<tr><td><code id="read_target_function">read_target_function</code></td>
+<td>
+<p>Injectable target reader. Defaults to [targets::tar_read_raw()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Tier-wide decision tibble for the requested model context and round.
+</p>
+
+</main>
+
+</div>
+</body></html>

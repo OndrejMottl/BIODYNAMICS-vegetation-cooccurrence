@@ -12,7 +12,7 @@ testthat::test_that(
       )
 
     data_candidates <-
-      make_sjsdm_regularization_candidates(
+      build_sjsdm_regularization_candidates(
         lambda_cov = base::c(0, 0.1)
       )
 

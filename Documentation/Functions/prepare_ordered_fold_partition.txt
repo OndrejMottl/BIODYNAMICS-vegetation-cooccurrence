@@ -1,0 +1,41 @@
+Prepare an Ordered Fold Partition
+
+Description:
+
+     Filters a data frame to requested fold identifiers and restores
+     the exact deterministic identifier order. Missing-value handling
+     remains caller-owned.
+
+Usage:
+
+     prepare_ordered_fold_partition(
+       data_partition_source = NULL,
+       partition_ids = NULL,
+       id_column = NULL
+     )
+
+Arguments:
+
+data_partition_source: Data frame containing the complete sample
+          universe.
+
+partition_ids: Unique ordered identifiers requested for one fold
+          partition.
+
+id_column: Character scalar naming the identifier column.
+
+Value:
+
+     Filtered data frame in `partition_ids` order with source columns
+     unchanged.
+
+Examples:
+
+     prepare_ordered_fold_partition(
+       data_partition_source = tibble::tibble(
+         sample_id = base::c("b", "a"),
+         value = 1:2
+       ),
+       partition_ids = base::c("a", "b"),
+       id_column = "sample_id"
+     )

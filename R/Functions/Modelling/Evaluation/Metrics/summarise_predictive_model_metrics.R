@@ -1,13 +1,13 @@
 #' @title Summarise Predictive Model Metrics
 #' @description
 #' Averages successful community-level predictive metrics across repeats.
-#' @param model_evaluation_cross_validated
+#' @param list_pooled_cv_evaluation
 #' Cross-validated model-evaluation object, or `NULL`.
 #' @return
 #' A one-row tibble containing Tjur R2, AUC, and log-loss summaries.
 #' @export
 summarise_predictive_model_metrics <- function(
-    model_evaluation_cross_validated) {
+    list_pooled_cv_evaluation) {
   data_metric_template <-
     tibble::tibble(
       metric_id = base::c("tjur_r2", "auc", "log_loss"),
@@ -20,9 +20,9 @@ summarise_predictive_model_metrics <- function(
 
   data_metric_summary <-
     if (
-      base::is.null(model_evaluation_cross_validated) ||
+      base::is.null(list_pooled_cv_evaluation) ||
         !("data_community_summary" %in%
-          base::names(model_evaluation_cross_validated))
+          base::names(list_pooled_cv_evaluation))
     ) {
       tibble::tibble(
         metric_id = base::character(),
@@ -30,7 +30,7 @@ summarise_predictive_model_metrics <- function(
       )
     } else {
       data_community_summary <-
-        model_evaluation_cross_validated |>
+        list_pooled_cv_evaluation |>
         purrr::chuck("data_community_summary")
 
       if (

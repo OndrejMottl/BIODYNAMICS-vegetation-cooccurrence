@@ -30,7 +30,7 @@ Usage:
 Arguments:
 
 predictor_structure: Structure passed to
-          [configure_sjsdm_predictor_structure()].
+          [build_sjsdm_predictor_comparison_structure()].
 
 data_assignments, data_selected_candidate, data_community_matrix:
           Cross-validation assignments, selected regularization, and

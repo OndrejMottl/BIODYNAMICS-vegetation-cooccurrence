@@ -20,9 +20,9 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Reads every requested unit tuning summary and reports whether at least one
-contains candidate evidence. Missing, unreadable, or malformed summaries
-fail closed.
+<p>Reads every requested unit tuning artifact or frozen v1 summary and reports
+whether at least one contains candidate evidence. Missing, unreadable, or
+malformed inputs fail closed.
 </p>
 
 
@@ -65,7 +65,7 @@ fail closed.
 <pre><code class='language-R'>## Not run:
 has_sjsdm_tuning_evidence(
   store_paths = "Data/targets/unit/pipeline",
-  target_names = "data_sjsdm_tuning_summary"
+  target_names = "list_sjsdm_cv_tuning_artifact"
 )
 
 ## End(Not run)

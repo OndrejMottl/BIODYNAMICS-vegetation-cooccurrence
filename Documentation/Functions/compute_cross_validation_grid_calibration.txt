@@ -1,0 +1,85 @@
+Calibrate Cross-Validation Grid Size
+
+Description:
+
+     Compares candidate spatial-grid sizes using occupied-cell density
+     and fold balance, then marks the finest eligible candidate.
+
+Usage:
+
+     compute_cross_validation_grid_calibration(
+       data_locations = NULL,
+       candidate_grid_cell_sizes_km = NULL,
+       n_folds = 5L,
+       n_repeats = 1L,
+       occupancy_criterion = "median",
+       target_locations_per_cell = NULL,
+       lower_quantile_probability = 0.25,
+       max_fold_location_difference = 1L,
+       max_fold_sample_difference = Inf,
+       seed = 900723L
+     )
+
+Arguments:
+
+data_locations: Location table returned by
+          [build_cross_validation_location_table()].
+
+candidate_grid_cell_sizes_km: Numeric vector of unique positive
+          candidate grid-cell widths in kilometres.
+
+ n_folds: Single integer greater than one and no greater than the
+          location count.
+
+n_repeats: Single positive integer used to evaluate deterministic
+          origin shifts.
+
+occupancy_criterion: Character scalar: `"minimum"`, `"lower_quantile"`,
+          or `"median"`.
+
+target_locations_per_cell: Positive numeric occupancy target. Defaults
+          to `n_folds` when `NULL`.
+
+lower_quantile_probability: Probability used by `"lower_quantile"`,
+          between zero and `0.5`. Defaults to `0.25`.
+
+max_fold_location_difference: Maximum allowed difference between the
+          largest and smallest fold location counts within any repeat.
+          Defaults to `1L`.
+
+max_fold_sample_difference: Maximum allowed difference between fold
+          sample counts within any repeat. Defaults to `Inf` so it is
+          diagnostic until calibrated explicitly.
+
+    seed: Single non-negative integer assignment seed. Defaults to
+          `900723L`.
+
+Details:
+
+     Candidate assignments use
+     [build_spatial_cross_validation_assignments()]. Eligibility
+     requires the configured occupancy statistic and both balance
+     thresholds. Among eligible candidates, the smallest cell size is
+     selected.
+
+Value:
+
+     Tibble with one row per candidate grid size, occupancy and balance
+     diagnostics, eligibility, selection status, and a single
+     `selected` flag when at least one candidate is eligible.
+
+Examples:
+
+     data_locations <-
+       tibble::tibble(
+         location_id = letters[1:6],
+         coord_x_km = c(0, 1, 2, 10, 11, 12),
+         coord_y_km = rep(0, 6),
+         n_samples = rep(1L, 6),
+         row_indices = as.list(seq_len(6L))
+       )
+     compute_cross_validation_grid_calibration(
+       data_locations = data_locations,
+       candidate_grid_cell_sizes_km = c(1, 10),
+       n_folds = 3L
+     )

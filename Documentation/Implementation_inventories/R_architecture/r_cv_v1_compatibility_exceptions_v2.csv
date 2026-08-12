@@ -1,0 +1,15 @@
+exception_id,boundary,function,owner_issue,rationale,expiry_issue
+cv-v1-001,artifact conversion,convert_sjsdm_v1_artifact,#141,Dispatch frozen v1 payloads through strict artifact-specific converters,#168
+cv-v1-002,shared design conversion,convert_v1_cross_validation_shared_design_artifact,#141,Read retained v1 shared-design stores without rewriting them,#168
+cv-v1-003,route design conversion,convert_v1_cross_validation_design_artifact,#141,Read retained v1 route-design stores without rewriting them,#168
+cv-v1-004,tuning conversion,convert_v1_sjsdm_cv_tuning_artifact,#141,Expose historical v1 tuning evidence through the v2 interface,#168
+cv-v1-005,selection conversion,convert_v1_sjsdm_regularization_selection_artifact,#141,Expose retained v1 regularization decisions through the v2 interface,#168
+cv-v1-006,prediction conversion,convert_v1_sjsdm_cv_prediction_artifact,#141,Expose retained v1 OOF predictions through the v2 interface,#168
+cv-v1-007,evaluation conversion,convert_v1_sjsdm_cv_evaluation_artifact,#141,Expose retained v1 evaluation results through the v2 interface,#168
+cv-v1-008,tier conversion,convert_v1_sjsdm_tier_tuning_artifact,#141,Allow unit completion to consume retained v1 tier decisions,#168
+cv-v1-009,common selection conversion,convert_v1_sjsdm_common_regularization_artifact,#141,Expose retained v1 sensitivity results through the v2 interface,#168
+cv-v1-010,dual-version artifact loading,load_sjsdm_versioned_artifact,#141,Try canonical v2 targets before a complete documented v1 target group,#168
+cv-v1-011,historical payload loading,load_sjsdm_cv_payload_field,#141,Serve historical reports from v2 envelopes or one frozen v1 target,#168
+cv-v1-012,tier-store loading,load_sjsdm_tier_tuning_artifact,#141,Read native v2 tier artifacts or upgrade the frozen v1 tier table,#168
+cv-v1-013,unit-store aggregation,load_sjsdm_tuning_summaries,#141,Read native v2 tuning summaries or documented v1 summaries,#168
+cv-v1-014,completion evidence,has_sjsdm_tuning_evidence,#141,Recognize complete v2 tuning envelopes and frozen v1 summaries,#168

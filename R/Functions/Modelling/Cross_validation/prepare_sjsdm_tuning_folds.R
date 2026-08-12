@@ -41,7 +41,7 @@ prepare_sjsdm_tuning_folds <- function(
       .y = data_fold_keys[["fold_id"]],
       .f = function(repeat_id, fold_id) {
         list_fold_context <-
-          make_sjsdm_tuning_fold_context(
+          build_sjsdm_tuning_fold_context(
             data_assignments = data_assignments,
             repeat_id = repeat_id,
             fold_id = fold_id

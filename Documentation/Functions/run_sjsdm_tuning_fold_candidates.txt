@@ -23,10 +23,10 @@ Usage:
 Arguments:
 
 data_candidates: Candidate table returned by
-          [make_sjsdm_regularization_candidates()].
+          [build_sjsdm_regularization_candidates()].
 
 list_fold_context: Fold metadata returned by
-          [make_sjsdm_tuning_fold_context()].
+          [build_sjsdm_tuning_fold_context()].
 
 prepare_fold_function, fit_function, predict_function, score_function:
           Injectable fold preparation, fit, prediction, and scoring

@@ -50,7 +50,8 @@ targets::tar_source(files = vec_function_files)
 
 targets::tar_option_set(
   seed = load_active_config_value("seed"),
-  format = "qs"
+  format = "qs",
+  deployment = "main"
 )
 
 
@@ -109,7 +110,7 @@ list_tuning_context <-
       paleo_core = base::list(
         pipeline_name = "pipeline_paleo_core",
         resolution_ids = "genus",
-        target_names = "data_sjsdm_tuning_summary",
+        target_names = "list_sjsdm_cv_tuning_artifact",
         nested_unit_stores = FALSE
       ),
       modern_spatial = base::list(
@@ -184,33 +185,16 @@ list_sjsdm_tier_common_targets <-
   targets::tar_target(
     description = "Discover completed spatial-unit targets stores",
     name = vec_sjsdm_unit_tuning_stores,
-    command = {
-      target_store_root <-
-        here::here(load_active_config_value("target_store"))
-
-      unit_store_roots <-
-        if (
-          list_tuning_context[["nested_unit_stores"]]
-        ) {
-          fs::dir_ls(
-            path = target_store_root,
-            type = "directory",
-            recurse = FALSE
-          )
-        } else {
-          target_store_root
-        }
-
-      unit_store_roots |>
-        base::file.path(list_tuning_context[["pipeline_name"]]) |>
-        purrr::keep(fs::dir_exists)
-    },
+    command = load_sjsdm_unit_tuning_store_paths(
+      list_tuning_context = list_tuning_context,
+      target_store = load_active_config_value("target_store")
+    ),
     cue = targets::tar_cue(mode = "always")
   ),
   targets::tar_target(
     description = "Collect compact unit tuning summaries",
     name = data_sjsdm_tier_tuning_summaries,
-    command = collect_sjsdm_tuning_summaries(
+    command = load_sjsdm_tuning_summaries(
       store_paths = vec_sjsdm_unit_tuning_stores,
       resolution_ids = list_tuning_context[["resolution_ids"]],
       target_names = list_tuning_context[["target_names"]]
@@ -359,34 +343,72 @@ target_sjsdm_tier_tuning_artifacts <-
     )
   }
 
+target_sjsdm_tier_tuning_artifact_v2 <-
+  if (
+    active_tuning_strategy == "staged"
+  ) {
+    targets::tar_target(
+      description = "Publish the staged tier-tuning v2 artifact",
+      name = list_sjsdm_tier_tuning_artifact,
+      command = build_sjsdm_pipeline_artifact(
+        artifact_type = "sjsdm_tier_tuning",
+        payload = base::list(
+          list_round_decisions = base::list(
+            round_1 = data_sjsdm_tier_survivor_decisions_round_1,
+            round_2 = data_sjsdm_tier_survivor_decisions_round_2,
+            round_3 = data_sjsdm_tier_survivor_decisions_round_3
+          ),
+          data_regularization_selection =
+            list_sjsdm_tier_tuning_artifacts |>
+            purrr::chuck("data_artifacts"),
+          data_source_candidate_loss =
+            list_sjsdm_tier_tuning_artifacts |>
+            purrr::chuck("data_source_candidate_loss"),
+          data_candidate_aggregation =
+            list_sjsdm_tier_tuning_artifacts |>
+            purrr::chuck("data_candidate_aggregation"),
+          data_selection_sensitivity =
+            list_sjsdm_tier_tuning_artifacts |>
+            purrr::chuck("data_selection_sensitivity")
+        ),
+        pipeline_id = "pipeline_sjsdm_tier_tuning",
+        configuration_profile = base::Sys.getenv("R_CONFIG_ACTIVE"),
+        created_at = sjsdm_tier_artifact_created_at
+      )
+    )
+  } else {
+    targets::tar_target(
+      description = "Publish the exhaustive tier-tuning v2 artifact",
+      name = list_sjsdm_tier_tuning_artifact,
+      command = build_sjsdm_pipeline_artifact(
+        artifact_type = "sjsdm_tier_tuning",
+        payload = base::list(
+          list_round_decisions = base::list(),
+          data_regularization_selection =
+            list_sjsdm_tier_tuning_artifacts |>
+            purrr::chuck("data_artifacts"),
+          data_source_candidate_loss =
+            list_sjsdm_tier_tuning_artifacts |>
+            purrr::chuck("data_source_candidate_loss"),
+          data_candidate_aggregation =
+            list_sjsdm_tier_tuning_artifacts |>
+            purrr::chuck("data_candidate_aggregation"),
+          data_selection_sensitivity =
+            list_sjsdm_tier_tuning_artifacts |>
+            purrr::chuck("data_selection_sensitivity")
+        ),
+        pipeline_id = "pipeline_sjsdm_tier_tuning",
+        configuration_profile = base::Sys.getenv("R_CONFIG_ACTIVE"),
+        created_at = sjsdm_tier_artifact_created_at
+      )
+    )
+  }
+
 list_sjsdm_tier_public_targets <-
   base::list(
-  target_sjsdm_tier_tuning_artifacts,
-  targets::tar_target(
-    description = "Publish selected tier regularization artifacts",
-    name = data_sjsdm_tier_regularization_artifacts,
-    command = list_sjsdm_tier_tuning_artifacts |>
-      purrr::chuck("data_artifacts")
-  ),
-  targets::tar_target(
-    description = "Publish source-level tier tuning losses",
-    name = data_sjsdm_tier_source_candidate_loss,
-    command = list_sjsdm_tier_tuning_artifacts |>
-      purrr::chuck("data_source_candidate_loss")
-  ),
-  targets::tar_target(
-    description = "Publish tier candidate aggregation",
-    name = data_sjsdm_tier_candidate_aggregation,
-    command = list_sjsdm_tier_tuning_artifacts |>
-      purrr::chuck("data_candidate_aggregation")
-  ),
-  targets::tar_target(
-    description = "Publish tier weighting sensitivity",
-    name = data_sjsdm_tier_selection_sensitivity,
-    command = list_sjsdm_tier_tuning_artifacts |>
-      purrr::chuck("data_selection_sensitivity")
+    target_sjsdm_tier_tuning_artifacts,
+    target_sjsdm_tier_tuning_artifact_v2
   )
-)
 
 base::c(
   list_sjsdm_tier_common_targets,

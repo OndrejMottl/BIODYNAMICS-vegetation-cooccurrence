@@ -3,7 +3,7 @@ testthat::test_that(
   {
     data_result <-
       summarise_predictive_model_metrics(
-        model_evaluation_cross_validated = base::list(
+        list_pooled_cv_evaluation = base::list(
           data_community_summary = tibble::tibble(
             metric_id = base::rep(
               base::c("tjur_r2", "auc", "log_loss"),
@@ -35,7 +35,7 @@ testthat::test_that(
   {
     data_result <-
       summarise_predictive_model_metrics(
-        model_evaluation_cross_validated = NULL
+        list_pooled_cv_evaluation = NULL
       )
 
     testthat::expect_true(base::all(base::is.na(data_result)))

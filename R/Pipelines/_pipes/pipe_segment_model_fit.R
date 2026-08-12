@@ -56,7 +56,9 @@ pipe_segment_model_fit <-
       description = "make JSDM model",
       name = "mod_jsdm",
       command = if (
-        model_regularization_for_fit[["selection_status"]][[1L]] ==
+        data_sjsdm_regularization_selection_for_fit[[
+          "selection_status"
+        ]][[1L]] ==
           "full_model_infeasible"
       ) {
         NULL
@@ -84,16 +86,28 @@ pipe_segment_model_fit <-
           seed = 900723,
           verbose = TRUE,
           compute_se = FALSE,
-          alpha_cov = model_regularization_for_fit[["alpha_cov"]][[1L]],
-          alpha_coef = model_regularization_for_fit[["alpha_coef"]][[1L]],
+          alpha_cov = data_sjsdm_regularization_selection_for_fit[[
+            "alpha_cov"
+          ]][[1L]],
+          alpha_coef = data_sjsdm_regularization_selection_for_fit[[
+            "alpha_coef"
+          ]][[1L]],
           alpha_spatial =
-            model_regularization_for_fit[["alpha_spatial"]][[1L]],
+            data_sjsdm_regularization_selection_for_fit[[
+              "alpha_spatial"
+            ]][[1L]],
           lambda_cov =
-            model_regularization_for_fit[["lambda_cov"]][[1L]],
+            data_sjsdm_regularization_selection_for_fit[[
+              "lambda_cov"
+            ]][[1L]],
           lambda_coef =
-            model_regularization_for_fit[["lambda_coef"]][[1L]],
+            data_sjsdm_regularization_selection_for_fit[[
+              "lambda_coef"
+            ]][[1L]],
           lambda_spatial =
-            model_regularization_for_fit[["lambda_spatial"]][[1L]]
+            data_sjsdm_regularization_selection_for_fit[[
+              "lambda_spatial"
+            ]][[1L]]
         )
       }
     ),

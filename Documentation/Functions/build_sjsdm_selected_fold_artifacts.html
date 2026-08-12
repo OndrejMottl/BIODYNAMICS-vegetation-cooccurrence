@@ -1,0 +1,92 @@
+<!DOCTYPE html><html><head><title>R: Build Selected sjSDM Fold Artifacts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_sjsdm_selected_fold_artifacts</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build Selected sjSDM Fold Artifacts</h2>
+
+<h3>Description</h3>
+
+<p>Aligns prepared responses, selected-candidate probabilities, taxa, null
+probabilities, and sample metadata into one fold's public prediction and
+diagnostic artifacts. The function never fits a model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_sjsdm_selected_fold_artifacts(
+  list_prepared_fold = NULL,
+  list_fold_context = NULL,
+  data_sample_ids = NULL,
+  taxon_names = NULL,
+  candidate_id = NULL,
+  fit_seed = NULL,
+  regularization_source = NULL,
+  data_predicted = NULL,
+  fold_status = "ok",
+  error_message = NA_character_
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="list_prepared_fold">list_prepared_fold</code></td>
+<td>
+<p>Valid prepared selected-fold inputs.</p>
+</td></tr>
+<tr><td><code id="list_fold_context">list_fold_context</code></td>
+<td>
+<p>Fold identifiers, held-out indices, sizes, and strategy.</p>
+</td></tr>
+<tr><td><code id="data_sample_ids">data_sample_ids</code></td>
+<td>
+<p>Normalized sample metadata.</p>
+</td></tr>
+<tr><td><code id="taxon_names">taxon_names</code></td>
+<td>
+<p>Full ordered response-taxon names.</p>
+</td></tr>
+<tr><td><code id="candidate_id">candidate_id</code>, <code id="fit_seed">fit_seed</code>, <code id="regularization_source">regularization_source</code></td>
+<td>
+<p>Selected-candidate provenance.</p>
+</td></tr>
+<tr><td><code id="data_predicted">data_predicted</code></td>
+<td>
+<p>Optional retained-taxon probability matrix. Missing for fit failures.</p>
+</td></tr>
+<tr><td><code id="fold_status">fold_status</code></td>
+<td>
+<p>'ok', 'fit_error', or 'prediction_error'.</p>
+</td></tr>
+<tr><td><code id="error_message">error_message</code></td>
+<td>
+<p>Failure message, or a missing character value for successful predictions.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list with 'data_predictions' and 'data_diagnostics'.
+</p>
+
+</main>
+
+</div>
+</body></html>

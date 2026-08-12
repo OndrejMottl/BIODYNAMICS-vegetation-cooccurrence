@@ -1,0 +1,49 @@
+Build Selected sjSDM Fold Artifacts
+
+Description:
+
+     Aligns prepared responses, selected-candidate probabilities, taxa,
+     null probabilities, and sample metadata into one fold's public
+     prediction and diagnostic artifacts. The function never fits a
+     model.
+
+Usage:
+
+     build_sjsdm_selected_fold_artifacts(
+       list_prepared_fold = NULL,
+       list_fold_context = NULL,
+       data_sample_ids = NULL,
+       taxon_names = NULL,
+       candidate_id = NULL,
+       fit_seed = NULL,
+       regularization_source = NULL,
+       data_predicted = NULL,
+       fold_status = "ok",
+       error_message = NA_character_
+     )
+
+Arguments:
+
+list_prepared_fold: Valid prepared selected-fold inputs.
+
+list_fold_context: Fold identifiers, held-out indices, sizes, and
+          strategy.
+
+data_sample_ids: Normalized sample metadata.
+
+taxon_names: Full ordered response-taxon names.
+
+candidate_id, fit_seed, regularization_source: Selected-candidate
+          provenance.
+
+data_predicted: Optional retained-taxon probability matrix. Missing for
+          fit failures.
+
+fold_status: `ok`, `fit_error`, or `prediction_error`.
+
+error_message: Failure message, or a missing character value for
+          successful predictions.
+
+Value:
+
+     Named list with `data_predictions` and `data_diagnostics`.

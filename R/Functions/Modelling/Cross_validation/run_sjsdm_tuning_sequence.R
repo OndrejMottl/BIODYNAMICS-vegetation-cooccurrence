@@ -123,95 +123,45 @@ run_sjsdm_tuning_sequence <- function(
     base::nzchar(target_store),
     msg = "target_store must be one non-empty path."
   )
-  n_rounds <-
-    base::as.integer(n_rounds)
-
-  sel_pipeline_name <-
-    unit_pipeline |>
-    base::basename() |>
-    tools::file_path_sans_ext()
+  data_round_plan <-
+    build_sjsdm_tuning_round_plan(
+      tuning_strategy = tuning_strategy,
+      n_rounds = n_rounds
+    )
 
   vec_unit_store_paths <-
-    if (
-      base::is.null(unit_store_suffixes)
-    ) {
-      base::file.path(
-        target_store,
-        sel_pipeline_name
-      )
-    } else {
-      base::file.path(
-        target_store,
-        unit_store_suffixes,
-        sel_pipeline_name
-      )
-    }
-
-  if (
-    tuning_strategy == "staged" && n_rounds != 3L
-  ) {
-    cli::cli_abort(
-      "Staged orchestration currently requires exactly three rounds."
+    build_sjsdm_tuning_store_paths(
+      unit_pipeline = unit_pipeline,
+      unit_store_suffixes = unit_store_suffixes,
+      target_store = target_store
     )
-  }
-
-  vec_round_ids <-
-    if (
-      tuning_strategy == "staged"
-    ) {
-      base::seq_len(n_rounds)
-    } else {
-      1L
-    }
 
   for (
-    round_id in vec_round_ids
+    round_index in base::seq_len(base::nrow(data_round_plan))
   ) {
+    round_id <-
+      data_round_plan[["round_id"]][[round_index]]
+
     fresh_round <-
       fresh_run && round_id == 1L
+
     prebuild_round <-
       prebuild_interpolation && round_id == 1L
-    final_round <-
-      round_id == base::max(vec_round_ids)
 
-    if (
-      base::is.null(unit_store_suffixes)
-    ) {
-      withr::with_envvar(
-        new = base::c(
-          SJSMD_TUNING_MAX_ROUND = base::as.character(round_id)
-        ),
-        code = run_pipeline_function(
-          sel_script = unit_pipeline,
-          target_names = tuning_target_names,
-          prebuild_interpolation = prebuild_round,
-          fresh_run = fresh_round,
-          vec_allowed_profile_roles = vec_allowed_profile_roles,
-          vec_allowed_profile_statuses = vec_allowed_profile_statuses,
-          plot_progress = FALSE
-        )
-      )
-    } else {
-      for (
-        store_suffix in unit_store_suffixes
-      ) {
-        withr::with_envvar(
-          new = base::c(
-            SJSMD_TUNING_MAX_ROUND = base::as.character(round_id)
-          ),
-          code = run_pipeline_function(
-            sel_script = unit_pipeline,
-            store_suffix = store_suffix,
-            target_names = tuning_target_names,
-            prebuild_interpolation = prebuild_round,
-            fresh_run = fresh_round,
-            vec_allowed_profile_roles = vec_allowed_profile_roles,
-            vec_allowed_profile_statuses = vec_allowed_profile_statuses,
-            plot_progress = FALSE
-          )
-        )
-      }
-    }
+    final_round <-
+      data_round_plan[["final_round"]][[round_index]]
+
+    run_sjsdm_tuning_unit_round(
+      round_id = round_id,
+      unit_pipeline = unit_pipeline,
+      tuning_target_names = tuning_target_names,
+      unit_store_suffixes = unit_store_suffixes,
+      prebuild_round = prebuild_round,
+      fresh_round = fresh_round,
+      run_pipeline_function = run_pipeline_function,
+      vec_allowed_profile_roles = vec_allowed_profile_roles,
+      vec_allowed_profile_statuses = vec_allowed_profile_statuses
+    )
 
     flag_has_tuning_evidence <-
       has_tuning_evidence_function(
@@ -235,40 +185,16 @@ run_sjsdm_tuning_sequence <- function(
       return(base::invisible(NULL))
     }
 
-    if (
-      tuning_strategy == "exhaustive"
-    ) {
-      run_pipeline_function(
-        sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R",
-        fresh_run = fresh_round,
-        vec_allowed_profile_roles = vec_allowed_profile_roles,
-        vec_allowed_profile_statuses = vec_allowed_profile_statuses,
-        plot_progress = final_round,
-        callr_function = NULL
-      )
-    } else {
-      tier_target_name <-
-        if (
-          round_id < n_rounds
-        ) {
-          stringr::str_glue(
-            "data_sjsdm_tier_survivor_decisions_round_{round_id}"
-          ) |>
-            base::as.character()
-        } else {
-          "data_sjsdm_tier_regularization_artifacts"
-        }
-
-      run_pipeline_function(
-        sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R",
-        target_names = tier_target_name,
-        fresh_run = fresh_round,
-        vec_allowed_profile_roles = vec_allowed_profile_roles,
-        vec_allowed_profile_statuses = vec_allowed_profile_statuses,
-        plot_progress = final_round,
-        callr_function = NULL
-      )
-    }
+    run_sjsdm_tuning_tier_round(
+      tuning_strategy = tuning_strategy,
+      tier_target_name =
+        data_round_plan[["tier_target_name"]][[round_index]],
+      fresh_round = fresh_round,
+      final_round = final_round,
+      run_pipeline_function = run_pipeline_function,
+      vec_allowed_profile_roles = vec_allowed_profile_roles,
+      vec_allowed_profile_statuses = vec_allowed_profile_statuses
+    )
   }
 
   return(base::invisible(NULL))

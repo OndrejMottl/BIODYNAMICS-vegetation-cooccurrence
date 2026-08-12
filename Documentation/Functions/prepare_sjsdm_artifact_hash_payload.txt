@@ -1,0 +1,19 @@
+Prepare an sjSDM Artifact Payload for Stable Hashing
+
+Description:
+
+     Recursively removes materialization and migration-trace fields
+     before an artifact payload contributes to its stable scientific
+     content hash.
+
+Usage:
+
+     prepare_sjsdm_artifact_hash_payload(value = NULL)
+
+Arguments:
+
+   value: Artifact payload value or nested component.
+
+Value:
+
+     Payload value with unstable trace fields removed.

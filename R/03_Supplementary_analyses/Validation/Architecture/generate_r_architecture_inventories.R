@@ -129,7 +129,7 @@ data_function_inventory <-
       .data[["leading_verb"]] %in% base::c(
         "load", "save", "build", "prepare", "validate",
         "diagnose", "is", "has", "resolve", "compute",
-        "aggregate", "summarise", "fit", "predict",
+        "aggregate", "combine", "convert", "summarise", "fit", "predict",
         "score", "evaluate", "select", "run", "plot",
         "render", "filter", "classify", "interpolate",
         "scale", "project", "cluster", "deduplicate",
@@ -422,6 +422,90 @@ path_output <-
     "Documentation/Implementation_inventories/R_architecture"
   )
 
+data_issue141_function_migrations <-
+  tibble::tribble(
+    ~function_name, ~intended_function,
+    "combine_sjsdm_tuning_work_items",
+    "aggregate_sjsdm_tuning_work_items",
+    "make_cross_validation_assignments_from_resolution",
+    "build_cross_validation_assignments_from_resolution",
+    "make_cross_validation_branch_assignments",
+    "build_cross_validation_branch_assignments",
+    "make_cross_validation_grid_candidates",
+    "build_cross_validation_grid_candidates",
+    "make_cross_validation_grid_candidates_from_resolution",
+    "build_cross_validation_grid_candidates_from_resolution",
+    "make_cross_validation_location_table",
+    "build_cross_validation_location_table",
+    "make_leave_one_location_out_assignments",
+    "build_leave_one_location_out_assignments",
+    "assemble_sjsdm_cached_selected_folds",
+    "build_sjsdm_cached_selected_folds",
+    "make_sjsdm_empty_selected_fold_artifacts",
+    "build_sjsdm_empty_selected_fold_artifacts",
+    "configure_sjsdm_predictor_structure",
+    "build_sjsdm_predictor_comparison_structure",
+    "make_sjsdm_regularization_candidates",
+    "build_sjsdm_regularization_candidates",
+    "get_sjsdm_staged_benchmark_policy",
+    "build_sjsdm_staged_benchmark_policy",
+    "make_sjsdm_structured_regularization_candidates",
+    "build_sjsdm_structured_regularization_candidates",
+    "make_sjsdm_tuning_branch_work_items",
+    "build_sjsdm_tuning_branch_work_items",
+    "make_sjsdm_tuning_fold_context",
+    "build_sjsdm_tuning_fold_context",
+    "make_spatial_cross_validation_assignments",
+    "build_spatial_cross_validation_assignments",
+    "calibrate_cross_validation_grid_size",
+    "compute_cross_validation_grid_calibration",
+    "calibrate_cross_validation_grid_from_resolution",
+    "compute_cross_validation_grid_calibration_from_resolution",
+    "compare_sjsdm_decomposition_fold_metrics",
+    "compute_sjsdm_decomposition_fold_effects",
+    "make_cross_validation_partition_diagnostics",
+    "diagnose_cross_validation_partitions",
+    "assess_sjsdm_candidate_guardrails",
+    "evaluate_sjsdm_candidate_guardrails",
+    "assess_sjsdm_scientific_performance",
+    "evaluate_sjsdm_scientific_performance",
+    "assess_sjsdm_staged_benchmark",
+    "evaluate_sjsdm_staged_benchmark",
+    "assess_sjsdm_taxon_eligibility",
+    "evaluate_sjsdm_taxon_eligibility",
+    "assess_spatial_mev_paired_benchmark",
+    "evaluate_spatial_mev_paired_benchmark",
+    "collect_sjsdm_available_tier_decisions",
+    "load_sjsdm_available_tier_decisions",
+    "read_sjsdm_tier_survivor_decisions",
+    "load_sjsdm_tier_survivor_decisions",
+    "read_sjsdm_tier_tuning_artifact",
+    "load_sjsdm_tier_tuning_artifact",
+    "collect_sjsdm_tuning_summaries",
+    "load_sjsdm_tuning_summaries",
+    "adapt_cross_validation_assignments",
+    "resolve_cross_validation_assignments",
+    "assess_cross_validation_feasibility",
+    "resolve_cross_validation_strategy",
+    "collect_sjsdm_tuning_timings",
+    "summarise_sjsdm_tuning_timings"
+  )
+
+data_issue141_active_function_keys <-
+  data_issue141_function_migrations |>
+  dplyr::mutate(
+    current_path = stringr::str_c(
+      "R/Functions/Modelling/Cross_validation/",
+      .data[["intended_function"]],
+      ".R"
+    ),
+    function_name = .data[["intended_function"]]
+  ) |>
+  dplyr::select(
+    "current_path",
+    "function_name"
+  )
+
 path_function_inventory <-
   base::file.path(path_output, "r_function_inventory_v1.csv")
 
@@ -435,7 +519,53 @@ if (
     readr::read_csv(
       file = path_function_inventory,
       show_col_types = FALSE
-    )
+    ) |>
+    dplyr::anti_join(
+      data_issue141_active_function_keys,
+      by = dplyr::join_by(current_path, function_name)
+    ) |>
+    dplyr::left_join(
+      data_issue141_function_migrations,
+      by = dplyr::join_by(function_name)
+    ) |>
+    dplyr::mutate(
+      intended_path = dplyr::if_else(
+        !base::is.na(.data[["intended_function.y"]]),
+        stringr::str_c(
+          "R/Functions/Modelling/Cross_validation/",
+          .data[["intended_function.y"]],
+          ".R"
+        ),
+        .data[["intended_path"]]
+      ),
+      intended_function = dplyr::coalesce(
+        .data[["intended_function.y"]],
+        .data[["intended_function.x"]]
+      ),
+      leading_verb = dplyr::if_else(
+        !base::is.na(.data[["intended_function.y"]]),
+        .data[["intended_function.y"]] |>
+          stringr::str_remove("^[.]") |>
+          stringr::str_extract("^[^_]+"),
+        .data[["leading_verb"]]
+      ),
+      naming_status = dplyr::if_else(
+        !base::is.na(.data[["intended_function.y"]]) |
+          .data[["leading_verb"]] %in% base::c("combine", "convert"),
+        "canonical_or_domain_verb",
+        .data[["naming_status"]]
+      ),
+      migration_status = dplyr::if_else(
+        !base::is.na(.data[["intended_function.y"]]),
+        "migrated",
+        .data[["migration_status"]]
+      )
+    ) |>
+    dplyr::select(
+      -"intended_function.x",
+      -"intended_function.y"
+    ) |>
+    dplyr::relocate("intended_function", .after = "intended_path")
 
   vec_function_inventory_columns <-
     base::colnames(data_function_inventory_existing)
@@ -542,6 +672,45 @@ if (
     readr::read_csv(
       file = path_script_inventory,
       show_col_types = FALSE
+    ) |>
+    dplyr::mutate(
+      script_name = fs::path_ext_remove(fs::path_file(.data[["current_path"]])),
+      function_name = stringr::str_remove(script_name, "^test-")
+    ) |>
+    dplyr::left_join(
+      data_issue141_function_migrations,
+      by = dplyr::join_by(function_name)
+    ) |>
+    dplyr::mutate(
+      intended_path = dplyr::if_else(
+        !base::is.na(.data[["intended_function"]]) &
+          stringr::str_starts(.data[["script_name"]], "test-"),
+        stringr::str_c(
+          fs::path_dir(.data[["current_path"]]),
+          "/test-",
+          .data[["intended_function"]],
+          ".R"
+        ),
+        .data[["intended_path"]]
+      ),
+      migration_status = dplyr::if_else(
+        !base::is.na(.data[["intended_function"]]) &
+          stringr::str_starts(.data[["script_name"]], "test-"),
+        "migrated",
+        .data[["migration_status"]]
+      )
+    ) |>
+    dplyr::select(-"script_name", -"function_name", -"intended_function") |>
+    dplyr::filter(
+      !(
+        .data[["migration_status"]] == "baseline_recorded" &
+          .data[["current_path"]] %in%
+            stringr::str_c(
+              "R/03_Supplementary_analyses/Testing/testthat/test-",
+              data_issue141_function_migrations[["intended_function"]],
+              ".R"
+            )
+      )
     ) |>
     dplyr::mutate(
       active_path = dplyr::case_when(

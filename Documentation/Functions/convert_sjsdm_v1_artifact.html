@@ -1,0 +1,84 @@
+<!DOCTYPE html><html><head><title>R: Convert a Frozen v1 sjSDM Artifact Bundle</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>convert_sjsdm_v1_artifact</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert a Frozen v1 sjSDM Artifact Bundle</h2>
+
+<h3>Description</h3>
+
+<p>Converts one strictly identified v1 target bundle into the common v2
+envelope without modifying its source store.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>convert_sjsdm_v1_artifact(
+  artifact_type = NULL,
+  payload = NULL,
+  v1_schema_hash = NULL,
+  pipeline_id = NULL,
+  configuration_profile = NULL,
+  migration_function = NULL,
+  created_at = base::Sys.time()
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="artifact_type">artifact_type</code></td>
+<td>
+<p>Registered v2 artifact type.</p>
+</td></tr>
+<tr><td><code id="payload">payload</code></td>
+<td>
+<p>Named v2 payload assembled from validated v1 targets.</p>
+</td></tr>
+<tr><td><code id="v1_schema_hash">v1_schema_hash</code></td>
+<td>
+<p>Frozen v1 schema-fixture hash.</p>
+</td></tr>
+<tr><td><code id="pipeline_id">pipeline_id</code></td>
+<td>
+<p>Source pipeline identifier.</p>
+</td></tr>
+<tr><td><code id="configuration_profile">configuration_profile</code></td>
+<td>
+<p>Source configuration profile.</p>
+</td></tr>
+<tr><td><code id="migration_function">migration_function</code></td>
+<td>
+<p>Explicit converter name.</p>
+</td></tr>
+<tr><td><code id="created_at">created_at</code></td>
+<td>
+<p>Conversion time.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Validated migrated v2 artifact envelope.
+</p>
+
+</main>
+
+</div>
+</body></html>

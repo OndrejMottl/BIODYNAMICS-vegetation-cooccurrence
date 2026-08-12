@@ -1,0 +1,46 @@
+Build Cached Selected sjSDM Folds
+
+Description:
+
+     Reconstructs the established selected-candidate OOF prediction and
+     diagnostic artifacts from tuning-time probabilities without
+     fitting the selected candidate again.
+
+Usage:
+
+     build_sjsdm_cached_selected_folds(
+       data_assignments = NULL,
+       data_selected_candidate = NULL,
+       data_sample_ids = NULL,
+       taxon_names = NULL,
+       list_prediction_cache = NULL
+     )
+
+Arguments:
+
+data_assignments, data_selected_candidate, data_sample_ids,
+          taxon_names: Inputs accepted by
+          [run_sjsdm_selected_candidate_folds()].
+
+list_prediction_cache: Fold caches returned by
+          [run_sjsdm_tuning_candidates()] when `retain_prediction_cache
+          = TRUE`.
+
+Value:
+
+     Named list with the unchanged `data_predictions` and
+     `data_diagnostics` public schemas. Diagnostic fit seeds identify
+     the tuning fits that produced the reused probabilities.
+
+Examples:
+
+     ## Not run:
+
+     build_sjsdm_cached_selected_folds(
+       data_assignments = data_assignments,
+       data_selected_candidate = data_selected_candidate,
+       data_sample_ids = data_sample_ids,
+       taxon_names = taxon_names,
+       list_prediction_cache = list_prediction_cache
+     )
+     ## End(Not run)

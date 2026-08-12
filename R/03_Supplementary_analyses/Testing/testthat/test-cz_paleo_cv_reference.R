@@ -14,7 +14,7 @@ testthat::test_that(
       purrr::chuck("regularization")
 
     data_candidates <-
-      make_sjsdm_regularization_candidates(
+      build_sjsdm_regularization_candidates(
         alpha_cov = config_regularization |>
           purrr::chuck("alpha_cov"),
         alpha_coef = config_regularization |>

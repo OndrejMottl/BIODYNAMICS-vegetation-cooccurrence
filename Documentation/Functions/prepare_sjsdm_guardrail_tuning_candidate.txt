@@ -1,0 +1,26 @@
+Prepare One Candidate's Tuning Guardrail Evidence
+
+Description:
+
+     Validates and reshapes complete repeat-level tuning evidence for
+     one candidate comparison.
+
+Usage:
+
+     prepare_sjsdm_guardrail_tuning_candidate(
+       data_tuning_summary = NULL,
+       selected_candidate_id = NULL,
+       suffix = NULL
+     )
+
+Arguments:
+
+data_tuning_summary: Repeat-by-candidate tuning summary.
+
+selected_candidate_id: Candidate identifier to retain.
+
+  suffix: Suffix appended to metric columns.
+
+Value:
+
+     One row per repeat with suffixed tuning metrics.

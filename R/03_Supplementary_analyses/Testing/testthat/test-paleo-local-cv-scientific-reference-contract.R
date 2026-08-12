@@ -59,6 +59,17 @@ testthat::test_that(
     )
     testthat::expect_match(
       text_pipeline,
+      'name = "model_formula_genus"',
+      fixed = TRUE
+    )
+    testthat::expect_false(
+      stringr::str_detect(
+        text_pipeline,
+        stringr::fixed('name = "formula_jsdm_environment_genus"')
+      )
+    )
+    testthat::expect_match(
+      text_pipeline,
       "data_scientific_reference_assignments",
       fixed = TRUE
     )

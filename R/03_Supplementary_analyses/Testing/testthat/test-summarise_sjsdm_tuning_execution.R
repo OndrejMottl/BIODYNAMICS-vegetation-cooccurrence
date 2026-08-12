@@ -105,6 +105,45 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "summarise_sjsdm_tuning_execution() accepts staged schedule prefixes",
+  {
+    data_tuning <-
+      tidyr::crossing(
+        repeat_id = 1L,
+        fold_id = 1:5,
+        candidate_id = stringr::str_c("candidate_", 1:8)
+      ) |>
+      dplyr::mutate(fit_status = "ok")
+
+    data_schedule <-
+      build_sjsdm_tuning_schedule(
+        tuning_strategy = "staged",
+        n_candidates = 8L,
+        repeat_ids = 1:3,
+        survivor_counts = base::c(4L, 2L)
+      )
+
+    data_result <-
+      summarise_sjsdm_tuning_execution(
+        data_tuning = data_tuning,
+        data_schedule = data_schedule
+      )
+
+    testthat::expect_identical(data_result[["n_fits_executed"]], 40L)
+    testthat::expect_identical(data_result[["n_fits_exhaustive"]], 40L)
+
+    testthat::expect_error(
+      summarise_sjsdm_tuning_execution(
+        data_tuning = data_tuning |>
+          dplyr::mutate(repeat_id = 2L),
+        data_schedule = data_schedule
+      ),
+      "Executed candidates do not match"
+    )
+  }
+)
+
+testthat::test_that(
   "summarise_sjsdm_tuning_execution() accepts one exhaustive boundary",
   {
     data_tuning <-

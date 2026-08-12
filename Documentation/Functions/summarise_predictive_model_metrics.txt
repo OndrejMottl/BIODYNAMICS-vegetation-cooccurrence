@@ -7,12 +7,12 @@ Description:
 
 Usage:
 
-     summarise_predictive_model_metrics(model_evaluation_cross_validated)
+     summarise_predictive_model_metrics(list_pooled_cv_evaluation)
 
 Arguments:
 
-model_evaluation_cross_validated: Cross-validated model-evaluation
-          object, or `NULL`.
+list_pooled_cv_evaluation: Cross-validated model-evaluation object, or
+          `NULL`.
 
 Value:
 

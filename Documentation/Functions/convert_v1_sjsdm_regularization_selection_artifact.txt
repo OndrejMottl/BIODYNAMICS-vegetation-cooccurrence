@@ -1,0 +1,33 @@
+Convert a v1 sjsdm regularization selection Artifact
+
+Description:
+
+     Applies the frozen v1 fixture contract and upgrades an assembled
+     payload to the canonical `sjsdm_regularization_selection` v2
+     envelope.
+
+Usage:
+
+     convert_v1_sjsdm_regularization_selection_artifact(
+       payload = NULL,
+       pipeline_id = NULL,
+       configuration_profile = NULL,
+       created_at = base::Sys.time(),
+       v1_schema_hash = "2d727fd54623501e0ac384e0674c17f3"
+     )
+
+Arguments:
+
+ payload: Exact named v2 payload assembled from frozen v1 targets.
+
+pipeline_id: Source pipeline identifier.
+
+configuration_profile: Source configuration profile.
+
+created_at: Conversion time.
+
+v1_schema_hash: Frozen v1 schema-fixture hash.
+
+Value:
+
+     Validated migrated v2 artifact envelope.

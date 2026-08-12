@@ -1,0 +1,32 @@
+Make sjSDM Tuning Branch Work Items
+
+Description:
+
+     Converts public tuning work items into a branchable table. Empty
+     inputs produce one explicit non-fitting sentinel so `targets` does
+     not branch over an empty target.
+
+Usage:
+
+     build_sjsdm_tuning_branch_work_items(data_work_items = NULL)
+
+Arguments:
+
+data_work_items: Work-item table returned by
+          [build_sjsdm_tuning_work_items()]. It may be empty when
+          cross-validation is scientifically inapplicable.
+
+Value:
+
+     Work-item tibble with additive `tuning_applicable`. Non-empty
+     inputs retain every row and set the flag to `TRUE`; empty inputs
+     return one typed sentinel row with the flag set to `FALSE`.
+
+Examples:
+
+     ## Not run:
+
+     build_sjsdm_tuning_branch_work_items(
+       data_work_items = data_sjsdm_tuning_work_items
+     )
+     ## End(Not run)

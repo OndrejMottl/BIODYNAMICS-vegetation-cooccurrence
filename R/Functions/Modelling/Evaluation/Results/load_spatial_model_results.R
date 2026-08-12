@@ -171,18 +171,28 @@ load_spatial_model_results <- function(
                   list_jsdm_evaluation_fitted = list_jsdm_evaluation_fitted
                 )
 
-              target_evaluation_cross_validated <-
+              target_evaluation_cross_validated_v1 <-
                 stringr::str_glue(
                   "model_evaluation_cross_validated_{resolution_id}"
                 ) |>
                 base::as.character()
 
-              model_evaluation_cross_validated <-
+              target_evaluation_cross_validated_v2 <-
+                stringr::str_glue(
+                  "list_sjsdm_cv_evaluation_artifact_{resolution_id}"
+                ) |>
+                base::as.character()
+
+              list_pooled_cv_evaluation <-
                 if (
                   has_target_succeeded(
                     data_meta,
-                    target_evaluation_cross_validated
-                  )
+                    target_evaluation_cross_validated_v2
+                  ) ||
+                    has_target_succeeded(
+                      data_meta,
+                      target_evaluation_cross_validated_v1
+                    )
                 ) {
                   load_model_evaluation_target(
                     store_path = store_path,
@@ -196,23 +206,39 @@ load_spatial_model_results <- function(
 
               data_predictive_metrics <-
                 summarise_predictive_model_metrics(
-                  model_evaluation_cross_validated =
-                    model_evaluation_cross_validated
+                  list_pooled_cv_evaluation =
+                    list_pooled_cv_evaluation
                 )
 
-              target_provenance <-
+              target_provenance_v1 <-
                 stringr::str_glue(
                   "data_sjsdm_model_provenance_{resolution_id}"
                 ) |>
                 base::as.character()
 
               data_provenance <-
-                .load_successful_model_target(
-                  data_meta = data_meta,
-                  target_name = target_provenance,
-                  store_path = store_path,
-                  read_target_fn = read_target_fn
-                )
+                if (
+                  has_target_succeeded(
+                    data_meta,
+                    target_evaluation_cross_validated_v2
+                  ) ||
+                    has_target_succeeded(
+                      data_meta,
+                      target_provenance_v1
+                    )
+                ) {
+                  load_sjsdm_cv_payload_field(
+                    store_path = store_path,
+                    v2_target_name =
+                      target_evaluation_cross_validated_v2,
+                    artifact_type = "sjsdm_cv_evaluation",
+                    payload_name = "data_model_provenance",
+                    v1_target_name = target_provenance_v1,
+                    read_target_function = read_target_fn
+                  )
+                } else {
+                  NULL
+                }
 
               data_provenance_summary <-
                 .summarise_model_provenance(

@@ -1,0 +1,17 @@
+Validate the sjsdm regularization selection Payload
+
+Description:
+
+     Applies the artifact-specific registered payload contract.
+
+Usage:
+
+     validate_sjsdm_regularization_selection_payload(payload = NULL)
+
+Arguments:
+
+ payload: Named artifact payload.
+
+Value:
+
+     Invisible `TRUE`; invalid payloads abort.

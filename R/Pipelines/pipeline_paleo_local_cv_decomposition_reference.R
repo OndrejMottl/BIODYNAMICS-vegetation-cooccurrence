@@ -160,7 +160,7 @@ base::list(
   targets::tar_target(
     name = model_scientific_reference_full_data_anova,
     command = targets::tar_read_raw(
-      name = "list_jsdm_variance_partition_genus",
+      name = "model_anova_genus",
       store = path_full_data_reference_store
     ),
     cue = targets::tar_cue(mode = "always")
@@ -291,7 +291,7 @@ base::list(
   ),
   targets::tar_target(
     name = data_scientific_reference_decomposition_comparisons,
-    command = compare_sjsdm_decomposition_fold_metrics(
+    command = compute_sjsdm_decomposition_fold_effects(
       data_fold_metrics =
         data_scientific_reference_decomposition_fold_metrics,
       data_taxon_eligibility =

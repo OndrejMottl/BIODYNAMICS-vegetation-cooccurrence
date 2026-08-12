@@ -92,6 +92,12 @@ testthat::test_that(
         },
         read_target_fn = function(name, store) {
           if (
+            name == "list_sjsdm_cv_evaluation_artifact_genus"
+          ) {
+            base::stop("canonical target unavailable")
+          }
+
+          if (
             name == "list_jsdm_variance_partition_genus"
           ) {
             return(make_test_anova())

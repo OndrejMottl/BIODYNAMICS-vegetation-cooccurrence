@@ -1,0 +1,36 @@
+Load an sjSDM CV Payload Field
+
+Description:
+
+     Reads and validates one canonical v2 artifact before falling back
+     to one documented frozen v1 target. The source store is never
+     modified.
+
+Usage:
+
+     load_sjsdm_cv_payload_field(
+       store_path = NULL,
+       v2_target_name = NULL,
+       artifact_type = NULL,
+       payload_name = NULL,
+       v1_target_name = NULL,
+       read_target_function = targets::tar_read_raw
+     )
+
+Arguments:
+
+store_path: Targets store path.
+
+v2_target_name: Canonical v2 target name.
+
+artifact_type: Expected v2 artifact type.
+
+payload_name: Payload field to return.
+
+v1_target_name: Frozen v1 fallback target name.
+
+read_target_function: Injectable target reader.
+
+Value:
+
+     The requested v2 payload field or validated v1 target value.

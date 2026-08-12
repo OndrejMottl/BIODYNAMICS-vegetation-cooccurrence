@@ -57,7 +57,7 @@ selected-candidate folds and returns labelled predictions and diagnostics.
 <table role = "presentation">
 <tr><td><code id="predictor_structure">predictor_structure</code></td>
 <td>
-<p>Structure passed to [configure_sjsdm_predictor_structure()].</p>
+<p>Structure passed to [build_sjsdm_predictor_comparison_structure()].</p>
 </td></tr>
 <tr><td><code id="data_assignments">data_assignments</code>, <code id="data_selected_candidate">data_selected_candidate</code>, <code id="data_community_matrix">data_community_matrix</code></td>
 <td>

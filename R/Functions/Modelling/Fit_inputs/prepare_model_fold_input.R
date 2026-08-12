@@ -180,28 +180,21 @@ prepare_model_fold_input <- function(
     cli::cli_abort("Abiotic sample identifiers must be unique.")
   }
 
-  make_abiotic_partition <- function(vec_ids) {
-    res_partition <-
-      data_abiotic_identified |>
-      dplyr::filter(.data[[".row_name"]] %in% .env[["vec_ids"]]) |>
-      dplyr::mutate(
-        .fold_order = base::match(
-          .data[[".row_name"]],
-          .env[["vec_ids"]]
-        )
-      ) |>
-      dplyr::arrange(.data[[".fold_order"]]) |>
-      dplyr::select(-".fold_order") |>
-      tidyr::drop_na()
-
-    return(res_partition)
-  }
-
   data_abiotic_train_identified <-
-    make_abiotic_partition(vec_ids = train_ids)
+    prepare_ordered_fold_partition(
+      data_partition_source = data_abiotic_identified,
+      partition_ids = train_ids,
+      id_column = ".row_name"
+    ) |>
+    tidyr::drop_na()
 
   data_abiotic_test_identified <-
-    make_abiotic_partition(vec_ids = test_ids)
+    prepare_ordered_fold_partition(
+      data_partition_source = data_abiotic_identified,
+      partition_ids = test_ids,
+      id_column = ".row_name"
+    ) |>
+    tidyr::drop_na()
 
   vec_abiotic_train_ids <-
     dplyr::pull(data_abiotic_train_identified, .row_name)

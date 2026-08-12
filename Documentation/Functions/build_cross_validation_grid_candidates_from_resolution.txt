@@ -1,0 +1,48 @@
+Make Cross-Validation Grid Candidates From Fold Resolution
+
+Description:
+
+     Derives spatial-grid candidates only for spatially stratified
+     grouped cross-validation.
+
+Usage:
+
+     build_cross_validation_grid_candidates_from_resolution(
+       data_locations = NULL,
+       data_fold_resolution = NULL,
+       target_locations_per_cell = 5,
+       grid_size_multipliers = 2^base::seq(-2, 2)
+     )
+
+Arguments:
+
+data_locations: Location table returned by
+          [build_cross_validation_location_table()].
+
+data_fold_resolution: One-row table returned by
+          [resolve_cross_validation_fold_count()].
+
+target_locations_per_cell, grid_size_multipliers: Arguments passed to
+          [build_cross_validation_grid_candidates()].
+
+Value:
+
+     Grid-candidate tibble. Gridless strategies return a zero-row
+     tibble with the stable candidate schema.
+
+Examples:
+
+     data_locations <-
+       tibble::tibble(
+         location_id = base::letters[1:6],
+         coord_x_km = base::seq_len(6L),
+         coord_y_km = base::seq_len(6L),
+         n_samples = base::rep(1L, 6L),
+         row_indices = base::as.list(base::seq_len(6L))
+       )
+     data_resolution <-
+       resolve_cross_validation_fold_count(6L, 5L)
+     build_cross_validation_grid_candidates_from_resolution(
+       data_locations = data_locations,
+       data_fold_resolution = data_resolution
+     )
