@@ -1,8 +1,10 @@
 testthat::test_that(
   "load_sjsdm_unit_tuning_store_paths() keeps existing stores",
   {
-    path_root <- withr::local_tempdir()
-    path_store <- base::file.path(path_root, "unit")
+    path_root <-
+      withr::local_tempdir()
+    path_store <-
+      base::file.path(path_root, "unit")
     fs::dir_create(path_store)
     res <-
       load_sjsdm_unit_tuning_store_paths(

@@ -14,9 +14,11 @@ testthat::test_that(
         pipeline_id = "pipeline_test",
         configuration_profile = "project_test"
       )
-    vec_reads <- character()
+    vec_reads <-
+      character()
     read_target <- function(name, store) {
-      vec_reads <<- base::c(vec_reads, name)
+      vec_reads <<-
+        base::c(vec_reads, name)
       if (name == "list_sjsdm_cv_prediction_artifact") {
         return(list_v2)
       }

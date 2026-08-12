@@ -493,13 +493,17 @@ data_issue141_function_migrations <-
 
 data_issue141_active_function_keys <-
   data_issue141_function_migrations |>
-  dplyr::transmute(
+  dplyr::mutate(
     current_path = stringr::str_c(
       "R/Functions/Modelling/Cross_validation/",
       .data[["intended_function"]],
       ".R"
     ),
     function_name = .data[["intended_function"]]
+  ) |>
+  dplyr::select(
+    "current_path",
+    "function_name"
   )
 
 path_function_inventory <-

@@ -7,7 +7,8 @@ testthat::test_that(
       unit_pipeline = "unit.R",
       tuning_target_names = "summary",
       run_pipeline_function = function(...) {
-        captured_round <<- base::Sys.getenv("SJSMD_TUNING_MAX_ROUND")
+        captured_round <<-
+          base::Sys.getenv("SJSMD_TUNING_MAX_ROUND")
       }
     )
     testthat::expect_identical(captured_round, "2")

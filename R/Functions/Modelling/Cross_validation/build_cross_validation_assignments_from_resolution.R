@@ -7,7 +7,8 @@
 #' @param data_fold_resolution
 #' One-row table returned by [resolve_cross_validation_fold_count()].
 #' @param data_grid_calibration
-#' Table returned by [compute_cross_validation_grid_calibration_from_resolution()].
+#' Table returned by
+#' [compute_cross_validation_grid_calibration_from_resolution()].
 #' @param n_repeats
 #' Positive integer number of deterministic spatial assignment repeats.
 #' @param seed
