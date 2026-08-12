@@ -28,4 +28,3 @@ convert_v1_cross_validation_design_artifact <- function(
 
   return(res)
 }
-

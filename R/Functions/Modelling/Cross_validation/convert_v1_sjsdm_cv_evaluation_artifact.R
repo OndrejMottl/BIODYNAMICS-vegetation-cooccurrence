@@ -28,4 +28,3 @@ convert_v1_sjsdm_cv_evaluation_artifact <- function(
 
   return(res)
 }
-
