@@ -52,6 +52,7 @@ Fresh reference validation completed without target errors:
 
 | Reference | Result | Runtime | Scientific result |
 |---|---|---:|---|
+| Direct CV reference | 340 completed, 42 skipped | 15m 8.3s | All five canonical v2 envelopes passed validation |
 | Component reference | 24 completed, 0 skipped | 4m 44.8s | Passed |
 | Structured regularization reference | 32 completed, 0 skipped | 27m 52.3s | Passed |
 | Local scientific reference | 30 completed, 0 skipped | 1m 56.3s | All nine decision criteria passed; calibration caution retained |
@@ -100,7 +101,8 @@ The remaining evaluator gates cover the exact schedule, run completeness, scient
 - Architecture inventory: 521 R scripts, 387 reusable functions, and 421 targets.
 - Blocking architecture validator: zero findings across zero finding types.
 - Active-code and current-generated-artifact scans contain no obsolete Issue #141 function names; preserved historical reports and provenance are intentionally excluded.
-- `git diff --check` and the mandatory read-only change review are performed on the final report commit before publication.
+- The maintained source, tests, contracts, and reports pass the Git diff whitespace check. Regenerated self-contained progress HTML preserves upstream third-party JavaScript whitespace exactly, as documented by the repository.
+- The mandatory read-only change review was performed before publication.
 
 ## Acceptance status
 
