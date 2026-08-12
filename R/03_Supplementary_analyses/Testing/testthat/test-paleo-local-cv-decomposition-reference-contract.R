@@ -45,6 +45,17 @@ testthat::test_that(
     )
     testthat::expect_match(
       text_pipeline,
+      'name = "model_anova_genus"',
+      fixed = TRUE
+    )
+    testthat::expect_false(
+      stringr::str_detect(
+        text_pipeline,
+        stringr::fixed('name = "list_jsdm_variance_partition_genus"')
+      )
+    )
+    testthat::expect_match(
+      text_pipeline,
       "data_scientific_reference_full_data_anova_fractions",
       fixed = TRUE
     )
