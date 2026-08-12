@@ -275,13 +275,38 @@ make_pipe_segment_ft_classification_continental <- function(
 
       targets::tar_target(
         description = stringr::str_glue(
+          "Fingerprint classified corrected traits in the shared store"
+        ),
+        name = data_traits_classified_corrected_fingerprint,
+        command = load_targets_target_fingerprints(
+          store_path = path_traits_reference_store,
+          target_names = "data_traits_classified_corrected"
+        ),
+        cue = targets::tar_cue(mode = "always")
+      ),
+
+      targets::tar_target(
+        description = stringr::str_glue(
+          "Fingerprint trait taxonomy in the shared store"
+        ),
+        name = data_trait_taxonomy_fingerprint,
+        command = load_targets_target_fingerprints(
+          store_path = path_traits_reference_store,
+          target_names = "data_combined_classification_table_traits"
+        ),
+        cue = targets::tar_cue(mode = "always")
+      ),
+
+      targets::tar_target(
+        description = stringr::str_glue(
           "Load classified corrected traits from ",
           "shared traits pipeline store"
         ),
         name = data_traits_for_functional_type_classification,
-        command = targets::tar_read(
-          data_traits_classified_corrected,
-          store = path_traits_reference_store
+        command = load_targets_target_by_fingerprint(
+          store_path = path_traits_reference_store,
+          target_name = "data_traits_classified_corrected",
+          data_fingerprint = data_traits_classified_corrected_fingerprint
         )
       ),
       targets::tar_target(
@@ -290,9 +315,10 @@ make_pipe_segment_ft_classification_continental <- function(
           "shared traits pipeline store"
         ),
         name = data_classification_table_for_functional_types,
-        command = targets::tar_read(
-          data_combined_classification_table_traits,
-          store = path_traits_reference_store
+        command = load_targets_target_by_fingerprint(
+          store_path = path_traits_reference_store,
+          target_name = "data_combined_classification_table_traits",
+          data_fingerprint = data_trait_taxonomy_fingerprint
         )
       ),
 
