@@ -2,8 +2,7 @@ Build an sjSDM Artifact Envelope
 
 Description:
 
-     Builds and validates one native or migrated cross-validation v2
-     artifact.
+     Builds and validates one native cross-validation v2 artifact.
 
 Usage:
 

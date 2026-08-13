@@ -2,9 +2,9 @@ Check for Shared sjSDM Tuning Evidence
 
 Description:
 
-     Reads every requested unit tuning artifact or frozen v1 summary
-     and reports whether at least one contains candidate evidence.
-     Missing, unreadable, or malformed inputs fail closed.
+     Reads every requested native-v2 unit tuning artifact and reports
+     whether at least one contains candidate evidence. Missing,
+     unreadable, or malformed inputs fail closed.
 
 Usage:
 

@@ -1,0 +1,52 @@
+Load a Target Tracked by an External Fingerprint
+
+Description:
+
+     Loads one target from an external `targets` store while requiring
+     an exact, previously validated fingerprint row for that target.
+     The explicit fingerprint argument creates a local dependency on
+     external scientific content instead of depending only on the store
+     path.
+
+Usage:
+
+     load_targets_target_by_fingerprint(
+       store_path,
+       target_name,
+       data_fingerprint,
+       read_fn = targets::tar_read_raw
+     )
+
+Arguments:
+
+store_path: A single non-empty character string with the targets store
+          path.
+
+target_name: A single non-empty character string naming the target to
+          load.
+
+data_fingerprint: A one-row data frame with columns `name` and
+          `data_hash`, as returned by
+          [load_targets_target_fingerprints()].
+
+ read_fn: Function used to read the target. Defaults to
+          [targets::tar_read_raw()].
+
+Value:
+
+     The target value returned by `read_fn`.
+
+Examples:
+
+     ## Not run:
+
+     data_fingerprint <- load_targets_target_fingerprints(
+       store_path = "Data/targets/traits_reference/pipeline_traits_reference",
+       target_names = "data_traits_classified_corrected"
+     )
+     load_targets_target_by_fingerprint(
+       store_path = "Data/targets/traits_reference/pipeline_traits_reference",
+       target_name = "data_traits_classified_corrected",
+       data_fingerprint = data_fingerprint
+     )
+     ## End(Not run)

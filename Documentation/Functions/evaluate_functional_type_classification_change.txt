@@ -1,0 +1,50 @@
+Evaluate a Functional-Type Classification Change
+
+Description:
+
+     Compares two functional-type classifications by taxon, raw cluster
+     labels, label-invariant co-clustering relationships, and
+     silhouette widths. The partition comparison is invariant to
+     arbitrary integer relabelling of otherwise identical clusters.
+
+Usage:
+
+     evaluate_functional_type_classification_change(data_reference, data_candidate)
+
+Arguments:
+
+data_reference: A data frame with unique `taxon_name` values and
+          columns `functional_type` and `silhouette_width`.
+
+data_candidate: A data frame with the same required columns as
+          `data_reference`.
+
+Details:
+
+     Label-invariant partition differences are counted from
+     cluster-size and contingency-table combinations. This avoids
+     constructing a quadratic taxon-by-taxon matrix while counting
+     pairs that are in the same cluster in exactly one classification.
+
+Value:
+
+     A named list with `data_summary`, a one-row tibble of comparison
+     counts, and `data_taxon_comparison`, a taxon-level full join of
+     both classifications.
+
+Examples:
+
+     data_reference <- tibble::tibble(
+       taxon_name = c("a", "b", "c"),
+       functional_type = c(1L, 1L, 2L),
+       silhouette_width = c(0.4, 0.5, 0.6)
+     )
+     data_candidate <- tibble::tibble(
+       taxon_name = c("a", "b", "c"),
+       functional_type = c(2L, 2L, 1L),
+       silhouette_width = c(0.4, 0.5, 0.6)
+     )
+     evaluate_functional_type_classification_change(
+       data_reference,
+       data_candidate
+     )

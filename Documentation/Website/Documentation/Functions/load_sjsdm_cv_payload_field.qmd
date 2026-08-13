@@ -24,8 +24,7 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Reads and validates one canonical v2 artifact before falling back to one
-documented frozen v1 target. The source store is never modified.
+<p>Reads and validates one canonical native-v2 artifact.
 </p>
 
 
@@ -36,7 +35,6 @@ documented frozen v1 target. The source store is never modified.
   v2_target_name = NULL,
   artifact_type = NULL,
   payload_name = NULL,
-  v1_target_name = NULL,
   read_target_function = targets::tar_read_raw
 )
 </code></pre>
@@ -61,10 +59,6 @@ documented frozen v1 target. The source store is never modified.
 <td>
 <p>Payload field to return.</p>
 </td></tr>
-<tr><td><code id="v1_target_name">v1_target_name</code></td>
-<td>
-<p>Frozen v1 fallback target name.</p>
-</td></tr>
 <tr><td><code id="read_target_function">read_target_function</code></td>
 <td>
 <p>Injectable target reader.</p>
@@ -74,7 +68,7 @@ documented frozen v1 target. The source store is never modified.
 
 <h3>Value</h3>
 
-<p>The requested v2 payload field or validated v1 target value.
+<p>The requested v2 payload field.
 </p>
 
 </main>

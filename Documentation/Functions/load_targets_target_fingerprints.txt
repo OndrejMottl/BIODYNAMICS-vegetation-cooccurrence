@@ -1,0 +1,42 @@
+Load Target Fingerprints from a Targets Store
+
+Description:
+
+     Reads and validates content hashes for exact target names in an
+     external `targets` store. The function fails closed when metadata
+     are unavailable, incomplete, duplicated, errored, or unhashed.
+
+Usage:
+
+     load_targets_target_fingerprints(
+       store_path,
+       target_names,
+       meta_fn = targets::tar_meta
+     )
+
+Arguments:
+
+store_path: A single non-empty character string with the targets store
+          path.
+
+target_names: A character vector of unique, non-empty target names.
+
+ meta_fn: Function used to read metadata. Defaults to
+          [targets::tar_meta()].
+
+Value:
+
+     A tibble with `name` and `data_hash`, ordered by `name`.
+
+Examples:
+
+     ## Not run:
+
+     load_targets_target_fingerprints(
+       store_path = "Data/targets/traits_reference/pipeline_traits_reference",
+       target_names = c(
+         "data_traits_classified_corrected",
+         "data_combined_classification_table_traits"
+       )
+     )
+     ## End(Not run)

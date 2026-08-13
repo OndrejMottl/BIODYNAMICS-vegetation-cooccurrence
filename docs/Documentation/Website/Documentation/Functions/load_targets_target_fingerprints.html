@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>convert_v1_sjsdm_cv_tuning_artifact() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>load_targets_target_fingerprints() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/convert_v1_sjsdm_cv_tuning_artifact.html">convert_v1_sjsdm_cv_tuning_artifact()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/load_targets_target_fingerprints.html">load_targets_target_fingerprints()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -746,66 +746,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/convert_sjsdm_v1_artifact.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">convert_sjsdm_v1_artifact()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/convert_v1_cross_validation_design_artifact.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">convert_v1_cross_validation_design_artifact()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/convert_v1_cross_validation_shared_design_artifact.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">convert_v1_cross_validation_shared_design_artifact()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/convert_v1_sjsdm_common_regularization_artifact.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">convert_v1_sjsdm_common_regularization_artifact()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/convert_v1_sjsdm_cv_evaluation_artifact.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">convert_v1_sjsdm_cv_evaluation_artifact()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/convert_v1_sjsdm_cv_prediction_artifact.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">convert_v1_sjsdm_cv_prediction_artifact()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/convert_v1_sjsdm_cv_tuning_artifact.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">convert_v1_sjsdm_cv_tuning_artifact()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/convert_v1_sjsdm_regularization_selection_artifact.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">convert_v1_sjsdm_regularization_selection_artifact()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/convert_v1_sjsdm_tier_regularization_selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">convert_v1_sjsdm_tier_regularization_selection()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/convert_v1_sjsdm_tier_tuning_artifact.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">convert_v1_sjsdm_tier_tuning_artifact()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/correct_trait_records.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">correct_trait_records()</span></a>
   </div>
@@ -904,6 +844,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_binary_log_loss.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_binary_log_loss()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_functional_type_classification_change.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">evaluate_functional_type_classification_change()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1328,12 +1274,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/load_sjsdm_versioned_artifact.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">load_sjsdm_versioned_artifact()</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_spatial_model_results.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_spatial_model_results()</span></a>
   </div>
@@ -1360,6 +1300,18 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_targets_store_metadata.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_targets_store_metadata()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_targets_target_by_fingerprint.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_targets_target_by_fingerprint()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_targets_target_fingerprints.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">load_targets_target_fingerprints()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2265,9 +2217,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/convert_v1_sjsdm_cv_tuning_artifact.html">convert_v1_sjsdm_cv_tuning_artifact()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/load_targets_target_fingerprints.html">load_targets_target_fingerprints()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">convert_v1_sjsdm_cv_tuning_artifact()</h1>
+<h1 class="title">load_targets_target_fingerprints()</h1>
 </div>
 
 
@@ -2303,7 +2255,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-convert_v1_sjsdm_cv_tuning_artifact
+load_targets_target_fingerprints
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -2311,23 +2263,21 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Convert a v1 sjsdm cv tuning Artifact
+Load Target Fingerprints from a Targets Store
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-Applies the frozen v1 fixture contract and upgrades an assembled payload to the canonical ‘sjsdm_cv_tuning’ v2 envelope.
+Reads and validates content hashes for exact target names in an external ‘targets’ store. The function fails closed when metadata are unavailable, incomplete, duplicated, errored, or unhashed.
 </p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">convert_v1_sjsdm_cv_tuning_artifact(
-  payload = NULL,
-  pipeline_id = NULL,
-  configuration_profile = NULL,
-  created_at = base::Sys.time(),
-  v1_schema_hash = "2d727fd54623501e0ac384e0674c17f3"
+<pre><code class="language-R">load_targets_target_fingerprints(
+  store_path,
+  target_names,
+  meta_fn = targets::tar_meta
 )
 </code></pre>
 <h3 class="anchored">
@@ -2336,51 +2286,31 @@ Arguments
 <table role="presentation">
 <tbody><tr>
 <td>
-<code id="payload">payload</code>
+<code id="store_path">store_path</code>
 </td>
 <td>
 <p>
-Exact named v2 payload assembled from frozen v1 targets.
+A single non-empty character string with the targets store path.
 </p>
 </td>
 </tr>
 <tr>
 <td>
-<code id="pipeline_id">pipeline_id</code>
+<code id="target_names">target_names</code>
 </td>
 <td>
 <p>
-Source pipeline identifier.
+A character vector of unique, non-empty target names.
 </p>
 </td>
 </tr>
 <tr>
 <td>
-<code id="configuration_profile">configuration_profile</code>
+<code id="meta_fn">meta_fn</code>
 </td>
 <td>
 <p>
-Source configuration profile.
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="created_at">created_at</code>
-</td>
-<td>
-<p>
-Conversion time.
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="v1_schema_hash">v1_schema_hash</code>
-</td>
-<td>
-<p>
-Frozen v1 schema-fixture hash.
+Function used to read metadata. Defaults to [targets::tar_meta()].
 </p>
 </td>
 </tr>
@@ -2389,8 +2319,22 @@ Frozen v1 schema-fixture hash.
 Value
 </h3>
 <p>
-Validated migrated v2 artifact envelope.
+A tibble with ‘name’ and ‘data_hash’, ordered by ‘name’.
 </p>
+<h3 class="anchored">
+Examples
+</h3>
+<pre><code class="language-R">## Not run:
+load_targets_target_fingerprints(
+  store_path = "Data/targets/traits_reference/pipeline_traits_reference",
+  target_names = c(
+    "data_traits_classified_corrected",
+    "data_combined_classification_table_traits"
+  )
+)
+
+## End(Not run)
+</code></pre>
 </main>
 </div>
 
@@ -2807,7 +2751,7 @@ Validated migrated v2 artifact envelope.
     </div>
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/convert_v1_sjsdm_cv_tuning_artifact.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/load_targets_target_fingerprints.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
