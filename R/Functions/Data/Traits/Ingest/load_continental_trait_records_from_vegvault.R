@@ -19,9 +19,9 @@
 #' are printed via `cli::cli_inform()`. Set to `FALSE` to suppress
 #' all console output.
 #' @return
-#' A tibble with columns `taxon_name`, `trait_domain_name`,
-#' `trait_name`, and `trait_value`, containing the cleaned and
-#' ID-resolved trait records for the supplied continental unit.
+#' A tibble containing `taxon_name`, source identifiers (`dataset_id`,
+#' `dataset_name`, `sample_id`, `trait_id`, and `taxon_id`), and the
+#' cleaned trait fields for the supplied continental unit.
 #' @details
 #' The function performs the following steps:
 #'
@@ -32,7 +32,7 @@
 #'   4. Calls [filter_complete_trait_records()] to drop incomplete rows.
 #'   5. Calls [resolve_trait_taxon_ids()] to replace numeric IDs with
 #'      taxon names.
-#'   6. Returns the final tibble with taxon-name columns only.
+#'   6. Returns the final tibble with resolved names and source IDs.
 #' @seealso [load_trait_records_from_vegvault()],
 #'   [filter_complete_trait_records()], [resolve_trait_taxon_ids()]
 #' @export

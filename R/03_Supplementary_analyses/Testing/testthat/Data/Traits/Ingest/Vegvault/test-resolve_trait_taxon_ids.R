@@ -2,6 +2,10 @@
 
 make_clean_traits <- function() {
   tibble::tibble(
+    dataset_id = base::c(10L, 10L, 11L),
+    dataset_name = base::c("A", "A", "B"),
+    sample_id = base::c(100L, 101L, 102L),
+    trait_id = base::c(200L, 201L, 202L),
     taxon_id = base::c(1L, 2L, 3L),
     trait_domain_name = base::c("SLA", "SLA", "Height"),
     trait_name = base::c("sla_mm", "sla_mm", "h_m"),
@@ -104,7 +108,7 @@ testthat::test_that(
 # ── Output structure ──────────────────────────────────────────────────── #
 
 testthat::test_that(
-  "resolve_trait_taxon_ids() output has no taxon_id column",
+  "resolve_trait_taxon_ids() retains source identifiers",
   {
     # We can only verify column names by using a mock/temp SQLite DB
     tmp_db <-
@@ -130,8 +134,16 @@ testthat::test_that(
         path_vegvault = tmp_db
       )
 
-    testthat::expect_false(
-      "taxon_id" %in% base::colnames(res)
+    testthat::expect_true(
+      base::all(
+        base::c(
+          "dataset_id",
+          "dataset_name",
+          "sample_id",
+          "trait_id",
+          "taxon_id"
+        ) %in% base::colnames(res)
+      )
     )
 
     testthat::expect_true(

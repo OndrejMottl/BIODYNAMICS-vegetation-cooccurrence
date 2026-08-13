@@ -2,6 +2,10 @@
 
 make_valid_raw <- function() {
   tibble::tibble(
+    dataset_id = base::c(10L, 10L, 11L, 12L),
+    dataset_name = base::c("A", "A", "B", "C"),
+    sample_id = base::c(100L, 101L, 102L, 103L),
+    trait_id = base::c(200L, 201L, 202L, 203L),
     taxon_id = base::c(1L, 2L, NA_integer_, 3L),
     trait_domain_name = base::c("SLA", "SLA", "SLA", "Height"),
     trait_name = base::c("sla_mm", "sla_mm", "sla_mm", "h_m"),
@@ -67,6 +71,16 @@ testthat::test_that(
     )
     testthat::expect_true(
       "trait_value" %in% base::colnames(res)
+    )
+    testthat::expect_true(
+      base::all(
+        base::c(
+          "dataset_id",
+          "dataset_name",
+          "sample_id",
+          "trait_id"
+        ) %in% base::colnames(res)
+      )
     )
   }
 )

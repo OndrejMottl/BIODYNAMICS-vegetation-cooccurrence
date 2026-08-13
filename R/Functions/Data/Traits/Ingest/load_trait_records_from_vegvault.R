@@ -23,8 +23,8 @@
 #' applied.
 #' @return
 #' A flat data frame containing loaded trait records with columns
-#' including `taxon_name` (original, unclassified), `trait_domain_name`,
-#' `trait_name`, and `trait_value`.
+#' including `dataset_id`, `dataset_name`, `sample_id`, `trait_id`,
+#' `taxon_id`, `trait_domain_name`, `trait_name`, and `trait_value`.
 #' @details
 #' The function performs the following steps:
 #'
@@ -39,7 +39,8 @@
 #'   4. Retrieves trait values using `classify_to = NULL` to preserve raw
 #'      taxon names for downstream manual classification via the same
 #'      taxospace + auxiliary-table pipeline used for community data.
-#'   5. Returns the loaded data as a flat data frame.
+#'   5. Returns the loaded data, including source identifiers, as a flat
+#'      data frame.
 #' @seealso [extract_data_from_vegvault()]
 #' @export
 load_trait_records_from_vegvault <- function(
