@@ -1,5 +1,5 @@
 testthat::test_that(
-  "build_sjsdm_artifact_provenance() records native and migrated sources",
+  "build_sjsdm_artifact_provenance() records native v2 sources",
   {
     data_native <-
       build_sjsdm_artifact_provenance(
@@ -14,5 +14,17 @@ testthat::test_that(
     )
     testthat::expect_false(data_native[["migration_applied"]])
     testthat::expect_true(base::is.na(data_native[["migration_function"]]))
+    testthat::expect_false(
+      base::any(
+        base::c(
+          "source_schema_version",
+          "migration_applied",
+          "migration_function"
+        ) %in%
+          base::names(
+            base::formals(build_sjsdm_artifact_provenance)
+          )
+      )
+    )
   }
 )

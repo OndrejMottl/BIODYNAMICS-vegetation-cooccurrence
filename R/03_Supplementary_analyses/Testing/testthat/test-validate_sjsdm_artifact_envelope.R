@@ -47,26 +47,44 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "validate_sjsdm_artifact_envelope() couples migration provenance",
+  "validate_sjsdm_artifact_envelope() rejects migrated provenance",
   {
     list_empty <-
       build_sjsdm_empty_selected_fold_artifacts()
 
-    testthat::expect_error(
-      build_sjsdm_artifact_envelope(
+    provenance <-
+      tibble::tibble(
+        created_at = base::as.POSIXct("2026-08-11", tz = "UTC"),
+        pipeline_id = "pipeline_test",
+        configuration_profile = "project_test",
+        source_schema_version = "1.0.0",
+        migration_applied = TRUE,
+        migration_function = "retired_converter"
+      )
+
+    payload <-
+      base::list(
+        data_predictions = list_empty[["data_predictions"]],
+        data_fold_diagnostics = list_empty[["data_diagnostics"]]
+      )
+
+    list_artifact <-
+      base::list(
+        schema_version = "2.0.0",
         artifact_type = "sjsdm_cv_predictions",
-        payload = base::list(
-          data_predictions = list_empty[["data_predictions"]],
-          data_fold_diagnostics = list_empty[["data_diagnostics"]]
-        ),
-        provenance = tibble::tibble(
-          created_at = base::as.POSIXct("2026-08-11", tz = "UTC"),
-          pipeline_id = "pipeline_test",
-          configuration_profile = "project_test",
-          source_schema_version = "1.0.0",
-          migration_applied = FALSE,
-          migration_function = NA_character_
+        payload = payload,
+        provenance = provenance,
+        content_hash = compute_sjsdm_artifact_content_hash(
+          schema_version = "2.0.0",
+          artifact_type = "sjsdm_cv_predictions",
+          payload = payload,
+          provenance = provenance
         )
+      )
+
+    testthat::expect_error(
+      validate_sjsdm_artifact_envelope(
+        list_artifact = list_artifact
       ),
       "provenance"
     )

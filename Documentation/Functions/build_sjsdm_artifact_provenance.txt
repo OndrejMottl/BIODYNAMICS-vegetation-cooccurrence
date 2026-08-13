@@ -2,8 +2,8 @@ Build sjSDM Artifact Provenance
 
 Description:
 
-     Constructs the common one-row provenance contract for native or
-     migrated cross-validation artifacts.
+     Constructs the common one-row provenance contract for native-v2
+     cross-validation artifacts.
 
 Usage:
 
@@ -11,9 +11,6 @@ Usage:
        pipeline_id = NULL,
        configuration_profile = NULL,
        created_at = base::Sys.time(),
-       source_schema_version = "2.0.0",
-       migration_applied = FALSE,
-       migration_function = NA_character_,
        stable_provenance = base::list()
      )
 
@@ -24,12 +21,6 @@ pipeline_id: Pipeline identifier.
 configuration_profile: Active configuration profile.
 
 created_at: Finite artifact creation time.
-
-source_schema_version: Source artifact schema version.
-
-migration_applied: Whether a v1 conversion was applied.
-
-migration_function: Converter name, or `NA` for native v2 output.
 
 stable_provenance: Optional named list of stable scientific fields.
 

@@ -1,6 +1,6 @@
 #' @title Build an sjSDM Artifact Envelope
 #' @description
-#' Builds and validates one native or migrated cross-validation v2 artifact.
+#' Builds and validates one native cross-validation v2 artifact.
 #' @param artifact_type
 #' Registered non-empty character scalar artifact type.
 #' @param payload

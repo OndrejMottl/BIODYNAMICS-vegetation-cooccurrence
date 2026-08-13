@@ -113,31 +113,6 @@ load_sjsdm_tuning_summaries <- function(
           )
 
         if (
-          base::inherits(list_or_summary, "error") &&
-            stringr::str_starts(
-              target_name,
-              "list_sjsdm_cv_tuning_artifact"
-            )
-        ) {
-          v1_target_name <-
-            stringr::str_replace(
-              target_name,
-              "^list_sjsdm_cv_tuning_artifact",
-              "data_sjsdm_tuning_summary"
-            )
-          list_or_summary <-
-            tryCatch(
-              expr = read_target_function(
-                name = v1_target_name,
-                store = source_store
-              ),
-              error = function(error_condition) {
-                error_condition
-              }
-            )
-        }
-
-        if (
           base::inherits(list_or_summary, "error")
         ) {
           cli::cli_abort(
@@ -151,24 +126,15 @@ load_sjsdm_tuning_summaries <- function(
           )
         }
 
+        validate_sjsdm_artifact_envelope(
+          list_artifact = list_or_summary,
+          expected_artifact_type = "sjsdm_cv_tuning"
+        )
+
         data_summary <-
-          if (
-            base::is.list(list_or_summary) &&
-              base::identical(
-                list_or_summary[["schema_version"]],
-                "2.0.0"
-              )
-          ) {
-            validate_sjsdm_artifact_envelope(
-              list_artifact = list_or_summary,
-              expected_artifact_type = "sjsdm_cv_tuning"
-            )
-            list_or_summary[["payload"]][[
-              "data_candidate_repeat_summary"
-            ]]
-          } else {
-            list_or_summary
-          }
+          list_or_summary[["payload"]][[
+            "data_candidate_repeat_summary"
+          ]]
 
         if (
           !base::is.data.frame(data_summary)

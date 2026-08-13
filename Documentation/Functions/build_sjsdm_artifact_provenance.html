@@ -20,7 +20,7 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Constructs the common one-row provenance contract for native or migrated
+<p>Constructs the common one-row provenance contract for native-v2
 cross-validation artifacts.
 </p>
 
@@ -31,9 +31,6 @@ cross-validation artifacts.
   pipeline_id = NULL,
   configuration_profile = NULL,
   created_at = base::Sys.time(),
-  source_schema_version = "2.0.0",
-  migration_applied = FALSE,
-  migration_function = NA_character_,
   stable_provenance = base::list()
 )
 </code></pre>
@@ -53,18 +50,6 @@ cross-validation artifacts.
 <tr><td><code id="created_at">created_at</code></td>
 <td>
 <p>Finite artifact creation time.</p>
-</td></tr>
-<tr><td><code id="source_schema_version">source_schema_version</code></td>
-<td>
-<p>Source artifact schema version.</p>
-</td></tr>
-<tr><td><code id="migration_applied">migration_applied</code></td>
-<td>
-<p>Whether a v1 conversion was applied.</p>
-</td></tr>
-<tr><td><code id="migration_function">migration_function</code></td>
-<td>
-<p>Converter name, or 'NA' for native v2 output.</p>
 </td></tr>
 <tr><td><code id="stable_provenance">stable_provenance</code></td>
 <td>

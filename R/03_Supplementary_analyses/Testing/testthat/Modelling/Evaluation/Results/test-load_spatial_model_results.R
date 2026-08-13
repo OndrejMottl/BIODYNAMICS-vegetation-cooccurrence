@@ -84,19 +84,12 @@ testthat::test_that(
             name = base::c(
               "list_jsdm_variance_partition_genus",
               "list_jsdm_evaluation_fitted_genus",
-              "model_evaluation_cross_validated_genus",
-              "data_sjsdm_model_provenance_genus"
+              "list_sjsdm_cv_evaluation_artifact_genus"
             ),
-            error = base::rep(NA_character_, 4L)
+            error = base::rep(NA_character_, 3L)
           )
         },
         read_target_fn = function(name, store) {
-          if (
-            name == "list_sjsdm_cv_evaluation_artifact_genus"
-          ) {
-            base::stop("canonical target unavailable")
-          }
-
           if (
             name == "list_jsdm_variance_partition_genus"
           ) {
@@ -116,37 +109,45 @@ testthat::test_that(
             )
           }
 
-          if (
-            name == "data_sjsdm_model_provenance_genus"
-          ) {
-            return(
-              tibble::tibble(
-                cv_strategy =
-                  "spatially_stratified_group_kfold",
-                effective_folds = 5L,
-                cv_feasibility_status = "grouped_kfold_feasible",
-                n_locations = 12L,
-                n_samples = 40L,
-                n_taxa = 8L,
-                n_effective_mev = 3L,
-                regularization_source = "unit_cv",
-                source_tier = NA_character_,
-                candidate_id = "candidate_001"
-              )
-            )
-          }
-
-          base::list(
-            data_community_summary = tibble::tibble(
+          payload <-
+            make_sjsdm_evaluation_payload_fixture()
+          payload[["list_pooled_evaluation"]][[
+            "data_community_summary"
+          ]] <-
+            tibble::tibble(
               repeat_id = base::rep(1:2, each = 3L),
               metric_id = base::rep(
                 base::c("tjur_r2", "auc", "log_loss"),
                 times = 2L
               ),
               summary_statistic = "mean",
-              estimate = base::c(0.2, 0.7, 0.4, 0.4, 0.9, 0.6),
+              estimate =
+                base::c(0.2, 0.7, 0.4, 0.4, 0.9, 0.6),
               n_taxa_evaluable = 2L,
               metric_status = "ok"
+            )
+          payload[["data_model_provenance"]] <-
+            payload[["data_model_provenance"]] |>
+            dplyr::mutate(
+              cv_strategy =
+                "spatially_stratified_group_kfold",
+              effective_folds = 5L,
+              cv_feasibility_status = "grouped_kfold_feasible",
+              n_locations = 12L,
+              n_samples = 40L,
+              n_taxa = 8L,
+              n_effective_mev = 3L,
+              regularization_source = "unit_cv",
+              source_tier = NA_character_,
+              candidate_id = "candidate_001"
+            )
+
+          build_sjsdm_artifact_envelope(
+            artifact_type = "sjsdm_cv_evaluation",
+            payload = payload,
+            provenance = build_sjsdm_artifact_provenance(
+              pipeline_id = "pipeline_test",
+              configuration_profile = "project_test"
             )
           )
         }

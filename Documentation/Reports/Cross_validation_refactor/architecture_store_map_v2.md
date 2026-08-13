@@ -1,6 +1,6 @@
 # Cross-validation architecture and store map v2
 
-Temporary v1 read boundaries are owned by #141 and expire in #168. Their exact function inventory is `r_cv_v1_compatibility_exceptions_v2.csv`.
+Issue #168 retired all temporary v1 read boundaries. Active cross-store interfaces are native-v2-only.
 
 **Schema version:** `2.0.0`
 **Owning issue:** #141
@@ -34,14 +34,15 @@ production runner
 
 ## Store boundaries
 
-| Store | V2 public reads | V2 public writes | V1 compatibility |
+| Store | Native-v2 public reads | Native-v2 public writes | Retention policy |
 |---|---|---|---|
-| Unit model store | Project data/configuration and tier tuning artifact | Design, tuning, regularization selection, prediction, and evaluation artifacts | Clean v2 execution; no v1 fit or prediction-cache import |
-| Tier tuning store | Unit tuning artifacts | Tier tuning artifact | May convert frozen v1 unit tuning summaries at the read boundary |
-| Common sensitivity store | Unit tuning and regularization artifacts | Common regularization artifact and sensitivity results | May convert documented v1 summaries and regularization artifacts |
-| Historical reporting | Any public v2 artifact | None | May assemble validated v2 artifacts from documented v1 public targets without rewriting stores |
+| Unit model store | Project data/configuration and validated tier tuning artifact | Design, tuning, regularization selection, prediction, and evaluation artifacts | Retained only with canonical native-v2 inputs |
+| Tier tuning store | Validated unit tuning artifacts | Tier tuning artifact | Retained; raw v1 summary tables fail closed |
+| Common sensitivity store | Validated unit tuning and regularization artifacts | Common regularization artifact and sensitivity results | Retained; legacy tables and target names are not read |
+| Component and structured-regularization reference stores | Design and regularization-selection artifacts from `cz_paleo_cv_reference_gpu` | Reference-only scientific outputs | Retained consumers; their output stores are not classified as v1 artifact sources |
+| Reporting | Validated evaluation artifact payloads | None | Native-v2-only; superseded pre-#171 main stores are historical |
 
-Store paths remain physically isolated. Stable paths are not content invalidation tokens; external reads remain always-cued or depend on explicit content hashes.
+Store paths remain physically isolated. Stable paths are not content invalidation tokens; external reads remain always-cued or depend on explicit content hashes. Frozen one-time validation stores and ad hoc stores are historical and do not keep compatibility code alive.
 
 ## Restartability
 

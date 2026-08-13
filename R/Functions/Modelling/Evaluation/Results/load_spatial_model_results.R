@@ -171,12 +171,6 @@ load_spatial_model_results <- function(
                   list_jsdm_evaluation_fitted = list_jsdm_evaluation_fitted
                 )
 
-              target_evaluation_cross_validated_v1 <-
-                stringr::str_glue(
-                  "model_evaluation_cross_validated_{resolution_id}"
-                ) |>
-                base::as.character()
-
               target_evaluation_cross_validated_v2 <-
                 stringr::str_glue(
                   "list_sjsdm_cv_evaluation_artifact_{resolution_id}"
@@ -188,11 +182,7 @@ load_spatial_model_results <- function(
                   has_target_succeeded(
                     data_meta,
                     target_evaluation_cross_validated_v2
-                  ) ||
-                    has_target_succeeded(
-                      data_meta,
-                      target_evaluation_cross_validated_v1
-                    )
+                  )
                 ) {
                   load_model_evaluation_target(
                     store_path = store_path,
@@ -210,22 +200,12 @@ load_spatial_model_results <- function(
                     list_pooled_cv_evaluation
                 )
 
-              target_provenance_v1 <-
-                stringr::str_glue(
-                  "data_sjsdm_model_provenance_{resolution_id}"
-                ) |>
-                base::as.character()
-
               data_provenance <-
                 if (
                   has_target_succeeded(
                     data_meta,
                     target_evaluation_cross_validated_v2
-                  ) ||
-                    has_target_succeeded(
-                      data_meta,
-                      target_provenance_v1
-                    )
+                  )
                 ) {
                   load_sjsdm_cv_payload_field(
                     store_path = store_path,
@@ -233,7 +213,6 @@ load_spatial_model_results <- function(
                       target_evaluation_cross_validated_v2,
                     artifact_type = "sjsdm_cv_evaluation",
                     payload_name = "data_model_provenance",
-                    v1_target_name = target_provenance_v1,
                     read_target_function = read_target_fn
                   )
                 } else {

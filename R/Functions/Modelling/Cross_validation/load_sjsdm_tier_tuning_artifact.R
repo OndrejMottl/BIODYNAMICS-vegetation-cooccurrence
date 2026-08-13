@@ -65,47 +65,21 @@ load_sjsdm_tier_tuning_artifact <- function(
       }
     )
 
-  flag_v1_fallback <-
-    base::is.null(list_artifact_v2)
-
-  data_artifacts <-
-    if (
-      flag_v1_fallback
-    ) {
-      tryCatch(
-        expr = read_target_function(
-          name = "data_sjsdm_tier_regularization_artifacts",
-          store = store_path
-        ),
-        error = function(error_condition) {
-          NULL
-        }
-      )
-    } else {
-      validate_sjsdm_artifact_envelope(
-        list_artifact = list_artifact_v2,
-        expected_artifact_type = "sjsdm_tier_tuning"
-      )
-
-      list_artifact_v2[["payload"]][[
-        "data_regularization_selection"
-      ]]
-    }
-
   if (
-    base::is.null(data_artifacts)
+    base::is.null(list_artifact_v2)
   ) {
     return(build_sjsdm_empty_tier_regularization_selection())
   }
 
-  if (
-    flag_v1_fallback
-  ) {
-    data_artifacts <-
-      convert_v1_sjsdm_tier_regularization_selection(
-        data_selection = data_artifacts
-      )
-  }
+  validate_sjsdm_artifact_envelope(
+    list_artifact = list_artifact_v2,
+    expected_artifact_type = "sjsdm_tier_tuning"
+  )
+
+  data_artifacts <-
+    list_artifact_v2[["payload"]][[
+      "data_regularization_selection"
+    ]]
 
   assertthat::assert_that(
     base::is.data.frame(data_artifacts),
