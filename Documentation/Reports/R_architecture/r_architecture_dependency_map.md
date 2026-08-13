@@ -35,7 +35,7 @@ flowchart TD
 | scientific_reference | 2 |
 | sensitivity | 1 |
 | supplementary_or_processing | 19 |
-| test | 386 |
+| test | 379 |
 
 ## Function capabilities
 
@@ -46,10 +46,10 @@ flowchart TD
 | Data/Samples | 7 |
 | Data/Spatial | 6 |
 | Data/Time | 12 |
-| Data/Traits | 29 |
+| Data/Traits | 30 |
 | Data_access/Files | 1 |
 | Data_access/Vegvault | 5 |
-| Modelling/Cross_validation | 122 |
+| Modelling/Cross_validation | 111 |
 | Modelling/Decomposition | 19 |
 | Modelling/Evaluation | 16 |
 | Modelling/Fit_inputs | 11 |
@@ -59,7 +59,7 @@ flowchart TD
 | Pipeline/Configuration | 11 |
 | Pipeline/Definitions | 5 |
 | Pipeline/Orchestration | 8 |
-| Pipeline/Stores | 5 |
+| Pipeline/Stores | 7 |
 | Prediction/Climate | 1 |
 | Prediction/Grids | 1 |
 | Prediction/Inference | 2 |
@@ -79,7 +79,7 @@ flowchart TD
 | `R/Pipelines/_pipes/_helpers/make_pipe_segment_ft_classification_continental.R` | Data/Community | 7 |
 | `R/Pipelines/_pipes/_helpers/make_pipe_segment_ft_classification_continental.R` | Data/Traits | 7 |
 | `R/Pipelines/_pipes/_helpers/make_pipe_segment_ft_classification_continental.R` | Pipeline/Configuration | 3 |
-| `R/Pipelines/_pipes/_helpers/make_pipe_segment_ft_classification_continental.R` | Pipeline/Stores | 1 |
+| `R/Pipelines/_pipes/_helpers/make_pipe_segment_ft_classification_continental.R` | Pipeline/Stores | 3 |
 | `R/Pipelines/_pipes/pipe_segment_abiotic_extract.R` | Data/Abiotic | 4 |
 | `R/Pipelines/_pipes/pipe_segment_abiotic_extract.R` | Data/Time | 2 |
 | `R/Pipelines/_pipes/pipe_segment_community_by_resolution_modern.R` | Data/Community | 2 |
@@ -171,7 +171,7 @@ flowchart TD
 
 | Contract type | Scope | Contracts |
 |---|---|---:|
-| literal_target | persisted_internal | 358 |
+| literal_target | persisted_internal | 360 |
 | literal_target | public_or_frozen_cv_review | 63 |
 
 ## Architecture exceptions
