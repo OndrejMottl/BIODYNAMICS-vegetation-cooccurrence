@@ -12,7 +12,7 @@ For function calls, always state the arguments even though R can have anonymous 
 
 Specific rules apply for making custom functions:
 
-- For naming of functions see the Naming Conventions section in [.ai/r-coding.md](.ai/r-coding.md)
+- Before naming or renaming a function, read the Naming Conventions section in `.ai/r-coding.md` and apply `Documentation/Implementation_inventories/R_architecture/r_naming_decisions_v1.md`. Select the verb from the function's actual return value or material side effect; do not copy an existing name as precedent.
 - Each function (declaration) should be placed in a separate script named after the function. Therefore, there should be only a single function in each function script
 - Function should always return (`return(res_value)`)
 
@@ -379,7 +379,7 @@ Write a COMPLETE testthat test file for a single R function. You will receive on
 
 1. **Identify all functions** in `R/Functions/` (recursively search all subdirectories for function declarations)
 2. **Check for existing tests** in `R/03_Supplementary_analyses/Testing/testthat` directory
-3. **Create missing test files** named as `test-function_name.R` (e.g., `get_data()` -> `test-get_data.R`)
+3. **Create missing test files** named as `test-function_name.R` (e.g., `load_survey_data()` -> `test-load_survey_data.R`)
 
 **File structure:**
 
