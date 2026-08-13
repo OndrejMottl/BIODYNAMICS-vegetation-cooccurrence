@@ -9,13 +9,13 @@ date-modified: last-modified
   Supplementary exploration notebook for the six-segment trait pipeline.
   Reads every intermediate target from the pipeline store (no re-execution).
 
-  Pipeline store: Data/targets/traits_reference_reference/pipeline_traits_reference
+  Pipeline store: Data/targets/traits_reference/pipeline_traits_reference
   Active config:  traits
 
   Run the traits pipeline first:
     targets::tar_make(
       script = here::here("R/Pipelines/pipeline_traits_reference.R"),
-      store  = here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
+      store  = here::here("Data/targets/traits_reference/pipeline_traits_reference")
     )
 -->
 
@@ -46,7 +46,11 @@ fig_height_inch <-
   purrr::chuck(graphical_options, "dpi")
 
 path_traits_store <-
-  here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
+  resolve_pipeline_store_path(
+    pipeline_script = here::here(
+      "R/Pipelines/pipeline_traits_reference.R"
+    )
+  )
 
 # Guard: abort rendering if the store is missing.
 if (
@@ -58,7 +62,7 @@ if (
       "i" = stringr::str_c(
         "Run `targets::tar_make(",
         "script = 'R/Pipelines/pipeline_traits_reference.R',",
-        "store = 'Data/targets/traits_reference_reference/pipeline_traits_reference')` first."
+        "store = 'Data/targets/traits_reference/pipeline_traits_reference')` first."
       )
     )
   )
@@ -1150,4 +1154,4 @@ graphics::plot(
 
 ---
 
-*Notebook generated on `r Sys.Date()` from the trait pipeline store at `Data/targets/traits_reference_reference/pipeline_traits_reference`.*
+*Notebook generated on `r Sys.Date()` from the configured trait pipeline store.*

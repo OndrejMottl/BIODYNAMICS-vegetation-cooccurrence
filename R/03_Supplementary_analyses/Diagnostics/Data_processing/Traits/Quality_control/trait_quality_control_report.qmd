@@ -24,6 +24,8 @@ execute:
 
 library(here)
 
+Sys.setenv(R_CONFIG_ACTIVE = "project_traits_reference")
+
 source(
   here::here("R/___setup_project___.R")
 )
@@ -44,19 +46,23 @@ graphical_options <-
 
 # Path to the manual corrections file.
 path_trait_corrections <-
-  here::here("Data/Input/trait_manual_corrections.csv")
+  here::here(
+    "Data/Input/Trait_corrections/trait_review_decisions_raw.csv"
+  )
 
 # Target store for the traits pipeline.
 path_trait_store <-
-  here::here(
-    "Data/targets/traits_reference_reference/pipeline_traits_reference"
+  resolve_pipeline_store_path(
+    pipeline_script = here::here(
+      "R/Pipelines/pipeline_traits_reference.R"
+    )
   )
 
 #--- Load QC report -------------------------------------------
 trait_quality_control_report_paths <-
   fs::dir_ls(
-    here::here("Data/Temp"),
-    regexp = "trait_quality_control_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
+    here::here("Outputs/Reports/Trait_corrections/raw"),
+    regexp = "trait_quality_control_report_raw\\.csv$"
   )
 
 if (
@@ -64,7 +70,7 @@ if (
 ) {
   cli::cli_abort(
     c(
-      "No trait_quality_control_report_*.csv found in Data/Temp/.",
+      "No raw trait quality-control report was found.",
       "i" = "Run the traits pipeline to generate it."
     )
   )
@@ -207,10 +213,12 @@ data_flagged_trait_groups <-
   ) |>
   dplyr::left_join(
     data_corrections_current |>
+      dplyr::filter(.data[["review_status"]] == "approved") |>
       dplyr::select(
         "taxon_name",
         "trait_domain_name"
       ) |>
+      dplyr::distinct() |>
       dplyr::mutate(already_corrected = TRUE),
     by = dplyr::join_by(taxon_name, trait_domain_name)
   ) |>

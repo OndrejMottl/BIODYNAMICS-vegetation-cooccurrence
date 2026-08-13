@@ -18,8 +18,8 @@
 #     extracts raw trait data from VegVault per continent.
 #
 #   Segment 2 — pipe_segment_traits_qc
-#     Generates QC report, tracks corrections CSV, enforces
-#     human sign-off (HUMAN-IN-LOOP guard), applies corrections.
+#     Builds raw review candidates, enforces complete human approval,
+#     applies exact correction selectors, and records an audit.
 #
 #   Segment 3 — pipe_segment_traits_classification
 #     Classifies all trait taxa via taxospace and resolves each
@@ -28,9 +28,8 @@
 #     before the guard target stops the pipeline.
 #
 #   Segment 4 — pipe_segment_traits_qc_classified
-#     Generates a second QC pass on the classified data grouped by
-#     taxon_genus; human sign-off guard; applies genus-level
-#     corrections.
+#     Builds an independent classified-taxon review queue, enforces
+#     complete human approval, and audits applied corrections.
 #
 #   Segment 5 — pipe_segment_traits_table
 #     Aggregates to median, pivots to a project-agnostic wide
@@ -52,27 +51,23 @@
 #       <- add manual classifications, then re-run tar_make()
 #       (same file used by the community pipeline — one edit covers both)
 #
-#   Segment 2 — after list_trait_quality_control_report completes, open:
-#     Data/Temp/trait_quality_control_report_{date}.csv      <- review suspected outliers
-#                                                   (per-domain x taxon summary)
-#     Data/Input/trait_manual_corrections.csv   <- fill in corrections
-#   Set CHECKED = TRUE for every row, then re-run tar_make() so the
-#   data_trait_corrections_validated guard target passes.
+#   Segment 2 — review:
+#     Data/Temp/Trait_corrections/raw/trait_review_candidates.csv
+#     Outputs/Reports/Trait_corrections/raw/
+#     Data/Input/Trait_corrections/trait_review_decisions_raw.csv
+#   Every candidate requires a human-approved correction or no-action row.
 #
-#   Segment 4 — after list_trait_quality_control_report_classified completes, open:
-#     Data/Temp/trait_quality_control_report_{date}.csv
-#       <- review suspected outliers (per-domain x genus summary)
-#     Data/Input/trait_manual_corrections_classified.csv
-#       <- fill in corrections
-#   Set CHECKED = TRUE for every row, then re-run tar_make() so
-#   the data_trait_corrections_classified_validated guard target passes.
+#   Segment 4 — repeat independently with:
+#     Data/Temp/Trait_corrections/classified/trait_review_candidates.csv
+#     Outputs/Reports/Trait_corrections/classified/
+#     Data/Input/Trait_corrections/trait_review_decisions_classified.csv
 #
 # To run this pipeline:
 #
 #   targets::tar_make(
 #     script = here::here("R/Pipelines/pipeline_traits_reference.R"),
 #     store = here::here(
-#       "Data/targets/traits_reference_reference/pipeline_traits_reference"
+#       "Data/targets/traits_reference/pipeline_traits_reference"
 #     )
 #   )
 #

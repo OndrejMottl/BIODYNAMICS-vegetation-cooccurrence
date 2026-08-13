@@ -55,7 +55,15 @@ path_res_store <-
   here::here("Data/targets/cz_paleo/pipeline_paleo_resolution_test")
 
 path_traits_store <-
-  here::here("Data/targets/traits_reference_reference/pipeline_traits_reference")
+  resolve_pipeline_store_path(
+    pipeline_script = here::here(
+      "R/Pipelines/pipeline_traits_reference.R"
+    ),
+    target_store = load_config_value(
+      config_id = "project_traits_reference",
+      value = "target_store"
+    )
+  )
 
 # Guard: abort rendering if the store is missing.
 if (

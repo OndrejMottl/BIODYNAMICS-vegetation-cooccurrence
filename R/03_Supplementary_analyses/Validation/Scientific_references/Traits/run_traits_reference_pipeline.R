@@ -19,15 +19,13 @@
 #   Segment 3 — Classify all trait taxa via taxospace
 #   Segment 4 — Build project-agnostic genus × traits table
 #
-# HUMAN REVIEW STEP (inside segment 2 — pipeline stops automatically):
-#   Running run_pipeline() for the first time will complete segment 1 and
-#   the QC report target (segment 2, target 1), then STOP at the
-#   human-review guard.  At that point:
-#     1. Review  Data/Temp/trait_quality_control_report_{date}.csv
-#     2. Fill in Data/Input/trait_manual_corrections.csv
-#        (set CHECKED = TRUE for every row you have reviewed)
-#     3. Re-run run_pipeline() — the guard will now pass and the rest
-#        of the pipeline will complete.
+# HUMAN REVIEW STEPS:
+#   The raw and classified stages each stop at a complete-coverage guard.
+#   Review their generated queues and durable reports, then add an approved
+#   correction or explicit no-action row for every current candidate in:
+#     Data/Input/Trait_corrections/trait_review_decisions_raw.csv
+#     Data/Input/Trait_corrections/trait_review_decisions_classified.csv
+#   See Data/Input/Trait_corrections/README.md for the selector contract.
 #
 # RE-EXTRACTION:
 #   VegVault.sqlite is NOT tracked automatically (it is too large to

@@ -22,7 +22,7 @@ Run from the repository root with the restored environment, source trait inputs,
 
 ## Outputs and interpretation
 
-The `{targets}` store is `Data/targets/traits_reference`. The pipeline extracts trait records, performs quality control and taxonomic alignment, classifies functional types, and builds the reference trait table. Its documented human review gate may require updates to `Data/Input/trait_manual_corrections.csv`.
+The `{targets}` store is `Data/targets/traits_reference`. The pipeline extracts trait records, performs quality control and taxonomic alignment, classifies functional types, and builds the reference trait table. Independent raw and classified human-review gates consume the canonical files under `Data/Input/Trait_corrections/`; see that directory's README for candidate coverage and selector rules.
 
 ## Regeneration and retirement
 
