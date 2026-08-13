@@ -4,7 +4,7 @@
 **Owning issue:** #141
 **Registry contract hash (MD5):** `717435760b653dce608ce51380ec0fb1`
 
-The resolved target graph is recorded in `r_manifest_contract_inventory_v2.csv`: 18,256 target rows across 26 configured profiles. The historical v1 manifest inventory remains unchanged.
+The resolved target graph is recorded in `r_manifest_contract_inventory_v2.csv`: 18,270 target rows across 26 configured profiles. The historical v1 manifest inventory remains unchanged.
 
 ## Artifact envelope
 
@@ -18,7 +18,7 @@ Every public persisted cross-validation artifact is a named list with exactly fi
 
 The content hash excludes `created_at`, `source_schema_version`, `migration_applied`, and `migration_function`. These fields describe materialization or conversion, not scientific content.
 
-Common provenance fields are `created_at`, `pipeline_id`, `configuration_profile`, `source_schema_version`, `migration_applied`, and `migration_function`. Native v2 writers use source schema `2.0.0`, migration flag `FALSE`, and a missing migration function.
+Common provenance fields are `created_at`, `pipeline_id`, `configuration_profile`, `source_schema_version`, `migration_applied`, and `migration_function`. All active writers and readers require source schema `2.0.0`, migration flag `FALSE`, and a missing migration function. The migration columns remain part of the persisted contract and content-hash exclusion policy.
 
 ## Public targets and payloads
 
@@ -40,8 +40,8 @@ Mapped pipelines suffix these canonical base target names through their existing
 - Unknown schema versions and artifact types fail closed.
 - Payload names must match the registered names exactly; missing or additional payloads fail validation.
 - Artifact-specific validators enforce table classes, column order and types, key uniqueness, list structure, status vocabulary, deterministic seed fields, and provenance values.
-- V1 converters must first validate the complete frozen v1 input contract.
-- Converted and native artifacts pass the same v2 envelope and payload validators.
+- Active readers accept canonical native-v2 artifacts only.
+- Raw v1 tables and migrated-v2 provenance fail closed.
 - New pipelines publish no v1 aliases or downgrade artifacts.
 
 ## Scientific invariants
