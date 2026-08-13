@@ -1,13 +1,10 @@
 #' @title Build sjSDM Artifact Provenance
 #' @description
-#' Constructs the common one-row provenance contract for native or migrated
+#' Constructs the common one-row provenance contract for native-v2
 #' cross-validation artifacts.
 #' @param pipeline_id Pipeline identifier.
 #' @param configuration_profile Active configuration profile.
 #' @param created_at Finite artifact creation time.
-#' @param source_schema_version Source artifact schema version.
-#' @param migration_applied Whether a v1 conversion was applied.
-#' @param migration_function Converter name, or `NA` for native v2 output.
 #' @param stable_provenance Optional named list of stable scientific fields.
 #' @return One-row provenance tibble.
 #' @export
@@ -15,9 +12,6 @@ build_sjsdm_artifact_provenance <- function(
     pipeline_id = NULL,
     configuration_profile = NULL,
     created_at = base::Sys.time(),
-    source_schema_version = "2.0.0",
-    migration_applied = FALSE,
-    migration_function = NA_character_,
     stable_provenance = base::list()) {
   assertthat::assert_that(
     base::is.list(stable_provenance),
@@ -30,9 +24,9 @@ build_sjsdm_artifact_provenance <- function(
       created_at = created_at,
       pipeline_id = pipeline_id,
       configuration_profile = configuration_profile,
-      source_schema_version = source_schema_version,
-      migration_applied = migration_applied,
-      migration_function = migration_function
+      source_schema_version = "2.0.0",
+      migration_applied = FALSE,
+      migration_function = NA_character_
     )
 
   data_stable <-

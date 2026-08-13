@@ -1,10 +1,23 @@
 testthat::test_that(
-  "load_sjsdm_tier_tuning_artifact() selects a compatible artifact",
+  "load_sjsdm_tier_tuning_artifact() reads native v2 evidence",
   {
-    data_artifacts <-
+    payload <-
       make_sjsdm_tier_payload_fixture(
-        schema_version = "1.0.0"
-      )[["data_regularization_selection"]]
+        schema_version = "2.0.0"
+      )
+
+    list_artifact <-
+      build_sjsdm_artifact_envelope(
+        artifact_type = "sjsdm_tier_tuning",
+        payload = payload,
+        provenance = build_sjsdm_artifact_provenance(
+          pipeline_id = "pipeline_sjsdm_tier_tuning",
+          configuration_profile = "project_test"
+        )
+      )
+
+    data_artifacts <-
+      payload[["data_regularization_selection"]]
 
     data_context <-
       data_artifacts |>
@@ -21,16 +34,12 @@ testthat::test_that(
         store_path = "tier_store",
         data_model_context = data_context,
         read_target_function = function(name, store) {
-          if (name == "list_sjsdm_tier_tuning_artifact") {
-            base::stop("v2 target unavailable")
-          }
-
           testthat::expect_equal(
             name,
-            "data_sjsdm_tier_regularization_artifacts"
+            "list_sjsdm_tier_tuning_artifact"
           )
           testthat::expect_equal(store, "tier_store")
-          return(data_artifacts)
+          return(list_artifact)
         }
       )
 
@@ -46,6 +55,10 @@ testthat::test_that(
 testthat::test_that(
   "load_sjsdm_tier_tuning_artifact() allows an unavailable store",
   {
+    environment_reads <-
+      base::new.env(parent = base::emptyenv())
+    environment_reads[["names"]] <- base::character()
+
     data_context <-
       tibble::tibble(
         tier_id = "paleo_spatial_regional",
@@ -60,6 +73,8 @@ testthat::test_that(
         store_path = "missing_store",
         data_model_context = data_context,
         read_target_function = function(name, store) {
+          environment_reads[["names"]] <-
+            base::c(environment_reads[["names"]], name)
           base::stop("missing")
         }
       )
@@ -67,6 +82,39 @@ testthat::test_that(
     testthat::expect_identical(
       res,
       build_sjsdm_empty_tier_regularization_selection()
+    )
+    testthat::expect_identical(
+      environment_reads[["names"]],
+      "list_sjsdm_tier_tuning_artifact"
+    )
+  }
+)
+
+testthat::test_that(
+  "load_sjsdm_tier_tuning_artifact() rejects a raw legacy table",
+  {
+    payload <-
+      make_sjsdm_tier_payload_fixture(schema_version = "2.0.0")
+
+    data_context <-
+      payload[["data_regularization_selection"]] |>
+      dplyr::select(
+        "tier_id",
+        "taxonomic_resolution",
+        "response_family",
+        "predictor_structure",
+        "candidate_table_hash"
+      )
+
+    testthat::expect_error(
+      load_sjsdm_tier_tuning_artifact(
+        store_path = "legacy_store",
+        data_model_context = data_context,
+        read_target_function = function(name, store) {
+          payload[["data_regularization_selection"]]
+        }
+      ),
+      "exact v2 envelope"
     )
   }
 )

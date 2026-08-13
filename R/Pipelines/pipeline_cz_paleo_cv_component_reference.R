@@ -85,8 +85,7 @@ base::list(
       store_path = path_gpu_reference_store,
       v2_target_name = "list_cross_validation_design_artifact",
       artifact_type = "cross_validation_design",
-      payload_name = "data_assignments",
-      v1_target_name = "data_cross_validation_assignments"
+      payload_name = "data_assignments"
     ),
     cue = targets::tar_cue(mode = "always")
   ),
@@ -97,8 +96,7 @@ base::list(
       v2_target_name =
         "list_sjsdm_regularization_selection_artifact",
       artifact_type = "sjsdm_regularization_selection",
-      payload_name = "data_selection_for_fit",
-      v1_target_name = "model_regularization_for_fit"
+      payload_name = "data_selection_for_fit"
     ),
     cue = targets::tar_cue(mode = "always")
   ),

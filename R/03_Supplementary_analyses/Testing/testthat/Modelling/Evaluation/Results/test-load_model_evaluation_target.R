@@ -8,7 +8,16 @@ testthat::test_that(
           "list_sjsdm_cv_evaluation_artifact"
         )
       ) {
-        base::stop("canonical target unavailable")
+        return(
+          build_sjsdm_artifact_envelope(
+            artifact_type = "sjsdm_cv_evaluation",
+            payload = make_sjsdm_evaluation_payload_fixture(),
+            provenance = build_sjsdm_artifact_provenance(
+              pipeline_id = "pipeline_test",
+              configuration_profile = "project_test"
+            )
+          )
+        )
       }
       base::list(
         name = name,
@@ -38,12 +47,12 @@ testthat::test_that(
       )
 
     testthat::expect_identical(
-      purrr::chuck(res_cross_validated, "name"),
-      "model_evaluation_cross_validated_genus"
-    )
-    testthat::expect_identical(
-      purrr::chuck(res_cross_validated, "store"),
-      "store"
+      base::names(res_cross_validated),
+      base::names(
+        make_sjsdm_evaluation_payload_fixture()[[
+          "list_pooled_evaluation"
+        ]]
+      )
     )
   }
 )

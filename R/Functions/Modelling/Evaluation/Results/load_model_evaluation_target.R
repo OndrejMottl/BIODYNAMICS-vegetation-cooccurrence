@@ -91,10 +91,6 @@ load_model_evaluation_target <- function(
               base::as.character(),
             artifact_type = "sjsdm_cv_evaluation",
             payload_name = "list_pooled_evaluation",
-            v1_target_name = stringr::str_glue(
-              "model_evaluation_cross_validated_{resolution_id}"
-            ) |>
-              base::as.character(),
             read_target_function = read_target_fn
           )
         },

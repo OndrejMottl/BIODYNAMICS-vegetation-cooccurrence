@@ -178,40 +178,17 @@ validate_sjsdm_artifact_envelope <- function(
         base::nzchar(.x)
     )
 
-  flag_valid_migration <-
-    base::is.logical(migration_applied) &&
-    base::length(migration_applied) == 1L &&
-    !base::is.na(migration_applied) &&
+  flag_native_v2 <-
+    base::identical(source_schema_version, "2.0.0") &&
+    base::identical(migration_applied, FALSE) &&
     base::is.character(migration_function) &&
     base::length(migration_function) == 1L &&
-    (
-      (
-        !migration_applied &&
-          base::is.na(migration_function)
-      ) ||
-      (
-        migration_applied &&
-          !base::is.na(migration_function) &&
-          base::nzchar(migration_function)
-      )
-    )
-
-  flag_valid_source_version <-
-    if (
-      base::identical(migration_applied, TRUE)
-    ) {
-      base::identical(source_schema_version, "1.0.0")
-    } else {
-      base::identical(migration_applied, FALSE) &&
-        base::identical(source_schema_version, "2.0.0") &&
-        base::is.na(migration_function)
-    }
+    base::is.na(migration_function)
 
   assertthat::assert_that(
     flag_valid_created_at,
     flag_valid_character_provenance,
-    flag_valid_migration,
-    flag_valid_source_version,
+    flag_native_v2,
     msg = "Artifact provenance values are invalid."
   )
 

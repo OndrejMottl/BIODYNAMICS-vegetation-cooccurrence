@@ -372,6 +372,57 @@ make_sjsdm_tuning_payload_fixture <- function() {
   return(res)
 }
 
+make_sjsdm_tuning_artifact_fixture <- function(
+    source_id = "unit",
+    taxonomic_resolution = "genus",
+    with_evidence = TRUE) {
+  payload <-
+    make_sjsdm_tuning_payload_fixture()
+
+  if (
+    with_evidence
+  ) {
+    payload[["data_candidate_repeat_summary"]] <-
+      tibble::tibble(
+        repeat_id = 1L,
+        candidate_id = "candidate_001",
+        alpha_cov = 0,
+        alpha_coef = 0,
+        alpha_spatial = 0,
+        lambda_cov = 0.1,
+        lambda_coef = 0.1,
+        lambda_spatial = 0.1,
+        n_folds_total = 1L,
+        n_folds_successful = 1L,
+        n_response_values = 1L,
+        negative_log_likelihood_test = 0.1,
+        negative_log_likelihood_per_response = 0.1,
+        auc_macro_test = 0.7,
+        summary_status = "ok",
+        cv_strategy = "spatially_stratified_group_kfold",
+        regularization_source = "unit_cv",
+        source_id = source_id,
+        tier_id = "paleo",
+        taxonomic_resolution = taxonomic_resolution,
+        response_family = "binomial",
+        predictor_structure = "full",
+        candidate_table_hash = "candidate_hash"
+      )
+  }
+
+  res <-
+    build_sjsdm_artifact_envelope(
+      artifact_type = "sjsdm_cv_tuning",
+      payload = payload,
+      provenance = build_sjsdm_artifact_provenance(
+        pipeline_id = "pipeline_test",
+        configuration_profile = "project_test"
+      )
+    )
+
+  return(res)
+}
+
 make_sjsdm_evaluation_payload_fixture <- function() {
   data_predictions <-
     build_sjsdm_empty_selected_fold_artifacts()[[

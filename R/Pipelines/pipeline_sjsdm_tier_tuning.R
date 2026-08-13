@@ -204,8 +204,10 @@ list_sjsdm_tier_common_targets <-
   targets::tar_target(
     description = "Record tier-artifact creation time",
     name = sjsdm_tier_artifact_created_at,
-    command = base::Sys.time(),
-    cue = targets::tar_cue(mode = "always")
+    command = {
+      base::force(data_sjsdm_tier_tuning_summaries)
+      base::Sys.time()
+    }
   ),
   targets::tar_target(
     description = "Validate the tier-wide tuning schedule",

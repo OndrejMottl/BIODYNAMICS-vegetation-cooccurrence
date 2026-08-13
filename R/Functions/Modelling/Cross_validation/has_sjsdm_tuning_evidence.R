@@ -1,8 +1,8 @@
 #' @title Check for Shared sjSDM Tuning Evidence
 #' @description
-#' Reads every requested unit tuning artifact or frozen v1 summary and reports
-#' whether at least one contains candidate evidence. Missing, unreadable, or
-#' malformed inputs fail closed.
+#' Reads every requested native-v2 unit tuning artifact and reports whether at
+#' least one contains candidate evidence. Missing, unreadable, or malformed
+#' inputs fail closed.
 #' @param store_paths
 #' Non-empty character vector of unit targets-store paths.
 #' @param target_names
@@ -79,27 +79,15 @@ has_sjsdm_tuning_evidence <- function(
           )
         }
 
-        if (
-          base::is.list(data_summary) &&
-            base::identical(data_summary[["schema_version"]], "2.0.0")
-        ) {
-          validate_sjsdm_artifact_envelope(
-            list_artifact = data_summary,
-            expected_artifact_type = "sjsdm_cv_tuning"
-          )
-          data_summary <-
-            data_summary[["payload"]][[
-              "data_candidate_repeat_summary"
-            ]]
-        }
+        validate_sjsdm_artifact_envelope(
+          list_artifact = data_summary,
+          expected_artifact_type = "sjsdm_cv_tuning"
+        )
 
-        if (
-          !base::is.data.frame(data_summary)
-        ) {
-          cli::cli_abort(
-            "Tuning summaries used for the evidence check must be data frames."
-          )
-        }
+        data_summary <-
+          data_summary[["payload"]][[
+            "data_candidate_repeat_summary"
+          ]]
 
         return(data_summary)
       }
