@@ -1,0 +1,24 @@
+Save Trait Review Candidates
+
+Description:
+
+     Writes a generated trait-review queue and returns its path for a
+     `targets` file target.
+
+Usage:
+
+     save_trait_review_candidates(
+       data_trait_review_candidates,
+       path_trait_review_candidates
+     )
+
+Arguments:
+
+data_trait_review_candidates: Candidate tibble from
+          [build_trait_review_candidates()].
+
+path_trait_review_candidates: Character scalar output CSV path.
+
+Value:
+
+     The normalized output path.

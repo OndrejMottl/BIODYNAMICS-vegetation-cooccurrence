@@ -1,0 +1,29 @@
+Validate Trait Review Decisions
+
+Description:
+
+     Validates review schema, human approval, candidate coverage,
+     selectors, and correction-rule conflicts against current trait
+     records.
+
+Usage:
+
+     validate_trait_review_decisions(
+       data_trait_review_decisions,
+       data_trait_records,
+       data_trait_review_candidates
+     )
+
+Arguments:
+
+data_trait_review_decisions: Decision data loaded by
+          [load_trait_review_decisions()].
+
+data_trait_records: Current trait records for the review stage.
+
+data_trait_review_candidates: Current candidates from
+          [build_trait_review_candidates()].
+
+Value:
+
+     A tibble containing validated review decisions.

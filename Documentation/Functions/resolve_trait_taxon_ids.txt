@@ -32,9 +32,8 @@ Details:
 
 Value:
 
-     A tibble with columns `taxon_name`, `trait_domain_name`,
-     `trait_name`, and `trait_value`. The `taxon_id` column is dropped
-     from the output.
+     A tibble with `taxon_name`, all source identifiers, and the trait
+     fields. The original `taxon_id` is retained for auditability.
 
 See Also:
 

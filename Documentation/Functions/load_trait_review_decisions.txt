@@ -1,0 +1,18 @@
+Load Trait Review Decisions
+
+Description:
+
+     Strictly loads a canonical trait-review decision CSV.
+
+Usage:
+
+     load_trait_review_decisions(path_trait_review_decisions)
+
+Arguments:
+
+path_trait_review_decisions: Character scalar path to a canonical
+          decision CSV.
+
+Value:
+
+     A typed tibble containing the canonical decision columns.
