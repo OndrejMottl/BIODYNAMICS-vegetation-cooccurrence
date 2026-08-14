@@ -1,0 +1,499 @@
+---
+title: "Trait review recovery: situation and next steps"
+subtitle: "Raw-stage reconciliation of archived review work with current candidates"
+date: today
+date-format: long
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    embed-resources: true
+    theme: cosmo
+  typst:
+    toc: true
+    section-numbering: "1.1"
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+here::i_am(
+  base::paste0(
+    "R/03_Supplementary_analyses/One_time/Trait_corrections/",
+    "trait_review_reconciliation_report.qmd"
+  )
+)
+
+path_reconciliation <-
+  here::here(
+    "Data/Temp/Trait_corrections/raw/",
+    "trait_review_reconciliation.csv"
+  )
+path_historical_scope <-
+  here::here(
+    "Data/Temp/Trait_corrections/raw/",
+    "historical_review_scope.csv"
+  )
+path_submission_audit <-
+  here::here(
+    "Data/Temp/Trait_corrections/raw/",
+    "review_submission_audit.csv"
+  )
+path_proposals <-
+  here::here(
+    "Data/Temp/Trait_corrections/raw/",
+    "review_decision_proposals.csv"
+  )
+path_review_submission <-
+  here::here(
+    "Data/Input/Trait_corrections/Review_submission/",
+    "trait_manual_corrections.csv"
+  )
+path_review_notes <-
+  here::here(
+    "Data/Input/Trait_corrections/Review_submission/",
+    "review_notes.pdf"
+  )
+
+vec_required_paths <-
+  base::c(
+    path_reconciliation,
+    path_historical_scope,
+    path_submission_audit,
+    path_proposals,
+    path_review_submission,
+    path_review_notes
+  )
+assertthat::assert_that(
+  base::all(base::file.exists(vec_required_paths)),
+  msg = "Run the trait-review recovery workflow before this report."
+)
+
+data_reconciliation <-
+  readr::read_csv(
+    path_reconciliation,
+    show_col_types = FALSE,
+    progress = FALSE
+  )
+data_historical_scope <-
+  readr::read_csv(
+    path_historical_scope,
+    show_col_types = FALSE,
+    progress = FALSE
+  )
+data_submission_audit <-
+  readr::read_csv(
+    path_submission_audit,
+    show_col_types = FALSE,
+    progress = FALSE
+  )
+data_proposals <-
+  readr::read_csv(
+    path_proposals,
+    show_col_types = FALSE,
+    progress = FALSE
+  )
+
+assertthat::assert_that(
+  !base::anyDuplicated(data_reconciliation[["candidate_id"]]),
+  base::all(data_proposals[["review_status"]] == "proposed"),
+  msg = "Reconciliation identifiers and proposal statuses must be valid."
+)
+
+n_candidates <- base::nrow(data_reconciliation)
+n_historical_groups <- base::nrow(data_historical_scope)
+n_historical_reviewed <-
+  base::sum(data_historical_scope[["historical_reviewed"]])
+n_current_confirmed_review <-
+  base::sum(
+    data_reconciliation[["historical_scope_status"]] ==
+      "confirmed_previous_review"
+  )
+n_submission_rows <- base::nrow(data_submission_audit)
+n_submitted_groups <-
+  base::sum(data_reconciliation[["n_submission_rows"]] > 0L)
+n_proposal_rows <- base::nrow(data_proposals)
+n_proposal_groups <-
+  dplyr::n_distinct(data_proposals[["candidate_id"]])
+n_pending_rows <-
+  base::sum(
+    data_submission_audit[["proposal_type"]] ==
+      "pending_visual_review"
+  )
+n_implicit_none <-
+  base::sum(data_reconciliation[["implicit_none_proposal_eligible"]])
+n_leaf_area_report_reviewed <-
+  data_historical_scope |>
+  dplyr::filter(
+    .data[["trait_domain_name"]] == "Leaf Area",
+    .data[["historical_reviewed"]]
+  ) |>
+  base::nrow()
+n_leaf_area_current_confirmed <-
+  data_reconciliation |>
+  dplyr::filter(
+    .data[["trait_domain_name"]] == "Leaf Area",
+    .data[["historical_scope_status"]] ==
+      "confirmed_previous_review"
+  ) |>
+  base::nrow()
+
+vec_category_order <-
+  base::c(
+    "recovered_correction_needs_validation",
+    "submitted_correction_needs_interpretation",
+    "prior_no_action_needs_revalidation",
+    "unfinished_historical_review",
+    "new_or_changed_candidate"
+  )
+vec_category_labels <-
+  base::c(
+    recovered_correction_needs_validation =
+      "Recovered correction: validate",
+    submitted_correction_needs_interpretation =
+      "Submitted correction: interpret",
+    prior_no_action_needs_revalidation =
+      "Previous no-action: revalidate",
+    unfinished_historical_review =
+      "Historical review unfinished",
+    new_or_changed_candidate =
+      "New or changed candidate"
+  )
+vec_category_colours <-
+  base::c(
+    recovered_correction_needs_validation = "#2C7FB8",
+    submitted_correction_needs_interpretation = "#7FCDBB",
+    prior_no_action_needs_revalidation = "#FEC44F",
+    unfinished_historical_review = "#F03B20",
+    new_or_changed_candidate = "#756BB1"
+  )
+vec_category_plot_labels <-
+  base::c(
+    recovered_correction_needs_validation = "Validate proposal",
+    submitted_correction_needs_interpretation = "Interpret submission",
+    prior_no_action_needs_revalidation = "Revalidate no-action",
+    unfinished_historical_review = "Unfinished review",
+    new_or_changed_candidate = "New or changed"
+  )
+
+data_category_summary <-
+  data_reconciliation |>
+  dplyr::count(
+    .data[["remaining_review_category"]],
+    name = "n_candidates"
+  ) |>
+  tidyr::complete(
+    remaining_review_category = vec_category_order,
+    fill = base::list(n_candidates = 0L)
+  ) |>
+  dplyr::mutate(
+    remaining_review_category = base::factor(
+      .data[["remaining_review_category"]],
+      levels = vec_category_order
+    ),
+    category = vec_category_labels[
+      base::as.character(.data[["remaining_review_category"]])
+    ]
+  ) |>
+  dplyr::arrange(.data[["remaining_review_category"]])
+
+data_domain_category <-
+  data_reconciliation |>
+  dplyr::count(
+    .data[["trait_domain_name"]],
+    .data[["remaining_review_category"]],
+    name = "n_candidates"
+  ) |>
+  dplyr::mutate(
+    remaining_review_category = base::factor(
+      .data[["remaining_review_category"]],
+      levels = base::rev(vec_category_order)
+    )
+  )
+```
+
+## Executive summary
+
+::: {.callout-important}
+## Current status
+
+The recovery is complete, but scientific approval is not.
+
+The current raw-stage queue contains `r scales::comma(n_candidates)` mandatory taxon-trait candidates.
+Every candidate now has an auditable relationship to the archived report, the submitted correction table, and the recovered proposal table.
+No recovered correction or inferred no-action decision has been approved automatically.
+:::
+
+The archived PDF reports contain `r scales::comma(n_historical_groups)` taxon-trait groups, of which `r scales::comma(n_historical_reviewed)` fall inside the review scope documented in the accompanying note.
+Of those historically reviewed groups, `r scales::comma(n_current_confirmed_review)` still match the current candidate queue exactly.
+The difference reflects taxonomic and candidate-set changes since the reports were produced; it is not evidence that the earlier work was lost.
+
+The submitted correction table contains `r scales::comma(n_submission_rows)` rows covering `r scales::comma(n_submitted_groups)` current candidate groups.
+Conservative parsing recovered `r scales::comma(n_proposal_rows)` atomic correction proposals covering `r scales::comma(n_proposal_groups)` candidate groups, while `r scales::comma(n_pending_rows)` submitted rows remain too ambiguous for automatic conversion.
+
+## What the counts mean
+
+```{r}
+#| label: category-table
+#| tbl-cap: "Remaining-work categories for current raw candidates."
+
+data_category_display <-
+  data_category_summary |>
+  dplyr::transmute(
+    Priority = dplyr::row_number(),
+    Category = .data[["category"]],
+    Candidates = scales::comma(.data[["n_candidates"]]),
+    `Share of queue` = scales::percent(
+      .data[["n_candidates"]] / .env[["n_candidates"]],
+      accuracy = 0.1
+    )
+  )
+
+knitr::kable(
+  data_category_display,
+  align = base::c("r", "l", "r", "r")
+)
+```
+
+These categories are mutually exclusive and sum to the complete queue.
+They are workflow categories rather than scientific conclusions.
+
+- **Recovered correction: validate** means the submitted wording could be converted into a structured selector and action, but a person must confirm the interpretation and evidence.
+- **Submitted correction: interpret** means a submitted row exists, but its wording, duplicate structure, qualifier, or graph reference requires visual scientific review.
+- **Previous no-action: revalidate** means the candidate lies within confirmed historical review scope but has no submitted correction row; this is the strongest evidence for an implicit no-action decision, but it still requires explicit confirmation under the new auditable contract.
+- **Historical review unfinished** means the candidate was present in an archived report outside the documented completed scope.
+- **New or changed candidate** means the current candidate was not present in the archived report and has no submitted correction requiring interpretation.
+
+## Where the work remains
+
+```{r}
+#| label: category-by-domain-plot
+#| fig-cap: "Candidates by trait domain and remaining-review category."
+#| fig-width: 10
+#| fig-height: 6.5
+
+plot_review_work <-
+  ggplot2::ggplot(
+    data_domain_category,
+    ggplot2::aes(
+      x = .data[["n_candidates"]],
+      y = .data[["trait_domain_name"]],
+      fill = .data[["remaining_review_category"]]
+    )
+  ) +
+  ggplot2::geom_col(width = 0.72) +
+  ggplot2::scale_fill_manual(
+    values = vec_category_colours,
+    breaks = base::rev(vec_category_order),
+    labels = vec_category_plot_labels[base::rev(vec_category_order)]
+  ) +
+  ggplot2::scale_x_continuous(
+    labels = scales::label_comma(),
+    expand = ggplot2::expansion(mult = base::c(0, 0.04))
+  ) +
+  ggplot2::labs(
+    x = "Mandatory candidates",
+    y = NULL,
+    fill = "Remaining work"
+  ) +
+  ggplot2::theme_minimal(base_size = 11) +
+  ggplot2::theme(
+    panel.grid.major.y = ggplot2::element_blank(),
+    legend.position = "bottom",
+    legend.box = "vertical"
+  )
+
+plot_review_work
+```
+
+```{r}
+#| label: domain-category-table
+#| tbl-cap: "Candidate counts by domain and remaining-work category."
+
+data_domain_category_display <-
+  data_domain_category |>
+  dplyr::mutate(
+    remaining_review_category = base::as.character(
+      .data[["remaining_review_category"]]
+    ),
+    category = vec_category_labels[
+      .data[["remaining_review_category"]]
+    ]
+  ) |>
+  dplyr::select(
+    .data[["trait_domain_name"]],
+    .data[["category"]],
+    .data[["n_candidates"]]
+  ) |>
+  dplyr::transmute(
+    `Trait domain` = .data[["trait_domain_name"]],
+    `Remaining-work category` = .data[["category"]],
+    Candidates = .data[["n_candidates"]]
+  )
+
+knitr::kable(
+  data_domain_category_display,
+  align = base::c("l", "l", "r"),
+  format.args = base::list(big.mark = ",")
+)
+```
+
+## What can be retained from the earlier review
+
+The historical note records complete review of Diaspore mass, Leaf nitrogen content per unit mass, Plant heigh, and Stem specific density.
+It records Leaf Area as reviewed through PDF page 700 and contains no completed-review claim for Leaf mass per area.
+
+Page 1 of the Leaf Area PDF is the table of contents, so review through PDF page 700 covers `r scales::comma(n_leaf_area_report_reviewed)` historical taxon-trait pages.
+Of these, `r scales::comma(n_leaf_area_current_confirmed)` still match current candidates exactly.
+
+```{r}
+#| label: historical-scope-table
+#| tbl-cap: "Archived report coverage and exact current matches."
+
+data_historical_domain_summary <-
+  data_historical_scope |>
+  dplyr::group_by(.data[["trait_domain_name"]]) |>
+  dplyr::summarise(
+    `Report groups` = dplyr::n(),
+    `Inside documented review scope` = base::sum(
+      .data[["historical_reviewed"]]
+    ),
+    .groups = "drop"
+  )
+
+data_current_historical_summary <-
+  data_reconciliation |>
+  dplyr::count(
+    .data[["trait_domain_name"]],
+    .data[["historical_scope_status"]],
+    name = "n_candidates"
+  ) |>
+  tidyr::pivot_wider(
+    names_from = "historical_scope_status",
+    values_from = "n_candidates",
+    values_fill = 0L
+  )
+
+data_historical_display <-
+  data_historical_domain_summary |>
+  dplyr::left_join(
+    data_current_historical_summary,
+    by = dplyr::join_by(trait_domain_name)
+  ) |>
+  dplyr::transmute(
+    `Trait domain` = .data[["trait_domain_name"]],
+    .data[["Report groups"]],
+    .data[["Inside documented review scope"]],
+    `Current confirmed matches` =
+      .data[["confirmed_previous_review"]],
+    `Current unfinished matches` =
+      .data[["unfinished_previous_review"]],
+    `Current candidates absent from report` =
+      .data[["not_in_previous_report"]]
+  )
+
+knitr::kable(
+  data_historical_display,
+  align = base::c("l", base::rep("r", 5L)),
+  format.args = base::list(big.mark = ",")
+)
+```
+
+The `r scales::comma(n_implicit_none)` candidates classified as previous no-action candidates are not being treated as approved.
+They are a high-confidence review shortcut: confirm that their current distributions still support no change, then record explicit approved `none` decisions.
+
+## Why proposal counts and candidate counts differ
+
+The recovery generated `r scales::comma(n_proposal_rows)` atomic proposals for `r scales::comma(n_proposal_groups)` candidate groups.
+The mutually exclusive queue contains fewer candidates in the recovered-correction category because one candidate has both a structured proposal and a pending submitted row; the more cautious submitted-correction interpretation category takes precedence for that candidate.
+
+This distinction prevents duplicate rows from being mistaken for independent candidate groups and prevents an easily parsed fragment from hiding unresolved wording for the same candidate.
+
+## Recommended next steps
+
+### 1. Validate recovered corrections
+
+Review the structured proposals first because they offer the fastest path to safe, auditable decisions.
+For each proposal, confirm the taxon, domain, optional trait-name or value selector, action, scale factor, rationale, and evidence.
+Keep the status as `proposed` until a named human reviewer records approval and a review date.
+
+### 2. Interpret ambiguous submitted corrections
+
+Process the submitted-correction interpretation category in bounded batches split by trait domain, `trait_name`, and dataset.
+Consult the archived plots and the original notes, then translate each conclusion into one or more atomic decision rows.
+Do not apply free-text notes directly to all values for a taxon-domain group.
+
+### 3. Revalidate probable no-action candidates
+
+Review the previous no-action category using compact distribution panels and dataset splits.
+Where the current evidence still supports no correction, record an explicit approved `action = "none"` decision.
+Escalate any changed distribution to a normal correction review rather than preserving the historical conclusion automatically.
+
+### 4. Finish the historically incomplete domains
+
+Complete the remaining Leaf Area pages first because they continue an already-started review.
+Then review Leaf mass per area in full; this domain has no documented completed historical review.
+
+### 5. Review new or changed candidates
+
+Inspect candidates absent from the archived report after the historical work is reconciled.
+Their small number makes them suitable for individual review rather than automated inference.
+
+### 6. Close the raw review gate
+
+The raw gate is complete only when every current candidate has either an approved correction or an explicit approved no-action decision.
+Before applying decisions, require every approved correction to match at least one record, reject overlapping or conflicting rules, and inspect before-and-after distributions and record counts for all six domains.
+
+### 7. Repeat independently after classification
+
+After approved raw decisions are applied, regenerate classified-taxon candidates and complete the classified-stage review independently.
+Raw approval must not be copied mechanically to classified taxa because classification changes the grouping contract.
+
+## Limitations
+
+- Historical completion is reconstructed from the archived reports and the accompanying note, not from an explicit row-level no-action ledger.
+- A missing submitted correction row does not by itself prove that a candidate was reviewed; the historical report scope is required for that inference.
+- Exact candidate hashes intentionally expose taxonomic or domain changes rather than silently matching them.
+- Recovered proposals encode only unambiguous wording and remain scientific suggestions until human approval.
+- Domain-level flags remain diagnostic context and are not mandatory review candidates by themselves.
+
+## Reproducibility and source material
+
+This report reads the generated reconciliation, historical-scope index, submission audit, and proposal table from `Data/Temp/Trait_corrections/raw/`.
+Regenerate those files with `R/03_Supplementary_analyses/One_time/Trait_corrections/recover_trait_review_submission.R`, then render this report with `R/03_Supplementary_analyses/One_time/Trait_corrections/render_trait_review_reconciliation_report.R`.
+
+```{r}
+#| label: provenance-table
+#| tbl-cap: "Immutable review-source checksums used for this report."
+
+data_provenance <-
+  tibble::tibble(
+    Source = base::c(
+      "Submitted correction table",
+      "Accompanying review note"
+    ),
+    File = base::c(
+      fs::path_file(path_review_submission),
+      fs::path_file(path_review_notes)
+    ),
+    `SHA-256` = base::c(
+      digest::digest(
+        file = path_review_submission,
+        algo = "sha256"
+      ),
+      digest::digest(
+        file = path_review_notes,
+        algo = "sha256"
+      )
+    )
+  )
+
+knitr::kable(data_provenance, align = base::c("l", "l", "l"))
+```
+
+Report generated from the current artifacts at `r base::format(base::Sys.time(), "%Y-%m-%d %H:%M %Z")`.

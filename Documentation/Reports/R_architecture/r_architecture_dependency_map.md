@@ -34,7 +34,7 @@ flowchart TD
 | reference | 13 |
 | scientific_reference | 2 |
 | sensitivity | 1 |
-| supplementary_or_processing | 21 |
+| supplementary_or_processing | 22 |
 | test | 386 |
 
 ## Function capabilities
