@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-06-19">
 
-<title>installation – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>build_trait_review_reconciliation() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -24,61 +23,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../figures/Logo FOSSILPOL regular - 600ppi.png" rel="icon" type="image/png">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-5a509305741fcfd5710142364a75df2a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-a190e65e7e42b1a32c7037c7b6aeb039.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../">
+<link href="../../../../figures/Logo FOSSILPOL regular - 600ppi.png" rel="icon" type="image/png">
+<script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-5a509305741fcfd5710142364a75df2a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../site_libs/bootstrap/bootstrap-a190e65e7e42b1a32c7037c7b6aeb039.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -119,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../Documentation/Website/installation.html">Reproducibility</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_reconciliation.html">build_trait_review_reconciliation()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -134,7 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../../">BIODYNAMICS-vegetation-cooccurrence</a>
+      <a href="../../../../">BIODYNAMICS-vegetation-cooccurrence</a>
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -146,2137 +110,2137 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/about.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/installation.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../../Documentation/Website/installation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Reproducibility</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/outputs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/outputs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Outputs</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container">
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Code Reference</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/documentation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/documentation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/architecture.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/architecture.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">R Architecture</span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container">
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Functions</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">aggregate_colocated_community_records()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/aggregate_jsdm_variance_components.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/aggregate_jsdm_variance_components.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">aggregate_jsdm_variance_components()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/aggregate_sjsdm_tuning_by_tier.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/aggregate_sjsdm_tuning_by_tier.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">aggregate_sjsdm_tuning_by_tier()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/aggregate_sjsdm_tuning_work_items.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/aggregate_sjsdm_tuning_work_items.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">aggregate_sjsdm_tuning_work_items()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/aggregate_trait_values.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/aggregate_trait_values.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">aggregate_trait_values()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/align_sample_ids.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/align_sample_ids.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">align_sample_ids()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/allocate_shapley_variance_components.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/allocate_shapley_variance_components.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">allocate_shapley_variance_components()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/apply_r_architecture_exceptions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/apply_r_architecture_exceptions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">apply_r_architecture_exceptions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/apply_trait_review_decisions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/apply_trait_review_decisions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">apply_trait_review_decisions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/assign_functional_type_clusters.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/assign_functional_type_clusters.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">assign_functional_type_clusters()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_classification_table.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_classification_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_classification_table()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_combined_classification_table.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_combined_classification_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_combined_classification_table()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_community_interpolation_index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_community_interpolation_index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_community_interpolation_index()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_community_record_signatures.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_community_record_signatures.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_community_record_signatures()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_community_taxon_trait_table.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_community_taxon_trait_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_community_taxon_trait_table()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_cross_validation_assignments_from_resolution.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_cross_validation_assignments_from_resolution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_cross_validation_assignments_from_resolution()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_cross_validation_branch_assignments.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_cross_validation_branch_assignments.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_cross_validation_branch_assignments()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_cross_validation_grid_candidates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_cross_validation_grid_candidates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_cross_validation_grid_candidates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_cross_validation_grid_candidates_from_resolution.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_cross_validation_grid_candidates_from_resolution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_cross_validation_grid_candidates_from_resolution()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_cross_validation_location_table.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_cross_validation_location_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_cross_validation_location_table()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_decomposition_diagnostic_routes.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_decomposition_diagnostic_routes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_decomposition_diagnostic_routes()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_decomposition_environment_formula.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_decomposition_environment_formula.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_decomposition_environment_formula()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_empty_decomposition_variant.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_empty_decomposition_variant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_empty_decomposition_variant()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_empty_spatial_model_results.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_empty_spatial_model_results.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_empty_spatial_model_results()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_jsdm_environment_formula.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_jsdm_environment_formula.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_jsdm_environment_formula()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_jsdm_fit_input.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_jsdm_fit_input.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_jsdm_fit_input()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_land_prediction_grid.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_land_prediction_grid.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_land_prediction_grid()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_leave_one_location_out_assignments.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_leave_one_location_out_assignments.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_leave_one_location_out_assignments()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_pipeline_progress_monitor_server.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_pipeline_progress_monitor_server.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_pipeline_progress_monitor_server()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_preprocessing_controller.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_preprocessing_controller.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_preprocessing_controller()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_r_architecture_dependency_map.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_r_architecture_dependency_map.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_r_architecture_dependency_map()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_repeated_diagnostic_fold_indices.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_repeated_diagnostic_fold_indices.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_repeated_diagnostic_fold_indices()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_shared_interpolation_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_shared_interpolation_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_shared_interpolation_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_artifact_envelope.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_artifact_envelope.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_artifact_envelope()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_artifact_provenance.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_artifact_provenance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_artifact_provenance()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_artifact_registry.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_artifact_registry.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_artifact_registry()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_cached_selected_folds.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_cached_selected_folds.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_cached_selected_folds()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_candidate_fold_result.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_candidate_fold_result.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_candidate_fold_result()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_common_regularization_artifact.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_common_regularization_artifact.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_common_regularization_artifact()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_common_regularization_artifacts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_common_regularization_artifacts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_common_regularization_artifacts()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_cumulative_tuning_work_items.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_cumulative_tuning_work_items.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_cumulative_tuning_work_items()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_empty_selected_fold_artifacts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_empty_selected_fold_artifacts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_empty_selected_fold_artifacts()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_empty_tier_regularization_selection.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_empty_tier_regularization_selection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_empty_tier_regularization_selection()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_empty_tuning_result.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_empty_tuning_result.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_empty_tuning_result()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_empty_unit_regularization_selection.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_empty_unit_regularization_selection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_empty_unit_regularization_selection()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_fold_prediction_skeleton.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_fold_prediction_skeleton.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_fold_prediction_skeleton()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_pipeline_artifact.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_pipeline_artifact.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_pipeline_artifact()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_predictor_comparison_structure.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_predictor_comparison_structure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_predictor_comparison_structure()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_predictor_structure.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_predictor_structure.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_predictor_structure()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_regularization_candidates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_regularization_candidates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_regularization_candidates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_selected_fold_artifacts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_selected_fold_artifacts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_selected_fold_artifacts()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_staged_benchmark_policy.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_staged_benchmark_policy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_staged_benchmark_policy()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_structured_regularization_candidates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_structured_regularization_candidates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_structured_regularization_candidates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_tier_survivor_artifacts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_tier_survivor_artifacts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_tier_survivor_artifacts()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_tier_tuning_artifact.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_tier_tuning_artifact.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_tier_tuning_artifact()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_tier_tuning_artifacts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_tier_tuning_artifacts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_tier_tuning_artifacts()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_branch_work_items.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_branch_work_items.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_tuning_branch_work_items()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_fold_context.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_fold_context.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_tuning_fold_context()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_round_plan.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_round_plan.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_tuning_round_plan()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_schedule.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_schedule.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_tuning_schedule()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_store_paths.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_store_paths.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_tuning_store_paths()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_work_items.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_tuning_work_items.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_sjsdm_tuning_work_items()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_spatial_cross_validation_assignments.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_spatial_cross_validation_assignments.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_spatial_cross_validation_assignments()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_spatial_grid_tiles.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_spatial_grid_tiles.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_spatial_grid_tiles()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_spatial_model_store_index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_spatial_model_store_index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_spatial_model_store_index()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_trait_review_candidates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_candidates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_trait_review_candidates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_trait_review_reconciliation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_reconciliation.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">build_trait_review_reconciliation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_trait_table.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_trait_table()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/build_vegvault_plan.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_vegvault_plan.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_vegvault_plan()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/classify_dataset_prefix.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/classify_dataset_prefix.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">classify_dataset_prefix()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/classify_taxonomic_resolution.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/classify_taxonomic_resolution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">classify_taxonomic_resolution()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/classify_to_functional_type.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/classify_to_functional_type.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">classify_to_functional_type()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/collapse_spatial_variance_observation_id.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/collapse_spatial_variance_observation_id.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">collapse_spatial_variance_observation_id()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/combine_sjsdm_selected_fold_artifacts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/combine_sjsdm_selected_fold_artifacts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">combine_sjsdm_selected_fold_artifacts()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_community_presence_absence.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_community_presence_absence.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_community_presence_absence()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_cross_validation_grid_calibration.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_cross_validation_grid_calibration.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_cross_validation_grid_calibration()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_cross_validation_grid_calibration_from_resolution.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_cross_validation_grid_calibration_from_resolution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_cross_validation_grid_calibration_from_resolution()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_decomposition_prediction_metrics.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_decomposition_prediction_metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_decomposition_prediction_metrics()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_exact_spatial_mev_basis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_exact_spatial_mev_basis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_exact_spatial_mev_basis()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_fast_spatial_mev_basis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_fast_spatial_mev_basis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_fast_spatial_mev_basis()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_interpolation_on_age_grid.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_interpolation_on_age_grid.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_interpolation_on_age_grid()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_jsdm_se.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_jsdm_se.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_jsdm_se()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_jsdm_variance_partition.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_jsdm_variance_partition.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_jsdm_variance_partition()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_network_metrics.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_network_metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_network_metrics()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_pollen_proportions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_pollen_proportions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_pollen_proportions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_predictive_decomposition_shares.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_predictive_decomposition_shares.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_predictive_decomposition_shares()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_predictive_fold_shares.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_predictive_fold_shares.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_predictive_fold_shares()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_predictive_performance_shares.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_predictive_performance_shares.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_predictive_performance_shares()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_predictor_collinearity.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_predictor_collinearity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_predictor_collinearity()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_shapley_variance_components.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_shapley_variance_components.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_shapley_variance_components()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_shared_spatial_mev_basis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_shared_spatial_mev_basis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_shared_spatial_mev_basis()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_sjsdm_artifact_content_hash.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_sjsdm_artifact_content_hash.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_sjsdm_artifact_content_hash()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_sjsdm_decomposition_fold_effects.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_sjsdm_decomposition_fold_effects.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_sjsdm_decomposition_fold_effects()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_sjsdm_decomposition_loss_shares.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_sjsdm_decomposition_loss_shares.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_sjsdm_decomposition_loss_shares()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_spatial_mev.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_spatial_mev.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_spatial_mev()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_spatial_mev_basis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_spatial_mev_basis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_spatial_mev_basis()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_spatial_mev_subspace_similarity.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_spatial_mev_subspace_similarity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_spatial_mev_subspace_similarity()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_spatiotemporal_mev.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_spatiotemporal_mev.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_spatiotemporal_mev()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_trait_dissimilarity.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_trait_dissimilarity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_trait_dissimilarity()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/compute_variance_component_colours.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_variance_component_colours.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_variance_component_colours()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/correct_trait_records.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/correct_trait_records.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">correct_trait_records()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/deduplicate_modern_community_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/deduplicate_modern_community_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">deduplicate_modern_community_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/diagnose_colocated_community_records.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/diagnose_colocated_community_records.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">diagnose_colocated_community_records()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/diagnose_cross_validation_partitions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/diagnose_cross_validation_partitions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">diagnose_cross_validation_partitions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/diagnose_duplicate_communities.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/diagnose_duplicate_communities.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">diagnose_duplicate_communities()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/diagnose_duplicate_metadata_keys.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/diagnose_duplicate_metadata_keys.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">diagnose_duplicate_metadata_keys()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/diagnose_duplicate_sites.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/diagnose_duplicate_sites.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">diagnose_duplicate_sites()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/diagnose_jsdm_convergence.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/diagnose_jsdm_convergence.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">diagnose_jsdm_convergence()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/diagnose_modern_data_impossible_values.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/diagnose_modern_data_impossible_values.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">diagnose_modern_data_impossible_values()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/diagnose_r_architecture.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/diagnose_r_architecture.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">diagnose_r_architecture()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/diagnose_sjsdm_gpu_runtime.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/diagnose_sjsdm_gpu_runtime.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">diagnose_sjsdm_gpu_runtime()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/diagnose_sjsdm_setup.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/diagnose_sjsdm_setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">diagnose_sjsdm_setup()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/diagnose_torch_cuda_details.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/diagnose_torch_cuda_details.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">diagnose_torch_cuda_details()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_binary_auc.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_binary_auc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_binary_auc()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_binary_brier_score.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_binary_brier_score.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_binary_brier_score()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_binary_calibration.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_binary_calibration.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_binary_calibration()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_binary_log_loss.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_binary_log_loss.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_binary_log_loss()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_functional_type_classification_change.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_functional_type_classification_change.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_functional_type_classification_change()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_jsdm.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_jsdm.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_jsdm()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_modern_data_quality.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_modern_data_quality.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_modern_data_quality()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_candidate_guardrails.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_candidate_guardrails.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_sjsdm_candidate_guardrails()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_cross_validated_predictions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_cross_validated_predictions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_sjsdm_cross_validated_predictions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_fold_predictions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_fold_predictions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_sjsdm_fold_predictions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_prediction_source_metrics.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_prediction_source_metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_sjsdm_prediction_source_metrics()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_scientific_performance.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_scientific_performance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_sjsdm_scientific_performance()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_staged_benchmark.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_staged_benchmark.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_sjsdm_staged_benchmark()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_taxon_eligibility.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_taxon_eligibility.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_sjsdm_taxon_eligibility()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_spatial_mev_paired_benchmark.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_spatial_mev_paired_benchmark.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_spatial_mev_paired_benchmark()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/evaluate_tjur_r2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_tjur_r2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_tjur_r2()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_abiotic_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_abiotic_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_abiotic_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_age_from_sample_names.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_age_from_sample_names.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_age_from_sample_names()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_age_uncertainty_from_vegvault.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_age_uncertainty_from_vegvault.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_age_uncertainty_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_community_records.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_community_records.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_community_records()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_community_taxa.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_community_taxa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_community_taxa()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_data_from_vegvault.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_data_from_vegvault.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_data_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_dataset_coordinates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_dataset_coordinates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_dataset_coordinates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_dataset_name_from_sample_names.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_dataset_name_from_sample_names.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_dataset_name_from_sample_names()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_jsdm_variance_fractions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_jsdm_variance_fractions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_jsdm_variance_fractions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_model_tuning_integer.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_model_tuning_integer.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_model_tuning_integer()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_new_target_errors.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_new_target_errors.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_new_target_errors()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_prediction_climate.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_prediction_climate.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_prediction_climate()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_sample_ages.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_sample_ages.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_sample_ages()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/extract_spatial_mev_basis_component.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/extract_spatial_mev_basis_component.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">extract_spatial_mev_basis_component()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/filter_community_by_minimum_core_count.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/filter_community_by_minimum_core_count.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_community_by_minimum_core_count()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/filter_community_by_minimum_proportion.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/filter_community_by_minimum_proportion.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_community_by_minimum_proportion()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/filter_community_by_minimum_sample_count.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/filter_community_by_minimum_sample_count.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_community_by_minimum_sample_count()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/filter_community_to_plantae.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/filter_community_to_plantae.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_community_to_plantae()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/filter_complete_trait_records.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/filter_complete_trait_records.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_complete_trait_records()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/filter_constant_taxa.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/filter_constant_taxa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_constant_taxa()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/filter_trait_outliers.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/filter_trait_outliers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_trait_outliers()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/fit_binary_calibration_model.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/fit_binary_calibration_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">fit_binary_calibration_model()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/fit_decomposition_variant.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/fit_decomposition_variant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">fit_decomposition_variant()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/fit_hierarchical_clustering.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/fit_hierarchical_clustering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">fit_hierarchical_clustering()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/fit_jsdm_model.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/fit_jsdm_model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">fit_jsdm_model()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/fit_sjsdm_regularization_candidate.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/fit_sjsdm_regularization_candidate.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">fit_sjsdm_regularization_candidate()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/flag_trait_outliers.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/flag_trait_outliers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">flag_trait_outliers()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/has_sjsdm_tuning_evidence.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/has_sjsdm_tuning_evidence.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">has_sjsdm_tuning_evidence()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/has_target_succeeded.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/has_target_succeeded.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">has_target_succeeded()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/interpolate_community_dataset_from_shared_inputs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/interpolate_community_dataset_from_shared_inputs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">interpolate_community_dataset_from_shared_inputs()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/interpolate_fossil_age_iteration_batch.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/interpolate_fossil_age_iteration_batch.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">interpolate_fossil_age_iteration_batch()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/interpolate_grouped_time_series.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/interpolate_grouped_time_series.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">interpolate_grouped_time_series()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/interpolate_mev_to_grid.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/interpolate_mev_to_grid.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">interpolate_mev_to_grid()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/interpolate_paleo_community_with_age_uncertainty.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/interpolate_paleo_community_with_age_uncertainty.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">interpolate_paleo_community_with_age_uncertainty()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/interpolate_st_mev_to_grid.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/interpolate_st_mev_to_grid.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">interpolate_st_mev_to_grid()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/join_sample_ages.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/join_sample_ages.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">join_sample_ages()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_active_config_value.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_active_config_value.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_active_config_value()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_auxiliary_classification_table.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_auxiliary_classification_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_auxiliary_classification_table()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_chelsa_raster.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_chelsa_raster.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_chelsa_raster()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_config.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_config.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_config()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_config_value.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_config_value.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_config_value()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_config_value_with_fallback.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_config_value_with_fallback.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_config_value_with_fallback()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_continental_spatial_grid_rows.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_continental_spatial_grid_rows.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_continental_spatial_grid_rows()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_continental_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_continental_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_continental_trait_records_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_decomposition_diagnostic_inputs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_decomposition_diagnostic_inputs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_decomposition_diagnostic_inputs()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_decomposition_model_fitting_config.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_decomposition_model_fitting_config.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_decomposition_model_fitting_config()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_decomposition_target.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_decomposition_target.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_decomposition_target()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_functional_type_classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_functional_type_classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_functional_type_classification()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_latest_functional_type_classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_latest_functional_type_classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_latest_functional_type_classification()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_model_evaluation_target.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_model_evaluation_target.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_model_evaluation_target()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_model_tuning_parameter_for_scale_and_resolution.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_model_tuning_parameter_for_scale_and_resolution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_model_tuning_parameter_for_scale_and_resolution()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_model_tuning_parameters.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_model_tuning_parameters.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_model_tuning_parameters()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_project_functions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_project_functions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_project_functions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_review_submission_candidates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_review_submission_candidates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_review_submission_candidates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_sjsdm_available_tier_decisions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_sjsdm_available_tier_decisions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_sjsdm_available_tier_decisions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_sjsdm_cv_payload_field.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_sjsdm_cv_payload_field.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_sjsdm_cv_payload_field()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_sjsdm_tier_survivor_decisions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_sjsdm_tier_survivor_decisions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_sjsdm_tier_survivor_decisions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_sjsdm_tier_tuning_artifact.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_sjsdm_tier_tuning_artifact.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_sjsdm_tier_tuning_artifact()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_sjsdm_tuning_summaries.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_sjsdm_tuning_summaries.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_sjsdm_tuning_summaries()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_sjsdm_unit_tuning_store_paths.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_sjsdm_unit_tuning_store_paths.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_sjsdm_unit_tuning_store_paths()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_spatial_model_results.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_spatial_model_results.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_spatial_model_results()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_spatial_resolution_prediction_inputs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_spatial_resolution_prediction_inputs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_spatial_resolution_prediction_inputs()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_spatial_window.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_spatial_window.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_spatial_window()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_successful_model_target.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_successful_model_target.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_successful_model_target()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_targets_store_metadata.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_targets_store_metadata.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_targets_store_metadata()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_targets_target_by_fingerprint.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_targets_target_by_fingerprint.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_targets_target_by_fingerprint()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_targets_target_fingerprints.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_targets_target_fingerprints.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_targets_target_fingerprints()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_taxa_classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_taxa_classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_taxa_classification()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_trait_corrections.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_corrections.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_trait_corrections()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_domain_names_from_vegvault.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_trait_domain_names_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_records_from_vegvault.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_trait_records_from_vegvault()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/load_trait_review_decisions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_trait_review_decisions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_trait_review_decisions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/lookup_jsdm_variance_component.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/lookup_jsdm_variance_component.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">lookup_jsdm_variance_component()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/muffle_package_version_warning.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/muffle_package_version_warning.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">muffle_package_version_warning()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/normalise_coordinates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/normalise_coordinates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">normalise_coordinates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/plot_anova_components_by_age.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_anova_components_by_age.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_anova_components_by_age()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/plot_focal_trait_distribution.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_focal_trait_distribution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_focal_trait_distribution()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/plot_network_metrics_by_age.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_network_metrics_by_age.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_network_metrics_by_age()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/plot_pipeline_progress_visualisations.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_pipeline_progress_visualisations.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_pipeline_progress_visualisations()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/plot_spatial_anova_map_panel.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_spatial_anova_map_panel.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_spatial_anova_map_panel()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/plot_spatial_biotic_component.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_spatial_biotic_component.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_spatial_biotic_component()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/plot_spatial_variance_stack.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_spatial_variance_stack.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_spatial_variance_stack()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/plot_spatial_variance_waffle.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_spatial_variance_waffle.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_spatial_variance_waffle()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/plot_taxonomic_trait_comparison.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_taxonomic_trait_comparison.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_taxonomic_trait_comparison()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/plot_variance_component_triangle_legend.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_variance_component_triangle_legend.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_variance_component_triangle_legend()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/predict_sjsdm_probability_matrix.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/predict_sjsdm_probability_matrix.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">predict_sjsdm_probability_matrix()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/predict_spatial_resolution_grid_age.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/predict_spatial_resolution_grid_age.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">predict_spatial_resolution_grid_age()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_abiotic_for_fit.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_abiotic_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_abiotic_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_age_column_from_rownames.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_age_column_from_rownames.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_age_column_from_rownames()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_binary_prediction_metric_input.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_binary_prediction_metric_input.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_binary_prediction_metric_input()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_classification_table_for_community_taxa.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_classification_table_for_community_taxa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_classification_table_for_community_taxa()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_community_for_fit.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_community_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_community_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_community_proportions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_community_proportions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_community_proportions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_coords_for_fit.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_coords_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_coords_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_dataset_name_column_from_rownames.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_dataset_name_column_from_rownames.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_dataset_name_column_from_rownames()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_decomposition_fold_input.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_decomposition_fold_input.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_decomposition_fold_input()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_fold_spatial_predictors.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_fold_spatial_predictors.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_fold_spatial_predictors()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_model_fold_input.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_model_fold_input.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_model_fold_input()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_ordered_fold_partition.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_ordered_fold_partition.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_ordered_fold_partition()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_sjsdm_artifact_hash_payload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_artifact_hash_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_sjsdm_artifact_hash_payload()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_sjsdm_cross_validation_fold.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_cross_validation_fold.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_sjsdm_cross_validation_fold()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_sjsdm_guardrail_repeat_metrics.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_guardrail_repeat_metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_sjsdm_guardrail_repeat_metrics()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_sjsdm_guardrail_tuning_candidate.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_guardrail_tuning_candidate.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_sjsdm_guardrail_tuning_candidate()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_sjsdm_response.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_response.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_sjsdm_response()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_sjsdm_tuning_folds.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_tuning_folds.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_sjsdm_tuning_folds()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_spatial_predictors_for_fit.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_spatial_predictors_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_spatial_predictors_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_spatial_variance_plot_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_spatial_variance_plot_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_spatial_variance_plot_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/prepare_spatial_variance_waffle_data.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_spatial_variance_waffle_data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_spatial_variance_waffle_data()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/project_coords_to_metric.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/project_coords_to_metric.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">project_coords_to_metric()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/project_spatial_mev_basis.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/project_spatial_mev_basis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">project_spatial_mev_basis()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/read_vegvault_scalar.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/read_vegvault_scalar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">read_vegvault_scalar()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/render_trait_quality_control_report.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/render_trait_quality_control_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">render_trait_quality_control_report()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/replace_missing_community_counts_with_zeros.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/replace_missing_community_counts_with_zeros.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">replace_missing_community_counts_with_zeros()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/reshape_community_to_long.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/reshape_community_to_long.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">reshape_community_to_long()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_classification_to_finest_rank.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_classification_to_finest_rank.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_classification_to_finest_rank()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_continent_ids_from_scale_ids.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_continent_ids_from_scale_ids.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_continent_ids_from_scale_ids()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_cross_validation_assignments.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_cross_validation_assignments.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_cross_validation_assignments()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_cross_validation_fold_count.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_cross_validation_fold_count.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_cross_validation_fold_count()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_cross_validation_strategy.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_cross_validation_strategy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_cross_validation_strategy()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_decomposition_fold_loss.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_decomposition_fold_loss.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_decomposition_fold_loss()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_functional_type_classification_path.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_functional_type_classification_path.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_functional_type_classification_path()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_functional_type_classification_path_from_store.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_functional_type_classification_path_from_store.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_functional_type_classification_path_from_store()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_latest_dated_file_path.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_latest_dated_file_path.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_latest_dated_file_path()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_pipeline_store_path.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_pipeline_store_path.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_pipeline_store_path()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_scale_id_from_store.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_scale_id_from_store.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_scale_id_from_store()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_sjsdm_device.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_sjsdm_device.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_sjsdm_device()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_sjsdm_early_stopping.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_sjsdm_early_stopping.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_sjsdm_early_stopping()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_sjsdm_regularization_for_fit.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_sjsdm_regularization_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_sjsdm_regularization_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_sjsdm_tuning_context.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_sjsdm_tuning_context.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_sjsdm_tuning_context()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_spatial_mev_strategy.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_spatial_mev_strategy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_spatial_mev_strategy()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/resolve_trait_taxon_ids.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_trait_taxon_ids.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_trait_taxon_ids()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_configuration_generation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_configuration_generation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_configuration_generation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_decomposition_diagnostic_folds.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_decomposition_diagnostic_folds.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_decomposition_diagnostic_folds()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_decomposition_upstream_refresh.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_decomposition_upstream_refresh.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_decomposition_upstream_refresh()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_issue138_representative_validation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_issue138_representative_validation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_issue138_representative_validation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_pipeline.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_pipeline.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_pipeline()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_pipeline_interpolation_prebuild.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_pipeline_interpolation_prebuild.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_pipeline_interpolation_prebuild()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_pipeline_progress_monitor.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_pipeline_progress_monitor.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_pipeline_progress_monitor()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_pipeline_units_with_status.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_pipeline_units_with_status.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_pipeline_units_with_status()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_common_regularization_sensitivity.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_common_regularization_sensitivity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_common_regularization_sensitivity()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_cross_tier_sensitivity.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_cross_tier_sensitivity.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_cross_tier_sensitivity()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_predictor_structure_folds.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_predictor_structure_folds.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_predictor_structure_folds()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_prepared_tuning_candidate.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_prepared_tuning_candidate.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_prepared_tuning_candidate()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_selected_candidate_folds.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_selected_candidate_folds.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_selected_candidate_folds()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_selected_fold.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_selected_fold.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_selected_fold()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_candidates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_candidates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_tuning_candidates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_fold_candidates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_fold_candidates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_tuning_fold_candidates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_sequence.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_sequence.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_tuning_sequence()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_tier_round.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_tier_round.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_tuning_tier_round()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_unit_round.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_unit_round.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_tuning_unit_round()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_work_item.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_work_item.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_tuning_work_item()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/run_spatial_mev_paired_cv_fixture.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_spatial_mev_paired_cv_fixture.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_spatial_mev_paired_cv_fixture()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/save_continental_functional_type_classification.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/save_continental_functional_type_classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">save_continental_functional_type_classification()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/save_missing_taxa_template.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/save_missing_taxa_template.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">save_missing_taxa_template()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/save_pipeline_progress_visualisation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/save_pipeline_progress_visualisation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">save_pipeline_progress_visualisation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/save_trait_review_candidates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/save_trait_review_candidates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">save_trait_review_candidates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/scale_abiotic_for_fit.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/scale_abiotic_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">scale_abiotic_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/scale_prediction_abiotic.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/scale_prediction_abiotic.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">scale_prediction_abiotic()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/scale_predictors_with_training_attributes.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/scale_predictors_with_training_attributes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">scale_predictors_with_training_attributes()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/scale_spatial_for_fit.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/scale_spatial_for_fit.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">scale_spatial_for_fit()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/score_sjsdm_joint_tuning_predictions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/score_sjsdm_joint_tuning_predictions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">score_sjsdm_joint_tuning_predictions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/score_sjsdm_tuning_predictions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/score_sjsdm_tuning_predictions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">score_sjsdm_tuning_predictions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/select_continental_trait_table.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_continental_trait_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">select_continental_trait_table()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/select_decomposition_route_samples.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_decomposition_route_samples.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">select_decomposition_route_samples()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/select_functional_type_group_count.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_functional_type_group_count.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">select_functional_type_group_count()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/select_non_collinear_predictors.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_non_collinear_predictors.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">select_non_collinear_predictors()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/select_sjsdm_regularization.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_sjsdm_regularization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">select_sjsdm_regularization()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/select_sjsdm_staged_survivors.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_sjsdm_staged_survivors.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">select_sjsdm_staged_survivors()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/select_sjsdm_tuning_round_work_items.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_sjsdm_tuning_round_work_items.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">select_sjsdm_tuning_round_work_items()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/select_top_taxa_by_group_occurrence.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_top_taxa_by_group_occurrence.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">select_top_taxa_by_group_occurrence()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/select_unclassified_taxa.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/select_unclassified_taxa.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">select_unclassified_taxa()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_decomposition_diagnostic_routes.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_decomposition_diagnostic_routes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_decomposition_diagnostic_routes()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_expected_genus_richness.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_expected_genus_richness.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_expected_genus_richness()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_fitted_auc.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_fitted_auc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_fitted_auc()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_fossil_core_age_iterations.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_fossil_core_age_iterations.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_fossil_core_age_iterations()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_model_provenance.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_model_provenance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_model_provenance()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_pollen_counts_by_sample.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_pollen_counts_by_sample.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_pollen_counts_by_sample()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_predictive_decomposition.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_predictive_decomposition.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_predictive_decomposition()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_predictive_model_metrics.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_predictive_model_metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_predictive_model_metrics()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_sjsdm_decomposition_effects.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_sjsdm_decomposition_effects.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_sjsdm_decomposition_effects()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_sjsdm_fold_metrics.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_sjsdm_fold_metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_sjsdm_fold_metrics()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_sjsdm_metric_repeats.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_sjsdm_metric_repeats.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_sjsdm_metric_repeats()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_sjsdm_model_provenance.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_sjsdm_model_provenance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_sjsdm_model_provenance()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_sjsdm_tuning_candidates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_sjsdm_tuning_candidates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_sjsdm_tuning_candidates()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_sjsdm_tuning_execution.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_sjsdm_tuning_execution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_sjsdm_tuning_execution()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_sjsdm_tuning_timings.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_sjsdm_tuning_timings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_sjsdm_tuning_timings()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_spatial_biotic_component.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_spatial_biotic_component.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_spatial_biotic_component()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_spatial_mev_benchmark_predictions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_spatial_mev_benchmark_predictions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_spatial_mev_benchmark_predictions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_spatial_variance_stack.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_spatial_variance_stack.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_spatial_variance_stack()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_taxonomic_group_traits.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_taxonomic_group_traits.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_taxonomic_group_traits()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/summarise_trait_coverage.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_trait_coverage.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_trait_coverage()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_abiotic_interpolation_contract.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_abiotic_interpolation_contract.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_abiotic_interpolation_contract()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_available_core_count.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_available_core_count.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_available_core_count()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_community_source.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_community_source.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_community_source()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_community_taxon_count.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_community_taxon_count.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_community_taxon_count()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_config_allowed_values.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_config_allowed_values.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_config_allowed_values()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_config_profile_selection.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_config_profile_selection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_config_profile_selection()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_cross_validation_design_payload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_cross_validation_design_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_cross_validation_design_payload()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_cross_validation_shared_design_payload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_cross_validation_shared_design_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_cross_validation_shared_design_payload()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_prediction_probabilities.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_prediction_probabilities.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_prediction_probabilities()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_r_architecture.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_r_architecture.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_r_architecture()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sample_count.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sample_count.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sample_count()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sjsdm_artifact_envelope.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_artifact_envelope.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_artifact_envelope()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sjsdm_artifact_payload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_artifact_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_artifact_payload()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sjsdm_artifact_table.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_artifact_table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_artifact_table()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sjsdm_common_regularization_payload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_common_regularization_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_common_regularization_payload()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_evaluation_payload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_evaluation_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_cv_evaluation_payload()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_prediction_payload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_prediction_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_cv_prediction_payload()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_tuning_payload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_tuning_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_cv_tuning_payload()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sjsdm_gpu_runtime.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_gpu_runtime.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_gpu_runtime()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sjsdm_regularization_selection_payload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_regularization_selection_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_regularization_selection_payload()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sjsdm_tier_tuning_payload.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_tier_tuning_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_tier_tuning_payload()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_sjsdm_tuning_repeat_coverage.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_tuning_repeat_coverage.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_tuning_repeat_coverage()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_taxa_classification_coverage.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_taxa_classification_coverage.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_taxa_classification_coverage()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_trait_corrections.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_trait_corrections.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_trait_corrections()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_trait_review_decisions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_trait_review_decisions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_trait_review_decisions()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/validate_vegvault_presence.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_vegvault_presence.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_vegvault_presence()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../Documentation/Website/Documentation/Functions/write_trait_quality_control_report.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/write_trait_quality_control_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">write_trait_quality_control_report()</span></a>
   </div>
 </li>
@@ -2289,30 +2253,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 
-  <ul class="collapse">
-  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link active" data-scroll-target="#reproducibility">Reproducibility</a>
-  <ul class="collapse">
-  <li><a href="#restore-r-packages" id="toc-restore-r-packages" class="nav-link" data-scroll-target="#restore-r-packages">Restore R Packages</a></li>
-  <li><a href="#set-up-sjsdm" id="toc-set-up-sjsdm" class="nav-link" data-scroll-target="#set-up-sjsdm">Set Up sjSDM</a></li>
-  <li><a href="#run-a-pipeline" id="toc-run-a-pipeline" class="nav-link" data-scroll-target="#run-a-pipeline">Run a Pipeline</a></li>
-  <li><a href="#current-configurations" id="toc-current-configurations" class="nav-link" data-scroll-target="#current-configurations">Current Configurations</a></li>
-  <li><a href="#spatial-unit-stores" id="toc-spatial-unit-stores" class="nav-link" data-scroll-target="#spatial-unit-stores">Spatial Unit Stores</a></li>
-  <li><a href="#optional-interpolation-prebuild" id="toc-optional-interpolation-prebuild" class="nav-link" data-scroll-target="#optional-interpolation-prebuild">Optional Interpolation Prebuild</a></li>
-  <li><a href="#inspect-pipeline-state" id="toc-inspect-pipeline-state" class="nav-link" data-scroll-target="#inspect-pipeline-state">Inspect Pipeline State</a></li>
-  <li><a href="#render-the-website" id="toc-render-the-website" class="nav-link" data-scroll-target="#render-the-website">Render the Website</a></li>
-  </ul></li>
-  </ul>
-<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/installation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_reconciliation.html">build_trait_review_reconciliation()</a></li></ol></nav>
 <div class="quarto-title">
+<h1 class="title">build_trait_review_reconciliation()</h1>
 </div>
 
 
@@ -2320,19 +2269,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-title-meta">
 
 
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">June 19, 2026</p>
-    </div>
-  </div>
 
-    <div>
-    <div class="quarto-title-meta-heading">Modified</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date-modified">August 6, 2026</p>
-    </div>
-  </div>
 
   </div>
 
@@ -2341,154 +2278,147 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="reproducibility" class="level1">
-<h1>Reproducibility</h1>
-<p>This project is an R analysis repository built around <code>{targets}</code>, <code>{renv}</code>, Quarto, and <code>{sjSDM}</code>. Most analyses also require a local VegVault SQLite database and enough compute resources for joint species distribution models.</p>
-<section id="restore-r-packages" class="level2">
-<h2 class="anchored" data-anchor-id="restore-r-packages">Restore R Packages</h2>
-<p>The project uses <code>{renv}</code> to lock package versions. From the repository root, run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This installs the package versions recorded in <code>renv.lock</code>.</p>
-</section>
-<section id="set-up-sjsdm" class="level2">
-<h2 class="anchored" data-anchor-id="set-up-sjsdm">Set Up sjSDM</h2>
-<p>The modelling workflow uses <a href="https://theoreticalecology.github.io/s-jSDM/">{sjSDM}</a>, which depends on a Python and PyTorch backend. After restoring R packages, initialise the backend with:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sjSDM<span class="sc">::</span><span class="fu">install_sjSDM</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>You can then diagnose the setup with the project helper:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/___setup_project___.R"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnose_sjsdm_setup</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="run-a-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="run-a-pipeline">Run a Pipeline</h2>
-<p>Pipeline execution is wrapped by <a href="../../Documentation/Website/Documentation/Functions/run_pipeline.html"><code>run_pipeline()</code></a>. The wrapper sets the correct <code>{targets}</code> store path, runs <code>targets::tar_make()</code>, and optionally saves a progress visualisation for the website.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/___setup_project___.R"</span>))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">R_CONFIG_ACTIVE =</span> <span class="st">"project_cz_paleo"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">run_pipeline</span>(</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sel_script =</span> <span class="st">"R/Pipelines/pipeline_paleo_core.R"</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">fresh_run =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot_progress =</span> <span class="cn">TRUE</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The active configuration must not be <code>default</code>. Use <code>Sys.setenv(R_CONFIG_ACTIVE = "...")</code> before calling <code>run_pipeline()</code>.</p>
-</section>
-<section id="current-configurations" class="level2">
-<h2 class="anchored" data-anchor-id="current-configurations">Current Configurations</h2>
-<p>The available analysis configurations are defined in <code>config.yml</code>.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Configuration</th>
-<th>Typical pipeline use</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>project_cz_paleo</code></td>
-<td>Small paleo development and smoke-test runs</td>
-</tr>
-<tr class="even">
-<td><code>project_cz_modern</code></td>
-<td>Small modern development and smoke-test runs</td>
-</tr>
-<tr class="odd">
-<td><code>project_traits_reference</code></td>
-<td>Trait extraction, quality control, and functional-type reference generation</td>
-</tr>
-<tr class="even">
-<td><code>project_paleo_temporal_europe</code></td>
-<td>Paleo temporal workflow for Europe</td>
-</tr>
-<tr class="odd">
-<td><code>project_paleo_temporal_america</code></td>
-<td>Paleo temporal workflow for North America</td>
-</tr>
-<tr class="even">
-<td><code>project_paleo_temporal_asia</code></td>
-<td>Paleo temporal workflow for northern Asia</td>
-</tr>
-<tr class="odd">
-<td><code>project_paleo_spatial_continental</code></td>
-<td>Paleo spatial-resolution workflow at continental scale</td>
-</tr>
-<tr class="even">
-<td><code>project_paleo_spatial_regional</code></td>
-<td>Paleo spatial-resolution workflow at regional scale</td>
-</tr>
-<tr class="odd">
-<td><code>project_paleo_spatial_local</code></td>
-<td>Paleo spatial-resolution workflow at local scale</td>
-</tr>
-<tr class="even">
-<td><code>project_modern_spatial_continental</code></td>
-<td>Modern spatial-resolution workflow at continental scale</td>
-</tr>
-<tr class="odd">
-<td><code>project_modern_spatial_regional</code></td>
-<td>Modern spatial-resolution workflow at regional scale</td>
-</tr>
-<tr class="even">
-<td><code>project_modern_spatial_local</code></td>
-<td>Modern spatial-resolution workflow at local scale</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="spatial-unit-stores" class="level2">
-<h2 class="anchored" data-anchor-id="spatial-unit-stores">Spatial Unit Stores</h2>
-<p>Spatial pipelines are run independently for geographic units from <code>Data/Input/spatial_grid.csv</code>. Use <code>store_suffix</code> to isolate each unit inside the configuration-specific target store.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/___setup_project___.R"</span>))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">R_CONFIG_ACTIVE =</span> <span class="st">"project_paleo_spatial_continental"</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">run_pipeline</span>(</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sel_script =</span> <span class="st">"R/Pipelines/pipeline_paleo_spatial_resolution.R"</span>,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">store_suffix =</span> <span class="st">"europe"</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">fresh_run =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot_progress =</span> <span class="cn">TRUE</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The same pattern applies to modern spatial-resolution analyses with <code>pipeline_modern_spatial_resolution.R</code>.</p>
-</section>
-<section id="optional-interpolation-prebuild" class="level2">
-<h2 class="anchored" data-anchor-id="optional-interpolation-prebuild">Optional Interpolation Prebuild</h2>
-<p>Some paleo workflows can prebuild the interpolation target with a preprocessing backend before running the full model pipeline. Use this when interpolation is the limiting step and the active configuration defines the required worker settings.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">run_pipeline</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sel_script =</span> <span class="st">"R/Pipelines/pipeline_paleo_spatial_resolution.R"</span>,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">store_suffix =</span> <span class="st">"europe"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prebuild_interpolation =</span> <span class="cn">TRUE</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="inspect-pipeline-state" class="level2">
-<h2 class="anchored" data-anchor-id="inspect-pipeline-state">Inspect Pipeline State</h2>
-<p>Use standard <code>{targets}</code> helpers with the same script and store path when you need lower-level diagnostics. For most public-facing progress views, use the visualisations generated by <code>run_pipeline()</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_outdated</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">script =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/Pipelines/pipeline_paleo_core.R"</span>),</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">store =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data/targets/cz_paleo/pipeline_paleo_core"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_visnetwork</span>(</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">script =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"R/Pipelines/pipeline_paleo_core.R"</span>),</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">store =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Data/targets/cz_paleo/pipeline_paleo_core"</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="render-the-website" class="level2">
-<h2 class="anchored" data-anchor-id="render-the-website">Render the Website</h2>
-<p>The website is a Quarto site rendered to <code>docs/</code> for GitHub Pages. Do not edit files in <code>docs/</code> manually.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>quarto<span class="sc">::</span><span class="fu">quarto_render</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>From the terminal, the equivalent command is:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js" onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css">
 
 
-</section>
-</section>
+<div class="container">
+<main>
+<table style="width: 100%;">
+<tbody><tr>
+<td>
+build_trait_review_reconciliation
+</td>
+<td style="text-align: right;">
+R Documentation
+</td>
+</tr>
+</tbody></table>
+<h2 class="anchored">
+Build Trait Review Reconciliation
+</h2>
+<h3 class="anchored">
+Description
+</h3>
+<p>
+Combines the mandatory trait-review queue with historical report coverage, submitted review rows, and recovered decision proposals. The result has one row per current candidate and assigns an auditable remaining-work category.
+</p>
+<h3 class="anchored">
+Usage
+</h3>
+<pre><code class="language-R">build_trait_review_reconciliation(
+  data_trait_review_candidates,
+  data_historical_review_scope,
+  data_review_submission_audit,
+  data_review_decision_proposals
+)
+</code></pre>
+<h3 class="anchored">
+Arguments
+</h3>
+<table role="presentation">
+<tbody><tr>
+<td>
+<code id="data_trait_review_candidates">data_trait_review_candidates</code>
+</td>
+<td>
+<p>
+Current candidate table from [build_trait_review_candidates()].
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="data_historical_review_scope">data_historical_review_scope</code>
+</td>
+<td>
+<p>
+Historical report index with ‘candidate_id’, ‘historical_report_path’, ‘historical_report_page’, ‘historical_reviewed’, and the coverage basis.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="data_review_submission_audit">data_review_submission_audit</code>
+</td>
+<td>
+<p>
+Derived submission audit with ‘candidate_id’, ‘source_row’, and ‘proposal_type’.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="data_review_decision_proposals">data_review_decision_proposals</code>
+</td>
+<td>
+<p>
+Recovered proposal table with ‘candidate_id’ and ‘decision_id’.
+</p>
+</td>
+</tr>
+</tbody></table>
+<h3 class="anchored">
+Value
+</h3>
+<p>
+A tibble containing every current candidate exactly once, historical and submission counts, proposal status, implicit no-action eligibility, and ‘remaining_review_category’.
+</p>
+<h3 class="anchored">
+Examples
+</h3>
+<pre><code class="language-R">candidates &lt;- tibble::tibble(
+  candidate_id = "candidate-a",
+  review_stage = "raw",
+  taxon_name = "Taxon A",
+  trait_domain_name = "Plant heigh",
+  n_records = 10L,
+  n_trait_names = 1L,
+  n_datasets = 1L,
+  n_domain_outliers = 0L,
+  n_taxon_outliers = 1L,
+  source_references = "",
+  candidate_reasons = "taxon_outlier"
+)
+historical &lt;- tibble::tibble(
+  candidate_id = "candidate-a",
+  historical_report_path = "report.pdf",
+  historical_report_page = 2L,
+  historical_reviewed = TRUE,
+  historical_review_basis = "complete domain review"
+)
+audit &lt;- tibble::tibble(
+  candidate_id = character(),
+  source_row = integer(),
+  proposal_type = character()
+)
+proposals &lt;- tibble::tibble(
+  candidate_id = character(),
+  decision_id = character()
+)
+build_trait_review_reconciliation(
+  candidates,
+  historical,
+  audit,
+  proposals
+)
+</code></pre>
+</main>
+</div>
+
+
+
+
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -2899,7 +2829,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/installation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/build_trait_review_reconciliation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

@@ -24,11 +24,43 @@ path_submission <-
   )
 path_output_directory <-
   here::here("Data/Temp/Trait_corrections/raw")
+path_historical_scope_extractor <-
+  here::here(
+    "R/03_Supplementary_analyses/One_time/Trait_corrections/",
+    "extract_historical_trait_review_scope.R"
+  )
+path_historical_scope <-
+  base::file.path(
+    path_output_directory,
+    "historical_review_scope.csv"
+  )
+path_review_candidates <-
+  base::file.path(
+    path_output_directory,
+    "trait_review_candidates.csv"
+  )
 
 base::dir.create(
   path_output_directory,
   recursive = TRUE,
   showWarnings = FALSE
+)
+
+assertthat::assert_that(
+  base::requireNamespace("pdftools", quietly = TRUE),
+  msg = "The R package pdftools is required for PDF text extraction."
+)
+base::source(
+  file = path_historical_scope_extractor,
+  local = base::environment()
+)
+assertthat::assert_that(
+  base::file.exists(path_historical_scope),
+  msg = "Historical PDF review-scope extraction failed."
+)
+assertthat::assert_that(
+  base::file.exists(path_review_candidates),
+  msg = "Generate the raw trait-review candidate queue before recovery."
 )
 
 data_submission_source <-
@@ -233,6 +265,43 @@ readr::write_csv(
     "review_submission_audit.csv"
   )
 )
+
+data_historical_review_scope <-
+  readr::read_csv(
+    path_historical_scope,
+    col_types = readr::cols(
+      candidate_id = readr::col_character(),
+      taxon_name = readr::col_character(),
+      trait_domain_name = readr::col_character(),
+      historical_report_path = readr::col_character(),
+      historical_report_page = readr::col_integer(),
+      historical_reviewed = readr::col_logical(),
+      historical_review_basis = readr::col_character()
+    ),
+    progress = FALSE,
+    show_col_types = FALSE
+  )
+data_trait_review_candidates <-
+  readr::read_csv(
+    path_review_candidates,
+    show_col_types = FALSE,
+    progress = FALSE
+  )
+data_trait_review_reconciliation <-
+  build_trait_review_reconciliation(
+    data_trait_review_candidates = data_trait_review_candidates,
+    data_historical_review_scope = data_historical_review_scope,
+    data_review_submission_audit = data_submission_derived,
+    data_review_decision_proposals = data_proposals
+  )
+
+readr::write_csv(
+  data_trait_review_reconciliation,
+  base::file.path(
+    path_output_directory,
+    "trait_review_reconciliation.csv"
+  )
+)
 readr::write_csv(
   data_proposals,
   base::file.path(
@@ -255,5 +324,12 @@ data_submission_derived |>
   dplyr::count(
     .data[["trait_domain_name"]],
     .data[["proposal_type"]]
+  ) |>
+  base::print(n = Inf)
+
+data_trait_review_reconciliation |>
+  dplyr::count(
+    .data[["trait_domain_name"]],
+    .data[["remaining_review_category"]]
   ) |>
   base::print(n = Inf)

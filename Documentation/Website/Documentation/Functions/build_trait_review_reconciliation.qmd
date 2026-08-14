@@ -1,0 +1,118 @@
+---
+format: html
+title: build_trait_review_reconciliation()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_trait_review_reconciliation</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build Trait Review Reconciliation</h2>
+
+<h3>Description</h3>
+
+<p>Combines the mandatory trait-review queue with historical report coverage,
+submitted review rows, and recovered decision proposals. The result has one
+row per current candidate and assigns an auditable remaining-work category.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_trait_review_reconciliation(
+  data_trait_review_candidates,
+  data_historical_review_scope,
+  data_review_submission_audit,
+  data_review_decision_proposals
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_trait_review_candidates">data_trait_review_candidates</code></td>
+<td>
+<p>Current candidate table from [build_trait_review_candidates()].</p>
+</td></tr>
+<tr><td><code id="data_historical_review_scope">data_historical_review_scope</code></td>
+<td>
+<p>Historical report index with 'candidate_id', 'historical_report_path',
+'historical_report_page', 'historical_reviewed', and the coverage basis.</p>
+</td></tr>
+<tr><td><code id="data_review_submission_audit">data_review_submission_audit</code></td>
+<td>
+<p>Derived submission audit with 'candidate_id', 'source_row', and
+'proposal_type'.</p>
+</td></tr>
+<tr><td><code id="data_review_decision_proposals">data_review_decision_proposals</code></td>
+<td>
+<p>Recovered proposal table with 'candidate_id' and 'decision_id'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tibble containing every current candidate exactly once, historical and
+submission counts, proposal status, implicit no-action eligibility, and
+'remaining_review_category'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>candidates &lt;- tibble::tibble(
+  candidate_id = "candidate-a",
+  review_stage = "raw",
+  taxon_name = "Taxon A",
+  trait_domain_name = "Plant heigh",
+  n_records = 10L,
+  n_trait_names = 1L,
+  n_datasets = 1L,
+  n_domain_outliers = 0L,
+  n_taxon_outliers = 1L,
+  source_references = "",
+  candidate_reasons = "taxon_outlier"
+)
+historical &lt;- tibble::tibble(
+  candidate_id = "candidate-a",
+  historical_report_path = "report.pdf",
+  historical_report_page = 2L,
+  historical_reviewed = TRUE,
+  historical_review_basis = "complete domain review"
+)
+audit &lt;- tibble::tibble(
+  candidate_id = character(),
+  source_row = integer(),
+  proposal_type = character()
+)
+proposals &lt;- tibble::tibble(
+  candidate_id = character(),
+  decision_id = character()
+)
+build_trait_review_reconciliation(
+  candidates,
+  historical,
+  audit,
+  proposals
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -34,8 +34,8 @@ flowchart TD
 | reference | 13 |
 | scientific_reference | 2 |
 | sensitivity | 1 |
-| supplementary_or_processing | 20 |
-| test | 385 |
+| supplementary_or_processing | 21 |
+| test | 386 |
 
 ## Function capabilities
 
@@ -46,7 +46,7 @@ flowchart TD
 | Data/Samples | 7 |
 | Data/Spatial | 6 |
 | Data/Time | 12 |
-| Data/Traits | 36 |
+| Data/Traits | 37 |
 | Data_access/Files | 1 |
 | Data_access/Vegvault | 5 |
 | Modelling/Cross_validation | 111 |

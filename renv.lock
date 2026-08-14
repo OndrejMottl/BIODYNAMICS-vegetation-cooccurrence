@@ -6451,6 +6451,11 @@
       "Author": "Ulrich Halekoh [aut, cph], Søren Højsgaard [aut, cre, cph]",
       "Repository": "CRAN"
     },
+    "pdftools": {
+      "Package": "pdftools",
+      "Version": "3.9.0",
+      "Source": "Repository"
+    },
     "permute": {
       "Package": "permute",
       "Version": "0.9-10",
