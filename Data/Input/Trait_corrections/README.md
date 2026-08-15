@@ -60,3 +60,9 @@ Run `R/03_Supplementary_analyses/One_time/Trait_corrections/recover_trait_review
 Run `R/03_Supplementary_analyses/One_time/Trait_corrections/render_trait_review_reconciliation_report.R` after recovery to render the human-readable situation and next-steps report as `Outputs/Reports/Trait_corrections/raw/trait_review_reconciliation_report.html` and `.pdf`.
 
 The current recovery yields 330 unapproved selector drafts and 1,549 pending review rows. This does not cover Leaf mass per area, which is absent from the submission. Use `.ai/agents/trait-correction-reviewer.agent.md` for bounded evidence-gathering batches; agent output remains proposed until a human approves it.
+
+## Automation pilot
+
+Run `R/03_Supplementary_analyses/One_time/Trait_corrections/run_trait_review_automation_pilot.R` to generate a non-mutating pilot for Diaspore mass and Stem specific density under `Data/Temp/Trait_corrections/raw/automation/`. The pilot creates candidate-, dataset-, and record-level evidence, exact recovered-selector diagnostics, conservative deterministic recommendations, batches of at most 25 candidates, and a comparison with the archived review heuristics and statistics.
+
+The pilot never edits canonical decisions and never applies a correction. Only invalid non-positive values in these strictly positive domains and stable historical no-action evidence are marked eligible for policy acceptance; recovered selectors, possible unit patterns, drift, and other uncertain values are routed to agent review. Use `.ai/agents/trait-correction-pilot-reviewer.agent.md` to run two blind reviews and a separate adjudication for one batch. Agent consensus remains a proposal, not human approval.

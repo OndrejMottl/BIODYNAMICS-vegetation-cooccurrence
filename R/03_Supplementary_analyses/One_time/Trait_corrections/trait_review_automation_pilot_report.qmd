@@ -1,0 +1,184 @@
+---
+title: "Trait review automation pilot"
+subtitle: "Diaspore mass and stem specific density"
+date: today
+format:
+  html:
+    toc: true
+    embed-resources: true
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+library(dplyr)
+library(readr)
+library(knitr)
+
+path_pilot <-
+  here::here("Data/Temp/Trait_corrections/raw/automation")
+data_recommendations <-
+  read_csv(
+    file.path(path_pilot, "pilot_candidate_recommendations.csv"),
+    show_col_types = FALSE
+  )
+data_comparison <-
+  read_csv(
+    file.path(path_pilot, "pilot_historical_comparison.csv"),
+    show_col_types = FALSE
+  )
+data_proposals <-
+  read_csv(
+    file.path(path_pilot, "pilot_proposal_diagnostics.csv"),
+    show_col_types = FALSE
+  )
+data_records <-
+  read_csv(
+    file.path(path_pilot, "pilot_record_evidence.csv"),
+    show_col_types = FALSE
+  )
+
+n_candidates <- nrow(data_recommendations)
+n_policy <- sum(
+  data_recommendations$acceptance_eligibility ==
+    "eligible_policy_acceptance"
+)
+n_agent <- sum(
+  data_recommendations$acceptance_eligibility ==
+    "requires_agent_review"
+)
+n_batches <- n_distinct(
+  data_recommendations$agent_batch_id,
+  na.rm = TRUE
+)
+```
+
+## Outcome
+
+This was a non-mutating dry run: it did not edit either canonical decision file and did not apply any correction to trait records.
+
+The pilot evaluated `r format(n_candidates, big.mark = ",")` current taxon-trait candidates against `r format(nrow(data_records), big.mark = ",")` matching source records.
+It found `r n_policy` candidates eligible for the approved policy-based no-action route because their current record count, median, and IQR remain sufficiently stable relative to the archived review.
+The remaining `r n_agent` candidates are organized into `r n_batches` batches of at most 25 for agent evidence review.
+
+```{r}
+data_recommendations |>
+  count(
+    trait_domain_name,
+    acceptance_eligibility,
+    name = "candidates"
+  ) |>
+  mutate(
+    route = recode(
+      acceptance_eligibility,
+      eligible_policy_acceptance = "Policy no-action",
+      requires_agent_review = "Agent evidence review"
+    )
+  ) |>
+  select(`Trait domain` = trait_domain_name, Route = route, Candidates = candidates) |>
+  kable()
+```
+
+## Why candidates were routed this way
+
+The deterministic layer is intentionally conservative.
+It can recommend no action when archived no-action evidence remains stable, and it can identify invalid non-positive values in domains that must be positive.
+It does not automatically accept recovered selectors, inferred unit patterns, or historically reviewed groups whose current distributions have drifted.
+
+```{r}
+data_recommendations |>
+  count(
+    trait_domain_name,
+    deterministic_outcome,
+    name = "candidates"
+  ) |>
+  arrange(trait_domain_name, desc(candidates)) |>
+  mutate(
+    deterministic_outcome = recode(
+      deterministic_outcome,
+      retain_historical_no_action = "Stable historical no-action",
+      investigate_historical_drift = "Historical summary drift",
+      investigate_unit_pattern = "Possible unit pattern",
+      validate_recovered_proposal = "Recovered selector to validate",
+      retain_flagged_uncertain = "Plausible but uncertain; retain flagged",
+      exclude_invalid_values = "Invalid non-positive value"
+    )
+  ) |>
+  select(
+    `Trait domain` = trait_domain_name,
+    `Pilot outcome` = deterministic_outcome,
+    Candidates = candidates
+  ) |>
+  kable()
+```
+
+All `r nrow(data_proposals)` recovered selector drafts in these two domains still match at least one current record.
+They remain proposals because matching a selector does not establish that its correction is scientifically correct.
+
+## Comparison with the archived review
+
+The archived report is not treated as an infallible answer key.
+The comparison checks whether the new recommendation agrees with the broad historical heuristic and whether the underlying record count and rounded distribution summary remain stable.
+`changed_or_more_conservative` therefore includes both genuine data drift and cases where the new policy requires stronger evidence than the old heuristic.
+
+```{r}
+data_comparison |>
+  count(
+    trait_domain_name,
+    historical_comparison,
+    name = "candidates"
+  ) |>
+  arrange(trait_domain_name, historical_comparison) |>
+  select(
+    `Trait domain` = trait_domain_name,
+    Comparison = historical_comparison,
+    Candidates = candidates
+  ) |>
+  kable()
+```
+
+Five current candidates have no exact candidate identifier in the archived reports.
+This reflects changed taxon-domain membership rather than five wholly new domains: the archived and current sets must be compared in both directions before interpreting additions and removals.
+
+## Agent batches
+
+Only candidates that still require evidence review receive an `agent_batch_id`.
+Policy-eligible candidates are deliberately excluded from the agent workload.
+
+```{r}
+data_recommendations |>
+  filter(!is.na(agent_batch_id)) |>
+  count(trait_domain_name, agent_batch_id, name = "candidates") |>
+  select(
+    `Trait domain` = trait_domain_name,
+    `Agent batch` = agent_batch_id,
+    Candidates = candidates
+  ) |>
+  kable()
+```
+
+The highest-impact unresolved candidates should be reviewed first.
+
+```{r}
+data_recommendations |>
+  filter(acceptance_eligibility == "requires_agent_review") |>
+  arrange(desc(candidate_impact_score)) |>
+  slice_head(n = 20L) |>
+  transmute(
+    `Trait domain` = trait_domain_name,
+    Taxon = taxon_name,
+    `Agent batch` = agent_batch_id,
+    Outcome = deterministic_outcome,
+    Impact = round(candidate_impact_score, 3)
+  ) |>
+  kable()
+```
+
+## Recommended next step
+
+Run `.ai/agents/trait-correction-pilot-reviewer.agent.md` twice independently for each of the three batches, using roles `reviewer_a` and `reviewer_b`, and then run it once as `adjudicator`.
+Begin with `diaspore_mass_01`; it is the smallest complete domain batch and provides a clean calibration before the two stem-density batches.
+Do not copy any agent output into the canonical decisions automatically.
+After the adjudicated pilot is inspected, decide whether to adopt a formal policy-authority status in the decision contract and extend the workflow to the other four domains.

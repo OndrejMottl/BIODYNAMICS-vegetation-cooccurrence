@@ -109,6 +109,34 @@ for (
     index_group <- index_group + 1L
     taxon_name <-
       stringr::str_trim(mat_footer[1L, 2L])
+    mat_heuristic <-
+      stringr::str_match(
+        vec_page_text[[index_page]],
+        "Heuristic:\\s*([^|\\n]+?)\\s*\\|\\s*Suggestion:\\s*([^\\n]+)"
+      )
+    mat_statistics <-
+      stringr::str_match(
+        vec_page_text[[index_page]],
+        paste0(
+          "(?i)",
+          "n\\s*=\\s*([0-9]+)\\s*\\|\\s*",
+          "mean\\s*=\\s*([-+]?(?:[0-9.]+|Inf|NA))\\s*\\|\\s*",
+          "median\\s*=\\s*([-+]?(?:[0-9.]+|Inf|NA))\\s*\\|\\s*",
+          "IQR\\s*=\\s*([-+]?(?:[0-9.]+|Inf|NA))\\s*\\|\\s*",
+          "flagged\\s*=\\s*([0-9]+)"
+        )
+      )
+    assertthat::assert_that(
+      !base::is.na(mat_heuristic[1L, 2L]),
+      !base::is.na(mat_statistics[1L, 2L]),
+      msg = stringr::str_c(
+        "Could not extract historical evidence on page ",
+        index_page,
+        " of ",
+        report_file,
+        "."
+      )
+    )
     reviewed_through_page <-
       data_report_specs[["reviewed_through_page"]][[index_report]]
     historical_reviewed <-
@@ -136,6 +164,27 @@ for (
           report_file
         ),
         historical_report_page = index_page,
+        historical_heuristic = stringr::str_trim(
+          mat_heuristic[1L, 2L]
+        ),
+        historical_suggestion = stringr::str_trim(
+          mat_heuristic[1L, 3L]
+        ),
+        historical_n_records = base::as.integer(
+          mat_statistics[1L, 2L]
+        ),
+        historical_mean = base::as.double(
+          mat_statistics[1L, 3L]
+        ),
+        historical_median = base::as.double(
+          mat_statistics[1L, 4L]
+        ),
+        historical_iqr = base::as.double(
+          mat_statistics[1L, 5L]
+        ),
+        historical_n_flagged = base::as.integer(
+          mat_statistics[1L, 6L]
+        ),
         historical_reviewed = historical_reviewed,
         historical_review_basis =
           data_report_specs[["historical_review_basis"]][[index_report]]
