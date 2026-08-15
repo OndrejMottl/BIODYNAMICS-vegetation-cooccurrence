@@ -1,0 +1,68 @@
+Build Trait Review Evidence Packets
+
+Description:
+
+     Builds candidate-, dataset-, and record-level evidence for
+     automated and agent-assisted trait review without changing trait
+     records or decisions.
+
+Usage:
+
+     build_trait_review_evidence_packets(
+       data_trait_records,
+       data_trait_review_reconciliation,
+       data_historical_review_scope,
+       median_relative_tolerance = 0.01,
+       iqr_relative_tolerance = 0.05
+     )
+
+Arguments:
+
+data_trait_records: Current trait records retaining source identifiers.
+
+data_trait_review_reconciliation: Current reconciliation table with one
+          row per candidate.
+
+data_historical_review_scope: Historical report index with extracted
+          summary statistics.
+
+median_relative_tolerance: Maximum relative median change for a stable
+          historical summary.
+
+iqr_relative_tolerance: Maximum relative IQR change for a stable
+          historical summary.
+
+Value:
+
+     A named list containing `data_candidate_evidence`,
+     `data_dataset_evidence`, and `data_record_evidence`.
+
+Examples:
+
+     records <- tibble::tibble(
+       taxon_name = "Taxon A",
+       trait_domain_name = "Diaspore mass",
+       trait_value = 1,
+       dataset_id = 1L,
+       dataset_name = "Dataset A",
+       trait_name = "Seed mass"
+     )
+     reconciliation <- tibble::tibble(
+       candidate_id = "candidate-a",
+       taxon_name = "Taxon A",
+       trait_domain_name = "Diaspore mass",
+       n_taxon_outliers = 0L,
+       implicit_none_proposal_eligible = TRUE,
+       historical_scope_status = "confirmed_previous_review"
+     )
+     historical <- tibble::tibble(
+       candidate_id = "candidate-a",
+       historical_n_records = 1L,
+       historical_median = 1,
+       historical_iqr = 0
+     )
+     build_trait_review_evidence_packets(
+       records,
+       reconciliation,
+       historical
+     )
