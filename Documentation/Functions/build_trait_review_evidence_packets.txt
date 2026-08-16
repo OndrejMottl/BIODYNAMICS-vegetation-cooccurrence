@@ -2,8 +2,8 @@ Build Trait Review Evidence Packets
 
 Description:
 
-     Builds candidate-, dataset-, and record-level evidence for
-     automated and agent-assisted trait review without changing trait
+     Builds candidate-, dataset-, and record-level evidence, including
+     separate zero, negative, and non-finite counts, without changing
      records or decisions.
 
 Usage:

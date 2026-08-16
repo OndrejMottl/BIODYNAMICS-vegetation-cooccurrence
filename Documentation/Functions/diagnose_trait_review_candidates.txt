@@ -2,9 +2,9 @@ Diagnose Trait Review Candidates
 
 Description:
 
-     Produces non-mutating deterministic recommendations and exact
-     recovered proposal match diagnostics from trait-review evidence
-     packets.
+     Produces conservative policy recommendations, targeted
+     investigations, and exact recovered-proposal diagnostics without
+     changing records or decisions.
 
 Usage:
 

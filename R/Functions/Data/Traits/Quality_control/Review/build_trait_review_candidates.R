@@ -1,8 +1,8 @@
 #' @title Build Trait Review Candidates
 #' @description
 #' Builds an auditable taxon-by-domain review queue from within-taxon trait
-#' outlier flags and optional source review keys. Domain-level flags are
-#' retained as diagnostic counts but do not create mandatory candidates.
+#' outlier flags, objective invalid values, and optional source review keys.
+#' Domain-level flags remain diagnostic and do not create candidates alone.
 #' @param data_trait_records
 #' Trait records containing `taxon_name`, `trait_domain_name`, and
 #' `trait_value`.
@@ -119,6 +119,11 @@ build_trait_review_candidates <- function(
       ),
       n_domain_outliers = base::sum(.data[["is_domain_outlier"]]),
       n_taxon_outliers = base::sum(.data[["is_taxon_outlier"]]),
+      n_invalid_values = base::sum(
+        !base::is.finite(.data[["trait_value"]]) |
+          .data[["trait_value"]] <= 0,
+        na.rm = TRUE
+      ),
       .groups = "drop"
     ) |>
     dplyr::mutate(
@@ -131,7 +136,8 @@ build_trait_review_candidates <- function(
   data_automated_candidates <-
     data_record_summary |>
     dplyr::filter(
-      .data[["n_taxon_outliers"]] > 0L
+      .data[["n_taxon_outliers"]] > 0L |
+        .data[["n_invalid_values"]] > 0L
     ) |>
     dplyr::select("taxon_name", "trait_domain_name")
 
@@ -206,6 +212,11 @@ build_trait_review_candidates <- function(
           ""
         ),
         dplyr::if_else(
+          .data[["n_invalid_values"]] > 0L,
+          "invalid_value;",
+          ""
+        ),
+        dplyr::if_else(
           .data[["source_references"]] != "",
           "source_review;",
           ""
@@ -241,6 +252,7 @@ build_trait_review_candidates <- function(
       "n_datasets",
       "n_domain_outliers",
       "n_taxon_outliers",
+      "n_invalid_values",
       "source_references",
       "candidate_reasons"
     )

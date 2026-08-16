@@ -1,0 +1,95 @@
+<!DOCTYPE html><html><head><title>R: Build Trait Review Policy Outputs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_trait_review_policy_outputs</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build Trait Review Policy Outputs</h2>
+
+<h3>Description</h3>
+
+<p>Builds proposed decisions, a bounded agent-review queue, and policy summaries
+from all-domain trait-review recommendations without approving decisions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_trait_review_policy_outputs(
+  data_candidate_recommendations,
+  evidence_reference,
+  max_agent_candidates_per_domain = 25L,
+  agent_batch_size = 25L
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_candidate_recommendations">data_candidate_recommendations</code></td>
+<td>
+<p>Candidate recommendations returned by
+[diagnose_trait_review_candidates()].</p>
+</td></tr>
+<tr><td><code id="evidence_reference">evidence_reference</code></td>
+<td>
+<p>Non-empty reference to the policy report supporting the proposals.</p>
+</td></tr>
+<tr><td><code id="max_agent_candidates_per_domain">max_agent_candidates_per_domain</code></td>
+<td>
+<p>Maximum number of targeted agent-review candidates retained per domain.</p>
+</td></tr>
+<tr><td><code id="agent_batch_size">agent_batch_size</code></td>
+<td>
+<p>Maximum number of candidates assigned to one agent batch.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named list containing 'data_policy_proposals',
+'data_agent_review_queue', and 'data_policy_summary'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>recommendations &lt;- tibble::tibble(
+  candidate_id = digest::digest(
+    "raw|Taxon A|Diaspore mass",
+    algo = "sha256",
+    serialize = FALSE
+  ),
+  taxon_name = "Taxon A",
+  trait_domain_name = "Diaspore mass",
+  n_records_current = 1L,
+  deterministic_outcome = "retain_flagged_uncertain",
+  suggested_action = "none",
+  acceptance_eligibility = "eligible_policy_acceptance",
+  recommendation_rationale = "No objective error evidence.",
+  candidate_impact_score = 0.5
+)
+build_trait_review_policy_outputs(
+  recommendations,
+  evidence_reference = "report.html"
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

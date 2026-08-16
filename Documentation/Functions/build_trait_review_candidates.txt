@@ -3,9 +3,9 @@ Build Trait Review Candidates
 Description:
 
      Builds an auditable taxon-by-domain review queue from within-taxon
-     trait outlier flags and optional source review keys. Domain-level
-     flags are retained as diagnostic counts but do not create
-     mandatory candidates.
+     trait outlier flags, objective invalid values, and optional source
+     review keys. Domain-level flags remain diagnostic and do not
+     create candidates alone.
 
 Usage:
 

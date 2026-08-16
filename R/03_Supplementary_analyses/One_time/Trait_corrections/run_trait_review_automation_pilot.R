@@ -12,7 +12,11 @@
 
 library(here)
 
-Sys.setenv(R_CONFIG_ACTIVE = "project_traits_reference")
+Sys.setenv(
+  R_CONFIG_ACTIVE = "project_traits_reference",
+  BIODYNAMICS_PREPROCESSING_WORKER = "false",
+  BIODYNAMICS_PREPROCESSING_WORKERS = ""
+)
 source(here::here("R/___setup_project___.R"))
 
 vec_pilot_domains <-

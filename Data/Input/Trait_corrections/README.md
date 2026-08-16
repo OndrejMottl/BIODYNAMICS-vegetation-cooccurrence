@@ -66,3 +66,11 @@ The current recovery yields 330 unapproved selector drafts and 1,549 pending rev
 Run `R/03_Supplementary_analyses/One_time/Trait_corrections/run_trait_review_automation_pilot.R` to generate a non-mutating pilot for Diaspore mass and Stem specific density under `Data/Temp/Trait_corrections/raw/automation/`. The pilot creates candidate-, dataset-, and record-level evidence, exact recovered-selector diagnostics, conservative deterministic recommendations, batches of at most 25 candidates, and a comparison with the archived review heuristics and statistics.
 
 The pilot never edits canonical decisions and never applies a correction. Only invalid non-positive values in these strictly positive domains and stable historical no-action evidence are marked eligible for policy acceptance; recovered selectors, possible unit patterns, drift, and other uncertain values are routed to agent review. Use `.ai/agents/trait-correction-pilot-reviewer.agent.md` to run two blind reviews and a separate adjudication for one batch. Agent consensus remains a proposal, not human approval.
+
+## All-domain policy workflow
+
+Run `R/03_Supplementary_analyses/One_time/Trait_corrections/run_trait_review_policy_workflow.R` to rebuild the current raw candidate queue directly from `data_traits_raw`, include invalid-value groups missed by IQR screening, and write non-mutating policy outputs under `Data/Temp/Trait_corrections/raw/policy/`.
+
+The workflow proposes `none` only when no objective error evidence or unresolved submitted concern exists. It proposes exact-zero exclusions for strictly positive domains, while negative and non-finite values remain targeted investigations because they may reflect a source-level transformation. Recovered selectors, unresolved submitted notes, possible unit patterns, and historical drift are never approved automatically.
+
+Run `R/03_Supplementary_analyses/One_time/Trait_corrections/render_trait_review_policy_report.R` to regenerate `Outputs/Reports/Trait_corrections/raw/trait_review_policy_report.md`. Review `.ai/agents/trait-correction-policy-reviewer.agent.md` before assigning one bounded `agent_batch_id`. Agent outputs remain proposals and cannot edit either canonical decision file.

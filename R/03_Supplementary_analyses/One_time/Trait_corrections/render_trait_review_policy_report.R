@@ -1,0 +1,53 @@
+#----------------------------------------------------------#
+#
+#                 Vegetation Co-occurrence
+#
+#             Render trait-review policy report
+#
+#                       O. Mottl
+#                         2026
+#
+#----------------------------------------------------------#
+
+library(here)
+
+Sys.setenv(
+  BIODYNAMICS_PREPROCESSING_WORKER = "false",
+  BIODYNAMICS_PREPROCESSING_WORKERS = ""
+)
+
+path_report_source <-
+  here::here(
+    "R/03_Supplementary_analyses/One_time/Trait_corrections/",
+    "trait_review_policy_report.qmd"
+  )
+path_output_directory <-
+  here::here("Outputs/Reports/Trait_corrections/raw")
+path_report <-
+  base::file.path(
+    path_output_directory,
+    "trait_review_policy_report.md"
+  )
+
+assertthat::assert_that(
+  base::file.exists(path_report_source),
+  msg = "The trait-review policy report source is missing."
+)
+base::dir.create(
+  path_output_directory,
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+knitr::knit(
+  input = path_report_source,
+  output = path_report,
+  envir = base::new.env(parent = base::globalenv()),
+  quiet = FALSE
+)
+
+assertthat::assert_that(
+  base::file.exists(path_report),
+  msg = "The trait-review policy report was not rendered."
+)
+base::message("Rendered trait-review policy report: ", path_report)

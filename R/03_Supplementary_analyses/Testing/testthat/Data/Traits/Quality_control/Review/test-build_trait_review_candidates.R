@@ -37,6 +37,7 @@ testthat::test_that(
         "n_datasets",
         "n_domain_outliers",
         "n_taxon_outliers",
+        "n_invalid_values",
         "source_references",
         "candidate_reasons"
       )
@@ -144,6 +145,38 @@ testthat::test_that(
     testthat::expect_equal(
       dplyr::pull(data_extreme, candidate_reasons),
       "domain_outlier;source_review"
+    )
+  }
+)
+testthat::test_that(
+  "invalid values create candidates even without within-taxon outliers",
+  {
+    data_trait_records <-
+      tibble::tibble(
+        taxon_name = base::c("Zero", "Negative", "Nonfinite", "Valid"),
+        trait_domain_name = "Plant heigh",
+        trait_value = base::c(0, -1, Inf, 1)
+      )
+
+    data_candidates <-
+      build_trait_review_candidates(
+        data_trait_records = data_trait_records,
+        review_stage = "raw",
+        minimum_taxon_records = 10L
+      )
+
+    testthat::expect_equal(base::nrow(data_candidates), 3L)
+    testthat::expect_equal(
+      data_candidates[["taxon_name"]],
+      base::c("Negative", "Nonfinite", "Zero")
+    )
+    testthat::expect_equal(
+      data_candidates[["n_invalid_values"]],
+      base::rep(1L, 3L)
+    )
+    testthat::expect_equal(
+      data_candidates[["candidate_reasons"]],
+      base::rep("invalid_value", 3L)
     )
   }
 )

@@ -1,0 +1,222 @@
+---
+title: "Trait review policy proposal"
+subtitle: "All-domain raw-stage triage"
+format: gfm
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+
+path_policy <-
+  here::here("Data/Temp/Trait_corrections/raw/policy")
+
+data_candidates <-
+  readr::read_csv(
+    base::file.path(path_policy, "trait_review_policy_candidates.csv"),
+    show_col_types = FALSE
+  )
+data_recommendations <-
+  readr::read_csv(
+    base::file.path(
+      path_policy,
+      "trait_review_policy_candidate_recommendations.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_proposals <-
+  readr::read_csv(
+    base::file.path(path_policy, "trait_review_policy_proposals.csv"),
+    show_col_types = FALSE
+  )
+data_agent_queue <-
+  readr::read_csv(
+    base::file.path(path_policy, "trait_review_policy_agent_queue.csv"),
+    show_col_types = FALSE
+  )
+data_distribution_scenarios <-
+  readr::read_csv(
+    base::file.path(
+      path_policy,
+      "trait_review_policy_distribution_scenarios.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+n_candidates <- base::nrow(data_candidates)
+n_proposals <- base::nrow(data_proposals)
+n_none_proposals <-
+  base::sum(data_proposals[["action"]] == "none")
+n_exclusion_proposals <-
+  base::sum(data_proposals[["action"]] == "exclude")
+n_investigation <-
+  base::sum(
+    data_recommendations[["acceptance_eligibility"]] ==
+      "requires_agent_review"
+  )
+n_agent_queue <- base::nrow(data_agent_queue)
+n_investigation_deferred <- n_investigation - n_agent_queue
+n_records_proposed_excluded <-
+  base::sum(
+    data_distribution_scenarios[["n_records_proposed_excluded"]]
+  )
+```
+
+## Decision requested
+
+This report proposes a conservative policy for completing raw-stage trait review without treating statistical outliers as measurement errors.
+
+No row in this report is approved, and neither canonical decision file has been edited.
+
+The proposed policy would retain a flagged taxon-domain group when no objective error evidence or unresolved submitted concern exists, exclude only exact zero values in strictly positive trait domains, and send negative, non-finite, source-unit, recovered-selector, and unresolved submitted concerns to targeted investigation.
+
+One human policy decision can authorize a defined proposal category, but agents cannot authorize or apply any correction.
+
+## Current scope
+
+The fresh all-domain queue contains `r scales::comma(n_candidates)` candidates.
+
+It is five candidates larger than the earlier 4,295-row queue because objective invalid-value groups are now included even when within-taxon IQR screening does not flag them.
+
+The workflow generated `r scales::comma(n_proposals)` unapproved proposals: `r scales::comma(n_none_proposals)` conservative no-action proposals and `r scales::comma(n_exclusion_proposals)` exact-zero exclusion proposals.
+
+The remaining `r scales::comma(n_investigation)` candidates require targeted investigation; the bounded first queue contains `r scales::comma(n_agent_queue)`, leaving `r scales::comma(n_investigation_deferred)` for later batches.
+
+```{r}
+data_candidate_counts <-
+  data_candidates |>
+  dplyr::count(
+    .data[["trait_domain_name"]],
+    name = "Candidates"
+  ) |>
+  dplyr::rename(`Trait domain` = "trait_domain_name")
+
+knitr::kable(data_candidate_counts)
+```
+
+## Proposed policy decisions
+
+An `action = "none"` proposal means that the values remain unchanged and the original flag remains auditable.
+
+An exclusion proposal has the exact selector `trait_value <= 0`; it does not remove positive outliers or an entire taxon-domain group.
+
+```{r}
+data_proposal_counts <-
+  data_proposals |>
+  dplyr::count(
+    .data[["trait_domain_name"]],
+    .data[["action"]],
+    name = "Candidates"
+  ) |>
+  dplyr::rename(
+    `Trait domain` = "trait_domain_name",
+    `Proposed action` = "action"
+  )
+
+knitr::kable(data_proposal_counts)
+```
+
+### Exact-zero exclusions
+
+The `r scales::comma(n_exclusion_proposals)` exclusion proposals select `r scales::comma(n_records_proposed_excluded)` exact-zero records.
+
+Negative values are deliberately excluded from this policy category because a large source-specific negative pattern may indicate a transformation rather than disposable measurements.
+
+```{r}
+data_exclusion_details <-
+  data_recommendations |>
+  dplyr::filter(
+    .data[["deterministic_outcome"]] == "exclude_invalid_values"
+  ) |>
+  dplyr::select(
+    `Trait domain` = "trait_domain_name",
+    Taxon = "taxon_name",
+    Records = "n_records_current",
+    `Zero records` = "n_zero",
+    Datasets = "n_datasets_current",
+    `Impact tier` = "candidate_impact_tier"
+  ) |>
+  dplyr::arrange(.data[["Trait domain"]], .data[["Taxon"]])
+
+knitr::kable(data_exclusion_details)
+```
+
+## Before-and-after scenario
+
+The scenario below applies only the proposed exact-zero exclusions; all other records remain unchanged.
+
+```{r}
+data_distribution_table <-
+  data_distribution_scenarios |>
+  dplyr::select(
+    `Trait domain` = "trait_domain_name",
+    `Records before` = "n_records_before",
+    `Proposed exclusions` = "n_records_proposed_excluded",
+    `Records after` = "n_records_after",
+    `Minimum before` = "minimum_before",
+    `Minimum after` = "minimum_after",
+    `Median before` = "median_before",
+    `Median after` = "median_after",
+    `Maximum before` = "maximum_before",
+    `Maximum after` = "maximum_after"
+  )
+
+knitr::kable(data_distribution_table, digits = 4)
+```
+
+## Targeted investigation
+
+Submitted concerns and recovered correction selectors are never converted automatically to no-action decisions.
+
+Negative or non-finite values also require investigation because they can identify a source-level transformation or ingestion problem.
+
+```{r}
+data_investigation_counts <-
+  data_recommendations |>
+  dplyr::filter(
+    .data[["acceptance_eligibility"]] == "requires_agent_review"
+  ) |>
+  dplyr::count(
+    .data[["deterministic_outcome"]],
+    name = "Candidates"
+  ) |>
+  dplyr::rename(`Investigation reason` = "deterministic_outcome") |>
+  dplyr::arrange(dplyr::desc(.data[["Candidates"]]))
+
+knitr::kable(data_investigation_counts)
+```
+
+The first agent queue is capped at 25 high-priority candidates per domain and prioritizes invalid-value patterns, recovered selectors, and unresolved submitted concerns before generic historical drift.
+
+```{r}
+data_agent_queue_counts <-
+  data_agent_queue |>
+  dplyr::count(
+    .data[["trait_domain_name"]],
+    .data[["agent_batch_id"]],
+    name = "Candidates"
+  ) |>
+  dplyr::rename(
+    `Trait domain` = "trait_domain_name",
+    `Agent batch` = "agent_batch_id"
+  )
+
+knitr::kable(data_agent_queue_counts)
+```
+
+## Approval boundary
+
+Approval should be recorded by policy category, with a named human reviewer and review date, only after this report is accepted.
+
+The recommended first approval decision is whether to accept the conservative `none` category and the exact-zero exclusion category separately.
+
+Targeted investigation results remain proposed until a later evidence report supports a human decision.
+
+After raw decisions are approved and applied, the classified-stage queue must be regenerated and reviewed independently.

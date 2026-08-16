@@ -5,31 +5,32 @@ testthat::test_that(
       tibble::tibble(
         taxon_name = base::c(
           base::rep("Taxon A", 4L),
-          base::rep("Taxon B", 2L)
+          base::rep("Taxon B", 3L)
         ),
         trait_domain_name = base::c(
           base::rep("Diaspore mass", 4L),
-          base::rep("Stem specific density", 2L)
+          base::rep("Stem specific density", 3L)
         ),
-        trait_value = base::c(1, 1, 100, 100, 0, 0.5),
-        dataset_id = base::c(1L, 1L, 2L, 2L, 3L, 3L),
+        trait_value = base::c(1, 1, 100, 100, 0, -0.5, 0.5),
+        dataset_id = base::c(1L, 1L, 2L, 2L, 3L, 3L, 3L),
         dataset_name = base::c(
           "Dataset A",
           "Dataset A",
           "Dataset B",
           "Dataset B",
           "Dataset C",
+          "Dataset C",
           "Dataset C"
         ),
         trait_name = base::c(
           base::rep("Seed mass", 4L),
-          base::rep("Stem density", 2L)
+          base::rep("Stem density", 3L)
         ),
-        sample_id = base::seq_len(6L),
-        trait_id = base::seq_len(6L),
+        sample_id = base::seq_len(7L),
+        trait_id = base::seq_len(7L),
         taxon_id = base::c(
           base::rep(10L, 4L),
-          base::rep(20L, 2L)
+          base::rep(20L, 3L)
         )
       )
     data_reconciliation <-
@@ -50,7 +51,7 @@ testthat::test_that(
     data_historical <-
       tibble::tibble(
         candidate_id = base::c("candidate-a", "candidate-b"),
-        historical_n_records = base::c(4L, 2L),
+        historical_n_records = base::c(4L, 3L),
         historical_median = base::c(50.5, 0.4),
         historical_iqr = base::c(99, 0.4),
         historical_heuristic = base::c("PROBABLY OK", "REVIEW"),
@@ -80,6 +81,14 @@ testthat::test_that(
     testthat::expect_equal(base::nrow(data_candidates), 2L)
     testthat::expect_equal(
       data_candidates[["n_nonpositive"]],
+      base::c(0L, 2L)
+    )
+    testthat::expect_equal(
+      data_candidates[["n_zero"]],
+      base::c(0L, 1L)
+    )
+    testthat::expect_equal(
+      data_candidates[["n_negative"]],
       base::c(0L, 1L)
     )
     testthat::expect_true(

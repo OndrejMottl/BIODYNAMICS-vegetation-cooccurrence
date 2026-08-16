@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>build_trait_review_evidence_packets() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>build_trait_review_policy_outputs() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_evidence_packets.html">build_trait_review_evidence_packets()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_policy_outputs.html">build_trait_review_policy_outputs()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -560,13 +560,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_evidence_packets.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_evidence_packets.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_trait_review_evidence_packets()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
-  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_policy_outputs.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_policy_outputs.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">build_trait_review_policy_outputs()</span></a>
   </div>
 </li>
@@ -2277,9 +2277,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_evidence_packets.html">build_trait_review_evidence_packets()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_policy_outputs.html">build_trait_review_policy_outputs()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">build_trait_review_evidence_packets()</h1>
+<h1 class="title">build_trait_review_policy_outputs()</h1>
 </div>
 
 
@@ -2315,7 +2315,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-build_trait_review_evidence_packets
+build_trait_review_policy_outputs
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -2323,23 +2323,22 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Build Trait Review Evidence Packets
+Build Trait Review Policy Outputs
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-Builds candidate-, dataset-, and record-level evidence, including separate zero, negative, and non-finite counts, without changing records or decisions.
+Builds proposed decisions, a bounded agent-review queue, and policy summaries from all-domain trait-review recommendations without approving decisions.
 </p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">build_trait_review_evidence_packets(
-  data_trait_records,
-  data_trait_review_reconciliation,
-  data_historical_review_scope,
-  median_relative_tolerance = 0.01,
-  iqr_relative_tolerance = 0.05
+<pre><code class="language-R">build_trait_review_policy_outputs(
+  data_candidate_recommendations,
+  evidence_reference,
+  max_agent_candidates_per_domain = 25L,
+  agent_batch_size = 25L
 )
 </code></pre>
 <h3 class="anchored">
@@ -2348,51 +2347,41 @@ Arguments
 <table role="presentation">
 <tbody><tr>
 <td>
-<code id="data_trait_records">data_trait_records</code>
+<code id="data_candidate_recommendations">data_candidate_recommendations</code>
 </td>
 <td>
 <p>
-Current trait records retaining source identifiers.
+Candidate recommendations returned by [diagnose_trait_review_candidates()].
 </p>
 </td>
 </tr>
 <tr>
 <td>
-<code id="data_trait_review_reconciliation">data_trait_review_reconciliation</code>
+<code id="evidence_reference">evidence_reference</code>
 </td>
 <td>
 <p>
-Current reconciliation table with one row per candidate.
+Non-empty reference to the policy report supporting the proposals.
 </p>
 </td>
 </tr>
 <tr>
 <td>
-<code id="data_historical_review_scope">data_historical_review_scope</code>
+<code id="max_agent_candidates_per_domain">max_agent_candidates_per_domain</code>
 </td>
 <td>
 <p>
-Historical report index with extracted summary statistics.
+Maximum number of targeted agent-review candidates retained per domain.
 </p>
 </td>
 </tr>
 <tr>
 <td>
-<code id="median_relative_tolerance">median_relative_tolerance</code>
+<code id="agent_batch_size">agent_batch_size</code>
 </td>
 <td>
 <p>
-Maximum relative median change for a stable historical summary.
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="iqr_relative_tolerance">iqr_relative_tolerance</code>
-</td>
-<td>
-<p>
-Maximum relative IQR change for a stable historical summary.
+Maximum number of candidates assigned to one agent batch.
 </p>
 </td>
 </tr>
@@ -2401,37 +2390,29 @@ Maximum relative IQR change for a stable historical summary.
 Value
 </h3>
 <p>
-A named list containing ‘data_candidate_evidence’, ‘data_dataset_evidence’, and ‘data_record_evidence’.
+A named list containing ‘data_policy_proposals’, ‘data_agent_review_queue’, and ‘data_policy_summary’.
 </p>
 <h3 class="anchored">
 Examples
 </h3>
-<pre><code class="language-R">records &lt;- tibble::tibble(
+<pre><code class="language-R">recommendations &lt;- tibble::tibble(
+  candidate_id = digest::digest(
+    "raw|Taxon A|Diaspore mass",
+    algo = "sha256",
+    serialize = FALSE
+  ),
   taxon_name = "Taxon A",
   trait_domain_name = "Diaspore mass",
-  trait_value = 1,
-  dataset_id = 1L,
-  dataset_name = "Dataset A",
-  trait_name = "Seed mass"
+  n_records_current = 1L,
+  deterministic_outcome = "retain_flagged_uncertain",
+  suggested_action = "none",
+  acceptance_eligibility = "eligible_policy_acceptance",
+  recommendation_rationale = "No objective error evidence.",
+  candidate_impact_score = 0.5
 )
-reconciliation &lt;- tibble::tibble(
-  candidate_id = "candidate-a",
-  taxon_name = "Taxon A",
-  trait_domain_name = "Diaspore mass",
-  n_taxon_outliers = 0L,
-  implicit_none_proposal_eligible = TRUE,
-  historical_scope_status = "confirmed_previous_review"
-)
-historical &lt;- tibble::tibble(
-  candidate_id = "candidate-a",
-  historical_n_records = 1L,
-  historical_median = 1,
-  historical_iqr = 0
-)
-build_trait_review_evidence_packets(
-  records,
-  reconciliation,
-  historical
+build_trait_review_policy_outputs(
+  recommendations,
+  evidence_reference = "report.html"
 )
 </code></pre>
 </main>
@@ -2850,7 +2831,7 @@ build_trait_review_evidence_packets(
     </div>
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/build_trait_review_evidence_packets.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/build_trait_review_policy_outputs.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

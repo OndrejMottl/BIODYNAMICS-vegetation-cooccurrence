@@ -1,7 +1,7 @@
 #' @title Build Trait Review Evidence Packets
 #' @description
-#' Builds candidate-, dataset-, and record-level evidence for automated and
-#' agent-assisted trait review without changing trait records or decisions.
+#' Builds candidate-, dataset-, and record-level evidence, including separate
+#' zero, negative, and non-finite counts, without changing records or decisions.
 #' @param data_trait_records
 #' Current trait records retaining source identifiers.
 #' @param data_trait_review_reconciliation
@@ -148,7 +148,13 @@ build_trait_review_evidence_packets <- function(
       is_finite_value = base::is.finite(.data[["trait_value"]]),
       is_nonpositive_value =
         .data[["is_finite_value"]] &
-        .data[["trait_value"]] <= 0
+        .data[["trait_value"]] <= 0,
+      is_zero_value =
+        .data[["is_finite_value"]] &
+        .data[["trait_value"]] == 0,
+      is_negative_value =
+        .data[["is_finite_value"]] &
+        .data[["trait_value"]] < 0
     )
 
   data_current_counts <-
@@ -163,6 +169,8 @@ build_trait_review_evidence_packets <- function(
       n_finite = base::sum(.data[["is_finite_value"]]),
       n_nonfinite = base::sum(!.data[["is_finite_value"]]),
       n_nonpositive = base::sum(.data[["is_nonpositive_value"]]),
+      n_zero = base::sum(.data[["is_zero_value"]]),
+      n_negative = base::sum(.data[["is_negative_value"]]),
       n_datasets_current = dplyr::n_distinct(.data[["dataset_id"]]),
       n_trait_names_current = dplyr::n_distinct(.data[["trait_name"]]),
       n_unique_values = dplyr::n_distinct(.data[["trait_value"]]),
@@ -287,6 +295,8 @@ build_trait_review_evidence_packets <- function(
             "n_finite",
             "n_nonfinite",
             "n_nonpositive",
+            "n_zero",
+            "n_negative",
             "n_datasets_current",
             "n_trait_names_current",
             "n_unique_values",

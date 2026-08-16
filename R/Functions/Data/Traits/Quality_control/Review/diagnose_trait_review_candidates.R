@@ -1,7 +1,7 @@
 #' @title Diagnose Trait Review Candidates
 #' @description
-#' Produces non-mutating deterministic recommendations and exact recovered
-#' proposal match diagnostics from trait-review evidence packets.
+#' Produces conservative policy recommendations, targeted investigations, and
+#' exact recovered-proposal diagnostics without changing records or decisions.
 #' @param data_candidate_evidence
 #' Candidate evidence returned by [build_trait_review_evidence_packets()].
 #' @param data_record_evidence
@@ -250,6 +250,28 @@ diagnose_trait_review_candidates <- function(
       data_candidate_evidence |>
       dplyr::mutate(historical_scope_status = NA_character_)
   }
+  if (
+    !"n_pending_submission_rows" %in%
+      base::names(data_candidate_evidence)
+  ) {
+    data_candidate_evidence <-
+      data_candidate_evidence |>
+      dplyr::mutate(n_pending_submission_rows = 0L)
+  }
+  if (
+    !"n_zero" %in% base::names(data_candidate_evidence)
+  ) {
+    data_candidate_evidence <-
+      data_candidate_evidence |>
+      dplyr::mutate(n_zero = .data[["n_nonpositive"]])
+  }
+  if (
+    !"n_negative" %in% base::names(data_candidate_evidence)
+  ) {
+    data_candidate_evidence <-
+      data_candidate_evidence |>
+      dplyr::mutate(n_negative = 0L)
+  }
   data_candidate_recommendations <-
     data_candidate_evidence |>
     dplyr::left_join(
@@ -269,13 +291,17 @@ diagnose_trait_review_candidates <- function(
         ~ base::as.integer(tidyr::replace_na(.x, 0L))
       ),
       deterministic_outcome = dplyr::case_when(
-        .data[["n_nonpositive"]] > 0L |
-          .data[["n_nonfinite"]] > 0L ~
+        .data[["n_nonfinite"]] > 0L |
+          .data[["n_negative"]] > 0L ~
+          "investigate_invalid_values",
+        .data[["n_zero"]] > 0L ~
           "exclude_invalid_values",
         .data[["n_unresolved_rules"]] > 0L ~
           "investigate_recovered_proposal",
         .data[["n_matched_rules"]] > 0L ~
           "validate_recovered_proposal",
+        .data[["n_pending_submission_rows"]] > 0L ~
+          "investigate_submitted_note",
         .data[["historical_summary_stable"]] &
           .data[["implicit_none_proposal_eligible"]] ~
           "retain_historical_no_action",
@@ -289,8 +315,11 @@ diagnose_trait_review_candidates <- function(
       suggested_action = dplyr::case_when(
         .data[["deterministic_outcome"]] ==
           "exclude_invalid_values" ~ "exclude",
-        .data[["deterministic_outcome"]] ==
-          "retain_historical_no_action" ~ "none",
+        .data[["deterministic_outcome"]] %in%
+          base::c(
+            "retain_historical_no_action",
+            "retain_flagged_uncertain"
+          ) ~ "none",
         TRUE ~ "defer"
       ),
       decision_authority = dplyr::case_when(
@@ -301,7 +330,8 @@ diagnose_trait_review_candidates <- function(
         .data[["deterministic_outcome"]] %in%
           base::c(
             "validate_recovered_proposal",
-            "investigate_recovered_proposal"
+            "investigate_recovered_proposal",
+            "investigate_submitted_note"
           ) ~ "recovered_submission",
         TRUE ~ "agent_review"
       ),
@@ -314,7 +344,9 @@ diagnose_trait_review_candidates <- function(
         .data[["deterministic_outcome"]] %in%
           base::c(
             "validate_recovered_proposal",
-            "investigate_unit_pattern"
+            "investigate_unit_pattern",
+            "investigate_invalid_values",
+            "retain_flagged_uncertain"
           ) ~ "medium",
         TRUE ~ "low"
       ),
@@ -323,9 +355,11 @@ diagnose_trait_review_candidates <- function(
           "exclude_invalid_values" &
           .data[["n_nonfinite"]] == 0L ~
           "eligible_policy_acceptance",
-        .data[["deterministic_outcome"]] ==
-          "retain_historical_no_action" ~
-          "eligible_policy_acceptance",
+        .data[["deterministic_outcome"]] %in%
+          base::c(
+            "retain_historical_no_action",
+            "retain_flagged_uncertain"
+          ) ~ "eligible_policy_acceptance",
         TRUE ~ "requires_agent_review"
       ),
       recommendation_rationale = dplyr::case_when(
@@ -333,11 +367,20 @@ diagnose_trait_review_candidates <- function(
           "exclude_invalid_values" ~
           "Strictly positive trait domain contains invalid values.",
         .data[["deterministic_outcome"]] ==
+          "investigate_invalid_values" ~
+          stringr::str_c(
+            "Negative or non-finite values may indicate a source-level ",
+            "transformation and require investigation."
+          ),
+        .data[["deterministic_outcome"]] ==
           "investigate_recovered_proposal" ~
           "At least one recovered selector is invalid or unmatched.",
         .data[["deterministic_outcome"]] ==
           "validate_recovered_proposal" ~
           "Recovered selectors match current records but need confirmation.",
+        .data[["deterministic_outcome"]] ==
+          "investigate_submitted_note" ~
+          "A submitted concern remains unresolved and needs investigation.",
         .data[["deterministic_outcome"]] ==
           "retain_historical_no_action" ~
           "Historical no-action evidence has a stable current summary.",
@@ -348,7 +391,10 @@ diagnose_trait_review_candidates <- function(
           "investigate_historical_drift" ~
           "Current summary differs from the historically reviewed summary.",
         TRUE ~
-          "No deterministic correction is justified; retain while flagged."
+          stringr::str_c(
+            "No objective error evidence supports correction; ",
+            "retain under the conservative policy."
+          )
       )
     )
 
