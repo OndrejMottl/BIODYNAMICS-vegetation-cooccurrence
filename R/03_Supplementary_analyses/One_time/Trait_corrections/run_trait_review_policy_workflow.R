@@ -230,7 +230,8 @@ purrr::iwalk(
     base::file.path(
       path_output_directory,
       stringr::str_c(.y, ".csv")
-    )
+    ),
+    na = ""
   )
 )
 
