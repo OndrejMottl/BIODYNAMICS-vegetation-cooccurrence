@@ -124,6 +124,28 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "filter_complete_trait_records() removes non-finite trait values",
+  {
+    data_nonfinite <-
+      tibble::tibble(
+        taxon_id = base::seq_len(4L),
+        trait_domain_name = "Leaf mass per area",
+        trait_name = "LMA",
+        trait_value = base::c(0.1, Inf, -Inf, NaN)
+      )
+
+    res <-
+      filter_complete_trait_records(
+        data_trait_records_raw = data_nonfinite
+      )
+
+    testthat::expect_equal(base::nrow(res), 1L)
+    testthat::expect_equal(res[["trait_value"]], 0.1)
+    testthat::expect_true(base::all(base::is.finite(res[["trait_value"]])))
+  }
+)
+
+testthat::test_that(
   "filter_complete_trait_records() keeps correct number of rows",
   {
     # Four rows: one NA taxon_id and one NA trait_value.
