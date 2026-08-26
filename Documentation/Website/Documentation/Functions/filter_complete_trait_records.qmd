@@ -25,7 +25,7 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>Selects the required columns from a raw trait data frame and
-removes rows where 'taxon_id' or 'trait_value' is 'NA'.
+removes rows where 'taxon_id' is 'NA' or 'trait_value' is not finite.
 </p>
 
 
@@ -59,7 +59,7 @@ columns without error.
 
 <p>A tibble retaining 'dataset_id', 'dataset_name', 'sample_id',
 'trait_id', 'taxon_id', and the trait fields when present, with
-incomplete taxon identifiers and values removed.
+incomplete taxon identifiers and non-finite values removed.
 </p>
 
 

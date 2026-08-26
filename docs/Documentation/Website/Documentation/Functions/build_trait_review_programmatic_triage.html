@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>filter_complete_trait_records() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>build_trait_review_programmatic_triage() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/filter_complete_trait_records.html">filter_complete_trait_records()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_triage.html">build_trait_review_programmatic_triage()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -572,7 +572,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_triage.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_triage.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">build_trait_review_programmatic_triage()</span></a>
   </div>
 </li>
@@ -1070,7 +1070,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../Documentation/Website/Documentation/Functions/filter_complete_trait_records.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../../Documentation/Website/Documentation/Functions/filter_complete_trait_records.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">filter_complete_trait_records()</span></a>
   </div>
 </li>
@@ -2283,9 +2283,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/filter_complete_trait_records.html">filter_complete_trait_records()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_triage.html">build_trait_review_programmatic_triage()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">filter_complete_trait_records()</h1>
+<h1 class="title">build_trait_review_programmatic_triage()</h1>
 </div>
 
 
@@ -2321,7 +2321,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-filter_complete_trait_records
+build_trait_review_programmatic_triage
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -2329,18 +2329,29 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Filter Complete Trait Records
+Build Programmatic Trait Review Triage
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-Selects the required columns from a raw trait data frame and removes rows where ‘taxon_id’ is ‘NA’ or ‘trait_value’ is not finite.
+Resolves candidates without positive correction evidence to proposed no-action decisions and groups reproducible correction hypotheses for cost-gated agent investigation.
 </p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">filter_complete_trait_records(data_trait_records_raw)
+<pre><code class="language-R">build_trait_review_programmatic_triage(
+  data_candidate_recommendations,
+  data_approved_decisions,
+  data_proposal_diagnostics,
+  data_dataset_evidence,
+  data_record_evidence,
+  data_agent_adjudications,
+  evidence_reference,
+  min_source_pattern_candidates = 3L,
+  source_factor_relative_tolerance = 0.25,
+  agent_groups_per_batch = 10L
+)
 </code></pre>
 <h3 class="anchored">
 Arguments
@@ -2348,32 +2359,110 @@ Arguments
 <table role="presentation">
 <tbody><tr>
 <td>
-<code id="data_trait_records_raw">data_trait_records_raw</code>
+<code id="data_candidate_recommendations">data_candidate_recommendations</code>
 </td>
 <td>
 <p>
-A data frame returned by [load_trait_records_from_vegvault()]. Expected to contain at least ‘taxon_id’, ‘trait_domain_name’, and ‘trait_value’. Source identifiers are retained when present.
+Candidate recommendations from [diagnose_trait_review_candidates()].
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="data_approved_decisions">data_approved_decisions</code>
+</td>
+<td>
+<p>
+Current canonical decisions from [load_trait_review_decisions()].
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="data_proposal_diagnostics">data_proposal_diagnostics</code>
+</td>
+<td>
+<p>
+Recovered selector diagnostics from [diagnose_trait_review_candidates()].
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="data_dataset_evidence">data_dataset_evidence</code>
+</td>
+<td>
+<p>
+Dataset summaries from [build_trait_review_evidence_packets()].
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="data_record_evidence">data_record_evidence</code>
+</td>
+<td>
+<p>
+Record evidence from [build_trait_review_evidence_packets()].
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="data_agent_adjudications">data_agent_adjudications</code>
+</td>
+<td>
+<p>
+Completed adjudications. May be a zero-row data frame.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="evidence_reference">evidence_reference</code>
+</td>
+<td>
+<p>
+Non-empty path to the human-readable triage report.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="min_source_pattern_candidates">min_source_pattern_candidates</code>
+</td>
+<td>
+<p>
+Minimum candidates sharing a source/factor pattern before escalation.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="source_factor_relative_tolerance">source_factor_relative_tolerance</code>
+</td>
+<td>
+<p>
+Maximum relative error from factors 10, 100, or 1000.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="agent_groups_per_batch">agent_groups_per_batch</code>
+</td>
+<td>
+<p>
+Maximum exception groups assigned to one initial agent batch.
 </p>
 </td>
 </tr>
 </tbody></table>
 <h3 class="anchored">
-Details
-</h3>
-<p>
-Uses [dplyr::any_of()] for column selection so the function tolerates input data frames that already lack one of the optional columns without error.
-</p>
-<h3 class="anchored">
 Value
 </h3>
 <p>
-A tibble retaining ‘dataset_id’, ‘dataset_name’, ‘sample_id’, ‘trait_id’, ‘taxon_id’, and the trait fields when present, with incomplete taxon identifiers and non-finite values removed.
-</p>
-<h3 class="anchored">
-See Also
-</h3>
-<p>
-[load_trait_records_from_vegvault()], [resolve_trait_taxon_ids()]
+A named list containing candidate triage, proposed no-action decisions, exception memberships and groups, a cost-gated agent queue, and summary.
 </p>
 </main>
 </div>
@@ -2791,7 +2880,7 @@ See Also
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/filter_complete_trait_records.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/build_trait_review_programmatic_triage.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
