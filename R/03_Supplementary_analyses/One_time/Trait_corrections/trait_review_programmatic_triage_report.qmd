@@ -1,0 +1,215 @@
+---
+title: "Programmatic trait-review triage"
+subtitle: "Cost gate before further agent investigation"
+format: gfm
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+here::i_am(
+  stringr::str_c(
+    "R/03_Supplementary_analyses/One_time/Trait_corrections/",
+    "trait_review_programmatic_triage_report.qmd"
+  )
+)
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+
+path_triage <-
+  here::here(
+    "Data/Temp/Trait_corrections/raw/programmatic_triage"
+  )
+data_cost_gate <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_cost_gate.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_triage_summary <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_summary.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_exception_groups <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_exception_groups.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_agent_queue <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_agent_group_queue.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+n_pending_candidates <-
+  data_cost_gate[["n_pending_candidates"]][[1L]]
+n_none_proposals <-
+  data_cost_gate[["n_none_proposals"]][[1L]]
+n_agent_candidates <-
+  data_cost_gate[["n_agent_candidates"]][[1L]]
+n_agent_groups <-
+  data_cost_gate[["n_agent_groups"]][[1L]]
+n_initial_agent_batches <-
+  data_cost_gate[["n_initial_agent_batches"]][[1L]]
+n_initial_agent_runs <-
+  data_cost_gate[["n_initial_agent_runs"]][[1L]]
+n_previous_style_runs <-
+  data_cost_gate[["n_previous_style_runs"]][[1L]]
+min_source_pattern_candidates <-
+  data_cost_gate[["min_source_pattern_candidates"]][[1L]]
+source_factor_relative_tolerance <-
+  data_cost_gate[["source_factor_relative_tolerance"]][[1L]]
+agent_groups_per_batch <-
+  data_cost_gate[["agent_groups_per_batch"]][[1L]]
+n_completed_investigations <-
+  data_triage_summary |>
+  dplyr::filter(
+    .data[["triage_outcome"]] ==
+      "propose_none_completed_investigation"
+  ) |>
+  dplyr::summarise(
+    n = base::sum(.data[["n_candidates"]])
+  ) |>
+  dplyr::pull(.data[["n"]])
+```
+
+## Outcome
+
+The programmatic pass examined all `r scales::comma(n_pending_candidates)` raw candidates that were not already covered by canonical approvals.
+
+It proposes `action = "none"` for `r scales::comma(n_none_proposals)` candidates and retains `r scales::comma(n_agent_candidates)` candidates in grouped exception review.
+
+The exceptions collapse to `r scales::comma(n_agent_groups)` evidence groups and `r scales::comma(n_initial_agent_batches)` bounded initial batches.
+
+Under the previous two-reviewer-plus-adjudicator design, the same grouped batches would require up to `r scales::comma(n_previous_style_runs)` agent runs.
+
+The cost-gated design requires at most `r scales::comma(n_initial_agent_runs)` initial reviewer runs, followed by a second review and adjudication only for groups that propose an actual correction.
+
+The programmatic workflow itself does not launch agents.
+
+One manually launched pilot reviewer run examined 10 former Leaf mass per area `invalid_source` groups covering nine candidates. Its proposed no-action rows were rejected because it incorrectly described 23 positive infinite values as `NA`. Direct production-data inspection traced the infinities to reciprocal conversion of zero SLA values. After the ingestion boundary was corrected to retain only finite trait values and the triage was regenerated, the nine candidates independently entered the programmatic no-action category. The pilot proposals remain unapproved and do not count as review of any group in the current exception queue.
+
+The pilot used `gpt-5.6-terra` with high reasoning. Runtime token usage was not exposed, so no verified token total is available.
+
+## Decision boundary
+
+All no-action rows remain unapproved proposals.
+
+The workflow does not edit either canonical decision file and does not apply any correction.
+
+The `r scales::comma(n_completed_investigations)` candidates that already completed adjudication are resolved under the approved policy that insufficient evidence becomes `none`.
+
+Other candidates receive a proposed `none` only when structured checks find no negative or non-missing non-finite record, no matched recovered selector, and no source-specific factor pattern repeated across enough taxa.
+
+Ordinary `NA` missingness is not treated as a correctable trait value. After missing rows are ignored, finite source summaries are still checked for repeated factor patterns before a candidate can receive a no-action proposal.
+
+## Structured checks
+
+A source pattern is escalated only when at least `r min_source_pattern_candidates` candidates share the same low-source and high-source pairing and their median ratio is within `r scales::percent(source_factor_relative_tolerance)` of a factor of ten, one hundred, or one thousand.
+
+Matched recovered selectors remain exceptions because the archived review material is evidence but not automatic authority for changing current records.
+
+Negative, `NaN`, and infinite observed records remain exceptions and are grouped by trait domain, dataset, trait variant, and invalid-value type.
+
+Isolated outliers, unmatched archived selectors, historical drift, and submitted concerns without a repeated error pattern do not establish a correction under the conservative policy.
+
+## Candidate outcomes
+
+```{r}
+data_outcomes <-
+  data_triage_summary |>
+  dplyr::rename(
+    `Trait domain` = "trait_domain_name",
+    `Triage outcome` = "triage_outcome",
+    Candidates = "n_candidates"
+  )
+
+knitr::kable(data_outcomes)
+```
+
+## Grouped exception queue
+
+```{r}
+data_group_counts <-
+  data_exception_groups |>
+  dplyr::count(
+    .data[["trait_domain_name"]],
+    .data[["group_kind"]],
+    name = "Evidence groups"
+  ) |>
+  dplyr::left_join(
+    data_exception_groups |>
+      dplyr::group_by(
+        .data[["trait_domain_name"]],
+        .data[["group_kind"]]
+      ) |>
+      dplyr::summarise(
+        `Candidate memberships` = base::sum(
+          .data[["n_candidates"]]
+        ),
+        .groups = "drop"
+      ),
+    by = dplyr::join_by(
+      trait_domain_name,
+      group_kind
+    ),
+    relationship = "one-to-one"
+  ) |>
+  dplyr::rename(
+    `Trait domain` = "trait_domain_name",
+    `Evidence type` = "group_kind"
+  )
+
+knitr::kable(data_group_counts)
+```
+
+One candidate can belong to more than one evidence group, so candidate-membership totals in this section can exceed the unique candidate count reported above.
+
+Each initial batch contains at most `r agent_groups_per_batch` evidence groups, not a fixed number of taxon-domain candidates.
+
+```{r}
+data_batch_counts <-
+  data_agent_queue |>
+  dplyr::group_by(
+    .data[["trait_domain_name"]],
+    .data[["agent_batch_id"]]
+  ) |>
+  dplyr::summarise(
+    `Evidence groups` = dplyr::n(),
+    `Candidate memberships` = base::sum(
+      .data[["n_candidates"]]
+    ),
+    .groups = "drop"
+  ) |>
+  dplyr::rename(
+    `Trait domain` = "trait_domain_name",
+    `Agent batch` = "agent_batch_id"
+  )
+
+knitr::kable(data_batch_counts)
+```
+
+## Recommended next decision
+
+Decide whether the regenerated 1,604 no-action proposals, including the nine candidates recovered after the ingestion fix, are approved for canonicalization.
+
+If the no-action category is approved, append those decisions to the canonical raw file with human reviewer metadata.
+
+Then run one reviewer per current grouped batch and reserve expensive independent replication for any group that recommends exclusion or scaling. The rejected pilot does not reduce the nine current batches because it reviewed obsolete invalid-source groups rather than the current Leaf mass per area source-pattern groups.

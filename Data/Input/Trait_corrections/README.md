@@ -74,3 +74,11 @@ Run `R/03_Supplementary_analyses/One_time/Trait_corrections/run_trait_review_pol
 The workflow proposes `none` only when no objective error evidence or unresolved submitted concern exists. It proposes exact-zero exclusions for strictly positive domains, while negative and non-finite values remain targeted investigations because they may reflect a source-level transformation. Recovered selectors, unresolved submitted notes, possible unit patterns, and historical drift are never approved automatically.
 
 Run `R/03_Supplementary_analyses/One_time/Trait_corrections/render_trait_review_policy_report.R` to regenerate `Outputs/Reports/Trait_corrections/raw/trait_review_policy_report.md`. Review `.ai/agents/trait-correction-policy-reviewer.agent.md` before assigning one bounded `agent_batch_id`. Agent outputs remain proposals and cannot edit either canonical decision file.
+
+## Cost-gated programmatic triage
+
+Run `R/03_Supplementary_analyses/One_time/Trait_corrections/run_trait_review_programmatic_triage.R` after recording approved policy decisions. The workflow removes candidates already covered by canonical approvals, incorporates completed adjudications, proposes `none` when structured checks find no positive correction evidence, and groups remaining invalid values, matched recovered selectors, and repeated cross-taxon source-factor patterns. Ordinary `NA` missingness is not an invalid trait value; `NaN`, infinities, and negative observed values remain exceptions, after which finite source-pattern checks still determine whether agent review is needed.
+
+Generated CSVs are written under `Data/Temp/Trait_corrections/raw/programmatic_triage/`. The grouped agent queue assigns evidence groups rather than individual candidates and supports one initial reviewer per batch; independent replication and adjudication are reserved for groups that propose an exclusion or scaling rule.
+
+Run `R/03_Supplementary_analyses/One_time/Trait_corrections/render_trait_review_programmatic_triage_report.R` to regenerate `Outputs/Reports/Trait_corrections/raw/trait_review_programmatic_triage_report.md`. The workflow is non-mutating: it does not approve decisions, apply corrections, or launch agents.

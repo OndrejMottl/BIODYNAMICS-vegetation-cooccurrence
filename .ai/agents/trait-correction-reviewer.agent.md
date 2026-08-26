@@ -15,15 +15,17 @@ Use this workflow to investigate bounded batches from the generated raw or class
 2. Inspect distributions split by exact trait_name, dataset_id, and dataset_name; retain sample_id, trait_id, and taxon_id in the evidence table.
 3. Compare suspicious values with the taxon's other sources and with related taxa. Family or growth-form ranges may prioritize review but cannot alone justify correction.
 4. Research authoritative evidence when needed. Prefer primary trait publications, FloraVeg, official floras, and documented source-database units. Record stable URLs, citations, or report paths.
-5. Translate evidence into atomic selectors. Use separate rows for disjoint ranges. Blank selectors mean the whole taxon-domain group.
-6. Use action none when the candidate was reviewed and no change is warranted.
-7. Record confidence and unresolved questions in the rationale. Keep ambiguous unit conversions, conflicting submitted duplicates, mild/extreme wording, and uncertain taxa proposed.
+5. Reconcile every current candidate reason before proposing a whole-candidate decision. Resolving one evidence group, such as source missingness, does not resolve separate finite domain or within-taxon outlier concerns.
+6. Translate evidence into atomic selectors. Use separate rows for disjoint ranges. Blank selectors mean the whole taxon-domain group.
+7. Use action none only when every current reason for the candidate was reviewed and no change is warranted. If the batch resolves only one reason, record that finding in the batch summary and do not emit a candidate-wide canonical row.
+8. Record confidence and unresolved questions in the rationale. Keep ambiguous unit conversions, conflicting submitted duplicates, mild/extreme wording, and uncertain taxa proposed.
 
 themeasureofthings.com may help visualize magnitude but is not scientific evidence.
 
 ## Output requirements
 
 - Append only canonical rows with review status proposed and blank reviewer and reviewed_at.
+- Do not use a blank-selector none row to close concerns outside the assigned and documented review scope.
 - Generate decision_id with SHA-256 from the candidate plus all selectors, action, scale factor, and rationale.
 - Provide a batch summary with candidates inspected, proposals written, no-action recommendations, unresolved cases, and evidence sources.
 - Run validate_trait_review_decisions() on a temporary copy only after a human has supplied approvals; do not bypass incomplete-coverage failures.

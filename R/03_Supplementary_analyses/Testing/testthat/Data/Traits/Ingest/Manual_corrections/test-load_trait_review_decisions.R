@@ -22,10 +22,30 @@ testthat::test_that(
   "decision loading returns typed empty decisions",
   {
     path_decisions <-
-      here::here(
-        "Data/Input/Trait_corrections/",
-        "trait_review_decisions_raw.csv"
-      )
+      base::tempfile(fileext = ".csv")
+    readr::write_csv(
+      tibble::tibble(
+        decision_id = character(),
+        candidate_id = character(),
+        taxon_name = character(),
+        trait_domain_name = character(),
+        trait_name = character(),
+        dataset_id = integer(),
+        value_lower = double(),
+        value_lower_inclusive = logical(),
+        value_upper = double(),
+        value_upper_inclusive = logical(),
+        action = character(),
+        scale_factor = double(),
+        rationale = character(),
+        evidence_reference = character(),
+        source_reference = character(),
+        review_status = character(),
+        reviewer = character(),
+        reviewed_at = character()
+      ),
+      path_decisions
+    )
 
     data_decisions <-
       load_trait_review_decisions(
