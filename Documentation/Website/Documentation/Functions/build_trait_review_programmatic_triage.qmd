@@ -24,9 +24,9 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Resolves candidates without positive correction evidence to proposed
-no-action decisions and groups reproducible correction hypotheses for
-cost-gated agent investigation.
+<p>Proposes no action only after completed investigation, retains unresolved
+evidence for programmatic review, and groups reproducible correction
+hypotheses for cost-gated agent investigation.
 </p>
 
 
@@ -96,8 +96,9 @@ cost-gated agent investigation.
 
 <h3>Value</h3>
 
-<p>A named list containing candidate triage, proposed no-action decisions,
-exception memberships and groups, a cost-gated agent queue, and summary.
+<p>A named list containing candidate triage, completed-investigation no-action
+proposals, pending programmatic cases, exception memberships and groups, a
+cost-gated agent queue, and summary.
 </p>
 
 </main>

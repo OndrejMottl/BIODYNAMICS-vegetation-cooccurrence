@@ -2,9 +2,10 @@ Build Programmatic Trait Review Triage
 
 Description:
 
-     Resolves candidates without positive correction evidence to
-     proposed no-action decisions and groups reproducible correction
-     hypotheses for cost-gated agent investigation.
+     Proposes no action only after completed investigation, retains
+     unresolved evidence for programmatic review, and groups
+     reproducible correction hypotheses for cost-gated agent
+     investigation.
 
 Usage:
 
@@ -20,7 +21,7 @@ Usage:
        source_factor_relative_tolerance = 0.25,
        agent_groups_per_batch = 10L
      )
-     
+
 Arguments:
 
 data_candidate_recommendations: Candidate recommendations from
@@ -54,7 +55,6 @@ agent_groups_per_batch: Maximum exception groups assigned to one
 
 Value:
 
-     A named list containing candidate triage, proposed no-action
-     decisions, exception memberships and groups, a cost-gated agent
-     queue, and summary.
-
+     A named list containing candidate triage, completed-investigation
+     no-action proposals, pending programmatic cases, exception
+     memberships and groups, a cost-gated agent queue, and summary.

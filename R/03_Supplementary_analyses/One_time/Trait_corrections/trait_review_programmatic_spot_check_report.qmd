@@ -1,0 +1,468 @@
+---
+title: "Representative review of programmatic scale proposals"
+subtitle: "Human decision aid for the conservative policy batch"
+format:
+  gfm:
+    toc: true
+    wrap: none
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+here::i_am(
+  stringr::str_c(
+    "R/03_Supplementary_analyses/One_time/Trait_corrections/",
+    "trait_review_programmatic_spot_check_report.qmd"
+  )
+)
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+base::options(knitr.kable.NA = "")
+
+path_triage <-
+  here::here(
+    "Data/Temp/Trait_corrections/raw/programmatic_triage"
+  )
+data_spot_check_raw <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_spot_check.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_spot_check_decisions <-
+  readr::read_csv(
+    here::here(
+      "Data/Input/Trait_corrections/",
+      "trait_review_programmatic_spot_check_decisions.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_spot_check <-
+  data_spot_check_raw |>
+  dplyr::select(
+    -"reviewer_decision",
+    -"reviewer_notes"
+  ) |>
+  dplyr::inner_join(
+    data_spot_check_decisions |>
+      dplyr::select(
+        "spot_check_id",
+        reviewer_decision = "review_outcome",
+        reviewer_notes = "reviewer_note"
+      ),
+    by = dplyr::join_by(spot_check_id),
+    unmatched = "error",
+    relationship = "one-to-one"
+  )
+data_spot_check_records <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_spot_check_records.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_all_proposals <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_decision_proposals.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_stratum_assessment <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_spot_check_stratum_assessment.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_scale_approval_audit <-
+  readr::read_csv(
+    here::here(
+      "Outputs/Reports/Trait_corrections/raw/",
+      "trait_review_supported_scale_approval_audit.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+n_spot_check <-
+  base::nrow(data_spot_check)
+n_all_scale_proposals <-
+  base::sum(data_all_proposals[["action"]] == "scale")
+n_spot_check_records <-
+  base::sum(data_spot_check_records[["selected_for_scaling"]])
+n_source_cases <-
+  base::sum(
+    data_spot_check[["reconciliation_outcome"]] ==
+      "propose_scale_corroborated_source"
+  )
+n_threshold_cases <-
+  n_spot_check - n_source_cases
+n_approved_cases <-
+  base::sum(data_spot_check[["reviewer_decision"]] == "approve")
+n_rejected_cases <-
+  base::sum(data_spot_check[["reviewer_decision"]] == "reject")
+n_targeted_cases <-
+  base::sum(
+    data_spot_check[["reviewer_decision"]] ==
+      "needs_targeted_review"
+  )
+n_supported_proposals <-
+  base::sum(data_stratum_assessment[["n_supported_proposals"]])
+n_supported_records <-
+  data_stratum_assessment |>
+  dplyr::filter(
+    .data[["expansion_assessment"]] ==
+      "supports_conservative_expansion"
+  ) |>
+  dplyr::summarise(
+    n_records = base::sum(.data[["n_records"]])
+  ) |>
+  dplyr::pull(.data[["n_records"]])
+n_recorded_scale_approvals <-
+  base::nrow(data_scale_approval_audit)
+n_recorded_scaled_records <-
+  base::sum(data_scale_approval_audit[["n_scaled"]])
+n_individual_approvals_outside_expansion <-
+  data_spot_check |>
+  dplyr::filter(
+    .data[["reviewer_decision"]] == "approve",
+    !.data[["candidate_id"]] %in%
+      data_scale_approval_audit[["candidate_id"]]
+  ) |>
+  base::nrow()
+
+format_number <- function(value) {
+  if (
+    base::is.na(value)
+  ) {
+    return("not set")
+  }
+  return(
+    base::format(
+      value,
+      digits = 5L,
+      scientific = FALSE,
+      trim = TRUE
+    )
+  )
+}
+
+format_selector <- function(data_case) {
+  trait_name <- data_case[["trait_name"]][[1L]]
+  dataset_id <- data_case[["dataset_id"]][[1L]]
+  value_lower <- data_case[["value_lower"]][[1L]]
+  value_upper <- data_case[["value_upper"]][[1L]]
+  vec_parts <- character()
+  if (
+    !base::is.na(trait_name)
+  ) {
+    vec_parts <-
+      base::c(
+        vec_parts,
+        stringr::str_glue("trait name = {trait_name}")
+      )
+  }
+  if (
+    !base::is.na(dataset_id)
+  ) {
+    vec_parts <-
+      base::c(
+        vec_parts,
+        stringr::str_glue("dataset ID = {dataset_id}")
+      )
+  }
+  if (
+    !base::is.na(value_lower)
+  ) {
+    comparator <-
+      dplyr::if_else(
+        data_case[["value_lower_inclusive"]][[1L]],
+        ">=",
+        ">"
+      )
+    vec_parts <-
+      base::c(
+        vec_parts,
+        stringr::str_glue(
+          "value {comparator} {format_number(value_lower)}"
+        )
+      )
+  }
+  if (
+    !base::is.na(value_upper)
+  ) {
+    comparator <-
+      dplyr::if_else(
+        data_case[["value_upper_inclusive"]][[1L]],
+        "<=",
+        "<"
+      )
+    vec_parts <-
+      base::c(
+        vec_parts,
+        stringr::str_glue(
+          "value {comparator} {format_number(value_upper)}"
+        )
+      )
+  }
+  if (
+    base::length(vec_parts) == 0L
+  ) {
+    return("all records in the taxon-domain candidate")
+  }
+  return(stringr::str_c(vec_parts, collapse = "; "))
+}
+```
+
+## Purpose and decision boundary
+
+This report presents `r n_spot_check` deliberately varied cases from the `r n_all_scale_proposals` unapproved programmatic scale proposals.
+It contains `r n_threshold_cases` threshold-based cases and both `r n_source_cases` independently corroborated dataset-specific cases.
+Together, the displayed rules would scale `r scales::comma(n_spot_check_records)` current records if approved.
+
+The sample is a policy check, not a random estimate of an error rate.
+It covers every factor-and-direction stratum, all three trait domains represented among the proposals, small and large record impacts, contrasting before/after gaps, and stable-hash fill cases.
+No proposal shown here has been approved, added to the canonical decision file, or applied to production data.
+
+For each case, decide whether the selector isolates a plausible unit mismatch and whether multiplying only those selected records by the proposed factor makes the selected and unselected distributions scientifically coherent.
+Use `approve`, `reject`, or `needs targeted review` as the reviewer decision.
+
+## Coverage
+
+```{r coverage}
+data_coverage <-
+  data_spot_check |>
+  dplyr::count(
+    .data[["trait_domain_name"]],
+    .data[["reconciliation_outcome"]],
+    .data[["scale_factor"]],
+    .data[["threshold_direction"]],
+    name = "Cases"
+  ) |>
+  dplyr::rename(
+    `Trait domain` = "trait_domain_name",
+    `Evidence rule` = "reconciliation_outcome",
+    `Scale factor` = "scale_factor",
+    `Threshold direction` = "threshold_direction"
+  )
+
+knitr::kable(data_coverage)
+```
+
+## Review roster
+
+```{r roster}
+data_roster <-
+  data_spot_check |>
+  dplyr::select(
+    `Case` = "spot_check_id",
+    `Taxon` = "taxon_name",
+    `Trait domain` = "trait_domain_name",
+    `Factor` = "scale_factor",
+    `Records changed` = "proposed_record_count",
+    `Selection reason` = "selection_reason",
+    `Reviewer decision` = "reviewer_decision",
+    `Reviewer notes` = "reviewer_notes"
+  )
+
+knitr::kable(data_roster)
+```
+
+## Recorded decisions
+
+The durable review record contains `r n_approved_cases` approvals, `r n_rejected_cases` rejection, and `r n_targeted_cases` cases requiring targeted investigation.
+These outcomes are stored separately from the canonical correction rules and do not themselves apply any correction.
+
+## Conservative expansion assessment
+
+A rule stratum supports conservative expansion only when every representative reviewed from that stratum was approved.
+Mixed strata, rejected strata, and the dataset-specific proposals are not expanded.
+Under this rule, the reviewed sample supported expansion to `r n_supported_proposals` of the `r n_all_scale_proposals` proposals, affecting `r scales::comma(n_supported_records)` records.
+The project owner subsequently approved this expansion.
+Exactly `r n_recorded_scale_approvals` candidate-level scale rules are now recorded in the canonical raw decision file, and their application audit confirms `r scales::comma(n_recorded_scaled_records)` scaled records.
+
+```{r assessment}
+data_assessment_display <-
+  data_stratum_assessment |>
+  dplyr::select(
+    `Trait domain` = "trait_domain_name",
+    `Rule kind` = "rule_kind",
+    `Direction` = "threshold_direction",
+    `Factor` = "scale_factor",
+    `All proposals` = "n_proposals",
+    `Reviewed` = "n_reviewed",
+    `Approved` = "n_approved",
+    `Rejected` = "n_rejected",
+    `Targeted review` = "n_targeted",
+    `Expansion assessment` = "expansion_assessment"
+  )
+
+knitr::kable(data_assessment_display)
+```
+
+## Individual cases
+
+```{r cases, results='asis'}
+for (
+  index_case in base::seq_len(base::nrow(data_spot_check))
+) {
+  data_case <-
+    data_spot_check[index_case, , drop = FALSE]
+  candidate_id <- data_case[["candidate_id"]][[1L]]
+  data_case_records <-
+    data_spot_check_records |>
+    dplyr::filter(
+      .data[["candidate_id"]] == .env[["candidate_id"]]
+    )
+  data_case_summary <-
+    data_case_records |>
+    dplyr::group_by(.data[["selected_for_scaling"]]) |>
+    dplyr::summarise(
+      Records = dplyr::n(),
+      `Before minimum` = base::min(.data[["trait_value"]]),
+      `Before median` = stats::median(.data[["trait_value"]]),
+      `Before maximum` = base::max(.data[["trait_value"]]),
+      `After minimum` = base::min(.data[["trait_value_after"]]),
+      `After median` = stats::median(.data[["trait_value_after"]]),
+      `After maximum` = base::max(.data[["trait_value_after"]]),
+      .groups = "drop"
+    ) |>
+    dplyr::rename(
+      `Scaled` = "selected_for_scaling"
+    )
+  data_case_sources <-
+    data_case_records |>
+    dplyr::group_by(
+      .data[["dataset_id"]],
+      .data[["dataset_name"]],
+      .data[["trait_name"]],
+      .data[["selected_for_scaling"]]
+    ) |>
+    dplyr::summarise(
+      Records = dplyr::n(),
+      Median = stats::median(.data[["trait_value"]]),
+      `Median after` = stats::median(.data[["trait_value_after"]]),
+      .groups = "drop"
+    ) |>
+    dplyr::arrange(
+      dplyr::desc(.data[["selected_for_scaling"]]),
+      dplyr::desc(.data[["Records"]]),
+      .data[["dataset_id"]]
+    ) |>
+    dplyr::slice_head(n = 5L) |>
+    dplyr::rename(
+      `Dataset ID` = "dataset_id",
+      `Dataset` = "dataset_name",
+      `Trait name` = "trait_name",
+      `Scaled` = "selected_for_scaling"
+    )
+
+  base::cat(
+    stringr::str_glue(
+      "\n### {data_case[['spot_check_id']][[1L]]}: ",
+      "{data_case[['taxon_name']][[1L]]} - ",
+      "{data_case[['trait_domain_name']][[1L]]}\n\n"
+    )
+  )
+  base::cat(
+    stringr::str_glue(
+      "**Why selected:** ",
+      "{data_case[['selection_reason']][[1L]]}.\n\n"
+    )
+  )
+  base::cat(
+    stringr::str_glue(
+      "**Proposed rule:** multiply by ",
+      "{format_number(data_case[['scale_factor']][[1L]])}; ",
+      "selector: {format_selector(data_case)}.\n\n"
+    )
+  )
+  base::cat(
+    stringr::str_glue(
+      "**Submitted instruction:** ",
+      "{data_case[['notes_lower']][[1L]]}; archived source row ",
+      "{data_case[['source_rows']][[1L]]}.\n\n"
+    )
+  )
+  if (
+    data_case[["reconciliation_outcome"]][[1L]] ==
+      "propose_scale_validated_threshold"
+  ) {
+    base::cat(
+      stringr::str_glue(
+        "**Quantitative check:** selected/unselected records = ",
+        "{data_case[['n_selected']][[1L]]}/",
+        "{data_case[['n_unselected']][[1L]]}; median log10 gap ",
+        "before = ",
+        "{format_number(data_case[['threshold_gap_before']][[1L]])}, ",
+        "after = ",
+        "{format_number(data_case[['threshold_gap_after']][[1L]])}.\n\n"
+      )
+    )
+  } else {
+    base::cat(
+      stringr::str_glue(
+        "**Quantitative check:** low/high source records = ",
+        "{data_case[['n_low_records']][[1L]]}/",
+        "{data_case[['n_high_records']][[1L]]}; the submitted factor ",
+        "matches the current source-median ratio within 5%.\n\n"
+      )
+    )
+  }
+  reviewer_decision_label <-
+    stringr::str_replace_all(
+      data_case[["reviewer_decision"]][[1L]],
+      "_",
+      " "
+    )
+  reviewer_notes <-
+    dplyr::if_else(
+      base::is.na(data_case[["reviewer_notes"]][[1L]]) |
+        !base::nzchar(data_case[["reviewer_notes"]][[1L]]),
+      "None recorded.",
+      data_case[["reviewer_notes"]][[1L]]
+    )
+  base::cat(
+    stringr::str_glue(
+      "**Reviewer decision:** {reviewer_decision_label}\n\n"
+    )
+  )
+  base::cat(
+    stringr::str_glue(
+      "**Reviewer notes:** {reviewer_notes}\n\n"
+    )
+  )
+  base::cat("Distribution summary by selector status:\n\n")
+  base::print(
+    knitr::kable(
+      data_case_summary,
+      digits = 5L
+    )
+  )
+  base::cat("\nFive largest or selected source groups:\n\n")
+  base::print(
+    knitr::kable(
+      data_case_sources,
+      digits = 5L
+    )
+  )
+  base::cat("\n")
+}
+```
+
+## How to use the result
+
+The conservative 50-rule expansion is complete.
+There are `r n_individual_approvals_outside_expansion` individually approved representatives inside mixed strata that were not part of the batch authorization and therefore remain outside the canonical correction file.
+The next decision is whether to promote those cases individually before investigating the six targeted-review cases.

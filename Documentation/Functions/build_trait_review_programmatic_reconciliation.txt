@@ -1,0 +1,41 @@
+Reconcile Programmatic Trait Review Candidates
+
+Description:
+
+     Applies conservative deterministic checks to pending trait-review
+     candidates. It proposes rules only for obsolete candidates,
+     independently corroborated dataset factors, or threshold rules
+     that improve current within-candidate agreement. Other candidates
+     remain pending or are routed to targeted agent review.
+
+Usage:
+
+     build_trait_review_programmatic_reconciliation(
+       data_candidate_triage,
+       data_source_pairs,
+       data_submission_audit,
+       data_record_evidence,
+       evidence_reference
+     )
+
+Arguments:
+
+data_candidate_triage: Candidate triage from
+          [build_trait_review_programmatic_triage()].
+
+data_source_pairs: Candidate source-pair evidence from the programmatic
+          triage.
+
+data_submission_audit: Derived review-submission audit containing the
+          archived instructions.
+
+data_record_evidence: Current record evidence from
+          [build_trait_review_evidence_packets()].
+
+evidence_reference: Non-empty path to the human-readable reconciliation
+          report.
+
+Value:
+
+     A named list containing one reconciliation row per pending
+     candidate, unapproved decision proposals, and an outcome summary.

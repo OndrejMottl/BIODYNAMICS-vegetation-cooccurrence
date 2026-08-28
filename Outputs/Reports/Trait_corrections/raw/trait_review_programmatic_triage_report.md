@@ -12,9 +12,13 @@ execute:
 
 ## Outcome
 
-The programmatic pass examined all 1,980 raw candidates that were not already covered by canonical approvals.
+The programmatic pass examined all 1,928 raw candidates that were not already covered by canonical approvals.
 
-It proposes `action = "none"` for 1,604 candidates and retains 376 candidates in grouped exception review.
+The 52 completed investigations approved by the project owner are now recorded canonically as `action = "none"` and are excluded from this queue.
+
+The corrected first triage proposes `action = "none"` for 0 additional candidates. It sent 1,552 candidates to deterministic reconciliation and retained 376 candidates in grouped evidence review.
+
+The second R pass checked all 1,552 pending candidates. It produced 293 unapproved scale proposals affecting 20,753 current records, 14 unapproved no-action proposals for candidates with no current records, 285 targeted-review cases, and 960 still-unresolved cases.
 
 The exceptions collapse to 71 evidence groups and 9 bounded initial batches.
 
@@ -24,21 +28,21 @@ The cost-gated design requires at most 9 initial reviewer runs, followed by a se
 
 The programmatic workflow itself does not launch agents.
 
-One manually launched pilot reviewer run examined 10 former Leaf mass per area `invalid_source` groups covering nine candidates. Its proposed no-action rows were rejected because it incorrectly described 23 positive infinite values as `NA`. Direct production-data inspection traced the infinities to reciprocal conversion of zero SLA values. After the ingestion boundary was corrected to retain only finite trait values and the triage was regenerated, the nine candidates independently entered the programmatic no-action category. The pilot proposals remain unapproved and do not count as review of any group in the current exception queue.
+One manually launched pilot reviewer run examined 10 former Leaf mass per area `invalid_source` groups covering nine candidates. Its proposed no-action rows were rejected because it incorrectly described 23 positive infinite values as `NA`. Direct production-data inspection traced the infinities to reciprocal conversion of zero SLA values. After the ingestion boundary was corrected to retain only finite trait values, those obsolete invalid-source groups disappeared. The pilot proposals remain unapproved and do not count as review of any group in the current exception queue.
 
 The pilot used `gpt-5.6-terra` with high reasoning. Runtime token usage was not exposed, so no verified token total is available.
 
 ## Decision boundary
 
-All no-action rows remain unapproved proposals.
+The separate approval runner recorded only the 52 newly approved completed investigations. The triage workflow itself does not edit either canonical decision file and does not apply any correction.
 
-The workflow does not edit either canonical decision file and does not apply any correction.
+No unresolved candidate receives a no-action proposal merely because the current checks failed to identify a repeated error pattern.
 
-The 52 candidates that already completed adjudication are resolved under the approved policy that insufficient evidence becomes `none`.
+Submitted concerns, recovered proposals, isolated source-factor hints, and historical drift remain explicitly pending until a structured rule resolves them or a completed investigation supports a human decision.
 
-Other candidates receive a proposed `none` only when structured checks find no negative or non-missing non-finite record, no matched recovered selector, and no source-specific factor pattern repeated across enough taxa.
+All second-pass decision rows remain proposals. They have not been added to a canonical decision file, approved, or applied.
 
-Ordinary `NA` missingness is not treated as a correctable trait value. After missing rows are ignored, finite source summaries are still checked for repeated factor patterns before a candidate can receive a no-action proposal.
+Ordinary `NA` missingness is not treated as a correctable trait value. After missing rows are ignored, finite source summaries are still checked for repeated factor patterns.
 
 ## Structured checks
 
@@ -48,27 +52,70 @@ Matched recovered selectors remain exceptions because the archived review materi
 
 Negative, `NaN`, and infinite observed records remain exceptions and are grouped by trait domain, dataset, trait variant, and invalid-value type.
 
-Isolated outliers, unmatched archived selectors, historical drift, and submitted concerns without a repeated error pattern do not establish a correction under the conservative policy.
+Isolated outliers, unmatched archived selectors, historical drift, and submitted concerns without a repeated error pattern do not establish a correction under the conservative policy. They also do not establish that no correction is needed, so they remain pending programmatic review.
+
+The second pass parses only exact instructions of the form `rescale values below X only` or `rescale values above X only`. A threshold rule is proposed only when at least two current positive finite records occur on each side, the original selected-versus-unselected median gap is at least 0.7 log10 units, the proposed correction reduces that gap by at least 0.5 log10 units, and the remaining gap is at most 0.3 log10 units.
+
+A dataset-specific scale is proposed only when a single submitted factor with note `x` independently matches the current low-versus-high source median ratio within 5%, identifies an unambiguous scaling direction, and both sources contain at least two positive finite records.
 
 ## Candidate outcomes
 
 
-|Trait domain                        |Triage outcome                          | Candidates|
-|:-----------------------------------|:---------------------------------------|----------:|
-|Diaspore mass                       |propose_none_completed_investigation    |         18|
-|Leaf Area                           |agent_recovered_rule                    |          9|
-|Leaf Area                           |agent_repeated_source_pattern           |         22|
-|Leaf Area                           |propose_none_no_repeated_error_evidence |        467|
-|Leaf mass per area                  |agent_repeated_source_pattern           |         31|
-|Leaf mass per area                  |propose_none_no_repeated_error_evidence |         58|
-|Leaf nitrogen content per unit mass |agent_recovered_rule                    |          5|
-|Leaf nitrogen content per unit mass |agent_repeated_source_pattern           |         12|
-|Leaf nitrogen content per unit mass |propose_none_no_repeated_error_evidence |        457|
-|Plant heigh                         |agent_invalid_values                    |          1|
-|Plant heigh                         |agent_recovered_rule                    |        288|
-|Plant heigh                         |agent_repeated_source_pattern           |          8|
-|Plant heigh                         |propose_none_no_repeated_error_evidence |        570|
-|Stem specific density               |propose_none_completed_investigation    |         34|
+|Trait domain                        |Triage outcome                  | Candidates|
+|:-----------------------------------|:-------------------------------|----------:|
+|Leaf Area                           |agent_recovered_rule            |          9|
+|Leaf Area                           |agent_repeated_source_pattern   |         22|
+|Leaf Area                           |pending_historical_drift        |          1|
+|Leaf Area                           |pending_isolated_source_pattern |         50|
+|Leaf Area                           |pending_submitted_note          |        416|
+|Leaf mass per area                  |agent_repeated_source_pattern   |         31|
+|Leaf mass per area                  |pending_isolated_source_pattern |         47|
+|Leaf mass per area                  |pending_unresolved_evidence     |         11|
+|Leaf nitrogen content per unit mass |agent_recovered_rule            |          5|
+|Leaf nitrogen content per unit mass |agent_repeated_source_pattern   |         12|
+|Leaf nitrogen content per unit mass |pending_isolated_source_pattern |         93|
+|Leaf nitrogen content per unit mass |pending_recovered_proposal      |          1|
+|Leaf nitrogen content per unit mass |pending_submitted_note          |        363|
+|Plant heigh                         |agent_invalid_values            |          1|
+|Plant heigh                         |agent_recovered_rule            |        288|
+|Plant heigh                         |agent_repeated_source_pattern   |          8|
+|Plant heigh                         |pending_historical_drift        |          2|
+|Plant heigh                         |pending_isolated_source_pattern |         62|
+|Plant heigh                         |pending_recovered_proposal      |         10|
+|Plant heigh                         |pending_submitted_note          |        496|
+
+## Deterministic reconciliation outcomes
+
+
+|Trait domain                        |Reconciliation outcome                   | Candidates|
+|:-----------------------------------|:----------------------------------------|----------:|
+|Leaf Area                           |agent_historical_drift                   |          1|
+|Leaf Area                           |agent_strong_isolated_source_pattern     |         15|
+|Leaf Area                           |agent_threshold_rule_not_corroborated    |         47|
+|Leaf Area                           |agent_unparsed_exclusion_instruction     |         39|
+|Leaf Area                           |pending_isolated_source_pattern          |         12|
+|Leaf Area                           |pending_submitted_note                   |        298|
+|Leaf Area                           |propose_scale_validated_threshold        |         55|
+|Leaf mass per area                  |agent_strong_isolated_source_pattern     |         47|
+|Leaf mass per area                  |pending_unresolved_evidence              |         11|
+|Leaf nitrogen content per unit mass |agent_strong_isolated_source_pattern     |          5|
+|Leaf nitrogen content per unit mass |agent_threshold_rule_not_corroborated    |         49|
+|Leaf nitrogen content per unit mass |agent_unparsed_exclusion_instruction     |         30|
+|Leaf nitrogen content per unit mass |pending_isolated_source_pattern          |          4|
+|Leaf nitrogen content per unit mass |pending_submitted_note                   |        148|
+|Leaf nitrogen content per unit mass |propose_none_no_current_records          |          1|
+|Leaf nitrogen content per unit mass |propose_scale_validated_threshold        |        220|
+|Plant heigh                         |agent_conflicting_submitted_instructions |          2|
+|Plant heigh                         |agent_historical_drift                   |          2|
+|Plant heigh                         |agent_strong_isolated_source_pattern     |         16|
+|Plant heigh                         |agent_threshold_rule_not_corroborated    |         14|
+|Plant heigh                         |agent_unmatched_recovered_rule           |          5|
+|Plant heigh                         |agent_unparsed_exclusion_instruction     |         13|
+|Plant heigh                         |pending_isolated_source_pattern          |         38|
+|Plant heigh                         |pending_submitted_note                   |        449|
+|Plant heigh                         |propose_none_no_current_records          |         13|
+|Plant heigh                         |propose_scale_corroborated_source        |          2|
+|Plant heigh                         |propose_scale_validated_threshold        |         16|
 
 ## Grouped exception queue
 
@@ -103,8 +150,8 @@ Each initial batch contains at most 10 evidence groups, not a fixed number of ta
 
 ## Recommended next decision
 
-Decide whether the regenerated 1,604 no-action proposals, including the nine candidates recovered after the ingestion fix, are approved for canonicalization.
+Do not bulk-approve the 960 still-unresolved candidates as `none`: their absence of corroborating current evidence is not equivalent to a completed investigation.
 
-If the no-action category is approved, append those decisions to the canonical raw file with human reviewer metadata.
+First review the 293 scale proposals as a policy batch and the 14 obsolete-candidate no-action proposals separately. They are reproducible proposals, not approvals.
 
-Then run one reviewer per current grouped batch and reserve expensive independent replication for any group that recommends exclusion or scaling. The rejected pilot does not reduce the nine current batches because it reviewed obsolete invalid-source groups rather than the current Leaf mass per area source-pattern groups.
+Then group the 285 newly targeted cases by evidence type before launching any reviewer. The original 376 evidence-backed exceptions already collapse to 71 groups. Reserve expensive independent replication for a group that recommends exclusion or scaling. The rejected pilot reviewed obsolete invalid-source groups and does not count toward the current batches.

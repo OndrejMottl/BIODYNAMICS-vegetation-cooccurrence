@@ -1,8 +1,8 @@
 #' @title Build Programmatic Trait Review Triage
 #' @description
-#' Resolves candidates without positive correction evidence to proposed
-#' no-action decisions and groups reproducible correction hypotheses for
-#' cost-gated agent investigation.
+#' Proposes no action only after completed investigation, retains unresolved
+#' evidence for programmatic review, and groups reproducible correction
+#' hypotheses for cost-gated agent investigation.
 #' @param data_candidate_recommendations
 #' Candidate recommendations from [diagnose_trait_review_candidates()].
 #' @param data_approved_decisions
@@ -25,8 +25,9 @@
 #' @param agent_groups_per_batch
 #' Maximum exception groups assigned to one initial agent batch.
 #' @return
-#' A named list containing candidate triage, proposed no-action decisions,
-#' exception memberships and groups, a cost-gated agent queue, and summary.
+#' A named list containing candidate triage, completed-investigation no-action
+#' proposals, pending programmatic cases, exception memberships and groups, a
+#' cost-gated agent queue, and summary.
 #' @export
 build_trait_review_programmatic_triage <- function(
     data_candidate_recommendations,
@@ -486,6 +487,11 @@ build_trait_review_programmatic_triage <- function(
       "pattern_reference"
     ) |>
     dplyr::distinct()
+  vec_isolated_source_candidate_ids <-
+    base::setdiff(
+      base::unique(data_source_pairs[["candidate_id"]]),
+      base::unique(data_source_memberships[["candidate_id"]])
+    )
 
   data_exception_memberships <-
     base::list(
@@ -527,6 +533,9 @@ build_trait_review_programmatic_triage <- function(
       ),
       has_completed_investigation =
         .data[["candidate_id"]] %in% vec_completed_candidate_ids,
+      has_isolated_source_pattern =
+        .data[["candidate_id"]] %in%
+          vec_isolated_source_candidate_ids,
       triage_outcome = dplyr::case_when(
         .data[["has_invalid_values"]] ~ "agent_invalid_values",
         .data[["has_completed_investigation"]] ~
@@ -534,13 +543,36 @@ build_trait_review_programmatic_triage <- function(
         .data[["has_recovered_rule"]] ~ "agent_recovered_rule",
         .data[["has_source_pattern"]] ~
           "agent_repeated_source_pattern",
-        TRUE ~ "propose_none_no_repeated_error_evidence"
+        .data[["has_isolated_source_pattern"]] ~
+          "pending_isolated_source_pattern",
+        .data[["deterministic_outcome"]] ==
+          "investigate_submitted_note" ~
+          "pending_submitted_note",
+        .data[["deterministic_outcome"]] %in%
+          base::c(
+            "investigate_recovered_proposal",
+            "validate_recovered_proposal"
+          ) ~
+          "pending_recovered_proposal",
+        .data[["deterministic_outcome"]] ==
+          "investigate_unit_pattern" ~
+          "pending_isolated_source_pattern",
+        .data[["deterministic_outcome"]] ==
+          "investigate_historical_drift" ~
+          "pending_historical_drift",
+        TRUE ~ "pending_unresolved_evidence"
       ),
       requires_agent = stringr::str_starts(
         .data[["triage_outcome"]],
         "agent_"
       ),
-      propose_none = !.data[["requires_agent"]],
+      propose_none =
+        .data[["triage_outcome"]] ==
+          "propose_none_completed_investigation",
+      pending_programmatic = stringr::str_starts(
+        .data[["triage_outcome"]],
+        "pending_"
+      ),
       triage_rationale = dplyr::case_when(
         .data[["triage_outcome"]] == "agent_invalid_values" ~
           "Negative or non-finite records require source-level review.",
@@ -558,10 +590,34 @@ build_trait_review_programmatic_triage <- function(
             "At least three candidates share a source-specific factor ",
             "pattern that warrants grouped investigation."
           ),
+        .data[["triage_outcome"]] ==
+          "pending_isolated_source_pattern" ~
+          stringr::str_c(
+            "A candidate-specific source-factor pattern remains ",
+            "unresolved and is not evidence for no action."
+          ),
+        .data[["triage_outcome"]] ==
+          "pending_submitted_note" ~
+          stringr::str_c(
+            "A submitted review concern remains uninterpreted and ",
+            "requires further programmatic reconciliation."
+          ),
+        .data[["triage_outcome"]] ==
+          "pending_recovered_proposal" ~
+          stringr::str_c(
+            "A recovered proposal remains unresolved and cannot be ",
+            "converted to no action."
+          ),
+        .data[["triage_outcome"]] ==
+          "pending_historical_drift" ~
+          stringr::str_c(
+            "Historical drift remains unresolved and requires further ",
+            "programmatic reconciliation."
+          ),
         TRUE ~
           stringr::str_c(
-            "Structured checks found no invalid records, matched ",
-            "recovered rule, or repeated source-factor pattern."
+            "Current evidence remains unresolved and cannot be converted ",
+            "to no action without a completed investigation."
           )
       )
     )
@@ -731,6 +787,9 @@ build_trait_review_programmatic_triage <- function(
     tibble::tibble(
       n_pending_candidates = base::nrow(data_candidate_triage),
       n_none_proposals = base::nrow(data_none_proposals),
+      n_pending_programmatic_candidates = base::sum(
+        data_candidate_triage[["pending_programmatic"]]
+      ),
       n_agent_candidates = base::sum(
         data_candidate_triage[["requires_agent"]]
       ),

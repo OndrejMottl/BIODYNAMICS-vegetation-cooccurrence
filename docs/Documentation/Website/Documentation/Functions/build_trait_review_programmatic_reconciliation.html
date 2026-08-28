@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>build_trait_review_programmatic_triage() – BIODYNAMICS-vegetation-cooccurrence</title>
+<title>build_trait_review_programmatic_reconciliation() – BIODYNAMICS-vegetation-cooccurrence</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_triage.html">build_trait_review_programmatic_triage()</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_reconciliation.html">build_trait_review_programmatic_reconciliation()</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -578,13 +578,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_reconciliation.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_reconciliation.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">build_trait_review_programmatic_reconciliation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_triage.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_triage.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_trait_review_programmatic_triage()</span></a>
   </div>
 </li>
@@ -2313,9 +2313,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_triage.html">build_trait_review_programmatic_triage()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/build_trait_review_programmatic_reconciliation.html">build_trait_review_programmatic_reconciliation()</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">build_trait_review_programmatic_triage()</h1>
+<h1 class="title">build_trait_review_programmatic_reconciliation()</h1>
 </div>
 
 
@@ -2351,7 +2351,7 @@ function processMathHTML() {
 <table style="width: 100%;">
 <tbody><tr>
 <td>
-build_trait_review_programmatic_triage
+build_trait_review_programmatic_reconciliation
 </td>
 <td style="text-align: right;">
 R Documentation
@@ -2359,28 +2359,23 @@ R Documentation
 </tr>
 </tbody></table>
 <h2 class="anchored">
-Build Programmatic Trait Review Triage
+Reconcile Programmatic Trait Review Candidates
 </h2>
 <h3 class="anchored">
 Description
 </h3>
 <p>
-Proposes no action only after completed investigation, retains unresolved evidence for programmatic review, and groups reproducible correction hypotheses for cost-gated agent investigation.
+Applies conservative deterministic checks to pending trait-review candidates. It proposes rules only for obsolete candidates, independently corroborated dataset factors, or threshold rules that improve current within-candidate agreement. Other candidates remain pending or are routed to targeted agent review.
 </p>
 <h3 class="anchored">
 Usage
 </h3>
-<pre><code class="language-R">build_trait_review_programmatic_triage(
-  data_candidate_recommendations,
-  data_approved_decisions,
-  data_proposal_diagnostics,
-  data_dataset_evidence,
+<pre><code class="language-R">build_trait_review_programmatic_reconciliation(
+  data_candidate_triage,
+  data_source_pairs,
+  data_submission_audit,
   data_record_evidence,
-  data_agent_adjudications,
-  evidence_reference,
-  min_source_pattern_candidates = 3L,
-  source_factor_relative_tolerance = 0.25,
-  agent_groups_per_batch = 10L
+  evidence_reference
 )
 </code></pre>
 <h3 class="anchored">
@@ -2389,41 +2384,31 @@ Arguments
 <table role="presentation">
 <tbody><tr>
 <td>
-<code id="data_candidate_recommendations">data_candidate_recommendations</code>
+<code id="data_candidate_triage">data_candidate_triage</code>
 </td>
 <td>
 <p>
-Candidate recommendations from [diagnose_trait_review_candidates()].
+Candidate triage from [build_trait_review_programmatic_triage()].
 </p>
 </td>
 </tr>
 <tr>
 <td>
-<code id="data_approved_decisions">data_approved_decisions</code>
+<code id="data_source_pairs">data_source_pairs</code>
 </td>
 <td>
 <p>
-Current canonical decisions from [load_trait_review_decisions()].
+Candidate source-pair evidence from the programmatic triage.
 </p>
 </td>
 </tr>
 <tr>
 <td>
-<code id="data_proposal_diagnostics">data_proposal_diagnostics</code>
+<code id="data_submission_audit">data_submission_audit</code>
 </td>
 <td>
 <p>
-Recovered selector diagnostics from [diagnose_trait_review_candidates()].
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="data_dataset_evidence">data_dataset_evidence</code>
-</td>
-<td>
-<p>
-Dataset summaries from [build_trait_review_evidence_packets()].
+Derived review-submission audit containing the archived instructions.
 </p>
 </td>
 </tr>
@@ -2433,17 +2418,7 @@ Dataset summaries from [build_trait_review_evidence_packets()].
 </td>
 <td>
 <p>
-Record evidence from [build_trait_review_evidence_packets()].
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="data_agent_adjudications">data_agent_adjudications</code>
-</td>
-<td>
-<p>
-Completed adjudications. May be a zero-row data frame.
+Current record evidence from [build_trait_review_evidence_packets()].
 </p>
 </td>
 </tr>
@@ -2453,37 +2428,7 @@ Completed adjudications. May be a zero-row data frame.
 </td>
 <td>
 <p>
-Non-empty path to the human-readable triage report.
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="min_source_pattern_candidates">min_source_pattern_candidates</code>
-</td>
-<td>
-<p>
-Minimum candidates sharing a source/factor pattern before escalation.
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="source_factor_relative_tolerance">source_factor_relative_tolerance</code>
-</td>
-<td>
-<p>
-Maximum relative error from factors 10, 100, or 1000.
-</p>
-</td>
-</tr>
-<tr>
-<td>
-<code id="agent_groups_per_batch">agent_groups_per_batch</code>
-</td>
-<td>
-<p>
-Maximum exception groups assigned to one initial agent batch.
+Non-empty path to the human-readable reconciliation report.
 </p>
 </td>
 </tr>
@@ -2492,7 +2437,7 @@ Maximum exception groups assigned to one initial agent batch.
 Value
 </h3>
 <p>
-A named list containing candidate triage, completed-investigation no-action proposals, pending programmatic cases, exception memberships and groups, a cost-gated agent queue, and summary.
+A named list containing one reconciliation row per pending candidate, unapproved decision proposals, and an outcome summary.
 </p>
 </main>
 </div>
@@ -2910,7 +2855,7 @@ A named list containing candidate triage, completed-investigation no-action prop
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/build_trait_review_programmatic_triage.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Website/Documentation/Functions/build_trait_review_programmatic_reconciliation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

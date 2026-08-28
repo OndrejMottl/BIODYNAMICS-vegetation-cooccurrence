@@ -111,7 +111,11 @@ testthat::test_that(
     testthat::expect_equal(data_groups[["n_candidates"]], 3L)
     testthat::expect_equal(
       base::sum(data_triage[["propose_none"]]),
-      1L
+      0L
+    )
+    testthat::expect_equal(
+      data_triage[["triage_outcome"]][[4L]],
+      "pending_submitted_note"
     )
   }
 )
@@ -287,7 +291,7 @@ testthat::test_that(
 
     testthat::expect_equal(
       res_missing[["data_candidate_triage"]][["triage_outcome"]],
-      "propose_none_no_repeated_error_evidence"
+      "pending_isolated_source_pattern"
     )
     testthat::expect_equal(
       base::nrow(res_missing[["data_exception_memberships"]]),
@@ -387,7 +391,50 @@ testthat::test_that(
     )
     testthat::expect_equal(data_cost_gate[["n_pending_candidates"]], 3L)
     testthat::expect_equal(data_cost_gate[["n_agent_candidates"]], 0L)
-    testthat::expect_equal(data_cost_gate[["n_none_proposals"]], 3L)
+    testthat::expect_equal(data_cost_gate[["n_none_proposals"]], 0L)
+    testthat::expect_equal(
+      data_cost_gate[["n_pending_programmatic_candidates"]],
+      3L
+    )
+  }
+)
+
+testthat::test_that(
+  "programmatic triage retains isolated source factors for review",
+  {
+    list_inputs <-
+      list_programmatic_triage_test_inputs
+    data_candidates <-
+      list_inputs[["candidates"]] |>
+      dplyr::slice_head(n = 1L)
+
+    res <-
+      build_trait_review_programmatic_triage(
+        data_candidate_recommendations = data_candidates,
+        data_approved_decisions = list_inputs[["decisions"]],
+        data_proposal_diagnostics = list_inputs[["proposals"]],
+        data_dataset_evidence =
+          dplyr::slice_head(list_inputs[["datasets"]], n = 2L),
+        data_record_evidence =
+          dplyr::slice_head(list_inputs[["records"]], n = 2L),
+        data_agent_adjudications = list_inputs[["adjudications"]],
+        evidence_reference = "triage-report.md",
+        min_source_pattern_candidates = 2L
+      )
+    data_triage <-
+      res[["data_candidate_triage"]]
+
+    testthat::expect_equal(
+      data_triage[["triage_outcome"]],
+      "pending_isolated_source_pattern"
+    )
+    testthat::expect_false(data_triage[["propose_none"]])
+    testthat::expect_false(data_triage[["requires_agent"]])
+    testthat::expect_true(data_triage[["pending_programmatic"]])
+    testthat::expect_equal(
+      res[["data_cost_gate"]][["n_pending_programmatic_candidates"]],
+      1L
+    )
   }
 )
 

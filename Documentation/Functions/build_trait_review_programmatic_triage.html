@@ -1,103 +1,103 @@
-<!DOCTYPE html><html><head><title>R: Build Programmatic Trait Review Triage</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
-<script type="text/javascript">
-const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
-function processMathHTML() {
-    var l = document.getElementsByClassName('reqn');
-    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
-    return;
-}</script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
-    onload="processMathHTML();"></script>
-<link rel="stylesheet" type="text/css" href="R.css" />
-</head><body><div class="container"><main>
-
-<table style="width: 100%;"><tr><td>build_trait_review_programmatic_triage</td><td style="text-align: right;">R Documentation</td></tr></table>
-
-<h2>Build Programmatic Trait Review Triage</h2>
-
-<h3>Description</h3>
-
-<p>Resolves candidates without positive correction evidence to proposed
-no-action decisions and groups reproducible correction hypotheses for
-cost-gated agent investigation.
-</p>
-
-
-<h3>Usage</h3>
-
-<pre><code class='language-R'>build_trait_review_programmatic_triage(
-  data_candidate_recommendations,
-  data_approved_decisions,
-  data_proposal_diagnostics,
-  data_dataset_evidence,
-  data_record_evidence,
-  data_agent_adjudications,
-  evidence_reference,
-  min_source_pattern_candidates = 3L,
-  source_factor_relative_tolerance = 0.25,
-  agent_groups_per_batch = 10L
-)
-</code></pre>
-
-
-<h3>Arguments</h3>
-
-<table role = "presentation">
-<tr><td><code id="data_candidate_recommendations">data_candidate_recommendations</code></td>
-<td>
-<p>Candidate recommendations from [diagnose_trait_review_candidates()].</p>
-</td></tr>
-<tr><td><code id="data_approved_decisions">data_approved_decisions</code></td>
-<td>
-<p>Current canonical decisions from [load_trait_review_decisions()].</p>
-</td></tr>
-<tr><td><code id="data_proposal_diagnostics">data_proposal_diagnostics</code></td>
-<td>
-<p>Recovered selector diagnostics from
-[diagnose_trait_review_candidates()].</p>
-</td></tr>
-<tr><td><code id="data_dataset_evidence">data_dataset_evidence</code></td>
-<td>
-<p>Dataset summaries from [build_trait_review_evidence_packets()].</p>
-</td></tr>
-<tr><td><code id="data_record_evidence">data_record_evidence</code></td>
-<td>
-<p>Record evidence from [build_trait_review_evidence_packets()].</p>
-</td></tr>
-<tr><td><code id="data_agent_adjudications">data_agent_adjudications</code></td>
-<td>
-<p>Completed adjudications. May be a zero-row data frame.</p>
-</td></tr>
-<tr><td><code id="evidence_reference">evidence_reference</code></td>
-<td>
-<p>Non-empty path to the human-readable triage report.</p>
-</td></tr>
-<tr><td><code id="min_source_pattern_candidates">min_source_pattern_candidates</code></td>
-<td>
-<p>Minimum candidates sharing a source/factor pattern before escalation.</p>
-</td></tr>
-<tr><td><code id="source_factor_relative_tolerance">source_factor_relative_tolerance</code></td>
-<td>
-<p>Maximum relative error from factors 10, 100, or 1000.</p>
-</td></tr>
-<tr><td><code id="agent_groups_per_batch">agent_groups_per_batch</code></td>
-<td>
-<p>Maximum exception groups assigned to one initial agent batch.</p>
-</td></tr>
-</table>
-
-
-<h3>Value</h3>
-
-<p>A named list containing candidate triage, proposed no-action decisions,
-exception memberships and groups, a cost-gated agent queue, and summary.
-</p>
-
-</main>
-
-</div>
-</body></html>
+<!DOCTYPE html><html><head><title>R: Build Programmatic Trait Review Triage</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
 
+<table style="width: 100%;"><tr><td>build_trait_review_programmatic_triage</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build Programmatic Trait Review Triage</h2>
+
+<h3>Description</h3>
+
+<p>Proposes no action only after completed investigation, retains unresolved
+evidence for programmatic review, and groups reproducible correction
+hypotheses for cost-gated agent investigation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_trait_review_programmatic_triage(
+  data_candidate_recommendations,
+  data_approved_decisions,
+  data_proposal_diagnostics,
+  data_dataset_evidence,
+  data_record_evidence,
+  data_agent_adjudications,
+  evidence_reference,
+  min_source_pattern_candidates = 3L,
+  source_factor_relative_tolerance = 0.25,
+  agent_groups_per_batch = 10L
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_candidate_recommendations">data_candidate_recommendations</code></td>
+<td>
+<p>Candidate recommendations from [diagnose_trait_review_candidates()].</p>
+</td></tr>
+<tr><td><code id="data_approved_decisions">data_approved_decisions</code></td>
+<td>
+<p>Current canonical decisions from [load_trait_review_decisions()].</p>
+</td></tr>
+<tr><td><code id="data_proposal_diagnostics">data_proposal_diagnostics</code></td>
+<td>
+<p>Recovered selector diagnostics from
+[diagnose_trait_review_candidates()].</p>
+</td></tr>
+<tr><td><code id="data_dataset_evidence">data_dataset_evidence</code></td>
+<td>
+<p>Dataset summaries from [build_trait_review_evidence_packets()].</p>
+</td></tr>
+<tr><td><code id="data_record_evidence">data_record_evidence</code></td>
+<td>
+<p>Record evidence from [build_trait_review_evidence_packets()].</p>
+</td></tr>
+<tr><td><code id="data_agent_adjudications">data_agent_adjudications</code></td>
+<td>
+<p>Completed adjudications. May be a zero-row data frame.</p>
+</td></tr>
+<tr><td><code id="evidence_reference">evidence_reference</code></td>
+<td>
+<p>Non-empty path to the human-readable triage report.</p>
+</td></tr>
+<tr><td><code id="min_source_pattern_candidates">min_source_pattern_candidates</code></td>
+<td>
+<p>Minimum candidates sharing a source/factor pattern before escalation.</p>
+</td></tr>
+<tr><td><code id="source_factor_relative_tolerance">source_factor_relative_tolerance</code></td>
+<td>
+<p>Maximum relative error from factors 10, 100, or 1000.</p>
+</td></tr>
+<tr><td><code id="agent_groups_per_batch">agent_groups_per_batch</code></td>
+<td>
+<p>Maximum exception groups assigned to one initial agent batch.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named list containing candidate triage, completed-investigation no-action
+proposals, pending programmatic cases, exception memberships and groups, a
+cost-gated agent queue, and summary.
+</p>
+
+</main>
+
+</div>
+</body></html>

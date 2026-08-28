@@ -167,6 +167,208 @@ list_triage <-
   )
 data_candidate_triage <-
   list_triage[["data_candidate_triage"]]
+list_programmatic_reconciliation <-
+  build_trait_review_programmatic_reconciliation(
+    data_candidate_triage = data_candidate_triage,
+    data_source_pairs = list_triage[["data_source_pairs"]],
+    data_submission_audit = data_submission_audit,
+    data_record_evidence =
+      list_evidence[["data_record_evidence"]],
+    evidence_reference = evidence_reference
+  )
+data_scale_proposals <-
+  list_programmatic_reconciliation[["data_decision_proposals"]] |>
+  dplyr::filter(.data[["action"]] == "scale") |>
+  dplyr::left_join(
+    list_programmatic_reconciliation[[
+      "data_candidate_reconciliation"
+    ]] |>
+      dplyr::select(
+        -"taxon_name",
+        -"trait_domain_name"
+      ),
+    by = dplyr::join_by(candidate_id)
+  ) |>
+  dplyr::left_join(
+    list_programmatic_reconciliation[["data_proposal_audit"]] |>
+      dplyr::select(
+        "candidate_id",
+        "proposed_record_count"
+      ),
+    by = dplyr::join_by(candidate_id),
+    relationship = "one-to-one"
+  ) |>
+  dplyr::mutate(
+    gap_improvement =
+      .data[["threshold_gap_before"]] -
+        .data[["threshold_gap_after"]]
+  )
+data_threshold_spot_check_pool <-
+  data_scale_proposals |>
+  dplyr::filter(
+    .data[["reconciliation_outcome"]] ==
+      "propose_scale_validated_threshold"
+  ) |>
+  dplyr::arrange(.data[["candidate_id"]]) |>
+  dplyr::group_by(
+    .data[["trait_domain_name"]],
+    .data[["scale_factor"]],
+    .data[["threshold_direction"]]
+  ) |>
+  dplyr::mutate(
+    flag_rule_stratum = dplyr::row_number() == 1L
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::group_by(.data[["trait_domain_name"]]) |>
+  dplyr::mutate(
+    flag_min_records =
+      .data[["proposed_record_count"]] ==
+        base::min(.data[["proposed_record_count"]]),
+    flag_max_records =
+      .data[["proposed_record_count"]] ==
+        base::max(.data[["proposed_record_count"]]),
+    flag_min_gap_before =
+      .data[["threshold_gap_before"]] ==
+        base::min(.data[["threshold_gap_before"]]),
+    flag_max_gap_before =
+      .data[["threshold_gap_before"]] ==
+        base::max(.data[["threshold_gap_before"]]),
+    flag_max_gap_after =
+      .data[["threshold_gap_after"]] ==
+        base::max(.data[["threshold_gap_after"]]),
+    flag_max_impact =
+      .data[["candidate_impact_score"]] ==
+        base::max(.data[["candidate_impact_score"]]),
+    selection_score =
+      100L * .data[["flag_rule_stratum"]] +
+        10L * .data[["flag_min_records"]] +
+        10L * .data[["flag_max_records"]] +
+        5L * .data[["flag_min_gap_before"]] +
+        5L * .data[["flag_max_gap_before"]] +
+        5L * .data[["flag_max_gap_after"]] +
+        5L * .data[["flag_max_impact"]],
+    selection_reason = dplyr::case_when(
+      .data[["flag_rule_stratum"]] ~
+        "Representative of a factor and threshold-direction stratum",
+      .data[["flag_max_records"]] ~
+        "Largest proposed record impact in the trait domain",
+      .data[["flag_min_records"]] ~
+        "Smallest proposed record impact in the trait domain",
+      .data[["flag_max_gap_before"]] ~
+        "Largest before-correction median gap in the trait domain",
+      .data[["flag_min_gap_before"]] ~
+        "Smallest accepted before-correction gap in the trait domain",
+      .data[["flag_max_gap_after"]] ~
+        "Largest residual median gap after correction",
+      .data[["flag_max_impact"]] ~
+        "Highest candidate impact score in the trait domain",
+      TRUE ~ "Stable-hash fill for trait-domain coverage"
+    ),
+    n_domain_cases = dplyr::case_when(
+      .data[["trait_domain_name"]] == "Leaf Area" ~ 9L,
+      .data[["trait_domain_name"]] ==
+        "Leaf nitrogen content per unit mass" ~ 8L,
+      .data[["trait_domain_name"]] == "Plant heigh" ~ 5L,
+      TRUE ~ 0L
+    )
+  ) |>
+  dplyr::arrange(
+    dplyr::desc(.data[["selection_score"]]),
+    .data[["candidate_id"]],
+    .by_group = TRUE
+  ) |>
+  dplyr::filter(dplyr::row_number() <= .data[["n_domain_cases"]]) |>
+  dplyr::ungroup()
+data_source_spot_check_pool <-
+  data_scale_proposals |>
+  dplyr::filter(
+    .data[["reconciliation_outcome"]] ==
+      "propose_scale_corroborated_source"
+  ) |>
+  dplyr::mutate(
+    selection_score = 1000L,
+    selection_reason =
+      "All independently corroborated dataset-specific proposals"
+  )
+data_programmatic_spot_check <-
+  dplyr::bind_rows(
+    data_source_spot_check_pool,
+    data_threshold_spot_check_pool
+  ) |>
+  dplyr::arrange(
+    .data[["trait_domain_name"]],
+    .data[["reconciliation_outcome"]],
+    .data[["scale_factor"]],
+    .data[["candidate_id"]]
+  ) |>
+  dplyr::mutate(
+    spot_check_id = stringr::str_glue(
+      "SC-{stringr::str_pad(dplyr::row_number(), 2L, pad = '0')}"
+    ),
+    reviewer_decision = "",
+    reviewer_notes = ""
+  ) |>
+  dplyr::select(
+    "spot_check_id",
+    "selection_reason",
+    "reviewer_decision",
+    "reviewer_notes",
+    dplyr::everything()
+  )
+data_programmatic_spot_check_records <-
+  list_evidence[["data_record_evidence"]] |>
+  dplyr::inner_join(
+    data_programmatic_spot_check |>
+      dplyr::select(
+        "spot_check_id",
+        "candidate_id",
+        trait_name_rule = "trait_name",
+        dataset_id_rule = "dataset_id",
+        "value_lower",
+        "value_lower_inclusive",
+        "value_upper",
+        "value_upper_inclusive",
+        "scale_factor"
+      ),
+    by = dplyr::join_by(candidate_id),
+    relationship = "many-to-one"
+  ) |>
+  dplyr::mutate(
+    selected_for_scaling =
+      (base::is.na(.data[["trait_name_rule"]]) |
+        .data[["trait_name"]] == .data[["trait_name_rule"]]) &
+      (base::is.na(.data[["dataset_id_rule"]]) |
+        .data[["dataset_id"]] == .data[["dataset_id_rule"]]) &
+      (base::is.na(.data[["value_lower"]]) |
+        .data[["trait_value"]] > .data[["value_lower"]] |
+        (.data[["value_lower_inclusive"]] %in% TRUE &
+          .data[["trait_value"]] == .data[["value_lower"]])) &
+      (base::is.na(.data[["value_upper"]]) |
+        .data[["trait_value"]] < .data[["value_upper"]] |
+        (.data[["value_upper_inclusive"]] %in% TRUE &
+          .data[["trait_value"]] == .data[["value_upper"]])),
+    trait_value_after = dplyr::if_else(
+      .data[["selected_for_scaling"]],
+      .data[["trait_value"]] * .data[["scale_factor"]],
+      .data[["trait_value"]]
+    )
+  )
+assertthat::assert_that(
+  base::nrow(data_programmatic_spot_check) >= 20L,
+  base::nrow(data_programmatic_spot_check) <= 30L,
+  base::all(
+    base::c(
+      "Leaf Area",
+      "Leaf nitrogen content per unit mass",
+      "Plant heigh"
+    ) %in% data_programmatic_spot_check[["trait_domain_name"]]
+  ),
+  base::sum(
+    data_programmatic_spot_check[["reconciliation_outcome"]] ==
+      "propose_scale_corroborated_source"
+  ) == 2L,
+  msg = "The scale-proposal spot check must retain its coverage contract."
+)
 vec_exception_candidate_ids <-
   data_candidate_triage |>
   dplyr::filter(.data[["requires_agent"]]) |>
@@ -190,6 +392,26 @@ list_outputs <-
       list_triage[["data_triage_summary"]],
     trait_review_programmatic_cost_gate =
       list_triage[["data_cost_gate"]],
+    trait_review_programmatic_candidate_reconciliation =
+      list_programmatic_reconciliation[[
+        "data_candidate_reconciliation"
+      ]],
+    trait_review_programmatic_decision_proposals =
+      list_programmatic_reconciliation[[
+        "data_decision_proposals"
+      ]],
+    trait_review_programmatic_proposal_audit =
+      list_programmatic_reconciliation[[
+        "data_proposal_audit"
+      ]],
+    trait_review_programmatic_reconciliation_summary =
+      list_programmatic_reconciliation[[
+        "data_reconciliation_summary"
+      ]],
+    trait_review_programmatic_spot_check =
+      data_programmatic_spot_check,
+    trait_review_programmatic_spot_check_records =
+      data_programmatic_spot_check_records,
     trait_review_programmatic_exception_datasets =
       list_evidence[["data_dataset_evidence"]] |>
       dplyr::filter(
