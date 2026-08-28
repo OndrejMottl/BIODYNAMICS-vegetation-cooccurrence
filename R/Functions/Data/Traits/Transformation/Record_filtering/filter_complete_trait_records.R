@@ -7,7 +7,8 @@
 #' Expected to contain at least `taxon_id`, `trait_domain_name`,
 #' and `trait_value`. Source identifiers are retained when present.
 #' @return
-#' A tibble retaining `dataset_id`, `dataset_name`, `sample_id`,
+#' A tibble retaining `dataset_id`, `dataset_name`, `data_source_id`,
+#' `sample_id`,
 #' `trait_id`, `taxon_id`, and the trait fields when present, with
 #' incomplete taxon identifiers and non-finite values removed.
 #' @details
@@ -30,6 +31,7 @@ filter_complete_trait_records <- function(data_trait_records_raw) {
         base::c(
           "dataset_id",
           "dataset_name",
+          "data_source_id",
           "sample_id",
           "trait_id",
           "taxon_id",

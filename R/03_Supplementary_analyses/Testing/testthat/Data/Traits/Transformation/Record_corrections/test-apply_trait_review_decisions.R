@@ -190,3 +190,71 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "source-satisfied review scales are not applied twice",
+  {
+    data_records <-
+      tibble::tibble(
+        dataset_id = 1L,
+        sample_id = 11L,
+        trait_id = 21L,
+        taxon_id = 31L,
+        taxon_name = "A",
+        trait_domain_name = "Leaf Area",
+        trait_name = "leaf area",
+        trait_value = 10
+      )
+    data_decisions <-
+      tibble::tibble(
+        decision_id = "scale",
+        candidate_id = "candidate",
+        taxon_name = "A",
+        trait_domain_name = "Leaf Area",
+        trait_name = "",
+        dataset_id = NA_integer_,
+        value_lower = NA_real_,
+        value_lower_inclusive = NA,
+        value_upper = 20,
+        value_upper_inclusive = TRUE,
+        action = "scale",
+        scale_factor = 100,
+        review_status = "approved"
+      )
+    data_source_audit <-
+      tibble::tibble(
+        source_scale_rule_id = "source-rule",
+        dataset_id = 1L,
+        sample_id = 11L,
+        trait_id = 21L,
+        taxon_id = 31L,
+        taxon_name = "A",
+        data_source_id = 294L,
+        trait_domain_name = "Leaf Area",
+        trait_name = "leaf area",
+        trait_value_before = 0.1,
+        trait_value_after = 10,
+        scale_factor = 100
+      )
+
+    list_result <-
+      apply_trait_review_decisions(
+        data_trait_records = data_records,
+        data_trait_review_decisions = data_decisions,
+        data_trait_source_scale_record_audit = data_source_audit
+      )
+
+    testthat::expect_equal(
+      list_result[["data_trait_records_corrected"]][["trait_value"]],
+      10
+    )
+    testthat::expect_equal(
+      list_result[["data_correction_audit"]][["n_source_satisfied"]],
+      1L
+    )
+    testthat::expect_equal(
+      list_result[["data_correction_audit"]][["audit_status"]],
+      "source_superseded"
+    )
+  }
+)

@@ -1,0 +1,18 @@
+Load Trait Source Scale Rules
+
+Description:
+
+     Strictly loads the canonical VegVault source-scale rule CSV.
+
+Usage:
+
+     load_trait_source_scale_rules(path_trait_source_scale_rules)
+
+Arguments:
+
+path_trait_source_scale_rules: Character scalar path to a canonical
+          source-scale rule CSV.
+
+Value:
+
+     A typed tibble containing the canonical source-scale rule columns.

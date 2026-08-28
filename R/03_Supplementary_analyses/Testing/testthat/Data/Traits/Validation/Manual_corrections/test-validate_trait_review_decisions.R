@@ -298,3 +298,87 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "validation accepts fully source-satisfied identical scales",
+  {
+    candidate_id <-
+      digest::digest("raw|A|Leaf Area", algo = "sha256", serialize = FALSE)
+    data_candidates <-
+      tibble::tibble(
+        candidate_id = candidate_id,
+        taxon_name = "A",
+        trait_domain_name = "Leaf Area"
+      )
+    data_records <-
+      tibble::tibble(
+        dataset_id = 1L,
+        sample_id = 11L,
+        trait_id = 21L,
+        taxon_id = 31L,
+        taxon_name = "A",
+        trait_domain_name = "Leaf Area",
+        trait_name = "leaf area",
+        trait_value = 10
+      )
+    data_decisions <-
+      tibble::tibble(
+        decision_id = digest::digest(
+          "decision",
+          algo = "sha256",
+          serialize = FALSE
+        ),
+        candidate_id = candidate_id,
+        taxon_name = "A",
+        trait_domain_name = "Leaf Area",
+        trait_name = "",
+        dataset_id = NA_integer_,
+        value_lower = NA_real_,
+        value_lower_inclusive = NA,
+        value_upper = 20,
+        value_upper_inclusive = TRUE,
+        action = "scale",
+        scale_factor = 100,
+        rationale = "Known source-unit mismatch.",
+        evidence_reference = "report",
+        source_reference = "review",
+        review_status = "approved",
+        reviewer = "Reviewer",
+        reviewed_at = "2026-08-28"
+      )
+    data_source_audit <-
+      tibble::tibble(
+        source_scale_rule_id = "source-rule",
+        dataset_id = 1L,
+        sample_id = 11L,
+        trait_id = 21L,
+        taxon_id = 31L,
+        taxon_name = "A",
+        data_source_id = 294L,
+        trait_domain_name = "Leaf Area",
+        trait_name = "leaf area",
+        trait_value_before = 0.1,
+        trait_value_after = 10,
+        scale_factor = 100
+      )
+
+    testthat::expect_no_error(
+      validate_trait_review_decisions(
+        data_trait_review_decisions = data_decisions,
+        data_trait_records = data_records,
+        data_trait_review_candidates = data_candidates,
+        data_trait_source_scale_record_audit = data_source_audit
+      )
+    )
+    testthat::expect_error(
+      validate_trait_review_decisions(
+        data_trait_review_decisions = data_decisions |>
+          dplyr::mutate(scale_factor = 10),
+        data_trait_records = data_records,
+        data_trait_review_candidates = data_candidates,
+        data_trait_source_scale_record_audit = data_source_audit
+      ),
+      regexp = "conflict"
+    )
+  }
+)

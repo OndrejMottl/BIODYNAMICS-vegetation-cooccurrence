@@ -19,8 +19,8 @@
 #   1. file_spatial_grid        - tracks spatial_grid.csv (format="file")
 #   2. data_continental_rows    – filtered to scale == "continental"
 #   3. vec_trait_domain_names   – all trait domains in VegVault
-#   4. data_traits_continent    – per-continent extraction (dynamic branch)
-#   5. data_traits_raw          – all continents combined
+#   4. data_traits_continent    - per-continent extraction (dynamic branch)
+#   5. data_traits_raw          - untouched continents combined
 #
 # NOTE: VegVault.sqlite is NOT tracked as format="file" to avoid
 #   hashing a multi-GB file on every tar_make() call. Re-extraction

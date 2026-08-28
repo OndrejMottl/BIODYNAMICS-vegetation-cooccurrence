@@ -63,6 +63,16 @@ pipe_segment_traits_qc_classified <-
         data_trait_records = data_traits_classified |>
           dplyr::select(-"taxon_name") |>
           dplyr::rename(taxon_name = "taxon_resolved"),
+        data_source_candidates =
+          data_trait_review_decisions_classified |>
+          dplyr::transmute(
+            taxon_name = .data[["taxon_name"]],
+            trait_domain_name = .data[["trait_domain_name"]],
+            source_reference = stringr::str_c(
+              "canonical_decision:",
+              .data[["decision_id"]]
+            )
+          ),
         review_stage = "classified"
       )
     ),
@@ -110,7 +120,9 @@ pipe_segment_traits_qc_classified <-
           dplyr::select(-"taxon_name") |>
           dplyr::rename(taxon_name = "taxon_resolved"),
         data_trait_review_candidates =
-          data_trait_review_candidates_classified
+          data_trait_review_candidates_classified,
+        data_trait_source_scale_record_audit =
+          data_trait_source_scale_record_audit
       )
     ),
 
@@ -122,7 +134,9 @@ pipe_segment_traits_qc_classified <-
           dplyr::select(-"taxon_name") |>
           dplyr::rename(taxon_name = "taxon_resolved"),
         data_trait_review_decisions =
-          data_trait_review_decisions_classified_validated
+          data_trait_review_decisions_classified_validated,
+        data_trait_source_scale_record_audit =
+          data_trait_source_scale_record_audit
       )
     ),
 

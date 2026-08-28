@@ -7,7 +7,11 @@ Description:
 
 Usage:
 
-     apply_trait_review_decisions(data_trait_records, data_trait_review_decisions)
+     apply_trait_review_decisions(
+       data_trait_records,
+       data_trait_review_decisions,
+       data_trait_source_scale_record_audit = NULL
+     )
 
 Arguments:
 
@@ -15,6 +19,9 @@ data_trait_records: Current trait records for one review stage.
 
 data_trait_review_decisions: Validated decisions from
           [validate_trait_review_decisions()].
+
+data_trait_source_scale_record_audit: Optional record-level audit from
+          [apply_trait_source_scale_rules()].
 
 Value:
 

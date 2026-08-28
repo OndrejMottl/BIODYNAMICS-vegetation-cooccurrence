@@ -26,7 +26,11 @@ function processMathHTML() {
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>apply_trait_review_decisions(data_trait_records, data_trait_review_decisions)
+<pre><code class='language-R'>apply_trait_review_decisions(
+  data_trait_records,
+  data_trait_review_decisions,
+  data_trait_source_scale_record_audit = NULL
+)
 </code></pre>
 
 
@@ -40,6 +44,10 @@ function processMathHTML() {
 <tr><td><code id="data_trait_review_decisions">data_trait_review_decisions</code></td>
 <td>
 <p>Validated decisions from [validate_trait_review_decisions()].</p>
+</td></tr>
+<tr><td><code id="data_trait_source_scale_record_audit">data_trait_source_scale_record_audit</code></td>
+<td>
+<p>Optional record-level audit from [apply_trait_source_scale_rules()].</p>
 </td></tr>
 </table>
 

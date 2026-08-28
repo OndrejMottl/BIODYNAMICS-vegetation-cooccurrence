@@ -4,6 +4,7 @@ make_clean_traits <- function() {
   tibble::tibble(
     dataset_id = base::c(10L, 10L, 11L),
     dataset_name = base::c("A", "A", "B"),
+    data_source_id = base::c(294L, 294L, 509L),
     sample_id = base::c(100L, 101L, 102L),
     trait_id = base::c(200L, 201L, 202L),
     taxon_id = base::c(1L, 2L, 3L),
@@ -15,7 +16,7 @@ make_clean_traits <- function() {
 
 path_fake <- "nonexistent.sqlite"
 
-# ── data_trait_records type checks ────────────────────────────────────────────── #
+# ── data_trait_records type checks ─────────────────────────────────── #
 
 testthat::test_that(
   "resolve_trait_taxon_ids() errors when data_trait_records not a data frame",
@@ -139,6 +140,7 @@ testthat::test_that(
         base::c(
           "dataset_id",
           "dataset_name",
+          "data_source_id",
           "sample_id",
           "trait_id",
           "taxon_id"

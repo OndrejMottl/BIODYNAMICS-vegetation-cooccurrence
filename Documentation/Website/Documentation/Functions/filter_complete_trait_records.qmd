@@ -57,7 +57,8 @@ columns without error.
 
 <h3>Value</h3>
 
-<p>A tibble retaining 'dataset_id', 'dataset_name', 'sample_id',
+<p>A tibble retaining 'dataset_id', 'dataset_name', 'data_source_id',
+'sample_id',
 'trait_id', 'taxon_id', and the trait fields when present, with
 incomplete taxon identifiers and non-finite values removed.
 </p>

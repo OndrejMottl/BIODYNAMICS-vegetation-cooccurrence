@@ -11,6 +11,20 @@ This directory separates immutable source material from the reviewed decisions c
 
 ## Canonical decisions
 
+### VegVault source-scale compatibility rules
+
+`trait_source_scale_rules.csv` is an interim, version-guarded compatibility contract applied to untouched VegVault records before taxon-level quality control. It permits only positive finite whole-source scaling factors selected by `data_source_id`, trait domain, and optional exact `trait_name`; taxon selectors and value thresholds are forbidden.
+
+Each row records a stable SHA-256 rule ID, exact VegVault version, exact expected source description, factor, expected current match count, rationale, evidence, status, and human-review metadata. Approved rules fail closed when the latest VegVault version changes, a source identity changes, the expected count changes, a selector is unmatched, or approved rules overlap. This intentional failure is the retirement guard: after a corrected VegVault release, the 1.0.0 compatibility rows must be explicitly removed or replaced.
+
+The approved VegVault 1.0.0 rules convert Leaf Area from cm2 to mm2 for source 294 (`BE_LOW`, 1,324 records) and source 509 (`AlpinePlants_Austria`, 2,308 records), both with factor 100. The immutable extraction remains `data_traits_raw`; `data_traits_source_scaled` contains source-compatible values; `data_traits_corrected` remains the final result after taxon review.
+
+**PROVISIONAL:** All 124,643 TRY-derived Leaf mass per area records remain unchanged because their original units have not been reconstructed. They remain available for this project pending the corrected VegVault release, but this uncertainty must be carried into interpretation.
+
+The durable audit is `Outputs/Reports/Trait_corrections/raw/trait_source_scale_report.md`, with complete counts by source, domain, and taxon in `trait_source_scale_taxon_counts.csv`. Record-level provenance retains VegVault identifiers, old value, new value, and factor. When an approved taxon-scale rule describes records already corrected by an identical source factor, the review layer records those matches as source-satisfied and never scales them twice; a different factor fails validation.
+
+### Taxon review decisions
+
 The pipeline reads two independent review files:
 
 - `trait_review_decisions_raw.csv` applies to raw taxon names before classification.
@@ -77,8 +91,16 @@ Run `R/03_Supplementary_analyses/One_time/Trait_corrections/render_trait_review_
 
 ## Cost-gated programmatic triage
 
-Run `R/03_Supplementary_analyses/One_time/Trait_corrections/run_trait_review_programmatic_triage.R` after recording approved policy decisions. The workflow removes candidates already covered by canonical approvals, incorporates completed adjudications, proposes `none` when structured checks find no positive correction evidence, and groups remaining invalid values, matched recovered selectors, and repeated cross-taxon source-factor patterns. Ordinary `NA` missingness is not an invalid trait value; `NaN`, infinities, and negative observed values remain exceptions, after which finite source-pattern checks still determine whether agent review is needed.
+Run `R/03_Supplementary_analyses/One_time/Trait_corrections/run_trait_review_programmatic_triage.R` after recording approved policy decisions. The workflow removes candidates already covered by canonical approvals and proposes `none` only for completed investigations that support that conclusion. Invalid values, matched recovered selectors, and repeated cross-taxon source-factor patterns enter grouped agent review. Submitted concerns, isolated source-factor hints, recovered proposals, historical drift, and residual unresolved evidence remain explicitly pending programmatic review; failure to find a repeated error pattern is not treated as evidence for `none`. Ordinary `NA` missingness is not an invalid trait value, while `NaN`, infinities, and negative observed values remain exceptions.
 
 Generated CSVs are written under `Data/Temp/Trait_corrections/raw/programmatic_triage/`. The grouped agent queue assigns evidence groups rather than individual candidates and supports one initial reviewer per batch; independent replication and adjudication are reserved for groups that propose an exclusion or scaling rule.
 
+The same runner performs a second deterministic reconciliation of every `pending_programmatic` candidate. It writes candidate-level outcomes, unapproved decision proposals, and a summary with the `trait_review_programmatic_*reconciliation*` and `trait_review_programmatic_decision_proposals.csv` filenames. Threshold-scale proposals require a substantial simulated improvement in current within-candidate agreement. Dataset-specific scale proposals require independent agreement between one archived factor and a current source-median ratio. No proposal is approved or applied by this workflow.
+
 Run `R/03_Supplementary_analyses/One_time/Trait_corrections/render_trait_review_programmatic_triage_report.R` to regenerate `Outputs/Reports/Trait_corrections/raw/trait_review_programmatic_triage_report.md`. The workflow is non-mutating: it does not approve decisions, apply corrections, or launch agents.
+
+The same workflow writes a reproducible 24-case scale-proposal roster and bounded record evidence under `Data/Temp/Trait_corrections/raw/programmatic_triage/`. Render `R/03_Supplementary_analyses/One_time/Trait_corrections/trait_review_programmatic_spot_check_report.qmd` to regenerate `Outputs/Reports/Trait_corrections/raw/trait_review_programmatic_spot_check_report.md`. The report covers every factor-and-direction stratum, all represented trait domains, contrasting record impacts and distribution gaps, and both dataset-specific proposals; it remains a human decision aid and does not approve the 293-rule batch.
+
+Run `R/03_Supplementary_analyses/One_time/Trait_corrections/run_trait_review_spot_check_decision_capture.R` after human review to preserve normalized outcomes in `trait_review_programmatic_spot_check_decisions.csv` and regenerate the temporary stratum assessment. The decision capture preserves the original entered text, records normalization notes, and keeps the reviewed sample separate from canonical correction rules. The report reads this durable CSV on subsequent renders, so reviewed outcomes are not reset to pending.
+
+Run `R/03_Supplementary_analyses/One_time/Trait_corrections/run_trait_review_supported_scale_approval.R` only after explicit project-owner approval of the unanimously supported strata. The runner fails closed against the reviewed 50-rule snapshot, validates the combined canonical decision set against current candidates and records, simulates application, requires exactly 3,301 scaled records with no overlaps, writes the canonical decisions only after those checks pass, and records the per-rule audit at `Outputs/Reports/Trait_corrections/raw/trait_review_supported_scale_approval_audit.csv`.

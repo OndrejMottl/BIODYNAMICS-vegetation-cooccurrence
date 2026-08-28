@@ -8,13 +8,16 @@
 #' Current trait records for the review stage.
 #' @param data_trait_review_candidates
 #' Current candidates from [build_trait_review_candidates()].
+#' @param data_trait_source_scale_record_audit
+#' Optional record-level audit from [apply_trait_source_scale_rules()].
 #' @return
 #' A tibble containing validated review decisions.
 #' @export
 validate_trait_review_decisions <- function(
     data_trait_review_decisions,
     data_trait_records,
-    data_trait_review_candidates) {
+    data_trait_review_candidates,
+    data_trait_source_scale_record_audit = NULL) {
   assertthat::assert_that(
     base::is.data.frame(data_trait_review_decisions),
     base::is.data.frame(data_trait_records),
@@ -314,6 +317,84 @@ validate_trait_review_decisions <- function(
   correction_rules <-
     data_trait_review_decisions |>
     dplyr::filter(.data[["action"]] != "none")
+  record_id_columns <-
+    base::c("dataset_id", "sample_id", "trait_id", "taxon_id")
+  flag_use_source_audit <-
+    !base::is.null(data_trait_source_scale_record_audit) &&
+    base::nrow(data_trait_source_scale_record_audit) > 0L
+  if (
+    flag_use_source_audit
+  ) {
+    source_audit_columns <-
+      base::c(
+        record_id_columns,
+        "taxon_name",
+        "trait_domain_name",
+        "trait_name",
+        "trait_value_before",
+        "trait_value_after",
+        "scale_factor"
+      )
+    assertthat::assert_that(
+      base::is.data.frame(data_trait_source_scale_record_audit),
+      base::all(record_id_columns %in% base::names(data_trait_records)),
+      base::all(
+        source_audit_columns %in%
+          base::names(data_trait_source_scale_record_audit)
+      ),
+      msg = "Source-scale audit is missing required record provenance."
+    )
+    vec_current_record_keys <-
+      stringr::str_c(
+        data_trait_records[["dataset_id"]],
+        data_trait_records[["sample_id"]],
+        data_trait_records[["trait_id"]],
+        data_trait_records[["taxon_id"]],
+        sep = "|"
+      )
+    vec_source_record_keys <-
+      stringr::str_c(
+        data_trait_source_scale_record_audit[["dataset_id"]],
+        data_trait_source_scale_record_audit[["sample_id"]],
+        data_trait_source_scale_record_audit[["trait_id"]],
+        data_trait_source_scale_record_audit[["taxon_id"]],
+        sep = "|"
+      )
+    assertthat::assert_that(
+      !base::anyDuplicated(vec_current_record_keys),
+      !base::anyDuplicated(vec_source_record_keys),
+      msg = "Source reconciliation requires unique record identifiers."
+    )
+    source_is_current <-
+      vec_source_record_keys %in% vec_current_record_keys
+    data_source_audit_current <-
+      data_trait_source_scale_record_audit[
+        source_is_current,
+        ,
+        drop = FALSE
+      ]
+    vec_source_record_keys_current <-
+      vec_source_record_keys[source_is_current]
+    current_index <-
+      base::match(
+        vec_source_record_keys_current,
+        vec_current_record_keys
+      )
+    data_source_audit_current[["taxon_name"]] <-
+      data_trait_records[["taxon_name"]][current_index]
+    data_source_audit_current[["trait_domain_name"]] <-
+      data_trait_records[["trait_domain_name"]][current_index]
+    if (
+      "trait_name" %in% base::names(data_trait_records)
+    ) {
+      data_source_audit_current[["trait_name"]] <-
+        data_trait_records[["trait_name"]][current_index]
+    }
+  } else {
+    vec_current_record_keys <- character()
+    data_source_audit_current <- tibble::tibble()
+    vec_source_record_keys_current <- character()
+  }
   matched_record_ids <-
     base::vector("list", base::nrow(correction_rules))
   for (rule_index in base::seq_len(base::nrow(correction_rules))) {
@@ -353,12 +434,107 @@ validate_trait_review_decisions <- function(
       }
     }
     is_match[base::is.na(is_match)] <- FALSE
-    matched_record_ids[[rule_index]] <- base::which(is_match)
+    current_match_ids <- base::which(is_match)
+    if (
+      flag_use_source_audit && rule[["action"]][[1L]] == "scale"
+    ) {
+      source_pre_match <-
+        data_source_audit_current[["taxon_name"]] ==
+          rule[["taxon_name"]][[1L]] &
+        data_source_audit_current[["trait_domain_name"]] ==
+          rule[["trait_domain_name"]][[1L]]
+      if (
+        !base::is.na(trait_name) && trait_name != ""
+      ) {
+        source_pre_match <-
+          source_pre_match &
+          data_source_audit_current[["trait_name"]] == trait_name
+      }
+      if (
+        !base::is.na(dataset_id)
+      ) {
+        source_pre_match <-
+          source_pre_match &
+          data_source_audit_current[["dataset_id"]] == dataset_id
+      }
+      if (
+        !base::is.na(lower)
+      ) {
+        if (
+          base::isTRUE(rule[["value_lower_inclusive"]][[1L]])
+        ) {
+          source_pre_match <-
+            source_pre_match &
+            data_source_audit_current[["trait_value_before"]] >= lower
+        } else {
+          source_pre_match <-
+            source_pre_match &
+            data_source_audit_current[["trait_value_before"]] > lower
+        }
+      }
+      if (
+        !base::is.na(upper)
+      ) {
+        if (
+          base::isTRUE(rule[["value_upper_inclusive"]][[1L]])
+        ) {
+          source_pre_match <-
+            source_pre_match &
+            data_source_audit_current[["trait_value_before"]] <= upper
+        } else {
+          source_pre_match <-
+            source_pre_match &
+            data_source_audit_current[["trait_value_before"]] < upper
+        }
+      }
+      source_pre_match[base::is.na(source_pre_match)] <- FALSE
+      vec_current_match_keys <-
+        vec_current_record_keys[current_match_ids]
+      source_current_match <-
+        vec_source_record_keys_current %in% vec_current_match_keys
+      source_relevant <- source_pre_match | source_current_match
+      source_factors <-
+        data_source_audit_current[["scale_factor"]][source_relevant]
+      if (
+        base::any(
+          source_factors != rule[["scale_factor"]][[1L]]
+        )
+      ) {
+        cli::cli_abort(
+          "A taxon-scale factor conflicts with source scaling."
+        )
+      }
+      vec_source_satisfied_keys <-
+        vec_source_record_keys_current[source_relevant]
+      current_match_ids <-
+        current_match_ids[
+          !vec_current_record_keys[current_match_ids] %in%
+            vec_source_satisfied_keys
+        ]
+      attr(current_match_ids, "n_source_satisfied") <-
+        base::length(vec_source_satisfied_keys)
+    }
+    matched_record_ids[[rule_index]] <- current_match_ids
   }
 
+  vec_source_satisfied_counts <-
+    purrr::map_int(
+      matched_record_ids,
+      function(vec_record_ids) {
+        n_source_satisfied <-
+          attr(vec_record_ids, "n_source_satisfied")
+        if (
+          base::is.null(n_source_satisfied)
+        ) {
+          return(0L)
+        }
+        return(base::as.integer(n_source_satisfied))
+      }
+    )
   if (
     base::any(
-      base::lengths(matched_record_ids) == 0L
+      base::lengths(matched_record_ids) +
+        vec_source_satisfied_counts == 0L
     )
   ) {
     cli::cli_abort(

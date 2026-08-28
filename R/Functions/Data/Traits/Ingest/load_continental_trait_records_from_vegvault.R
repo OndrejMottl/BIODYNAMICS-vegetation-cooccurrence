@@ -20,7 +20,8 @@
 #' all console output.
 #' @return
 #' A tibble containing `taxon_name`, source identifiers (`dataset_id`,
-#' `dataset_name`, `sample_id`, `trait_id`, and `taxon_id`), and the
+#' `dataset_name`, `data_source_id`, `sample_id`, `trait_id`, and
+#' `taxon_id`), and the
 #' cleaned trait fields for the supplied continental unit.
 #' @details
 #' The function performs the following steps:

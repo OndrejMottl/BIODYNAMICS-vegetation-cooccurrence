@@ -9,7 +9,7 @@ Description:
 Usage:
 
      filter_complete_trait_records(data_trait_records_raw)
-     
+
 Arguments:
 
 data_trait_records_raw: A data frame returned by
@@ -25,11 +25,11 @@ Details:
 
 Value:
 
-     A tibble retaining `dataset_id`, `dataset_name`, `sample_id`,
-     `trait_id`, `taxon_id`, and the trait fields when present, with
-     incomplete taxon identifiers and non-finite values removed.
+     A tibble retaining `dataset_id`, `dataset_name`, `data_source_id`,
+     `sample_id`, `trait_id`, `taxon_id`, and the trait fields when
+     present, with incomplete taxon identifiers and non-finite values
+     removed.
 
 See Also:
 
      [load_trait_records_from_vegvault()], [resolve_trait_taxon_ids()]
-

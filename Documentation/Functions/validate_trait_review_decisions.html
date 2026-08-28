@@ -30,7 +30,8 @@ and correction-rule conflicts against current trait records.
 <pre><code class='language-R'>validate_trait_review_decisions(
   data_trait_review_decisions,
   data_trait_records,
-  data_trait_review_candidates
+  data_trait_review_candidates,
+  data_trait_source_scale_record_audit = NULL
 )
 </code></pre>
 
@@ -49,6 +50,10 @@ and correction-rule conflicts against current trait records.
 <tr><td><code id="data_trait_review_candidates">data_trait_review_candidates</code></td>
 <td>
 <p>Current candidates from [build_trait_review_candidates()].</p>
+</td></tr>
+<tr><td><code id="data_trait_source_scale_record_audit">data_trait_source_scale_record_audit</code></td>
+<td>
+<p>Optional record-level audit from [apply_trait_source_scale_rules()].</p>
 </td></tr>
 </table>
 

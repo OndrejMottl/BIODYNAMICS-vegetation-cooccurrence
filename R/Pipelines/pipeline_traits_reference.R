@@ -18,8 +18,9 @@
 #     extracts raw trait data from VegVault per continent.
 #
 #   Segment 2 — pipe_segment_traits_qc
-#     Builds raw review candidates, enforces complete human approval,
-#     applies exact correction selectors, and records an audit.
+#     Applies version-guarded source scaling before raw quality control,
+#     builds review candidates, enforces complete human approval,
+#     applies exact residual selectors, and records both audits.
 #
 #   Segment 3 — pipe_segment_traits_classification
 #     Classifies all trait taxa via taxospace and resolves each
@@ -52,6 +53,7 @@
 #       (same file used by the community pipeline — one edit covers both)
 #
 #   Segment 2 — review:
+#     Data/Input/Trait_corrections/trait_source_scale_rules.csv
 #     Data/Temp/Trait_corrections/raw/trait_review_candidates.csv
 #     Outputs/Reports/Trait_corrections/raw/
 #     Data/Input/Trait_corrections/trait_review_decisions_raw.csv

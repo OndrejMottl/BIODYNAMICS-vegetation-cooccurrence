@@ -11,7 +11,8 @@ Usage:
      validate_trait_review_decisions(
        data_trait_review_decisions,
        data_trait_records,
-       data_trait_review_candidates
+       data_trait_review_candidates,
+       data_trait_source_scale_record_audit = NULL
      )
 
 Arguments:
@@ -23,6 +24,9 @@ data_trait_records: Current trait records for the review stage.
 
 data_trait_review_candidates: Current candidates from
           [build_trait_review_candidates()].
+
+data_trait_source_scale_record_audit: Optional record-level audit from
+          [apply_trait_source_scale_rules()].
 
 Value:
 

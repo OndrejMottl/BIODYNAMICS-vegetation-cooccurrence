@@ -23,8 +23,9 @@
 #' applied.
 #' @return
 #' A flat data frame containing loaded trait records with columns
-#' including `dataset_id`, `dataset_name`, `sample_id`, `trait_id`,
-#' `taxon_id`, `trait_domain_name`, `trait_name`, and `trait_value`.
+#' including `dataset_id`, `dataset_name`, `data_source_id`, `sample_id`,
+#' `trait_id`, `taxon_id`, `trait_domain_name`, `trait_name`, and
+#' `trait_value`.
 #' @details
 #' The function performs the following steps:
 #'
@@ -163,6 +164,40 @@ load_trait_records_from_vegvault <- function(
       return_raw_data = TRUE,
       verbose = FALSE
     )
+
+  connection_vegvault <-
+    DBI::dbConnect(RSQLite::SQLite(), path_vegvault)
+  base::on.exit(
+    DBI::dbDisconnect(connection_vegvault),
+    add = TRUE
+  )
+  data_dataset_sources <-
+    DBI::dbGetQuery(
+      connection_vegvault,
+      "SELECT dataset_id, data_source_id FROM Datasets"
+    ) |>
+    dplyr::filter(
+      .data[["dataset_id"]] %in% data_trait_records[["dataset_id"]]
+    )
+  assertthat::assert_that(
+    !base::anyDuplicated(data_dataset_sources[["dataset_id"]]),
+    msg = "Each VegVault dataset must map to exactly one data source."
+  )
+  n_records_before_join <- base::nrow(data_trait_records)
+  data_trait_records <-
+    data_trait_records |>
+    dplyr::select(-dplyr::any_of("data_source_id")) |>
+    dplyr::left_join(
+      data_dataset_sources,
+      by = dplyr::join_by(dataset_id)
+    )
+  assertthat::assert_that(
+    base::nrow(data_trait_records) == n_records_before_join,
+    !base::any(base::is.na(data_trait_records[["data_source_id"]])),
+    msg = paste0(
+      "Dataset-to-source resolution must not multiply or lose records."
+    )
+  )
 
   return(data_trait_records)
 }

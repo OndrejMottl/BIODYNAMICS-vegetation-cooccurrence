@@ -80,6 +80,7 @@ resolve_trait_taxon_ids <- function(
         base::c(
           "dataset_id",
           "dataset_name",
+          "data_source_id",
           "sample_id",
           "trait_id",
           "taxon_id",
