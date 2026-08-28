@@ -33,6 +33,29 @@ vec_function_files <-
   ) |>
   base::sort()
 
+text_selected_functions <-
+  base::Sys.getenv("BIODYNAMICS_DOCUMENT_FUNCTIONS", unset = "")
+flag_selective_generation <-
+  base::nzchar(text_selected_functions)
+if (
+  flag_selective_generation
+) {
+  vec_selected_function_names <-
+    text_selected_functions |>
+    stringr::str_split_1(pattern = ",") |>
+    stringr::str_trim()
+  vec_function_files <-
+    vec_function_files[
+      fs::path_ext_remove(fs::path_file(vec_function_files)) %in%
+        vec_selected_function_names
+    ]
+  assertthat::assert_that(
+    base::length(vec_function_files) ==
+      base::length(vec_selected_function_names),
+    msg = "Every selectively requested function must exist."
+  )
+}
+
 vec_function_names <-
   vec_function_files |>
   fs::path_file() |>
@@ -85,6 +108,15 @@ purrr::walk(
         type = "file",
         regexp = stringr::str_c("[.]", .x[["extension"]], "$")
       )
+    if (
+      flag_selective_generation
+    ) {
+      vec_artifacts <-
+        vec_artifacts[
+          fs::path_ext_remove(fs::path_file(vec_artifacts)) %in%
+            vec_function_names
+        ]
+    }
     if (base::length(vec_artifacts) > 0L) {
       fs::file_delete(vec_artifacts)
     }
@@ -96,16 +128,72 @@ purrr::walk(
 purrr::walk(
   .x = vec_function_files,
   .f = ~ {
+    path_working_directory <-
+      base::tempfile(pattern = "document_function_")
+    path_package_name <-
+      .x |>
+      fs::path_file() |>
+      fs::path_ext_remove() |>
+      stringr::str_replace_all("_", ".")
+    path_package_directory <-
+      base::file.path(path_working_directory, path_package_name)
+    path_manual_directory <-
+      base::file.path(path_package_directory, "man")
+    base::dir.create(
+      path_working_directory,
+      recursive = TRUE,
+      showWarnings = FALSE
+    )
+    base::on.exit(
+      base::unlink(path_working_directory, recursive = TRUE),
+      add = TRUE
+    )
+    vec_roxygen_code <-
+      fritools::get_lines_between_tags(.x)
+    path_code_file <-
+      base::file.path(path_working_directory, "code.R")
+    base::writeLines(vec_roxygen_code, con = path_code_file)
+    base::suppressMessages(
+      utils::package.skeleton(
+        code_files = path_code_file,
+        name = path_package_name,
+        path = path_working_directory,
+        force = TRUE,
+        encoding = "UTF-8"
+      )
+    )
+    base::file.remove(path_code_file)
+    base::file.remove(
+      base::list.files(path_manual_directory, full.names = TRUE)
+    )
+    base::file.remove(
+      base::file.path(path_package_directory, "NAMESPACE")
+    )
+    utils::capture.output(
+      roxygen2::roxygenize(package.dir = path_package_directory)
+    )
+    fun_write_documentation <-
+      utils::getFromNamespace("write_the_docs", "document")
     generation_result <-
-      document::document(
+      fun_write_documentation(
+        package_directory = path_package_directory,
         file_name = .x,
-        check_package = FALSE,
         output_directory = path_function_documents
       )
 
+    path_expected_html <-
+      base::file.path(
+        path_function_documents,
+        stringr::str_c(fs::path_ext_remove(fs::path_file(.x)), ".html")
+      )
+    path_expected_txt <-
+      base::file.path(
+        path_function_documents,
+        stringr::str_c(fs::path_ext_remove(fs::path_file(.x)), ".txt")
+      )
     if (
-      base::is.null(generation_result[["html_path"]]) ||
-        base::is.null(generation_result[["txt_path"]])
+      !base::file.exists(path_expected_html) ||
+        !base::file.exists(path_expected_txt)
     ) {
       cli::cli_abort(
         message = "Function documentation failed for {.x}.",
