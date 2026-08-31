@@ -1,0 +1,229 @@
+---
+title: "Trait pipeline analysis-readiness review"
+date: "2026-08-31"
+format: gfm
+---
+
+```{r setup, include=FALSE}
+Sys.setenv(R_CONFIG_ACTIVE = "project_traits_reference")
+source(here::here("R/___setup_project___.R"))
+
+path_output_directory <-
+  here::here(
+    "Outputs/Reports/Trait_corrections/analysis_readiness"
+  )
+path_trait_store <-
+  resolve_pipeline_store_path(
+    pipeline_script = "pipeline_traits_reference.R"
+  )
+list_source_diagnostics <-
+  targets::tar_read_raw(
+    name = "list_trait_source_anomaly_diagnostics",
+    store = path_trait_store
+  )
+data_traits <-
+  targets::tar_read_raw(
+    name = "data_traits_classified_corrected",
+    store = path_trait_store
+  )
+
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_paleo")
+path_paleo_store <-
+  resolve_pipeline_store_path(
+    pipeline_script = "pipeline_paleo_resolution_test.R"
+  )
+list_paleo_readiness <-
+  targets::tar_read_raw(
+    name = "list_trait_matrix_readiness_continental",
+    store = path_paleo_store
+  )
+
+Sys.setenv(R_CONFIG_ACTIVE = "project_cz_modern")
+path_modern_store <-
+  resolve_pipeline_store_path(
+    pipeline_script = "pipeline_modern_spatial_resolution_test.R",
+    store_suffix = "eu_r005_l014"
+  )
+list_modern_readiness <-
+  targets::tar_read_raw(
+    name = "list_trait_matrix_readiness_continental",
+    store = path_modern_store
+  )
+
+data_source_anomalies <-
+  list_source_diagnostics[["data_source_anomalies"]]
+data_strict_source_anomalies <-
+  data_source_anomalies |>
+  dplyr::filter(
+    .data[["flag_cross_source_corroborated"]],
+    .data[["flag_global_log_outlier"]],
+    .data[["n_records"]] >= 5,
+    .data[["cross_source_factor_relative_error"]] <= 0.05,
+    .data[["suggested_scale_factor"]] %in% 10^(-4:4)
+  )
+data_source_focus <-
+  data_traits |>
+  dplyr::filter(
+    .data[["trait_domain_name"]] == "Stem specific density",
+    .data[["data_source_id"]] %in% base::c(123L, 137L, 660L)
+  ) |>
+  dplyr::group_by(.data[["data_source_id"]]) |>
+  dplyr::summarise(
+    n_records = dplyr::n(),
+    n_taxa = dplyr::n_distinct(.data[["taxon_resolved"]]),
+    value_minimum = base::min(.data[["trait_value"]]),
+    value_median = stats::median(.data[["trait_value"]]),
+    value_maximum = base::max(.data[["trait_value"]]),
+    .groups = "drop"
+  ) |>
+  dplyr::left_join(
+    tibble::tribble(
+      ~data_source_id,
+      ~source_description,
+      ~investigation_hypothesis,
+      123L,
+      "Global A, N, P, SLA Database",
+      "Possible x0.001 correction",
+      137L,
+      "Plant Traits From Spanish Mediteranean shrublands",
+      "Possible x100 correction; verify source subsets",
+      660L,
+      "El-Kassaby YA",
+      "Strong x1000 correction candidate"
+    ),
+    by = dplyr::join_by(data_source_id),
+    relationship = "many-to-one"
+  ) |>
+  dplyr::relocate(
+    "source_description",
+    "investigation_hypothesis",
+    .after = "data_source_id"
+  )
+
+readr::write_csv(
+  data_source_anomalies,
+  base::file.path(
+    path_output_directory,
+    "trait_source_anomalies_diagnostic.csv"
+  )
+)
+readr::write_csv(
+  data_strict_source_anomalies,
+  base::file.path(
+    path_output_directory,
+    "trait_source_anomalies_strict.csv"
+  )
+)
+readr::write_csv(
+  list_paleo_readiness[["data_domain_summary"]],
+  base::file.path(path_output_directory, "paleo_domain_readiness.csv")
+)
+readr::write_csv(
+  list_paleo_readiness[["data_taxon_anomalies"]],
+  base::file.path(path_output_directory, "paleo_taxon_anomalies.csv")
+)
+readr::write_csv(
+  list_modern_readiness[["data_domain_summary"]],
+  base::file.path(path_output_directory, "modern_domain_readiness.csv")
+)
+readr::write_csv(
+  list_modern_readiness[["data_taxon_anomalies"]],
+  base::file.path(path_output_directory, "modern_taxon_anomalies.csv")
+)
+
+data_domain_columns <-
+  base::c(
+    "trait_domain_name",
+    "transformation",
+    "n_taxa",
+    "n_present",
+    "n_missing",
+    "missing_fraction",
+    "value_minimum_raw",
+    "value_median_raw",
+    "value_maximum_raw"
+  )
+data_anomaly_columns <-
+  base::c(
+    "taxon_name",
+    "trait_domain_name",
+    "trait_value_raw",
+    "trait_value_prepared",
+    "anomaly_direction"
+  )
+```
+
+# Decision summary
+
+**Do not start the complete main-results reanalysis yet.** The correction pipeline, both review gates, the six-domain trait table, and the paleo and modern functional-type smoke pipelines all complete. However, the new analysis-readiness checks show unresolved unit-scale heterogeneity in traits that would directly affect Gower distances and functional-type assignments.
+
+The pipeline is computationally operational but the all-six-trait input is not yet scientifically ready for the definitive reanalysis.
+
+# What was run
+
+- The terminal trait targets and both durable review reports were rebuilt in the existing traits store; cached extraction and classification branches were retained.
+- All six traits were included in the paleo and modern functional-type smoke pipelines.
+- Diaspore mass, Leaf Area, Leaf mass per area, and Plant heigh were transformed with `log10`; Leaf nitrogen content per unit mass and Stem specific density remained on their identity scales.
+- Source/taxon anomalies were diagnosed without changing or approving any additional data.
+
+# Smoke-test results
+
+The paleo smoke matched 58 community taxa to traits and completed functional-type classification. Its readiness check found `r base::nrow(list_paleo_readiness[["data_taxon_anomalies"]])` robust taxon-domain extremes.
+
+```{r paleo-summary, echo=FALSE, results='asis'}
+knitr::kable(
+  list_paleo_readiness[["data_domain_summary"]][data_domain_columns],
+  digits = 4
+)
+```
+
+```{r paleo-anomalies, echo=FALSE, results='asis'}
+knitr::kable(
+  list_paleo_readiness[["data_taxon_anomalies"]][data_anomaly_columns],
+  digits = 5
+)
+```
+
+The modern smoke matched 565 community taxa to traits and completed functional-type classification. Its readiness check found `r base::nrow(list_modern_readiness[["data_taxon_anomalies"]])` robust taxon-domain extremes. Stem specific density was present for only `r base::sum(!base::is.na(targets::tar_read_raw(name = "data_community_taxon_traits", store = path_modern_store)[["Stem specific density"]]))` of 565 matched taxa, so its missingness is also a material trait-specific limitation.
+
+```{r modern-summary, echo=FALSE, results='asis'}
+knitr::kable(
+  list_modern_readiness[["data_domain_summary"]][data_domain_columns],
+  digits = 4
+)
+```
+
+```{r modern-anomalies, echo=FALSE, results='asis'}
+knitr::kable(
+  list_modern_readiness[["data_taxon_anomalies"]][data_anomaly_columns],
+  digits = 5
+)
+```
+
+# Strongest newly exposed source problems
+
+The broad diagnostic produced `r base::nrow(data_source_anomalies)` prioritization rows. These are not correction candidates and must not be batch-approved. A deliberately strict filter requiring both cross-source corroboration and a global log-scale outlier produced only `r base::nrow(data_strict_source_anomalies)` rows, but that filter can miss genuine errors when the observed ratio is not close enough to an exact power of ten.
+
+Stem specific density has three especially important source patterns:
+
+```{r source-focus, echo=FALSE, results='asis'}
+knitr::kable(data_source_focus, digits = 6)
+```
+
+- Source 660 is the clearest immediate issue. Its 1,120 *Picea glauca* records have median 0.000332 while independent observations have median about 0.465. A ×1000 source-trait correction would move the source median to about 0.332. This source causes the paleo *Picea* aggregate of 0.000335.
+- Source 123 contains stem-density values of 350–650, including the final *Tsuga heterophylla* value of 450. These are consistent with values recorded in kg/m3 rather than g/cm3 and therefore with a ×0.001 conversion, but the source must be checked before approval.
+- Source 137 contains many stem-density values around 0.005–0.008 where independent sources are around 0.5–0.7. A ×100 hypothesis is strong for part of the source, but its full 0.000423–2.96 range means source subsets or trait-name variants must be checked before using a whole-source rule.
+
+# Other scientific limitations
+
+Leaf mass per area remains provisional. Its final taxon medians span approximately 0.0000169 to 2,975, and the modern matrix contains high values for *Cladium* and *Pseudorchis* against a global median near 0.0134. Log transformation limits numerical domination but does not reconstruct or harmonize the original units.
+
+Leaf nitrogen content per unit mass also shows values on incompatible-looking scales: the final taxon medians span approximately 0.0154 to 56.7, and both smoke matrices contain high extremes. This should be investigated as a possible fraction-versus-percent or mass-unit issue rather than treated as biological variation by default.
+
+The smoke classifications are therefore implementation evidence only. They are not approved scientific outputs for the complete reanalysis.
+
+# Recommended next decision
+
+The smallest defensible next step is a focused source-unit repair, not another taxon-by-taxon review. Investigate and, if confirmed, approve source-trait rules for stem density sources 660, 123, and the appropriate subsets of 137. In parallel, decide whether Leaf mass per area and Leaf nitrogen content can be normalized from source metadata or must be temporarily excluded from functional-type distances. Because the current requirement is to include all six traits, the definitive reanalysis should wait until those two domains have a documented unit contract.
+
+No new correction was applied by this review, and no main analysis store was invalidated.
