@@ -933,6 +933,15 @@ Treat `R/Functions/Pipeline/Configuration/` as the project boundary around `{con
 - edit human-authored files under `Configuration/`, then run `R/03_Supplementary_analyses/Validation/Configuration/Generate_configuration.R` to regenerate the tracked root `config.yml` and profile catalog;
 - run `Check_configuration.R` from the same directory to fail on generated drift.
 
+## renv Lockfile Management
+
+- Never edit, patch, mechanically rewrite, re-encode, or otherwise modify `renv.lock` with an editor, script, formatter, search-and-replace tool, or generic file-writing tool.
+- Make package-library changes with `{renv}` functions such as `renv::install()`, `renv::remove()`, and `renv::restore()`. Any intended `renv.lock` write must be performed by `{renv}`, normally with `renv::snapshot()` or, when deliberately recording explicit package metadata, `renv::record()`.
+- Run lockfile-changing `{renv}` commands from the repository root in a fresh R session so the active project and library are unambiguous.
+- Do not run `renv::snapshot()` merely to silence an out-of-sync warning or capture unrelated local-library drift. Review `renv::status()` first and scope the snapshot to the intended dependency change.
+- After an intended lockfile update, inspect `git diff -- renv.lock`, verify that only the intended packages and metadata changed, and confirm in a fresh R session that `{renv}` can parse the lockfile. Report and explain any remaining `renv::status()` discrepancies.
+- If `{renv}` cannot parse `renv.lock`, stop and diagnose the file bytes, encoding, Git state, and R session. Restore a known-good tracked copy when appropriate; never attempt to repair the lockfile by rewriting it directly.
+
 ## Visualisation Conventions
 
 # Visualisation Guidelines

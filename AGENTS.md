@@ -7,7 +7,7 @@ This file is the universal entry point for coding assistants working in this rep
 | Task | Read first |
 |---|---|
 | Any repository work | `AGENTS.md` |
-| R scripts, pipelines, modelling, data processing, visualisation | `.ai/r-coding.md` |
+| R scripts, pipelines, modelling, data processing, visualisation, package dependencies, `{renv}`, or `renv.lock` | `.ai/r-coding.md` |
 | R functions, roxygen2 docs, function tests | `.ai/r-functions.md`, `.ai/r-coding.md` |
 | Creating or renaming R functions, files, objects, targets, keys, or persisted contracts | `.ai/r-coding.md`, then `Documentation/Implementation_inventories/R_architecture/r_naming_decisions_v1.md` |
 | Git, branches, worktrees, commits, review workflow | `.ai/git-workflow.md` |
