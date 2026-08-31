@@ -1,0 +1,39 @@
+Build Grouped Trait Review Investigation
+
+Description:
+
+     Resolves investigated candidates without source-level support to
+     approved no-action decisions. Candidates affected by proposed
+     source-scale rules remain pending; candidates covered by approved
+     source rules are closed as requiring no additional taxon-specific
+     action.
+
+Usage:
+
+     build_trait_review_grouped_investigation(
+       data_trait_review_exceptions,
+       data_candidate_source_memberships,
+       data_source_scale_proposals,
+       reviewer,
+       reviewed_at,
+       evidence_reference
+     )
+
+Arguments:
+
+data_trait_review_exceptions: Unresolved review candidates.
+
+data_candidate_source_memberships: Candidate-to-source memberships.
+
+data_source_scale_proposals: Proposed or approved source-scale rules.
+
+reviewer: Name of the approving human reviewer.
+
+reviewed_at: ISO review date.
+
+evidence_reference: Path to the durable investigation report.
+
+Value:
+
+     A named list containing the investigation audit, approved
+     no-action decisions, pending candidates, and an outcome summary.

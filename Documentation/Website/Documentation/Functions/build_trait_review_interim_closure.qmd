@@ -1,0 +1,90 @@
+---
+format: html
+title: build_trait_review_interim_closure()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_trait_review_interim_closure</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build Interim Trait Review Closure</h2>
+
+<h3>Description</h3>
+
+<p>Converts fully investigated candidates without objective correction evidence
+into approved no-action decisions. Nonpositive invalid values become narrow
+exclusions, while corroborated scale or source patterns remain exceptions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_trait_review_interim_closure(
+  data_trait_review_candidates,
+  data_trait_review_decisions,
+  data_candidate_triage,
+  data_candidate_reconciliation,
+  reviewer,
+  reviewed_at,
+  evidence_reference
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_trait_review_candidates">data_trait_review_candidates</code></td>
+<td>
+<p>Current trait-review candidates.</p>
+</td></tr>
+<tr><td><code id="data_trait_review_decisions">data_trait_review_decisions</code></td>
+<td>
+<p>Existing trait-review decisions.</p>
+</td></tr>
+<tr><td><code id="data_candidate_triage">data_candidate_triage</code></td>
+<td>
+<p>Programmatic candidate triage.</p>
+</td></tr>
+<tr><td><code id="data_candidate_reconciliation">data_candidate_reconciliation</code></td>
+<td>
+<p>Programmatic reconciliation results.</p>
+</td></tr>
+<tr><td><code id="reviewer">reviewer</code></td>
+<td>
+<p>Name of the approving human reviewer.</p>
+</td></tr>
+<tr><td><code id="reviewed_at">reviewed_at</code></td>
+<td>
+<p>ISO review date.</p>
+</td></tr>
+<tr><td><code id="evidence_reference">evidence_reference</code></td>
+<td>
+<p>Path to the durable closure report.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named list containing the closure audit, new approved decisions,
+unresolved exceptions, and a closure summary.
+</p>
+
+</main>
+
+</div>
+</body></html>

@@ -34,8 +34,8 @@ flowchart TD
 | reference | 13 |
 | scientific_reference | 2 |
 | sensitivity | 1 |
-| supplementary_or_processing | 32 |
-| test | 395 |
+| supplementary_or_processing | 37 |
+| test | 402 |
 
 ## Function capabilities
 
@@ -46,7 +46,7 @@ flowchart TD
 | Data/Samples | 7 |
 | Data/Spatial | 6 |
 | Data/Time | 12 |
-| Data/Traits | 46 |
+| Data/Traits | 53 |
 | Data_access/Files | 1 |
 | Data_access/Vegvault | 5 |
 | Modelling/Cross_validation | 111 |
@@ -77,7 +77,7 @@ flowchart TD
 |---|---|---:|
 | `R/Pipelines/_pipes/_helpers/make_community_filter_targets.R` | Data/Community | 4 |
 | `R/Pipelines/_pipes/_helpers/make_pipe_segment_ft_classification_continental.R` | Data/Community | 7 |
-| `R/Pipelines/_pipes/_helpers/make_pipe_segment_ft_classification_continental.R` | Data/Traits | 7 |
+| `R/Pipelines/_pipes/_helpers/make_pipe_segment_ft_classification_continental.R` | Data/Traits | 10 |
 | `R/Pipelines/_pipes/_helpers/make_pipe_segment_ft_classification_continental.R` | Pipeline/Configuration | 3 |
 | `R/Pipelines/_pipes/_helpers/make_pipe_segment_ft_classification_continental.R` | Pipeline/Stores | 3 |
 | `R/Pipelines/_pipes/pipe_segment_abiotic_extract.R` | Data/Abiotic | 4 |
@@ -129,7 +129,7 @@ flowchart TD
 | `R/Pipelines/_pipes/pipe_segment_traits_ft_clustering.R` | Pipeline/Configuration | 1 |
 | `R/Pipelines/_pipes/pipe_segment_traits_qc.R` | Data/Traits | 11 |
 | `R/Pipelines/_pipes/pipe_segment_traits_qc_classified.R` | Data/Traits | 6 |
-| `R/Pipelines/_pipes/pipe_segment_traits_table.R` | Data/Traits | 2 |
+| `R/Pipelines/_pipes/pipe_segment_traits_table.R` | Data/Traits | 4 |
 | `R/Pipelines/_pipes/pipe_segment_vegvault_extract.R` | Data/Samples | 1 |
 | `R/Pipelines/_pipes/pipe_segment_vegvault_extract.R` | Data/Spatial | 1 |
 | `R/Pipelines/_pipes/pipe_segment_vegvault_extract.R` | Data_access/Vegvault | 2 |
@@ -171,7 +171,7 @@ flowchart TD
 
 | Contract type | Scope | Contracts |
 |---|---|---:|
-| literal_target | persisted_internal | 384 |
+| literal_target | persisted_internal | 393 |
 | literal_target | public_or_frozen_cv_review | 63 |
 
 ## Architecture exceptions

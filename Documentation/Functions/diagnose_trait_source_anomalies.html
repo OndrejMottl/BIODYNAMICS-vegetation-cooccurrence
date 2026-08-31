@@ -1,0 +1,86 @@
+<!DOCTYPE html><html><head><title>R: Diagnose Trait Source Anomalies</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>diagnose_trait_source_anomalies</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Diagnose Trait Source Anomalies</h2>
+
+<h3>Description</h3>
+
+<p>Prioritises multiplicative source-taxon unit anomalies using positive trait
+medians, independent-source agreement, and robust domain-level log ranges.
+The findings are diagnostic and never modify or approve corrections.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>diagnose_trait_source_anomalies(
+  data_trait_records,
+  source_factor_relative_tolerance = 0.25,
+  minimum_log10_gap = 0.75,
+  outlier_fence_multiplier = 3
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_trait_records">data_trait_records</code></td>
+<td>
+<p>Long trait records retaining taxon, source, domain,
+and value columns.</p>
+</td></tr>
+<tr><td><code id="source_factor_relative_tolerance">source_factor_relative_tolerance</code></td>
+<td>
+<p>Maximum relative distance from the
+nearest power-of-ten factor.</p>
+</td></tr>
+<tr><td><code id="minimum_log10_gap">minimum_log10_gap</code></td>
+<td>
+<p>Minimum absolute source comparison gap.</p>
+</td></tr>
+<tr><td><code id="outlier_fence_multiplier">outlier_fence_multiplier</code></td>
+<td>
+<p>Non-negative domain log-IQR multiplier.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named list containing 'data_source_taxon_summary',
+'data_source_anomalies', and 'data_domain_summary'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>diagnose_trait_source_anomalies(
+  tibble::tibble(
+    taxon_name = c("A", "A"),
+    data_source_id = c(1L, 2L),
+    trait_domain_name = "Stem specific density",
+    trait_value = c(0.0003, 0.3)
+  )
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

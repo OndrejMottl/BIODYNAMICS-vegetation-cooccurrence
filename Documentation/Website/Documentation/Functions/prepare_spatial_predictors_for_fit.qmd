@@ -58,7 +58,7 @@ by 'align_sample_ids()'.</p>
 
 <p>Spatial predictors are stored at the dataset level (one row
 per site) but models require one row per sample
-(site × time-slice). This function replicates each dataset's
+(site C time-slice). This function replicates each dataset's
 spatial values across all its valid sample ages. The row-name
 format '&quot;&lt;dataset_name&gt;__&lt;age&gt;&quot;' matches that of the community
 matrix and abiotic data frame. Unlike 'prepare_coords_for_fit',

@@ -14,6 +14,7 @@ Usage:
        data_functional_type_classification,
        path_classification_directory = here::here("Data/Processed/Traits"),
        classification_source_prefix = NULL,
+       trait_variant_id = "all_six",
        verbose = TRUE
      )
 
@@ -38,6 +39,10 @@ classification_source_prefix: Optional single non-empty character
           name. Use `NULL` (default) for the historical paleo/global
           naming convention, or `"modern"` for modern-data
           functional-type classifications.
+
+trait_variant_id: Functional-type trait variant identifier. The primary
+          "all_six" variant retains the historical file name.
+          Sensitivity variants receive a suffix.
 
  verbose: Logical. If `TRUE` (default), progress messages are printed
           to the console via `cli`.

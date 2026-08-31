@@ -1,0 +1,45 @@
+Diagnose Trait Source Anomalies
+
+Description:
+
+     Prioritises multiplicative source-taxon unit anomalies using
+     positive trait medians, independent-source agreement, and robust
+     domain-level log ranges. The findings are diagnostic and never
+     modify or approve corrections.
+
+Usage:
+
+     diagnose_trait_source_anomalies(
+       data_trait_records,
+       source_factor_relative_tolerance = 0.25,
+       minimum_log10_gap = 0.75,
+       outlier_fence_multiplier = 3
+     )
+
+Arguments:
+
+data_trait_records: Long trait records retaining taxon, source, domain,
+          and value columns.
+
+source_factor_relative_tolerance: Maximum relative distance from the
+          nearest power-of-ten factor.
+
+minimum_log10_gap: Minimum absolute source comparison gap.
+
+outlier_fence_multiplier: Non-negative domain log-IQR multiplier.
+
+Value:
+
+     A named list containing `data_source_taxon_summary`,
+     `data_source_anomalies`, and `data_domain_summary`.
+
+Examples:
+
+     diagnose_trait_source_anomalies(
+       tibble::tibble(
+         taxon_name = c("A", "A"),
+         data_source_id = c(1L, 2L),
+         trait_domain_name = "Stem specific density",
+         trait_value = c(0.0003, 0.3)
+       )
+     )

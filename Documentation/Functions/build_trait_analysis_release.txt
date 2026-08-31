@@ -1,0 +1,52 @@
+Build Interim Trait Analysis Release
+
+Description:
+
+     Freezes corrected VegVault 1.0.0 records behind an explicit
+     six-domain analysis contract and records domain-level evidence
+     status.
+
+Usage:
+
+     build_trait_analysis_release(
+       data_trait_records,
+       vegvault_version,
+       release_id,
+       release_date
+     )
+
+Arguments:
+
+data_trait_records: Corrected classified trait records.
+
+vegvault_version: Character scalar VegVault version.
+
+release_id: Character scalar stable interim release identifier.
+
+release_date: Character scalar release date in ISO format.
+
+Details:
+
+     Leaf mass per area and leaf nitrogen content per unit mass remain
+     available in the primary six-trait analysis but are marked as
+     provisional because their original source units have not been
+     fully reconstructed. A different VegVault version fails closed so
+     a future corrected release must explicitly replace this
+     compatibility contract.
+
+Value:
+
+     A list containing unchanged data_trait_records and a
+     data_trait_domain_status tibble.
+
+Examples:
+
+     ## Not run:
+
+     build_trait_analysis_release(
+       data_trait_records = data_traits_classified_corrected,
+       vegvault_version = "1.0.0",
+       release_id = "vegvault_1_0_0_interim_2026_08_31",
+       release_date = "2026-08-31"
+     )
+     ## End(Not run)

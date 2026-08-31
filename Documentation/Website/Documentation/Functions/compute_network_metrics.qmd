@@ -62,7 +62,7 @@ directly to the 'index' argument of
 <h3>Details</h3>
 
 <p>The function treats the community matrix as a
-lower-level (samples) × upper-level (taxa) bipartite
+lower-level (samples) C upper-level (taxa) bipartite
 network. Only the binary incidence (presence/absence) is
 used: all values &gt; 0 are set to 1 before passing to
 'bipartite::networklevel()'.
