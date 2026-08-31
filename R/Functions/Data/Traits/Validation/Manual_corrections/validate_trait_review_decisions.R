@@ -501,7 +501,21 @@ validate_trait_review_decisions <- function(
         )
       ) {
         cli::cli_abort(
-          "A taxon-scale factor conflicts with source scaling."
+          base::c(
+            "A taxon-scale factor conflicts with source scaling.",
+            "i" = stringr::str_c(
+              "Decision ",
+              rule[["decision_id"]][[1L]],
+              " uses factor ",
+              rule[["scale_factor"]][[1L]],
+              "; overlapping source factors: ",
+              stringr::str_c(
+                base::sort(base::unique(source_factors)),
+                collapse = ", "
+              ),
+              "."
+            )
+          )
         )
       }
       vec_source_satisfied_keys <-

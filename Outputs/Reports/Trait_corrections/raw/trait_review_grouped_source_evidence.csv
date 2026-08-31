@@ -1,0 +1,3 @@
+data_source_id,trait_domain_name,scale_factor,n_shared_taxa,correction_ratio_lwr_25,correction_ratio_median,correction_ratio_upr_75,fraction_within_25_percent
+155,Plant heigh,100,213,0.8551912568306012,1.0576923076923077,1.6666666666666667,0
+243,Leaf Area,100,100,0.8116870995354084,0.9438962138958403,1.0013580059249831,0

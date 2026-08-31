@@ -1,0 +1,4 @@
+data_source_id,n_records,value_minimum,value_median,value_maximum,diagnostic_factor,diagnostic_minimum,diagnostic_median,diagnostic_maximum,n_within_band,n_outside_band,data_source_desc,interpretation
+123,18,350,650,650,0.001,0.35000000000000003,0.65,0.65,18,0,"Global A, N, P, SLA Database",near-ready; verify that the source values are kg/m3
+137,713,4.22505724690171e-4,0.00579604086605982,2.95764460772953,100,0.042250572469017096,0.579604086605982,295.764460772953,687,26,Plant Traits From Spanish Mediteranean shrublands,mixed source; factor 100 leaves residual records outside the band
+660,1120,2.57e-4,3.3237e-4,4.885e-4,1000,0.257,0.33237,0.4885,1120,0,El-Kassaby YA,near-ready; verify the source mass-volume unit
