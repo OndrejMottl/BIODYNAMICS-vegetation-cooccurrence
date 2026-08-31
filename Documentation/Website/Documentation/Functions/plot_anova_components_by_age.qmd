@@ -25,7 +25,7 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>Creates a line-and-point plot of sjSDM ANOVA variance
-components (Nagelkerke R²) across time slices (ages).
+components (Nagelkerke RB2) across time slices (ages).
 </p>
 
 

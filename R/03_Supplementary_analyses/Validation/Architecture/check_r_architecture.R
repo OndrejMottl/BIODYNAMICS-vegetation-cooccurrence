@@ -497,7 +497,11 @@ vec_allowed_trait_function_paths <-
 vec_legacy_trait_function_paths <-
   base::intersect(
     vec_function_paths_current,
-    data_migrated_trait_functions[["current_path"]]
+    data_migrated_trait_functions |>
+      dplyr::filter(
+        .data[["current_path"]] != .data[["intended_path"]]
+      ) |>
+      dplyr::pull(.data[["current_path"]])
   )
 
 vec_invalid_trait_function_paths <-
@@ -586,7 +590,11 @@ vec_allowed_trait_test_paths <-
 vec_legacy_trait_test_paths <-
   base::intersect(
     vec_script_paths_current,
-    data_migrated_trait_tests[["current_path"]]
+    data_migrated_trait_tests |>
+      dplyr::filter(
+        .data[["current_path"]] != .data[["intended_path"]]
+      ) |>
+      dplyr::pull(.data[["current_path"]])
   )
 
 vec_invalid_trait_test_paths <-

@@ -1,0 +1,57 @@
+Build Trait Review Policy Outputs
+
+Description:
+
+     Builds proposed decisions, a bounded agent-review queue, and
+     policy summaries from all-domain trait-review recommendations
+     without approving decisions.
+
+Usage:
+
+     build_trait_review_policy_outputs(
+       data_candidate_recommendations,
+       evidence_reference,
+       max_agent_candidates_per_domain = 25L,
+       agent_batch_size = 25L
+     )
+
+Arguments:
+
+data_candidate_recommendations: Candidate recommendations returned by
+          [diagnose_trait_review_candidates()].
+
+evidence_reference: Non-empty reference to the policy report supporting
+          the proposals.
+
+max_agent_candidates_per_domain: Maximum number of targeted
+          agent-review candidates retained per domain.
+
+agent_batch_size: Maximum number of candidates assigned to one agent
+          batch.
+
+Value:
+
+     A named list containing `data_policy_proposals`,
+     `data_agent_review_queue`, and `data_policy_summary`.
+
+Examples:
+
+     recommendations <- tibble::tibble(
+       candidate_id = digest::digest(
+         "raw|Taxon A|Diaspore mass",
+         algo = "sha256",
+         serialize = FALSE
+       ),
+       taxon_name = "Taxon A",
+       trait_domain_name = "Diaspore mass",
+       n_records_current = 1L,
+       deterministic_outcome = "retain_flagged_uncertain",
+       suggested_action = "none",
+       acceptance_eligibility = "eligible_policy_acceptance",
+       recommendation_rationale = "No objective error evidence.",
+       candidate_impact_score = 0.5
+     )
+     build_trait_review_policy_outputs(
+       recommendations,
+       evidence_reference = "report.html"
+     )

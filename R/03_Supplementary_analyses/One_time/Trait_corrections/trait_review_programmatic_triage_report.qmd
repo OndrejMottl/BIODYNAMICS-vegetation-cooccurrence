@@ -1,0 +1,278 @@
+---
+title: "Programmatic trait-review triage"
+subtitle: "Cost gate before further agent investigation"
+format: gfm
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup, include=FALSE}
+here::i_am(
+  stringr::str_c(
+    "R/03_Supplementary_analyses/One_time/Trait_corrections/",
+    "trait_review_programmatic_triage_report.qmd"
+  )
+)
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+
+path_triage <-
+  here::here(
+    "Data/Temp/Trait_corrections/raw/programmatic_triage"
+  )
+data_cost_gate <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_cost_gate.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_triage_summary <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_summary.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_exception_groups <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_exception_groups.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_agent_queue <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_agent_group_queue.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_programmatic_reconciliation <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_candidate_reconciliation.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_reconciliation_summary <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_reconciliation_summary.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_programmatic_proposals <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_decision_proposals.csv"
+    ),
+    show_col_types = FALSE
+  )
+data_programmatic_proposal_audit <-
+  readr::read_csv(
+    base::file.path(
+      path_triage,
+      "trait_review_programmatic_proposal_audit.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+n_pending_candidates <-
+  data_cost_gate[["n_pending_candidates"]][[1L]]
+n_none_proposals <-
+  data_cost_gate[["n_none_proposals"]][[1L]]
+n_pending_programmatic_candidates <-
+  data_cost_gate[["n_pending_programmatic_candidates"]][[1L]]
+n_agent_candidates <-
+  data_cost_gate[["n_agent_candidates"]][[1L]]
+n_agent_groups <-
+  data_cost_gate[["n_agent_groups"]][[1L]]
+n_initial_agent_batches <-
+  data_cost_gate[["n_initial_agent_batches"]][[1L]]
+n_initial_agent_runs <-
+  data_cost_gate[["n_initial_agent_runs"]][[1L]]
+n_previous_style_runs <-
+  data_cost_gate[["n_previous_style_runs"]][[1L]]
+min_source_pattern_candidates <-
+  data_cost_gate[["min_source_pattern_candidates"]][[1L]]
+source_factor_relative_tolerance <-
+  data_cost_gate[["source_factor_relative_tolerance"]][[1L]]
+agent_groups_per_batch <-
+  data_cost_gate[["agent_groups_per_batch"]][[1L]]
+n_reconciled_candidates <-
+  base::nrow(data_programmatic_reconciliation)
+n_reconciliation_none_proposals <-
+  base::sum(data_programmatic_proposals[["action"]] == "none")
+n_reconciliation_scale_proposals <-
+  base::sum(data_programmatic_proposals[["action"]] == "scale")
+n_reconciliation_agent_candidates <-
+  base::sum(data_programmatic_reconciliation[["requires_agent"]])
+n_reconciliation_pending_candidates <-
+  base::sum(data_programmatic_reconciliation[["remains_pending"]])
+n_reconciliation_scaled_records <-
+  data_programmatic_proposal_audit |>
+  dplyr::filter(.data[["action"]] == "scale") |>
+  dplyr::summarise(
+    n = base::sum(.data[["proposed_record_count"]])
+  ) |>
+  dplyr::pull(.data[["n"]])
+```
+
+## Outcome
+
+The programmatic pass examined all `r scales::comma(n_pending_candidates)` raw candidates that were not already covered by canonical approvals.
+
+The 52 completed investigations approved by the project owner are now recorded canonically as `action = "none"` and are excluded from this queue.
+
+The corrected first triage proposes `action = "none"` for `r scales::comma(n_none_proposals)` additional candidates. It sent `r scales::comma(n_pending_programmatic_candidates)` candidates to deterministic reconciliation and retained `r scales::comma(n_agent_candidates)` candidates in grouped evidence review.
+
+The second R pass checked all `r scales::comma(n_reconciled_candidates)` pending candidates. It produced `r scales::comma(n_reconciliation_scale_proposals)` unapproved scale proposals affecting `r scales::comma(n_reconciliation_scaled_records)` current records, `r scales::comma(n_reconciliation_none_proposals)` unapproved no-action proposals for candidates with no current records, `r scales::comma(n_reconciliation_agent_candidates)` targeted-review cases, and `r scales::comma(n_reconciliation_pending_candidates)` still-unresolved cases.
+
+The exceptions collapse to `r scales::comma(n_agent_groups)` evidence groups and `r scales::comma(n_initial_agent_batches)` bounded initial batches.
+
+Under the previous two-reviewer-plus-adjudicator design, the same grouped batches would require up to `r scales::comma(n_previous_style_runs)` agent runs.
+
+The cost-gated design requires at most `r scales::comma(n_initial_agent_runs)` initial reviewer runs, followed by a second review and adjudication only for groups that propose an actual correction.
+
+The programmatic workflow itself does not launch agents.
+
+One manually launched pilot reviewer run examined 10 former Leaf mass per area `invalid_source` groups covering nine candidates. Its proposed no-action rows were rejected because it incorrectly described 23 positive infinite values as `NA`. Direct production-data inspection traced the infinities to reciprocal conversion of zero SLA values. After the ingestion boundary was corrected to retain only finite trait values, those obsolete invalid-source groups disappeared. The pilot proposals remain unapproved and do not count as review of any group in the current exception queue.
+
+The pilot used `gpt-5.6-terra` with high reasoning. Runtime token usage was not exposed, so no verified token total is available.
+
+## Decision boundary
+
+The separate approval runner recorded only the 52 newly approved completed investigations. The triage workflow itself does not edit either canonical decision file and does not apply any correction.
+
+No unresolved candidate receives a no-action proposal merely because the current checks failed to identify a repeated error pattern.
+
+Submitted concerns, recovered proposals, isolated source-factor hints, and historical drift remain explicitly pending until a structured rule resolves them or a completed investigation supports a human decision.
+
+All second-pass decision rows remain proposals. They have not been added to a canonical decision file, approved, or applied.
+
+Ordinary `NA` missingness is not treated as a correctable trait value. After missing rows are ignored, finite source summaries are still checked for repeated factor patterns.
+
+## Structured checks
+
+A source pattern is escalated only when at least `r min_source_pattern_candidates` candidates share the same low-source and high-source pairing and their median ratio is within `r scales::percent(source_factor_relative_tolerance)` of a factor of ten, one hundred, or one thousand.
+
+Matched recovered selectors remain exceptions because the archived review material is evidence but not automatic authority for changing current records.
+
+Negative, `NaN`, and infinite observed records remain exceptions and are grouped by trait domain, dataset, trait variant, and invalid-value type.
+
+Isolated outliers, unmatched archived selectors, historical drift, and submitted concerns without a repeated error pattern do not establish a correction under the conservative policy. They also do not establish that no correction is needed, so they remain pending programmatic review.
+
+The second pass parses only exact instructions of the form `rescale values below X only` or `rescale values above X only`. A threshold rule is proposed only when at least two current positive finite records occur on each side, the original selected-versus-unselected median gap is at least 0.7 log10 units, the proposed correction reduces that gap by at least 0.5 log10 units, and the remaining gap is at most 0.3 log10 units.
+
+A dataset-specific scale is proposed only when a single submitted factor with note `x` independently matches the current low-versus-high source median ratio within 5%, identifies an unambiguous scaling direction, and both sources contain at least two positive finite records.
+
+## Candidate outcomes
+
+```{r}
+data_outcomes <-
+  data_triage_summary |>
+  dplyr::rename(
+    `Trait domain` = "trait_domain_name",
+    `Triage outcome` = "triage_outcome",
+    Candidates = "n_candidates"
+  )
+
+knitr::kable(data_outcomes)
+```
+
+## Deterministic reconciliation outcomes
+
+```{r}
+data_reconciliation_outcomes <-
+  data_reconciliation_summary |>
+  dplyr::rename(
+    `Trait domain` = "trait_domain_name",
+    `Reconciliation outcome` = "reconciliation_outcome",
+    Candidates = "n_candidates"
+  )
+
+knitr::kable(data_reconciliation_outcomes)
+```
+
+## Grouped exception queue
+
+```{r}
+data_group_counts <-
+  data_exception_groups |>
+  dplyr::count(
+    .data[["trait_domain_name"]],
+    .data[["group_kind"]],
+    name = "Evidence groups"
+  ) |>
+  dplyr::left_join(
+    data_exception_groups |>
+      dplyr::group_by(
+        .data[["trait_domain_name"]],
+        .data[["group_kind"]]
+      ) |>
+      dplyr::summarise(
+        `Candidate memberships` = base::sum(
+          .data[["n_candidates"]]
+        ),
+        .groups = "drop"
+      ),
+    by = dplyr::join_by(
+      trait_domain_name,
+      group_kind
+    ),
+    relationship = "one-to-one"
+  ) |>
+  dplyr::rename(
+    `Trait domain` = "trait_domain_name",
+    `Evidence type` = "group_kind"
+  )
+
+knitr::kable(data_group_counts)
+```
+
+One candidate can belong to more than one evidence group, so candidate-membership totals in this section can exceed the unique candidate count reported above.
+
+Each initial batch contains at most `r agent_groups_per_batch` evidence groups, not a fixed number of taxon-domain candidates.
+
+```{r}
+data_batch_counts <-
+  data_agent_queue |>
+  dplyr::group_by(
+    .data[["trait_domain_name"]],
+    .data[["agent_batch_id"]]
+  ) |>
+  dplyr::summarise(
+    `Evidence groups` = dplyr::n(),
+    `Candidate memberships` = base::sum(
+      .data[["n_candidates"]]
+    ),
+    .groups = "drop"
+  ) |>
+  dplyr::rename(
+    `Trait domain` = "trait_domain_name",
+    `Agent batch` = "agent_batch_id"
+  )
+
+knitr::kable(data_batch_counts)
+```
+
+## Recommended next decision
+
+Do not bulk-approve the `r scales::comma(n_reconciliation_pending_candidates)` still-unresolved candidates as `none`: their absence of corroborating current evidence is not equivalent to a completed investigation.
+
+First review the `r scales::comma(n_reconciliation_scale_proposals)` scale proposals as a policy batch and the `r scales::comma(n_reconciliation_none_proposals)` obsolete-candidate no-action proposals separately. They are reproducible proposals, not approvals.
+
+Then group the `r scales::comma(n_reconciliation_agent_candidates)` newly targeted cases by evidence type before launching any reviewer. The original `r scales::comma(n_agent_candidates)` evidence-backed exceptions already collapse to `r scales::comma(n_agent_groups)` groups. Reserve expensive independent replication for a group that recommends exclusion or scaling. The rejected pilot reviewed obsolete invalid-source groups and does not count toward the current batches.

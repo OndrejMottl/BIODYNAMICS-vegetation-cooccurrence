@@ -187,6 +187,8 @@ make_pipe_segment_ft_classification_continental <- function(
             data_functional_type_classification =
               data_functional_type_classification_continental,
             classification_source_prefix = .(data_source_prefix),
+            trait_variant_id =
+              config_functional_type_trait_variant_continental,
             verbose = TRUE
           )
         }
@@ -198,6 +200,8 @@ make_pipe_segment_ft_classification_continental <- function(
           data_functional_type_classification =
             data_functional_type_classification_continental,
           classification_source_prefix = .(data_source_prefix),
+          trait_variant_id =
+            config_functional_type_trait_variant_continental,
           verbose = TRUE
         )
       )
@@ -257,6 +261,26 @@ make_pipe_segment_ft_classification_continental <- function(
         ),
         cue = targets::tar_cue("always")
       ),
+      targets::tar_target(
+        description = "Resolve the FT trait sensitivity variant for this run",
+        name = config_functional_type_trait_variant_continental,
+        command = base::Sys.getenv(
+          "BIODYNAMICS_FT_TRAIT_VARIANT",
+          unset = "all_six"
+        ),
+        cue = targets::tar_cue("always")
+      ),
+      targets::tar_target(
+        description = paste(
+          "Resolve trait transformations for FT clustering"
+        ),
+        name = config_functional_type_trait_transformations_continental,
+        command = resolve_functional_type_trait_transformations(
+          trait_variant_id =
+            config_functional_type_trait_variant_continental
+        ),
+        cue = targets::tar_cue("always")
+      ),
 
       # ── 2. Load traits data from the shared traits store ──
       # The traits pipeline writes its outputs to the store resolved
@@ -275,12 +299,12 @@ make_pipe_segment_ft_classification_continental <- function(
 
       targets::tar_target(
         description = stringr::str_glue(
-          "Fingerprint classified corrected traits in the shared store"
+          "Fingerprint the frozen trait analysis release in the shared store"
         ),
-        name = data_traits_classified_corrected_fingerprint,
+        name = data_traits_analysis_release_fingerprint,
         command = load_targets_target_fingerprints(
           store_path = path_traits_reference_store,
-          target_names = "data_traits_classified_corrected"
+          target_names = "data_traits_analysis_release"
         ),
         cue = targets::tar_cue(mode = "always")
       ),
@@ -299,14 +323,14 @@ make_pipe_segment_ft_classification_continental <- function(
 
       targets::tar_target(
         description = stringr::str_glue(
-          "Load classified corrected traits from ",
+          "Load the frozen trait analysis release from ",
           "shared traits pipeline store"
         ),
         name = data_traits_for_functional_type_classification,
         command = load_targets_target_by_fingerprint(
           store_path = path_traits_reference_store,
-          target_name = "data_traits_classified_corrected",
-          data_fingerprint = data_traits_classified_corrected_fingerprint
+          target_name = "data_traits_analysis_release",
+          data_fingerprint = data_traits_analysis_release_fingerprint
         )
       ),
       targets::tar_target(
@@ -369,12 +393,36 @@ make_pipe_segment_ft_classification_continental <- function(
         )
       ),
 
+      targets::tar_target(
+        description = paste(
+          "Prepare the community trait matrix for dissimilarity"
+        ),
+        name = data_community_taxon_traits_prepared,
+        command = prepare_trait_matrix_for_dissimilarity(
+          data_trait_table = data_community_taxon_traits,
+          vec_trait_transformations =
+            config_functional_type_trait_transformations_continental
+        )
+      ),
+
+      targets::tar_target(
+        description = paste(
+          "Diagnose community trait matrix analysis readiness"
+        ),
+        name = list_trait_matrix_readiness_continental,
+        command = diagnose_trait_matrix_readiness(
+          data_trait_table = data_community_taxon_traits,
+          vec_trait_transformations =
+            config_functional_type_trait_transformations_continental
+        )
+      ),
+
       # ── 4. Compute pairwise dissimilarity matrix ──────────
       targets::tar_target(
         description = "Compute dissimilarity matrix for FT clustering",
         name = data_functional_type_dissimilarity_continental,
         command = compute_trait_dissimilarity(
-          data_trait_table = data_community_taxon_traits,
+          data_trait_table = data_community_taxon_traits_prepared,
           distance_metric = config_functional_type_distance_metric_continental
         )
       ),
@@ -384,8 +432,10 @@ make_pipe_segment_ft_classification_continental <- function(
         description = "Fit hierarchical clustering dendrogram for FTs",
         name = mod_functional_type_hierarchical_clustering_continental,
         command = fit_hierarchical_clustering(
-          trait_dissimilarity = data_functional_type_dissimilarity_continental,
-          clustering_method = config_functional_type_clustering_method_continental
+          trait_dissimilarity =
+            data_functional_type_dissimilarity_continental,
+          clustering_method =
+            config_functional_type_clustering_method_continental
         )
       ),
 
@@ -397,8 +447,10 @@ make_pipe_segment_ft_classification_continental <- function(
         ),
         name = n_functional_type_groups_selected_continental,
         command = select_functional_type_group_count(
-          trait_dissimilarity = data_functional_type_dissimilarity_continental,
-          hierarchical_clustering = mod_functional_type_hierarchical_clustering_continental,
+          trait_dissimilarity =
+            data_functional_type_dissimilarity_continental,
+          hierarchical_clustering =
+            mod_functional_type_hierarchical_clustering_continental,
           functional_type_group_count_min =
             config_functional_type_group_count_min_continental,
           functional_type_group_count_max =
@@ -418,12 +470,18 @@ make_pipe_segment_ft_classification_continental <- function(
         name = data_functional_type_classification_continental,
         command = assign_functional_type_clusters(
           data_trait_table = data_community_taxon_traits,
-          trait_dissimilarity = data_functional_type_dissimilarity_continental,
-          hierarchical_clustering = mod_functional_type_hierarchical_clustering_continental,
+          trait_dissimilarity =
+            data_functional_type_dissimilarity_continental,
+          hierarchical_clustering =
+            mod_functional_type_hierarchical_clustering_continental,
           functional_type_group_count =
             n_functional_type_groups_selected_continental,
           verbose = TRUE
-        )
+        ) |>
+          dplyr::mutate(
+            trait_variant_id =
+              config_functional_type_trait_variant_continental
+          )
       )
     )
 
@@ -434,7 +492,8 @@ make_pipe_segment_ft_classification_continental <- function(
       # saved .qs file. Regional and local pipelines for the same
       # continent inherit this file via
       # resolve_functional_type_classification_path_from_store().
-      # The target NAME file_functional_type_classification_paleo is the interface
+      # The file_functional_type_classification_paleo target is the
+      # interface
       # consumed by pipe_segment_community_by_resolution_paleo.
       targets::tar_target_raw(
         description = stringr::str_glue(

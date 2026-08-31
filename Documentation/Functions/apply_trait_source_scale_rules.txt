@@ -1,0 +1,25 @@
+Apply Trait Source Scale Rules
+
+Description:
+
+     Applies approved whole-source scaling rules once and records each
+     changed trait value with its stable VegVault identifiers.
+
+Usage:
+
+     apply_trait_source_scale_rules(
+       data_trait_records,
+       data_trait_source_scale_rules
+     )
+
+Arguments:
+
+data_trait_records: Untouched trait records containing source and
+          record identifiers.
+
+data_trait_source_scale_rules: Validated source-scale rules.
+
+Value:
+
+     A named list with source-scaled records and rule- and record-level
+     audits.

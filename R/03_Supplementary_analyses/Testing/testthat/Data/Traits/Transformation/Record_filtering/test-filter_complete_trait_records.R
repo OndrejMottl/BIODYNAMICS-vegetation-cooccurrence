@@ -2,6 +2,11 @@
 
 make_valid_raw <- function() {
   tibble::tibble(
+    dataset_id = base::c(10L, 10L, 11L, 12L),
+    dataset_name = base::c("A", "A", "B", "C"),
+    data_source_id = base::c(294L, 294L, 509L, 500L),
+    sample_id = base::c(100L, 101L, 102L, 103L),
+    trait_id = base::c(200L, 201L, 202L, 203L),
     taxon_id = base::c(1L, 2L, NA_integer_, 3L),
     trait_domain_name = base::c("SLA", "SLA", "SLA", "Height"),
     trait_name = base::c("sla_mm", "sla_mm", "sla_mm", "h_m"),
@@ -68,6 +73,17 @@ testthat::test_that(
     testthat::expect_true(
       "trait_value" %in% base::colnames(res)
     )
+    testthat::expect_true(
+      base::all(
+        base::c(
+          "dataset_id",
+          "dataset_name",
+          "data_source_id",
+          "sample_id",
+          "trait_id"
+        ) %in% base::colnames(res)
+      )
+    )
   }
 )
 
@@ -106,6 +122,28 @@ testthat::test_that(
         )
       )
     )
+  }
+)
+
+testthat::test_that(
+  "filter_complete_trait_records() removes non-finite trait values",
+  {
+    data_nonfinite <-
+      tibble::tibble(
+        taxon_id = base::seq_len(4L),
+        trait_domain_name = "Leaf mass per area",
+        trait_name = "LMA",
+        trait_value = base::c(0.1, Inf, -Inf, NaN)
+      )
+
+    res <-
+      filter_complete_trait_records(
+        data_trait_records_raw = data_nonfinite
+      )
+
+    testthat::expect_equal(base::nrow(res), 1L)
+    testthat::expect_equal(res[["trait_value"]], 0.1)
+    testthat::expect_true(base::all(base::is.finite(res[["trait_value"]])))
   }
 )
 

@@ -1,0 +1,29 @@
+Validate Trait Source Scale Rules
+
+Description:
+
+     Fails closed unless source-scale rules match the active VegVault
+     version, source metadata, selectors, and expected record counts
+     exactly.
+
+Usage:
+
+     validate_trait_source_scale_rules(
+       data_trait_source_scale_rules,
+       data_trait_records,
+       path_vegvault
+     )
+
+Arguments:
+
+data_trait_source_scale_rules: Rules loaded by
+          [load_trait_source_scale_rules()].
+
+data_trait_records: Untouched extracted trait records containing
+          `data_source_id`.
+
+path_vegvault: Character scalar path to the VegVault SQLite database.
+
+Value:
+
+     The validated source-scale rule tibble.

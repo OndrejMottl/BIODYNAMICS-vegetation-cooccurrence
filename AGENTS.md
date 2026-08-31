@@ -7,8 +7,9 @@ This file is the universal entry point for coding assistants working in this rep
 | Task | Read first |
 |---|---|
 | Any repository work | `AGENTS.md` |
-| R scripts, pipelines, modelling, data processing, visualisation | `.ai/r-coding.md` |
-| R functions, roxygen2 docs, function tests | `.ai/r-functions.md` |
+| R scripts, pipelines, modelling, data processing, visualisation, package dependencies, `{renv}`, or `renv.lock` | `.ai/r-coding.md` |
+| R functions, roxygen2 docs, function tests | `.ai/r-functions.md`, `.ai/r-coding.md` |
+| Creating or renaming R functions, files, objects, targets, keys, or persisted contracts | `.ai/r-coding.md`, then `Documentation/Implementation_inventories/R_architecture/r_naming_decisions_v1.md` |
 | Git, branches, worktrees, commits, review workflow | `.ai/git-workflow.md` |
 | Suggesting or writing a commit message | `.ai/git-workflow.md`, then `.github/commit-instructions.md` |
 | Quarto documents or website work | `.ai/quarto.md` |
@@ -53,5 +54,6 @@ The 80-character line limit applies only to R source code, including R comments 
 - `R/02_Main_analyses/` contains only allowlisted production runners.
 - `R/03_Supplementary_analyses/` contains documented non-main workflows; mirrored test directories are not workflow roots.
 - `Configuration/` contains human-authored fragments. Root `config.yml` and `Configuration/Generated/profile_catalog.md` are generated artifacts.
+- All new or renamed R functions, files, objects, targets, keys, and persisted contracts must follow `Documentation/Implementation_inventories/R_architecture/r_naming_decisions_v1.md`. Existing names and inventory rows record the current state; they are not naming precedent or blanket approval for reuse.
 
 After changing R paths, symbols, workflow documentation, configuration, or persisted contracts, run the generators and blocking validator documented in `R/03_Supplementary_analyses/Validation/Architecture/README.md`. Naming and nested-helper exceptions must match the maintained ledger exactly, name an owner and expiry issue, and be removed when that issue closes. The final map is `Documentation/Reports/R_architecture/r_architecture_dependency_map.md`.

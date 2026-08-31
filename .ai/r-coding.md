@@ -134,24 +134,22 @@ No line of **R code** should be longer than 80 characters (including R comments)
 
 ## Naming Conventions
 
-```r
-"There are only two hard things in Computer Science:
- cache invalidation and naming things."
-```
+The approved repository-specific naming contract is `Documentation/Implementation_inventories/R_architecture/r_naming_decisions_v1.md`. Read and apply it before creating or renaming any R function, function file, object, pipeline target, artifact field, store, or configuration key. It supersedes generic naming examples and existing repository names. Inventory rows record current state and do not authorise copying a legacy name into new code.
 
 ### Object Names
 
-Objects and functions should use `snake_style`. The `.` in names is somewhat popular but it causes issues with names of methods and should therefore be avoided. The names are preferred to be very descriptive, more expressive and more explicit. **Never abbreviate words in object names.** Write the full word every time  -  `config` not `cfg`, `column` not `col`, `parameter` not `param`, `function` not `fn`, `number` not `num`, `value` not `val`, `result` not `res` (the only permitted abbreviation objects are listed below). When in doubt, spell it out.
+Use lower snake case and descriptive names. Spell words out except for prefixes explicitly approved by the naming contract.
 
-The names should be nouns and start with the type of object:
+Use type- and role-explicit prefixes when the type remains stable:
 
-- `data_*` - for data
-  - special subcategory is `table_*` for tables (mainly as an object for reference). Note that all tables can be data but not vice versa.
-- `list_` - for lists
-- `vec_` - for vectors
-- `mod_*` - for statistical model
-- `res_` - special category, which can be used within the function to name an object to be returned (`return(res_*)`)
-- `flag_*` - for boolean/logical control flags (e.g. safety guards, feature switches). **Always use `snake_style`**  -  never `SCREAMING_SNAKE_CASE` even though that convention is common in other languages.
+- `data_`, `table_`, `list_`, `vec_`, `mat_`, `mod_`, and `plot_`;
+- `path_`, `file_`, `dir_`, and `store_`;
+- `config_`, `flag_`, `seed_`, `index_`, `formula_`, and `n_`;
+- `res_` only for a function's explicit return object.
+
+Use state suffixes such as `_raw`, `_validated`, `_aligned`, `_filtered`, `_prepared`, `_selected`, and `_summary`. Do not overwrite an object with a transformed state under the same name.
+
+Persisted targets, artifact fields, stores, and configuration keys are contracts rather than local objects. Do not rename them without the required inventory update, invalidation analysis, and approval described by the naming contract.
 
 Examples of good names:
 
@@ -168,6 +166,12 @@ vec_region_names
 # model
 mod_diversity_linear
 
+# matrix
+mat_species_cooccurrence
+
+# path
+path_diversity_output
+
 # result
 res_estimated_weight
 
@@ -178,21 +182,25 @@ flag_use_parallel <- TRUE
 
 ### Function Names
 
-Names of functions should be verbs and describe the expected functionality.
+Function names use lower snake case, begin with an approved canonical or precise domain verb, and describe the returned value or material side effect. Choose the verb from the function's input/output and side-effect contract; do not choose a synonym mechanically. In particular, proposed `get_`, `read_`, `make_`, `generate_`, `check_`, `verify_`, and similar names require the semantic decision defined in the naming contract.
+
+The basename of a function file must equal its function name. For an internal function, remove its one permitted leading dot when comparing the names.
+
+Do not create vague variants such as `_simple`, `_basic`, `_new`, `_old`, `_final`, or `_temp`. Use a strategy-specific suffix, a documented `method` or `strategy` argument when contracts are identical, or distinct domain names when contracts differ.
 
 Examples of good function names:
 
 ```r
-estimate_alpha_diversity()
+compute_alpha_diversity()
 
-get_first_value()
+select_first_value()
 
-transform_into_character()
+prepare_character_values()
 ```
 
 #### Internal Functions
 
-It is possible to start a function with a `"."` (e.g., `.get_round_value()`) to flag internal functions.
+An internal function may begin with one leading dot (for example, `.resolve_round_value()`).
 
 ### Column (Variable) Names in Data Frames
 
@@ -251,7 +259,7 @@ Whenever the right-hand side is a **function call**, place a newline after `<-` 
 
 ```r
 data_diversity <-
-  read_data(...)
+  load_data(...)
 
 data_coords <-
   tibble::tibble(x = vec_x, y = vec_y)
@@ -279,7 +287,7 @@ flag <- TRUE         # OK: logical literal
 The **exception** for the newline rule is function *definitions*  -  those keep `<-` on the same line as `function`:
 
 ```r
-get_data <- function(...) {
+load_data <- function(...) {
   ...
 }
 ```
@@ -290,7 +298,7 @@ Prefer the **native pipe `|>`** (R 4.1+). Note that there should be a space befo
 
 ```r
 data_diversity <-
-  get_data() |>
+  load_data() |>
   transform_to_percentages()
 ```
 
@@ -315,19 +323,19 @@ Use the **magrittr pipe `%>%`** when the native pipe cannot be used cleanly:
 This should be true for both function declaration and usage. The exception is a single argument.
 
 ```r
-get_data <- function(arg1 = foo,
-                     arg2 = here::here()) {
+load_data <- function(arg1 = foo,
+                      arg2 = here::here()) {
   ...
 }
 
 data_diversity <-
-  get_data(
+  load_data(
     arg1 = foo,
     arg2 = here::here()
   )
 
 vec_selected_regions <-
-  get_regions(arg1 = foo)
+  select_regions(arg1 = foo)
 ```
 
 #### 5. Inside `if()`, `for()`, and `while()` Conditions
@@ -382,9 +390,9 @@ Examples:
 ```r
 1 + (a + b)
 
-get_data(arg = foo)
+load_data(arg = foo)
 
-get_data(
+load_data(
   agr1 = foo,
   agr2 = here::here()
 )
@@ -414,7 +422,7 @@ data_cars[, 2]
 Examples:
 
 ```r
-get_data <- function(agr1) {
+load_data <- function(agr1) {
   ...
 }
 
@@ -491,7 +499,7 @@ There should be a new line after the assignment. Note that rarely single-line as
 
 ```r
 data_diversity <-
-  get_data()
+  load_data()
 
 preferred_shape <- "triangle"
 ```
@@ -924,6 +932,15 @@ Treat `R/Functions/Pipeline/Configuration/` as the project boundary around `{con
 - do not call `config::get()` or `config::is_active()` from runtime scripts, pipelines, or reusable functions;
 - edit human-authored files under `Configuration/`, then run `R/03_Supplementary_analyses/Validation/Configuration/Generate_configuration.R` to regenerate the tracked root `config.yml` and profile catalog;
 - run `Check_configuration.R` from the same directory to fail on generated drift.
+
+## renv Lockfile Management
+
+- Never edit, patch, mechanically rewrite, re-encode, or otherwise modify `renv.lock` with an editor, script, formatter, search-and-replace tool, or generic file-writing tool.
+- Make package-library changes with `{renv}` functions such as `renv::install()`, `renv::remove()`, and `renv::restore()`. Any intended `renv.lock` write must be performed by `{renv}`, normally with `renv::snapshot()` or, when deliberately recording explicit package metadata, `renv::record()`.
+- Run lockfile-changing `{renv}` commands from the repository root in a fresh R session so the active project and library are unambiguous.
+- Do not run `renv::snapshot()` merely to silence an out-of-sync warning or capture unrelated local-library drift. Review `renv::status()` first and scope the snapshot to the intended dependency change.
+- After an intended lockfile update, inspect `git diff -- renv.lock`, verify that only the intended packages and metadata changed, and confirm in a fresh R session that `{renv}` can parse the lockfile. Report and explain any remaining `renv::status()` discrepancies.
+- If `{renv}` cannot parse `renv.lock`, stop and diagnose the file bytes, encoding, Git state, and R session. Restore a known-good tracked copy when appropriate; never attempt to repair the lockfile by rewriting it directly.
 
 ## Visualisation Conventions
 

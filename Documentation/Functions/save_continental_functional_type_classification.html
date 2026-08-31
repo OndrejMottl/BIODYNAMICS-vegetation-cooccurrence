@@ -34,6 +34,7 @@ produced upstream by 'assign_functional_type_clusters()' via the
   data_functional_type_classification,
   path_classification_directory = here::here("Data/Processed/Traits"),
   classification_source_prefix = NULL,
+  trait_variant_id = "all_six",
   verbose = TRUE
 )
 </code></pre>
@@ -67,6 +68,11 @@ output file will be written. Default:
 'continent_id' portion of the file name. Use 'NULL' (default)
 for the historical paleo/global naming convention, or '&quot;modern&quot;'
 for modern-data functional-type classifications.</p>
+</td></tr>
+<tr><td><code id="trait_variant_id">trait_variant_id</code></td>
+<td>
+<p>Functional-type trait variant identifier. The primary &quot;all_six&quot; variant
+retains the historical file name. Sensitivity variants receive a suffix.</p>
 </td></tr>
 <tr><td><code id="verbose">verbose</code></td>
 <td>

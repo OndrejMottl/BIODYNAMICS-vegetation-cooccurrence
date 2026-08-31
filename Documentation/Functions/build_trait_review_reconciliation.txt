@@ -1,0 +1,77 @@
+Build Trait Review Reconciliation
+
+Description:
+
+     Combines the mandatory trait-review queue with historical report
+     coverage, submitted review rows, and recovered decision proposals.
+     The result has one row per current candidate and assigns an
+     auditable remaining-work category.
+
+Usage:
+
+     build_trait_review_reconciliation(
+       data_trait_review_candidates,
+       data_historical_review_scope,
+       data_review_submission_audit,
+       data_review_decision_proposals
+     )
+
+Arguments:
+
+data_trait_review_candidates: Current candidate table from
+          [build_trait_review_candidates()].
+
+data_historical_review_scope: Historical report index with
+          `candidate_id`, `historical_report_path`,
+          `historical_report_page`, `historical_reviewed`, and the
+          coverage basis.
+
+data_review_submission_audit: Derived submission audit with
+          `candidate_id`, `source_row`, and `proposal_type`.
+
+data_review_decision_proposals: Recovered proposal table with
+          `candidate_id` and `decision_id`.
+
+Value:
+
+     A tibble containing every current candidate exactly once,
+     historical and submission counts, proposal status, implicit
+     no-action eligibility, and `remaining_review_category`.
+
+Examples:
+
+     candidates <- tibble::tibble(
+       candidate_id = "candidate-a",
+       review_stage = "raw",
+       taxon_name = "Taxon A",
+       trait_domain_name = "Plant heigh",
+       n_records = 10L,
+       n_trait_names = 1L,
+       n_datasets = 1L,
+       n_domain_outliers = 0L,
+       n_taxon_outliers = 1L,
+       source_references = "",
+       candidate_reasons = "taxon_outlier"
+     )
+     historical <- tibble::tibble(
+       candidate_id = "candidate-a",
+       historical_report_path = "report.pdf",
+       historical_report_page = 2L,
+       historical_reviewed = TRUE,
+       historical_review_basis = "complete domain review"
+     )
+     audit <- tibble::tibble(
+       candidate_id = character(),
+       source_row = integer(),
+       proposal_type = character()
+     )
+     proposals <- tibble::tibble(
+       candidate_id = character(),
+       decision_id = character()
+     )
+     build_trait_review_reconciliation(
+       candidates,
+       historical,
+       audit,
+       proposals
+     )

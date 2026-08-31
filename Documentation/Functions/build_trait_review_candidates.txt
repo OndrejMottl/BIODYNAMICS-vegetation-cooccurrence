@@ -1,0 +1,44 @@
+Build Trait Review Candidates
+
+Description:
+
+     Builds an auditable taxon-by-domain review queue from within-taxon
+     trait outlier flags, objective invalid values, and optional source
+     review keys. Domain-level flags remain diagnostic and do not
+     create candidates alone.
+
+Usage:
+
+     build_trait_review_candidates(
+       data_trait_records,
+       data_source_candidates = NULL,
+       review_stage = "raw",
+       domain_iqr_multiplier = 3,
+       taxon_iqr_multiplier = 1.5,
+       minimum_taxon_records = 10L
+     )
+
+Arguments:
+
+data_trait_records: Trait records containing `taxon_name`,
+          `trait_domain_name`, and `trait_value`.
+
+data_source_candidates: Optional data frame containing `taxon_name`,
+          `trait_domain_name`, and `source_reference` from an external
+          review source.
+
+review_stage: Character scalar: either `"raw"` or `"classified"`.
+
+domain_iqr_multiplier: Positive numeric domain-level IQR multiplier.
+          Default: `3`.
+
+taxon_iqr_multiplier: Positive numeric within-taxon IQR multiplier.
+          Default: `1.5`.
+
+minimum_taxon_records: Positive integer minimum group size. Default:
+          `10L`.
+
+Value:
+
+     A tibble with one row per review candidate and a stable SHA-256
+     `candidate_id`.

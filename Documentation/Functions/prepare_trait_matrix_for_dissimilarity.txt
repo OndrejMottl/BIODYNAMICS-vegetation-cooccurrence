@@ -1,0 +1,40 @@
+Prepare Trait Matrix for Dissimilarity
+
+Description:
+
+     Applies an explicit named transformation contract to numeric trait
+     columns while preserving the taxon identifier and missing values.
+     Traits omitted from the contract are excluded from the returned
+     sensitivity matrix.
+
+Usage:
+
+     prepare_trait_matrix_for_dissimilarity(
+       data_trait_table,
+       vec_trait_transformations,
+       taxon_column = "taxon_name"
+     )
+
+Arguments:
+
+data_trait_table: Wide taxon-by-trait data frame.
+
+vec_trait_transformations: Named character vector selecting one or more
+          available trait columns. Supported values are `"identity"`
+          and `"log10"`.
+
+taxon_column: Character scalar naming the taxon identifier column.
+
+Value:
+
+     A transformed tibble containing the taxon and selected traits.
+
+Examples:
+
+     prepare_trait_matrix_for_dissimilarity(
+       data_trait_table = tibble::tibble(
+         taxon_name = c("A", "B"),
+         `Plant heigh` = c(10, 100)
+       ),
+       vec_trait_transformations = c(`Plant heigh` = "log10")
+     )

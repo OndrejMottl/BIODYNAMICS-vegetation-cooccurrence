@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><title>R: Validate Trait Review Decisions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>validate_trait_review_decisions</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Validate Trait Review Decisions</h2>
+
+<h3>Description</h3>
+
+<p>Validates review schema, human approval, candidate coverage, selectors,
+and correction-rule conflicts against current trait records.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>validate_trait_review_decisions(
+  data_trait_review_decisions,
+  data_trait_records,
+  data_trait_review_candidates,
+  data_trait_source_scale_record_audit = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_trait_review_decisions">data_trait_review_decisions</code></td>
+<td>
+<p>Decision data loaded by [load_trait_review_decisions()].</p>
+</td></tr>
+<tr><td><code id="data_trait_records">data_trait_records</code></td>
+<td>
+<p>Current trait records for the review stage.</p>
+</td></tr>
+<tr><td><code id="data_trait_review_candidates">data_trait_review_candidates</code></td>
+<td>
+<p>Current candidates from [build_trait_review_candidates()].</p>
+</td></tr>
+<tr><td><code id="data_trait_source_scale_record_audit">data_trait_source_scale_record_audit</code></td>
+<td>
+<p>Optional record-level audit from [apply_trait_source_scale_rules()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A tibble containing validated review decisions.
+</p>
+
+</main>
+
+</div>
+</body></html>

@@ -1,15 +1,16 @@
 #' @title Filter Complete Trait Records
 #' @description
 #' Selects the required columns from a raw trait data frame and
-#' removes rows where `taxon_id` or `trait_value` is `NA`.
+#' removes rows where `taxon_id` is `NA` or `trait_value` is not finite.
 #' @param data_trait_records_raw
 #' A data frame returned by [load_trait_records_from_vegvault()].
-#' Expected to contain at least the columns `taxon_id`,
-#' `trait_domain_name`, `trait_name`, and `trait_value`.
+#' Expected to contain at least `taxon_id`, `trait_domain_name`,
+#' and `trait_value`. Source identifiers are retained when present.
 #' @return
-#' A tibble with columns `taxon_id`, `trait_domain_name`,
-#' `trait_name`, and `trait_value`, with all rows where `taxon_id`
-#' or `trait_value` is `NA` removed.
+#' A tibble retaining `dataset_id`, `dataset_name`, `data_source_id`,
+#' `sample_id`,
+#' `trait_id`, `taxon_id`, and the trait fields when present, with
+#' incomplete taxon identifiers and non-finite values removed.
 #' @details
 #' Uses [dplyr::any_of()] for column selection so the function
 #' tolerates input data frames that already lack one of the optional
@@ -28,6 +29,11 @@ filter_complete_trait_records <- function(data_trait_records_raw) {
     dplyr::select(
       dplyr::any_of(
         base::c(
+          "dataset_id",
+          "dataset_name",
+          "data_source_id",
+          "sample_id",
+          "trait_id",
           "taxon_id",
           "trait_domain_name",
           "trait_name",
@@ -37,7 +43,7 @@ filter_complete_trait_records <- function(data_trait_records_raw) {
     ) |>
     dplyr::filter(
       !base::is.na(.data[["taxon_id"]]),
-      !base::is.na(.data[["trait_value"]])
+      base::is.finite(.data[["trait_value"]])
     )
 
   return(data_trait_records_complete)

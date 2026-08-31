@@ -22,6 +22,9 @@
 #' `continent_id` portion of the file name. Use `NULL` (default)
 #' for the historical paleo/global naming convention, or `"modern"`
 #' for modern-data functional-type classifications.
+#' @param trait_variant_id
+#' Functional-type trait variant identifier. The primary "all_six" variant
+#' retains the historical file name. Sensitivity variants receive a suffix.
 #' @param verbose
 #' Logical. If `TRUE` (default), progress messages are printed
 #' to the console via `cli`.
@@ -60,6 +63,7 @@ save_continental_functional_type_classification <- function(
     data_functional_type_classification,
     path_classification_directory = here::here("Data/Processed/Traits"),
     classification_source_prefix = NULL,
+    trait_variant_id = "all_six",
     verbose = TRUE) {
   assertthat::assert_that(
     base::is.character(continent_id),
@@ -93,6 +97,10 @@ save_continental_functional_type_classification <- function(
     )
   }
 
+  resolve_functional_type_trait_transformations(
+    trait_variant_id = trait_variant_id
+  )
+
   assertthat::assert_that(
     base::is.logical(verbose),
     base::length(verbose) == 1L,
@@ -108,10 +116,20 @@ save_continental_functional_type_classification <- function(
       stringr::str_glue("{classification_source_prefix}_")
     }
 
+  trait_variant_suffix <-
+    if (
+      trait_variant_id == "all_six"
+    ) {
+      ""
+    } else {
+      stringr::str_glue("_{trait_variant_id}")
+    }
+
   classification_file_stem <-
     stringr::str_glue(
       "data_functional_type_classification_",
-      "{classification_file_prefix}{continent_id}"
+      "{classification_file_prefix}{continent_id}",
+      "{trait_variant_suffix}"
     )
 
   # RUtilpol verbosity is suppressed here: our own `verbose` argument

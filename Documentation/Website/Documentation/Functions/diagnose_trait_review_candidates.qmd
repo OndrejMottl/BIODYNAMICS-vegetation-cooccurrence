@@ -1,0 +1,111 @@
+---
+format: html
+title: diagnose_trait_review_candidates()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>diagnose_trait_review_candidates</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Diagnose Trait Review Candidates</h2>
+
+<h3>Description</h3>
+
+<p>Produces conservative policy recommendations, targeted investigations, and
+exact recovered-proposal diagnostics without changing records or decisions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>diagnose_trait_review_candidates(
+  data_candidate_evidence,
+  data_record_evidence,
+  data_review_decision_proposals
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_candidate_evidence">data_candidate_evidence</code></td>
+<td>
+<p>Candidate evidence returned by [build_trait_review_evidence_packets()].</p>
+</td></tr>
+<tr><td><code id="data_record_evidence">data_record_evidence</code></td>
+<td>
+<p>Record evidence returned by [build_trait_review_evidence_packets()].</p>
+</td></tr>
+<tr><td><code id="data_review_decision_proposals">data_review_decision_proposals</code></td>
+<td>
+<p>Recovered, unapproved atomic decision proposals.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named list containing 'data_candidate_recommendations' and
+'data_proposal_diagnostics'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>candidate_evidence &lt;- tibble::tibble(
+  candidate_id = "candidate-a",
+  n_nonpositive = 0L,
+  n_nonfinite = 0L,
+  historical_summary_stable = TRUE,
+  implicit_none_proposal_eligible = TRUE,
+  possible_unit_pattern = FALSE,
+  candidate_impact_score = 0.5,
+  candidate_impact_tier = "medium"
+)
+record_evidence &lt;- tibble::tibble(
+  candidate_id = "candidate-a",
+  taxon_name = "Taxon A",
+  trait_domain_name = "Diaspore mass",
+  trait_value = 1,
+  trait_name = "Seed mass",
+  dataset_id = 1L
+)
+proposals &lt;- tibble::tibble(
+  decision_id = character(),
+  candidate_id = character(),
+  taxon_name = character(),
+  trait_domain_name = character(),
+  trait_name = character(),
+  dataset_id = integer(),
+  value_lower = double(),
+  value_lower_inclusive = logical(),
+  value_upper = double(),
+  value_upper_inclusive = logical(),
+  action = character(),
+  scale_factor = double()
+)
+diagnose_trait_review_candidates(
+  candidate_evidence,
+  record_evidence,
+  proposals
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

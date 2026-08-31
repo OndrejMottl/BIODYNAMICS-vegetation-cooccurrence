@@ -1,0 +1,71 @@
+Diagnose Trait Review Candidates
+
+Description:
+
+     Produces conservative policy recommendations, targeted
+     investigations, and exact recovered-proposal diagnostics without
+     changing records or decisions.
+
+Usage:
+
+     diagnose_trait_review_candidates(
+       data_candidate_evidence,
+       data_record_evidence,
+       data_review_decision_proposals
+     )
+
+Arguments:
+
+data_candidate_evidence: Candidate evidence returned by
+          [build_trait_review_evidence_packets()].
+
+data_record_evidence: Record evidence returned by
+          [build_trait_review_evidence_packets()].
+
+data_review_decision_proposals: Recovered, unapproved atomic decision
+          proposals.
+
+Value:
+
+     A named list containing `data_candidate_recommendations` and
+     `data_proposal_diagnostics`.
+
+Examples:
+
+     candidate_evidence <- tibble::tibble(
+       candidate_id = "candidate-a",
+       n_nonpositive = 0L,
+       n_nonfinite = 0L,
+       historical_summary_stable = TRUE,
+       implicit_none_proposal_eligible = TRUE,
+       possible_unit_pattern = FALSE,
+       candidate_impact_score = 0.5,
+       candidate_impact_tier = "medium"
+     )
+     record_evidence <- tibble::tibble(
+       candidate_id = "candidate-a",
+       taxon_name = "Taxon A",
+       trait_domain_name = "Diaspore mass",
+       trait_value = 1,
+       trait_name = "Seed mass",
+       dataset_id = 1L
+     )
+     proposals <- tibble::tibble(
+       decision_id = character(),
+       candidate_id = character(),
+       taxon_name = character(),
+       trait_domain_name = character(),
+       trait_name = character(),
+       dataset_id = integer(),
+       value_lower = double(),
+       value_lower_inclusive = logical(),
+       value_upper = double(),
+       value_upper_inclusive = logical(),
+       action = character(),
+       scale_factor = double()
+     )
+     diagnose_trait_review_candidates(
+       candidate_evidence,
+       record_evidence,
+       proposals
+     )

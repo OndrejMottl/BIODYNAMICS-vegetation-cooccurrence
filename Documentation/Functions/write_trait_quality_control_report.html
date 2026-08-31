@@ -20,7 +20,7 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Computes per-domain and per-domain×taxon summary statistics for raw
+<p>Computes per-domain and per-domainCtaxon summary statistics for raw
 trait data and identifies suspected outlier taxa at two levels: a
 lenient domain-level check and a stricter within-taxon check.
 Writes the per-taxon summary as a human-readable CSV report and creates
@@ -73,13 +73,13 @@ variation.</p>
 <tr><td><code id="taxon_iqr_multiplier">taxon_iqr_multiplier</code></td>
 <td>
 <p>Positive numeric scalar. The stricter IQR multiplier applied
-within each taxon × domain group. A record is flagged when
+within each taxon C domain group. A record is flagged when
 '|trait_value - taxon_median| &gt; taxon_iqr_multiplier * taxon_IQR'
 and the taxon has at least 'minimum_taxon_records' records in the domain.
 Default: '1.5'. This is tighter than the domain-level
 'domain_iqr_multiplier' because within-taxon
 variability should be far smaller than cross-taxon variability;
-any record deviating by more than 1.5 × the within-taxon IQR is
+any record deviating by more than 1.5 C the within-taxon IQR is
 suspicious even when it is not an extreme cross-domain outlier.</p>
 </td></tr>
 <tr><td><code id="minimum_taxon_records">minimum_taxon_records</code></td>
@@ -114,7 +114,7 @@ inconsistencies that the cross-taxon check would miss.
 </p>
 </li></ol>
 
-<p>The CSV report contains the per-domain×taxon summary. By default it is
+<p>The CSV report contains the per-domainCtaxon summary. By default it is
 written to 'Data/Temp/trait_quality_control_report_YYYY-MM-DD.csv', but an
 explicit 'path_trait_quality_control_report' can be supplied when the
 caller needs an isolated output location.
@@ -136,20 +136,20 @@ contains the columns: 'taxon_name', 'trait_domain_name', 'action',
 'n_suspected_outliers'.</p>
 </dd>
 <dt>'data_summary_by_domain_taxon'</dt><dd><p>A tibble with one row per
-'trait_domain_name × taxon_name' combination where the taxon
+'trait_domain_name C taxon_name' combination where the taxon
 has at least 'minimum_taxon_records' records in that domain,
 containing: 'n_records', 'mean', 'median', 'sd', 'iqr',
 'n_suspected_outliers'.</p>
 </dd>
 <dt>'vec_suspected_outlier_taxa_domain'</dt><dd><p>A character vector of taxon
 names whose trait value in any domain falls more than
-'domain_iqr_multiplier' × IQR from the domain median
+'domain_iqr_multiplier' C IQR from the domain median
 (cross-taxon check).</p>
 </dd>
 <dt>'vec_suspected_outlier_taxa_taxon'</dt><dd><p>A character vector of taxon
 names that have at least 'minimum_taxon_records' records in a
 domain and whose trait value falls more than
-'taxon_iqr_multiplier' × IQR from their own taxon median
+'taxon_iqr_multiplier' C IQR from their own taxon median
 (within-taxon check).</p>
 </dd>
 </dl>

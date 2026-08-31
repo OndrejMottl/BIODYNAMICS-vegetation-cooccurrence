@@ -318,3 +318,32 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "save classification isolates sensitivity variant file names",
+  {
+    withr::with_tempdir(
+      {
+        data_classification <-
+          tibble::tibble(
+            taxon_name = "A",
+            functional_type = 1L
+          )
+
+        path_saved <-
+          save_continental_functional_type_classification(
+            continent_id = "europe",
+            data_functional_type_classification = data_classification,
+            path_classification_directory = base::getwd(),
+            trait_variant_id = "without_lma",
+            verbose = FALSE
+          )
+
+        testthat::expect_match(
+          base::basename(path_saved),
+          "classification_europe_without_lma_"
+        )
+      }
+    )
+  }
+)

@@ -22,7 +22,7 @@ function processMathHTML() {
 
 <p>Extracts specified variance partitioning fractions from a
 single sjSDManova object, returning a two-column tibble with
-fraction labels and their Nagelkerke R² values.
+fraction labels and their Nagelkerke RB2 values.
 </p>
 
 
@@ -53,7 +53,7 @@ fraction labels and their Nagelkerke R² values.
 <tr><td><code id="clamp_negative">clamp_negative</code></td>
 <td>
 <p>A single logical (default 'TRUE'). If 'TRUE', negative
-Nagelkerke R² values are clamped to 0.</p>
+Nagelkerke RB2 values are clamped to 0.</p>
 </td></tr>
 </table>
 
@@ -75,7 +75,7 @@ human-readable component labels.
 <dt>component</dt><dd><p>Character. Human-readable component label
 (e.g. &quot;Abiotic&quot;, &quot;Associations&quot;, &quot;Spatial&quot;).</p>
 </dd>
-<dt>R2_Nagelkerke</dt><dd><p>Numeric. Nagelkerke R² value for
+<dt>R2_Nagelkerke</dt><dd><p>Numeric. Nagelkerke RB2 value for
 each fraction, optionally clamped to [0, Inf).</p>
 </dd>
 </dl>

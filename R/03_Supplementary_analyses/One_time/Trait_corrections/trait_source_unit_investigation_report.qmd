@@ -1,0 +1,455 @@
+---
+title: "Focused trait source-unit investigation"
+date: "2026-08-31"
+format: gfm
+---
+
+```{r setup, include=FALSE}
+Sys.setenv(R_CONFIG_ACTIVE = "project_traits_reference")
+source(here::here("R/___setup_project___.R"))
+
+path_output_directory <-
+  here::here(
+    "Outputs/Reports/Trait_corrections/source_unit_investigation"
+  )
+path_trait_store <-
+  resolve_pipeline_store_path(
+    pipeline_script = "pipeline_traits_reference.R"
+  )
+vec_domains_focus <-
+  base::c(
+    "Stem specific density",
+    "Leaf mass per area",
+    "Leaf nitrogen content per unit mass"
+  )
+data_unit_contract <-
+  tibble::tribble(
+    ~trait_domain_name, ~intended_unit, ~provenance_status,
+    "Leaf mass per area", "g/m2", "TRY Global Spectrum release",
+    "Leaf nitrogen content per unit mass", "mg/g",
+    "TRY Global Spectrum release",
+    "Stem specific density", "mg/mm3", "TRY Global Spectrum release"
+  )
+ssd_plausible_minimum <- 0.1
+ssd_plausible_maximum <- 1.5
+data_traits <-
+  targets::tar_read_raw(
+    name = "data_traits_source_scaled",
+    store = path_trait_store
+  ) |>
+  dplyr::filter(
+    .data[["trait_domain_name"]] %in% vec_domains_focus,
+    base::is.finite(.data[["trait_value"]]),
+    .data[["trait_value"]] > 0
+  )
+
+connection_vegvault <-
+  DBI::dbConnect(
+    RSQLite::SQLite(),
+    here::here("Data/Input/VegVault.sqlite")
+  )
+data_source_descriptions <-
+  DBI::dbGetQuery(
+    connection_vegvault,
+    "SELECT data_source_id, data_source_desc FROM DatasetSourcesID"
+  ) |>
+  tibble::as_tibble()
+DBI::dbDisconnect(connection_vegvault)
+
+data_source_taxon_medians <-
+  data_traits |>
+  dplyr::group_by(
+    .data[["taxon_name"]],
+    .data[["trait_domain_name"]],
+    .data[["data_source_id"]]
+  ) |>
+  dplyr::summarise(
+    source_taxon_median = stats::median(.data[["trait_value"]]),
+    n_source_taxon_records = dplyr::n(),
+    .groups = "drop"
+  ) |>
+  dplyr::group_by(
+    .data[["taxon_name"]],
+    .data[["trait_domain_name"]]
+  ) |>
+  dplyr::mutate(
+    n_sources_for_taxon = dplyr::n(),
+    other_source_median = purrr::map_dbl(
+      base::seq_len(dplyr::n()),
+      function(index_source) {
+        if (dplyr::n() == 1L) {
+          return(NA_real_)
+        }
+        stats::median(
+          .data[["source_taxon_median"]][-index_source]
+        )
+      }
+    )
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(
+    comparative_ratio =
+      .data[["other_source_median"]] /
+        .data[["source_taxon_median"]]
+  )
+
+data_source_record_summary <-
+  data_traits |>
+  dplyr::group_by(
+    .data[["data_source_id"]],
+    .data[["trait_domain_name"]]
+  ) |>
+  dplyr::summarise(
+    n_records = dplyr::n(),
+    n_taxa = dplyr::n_distinct(.data[["taxon_name"]]),
+    n_datasets = dplyr::n_distinct(.data[["dataset_id"]]),
+    n_trait_names = dplyr::n_distinct(.data[["trait_name"]]),
+    value_minimum = base::min(.data[["trait_value"]]),
+    value_lwr_25 = stats::quantile(.data[["trait_value"]], 0.25),
+    value_median = stats::median(.data[["trait_value"]]),
+    value_upr_75 = stats::quantile(.data[["trait_value"]], 0.75),
+    value_maximum = base::max(.data[["trait_value"]]),
+    .groups = "drop"
+  )
+
+data_source_comparison <-
+  data_source_taxon_medians |>
+  dplyr::filter(base::is.finite(.data[["comparative_ratio"]])) |>
+  dplyr::group_by(
+    .data[["data_source_id"]],
+    .data[["trait_domain_name"]]
+  ) |>
+  dplyr::summarise(
+    n_shared_taxa = dplyr::n(),
+    ratio_lwr_25 = stats::quantile(.data[["comparative_ratio"]], 0.25),
+    ratio_median = stats::median(.data[["comparative_ratio"]]),
+    ratio_upr_75 = stats::quantile(.data[["comparative_ratio"]], 0.75),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(
+    nearest_power_of_ten_ratio =
+      10^base::round(base::log10(.data[["ratio_median"]])),
+    factor_relative_error = base::abs(
+      .data[["ratio_median"]] -
+        .data[["nearest_power_of_ten_ratio"]]
+    ) / .data[["nearest_power_of_ten_ratio"]]
+  )
+
+data_factor_support <-
+  data_source_taxon_medians |>
+  dplyr::filter(base::is.finite(.data[["comparative_ratio"]])) |>
+  dplyr::inner_join(
+    data_source_comparison |>
+      dplyr::select(
+        "data_source_id",
+        "trait_domain_name",
+        "nearest_power_of_ten_ratio"
+      ),
+    by = dplyr::join_by(data_source_id, trait_domain_name),
+    relationship = "many-to-one"
+  ) |>
+  dplyr::group_by(
+    .data[["data_source_id"]],
+    .data[["trait_domain_name"]]
+  ) |>
+  dplyr::summarise(
+    fraction_within_factor_two = base::mean(
+      .data[["comparative_ratio"]] >=
+        .data[["nearest_power_of_ten_ratio"]] / 2 &
+        .data[["comparative_ratio"]] <=
+          .data[["nearest_power_of_ten_ratio"]] * 2
+    ),
+    fraction_within_25_percent = base::mean(
+      base::abs(
+        .data[["comparative_ratio"]] -
+          .data[["nearest_power_of_ten_ratio"]]
+      ) / .data[["nearest_power_of_ten_ratio"]] <= 0.25
+    ),
+    .groups = "drop"
+  )
+
+data_source_evidence <-
+  data_source_record_summary |>
+  dplyr::left_join(
+    data_source_comparison,
+    by = dplyr::join_by(data_source_id, trait_domain_name),
+    relationship = "one-to-one"
+  ) |>
+  dplyr::left_join(
+    data_factor_support,
+    by = dplyr::join_by(data_source_id, trait_domain_name),
+    relationship = "one-to-one"
+  ) |>
+  dplyr::left_join(
+    data_source_descriptions,
+    by = dplyr::join_by(data_source_id),
+    relationship = "many-to-one"
+  ) |>
+  dplyr::mutate(
+    absolute_log10_ratio = base::abs(
+      base::log10(.data[["ratio_median"]])
+    ),
+    scale_cluster_strength = dplyr::case_when(
+      .data[["n_shared_taxa"]] >= 5 &
+        .data[["absolute_log10_ratio"]] >= 0.75 &
+        .data[["fraction_within_factor_two"]] >= 0.5 ~ "strong",
+      .data[["n_shared_taxa"]] >= 2 &
+        .data[["absolute_log10_ratio"]] >= 0.75 ~ "investigate",
+      TRUE ~ "none"
+    )
+  )
+
+vec_forced_focus_sources <- base::c(123L, 137L, 211L, 660L)
+data_metadata_candidates <-
+  data_source_evidence |>
+  dplyr::filter(
+    .data[["scale_cluster_strength"]] != "none" |
+      .data[["data_source_id"]] %in% vec_forced_focus_sources
+  ) |>
+  dplyr::arrange(
+    factor(
+      .data[["scale_cluster_strength"]],
+      c("strong", "investigate", "none")
+    ),
+    .data[["trait_domain_name"]],
+    dplyr::desc(.data[["n_shared_taxa"]])
+  )
+
+data_partition_summary <-
+  data_traits |>
+  dplyr::semi_join(
+    data_metadata_candidates,
+    by = dplyr::join_by(data_source_id, trait_domain_name)
+  ) |>
+  dplyr::group_by(
+    .data[["data_source_id"]],
+    .data[["trait_domain_name"]],
+    .data[["trait_name"]],
+    .data[["dataset_id"]],
+    .data[["dataset_name"]]
+  ) |>
+  dplyr::summarise(
+    n_records = dplyr::n(),
+    n_taxa = dplyr::n_distinct(.data[["taxon_name"]]),
+    value_minimum = base::min(.data[["trait_value"]]),
+    value_median = stats::median(.data[["trait_value"]]),
+    value_maximum = base::max(.data[["trait_value"]]),
+    .groups = "drop"
+  )
+
+data_priority_candidates <-
+  data_metadata_candidates |>
+  dplyr::filter(
+    .data[["scale_cluster_strength"]] == "strong" |
+      .data[["data_source_id"]] %in% vec_forced_focus_sources
+  ) |>
+  dplyr::select(
+    "data_source_id",
+    "data_source_desc",
+    "trait_domain_name",
+    "n_records",
+    "n_taxa",
+    "n_shared_taxa",
+    "value_median",
+    "ratio_median",
+    "nearest_power_of_ten_ratio",
+    "fraction_within_factor_two",
+    "scale_cluster_strength"
+  )
+
+data_ssd_assessment <-
+  data_traits |>
+  dplyr::filter(
+    .data[["trait_domain_name"]] == "Stem specific density",
+    .data[["data_source_id"]] %in% base::c(123L, 137L, 660L)
+  ) |>
+  dplyr::mutate(
+    diagnostic_factor = dplyr::case_when(
+      .data[["data_source_id"]] == 123L ~ 0.001,
+      .data[["data_source_id"]] == 137L ~ 100,
+      .data[["data_source_id"]] == 660L ~ 1000
+    ),
+    diagnostic_value = .data[["trait_value"]] *
+      .data[["diagnostic_factor"]],
+    within_plausibility_band =
+      .data[["diagnostic_value"]] >= ssd_plausible_minimum &
+        .data[["diagnostic_value"]] <= ssd_plausible_maximum
+  ) |>
+  dplyr::group_by(.data[["data_source_id"]]) |>
+  dplyr::summarise(
+    n_records = dplyr::n(),
+    value_minimum = base::min(.data[["trait_value"]]),
+    value_median = stats::median(.data[["trait_value"]]),
+    value_maximum = base::max(.data[["trait_value"]]),
+    diagnostic_factor = dplyr::first(.data[["diagnostic_factor"]]),
+    diagnostic_minimum = base::min(.data[["diagnostic_value"]]),
+    diagnostic_median = stats::median(.data[["diagnostic_value"]]),
+    diagnostic_maximum = base::max(.data[["diagnostic_value"]]),
+    n_within_band = base::sum(.data[["within_plausibility_band"]]),
+    n_outside_band = base::sum(!.data[["within_plausibility_band"]]),
+    .groups = "drop"
+  ) |>
+  dplyr::left_join(
+    data_source_descriptions,
+    by = dplyr::join_by(data_source_id),
+    relationship = "many-to-one"
+  ) |>
+  dplyr::mutate(
+    interpretation = dplyr::case_when(
+      .data[["data_source_id"]] == 123L ~
+        "near-ready; verify that the source values are kg/m3",
+      .data[["data_source_id"]] == 660L ~
+        "near-ready; verify the source mass-volume unit",
+      TRUE ~
+        "mixed source; factor 100 leaves residual records outside the band"
+    )
+  )
+
+data_ssd_137_residual_summary <-
+  data_traits |>
+  dplyr::filter(
+    .data[["trait_domain_name"]] == "Stem specific density",
+    .data[["data_source_id"]] == 137L
+  ) |>
+  dplyr::mutate(
+    diagnostic_value = .data[["trait_value"]] * 100,
+    residual_class = dplyr::case_when(
+      .data[["diagnostic_value"]] < ssd_plausible_minimum ~
+        "below plausibility band",
+      .data[["diagnostic_value"]] > ssd_plausible_maximum ~
+        "above plausibility band",
+      TRUE ~ "within plausibility band"
+    )
+  ) |>
+  dplyr::count(
+    .data[["residual_class"]],
+    name = "n_records"
+  )
+
+readr::write_csv(
+  data_source_evidence,
+  base::file.path(path_output_directory, "trait_source_unit_evidence.csv")
+)
+readr::write_csv(
+  data_metadata_candidates,
+  base::file.path(
+    path_output_directory,
+    "trait_source_unit_metadata_candidates.csv"
+  )
+)
+readr::write_csv(
+  data_partition_summary,
+  base::file.path(path_output_directory, "trait_source_unit_partitions.csv")
+)
+readr::write_csv(
+  data_ssd_assessment,
+  base::file.path(
+    path_output_directory,
+    "trait_source_unit_ssd_assessment.csv"
+  )
+)
+readr::write_csv(
+  data_ssd_137_residual_summary,
+  base::file.path(
+    path_output_directory,
+    "trait_source_unit_ssd_137_residual_summary.csv"
+  )
+)
+```
+
+# Scope and decision status
+
+This is a diagnostic investigation of Stem specific density, Leaf mass per area and Leaf nitrogen content per unit mass after the ten already approved source rules have been applied.
+It does not approve or apply any additional correction.
+
+The comparison uses taxa observed in more than one source.
+For each source-domain combination, its taxon medians are compared with the median from all other sources for the same taxa.
+The nearest power-of-ten ratio describes a comparative scale cluster only; it is not a proposed conversion factor.
+Biological differences among sources can create the same pattern.
+
+# Intended unit contract
+
+The intended units are anchored to the [official TRY Global Spectrum release](https://www.try-db.org/TryWeb/Data.php#81), whose six fields match this project's six trait domains.
+
+```{r unit-contract-table, echo=FALSE, results='asis'}
+knitr::kable(data_unit_contract)
+```
+
+VegVault 1.0.0 did not retain a usable unit field for these records.
+Its archived TRY preparation selected `OrigValueStr` rather than TRY's standardized numeric value, and it reciprocated original SLA values without first normalizing the SLA unit.
+Therefore source metadata, not cross-source magnitude alone, must establish any conversion.
+
+# Metadata-verification candidates
+
+```{r priority-table, echo=FALSE, results='asis'}
+knitr::kable(data_priority_candidates, digits = 5)
+```
+
+This table is deliberately a queue for metadata verification.
+Rows marked `strong` have a repeatable cross-source scale displacement, but no row is an approved rule.
+
+# Stem specific density
+
+The diagnostic factors below were tested against a broad `r ssd_plausible_minimum`-`r ssd_plausible_maximum` mg/mm3 screening band.
+This band is a triage device, not a replacement for source metadata.
+
+```{r density-assessment, echo=FALSE, results='asis'}
+knitr::kable(data_ssd_assessment, digits = 5)
+```
+
+Sources 123 and 660 are near-ready for source-rule drafting because their entire record sets land inside the screening band after one dimensionally plausible conversion.
+They still require confirmation of the original source unit before approval.
+
+Source 137 is not ready for a blanket rule.
+Multiplication by 100 leaves residual records outside the screening band, as shown below.
+
+```{r density-137-residual-table, echo=FALSE, results='asis'}
+knitr::kable(data_ssd_137_residual_summary)
+```
+
+# Leaf mass per area
+
+The intended LMA unit is g/m2.
+The source clusters cannot be translated directly into correction factors because some values are original LMA while others were created by reciprocating SLA recorded in unknown original units.
+For example, a value near 100 can be valid LMA in g/m2, whereas a value near 0.05 can be a reciprocal expressed as kg/m2 and would require a different conversion.
+A log transformation cannot repair this provenance problem.
+
+```{r lma-candidates, echo=FALSE, results='asis'}
+knitr::kable(
+  data_metadata_candidates |>
+    dplyr::filter(
+      .data[["trait_domain_name"]] == "Leaf mass per area"
+    ) |>
+    utils::head(25),
+  digits = 5
+)
+```
+
+# Leaf nitrogen content per unit mass
+
+The intended nitrogen unit is mg/g.
+The observed source medians contain clusters compatible with original g/g, percent and mg/g reporting.
+Those conventions would imply different conversions, but the current database does not say which unit applies to each record.
+The table therefore prioritizes metadata recovery and does not authorize magnitude-based scaling.
+
+```{r nitrogen-candidates, echo=FALSE, results='asis'}
+knitr::kable(
+  data_metadata_candidates |>
+    dplyr::filter(
+      .data[["trait_domain_name"]] ==
+        "Leaf nitrogen content per unit mass"
+    ) |>
+    utils::head(25),
+  digits = 5
+)
+```
+
+# Next gate
+
+The immediate next action is source-metadata recovery, preferably from original TRY unit fields or archived source files.
+Sources 123 and 660 should be checked first because a single confirmed unit would settle every affected SSD record.
+Source 137 needs dataset-level metadata and residual handling rather than a blanket source rule.
+LMA and nitrogen require a programmatic source-to-original-unit mapping; cross-source ratios alone are insufficient.
+
+Until that mapping exists, the current six-trait table remains suitable for diagnostic and sensitivity runs, but not for a definitive all-six-trait reanalysis.
+No new correction has been applied by this investigation.

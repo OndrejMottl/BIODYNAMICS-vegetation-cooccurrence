@@ -1,0 +1,33 @@
+Resolve Functional-Type Trait Transformations
+
+Description:
+
+     Resolves one supported functional-type sensitivity variant to its
+     explicit named trait-transformation contract.
+
+Usage:
+
+     resolve_functional_type_trait_transformations(trait_variant_id = "all_six")
+
+Arguments:
+
+trait_variant_id: Character scalar identifying the sensitivity variant.
+          Supported values are "all_six", "without_lma",
+          "without_nitrogen", "without_lma_nitrogen", and
+          "without_ssd".
+
+Details:
+
+     The primary analysis uses all six traits. Sensitivity variants
+     remove provisional-unit traits individually or together, or remove
+     stem specific density to test sensitivity to its source
+     uncertainty.
+
+Value:
+
+     A named character vector of trait transformations.
+
+Examples:
+
+     resolve_functional_type_trait_transformations("all_six")
+     resolve_functional_type_trait_transformations("without_lma")

@@ -1,0 +1,82 @@
+<!DOCTYPE html><html><head><title>R: Build Grouped Trait Review Investigation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_trait_review_grouped_investigation</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build Grouped Trait Review Investigation</h2>
+
+<h3>Description</h3>
+
+<p>Resolves investigated candidates without source-level support to approved
+no-action decisions. Candidates affected by proposed source-scale rules
+remain pending; candidates covered by approved source rules are closed as
+requiring no additional taxon-specific action.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_trait_review_grouped_investigation(
+  data_trait_review_exceptions,
+  data_candidate_source_memberships,
+  data_source_scale_proposals,
+  reviewer,
+  reviewed_at,
+  evidence_reference
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_trait_review_exceptions">data_trait_review_exceptions</code></td>
+<td>
+<p>Unresolved review candidates.</p>
+</td></tr>
+<tr><td><code id="data_candidate_source_memberships">data_candidate_source_memberships</code></td>
+<td>
+<p>Candidate-to-source memberships.</p>
+</td></tr>
+<tr><td><code id="data_source_scale_proposals">data_source_scale_proposals</code></td>
+<td>
+<p>Proposed or approved source-scale rules.</p>
+</td></tr>
+<tr><td><code id="reviewer">reviewer</code></td>
+<td>
+<p>Name of the approving human reviewer.</p>
+</td></tr>
+<tr><td><code id="reviewed_at">reviewed_at</code></td>
+<td>
+<p>ISO review date.</p>
+</td></tr>
+<tr><td><code id="evidence_reference">evidence_reference</code></td>
+<td>
+<p>Path to the durable investigation report.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named list containing the investigation audit, approved no-action
+decisions, pending candidates, and an outcome summary.
+</p>
+
+</main>
+
+</div>
+</body></html>

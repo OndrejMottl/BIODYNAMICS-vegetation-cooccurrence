@@ -1,0 +1,20 @@
+Load Review Submission Candidates
+
+Description:
+
+     Reads the immutable headerless review submission and extracts only
+     its taxon-domain review keys into a normalized derived tibble.
+
+Usage:
+
+     load_review_submission_candidates(path_review_submission)
+
+Arguments:
+
+path_review_submission: Character scalar path to the immutable
+          headerless review CSV.
+
+Value:
+
+     A tibble with `taxon_name`, `trait_domain_name`, and
+     `source_reference`.

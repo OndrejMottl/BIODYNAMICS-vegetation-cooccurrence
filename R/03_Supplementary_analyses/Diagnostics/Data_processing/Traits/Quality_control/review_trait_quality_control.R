@@ -1,6 +1,5 @@
 #----------------------------------------------------------#
 #
-#
 #                 Vegetation Co-occurrence
 #
 #      Trait quality-control interactive review tool
@@ -9,24 +8,12 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Interactive tool for reviewing flagged trait groups,
-#   inspecting raw value distributions, and entering manual
-#   corrections into Data/Input/trait_manual_corrections.csv.
-#
-# Workflow:
-#   1. Source Section 0 and Section 1 once per R session.
-#   2. Edit `focal_taxon` / `trait_domain` and source Section 2
-#      for a domain-wide flagging overview.
-#   3. Set `focal_taxon` + `trait_domain`, source Section 3 to
-#      inspect the raw distribution of one group.
-#   4. Set all correction fields, then source Section 4
-#      to write one correction row to the corrections CSV.
-#   5. Source Section 5 at any time to validate the full
-#      corrections file via `validate_trait_corrections()`.
+# This tool inspects exact trait-name, dataset, and value selectors and
+# can append proposed decisions. It never writes an approved decision.
 
 
 #----------------------------------------------------------#
-# 0. Setup -----
+# 0. Setup and reviewer inputs -----
 #----------------------------------------------------------#
 
 library(here)
@@ -35,582 +22,210 @@ source(
   here::here("R/___setup_project___.R")
 )
 
-# --- User-configurable variables --------------------------
-# Set these before sourcing individual sections below.
+Sys.setenv(R_CONFIG_ACTIVE = "project_traits_reference")
 
-# Taxon to inspect / correct. Set to NULL to skip taxon
-#   filtering in Section 2.
-focal_taxon <- "Anacyclus clavatus"
+review_stage <- "raw"
+focal_candidate_id <- NULL
+proposed_action <- "none"
+proposed_trait_name <- ""
+proposed_dataset_id <- NA_integer_
+proposed_value_lower <- NA_real_
+proposed_value_lower_inclusive <- NA
+proposed_value_upper <- NA_real_
+proposed_value_upper_inclusive <- NA
+proposed_scale_factor <- NA_real_
+proposed_rationale <- ""
+proposed_evidence_reference <- ""
+write_proposal <- FALSE
 
-# Trait domain to inspect / correct. Set to NULL to skip
-#   domain filtering in Section 2.
-trait_domain <- "Leaf Area"
+assertthat::assert_that(
+  review_stage %in% base::c("raw", "classified"),
+  msg = "'review_stage' must be 'raw' or 'classified'."
+)
 
-# For Section 4: correction action ("exclude" or "scale").
-correction_action <- "exclude"
-
-# For Section 4: scale factor. Required when
-#   correction_action == "scale"; leave as NA_real_ otherwise.
-correction_scale_factor <- NA_real_
-
-# For Section 4: free-text reason / notes (optional).
-correction_notes <- ""
-
-# Minimum number of records for a taxon to appear in the
-#   taxonomic comparison table and plot in Section 3.4.
-minimum_taxonomic_records <- 5L
-
-# ----------------------------------------------------------
-
-# Graphical options shared across all plots in this script.
-graphical_options <-
-  load_active_config_value("graphical")
-
-# Path to the manual corrections file.
-path_trait_corrections <-
-  here::here("Data/Input/trait_manual_corrections.csv")
-
-# Target store for the traits pipeline.
 path_trait_store <-
+  resolve_pipeline_store_path(
+    pipeline_script = here::here(
+      "R/Pipelines/pipeline_traits_reference.R"
+    )
+  )
+path_candidates <-
   here::here(
-    "Data/targets/traits_reference_reference/pipeline_traits_reference"
+    "Data/Temp/Trait_corrections",
+    review_stage,
+    "trait_review_candidates.csv"
+  )
+path_decisions <-
+  here::here(
+    "Data/Input/Trait_corrections",
+    stringr::str_glue(
+      "trait_review_decisions_{review_stage}.csv"
+    )
   )
 
 
 #----------------------------------------------------------#
-# 1. Load data -----
+# 1. Load current queue, decisions, and records -----
 #----------------------------------------------------------#
 
-#--------------------------------------------------#
-## 1.1. QC report -----
-#--------------------------------------------------#
+data_candidates <-
+  readr::read_csv(path_candidates, show_col_types = FALSE)
+data_decisions <-
+  load_trait_review_decisions(path_decisions)
 
-# Auto-detect the most-recent QC report in Data/Temp/.
-trait_quality_control_report_paths <-
-  fs::dir_ls(
-    here::here("Data/Temp"),
-    regexp = "trait_quality_control_report_\\d{4}-\\d{2}-\\d{2}\\.csv$"
-  )
-
-if (
-  base::length(trait_quality_control_report_paths) == 0L
-) {
-  base::stop(
-    "No trait_quality_control_report_*.csv found in Data/Temp/.\n",
-    "Run the traits pipeline to generate it."
-  )
+if (review_stage == "raw") {
+  data_records <-
+    targets::tar_read(data_traits_raw, store = path_trait_store)
+} else {
+  data_records <-
+    targets::tar_read(data_traits_classified, store = path_trait_store) |>
+    dplyr::select(-"taxon_name") |>
+    dplyr::rename(taxon_name = "taxon_resolved")
 }
 
-path_trait_quality_control_report <-
-  trait_quality_control_report_paths |>
-  base::sort() |>
-  utils::tail(1L)
-
-base::message(
-  "Using QC report: ",
-  base::basename(path_trait_quality_control_report)
-)
-
-data_trait_quality_control_report <-
-  readr::read_csv(
-    path_trait_quality_control_report,
-    show_col_types = FALSE
-  ) |>
-  dplyr::mutate(
-    outlier_fraction =
-      .data[["n_suspected_outliers"]] /
-        .data[["n_records"]]
-  )
-
-
-#--------------------------------------------------#
-## 1.2. Raw trait values -----
-#--------------------------------------------------#
-
-if (
-  !fs::dir_exists(path_trait_store)
-) {
-  base::stop(
-    "Traits target store not found at: ", path_trait_store, "\n",
-    "Run the traits pipeline first."
-  )
-}
-
-data_traits_raw <-
-  targets::tar_read(
-    data_traits_raw,
-    store = path_trait_store
-  )
-
-base::message(
-  "Loaded data_traits_raw: ",
-  base::nrow(data_traits_raw), " rows, ",
-  dplyr::n_distinct(
-    dplyr::pull(data_traits_raw, .data[["taxon_name"]])
-  ),
-  " taxa, ",
-  dplyr::n_distinct(
-    dplyr::pull(data_traits_raw, .data[["trait_domain_name"]])
-  ),
-  " domains."
-)
-
-
-#--------------------------------------------------#
-## 1.3. Corrections file -----
-#--------------------------------------------------#
-
-if (
-  !base::file.exists(path_trait_corrections)
-) {
-  base::stop(
-    "Corrections file not found at: ", path_trait_corrections, "\n",
-    "Run write_trait_quality_control_report() to create the template."
-  )
-}
-
-data_corrections_current <-
-  readr::read_csv(
-    path_trait_corrections,
-    show_col_types = FALSE
-  )
-
-base::message(
-  "Corrections file loaded: ",
-  base::nrow(data_corrections_current), " existing row(s)."
-)
-
-
-#----------------------------------------------------------#
-# 2. Overview of flagged groups -----
-#----------------------------------------------------------#
-# Source this section to see a summary of flagged taxa.
-# Filter by trait_domain (NULL = all domains).
-
-data_flagged_trait_groups <-
-  data_trait_quality_control_report |>
-  dplyr::filter(.data[["n_suspected_outliers"]] > 0L)
-
-# Apply domain filter if set.
-if (
-  !base::is.null(trait_domain)
-) {
-  data_flagged_trait_groups <-
-    data_flagged_trait_groups |>
-    dplyr::filter(.data[["trait_domain_name"]] == trait_domain)
-}
-
-# Mark groups that already have a correction entry.
-data_flagged_trait_groups <-
-  data_flagged_trait_groups |>
+data_review_progress <-
+  data_candidates |>
   dplyr::left_join(
-    data_corrections_current |>
-      dplyr::select("taxon_name", "trait_domain_name") |>
-      dplyr::mutate(correction_exists = TRUE),
-    by = dplyr::join_by(taxon_name, trait_domain_name)
+    data_decisions |>
+      dplyr::filter(.data[["review_status"]] == "approved") |>
+      dplyr::count(.data[["candidate_id"]], name = "n_approved"),
+    by = "candidate_id"
   ) |>
   dplyr::mutate(
-    correction_exists =
-      tidyr::replace_na(.data[["correction_exists"]], FALSE)
+    n_approved = tidyr::replace_na(.data[["n_approved"]], 0L)
   )
 
-#------------------------------------------#
-### 2.1. Domain-level summary -----
-#------------------------------------------#
-
-base::message("\n--- Flagged groups by domain ---")
-data_flagged_trait_groups |>
-  dplyr::group_by(.data[["trait_domain_name"]]) |>
-  dplyr::summarise(
-    n_flagged_groups = dplyr::n(),
-    n_corrected = base::sum(.data[["correction_exists"]]),
-    .groups = "drop"
+data_review_progress |>
+  dplyr::count(
+    .data[["trait_domain_name"]],
+    complete = .data[["n_approved"]] > 0L
   ) |>
-  dplyr::arrange(dplyr::desc(.data[["n_flagged_groups"]])) |>
-  base::print(n = Inf)
-
-#------------------------------------------#
-### 2.2. Top groups by outlier fraction -----
-#------------------------------------------#
-
-base::message("\n--- Top 25 flagged groups by outlier fraction ---")
-data_flagged_trait_groups |>
-  dplyr::arrange(
-    dplyr::desc(.data[["outlier_fraction"]]),
-    dplyr::desc(.data[["n_records"]])
-  ) |>
-  dplyr::select(
-    "trait_domain_name",
-    "taxon_name",
-    "n_records",
-    "n_suspected_outliers",
-    "outlier_fraction",
-    "correction_exists"
-  ) |>
-  dplyr::slice_head(n = 25L) |>
   base::print(n = Inf)
 
 
 #----------------------------------------------------------#
-# 3. Single-group inspection -----
+# 2. Inspect one candidate -----
 #----------------------------------------------------------#
-# Requires both focal_taxon and trait_domain to be set.
-# Prints: QC summary row, sorted raw values, distribution plot.
 
-if (
-  base::is.null(focal_taxon) ||
-    base::is.null(trait_domain)
-) {
-  base::stop(
-    "Set both `focal_taxon` and `trait_domain` in Section 0 ",
-    "before sourcing Section 3."
-  )
-}
-
-#--------------------------------------------------#
-## 3.1. QC summary row -----
-#--------------------------------------------------#
-
-data_focal_trait_summary <-
-  data_trait_quality_control_report |>
-  dplyr::filter(
-    .data[["taxon_name"]] == focal_taxon,
-    .data[["trait_domain_name"]] == trait_domain
+if (base::is.null(focal_candidate_id)) {
+  data_review_progress |>
+    dplyr::filter(.data[["n_approved"]] == 0L) |>
+    dplyr::arrange(
+      dplyr::desc(.data[["n_domain_outliers"]]),
+      dplyr::desc(.data[["n_taxon_outliers"]])
+    ) |>
+    dplyr::slice_head(n = 25L) |>
+    base::print(n = Inf)
+} else {
+  data_focal_candidate <-
+    data_candidates |>
+    dplyr::filter(.data[["candidate_id"]] == focal_candidate_id)
+  assertthat::assert_that(
+    base::nrow(data_focal_candidate) == 1L,
+    msg = "'focal_candidate_id' must identify one current candidate."
   )
 
-if (
-  base::nrow(data_focal_trait_summary) == 0L
-) {
-  base::stop(
-    "No QC report entry found for taxon '", focal_taxon,
-    "' in domain '", trait_domain, "'.\n",
-    "Check the spelling or run write_trait_quality_control_report() again."
-  )
-}
-
-base::message("\n--- QC summary: ", focal_taxon, " x ", trait_domain, " ---")
-data_focal_trait_summary |>
-  dplyr::select(
-    "trait_domain_name",
-    "taxon_name",
-    "n_records",
-    "mean",
-    "median",
-    "sd",
-    "iqr",
-    "n_suspected_outliers",
-    "outlier_fraction"
-  ) |>
-  base::print()
-
-
-#--------------------------------------------------#
-## 3.2. Raw values (sorted) -----
-#--------------------------------------------------#
-
-data_focal_trait_records <-
-  data_traits_raw |>
-  dplyr::filter(
-    .data[["taxon_name"]] == focal_taxon,
-    .data[["trait_domain_name"]] == trait_domain
-  ) |>
-  dplyr::arrange(.data[["trait_value"]])
-
-base::message("\n--- Raw values (ascending) ---")
-data_focal_trait_records |>
-  base::print(n = Inf)
-
-
-#--------------------------------------------------#
-## 3.3. Distribution plot -----
-#--------------------------------------------------#
-
-plot_focal_distribution <-
-  plot_focal_trait_distribution(
-    data_focal_trait_records = data_focal_trait_records,
-    data_focal_trait_summary = data_focal_trait_summary,
-    focal_taxon = focal_taxon,
-    trait_domain = trait_domain,
-    graphical_options = graphical_options
-  )
-
-base::print(plot_focal_distribution)
-
-
-#--------------------------------------------------#
-## 3.4. Taxonomic comparison -----
-#--------------------------------------------------#
-
-data_taxon_classification <-
-  targets::tar_read(
-    data_combined_classification_table_traits,
-    store = path_trait_store
-  )
-
-data_taxonomic_trait_summary <-
-  summarise_taxonomic_group_traits(
-    data_trait_records = data_traits_raw,
-    data_taxon_classification = data_taxon_classification,
-    focal_taxon = focal_taxon,
-    trait_domain = trait_domain,
-    taxonomic_rank = "family",
-    verbose = TRUE
-  )
-
-# Annotate with mean/median ratio to flag taxa with
-#   probable internal outliers (ratio >> 1 is suspicious).
-data_taxonomic_trait_summary_annotated <-
-  data_taxonomic_trait_summary |>
-  dplyr::mutate(
-    mean_median_ratio = dplyr::if_else(
-      .data[["median"]] > 0,
-      .data[["mean"]] / .data[["median"]],
-      NA_real_
-    ),
-    taxon_name = dplyr::if_else(
+  focal_taxon <-
+    data_focal_candidate[["taxon_name"]][[1L]]
+  focal_domain <-
+    data_focal_candidate[["trait_domain_name"]][[1L]]
+  data_focal_records <-
+    data_records |>
+    dplyr::filter(
       .data[["taxon_name"]] == focal_taxon,
-      stringr::str_c(.data[["taxon_name"]], "  *"),
-      .data[["taxon_name"]]
-    )
-  )
-
-# Full table sorted by median.
-base::message(
-  "\n--- All taxa (n = ",
-  base::nrow(data_taxonomic_trait_summary_annotated),
-  ") ---"
-)
-base::print(data_taxonomic_trait_summary_annotated, n = Inf)
-
-# Filtered table: only taxa with enough records.
-data_taxonomic_trait_filtered <-
-  data_taxonomic_trait_summary_annotated |>
-  dplyr::filter(
-    .data[["n_records"]] >= minimum_taxonomic_records
-  )
-
-base::message(
-  "\n--- Filtered: n >= ", minimum_taxonomic_records,
-  " (", base::nrow(data_taxonomic_trait_filtered), " taxa) ---"
-)
-base::print(data_taxonomic_trait_filtered, n = Inf)
-
-# Percentile rank of focal_taxon in the filtered distribution.
-focal_taxon_median <-
-  data_taxonomic_trait_summary |>
-  dplyr::filter(.data[["taxon_name"]] == focal_taxon) |>
-  dplyr::pull(.data[["median"]])
-
-if (
-  base::length(focal_taxon_median) > 0L &&
-    !base::is.na(focal_taxon_median[[1L]])
-) {
-  filtered_taxon_medians <-
-    data_taxonomic_trait_filtered |>
-    dplyr::pull(.data[["median"]])
-
-  percentile_rank <-
-    base::round(
-      base::mean(filtered_taxon_medians < focal_taxon_median[[1L]]) * 100,
-      digits = 1L
+      .data[["trait_domain_name"]] == focal_domain
+    ) |>
+    dplyr::arrange(
+      .data[["trait_name"]],
+      .data[["dataset_id"]],
+      .data[["trait_value"]]
     )
 
-  base::message(
-    "\n", focal_taxon, " sits at the ",
-    percentile_rank,
-    "th percentile of the filtered taxonomic-group distribution."
-  )
-}
+  data_focal_records |>
+    dplyr::group_by(
+      .data[["trait_name"]],
+      .data[["dataset_id"]],
+      .data[["dataset_name"]]
+    ) |>
+    dplyr::summarise(
+      n_records = dplyr::n(),
+      minimum = base::min(.data[["trait_value"]]),
+      median = stats::median(.data[["trait_value"]]),
+      maximum = base::max(.data[["trait_value"]]),
+      .groups = "drop"
+    ) |>
+    base::print(n = Inf)
 
-# Log-scale strip plot: grey dots = all filtered taxa,
-#   red dot = focal_taxon.
-plot_taxonomic_comparison <-
-  plot_taxonomic_trait_comparison(
-    data_taxonomic_trait_summary = data_taxonomic_trait_summary,
-    data_focal_trait_summary = data_focal_trait_summary,
-    focal_taxon = focal_taxon,
-    trait_domain = trait_domain,
-    minimum_records = minimum_taxonomic_records,
-    graphical_options = graphical_options
-  )
+  ggplot2::ggplot(
+    data_focal_records,
+    ggplot2::aes(
+      x = .data[["trait_value"]],
+      colour = base::factor(.data[["dataset_id"]])
+    )
+  ) +
+    ggplot2::geom_freqpoly(bins = 40L) +
+    ggplot2::facet_wrap(
+      ggplot2::vars(.data[["trait_name"]]),
+      scales = "free"
+    ) +
+    ggplot2::labs(
+      title = stringr::str_glue("{focal_taxon}: {focal_domain}"),
+      colour = "dataset_id"
+    ) |>
+    base::print()
 
-base::print(plot_taxonomic_comparison)
-
-
-#----------------------------------------------------------#
-# 4. Write correction -----
-#----------------------------------------------------------#
-# Source this section to append ONE correction row for
-#   focal_taxon x trait_domain to the corrections CSV.
-#
-# Required in Section 0 before sourcing this section:
-#   focal_taxon      -- character, must not be NULL
-#   trait_domain     -- character, must not be NULL
-#   correction_action     -- "exclude" or "scale"
-#   correction_scale_factor -- numeric if action = "scale", else NA_real_
-#   correction_notes      -- character (may be empty string)
-
-
-#------------------------------------------#
-### 4.1. Pre-flight checks -----
-#------------------------------------------#
-
-if (
-  base::is.null(focal_taxon) ||
-    base::is.null(trait_domain)
-) {
-  base::stop(
-    "Set both `focal_taxon` and `trait_domain` ",
-    "before sourcing Section 4."
-  )
-}
-
-if (
-  !focal_taxon %in%
-    dplyr::pull(data_traits_raw, .data[["taxon_name"]])
-) {
-  base::stop(
-    "'", focal_taxon, "' not found in data_traits_raw.\n",
-    "Check the spelling."
-  )
-}
-
-if (
-  !trait_domain %in%
-    dplyr::pull(data_traits_raw, .data[["trait_domain_name"]])
-) {
-  base::stop(
-    stringr::str_c(
-      stringr::str_glue(
-        "'{trait_domain}' not found in data_traits_raw.\n"
-      ),
-      "Valid domains: ",
+  if (base::isTRUE(write_proposal)) {
+    assertthat::assert_that(
+      proposed_action %in% base::c("none", "exclude", "scale"),
+      base::nzchar(proposed_rationale),
+      base::nzchar(proposed_evidence_reference),
+      msg = "Proposal action, rationale, and evidence are required."
+    )
+    decision_key <-
       stringr::str_c(
-        base::unique(
-          dplyr::pull(
-            data_traits_raw,
-            .data[["trait_domain_name"]]
-          )
-        ),
-        collapse = ", "
+        focal_candidate_id,
+        proposed_trait_name,
+        proposed_dataset_id,
+        proposed_value_lower,
+        proposed_value_upper,
+        proposed_action,
+        proposed_scale_factor,
+        proposed_rationale,
+        sep = "|"
       )
+    data_proposal <-
+      tibble::tibble(
+        decision_id = digest::digest(
+          decision_key,
+          algo = "sha256",
+          serialize = FALSE
+        ),
+        candidate_id = focal_candidate_id,
+        taxon_name = focal_taxon,
+        trait_domain_name = focal_domain,
+        trait_name = proposed_trait_name,
+        dataset_id = proposed_dataset_id,
+        value_lower = proposed_value_lower,
+        value_lower_inclusive = proposed_value_lower_inclusive,
+        value_upper = proposed_value_upper,
+        value_upper_inclusive = proposed_value_upper_inclusive,
+        action = proposed_action,
+        scale_factor = proposed_scale_factor,
+        rationale = proposed_rationale,
+        evidence_reference = proposed_evidence_reference,
+        source_reference = stringr::str_glue(
+          "interactive_reviewer:{review_stage}"
+        ),
+        review_status = "proposed",
+        reviewer = NA_character_,
+        reviewed_at = NA_character_
+      )
+    readr::write_csv(
+      dplyr::bind_rows(data_decisions, data_proposal),
+      path_decisions
     )
-  )
-}
-
-if (
-  !correction_action %in% base::c("exclude", "scale")
-) {
-  base::stop(
-    "correction_action must be \"exclude\" or \"scale\"; got: '",
-    correction_action,
-    "'"
-  )
-}
-
-if (
-  correction_action == "scale" &&
-    (base::is.na(correction_scale_factor) ||
-      !base::is.numeric(correction_scale_factor))
-) {
-  base::stop(
-    "correction_scale_factor must be numeric when ",
-    "correction_action = \"scale\"."
-  )
-}
-
-# Guard: no duplicate entry.
-data_existing_correction <-
-  data_corrections_current |>
-  dplyr::filter(
-    .data[["taxon_name"]] == focal_taxon,
-    .data[["trait_domain_name"]] == trait_domain
-  )
-
-if (
-  base::nrow(data_existing_correction) > 0L
-) {
-  base::message(
-    "A correction row already exists for '", focal_taxon,
-    "' x '", trait_domain, "':"
-  )
-  base::print(data_existing_correction)
-  base::stop(
-    "Remove or update the existing entry manually before adding a new one."
-  )
-}
-
-
-#------------------------------------------#
-### 4.2. Build and append row -----
-#------------------------------------------#
-
-data_new_correction <-
-  tibble::tibble(
-    taxon_name = focal_taxon,
-    trait_domain_name = trait_domain,
-    action = correction_action,
-    scale_factor = correction_scale_factor,
-    notes = correction_notes,
-    CHECKED = TRUE
-  )
-
-data_corrections_updated <-
-  dplyr::bind_rows(
-    data_corrections_current,
-    data_new_correction
-  )
-
-readr::write_csv(
-  data_corrections_updated,
-  path_trait_corrections
-)
-
-# Reload current state so Section 2 / Section 5 stay in sync.
-data_corrections_current <-
-  readr::read_csv(
-    path_trait_corrections,
-    show_col_types = FALSE
-  )
-
-base::message(
-  "Correction written for '", focal_taxon, "' x '", trait_domain, "'.",
-  "\n  action = ", correction_action,
-  if (
-    correction_action == "scale"
-  ) {
-    stringr::str_glue("  scale_factor = {correction_scale_factor}")
-  },
-  "\n  Total corrections: ", base::nrow(data_corrections_current)
-)
-
-
-#----------------------------------------------------------#
-# 5. Validate corrections -----
-#----------------------------------------------------------#
-# Source this section at any time to run the pipeline guard.
-# validate_trait_corrections() aborts if any CHECKED != TRUE.
-
-data_corrections_validated <-
-  validate_trait_corrections(
-    data_trait_corrections = load_trait_corrections(
-      path_trait_corrections = path_trait_corrections
+    cli::cli_inform(
+      "Wrote one proposed decision. Human approval is still required."
     )
-  )
-
-base::message(
-  "\nCorrections file is valid. ",
-  base::nrow(data_corrections_validated), " row(s) ready for the pipeline."
-)
-
-base::message("\n--- All current corrections ---")
-data_corrections_validated |>
-  dplyr::select(
-    "trait_domain_name",
-    "taxon_name",
-    "action",
-    "scale_factor",
-    "notes",
-    "CHECKED"
-  ) |>
-  base::print(n = Inf)
+  }
+}

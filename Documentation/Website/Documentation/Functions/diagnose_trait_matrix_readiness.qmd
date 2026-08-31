@@ -1,0 +1,98 @@
+---
+format: html
+title: diagnose_trait_matrix_readiness()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>diagnose_trait_matrix_readiness</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Diagnose Trait Matrix Readiness</h2>
+
+<h3>Description</h3>
+
+<p>Summarises coverage, transformed dynamic range, invalid values, and robust
+taxon-level extremes in a community trait matrix without changing values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>diagnose_trait_matrix_readiness(
+  data_trait_table,
+  vec_trait_transformations,
+  taxon_column = "taxon_name",
+  maximum_missing_fraction = 0.5,
+  maximum_transformed_range = 4,
+  outlier_fence_multiplier = 3
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_trait_table">data_trait_table</code></td>
+<td>
+<p>Wide taxon-by-trait data frame.</p>
+</td></tr>
+<tr><td><code id="vec_trait_transformations">vec_trait_transformations</code></td>
+<td>
+<p>Named transformation contract accepted by
+[prepare_trait_matrix_for_dissimilarity()].</p>
+</td></tr>
+<tr><td><code id="taxon_column">taxon_column</code></td>
+<td>
+<p>Character scalar naming the taxon identifier column.</p>
+</td></tr>
+<tr><td><code id="maximum_missing_fraction">maximum_missing_fraction</code></td>
+<td>
+<p>Maximum acceptable missing fraction per
+trait domain.</p>
+</td></tr>
+<tr><td><code id="maximum_transformed_range">maximum_transformed_range</code></td>
+<td>
+<p>Maximum acceptable transformed range.</p>
+</td></tr>
+<tr><td><code id="outlier_fence_multiplier">outlier_fence_multiplier</code></td>
+<td>
+<p>Non-negative Tukey-fence multiplier.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named list containing 'data_domain_summary',
+'data_taxon_anomalies', and scalar 'flag_ready'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>diagnose_trait_matrix_readiness(
+  data_trait_table = tibble::tibble(
+    taxon_name = c("A", "B"),
+    `Plant heigh` = c(10, 100)
+  ),
+  vec_trait_transformations = c(`Plant heigh` = "log10")
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

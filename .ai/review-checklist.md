@@ -47,6 +47,13 @@ Canonical checklist for reviewing changes in this repository. This checklist is 
 - Quarto files follow project structure, chunk, rendering, and website conventions.
 - Generated documentation changes do not introduce stale paths or broken links.
 
+## Pipeline Status Artifacts
+
+- Successful pipeline and smoke-test runs intentionally refresh tracked status artifacts under `Documentation/Progress/` and `docs/Documentation/Progress/`, including `project_status.html`, `project_status_small.html`, and `project_status_static.png`.
+- Treat these refreshed files as valid validation evidence, not cleanup noise. Retain them with the pipeline changes unless the user explicitly asks to discard or exclude them.
+- Do not use `git restore`, deletion, or another cleanup operation on these artifacts merely because they are generated or contain run-specific status updates.
+- Distinguish these tracked status artifacts from ignored target stores, temporary files, and untracked reproducible caches, which may be handled according to their own repository contracts.
+
 ## Migration and Adapter Checks
 
 - Canonical guidance lives in `.ai/`.

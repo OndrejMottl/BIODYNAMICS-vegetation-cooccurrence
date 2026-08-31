@@ -3,7 +3,8 @@ Filter Complete Trait Records
 Description:
 
      Selects the required columns from a raw trait data frame and
-     removes rows where `taxon_id` or `trait_value` is `NA`.
+     removes rows where `taxon_id` is `NA` or `trait_value` is not
+     finite.
 
 Usage:
 
@@ -13,8 +14,8 @@ Arguments:
 
 data_trait_records_raw: A data frame returned by
           [load_trait_records_from_vegvault()]. Expected to contain at
-          least the columns `taxon_id`, `trait_domain_name`,
-          `trait_name`, and `trait_value`.
+          least `taxon_id`, `trait_domain_name`, and `trait_value`.
+          Source identifiers are retained when present.
 
 Details:
 
@@ -24,9 +25,10 @@ Details:
 
 Value:
 
-     A tibble with columns `taxon_id`, `trait_domain_name`,
-     `trait_name`, and `trait_value`, with all rows where `taxon_id` or
-     `trait_value` is `NA` removed.
+     A tibble retaining `dataset_id`, `dataset_name`, `data_source_id`,
+     `sample_id`, `trait_id`, `taxon_id`, and the trait fields when
+     present, with incomplete taxon identifiers and non-finite values
+     removed.
 
 See Also:
 

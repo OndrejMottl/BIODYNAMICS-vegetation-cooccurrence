@@ -12,9 +12,8 @@
 #' SQLite database
 #' (default: `here::here("Data/Input/VegVault.sqlite")`).
 #' @return
-#' A tibble with columns `taxon_name`, `trait_domain_name`,
-#' `trait_name`, and `trait_value`. The `taxon_id` column is
-#' dropped from the output.
+#' A tibble with `taxon_name`, all source identifiers, and the trait
+#' fields. The original `taxon_id` is retained for auditability.
 #' @details
 #' Opens a fresh database connection, loads the `Taxa` table, filters
 #' it to only the IDs present in `data_trait_records`, performs a left
@@ -79,6 +78,12 @@ resolve_trait_taxon_ids <- function(
       "taxon_name",
       dplyr::any_of(
         base::c(
+          "dataset_id",
+          "dataset_name",
+          "data_source_id",
+          "sample_id",
+          "trait_id",
+          "taxon_id",
           "trait_domain_name",
           "trait_name",
           "trait_value"

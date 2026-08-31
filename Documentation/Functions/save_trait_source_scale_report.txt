@@ -1,0 +1,46 @@
+Save Trait Source Scale Report
+
+Description:
+
+     Writes a durable Markdown audit and source-domain-taxon count
+     table for interim VegVault source scaling, including the
+     provisional TRY LMA warning.
+
+Usage:
+
+     save_trait_source_scale_report(
+       data_trait_records_raw,
+       data_trait_records_source_scaled,
+       data_trait_source_scale_rule_audit,
+       data_trait_source_scale_record_audit,
+       data_trait_review_application_audit,
+       path_vegvault,
+       path_report,
+       path_taxon_counts
+     )
+
+Arguments:
+
+data_trait_records_raw: Untouched extracted trait records.
+
+data_trait_records_source_scaled: Records after approved source
+          scaling.
+
+data_trait_source_scale_rule_audit: Rule-level audit from
+          [apply_trait_source_scale_rules()].
+
+data_trait_source_scale_record_audit: Record-level audit from
+          [apply_trait_source_scale_rules()].
+
+data_trait_review_application_audit: Review-layer application audit
+          with `n_source_satisfied`.
+
+path_vegvault: Character scalar path to the VegVault SQLite database.
+
+path_report: Output path for the Markdown report.
+
+path_taxon_counts: Output path for the source-domain-taxon count CSV.
+
+Value:
+
+     Character vector containing both written paths.
