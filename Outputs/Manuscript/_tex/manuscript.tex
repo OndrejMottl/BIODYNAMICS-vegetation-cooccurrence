@@ -176,7 +176,7 @@ distribution model, HMSC, Holocene},
 
 \title{TODO: manuscript title}
 \author{Ondřej Mottl \and TODO Co-author 2 \and TODO Co-author 3}
-\date{May 24, 2026}
+\date{August 6, 2026}
 \begin{document}
 \maketitle
 
@@ -213,8 +213,11 @@ drawn from the Neotoma Paleoecology
 Database\textsuperscript{\textbf{Williams2018?}} and FOSSILPOL
 {[}cite{]}, and contemporary records are drawn from modern vegetation
 databsses BIEN {[}cite{]} and sPlotOpen {[}cite{]}. Plant functional
-traits are drawn from TRY\textsuperscript{\textbf{Kattge2020?}}.
-Palaeoclimate predictors are CHELSA-TraCE21k bioclimatic
+traits were assembled in VegVault from
+TRY\textsuperscript{\textbf{Kattge2020?}} and additional contributed
+datasets, with the original dataset and data-source identities retained
+for provenance and correction. Palaeoclimate predictors are
+CHELSA-TraCE21k bioclimatic
 variables\textsuperscript{\textbf{Karger2021?}} co-registered in
 VegVault at the site and time-step level.
 
@@ -563,39 +566,116 @@ scale, fitting each resolution independently per spatial unit.
 \subsubsection{Functional-type
 classification}\label{functional-type-classification}
 
-\textbf{Trait data and quality control.} Plant functional traits
+\textbf{Trait data, correction and audit.} Plant functional traits
 characterise the ecological strategies of taxa and provide a
 biologically grounded basis for grouping species into functional types
 that reflect shared responses to the environment rather than arbitrary
-taxonomic boundaries. We extracted trait data from VegVault for all
-available trait domains (see Supplementary Table S{[}TODO{]} for the
-full list of traits and units). Because trait databases aggregate
-measurements from many sources with varying units and methodologies, raw
-values frequently contain outliers and unit errors that would distort
-the distance matrix used for clustering. We therefore applied a
-two-stage quality-control workflow to the trait data, reviewing and
-correcting all flagged records manually. In the first stage, we
-identified outlier taxa using an inter-quartile range criterion and
-corrected or excluded them after review. In the second stage, we applied
-a further quality-control pass after taxonomic harmonisation to remove
-trait values assigned to ambiguous or unresolvable morphotypes. We
-aggregated validated values to taxon-level medians per trait domain and
-assembled them into a taxon × trait matrix for clustering.
+taxonomic boundaries. Trait processing followed seven ordered steps.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Extraction and provenance.} We extracted six continuous trait
+  domains from VegVault 1.0.0: diaspore mass, leaf area, leaf mass per
+  area, leaf nitrogen content per unit mass, plant height, and stem
+  specific density (see Supplementary Table S{[}TODO{]} for definitions
+  and units). The extraction retained dataset, data-source, sample,
+  trait, and taxon identifiers so that every correction could be
+  restricted to its documented source and audited at record level. We
+  removed records without a taxon identifier or with a non-finite trait
+  value.
+\item
+  \textbf{Source-level unit harmonisation.} Starting from the otherwise
+  unchanged extraction, we applied a version-guarded compatibility layer
+  before any taxon-level review. The 10 approved rules corrected 28,856
+  records by multiplying affected leaf-area and plant-height sources by
+  100 and the affected stem-density source by 0.001. Each rule specified
+  the VegVault version, source identifier and description, trait domain,
+  factor, and expected match count. The pipeline stopped if the database
+  version, source identity, selector, or match count differed from the
+  approved contract. Record-level audit tables retained the original
+  value, corrected value, factor, and source identifiers.
+\item
+  \textbf{Raw review-candidate detection.} We constructed one candidate
+  for each taxon--trait-domain group containing a non-positive value, a
+  within-taxon outlier, or a key preserved from the archived trait
+  review. A within-taxon outlier was a value whose absolute deviation
+  from the group median exceeded 1.5 times the interquartile range; this
+  test was applied only to groups with at least 10 records and a
+  non-zero interquartile range. We also calculated a whole-domain
+  diagnostic fence of 3 interquartile ranges to identify possible
+  source-wide problems. Whole-domain flags informed source investigation
+  but did not create taxon-level review candidates by themselves.
+\item
+  \textbf{Raw evidence review and correction.} Each candidate received
+  an atomic decision of no action, exclusion, or multiplication by a
+  positive factor. Correction decisions could be restricted by exact
+  trait name, dataset, and inclusive or exclusive value bounds. Evidence
+  came from the archived review, deterministic distributional summaries,
+  grouped-source comparisons, and bounded AI-assisted evidence
+  gathering. AI-generated recommendations remained proposals; only
+  decisions explicitly approved by the project owner with reviewer and
+  date metadata entered the pipeline. The completed raw gate contained
+  4,339 approved decisions: 4,262 no-action decisions, 20 exclusions,
+  and 57 residual scaling rules. Before applying these decisions,
+  validation rejected incomplete coverage, unmatched selectors,
+  overlapping or conflicting rules, and any taxon-level scaling that
+  would duplicate or contradict source-level scaling.
+\item
+  \textbf{Taxonomic resolution and second review.} After applying raw
+  decisions, we classified trait taxa against the same taxonomic
+  backbone and curated auxiliary table used for community records, then
+  resolved each trait name to its finest supported rank. We rebuilt the
+  candidate set under the resolved names because merging synonymous or
+  differently resolved names can reveal distributions that were not
+  apparent before harmonisation. The classified gate contained 4,223
+  approved no-action decisions, confirming that no additional correction
+  was required after source scaling, raw review, and taxonomic
+  resolution.
+\item
+  \textbf{Matching and aggregation.} For each continental
+  functional-type analysis, we matched corrected trait records to the
+  canonical taxonomic lineage of each community taxon. A community taxon
+  resolved above species level therefore received observations from all
+  matching descendant trait taxa. We calculated the median for each
+  community-taxon--trait-domain combination and pivoted the result to a
+  taxon × trait matrix.
+\item
+  \textbf{Interim release and uncertainty handling.} We froze the
+  resulting records as an interim analysis release specific to VegVault
+  1.0.0. A future VegVault version intentionally fails this
+  compatibility contract until the local source rules are explicitly
+  retired or replaced. All six traits were retained in the primary
+  analysis, but leaf mass per area and leaf nitrogen content per unit
+  mass were marked as having provisional unit provenance, and stem
+  specific density was marked as retaining interim source uncertainty.
+  Leaf mass per area received no scaling or exclusion because the
+  available evidence did not justify a correction, rather than because
+  its source units were considered resolved. We therefore defined four
+  separately stored sensitivity classifications that omitted leaf mass
+  per area, leaf nitrogen content, both provisional traits together, or
+  stem specific density.
+\end{enumerate}
 
 \textbf{Distance computation and clustering.} We derived functional
 types separately for each continental unit (Europe, North America,
 northern Asia) to ensure that the groupings reflect the functional
 diversity actually present in each region rather than a globally imposed
-classification. We quantified pairwise dissimilarities among taxa using
-the Gower distance metric, which is appropriate for plant trait data
-because it handles mixed variable types (continuous, binary, ordinal)
-and missing values natively, without requiring imputation or prior
-standardisation of trait distributions. We then grouped taxa by Ward's
-minimum-variance hierarchical clustering applied to the Gower distance
-matrix. We chose Ward's method because it minimises within-cluster total
-variance at each merge step, producing compact, well-separated clusters
-that are more likely to correspond to ecologically coherent functional
-strategies than linkage methods that optimise only local cohesion.
+classification. Before calculating distances, we log10-transformed
+diaspore mass, leaf area, leaf mass per area, and plant height to reduce
+the influence of their strongly right-skewed measurement scales; leaf
+nitrogen content and stem specific density were retained on their
+original scales. We quantified pairwise dissimilarities among taxa using
+the Gower distance metric, which range-standardises each trait and
+calculates each taxon pair from their jointly observed traits without
+requiring imputation. Pairs sharing no observed trait received the
+maximum dissimilarity of one rather than a non-finite distance. We then
+grouped taxa by Ward's minimum-variance hierarchical clustering applied
+to the Gower distance matrix. We chose Ward's method because it
+minimises within-cluster total variance at each merge step, producing
+compact, well-separated clusters that are more likely to correspond to
+ecologically coherent functional strategies than linkage methods that
+optimise only local cohesion.
 
 \textbf{Selection of the number of functional types.} We determined the
 number of functional types \emph{k} by a dual criterion designed to
@@ -644,14 +724,14 @@ and their dependencies --- can be recreated identically on any machine.
 \href{https://OndrejMottl.github.io/BIODYNAMICS-vegetation-cooccurrence/manuscript.qmd.html}{Article
 Notebook}}
 
-The analytical codebase comprises 160 modular R functions, each in its
+The analytical codebase comprises 364 modular R functions, each in its
 own file, spanning data extraction, taxonomic harmonisation, community
 pre-processing, collinearity screening, spatial eigenvector computation,
 model fitting, variance decomposition, functional-type classification,
-and visualisation. Each function has a dedicated unit-test file (138
-test files in total), and the test suite achieves 92 \% line coverage
+and visualisation. Each function has a dedicated unit-test file (399
+test files in total), and the test suite achieves 96 \% line coverage
 across all function files as measured by \{covr\} {[}TODO: cite{]}. All
-160 functions are documented and are publicly accessible through a
+364 functions are documented and are publicly accessible through a
 dedicated project documentation website {[}GitHub Pages URL; TODO{]},
 which provides searchable reference pages for every function alongside
 narrative descriptions of each analysis phase.
