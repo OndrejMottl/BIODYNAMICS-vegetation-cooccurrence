@@ -14,7 +14,8 @@ Usage:
        final_round = FALSE,
        run_pipeline_function = run_pipeline,
        vec_allowed_profile_roles = base::c("main", "smoke"),
-       vec_allowed_profile_statuses = "active"
+       vec_allowed_profile_statuses = "active",
+       unit_store_suffixes = NULL
      )
 
 Arguments:
@@ -28,6 +29,9 @@ run_pipeline_function: Injectable pipeline runner.
 
 vec_allowed_profile_roles, vec_allowed_profile_statuses: Allowed
           profile metadata forwarded to the runner.
+
+unit_store_suffixes: Optional successful spatial-unit suffixes included
+          in tier aggregation.
 
 Value:
 

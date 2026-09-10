@@ -1,0 +1,28 @@
+Select sjSDM CV Calibration Representatives
+
+Description:
+
+     Deterministically selects median- and maximum-complexity spatial
+     units, historical fitting outliers, and every supplied paleo
+     temporal profile.
+
+Usage:
+
+     select_sjsdm_cv_calibration_representatives(data_units = NULL)
+
+Arguments:
+
+data_units: Unit inventory with analysis, grouping, complexity-count,
+          historical-budget, and temporal indicator columns.
+
+Value:
+
+     Selected unit rows with `complexity_score` and semicolon-delimited
+     `selection_reason`.
+
+Examples:
+
+     ## Not run:
+
+     select_sjsdm_cv_calibration_representatives(data_units)
+     ## End(Not run)

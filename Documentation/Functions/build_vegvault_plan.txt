@@ -45,10 +45,10 @@ Details:
      -> `select_dataset_by_geo()` -> `get_samples()` ->
      `select_samples_by_age()`
 
-     If vaultkeepr raises an error during plan assembly (e.g. no data
-     available for the specified constraints), the error is caught and
-     re-thrown via `cli::cli_abort()` with the original message
-     preserved.
+     If vaultkeepr returns its known empty or `.` condition during plan
+     assembly, the function raises a typed
+     `biodynamics_vegvault_no_records` condition. Other errors retain
+     their original condition as the parent of a contextual error.
 
 Value:
 

@@ -1,0 +1,47 @@
+Run One sjSDM CV Calibration Budget Rung
+
+Description:
+
+     Fits and scores every regularization candidate over cached
+     prepared folds for one or more repeats at one fixed iteration and
+     sampling budget.
+
+Usage:
+
+     run_sjsdm_cv_calibration_rung(
+       data_candidates = NULL,
+       list_prepared_folds = NULL,
+       data_budget = NULL,
+       sel_abiotic_formula = NULL,
+       config_sjsdm_cv_fitting = NULL,
+       repeat_ids = 1L,
+       seed = 900723L,
+       device = "gpu",
+       candidate_fit_function = fit_sjsdm_cross_validation_candidate,
+       predict_function = predict_sjsdm_probability_matrix,
+       score_function = score_sjsdm_joint_tuning_predictions
+     )
+
+Arguments:
+
+data_candidates: Complete regularization candidate table.
+
+list_prepared_folds: Cached fold records from
+          [prepare_sjsdm_tuning_folds()].
+
+data_budget: One-row calibration ladder entry.
+
+sel_abiotic_formula, config_sjsdm_cv_fitting: Model formula and
+          validated structural CV fitting configuration.
+
+repeat_ids: Integer repeats to execute.
+
+seed, device: Deterministic seed and fitting device.
+
+candidate_fit_function, predict_function, score_function: Injectable
+          fitting, prediction, and scoring backends.
+
+Value:
+
+     List containing fold-level benchmark evidence and attempt-level
+     provenance.

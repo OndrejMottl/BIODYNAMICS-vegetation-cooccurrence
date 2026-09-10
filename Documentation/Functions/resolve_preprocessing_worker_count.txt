@@ -1,0 +1,43 @@
+Resolve the Preprocessing Worker Count
+
+Description:
+
+     Resolves a safe interpolation worker count from configured
+     workers, a resource profile, an explicit override, and currently
+     available memory.
+
+Usage:
+
+     resolve_preprocessing_worker_count(
+       configured_workers = NULL,
+       resource_profile = "shared",
+       workers_override = NULL,
+       available_memory_bytes = NULL
+     )
+
+Arguments:
+
+configured_workers: Positive integer worker count from the active
+          analysis profile.
+
+resource_profile: One of `shared`, `dedicated`, or `configured`.
+
+workers_override: Optional explicit positive integer override. A
+          non-empty value has highest priority.
+
+available_memory_bytes: Optional available-memory estimate in bytes.
+          `NULL` queries `ps` when it is available and otherwise skips
+          the memory cap.
+
+Details:
+
+     The shared and dedicated profiles cap concurrency at four and
+     eight workers, respectively. The configured profile preserves the
+     analysis configuration. A conservative memory admission rule
+     reserves eight GiB and allows at most one worker per four
+     remaining GiB. The explicit override bypasses profile caps but not
+     the memory admission rule.
+
+Value:
+
+     A single positive integer worker count.

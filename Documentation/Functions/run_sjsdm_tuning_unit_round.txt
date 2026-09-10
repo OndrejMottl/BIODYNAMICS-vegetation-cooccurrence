@@ -35,4 +35,5 @@ vec_allowed_profile_roles, vec_allowed_profile_statuses: Allowed
 
 Value:
 
-     Invisible `NULL`.
+     Tibble with one row per unit and its pipeline status and error
+     message.

@@ -40,8 +40,8 @@ progress: Logical scalar controlling the progress indicator. Defaults
 Details:
 
      This helper is intended for post-selection full-unit execution.
-     Upstream tuning-summary production remains fail-fast so tier
-     selection cannot use incomplete evidence.
+     Tuning uses its own status capture and excludes failed stores from
+     tier aggregation.
 
 Value:
 

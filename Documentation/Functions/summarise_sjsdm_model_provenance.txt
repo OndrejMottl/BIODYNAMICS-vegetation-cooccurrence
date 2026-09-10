@@ -11,7 +11,9 @@ Usage:
        data_feasibility = NULL,
        data_regularization = NULL,
        data_fold_diagnostics = NULL,
-       fit_device = NULL
+       fit_device = NULL,
+       config_sjsdm_cv_fitting = NULL,
+       config_model_fitting = NULL
      )
 
 Arguments:
@@ -27,6 +29,11 @@ data_fold_diagnostics: Selected-candidate fold diagnostics. An empty
 
 fit_device: Scalar fitting-device identifier. Must be `"cpu"` or
           `"gpu"`.
+
+config_sjsdm_cv_fitting, config_model_fitting: Validated
+          cross-validation and final-model fitting configurations. Both
+          are recorded explicitly so downstream audits can distinguish
+          their budgets.
 
 Value:
 

@@ -1,0 +1,39 @@
+Diagnose sjSDM CV Preparation Endpoints
+
+Description:
+
+     Diagnoses whether requested prepared-fold targets exist, have
+     successful metadata and content hashes, and can be read from a
+     targets store.
+
+Usage:
+
+     diagnose_sjsdm_cv_preparation_endpoints(
+       store_path = NULL,
+       target_names = NULL,
+       load_metadata_function = load_targets_store_metadata,
+       read_target_function = targets::tar_read_raw
+     )
+
+Arguments:
+
+store_path: Character scalar identifying the targets store.
+
+target_names: Unique non-empty character vector of prepared-fold target
+          names.
+
+load_metadata_function: Injectable target-metadata loader.
+
+read_target_function: Injectable raw target reader.
+
+Details:
+
+     Endpoint statuses are `prepared`, `missing`, `errored`,
+     `unreadable`, or `cache_format_incompatible`. The last status is
+     reserved for legacy `qs` objects that current `qs2`-based targets
+     installations cannot read.
+
+Value:
+
+     A tibble with one row per requested target and its endpoint
+     status, data hash, and diagnostic message.

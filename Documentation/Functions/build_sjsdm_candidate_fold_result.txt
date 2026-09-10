@@ -18,7 +18,15 @@ Usage:
        data_predicted = NULL,
        fit_seconds = NA_real_,
        prediction_seconds = NA_real_,
-       scoring_seconds = NA_real_
+       scoring_seconds = NA_real_,
+       data_fit_attempts = tibble::tibble(),
+       converged = NA,
+       actual_n_iter = NA_integer_,
+       actual_n_sampling = NA_integer_,
+       epochs_run = NA_integer_,
+       linear_trend_slope = NA_real_,
+       median_diff = NA_real_,
+       early_stopping_triggered = NA
      )
 
 Arguments:
@@ -33,7 +41,8 @@ fit_seed, score_seed: Derived candidate seeds, or typed missing
           integers before candidate work.
 
 fit_status: One of `preparation_error`, `fit_error`,
-          `prediction_error`, `scoring_error`, or `ok`.
+          `convergence_error`, `non_converged`, `prediction_error`,
+          `scoring_error`, or `ok`.
 
 error_message: Character failure message, or a missing character value
           for success.
@@ -46,6 +55,15 @@ data_predicted: Optional held-out probability matrix. Fitted model
 
 fit_seconds, prediction_seconds, scoring_seconds: Candidate lifecycle
           timings in seconds.
+
+data_fit_attempts: Attempt-level CV fitting provenance, or an empty
+          table.
+
+converged, actual_n_iter, actual_n_sampling, epochs_run: Final-attempt
+          convergence and actual-budget fields.
+
+linear_trend_slope, median_diff, early_stopping_triggered:
+          Final-attempt convergence diagnostics.
 
 Value:
 

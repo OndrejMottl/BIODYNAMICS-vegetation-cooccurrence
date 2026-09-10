@@ -1,0 +1,46 @@
+Select a Stable sjSDM CV Calibration Budget
+
+Description:
+
+     Selects the smallest benchmark budget whose repeat-one winner is
+     converged and stable at the next rung, then confirms the same
+     winner in repeat two.
+
+Usage:
+
+     select_sjsdm_cv_calibration_budget(
+       data_benchmark = NULL,
+       rank_threshold = 0.95,
+       relative_loss_tolerance = 0.01,
+       n_folds_expected = 5L,
+       require_repeat_two = TRUE
+     )
+
+Arguments:
+
+data_benchmark: Candidate-fold benchmark table containing repeat,
+          budget, fit, convergence, and normalized held-out loss
+          columns.
+
+rank_threshold: Minimum Spearman candidate-loss rank correlation.
+          Defaults to `0.95`.
+
+relative_loss_tolerance: Maximum relative winning-loss change. Defaults
+          to `0.01`.
+
+n_folds_expected: Required fold coverage for every candidate and
+          budget. Defaults to five.
+
+require_repeat_two: Whether acceptance requires the same winning
+          candidate in repeat two.
+
+Value:
+
+     One-row accepted budget and stability-evidence tibble.
+
+Examples:
+
+     ## Not run:
+
+     select_sjsdm_cv_calibration_budget(data_benchmark)
+     ## End(Not run)

@@ -38,7 +38,14 @@ diagnostic artifacts. The function never fits a model.
   regularization_source = NULL,
   data_predicted = NULL,
   fold_status = "ok",
-  error_message = NA_character_
+  error_message = NA_character_,
+  converged = NA,
+  actual_n_iter = NA_integer_,
+  actual_n_sampling = NA_integer_,
+  epochs_run = NA_integer_,
+  linear_trend_slope = NA_real_,
+  median_diff = NA_real_,
+  early_stopping_triggered = NA
 )
 </code></pre>
 
@@ -77,6 +84,14 @@ diagnostic artifacts. The function never fits a model.
 <tr><td><code id="error_message">error_message</code></td>
 <td>
 <p>Failure message, or a missing character value for successful predictions.</p>
+</td></tr>
+<tr><td><code id="converged">converged</code>, <code id="actual_n_iter">actual_n_iter</code>, <code id="actual_n_sampling">actual_n_sampling</code>, <code id="epochs_run">epochs_run</code></td>
+<td>
+<p>Final CV fitting convergence and actual-budget provenance.</p>
+</td></tr>
+<tr><td><code id="linear_trend_slope">linear_trend_slope</code>, <code id="median_diff">median_diff</code>, <code id="early_stopping_triggered">early_stopping_triggered</code></td>
+<td>
+<p>Final convergence diagnostic values.</p>
 </td></tr>
 </table>
 

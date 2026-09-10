@@ -1,0 +1,45 @@
+Run an Adaptive sjSDM CV Budget Calibration
+
+Description:
+
+     Executes repeat one rung by rung on cached folds. After each
+     adjacent pair, it runs repeat two at the smaller budget and stops
+     at the first budget that satisfies the registered convergence and
+     stability criteria.
+
+Usage:
+
+     run_sjsdm_cv_calibration_benchmark(
+       data_candidates = NULL,
+       list_prepared_folds = NULL,
+       sel_abiotic_formula = NULL,
+       config_sjsdm_cv_fitting = NULL,
+       data_ladder = build_sjsdm_cv_calibration_ladder(),
+       n_folds_expected = 5L,
+       rung_function = run_sjsdm_cv_calibration_rung,
+       ...
+     )
+
+Arguments:
+
+data_candidates, list_prepared_folds, sel_abiotic_formula: Calibration
+          model inputs.
+
+config_sjsdm_cv_fitting: Validated structural CV fitting configuration.
+
+data_ladder: Ordered budget ladder from
+          [build_sjsdm_cv_calibration_ladder()].
+
+n_folds_expected: Required complete fold count. Defaults to five.
+
+rung_function: Injectable rung executor for deterministic orchestration
+          tests.
+
+     ...: Additional arguments passed to
+          [run_sjsdm_cv_calibration_rung()].
+
+Value:
+
+     Calibration status, accepted budget when available, benchmark
+     evidence, and attempt-level provenance accumulated before
+     stopping.

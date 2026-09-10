@@ -19,6 +19,8 @@ Usage:
        plot_progress = TRUE,
        fresh_run = FALSE,
        prebuild_interpolation = FALSE,
+       preparation_resource_profile = "shared",
+       interpolation_workers_override = NULL,
        callr_function = callr::r
      )
 
@@ -65,8 +67,16 @@ fresh_run: Logical indicating whether to destroy the existing target
 prebuild_interpolation: Logical indicating whether to prebuild
           `data_community_interpolated` using parallel dynamic branches
           before running the complete pipeline. The worker count is
-          read from `data_processing$n_interpolation_workers`. Default
-          is `FALSE`.
+          read from `data_processing$n_interpolation_workers` and
+          resolved through `preparation_resource_profile`. The default
+          `shared` profile caps workers at four, while `dedicated` caps
+          them at eight. Default is `FALSE`.
+
+preparation_resource_profile: Runtime resource profile passed to
+          [resolve_preprocessing_worker_count()]. Defaults to `shared`.
+
+interpolation_workers_override: Optional explicit positive
+          interpolation worker count.
 
 callr_function: Function used by [targets::tar_make()] to launch the
           pipeline process. Defaults to [callr::r()]. Supply `NULL`
@@ -87,7 +97,8 @@ Details:
      `data_community_interpolated` with the `crew_mori` preprocessing
      backend. Once that call returns, the complete pipeline is executed
      with [targets::tar_make()]. Thus downstream GPU-dependent model
-     targets remain sequentially scheduled.
+     targets remain sequentially scheduled. A failed prebuild stops the
+     complete run.
 
 Value:
 

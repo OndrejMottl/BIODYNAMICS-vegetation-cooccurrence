@@ -24,8 +24,10 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Repairs failed interpolation targets and prebuilds shared interpolation
-branches with the configured preprocessing workers.
+<p>Prebuilds interpolation branches with the configured preprocessing
+workers without invalidating completed target metadata. The active R
+library paths are supplied to target definitions so parallel workers can
+resolve packages from the project library reliably.
 </p>
 
 

@@ -54,7 +54,8 @@ tuning context.
 
 <h3>Value</h3>
 
-<p>Existing unit tuning-store paths.
+<p>Existing unit tuning-store paths. When the tuning orchestrator supplies
+'SJSMD_TUNING_UNIT_SUFFIXES', only successful units are returned.
 </p>
 
 </main>

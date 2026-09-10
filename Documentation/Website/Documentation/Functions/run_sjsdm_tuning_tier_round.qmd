@@ -38,7 +38,8 @@ callr boundary.
   final_round = FALSE,
   run_pipeline_function = run_pipeline,
   vec_allowed_profile_roles = base::c("main", "smoke"),
-  vec_allowed_profile_statuses = "active"
+  vec_allowed_profile_statuses = "active",
+  unit_store_suffixes = NULL
 )
 </code></pre>
 
@@ -61,6 +62,10 @@ callr boundary.
 <tr><td><code id="vec_allowed_profile_roles">vec_allowed_profile_roles</code>, <code id="vec_allowed_profile_statuses">vec_allowed_profile_statuses</code></td>
 <td>
 <p>Allowed profile metadata forwarded to the runner.</p>
+</td></tr>
+<tr><td><code id="unit_store_suffixes">unit_store_suffixes</code></td>
+<td>
+<p>Optional successful spatial-unit suffixes included in tier aggregation.</p>
 </td></tr>
 </table>
 

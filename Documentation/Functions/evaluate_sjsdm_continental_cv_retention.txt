@@ -1,0 +1,26 @@
+Audit Completed Continental sjSDM Results for Retention
+
+Description:
+
+     Retains a legacy continental regularization decision and final
+     model only when the final fit converged and calibrated evidence
+     reproduces its winner.
+
+Usage:
+
+     evaluate_sjsdm_continental_cv_retention(
+       data_completed = NULL,
+       data_calibration = NULL
+     )
+
+Arguments:
+
+data_completed: Completed unit-resolution rows with final convergence,
+          legacy winner, and explicit legacy CV/final fitting budgets.
+
+data_calibration: Unit-resolution calibration rows with accepted status
+          and winning candidate.
+
+Value:
+
+     Audit table with deterministic retention decisions and reasons.

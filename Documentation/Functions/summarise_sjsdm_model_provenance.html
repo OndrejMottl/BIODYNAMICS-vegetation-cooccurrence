@@ -31,7 +31,9 @@ selected-fold diagnostics into one model-level provenance row.
   data_feasibility = NULL,
   data_regularization = NULL,
   data_fold_diagnostics = NULL,
-  fit_device = NULL
+  fit_device = NULL,
+  config_sjsdm_cv_fitting = NULL,
+  config_model_fitting = NULL
 )
 </code></pre>
 
@@ -56,6 +58,11 @@ held-out evaluation is unavailable.</p>
 <tr><td><code id="fit_device">fit_device</code></td>
 <td>
 <p>Scalar fitting-device identifier. Must be '&quot;cpu&quot;' or '&quot;gpu&quot;'.</p>
+</td></tr>
+<tr><td><code id="config_sjsdm_cv_fitting">config_sjsdm_cv_fitting</code>, <code id="config_model_fitting">config_model_fitting</code></td>
+<td>
+<p>Validated cross-validation and final-model fitting configurations. Both are
+recorded explicitly so downstream audits can distinguish their budgets.</p>
 </td></tr>
 </table>
 

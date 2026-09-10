@@ -1,0 +1,28 @@
+Build a surgical sjSDM CV invalidation manifest
+
+Description:
+
+     Build a surgical sjSDM CV invalidation manifest
+
+Usage:
+
+     build_sjsdm_cv_invalidation_manifest(
+       data_continental_audit,
+       regional_store_root = NULL,
+       regional_units = base::c("eu_r001", "eu_r002"),
+       regional_tier_store = NULL
+     )
+
+Arguments:
+
+data_continental_audit: Completed continental retention audit.
+
+regional_store_root: Optional paleo regional target-store root.
+
+regional_units: Regional units whose partial CV state must be reset.
+
+regional_tier_store: Optional paleo regional tier-tuning store.
+
+Value:
+
+     A tibble with one row per target selected for invalidation.

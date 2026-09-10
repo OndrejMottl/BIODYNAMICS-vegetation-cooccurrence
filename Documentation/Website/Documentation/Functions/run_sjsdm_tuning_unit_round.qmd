@@ -69,7 +69,7 @@ preserving the round environment variable and first-round semantics.
 
 <h3>Value</h3>
 
-<p>Invisible 'NULL'.
+<p>Tibble with one row per unit and its pipeline status and error message.
 </p>
 
 </main>

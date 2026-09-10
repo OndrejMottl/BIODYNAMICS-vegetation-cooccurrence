@@ -1,0 +1,20 @@
+Build the sjSDM CV Calibration Budget Ladder
+
+Description:
+
+     Constructs the fixed iteration ladder at sampling 200 followed by
+     the maximum-iteration sampling ladder used only when iteration
+     calibration fails.
+
+Usage:
+
+     build_sjsdm_cv_calibration_ladder()
+
+Value:
+
+     Tibble with deterministic budget order, phase, iterations, and
+     sampling.
+
+Examples:
+
+     build_sjsdm_cv_calibration_ladder()

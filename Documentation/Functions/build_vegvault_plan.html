@@ -81,10 +81,10 @@ BP 'c(min, max)'.</p>
 'select_dataset_by_type()' -&gt; 'select_dataset_by_geo()' -&gt;
 'get_samples()' -&gt; 'select_samples_by_age()'
 </p>
-<p>If vaultkeepr raises an error during plan assembly (e.g. no data
-available for the specified constraints), the error is caught and
-re-thrown via 'cli::cli_abort()' with the original message
-preserved.
+<p>If vaultkeepr returns its known empty or '.' condition during plan
+assembly, the function raises a typed
+'biodynamics_vegvault_no_records' condition. Other errors retain their
+original condition as the parent of a contextual error.
 </p>
 
 

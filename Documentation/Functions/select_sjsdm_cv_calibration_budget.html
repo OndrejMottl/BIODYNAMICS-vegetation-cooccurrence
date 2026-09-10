@@ -1,0 +1,84 @@
+<!DOCTYPE html><html><head><title>R: Select a Stable sjSDM CV Calibration Budget</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>select_sjsdm_cv_calibration_budget</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Select a Stable sjSDM CV Calibration Budget</h2>
+
+<h3>Description</h3>
+
+<p>Selects the smallest benchmark budget whose repeat-one winner is converged
+and stable at the next rung, then confirms the same winner in repeat two.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>select_sjsdm_cv_calibration_budget(
+  data_benchmark = NULL,
+  rank_threshold = 0.95,
+  relative_loss_tolerance = 0.01,
+  n_folds_expected = 5L,
+  require_repeat_two = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_benchmark">data_benchmark</code></td>
+<td>
+<p>Candidate-fold benchmark table containing repeat, budget, fit, convergence,
+and normalized held-out loss columns.</p>
+</td></tr>
+<tr><td><code id="rank_threshold">rank_threshold</code></td>
+<td>
+<p>Minimum Spearman candidate-loss rank correlation. Defaults to '0.95'.</p>
+</td></tr>
+<tr><td><code id="relative_loss_tolerance">relative_loss_tolerance</code></td>
+<td>
+<p>Maximum relative winning-loss change. Defaults to '0.01'.</p>
+</td></tr>
+<tr><td><code id="n_folds_expected">n_folds_expected</code></td>
+<td>
+<p>Required fold coverage for every candidate and budget. Defaults to five.</p>
+</td></tr>
+<tr><td><code id="require_repeat_two">require_repeat_two</code></td>
+<td>
+<p>Whether acceptance requires the same winning candidate in repeat two.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>One-row accepted budget and stability-evidence tibble.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+select_sjsdm_cv_calibration_budget(data_benchmark)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

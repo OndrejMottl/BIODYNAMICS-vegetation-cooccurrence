@@ -1,0 +1,32 @@
+Assign Accepted sjSDM CV Budgets to Production Units
+
+Description:
+
+     Assigns the most demanding accepted median/maximum representative
+     budget to ordinary units within each
+     analysis-tier-continent-resolution group. A benchmarked historical
+     outlier or temporal profile keeps its own accepted budget.
+
+Usage:
+
+     resolve_sjsdm_cv_calibration_budgets(
+       data_units = NULL,
+       data_accepted = NULL,
+       cv_n_step_size = NA_real_,
+       cv_n_early_stopping = NA_integer_
+     )
+
+Arguments:
+
+data_units: Complete calibration unit inventory.
+
+data_accepted: Accepted representative budgets with unit keys,
+          selection reasons, budget order, iterations, and sampling.
+
+cv_n_step_size, cv_n_early_stopping: Fixed CV optimizer values to
+          publish; missing values are retained as typed `NA` for
+          CSV/config serialization.
+
+Value:
+
+     Unit-keyed production CV budget table.

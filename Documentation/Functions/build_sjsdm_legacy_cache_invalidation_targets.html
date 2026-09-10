@@ -1,0 +1,60 @@
+<!DOCTYPE html><html><head><title>R: Collect Unreadable Legacy sjSDM Cache Targets</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_sjsdm_legacy_cache_invalidation_targets</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Collect Unreadable Legacy sjSDM Cache Targets</h2>
+
+<h3>Description</h3>
+
+<p>Collects prepared endpoints, errored targets, and named dependencies that
+participate in a legacy 'qs' cache-read failure.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_sjsdm_legacy_cache_invalidation_targets(
+  data_endpoints = NULL,
+  data_target_errors = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_endpoints">data_endpoints</code></td>
+<td>
+<p>Prepared-endpoint diagnostics containing 'target_name', 'endpoint_status',
+and 'error_message'.</p>
+</td></tr>
+<tr><td><code id="data_target_errors">data_target_errors</code></td>
+<td>
+<p>Target metadata containing 'name' and 'error'.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A unique character vector of targets to invalidate before retrying.
+</p>
+
+</main>
+
+</div>
+</body></html>

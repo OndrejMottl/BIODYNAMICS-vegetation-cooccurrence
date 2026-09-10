@@ -1,0 +1,85 @@
+---
+format: html
+title: resolve_preprocessing_worker_count()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>resolve_preprocessing_worker_count</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Resolve the Preprocessing Worker Count</h2>
+
+<h3>Description</h3>
+
+<p>Resolves a safe interpolation worker count from configured workers, a
+resource profile, an explicit override, and currently available memory.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>resolve_preprocessing_worker_count(
+  configured_workers = NULL,
+  resource_profile = "shared",
+  workers_override = NULL,
+  available_memory_bytes = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="configured_workers">configured_workers</code></td>
+<td>
+<p>Positive integer worker count from the active analysis profile.</p>
+</td></tr>
+<tr><td><code id="resource_profile">resource_profile</code></td>
+<td>
+<p>One of 'shared', 'dedicated', or 'configured'.</p>
+</td></tr>
+<tr><td><code id="workers_override">workers_override</code></td>
+<td>
+<p>Optional explicit positive integer override. A non-empty value has highest
+priority.</p>
+</td></tr>
+<tr><td><code id="available_memory_bytes">available_memory_bytes</code></td>
+<td>
+<p>Optional available-memory estimate in bytes. 'NULL' queries 'ps' when it
+is available and otherwise skips the memory cap.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The shared and dedicated profiles cap concurrency at four and eight workers,
+respectively. The configured profile preserves the analysis configuration.
+A conservative memory admission rule reserves eight GiB and allows at most
+one worker per four remaining GiB. The explicit override bypasses profile
+caps but not the memory admission rule.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A single positive integer worker count.
+</p>
+
+</main>
+
+</div>
+</body></html>

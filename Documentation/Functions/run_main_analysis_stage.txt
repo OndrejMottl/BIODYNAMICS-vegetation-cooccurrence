@@ -1,0 +1,53 @@
+Run a Main Analysis Stage
+
+Description:
+
+     Runs an ordered table of main-analysis component scripts in
+     isolated R subprocesses, streams their output into live logs, and
+     records statuses.
+
+Usage:
+
+     run_main_analysis_stage(
+       stage_id = NULL,
+       data_components = NULL,
+       run_id = NULL,
+       continue_on_error = FALSE,
+       next_stage_script = NULL,
+       runner_function = processx::run,
+       log_root = here::here("Data", "Temp", "Main_analysis_execution"),
+       verbose = TRUE
+     )
+
+Arguments:
+
+stage_id: Non-empty identifier for the numbered main-analysis stage.
+
+data_components: Data frame with unique `component_id` and
+          `script_path` columns. Optional list-columns `arguments` and
+          `environment` supply subprocess arguments and environment
+          variables.
+
+  run_id: Non-empty identifier shared by all component batches in one
+          stage run.
+
+continue_on_error: Logical scalar. If `TRUE`, all independent
+          components are attempted before the stage fails. If `FALSE`,
+          execution stops after the first failure.
+
+next_stage_script: Optional project-relative path printed after a
+          successful stage.
+
+runner_function: Injectable subprocess runner. Defaults to
+          [processx::run()].
+
+log_root: Directory under which stage logs and status CSV files are
+          written.
+
+ verbose: Logical. If `TRUE` (default), progress messages are printed
+          to the console.
+
+Value:
+
+     Tibble with one row per attempted component and its exit status
+     and log.

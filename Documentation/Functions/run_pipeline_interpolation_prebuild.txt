@@ -2,8 +2,10 @@ Run a Pipeline Interpolation Prebuild
 
 Description:
 
-     Repairs failed interpolation targets and prebuilds shared
-     interpolation branches with the configured preprocessing workers.
+     Prebuilds interpolation branches with the configured preprocessing
+     workers without invalidating completed target metadata. The active
+     R library paths are supplied to target definitions so parallel
+     workers can resolve packages from the project library reliably.
 
 Usage:
 

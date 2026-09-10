@@ -71,9 +71,8 @@ arguments supplied through '...'. Defaults to [run_pipeline()].</p>
 
 <h3>Details</h3>
 
-<p>This helper is intended for post-selection full-unit execution. Upstream
-tuning-summary production remains fail-fast so tier selection cannot use
-incomplete evidence.
+<p>This helper is intended for post-selection full-unit execution. Tuning uses
+its own status capture and excludes failed stores from tier aggregation.
 </p>
 
 
