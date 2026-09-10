@@ -65,7 +65,17 @@ validate_sjsdm_cv_evaluation_payload <- function(payload = NULL) {
       "evaluation_prediction_source",
       "evaluation_estimand",
       "evaluation_aggregation_methods",
-      "evaluation_schema_version"
+      "evaluation_schema_version",
+      "cv_n_iter_initial",
+      "cv_n_iter_max",
+      "cv_n_sampling",
+      "cv_n_step_size",
+      "cv_n_early_stopping",
+      "final_n_iter",
+      "final_n_sampling",
+      "final_n_step_size",
+      "final_n_early_stopping",
+      "final_n_samples_anova"
     )
 
   res <-
@@ -108,7 +118,13 @@ validate_sjsdm_cv_evaluation_payload <- function(payload = NULL) {
               "integer",
               "character",
               base::rep("integer", 7L),
-              base::rep("character", 6L)
+              base::rep("character", 6L),
+              base::rep("integer", 3L),
+              "double",
+              "integer",
+              base::rep("integer", 2L),
+              "double",
+              base::rep("integer", 2L)
             ),
             vec_model_columns
           ),

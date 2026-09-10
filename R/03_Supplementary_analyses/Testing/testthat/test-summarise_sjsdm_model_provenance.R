@@ -1,3 +1,21 @@
+config_sjsdm_cv_fitting_test <-
+  base::list(
+    n_iter_initial = 500L,
+    n_iter_max = 2000L,
+    n_sampling = 200L,
+    n_step_size = NULL,
+    n_early_stopping = NULL
+  )
+
+config_model_fitting_test <-
+  base::list(
+    n_iter = 6400L,
+    n_sampling = 1000L,
+    n_step_size = NULL,
+    n_early_stopping = NULL,
+    n_samples_anova = 100L
+  )
+
 testthat::test_that(
   "summarise_sjsdm_model_provenance() records model provenance",
   {
@@ -41,13 +59,15 @@ testthat::test_that(
         data_feasibility = data_feasibility,
         data_regularization = data_regularization,
         data_fold_diagnostics = data_fold_diagnostics,
-        fit_device = "gpu"
+        fit_device = "gpu",
+        config_sjsdm_cv_fitting = config_sjsdm_cv_fitting_test,
+        config_model_fitting = config_model_fitting_test
       )
 
     testthat::expect_equal(base::nrow(res), 1L)
-    testthat::expect_equal(base::ncol(res), 29L)
+    testthat::expect_equal(base::ncol(res), 39L)
     testthat::expect_equal(
-      utils::tail(base::names(res), 5L),
+      base::names(res)[25:29],
       base::c(
         "fit_device",
         "evaluation_prediction_source",
@@ -69,6 +89,9 @@ testthat::test_that(
     )
     testthat::expect_equal(res[["regularization_source"]], "unit_cv")
     testthat::expect_equal(res[["fit_device"]], "gpu")
+    testthat::expect_equal(res[["cv_n_iter_initial"]], 500L)
+    testthat::expect_equal(res[["cv_n_iter_max"]], 2000L)
+    testthat::expect_equal(res[["final_n_iter"]], 6400L)
     testthat::expect_equal(
       res[["evaluation_prediction_source"]],
       "out_of_fold"
@@ -95,7 +118,9 @@ testthat::test_that(
         data_feasibility = data_feasibility,
         data_regularization = data_regularization,
         data_fold_diagnostics = data_fold_diagnostics,
-        fit_device = "automatic"
+        fit_device = "automatic",
+        config_sjsdm_cv_fitting = config_sjsdm_cv_fitting_test,
+        config_model_fitting = config_model_fitting_test
       ),
       "fit_device must be either 'cpu' or 'gpu'"
     )
@@ -135,7 +160,9 @@ testthat::test_that(
         data_feasibility = data_feasibility,
         data_regularization = data_regularization,
         data_fold_diagnostics = tibble::tibble(),
-        fit_device = "cpu"
+        fit_device = "cpu",
+        config_sjsdm_cv_fitting = config_sjsdm_cv_fitting_test,
+        config_model_fitting = config_model_fitting_test
       )
 
     testthat::expect_equal(res[["n_repeats"]], 0L)
@@ -197,7 +224,9 @@ testthat::test_that(
         data_feasibility = data_feasibility,
         data_regularization = data_regularization,
         data_fold_diagnostics = data_fold_diagnostics,
-        fit_device = "gpu"
+        fit_device = "gpu",
+        config_sjsdm_cv_fitting = config_sjsdm_cv_fitting_test,
+        config_model_fitting = config_model_fitting_test
       )
 
     testthat::expect_equal(base::nrow(res), 1L)
@@ -234,7 +263,10 @@ testthat::test_that(
               data_feasibility = data_feasibility,
               data_regularization = data_regularization,
               data_fold_diagnostics = data_invalid_diagnostics,
-              fit_device = "gpu"
+              fit_device = "gpu",
+              config_sjsdm_cv_fitting =
+                config_sjsdm_cv_fitting_test,
+              config_model_fitting = config_model_fitting_test
             ),
             "Effective MEV counts must be non-negative integers"
           )

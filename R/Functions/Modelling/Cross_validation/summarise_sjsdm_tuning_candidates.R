@@ -141,11 +141,19 @@ summarise_sjsdm_tuning_candidates <- function(data_tuning = NULL) {
     )
   }
 
+  if (
+    !"converged" %in% base::colnames(data_tuning)
+  ) {
+    data_tuning[["converged"]] <-
+      TRUE
+  }
+
   data_tuning_status <-
     data_tuning |>
     dplyr::mutate(
       fold_successful =
         .data[["fit_status"]] == "ok" &
+        .data[["converged"]] %in% TRUE &
         base::is.finite(.data[["n_response_values"]]) &
         .data[["n_response_values"]] > 0L &
         base::is.finite(.data[["negative_log_likelihood_test"]]) &

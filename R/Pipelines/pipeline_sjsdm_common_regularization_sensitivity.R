@@ -258,6 +258,12 @@ base::list(
       purrr::chuck("data_provenance")
   ),
   targets::tar_target(
+    description = "Publish common-regularization CV fit attempts",
+    name = data_sjsdm_common_sensitivity_fit_attempts,
+    command = list_sjsdm_common_sensitivity_results |>
+      purrr::chuck("data_fit_attempts")
+  ),
+  targets::tar_target(
     description = "Publish common-regularization decompositions",
     name = data_sjsdm_common_sensitivity_decomposition,
     command = list_sjsdm_common_sensitivity_results |>
@@ -275,7 +281,9 @@ base::list(
           data_sjsdm_common_candidate_aggregation,
         data_model_index = data_sjsdm_common_model_index,
         data_sensitivity_provenance =
-          data_sjsdm_common_sensitivity_provenance
+          data_sjsdm_common_sensitivity_provenance,
+        data_fit_attempts =
+          data_sjsdm_common_sensitivity_fit_attempts
       ),
       pipeline_id =
         "pipeline_sjsdm_common_regularization_sensitivity",

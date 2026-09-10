@@ -10,6 +10,8 @@
 #' Injectable pipeline runner.
 #' @param vec_allowed_profile_roles,vec_allowed_profile_statuses
 #' Allowed profile metadata forwarded to the runner.
+#' @param unit_store_suffixes
+#' Optional successful spatial-unit suffixes included in tier aggregation.
 #' @return
 #' Invisible `NULL`.
 #' @export
@@ -20,7 +22,8 @@ run_sjsdm_tuning_tier_round <- function(
     final_round = FALSE,
     run_pipeline_function = run_pipeline,
     vec_allowed_profile_roles = base::c("main", "smoke"),
-    vec_allowed_profile_statuses = "active") {
+    vec_allowed_profile_statuses = "active",
+    unit_store_suffixes = NULL) {
   list_arguments <-
     base::list(
       sel_script = "R/Pipelines/pipeline_sjsdm_tier_tuning.R",
@@ -37,9 +40,26 @@ run_sjsdm_tuning_tier_round <- function(
     list_arguments[["target_names"]] <- tier_target_name
   }
 
-  rlang::exec(
-    .fn = run_pipeline_function,
-    !!!list_arguments
+  value_store_suffixes <-
+    if (
+      base::is.null(unit_store_suffixes)
+    ) {
+      NA_character_
+    } else {
+      base::paste(
+        unit_store_suffixes,
+        collapse = .Platform[["path.sep"]]
+      )
+    }
+
+  withr::with_envvar(
+    new = base::c(
+      SJSMD_TUNING_UNIT_SUFFIXES = value_store_suffixes
+    ),
+    code = rlang::exec(
+      .fn = run_pipeline_function,
+      !!!list_arguments
+    )
   )
 
   return(base::invisible(NULL))

@@ -194,14 +194,24 @@ pipe_segment_model_cross_validation_execution <-
         data_work_item = data_sjsdm_tuning_branch_work_items,
         list_prepared_folds = list_sjsdm_prepared_tuning_folds,
         fit_function = function(data_train_input, candidate, seed) {
-          fit_sjsdm_regularization_candidate(
+          fit_sjsdm_cross_validation_candidate(
             data_train_input = data_train_input,
             candidate = candidate,
             sel_abiotic_formula = formula_jsdm_environment,
-            config_model_fitting = config_model_fitting,
+            config_sjsdm_cv_fitting = config_sjsdm_cv_fitting,
             seed = seed,
+            repeat_id = purrr::chuck(
+              data_sjsdm_tuning_branch_work_items,
+              "repeat_id",
+              1L
+            ),
+            fold_id = purrr::chuck(
+              data_sjsdm_tuning_branch_work_items,
+              "fold_id",
+              1L
+            ),
             device = purrr::chuck(
-              config_model_fitting,
+              config_sjsdm_cv_fitting,
               "cross_validation",
               "fit_device"
             )
@@ -233,6 +243,14 @@ pipe_segment_model_cross_validation_execution <-
       name = "list_sjsdm_tuning_prediction_cache",
       command = list_sjsdm_tuning_execution |>
         purrr::chuck("list_prediction_cache")
+    ),
+    targets::tar_target(
+      description = "Publish attempt-level CV fit convergence provenance",
+      name = "data_sjsdm_tuning_fit_attempts",
+      command = aggregate_sjsdm_tuning_fit_attempts(
+        list_prediction_cache =
+          list_sjsdm_tuning_prediction_cache
+      )
     ),
     targets::tar_target(
       description = "Record tuning fit reuse and execution provenance",
@@ -296,6 +314,7 @@ pipe_segment_model_cross_validation_execution <-
           data_stage_timings = data_sjsdm_tuning_stage_timings,
           data_execution_provenance =
             data_sjsdm_tuning_execution_provenance,
+          data_fit_attempts = data_sjsdm_tuning_fit_attempts,
           list_prediction_cache =
             list_sjsdm_tuning_prediction_cache
         ),
@@ -432,7 +451,9 @@ pipe_segment_model_cross_validation_execution <-
           config_model_fitting,
           "cross_validation",
           "fit_device"
-        )
+        ),
+        config_sjsdm_cv_fitting = config_sjsdm_cv_fitting,
+        config_model_fitting = config_model_fitting
       )
     ),
     targets::tar_target(

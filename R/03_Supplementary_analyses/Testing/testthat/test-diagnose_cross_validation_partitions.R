@@ -178,3 +178,62 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "diagnostics route an empty taxon set to no model",
+  {
+    data_locations <-
+      tibble::tibble(
+        location_id = base::letters[1:5],
+        n_samples = base::rep(1L, 5L),
+        row_indices = base::as.list(base::seq_len(5L))
+      )
+    data_assignments <-
+      tibble::tibble(
+        repeat_id = base::integer(),
+        fold_id = base::integer(),
+        location_id = base::character(),
+        grid_cell_id = base::character(),
+        n_samples = base::integer(),
+        row_indices = base::list(),
+        cv_strategy = base::character(),
+        assignment_source = base::character()
+      )
+    data_community_matrix <-
+      base::matrix(
+        data = base::numeric(),
+        nrow = 5L,
+        ncol = 0L,
+        dimnames = base::list(NULL, base::character())
+      )
+
+    data_diagnostics <-
+      diagnose_cross_validation_partitions(
+        data_locations = data_locations,
+        data_assignments = data_assignments,
+        data_community_matrix = data_community_matrix,
+        cv_strategy = "none"
+      )
+    data_feasibility <-
+      resolve_cross_validation_strategy(
+        data_partition_diagnostics = data_diagnostics,
+        min_train_locations = 1L,
+        min_train_samples = 1L,
+        min_train_taxa = 1L,
+        min_mem_locations = 1L
+      )
+
+    testthat::expect_equal(
+      dplyr::pull(data_diagnostics, n_train_taxa),
+      0L
+    )
+    testthat::expect_equal(
+      dplyr::pull(data_feasibility, cv_feasibility_status),
+      "full_model_infeasible"
+    )
+    testthat::expect_equal(
+      dplyr::pull(data_feasibility, cv_strategy),
+      "none"
+    )
+  }
+)

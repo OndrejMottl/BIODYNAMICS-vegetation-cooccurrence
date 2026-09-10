@@ -158,7 +158,7 @@ run_sjsdm_prepared_tuning_candidate <- function(
   fit_started <-
     base::proc.time()[["elapsed"]]
 
-  mod_fit <-
+  fit_result <-
     base::tryCatch(
       expr = fit_function(
         data_train_input =
@@ -173,7 +173,7 @@ run_sjsdm_prepared_tuning_candidate <- function(
     base::proc.time()[["elapsed"]] - fit_started
 
   if (
-    base::inherits(mod_fit, "error")
+    base::inherits(fit_result, "error")
   ) {
     list_fit_error <-
       build_sjsdm_candidate_fold_result(
@@ -182,11 +182,85 @@ run_sjsdm_prepared_tuning_candidate <- function(
         fit_seed = fit_seed,
         score_seed = score_seed,
         fit_status = "fit_error",
-        error_message = base::conditionMessage(mod_fit),
+        error_message = base::conditionMessage(fit_result),
         fit_seconds = fit_seconds
       )
 
     return(list_fit_error)
+  }
+
+  flag_escalated_fit <-
+    base::inherits(fit_result, "sjsdm_cv_fit_result")
+
+  if (
+    flag_escalated_fit
+  ) {
+    data_fit_attempts <-
+      fit_result[["data_attempts"]]
+    fit_seconds <-
+      base::sum(data_fit_attempts[["runtime_seconds"]])
+
+    if (
+      fit_result[["fit_status"]] != "ok"
+    ) {
+      return(
+        build_sjsdm_candidate_fold_result(
+          data_candidate = data_candidate,
+          list_fold_context = list_fold_context,
+          fit_seed = fit_seed,
+          score_seed = score_seed,
+          fit_status = fit_result[["fit_status"]],
+          error_message = fit_result[["error_message"]],
+          fit_seconds = fit_seconds,
+          data_fit_attempts = data_fit_attempts,
+          converged = fit_result[["converged"]],
+          actual_n_iter = fit_result[["actual_n_iter"]],
+          actual_n_sampling = fit_result[["actual_n_sampling"]],
+          epochs_run = fit_result[["epochs_run"]],
+          linear_trend_slope =
+            fit_result[["linear_trend_slope"]],
+          median_diff = fit_result[["median_diff"]],
+          early_stopping_triggered =
+            fit_result[["early_stopping_triggered"]]
+        )
+      )
+    }
+
+    mod_fit <-
+      fit_result[["mod_fit"]]
+    converged <-
+      fit_result[["converged"]]
+    actual_n_iter <-
+      fit_result[["actual_n_iter"]]
+    actual_n_sampling <-
+      fit_result[["actual_n_sampling"]]
+    epochs_run <-
+      fit_result[["epochs_run"]]
+    linear_trend_slope <-
+      fit_result[["linear_trend_slope"]]
+    median_diff <-
+      fit_result[["median_diff"]]
+    early_stopping_triggered <-
+      fit_result[["early_stopping_triggered"]]
+  } else {
+    mod_fit <-
+      fit_result
+    data_fit_attempts <-
+      tibble::tibble()
+    converged <-
+      NA
+    actual_n_iter <-
+      NA_integer_
+    actual_n_sampling <-
+      NA_integer_
+    epochs_run <-
+      NA_integer_
+    linear_trend_slope <-
+      NA_real_
+    median_diff <-
+      NA_real_
+    early_stopping_triggered <-
+      NA
   }
 
   prediction_started <-
@@ -216,7 +290,15 @@ run_sjsdm_prepared_tuning_candidate <- function(
         fit_status = "prediction_error",
         error_message = base::conditionMessage(data_predicted),
         fit_seconds = fit_seconds,
-        prediction_seconds = prediction_seconds
+        prediction_seconds = prediction_seconds,
+        data_fit_attempts = data_fit_attempts,
+        converged = converged,
+        actual_n_iter = actual_n_iter,
+        actual_n_sampling = actual_n_sampling,
+        epochs_run = epochs_run,
+        linear_trend_slope = linear_trend_slope,
+        median_diff = median_diff,
+        early_stopping_triggered = early_stopping_triggered
       )
 
     return(list_prediction_error)
@@ -275,7 +357,15 @@ run_sjsdm_prepared_tuning_candidate <- function(
         data_predicted = data_predicted,
         fit_seconds = fit_seconds,
         prediction_seconds = prediction_seconds,
-        scoring_seconds = scoring_seconds
+        scoring_seconds = scoring_seconds,
+        data_fit_attempts = data_fit_attempts,
+        converged = converged,
+        actual_n_iter = actual_n_iter,
+        actual_n_sampling = actual_n_sampling,
+        epochs_run = epochs_run,
+        linear_trend_slope = linear_trend_slope,
+        median_diff = median_diff,
+        early_stopping_triggered = early_stopping_triggered
       )
 
     return(list_scoring_error)
@@ -292,7 +382,15 @@ run_sjsdm_prepared_tuning_candidate <- function(
       data_predicted = data_predicted,
       fit_seconds = fit_seconds,
       prediction_seconds = prediction_seconds,
-      scoring_seconds = scoring_seconds
+      scoring_seconds = scoring_seconds,
+      data_fit_attempts = data_fit_attempts,
+      converged = converged,
+      actual_n_iter = actual_n_iter,
+      actual_n_sampling = actual_n_sampling,
+      epochs_run = epochs_run,
+      linear_trend_slope = linear_trend_slope,
+      median_diff = median_diff,
+      early_stopping_triggered = early_stopping_triggered
     )
 
   return(list_result)

@@ -60,7 +60,7 @@ run_sjsdm_predictor_structure_folds <- function(
     device = "gpu",
     seed = 900723L,
     prepare_fold_function = prepare_sjsdm_cross_validation_fold,
-    fit_candidate_function = fit_sjsdm_regularization_candidate,
+    fit_candidate_function = fit_sjsdm_cross_validation_candidate,
     runner_function = run_sjsdm_selected_candidate_folds,
     predict_function = predict_sjsdm_probability_matrix) {
   assertthat::assert_that(
@@ -123,15 +123,51 @@ run_sjsdm_predictor_structure_folds <- function(
           fold_id = fold_id
         )
       },
-      fit_function = function(data_train_input, candidate, seed) {
-        fit_candidate_function(
-          data_train_input = data_train_input,
-          candidate = candidate,
-          sel_abiotic_formula = model_formula_structure,
-          config_model_fitting = config_model_fitting_structure,
-          seed = seed,
-          device = device,
-          biotic = biotic_structure
+      fit_function = function(
+          data_train_input,
+          candidate,
+          seed,
+          repeat_id = NA_integer_,
+          fold_id = NA_integer_) {
+        list_fit_arguments <-
+          base::list(
+            data_train_input = data_train_input,
+            candidate = candidate,
+            sel_abiotic_formula = model_formula_structure,
+            seed = seed,
+            device = device,
+            biotic = biotic_structure
+          )
+        vec_fit_formals <-
+          base::names(base::formals(fit_candidate_function))
+
+        if (
+          "config_sjsdm_cv_fitting" %in% vec_fit_formals
+        ) {
+          list_fit_arguments[["config_sjsdm_cv_fitting"]] <-
+            config_model_fitting_structure
+        } else {
+          list_fit_arguments[["config_model_fitting"]] <-
+            config_model_fitting_structure
+        }
+
+        if (
+          "repeat_id" %in% vec_fit_formals
+        ) {
+          list_fit_arguments[["repeat_id"]] <-
+            repeat_id
+        }
+
+        if (
+          "fold_id" %in% vec_fit_formals
+        ) {
+          list_fit_arguments[["fold_id"]] <-
+            fold_id
+        }
+
+        rlang::exec(
+          .fn = fit_candidate_function,
+          !!!list_fit_arguments
         )
       },
       predict_function = predict_function,

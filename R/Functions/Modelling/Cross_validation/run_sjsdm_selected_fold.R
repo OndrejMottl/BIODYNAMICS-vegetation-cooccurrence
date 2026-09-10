@@ -166,6 +166,13 @@ run_sjsdm_selected_fold <- function(
         n_test_samples = list_fold_context[["n_test_samples"]],
         n_taxa_retained = NA_integer_,
         n_effective_mev = NA_integer_,
+        converged = NA,
+        actual_n_iter = NA_integer_,
+        actual_n_sampling = NA_integer_,
+        epochs_run = NA_integer_,
+        linear_trend_slope = NA_real_,
+        median_diff = NA_real_,
+        early_stopping_triggered = NA,
         fit_status = "preparation_error",
         error_message = error_message,
         cv_strategy = list_fold_context[["cv_strategy"]],
@@ -180,16 +187,86 @@ run_sjsdm_selected_fold <- function(
     )
   }
 
-  mod_fit <-
+  list_fit_arguments <-
+    base::list(
+      data_train_input =
+        list_prepared_fold[["data_train_input"]],
+      candidate = data_candidate,
+      seed = fit_seed
+    )
+
+  vec_fit_formals <-
+    base::names(base::formals(fit_function))
+
+  if (
+    "repeat_id" %in% vec_fit_formals || "..." %in% vec_fit_formals
+  ) {
+    list_fit_arguments[["repeat_id"]] <-
+      list_fold_context[["repeat_id"]]
+  }
+
+  if (
+    "fold_id" %in% vec_fit_formals || "..." %in% vec_fit_formals
+  ) {
+    list_fit_arguments[["fold_id"]] <-
+      list_fold_context[["fold_id"]]
+  }
+
+  fit_result <-
     base::tryCatch(
-      expr = fit_function(
-        data_train_input =
-          list_prepared_fold[["data_train_input"]],
-        candidate = data_candidate,
-        seed = fit_seed
-      ),
+      expr = rlang::exec(.fn = fit_function, !!!list_fit_arguments),
       error = base::identity
     )
+
+  if (
+    base::inherits(fit_result, "sjsdm_cv_fit_result")
+  ) {
+    if (
+      fit_result[["fit_status"]] == "ok"
+    ) {
+      mod_fit <-
+        fit_result[["mod_fit"]]
+    } else {
+      mod_fit <-
+        base::simpleError(fit_result[["error_message"]])
+    }
+
+    fit_status_override <-
+      fit_result[["fit_status"]]
+    converged <-
+      fit_result[["converged"]]
+    actual_n_iter <-
+      fit_result[["actual_n_iter"]]
+    actual_n_sampling <-
+      fit_result[["actual_n_sampling"]]
+    epochs_run <-
+      fit_result[["epochs_run"]]
+    linear_trend_slope <-
+      fit_result[["linear_trend_slope"]]
+    median_diff <-
+      fit_result[["median_diff"]]
+    early_stopping_triggered <-
+      fit_result[["early_stopping_triggered"]]
+  } else {
+    mod_fit <-
+      fit_result
+    fit_status_override <-
+      NULL
+    converged <-
+      NA
+    actual_n_iter <-
+      NA_integer_
+    actual_n_sampling <-
+      NA_integer_
+    epochs_run <-
+      NA_integer_
+    linear_trend_slope <-
+      NA_real_
+    median_diff <-
+      NA_real_
+    early_stopping_triggered <-
+      NA
+  }
 
   data_predicted <-
     if (
@@ -209,6 +286,10 @@ run_sjsdm_selected_fold <- function(
 
   fold_status <-
     if (
+      !base::is.null(fit_status_override)
+    ) {
+      fit_status_override
+    } else if (
       base::inherits(mod_fit, "error")
     ) {
       "fit_error"
@@ -250,7 +331,14 @@ run_sjsdm_selected_fold <- function(
       regularization_source = regularization_source,
       data_predicted = data_predicted,
       fold_status = fold_status,
-      error_message = error_message
+      error_message = error_message,
+      converged = converged,
+      actual_n_iter = actual_n_iter,
+      actual_n_sampling = actual_n_sampling,
+      epochs_run = epochs_run,
+      linear_trend_slope = linear_trend_slope,
+      median_diff = median_diff,
+      early_stopping_triggered = early_stopping_triggered
     )
 
   return(res)

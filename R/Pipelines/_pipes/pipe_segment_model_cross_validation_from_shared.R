@@ -132,7 +132,7 @@ pipe_segment_model_cross_validation_from_shared <-
       command = diagnose_cross_validation_partitions(
         data_locations = data_cross_validation_locations,
         data_assignments = data_cross_validation_assignments_initial,
-        data_community_matrix = data_community_prepared,
+        data_community_matrix = data_community_filtered,
         cv_strategy = dplyr::pull(
           data_cross_validation_fold_resolution,
           "cv_strategy"
@@ -180,7 +180,7 @@ pipe_segment_model_cross_validation_from_shared <-
       command = diagnose_cross_validation_partitions(
         data_locations = data_cross_validation_locations,
         data_assignments = data_cross_validation_assignments,
-        data_community_matrix = data_community_prepared,
+        data_community_matrix = data_community_filtered,
         cv_strategy = dplyr::first(
           dplyr::pull(
             data_cross_validation_assignments,
@@ -290,7 +290,18 @@ pipe_segment_model_cross_validation_from_shared <-
           purrr::chuck(config_model_fitting, "n_mev")
         ),
         candidate_table_hash = digest::digest(
-          data_sjsdm_regularization_candidates
+          base::list(
+            data_candidates = data_sjsdm_regularization_candidates,
+            config_cv_fit_budget = config_sjsdm_cv_fitting[
+              base::c(
+                "n_iter_initial",
+                "n_iter_max",
+                "n_sampling",
+                "n_step_size",
+                "n_early_stopping"
+              )
+            ]
+          )
         )
       )
     ),

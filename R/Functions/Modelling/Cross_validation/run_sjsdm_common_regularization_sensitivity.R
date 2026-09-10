@@ -94,6 +94,26 @@ run_sjsdm_common_regularization_sensitivity <- function(
       n_effective_mev = NA_integer_
     )
 
+  data_fit_attempts_empty <-
+    tibble::tibble(
+      model_id = base::character(),
+      candidate_id = base::character(),
+      repeat_id = base::integer(),
+      fold_id = base::integer(),
+      attempt = base::integer(),
+      n_iter_budget = base::integer(),
+      n_sampling = base::integer(),
+      epochs_run = base::integer(),
+      linear_trend_slope = base::numeric(),
+      median_diff = base::numeric(),
+      converged = base::logical(),
+      early_stopping_triggered = base::logical(),
+      runtime_seconds = base::numeric(),
+      fit_seed = base::integer(),
+      fit_status = base::character(),
+      error_message = base::character()
+    )
+
   list_results <-
     base::seq_len(base::nrow(data_model_index)) |>
     purrr::map(
@@ -167,6 +187,15 @@ run_sjsdm_common_regularization_sensitivity <- function(
                 store = store_path
               )
 
+            config_sjsdm_cv_fitting <-
+              read_target_function(
+                name = stringr::str_c(
+                  "config_sjsdm_cv_fitting_",
+                  resolution_id
+                ),
+                store = store_path
+              )
+
             data_primary_provenance <-
               read_target_function(
                 name = stringr::str_c(
@@ -194,57 +223,51 @@ run_sjsdm_common_regularization_sensitivity <- function(
               ) |>
               dplyr::slice_head(n = 1L)
 
-            model_fit <-
+            fit_result <-
               if (
                 base::is.null(fit_function)
               ) {
-                fit_jsdm_model(
-                  data_to_fit = data_model_input,
-                  abiotic_method = "linear",
+                fit_sjsdm_cross_validation_candidate(
+                  data_train_input = data_model_input,
+                  candidate = data_regularization,
                   sel_abiotic_formula = formula_jsdm_environment,
-                  spatial_method = if (
-                    base::isTRUE(
-                      config_model_fitting[["use_spatial"]]
-                    )
-                  ) {
-                    "linear"
-                  } else {
-                    "none"
-                  },
-                  sel_spatial_formula = ~ 0 + .,
-                  error_family =
-                    config_model_fitting[["error_family"]],
+                  config_sjsdm_cv_fitting =
+                    config_sjsdm_cv_fitting,
+                  repeat_id = 1L,
+                  fold_id = 1L,
                   device = "gpu",
-                  parallel = config_model_fitting[["n_cores"]],
-                  sampling = config_model_fitting[["n_sampling"]],
-                  iter = config_model_fitting[["n_iter"]],
-                  step_size = config_model_fitting[["n_step_size"]],
-                  n_early_stopping =
-                    config_model_fitting[["n_early_stopping"]],
-                  seed = 900723,
-                  verbose = TRUE,
-                  compute_se = FALSE,
-                  alpha_cov =
-                    data_regularization[["alpha_cov"]][[1L]],
-                  alpha_coef =
-                    data_regularization[["alpha_coef"]][[1L]],
-                  alpha_spatial =
-                    data_regularization[["alpha_spatial"]][[1L]],
-                  lambda_cov =
-                    data_regularization[["lambda_cov"]][[1L]],
-                  lambda_coef =
-                    data_regularization[["lambda_coef"]][[1L]],
-                  lambda_spatial =
-                    data_regularization[["lambda_spatial"]][[1L]]
+                  seed = 900723L
                 )
               } else {
                 fit_function(
                   data_model_input = data_model_input,
                   model_formula = formula_jsdm_environment,
-                  config_model_fitting = config_model_fitting,
+                  config_model_fitting = config_sjsdm_cv_fitting,
                   data_regularization = data_regularization
                 )
               }
+
+            if (
+              base::inherits(fit_result, "sjsdm_cv_fit_result")
+            ) {
+              if (
+                fit_result[["fit_status"]] != "ok"
+              ) {
+                cli::cli_abort(
+                  "Sensitivity CV fit failed: {fit_result[['fit_status']]}."
+                )
+              }
+              model_fit <-
+                fit_result[["mod_fit"]]
+              data_fit_attempts <-
+                fit_result[["data_attempts"]] |>
+                dplyr::mutate(model_id = model_id, .before = 1L)
+            } else {
+              model_fit <-
+                fit_result
+              data_fit_attempts <-
+                data_fit_attempts_empty
+            }
 
             model_with_se <-
               standard_error_function(
@@ -301,6 +324,32 @@ run_sjsdm_common_regularization_sensitivity <- function(
                   data_regularization[["source_tier"]][[1L]],
                 weighting_rule =
                   data_regularization[["weighting_rule"]][[1L]],
+                cv_n_iter_initial = base::as.integer(
+                  config_sjsdm_cv_fitting[["n_iter_initial"]]
+                ),
+                cv_n_iter_max = base::as.integer(
+                  config_sjsdm_cv_fitting[["n_iter_max"]]
+                ),
+                cv_n_sampling = base::as.integer(
+                  config_sjsdm_cv_fitting[["n_sampling"]]
+                ),
+                actual_cv_n_iter = if (
+                  base::inherits(fit_result, "sjsdm_cv_fit_result")
+                ) {
+                  fit_result[["actual_n_iter"]]
+                } else {
+                  NA_integer_
+                },
+                cv_converged = if (
+                  base::inherits(fit_result, "sjsdm_cv_fit_result")
+                ) {
+                  fit_result[["converged"]]
+                } else {
+                  NA
+                },
+                final_n_samples_anova = base::as.integer(
+                  config_model_fitting[["n_samples_anova"]]
+                ),
                 fit_status = "ok",
                 fit_error = NA_character_
               )
@@ -333,6 +382,7 @@ run_sjsdm_common_regularization_sensitivity <- function(
             base::list(
               model = model_with_se,
               anova = list_jsdm_variance_partition,
+              data_fit_attempts = data_fit_attempts,
               data_provenance = data_provenance,
               data_decomposition = data_decomposition
             )
@@ -341,6 +391,7 @@ run_sjsdm_common_regularization_sensitivity <- function(
             base::list(
               model = NULL,
               anova = NULL,
+              data_fit_attempts = data_fit_attempts_empty,
               data_provenance = tibble::tibble(
                 model_id = model_id,
                 tier_id = data_index_row[["tier_id"]][[1L]],
@@ -359,6 +410,12 @@ run_sjsdm_common_regularization_sensitivity <- function(
                   "common_spatial_sensitivity",
                 source_tier = "common_spatial",
                 weighting_rule = "equal_tier_equal_id",
+                cv_n_iter_initial = NA_integer_,
+                cv_n_iter_max = NA_integer_,
+                cv_n_sampling = NA_integer_,
+                actual_cv_n_iter = NA_integer_,
+                cv_converged = FALSE,
+                final_n_samples_anova = NA_integer_,
                 fit_status = "error",
                 fit_error = base::conditionMessage(error_condition)
               ),
@@ -405,6 +462,9 @@ run_sjsdm_common_regularization_sensitivity <- function(
       list_anova = list_results |>
         purrr::map("anova") |>
         rlang::set_names(model_ids),
+      data_fit_attempts = list_results |>
+        purrr::map("data_fit_attempts") |>
+        purrr::list_rbind(),
       data_provenance = list_results |>
         purrr::map("data_provenance") |>
         purrr::list_rbind(),

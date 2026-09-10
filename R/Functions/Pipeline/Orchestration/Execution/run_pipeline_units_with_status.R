@@ -19,9 +19,8 @@
 #' Tibble with one row per requested unit and columns `scale_id`,
 #' `pipeline_status` (`"ok"` or `"error"`), and `error_message`.
 #' @details
-#' This helper is intended for post-selection full-unit execution. Upstream
-#' tuning-summary production remains fail-fast so tier selection cannot use
-#' incomplete evidence.
+#' This helper is intended for post-selection full-unit execution. Tuning uses
+#' its own status capture and excludes failed stores from tier aggregation.
 #' @examples
 #' \dontrun{
 #' run_pipeline_units_with_status(

@@ -7,7 +7,8 @@
 #' @param target_store
 #' Root targets-store path.
 #' @return
-#' Existing unit tuning-store paths.
+#' Existing unit tuning-store paths. When the tuning orchestrator supplies
+#' `SJSMD_TUNING_UNIT_SUFFIXES`, only successful units are returned.
 #' @export
 load_sjsdm_unit_tuning_store_paths <- function(
     list_tuning_context = NULL,
@@ -41,6 +42,28 @@ load_sjsdm_unit_tuning_store_paths <- function(
     vec_unit_store_roots |>
     base::file.path(list_tuning_context[["pipeline_name"]]) |>
     purrr::keep(fs::dir_exists)
+
+  value_allowed_suffixes <-
+    base::Sys.getenv(
+      "SJSMD_TUNING_UNIT_SUFFIXES",
+      unset = NA_character_
+    )
+  if (
+    !base::is.na(value_allowed_suffixes)
+  ) {
+    vec_allowed_suffixes <-
+      base::strsplit(
+        value_allowed_suffixes,
+        split = .Platform[["path.sep"]],
+        fixed = TRUE
+      )[[1L]]
+    vec_store_suffixes <-
+      res |>
+      base::dirname() |>
+      base::basename()
+    res <-
+      res[vec_store_suffixes %in% vec_allowed_suffixes]
+  }
 
   return(res)
 }

@@ -11,7 +11,7 @@
 #' @param vec_allowed_profile_roles,vec_allowed_profile_statuses
 #' Allowed profile metadata forwarded to the runner.
 #' @return
-#' Invisible `NULL`.
+#' Tibble with one row per unit and its pipeline status and error message.
 #' @export
 run_sjsdm_tuning_unit_round <- function(
     round_id = NULL,
@@ -32,7 +32,8 @@ run_sjsdm_tuning_unit_round <- function(
       unit_store_suffixes
     }
 
-  purrr::walk(
+  res <-
+    purrr::map(
     vec_store_suffixes,
     .f = function(store_suffix) {
       list_arguments <-
@@ -53,17 +54,65 @@ run_sjsdm_tuning_unit_round <- function(
         list_arguments[["store_suffix"]] <- store_suffix
       }
 
-      withr::with_envvar(
-        new = base::c(
-          SJSMD_TUNING_MAX_ROUND = base::as.character(round_id)
-        ),
-        code = rlang::exec(
-          .fn = run_pipeline_function,
-          !!!list_arguments
+      error_message <- NA_character_
+      run_unit <-
+        purrr::possibly(
+          .f = function() {
+            base::tryCatch(
+              expr = withr::with_envvar(
+                new = base::c(
+                  SJSMD_TUNING_MAX_ROUND =
+                    base::as.character(round_id)
+                ),
+                code = rlang::exec(
+                  .fn = run_pipeline_function,
+                  !!!list_arguments
+                )
+              ),
+              error = function(error_condition) {
+                error_message <<-
+                  base::conditionMessage(error_condition)
+                base::stop(error_condition)
+              }
+            )
+            TRUE
+          },
+          otherwise = FALSE,
+          quiet = TRUE
         )
+
+      flag_success <- run_unit()
+      pipeline_status <-
+        if (
+          flag_success
+        ) {
+          "ok"
+        } else {
+          "error"
+        }
+
+      if (
+        !flag_success
+      ) {
+        cli::cli_inform(
+          base::c(
+            "!" = stringr::str_glue(
+              "Skipping failed tuning unit {store_suffix}."
+            ),
+            "x" = error_message,
+            "i" = "Tuning will continue with the next unit."
+          )
+        )
+      }
+
+      tibble::tibble(
+        store_suffix = store_suffix,
+        pipeline_status = pipeline_status,
+        error_message = error_message
       )
     }
-  )
+  ) |>
+    purrr::list_rbind()
 
-  return(base::invisible(NULL))
+  return(res)
 }

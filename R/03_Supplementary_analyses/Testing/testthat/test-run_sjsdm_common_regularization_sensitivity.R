@@ -45,6 +45,11 @@ testthat::test_that(
           n_cores = 2L,
           n_samples_anova = 10L
         ),
+        config_sjsdm_cv_fitting_genus = base::list(
+          n_iter_initial = 500L,
+          n_iter_max = 2000L,
+          n_sampling = 200L
+        ),
         data_sjsdm_model_context_genus = tibble::tibble(
           tier_id = "paleo_spatial_regional",
           taxonomic_resolution = "genus",
@@ -171,6 +176,18 @@ testthat::test_that(
         stringr::str_starts(name, "config_model_fitting_")
       ) {
         return(base::list(n_cores = 1L, n_samples_anova = 1L))
+      }
+
+      if (
+        stringr::str_starts(name, "config_sjsdm_cv_fitting_")
+      ) {
+        return(
+          base::list(
+            n_iter_initial = 500L,
+            n_iter_max = 2000L,
+            n_sampling = 200L
+          )
+        )
       }
 
       if (

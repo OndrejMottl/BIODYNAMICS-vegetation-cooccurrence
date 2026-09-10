@@ -12,7 +12,12 @@ write_tuning_file <- function(dir,
         n_step_size = c(NA_integer_, 32L),
         n_sampling = c(100L, 250L),
         n_samples_anova = c(500L, 500L),
-        n_early_stopping = c(NA_integer_, 0L)
+        n_early_stopping = c(NA_integer_, 0L),
+        cv_n_iter_initial = c(500L, 1000L),
+        cv_n_iter_max = c(2000L, 4000L),
+        cv_n_sampling = c(200L, 400L),
+        cv_n_step_size = c(NA_integer_, 24L),
+        cv_n_early_stopping = c(NA_integer_, 0L)
       )
   }
 
@@ -57,6 +62,152 @@ testthat::test_that(
     testthat::expect_equal(purrr::chuck(res, "n_sampling"), 250L)
     testthat::expect_equal(purrr::chuck(res, "n_samples_anova"), 500L)
     testthat::expect_equal(purrr::chuck(res, "n_early_stopping"), 0L)
+  }
+)
+
+testthat::test_that(
+  "load_model_tuning_parameters returns cross-validation budgets",
+  {
+    temp_dir <- base::tempdir()
+    write_tuning_file(temp_dir)
+
+    res <-
+      load_model_tuning_parameters(
+        analysis_id = "paleo_spatial",
+        scale_id = "eu_r001",
+        resolution_id = "genus",
+        dir = temp_dir,
+        fit_stage = "cross_validation"
+      )
+
+    testthat::expect_named(
+      res,
+      c(
+        "n_iter_initial",
+        "n_iter_max",
+        "n_sampling",
+        "n_step_size",
+        "n_early_stopping"
+      )
+    )
+    testthat::expect_equal(res[["n_iter_initial"]], 1000L)
+    testthat::expect_equal(res[["n_iter_max"]], 4000L)
+    testthat::expect_equal(res[["n_sampling"]], 400L)
+    testthat::expect_equal(res[["n_step_size"]], 24L)
+    testthat::expect_equal(res[["n_early_stopping"]], 0L)
+    testthat::expect_false("n_samples_anova" %in% base::names(res))
+  }
+)
+
+testthat::test_that(
+  "load_model_tuning_parameters requires complete CV budgets",
+  {
+    temp_dir <- base::tempdir()
+    write_tuning_file(
+      dir = temp_dir,
+      data = tibble::tibble(
+        scale_id = "europe",
+        n_iter = 500L,
+        n_step_size = NA_integer_,
+        n_sampling = 200L,
+        n_samples_anova = 1000L,
+        n_early_stopping = NA_integer_
+      )
+    )
+
+    testthat::expect_error(
+      load_model_tuning_parameters(
+        analysis_id = "paleo_spatial",
+        scale_id = "europe",
+        resolution_id = "genus",
+        dir = temp_dir,
+        fit_stage = "cross_validation"
+      ),
+      regexp = "cv_n_iter_initial"
+    )
+  }
+)
+
+testthat::test_that(
+  "unpublished spatial CV budgets explain the recovery sequence",
+  {
+    temp_dir <-
+      withr::local_tempdir()
+    data_tuning <-
+      tibble::tibble(
+        scale_id = "europe",
+        n_iter = 500L,
+        n_step_size = NA_integer_,
+        n_sampling = 200L,
+        n_samples_anova = 1000L,
+        n_early_stopping = NA_integer_,
+        cv_n_iter_initial = NA_integer_,
+        cv_n_iter_max = NA_integer_,
+        cv_n_sampling = NA_integer_,
+        cv_n_step_size = NA_integer_,
+        cv_n_early_stopping = NA_integer_
+      )
+    write_tuning_file(dir = temp_dir, data = data_tuning)
+
+    error_condition <-
+      testthat::expect_error(
+        load_model_tuning_parameters(
+          analysis_id = "paleo_spatial",
+          scale_id = "europe",
+          resolution_id = "genus",
+          dir = temp_dir,
+          fit_stage = "cross_validation"
+        )
+      )
+    error_message <-
+      base::conditionMessage(error_condition)
+
+    testthat::expect_match(
+      error_message,
+      "01_run_preparation.R",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      error_message,
+      "01_run_model_calibration.R",
+      fixed = TRUE
+    )
+    testthat::expect_match(error_message, "will be reused", fixed = TRUE)
+    testthat::expect_match(error_message, "Final-model", fixed = TRUE)
+    testthat::expect_match(error_message, "fallbacks", fixed = TRUE)
+  }
+)
+
+testthat::test_that(
+  "load_model_tuning_parameters rejects inconsistent CV iterations",
+  {
+    temp_dir <- base::tempdir()
+    data_tuning <-
+      tibble::tibble(
+        scale_id = "europe",
+        n_iter = 500L,
+        n_step_size = NA_integer_,
+        n_sampling = 200L,
+        n_samples_anova = 1000L,
+        n_early_stopping = NA_integer_,
+        cv_n_iter_initial = 2000L,
+        cv_n_iter_max = 1000L,
+        cv_n_sampling = 200L,
+        cv_n_step_size = NA_integer_,
+        cv_n_early_stopping = NA_integer_
+      )
+    write_tuning_file(dir = temp_dir, data = data_tuning)
+
+    testthat::expect_error(
+      load_model_tuning_parameters(
+        analysis_id = "paleo_spatial",
+        scale_id = "europe",
+        resolution_id = "genus",
+        dir = temp_dir,
+        fit_stage = "cross_validation"
+      ),
+      regexp = "n_iter_max"
+    )
   }
 )
 

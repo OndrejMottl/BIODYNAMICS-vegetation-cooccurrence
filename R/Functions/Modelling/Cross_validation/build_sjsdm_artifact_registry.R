@@ -36,6 +36,7 @@ build_sjsdm_artifact_registry <- function() {
         "data_candidate_repeat_summary",
         "data_stage_timings",
         "data_execution_provenance",
+        "data_fit_attempts",
         "list_prediction_cache"
       ),
       sjsdm_regularization_selection = base::c(
@@ -65,7 +66,8 @@ build_sjsdm_artifact_registry <- function() {
         "data_regularization_selection",
         "data_candidate_aggregation",
         "data_model_index",
-        "data_sensitivity_provenance"
+        "data_sensitivity_provenance",
+        "data_fit_attempts"
       )
     )
 

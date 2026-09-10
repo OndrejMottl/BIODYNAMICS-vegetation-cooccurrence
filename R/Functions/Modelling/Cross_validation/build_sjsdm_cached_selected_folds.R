@@ -275,6 +275,22 @@ build_sjsdm_cached_selected_folds <- function(
         list_candidate <-
           list_record[["list_candidate"]]
 
+        data_fit_attempts <-
+          list_candidate[["data_fit_attempts"]]
+
+        list_final_attempt <-
+          if (
+            base::is.data.frame(data_fit_attempts) &&
+              base::nrow(data_fit_attempts) > 0L
+          ) {
+            data_fit_attempts |>
+              dplyr::arrange(.data[["attempt"]]) |>
+              dplyr::slice_tail(n = 1L) |>
+              base::as.list()
+          } else {
+            base::list()
+          }
+
         return(
           build_sjsdm_selected_fold_artifacts(
             list_prepared_fold = list_prepared_fold,
@@ -287,7 +303,48 @@ build_sjsdm_cached_selected_folds <- function(
             regularization_source = regularization_source,
             data_predicted = list_candidate[["data_predicted"]],
             fold_status = "ok",
-            error_message = NA_character_
+            error_message = NA_character_,
+            converged = purrr::pluck(
+              list_final_attempt,
+              "converged",
+              .default = NA
+            ),
+            actual_n_iter =
+              purrr::pluck(
+                list_final_attempt,
+                "n_iter_budget",
+                .default = NA_integer_
+              ),
+            actual_n_sampling =
+              purrr::pluck(
+                list_final_attempt,
+                "n_sampling",
+                .default = NA_integer_
+              ),
+            epochs_run =
+              purrr::pluck(
+                list_final_attempt,
+                "epochs_run",
+                .default = NA_integer_
+              ),
+            linear_trend_slope =
+              purrr::pluck(
+                list_final_attempt,
+                "linear_trend_slope",
+                .default = NA_real_
+              ),
+            median_diff =
+              purrr::pluck(
+                list_final_attempt,
+                "median_diff",
+                .default = NA_real_
+              ),
+            early_stopping_triggered =
+              purrr::pluck(
+                list_final_attempt,
+                "early_stopping_triggered",
+                .default = NA
+              )
           )
         )
       }

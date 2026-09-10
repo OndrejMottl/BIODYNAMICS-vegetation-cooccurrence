@@ -32,6 +32,56 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "summarise_sjsdm_tuning_candidates excludes non-converged fits",
+  {
+    data_tuning <-
+      build_sjsdm_empty_tuning_result()[["data_tuning"]]
+    data_row <-
+      tibble::tibble(
+        repeat_id = 1L,
+        fold_id = 1L,
+        candidate_id = "candidate_001",
+        alpha_cov = 0.5,
+        alpha_coef = 0.5,
+        alpha_spatial = 0.5,
+        lambda_cov = 0,
+        lambda_coef = 0,
+        lambda_spatial = 0,
+        fit_seed = 1L,
+        score_seed = 2L,
+        n_train_locations = 2L,
+        n_test_locations = 1L,
+        n_train_samples = 2L,
+        n_test_samples = 1L,
+        n_taxa_retained = 1L,
+        n_response_values = 1L,
+        negative_log_likelihood_test = 0.1,
+        negative_log_likelihood_per_response = 0.1,
+        auc_macro_test = NA_real_,
+        converged = FALSE,
+        actual_n_iter = 2000L,
+        actual_n_sampling = 200L,
+        epochs_run = 2000L,
+        linear_trend_slope = 0.02,
+        median_diff = 1,
+        early_stopping_triggered = FALSE,
+        fit_status = "ok",
+        error_message = NA_character_,
+        cv_strategy = "leave_one_location_out",
+        regularization_source = "unit_cv"
+      )
+    data_tuning <-
+      dplyr::bind_rows(data_tuning, data_row)
+
+    res <-
+      summarise_sjsdm_tuning_candidates(data_tuning)
+
+    testthat::expect_equal(res[["summary_status"]], "incomplete")
+    testthat::expect_equal(res[["n_folds_successful"]], 0L)
+  }
+)
+
+testthat::test_that(
   "summarise_sjsdm_tuning_candidates() pools folds within repeats",
   {
     data_tuning <-

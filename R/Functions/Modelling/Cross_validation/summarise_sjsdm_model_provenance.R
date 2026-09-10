@@ -12,6 +12,9 @@
 #' held-out evaluation is unavailable.
 #' @param fit_device
 #' Scalar fitting-device identifier. Must be `"cpu"` or `"gpu"`.
+#' @param config_sjsdm_cv_fitting,config_model_fitting
+#' Validated cross-validation and final-model fitting configurations. Both are
+#' recorded explicitly so downstream audits can distinguish their budgets.
 #' @return
 #' One-row tibble containing model context, feasibility, data counts, fold-fit
 #' counts, effective MEV minimum/maximum/status and retained-taxon counts, and
@@ -33,7 +36,9 @@ summarise_sjsdm_model_provenance <- function(
     data_feasibility = NULL,
     data_regularization = NULL,
     data_fold_diagnostics = NULL,
-    fit_device = NULL) {
+    fit_device = NULL,
+    config_sjsdm_cv_fitting = NULL,
+    config_model_fitting = NULL) {
   vec_feasibility_columns <-
     base::c(
       "n_locations",
@@ -88,6 +93,35 @@ summarise_sjsdm_model_provenance <- function(
     !base::is.na(fit_device),
     fit_device %in% base::c("cpu", "gpu"),
     msg = "fit_device must be either 'cpu' or 'gpu'."
+  )
+
+  vec_cv_budget_names <-
+    base::c(
+      "n_iter_initial",
+      "n_iter_max",
+      "n_sampling",
+      "n_step_size",
+      "n_early_stopping"
+    )
+  vec_final_budget_names <-
+    base::c(
+      "n_iter",
+      "n_sampling",
+      "n_step_size",
+      "n_early_stopping",
+      "n_samples_anova"
+    )
+
+  assertthat::assert_that(
+    base::is.list(config_sjsdm_cv_fitting),
+    base::all(
+      vec_cv_budget_names %in% base::names(config_sjsdm_cv_fitting)
+    ),
+    base::is.list(config_model_fitting),
+    base::all(
+      vec_final_budget_names %in% base::names(config_model_fitting)
+    ),
+    msg = "Both CV and final-model fitting budgets are required."
   )
 
   flag_has_fold_diagnostics <-
@@ -216,6 +250,44 @@ summarise_sjsdm_model_provenance <- function(
       evaluation_schema_version = "sjsdm_fold_local_cv_v1"
     )
 
+  data_budget_provenance <-
+    tibble::tibble(
+      cv_n_iter_initial = base::as.integer(
+        config_sjsdm_cv_fitting[["n_iter_initial"]]
+      ),
+      cv_n_iter_max = base::as.integer(
+        config_sjsdm_cv_fitting[["n_iter_max"]]
+      ),
+      cv_n_sampling = base::as.integer(
+        config_sjsdm_cv_fitting[["n_sampling"]]
+      ),
+      cv_n_step_size = base::as.numeric(
+        config_sjsdm_cv_fitting[["n_step_size"]] |>
+          purrr::pluck(.default = NA_real_)
+      ),
+      cv_n_early_stopping = base::as.integer(
+        config_sjsdm_cv_fitting[["n_early_stopping"]] |>
+          purrr::pluck(.default = NA_integer_)
+      ),
+      final_n_iter = base::as.integer(
+        config_model_fitting[["n_iter"]]
+      ),
+      final_n_sampling = base::as.integer(
+        config_model_fitting[["n_sampling"]]
+      ),
+      final_n_step_size = base::as.numeric(
+        config_model_fitting[["n_step_size"]] |>
+          purrr::pluck(.default = NA_real_)
+      ),
+      final_n_early_stopping = base::as.integer(
+        config_model_fitting[["n_early_stopping"]] |>
+          purrr::pluck(.default = NA_integer_)
+      ),
+      final_n_samples_anova = base::as.integer(
+        config_model_fitting[["n_samples_anova"]]
+      )
+    )
+
   res <-
     dplyr::bind_cols(
       data_regularization |>
@@ -223,7 +295,8 @@ summarise_sjsdm_model_provenance <- function(
       data_feasibility |>
         dplyr::select(dplyr::all_of(vec_feasibility_columns)),
       data_fold_summary,
-      data_evaluation_provenance
+      data_evaluation_provenance,
+      data_budget_provenance
     )
 
   return(res)

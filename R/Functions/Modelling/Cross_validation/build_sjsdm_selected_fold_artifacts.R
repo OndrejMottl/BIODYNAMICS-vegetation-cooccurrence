@@ -19,6 +19,10 @@
 #' `ok`, `fit_error`, or `prediction_error`.
 #' @param error_message
 #' Failure message, or a missing character value for successful predictions.
+#' @param converged,actual_n_iter,actual_n_sampling,epochs_run
+#' Final CV fitting convergence and actual-budget provenance.
+#' @param linear_trend_slope,median_diff,early_stopping_triggered
+#' Final convergence diagnostic values.
 #' @return
 #' Named list with `data_predictions` and `data_diagnostics`.
 #' @export
@@ -32,7 +36,14 @@ build_sjsdm_selected_fold_artifacts <- function(
     regularization_source = NULL,
     data_predicted = NULL,
     fold_status = "ok",
-    error_message = NA_character_) {
+    error_message = NA_character_,
+    converged = NA,
+    actual_n_iter = NA_integer_,
+    actual_n_sampling = NA_integer_,
+    epochs_run = NA_integer_,
+    linear_trend_slope = NA_real_,
+    median_diff = NA_real_,
+    early_stopping_triggered = NA) {
   vec_required_fold_elements <-
     base::c(
       "data_train_input",
@@ -63,7 +74,13 @@ build_sjsdm_selected_fold_artifacts <- function(
     base::length(fit_seed) == 1L,
     base::is.character(regularization_source),
     base::length(regularization_source) == 1L,
-    fold_status %in% base::c("ok", "fit_error", "prediction_error"),
+    fold_status %in% base::c(
+      "ok",
+      "fit_error",
+      "convergence_error",
+      "non_converged",
+      "prediction_error"
+    ),
     msg = "Selected-fold artifact inputs are incomplete."
   )
 
@@ -311,6 +328,14 @@ build_sjsdm_selected_fold_artifacts <- function(
       n_test_samples = base::nrow(data_test_observed_full),
       n_taxa_retained = base::length(vec_retained_taxa),
       n_effective_mev = base::as.integer(n_effective_mev),
+      converged = base::as.logical(converged),
+      actual_n_iter = base::as.integer(actual_n_iter),
+      actual_n_sampling = base::as.integer(actual_n_sampling),
+      epochs_run = base::as.integer(epochs_run),
+      linear_trend_slope = base::as.numeric(linear_trend_slope),
+      median_diff = base::as.numeric(median_diff),
+      early_stopping_triggered =
+        base::as.logical(early_stopping_triggered),
       fit_status = fold_status,
       error_message = error_message,
       cv_strategy = list_fold_context[["cv_strategy"]],

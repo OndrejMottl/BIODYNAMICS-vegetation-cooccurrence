@@ -118,9 +118,43 @@ pipe_segment_config_model_by_resolution <-
           ),
           cross_validation = load_active_config_value(
             value = c("model_fitting", "cross_validation")
-          )
+          ) |>
+            purrr::list_modify(fit_budget = rlang::zap())
         )
       },
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = paste0(
+        "Independent resolution-specific sjSDM CV fitting ",
+        "configuration."
+      ),
+      name = "config_sjsdm_cv_fitting",
+      command = build_sjsdm_cross_validation_fitting_config(
+        config_model_fitting = config_model_fitting,
+        config_fit_budget = if (
+          load_active_config_value(
+            value = c("_profile", "role")
+          ) == "main"
+        ) {
+          load_model_tuning_parameters(
+            analysis_id = load_active_config_value(
+              value = c("model_fitting", "model_tuning_id")
+            ),
+            scale_id = resolve_scale_id_from_store(),
+            resolution_id = resolution_id,
+            fit_stage = "cross_validation"
+          )
+        } else {
+          load_active_config_value(
+            value = c(
+              "model_fitting",
+              "cross_validation",
+              "fit_budget"
+            )
+          )
+        }
+      ),
       cue = targets::tar_cue(mode = "always")
     )
   )

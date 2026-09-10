@@ -9,8 +9,8 @@
 #' @param fit_seed,score_seed
 #' Derived candidate seeds, or typed missing integers before candidate work.
 #' @param fit_status
-#' One of `preparation_error`, `fit_error`, `prediction_error`,
-#' `scoring_error`, or `ok`.
+#' One of `preparation_error`, `fit_error`, `convergence_error`,
+#' `non_converged`, `prediction_error`, `scoring_error`, or `ok`.
 #' @param error_message
 #' Character failure message, or a missing character value for success.
 #' @param data_metrics
@@ -19,6 +19,12 @@
 #' Optional held-out probability matrix. Fitted model objects are never stored.
 #' @param fit_seconds,prediction_seconds,scoring_seconds
 #' Candidate lifecycle timings in seconds.
+#' @param data_fit_attempts
+#' Attempt-level CV fitting provenance, or an empty table.
+#' @param converged,actual_n_iter,actual_n_sampling,epochs_run
+#' Final-attempt convergence and actual-budget fields.
+#' @param linear_trend_slope,median_diff,early_stopping_triggered
+#' Final-attempt convergence diagnostics.
 #' @return
 #' Named list containing one-row `data_tuning` and `list_prediction`.
 #' @export
@@ -33,7 +39,15 @@ build_sjsdm_candidate_fold_result <- function(
     data_predicted = NULL,
     fit_seconds = NA_real_,
     prediction_seconds = NA_real_,
-    scoring_seconds = NA_real_) {
+    scoring_seconds = NA_real_,
+    data_fit_attempts = tibble::tibble(),
+    converged = NA,
+    actual_n_iter = NA_integer_,
+    actual_n_sampling = NA_integer_,
+    epochs_run = NA_integer_,
+    linear_trend_slope = NA_real_,
+    median_diff = NA_real_,
+    early_stopping_triggered = NA) {
   vec_parameter_columns <-
     base::c(
       "alpha_cov",
@@ -62,6 +76,8 @@ build_sjsdm_candidate_fold_result <- function(
     base::c(
       "preparation_error",
       "fit_error",
+      "convergence_error",
+      "non_converged",
       "prediction_error",
       "scoring_error",
       "ok"
@@ -139,6 +155,14 @@ build_sjsdm_candidate_fold_result <- function(
       negative_log_likelihood_per_response =
         list_metrics[["negative_log_likelihood_per_response"]],
       auc_macro_test = list_metrics[["auc_macro_test"]],
+      converged = base::as.logical(converged),
+      actual_n_iter = base::as.integer(actual_n_iter),
+      actual_n_sampling = base::as.integer(actual_n_sampling),
+      epochs_run = base::as.integer(epochs_run),
+      linear_trend_slope = base::as.numeric(linear_trend_slope),
+      median_diff = base::as.numeric(median_diff),
+      early_stopping_triggered =
+        base::as.logical(early_stopping_triggered),
       fit_status = fit_status,
       error_message = error_message,
       cv_strategy = list_fold_context[["cv_strategy"]],
@@ -161,6 +185,13 @@ build_sjsdm_candidate_fold_result <- function(
       "negative_log_likelihood_test",
       "negative_log_likelihood_per_response",
       "auc_macro_test",
+      "converged",
+      "actual_n_iter",
+      "actual_n_sampling",
+      "epochs_run",
+      "linear_trend_slope",
+      "median_diff",
+      "early_stopping_triggered",
       "fit_status",
       "error_message",
       "cv_strategy",
@@ -182,6 +213,7 @@ build_sjsdm_candidate_fold_result <- function(
         } else {
           base::as.matrix(data_predicted)
         },
+        data_fit_attempts = data_fit_attempts,
         fit_seconds = fit_seconds,
         prediction_seconds = prediction_seconds,
         scoring_seconds = scoring_seconds

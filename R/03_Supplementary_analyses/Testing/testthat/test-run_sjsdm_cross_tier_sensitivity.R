@@ -176,12 +176,12 @@ testthat::test_that(
     runner_paths <-
       here::here(
         base::c(
-          "R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners",
-          "R/02_Main_analyses/01_Spatial/02_Modern/01_Runners"
+          "R/02_Main_analyses/03_Model_fitting/_components",
+          "R/02_Main_analyses/03_Model_fitting/_components"
         ),
         base::c(
-          "03_run_spatial_local.R",
-          "03_run_modern_local.R"
+          "03_fit_paleo_spatial_local.R",
+          "06_fit_modern_spatial_local.R"
         )
       )
 

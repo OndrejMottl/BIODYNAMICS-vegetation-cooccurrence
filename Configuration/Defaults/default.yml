@@ -42,6 +42,12 @@ default:
     age_scale_mode: "z_score"
     cross_validation:
       tier_id: "default"
+      fit_budget:
+        n_iter_initial: 500
+        n_iter_max: 2000
+        n_sampling: 200
+        n_step_size: ~
+        n_early_stopping: ~
       tuning_strategy: "staged"
       staged_search:
         strategy_version: "sjsdm_staged_tuning_v1"

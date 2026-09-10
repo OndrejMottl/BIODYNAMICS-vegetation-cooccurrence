@@ -78,6 +78,14 @@ base::list(
     cue = targets::tar_cue(mode = "always")
   ),
   targets::tar_target(
+    name = config_decomposition_cv_fitting,
+    command = targets::tar_read_raw(
+      name = "config_scientific_reference_cv_fitting",
+      store = path_scientific_reference_store
+    ),
+    cue = targets::tar_cue(mode = "always")
+  ),
+  targets::tar_target(
     name = config_decomposition_data_processing,
     command = targets::tar_read_raw(
       name = "config_scientific_reference_data_processing",
@@ -182,7 +190,7 @@ base::list(
       data_abiotic_wide = data_decomposition_abiotic_wide,
       data_coords_projected = data_decomposition_coords_projected,
       data_sample_ids = data_decomposition_sample_ids,
-      config_model_fitting = config_decomposition_model_fitting,
+      config_model_fitting = config_decomposition_cv_fitting,
       config_data_processing = config_decomposition_data_processing,
       model_formula = decomposition_model_formula,
       device = purrr::chuck(
@@ -215,7 +223,7 @@ base::list(
       data_abiotic_wide = data_decomposition_abiotic_wide,
       data_coords_projected = data_decomposition_coords_projected,
       data_sample_ids = data_decomposition_sample_ids,
-      config_model_fitting = config_decomposition_model_fitting,
+      config_model_fitting = config_decomposition_cv_fitting,
       config_data_processing = config_decomposition_data_processing,
       model_formula = decomposition_model_formula,
       device = purrr::chuck(
@@ -248,7 +256,7 @@ base::list(
       data_abiotic_wide = data_decomposition_abiotic_wide,
       data_coords_projected = data_decomposition_coords_projected,
       data_sample_ids = data_decomposition_sample_ids,
-      config_model_fitting = config_decomposition_model_fitting,
+      config_model_fitting = config_decomposition_cv_fitting,
       config_data_processing = config_decomposition_data_processing,
       model_formula = decomposition_model_formula,
       device = purrr::chuck(

@@ -46,6 +46,12 @@ default:
     age_scale_mode: "z_score"
     cross_validation:
       tier_id: "default"
+      fit_budget:
+        n_iter_initial: 500
+        n_iter_max: 2000
+        n_sampling: 200
+        n_step_size: ~
+        n_early_stopping: ~
       tuning_strategy: "staged"
       staged_search:
         strategy_version: "sjsdm_staged_tuning_v1"
@@ -207,6 +213,13 @@ project_paleo_temporal_europe:
   model_fitting:
     cross_validation:
       tier_id: "paleo_temporal_europe"
+      fit_budget:
+        calibration_status: "pending_calibration"
+        n_iter_initial: 500
+        n_iter_max: 2000
+        n_sampling: 200
+        n_step_size: ~
+        n_early_stopping: ~
     n_mev: 5
     n_cores: 24
     n_iter: 1000
@@ -239,6 +252,13 @@ project_paleo_temporal_america:
   model_fitting:
     cross_validation:
       tier_id: "paleo_temporal_america"
+      fit_budget:
+        calibration_status: "pending_calibration"
+        n_iter_initial: 500
+        n_iter_max: 2000
+        n_sampling: 200
+        n_step_size: ~
+        n_early_stopping: ~
     n_mev: 5
     n_cores: 24
     n_iter: 1000
@@ -271,6 +291,13 @@ project_paleo_temporal_asia:
   model_fitting:
     cross_validation:
       tier_id: "paleo_temporal_asia"
+      fit_budget:
+        calibration_status: "pending_calibration"
+        n_iter_initial: 500
+        n_iter_max: 2000
+        n_sampling: 200
+        n_step_size: ~
+        n_early_stopping: ~
     n_mev: 5
     n_cores: 24
     n_iter: 1000

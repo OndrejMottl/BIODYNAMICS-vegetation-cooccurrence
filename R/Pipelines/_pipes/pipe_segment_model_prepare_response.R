@@ -79,18 +79,15 @@ pipe_segment_model_prepare_response <-
         data_community_matrix = data_community_prepared
       )
     ),
+    # Keep this persisted target name for store compatibility. The configured
+    # taxon threshold is classified downstream with the other CV feasibility
+    # criteria so an impossible resolution cannot block feasible resolutions.
     targets::tar_target(
       description = stringr::str_c(
-        "Stop pipeline if fewer than the minimum number of taxa remain ",
-        "after filtering"
+        "Pass the filtered response to feasibility-aware modelling; ",
+        "insufficient taxon counts become explicit no-model outcomes"
       ),
       name = "data_community_n_taxa_checked",
-      command = validate_community_taxon_count(
-        data_community_matrix = data_community_filtered,
-        minimum_taxon_count = purrr::chuck(
-          config_data_processing,
-          "min_n_taxa"
-        )
-      )
+      command = data_community_filtered
     )
   )

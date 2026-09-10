@@ -175,6 +175,54 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "run_sjsdm_tuning_sequence() excludes failed unit stores",
+  {
+    vec_evidence_paths <- base::character()
+    run_pipeline_function <- function(
+        sel_script,
+        store_suffix = NULL,
+        ...) {
+      if (
+        sel_script == "unit_pipeline.R" &&
+          base::identical(store_suffix, "unit_a")
+      ) {
+        base::stop("not enough samples")
+      }
+    }
+    has_tuning_evidence_function <- function(
+        store_paths,
+        target_names) {
+      vec_evidence_paths <<- store_paths
+      TRUE
+    }
+
+    testthat::expect_message(
+      run_sjsdm_tuning_sequence(
+        unit_pipeline = "unit_pipeline.R",
+        tuning_target_names = "summary_genus",
+        unit_store_suffixes = base::c("unit_a", "unit_b"),
+        tuning_strategy = "exhaustive",
+        n_rounds = 1L,
+        run_pipeline_function = run_pipeline_function,
+        has_tuning_evidence_function =
+          has_tuning_evidence_function,
+        target_store = "targets_root"
+      ),
+      "Skipping failed tuning unit unit_a"
+    )
+
+    testthat::expect_identical(
+      vec_evidence_paths,
+      base::file.path(
+        "targets_root",
+        "unit_b",
+        "unit_pipeline"
+      )
+    )
+  }
+)
+
+testthat::test_that(
   "run_sjsdm_tuning_sequence() supports one temporal store",
   {
     environment_calls <-
@@ -275,27 +323,27 @@ testthat::test_that(
     vec_runner_paths <-
       base::c(
         here::here(
-          "R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/",
+          "R/02_Main_analyses/03_Model_fitting/_components/",
           base::c(
-            "01_run_spatial_continental.R",
-            "02_run_spatial_regional.R",
-            "03_run_spatial_local.R"
+            "01_fit_paleo_spatial_continental.R",
+            "02_fit_paleo_spatial_regional.R",
+            "03_fit_paleo_spatial_local.R"
           )
         ),
         here::here(
-          "R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/",
+          "R/02_Main_analyses/03_Model_fitting/_components/",
           base::c(
-            "01_run_modern_continental.R",
-            "02_run_modern_regional.R",
-            "03_run_modern_local.R"
+            "04_fit_modern_spatial_continental.R",
+            "05_fit_modern_spatial_regional.R",
+            "06_fit_modern_spatial_local.R"
           )
         ),
         here::here(
-          "R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/",
+          "R/02_Main_analyses/03_Model_fitting/_components/",
           base::c(
-            "01_run_temporal_europe.R",
-            "02_run_temporal_america.R",
-            "03_run_temporal_asia.R"
+            "07_fit_paleo_temporal_europe.R",
+            "08_fit_paleo_temporal_america.R",
+            "09_fit_paleo_temporal_asia.R"
           )
         )
       )
@@ -317,31 +365,35 @@ testthat::test_that(
     vec_runner_paths <-
       base::c(
         here::here(
-          "R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/",
+          "R/02_Main_analyses/03_Model_fitting/_components/",
           base::c(
-            "01_run_spatial_continental.R",
-            "02_run_spatial_regional.R",
-            "03_run_spatial_local.R"
+            "01_fit_paleo_spatial_continental.R",
+            "02_fit_paleo_spatial_regional.R",
+            "03_fit_paleo_spatial_local.R"
           )
         ),
         here::here(
-          "R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/",
+          "R/02_Main_analyses/03_Model_fitting/_components/",
           base::c(
-            "01_run_modern_continental.R",
-            "02_run_modern_regional.R",
-            "03_run_modern_local.R"
+            "04_fit_modern_spatial_continental.R",
+            "05_fit_modern_spatial_regional.R",
+            "06_fit_modern_spatial_local.R"
           )
         ),
         here::here(
-          "R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/",
+          "R/02_Main_analyses/03_Model_fitting/_components/",
           base::c(
-            "01_run_temporal_europe.R",
-            "02_run_temporal_america.R",
-            "03_run_temporal_asia.R"
+            "07_fit_paleo_temporal_europe.R",
+            "08_fit_paleo_temporal_america.R",
+            "09_fit_paleo_temporal_asia.R"
           )
         ),
         here::here(
-          "R/03_Supplementary_analyses/Validation/Cross_validation/Reference_runs/run_cz_paleo_cv_staged_reference_gpu.R"
+          paste0(
+            "R/03_Supplementary_analyses/Validation/",
+            "Cross_validation/Reference_runs/",
+            "run_cz_paleo_cv_staged_reference_gpu.R"
+          )
         )
       )
 

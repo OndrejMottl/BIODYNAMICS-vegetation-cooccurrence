@@ -225,7 +225,23 @@ pipe_segment_config_model <-
         use_spatial = config_use_spatial,
         use_age_in_formula = config_use_age_in_formula,
         age_scale_mode = config_age_scale_mode,
-        cross_validation = config_cross_validation
+        cross_validation = config_cross_validation[
+          base::setdiff(
+            base::names(config_cross_validation),
+            "fit_budget"
+          )
+        ]
+      )
+    ),
+    targets::tar_target(
+      description = "Independent configuration for sjSDM CV fitting",
+      name = "config_sjsdm_cv_fitting",
+      command = build_sjsdm_cross_validation_fitting_config(
+        config_model_fitting = config_model_fitting,
+        config_fit_budget = purrr::chuck(
+          config_cross_validation,
+          "fit_budget"
+        )
       )
     )
   )

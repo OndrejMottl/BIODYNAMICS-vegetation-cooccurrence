@@ -136,6 +136,15 @@ base::list(
     )
   ),
   targets::tar_target(
+    name = config_scientific_reference_cv_fitting,
+    command = build_sjsdm_cross_validation_fitting_config(
+      config_model_fitting = config_scientific_reference_model_fitting,
+      config_fit_budget = load_active_config_value(
+        base::c("model_fitting", "cross_validation", "fit_budget")
+      )
+    )
+  ),
+  targets::tar_target(
     name = data_scientific_reference_locations,
     command = build_cross_validation_location_table(
       data_sample_ids = data_scientific_reference_sample_ids,
@@ -334,7 +343,7 @@ base::list(
         data_scientific_reference_coords_projected,
       data_sample_ids = data_scientific_reference_sample_ids,
       config_model_fitting =
-        config_scientific_reference_model_fitting,
+        config_scientific_reference_cv_fitting,
       config_data_processing =
         config_scientific_reference_data_processing,
       model_formula = scientific_reference_model_formula,
