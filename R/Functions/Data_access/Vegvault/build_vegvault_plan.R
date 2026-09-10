@@ -34,10 +34,10 @@
 #'   `select_dataset_by_type()` -> `select_dataset_by_geo()` ->
 #'   `get_samples()` -> `select_samples_by_age()`
 #'
-#' If vaultkeepr raises an error during plan assembly (e.g. no data
-#' available for the specified constraints), the error is caught and
-#' re-thrown via `cli::cli_abort()` with the original message
-#' preserved.
+#' If vaultkeepr returns its known empty or `.` condition during plan
+#' assembly, the function raises a typed
+#' `biodynamics_vegvault_no_records` condition. Other errors retain their
+#' original condition as the parent of a contextual error.
 #' @seealso
 #'   [extract_data_from_vegvault()],
 #'   [extract_age_uncertainty_from_vegvault()]
@@ -107,7 +107,7 @@ build_vegvault_plan <- function(
         )
       },
       error = function(e) {
-        plan_error <<- base::conditionMessage(e)
+        plan_error <<- e
         NULL
       }
     )
@@ -115,12 +115,29 @@ build_vegvault_plan <- function(
   if (
     base::is.null(res_plan)
   ) {
+    plan_error_message <-
+      base::conditionMessage(plan_error)
+    flag_no_records <-
+      !base::nzchar(base::trimws(plan_error_message)) ||
+      base::identical(base::trimws(plan_error_message), ".")
+    if (
+      flag_no_records
+    ) {
+      cli::cli_abort(
+        base::c(
+          "VegVault query returned no records.",
+          "i" = "No data matched the spatial, age, and dataset filters."
+        ),
+        class = "biodynamics_vegvault_no_records",
+        parent = plan_error
+      )
+    }
     cli::cli_abort(
       c(
         "Failed to build the vaultkeepr query plan.",
-        "i" = "No data available for the specified constraints.",
-        "x" = plan_error
-      )
+        "x" = plan_error_message
+      ),
+      parent = plan_error
     )
   }
 

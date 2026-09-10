@@ -75,6 +75,27 @@ pipe_segment_vegvault_extract <-
                 )
             },
             error = function(e) {
+              if (
+                base::inherits(
+                  e,
+                  "biodynamics_vegvault_no_records"
+                )
+              ) {
+                cli::cli_abort(
+                  c(
+                    "VegVault extraction returned zero rows.",
+                    "i" = stringr::str_c(
+                      "scale_id: ",
+                      dplyr::coalesce(sel_scale_id, "unknown")
+                    ),
+                    "i" = paste(
+                      "No records matched the current spatial, age,",
+                      "and dataset filters."
+                    )
+                  ),
+                  parent = e
+                )
+              }
               raw_error <-
                 base::conditionMessage(e)
 
@@ -120,7 +141,8 @@ pipe_segment_vegvault_extract <-
                     "]"
                   ),
                   "x" = error_detail
-                )
+                ),
+                parent = e
               )
             }
           )

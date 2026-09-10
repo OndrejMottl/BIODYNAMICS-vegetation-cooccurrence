@@ -194,6 +194,41 @@ testthat::test_that(
   }
 )
 
+testthat::test_that(
+  "build_vegvault_plan types an opaque empty query as no records",
+  {
+    tmp_db <-
+      base::tempfile(fileext = ".sqlite")
+    db_con <-
+      DBI::dbConnect(
+        drv = RSQLite::SQLite(),
+        dbname = tmp_db
+      )
+    DBI::dbDisconnect(conn = db_con)
+
+    testthat::local_mocked_bindings(
+      open_vault = function(...) {
+        base::stop(".")
+      },
+      .package = "vaultkeepr"
+    )
+
+    testthat::expect_error(
+      build_vegvault_plan(
+        path_to_vegvault = tmp_db,
+        x_lim = base::c(12, 19),
+        y_lim = base::c(48, 52),
+        age_lim = base::c(0, 5000),
+        sel_dataset_type = "vegetation_plot"
+      ),
+      regexp = "query returned no records",
+      class = "biodynamics_vegvault_no_records"
+    )
+
+    base::file.remove(tmp_db)
+  }
+)
+
 # Output Structure (VegVault database required)
 
 testthat::test_that(

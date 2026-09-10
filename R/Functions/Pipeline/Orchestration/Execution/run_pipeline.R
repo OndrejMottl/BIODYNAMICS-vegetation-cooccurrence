@@ -40,7 +40,15 @@
 #' Logical indicating whether to prebuild `data_community_interpolated`
 #' using parallel dynamic branches before running the complete pipeline.
 #' The worker count is read from
-#' `data_processing$n_interpolation_workers`. Default is `FALSE`.
+#' `data_processing$n_interpolation_workers` and resolved through
+#' `preparation_resource_profile`. The default `shared` profile caps workers
+#' at four, while `dedicated` caps them at eight.
+#' Default is `FALSE`.
+#' @param preparation_resource_profile
+#' Runtime resource profile passed to
+#' [resolve_preprocessing_worker_count()]. Defaults to `shared`.
+#' @param interpolation_workers_override
+#' Optional explicit positive interpolation worker count.
 #' @param callr_function
 #' Function used by [targets::tar_make()] to launch the pipeline process.
 #' Defaults to [callr::r()]. Supply `NULL` only for small graphs that are safe
@@ -55,13 +63,15 @@
 #' the target store is destroyed with
 #' `targets::tar_destroy(destroy = "all")` before execution so that every
 #' target is rebuilt from scratch. It uses `targets::tar_make()` to
-#' execute the pipeline and then calls `save_pipeline_progress_visualisation()` to
+#' execute the pipeline and then calls
+#' `save_pipeline_progress_visualisation()` to
 #' generate a network visualization of the pipeline status. When
 #' `prebuild_interpolation = TRUE`, the function first executes only
 #' `data_community_interpolated` with the `crew_mori` preprocessing
 #' backend. Once that call returns, the complete pipeline is executed
 #' with [targets::tar_make()]. Thus downstream GPU-dependent model
-#' targets remain sequentially scheduled.
+#' targets remain sequentially scheduled. A failed prebuild stops the
+#' complete run.
 #' @seealso
 #'   [save_pipeline_progress_visualisation()],
 #'   [targets::tar_make()],
@@ -78,6 +88,8 @@ run_pipeline <- function(
     plot_progress = TRUE,
     fresh_run = FALSE,
     prebuild_interpolation = FALSE,
+    preparation_resource_profile = "shared",
+    interpolation_workers_override = NULL,
     callr_function = callr::r) {
   assertthat::assert_that(
     is.character(sel_script),
@@ -170,6 +182,16 @@ run_pipeline <- function(
       store_suffix = store_suffix
     )
 
+  path_shared_registry <-
+    base::file.path(
+      sel_store_path,
+      "shared_memory_registry"
+    )
+  withr::local_envvar(
+    BIODYNAMICS_INTERPOLATION_SHARED_REGISTRY =
+      path_shared_registry
+  )
+
   # Optionally wipe the store so all targets are rebuilt from scratch.
   # TAR_ASK is set to "false" for the duration of tar_destroy() to
   #   suppress the interactive confirmation prompt, allowing agents and
@@ -189,7 +211,6 @@ run_pipeline <- function(
   # Run the pipeline. Capture failures only long enough to save the
   # progress visualisation below, then rethrow so unattended runs fail.
   tar_error <- NULL
-  prebuild_error <- NULL
 
   if (
     isTRUE(prebuild_interpolation)
@@ -198,45 +219,18 @@ run_pipeline <- function(
       load_active_config_value("data_processing") |>
       purrr::chuck("n_interpolation_workers")
 
-    assertthat::assert_that(
-      base::is.numeric(interpolation_workers) &&
-        base::length(interpolation_workers) == 1L &&
-        base::is.finite(interpolation_workers) &&
-        interpolation_workers >= 1L &&
-        interpolation_workers == base::as.integer(interpolation_workers),
-      msg = paste(
-        "data_processing$n_interpolation_workers must be a",
-        "single positive integer."
-      )
-    )
-
     interpolation_workers <-
-      base::as.integer(interpolation_workers)
-
-    base::tryCatch(
-      run_pipeline_interpolation_prebuild(
-        pipeline_script = sel_script_path,
-        pipeline_store = sel_store_path,
-        workers = interpolation_workers
-      ),
-      error = function(err) {
-        prebuild_error <<- err
-      }
-    )
-
-    if (
-      !base::is.null(prebuild_error)
-    ) {
-      base::warning(
-        base::paste(
-          "Interpolation prebuild failed and will be skipped.",
-          "Continuing with full tar_make().",
-          "Prebuild error:",
-          base::conditionMessage(prebuild_error)
-        ),
-        call. = FALSE
+      resolve_preprocessing_worker_count(
+        configured_workers = interpolation_workers,
+        resource_profile = preparation_resource_profile,
+        workers_override = interpolation_workers_override
       )
-    }
+
+    run_pipeline_interpolation_prebuild(
+      pipeline_script = sel_script_path,
+      pipeline_store = sel_store_path,
+      workers = interpolation_workers
+    )
   }
 
   if (
@@ -276,7 +270,7 @@ run_pipeline <- function(
         targets::tar_make(
           script = sel_script_path,
           store = sel_store_path,
-          reporter = "verbose",
+          reporter = targets::tar_config_get("reporter_make"),
           callr_function = callr_function
         )
       } else {
@@ -284,7 +278,7 @@ run_pipeline <- function(
           names = target_names,
           script = sel_script_path,
           store = sel_store_path,
-          reporter = "verbose",
+          reporter = targets::tar_config_get("reporter_make"),
           callr_function = callr_function
         )
       },

@@ -72,7 +72,8 @@ pipe_segment_community_prepare_paleo <-
         registry_key = "data_community_proportions"
       ),
       deployment = "main",
-      memory = "persistent"
+      memory = "persistent",
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Build shared age-uncertainty interpolation input",
@@ -82,13 +83,15 @@ pipe_segment_community_prepare_paleo <-
         registry_key = "data_age_uncertainty"
       ),
       deployment = "main",
-      memory = "persistent"
+      memory = "persistent",
+      cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(
       description = "Build per-dataset community interpolation index",
       name = "list_community_interpolation_index",
       command = build_community_interpolation_index(
-        data_community = data_community_proportions
+        data_community = data_community_proportions,
+        data_age_uncertainty = data_age_uncertainty
       ),
       iteration = "list"
     ),

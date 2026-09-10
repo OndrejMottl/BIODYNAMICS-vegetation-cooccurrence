@@ -1,19 +1,18 @@
-#' @title Build Shared Interpolation Data
+#' @title Build a Shared Interpolation Descriptor
 #' @description
-#' Builds a shared-memory interpolation data object using
-#' [mori::share()] so local worker processes can read it without each
-#' retaining a separate private copy.
+#' Shares interpolation data with [mori::share()] and returns a stable
+#' descriptor instead of persisting a process-local memory handle.
 #' @param data_interpolation
 #' A data frame to share across local worker processes.
 #' @param registry_key
 #' Optional non-empty key used to retain the shared object in a
 #' process-local registry. Reusing a key replaces the previous region.
 #' @return
-#' A data frame-like shared-memory object created by [mori::share()].
+#' A list containing `registry_key` and deterministic `source_hash`.
 #' @details
-#' The returned object must be treated as read-only. Mutating it in a
-#' worker can force R to create private copies and remove the memory
-#' benefit.
+#' The live memory name is written to the store-scoped directory in
+#' `BIODYNAMICS_INTERPOLATION_SHARED_REGISTRY`. Workers must treat the
+#' mapped data as read-only.
 #' @examples
 #' data_interpolation <-
 #'   tibble::tibble(dataset_name = "core_a")
@@ -52,6 +51,33 @@ build_shared_interpolation_data <- function(
     )
   }
 
+  path_shared_registry <-
+    base::Sys.getenv(
+      "BIODYNAMICS_INTERPOLATION_SHARED_REGISTRY",
+      unset = ""
+    )
+  if (
+    !base::nzchar(path_shared_registry)
+  ) {
+    cli::cli_abort(
+      base::c(
+        "The interpolation shared-memory registry is not configured.",
+        "i" = "Run this target through run_pipeline()."
+      )
+    )
+  }
+  base::dir.create(
+    path = path_shared_registry,
+    recursive = TRUE,
+    showWarnings = FALSE
+  )
+  source_hash <-
+    digest::digest(
+      object = data_interpolation,
+      algo = "xxhash64",
+      serialize = TRUE
+    )
+
   res_shared_data <-
     mori::share(data_interpolation)
 
@@ -76,7 +102,7 @@ build_shared_interpolation_data <- function(
     if (
       base::is.null(registry_key)
     ) {
-      mori::shared_name(res_shared_data)
+      stringr::str_glue("interpolation_{source_hash}")
     } else {
       registry_key
     }
@@ -87,5 +113,22 @@ build_shared_interpolation_data <- function(
     envir = environment_shared_registry
   )
 
-  return(res_shared_data)
+  path_shared_name <-
+    base::file.path(
+      path_shared_registry,
+      stringr::str_glue("{registry_key_selected}.txt")
+    )
+  base::writeLines(
+    text = mori::shared_name(res_shared_data),
+    con = path_shared_name,
+    useBytes = TRUE
+  )
+
+  res_shared_descriptor <-
+    base::list(
+      registry_key = registry_key_selected,
+      source_hash = source_hash
+    )
+
+  return(res_shared_descriptor)
 }
