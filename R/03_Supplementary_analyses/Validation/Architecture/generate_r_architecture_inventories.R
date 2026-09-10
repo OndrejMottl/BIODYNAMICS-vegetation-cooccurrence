@@ -269,7 +269,10 @@ data_script_inventory <-
       ) ~ "sensitivity",
       stringr::str_detect(
         .data[["current_path"]],
-        "R/02_Main_analyses/.*/[0-9]+_(Run|Plot|Analyse|Compare|Visualise)"
+        stringr::str_c(
+          "R/02_Main_analyses/.*/[0-9]+_",
+          "(run|prepare|fit|build|publish|plot|analyse|compare|visualise)"
+        )
       ) ~ "main_analysis",
       stringr::str_detect(
         .data[["current_path"]],
@@ -488,7 +491,11 @@ data_issue141_function_migrations <-
     "assess_cross_validation_feasibility",
     "resolve_cross_validation_strategy",
     "collect_sjsdm_tuning_timings",
-    "summarise_sjsdm_tuning_timings"
+    "summarise_sjsdm_tuning_timings",
+    "assign_sjsdm_cv_calibration_budgets",
+    "resolve_sjsdm_cv_calibration_budgets",
+    "audit_sjsdm_continental_cv_retention",
+    "evaluate_sjsdm_continental_cv_retention"
   )
 
 data_issue141_active_function_keys <-
@@ -662,6 +669,122 @@ if (
 path_script_inventory <-
   base::file.path(path_output, "r_script_path_inventory_v1.csv")
 
+path_main_analysis <- "R/02_Main_analyses"
+path_fit_budget_migration <- base::file.path(
+  "R/03_Supplementary_analyses/One_time/Cross_validation",
+  "Fit_budget_migration"
+)
+
+vec_previous_main_paths <- c(
+  "00_Model_calibration/01_Runners/01_build_sjsdm_cv_calibration_inventory.R",
+  "00_Model_calibration/01_Runners/02_run_sjsdm_cv_fit_budget_calibration.R",
+  "00_Model_calibration/01_Runners/03_publish_sjsdm_cv_fit_budgets.R",
+  paste0(
+    "00_Model_calibration/01_Runners/",
+    "04_audit_completed_sjsdm_continental_results.R"
+  ),
+  "00_Model_calibration/01_Runners/05_build_sjsdm_cv_invalidation_manifest.R",
+  "01_Spatial/01_Paleo/01_Runners/01_run_spatial_continental.R",
+  "01_Spatial/01_Paleo/01_Runners/02_run_spatial_regional.R",
+  "01_Spatial/01_Paleo/01_Runners/03_run_spatial_local.R",
+  "01_Spatial/02_Modern/01_Runners/01_run_modern_continental.R",
+  "01_Spatial/02_Modern/01_Runners/02_run_modern_regional.R",
+  "01_Spatial/02_Modern/01_Runners/03_run_modern_local.R",
+  "02_Temporal/01_Paleo/01_Runners/01_run_temporal_europe.R",
+  "02_Temporal/01_Paleo/01_Runners/02_run_temporal_america.R",
+  "02_Temporal/01_Paleo/01_Runners/03_run_temporal_asia.R",
+  "01_Spatial/01_Paleo/02_Synthesis/01_analyse_spatial_patterns.R",
+  "01_Spatial/02_Modern/02_Synthesis/01_analyse_modern_patterns.R",
+  "01_Spatial/02_Modern/02_Synthesis/02_compare_paleo_modern.R",
+  "01_Spatial/01_Paleo/03_Visualisation/01_plot_spatial_anova_maps.R",
+  paste0(
+    "01_Spatial/01_Paleo/03_Visualisation/",
+    "02_plot_variance_waffle_by_scale_and_taxonomic_resolution.R"
+  ),
+  paste0(
+    "01_Spatial/01_Paleo/03_Visualisation/",
+    "03_plot_variance_stack_and_biotic_spread.R"
+  ),
+  paste0(
+    "01_Spatial/02_Modern/03_Visualisation/",
+    "01_plot_variance_partitioning.R"
+  ),
+  paste0(
+    "01_Spatial/02_Modern/03_Visualisation/",
+    "02_plot_paleo_modern_comparison.R"
+  ),
+  paste0(
+    "01_Spatial/02_Modern/03_Visualisation/",
+    "03_plot_functional_type_comparison.R"
+  ),
+  paste0(
+    "02_Temporal/01_Paleo/02_Visualisation/",
+    "01_plot_temporal_continents.R"
+  )
+)
+
+vec_new_main_paths <- c(
+  "02_Model_calibration/_components/01_build_sjsdm_cv_calibration_inventory.R",
+  paste0(
+    "02_Model_calibration/_components/",
+    "02_run_one_sjsdm_cv_fit_budget_calibration.R"
+  ),
+  "02_Model_calibration/_components/03_publish_sjsdm_cv_fit_budgets.R",
+  NA_character_,
+  NA_character_,
+  "03_Model_fitting/_components/01_fit_paleo_spatial_continental.R",
+  "03_Model_fitting/_components/02_fit_paleo_spatial_regional.R",
+  "03_Model_fitting/_components/03_fit_paleo_spatial_local.R",
+  "03_Model_fitting/_components/04_fit_modern_spatial_continental.R",
+  "03_Model_fitting/_components/05_fit_modern_spatial_regional.R",
+  "03_Model_fitting/_components/06_fit_modern_spatial_local.R",
+  "03_Model_fitting/_components/07_fit_paleo_temporal_europe.R",
+  "03_Model_fitting/_components/08_fit_paleo_temporal_america.R",
+  "03_Model_fitting/_components/09_fit_paleo_temporal_asia.R",
+  "04_Synthesis/_components/01_analyse_paleo_spatial_patterns.R",
+  "04_Synthesis/_components/02_analyse_modern_spatial_patterns.R",
+  "04_Synthesis/_components/03_compare_paleo_modern.R",
+  "05_Visualisation/_components/01_plot_paleo_spatial_anova_maps.R",
+  "05_Visualisation/_components/02_plot_paleo_variance_waffle.R",
+  "05_Visualisation/_components/03_plot_paleo_variance_stack.R",
+  "05_Visualisation/_components/04_plot_modern_variance_partitioning.R",
+  "05_Visualisation/_components/05_plot_paleo_modern_comparison.R",
+  "05_Visualisation/_components/06_plot_functional_type_comparison.R",
+  "05_Visualisation/_components/07_plot_paleo_temporal_continents.R"
+)
+
+vec_new_paths <- ifelse(
+  is.na(vec_new_main_paths),
+  c(
+    NA_character_,
+    NA_character_,
+    NA_character_,
+    base::file.path(
+      path_fit_budget_migration,
+      "audit_completed_sjsdm_continental_results.R"
+    ),
+    base::file.path(
+      path_fit_budget_migration,
+      "build_sjsdm_cv_invalidation_manifest.R"
+    ),
+    rep(NA_character_, 19L)
+  ),
+  base::file.path(path_main_analysis, vec_new_main_paths)
+)
+
+data_main_analysis_script_migrations <- tibble::tibble(
+  previous_path = base::file.path(
+    path_main_analysis,
+    vec_previous_main_paths
+  ),
+  intended_path_new = vec_new_paths,
+  classification_new = dplyr::if_else(
+    is.na(vec_new_main_paths),
+    "one_time",
+    "main_analysis"
+  )
+)
+
 if (
   base::file.exists(path_script_inventory)
 ) {
@@ -673,6 +796,30 @@ if (
       file = path_script_inventory,
       show_col_types = FALSE
     ) |>
+    dplyr::anti_join(
+      data_main_analysis_script_migrations,
+      by = dplyr::join_by(current_path == intended_path_new)
+    ) |>
+    dplyr::left_join(
+      data_main_analysis_script_migrations,
+      by = dplyr::join_by(intended_path == previous_path)
+    ) |>
+    dplyr::mutate(
+      intended_path = dplyr::coalesce(
+        .data[["intended_path_new"]],
+        .data[["intended_path"]]
+      ),
+      classification = dplyr::coalesce(
+        .data[["classification_new"]],
+        .data[["classification"]]
+      ),
+      migration_status = dplyr::if_else(
+        !base::is.na(.data[["intended_path_new"]]),
+        "migrated",
+        .data[["migration_status"]]
+      )
+    ) |>
+    dplyr::select(-"intended_path_new", -"classification_new") |>
     dplyr::mutate(
       script_name = fs::path_ext_remove(fs::path_file(.data[["current_path"]])),
       function_name = stringr::str_remove(script_name, "^test-")
@@ -733,11 +880,30 @@ if (
       by = dplyr::join_by(current_path == active_path)
     )
 
+  vec_current_main_analysis_paths <-
+    data_script_inventory_current |>
+    dplyr::filter(.data[["classification"]] == "main_analysis") |>
+    dplyr::pull(.data[["current_path"]])
+
   data_script_inventory <-
     dplyr::bind_rows(
       data_script_inventory_existing |>
         dplyr::select(-"active_path"),
       data_script_inventory_new
+    ) |>
+    dplyr::mutate(
+      classification = dplyr::if_else(
+        .data[["current_path"]] %in%
+          vec_current_main_analysis_paths,
+        "main_analysis",
+        .data[["classification"]]
+      ),
+      migration_status = dplyr::if_else(
+        .data[["current_path"]] %in%
+          vec_current_main_analysis_paths,
+        "baseline_recorded",
+        .data[["migration_status"]]
+      )
     )
 }
 

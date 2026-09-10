@@ -128,7 +128,10 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "resolve_functional_type_classification_path_from_store() supports modern prefix",
+  paste(
+    "resolve_functional_type_classification_path_from_store()",
+    "supports modern prefix"
+  ),
   {
     withr::with_tempdir(
       {
@@ -316,7 +319,7 @@ testthat::test_that(
             path_spatial_grid = path_grid,
             path_processed = path_processed
           ),
-          regexp = "No FT classification file found for continent 'europe'"
+          regexp = "01_Preparation/01_run_preparation[.]R first"
         )
       }
     )

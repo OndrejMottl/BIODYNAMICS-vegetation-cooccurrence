@@ -55,8 +55,10 @@ resolve_functional_type_classification_path <- function(
     }
 
   classification_file_stem <-
-    stringr::str_glue(
-      "data_functional_type_classification_{classification_file_prefix}{continent_id}"
+    stringr::str_c(
+      "data_functional_type_classification_",
+      classification_file_prefix,
+      continent_id
     )
 
   path_classification_file <-
@@ -80,18 +82,43 @@ resolve_functional_type_classification_path <- function(
           base::is.null(classification_source_prefix)
         ) {
           cli::cli_abort(
-            stringr::str_glue(
-              "No FT classification file found for continent ",
-              "'{continent_id}' in '{path_classification_directory}'."
+            base::c(
+              stringr::str_glue(
+                "Paleo regional/local preprocessing cannot start: no FT ",
+                "classification exists for '{continent_id}'."
+              ),
+              "1" = stringr::str_c(
+                "Run R/02_Main_analyses/01_Preparation/",
+                "01_run_preparation.R first."
+              ),
+              "2" = paste(
+                "The paleo continental component publishes this input."
+              ),
+              "3" = paste(
+                "Then rerun the regional or local runner; completed",
+                "preprocessing will be reused."
+              )
             )
           )
         }
 
         cli::cli_abort(
-          stringr::str_glue(
-            "No FT classification file found for ",
-            "'{classification_file_prefix}{continent_id}' in ",
-            "'{path_classification_directory}'."
+          base::c(
+            stringr::str_glue(
+              "Modern regional/local preprocessing cannot start: no FT ",
+              "classification exists for '{continent_id}'."
+            ),
+            "1" = stringr::str_c(
+              "Run R/02_Main_analyses/01_Preparation/",
+              "01_run_preparation.R first."
+            ),
+            "2" = paste(
+              "The modern continental component publishes this input."
+            ),
+            "3" = paste(
+              "Then rerun the regional or local runner; completed",
+              "preprocessing will be reused."
+            )
           )
         )
       }

@@ -128,7 +128,8 @@ project_paleo_spatial_continental:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/01_run_spatial_continental.R
+      - R/02_Main_analyses/01_Preparation/_components/01_prepare_paleo_spatial_continental.R
+      - R/02_Main_analyses/03_Model_fitting/_components/01_fit_paleo_spatial_continental.R
 
 project_paleo_spatial_regional:
   target_store: Data/targets/paleo_spatial_regional
@@ -160,7 +161,8 @@ project_paleo_spatial_regional:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/02_run_spatial_regional.R
+      - R/02_Main_analyses/01_Preparation/_components/02_prepare_paleo_spatial_regional.R
+      - R/02_Main_analyses/03_Model_fitting/_components/02_fit_paleo_spatial_regional.R
 
 project_paleo_spatial_local:
   target_store: Data/targets/paleo_spatial_local
@@ -192,7 +194,8 @@ project_paleo_spatial_local:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/03_run_spatial_local.R
+      - R/02_Main_analyses/01_Preparation/_components/03_prepare_paleo_spatial_local.R
+      - R/02_Main_analyses/03_Model_fitting/_components/03_fit_paleo_spatial_local.R
 
 # Source: Configuration/Profiles/Main/Paleo/temporal.yml
 # Human-authored configuration source.
@@ -235,7 +238,8 @@ project_paleo_temporal_europe:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/01_run_temporal_europe.R
+      - R/02_Main_analyses/01_Preparation/_components/07_prepare_paleo_temporal_europe.R
+      - R/02_Main_analyses/03_Model_fitting/_components/07_fit_paleo_temporal_europe.R
 
 project_paleo_temporal_america:
   target_store: Data/targets/paleo_temporal_america
@@ -274,7 +278,8 @@ project_paleo_temporal_america:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/02_run_temporal_america.R
+      - R/02_Main_analyses/01_Preparation/_components/08_prepare_paleo_temporal_america.R
+      - R/02_Main_analyses/03_Model_fitting/_components/08_fit_paleo_temporal_america.R
 
 project_paleo_temporal_asia:
   target_store: Data/targets/paleo_temporal_asia
@@ -313,7 +318,8 @@ project_paleo_temporal_asia:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/02_Temporal/01_Paleo/01_Runners/03_run_temporal_asia.R
+      - R/02_Main_analyses/01_Preparation/_components/09_prepare_paleo_temporal_asia.R
+      - R/02_Main_analyses/03_Model_fitting/_components/09_fit_paleo_temporal_asia.R
 
 # Source: Configuration/Profiles/Main/Modern/spatial.yml
 # Human-authored configuration source.
@@ -350,7 +356,8 @@ project_modern_spatial_continental:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/01_run_modern_continental.R
+      - R/02_Main_analyses/01_Preparation/_components/04_prepare_modern_spatial_continental.R
+      - R/02_Main_analyses/03_Model_fitting/_components/04_fit_modern_spatial_continental.R
 
 project_modern_spatial_regional:
   target_store: Data/targets/modern_spatial_regional
@@ -383,7 +390,8 @@ project_modern_spatial_regional:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/02_run_modern_regional.R
+      - R/02_Main_analyses/01_Preparation/_components/05_prepare_modern_spatial_regional.R
+      - R/02_Main_analyses/03_Model_fitting/_components/05_fit_modern_spatial_regional.R
 
 project_modern_spatial_local:
   target_store: Data/targets/modern_spatial_local
@@ -416,7 +424,8 @@ project_modern_spatial_local:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/03_run_modern_local.R
+      - R/02_Main_analyses/01_Preparation/_components/06_prepare_modern_spatial_local.R
+      - R/02_Main_analyses/03_Model_fitting/_components/06_fit_modern_spatial_local.R
 
 # Source: Configuration/Profiles/Validation/cz_smoke.yml
 # Human-authored configuration source.

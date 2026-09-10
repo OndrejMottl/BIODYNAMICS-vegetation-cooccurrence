@@ -922,6 +922,48 @@ run_configuration_generation <- function(
       }
     )
 
+  list_profiles_for_semantic_reference <-
+    purrr::map2(
+      .x = list_resolved_legacy_profiles,
+      .y = list_reference[["resolved_profiles"]][vec_profile_ids],
+      .f = function(list_profile, list_profile_reference) {
+        config_cross_validation <-
+          purrr::pluck(
+            list_profile,
+            "model_fitting",
+            "cross_validation",
+            .default = NULL
+          )
+        config_cross_validation_reference <-
+          purrr::pluck(
+            list_profile_reference,
+            "model_fitting",
+            "cross_validation",
+            .default = NULL
+          )
+
+        if (
+          base::is.list(config_cross_validation) &&
+            "fit_budget" %in% base::names(config_cross_validation)
+        ) {
+          if (
+            "fit_budget" %in%
+              base::names(config_cross_validation_reference)
+          ) {
+            config_cross_validation["fit_budget"] <-
+              config_cross_validation_reference["fit_budget"]
+          } else {
+            config_cross_validation[["fit_budget"]] <-
+              NULL
+          }
+          list_profile[["model_fitting"]][["cross_validation"]] <-
+            config_cross_validation
+        }
+
+        return(list_profile)
+      }
+    )
+
   vec_profiles_unchanged <-
     vec_profile_ids |>
     purrr::map_lgl(
@@ -930,7 +972,7 @@ run_configuration_generation <- function(
 
         return(
           base::identical(
-            list_resolved_legacy_profiles[[profile_id]],
+            list_profiles_for_semantic_reference[[profile_id]],
             list_reference[["resolved_profiles"]][[profile_id]]
           )
         )
@@ -957,7 +999,7 @@ run_configuration_generation <- function(
   }
 
   vec_semantic_hashes <-
-    list_resolved_legacy_profiles |>
+    list_profiles_for_semantic_reference |>
     purrr::map_chr(
       .f = ~ {
         return(

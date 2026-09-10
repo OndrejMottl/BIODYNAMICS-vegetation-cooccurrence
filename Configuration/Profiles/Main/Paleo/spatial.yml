@@ -31,7 +31,8 @@ project_paleo_spatial_continental:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/01_run_spatial_continental.R
+      - R/02_Main_analyses/01_Preparation/_components/01_prepare_paleo_spatial_continental.R
+      - R/02_Main_analyses/03_Model_fitting/_components/01_fit_paleo_spatial_continental.R
 
 project_paleo_spatial_regional:
   target_store: Data/targets/paleo_spatial_regional
@@ -63,7 +64,8 @@ project_paleo_spatial_regional:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/02_run_spatial_regional.R
+      - R/02_Main_analyses/01_Preparation/_components/02_prepare_paleo_spatial_regional.R
+      - R/02_Main_analyses/03_Model_fitting/_components/02_fit_paleo_spatial_regional.R
 
 project_paleo_spatial_local:
   target_store: Data/targets/paleo_spatial_local
@@ -95,4 +97,5 @@ project_paleo_spatial_local:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners/03_run_spatial_local.R
+      - R/02_Main_analyses/01_Preparation/_components/03_prepare_paleo_spatial_local.R
+      - R/02_Main_analyses/03_Model_fitting/_components/03_fit_paleo_spatial_local.R

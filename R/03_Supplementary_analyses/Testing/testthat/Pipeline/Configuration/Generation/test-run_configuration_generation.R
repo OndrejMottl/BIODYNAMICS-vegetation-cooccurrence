@@ -383,3 +383,31 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "configuration generation permits independent CV budget updates",
+  {
+    path_fixture_root <-
+      make_configuration_test_fixture()
+    path_fragment <-
+      base::file.path(
+        path_fixture_root,
+        "Configuration",
+        "Profiles",
+        "Main",
+        "Paleo",
+        "temporal.yml"
+      )
+    vec_lines <-
+      base::readLines(path_fragment, warn = FALSE)
+    index_budget <-
+      base::grep("^        n_iter_initial: 500$", vec_lines)[[1L]]
+    vec_lines[[index_budget]] <-
+      "        n_iter_initial: 1000"
+    base::writeLines(vec_lines, path_fragment)
+
+    testthat::expect_no_error(
+      run_configuration_test_fixture(path_fixture_root)
+    )
+  }
+)

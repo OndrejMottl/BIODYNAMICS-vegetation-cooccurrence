@@ -156,27 +156,18 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "spatial runners use the explicit two-stage failure policy",
+  "spatial fitting components use the unit failure policy",
   {
     runner_paths <-
       here::here(
+        "R/02_Main_analyses/03_Model_fitting/_components",
         base::c(
-          base::rep(
-            "R/02_Main_analyses/01_Spatial/01_Paleo/01_Runners",
-            3L
-          ),
-          base::rep(
-            "R/02_Main_analyses/01_Spatial/02_Modern/01_Runners",
-            3L
-          )
-        ),
-        base::c(
-          "01_run_spatial_continental.R",
-          "02_run_spatial_regional.R",
-          "03_run_spatial_local.R",
-          "01_run_modern_continental.R",
-          "02_run_modern_regional.R",
-          "03_run_modern_local.R"
+          "01_fit_paleo_spatial_continental.R",
+          "02_fit_paleo_spatial_regional.R",
+          "03_fit_paleo_spatial_local.R",
+          "04_fit_modern_spatial_continental.R",
+          "05_fit_modern_spatial_regional.R",
+          "06_fit_modern_spatial_local.R"
         )
       )
 
@@ -207,7 +198,7 @@ testthat::test_that(
       base::all(
         stringr::str_detect(
           runner_text,
-          "This stage is fail-fast because tier selection requires"
+          "target_names = vec_tuning_target_names"
         )
       )
     )
@@ -215,9 +206,63 @@ testthat::test_that(
       base::all(
         stringr::str_detect(
           runner_text,
-          "target_names = vec_tuning_target_names"
+          "SJSMD_PREPARE_CV_FOLDS_ONLY"
+        )
+      ) == FALSE
+    )
+    testthat::expect_true(
+      base::all(
+        stringr::str_count(
+          runner_text,
+          "run_sjsdm_cv_preparation_sequence\\("
+        ) == 0L
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "temporal preparation components cannot fit models",
+  {
+    runner_paths <-
+      here::here(
+        "R/02_Main_analyses/01_Preparation/_components",
+        base::c(
+          "07_prepare_paleo_temporal_europe.R",
+          "08_prepare_paleo_temporal_america.R",
+          "09_prepare_paleo_temporal_asia.R"
         )
       )
+    runner_text <-
+      runner_paths |>
+      purrr::map_chr(
+        .f = ~ base::readLines(.x, warn = FALSE) |>
+          stringr::str_c(collapse = "\n")
+      )
+
+    testthat::expect_true(
+      base::all(
+        stringr::str_detect(
+          runner_text,
+          stringr::fixed("run_sjsdm_cv_preparation_sequence(")
+        )
+      )
+    )
+    testthat::expect_true(
+      base::all(
+        stringr::str_count(
+          runner_text,
+          "run_sjsdm_tuning_sequence\\("
+        ) == 0L
+      )
+    )
+    testthat::expect_true(
+      base::all(
+        stringr::str_detect(
+          runner_text,
+          "run_pipeline\\("
+        )
+      ) == FALSE
     )
   }
 )
