@@ -52,6 +52,35 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "build_sjsdm_tuning_schedule() uses one honest LOO repeat",
+  {
+    data_schedule <-
+      build_sjsdm_tuning_schedule(
+        tuning_strategy = "staged",
+        n_candidates = 8L,
+        repeat_ids = 1:3,
+        survivor_counts = base::c(4L, 2L),
+        cv_strategy = "leave_one_location_out"
+      )
+
+    testthat::expect_equal(base::nrow(data_schedule), 1L)
+    testthat::expect_identical(
+      data_schedule[["tuning_strategy"]],
+      "exhaustive"
+    )
+    testthat::expect_identical(data_schedule[["repeat_id"]], 1L)
+    testthat::expect_identical(
+      data_schedule[["n_candidates_entering"]],
+      8L
+    )
+    testthat::expect_identical(
+      data_schedule[["strategy_version"]],
+      "sjsdm_exhaustive_tuning_v1"
+    )
+  }
+)
+
+testthat::test_that(
   "build_sjsdm_tuning_schedule() rejects invalid staged settings",
   {
     testthat::expect_error(

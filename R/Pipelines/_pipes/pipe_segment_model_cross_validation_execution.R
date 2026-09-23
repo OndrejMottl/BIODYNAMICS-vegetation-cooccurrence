@@ -39,7 +39,9 @@ pipe_segment_model_cross_validation_execution <-
           "cross_validation",
           "staged_search",
           "survivor_counts"
-        )
+        ),
+        cv_strategy =
+          data_cross_validation_feasibility[["cv_strategy"]][[1L]]
       )
     ),
     targets::tar_target(
@@ -339,7 +341,8 @@ pipe_segment_model_cross_validation_execution <-
             config_model_fitting,
             "cross_validation",
             "selection_metric"
-          )
+          ),
+          allow_empty = TRUE
         )
       }
     ),
@@ -397,7 +400,10 @@ pipe_segment_model_cross_validation_execution <-
       name = "list_sjsdm_selected_fold_artifacts",
       command = if (
         data_cross_validation_feasibility[["cv_strategy"]][[1L]] ==
-          "none"
+          "none" ||
+          data_sjsdm_regularization_selection_for_fit[[
+            "regularization_source"
+          ]][[1L]] != "unit_cv"
       ) {
         build_sjsdm_empty_selected_fold_artifacts()
       } else {

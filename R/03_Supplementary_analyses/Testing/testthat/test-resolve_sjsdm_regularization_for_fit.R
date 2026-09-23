@@ -128,3 +128,38 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "resolve_sjsdm_regularization_for_fit() falls back after failed unit CV",
+  {
+    data_context <-
+      make_regularization_resolution_test_context()
+
+    data_tier_artifact <-
+      dplyr::bind_cols(
+        data_context,
+        make_regularization_resolution_test_candidate()
+      ) |>
+      dplyr::mutate(
+        regularization_source = "tier_pooled",
+        source_tier = "regional"
+      )
+
+    res <-
+      resolve_sjsdm_regularization_for_fit(
+        data_feasibility = tibble::tibble(
+          cv_feasibility_status = "grouped_kfold_feasible"
+        ),
+        data_model_context = data_context,
+        data_unit_selection =
+          build_sjsdm_empty_unit_regularization_selection(),
+        data_tier_artifact = data_tier_artifact
+      )
+
+    testthat::expect_equal(res[["regularization_source"]], "tier_pooled")
+    testthat::expect_equal(
+      res[["selection_status"]],
+      "selected_after_incomplete_unit_cv"
+    )
+  }
+)

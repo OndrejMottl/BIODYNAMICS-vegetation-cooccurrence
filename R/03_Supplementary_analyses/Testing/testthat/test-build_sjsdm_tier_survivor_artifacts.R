@@ -139,6 +139,45 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "build_sjsdm_tier_survivor_artifacts() omits infeasible sources",
+  {
+    data_schedule <-
+      build_sjsdm_tuning_schedule(
+        tuning_strategy = "staged",
+        n_candidates = 4L,
+        repeat_ids = 1:3,
+        survivor_counts = base::c(2L, 1L)
+      )
+
+    data_tuning_summary <-
+      make_tier_round_test_data() |>
+      dplyr::mutate(
+        summary_status = dplyr::if_else(
+          .data[["source_id"]] == "unit_b",
+          "incomplete",
+          .data[["summary_status"]]
+        )
+      )
+
+    res <-
+      build_sjsdm_tier_survivor_artifacts(
+        data_tuning_summary = data_tuning_summary,
+        data_schedule = data_schedule,
+        round_id = 1L
+      )
+
+    testthat::expect_setequal(
+      res[["data_source_candidate_loss"]][["source_id"]],
+      "unit_a"
+    )
+    testthat::expect_equal(
+      base::nrow(res[["data_survivor_decisions"]]),
+      4L
+    )
+  }
+)
+
+testthat::test_that(
   "build_sjsdm_tier_survivor_artifacts() uses cumulative evidence",
   {
     data_schedule <-
