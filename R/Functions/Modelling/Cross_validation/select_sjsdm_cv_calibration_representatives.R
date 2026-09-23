@@ -1,7 +1,9 @@
 #' @title Select sjSDM CV Calibration Representatives
 #' @description
-#' Deterministically selects median- and maximum-complexity spatial units,
-#' historical fitting outliers, and every supplied paleo temporal profile.
+#' Deterministically selects the maximum-complexity spatial unit in each
+#' analysis-tier-resolution group across continents and every supplied eligible
+#' paleo temporal profile. Historical final-model outliers
+#' are retained in provenance but do not trigger independent CV ladders.
 #' @param data_units
 #' Unit inventory with analysis, grouping, complexity-count, historical-budget,
 #' and temporal indicator columns.
@@ -28,7 +30,9 @@ select_sjsdm_cv_calibration_representatives <- function(
       "n_iter",
       "n_sampling",
       "n_early_stopping",
-      "is_temporal"
+      "is_temporal",
+      "cv_strategy",
+      "effective_folds"
     )
 
   assertthat::assert_that(
@@ -61,13 +65,16 @@ select_sjsdm_cv_calibration_representatives <- function(
         .data[["n_iter"]] > 6400L |
         .data[["n_sampling"]] > 1000L |
         dplyr::coalesce(.data[["n_early_stopping"]] == 0L, FALSE)
+    ) |>
+    dplyr::filter(
+      .data[["cv_strategy"]] == "spatially_stratified_group_kfold",
+      .data[["effective_folds"]] >= 5L
     )
 
   vec_group_columns <-
     base::c(
       "analysis_id",
       "tier_id",
-      "continent_id",
       "resolution_id"
     )
 
@@ -77,40 +84,16 @@ select_sjsdm_cv_calibration_representatives <- function(
     dplyr::group_by(dplyr::across(dplyr::all_of(vec_group_columns))) |>
     dplyr::group_modify(
       ~ {
-        median_complexity <-
-          stats::median(.x[["complexity_score"]])
-        data_median <-
-          .x |>
-          dplyr::mutate(
-            distance_to_median = base::abs(
-              .data[["complexity_score"]] - median_complexity
-            )
-          ) |>
-          dplyr::arrange(
-            .data[["distance_to_median"]],
-            .data[["scale_id"]]
-          ) |>
-          dplyr::slice_head(n = 1L) |>
-          dplyr::mutate(selection_reason = "median_complexity")
-        data_maximum <-
-          .x |>
+        .x |>
           dplyr::arrange(
             dplyr::desc(.data[["complexity_score"]]),
             .data[["scale_id"]]
           ) |>
           dplyr::slice_head(n = 1L) |>
           dplyr::mutate(selection_reason = "maximum_complexity")
-
-        dplyr::bind_rows(data_median, data_maximum) |>
-          dplyr::select(-dplyr::any_of("distance_to_median"))
       }
     ) |>
     dplyr::ungroup()
-
-  data_outliers <-
-    data_scored |>
-    dplyr::filter(.data[["historical_outlier"]]) |>
-    dplyr::mutate(selection_reason = "historical_outlier")
 
   data_temporal <-
     data_scored |>
@@ -120,7 +103,6 @@ select_sjsdm_cv_calibration_representatives <- function(
   res <-
     dplyr::bind_rows(
       data_spatial_representatives,
-      data_outliers,
       data_temporal
     ) |>
     dplyr::group_by(dplyr::across(dplyr::all_of(vec_unit_key))) |>

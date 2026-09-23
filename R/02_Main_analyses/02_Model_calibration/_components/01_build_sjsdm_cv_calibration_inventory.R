@@ -204,6 +204,18 @@ data_temporal_profiles <-
                 "n_taxa",
                 1L,
                 .default = NA_integer_
+              ),
+              cv_strategy = purrr::pluck(
+                data_feasibility,
+                "cv_strategy",
+                1L,
+                .default = NA_character_
+              ),
+              effective_folds = purrr::pluck(
+                data_feasibility,
+                "effective_folds",
+                1L,
+                .default = NA_integer_
               )
             )
           }
@@ -216,11 +228,16 @@ data_temporal_profiles <-
           base::is.finite(.data[["n_taxa"]])
         ) |>
         dplyr::mutate(
+          calibration_eligible =
+            .data[["cv_strategy"]] ==
+              "spatially_stratified_group_kfold" &
+            .data[["effective_folds"]] >= 5L,
           complexity_score =
             .data[["n_taxa"]] *
             (.data[["n_samples"]] + .data[["n_locations"]])
         ) |>
         dplyr::arrange(
+          dplyr::desc(.data[["calibration_eligible"]]),
           dplyr::desc(.data[["complexity_score"]]),
           .data[["target_suffix"]]
         ) |>
@@ -441,6 +458,8 @@ readr::write_csv(
 
 vec_blocking_statuses <-
   base::c("missing", "pipeline_error")
+file_preparation_blockers <-
+  fs::path(path_report, "calibration_preparation_blockers.csv")
 if (
   base::any(
     data_inventory[["preparation_status"]] %in% vec_blocking_statuses
@@ -453,7 +472,7 @@ if (
     )
   readr::write_csv(
     data_blockers,
-    fs::path(path_report, "calibration_preparation_blockers.csv"),
+    file_preparation_blockers,
     na = "NA"
   )
   cli::cli_abort(
@@ -475,6 +494,10 @@ if (
       "i" = "Archived pre-trait stores are deliberately not accepted."
     )
   )
+} else if (
+  fs::file_exists(file_preparation_blockers)
+) {
+  fs::file_delete(file_preparation_blockers)
 }
 
 data_representatives <-

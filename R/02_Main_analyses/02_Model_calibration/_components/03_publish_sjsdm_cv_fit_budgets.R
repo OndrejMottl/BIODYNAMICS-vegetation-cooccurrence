@@ -103,10 +103,21 @@ data_accepted <-
         NULL
       }
     ),
-    calibration_status = purrr::pluck(
+    result_contract_version = purrr::pluck(
       .data[["list_result"]],
-      "calibration_status",
-      .default = "missing"
+      "calibration_contract_version",
+      .default = NA_character_
+    ),
+    calibration_status = dplyr::if_else(
+      .data[["result_contract_version"]] ==
+        "sjsdm_cv_adaptive_calibration_v3",
+      purrr::pluck(
+        .data[["list_result"]],
+        "calibration_status",
+        .default = "missing"
+      ),
+      "incompatible_contract",
+      missing = "incompatible_contract"
     ),
     list_budget = base::list(
       purrr::pluck(
@@ -180,6 +191,7 @@ if (
         "resolution_id",
         "scale_id",
         "selection_reason",
+        "result_contract_version",
         "calibration_status",
         "file_result"
       ),

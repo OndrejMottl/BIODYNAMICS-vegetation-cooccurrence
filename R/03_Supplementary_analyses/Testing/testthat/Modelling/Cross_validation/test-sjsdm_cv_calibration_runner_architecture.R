@@ -67,6 +67,109 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "calibration recovery reconstructs disposable prepared inputs",
+  {
+    text_component <-
+      readr::read_file(
+        here::here(
+          "R/02_Main_analyses/02_Model_calibration/_components/",
+          "02_run_one_sjsdm_cv_fit_budget_calibration.R"
+        )
+      )
+
+    testthat::expect_match(
+      text_component,
+      "build_sjsdm_regularization_candidates(",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_component,
+      "build_jsdm_environment_formula(",
+      fixed = TRUE
+    )
+    testthat::expect_false(
+      stringr::str_detect(
+        text_component,
+        paste0(
+          "targets::tar_read_raw\\(\\s*name = stringr::str_c",
+          '\\(\\s*"data_sjsdm_regularization_candidates"'
+        )
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "temporal calibration uses its shared fitting configuration target",
+  {
+    text_component <-
+      readr::read_file(
+        here::here(
+          "R/02_Main_analyses/02_Model_calibration/_components/",
+          "02_run_one_sjsdm_cv_fit_budget_calibration.R"
+        )
+      )
+
+    testthat::expect_match(
+      text_component,
+      'target_model_fitting_config <-',
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_component,
+      '} else {\n    "config_model_fitting"',
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_component,
+      "name = target_model_fitting_config",
+      fixed = TRUE
+    )
+  }
+)
+
+testthat::test_that(
+  "calibration migrates accepted results from stricter contracts",
+  {
+    text_component <-
+      readr::read_file(
+        here::here(
+          "R/02_Main_analyses/02_Model_calibration/_components/",
+          "02_run_one_sjsdm_cv_fit_budget_calibration.R"
+        )
+      )
+    text_publication <-
+      readr::read_file(
+        here::here(
+          "R/02_Main_analyses/02_Model_calibration/_components/",
+          "03_publish_sjsdm_cv_fit_budgets.R"
+        )
+      )
+
+    testthat::expect_match(
+      text_component,
+      "sjsdm_cv_adaptive_calibration_v3",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_component,
+      "reused_stricter_v2_result",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_component,
+      "reused_stricter_v3_policy_result",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_publication,
+      "sjsdm_cv_adaptive_calibration_v3",
+      fixed = TRUE
+    )
+  }
+)
+
+testthat::test_that(
   "legacy audit and invalidation are one-time workflows",
   {
     path_migration <-

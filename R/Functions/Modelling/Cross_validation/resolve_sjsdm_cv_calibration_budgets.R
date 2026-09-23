@@ -1,9 +1,11 @@
 #' @title Assign Accepted sjSDM CV Budgets to Production Units
 #' @description
-#' Assigns the most demanding accepted median/maximum representative budget to
-#' ordinary units within each analysis-tier-continent-resolution group. A
-#' benchmarked historical outlier or temporal profile keeps its own accepted
-#' budget.
+#' Assigns each maximum-complexity representative budget to all spatial units
+#' in its analysis-tier-continent-resolution group. Groups without an eligible
+#' representative inherit the most conservative accepted budget in the same
+#' analysis-tier-resolution stratum. Eligible temporal profiles keep their own
+#' accepted budgets; ineligible profiles use the same conservative fallback.
+#' Production escalation handles unit exceptions.
 #' @param data_units
 #' Complete calibration unit inventory.
 #' @param data_accepted
@@ -30,6 +32,8 @@ resolve_sjsdm_cv_calibration_budgets <- function(
     )
   vec_group_keys <-
     vec_unit_keys[1:4]
+  vec_tier_keys <-
+    vec_group_keys[base::c(1L, 2L, 4L)]
   vec_accepted_columns <-
     base::c(
       vec_unit_keys,
@@ -68,7 +72,7 @@ resolve_sjsdm_cv_calibration_budgets <- function(
     dplyr::filter(
       stringr::str_detect(
         .data[["selection_reason"]],
-        "median_complexity|maximum_complexity"
+        "maximum_complexity"
       )
     ) |>
     dplyr::group_by(dplyr::across(dplyr::all_of(vec_group_keys))) |>
@@ -95,7 +99,7 @@ resolve_sjsdm_cv_calibration_budgets <- function(
     dplyr::filter(
       stringr::str_detect(
         .data[["selection_reason"]],
-        "historical_outlier|paleo_temporal_profile"
+        "paleo_temporal_profile"
       )
     ) |>
     dplyr::mutate(
@@ -112,39 +116,75 @@ resolve_sjsdm_cv_calibration_budgets <- function(
       own_measured_seconds_per_epoch = "measured_seconds_per_epoch"
     )
 
+  data_tier_budgets <-
+    data_accepted |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(vec_tier_keys))) |>
+    dplyr::arrange(
+      dplyr::desc(.data[["budget_order"]]),
+      .data[["continent_id"]],
+      .data[["scale_id"]],
+      .by_group = TRUE
+    ) |>
+    dplyr::slice_head(n = 1L) |>
+    dplyr::ungroup() |>
+    dplyr::select(
+      dplyr::all_of(vec_tier_keys),
+      tier_budget_source_scale_id = "scale_id",
+      tier_budget_order = "budget_order",
+      tier_n_iter_initial = "n_iter_initial",
+      tier_n_iter_max = "n_iter_max",
+      tier_n_sampling = "n_sampling",
+      tier_measured_seconds_per_fit = "measured_seconds_per_fit",
+      tier_measured_seconds_per_epoch = "measured_seconds_per_epoch"
+    )
+
   res <-
     data_units |>
     dplyr::select(dplyr::all_of(vec_unit_keys)) |>
     dplyr::left_join(data_group_budgets, by = vec_group_keys) |>
+    dplyr::left_join(data_tier_budgets, by = vec_tier_keys) |>
     dplyr::left_join(data_own_budgets, by = vec_unit_keys) |>
     dplyr::mutate(
       cv_budget_order = dplyr::coalesce(
         .data[["own_budget_order"]],
-        .data[["group_budget_order"]]
+        .data[["group_budget_order"]],
+        .data[["tier_budget_order"]]
       ),
       cv_n_iter_initial = dplyr::coalesce(
         .data[["own_n_iter_initial"]],
-        .data[["group_n_iter_initial"]]
+        .data[["group_n_iter_initial"]],
+        .data[["tier_n_iter_initial"]]
       ),
       cv_n_iter_max = dplyr::coalesce(
         .data[["own_n_iter_max"]],
-        .data[["group_n_iter_max"]]
+        .data[["group_n_iter_max"]],
+        .data[["tier_n_iter_max"]]
       ),
       cv_n_sampling = dplyr::coalesce(
         .data[["own_n_sampling"]],
-        .data[["group_n_sampling"]]
+        .data[["group_n_sampling"]],
+        .data[["tier_n_sampling"]]
       ),
       cv_budget_source_scale_id = dplyr::coalesce(
         .data[["own_budget_source_scale_id"]],
-        .data[["group_budget_source_scale_id"]]
+        .data[["group_budget_source_scale_id"]],
+        .data[["tier_budget_source_scale_id"]]
       ),
       cv_measured_seconds_per_fit = dplyr::coalesce(
         .data[["own_measured_seconds_per_fit"]],
-        .data[["group_measured_seconds_per_fit"]]
+        .data[["group_measured_seconds_per_fit"]],
+        .data[["tier_measured_seconds_per_fit"]]
       ),
       cv_measured_seconds_per_epoch = dplyr::coalesce(
         .data[["own_measured_seconds_per_epoch"]],
-        .data[["group_measured_seconds_per_epoch"]]
+        .data[["group_measured_seconds_per_epoch"]],
+        .data[["tier_measured_seconds_per_epoch"]]
+      ),
+      cv_budget_assignment_scope = dplyr::case_when(
+        !base::is.na(.data[["own_budget_order"]]) ~ "own_profile",
+        !base::is.na(.data[["group_budget_order"]]) ~ "exact_group",
+        !base::is.na(.data[["tier_budget_order"]]) ~ "tier_fallback",
+        .default = "missing"
       ),
       cv_n_step_size = base::as.numeric(cv_n_step_size),
       cv_n_early_stopping = base::as.integer(cv_n_early_stopping),
@@ -157,6 +197,7 @@ resolve_sjsdm_cv_calibration_budgets <- function(
     dplyr::select(
       dplyr::all_of(vec_unit_keys),
       "cv_budget_status",
+      "cv_budget_assignment_scope",
       "cv_budget_source_scale_id",
       "cv_budget_order",
       "cv_n_iter_initial",

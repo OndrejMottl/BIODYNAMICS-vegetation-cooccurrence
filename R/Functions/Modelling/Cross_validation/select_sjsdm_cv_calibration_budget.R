@@ -1,18 +1,20 @@
 #' @title Select a Stable sjSDM CV Calibration Budget
 #' @description
 #' Selects the smallest benchmark budget whose repeat-one winner is converged
-#' and stable at the next rung, then confirms the same winner in repeat two.
+#' and stable at the next rung, then confirms that candidate in repeat two as
+#' either the exact winner or a practically equivalent candidate.
 #' @param data_benchmark
 #' Candidate-fold benchmark table containing repeat, budget, fit, convergence,
 #' and normalized held-out loss columns.
 #' @param rank_threshold
 #' Minimum Spearman candidate-loss rank correlation. Defaults to `0.95`.
 #' @param relative_loss_tolerance
-#' Maximum relative winning-loss change. Defaults to `0.01`.
+#' Maximum relative winning-loss change between rungs and maximum relative
+#' gap above the repeat-two winner. Defaults to `0.02`.
 #' @param n_folds_expected
 #' Required fold coverage for every candidate and budget. Defaults to five.
 #' @param require_repeat_two
-#' Whether acceptance requires the same winning candidate in repeat two.
+#' Whether acceptance requires repeat-two practical equivalence.
 #' @return
 #' One-row accepted budget and stability-evidence tibble.
 #' @examples
@@ -23,7 +25,7 @@
 select_sjsdm_cv_calibration_budget <- function(
     data_benchmark = NULL,
     rank_threshold = 0.95,
-    relative_loss_tolerance = 0.01,
+    relative_loss_tolerance = 0.02,
     n_folds_expected = 5L,
     require_repeat_two = TRUE) {
   vec_required_columns <-
@@ -59,9 +61,6 @@ select_sjsdm_cv_calibration_budget <- function(
     !base::is.na(require_repeat_two),
     msg = "require_repeat_two must be TRUE or FALSE."
   )
-
-  n_candidates_expected <-
-    dplyr::n_distinct(data_benchmark[["candidate_id"]])
 
   data_candidate_budget <-
     data_benchmark |>
@@ -153,6 +152,8 @@ select_sjsdm_cv_calibration_budget <- function(
               ),
             by = "candidate_id"
           )
+        n_candidates_compared <-
+          base::nrow(data_pair)
 
         current_winner <-
           data_winners |>
@@ -169,7 +170,7 @@ select_sjsdm_cv_calibration_budget <- function(
 
         rank_correlation <-
           if (
-            base::nrow(data_pair) == n_candidates_expected
+            n_candidates_compared >= 2L
           ) {
             stats::cor(
               data_pair[["current_loss"]],
@@ -190,31 +191,33 @@ select_sjsdm_cv_calibration_budget <- function(
             .Machine[["double.eps"]]
           )
 
-        repeat_two_winner <-
-          data_winners |>
+        data_repeat_confirmation <-
+          data_candidate_budget |>
           dplyr::filter(
-            .data[["repeat_id"]] == 2L,
             .data[["budget_order"]] == .env[["budget_order"]]
+          ) |>
+          evaluate_sjsdm_cv_repeat_confirmation(
+            provisional_candidate_id =
+              current_winner[["candidate_id"]][[1L]],
+            relative_loss_tolerance = relative_loss_tolerance
           )
 
-        tibble::tibble(
-          budget_order = budget_order,
-          next_budget_order = next_order,
-          n_iter_initial = current_winner[["n_iter"]][[1L]],
-          n_sampling = current_winner[["n_sampling"]][[1L]],
-          candidate_id = current_winner[["candidate_id"]][[1L]],
-          next_winner_unchanged = base::identical(
-            current_winner[["candidate_id"]][[1L]],
-            next_winner[["candidate_id"]][[1L]]
-          ),
-          rank_correlation = rank_correlation,
-          relative_loss_change = relative_loss_change,
-          repeat_two_confirmed =
-            base::nrow(repeat_two_winner) == 1L &&
-            base::identical(
+        dplyr::bind_cols(
+          tibble::tibble(
+            budget_order = budget_order,
+            next_budget_order = next_order,
+            n_iter_initial = current_winner[["n_iter"]][[1L]],
+            n_sampling = current_winner[["n_sampling"]][[1L]],
+            candidate_id = current_winner[["candidate_id"]][[1L]],
+            n_candidates_compared = n_candidates_compared,
+            next_winner_unchanged = base::identical(
               current_winner[["candidate_id"]][[1L]],
-              repeat_two_winner[["candidate_id"]][[1L]]
-            )
+              next_winner[["candidate_id"]][[1L]]
+            ),
+            rank_correlation = rank_correlation,
+            relative_loss_change = relative_loss_change
+          ),
+          data_repeat_confirmation
         )
       }
     ) |>

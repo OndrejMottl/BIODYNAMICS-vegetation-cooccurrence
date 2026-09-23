@@ -73,29 +73,50 @@ list_prepared_folds <-
     ),
     store = path_store
   )
-data_candidates <-
-  targets::tar_read_raw(
-    name = stringr::str_c(
-      "data_sjsdm_regularization_candidates",
-      target_suffix
-    ),
-    store = path_store
-  )
-formula_jsdm_environment <-
-  targets::tar_read_raw(
-    name = stringr::str_c("formula_jsdm_environment", target_suffix),
-    store = path_store
-  )
 config_model_fitting <-
   targets::tar_read_raw(
     name = stringr::str_c("config_model_fitting", target_suffix),
     store = path_store
   )
+config_regularization <-
+  purrr::chuck(
+    config_model_fitting,
+    "cross_validation",
+    "regularization"
+  )
+data_candidates <-
+  build_sjsdm_regularization_candidates(
+    alpha_cov = purrr::chuck(config_regularization, "alpha_cov"),
+    alpha_coef = purrr::chuck(config_regularization, "alpha_coef"),
+    alpha_spatial = purrr::chuck(config_regularization, "alpha_spatial"),
+    lambda_cov = purrr::chuck(config_regularization, "lambda_cov"),
+    lambda_coef = purrr::chuck(config_regularization, "lambda_coef"),
+    lambda_spatial = purrr::chuck(
+      config_regularization,
+      "lambda_spatial"
+    )
+  )
+list_usable_folds <-
+  list_prepared_folds |>
+  purrr::keep(
+    ~ .x[["preparation_status"]] %in% base::c("ok", "prepared")
+  )
+list_reference_fold <-
+  purrr::chuck(list_usable_folds, 1L, "list_prepared_fold")
+formula_jsdm_environment <-
+  list_reference_fold |>
+  purrr::chuck("data_train_input", "data_abiotic_to_fit") |>
+  build_jsdm_environment_formula(
+    use_age = purrr::chuck(
+      config_model_fitting,
+      "use_age_in_formula"
+    )
+  )
 config_fit_budget <-
   base::list(
     n_iter_initial = 500L,
     n_iter_max = 500L,
-    n_sampling = 200L,
+    n_sampling = 100L,
     n_step_size = NULL,
     n_early_stopping = NULL
   )
@@ -106,9 +127,9 @@ config_sjsdm_cv_fitting <-
   )
 
 first_fold_name <-
-  base::names(list_prepared_folds)[[1L]]
+  base::names(list_usable_folds)[[1L]]
 list_one_fold <-
-  list_prepared_folds[first_fold_name]
+  list_usable_folds[first_fold_name]
 data_one_candidate <-
   data_candidates[1L, , drop = FALSE]
 

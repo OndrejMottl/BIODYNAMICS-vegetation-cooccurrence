@@ -8,12 +8,16 @@ testthat::test_that(
       res[["n_iter"]][1:8],
       c(500L, 1000L, 2000L, 4000L, 8000L, 16000L, 32000L, 64000L)
     )
-    testthat::expect_equal(res[["n_sampling"]][1:8], rep(200L, 8L))
+    testthat::expect_equal(res[["n_sampling"]][1:8], rep(100L, 8L))
     testthat::expect_equal(
       res[["n_sampling"]][9:14],
       c(400L, 800L, 1600L, 3200L, 6400L, 8000L)
     )
     testthat::expect_equal(res[["n_iter"]][9:14], rep(64000L, 6L))
     testthat::expect_equal(res[["budget_order"]], 1:14)
+
+    res_custom <-
+      build_sjsdm_cv_calibration_ladder(iteration_sampling = 50L)
+    testthat::expect_equal(res_custom[["n_sampling"]][1:8], rep(50L, 8L))
   }
 )

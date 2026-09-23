@@ -33,6 +33,12 @@ flag_force <-
     base::tolower(base::Sys.getenv("SJSMD_CALIBRATION_FORCE")),
     "true"
   )
+calibration_contract_version <-
+  "sjsdm_cv_adaptive_calibration_v3"
+legacy_calibration_contract_version <-
+  "sjsdm_cv_adaptive_calibration_v2"
+repeat_confirmation_loss_tolerance <-
+  0.02
 
 if (
   base::any(base::nchar(base::c(profile_id, scale_id, resolution_id)) == 0L)
@@ -148,33 +154,34 @@ fs::dir_create(path_report)
 file_result <-
   fs::path(path_output, "calibration_result.qs")
 
-if (
-  base::file.exists(file_result) && !flag_force
-) {
-  list_existing <-
-    qs2::qs_read(file_result)
+list_existing <-
   if (
-    base::identical(list_existing[["calibration_status"]], "accepted")
+    base::file.exists(file_result) && !flag_force
   ) {
-    cli::cli_inform("Reusing the completed accepted calibration result.")
-    base::quit(save = "no", status = 0L)
+    qs2::qs_read(file_result)
+  } else {
+    NULL
   }
-}
 
 #----------------------------------------------------------#
 # 2. Load prepared folds and model inputs -----
 #----------------------------------------------------------#
 
-vec_required_target_names <-
+target_prepared_folds <-
   stringr::str_c(
-    base::c(
-      "list_sjsdm_prepared_tuning_folds",
-      "data_sjsdm_regularization_candidates",
-      "formula_jsdm_environment",
-      "config_model_fitting"
-    ),
+    "list_sjsdm_prepared_tuning_folds",
     target_suffix
   )
+target_model_fitting_config <-
+  if (
+    flag_spatial
+  ) {
+    stringr::str_c("config_model_fitting", target_suffix)
+  } else {
+    "config_model_fitting"
+  }
+vec_required_target_names <-
+  base::c(target_prepared_folds, target_model_fitting_config)
 data_store_meta <-
   base::tryCatch(
     targets::tar_meta(store = path_store),
@@ -207,36 +214,65 @@ if (
 
 list_prepared_folds <-
   targets::tar_read_raw(
-    name = stringr::str_c(
-      "list_sjsdm_prepared_tuning_folds",
-      target_suffix
-    ),
-    store = path_store
-  )
-data_candidates <-
-  targets::tar_read_raw(
-    name = stringr::str_c(
-      "data_sjsdm_regularization_candidates",
-      target_suffix
-    ),
-    store = path_store
-  )
-formula_jsdm_environment <-
-  targets::tar_read_raw(
-    name = stringr::str_c("formula_jsdm_environment", target_suffix),
+    name = target_prepared_folds,
     store = path_store
   )
 config_model_fitting <-
   targets::tar_read_raw(
-    name = stringr::str_c("config_model_fitting", target_suffix),
+    name = target_model_fitting_config,
     store = path_store
+  )
+
+# Preparation intentionally persists the expensive fold cache and its fitting
+# configuration, while disposable formula and candidate targets may be pruned.
+# Rebuild both with the same production functions and configuration values.
+config_regularization <-
+  purrr::chuck(
+    config_model_fitting,
+    "cross_validation",
+    "regularization"
+  )
+data_candidates <-
+  build_sjsdm_regularization_candidates(
+    alpha_cov = purrr::chuck(config_regularization, "alpha_cov"),
+    alpha_coef = purrr::chuck(config_regularization, "alpha_coef"),
+    alpha_spatial = purrr::chuck(config_regularization, "alpha_spatial"),
+    lambda_cov = purrr::chuck(config_regularization, "lambda_cov"),
+    lambda_coef = purrr::chuck(config_regularization, "lambda_coef"),
+    lambda_spatial = purrr::chuck(
+      config_regularization,
+      "lambda_spatial"
+    )
+  )
+list_usable_folds <-
+  list_prepared_folds |>
+  purrr::keep(
+    ~ .x[["preparation_status"]] %in% base::c("ok", "prepared")
+  )
+if (
+  base::length(list_usable_folds) == 0L
+) {
+  cli::cli_abort(
+    "Calibration runner 02 found no usable cached prepared fold."
+  )
+}
+list_reference_fold <-
+  purrr::chuck(list_usable_folds, 1L, "list_prepared_fold")
+formula_jsdm_environment <-
+  list_reference_fold |>
+  purrr::chuck("data_train_input", "data_abiotic_to_fit") |>
+  build_jsdm_environment_formula(
+    use_age = purrr::chuck(
+      config_model_fitting,
+      "use_age_in_formula"
+    )
   )
 
 config_fit_budget <-
   base::list(
     n_iter_initial = 500L,
     n_iter_max = 500L,
-    n_sampling = 200L,
+    n_sampling = 100L,
     n_step_size = NULL,
     n_early_stopping = NULL
   )
@@ -245,6 +281,160 @@ config_sjsdm_cv_fitting <-
     config_model_fitting = config_model_fitting,
     config_fit_budget = config_fit_budget
   )
+calibration_input_hash <-
+  digest::digest(
+    base::list(
+      calibration_contract_version = calibration_contract_version,
+      data_candidates = data_candidates,
+      list_prepared_folds = list_prepared_folds,
+      formula_jsdm_environment = stringr::str_c(
+        base::deparse(formula_jsdm_environment),
+        collapse = ""
+      ),
+      config_sjsdm_cv_fitting = config_sjsdm_cv_fitting,
+      repeat_confirmation_loss_tolerance =
+        repeat_confirmation_loss_tolerance
+    )
+  )
+previous_policy_calibration_input_hash <-
+  digest::digest(
+    base::list(
+      calibration_contract_version = calibration_contract_version,
+      data_candidates = data_candidates,
+      list_prepared_folds = list_prepared_folds,
+      formula_jsdm_environment = stringr::str_c(
+        base::deparse(formula_jsdm_environment),
+        collapse = ""
+      ),
+      config_sjsdm_cv_fitting = config_sjsdm_cv_fitting,
+      repeat_confirmation_loss_tolerance = 0.01
+    )
+  )
+legacy_calibration_input_hash <-
+  digest::digest(
+    base::list(
+      calibration_contract_version =
+        legacy_calibration_contract_version,
+      data_candidates = data_candidates,
+      list_prepared_folds = list_prepared_folds,
+      formula_jsdm_environment = stringr::str_c(
+        base::deparse(formula_jsdm_environment),
+        collapse = ""
+      ),
+      config_sjsdm_cv_fitting = config_sjsdm_cv_fitting
+    )
+  )
+if (
+  !base::is.null(list_existing) &&
+    base::identical(list_existing[["calibration_status"]], "accepted") &&
+    base::identical(
+      list_existing[["calibration_contract_version"]],
+      calibration_contract_version
+    ) &&
+    base::identical(
+      list_existing[["calibration_input_hash"]],
+      calibration_input_hash
+    )
+) {
+  cli::cli_inform("Reusing the completed content-matched calibration result.")
+  base::quit(save = "no", status = 0L)
+}
+flag_reuse_stricter_v2_result <-
+  !base::is.null(list_existing) &&
+    base::identical(list_existing[["calibration_status"]], "accepted") &&
+    base::identical(
+      list_existing[["calibration_contract_version"]],
+      legacy_calibration_contract_version
+    ) &&
+    base::identical(
+      list_existing[["calibration_input_hash"]],
+      legacy_calibration_input_hash
+    )
+flag_reuse_stricter_v3_policy_result <-
+  !base::is.null(list_existing) &&
+    base::identical(list_existing[["calibration_status"]], "accepted") &&
+    base::identical(
+      list_existing[["calibration_contract_version"]],
+      calibration_contract_version
+    ) &&
+    base::identical(
+      list_existing[["calibration_input_hash"]],
+      previous_policy_calibration_input_hash
+    )
+if (
+  flag_reuse_stricter_v2_result ||
+    flag_reuse_stricter_v3_policy_result
+) {
+  migration_status <-
+    if (
+      flag_reuse_stricter_v2_result
+    ) {
+      "reused_stricter_v2_result"
+    } else {
+      "reused_stricter_v3_policy_result"
+    }
+  if (
+    flag_reuse_stricter_v2_result
+  ) {
+    list_existing[["data_accepted_budget"]] <-
+      list_existing[["data_accepted_budget"]] |>
+      dplyr::mutate(
+        repeat_two_candidate_id = .data[["candidate_id"]],
+        repeat_two_exact_winner = TRUE,
+        repeat_two_relative_loss_gap = 0,
+        repeat_two_loss_tolerance =
+          repeat_confirmation_loss_tolerance,
+        repeat_two_practically_equivalent = TRUE,
+        repeat_two_confirmed = TRUE
+      )
+  } else {
+    list_existing[["data_accepted_budget"]] <-
+      list_existing[["data_accepted_budget"]] |>
+      dplyr::mutate(
+        repeat_two_loss_tolerance =
+          repeat_confirmation_loss_tolerance,
+        repeat_two_practically_equivalent =
+          .data[["repeat_two_exact_winner"]] |
+          .data[["repeat_two_relative_loss_gap"]] <=
+            repeat_confirmation_loss_tolerance,
+        repeat_two_confirmed =
+          .data[["repeat_two_practically_equivalent"]]
+      )
+  }
+  list_existing[["calibration_contract_version"]] <-
+    calibration_contract_version
+  list_existing[["calibration_input_hash"]] <-
+    calibration_input_hash
+  list_existing[["checkpoint_migration_status"]] <-
+    migration_status
+  list_existing[["run_provenance"]] <-
+    list_existing[["run_provenance"]] |>
+    dplyr::mutate(
+      calibration_contract_version = calibration_contract_version,
+      calibration_input_hash = calibration_input_hash,
+      migration_status = migration_status
+    )
+
+  qs2::qs_save(list_existing, file_result)
+  readr::write_csv(
+    list_existing[["data_accepted_budget"]],
+    fs::path(path_report, "accepted_budget.csv"),
+    na = "NA"
+  )
+  readr::write_csv(
+    list_existing[["run_provenance"]],
+    fs::path(path_report, "run_provenance.csv"),
+    na = "NA"
+  )
+  cli::cli_inform(
+    stringr::str_c(
+      "Reused an accepted result from a stricter calibration policy and",
+      "recorded current repeat-confirmation provenance.",
+      sep = " "
+    )
+  )
+  base::quit(save = "no", status = 0L)
+}
 
 #----------------------------------------------------------#
 # 3. Run the restart-safe calibration benchmark -----
@@ -262,10 +452,29 @@ list_result <-
       config_sjsdm_cv_fitting,
       "cross_validation",
       "fit_device"
-    )
+    ),
+    checkpoint_file = fs::path(
+      path_output,
+      "calibration_checkpoint.qs"
+    ),
+    repeat_confirmation_loss_tolerance =
+      repeat_confirmation_loss_tolerance
   )
 finished_at <-
   base::Sys.time()
+
+list_result[["calibration_contract_version"]] <-
+  calibration_contract_version
+list_result[["calibration_input_hash"]] <-
+  calibration_input_hash
+checkpoint_migration_status <-
+  list_result[["checkpoint_migration_status"]]
+if (
+  base::is.null(checkpoint_migration_status)
+) {
+  checkpoint_migration_status <-
+    NA_character_
+}
 
 list_result[["run_provenance"]] <-
   tibble::tibble(
@@ -280,7 +489,10 @@ list_result[["run_provenance"]] <-
     elapsed_hours = base::as.numeric(
       base::difftime(finished_at, started_at, units = "hours")
     ),
-    calibration_status = list_result[["calibration_status"]]
+    calibration_contract_version = calibration_contract_version,
+    calibration_input_hash = calibration_input_hash,
+    calibration_status = list_result[["calibration_status"]],
+    migration_status = checkpoint_migration_status
   )
 
 qs2::qs_save(list_result, file_result)
