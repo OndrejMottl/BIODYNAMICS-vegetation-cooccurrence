@@ -5,7 +5,8 @@
 #' `collinear::collinear()`. The function pivots `data_source` from
 #' long to wide format (one column per variable), removes any `age`
 #' column, screens out zero-variance columns, and then performs the
-#' collinearity analysis.
+#' collinearity analysis. Predictors with fewer than two finite observations
+#' are removed before their variance is evaluated.
 #' @param data_source
 #' A data frame in long format containing at minimum the columns
 #' `abiotic_variable_name` (character, predictor names) and
@@ -28,10 +29,10 @@
 #' Predictor names are captured before pivoting so that the
 #' zero-variance check is scoped to predictor columns only —
 #' ID or metadata columns that survive the pivot are never passed
-#' to `collinear::collinear()`.  Any predictor whose standard
-#' deviation is zero across all samples is dropped and reported via
-#' `cli::cli_warn()`.  If no predictor with non-zero variance
-#' remains, the function aborts via `cli::cli_abort()`.
+#' to `collinear::collinear()`. Predictors with insufficient finite
+#' observations or zero variance are dropped and reported via
+#' `cli::cli_warn()`. If fewer than three rows are available, or no predictor
+#' with non-zero variance remains, the function aborts via `cli::cli_abort()`.
 #' @seealso
 #' [collinear::collinear()] for the underlying collinearity method,
 #' [extract_abiotic_data()] for producing the expected input format.
@@ -78,18 +79,76 @@ compute_predictor_collinearity <- function(
       !dplyr::any_of(c("age"))
     )
 
-  vec_predictor_has_variation <-
+  n_abiotic_observations <-
+    base::nrow(data_predictors_wide)
+  if (
+    n_abiotic_observations < 3L
+  ) {
+    cli::cli_abort(
+      base::c(
+        "x" = stringr::str_c(
+          "Too few abiotic observations to evaluate predictor",
+          " ",
+          "collinearity."
+        ),
+        "i" = stringr::str_glue(
+          "Found {n_abiotic_observations} row(s) but at least 3 are required."
+        )
+      )
+    )
+  }
+
+  data_predictor_values <-
     data_predictors_wide |>
     dplyr::select(
       dplyr::any_of(vec_predictor_names)
-    ) |>
+    )
+
+  vec_predictor_finite_count <-
+    data_predictor_values |>
+    purrr::map_int(
+      .f = ~ base::sum(base::is.finite(.x))
+    )
+
+  vec_predictor_has_sufficient_observations <-
+    vec_predictor_finite_count >= 2L
+
+  vec_undersampled_predictors <-
+    base::names(vec_predictor_has_sufficient_observations)[
+      !vec_predictor_has_sufficient_observations
+    ]
+
+  if (
+    base::length(vec_undersampled_predictors) > 0L &&
+      base::isTRUE(verbose)
+  ) {
+    cli::cli_warn(
+      base::c(
+        "!" = stringr::str_c(
+          "{base::length(vec_undersampled_predictors)} predictor(s) with ",
+          "insufficient finite observations dropped before collinearity ",
+          "analysis:"
+        ),
+        "i" = "{.val {vec_undersampled_predictors}}"
+      )
+    )
+  }
+
+  vec_predictor_has_variation <-
+    data_predictor_values |>
     purrr::map_lgl(
-      .f = ~ stats::sd(.x, na.rm = TRUE) > 0
+      .f = ~ {
+        vec_values_finite <-
+          .x[base::is.finite(.x)]
+        base::length(vec_values_finite) >= 2L &&
+          stats::sd(vec_values_finite) > 0
+      }
     )
 
   vec_zero_variance_predictors <-
     base::names(vec_predictor_has_variation)[
-      !vec_predictor_has_variation
+      vec_predictor_has_sufficient_observations &
+        !vec_predictor_has_variation
     ]
 
   if (

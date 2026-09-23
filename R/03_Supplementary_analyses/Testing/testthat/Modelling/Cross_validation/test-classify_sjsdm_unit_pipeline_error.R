@@ -328,3 +328,29 @@ testthat::test_that(
     testthat::expect_true(base::is.na(res[["reason_code"]]))
   }
 )
+
+testthat::test_that(
+  "insufficient abiotic observations are expected infeasibility",
+  {
+    data_errors <-
+      tibble::tibble(
+        name = "list_abiotic_collinearity_genus",
+        error = stringr::str_c(
+          "✖ Too few abiotic observations to evaluate predictor collinearity.",
+          " ",
+          "ℹ Found 2 row(s) but at least 3 are required."
+        )
+      )
+
+    res <-
+      classify_sjsdm_unit_pipeline_error(data_errors)
+
+    testthat::expect_identical(res[["status"]], "expected_infeasible")
+    testthat::expect_identical(
+      res[["reason_code"]],
+      "insufficient_abiotic_observations"
+    )
+    testthat::expect_identical(res[["observed_count"]], 2L)
+    testthat::expect_identical(res[["required_count"]], 3L)
+  }
+)

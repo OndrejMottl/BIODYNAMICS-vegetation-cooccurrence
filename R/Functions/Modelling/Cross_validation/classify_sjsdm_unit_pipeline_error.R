@@ -71,6 +71,12 @@ classify_sjsdm_unit_pipeline_error <- function(
         "^.*No columns with non-zero variance remain after removing",
         "\\s+constant\\s+columns[.]"
       ),
+      "insufficient_abiotic_observations",
+      "^list_abiotic_collinearity(?:_|$)",
+      stringr::str_c(
+        "^.*Too few abiotic observations to evaluate predictor ",
+        "collinearity[.]"
+      ),
       "no_spatial_records",
       "^data_vegvault_extracted(?:_|$)",
       "^VegVault extraction returned zero rows[.]",
@@ -251,6 +257,7 @@ classify_sjsdm_unit_pipeline_error <- function(
           "no_taxa_after_minimum_sample_count",
           "empty_community",
           "no_abiotic_variation",
+          "insufficient_abiotic_observations",
           "no_spatial_records"
         )
   ) {
