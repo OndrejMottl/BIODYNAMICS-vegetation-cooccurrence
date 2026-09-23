@@ -8,6 +8,8 @@
 #' Error metadata captured after execution.
 #' @return
 #' A tibble of new error records with `name`, `error`, and `time` columns.
+#' Direct target errors precede cascading dependency-load errors while the
+#' original order is retained within both groups.
 #' @export
 extract_new_target_errors <- function(
     data_errors_before = NULL,
@@ -40,9 +42,17 @@ extract_new_target_errors <- function(
         dplyr::filter(
           !base::is.na(.data[["error"]]),
           base::nzchar(.data[["error"]])
-        ),
+      ),
       by = dplyr::join_by(name, error, time)
-    )
+    ) |>
+    dplyr::mutate(
+      flag_dependency_error = base::startsWith(
+        base::tolower(.data[["error"]]),
+        "could not load dependency"
+      )
+    ) |>
+    dplyr::arrange(.data[["flag_dependency_error"]]) |>
+    dplyr::select(-dplyr::all_of("flag_dependency_error"))
 
   base::return(res)
 }
