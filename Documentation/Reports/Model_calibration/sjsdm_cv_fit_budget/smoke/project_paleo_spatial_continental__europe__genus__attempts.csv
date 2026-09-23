@@ -1,0 +1,2 @@
+budget_order,candidate_id,repeat_id,fold_id,attempt,n_iter_budget,n_sampling,epochs_run,linear_trend_slope,median_diff,converged,early_stopping_triggered,runtime_seconds,fit_seed,fit_status,error_message
+1,candidate_001,1,1,1,500,100,384,0,0,TRUE,TRUE,61.53999999999999,870878574,ok,NA

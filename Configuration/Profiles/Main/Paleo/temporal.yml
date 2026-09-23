@@ -17,7 +17,7 @@ project_paleo_temporal_europe:
     cross_validation:
       tier_id: "paleo_temporal_europe"
       fit_budget:
-        calibration_status: "pending_calibration"
+        calibration_status: "calibrated"
         n_iter_initial: 500
         n_iter_max: 2000
         n_sampling: 200
@@ -57,9 +57,9 @@ project_paleo_temporal_america:
     cross_validation:
       tier_id: "paleo_temporal_america"
       fit_budget:
-        calibration_status: "pending_calibration"
-        n_iter_initial: 500
-        n_iter_max: 2000
+        calibration_status: "calibrated"
+        n_iter_initial: 1000
+        n_iter_max: 4000
         n_sampling: 200
         n_step_size: ~
         n_early_stopping: ~
@@ -97,9 +97,9 @@ project_paleo_temporal_asia:
     cross_validation:
       tier_id: "paleo_temporal_asia"
       fit_budget:
-        calibration_status: "pending_calibration"
-        n_iter_initial: 500
-        n_iter_max: 2000
+        calibration_status: "calibrated"
+        n_iter_initial: 1000
+        n_iter_max: 4000
         n_sampling: 200
         n_step_size: ~
         n_early_stopping: ~
