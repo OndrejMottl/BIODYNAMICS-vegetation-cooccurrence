@@ -59,6 +59,10 @@ testthat::test_that(
       base::sum(dplyr::pull(data_calibration, selected)),
       1L
     )
+    testthat::expect_type(
+      data_calibration[["median_locations_per_cell"]],
+      "double"
+    )
   }
 )
 
@@ -90,6 +94,34 @@ testthat::test_that(
         dplyr::pull(data_calibration, selection_status) ==
           "no_eligible_grid"
       )
+    )
+  }
+)
+
+testthat::test_that(
+  "compute_cross_validation_grid_calibration() stabilizes median type",
+  {
+    data_locations <-
+      tibble::tibble(
+        location_id = base::letters[1:6],
+        coord_x_km = base::seq_len(6L),
+        coord_y_km = base::rep(0, 6L),
+        n_samples = base::rep(1L, 6L),
+        row_indices = base::as.list(base::seq_len(6L))
+      )
+
+    data_calibration <-
+      compute_cross_validation_grid_calibration(
+        data_locations = data_locations,
+        candidate_grid_cell_sizes_km = 100,
+        n_folds = 3L,
+        n_repeats = 1L,
+        target_locations_per_cell = 2L
+      )
+
+    testthat::expect_type(
+      data_calibration[["median_locations_per_cell"]],
+      "double"
     )
   }
 )

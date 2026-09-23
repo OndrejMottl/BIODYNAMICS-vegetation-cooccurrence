@@ -249,7 +249,8 @@ compute_cross_validation_grid_calibration <- function(
           base::as.numeric()
 
         median_locations_per_cell <-
-          stats::median(data_cell_counts[["n_locations"]])
+          stats::median(data_cell_counts[["n_locations"]]) |>
+          base::as.numeric()
 
         occupancy_value <-
           dplyr::case_when(

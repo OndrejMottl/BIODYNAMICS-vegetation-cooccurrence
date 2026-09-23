@@ -79,18 +79,19 @@ compute_cross_validation_grid_calibration_from_resolution <- function(
     msg = "The resolved `cv_strategy` is not supported."
   )
 
+  # Exact empty-column types must match the shared artifact contract.
   data_empty_calibration <-
     tibble::tibble(
       grid_cell_size_km = base::numeric(),
       mean_occupied_cells = base::numeric(),
-      minimum_locations_per_cell = base::numeric(),
+      minimum_locations_per_cell = base::integer(),
       lower_quantile_locations_per_cell = base::numeric(),
       median_locations_per_cell = base::numeric(),
       occupancy_criterion = base::character(),
       occupancy_value = base::numeric(),
-      target_locations_per_cell = base::numeric(),
-      maximum_fold_location_difference = base::numeric(),
-      maximum_fold_sample_difference = base::numeric(),
+      target_locations_per_cell = base::integer(),
+      maximum_fold_location_difference = base::integer(),
+      maximum_fold_sample_difference = base::integer(),
       eligible = base::logical(),
       selected = base::logical(),
       selection_status = base::character()
