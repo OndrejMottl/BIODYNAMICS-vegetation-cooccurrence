@@ -222,6 +222,51 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "run_pipeline_units_with_status() skips proven infeasible units",
+  {
+    environment_calls <-
+      base::new.env(parent = base::emptyenv())
+    environment_calls[["scale_ids"]] <- base::character()
+
+    run_pipeline_function <- function(sel_script, store_suffix) {
+      environment_calls[["scale_ids"]] <-
+        base::c(environment_calls[["scale_ids"]], store_suffix)
+      base::invisible(NULL)
+    }
+
+    res <-
+      run_pipeline_units_with_status(
+        scale_ids = base::c("unit_a", "unit_b", "unit_c"),
+        sel_script = "pipeline.R",
+        expected_infeasible_scale_ids = "unit_b",
+        run_pipeline_function = run_pipeline_function,
+        progress = FALSE,
+        verbose = FALSE
+      )
+
+    testthat::expect_identical(
+      res[["pipeline_status"]],
+      base::c("ok", "expected_infeasible", "ok")
+    )
+    testthat::expect_identical(
+      environment_calls[["scale_ids"]],
+      base::c("unit_a", "unit_c")
+    )
+    testthat::expect_true(base::is.na(res[["error_message"]][[2L]]))
+    testthat::expect_error(
+      run_pipeline_units_with_status(
+        scale_ids = "unit_a",
+        sel_script = "pipeline.R",
+        expected_infeasible_scale_ids = "unknown",
+        run_pipeline_function = run_pipeline_function,
+        progress = FALSE
+      ),
+      "expected_infeasible_scale_ids"
+    )
+  }
+)
+
+testthat::test_that(
   "temporal preparation components cannot fit models",
   {
     runner_paths <-

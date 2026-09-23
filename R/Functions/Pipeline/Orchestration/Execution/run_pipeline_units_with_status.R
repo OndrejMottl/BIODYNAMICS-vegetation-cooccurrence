@@ -13,11 +13,15 @@
 #' Logical scalar controlling the progress indicator. Defaults to `TRUE`.
 #' @param verbose
 #' Logical scalar controlling per-unit status messages. Defaults to `TRUE`.
+#' @param expected_infeasible_scale_ids
+#' Units with current preparation evidence proving no model is possible.
+#' These units are recorded but never sent to the pipeline runner.
 #' @param ...
 #' Additional named arguments passed to `run_pipeline_function`.
 #' @return
 #' Tibble with one row per requested unit and columns `scale_id`,
-#' `pipeline_status` (`"ok"` or `"error"`), and `error_message`.
+#' `pipeline_status` (`"ok"`, `"expected_infeasible"`, or
+#' `"error"`), and `error_message`.
 #' @details
 #' This helper is intended for post-selection full-unit execution. Tuning uses
 #' its own status capture and excludes failed stores from tier aggregation.
@@ -36,7 +40,8 @@ run_pipeline_units_with_status <- function(
     run_pipeline_function = run_pipeline,
     progress = TRUE,
     ...,
-    verbose = TRUE) {
+    verbose = TRUE,
+    expected_infeasible_scale_ids = base::character()) {
   flag_valid_scale_ids <-
     base::is.character(scale_ids) &&
     base::length(scale_ids) > 0L &&
@@ -72,6 +77,20 @@ run_pipeline_units_with_status <- function(
     msg = "`verbose` must be `TRUE` or `FALSE`."
   )
 
+  flag_valid_expected_infeasible_ids <-
+    base::is.character(expected_infeasible_scale_ids) &&
+    base::all(!base::is.na(expected_infeasible_scale_ids)) &&
+    !base::any(base::duplicated(expected_infeasible_scale_ids)) &&
+    base::all(expected_infeasible_scale_ids %in% scale_ids)
+
+  assertthat::assert_that(
+    flag_valid_expected_infeasible_ids,
+    msg = stringr::str_c(
+      "`expected_infeasible_scale_ids` must be unique IDs ",
+      "included in `scale_ids`."
+    )
+  )
+
   additional_arguments <-
     base::list(...)
 
@@ -102,6 +121,27 @@ run_pipeline_units_with_status <- function(
     purrr::map(
       .progress = progress,
       .f = function(scale_id) {
+        if (
+          scale_id %in% expected_infeasible_scale_ids
+        ) {
+          if (
+            base::isTRUE(verbose)
+          ) {
+            base::message(
+              "Skipping expected-infeasible spatial unit: ",
+              scale_id
+            )
+          }
+
+          return(
+            tibble::tibble(
+              scale_id = scale_id,
+              pipeline_status = "expected_infeasible",
+              error_message = NA_character_
+            )
+          )
+        }
+
         if (
           base::isTRUE(verbose)
         ) {
