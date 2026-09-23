@@ -572,6 +572,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_unit_fitting_plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_sjsdm_unit_fitting_plan()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/build_spatial_cross_validation_assignments.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_spatial_cross_validation_assignments()</span></a>
   </div>
@@ -1012,6 +1018,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_cross_validated_predictions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_sjsdm_cross_validated_predictions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_cv_repeat_confirmation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">evaluate_sjsdm_cv_repeat_confirmation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2515,7 +2527,7 @@ Assign Accepted sjSDM CV Budgets to Production Units
 Description
 </h3>
 <p>
-Assigns the most demanding accepted median/maximum representative budget to ordinary units within each analysis-tier-continent-resolution group. A benchmarked historical outlier or temporal profile keeps its own accepted budget.
+Assigns each maximum-complexity representative budget to all spatial units in its analysis-tier-continent-resolution group. Groups without an eligible representative inherit the most conservative accepted budget in the same analysis-tier-resolution stratum. Eligible temporal profiles keep their own accepted budgets; ineligible profiles use the same conservative fallback. Production escalation handles unit exceptions.
 </p>
 <h3 class="anchored">
 Usage

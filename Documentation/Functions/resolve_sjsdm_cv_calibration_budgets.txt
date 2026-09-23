@@ -2,10 +2,13 @@ Assign Accepted sjSDM CV Budgets to Production Units
 
 Description:
 
-     Assigns the most demanding accepted median/maximum representative
-     budget to ordinary units within each
-     analysis-tier-continent-resolution group. A benchmarked historical
-     outlier or temporal profile keeps its own accepted budget.
+     Assigns each maximum-complexity representative budget to all
+     spatial units in its analysis-tier-continent-resolution group.
+     Groups without an eligible representative inherit the most
+     conservative accepted budget in the same analysis-tier-resolution
+     stratum. Eligible temporal profiles keep their own accepted
+     budgets; ineligible profiles use the same conservative fallback.
+     Production escalation handles unit exceptions.
 
 Usage:
 

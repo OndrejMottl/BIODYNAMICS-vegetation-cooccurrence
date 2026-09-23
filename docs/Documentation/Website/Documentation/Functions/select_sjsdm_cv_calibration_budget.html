@@ -572,6 +572,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_unit_fitting_plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_sjsdm_unit_fitting_plan()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/build_spatial_cross_validation_assignments.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_spatial_cross_validation_assignments()</span></a>
   </div>
@@ -1012,6 +1018,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_cross_validated_predictions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_sjsdm_cross_validated_predictions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_cv_repeat_confirmation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">evaluate_sjsdm_cv_repeat_confirmation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2515,7 +2527,7 @@ Select a Stable sjSDM CV Calibration Budget
 Description
 </h3>
 <p>
-Selects the smallest benchmark budget whose repeat-one winner is converged and stable at the next rung, then confirms the same winner in repeat two.
+Selects the smallest benchmark budget whose repeat-one winner is converged and stable at the next rung, then confirms that candidate in repeat two as either the exact winner or a practically equivalent candidate.
 </p>
 <h3 class="anchored">
 Usage
@@ -2523,7 +2535,7 @@ Usage
 <pre><code class="language-R">select_sjsdm_cv_calibration_budget(
   data_benchmark = NULL,
   rank_threshold = 0.95,
-  relative_loss_tolerance = 0.01,
+  relative_loss_tolerance = 0.02,
   n_folds_expected = 5L,
   require_repeat_two = TRUE
 )
@@ -2558,7 +2570,7 @@ Minimum Spearman candidate-loss rank correlation. Defaults to ‘0.95’.
 </td>
 <td>
 <p>
-Maximum relative winning-loss change. Defaults to ‘0.01’.
+Maximum relative winning-loss change between rungs and maximum relative gap above the repeat-two winner. Defaults to ‘0.02’.
 </p>
 </td>
 </tr>
@@ -2578,7 +2590,7 @@ Required fold coverage for every candidate and budget. Defaults to five.
 </td>
 <td>
 <p>
-Whether acceptance requires the same winning candidate in repeat two.
+Whether acceptance requires repeat-two practical equivalence.
 </p>
 </td>
 </tr>

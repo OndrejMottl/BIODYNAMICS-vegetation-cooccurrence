@@ -15,11 +15,15 @@ Usage:
        sel_abiotic_formula = NULL,
        config_sjsdm_cv_fitting = NULL,
        repeat_ids = 1L,
+       fold_ids = NULL,
+       work_checkpoint_file = NULL,
+       calibration_stage = "calibration",
        seed = 900723L,
        device = "gpu",
        candidate_fit_function = fit_sjsdm_cross_validation_candidate,
        predict_function = predict_sjsdm_probability_matrix,
-       score_function = score_sjsdm_joint_tuning_predictions
+       score_function = score_sjsdm_joint_tuning_predictions,
+       verbose = TRUE
      )
 
 Arguments:
@@ -36,10 +40,21 @@ sel_abiotic_formula, config_sjsdm_cv_fitting: Model formula and
 
 repeat_ids: Integer repeats to execute.
 
+fold_ids: Optional positive integer fold IDs to retain. `NULL` keeps
+          all folds.
+
+work_checkpoint_file: Optional `.qs` file that persists each completed
+          candidate-fold result.
+
+calibration_stage: Character label used in progress messages and
+          checkpoint provenance.
+
 seed, device: Deterministic seed and fitting device.
 
 candidate_fit_function, predict_function, score_function: Injectable
           fitting, prediction, and scoring backends.
+
+ verbose: Logical. If `TRUE`, progress is printed to the console.
 
 Value:
 

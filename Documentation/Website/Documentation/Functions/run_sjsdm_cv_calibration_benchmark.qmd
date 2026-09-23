@@ -24,9 +24,9 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Executes repeat one rung by rung on cached folds. After each adjacent pair,
-it runs repeat two at the smaller budget and stops at the first budget that
-satisfies the registered convergence and stability criteria.
+<p>Screens all candidates on three folds at a reduced sampling budget. After
+each stable adjacent-rung pair, it confirms the winner and runner-up on all
+five folds of repeats one and two at the production sampling budget.
 </p>
 
 
@@ -38,8 +38,14 @@ satisfies the registered convergence and stability criteria.
   sel_abiotic_formula = NULL,
   config_sjsdm_cv_fitting = NULL,
   data_ladder = build_sjsdm_cv_calibration_ladder(),
-  n_folds_expected = 5L,
+  screening_fold_ids = 1:3,
+  confirmation_fold_ids = 1:5,
+  confirmation_sampling = 200L,
+  n_confirmation_candidates = 2L,
+  repeat_confirmation_loss_tolerance = 0.02,
+  checkpoint_file = NULL,
   rung_function = run_sjsdm_cv_calibration_rung,
+  verbose = TRUE,
   ...
 )
 </code></pre>
@@ -60,13 +66,33 @@ satisfies the registered convergence and stability criteria.
 <td>
 <p>Ordered budget ladder from [build_sjsdm_cv_calibration_ladder()].</p>
 </td></tr>
-<tr><td><code id="n_folds_expected">n_folds_expected</code></td>
+<tr><td><code id="screening_fold_ids">screening_fold_ids</code>, <code id="confirmation_fold_ids">confirmation_fold_ids</code></td>
 <td>
-<p>Required complete fold count. Defaults to five.</p>
+<p>Deterministic fold IDs used for screening and confirmation.</p>
+</td></tr>
+<tr><td><code id="confirmation_sampling">confirmation_sampling</code></td>
+<td>
+<p>Production sampling budget used for confirmation.</p>
+</td></tr>
+<tr><td><code id="n_confirmation_candidates">n_confirmation_candidates</code></td>
+<td>
+<p>Number of leading screening candidates retained for confirmation.</p>
+</td></tr>
+<tr><td><code id="repeat_confirmation_loss_tolerance">repeat_confirmation_loss_tolerance</code></td>
+<td>
+<p>Maximum relative loss gap allowed above the repeat-two winner.</p>
+</td></tr>
+<tr><td><code id="checkpoint_file">checkpoint_file</code></td>
+<td>
+<p>Optional '.qs' path used to resume completed rungs after interruption.</p>
 </td></tr>
 <tr><td><code id="rung_function">rung_function</code></td>
 <td>
 <p>Injectable rung executor for deterministic orchestration tests.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE', progress is printed to the console.</p>
 </td></tr>
 <tr><td><code id="...">...</code></td>
 <td>

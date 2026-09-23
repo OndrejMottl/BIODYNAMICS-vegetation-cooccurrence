@@ -1,5 +1,7 @@
 # Model Fitting Parameter Tuning Guide
 
+> **Scope notice:** This is the legacy guide for diagnosing and manually adjusting final full-data models. It does not describe the current five-stage reproduction workflow or separate CV fit-budget calibration. Read [Main analysis workflow: from raw data to figures](main_analysis_workflow_guide.md) first. In the current workflow, `n_iter`, `n_sampling`, `n_step_size`, `n_early_stopping`, and `n_samples_anova` are final-model parameters; corresponding `cv_*` fields are calibrated separately in stage 02. Human-authored configuration fragments and spatial tuning CSVs are authoritative, while root `config.yml` is generated.
+
 After a pipeline run completes, use this guide to assess whether the model converged well and how to adjust the key parameters in `config.yml` before re-running.
 
 ---

@@ -572,6 +572,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_unit_fitting_plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_sjsdm_unit_fitting_plan()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/build_spatial_cross_validation_assignments.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_spatial_cross_validation_assignments()</span></a>
   </div>
@@ -1012,6 +1018,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_cross_validated_predictions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_sjsdm_cross_validated_predictions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_cv_repeat_confirmation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">evaluate_sjsdm_cv_repeat_confirmation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2547,6 +2559,12 @@ Exact Moran-eigenvector construction function.
 </td>
 </tr>
 </tbody></table>
+<h3 class="anchored">
+Details
+</h3>
+<p>
+‘sjSDM::generateSpatialEV()’ drops matrix dimensions when exactly one positive eigenvector is available and then errors while naming columns. This helper detects only that error and repeats the same calculation with dimension-preserving subsetting.
+</p>
 <h3 class="anchored">
 Value
 </h3>

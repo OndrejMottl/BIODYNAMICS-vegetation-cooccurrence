@@ -37,7 +37,8 @@ while retaining an explicit status row for every requested unit.
   run_pipeline_function = run_pipeline,
   progress = TRUE,
   ...,
-  verbose = TRUE
+  verbose = TRUE,
+  expected_infeasible_scale_ids = base::character()
 )
 </code></pre>
 
@@ -70,6 +71,11 @@ arguments supplied through '...'. Defaults to [run_pipeline()].</p>
 <td>
 <p>Logical scalar controlling per-unit status messages. Defaults to 'TRUE'.</p>
 </td></tr>
+<tr><td><code id="expected_infeasible_scale_ids">expected_infeasible_scale_ids</code></td>
+<td>
+<p>Units with current preparation evidence proving no model is possible.
+These units are recorded but never sent to the pipeline runner.</p>
+</td></tr>
 </table>
 
 
@@ -83,7 +89,8 @@ its own status capture and excludes failed stores from tier aggregation.
 <h3>Value</h3>
 
 <p>Tibble with one row per requested unit and columns 'scale_id',
-'pipeline_status' ('&quot;ok&quot;' or '&quot;error&quot;'), and 'error_message'.
+'pipeline_status' ('&quot;ok&quot;', '&quot;expected_infeasible&quot;', or
+'&quot;error&quot;'), and 'error_message'.
 </p>
 
 

@@ -21,7 +21,8 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>Selects the smallest benchmark budget whose repeat-one winner is converged
-and stable at the next rung, then confirms the same winner in repeat two.
+and stable at the next rung, then confirms that candidate in repeat two as
+either the exact winner or a practically equivalent candidate.
 </p>
 
 
@@ -30,7 +31,7 @@ and stable at the next rung, then confirms the same winner in repeat two.
 <pre><code class='language-R'>select_sjsdm_cv_calibration_budget(
   data_benchmark = NULL,
   rank_threshold = 0.95,
-  relative_loss_tolerance = 0.01,
+  relative_loss_tolerance = 0.02,
   n_folds_expected = 5L,
   require_repeat_two = TRUE
 )
@@ -51,7 +52,8 @@ and normalized held-out loss columns.</p>
 </td></tr>
 <tr><td><code id="relative_loss_tolerance">relative_loss_tolerance</code></td>
 <td>
-<p>Maximum relative winning-loss change. Defaults to '0.01'.</p>
+<p>Maximum relative winning-loss change between rungs and maximum relative
+gap above the repeat-two winner. Defaults to '0.02'.</p>
 </td></tr>
 <tr><td><code id="n_folds_expected">n_folds_expected</code></td>
 <td>
@@ -59,7 +61,7 @@ and normalized held-out loss columns.</p>
 </td></tr>
 <tr><td><code id="require_repeat_two">require_repeat_two</code></td>
 <td>
-<p>Whether acceptance requires the same winning candidate in repeat two.</p>
+<p>Whether acceptance requires repeat-two practical equivalence.</p>
 </td></tr>
 </table>
 

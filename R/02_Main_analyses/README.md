@@ -2,6 +2,8 @@
 
 This directory is an executable, numbered reproduction workflow. Run exactly one master script in each folder, from `01_Preparation` through `05_Visualisation`. The master scripts run their `_components/` sequentially in isolated R sessions, stream progress, and write logs under `Data/Temp/Main_analysis_execution/`.
 
+For a detailed explanation of what is prepared, calibrated, tuned, fitted, cached, and resumed, read [Main analysis workflow: from raw data to figures](../../Documentation/Materials/main_analysis_workflow_guide.md).
+
 ```powershell
 Rscript R/02_Main_analyses/01_Preparation/01_run_preparation.R
 Rscript R/02_Main_analyses/02_Model_calibration/01_run_model_calibration.R

@@ -2,9 +2,11 @@ Select sjSDM CV Calibration Representatives
 
 Description:
 
-     Deterministically selects median- and maximum-complexity spatial
-     units, historical fitting outliers, and every supplied paleo
-     temporal profile.
+     Deterministically selects the maximum-complexity spatial unit in
+     each analysis-tier-resolution group across continents and every
+     supplied eligible paleo temporal profile. Historical final-model
+     outliers are retained in provenance but do not trigger independent
+     CV ladders.
 
 Usage:
 

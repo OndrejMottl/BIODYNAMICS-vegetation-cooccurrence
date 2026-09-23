@@ -24,15 +24,26 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Constructs the fixed iteration ladder at sampling 200 followed by the
-maximum-iteration sampling ladder used only when iteration calibration fails.
+<p>Constructs the fixed iteration ladder at the configured screening sampling
+followed by the maximum-iteration sampling ladder used only when iteration
+calibration fails.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>build_sjsdm_cv_calibration_ladder()
+<pre><code class='language-R'>build_sjsdm_cv_calibration_ladder(iteration_sampling = 100L)
 </code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="iteration_sampling">iteration_sampling</code></td>
+<td>
+<p>Positive integer sampling budget used for the iteration-screening rungs.</p>
+</td></tr>
+</table>
 
 
 <h3>Value</h3>

@@ -572,6 +572,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_unit_fitting_plan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_sjsdm_unit_fitting_plan()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/build_spatial_cross_validation_assignments.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_spatial_cross_validation_assignments()</span></a>
   </div>
@@ -1012,6 +1018,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_cross_validated_predictions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">evaluate_sjsdm_cross_validated_predictions()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/evaluate_sjsdm_cv_repeat_confirmation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">evaluate_sjsdm_cv_repeat_confirmation()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2515,7 +2527,7 @@ Select sjSDM CV Calibration Representatives
 Description
 </h3>
 <p>
-Deterministically selects median- and maximum-complexity spatial units, historical fitting outliers, and every supplied paleo temporal profile.
+Deterministically selects the maximum-complexity spatial unit in each analysis-tier-resolution group across continents and every supplied eligible paleo temporal profile. Historical final-model outliers are retained in provenance but do not trigger independent CV ladders.
 </p>
 <h3 class="anchored">
 Usage

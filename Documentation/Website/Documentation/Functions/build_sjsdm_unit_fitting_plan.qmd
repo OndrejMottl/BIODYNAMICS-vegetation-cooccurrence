@@ -1,0 +1,80 @@
+---
+format: html
+title: build_sjsdm_unit_fitting_plan()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_sjsdm_unit_fitting_plan</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build an sjSDM Unit Fitting Plan</h2>
+
+<h3>Description</h3>
+
+<p>Validates preparation evidence for one analysis tier and classifies each
+requested unit as eligible for fitting or expected infeasible.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_sjsdm_unit_fitting_plan(
+  data_preparation_inventory = NULL,
+  analysis_id = NULL,
+  tier_id = NULL,
+  scale_ids = NULL,
+  resolution_ids = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_preparation_inventory">data_preparation_inventory</code></td>
+<td>
+<p>Data frame containing preparation evidence by analysis, tier, unit, and
+resolution.</p>
+</td></tr>
+<tr><td><code id="analysis_id">analysis_id</code></td>
+<td>
+<p>Character scalar identifying the analysis.</p>
+</td></tr>
+<tr><td><code id="tier_id">tier_id</code></td>
+<td>
+<p>Character scalar identifying the spatial tier.</p>
+</td></tr>
+<tr><td><code id="scale_ids">scale_ids</code></td>
+<td>
+<p>Unique character vector of requested unit identifiers.</p>
+</td></tr>
+<tr><td><code id="resolution_ids">resolution_ids</code></td>
+<td>
+<p>Unique character vector of required resolutions.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Tibble with one row per requested unit and columns 'scale_id',
+'fitting_status', and 'preparation_reason_code'.
+</p>
+
+</main>
+
+</div>
+</body></html>

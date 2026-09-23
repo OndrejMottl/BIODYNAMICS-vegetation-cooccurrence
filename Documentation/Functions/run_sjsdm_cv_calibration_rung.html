@@ -34,11 +34,15 @@ for one or more repeats at one fixed iteration and sampling budget.
   sel_abiotic_formula = NULL,
   config_sjsdm_cv_fitting = NULL,
   repeat_ids = 1L,
+  fold_ids = NULL,
+  work_checkpoint_file = NULL,
+  calibration_stage = "calibration",
   seed = 900723L,
   device = "gpu",
   candidate_fit_function = fit_sjsdm_cross_validation_candidate,
   predict_function = predict_sjsdm_probability_matrix,
-  score_function = score_sjsdm_joint_tuning_predictions
+  score_function = score_sjsdm_joint_tuning_predictions,
+  verbose = TRUE
 )
 </code></pre>
 
@@ -66,6 +70,18 @@ for one or more repeats at one fixed iteration and sampling budget.
 <td>
 <p>Integer repeats to execute.</p>
 </td></tr>
+<tr><td><code id="fold_ids">fold_ids</code></td>
+<td>
+<p>Optional positive integer fold IDs to retain. 'NULL' keeps all folds.</p>
+</td></tr>
+<tr><td><code id="work_checkpoint_file">work_checkpoint_file</code></td>
+<td>
+<p>Optional '.qs' file that persists each completed candidate-fold result.</p>
+</td></tr>
+<tr><td><code id="calibration_stage">calibration_stage</code></td>
+<td>
+<p>Character label used in progress messages and checkpoint provenance.</p>
+</td></tr>
 <tr><td><code id="seed">seed</code>, <code id="device">device</code></td>
 <td>
 <p>Deterministic seed and fitting device.</p>
@@ -73,6 +89,10 @@ for one or more repeats at one fixed iteration and sampling budget.
 <tr><td><code id="candidate_fit_function">candidate_fit_function</code>, <code id="predict_function">predict_function</code>, <code id="score_function">score_function</code></td>
 <td>
 <p>Injectable fitting, prediction, and scoring backends.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE', progress is printed to the console.</p>
 </td></tr>
 </table>
 

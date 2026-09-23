@@ -1,0 +1,35 @@
+Build an sjSDM Unit Fitting Plan
+
+Description:
+
+     Validates preparation evidence for one analysis tier and
+     classifies each requested unit as eligible for fitting or expected
+     infeasible.
+
+Usage:
+
+     build_sjsdm_unit_fitting_plan(
+       data_preparation_inventory = NULL,
+       analysis_id = NULL,
+       tier_id = NULL,
+       scale_ids = NULL,
+       resolution_ids = NULL
+     )
+
+Arguments:
+
+data_preparation_inventory: Data frame containing preparation evidence
+          by analysis, tier, unit, and resolution.
+
+analysis_id: Character scalar identifying the analysis.
+
+ tier_id: Character scalar identifying the spatial tier.
+
+scale_ids: Unique character vector of requested unit identifiers.
+
+resolution_ids: Unique character vector of required resolutions.
+
+Value:
+
+     Tibble with one row per requested unit and columns `scale_id`,
+     `fitting_status`, and `preparation_reason_code`.
