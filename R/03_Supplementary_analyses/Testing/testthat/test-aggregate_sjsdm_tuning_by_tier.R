@@ -155,6 +155,79 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "aggregate_sjsdm_tuning_by_tier() accepts staged repeat coverage",
+  {
+    data_tuning_summary <-
+      make_tier_tuning_test_data() |>
+      dplyr::filter(
+        !(
+          .data[["candidate_id"]] == "candidate_002" &
+            .data[["repeat_id"]] == 2L
+        )
+      )
+
+    res <-
+      aggregate_sjsdm_tuning_by_tier(
+        data_tuning_summary = data_tuning_summary
+      )
+
+    data_source_loss <-
+      res[["source_candidate_loss"]] |>
+      dplyr::arrange(
+        .data[["source_id"]],
+        .data[["candidate_id"]]
+      )
+
+    testthat::expect_identical(
+      data_source_loss[["n_repeats"]],
+      base::rep(base::c(2L, 1L), 2L)
+    )
+    testthat::expect_true(
+      base::all(
+        res[["candidate_aggregation"]][["aggregation_status"]] ==
+          "ok"
+      )
+    )
+  }
+)
+
+testthat::test_that(
+  "aggregate_sjsdm_tuning_by_tier() omits infeasible sources",
+  {
+    data_tuning_summary <-
+      make_tier_tuning_test_data() |>
+      dplyr::mutate(
+        summary_status = dplyr::if_else(
+          .data[["source_id"]] == "small_id",
+          "incomplete",
+          .data[["summary_status"]]
+        ),
+        negative_log_likelihood_per_response = dplyr::if_else(
+          .data[["summary_status"]] == "incomplete",
+          NA_real_,
+          .data[["negative_log_likelihood_per_response"]]
+        )
+      )
+
+    res <-
+      aggregate_sjsdm_tuning_by_tier(
+        data_tuning_summary = data_tuning_summary
+      )
+
+    testthat::expect_setequal(
+      res[["source_candidate_loss"]][["source_id"]],
+      "large_id"
+    )
+    testthat::expect_true(
+      base::all(
+        res[["candidate_aggregation"]][["aggregation_status"]] ==
+          "ok"
+      )
+    )
+  }
+)
+
+testthat::test_that(
   "aggregate_sjsdm_tuning_by_tier() rejects mixed model contexts",
   {
     data_tuning_summary <-

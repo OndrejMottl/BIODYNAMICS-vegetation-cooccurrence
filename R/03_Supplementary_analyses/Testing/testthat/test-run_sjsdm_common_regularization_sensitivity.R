@@ -57,7 +57,7 @@ testthat::test_that(
           predictor_structure = "n_mev=4",
           candidate_table_hash = "candidate_hash"
         ),
-        data_sjsdm_model_provenance_genus = tibble::tibble(
+        data_sjsdm_cv_model_provenance_genus = tibble::tibble(
           cv_strategy = "grouped_kfold",
           effective_folds = 5L,
           n_locations = 20L,
@@ -191,7 +191,7 @@ testthat::test_that(
       }
 
       if (
-        stringr::str_starts(name, "data_sjsdm_model_provenance_")
+        stringr::str_starts(name, "data_sjsdm_cv_model_provenance_")
       ) {
         return(tibble::tibble(cv_strategy = "grouped_kfold"))
       }

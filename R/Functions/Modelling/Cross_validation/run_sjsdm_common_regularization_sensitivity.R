@@ -199,7 +199,7 @@ run_sjsdm_common_regularization_sensitivity <- function(
             data_primary_provenance <-
               read_target_function(
                 name = stringr::str_c(
-                  "data_sjsdm_model_provenance_",
+                  "data_sjsdm_cv_model_provenance_",
                   resolution_id
                 ),
                 store = store_path
