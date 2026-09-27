@@ -3,22 +3,19 @@
 #
 #                 Vegetation Co-occurrence
 #
-#             Visualise functional-type comparison
+#          Plot functional-type comparison
 #
 #                       O. Mottl
 #                         2026
 #
 #----------------------------------------------------------#
-# Compares paleo-derived and modern-derived functional-type
-#   classifications as a taxon reassignment heatmap, and compares
-#   available functional-type biotic model patterns.
+# Combines the stage 04 Europe trait-space ordination with paired paleo and
+# modern functional-type model results. Only the largest functional-type
+# centroids are labelled to preserve taxon-level structure and readability.
 # Workflow contract:
-#   Requires current dated paleo and modern functional-type classifications
-#   plus the latest matched paleo-modern unit comparison table.
-#   Classification files are resolved independently for each continent;
-#   missing matched classifications or model rows are fatal.
-#   The figure combines taxon reassignment and model-pattern comparisons and
-#   does not modify classifications, model stores, or synthesis tables.
+#   Run after spatial synthesis and the matched comparison are current.
+#   Reads plot-ready ordination and matched tables without opening stores.
+#   Writes one dated figure as PDF, TIFF, and PNG plus its exact CSV data.
 
 
 #----------------------------------------------------------#
@@ -27,297 +24,398 @@
 
 library(here)
 
-source(
+base::source(
   here::here("R/___setup_project___.R")
 )
 
 path_output_figures <-
   here::here("Outputs/Figures/Spatial")
-
+path_output_tables <-
+  here::here("Outputs/Tables/Visualisation")
 base::dir.create(
   path = path_output_figures,
   showWarnings = FALSE,
   recursive = TRUE
 )
+base::dir.create(
+  path = path_output_tables,
+  showWarnings = FALSE,
+  recursive = TRUE
+)
 
-# Graphical options shared across all plots in this script.
 graphical_options <-
   load_active_config_value("graphical")
-
+config_manuscript <-
+  resolve_manuscript_graphical_options(graphical_options)
 tag_date <-
   base::format(base::Sys.Date(), "%Y-%m-%d")
 
 
 #----------------------------------------------------------#
-# 1. Load FT classifications -----
+# 1. Load ordination and matched model synthesis -----
 #----------------------------------------------------------#
 
-vec_continents <-
-  readr::read_csv(
-    here::here("Data/Input/spatial_grid.csv"),
-    show_col_types = FALSE
-  ) |>
-  dplyr::filter(
-    .data$scale == "continental"
-  ) |>
-  dplyr::pull(.data$scale_id)
-
-data_ft_reassignment <-
-  vec_continents |>
-  rlang::set_names() |>
-  purrr::map(
-    .f = ~ {
-      sel_continent <- .x
-
-      file_paleo_ft <-
-        resolve_functional_type_classification_path(
-          continent_id = sel_continent
-        )
-
-      file_modern_ft <-
-        resolve_functional_type_classification_path(
-          continent_id = sel_continent,
-          classification_source_prefix = "modern"
-        )
-
-      data_paleo_ft <-
-        load_functional_type_classification(
-          path_classification_file = file_paleo_ft
-        ) |>
-        dplyr::rename(
-          functional_type_paleo = functional_type
-        )
-
-      data_modern_ft <-
-        load_functional_type_classification(
-          path_classification_file = file_modern_ft
-        ) |>
-        dplyr::rename(
-          functional_type_modern = functional_type
-        )
-
-      data_paleo_ft |>
-        dplyr::inner_join(
-          y = data_modern_ft,
-          by = dplyr::join_by(taxon_name),
-          multiple = "error"
-        ) |>
-        dplyr::mutate(
-          continent_id = sel_continent,
-          functional_type_paleo = stringr::str_glue(
-            "Paleo FT {functional_type_paleo}"
-          ),
-          functional_type_modern = stringr::str_glue(
-            "Modern FT {functional_type_modern}"
-          )
-        )
-    }
-  ) |>
-  purrr::list_rbind()
-
-if (
-  base::nrow(data_ft_reassignment) == 0L
-) {
-  cli::cli_abort("No matched paleo-modern FT classifications were found.")
-}
-
-data_ft_heatmap <-
-  data_ft_reassignment |>
-  dplyr::count(
-    .data$continent_id,
-    .data$functional_type_paleo,
-    .data$functional_type_modern,
-    name = "n_taxa"
+file_ordination_unit <-
+  resolve_latest_dated_file_path(
+    file_name_base = "functional_type_ordination_unit",
+    path_directory = here::here("Outputs/Tables"),
+    file_extension = "csv"
   )
-
-
-#----------------------------------------------------------#
-# 2. Load functional-type model comparison -----
-#----------------------------------------------------------#
-
+file_ordination_summary <-
+  resolve_latest_dated_file_path(
+    file_name_base = "functional_type_ordination_summary",
+    path_directory = here::here("Outputs/Tables"),
+    file_extension = "csv"
+  )
 file_comparison_unit <-
   resolve_latest_dated_file_path(
     file_name_base = "paleo_modern_patterns_comparison_unit",
     path_directory = here::here("Outputs/Tables"),
     file_extension = "csv"
   )
+file_comparison_coverage <-
+  resolve_latest_dated_file_path(
+    file_name_base = "paleo_modern_patterns_comparison_coverage",
+    path_directory = here::here("Outputs/Tables"),
+    file_extension = "csv"
+  )
 
-data_comparison_unit <-
+data_ordination_unit <-
   readr::read_csv(
-    file = file_comparison_unit,
+    file_ordination_unit,
     show_col_types = FALSE
   )
+data_ordination_summary <-
+  readr::read_csv(
+    file_ordination_summary,
+    show_col_types = FALSE
+  )
+data_matched_all <-
+  prepare_matched_paleo_modern_plot_data(
+    data_comparison_unit = readr::read_csv(
+      file_comparison_unit,
+      show_col_types = FALSE
+    ),
+    data_comparison_coverage = readr::read_csv(
+      file_comparison_coverage,
+      show_col_types = FALSE
+    )
+  )
+data_functional_type_models <-
+  data_matched_all |>
+  dplyr::filter(.data$comparison_id == "functional_type")
 
-vec_scale_levels <-
-  c("continental", "regional", "local")
+validate_manuscript_plot_data(
+  data_plot = data_ordination_unit,
+  required_columns = base::c(
+    "taxon_name",
+    "functional_type",
+    "nmds_1",
+    "nmds_2",
+    "nmds_stress"
+  )
+)
+validate_manuscript_plot_data(
+  data_plot = data_functional_type_models,
+  required_columns = base::c(
+    "scale",
+    "scale_id",
+    "R2_Nagelkerke_percentage_paleo",
+    "R2_Nagelkerke_percentage_modern"
+  )
+)
 
-data_ft_model_unit <-
-  data_comparison_unit |>
-  dplyr::filter(
-    .data$component == "Associations",
-    .data$comparison_id == "functional_type"
+
+#----------------------------------------------------------#
+# 2. Prepare auditable plot tables -----
+#----------------------------------------------------------#
+
+data_ordination_centroids <-
+  data_ordination_summary |>
+  dplyr::mutate(
+    functional_type_label = stringr::str_glue(
+      "FT {base::as.integer(.data$functional_type)}"
+    )
+  )
+data_ordination_labels <-
+  data_ordination_centroids |>
+  dplyr::arrange(
+    dplyr::desc(.data$n_taxa),
+    .data$functional_type
+  ) |>
+  dplyr::slice_head(n = 4L)
+data_ordination_linked <-
+  data_ordination_unit |>
+  dplyr::mutate(
+    functional_type_label = stringr::str_glue(
+      "FT {base::as.integer(.data$functional_type)}"
+    )
+  ) |>
+  dplyr::left_join(
+    data_ordination_centroids |>
+      dplyr::select(
+        "functional_type",
+        nmds_1_centroid = "nmds_1",
+        nmds_2_centroid = "nmds_2"
+      ),
+    by = dplyr::join_by(functional_type),
+    multiple = "error"
+  )
+
+data_functional_type_long <-
+  data_functional_type_models |>
+  dplyr::select(
+    "scale",
+    "scale_id",
+    paleo = "R2_Nagelkerke_percentage_paleo",
+    modern = "R2_Nagelkerke_percentage_modern",
+    "n_matched_units",
+    "n_paleo_unmatched",
+    "n_modern_unmatched"
+  ) |>
+  tidyr::pivot_longer(
+    cols = base::c("paleo", "modern"),
+    names_to = "data_source",
+    values_to = "association_percentage"
   ) |>
   dplyr::mutate(
-    scale = base::factor(
-      .data$scale,
-      levels = vec_scale_levels
+    data_source = dplyr::recode(
+      .data$data_source,
+      paleo = "Paleo",
+      modern = "Modern"
+    ),
+    data_source = base::factor(
+      .data$data_source,
+      levels = base::c("Paleo", "Modern")
     )
   )
 
-if (
-  base::nrow(data_ft_model_unit) == 0L
-) {
-  cli::cli_abort("No functional-type model comparison rows were found.")
-}
-
-data_ft_model_summary <-
-  data_ft_model_unit |>
-  dplyr::select(
-    scale,
-    scale_id,
-    R2_paleo = R2_Nagelkerke_percentage_paleo,
-    R2_modern = R2_Nagelkerke_percentage_modern
-  ) |>
-  tidyr::pivot_longer(
-    cols = c("R2_paleo", "R2_modern"),
-    names_to = "data_source",
-    values_to = "R2_Nagelkerke_percentage"
-  ) |>
-  dplyr::mutate(
-    data_source = dplyr::case_when(
-      .data$data_source == "R2_paleo" ~ "Paleo functional type",
-      .data$data_source == "R2_modern" ~ "Modern functional type",
-      .default = .data$data_source
-    )
-  ) |>
+data_functional_type_summary <-
+  data_functional_type_long |>
   dplyr::group_by(
     .data$scale,
     .data$data_source
   ) |>
   dplyr::summarise(
-    mean = base::mean(
-      .data$R2_Nagelkerke_percentage,
-      na.rm = TRUE
-    ),
+    median = stats::median(.data$association_percentage),
     lwr_95 = stats::quantile(
-      .data$R2_Nagelkerke_percentage,
+      .data$association_percentage,
       probs = 0.025,
-      na.rm = TRUE,
       names = FALSE
     ),
     upr_95 = stats::quantile(
-      .data$R2_Nagelkerke_percentage,
+      .data$association_percentage,
       probs = 0.975,
-      na.rm = TRUE,
       names = FALSE
     ),
     .groups = "drop"
   )
 
+readr::write_csv(
+  data_ordination_linked,
+  base::file.path(
+    path_output_tables,
+    stringr::str_glue(
+      "functional_type_comparison_ordination_{tag_date}.csv"
+    )
+  )
+)
+readr::write_csv(
+  data_functional_type_long,
+  base::file.path(
+    path_output_tables,
+    stringr::str_glue(
+      "functional_type_comparison_models_{tag_date}.csv"
+    )
+  )
+)
+
 
 #----------------------------------------------------------#
-# 3. Build figures -----
+# 3. Build ordination and model panels -----
 #----------------------------------------------------------#
 
-plot_reassignment <-
-  data_ft_heatmap |>
+vec_functional_type_levels <-
+  data_ordination_linked |>
+  dplyr::distinct(
+    .data$functional_type,
+    .data$functional_type_label
+  ) |>
+  dplyr::arrange(.data$functional_type) |>
+  dplyr::pull(.data$functional_type_label)
+vec_functional_type_colours <-
+  grDevices::hcl.colors(
+    n = base::length(vec_functional_type_levels),
+    palette = "Dark 3"
+  ) |>
+  rlang::set_names(vec_functional_type_levels)
+value_nmds_stress <-
+  data_ordination_unit |>
+  dplyr::pull(.data$nmds_stress) |>
+  base::unique() |>
+  dplyr::first()
+
+plot_ordination <-
+  data_ordination_linked |>
   ggplot2::ggplot(
     mapping = ggplot2::aes(
-      x = functional_type_modern,
-      y = functional_type_paleo,
-      fill = n_taxa
+      x = .data$nmds_1,
+      y = .data$nmds_2
     )
   ) +
-  ggplot2::facet_wrap(
-    ggplot2::vars(continent_id),
-    scales = "free"
+  ggplot2::scale_fill_manual(
+    values = vec_functional_type_colours,
+    guide = "none"
   ) +
-  ggplot2::scale_fill_viridis_c(
-    name = "Taxa"
+  ggplot2::scale_colour_manual(
+    values = vec_functional_type_colours,
+    guide = "none"
   ) +
   ggplot2::labs(
-    title = "Taxon reassignment between paleo and modern FT groups",
-    x = "Modern functional type",
-    y = "Paleo functional type"
+    x = stringr::str_glue(
+      "NMDS 1 (stress = {base::round(value_nmds_stress, 2)})"
+    ),
+    y = "NMDS 2"
   ) +
-  ggplot2::theme_classic() +
+  build_manuscript_theme() +
   ggplot2::theme(
-    legend.position = "top",
-    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1)
+    legend.position = "none",
+    panel.grid = ggplot2::element_blank()
   ) +
-  ggplot2::geom_tile(
+  ggplot2::geom_segment(
+    mapping = ggplot2::aes(
+      xend = .data$nmds_1_centroid,
+      yend = .data$nmds_2_centroid,
+      colour = .data$functional_type_label
+    ),
+    linewidth = 0.2,
+    alpha = 0.18
+  ) +
+  ggplot2::geom_point(
+    mapping = ggplot2::aes(fill = .data$functional_type_label),
+    shape = 21,
+    size = 1.2,
     colour = "white",
-    linewidth = 0.2
+    stroke = 0.2,
+    alpha = 0.75
+  ) +
+  ggplot2::geom_point(
+    data = data_ordination_centroids,
+    mapping = ggplot2::aes(colour = .data$functional_type_label),
+    shape = 15,
+    size = 2
+  ) +
+  ggrepel::geom_text_repel(
+    data = data_ordination_labels,
+    mapping = ggplot2::aes(
+      label = stringr::str_glue(
+        "{functional_type_label} (n = {n_taxa})"
+      ),
+      colour = .data$functional_type_label
+    ),
+    seed = 900723,
+    size = 2.5,
+    box.padding = 0.35,
+    min.segment.length = 0,
+    show.legend = FALSE
   )
 
 plot_model_comparison <-
-  data_ft_model_summary |>
+  data_functional_type_long |>
   ggplot2::ggplot(
     mapping = ggplot2::aes(
-      x = scale,
-      y = mean,
-      ymin = lwr_95,
-      ymax = upr_95,
-      colour = data_source
+      x = .data$data_source,
+      y = .data$association_percentage,
+      group = .data$scale_id
     )
   ) +
+  ggplot2::facet_wrap(
+    ggplot2::vars(.data$scale),
+    nrow = 1L
+  ) +
   ggplot2::scale_colour_manual(
-    values = c(
-      "Paleo functional type" = "#7570B3",
-      "Modern functional type" = "#1B9E77"
-    ),
-    name = "Model result"
+    values = build_manuscript_palette("data_source"),
+    guide = "none"
+  ) +
+  ggplot2::scale_y_continuous(
+    limits = base::c(0, 100),
+    labels = scales::label_number(suffix = "%")
   ) +
   ggplot2::labs(
-    title = "Functional-type biotic co-occurrence component",
     x = NULL,
-    y = "Component share (%)"
+    y = "Association variance"
   ) +
-  ggplot2::theme_classic() +
-  ggplot2::theme(
-    legend.position = "top"
+  build_manuscript_theme() +
+  ggplot2::theme(panel.grid.major.x = ggplot2::element_blank()) +
+  ggplot2::geom_line(
+    colour = "grey75",
+    linewidth = 0.3,
+    alpha = 0.6
   ) +
-  ggplot2::geom_pointrange(
-    position = ggplot2::position_dodge(width = 0.45),
-    linewidth = 0.7,
-    size = 0.9
+  ggplot2::geom_point(
+    mapping = ggplot2::aes(colour = .data$data_source),
+    size = 1.2,
+    alpha = 0.55
+  ) +
+  ggplot2::geom_linerange(
+    data = data_functional_type_summary,
+    mapping = ggplot2::aes(
+      x = .data$data_source,
+      y = .data$median,
+      ymin = .data$lwr_95,
+      ymax = .data$upr_95,
+      colour = .data$data_source,
+      group = .data$data_source
+    ),
+    inherit.aes = FALSE,
+    linewidth = 0.8
+  ) +
+  ggplot2::geom_point(
+    data = data_functional_type_summary,
+    mapping = ggplot2::aes(
+      x = .data$data_source,
+      y = .data$median,
+      colour = .data$data_source
+    ),
+    inherit.aes = FALSE,
+    size = 2.2
   )
 
-fig_ft_comparison <-
+fig_functional_type <-
   cowplot::plot_grid(
-    plot_reassignment,
+    plot_ordination,
     plot_model_comparison,
-    labels = c("A", "B"),
-    ncol = 1,
-    rel_heights = c(1.4, 1)
+    labels = base::c("A", "B"),
+    ncol = 1L,
+    rel_heights = base::c(1.35, 1),
+    align = "v"
   ) +
   ggview::canvas(
-    width = graphical_options[["width"]],
-    height = graphical_options[["height"]],
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]],
+    width = config_manuscript[["width"]],
+    height = config_manuscript[["height"]],
+    units = config_manuscript[["units"]],
+    dpi = config_manuscript[["review_dpi"]],
     bg = graphical_options[["bg"]]
   )
 
 
 #----------------------------------------------------------#
-# 4. Save -----
+# 4. Save manuscript outputs -----
 #----------------------------------------------------------#
 
-file_ft_comparison <-
+file_figure_base <-
   base::file.path(
     path_output_figures,
-    stringr::str_glue("ft_comparison_{tag_date}.pdf")
+    stringr::str_glue("functional_type_comparison_{tag_date}")
+  )
+vec_figure_files <-
+  save_manuscript_figure(
+    plot = fig_functional_type,
+    file_base = file_figure_base,
+    graphical_options = graphical_options
   )
 
-ggview::save_ggplot(
-  plot = fig_ft_comparison,
-  file = file_ft_comparison,
-  width = graphical_options[["width"]],
-  height = graphical_options[["height"]],
-  units = graphical_options[["units"]],
-  dpi = graphical_options[["dpi"]],
-  bg = graphical_options[["bg"]]
+base::message(
+  "Saved functional-type comparison: ",
+  stringr::str_c(vec_figure_files, collapse = ", ")
 )
-
-base::message("Saved FT comparison figure: ", file_ft_comparison)

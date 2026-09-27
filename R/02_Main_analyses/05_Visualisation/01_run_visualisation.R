@@ -30,7 +30,12 @@ path_synthesis_tables <- here::here("Outputs", "Tables")
 vec_synthesis_patterns <- base::c(
   "^paleo_patterns_unit_.*[.]csv$",
   "^modern_patterns_unit_.*[.]csv$",
-  "^paleo_modern_patterns_comparison_unit_.*[.]csv$"
+  "^paleo_modern_patterns_comparison_unit_.*[.]csv$",
+  "^paleo_modern_patterns_comparison_coverage_.*[.]csv$",
+  "^functional_type_ordination_unit_.*[.]csv$",
+  "^functional_type_ordination_summary_.*[.]csv$",
+  "^paleo_temporal_patterns_unit_.*[.]csv$",
+  "^paleo_temporal_density_.*[.]csv$"
 )
 vec_synthesis_files <-
   vec_synthesis_patterns |>
@@ -70,6 +75,8 @@ flag_synthesis_stale <-
     base::file.info(vec_synthesis_files)[["mtime"]] <
       base::file.info(file_budget_provenance)[["mtime"]]
   )
+vec_missing_synthesis_patterns <-
+  vec_synthesis_patterns[base::is.na(vec_synthesis_files)]
 
 if (
   flag_synthesis_missing || flag_synthesis_stale
@@ -77,6 +84,16 @@ if (
   cli::cli_abort(
     base::c(
       "Stage 05 requires current, non-empty stage 04 synthesis tables.",
+      "x" = if (
+        base::length(vec_missing_synthesis_patterns) > 0L
+      ) {
+        stringr::str_glue(
+          "Missing table contracts: ",
+          "{stringr::str_c(vec_missing_synthesis_patterns, collapse = ', ')}."
+        )
+      } else {
+        "One or more synthesis tables are stale or empty."
+      },
       "i" = stringr::str_c(
         "Run R/02_Main_analyses/04_Synthesis/",
         "01_run_synthesis.R first."
@@ -94,13 +111,13 @@ path_component_root <-
   "R/02_Main_analyses/05_Visualisation/_components"
 vec_component_files <-
   base::c(
-    "01_plot_paleo_spatial_anova_maps.R",
-    "02_plot_paleo_variance_waffle.R",
-    "03_plot_paleo_variance_stack.R",
+    "01_plot_paleo_spatial_association_atlas.R",
+    "02_plot_paleo_spatial_association_summary.R",
+    "03_plot_paleo_variance_partitioning.R",
     "04_plot_modern_variance_partitioning.R",
-    "05_plot_paleo_modern_comparison.R",
+    "05_plot_matched_paleo_modern_comparison.R",
     "06_plot_functional_type_comparison.R",
-    "07_plot_paleo_temporal_continents.R"
+    "07_plot_paleo_temporal_trajectories.R"
   )
 data_components <-
   tibble::tibble(

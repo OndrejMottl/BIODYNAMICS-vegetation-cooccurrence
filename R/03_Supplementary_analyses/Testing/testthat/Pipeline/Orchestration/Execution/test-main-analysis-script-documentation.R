@@ -8,7 +8,7 @@ testthat::test_that(
         recursive = TRUE,
         full.names = TRUE
       )
-    testthat::expect_length(vec_scripts, 36L)
+    testthat::expect_length(vec_scripts, 37L)
 
     list_script_lines <-
       vec_scripts |>

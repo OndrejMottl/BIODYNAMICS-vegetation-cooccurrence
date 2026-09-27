@@ -744,13 +744,13 @@ vec_new_main_paths <- c(
   "04_Synthesis/_components/01_analyse_paleo_spatial_patterns.R",
   "04_Synthesis/_components/02_analyse_modern_spatial_patterns.R",
   "04_Synthesis/_components/03_compare_paleo_modern.R",
-  "05_Visualisation/_components/01_plot_paleo_spatial_anova_maps.R",
-  "05_Visualisation/_components/02_plot_paleo_variance_waffle.R",
-  "05_Visualisation/_components/03_plot_paleo_variance_stack.R",
+  "05_Visualisation/_components/01_plot_paleo_spatial_association_atlas.R",
+  "05_Visualisation/_components/02_plot_paleo_spatial_association_summary.R",
+  "05_Visualisation/_components/03_plot_paleo_variance_partitioning.R",
   "05_Visualisation/_components/04_plot_modern_variance_partitioning.R",
-  "05_Visualisation/_components/05_plot_paleo_modern_comparison.R",
+  "05_Visualisation/_components/05_plot_matched_paleo_modern_comparison.R",
   "05_Visualisation/_components/06_plot_functional_type_comparison.R",
-  "05_Visualisation/_components/07_plot_paleo_temporal_continents.R"
+  "05_Visualisation/_components/07_plot_paleo_temporal_trajectories.R"
 )
 
 vec_new_paths <- ifelse(
@@ -784,6 +784,66 @@ data_main_analysis_script_migrations <- tibble::tibble(
     "main_analysis"
   )
 )
+
+data_stage05_component_renames <- tibble::tibble(
+  previous_path = base::file.path(
+    path_main_analysis,
+    c(
+      paste0(
+        "05_Visualisation/_components/",
+        "01_plot_paleo_spatial_anova_maps.R"
+      ),
+      paste0(
+        "05_Visualisation/_components/",
+        "02_plot_paleo_variance_waffle.R"
+      ),
+      paste0(
+        "05_Visualisation/_components/",
+        "03_plot_paleo_variance_stack.R"
+      ),
+      paste0(
+        "05_Visualisation/_components/",
+        "05_plot_paleo_modern_comparison.R"
+      ),
+      paste0(
+        "05_Visualisation/_components/",
+        "07_plot_paleo_temporal_continents.R"
+      )
+    )
+  ),
+  intended_path_new = base::file.path(
+    path_main_analysis,
+    c(
+      paste0(
+        "05_Visualisation/_components/",
+        "01_plot_paleo_spatial_association_atlas.R"
+      ),
+      paste0(
+        "05_Visualisation/_components/",
+        "02_plot_paleo_spatial_association_summary.R"
+      ),
+      paste0(
+        "05_Visualisation/_components/",
+        "03_plot_paleo_variance_partitioning.R"
+      ),
+      paste0(
+        "05_Visualisation/_components/",
+        "05_plot_matched_paleo_modern_comparison.R"
+      ),
+      paste0(
+        "05_Visualisation/_components/",
+        "07_plot_paleo_temporal_trajectories.R"
+      )
+    )
+  ),
+  classification_new = rep("main_analysis", 5L)
+)
+
+data_main_analysis_script_migrations <-
+  dplyr::bind_rows(
+    data_main_analysis_script_migrations,
+    data_stage05_component_renames
+  )
 
 if (
   base::file.exists(path_script_inventory)
