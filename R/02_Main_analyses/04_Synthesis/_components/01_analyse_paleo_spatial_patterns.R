@@ -12,9 +12,8 @@
 # Loads ANOVA results from all paleo spatial units and combines
 #   them into a single long tibble with a `taxonomic_scale`
 #   column. The combined tibble is saved to Outputs/Data/ for
-#   downstream use by
-#   `02_plot_variance_waffle_by_scale_and_taxonomic_resolution.R`.
-#   Dated unit and summary tables support modern-parity figures.
+#   downstream use by the stage 05 manuscript figures. Dated unit and summary
+#   tables support modern-parity figures and the functional-type ordination.
 # Workflow contract:
 #   Run after the paleo continental, regional, and local runners complete in
 #   normal mode. This script reads stores but never updates target metadata.
@@ -147,65 +146,51 @@ data_paleo_summary <-
   ) |>
   dplyr::summarise(
     n_units = dplyr::n_distinct(.data$scale_id),
-    R2_Nagelkerke_percentage_mean = base::mean(
-      .data$R2_Nagelkerke_percentage,
-      na.rm = TRUE
+    dplyr::across(
+      dplyr::all_of(
+        c(
+          "R2_Nagelkerke_percentage",
+          "fitted_auc_mean",
+          "predictive_tjur_r2_mean",
+          "predictive_auc_mean",
+          "predictive_log_loss_mean"
+        )
+      ),
+      .fns = list(
+        mean = ~ if (base::all(base::is.na(.x))) {
+          NA_real_
+        } else {
+          base::mean(.x, na.rm = TRUE)
+        },
+        median = ~ if (base::all(base::is.na(.x))) {
+          NA_real_
+        } else {
+          stats::median(.x, na.rm = TRUE)
+        },
+        lwr_95 = ~ if (base::all(base::is.na(.x))) {
+          NA_real_
+        } else {
+          stats::quantile(
+            .x,
+            probs = 0.025,
+            na.rm = TRUE,
+            names = FALSE
+          )
+        },
+        upr_95 = ~ if (base::all(base::is.na(.x))) {
+          NA_real_
+        } else {
+          stats::quantile(
+            .x,
+            probs = 0.975,
+            na.rm = TRUE,
+            names = FALSE
+          )
+        }
+      ),
+      .names = "{.col}_{.fn}"
     ),
-    R2_Nagelkerke_percentage_median = stats::median(
-      .data$R2_Nagelkerke_percentage,
-      na.rm = TRUE
-    ),
-    R2_Nagelkerke_percentage_lwr_95 = stats::quantile(
-      .data$R2_Nagelkerke_percentage,
-      probs = 0.025,
-      na.rm = TRUE,
-      names = FALSE
-    ),
-    R2_Nagelkerke_percentage_upr_95 = stats::quantile(
-      .data$R2_Nagelkerke_percentage,
-      probs = 0.975,
-      na.rm = TRUE,
-      names = FALSE
-    ),
-    auc_mean_mean = if (
-      base::all(base::is.na(.data$auc_mean))
-    ) {
-      NA_real_
-    } else {
-      base::mean(.data$auc_mean, na.rm = TRUE)
-    },
-    auc_mean_median = if (
-      base::all(base::is.na(.data$auc_mean))
-    ) {
-      NA_real_
-    } else {
-      stats::median(.data$auc_mean, na.rm = TRUE)
-    },
-    auc_mean_lwr_95 = if (
-      base::all(base::is.na(.data$auc_mean))
-    ) {
-      NA_real_
-    } else {
-      stats::quantile(
-        .data$auc_mean,
-        probs = 0.025,
-        na.rm = TRUE,
-        names = FALSE
-      )
-    },
-    auc_mean_upr_95 = if (
-      base::all(base::is.na(.data$auc_mean))
-    ) {
-      NA_real_
-    } else {
-      stats::quantile(
-        .data$auc_mean,
-        probs = 0.975,
-        na.rm = TRUE,
-        names = FALSE
-      )
-    },
-    auc_n = base::sum(.data$auc_n, na.rm = TRUE),
+    fitted_auc_n = base::sum(.data$fitted_auc_n, na.rm = TRUE),
     .groups = "drop"
   ) |>
   dplyr::arrange(
@@ -225,5 +210,159 @@ readr::write_csv(
   file = file_paleo_summary
 )
 
+
+#----------------------------------------------------------#
+# 5. Synthesize functional-type ordination -----
+#----------------------------------------------------------#
+
+store_functional_type <-
+  build_spatial_model_store_index(
+    data_source = "paleo"
+  ) |>
+  dplyr::filter(
+    .data$scale == "continental",
+    .data$scale_id == "europe",
+    .data$store_exists
+  ) |>
+  dplyr::pull(.data$store_path)
+
+if (
+  base::length(store_functional_type) != 1L
+) {
+  cli::cli_abort(
+    "Functional-type ordination requires one Europe continental store."
+  )
+}
+
+data_functional_type_dissimilarity <-
+  targets::tar_read_raw(
+    name = "data_functional_type_dissimilarity_continental",
+    store = store_functional_type
+  )
+data_functional_type_classification <-
+  targets::tar_read_raw(
+    name = "data_functional_type_classification_continental",
+    store = store_functional_type
+  ) |>
+  dplyr::mutate(
+    functional_type = base::as.integer(.data$functional_type)
+  )
+
+data_functional_type_counts <-
+  data_functional_type_classification |>
+  dplyr::count(
+    .data$functional_type,
+    name = "n_taxa"
+  ) |>
+  dplyr::filter(.data$n_taxa > 1L)
+
+vec_functional_type_taxa <-
+  data_functional_type_classification |>
+  dplyr::semi_join(
+    data_functional_type_counts,
+    by = dplyr::join_by(functional_type)
+  ) |>
+  dplyr::pull(.data$taxon_name)
+
+data_functional_type_dissimilarity_filtered <-
+  data_functional_type_dissimilarity |>
+  base::as.matrix() |>
+  magrittr::extract(
+    vec_functional_type_taxa,
+    vec_functional_type_taxa
+  ) |>
+  stats::as.dist()
+
+base::set.seed(900723)
+mod_functional_type_nmds <-
+  vegan::metaMDS(
+    comm = data_functional_type_dissimilarity_filtered,
+    k = 2L,
+    try = 30L,
+    trymax = 120L,
+    autotransform = FALSE,
+    trace = FALSE,
+    pc = TRUE
+  )
+
+mat_functional_type_scores <-
+  vegan::scores(
+    x = mod_functional_type_nmds,
+    display = "sites"
+  )
+
+data_functional_type_ordination <-
+  mat_functional_type_scores |>
+  tibble::as_tibble(
+    .name_repair = ~ base::c("nmds_1", "nmds_2")
+  ) |>
+  dplyr::mutate(
+    taxon_name = base::rownames(mat_functional_type_scores),
+    nmds_stress = mod_functional_type_nmds[["stress"]],
+    continent_id = "europe",
+    scale = "continental",
+    scale_id = "europe",
+    resolution_id = "functional_type",
+    availability_status = "available",
+    n_models = 1L,
+    .before = 1L
+  ) |>
+  dplyr::inner_join(
+    data_functional_type_classification,
+    by = dplyr::join_by(taxon_name),
+    multiple = "error"
+  ) |>
+  dplyr::semi_join(
+    data_functional_type_counts,
+    by = dplyr::join_by(functional_type)
+  )
+
+data_functional_type_ordination_summary <-
+  data_functional_type_ordination |>
+  dplyr::group_by(
+    .data$continent_id,
+    .data$scale,
+    .data$scale_id,
+    .data$resolution_id,
+    .data$availability_status,
+    .data$functional_type
+  ) |>
+  dplyr::summarise(
+    nmds_1 = stats::median(.data$nmds_1),
+    nmds_2 = stats::median(.data$nmds_2),
+    n_taxa = dplyr::n(),
+    n_models = dplyr::first(.data$n_models),
+    nmds_stress = dplyr::first(.data$nmds_stress),
+    .groups = "drop"
+  )
+
+file_functional_type_ordination <-
+  base::file.path(
+    path_output_tables,
+    stringr::str_glue(
+      "functional_type_ordination_unit_{tag_date}.csv"
+    )
+  )
+file_functional_type_ordination_summary <-
+  base::file.path(
+    path_output_tables,
+    stringr::str_glue(
+      "functional_type_ordination_summary_{tag_date}.csv"
+    )
+  )
+
+readr::write_csv(
+  data_functional_type_ordination,
+  file_functional_type_ordination
+)
+readr::write_csv(
+  data_functional_type_ordination_summary,
+  file_functional_type_ordination_summary
+)
+
 base::message("Saved paleo pattern unit table: ", file_paleo_unit)
 base::message("Saved paleo pattern summary: ", file_paleo_summary)
+base::message(
+  "Saved functional-type ordination: ",
+  file_functional_type_ordination
+)

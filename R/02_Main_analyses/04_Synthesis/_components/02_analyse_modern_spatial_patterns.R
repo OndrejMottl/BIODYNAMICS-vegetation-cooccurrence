@@ -112,65 +112,51 @@ data_modern_summary <-
   ) |>
   dplyr::summarise(
     n_units = dplyr::n_distinct(.data$scale_id),
-    R2_Nagelkerke_percentage_mean = base::mean(
-      .data$R2_Nagelkerke_percentage,
-      na.rm = TRUE
+    dplyr::across(
+      dplyr::all_of(
+        c(
+          "R2_Nagelkerke_percentage",
+          "fitted_auc_mean",
+          "predictive_tjur_r2_mean",
+          "predictive_auc_mean",
+          "predictive_log_loss_mean"
+        )
+      ),
+      .fns = list(
+        mean = ~ if (base::all(base::is.na(.x))) {
+          NA_real_
+        } else {
+          base::mean(.x, na.rm = TRUE)
+        },
+        median = ~ if (base::all(base::is.na(.x))) {
+          NA_real_
+        } else {
+          stats::median(.x, na.rm = TRUE)
+        },
+        lwr_95 = ~ if (base::all(base::is.na(.x))) {
+          NA_real_
+        } else {
+          stats::quantile(
+            .x,
+            probs = 0.025,
+            na.rm = TRUE,
+            names = FALSE
+          )
+        },
+        upr_95 = ~ if (base::all(base::is.na(.x))) {
+          NA_real_
+        } else {
+          stats::quantile(
+            .x,
+            probs = 0.975,
+            na.rm = TRUE,
+            names = FALSE
+          )
+        }
+      ),
+      .names = "{.col}_{.fn}"
     ),
-    R2_Nagelkerke_percentage_median = stats::median(
-      .data$R2_Nagelkerke_percentage,
-      na.rm = TRUE
-    ),
-    R2_Nagelkerke_percentage_lwr_95 = stats::quantile(
-      .data$R2_Nagelkerke_percentage,
-      probs = 0.025,
-      na.rm = TRUE,
-      names = FALSE
-    ),
-    R2_Nagelkerke_percentage_upr_95 = stats::quantile(
-      .data$R2_Nagelkerke_percentage,
-      probs = 0.975,
-      na.rm = TRUE,
-      names = FALSE
-    ),
-    auc_mean_mean = if (
-      base::all(base::is.na(.data$auc_mean))
-    ) {
-      NA_real_
-    } else {
-      base::mean(.data$auc_mean, na.rm = TRUE)
-    },
-    auc_mean_median = if (
-      base::all(base::is.na(.data$auc_mean))
-    ) {
-      NA_real_
-    } else {
-      stats::median(.data$auc_mean, na.rm = TRUE)
-    },
-    auc_mean_lwr_95 = if (
-      base::all(base::is.na(.data$auc_mean))
-    ) {
-      NA_real_
-    } else {
-      stats::quantile(
-        .data$auc_mean,
-        probs = 0.025,
-        na.rm = TRUE,
-        names = FALSE
-      )
-    },
-    auc_mean_upr_95 = if (
-      base::all(base::is.na(.data$auc_mean))
-    ) {
-      NA_real_
-    } else {
-      stats::quantile(
-        .data$auc_mean,
-        probs = 0.975,
-        na.rm = TRUE,
-        names = FALSE
-      )
-    },
-    auc_n = base::sum(.data$auc_n, na.rm = TRUE),
+    fitted_auc_n = base::sum(.data$fitted_auc_n, na.rm = TRUE),
     .groups = "drop"
   ) |>
   dplyr::arrange(

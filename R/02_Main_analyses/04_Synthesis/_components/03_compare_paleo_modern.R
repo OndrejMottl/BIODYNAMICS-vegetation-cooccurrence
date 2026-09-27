@@ -99,7 +99,8 @@ data_modern_compare <-
     resolution_id_modern = resolution_id,
     component,
     R2_Nagelkerke_percentage_modern = R2_Nagelkerke_percentage,
-    auc_mean_modern = auc_mean
+    fitted_auc_mean_modern = fitted_auc_mean,
+    predictive_auc_mean_modern = predictive_auc_mean
   )
 
 data_paleo_compare <-
@@ -129,12 +130,77 @@ data_paleo_compare <-
     resolution_id_paleo = resolution_id,
     component,
     R2_Nagelkerke_percentage_paleo = R2_Nagelkerke_percentage,
-    auc_mean_paleo = auc_mean
+    fitted_auc_mean_paleo = fitted_auc_mean,
+    predictive_auc_mean_paleo = predictive_auc_mean
   )
 
 
 #----------------------------------------------------------#
-# 3. Paleo vs modern comparison -----
+# 3. Record matched-unit coverage -----
+#----------------------------------------------------------#
+
+data_paleo_coverage <-
+  data_paleo_compare |>
+  dplyr::distinct(
+    .data$scale,
+    .data$scale_id,
+    .data$comparison_id,
+    .data$comparison_resolution
+  ) |>
+  dplyr::mutate(paleo_available = TRUE)
+
+data_modern_coverage <-
+  data_modern_compare |>
+  dplyr::distinct(
+    .data$scale,
+    .data$scale_id,
+    .data$comparison_id,
+    .data$comparison_resolution
+  ) |>
+  dplyr::mutate(modern_available = TRUE)
+
+data_paleo_modern_coverage <-
+  data_paleo_coverage |>
+  dplyr::full_join(
+    data_modern_coverage,
+    by = dplyr::join_by(
+      scale,
+      scale_id,
+      comparison_id,
+      comparison_resolution
+    )
+  ) |>
+  dplyr::mutate(
+    paleo_available = tidyr::replace_na(.data$paleo_available, FALSE),
+    modern_available = tidyr::replace_na(.data$modern_available, FALSE)
+  ) |>
+  dplyr::group_by(
+    .data$scale,
+    .data$comparison_id,
+    .data$comparison_resolution
+  ) |>
+  dplyr::summarise(
+    n_paleo_units = base::sum(.data$paleo_available),
+    n_modern_units = base::sum(.data$modern_available),
+    n_matched_units = base::sum(
+      .data$paleo_available & .data$modern_available
+    ),
+    n_paleo_unmatched = base::sum(
+      .data$paleo_available & !.data$modern_available
+    ),
+    n_modern_unmatched = base::sum(
+      !.data$paleo_available & .data$modern_available
+    ),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(
+    .data$scale,
+    .data$comparison_id
+  )
+
+
+#----------------------------------------------------------#
+# 4. Paleo vs modern comparison -----
 #----------------------------------------------------------#
 
 data_paleo_modern_unit <-
@@ -154,8 +220,12 @@ data_paleo_modern_unit <-
     R2_delta_modern_minus_paleo =
       .data$R2_Nagelkerke_percentage_modern -
         .data$R2_Nagelkerke_percentage_paleo,
-    auc_delta_modern_minus_paleo =
-      .data$auc_mean_modern - .data$auc_mean_paleo
+    fitted_auc_delta_modern_minus_paleo =
+      .data$fitted_auc_mean_modern -
+        .data$fitted_auc_mean_paleo,
+    predictive_auc_delta_modern_minus_paleo =
+      .data$predictive_auc_mean_modern -
+        .data$predictive_auc_mean_paleo
   ) |>
   dplyr::arrange(
     .data$scale,
@@ -208,23 +278,51 @@ data_paleo_modern_summary <-
       na.rm = TRUE,
       names = FALSE
     ),
-    auc_delta_modern_minus_paleo_mean = if (
-      base::all(base::is.na(.data$auc_delta_modern_minus_paleo))
+    fitted_auc_delta_modern_minus_paleo_mean = if (
+      base::all(
+        base::is.na(.data$fitted_auc_delta_modern_minus_paleo)
+      )
     ) {
       NA_real_
     } else {
       base::mean(
-        .data$auc_delta_modern_minus_paleo,
+        .data$fitted_auc_delta_modern_minus_paleo,
         na.rm = TRUE
       )
     },
-    auc_delta_modern_minus_paleo_median = if (
-      base::all(base::is.na(.data$auc_delta_modern_minus_paleo))
+    fitted_auc_delta_modern_minus_paleo_median = if (
+      base::all(
+        base::is.na(.data$fitted_auc_delta_modern_minus_paleo)
+      )
     ) {
       NA_real_
     } else {
       stats::median(
-        .data$auc_delta_modern_minus_paleo,
+        .data$fitted_auc_delta_modern_minus_paleo,
+        na.rm = TRUE
+      )
+    },
+    predictive_auc_delta_modern_minus_paleo_mean = if (
+      base::all(
+        base::is.na(.data$predictive_auc_delta_modern_minus_paleo)
+      )
+    ) {
+      NA_real_
+    } else {
+      base::mean(
+        .data$predictive_auc_delta_modern_minus_paleo,
+        na.rm = TRUE
+      )
+    },
+    predictive_auc_delta_modern_minus_paleo_median = if (
+      base::all(
+        base::is.na(.data$predictive_auc_delta_modern_minus_paleo)
+      )
+    ) {
+      NA_real_
+    } else {
+      stats::median(
+        .data$predictive_auc_delta_modern_minus_paleo,
         na.rm = TRUE
       )
     },
@@ -258,6 +356,14 @@ file_paleo_modern_legacy <-
     stringr::str_glue("paleo_modern_patterns_comparison_{tag_date}.csv")
   )
 
+file_paleo_modern_coverage <-
+  base::file.path(
+    path_output_tables,
+    stringr::str_glue(
+      "paleo_modern_patterns_comparison_coverage_{tag_date}.csv"
+    )
+  )
+
 readr::write_csv(
   x = data_paleo_modern_unit,
   file = file_paleo_modern_unit
@@ -273,6 +379,11 @@ readr::write_csv(
   file = file_paleo_modern_legacy
 )
 
+readr::write_csv(
+  x = data_paleo_modern_coverage,
+  file = file_paleo_modern_coverage
+)
+
 base::message(
   "Saved paleo-modern comparison unit table: ",
   file_paleo_modern_unit
@@ -280,4 +391,8 @@ base::message(
 base::message(
   "Saved paleo-modern comparison summary: ",
   file_paleo_modern_summary
+)
+base::message(
+  "Saved paleo-modern comparison coverage: ",
+  file_paleo_modern_coverage
 )

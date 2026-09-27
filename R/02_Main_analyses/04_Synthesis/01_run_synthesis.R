@@ -28,17 +28,16 @@ source(here::here("R/___setup_project___.R"))
 
 vec_data_sources <- base::c("paleo", "modern")
 vec_spatial_tiers <- base::c("continental", "regional", "local")
-vec_resolution_ids <- base::c(
-  "genus",
-  "family",
-  "functional_type"
+list_resolution_ids <- base::list(
+  paleo = base::c("genus", "family", "functional_type"),
+  modern = base::c("genus", "family", "ft_modern")
 )
 data_available_outputs <-
   vec_data_sources |>
   purrr::map(
     ~ build_spatial_model_store_index(data_source = .x) |>
       load_spatial_model_results(
-        resolution_ids = vec_resolution_ids,
+        resolution_ids = list_resolution_ids[[.x]],
         require_non_empty = FALSE
       )
   ) |>
@@ -49,11 +48,15 @@ data_available_outputs <-
     .data[["resolution_id"]]
   )
 data_required_outputs <-
-  tidyr::expand_grid(
-    data_source = vec_data_sources,
-    scale = vec_spatial_tiers,
-    resolution_id = vec_resolution_ids
-  )
+  vec_data_sources |>
+  purrr::map(
+    ~ tidyr::expand_grid(
+      data_source = .x,
+      scale = vec_spatial_tiers,
+      resolution_id = list_resolution_ids[[.x]]
+    )
+  ) |>
+  purrr::list_rbind()
 data_missing_outputs <-
   data_required_outputs |>
   dplyr::anti_join(
@@ -93,7 +96,8 @@ vec_component_files <-
   base::c(
     "01_analyse_paleo_spatial_patterns.R",
     "02_analyse_modern_spatial_patterns.R",
-    "03_compare_paleo_modern.R"
+    "03_compare_paleo_modern.R",
+    "04_analyse_paleo_temporal_patterns.R"
   )
 data_components <-
   tibble::tibble(
