@@ -1,0 +1,36 @@
+Plot a Manuscript Spatial Association Atlas Panel
+
+Description:
+
+     Draws one continent and spatial-tier map. Each spatial unit
+     contains a horizontally ordered genus, family, and functional-type
+     glyph so all taxonomic resolutions remain comparable without
+     separate map panels.
+
+Usage:
+
+     plot_manuscript_spatial_map_panel(
+       data_map,
+       sf_world,
+       continent_id,
+       scale_id,
+       resolution_ids = base::c("genus", "family", "functional_type"),
+       panel_label
+     )
+
+Arguments:
+
+data_map: Spatial association map data returned by
+          [prepare_spatial_association_map_data()].
+
+sf_world: World basemap as an sf object.
+
+continent_id, scale_id: Character identifiers selecting one panel.
+
+resolution_ids: Ordered character resolution identifiers.
+
+panel_label: Character scalar used as the compact panel title.
+
+Value:
+
+     A ggplot object.

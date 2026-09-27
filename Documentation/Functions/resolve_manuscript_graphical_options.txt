@@ -1,0 +1,22 @@
+Resolve Manuscript Figure Output Settings
+
+Description:
+
+     Converts the shared graphical pixel canvas to fixed physical
+     dimensions. Review PNG files retain the configured resolution and
+     submission TIFF files use twice that resolution without changing
+     their physical dimensions.
+
+Usage:
+
+     resolve_manuscript_graphical_options(graphical_options)
+
+Arguments:
+
+graphical_options: Named graphical configuration list containing
+          `width`, `height`, `units`, `dpi`, and `bg`.
+
+Value:
+
+     Named list containing physical dimensions, review and submission
+     resolutions, and the background colour.

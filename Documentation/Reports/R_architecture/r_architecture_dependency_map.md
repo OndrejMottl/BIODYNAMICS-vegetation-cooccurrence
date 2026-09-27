@@ -27,7 +27,7 @@ flowchart TD
 |---|---:|
 | diagnostic | 16 |
 | issue_reproduction | 6 |
-| main_analysis | 36 |
+| main_analysis | 37 |
 | one_time | 6 |
 | pipeline_definition | 46 |
 | project_setup | 3 |
@@ -35,7 +35,7 @@ flowchart TD
 | scientific_reference | 2 |
 | sensitivity | 1 |
 | supplementary_or_processing | 38 |
-| test | 426 |
+| test | 438 |
 
 ## Function capabilities
 
@@ -66,6 +66,7 @@ flowchart TD
 | Prediction/Inputs | 1 |
 | Prediction/Scaling | 1 |
 | Prediction/Summaries | 1 |
+| Visualisation/Manuscript | 9 |
 | Visualisation/Maps | 1 |
 | Visualisation/Networks | 1 |
 | Visualisation/Spatial_variance | 8 |

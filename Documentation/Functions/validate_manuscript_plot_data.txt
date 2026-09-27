@@ -1,0 +1,33 @@
+Validate Manuscript Plot Data
+
+Description:
+
+     Enforces common figure-data requirements before a manuscript
+     figure is drawn or its auditable plot-data table is written.
+
+Usage:
+
+     validate_manuscript_plot_data(
+       data_plot,
+       required_columns,
+       numeric_bounds = base::list(),
+       allow_empty = FALSE
+     )
+
+Arguments:
+
+data_plot: Data frame to validate.
+
+required_columns: Character vector of required column names.
+
+numeric_bounds: Named list. Each element must be a numeric vector of
+          length two giving inclusive lower and upper bounds for the
+          named column. Infinite bounds are permitted. Missing values
+          are allowed, but non-missing values must be finite and inside
+          the declared bounds.
+
+allow_empty: Logical scalar. If `FALSE`, zero-row data are rejected.
+
+Value:
+
+     The validated data frame, invisibly.
