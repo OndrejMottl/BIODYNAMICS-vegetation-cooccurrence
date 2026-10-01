@@ -22,7 +22,7 @@ Project dependencies must be restored. `Data/Input/spatial_grid.csv` must be pre
 
 ## Outputs and interpretation
 
-The script prints pipeline-status, error-lineage, convergence, and evaluation tables and creates interactive convergence plot grids. It does not write a canonical report or change target stores. Missing targets and non-convergence are diagnostic findings, not by themselves evidence that the scientific results are invalid.
+The script prints pipeline-status, error-lineage, model-availability, convergence, and evaluation tables. When sourced in an interactive R session, it also creates convergence plot grids; command-line `Rscript` runs skip display-only plots. It does not write a canonical report or change target stores. Missing targets and non-convergence are diagnostic findings, not by themselves evidence that the scientific results are invalid.
 
 ## Regeneration and retirement
 
