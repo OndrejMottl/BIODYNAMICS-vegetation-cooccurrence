@@ -1,0 +1,124 @@
+continent_id,scale,scale_id,resolution_id,age,n_samples,n_locations,sample_availability_status,availability_status,infeasibility_reason,root_target,model_error,sample_target_error,density_band
+america,temporal,america_timeslice_20000,genus,20000,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_20000,data_sample_ids must be a data frame,NA,Samples
+america,temporal,america_timeslice_19500,genus,19500,15,15,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_19000,genus,19000,20,20,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_18500,genus,18500,25,25,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_18000,genus,18000,25,25,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_17500,genus,17500,29,29,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_17000,genus,17000,33,33,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_16500,genus,16500,36,36,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_16000,genus,16000,42,42,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_15500,genus,15500,49,49,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_15000,genus,15000,61,61,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_14500,genus,14500,81,81,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_14000,genus,14000,104,104,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_13500,genus,13500,134,134,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_13000,genus,13000,163,163,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_12500,genus,12500,186,186,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_12000,genus,12000,202,202,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_11500,genus,11500,218,218,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_11000,genus,11000,236,236,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_10500,genus,10500,247,247,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_10000,genus,10000,257,257,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_9500,genus,9500,267,267,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_9000,genus,9000,271,271,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_8500,genus,8500,275,275,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_8000,genus,8000,279,279,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_7500,genus,7500,287,287,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_7000,genus,7000,298,298,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_6500,genus,6500,305,305,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_6000,genus,6000,308,308,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_5500,genus,5500,315,315,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_5000,genus,5000,317,317,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_4500,genus,4500,322,322,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_4000,genus,4000,331,331,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_3500,genus,3500,333,333,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_3000,genus,3000,332,332,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_2500,genus,2500,338,338,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_2000,genus,2000,343,343,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_1500,genus,1500,343,343,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_1000,genus,1000,338,338,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_500,genus,500,309,309,available,available,NA,NA,NA,NA,Samples
+america,temporal,america_timeslice_0,genus,0,22,22,available,unexpected_error,NA,model_jsdm_timeslice_0,ZeroDivisionError: division by zero Run `reticulate::py_last_error()` for details.,NA,Samples
+asia,temporal,asia_timeslice_20000,genus,20000,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_20000,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_19500,genus,19500,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_19500,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_19000,genus,19000,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_19000,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_18500,genus,18500,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_18500,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_18000,genus,18000,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_18000,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_17500,genus,17500,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_17500,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_17000,genus,17000,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_17000,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_16500,genus,16500,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_16500,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_16000,genus,16000,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_16000,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_15500,genus,15500,2,2,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_15500,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_15000,genus,15000,3,3,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_15000,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_14500,genus,14500,3,3,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_14500,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_14000,genus,14000,3,3,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_14000,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_13500,genus,13500,4,4,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_13500,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_13000,genus,13000,6,6,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_13000,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_12500,genus,12500,8,8,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_12500,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_12000,genus,12000,8,8,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_12000,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_11500,genus,11500,8,8,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_11500,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_11000,genus,11000,9,9,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_11000,data_sample_ids must be a data frame,NA,Samples
+asia,temporal,asia_timeslice_10500,genus,10500,12,12,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_10000,genus,10000,14,14,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_9500,genus,9500,16,16,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_9000,genus,9000,16,16,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_8500,genus,8500,19,19,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_8000,genus,8000,20,20,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_7500,genus,7500,20,20,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_7000,genus,7000,20,20,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_6500,genus,6500,21,21,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_6000,genus,6000,20,20,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_5500,genus,5500,20,20,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_5000,genus,5000,21,21,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_4500,genus,4500,19,19,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_4000,genus,4000,18,18,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_3500,genus,3500,18,18,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_3000,genus,3000,18,18,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_2500,genus,2500,18,18,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_2000,genus,2000,17,17,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_1500,genus,1500,17,17,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_1000,genus,1000,17,17,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_500,genus,500,14,14,available,available,NA,NA,NA,NA,Samples
+asia,temporal,asia_timeslice_0,genus,0,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_0,data_sample_ids must be a data frame,NA,Samples
+europe,temporal,europe_timeslice_20000,genus,20000,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_20000,data_sample_ids must be a data frame,NA,Samples
+europe,temporal,europe_timeslice_19500,genus,19500,4,4,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_19500,data_sample_ids must be a data frame,NA,Samples
+europe,temporal,europe_timeslice_19000,genus,19000,5,5,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_19000,data_sample_ids must be a data frame,NA,Samples
+europe,temporal,europe_timeslice_18500,genus,18500,8,8,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_18500,data_sample_ids must be a data frame,NA,Samples
+europe,temporal,europe_timeslice_18000,genus,18000,8,8,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_18000,data_sample_ids must be a data frame,NA,Samples
+europe,temporal,europe_timeslice_17500,genus,17500,10,10,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_17000,genus,17000,12,12,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_16500,genus,16500,17,17,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_16000,genus,16000,25,25,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_15500,genus,15500,38,38,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_15000,genus,15000,56,56,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_14500,genus,14500,71,71,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_14000,genus,14000,96,96,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_13500,genus,13500,121,121,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_13000,genus,13000,157,157,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_12500,genus,12500,177,177,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_12000,genus,12000,208,208,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_11500,genus,11500,247,247,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_11000,genus,11000,291,291,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_10500,genus,10500,336,336,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_10000,genus,10000,371,371,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_9500,genus,9500,404,404,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_9000,genus,9000,431,431,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_8500,genus,8500,453,453,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_8000,genus,8000,475,475,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_7500,genus,7500,499,499,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_7000,genus,7000,513,513,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_6500,genus,6500,525,525,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_6000,genus,6000,535,535,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_5500,genus,5500,547,547,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_5000,genus,5000,550,550,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_4500,genus,4500,555,555,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_4000,genus,4000,561,561,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_3500,genus,3500,563,563,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_3000,genus,3000,569,569,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_2500,genus,2500,571,571,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_2000,genus,2000,573,573,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_1500,genus,1500,559,559,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_1000,genus,1000,527,527,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_500,genus,500,467,467,available,available,NA,NA,NA,NA,Samples
+europe,temporal,europe_timeslice_0,genus,0,26,26,available,unexpected_error,NA,model_jsdm_timeslice_0,ZeroDivisionError: division by zero Run `reticulate::py_last_error()` for details.,NA,Samples

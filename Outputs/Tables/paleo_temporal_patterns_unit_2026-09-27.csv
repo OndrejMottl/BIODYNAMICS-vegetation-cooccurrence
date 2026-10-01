@@ -1,0 +1,577 @@
+continent_id,scale,scale_id,resolution_id,age,result_type,series,value,availability_status
+america,temporal,america_timeslice_19500,genus,19500,network_metric,connectance,0.2807017543859649,available
+america,temporal,america_timeslice_19500,genus,19500,network_metric,modularity Q,0.2834375,available
+america,temporal,america_timeslice_19500,genus,19500,network_metric,nestedness,33.31801321672744,available
+america,temporal,america_timeslice_19500,genus,19500,variance_component,Abiotic,39.805295518529554,available
+america,temporal,america_timeslice_19500,genus,19500,variance_component,Associations,24.793896416243367,available
+america,temporal,america_timeslice_19500,genus,19500,variance_component,Spatial,35.40080806522708,available
+america,temporal,america_timeslice_19000,genus,19000,network_metric,connectance,0.25217391304347825,available
+america,temporal,america_timeslice_19000,genus,19000,network_metric,modularity Q,0.2896848989298455,available
+america,temporal,america_timeslice_19000,genus,19000,network_metric,nestedness,28.592653453675798,available
+america,temporal,america_timeslice_19000,genus,19000,variance_component,Abiotic,35.983464670881474,available
+america,temporal,america_timeslice_19000,genus,19000,variance_component,Associations,30.245216106996896,available
+america,temporal,america_timeslice_19000,genus,19000,variance_component,Spatial,33.77131922212163,available
+america,temporal,america_timeslice_18500,genus,18500,network_metric,connectance,0.245,available
+america,temporal,america_timeslice_18500,genus,18500,network_metric,modularity Q,0.261465130269795,available
+america,temporal,america_timeslice_18500,genus,18500,network_metric,nestedness,28.276493147085553,available
+america,temporal,america_timeslice_18500,genus,18500,variance_component,Abiotic,35.394685929408226,available
+america,temporal,america_timeslice_18500,genus,18500,variance_component,Associations,31.45654351315379,available
+america,temporal,america_timeslice_18500,genus,18500,variance_component,Spatial,33.148770557437985,available
+america,temporal,america_timeslice_18000,genus,18000,network_metric,connectance,0.22923076923076924,available
+america,temporal,america_timeslice_18000,genus,18000,network_metric,modularity Q,0.27453718300977425,available
+america,temporal,america_timeslice_18000,genus,18000,network_metric,nestedness,27.966870301921823,available
+america,temporal,america_timeslice_18000,genus,18000,variance_component,Abiotic,35.39309537335139,available
+america,temporal,america_timeslice_18000,genus,18000,variance_component,Associations,32.023279217630495,available
+america,temporal,america_timeslice_18000,genus,18000,variance_component,Spatial,32.58362540901811,available
+america,temporal,america_timeslice_17500,genus,17500,network_metric,connectance,0.21759809750297265,available
+america,temporal,america_timeslice_17500,genus,17500,network_metric,modularity Q,0.2732837648182987,available
+america,temporal,america_timeslice_17500,genus,17500,network_metric,nestedness,26.276919550646504,available
+america,temporal,america_timeslice_17500,genus,17500,variance_component,Abiotic,34.30206897924625,available
+america,temporal,america_timeslice_17500,genus,17500,variance_component,Associations,32.19305299315317,available
+america,temporal,america_timeslice_17500,genus,17500,variance_component,Spatial,33.504878027600576,available
+america,temporal,america_timeslice_17000,genus,17000,network_metric,connectance,0.21505376344086022,available
+america,temporal,america_timeslice_17000,genus,17000,network_metric,modularity Q,0.26239669421487627,available
+america,temporal,america_timeslice_17000,genus,17000,network_metric,nestedness,26.394285501565083,available
+america,temporal,america_timeslice_17000,genus,17000,variance_component,Abiotic,33.837453075651666,available
+america,temporal,america_timeslice_17000,genus,17000,variance_component,Associations,32.953825650390876,available
+america,temporal,america_timeslice_17000,genus,17000,variance_component,Spatial,33.20872127395746,available
+america,temporal,america_timeslice_16500,genus,16500,network_metric,connectance,0.19290123456790123,available
+america,temporal,america_timeslice_16500,genus,16500,network_metric,modularity Q,0.2564000000000001,available
+america,temporal,america_timeslice_16500,genus,16500,network_metric,nestedness,20.65105439522231,available
+america,temporal,america_timeslice_16500,genus,16500,variance_component,Abiotic,34.2156748482544,available
+america,temporal,america_timeslice_16500,genus,16500,variance_component,Associations,32.99081942112134,available
+america,temporal,america_timeslice_16500,genus,16500,variance_component,Spatial,32.79350573062425,available
+america,temporal,america_timeslice_16000,genus,16000,network_metric,connectance,0.19369369369369369,available
+america,temporal,america_timeslice_16000,genus,16000,network_metric,modularity Q,0.24961093144667335,available
+america,temporal,america_timeslice_16000,genus,16000,network_metric,nestedness,24.443442069715463,available
+america,temporal,america_timeslice_16000,genus,16000,variance_component,Abiotic,35.337907477603935,available
+america,temporal,america_timeslice_16000,genus,16000,variance_component,Associations,32.127789408184086,available
+america,temporal,america_timeslice_16000,genus,16000,variance_component,Spatial,32.53430311421197,available
+america,temporal,america_timeslice_15500,genus,15500,network_metric,connectance,0.19489795918367347,available
+america,temporal,america_timeslice_15500,genus,15500,network_metric,modularity Q,0.23239494531399904,available
+america,temporal,america_timeslice_15500,genus,15500,network_metric,nestedness,21.113943118891747,available
+america,temporal,america_timeslice_15500,genus,15500,variance_component,Abiotic,35.13589116343051,available
+america,temporal,america_timeslice_15500,genus,15500,variance_component,Associations,31.513818934661213,available
+america,temporal,america_timeslice_15500,genus,15500,variance_component,Spatial,33.350289901908276,available
+america,temporal,america_timeslice_15000,genus,15000,network_metric,connectance,0.18992403038784486,available
+america,temporal,america_timeslice_15000,genus,15000,network_metric,modularity Q,0.23170747922437704,available
+america,temporal,america_timeslice_15000,genus,15000,network_metric,nestedness,20.003582331253806,available
+america,temporal,america_timeslice_15000,genus,15000,variance_component,Abiotic,36.25112222557494,available
+america,temporal,america_timeslice_15000,genus,15000,variance_component,Associations,30.988822590829564,available
+america,temporal,america_timeslice_15000,genus,15000,variance_component,Spatial,32.760055183595505,available
+america,temporal,america_timeslice_14500,genus,14500,network_metric,connectance,0.16954732510288065,available
+america,temporal,america_timeslice_14500,genus,14500,network_metric,modularity Q,0.2379059708214193,available
+america,temporal,america_timeslice_14500,genus,14500,network_metric,nestedness,15.928389540525613,available
+america,temporal,america_timeslice_14500,genus,14500,variance_component,Abiotic,35.85578849437675,available
+america,temporal,america_timeslice_14500,genus,14500,variance_component,Associations,30.857949777166127,available
+america,temporal,america_timeslice_14500,genus,14500,variance_component,Spatial,33.28626172845712,available
+america,temporal,america_timeslice_14000,genus,14000,network_metric,connectance,0.17132867132867133,available
+america,temporal,america_timeslice_14000,genus,14000,network_metric,modularity Q,0.23793308777592573,available
+america,temporal,america_timeslice_14000,genus,14000,network_metric,nestedness,16.233698299449408,available
+america,temporal,america_timeslice_14000,genus,14000,variance_component,Abiotic,36.841835084170654,available
+america,temporal,america_timeslice_14000,genus,14000,variance_component,Associations,31.829299104723596,available
+america,temporal,america_timeslice_14000,genus,14000,variance_component,Spatial,31.328865811105754,available
+america,temporal,america_timeslice_13500,genus,13500,network_metric,connectance,0.1736318407960199,available
+america,temporal,america_timeslice_13500,genus,13500,network_metric,modularity Q,0.2275651814571867,available
+america,temporal,america_timeslice_13500,genus,13500,network_metric,nestedness,16.54440300471684,available
+america,temporal,america_timeslice_13500,genus,13500,variance_component,Abiotic,40.16010686039453,available
+america,temporal,america_timeslice_13500,genus,13500,variance_component,Associations,29.833095058684496,available
+america,temporal,america_timeslice_13500,genus,13500,variance_component,Spatial,30.006798080920987,available
+america,temporal,america_timeslice_13000,genus,13000,network_metric,connectance,0.16924513203520938,available
+america,temporal,america_timeslice_13000,genus,13000,network_metric,modularity Q,0.22202226705688907,available
+america,temporal,america_timeslice_13000,genus,13000,network_metric,nestedness,14.661995258404499,available
+america,temporal,america_timeslice_13000,genus,13000,variance_component,Abiotic,40.587990957355636,available
+america,temporal,america_timeslice_13000,genus,13000,variance_component,Associations,29.23053716965583,available
+america,temporal,america_timeslice_13000,genus,13000,variance_component,Spatial,30.181471872988535,available
+america,temporal,america_timeslice_12500,genus,12500,network_metric,connectance,0.15997366688610928,available
+america,temporal,america_timeslice_12500,genus,12500,network_metric,modularity Q,0.22898026309599645,available
+america,temporal,america_timeslice_12500,genus,12500,network_metric,nestedness,13.30934810907997,available
+america,temporal,america_timeslice_12500,genus,12500,variance_component,Abiotic,39.435653445607606,available
+america,temporal,america_timeslice_12500,genus,12500,variance_component,Associations,29.976013358171322,available
+america,temporal,america_timeslice_12500,genus,12500,variance_component,Spatial,30.58833319622107,available
+america,temporal,america_timeslice_12000,genus,12000,network_metric,connectance,0.16053748231966053,available
+america,temporal,america_timeslice_12000,genus,12000,network_metric,modularity Q,0.2298091702671088,available
+america,temporal,america_timeslice_12000,genus,12000,network_metric,nestedness,13.413355382234965,available
+america,temporal,america_timeslice_12000,genus,12000,variance_component,Abiotic,37.98193183953949,available
+america,temporal,america_timeslice_12000,genus,12000,variance_component,Associations,30.17540483755395,available
+america,temporal,america_timeslice_12000,genus,12000,variance_component,Spatial,31.842663322906567,available
+america,temporal,america_timeslice_11500,genus,11500,network_metric,connectance,0.15181721947776994,available
+america,temporal,america_timeslice_11500,genus,11500,network_metric,modularity Q,0.23074398659482037,available
+america,temporal,america_timeslice_11500,genus,11500,network_metric,nestedness,12.532194442680236,available
+america,temporal,america_timeslice_11500,genus,11500,variance_component,Abiotic,36.06179358164123,available
+america,temporal,america_timeslice_11500,genus,11500,variance_component,Associations,31.774095546791152,available
+america,temporal,america_timeslice_11500,genus,11500,variance_component,Spatial,32.164110871567615,available
+america,temporal,america_timeslice_11000,genus,11000,network_metric,connectance,0.14988368228647392,available
+america,temporal,america_timeslice_11000,genus,11000,network_metric,modularity Q,0.24485376178092355,available
+america,temporal,america_timeslice_11000,genus,11000,network_metric,nestedness,13.824053051542407,available
+america,temporal,america_timeslice_11000,genus,11000,variance_component,Abiotic,38.52976036627368,available
+america,temporal,america_timeslice_11000,genus,11000,variance_component,Associations,31.49266485245446,available
+america,temporal,america_timeslice_11000,genus,11000,variance_component,Spatial,29.977574781271866,available
+america,temporal,america_timeslice_10500,genus,10500,network_metric,connectance,0.15169792613401636,available
+america,temporal,america_timeslice_10500,genus,10500,network_metric,modularity Q,0.24513690128677565,available
+america,temporal,america_timeslice_10500,genus,10500,network_metric,nestedness,13.948747763601089,available
+america,temporal,america_timeslice_10500,genus,10500,variance_component,Abiotic,39.57846627586334,available
+america,temporal,america_timeslice_10500,genus,10500,variance_component,Associations,30.5615062732148,available
+america,temporal,america_timeslice_10500,genus,10500,variance_component,Spatial,29.860027450921855,available
+america,temporal,america_timeslice_10000,genus,10000,network_metric,connectance,0.1465099658540459,available
+america,temporal,america_timeslice_10000,genus,10000,network_metric,modularity Q,0.2570501097964938,available
+america,temporal,america_timeslice_10000,genus,10000,network_metric,nestedness,14.184604809852619,available
+america,temporal,america_timeslice_10000,genus,10000,variance_component,Abiotic,40.50201363129766,available
+america,temporal,america_timeslice_10000,genus,10000,variance_component,Associations,30.117779712886723,available
+america,temporal,america_timeslice_10000,genus,10000,variance_component,Spatial,29.38020665581561,available
+america,temporal,america_timeslice_9500,genus,9500,network_metric,connectance,0.1510080484500757,available
+america,temporal,america_timeslice_9500,genus,9500,network_metric,modularity Q,0.2550296920795583,available
+america,temporal,america_timeslice_9500,genus,9500,network_metric,nestedness,15.02769483436552,available
+america,temporal,america_timeslice_9500,genus,9500,variance_component,Abiotic,40.49081316112469,available
+america,temporal,america_timeslice_9500,genus,9500,variance_component,Associations,30.492333757397333,available
+america,temporal,america_timeslice_9500,genus,9500,variance_component,Spatial,29.01685308147797,available
+america,temporal,america_timeslice_9000,genus,9000,network_metric,connectance,0.14609533850440545,available
+america,temporal,america_timeslice_9000,genus,9000,network_metric,modularity Q,0.2614353278775644,available
+america,temporal,america_timeslice_9000,genus,9000,network_metric,nestedness,14.20360237307748,available
+america,temporal,america_timeslice_9000,genus,9000,variance_component,Abiotic,39.071103330936104,available
+america,temporal,america_timeslice_9000,genus,9000,variance_component,Associations,31.607999864580066,available
+america,temporal,america_timeslice_9000,genus,9000,variance_component,Spatial,29.32089680448383,available
+america,temporal,america_timeslice_8500,genus,8500,network_metric,connectance,0.1374125874125874,available
+america,temporal,america_timeslice_8500,genus,8500,network_metric,modularity Q,0.27188210995215406,available
+america,temporal,america_timeslice_8500,genus,8500,network_metric,nestedness,12.99940280216447,available
+america,temporal,america_timeslice_8500,genus,8500,variance_component,Abiotic,37.86665613704025,available
+america,temporal,america_timeslice_8500,genus,8500,variance_component,Associations,31.848145600847218,available
+america,temporal,america_timeslice_8500,genus,8500,variance_component,Spatial,30.285198262112527,available
+america,temporal,america_timeslice_8000,genus,8000,network_metric,connectance,0.14012958367797076,available
+america,temporal,america_timeslice_8000,genus,8000,network_metric,modularity Q,0.2758578390157975,available
+america,temporal,america_timeslice_8000,genus,8000,network_metric,nestedness,12.745220978336244,available
+america,temporal,america_timeslice_8000,genus,8000,variance_component,Abiotic,36.75821906944119,available
+america,temporal,america_timeslice_8000,genus,8000,variance_component,Associations,32.639781435534374,available
+america,temporal,america_timeslice_8000,genus,8000,variance_component,Spatial,30.60199949502444,available
+america,temporal,america_timeslice_7500,genus,7500,network_metric,connectance,0.14049043455394122,available
+america,temporal,america_timeslice_7500,genus,7500,network_metric,modularity Q,0.2822373980378669,available
+america,temporal,america_timeslice_7500,genus,7500,network_metric,nestedness,12.69713582725741,available
+america,temporal,america_timeslice_7500,genus,7500,variance_component,Abiotic,37.193079794167865,available
+america,temporal,america_timeslice_7500,genus,7500,variance_component,Associations,32.619917181296685,available
+america,temporal,america_timeslice_7500,genus,7500,variance_component,Spatial,30.187003024535443,available
+america,temporal,america_timeslice_7000,genus,7000,network_metric,connectance,0.13958440887971088,available
+america,temporal,america_timeslice_7000,genus,7000,network_metric,modularity Q,0.28707901924712914,available
+america,temporal,america_timeslice_7000,genus,7000,network_metric,nestedness,12.520070217771325,available
+america,temporal,america_timeslice_7000,genus,7000,variance_component,Abiotic,36.44855200064858,available
+america,temporal,america_timeslice_7000,genus,7000,variance_component,Associations,32.79892576690445,available
+america,temporal,america_timeslice_7000,genus,7000,variance_component,Spatial,30.752522232446967,available
+america,temporal,america_timeslice_6500,genus,6500,network_metric,connectance,0.13302975106253795,available
+america,temporal,america_timeslice_6500,genus,6500,network_metric,modularity Q,0.2885735825222491,available
+america,temporal,america_timeslice_6500,genus,6500,network_metric,nestedness,10.866749944997862,available
+america,temporal,america_timeslice_6500,genus,6500,variance_component,Abiotic,36.455017014698456,available
+america,temporal,america_timeslice_6500,genus,6500,variance_component,Associations,33.14351846433069,available
+america,temporal,america_timeslice_6500,genus,6500,variance_component,Spatial,30.401464520970855,available
+america,temporal,america_timeslice_6000,genus,6000,network_metric,connectance,0.13867382617382618,available
+america,temporal,america_timeslice_6000,genus,6000,network_metric,modularity Q,0.28514136174265736,available
+america,temporal,america_timeslice_6000,genus,6000,network_metric,nestedness,10.567777235917157,available
+america,temporal,america_timeslice_6000,genus,6000,variance_component,Abiotic,36.17181792116901,available
+america,temporal,america_timeslice_6000,genus,6000,variance_component,Associations,33.20490836078343,available
+america,temporal,america_timeslice_6000,genus,6000,variance_component,Spatial,30.623273718047567,available
+america,temporal,america_timeslice_5500,genus,5500,network_metric,connectance,0.13698712189278228,available
+america,temporal,america_timeslice_5500,genus,5500,network_metric,modularity Q,0.28565040057403074,available
+america,temporal,america_timeslice_5500,genus,5500,network_metric,nestedness,10.729345791027075,available
+america,temporal,america_timeslice_5500,genus,5500,variance_component,Abiotic,35.6480627266446,available
+america,temporal,america_timeslice_5500,genus,5500,variance_component,Associations,32.78305002925184,available
+america,temporal,america_timeslice_5500,genus,5500,variance_component,Spatial,31.56888724410356,available
+america,temporal,america_timeslice_5000,genus,5000,network_metric,connectance,0.14460567823343848,available
+america,temporal,america_timeslice_5000,genus,5000,network_metric,modularity Q,0.28198773181777825,available
+america,temporal,america_timeslice_5000,genus,5000,network_metric,nestedness,11.570484771213364,available
+america,temporal,america_timeslice_5000,genus,5000,variance_component,Abiotic,35.818842735815224,available
+america,temporal,america_timeslice_5000,genus,5000,variance_component,Associations,32.892782922911664,available
+america,temporal,america_timeslice_5000,genus,5000,variance_component,Spatial,31.288374341273123,available
+america,temporal,america_timeslice_4500,genus,4500,network_metric,connectance,0.13348390739695087,available
+america,temporal,america_timeslice_4500,genus,4500,network_metric,modularity Q,0.2815020356102961,available
+america,temporal,america_timeslice_4500,genus,4500,network_metric,nestedness,10.047021149384566,available
+america,temporal,america_timeslice_4500,genus,4500,variance_component,Abiotic,35.485232458085804,available
+america,temporal,america_timeslice_4500,genus,4500,variance_component,Associations,32.66406437094441,available
+america,temporal,america_timeslice_4500,genus,4500,variance_component,Spatial,31.850703170969798,available
+america,temporal,america_timeslice_4000,genus,4000,network_metric,connectance,0.13479813238121396,available
+america,temporal,america_timeslice_4000,genus,4000,network_metric,modularity Q,0.2855260509760998,available
+america,temporal,america_timeslice_4000,genus,4000,network_metric,nestedness,10.142091626241545,available
+america,temporal,america_timeslice_4000,genus,4000,variance_component,Abiotic,35.71997804737333,available
+america,temporal,america_timeslice_4000,genus,4000,variance_component,Associations,32.70996884604316,available
+america,temporal,america_timeslice_4000,genus,4000,variance_component,Spatial,31.570053106583494,available
+america,temporal,america_timeslice_3500,genus,3500,network_metric,connectance,0.13961130942263017,available
+america,temporal,america_timeslice_3500,genus,3500,network_metric,modularity Q,0.2815998429330334,available
+america,temporal,america_timeslice_3500,genus,3500,network_metric,nestedness,10.332393266160008,available
+america,temporal,america_timeslice_3500,genus,3500,variance_component,Abiotic,35.27321977618944,available
+america,temporal,america_timeslice_3500,genus,3500,variance_component,Associations,32.96016912707439,available
+america,temporal,america_timeslice_3500,genus,3500,variance_component,Spatial,31.766611096736174,available
+america,temporal,america_timeslice_3000,genus,3000,network_metric,connectance,0.14347775718257647,available
+america,temporal,america_timeslice_3000,genus,3000,network_metric,modularity Q,0.277969022719962,available
+america,temporal,america_timeslice_3000,genus,3000,network_metric,nestedness,11.208819806320442,available
+america,temporal,america_timeslice_3000,genus,3000,variance_component,Abiotic,35.14052489842939,available
+america,temporal,america_timeslice_3000,genus,3000,variance_component,Associations,32.96344624846725,available
+america,temporal,america_timeslice_3000,genus,3000,variance_component,Spatial,31.896028853103374,available
+america,temporal,america_timeslice_2500,genus,2500,network_metric,connectance,0.14497041420118342,available
+america,temporal,america_timeslice_2500,genus,2500,network_metric,modularity Q,0.27229193210915426,available
+america,temporal,america_timeslice_2500,genus,2500,network_metric,nestedness,11.733441372139133,available
+america,temporal,america_timeslice_2500,genus,2500,variance_component,Abiotic,35.25626842450586,available
+america,temporal,america_timeslice_2500,genus,2500,variance_component,Associations,33.061523973295515,available
+america,temporal,america_timeslice_2500,genus,2500,variance_component,Spatial,31.682207602198613,available
+america,temporal,america_timeslice_2000,genus,2000,network_metric,connectance,0.1427471258044997,available
+america,temporal,america_timeslice_2000,genus,2000,network_metric,modularity Q,0.2742162376884528,available
+america,temporal,america_timeslice_2000,genus,2000,network_metric,nestedness,11.33892917826845,available
+america,temporal,america_timeslice_2000,genus,2000,variance_component,Abiotic,34.96344549695413,available
+america,temporal,america_timeslice_2000,genus,2000,variance_component,Associations,33.03435823871729,available
+america,temporal,america_timeslice_2000,genus,2000,variance_component,Spatial,32.00219626432859,available
+america,temporal,america_timeslice_1500,genus,1500,network_metric,connectance,0.14448306795245572,available
+america,temporal,america_timeslice_1500,genus,1500,network_metric,modularity Q,0.2716019099135063,available
+america,temporal,america_timeslice_1500,genus,1500,network_metric,nestedness,11.259159179619616,available
+america,temporal,america_timeslice_1500,genus,1500,variance_component,Abiotic,34.962103180143096,available
+america,temporal,america_timeslice_1500,genus,1500,variance_component,Associations,32.884376523188244,available
+america,temporal,america_timeslice_1500,genus,1500,variance_component,Spatial,32.15352029666865,available
+america,temporal,america_timeslice_1000,genus,1000,network_metric,connectance,0.15124260355029587,available
+america,temporal,america_timeslice_1000,genus,1000,network_metric,modularity Q,0.2665632553799502,available
+america,temporal,america_timeslice_1000,genus,1000,network_metric,nestedness,12.613465402092004,available
+america,temporal,america_timeslice_1000,genus,1000,variance_component,Abiotic,34.79712504402582,available
+america,temporal,america_timeslice_1000,genus,1000,variance_component,Associations,32.56516393149634,available
+america,temporal,america_timeslice_1000,genus,1000,variance_component,Spatial,32.63771102447783,available
+america,temporal,america_timeslice_500,genus,500,network_metric,connectance,0.14793378142892705,available
+america,temporal,america_timeslice_500,genus,500,network_metric,modularity Q,0.2629414301868162,available
+america,temporal,america_timeslice_500,genus,500,network_metric,nestedness,12.139181974557445,available
+america,temporal,america_timeslice_500,genus,500,variance_component,Abiotic,34.01011180541172,available
+america,temporal,america_timeslice_500,genus,500,variance_component,Associations,32.57169635920192,available
+america,temporal,america_timeslice_500,genus,500,variance_component,Spatial,33.41819183538636,available
+america,temporal,america_timeslice_0,genus,0,network_metric,connectance,0.2515151515151515,available
+america,temporal,america_timeslice_0,genus,0,network_metric,modularity Q,0.28843083176077805,available
+america,temporal,america_timeslice_0,genus,0,network_metric,nestedness,24.502256314765248,available
+asia,temporal,asia_timeslice_10500,genus,10500,network_metric,connectance,0.4583333333333333,available
+asia,temporal,asia_timeslice_10500,genus,10500,network_metric,modularity Q,0.21229338842975204,available
+asia,temporal,asia_timeslice_10500,genus,10500,network_metric,nestedness,24.394482001434685,available
+asia,temporal,asia_timeslice_10500,genus,10500,variance_component,Abiotic,40.891253967011146,available
+asia,temporal,asia_timeslice_10500,genus,10500,variance_component,Associations,16.02633600829385,available
+asia,temporal,asia_timeslice_10500,genus,10500,variance_component,Spatial,43.08241002469501,available
+asia,temporal,asia_timeslice_10000,genus,10000,network_metric,connectance,0.4375,available
+asia,temporal,asia_timeslice_10000,genus,10000,network_metric,modularity Q,0.22032486463973344,available
+asia,temporal,asia_timeslice_10000,genus,10000,network_metric,nestedness,25.75534617150547,available
+asia,temporal,asia_timeslice_10000,genus,10000,variance_component,Abiotic,46.64688493467916,available
+asia,temporal,asia_timeslice_10000,genus,10000,variance_component,Associations,14.003673033390077,available
+asia,temporal,asia_timeslice_10000,genus,10000,variance_component,Spatial,39.349442031930764,available
+asia,temporal,asia_timeslice_9500,genus,9500,network_metric,connectance,0.4375,available
+asia,temporal,asia_timeslice_9500,genus,9500,network_metric,modularity Q,0.24553571428571433,available
+asia,temporal,asia_timeslice_9500,genus,9500,network_metric,nestedness,33.31004395701055,available
+asia,temporal,asia_timeslice_9500,genus,9500,variance_component,Abiotic,40.08138531969192,available
+asia,temporal,asia_timeslice_9500,genus,9500,variance_component,Associations,19.243022143682133,available
+asia,temporal,asia_timeslice_9500,genus,9500,variance_component,Spatial,40.67559253662594,available
+asia,temporal,asia_timeslice_9000,genus,9000,network_metric,connectance,0.4296875,available
+asia,temporal,asia_timeslice_9000,genus,9000,network_metric,modularity Q,0.23933884297520658,available
+asia,temporal,asia_timeslice_9000,genus,9000,network_metric,nestedness,26.1873040498406,available
+asia,temporal,asia_timeslice_9000,genus,9000,variance_component,Abiotic,34.196242678566264,available
+asia,temporal,asia_timeslice_9000,genus,9000,variance_component,Associations,23.93366379836873,available
+asia,temporal,asia_timeslice_9000,genus,9000,variance_component,Spatial,41.870093523065,available
+asia,temporal,asia_timeslice_8500,genus,8500,network_metric,connectance,0.4652777777777778,available
+asia,temporal,asia_timeslice_8500,genus,8500,network_metric,modularity Q,0.21051459122298952,available
+asia,temporal,asia_timeslice_8500,genus,8500,network_metric,nestedness,19.80654009387108,available
+asia,temporal,asia_timeslice_8500,genus,8500,variance_component,Abiotic,36.562052067667175,available
+asia,temporal,asia_timeslice_8500,genus,8500,variance_component,Associations,24.010520036701116,available
+asia,temporal,asia_timeslice_8500,genus,8500,variance_component,Spatial,39.42742789563171,available
+asia,temporal,asia_timeslice_8000,genus,8000,network_metric,connectance,0.4375,available
+asia,temporal,asia_timeslice_8000,genus,8000,network_metric,modularity Q,0.2248979591836735,available
+asia,temporal,asia_timeslice_8000,genus,8000,network_metric,nestedness,25.453482528566713,available
+asia,temporal,asia_timeslice_8000,genus,8000,variance_component,Abiotic,35.97308330527637,available
+asia,temporal,asia_timeslice_8000,genus,8000,variance_component,Associations,21.775676251990955,available
+asia,temporal,asia_timeslice_8000,genus,8000,variance_component,Spatial,42.25124044273267,available
+asia,temporal,asia_timeslice_7500,genus,7500,network_metric,connectance,0.4625,available
+asia,temporal,asia_timeslice_7500,genus,7500,network_metric,modularity Q,0.20014609203798403,available
+asia,temporal,asia_timeslice_7500,genus,7500,network_metric,nestedness,20.55619395181028,available
+asia,temporal,asia_timeslice_7500,genus,7500,variance_component,Abiotic,41.53494526664932,available
+asia,temporal,asia_timeslice_7500,genus,7500,variance_component,Associations,15.525518108453603,available
+asia,temporal,asia_timeslice_7500,genus,7500,variance_component,Spatial,42.93953662489708,available
+asia,temporal,asia_timeslice_7000,genus,7000,network_metric,connectance,0.475,available
+asia,temporal,asia_timeslice_7000,genus,7000,network_metric,modularity Q,0.21243074792243768,available
+asia,temporal,asia_timeslice_7000,genus,7000,network_metric,nestedness,28.633168315194705,available
+asia,temporal,asia_timeslice_7000,genus,7000,variance_component,Abiotic,39.006362913990785,available
+asia,temporal,asia_timeslice_7000,genus,7000,variance_component,Associations,15.68778915815442,available
+asia,temporal,asia_timeslice_7000,genus,7000,variance_component,Spatial,45.30584792785479,available
+asia,temporal,asia_timeslice_6500,genus,6500,network_metric,connectance,0.5178571428571429,available
+asia,temporal,asia_timeslice_6500,genus,6500,network_metric,modularity Q,0.18985334918747523,available
+asia,temporal,asia_timeslice_6500,genus,6500,network_metric,nestedness,22.817364594087596,available
+asia,temporal,asia_timeslice_6500,genus,6500,variance_component,Abiotic,37.59445963371973,available
+asia,temporal,asia_timeslice_6500,genus,6500,variance_component,Associations,19.515413960870276,available
+asia,temporal,asia_timeslice_6500,genus,6500,variance_component,Spatial,42.89012640540999,available
+asia,temporal,asia_timeslice_6000,genus,6000,network_metric,connectance,0.42857142857142855,available
+asia,temporal,asia_timeslice_6000,genus,6000,network_metric,modularity Q,0.25068587105624146,available
+asia,temporal,asia_timeslice_6000,genus,6000,network_metric,nestedness,25.53960216181613,available
+asia,temporal,asia_timeslice_6000,genus,6000,variance_component,Abiotic,38.93818006798717,available
+asia,temporal,asia_timeslice_6000,genus,6000,variance_component,Associations,15.983239155136214,available
+asia,temporal,asia_timeslice_6000,genus,6000,variance_component,Spatial,45.07858077687662,available
+asia,temporal,asia_timeslice_5500,genus,5500,network_metric,connectance,0.45625,available
+asia,temporal,asia_timeslice_5500,genus,5500,network_metric,modularity Q,0.23250140739350725,available
+asia,temporal,asia_timeslice_5500,genus,5500,network_metric,nestedness,21.463289057456905,available
+asia,temporal,asia_timeslice_5500,genus,5500,variance_component,Abiotic,40.011623008920054,available
+asia,temporal,asia_timeslice_5500,genus,5500,variance_component,Associations,17.782620474136543,available
+asia,temporal,asia_timeslice_5500,genus,5500,variance_component,Spatial,42.205756516943396,available
+asia,temporal,asia_timeslice_5000,genus,5000,network_metric,connectance,0.43452380952380953,available
+asia,temporal,asia_timeslice_5000,genus,5000,network_metric,modularity Q,0.2426346406455245,available
+asia,temporal,asia_timeslice_5000,genus,5000,network_metric,nestedness,24.445035195912663,available
+asia,temporal,asia_timeslice_5000,genus,5000,variance_component,Abiotic,37.81935496885954,available
+asia,temporal,asia_timeslice_5000,genus,5000,variance_component,Associations,18.718450356656632,available
+asia,temporal,asia_timeslice_5000,genus,5000,variance_component,Spatial,43.462194674483825,available
+asia,temporal,asia_timeslice_4500,genus,4500,network_metric,connectance,0.47368421052631576,available
+asia,temporal,asia_timeslice_4500,genus,4500,network_metric,modularity Q,0.20563271604938277,available
+asia,temporal,asia_timeslice_4500,genus,4500,network_metric,nestedness,18.677976982473393,available
+asia,temporal,asia_timeslice_4500,genus,4500,variance_component,Abiotic,40.544015298384764,available
+asia,temporal,asia_timeslice_4500,genus,4500,variance_component,Associations,18.299943330448098,available
+asia,temporal,asia_timeslice_4500,genus,4500,variance_component,Spatial,41.15604137116714,available
+asia,temporal,asia_timeslice_4000,genus,4000,network_metric,connectance,0.4861111111111111,available
+asia,temporal,asia_timeslice_4000,genus,4000,network_metric,modularity Q,0.189795918367347,available
+asia,temporal,asia_timeslice_4000,genus,4000,network_metric,nestedness,24.799212271174092,available
+asia,temporal,asia_timeslice_4000,genus,4000,variance_component,Abiotic,39.47576684777745,available
+asia,temporal,asia_timeslice_4000,genus,4000,variance_component,Associations,18.65080783734039,available
+asia,temporal,asia_timeslice_4000,genus,4000,variance_component,Spatial,41.87342531488215,available
+asia,temporal,asia_timeslice_3500,genus,3500,network_metric,connectance,0.4930555555555556,available
+asia,temporal,asia_timeslice_3500,genus,3500,network_metric,modularity Q,0.20293592541162472,available
+asia,temporal,asia_timeslice_3500,genus,3500,network_metric,nestedness,26.29429950399078,available
+asia,temporal,asia_timeslice_3500,genus,3500,variance_component,Abiotic,37.7635308255953,available
+asia,temporal,asia_timeslice_3500,genus,3500,variance_component,Associations,22.399937251432494,available
+asia,temporal,asia_timeslice_3500,genus,3500,variance_component,Spatial,39.8365319229722,available
+asia,temporal,asia_timeslice_3000,genus,3000,network_metric,connectance,0.4732142857142857,available
+asia,temporal,asia_timeslice_3000,genus,3000,network_metric,modularity Q,0.242435030259879,available
+asia,temporal,asia_timeslice_3000,genus,3000,network_metric,nestedness,37.323548874669996,available
+asia,temporal,asia_timeslice_3000,genus,3000,variance_component,Abiotic,35.880826135899284,available
+asia,temporal,asia_timeslice_3000,genus,3000,variance_component,Associations,22.740000157048627,available
+asia,temporal,asia_timeslice_3000,genus,3000,variance_component,Spatial,41.379173707052104,available
+asia,temporal,asia_timeslice_2500,genus,2500,network_metric,connectance,0.4732142857142857,available
+asia,temporal,asia_timeslice_2500,genus,2500,network_metric,modularity Q,0.25418298326806693,available
+asia,temporal,asia_timeslice_2500,genus,2500,network_metric,nestedness,37.775779845571115,available
+asia,temporal,asia_timeslice_2500,genus,2500,variance_component,Abiotic,35.13018517499214,available
+asia,temporal,asia_timeslice_2500,genus,2500,variance_component,Associations,21.92336139269801,available
+asia,temporal,asia_timeslice_2500,genus,2500,variance_component,Spatial,42.946453432309845,available
+asia,temporal,asia_timeslice_2000,genus,2000,network_metric,connectance,0.44761904761904764,available
+asia,temporal,asia_timeslice_2000,genus,2000,network_metric,modularity Q,0.25169760072430963,available
+asia,temporal,asia_timeslice_2000,genus,2000,network_metric,nestedness,29.483899727893373,available
+asia,temporal,asia_timeslice_2000,genus,2000,variance_component,Abiotic,38.25216449644545,available
+asia,temporal,asia_timeslice_2000,genus,2000,variance_component,Associations,18.76416926671206,available
+asia,temporal,asia_timeslice_2000,genus,2000,variance_component,Spatial,42.983666236842495,available
+asia,temporal,asia_timeslice_1500,genus,1500,network_metric,connectance,0.49523809523809526,available
+asia,temporal,asia_timeslice_1500,genus,1500,network_metric,modularity Q,0.24556213017751474,available
+asia,temporal,asia_timeslice_1500,genus,1500,network_metric,nestedness,35.0475903970935,available
+asia,temporal,asia_timeslice_1500,genus,1500,variance_component,Abiotic,38.387345492851935,available
+asia,temporal,asia_timeslice_1500,genus,1500,variance_component,Associations,22.83427240107263,available
+asia,temporal,asia_timeslice_1500,genus,1500,variance_component,Spatial,38.77838210607543,available
+asia,temporal,asia_timeslice_1000,genus,1000,network_metric,connectance,0.48214285714285715,available
+asia,temporal,asia_timeslice_1000,genus,1000,network_metric,modularity Q,0.2386831275720165,available
+asia,temporal,asia_timeslice_1000,genus,1000,network_metric,nestedness,27.639336825339406,available
+asia,temporal,asia_timeslice_1000,genus,1000,variance_component,Abiotic,42.87944821598728,available
+asia,temporal,asia_timeslice_1000,genus,1000,variance_component,Associations,17.540112889948738,available
+asia,temporal,asia_timeslice_1000,genus,1000,variance_component,Spatial,39.58043889406399,available
+asia,temporal,asia_timeslice_500,genus,500,network_metric,connectance,0.42857142857142855,available
+asia,temporal,asia_timeslice_500,genus,500,network_metric,modularity Q,0.2623456790123457,available
+asia,temporal,asia_timeslice_500,genus,500,network_metric,nestedness,33.451551677800865,available
+asia,temporal,asia_timeslice_500,genus,500,variance_component,Abiotic,43.14754293192609,available
+asia,temporal,asia_timeslice_500,genus,500,variance_component,Associations,14.670808787157794,available
+asia,temporal,asia_timeslice_500,genus,500,variance_component,Spatial,42.181648280916114,available
+europe,temporal,europe_timeslice_17500,genus,17500,network_metric,connectance,0.27,available
+europe,temporal,europe_timeslice_17500,genus,17500,network_metric,modularity Q,0.3751714677640603,available
+europe,temporal,europe_timeslice_17500,genus,17500,network_metric,nestedness,26.477346749228136,available
+europe,temporal,europe_timeslice_17500,genus,17500,variance_component,Abiotic,43.52449974691467,available
+europe,temporal,europe_timeslice_17500,genus,17500,variance_component,Associations,17.868477103436,available
+europe,temporal,europe_timeslice_17500,genus,17500,variance_component,Spatial,38.60702314964933,available
+europe,temporal,europe_timeslice_17000,genus,17000,network_metric,connectance,0.30416666666666664,available
+europe,temporal,europe_timeslice_17000,genus,17000,network_metric,modularity Q,0.31037718145993626,available
+europe,temporal,europe_timeslice_17000,genus,17000,network_metric,nestedness,28.455584585406896,available
+europe,temporal,europe_timeslice_17000,genus,17000,variance_component,Abiotic,45.40849472860116,available
+europe,temporal,europe_timeslice_17000,genus,17000,variance_component,Associations,17.392769949332944,available
+europe,temporal,europe_timeslice_17000,genus,17000,variance_component,Spatial,37.198735322065886,available
+europe,temporal,europe_timeslice_16500,genus,16500,network_metric,connectance,0.2192513368983957,available
+europe,temporal,europe_timeslice_16500,genus,16500,network_metric,modularity Q,0.350089232599643,available
+europe,temporal,europe_timeslice_16500,genus,16500,network_metric,nestedness,23.136306673065786,available
+europe,temporal,europe_timeslice_16500,genus,16500,variance_component,Abiotic,39.24906888506381,available
+europe,temporal,europe_timeslice_16500,genus,16500,variance_component,Associations,23.17837527550791,available
+europe,temporal,europe_timeslice_16500,genus,16500,variance_component,Spatial,37.572555839428276,available
+europe,temporal,europe_timeslice_16000,genus,16000,network_metric,connectance,0.216,available
+europe,temporal,europe_timeslice_16000,genus,16000,network_metric,modularity Q,0.2945953360768177,available
+europe,temporal,europe_timeslice_16000,genus,16000,network_metric,nestedness,16.827353759074533,available
+europe,temporal,europe_timeslice_16000,genus,16000,variance_component,Abiotic,35.82225326829728,available
+europe,temporal,europe_timeslice_16000,genus,16000,variance_component,Associations,29.70975862671661,available
+europe,temporal,europe_timeslice_16000,genus,16000,variance_component,Spatial,34.467988104986105,available
+europe,temporal,europe_timeslice_15500,genus,15500,network_metric,connectance,0.2149122807017544,available
+europe,temporal,europe_timeslice_15500,genus,15500,network_metric,modularity Q,0.2774885464389839,available
+europe,temporal,europe_timeslice_15500,genus,15500,network_metric,nestedness,13.340827247436883,available
+europe,temporal,europe_timeslice_15500,genus,15500,variance_component,Abiotic,36.44852231345757,available
+europe,temporal,europe_timeslice_15500,genus,15500,variance_component,Associations,29.904756253813886,available
+europe,temporal,europe_timeslice_15500,genus,15500,variance_component,Spatial,33.64672143272854,available
+europe,temporal,europe_timeslice_15000,genus,15000,network_metric,connectance,0.18475274725274726,available
+europe,temporal,europe_timeslice_15000,genus,15000,network_metric,modularity Q,0.26955127762192327,available
+europe,temporal,europe_timeslice_15000,genus,15000,network_metric,nestedness,10.026729769239035,available
+europe,temporal,europe_timeslice_15000,genus,15000,variance_component,Abiotic,37.81629775959318,available
+europe,temporal,europe_timeslice_15000,genus,15000,variance_component,Associations,29.203754707734657,available
+europe,temporal,europe_timeslice_15000,genus,15000,variance_component,Spatial,32.979947532672156,available
+europe,temporal,europe_timeslice_14500,genus,14500,network_metric,connectance,0.15728900255754474,available
+europe,temporal,europe_timeslice_14500,genus,14500,network_metric,modularity Q,0.33556414832441,available
+europe,temporal,europe_timeslice_14500,genus,14500,network_metric,nestedness,6.069347382440998,available
+europe,temporal,europe_timeslice_14500,genus,14500,variance_component,Abiotic,35.64828518825363,available
+europe,temporal,europe_timeslice_14500,genus,14500,variance_component,Associations,30.02801143039246,available
+europe,temporal,europe_timeslice_14500,genus,14500,variance_component,Spatial,34.3237033813539,available
+europe,temporal,europe_timeslice_14000,genus,14000,network_metric,connectance,0.16220238095238096,available
+europe,temporal,europe_timeslice_14000,genus,14000,network_metric,modularity Q,0.2725885868192922,available
+europe,temporal,europe_timeslice_14000,genus,14000,network_metric,nestedness,10.38780239844324,available
+europe,temporal,europe_timeslice_14000,genus,14000,variance_component,Abiotic,35.236541719972415,available
+europe,temporal,europe_timeslice_14000,genus,14000,variance_component,Associations,29.715122263628874,available
+europe,temporal,europe_timeslice_14000,genus,14000,variance_component,Spatial,35.04833601639872,available
+europe,temporal,europe_timeslice_13500,genus,13500,network_metric,connectance,0.1397210743801653,available
+europe,temporal,europe_timeslice_13500,genus,13500,network_metric,modularity Q,0.2907226639242047,available
+europe,temporal,europe_timeslice_13500,genus,13500,network_metric,nestedness,7.271602471875783,available
+europe,temporal,europe_timeslice_13500,genus,13500,variance_component,Abiotic,35.11963000775972,available
+europe,temporal,europe_timeslice_13500,genus,13500,variance_component,Associations,29.506946480709196,available
+europe,temporal,europe_timeslice_13500,genus,13500,variance_component,Spatial,35.3734235115311,available
+europe,temporal,europe_timeslice_13000,genus,13000,network_metric,connectance,0.12982390408392658,available
+europe,temporal,europe_timeslice_13000,genus,13000,network_metric,modularity Q,0.29601102761275994,available
+europe,temporal,europe_timeslice_13000,genus,13000,network_metric,nestedness,6.195367082035885,available
+europe,temporal,europe_timeslice_13000,genus,13000,variance_component,Abiotic,37.01957088530502,available
+europe,temporal,europe_timeslice_13000,genus,13000,variance_component,Associations,28.323439034331983,available
+europe,temporal,europe_timeslice_13000,genus,13000,variance_component,Spatial,34.656990080362995,available
+europe,temporal,europe_timeslice_12500,genus,12500,network_metric,connectance,0.1321036889332004,available
+europe,temporal,europe_timeslice_12500,genus,12500,network_metric,modularity Q,0.29098057829990887,available
+europe,temporal,europe_timeslice_12500,genus,12500,network_metric,nestedness,6.031571120784238,available
+europe,temporal,europe_timeslice_12500,genus,12500,variance_component,Abiotic,39.592512882006176,available
+europe,temporal,europe_timeslice_12500,genus,12500,variance_component,Associations,28.85184718430732,available
+europe,temporal,europe_timeslice_12500,genus,12500,variance_component,Spatial,31.555639933686503,available
+europe,temporal,europe_timeslice_12000,genus,12000,network_metric,connectance,0.12740384615384615,available
+europe,temporal,europe_timeslice_12000,genus,12000,network_metric,modularity Q,0.28596134998175804,available
+europe,temporal,europe_timeslice_12000,genus,12000,network_metric,nestedness,5.491081204621055,available
+europe,temporal,europe_timeslice_12000,genus,12000,variance_component,Abiotic,38.660689131363895,available
+europe,temporal,europe_timeslice_12000,genus,12000,variance_component,Associations,28.129140807935798,available
+europe,temporal,europe_timeslice_12000,genus,12000,variance_component,Spatial,33.210170060700314,available
+europe,temporal,europe_timeslice_11500,genus,11500,network_metric,connectance,0.1286549707602339,available
+europe,temporal,europe_timeslice_11500,genus,11500,network_metric,modularity Q,0.2857512897941258,available
+europe,temporal,europe_timeslice_11500,genus,11500,network_metric,nestedness,6.13996002253723,available
+europe,temporal,europe_timeslice_11500,genus,11500,variance_component,Abiotic,41.638563905564304,available
+europe,temporal,europe_timeslice_11500,genus,11500,variance_component,Associations,32.21025512070791,available
+europe,temporal,europe_timeslice_11500,genus,11500,variance_component,Spatial,26.151180973727783,available
+europe,temporal,europe_timeslice_11000,genus,11000,network_metric,connectance,0.12913727618014106,available
+europe,temporal,europe_timeslice_11000,genus,11000,network_metric,modularity Q,0.2835183092844959,available
+europe,temporal,europe_timeslice_11000,genus,11000,network_metric,nestedness,6.631330095365203,available
+europe,temporal,europe_timeslice_11000,genus,11000,variance_component,Abiotic,39.37345413500477,available
+europe,temporal,europe_timeslice_11000,genus,11000,variance_component,Associations,28.422125537547732,available
+europe,temporal,europe_timeslice_11000,genus,11000,variance_component,Spatial,32.2044203274475,available
+europe,temporal,europe_timeslice_10500,genus,10500,network_metric,connectance,0.13504464285714285,available
+europe,temporal,europe_timeslice_10500,genus,10500,network_metric,modularity Q,0.2379758516798328,available
+europe,temporal,europe_timeslice_10500,genus,10500,network_metric,nestedness,8.02029327217118,available
+europe,temporal,europe_timeslice_10500,genus,10500,variance_component,Abiotic,40.30663213182977,available
+europe,temporal,europe_timeslice_10500,genus,10500,variance_component,Associations,27.798872220295294,available
+europe,temporal,europe_timeslice_10500,genus,10500,variance_component,Spatial,31.894495647874937,available
+europe,temporal,europe_timeslice_10000,genus,10000,network_metric,connectance,0.132890365448505,available
+europe,temporal,europe_timeslice_10000,genus,10000,network_metric,modularity Q,0.22263438946244682,available
+europe,temporal,europe_timeslice_10000,genus,10000,network_metric,nestedness,8.1166515225342,available
+europe,temporal,europe_timeslice_10000,genus,10000,variance_component,Abiotic,41.021780145847345,available
+europe,temporal,europe_timeslice_10000,genus,10000,variance_component,Associations,27.309561393467884,available
+europe,temporal,europe_timeslice_10000,genus,10000,variance_component,Spatial,31.668658460684767,available
+europe,temporal,europe_timeslice_9500,genus,9500,network_metric,connectance,0.14209099481376708,available
+europe,temporal,europe_timeslice_9500,genus,9500,network_metric,modularity Q,0.2022004083661197,available
+europe,temporal,europe_timeslice_9500,genus,9500,network_metric,nestedness,8.62859350937703,available
+europe,temporal,europe_timeslice_9500,genus,9500,variance_component,Abiotic,41.14229602279611,available
+europe,temporal,europe_timeslice_9500,genus,9500,variance_component,Associations,29.270920989405102,available
+europe,temporal,europe_timeslice_9500,genus,9500,variance_component,Spatial,29.58678298779878,available
+europe,temporal,europe_timeslice_9000,genus,9000,network_metric,connectance,0.14525441105055847,available
+europe,temporal,europe_timeslice_9000,genus,9000,network_metric,modularity Q,0.19040925840473988,available
+europe,temporal,europe_timeslice_9000,genus,9000,network_metric,nestedness,9.33661631171938,available
+europe,temporal,europe_timeslice_9000,genus,9000,variance_component,Abiotic,43.452927397921194,available
+europe,temporal,europe_timeslice_9000,genus,9000,variance_component,Associations,27.975882200104635,available
+europe,temporal,europe_timeslice_9000,genus,9000,variance_component,Spatial,28.571190401974178,available
+europe,temporal,europe_timeslice_8500,genus,8500,network_metric,connectance,0.15904808054703062,available
+europe,temporal,europe_timeslice_8500,genus,8500,network_metric,modularity Q,0.1910127025586176,available
+europe,temporal,europe_timeslice_8500,genus,8500,network_metric,nestedness,11.044329846222027,available
+europe,temporal,europe_timeslice_8500,genus,8500,variance_component,Abiotic,42.203262830882196,available
+europe,temporal,europe_timeslice_8500,genus,8500,variance_component,Associations,27.615729631742518,available
+europe,temporal,europe_timeslice_8500,genus,8500,variance_component,Spatial,30.181007537375283,available
+europe,temporal,europe_timeslice_8000,genus,8000,network_metric,connectance,0.1613533834586466,available
+europe,temporal,europe_timeslice_8000,genus,8000,network_metric,modularity Q,0.1792589259890092,available
+europe,temporal,europe_timeslice_8000,genus,8000,network_metric,nestedness,11.784895044870447,available
+europe,temporal,europe_timeslice_8000,genus,8000,variance_component,Abiotic,44.772008733127535,available
+europe,temporal,europe_timeslice_8000,genus,8000,variance_component,Associations,28.04300444789679,available
+europe,temporal,europe_timeslice_8000,genus,8000,variance_component,Spatial,27.18498681897567,available
+europe,temporal,europe_timeslice_7500,genus,7500,network_metric,connectance,0.16502772987836137,available
+europe,temporal,europe_timeslice_7500,genus,7500,network_metric,modularity Q,0.17937963331230872,available
+europe,temporal,europe_timeslice_7500,genus,7500,network_metric,nestedness,12.09738506811825,available
+europe,temporal,europe_timeslice_7500,genus,7500,variance_component,Abiotic,43.3228640793496,available
+europe,temporal,europe_timeslice_7500,genus,7500,variance_component,Associations,29.712815183224855,available
+europe,temporal,europe_timeslice_7500,genus,7500,variance_component,Spatial,26.96432073742554,available
+europe,temporal,europe_timeslice_7000,genus,7000,network_metric,connectance,0.15886939571150097,available
+europe,temporal,europe_timeslice_7000,genus,7000,network_metric,modularity Q,0.17209760426200152,available
+europe,temporal,europe_timeslice_7000,genus,7000,network_metric,nestedness,12.137030441097949,available
+europe,temporal,europe_timeslice_7000,genus,7000,variance_component,Abiotic,41.7264378439666,available
+europe,temporal,europe_timeslice_7000,genus,7000,variance_component,Associations,28.722179781274026,available
+europe,temporal,europe_timeslice_7000,genus,7000,variance_component,Spatial,29.551382374759385,available
+europe,temporal,europe_timeslice_6500,genus,6500,network_metric,connectance,0.1628985507246377,available
+europe,temporal,europe_timeslice_6500,genus,6500,network_metric,modularity Q,0.17000823708113275,available
+europe,temporal,europe_timeslice_6500,genus,6500,network_metric,nestedness,13.332865616514129,available
+europe,temporal,europe_timeslice_6500,genus,6500,variance_component,Abiotic,42.75814539820491,available
+europe,temporal,europe_timeslice_6500,genus,6500,variance_component,Associations,28.722459003442907,available
+europe,temporal,europe_timeslice_6500,genus,6500,variance_component,Spatial,28.519395598352187,available
+europe,temporal,europe_timeslice_6000,genus,6000,network_metric,connectance,0.16407964242177978,available
+europe,temporal,europe_timeslice_6000,genus,6000,network_metric,modularity Q,0.16316421681004034,available
+europe,temporal,europe_timeslice_6000,genus,6000,network_metric,nestedness,13.523152261061677,available
+europe,temporal,europe_timeslice_6000,genus,6000,variance_component,Abiotic,43.44721040478689,available
+europe,temporal,europe_timeslice_6000,genus,6000,variance_component,Associations,27.512328136614773,available
+europe,temporal,europe_timeslice_6000,genus,6000,variance_component,Spatial,29.040461458598337,available
+europe,temporal,europe_timeslice_5500,genus,5500,network_metric,connectance,0.15722120658135283,available
+europe,temporal,europe_timeslice_5500,genus,5500,network_metric,modularity Q,0.1752010987545779,available
+europe,temporal,europe_timeslice_5500,genus,5500,network_metric,nestedness,13.092424836405877,available
+europe,temporal,europe_timeslice_5500,genus,5500,variance_component,Abiotic,40.98122897521074,available
+europe,temporal,europe_timeslice_5500,genus,5500,variance_component,Associations,28.185452533787693,available
+europe,temporal,europe_timeslice_5500,genus,5500,variance_component,Spatial,30.83331849100157,available
+europe,temporal,europe_timeslice_5000,genus,5000,network_metric,connectance,0.15236363636363637,available
+europe,temporal,europe_timeslice_5000,genus,5000,network_metric,modularity Q,0.17122999982911857,available
+europe,temporal,europe_timeslice_5000,genus,5000,network_metric,nestedness,13.180844156393833,available
+europe,temporal,europe_timeslice_5000,genus,5000,variance_component,Abiotic,40.300858290268735,available
+europe,temporal,europe_timeslice_5000,genus,5000,variance_component,Associations,28.340181249788994,available
+europe,temporal,europe_timeslice_5000,genus,5000,variance_component,Spatial,31.35896045994228,available
+europe,temporal,europe_timeslice_4500,genus,4500,network_metric,connectance,0.15893393393393393,available
+europe,temporal,europe_timeslice_4500,genus,4500,network_metric,modularity Q,0.1765861040335458,available
+europe,temporal,europe_timeslice_4500,genus,4500,network_metric,nestedness,13.72436099178244,available
+europe,temporal,europe_timeslice_4500,genus,4500,variance_component,Abiotic,38.988937379509,available
+europe,temporal,europe_timeslice_4500,genus,4500,variance_component,Associations,28.767575818420234,available
+europe,temporal,europe_timeslice_4500,genus,4500,variance_component,Spatial,32.24348680207076,available
+europe,temporal,europe_timeslice_4000,genus,4000,network_metric,connectance,0.157791146761735,available
+europe,temporal,europe_timeslice_4000,genus,4000,network_metric,modularity Q,0.18867562929679615,available
+europe,temporal,europe_timeslice_4000,genus,4000,network_metric,nestedness,14.013694827920727,available
+europe,temporal,europe_timeslice_4000,genus,4000,variance_component,Abiotic,38.756897524665284,available
+europe,temporal,europe_timeslice_4000,genus,4000,variance_component,Associations,29.682861578766108,available
+europe,temporal,europe_timeslice_4000,genus,4000,variance_component,Spatial,31.56024089656862,available
+europe,temporal,europe_timeslice_3500,genus,3500,network_metric,connectance,0.1477727858461324,available
+europe,temporal,europe_timeslice_3500,genus,3500,network_metric,modularity Q,0.18704898264732917,available
+europe,temporal,europe_timeslice_3500,genus,3500,network_metric,nestedness,13.254460251162184,available
+europe,temporal,europe_timeslice_3500,genus,3500,variance_component,Abiotic,38.85460701549052,available
+europe,temporal,europe_timeslice_3500,genus,3500,variance_component,Associations,28.467627891552816,available
+europe,temporal,europe_timeslice_3500,genus,3500,variance_component,Spatial,32.67776509295665,available
+europe,temporal,europe_timeslice_3000,genus,3000,network_metric,connectance,0.14129389528136088,available
+europe,temporal,europe_timeslice_3000,genus,3000,network_metric,modularity Q,0.1908779413840685,available
+europe,temporal,europe_timeslice_3000,genus,3000,network_metric,nestedness,12.664927099352399,available
+europe,temporal,europe_timeslice_3000,genus,3000,variance_component,Abiotic,43.52844183702735,available
+europe,temporal,europe_timeslice_3000,genus,3000,variance_component,Associations,29.54007453633115,available
+europe,temporal,europe_timeslice_3000,genus,3000,variance_component,Spatial,26.931483626641505,available
+europe,temporal,europe_timeslice_2500,genus,2500,network_metric,connectance,0.1372392931061933,available
+europe,temporal,europe_timeslice_2500,genus,2500,network_metric,modularity Q,0.18570862559955406,available
+europe,temporal,europe_timeslice_2500,genus,2500,network_metric,nestedness,12.228939251069159,available
+europe,temporal,europe_timeslice_2500,genus,2500,variance_component,Abiotic,43.04405580931916,available
+europe,temporal,europe_timeslice_2500,genus,2500,variance_component,Associations,29.49729128723669,available
+europe,temporal,europe_timeslice_2500,genus,2500,variance_component,Spatial,27.458652903444143,available
+europe,temporal,europe_timeslice_2000,genus,2000,network_metric,connectance,0.13409997506856144,available
+europe,temporal,europe_timeslice_2000,genus,2000,network_metric,modularity Q,0.19088801358882068,available
+europe,temporal,europe_timeslice_2000,genus,2000,network_metric,nestedness,11.118101285589443,available
+europe,temporal,europe_timeslice_2000,genus,2000,variance_component,Abiotic,44.50186928729155,available
+europe,temporal,europe_timeslice_2000,genus,2000,variance_component,Associations,30.778435622390088,available
+europe,temporal,europe_timeslice_2000,genus,2000,variance_component,Spatial,24.719695090318364,available
+europe,temporal,europe_timeslice_1500,genus,1500,network_metric,connectance,0.1374532444299886,available
+europe,temporal,europe_timeslice_1500,genus,1500,network_metric,modularity Q,0.19252127041733658,available
+europe,temporal,europe_timeslice_1500,genus,1500,network_metric,nestedness,11.905166933948937,available
+europe,temporal,europe_timeslice_1500,genus,1500,variance_component,Abiotic,41.12391360619134,available
+europe,temporal,europe_timeslice_1500,genus,1500,variance_component,Associations,29.647171575863933,available
+europe,temporal,europe_timeslice_1500,genus,1500,variance_component,Spatial,29.228914817944734,available
+europe,temporal,europe_timeslice_1000,genus,1000,network_metric,connectance,0.13579013948533572,available
+europe,temporal,europe_timeslice_1000,genus,1000,network_metric,modularity Q,0.1925120570137151,available
+europe,temporal,europe_timeslice_1000,genus,1000,network_metric,nestedness,11.287717549153168,available
+europe,temporal,europe_timeslice_1000,genus,1000,variance_component,Abiotic,40.575737351032025,available
+europe,temporal,europe_timeslice_1000,genus,1000,variance_component,Associations,30.085740657875704,available
+europe,temporal,europe_timeslice_1000,genus,1000,variance_component,Spatial,29.33852199109227,available
+europe,temporal,europe_timeslice_500,genus,500,network_metric,connectance,0.1399752056801533,available
+europe,temporal,europe_timeslice_500,genus,500,network_metric,modularity Q,0.19607268590908647,available
+europe,temporal,europe_timeslice_500,genus,500,network_metric,nestedness,12.095336257872225,available
+europe,temporal,europe_timeslice_500,genus,500,variance_component,Abiotic,39.86787943600492,available
+europe,temporal,europe_timeslice_500,genus,500,variance_component,Associations,30.90765521533294,available
+europe,temporal,europe_timeslice_500,genus,500,variance_component,Spatial,29.224465348662143,available
+europe,temporal,europe_timeslice_0,genus,0,network_metric,connectance,0.2602564102564103,available
+europe,temporal,europe_timeslice_0,genus,0,network_metric,modularity Q,0.28205003761314246,available
+europe,temporal,europe_timeslice_0,genus,0,network_metric,nestedness,28.950964873026187,available
