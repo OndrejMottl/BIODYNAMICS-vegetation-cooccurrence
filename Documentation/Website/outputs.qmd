@@ -39,6 +39,19 @@ Use the standalone HTML deck for animated figures.
   style="border:none;">
 </iframe>
 
+### CSPE 2026
+
+The CSPE 2026 presentation is virtually the same as the IAVS 2026 presentation, with the same scientific results and visual narrative adapted for the CSPE conference in Prague.
+
+::: {.callout-warning}
+The PDF backup contains static figures only.
+Use the standalone HTML deck for animated figures.
+:::
+
+- [Open standalone HTML](../Presentations/CSPE_2026/_output/index.html)
+- [Download PDF](../Presentations/CSPE_2026/_output/cspe_2026_presentation.pdf)
+- [View Quarto source](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Presentations/CSPE_2026/index.qmd)
+
 ## Pipeline Progress
 
 The pipeline graphs below are generated from `{targets}` stores and show current build state for selected workflows.

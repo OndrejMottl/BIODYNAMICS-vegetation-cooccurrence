@@ -28,14 +28,14 @@ flowchart TD
 | diagnostic | 16 |
 | issue_reproduction | 6 |
 | main_analysis | 37 |
-| one_time | 6 |
+| one_time | 4 |
 | pipeline_definition | 46 |
 | project_setup | 3 |
 | reference | 13 |
 | scientific_reference | 2 |
 | sensitivity | 1 |
-| supplementary_or_processing | 38 |
-| test | 438 |
+| supplementary_or_processing | 40 |
+| test | 440 |
 
 ## Function capabilities
 

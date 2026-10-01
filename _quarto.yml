@@ -6,6 +6,7 @@ project:
     - Documentation/Progress/
     - Documentation/Functions_test_coverage/
     - Documentation/Presentations/IAVS_2026/_output/
+    - Documentation/Presentations/CSPE_2026/_output/
     - "!Data/**"
   render:
     - "index.qmd"

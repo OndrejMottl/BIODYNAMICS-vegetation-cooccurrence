@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "mode": "frozen_iavs_artifacts",
+  "snapshot_id": "2026-08-31_pre_trait_cv_rerun",
+  "snapshot_date": "2026-08-31",
+  "snapshot_display_date": "31 August 2026",
+  "source_presentation": "IAVS_2026",
+  "source_presentation_path": "Documentation/Presentations/IAVS_2026",
+  "spatial_targets_archive": "D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/Data/targets/_archive/2026-08-31_pre_trait_cv_rerun",
+  "archive_scope": [
+    "modern_spatial_continental",
+    "modern_spatial_regional",
+    "modern_spatial_local",
+    "paleo_spatial_continental",
+    "paleo_spatial_regional",
+    "paleo_spatial_local"
+  ],
+  "archive_limitations": "The archive contains the six spatial store families but not the trait-reference or paleo-temporal stores needed to regenerate the complete presentation.",
+  "rationale": "The CSPE presentation freezes the IAVS result artifacts because the rerun with added cross-validation and corrected trait data was still in progress.",
+  "summary_counts": {
+    "cores": 1130,
+    "communities": 29904,
+    "taxa": 256,
+    "trait_values": 8977115,
+    "functional_types": 24,
+    "models": 263
+  }
+}
