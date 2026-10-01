@@ -1,7 +1,8 @@
 #' @title Select sjSDM Staged-Tuning Survivors
 #' @description
-#' Deterministically ranks complete tier-pooled candidate evidence and returns
-#' the candidates allowed to enter the next tuning round.
+#' Deterministically ranks tier-pooled candidate evidence and returns the
+#' candidates allowed to enter the next tuning round. Candidates without
+#' complete converged evidence remain in the decision table but are pruned.
 #' @param data_candidate_aggregation
 #' Candidate aggregation table containing `candidate_id`,
 #' `normalized_loss_equal_id`, and `aggregation_status`.
@@ -12,7 +13,8 @@
 #' @return
 #' Tibble containing `round_id`, `candidate_id`, `candidate_rank`,
 #' `normalized_loss_equal_id`, and `staged_decision` for every candidate.
-#' Candidates are ordered by loss and then candidate identifier.
+#' Eligible candidates are ordered first by loss and then candidate identifier.
+#' Ineligible candidates follow and always receive a `prune` decision.
 #' @examples
 #' select_sjsdm_staged_survivors(
 #'   data_candidate_aggregation = tibble::tibble(
@@ -88,27 +90,43 @@ select_sjsdm_staged_survivors <- function(
     msg = "round_id must be one positive integer."
   )
 
-  flag_complete_evidence <-
-    base::all(
-      data_candidate_aggregation[["aggregation_status"]] == "ok"
-    ) &&
-    base::all(
-      base::is.finite(
-        data_candidate_aggregation[["normalized_loss_equal_id"]]
-      )
+  vec_candidate_eligible <-
+    data_candidate_aggregation[["aggregation_status"]] %in% "ok" &
+    base::is.finite(
+      data_candidate_aggregation[["normalized_loss_equal_id"]]
     )
 
+  n_candidates_eligible <-
+    base::sum(vec_candidate_eligible)
+
   if (
-    !flag_complete_evidence
+    n_candidates_eligible < survivor_count
   ) {
+    message_candidate_count <-
+      if (n_candidates_eligible == 1L) {
+        "Only 1 candidate has complete tier evidence"
+      } else {
+        stringr::str_glue(
+          "Only {n_candidates_eligible} candidates have complete tier ",
+          "evidence"
+        )
+      }
+
     cli::cli_abort(
-      "Every candidate must have complete tier evidence before pruning."
+      stringr::str_glue(
+        "{message_candidate_count}; {survivor_count} survivors are ",
+        "required."
+      )
     )
   }
 
   res <-
     data_candidate_aggregation |>
+    dplyr::mutate(
+      candidate_eligible = .env[["vec_candidate_eligible"]]
+    ) |>
     dplyr::arrange(
+      dplyr::desc(.data[["candidate_eligible"]]),
       .data[["normalized_loss_equal_id"]],
       .data[["candidate_id"]]
     ) |>
@@ -116,7 +134,8 @@ select_sjsdm_staged_survivors <- function(
       round_id = base::as.integer(round_id),
       candidate_rank = base::seq_len(dplyr::n()),
       staged_decision = dplyr::if_else(
-        .data[["candidate_rank"]] <= survivor_count,
+        .data[["candidate_eligible"]] &
+          .data[["candidate_rank"]] <= survivor_count,
         "survive",
         "prune"
       ),
