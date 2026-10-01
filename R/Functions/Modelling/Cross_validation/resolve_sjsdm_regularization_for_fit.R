@@ -132,12 +132,14 @@ resolve_sjsdm_regularization_for_fit <- function(
       "leave_one_location_out_required"
     )
 
+  flag_has_unit_selection <-
+    base::is.data.frame(data_unit_selection) &&
+    base::nrow(data_unit_selection) == 1L
+
   if (
-    flag_unit_cv
+    flag_unit_cv && flag_has_unit_selection
   ) {
     assertthat::assert_that(
-      base::is.data.frame(data_unit_selection),
-      base::nrow(data_unit_selection) == 1L,
       base::all(
         vec_candidate_columns %in%
           base::colnames(data_unit_selection)
@@ -227,7 +229,11 @@ resolve_sjsdm_regularization_for_fit <- function(
     ) |>
     dplyr::mutate(
       cv_feasibility_status = cv_feasibility_status,
-      selection_status = "selected"
+      selection_status = dplyr::if_else(
+        flag_unit_cv,
+        "selected_after_incomplete_unit_cv",
+        "selected"
+      )
     )
 
   res <-

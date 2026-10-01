@@ -1,0 +1,69 @@
+---
+format: html
+title: classify_sjsdm_previous_preparation_error()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>classify_sjsdm_previous_preparation_error</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Classify a Previous sjSDM Preparation Error</h2>
+
+<h3>Description</h3>
+
+<p>Recovers an expected preparation diagnosis from target metadata without
+allowing stale downstream model errors to contaminate the classification.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>classify_sjsdm_previous_preparation_error(
+  data_target_errors = NULL,
+  data_new_errors = NULL,
+  classify_error_function = classify_sjsdm_unit_pipeline_error
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_target_errors">data_target_errors</code></td>
+<td>
+<p>Target metadata containing 'name' and 'error'.</p>
+</td></tr>
+<tr><td><code id="data_new_errors">data_new_errors</code></td>
+<td>
+<p>Optional target errors refreshed by the current run. Dependency-only cache
+cascades defer to a registered expected root in 'data_target_errors'.</p>
+</td></tr>
+<tr><td><code id="classify_error_function">classify_error_function</code></td>
+<td>
+<p>Injectable target-error classifier.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A preparation-error classification list.
+</p>
+
+</main>
+
+</div>
+</body></html>

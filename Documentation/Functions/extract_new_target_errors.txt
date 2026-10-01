@@ -18,4 +18,5 @@ data_errors_after: Error metadata captured after execution.
 Value:
 
      A tibble of new error records with `name`, `error`, and `time`
-     columns.
+     columns. Direct target errors precede cascading dependency-load
+     errors while the original order is retained within both groups.

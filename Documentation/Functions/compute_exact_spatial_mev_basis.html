@@ -44,6 +44,15 @@ function processMathHTML() {
 </table>
 
 
+<h3>Details</h3>
+
+<p>'sjSDM::generateSpatialEV()' drops matrix dimensions when exactly one
+positive eigenvector is available and then errors while naming columns.
+This helper detects only that error and repeats the same calculation with
+dimension-preserving subsetting.
+</p>
+
+
 <h3>Value</h3>
 
 <p>Named list containing the complete MEV matrix, empty fast-basis state,

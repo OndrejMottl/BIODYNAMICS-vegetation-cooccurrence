@@ -371,7 +371,6 @@ testthat::test_that("run_pipeline() prebuilds then runs full build", {
   target_name_expression <- NULL
   flag_prebuild_lightweight <- FALSE
   flag_prebuild_crew_mori <- FALSE
-  flag_meta_crew_mori <- FALSE
   flag_full_backend_clean <- FALSE
   n_prebuild_workers_env <- NULL
   vec_build_order <- base::character()
@@ -381,13 +380,6 @@ testthat::test_that("run_pipeline() prebuilds then runs full build", {
       base::stop("tar_make_future() should not be used")
     },
     tar_meta = function(...) {
-      flag_meta_crew_mori <<-
-        flag_meta_crew_mori ||
-        base::identical(
-          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_BACKEND"),
-          "crew_mori"
-        )
-
       tibble::tibble(
         name = base::c(
           "data_community_interpolated_dataset_branch_a",
@@ -454,19 +446,65 @@ testthat::test_that("run_pipeline() prebuilds then runs full build", {
 
   testthat::expect_true(flag_prebuild_lightweight)
   testthat::expect_true(flag_prebuild_crew_mori)
-  testthat::expect_true(flag_meta_crew_mori)
   testthat::expect_true(flag_full_backend_clean)
 
   testthat::expect_equal(
     base::as.integer(n_prebuild_workers_env),
-    purrr::chuck(
-      load_active_config_value("data_processing"),
-      "n_interpolation_workers"
+    resolve_preprocessing_worker_count(
+      configured_workers = purrr::chuck(
+        load_active_config_value("data_processing"),
+        "n_interpolation_workers"
+      )
     )
   )
 })
 
-testthat::test_that("run_pipeline() repairs errored prebuild targets", {
+testthat::test_that("run_pipeline() honors interpolation worker override", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  n_prebuild_workers_env <- NULL
+
+  testthat::local_mocked_bindings(
+    tar_meta = function(...) {
+      tibble::tibble(
+        name = "data_community_interpolated",
+        error = NA_character_
+      )
+    },
+    tar_make = function(...) {
+      if (
+        base::identical(
+          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_BACKEND"),
+          "crew_mori"
+        )
+      ) {
+        n_prebuild_workers_env <<-
+          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_WORKERS")
+      }
+
+      base::invisible(NULL)
+    },
+    .package = "targets"
+  )
+
+  run_pipeline(
+    sel_script = tmp_script,
+    flag_validate_profile_selection = FALSE,
+    plot_progress = FALSE,
+    prebuild_interpolation = TRUE,
+    interpolation_workers_override = 2L
+  )
+
+  testthat::expect_identical(
+    n_prebuild_workers_env,
+    "2"
+  )
+})
+
+testthat::test_that("run_pipeline() preserves cached interpolation metadata", {
   tmp_script <-
     withr::local_tempfile(fileext = ".R")
 
@@ -482,7 +520,6 @@ testthat::test_that("run_pipeline() repairs errored prebuild targets", {
     add = TRUE
   )
 
-  vec_invalidated_names <- NULL
   vec_build_order <- base::character()
 
   testthat::local_mocked_bindings(
@@ -506,14 +543,7 @@ testthat::test_that("run_pipeline() repairs errored prebuild targets", {
       )
     },
     tar_invalidate = function(names, ...) {
-      vec_invalidated_names <<-
-        base::get(
-          x = "vec_targets_to_invalidate",
-          envir = parent.frame()
-        )
-      vec_build_order <<-
-        base::c(vec_build_order, "invalidate")
-      base::invisible(NULL)
+      base::stop("tar_invalidate() must not be used by the prebuild")
     },
     tar_make = function(...) {
       if (
@@ -543,21 +573,48 @@ testthat::test_that("run_pipeline() repairs errored prebuild targets", {
 
   testthat::expect_equal(
     vec_build_order,
-    base::c("invalidate", "prebuild", "full")
+    base::c("prebuild", "full")
+  )
+})
+
+testthat::test_that("run_pipeline() stops after a failed prebuild", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+  base::writeLines("list()", tmp_script)
+  flag_full_build_called <- FALSE
+
+  testthat::local_mocked_bindings(
+    tar_meta = function(...) {
+      tibble::tibble(
+        name = base::character(),
+        error = base::character()
+      )
+    },
+    tar_make = function(...) {
+      if (
+        base::identical(
+          base::Sys.getenv("BIODYNAMICS_PREPROCESSING_BACKEND"),
+          "crew_mori"
+        )
+      ) {
+        base::stop("prebuild broke")
+      }
+      flag_full_build_called <<- TRUE
+      base::invisible(NULL)
+    },
+    .package = "targets"
   )
 
-  testthat::expect_true(
-    "data_community_interpolated_dataset_branch_a" %in%
-      vec_invalidated_names
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      flag_validate_profile_selection = FALSE,
+      plot_progress = FALSE,
+      prebuild_interpolation = TRUE
+    ),
+    regexp = "prebuild broke"
   )
-
-  testthat::expect_true(
-    "data_community_interpolated" %in% vec_invalidated_names
-  )
-
-  testthat::expect_false(
-    "data_model" %in% vec_invalidated_names
-  )
+  testthat::expect_false(flag_full_build_called)
 })
 
 testthat::test_that("run_pipeline() calls tar_destroy when fresh_run = TRUE", {

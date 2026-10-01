@@ -72,8 +72,18 @@ list_spatial_project <-
         "project_paleo_spatial_regional",
         "project_paleo_spatial_local"
       ),
+      preparation_tier_ids = base::c(
+        project_paleo_spatial_continental = "continental",
+        project_paleo_spatial_regional = "regional",
+        project_paleo_spatial_local = "local"
+      ),
       pipeline_name = "pipeline_paleo_spatial_resolution",
       resolution_ids = base::c(
+        "genus",
+        "family",
+        "functional_type"
+      ),
+      preparation_resolution_ids = base::c(
         "genus",
         "family",
         "functional_type"
@@ -85,8 +95,18 @@ list_spatial_project <-
         "project_modern_spatial_regional",
         "project_modern_spatial_local"
       ),
+      preparation_tier_ids = base::c(
+        project_modern_spatial_continental = "continental",
+        project_modern_spatial_regional = "regional",
+        project_modern_spatial_local = "local"
+      ),
       pipeline_name = "pipeline_modern_spatial_resolution",
-      resolution_ids = base::c("genus", "family", "ft_modern")
+      resolution_ids = base::c("genus", "family", "ft_modern"),
+      preparation_resolution_ids = base::c(
+        "genus",
+        "family",
+        "functional_type"
+      )
     ),
     NULL
   )
@@ -99,6 +119,33 @@ if (
   )
 }
 
+file_preparation_inventory <-
+  here::here(
+    "Documentation/Reports/Model_calibration/sjsdm_cv_fit_budget",
+    "calibration_unit_inventory.csv"
+  )
+
+if (
+  !base::file.exists(file_preparation_inventory)
+) {
+  cli::cli_abort(
+    base::c(
+      "Common regularization requires stage 02 preparation evidence.",
+      "i" = paste(
+        "Run R/02_Main_analyses/02_Model_calibration/",
+        "01_run_model_calibration.R first.",
+        sep = ""
+      )
+    )
+  )
+}
+
+data_preparation_inventory <-
+  readr::read_csv(
+    file_preparation_inventory,
+    show_col_types = FALSE
+  )
+
 read_profile_context <- function(profile_id) {
   list_config <-
     load_config(
@@ -106,21 +153,64 @@ read_profile_context <- function(profile_id) {
       file = here::here("config.yml")
     )
 
-  tibble::tibble(
-    profile_id = profile_id,
-    tier_id = purrr::chuck(
+  tier_id <-
+    purrr::chuck(
       list_config,
       "model_fitting",
       "cross_validation",
       "tier_id"
-    ),
-    representative_scale_id = purrr::chuck(
+    )
+  preparation_tier_id <-
+    list_spatial_project[["preparation_tier_ids"]][[profile_id]] |>
+    base::unname()
+  representative_scale_id <-
+    purrr::chuck(
       list_config,
       "model_fitting",
       "cross_validation",
       "common_regularization_sensitivity",
       "representative_scale_id"
-    ),
+    )
+  vec_scale_ids <-
+    data_preparation_inventory |>
+    dplyr::filter(
+      .data[["analysis_id"]] == .env[["model_tuning_id"]],
+      .data[["tier_id"]] == .env[["preparation_tier_id"]]
+    ) |>
+    dplyr::pull("scale_id") |>
+    base::unique()
+  data_unit_fitting_plan <-
+    build_sjsdm_unit_fitting_plan(
+      data_preparation_inventory = data_preparation_inventory,
+      analysis_id = model_tuning_id,
+      tier_id = preparation_tier_id,
+      scale_ids = vec_scale_ids,
+      resolution_ids =
+        list_spatial_project[["preparation_resolution_ids"]]
+    )
+  vec_eligible_scale_ids <-
+    data_unit_fitting_plan |>
+    dplyr::filter(.data[["fitting_status"]] == "eligible") |>
+    dplyr::pull("scale_id")
+
+  if (
+    !representative_scale_id %in% vec_eligible_scale_ids
+  ) {
+    cli::cli_abort(
+      base::c(
+        "The common-sensitivity representative is not fit-eligible.",
+        "x" = stringr::str_glue(
+          "Profile {profile_id} selects {representative_scale_id}."
+        ),
+        "i" = "Choose a representative prepared by stages 01 and 02."
+      )
+    )
+  }
+
+  tibble::tibble(
+    profile_id = profile_id,
+    tier_id = tier_id,
+    representative_scale_id = representative_scale_id,
     enabled = purrr::chuck(
       list_config,
       "model_fitting",
@@ -130,7 +220,8 @@ read_profile_context <- function(profile_id) {
     ),
     target_store_root = here::here(
       purrr::chuck(list_config, "target_store")
-    )
+    ),
+    eligible_scale_ids = base::list(vec_eligible_scale_ids)
   )
 }
 
@@ -159,13 +250,25 @@ base::list(
       purrr::map(
         ~ {
           vec_store_paths <-
-            fs::dir_ls(
-              path = .x[["target_store_root"]][[1L]],
-              type = "directory",
-              recurse = FALSE
-            ) |>
-            base::file.path(list_spatial_project[["pipeline_name"]]) |>
-            purrr::keep(fs::dir_exists)
+            base::file.path(
+              .x[["target_store_root"]][[1L]],
+              .x[["eligible_scale_ids"]][[1L]],
+              list_spatial_project[["pipeline_name"]]
+            )
+
+          if (
+            base::any(!fs::dir_exists(vec_store_paths))
+          ) {
+            cli::cli_abort(
+              base::c(
+                "Eligible tuning stores are missing.",
+                "i" = paste(
+                  "Rerun stage 03 model fitting before common",
+                  "regularization sensitivity."
+                )
+              )
+            )
+          }
 
           load_sjsdm_tuning_summaries(
             store_paths = vec_store_paths,
@@ -258,6 +361,12 @@ base::list(
       purrr::chuck("data_provenance")
   ),
   targets::tar_target(
+    description = "Publish common-regularization CV fit attempts",
+    name = data_sjsdm_common_sensitivity_fit_attempts,
+    command = list_sjsdm_common_sensitivity_results |>
+      purrr::chuck("data_fit_attempts")
+  ),
+  targets::tar_target(
     description = "Publish common-regularization decompositions",
     name = data_sjsdm_common_sensitivity_decomposition,
     command = list_sjsdm_common_sensitivity_results |>
@@ -275,7 +384,9 @@ base::list(
           data_sjsdm_common_candidate_aggregation,
         data_model_index = data_sjsdm_common_model_index,
         data_sensitivity_provenance =
-          data_sjsdm_common_sensitivity_provenance
+          data_sjsdm_common_sensitivity_provenance,
+        data_fit_attempts =
+          data_sjsdm_common_sensitivity_fit_attempts
       ),
       pipeline_id =
         "pipeline_sjsdm_common_regularization_sensitivity",

@@ -78,6 +78,27 @@ testthat::test_that(
       )
     )
     testthat::expect_equal(base::nrow(data_calibration), 0L)
+    testthat::expect_identical(
+      base::vapply(
+        data_calibration,
+        base::typeof,
+        base::character(1L)
+      )[base::c(
+        "minimum_locations_per_cell",
+        "target_locations_per_cell",
+        "maximum_fold_location_difference",
+        "maximum_fold_sample_difference"
+      )],
+      stats::setNames(
+        base::rep("integer", 4L),
+        base::c(
+          "minimum_locations_per_cell",
+          "target_locations_per_cell",
+          "maximum_fold_location_difference",
+          "maximum_fold_sample_difference"
+        )
+      )
+    )
   }
 )
 

@@ -89,6 +89,7 @@ validate_sjsdm_regularization_selection_payload <- function(payload = NULL) {
             ),
             selection_status = base::c(
               "selected",
+              "selected_after_incomplete_unit_cv",
               "full_model_infeasible"
             )
           )

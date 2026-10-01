@@ -98,10 +98,60 @@ build_sjsdm_tier_survivor_artifacts <- function(
     dplyr::pull(.data[["repeat_id"]]) |>
     base::sort()
 
+  if (
+    round_id > 1L && base::is.null(data_prior_decisions)
+  ) {
+    cli::cli_abort("Later rounds require the preceding tier decisions.")
+  }
+
   data_tuning_available <-
     data_tuning_summary |>
     dplyr::filter(
       .data[["repeat_id"]] %in% .env[["vec_expected_repeats"]]
+    )
+
+  # A source with no complete candidate cannot inform tier-wide pruning.
+  # Keep its persisted unit CV errors, but pool the other source IDs.
+  data_source_candidate_coverage <-
+    data_tuning_available |>
+    dplyr::group_by(
+      dplyr::across(dplyr::all_of(vec_context_columns)),
+      .data[["source_id"]],
+      .data[["candidate_id"]]
+    ) |>
+    dplyr::summarise(
+      candidate_complete =
+        base::identical(
+          base::sort(base::unique(.data[["repeat_id"]])),
+          vec_expected_repeats
+        ) &&
+        base::all(.data[["summary_status"]] == "ok") &&
+        base::all(base::is.finite(
+          .data[["negative_log_likelihood_per_response"]]
+        )),
+      .groups = "drop"
+    )
+
+  data_sources_eligible <-
+    data_source_candidate_coverage |>
+    dplyr::group_by(
+      dplyr::across(dplyr::all_of(vec_context_columns)),
+      .data[["source_id"]]
+    ) |>
+    dplyr::summarise(
+      any_candidate_complete = base::any(
+        .data[["candidate_complete"]]
+      ),
+      .groups = "drop"
+    ) |>
+    dplyr::filter(.data[["any_candidate_complete"]]) |>
+    dplyr::select(-"any_candidate_complete")
+
+  data_tuning_available <-
+    data_tuning_available |>
+    dplyr::semi_join(
+      data_sources_eligible,
+      by = base::c(vec_context_columns, "source_id")
     )
 
   if (

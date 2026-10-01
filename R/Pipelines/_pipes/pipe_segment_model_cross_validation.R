@@ -329,7 +329,18 @@ pipe_segment_model_cross_validation <-
           purrr::chuck(config_model_fitting, "n_mev")
         ),
         candidate_table_hash = digest::digest(
-          data_sjsdm_regularization_candidates
+          base::list(
+            data_candidates = data_sjsdm_regularization_candidates,
+            config_cv_fit_budget = config_sjsdm_cv_fitting[
+              base::c(
+                "n_iter_initial",
+                "n_iter_max",
+                "n_sampling",
+                "n_step_size",
+                "n_early_stopping"
+              )
+            ]
+          )
         )
       )
     ),

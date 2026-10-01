@@ -1,0 +1,22 @@
+Build the Shared Manuscript Figure Theme
+
+Description:
+
+     Builds the journal-neutral theme used by main-analysis manuscript
+     figures. The theme uses a white background, conventional
+     sans-serif typography, and restrained grid lines suitable for
+     print and screen review.
+
+Usage:
+
+     build_manuscript_theme(base_size = 9, base_family = "sans")
+
+Arguments:
+
+base_size: Numeric scalar giving the base font size in points.
+
+base_family: Character scalar giving the font family.
+
+Value:
+
+     A complete `ggplot2` theme object.

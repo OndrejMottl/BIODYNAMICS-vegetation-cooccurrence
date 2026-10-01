@@ -21,4 +21,6 @@ target_store: Root targets-store path.
 
 Value:
 
-     Existing unit tuning-store paths.
+     Existing unit tuning-store paths. When the tuning orchestrator
+     supplies `SJSMD_TUNING_UNIT_SUFFIXES`, only successful units are
+     returned.

@@ -366,7 +366,7 @@ ORACLE dialogue:
 
 Figure slot 1: Animated gif of temporal changes of the network structure and the variance components (eg line plot of variance components through time, with the network structure changing in the background) for North America Figure slot 2: Same as figure slot 1 but for Europe Figure slot 3: Same as figure slot 1 but for Asia
 
-// check `Outputs/Figures/Temporal_continents/plot_temporal_continents_scaled.pdf`
+// check `Outputs/Figures/Temporal_continents/paleo_temporal_trajectories_<date>.pdf`
 
 Ondra dialogue:
 

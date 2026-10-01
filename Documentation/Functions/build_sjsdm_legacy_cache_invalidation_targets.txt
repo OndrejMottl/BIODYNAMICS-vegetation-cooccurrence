@@ -1,0 +1,25 @@
+Collect Unreadable Legacy sjSDM Cache Targets
+
+Description:
+
+     Collects prepared endpoints, errored targets, and named
+     dependencies that participate in a legacy `qs` cache-read failure.
+
+Usage:
+
+     build_sjsdm_legacy_cache_invalidation_targets(
+       data_endpoints = NULL,
+       data_target_errors = NULL
+     )
+
+Arguments:
+
+data_endpoints: Prepared-endpoint diagnostics containing `target_name`,
+          `endpoint_status`, and `error_message`.
+
+data_target_errors: Target metadata containing `name` and `error`.
+
+Value:
+
+     A unique character vector of targets to invalidate before
+     retrying.

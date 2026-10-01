@@ -151,6 +151,12 @@ make_sjsdm_common_payload_fixture <- function(
         "common_spatial_sensitivity",
       source_tier = "common_spatial",
       weighting_rule = "equal_tier_equal_id",
+      cv_n_iter_initial = 500L,
+      cv_n_iter_max = 2000L,
+      cv_n_sampling = 200L,
+      actual_cv_n_iter = 500L,
+      cv_converged = TRUE,
+      final_n_samples_anova = 100L,
       fit_status = "ok",
       fit_error = NA_character_
     )
@@ -161,7 +167,25 @@ make_sjsdm_common_payload_fixture <- function(
       data_candidate_aggregation =
         list_artifacts[["data_candidate_aggregation"]],
       data_model_index = data_model_index,
-      data_sensitivity_provenance = data_provenance
+      data_sensitivity_provenance = data_provenance,
+      data_fit_attempts = tibble::tibble(
+        model_id = "regional/id_a/genus",
+        candidate_id = "candidate_002",
+        repeat_id = 1L,
+        fold_id = 1L,
+        attempt = 1L,
+        n_iter_budget = 500L,
+        n_sampling = 200L,
+        epochs_run = 500L,
+        linear_trend_slope = 0,
+        median_diff = 0,
+        converged = TRUE,
+        early_stopping_triggered = FALSE,
+        runtime_seconds = 1,
+        fit_seed = 900723L,
+        fit_status = "ok",
+        error_message = NA_character_
+      )
     )
 
   return(res)
@@ -366,6 +390,9 @@ make_sjsdm_tuning_payload_fixture <- function() {
         data_tuning = data_metrics,
         data_schedule = data_schedule
       ),
+      data_fit_attempts = aggregate_sjsdm_tuning_fit_attempts(
+        base::list()
+      ),
       list_prediction_cache = base::list()
     )
 
@@ -465,7 +492,21 @@ make_sjsdm_evaluation_payload_fixture <- function() {
         selection_status = "selected"
       ),
       data_fold_diagnostics = tibble::tibble(),
-      fit_device = "cpu"
+      fit_device = "cpu",
+      config_sjsdm_cv_fitting = base::list(
+        n_iter_initial = 500L,
+        n_iter_max = 2000L,
+        n_sampling = 200L,
+        n_step_size = NULL,
+        n_early_stopping = NULL
+      ),
+      config_model_fitting = base::list(
+        n_iter = 6400L,
+        n_sampling = 1000L,
+        n_step_size = NULL,
+        n_early_stopping = NULL,
+        n_samples_anova = 100L
+      )
     )
 
   res <-

@@ -1,0 +1,102 @@
+<!DOCTYPE html><html><head><title>R: Fit an sjSDM Cross-Validation Candidate to Convergence</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>fit_sjsdm_cross_validation_candidate</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit an sjSDM Cross-Validation Candidate to Convergence</h2>
+
+<h3>Description</h3>
+
+<p>Fits one candidate-fold from its initial CV iteration budget and retries a
+successful non-converged fit with doubled iterations up to the exact maximum.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>fit_sjsdm_cross_validation_candidate(
+  data_train_input = NULL,
+  candidate = NULL,
+  sel_abiotic_formula = NULL,
+  config_sjsdm_cv_fitting = NULL,
+  seed = 900723L,
+  repeat_id = NA_integer_,
+  fold_id = NA_integer_,
+  device = "cpu",
+  biotic = NULL,
+  fit_function = fit_sjsdm_regularization_candidate,
+  convergence_function = diagnose_jsdm_convergence
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_train_input">data_train_input</code>, <code id="candidate">candidate</code>, <code id="sel_abiotic_formula">sel_abiotic_formula</code></td>
+<td>
+<p>Candidate fitting inputs passed to
+[fit_sjsdm_regularization_candidate()].</p>
+</td></tr>
+<tr><td><code id="config_sjsdm_cv_fitting">config_sjsdm_cv_fitting</code></td>
+<td>
+<p>Validated CV fitting configuration containing initial and maximum budgets.</p>
+</td></tr>
+<tr><td><code id="seed">seed</code></td>
+<td>
+<p>Deterministic seed reused unchanged for every attempt.</p>
+</td></tr>
+<tr><td><code id="repeat_id">repeat_id</code>, <code id="fold_id">fold_id</code></td>
+<td>
+<p>Integer CV identifiers persisted in attempt provenance.</p>
+</td></tr>
+<tr><td><code id="device">device</code>, <code id="biotic">biotic</code></td>
+<td>
+<p>Fitting device and optional biotic structure passed to the candidate fitter.</p>
+</td></tr>
+<tr><td><code id="fit_function">fit_function</code>, <code id="convergence_function">convergence_function</code></td>
+<td>
+<p>Injectable fitting and convergence functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An 'sjsdm_cv_fit_result' list containing the last model, final status,
+convergence fields, actual budget, and an attempt-level table.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+fit_sjsdm_cross_validation_candidate(
+  data_train_input = data_train_input,
+  candidate = data_candidate,
+  sel_abiotic_formula = formula_jsdm_environment,
+  config_sjsdm_cv_fitting = config_sjsdm_cv_fitting,
+  repeat_id = 1L,
+  fold_id = 1L
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -55,7 +55,8 @@ required.</p>
 <tr><td><code id="data_community_matrix">data_community_matrix</code></td>
 <td>
 <p>Numeric binary matrix with one row per original sample row and one column per
-taxon. Row positions must match location 'row_indices'.</p>
+taxon. Row positions must match location 'row_indices'. A zero-column matrix
+is supported and records zero viable taxa for explicit no-model routing.</p>
 </td></tr>
 <tr><td><code id="cv_strategy">cv_strategy</code></td>
 <td>
@@ -83,7 +84,9 @@ to 'TRUE'.</p>
 
 <p>Taxon viability is learned independently within each training partition. A
 retained binary taxon must meet both occurrence thresholds and contain at
-least one absence. MEM location counts equal the number of training
+least one absence. An empty taxon set is recorded as zero rather than raised
+as an error so [resolve_cross_validation_strategy()] can classify the unit as
+'full_model_infeasible'. MEM location counts equal the number of training
 locations; additional mode-specific MEM checks can raise the threshold in
 the feasibility assessor.
 </p>

@@ -317,3 +317,56 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "compute_predictor_collinearity() drops undersampled predictors",
+  {
+    data_source <-
+      tibble::tibble(
+        sample_name = base::rep(base::c("a", "b", "c"), each = 3L),
+        abiotic_variable_name = base::rep(
+          base::c("complete_a", "complete_b", "undersampled"),
+          times = 3L
+        ),
+        abiotic_value = base::c(1, 3, NA, 2, 1, NA, 3, 2, 1)
+      )
+
+    res <-
+      testthat::expect_warning(
+        compute_predictor_collinearity(data_source = data_source),
+        regexp = "insufficient finite observations"
+      )
+
+    vec_selection <-
+      res |>
+      purrr::chuck("result") |>
+      purrr::chuck("selection")
+
+    testthat::expect_false("undersampled" %in% vec_selection)
+    testthat::expect_true("complete_a" %in% vec_selection)
+  }
+)
+
+testthat::test_that(
+  "compute_predictor_collinearity() rejects fewer than three rows",
+  {
+    data_source <-
+      tibble::tibble(
+        sample_name = base::rep(base::c("a", "b"), each = 2L),
+        abiotic_variable_name = base::rep(
+          base::c("temperature", "precipitation"),
+          times = 2L
+        ),
+        abiotic_value = base::c(1, 3, 2, 4)
+      )
+
+    testthat::expect_error(
+      compute_predictor_collinearity(data_source = data_source),
+      regexp = stringr::str_c(
+        "Too few abiotic observations to evaluate predictor",
+        " ",
+        "collinearity"
+      )
+    )
+  }
+)

@@ -82,3 +82,6 @@ Documentation/Manuscript/_output/
 
 # Transient directories created while rendering function PDFs
 Documentation/Functions/.Rd2pdf*/
+
+# Large manuscript submission renders are reproducible from tracked scripts.
+Outputs/Figures/**/*.tiff

@@ -1,0 +1,29 @@
+Classify a Previous sjSDM Preparation Error
+
+Description:
+
+     Recovers an expected preparation diagnosis from target metadata
+     without allowing stale downstream model errors to contaminate the
+     classification.
+
+Usage:
+
+     classify_sjsdm_previous_preparation_error(
+       data_target_errors = NULL,
+       data_new_errors = NULL,
+       classify_error_function = classify_sjsdm_unit_pipeline_error
+     )
+
+Arguments:
+
+data_target_errors: Target metadata containing `name` and `error`.
+
+data_new_errors: Optional target errors refreshed by the current run.
+          Dependency-only cache cascades defer to a registered expected
+          root in `data_target_errors`.
+
+classify_error_function: Injectable target-error classifier.
+
+Value:
+
+     A preparation-error classification list.

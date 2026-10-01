@@ -1,0 +1,24 @@
+Save a Manuscript Figure in Publication Formats
+
+Description:
+
+     Saves one plot as vector PDF, submission-resolution TIFF, and
+     review PNG using physical settings derived from the active
+     graphical configuration.
+
+Usage:
+
+     save_manuscript_figure(plot, file_base, graphical_options)
+
+Arguments:
+
+    plot: A `ggplot` or compatible assembled plot object.
+
+file_base: Absolute or project-relative output path without extension.
+
+graphical_options: Named graphical configuration list containing
+          `width`, `height`, `units`, `dpi`, and `bg`.
+
+Value:
+
+     Named character vector containing the three written file paths.

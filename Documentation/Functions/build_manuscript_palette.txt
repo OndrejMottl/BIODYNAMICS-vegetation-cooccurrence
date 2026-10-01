@@ -1,0 +1,22 @@
+Build a Manuscript Figure Palette
+
+Description:
+
+     Returns a colourblind-aware named palette for a supported
+     scientific semantic domain. Mappings are stable across all
+     main-analysis figures.
+
+Usage:
+
+     build_manuscript_palette(
+       domain = base::c("variance_component", "data_source", "taxonomic_resolution",
+         "continent", "availability")
+     )
+
+Arguments:
+
+  domain: Character scalar selecting the semantic palette.
+
+Value:
+
+     A named character vector of hexadecimal colours.

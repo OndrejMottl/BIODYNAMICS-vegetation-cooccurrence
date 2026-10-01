@@ -1,0 +1,26 @@
+Prepare Matched Paleo-Modern Plot Data
+
+Description:
+
+     Filters the matched synthesis table to finite association
+     estimates and joins coverage counts that make unmatched-unit
+     exclusions explicit.
+
+Usage:
+
+     prepare_matched_paleo_modern_plot_data(
+       data_comparison_unit,
+       data_comparison_coverage
+     )
+
+Arguments:
+
+data_comparison_unit: Matched paleo-modern synthesis unit table.
+
+data_comparison_coverage: Synthesis coverage table.
+
+Value:
+
+     A tibble containing paired estimates, their difference, and
+     matched and excluded-unit counts for the corresponding tier and
+     resolution.

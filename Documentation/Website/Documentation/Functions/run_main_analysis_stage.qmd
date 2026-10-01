@@ -1,0 +1,96 @@
+---
+format: html
+title: run_main_analysis_stage()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_main_analysis_stage</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run a Main Analysis Stage</h2>
+
+<h3>Description</h3>
+
+<p>Runs an ordered table of main-analysis component scripts in isolated R
+subprocesses, streams their output into live logs, and records statuses.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_main_analysis_stage(
+  stage_id = NULL,
+  data_components = NULL,
+  run_id = NULL,
+  continue_on_error = FALSE,
+  next_stage_script = NULL,
+  runner_function = processx::run,
+  log_root = here::here("Data", "Temp", "Main_analysis_execution"),
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="stage_id">stage_id</code></td>
+<td>
+<p>Non-empty identifier for the numbered main-analysis stage.</p>
+</td></tr>
+<tr><td><code id="data_components">data_components</code></td>
+<td>
+<p>Data frame with unique 'component_id' and 'script_path' columns. Optional
+list-columns 'arguments' and 'environment' supply subprocess arguments and
+environment variables.</p>
+</td></tr>
+<tr><td><code id="run_id">run_id</code></td>
+<td>
+<p>Non-empty identifier shared by all component batches in one stage run.</p>
+</td></tr>
+<tr><td><code id="continue_on_error">continue_on_error</code></td>
+<td>
+<p>Logical scalar. If 'TRUE', all independent components are attempted before
+the stage fails. If 'FALSE', execution stops after the first failure.</p>
+</td></tr>
+<tr><td><code id="next_stage_script">next_stage_script</code></td>
+<td>
+<p>Optional project-relative path printed after a successful stage.</p>
+</td></tr>
+<tr><td><code id="runner_function">runner_function</code></td>
+<td>
+<p>Injectable subprocess runner. Defaults to [processx::run()].</p>
+</td></tr>
+<tr><td><code id="log_root">log_root</code></td>
+<td>
+<p>Directory under which stage logs and status CSV files are written.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. If 'TRUE' (default), progress messages are printed to the console.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Tibble with one row per attempted component and its exit status and log.
+</p>
+
+</main>
+
+</div>
+</body></html>

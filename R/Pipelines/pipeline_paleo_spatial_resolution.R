@@ -17,7 +17,7 @@
 # This pipeline is the spatial counterpart of
 #   pipeline_paleo_resolution_test.R, which validated the resolution
 #   routing on project_cz_paleo.  Each spatial runner
-#   script (01_run_spatial_continental.R etc.) calls this
+#   explicit preparation and model-fitting stage components call this
 #   pipeline once per unit, isolating its store at:
 #
 #   Data/targets/{spatial_tier}/{scale_id}/pipeline_paleo_spatial_resolution/
@@ -29,7 +29,8 @@
 #     community extract/classification/preprocess segments
 #        — genus-level community assembly
 #     pipe_segment_abiotic_extract — abiotic predictor assembly
-#     file_functional_type_classification_paleo — FT file tracker (continent lookup)
+#     file_functional_type_classification_paleo
+#       — functional-type file tracker with continent lookup
 #
 #   PER-RESOLUTION (via tar_map over "genus", "family", "functional_type"):
 #     pipe_segment_config_model_by_resolution — per-resolution fitting config

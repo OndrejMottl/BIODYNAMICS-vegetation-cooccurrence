@@ -1,0 +1,24 @@
+Aggregate sjSDM Tuning Fit Attempts
+
+Description:
+
+     Extracts and combines candidate attempt provenance from the
+     compact tuning prediction cache.
+
+Usage:
+
+     aggregate_sjsdm_tuning_fit_attempts(list_prediction_cache = NULL)
+
+Arguments:
+
+list_prediction_cache: Fold-organized prediction cache from
+          [aggregate_sjsdm_tuning_work_items()].
+
+Value:
+
+     Attempt-level tibble ordered by repeat, fold, candidate, and
+     attempt.
+
+Examples:
+
+     aggregate_sjsdm_tuning_fit_attempts(base::list())

@@ -17,6 +17,10 @@
 #' predictor structure, and candidate-table hash. Every source ID must provide
 #' the same candidate identifiers and parameter values. Candidates with an
 #' incomplete result for any source ID remain visible but are not selectable.
+#' Staged searches may contribute different repeat counts by candidate and
+#' source; each source-candidate loss averages all available repeat evidence.
+#' A source with no complete candidate is omitted from pooled selection, using
+#' the same eligibility rule as production tier-survivor selection.
 #' @examples
 #' \dontrun{
 #' aggregate_sjsdm_tuning_by_tier(
@@ -163,36 +167,59 @@ aggregate_sjsdm_tuning_by_tier <- function(
     ) |>
     base::all()
 
-  data_repeat_sets <-
+  if (
+    base::nrow(data_parameter_counts) > 0L ||
+      !flag_candidate_sets_match
+  ) {
+    cli::cli_abort(
+      "Every source ID must use the same candidate table."
+    )
+  }
+
+  # Preserve failed CV evidence in its unit artifact, but do not let a source
+  # with no complete candidate make every pooled candidate unselectable.
+  data_source_candidate_coverage <-
     data_tuning_summary |>
     dplyr::group_by(
       .data[["source_id"]],
       .data[["candidate_id"]]
     ) |>
     dplyr::summarise(
-      repeat_ids = base::list(
-        base::sort(base::unique(.data[["repeat_id"]]))
-      ),
+      candidate_complete =
+        base::all(.data[["summary_status"]] == "ok") &&
+        base::all(
+          base::is.finite(
+            .data[["negative_log_likelihood_per_response"]]
+          )
+        ) &&
+        base::all(base::is.finite(.data[["n_response_values"]])) &&
+        base::all(.data[["n_response_values"]] > 0L),
       .groups = "drop"
     )
 
-  vec_reference_repeats <-
-    data_repeat_sets[["repeat_ids"]][[1L]]
-
-  flag_repeat_sets_match <-
-    data_repeat_sets[["repeat_ids"]] |>
-    purrr::map_lgl(
-      .f = ~ base::identical(.x, vec_reference_repeats)
+  vec_eligible_source_ids <-
+    data_source_candidate_coverage |>
+    dplyr::group_by(.data[["source_id"]]) |>
+    dplyr::summarise(
+      any_candidate_complete = base::any(
+        .data[["candidate_complete"]]
+      ),
+      .groups = "drop"
     ) |>
-    base::all()
+    dplyr::filter(.data[["any_candidate_complete"]]) |>
+    dplyr::pull("source_id")
+
+  data_tuning_summary <-
+    data_tuning_summary |>
+    dplyr::filter(
+      .data[["source_id"]] %in% .env[["vec_eligible_source_ids"]]
+    )
 
   if (
-    base::nrow(data_parameter_counts) > 0L ||
-      !flag_candidate_sets_match ||
-      !flag_repeat_sets_match
+    base::nrow(data_tuning_summary) == 0L
   ) {
     cli::cli_abort(
-      "Every source ID must use the same candidate table and repeats."
+      "No source ID has a complete tuning candidate."
     )
   }
 

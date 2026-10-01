@@ -39,6 +39,10 @@ testthat::test_that(
       data_gridless_candidates,
       base::names(data_grouped_candidates)
     )
+    testthat::expect_type(
+      data_gridless_candidates[["target_locations_per_cell"]],
+      "integer"
+    )
   }
 )
 

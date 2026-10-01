@@ -10,7 +10,8 @@
 #' required.
 #' @param data_community_matrix
 #' Numeric binary matrix with one row per original sample row and one column per
-#' taxon. Row positions must match location `row_indices`.
+#' taxon. Row positions must match location `row_indices`. A zero-column matrix
+#' is supported and records zero viable taxa for explicit no-model routing.
 #' @param cv_strategy
 #' Character scalar identifying the candidate strategy. Either
 #' `"spatially_stratified_group_kfold"`, `"leave_one_location_out"`, or
@@ -28,7 +29,9 @@
 #' @details
 #' Taxon viability is learned independently within each training partition. A
 #' retained binary taxon must meet both occurrence thresholds and contain at
-#' least one absence. MEM location counts equal the number of training
+#' least one absence. An empty taxon set is recorded as zero rather than raised
+#' as an error so [resolve_cross_validation_strategy()] can classify the unit as
+#' `full_model_infeasible`. MEM location counts equal the number of training
 #' locations; additional mode-specific MEM checks can raise the threshold in
 #' the feasibility assessor.
 #' @examples
@@ -103,9 +106,11 @@ diagnose_cross_validation_partitions <- function(
     base::colnames(data_community_matrix)
 
   assertthat::assert_that(
-    !base::is.null(vec_taxon_names),
-    base::length(vec_taxon_names) > 0L,
-    !base::any(base::duplicated(vec_taxon_names)),
+    base::ncol(data_community_matrix) == 0L ||
+      (
+        !base::is.null(vec_taxon_names) &&
+          !base::any(base::duplicated(vec_taxon_names))
+      ),
     msg = "`data_community_matrix` must have unique taxon column names."
   )
 

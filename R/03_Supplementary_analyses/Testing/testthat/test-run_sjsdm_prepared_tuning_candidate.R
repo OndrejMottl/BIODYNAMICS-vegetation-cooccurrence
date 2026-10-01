@@ -100,6 +100,97 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "run_sjsdm_prepared_tuning_candidate persists escalated fit evidence",
+  {
+    data_candidate <-
+      tibble::tibble(
+        candidate_id = "candidate_1",
+        alpha_cov = 0,
+        alpha_coef = 0,
+        alpha_spatial = 0,
+        lambda_cov = 0,
+        lambda_coef = 0,
+        lambda_spatial = 0
+      )
+    data_attempts <-
+      tibble::tibble(
+        candidate_id = "candidate_1",
+        repeat_id = 1L,
+        fold_id = 1L,
+        attempt = 1L,
+        n_iter_budget = 1000L,
+        n_sampling = 200L,
+        epochs_run = 950L,
+        linear_trend_slope = 0,
+        median_diff = 0,
+        converged = TRUE,
+        early_stopping_triggered = TRUE,
+        runtime_seconds = 2,
+        fit_seed = 1L,
+        fit_status = "ok",
+        error_message = NA_character_
+      )
+    fit_function <- function(...) {
+      structure(
+        base::list(
+          mod_fit = base::list(value = 1),
+          data_attempts = data_attempts,
+          fit_status = "ok",
+          error_message = NA_character_,
+          converged = TRUE,
+          actual_n_iter = 1000L,
+          actual_n_sampling = 200L,
+          epochs_run = 950L,
+          linear_trend_slope = 0,
+          median_diff = 0,
+          early_stopping_triggered = TRUE
+        ),
+        class = base::c("sjsdm_cv_fit_result", "list")
+      )
+    }
+    list_result <-
+      run_sjsdm_prepared_tuning_candidate(
+        data_candidate = data_candidate,
+        list_prepared_fold = base::list(
+          data_train_input = base::list(),
+          data_test_input = base::list(),
+          data_test_observed = base::matrix(1, nrow = 1L)
+        ),
+        list_fold_context = base::list(
+          repeat_id = 1L,
+          fold_id = 1L,
+          n_train_locations = 2L,
+          n_test_locations = 1L,
+          n_train_samples = 2L,
+          n_test_samples = 1L,
+          cv_strategy = "leave_one_location_out"
+        ),
+        fit_function = fit_function,
+        predict_function = function(...) base::matrix(0.8, nrow = 1L),
+        score_function = function(...) {
+          base::list(
+            n_taxa_retained = 1L,
+            n_response_values = 1L,
+            negative_log_likelihood_test = 0.2,
+            negative_log_likelihood_per_response = 0.2,
+            auc_macro_test = NA_real_
+          )
+        }
+      )
+
+    testthat::expect_true(list_result[["data_tuning"]][["converged"]])
+    testthat::expect_equal(
+      list_result[["data_tuning"]][["actual_n_iter"]],
+      1000L
+    )
+    testthat::expect_identical(
+      list_result[["list_prediction"]][["data_fit_attempts"]],
+      data_attempts
+    )
+  }
+)
+
+testthat::test_that(
   "run_sjsdm_prepared_tuning_candidate() preserves failure stages",
   {
     data_candidate <-

@@ -108,9 +108,53 @@ testthat::test_that(
     testthat::expect_error(
       resolve_functional_type_classification_path(
         continent_id = "europe",
-        path_classification_directory = base::file.path(base::tempdir(), "missing")
+        path_classification_directory = base::file.path(
+          base::tempdir(),
+          "missing"
+        )
       ),
       regexp = "path_classification_directory"
+    )
+  }
+)
+
+testthat::test_that(
+  "missing classifications identify the prerequisite continental runner",
+  {
+    withr::with_tempdir(
+      {
+        error_paleo <-
+          testthat::expect_error(
+            resolve_functional_type_classification_path(
+              continent_id = "europe",
+              path_classification_directory = base::getwd()
+            )
+          )
+        error_modern <-
+          testthat::expect_error(
+            resolve_functional_type_classification_path(
+              continent_id = "europe",
+              classification_source_prefix = "modern",
+              path_classification_directory = base::getwd()
+            )
+          )
+
+        testthat::expect_match(
+          base::conditionMessage(error_paleo),
+          "01_run_preparation.R",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          base::conditionMessage(error_modern),
+          "01_run_preparation.R",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          base::conditionMessage(error_paleo),
+          "continental component publishes",
+          fixed = TRUE
+        )
+      }
     )
   }
 )

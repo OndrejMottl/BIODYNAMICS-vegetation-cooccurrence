@@ -32,7 +32,8 @@ project_modern_spatial_continental:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/01_run_modern_continental.R
+      - R/02_Main_analyses/01_Preparation/_components/04_prepare_modern_spatial_continental.R
+      - R/02_Main_analyses/03_Model_fitting/_components/04_fit_modern_spatial_continental.R
 
 project_modern_spatial_regional:
   target_store: Data/targets/modern_spatial_regional
@@ -65,7 +66,8 @@ project_modern_spatial_regional:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/02_run_modern_regional.R
+      - R/02_Main_analyses/01_Preparation/_components/05_prepare_modern_spatial_regional.R
+      - R/02_Main_analyses/03_Model_fitting/_components/05_fit_modern_spatial_regional.R
 
 project_modern_spatial_local:
   target_store: Data/targets/modern_spatial_local
@@ -98,4 +100,5 @@ project_modern_spatial_local:
     related_issue: ~
     retirement: ~
     supported_runners:
-      - R/02_Main_analyses/01_Spatial/02_Modern/01_Runners/03_run_modern_local.R
+      - R/02_Main_analyses/01_Preparation/_components/06_prepare_modern_spatial_local.R
+      - R/02_Main_analyses/03_Model_fitting/_components/06_fit_modern_spatial_local.R

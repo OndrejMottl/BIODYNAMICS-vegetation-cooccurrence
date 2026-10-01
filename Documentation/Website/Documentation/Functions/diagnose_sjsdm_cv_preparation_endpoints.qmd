@@ -1,0 +1,82 @@
+---
+format: html
+title: diagnose_sjsdm_cv_preparation_endpoints()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>diagnose_sjsdm_cv_preparation_endpoints</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Diagnose sjSDM CV Preparation Endpoints</h2>
+
+<h3>Description</h3>
+
+<p>Diagnoses whether requested prepared-fold targets exist, have successful
+metadata and content hashes, and can be read from a targets store.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>diagnose_sjsdm_cv_preparation_endpoints(
+  store_path = NULL,
+  target_names = NULL,
+  load_metadata_function = load_targets_store_metadata,
+  read_target_function = targets::tar_read_raw
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="store_path">store_path</code></td>
+<td>
+<p>Character scalar identifying the targets store.</p>
+</td></tr>
+<tr><td><code id="target_names">target_names</code></td>
+<td>
+<p>Unique non-empty character vector of prepared-fold target names.</p>
+</td></tr>
+<tr><td><code id="load_metadata_function">load_metadata_function</code></td>
+<td>
+<p>Injectable target-metadata loader.</p>
+</td></tr>
+<tr><td><code id="read_target_function">read_target_function</code></td>
+<td>
+<p>Injectable raw target reader.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Endpoint statuses are 'prepared', 'missing', 'errored', 'unreadable', or
+'cache_format_incompatible'. The last status is reserved for legacy 'qs'
+objects that current 'qs2'-based targets installations cannot read.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with one row per requested target and its endpoint status, data
+hash, and diagnostic message.
+</p>
+
+</main>
+
+</div>
+</body></html>

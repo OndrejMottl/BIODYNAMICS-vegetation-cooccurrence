@@ -38,7 +38,15 @@ a completed or failed candidate lifecycle.
   data_predicted = NULL,
   fit_seconds = NA_real_,
   prediction_seconds = NA_real_,
-  scoring_seconds = NA_real_
+  scoring_seconds = NA_real_,
+  data_fit_attempts = tibble::tibble(),
+  converged = NA,
+  actual_n_iter = NA_integer_,
+  actual_n_sampling = NA_integer_,
+  epochs_run = NA_integer_,
+  linear_trend_slope = NA_real_,
+  median_diff = NA_real_,
+  early_stopping_triggered = NA
 )
 </code></pre>
 
@@ -60,8 +68,8 @@ a completed or failed candidate lifecycle.
 </td></tr>
 <tr><td><code id="fit_status">fit_status</code></td>
 <td>
-<p>One of 'preparation_error', 'fit_error', 'prediction_error',
-'scoring_error', or 'ok'.</p>
+<p>One of 'preparation_error', 'fit_error', 'convergence_error',
+'non_converged', 'prediction_error', 'scoring_error', or 'ok'.</p>
 </td></tr>
 <tr><td><code id="error_message">error_message</code></td>
 <td>
@@ -78,6 +86,18 @@ a completed or failed candidate lifecycle.
 <tr><td><code id="fit_seconds">fit_seconds</code>, <code id="prediction_seconds">prediction_seconds</code>, <code id="scoring_seconds">scoring_seconds</code></td>
 <td>
 <p>Candidate lifecycle timings in seconds.</p>
+</td></tr>
+<tr><td><code id="data_fit_attempts">data_fit_attempts</code></td>
+<td>
+<p>Attempt-level CV fitting provenance, or an empty table.</p>
+</td></tr>
+<tr><td><code id="converged">converged</code>, <code id="actual_n_iter">actual_n_iter</code>, <code id="actual_n_sampling">actual_n_sampling</code>, <code id="epochs_run">epochs_run</code></td>
+<td>
+<p>Final-attempt convergence and actual-budget fields.</p>
+</td></tr>
+<tr><td><code id="linear_trend_slope">linear_trend_slope</code>, <code id="median_diff">median_diff</code>, <code id="early_stopping_triggered">early_stopping_triggered</code></td>
+<td>
+<p>Final-attempt convergence diagnostics.</p>
 </td></tr>
 </table>
 

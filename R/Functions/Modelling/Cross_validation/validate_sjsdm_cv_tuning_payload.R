@@ -83,6 +83,12 @@ validate_sjsdm_cv_tuning_payload <- function(payload = NULL) {
       "fit_reduction_fraction"
     )
 
+  data_empty_attempts <-
+    aggregate_sjsdm_tuning_fit_attempts(base::list())
+
+  vec_attempt_columns <-
+    base::colnames(data_empty_attempts)
+
   res <-
     validate_sjsdm_artifact_payload(
       artifact_type = "sjsdm_cv_tuning",
@@ -127,6 +133,8 @@ validate_sjsdm_cv_tuning_payload <- function(payload = NULL) {
               "ok",
               "preparation_error",
               "fit_error",
+              "convergence_error",
+              "non_converged",
               "prediction_error",
               "scoring_error"
             )
@@ -181,6 +189,8 @@ validate_sjsdm_cv_tuning_payload <- function(payload = NULL) {
               "error",
               "preparation_error",
               "fit_error",
+              "convergence_error",
+              "non_converged",
               "prediction_error",
               "scoring_error"
             )
@@ -197,6 +207,30 @@ validate_sjsdm_cv_tuning_payload <- function(payload = NULL) {
             vec_provenance_columns
           ),
           n_rows = 1L
+        ),
+        data_fit_attempts = base::list(
+          columns = vec_attempt_columns,
+          types = stats::setNames(
+            base::vapply(
+              data_empty_attempts,
+              base::typeof,
+              base::character(1L)
+            ),
+            vec_attempt_columns
+          ),
+          keys = base::c(
+            "repeat_id",
+            "fold_id",
+            "candidate_id",
+            "attempt"
+          ),
+          statuses = base::list(
+            fit_status = base::c(
+              "ok",
+              "fit_error",
+              "convergence_error"
+            )
+          )
         )
       )
     )

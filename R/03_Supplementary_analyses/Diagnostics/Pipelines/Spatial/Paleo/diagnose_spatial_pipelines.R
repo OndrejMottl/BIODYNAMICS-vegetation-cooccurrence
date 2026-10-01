@@ -296,7 +296,7 @@ data_error_counts <-
   ) |>
   dplyr::arrange(error_role, dplyr::desc(n_units))
 
-base::print(data_error_counts, n = Inf)
+base::print(data_error_counts, n = 20L)
 
 
 #----------------------------------------------------------#
@@ -340,7 +340,7 @@ list_jsdm_evaluation_fitted_all <-
 ## 4.1. Convergence metrics -----
 #--------------------------------------------------#
 
-data_convergence_summary <-
+data_convergence_metrics <-
   list_jsdm_evaluation_fitted_all |>
   purrr::imap(
     .f = ~ {
@@ -349,14 +349,30 @@ data_convergence_summary <-
       list_by_scale_i |>
         purrr::imap(
           .f = ~ {
+            list_convergence_i <-
+              purrr::pluck(
+                .x,
+                "list_convergence_diagnostics",
+                .default = NULL
+              )
+
             tibble::tibble(
               tax_res = res_i,
               scale_id = .y,
-              linear_trend_slope = purrr::chuck(
-                .x, "convergence", "linear_trend_slope"
+              evaluation_status = dplyr::if_else(
+                base::is.null(list_convergence_i),
+                "malformed_evaluation",
+                "evaluated"
               ),
-              median_diff = purrr::chuck(
-                .x, "convergence", "median_diff"
+              linear_trend_slope = purrr::pluck(
+                list_convergence_i,
+                "linear_trend_slope",
+                .default = NA_real_
+              ),
+              median_diff = purrr::pluck(
+                list_convergence_i,
+                "median_diff",
+                .default = NA_real_
               )
             )
           }
@@ -365,16 +381,52 @@ data_convergence_summary <-
     }
   ) |>
   purrr::list_rbind() |>
-  dplyr::mutate(
-    # Thresholds per diagnose_jsdm_convergence() documentation:
-    #   slope < 0.01 and diff < 1 indicate convergence
-    converged = linear_trend_slope < 0.01 & median_diff < 1
-  ) |>
   dplyr::left_join(
     data_targets_meta |>
       dplyr::select(scale_id, scale),
     by = dplyr::join_by(scale_id)
+  )
+
+data_evaluation_inventory <-
+  tidyr::crossing(
+    data_targets_successful |>
+      dplyr::select(scale, scale_id),
+    tax_res = vec_tax_res
   ) |>
+  dplyr::left_join(
+    data_convergence_metrics,
+    by = dplyr::join_by(scale, scale_id, tax_res)
+  ) |>
+  dplyr::mutate(
+    evaluation_status = dplyr::coalesce(
+      evaluation_status,
+      "unavailable"
+    ),
+    # Thresholds per diagnose_jsdm_convergence() documentation:
+    #   slope < 0.01 and diff < 1 indicate convergence
+    converged = dplyr::if_else(
+      evaluation_status == "evaluated" &
+        base::is.finite(linear_trend_slope) &
+        base::is.finite(median_diff),
+      linear_trend_slope < 0.01 & median_diff < 1,
+      NA
+    )
+  )
+
+data_evaluation_coverage <-
+  data_evaluation_inventory |>
+  dplyr::count(
+    scale,
+    tax_res,
+    evaluation_status,
+    name = "n_models"
+  ) |>
+  dplyr::arrange(scale, tax_res, evaluation_status)
+
+base::print(data_evaluation_coverage, n = Inf)
+
+data_convergence_summary <-
+  data_evaluation_inventory |>
   dplyr::select(scale, scale_id, tax_res, converged) |>
   tidyr::pivot_wider(
     names_from = tax_res,
@@ -382,20 +434,30 @@ data_convergence_summary <-
     names_prefix = "converged_"
   )
 
-base::print(data_convergence_summary, n = Inf)
+if (
+  base::interactive()
+) {
+  base::print(data_convergence_summary, n = Inf)
+} else {
+  base::message(
+    "Detailed unit convergence is available as data_convergence_summary."
+  )
+}
 # Note: NA means that the model did not run
 
 # Non-converged units (any resolution)
-data_convergence_summary |>
-  tidyr::pivot_longer(
-    cols = dplyr::starts_with("converged_"),
-    names_to = "tax_res",
-    values_to = "converged",
-    names_prefix = "converged_"
-  ) |>
-  dplyr::filter(!converged) |>
-  dplyr::select(scale, scale_id, tax_res) |>
-  View()
+data_non_converged <-
+  data_evaluation_inventory |>
+  dplyr::filter(.data[["converged"]] %in% FALSE) |>
+  dplyr::select(
+    scale,
+    scale_id,
+    tax_res,
+    linear_trend_slope,
+    median_diff
+  )
+
+base::print(data_non_converged, n = Inf)
 
 
 #----------------------------------------------------------#
@@ -405,160 +467,172 @@ data_convergence_summary |>
 #   so the number of panels stays manageable regardless of
 #   how many units exist.
 
-vec_scales <-
-  c("continental", "regional", "local") |>
-  purrr::set_names()
+if (
+  base::interactive()
+) {
+  vec_scales <-
+    c("continental", "regional", "local") |>
+    purrr::set_names()
 
-list_plots <-
-  vec_scales |>
-  purrr::map(
-    .f = ~ {
-      scale_i <- .x
+  list_plots <-
+    vec_scales |>
+    purrr::map(
+      .f = ~ {
+        scale_i <- .x
 
-      ids_in_scale <-
-        data_targets_successful |>
-        dplyr::filter(scale == scale_i) |>
-        dplyr::pull(scale_id)
+        ids_in_scale <-
+          data_targets_successful |>
+          dplyr::filter(scale == scale_i) |>
+          dplyr::pull(scale_id)
 
-      vec_tax_res |>
-        purrr::map(
-          .f = ~ {
-            tax_res_i <- .x
+        vec_tax_res |>
+          purrr::map(
+            .f = ~ {
+              tax_res_i <- .x
 
-            list_convergence_plots_i <-
-              purrr::chuck(
-                list_jsdm_evaluation_fitted_all,
-                tax_res_i
-              ) |>
-              purrr::imap(
-                .f = ~ purrr::chuck(.x, "list_convergence_diagnostics", "convergence_plot") +
-                  ggplot2::labs(subtitle = .y, title = NULL) +
-                  ggplot2::theme(
-                    title = ggplot2::element_blank(),
-                    axis.title = ggplot2::element_blank()
-                  )
-              ) |>
-              purrr::keep_at(
-                base::names(
-                  purrr::chuck(
-                    list_jsdm_evaluation_fitted_all,
-                    tax_res_i
+              list_convergence_plots_i <-
+                purrr::chuck(
+                  list_jsdm_evaluation_fitted_all,
+                  tax_res_i
+                ) |>
+                purrr::imap(
+                  .f = ~ purrr::chuck(
+                    .x,
+                    "list_convergence_diagnostics",
+                    "convergence_plot"
+                  ) +
+                    ggplot2::labs(subtitle = .y, title = NULL) +
+                    ggplot2::theme(
+                      title = ggplot2::element_blank(),
+                      axis.title = ggplot2::element_blank()
+                    )
+                ) |>
+                purrr::keep_at(
+                  base::names(
+                    purrr::chuck(
+                      list_jsdm_evaluation_fitted_all,
+                      tax_res_i
+                    )
                   )
                 )
-              )
 
-            plots_in_scale <-
-              list_convergence_plots_i[
-                base::intersect(
-                  ids_in_scale,
-                  base::names(list_convergence_plots_i)
+              plots_in_scale <-
+                list_convergence_plots_i[
+                  base::intersect(
+                    ids_in_scale,
+                    base::names(list_convergence_plots_i)
+                  )
+                ]
+
+              if (
+                base::length(plots_in_scale) == 0L
+              ) {
+                return(base::invisible(NULL))
+              }
+
+              n_cols <-
+                base::min(3L, base::length(plots_in_scale))
+
+              plot_title <-
+                cowplot::ggdraw() +
+                cowplot::draw_label(
+                  label = stringr::str_glue(
+                    "{scale_i} | {tax_res_i}"
+                  ),
+                  fontface = "bold",
+                  size = 14
                 )
-              ]
 
-            if (
-              base::length(plots_in_scale) == 0L
-            ) {
-              return(base::invisible(NULL))
-            }
-
-            n_cols <-
-              base::min(3L, base::length(plots_in_scale))
-
-            plot_title <-
-              cowplot::ggdraw() +
-              cowplot::draw_label(
-                label = stringr::str_glue(
-                  "{scale_i} | {tax_res_i}"
-                ),
-                fontface = "bold",
-                size = 14
-              )
-
-            cowplot::plot_grid(
-              plot_title,
               cowplot::plot_grid(
-                plotlist = plots_in_scale,
-                ncol = n_cols
-              ),
-              ncol = 1L,
-              rel_heights = c(0.05, 1)
-            )
-          }
-        )
-    }
-  )
+                plot_title,
+                cowplot::plot_grid(
+                  plotlist = plots_in_scale,
+                  ncol = n_cols
+                ),
+                ncol = 1L,
+                rel_heights = c(0.05, 1)
+              )
+            }
+          )
+      }
+    )
 
-purrr::chuck(list_plots, "continental", "genus") +
-  ggview::canvas(
-    width = graphical_options[["width"]],
-    height = graphical_options[["height"]],
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]],
-    bg = graphical_options[["bg"]]
-  )
-purrr::chuck(list_plots, "continental", "family") +
-  ggview::canvas(
-    width = graphical_options[["width"]],
-    height = graphical_options[["height"]],
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]],
-    bg = graphical_options[["bg"]]
-  )
-purrr::chuck(list_plots, "continental", "functional_type") +
-  ggview::canvas(
-    width = graphical_options[["width"]],
-    height = graphical_options[["height"]],
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]],
-    bg = graphical_options[["bg"]]
-  )
+  purrr::chuck(list_plots, "continental", "genus") +
+    ggview::canvas(
+      width = graphical_options[["width"]],
+      height = graphical_options[["height"]],
+      units = graphical_options[["units"]],
+      dpi = graphical_options[["dpi"]],
+      bg = graphical_options[["bg"]]
+    )
+  purrr::chuck(list_plots, "continental", "family") +
+    ggview::canvas(
+      width = graphical_options[["width"]],
+      height = graphical_options[["height"]],
+      units = graphical_options[["units"]],
+      dpi = graphical_options[["dpi"]],
+      bg = graphical_options[["bg"]]
+    )
+  purrr::chuck(list_plots, "continental", "functional_type") +
+    ggview::canvas(
+      width = graphical_options[["width"]],
+      height = graphical_options[["height"]],
+      units = graphical_options[["units"]],
+      dpi = graphical_options[["dpi"]],
+      bg = graphical_options[["bg"]]
+    )
 
-purrr::chuck(list_plots, "regional", "genus") +
-  ggview::canvas(
-    width = graphical_options[["width"]] * 2,
-    height = graphical_options[["height"]] * 3,
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]],
-    bg = graphical_options[["bg"]]
-  )
-purrr::chuck(list_plots, "regional", "family") +
-  ggview::canvas(
-    width = graphical_options[["width"]] * 2,
-    height = graphical_options[["height"]] * 3,
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]],
-    bg = graphical_options[["bg"]]
-  )
-purrr::chuck(list_plots, "regional", "functional_type") +
-  ggview::canvas(
-    width = graphical_options[["width"]] * 2,
-    height = graphical_options[["height"]] * 3,
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]],
-    bg = graphical_options[["bg"]]
-  )
+  purrr::chuck(list_plots, "regional", "genus") +
+    ggview::canvas(
+      width = graphical_options[["width"]] * 2,
+      height = graphical_options[["height"]] * 3,
+      units = graphical_options[["units"]],
+      dpi = graphical_options[["dpi"]],
+      bg = graphical_options[["bg"]]
+    )
+  purrr::chuck(list_plots, "regional", "family") +
+    ggview::canvas(
+      width = graphical_options[["width"]] * 2,
+      height = graphical_options[["height"]] * 3,
+      units = graphical_options[["units"]],
+      dpi = graphical_options[["dpi"]],
+      bg = graphical_options[["bg"]]
+    )
+  purrr::chuck(list_plots, "regional", "functional_type") +
+    ggview::canvas(
+      width = graphical_options[["width"]] * 2,
+      height = graphical_options[["height"]] * 3,
+      units = graphical_options[["units"]],
+      dpi = graphical_options[["dpi"]],
+      bg = graphical_options[["bg"]]
+    )
 
-purrr::chuck(list_plots, "local", "genus") +
-  ggview::canvas(
-    width = graphical_options[["width"]] * 2,
-    height = graphical_options[["height"]] * 8,
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]] * 2,
-    bg = graphical_options[["bg"]]
+  purrr::chuck(list_plots, "local", "genus") +
+    ggview::canvas(
+      width = graphical_options[["width"]] * 2,
+      height = graphical_options[["height"]] * 8,
+      units = graphical_options[["units"]],
+      dpi = graphical_options[["dpi"]] * 2,
+      bg = graphical_options[["bg"]]
+    )
+  purrr::chuck(list_plots, "local", "family") +
+    ggview::canvas(
+      width = graphical_options[["width"]] * 2,
+      height = graphical_options[["height"]] * 8,
+      units = graphical_options[["units"]],
+      dpi = graphical_options[["dpi"]] * 2,
+      bg = graphical_options[["bg"]]
+    )
+  purrr::chuck(list_plots, "local", "functional_type") +
+    ggview::canvas(
+      width = graphical_options[["width"]] * 2,
+      height = graphical_options[["height"]] * 8,
+      units = graphical_options[["units"]],
+      dpi = graphical_options[["dpi"]] * 2,
+      bg = graphical_options[["bg"]]
+    )
+} else {
+  base::message(
+    "Convergence plot grids are available in an interactive R session."
   )
-purrr::chuck(list_plots, "local", "family") +
-  ggview::canvas(
-    width = graphical_options[["width"]] * 2,
-    height = graphical_options[["height"]] * 8,
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]] * 2,
-    bg = graphical_options[["bg"]]
-  )
-purrr::chuck(list_plots, "local", "functional_type") +
-  ggview::canvas(
-    width = graphical_options[["width"]] * 2,
-    height = graphical_options[["height"]] * 8,
-    units = graphical_options[["units"]],
-    dpi = graphical_options[["dpi"]] * 2,
-    bg = graphical_options[["bg"]]
-  )
+}

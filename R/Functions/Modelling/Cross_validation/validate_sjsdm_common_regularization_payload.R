@@ -76,8 +76,34 @@ validate_sjsdm_common_regularization_payload <- function(payload = NULL) {
       "regularization_source",
       "source_tier",
       "weighting_rule",
+      "cv_n_iter_initial",
+      "cv_n_iter_max",
+      "cv_n_sampling",
+      "actual_cv_n_iter",
+      "cv_converged",
+      "final_n_samples_anova",
       "fit_status",
       "fit_error"
+    )
+
+  vec_attempt_columns <-
+    base::c(
+      "model_id",
+      "candidate_id",
+      "repeat_id",
+      "fold_id",
+      "attempt",
+      "n_iter_budget",
+      "n_sampling",
+      "epochs_run",
+      "linear_trend_slope",
+      "median_diff",
+      "converged",
+      "early_stopping_triggered",
+      "runtime_seconds",
+      "fit_seed",
+      "fit_status",
+      "error_message"
     )
 
   res <-
@@ -152,13 +178,41 @@ validate_sjsdm_common_regularization_payload <- function(payload = NULL) {
             base::c(
               base::rep("character", 7L),
               base::rep("integer", 5L),
-              base::rep("character", 6L)
+              base::rep("character", 4L),
+              base::rep("integer", 4L),
+              "logical",
+              "integer",
+              base::rep("character", 2L)
             ),
             vec_provenance_columns
           ),
           keys = "model_id",
           statuses = base::list(
             fit_status = base::c("ok", "error")
+          )
+        ),
+        data_fit_attempts = base::list(
+          columns = vec_attempt_columns,
+          types = stats::setNames(
+            base::c(
+              base::rep("character", 2L),
+              base::rep("integer", 6L),
+              base::rep("double", 2L),
+              base::rep("logical", 2L),
+              "double",
+              "integer",
+              base::rep("character", 2L)
+            ),
+            vec_attempt_columns
+          ),
+          keys = base::c("model_id", "attempt"),
+          statuses = base::list(
+            fit_status = base::c(
+              "ok",
+              "fit_error",
+              "convergence_error",
+              "non_converged"
+            )
           )
         )
       )

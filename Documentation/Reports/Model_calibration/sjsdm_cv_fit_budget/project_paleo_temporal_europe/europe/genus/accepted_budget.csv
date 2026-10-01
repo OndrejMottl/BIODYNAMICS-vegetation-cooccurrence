@@ -1,0 +1,2 @@
+budget_order,next_budget_order,n_iter_initial,n_iter_max,n_sampling,candidate_id,n_candidates_compared,next_winner_unchanged,rank_correlation,relative_loss_change,repeat_two_candidate_id,repeat_two_exact_winner,repeat_two_relative_loss_gap,repeat_two_loss_tolerance,repeat_two_practically_equivalent,repeat_two_confirmed,screening_n_sampling,screening_n_folds,confirmation_n_folds,confirmation_candidate_count
+1,2,500,2000,200,candidate_001,8,TRUE,0.9761904761904763,0.003839986187624937,candidate_001,TRUE,0,0.02,TRUE,TRUE,100,3,5,2

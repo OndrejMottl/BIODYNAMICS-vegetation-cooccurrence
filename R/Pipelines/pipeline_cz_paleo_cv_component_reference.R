@@ -72,6 +72,15 @@ base::list(
     cue = targets::tar_cue(mode = "always")
   ),
   targets::tar_target(
+    name = config_reference_cv_fitting,
+    command = build_sjsdm_cross_validation_fitting_config(
+      config_model_fitting = config_reference_model_fitting,
+      config_fit_budget = load_active_config_value(
+        base::c("model_fitting", "cross_validation", "fit_budget")
+      )
+    )
+  ),
+  targets::tar_target(
     name = config_reference_data_processing,
     command = targets::tar_read_raw(
       name = "config_data_processing",
@@ -174,7 +183,7 @@ base::list(
       data_abiotic_wide = data_reference_abiotic_wide,
       data_coords_projected = data_reference_coords_projected,
       data_sample_ids = data_reference_sample_ids,
-      config_model_fitting = config_reference_model_fitting,
+      config_model_fitting = config_reference_cv_fitting,
       config_data_processing = config_reference_data_processing,
       model_formula = reference_model_formula,
       device = purrr::chuck(
@@ -219,7 +228,7 @@ base::list(
       data_abiotic_wide = data_reference_abiotic_wide,
       data_coords_projected = data_reference_coords_projected,
       data_sample_ids = data_reference_sample_ids,
-      config_model_fitting = config_reference_model_fitting,
+      config_model_fitting = config_reference_cv_fitting,
       config_data_processing = config_reference_data_processing,
       model_formula = reference_model_formula,
       device = purrr::chuck(
@@ -264,7 +273,7 @@ base::list(
       data_abiotic_wide = data_reference_abiotic_wide,
       data_coords_projected = data_reference_coords_projected,
       data_sample_ids = data_reference_sample_ids,
-      config_model_fitting = config_reference_model_fitting,
+      config_model_fitting = config_reference_cv_fitting,
       config_data_processing = config_reference_data_processing,
       model_formula = reference_model_formula,
       device = purrr::chuck(

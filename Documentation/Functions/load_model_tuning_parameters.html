@@ -31,7 +31,8 @@ resolution from the model tuning CSV catalogue.
   analysis_id,
   scale_id,
   resolution_id,
-  dir = here::here("Data/Input/Model_tuning")
+  dir = here::here("Data/Input/Model_tuning"),
+  fit_stage = c("final", "cross_validation")
 )
 </code></pre>
 
@@ -61,14 +62,18 @@ the '*_ft.csv' file.</p>
 <p>Directory containing model tuning CSV files.
 Default: 'here::here(&quot;Data/Input/Model_tuning&quot;)'.</p>
 </td></tr>
+<tr><td><code id="fit_stage">fit_stage</code></td>
+<td>
+<p>Fitting stage to load. '&quot;final&quot;' returns the historical full-data model
+budget. '&quot;cross_validation&quot;' returns the independent CV fit budget.</p>
+</td></tr>
 </table>
 
 
 <h3>Value</h3>
 
-<p>A named list with 'n_iter', 'n_step_size', 'n_sampling',
-'n_samples_anova', and 'n_early_stopping'. Missing 'n_step_size' and
-'n_early_stopping' values are returned as 'NULL'.
+<p>A named stage-specific fitting list. Missing step-size and early-stopping
+values are returned as 'NULL'.
 </p>
 
 </main>

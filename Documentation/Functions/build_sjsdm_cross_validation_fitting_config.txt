@@ -1,0 +1,38 @@
+Build an sjSDM Cross-Validation Fitting Configuration
+
+Description:
+
+     Combines structural model settings with an independent, validated
+     CV fit budget while excluding final-only ANOVA settings.
+
+Usage:
+
+     build_sjsdm_cross_validation_fitting_config(
+       config_model_fitting = NULL,
+       config_fit_budget = NULL
+     )
+
+Arguments:
+
+config_model_fitting: Full-data model-fitting configuration.
+
+config_fit_budget: CV budget containing `n_iter_initial`, `n_iter_max`,
+          `n_sampling`, `n_step_size`, and `n_early_stopping`. When
+          `calibration_status` is supplied for a production profile, it
+          must equal `"calibrated"`.
+
+Value:
+
+     A fitting-compatible CV configuration. `n_iter` begins at
+     `n_iter_initial`; both iteration bounds are retained for
+     escalation.
+
+Examples:
+
+     ## Not run:
+
+     build_sjsdm_cross_validation_fitting_config(
+       config_model_fitting = config_model_fitting,
+       config_fit_budget = config_cross_validation$fit_budget
+     )
+     ## End(Not run)

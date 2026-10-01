@@ -1,0 +1,883 @@
+scale,scale_id,continent_id,x_min,x_max,y_min,y_max,resolution_id,association_percentage,preparation_status,cv_feasibility_status,n_samples,n_taxa,resolution_offset,availability_status,centre_x,centre_y,glyph_x,glyph_y,continent_label,scale_label,resolution_label
+continental,america,america,-130,-60,30,70,genus,41.79031666132687,prepared,grouped_kfold_feasible,8096,54,-0.23,available,-95,50,-111.1,50,America,Continental,Genus
+continental,america,america,-130,-60,30,70,family,31.548136913652968,prepared,grouped_kfold_feasible,8096,31,0,available,-95,50,-95,50,America,Continental,Family
+continental,america,america,-130,-60,30,70,functional_type,24.21808894782646,prepared,grouped_kfold_feasible,8096,20,0.23,available,-95,50,-78.9,50,America,Continental,Functional type
+local,am_r001_l001,america,-130,-125,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-127.5,32.5,-128.65,32.5,America,Local,Genus
+local,am_r001_l002,america,-130,-125,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-127.5,37.5,-128.65,37.5,America,Local,Genus
+local,am_r001_l003,america,-125,-120,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-122.5,32.5,-123.65,32.5,America,Local,Genus
+local,am_r001_l004,america,-125,-120,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-122.5,37.5,-123.65,37.5,America,Local,Genus
+local,am_r002_l001,america,-130,-125,40,45,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-127.5,42.5,-128.65,42.5,America,Local,Genus
+local,am_r002_l002,america,-130,-125,45,50,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-127.5,47.5,-128.65,47.5,America,Local,Genus
+local,am_r002_l003,america,-130,-125,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-127.5,52.5,-128.65,52.5,America,Local,Genus
+local,am_r002_l004,america,-130,-125,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-127.5,57.5,-128.65,57.5,America,Local,Genus
+local,am_r002_l005,america,-125,-120,40,45,genus,17.47805591665476,prepared,grouped_kfold_feasible,355,10,-0.23,available,-122.5,42.5,-123.65,42.5,America,Local,Genus
+local,am_r002_l006,america,-125,-120,45,50,genus,18.709402114905966,prepared,grouped_kfold_feasible,370,9,-0.23,available,-122.5,47.5,-123.65,47.5,America,Local,Genus
+local,am_r002_l007,america,-125,-120,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-122.5,52.5,-123.65,52.5,America,Local,Genus
+local,am_r002_l008,america,-125,-120,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-122.5,57.5,-123.65,57.5,America,Local,Genus
+local,am_r003_l001,america,-130,-125,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-127.5,62.5,-128.65,62.5,America,Local,Genus
+local,am_r003_l002,america,-130,-125,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-127.5,67.5,-128.65,67.5,America,Local,Genus
+local,am_r003_l003,america,-125,-120,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-122.5,62.5,-123.65,62.5,America,Local,Genus
+local,am_r003_l004,america,-125,-120,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-122.5,67.5,-123.65,67.5,America,Local,Genus
+local,am_r004_l001,america,-120,-115,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-117.5,32.5,-118.65,32.5,America,Local,Genus
+local,am_r004_l002,america,-120,-115,35,40,genus,18.608433106260748,prepared,leave_one_location_out_required,204,6,-0.23,available,-117.5,37.5,-118.65,37.5,America,Local,Genus
+local,am_r004_l003,america,-115,-110,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-112.5,32.5,-113.65,32.5,America,Local,Genus
+local,am_r004_l004,america,-115,-110,35,40,genus,NA,prepared,full_model_infeasible,119,0,-0.23,expected_infeasible,-112.5,37.5,-113.65,37.5,America,Local,Genus
+local,am_r004_l005,america,-110,-105,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-107.5,32.5,-108.65,32.5,America,Local,Genus
+local,am_r004_l006,america,-110,-105,35,40,genus,22.85050093292408,prepared,grouped_kfold_feasible,331,10,-0.23,available,-107.5,37.5,-108.65,37.5,America,Local,Genus
+local,am_r004_l007,america,-105,-100,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-102.5,32.5,-103.65,32.5,America,Local,Genus
+local,am_r004_l008,america,-105,-100,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-102.5,37.5,-103.65,37.5,America,Local,Genus
+local,am_r005_l001,america,-120,-115,40,45,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-117.5,42.5,-118.65,42.5,America,Local,Genus
+local,am_r005_l002,america,-120,-115,45,50,genus,NA,prepared,full_model_infeasible,91,2,-0.23,expected_infeasible,-117.5,47.5,-118.65,47.5,America,Local,Genus
+local,am_r005_l003,america,-120,-115,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-117.5,52.5,-118.65,52.5,America,Local,Genus
+local,am_r005_l004,america,-120,-115,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-117.5,57.5,-118.65,57.5,America,Local,Genus
+local,am_r005_l005,america,-115,-110,40,45,genus,22.61399426475176,prepared,grouped_kfold_feasible,271,8,-0.23,available,-112.5,42.5,-113.65,42.5,America,Local,Genus
+local,am_r005_l006,america,-115,-110,45,50,genus,13.431408236995408,prepared,grouped_kfold_feasible,291,5,-0.23,available,-112.5,47.5,-113.65,47.5,America,Local,Genus
+local,am_r005_l007,america,-115,-110,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-112.5,52.5,-113.65,52.5,America,Local,Genus
+local,am_r005_l008,america,-115,-110,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-112.5,57.5,-113.65,57.5,America,Local,Genus
+local,am_r005_l009,america,-110,-105,40,45,genus,19.89943452877774,prepared,grouped_kfold_feasible,173,9,-0.23,available,-107.5,42.5,-108.65,42.5,America,Local,Genus
+local,am_r005_l010,america,-110,-105,45,50,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-107.5,47.5,-108.65,47.5,America,Local,Genus
+local,am_r005_l011,america,-110,-105,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-107.5,52.5,-108.65,52.5,America,Local,Genus
+local,am_r005_l012,america,-110,-105,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-107.5,57.5,-108.65,57.5,America,Local,Genus
+local,am_r005_l013,america,-105,-100,40,45,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-102.5,42.5,-103.65,42.5,America,Local,Genus
+local,am_r005_l014,america,-105,-100,45,50,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-102.5,47.5,-103.65,47.5,America,Local,Genus
+local,am_r005_l015,america,-105,-100,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-102.5,52.5,-103.65,52.5,America,Local,Genus
+local,am_r005_l016,america,-105,-100,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-102.5,57.5,-103.65,57.5,America,Local,Genus
+local,am_r006_l001,america,-120,-115,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-117.5,62.5,-118.65,62.5,America,Local,Genus
+local,am_r006_l002,america,-120,-115,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-117.5,67.5,-118.65,67.5,America,Local,Genus
+local,am_r006_l003,america,-115,-110,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-112.5,62.5,-113.65,62.5,America,Local,Genus
+local,am_r006_l004,america,-115,-110,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-112.5,67.5,-113.65,67.5,America,Local,Genus
+local,am_r006_l005,america,-110,-105,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-107.5,62.5,-108.65,62.5,America,Local,Genus
+local,am_r006_l006,america,-110,-105,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-107.5,67.5,-108.65,67.5,America,Local,Genus
+local,am_r006_l007,america,-105,-100,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-102.5,62.5,-103.65,62.5,America,Local,Genus
+local,am_r006_l008,america,-105,-100,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-102.5,67.5,-103.65,67.5,America,Local,Genus
+local,am_r007_l001,america,-100,-95,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-97.5,32.5,-98.65,32.5,America,Local,Genus
+local,am_r007_l002,america,-100,-95,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-97.5,37.5,-98.65,37.5,America,Local,Genus
+local,am_r007_l003,america,-95,-90,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-92.5,32.5,-93.65,32.5,America,Local,Genus
+local,am_r007_l004,america,-95,-90,35,40,genus,23.091017101205015,prepared,tier_pooled_regularization_required,122,4,-0.23,available,-92.5,37.5,-93.65,37.5,America,Local,Genus
+local,am_r007_l005,america,-90,-85,30,35,genus,9.179740004331832,prepared,tier_pooled_regularization_required,119,3,-0.23,available,-87.5,32.5,-88.65,32.5,America,Local,Genus
+local,am_r007_l006,america,-90,-85,35,40,genus,40.52358691953203,prepared,tier_pooled_regularization_required,158,13,-0.23,available,-87.5,37.5,-88.65,37.5,America,Local,Genus
+local,am_r007_l007,america,-85,-80,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-82.5,32.5,-83.65,32.5,America,Local,Genus
+local,am_r007_l008,america,-85,-80,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-82.5,37.5,-83.65,37.5,America,Local,Genus
+local,am_r008_l001,america,-100,-95,40,45,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-97.5,42.5,-98.65,42.5,America,Local,Genus
+local,am_r008_l002,america,-100,-95,45,50,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-97.5,47.5,-98.65,47.5,America,Local,Genus
+local,am_r008_l003,america,-100,-95,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-97.5,52.5,-98.65,52.5,America,Local,Genus
+local,am_r008_l004,america,-100,-95,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-97.5,57.5,-98.65,57.5,America,Local,Genus
+local,am_r008_l005,america,-95,-90,40,45,genus,36.94466538751253,prepared,grouped_kfold_feasible,149,16,-0.23,available,-92.5,42.5,-93.65,42.5,America,Local,Genus
+local,am_r008_l006,america,-95,-90,45,50,genus,36.478072553505655,prepared,grouped_kfold_feasible,206,13,-0.23,available,-92.5,47.5,-93.65,47.5,America,Local,Genus
+local,am_r008_l007,america,-95,-90,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-92.5,52.5,-93.65,52.5,America,Local,Genus
+local,am_r008_l008,america,-95,-90,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-92.5,57.5,-93.65,57.5,America,Local,Genus
+local,am_r008_l009,america,-90,-85,40,45,genus,37.64477806094541,prepared,grouped_kfold_feasible,352,19,-0.23,available,-87.5,42.5,-88.65,42.5,America,Local,Genus
+local,am_r008_l010,america,-90,-85,45,50,genus,32.92462750172279,prepared,grouped_kfold_feasible,263,11,-0.23,available,-87.5,47.5,-88.65,47.5,America,Local,Genus
+local,am_r008_l011,america,-90,-85,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-87.5,52.5,-88.65,52.5,America,Local,Genus
+local,am_r008_l012,america,-90,-85,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-87.5,57.5,-88.65,57.5,America,Local,Genus
+local,am_r008_l013,america,-85,-80,40,45,genus,34.605414309422244,prepared,grouped_kfold_feasible,228,18,-0.23,available,-82.5,42.5,-83.65,42.5,America,Local,Genus
+local,am_r008_l014,america,-85,-80,45,50,genus,23.016122506031923,prepared,tier_pooled_regularization_required,104,5,-0.23,available,-82.5,47.5,-83.65,47.5,America,Local,Genus
+local,am_r008_l015,america,-85,-80,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-82.5,52.5,-83.65,52.5,America,Local,Genus
+local,am_r008_l016,america,-85,-80,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-82.5,57.5,-83.65,57.5,America,Local,Genus
+local,am_r009_l001,america,-100,-95,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-97.5,62.5,-98.65,62.5,America,Local,Genus
+local,am_r009_l002,america,-100,-95,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-97.5,67.5,-98.65,67.5,America,Local,Genus
+local,am_r009_l003,america,-95,-90,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-92.5,62.5,-93.65,62.5,America,Local,Genus
+local,am_r009_l004,america,-95,-90,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-92.5,67.5,-93.65,67.5,America,Local,Genus
+local,am_r009_l005,america,-90,-85,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-87.5,62.5,-88.65,62.5,America,Local,Genus
+local,am_r009_l006,america,-90,-85,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-87.5,67.5,-88.65,67.5,America,Local,Genus
+local,am_r009_l007,america,-85,-80,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-82.5,62.5,-83.65,62.5,America,Local,Genus
+local,am_r009_l008,america,-85,-80,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-82.5,67.5,-83.65,67.5,America,Local,Genus
+local,am_r010_l001,america,-80,-75,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-77.5,32.5,-78.65,32.5,America,Local,Genus
+local,am_r010_l002,america,-80,-75,35,40,genus,37.29297697828013,prepared,grouped_kfold_feasible,251,16,-0.23,available,-77.5,37.5,-78.65,37.5,America,Local,Genus
+local,am_r010_l003,america,-75,-70,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-72.5,32.5,-73.65,32.5,America,Local,Genus
+local,am_r010_l004,america,-75,-70,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-72.5,37.5,-73.65,37.5,America,Local,Genus
+local,am_r010_l005,america,-70,-65,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-67.5,32.5,-68.65,32.5,America,Local,Genus
+local,am_r010_l006,america,-70,-65,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-67.5,37.5,-68.65,37.5,America,Local,Genus
+local,am_r010_l007,america,-65,-60,30,35,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-62.5,32.5,-63.65,32.5,America,Local,Genus
+local,am_r010_l008,america,-65,-60,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-62.5,37.5,-63.65,37.5,America,Local,Genus
+local,am_r011_l001,america,-80,-75,40,45,genus,43.75084576362054,prepared,grouped_kfold_feasible,291,19,-0.23,available,-77.5,42.5,-78.65,42.5,America,Local,Genus
+local,am_r011_l002,america,-80,-75,45,50,genus,26.80358199172108,prepared,tier_pooled_regularization_required,114,12,-0.23,available,-77.5,47.5,-78.65,47.5,America,Local,Genus
+local,am_r011_l003,america,-80,-75,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-77.5,52.5,-78.65,52.5,America,Local,Genus
+local,am_r011_l004,america,-80,-75,55,60,genus,13.759393452556628,prepared,leave_one_location_out_required,93,3,-0.23,available,-77.5,57.5,-78.65,57.5,America,Local,Genus
+local,am_r011_l005,america,-75,-70,40,45,genus,39.356914969332415,prepared,grouped_kfold_feasible,1007,26,-0.23,available,-72.5,42.5,-73.65,42.5,America,Local,Genus
+local,am_r011_l006,america,-75,-70,45,50,genus,42.44834757620088,prepared,grouped_kfold_feasible,426,18,-0.23,available,-72.5,47.5,-73.65,47.5,America,Local,Genus
+local,am_r011_l007,america,-75,-70,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-72.5,52.5,-73.65,52.5,America,Local,Genus
+local,am_r011_l008,america,-75,-70,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-72.5,57.5,-73.65,57.5,America,Local,Genus
+local,am_r011_l009,america,-70,-65,40,45,genus,33.740883800311,prepared,grouped_kfold_feasible,166,14,-0.23,available,-67.5,42.5,-68.65,42.5,America,Local,Genus
+local,am_r011_l010,america,-70,-65,45,50,genus,26.082569768579468,prepared,grouped_kfold_feasible,236,15,-0.23,available,-67.5,47.5,-68.65,47.5,America,Local,Genus
+local,am_r011_l011,america,-70,-65,50,55,genus,NA,prepared,full_model_infeasible,75,1,-0.23,expected_infeasible,-67.5,52.5,-68.65,52.5,America,Local,Genus
+local,am_r011_l012,america,-70,-65,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-67.5,57.5,-68.65,57.5,America,Local,Genus
+local,am_r011_l013,america,-65,-60,40,45,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-62.5,42.5,-63.65,42.5,America,Local,Genus
+local,am_r011_l014,america,-65,-60,45,50,genus,27.0137942991197,prepared,leave_one_location_out_required,125,8,-0.23,available,-62.5,47.5,-63.65,47.5,America,Local,Genus
+local,am_r011_l015,america,-65,-60,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-62.5,52.5,-63.65,52.5,America,Local,Genus
+local,am_r011_l016,america,-65,-60,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-62.5,57.5,-63.65,57.5,America,Local,Genus
+local,am_r012_l001,america,-80,-75,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-77.5,62.5,-78.65,62.5,America,Local,Genus
+local,am_r012_l002,america,-80,-75,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-77.5,67.5,-78.65,67.5,America,Local,Genus
+local,am_r012_l003,america,-75,-70,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-72.5,62.5,-73.65,62.5,America,Local,Genus
+local,am_r012_l004,america,-75,-70,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-72.5,67.5,-73.65,67.5,America,Local,Genus
+local,am_r012_l005,america,-70,-65,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-67.5,62.5,-68.65,62.5,America,Local,Genus
+local,am_r012_l006,america,-70,-65,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-67.5,67.5,-68.65,67.5,America,Local,Genus
+local,am_r012_l007,america,-65,-60,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-62.5,62.5,-63.65,62.5,America,Local,Genus
+local,am_r012_l008,america,-65,-60,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-62.5,67.5,-63.65,67.5,America,Local,Genus
+local,am_r001_l001,america,-130,-125,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-127.5,32.5,-127.5,32.5,America,Local,Family
+local,am_r001_l002,america,-130,-125,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-127.5,37.5,-127.5,37.5,America,Local,Family
+local,am_r001_l003,america,-125,-120,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-122.5,32.5,-122.5,32.5,America,Local,Family
+local,am_r001_l004,america,-125,-120,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-122.5,37.5,-122.5,37.5,America,Local,Family
+local,am_r002_l001,america,-130,-125,40,45,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-127.5,42.5,-127.5,42.5,America,Local,Family
+local,am_r002_l002,america,-130,-125,45,50,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-127.5,47.5,-127.5,47.5,America,Local,Family
+local,am_r002_l003,america,-130,-125,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-127.5,52.5,-127.5,52.5,America,Local,Family
+local,am_r002_l004,america,-130,-125,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-127.5,57.5,-127.5,57.5,America,Local,Family
+local,am_r002_l005,america,-125,-120,40,45,family,21.898047746681097,prepared,grouped_kfold_feasible,355,6,0,available,-122.5,42.5,-122.5,42.5,America,Local,Family
+local,am_r002_l006,america,-125,-120,45,50,family,12.185062284480171,prepared,leave_one_location_out_required,370,4,0,available,-122.5,47.5,-122.5,47.5,America,Local,Family
+local,am_r002_l007,america,-125,-120,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-122.5,52.5,-122.5,52.5,America,Local,Family
+local,am_r002_l008,america,-125,-120,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-122.5,57.5,-122.5,57.5,America,Local,Family
+local,am_r003_l001,america,-130,-125,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-127.5,62.5,-127.5,62.5,America,Local,Family
+local,am_r003_l002,america,-130,-125,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-127.5,67.5,-127.5,67.5,America,Local,Family
+local,am_r003_l003,america,-125,-120,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-122.5,62.5,-122.5,62.5,America,Local,Family
+local,am_r003_l004,america,-125,-120,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-122.5,67.5,-122.5,67.5,America,Local,Family
+local,am_r004_l001,america,-120,-115,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-117.5,32.5,-117.5,32.5,America,Local,Family
+local,am_r004_l002,america,-120,-115,35,40,family,15.27280173263972,prepared,grouped_kfold_feasible,204,5,0,available,-117.5,37.5,-117.5,37.5,America,Local,Family
+local,am_r004_l003,america,-115,-110,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-112.5,32.5,-112.5,32.5,America,Local,Family
+local,am_r004_l004,america,-115,-110,35,40,family,NA,prepared,full_model_infeasible,119,0,0,expected_infeasible,-112.5,37.5,-112.5,37.5,America,Local,Family
+local,am_r004_l005,america,-110,-105,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-107.5,32.5,-107.5,32.5,America,Local,Family
+local,am_r004_l006,america,-110,-105,35,40,family,16.083555606033208,prepared,grouped_kfold_feasible,331,6,0,available,-107.5,37.5,-107.5,37.5,America,Local,Family
+local,am_r004_l007,america,-105,-100,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-102.5,32.5,-102.5,32.5,America,Local,Family
+local,am_r004_l008,america,-105,-100,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-102.5,37.5,-102.5,37.5,America,Local,Family
+local,am_r005_l001,america,-120,-115,40,45,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-117.5,42.5,-117.5,42.5,America,Local,Family
+local,am_r005_l002,america,-120,-115,45,50,family,NA,prepared,full_model_infeasible,91,0,0,expected_infeasible,-117.5,47.5,-117.5,47.5,America,Local,Family
+local,am_r005_l003,america,-120,-115,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-117.5,52.5,-117.5,52.5,America,Local,Family
+local,am_r005_l004,america,-120,-115,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-117.5,57.5,-117.5,57.5,America,Local,Family
+local,am_r005_l005,america,-115,-110,40,45,family,24.125287257490015,prepared,grouped_kfold_feasible,271,4,0,available,-112.5,42.5,-112.5,42.5,America,Local,Family
+local,am_r005_l006,america,-115,-110,45,50,family,13.823857988774224,prepared,grouped_kfold_feasible,291,5,0,available,-112.5,47.5,-112.5,47.5,America,Local,Family
+local,am_r005_l007,america,-115,-110,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-112.5,52.5,-112.5,52.5,America,Local,Family
+local,am_r005_l008,america,-115,-110,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-112.5,57.5,-112.5,57.5,America,Local,Family
+local,am_r005_l009,america,-110,-105,40,45,family,16.202102593505792,prepared,grouped_kfold_feasible,173,5,0,available,-107.5,42.5,-107.5,42.5,America,Local,Family
+local,am_r005_l010,america,-110,-105,45,50,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-107.5,47.5,-107.5,47.5,America,Local,Family
+local,am_r005_l011,america,-110,-105,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-107.5,52.5,-107.5,52.5,America,Local,Family
+local,am_r005_l012,america,-110,-105,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-107.5,57.5,-107.5,57.5,America,Local,Family
+local,am_r005_l013,america,-105,-100,40,45,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-102.5,42.5,-102.5,42.5,America,Local,Family
+local,am_r005_l014,america,-105,-100,45,50,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-102.5,47.5,-102.5,47.5,America,Local,Family
+local,am_r005_l015,america,-105,-100,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-102.5,52.5,-102.5,52.5,America,Local,Family
+local,am_r005_l016,america,-105,-100,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-102.5,57.5,-102.5,57.5,America,Local,Family
+local,am_r006_l001,america,-120,-115,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-117.5,62.5,-117.5,62.5,America,Local,Family
+local,am_r006_l002,america,-120,-115,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-117.5,67.5,-117.5,67.5,America,Local,Family
+local,am_r006_l003,america,-115,-110,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-112.5,62.5,-112.5,62.5,America,Local,Family
+local,am_r006_l004,america,-115,-110,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-112.5,67.5,-112.5,67.5,America,Local,Family
+local,am_r006_l005,america,-110,-105,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-107.5,62.5,-107.5,62.5,America,Local,Family
+local,am_r006_l006,america,-110,-105,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-107.5,67.5,-107.5,67.5,America,Local,Family
+local,am_r006_l007,america,-105,-100,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-102.5,62.5,-102.5,62.5,America,Local,Family
+local,am_r006_l008,america,-105,-100,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-102.5,67.5,-102.5,67.5,America,Local,Family
+local,am_r007_l001,america,-100,-95,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-97.5,32.5,-97.5,32.5,America,Local,Family
+local,am_r007_l002,america,-100,-95,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-97.5,37.5,-97.5,37.5,America,Local,Family
+local,am_r007_l003,america,-95,-90,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-92.5,32.5,-92.5,32.5,America,Local,Family
+local,am_r007_l004,america,-95,-90,35,40,family,22.71432345556919,prepared,tier_pooled_regularization_required,122,4,0,available,-92.5,37.5,-92.5,37.5,America,Local,Family
+local,am_r007_l005,america,-90,-85,30,35,family,11.63456141853042,prepared,tier_pooled_regularization_required,119,4,0,available,-87.5,32.5,-87.5,32.5,America,Local,Family
+local,am_r007_l006,america,-90,-85,35,40,family,28.62193188768341,prepared,tier_pooled_regularization_required,158,8,0,available,-87.5,37.5,-87.5,37.5,America,Local,Family
+local,am_r007_l007,america,-85,-80,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-82.5,32.5,-82.5,32.5,America,Local,Family
+local,am_r007_l008,america,-85,-80,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-82.5,37.5,-82.5,37.5,America,Local,Family
+local,am_r008_l001,america,-100,-95,40,45,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-97.5,42.5,-97.5,42.5,America,Local,Family
+local,am_r008_l002,america,-100,-95,45,50,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-97.5,47.5,-97.5,47.5,America,Local,Family
+local,am_r008_l003,america,-100,-95,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-97.5,52.5,-97.5,52.5,America,Local,Family
+local,am_r008_l004,america,-100,-95,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-97.5,57.5,-97.5,57.5,America,Local,Family
+local,am_r008_l005,america,-95,-90,40,45,family,23.693854521937254,prepared,grouped_kfold_feasible,149,8,0,available,-92.5,42.5,-92.5,42.5,America,Local,Family
+local,am_r008_l006,america,-95,-90,45,50,family,20.606949914170062,prepared,grouped_kfold_feasible,206,5,0,available,-92.5,47.5,-92.5,47.5,America,Local,Family
+local,am_r008_l007,america,-95,-90,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-92.5,52.5,-92.5,52.5,America,Local,Family
+local,am_r008_l008,america,-95,-90,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-92.5,57.5,-92.5,57.5,America,Local,Family
+local,am_r008_l009,america,-90,-85,40,45,family,25.964991662823167,prepared,grouped_kfold_feasible,352,10,0,available,-87.5,42.5,-87.5,42.5,America,Local,Family
+local,am_r008_l010,america,-90,-85,45,50,family,23.261680345108545,prepared,grouped_kfold_feasible,263,5,0,available,-87.5,47.5,-87.5,47.5,America,Local,Family
+local,am_r008_l011,america,-90,-85,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-87.5,52.5,-87.5,52.5,America,Local,Family
+local,am_r008_l012,america,-90,-85,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-87.5,57.5,-87.5,57.5,America,Local,Family
+local,am_r008_l013,america,-85,-80,40,45,family,17.7087952874799,prepared,grouped_kfold_feasible,228,8,0,available,-82.5,42.5,-82.5,42.5,America,Local,Family
+local,am_r008_l014,america,-85,-80,45,50,family,7.427091230038315,prepared,tier_pooled_regularization_required,104,3,0,available,-82.5,47.5,-82.5,47.5,America,Local,Family
+local,am_r008_l015,america,-85,-80,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-82.5,52.5,-82.5,52.5,America,Local,Family
+local,am_r008_l016,america,-85,-80,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-82.5,57.5,-82.5,57.5,America,Local,Family
+local,am_r009_l001,america,-100,-95,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-97.5,62.5,-97.5,62.5,America,Local,Family
+local,am_r009_l002,america,-100,-95,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-97.5,67.5,-97.5,67.5,America,Local,Family
+local,am_r009_l003,america,-95,-90,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-92.5,62.5,-92.5,62.5,America,Local,Family
+local,am_r009_l004,america,-95,-90,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-92.5,67.5,-92.5,67.5,America,Local,Family
+local,am_r009_l005,america,-90,-85,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-87.5,62.5,-87.5,62.5,America,Local,Family
+local,am_r009_l006,america,-90,-85,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-87.5,67.5,-87.5,67.5,America,Local,Family
+local,am_r009_l007,america,-85,-80,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-82.5,62.5,-82.5,62.5,America,Local,Family
+local,am_r009_l008,america,-85,-80,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-82.5,67.5,-82.5,67.5,America,Local,Family
+local,am_r010_l001,america,-80,-75,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-77.5,32.5,-77.5,32.5,America,Local,Family
+local,am_r010_l002,america,-80,-75,35,40,family,29.87268728611623,prepared,grouped_kfold_feasible,251,10,0,available,-77.5,37.5,-77.5,37.5,America,Local,Family
+local,am_r010_l003,america,-75,-70,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-72.5,32.5,-72.5,32.5,America,Local,Family
+local,am_r010_l004,america,-75,-70,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-72.5,37.5,-72.5,37.5,America,Local,Family
+local,am_r010_l005,america,-70,-65,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-67.5,32.5,-67.5,32.5,America,Local,Family
+local,am_r010_l006,america,-70,-65,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-67.5,37.5,-67.5,37.5,America,Local,Family
+local,am_r010_l007,america,-65,-60,30,35,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-62.5,32.5,-62.5,32.5,America,Local,Family
+local,am_r010_l008,america,-65,-60,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-62.5,37.5,-62.5,37.5,America,Local,Family
+local,am_r011_l001,america,-80,-75,40,45,family,31.1935696355355,prepared,grouped_kfold_feasible,291,8,0,available,-77.5,42.5,-77.5,42.5,America,Local,Family
+local,am_r011_l002,america,-80,-75,45,50,family,25.4516194560207,prepared,tier_pooled_regularization_required,114,6,0,available,-77.5,47.5,-77.5,47.5,America,Local,Family
+local,am_r011_l003,america,-80,-75,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-77.5,52.5,-77.5,52.5,America,Local,Family
+local,am_r011_l004,america,-80,-75,55,60,family,NA,prepared,full_model_infeasible,93,2,0,expected_infeasible,-77.5,57.5,-77.5,57.5,America,Local,Family
+local,am_r011_l005,america,-75,-70,40,45,family,29.979593892279315,prepared,grouped_kfold_feasible,1007,13,0,available,-72.5,42.5,-72.5,42.5,America,Local,Family
+local,am_r011_l006,america,-75,-70,45,50,family,27.49549790773526,prepared,grouped_kfold_feasible,426,10,0,available,-72.5,47.5,-72.5,47.5,America,Local,Family
+local,am_r011_l007,america,-75,-70,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-72.5,52.5,-72.5,52.5,America,Local,Family
+local,am_r011_l008,america,-75,-70,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-72.5,57.5,-72.5,57.5,America,Local,Family
+local,am_r011_l009,america,-70,-65,40,45,family,20.627970362843083,prepared,grouped_kfold_feasible,166,7,0,available,-67.5,42.5,-67.5,42.5,America,Local,Family
+local,am_r011_l010,america,-70,-65,45,50,family,18.992823061048902,prepared,grouped_kfold_feasible,236,8,0,available,-67.5,47.5,-67.5,47.5,America,Local,Family
+local,am_r011_l011,america,-70,-65,50,55,family,NA,prepared,full_model_infeasible,75,0,0,expected_infeasible,-67.5,52.5,-67.5,52.5,America,Local,Family
+local,am_r011_l012,america,-70,-65,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-67.5,57.5,-67.5,57.5,America,Local,Family
+local,am_r011_l013,america,-65,-60,40,45,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-62.5,42.5,-62.5,42.5,America,Local,Family
+local,am_r011_l014,america,-65,-60,45,50,family,16.985559706282647,prepared,tier_pooled_regularization_required,125,4,0,available,-62.5,47.5,-62.5,47.5,America,Local,Family
+local,am_r011_l015,america,-65,-60,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-62.5,52.5,-62.5,52.5,America,Local,Family
+local,am_r011_l016,america,-65,-60,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-62.5,57.5,-62.5,57.5,America,Local,Family
+local,am_r012_l001,america,-80,-75,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-77.5,62.5,-77.5,62.5,America,Local,Family
+local,am_r012_l002,america,-80,-75,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-77.5,67.5,-77.5,67.5,America,Local,Family
+local,am_r012_l003,america,-75,-70,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-72.5,62.5,-72.5,62.5,America,Local,Family
+local,am_r012_l004,america,-75,-70,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-72.5,67.5,-72.5,67.5,America,Local,Family
+local,am_r012_l005,america,-70,-65,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-67.5,62.5,-67.5,62.5,America,Local,Family
+local,am_r012_l006,america,-70,-65,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-67.5,67.5,-67.5,67.5,America,Local,Family
+local,am_r012_l007,america,-65,-60,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-62.5,62.5,-62.5,62.5,America,Local,Family
+local,am_r012_l008,america,-65,-60,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-62.5,67.5,-62.5,67.5,America,Local,Family
+local,am_r001_l001,america,-130,-125,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-127.5,32.5,-126.35,32.5,America,Local,Functional type
+local,am_r001_l002,america,-130,-125,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-127.5,37.5,-126.35,37.5,America,Local,Functional type
+local,am_r001_l003,america,-125,-120,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-122.5,32.5,-121.35,32.5,America,Local,Functional type
+local,am_r001_l004,america,-125,-120,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-122.5,37.5,-121.35,37.5,America,Local,Functional type
+local,am_r002_l001,america,-130,-125,40,45,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-127.5,42.5,-126.35,42.5,America,Local,Functional type
+local,am_r002_l002,america,-130,-125,45,50,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-127.5,47.5,-126.35,47.5,America,Local,Functional type
+local,am_r002_l003,america,-130,-125,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-127.5,52.5,-126.35,52.5,America,Local,Functional type
+local,am_r002_l004,america,-130,-125,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-127.5,57.5,-126.35,57.5,America,Local,Functional type
+local,am_r002_l005,america,-125,-120,40,45,functional_type,16.603526189558565,prepared,grouped_kfold_feasible,355,5,0.23,available,-122.5,42.5,-121.35,42.5,America,Local,Functional type
+local,am_r002_l006,america,-125,-120,45,50,functional_type,11.968195545652948,prepared,grouped_kfold_feasible,370,6,0.23,available,-122.5,47.5,-121.35,47.5,America,Local,Functional type
+local,am_r002_l007,america,-125,-120,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-122.5,52.5,-121.35,52.5,America,Local,Functional type
+local,am_r002_l008,america,-125,-120,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-122.5,57.5,-121.35,57.5,America,Local,Functional type
+local,am_r003_l001,america,-130,-125,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-127.5,62.5,-126.35,62.5,America,Local,Functional type
+local,am_r003_l002,america,-130,-125,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-127.5,67.5,-126.35,67.5,America,Local,Functional type
+local,am_r003_l003,america,-125,-120,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-122.5,62.5,-121.35,62.5,America,Local,Functional type
+local,am_r003_l004,america,-125,-120,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-122.5,67.5,-121.35,67.5,America,Local,Functional type
+local,am_r004_l001,america,-120,-115,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-117.5,32.5,-116.35,32.5,America,Local,Functional type
+local,am_r004_l002,america,-120,-115,35,40,functional_type,13.703757089246963,prepared,tier_pooled_regularization_required,204,3,0.23,available,-117.5,37.5,-116.35,37.5,America,Local,Functional type
+local,am_r004_l003,america,-115,-110,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-112.5,32.5,-111.35,32.5,America,Local,Functional type
+local,am_r004_l004,america,-115,-110,35,40,functional_type,NA,prepared,full_model_infeasible,119,1,0.23,expected_infeasible,-112.5,37.5,-111.35,37.5,America,Local,Functional type
+local,am_r004_l005,america,-110,-105,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-107.5,32.5,-106.35,32.5,America,Local,Functional type
+local,am_r004_l006,america,-110,-105,35,40,functional_type,12.098060420145018,prepared,grouped_kfold_feasible,331,5,0.23,available,-107.5,37.5,-106.35,37.5,America,Local,Functional type
+local,am_r004_l007,america,-105,-100,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-102.5,32.5,-101.35,32.5,America,Local,Functional type
+local,am_r004_l008,america,-105,-100,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-102.5,37.5,-101.35,37.5,America,Local,Functional type
+local,am_r005_l001,america,-120,-115,40,45,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-117.5,42.5,-116.35,42.5,America,Local,Functional type
+local,am_r005_l002,america,-120,-115,45,50,functional_type,NA,prepared,full_model_infeasible,91,1,0.23,expected_infeasible,-117.5,47.5,-116.35,47.5,America,Local,Functional type
+local,am_r005_l003,america,-120,-115,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-117.5,52.5,-116.35,52.5,America,Local,Functional type
+local,am_r005_l004,america,-120,-115,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-117.5,57.5,-116.35,57.5,America,Local,Functional type
+local,am_r005_l005,america,-115,-110,40,45,functional_type,8.608849347977996,prepared,tier_pooled_regularization_required,271,3,0.23,available,-112.5,42.5,-111.35,42.5,America,Local,Functional type
+local,am_r005_l006,america,-115,-110,45,50,functional_type,6.952106160025566,prepared,grouped_kfold_feasible,291,3,0.23,available,-112.5,47.5,-111.35,47.5,America,Local,Functional type
+local,am_r005_l007,america,-115,-110,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-112.5,52.5,-111.35,52.5,America,Local,Functional type
+local,am_r005_l008,america,-115,-110,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-112.5,57.5,-111.35,57.5,America,Local,Functional type
+local,am_r005_l009,america,-110,-105,40,45,functional_type,12.032838738139237,prepared,grouped_kfold_feasible,173,4,0.23,available,-107.5,42.5,-106.35,42.5,America,Local,Functional type
+local,am_r005_l010,america,-110,-105,45,50,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-107.5,47.5,-106.35,47.5,America,Local,Functional type
+local,am_r005_l011,america,-110,-105,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-107.5,52.5,-106.35,52.5,America,Local,Functional type
+local,am_r005_l012,america,-110,-105,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-107.5,57.5,-106.35,57.5,America,Local,Functional type
+local,am_r005_l013,america,-105,-100,40,45,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-102.5,42.5,-101.35,42.5,America,Local,Functional type
+local,am_r005_l014,america,-105,-100,45,50,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-102.5,47.5,-101.35,47.5,America,Local,Functional type
+local,am_r005_l015,america,-105,-100,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-102.5,52.5,-101.35,52.5,America,Local,Functional type
+local,am_r005_l016,america,-105,-100,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-102.5,57.5,-101.35,57.5,America,Local,Functional type
+local,am_r006_l001,america,-120,-115,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-117.5,62.5,-116.35,62.5,America,Local,Functional type
+local,am_r006_l002,america,-120,-115,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-117.5,67.5,-116.35,67.5,America,Local,Functional type
+local,am_r006_l003,america,-115,-110,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-112.5,62.5,-111.35,62.5,America,Local,Functional type
+local,am_r006_l004,america,-115,-110,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-112.5,67.5,-111.35,67.5,America,Local,Functional type
+local,am_r006_l005,america,-110,-105,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-107.5,62.5,-106.35,62.5,America,Local,Functional type
+local,am_r006_l006,america,-110,-105,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-107.5,67.5,-106.35,67.5,America,Local,Functional type
+local,am_r006_l007,america,-105,-100,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-102.5,62.5,-101.35,62.5,America,Local,Functional type
+local,am_r006_l008,america,-105,-100,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-102.5,67.5,-101.35,67.5,America,Local,Functional type
+local,am_r007_l001,america,-100,-95,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-97.5,32.5,-96.35,32.5,America,Local,Functional type
+local,am_r007_l002,america,-100,-95,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-97.5,37.5,-96.35,37.5,America,Local,Functional type
+local,am_r007_l003,america,-95,-90,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-92.5,32.5,-91.35,32.5,America,Local,Functional type
+local,am_r007_l004,america,-95,-90,35,40,functional_type,15.642519148823045,prepared,tier_pooled_regularization_required,122,4,0.23,available,-92.5,37.5,-91.35,37.5,America,Local,Functional type
+local,am_r007_l005,america,-90,-85,30,35,functional_type,11.971437911534286,prepared,tier_pooled_regularization_required,119,5,0.23,available,-87.5,32.5,-86.35,32.5,America,Local,Functional type
+local,am_r007_l006,america,-90,-85,35,40,functional_type,19.355168975276335,prepared,tier_pooled_regularization_required,158,7,0.23,available,-87.5,37.5,-86.35,37.5,America,Local,Functional type
+local,am_r007_l007,america,-85,-80,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-82.5,32.5,-81.35,32.5,America,Local,Functional type
+local,am_r007_l008,america,-85,-80,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-82.5,37.5,-81.35,37.5,America,Local,Functional type
+local,am_r008_l001,america,-100,-95,40,45,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-97.5,42.5,-96.35,42.5,America,Local,Functional type
+local,am_r008_l002,america,-100,-95,45,50,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-97.5,47.5,-96.35,47.5,America,Local,Functional type
+local,am_r008_l003,america,-100,-95,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-97.5,52.5,-96.35,52.5,America,Local,Functional type
+local,am_r008_l004,america,-100,-95,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-97.5,57.5,-96.35,57.5,America,Local,Functional type
+local,am_r008_l005,america,-95,-90,40,45,functional_type,12.958786062482696,prepared,leave_one_location_out_required,149,4,0.23,available,-92.5,42.5,-91.35,42.5,America,Local,Functional type
+local,am_r008_l006,america,-95,-90,45,50,functional_type,11.648948569038906,prepared,grouped_kfold_feasible,206,3,0.23,available,-92.5,47.5,-91.35,47.5,America,Local,Functional type
+local,am_r008_l007,america,-95,-90,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-92.5,52.5,-91.35,52.5,America,Local,Functional type
+local,am_r008_l008,america,-95,-90,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-92.5,57.5,-91.35,57.5,America,Local,Functional type
+local,am_r008_l009,america,-90,-85,40,45,functional_type,17.784018072169847,prepared,grouped_kfold_feasible,352,6,0.23,available,-87.5,42.5,-86.35,42.5,America,Local,Functional type
+local,am_r008_l010,america,-90,-85,45,50,functional_type,17.605949666614777,prepared,grouped_kfold_feasible,263,5,0.23,available,-87.5,47.5,-86.35,47.5,America,Local,Functional type
+local,am_r008_l011,america,-90,-85,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-87.5,52.5,-86.35,52.5,America,Local,Functional type
+local,am_r008_l012,america,-90,-85,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-87.5,57.5,-86.35,57.5,America,Local,Functional type
+local,am_r008_l013,america,-85,-80,40,45,functional_type,13.358400881772928,prepared,grouped_kfold_feasible,228,8,0.23,available,-82.5,42.5,-81.35,42.5,America,Local,Functional type
+local,am_r008_l014,america,-85,-80,45,50,functional_type,NA,prepared,full_model_infeasible,104,2,0.23,expected_infeasible,-82.5,47.5,-81.35,47.5,America,Local,Functional type
+local,am_r008_l015,america,-85,-80,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-82.5,52.5,-81.35,52.5,America,Local,Functional type
+local,am_r008_l016,america,-85,-80,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-82.5,57.5,-81.35,57.5,America,Local,Functional type
+local,am_r009_l001,america,-100,-95,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-97.5,62.5,-96.35,62.5,America,Local,Functional type
+local,am_r009_l002,america,-100,-95,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-97.5,67.5,-96.35,67.5,America,Local,Functional type
+local,am_r009_l003,america,-95,-90,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-92.5,62.5,-91.35,62.5,America,Local,Functional type
+local,am_r009_l004,america,-95,-90,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-92.5,67.5,-91.35,67.5,America,Local,Functional type
+local,am_r009_l005,america,-90,-85,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-87.5,62.5,-86.35,62.5,America,Local,Functional type
+local,am_r009_l006,america,-90,-85,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-87.5,67.5,-86.35,67.5,America,Local,Functional type
+local,am_r009_l007,america,-85,-80,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-82.5,62.5,-81.35,62.5,America,Local,Functional type
+local,am_r009_l008,america,-85,-80,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-82.5,67.5,-81.35,67.5,America,Local,Functional type
+local,am_r010_l001,america,-80,-75,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-77.5,32.5,-76.35,32.5,America,Local,Functional type
+local,am_r010_l002,america,-80,-75,35,40,functional_type,23.02743248505722,prepared,grouped_kfold_feasible,251,7,0.23,available,-77.5,37.5,-76.35,37.5,America,Local,Functional type
+local,am_r010_l003,america,-75,-70,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-72.5,32.5,-71.35,32.5,America,Local,Functional type
+local,am_r010_l004,america,-75,-70,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-72.5,37.5,-71.35,37.5,America,Local,Functional type
+local,am_r010_l005,america,-70,-65,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-67.5,32.5,-66.35,32.5,America,Local,Functional type
+local,am_r010_l006,america,-70,-65,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-67.5,37.5,-66.35,37.5,America,Local,Functional type
+local,am_r010_l007,america,-65,-60,30,35,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-62.5,32.5,-61.35,32.5,America,Local,Functional type
+local,am_r010_l008,america,-65,-60,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-62.5,37.5,-61.35,37.5,America,Local,Functional type
+local,am_r011_l001,america,-80,-75,40,45,functional_type,22.51495247090582,prepared,grouped_kfold_feasible,291,5,0.23,available,-77.5,42.5,-76.35,42.5,America,Local,Functional type
+local,am_r011_l002,america,-80,-75,45,50,functional_type,26.981075742313216,prepared,tier_pooled_regularization_required,114,3,0.23,available,-77.5,47.5,-76.35,47.5,America,Local,Functional type
+local,am_r011_l003,america,-80,-75,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-77.5,52.5,-76.35,52.5,America,Local,Functional type
+local,am_r011_l004,america,-80,-75,55,60,functional_type,NA,prepared,full_model_infeasible,93,1,0.23,expected_infeasible,-77.5,57.5,-76.35,57.5,America,Local,Functional type
+local,am_r011_l005,america,-75,-70,40,45,functional_type,22.395850333630552,prepared,grouped_kfold_feasible,1007,7,0.23,available,-72.5,42.5,-71.35,42.5,America,Local,Functional type
+local,am_r011_l006,america,-75,-70,45,50,functional_type,21.22958062317593,prepared,grouped_kfold_feasible,426,6,0.23,available,-72.5,47.5,-71.35,47.5,America,Local,Functional type
+local,am_r011_l007,america,-75,-70,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-72.5,52.5,-71.35,52.5,America,Local,Functional type
+local,am_r011_l008,america,-75,-70,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-72.5,57.5,-71.35,57.5,America,Local,Functional type
+local,am_r011_l009,america,-70,-65,40,45,functional_type,13.705412513662612,prepared,grouped_kfold_feasible,166,4,0.23,available,-67.5,42.5,-66.35,42.5,America,Local,Functional type
+local,am_r011_l010,america,-70,-65,45,50,functional_type,14.760958112814508,prepared,grouped_kfold_feasible,236,6,0.23,available,-67.5,47.5,-66.35,47.5,America,Local,Functional type
+local,am_r011_l011,america,-70,-65,50,55,functional_type,NA,prepared,full_model_infeasible,75,0,0.23,expected_infeasible,-67.5,52.5,-66.35,52.5,America,Local,Functional type
+local,am_r011_l012,america,-70,-65,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-67.5,57.5,-66.35,57.5,America,Local,Functional type
+local,am_r011_l013,america,-65,-60,40,45,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-62.5,42.5,-61.35,42.5,America,Local,Functional type
+local,am_r011_l014,america,-65,-60,45,50,functional_type,17.632815717976868,prepared,leave_one_location_out_required,125,5,0.23,available,-62.5,47.5,-61.35,47.5,America,Local,Functional type
+local,am_r011_l015,america,-65,-60,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-62.5,52.5,-61.35,52.5,America,Local,Functional type
+local,am_r011_l016,america,-65,-60,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-62.5,57.5,-61.35,57.5,America,Local,Functional type
+local,am_r012_l001,america,-80,-75,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-77.5,62.5,-76.35,62.5,America,Local,Functional type
+local,am_r012_l002,america,-80,-75,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-77.5,67.5,-76.35,67.5,America,Local,Functional type
+local,am_r012_l003,america,-75,-70,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-72.5,62.5,-71.35,62.5,America,Local,Functional type
+local,am_r012_l004,america,-75,-70,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-72.5,67.5,-71.35,67.5,America,Local,Functional type
+local,am_r012_l005,america,-70,-65,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-67.5,62.5,-66.35,62.5,America,Local,Functional type
+local,am_r012_l006,america,-70,-65,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-67.5,67.5,-66.35,67.5,America,Local,Functional type
+local,am_r012_l007,america,-65,-60,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-62.5,62.5,-61.35,62.5,America,Local,Functional type
+local,am_r012_l008,america,-65,-60,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-62.5,67.5,-61.35,67.5,America,Local,Functional type
+regional,am_r001,america,-130,-120,30,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-125,35,-127.3,35,America,Regional,Genus
+regional,am_r002,america,-130,-120,40,60,genus,33.5060958162371,prepared,grouped_kfold_feasible,964,18,-0.23,available,-125,50,-127.3,50,America,Regional,Genus
+regional,am_r003,america,-130,-120,60,70,genus,25.362750510501208,prepared,grouped_kfold_feasible,161,5,-0.23,available,-125,65,-127.3,65,America,Regional,Genus
+regional,am_r004,america,-120,-100,30,40,genus,37.97381453431511,prepared,grouped_kfold_feasible,773,14,-0.23,available,-110,35,-114.6,35,America,Regional,Genus
+regional,am_r005,america,-120,-100,40,60,genus,22.00023329067563,prepared,grouped_kfold_feasible,1087,13,-0.23,available,-110,50,-114.6,50,America,Regional,Genus
+regional,am_r006,america,-120,-100,60,70,genus,15.149223442065388,prepared,tier_pooled_regularization_required,86,6,-0.23,available,-110,65,-114.6,65,America,Regional,Genus
+regional,am_r007,america,-100,-80,30,40,genus,45.27249655726718,prepared,grouped_kfold_feasible,534,24,-0.23,available,-90,35,-94.6,35,America,Regional,Genus
+regional,am_r008,america,-100,-80,40,60,genus,40.0328920812942,prepared,grouped_kfold_feasible,1356,24,-0.23,available,-90,50,-94.6,50,America,Regional,Genus
+regional,am_r009,america,-100,-80,60,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-90,65,-94.6,65,America,Regional,Genus
+regional,am_r010,america,-80,-60,30,40,genus,38.24860305126296,prepared,grouped_kfold_feasible,322,19,-0.23,available,-70,35,-74.6,35,America,Regional,Genus
+regional,am_r011,america,-80,-60,40,60,genus,46.768964700899666,prepared,grouped_kfold_feasible,2671,34,-0.23,available,-70,50,-74.6,50,America,Regional,Genus
+regional,am_r012,america,-80,-60,60,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-70,65,-74.6,65,America,Regional,Genus
+regional,am_r001,america,-130,-120,30,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-125,35,-125,35,America,Regional,Family
+regional,am_r002,america,-130,-120,40,60,family,17.92468692329675,prepared,grouped_kfold_feasible,964,9,0,available,-125,50,-125,50,America,Regional,Family
+regional,am_r003,america,-130,-120,60,70,family,NA,prepared,full_model_infeasible,161,2,0,expected_infeasible,-125,65,-125,65,America,Regional,Family
+regional,am_r004,america,-120,-100,30,40,family,28.2105924068821,prepared,grouped_kfold_feasible,773,9,0,available,-110,35,-110,35,America,Regional,Family
+regional,am_r005,america,-120,-100,40,60,family,17.0212990393165,prepared,grouped_kfold_feasible,1087,7,0,available,-110,50,-110,50,America,Regional,Family
+regional,am_r006,america,-120,-100,60,70,family,NA,prepared,full_model_infeasible,86,3,0,expected_infeasible,-110,65,-110,65,America,Regional,Family
+regional,am_r007,america,-100,-80,30,40,family,31.64856198538033,prepared,grouped_kfold_feasible,534,15,0,available,-90,35,-90,35,America,Regional,Family
+regional,am_r008,america,-100,-80,40,60,family,31.391021397319236,prepared,grouped_kfold_feasible,1356,14,0,available,-90,50,-90,50,America,Regional,Family
+regional,am_r009,america,-100,-80,60,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-90,65,-90,65,America,Regional,Family
+regional,am_r010,america,-80,-60,30,40,family,31.77403950036282,prepared,grouped_kfold_feasible,322,14,0,available,-70,35,-70,35,America,Regional,Family
+regional,am_r011,america,-80,-60,40,60,family,36.18033247649583,prepared,grouped_kfold_feasible,2671,17,0,available,-70,50,-70,50,America,Regional,Family
+regional,am_r012,america,-80,-60,60,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-70,65,-70,65,America,Regional,Family
+regional,am_r001,america,-130,-120,30,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-125,35,-122.7,35,America,Regional,Functional type
+regional,am_r002,america,-130,-120,40,60,functional_type,22.96151287021126,prepared,grouped_kfold_feasible,964,9,0.23,available,-125,50,-122.7,50,America,Regional,Functional type
+regional,am_r003,america,-130,-120,60,70,functional_type,NA,prepared,full_model_infeasible,161,3,0.23,expected_infeasible,-125,65,-122.7,65,America,Regional,Functional type
+regional,am_r004,america,-120,-100,30,40,functional_type,16.07707658294349,prepared,grouped_kfold_feasible,773,8,0.23,available,-110,35,-105.4,35,America,Regional,Functional type
+regional,am_r005,america,-120,-100,40,60,functional_type,10.792134406487136,prepared,grouped_kfold_feasible,1087,6,0.23,available,-110,50,-105.4,50,America,Regional,Functional type
+regional,am_r006,america,-120,-100,60,70,functional_type,9.681842954055575,prepared,tier_pooled_regularization_required,86,4,0.23,available,-110,65,-105.4,65,America,Regional,Functional type
+regional,am_r007,america,-100,-80,30,40,functional_type,16.65392456615185,prepared,grouped_kfold_feasible,534,8,0.23,available,-90,35,-85.4,35,America,Regional,Functional type
+regional,am_r008,america,-100,-80,40,60,functional_type,21.25199599464449,prepared,grouped_kfold_feasible,1356,9,0.23,available,-90,50,-85.4,50,America,Regional,Functional type
+regional,am_r009,america,-100,-80,60,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-90,65,-85.4,65,America,Regional,Functional type
+regional,am_r010,america,-80,-60,30,40,functional_type,24.876231578817254,prepared,grouped_kfold_feasible,322,8,0.23,available,-70,35,-65.4,35,America,Regional,Functional type
+regional,am_r011,america,-80,-60,40,60,functional_type,24.12468539784491,prepared,grouped_kfold_feasible,2671,9,0.23,available,-70,50,-65.4,50,America,Regional,Functional type
+regional,am_r012,america,-80,-60,60,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-70,65,-65.4,65,America,Regional,Functional type
+continental,asia,asia,60,140,50,75,genus,17.790372385757035,prepared,grouped_kfold_feasible,435,8,-0.23,available,100,62.5,81.6,62.5,Asia,Continental,Genus
+continental,asia,asia,60,140,50,75,family,NA,prepared,full_model_infeasible,435,4,0,expected_infeasible,100,62.5,100,62.5,Asia,Continental,Family
+continental,asia,asia,60,140,50,75,functional_type,11.408614940731654,prepared,grouped_kfold_feasible,435,5,0.23,available,100,62.5,118.4,62.5,Asia,Continental,Functional type
+local,as_r001_l001,asia,60,65,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,62.5,52.5,61.35,52.5,Asia,Local,Genus
+local,as_r001_l002,asia,60,65,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,62.5,57.5,61.35,57.5,Asia,Local,Genus
+local,as_r001_l003,asia,65,70,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,67.5,52.5,66.35,52.5,Asia,Local,Genus
+local,as_r001_l004,asia,65,70,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,67.5,57.5,66.35,57.5,Asia,Local,Genus
+local,as_r001_l005,asia,70,75,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,72.5,52.5,71.35,52.5,Asia,Local,Genus
+local,as_r001_l006,asia,70,75,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,72.5,57.5,71.35,57.5,Asia,Local,Genus
+local,as_r001_l007,asia,75,80,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,77.5,52.5,76.35,52.5,Asia,Local,Genus
+local,as_r001_l008,asia,75,80,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,77.5,57.5,76.35,57.5,Asia,Local,Genus
+local,as_r002_l001,asia,60,65,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,62.5,62.5,61.35,62.5,Asia,Local,Genus
+local,as_r002_l002,asia,60,65,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,62.5,67.5,61.35,67.5,Asia,Local,Genus
+local,as_r002_l003,asia,60,65,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,62.5,72.5,61.35,72.5,Asia,Local,Genus
+local,as_r002_l004,asia,65,70,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,67.5,62.5,66.35,62.5,Asia,Local,Genus
+local,as_r002_l005,asia,65,70,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,67.5,67.5,66.35,67.5,Asia,Local,Genus
+local,as_r002_l006,asia,65,70,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,67.5,72.5,66.35,72.5,Asia,Local,Genus
+local,as_r002_l007,asia,70,75,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,72.5,62.5,71.35,62.5,Asia,Local,Genus
+local,as_r002_l008,asia,70,75,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,72.5,67.5,71.35,67.5,Asia,Local,Genus
+local,as_r002_l009,asia,70,75,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,72.5,72.5,71.35,72.5,Asia,Local,Genus
+local,as_r002_l010,asia,75,80,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,77.5,62.5,76.35,62.5,Asia,Local,Genus
+local,as_r002_l011,asia,75,80,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,77.5,67.5,76.35,67.5,Asia,Local,Genus
+local,as_r002_l012,asia,75,80,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,77.5,72.5,76.35,72.5,Asia,Local,Genus
+local,as_r003_l001,asia,80,85,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,82.5,52.5,81.35,52.5,Asia,Local,Genus
+local,as_r003_l002,asia,80,85,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,82.5,57.5,81.35,57.5,Asia,Local,Genus
+local,as_r003_l003,asia,85,90,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,87.5,52.5,86.35,52.5,Asia,Local,Genus
+local,as_r003_l004,asia,85,90,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,87.5,57.5,86.35,57.5,Asia,Local,Genus
+local,as_r003_l005,asia,90,95,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,92.5,52.5,91.35,52.5,Asia,Local,Genus
+local,as_r003_l006,asia,90,95,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,92.5,57.5,91.35,57.5,Asia,Local,Genus
+local,as_r003_l007,asia,95,100,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,97.5,52.5,96.35,52.5,Asia,Local,Genus
+local,as_r003_l008,asia,95,100,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,97.5,57.5,96.35,57.5,Asia,Local,Genus
+local,as_r004_l001,asia,80,85,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,82.5,62.5,81.35,62.5,Asia,Local,Genus
+local,as_r004_l002,asia,80,85,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,82.5,67.5,81.35,67.5,Asia,Local,Genus
+local,as_r004_l003,asia,80,85,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,82.5,72.5,81.35,72.5,Asia,Local,Genus
+local,as_r004_l004,asia,85,90,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,87.5,62.5,86.35,62.5,Asia,Local,Genus
+local,as_r004_l005,asia,85,90,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,87.5,67.5,86.35,67.5,Asia,Local,Genus
+local,as_r004_l006,asia,85,90,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,87.5,72.5,86.35,72.5,Asia,Local,Genus
+local,as_r004_l007,asia,90,95,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,92.5,62.5,91.35,62.5,Asia,Local,Genus
+local,as_r004_l008,asia,90,95,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,92.5,67.5,91.35,67.5,Asia,Local,Genus
+local,as_r004_l009,asia,90,95,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,92.5,72.5,91.35,72.5,Asia,Local,Genus
+local,as_r004_l010,asia,95,100,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,97.5,62.5,96.35,62.5,Asia,Local,Genus
+local,as_r004_l011,asia,95,100,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,97.5,67.5,96.35,67.5,Asia,Local,Genus
+local,as_r004_l012,asia,95,100,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,97.5,72.5,96.35,72.5,Asia,Local,Genus
+local,as_r005_l001,asia,100,105,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,102.5,52.5,101.35,52.5,Asia,Local,Genus
+local,as_r005_l002,asia,100,105,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,102.5,57.5,101.35,57.5,Asia,Local,Genus
+local,as_r005_l003,asia,105,110,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,107.5,52.5,106.35,52.5,Asia,Local,Genus
+local,as_r005_l004,asia,105,110,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,107.5,57.5,106.35,57.5,Asia,Local,Genus
+local,as_r005_l005,asia,110,115,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,112.5,52.5,111.35,52.5,Asia,Local,Genus
+local,as_r005_l006,asia,110,115,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,112.5,57.5,111.35,57.5,Asia,Local,Genus
+local,as_r005_l007,asia,115,120,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,117.5,52.5,116.35,52.5,Asia,Local,Genus
+local,as_r005_l008,asia,115,120,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,117.5,57.5,116.35,57.5,Asia,Local,Genus
+local,as_r006_l001,asia,100,105,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,102.5,62.5,101.35,62.5,Asia,Local,Genus
+local,as_r006_l002,asia,100,105,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,102.5,67.5,101.35,67.5,Asia,Local,Genus
+local,as_r006_l003,asia,100,105,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,102.5,72.5,101.35,72.5,Asia,Local,Genus
+local,as_r006_l004,asia,105,110,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,107.5,62.5,106.35,62.5,Asia,Local,Genus
+local,as_r006_l005,asia,105,110,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,107.5,67.5,106.35,67.5,Asia,Local,Genus
+local,as_r006_l006,asia,105,110,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,107.5,72.5,106.35,72.5,Asia,Local,Genus
+local,as_r006_l007,asia,110,115,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,112.5,62.5,111.35,62.5,Asia,Local,Genus
+local,as_r006_l008,asia,110,115,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,112.5,67.5,111.35,67.5,Asia,Local,Genus
+local,as_r006_l009,asia,110,115,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,112.5,72.5,111.35,72.5,Asia,Local,Genus
+local,as_r006_l010,asia,115,120,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,117.5,62.5,116.35,62.5,Asia,Local,Genus
+local,as_r006_l011,asia,115,120,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,117.5,67.5,116.35,67.5,Asia,Local,Genus
+local,as_r006_l012,asia,115,120,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,117.5,72.5,116.35,72.5,Asia,Local,Genus
+local,as_r007_l001,asia,120,125,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,122.5,52.5,121.35,52.5,Asia,Local,Genus
+local,as_r007_l002,asia,120,125,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,122.5,57.5,121.35,57.5,Asia,Local,Genus
+local,as_r007_l003,asia,125,130,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,127.5,52.5,126.35,52.5,Asia,Local,Genus
+local,as_r007_l004,asia,125,130,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,127.5,57.5,126.35,57.5,Asia,Local,Genus
+local,as_r007_l005,asia,130,135,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,132.5,52.5,131.35,52.5,Asia,Local,Genus
+local,as_r007_l006,asia,130,135,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,132.5,57.5,131.35,57.5,Asia,Local,Genus
+local,as_r007_l007,asia,135,140,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,137.5,52.5,136.35,52.5,Asia,Local,Genus
+local,as_r007_l008,asia,135,140,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,137.5,57.5,136.35,57.5,Asia,Local,Genus
+local,as_r008_l001,asia,120,125,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,122.5,62.5,121.35,62.5,Asia,Local,Genus
+local,as_r008_l002,asia,120,125,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,122.5,67.5,121.35,67.5,Asia,Local,Genus
+local,as_r008_l003,asia,120,125,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,122.5,72.5,121.35,72.5,Asia,Local,Genus
+local,as_r008_l004,asia,125,130,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,127.5,62.5,126.35,62.5,Asia,Local,Genus
+local,as_r008_l005,asia,125,130,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,127.5,67.5,126.35,67.5,Asia,Local,Genus
+local,as_r008_l006,asia,125,130,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,127.5,72.5,126.35,72.5,Asia,Local,Genus
+local,as_r008_l007,asia,130,135,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,132.5,62.5,131.35,62.5,Asia,Local,Genus
+local,as_r008_l008,asia,130,135,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,132.5,67.5,131.35,67.5,Asia,Local,Genus
+local,as_r008_l009,asia,130,135,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,132.5,72.5,131.35,72.5,Asia,Local,Genus
+local,as_r008_l010,asia,135,140,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,137.5,62.5,136.35,62.5,Asia,Local,Genus
+local,as_r008_l011,asia,135,140,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,137.5,67.5,136.35,67.5,Asia,Local,Genus
+local,as_r008_l012,asia,135,140,70,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,137.5,72.5,136.35,72.5,Asia,Local,Genus
+local,as_r001_l001,asia,60,65,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,62.5,52.5,62.5,52.5,Asia,Local,Family
+local,as_r001_l002,asia,60,65,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,62.5,57.5,62.5,57.5,Asia,Local,Family
+local,as_r001_l003,asia,65,70,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,67.5,52.5,67.5,52.5,Asia,Local,Family
+local,as_r001_l004,asia,65,70,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,67.5,57.5,67.5,57.5,Asia,Local,Family
+local,as_r001_l005,asia,70,75,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,72.5,52.5,72.5,52.5,Asia,Local,Family
+local,as_r001_l006,asia,70,75,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,72.5,57.5,72.5,57.5,Asia,Local,Family
+local,as_r001_l007,asia,75,80,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,77.5,52.5,77.5,52.5,Asia,Local,Family
+local,as_r001_l008,asia,75,80,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,77.5,57.5,77.5,57.5,Asia,Local,Family
+local,as_r002_l001,asia,60,65,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,62.5,62.5,62.5,62.5,Asia,Local,Family
+local,as_r002_l002,asia,60,65,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,62.5,67.5,62.5,67.5,Asia,Local,Family
+local,as_r002_l003,asia,60,65,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,62.5,72.5,62.5,72.5,Asia,Local,Family
+local,as_r002_l004,asia,65,70,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,67.5,62.5,67.5,62.5,Asia,Local,Family
+local,as_r002_l005,asia,65,70,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,67.5,67.5,67.5,67.5,Asia,Local,Family
+local,as_r002_l006,asia,65,70,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,67.5,72.5,67.5,72.5,Asia,Local,Family
+local,as_r002_l007,asia,70,75,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,72.5,62.5,72.5,62.5,Asia,Local,Family
+local,as_r002_l008,asia,70,75,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,72.5,67.5,72.5,67.5,Asia,Local,Family
+local,as_r002_l009,asia,70,75,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,72.5,72.5,72.5,72.5,Asia,Local,Family
+local,as_r002_l010,asia,75,80,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,77.5,62.5,77.5,62.5,Asia,Local,Family
+local,as_r002_l011,asia,75,80,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,77.5,67.5,77.5,67.5,Asia,Local,Family
+local,as_r002_l012,asia,75,80,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,77.5,72.5,77.5,72.5,Asia,Local,Family
+local,as_r003_l001,asia,80,85,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,82.5,52.5,82.5,52.5,Asia,Local,Family
+local,as_r003_l002,asia,80,85,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,82.5,57.5,82.5,57.5,Asia,Local,Family
+local,as_r003_l003,asia,85,90,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,87.5,52.5,87.5,52.5,Asia,Local,Family
+local,as_r003_l004,asia,85,90,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,87.5,57.5,87.5,57.5,Asia,Local,Family
+local,as_r003_l005,asia,90,95,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,92.5,52.5,92.5,52.5,Asia,Local,Family
+local,as_r003_l006,asia,90,95,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,92.5,57.5,92.5,57.5,Asia,Local,Family
+local,as_r003_l007,asia,95,100,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,97.5,52.5,97.5,52.5,Asia,Local,Family
+local,as_r003_l008,asia,95,100,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,97.5,57.5,97.5,57.5,Asia,Local,Family
+local,as_r004_l001,asia,80,85,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,82.5,62.5,82.5,62.5,Asia,Local,Family
+local,as_r004_l002,asia,80,85,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,82.5,67.5,82.5,67.5,Asia,Local,Family
+local,as_r004_l003,asia,80,85,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,82.5,72.5,82.5,72.5,Asia,Local,Family
+local,as_r004_l004,asia,85,90,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,87.5,62.5,87.5,62.5,Asia,Local,Family
+local,as_r004_l005,asia,85,90,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,87.5,67.5,87.5,67.5,Asia,Local,Family
+local,as_r004_l006,asia,85,90,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,87.5,72.5,87.5,72.5,Asia,Local,Family
+local,as_r004_l007,asia,90,95,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,92.5,62.5,92.5,62.5,Asia,Local,Family
+local,as_r004_l008,asia,90,95,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,92.5,67.5,92.5,67.5,Asia,Local,Family
+local,as_r004_l009,asia,90,95,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,92.5,72.5,92.5,72.5,Asia,Local,Family
+local,as_r004_l010,asia,95,100,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,97.5,62.5,97.5,62.5,Asia,Local,Family
+local,as_r004_l011,asia,95,100,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,97.5,67.5,97.5,67.5,Asia,Local,Family
+local,as_r004_l012,asia,95,100,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,97.5,72.5,97.5,72.5,Asia,Local,Family
+local,as_r005_l001,asia,100,105,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,102.5,52.5,102.5,52.5,Asia,Local,Family
+local,as_r005_l002,asia,100,105,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,102.5,57.5,102.5,57.5,Asia,Local,Family
+local,as_r005_l003,asia,105,110,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,107.5,52.5,107.5,52.5,Asia,Local,Family
+local,as_r005_l004,asia,105,110,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,107.5,57.5,107.5,57.5,Asia,Local,Family
+local,as_r005_l005,asia,110,115,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,112.5,52.5,112.5,52.5,Asia,Local,Family
+local,as_r005_l006,asia,110,115,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,112.5,57.5,112.5,57.5,Asia,Local,Family
+local,as_r005_l007,asia,115,120,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,117.5,52.5,117.5,52.5,Asia,Local,Family
+local,as_r005_l008,asia,115,120,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,117.5,57.5,117.5,57.5,Asia,Local,Family
+local,as_r006_l001,asia,100,105,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,102.5,62.5,102.5,62.5,Asia,Local,Family
+local,as_r006_l002,asia,100,105,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,102.5,67.5,102.5,67.5,Asia,Local,Family
+local,as_r006_l003,asia,100,105,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,102.5,72.5,102.5,72.5,Asia,Local,Family
+local,as_r006_l004,asia,105,110,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,107.5,62.5,107.5,62.5,Asia,Local,Family
+local,as_r006_l005,asia,105,110,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,107.5,67.5,107.5,67.5,Asia,Local,Family
+local,as_r006_l006,asia,105,110,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,107.5,72.5,107.5,72.5,Asia,Local,Family
+local,as_r006_l007,asia,110,115,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,112.5,62.5,112.5,62.5,Asia,Local,Family
+local,as_r006_l008,asia,110,115,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,112.5,67.5,112.5,67.5,Asia,Local,Family
+local,as_r006_l009,asia,110,115,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,112.5,72.5,112.5,72.5,Asia,Local,Family
+local,as_r006_l010,asia,115,120,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,117.5,62.5,117.5,62.5,Asia,Local,Family
+local,as_r006_l011,asia,115,120,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,117.5,67.5,117.5,67.5,Asia,Local,Family
+local,as_r006_l012,asia,115,120,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,117.5,72.5,117.5,72.5,Asia,Local,Family
+local,as_r007_l001,asia,120,125,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,122.5,52.5,122.5,52.5,Asia,Local,Family
+local,as_r007_l002,asia,120,125,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,122.5,57.5,122.5,57.5,Asia,Local,Family
+local,as_r007_l003,asia,125,130,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,127.5,52.5,127.5,52.5,Asia,Local,Family
+local,as_r007_l004,asia,125,130,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,127.5,57.5,127.5,57.5,Asia,Local,Family
+local,as_r007_l005,asia,130,135,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,132.5,52.5,132.5,52.5,Asia,Local,Family
+local,as_r007_l006,asia,130,135,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,132.5,57.5,132.5,57.5,Asia,Local,Family
+local,as_r007_l007,asia,135,140,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,137.5,52.5,137.5,52.5,Asia,Local,Family
+local,as_r007_l008,asia,135,140,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,137.5,57.5,137.5,57.5,Asia,Local,Family
+local,as_r008_l001,asia,120,125,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,122.5,62.5,122.5,62.5,Asia,Local,Family
+local,as_r008_l002,asia,120,125,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,122.5,67.5,122.5,67.5,Asia,Local,Family
+local,as_r008_l003,asia,120,125,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,122.5,72.5,122.5,72.5,Asia,Local,Family
+local,as_r008_l004,asia,125,130,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,127.5,62.5,127.5,62.5,Asia,Local,Family
+local,as_r008_l005,asia,125,130,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,127.5,67.5,127.5,67.5,Asia,Local,Family
+local,as_r008_l006,asia,125,130,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,127.5,72.5,127.5,72.5,Asia,Local,Family
+local,as_r008_l007,asia,130,135,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,132.5,62.5,132.5,62.5,Asia,Local,Family
+local,as_r008_l008,asia,130,135,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,132.5,67.5,132.5,67.5,Asia,Local,Family
+local,as_r008_l009,asia,130,135,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,132.5,72.5,132.5,72.5,Asia,Local,Family
+local,as_r008_l010,asia,135,140,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,137.5,62.5,137.5,62.5,Asia,Local,Family
+local,as_r008_l011,asia,135,140,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,137.5,67.5,137.5,67.5,Asia,Local,Family
+local,as_r008_l012,asia,135,140,70,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,137.5,72.5,137.5,72.5,Asia,Local,Family
+local,as_r001_l001,asia,60,65,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,62.5,52.5,63.65,52.5,Asia,Local,Functional type
+local,as_r001_l002,asia,60,65,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,62.5,57.5,63.65,57.5,Asia,Local,Functional type
+local,as_r001_l003,asia,65,70,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,67.5,52.5,68.65,52.5,Asia,Local,Functional type
+local,as_r001_l004,asia,65,70,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,67.5,57.5,68.65,57.5,Asia,Local,Functional type
+local,as_r001_l005,asia,70,75,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,72.5,52.5,73.65,52.5,Asia,Local,Functional type
+local,as_r001_l006,asia,70,75,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,72.5,57.5,73.65,57.5,Asia,Local,Functional type
+local,as_r001_l007,asia,75,80,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,77.5,52.5,78.65,52.5,Asia,Local,Functional type
+local,as_r001_l008,asia,75,80,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,77.5,57.5,78.65,57.5,Asia,Local,Functional type
+local,as_r002_l001,asia,60,65,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,62.5,62.5,63.65,62.5,Asia,Local,Functional type
+local,as_r002_l002,asia,60,65,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,62.5,67.5,63.65,67.5,Asia,Local,Functional type
+local,as_r002_l003,asia,60,65,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,62.5,72.5,63.65,72.5,Asia,Local,Functional type
+local,as_r002_l004,asia,65,70,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,67.5,62.5,68.65,62.5,Asia,Local,Functional type
+local,as_r002_l005,asia,65,70,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,67.5,67.5,68.65,67.5,Asia,Local,Functional type
+local,as_r002_l006,asia,65,70,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,67.5,72.5,68.65,72.5,Asia,Local,Functional type
+local,as_r002_l007,asia,70,75,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,72.5,62.5,73.65,62.5,Asia,Local,Functional type
+local,as_r002_l008,asia,70,75,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,72.5,67.5,73.65,67.5,Asia,Local,Functional type
+local,as_r002_l009,asia,70,75,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,72.5,72.5,73.65,72.5,Asia,Local,Functional type
+local,as_r002_l010,asia,75,80,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,77.5,62.5,78.65,62.5,Asia,Local,Functional type
+local,as_r002_l011,asia,75,80,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,77.5,67.5,78.65,67.5,Asia,Local,Functional type
+local,as_r002_l012,asia,75,80,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,77.5,72.5,78.65,72.5,Asia,Local,Functional type
+local,as_r003_l001,asia,80,85,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,82.5,52.5,83.65,52.5,Asia,Local,Functional type
+local,as_r003_l002,asia,80,85,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,82.5,57.5,83.65,57.5,Asia,Local,Functional type
+local,as_r003_l003,asia,85,90,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,87.5,52.5,88.65,52.5,Asia,Local,Functional type
+local,as_r003_l004,asia,85,90,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,87.5,57.5,88.65,57.5,Asia,Local,Functional type
+local,as_r003_l005,asia,90,95,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,92.5,52.5,93.65,52.5,Asia,Local,Functional type
+local,as_r003_l006,asia,90,95,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,92.5,57.5,93.65,57.5,Asia,Local,Functional type
+local,as_r003_l007,asia,95,100,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,97.5,52.5,98.65,52.5,Asia,Local,Functional type
+local,as_r003_l008,asia,95,100,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,97.5,57.5,98.65,57.5,Asia,Local,Functional type
+local,as_r004_l001,asia,80,85,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,82.5,62.5,83.65,62.5,Asia,Local,Functional type
+local,as_r004_l002,asia,80,85,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,82.5,67.5,83.65,67.5,Asia,Local,Functional type
+local,as_r004_l003,asia,80,85,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,82.5,72.5,83.65,72.5,Asia,Local,Functional type
+local,as_r004_l004,asia,85,90,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,87.5,62.5,88.65,62.5,Asia,Local,Functional type
+local,as_r004_l005,asia,85,90,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,87.5,67.5,88.65,67.5,Asia,Local,Functional type
+local,as_r004_l006,asia,85,90,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,87.5,72.5,88.65,72.5,Asia,Local,Functional type
+local,as_r004_l007,asia,90,95,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,92.5,62.5,93.65,62.5,Asia,Local,Functional type
+local,as_r004_l008,asia,90,95,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,92.5,67.5,93.65,67.5,Asia,Local,Functional type
+local,as_r004_l009,asia,90,95,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,92.5,72.5,93.65,72.5,Asia,Local,Functional type
+local,as_r004_l010,asia,95,100,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,97.5,62.5,98.65,62.5,Asia,Local,Functional type
+local,as_r004_l011,asia,95,100,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,97.5,67.5,98.65,67.5,Asia,Local,Functional type
+local,as_r004_l012,asia,95,100,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,97.5,72.5,98.65,72.5,Asia,Local,Functional type
+local,as_r005_l001,asia,100,105,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,102.5,52.5,103.65,52.5,Asia,Local,Functional type
+local,as_r005_l002,asia,100,105,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,102.5,57.5,103.65,57.5,Asia,Local,Functional type
+local,as_r005_l003,asia,105,110,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,107.5,52.5,108.65,52.5,Asia,Local,Functional type
+local,as_r005_l004,asia,105,110,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,107.5,57.5,108.65,57.5,Asia,Local,Functional type
+local,as_r005_l005,asia,110,115,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,112.5,52.5,113.65,52.5,Asia,Local,Functional type
+local,as_r005_l006,asia,110,115,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,112.5,57.5,113.65,57.5,Asia,Local,Functional type
+local,as_r005_l007,asia,115,120,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,117.5,52.5,118.65,52.5,Asia,Local,Functional type
+local,as_r005_l008,asia,115,120,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,117.5,57.5,118.65,57.5,Asia,Local,Functional type
+local,as_r006_l001,asia,100,105,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,102.5,62.5,103.65,62.5,Asia,Local,Functional type
+local,as_r006_l002,asia,100,105,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,102.5,67.5,103.65,67.5,Asia,Local,Functional type
+local,as_r006_l003,asia,100,105,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,102.5,72.5,103.65,72.5,Asia,Local,Functional type
+local,as_r006_l004,asia,105,110,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,107.5,62.5,108.65,62.5,Asia,Local,Functional type
+local,as_r006_l005,asia,105,110,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,107.5,67.5,108.65,67.5,Asia,Local,Functional type
+local,as_r006_l006,asia,105,110,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,107.5,72.5,108.65,72.5,Asia,Local,Functional type
+local,as_r006_l007,asia,110,115,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,112.5,62.5,113.65,62.5,Asia,Local,Functional type
+local,as_r006_l008,asia,110,115,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,112.5,67.5,113.65,67.5,Asia,Local,Functional type
+local,as_r006_l009,asia,110,115,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,112.5,72.5,113.65,72.5,Asia,Local,Functional type
+local,as_r006_l010,asia,115,120,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,117.5,62.5,118.65,62.5,Asia,Local,Functional type
+local,as_r006_l011,asia,115,120,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,117.5,67.5,118.65,67.5,Asia,Local,Functional type
+local,as_r006_l012,asia,115,120,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,117.5,72.5,118.65,72.5,Asia,Local,Functional type
+local,as_r007_l001,asia,120,125,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,122.5,52.5,123.65,52.5,Asia,Local,Functional type
+local,as_r007_l002,asia,120,125,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,122.5,57.5,123.65,57.5,Asia,Local,Functional type
+local,as_r007_l003,asia,125,130,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,127.5,52.5,128.65,52.5,Asia,Local,Functional type
+local,as_r007_l004,asia,125,130,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,127.5,57.5,128.65,57.5,Asia,Local,Functional type
+local,as_r007_l005,asia,130,135,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,132.5,52.5,133.65,52.5,Asia,Local,Functional type
+local,as_r007_l006,asia,130,135,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,132.5,57.5,133.65,57.5,Asia,Local,Functional type
+local,as_r007_l007,asia,135,140,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,137.5,52.5,138.65,52.5,Asia,Local,Functional type
+local,as_r007_l008,asia,135,140,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,137.5,57.5,138.65,57.5,Asia,Local,Functional type
+local,as_r008_l001,asia,120,125,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,122.5,62.5,123.65,62.5,Asia,Local,Functional type
+local,as_r008_l002,asia,120,125,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,122.5,67.5,123.65,67.5,Asia,Local,Functional type
+local,as_r008_l003,asia,120,125,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,122.5,72.5,123.65,72.5,Asia,Local,Functional type
+local,as_r008_l004,asia,125,130,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,127.5,62.5,128.65,62.5,Asia,Local,Functional type
+local,as_r008_l005,asia,125,130,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,127.5,67.5,128.65,67.5,Asia,Local,Functional type
+local,as_r008_l006,asia,125,130,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,127.5,72.5,128.65,72.5,Asia,Local,Functional type
+local,as_r008_l007,asia,130,135,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,132.5,62.5,133.65,62.5,Asia,Local,Functional type
+local,as_r008_l008,asia,130,135,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,132.5,67.5,133.65,67.5,Asia,Local,Functional type
+local,as_r008_l009,asia,130,135,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,132.5,72.5,133.65,72.5,Asia,Local,Functional type
+local,as_r008_l010,asia,135,140,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,137.5,62.5,138.65,62.5,Asia,Local,Functional type
+local,as_r008_l011,asia,135,140,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,137.5,67.5,138.65,67.5,Asia,Local,Functional type
+local,as_r008_l012,asia,135,140,70,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,137.5,72.5,138.65,72.5,Asia,Local,Functional type
+regional,as_r001,asia,60,80,50,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,70,55,65.4,55,Asia,Regional,Genus
+regional,as_r002,asia,60,80,60,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,70,67.5,65.4,67.5,Asia,Regional,Genus
+regional,as_r003,asia,80,100,50,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,90,55,85.4,55,Asia,Regional,Genus
+regional,as_r004,asia,80,100,60,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,90,67.5,85.4,67.5,Asia,Regional,Genus
+regional,as_r005,asia,100,120,50,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,110,55,105.4,55,Asia,Regional,Genus
+regional,as_r006,asia,100,120,60,75,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,110,67.5,105.4,67.5,Asia,Regional,Genus
+regional,as_r007,asia,120,140,50,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,130,55,125.4,55,Asia,Regional,Genus
+regional,as_r008,asia,120,140,60,75,genus,14.62003808710868,prepared,grouped_kfold_feasible,172,5,-0.23,available,130,67.5,125.4,67.5,Asia,Regional,Genus
+regional,as_r001,asia,60,80,50,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,70,55,70,55,Asia,Regional,Family
+regional,as_r002,asia,60,80,60,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,70,67.5,70,67.5,Asia,Regional,Family
+regional,as_r003,asia,80,100,50,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,90,55,90,55,Asia,Regional,Family
+regional,as_r004,asia,80,100,60,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,90,67.5,90,67.5,Asia,Regional,Family
+regional,as_r005,asia,100,120,50,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,110,55,110,55,Asia,Regional,Family
+regional,as_r006,asia,100,120,60,75,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,110,67.5,110,67.5,Asia,Regional,Family
+regional,as_r007,asia,120,140,50,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,130,55,130,55,Asia,Regional,Family
+regional,as_r008,asia,120,140,60,75,family,NA,prepared,full_model_infeasible,172,2,0,expected_infeasible,130,67.5,130,67.5,Asia,Regional,Family
+regional,as_r001,asia,60,80,50,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,70,55,74.6,55,Asia,Regional,Functional type
+regional,as_r002,asia,60,80,60,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,70,67.5,74.6,67.5,Asia,Regional,Functional type
+regional,as_r003,asia,80,100,50,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,90,55,94.6,55,Asia,Regional,Functional type
+regional,as_r004,asia,80,100,60,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,90,67.5,94.6,67.5,Asia,Regional,Functional type
+regional,as_r005,asia,100,120,50,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,110,55,114.6,55,Asia,Regional,Functional type
+regional,as_r006,asia,100,120,60,75,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,110,67.5,114.6,67.5,Asia,Regional,Functional type
+regional,as_r007,asia,120,140,50,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,130,55,134.6,55,Asia,Regional,Functional type
+regional,as_r008,asia,120,140,60,75,functional_type,12.219198560320804,prepared,tier_pooled_regularization_required,172,4,0.23,available,130,67.5,134.6,67.5,Asia,Regional,Functional type
+continental,europe,europe,-10,40,35,70,genus,41.65255028364832,prepared,grouped_kfold_feasible,12161,56,-0.23,available,15,52.5,3.5,52.5,Europe,Continental,Genus
+continental,europe,europe,-10,40,35,70,family,25.781217368645382,prepared,grouped_kfold_feasible,12161,33,0,available,15,52.5,15,52.5,Europe,Continental,Family
+continental,europe,europe,-10,40,35,70,functional_type,25.82877841904624,prepared,grouped_kfold_feasible,12161,16,0.23,available,15,52.5,26.5,52.5,Europe,Continental,Functional type
+local,eu_r001_l001,europe,-10,-5,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-7.5,37.5,-8.65,37.5,Europe,Local,Genus
+local,eu_r001_l002,europe,-5,0,35,40,genus,25.882587135274115,prepared,grouped_kfold_feasible,152,10,-0.23,available,-2.5,37.5,-3.6500000000000004,37.5,Europe,Local,Genus
+local,eu_r002_l001,europe,-10,-5,40,45,genus,24.729234729900146,prepared,grouped_kfold_feasible,231,9,-0.23,available,-7.5,42.5,-8.65,42.5,Europe,Local,Genus
+local,eu_r002_l002,europe,-10,-5,45,50,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-7.5,47.5,-8.65,47.5,Europe,Local,Genus
+local,eu_r002_l003,europe,-10,-5,50,55,genus,33.439689469747286,prepared,grouped_kfold_feasible,413,15,-0.23,available,-7.5,52.5,-8.65,52.5,Europe,Local,Genus
+local,eu_r002_l004,europe,-10,-5,55,60,genus,27.9105980396416,prepared,grouped_kfold_feasible,296,11,-0.23,available,-7.5,57.5,-8.65,57.5,Europe,Local,Genus
+local,eu_r002_l005,europe,-5,0,40,45,genus,25.855126243014976,prepared,grouped_kfold_feasible,322,13,-0.23,available,-2.5,42.5,-3.6500000000000004,42.5,Europe,Local,Genus
+local,eu_r002_l006,europe,-5,0,45,50,genus,37.64139596526618,prepared,grouped_kfold_feasible,316,21,-0.23,available,-2.5,47.5,-3.6500000000000004,47.5,Europe,Local,Genus
+local,eu_r002_l007,europe,-5,0,50,55,genus,22.100947097572035,prepared,grouped_kfold_feasible,229,12,-0.23,available,-2.5,52.5,-3.6500000000000004,52.5,Europe,Local,Genus
+local,eu_r002_l008,europe,-5,0,55,60,genus,26.94508821556235,prepared,grouped_kfold_feasible,158,9,-0.23,available,-2.5,57.5,-3.6500000000000004,57.5,Europe,Local,Genus
+local,eu_r003_l001,europe,-10,-5,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-7.5,62.5,-8.65,62.5,Europe,Local,Genus
+local,eu_r003_l002,europe,-10,-5,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-7.5,67.5,-8.65,67.5,Europe,Local,Genus
+local,eu_r003_l003,europe,-5,0,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-2.5,62.5,-3.6500000000000004,62.5,Europe,Local,Genus
+local,eu_r003_l004,europe,-5,0,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-2.5,67.5,-3.6500000000000004,67.5,Europe,Local,Genus
+local,eu_r004_l001,europe,0,5,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,2.5,37.5,1.3499999999999999,37.5,Europe,Local,Genus
+local,eu_r004_l002,europe,5,10,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,7.5,37.5,6.35,37.5,Europe,Local,Genus
+local,eu_r004_l003,europe,10,15,35,40,genus,28.644809075043327,prepared,leave_one_location_out_required,112,7,-0.23,available,12.5,37.5,11.35,37.5,Europe,Local,Genus
+local,eu_r004_l004,europe,15,20,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,17.5,37.5,16.35,37.5,Europe,Local,Genus
+local,eu_r005_l001,europe,0,5,40,45,genus,31.557099535520106,prepared,grouped_kfold_feasible,307,15,-0.23,available,2.5,42.5,1.3499999999999999,42.5,Europe,Local,Genus
+local,eu_r005_l002,europe,0,5,45,50,genus,36.14113011316022,prepared,grouped_kfold_feasible,445,16,-0.23,available,2.5,47.5,1.3499999999999999,47.5,Europe,Local,Genus
+local,eu_r005_l003,europe,0,5,50,55,genus,33.10385899086615,prepared,grouped_kfold_feasible,120,9,-0.23,available,2.5,52.5,1.3499999999999999,52.5,Europe,Local,Genus
+local,eu_r005_l004,europe,0,5,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,2.5,57.5,1.3499999999999999,57.5,Europe,Local,Genus
+local,eu_r005_l005,europe,5,10,40,45,genus,40.1936344960618,prepared,grouped_kfold_feasible,356,18,-0.23,available,7.5,42.5,6.35,42.5,Europe,Local,Genus
+local,eu_r005_l006,europe,5,10,45,50,genus,39.19039491165842,prepared,grouped_kfold_feasible,1840,27,-0.23,available,7.5,47.5,6.35,47.5,Europe,Local,Genus
+local,eu_r005_l007,europe,5,10,50,55,genus,35.40066551729533,prepared,grouped_kfold_feasible,296,13,-0.23,available,7.5,52.5,6.35,52.5,Europe,Local,Genus
+local,eu_r005_l008,europe,5,10,55,60,genus,31.009873968850737,prepared,grouped_kfold_feasible,299,12,-0.23,available,7.5,57.5,6.35,57.5,Europe,Local,Genus
+local,eu_r005_l009,europe,10,15,40,45,genus,35.381515772936076,prepared,grouped_kfold_feasible,246,20,-0.23,available,12.5,42.5,11.35,42.5,Europe,Local,Genus
+local,eu_r005_l010,europe,10,15,45,50,genus,33.42522664742359,prepared,grouped_kfold_feasible,878,17,-0.23,available,12.5,47.5,11.35,47.5,Europe,Local,Genus
+local,eu_r005_l011,europe,10,15,50,55,genus,40.93897529200694,prepared,grouped_kfold_feasible,495,16,-0.23,available,12.5,52.5,11.35,52.5,Europe,Local,Genus
+local,eu_r005_l012,europe,10,15,55,60,genus,30.397753097041353,prepared,grouped_kfold_feasible,368,16,-0.23,available,12.5,57.5,11.35,57.5,Europe,Local,Genus
+local,eu_r005_l013,europe,15,20,40,45,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,17.5,42.5,16.35,42.5,Europe,Local,Genus
+local,eu_r005_l014,europe,15,20,45,50,genus,38.427414792349,prepared,grouped_kfold_feasible,237,14,-0.23,available,17.5,47.5,16.35,47.5,Europe,Local,Genus
+local,eu_r005_l015,europe,15,20,50,55,genus,39.01285511527114,prepared,grouped_kfold_feasible,323,13,-0.23,available,17.5,52.5,16.35,52.5,Europe,Local,Genus
+local,eu_r005_l016,europe,15,20,55,60,genus,36.61375600156557,prepared,grouped_kfold_feasible,121,6,-0.23,available,17.5,57.5,16.35,57.5,Europe,Local,Genus
+local,eu_r006_l001,europe,0,5,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,2.5,62.5,1.3499999999999999,62.5,Europe,Local,Genus
+local,eu_r006_l002,europe,0,5,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,2.5,67.5,1.3499999999999999,67.5,Europe,Local,Genus
+local,eu_r006_l003,europe,5,10,60,65,genus,33.621993761593124,prepared,grouped_kfold_feasible,180,7,-0.23,available,7.5,62.5,6.35,62.5,Europe,Local,Genus
+local,eu_r006_l004,europe,5,10,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,7.5,67.5,6.35,67.5,Europe,Local,Genus
+local,eu_r006_l005,europe,10,15,60,65,genus,28.875428300584677,prepared,grouped_kfold_feasible,259,10,-0.23,available,12.5,62.5,11.35,62.5,Europe,Local,Genus
+local,eu_r006_l006,europe,10,15,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,12.5,67.5,11.35,67.5,Europe,Local,Genus
+local,eu_r006_l007,europe,15,20,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,17.5,62.5,16.35,62.5,Europe,Local,Genus
+local,eu_r006_l008,europe,15,20,65,70,genus,15.345412766434375,prepared,tier_pooled_regularization_required,143,5,-0.23,available,17.5,67.5,16.35,67.5,Europe,Local,Genus
+local,eu_r007_l001,europe,20,25,35,40,genus,NA,prepared,full_model_infeasible,73,2,-0.23,expected_infeasible,22.5,37.5,21.35,37.5,Europe,Local,Genus
+local,eu_r007_l002,europe,25,30,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,27.5,37.5,26.35,37.5,Europe,Local,Genus
+local,eu_r007_l003,europe,30,35,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,32.5,37.5,31.35,37.5,Europe,Local,Genus
+local,eu_r007_l004,europe,35,40,35,40,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,37.5,37.5,36.35,37.5,Europe,Local,Genus
+local,eu_r008_l001,europe,20,25,40,45,genus,27.92629244287084,prepared,grouped_kfold_feasible,187,12,-0.23,available,22.5,42.5,21.35,42.5,Europe,Local,Genus
+local,eu_r008_l002,europe,20,25,45,50,genus,38.275696690745,prepared,grouped_kfold_feasible,354,15,-0.23,available,22.5,47.5,21.35,47.5,Europe,Local,Genus
+local,eu_r008_l003,europe,20,25,50,55,genus,34.27940543846806,prepared,grouped_kfold_feasible,123,9,-0.23,available,22.5,52.5,21.35,52.5,Europe,Local,Genus
+local,eu_r008_l004,europe,20,25,55,60,genus,30.111715944178886,prepared,grouped_kfold_feasible,381,13,-0.23,available,22.5,57.5,21.35,57.5,Europe,Local,Genus
+local,eu_r008_l005,europe,25,30,40,45,genus,14.065260588966346,prepared,tier_pooled_regularization_required,90,5,-0.23,available,27.5,42.5,26.35,42.5,Europe,Local,Genus
+local,eu_r008_l006,europe,25,30,45,50,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,27.5,47.5,26.35,47.5,Europe,Local,Genus
+local,eu_r008_l007,europe,25,30,50,55,genus,NA,prepared,full_model_infeasible,126,2,-0.23,expected_infeasible,27.5,52.5,26.35,52.5,Europe,Local,Genus
+local,eu_r008_l008,europe,25,30,55,60,genus,31.608127418983035,prepared,grouped_kfold_feasible,536,9,-0.23,available,27.5,57.5,26.35,57.5,Europe,Local,Genus
+local,eu_r008_l009,europe,30,35,40,45,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,32.5,42.5,31.35,42.5,Europe,Local,Genus
+local,eu_r008_l010,europe,30,35,45,50,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,32.5,47.5,31.35,47.5,Europe,Local,Genus
+local,eu_r008_l011,europe,30,35,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,32.5,52.5,31.35,52.5,Europe,Local,Genus
+local,eu_r008_l012,europe,30,35,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,32.5,57.5,31.35,57.5,Europe,Local,Genus
+local,eu_r008_l013,europe,35,40,40,45,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,37.5,42.5,36.35,42.5,Europe,Local,Genus
+local,eu_r008_l014,europe,35,40,45,50,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,37.5,47.5,36.35,47.5,Europe,Local,Genus
+local,eu_r008_l015,europe,35,40,50,55,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,37.5,52.5,36.35,52.5,Europe,Local,Genus
+local,eu_r008_l016,europe,35,40,55,60,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,37.5,57.5,36.35,57.5,Europe,Local,Genus
+local,eu_r009_l001,europe,20,25,60,65,genus,23.34295031618796,prepared,grouped_kfold_feasible,105,5,-0.23,available,22.5,62.5,21.35,62.5,Europe,Local,Genus
+local,eu_r009_l002,europe,20,25,65,70,genus,19.948626203914458,prepared,grouped_kfold_feasible,137,4,-0.23,available,22.5,67.5,21.35,67.5,Europe,Local,Genus
+local,eu_r009_l003,europe,25,30,60,65,genus,29.95614788863711,prepared,leave_one_location_out_required,128,6,-0.23,available,27.5,62.5,26.35,62.5,Europe,Local,Genus
+local,eu_r009_l004,europe,25,30,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,27.5,67.5,26.35,67.5,Europe,Local,Genus
+local,eu_r009_l005,europe,30,35,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,32.5,62.5,31.35,62.5,Europe,Local,Genus
+local,eu_r009_l006,europe,30,35,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,32.5,67.5,31.35,67.5,Europe,Local,Genus
+local,eu_r009_l007,europe,35,40,60,65,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,37.5,62.5,36.35,62.5,Europe,Local,Genus
+local,eu_r009_l008,europe,35,40,65,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,37.5,67.5,36.35,67.5,Europe,Local,Genus
+local,eu_r001_l001,europe,-10,-5,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-7.5,37.5,-7.5,37.5,Europe,Local,Family
+local,eu_r001_l002,europe,-5,0,35,40,family,23.376562488803433,prepared,grouped_kfold_feasible,152,8,0,available,-2.5,37.5,-2.5,37.5,Europe,Local,Family
+local,eu_r002_l001,europe,-10,-5,40,45,family,14.011099690170548,prepared,grouped_kfold_feasible,231,6,0,available,-7.5,42.5,-7.5,42.5,Europe,Local,Family
+local,eu_r002_l002,europe,-10,-5,45,50,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-7.5,47.5,-7.5,47.5,Europe,Local,Family
+local,eu_r002_l003,europe,-10,-5,50,55,family,30.55495737109351,prepared,grouped_kfold_feasible,413,9,0,available,-7.5,52.5,-7.5,52.5,Europe,Local,Family
+local,eu_r002_l004,europe,-10,-5,55,60,family,20.61496425206202,prepared,grouped_kfold_feasible,296,8,0,available,-7.5,57.5,-7.5,57.5,Europe,Local,Family
+local,eu_r002_l005,europe,-5,0,40,45,family,20.150613717614803,prepared,grouped_kfold_feasible,322,9,0,available,-2.5,42.5,-2.5,42.5,Europe,Local,Family
+local,eu_r002_l006,europe,-5,0,45,50,family,27.898906224593023,prepared,grouped_kfold_feasible,316,14,0,available,-2.5,47.5,-2.5,47.5,Europe,Local,Family
+local,eu_r002_l007,europe,-5,0,50,55,family,18.000186164429195,prepared,grouped_kfold_feasible,229,7,0,available,-2.5,52.5,-2.5,52.5,Europe,Local,Family
+local,eu_r002_l008,europe,-5,0,55,60,family,24.375749472175777,prepared,grouped_kfold_feasible,158,6,0,available,-2.5,57.5,-2.5,57.5,Europe,Local,Family
+local,eu_r003_l001,europe,-10,-5,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-7.5,62.5,-7.5,62.5,Europe,Local,Family
+local,eu_r003_l002,europe,-10,-5,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-7.5,67.5,-7.5,67.5,Europe,Local,Family
+local,eu_r003_l003,europe,-5,0,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-2.5,62.5,-2.5,62.5,Europe,Local,Family
+local,eu_r003_l004,europe,-5,0,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-2.5,67.5,-2.5,67.5,Europe,Local,Family
+local,eu_r004_l001,europe,0,5,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,2.5,37.5,2.5,37.5,Europe,Local,Family
+local,eu_r004_l002,europe,5,10,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,7.5,37.5,7.5,37.5,Europe,Local,Family
+local,eu_r004_l003,europe,10,15,35,40,family,15.88307776980065,prepared,tier_pooled_regularization_required,112,4,0,available,12.5,37.5,12.5,37.5,Europe,Local,Family
+local,eu_r004_l004,europe,15,20,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,17.5,37.5,17.5,37.5,Europe,Local,Family
+local,eu_r005_l001,europe,0,5,40,45,family,20.612762213348315,prepared,grouped_kfold_feasible,307,8,0,available,2.5,42.5,2.5,42.5,Europe,Local,Family
+local,eu_r005_l002,europe,0,5,45,50,family,26.493127418388628,prepared,grouped_kfold_feasible,445,9,0,available,2.5,47.5,2.5,47.5,Europe,Local,Family
+local,eu_r005_l003,europe,0,5,50,55,family,31.35188510881357,prepared,grouped_kfold_feasible,120,6,0,available,2.5,52.5,2.5,52.5,Europe,Local,Family
+local,eu_r005_l004,europe,0,5,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,2.5,57.5,2.5,57.5,Europe,Local,Family
+local,eu_r005_l005,europe,5,10,40,45,family,25.39997348599104,prepared,grouped_kfold_feasible,356,11,0,available,7.5,42.5,7.5,42.5,Europe,Local,Family
+local,eu_r005_l006,europe,5,10,45,50,family,34.96678121306374,prepared,grouped_kfold_feasible,1840,17,0,available,7.5,47.5,7.5,47.5,Europe,Local,Family
+local,eu_r005_l007,europe,5,10,50,55,family,27.273670748438487,prepared,grouped_kfold_feasible,296,8,0,available,7.5,52.5,7.5,52.5,Europe,Local,Family
+local,eu_r005_l008,europe,5,10,55,60,family,19.70611947697832,prepared,grouped_kfold_feasible,299,8,0,available,7.5,57.5,7.5,57.5,Europe,Local,Family
+local,eu_r005_l009,europe,10,15,40,45,family,25.248164132606547,prepared,grouped_kfold_feasible,246,10,0,available,12.5,42.5,12.5,42.5,Europe,Local,Family
+local,eu_r005_l010,europe,10,15,45,50,family,22.324257338977542,prepared,grouped_kfold_feasible,878,8,0,available,12.5,47.5,12.5,47.5,Europe,Local,Family
+local,eu_r005_l011,europe,10,15,50,55,family,23.95351788188982,prepared,grouped_kfold_feasible,495,8,0,available,12.5,52.5,12.5,52.5,Europe,Local,Family
+local,eu_r005_l012,europe,10,15,55,60,family,24.58702821090604,prepared,grouped_kfold_feasible,368,8,0,available,12.5,57.5,12.5,57.5,Europe,Local,Family
+local,eu_r005_l013,europe,15,20,40,45,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,17.5,42.5,17.5,42.5,Europe,Local,Family
+local,eu_r005_l014,europe,15,20,45,50,family,26.512330637328912,prepared,grouped_kfold_feasible,237,7,0,available,17.5,47.5,17.5,47.5,Europe,Local,Family
+local,eu_r005_l015,europe,15,20,50,55,family,27.78214119897198,prepared,grouped_kfold_feasible,323,7,0,available,17.5,52.5,17.5,52.5,Europe,Local,Family
+local,eu_r005_l016,europe,15,20,55,60,family,22.062025573220673,prepared,grouped_kfold_feasible,121,4,0,available,17.5,57.5,17.5,57.5,Europe,Local,Family
+local,eu_r006_l001,europe,0,5,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,2.5,62.5,2.5,62.5,Europe,Local,Family
+local,eu_r006_l002,europe,0,5,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,2.5,67.5,2.5,67.5,Europe,Local,Family
+local,eu_r006_l003,europe,5,10,60,65,family,20.709209423298713,prepared,grouped_kfold_feasible,180,5,0,available,7.5,62.5,7.5,62.5,Europe,Local,Family
+local,eu_r006_l004,europe,5,10,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,7.5,67.5,7.5,67.5,Europe,Local,Family
+local,eu_r006_l005,europe,10,15,60,65,family,14.401984415227188,prepared,grouped_kfold_feasible,259,6,0,available,12.5,62.5,12.5,62.5,Europe,Local,Family
+local,eu_r006_l006,europe,10,15,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,12.5,67.5,12.5,67.5,Europe,Local,Family
+local,eu_r006_l007,europe,15,20,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,17.5,62.5,17.5,62.5,Europe,Local,Family
+local,eu_r006_l008,europe,15,20,65,70,family,13.62507302675722,prepared,tier_pooled_regularization_required,143,4,0,available,17.5,67.5,17.5,67.5,Europe,Local,Family
+local,eu_r007_l001,europe,20,25,35,40,family,16.356977849415095,prepared,tier_pooled_regularization_required,73,3,0,available,22.5,37.5,22.5,37.5,Europe,Local,Family
+local,eu_r007_l002,europe,25,30,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,27.5,37.5,27.5,37.5,Europe,Local,Family
+local,eu_r007_l003,europe,30,35,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,32.5,37.5,32.5,37.5,Europe,Local,Family
+local,eu_r007_l004,europe,35,40,35,40,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,37.5,37.5,37.5,37.5,Europe,Local,Family
+local,eu_r008_l001,europe,20,25,40,45,family,15.897238703379502,prepared,grouped_kfold_feasible,187,6,0,available,22.5,42.5,22.5,42.5,Europe,Local,Family
+local,eu_r008_l002,europe,20,25,45,50,family,26.721863175980953,prepared,grouped_kfold_feasible,354,8,0,available,22.5,47.5,22.5,47.5,Europe,Local,Family
+local,eu_r008_l003,europe,20,25,50,55,family,29.214591548397944,prepared,leave_one_location_out_required,123,5,0,available,22.5,52.5,22.5,52.5,Europe,Local,Family
+local,eu_r008_l004,europe,20,25,55,60,family,22.115423008535693,prepared,grouped_kfold_feasible,381,8,0,available,22.5,57.5,22.5,57.5,Europe,Local,Family
+local,eu_r008_l005,europe,25,30,40,45,family,10.053346709421254,prepared,tier_pooled_regularization_required,90,3,0,available,27.5,42.5,27.5,42.5,Europe,Local,Family
+local,eu_r008_l006,europe,25,30,45,50,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,27.5,47.5,27.5,47.5,Europe,Local,Family
+local,eu_r008_l007,europe,25,30,50,55,family,NA,prepared,full_model_infeasible,126,1,0,expected_infeasible,27.5,52.5,27.5,52.5,Europe,Local,Family
+local,eu_r008_l008,europe,25,30,55,60,family,24.41843919803874,prepared,grouped_kfold_feasible,536,6,0,available,27.5,57.5,27.5,57.5,Europe,Local,Family
+local,eu_r008_l009,europe,30,35,40,45,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,32.5,42.5,32.5,42.5,Europe,Local,Family
+local,eu_r008_l010,europe,30,35,45,50,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,32.5,47.5,32.5,47.5,Europe,Local,Family
+local,eu_r008_l011,europe,30,35,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,32.5,52.5,32.5,52.5,Europe,Local,Family
+local,eu_r008_l012,europe,30,35,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,32.5,57.5,32.5,57.5,Europe,Local,Family
+local,eu_r008_l013,europe,35,40,40,45,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,37.5,42.5,37.5,42.5,Europe,Local,Family
+local,eu_r008_l014,europe,35,40,45,50,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,37.5,47.5,37.5,47.5,Europe,Local,Family
+local,eu_r008_l015,europe,35,40,50,55,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,37.5,52.5,37.5,52.5,Europe,Local,Family
+local,eu_r008_l016,europe,35,40,55,60,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,37.5,57.5,37.5,57.5,Europe,Local,Family
+local,eu_r009_l001,europe,20,25,60,65,family,NA,prepared,full_model_infeasible,105,2,0,expected_infeasible,22.5,62.5,22.5,62.5,Europe,Local,Family
+local,eu_r009_l002,europe,20,25,65,70,family,NA,prepared,full_model_infeasible,137,2,0,expected_infeasible,22.5,67.5,22.5,67.5,Europe,Local,Family
+local,eu_r009_l003,europe,25,30,60,65,family,12.714124785437262,prepared,tier_pooled_regularization_required,128,4,0,available,27.5,62.5,27.5,62.5,Europe,Local,Family
+local,eu_r009_l004,europe,25,30,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,27.5,67.5,27.5,67.5,Europe,Local,Family
+local,eu_r009_l005,europe,30,35,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,32.5,62.5,32.5,62.5,Europe,Local,Family
+local,eu_r009_l006,europe,30,35,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,32.5,67.5,32.5,67.5,Europe,Local,Family
+local,eu_r009_l007,europe,35,40,60,65,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,37.5,62.5,37.5,62.5,Europe,Local,Family
+local,eu_r009_l008,europe,35,40,65,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,37.5,67.5,37.5,67.5,Europe,Local,Family
+local,eu_r001_l001,europe,-10,-5,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-7.5,37.5,-6.35,37.5,Europe,Local,Functional type
+local,eu_r001_l002,europe,-5,0,35,40,functional_type,26.26966829866244,prepared,grouped_kfold_feasible,152,10,0.23,available,-2.5,37.5,-1.3499999999999999,37.5,Europe,Local,Functional type
+local,eu_r002_l001,europe,-10,-5,40,45,functional_type,21.645563033429134,prepared,grouped_kfold_feasible,231,9,0.23,available,-7.5,42.5,-6.35,42.5,Europe,Local,Functional type
+local,eu_r002_l002,europe,-10,-5,45,50,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-7.5,47.5,-6.35,47.5,Europe,Local,Functional type
+local,eu_r002_l003,europe,-10,-5,50,55,functional_type,21.38752061347962,prepared,grouped_kfold_feasible,413,6,0.23,available,-7.5,52.5,-6.35,52.5,Europe,Local,Functional type
+local,eu_r002_l004,europe,-10,-5,55,60,functional_type,22.379571588337612,prepared,grouped_kfold_feasible,296,6,0.23,available,-7.5,57.5,-6.35,57.5,Europe,Local,Functional type
+local,eu_r002_l005,europe,-5,0,40,45,functional_type,25.33983260629557,prepared,grouped_kfold_feasible,322,10,0.23,available,-2.5,42.5,-1.3499999999999999,42.5,Europe,Local,Functional type
+local,eu_r002_l006,europe,-5,0,45,50,functional_type,23.74086768038178,prepared,grouped_kfold_feasible,316,9,0.23,available,-2.5,47.5,-1.3499999999999999,47.5,Europe,Local,Functional type
+local,eu_r002_l007,europe,-5,0,50,55,functional_type,10.158225375841033,prepared,grouped_kfold_feasible,229,5,0.23,available,-2.5,52.5,-1.3499999999999999,52.5,Europe,Local,Functional type
+local,eu_r002_l008,europe,-5,0,55,60,functional_type,25.43111807881244,prepared,grouped_kfold_feasible,158,6,0.23,available,-2.5,57.5,-1.3499999999999999,57.5,Europe,Local,Functional type
+local,eu_r003_l001,europe,-10,-5,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-7.5,62.5,-6.35,62.5,Europe,Local,Functional type
+local,eu_r003_l002,europe,-10,-5,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-7.5,67.5,-6.35,67.5,Europe,Local,Functional type
+local,eu_r003_l003,europe,-5,0,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-2.5,62.5,-1.3499999999999999,62.5,Europe,Local,Functional type
+local,eu_r003_l004,europe,-5,0,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-2.5,67.5,-1.3499999999999999,67.5,Europe,Local,Functional type
+local,eu_r004_l001,europe,0,5,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,2.5,37.5,3.6500000000000004,37.5,Europe,Local,Functional type
+local,eu_r004_l002,europe,5,10,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,7.5,37.5,8.65,37.5,Europe,Local,Functional type
+local,eu_r004_l003,europe,10,15,35,40,functional_type,16.975860743991213,prepared,grouped_kfold_feasible,112,5,0.23,available,12.5,37.5,13.65,37.5,Europe,Local,Functional type
+local,eu_r004_l004,europe,15,20,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,17.5,37.5,18.65,37.5,Europe,Local,Functional type
+local,eu_r005_l001,europe,0,5,40,45,functional_type,17.464220477553212,prepared,grouped_kfold_feasible,307,7,0.23,available,2.5,42.5,3.6500000000000004,42.5,Europe,Local,Functional type
+local,eu_r005_l002,europe,0,5,45,50,functional_type,20.186227729808913,prepared,grouped_kfold_feasible,445,7,0.23,available,2.5,47.5,3.6500000000000004,47.5,Europe,Local,Functional type
+local,eu_r005_l003,europe,0,5,50,55,functional_type,14.434891609246902,prepared,grouped_kfold_feasible,120,5,0.23,available,2.5,52.5,3.6500000000000004,52.5,Europe,Local,Functional type
+local,eu_r005_l004,europe,0,5,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,2.5,57.5,3.6500000000000004,57.5,Europe,Local,Functional type
+local,eu_r005_l005,europe,5,10,40,45,functional_type,22.24182107962852,prepared,grouped_kfold_feasible,356,7,0.23,available,7.5,42.5,8.65,42.5,Europe,Local,Functional type
+local,eu_r005_l006,europe,5,10,45,50,functional_type,28.749313961524525,prepared,grouped_kfold_feasible,1840,9,0.23,available,7.5,47.5,8.65,47.5,Europe,Local,Functional type
+local,eu_r005_l007,europe,5,10,50,55,functional_type,13.277140506079864,prepared,grouped_kfold_feasible,296,5,0.23,available,7.5,52.5,8.65,52.5,Europe,Local,Functional type
+local,eu_r005_l008,europe,5,10,55,60,functional_type,23.967159191148923,prepared,grouped_kfold_feasible,299,5,0.23,available,7.5,57.5,8.65,57.5,Europe,Local,Functional type
+local,eu_r005_l009,europe,10,15,40,45,functional_type,26.04119643870512,prepared,grouped_kfold_feasible,246,10,0.23,available,12.5,42.5,13.65,42.5,Europe,Local,Functional type
+local,eu_r005_l010,europe,10,15,45,50,functional_type,17.175642487484104,prepared,grouped_kfold_feasible,878,6,0.23,available,12.5,47.5,13.65,47.5,Europe,Local,Functional type
+local,eu_r005_l011,europe,10,15,50,55,functional_type,18.279686544634433,prepared,grouped_kfold_feasible,495,7,0.23,available,12.5,52.5,13.65,52.5,Europe,Local,Functional type
+local,eu_r005_l012,europe,10,15,55,60,functional_type,17.17876196357237,prepared,grouped_kfold_feasible,368,6,0.23,available,12.5,57.5,13.65,57.5,Europe,Local,Functional type
+local,eu_r005_l013,europe,15,20,40,45,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,17.5,42.5,18.65,42.5,Europe,Local,Functional type
+local,eu_r005_l014,europe,15,20,45,50,functional_type,13.422262527692508,prepared,grouped_kfold_feasible,237,5,0.23,available,17.5,47.5,18.65,47.5,Europe,Local,Functional type
+local,eu_r005_l015,europe,15,20,50,55,functional_type,18.40610088341572,prepared,grouped_kfold_feasible,323,4,0.23,available,17.5,52.5,18.65,52.5,Europe,Local,Functional type
+local,eu_r005_l016,europe,15,20,55,60,functional_type,20.970629908596447,prepared,grouped_kfold_feasible,121,5,0.23,available,17.5,57.5,18.65,57.5,Europe,Local,Functional type
+local,eu_r006_l001,europe,0,5,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,2.5,62.5,3.6500000000000004,62.5,Europe,Local,Functional type
+local,eu_r006_l002,europe,0,5,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,2.5,67.5,3.6500000000000004,67.5,Europe,Local,Functional type
+local,eu_r006_l003,europe,5,10,60,65,functional_type,20.313826119748313,prepared,grouped_kfold_feasible,180,6,0.23,available,7.5,62.5,8.65,62.5,Europe,Local,Functional type
+local,eu_r006_l004,europe,5,10,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,7.5,67.5,8.65,67.5,Europe,Local,Functional type
+local,eu_r006_l005,europe,10,15,60,65,functional_type,15.500971197113312,prepared,grouped_kfold_feasible,259,6,0.23,available,12.5,62.5,13.65,62.5,Europe,Local,Functional type
+local,eu_r006_l006,europe,10,15,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,12.5,67.5,13.65,67.5,Europe,Local,Functional type
+local,eu_r006_l007,europe,15,20,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,17.5,62.5,18.65,62.5,Europe,Local,Functional type
+local,eu_r006_l008,europe,15,20,65,70,functional_type,16.074913506659914,prepared,tier_pooled_regularization_required,143,5,0.23,available,17.5,67.5,18.65,67.5,Europe,Local,Functional type
+local,eu_r007_l001,europe,20,25,35,40,functional_type,16.136118844789532,prepared,leave_one_location_out_required,73,5,0.23,available,22.5,37.5,23.65,37.5,Europe,Local,Functional type
+local,eu_r007_l002,europe,25,30,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,27.5,37.5,28.65,37.5,Europe,Local,Functional type
+local,eu_r007_l003,europe,30,35,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,32.5,37.5,33.65,37.5,Europe,Local,Functional type
+local,eu_r007_l004,europe,35,40,35,40,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,37.5,37.5,38.65,37.5,Europe,Local,Functional type
+local,eu_r008_l001,europe,20,25,40,45,functional_type,12.587848098891508,prepared,grouped_kfold_feasible,187,4,0.23,available,22.5,42.5,23.65,42.5,Europe,Local,Functional type
+local,eu_r008_l002,europe,20,25,45,50,functional_type,20.567071477843896,prepared,grouped_kfold_feasible,354,6,0.23,available,22.5,47.5,23.65,47.5,Europe,Local,Functional type
+local,eu_r008_l003,europe,20,25,50,55,functional_type,19.351566145800625,prepared,leave_one_location_out_required,123,4,0.23,available,22.5,52.5,23.65,52.5,Europe,Local,Functional type
+local,eu_r008_l004,europe,20,25,55,60,functional_type,10.96869196713572,prepared,grouped_kfold_feasible,381,4,0.23,available,22.5,57.5,23.65,57.5,Europe,Local,Functional type
+local,eu_r008_l005,europe,25,30,40,45,functional_type,5.489657313936282,prepared,tier_pooled_regularization_required,90,3,0.23,available,27.5,42.5,28.65,42.5,Europe,Local,Functional type
+local,eu_r008_l006,europe,25,30,45,50,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,27.5,47.5,28.65,47.5,Europe,Local,Functional type
+local,eu_r008_l007,europe,25,30,50,55,functional_type,16.898440003857797,prepared,tier_pooled_regularization_required,126,3,0.23,available,27.5,52.5,28.65,52.5,Europe,Local,Functional type
+local,eu_r008_l008,europe,25,30,55,60,functional_type,13.541301521975004,prepared,grouped_kfold_feasible,536,4,0.23,available,27.5,57.5,28.65,57.5,Europe,Local,Functional type
+local,eu_r008_l009,europe,30,35,40,45,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,32.5,42.5,33.65,42.5,Europe,Local,Functional type
+local,eu_r008_l010,europe,30,35,45,50,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,32.5,47.5,33.65,47.5,Europe,Local,Functional type
+local,eu_r008_l011,europe,30,35,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,32.5,52.5,33.65,52.5,Europe,Local,Functional type
+local,eu_r008_l012,europe,30,35,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,32.5,57.5,33.65,57.5,Europe,Local,Functional type
+local,eu_r008_l013,europe,35,40,40,45,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,37.5,42.5,38.65,42.5,Europe,Local,Functional type
+local,eu_r008_l014,europe,35,40,45,50,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,37.5,47.5,38.65,47.5,Europe,Local,Functional type
+local,eu_r008_l015,europe,35,40,50,55,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,37.5,52.5,38.65,52.5,Europe,Local,Functional type
+local,eu_r008_l016,europe,35,40,55,60,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,37.5,57.5,38.65,57.5,Europe,Local,Functional type
+local,eu_r009_l001,europe,20,25,60,65,functional_type,NA,prepared,full_model_infeasible,105,2,0.23,expected_infeasible,22.5,62.5,23.65,62.5,Europe,Local,Functional type
+local,eu_r009_l002,europe,20,25,65,70,functional_type,15.489771524699972,prepared,grouped_kfold_feasible,137,3,0.23,available,22.5,67.5,23.65,67.5,Europe,Local,Functional type
+local,eu_r009_l003,europe,25,30,60,65,functional_type,18.418233833743656,prepared,leave_one_location_out_required,128,4,0.23,available,27.5,62.5,28.65,62.5,Europe,Local,Functional type
+local,eu_r009_l004,europe,25,30,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,27.5,67.5,28.65,67.5,Europe,Local,Functional type
+local,eu_r009_l005,europe,30,35,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,32.5,62.5,33.65,62.5,Europe,Local,Functional type
+local,eu_r009_l006,europe,30,35,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,32.5,67.5,33.65,67.5,Europe,Local,Functional type
+local,eu_r009_l007,europe,35,40,60,65,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,37.5,62.5,38.65,62.5,Europe,Local,Functional type
+local,eu_r009_l008,europe,35,40,65,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,37.5,67.5,38.65,67.5,Europe,Local,Functional type
+regional,eu_r001,europe,-10,0,35,40,genus,31.39481475051053,prepared,grouped_kfold_feasible,205,13,-0.23,available,-5,37.5,-7.300000000000001,37.5,Europe,Regional,Genus
+regional,eu_r002,europe,-10,0,40,60,genus,37.65106018373534,prepared,grouped_kfold_feasible,1965,33,-0.23,available,-5,50,-7.300000000000001,50,Europe,Regional,Genus
+regional,eu_r003,europe,-10,0,60,70,genus,NA,expected_infeasible,NA,NA,NA,-0.23,expected_infeasible,-5,65,-7.300000000000001,65,Europe,Regional,Genus
+regional,eu_r004,europe,0,20,35,40,genus,32.81035010689948,prepared,grouped_kfold_feasible,189,13,-0.23,available,10,37.5,5.3999999999999995,37.5,Europe,Regional,Genus
+regional,eu_r005,europe,0,20,40,60,genus,40.64741302817222,prepared,grouped_kfold_feasible,6423,40,-0.23,available,10,50,5.3999999999999995,50,Europe,Regional,Genus
+regional,eu_r006,europe,0,20,60,70,genus,35.478626303512925,prepared,grouped_kfold_feasible,677,16,-0.23,available,10,65,5.3999999999999995,65,Europe,Regional,Genus
+regional,eu_r007,europe,20,40,35,40,genus,18.17767058115317,prepared,tier_pooled_regularization_required,93,5,-0.23,available,30,37.5,25.4,37.5,Europe,Regional,Genus
+regional,eu_r008,europe,20,40,40,60,genus,38.029191361472066,prepared,grouped_kfold_feasible,2015,24,-0.23,available,30,50,25.4,50,Europe,Regional,Genus
+regional,eu_r009,europe,20,40,60,70,genus,31.39064167512088,prepared,grouped_kfold_feasible,573,11,-0.23,available,30,65,25.4,65,Europe,Regional,Genus
+regional,eu_r001,europe,-10,0,35,40,family,29.348150470927777,prepared,grouped_kfold_feasible,205,10,0,available,-5,37.5,-5,37.5,Europe,Regional,Family
+regional,eu_r002,europe,-10,0,40,60,family,27.319028873484353,prepared,grouped_kfold_feasible,1965,22,0,available,-5,50,-5,50,Europe,Regional,Family
+regional,eu_r003,europe,-10,0,60,70,family,NA,expected_infeasible,NA,NA,NA,0,expected_infeasible,-5,65,-5,65,Europe,Regional,Family
+regional,eu_r004,europe,0,20,35,40,family,21.308856120303304,prepared,grouped_kfold_feasible,189,10,0,available,10,37.5,10,37.5,Europe,Regional,Family
+regional,eu_r005,europe,0,20,40,60,family,32.44970743043735,prepared,grouped_kfold_feasible,6423,23,0,available,10,50,10,50,Europe,Regional,Family
+regional,eu_r006,europe,0,20,60,70,family,16.043036579210572,prepared,grouped_kfold_feasible,677,9,0,available,10,65,10,65,Europe,Regional,Family
+regional,eu_r007,europe,20,40,35,40,family,21.398310856786843,prepared,leave_one_location_out_required,93,7,0,available,30,37.5,30,37.5,Europe,Regional,Family
+regional,eu_r008,europe,20,40,40,60,family,28.417807323072935,prepared,grouped_kfold_feasible,2015,14,0,available,30,50,30,50,Europe,Regional,Family
+regional,eu_r009,europe,20,40,60,70,family,16.382681098382893,prepared,grouped_kfold_feasible,573,8,0,available,30,65,30,65,Europe,Regional,Family
+regional,eu_r001,europe,-10,0,35,40,functional_type,28.088503988048323,prepared,grouped_kfold_feasible,205,10,0.23,available,-5,37.5,-2.6999999999999997,37.5,Europe,Regional,Functional type
+regional,eu_r002,europe,-10,0,40,60,functional_type,29.383988276656403,prepared,grouped_kfold_feasible,1965,12,0.23,available,-5,50,-2.6999999999999997,50,Europe,Regional,Functional type
+regional,eu_r003,europe,-10,0,60,70,functional_type,NA,expected_infeasible,NA,NA,NA,0.23,expected_infeasible,-5,65,-2.6999999999999997,65,Europe,Regional,Functional type
+regional,eu_r004,europe,0,20,35,40,functional_type,16.552581274165146,prepared,grouped_kfold_feasible,189,7,0.23,available,10,37.5,14.600000000000001,37.5,Europe,Regional,Functional type
+regional,eu_r005,europe,0,20,40,60,functional_type,24.57019903238886,prepared,grouped_kfold_feasible,6423,11,0.23,available,10,50,14.600000000000001,50,Europe,Regional,Functional type
+regional,eu_r006,europe,0,20,60,70,functional_type,16.14192750402031,prepared,grouped_kfold_feasible,677,7,0.23,available,10,65,14.600000000000001,65,Europe,Regional,Functional type
+regional,eu_r007,europe,20,40,35,40,functional_type,18.85973345079662,prepared,grouped_kfold_feasible,93,6,0.23,available,30,37.5,34.6,37.5,Europe,Regional,Functional type
+regional,eu_r008,europe,20,40,40,60,functional_type,17.037889818465562,prepared,grouped_kfold_feasible,2015,8,0.23,available,30,50,34.6,50,Europe,Regional,Functional type
+regional,eu_r009,europe,20,40,60,70,functional_type,13.150537679396887,prepared,grouped_kfold_feasible,573,5,0.23,available,30,65,34.6,65,Europe,Regional,Functional type

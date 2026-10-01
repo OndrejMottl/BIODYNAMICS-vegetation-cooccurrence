@@ -66,3 +66,5 @@ target_store: Root targets-store path. Defaults to the active
 Value:
 
      Invisible `NULL`. Pipeline stores contain the durable results.
+     Unit-level failures are reported and skipped; successful units
+     continue.

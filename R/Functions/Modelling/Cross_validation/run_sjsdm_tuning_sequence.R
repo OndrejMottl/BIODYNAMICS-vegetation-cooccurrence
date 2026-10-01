@@ -33,7 +33,8 @@
 #' @param target_store
 #' Root targets-store path. Defaults to the active configuration value.
 #' @return
-#' Invisible `NULL`. Pipeline stores contain the durable results.
+#' Invisible `NULL`. Pipeline stores contain the durable results. Unit-level
+#' failures are reported and skipped; successful units continue.
 #' @export
 run_sjsdm_tuning_sequence <- function(
     unit_pipeline = NULL,
@@ -135,6 +136,15 @@ run_sjsdm_tuning_sequence <- function(
       unit_store_suffixes = unit_store_suffixes,
       target_store = target_store
     )
+  vec_active_store_suffixes <-
+    if (
+      base::is.null(unit_store_suffixes)
+    ) {
+      NA_character_
+    } else {
+      unit_store_suffixes
+    }
+  vec_active_store_paths <- vec_unit_store_paths
 
   for (
     round_index in base::seq_len(base::nrow(data_round_plan))
@@ -151,11 +161,18 @@ run_sjsdm_tuning_sequence <- function(
     final_round <-
       data_round_plan[["final_round"]][[round_index]]
 
-    run_sjsdm_tuning_unit_round(
+    data_unit_status <-
+      run_sjsdm_tuning_unit_round(
       round_id = round_id,
       unit_pipeline = unit_pipeline,
       tuning_target_names = tuning_target_names,
-      unit_store_suffixes = unit_store_suffixes,
+      unit_store_suffixes = if (
+        base::is.null(unit_store_suffixes)
+      ) {
+        NULL
+      } else {
+        vec_active_store_suffixes
+      },
       prebuild_round = prebuild_round,
       fresh_round = fresh_round,
       run_pipeline_function = run_pipeline_function,
@@ -163,9 +180,28 @@ run_sjsdm_tuning_sequence <- function(
       vec_allowed_profile_statuses = vec_allowed_profile_statuses
     )
 
+    flag_unit_success <-
+      data_unit_status[["pipeline_status"]] == "ok"
+    vec_active_store_suffixes <-
+      data_unit_status[["store_suffix"]][flag_unit_success]
+    vec_active_store_paths <-
+      vec_active_store_paths[flag_unit_success]
+
+    if (
+      base::length(vec_active_store_paths) == 0L
+    ) {
+      cli::cli_warn(
+        base::c(
+          "No unit completed the current tuning round.",
+          "i" = "Errors were logged; no tier selection was attempted."
+        )
+      )
+      return(base::invisible(NULL))
+    }
+
     flag_has_tuning_evidence <-
       has_tuning_evidence_function(
-        store_paths = vec_unit_store_paths,
+        store_paths = vec_active_store_paths,
         target_names = tuning_target_names
       )
 
@@ -193,7 +229,14 @@ run_sjsdm_tuning_sequence <- function(
       final_round = final_round,
       run_pipeline_function = run_pipeline_function,
       vec_allowed_profile_roles = vec_allowed_profile_roles,
-      vec_allowed_profile_statuses = vec_allowed_profile_statuses
+      vec_allowed_profile_statuses = vec_allowed_profile_statuses,
+      unit_store_suffixes = if (
+        base::is.null(unit_store_suffixes)
+      ) {
+        NULL
+      } else {
+        vec_active_store_suffixes
+      }
     )
   }
 

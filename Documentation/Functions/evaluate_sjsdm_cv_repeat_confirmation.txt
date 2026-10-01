@@ -1,0 +1,32 @@
+Evaluate sjSDM CV Repeat Confirmation
+
+Description:
+
+     Determines whether a provisional repeat-one candidate is confirmed
+     by repeat two either as the exact winner or as a practically
+     equivalent candidate within a registered relative loss tolerance.
+
+Usage:
+
+     evaluate_sjsdm_cv_repeat_confirmation(
+       data_candidate_summary = NULL,
+       provisional_candidate_id = NULL,
+       relative_loss_tolerance = 0.02
+     )
+
+Arguments:
+
+data_candidate_summary: Candidate-level summary containing `repeat_id`,
+          `candidate_id`, `candidate_loss`, and `candidate_complete`.
+
+provisional_candidate_id: Character scalar identifying the repeat-one
+          provisional winner.
+
+relative_loss_tolerance: Non-negative relative loss gap allowed above
+          the repeat-two minimum.
+
+Value:
+
+     One-row tibble containing the repeat-two winner, exact-winner
+     flag, relative loss gap, tolerance, practical-equivalence flag,
+     and confirmation.

@@ -1,0 +1,77 @@
+---
+format: html
+title: validate_manuscript_plot_data()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>validate_manuscript_plot_data</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Validate Manuscript Plot Data</h2>
+
+<h3>Description</h3>
+
+<p>Enforces common figure-data requirements before a manuscript figure is
+drawn or its auditable plot-data table is written.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>validate_manuscript_plot_data(
+  data_plot,
+  required_columns,
+  numeric_bounds = base::list(),
+  allow_empty = FALSE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_plot">data_plot</code></td>
+<td>
+<p>Data frame to validate.</p>
+</td></tr>
+<tr><td><code id="required_columns">required_columns</code></td>
+<td>
+<p>Character vector of required column names.</p>
+</td></tr>
+<tr><td><code id="numeric_bounds">numeric_bounds</code></td>
+<td>
+<p>Named list. Each element must be a numeric vector of
+length two giving inclusive lower and upper bounds for the named column.
+Infinite bounds are permitted.
+Missing values are allowed, but non-missing values must be finite and
+inside the declared bounds.</p>
+</td></tr>
+<tr><td><code id="allow_empty">allow_empty</code></td>
+<td>
+<p>Logical scalar. If 'FALSE', zero-row data are rejected.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The validated data frame, invisibly.
+</p>
+
+</main>
+
+</div>
+</body></html>

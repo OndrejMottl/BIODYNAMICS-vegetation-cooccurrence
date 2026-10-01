@@ -62,6 +62,16 @@ testthat::test_that(
         )
         testthat::expect_match(
           text_pipe,
+          "fit_sjsdm_cross_validation_candidate(",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
+          "config_sjsdm_cv_fitting",
+          fixed = TRUE
+        )
+        testthat::expect_match(
+          text_pipe,
           "build_sjsdm_tuning_branch_work_items(",
           fixed = TRUE
         )
@@ -106,6 +116,7 @@ testthat::test_that(
       base::c(
         "data_sjsdm_candidate_fold_metrics",
         "data_sjsdm_candidate_repeat_summary",
+        "data_sjsdm_tuning_fit_attempts",
         "list_sjsdm_selected_fold_artifacts",
         "data_sjsdm_out_of_fold_predictions",
         "data_sjsdm_out_of_fold_diagnostics",
@@ -128,6 +139,126 @@ testthat::test_that(
           )
         )
       }
+    )
+  }
+)
+
+testthat::test_that(
+  "low-taxon responses reach feasibility classification",
+  {
+    path_prepare_pipe <-
+      here::here(
+        "R/Pipelines/_pipes/pipe_segment_model_prepare_response.R"
+      )
+    path_cv_pipe <-
+      here::here(
+        base::paste0(
+          "R/Pipelines/_pipes/",
+          "pipe_segment_model_cross_validation_from_shared.R"
+        )
+      )
+
+    text_prepare_pipe <-
+      readr::read_file(path_prepare_pipe)
+    text_cv_pipe <-
+      readr::read_file(path_cv_pipe)
+
+    testthat::expect_false(
+      stringr::str_detect(
+        text_prepare_pipe,
+        stringr::fixed("validate_community_taxon_count(")
+      )
+    )
+    testthat::expect_equal(
+      stringr::str_count(
+        text_cv_pipe,
+        stringr::fixed(
+          "data_community_matrix = data_community_filtered"
+        )
+      ),
+      2L
+    )
+  }
+)
+
+testthat::test_that(
+  "CV fit budgets invalidate fitting but not prepared folds",
+  {
+    text_shared_config <-
+      readr::read_file(
+        here::here("R/Pipelines/_pipes/pipe_segment_config_model.R")
+      )
+    text_resolution_config <-
+      readr::read_file(
+        here::here(
+          "R/Pipelines/_pipes/pipe_segment_config_model_by_resolution.R"
+        )
+      )
+    text_execution <-
+      readr::read_file(
+        here::here(
+          base::paste0(
+            "R/Pipelines/_pipes/",
+            "pipe_segment_model_cross_validation_execution.R"
+          )
+        )
+      )
+    text_model_fit <-
+      readr::read_file(
+        here::here("R/Pipelines/_pipes/pipe_segment_model_fit.R")
+      )
+    text_prepared_target <-
+      stringr::str_extract(
+        text_execution,
+        stringr::regex(
+          base::paste0(
+            'name = "list_sjsdm_prepared_tuning_folds".*?',
+            'name = "data_sjsdm_all_tuning_work_items"'
+          ),
+          dotall = TRUE
+        )
+      )
+
+    testthat::expect_match(
+      text_shared_config,
+      'base::setdiff(\n            base::names(config_cross_validation),',
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_resolution_config,
+      "purrr::list_modify(fit_budget = rlang::zap())",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_resolution_config,
+      'value = c("_profile", "role")',
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_resolution_config,
+      ') == "main"',
+      fixed = TRUE
+    )
+    testthat::expect_false(
+      stringr::str_detect(
+        text_prepared_target,
+        stringr::fixed("config_sjsdm_cv_fitting")
+      )
+    )
+    testthat::expect_match(
+      text_execution,
+      "config_sjsdm_cv_fitting = config_sjsdm_cv_fitting",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_model_fit,
+      "base::invisible(config_sjsdm_cv_fitting)",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_model_fit,
+      'sampling = config_model_fitting[["n_sampling"]]',
+      fixed = TRUE
     )
   }
 )

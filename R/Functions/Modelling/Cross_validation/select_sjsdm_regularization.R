@@ -7,6 +7,9 @@
 #' @param selection_metric
 #' Metric minimized during selection. Defaults to normalized held-out negative
 #' log likelihood, "negative_log_likelihood_per_response".
+#' @param allow_empty
+#' Logical. When `TRUE`, return the typed-empty unit selection if no candidate
+#' completed every repeat so the caller can use tier-pooled regularization.
 #' @return
 #' One-row tibble containing the selected candidate parameters, criterion name
 #' and value, repeat count, deterministic candidate rank, and regularization
@@ -22,7 +25,8 @@
 #' @export
 select_sjsdm_regularization <- function(
     data_tuning_summary = NULL,
-    selection_metric = "negative_log_likelihood_per_response") {
+    selection_metric = "negative_log_likelihood_per_response",
+    allow_empty = FALSE) {
   assertthat::assert_that(
     base::is.data.frame(data_tuning_summary),
     msg = "data_tuning_summary must be a data frame."
@@ -34,6 +38,13 @@ select_sjsdm_regularization <- function(
     !base::is.na(selection_metric),
     base::nzchar(selection_metric),
     msg = "selection_metric must be one non-missing column name."
+  )
+
+  assertthat::assert_that(
+    base::is.logical(allow_empty),
+    base::length(allow_empty) == 1L,
+    !base::is.na(allow_empty),
+    msg = "allow_empty must be one non-missing logical value."
   )
 
   vec_parameter_columns <-
@@ -159,6 +170,12 @@ select_sjsdm_regularization <- function(
   if (
     base::nrow(data_candidate_ranking) == 0L
   ) {
+    if (
+      allow_empty
+    ) {
+      return(build_sjsdm_empty_unit_regularization_selection())
+    }
+
     cli::cli_abort("No candidate completed every repeat.")
   }
 

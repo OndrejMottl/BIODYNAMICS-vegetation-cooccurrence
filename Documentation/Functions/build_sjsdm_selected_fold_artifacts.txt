@@ -19,7 +19,14 @@ Usage:
        regularization_source = NULL,
        data_predicted = NULL,
        fold_status = "ok",
-       error_message = NA_character_
+       error_message = NA_character_,
+       converged = NA,
+       actual_n_iter = NA_integer_,
+       actual_n_sampling = NA_integer_,
+       epochs_run = NA_integer_,
+       linear_trend_slope = NA_real_,
+       median_diff = NA_real_,
+       early_stopping_triggered = NA
      )
 
 Arguments:
@@ -43,6 +50,12 @@ fold_status: `ok`, `fit_error`, or `prediction_error`.
 
 error_message: Failure message, or a missing character value for
           successful predictions.
+
+converged, actual_n_iter, actual_n_sampling, epochs_run: Final CV
+          fitting convergence and actual-budget provenance.
+
+linear_trend_slope, median_diff, early_stopping_triggered: Final
+          convergence diagnostic values.
 
 Value:
 

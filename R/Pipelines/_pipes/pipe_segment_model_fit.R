@@ -55,60 +55,63 @@ pipe_segment_model_fit <-
     targets::tar_target(
       description = "make JSDM model",
       name = "mod_jsdm",
-      command = if (
-        data_sjsdm_regularization_selection_for_fit[[
-          "selection_status"
-        ]][[1L]] ==
-          "full_model_infeasible"
-      ) {
-        NULL
-      } else {
-        fit_jsdm_model(
-          data_to_fit = data_model_input,
-          abiotic_method = "linear",
-          sel_abiotic_formula = formula_jsdm_environment,
-          spatial_method = if (
-            base::isTRUE(config_model_fitting[["use_spatial"]])
-          ) {
-            "linear"
-          } else {
-            "none"
-          },
-          sel_spatial_formula = ~ 0 + .,
-          error_family = config_model_fitting[["error_family"]],
-          device = "gpu",
-          parallel = config_model_fitting[["n_cores"]],
-          sampling = config_model_fitting[["n_sampling"]],
-          iter = config_model_fitting[["n_iter"]],
-          step_size = config_model_fitting[["n_step_size"]],
-          n_early_stopping =
-            config_model_fitting[["n_early_stopping"]],
-          seed = 900723,
-          verbose = TRUE,
-          compute_se = FALSE,
-          alpha_cov = data_sjsdm_regularization_selection_for_fit[[
-            "alpha_cov"
-          ]][[1L]],
-          alpha_coef = data_sjsdm_regularization_selection_for_fit[[
-            "alpha_coef"
-          ]][[1L]],
-          alpha_spatial =
-            data_sjsdm_regularization_selection_for_fit[[
-              "alpha_spatial"
+      command = {
+        base::invisible(config_sjsdm_cv_fitting)
+        if (
+          data_sjsdm_regularization_selection_for_fit[[
+            "selection_status"
+          ]][[1L]] ==
+            "full_model_infeasible"
+        ) {
+          NULL
+        } else {
+          fit_jsdm_model(
+            data_to_fit = data_model_input,
+            abiotic_method = "linear",
+            sel_abiotic_formula = formula_jsdm_environment,
+            spatial_method = if (
+              base::isTRUE(config_model_fitting[["use_spatial"]])
+            ) {
+              "linear"
+            } else {
+              "none"
+            },
+            sel_spatial_formula = ~ 0 + .,
+            error_family = config_model_fitting[["error_family"]],
+            device = "gpu",
+            parallel = config_model_fitting[["n_cores"]],
+            sampling = config_model_fitting[["n_sampling"]],
+            iter = config_model_fitting[["n_iter"]],
+            step_size = config_model_fitting[["n_step_size"]],
+            n_early_stopping =
+              config_model_fitting[["n_early_stopping"]],
+            seed = 900723,
+            verbose = TRUE,
+            compute_se = FALSE,
+            alpha_cov = data_sjsdm_regularization_selection_for_fit[[
+              "alpha_cov"
             ]][[1L]],
-          lambda_cov =
-            data_sjsdm_regularization_selection_for_fit[[
-              "lambda_cov"
+            alpha_coef = data_sjsdm_regularization_selection_for_fit[[
+              "alpha_coef"
             ]][[1L]],
-          lambda_coef =
-            data_sjsdm_regularization_selection_for_fit[[
-              "lambda_coef"
-            ]][[1L]],
-          lambda_spatial =
-            data_sjsdm_regularization_selection_for_fit[[
-              "lambda_spatial"
-            ]][[1L]]
-        )
+            alpha_spatial =
+              data_sjsdm_regularization_selection_for_fit[[
+                "alpha_spatial"
+              ]][[1L]],
+            lambda_cov =
+              data_sjsdm_regularization_selection_for_fit[[
+                "lambda_cov"
+              ]][[1L]],
+            lambda_coef =
+              data_sjsdm_regularization_selection_for_fit[[
+                "lambda_coef"
+              ]][[1L]],
+            lambda_spatial =
+              data_sjsdm_regularization_selection_for_fit[[
+                "lambda_spatial"
+              ]][[1L]]
+          )
+        }
       }
     ),
     targets::tar_target(

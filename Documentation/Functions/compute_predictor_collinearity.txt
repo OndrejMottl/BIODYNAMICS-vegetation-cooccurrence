@@ -7,7 +7,8 @@ Description:
      `collinear::collinear()`. The function pivots `data_source` from
      long to wide format (one column per variable), removes any `age`
      column, screens out zero-variance columns, and then performs the
-     collinearity analysis.
+     collinearity analysis. Predictors with fewer than two finite
+     observations are removed before their variance is evaluated.
 
 Usage:
 
@@ -33,10 +34,11 @@ Details:
      Predictor names are captured before pivoting so that the
      zero-variance check is scoped to predictor columns only — ID or
      metadata columns that survive the pivot are never passed to
-     `collinear::collinear()`.  Any predictor whose standard deviation
-     is zero across all samples is dropped and reported via
-     `cli::cli_warn()`.  If no predictor with non-zero variance
-     remains, the function aborts via `cli::cli_abort()`.
+     `collinear::collinear()`. Predictors with insufficient finite
+     observations or zero variance are dropped and reported via
+     `cli::cli_warn()`. If fewer than three rows are available, or no
+     predictor with non-zero variance remains, the function aborts via
+     `cli::cli_abort()`.
 
 Value:
 

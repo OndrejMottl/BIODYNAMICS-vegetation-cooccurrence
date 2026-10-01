@@ -27,15 +27,15 @@ flowchart TD
 |---|---:|
 | diagnostic | 16 |
 | issue_reproduction | 6 |
-| main_analysis | 19 |
+| main_analysis | 37 |
 | one_time | 4 |
 | pipeline_definition | 46 |
 | project_setup | 3 |
 | reference | 13 |
 | scientific_reference | 2 |
 | sensitivity | 1 |
-| supplementary_or_processing | 37 |
-| test | 406 |
+| supplementary_or_processing | 40 |
+| test | 440 |
 
 ## Function capabilities
 
@@ -49,16 +49,16 @@ flowchart TD
 | Data/Traits | 53 |
 | Data_access/Files | 1 |
 | Data_access/Vegvault | 5 |
-| Modelling/Cross_validation | 111 |
+| Modelling/Cross_validation | 129 |
 | Modelling/Decomposition | 19 |
 | Modelling/Evaluation | 16 |
 | Modelling/Fit_inputs | 11 |
 | Modelling/Fitting | 10 |
 | Modelling/Spatial_effects | 12 |
 | Modelling/Variance_partitioning | 6 |
-| Pipeline/Configuration | 11 |
+| Pipeline/Configuration | 12 |
 | Pipeline/Definitions | 5 |
-| Pipeline/Orchestration | 8 |
+| Pipeline/Orchestration | 9 |
 | Pipeline/Stores | 7 |
 | Prediction/Climate | 1 |
 | Prediction/Grids | 1 |
@@ -66,6 +66,7 @@ flowchart TD
 | Prediction/Inputs | 1 |
 | Prediction/Scaling | 1 |
 | Prediction/Summaries | 1 |
+| Visualisation/Manuscript | 9 |
 | Visualisation/Maps | 1 |
 | Visualisation/Networks | 1 |
 | Visualisation/Spatial_variance | 8 |
@@ -93,13 +94,16 @@ flowchart TD
 | `R/Pipelines/_pipes/pipe_segment_config_common.R` | Data/Spatial | 1 |
 | `R/Pipelines/_pipes/pipe_segment_config_common.R` | Pipeline/Configuration | 1 |
 | `R/Pipelines/_pipes/pipe_segment_config_common.R` | Pipeline/Stores | 1 |
+| `R/Pipelines/_pipes/pipe_segment_config_model.R` | Modelling/Cross_validation | 1 |
 | `R/Pipelines/_pipes/pipe_segment_config_model.R` | Pipeline/Configuration | 2 |
+| `R/Pipelines/_pipes/pipe_segment_config_model_by_resolution.R` | Modelling/Cross_validation | 1 |
 | `R/Pipelines/_pipes/pipe_segment_config_model_by_resolution.R` | Pipeline/Configuration | 3 |
+| `R/Pipelines/_pipes/pipe_segment_config_model_by_resolution.R` | Pipeline/Stores | 1 |
 | `R/Pipelines/_pipes/pipe_segment_ft_classification_continental.R` | Data/Traits | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_anova.R` | Modelling/Variance_partitioning | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_assemble.R` | Modelling/Fit_inputs | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation.R` | Modelling/Cross_validation | 10 |
-| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_execution.R` | Modelling/Cross_validation | 27 |
+| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_execution.R` | Modelling/Cross_validation | 28 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_execution.R` | Pipeline/Configuration | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_execution.R` | Pipeline/Stores | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_from_shared.R` | Modelling/Cross_validation | 8 |
@@ -110,7 +114,7 @@ flowchart TD
 | `R/Pipelines/_pipes/pipe_segment_model_fit.R` | Modelling/Fit_inputs | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_fit.R` | Modelling/Fitting | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_input.R` | Modelling/Fit_inputs | 2 |
-| `R/Pipelines/_pipes/pipe_segment_model_prepare_response.R` | Data/Community | 3 |
+| `R/Pipelines/_pipes/pipe_segment_model_prepare_response.R` | Data/Community | 2 |
 | `R/Pipelines/_pipes/pipe_segment_model_prepare_response.R` | Modelling/Fit_inputs | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_spatial_samples.R` | Modelling/Fit_inputs | 2 |
 | `R/Pipelines/_pipes/pipe_segment_model_spatial_samples.R` | Modelling/Spatial_effects | 1 |
@@ -171,8 +175,8 @@ flowchart TD
 
 | Contract type | Scope | Contracts |
 |---|---|---:|
-| literal_target | persisted_internal | 393 |
-| literal_target | public_or_frozen_cv_review | 63 |
+| literal_target | persisted_internal | 400 |
+| literal_target | public_or_frozen_cv_review | 64 |
 
 ## Architecture exceptions
 

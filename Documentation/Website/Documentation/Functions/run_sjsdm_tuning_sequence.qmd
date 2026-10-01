@@ -110,7 +110,8 @@ retain '&quot;active&quot;'.</p>
 
 <h3>Value</h3>
 
-<p>Invisible 'NULL'. Pipeline stores contain the durable results.
+<p>Invisible 'NULL'. Pipeline stores contain the durable results. Unit-level
+failures are reported and skipped; successful units continue.
 </p>
 
 </main>

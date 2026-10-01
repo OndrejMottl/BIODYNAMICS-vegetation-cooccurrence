@@ -1,0 +1,370 @@
+continent_id,age,availability_status,series,value,series_label
+america,0,unexpected_error,Abiotic,NA,Climate
+america,0,unexpected_error,Associations,NA,Biotic co-occurrence
+america,0,unexpected_error,Spatial,NA,Spatial
+america,500,available,Abiotic,34.01011180541172,Climate
+america,500,available,Associations,32.57169635920192,Biotic co-occurrence
+america,500,available,Spatial,33.41819183538636,Spatial
+america,1000,available,Abiotic,34.79712504402582,Climate
+america,1000,available,Associations,32.56516393149634,Biotic co-occurrence
+america,1000,available,Spatial,32.63771102447783,Spatial
+america,1500,available,Abiotic,34.962103180143096,Climate
+america,1500,available,Associations,32.884376523188244,Biotic co-occurrence
+america,1500,available,Spatial,32.15352029666865,Spatial
+america,2000,available,Abiotic,34.96344549695413,Climate
+america,2000,available,Associations,33.03435823871729,Biotic co-occurrence
+america,2000,available,Spatial,32.00219626432859,Spatial
+america,2500,available,Abiotic,35.25626842450586,Climate
+america,2500,available,Associations,33.061523973295515,Biotic co-occurrence
+america,2500,available,Spatial,31.682207602198613,Spatial
+america,3000,available,Abiotic,35.14052489842939,Climate
+america,3000,available,Associations,32.96344624846725,Biotic co-occurrence
+america,3000,available,Spatial,31.896028853103378,Spatial
+america,3500,available,Abiotic,35.27321977618944,Climate
+america,3500,available,Associations,32.96016912707439,Biotic co-occurrence
+america,3500,available,Spatial,31.766611096736177,Spatial
+america,4000,available,Abiotic,35.71997804737333,Climate
+america,4000,available,Associations,32.70996884604316,Biotic co-occurrence
+america,4000,available,Spatial,31.570053106583497,Spatial
+america,4500,available,Abiotic,35.485232458085804,Climate
+america,4500,available,Associations,32.66406437094441,Biotic co-occurrence
+america,4500,available,Spatial,31.8507031709698,Spatial
+america,5000,available,Abiotic,35.818842735815224,Climate
+america,5000,available,Associations,32.892782922911664,Biotic co-occurrence
+america,5000,available,Spatial,31.288374341273123,Spatial
+america,5500,available,Abiotic,35.6480627266446,Climate
+america,5500,available,Associations,32.78305002925184,Biotic co-occurrence
+america,5500,available,Spatial,31.56888724410356,Spatial
+america,6000,available,Abiotic,36.17181792116901,Climate
+america,6000,available,Associations,33.20490836078343,Biotic co-occurrence
+america,6000,available,Spatial,30.623273718047567,Spatial
+america,6500,available,Abiotic,36.455017014698456,Climate
+america,6500,available,Associations,33.14351846433069,Biotic co-occurrence
+america,6500,available,Spatial,30.401464520970855,Spatial
+america,7000,available,Abiotic,36.44855200064858,Climate
+america,7000,available,Associations,32.79892576690445,Biotic co-occurrence
+america,7000,available,Spatial,30.752522232446967,Spatial
+america,7500,available,Abiotic,37.193079794167865,Climate
+america,7500,available,Associations,32.619917181296685,Biotic co-occurrence
+america,7500,available,Spatial,30.187003024535443,Spatial
+america,8000,available,Abiotic,36.75821906944119,Climate
+america,8000,available,Associations,32.639781435534374,Biotic co-occurrence
+america,8000,available,Spatial,30.60199949502444,Spatial
+america,8500,available,Abiotic,37.86665613704025,Climate
+america,8500,available,Associations,31.848145600847214,Biotic co-occurrence
+america,8500,available,Spatial,30.285198262112527,Spatial
+america,9000,available,Abiotic,39.071103330936104,Climate
+america,9000,available,Associations,31.607999864580066,Biotic co-occurrence
+america,9000,available,Spatial,29.32089680448383,Spatial
+america,9500,available,Abiotic,40.49081316112469,Climate
+america,9500,available,Associations,30.492333757397333,Biotic co-occurrence
+america,9500,available,Spatial,29.01685308147797,Spatial
+america,10000,available,Abiotic,40.50201363129766,Climate
+america,10000,available,Associations,30.117779712886723,Biotic co-occurrence
+america,10000,available,Spatial,29.38020665581561,Spatial
+america,10500,available,Abiotic,39.57846627586334,Climate
+america,10500,available,Associations,30.5615062732148,Biotic co-occurrence
+america,10500,available,Spatial,29.860027450921855,Spatial
+america,11000,available,Abiotic,38.52976036627368,Climate
+america,11000,available,Associations,31.49266485245446,Biotic co-occurrence
+america,11000,available,Spatial,29.977574781271866,Spatial
+america,11500,available,Abiotic,36.06179358164123,Climate
+america,11500,available,Associations,31.774095546791152,Biotic co-occurrence
+america,11500,available,Spatial,32.164110871567615,Spatial
+america,12000,available,Abiotic,37.98193183953949,Climate
+america,12000,available,Associations,30.17540483755395,Biotic co-occurrence
+america,12000,available,Spatial,31.842663322906567,Spatial
+america,12500,available,Abiotic,39.435653445607606,Climate
+america,12500,available,Associations,29.97601335817132,Biotic co-occurrence
+america,12500,available,Spatial,30.58833319622107,Spatial
+america,13000,available,Abiotic,40.58799095735563,Climate
+america,13000,available,Associations,29.23053716965583,Biotic co-occurrence
+america,13000,available,Spatial,30.181471872988535,Spatial
+america,13500,available,Abiotic,40.16010686039453,Climate
+america,13500,available,Associations,29.833095058684496,Biotic co-occurrence
+america,13500,available,Spatial,30.006798080920987,Spatial
+america,14000,available,Abiotic,36.841835084170654,Climate
+america,14000,available,Associations,31.829299104723596,Biotic co-occurrence
+america,14000,available,Spatial,31.328865811105754,Spatial
+america,14500,available,Abiotic,35.85578849437675,Climate
+america,14500,available,Associations,30.857949777166127,Biotic co-occurrence
+america,14500,available,Spatial,33.28626172845712,Spatial
+america,15000,available,Abiotic,36.25112222557494,Climate
+america,15000,available,Associations,30.988822590829564,Biotic co-occurrence
+america,15000,available,Spatial,32.760055183595505,Spatial
+america,15500,available,Abiotic,35.13589116343051,Climate
+america,15500,available,Associations,31.513818934661213,Biotic co-occurrence
+america,15500,available,Spatial,33.350289901908276,Spatial
+america,16000,available,Abiotic,35.337907477603935,Climate
+america,16000,available,Associations,32.127789408184086,Biotic co-occurrence
+america,16000,available,Spatial,32.53430311421197,Spatial
+america,16500,available,Abiotic,34.2156748482544,Climate
+america,16500,available,Associations,32.99081942112134,Biotic co-occurrence
+america,16500,available,Spatial,32.79350573062425,Spatial
+america,17000,available,Abiotic,33.837453075651666,Climate
+america,17000,available,Associations,32.953825650390876,Biotic co-occurrence
+america,17000,available,Spatial,33.20872127395746,Spatial
+america,17500,available,Abiotic,34.30206897924625,Climate
+america,17500,available,Associations,32.19305299315317,Biotic co-occurrence
+america,17500,available,Spatial,33.504878027600576,Spatial
+america,18000,available,Abiotic,35.39309537335139,Climate
+america,18000,available,Associations,32.023279217630495,Biotic co-occurrence
+america,18000,available,Spatial,32.58362540901811,Spatial
+america,18500,available,Abiotic,35.394685929408226,Climate
+america,18500,available,Associations,31.45654351315379,Biotic co-occurrence
+america,18500,available,Spatial,33.148770557437985,Spatial
+america,19000,available,Abiotic,35.983464670881474,Climate
+america,19000,available,Associations,30.245216106996896,Biotic co-occurrence
+america,19000,available,Spatial,33.77131922212163,Spatial
+america,19500,available,Abiotic,39.805295518529554,Climate
+america,19500,available,Associations,24.793896416243367,Biotic co-occurrence
+america,19500,available,Spatial,35.40080806522708,Spatial
+america,20000,unexpected_error,Abiotic,NA,Climate
+america,20000,unexpected_error,Associations,NA,Biotic co-occurrence
+america,20000,unexpected_error,Spatial,NA,Spatial
+asia,0,unexpected_error,Abiotic,NA,Climate
+asia,0,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,0,unexpected_error,Spatial,NA,Spatial
+asia,500,available,Abiotic,43.14754293192609,Climate
+asia,500,available,Associations,14.670808787157794,Biotic co-occurrence
+asia,500,available,Spatial,42.181648280916114,Spatial
+asia,1000,available,Abiotic,42.87944821598728,Climate
+asia,1000,available,Associations,17.540112889948738,Biotic co-occurrence
+asia,1000,available,Spatial,39.58043889406399,Spatial
+asia,1500,available,Abiotic,38.387345492851935,Climate
+asia,1500,available,Associations,22.83427240107263,Biotic co-occurrence
+asia,1500,available,Spatial,38.77838210607543,Spatial
+asia,2000,available,Abiotic,38.25216449644545,Climate
+asia,2000,available,Associations,18.76416926671206,Biotic co-occurrence
+asia,2000,available,Spatial,42.983666236842495,Spatial
+asia,2500,available,Abiotic,35.13018517499214,Climate
+asia,2500,available,Associations,21.92336139269801,Biotic co-occurrence
+asia,2500,available,Spatial,42.946453432309845,Spatial
+asia,3000,available,Abiotic,35.880826135899284,Climate
+asia,3000,available,Associations,22.740000157048627,Biotic co-occurrence
+asia,3000,available,Spatial,41.379173707052104,Spatial
+asia,3500,available,Abiotic,37.7635308255953,Climate
+asia,3500,available,Associations,22.399937251432497,Biotic co-occurrence
+asia,3500,available,Spatial,39.8365319229722,Spatial
+asia,4000,available,Abiotic,39.47576684777745,Climate
+asia,4000,available,Associations,18.65080783734039,Biotic co-occurrence
+asia,4000,available,Spatial,41.87342531488215,Spatial
+asia,4500,available,Abiotic,40.54401529838477,Climate
+asia,4500,available,Associations,18.299943330448095,Biotic co-occurrence
+asia,4500,available,Spatial,41.15604137116714,Spatial
+asia,5000,available,Abiotic,37.81935496885954,Climate
+asia,5000,available,Associations,18.718450356656632,Biotic co-occurrence
+asia,5000,available,Spatial,43.462194674483825,Spatial
+asia,5500,available,Abiotic,40.011623008920054,Climate
+asia,5500,available,Associations,17.782620474136543,Biotic co-occurrence
+asia,5500,available,Spatial,42.20575651694339,Spatial
+asia,6000,available,Abiotic,38.93818006798717,Climate
+asia,6000,available,Associations,15.983239155136214,Biotic co-occurrence
+asia,6000,available,Spatial,45.07858077687662,Spatial
+asia,6500,available,Abiotic,37.59445963371973,Climate
+asia,6500,available,Associations,19.515413960870276,Biotic co-occurrence
+asia,6500,available,Spatial,42.89012640540999,Spatial
+asia,7000,available,Abiotic,39.006362913990785,Climate
+asia,7000,available,Associations,15.68778915815442,Biotic co-occurrence
+asia,7000,available,Spatial,45.30584792785479,Spatial
+asia,7500,available,Abiotic,41.53494526664932,Climate
+asia,7500,available,Associations,15.525518108453603,Biotic co-occurrence
+asia,7500,available,Spatial,42.93953662489708,Spatial
+asia,8000,available,Abiotic,35.97308330527637,Climate
+asia,8000,available,Associations,21.775676251990955,Biotic co-occurrence
+asia,8000,available,Spatial,42.25124044273267,Spatial
+asia,8500,available,Abiotic,36.562052067667175,Climate
+asia,8500,available,Associations,24.010520036701116,Biotic co-occurrence
+asia,8500,available,Spatial,39.42742789563171,Spatial
+asia,9000,available,Abiotic,34.196242678566264,Climate
+asia,9000,available,Associations,23.93366379836873,Biotic co-occurrence
+asia,9000,available,Spatial,41.870093523065,Spatial
+asia,9500,available,Abiotic,40.08138531969192,Climate
+asia,9500,available,Associations,19.243022143682133,Biotic co-occurrence
+asia,9500,available,Spatial,40.67559253662594,Spatial
+asia,10000,available,Abiotic,46.64688493467916,Climate
+asia,10000,available,Associations,14.003673033390076,Biotic co-occurrence
+asia,10000,available,Spatial,39.34944203193077,Spatial
+asia,10500,available,Abiotic,40.891253967011146,Climate
+asia,10500,available,Associations,16.02633600829385,Biotic co-occurrence
+asia,10500,available,Spatial,43.08241002469501,Spatial
+asia,11000,unexpected_error,Abiotic,NA,Climate
+asia,11000,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,11000,unexpected_error,Spatial,NA,Spatial
+asia,11500,unexpected_error,Abiotic,NA,Climate
+asia,11500,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,11500,unexpected_error,Spatial,NA,Spatial
+asia,12000,unexpected_error,Abiotic,NA,Climate
+asia,12000,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,12000,unexpected_error,Spatial,NA,Spatial
+asia,12500,unexpected_error,Abiotic,NA,Climate
+asia,12500,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,12500,unexpected_error,Spatial,NA,Spatial
+asia,13000,unexpected_error,Abiotic,NA,Climate
+asia,13000,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,13000,unexpected_error,Spatial,NA,Spatial
+asia,13500,unexpected_error,Abiotic,NA,Climate
+asia,13500,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,13500,unexpected_error,Spatial,NA,Spatial
+asia,14000,unexpected_error,Abiotic,NA,Climate
+asia,14000,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,14000,unexpected_error,Spatial,NA,Spatial
+asia,14500,unexpected_error,Abiotic,NA,Climate
+asia,14500,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,14500,unexpected_error,Spatial,NA,Spatial
+asia,15000,unexpected_error,Abiotic,NA,Climate
+asia,15000,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,15000,unexpected_error,Spatial,NA,Spatial
+asia,15500,unexpected_error,Abiotic,NA,Climate
+asia,15500,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,15500,unexpected_error,Spatial,NA,Spatial
+asia,16000,unexpected_error,Abiotic,NA,Climate
+asia,16000,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,16000,unexpected_error,Spatial,NA,Spatial
+asia,16500,unexpected_error,Abiotic,NA,Climate
+asia,16500,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,16500,unexpected_error,Spatial,NA,Spatial
+asia,17000,unexpected_error,Abiotic,NA,Climate
+asia,17000,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,17000,unexpected_error,Spatial,NA,Spatial
+asia,17500,unexpected_error,Abiotic,NA,Climate
+asia,17500,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,17500,unexpected_error,Spatial,NA,Spatial
+asia,18000,unexpected_error,Abiotic,NA,Climate
+asia,18000,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,18000,unexpected_error,Spatial,NA,Spatial
+asia,18500,unexpected_error,Abiotic,NA,Climate
+asia,18500,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,18500,unexpected_error,Spatial,NA,Spatial
+asia,19000,unexpected_error,Abiotic,NA,Climate
+asia,19000,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,19000,unexpected_error,Spatial,NA,Spatial
+asia,19500,unexpected_error,Abiotic,NA,Climate
+asia,19500,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,19500,unexpected_error,Spatial,NA,Spatial
+asia,20000,unexpected_error,Abiotic,NA,Climate
+asia,20000,unexpected_error,Associations,NA,Biotic co-occurrence
+asia,20000,unexpected_error,Spatial,NA,Spatial
+europe,0,unexpected_error,Abiotic,NA,Climate
+europe,0,unexpected_error,Associations,NA,Biotic co-occurrence
+europe,0,unexpected_error,Spatial,NA,Spatial
+europe,500,available,Abiotic,39.86787943600492,Climate
+europe,500,available,Associations,30.90765521533294,Biotic co-occurrence
+europe,500,available,Spatial,29.224465348662143,Spatial
+europe,1000,available,Abiotic,40.575737351032025,Climate
+europe,1000,available,Associations,30.085740657875704,Biotic co-occurrence
+europe,1000,available,Spatial,29.33852199109227,Spatial
+europe,1500,available,Abiotic,41.12391360619134,Climate
+europe,1500,available,Associations,29.647171575863933,Biotic co-occurrence
+europe,1500,available,Spatial,29.228914817944737,Spatial
+europe,2000,available,Abiotic,44.50186928729155,Climate
+europe,2000,available,Associations,30.778435622390088,Biotic co-occurrence
+europe,2000,available,Spatial,24.719695090318364,Spatial
+europe,2500,available,Abiotic,43.04405580931916,Climate
+europe,2500,available,Associations,29.49729128723669,Biotic co-occurrence
+europe,2500,available,Spatial,27.458652903444143,Spatial
+europe,3000,available,Abiotic,43.52844183702735,Climate
+europe,3000,available,Associations,29.54007453633115,Biotic co-occurrence
+europe,3000,available,Spatial,26.931483626641505,Spatial
+europe,3500,available,Abiotic,38.85460701549052,Climate
+europe,3500,available,Associations,28.467627891552816,Biotic co-occurrence
+europe,3500,available,Spatial,32.67776509295665,Spatial
+europe,4000,available,Abiotic,38.75689752466528,Climate
+europe,4000,available,Associations,29.682861578766108,Biotic co-occurrence
+europe,4000,available,Spatial,31.56024089656862,Spatial
+europe,4500,available,Abiotic,38.988937379509,Climate
+europe,4500,available,Associations,28.767575818420234,Biotic co-occurrence
+europe,4500,available,Spatial,32.24348680207076,Spatial
+europe,5000,available,Abiotic,40.300858290268735,Climate
+europe,5000,available,Associations,28.34018124978899,Biotic co-occurrence
+europe,5000,available,Spatial,31.35896045994228,Spatial
+europe,5500,available,Abiotic,40.98122897521074,Climate
+europe,5500,available,Associations,28.185452533787693,Biotic co-occurrence
+europe,5500,available,Spatial,30.83331849100157,Spatial
+europe,6000,available,Abiotic,43.44721040478689,Climate
+europe,6000,available,Associations,27.512328136614773,Biotic co-occurrence
+europe,6000,available,Spatial,29.040461458598337,Spatial
+europe,6500,available,Abiotic,42.75814539820491,Climate
+europe,6500,available,Associations,28.722459003442907,Biotic co-occurrence
+europe,6500,available,Spatial,28.519395598352187,Spatial
+europe,7000,available,Abiotic,41.7264378439666,Climate
+europe,7000,available,Associations,28.722179781274026,Biotic co-occurrence
+europe,7000,available,Spatial,29.551382374759385,Spatial
+europe,7500,available,Abiotic,43.3228640793496,Climate
+europe,7500,available,Associations,29.712815183224855,Biotic co-occurrence
+europe,7500,available,Spatial,26.96432073742554,Spatial
+europe,8000,available,Abiotic,44.772008733127535,Climate
+europe,8000,available,Associations,28.04300444789679,Biotic co-occurrence
+europe,8000,available,Spatial,27.18498681897567,Spatial
+europe,8500,available,Abiotic,42.203262830882196,Climate
+europe,8500,available,Associations,27.61572963174252,Biotic co-occurrence
+europe,8500,available,Spatial,30.181007537375283,Spatial
+europe,9000,available,Abiotic,43.452927397921194,Climate
+europe,9000,available,Associations,27.975882200104635,Biotic co-occurrence
+europe,9000,available,Spatial,28.571190401974174,Spatial
+europe,9500,available,Abiotic,41.14229602279611,Climate
+europe,9500,available,Associations,29.270920989405106,Biotic co-occurrence
+europe,9500,available,Spatial,29.58678298779878,Spatial
+europe,10000,available,Abiotic,41.021780145847345,Climate
+europe,10000,available,Associations,27.309561393467884,Biotic co-occurrence
+europe,10000,available,Spatial,31.668658460684767,Spatial
+europe,10500,available,Abiotic,40.30663213182977,Climate
+europe,10500,available,Associations,27.798872220295294,Biotic co-occurrence
+europe,10500,available,Spatial,31.894495647874937,Spatial
+europe,11000,available,Abiotic,39.37345413500477,Climate
+europe,11000,available,Associations,28.422125537547732,Biotic co-occurrence
+europe,11000,available,Spatial,32.2044203274475,Spatial
+europe,11500,available,Abiotic,41.638563905564304,Climate
+europe,11500,available,Associations,32.21025512070791,Biotic co-occurrence
+europe,11500,available,Spatial,26.151180973727783,Spatial
+europe,12000,available,Abiotic,38.660689131363895,Climate
+europe,12000,available,Associations,28.1291408079358,Biotic co-occurrence
+europe,12000,available,Spatial,33.210170060700314,Spatial
+europe,12500,available,Abiotic,39.592512882006176,Climate
+europe,12500,available,Associations,28.85184718430732,Biotic co-occurrence
+europe,12500,available,Spatial,31.555639933686503,Spatial
+europe,13000,available,Abiotic,37.01957088530502,Climate
+europe,13000,available,Associations,28.323439034331983,Biotic co-occurrence
+europe,13000,available,Spatial,34.656990080362995,Spatial
+europe,13500,available,Abiotic,35.11963000775972,Climate
+europe,13500,available,Associations,29.506946480709196,Biotic co-occurrence
+europe,13500,available,Spatial,35.3734235115311,Spatial
+europe,14000,available,Abiotic,35.236541719972415,Climate
+europe,14000,available,Associations,29.71512226362887,Biotic co-occurrence
+europe,14000,available,Spatial,35.04833601639872,Spatial
+europe,14500,available,Abiotic,35.64828518825363,Climate
+europe,14500,available,Associations,30.02801143039246,Biotic co-occurrence
+europe,14500,available,Spatial,34.3237033813539,Spatial
+europe,15000,available,Abiotic,37.81629775959318,Climate
+europe,15000,available,Associations,29.203754707734657,Biotic co-occurrence
+europe,15000,available,Spatial,32.979947532672156,Spatial
+europe,15500,available,Abiotic,36.44852231345757,Climate
+europe,15500,available,Associations,29.904756253813886,Biotic co-occurrence
+europe,15500,available,Spatial,33.64672143272854,Spatial
+europe,16000,available,Abiotic,35.82225326829728,Climate
+europe,16000,available,Associations,29.70975862671661,Biotic co-occurrence
+europe,16000,available,Spatial,34.467988104986105,Spatial
+europe,16500,available,Abiotic,39.24906888506381,Climate
+europe,16500,available,Associations,23.17837527550791,Biotic co-occurrence
+europe,16500,available,Spatial,37.57255583942827,Spatial
+europe,17000,available,Abiotic,45.40849472860116,Climate
+europe,17000,available,Associations,17.392769949332944,Biotic co-occurrence
+europe,17000,available,Spatial,37.198735322065886,Spatial
+europe,17500,available,Abiotic,43.52449974691467,Climate
+europe,17500,available,Associations,17.868477103436,Biotic co-occurrence
+europe,17500,available,Spatial,38.60702314964933,Spatial
+europe,18000,unexpected_error,Abiotic,NA,Climate
+europe,18000,unexpected_error,Associations,NA,Biotic co-occurrence
+europe,18000,unexpected_error,Spatial,NA,Spatial
+europe,18500,unexpected_error,Abiotic,NA,Climate
+europe,18500,unexpected_error,Associations,NA,Biotic co-occurrence
+europe,18500,unexpected_error,Spatial,NA,Spatial
+europe,19000,unexpected_error,Abiotic,NA,Climate
+europe,19000,unexpected_error,Associations,NA,Biotic co-occurrence
+europe,19000,unexpected_error,Spatial,NA,Spatial
+europe,19500,unexpected_error,Abiotic,NA,Climate
+europe,19500,unexpected_error,Associations,NA,Biotic co-occurrence
+europe,19500,unexpected_error,Spatial,NA,Spatial
+europe,20000,unexpected_error,Abiotic,NA,Climate
+europe,20000,unexpected_error,Associations,NA,Biotic co-occurrence
+europe,20000,unexpected_error,Spatial,NA,Spatial

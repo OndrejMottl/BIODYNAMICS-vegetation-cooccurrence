@@ -12,6 +12,10 @@
 #' @param survivor_counts
 #' Integer counts retained after each non-final staged round. Ignored for
 #' exhaustive tuning.
+#' @param cv_strategy
+#' Optional resolved CV strategy. Leave-one-location-out has only one unique
+#' assignment repeat, so it uses one exhaustive round even when staged tuning
+#' is configured for grouped CV.
 #' @return
 #' Tibble with one row per tuning round and columns `tuning_strategy`,
 #' `strategy_version`, `round_id`, `repeat_id`, `n_candidates_entering`, and
@@ -28,7 +32,8 @@ build_sjsdm_tuning_schedule <- function(
     tuning_strategy = NULL,
     n_candidates = NULL,
     repeat_ids = NULL,
-    survivor_counts = NULL) {
+    survivor_counts = NULL,
+    cv_strategy = NULL) {
   assertthat::assert_that(
     base::is.character(tuning_strategy),
     base::length(tuning_strategy) == 1L,
@@ -62,6 +67,21 @@ build_sjsdm_tuning_schedule <- function(
     msg = "repeat_ids must contain unique positive integers."
   )
 
+  assertthat::assert_that(
+    base::is.null(cv_strategy) ||
+      (
+        base::is.character(cv_strategy) &&
+          base::length(cv_strategy) == 1L &&
+          !base::is.na(cv_strategy) &&
+          cv_strategy %in% base::c(
+            "spatially_stratified_group_kfold",
+            "leave_one_location_out",
+            "none"
+          )
+      ),
+    msg = "cv_strategy must be a supported resolved strategy."
+  )
+
   repeat_ids <-
     base::as.integer(repeat_ids)
 
@@ -78,6 +98,14 @@ build_sjsdm_tuning_schedule <- function(
 
   n_candidates <-
     base::as.integer(n_candidates)
+
+  if (
+    base::identical(cv_strategy, "leave_one_location_out")
+  ) {
+    # Repeating identical LOO folds would fabricate independent evidence.
+    tuning_strategy <- "exhaustive"
+    repeat_ids <- 1L
+  }
 
   if (
     tuning_strategy == "exhaustive"

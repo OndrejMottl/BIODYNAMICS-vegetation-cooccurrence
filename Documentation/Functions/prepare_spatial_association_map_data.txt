@@ -1,0 +1,31 @@
+Prepare Spatial Association Map Data
+
+Description:
+
+     Completes paleo spatial synthesis results against the intended
+     spatial grid and preparation inventory so unavailable models are
+     not displayed as zero.
+
+Usage:
+
+     prepare_spatial_association_map_data(
+       data_unit,
+       data_spatial_grid,
+       data_preparation_inventory,
+       resolution_ids = base::c("genus", "family", "functional_type")
+     )
+
+Arguments:
+
+data_unit: Paleo spatial synthesis unit table.
+
+data_spatial_grid: Spatial-grid table containing unit bounds.
+
+data_preparation_inventory: Stage 02 preparation inventory.
+
+resolution_ids: Character vector of resolution identifiers to include.
+
+Value:
+
+     A tibble with one row per unit and resolution, an association
+     percentage, model counts, and an explicit `availability_status`.

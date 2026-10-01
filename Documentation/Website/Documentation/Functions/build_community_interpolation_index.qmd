@@ -24,13 +24,16 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Builds small per-dataset branch metadata for paleo community interpolation.
+<p>Builds small per-dataset row-range metadata for paleo interpolation.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>build_community_interpolation_index(data_community = NULL)
+<pre><code class='language-R'>build_community_interpolation_index(
+  data_community = NULL,
+  data_age_uncertainty = NULL
+)
 </code></pre>
 
 
@@ -39,23 +42,29 @@ function processMathHTML() {
 <table role = "presentation">
 <tr><td><code id="data_community">data_community</code></td>
 <td>
-<p>A data frame containing a 'dataset_name' column.</p>
+<p>A data frame containing a 'dataset_name' column. Rows for each dataset
+must be contiguous.</p>
+</td></tr>
+<tr><td><code id="data_age_uncertainty">data_age_uncertainty</code></td>
+<td>
+<p>A data frame containing a 'dataset_name' column. Rows for each dataset
+must be contiguous. Datasets without uncertainty rows are supported.</p>
 </td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>Dynamic 'targets' branches should pass these small metadata objects
-instead of nested community data frames. Worker branches can then
-filter shared read-only inputs by 'dataset_name'.
+<p>Dynamic 'targets' branches receive constant-size row ranges instead of
+nested data frames. This avoids scanning the complete shared inputs and
+allocating a full-table logical mask in every worker branch.
 </p>
 
 
 <h3>Value</h3>
 
-<p>A list of branch metadata objects. Each object contains
-'dataset_name' and 'flag_empty' elements.
+<p>A list of branch metadata objects. Each object contains 'dataset_name',
+'flag_empty', and inclusive row ranges for both shared input tables.
 </p>
 
 
@@ -71,9 +80,14 @@ filter shared read-only inputs by 'dataset_name'.
   tibble::tibble(
     dataset_name = base::c("core_b", "core_a")
   )
+data_age_uncertainty &lt;-
+  tibble::tibble(
+    dataset_name = "core_a"
+  )
 
 build_community_interpolation_index(
-  data_community = data_community
+  data_community = data_community,
+  data_age_uncertainty = data_age_uncertainty
 )
 </code></pre>
 

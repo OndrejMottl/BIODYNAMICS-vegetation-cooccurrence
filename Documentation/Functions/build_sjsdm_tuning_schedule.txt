@@ -12,7 +12,8 @@ Usage:
        tuning_strategy = NULL,
        n_candidates = NULL,
        repeat_ids = NULL,
-       survivor_counts = NULL
+       survivor_counts = NULL,
+       cv_strategy = NULL
      )
 
 Arguments:
@@ -26,6 +27,10 @@ repeat_ids: Unique positive integer repeat identifiers in execution
 
 survivor_counts: Integer counts retained after each non-final staged
           round. Ignored for exhaustive tuning.
+
+cv_strategy: Optional resolved CV strategy. Leave-one-location-out has
+          only one unique assignment repeat, so it uses one exhaustive
+          round even when staged tuning is configured for grouped CV.
 
 Value:
 

@@ -32,22 +32,66 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "select_sjsdm_staged_survivors() fails closed on incomplete evidence",
+  "select_sjsdm_staged_survivors() prunes ineligible candidates",
   {
     data_aggregation <-
       tibble::tibble(
-        candidate_id = base::c("candidate_001", "candidate_002"),
-        normalized_loss_equal_id = base::c(0.1, NA_real_),
-        aggregation_status = base::c("ok", "incomplete_source_evidence")
+        candidate_id = base::c(
+          "candidate_001",
+          "candidate_002",
+          "candidate_003"
+        ),
+        normalized_loss_equal_id = base::c(0.2, NA_real_, 0.1),
+        aggregation_status = base::c(
+          "ok",
+          "incomplete_source_evidence",
+          "ok"
+        )
+      )
+
+    data_survivors <-
+      select_sjsdm_staged_survivors(
+        data_candidate_aggregation = data_aggregation,
+        survivor_count = 1L,
+        round_id = 1L
+      )
+
+    testthat::expect_identical(
+      data_survivors[["candidate_id"]],
+      base::c("candidate_003", "candidate_001", "candidate_002")
+    )
+    testthat::expect_identical(
+      data_survivors[["staged_decision"]],
+      base::c("survive", "prune", "prune")
+    )
+  }
+)
+
+testthat::test_that(
+  "select_sjsdm_staged_survivors() requires enough eligible candidates",
+  {
+    data_aggregation <-
+      tibble::tibble(
+        candidate_id = base::c(
+          "candidate_001",
+          "candidate_002",
+          "candidate_003"
+        ),
+        normalized_loss_equal_id = base::c(0.1, NA_real_, NA_real_),
+        aggregation_status = base::c(
+          "ok",
+          "incomplete_source_evidence",
+          "incomplete_source_evidence"
+        )
       )
 
     testthat::expect_error(
       select_sjsdm_staged_survivors(
         data_candidate_aggregation = data_aggregation,
-        survivor_count = 1L,
+        survivor_count = 2L,
         round_id = 1L
       ),
-      "complete tier evidence"
+      "Only 1 candidate has complete tier evidence"
     )
   }
 )

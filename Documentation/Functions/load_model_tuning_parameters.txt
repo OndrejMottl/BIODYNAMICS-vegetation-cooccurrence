@@ -11,7 +11,8 @@ Usage:
        analysis_id,
        scale_id,
        resolution_id,
-       dir = here::here("Data/Input/Model_tuning")
+       dir = here::here("Data/Input/Model_tuning"),
+       fit_stage = c("final", "cross_validation")
      )
 
 Arguments:
@@ -32,8 +33,11 @@ resolution_id: A single character string identifying the model
      dir: Directory containing model tuning CSV files. Default:
           `here::here("Data/Input/Model_tuning")`.
 
+fit_stage: Fitting stage to load. `"final"` returns the historical
+          full-data model budget. `"cross_validation"` returns the
+          independent CV fit budget.
+
 Value:
 
-     A named list with `n_iter`, `n_step_size`, `n_sampling`,
-     `n_samples_anova`, and `n_early_stopping`. Missing `n_step_size`
-     and `n_early_stopping` values are returned as `NULL`.
+     A named stage-specific fitting list. Missing step-size and
+     early-stopping values are returned as `NULL`.

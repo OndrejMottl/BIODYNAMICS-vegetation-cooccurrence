@@ -1,0 +1,68 @@
+---
+format: html
+title: classify_sjsdm_unit_pipeline_error()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>classify_sjsdm_unit_pipeline_error</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Classify an sjSDM Unit Pipeline Error</h2>
+
+<h3>Description</h3>
+
+<p>Distinguishes registered data-feasibility outcomes from unexpected pipeline
+failures using target-level error metadata.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>classify_sjsdm_unit_pipeline_error(data_target_errors = NULL)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_target_errors">data_target_errors</code></td>
+<td>
+<p>Data frame containing at least 'name' and 'error' columns for errors recorded
+during one unit execution.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Expected roots must match both a registered target-name pattern and a stable
+message pattern. Downstream dependency, missing-object, and empty-pattern
+errors are allowed only as cascades. Known temporal validation cascades are
+accepted only when the same time slice has a registered expected root. Any
+other root remains unexpected.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with 'status', 'reason_code', 'observed_count', 'required_count',
+'root_target', and 'root_error'.
+</p>
+
+</main>
+
+</div>
+</body></html>

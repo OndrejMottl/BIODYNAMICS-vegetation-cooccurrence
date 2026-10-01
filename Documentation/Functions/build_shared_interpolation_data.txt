@@ -1,10 +1,10 @@
-Build Shared Interpolation Data
+Build a Shared Interpolation Descriptor
 
 Description:
 
-     Builds a shared-memory interpolation data object using
-     [mori::share()] so local worker processes can read it without each
-     retaining a separate private copy.
+     Shares interpolation data with [mori::share()] and returns a
+     stable descriptor instead of persisting a process-local memory
+     handle.
 
 Usage:
 
@@ -21,13 +21,13 @@ registry_key: Optional non-empty key used to retain the shared object
 
 Details:
 
-     The returned object must be treated as read-only. Mutating it in a
-     worker can force R to create private copies and remove the memory
-     benefit.
+     The live memory name is written to the store-scoped directory in
+     `BIODYNAMICS_INTERPOLATION_SHARED_REGISTRY`. Workers must treat
+     the mapped data as read-only.
 
 Value:
 
-     A data frame-like shared-memory object created by [mori::share()].
+     A list containing `registry_key` and deterministic `source_hash`.
 
 See Also:
 

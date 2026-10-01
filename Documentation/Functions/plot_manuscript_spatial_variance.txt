@@ -1,0 +1,27 @@
+Plot Manuscript Spatial Variance Partitioning
+
+Description:
+
+     Builds the shared two-panel variance-partitioning figure used for
+     paleo and modern results: normalized component composition and
+     unit-level association spread with median and 95 percent interval.
+
+Usage:
+
+     plot_manuscript_spatial_variance(
+       data_plot,
+       data_component_summary,
+       data_biotic_summary
+     )
+
+Arguments:
+
+data_plot: Prepared unit-level spatial variance data.
+
+data_component_summary: Grouped component-composition data.
+
+data_biotic_summary: Grouped association summary data.
+
+Value:
+
+     A `cowplot` assembled plot object.

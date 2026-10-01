@@ -1,0 +1,8 @@
+analysis_id,tier_id,n_units,scheduled_candidate_fold_fits,estimated_initial_gpu_hours,estimated_escalation_ceiling_gpu_hours,n_units_missing_estimate,estimate_scope
+modern_spatial,continental,9,630,30.80904166666668,204.9511848433411,0,regularization_tuning_only
+modern_spatial,local,786,100030,217.00610555555488,1866.6825368386917,0,regularization_tuning_only
+modern_spatial,regional,87,3150,53.100249999999996,325.52615800969795,0,regularization_tuning_only
+paleo_spatial,continental,9,560,5.99569444444445,33.77741236125551,0,regularization_tuning_only
+paleo_spatial,local,786,10920,24.678616666666706,161.06154945598846,0,regularization_tuning_only
+paleo_spatial,regional,87,3262,16.541699999999967,98.83840154506315,0,regularization_tuning_only
+paleo_temporal,continental,3,140,0.4930138888888903,2.626825531521284,0,regularization_tuning_only

@@ -159,6 +159,21 @@ testthat::test_that(
       ),
       "No candidate completed every repeat"
     )
+
+    data_empty <-
+      select_sjsdm_regularization(
+        data_tuning_summary = dplyr::filter(
+          data_summary,
+          .data[["candidate_id"]] == "candidate_001"
+        ),
+        allow_empty = TRUE
+      )
+
+    testthat::expect_equal(base::nrow(data_empty), 0L)
+    testthat::expect_named(
+      data_empty,
+      base::colnames(build_sjsdm_empty_unit_regularization_selection())
+    )
   }
 )
 

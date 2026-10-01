@@ -14,6 +14,13 @@ mat_coords: Numeric projected-coordinate matrix.
 
 exact_function: Exact Moran-eigenvector construction function.
 
+Details:
+
+     `sjSDM::generateSpatialEV()` drops matrix dimensions when exactly
+     one positive eigenvector is available and then errors while naming
+     columns. This helper detects only that error and repeats the same
+     calculation with dimension-preserving subsetting.
+
 Value:
 
      Named list containing the complete MEV matrix, empty fast-basis

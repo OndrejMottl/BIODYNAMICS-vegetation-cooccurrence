@@ -71,7 +71,7 @@ build_cross_validation_grid_candidates_from_resolution <- function(
       extent_x_km = base::numeric(),
       extent_y_km = base::numeric(),
       extent_area_km2 = base::numeric(),
-      target_locations_per_cell = base::numeric()
+      target_locations_per_cell = base::integer()
     )
 
   if (
