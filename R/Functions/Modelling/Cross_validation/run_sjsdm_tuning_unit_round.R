@@ -99,7 +99,7 @@ run_sjsdm_tuning_unit_round <- function(
             "!" = stringr::str_glue(
               "Skipping failed tuning unit {store_suffix}."
             ),
-            "x" = error_message,
+            "x" = "{error_message}",
             "i" = "Tuning will continue with the next unit."
           )
         )

@@ -32,6 +32,16 @@
 #' [has_sjsdm_tuning_evidence()].
 #' @param target_store
 #' Root targets-store path. Defaults to the active configuration value.
+#' @param load_metadata_function
+#' Injectable metadata loader used for legacy-cache recovery.
+#' @param diagnose_endpoints_function,read_target_function
+#' Injectable tuning-endpoint diagnostics and target reader.
+#' @param invalidate_target_function
+#' Injectable target invalidator used only for incompatible legacy caches.
+#' @param validate_tuning_targets
+#' Logical. Validate tuning artifacts after each production unit round.
+#' @param cache_recovery_attempts
+#' Positive integer maximum targeted legacy-cache repairs per unit and round.
 #' @return
 #' Invisible `NULL`. Pipeline stores contain the durable results. Unit-level
 #' failures are reported and skipped; successful units continue.
@@ -48,7 +58,17 @@ run_sjsdm_tuning_sequence <- function(
     vec_allowed_profile_roles = base::c("main", "smoke"),
     vec_allowed_profile_statuses = "active",
     has_tuning_evidence_function = has_sjsdm_tuning_evidence,
-    target_store = load_active_config_value("target_store")) {
+    target_store = load_active_config_value("target_store"),
+    load_metadata_function = load_targets_store_metadata,
+    diagnose_endpoints_function =
+      diagnose_sjsdm_cv_preparation_endpoints,
+    read_target_function = targets::tar_read_raw,
+    invalidate_target_function = targets::tar_invalidate,
+    validate_tuning_targets = base::identical(
+      run_pipeline_function,
+      run_pipeline
+    ),
+    cache_recovery_attempts = 8L) {
   assertthat::assert_that(
     base::is.character(unit_pipeline),
     base::length(unit_pipeline) == 1L,
@@ -124,6 +144,28 @@ run_sjsdm_tuning_sequence <- function(
     base::nzchar(target_store),
     msg = "target_store must be one non-empty path."
   )
+  assertthat::assert_that(
+    base::is.function(load_metadata_function),
+    base::is.function(diagnose_endpoints_function),
+    base::is.function(read_target_function),
+    base::is.function(invalidate_target_function),
+    msg = "Tuning cache-recovery helpers must be functions."
+  )
+  assertthat::assert_that(
+    base::is.logical(validate_tuning_targets),
+    base::length(validate_tuning_targets) == 1L,
+    !base::is.na(validate_tuning_targets),
+    msg = "validate_tuning_targets must be one logical value."
+  )
+  assertthat::assert_that(
+    base::is.numeric(cache_recovery_attempts),
+    base::length(cache_recovery_attempts) == 1L,
+    base::is.finite(cache_recovery_attempts),
+    cache_recovery_attempts >= 1L,
+    cache_recovery_attempts ==
+      base::as.integer(cache_recovery_attempts),
+    msg = "cache_recovery_attempts must be one positive integer."
+  )
   data_round_plan <-
     build_sjsdm_tuning_round_plan(
       tuning_strategy = tuning_strategy,
@@ -186,6 +228,152 @@ run_sjsdm_tuning_sequence <- function(
       data_unit_status[["store_suffix"]][flag_unit_success]
     vec_active_store_paths <-
       vec_active_store_paths[flag_unit_success]
+
+    if (
+      validate_tuning_targets &&
+        base::length(vec_active_store_paths) > 0L
+    ) {
+      data_recovery_status <-
+        purrr::map2(
+          .x = vec_active_store_suffixes,
+          .y = vec_active_store_paths,
+          .f = function(store_suffix, store_path) {
+            data_endpoints <-
+              diagnose_endpoints_function(
+                store_path = store_path,
+                target_names = tuning_target_names,
+                load_metadata_function = load_metadata_function,
+                read_target_function = read_target_function
+              )
+            vec_previous_targets <- base::character()
+
+            for (
+              recovery_attempt in
+                base::seq_len(cache_recovery_attempts)
+            ) {
+              flag_legacy_cache <-
+                base::any(
+                  data_endpoints[["endpoint_status"]] ==
+                    "cache_format_incompatible"
+                )
+              if (!flag_legacy_cache) {
+                break
+              }
+
+              data_target_errors <-
+                load_metadata_function(
+                  store_path = store_path,
+                  fields = base::c("name", "error", "time")
+                )
+              vec_invalidate_targets <-
+                build_sjsdm_legacy_cache_invalidation_targets(
+                  data_endpoints = data_endpoints,
+                  data_target_errors = data_target_errors
+                )
+              flag_no_progress <-
+                base::length(vec_invalidate_targets) == 0L ||
+                (
+                  base::length(vec_previous_targets) > 0L &&
+                    base::setequal(
+                      vec_invalidate_targets,
+                      vec_previous_targets
+                    )
+                )
+              if (flag_no_progress) {
+                break
+              }
+
+              vec_previous_targets <- vec_invalidate_targets
+              cli::cli_inform(
+                base::c(
+                  "!" = stringr::str_glue(
+                    "Recovering unreadable tuning cache for ",
+                    "{store_suffix}."
+                  ),
+                  "i" = stringr::str_glue(
+                    "Attempt {recovery_attempt} invalidates only: ",
+                    "{stringr::str_c(",
+                    "vec_invalidate_targets, collapse = ', ')}"
+                  )
+                )
+              )
+              invalidate_target_function(
+                names = vec_invalidate_targets,
+                store = store_path
+              )
+
+              run_sjsdm_tuning_unit_round(
+                round_id = round_id,
+                unit_pipeline = unit_pipeline,
+                tuning_target_names = tuning_target_names,
+                unit_store_suffixes = if (
+                  base::is.na(store_suffix)
+                ) {
+                  NULL
+                } else {
+                  store_suffix
+                },
+                prebuild_round = FALSE,
+                fresh_round = FALSE,
+                run_pipeline_function = run_pipeline_function,
+                vec_allowed_profile_roles =
+                  vec_allowed_profile_roles,
+                vec_allowed_profile_statuses =
+                  vec_allowed_profile_statuses
+              )
+
+              data_endpoints <-
+                diagnose_endpoints_function(
+                  store_path = store_path,
+                  target_names = tuning_target_names,
+                  load_metadata_function = load_metadata_function,
+                  read_target_function = read_target_function
+                )
+            }
+
+            flag_prepared <-
+              base::all(
+                data_endpoints[["endpoint_status"]] == "prepared"
+              )
+            if (!flag_prepared) {
+              vec_incomplete_targets <-
+                data_endpoints |>
+                dplyr::filter(
+                  .data[["endpoint_status"]] != "prepared"
+                ) |>
+                dplyr::pull("target_name")
+              cli::cli_inform(
+                base::c(
+                  "!" = stringr::str_glue(
+                    "Skipping incomplete tuning unit {store_suffix}."
+                  ),
+                  "x" = stringr::str_glue(
+                    "Unreadable targets: {stringr::str_c(",
+                    "vec_incomplete_targets, collapse = ', ')}"
+                  ),
+                  "i" = "Tuning will continue with the next unit."
+                )
+              )
+            }
+
+            tibble::tibble(
+              store_suffix = store_suffix,
+              store_path = store_path,
+              tuning_targets_ready = flag_prepared
+            )
+          }
+        ) |>
+        purrr::list_rbind()
+
+      vec_active_store_suffixes <-
+        data_recovery_status[["store_suffix"]][
+          data_recovery_status[["tuning_targets_ready"]]
+        ]
+      vec_active_store_paths <-
+        data_recovery_status[["store_path"]][
+          data_recovery_status[["tuning_targets_ready"]]
+        ]
+    }
 
     if (
       base::length(vec_active_store_paths) == 0L
