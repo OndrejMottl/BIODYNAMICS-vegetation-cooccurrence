@@ -51,6 +51,63 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "compute_spatial_mev_basis() resolves auto from unique coordinates",
+  {
+    data_coords <-
+      base::data.frame(
+        coord_x_km = base::c(0, 0, 10, 10, 20, 20),
+        coord_y_km = base::c(5, 5, 15, 15, 25, 25),
+        row.names = base::letters[1:6]
+      )
+    environment_capture <- base::new.env(parent = base::emptyenv())
+
+    exact_function <- function(coords) {
+      environment_capture[["n_locations"]] <- base::nrow(coords)
+      base::cbind(coords[, 1], coords[, 2])
+    }
+
+    res <-
+      compute_spatial_mev_basis(
+        data_coords_projected = data_coords,
+        n_mev = 2L,
+        strategy = "auto",
+        exact_max_locations = 4L,
+        fast_eigenvectors = 2L,
+        fast_seed = 900723L,
+        exact_function = exact_function,
+        fast_function = function(...) {
+          cli::cli_abort("Fast function should not be called.")
+        }
+      )
+
+    testthat::expect_identical(
+      environment_capture[["n_locations"]],
+      3L
+    )
+    testthat::expect_identical(
+      res[["data_provenance"]][["strategy_selected"]],
+      "exact"
+    )
+    testthat::expect_identical(
+      res[["data_provenance"]][["n_input_locations"]],
+      6L
+    )
+    testthat::expect_identical(
+      res[["data_provenance"]][["n_unique_locations"]],
+      3L
+    )
+    testthat::expect_equal(
+      res[["data_mev"]][base::c(1L, 3L, 5L), ] |>
+        base::as.matrix() |>
+        base::unname(),
+      res[["data_mev"]][base::c(2L, 4L, 6L), ] |>
+        base::as.matrix() |>
+        base::unname()
+    )
+  }
+)
+
+testthat::test_that(
   "compute_spatial_mev_basis() stores deterministic fast projection state",
   {
     data_coords <-
