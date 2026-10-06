@@ -1,0 +1,70 @@
+<!DOCTYPE html><html><head><title>R: Compute Predictor-Inclusive Variance Components</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_predictor_inclusive_variance_components</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute Predictor-Inclusive Variance Components</h2>
+
+<h3>Description</h3>
+
+<p>Computes the full variance contribution associated with each predictor
+domain without dividing shared fractions among domains.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_predictor_inclusive_variance_components(data_source)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_source">data_source</code></td>
+<td>
+<p>A non-empty data frame with columns 'age', 'component', and
+'R2_Nagelkerke'. Missing fraction labels are treated as zero, and negative
+R-squared values are clamped to zero.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Each shared fraction contributes in full to every predictor domain that it
+contains. Percentages use the sum of the seven clamped variance fractions
+as their denominator, so percentages across domains may exceed 100 percent.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with three rows per age and columns 'age', 'component',
+'R2_Nagelkerke_predictor_inclusive', and
+'R2_Nagelkerke_predictor_inclusive_percentage'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[compute_shapley_variance_components()]
+</p>
+
+</main>
+
+</div>
+</body></html>

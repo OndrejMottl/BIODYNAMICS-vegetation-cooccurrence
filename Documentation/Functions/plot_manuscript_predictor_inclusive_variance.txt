@@ -1,0 +1,22 @@
+Plot Manuscript Predictor-Inclusive Variance
+
+Description:
+
+     Builds the shared manuscript figure for overlapping
+     predictor-inclusive variance contributions across spatial tiers
+     and taxonomic resolutions.
+
+Usage:
+
+     plot_manuscript_predictor_inclusive_variance(data_plot, data_summary)
+
+Arguments:
+
+data_plot: Prepared unit-level predictor-inclusive variance data.
+
+data_summary: Grouped median and empirical 95 percent interval data.
+
+Value:
+
+     A `ggplot` object with predictor domains in rows and resolutions
+     in columns.

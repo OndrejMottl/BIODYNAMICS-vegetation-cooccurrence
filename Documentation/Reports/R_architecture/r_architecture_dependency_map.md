@@ -35,7 +35,7 @@ flowchart TD
 | scientific_reference | 2 |
 | sensitivity | 1 |
 | supplementary_or_processing | 40 |
-| test | 440 |
+| test | 445 |
 
 ## Function capabilities
 
@@ -55,7 +55,7 @@ flowchart TD
 | Modelling/Fit_inputs | 11 |
 | Modelling/Fitting | 10 |
 | Modelling/Spatial_effects | 12 |
-| Modelling/Variance_partitioning | 6 |
+| Modelling/Variance_partitioning | 7 |
 | Pipeline/Configuration | 12 |
 | Pipeline/Definitions | 5 |
 | Pipeline/Orchestration | 9 |
@@ -66,10 +66,10 @@ flowchart TD
 | Prediction/Inputs | 1 |
 | Prediction/Scaling | 1 |
 | Prediction/Summaries | 1 |
-| Visualisation/Manuscript | 9 |
+| Visualisation/Manuscript | 10 |
 | Visualisation/Maps | 1 |
 | Visualisation/Networks | 1 |
-| Visualisation/Spatial_variance | 8 |
+| Visualisation/Spatial_variance | 9 |
 | Visualisation/Variance_components | 3 |
 
 ## Pipe-segment capability dependencies
