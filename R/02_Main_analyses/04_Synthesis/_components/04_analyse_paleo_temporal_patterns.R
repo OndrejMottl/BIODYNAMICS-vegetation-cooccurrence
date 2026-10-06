@@ -79,9 +79,10 @@ data_temporal_anova <-
   purrr::pmap(
     function(continent_id, store_path, store_exists) {
       targets::tar_read_raw(
-        name = "data_anova_components_by_age_percentage",
+        name = "data_anova_components_by_age",
         store = store_path
       ) |>
+        compute_predictor_inclusive_variance_components() |>
         dplyr::mutate(
           age = .data$age,
           continent_id = continent_id,
@@ -90,9 +91,11 @@ data_temporal_anova <-
             "{continent_id}_timeslice_{.data$age}"
           ),
           resolution_id = "genus",
-          result_type = "variance_component",
+          result_type =
+            "predictor_inclusive_variance_component",
           series = .data$component,
-          value = .data$R2_Nagelkerke_percentage,
+          value =
+            .data$R2_Nagelkerke_predictor_inclusive_percentage,
           .keep = "none"
         )
     }

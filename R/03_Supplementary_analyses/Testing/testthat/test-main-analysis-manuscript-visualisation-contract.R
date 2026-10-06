@@ -40,7 +40,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "each stage 05 component writes one canonical manuscript figure",
+  "stage 05 components write their canonical manuscript figures",
   {
     vec_component_files <-
       base::list.files(
@@ -57,12 +57,21 @@ testthat::test_that(
         text_component <-
           base::readLines(.x, warn = FALSE) |>
           stringr::str_c(collapse = "\n")
+        n_expected_figures <-
+          if (
+            base::basename(.x) ==
+              "04_plot_modern_variance_partitioning.R"
+          ) {
+            2L
+          } else {
+            1L
+          }
         testthat::expect_equal(
           stringr::str_count(
             text_component,
             "save_manuscript_figure\\("
           ),
-          1L,
+          n_expected_figures,
           info = .x
         )
         testthat::expect_false(

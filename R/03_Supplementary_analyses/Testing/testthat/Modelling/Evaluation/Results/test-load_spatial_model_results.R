@@ -21,7 +21,7 @@ make_test_anova <- function() {
         "F_BS",
         "F_ABS"
       ),
-      `R2 Nagelkerke` = base::c(1, 2, 3, 0, 0, 0, 0)
+      `R2 Nagelkerke` = base::c(1, 2, 3, 0.4, 0.6, 0.8, 0.9)
     )
   )
 }
@@ -188,6 +188,24 @@ testthat::test_that(
     testthat::expect_equal(base::unique(res[["n_effective_mev"]]), 3L)
     testthat::expect_equal(
       base::sum(res[["R2_Nagelkerke_percentage"]]),
+      100
+    )
+    testthat::expect_equal(
+      res[["R2_Nagelkerke_adjusted"]],
+      base::c(1.8, 2.9, 4)
+    )
+    testthat::expect_equal(
+      res[["R2_Nagelkerke_predictor_inclusive"]],
+      base::c(2.9, 4.1, 5.3)
+    )
+    testthat::expect_equal(
+      res[["R2_Nagelkerke_predictor_inclusive_percentage"]],
+      base::c(2.9, 4.1, 5.3) / 8.7 * 100
+    )
+    testthat::expect_gt(
+      base::sum(
+        res[["R2_Nagelkerke_predictor_inclusive_percentage"]]
+      ),
       100
     )
   }

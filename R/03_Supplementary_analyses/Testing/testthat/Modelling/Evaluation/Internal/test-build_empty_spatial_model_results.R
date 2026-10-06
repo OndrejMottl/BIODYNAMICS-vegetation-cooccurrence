@@ -18,6 +18,8 @@ testthat::test_that(
         "component",
         "R2_Nagelkerke_adjusted",
         "R2_Nagelkerke_percentage",
+        "R2_Nagelkerke_predictor_inclusive",
+        "R2_Nagelkerke_predictor_inclusive_percentage",
         "fitted_auc_mean",
         "fitted_auc_median",
         "fitted_auc_n",

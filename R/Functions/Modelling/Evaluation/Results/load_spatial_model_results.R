@@ -16,8 +16,9 @@
 #' @param require_non_empty
 #' Logical. If `TRUE`, error when no rows are loaded.
 #' @return
-#' A tibble with ANOVA component percentages, explicitly labelled fitted AUC,
-#' and cross-validated predictive Tjur R2, AUC, and log loss.
+#' A tibble with Shapley and predictor-inclusive ANOVA component values,
+#' explicitly labelled fitted AUC, and cross-validated predictive Tjur R2,
+#' AUC, and log loss.
 #' @export
 load_spatial_model_results <- function(
     store_index,
@@ -224,8 +225,23 @@ load_spatial_model_results <- function(
                   data_provenance = data_provenance
                 )
 
-              data_anova |>
-                compute_shapley_variance_components() |>
+              data_shapley_components <-
+                compute_shapley_variance_components(
+                  data_source = data_anova
+                )
+              data_predictor_inclusive_components <-
+                compute_predictor_inclusive_variance_components(
+                  data_source = data_anova
+                )
+              data_variance_components <-
+                data_shapley_components |>
+                dplyr::left_join(
+                  data_predictor_inclusive_components,
+                  by = dplyr::join_by(age, component),
+                  relationship = "one-to-one"
+                )
+
+              data_variance_components |>
                 dplyr::mutate(
                   data_source = store_row |>
                     dplyr::pull("data_source") |>
@@ -300,6 +316,8 @@ load_spatial_model_results <- function(
                   "component",
                   "R2_Nagelkerke_adjusted",
                   "R2_Nagelkerke_percentage",
+                  "R2_Nagelkerke_predictor_inclusive",
+                  "R2_Nagelkerke_predictor_inclusive_percentage",
                   "fitted_auc_mean",
                   "fitted_auc_median",
                   "fitted_auc_n",
