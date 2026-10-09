@@ -176,7 +176,7 @@ testthat::test_that(
           "data_community_matrix = data_community_filtered"
         )
       ),
-      2L
+      3L
     )
   }
 )
@@ -187,7 +187,8 @@ testthat::test_that(
     text_shared_config <-
       readr::read_file(
         here::here("R/Pipelines/_pipes/pipe_segment_config_model.R")
-      )
+      ) |>
+      stringr::str_replace_all("\r\n", "\n")
     text_resolution_config <-
       readr::read_file(
         here::here(
@@ -226,7 +227,12 @@ testthat::test_that(
     )
     testthat::expect_match(
       text_resolution_config,
-      "purrr::list_modify(fit_budget = rlang::zap())",
+      "fit_budget = rlang::zap()",
+      fixed = TRUE
+    )
+    testthat::expect_match(
+      text_resolution_config,
+      "grouped_fold_ladder = rlang::zap()",
       fixed = TRUE
     )
     testthat::expect_match(

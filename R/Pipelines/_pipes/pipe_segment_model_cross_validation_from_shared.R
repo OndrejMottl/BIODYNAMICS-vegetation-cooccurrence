@@ -148,30 +148,50 @@ pipe_segment_model_cross_validation_from_shared <-
       )
     ),
     targets::tar_target(
-      description = "Adapt branch folds toward leave-one-location-out",
-      name = "data_cross_validation_assignments",
-      command = resolve_cross_validation_assignments(
+      description = "CV-only grouped fold fallback policy",
+      name = "vec_cross_validation_grouped_fold_ladder",
+      command = load_active_config_value(
+        value = base::c(
+          "model_fitting", "cross_validation", "grouped_fold_ladder"
+        )
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+    targets::tar_target(
+      description = "Search feasible branch grouped folds before leave-one-out",
+      name = "list_cross_validation_fold_search",
+      command = resolve_cross_validation_fold_search(
         data_locations = data_cross_validation_locations,
         data_assignments = data_cross_validation_assignments_initial,
         data_partition_diagnostics =
           data_cross_validation_partition_diagnostics_initial,
-        min_train_locations = purrr::chuck(
-          config_data_processing,
-          "min_n_cores"
+        data_community_matrix = data_community_filtered,
+        config_data_processing = config_data_processing,
+        config_cross_validation = purrr::chuck(
+          config_model_fitting, "cross_validation"
         ),
-        min_train_samples = purrr::chuck(
-          config_data_processing,
-          "min_n_samples"
-        ),
-        min_train_taxa = purrr::chuck(
-          config_data_processing,
-          "min_n_taxa"
-        ),
-        min_mem_locations = purrr::chuck(
-          config_model_fitting,
-          "cross_validation",
-          "min_mem_locations"
-        )
+        grouped_fold_ladder = vec_cross_validation_grouped_fold_ladder
+      )
+    ),
+    targets::tar_target(
+      description = "Selected complete cross-validation assignments",
+      name = "data_cross_validation_assignments",
+      command = purrr::chuck(
+        list_cross_validation_fold_search, "data_assignments"
+      )
+    ),
+    targets::tar_target(
+      description = "Audit attempted grouped and leave-one-out designs",
+      name = "data_cross_validation_fold_search",
+      command = purrr::chuck(
+        list_cross_validation_fold_search, "data_fold_search"
+      )
+    ),
+    targets::tar_target(
+      description = "Explain feasibility failures per attempted partition",
+      name = "data_cross_validation_partition_diagnostics_search",
+      command = purrr::chuck(
+        list_cross_validation_fold_search, "data_partition_diagnostics_search"
       )
     ),
     targets::tar_target(

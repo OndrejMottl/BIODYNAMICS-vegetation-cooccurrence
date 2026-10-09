@@ -228,7 +228,7 @@ pipe_segment_config_model <-
         cross_validation = config_cross_validation[
           base::setdiff(
             base::names(config_cross_validation),
-            "fit_budget"
+            base::c("fit_budget", "grouped_fold_ladder")
           )
         ]
       )
