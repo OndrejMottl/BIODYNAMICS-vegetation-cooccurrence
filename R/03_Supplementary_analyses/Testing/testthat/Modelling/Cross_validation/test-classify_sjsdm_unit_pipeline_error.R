@@ -354,3 +354,60 @@ testthat::test_that(
     testthat::expect_identical(res[["required_count"]], 3L)
   }
 )
+testthat::test_that(
+  "spatial support is expected only at the registered MEM root",
+  {
+    vec_messages <-
+      base::c(
+        "Too few projected locations to construct spatial MEM. ",
+        "Found 2; need at least 4."
+      ) |>
+      stringr::str_c(collapse = "")
+    list_result <-
+      classify_sjsdm_unit_pipeline_error(
+        tibble::tibble(
+          name = "list_spatial_mev_core_basis",
+          error = vec_messages
+        )
+      )
+    testthat::expect_identical(list_result[["status"]],
+      "expected_infeasible")
+    testthat::expect_identical(list_result[["reason_code"]],
+      "insufficient_spatial_locations")
+    testthat::expect_identical(list_result[["observed_count"]], 2L)
+    testthat::expect_identical(list_result[["required_count"]], 4L)
+    testthat::expect_identical(
+      classify_sjsdm_unit_pipeline_error(
+        tibble::tibble(name = "unregistered_target", error = vec_messages)
+      )[["status"]],
+      "unexpected_error"
+    )
+    testthat::expect_identical(
+      classify_sjsdm_unit_pipeline_error(
+        tibble::tibble(name = "list_spatial_mev_core_basis",
+          error = "argument of length 0")
+      )[["status"]],
+      "unexpected_error"
+    )
+  }
+)
+
+testthat::test_that(
+  "legacy MEM row-count errors retain their narrow expected classification",
+  {
+    list_result <-
+      classify_sjsdm_unit_pipeline_error(
+        tibble::tibble(
+          name = "list_spatial_mev_core_basis",
+          error = stringr::str_c(
+            "data_coords_projected must have more than 3 rows ",
+            "(required by spatial MEM construction)"
+          )
+        )
+      )
+    testthat::expect_identical(list_result[["status"]],
+      "expected_infeasible")
+    testthat::expect_identical(list_result[["reason_code"]],
+      "insufficient_spatial_locations")
+  }
+)

@@ -1,3 +1,31 @@
+testthat::test_that(
+  "compute_spatial_mev_basis() reports counted insufficient locations",
+  {
+    purrr::walk(
+      0:3,
+      ~ {
+        data_coords <-
+          base::data.frame(
+            coord_x_km = base::seq_len(.x),
+            coord_y_km = base::seq_len(.x)
+          )
+        testthat::expect_error(
+          compute_spatial_mev_basis(
+            data_coords_projected = data_coords,
+            exact_function = function(...) {
+              cli::cli_abort("Engine must not run.")
+            }
+          ),
+          stringr::str_glue(
+            "(?s)Too few projected locations.*Found {.x}; need at least 4"
+          ),
+          perl = TRUE
+        )
+      }
+    )
+  }
+)
+
 make_spatial_mev_basis_test_coords <- function() {
   res <-
     base::data.frame(

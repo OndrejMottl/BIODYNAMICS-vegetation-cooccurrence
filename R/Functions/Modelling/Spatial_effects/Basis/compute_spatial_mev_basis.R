@@ -22,6 +22,8 @@
 #' Exact results retain the current sjSDM values unchanged. Fast results use
 #' an exponential-kernel basis and orient each selected eigenvector
 #' deterministically. The orientation is retained for matching projection.
+#' Fewer than four projected input rows is a registered data-feasibility
+#' outcome with observed and required counts, not an engine failure.
 #' @export
 compute_spatial_mev_basis <- function(
     data_coords_projected = NULL,
@@ -48,13 +50,19 @@ compute_spatial_mev_basis <- function(
     )
   )
 
-  assertthat::assert_that(
-    base::nrow(data_coords_projected) > 3L,
-    msg = stringr::str_c(
-      "data_coords_projected must have more than 3 rows ",
-      "(required by spatial MEM construction)"
+  # Insufficient support is a data limitation, not an engine failure.
+  if (
+    base::nrow(data_coords_projected) < 4L
+  ) {
+    cli::cli_abort(
+      base::c(
+        "Too few projected locations to construct spatial MEM.",
+        "i" = stringr::str_glue(
+          "Found {base::nrow(data_coords_projected)}; need at least 4."
+        )
+      )
     )
-  )
+  }
 
   assertthat::assert_that(
     !base::is.null(base::rownames(data_coords_projected)),

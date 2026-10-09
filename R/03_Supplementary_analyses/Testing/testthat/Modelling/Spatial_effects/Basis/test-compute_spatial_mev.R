@@ -52,7 +52,7 @@ testthat::test_that(
 )
 
 testthat::test_that(
-  "compute_spatial_mev() errors when data_coords_projected has < 3 rows",
+  "compute_spatial_mev() reports insufficient projected locations",
   {
     data_coords <-
       tibble::tibble(
@@ -67,7 +67,7 @@ testthat::test_that(
         data_coords_projected = data_coords,
         n_mev = 1L
       ),
-      regexp = "more than 3 rows"
+      regexp = "Too few projected locations"
     )
   }
 )
