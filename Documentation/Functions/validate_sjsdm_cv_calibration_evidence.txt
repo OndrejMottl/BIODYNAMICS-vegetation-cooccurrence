@@ -1,0 +1,34 @@
+Validate Calibration Evidence Against Cached Analytical Inputs
+
+Description:
+
+     Reconstructs calibration signatures from production folds and
+     structural settings. Legacy results are eligible for migration
+     only on an exact raw input match; acceptance status alone is never
+     sufficient for publication.
+
+Usage:
+
+     validate_sjsdm_cv_calibration_evidence(
+       list_result,
+       list_prepared_folds,
+       config_model_fitting
+     )
+
+Arguments:
+
+list_result: Saved calibration result, or `NULL` when unavailable.
+
+list_prepared_folds, config_model_fitting: Current production fold
+          records and final fitting configuration.
+
+Value:
+
+     A compatibility status, migration status and input fingerprints.
+
+Examples:
+
+     ## Not run:
+
+     validate_sjsdm_cv_calibration_evidence(result, folds, config_model)
+     ## End(Not run)

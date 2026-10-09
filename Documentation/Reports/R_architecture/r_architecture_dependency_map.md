@@ -35,7 +35,7 @@ flowchart TD
 | scientific_reference | 2 |
 | sensitivity | 1 |
 | supplementary_or_processing | 40 |
-| test | 445 |
+| test | 450 |
 
 ## Function capabilities
 
@@ -49,7 +49,7 @@ flowchart TD
 | Data/Traits | 53 |
 | Data_access/Files | 1 |
 | Data_access/Vegvault | 5 |
-| Modelling/Cross_validation | 129 |
+| Modelling/Cross_validation | 133 |
 | Modelling/Decomposition | 19 |
 | Modelling/Evaluation | 16 |
 | Modelling/Fit_inputs | 11 |
@@ -103,10 +103,12 @@ flowchart TD
 | `R/Pipelines/_pipes/pipe_segment_model_anova.R` | Modelling/Variance_partitioning | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_assemble.R` | Modelling/Fit_inputs | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation.R` | Modelling/Cross_validation | 10 |
+| `R/Pipelines/_pipes/pipe_segment_model_cross_validation.R` | Pipeline/Configuration | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_execution.R` | Modelling/Cross_validation | 28 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_execution.R` | Pipeline/Configuration | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_execution.R` | Pipeline/Stores | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_from_shared.R` | Modelling/Cross_validation | 8 |
+| `R/Pipelines/_pipes/pipe_segment_model_cross_validation_from_shared.R` | Pipeline/Configuration | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_shared.R` | Data/Samples | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_shared.R` | Modelling/Cross_validation | 6 |
 | `R/Pipelines/_pipes/pipe_segment_model_cross_validation_shared.R` | Pipeline/Configuration | 1 |
@@ -176,7 +178,7 @@ flowchart TD
 | Contract type | Scope | Contracts |
 |---|---|---:|
 | literal_target | persisted_internal | 400 |
-| literal_target | public_or_frozen_cv_review | 64 |
+| literal_target | public_or_frozen_cv_review | 72 |
 
 ## Architecture exceptions
 

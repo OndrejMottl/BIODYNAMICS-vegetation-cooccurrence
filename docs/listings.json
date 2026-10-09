@@ -282,6 +282,7 @@
       "/Documentation/Website/Documentation/Functions/resolve_continent_ids_from_scale_ids.html",
       "/Documentation/Website/Documentation/Functions/resolve_cross_validation_assignments.html",
       "/Documentation/Website/Documentation/Functions/resolve_cross_validation_fold_count.html",
+      "/Documentation/Website/Documentation/Functions/resolve_cross_validation_fold_search.html",
       "/Documentation/Website/Documentation/Functions/resolve_cross_validation_strategy.html",
       "/Documentation/Website/Documentation/Functions/resolve_decomposition_fold_loss.html",
       "/Documentation/Website/Documentation/Functions/resolve_functional_type_classification_path.html",

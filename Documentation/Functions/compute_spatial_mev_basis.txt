@@ -43,7 +43,9 @@ Details:
      Exact results retain the current sjSDM values unchanged. Fast
      results use an exponential-kernel basis and orient each selected
      eigenvector deterministically. The orientation is retained for
-     matching projection.
+     matching projection. Fewer than four projected input rows is a
+     registered data-feasibility outcome with observed and required
+     counts, not an engine failure.
 
 Value:
 

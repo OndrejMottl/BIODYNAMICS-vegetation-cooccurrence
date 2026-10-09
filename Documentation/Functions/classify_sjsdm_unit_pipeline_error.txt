@@ -21,7 +21,9 @@ Details:
      missing-object, and empty-pattern errors are allowed only as
      cascades. Known temporal validation cascades are accepted only
      when the same time slice has a registered expected root. Any other
-     root remains unexpected.
+     root remains unexpected. Counted and legacy insufficient-row MEM
+     errors are registered only at the shared basis target; arbitrary
+     MEM engine failures remain unexpected.
 
 Value:
 

@@ -1,0 +1,25 @@
+Prepare Scientific Fold Content for Calibration Hashing
+
+Description:
+
+     Excludes only measured preparation runtimes from calibration
+     signatures. Fold assignments, observations, predictors and spatial
+     strategy provenance remain unchanged. This does not alter the
+     folds used for fitting.
+
+Usage:
+
+     prepare_sjsdm_cv_calibration_hash_folds(list_prepared_folds)
+
+Arguments:
+
+list_prepared_folds: Cached records returned by
+          [prepare_sjsdm_tuning_folds()].
+
+Value:
+
+     A copy of the fold records without operational runtime fields.
+
+Examples:
+
+     prepare_sjsdm_cv_calibration_hash_folds(list())
