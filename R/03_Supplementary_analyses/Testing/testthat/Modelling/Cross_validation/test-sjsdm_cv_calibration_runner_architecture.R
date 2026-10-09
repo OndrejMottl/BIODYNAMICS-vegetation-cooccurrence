@@ -117,8 +117,7 @@ testthat::test_that(
     )
     testthat::expect_match(
       text_component,
-      '} else {\n    "config_model_fitting"',
-      fixed = TRUE
+      '} else \\{\\r?\\n\\s+"config_model_fitting"'
     )
     testthat::expect_match(
       text_component,
@@ -163,8 +162,11 @@ testthat::test_that(
     )
     testthat::expect_match(
       text_publication,
-      "sjsdm_cv_adaptive_calibration_v3",
+      "validate_sjsdm_cv_calibration_evidence(",
       fixed = TRUE
+    )
+    testthat::expect_match(
+      text_component, "sjsdm_cv_adaptive_calibration_v4", fixed = TRUE
     )
   }
 )

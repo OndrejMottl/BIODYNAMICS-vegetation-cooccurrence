@@ -34,7 +34,7 @@ flag_force <-
     "true"
   )
 calibration_contract_version <-
-  "sjsdm_cv_adaptive_calibration_v3"
+  "sjsdm_cv_adaptive_calibration_v4"
 legacy_calibration_contract_version <-
   "sjsdm_cv_adaptive_calibration_v2"
 repeat_confirmation_loss_tolerance <-
@@ -281,49 +281,21 @@ config_sjsdm_cv_fitting <-
     config_model_fitting = config_model_fitting,
     config_fit_budget = config_fit_budget
   )
+list_input_hashes <-
+  compute_sjsdm_cv_calibration_hashes(
+    data_candidates = data_candidates,
+    list_prepared_folds = list_prepared_folds,
+    sel_abiotic_formula = formula_jsdm_environment,
+    config_sjsdm_cv_fitting = config_sjsdm_cv_fitting,
+    repeat_confirmation_loss_tolerance =
+      repeat_confirmation_loss_tolerance
+  )
 calibration_input_hash <-
-  digest::digest(
-    base::list(
-      calibration_contract_version = calibration_contract_version,
-      data_candidates = data_candidates,
-      list_prepared_folds = list_prepared_folds,
-      formula_jsdm_environment = stringr::str_c(
-        base::deparse(formula_jsdm_environment),
-        collapse = ""
-      ),
-      config_sjsdm_cv_fitting = config_sjsdm_cv_fitting,
-      repeat_confirmation_loss_tolerance =
-        repeat_confirmation_loss_tolerance
-    )
-  )
-previous_policy_calibration_input_hash <-
-  digest::digest(
-    base::list(
-      calibration_contract_version = calibration_contract_version,
-      data_candidates = data_candidates,
-      list_prepared_folds = list_prepared_folds,
-      formula_jsdm_environment = stringr::str_c(
-        base::deparse(formula_jsdm_environment),
-        collapse = ""
-      ),
-      config_sjsdm_cv_fitting = config_sjsdm_cv_fitting,
-      repeat_confirmation_loss_tolerance = 0.01
-    )
-  )
-legacy_calibration_input_hash <-
-  digest::digest(
-    base::list(
-      calibration_contract_version =
-        legacy_calibration_contract_version,
-      data_candidates = data_candidates,
-      list_prepared_folds = list_prepared_folds,
-      formula_jsdm_environment = stringr::str_c(
-        base::deparse(formula_jsdm_environment),
-        collapse = ""
-      ),
-      config_sjsdm_cv_fitting = config_sjsdm_cv_fitting
-    )
-  )
+  list_input_hashes[["calibration_input_hash"]]
+qs2::qs_save(
+  list_input_hashes,
+  fs::path(path_output, "calibration_input_fingerprints.qs")
+)
 if (
   !base::is.null(list_existing) &&
     base::identical(list_existing[["calibration_status"]], "accepted") &&
@@ -348,30 +320,46 @@ flag_reuse_stricter_v2_result <-
     ) &&
     base::identical(
       list_existing[["calibration_input_hash"]],
-      legacy_calibration_input_hash
+      list_input_hashes[["legacy_v2_hash"]]
     )
 flag_reuse_stricter_v3_policy_result <-
   !base::is.null(list_existing) &&
     base::identical(list_existing[["calibration_status"]], "accepted") &&
     base::identical(
       list_existing[["calibration_contract_version"]],
-      calibration_contract_version
+      "sjsdm_cv_adaptive_calibration_v3"
     ) &&
     base::identical(
       list_existing[["calibration_input_hash"]],
-      previous_policy_calibration_input_hash
+      list_input_hashes[["previous_policy_v3_hash"]]
+    )
+flag_reuse_content_matched_v3_result <-
+  !base::is.null(list_existing) &&
+    base::identical(list_existing[["calibration_status"]], "accepted") &&
+    base::identical(
+      list_existing[["calibration_contract_version"]],
+      "sjsdm_cv_adaptive_calibration_v3"
+    ) &&
+    base::identical(
+      list_existing[["calibration_input_hash"]],
+      list_input_hashes[["legacy_v3_hash"]]
     )
 if (
   flag_reuse_stricter_v2_result ||
-    flag_reuse_stricter_v3_policy_result
+    flag_reuse_stricter_v3_policy_result ||
+    flag_reuse_content_matched_v3_result
 ) {
   migration_status <-
     if (
       flag_reuse_stricter_v2_result
     ) {
       "reused_stricter_v2_result"
-    } else {
+    } else if (
+      flag_reuse_stricter_v3_policy_result
+    ) {
       "reused_stricter_v3_policy_result"
+    } else {
+      "reused_content_matched_v3_result"
     }
   if (
     flag_reuse_stricter_v2_result
@@ -387,7 +375,9 @@ if (
         repeat_two_practically_equivalent = TRUE,
         repeat_two_confirmed = TRUE
       )
-  } else {
+  } else if (
+    flag_reuse_stricter_v3_policy_result
+  ) {
     list_existing[["data_accepted_budget"]] <-
       list_existing[["data_accepted_budget"]] |>
       dplyr::mutate(
@@ -401,6 +391,14 @@ if (
           .data[["repeat_two_practically_equivalent"]]
       )
   }
+  list_existing[["legacy_calibration_input_hash"]] <-
+    list_existing[["calibration_input_hash"]]
+  list_existing[["legacy_calibration_contract_version"]] <-
+    list_existing[["calibration_contract_version"]]
+  list_existing[["legacy_run_provenance"]] <-
+    list_existing[["run_provenance"]]
+  list_existing[["calibration_input_fingerprints"]] <-
+    list_input_hashes
   list_existing[["calibration_contract_version"]] <-
     calibration_contract_version
   list_existing[["calibration_input_hash"]] <-
@@ -412,6 +410,11 @@ if (
     dplyr::mutate(
       calibration_contract_version = calibration_contract_version,
       calibration_input_hash = calibration_input_hash,
+      legacy_calibration_input_hash =
+        list_existing[["legacy_calibration_input_hash"]],
+      legacy_calibration_contract_version =
+        list_existing[["legacy_calibration_contract_version"]],
+      hash_migrated_at = base::Sys.time(),
       migration_status = migration_status
     )
 
@@ -428,8 +431,8 @@ if (
   )
   cli::cli_inform(
     stringr::str_c(
-      "Reused an accepted result from a stricter calibration policy and",
-      "recorded current repeat-confirmation provenance.",
+      "Reused an exactly content-matched legacy calibration result and",
+      "recorded runtime-independent input fingerprints.",
       sep = " "
     )
   )
@@ -467,6 +470,8 @@ list_result[["calibration_contract_version"]] <-
   calibration_contract_version
 list_result[["calibration_input_hash"]] <-
   calibration_input_hash
+list_result[["calibration_input_fingerprints"]] <-
+  list_input_hashes
 checkpoint_migration_status <-
   list_result[["checkpoint_migration_status"]]
 if (

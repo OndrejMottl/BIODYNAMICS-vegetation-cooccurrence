@@ -108,16 +108,40 @@ data_accepted <-
       "calibration_contract_version",
       .default = NA_character_
     ),
-    calibration_status = dplyr::if_else(
-      .data[["result_contract_version"]] ==
-        "sjsdm_cv_adaptive_calibration_v3",
-      purrr::pluck(
-        .data[["list_result"]],
-        "calibration_status",
-        .default = "missing"
-      ),
-      "incompatible_contract",
-      missing = "incompatible_contract"
+    list_input_check = base::list(
+      base::tryCatch(
+        validate_sjsdm_cv_calibration_evidence(
+          list_result = .data[["list_result"]],
+          list_prepared_folds = targets::tar_read_raw(
+            name = stringr::str_c(
+              "list_sjsdm_prepared_tuning_folds_", .data[["target_suffix"]]
+            ),
+            store = .data[["store_path"]]
+          ),
+          config_model_fitting = targets::tar_read_raw(
+            name = if (
+              .data[["is_temporal"]]
+            ) {
+              "config_model_fitting"
+            } else {
+              stringr::str_c(
+                "config_model_fitting_", .data[["target_suffix"]]
+              )
+            },
+            store = .data[["store_path"]]
+          )
+        ),
+        error = function(error_condition) {
+          base::list(
+            status = "unreadable_inputs",
+            error_message = base::conditionMessage(error_condition)
+          )
+        }
+      )
+    ),
+    calibration_status = purrr::chuck(.data[["list_input_check"]], "status"),
+    input_error = purrr::pluck(
+      .data[["list_input_check"]], "error_message", .default = NA_character_
     ),
     list_budget = base::list(
       purrr::pluck(
@@ -193,6 +217,7 @@ if (
         "selection_reason",
         "result_contract_version",
         "calibration_status",
+        "input_error",
         "file_result"
       ),
     fs::path(path_report, "budget_publication_blockers.csv"),
@@ -203,8 +228,9 @@ if (
       "Calibration runner 03 cannot publish incomplete evidence.",
       "x" = "See budget_publication_blockers.csv for exact representatives.",
       "1" = paste(
-        "Run 02_run_sjsdm_cv_fit_budget_calibration.R for every listed",
-        "representative until each result is accepted."
+        "Run R/02_Main_analyses/02_Model_calibration/",
+        "01_run_model_calibration.R. It verifies or recalibrates each",
+        "representative; content-matched legacy results need no GPU rerun."
       ),
       "2" = "Rerun this publication runner only after all blockers clear."
     )

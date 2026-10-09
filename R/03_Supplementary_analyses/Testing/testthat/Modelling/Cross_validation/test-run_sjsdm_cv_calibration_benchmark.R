@@ -42,7 +42,9 @@ testthat::test_that(
         data_candidates = tibble::tibble(
           candidate_id = base::c("candidate_1", "candidate_2")
         ),
-        list_prepared_folds = base::list(value = TRUE),
+        list_prepared_folds = base::list(fold_1 = base::list(
+          value = TRUE, preparation_seconds = 1
+        )),
         sel_abiotic_formula = ~ x,
         config_sjsdm_cv_fitting = base::list(value = TRUE),
         data_ladder = build_sjsdm_cv_calibration_ladder()[1:4, ],
@@ -135,7 +137,9 @@ testthat::test_that(
         data_candidates = tibble::tibble(
           candidate_id = base::c("candidate_1", "candidate_2")
         ),
-        list_prepared_folds = base::list(value = TRUE),
+        list_prepared_folds = base::list(fold_1 = base::list(
+          value = TRUE, preparation_seconds = 1
+        )),
         sel_abiotic_formula = ~ x,
         config_sjsdm_cv_fitting = base::list(value = TRUE),
         data_ladder = build_sjsdm_cv_calibration_ladder()[1:3, ],
@@ -160,6 +164,16 @@ testthat::test_that(
       )
 
     testthat::expect_equal(res[["calibration_status"]], "accepted")
+    testthat::expect_equal(state[["calls"]], 4L)
+    list_arguments[["list_prepared_folds"]][[1L]][[
+      "preparation_seconds"
+    ]] <-
+      99
+    res_runtime_only <-
+      base::do.call(run_sjsdm_cv_calibration_benchmark, list_arguments)
+    testthat::expect_identical(
+      res_runtime_only[["calibration_status"]], "accepted"
+    )
     testthat::expect_equal(state[["calls"]], 4L)
     list_changed_arguments <-
       list_arguments
@@ -420,6 +434,8 @@ testthat::test_that(
 
     list_checkpoint <-
       qs2::qs_read(file_checkpoint)
+    list_checkpoint[["checkpoint_contract_version"]] <-
+      "sjsdm_cv_adaptive_calibration_checkpoint_v3"
     list_checkpoint[["checkpoint_signature"]] <-
       digest::digest(
         base::list(

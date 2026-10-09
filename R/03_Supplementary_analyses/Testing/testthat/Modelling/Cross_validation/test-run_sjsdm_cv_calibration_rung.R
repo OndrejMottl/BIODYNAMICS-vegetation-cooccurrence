@@ -276,5 +276,23 @@ testthat::test_that(
       base::nrow(res_second[["data_benchmark"]]),
       2L
     )
+    list_arguments[["list_prepared_folds"]][[1L]][[
+      "preparation_seconds"
+    ]] <-
+      99
+    res_runtime_only <-
+      base::do.call(run_sjsdm_cv_calibration_rung, list_arguments)
+    testthat::expect_equal(state[["calls"]], 1L)
+    testthat::expect_equal(
+      res_runtime_only[["data_benchmark"]], res_second[["data_benchmark"]]
+    )
+    list_arguments[["list_prepared_folds"]][[1L]][[
+      "list_prepared_fold"
+    ]][["data_test_observed"]][[1L]] <-
+      1
+    testthat::expect_error(
+      base::do.call(run_sjsdm_cv_calibration_rung, list_arguments),
+      "different calibration rung"
+    )
   }
 )
