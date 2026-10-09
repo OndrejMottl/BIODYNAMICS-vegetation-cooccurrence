@@ -1,7 +1,7 @@
 scale_id,n_iter,n_step_size,n_sampling,n_samples_anova,n_early_stopping,cv_n_iter_initial,cv_n_iter_max,cv_n_sampling,cv_n_step_size,cv_n_early_stopping
-europe,200,NA,50,1000,NA,1000,4000,200,NA,NA
-america,200,NA,50,1000,NA,1000,4000,200,NA,NA
-asia,200,NA,50,1000,NA,1000,4000,200,NA,NA
+europe,200,NA,50,1000,NA,500,2000,200,NA,NA
+america,200,NA,50,1000,NA,500,2000,200,NA,NA
+asia,200,NA,50,1000,NA,500,2000,200,NA,NA
 eu_r001,500,NA,200,1000,NA,500,2000,200,NA,NA
 eu_r002,500,NA,200,1000,NA,500,2000,200,NA,NA
 eu_r003,500,NA,200,1000,NA,500,2000,200,NA,NA
