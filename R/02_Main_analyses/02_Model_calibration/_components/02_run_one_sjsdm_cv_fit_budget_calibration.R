@@ -15,7 +15,7 @@
 #   Invoked by the stage 02 master, which supplies registered identifiers from
 #   calibration_representatives.csv. Users should not run this component.
 #   Accepted results are restart-safe under Data/Temp/Sjsdm_cv_calibration/;
-#   set SJSMD_CALIBRATION_FORCE=true only to replace an accepted result.
+#   archive incompatible original evidence before requesting recalibration.
 #   Failure to pass every convergence and stability gate is fatal.
 
 #----------------------------------------------------------#
@@ -34,7 +34,7 @@ flag_force <-
     "true"
   )
 calibration_contract_version <-
-  "sjsdm_cv_adaptive_calibration_v4"
+  "sjsdm_cv_adaptive_calibration_v5"
 legacy_calibration_contract_version <-
   "sjsdm_cv_adaptive_calibration_v2"
 repeat_confirmation_loss_tolerance <-
@@ -156,12 +156,22 @@ file_result <-
 
 list_existing <-
   if (
-    base::file.exists(file_result) && !flag_force
+    base::file.exists(file_result)
   ) {
     qs2::qs_read(file_result)
   } else {
     NULL
   }
+
+if (
+  flag_force && !base::is.null(list_existing)
+) {
+  cli::cli_abort(base::c(
+    "Force cannot overwrite original calibration evidence.",
+    "i" = "Preserve and archive {path_output}, then restart calibration.",
+    "i" = "Original results, checkpoints and fingerprints were not changed."
+  ))
+}
 
 #----------------------------------------------------------#
 # 2. Load prepared folds and model inputs -----
@@ -211,6 +221,13 @@ if (
     )
   )
 }
+
+validate_sjsdm_cv_preparation_freshness(
+  pipeline_script = here::here("R", "Pipelines",
+    stringr::str_c(pipeline_id, ".R")),
+  store_path = path_store,
+  target_names = vec_required_target_names
+)
 
 list_prepared_folds <-
   targets::tar_read_raw(
@@ -292,10 +309,6 @@ list_input_hashes <-
   )
 calibration_input_hash <-
   list_input_hashes[["calibration_input_hash"]]
-qs2::qs_save(
-  list_input_hashes,
-  fs::path(path_output, "calibration_input_fingerprints.qs")
-)
 if (
   !base::is.null(list_existing) &&
     base::identical(list_existing[["calibration_status"]], "accepted") &&
@@ -344,97 +357,51 @@ flag_reuse_content_matched_v3_result <-
       list_existing[["calibration_input_hash"]],
       list_input_hashes[["legacy_v3_hash"]]
     )
+flag_reuse_content_matched_v4_result <-
+  !base::is.null(list_existing) &&
+    base::identical(list_existing[["calibration_status"]], "accepted") &&
+    base::identical(list_existing[["calibration_contract_version"]],
+      "sjsdm_cv_adaptive_calibration_v4") &&
+    base::identical(list_existing[["calibration_input_hash"]],
+      list_input_hashes[["legacy_v4_hash"]])
 if (
   flag_reuse_stricter_v2_result ||
     flag_reuse_stricter_v3_policy_result ||
-    flag_reuse_content_matched_v3_result
+    flag_reuse_content_matched_v3_result ||
+    flag_reuse_content_matched_v4_result
 ) {
-  migration_status <-
-    if (
-      flag_reuse_stricter_v2_result
-    ) {
-      "reused_stricter_v2_result"
-    } else if (
-      flag_reuse_stricter_v3_policy_result
-    ) {
-      "reused_stricter_v3_policy_result"
-    } else {
-      "reused_content_matched_v3_result"
-    }
+  # Preserve the complete original, including earlier migration history.
+  path_migration_archive <-
+    fs::path(path_output, "migration_archive",
+      list_existing[["calibration_input_hash"]])
+  fs::dir_create(path_migration_archive)
+  file_migration_archive <-
+    fs::path(path_migration_archive, "calibration_result.qs")
   if (
-    flag_reuse_stricter_v2_result
+    !fs::file_exists(file_migration_archive)
   ) {
-    list_existing[["data_accepted_budget"]] <-
-      list_existing[["data_accepted_budget"]] |>
-      dplyr::mutate(
-        repeat_two_candidate_id = .data[["candidate_id"]],
-        repeat_two_exact_winner = TRUE,
-        repeat_two_relative_loss_gap = 0,
-        repeat_two_loss_tolerance =
-          repeat_confirmation_loss_tolerance,
-        repeat_two_practically_equivalent = TRUE,
-        repeat_two_confirmed = TRUE
-      )
-  } else if (
-    flag_reuse_stricter_v3_policy_result
-  ) {
-    list_existing[["data_accepted_budget"]] <-
-      list_existing[["data_accepted_budget"]] |>
-      dplyr::mutate(
-        repeat_two_loss_tolerance =
-          repeat_confirmation_loss_tolerance,
-        repeat_two_practically_equivalent =
-          .data[["repeat_two_exact_winner"]] |
-          .data[["repeat_two_relative_loss_gap"]] <=
-            repeat_confirmation_loss_tolerance,
-        repeat_two_confirmed =
-          .data[["repeat_two_practically_equivalent"]]
-      )
+    fs::file_copy(file_result, file_migration_archive, overwrite = FALSE)
   }
-  list_existing[["legacy_calibration_input_hash"]] <-
-    list_existing[["calibration_input_hash"]]
-  list_existing[["legacy_calibration_contract_version"]] <-
-    list_existing[["calibration_contract_version"]]
-  list_existing[["legacy_run_provenance"]] <-
-    list_existing[["run_provenance"]]
-  list_existing[["calibration_input_fingerprints"]] <-
-    list_input_hashes
-  list_existing[["calibration_contract_version"]] <-
-    calibration_contract_version
-  list_existing[["calibration_input_hash"]] <-
-    calibration_input_hash
-  list_existing[["checkpoint_migration_status"]] <-
-    migration_status
-  list_existing[["run_provenance"]] <-
-    list_existing[["run_provenance"]] |>
-    dplyr::mutate(
-      calibration_contract_version = calibration_contract_version,
-      calibration_input_hash = calibration_input_hash,
-      legacy_calibration_input_hash =
-        list_existing[["legacy_calibration_input_hash"]],
-      legacy_calibration_contract_version =
-        list_existing[["legacy_calibration_contract_version"]],
-      hash_migrated_at = base::Sys.time(),
-      migration_status = migration_status
+  assertthat::assert_that(
+    base::identical(digest::digest(file = file_result),
+      digest::digest(file = file_migration_archive)),
+    msg = "Archived evidence must match its complete original."
+  )
+  list_migrated <-
+    prepare_sjsdm_cv_calibration_result_migration(
+      list_result = list_existing,
+      list_prepared_folds = list_prepared_folds,
+      config_model_fitting = config_model_fitting
     )
-
-  qs2::qs_save(list_existing, file_result)
-  readr::write_csv(
-    list_existing[["data_accepted_budget"]],
-    fs::path(path_report, "accepted_budget.csv"),
-    na = "NA"
-  )
-  readr::write_csv(
-    list_existing[["run_provenance"]],
-    fs::path(path_report, "run_provenance.csv"),
-    na = "NA"
-  )
+  qs2::qs_save(list_migrated, file_result)
+  qs2::qs_save(list_input_hashes,
+    fs::path(path_output, "calibration_input_fingerprints.qs"))
+  readr::write_csv(list_migrated[["data_accepted_budget"]],
+    fs::path(path_report, "accepted_budget.csv"), na = "NA")
+  readr::write_csv(list_migrated[["run_provenance"]],
+    fs::path(path_report, "run_provenance.csv"), na = "NA")
   cli::cli_inform(
-    stringr::str_c(
-      "Reused an exactly content-matched legacy calibration result and",
-      "recorded runtime-independent input fingerprints.",
-      sep = " "
-    )
+    "Reused verified legacy calibration; original evidence is archived."
   )
   base::quit(save = "no", status = 0L)
 }
@@ -442,6 +409,27 @@ if (
 #----------------------------------------------------------#
 # 3. Run the restart-safe calibration benchmark -----
 #----------------------------------------------------------#
+
+vec_compatible_input_hashes <-
+  base::unlist(list_input_hashes[base::c(
+    "calibration_input_hash", "legacy_v4_hash", "legacy_v3_hash",
+    "previous_policy_v3_hash", "legacy_v2_hash"
+  )], use.names = FALSE)
+if (
+  !base::is.null(list_existing) &&
+    !base::isTRUE(list_existing[["calibration_input_hash"]] %in%
+      vec_compatible_input_hashes)
+) {
+  cli::cli_abort(
+    base::c(
+      "Existing calibration evidence belongs to different analytical inputs.",
+      "i" = "Preserve and archive its directory before recalibrating.",
+      "i" = "Original evidence and fingerprints were not overwritten."
+    )
+  )
+}
+qs2::qs_save(list_input_hashes,
+  fs::path(path_output, "calibration_input_fingerprints.qs"))
 
 started_at <-
   base::Sys.time()

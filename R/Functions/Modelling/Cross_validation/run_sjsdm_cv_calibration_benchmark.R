@@ -19,6 +19,9 @@
 #' Maximum relative loss gap allowed above the repeat-two winner.
 #' @param checkpoint_file
 #' Optional `.qs` path used to resume completed rungs after interruption.
+#' @param maximum_budget_order
+#' Optional execution bound. Stops after this ladder rung without changing
+#' the ladder signature or scientific acceptance gates. Defaults to `Inf`.
 #' @param verbose
 #' Logical. If `TRUE`, progress is printed to the console.
 #' @param rung_function
@@ -41,9 +44,19 @@ run_sjsdm_cv_calibration_benchmark <- function(
     n_confirmation_candidates = 2L,
     repeat_confirmation_loss_tolerance = 0.02,
     checkpoint_file = NULL,
+    maximum_budget_order = Inf,
     rung_function = run_sjsdm_cv_calibration_rung,
     verbose = TRUE,
     ...) {
+  assertthat::assert_that(
+    base::is.numeric(maximum_budget_order),
+    base::length(maximum_budget_order) == 1L,
+    !base::is.na(maximum_budget_order),
+    maximum_budget_order >= 1L,
+    maximum_budget_order == Inf ||
+      maximum_budget_order == base::as.integer(maximum_budget_order),
+    msg = "maximum_budget_order must be a positive integer or Inf."
+  )
   assertthat::assert_that(
     base::is.data.frame(data_ladder),
     base::nrow(data_ladder) >= 2L,
@@ -125,12 +138,26 @@ run_sjsdm_cv_calibration_benchmark <- function(
       )
     )
   list_checkpoint_signature_payload[["list_prepared_folds"]] <-
-    prepare_sjsdm_cv_calibration_hash_folds(list_prepared_folds)
-  checkpoint_signature_v4 <-
+    prepare_sjsdm_cv_calibration_hash_folds(
+      list_prepared_folds, contract_version = "v4"
+    )
+  previous_checkpoint_signature_v4 <-
     digest::digest(
       base::list(
         checkpoint_contract_version =
           "sjsdm_cv_adaptive_calibration_checkpoint_v4",
+        signature_payload = list_checkpoint_signature_payload,
+        repeat_confirmation_loss_tolerance =
+          repeat_confirmation_loss_tolerance
+      )
+    )
+  list_checkpoint_signature_payload[["list_prepared_folds"]] <-
+    prepare_sjsdm_cv_calibration_hash_folds(list_prepared_folds)
+  checkpoint_signature_v5 <-
+    digest::digest(
+      base::list(
+        checkpoint_contract_version =
+          "sjsdm_cv_adaptive_calibration_checkpoint_v5",
         signature_payload = list_checkpoint_signature_payload,
         repeat_confirmation_loss_tolerance =
           repeat_confirmation_loss_tolerance
@@ -145,8 +172,8 @@ run_sjsdm_cv_calibration_benchmark <- function(
     } else {
       base::list(
         checkpoint_contract_version =
-          "sjsdm_cv_adaptive_calibration_checkpoint_v4",
-        checkpoint_signature = checkpoint_signature_v4,
+          "sjsdm_cv_adaptive_calibration_checkpoint_v5",
+        checkpoint_signature = checkpoint_signature_v5,
         list_screening = base::list(),
         list_confirmation = base::list(),
         rejected_confirmation_orders = base::integer(),
@@ -156,7 +183,12 @@ run_sjsdm_cv_calibration_benchmark <- function(
   flag_current_checkpoint <-
     base::identical(
       list_checkpoint_loaded[["checkpoint_signature"]],
-      checkpoint_signature_v4
+      checkpoint_signature_v5
+    )
+  flag_compatible_v4_checkpoint <-
+    base::identical(
+      list_checkpoint_loaded[["checkpoint_signature"]],
+      previous_checkpoint_signature_v4
     )
   flag_compatible_v3_checkpoint <-
     base::identical(
@@ -179,6 +211,7 @@ run_sjsdm_cv_calibration_benchmark <- function(
     )
   assertthat::assert_that(
     flag_current_checkpoint ||
+      flag_compatible_v4_checkpoint ||
       flag_compatible_v3_checkpoint ||
       flag_compatible_v2_checkpoint ||
       flag_compatible_v3_policy_checkpoint,
@@ -193,13 +226,18 @@ run_sjsdm_cv_calibration_benchmark <- function(
     if (
       flag_compatible_v2_checkpoint ||
         flag_compatible_v3_policy_checkpoint ||
-        flag_compatible_v3_checkpoint
+        flag_compatible_v3_checkpoint ||
+        flag_compatible_v4_checkpoint
     ) {
       if (
         verbose
       ) {
         checkpoint_source <-
           if (
+            flag_compatible_v4_checkpoint
+          ) {
+            "version-4 content-matched"
+          } else if (
             flag_compatible_v2_checkpoint
           ) {
             "version-2"
@@ -219,6 +257,10 @@ run_sjsdm_cv_calibration_benchmark <- function(
       }
       migration_status <-
         if (
+          flag_compatible_v4_checkpoint
+        ) {
+          "reused_content_matched_v4_fit_evidence"
+        } else if (
           flag_compatible_v2_checkpoint
         ) {
           "reused_v2_fit_evidence"
@@ -231,8 +273,8 @@ run_sjsdm_cv_calibration_benchmark <- function(
         }
       base::list(
         checkpoint_contract_version =
-          "sjsdm_cv_adaptive_calibration_checkpoint_v4",
-        checkpoint_signature = checkpoint_signature_v4,
+          "sjsdm_cv_adaptive_calibration_checkpoint_v5",
+        checkpoint_signature = checkpoint_signature_v5,
         list_screening = list_checkpoint_loaded[["list_screening"]],
         list_confirmation =
           list_checkpoint_loaded[["list_confirmation"]],
@@ -263,7 +305,7 @@ run_sjsdm_cv_calibration_benchmark <- function(
     budget_index in base::seq_len(base::nrow(data_ladder))
   ) {
     if (
-      !base::is.null(accepted_budget)
+      !base::is.null(accepted_budget) || budget_index > maximum_budget_order
     ) {
       break
     }
@@ -309,8 +351,8 @@ run_sjsdm_cv_calibration_benchmark <- function(
         qs2::qs_save(
           base::list(
             checkpoint_contract_version =
-              "sjsdm_cv_adaptive_calibration_checkpoint_v4",
-            checkpoint_signature = checkpoint_signature_v4,
+              "sjsdm_cv_adaptive_calibration_checkpoint_v5",
+            checkpoint_signature = checkpoint_signature_v5,
             list_screening = list_screening,
             list_confirmation = list_confirmation,
             rejected_confirmation_orders =
@@ -498,8 +540,8 @@ run_sjsdm_cv_calibration_benchmark <- function(
       qs2::qs_save(
         base::list(
           checkpoint_contract_version =
-            "sjsdm_cv_adaptive_calibration_checkpoint_v4",
-          checkpoint_signature = checkpoint_signature_v4,
+            "sjsdm_cv_adaptive_calibration_checkpoint_v5",
+          checkpoint_signature = checkpoint_signature_v5,
           list_screening = list_screening,
           list_confirmation = list_confirmation,
           rejected_confirmation_orders =

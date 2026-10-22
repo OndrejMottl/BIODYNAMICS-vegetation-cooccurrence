@@ -60,3 +60,41 @@ testthat::test_that("scientific signatures retain exact legacy proof", {
     )
   )
 })
+
+testthat::test_that("v5 excludes bytes but preserves exact v4 fingerprints", {
+  list_folds <-
+    base::list(fold_1 = base::list(
+      preparation_status = "ok",
+      list_prepared_fold = base::list(
+        response = base::matrix(1, 1L, 1L),
+        data_spatial_provenance = tibble::tibble(
+          basis_bytes = 100, estimated_dense_matrix_bytes = 800,
+          strategy_selected = "exact"
+        )
+      )
+    ))
+  list_hashes <-
+    compute_sjsdm_cv_calibration_hashes(
+      tibble::tibble(candidate_id = "one"), list_folds, ~ x,
+      base::list(seed = 42L)
+    )
+  testthat::expect_identical(list_hashes[["calibration_contract_version"]],
+    "sjsdm_cv_adaptive_calibration_v5")
+  list_changed <- list_folds
+  list_changed[[1L]][["list_prepared_fold"]][[
+    "data_spatial_provenance"
+  ]][["basis_bytes"]] <- 200
+  list_changed_hashes <-
+    compute_sjsdm_cv_calibration_hashes(
+      tibble::tibble(candidate_id = "one"), list_changed, ~ x,
+      base::list(seed = 42L)
+    )
+  testthat::expect_identical(list_hashes[["calibration_input_hash"]],
+    list_changed_hashes[["calibration_input_hash"]])
+  testthat::expect_false(base::identical(list_hashes[["legacy_v4_hash"]],
+    list_changed_hashes[["legacy_v4_hash"]]))
+  testthat::expect_false(base::identical(
+    list_hashes[["legacy_v4_fold_content_hashes"]],
+    list_changed_hashes[["legacy_v4_fold_content_hashes"]]
+  ))
+})

@@ -59,14 +59,26 @@ compute_sjsdm_cv_calibration_hashes <- function(
   list_payload[["calibration_contract_version"]] <-
     "sjsdm_cv_adaptive_calibration_v4"
   list_payload[["list_prepared_folds"]] <-
-    prepare_sjsdm_cv_calibration_hash_folds(list_prepared_folds)
+    prepare_sjsdm_cv_calibration_hash_folds(
+      list_prepared_folds, contract_version = "v4"
+    )
   list_payload[["repeat_confirmation_loss_tolerance"]] <-
     repeat_confirmation_loss_tolerance
+  hash_v4 <-
+    digest::digest(list_payload)
+  vec_fold_hashes_v4 <-
+    purrr::map_chr(list_payload[["list_prepared_folds"]], digest::digest)
+  list_payload[["calibration_contract_version"]] <-
+    "sjsdm_cv_adaptive_calibration_v5"
+  list_payload[["list_prepared_folds"]] <-
+    prepare_sjsdm_cv_calibration_hash_folds(list_prepared_folds)
   res <-
     base::list(
       calibration_contract_version =
-        "sjsdm_cv_adaptive_calibration_v4",
+        "sjsdm_cv_adaptive_calibration_v5",
       calibration_input_hash = digest::digest(list_payload),
+      legacy_v4_hash = hash_v4,
+      legacy_v4_fold_content_hashes = vec_fold_hashes_v4,
       legacy_v3_hash = hash_v3,
       previous_policy_v3_hash = hash_v3_previous,
       legacy_v2_hash = hash_v2,

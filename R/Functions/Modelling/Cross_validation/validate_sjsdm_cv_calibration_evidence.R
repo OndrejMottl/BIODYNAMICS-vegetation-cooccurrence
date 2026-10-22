@@ -7,6 +7,10 @@
 #' Saved calibration result, or `NULL` when unavailable.
 #' @param list_prepared_folds,config_model_fitting
 #' Current production fold records and final fitting configuration.
+#' @param list_legacy_prepared_folds
+#' Optional independently reconstructed original folds for an operational-only
+#' version-four migration. Their exact original signature must be reproduced,
+#' and their full version-five analytical payload must match current inputs.
 #' @return A compatibility status, migration status and input fingerprints.
 #' @examples
 #' \dontrun{
@@ -16,11 +20,14 @@
 validate_sjsdm_cv_calibration_evidence <- function(
     list_result,
     list_prepared_folds,
-    config_model_fitting) {
+    config_model_fitting,
+    list_legacy_prepared_folds = NULL) {
   assertthat::assert_that(
     base::is.null(list_result) || base::is.list(list_result),
     base::is.list(list_prepared_folds),
     base::is.list(config_model_fitting),
+    base::is.null(list_legacy_prepared_folds) ||
+      base::is.list(list_legacy_prepared_folds),
     msg = "Calibration evidence and cached inputs must be lists."
   )
   list_usable <-
@@ -65,6 +72,19 @@ validate_sjsdm_cv_calibration_evidence <- function(
       sel_abiotic_formula = formula_environment,
       config_sjsdm_cv_fitting = config_cv
     )
+  list_legacy_hashes <-
+    if (
+      !base::is.null(list_legacy_prepared_folds)
+    ) {
+      compute_sjsdm_cv_calibration_hashes(
+        data_candidates = data_candidates,
+        list_prepared_folds = list_legacy_prepared_folds,
+        sel_abiotic_formula = formula_environment,
+        config_sjsdm_cv_fitting = config_cv
+      )
+    } else {
+      NULL
+    }
   status <-
     "incompatible_inputs"
   migration_status <-
@@ -98,6 +118,31 @@ validate_sjsdm_cv_calibration_evidence <- function(
         status <-
           "accepted"
       }
+    } else if (
+      base::identical(
+        calibration_contract_version, "sjsdm_cv_adaptive_calibration_v4"
+      ) && base::identical(
+        calibration_input_hash, list_hashes[["legacy_v4_hash"]]
+      )
+    ) {
+      status <-
+        "compatible_legacy"
+      migration_status <-
+        "reused_content_matched_v4_result"
+    } else if (
+      base::identical(
+        calibration_contract_version, "sjsdm_cv_adaptive_calibration_v4"
+      ) && !base::is.null(list_legacy_hashes) && base::identical(
+        calibration_input_hash, list_legacy_hashes[["legacy_v4_hash"]]
+      ) && base::identical(
+        list_hashes[["calibration_input_hash"]],
+        list_legacy_hashes[["calibration_input_hash"]]
+      )
+    ) {
+      status <-
+        "compatible_legacy"
+      migration_status <-
+        "reused_verified_v4_operational_evidence"
     } else if (
       base::identical(
         calibration_contract_version, "sjsdm_cv_adaptive_calibration_v3"
