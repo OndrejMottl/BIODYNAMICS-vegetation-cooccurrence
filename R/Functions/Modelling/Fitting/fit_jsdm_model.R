@@ -57,7 +57,7 @@
 #' (no parallelisation).
 #' @param ...
 #' Additional arguments passed to `sjSDM::sjSDM()` (e.g.
-#' `sampling`, `step_size`, `seed`). Do NOT pass `iter`,
+#' `sampling`, `seed`). Do NOT pass `iter`,
 #' `control` or `early_stopping` directly — use the dedicated
 #' `iter` and `n_early_stopping` parameters instead.
 #' @param iter
@@ -72,6 +72,10 @@
 #' - Positive integer: uses `max(value, round(iter * 0.20))` to
 #'   ensure patience is never set below 20 \% of `iter`. Passed
 #'   as `early_stopping_training` in `sjSDM::sjSDMControl()`.
+#' @param step_size
+#' Optional positive integer training batch size. `NULL` retains sjSDM's
+#' default except for fewer than ten training rows, where batch size one
+#' prevents its automatic ten-percent batch from rounding down to zero.
 #' @return
 #' An object of class sjSDM containing the fitted model
 #' @details
@@ -107,7 +111,8 @@ fit_jsdm_model <- function(
     ...,
     iter = 100L,
     n_early_stopping = NULL,
-    verbose = FALSE) {
+    verbose = FALSE,
+    step_size = NULL) {
   # Validate `data_to_fit` structure
   assertthat::assert_that(
     is.list(data_to_fit),
@@ -384,6 +389,15 @@ fit_jsdm_model <- function(
       verbose = verbose,
       control = sel_control,
       iter = iter,
+      # sjSDM rounds its automatic batch to zero below ten training rows.
+      # Preserve every explicit value and the default for larger datasets.
+      step_size = if (
+        base::is.null(step_size) && base::nrow(data_community) < 10L
+      ) {
+        1L
+      } else {
+        step_size
+      },
       ...
     )
 

@@ -18,6 +18,8 @@
 #' @return
 #' An `sjsdm_cv_fit_result` list containing the last model, final status,
 #' convergence fields, actual budget, and an attempt-level table.
+#' Failed fits retain the same scalar diagnostic fields as successful fits,
+#' using typed missing values where no convergence history is available.
 #' @examples
 #' \dontrun{
 #' fit_sjsdm_cross_validation_candidate(
@@ -149,7 +151,12 @@ fit_sjsdm_cross_validation_candidate <- function(
             actual_n_iter = n_iter_budget,
             actual_n_sampling = base::as.integer(
               config_attempt[["n_sampling"]]
-            )
+            ),
+            # Preserve the original fit error when downstream rows are built.
+            epochs_run = NA_integer_,
+            linear_trend_slope = NA_real_,
+            median_diff = NA_real_,
+            early_stopping_triggered = NA
           ),
           class = base::c("sjsdm_cv_fit_result", "list")
         )

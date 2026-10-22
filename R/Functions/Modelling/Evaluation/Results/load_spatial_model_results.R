@@ -3,6 +3,8 @@
 #' Loads successful spatial model ANOVA and evaluation targets from indexed
 #' targets stores and returns one summary row per
 #' store-resolution-component combination.
+#' Cached model results behind failed shared or resolution-specific upstream
+#' targets are excluded, even when their ANOVA targets remain readable.
 #' @param store_index
 #' Data frame returned by [build_spatial_model_store_index()].
 #' @param resolution_ids
@@ -110,11 +112,39 @@ load_spatial_model_results <- function(
           dplyr::pull("store_path") |>
           purrr::chuck(1L)
 
+        if (
+          base::is.null(data_meta)
+        ) {
+          return(data_empty_result)
+        }
+
         resolution_ids |>
           purrr::map(
             .f = function(resolution_id) {
+              # A last-success ANOVA remains on disk after an upstream failure.
+              # Never interpret that historical descendant as a current model.
+              data_upstream_errors <-
+                data_meta |>
+                dplyr::filter(
+                  !base::is.na(.data[["error"]]),
+                  base::nzchar(.data[["error"]]),
+                  !stringr::str_detect(.data[["name"]],
+                    "_(genus|family|functional_type|ft_modern)(_|$)") |
+                    stringr::str_detect(.data[["name"]],
+                      stringr::str_glue("_{resolution_id}(_|$)"))
+                ) |>
+                dplyr::filter(!stringr::str_detect(.data[["name"]],
+                  "^(list_jsdm_evaluation|list_sjsdm_cv_evaluation)"))
+              if (
+                base::nrow(data_upstream_errors) > 0L
+              ) {
+                return(data_empty_result)
+              }
+
               target_anova <-
-                stringr::str_glue("list_jsdm_variance_partition_{resolution_id}") |>
+                stringr::str_glue(
+                  "list_jsdm_variance_partition_{resolution_id}"
+                ) |>
                 base::as.character()
 
               list_jsdm_variance_partition <-
