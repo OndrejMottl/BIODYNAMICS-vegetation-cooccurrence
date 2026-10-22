@@ -411,3 +411,38 @@ testthat::test_that(
       "insufficient_spatial_locations")
   }
 )
+testthat::test_that("Verified empty MEM support is expected infeasibility", {
+  list_result <-
+    classify_sjsdm_unit_pipeline_error(data_target_errors = tibble::tibble(
+      name = "list_spatial_mev_core_basis",
+      error = stringr::str_c(
+        "No positive spatial MEM eigenvectors are supported. ",
+        "Found 0 positive eigenvectors; need at least 1."
+      )
+    ))
+  testthat::expect_identical(list_result[["status"]], "expected_infeasible")
+  testthat::expect_identical(list_result[["reason_code"]],
+    "no_positive_spatial_eigenvectors")
+  testthat::expect_identical(list_result[["observed_count"]], 0L)
+  testthat::expect_identical(list_result[["required_count"]], 1L)
+})
+testthat::test_that("qs fallback requires a registered data root", {
+  data_cascade <-
+    tibble::tibble(name = "downstream_target",
+      error = "there is no package called 'qs'")
+  testthat::expect_identical(
+    classify_sjsdm_unit_pipeline_error(data_cascade)[["status"]],
+    "unexpected_error")
+  data_expected <-
+    dplyr::bind_rows(tibble::tibble(
+      name = "data_community_rare_filtered_family",
+      error = "No taxa found in data. The minimum_proportion is too high."),
+      data_cascade)
+  testthat::expect_identical(
+    classify_sjsdm_unit_pipeline_error(data_expected)[["status"]],
+    "expected_infeasible")
+  testthat::expect_identical(
+    classify_sjsdm_unit_pipeline_error(dplyr::bind_rows(data_expected,
+      tibble::tibble(name = "other_root", error = "unexpected GPU error")))[[
+        "status"]], "unexpected_error")
+})

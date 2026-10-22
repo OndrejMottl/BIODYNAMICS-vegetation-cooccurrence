@@ -15,6 +15,10 @@
 #' reads these exact public target names instead of constructing suffixed names.
 #' @param read_target_function
 #' Injectable target reader. Defaults to [targets::tar_read_raw()].
+#' @param file_unit_requests
+#' Optional explicit CSV of verified `source_store` and `target_name` pairs.
+#' When present, tier pooling requests only these eligible pairs. Missing
+#' files preserve the legacy Cartesian request contract.
 #' @return
 #' Bound tuning-summary tibble with `source_store` and `resolution_id`
 #' provenance columns. Every requested store-resolution target must be
@@ -33,7 +37,8 @@ load_sjsdm_tuning_summaries <- function(
     resolution_ids = NULL,
     target_prefix = "list_sjsdm_cv_tuning_artifact",
     target_names = NULL,
-    read_target_function = targets::tar_read_raw) {
+    read_target_function = targets::tar_read_raw,
+    file_unit_requests = NULL) {
   assertthat::assert_that(
     base::is.character(store_paths),
     base::length(store_paths) > 0L,
@@ -96,10 +101,52 @@ load_sjsdm_tuning_summaries <- function(
       source_store = base::unique(store_paths),
       data_resolution_targets
     )
+  assertthat::assert_that(
+    base::is.null(file_unit_requests) || (
+      assertthat::is.string(file_unit_requests) &&
+        base::nzchar(file_unit_requests)
+    ), msg = "file_unit_requests must be NULL or one non-empty path."
+  )
+  data_store_resolution_selected <- data_store_resolution
+  if (
+    !base::is.null(file_unit_requests) &&
+      base::file.exists(file_unit_requests)
+  ) {
+    data_unit_requests <-
+      readr::read_csv(file_unit_requests, show_col_types = FALSE,
+        col_types = readr::cols(.default = readr::col_character()))
+    assertthat::assert_that(
+      base::all(base::c("source_store", "target_name") %in%
+        base::names(data_unit_requests)),
+      !base::anyDuplicated(data_unit_requests),
+      base::all(!base::is.na(data_unit_requests)),
+      msg = "Tier unit requests require source_store and target_name."
+    )
+    data_scoped_requests <-
+      data_unit_requests |>
+      dplyr::filter(.data[["source_store"]] %in% store_paths)
+    if (
+      !base::all(data_scoped_requests[["target_name"]] %in%
+        vec_target_names)
+    ) {
+      cli::cli_abort("Tier requests contain unknown resolution targets.")
+    }
+    data_store_resolution_selected <-
+      data_store_resolution |>
+      dplyr::semi_join(data_scoped_requests,
+        by = dplyr::join_by(source_store, target_name))
+    if (
+      base::nrow(data_store_resolution_selected) == 0L ||
+        !base::all(store_paths %in%
+          data_store_resolution_selected[["source_store"]])
+    ) {
+      cli::cli_abort("Tier requests do not cover every eligible unit store.")
+    }
+  }
 
   list_summaries <-
     purrr::pmap(
-      .l = data_store_resolution,
+      .l = data_store_resolution_selected,
       .f = function(source_store, resolution_id, target_name) {
         list_or_summary <-
           tryCatch(

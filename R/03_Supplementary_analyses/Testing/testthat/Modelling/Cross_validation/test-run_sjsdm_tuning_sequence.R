@@ -108,3 +108,54 @@ testthat::test_that(
     )
   }
 )
+testthat::test_that("tier rounds retain partial units without missing reads", {
+  path_store <-
+    withr::local_tempdir()
+  list_requests <- base::list()
+  list_evidence <- base::list()
+  run_sjsdm_tuning_sequence(unit_pipeline = "pipeline.R",
+    target_store = path_store, tuning_strategy = "exhaustive", n_rounds = 1L,
+    tuning_target_names = base::c("summary_genus", "summary_family"),
+    unit_store_suffixes = base::c("a", "b"),
+    unit_target_names = base::list(a = "summary_family",
+      b = base::character()),
+    run_pipeline_function = function(sel_script, target_names = NULL,
+        store_suffix = NULL, ...) {
+      if (
+        sel_script == "pipeline.R"
+      ) {
+        list_requests[[store_suffix]] <<- target_names
+      }
+    },
+    has_tuning_evidence_function = function(store_paths, target_names) {
+      list_evidence[[base::basename(base::dirname(store_paths))]] <<-
+        target_names
+      TRUE
+    })
+  testthat::expect_identical(list_requests, base::list(a = "summary_family"))
+  testthat::expect_identical(list_evidence, base::list(a = "summary_family"))
+  data_requests <-
+    readr::read_csv(fs::path(path_store, "sjsdm_tier_unit_requests.csv"),
+      show_col_types = FALSE)
+  testthat::expect_identical(data_requests[["target_name"]], "summary_family")
+})
+
+testthat::test_that("unexplained production failure blocks tier selection", {
+  flag_tier_called <- FALSE
+  testthat::expect_error(
+    run_sjsdm_tuning_sequence(unit_pipeline = "pipeline.R",
+      target_store = "test_store", tuning_strategy = "exhaustive",
+      n_rounds = 1L, tuning_target_names = "summary_genus",
+      unit_store_suffixes = "a", validate_tuning_targets = TRUE,
+      run_pipeline_function = function(sel_script, ...) {
+        if (
+          sel_script == "pipeline.R"
+        ) {
+          base::stop("unexpected GPU failure")
+        }
+        flag_tier_called <<- TRUE
+      }),
+    "Unexplained tuning failures"
+  )
+  testthat::expect_false(flag_tier_called)
+})

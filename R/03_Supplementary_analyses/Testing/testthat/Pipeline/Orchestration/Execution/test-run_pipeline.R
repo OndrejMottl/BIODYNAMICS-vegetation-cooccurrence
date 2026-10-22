@@ -467,6 +467,12 @@ testthat::test_that("run_pipeline() honors interpolation worker override", {
 
   n_prebuild_workers_env <- NULL
 
+  # Test forwarding independently of other projects' live memory consumption.
+  testthat::local_mocked_bindings(
+    ps_system_memory = function() base::list(avail = 32 * 1024^3),
+    .package = "ps"
+  )
+
   testthat::local_mocked_bindings(
     tar_meta = function(...) {
       tibble::tibble(
@@ -692,3 +698,76 @@ testthat::test_that("run_pipeline() skips tar_destroy when fresh_run = FALSE", {
 })
 
 
+testthat::test_that("run_pipeline catches unchanged current failures", {
+  path_script <-
+    withr::local_tempfile(fileext = ".R")
+  base::writeLines(text = "list()", con = path_script)
+  testthat::local_mocked_bindings(
+    tar_make = function(...) NULL,
+    tar_meta = function(...) tibble::tibble(
+      name = "failed_target", error = "same failure",
+      time = base::as.POSIXct("2026-09-01", tz = "UTC")
+    ),
+    tar_progress = function(...) tibble::tibble(
+      name = "failed_target", progress = "errored"
+    ),
+    .package = "targets"
+  )
+  testthat::expect_error(
+    run_pipeline(sel_script = path_script,
+      flag_validate_profile_selection = FALSE, plot_progress = FALSE),
+    regexp = "first error in 'failed_target': same failure"
+  )
+})
+
+testthat::test_that("run_pipeline scopes repeated errors to this execution", {
+  path_script <-
+    withr::local_tempfile(fileext = ".R")
+  base::writeLines(text = "list()", con = path_script)
+  testthat::local_mocked_bindings(
+    tar_make = function(...) NULL,
+    tar_meta = function(...) tibble::tibble(
+      name = "unrelated_old_failure", error = "old failure",
+      time = base::as.POSIXct("2026-09-01", tz = "UTC")
+    ),
+    tar_progress = function(...) tibble::tibble(
+      name = "requested_target", progress = "skipped"
+    ),
+    .package = "targets"
+  )
+  testthat::expect_no_error(
+    run_pipeline(sel_script = path_script, target_names = "requested_target",
+      flag_validate_profile_selection = FALSE, plot_progress = FALSE)
+  )
+})
+testthat::test_that("empty branch abort retains current expected data root", {
+  path_script <-
+    withr::local_tempfile(fileext = ".R")
+  base::writeLines("list()", path_script)
+  for (
+    flag_unrelated_failure in base::c(FALSE, TRUE)
+  ) {
+    testthat::local_mocked_bindings(
+      tar_make = function(...) base::stop(if (
+        flag_unrelated_failure
+      ) {
+        "unexpected subprocess failure"
+      } else {
+        "cannot branch over empty target (work_items_family)"
+      }),
+      tar_meta = function(...) tibble::tibble(
+        name = "data_community_rare_filtered_family",
+        error = "No taxa found in data. The minimum_proportion is too high.",
+        time = base::as.POSIXct("2026-09-01", tz = "UTC")),
+      tar_progress = function(...) tibble::tibble(
+        name = "data_community_rare_filtered_family", progress = "errored"),
+      .package = "targets"
+    )
+    res <-
+      base::tryCatch(run_pipeline(sel_script = path_script,
+        flag_validate_profile_selection = FALSE, plot_progress = FALSE),
+        error = function(error_condition) error_condition)
+    testthat::expect_identical(base::inherits(res,
+      "sjsdm_unit_expected_infeasible"), !flag_unrelated_failure)
+  }
+})

@@ -2,6 +2,10 @@
 #' @description
 #' Executes a targets pipeline from a specified script and saves progress
 #' visualization. Rejects profiles not authorized for the runner.
+#' Repeated failures are checked against the current execution progress even
+#' when their stored error message and last-success timestamp are unchanged.
+#' A thrown empty-branch dependency error retains expected-infeasible status
+#' only when current execution metadata prove a registered data root.
 #' @param sel_script
 #' Path to the pipeline script to execute (relative to project root).
 #' @param store_suffix
@@ -320,21 +324,65 @@ run_pipeline <- function(
         data_errors_after = data_target_errors_after
       )
 
+    # Progress is reset by tar_make(): unlike metadata timestamps, it records
+    # repeated failures and includes only this invocation's dependency scope.
+    data_execution_progress <-
+      targets::tar_progress(store = sel_store_path)
+    vec_execution_failures <-
+      data_execution_progress |>
+      dplyr::filter(.data[["progress"]] == "errored") |>
+      dplyr::pull("name")
+    data_execution_errors <-
+      data_target_errors_after |>
+      dplyr::filter(.data[["name"]] %in% vec_execution_failures)
+    data_run_target_errors <-
+      dplyr::bind_rows(data_new_target_errors, data_execution_errors) |>
+      dplyr::distinct(.data[["name"]], .keep_all = TRUE)
+
     if (
-      base::is.null(tar_error) &&
-        base::nrow(data_new_target_errors) > 0L
+      base::nrow(data_run_target_errors) > 0L
     ) {
       first_error <-
-        data_new_target_errors[1L, , drop = FALSE]
+        data_run_target_errors[1L, , drop = FALSE]
 
-      tar_error <-
-        base::simpleError(
-          stringr::str_glue(
-            "{base::nrow(data_new_target_errors)} target(s) errored; ",
-            "first error in '{first_error[['name']][[1L]]}': ",
-            "{first_error[['error']][[1L]]}"
-          )
+      list_error_classification <-
+        classify_sjsdm_unit_pipeline_error(
+          data_target_errors = data_run_target_errors
         )
+
+      flag_expected_root <-
+        base::identical(list_error_classification[["status"]],
+          "expected_infeasible")
+      flag_dependency_abort <-
+        !base::is.null(tar_error) && stringr::str_detect(
+          base::conditionMessage(tar_error),
+          "cannot branch over empty target|could not load dependency "
+        )
+      if (
+        base::is.null(tar_error) ||
+          (flag_expected_root && flag_dependency_abort)
+      ) {
+        tar_error <-
+          rlang::error_cnd(
+            class = if (
+              flag_expected_root
+            ) {
+              "sjsdm_unit_expected_infeasible"
+            } else {
+              "sjsdm_unit_pipeline_error"
+            },
+            message = stringr::str_glue(
+              "{base::nrow(data_run_target_errors)} target(s) errored; ",
+              "first error in '{first_error[['name']][[1L]]}': ",
+              "{first_error[['error']][[1L]]}"
+            ),
+            data_target_errors = data_run_target_errors,
+            preparation_reason_code =
+              list_error_classification[["reason_code"]],
+            root_target = list_error_classification[["root_target"]],
+            parent = tar_error
+          )
+      }
     }
   }
 

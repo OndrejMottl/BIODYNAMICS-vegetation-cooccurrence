@@ -42,6 +42,11 @@
 #' Logical. Validate tuning artifacts after each production unit round.
 #' @param cache_recovery_attempts
 #' Positive integer maximum targeted legacy-cache repairs per unit and round.
+#' @param validate_calibration_function
+#' Injectable live calibration guard for main production profiles.
+#' @param unit_target_names
+#' Optional named per-unit tuning requests from verified preparation. The
+#' exact store-target pairs are persisted for resolution-aware tier pooling.
 #' @return
 #' Invisible `NULL`. Pipeline stores contain the durable results. Unit-level
 #' failures are reported and skipped; successful units continue.
@@ -68,7 +73,9 @@ run_sjsdm_tuning_sequence <- function(
       run_pipeline_function,
       run_pipeline
     ),
-    cache_recovery_attempts = 8L) {
+    cache_recovery_attempts = 8L,
+    validate_calibration_function = validate_sjsdm_cv_production_calibration,
+    unit_target_names = NULL) {
   assertthat::assert_that(
     base::is.character(unit_pipeline),
     base::length(unit_pipeline) == 1L,
@@ -172,6 +179,15 @@ run_sjsdm_tuning_sequence <- function(
       n_rounds = n_rounds
     )
 
+  if (
+    base::identical(run_pipeline_function, run_pipeline) &&
+      load_active_config_value(base::c("_profile", "role")) == "main"
+  ) {
+    validate_calibration_function(
+      profile_id = base::Sys.getenv("R_CONFIG_ACTIVE")
+    )
+  }
+
   vec_unit_store_paths <-
     build_sjsdm_tuning_store_paths(
       unit_pipeline = unit_pipeline,
@@ -187,6 +203,31 @@ run_sjsdm_tuning_sequence <- function(
       unit_store_suffixes
     }
   vec_active_store_paths <- vec_unit_store_paths
+
+  file_unit_requests <-
+    fs::path(target_store, "sjsdm_tier_unit_requests.csv")
+  if (
+    !base::is.null(unit_target_names) || base::file.exists(file_unit_requests)
+  ) {
+    assertthat::assert_that(!base::is.null(unit_store_suffixes),
+      msg = "Resolution-aware requests require nested spatial stores.")
+    data_unit_requests <-
+      purrr::map2(unit_store_suffixes, vec_unit_store_paths, ~ {
+        vec_targets <-
+          if (
+            base::is.null(unit_target_names)
+          ) {
+            tuning_target_names
+          } else {
+            unit_target_names[[.x]]
+          }
+        tibble::tibble(source_store = base::rep(here::here(.y),
+          base::length(vec_targets)), target_name = vec_targets)
+      }) |>
+      purrr::list_rbind()
+    fs::dir_create(target_store)
+    readr::write_csv(data_unit_requests, file_unit_requests)
+  }
 
   for (
     round_index in base::seq_len(base::nrow(data_round_plan))
@@ -219,11 +260,19 @@ run_sjsdm_tuning_sequence <- function(
       fresh_round = fresh_round,
       run_pipeline_function = run_pipeline_function,
       vec_allowed_profile_roles = vec_allowed_profile_roles,
-      vec_allowed_profile_statuses = vec_allowed_profile_statuses
+      vec_allowed_profile_statuses = vec_allowed_profile_statuses,
+      unit_target_names = unit_target_names
     )
 
     flag_unit_success <-
       data_unit_status[["pipeline_status"]] == "ok"
+    if (
+      validate_tuning_targets &&
+        base::any(data_unit_status[["pipeline_status"]] == "error")
+    ) {
+      base::print(data_unit_status)
+      cli::cli_abort("Unexplained tuning failures block tier selection.")
+    }
     vec_active_store_suffixes <-
       data_unit_status[["store_suffix"]][flag_unit_success]
     vec_active_store_paths <-
@@ -238,10 +287,18 @@ run_sjsdm_tuning_sequence <- function(
           .x = vec_active_store_suffixes,
           .y = vec_active_store_paths,
           .f = function(store_suffix, store_path) {
+            vec_unit_targets <-
+              if (
+                base::is.null(unit_target_names)
+              ) {
+                tuning_target_names
+              } else {
+                unit_target_names[[store_suffix]]
+              }
             data_endpoints <-
               diagnose_endpoints_function(
                 store_path = store_path,
-                target_names = tuning_target_names,
+                target_names = vec_unit_targets,
                 load_metadata_function = load_metadata_function,
                 read_target_function = read_target_function
               )
@@ -305,7 +362,7 @@ run_sjsdm_tuning_sequence <- function(
               run_sjsdm_tuning_unit_round(
                 round_id = round_id,
                 unit_pipeline = unit_pipeline,
-                tuning_target_names = tuning_target_names,
+                tuning_target_names = vec_unit_targets,
                 unit_store_suffixes = if (
                   base::is.na(store_suffix)
                 ) {
@@ -325,7 +382,7 @@ run_sjsdm_tuning_sequence <- function(
               data_endpoints <-
                 diagnose_endpoints_function(
                   store_path = store_path,
-                  target_names = tuning_target_names,
+                  target_names = vec_unit_targets,
                   load_metadata_function = load_metadata_function,
                   read_target_function = read_target_function
                 )
@@ -373,6 +430,11 @@ run_sjsdm_tuning_sequence <- function(
         data_recovery_status[["store_path"]][
           data_recovery_status[["tuning_targets_ready"]]
         ]
+      if (
+        base::any(!data_recovery_status[["tuning_targets_ready"]])
+      ) {
+        cli::cli_abort("Incomplete tuning evidence blocks tier selection.")
+      }
     }
 
     if (
@@ -388,10 +450,17 @@ run_sjsdm_tuning_sequence <- function(
     }
 
     flag_has_tuning_evidence <-
-      has_tuning_evidence_function(
-        store_paths = vec_active_store_paths,
-        target_names = tuning_target_names
-      )
+      if (
+        base::is.null(unit_target_names)
+      ) {
+        has_tuning_evidence_function(store_paths = vec_active_store_paths,
+          target_names = tuning_target_names)
+      } else {
+        purrr::map2_lgl(vec_active_store_paths, vec_active_store_suffixes,
+          ~ has_tuning_evidence_function(store_paths = .x,
+            target_names = unit_target_names[[.y]])) |>
+          base::any()
+      }
 
     assertthat::assert_that(
       base::is.logical(flag_has_tuning_evidence),

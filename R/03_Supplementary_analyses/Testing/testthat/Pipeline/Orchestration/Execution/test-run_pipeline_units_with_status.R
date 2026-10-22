@@ -311,3 +311,64 @@ testthat::test_that(
     )
   }
 )
+testthat::test_that("Unit status preserves structured data infeasibility", {
+  data_result <-
+    run_pipeline_units_with_status(
+      scale_ids = "am_r007_l004", sel_script = "pipeline.R",
+      progress = FALSE, verbose = FALSE,
+      run_pipeline_function = function(...) {
+        rlang::abort(message = "No supported spatial basis",
+          class = "sjsdm_unit_expected_infeasible")
+      }
+    )
+  testthat::expect_identical(data_result[["pipeline_status"]],
+    "expected_infeasible")
+  testthat::expect_match(data_result[["error_message"]], "No supported")
+})
+testthat::test_that("All spatial components block unexpected unit failures", {
+  vec_scripts <-
+    fs::dir_ls(path = here::here(
+      "R/02_Main_analyses/03_Model_fitting/_components"
+    ), regexp = "0[1-6]_fit_.*[.]R$")
+  for (path_script in vec_scripts) {
+    list_guards <-
+      base::parse(file = path_script) |>
+      base::as.list() |>
+      purrr::keep(.p = ~ base::is.call(.x) &&
+        base::identical(.x[[1L]], base::as.name("if")) &&
+        stringr::str_detect(
+          stringr::str_c(base::deparse(.x[[2L]]), collapse = ""),
+          "data_pipeline_status"))
+    testthat::expect_length(list_guards, 1L)
+    if (base::length(list_guards) == 1L) {
+      environment_status <-
+        base::new.env(parent = base::globalenv())
+      environment_status[["data_pipeline_status"]] <-
+        tibble::tibble(pipeline_status = "error")
+      environment_status[["file_status"]] <- "unit_status.csv"
+      testthat::expect_error(
+        base::eval(expr = list_guards[[1L]], envir = environment_status),
+        regexp = "unexpected unit failures"
+      )
+      environment_status[["data_pipeline_status"]] <-
+        tibble::tibble(pipeline_status = "expected_infeasible")
+      testthat::expect_no_error(
+        base::eval(expr = list_guards[[1L]], envir = environment_status)
+      )
+    }
+  }
+})
+testthat::test_that("unit fitting honors resolution-aware requests", {
+  list_calls <- base::list()
+  res <-
+    run_pipeline_units_with_status(scale_ids = base::c("a", "b"),
+      sel_script = "pipeline.R", progress = FALSE, verbose = FALSE,
+      unit_target_names = base::list(a = "mod_jsdm_family",
+        b = base::character()),
+      run_pipeline_function = function(store_suffix, target_names, ...) {
+        list_calls[[store_suffix]] <<- target_names
+      })
+  testthat::expect_identical(list_calls, base::list(a = "mod_jsdm_family"))
+  testthat::expect_identical(res[["pipeline_status"]],
+    base::c("ok", "expected_infeasible"))
+})
