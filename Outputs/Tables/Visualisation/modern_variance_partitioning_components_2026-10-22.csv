@@ -1,0 +1,37 @@
+scale,resolution_label,component_label,component_total_percentage
+continental,Genus,Biotic co-occurrence,34.28028655229697
+continental,Genus,Climate,30.993843759852087
+continental,Genus,Spatial,34.72586968785094
+continental,Family,Biotic co-occurrence,35.09537702338283
+continental,Family,Climate,29.402491420272263
+continental,Family,Spatial,35.50213155634491
+continental,Functional type,Biotic co-occurrence,4.602846445160748
+continental,Functional type,Climate,40.64952097411504
+continental,Functional type,Spatial,54.74763258072421
+regional,Genus,Biotic co-occurrence,34.01004178155585
+regional,Genus,Climate,36.05182942077652
+regional,Genus,Spatial,29.938128797667634
+regional,Family,Biotic co-occurrence,31.660432919416355
+regional,Family,Climate,36.16375403314384
+regional,Family,Spatial,32.1758130474398
+regional,Functional type,Biotic co-occurrence,6.557007878534859
+regional,Functional type,Climate,46.563964886422724
+regional,Functional type,Spatial,46.87902723504242
+local,Genus,Biotic co-occurrence,37.64457907539751
+local,Genus,Climate,31.078681367045974
+local,Genus,Spatial,31.27673955755652
+local,Family,Biotic co-occurrence,35.002882648771845
+local,Family,Climate,35.137168943432584
+local,Family,Spatial,29.85994840779557
+local,Functional type,Biotic co-occurrence,6.809874364382446
+local,Functional type,Climate,50.662269180433924
+local,Functional type,Spatial,42.52785645518363
+continental,Genus,Unexplained,0
+continental,Family,Unexplained,0
+continental,Functional type,Unexplained,0
+regional,Genus,Unexplained,0
+regional,Family,Unexplained,0
+regional,Functional type,Unexplained,0
+local,Genus,Unexplained,0
+local,Family,Unexplained,0
+local,Functional type,Unexplained,0

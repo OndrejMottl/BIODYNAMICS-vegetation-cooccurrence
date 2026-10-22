@@ -1,0 +1,10 @@
+scale,comparison_id,comparison_resolution,n_paleo_units,n_modern_units,n_matched_units,n_paleo_unmatched,n_modern_unmatched
+continental,family,Family,2,3,2,0,1
+continental,functional_type,Functional type,3,3,3,0,0
+continental,genus,Genus,3,3,3,0,0
+local,family,Family,56,86,46,10,40
+local,functional_type,Functional type,57,49,28,29,21
+local,genus,Genus,58,84,46,12,38
+regional,family,Family,15,18,14,1,4
+regional,functional_type,Functional type,17,11,7,10,4
+regional,genus,Genus,18,18,14,4,4
