@@ -1,0 +1,91 @@
+<!DOCTYPE html><html><head><title>R: Compute sjSDM Decomposition with Conditional Likelihood...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_jsdm_variance_partition_with_progress</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute sjSDM Decomposition with Conditional Likelihood Progress</h2>
+
+<h3>Description</h3>
+
+<p>Runs the installed sjSDM 1.0.7 ANOVA method unchanged in a private execution
+environment with an instrumented conditional-likelihood iteration adapter.
+No package namespace or installed file is modified.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_jsdm_variance_partition_with_progress(
+  mod,
+  n_samples = 5000L,
+  verbose = FALSE,
+  anova_function = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="mod">mod</code></td>
+<td>
+<p>Fitted sjSDM object.</p>
+</td></tr>
+<tr><td><code id="n_samples">n_samples</code></td>
+<td>
+<p>Positive Monte Carlo sample count; passed unchanged.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical; print per-taxon start and completion timestamps.</p>
+</td></tr>
+<tr><td><code id="anova_function">anova_function</code></td>
+<td>
+<p>Injectable ANOVA method; defaults to installed sjSDM.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This sensitivity-only adapter fails closed on unsupported dependency versions
+or changed ANOVA and conditional-likelihood bodies. It does not change
+prediction calls, RNG order, fitting settings, or batch size.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The installed ANOVA method's result, with unchanged scientific rules.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+compute_jsdm_variance_partition_with_progress(
+  mod = mod_jsdm,
+  n_samples = 1000L,
+  verbose = TRUE
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

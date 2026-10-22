@@ -15,7 +15,8 @@ Usage:
        progress = TRUE,
        ...,
        verbose = TRUE,
-       expected_infeasible_scale_ids = base::character()
+       expected_infeasible_scale_ids = base::character(),
+       unit_target_names = NULL
      )
 
 Arguments:
@@ -42,11 +43,17 @@ expected_infeasible_scale_ids: Units with current preparation evidence
           proving no model is possible. These units are recorded but
           never sent to the pipeline runner.
 
+unit_target_names: Optional named list of resolution-aware final target
+          requests by unit. Empty requests are recorded as expected
+          infeasible, not executed.
+
 Details:
 
      This helper is intended for post-selection full-unit execution.
      Tuning uses its own status capture and excludes failed stores from
-     tier aggregation.
+     tier aggregation. Registered infeasibility discovered during
+     execution is retained as `expected_infeasible`; unclassified
+     failures remain `error`.
 
 Value:
 

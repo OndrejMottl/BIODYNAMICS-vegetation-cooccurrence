@@ -82,6 +82,8 @@ successful non-converged fit with doubled iterations up to the exact maximum.
 
 <p>An 'sjsdm_cv_fit_result' list containing the last model, final status,
 convergence fields, actual budget, and an attempt-level table.
+Failed fits retain the same scalar diagnostic fields as successful fits,
+using typed missing values where no convergence history is available.
 </p>
 
 

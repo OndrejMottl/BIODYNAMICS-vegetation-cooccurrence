@@ -1,0 +1,106 @@
+---
+format: html
+title: run_sjsdm_unit_fitting_preflight()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>run_sjsdm_unit_fitting_preflight</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Revalidate Spatial Unit Preparation Before Fitting</h2>
+
+<h3>Description</h3>
+
+<p>Reads prepared-fold evidence per resolution and reattempts only registered
+failed preparation roots through the canonical runner. Current input hashes
+are checked by targets; stale metadata alone never authorizes an exclusion.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>run_sjsdm_unit_fitting_preflight(
+  unit_pipeline,
+  target_store,
+  scale_ids,
+  resolution_ids,
+  run_pipeline_function = run_pipeline,
+  load_metadata_function = load_targets_store_metadata,
+  diagnose_endpoints_function = diagnose_sjsdm_cv_preparation_endpoints,
+  read_target_function = targets::tar_read_raw,
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="unit_pipeline">unit_pipeline</code>, <code id="target_store">target_store</code></td>
+<td>
+<p>Pipeline script and root store path.</p>
+</td></tr>
+<tr><td><code id="scale_ids">scale_ids</code>, <code id="resolution_ids">resolution_ids</code></td>
+<td>
+<p>Unique requested units and pipeline resolution suffixes.</p>
+</td></tr>
+<tr><td><code id="run_pipeline_function">run_pipeline_function</code>, <code id="load_metadata_function">load_metadata_function</code></td>
+<td>
+<p>Injectable canonical runner and cached metadata loader.</p>
+</td></tr>
+<tr><td><code id="diagnose_endpoints_function">diagnose_endpoints_function</code>, <code id="read_target_function">read_target_function</code></td>
+<td>
+<p>Injectable endpoint checker and target reader.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical controlling progress messages.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>No tuning or model target is requested. Successful preparation is not
+rebuilt by this check. A failed shared root excludes all its resolutions;
+a resolution-specific root never excludes another resolution.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble of unit-resolution fitting statuses, reasons and root evidence.
+Missing evidence and unexplained errors block fitting after all units have
+been checked. Changed formerly infeasible inputs require stage 01 again.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+run_sjsdm_unit_fitting_preflight(
+  unit_pipeline = "R/Pipelines/pipeline_modern_spatial_resolution.R",
+  target_store = "Data/targets/modern_spatial_regional",
+  scale_ids = "eu_r005", resolution_ids = c("genus", "family")
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

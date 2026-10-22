@@ -1,0 +1,87 @@
+<!DOCTYPE html><html><head><title>R: Prepare a Verified Calibration Evidence Migration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_sjsdm_cv_calibration_result_migration</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare a Verified Calibration Evidence Migration</h2>
+
+<h3>Description</h3>
+
+<p>Migrates content-matched calibration evidence without refitting models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_sjsdm_cv_calibration_result_migration(
+  list_result,
+  list_prepared_folds,
+  config_model_fitting,
+  list_legacy_prepared_folds = NULL,
+  migrated_at = base::Sys.time()
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="list_result">list_result</code></td>
+<td>
+<p>Accepted saved calibration result.</p>
+</td></tr>
+<tr><td><code id="list_prepared_folds">list_prepared_folds</code>, <code id="config_model_fitting">config_model_fitting</code></td>
+<td>
+<p>Current production fold records and structural model configuration.</p>
+</td></tr>
+<tr><td><code id="list_legacy_prepared_folds">list_legacy_prepared_folds</code></td>
+<td>
+<p>Optional independently reconstructed original folds for operational-only
+version-four migration. Exact original and current analytical proof is
+required by [validate_sjsdm_cv_calibration_evidence()].</p>
+</td></tr>
+<tr><td><code id="migrated_at">migrated_at</code></td>
+<td>
+<p>Explicit timestamp for the migration provenance.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function does not write files. Callers must archive the original
+evidence before saving its result. An already-current result is unchanged.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A migrated result preserving fitting evidence and prior history.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+prepare_sjsdm_cv_calibration_result_migration(result, folds, config_model)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

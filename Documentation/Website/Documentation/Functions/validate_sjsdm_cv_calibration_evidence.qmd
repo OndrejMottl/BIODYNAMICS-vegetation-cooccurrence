@@ -35,7 +35,8 @@ input match; acceptance status alone is never sufficient for publication.
 <pre><code class='language-R'>validate_sjsdm_cv_calibration_evidence(
   list_result,
   list_prepared_folds,
-  config_model_fitting
+  config_model_fitting,
+  list_legacy_prepared_folds = NULL
 )
 </code></pre>
 
@@ -50,6 +51,12 @@ input match; acceptance status alone is never sufficient for publication.
 <tr><td><code id="list_prepared_folds">list_prepared_folds</code>, <code id="config_model_fitting">config_model_fitting</code></td>
 <td>
 <p>Current production fold records and final fitting configuration.</p>
+</td></tr>
+<tr><td><code id="list_legacy_prepared_folds">list_legacy_prepared_folds</code></td>
+<td>
+<p>Optional independently reconstructed original folds for an operational-only
+version-four migration. Their exact original signature must be reproduced,
+and their full version-five analytical payload must match current inputs.</p>
 </td></tr>
 </table>
 

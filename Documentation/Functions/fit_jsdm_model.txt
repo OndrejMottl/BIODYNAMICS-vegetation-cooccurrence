@@ -28,7 +28,8 @@ Usage:
        ...,
        iter = 100L,
        n_early_stopping = NULL,
-       verbose = FALSE
+       verbose = FALSE,
+       step_size = NULL
      )
 
 Arguments:
@@ -90,9 +91,9 @@ lambda_cov, lambda_coef, lambda_spatial: Non-negative regularization
           coefficients, and spatial coefficients.
 
      ...: Additional arguments passed to `sjSDM::sjSDM()` (e.g.
-          `sampling`, `step_size`, `seed`). Do NOT pass `iter`,
-          `control` or `early_stopping` directly — use the dedicated
-          `iter` and `n_early_stopping` parameters instead.
+          `sampling`, `seed`). Do NOT pass `iter`, `control` or
+          `early_stopping` directly — use the dedicated `iter` and
+          `n_early_stopping` parameters instead.
 
     iter: Positive integer. Number of training epochs. Default is
           `100L`.
@@ -106,6 +107,11 @@ n_early_stopping: Early stopping patience. Controls how many
           `max(value, round(iter * 0.20))` to ensure patience is never
           set below 20 % of `iter`. Passed as `early_stopping_training`
           in `sjSDM::sjSDMControl()`.
+
+step_size: Optional positive integer training batch size. `NULL`
+          retains sjSDM's default except for fewer than ten training
+          rows, where batch size one prevents its automatic ten-percent
+          batch from rounding down to zero.
 
 Details:
 

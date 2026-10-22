@@ -44,6 +44,7 @@ five folds of repeats one and two at the production sampling budget.
   n_confirmation_candidates = 2L,
   repeat_confirmation_loss_tolerance = 0.02,
   checkpoint_file = NULL,
+  maximum_budget_order = Inf,
   rung_function = run_sjsdm_cv_calibration_rung,
   verbose = TRUE,
   ...
@@ -85,6 +86,11 @@ five folds of repeats one and two at the production sampling budget.
 <tr><td><code id="checkpoint_file">checkpoint_file</code></td>
 <td>
 <p>Optional '.qs' path used to resume completed rungs after interruption.</p>
+</td></tr>
+<tr><td><code id="maximum_budget_order">maximum_budget_order</code></td>
+<td>
+<p>Optional execution bound. Stops after this ladder rung without changing
+the ladder signature or scientific acceptance gates. Defaults to 'Inf'.</p>
 </td></tr>
 <tr><td><code id="rung_function">rung_function</code></td>
 <td>

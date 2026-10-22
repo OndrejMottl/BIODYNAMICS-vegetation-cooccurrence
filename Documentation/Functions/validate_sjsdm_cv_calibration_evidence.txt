@@ -12,7 +12,8 @@ Usage:
      validate_sjsdm_cv_calibration_evidence(
        list_result,
        list_prepared_folds,
-       config_model_fitting
+       config_model_fitting,
+       list_legacy_prepared_folds = NULL
      )
 
 Arguments:
@@ -21,6 +22,12 @@ list_result: Saved calibration result, or `NULL` when unavailable.
 
 list_prepared_folds, config_model_fitting: Current production fold
           records and final fitting configuration.
+
+list_legacy_prepared_folds: Optional independently reconstructed
+          original folds for an operational-only version-four
+          migration. Their exact original signature must be reproduced,
+          and their full version-five analytical payload must match
+          current inputs.
 
 Value:
 

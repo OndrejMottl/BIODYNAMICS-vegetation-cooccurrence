@@ -1,0 +1,46 @@
+Run Ordered Conditional Likelihood Calls with Progress
+
+Description:
+
+     Preserves sjSDM's iteration order and simplification while
+     reporting each taxon's start, completion, and elapsed time without
+     drawing random numbers.
+
+Usage:
+
+     run_sjsdm_likelihood_sequence(
+       X,
+       FUN,
+       ...,
+       simplify = TRUE,
+       USE.NAMES = TRUE,
+       verbose = TRUE,
+       progress_state = NULL
+     )
+
+Arguments:
+
+       X: Ordered indices supplied by sjSDM's conditional likelihood
+          helper.
+
+     FUN: Per-taxon likelihood function supplied by sjSDM.
+
+     ...: Additional arguments forwarded unchanged to FUN.
+
+simplify, USE.NAMES: Simplification controls from the upstream call.
+
+ verbose: Logical; print timestamped likelihood progress.
+
+progress_state: Optional private environment tracking ANOVA pass names.
+
+Value:
+
+     An array or list with the same values as the upstream mapping.
+
+Examples:
+
+     run_sjsdm_likelihood_sequence(
+       X = 1:3,
+       FUN = base::identity,
+       verbose = FALSE
+     )

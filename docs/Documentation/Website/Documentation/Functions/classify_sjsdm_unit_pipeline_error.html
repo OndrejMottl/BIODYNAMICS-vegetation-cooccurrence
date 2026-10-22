@@ -20,7 +20,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
   vertical-align: middle;
 }
 </style>
@@ -56,11 +56,11 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-title-meta">
 
-    
-  
-    
+
+
+
   </div>
-  
+
 
 
 </header>
@@ -125,7 +125,7 @@ Data frame containing at least ‘name’ and ‘error’ columns for errors rec
 Details
 </h3>
 <p>
-Expected roots must match both a registered target-name pattern and a stable message pattern. Downstream dependency, missing-object, and empty-pattern errors are allowed only as cascades. Known temporal validation cascades are accepted only when the same time slice has a registered expected root. Any other root remains unexpected. Counted and legacy insufficient-row MEM errors are registered only at the shared basis target; arbitrary MEM engine failures remain unexpected.
+Expected roots must match both a registered target-name pattern and a stable message pattern. Downstream dependency, missing-object, and empty-pattern errors are allowed only as cascades. Known temporal validation cascades are accepted only when the same time slice has a registered expected root. Any other root remains unexpected. A missing-qs reader fallback is a cascade only beside a registered data root. Alone it remains unexplained and must never authorize an exclusion. Counted and legacy insufficient-row MEM errors are registered only at the shared basis target; arbitrary MEM engine failures remain unexpected. Verified zero-positive-eigenvector support is recorded separately as ‘no_positive_spatial_eigenvectors’, requiring at least one positive vector.
 </p>
 <h3 class="anchored">
 Value
@@ -151,7 +151,7 @@ A list with ‘status’, ‘reason_code’, ‘observed_count’, ‘required_c
     anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
+        if (clz.startsWith('code-annotation-')) {
           return true;
         }
       }
@@ -171,11 +171,11 @@ A list with ‘status’, ‘reason_code’, ‘observed_count’, ‘required_c
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
         button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
+        tooltip = new bootstrap.Tooltip(button,
+          { trigger: "manual",
             customClass: "code-copy-button-tooltip",
             offset: [0, -8]});
-        tooltip.show();    
+        tooltip.show();
       }
       setTimeout(function() {
         if (tooltip) {
@@ -252,7 +252,7 @@ A list with ‘status’, ‘reason_code’, ‘observed_count’, ‘required_c
       if (onUntriggerFn) {
         config.onUntrigger = onUntriggerFn;
       }
-      window.tippy(el, config); 
+      window.tippy(el, config);
     }
     const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
     for (var i=0; i<noterefs.length; i++) {
@@ -327,7 +327,7 @@ A list with ‘status’, ‘reason_code’, ‘observed_count’, ‘required_c
       tippyHover(xref, undefined, function(instance) {
         instance.disable();
         let url = xref.getAttribute('href');
-        let hash = undefined; 
+        let hash = undefined;
         if (url.startsWith('#')) {
           hash = url;
         } else {
@@ -355,7 +355,7 @@ A list with ‘status’, ‘reason_code’, ‘observed_count’, ‘required_c
               if (note !== null) {
                 const html = processXRef(id, note);
                 instance.setContent(html);
-              } 
+              }
             }).finally(() => {
               instance.enable();
               instance.show();
@@ -379,7 +379,7 @@ A list with ‘status’, ‘reason_code’, ‘observed_count’, ‘required_c
               }
               const html = processXRef(null, note);
               instance.setContent(html);
-            } 
+            }
           }).finally(() => {
             instance.enable();
             instance.show();
@@ -419,7 +419,7 @@ A list with ‘status’, ‘reason_code’, ‘observed_count’, ‘required_c
               height = bottom - top;
             }
             if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
+              // cook up a div (if necessary) and position it
               let div = window.document.getElementById("code-annotation-line-highlight");
               if (div === null) {
                 div = window.document.createElement("div");

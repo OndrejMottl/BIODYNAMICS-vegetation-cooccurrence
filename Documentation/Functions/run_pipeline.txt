@@ -4,7 +4,11 @@ Description:
 
      Executes a targets pipeline from a specified script and saves
      progress visualization. Rejects profiles not authorized for the
-     runner.
+     runner. Repeated failures are checked against the current
+     execution progress even when their stored error message and
+     last-success timestamp are unchanged. A thrown empty-branch
+     dependency error retains expected-infeasible status only when
+     current execution metadata prove a registered data root.
 
 Usage:
 

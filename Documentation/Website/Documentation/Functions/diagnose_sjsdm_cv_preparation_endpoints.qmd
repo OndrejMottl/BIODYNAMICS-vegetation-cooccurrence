@@ -35,7 +35,8 @@ metadata and content hashes, and can be read from a targets store.
   store_path = NULL,
   target_names = NULL,
   load_metadata_function = load_targets_store_metadata,
-  read_target_function = targets::tar_read_raw
+  read_target_function = targets::tar_read_raw,
+  file_exists_function = base::file.exists
 )
 </code></pre>
 
@@ -58,6 +59,11 @@ metadata and content hashes, and can be read from a targets store.
 <tr><td><code id="read_target_function">read_target_function</code></td>
 <td>
 <p>Injectable raw target reader.</p>
+</td></tr>
+<tr><td><code id="file_exists_function">file_exists_function</code></td>
+<td>
+<p>Injectable existence check for the endpoint's serialized object. A 'qs'
+fallback error proves incompatibility only when that object exists.</p>
 </td></tr>
 </table>
 

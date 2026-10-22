@@ -9,7 +9,8 @@ Usage:
 
      prepare_sjsdm_tuning_folds(
        data_assignments = NULL,
-       prepare_fold_function = NULL
+       prepare_fold_function = NULL,
+       cached_folds_function = NULL
      )
 
 Arguments:
@@ -20,8 +21,31 @@ data_assignments: Cross-validation assignments accepted by
 prepare_fold_function: Injectable preparation function documented by
           [run_sjsdm_tuning_candidates()].
 
+cached_folds_function: Optional zero-argument reader of prior fold
+          records. Current folds are always prepared first. Successful
+          analytically identical records reuse the original cached
+          object, retaining its operational measurements. Unreadable or
+          analytically different caches are ignored.
+
+Details:
+
+     Exact equality uses the version-five calibration content contract.
+     Only operational timing and spatial memory measurements are
+     excluded; all analytical fields and fold contexts remain part of
+     the comparison.
+
 Value:
 
      List with one keyed entry per fold. Each entry contains fold
      context, preparation timing, and either the prepared inputs or a
      structured error.
+
+Examples:
+
+     ## Not run:
+
+     prepare_sjsdm_tuning_folds(
+       data_assignments = assignments,
+       prepare_fold_function = prepare_fold
+     )
+     ## End(Not run)

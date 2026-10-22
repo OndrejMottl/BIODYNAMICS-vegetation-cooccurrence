@@ -33,8 +33,10 @@ spatial regularization artifact, and returns decomposition and provenance.
   read_target_function = targets::tar_read_raw,
   fit_function = NULL,
   standard_error_function = compute_jsdm_se,
-  anova_function = compute_jsdm_variance_partition,
-  extract_function = extract_jsdm_variance_fractions
+  anova_function = compute_jsdm_variance_partition_with_progress,
+  extract_function = extract_jsdm_variance_fractions,
+  path_checkpoint = NULL,
+  verbose = TRUE
 )
 </code></pre>
 
@@ -66,14 +68,33 @@ formula, fitting configuration, and one regularization artifact.</p>
 <tr><td><code id="anova_function">anova_function</code></td>
 <td>
 <p>Injectable decomposition function. Defaults to
-[compute_jsdm_variance_partition()].</p>
+[compute_jsdm_variance_partition_with_progress()].</p>
 </td></tr>
 <tr><td><code id="extract_function">extract_function</code></td>
 <td>
 <p>Injectable ANOVA extractor. Defaults to
 [extract_jsdm_variance_fractions()].</p>
 </td></tr>
+<tr><td><code id="path_checkpoint">path_checkpoint</code></td>
+<td>
+<p>Optional root for per-model, per-phase checkpoints.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical; print representative and phase progress.</p>
+</td></tr>
 </table>
+
+
+<h3>Details</h3>
+
+<p>Checkpoints are independent of publication timestamps. Fitting inputs,
+formula text, regularization parameters, budgets, seed, and backend code
+identify reusable phases. Changing only the ANOVA sample count reuses the
+fit and standard errors. Decompositions resume at phase boundaries, not at
+an interrupted likelihood taxon. The formula is evaluated against the
+prepared model inputs; its incidental calling environment is not hashed.
+</p>
 
 
 <h3>Value</h3>
@@ -82,6 +103,19 @@ formula, fitting configuration, and one regularization artifact.</p>
 and a long decomposition table. Individual failures are retained with an
 explicit status and do not discard successful representative models.
 </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+run_sjsdm_common_regularization_sensitivity(
+  data_model_index = data_model_index,
+  data_artifacts = data_artifacts,
+  path_checkpoint = "Data/Temp/sensitivity_checkpoints"
+)
+
+## End(Not run)
+</code></pre>
 
 </main>
 

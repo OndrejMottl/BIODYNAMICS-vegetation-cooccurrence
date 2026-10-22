@@ -14,8 +14,10 @@ Usage:
        read_target_function = targets::tar_read_raw,
        fit_function = NULL,
        standard_error_function = compute_jsdm_se,
-       anova_function = compute_jsdm_variance_partition,
-       extract_function = extract_jsdm_variance_fractions
+       anova_function = compute_jsdm_variance_partition_with_progress,
+       extract_function = extract_jsdm_variance_fractions,
+       path_checkpoint = NULL,
+       verbose = TRUE
      )
 
 Arguments:
@@ -37,10 +39,24 @@ standard_error_function: Injectable standard-error function. Defaults
           to [compute_jsdm_se()].
 
 anova_function: Injectable decomposition function. Defaults to
-          [compute_jsdm_variance_partition()].
+          [compute_jsdm_variance_partition_with_progress()].
 
 extract_function: Injectable ANOVA extractor. Defaults to
           [extract_jsdm_variance_fractions()].
+
+path_checkpoint: Optional root for per-model, per-phase checkpoints.
+
+ verbose: Logical; print representative and phase progress.
+
+Details:
+
+     Checkpoints are independent of publication timestamps. Fitting
+     inputs, formula text, regularization parameters, budgets, seed,
+     and backend code identify reusable phases. Changing only the ANOVA
+     sample count reuses the fit and standard errors. Decompositions
+     resume at phase boundaries, not at an interrupted likelihood
+     taxon. The formula is evaluated against the prepared model inputs;
+     its incidental calling environment is not hashed.
 
 Value:
 
@@ -48,3 +64,14 @@ Value:
      provenance, and a long decomposition table. Individual failures
      are retained with an explicit status and do not discard successful
      representative models.
+
+Examples:
+
+     ## Not run:
+
+     run_sjsdm_common_regularization_sensitivity(
+       data_model_index = data_model_index,
+       data_artifacts = data_artifacts,
+       path_checkpoint = "Data/Temp/sensitivity_checkpoints"
+     )
+     ## End(Not run)

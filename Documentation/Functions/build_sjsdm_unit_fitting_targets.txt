@@ -1,0 +1,29 @@
+Build Resolution-Aware Unit Target Requests
+
+Description:
+
+     Selects targets only for eligible resolutions, preserving
+     requested unit order. An empty request represents a wholly
+     expected-infeasible unit.
+
+Usage:
+
+     build_sjsdm_unit_fitting_targets(data_preparation_plan, target_names)
+
+Arguments:
+
+data_preparation_plan: Classified unit-resolution rows returned by
+          fitting preflight.
+
+target_names: Character vector of available resolution targets.
+
+Value:
+
+     Named list of character target vectors, one per unit.
+
+Examples:
+
+     ## Not run:
+
+     build_sjsdm_unit_fitting_targets(data_preparation_plan, target_names)
+     ## End(Not run)
