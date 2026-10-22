@@ -1,0 +1,2 @@
+run_id,verified_at,coordinator_pid,coordinator_alive,component_log
+20261017_115924,2026-10-17 10:18:15 UTC,41036,TRUE,D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/Data/Temp/Main_analysis_execution/03_model_fitting_modern_local_small_fold_recovery/20261017_115924/06_fit_modern_spatial_local.log

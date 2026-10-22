@@ -1,0 +1,10 @@
+model_id,candidate_id,repeat_id,fold_id,attempt,n_iter_budget,n_sampling,epochs_run,linear_trend_slope,median_diff,converged,early_stopping_triggered,runtime_seconds,fit_seed,fit_status,error_message
+modern_spatial_continental/europe/family,candidate_004,1,1,1,500,200,191,0,0,TRUE,TRUE,108.90999999999998,900723,ok,NA
+modern_spatial_continental/europe/ft_modern,candidate_001,1,1,1,500,200,257,0,0,TRUE,TRUE,62.75,900723,ok,NA
+modern_spatial_continental/europe/genus,candidate_004,1,1,1,500,200,245,0,0,TRUE,TRUE,461.0799999999999,900723,ok,NA
+modern_spatial_local/eu_r005_l014/family,candidate_004,1,1,1,500,200,212,0,0.01,TRUE,TRUE,22.470000000001164,900723,ok,NA
+modern_spatial_local/eu_r005_l014/ft_modern,candidate_001,1,1,1,500,200,205,0,0,TRUE,TRUE,7.220000000001164,900723,ok,NA
+modern_spatial_local/eu_r005_l014/genus,candidate_004,1,1,1,500,200,284,0,0.02,TRUE,TRUE,19.669999999998254,900723,ok,NA
+modern_spatial_regional/eu_r005/family,candidate_004,1,1,1,500,200,328,0,0,TRUE,TRUE,101.22000000000116,900723,ok,NA
+modern_spatial_regional/eu_r005/ft_modern,candidate_001,1,1,1,500,200,196,0,0,TRUE,TRUE,28.25,900723,ok,NA
+modern_spatial_regional/eu_r005/genus,candidate_004,1,1,1,500,200,281,0,0.02,TRUE,TRUE,190.51999999998952,900723,ok,NA

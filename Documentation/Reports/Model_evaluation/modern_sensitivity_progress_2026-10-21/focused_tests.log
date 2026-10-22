@@ -1,0 +1,17 @@
+run_sjsdm_common_regularization_sensitivity: ...........................
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_sjsdm_sensitivity_checkpoint: ..........
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_sjsdm_likelihood_sequence: .........
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+compute_jsdm_variance_partition_with_progress: ..W...
+
+══ Warnings ════════════════════════════════════════════════════════════════════
+1. progress ANOVA leaves the package namespace untouched ('test-compute_jsdm_variance_partition_with_progress.R:16:3') - The request to `use_python("C:\Users\ondre\miniconda3\envs\r-sjsdm/python.exe")` will be ignored because the environment variable RETICULATE_PYTHON is set to "C:\Users\ondre\AppData\Local\r-miniconda\envs\r-sjsdm-vscode\python.exe"
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+Warning message:
+package 'testthat' was built under R version 4.5.2

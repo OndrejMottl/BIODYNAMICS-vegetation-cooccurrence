@@ -1,0 +1,2 @@
+scale,scale_id,resolution_id,n_iter,n_step_size,n_sampling,n_samples_anova,n_early_stopping,linear_trend_slope,median_diff,epochs_run,early_stopping_triggered
+local,am_r005_l003,family,500,NA,200,1000,NA,0.01,0.06,149,TRUE

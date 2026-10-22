@@ -1,0 +1,6 @@
+pid,created_at,command
+23860,2026-10-08T06:19:47Z,C:/PROGRA~1/R/R-45~1.1/bin/x64/Rscript.exe --vanilla R/02_Main_analyses/03_Model_fitting/01_run_model_fitting.R
+25248,2026-10-11T09:23:23Z,C:/PROGRA~1/R/R-45~1.1/bin/x64/Rscript R/02_Main_analyses/03_Model_fitting/_components/04_fit_modern_spatial_continental.R
+28688,2026-10-11T09:23:23Z,\??\C:\WINDOWS\system32\conhost.exe 0x4
+33848,2026-10-12T03:14:41Z,C:/PROGRA~1/R/R-45~1.1/bin/x64/Rterm --slave --no-save --no-restore -f C:\Users\ondre\AppData\Local\Temp\RtmpUbNboW\callr-scr-62a0c2c1efc
+33080,2026-10-12T03:14:41Z,\??\C:\WINDOWS\system32\conhost.exe 0x4

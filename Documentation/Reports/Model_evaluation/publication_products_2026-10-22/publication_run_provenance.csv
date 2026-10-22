@@ -1,0 +1,2 @@
+run_id,started_at,run_status,git_commit,config_hash,calibration_requested,model_fitting_requested,finished_at,error_message
+20261022_153557,2026-10-22T13:35:57Z,completed,6483905b0ca1174318743d8189b08ef9181da789,4355c93dde04dfc9,FALSE,FALSE,2026-10-22T13:44:00Z,NA

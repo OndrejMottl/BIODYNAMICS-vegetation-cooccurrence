@@ -1,0 +1,40 @@
+During startup - Warning messages:
+1: Setting LC_COLLATE=C.UTF-8 failed
+2: Setting LC_CTYPE=C.UTF-8 failed
+3: Setting LC_MONETARY=C.UTF-8 failed
+4: Setting LC_TIME=C.UTF-8 failed
+here() starts at D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence
+qs2 0.2.0
+-- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+v dplyr     1.2.1     v readr     2.2.0
+v forcats   1.0.1     v stringr   1.6.0
+v ggplot2   4.0.3     v tibble    3.3.1
+v lubridate 1.9.5     v tidyr     1.3.2
+v purrr     1.2.2
+-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter()      masks stats::filter()
+x purrr::flatten()     masks rlang::flatten()
+x purrr::flatten_chr() masks rlang::flatten_chr()
+x purrr::flatten_dbl() masks rlang::flatten_dbl()
+x purrr::flatten_int() masks rlang::flatten_int()
+x purrr::flatten_lgl() masks rlang::flatten_lgl()
+x purrr::flatten_raw() masks rlang::flatten_raw()
+x tibble::has_name()   masks rlang::has_name(), assertthat::has_name()
+x purrr::invoke()      masks rlang::invoke()
+x dplyr::lag()         masks stats::lag()
+x purrr::modify()      masks renv::modify()
+x purrr::splice()      masks rlang::splice()
+i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+Warning messages:
+1: package 'here' was built under R version 4.5.2
+2: package 'renv' was built under R version 4.5.3
+3: package 'rlang' was built under R version 4.5.3
+4: package 'ggplot2' was built under R version 4.5.3
+5: package 'tidyr' was built under R version 4.5.2
+6: package 'purrr' was built under R version 4.5.3
+7: package 'dplyr' was built under R version 4.5.3
+8: package 'targets' was built under R version 4.5.2
+v Project configuration generated.
+i 26 profiles remain semantically identical to the v1 reference.
+v Tracked configuration artifacts match their modular sources.
+Ran 1/1 deferred expressions

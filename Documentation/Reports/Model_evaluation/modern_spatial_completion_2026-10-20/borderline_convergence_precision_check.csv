@@ -1,0 +1,2 @@
+scale_id,resolution_id,stored_slope,raw_slope,stored_median_diff,raw_median_diff,strict_stored_rule_passed,same_thresholds_full_precision_passed
+am_r005_l003,family,0.01,0.005945588235294019,0.06,0.06200000000000028,FALSE,TRUE

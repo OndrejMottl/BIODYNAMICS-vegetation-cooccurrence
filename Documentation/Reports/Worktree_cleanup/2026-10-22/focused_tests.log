@@ -1,0 +1,132 @@
+During startup - Warning messages:
+1: Setting LC_COLLATE=C.UTF-8 failed
+2: Setting LC_CTYPE=C.UTF-8 failed
+3: Setting LC_MONETARY=C.UTF-8 failed
+4: Setting LC_TIME=C.UTF-8 failed
+classify_sjsdm_unit_pipeline_error: ..................................................................
+
+== DONE ========================================================================
+compute_sjsdm_cv_calibration_hashes: ...........
+
+== DONE ========================================================================
+diagnose_sjsdm_cv_preparation_endpoints: ........
+
+== DONE ========================================================================
+fit_sjsdm_cross_validation_candidate: .....................
+
+== DONE ========================================================================
+run_sjsdm_cv_calibration_benchmark: ..................................
+
+== DONE ========================================================================
+Your tests are magnificent!
+run_sjsdm_tuning_sequence: .........# A tibble: 1 x 3
+  store_suffix pipeline_status error_message
+  <chr>        <chr>           <chr>
+1 a            error           unexpected GPU failure
+..
+
+== DONE ========================================================================
+sjsdm_cv_calibration_runner_architecture: .......................
+
+== DONE ========================================================================
+validate_sjsdm_cv_calibration_evidence: ..............
+
+== DONE ========================================================================
+load_spatial_model_results: ...........................
+
+== DONE ========================================================================
+fit_jsdm_model: W.............................
+Early stopping...
+Early stopping......
+Early stopping...
+Early stopping........
+Early stopping...
+Early stopping...
+Early stopping..........
+Early stopping.....................
+
+══ Warnings ════════════════════════════════════════════════════════════════════
+1. fit_jsdm_model prevents zero automatic batch sizes ('test-fit_jsdm_model.R:2:3') - The request to `use_python("C:\Users\ondre\miniconda3\envs\r-sjsdm/python.exe")` will be ignored because the environment variable RETICULATE_PYTHON is set to "C:\Users\ondre\AppData\Local\r-miniconda\envs\r-sjsdm-vscode\python.exe"
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+compute_exact_spatial_mev_basis: ..........
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_pipeline: .....................................
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_pipeline_units_with_status: ....................................# A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+.........# A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+...# A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+...# A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+....
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+common-regularization-sensitivity-pipeline-contract:
+Early stopping.............
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+load_sjsdm_tuning_summaries: ...................
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+prepare_sjsdm_tuning_folds: .................................
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_sjsdm_common_regularization_sensitivity: ...........................
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_sjsdm_tuning_unit_round: ........
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+build_sjsdm_unit_fitting_targets: ..
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+is_sjsdm_cv_preparation_mapping_current: ...
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+is_sjsdm_cv_prepared_folds_current: ...
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+load_sjsdm_prepared_fold_cache: .........
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+prepare_sjsdm_cv_calibration_result_migration: .......
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_sjsdm_sensitivity_checkpoint: ..........
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_sjsdm_unit_fitting_preflight: ............
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+validate_sjsdm_cv_preparation_freshness: .................
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+validate_sjsdm_cv_production_calibration: ..
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+Keep up the good work.
+modern-spatial-convergence-diagnostic-contract: ......
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+compute_jsdm_variance_partition_with_progress: .....
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_sjsdm_likelihood_sequence: .........
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+Warning message:
+package 'testthat' was built under R version 4.5.2
+Focused tests passed across 30 files.

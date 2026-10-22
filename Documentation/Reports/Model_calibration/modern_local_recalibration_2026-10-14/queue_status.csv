@@ -1,0 +1,9 @@
+run_id,phase,checked_at,error_message
+20261019_150002,blocked_by_component_failure,2026-10-20 07:44:14 UTC,"Main-analysis stage 03_model_fitting_modern_local_small_fold_recovery
+failed.
+✖ Failed components: 06_fit_modern_spatial_local
+ℹ Prerequisite status and errors:
+  'D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/Data/Temp/Main_analysis_execution/03_model_fitting_modern_local_small_fold_recovery/20261019_150002/component_status.csv'
+ℹ Component logs are beside the status CSV.
+ℹ Recovery: Rscript
+  R/02_Main_analyses/03_Model_fitting/_components/06_fit_modern_spatial_local.R"

@@ -1,0 +1,11 @@
+check,status,evidence,verified_at
+focused_regressions,passed,focused_final.log,2026-10-13T10:14:40Z
+full_test_suite,passed,full_tests_acceptance.log,2026-10-13T10:14:40Z
+cz_paleo_and_modern_smoke,passed,smoke.log; smoke_validation.csv,2026-10-13T09:58:29Z
+configuration_semantic_reference,passed,configuration.log; 26 profiles,2026-10-13T09:58:29Z
+architecture_generators_and_blocking_validator,passed,acceptance_final.log; 0 findings,2026-10-13T10:14:40Z
+r_syntax_and_80_columns,passed,syntax_style.log,2026-10-13T09:58:29Z
+git_diff_check,passed,diff_check.log,2026-10-13T10:14:40Z
+modern_migration_original_and_current_fold_proof,passed,modern_migration_validation.csv; 15 folds,2026-10-13T09:58:29Z
+missing_dependency_recovery_regression,passed,focused_final.log; full_tests_acceptance.log,2026-10-13T10:14:40Z
+bounded_calibration_68_converged_fits,passed,bounded_validation.csv; bounded_verification.log,2026-10-13T10:14:40Z

@@ -1,0 +1,250 @@
+ M Data/Input/Model_tuning/model_tuning_modern_spatial_genus.csv
+ M Documentation/Functions/classify_sjsdm_unit_pipeline_error.html
+ M Documentation/Functions/classify_sjsdm_unit_pipeline_error.pdf
+ M Documentation/Functions/classify_sjsdm_unit_pipeline_error.txt
+ M Documentation/Functions/compute_exact_spatial_mev_basis.html
+ M Documentation/Functions/compute_exact_spatial_mev_basis.pdf
+ M Documentation/Functions/compute_exact_spatial_mev_basis.txt
+ M Documentation/Functions/compute_sjsdm_cv_calibration_hashes.pdf
+ M Documentation/Functions/diagnose_sjsdm_cv_preparation_endpoints.html
+ M Documentation/Functions/diagnose_sjsdm_cv_preparation_endpoints.pdf
+ M Documentation/Functions/diagnose_sjsdm_cv_preparation_endpoints.txt
+ M Documentation/Functions/fit_jsdm_model.html
+ M Documentation/Functions/fit_jsdm_model.pdf
+ M Documentation/Functions/fit_jsdm_model.txt
+ M Documentation/Functions/fit_sjsdm_cross_validation_candidate.html
+ M Documentation/Functions/fit_sjsdm_cross_validation_candidate.pdf
+ M Documentation/Functions/fit_sjsdm_cross_validation_candidate.txt
+ M Documentation/Functions/load_sjsdm_tuning_summaries.html
+ M Documentation/Functions/load_sjsdm_tuning_summaries.pdf
+ M Documentation/Functions/load_sjsdm_tuning_summaries.txt
+ M Documentation/Functions/load_spatial_model_results.html
+ M Documentation/Functions/load_spatial_model_results.pdf
+ M Documentation/Functions/load_spatial_model_results.txt
+ M Documentation/Functions/prepare_sjsdm_cv_calibration_hash_folds.html
+ M Documentation/Functions/prepare_sjsdm_cv_calibration_hash_folds.pdf
+ M Documentation/Functions/prepare_sjsdm_cv_calibration_hash_folds.txt
+ M Documentation/Functions/prepare_sjsdm_tuning_folds.html
+ M Documentation/Functions/prepare_sjsdm_tuning_folds.pdf
+ M Documentation/Functions/prepare_sjsdm_tuning_folds.txt
+ M Documentation/Functions/run_pipeline.html
+ M Documentation/Functions/run_pipeline.pdf
+ M Documentation/Functions/run_pipeline.txt
+ M Documentation/Functions/run_pipeline_units_with_status.html
+ M Documentation/Functions/run_pipeline_units_with_status.pdf
+ M Documentation/Functions/run_pipeline_units_with_status.txt
+ M Documentation/Functions/run_sjsdm_cv_calibration_benchmark.html
+ M Documentation/Functions/run_sjsdm_cv_calibration_benchmark.pdf
+ M Documentation/Functions/run_sjsdm_cv_calibration_benchmark.txt
+ M Documentation/Functions/run_sjsdm_cv_calibration_rung.html
+ M Documentation/Functions/run_sjsdm_cv_calibration_rung.pdf
+ M Documentation/Functions/run_sjsdm_cv_calibration_rung.txt
+ M Documentation/Functions/run_sjsdm_tuning_sequence.html
+ M Documentation/Functions/run_sjsdm_tuning_sequence.pdf
+ M Documentation/Functions/run_sjsdm_tuning_sequence.txt
+ M Documentation/Functions/run_sjsdm_tuning_unit_round.html
+ M Documentation/Functions/run_sjsdm_tuning_unit_round.pdf
+ M Documentation/Functions/run_sjsdm_tuning_unit_round.txt
+ M Documentation/Functions/validate_sjsdm_cv_calibration_evidence.html
+ M Documentation/Functions/validate_sjsdm_cv_calibration_evidence.pdf
+ M Documentation/Functions/validate_sjsdm_cv_calibration_evidence.txt
+ M Documentation/Implementation_inventories/R_architecture/r_function_inventory_v1.csv
+ M Documentation/Implementation_inventories/R_architecture/r_script_path_inventory_v1.csv
+ M Documentation/Progress/modern_spatial_continental/america/pipeline_modern_spatial_resolution/project_status.html
+ M Documentation/Progress/modern_spatial_continental/america/pipeline_modern_spatial_resolution/project_status_small.html
+ M Documentation/Progress/modern_spatial_continental/america/pipeline_modern_spatial_resolution/project_status_static.png
+ M Documentation/Progress/modern_spatial_continental/asia/pipeline_modern_spatial_resolution/project_status.html
+ M Documentation/Progress/modern_spatial_continental/asia/pipeline_modern_spatial_resolution/project_status_small.html
+ M Documentation/Progress/modern_spatial_continental/asia/pipeline_modern_spatial_resolution/project_status_static.png
+ M Documentation/Progress/modern_spatial_continental/europe/pipeline_modern_spatial_resolution/project_status.html
+ M Documentation/Progress/modern_spatial_continental/europe/pipeline_modern_spatial_resolution/project_status_small.html
+ M Documentation/Progress/modern_spatial_continental/europe/pipeline_modern_spatial_resolution/project_status_static.png
+ M Documentation/Progress/modern_spatial_continental/pipeline_sjsdm_tier_tuning/project_status.html
+ M Documentation/Progress/modern_spatial_continental/pipeline_sjsdm_tier_tuning/project_status_files/htmltools-fill-0.5.9/fill.css
+ M Documentation/Progress/modern_spatial_continental/pipeline_sjsdm_tier_tuning/project_status_files/htmlwidgets-1.6.4/htmlwidgets.js
+ M Documentation/Progress/modern_spatial_continental/pipeline_sjsdm_tier_tuning/project_status_small.html
+ M Documentation/Progress/modern_spatial_continental/pipeline_sjsdm_tier_tuning/project_status_small_files/htmltools-fill-0.5.9/fill.css
+ M Documentation/Progress/modern_spatial_continental/pipeline_sjsdm_tier_tuning/project_status_small_files/htmlwidgets-1.6.4/htmlwidgets.js
+ M Documentation/Progress/modern_spatial_continental/pipeline_sjsdm_tier_tuning/project_status_static.png
+ M Documentation/Progress/modern_spatial_local/eu_r005_l014/pipeline_modern_spatial_resolution/project_status.html
+ M Documentation/Progress/modern_spatial_local/eu_r005_l014/pipeline_modern_spatial_resolution/project_status_files/htmltools-fill-0.5.9/fill.css
+ M Documentation/Progress/modern_spatial_local/eu_r005_l014/pipeline_modern_spatial_resolution/project_status_files/htmlwidgets-1.6.4/htmlwidgets.js
+ M Documentation/Progress/modern_spatial_local/eu_r005_l014/pipeline_modern_spatial_resolution/project_status_small.html
+ M Documentation/Progress/modern_spatial_local/eu_r005_l014/pipeline_modern_spatial_resolution/project_status_small_files/htmltools-fill-0.5.9/fill.css
+ M Documentation/Progress/modern_spatial_local/eu_r005_l014/pipeline_modern_spatial_resolution/project_status_small_files/htmlwidgets-1.6.4/htmlwidgets.js
+ M Documentation/Progress/modern_spatial_local/eu_r005_l014/pipeline_modern_spatial_resolution/project_status_static.png
+ M Documentation/Reports/Model_calibration/sjsdm_cv_fit_budget/calibration_representatives.csv
+ M Documentation/Reports/Model_calibration/sjsdm_cv_fit_budget/calibration_unit_inventory.csv
+ M Documentation/Reports/Model_calibration/sjsdm_cv_fit_budget/project_modern_spatial_local/am_r007_l008/family/accepted_budget.csv
+ M Documentation/Reports/Model_calibration/sjsdm_cv_fit_budget/project_modern_spatial_local/am_r007_l008/family/benchmark_evidence.csv
+ M Documentation/Reports/Model_calibration/sjsdm_cv_fit_budget/project_modern_spatial_local/am_r007_l008/family/fit_attempts.csv
+ M Documentation/Reports/Model_calibration/sjsdm_cv_fit_budget/project_modern_spatial_local/am_r007_l008/family/run_provenance.csv
+ M Documentation/Reports/Model_calibration/sjsdm_cv_fit_budget/project_modern_spatial_local/am_r007_l008/genus/accepted_budget.csv
+ M Documentation/Reports/Model_calibration/sjsdm_cv_fit_budget/project_modern_spatial_local/am_r007_l008/genus/benchmark_evidence.csv
+ M Documentation/Reports/Model_calibration/sjsdm_cv_fit_budget/project_modern_spatial_local/am_r007_l008/genus/fit_attempts.csv
+ M Documentation/Reports/Model_calibration/sjsdm_cv_fit_budget/project_modern_spatial_local/am_r007_l008/genus/run_provenance.csv
+ M Documentation/Reports/R_architecture/r_architecture_dependency_map.md
+ M Documentation/Website/Documentation/Functions/classify_sjsdm_unit_pipeline_error.qmd
+ M Documentation/Website/Documentation/Functions/compute_exact_spatial_mev_basis.qmd
+ M Documentation/Website/Documentation/Functions/diagnose_sjsdm_cv_preparation_endpoints.qmd
+ M Documentation/Website/Documentation/Functions/fit_jsdm_model.qmd
+ M Documentation/Website/Documentation/Functions/fit_sjsdm_cross_validation_candidate.qmd
+ M Documentation/Website/Documentation/Functions/load_sjsdm_tuning_summaries.qmd
+ M Documentation/Website/Documentation/Functions/load_spatial_model_results.qmd
+ M Documentation/Website/Documentation/Functions/prepare_sjsdm_cv_calibration_hash_folds.qmd
+ M Documentation/Website/Documentation/Functions/prepare_sjsdm_tuning_folds.qmd
+ M Documentation/Website/Documentation/Functions/run_pipeline.qmd
+ M Documentation/Website/Documentation/Functions/run_pipeline_units_with_status.qmd
+ M Documentation/Website/Documentation/Functions/run_sjsdm_cv_calibration_benchmark.qmd
+ M Documentation/Website/Documentation/Functions/run_sjsdm_cv_calibration_rung.qmd
+ M Documentation/Website/Documentation/Functions/run_sjsdm_tuning_sequence.qmd
+ M Documentation/Website/Documentation/Functions/run_sjsdm_tuning_unit_round.qmd
+ M Documentation/Website/Documentation/Functions/validate_sjsdm_cv_calibration_evidence.qmd
+ M R/02_Main_analyses/02_Model_calibration/README.md
+ M R/02_Main_analyses/02_Model_calibration/_components/01_build_sjsdm_cv_calibration_inventory.R
+ M R/02_Main_analyses/02_Model_calibration/_components/02_run_one_sjsdm_cv_fit_budget_calibration.R
+ M R/02_Main_analyses/02_Model_calibration/_components/03_publish_sjsdm_cv_fit_budgets.R
+ M R/02_Main_analyses/03_Model_fitting/README.md
+ M R/02_Main_analyses/03_Model_fitting/_components/01_fit_paleo_spatial_continental.R
+ M R/02_Main_analyses/03_Model_fitting/_components/04_fit_modern_spatial_continental.R
+ M R/02_Main_analyses/03_Model_fitting/_components/05_fit_modern_spatial_regional.R
+ M R/02_Main_analyses/03_Model_fitting/_components/06_fit_modern_spatial_local.R
+ M R/03_Supplementary_analyses/One_time/Cross_validation/Fit_budget_migration/README.md
+ M R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-classify_sjsdm_unit_pipeline_error.R
+ M R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-compute_sjsdm_cv_calibration_hashes.R
+ M R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-diagnose_sjsdm_cv_preparation_endpoints.R
+ M R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-fit_sjsdm_cross_validation_candidate.R
+ M R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-run_sjsdm_cv_calibration_benchmark.R
+ M R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-run_sjsdm_tuning_sequence.R
+ M R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-sjsdm_cv_calibration_runner_architecture.R
+ M R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-validate_sjsdm_cv_calibration_evidence.R
+ M R/03_Supplementary_analyses/Testing/testthat/Modelling/Evaluation/Results/test-load_spatial_model_results.R
+ M R/03_Supplementary_analyses/Testing/testthat/Modelling/Fitting/test-fit_jsdm_model.R
+ M R/03_Supplementary_analyses/Testing/testthat/Modelling/Spatial_effects/Basis/Internal/test-compute_exact_spatial_mev_basis.R
+ M R/03_Supplementary_analyses/Testing/testthat/Pipeline/Orchestration/Execution/test-run_pipeline.R
+ M R/03_Supplementary_analyses/Testing/testthat/Pipeline/Orchestration/Execution/test-run_pipeline_units_with_status.R
+ M R/03_Supplementary_analyses/Testing/testthat/test-common-regularization-sensitivity-pipeline-contract.R
+ M R/03_Supplementary_analyses/Testing/testthat/test-load_sjsdm_tuning_summaries.R
+ M R/03_Supplementary_analyses/Testing/testthat/test-prepare_sjsdm_tuning_folds.R
+ M R/03_Supplementary_analyses/Testing/testthat/test-run_sjsdm_tuning_unit_round.R
+ M R/Functions/Modelling/Cross_validation/classify_sjsdm_unit_pipeline_error.R
+ M R/Functions/Modelling/Cross_validation/compute_sjsdm_cv_calibration_hashes.R
+ M R/Functions/Modelling/Cross_validation/diagnose_sjsdm_cv_preparation_endpoints.R
+ M R/Functions/Modelling/Cross_validation/fit_sjsdm_cross_validation_candidate.R
+ M R/Functions/Modelling/Cross_validation/load_sjsdm_tuning_summaries.R
+ M R/Functions/Modelling/Cross_validation/prepare_sjsdm_cv_calibration_hash_folds.R
+ M R/Functions/Modelling/Cross_validation/prepare_sjsdm_tuning_folds.R
+ M R/Functions/Modelling/Cross_validation/run_sjsdm_cv_calibration_benchmark.R
+ M R/Functions/Modelling/Cross_validation/run_sjsdm_cv_calibration_rung.R
+ M R/Functions/Modelling/Cross_validation/run_sjsdm_tuning_sequence.R
+ M R/Functions/Modelling/Cross_validation/run_sjsdm_tuning_unit_round.R
+ M R/Functions/Modelling/Cross_validation/validate_sjsdm_cv_calibration_evidence.R
+ M R/Functions/Modelling/Evaluation/Results/load_spatial_model_results.R
+ M R/Functions/Modelling/Fitting/fit_jsdm_model.R
+ M R/Functions/Modelling/Spatial_effects/Basis/Internal/compute_exact_spatial_mev_basis.R
+ M R/Functions/Pipeline/Orchestration/Execution/run_pipeline.R
+ M R/Functions/Pipeline/Orchestration/Execution/run_pipeline_units_with_status.R
+ M R/Pipelines/_pipes/pipe_segment_model_cross_validation_execution.R
+ M R/Pipelines/pipeline_sjsdm_common_regularization_sensitivity.R
+ M R/Pipelines/pipeline_sjsdm_tier_tuning.R
+ M docs/Documentation/Website/Documentation/Functions/classify_sjsdm_unit_pipeline_error.html
+ M docs/Documentation/Website/Documentation/Functions/compute_exact_spatial_mev_basis.html
+ M docs/Documentation/Website/Documentation/Functions/compute_sjsdm_cv_calibration_hashes.html
+ M docs/Documentation/Website/Documentation/Functions/diagnose_sjsdm_cv_preparation_endpoints.html
+ M docs/Documentation/Website/Documentation/Functions/fit_jsdm_model.html
+ M docs/Documentation/Website/Documentation/Functions/fit_sjsdm_cross_validation_candidate.html
+ M docs/Documentation/Website/Documentation/Functions/load_sjsdm_tuning_summaries.html
+ M docs/Documentation/Website/Documentation/Functions/load_spatial_model_results.html
+ M docs/Documentation/Website/Documentation/Functions/prepare_sjsdm_cv_calibration_hash_folds.html
+ M docs/Documentation/Website/Documentation/Functions/prepare_sjsdm_tuning_folds.html
+ M docs/Documentation/Website/Documentation/Functions/run_pipeline.html
+ M docs/Documentation/Website/Documentation/Functions/run_pipeline_units_with_status.html
+ M docs/Documentation/Website/Documentation/Functions/run_sjsdm_cv_calibration_benchmark.html
+ M docs/Documentation/Website/Documentation/Functions/run_sjsdm_cv_calibration_rung.html
+ M docs/Documentation/Website/Documentation/Functions/run_sjsdm_tuning_sequence.html
+ M docs/Documentation/Website/Documentation/Functions/run_sjsdm_tuning_unit_round.html
+ M docs/Documentation/Website/Documentation/Functions/validate_sjsdm_cv_calibration_evidence.html
+?? Documentation/Functions/build_sjsdm_unit_fitting_targets.html
+?? Documentation/Functions/build_sjsdm_unit_fitting_targets.pdf
+?? Documentation/Functions/build_sjsdm_unit_fitting_targets.txt
+?? Documentation/Functions/is_sjsdm_cv_preparation_mapping_current.html
+?? Documentation/Functions/is_sjsdm_cv_preparation_mapping_current.pdf
+?? Documentation/Functions/is_sjsdm_cv_preparation_mapping_current.txt
+?? Documentation/Functions/is_sjsdm_cv_prepared_folds_current.html
+?? Documentation/Functions/is_sjsdm_cv_prepared_folds_current.pdf
+?? Documentation/Functions/is_sjsdm_cv_prepared_folds_current.txt
+?? Documentation/Functions/load_sjsdm_prepared_fold_cache.html
+?? Documentation/Functions/load_sjsdm_prepared_fold_cache.pdf
+?? Documentation/Functions/load_sjsdm_prepared_fold_cache.txt
+?? Documentation/Functions/prepare_sjsdm_cv_calibration_result_migration.html
+?? Documentation/Functions/prepare_sjsdm_cv_calibration_result_migration.pdf
+?? Documentation/Functions/prepare_sjsdm_cv_calibration_result_migration.txt
+?? Documentation/Functions/run_sjsdm_unit_fitting_preflight.html
+?? Documentation/Functions/run_sjsdm_unit_fitting_preflight.pdf
+?? Documentation/Functions/run_sjsdm_unit_fitting_preflight.txt
+?? Documentation/Functions/validate_sjsdm_cv_preparation_freshness.html
+?? Documentation/Functions/validate_sjsdm_cv_preparation_freshness.pdf
+?? Documentation/Functions/validate_sjsdm_cv_preparation_freshness.txt
+?? Documentation/Functions/validate_sjsdm_cv_production_calibration.html
+?? Documentation/Functions/validate_sjsdm_cv_production_calibration.pdf
+?? Documentation/Functions/validate_sjsdm_cv_production_calibration.txt
+?? Documentation/Implementation_plans/2026-10-12_paleo_mem_recovery.md
+?? Documentation/Implementation_plans/2026-10-13_calibration_freshness_and_memory_migration.md
+?? Documentation/Implementation_plans/2026-10-13_prepared_fold_cache_preservation.md
+?? Documentation/Implementation_plans/2026-10-14_modern_fitting_infeasibility_handling.md
+?? Documentation/Implementation_plans/2026-10-14_modern_local_targeted_recalibration.md
+?? Documentation/Implementation_plans/2026-10-14_modern_regional_prerequisite_recovery.md
+?? Documentation/Implementation_plans/2026-10-16_modern_local_small_fold_recovery.md
+?? Documentation/Implementation_plans/2026-10-20_modern_sensitivity_audit_and_publication.md
+?? Documentation/Reports/Model_calibration/calibration_safeguards_2026-10-13/
+?? Documentation/Reports/Model_calibration/modern_fitting_infeasibility_2026-10-14/
+?? Documentation/Reports/Model_calibration/modern_local_recalibration_2026-10-14/
+?? Documentation/Reports/Model_calibration/modern_local_round_two_recovery_2026-10-19/
+?? Documentation/Reports/Model_calibration/modern_local_small_fold_recovery_2026-10-16/
+?? Documentation/Reports/Model_calibration/modern_local_subprocess_failure_2026-10-17/
+?? Documentation/Reports/Model_calibration/modern_regional_recovery_2026-10-14/
+?? Documentation/Reports/Model_calibration/modern_regional_stop_2026-10-14/
+?? Documentation/Reports/Model_evaluation/
+?? Documentation/Website/Documentation/Functions/build_sjsdm_unit_fitting_targets.qmd
+?? Documentation/Website/Documentation/Functions/is_sjsdm_cv_preparation_mapping_current.qmd
+?? Documentation/Website/Documentation/Functions/is_sjsdm_cv_prepared_folds_current.qmd
+?? Documentation/Website/Documentation/Functions/load_sjsdm_prepared_fold_cache.qmd
+?? Documentation/Website/Documentation/Functions/prepare_sjsdm_cv_calibration_result_migration.qmd
+?? Documentation/Website/Documentation/Functions/run_sjsdm_unit_fitting_preflight.qmd
+?? Documentation/Website/Documentation/Functions/validate_sjsdm_cv_preparation_freshness.qmd
+?? Documentation/Website/Documentation/Functions/validate_sjsdm_cv_production_calibration.qmd
+?? Outputs/Data/data_anova_results_2026-10-12__3ed458dfba86829c135204966d872111__.qs
+?? Outputs/Figures/Spatial/paleo_spatial_association_summary_2026-10-12.pdf
+?? Outputs/Figures/Spatial/paleo_spatial_association_summary_2026-10-12.png
+?? Outputs/Tables/Visualisation/paleo_spatial_association_summary_group_2026-10-12.csv
+?? Outputs/Tables/Visualisation/paleo_spatial_association_summary_unit_2026-10-12.csv
+?? Outputs/Tables/functional_type_ordination_summary_2026-10-12.csv
+?? Outputs/Tables/functional_type_ordination_unit_2026-10-12.csv
+?? Outputs/Tables/paleo_patterns_summary_2026-10-12.csv
+?? Outputs/Tables/paleo_patterns_unit_2026-10-12.csv
+?? R/03_Supplementary_analyses/One_time/Cross_validation/Fit_budget_migration/run_bounded_sjsdm_cv_recalibration.R
+?? R/03_Supplementary_analyses/One_time/Cross_validation/Fit_budget_migration/run_sjsdm_cv_operational_evidence_migration.R
+?? R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-build_sjsdm_unit_fitting_targets.R
+?? R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-is_sjsdm_cv_preparation_mapping_current.R
+?? R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-is_sjsdm_cv_prepared_folds_current.R
+?? R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-load_sjsdm_prepared_fold_cache.R
+?? R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-prepare_sjsdm_cv_calibration_result_migration.R
+?? R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-run_sjsdm_unit_fitting_preflight.R
+?? R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-validate_sjsdm_cv_preparation_freshness.R
+?? R/03_Supplementary_analyses/Testing/testthat/Modelling/Cross_validation/test-validate_sjsdm_cv_production_calibration.R
+?? R/Functions/Modelling/Cross_validation/build_sjsdm_unit_fitting_targets.R
+?? R/Functions/Modelling/Cross_validation/is_sjsdm_cv_preparation_mapping_current.R
+?? R/Functions/Modelling/Cross_validation/is_sjsdm_cv_prepared_folds_current.R
+?? R/Functions/Modelling/Cross_validation/load_sjsdm_prepared_fold_cache.R
+?? R/Functions/Modelling/Cross_validation/prepare_sjsdm_cv_calibration_result_migration.R
+?? R/Functions/Modelling/Cross_validation/run_sjsdm_unit_fitting_preflight.R
+?? R/Functions/Modelling/Cross_validation/validate_sjsdm_cv_preparation_freshness.R
+?? R/Functions/Modelling/Cross_validation/validate_sjsdm_cv_production_calibration.R
+?? docs/Documentation/Website/Documentation/Functions/build_sjsdm_unit_fitting_targets.html
+?? docs/Documentation/Website/Documentation/Functions/is_sjsdm_cv_preparation_mapping_current.html
+?? docs/Documentation/Website/Documentation/Functions/is_sjsdm_cv_prepared_folds_current.html
+?? docs/Documentation/Website/Documentation/Functions/load_sjsdm_prepared_fold_cache.html
+?? docs/Documentation/Website/Documentation/Functions/prepare_sjsdm_cv_calibration_result_migration.html
+?? docs/Documentation/Website/Documentation/Functions/run_sjsdm_unit_fitting_preflight.html
+?? docs/Documentation/Website/Documentation/Functions/validate_sjsdm_cv_preparation_freshness.html
+?? docs/Documentation/Website/Documentation/Functions/validate_sjsdm_cv_production_calibration.html

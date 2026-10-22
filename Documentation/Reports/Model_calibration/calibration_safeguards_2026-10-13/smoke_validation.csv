@@ -1,0 +1,7 @@
+profile_id,store_path,n_targets,n_errors,latest_completed
+project_cz_paleo,Data/targets/cz_paleo/issue141_shared_design/pipeline_paleo_resolution_test,547,0,2026-08-12T09:09:16Z
+project_cz_paleo,Data/targets/cz_paleo/issue154_fitting/pipeline_paleo_core,602,0,2026-08-04T11:19:16Z
+project_cz_paleo,Data/targets/cz_paleo/issue154_fit_inputs/pipeline_paleo_core,528,0,2026-08-03T19:32:01Z
+project_cz_paleo,Data/targets/cz_paleo/pipeline_paleo_core,707,0,2026-10-13T09:00:53Z
+project_cz_paleo,Data/targets/cz_paleo/pipeline_paleo_resolution_test,876,0,2026-10-13T09:20:07Z
+project_cz_modern,Data/targets/cz_modern/eu_r005_l014/pipeline_modern_spatial_resolution_test,2659,0,2026-10-13T09:35:24Z

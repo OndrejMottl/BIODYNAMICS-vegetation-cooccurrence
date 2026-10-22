@@ -1,0 +1,7 @@
+scale_id,target_name,directly_outdated
+europe,list_sjsdm_prepared_tuning_folds_family,TRUE
+europe,list_sjsdm_prepared_tuning_folds_ft_modern,TRUE
+europe,list_sjsdm_prepared_tuning_folds_genus,TRUE
+europe,list_sjsdm_tuning_work_item_result_family,FALSE
+europe,list_sjsdm_tuning_work_item_result_ft_modern,FALSE
+europe,list_sjsdm_tuning_work_item_result_genus,FALSE

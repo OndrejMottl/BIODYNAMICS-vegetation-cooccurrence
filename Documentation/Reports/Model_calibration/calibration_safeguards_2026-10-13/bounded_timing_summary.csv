@@ -1,0 +1,4 @@
+calibration_stage,budget_order,n_iter_budget,n_sampling,n_fits,n_converged,fit_minutes,median_fit_seconds
+confirmation,1,500,200,20,20,4.659833333333324,13.939999999999998
+screening,1,500,100,24,24,5.030500000000001,12.440000000000005
+screening,2,1000,100,24,24,7.412833333333333,18.05000000000004

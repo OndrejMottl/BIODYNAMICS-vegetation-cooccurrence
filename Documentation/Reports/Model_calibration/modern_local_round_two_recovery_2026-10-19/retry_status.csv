@@ -1,0 +1,2 @@
+scale_id,round_id,started_at,finished_at,status,preparation_preserved,stores_reset
+am_r004_l004,2,2026-10-19 13:00:04 UTC,2026-10-19 13:05:41 UTC,passed,TRUE,FALSE

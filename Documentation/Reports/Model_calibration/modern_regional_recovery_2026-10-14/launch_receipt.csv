@@ -1,0 +1,2 @@
+run_id,pid,started_at,commit,script_path,log_path,component_order,previous_run_id,status
+20261014_101130,33984,2026-10-14 08:11:30 UTC,6483905b0ca1174318743d8189b08ef9181da789,D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/Data/Temp/modern_regional_restart_sequence_20261014.R,D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/Data/Temp/Main_analysis_execution/03_model_fitting_modern/20261014_101130/modern_sequence_master.log,modern regional only; local calibration blocked,20261013_153741,launched; canonical prerequisite check precedes fitting

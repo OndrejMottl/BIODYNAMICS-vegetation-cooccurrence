@@ -1,0 +1,4 @@
+scale,n_total,n_stores,n_with_any_finished_model,n_finished_resolution_branches
+continental,3,3,3,9
+local,262,262,109,311
+regional,29,29,20,60

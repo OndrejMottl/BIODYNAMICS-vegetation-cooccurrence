@@ -1,0 +1,6 @@
+file_log,required_text
+Data/Temp/regional_recovery_publish_audit_20261014.log,MODERN REGIONAL CACHE PRESERVATION PASSED; LOCAL BLOCKED
+Data/Temp/regional_recovery_validation_20261014.log,REGIONAL RECOVERY DOCUMENTATION AND ARCHITECTURE PASSED
+Data/Temp/regional_recovery_smoke_20261014.log,REGIONAL RECOVERY PALEO MODERN WARM SMOKE PASSED
+Data/Temp/regional_recovery_full_tests_20261014.log,PALEO RECOVERY FULL TEST SUITE PASSED
+Data/Temp/regional_recovery_live_guard_20261014.log,REGIONAL PRODUCTION GUARD PASSED

@@ -1,0 +1,5 @@
+check_id,file_log,status,exit_code,recorded_at_utc
+focused_tests,Data/Temp/modern_infeasibility_focused_tests_final_20261014.log,passed,0,2026-10-14 10:16:58 UTC
+full_tests,Data/Temp/modern_infeasibility_full_tests_final_20261014.log,passed,0,2026-10-14 10:16:58 UTC
+warm_cz_smoke,Data/Temp/modern_infeasibility_smoke_final_20261014.log,passed,0,2026-10-14 10:16:58 UTC
+architecture,Data/Temp/modern_infeasibility_architecture_check_20261014.log,passed,0,2026-10-14 10:16:58 UTC

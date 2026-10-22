@@ -1,0 +1,9 @@
+figure_id,review_status,notes
+paleo_spatial_association_atlas,needs_layout_review,Local-scale maps remain crowded
+paleo_spatial_association_summary,no_obvious_clipping,Unit distributions and counts visibly rendered
+paleo_variance_partitioning_predictor_inclusive,no_obvious_clipping,Component matrix and overlap caption visibly rendered
+modern_variance_partitioning,no_obvious_clipping,Compositional and unit-distribution panels visibly rendered
+modern_variance_partitioning_predictor_inclusive,no_obvious_clipping,Component matrix and overlap caption visibly rendered
+paleo_modern_matched_comparison,needs_layout_fix,Count and exclusion annotations clipped or overlapping; panel B label overlaps axis label
+functional_type_comparison,needs_layout_fix,Panel A tag clipped at upper edge
+paleo_temporal_trajectories_predictor_inclusive,needs_layout_fix,Sampling strip not visibly rendered; density legend ticks crowded; cached temporal failures remain unresolved

@@ -1,0 +1,4 @@
+resolution_id,cumulative_fold_results,round_two_results,converged_results,complete_round_two_candidates,artifact_content_hash,eligibility_status
+genus,60,20,60,4,84a39c4bae3c1fa0,eligible
+family,60,20,60,4,428de1e21f4a651a,eligible
+ft_modern,0,0,0,0,f390312faa1906f9,expected_not_applicable

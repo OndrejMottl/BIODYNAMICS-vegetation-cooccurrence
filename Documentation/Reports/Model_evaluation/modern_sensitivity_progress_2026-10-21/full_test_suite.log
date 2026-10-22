@@ -1,0 +1,2615 @@
+Component: 02_full_test_suite
+Script: R/03_Supplementary_analyses/Testing/Run_tests.R
+Started: 2026-10-21 12:54:42.352608
+
+here() starts at D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence
+Warning message:
+package 'here' was built under R version 4.5.2
+- The library is already synchronized with the lockfile.
+qs2 0.2.0
+── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.2
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter()      masks stats::filter()
+✖ purrr::flatten()     masks rlang::flatten()
+✖ purrr::flatten_chr() masks rlang::flatten_chr()
+✖ purrr::flatten_dbl() masks rlang::flatten_dbl()
+✖ purrr::flatten_int() masks rlang::flatten_int()
+✖ purrr::flatten_lgl() masks rlang::flatten_lgl()
+✖ purrr::flatten_raw() masks rlang::flatten_raw()
+✖ tibble::has_name()   masks rlang::has_name(), assertthat::has_name()
+✖ purrr::invoke()      masks rlang::invoke()
+✖ dplyr::lag()         masks stats::lag()
+✖ purrr::modify()      masks renv::modify()
+✖ purrr::splice()      masks rlang::splice()
+ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+Linking to GEOS 3.13.1, GDAL 3.11.4, PROJ 9.7.0; sf_use_s2() is TRUE
+── Attaching sjSDM ──────────────────────────────────────────────────── 1.0.7 ──
+✔ torch <environment>
+✔ torch_optimizer
+✔ pyro
+✔ madgrad
+
+ℹ Running GPU/CUDA preflight checks.
+✔ Python:
+  C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm-vscode/python.exe
+There were 13 warnings (use warnings() to see them)
+
+Attaching package: 'testthat'
+
+The following objects are masked from 'package:readr':
+
+    edition_get, local_edition
+
+Warning message:
+package 'testthat' was built under R version 4.5.2
+✔ | F W  S  OK | Context
+
+⠏ |          0 | aggregate_sjsdm_tuning_by_tier
+⠹ |          3 | aggregate_sjsdm_tuning_by_tier
+⠸ |         14 | aggregate_sjsdm_tuning_by_tier
+⠋ |         21 | aggregate_sjsdm_tuning_by_tier
+✔ |         24 | aggregate_sjsdm_tuning_by_tier
+
+⠏ |          0 | aggregate_sjsdm_tuning_work_items
+✔ |          3 | aggregate_sjsdm_tuning_work_items
+
+⠏ |          0 | build_cross_validation_assignments_from_resolution
+⠋ |          1 | build_cross_validation_assignments_from_resolution
+✔ |          8 | build_cross_validation_assignments_from_resolution
+
+⠏ |          0 | build_cross_validation_branch_assignments
+⠹ |          3 | build_cross_validation_branch_assignments
+✔ |          7 | build_cross_validation_branch_assignments
+
+⠏ |          0 | build_cross_validation_grid_candidates
+✔ |          5 | build_cross_validation_grid_candidates
+
+⠏ |          0 | build_cross_validation_grid_candidates_from_resolution
+✔ |          5 | build_cross_validation_grid_candidates_from_resolution
+
+⠏ |          0 | build_cross_validation_location_table
+✔ |         12 | build_cross_validation_location_table
+
+⠏ |          0 | build_leave_one_location_out_assignments
+✔ |          7 | build_leave_one_location_out_assignments
+
+⠏ |          0 | build_sjsdm_artifact_envelope
+⠋ |          1 | build_sjsdm_artifact_envelope
+✔ |          4 | build_sjsdm_artifact_envelope
+
+⠏ |          0 | build_sjsdm_artifact_provenance
+✔ |          4 | build_sjsdm_artifact_provenance
+
+⠏ |          0 | build_sjsdm_artifact_registry
+✔ |          3 | build_sjsdm_artifact_registry
+
+⠏ |          0 | build_sjsdm_cached_selected_folds
+⠋ |          1 | build_sjsdm_cached_selected_folds
+✔ |          6 | build_sjsdm_cached_selected_folds
+
+⠏ |          0 | build_sjsdm_candidate_fold_result
+✔ |          9 | build_sjsdm_candidate_fold_result
+
+⠏ |          0 | build_sjsdm_common_regularization_artifact
+⠋ |          1 | build_sjsdm_common_regularization_artifact
+✔ |          8 | build_sjsdm_common_regularization_artifact
+
+⠏ |          0 | build_sjsdm_common_regularization_artifacts
+⠋ |          1 | build_sjsdm_common_regularization_artifacts
+✔ |          2 | build_sjsdm_common_regularization_artifacts
+
+⠏ |          0 | build_sjsdm_cumulative_tuning_work_items
+⠸ |          4 | build_sjsdm_cumulative_tuning_work_items
+✔ |         11 | build_sjsdm_cumulative_tuning_work_items
+
+⠏ |          0 | build_sjsdm_empty_selected_fold_artifacts
+✔ |          5 | build_sjsdm_empty_selected_fold_artifacts
+
+⠏ |          0 | build_sjsdm_empty_tier_regularization_selection
+✔ |          4 | build_sjsdm_empty_tier_regularization_selection
+
+⠏ |          0 | build_sjsdm_empty_tuning_result
+✔ |          5 | build_sjsdm_empty_tuning_result
+
+⠏ |          0 | build_sjsdm_empty_unit_regularization_selection
+✔ |          3 | build_sjsdm_empty_unit_regularization_selection
+
+⠏ |          0 | build_sjsdm_fold_prediction_skeleton
+✔ |          4 | build_sjsdm_fold_prediction_skeleton
+
+⠏ |          0 | build_sjsdm_pipeline_artifact
+✔ |          1 | build_sjsdm_pipeline_artifact
+
+⠏ |          0 | build_sjsdm_predictor_comparison_structure
+✔ |         39 | build_sjsdm_predictor_comparison_structure
+
+⠏ |          0 | build_sjsdm_regularization_candidates
+✔ |          8 | build_sjsdm_regularization_candidates
+
+⠏ |          0 | build_sjsdm_selected_fold_artifacts
+✔ |          4 | build_sjsdm_selected_fold_artifacts
+
+⠏ |          0 | build_sjsdm_staged_benchmark_policy
+✔ |          4 | build_sjsdm_staged_benchmark_policy
+
+⠏ |          0 | build_sjsdm_structured_regularization_candidates
+✔ |         14 | build_sjsdm_structured_regularization_candidates
+
+⠏ |          0 | build_sjsdm_tier_survivor_artifacts
+⠋ |          1 | build_sjsdm_tier_survivor_artifacts
+⠦ |          7 | build_sjsdm_tier_survivor_artifacts
+⠏ |         10 | build_sjsdm_tier_survivor_artifacts
+⠹ |         13 | build_sjsdm_tier_survivor_artifacts
+✔ |         17 | build_sjsdm_tier_survivor_artifacts
+
+⠏ |          0 | build_sjsdm_tier_tuning_artifact
+✔ |         12 | build_sjsdm_tier_tuning_artifact
+
+⠏ |          0 | build_sjsdm_tier_tuning_artifacts
+⠋ |          1 | build_sjsdm_tier_tuning_artifacts
+✔ |          3 | build_sjsdm_tier_tuning_artifacts
+
+⠏ |          0 | build_sjsdm_tuning_branch_work_items
+✔ |          8 | build_sjsdm_tuning_branch_work_items
+
+⠏ |          0 | build_sjsdm_tuning_fold_context
+✔ |          2 | build_sjsdm_tuning_fold_context
+
+⠏ |          0 | build_sjsdm_tuning_round_plan
+✔ |          2 | build_sjsdm_tuning_round_plan
+
+⠏ |          0 | build_sjsdm_tuning_schedule
+✔ |         17 | build_sjsdm_tuning_schedule
+
+⠏ |          0 | build_sjsdm_tuning_store_paths
+✔ |          1 | build_sjsdm_tuning_store_paths
+
+⠏ |          0 | build_sjsdm_tuning_work_items
+✔ |          5 | build_sjsdm_tuning_work_items
+
+⠏ |          0 | build_spatial_cross_validation_assignments
+⠴ |          6 | build_spatial_cross_validation_assignments
+⠇ |          9 | build_spatial_cross_validation_assignments
+✔ |         10 | build_spatial_cross_validation_assignments
+
+⠏ |          0 | build_vegvault_plan
+⠸ |         14 | build_vegvault_plan
+⠴ |         16 | build_vegvault_plan
+⠦ |         17 | build_vegvault_plan
+✔ |         17 | build_vegvault_plan
+
+⠏ |          0 | combine_sjsdm_selected_fold_artifacts
+✔ |          1 | combine_sjsdm_selected_fold_artifacts
+
+⠏ |          0 | common-regularization-sensitivity-pipeline-contract
+⠋ |          1 | common-regularization-sensitivity-pipeline-contract
+⠸ |          4 | common-regularization-sensitivity-pipeline-contract
+⠦ |          7 | common-regularization-sensitivity-pipeline-contract
+⠏ |         10 | common-regularization-sensitivity-pipeline-contract
+✔ |         10 | common-regularization-sensitivity-pipeline-contract [2.4s]
+
+⠏ |          0 | compute_cross_validation_grid_calibration
+⠋ |          1 | compute_cross_validation_grid_calibration
+⠧ |          8 | compute_cross_validation_grid_calibration
+✔ |          8 | compute_cross_validation_grid_calibration
+
+⠏ |          0 | compute_cross_validation_grid_calibration_from_resolution
+⠋ |          1 | compute_cross_validation_grid_calibration_from_resolution
+✔ |          5 | compute_cross_validation_grid_calibration_from_resolution
+
+⠏ |          0 | compute_sjsdm_artifact_content_hash
+✔ |          4 | compute_sjsdm_artifact_content_hash
+
+⠏ |          0 | compute_sjsdm_decomposition_fold_effects
+⠏ |         10 | compute_sjsdm_decomposition_fold_effects
+✔ |         10 | compute_sjsdm_decomposition_fold_effects
+
+⠏ |          0 | compute_sjsdm_decomposition_loss_shares
+✔ |          6 | compute_sjsdm_decomposition_loss_shares
+
+⠏ |          0 | cross_validation_prediction_cache_pipeline_contract
+✔ |         35 | cross_validation_prediction_cache_pipeline_contract
+
+⠏ |          0 | cv_fold_ladder_pipeline_contract
+✔ |         11 | cv_fold_ladder_pipeline_contract
+
+⠏ |          0 | cz-paleo-cv-component-reference-contract
+✔ |         13 | cz-paleo-cv-component-reference-contract
+
+⠏ |          0 | cz-paleo-cv-regularization-reference-contract
+✔ |         20 | cz-paleo-cv-regularization-reference-contract
+
+⠏ |          0 | cz_paleo_cv_reference
+✔ |         17 | cz_paleo_cv_reference
+
+⠏ |          0 | cz_paleo_cv_reference_gpu
+✔ |         16 | cz_paleo_cv_reference_gpu
+
+⠏ |          0 | cz_paleo_cv_staged_reference_gpu
+✔ |         15 | cz_paleo_cv_staged_reference_gpu
+
+⠏ |          0 | diagnose_cross_validation_partitions
+⠇ |          9 | diagnose_cross_validation_partitions
+⠸ |         14 | diagnose_cross_validation_partitions
+✔ |         16 | diagnose_cross_validation_partitions
+
+⠏ |          0 | evaluate_sjsdm_candidate_guardrails
+⠋ |          1 | evaluate_sjsdm_candidate_guardrails
+✔ |          7 | evaluate_sjsdm_candidate_guardrails
+
+⠏ |          0 | evaluate_sjsdm_cross_validated_predictions
+⠹ |          3 | evaluate_sjsdm_cross_validated_predictions
+✔ |         19 | evaluate_sjsdm_cross_validated_predictions
+
+⠏ |          0 | evaluate_sjsdm_fold_predictions
+⠋ |          1 | evaluate_sjsdm_fold_predictions
+⠇ |         19 | evaluate_sjsdm_fold_predictions
+✔ |         23 | evaluate_sjsdm_fold_predictions
+
+⠏ |          0 | evaluate_sjsdm_prediction_source_metrics
+✔ |          2 | evaluate_sjsdm_prediction_source_metrics
+
+⠏ |          0 | evaluate_sjsdm_scientific_performance
+⠴ |          6 | evaluate_sjsdm_scientific_performance
+✔ |          9 | evaluate_sjsdm_scientific_performance
+
+⠏ |          0 | evaluate_sjsdm_staged_benchmark
+⠦ |          7 | evaluate_sjsdm_staged_benchmark
+✔ |         12 | evaluate_sjsdm_staged_benchmark
+
+⠏ |          0 | evaluate_sjsdm_taxon_eligibility
+✔ |         10 | evaluate_sjsdm_taxon_eligibility
+
+⠏ |          0 | evaluate_spatial_mev_paired_benchmark
+✔ |          6 | evaluate_spatial_mev_paired_benchmark
+
+⠏ |          0 | extract_age_uncertainty_from_vegvault
+⠼ |         15 | extract_age_uncertainty_from_vegvault
+✔ |      1  18 | extract_age_uncertainty_from_vegvault
+
+⠏ |          0 | extract_data_from_vegvault
+⠸ |          4 | extract_data_from_vegvault
+✔ |          4 | extract_data_from_vegvault [5.7s]
+
+⠏ |          0 | fit_sjsdm_regularization_candidate
+✔ |         12 | fit_sjsdm_regularization_candidate
+
+⠏ |          0 | fold-local-pipeline-contract
+✔ |          8 | fold-local-pipeline-contract
+
+⠏ |          0 | generated-cv-documentation-contract
+✔ |          3 | generated-cv-documentation-contract
+
+⠏ |          0 | has_sjsdm_tuning_evidence
+⠋ |          1 | has_sjsdm_tuning_evidence
+⠹ |          3 | has_sjsdm_tuning_evidence
+✔ |          7 | has_sjsdm_tuning_evidence
+
+⠏ |          0 | issue138-representative-validation
+⠧ |         28 | issue138-representative-validation
+⠴ |         56 | issue138-representative-validation
+✔ |         59 | issue138-representative-validation
+
+⠏ |          0 | issue156-persisted-contract-migration
+⠼ |         15 | issue156-persisted-contract-migration
+⠹ |         43 | issue156-persisted-contract-migration
+✔ |         74 | issue156-persisted-contract-migration
+
+⠏ |          0 | issue176-predictor-inclusive-workflow-contract
+⠹ |          3 | issue176-predictor-inclusive-workflow-contract
+✔ |         20 | issue176-predictor-inclusive-workflow-contract
+
+⠏ |          0 | load_sjsdm_available_tier_decisions
+✔ |          5 | load_sjsdm_available_tier_decisions
+
+⠏ |          0 | load_sjsdm_cv_payload_field
+⠸ |          4 | load_sjsdm_cv_payload_field
+✔ |          4 | load_sjsdm_cv_payload_field
+
+⠏ |          0 | load_sjsdm_tier_survivor_decisions
+✔ |          6 | load_sjsdm_tier_survivor_decisions
+
+⠏ |          0 | load_sjsdm_tier_tuning_artifact
+⠋ |          1 | load_sjsdm_tier_tuning_artifact
+✔ |          8 | load_sjsdm_tier_tuning_artifact
+
+⠏ |          0 | load_sjsdm_tuning_summaries
+⠋ |          1 | load_sjsdm_tuning_summaries
+⠼ |          5 | load_sjsdm_tuning_summaries
+⠏ |         10 | load_sjsdm_tuning_summaries
+⠹ |         13 | load_sjsdm_tuning_summaries
+⠴ |         16 | load_sjsdm_tuning_summaries
+✔ |         19 | load_sjsdm_tuning_summaries
+
+⠏ |          0 | load_sjsdm_unit_tuning_store_paths
+✔ |          2 | load_sjsdm_unit_tuning_store_paths
+
+⠏ |          0 | main-analysis-manuscript-visualisation-contract
+✔ |         21 | main-analysis-manuscript-visualisation-contract
+
+⠏ |          0 | make_community_filter_targets
+✔ |          5 | make_community_filter_targets
+
+⠏ |          0 | model-fitting-device-policy
+✔ |          4 | model-fitting-device-policy
+
+⠏ |          0 | paleo-local-cv-decomposition-reference-contract
+✔ |         21 | paleo-local-cv-decomposition-reference-contract
+
+⠏ |          0 | paleo-local-cv-scientific-reference-contract
+✔ |         19 | paleo-local-cv-scientific-reference-contract
+
+⠏ |          0 | pipe_segment_interpolation_contracts
+✔ |          7 | pipe_segment_interpolation_contracts
+
+⠏ |          0 | predict_sjsdm_probability_matrix
+✔ |          5 | predict_sjsdm_probability_matrix
+
+⠏ |          0 | prepare_ordered_fold_partition
+✔ |          5 | prepare_ordered_fold_partition
+
+⠏ |          0 | prepare_sjsdm_artifact_hash_payload
+✔ |          2 | prepare_sjsdm_artifact_hash_payload
+
+⠏ |          0 | prepare_sjsdm_cross_validation_fold
+⠋ |          1 | prepare_sjsdm_cross_validation_fold
+⠴ |          6 | prepare_sjsdm_cross_validation_fold
+✔ |          8 | prepare_sjsdm_cross_validation_fold
+
+⠏ |          0 | prepare_sjsdm_guardrail_repeat_metrics
+✔ |          3 | prepare_sjsdm_guardrail_repeat_metrics
+
+⠏ |          0 | prepare_sjsdm_guardrail_tuning_candidate
+✔ |          2 | prepare_sjsdm_guardrail_tuning_candidate
+
+⠏ |          0 | prepare_sjsdm_tuning_folds
+⠇ |          9 | prepare_sjsdm_tuning_folds
+⠴ |         26 | prepare_sjsdm_tuning_folds
+⠏ |         30 | prepare_sjsdm_tuning_folds
+⠙ |         32 | prepare_sjsdm_tuning_folds
+✔ |         33 | prepare_sjsdm_tuning_folds [10.8s]
+
+⠏ |          0 | read_vegvault_scalar
+✔ |          2 | read_vegvault_scalar
+
+⠏ |          0 | resolve_cross_validation_assignments
+⠼ |          5 | resolve_cross_validation_assignments
+✔ |          6 | resolve_cross_validation_assignments
+
+⠏ |          0 | resolve_cross_validation_fold_count
+✔ |         17 | resolve_cross_validation_fold_count
+
+⠏ |          0 | resolve_cross_validation_fold_search
+⠋ |          1 | resolve_cross_validation_fold_search
+⠴ |          6 | resolve_cross_validation_fold_search
+⠦ |          7 | resolve_cross_validation_fold_search
+⠙ |         12 | resolve_cross_validation_fold_search
+⠹ |         13 | resolve_cross_validation_fold_search
+⠧ |         18 | resolve_cross_validation_fold_search
+⠙ |         22 | resolve_cross_validation_fold_search
+⠼ |         25 | resolve_cross_validation_fold_search
+⠏ |         30 | resolve_cross_validation_fold_search
+✔ |         39 | resolve_cross_validation_fold_search [90.1s]
+
+⠏ |          0 | resolve_cross_validation_strategy
+✔ |          8 | resolve_cross_validation_strategy
+
+⠏ |          0 | resolve_sjsdm_regularization_for_fit
+✔ |         11 | resolve_sjsdm_regularization_for_fit
+
+⠏ |          0 | resolve_sjsdm_tuning_context
+✔ |          7 | resolve_sjsdm_tuning_context
+
+⠏ |          0 | run_issue138_representative_validation
+⠼ |         15 | run_issue138_representative_validation
+✔ |         15 | run_issue138_representative_validation
+
+⠏ |          0 | run_sjsdm_common_regularization_sensitivity
+⠋ |          1 | run_sjsdm_common_regularization_sensitivity
+⠙ |         12 | run_sjsdm_common_regularization_sensitivity
+⠇ |         19 | run_sjsdm_common_regularization_sensitivity
+✔ |         27 | run_sjsdm_common_regularization_sensitivity
+
+⠏ |          0 | run_sjsdm_cross_tier_sensitivity
+✔ |         16 | run_sjsdm_cross_tier_sensitivity
+
+⠏ |          0 | run_sjsdm_predictor_structure_folds
+✔ |         11 | run_sjsdm_predictor_structure_folds
+
+⠏ |          0 | run_sjsdm_prepared_tuning_candidate
+⠙ |         12 | run_sjsdm_prepared_tuning_candidate
+✔ |         13 | run_sjsdm_prepared_tuning_candidate
+
+⠏ |          0 | run_sjsdm_selected_candidate_folds
+⠹ |          3 | run_sjsdm_selected_candidate_folds
+✔ |         18 | run_sjsdm_selected_candidate_folds
+
+⠏ |          0 | run_sjsdm_selected_fold
+✔ |          4 | run_sjsdm_selected_fold
+
+⠏ |          0 | run_sjsdm_tuning_candidates
+⠹ |          3 | run_sjsdm_tuning_candidates
+⠧ |         18 | run_sjsdm_tuning_candidates
+⠋ |         21 | run_sjsdm_tuning_candidates
+✔ |         27 | run_sjsdm_tuning_candidates
+
+⠏ |          0 | run_sjsdm_tuning_fold_candidates
+⠦ |         17 | run_sjsdm_tuning_fold_candidates
+✔ |         20 | run_sjsdm_tuning_fold_candidates
+
+⠏ |          0 | run_sjsdm_tuning_sequence
+⠋ |         21 | run_sjsdm_tuning_sequence
+✔ |         42 | run_sjsdm_tuning_sequence
+
+⠏ |          0 | run_sjsdm_tuning_tier_round
+✔ |          1 | run_sjsdm_tuning_tier_round
+
+⠏ |          0 | run_sjsdm_tuning_unit_round
+✔ |          8 | run_sjsdm_tuning_unit_round
+
+⠏ |          0 | run_sjsdm_tuning_work_item
+⠙ |          2 | run_sjsdm_tuning_work_item
+⠸ |         14 | run_sjsdm_tuning_work_item
+✔ |         22 | run_sjsdm_tuning_work_item
+
+⠏ |          0 | run_spatial_mev_paired_cv_fixture
+⠋ |          1 | run_spatial_mev_paired_cv_fixture
+✔ |          6 | run_spatial_mev_paired_cv_fixture
+
+⠏ |          0 | score_sjsdm_joint_tuning_predictions
+✔ |         20 | score_sjsdm_joint_tuning_predictions
+
+⠏ |          0 | score_sjsdm_tuning_predictions
+✔ |          6 | score_sjsdm_tuning_predictions
+
+⠏ |          0 | select_sjsdm_regularization
+⠙ |         12 | select_sjsdm_regularization
+✔ |         16 | select_sjsdm_regularization
+
+⠏ |          0 | select_sjsdm_staged_survivors
+✔ |          7 | select_sjsdm_staged_survivors
+
+⠏ |          0 | select_sjsdm_tuning_round_work_items
+⠋ |         11 | select_sjsdm_tuning_round_work_items
+✔ |         11 | select_sjsdm_tuning_round_work_items
+
+⠏ |          0 | spatial-synthesis-metric-contract
+✔ |          6 | spatial-synthesis-metric-contract
+
+⠏ |          0 | summarise_sjsdm_decomposition_effects
+✔ |         12 | summarise_sjsdm_decomposition_effects
+
+⠏ |          0 | summarise_sjsdm_fold_metrics
+⠋ |         11 | summarise_sjsdm_fold_metrics
+✔ |         17 | summarise_sjsdm_fold_metrics
+
+⠏ |          0 | summarise_sjsdm_metric_repeats
+⠧ |         18 | summarise_sjsdm_metric_repeats
+✔ |         23 | summarise_sjsdm_metric_repeats
+
+⠏ |          0 | summarise_sjsdm_model_provenance
+✔ |         43 | summarise_sjsdm_model_provenance
+
+⠏ |          0 | summarise_sjsdm_tuning_candidates
+⠴ |         16 | summarise_sjsdm_tuning_candidates
+✔ |         19 | summarise_sjsdm_tuning_candidates
+
+⠏ |          0 | summarise_sjsdm_tuning_execution
+✔ |         21 | summarise_sjsdm_tuning_execution
+
+⠏ |          0 | summarise_sjsdm_tuning_timings
+✔ |          5 | summarise_sjsdm_tuning_timings
+
+⠏ |          0 | summarise_spatial_mev_benchmark_predictions
+⠋ |          1 | summarise_spatial_mev_benchmark_predictions
+✔ |          5 | summarise_spatial_mev_benchmark_predictions
+
+⠏ |          0 | tier_tuning_pipeline_contract
+⠋ |          1 | tier_tuning_pipeline_contract
+⠏ |         10 | tier_tuning_pipeline_contract
+✔ |         13 | tier_tuning_pipeline_contract [1.2s]
+
+⠏ |          0 | validate_cross_validation_design_payload
+✔ |          2 | validate_cross_validation_design_payload
+
+⠏ |          0 | validate_cross_validation_shared_design_payload
+✔ |          2 | validate_cross_validation_shared_design_payload
+
+⠏ |          0 | validate_sjsdm_artifact_envelope
+✔ |          3 | validate_sjsdm_artifact_envelope
+
+⠏ |          0 | validate_sjsdm_artifact_payload
+✔ |          4 | validate_sjsdm_artifact_payload
+
+⠏ |          0 | validate_sjsdm_artifact_table
+✔ |          2 | validate_sjsdm_artifact_table
+
+⠏ |          0 | validate_sjsdm_common_regularization_payload
+⠋ |          1 | validate_sjsdm_common_regularization_payload
+✔ |          3 | validate_sjsdm_common_regularization_payload
+
+⠏ |          0 | validate_sjsdm_cv_evaluation_payload
+⠋ |          1 | validate_sjsdm_cv_evaluation_payload
+✔ |          2 | validate_sjsdm_cv_evaluation_payload
+
+⠏ |          0 | validate_sjsdm_cv_prediction_payload
+✔ |          2 | validate_sjsdm_cv_prediction_payload
+
+⠏ |          0 | validate_sjsdm_cv_tuning_payload
+⠋ |          1 | validate_sjsdm_cv_tuning_payload
+✔ |          2 | validate_sjsdm_cv_tuning_payload
+
+⠏ |          0 | validate_sjsdm_regularization_selection_payload
+✔ |          2 | validate_sjsdm_regularization_selection_payload
+
+⠏ |          0 | validate_sjsdm_tier_tuning_payload
+⠙ |          2 | validate_sjsdm_tier_tuning_payload
+✔ |          3 | validate_sjsdm_tier_tuning_payload
+
+⠏ |          0 | validate_sjsdm_tuning_repeat_coverage
+✔ |          3 | validate_sjsdm_tuning_repeat_coverage
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 128.2 s
+
+── Skipped tests (1) ───────────────────────────────────────────────────────────
+• Set RUN_VEGVAULT_INTEGRATION=true to run VegVault integration tests (1):
+  'test-extract_age_uncertainty_from_vegvault.R:326:5'
+
+[ FAIL 0 | WARN 0 | SKIP 1 | PASS 1536 ]
+
+Way to go!
+✔ | F W  S  OK | Context
+
+⠏ |          0 | load_chelsa_raster
+⠦ |         17 | load_chelsa_raster
+⠧ |         18 | load_chelsa_raster
+✔ |         18 | load_chelsa_raster [1.7s]
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 1.7 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 18 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | extract_abiotic_data
+✔ |          7 | extract_abiotic_data
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 7 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_predictor_collinearity
+⠧ |          8 | compute_predictor_collinearity
+⠴ |         16 | compute_predictor_collinearity
+✔ |         24 | compute_predictor_collinearity
+
+⠏ |          0 | select_non_collinear_predictors
+✔ |         28 | select_non_collinear_predictors
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 52 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | validate_abiotic_interpolation_contract
+⠴ |          6 | validate_abiotic_interpolation_contract
+✔ |          8 | validate_abiotic_interpolation_contract
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 8 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | classify_dataset_prefix
+✔ |          3 | classify_dataset_prefix
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 3 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | classify_to_functional_type
+⠋ |         11 | classify_to_functional_type
+⠏ |         20 | classify_to_functional_type
+⠧ |         28 | classify_to_functional_type
+✔ |         33 | classify_to_functional_type
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 33 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_classification_table
+✔ |          7 | build_classification_table
+
+⠏ |          0 | build_combined_classification_table
+⠴ |         16 | build_combined_classification_table
+✔ |         18 | build_combined_classification_table
+
+⠏ |          0 | save_missing_taxa_template
+⠏ |         10 | save_missing_taxa_template
+⠙ |         12 | save_missing_taxa_template
+⠴ |         16 | save_missing_taxa_template
+⠙ |         22 | save_missing_taxa_template
+✔ |         26 | save_missing_taxa_template
+
+⠏ |          0 | select_unclassified_taxa
+⠦ |         27 | select_unclassified_taxa
+✔ |         28 | select_unclassified_taxa
+
+⠏ |          0 | validate_taxa_classification_coverage
+✔ |          7 | validate_taxa_classification_coverage
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 1.0 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 86 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | classify_taxonomic_resolution
+⠼ |         15 | classify_taxonomic_resolution
+⠋ |         21 | classify_taxonomic_resolution
+⠹ |         33 | classify_taxonomic_resolution
+✔ |         37 | classify_taxonomic_resolution
+
+⠏ |          0 | prepare_classification_table_for_community_taxa
+⠸ |         14 | prepare_classification_table_for_community_taxa
+⠇ |         29 | prepare_classification_table_for_community_taxa
+✔ |         32 | prepare_classification_table_for_community_taxa
+
+⠏ |          0 | resolve_classification_to_finest_rank
+⠙ |         12 | resolve_classification_to_finest_rank
+⠧ |         28 | resolve_classification_to_finest_rank
+✔ |         33 | resolve_classification_to_finest_rank
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 1.2 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 102 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | load_auxiliary_classification_table
+⠦ |         27 | load_auxiliary_classification_table
+✔ |         48 | load_auxiliary_classification_table
+
+⠏ |          0 | load_taxa_classification
+⠋ |          1 | load_taxa_classification
+⠙ |          2 | load_taxa_classification
+⠧ |          8 | load_taxa_classification
+⠇ |          9 | load_taxa_classification
+⠙ |         12 | load_taxa_classification
+⠹ |         13 | load_taxa_classification
+⠸ |         14 | load_taxa_classification
+✔ |         15 | load_taxa_classification [1.8s]
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 2.0 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 63 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_network_metrics
+⠏ |         10 | compute_network_metrics
+✔ |         23 | compute_network_metrics
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 23 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | diagnose_colocated_community_records
+⠋ |          1 | diagnose_colocated_community_records
+✔ |          6 | diagnose_colocated_community_records
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 6 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_community_record_signatures
+✔ |          3 | build_community_record_signatures
+
+⠏ |          0 | diagnose_duplicate_communities
+✔ |          8 | diagnose_duplicate_communities
+
+⠏ |          0 | diagnose_duplicate_metadata_keys
+✔ |          6 | diagnose_duplicate_metadata_keys
+
+⠏ |          0 | diagnose_duplicate_sites
+✔ |          8 | diagnose_duplicate_sites
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 25 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | diagnose_modern_data_impossible_values
+✔ |          7 | diagnose_modern_data_impossible_values
+
+⠏ |          0 | evaluate_modern_data_quality
+⠸ |          4 | evaluate_modern_data_quality
+✔ |          5 | evaluate_modern_data_quality
+
+⠏ |          0 | validate_community_source
+✔ |          4 | validate_community_source
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 16 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_community_presence_absence
+⠏ |         20 | compute_community_presence_absence
+✔ |         21 | compute_community_presence_absence
+
+⠏ |          0 | extract_community_records
+✔ |          7 | extract_community_records
+
+⠏ |          0 | replace_missing_community_counts_with_zeros
+✔ |          8 | replace_missing_community_counts_with_zeros
+
+⠏ |          0 | reshape_community_to_long
+✔ |          7 | reshape_community_to_long
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 43 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | aggregate_colocated_community_records
+⠼ |          5 | aggregate_colocated_community_records
+✔ |         10 | aggregate_colocated_community_records
+
+⠏ |          0 | deduplicate_modern_community_data
+✔ |         10 | deduplicate_modern_community_data
+
+⠏ |          0 | normalise_coordinates
+✔ |          4 | normalise_coordinates
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 24 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_pollen_proportions
+✔ |          5 | compute_pollen_proportions
+
+⠏ |          0 | prepare_community_proportions
+✔ |          8 | prepare_community_proportions
+
+⠏ |          0 | summarise_pollen_counts_by_sample
+✔ |          6 | summarise_pollen_counts_by_sample
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 19 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | filter_constant_taxa
+✔ |         17 | filter_constant_taxa
+
+⠏ |          0 | validate_community_taxon_count
+✔ |         19 | validate_community_taxon_count
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
+
+👏 Your tests get an ovation 👏
+✔ | F W  S  OK | Context
+
+⠏ |          0 | select_top_taxa_by_group_occurrence
+✔ |          7 | select_top_taxa_by_group_occurrence
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 7 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | extract_community_taxa
+✔ |          5 | extract_community_taxa
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 5 ]
+
+🎉🎊🎉🎊🎉🎊🎉🎊🎉🎊🎉
+✔ | F W  S  OK | Context
+
+⠏ |          0 | filter_community_to_plantae
+⠹ |         13 | filter_community_to_plantae
+✔ |         30 | filter_community_to_plantae
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 30 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | filter_community_by_minimum_core_count
+⠙ |         22 | filter_community_by_minimum_core_count
+✔ |         22 | filter_community_by_minimum_core_count
+
+⠏ |          0 | filter_community_by_minimum_proportion
+⠋ |         31 | filter_community_by_minimum_proportion
+⠹ |         63 | filter_community_by_minimum_proportion
+✔ |         69 | filter_community_by_minimum_proportion
+
+⠏ |          0 | filter_community_by_minimum_sample_count
+⠋ |         21 | filter_community_by_minimum_sample_count
+✔ |         22 | filter_community_by_minimum_sample_count
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 113 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | align_sample_ids
+⠦ |         17 | align_sample_ids
+✔ |         17 | align_sample_ids
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 17 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | extract_age_from_sample_names
+✔ |         13 | extract_age_from_sample_names
+
+⠏ |          0 | extract_dataset_name_from_sample_names
+✔ |         12 | extract_dataset_name_from_sample_names
+
+⠏ |          0 | prepare_age_column_from_rownames
+✔ |         16 | prepare_age_column_from_rownames
+
+⠏ |          0 | prepare_dataset_name_column_from_rownames
+✔ |         16 | prepare_dataset_name_column_from_rownames
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 57 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | validate_available_core_count
+⠴ |         16 | validate_available_core_count
+✔ |         22 | validate_available_core_count
+
+⠏ |          0 | validate_sample_count
+⠏ |         20 | validate_sample_count
+✔ |         25 | validate_sample_count
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 47 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | extract_dataset_coordinates
+✔ |         11 | extract_dataset_coordinates
+
+⠏ |          0 | project_coords_to_metric
+⠙ |         12 | project_coords_to_metric
+⠹ |         23 | project_coords_to_metric
+⠸ |         34 | project_coords_to_metric
+✔ |         40 | project_coords_to_metric
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 51 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | load_continental_spatial_grid_rows
+⠦ |          7 | load_continental_spatial_grid_rows
+⠇ |          9 | load_continental_spatial_grid_rows
+⠸ |         14 | load_continental_spatial_grid_rows
+✔ |         14 | load_continental_spatial_grid_rows
+
+⠏ |          0 | load_spatial_window
+⠇ |          9 | load_spatial_window
+✔ |         12 | load_spatial_window
+
+⠏ |          0 | resolve_continent_ids_from_scale_ids
+⠸ |          4 | resolve_continent_ids_from_scale_ids
+⠋ |         11 | resolve_continent_ids_from_scale_ids
+✔ |         12 | resolve_continent_ids_from_scale_ids
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 38 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_spatial_grid_tiles
+✔ |         10 | build_spatial_grid_tiles
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 10 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | extract_sample_ages
+✔ |          8 | extract_sample_ages
+
+⠏ |          0 | join_sample_ages
+✔ |          9 | join_sample_ages
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 17 ]
+
+Way to go!
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_community_interpolation_index
+✔ |         16 | build_community_interpolation_index
+
+⠏ |          0 | interpolate_community_dataset_from_shared_inputs
+⠙ |          2 | interpolate_community_dataset_from_shared_inputs
+✔ |          9 | interpolate_community_dataset_from_shared_inputs
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 25 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | interpolate_fossil_age_iteration_batch
+✔ |          3 | interpolate_fossil_age_iteration_batch
+
+⠏ |          0 | interpolate_paleo_community_with_age_uncertainty
+⠙ |         12 | interpolate_paleo_community_with_age_uncertainty
+⠧ |         18 | interpolate_paleo_community_with_age_uncertainty
+⠼ |         25 | interpolate_paleo_community_with_age_uncertainty
+⠇ |         29 | interpolate_paleo_community_with_age_uncertainty
+⠏ |         40 | interpolate_paleo_community_with_age_uncertainty
+ Progress: ──────────────────────────────────────────────────────────────── 100%
+⠙ |         52 | interpolate_paleo_community_with_age_uncertainty
+✔ |         52 | interpolate_paleo_community_with_age_uncertainty [2.2s]
+
+⠏ |          0 | summarise_fossil_core_age_iterations
+✔ |          4 | summarise_fossil_core_age_iterations
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 2.2 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 59 ]
+
+👏 Your tests get an ovation 👏
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_interpolation_on_age_grid
+✔ |          6 | compute_interpolation_on_age_grid
+
+⠏ |          0 | interpolate_grouped_time_series
+ Progress: ──────────────────────────────────────────────────────────────── 100%
+⠧ |         18 | interpolate_grouped_time_series
+✔ |         22 | interpolate_grouped_time_series
+
+⠏ |          0 | muffle_package_version_warning
+✔ |          3 | muffle_package_version_warning
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 31 ]
+
+Your tests are unreal!
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_shared_interpolation_data
+⠹ |          3 | build_shared_interpolation_data
+✔ |          9 | build_shared_interpolation_data
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 9 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | assign_functional_type_clusters
+⠙ |         12 | assign_functional_type_clusters
+✔ |         23 | assign_functional_type_clusters
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 23 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_trait_dissimilarity
+⠼ |         15 | compute_trait_dissimilarity
+✔ |         20 | compute_trait_dissimilarity
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 20 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | select_functional_type_group_count
+⠋ |         11 | select_functional_type_group_count
+⠦ |         17 | select_functional_type_group_count
+⠇ |         19 | select_functional_type_group_count
+⠙ |         22 | select_functional_type_group_count
+⠋ |         31 | select_functional_type_group_count
+⠼ |         35 | select_functional_type_group_count
+⠸ |         44 | select_functional_type_group_count
+✔ |         45 | select_functional_type_group_count [1.1s]
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 1.1 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 45 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | fit_hierarchical_clustering
+✔ |          8 | fit_hierarchical_clustering
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 8 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | load_continental_trait_records_from_vegvault
+✔ |         17 | load_continental_trait_records_from_vegvault
+
+⠏ |          0 | load_trait_domain_names_from_vegvault
+⠇ |          9 | load_trait_domain_names_from_vegvault
+⠹ |         13 | load_trait_domain_names_from_vegvault
+✔ |         14 | load_trait_domain_names_from_vegvault
+
+⠏ |          0 | load_trait_records_from_vegvault
+✔ |          9 | load_trait_records_from_vegvault
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 40 ]
+
+🎉🎊🎉🎊🎉🎊🎉🎊🎉🎊🎉
+✔ | F W  S  OK | Context
+
+⠏ |          0 | load_functional_type_classification
+✔ |          4 | load_functional_type_classification
+
+⠏ |          0 | load_latest_functional_type_classification
+⠏ |         10 | load_latest_functional_type_classification
+✔ |         15 | load_latest_functional_type_classification
+
+⠏ |          0 | resolve_functional_type_classification_path
+⠋ |         11 | resolve_functional_type_classification_path
+✔ |         11 | resolve_functional_type_classification_path
+
+⠏ |          0 | resolve_functional_type_classification_path_from_store
+⠦ |          7 | resolve_functional_type_classification_path_from_store
+✔ |          8 | resolve_functional_type_classification_path_from_store
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 38 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | load_review_submission_candidates
+✔ |          4 | load_review_submission_candidates
+
+⠏ |          0 | load_trait_corrections
+✔ |         10 | load_trait_corrections
+
+⠏ |          0 | load_trait_review_decisions
+✔ |          5 | load_trait_review_decisions
+
+⠏ |          0 | load_trait_source_scale_rules
+✔ |          4 | load_trait_source_scale_rules
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 23 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | resolve_trait_taxon_ids
+⠸ |         14 | resolve_trait_taxon_ids
+✔ |         16 | resolve_trait_taxon_ids
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 16 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | save_continental_functional_type_classification
+⠙ |         12 | save_continental_functional_type_classification
+✔ |         16 | save_continental_functional_type_classification
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 16 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | diagnose_trait_matrix_readiness
+⠧ |          8 | diagnose_trait_matrix_readiness
+✔ |          8 | diagnose_trait_matrix_readiness
+
+⠏ |          0 | diagnose_trait_source_anomalies
+✔ |          5 | diagnose_trait_source_anomalies
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 13 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | summarise_trait_coverage
+⠸ |         24 | summarise_trait_coverage
+✔ |         26 | summarise_trait_coverage
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 26 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | plot_focal_trait_distribution
+⠴ |         16 | plot_focal_trait_distribution
+⠋ |         31 | plot_focal_trait_distribution
+⠴ |         36 | plot_focal_trait_distribution
+⠧ |         38 | plot_focal_trait_distribution
+⠏ |         40 | plot_focal_trait_distribution
+✔ |         42 | plot_focal_trait_distribution
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 42 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | flag_trait_outliers
+⠴ |         16 | flag_trait_outliers
+⠏ |         30 | flag_trait_outliers
+⠹ |         43 | flag_trait_outliers
+✔ |         48 | flag_trait_outliers
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 48 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | render_trait_quality_control_report
+⠇ |         19 | render_trait_quality_control_report
+✔ |         29 | render_trait_quality_control_report
+
+⠏ |          0 | save_trait_source_scale_report
+✔ |          5 | save_trait_source_scale_report
+
+⠏ |          0 | write_trait_quality_control_report
+⠼ |          5 | write_trait_quality_control_report
+⠧ |         18 | write_trait_quality_control_report
+⠼ |         25 | write_trait_quality_control_report
+⠦ |         27 | write_trait_quality_control_report
+⠼ |         35 | write_trait_quality_control_report
+⠼ |         45 | write_trait_quality_control_report
+⠦ |         57 | write_trait_quality_control_report
+✔ |         59 | write_trait_quality_control_report [8.5s]
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 8.8 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 93 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_trait_review_candidates
+⠸ |          4 | build_trait_review_candidates
+✔ |         11 | build_trait_review_candidates
+
+⠏ |          0 | build_trait_review_evidence_packets
+⠸ |          4 | build_trait_review_evidence_packets
+✔ |         10 | build_trait_review_evidence_packets
+
+⠏ |          0 | build_trait_review_grouped_investigation
+⠧ |          8 | build_trait_review_grouped_investigation
+✔ |         10 | build_trait_review_grouped_investigation
+
+⠏ |          0 | build_trait_review_interim_closure
+✔ |          9 | build_trait_review_interim_closure
+
+⠏ |          0 | build_trait_review_policy_outputs
+✔ |         12 | build_trait_review_policy_outputs
+
+⠏ |          0 | build_trait_review_programmatic_reconciliation
+⠋ |          1 | build_trait_review_programmatic_reconciliation
+✔ |          8 | build_trait_review_programmatic_reconciliation
+
+⠏ |          0 | build_trait_review_programmatic_triage
+⠋ |          1 | build_trait_review_programmatic_triage
+⠏ |         10 | build_trait_review_programmatic_triage
+⠧ |         18 | build_trait_review_programmatic_triage
+⠋ |         21 | build_trait_review_programmatic_triage
+⠧ |         28 | build_trait_review_programmatic_triage
+✔ |         36 | build_trait_review_programmatic_triage
+
+⠏ |          0 | build_trait_review_reconciliation
+✔ |          5 | build_trait_review_reconciliation
+
+⠏ |          0 | diagnose_trait_review_candidates
+✔ |         10 | diagnose_trait_review_candidates
+
+⠏ |          0 | save_trait_review_candidates
+✔ |          3 | save_trait_review_candidates
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 1.7 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 114 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | plot_taxonomic_trait_comparison
+⠏ |         20 | plot_taxonomic_trait_comparison
+⠼ |         25 | plot_taxonomic_trait_comparison
+⠇ |         29 | plot_taxonomic_trait_comparison
+✔ |         30 | plot_taxonomic_trait_comparison
+
+⠏ |          0 | summarise_taxonomic_group_traits
+⠼ |         15 | summarise_taxonomic_group_traits
+⠋ |         31 | summarise_taxonomic_group_traits
+⠏ |         50 | summarise_taxonomic_group_traits
+✔ |         56 | summarise_taxonomic_group_traits
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 86 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | aggregate_trait_values
+⠏ |         20 | aggregate_trait_values
+✔ |         21 | aggregate_trait_values
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 21 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_trait_analysis_release
+✔ |          5 | build_trait_analysis_release
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 5 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_community_taxon_trait_table
+⠸ |         14 | build_community_taxon_trait_table
+⠙ |         22 | build_community_taxon_trait_table
+⠙ |         32 | build_community_taxon_trait_table
+⠧ |         38 | build_community_taxon_trait_table
+✔ |         41 | build_community_taxon_trait_table
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 41 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | prepare_trait_matrix_for_dissimilarity
+✔ |          9 | prepare_trait_matrix_for_dissimilarity
+
+⠏ |          0 | resolve_functional_type_trait_transformations
+✔ |          6 | resolve_functional_type_trait_transformations
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 15 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | filter_trait_outliers
+⠼ |         15 | filter_trait_outliers
+✔ |         23 | filter_trait_outliers
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 23 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | apply_trait_review_decisions
+⠴ |          6 | apply_trait_review_decisions
+✔ |         10 | apply_trait_review_decisions
+
+⠏ |          0 | apply_trait_source_scale_rules
+✔ |          5 | apply_trait_source_scale_rules
+
+⠏ |          0 | correct_trait_records
+⠋ |         21 | correct_trait_records
+✔ |         32 | correct_trait_records
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 47 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | filter_complete_trait_records
+⠧ |         18 | filter_complete_trait_records
+✔ |         19 | filter_complete_trait_records
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 19 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_trait_table
+⠹ |         23 | build_trait_table
+✔ |         26 | build_trait_table
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 26 ]
+
+💅 Your tests are beautiful 💅
+✔ | F W  S  OK | Context
+
+⠏ |          0 | select_continental_trait_table
+⠼ |         15 | select_continental_trait_table
+✔ |         20 | select_continental_trait_table
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 20 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | evaluate_functional_type_classification_change
+⠼ |          5 | evaluate_functional_type_classification_change
+✔ |          9 | evaluate_functional_type_classification_change
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 9 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | validate_trait_corrections
+✔ |         10 | validate_trait_corrections
+
+⠏ |          0 | validate_trait_review_decisions
+⠋ |          1 | validate_trait_review_decisions
+⠇ |          9 | validate_trait_review_decisions
+✔ |         12 | validate_trait_review_decisions
+
+⠏ |          0 | validate_trait_source_scale_rules
+⠹ |          3 | validate_trait_source_scale_rules
+✔ |          6 | validate_trait_source_scale_rules
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 28 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | resolve_latest_dated_file_path
+✔ |          5 | resolve_latest_dated_file_path
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 5 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | validate_vegvault_presence
+✔ |          4 | validate_vegvault_presence
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 4 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | aggregate_sjsdm_tuning_fit_attempts
+✔ |          5 | aggregate_sjsdm_tuning_fit_attempts
+
+⠏ |          0 | build_sjsdm_cross_validation_fitting_config
+✔ |         20 | build_sjsdm_cross_validation_fitting_config
+
+⠏ |          0 | build_sjsdm_cv_calibration_ladder
+✔ |          6 | build_sjsdm_cv_calibration_ladder
+
+⠏ |          0 | build_sjsdm_cv_invalidation_manifest
+✔ |          5 | build_sjsdm_cv_invalidation_manifest
+
+⠏ |          0 | build_sjsdm_legacy_cache_invalidation_targets
+✔ |          1 | build_sjsdm_legacy_cache_invalidation_targets
+
+⠏ |          0 | build_sjsdm_unit_fitting_plan
+✔ |          6 | build_sjsdm_unit_fitting_plan
+
+⠏ |          0 | build_sjsdm_unit_fitting_targets
+✔ |          2 | build_sjsdm_unit_fitting_targets
+
+⠏ |          0 | classify_sjsdm_previous_preparation_error
+✔ |          6 | classify_sjsdm_previous_preparation_error
+
+⠏ |          0 | classify_sjsdm_unit_pipeline_error
+⠸ |         34 | classify_sjsdm_unit_pipeline_error
+✔ |         66 | classify_sjsdm_unit_pipeline_error
+
+⠏ |          0 | compute_sjsdm_cv_calibration_hashes
+✔ |         11 | compute_sjsdm_cv_calibration_hashes
+
+⠏ |          0 | diagnose_sjsdm_cv_preparation_endpoints
+⠋ |          1 | diagnose_sjsdm_cv_preparation_endpoints
+⠸ |          4 | diagnose_sjsdm_cv_preparation_endpoints
+⠦ |          7 | diagnose_sjsdm_cv_preparation_endpoints
+✔ |          8 | diagnose_sjsdm_cv_preparation_endpoints [1.7s]
+
+⠏ |          0 | evaluate_sjsdm_continental_cv_retention
+✔ |          3 | evaluate_sjsdm_continental_cv_retention
+
+⠏ |          0 | evaluate_sjsdm_cv_repeat_confirmation
+✔ |         11 | evaluate_sjsdm_cv_repeat_confirmation
+
+⠏ |          0 | fit_sjsdm_cross_validation_candidate
+⠋ |          1 | fit_sjsdm_cross_validation_candidate
+⠇ |          9 | fit_sjsdm_cross_validation_candidate
+✔ |         21 | fit_sjsdm_cross_validation_candidate [1.3s]
+
+⠏ |          0 | is_sjsdm_cv_preparation_mapping_current
+✔ |          3 | is_sjsdm_cv_preparation_mapping_current
+
+⠏ |          0 | is_sjsdm_cv_prepared_folds_current
+✔ |          3 | is_sjsdm_cv_prepared_folds_current
+
+⠏ |          0 | load_sjsdm_prepared_fold_cache
+✔ |          9 | load_sjsdm_prepared_fold_cache
+
+⠏ |          0 | prepare_sjsdm_cv_calibration_hash_folds
+✔ |          9 | prepare_sjsdm_cv_calibration_hash_folds
+
+⠏ |          0 | prepare_sjsdm_cv_calibration_result_migration
+✔ |          7 | prepare_sjsdm_cv_calibration_result_migration
+
+⠏ |          0 | resolve_sjsdm_cv_calibration_budgets
+⠴ |          6 | resolve_sjsdm_cv_calibration_budgets
+✔ |         10 | resolve_sjsdm_cv_calibration_budgets
+
+⠏ |          0 | run_sjsdm_cv_calibration_benchmark
+⠋ |          1 | run_sjsdm_cv_calibration_benchmark
+⠼ |          5 | run_sjsdm_cv_calibration_benchmark
+⠧ |         18 | run_sjsdm_cv_calibration_benchmark
+⠸ |         24 | run_sjsdm_cv_calibration_benchmark
+✔ |         34 | run_sjsdm_cv_calibration_benchmark
+
+⠏ |          0 | run_sjsdm_cv_calibration_rung
+⠋ |          1 | run_sjsdm_cv_calibration_rung
+✔ |         14 | run_sjsdm_cv_calibration_rung
+
+⠏ |          0 | run_sjsdm_cv_preparation_sequence
+⠋ |          1 | run_sjsdm_cv_preparation_sequence
+⠸ |         14 | run_sjsdm_cv_preparation_sequence
+⠹ |         23 | run_sjsdm_cv_preparation_sequence
+⠋ |         31 | run_sjsdm_cv_preparation_sequence
+⠦ |         37 | run_sjsdm_cv_preparation_sequence
+⠙ |         42 | run_sjsdm_cv_preparation_sequence
+⠼ |         55 | run_sjsdm_cv_preparation_sequence
+✔ |         60 | run_sjsdm_cv_preparation_sequence
+
+⠏ |          0 | run_sjsdm_sensitivity_checkpoint
+✔ |         10 | run_sjsdm_sensitivity_checkpoint
+
+⠏ |          0 | run_sjsdm_tuning_sequence
+⠸ |          4 | run_sjsdm_tuning_sequence                                      # A tibble: 1 × 3
+  store_suffix pipeline_status error_message
+  <chr>        <chr>           <chr>
+1 a            error           unexpected GPU failure
+
+✔ |         11 | run_sjsdm_tuning_sequence
+
+⠏ |          0 | run_sjsdm_unit_fitting_preflight
+⠦ |          7 | run_sjsdm_unit_fitting_preflight
+⠧ |          8 | run_sjsdm_unit_fitting_preflight
+⠇ |          9 | run_sjsdm_unit_fitting_preflight
+⠋ |         11 | run_sjsdm_unit_fitting_preflight
+✔ |         12 | run_sjsdm_unit_fitting_preflight [11.4s]
+
+⠏ |          0 | select_sjsdm_cv_calibration_budget
+⠧ |          8 | select_sjsdm_cv_calibration_budget
+✔ |         14 | select_sjsdm_cv_calibration_budget
+
+⠏ |          0 | select_sjsdm_cv_calibration_representatives
+⠦ |          7 | select_sjsdm_cv_calibration_representatives
+✔ |          8 | select_sjsdm_cv_calibration_representatives
+
+⠏ |          0 | sjsdm_cv_calibration_runner_architecture
+✔ |         23 | sjsdm_cv_calibration_runner_architecture
+
+⠏ |          0 | validate_sjsdm_cv_calibration_evidence
+⠙ |         12 | validate_sjsdm_cv_calibration_evidence
+✔ |         14 | validate_sjsdm_cv_calibration_evidence
+
+⠏ |          0 | validate_sjsdm_cv_preparation_freshness
+⠹ |          3 | validate_sjsdm_cv_preparation_freshness
+⠼ |          5 | validate_sjsdm_cv_preparation_freshness
+⠴ |          6 | validate_sjsdm_cv_preparation_freshness
+⠦ |          7 | validate_sjsdm_cv_preparation_freshness
+⠏ |         10 | validate_sjsdm_cv_preparation_freshness
+⠹ |         13 | validate_sjsdm_cv_preparation_freshness
+⠼ |         15 | validate_sjsdm_cv_preparation_freshness
+⠦ |         17 | validate_sjsdm_cv_preparation_freshness
+✔ |         17 | validate_sjsdm_cv_preparation_freshness [6.5s]
+
+⠏ |          0 | validate_sjsdm_cv_production_calibration
+✔ |          2 | validate_sjsdm_cv_production_calibration
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 24.7 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 431 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_decomposition_diagnostic_routes
+✔ |          8 | build_decomposition_diagnostic_routes
+
+⠏ |          0 | build_decomposition_environment_formula
+✔ |          3 | build_decomposition_environment_formula
+
+⠏ |          0 | build_repeated_diagnostic_fold_indices
+✔ |          5 | build_repeated_diagnostic_fold_indices
+
+⠏ |          0 | fit_decomposition_variant
+✔ |          3 | fit_decomposition_variant
+
+⠏ |          0 | load_decomposition_diagnostic_inputs
+✔ |          5 | load_decomposition_diagnostic_inputs
+
+⠏ |          0 | prepare_decomposition_fold_input
+⠋ |          1 | prepare_decomposition_fold_input
+⠧ |          8 | prepare_decomposition_fold_input
+✔ |          9 | prepare_decomposition_fold_input
+
+⠏ |          0 | run_decomposition_diagnostic_folds
+✔ |          3 | run_decomposition_diagnostic_folds
+
+⠏ |          0 | run_decomposition_upstream_refresh
+✔ |          3 | run_decomposition_upstream_refresh
+
+⠏ |          0 | select_decomposition_route_samples
+✔ |          2 | select_decomposition_route_samples
+
+⠏ |          0 | summarise_decomposition_diagnostic_routes
+⠹ |          3 | summarise_decomposition_diagnostic_routes
+✔ |          3 | summarise_decomposition_diagnostic_routes
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 44 ]
+
+Keep up the good work.
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_empty_decomposition_variant
+✔ |          3 | build_empty_decomposition_variant
+
+⠏ |          0 | load_decomposition_model_fitting_config
+✔ |          2 | load_decomposition_model_fitting_config
+
+⠏ |          0 | load_decomposition_target
+✔ |          1 | load_decomposition_target
+
+⠏ |          0 | resolve_decomposition_fold_loss
+✔ |          2 | resolve_decomposition_fold_loss
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 8 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_decomposition_prediction_metrics
+✔ |          6 | compute_decomposition_prediction_metrics
+
+⠏ |          0 | compute_predictive_decomposition_shares
+✔ |          9 | compute_predictive_decomposition_shares
+
+⠏ |          0 | compute_predictive_fold_shares
+✔ |          4 | compute_predictive_fold_shares
+
+⠏ |          0 | compute_predictive_performance_shares
+✔ |          8 | compute_predictive_performance_shares
+
+⠏ |          0 | summarise_predictive_decomposition
+✔ |          7 | summarise_predictive_decomposition
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 34 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_empty_spatial_model_results
+✔ |          3 | build_empty_spatial_model_results
+
+⠏ |          0 | fit_binary_calibration_model
+✔ |          3 | fit_binary_calibration_model
+
+⠏ |          0 | load_successful_model_target
+✔ |          3 | load_successful_model_target
+
+⠏ |          0 | summarise_fitted_auc
+✔ |          6 | summarise_fitted_auc
+
+⠏ |          0 | summarise_model_provenance
+✔ |          5 | summarise_model_provenance
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 20 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | evaluate_binary_auc
+✔ |          4 | evaluate_binary_auc
+
+⠏ |          0 | evaluate_binary_brier_score
+✔ |          5 | evaluate_binary_brier_score
+
+⠏ |          0 | evaluate_binary_calibration
+✔ |         15 | evaluate_binary_calibration
+
+⠏ |          0 | evaluate_binary_log_loss
+✔ |          5 | evaluate_binary_log_loss
+
+⠏ |          0 | evaluate_tjur_r2
+✔ |          5 | evaluate_tjur_r2
+
+⠏ |          0 | prepare_binary_prediction_metric_input
+✔ |         11 | prepare_binary_prediction_metric_input
+
+⠏ |          0 | summarise_predictive_model_metrics
+✔ |          5 | summarise_predictive_model_metrics
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 50 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_jsdm_se
+⠼ |         15 | compute_jsdm_se
+⠦ |         17 | compute_jsdm_se
+✔ |         18 | compute_jsdm_se [1.8s]
+
+⠏ |          0 | evaluate_jsdm
+Early stopping...
+Early stopping...
+⠸ |          4 | evaluate_jsdm
+Early stopping...
+Early stopping...
+Early stopping...
+⠦ |          7 | evaluate_jsdm
+Early stopping...
+Early stopping...
+⠋ |         11 | evaluate_jsdm
+Early stopping...
+Early stopping...
+Early stopping...
+⠧ |         18 | evaluate_jsdm
+Early stopping...
+Early stopping...
+⠹ |         23 | evaluate_jsdm
+✔ |         34 | evaluate_jsdm [6.1s]
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 8.0 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 52 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | load_model_evaluation_target
+✔ |          5 | load_model_evaluation_target
+
+⠏ |          0 | load_spatial_model_results
+Early stopping...
+Early stopping...
+⠹ |          3 | load_spatial_model_results
+⠸ |         24 | load_spatial_model_results
+✔ |         27 | load_spatial_model_results
+
+⠏ |          0 | modern-spatial-convergence-diagnostic-contract
+✔ |          6 | modern-spatial-convergence-diagnostic-contract
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 38 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_jsdm_environment_formula
+⠸ |         34 | build_jsdm_environment_formula
+⠴ |         56 | build_jsdm_environment_formula
+✔ |         65 | build_jsdm_environment_formula
+
+⠏ |          0 | build_jsdm_fit_input
+⠋ |         21 | build_jsdm_fit_input
+✔ |         41 | build_jsdm_fit_input
+
+⠏ |          0 | prepare_abiotic_for_fit
+⠸ |         14 | prepare_abiotic_for_fit
+✔ |         14 | prepare_abiotic_for_fit
+
+⠏ |          0 | prepare_community_for_fit
+⠹ |         13 | prepare_community_for_fit
+✔ |         14 | prepare_community_for_fit
+
+⠏ |          0 | prepare_coords_for_fit
+⠙ |         12 | prepare_coords_for_fit
+✔ |         14 | prepare_coords_for_fit
+
+⠏ |          0 | prepare_fold_spatial_predictors
+⠴ |         16 | prepare_fold_spatial_predictors
+✔ |         23 | prepare_fold_spatial_predictors
+
+⠏ |          0 | prepare_model_fold_input
+⠸ |         24 | prepare_model_fold_input
+⠦ |         37 | prepare_model_fold_input
+✔ |         39 | prepare_model_fold_input
+
+⠏ |          0 | prepare_spatial_predictors_for_fit
+⠧ |         18 | prepare_spatial_predictors_for_fit
+✔ |         19 | prepare_spatial_predictors_for_fit
+
+⠏ |          0 | scale_abiotic_for_fit
+⠴ |         16 | scale_abiotic_for_fit
+✔ |         23 | scale_abiotic_for_fit
+
+⠏ |          0 | scale_predictors_with_training_attributes
+✔ |          6 | scale_predictors_with_training_attributes
+
+⠏ |          0 | scale_spatial_for_fit
+✔ |         16 | scale_spatial_for_fit
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 1.7 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 274 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | fit_jsdm_model
+⠇ |         29 | fit_jsdm_model
+Early stopping...
+⠏ |         30 | fit_jsdm_model
+⠋ |         31 | fit_jsdm_model
+Early stopping...
+Early stopping...
+⠙ |         32 | fit_jsdm_model
+Early stopping...
+⠹ |         33 | fit_jsdm_model
+Early stopping...
+⠸ |         34 | fit_jsdm_model
+Early stopping...
+⠼ |         35 | fit_jsdm_model
+Early stopping...
+⠧ |         38 | fit_jsdm_model
+⠋ |         41 | fit_jsdm_model
+⠹ |         43 | fit_jsdm_model
+Early stopping...
+⠸ |         44 | fit_jsdm_model
+⠼ |         45 | fit_jsdm_model
+✔ |         62 | fit_jsdm_model [5.2s]
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 5.2 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 62 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | diagnose_jsdm_convergence
+Early stopping...
+⠸ |          4 | diagnose_jsdm_convergence
+Early stopping...
+⠼ |          5 | diagnose_jsdm_convergence
+⠦ |          7 | diagnose_jsdm_convergence
+⠋ |         21 | diagnose_jsdm_convergence
+⠼ |         25 | diagnose_jsdm_convergence
+✔ |         26 | diagnose_jsdm_convergence [2.0s]
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 2.0 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 26 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_sjsdm_predictor_structure
+✔ |          6 | build_sjsdm_predictor_structure
+
+⠏ |          0 | prepare_sjsdm_response
+✔ |          6 | prepare_sjsdm_response
+
+⠏ |          0 | resolve_sjsdm_device
+✔ |          6 | resolve_sjsdm_device
+
+⠏ |          0 | resolve_sjsdm_early_stopping
+✔ |          4 | resolve_sjsdm_early_stopping
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 22 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | diagnose_sjsdm_gpu_runtime
+Early stopping...
+Early stopping...
+✔ |          4 | diagnose_sjsdm_gpu_runtime
+
+⠏ |          0 | diagnose_sjsdm_setup                                           =============================================================
+           sjSDM Setup Diagnostics
+           Running in: standard R session
+=============================================================
+1. Diagnosing Interactive Runtime
+   ----------------------------------------
+   [OK] Radian is available
+   Path:  C:\Users\ondre\AppData\Local\R-MINI~1\envs\R-SJSD~2\Scripts\radian.exe
+
+2. Checking Python Configuration
+   ----------------------------------------
+   [OK] Python found
+   Version:  3.10
+   Path:  C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm-vscode/python.exe
+   [OK] RETICULATE_PYTHON is configured
+
+3. Checking PyTorch Installation
+   ----------------------------------------
+   [OK] PyTorch is installed
+   Version:  2.5.1+cu121
+   [OK] CUDA available (GPU mode)
+   CUDA version:  12.1
+   GPU:  NVIDIA GeForce RTX 3050
+
+4. Checking sjSDM Package
+   ----------------------------------------
+   [OK] sjSDM package is installed
+   [OK] sjSDM loaded successfully
+   All Python dependencies available
+
+
+=============================================================
+
+✔ |          5 | diagnose_sjsdm_setup
+
+⠏ |          0 | diagnose_torch_cuda_details
+✔ |          4 | diagnose_torch_cuda_details
+
+⠏ |          0 | validate_sjsdm_gpu_runtime
+✔ |          5 | validate_sjsdm_gpu_runtime
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 18 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_fast_spatial_mev_basis
+✔ |          6 | compute_fast_spatial_mev_basis
+
+⠏ |          0 | compute_shared_spatial_mev_basis
+✔ |          2 | compute_shared_spatial_mev_basis
+
+⠏ |          0 | compute_spatial_mev
+⠸ |         14 | compute_spatial_mev
+✔ |         20 | compute_spatial_mev
+
+⠏ |          0 | compute_spatial_mev_basis
+⠸ |         24 | compute_spatial_mev_basis
+✔ |         25 | compute_spatial_mev_basis
+
+⠏ |          0 | compute_spatiotemporal_mev
+⠼ |         15 | compute_spatiotemporal_mev
+✔ |         18 | compute_spatiotemporal_mev
+
+⠏ |          0 | extract_spatial_mev_basis_component
+✔ |          2 | extract_spatial_mev_basis_component
+
+⠏ |          0 | resolve_spatial_mev_strategy
+✔ |          8 | resolve_spatial_mev_strategy
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 81 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_exact_spatial_mev_basis
+✔ |         10 | compute_exact_spatial_mev_basis
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 10 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_spatial_mev_subspace_similarity
+✔ |          4 | compute_spatial_mev_subspace_similarity
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 4 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | interpolate_mev_to_grid
+✔ |         21 | interpolate_mev_to_grid
+
+⠏ |          0 | interpolate_st_mev_to_grid
+⠼ |         15 | interpolate_st_mev_to_grid
+✔ |         20 | interpolate_st_mev_to_grid
+
+⠏ |          0 | project_spatial_mev_basis
+✔ |          6 | project_spatial_mev_basis
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 47 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | aggregate_jsdm_variance_components
+✔ |         15 | aggregate_jsdm_variance_components
+
+⠏ |          0 | extract_jsdm_variance_fractions
+⠸ |         24 | extract_jsdm_variance_fractions
+✔ |         28 | extract_jsdm_variance_fractions
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 43 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | lookup_jsdm_variance_component
+✔ |          2 | lookup_jsdm_variance_component
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 2 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_jsdm_variance_partition
+⠧ |          8 | compute_jsdm_variance_partition
+⠇ |          9 | compute_jsdm_variance_partition
+⠹ |         13 | compute_jsdm_variance_partition
+Iter: 0/20   0%|          | [00:00, ?it/s]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=7.643]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=7.101]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=7.041]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=7.038]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.895]
+Iter: 5/20  25%|██▌       | [00:00, 48.96it/s, loss=6.895]
+Iter: 5/20  25%|██▌       | [00:00, 48.96it/s, loss=6.806]
+Iter: 5/20  25%|██▌       | [00:00, 48.96it/s, loss=6.887]
+Iter: 5/20  25%|██▌       | [00:00, 48.96it/s, loss=6.887]
+Iter: 5/20  25%|██▌       | [00:00, 48.96it/s, loss=6.843]
+Iter: 5/20  25%|██▌       | [00:00, 48.96it/s, loss=6.897]
+Iter: 5/20  25%|██▌       | [00:00, 48.96it/s, loss=6.874]
+Iter: 5/20  25%|██▌       | [00:00, 48.96it/s, loss=6.821]
+Iter: 12/20  60%|██████    | [00:00, 54.41it/s, loss=6.821]
+Iter: 12/20  60%|██████    | [00:00, 54.41it/s, loss=6.805]
+Iter: 12/20  60%|██████    | [00:00, 54.41it/s, loss=6.9]
+Iter: 12/20  60%|██████    | [00:00, 54.41it/s, loss=6.813]
+Iter: 12/20  60%|██████    | [00:00, 54.41it/s, loss=6.876]
+Iter: 12/20  60%|██████    | [00:00, 54.41it/s, loss=6.818]
+Iter: 12/20  60%|██████    | [00:00, 54.41it/s, loss=6.862]
+Iter: 12/20  60%|██████    | [00:00, 54.41it/s, loss=6.883]
+Iter: 19/20  95%|█████████▌| [00:00, 58.42it/s, loss=6.883]
+Iter: 19/20  95%|█████████▌| [00:00, 58.42it/s, loss=6.784]
+Iter: 20/20 100%|██████████| [00:00, 57.09it/s, loss=6.784]
+
+Iter: 0/20   0%|          | [00:00, ?it/s]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.962]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.494]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.505]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.495]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.351]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.256]
+Iter: 6/20  30%|███       | [00:00, 54.15it/s, loss=6.256]
+Iter: 6/20  30%|███       | [00:00, 54.15it/s, loss=6.316]
+Iter: 6/20  30%|███       | [00:00, 54.15it/s, loss=6.308]
+Iter: 6/20  30%|███       | [00:00, 54.15it/s, loss=6.262]
+Iter: 6/20  30%|███       | [00:00, 54.15it/s, loss=6.356]
+Iter: 6/20  30%|███       | [00:00, 54.15it/s, loss=6.316]
+Iter: 6/20  30%|███       | [00:00, 54.15it/s, loss=6.238]
+Iter: 12/20  60%|██████    | [00:00, 52.37it/s, loss=6.238]
+Iter: 12/20  60%|██████    | [00:00, 52.37it/s, loss=6.26]
+Iter: 12/20  60%|██████    | [00:00, 52.37it/s, loss=6.292]
+Iter: 12/20  60%|██████    | [00:00, 52.37it/s, loss=6.26]
+Iter: 12/20  60%|██████    | [00:00, 52.37it/s, loss=6.271]
+Iter: 12/20  60%|██████    | [00:00, 52.37it/s, loss=6.221]
+Iter: 12/20  60%|██████    | [00:00, 52.37it/s, loss=6.257]
+Iter: 18/20  90%|█████████ | [00:00, 53.75it/s, loss=6.257]
+Iter: 18/20  90%|█████████ | [00:00, 53.75it/s, loss=6.283]
+Iter: 18/20  90%|█████████ | [00:00, 53.75it/s, loss=6.203]
+Iter: 20/20 100%|██████████| [00:00, 53.72it/s, loss=6.203]
+
+Iter: 0/20   0%|          | [00:00, ?it/s]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.815]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.518]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.459]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.425]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.444]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.302]
+Iter: 6/20  30%|███       | [00:00, 52.90it/s, loss=6.302]
+Iter: 6/20  30%|███       | [00:00, 52.90it/s, loss=6.294]
+Iter: 6/20  30%|███       | [00:00, 52.90it/s, loss=6.282]
+Iter: 6/20  30%|███       | [00:00, 52.90it/s, loss=6.304]
+Iter: 6/20  30%|███       | [00:00, 52.90it/s, loss=6.314]
+Iter: 6/20  30%|███       | [00:00, 52.90it/s, loss=6.324]
+Iter: 6/20  30%|███       | [00:00, 52.90it/s, loss=6.351]
+Iter: 6/20  30%|███       | [00:00, 52.90it/s, loss=6.248]
+Iter: 13/20  65%|██████▌   | [00:00, 60.47it/s, loss=6.248]
+Iter: 13/20  65%|██████▌   | [00:00, 60.47it/s, loss=6.257]
+Iter: 13/20  65%|██████▌   | [00:00, 60.47it/s, loss=6.258]
+Iter: 13/20  65%|██████▌   | [00:00, 60.47it/s, loss=6.301]
+Iter: 13/20  65%|██████▌   | [00:00, 60.47it/s, loss=6.29]
+Iter: 13/20  65%|██████▌   | [00:00, 60.47it/s, loss=6.218]
+Iter: 13/20  65%|██████▌   | [00:00, 60.47it/s, loss=6.285]
+Iter: 13/20  65%|██████▌   | [00:00, 60.47it/s, loss=6.239]
+Iter: 20/20 100%|██████████| [00:00, 55.83it/s, loss=6.239]
+Iter: 20/20 100%|██████████| [00:00, 56.27it/s, loss=6.239]
+
+Iter: 0/20   0%|          | [00:00, ?it/s]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=7.643]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=7.101]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=7.041]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=7.038]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.895]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.806]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.887]
+Iter: 7/20  35%|███▌      | [00:00, 65.20it/s, loss=6.887]
+Iter: 7/20  35%|███▌      | [00:00, 65.20it/s, loss=6.887]
+Iter: 7/20  35%|███▌      | [00:00, 65.20it/s, loss=6.843]
+Iter: 7/20  35%|███▌      | [00:00, 65.20it/s, loss=6.897]
+Iter: 7/20  35%|███▌      | [00:00, 65.20it/s, loss=6.874]
+Iter: 7/20  35%|███▌      | [00:00, 65.20it/s, loss=6.821]
+Iter: 7/20  35%|███▌      | [00:00, 65.20it/s, loss=6.805]
+Iter: 7/20  35%|███▌      | [00:00, 65.20it/s, loss=6.9]
+Iter: 7/20  35%|███▌      | [00:00, 65.20it/s, loss=6.813]
+Iter: 7/20  35%|███▌      | [00:00, 65.20it/s, loss=6.876]
+Iter: 16/20  80%|████████  | [00:00, 75.39it/s, loss=6.876]
+Iter: 16/20  80%|████████  | [00:00, 75.39it/s, loss=6.818]
+Iter: 16/20  80%|████████  | [00:00, 75.39it/s, loss=6.862]
+Iter: 16/20  80%|████████  | [00:00, 75.39it/s, loss=6.883]
+Iter: 16/20  80%|████████  | [00:00, 75.39it/s, loss=6.784]
+Iter: 20/20 100%|██████████| [00:00, 76.20it/s, loss=6.784]
+
+Iter: 0/20   0%|          | [00:00, ?it/s]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.733]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.064]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=5.921]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=5.857]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=5.748]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=5.715]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=5.676]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=5.684]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=5.69]
+Iter: 9/20  45%|████▌     | [00:00, 84.82it/s, loss=5.69]
+Iter: 9/20  45%|████▌     | [00:00, 84.82it/s, loss=5.673]
+Iter: 9/20  45%|████▌     | [00:00, 84.82it/s, loss=5.594]
+Iter: 9/20  45%|████▌     | [00:00, 84.82it/s, loss=5.601]
+Iter: 9/20  45%|████▌     | [00:00, 84.82it/s, loss=5.61]
+Iter: 9/20  45%|████▌     | [00:00, 84.82it/s, loss=5.58]
+Iter: 9/20  45%|████▌     | [00:00, 84.82it/s, loss=5.561]
+Iter: 9/20  45%|████▌     | [00:00, 84.82it/s, loss=5.573]
+Iter: 9/20  45%|████▌     | [00:00, 84.82it/s, loss=5.568]
+Iter: 9/20  45%|████▌     | [00:00, 84.82it/s, loss=5.524]
+Iter: 18/20  90%|█████████ | [00:00, 79.77it/s, loss=5.524]
+Iter: 18/20  90%|█████████ | [00:00, 79.77it/s, loss=5.562]
+Iter: 18/20  90%|█████████ | [00:00, 79.77it/s, loss=5.541]
+Iter: 20/20 100%|██████████| [00:00, 81.45it/s, loss=5.541]
+
+Iter: 0/20   0%|          | [00:00, ?it/s]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.931]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.604]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.399]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.364]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.252]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.254]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.208]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.175]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.2]
+Iter: 9/20  45%|████▌     | [00:00, 83.83it/s, loss=6.2]
+Iter: 9/20  45%|████▌     | [00:00, 83.83it/s, loss=6.155]
+Iter: 9/20  45%|████▌     | [00:00, 83.83it/s, loss=6.115]
+Iter: 9/20  45%|████▌     | [00:00, 83.83it/s, loss=6.126]
+Iter: 9/20  45%|████▌     | [00:00, 83.83it/s, loss=6.078]
+Iter: 9/20  45%|████▌     | [00:00, 83.83it/s, loss=6.068]
+Iter: 9/20  45%|████▌     | [00:00, 83.83it/s, loss=6.091]
+Iter: 9/20  45%|████▌     | [00:00, 83.83it/s, loss=6.068]
+Iter: 9/20  45%|████▌     | [00:00, 83.83it/s, loss=6.059]
+Iter: 9/20  45%|████▌     | [00:00, 83.83it/s, loss=6.137]
+Iter: 9/20  45%|████▌     | [00:00, 83.83it/s, loss=6.058]
+Iter: 19/20  95%|█████████▌| [00:00, 87.58it/s, loss=6.058]
+Iter: 19/20  95%|█████████▌| [00:00, 87.58it/s, loss=6.106]
+Iter: 20/20 100%|██████████| [00:00, 86.91it/s, loss=6.106]
+
+Iter: 0/20   0%|          | [00:00, ?it/s]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=7.463]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.795]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.566]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.445]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.348]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.296]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.258]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.273]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.212]
+Iter: 9/20  45%|████▌     | [00:00, 82.19it/s, loss=6.212]
+Iter: 9/20  45%|████▌     | [00:00, 82.19it/s, loss=6.186]
+Iter: 9/20  45%|████▌     | [00:00, 82.19it/s, loss=6.135]
+Iter: 9/20  45%|████▌     | [00:00, 82.19it/s, loss=6.125]
+Iter: 9/20  45%|████▌     | [00:00, 82.19it/s, loss=6.093]
+Iter: 9/20  45%|████▌     | [00:00, 82.19it/s, loss=6.099]
+Iter: 9/20  45%|████▌     | [00:00, 82.19it/s, loss=6.087]
+Iter: 9/20  45%|████▌     | [00:00, 82.19it/s, loss=6.068]
+Iter: 9/20  45%|████▌     | [00:00, 82.19it/s, loss=6.038]
+Iter: 9/20  45%|████▌     | [00:00, 82.19it/s, loss=6.011]
+Iter: 9/20  45%|████▌     | [00:00, 82.19it/s, loss=6.09]
+Iter: 19/20  95%|█████████▌| [00:00, 89.31it/s, loss=6.09]
+Iter: 19/20  95%|█████████▌| [00:00, 89.31it/s, loss=6.074]
+Iter: 20/20 100%|██████████| [00:00, 85.03it/s, loss=6.074]
+
+Iter: 0/20   0%|          | [00:00, ?it/s]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=6.861]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=5.882]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=5.424]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=5.126]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=4.829]
+Iter: 0/20   0%|          | [00:00, ?it/s, loss=4.594]
+Iter: 6/20  30%|███       | [00:00, 59.19it/s, loss=4.594]
+Iter: 6/20  30%|███       | [00:00, 59.19it/s, loss=4.35]
+Iter: 6/20  30%|███       | [00:00, 59.19it/s, loss=4.067]
+Iter: 6/20  30%|███       | [00:00, 59.19it/s, loss=3.866]
+Iter: 6/20  30%|███       | [00:00, 59.19it/s, loss=3.638]
+Iter: 6/20  30%|███       | [00:00, 59.19it/s, loss=3.426]
+Iter: 6/20  30%|███       | [00:00, 59.19it/s, loss=3.215]
+Iter: 6/20  30%|███       | [00:00, 59.19it/s, loss=3.027]
+Iter: 6/20  30%|███       | [00:00, 59.19it/s, loss=2.861]
+Iter: 14/20  70%|███████   | [00:00, 71.35it/s, loss=2.861]
+Iter: 14/20  70%|███████   | [00:00, 71.35it/s, loss=2.704]
+Iter: 14/20  70%|███████   | [00:00, 71.35it/s, loss=2.567]
+Iter: 14/20  70%|███████   | [00:00, 71.35it/s, loss=2.443]
+Iter: 14/20  70%|███████   | [00:00, 71.35it/s, loss=2.331]
+Iter: 14/20  70%|███████   | [00:00, 71.35it/s, loss=2.229]
+Iter: 14/20  70%|███████   | [00:00, 71.35it/s, loss=2.134]
+Iter: 20/20 100%|██████████| [00:00, 75.05it/s, loss=2.134]
+
+⠸ |         14 | compute_jsdm_variance_partition
+⠼ |         15 | compute_jsdm_variance_partition
+⠇ |         19 | compute_jsdm_variance_partition
+✔ |         19 | compute_jsdm_variance_partition [32.0s]
+
+⠏ |          0 | compute_jsdm_variance_partition_with_progress
+✔ |          5 | compute_jsdm_variance_partition_with_progress
+
+⠏ |          0 | run_sjsdm_likelihood_sequence
+✔ |          9 | run_sjsdm_likelihood_sequence
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 32.1 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 33 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_predictor_inclusive_variance_components
+✔ |         13 | compute_predictor_inclusive_variance_components
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 13 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | allocate_shapley_variance_components
+✔ |          2 | allocate_shapley_variance_components
+
+⠏ |          0 | compute_shapley_variance_components
+⠋ |         11 | compute_shapley_variance_components
+⠧ |         18 | compute_shapley_variance_components
+✔ |         29 | compute_shapley_variance_components
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 31 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | run_configuration_generation
+⠋ |          1 | run_configuration_generation
+⠦ |          7 | run_configuration_generation
+⠧ |          8 | run_configuration_generation
+⠇ |          9 | run_configuration_generation
+⠏ |         10 | run_configuration_generation
+⠋ |         11 | run_configuration_generation
+⠙ |         12 | run_configuration_generation
+⠹ |         13 | run_configuration_generation
+⠸ |         14 | run_configuration_generation
+⠼ |         15 | run_configuration_generation
+⠴ |         16 | run_configuration_generation
+⠦ |         17 | run_configuration_generation
+✔ |         17 | run_configuration_generation [3.1s]
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 3.1 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 17 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | load_active_config_value
+✔ |          9 | load_active_config_value
+
+⠏ |          0 | load_config
+✔ |          3 | load_config
+
+⠏ |          0 | load_config_value
+✔ |          4 | load_config_value
+
+⠏ |          0 | load_config_value_with_fallback
+⠧ |         18 | load_config_value_with_fallback
+✔ |         20 | load_config_value_with_fallback
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 36 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | extract_model_tuning_integer
+✔ |          3 | extract_model_tuning_integer
+
+⠏ |          0 | load_model_tuning_parameter_for_scale_and_resolution
+⠙ |          2 | load_model_tuning_parameter_for_scale_and_resolution
+✔ |          4 | load_model_tuning_parameter_for_scale_and_resolution
+
+⠏ |          0 | load_model_tuning_parameters
+⠙ |          2 | load_model_tuning_parameters
+⠸ |         14 | load_model_tuning_parameters
+⠴ |         16 | load_model_tuning_parameters
+⠙ |         22 | load_model_tuning_parameters
+⠹ |         23 | load_model_tuning_parameters
+⠼ |         25 | load_model_tuning_parameters
+⠏ |         30 | load_model_tuning_parameters
+⠙ |         32 | load_model_tuning_parameters
+✔ |         32 | load_model_tuning_parameters [1.1s]
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 1.4 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 39 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_preprocessing_controller
+✔ |          4 | build_preprocessing_controller
+
+⠏ |          0 | resolve_preprocessing_worker_count
+✔ |          7 | resolve_preprocessing_worker_count
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 11 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | validate_config_allowed_values
+✔ |          3 | validate_config_allowed_values
+
+⠏ |          0 | validate_config_profile_selection
+⠼ |          5 | validate_config_profile_selection
+⠦ |         17 | validate_config_profile_selection
+✔ |         45 | validate_config_profile_selection
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 48 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | load_project_functions
+⠏ |         10 | load_project_functions
+⠦ |         17 | load_project_functions
+✔ |         22 | load_project_functions
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 22 ]
+
+You rock!
+✔ | F W  S  OK | Context
+
+⠏ |          0 | apply_r_architecture_exceptions
+⠧ |          8 | apply_r_architecture_exceptions
+✔ |          9 | apply_r_architecture_exceptions
+
+⠏ |          0 | build_r_architecture_dependency_map
+✔ |          8 | build_r_architecture_dependency_map
+
+⠏ |          0 | diagnose_r_architecture
+✔ |          1 | diagnose_r_architecture
+
+⠏ |          0 | r-architecture-repository-contract
+⠋ |          1 | r-architecture-repository-contract
+✔ |          1 | r-architecture-repository-contract [8.8s]
+
+⠏ |          0 | validate_r_architecture
+✔ |          3 | validate_r_architecture
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 9.1 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 22 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | extract_new_target_errors
+✔ |          3 | extract_new_target_errors
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 3 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | main-analysis-script-documentation
+✔ |         16 | main-analysis-script-documentation
+
+⠏ |          0 | run_main_analysis_stage
+⠼ |          5 | run_main_analysis_stage
+⠋ |         11 | run_main_analysis_stage
+✔ |         15 | run_main_analysis_stage
+
+⠏ |          0 | run_pipeline
+⠸ |          4 | run_pipeline
+⠋ |         21 | run_pipeline
+⠧ |         28 | run_pipeline
+⠹ |         33 | run_pipeline
+✔ |         37 | run_pipeline
+
+⠏ |          0 | run_pipeline_interpolation_prebuild
+⠙ |          2 | run_pipeline_interpolation_prebuild
+⠸ |          4 | run_pipeline_interpolation_prebuild
+⠼ |          5 | run_pipeline_interpolation_prebuild
+⠴ |          6 | run_pipeline_interpolation_prebuild
+⠦ |          7 | run_pipeline_interpolation_prebuild
+⠋ |         11 | run_pipeline_interpolation_prebuild
+✔ |         12 | run_pipeline_interpolation_prebuild [11.6s]
+
+⠏ |          0 | run_pipeline_units_with_status
+⠇ |         29 | run_pipeline_units_with_status                                 # A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+# A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+
+⠦ |         47 | run_pipeline_units_with_status                                 # A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+# A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+
+✔ |         55 | run_pipeline_units_with_status
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 12.8 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 135 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_pipeline_progress_monitor_server
+✔ |          1 | build_pipeline_progress_monitor_server
+
+⠏ |          0 | run_pipeline_progress_monitor                                  NULL
+NULL
+
+⠦ |          7 | run_pipeline_progress_monitor                                  NULL
+NULL
+
+✔ |         17 | run_pipeline_progress_monitor
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 18 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | plot_pipeline_progress_visualisations
+✔ |          4 | plot_pipeline_progress_visualisations
+
+⠏ |          0 | save_pipeline_progress_visualisation
+⠋ |          1 | save_pipeline_progress_visualisation
+✔ |          4 | save_pipeline_progress_visualisation
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 8 ]
+
+🌈 Your tests are over the rainbow 🌈
+✔ | F W  S  OK | Context
+
+⠏ |          0 | resolve_pipeline_store_path
+✔ |          3 | resolve_pipeline_store_path
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 3 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | has_target_succeeded
+✔ |          5 | has_target_succeeded
+
+⠏ |          0 | load_targets_store_metadata
+✔ |          7 | load_targets_store_metadata
+
+⠏ |          0 | load_targets_target_by_fingerprint
+✔ |          3 | load_targets_target_by_fingerprint
+
+⠏ |          0 | load_targets_target_fingerprints
+⠴ |          6 | load_targets_target_fingerprints
+✔ |          7 | load_targets_target_fingerprints
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 22 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_spatial_model_store_index
+✔ |          5 | build_spatial_model_store_index
+
+⠏ |          0 | resolve_scale_id_from_store
+⠹ |          3 | resolve_scale_id_from_store
+⠦ |          7 | resolve_scale_id_from_store
+✔ |         10 | resolve_scale_id_from_store
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 15 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | extract_prediction_climate
+✔ |          5 | extract_prediction_climate
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 5 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_land_prediction_grid
+⠙ |          2 | build_land_prediction_grid
+✔ |          4 | build_land_prediction_grid
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 4 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | predict_spatial_resolution_grid_age
+⠙ |         12 | predict_spatial_resolution_grid_age
+✔ |         12 | predict_spatial_resolution_grid_age
+
+⠏ |          0 | validate_prediction_probabilities
+✔ |          3 | validate_prediction_probabilities
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 15 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | load_spatial_resolution_prediction_inputs
+✔ |          5 | load_spatial_resolution_prediction_inputs
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 5 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | scale_prediction_abiotic
+✔ |          5 | scale_prediction_abiotic
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 5 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | summarise_expected_genus_richness
+✔ |          4 | summarise_expected_genus_richness
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 4 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | load_cspe_functions
+✔ |          3 | load_cspe_functions
+
+⠏ |          0 | load_results_snapshot
+✔ |          5 | load_results_snapshot
+
+⠏ |          0 | resolve_cspe_presentation_directory
+✔ |          1 | resolve_cspe_presentation_directory
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 9 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_prediction_frame
+✔ |          2 | build_prediction_frame
+
+⠏ |          0 | build_schematic_node_box
+✔ |          7 | build_schematic_node_box
+
+⠏ |          0 | build_spatial_unit_frame
+✔ |          2 | build_spatial_unit_frame
+
+⠏ |          0 | build_temporal_trajectory_frame
+✔ |          2 | build_temporal_trajectory_frame
+
+⠏ |          0 | build_temporal_trajectory_legend
+✔ |          2 | build_temporal_trajectory_legend
+
+⠏ |          0 | compute_successful_target_count
+✔ |          3 | compute_successful_target_count
+
+⠏ |          0 | flatten_design_tokens
+✔ |          5 | flatten_design_tokens
+
+⠏ |          0 | format_age_label
+✔ |          2 | format_age_label
+
+⠏ |          0 | format_count
+✔ |          3 | format_count
+
+⠏ |          0 | load_iavs_functions
+✔ |          3 | load_iavs_functions
+
+⠏ |          0 | load_target_metadata_or_empty
+✔ |          6 | load_target_metadata_or_empty
+
+⠏ |          0 | load_target_or_null
+✔ |          5 | load_target_or_null
+
+⠏ |          0 | save_prediction_animation
+⠋ |          1 | save_prediction_animation
+✔ |          4 | save_prediction_animation
+
+⠏ |          0 | save_qr_code
+⠋ |          1 | save_qr_code
+✔ |          3 | save_qr_code
+
+⠏ |          0 | save_temporal_trajectory_animation
+⠋ |          1 | save_temporal_trajectory_animation
+✔ |          4 | save_temporal_trajectory_animation
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 1.8 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 53 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | prepare_matched_paleo_modern_plot_data
+✔ |          5 | prepare_matched_paleo_modern_plot_data
+
+⠏ |          0 | prepare_spatial_association_map_data
+✔ |          8 | prepare_spatial_association_map_data
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 13 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | resolve_manuscript_graphical_options
+✔ |          8 | resolve_manuscript_graphical_options
+
+⠏ |          0 | save_manuscript_figure
+⠋ |          1 | save_manuscript_figure
+✔ |          4 | save_manuscript_figure
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 12 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | plot_manuscript_predictor_inclusive_variance
+✔ |          5 | plot_manuscript_predictor_inclusive_variance
+
+⠏ |          0 | plot_manuscript_spatial_map_panel
+⠋ |          1 | plot_manuscript_spatial_map_panel
+✔ |          6 | plot_manuscript_spatial_map_panel
+
+⠏ |          0 | plot_manuscript_spatial_variance
+⠋ |          1 | plot_manuscript_spatial_variance
+✔ |          1 | plot_manuscript_spatial_variance
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 12 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | build_manuscript_palette
+✔ |          4 | build_manuscript_palette
+
+⠏ |          0 | build_manuscript_theme
+✔ |          6 | build_manuscript_theme
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 10 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | validate_manuscript_plot_data
+✔ |          4 | validate_manuscript_plot_data
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 4 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | plot_spatial_anova_map_panel
+⠦ |          7 | plot_spatial_anova_map_panel
+⠇ |          9 | plot_spatial_anova_map_panel
+⠏ |         10 | plot_spatial_anova_map_panel
+⠦ |         17 | plot_spatial_anova_map_panel
+⠇ |         19 | plot_spatial_anova_map_panel
+✔ |         19 | plot_spatial_anova_map_panel
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 19 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | plot_network_metrics_by_age
+✔ |         19 | plot_network_metrics_by_age
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 19 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | collapse_spatial_variance_observation_id
+✔ |          1 | collapse_spatial_variance_observation_id
+
+⠏ |          0 | prepare_spatial_variance_plot_data
+⠋ |         11 | prepare_spatial_variance_plot_data
+✔ |         14 | prepare_spatial_variance_plot_data
+
+⠏ |          0 | prepare_spatial_variance_waffle_data
+⠋ |          1 | prepare_spatial_variance_waffle_data
+⠦ |          7 | prepare_spatial_variance_waffle_data
+⠼ |         15 | prepare_spatial_variance_waffle_data
+✔ |         17 | prepare_spatial_variance_waffle_data
+
+⠏ |          0 | summarise_spatial_biotic_component
+✔ |          5 | summarise_spatial_biotic_component
+
+⠏ |          0 | summarise_spatial_predictor_inclusive_variance
+✔ |         10 | summarise_spatial_predictor_inclusive_variance
+
+⠏ |          0 | summarise_spatial_variance_stack
+✔ |          3 | summarise_spatial_variance_stack
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 50 ]
+
+Nice code.
+✔ | F W  S  OK | Context
+
+⠏ |          0 | plot_spatial_biotic_component
+✔ |          1 | plot_spatial_biotic_component
+
+⠏ |          0 | plot_spatial_variance_stack
+✔ |          1 | plot_spatial_variance_stack
+
+⠏ |          0 | plot_spatial_variance_waffle
+⠋ |          1 | plot_spatial_variance_waffle
+⠸ |          4 | plot_spatial_variance_waffle
+⠼ |          5 | plot_spatial_variance_waffle
+✔ |          5 | plot_spatial_variance_waffle [1.3s]
+
+══ Results ═════════════════════════════════════════════════════════════════════
+Duration: 1.4 s
+
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 7 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | compute_variance_component_colours
+⠼ |          5 | compute_variance_component_colours
+⠏ |         10 | compute_variance_component_colours
+✔ |         10 | compute_variance_component_colours
+
+⠏ |          0 | plot_variance_component_triangle_legend
+⠋ |          1 | plot_variance_component_triangle_legend
+⠹ |          3 | plot_variance_component_triangle_legend
+✔ |          7 | plot_variance_component_triangle_legend
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 17 ]
+✔ | F W  S  OK | Context
+
+⠏ |          0 | plot_anova_components_by_age
+✔ |         16 | plot_anova_components_by_age
+
+══ Results ═════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 16 ]
+Warning message:
+call dbDisconnect() when finished working with a connection

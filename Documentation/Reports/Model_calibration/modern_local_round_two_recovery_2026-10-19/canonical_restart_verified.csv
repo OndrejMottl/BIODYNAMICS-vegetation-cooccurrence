@@ -1,0 +1,2 @@
+run_id,coordinator_pid,component_pid,verified_at,retry_passed,preparation_targets,preparation_stores,content_unchanged,timestamps_unchanged,current_phase
+20261019_150002,17776,55416,2026-10-19 13:10:16 UTC,TRUE,327,109,TRUE,TRUE,canonical_component_prerequisite_rechecks

@@ -1,0 +1,9 @@
+scale,audit_status,n
+continental,fitted_converged,9
+local,expected_full_model_infeasible,92
+local,expected_preparation_infeasible,475
+local,fitted_converged,218
+local,fitted_non_converged,1
+regional,expected_full_model_infeasible,13
+regional,expected_preparation_infeasible,27
+regional,fitted_converged,47

@@ -1,0 +1,7 @@
+run_id,started_at,run_status,sensitivity_only,scientific_settings_changed,production_fits_requested,finished_at,error_message
+20261021_125430,2026-10-21T10:54:30Z,failed,TRUE,FALSE,FALSE,2026-10-22T13:04:16Z,"Main-analysis stage modern_sensitivity_recovery_20261021 failed.
+✖ Failed components: 07_modern_sensitivity_only
+ℹ Prerequisite status and errors:
+  'D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence/Data/Temp/Main_analysis_execution/modern_sensitivity_recovery_20261021/20261021_125430/component_status.csv'
+ℹ Component logs are beside the status CSV.
+ℹ Recovery: Rscript Data/Temp/run_modern_sensitivity_only_20261020.R"
