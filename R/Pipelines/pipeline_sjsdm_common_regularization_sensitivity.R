@@ -272,7 +272,12 @@ base::list(
 
           load_sjsdm_tuning_summaries(
             store_paths = vec_store_paths,
-            resolution_ids = list_spatial_project[["resolution_ids"]]
+            resolution_ids = list_spatial_project[["resolution_ids"]],
+            # Unit eligibility does not imply every resolution is feasible.
+            file_unit_requests = fs::path(
+              .x[["target_store_root"]][[1L]],
+              "sjsdm_tier_unit_requests.csv"
+            )
           )
         }
       ) |>
@@ -339,7 +344,11 @@ base::list(
     name = list_sjsdm_common_sensitivity_results,
     command = run_sjsdm_common_regularization_sensitivity(
       data_model_index = data_sjsdm_common_model_index,
-      data_artifacts = data_sjsdm_common_regularization_artifacts
+      data_artifacts = data_sjsdm_common_regularization_artifacts,
+      path_checkpoint = fs::path(
+        targets::tar_path_store(),
+        "sensitivity_checkpoints"
+      )
     )
   ),
   targets::tar_target(

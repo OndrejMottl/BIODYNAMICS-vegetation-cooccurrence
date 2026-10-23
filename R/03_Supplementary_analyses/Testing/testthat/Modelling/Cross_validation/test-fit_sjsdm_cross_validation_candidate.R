@@ -177,5 +177,32 @@ testthat::test_that(
     testthat::expect_equal(res[["fit_status"]], "fit_error")
     testthat::expect_match(res[["error_message"]], "ordinary fit failure")
     testthat::expect_equal(base::nrow(res[["data_attempts"]]), 1L)
+    testthat::expect_identical(res[["epochs_run"]], NA_integer_)
+    testthat::expect_identical(res[["linear_trend_slope"]], NA_real_)
+    testthat::expect_identical(res[["median_diff"]], NA_real_)
+    testthat::expect_identical(res[["early_stopping_triggered"]], NA)
+    list_fold_result <-
+      build_sjsdm_candidate_fold_result(
+        data_candidate = tibble::tibble(
+          candidate_id = "candidate_001", alpha_cov = 0.5,
+          alpha_coef = 0.5, alpha_spatial = 0.5,
+          lambda_cov = 0, lambda_coef = 0, lambda_spatial = 0
+        ),
+        list_fold_context = base::list(
+          repeat_id = 1L, fold_id = 1L, n_train_locations = 8L,
+          n_test_locations = 3L, n_train_samples = 8L,
+          n_test_samples = 3L,
+          cv_strategy = "spatially_stratified_group_kfold"
+        ),
+        fit_status = res[["fit_status"]],
+        error_message = res[["error_message"]],
+        epochs_run = res[["epochs_run"]],
+        linear_trend_slope = res[["linear_trend_slope"]],
+        median_diff = res[["median_diff"]],
+        early_stopping_triggered = res[["early_stopping_triggered"]]
+      )
+    testthat::expect_identical(
+      list_fold_result[["data_tuning"]][["fit_status"]], "fit_error"
+    )
   }
 )

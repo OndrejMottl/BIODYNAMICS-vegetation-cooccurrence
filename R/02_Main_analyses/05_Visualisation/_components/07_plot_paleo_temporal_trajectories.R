@@ -9,13 +9,14 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Converts the IAVS trajectory logic into one static manuscript figure using
-# the temporal synthesis tables. Missing time slices are inserted explicitly,
-# preventing lines from bridging unsupported intervals.
+# Converts predictor-inclusive temporal variance, modularity, and sample
+# density into one static manuscript figure. Missing time slices are inserted
+# explicitly, preventing lines from bridging unsupported intervals.
 # Workflow contract:
 #   Run after paleo temporal synthesis publishes results and density tables.
 #   Reads plot-ready tables, preserves unsupported gaps, and opens no stores.
-#   Writes one dated figure as PDF, TIFF, and PNG plus its exact CSV data.
+#   Writes one predictor-inclusive figure as PDF, TIFF, and PNG plus its exact
+#   CSV data.
 
 
 #----------------------------------------------------------#
@@ -126,7 +127,8 @@ vec_component_labels <-
 data_temporal_components_observed <-
   data_temporal_unit |>
   dplyr::filter(
-    .data$result_type == "variance_component",
+    .data$result_type ==
+      "predictor_inclusive_variance_component",
     .data$series %in% vec_component_levels
   ) |>
   dplyr::mutate(
@@ -205,7 +207,8 @@ readr::write_csv(
   base::file.path(
     path_output_tables,
     stringr::str_glue(
-      "paleo_temporal_trajectories_components_{tag_date}.csv"
+      "paleo_temporal_trajectories_predictor_inclusive_components_",
+      "{tag_date}.csv"
     )
   )
 )
@@ -261,11 +264,15 @@ plot_components <-
   ) +
   ggplot2::scale_colour_manual(
     values = vec_temporal_colours,
-    name = "Variance component"
+    name = "Predictor domain"
   ) +
   ggplot2::labs(
     x = NULL,
-    y = "Variance contribution"
+    y = "Predictor-inclusive explained variation",
+    caption = stringr::str_c(
+      "Shared fractions contribute in full to every relevant predictor ",
+      "domain; domain percentages overlap and need not sum to 100%."
+    )
   ) +
   build_manuscript_theme(base_size = 8) +
   ggplot2::theme(
@@ -407,7 +414,9 @@ fig_temporal <-
 file_figure_base <-
   base::file.path(
     path_output_figures,
-    stringr::str_glue("paleo_temporal_trajectories_{tag_date}")
+    stringr::str_glue(
+      "paleo_temporal_trajectories_predictor_inclusive_{tag_date}"
+    )
   )
 vec_figure_files <-
   save_manuscript_figure(
@@ -417,6 +426,6 @@ vec_figure_files <-
   )
 
 base::message(
-  "Saved paleo temporal trajectories: ",
+  "Saved paleo predictor-inclusive temporal trajectories: ",
   stringr::str_c(vec_figure_files, collapse = ", ")
 )

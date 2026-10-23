@@ -405,6 +405,14 @@ data_inventory <-
     target_error_count =
       base::nrow(.data[["list_target_errors"]]),
     preparation_status = dplyr::case_when(
+      # Cached feasibility counts do not override a failed shared MEM basis.
+      purrr::pluck(.data[["list_error_classification"]], "root_target") %in%
+        "list_spatial_mev_core_basis" ~ dplyr::if_else(
+          purrr::pluck(.data[["list_error_classification"]], "status") ==
+            "expected_infeasible",
+          "expected_infeasible",
+          "pipeline_error"
+        ),
       .data[["current_complexity_available"]] ~ "prepared",
       purrr::pluck(
         .data[["list_error_classification"]],
@@ -504,6 +512,43 @@ data_representatives <-
   data_inventory |>
   dplyr::filter(.data[["preparation_status"]] == "prepared") |>
   select_sjsdm_cv_calibration_representatives()
+
+for (
+  index_representative in base::seq_len(base::nrow(data_representatives))
+) {
+  data_representative <-
+    data_representatives[index_representative, , drop = FALSE]
+  profile_id <-
+    if (
+      data_representative[["is_temporal"]][[1L]]
+    ) {
+      stringr::str_c("project_paleo_temporal_",
+        data_representative[["continent_id"]][[1L]])
+    } else {
+      stringr::str_c("project_",
+        data_representative[["analysis_id"]][[1L]], "_",
+        data_representative[["tier_id"]][[1L]])
+    }
+  pipeline_id <-
+    if (
+      data_representative[["is_temporal"]][[1L]]
+    ) {
+      "pipeline_paleo_temporal"
+    } else {
+      stringr::str_c("pipeline_",
+        data_representative[["analysis_id"]][[1L]], "_resolution")
+    }
+  withr::with_envvar(
+    new = base::c(R_CONFIG_ACTIVE = profile_id),
+    code = validate_sjsdm_cv_preparation_freshness(
+      pipeline_script = here::here("R", "Pipelines",
+        stringr::str_c(pipeline_id, ".R")),
+      store_path = data_representative[["store_path"]][[1L]],
+      target_names = stringr::str_c("list_sjsdm_prepared_tuning_folds_",
+        data_representative[["target_suffix"]][[1L]])
+    )
+  )
+}
 
 readr::write_csv(
   data_representatives,

@@ -806,6 +806,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_predictor_inclusive_variance_components.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compute_predictor_inclusive_variance_components()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/compute_shapley_variance_components.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_shapley_variance_components()</span></a>
   </div>
@@ -820,6 +826,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/compute_sjsdm_artifact_content_hash.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_sjsdm_artifact_content_hash()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_sjsdm_cv_calibration_hashes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compute_sjsdm_cv_calibration_hashes()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1556,6 +1568,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_manuscript_predictor_inclusive_variance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot_manuscript_predictor_inclusive_variance()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/plot_manuscript_spatial_map_panel.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_manuscript_spatial_map_panel()</span></a>
   </div>
@@ -1718,6 +1736,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_cv_calibration_hash_folds.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">prepare_sjsdm_cv_calibration_hash_folds()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_guardrail_repeat_metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_sjsdm_guardrail_repeat_metrics()</span></a>
   </div>
@@ -1828,6 +1852,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/resolve_cross_validation_fold_count.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_cross_validation_fold_count()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_cross_validation_fold_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">resolve_cross_validation_fold_search()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2324,6 +2354,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_spatial_predictor_inclusive_variance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summarise_spatial_predictor_inclusive_variance()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/summarise_spatial_variance_stack.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_spatial_variance_stack()</span></a>
   </div>
@@ -2434,6 +2470,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_common_regularization_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_common_regularization_payload()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_calibration_evidence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">validate_sjsdm_cv_calibration_evidence()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2617,7 +2659,7 @@ Exact Moran-eigenvector construction function.
 Details
 </h3>
 <p>
-‘sjSDM::generateSpatialEV()’ drops matrix dimensions when exactly one positive eigenvector is available and then errors while naming columns. This helper detects only that error and repeats the same calculation with dimension-preserving subsetting.
+‘sjSDM::generateSpatialEV()’ drops matrix dimensions when exactly one positive eigenvector is available and then errors while naming columns. This helper verifies that error against the same calculation with preserved dimensions. The zero-column naming error is classified as spatial data infeasibility only when that calculation confirms no positive eigenvectors.
 </p>
 <h3 class="anchored">
 Value

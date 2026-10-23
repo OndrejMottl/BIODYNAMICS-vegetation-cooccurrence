@@ -16,6 +16,9 @@
 #' @param expected_infeasible_scale_ids
 #' Units with current preparation evidence proving no model is possible.
 #' These units are recorded but never sent to the pipeline runner.
+#' @param unit_target_names
+#' Optional named list of resolution-aware final target requests by unit.
+#' Empty requests are recorded as expected infeasible, not executed.
 #' @param ...
 #' Additional named arguments passed to `run_pipeline_function`.
 #' @return
@@ -25,6 +28,8 @@
 #' @details
 #' This helper is intended for post-selection full-unit execution. Tuning uses
 #' its own status capture and excludes failed stores from tier aggregation.
+#' Registered infeasibility discovered during execution is retained as
+#' `expected_infeasible`; unclassified failures remain `error`.
 #' @examples
 #' \dontrun{
 #' run_pipeline_units_with_status(
@@ -41,7 +46,8 @@ run_pipeline_units_with_status <- function(
     progress = TRUE,
     ...,
     verbose = TRUE,
-    expected_infeasible_scale_ids = base::character()) {
+    expected_infeasible_scale_ids = base::character(),
+    unit_target_names = NULL) {
   flag_valid_scale_ids <-
     base::is.character(scale_ids) &&
     base::length(scale_ids) > 0L &&
@@ -93,6 +99,12 @@ run_pipeline_units_with_status <- function(
 
   additional_arguments <-
     base::list(...)
+  assertthat::assert_that(
+    base::is.null(unit_target_names) || (
+      base::is.list(unit_target_names) &&
+        base::all(scale_ids %in% base::names(unit_target_names)) &&
+        !"target_names" %in% base::names(additional_arguments)
+    ), msg = "Per-unit target requests must cover every requested unit.")
 
   additional_argument_names <-
     base::names(additional_arguments)
@@ -122,7 +134,9 @@ run_pipeline_units_with_status <- function(
       .progress = progress,
       .f = function(scale_id) {
         if (
-          scale_id %in% expected_infeasible_scale_ids
+          scale_id %in% expected_infeasible_scale_ids ||
+            (!base::is.null(unit_target_names) &&
+              base::length(unit_target_names[[scale_id]]) == 0L)
         ) {
           if (
             base::isTRUE(verbose)
@@ -161,7 +175,14 @@ run_pipeline_units_with_status <- function(
                     sel_script = sel_script,
                     store_suffix = scale_id
                   ),
-                  additional_arguments
+                  additional_arguments,
+                  if (
+                    base::is.null(unit_target_names)
+                  ) {
+                    base::list()
+                  } else {
+                    base::list(target_names = unit_target_names[[scale_id]])
+                  }
                 )
               )
 
@@ -190,7 +211,14 @@ run_pipeline_units_with_status <- function(
           }
 
           pipeline_status <-
-            "error"
+            if (
+              base::inherits(error_condition,
+                "sjsdm_unit_expected_infeasible")
+            ) {
+              "expected_infeasible"
+            } else {
+              "error"
+            }
         } else {
           error_message <-
             NA_character_

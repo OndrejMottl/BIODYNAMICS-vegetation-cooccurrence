@@ -90,3 +90,11 @@ data_pipeline_status <-
     prebuild_interpolation = FALSE
   )
 tictoc::toc()
+if (
+  base::any(data_pipeline_status[["pipeline_status"]] == "error")
+) {
+  base::print(data_pipeline_status)
+  cli::cli_abort(
+    "Continental fitting has unexpected unit failures; see the component log."
+  )
+}

@@ -23,6 +23,8 @@ function processMathHTML() {
 <p>Loads successful spatial model ANOVA and evaluation targets from indexed
 targets stores and returns one summary row per
 store-resolution-component combination.
+Cached model results behind failed shared or resolution-specific upstream
+targets are excluded, even when their ANOVA targets remain readable.
 </p>
 
 
@@ -68,8 +70,9 @@ store-resolution-component combination.
 
 <h3>Value</h3>
 
-<p>A tibble with ANOVA component percentages, explicitly labelled fitted AUC,
-and cross-validated predictive Tjur R2, AUC, and log loss.
+<p>A tibble with Shapley and predictor-inclusive ANOVA component values,
+explicitly labelled fitted AUC, and cross-validated predictive Tjur R2,
+AUC, and log loss.
 </p>
 
 </main>

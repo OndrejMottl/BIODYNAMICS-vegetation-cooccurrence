@@ -197,7 +197,9 @@ list_sjsdm_tier_common_targets <-
     command = load_sjsdm_tuning_summaries(
       store_paths = vec_sjsdm_unit_tuning_stores,
       resolution_ids = list_tuning_context[["resolution_ids"]],
-      target_names = list_tuning_context[["target_names"]]
+      target_names = list_tuning_context[["target_names"]],
+      file_unit_requests = fs::path(load_active_config_value("target_store"),
+        "sjsdm_tier_unit_requests.csv")
     ),
     cue = targets::tar_cue(mode = "always")
   ),

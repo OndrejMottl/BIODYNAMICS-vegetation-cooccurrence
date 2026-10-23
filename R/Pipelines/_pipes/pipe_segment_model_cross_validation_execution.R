@@ -73,7 +73,8 @@ pipe_segment_model_cross_validation_execution <-
             repeat_id = repeat_id,
             fold_id = fold_id
           )
-        }
+        },
+        cached_folds_function = load_sjsdm_prepared_fold_cache
       )
     ),
     targets::tar_target(

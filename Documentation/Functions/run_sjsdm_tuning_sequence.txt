@@ -21,7 +21,15 @@ Usage:
        vec_allowed_profile_roles = base::c("main", "smoke"),
        vec_allowed_profile_statuses = "active",
        has_tuning_evidence_function = has_sjsdm_tuning_evidence,
-       target_store = load_active_config_value("target_store")
+       target_store = load_active_config_value("target_store"),
+       load_metadata_function = load_targets_store_metadata,
+       diagnose_endpoints_function = diagnose_sjsdm_cv_preparation_endpoints,
+       read_target_function = targets::tar_read_raw,
+       invalidate_target_function = targets::tar_invalidate,
+       validate_tuning_targets = base::identical(run_pipeline_function, run_pipeline),
+       cache_recovery_attempts = 8L,
+       validate_calibration_function = validate_sjsdm_cv_production_calibration,
+       unit_target_names = NULL
      )
 
 Arguments:
@@ -62,6 +70,28 @@ has_tuning_evidence_function: Injectable fail-closed evidence checker.
 
 target_store: Root targets-store path. Defaults to the active
           configuration value.
+
+load_metadata_function: Injectable metadata loader used for
+          legacy-cache recovery.
+
+diagnose_endpoints_function, read_target_function: Injectable
+          tuning-endpoint diagnostics and target reader.
+
+invalidate_target_function: Injectable target invalidator used only for
+          incompatible legacy caches.
+
+validate_tuning_targets: Logical. Validate tuning artifacts after each
+          production unit round.
+
+cache_recovery_attempts: Positive integer maximum targeted legacy-cache
+          repairs per unit and round.
+
+validate_calibration_function: Injectable live calibration guard for
+          main production profiles.
+
+unit_target_names: Optional named per-unit tuning requests from
+          verified preparation. The exact store-target pairs are
+          persisted for resolution-aware tier pooling.
 
 Value:
 

@@ -10,6 +10,9 @@
 #' Injectable target-metadata loader.
 #' @param read_target_function
 #' Injectable raw target reader.
+#' @param file_exists_function
+#' Injectable existence check for the endpoint's serialized object. A `qs`
+#' fallback error proves incompatibility only when that object exists.
 #' @return
 #' A tibble with one row per requested target and its endpoint status, data
 #' hash, and diagnostic message.
@@ -22,7 +25,8 @@ diagnose_sjsdm_cv_preparation_endpoints <- function(
     store_path = NULL,
     target_names = NULL,
     load_metadata_function = load_targets_store_metadata,
-    read_target_function = targets::tar_read_raw) {
+    read_target_function = targets::tar_read_raw,
+    file_exists_function = base::file.exists) {
   assertthat::assert_that(
     base::is.character(store_path),
     base::length(store_path) == 1L,
@@ -41,6 +45,7 @@ diagnose_sjsdm_cv_preparation_endpoints <- function(
   assertthat::assert_that(
     base::is.function(load_metadata_function),
     base::is.function(read_target_function),
+    base::is.function(file_exists_function),
     msg = "Metadata loading and target reading must use functions."
   )
 
@@ -113,18 +118,30 @@ diagnose_sjsdm_cv_preparation_endpoints <- function(
         if (
           flag_has_error
         ) {
+          flag_object_exists <-
+            flag_legacy_qs && file_exists_function(
+              targets::tar_path_target(name = target_name, store = store_path)
+            )
           return(
             tibble::tibble(
               target_name = target_name,
               endpoint_status = if (
-                flag_legacy_qs
+                flag_object_exists
               ) {
                 "cache_format_incompatible"
               } else {
                 "errored"
               },
               data_hash = data_hash,
-              error_message = error_message
+              error_message = if (
+                flag_legacy_qs && !flag_object_exists
+              ) {
+                stringr::str_c("Serialized target object is absent; ",
+                  "upstream failure may have caused the qs fallback: ",
+                  error_message)
+              } else {
+                error_message
+              }
             )
           )
         }
@@ -173,9 +190,17 @@ diagnose_sjsdm_cv_preparation_endpoints <- function(
             read_error_message,
             "(?:no package called|package) ['\"]qs['\"]"
           )
+        flag_object_exists <-
+          file_exists_function(
+            targets::tar_path_target(name = target_name, store = store_path)
+          )
         tibble::tibble(
           target_name = target_name,
           endpoint_status = if (
+            !flag_object_exists
+          ) {
+            "missing"
+          } else if (
             flag_legacy_qs_read
           ) {
             "cache_format_incompatible"
@@ -183,7 +208,14 @@ diagnose_sjsdm_cv_preparation_endpoints <- function(
             "unreadable"
           },
           data_hash = data_hash,
-          error_message = read_error_message
+          error_message = if (
+            !flag_object_exists
+          ) {
+            stringr::str_c("Serialized target object is missing: ",
+              read_error_message)
+          } else {
+            read_error_message
+          }
         )
       }
     ) |>

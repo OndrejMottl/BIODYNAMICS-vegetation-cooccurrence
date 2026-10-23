@@ -1,0 +1,46 @@
+Run or Reuse One Content-Matched Sensitivity Phase
+
+Description:
+
+     Evaluates a lazy phase expression and atomically saves successful
+     results.
+
+Usage:
+
+     run_sjsdm_sensitivity_checkpoint(
+       expr,
+       path_checkpoint = NULL,
+       signature,
+       phase,
+       verbose = TRUE
+     )
+
+Arguments:
+
+    expr: Lazy expression evaluated only on a cache miss.
+
+path_checkpoint: Optional directory for immutable RDS checkpoints.
+
+signature: Content signature including upstream scientific inputs.
+
+   phase: Character phase identifier used in filenames and messages.
+
+ verbose: Logical; print timestamped phase and reuse messages.
+
+Details:
+
+     Errors and interrupted temporary files are never accepted as
+     results.
+
+Value:
+
+     The computed or previously saved phase result.
+
+Examples:
+
+     run_sjsdm_sensitivity_checkpoint(
+       expr = 42L,
+       signature = "example_inputs",
+       phase = "fit",
+       verbose = FALSE
+     )

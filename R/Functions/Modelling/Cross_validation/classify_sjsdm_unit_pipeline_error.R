@@ -14,6 +14,12 @@
 #' errors are allowed only as cascades. Known temporal validation cascades are
 #' accepted only when the same time slice has a registered expected root. Any
 #' other root remains unexpected.
+#' A missing-qs reader fallback is a cascade only beside a registered data
+#' root. Alone it remains unexplained and must never authorize an exclusion.
+#' Counted and legacy insufficient-row MEM errors are registered only at the
+#' shared basis target; arbitrary MEM engine failures remain unexpected.
+#' Verified zero-positive-eigenvector support is recorded separately as
+#' `no_positive_spatial_eigenvectors`, requiring at least one positive vector.
 #' @export
 classify_sjsdm_unit_pipeline_error <- function(
     data_target_errors = NULL) {
@@ -38,6 +44,18 @@ classify_sjsdm_unit_pipeline_error <- function(
       "insufficient_cores",
       "^flag_available_core_count_validated(?:_|$)",
       "^Not enough cores in this spatial window[.]",
+      "insufficient_spatial_locations",
+      "^list_spatial_mev_core_basis$",
+      "^Too few projected locations to construct spatial MEM[.]",
+      "no_positive_spatial_eigenvectors",
+      "^list_spatial_mev_core_basis$",
+      "^No positive spatial MEM eigenvectors are supported[.]",
+      "insufficient_spatial_locations",
+      "^list_spatial_mev_core_basis$",
+      stringr::str_c(
+        "^data_coords_projected must have more than 3 rows ",
+        "[(]required by spatial MEM construction[)]$"
+      ),
       "insufficient_samples",
       "^data_sample_ids_checked(?:_|$)",
       "^Too few samples in this time slice to proceed",
@@ -191,6 +209,10 @@ classify_sjsdm_unit_pipeline_error <- function(
     stringr::str_detect(
       data_errors[["error"]],
       "^cannot branch over empty target"
+    ) |
+    stringr::str_detect(
+      data_errors[["error"]],
+      "^there is no package called ['\"]qs['\"]$"
     ) |
     flag_temporal_validation_cascade
   flag_expected <-

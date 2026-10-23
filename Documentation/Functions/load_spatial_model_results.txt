@@ -4,7 +4,9 @@ Description:
 
      Loads successful spatial model ANOVA and evaluation targets from
      indexed targets stores and returns one summary row per
-     store-resolution-component combination.
+     store-resolution-component combination. Cached model results
+     behind failed shared or resolution-specific upstream targets are
+     excluded, even when their ANOVA targets remain readable.
 
 Usage:
 
@@ -33,6 +35,6 @@ require_non_empty: Logical. If `TRUE`, error when no rows are loaded.
 
 Value:
 
-     A tibble with ANOVA component percentages, explicitly labelled
-     fitted AUC, and cross-validated predictive Tjur R2, AUC, and log
-     loss.
+     A tibble with Shapley and predictor-inclusive ANOVA component
+     values, explicitly labelled fitted AUC, and cross-validated
+     predictive Tjur R2, AUC, and log loss.

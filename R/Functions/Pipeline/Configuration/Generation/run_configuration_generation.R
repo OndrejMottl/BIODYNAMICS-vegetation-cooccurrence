@@ -905,6 +905,27 @@ run_configuration_generation <- function(
       }
     )
 
+  # This approved policy extension is outside the frozen legacy reference.
+  # Validate it independently; do not weaken legacy scientific comparisons.
+  purrr::walk(
+    .x = list_resolved_profiles,
+    .f = ~ {
+      vec_ladder <-
+        purrr::pluck(
+          .x, "model_fitting", "cross_validation", "grouped_fold_ladder"
+        )
+      assertthat::assert_that(
+        base::is.numeric(vec_ladder),
+        base::length(vec_ladder) > 0L,
+        base::all(base::is.finite(vec_ladder)),
+        base::all(vec_ladder >= 2L),
+        base::all(vec_ladder == base::floor(vec_ladder)),
+        base::all(base::diff(vec_ladder) > 0),
+        msg = "`grouped_fold_ladder` requires increasing integer counts >= 2."
+      )
+    }
+  )
+
   list_resolved_legacy_profiles <-
     list_resolved_profiles |>
     purrr::map(
@@ -941,6 +962,14 @@ run_configuration_generation <- function(
             "cross_validation",
             .default = NULL
           )
+
+        if (
+          base::is.list(config_cross_validation)
+        ) {
+          config_cross_validation[["grouped_fold_ladder"]] <- NULL
+          list_profile[["model_fitting"]][["cross_validation"]] <-
+            config_cross_validation
+        }
 
         if (
           base::is.list(config_cross_validation) &&

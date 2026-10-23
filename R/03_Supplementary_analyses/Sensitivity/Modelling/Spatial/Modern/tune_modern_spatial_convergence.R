@@ -242,25 +242,25 @@ data_convergence <-
               model_evaluation = base::list(model_evaluation_i),
               linear_trend_slope = purrr::pluck(
                 model_evaluation_i,
-                "convergence",
+                "list_convergence_diagnostics",
                 "linear_trend_slope",
                 .default = NA_real_
               ),
               median_diff = purrr::pluck(
                 model_evaluation_i,
-                "convergence",
+                "list_convergence_diagnostics",
                 "median_diff",
                 .default = NA_real_
               ),
               epochs_run = purrr::pluck(
                 model_evaluation_i,
-                "convergence",
+                "list_convergence_diagnostics",
                 "epochs_run",
                 .default = NA_integer_
               ),
               early_stopping_triggered = purrr::pluck(
                 model_evaluation_i,
-                "convergence",
+                "list_convergence_diagnostics",
                 "early_stopping_triggered",
                 .default = NA
               )
@@ -285,7 +285,7 @@ data_non_converged <-
   data_convergence |>
   dplyr::filter(
     .data[["model_ran"]] &
-      !.data[["converged"]]
+      !(.data[["converged"]] %in% TRUE)
   )
 
 data_model_evaluation_unsuccessful <-
@@ -436,7 +436,7 @@ if (
                   .y = data_plot_source[["scale_id"]],
                   .f = ~ purrr::chuck(
                     .x,
-                    "convergence",
+                    "list_convergence_diagnostics",
                     "convergence_plot"
                   ) +
                     ggplot2::labs(

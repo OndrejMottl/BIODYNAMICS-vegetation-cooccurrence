@@ -44,7 +44,7 @@ vec_scale_ids <-
     show_col_types = FALSE
   ) |>
   dplyr::filter(
-    .data$scale == "local"
+    .data[["scale"]] == "local"
   ) |>
   dplyr::pull(scale_id)
 
@@ -53,6 +53,35 @@ vec_tuning_target_names <-
     "list_sjsdm_cv_tuning_artifact_",
     base::c("genus", "family", "ft_modern")
   )
+
+# Recheck only failed preparation roots, never their CV/model descendants.
+# Resolution-specific data limits must not discard other viable models.
+data_preparation_plan <-
+  run_sjsdm_unit_fitting_preflight(
+    unit_pipeline = "R/Pipelines/pipeline_modern_spatial_resolution.R",
+    target_store = load_active_config_value("target_store"),
+    scale_ids = vec_scale_ids,
+    resolution_ids = base::c("genus", "family", "ft_modern")
+  )
+list_unit_tuning_targets <-
+  build_sjsdm_unit_fitting_targets(data_preparation_plan,
+    target_names = vec_tuning_target_names)
+data_pipeline_manifest <-
+  targets::tar_manifest(
+    script = "R/Pipelines/pipeline_modern_spatial_resolution.R",
+    fields = "name", callr_function = NULL
+  )
+list_unit_fitting_targets <-
+  build_sjsdm_unit_fitting_targets(data_preparation_plan,
+    target_names = data_pipeline_manifest[["name"]])
+path_status <-
+  here::here("Data/Temp/Main_analysis_execution/03_model_fitting")
+fs::dir_create(path_status)
+run_id <-
+  base::format(base::Sys.time(), "%Y%m%d_%H%M%S")
+readr::write_csv(data_preparation_plan,
+  fs::path(path_status, stringr::str_glue(
+    "modern_local_preparation_plan_{run_id}.csv")))
 
 #----------------------------------------------------------#
 # 3. Build unit tuning summaries -----
@@ -63,6 +92,7 @@ run_sjsdm_tuning_sequence(
   unit_pipeline = "R/Pipelines/pipeline_modern_spatial_resolution.R",
   tuning_target_names = vec_tuning_target_names,
   unit_store_suffixes = vec_scale_ids,
+  unit_target_names = list_unit_tuning_targets,
   tuning_strategy = load_active_config_value(
     base::c("model_fitting", "cross_validation", "tuning_strategy")
   ),
@@ -91,9 +121,23 @@ data_pipeline_status <-
   run_pipeline_units_with_status(
     scale_ids = vec_scale_ids,
     sel_script = "R/Pipelines/pipeline_modern_spatial_resolution.R",
-    prebuild_interpolation = FALSE
+    prebuild_interpolation = FALSE,
+    unit_target_names = list_unit_fitting_targets
   )
 tictoc::toc()
+file_status <-
+  fs::path(path_status,
+    stringr::str_glue("modern_local_unit_status_{run_id}.csv"))
+readr::write_csv(data_pipeline_status, file_status)
+base::message("Local unit status: ", file_status)
+if (
+  base::any(data_pipeline_status[["pipeline_status"]] == "error")
+) {
+  base::print(data_pipeline_status)
+  cli::cli_abort(
+    "Local fitting has unexpected unit failures; see the component log."
+  )
+}
 
 
 #----------------------------------------------------------#

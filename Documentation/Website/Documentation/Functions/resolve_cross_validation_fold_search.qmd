@@ -1,0 +1,108 @@
+---
+format: html
+title: resolve_cross_validation_fold_search()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>resolve_cross_validation_fold_search</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Resolve a Feasible Grouped Cross-Validation Design</h2>
+
+<h3>Description</h3>
+
+<p>Preserves feasible initial assignments, otherwise tests increasing grouped
+fold counts before the existing leave-one-location-out fallback. No models
+are fitted during this search and no feasibility threshold is relaxed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>resolve_cross_validation_fold_search(
+  data_locations = NULL,
+  data_assignments = NULL,
+  data_partition_diagnostics = NULL,
+  data_community_matrix = NULL,
+  config_data_processing = NULL,
+  config_cross_validation = NULL,
+  grouped_fold_ladder = base::c(5L, 10L, 20L, 50L),
+  verbose = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_locations">data_locations</code>, <code id="data_assignments">data_assignments</code>, <code id="data_partition_diagnostics">data_partition_diagnostics</code></td>
+<td>
+<p>Initial location, assignment, and training-partition diagnostic tables.</p>
+</td></tr>
+<tr><td><code id="data_community_matrix">data_community_matrix</code></td>
+<td>
+<p>Binary response matrix aligned with location row indices.</p>
+</td></tr>
+<tr><td><code id="config_data_processing">config_data_processing</code></td>
+<td>
+<p>Processing configuration with 'min_n_cores', 'min_n_samples', 'min_n_taxa'.</p>
+</td></tr>
+<tr><td><code id="config_cross_validation">config_cross_validation</code></td>
+<td>
+<p>CV controls including MEM threshold, repeats, assignment seed, and grid.</p>
+</td></tr>
+<tr><td><code id="grouped_fold_ladder">grouped_fold_ladder</code></td>
+<td>
+<p>Strictly increasing unique integer fold counts, all at least two.</p>
+</td></tr>
+<tr><td><code id="verbose">verbose</code></td>
+<td>
+<p>Logical. Print selected design and candidate-fold task estimates if TRUE.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Named list containing unchanged-schema 'data_assignments', attempt-level
+'data_fold_search', partition-level 'data_partition_diagnostics_search',
+and the configured 'vec_grouped_fold_ladder'.
+Failed grids are recorded; unexpected errors propagate. All configured
+repeats must pass. The search never tries counts at or above location count.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+list_search &lt;-
+  resolve_cross_validation_fold_search(
+    data_locations = data_cross_validation_locations,
+    data_assignments = data_cross_validation_assignments_initial,
+    data_partition_diagnostics =
+      data_cross_validation_partition_diagnostics_initial,
+    data_community_matrix = data_community_filtered,
+    config_data_processing = config_data_processing,
+    config_cross_validation = config_model_fitting[["cross_validation"]]
+  )
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

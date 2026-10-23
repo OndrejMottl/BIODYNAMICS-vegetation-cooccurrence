@@ -1,0 +1,87 @@
+---
+format: html
+title: is_sjsdm_cv_prepared_folds_current()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>is_sjsdm_cv_prepared_folds_current</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Test Prepared Fold Content Against Current Preparation Code</h2>
+
+<h3>Description</h3>
+
+<p>Reconstructs folds in memory and requires exact analytical equality. This
+permits error-only code changes without rewriting operational runtimes in
+cached folds or invalidating successful fitting descendants.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>is_sjsdm_cv_prepared_folds_current(
+  store_path,
+  target_name,
+  read_target_function = targets::tar_read_raw,
+  prepare_fold_function = prepare_sjsdm_cross_validation_fold,
+  load_metadata_function = targets::tar_meta
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="store_path">store_path</code>, <code id="target_name">target_name</code></td>
+<td>
+<p>Existing store and one prepared-fold endpoint.</p>
+</td></tr>
+<tr><td><code id="read_target_function">read_target_function</code>, <code id="prepare_fold_function">prepare_fold_function</code></td>
+<td>
+<p>Injectable cached target reader and current fold-preparation adapter.</p>
+</td></tr>
+<tr><td><code id="load_metadata_function">load_metadata_function</code></td>
+<td>
+<p>Injectable target metadata reader for current input-name resolution.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Call only after every upstream input and configuration has been verified.
+This function does not execute targets, fit models, or write to stores.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A logical scalar; unreadable inputs and reconstruction errors fail.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+is_sjsdm_cv_prepared_folds_current(store, "list_sjsdm_prepared_tuning_folds")
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

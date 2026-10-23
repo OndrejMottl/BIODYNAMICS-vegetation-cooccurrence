@@ -14,7 +14,7 @@
 # Workflow contract:
 #   Run after modern spatial synthesis publishes unit and summary tables.
 #   Reads and validates plot-ready tables without opening target stores.
-#   Writes one dated figure as PDF, TIFF, and PNG plus its exact CSV data.
+#   Writes compositional and predictor-inclusive figures plus exact CSV data.
 
 
 #----------------------------------------------------------#
@@ -98,6 +98,39 @@ data_modern_component_summary <-
   )
 data_modern_biotic_summary <-
   summarise_spatial_biotic_component(data_modern_plot)
+data_modern_predictor_inclusive_plot <-
+  prepare_spatial_variance_plot_data(
+    data_unit = data_modern_unit,
+    vec_scale_levels = base::c("continental", "regional", "local"),
+    vec_resolution_labels = base::c(
+      genus = "Genus",
+      family = "Family",
+      ft_modern = "Functional type"
+    ),
+    percentage_source_column =
+      "R2_Nagelkerke_predictor_inclusive_percentage",
+    scale_source_to_percentage = FALSE,
+    sum_over_100_action = "ignore"
+  ) |>
+  dplyr::mutate(
+    component_label = dplyr::recode(
+      .data$component_label,
+      Abiotic = "Climate",
+      .default = .data$component_label
+    ),
+    component_label = base::factor(
+      .data$component_label,
+      levels = base::c(
+        "Climate",
+        "Biotic co-occurrence",
+        "Spatial"
+      )
+    )
+  )
+data_modern_predictor_inclusive_summary <-
+  summarise_spatial_predictor_inclusive_variance(
+    data_plot = data_modern_predictor_inclusive_plot
+  )
 
 readr::write_csv(
   data_modern_plot,
@@ -126,10 +159,29 @@ readr::write_csv(
     )
   )
 )
+readr::write_csv(
+  data_modern_predictor_inclusive_plot,
+  base::file.path(
+    path_output_tables,
+    stringr::str_glue(
+      "modern_variance_partitioning_predictor_inclusive_unit_{tag_date}.csv"
+    )
+  )
+)
+readr::write_csv(
+  data_modern_predictor_inclusive_summary,
+  base::file.path(
+    path_output_tables,
+    stringr::str_glue(
+      "modern_variance_partitioning_predictor_inclusive_summary_",
+      "{tag_date}.csv"
+    )
+  )
+)
 
 
 #----------------------------------------------------------#
-# 2. Build and save manuscript figure -----
+# 2. Build and save manuscript figures -----
 #----------------------------------------------------------#
 
 fig_modern_variance <-
@@ -158,7 +210,40 @@ vec_figure_files <-
     graphical_options = graphical_options
   )
 
+fig_modern_predictor_inclusive <-
+  plot_manuscript_predictor_inclusive_variance(
+    data_plot = data_modern_predictor_inclusive_plot,
+    data_summary = data_modern_predictor_inclusive_summary
+  ) +
+  ggview::canvas(
+    width = config_manuscript[["width"]],
+    height = config_manuscript[["height"]],
+    units = config_manuscript[["units"]],
+    dpi = config_manuscript[["review_dpi"]],
+    bg = graphical_options[["bg"]]
+  )
+file_predictor_inclusive_figure_base <-
+  base::file.path(
+    path_output_figures,
+    stringr::str_glue(
+      "modern_variance_partitioning_predictor_inclusive_{tag_date}"
+    )
+  )
+vec_predictor_inclusive_figure_files <-
+  save_manuscript_figure(
+    plot = fig_modern_predictor_inclusive,
+    file_base = file_predictor_inclusive_figure_base,
+    graphical_options = graphical_options
+  )
+
 base::message(
   "Saved modern variance partitioning: ",
   stringr::str_c(vec_figure_files, collapse = ", ")
+)
+base::message(
+  "Saved modern predictor-inclusive variance: ",
+  stringr::str_c(
+    vec_predictor_inclusive_figure_files,
+    collapse = ", "
+  )
 )

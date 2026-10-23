@@ -1,0 +1,2 @@
+run_id,started_at,git_commit,sensitivity_profile,config_hash,preparation_inventory_hash,production_fresh_run,main_model_refitting_requested,scientific_budgets_changed,finished_at,run_status
+20261020_135806,2026-10-20T11:58:06Z,6483905b0ca1174318743d8189b08ef9181da789,project_modern_spatial_local,4355c93dde04dfc9,e0339a88ec127693,FALSE,FALSE,FALSE,2026-10-21T10:15:40Z,stopped_by_user

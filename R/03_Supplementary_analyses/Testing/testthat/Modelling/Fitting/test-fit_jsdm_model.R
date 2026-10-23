@@ -1,3 +1,47 @@
+testthat::test_that("fit_jsdm_model prevents zero automatic batch sizes", {
+  testthat::skip_if_not_installed("sjSDM")
+  testthat::local_mocked_bindings(
+    sjSDM = function(...) base::list(...),
+    .package = "sjSDM"
+  )
+  for (
+    n_rows in base::c(5L, 8L, 9L, 10L, 20L)
+  ) {
+    vec_values <-
+      base::seq_len(n_rows)
+    list_input <-
+      base::list(
+        data_community_to_fit = base::cbind(vec_values, vec_values + 1),
+        data_abiotic_to_fit = base::data.frame(x = vec_values)
+      )
+    list_fit <-
+      fit_jsdm_model(
+        data_to_fit = list_input,
+        sel_abiotic_formula = stats::as.formula("~ x"),
+        spatial_method = "none", device = "cpu", iter = 1L
+      )
+    n_expected_batch_size <-
+      if (
+        n_rows < 10L
+      ) {
+        1L
+      } else {
+        NULL
+      }
+    testthat::expect_identical(
+      list_fit[["step_size"]], n_expected_batch_size
+    )
+    list_explicit <-
+      fit_jsdm_model(
+        data_to_fit = list_input,
+        sel_abiotic_formula = stats::as.formula("~ x"),
+        spatial_method = "none", device = "cpu", iter = 1L,
+        step_size = 2L
+      )
+    testthat::expect_identical(list_explicit[["step_size"]], 2L)
+  }
+})
+
 #----------------------------------------------------------#
 # Input validation tests -----
 #----------------------------------------------------------#

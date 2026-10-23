@@ -1,0 +1,10 @@
+scale_id,target_name,preparation_status,reason_code,observed_count,required_count,root_target,data_hash,error_message
+am_r007_l004,list_sjsdm_prepared_tuning_folds_genus,prepared,NA,NA,NA,NA,34525ef7b8412e40,NA
+am_r007_l004,list_sjsdm_prepared_tuning_folds_family,prepared,NA,NA,NA,NA,34525ef7b8412e40,NA
+am_r007_l004,list_sjsdm_prepared_tuning_folds_functional_type,prepared,NA,NA,NA,NA,34525ef7b8412e40,NA
+am_r007_l006,list_sjsdm_prepared_tuning_folds_genus,prepared,NA,NA,NA,NA,34525ef7b8412e40,NA
+am_r007_l006,list_sjsdm_prepared_tuning_folds_family,prepared,NA,NA,NA,NA,34525ef7b8412e40,NA
+am_r007_l006,list_sjsdm_prepared_tuning_folds_functional_type,prepared,NA,NA,NA,NA,34525ef7b8412e40,NA
+eu_r009_l002,list_sjsdm_prepared_tuning_folds_genus,prepared,NA,NA,NA,NA,b97e8835199379f6,NA
+eu_r009_l002,list_sjsdm_prepared_tuning_folds_family,prepared,NA,NA,NA,NA,34525ef7b8412e40,NA
+eu_r009_l002,list_sjsdm_prepared_tuning_folds_functional_type,prepared,NA,NA,NA,NA,8bcbc75de0cf480d,NA

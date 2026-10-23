@@ -1,0 +1,71 @@
+---
+format: html
+title: prepare_sjsdm_cv_calibration_hash_folds()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>prepare_sjsdm_cv_calibration_hash_folds</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare Scientific Fold Content for Calibration Hashing</h2>
+
+<h3>Description</h3>
+
+<p>Excludes operational runtime and memory measurements from signatures.
+Fold assignments, observations, predictors and spatial strategy provenance
+remain unchanged. This does not alter the folds used for fitting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>prepare_sjsdm_cv_calibration_hash_folds(
+  list_prepared_folds,
+  contract_version = base::c("v5", "v4")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="list_prepared_folds">list_prepared_folds</code></td>
+<td>
+<p>Cached records returned by [prepare_sjsdm_tuning_folds()].</p>
+</td></tr>
+<tr><td><code id="contract_version">contract_version</code></td>
+<td>
+<p>Signature version. Version four retains memory fields for exact migration
+proof; the default version five excludes operational memory fields too.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A copy of the fold records without operational runtime fields.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>prepare_sjsdm_cv_calibration_hash_folds(list())
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

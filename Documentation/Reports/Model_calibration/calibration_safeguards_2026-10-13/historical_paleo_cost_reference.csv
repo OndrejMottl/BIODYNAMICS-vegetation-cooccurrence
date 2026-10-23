@@ -1,0 +1,10 @@
+profile_id,scale_id,resolution_id,historical_first_two_screening_fits,historical_first_two_fit_minutes,historical_all_fit_hours,legacy_recorded_elapsed_hours,compatible_current_evidence
+project_paleo_spatial_continental,europe,family,48,33.00266666666667,12.309830555555555,1.9022166728973388e-4,FALSE
+project_paleo_spatial_continental,europe,functional_type,48,24.1955,0.5733194444444444,0.5820740536186431,FALSE
+project_paleo_spatial_continental,europe,genus,48,40.40666666666666,1.0460305555555554,1.0590214833286071,FALSE
+project_paleo_spatial_local,eu_r005_l006,family,48,8.550666666666665,0.19109999999999988,0.1946263658338123,FALSE
+project_paleo_spatial_local,eu_r005_l006,functional_type,48,8.604000000000003,0.19497777777777775,0.19819170196851096,FALSE
+project_paleo_spatial_local,eu_r005_l006,genus,48,8.703333333333331,0.19886111111111104,0.20255259613196056,FALSE
+project_paleo_spatial_regional,eu_r005,family,48,14.27783333333333,0.3463333333333333,0.35239126139216953,FALSE
+project_paleo_spatial_regional,eu_r005,functional_type,48,12.854166666666664,51.373533333333306,1.2681166330973307e-4,FALSE
+project_paleo_spatial_regional,eu_r005,genus,48,17.706166666666658,0.4460111111111108,0.45307069579760234,FALSE

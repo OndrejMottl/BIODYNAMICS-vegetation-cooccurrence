@@ -17,7 +17,9 @@ Usage:
        fresh_round = FALSE,
        run_pipeline_function = run_pipeline,
        vec_allowed_profile_roles = base::c("main", "smoke"),
-       vec_allowed_profile_statuses = "active"
+       vec_allowed_profile_statuses = "active",
+       unit_target_names = NULL,
+       verbose = TRUE
      )
 
 Arguments:
@@ -32,6 +34,12 @@ run_pipeline_function: Injectable pipeline runner.
 
 vec_allowed_profile_roles, vec_allowed_profile_statuses: Allowed
           profile metadata forwarded to the runner.
+
+unit_target_names: Optional named list of per-unit target requests from
+          verified preparation. Empty requests are expected infeasible
+          and never sent to the runner.
+
+ verbose: Logical controlling unit messages.
 
 Value:
 

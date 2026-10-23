@@ -133,26 +133,40 @@ run_sjsdm_cv_calibration_rung <- function(
       )
     )
 
-  work_checkpoint_signature <-
-    digest::digest(
-      base::list(
-        work_checkpoint_contract_version =
-          "sjsdm_cv_calibration_work_v1",
-        data_candidates = data_candidates,
-        list_records = list_records,
-        data_budget = data_budget,
-        formula = stringr::str_c(
-          base::deparse(sel_abiotic_formula),
-          collapse = ""
-        ),
-        config_budget = config_budget,
-        repeat_ids = repeat_ids,
-        fold_ids = fold_ids,
-        seed = seed,
-        device = device,
-        calibration_stage = calibration_stage
-      )
+  list_work_signature_payload <-
+    base::list(
+      work_checkpoint_contract_version =
+        "sjsdm_cv_calibration_work_v1",
+      data_candidates = data_candidates,
+      list_records = list_records,
+      data_budget = data_budget,
+      formula = stringr::str_c(
+        base::deparse(sel_abiotic_formula),
+        collapse = ""
+      ),
+      config_budget = config_budget,
+      repeat_ids = repeat_ids,
+      fold_ids = fold_ids,
+      seed = seed,
+      device = device,
+      calibration_stage = calibration_stage
     )
+  legacy_work_checkpoint_signature <-
+    digest::digest(list_work_signature_payload)
+  list_work_signature_payload[["work_checkpoint_contract_version"]] <-
+    "sjsdm_cv_calibration_work_v2"
+  list_work_signature_payload[["list_records"]] <-
+    prepare_sjsdm_cv_calibration_hash_folds(
+      list_records, contract_version = "v4"
+    )
+  previous_work_checkpoint_signature <-
+    digest::digest(list_work_signature_payload)
+  list_work_signature_payload[["work_checkpoint_contract_version"]] <-
+    "sjsdm_cv_calibration_work_v3"
+  list_work_signature_payload[["list_records"]] <-
+    prepare_sjsdm_cv_calibration_hash_folds(list_records)
+  work_checkpoint_signature <-
+    digest::digest(list_work_signature_payload)
   list_work_checkpoint <-
     if (
       !base::is.null(work_checkpoint_file) &&
@@ -162,7 +176,7 @@ run_sjsdm_cv_calibration_rung <- function(
     } else {
       base::list(
         work_checkpoint_contract_version =
-          "sjsdm_cv_calibration_work_v1",
+          "sjsdm_cv_calibration_work_v3",
         work_checkpoint_signature = work_checkpoint_signature,
         list_results = base::list()
       )
@@ -171,6 +185,12 @@ run_sjsdm_cv_calibration_rung <- function(
     base::identical(
       list_work_checkpoint[["work_checkpoint_signature"]],
       work_checkpoint_signature
+    ) || base::identical(
+      list_work_checkpoint[["work_checkpoint_signature"]],
+      previous_work_checkpoint_signature
+    ) || base::identical(
+      list_work_checkpoint[["work_checkpoint_signature"]],
+      legacy_work_checkpoint_signature
     ),
     msg = stringr::str_c(
       "The candidate-fit checkpoint belongs to a different",
@@ -251,7 +271,7 @@ run_sjsdm_cv_calibration_rung <- function(
       qs2::qs_save(
         base::list(
           work_checkpoint_contract_version =
-            "sjsdm_cv_calibration_work_v1",
+            "sjsdm_cv_calibration_work_v3",
           work_checkpoint_signature = work_checkpoint_signature,
           list_results = list_results
         ),

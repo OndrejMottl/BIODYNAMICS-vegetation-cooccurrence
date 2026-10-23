@@ -1,0 +1,2 @@
+run_id,stopped_at,coordinator_pid,finished_child_pid,waited_for_child_exit,stores_reset,reason
+20261016_152015,2026-10-17 09:59:17 UTC,33588,18516,TRUE,FALSE,authorized_failed_unit_retry

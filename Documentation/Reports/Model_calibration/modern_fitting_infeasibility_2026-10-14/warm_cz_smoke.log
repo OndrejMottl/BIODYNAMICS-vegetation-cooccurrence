@@ -1,0 +1,131 @@
+here() starts at D:/GITHUB/BIODYNAMICS_vegetation_cooccurrence
+qs2 0.2.0
+── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.1     ✔ readr     2.2.0
+✔ forcats   1.0.1     ✔ stringr   1.6.0
+✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+✔ purrr     1.2.2
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter()      masks stats::filter()
+✖ purrr::flatten()     masks rlang::flatten()
+✖ purrr::flatten_chr() masks rlang::flatten_chr()
+✖ purrr::flatten_dbl() masks rlang::flatten_dbl()
+✖ purrr::flatten_int() masks rlang::flatten_int()
+✖ purrr::flatten_lgl() masks rlang::flatten_lgl()
+✖ purrr::flatten_raw() masks rlang::flatten_raw()
+✖ tibble::has_name()   masks rlang::has_name(), assertthat::has_name()
+✖ purrr::invoke()      masks rlang::invoke()
+✖ dplyr::lag()         masks stats::lag()
+✖ purrr::modify()      masks renv::modify()
+✖ purrr::splice()      masks rlang::splice()
+ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+Warning messages:
+1: package 'here' was built under R version 4.5.2
+2: package 'renv' was built under R version 4.5.3
+3: package 'rlang' was built under R version 4.5.3
+4: package 'ggplot2' was built under R version 4.5.3
+5: package 'tidyr' was built under R version 4.5.2
+6: package 'purrr' was built under R version 4.5.3
+7: package 'dplyr' was built under R version 4.5.3
+8: package 'targets' was built under R version 4.5.2
+ℹ Running GPU/CUDA preflight checks.
+✔ Python:
+  C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm-vscode/python.exe
+$reticulate_available
+[1] TRUE
+
+$python_path
+[1] "C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm-vscode/python.exe"
+
+$torch_available
+[1] TRUE
+
+$torch_version
+[1] "2.5.1+cu121"
+
+$torch_compiled_cuda
+[1] TRUE
+
+$cuda_version
+[1] "12.1"
+
+$cuda_runtime_available
+[1] TRUE
+
+$gpu_device_count
+[1] 1
+
+$gpu_device_names
+[1] "NVIDIA GeForce RTX 3050"
+
+$status_ok
+[1] TRUE
+
++ config_age_lim dispatched
+✔ config_age_lim completed [594ms, 76 B]
++ config_data_n_cores dispatched
+✔ config_data_n_cores completed [0ms, 72 B]
++ config_y_lim dispatched
+✔ config_y_lim completed [78ms, 84 B]
++ config_sel_dataset_type dispatched
+✔ config_sel_dataset_type completed [16ms, 115 B]
++ config_sel_abiotic_var_name dispatched
+✔ config_sel_abiotic_var_name completed [16ms, 93 B]
++ config_number_of_taxa dispatched
+✔ config_number_of_taxa completed [0ms, 72 B]
++ config_min_n_cores dispatched
+✔ config_min_n_cores completed [15ms, 72 B]
++ config_min_n_samples dispatched
+✔ config_min_n_samples completed [15ms, 72 B]
++ config_min_n_taxa dispatched
+✔ config_min_n_taxa completed [0ms, 72 B]
++ config_minimal_proportion_of_pollen dispatched
+✔ config_minimal_proportion_of_pollen completed [0ms, 76 B]
++ config_taxonomic_resolution dispatched
+✔ config_taxonomic_resolution completed [16ms, 81 B]
++ config_time_step dispatched
+✔ config_time_step completed [0ms, 72 B]
++ config_x_lim dispatched
+✔ config_x_lim completed [15ms, 84 B]
++ data_community_proportions_shared dispatched
+✔ data_community_proportions_shared completed [0ms, 178 B]
++ data_age_uncertainty_shared dispatched
+✔ data_age_uncertainty_shared completed [375ms, 173 B]
++ data_community_interpolated_dataset declared [27 branches]
+✔ ended pipeline [14s, 15 completed, 40 skipped]
++ config_sel_dataset_type dispatched
+✔ config_sel_dataset_type completed [609ms, 115 B]
++ config_minimal_proportion_of_pollen dispatched
+✔ config_minimal_proportion_of_pollen completed [16ms, 76 B]
++ config_data_n_cores dispatched
+✔ config_data_n_cores completed [16ms, 72 B]
++ config_y_lim dispatched
+✔ config_y_lim completed [78ms, 84 B]
++ config_time_step dispatched
+✔ config_time_step completed [16ms, 72 B]
++ config_age_lim dispatched
+✔ config_age_lim completed [15ms, 76 B]
++ config_sel_abiotic_var_name dispatched
+✔ config_sel_abiotic_var_name completed [0ms, 93 B]
++ config_x_lim dispatched
+✔ config_x_lim completed [16ms, 84 B]
++ config_min_n_cores dispatched
+✔ config_min_n_cores completed [16ms, 72 B]
++ data_community_proportions_shared dispatched
+✔ data_community_proportions_shared completed [0ms, 178 B]
++ data_age_uncertainty_shared dispatched
+✔ data_age_uncertainty_shared completed [141ms, 173 B]
++ config_min_n_samples dispatched
+✔ config_min_n_samples completed [16ms, 72 B]
++ config_min_n_taxa dispatched
+✔ config_min_n_taxa completed [16ms, 72 B]
++ config_number_of_taxa dispatched
+✔ config_number_of_taxa completed [16ms, 72 B]
++ config_taxonomic_resolution dispatched
+✔ config_taxonomic_resolution completed [0ms, 81 B]
++ data_community_interpolated_dataset declared [27 branches]
+✔ ended pipeline [12.6s, 15 completed, 40 skipped]
+There were 20 warnings (use warnings() to see them)
+LOCAL RECALIBRATION CANONICAL WARM SMOKE PASSED
+Ran 2/2 deferred expressions

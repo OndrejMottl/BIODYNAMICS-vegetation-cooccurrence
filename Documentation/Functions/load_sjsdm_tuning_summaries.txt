@@ -12,7 +12,8 @@ Usage:
        resolution_ids = NULL,
        target_prefix = "list_sjsdm_cv_tuning_artifact",
        target_names = NULL,
-       read_target_function = targets::tar_read_raw
+       read_target_function = targets::tar_read_raw,
+       file_unit_requests = NULL
      )
 
 Arguments:
@@ -33,6 +34,11 @@ target_names: Optional character vector paired with `resolution_ids`.
 
 read_target_function: Injectable target reader. Defaults to
           [targets::tar_read_raw()].
+
+file_unit_requests: Optional explicit CSV of verified `source_store`
+          and `target_name` pairs. When present, tier pooling requests
+          only these eligible pairs. Missing files preserve the legacy
+          Cartesian request contract.
 
 Value:
 

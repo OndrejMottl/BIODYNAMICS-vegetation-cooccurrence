@@ -1,0 +1,4 @@
+file,parsed_expressions,maximum_columns,over_80_columns,non_ascii_lines
+R/02_Main_analyses/05_Visualisation/_components/03_plot_paleo_variance_partitioning.R,29,80,0,0
+R/03_Supplementary_analyses/Testing/testthat/test-issue176-predictor-inclusive-workflow-contract.R,4,71,0,0
+R/03_Supplementary_analyses/Testing/testthat/test-main-analysis-manuscript-visualisation-contract.R,3,68,0,0

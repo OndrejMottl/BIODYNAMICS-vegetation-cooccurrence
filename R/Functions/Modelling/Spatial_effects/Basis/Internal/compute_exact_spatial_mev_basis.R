@@ -9,8 +9,9 @@
 #' @details
 #' `sjSDM::generateSpatialEV()` drops matrix dimensions when exactly one
 #' positive eigenvector is available and then errors while naming columns.
-#' This helper detects only that error and repeats the same calculation with
-#' dimension-preserving subsetting.
+#' This helper verifies that error against the same calculation with preserved
+#' dimensions. The zero-column naming error is classified as spatial data
+#' infeasibility only when that calculation confirms no positive eigenvectors.
 #' @keywords internal
 .compute_exact_spatial_mev_basis <- function(
     mat_coords,
@@ -46,15 +47,22 @@
       "argument of length 0"
     )
 
+  flag_zero_vector_error <-
+    base::inherits(condition_exact, "error") &&
+    base::identical(
+      base::conditionMessage(condition_exact),
+      "length of 'dimnames' [2] not equal to array extent"
+    )
+
   if (
     !base::is.null(condition_exact) &&
-      !base::isTRUE(flag_single_vector_error)
+      !base::isTRUE(flag_single_vector_error || flag_zero_vector_error)
   ) {
     base::stop(condition_exact)
   }
 
   if (
-    base::isTRUE(flag_single_vector_error)
+    base::isTRUE(flag_single_vector_error || flag_zero_vector_error)
   ) {
     mat_distance <-
       stats::dist(mat_coords) |>
@@ -88,7 +96,23 @@
       vec_scaled_eigenvalues > 0
 
     if (
-      base::sum(vec_positive) != 1L
+      flag_zero_vector_error &&
+        base::all(!base::is.na(vec_positive)) &&
+        base::sum(vec_positive) == 0L
+    ) {
+      cli::cli_abort(
+        message = stringr::str_c(
+          "No positive spatial MEM eigenvectors are supported. ",
+          "Found 0 positive eigenvectors; need at least 1. ",
+          "The configured spatial model cannot be fitted to this geometry."
+        ),
+        class = "sjsdm_spatial_basis_infeasible"
+      )
+    }
+
+    if (
+      !flag_single_vector_error ||
+        base::anyNA(vec_positive) || base::sum(vec_positive) != 1L
     ) {
       base::stop(condition_exact)
     }

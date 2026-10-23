@@ -192,3 +192,34 @@ testthat::test_that(
     )
   }
 )
+testthat::test_that("tier pooling uses explicit eligible store-target pairs", {
+  file_requests <-
+    withr::local_tempfile(fileext = ".csv")
+  readr::write_csv(tibble::tibble(source_store = base::c("a", "b"),
+    target_name = base::c("list_sjsdm_cv_tuning_artifact_family",
+      "list_sjsdm_cv_tuning_artifact_genus")), file_requests)
+  list_reads <- base::list()
+  res <-
+    load_sjsdm_tuning_summaries(store_paths = base::c("a", "b"),
+      resolution_ids = base::c("genus", "family"),
+      file_unit_requests = file_requests,
+      read_target_function = function(name, store) {
+        list_reads[[store]] <<- name
+        make_sjsdm_tuning_artifact_fixture()
+      })
+  testthat::expect_equal(base::nrow(res), 2L)
+  testthat::expect_identical(list_reads,
+    base::list(a = "list_sjsdm_cv_tuning_artifact_family",
+      b = "list_sjsdm_cv_tuning_artifact_genus"))
+  testthat::expect_error(
+    load_sjsdm_tuning_summaries(store_paths = base::c("a", "b", "c"),
+      resolution_ids = base::c("genus", "family"),
+      file_unit_requests = file_requests),
+    "cover every eligible"
+  )
+  readr::write_csv(tibble::tibble(source_store = "a",
+    target_name = "unknown_resolution_target"), file_requests)
+  testthat::expect_error(load_sjsdm_tuning_summaries(store_paths = "a",
+    resolution_ids = "genus", file_unit_requests = file_requests),
+    "unknown resolution targets")
+})

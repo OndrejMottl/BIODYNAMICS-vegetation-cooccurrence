@@ -1,0 +1,77 @@
+<!DOCTYPE html><html><head><title>R: Validate Calibration Evidence Against Cached Analytical...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>validate_sjsdm_cv_calibration_evidence</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Validate Calibration Evidence Against Cached Analytical Inputs</h2>
+
+<h3>Description</h3>
+
+<p>Reconstructs calibration signatures from production folds and structural
+settings. Legacy results are eligible for migration only on an exact raw
+input match; acceptance status alone is never sufficient for publication.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>validate_sjsdm_cv_calibration_evidence(
+  list_result,
+  list_prepared_folds,
+  config_model_fitting,
+  list_legacy_prepared_folds = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="list_result">list_result</code></td>
+<td>
+<p>Saved calibration result, or 'NULL' when unavailable.</p>
+</td></tr>
+<tr><td><code id="list_prepared_folds">list_prepared_folds</code>, <code id="config_model_fitting">config_model_fitting</code></td>
+<td>
+<p>Current production fold records and final fitting configuration.</p>
+</td></tr>
+<tr><td><code id="list_legacy_prepared_folds">list_legacy_prepared_folds</code></td>
+<td>
+<p>Optional independently reconstructed original folds for an operational-only
+version-four migration. Their exact original signature must be reproduced,
+and their full version-five analytical payload must match current inputs.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A compatibility status, migration status and input fingerprints.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+validate_sjsdm_cv_calibration_evidence(result, folds, config_model)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

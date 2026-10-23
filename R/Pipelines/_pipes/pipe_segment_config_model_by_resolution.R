@@ -119,7 +119,10 @@ pipe_segment_config_model_by_resolution <-
           cross_validation = load_active_config_value(
             value = c("model_fitting", "cross_validation")
           ) |>
-            purrr::list_modify(fit_budget = rlang::zap())
+            purrr::list_modify(
+              fit_budget = rlang::zap(),
+              grouped_fold_ladder = rlang::zap()
+            )
         )
       },
       cue = targets::tar_cue(mode = "always")

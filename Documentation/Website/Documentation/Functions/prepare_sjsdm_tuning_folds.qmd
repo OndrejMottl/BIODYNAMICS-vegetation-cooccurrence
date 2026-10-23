@@ -33,7 +33,8 @@ candidate work items.
 
 <pre><code class='language-R'>prepare_sjsdm_tuning_folds(
   data_assignments = NULL,
-  prepare_fold_function = NULL
+  prepare_fold_function = NULL,
+  cached_folds_function = NULL
 )
 </code></pre>
 
@@ -51,7 +52,22 @@ candidate work items.
 <p>Injectable preparation function documented by
 [run_sjsdm_tuning_candidates()].</p>
 </td></tr>
+<tr><td><code id="cached_folds_function">cached_folds_function</code></td>
+<td>
+<p>Optional zero-argument reader of prior fold records. Current folds are
+always prepared first. Successful analytically identical records reuse
+the original cached object, retaining its operational measurements.
+Unreadable or analytically different caches are ignored.</p>
+</td></tr>
 </table>
+
+
+<h3>Details</h3>
+
+<p>Exact equality uses the version-five calibration content contract. Only
+operational timing and spatial memory measurements are excluded; all
+analytical fields and fold contexts remain part of the comparison.
+</p>
 
 
 <h3>Value</h3>
@@ -59,6 +75,18 @@ candidate work items.
 <p>List with one keyed entry per fold. Each entry contains fold context,
 preparation timing, and either the prepared inputs or a structured error.
 </p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+prepare_sjsdm_tuning_folds(
+  data_assignments = assignments,
+  prepare_fold_function = prepare_fold
+)
+
+## End(Not run)
+</code></pre>
 
 </main>
 

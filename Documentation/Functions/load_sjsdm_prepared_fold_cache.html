@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><title>R: Load the Prior Local Prepared-Fold Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>load_sjsdm_prepared_fold_cache</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load the Prior Local Prepared-Fold Object</h2>
+
+<h3>Description</h3>
+
+<p>Reads the prior local object without consulting target metadata during
+target execution. Missing, unreadable or non-list objects return NULL.
+Analytical cache eligibility remains owned by
+[prepare_sjsdm_tuning_folds()], which reconstructs current inputs first.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>load_sjsdm_prepared_fold_cache(
+  file_cache = targets::tar_path_target(store = targets::tar_path_store()),
+  read_cache_function = qs2::qs_read
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="file_cache">file_cache</code></td>
+<td>
+<p>Local object path. The default uses the documented current-target path
+with the running store; outside target execution it resolves to NA.</p>
+</td></tr>
+<tr><td><code id="read_cache_function">read_cache_function</code></td>
+<td>
+<p>Injectable file reader accepting a named file argument. Defaults to the
+project's qs2 reader, compatible with its current local qs target objects.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The prior list object or NULL. No target metadata are changed.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>load_sjsdm_prepared_fold_cache(file_cache = "missing-fold-cache.qs")
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

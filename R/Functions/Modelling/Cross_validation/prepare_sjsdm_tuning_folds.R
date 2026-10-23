@@ -5,16 +5,33 @@
 #' @param data_assignments
 #' Cross-validation assignments accepted by
 #' [run_sjsdm_tuning_candidates()].
+#' @param cached_folds_function
+#' Optional zero-argument reader of prior fold records. Current folds are
+#' always prepared first. Successful analytically identical records reuse
+#' the original cached object, retaining its operational measurements.
+#' Unreadable or analytically different caches are ignored.
 #' @param prepare_fold_function
 #' Injectable preparation function documented by
 #' [run_sjsdm_tuning_candidates()].
 #' @return
 #' List with one keyed entry per fold. Each entry contains fold context,
 #' preparation timing, and either the prepared inputs or a structured error.
+#' @details
+#' Exact equality uses the version-five calibration content contract. Only
+#' operational timing and spatial memory measurements are excluded; all
+#' analytical fields and fold contexts remain part of the comparison.
+#' @examples
+#' \dontrun{
+#' prepare_sjsdm_tuning_folds(
+#'   data_assignments = assignments,
+#'   prepare_fold_function = prepare_fold
+#' )
+#' }
 #' @export
 prepare_sjsdm_tuning_folds <- function(
     data_assignments = NULL,
-    prepare_fold_function = NULL) {
+    prepare_fold_function = NULL,
+    cached_folds_function = NULL) {
   assertthat::assert_that(
     base::is.data.frame(data_assignments),
     base::all(
@@ -28,6 +45,11 @@ prepare_sjsdm_tuning_folds <- function(
     ),
     base::is.function(prepare_fold_function),
     msg = "Fold-preparation inputs are incomplete."
+  )
+  assertthat::assert_that(
+    base::is.null(cached_folds_function) ||
+      base::is.function(cached_folds_function),
+    msg = "Cached folds reader must be NULL or a function."
   )
 
   data_fold_keys <-
@@ -105,6 +127,45 @@ prepare_sjsdm_tuning_folds <- function(
 
   base::names(list_folds) <-
     purrr::map_chr(list_folds, "fold_key")
+
+  if (
+    base::is.function(cached_folds_function) &&
+      base::all(purrr::map_chr(list_folds, "preparation_status") == "ok")
+  ) {
+    # Compare complete analytical records, never work-item IDs or counts.
+    # Returning the old object preserves its genuine historical measurements
+    # and its target data hash without modifying target metadata directly.
+    list_cached_folds <-
+      base::tryCatch(
+        expr = cached_folds_function(),
+        error = function(error_condition) NULL
+      )
+    flag_identical_content <-
+      base::tryCatch(
+        expr = base::is.list(list_cached_folds) &&
+          purrr::every(list_cached_folds, ~ {
+            elapsed <-
+              purrr::pluck(.x, "preparation_seconds", .default = NA_real_)
+            base::is.numeric(elapsed) && base::length(elapsed) == 1L &&
+              base::is.finite(elapsed) && elapsed >= 0
+          }) && base::identical(
+          prepare_sjsdm_cv_calibration_hash_folds(
+            list_prepared_folds = list_folds,
+            contract_version = "v5"
+          ),
+          prepare_sjsdm_cv_calibration_hash_folds(
+            list_prepared_folds = list_cached_folds,
+            contract_version = "v5"
+          )
+        ),
+        error = function(error_condition) FALSE
+      )
+    if (
+      base::isTRUE(flag_identical_content)
+    ) {
+      return(list_cached_folds)
+    }
+  }
 
   return(list_folds)
 }

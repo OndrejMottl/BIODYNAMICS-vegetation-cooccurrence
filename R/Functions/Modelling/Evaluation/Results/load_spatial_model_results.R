@@ -3,6 +3,8 @@
 #' Loads successful spatial model ANOVA and evaluation targets from indexed
 #' targets stores and returns one summary row per
 #' store-resolution-component combination.
+#' Cached model results behind failed shared or resolution-specific upstream
+#' targets are excluded, even when their ANOVA targets remain readable.
 #' @param store_index
 #' Data frame returned by [build_spatial_model_store_index()].
 #' @param resolution_ids
@@ -16,8 +18,9 @@
 #' @param require_non_empty
 #' Logical. If `TRUE`, error when no rows are loaded.
 #' @return
-#' A tibble with ANOVA component percentages, explicitly labelled fitted AUC,
-#' and cross-validated predictive Tjur R2, AUC, and log loss.
+#' A tibble with Shapley and predictor-inclusive ANOVA component values,
+#' explicitly labelled fitted AUC, and cross-validated predictive Tjur R2,
+#' AUC, and log loss.
 #' @export
 load_spatial_model_results <- function(
     store_index,
@@ -109,11 +112,39 @@ load_spatial_model_results <- function(
           dplyr::pull("store_path") |>
           purrr::chuck(1L)
 
+        if (
+          base::is.null(data_meta)
+        ) {
+          return(data_empty_result)
+        }
+
         resolution_ids |>
           purrr::map(
             .f = function(resolution_id) {
+              # A last-success ANOVA remains on disk after an upstream failure.
+              # Never interpret that historical descendant as a current model.
+              data_upstream_errors <-
+                data_meta |>
+                dplyr::filter(
+                  !base::is.na(.data[["error"]]),
+                  base::nzchar(.data[["error"]]),
+                  !stringr::str_detect(.data[["name"]],
+                    "_(genus|family|functional_type|ft_modern)(_|$)") |
+                    stringr::str_detect(.data[["name"]],
+                      stringr::str_glue("_{resolution_id}(_|$)"))
+                ) |>
+                dplyr::filter(!stringr::str_detect(.data[["name"]],
+                  "^(list_jsdm_evaluation|list_sjsdm_cv_evaluation)"))
+              if (
+                base::nrow(data_upstream_errors) > 0L
+              ) {
+                return(data_empty_result)
+              }
+
               target_anova <-
-                stringr::str_glue("list_jsdm_variance_partition_{resolution_id}") |>
+                stringr::str_glue(
+                  "list_jsdm_variance_partition_{resolution_id}"
+                ) |>
                 base::as.character()
 
               list_jsdm_variance_partition <-
@@ -224,8 +255,23 @@ load_spatial_model_results <- function(
                   data_provenance = data_provenance
                 )
 
-              data_anova |>
-                compute_shapley_variance_components() |>
+              data_shapley_components <-
+                compute_shapley_variance_components(
+                  data_source = data_anova
+                )
+              data_predictor_inclusive_components <-
+                compute_predictor_inclusive_variance_components(
+                  data_source = data_anova
+                )
+              data_variance_components <-
+                data_shapley_components |>
+                dplyr::left_join(
+                  data_predictor_inclusive_components,
+                  by = dplyr::join_by(age, component),
+                  relationship = "one-to-one"
+                )
+
+              data_variance_components |>
                 dplyr::mutate(
                   data_source = store_row |>
                     dplyr::pull("data_source") |>
@@ -300,6 +346,8 @@ load_spatial_model_results <- function(
                   "component",
                   "R2_Nagelkerke_adjusted",
                   "R2_Nagelkerke_percentage",
+                  "R2_Nagelkerke_predictor_inclusive",
+                  "R2_Nagelkerke_predictor_inclusive_percentage",
                   "fitted_auc_mean",
                   "fitted_auc_median",
                   "fitted_auc_n",

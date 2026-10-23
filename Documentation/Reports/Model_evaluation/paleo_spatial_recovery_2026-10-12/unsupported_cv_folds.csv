@@ -1,0 +1,7 @@
+resolution_id,fold_key,status,error
+genus,repeat_002__fold_001,preparation_error,"No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry."
+functional_type,repeat_002__fold_001,preparation_error,"No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry."

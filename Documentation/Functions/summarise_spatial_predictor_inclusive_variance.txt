@@ -1,0 +1,20 @@
+Summarise Spatial Predictor-Inclusive Variance
+
+Description:
+
+     Summarises unit-level predictor-inclusive percentages for spatial
+     variance figures using medians and empirical 95 percent intervals.
+
+Usage:
+
+     summarise_spatial_predictor_inclusive_variance(data_plot)
+
+Arguments:
+
+data_plot: Data frame returned by
+          [prepare_spatial_variance_plot_data()].
+
+Value:
+
+     A tibble with one row per scale, resolution, and predictor domain,
+     including `n_units`, `median`, `lwr_95`, and `upr_95`.

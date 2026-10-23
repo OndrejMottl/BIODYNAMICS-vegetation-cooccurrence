@@ -69,3 +69,41 @@ testthat::test_that(
     )
   }
 )
+testthat::test_that("Exact MEM identifies verified zero-vector support", {
+  mat_coords <-
+    base::matrix(data = base::c(
+      -1649.11230555024, -1791.9119008732, -1386.29579980678,
+      6500.83540093393, 6415.74315007719, 6611.90179945801
+    ), ncol = 2L)
+  testthat::expect_error(
+    .compute_exact_spatial_mev_basis(
+      mat_coords = mat_coords,
+      exact_function = function(coords) {
+        base::stop("length of 'dimnames' [2] not equal to array extent")
+      }
+    ),
+    regexp = "No positive spatial MEM eigenvectors",
+    class = "sjsdm_spatial_basis_infeasible"
+  )
+})
+
+testthat::test_that("Exact MEM preserves unrelated engine errors", {
+  mat_coords <-
+    base::matrix(
+      data = base::c(
+        5688.363, 5753.989, 5771.351, 5965.725, 5802.150,
+        2322.188, 2401.035, 2307.708, 2140.048, 2468.313
+      ),
+      ncol = 2L
+    )
+  testthat::expect_error(
+    .compute_exact_spatial_mev_basis(
+      mat_coords = mat_coords,
+      exact_function = function(coords) {
+        base::stop("length of 'dimnames' [2] not equal to array extent")
+      }
+    ),
+    regexp = "length of 'dimnames'",
+    class = "simpleError"
+  )
+})

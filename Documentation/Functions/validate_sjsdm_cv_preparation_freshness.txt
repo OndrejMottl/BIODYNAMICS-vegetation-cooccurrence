@@ -1,0 +1,71 @@
+Validate Current Calibration Preparation Dependencies
+
+Description:
+
+     Blocks stale preparation without executing analytical pipeline
+     targets.
+
+Usage:
+
+     validate_sjsdm_cv_preparation_freshness(
+       pipeline_script,
+       store_path,
+       target_names,
+       manifest_function = targets::tar_manifest,
+       network_function = targets::tar_network,
+       outdated_function = targets::tar_outdated,
+       read_target_function = targets::tar_read_raw,
+       verify_folds_function = is_sjsdm_cv_prepared_folds_current,
+       verify_mapping_function = is_sjsdm_cv_preparation_mapping_current,
+       load_metadata_function = targets::tar_meta
+     )
+
+Arguments:
+
+pipeline_script, store_path: Current pipeline definition and its
+          existing unit store.
+
+target_names: Prepared input endpoints whose upstream dependencies must
+          be current.
+
+manifest_function, network_function, outdated_function: Injectable
+          public targets inspection functions.
+
+read_target_function: Injectable cached target reader for configuration
+          comparisons.
+
+verify_folds_function: Injectable exact in-memory proof for
+          preparation-only code differences.
+
+verify_mapping_function: Injectable exact in-memory proof for the known
+          pure community mapper.
+
+load_metadata_function: Injectable public cached-target metadata
+          reader. Missing dependency records block validation before
+          shortcut inspection; analytical work is not run.
+
+Details:
+
+     Always-cued configuration commands are read-only and compared
+     exactly with cached values. Other always-cued ancestors are
+     rejected. All remaining ancestors are checked individually with
+     shortcut inspection, avoiding the false propagation of unchanged
+     always-cued configuration into their users. The two known
+     shared-memory interpolation handles are operational wrappers;
+     their durable input ancestors are inspected instead of creating
+     new handles. Required cached dependency records are checked before
+     shortcut inspection, which cannot bootstrap newly introduced
+     targets without metadata.
+
+Value:
+
+     Invisibly, `NULL` after successful validation.
+
+Examples:
+
+     ## Not run:
+
+     validate_sjsdm_cv_preparation_freshness(
+       "R/Pipelines/pipeline.R", "Data/targets/store", "prepared_folds"
+     )
+     ## End(Not run)

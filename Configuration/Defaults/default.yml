@@ -59,6 +59,7 @@ default:
         enabled: false
         representative_scale_id: ~
       default_folds: 5
+      grouped_fold_ladder: !expr c(5L, 10L, 20L, 50L)
       assignment_repeats: 3
       assignment_seed: 900723
       fit_seed: 900723

@@ -806,6 +806,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_predictor_inclusive_variance_components.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compute_predictor_inclusive_variance_components()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/compute_shapley_variance_components.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_shapley_variance_components()</span></a>
   </div>
@@ -820,6 +826,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/compute_sjsdm_artifact_content_hash.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_sjsdm_artifact_content_hash()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_sjsdm_cv_calibration_hashes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compute_sjsdm_cv_calibration_hashes()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1556,6 +1568,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_manuscript_predictor_inclusive_variance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot_manuscript_predictor_inclusive_variance()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/plot_manuscript_spatial_map_panel.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_manuscript_spatial_map_panel()</span></a>
   </div>
@@ -1718,6 +1736,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_cv_calibration_hash_folds.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">prepare_sjsdm_cv_calibration_hash_folds()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_guardrail_repeat_metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_sjsdm_guardrail_repeat_metrics()</span></a>
   </div>
@@ -1828,6 +1852,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/resolve_cross_validation_fold_count.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_cross_validation_fold_count()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_cross_validation_fold_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">resolve_cross_validation_fold_search()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2324,6 +2354,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_spatial_predictor_inclusive_variance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summarise_spatial_predictor_inclusive_variance()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/summarise_spatial_variance_stack.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_spatial_variance_stack()</span></a>
   </div>
@@ -2434,6 +2470,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_common_regularization_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_common_regularization_payload()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_calibration_evidence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">validate_sjsdm_cv_calibration_evidence()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2581,7 +2623,7 @@ Load Spatial Model Results
 Description
 </h3>
 <p>
-Loads successful spatial model ANOVA and evaluation targets from indexed targets stores and returns one summary row per store-resolution-component combination.
+Loads successful spatial model ANOVA and evaluation targets from indexed targets stores and returns one summary row per store-resolution-component combination. Cached model results behind failed shared or resolution-specific upstream targets are excluded, even when their ANOVA targets remain readable.
 </p>
 <h3 class="anchored">
 Usage
@@ -2653,7 +2695,7 @@ Logical. If ‘TRUE’, error when no rows are loaded.
 Value
 </h3>
 <p>
-A tibble with ANOVA component percentages, explicitly labelled fitted AUC, and cross-validated predictive Tjur R2, AUC, and log loss.
+A tibble with Shapley and predictor-inclusive ANOVA component values, explicitly labelled fitted AUC, and cross-validated predictive Tjur R2, AUC, and log loss.
 </p>
 </main>
 </div>

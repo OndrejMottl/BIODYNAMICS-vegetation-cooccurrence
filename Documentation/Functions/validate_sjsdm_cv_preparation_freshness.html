@@ -1,0 +1,111 @@
+<!DOCTYPE html><html><head><title>R: Validate Current Calibration Preparation Dependencies</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>validate_sjsdm_cv_preparation_freshness</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Validate Current Calibration Preparation Dependencies</h2>
+
+<h3>Description</h3>
+
+<p>Blocks stale preparation without executing analytical pipeline targets.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>validate_sjsdm_cv_preparation_freshness(
+  pipeline_script,
+  store_path,
+  target_names,
+  manifest_function = targets::tar_manifest,
+  network_function = targets::tar_network,
+  outdated_function = targets::tar_outdated,
+  read_target_function = targets::tar_read_raw,
+  verify_folds_function = is_sjsdm_cv_prepared_folds_current,
+  verify_mapping_function = is_sjsdm_cv_preparation_mapping_current,
+  load_metadata_function = targets::tar_meta
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="pipeline_script">pipeline_script</code>, <code id="store_path">store_path</code></td>
+<td>
+<p>Current pipeline definition and its existing unit store.</p>
+</td></tr>
+<tr><td><code id="target_names">target_names</code></td>
+<td>
+<p>Prepared input endpoints whose upstream dependencies must be current.</p>
+</td></tr>
+<tr><td><code id="manifest_function">manifest_function</code>, <code id="network_function">network_function</code>, <code id="outdated_function">outdated_function</code></td>
+<td>
+<p>Injectable public targets inspection functions.</p>
+</td></tr>
+<tr><td><code id="read_target_function">read_target_function</code></td>
+<td>
+<p>Injectable cached target reader for configuration comparisons.</p>
+</td></tr>
+<tr><td><code id="verify_folds_function">verify_folds_function</code></td>
+<td>
+<p>Injectable exact in-memory proof for preparation-only code differences.</p>
+</td></tr>
+<tr><td><code id="verify_mapping_function">verify_mapping_function</code></td>
+<td>
+<p>Injectable exact in-memory proof for the known pure community mapper.</p>
+</td></tr>
+<tr><td><code id="load_metadata_function">load_metadata_function</code></td>
+<td>
+<p>Injectable public cached-target metadata reader. Missing dependency records
+block validation before shortcut inspection; analytical work is not run.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Always-cued configuration commands are read-only and compared exactly with
+cached values. Other always-cued ancestors are rejected. All remaining
+ancestors are checked individually with shortcut inspection, avoiding the
+false propagation of unchanged always-cued configuration into their users.
+The two known shared-memory interpolation handles are operational wrappers;
+their durable input ancestors are inspected instead of creating new handles.
+Required cached dependency records are checked before shortcut inspection,
+which cannot bootstrap newly introduced targets without metadata.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Invisibly, 'NULL' after successful validation.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+validate_sjsdm_cv_preparation_freshness(
+  "R/Pipelines/pipeline.R", "Data/targets/store", "prepared_folds"
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

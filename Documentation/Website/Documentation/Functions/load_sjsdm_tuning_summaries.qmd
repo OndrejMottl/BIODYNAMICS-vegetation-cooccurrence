@@ -36,7 +36,8 @@ targets stores for a shared tier-selection stage.
   resolution_ids = NULL,
   target_prefix = "list_sjsdm_cv_tuning_artifact",
   target_names = NULL,
-  read_target_function = targets::tar_read_raw
+  read_target_function = targets::tar_read_raw,
+  file_unit_requests = NULL
 )
 </code></pre>
 
@@ -66,6 +67,12 @@ reads these exact public target names instead of constructing suffixed names.</p
 <tr><td><code id="read_target_function">read_target_function</code></td>
 <td>
 <p>Injectable target reader. Defaults to [targets::tar_read_raw()].</p>
+</td></tr>
+<tr><td><code id="file_unit_requests">file_unit_requests</code></td>
+<td>
+<p>Optional explicit CSV of verified 'source_store' and 'target_name' pairs.
+When present, tier pooling requests only these eligible pairs. Missing
+files preserve the legacy Cartesian request contract.</p>
 </td></tr>
 </table>
 

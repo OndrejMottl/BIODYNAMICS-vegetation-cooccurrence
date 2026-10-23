@@ -1,0 +1,33 @@
+Compute Predictor-Inclusive Variance Components
+
+Description:
+
+     Computes the full variance contribution associated with each
+     predictor domain without dividing shared fractions among domains.
+
+Usage:
+
+     compute_predictor_inclusive_variance_components(data_source)
+
+Arguments:
+
+data_source: A non-empty data frame with columns `age`, `component`,
+          and `R2_Nagelkerke`. Missing fraction labels are treated as
+          zero, and negative R-squared values are clamped to zero.
+
+Details:
+
+     Each shared fraction contributes in full to every predictor domain
+     that it contains. Percentages use the sum of the seven clamped
+     variance fractions as their denominator, so percentages across
+     domains may exceed 100 percent.
+
+Value:
+
+     A tibble with three rows per age and columns `age`, `component`,
+     `R2_Nagelkerke_predictor_inclusive`, and
+     `R2_Nagelkerke_predictor_inclusive_percentage`.
+
+See Also:
+
+     [compute_shapley_variance_components()]

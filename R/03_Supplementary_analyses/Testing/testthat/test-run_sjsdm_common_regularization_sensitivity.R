@@ -1,6 +1,13 @@
 testthat::test_that(
   "run_sjsdm_common_regularization_sensitivity() retains provenance",
   {
+    path_checkpoint <-
+      withr::local_tempdir()
+    list_counts <-
+      rlang::env(fit = 0L, se = 0L, anova = 0L)
+    flag_fail_anova <- FALSE
+    n_cv_sampling <- 200L
+    n_anova_sampling <- 10L
     data_model_index <-
       tibble::tibble(
         model_id = base::c(
@@ -43,12 +50,12 @@ testthat::test_that(
         formula_jsdm_environment_genus = stats::as.formula("~ bio1"),
         config_model_fitting_genus = base::list(
           n_cores = 2L,
-          n_samples_anova = 10L
+          n_samples_anova = n_anova_sampling
         ),
         config_sjsdm_cv_fitting_genus = base::list(
           n_iter_initial = 500L,
           n_iter_max = 2000L,
-          n_sampling = 200L
+          n_sampling = n_cv_sampling
         ),
         data_sjsdm_model_context_genus = tibble::tibble(
           tier_id = "paleo_spatial_regional",
@@ -73,6 +80,7 @@ testthat::test_that(
         model_formula,
         config_model_fitting,
         data_regularization) {
+      list_counts[["fit"]] <- list_counts[["fit"]] + 1L
       base::structure(
         base::list(
           candidate_id = data_regularization[["candidate_id"]][[1L]],
@@ -86,10 +94,17 @@ testthat::test_that(
         mod_jsdm,
         parallel,
         verbose) {
+      list_counts[["se"]] <- list_counts[["se"]] + 1L
       mod_jsdm
     }
 
     anova_function <- function(mod, n_samples, verbose) {
+      list_counts[["anova"]] <- list_counts[["anova"]] + 1L
+      if (
+        flag_fail_anova
+      ) {
+        base::stop("decomposition interrupted")
+      }
       base::structure(
         base::list(results = TRUE),
         class = "fake_anova"
@@ -111,7 +126,9 @@ testthat::test_that(
         fit_function = fit_function,
         standard_error_function = standard_error_function,
         anova_function = anova_function,
-        extract_function = extract_function
+        extract_function = extract_function,
+        path_checkpoint = path_checkpoint,
+        verbose = FALSE
       )
 
     testthat::expect_equal(
@@ -142,6 +159,95 @@ testthat::test_that(
       res[["list_models"]][["continental/europe/genus"]][["store"]],
       "continental_store"
     )
+    # Volatile artifact publication times must not repeat scientific work.
+    data_artifacts[["created_at"]] <-
+      base::Sys.time()
+    res_cached <-
+      run_sjsdm_common_regularization_sensitivity(
+        data_model_index = data_model_index,
+        data_artifacts = data_artifacts,
+        read_target_function = read_target_function,
+        fit_function = fit_function,
+        standard_error_function = standard_error_function,
+        anova_function = anova_function,
+        extract_function = extract_function,
+        path_checkpoint = path_checkpoint,
+        verbose = FALSE
+      )
+    testthat::expect_identical(res_cached, res)
+    testthat::expect_identical(list_counts[["fit"]], 2L)
+    testthat::expect_identical(list_counts[["se"]], 2L)
+    testthat::expect_identical(list_counts[["anova"]], 2L)
+    # A changed candidate must not reuse the old representative fits.
+    data_artifacts[["lambda_cov"]] <- 0.2
+    flag_fail_anova <- TRUE
+    res_changed <-
+      run_sjsdm_common_regularization_sensitivity(
+        data_model_index = data_model_index,
+        data_artifacts = data_artifacts,
+        read_target_function = read_target_function,
+        fit_function = fit_function,
+        standard_error_function = standard_error_function,
+        anova_function = anova_function,
+        extract_function = extract_function,
+        path_checkpoint = path_checkpoint,
+        verbose = FALSE
+      )
+    testthat::expect_identical(list_counts[["fit"]], 4L)
+    testthat::expect_identical(list_counts[["se"]], 4L)
+    testthat::expect_true(base::all(
+      res_changed[["data_provenance"]][["fit_status"]] == "error"
+    ))
+    flag_fail_anova <- FALSE
+    res_resumed <-
+      run_sjsdm_common_regularization_sensitivity(
+        data_model_index = data_model_index,
+        data_artifacts = data_artifacts,
+        read_target_function = read_target_function,
+        fit_function = fit_function,
+        standard_error_function = standard_error_function,
+        anova_function = anova_function,
+        extract_function = extract_function,
+        path_checkpoint = path_checkpoint,
+        verbose = FALSE
+      )
+    testthat::expect_identical(list_counts[["fit"]], 4L)
+    testthat::expect_identical(list_counts[["se"]], 4L)
+    testthat::expect_identical(list_counts[["anova"]], 6L)
+    testthat::expect_identical(res_resumed[["data_provenance"]],
+      res[["data_provenance"]])
+    n_cv_sampling <- 400L
+    res_budget_changed <-
+      run_sjsdm_common_regularization_sensitivity(
+        data_model_index = data_model_index,
+        data_artifacts = data_artifacts,
+        read_target_function = read_target_function,
+        fit_function = fit_function,
+        standard_error_function = standard_error_function,
+        anova_function = anova_function,
+        extract_function = extract_function,
+        path_checkpoint = path_checkpoint,
+        verbose = FALSE
+      )
+    testthat::expect_identical(list_counts[["fit"]], 6L)
+    testthat::expect_identical(list_counts[["se"]], 6L)
+    testthat::expect_identical(list_counts[["anova"]], 8L)
+    n_anova_sampling <- 11L
+    res_anova_changed <-
+      run_sjsdm_common_regularization_sensitivity(
+        data_model_index = data_model_index,
+        data_artifacts = data_artifacts,
+        read_target_function = read_target_function,
+        fit_function = fit_function,
+        standard_error_function = standard_error_function,
+        anova_function = anova_function,
+        extract_function = extract_function,
+        path_checkpoint = path_checkpoint,
+        verbose = FALSE
+      )
+    testthat::expect_identical(list_counts[["fit"]], 6L)
+    testthat::expect_identical(list_counts[["se"]], 6L)
+    testthat::expect_identical(list_counts[["anova"]], 10L)
   }
 )
 

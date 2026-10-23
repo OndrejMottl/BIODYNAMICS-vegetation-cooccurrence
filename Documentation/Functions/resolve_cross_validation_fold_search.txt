@@ -1,0 +1,67 @@
+Resolve a Feasible Grouped Cross-Validation Design
+
+Description:
+
+     Preserves feasible initial assignments, otherwise tests increasing
+     grouped fold counts before the existing leave-one-location-out
+     fallback. No models are fitted during this search and no
+     feasibility threshold is relaxed.
+
+Usage:
+
+     resolve_cross_validation_fold_search(
+       data_locations = NULL,
+       data_assignments = NULL,
+       data_partition_diagnostics = NULL,
+       data_community_matrix = NULL,
+       config_data_processing = NULL,
+       config_cross_validation = NULL,
+       grouped_fold_ladder = base::c(5L, 10L, 20L, 50L),
+       verbose = TRUE
+     )
+
+Arguments:
+
+data_locations, data_assignments, data_partition_diagnostics: Initial
+          location, assignment, and training-partition diagnostic
+          tables.
+
+data_community_matrix: Binary response matrix aligned with location row
+          indices.
+
+config_data_processing: Processing configuration with `min_n_cores`,
+          `min_n_samples`, `min_n_taxa`.
+
+config_cross_validation: CV controls including MEM threshold, repeats,
+          assignment seed, and grid.
+
+grouped_fold_ladder: Strictly increasing unique integer fold counts,
+          all at least two.
+
+ verbose: Logical. Print selected design and candidate-fold task
+          estimates if TRUE.
+
+Value:
+
+     Named list containing unchanged-schema `data_assignments`,
+     attempt-level `data_fold_search`, partition-level
+     `data_partition_diagnostics_search`, and the configured
+     `vec_grouped_fold_ladder`. Failed grids are recorded; unexpected
+     errors propagate. All configured repeats must pass. The search
+     never tries counts at or above location count.
+
+Examples:
+
+     ## Not run:
+
+     list_search <-
+       resolve_cross_validation_fold_search(
+         data_locations = data_cross_validation_locations,
+         data_assignments = data_cross_validation_assignments_initial,
+         data_partition_diagnostics =
+           data_cross_validation_partition_diagnostics_initial,
+         data_community_matrix = data_community_filtered,
+         config_data_processing = config_data_processing,
+         config_cross_validation = config_model_fitting[["cross_validation"]]
+       )
+     ## End(Not run)

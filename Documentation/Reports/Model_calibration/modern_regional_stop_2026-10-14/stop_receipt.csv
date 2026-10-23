@@ -1,0 +1,2 @@
+stopped_at,requested_action,stopped_process_count,production_stores_deleted,calibration_evidence_deleted,restarted
+2026-10-14 09:00:56 UTC,stop regional and queued local recovery; investigate,6,FALSE,FALSE,FALSE

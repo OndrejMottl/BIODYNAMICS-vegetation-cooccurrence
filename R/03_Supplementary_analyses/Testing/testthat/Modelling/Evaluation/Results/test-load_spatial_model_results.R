@@ -21,7 +21,7 @@ make_test_anova <- function() {
         "F_BS",
         "F_ABS"
       ),
-      `R2 Nagelkerke` = base::c(1, 2, 3, 0, 0, 0, 0)
+      `R2 Nagelkerke` = base::c(1, 2, 3, 0.4, 0.6, 0.8, 0.9)
     )
   )
 }
@@ -190,6 +190,24 @@ testthat::test_that(
       base::sum(res[["R2_Nagelkerke_percentage"]]),
       100
     )
+    testthat::expect_equal(
+      res[["R2_Nagelkerke_adjusted"]],
+      base::c(1.8, 2.9, 4)
+    )
+    testthat::expect_equal(
+      res[["R2_Nagelkerke_predictor_inclusive"]],
+      base::c(2.9, 4.1, 5.3)
+    )
+    testthat::expect_equal(
+      res[["R2_Nagelkerke_predictor_inclusive_percentage"]],
+      base::c(2.9, 4.1, 5.3) / 8.7 * 100
+    )
+    testthat::expect_gt(
+      base::sum(
+        res[["R2_Nagelkerke_predictor_inclusive_percentage"]]
+      ),
+      100
+    )
   }
 )
 
@@ -242,3 +260,45 @@ testthat::test_that(
     )
   }
 )
+testthat::test_that("Spatial results exclude failed upstream cached models", {
+  for (target_failed in base::c(
+    "list_spatial_mev_core_basis", "data_community_prepared_genus",
+    "mod_jsdm_genus", "list_sjsdm_regularization_selection_artifact_genus"
+  )) {
+    data_result <-
+      load_spatial_model_results(
+        store_index = make_test_store_index(store_path = "old-store"),
+        resolution_ids = "genus",
+        meta_fn = function(...) tibble::tibble(
+          name = base::c("list_jsdm_variance_partition_genus", target_failed),
+          error = base::c(NA_character_, "upstream failure")
+        ),
+        read_target_fn = function(...) make_test_anova()
+      )
+    testthat::expect_equal(base::nrow(data_result), 0L)
+  }
+})
+
+testthat::test_that("Spatial results keep independent successful resolutions", {
+  data_result <-
+    load_spatial_model_results(
+      store_index = make_test_store_index(store_path = "partly-valid-store"),
+      resolution_ids = "genus",
+      meta_fn = function(...) tibble::tibble(
+        name = base::c("list_jsdm_variance_partition_genus",
+          "data_community_prepared_family"),
+        error = base::c(NA_character_, "expected family limitation")
+      ),
+      read_target_fn = function(...) make_test_anova()
+    )
+  testthat::expect_equal(base::nrow(data_result), 3L)
+})
+testthat::test_that("Spatial results reject unreadable metadata safely", {
+  data_result <-
+    load_spatial_model_results(
+      store_index = make_test_store_index(store_path = "unreadable-store"),
+      resolution_ids = "genus", meta_fn = function(...) NULL,
+      read_target_fn = function(...) make_test_anova()
+    )
+  testthat::expect_equal(base::nrow(data_result), 0L)
+})

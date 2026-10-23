@@ -116,6 +116,8 @@ data_modern_summary <-
       dplyr::all_of(
         c(
           "R2_Nagelkerke_percentage",
+          "R2_Nagelkerke_predictor_inclusive",
+          "R2_Nagelkerke_predictor_inclusive_percentage",
           "fitted_auc_mean",
           "predictive_tjur_r2_mean",
           "predictive_auc_mean",

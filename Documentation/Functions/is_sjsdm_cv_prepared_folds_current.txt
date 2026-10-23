@@ -1,0 +1,46 @@
+Test Prepared Fold Content Against Current Preparation Code
+
+Description:
+
+     Reconstructs folds in memory and requires exact analytical
+     equality. This permits error-only code changes without rewriting
+     operational runtimes in cached folds or invalidating successful
+     fitting descendants.
+
+Usage:
+
+     is_sjsdm_cv_prepared_folds_current(
+       store_path,
+       target_name,
+       read_target_function = targets::tar_read_raw,
+       prepare_fold_function = prepare_sjsdm_cross_validation_fold,
+       load_metadata_function = targets::tar_meta
+     )
+
+Arguments:
+
+store_path, target_name: Existing store and one prepared-fold endpoint.
+
+read_target_function, prepare_fold_function: Injectable cached target
+          reader and current fold-preparation adapter.
+
+load_metadata_function: Injectable target metadata reader for current
+          input-name resolution.
+
+Details:
+
+     Call only after every upstream input and configuration has been
+     verified. This function does not execute targets, fit models, or
+     write to stores.
+
+Value:
+
+     A logical scalar; unreadable inputs and reconstruction errors
+     fail.
+
+Examples:
+
+     ## Not run:
+
+     is_sjsdm_cv_prepared_folds_current(store, "list_sjsdm_prepared_tuning_folds")
+     ## End(Not run)

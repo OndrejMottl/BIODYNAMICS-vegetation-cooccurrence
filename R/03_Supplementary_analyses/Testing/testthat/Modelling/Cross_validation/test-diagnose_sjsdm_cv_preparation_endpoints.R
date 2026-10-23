@@ -72,6 +72,7 @@ testthat::test_that(
         store_path = "store",
         target_names = base::c("folds_genus", "folds_family"),
         load_metadata_function = function(...) data_metadata,
+        file_exists_function = function(...) TRUE,
         read_target_function = function(name, ...) {
           if (
             name == "folds_genus"
@@ -88,3 +89,30 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that("absent objects are not legacy cache incompatibility", {
+  for (
+    flag_metadata_error in base::c(TRUE, FALSE)
+  ) {
+    res <-
+      diagnose_sjsdm_cv_preparation_endpoints(
+        store_path = "store", target_names = "folds_genus",
+        load_metadata_function = function(...) tibble::tibble(
+          name = "folds_genus", data = "old_hash",
+          error = if (
+            flag_metadata_error
+          ) {
+            "there is no package called 'qs'"
+          } else {
+            NA_character_
+          }),
+        file_exists_function = function(...) FALSE,
+        read_target_function = function(...) {
+          base::stop("there is no package called 'qs'")
+        }
+      )
+    testthat::expect_false(
+      res[["endpoint_status"]] == "cache_format_incompatible")
+    testthat::expect_match(res[["error_message"]], "absent|missing")
+  }
+})

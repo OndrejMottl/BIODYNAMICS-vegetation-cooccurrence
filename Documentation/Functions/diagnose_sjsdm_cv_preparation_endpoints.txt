@@ -12,7 +12,8 @@ Usage:
        store_path = NULL,
        target_names = NULL,
        load_metadata_function = load_targets_store_metadata,
-       read_target_function = targets::tar_read_raw
+       read_target_function = targets::tar_read_raw,
+       file_exists_function = base::file.exists
      )
 
 Arguments:
@@ -25,6 +26,10 @@ target_names: Unique non-empty character vector of prepared-fold target
 load_metadata_function: Injectable target-metadata loader.
 
 read_target_function: Injectable raw target reader.
+
+file_exists_function: Injectable existence check for the endpoint's
+          serialized object. A `qs` fallback error proves
+          incompatibility only when that object exists.
 
 Details:
 

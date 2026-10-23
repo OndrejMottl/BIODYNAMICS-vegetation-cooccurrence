@@ -15,10 +15,27 @@
 #' Injectable standard-error function. Defaults to [compute_jsdm_se()].
 #' @param anova_function
 #' Injectable decomposition function. Defaults to
-#' [compute_jsdm_variance_partition()].
+#' [compute_jsdm_variance_partition_with_progress()].
 #' @param extract_function
 #' Injectable ANOVA extractor. Defaults to
 #' [extract_jsdm_variance_fractions()].
+#' @param path_checkpoint Optional root for per-model, per-phase checkpoints.
+#' @param verbose Logical; print representative and phase progress.
+#' @details
+#' Checkpoints are independent of publication timestamps. Fitting inputs,
+#' formula text, regularization parameters, budgets, seed, and backend code
+#' identify reusable phases. Changing only the ANOVA sample count reuses the
+#' fit and standard errors. Decompositions resume at phase boundaries, not at
+#' an interrupted likelihood taxon. The formula is evaluated against the
+#' prepared model inputs; its incidental calling environment is not hashed.
+#' @examples
+#' \dontrun{
+#' run_sjsdm_common_regularization_sensitivity(
+#'   data_model_index = data_model_index,
+#'   data_artifacts = data_artifacts,
+#'   path_checkpoint = "Data/Temp/sensitivity_checkpoints"
+#' )
+#' }
 #' @return
 #' Named list containing fitted models, ANOVA objects, model-level provenance,
 #' and a long decomposition table. Individual failures are retained with an
@@ -30,8 +47,10 @@ run_sjsdm_common_regularization_sensitivity <- function(
     read_target_function = targets::tar_read_raw,
     fit_function = NULL,
     standard_error_function = compute_jsdm_se,
-    anova_function = compute_jsdm_variance_partition,
-    extract_function = extract_jsdm_variance_fractions) {
+    anova_function = compute_jsdm_variance_partition_with_progress,
+    extract_function = extract_jsdm_variance_fractions,
+    path_checkpoint = NULL,
+    verbose = TRUE) {
   vec_index_columns <-
     base::c(
       "model_id",
@@ -83,6 +102,14 @@ run_sjsdm_common_regularization_sensitivity <- function(
     base::is.function(extract_function),
     msg = "Sensitivity workflow backends must be functions."
   )
+  assertthat::assert_that(
+    base::is.null(path_checkpoint) ||
+      (assertthat::is.string(path_checkpoint) &&
+        !base::is.na(path_checkpoint) && base::nzchar(path_checkpoint)),
+    assertthat::is.flag(verbose),
+    !base::is.na(verbose),
+    msg = "Supply an optional checkpoint root and logical verbose."
+  )
 
   data_primary_provenance_defaults <-
     tibble::tibble(
@@ -129,6 +156,19 @@ run_sjsdm_common_regularization_sensitivity <- function(
 
         resolution_id <-
           data_index_row[["resolution_id"]][[1L]]
+        path_model_checkpoint <-
+          if (
+            base::is.null(path_checkpoint)
+          ) {
+            NULL
+          } else {
+            fs::path(path_checkpoint, digest::digest(model_id))
+          }
+        if (
+          base::isTRUE(verbose)
+        ) {
+          cli::cli_inform("Sensitivity representative: {model_id}")
+        }
 
         tryCatch(
           expr = {
@@ -223,29 +263,76 @@ run_sjsdm_common_regularization_sensitivity <- function(
               ) |>
               dplyr::slice_head(n = 1L)
 
+            signature_fit <-
+              digest::digest(base::list(
+                contract = "sjsdm_sensitivity_phase_v1",
+                model_id = model_id,
+                input = data_model_input,
+                formula = base::deparse(expr = formula_jsdm_environment),
+                context = data_model_context,
+                regularization = data_regularization |>
+                  dplyr::select(dplyr::all_of(vec_artifact_columns)),
+                budget = config_sjsdm_cv_fitting,
+                seed = 900723L,
+                device = "gpu",
+                dependency = utils::packageVersion(pkg = "sjSDM"),
+                backend = if (
+                  base::is.null(fit_function)
+                ) {
+                  NULL
+                } else {
+                  base::body(fit_function)
+                },
+                candidate_backend =
+                  base::body(fit_sjsdm_cross_validation_candidate),
+                fitting_backend =
+                  base::body(fit_sjsdm_regularization_candidate),
+                model_backend = base::body(fit_jsdm_model),
+                convergence_backend = base::body(diagnose_jsdm_convergence)
+              ))
             fit_result <-
-              if (
-                base::is.null(fit_function)
-              ) {
-                fit_sjsdm_cross_validation_candidate(
-                  data_train_input = data_model_input,
-                  candidate = data_regularization,
-                  sel_abiotic_formula = formula_jsdm_environment,
-                  config_sjsdm_cv_fitting =
-                    config_sjsdm_cv_fitting,
-                  repeat_id = 1L,
-                  fold_id = 1L,
-                  device = "gpu",
-                  seed = 900723L
-                )
-              } else {
-                fit_function(
-                  data_model_input = data_model_input,
-                  model_formula = formula_jsdm_environment,
-                  config_model_fitting = config_sjsdm_cv_fitting,
-                  data_regularization = data_regularization
-                )
-              }
+              run_sjsdm_sensitivity_checkpoint(
+                expr = {
+                  fit_result_uncached <-
+                    if (
+                      base::is.null(fit_function)
+                    ) {
+                      fit_sjsdm_cross_validation_candidate(
+                        data_train_input = data_model_input,
+                        candidate = data_regularization,
+                        sel_abiotic_formula = formula_jsdm_environment,
+                        config_sjsdm_cv_fitting = config_sjsdm_cv_fitting,
+                        repeat_id = 1L,
+                        fold_id = 1L,
+                        device = "gpu",
+                        seed = 900723L
+                      )
+                    } else {
+                      fit_function(
+                        data_model_input = data_model_input,
+                        model_formula = formula_jsdm_environment,
+                        config_model_fitting = config_sjsdm_cv_fitting,
+                        data_regularization = data_regularization
+                      )
+                    }
+                  if (
+                    base::inherits(
+                      fit_result_uncached,
+                      "sjsdm_cv_fit_result"
+                    ) && fit_result_uncached[["fit_status"]] != "ok"
+                  ) {
+                    cli::cli_abort(stringr::str_c(
+                      "Sensitivity CV fit failed: ",
+                      fit_result_uncached[["fit_status"]]
+                    ))
+                  }
+                  fit_result_uncached
+                },
+                path_checkpoint = path_model_checkpoint,
+                signature = signature_fit,
+                phase = "fit",
+                verbose = verbose
+              )
 
             if (
               base::inherits(fit_result, "sjsdm_cv_fit_result")
@@ -269,19 +356,42 @@ run_sjsdm_common_regularization_sensitivity <- function(
                 data_fit_attempts_empty
             }
 
+            signature_standard_errors <-
+              digest::digest(base::list(
+                fit = signature_fit,
+                n_cores = config_model_fitting[["n_cores"]],
+                backend = base::body(standard_error_function)
+              ))
             model_with_se <-
-              standard_error_function(
-                mod_jsdm = model_fit,
-                parallel = config_model_fitting[["n_cores"]],
-                verbose = TRUE
+              run_sjsdm_sensitivity_checkpoint(
+                expr = standard_error_function(
+                  mod_jsdm = model_fit,
+                  parallel = config_model_fitting[["n_cores"]],
+                  verbose = verbose
+                ),
+                path_checkpoint = path_model_checkpoint,
+                signature = signature_standard_errors,
+                phase = "standard_errors",
+                verbose = verbose
               )
 
             list_jsdm_variance_partition <-
-              anova_function(
-                mod = model_with_se,
-                n_samples =
-                  config_model_fitting[["n_samples_anova"]],
-                verbose = TRUE
+              run_sjsdm_sensitivity_checkpoint(
+                expr = anova_function(
+                  mod = model_with_se,
+                  n_samples = config_model_fitting[["n_samples_anova"]],
+                  verbose = verbose
+                ),
+                path_checkpoint = path_model_checkpoint,
+                signature = digest::digest(base::list(
+                  standard_errors = signature_standard_errors,
+                  n_samples = config_model_fitting[["n_samples_anova"]],
+                  backend = base::body(anova_function),
+                  iteration_backend =
+                    base::body(run_sjsdm_likelihood_sequence)
+                )),
+                phase = "decomposition",
+                verbose = verbose
               )
 
             data_provenance <-
@@ -388,6 +498,16 @@ run_sjsdm_common_regularization_sensitivity <- function(
             )
           },
           error = function(error_condition) {
+            if (
+              base::isTRUE(verbose)
+            ) {
+              text_error <-
+                base::conditionMessage(error_condition)
+              cli::cli_inform(stringr::str_glue(
+                "Sensitivity {model_id} failed: ",
+                "{text_error}"
+              ))
+            }
             base::list(
               model = NULL,
               anova = NULL,

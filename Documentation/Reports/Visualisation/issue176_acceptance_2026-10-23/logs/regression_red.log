@@ -1,0 +1,183 @@
+During startup - Warning messages:
+1: Setting LC_COLLATE=C.UTF-8 failed
+2: Setting LC_CTYPE=C.UTF-8 failed
+3: Setting LC_MONETARY=C.UTF-8 failed
+4: Setting LC_TIME=C.UTF-8 failed
+issue176-predictor-inclusive-workflow-contract: ......1.........
+
+== Failed ======================================================================
+-- 1. Error ('test-issue176-predictor-inclusive-workflow-contract.R:65:9'): vari
+<purrr_error_indexed/rlang_error/error/condition>
+Error in `map2(.x, .y, .f, ..., .progress = .progress)`: i In index: 1.
+Caused by error:
+! Expected `text_script` to match regexp "plot_manuscript_spatial_variance".
+Actual text:
+x | #----------------------------------------------------------#
+  | #
+  | #
+  | #                 Vegetation Co-occurrence
+  | #
+  | #         Plot paleo spatial variance partitioning
+  | #
+  | #                       O. Mottl
+  | #                         2026
+  | #
+  | #----------------------------------------------------------#
+  | # Builds the paleo predictor-inclusive manuscript variance figure from stage 04
+  | # synthesis, retaining unit values, medians, and 95 percent empirical intervals.
+  | # Workflow contract:
+  | #   Run after paleo spatial synthesis publishes unit and summary tables.
+  | #   Reads and validates plot-ready tables without opening target stores.
+  | #   Writes the predictor-inclusive figure plus its exact CSV data.
+  |
+  |
+  | #----------------------------------------------------------#
+  | # 0. Setup -----
+  | #----------------------------------------------------------#
+  |
+  | library(here)
+  |
+  | base::source(
+  |   here::here("R/___setup_project___.R")
+  | )
+  |
+  | path_output_figures <-
+  |   here::here("Outputs/Figures/Spatial")
+  | path_output_tables <-
+  |   here::here("Outputs/Tables/Visualisation")
+  | base::dir.create(
+  |   path = path_output_figures,
+  |   showWarnings = FALSE,
+  |   recursive = TRUE
+  | )
+  | base::dir.create(
+  |   path = path_output_tables,
+  |   showWarnings = FALSE,
+  |   recursive = TRUE
+  | )
+  |
+  | graphical_options <-
+  |   load_active_config_value("graphical")
+  | config_manuscript <-
+  |   resolve_manuscript_graphical_options(graphical_options)
+  | tag_date <-
+  |   base::format(base::Sys.Date(), "%Y-%m-%d")
+  |
+  |
+  | #----------------------------------------------------------#
+  | # 1. Load and prepare synthesis data -----
+  | #----------------------------------------------------------#
+  |
+  | file_paleo_unit <-
+  |   resolve_latest_dated_file_path(
+  |     file_name_base = "paleo_patterns_unit",
+  |     path_directory = here::here("Outputs/Tables"),
+  |     file_extension = "csv"
+  |   )
+  | data_paleo_unit <-
+  |   readr::read_csv(
+  |     file_paleo_unit,
+  |     show_col_types = FALSE
+  |   )
+  |
+  | data_paleo_predictor_inclusive_plot <-
+  |   prepare_spatial_variance_plot_data(
+  |     data_unit = data_paleo_unit,
+  |     vec_scale_levels = base::c("continental", "regional", "local"),
+  |     vec_resolution_labels = base::c(
+  |       genus = "Genus",
+  |       family = "Family",
+  |       functional_type = "Functional type"
+  |     ),
+  |     percentage_source_column =
+  |       "R2_Nagelkerke_predictor_inclusive_percentage",
+  |     scale_source_to_percentage = FALSE,
+  |     sum_over_100_action = "ignore"
+  |   ) |>
+  |   dplyr::mutate(
+  |     component_label = dplyr::recode(
+  |       .data$component_label,
+  |       Abiotic = "Climate",
+  |       .default = .data$component_label
+  |     ),
+  |     component_label = base::factor(
+  |       .data$component_label,
+  |       levels = base::c(
+  |         "Climate",
+  |         "Biotic co-occurrence",
+  |         "Spatial"
+  |       )
+  |     )
+  |   )
+  | data_paleo_predictor_inclusive_summary <-
+  |   summarise_spatial_predictor_inclusive_variance(
+  |     data_plot = data_paleo_predictor_inclusive_plot
+  |   )
+  |
+  | readr::write_csv(
+  |   data_paleo_predictor_inclusive_plot,
+  |   base::file.path(
+  |     path_output_tables,
+  |     stringr::str_glue(
+  |       "paleo_variance_partitioning_predictor_inclusive_unit_{tag_date}.csv"
+  |     )
+  |   )
+  | )
+  | readr::write_csv(
+  |   data_paleo_predictor_inclusive_summary,
+  |   base::file.path(
+  |     path_output_tables,
+  |     stringr::str_glue(
+  |       "paleo_variance_partitioning_predictor_inclusive_summary_",
+  |       "{tag_date}.csv"
+  |     )
+  |   )
+  | )
+  |
+  |
+  | #----------------------------------------------------------#
+  | # 2. Build and save manuscript figure -----
+  | #----------------------------------------------------------#
+  |
+  | fig_paleo_predictor_inclusive <-
+  |   plot_manuscript_predictor_inclusive_variance(
+  |     data_plot = data_paleo_predictor_inclusive_plot,
+  |     data_summary = data_paleo_predictor_inclusive_summary
+  |   ) +
+  |   ggview::canvas(
+  |     width = config_manuscript[["width"]],
+  |     height = config_manuscript[["height"]],
+  |     units = config_manuscript[["units"]],
+  |     dpi = config_manuscript[["review_dpi"]],
+  |     bg = graphical_options[["bg"]]
+  |   )
+  | file_predictor_inclusive_figure_base <-
+  |   base::file.path(
+  |     path_output_figures,
+  |     stringr::str_glue(
+  |       "paleo_variance_partitioning_predictor_inclusive_{tag_date}"
+  |     )
+  |   )
+  | vec_predictor_inclusive_figure_files <-
+  |   save_manuscript_figure(
+  |     plot = fig_paleo_predictor_inclusive,
+  |     file_base = file_predictor_inclusive_figure_base,
+  |     graphical_options = graphical_options
+  |   )
+  |
+  | base::message(
+  |   "Saved paleo predictor-inclusive variance: ",
+  |   stringr::str_c(
+  |     vec_predictor_inclusive_figure_files,
+  |     collapse = ", "
+  |   )
+  | )
+
+== DONE ========================================================================
+Error in `map()`:
+i In index: 1.
+Caused by error:
+! Test failures.
+Warning message:
+package 'testthat' was built under R version 4.5.2
+Execution halted

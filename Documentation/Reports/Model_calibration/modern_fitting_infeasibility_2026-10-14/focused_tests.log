@@ -1,0 +1,52 @@
+run_pipeline: .....................................
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_pipeline_units_with_status: ....................................# A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+.........# A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+...# A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+...# A tibble: 1 × 1
+  pipeline_status
+  <chr>
+1 error
+....
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_sjsdm_tuning_unit_round: ........
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_sjsdm_unit_fitting_preflight: ............
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+build_sjsdm_unit_fitting_targets: ..
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+diagnose_sjsdm_cv_preparation_endpoints: ........
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+classify_sjsdm_unit_pipeline_error: ..................................................................
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_sjsdm_tuning_sequence: .........# A tibble: 1 × 3
+  store_suffix pipeline_status error_message
+  <chr>        <chr>           <chr>
+1 a            error           unexpected GPU failure
+..
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+run_sjsdm_tuning_sequence: ..........................................
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+load_sjsdm_tuning_summaries: ...................
+
+══ DONE ════════════════════════════════════════════════════════════════════════
+Warning message:
+package 'testthat' was built under R version 4.5.2

@@ -18,8 +18,10 @@ Details:
 
      `sjSDM::generateSpatialEV()` drops matrix dimensions when exactly
      one positive eigenvector is available and then errors while naming
-     columns. This helper detects only that error and repeats the same
-     calculation with dimension-preserving subsetting.
+     columns. This helper verifies that error against the same
+     calculation with preserved dimensions. The zero-column naming
+     error is classified as spatial data infeasibility only when that
+     calculation confirms no positive eigenvectors.
 
 Value:
 

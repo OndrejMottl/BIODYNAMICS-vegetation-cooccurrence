@@ -22,6 +22,8 @@
 #' Exact results retain the current sjSDM values unchanged. Fast results use
 #' an exponential-kernel basis and orient each selected eigenvector
 #' deterministically. The orientation is retained for matching projection.
+#' Fewer than four projected input rows is a registered data-feasibility
+#' outcome with observed and required counts, not an engine failure.
 #' @export
 compute_spatial_mev_basis <- function(
     data_coords_projected = NULL,
@@ -48,13 +50,19 @@ compute_spatial_mev_basis <- function(
     )
   )
 
-  assertthat::assert_that(
-    base::nrow(data_coords_projected) > 3L,
-    msg = stringr::str_c(
-      "data_coords_projected must have more than 3 rows ",
-      "(required by spatial MEM construction)"
+  # Insufficient support is a data limitation, not an engine failure.
+  if (
+    base::nrow(data_coords_projected) < 4L
+  ) {
+    cli::cli_abort(
+      base::c(
+        "Too few projected locations to construct spatial MEM.",
+        "i" = stringr::str_glue(
+          "Found {base::nrow(data_coords_projected)}; need at least 4."
+        )
+      )
     )
-  )
+  }
 
   assertthat::assert_that(
     !base::is.null(base::rownames(data_coords_projected)),
@@ -72,6 +80,20 @@ compute_spatial_mev_basis <- function(
     base::all(base::is.finite(mat_coords)),
     msg = "Projected spatial coordinates must contain only finite numbers."
   )
+
+  data_coords_unique <-
+    mat_coords |>
+    base::as.data.frame() |>
+    dplyr::distinct()
+  mat_coords_unique <-
+    data_coords_unique |>
+    base::as.matrix()
+  vec_unique_indices <-
+    vctrs::vec_match(
+      needles = base::as.data.frame(mat_coords),
+      haystack = data_coords_unique
+    )
+  n_unique_locations <- base::nrow(mat_coords_unique)
 
   assertthat::assert_that(
     base::is.numeric(fast_seed),
@@ -102,7 +124,7 @@ compute_spatial_mev_basis <- function(
   list_strategy <-
     resolve_spatial_mev_strategy(
       strategy = strategy,
-      n_locations = base::nrow(mat_coords),
+      n_locations = n_unique_locations,
       n_mev = n_mev,
       exact_max_locations = exact_max_locations,
       fast_eigenvectors = fast_eigenvectors
@@ -110,12 +132,6 @@ compute_spatial_mev_basis <- function(
 
   n_mev_integer <-
     list_strategy[["n_mev"]]
-
-  n_unique_locations <-
-    mat_coords |>
-    base::as.data.frame() |>
-    dplyr::distinct() |>
-    base::nrow()
 
   if (
     list_strategy[["strategy_selected"]] == "fast" &&
@@ -142,22 +158,34 @@ compute_spatial_mev_basis <- function(
   ) {
     list_engine_result <-
       .compute_exact_spatial_mev_basis(
-        mat_coords = mat_coords,
+        mat_coords = mat_coords_unique,
         exact_function = exact_function
       )
   } else {
     list_engine_result <-
       compute_fast_spatial_mev_basis(
-        mat_coords = mat_coords,
+        mat_coords = mat_coords_unique,
         fast_eigenvectors = list_strategy[["fast_eigenvectors"]],
         fast_seed = fast_seed_integer,
         fast_function = fast_function
       )
   }
 
-  mat_mev_all <-
+  mat_mev_unique <-
     list_engine_result |>
     purrr::chuck("mat_mev_all")
+
+  assertthat::assert_that(
+    base::nrow(mat_mev_unique) == n_unique_locations,
+    msg = "MEM construction must return every unique input location."
+  )
+
+  mat_mev_all <-
+    mat_mev_unique[
+      vec_unique_indices,
+      ,
+      drop = FALSE
+    ]
 
   list_fast_basis <-
     list_engine_result |>
@@ -280,7 +308,7 @@ compute_spatial_mev_basis <- function(
     )
 
   estimated_dense_matrix_bytes <-
-    base::as.numeric(base::nrow(mat_coords))^2 * 8
+    base::as.numeric(n_unique_locations)^2 * 8
 
   data_provenance <-
     tibble::tibble(

@@ -1,0 +1,77 @@
+<!DOCTYPE html><html><head><title>R: Compute Versioned Scientific Calibration Input Hashes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>compute_sjsdm_cv_calibration_hashes</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute Versioned Scientific Calibration Input Hashes</h2>
+
+<h3>Description</h3>
+
+<p>Hashes analytical input content while retaining raw legacy signatures for
+verified migrations. Per-fold fingerprints support later recovery audits.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>compute_sjsdm_cv_calibration_hashes(
+  data_candidates,
+  list_prepared_folds,
+  sel_abiotic_formula,
+  config_sjsdm_cv_fitting,
+  repeat_confirmation_loss_tolerance = 0.02
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_candidates">data_candidates</code>, <code id="list_prepared_folds">list_prepared_folds</code>, <code id="sel_abiotic_formula">sel_abiotic_formula</code></td>
+<td>
+<p>Candidate grid, cached prepared folds and environment formula.</p>
+</td></tr>
+<tr><td><code id="config_sjsdm_cv_fitting">config_sjsdm_cv_fitting</code></td>
+<td>
+<p>Structural CV fitting configuration with the calibration starting budget.</p>
+</td></tr>
+<tr><td><code id="repeat_confirmation_loss_tolerance">repeat_confirmation_loss_tolerance</code></td>
+<td>
+<p>Maximum relative loss gap allowed for repeat-two confirmation.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Current and legacy input hashes and scientific input fingerprints.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+compute_sjsdm_cv_calibration_hashes(
+  data_candidates, list_prepared_folds, ~ temperature, config_cv
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

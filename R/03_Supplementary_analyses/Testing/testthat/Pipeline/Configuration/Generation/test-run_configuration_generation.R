@@ -411,3 +411,27 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that("configuration generation rejects malformed fold ladders", {
+  for (
+    value_ladder in base::c("c(10L, 5L)", "c(5L, 5L)", "c(1L, 10L)")
+  ) {
+    path_fixture_root <-
+      make_configuration_test_fixture()
+    path_fragment <-
+      base::file.path(path_fixture_root, "Configuration/Defaults/default.yml")
+    vec_lines <-
+      base::readLines(path_fragment, warn = FALSE)
+    vec_lines_changed <-
+      base::sub(
+        "grouped_fold_ladder:.*$",
+        stringr::str_c("grouped_fold_ladder: !expr ", value_ladder),
+        vec_lines
+      )
+    base::writeLines(vec_lines_changed, path_fragment)
+    testthat::expect_error(
+      run_configuration_test_fixture(path_fixture_root),
+      "grouped_fold_ladder"
+    )
+  }
+})

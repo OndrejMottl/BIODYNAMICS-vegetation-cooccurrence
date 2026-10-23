@@ -45,7 +45,8 @@ pipe_segment_model_cross_validation_shared <-
       name = "config_cross_validation_shared",
       command = load_active_config_value(
         value = base::c("model_fitting", "cross_validation")
-      ),
+      ) |>
+        purrr::list_modify(grouped_fold_ladder = rlang::zap()),
       cue = targets::tar_cue(mode = "always")
     ),
     targets::tar_target(

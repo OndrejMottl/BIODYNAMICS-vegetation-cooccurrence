@@ -117,8 +117,7 @@ testthat::test_that(
     )
     testthat::expect_match(
       text_component,
-      '} else {\n    "config_model_fitting"',
-      fixed = TRUE
+      '} else \\{\\r?\\n\\s+"config_model_fitting"'
     )
     testthat::expect_match(
       text_component,
@@ -145,6 +144,11 @@ testthat::test_that(
           "03_publish_sjsdm_cv_fit_budgets.R"
         )
       )
+    text_migration <-
+      readr::read_file(here::here(
+        "R/Functions/Modelling/Cross_validation/",
+        "prepare_sjsdm_cv_calibration_result_migration.R"
+      ))
 
     testthat::expect_match(
       text_component,
@@ -152,20 +156,29 @@ testthat::test_that(
       fixed = TRUE
     )
     testthat::expect_match(
-      text_component,
+      text_migration,
       "reused_stricter_v2_result",
       fixed = TRUE
     )
     testthat::expect_match(
-      text_component,
+      text_migration,
       "reused_stricter_v3_policy_result",
       fixed = TRUE
     )
     testthat::expect_match(
       text_publication,
-      "sjsdm_cv_adaptive_calibration_v3",
+      "validate_sjsdm_cv_calibration_evidence(",
       fixed = TRUE
     )
+    testthat::expect_match(
+      text_component, "sjsdm_cv_adaptive_calibration_v4", fixed = TRUE
+    )
+    testthat::expect_match(text_component,
+      "prepare_sjsdm_cv_calibration_result_migration(", fixed = TRUE)
+    testthat::expect_match(text_component,
+      "sjsdm_cv_adaptive_calibration_v5", fixed = TRUE)
+    testthat::expect_match(text_publication,
+      "validate_sjsdm_cv_preparation_freshness(", fixed = TRUE)
   }
 )
 
@@ -192,3 +205,39 @@ testthat::test_that(
     )
   }
 )
+testthat::test_that("Calibration rejects stale shared MEM feasibility", {
+  list_source <-
+    base::parse(file = here::here(
+      "R/02_Main_analyses/02_Model_calibration/_components/",
+      "01_build_sjsdm_cv_calibration_inventory.R"
+    ))
+  expression_inventory <-
+    purrr::keep(.x = base::as.list(list_source), .p = ~
+      base::is.call(.x) && base::identical(.x[[1L]], base::as.name("<-")) &&
+        base::identical(.x[[2L]], base::as.name("data_inventory")))[[1L]]
+  environment_inventory <-
+    base::new.env(parent = base::globalenv())
+  environment_inventory[["data_units"]] <-
+    tibble::tibble(target_suffix = "genus", store_path = "cached-store")
+  environment_inventory[["load_targets_store_metadata"]] <-
+    function(...) tibble::tibble(
+      name = "list_spatial_mev_core_basis",
+      error = stringr::str_c(
+        "No positive spatial MEM eigenvectors are supported. ",
+        "Found 0 positive eigenvectors; need at least 1."
+      )
+    )
+  testthat::local_mocked_bindings(
+    tar_read_raw = function(...) tibble::tibble(
+      n_locations = 5L, n_samples = 100L, n_taxa = 10L,
+      cv_strategy = "leave_one_location_out",
+      cv_feasibility_status = "feasible", effective_folds = 5L
+    ),
+    .package = "targets"
+  )
+  base::eval(expr = expression_inventory, envir = environment_inventory)
+  testthat::expect_identical(
+    environment_inventory[["data_inventory"]][["preparation_status"]],
+    "expected_infeasible"
+  )
+})

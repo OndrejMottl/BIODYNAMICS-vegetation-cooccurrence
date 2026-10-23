@@ -1,0 +1,7 @@
+continent_id,availability_status,n
+america,available,39
+america,unexpected_error,2
+asia,available,21
+asia,unexpected_error,20
+europe,available,35
+europe,unexpected_error,6

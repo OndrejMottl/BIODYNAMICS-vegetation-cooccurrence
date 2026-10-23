@@ -1,0 +1,4 @@
+checkpoint_file,n_completed,median_fit_seconds,total_fit_seconds,n_converged,n_fit_errors,checked_at
+Data/Temp/Sjsdm_cv_calibration_bounded/20261013/project_paleo_spatial_regional/eu_r005/functional_type/calibration_confirmation_1_work.qs,20,13.939999999999998,279.58999999999946,20,0,2026-10-13T10:14:42Z
+Data/Temp/Sjsdm_cv_calibration_bounded/20261013/project_paleo_spatial_regional/eu_r005/functional_type/calibration_screening_1_work.qs,24,12.440000000000005,301.83000000000004,24,0,2026-10-13T10:14:42Z
+Data/Temp/Sjsdm_cv_calibration_bounded/20261013/project_paleo_spatial_regional/eu_r005/functional_type/calibration_screening_2_work.qs,24,18.05000000000004,444.77,24,0,2026-10-13T10:14:42Z

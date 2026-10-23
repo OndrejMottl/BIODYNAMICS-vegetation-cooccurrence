@@ -1,0 +1,172 @@
+file,context,test,nb,failed,skipped,error,warning,user,system,real,passed
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,expected insufficient-core failures allow dependency cascades,5,0,FALSE,FALSE,0,0.010000000000000009,0.03,0.039999999999999925,5
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,all registered data limitations receive stable reason codes,26,0,FALSE,FALSE,0,0.04999999999999993,0.009999999999999981,0.07000000000000006,26
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,generic VegVault extraction failures remain unexpected,2,0,FALSE,FALSE,0,0,0,0,2
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,sample and taxon counts are extracted when messages provide them,2,0,FALSE,FALSE,0,0.010000000000000009,0,0,2
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,temporal validation cascades follow an insufficient-sample root,3,0,FALSE,FALSE,0,0,0,0.010000000000000009,3
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,temporal validation messages without a scientific root remain errors,2,0,FALSE,FALSE,0,0.020000000000000018,0,0,2
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,temporal cascades require a root in the same time slice,2,0,FALSE,FALSE,0,0,0,0,2
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,unrelated target errors remain unexpected,2,0,FALSE,FALSE,0,0.020000000000000018,0,0,2
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,empty target metadata remains unexpected,3,0,FALSE,FALSE,0,0,0,0.010000000000000009,3
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,insufficient abiotic observations are expected infeasibility,4,0,FALSE,FALSE,0,0.010000000000000009,0,0,4
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,spatial support is expected only at the registered MEM root,6,0,FALSE,FALSE,0,0,0,0.020000000000000018,6
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,legacy MEM row-count errors retain their narrow expected classification,2,0,FALSE,FALSE,0,0.020000000000000018,0,0,2
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,Verified empty MEM support is expected infeasibility,4,0,FALSE,FALSE,0,0,0,0,4
+test-classify_sjsdm_unit_pipeline_error.R,classify_sjsdm_unit_pipeline_error,qs fallback requires a registered data root,3,0,FALSE,FALSE,0,0.010000000000000009,0,0,3
+test-compute_sjsdm_cv_calibration_hashes.R,compute_sjsdm_cv_calibration_hashes,scientific signatures retain exact legacy proof,7,0,FALSE,FALSE,0,0.020000000000000018,0.03,0.030000000000000027,7
+test-compute_sjsdm_cv_calibration_hashes.R,compute_sjsdm_cv_calibration_hashes,v5 excludes bytes but preserves exact v4 fingerprints,4,0,FALSE,FALSE,0,0,0,0.020000000000000018,4
+test-diagnose_sjsdm_cv_preparation_endpoints.R,diagnose_sjsdm_cv_preparation_endpoints,endpoint diagnosis requires readable hashed targets,2,0,FALSE,FALSE,0,0.10999999999999999,0.020000000000000018,0.1299999999999999,2
+test-diagnose_sjsdm_cv_preparation_endpoints.R,diagnose_sjsdm_cv_preparation_endpoints,endpoint diagnosis distinguishes missing and errored metadata,1,0,FALSE,FALSE,0,0.020000000000000018,0,0,1
+test-diagnose_sjsdm_cv_preparation_endpoints.R,diagnose_sjsdm_cv_preparation_endpoints,endpoint diagnosis identifies legacy qs and other read failures,1,0,FALSE,FALSE,0,0.09000000000000008,0,0.07000000000000006,1
+test-diagnose_sjsdm_cv_preparation_endpoints.R,diagnose_sjsdm_cv_preparation_endpoints,absent objects are not legacy cache incompatibility,4,0,FALSE,FALSE,0,0.050000000000000044,0,0.06999999999999984,4
+test-fit_sjsdm_cross_validation_candidate.R,fit_sjsdm_cross_validation_candidate,fit_sjsdm_cross_validation_candidate escalates deterministically,8,0,FALSE,FALSE,0,0.14000000000000012,0,0.13000000000000012,8
+test-fit_sjsdm_cross_validation_candidate.R,fit_sjsdm_cross_validation_candidate,fit_sjsdm_cross_validation_candidate caps and marks non-convergence,4,0,FALSE,FALSE,0,0.09000000000000008,0,0.10999999999999988,4
+test-fit_sjsdm_cross_validation_candidate.R,fit_sjsdm_cross_validation_candidate,fit_sjsdm_cross_validation_candidate does not escalate fit errors,9,0,FALSE,FALSE,0,0.029999999999999805,0,0.030000000000000027,9
+test-run_sjsdm_cv_calibration_benchmark.R,run_sjsdm_cv_calibration_benchmark,bounded execution resumes the unchanged full ladder,4,0,FALSE,FALSE,0,0.21999999999999997,0.03,0.27,4
+test-run_sjsdm_cv_calibration_benchmark.R,run_sjsdm_cv_calibration_benchmark,run_sjsdm_cv_calibration_benchmark() stops at first stable budget,6,0,FALSE,FALSE,0,0.09000000000000008,0,0.09000000000000008,6
+test-run_sjsdm_cv_calibration_benchmark.R,run_sjsdm_cv_calibration_benchmark,run_sjsdm_cv_calibration_benchmark() resumes completed rungs,7,0,FALSE,FALSE,0,0.09000000000000008,0,0.10000000000000009,7
+test-run_sjsdm_cv_calibration_benchmark.R,run_sjsdm_cv_calibration_benchmark,run_sjsdm_cv_calibration_benchmark() advances after failed confirmation,2,0,FALSE,FALSE,0,0.09999999999999987,0,0.08999999999999986,2
+test-run_sjsdm_cv_calibration_benchmark.R,run_sjsdm_cv_calibration_benchmark,run_sjsdm_cv_calibration_benchmark() accepts a repeat-two near tie,4,0,FALSE,FALSE,0,0.06000000000000005,0,0.06000000000000005,4
+test-run_sjsdm_cv_calibration_benchmark.R,run_sjsdm_cv_calibration_benchmark,run_sjsdm_cv_calibration_benchmark() reuses version-two fit evidence,11,0,FALSE,FALSE,0,0.14000000000000012,0.020000000000000018,0.20999999999999996,11
+test-run_sjsdm_tuning_sequence.R,run_sjsdm_tuning_sequence,run_sjsdm_tuning_sequence() repairs legacy tuning caches,3,0,FALSE,FALSE,0,0.08999999999999986,0,0.0900000000000003,3
+test-run_sjsdm_tuning_sequence.R,run_sjsdm_tuning_sequence,run_sjsdm_tuning_unit_round() reports literal error braces,3,0,FALSE,FALSE,0,0.020000000000000018,0,0.020000000000000018,3
+test-run_sjsdm_tuning_sequence.R,run_sjsdm_tuning_sequence,tier rounds retain partial units without missing reads,3,0,FALSE,FALSE,0,0.10000000000000009,0.009999999999999953,0.10999999999999988,3
+test-run_sjsdm_tuning_sequence.R,run_sjsdm_tuning_sequence,unexplained production failure blocks tier selection,2,0,FALSE,FALSE,0,0.040000000000000036,0,0.029999999999999805,2
+test-sjsdm_cv_calibration_runner_architecture.R,sjsdm_cv_calibration_runner_architecture,calibration has one master and three recovery components,3,0,FALSE,FALSE,0,0.020000000000000018,0,0,3
+test-sjsdm_cv_calibration_runner_architecture.R,sjsdm_cv_calibration_runner_architecture,calibration master enumerates registered representatives,4,0,FALSE,FALSE,0,0,0,0.020000000000000018,4
+test-sjsdm_cv_calibration_runner_architecture.R,sjsdm_cv_calibration_runner_architecture,calibration recovery reconstructs disposable prepared inputs,3,0,FALSE,FALSE,0,0,0,0,3
+test-sjsdm_cv_calibration_runner_architecture.R,sjsdm_cv_calibration_runner_architecture,temporal calibration uses its shared fitting configuration target,3,0,FALSE,FALSE,0,0,0,0,3
+test-sjsdm_cv_calibration_runner_architecture.R,sjsdm_cv_calibration_runner_architecture,calibration migrates accepted results from stricter contracts,8,0,FALSE,FALSE,0,0,0,0.009999999999999787,8
+test-sjsdm_cv_calibration_runner_architecture.R,sjsdm_cv_calibration_runner_architecture,legacy audit and invalidation are one-time workflows,1,0,FALSE,FALSE,0,0,0,0,1
+test-sjsdm_cv_calibration_runner_architecture.R,sjsdm_cv_calibration_runner_architecture,Calibration rejects stale shared MEM feasibility,1,0,FALSE,FALSE,0,0.010000000000000231,0,0.020000000000000018,1
+test-validate_sjsdm_cv_calibration_evidence.R,validate_sjsdm_cv_calibration_evidence,accepted status cannot hide changed calibration inputs,11,0,FALSE,FALSE,0,0.10999999999999988,0.020000000000000018,0.1299999999999999,11
+test-validate_sjsdm_cv_calibration_evidence.R,validate_sjsdm_cv_calibration_evidence,v4 memory migration requires complete original proof,3,0,FALSE,FALSE,0,0.029999999999999805,0,0.029999999999999805,3
+test-load_spatial_model_results.R,load_spatial_model_results,load_spatial_model_results skips missing stores without reading metadata,1,0,FALSE,FALSE,0,0.04999999999999982,0,0.03000000000000025,1
+test-load_spatial_model_results.R,load_spatial_model_results,load_spatial_model_results skips stores without successful ANOVA target,1,0,FALSE,FALSE,0,0.020000000000000018,0,0.029999999999999805,1
+test-load_spatial_model_results.R,load_spatial_model_results,load_spatial_model_results separates fitted and predictive metrics,17,0,FALSE,FALSE,0,0.4500000000000002,0.010000000000000009,0.4700000000000002,17
+test-load_spatial_model_results.R,load_spatial_model_results,load_spatial_model_results can require non-empty results,1,0,FALSE,FALSE,0,0.029999999999999805,0,0.009999999999999787,1
+test-load_spatial_model_results.R,load_spatial_model_results,load_spatial_model_results preserves evaluation store validation,1,0,FALSE,FALSE,0,0.050000000000000266,0,0.07000000000000028,1
+test-load_spatial_model_results.R,load_spatial_model_results,Spatial results exclude failed upstream cached models,4,0,FALSE,FALSE,0,0.029999999999999805,0,0.029999999999999805,4
+test-load_spatial_model_results.R,load_spatial_model_results,Spatial results keep independent successful resolutions,1,0,FALSE,FALSE,0,0.08000000000000007,0,0.06000000000000005,1
+test-load_spatial_model_results.R,load_spatial_model_results,Spatial results reject unreadable metadata safely,1,0,FALSE,FALSE,0,0,0,0.020000000000000018,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model prevents zero automatic batch sizes,11,0,FALSE,FALSE,1,1.7100000000000004,0.41,9.66,10
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates data_to_fit must be a list,3,0,FALSE,FALSE,0,0,0,0.009999999999999787,3
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates data_community must be a matrix,2,0,FALSE,FALSE,0,0.009999999999999787,0,0.019999999999999574,2
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates data_abiotic must be a data.frame,2,0,FALSE,FALSE,0,0,0,0,2
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates data_spatial must be a data.frame,1,0,FALSE,FALSE,0,0.019999999999999574,0,0,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates data_spatial_to_fit required,1,0,FALSE,FALSE,0,0,0,0.010000000000001563,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates sel_abiotic_formula must be a formula object,2,0,FALSE,FALSE,0,0.010000000000000675,0,0,2
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates sel_abiotic_formula length,2,0,FALSE,FALSE,0,0,0,0.019999999999999574,2
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates abiotic_method options,1,0,FALSE,FALSE,0,0,0.020000000000000018,0,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates error_family options,1,0,FALSE,FALSE,0,0,0,0.019999999999999574,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() handles NULL in data_to_fit correctly,1,0,FALSE,FALSE,0,0,0,0,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() handles empty list in data_to_fit,1,0,FALSE,FALSE,0,0,0.010000000000000009,0,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() handles missing required list elements,1,0,FALSE,FALSE,0,0,0,0.009999999999999787,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() returns sjSDM class with spatial linear,1,0,FALSE,FALSE,0,0.6799999999999997,0.27,0.9500000000000011,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() accepts abiotic_method linear,1,0,FALSE,FALSE,0,0.13999999999999968,0.010000000000000009,0.15999999999999837,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() accepts abiotic_method DNN,1,0,FALSE,FALSE,0,0.16999999999999993,0,0.16000000000000014,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() converts binomial to presence/absence,1,0,FALSE,FALSE,0,0.1900000000000004,0.020000000000000018,0.20000000000000107,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() accepts both cpu and gpu device options,1,0,FALSE,FALSE,0,0.2599999999999998,0,0.2699999999999996,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() accepts custom sampling parameter,1,0,FALSE,FALSE,0,0.16000000000000014,0.010000000000000009,0.16999999999999993,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() accepts custom step_size parameter,1,0,FALSE,FALSE,0,0.13999999999999968,0.020000000000000018,0.16999999999999993,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() handles zero-row data frames,1,0,FALSE,FALSE,0,0.010000000000000675,0,0,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() handles single row data,1,0,FALSE,FALSE,0,0,0,0.009999999999999787,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() returns object consistently,2,0,FALSE,FALSE,0,0.45999999999999996,0.030000000000000027,0.4900000000000002,2
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates n_early_stopping must be numeric,1,0,FALSE,FALSE,0,0,0,0,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() accepts any non-positive n_early_stopping,1,0,FALSE,FALSE,0,0.16999999999999993,0.019999999999999796,0.1700000000000017,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates n_early_stopping must be length 1,1,0,FALSE,FALSE,0,0,0,0.019999999999999574,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() accepts n_early_stopping = -1L (disabled),1,0,FALSE,FALSE,0,0.20000000000000018,0.010000000000000009,0.14999999999999858,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() accepts positive n_early_stopping value,1,0,FALSE,FALSE,0,0.13999999999999968,0.020000000000000018,0.16000000000000014,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() accepts n_early_stopping = NULL (auto mode),1,0,FALSE,FALSE,0,0.16000000000000014,0,0.1700000000000017,1
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates iter must be positive numeric,3,0,FALSE,FALSE,0,0.009999999999999787,0,0,3
+test-fit_jsdm_model.R,fit_jsdm_model,fit_jsdm_model() validates regularization settings,14,0,FALSE,FALSE,0,0.04999999999999982,0,0.04999999999999716,14
+test-compute_exact_spatial_mev_basis.R,compute_exact_spatial_mev_basis,.compute_exact_spatial_mev_basis() preserves exact engine values,4,0,FALSE,FALSE,0,0.02000000000000135,0.010000000000000009,0.019999999999999574,4
+test-compute_exact_spatial_mev_basis.R,compute_exact_spatial_mev_basis,.compute_exact_spatial_mev_basis() retains one positive eigenvector,4,0,FALSE,FALSE,0,0,0,0.019999999999999574,4
+test-compute_exact_spatial_mev_basis.R,compute_exact_spatial_mev_basis,Exact MEM identifies verified zero-vector support,1,0,FALSE,FALSE,0,0.009999999999999787,0.020000000000000018,0.00999999999999801,1
+test-compute_exact_spatial_mev_basis.R,compute_exact_spatial_mev_basis,Exact MEM preserves unrelated engine errors,1,0,FALSE,FALSE,0,0,0,0.020000000000003126,1
+test-run_pipeline.R,run_pipeline,run_pipeline() rejects the base profile,1,0,FALSE,FALSE,0,0.0600000000000005,0.010000000000000009,0.08000000000000185,1
+test-run_pipeline.R,run_pipeline,run_pipeline() bypasses config guard when disabled,1,0,FALSE,FALSE,0,0.02999999999999936,0.020000000000000018,0.05999999999999872,1
+test-run_pipeline.R,run_pipeline,run_pipeline() accepts store_suffix argument,1,0,FALSE,FALSE,0,0.030000000000001137,0,0.019999999999999574,1
+test-run_pipeline.R,run_pipeline,run_pipeline() limits execution to selected targets,1,0,FALSE,FALSE,0,0.019999999999999574,0,0.030000000000001137,1
+test-run_pipeline.R,run_pipeline,run_pipeline() forwards the callr backend,1,0,FALSE,FALSE,0,0.019999999999999574,0,0.019999999999999574,1
+test-run_pipeline.R,run_pipeline,run_pipeline() propagates targets error metadata,1,0,FALSE,FALSE,0,0.02999999999999936,0,0.00999999999999801,1
+test-run_pipeline.R,run_pipeline,run_pipeline() validates sel_script is a single string,3,0,FALSE,FALSE,0,0,0,0.020000000000003126,3
+test-run_pipeline.R,run_pipeline,run_pipeline() errors when script file does not exist,1,0,FALSE,FALSE,0,0.009999999999999787,0,0,1
+test-run_pipeline.R,run_pipeline,run_pipeline() validates store_suffix argument,2,0,FALSE,FALSE,0,0,0,0.00999999999999801,2
+test-run_pipeline.R,run_pipeline,run_pipeline() validates level_separation argument,2,0,FALSE,FALSE,0,0,0,0,2
+test-run_pipeline.R,run_pipeline,run_pipeline() validates plot_progress is logical,2,0,FALSE,FALSE,0,0.02000000000000135,0,0.019999999999999574,2
+test-run_pipeline.R,run_pipeline,run_pipeline() validates flag_validate_profile_selection is logical,2,0,FALSE,FALSE,0,0,0,0,2
+test-run_pipeline.R,run_pipeline,run_pipeline() validates fresh_run is logical,2,0,FALSE,FALSE,0,0.009999999999999787,0,0.010000000000001563,2
+test-run_pipeline.R,run_pipeline,run_pipeline() validates prebuild_interpolation,1,0,FALSE,FALSE,0,0,0,0,1
+test-run_pipeline.R,run_pipeline,run_pipeline() prebuilds then runs full build,6,0,FALSE,FALSE,0,0.049999999999998934,0.030000000000000027,0.0799999999999983,6
+test-run_pipeline.R,run_pipeline,run_pipeline() honors interpolation worker override,1,0,FALSE,FALSE,0,0.030000000000001137,0,0.030000000000001137,1
+test-run_pipeline.R,run_pipeline,run_pipeline() preserves cached interpolation metadata,1,0,FALSE,FALSE,0,0.019999999999999574,0,0.019999999999999574,1
+test-run_pipeline.R,run_pipeline,run_pipeline() stops after a failed prebuild,2,0,FALSE,FALSE,0,0.009999999999999787,0.020000000000000018,0.010000000000001563,2
+test-run_pipeline.R,run_pipeline,run_pipeline() calls tar_destroy when fresh_run = TRUE,1,0,FALSE,FALSE,0,0.019999999999999574,0,0.03999999999999915,1
+test-run_pipeline.R,run_pipeline,run_pipeline() skips tar_destroy when fresh_run = FALSE,1,0,FALSE,FALSE,0,0.010000000000001563,0,0.00999999999999801,1
+test-run_pipeline.R,run_pipeline,run_pipeline catches unchanged current failures,1,0,FALSE,FALSE,0,0.019999999999999574,0,0.020000000000003126,1
+test-run_pipeline.R,run_pipeline,run_pipeline scopes repeated errors to this execution,1,0,FALSE,FALSE,0,0.019999999999999574,0,0.00999999999999801,1
+test-run_pipeline.R,run_pipeline,empty branch abort retains current expected data root,2,0,FALSE,FALSE,0,0.02999999999999936,0,0.030000000000001137,2
+test-run_pipeline_units_with_status.R,run_pipeline_units_with_status,run_pipeline_units_with_status() retains every unit outcome,13,0,FALSE,FALSE,0,0.03999999999999915,0,0.03999999999999915,13
+test-run_pipeline_units_with_status.R,run_pipeline_units_with_status,run_pipeline_units_with_status() validates orchestration inputs,7,0,FALSE,FALSE,0,0.019999999999999574,0,0.019999999999999574,7
+test-run_pipeline_units_with_status.R,run_pipeline_units_with_status,run_pipeline_units_with_status() supports quiet execution,1,0,FALSE,FALSE,0,0.02000000000000135,0,0,1
+test-run_pipeline_units_with_status.R,run_pipeline_units_with_status,spatial fitting components use the unit failure policy,5,0,FALSE,FALSE,0,0.009999999999999787,0,0.010000000000001563,5
+test-run_pipeline_units_with_status.R,run_pipeline_units_with_status,run_pipeline_units_with_status() skips proven infeasible units,4,0,FALSE,FALSE,0,0,0,0.019999999999999574,4
+test-run_pipeline_units_with_status.R,run_pipeline_units_with_status,temporal preparation components cannot fit models,3,0,FALSE,FALSE,0,0.019999999999999574,0,0.010000000000001563,3
+test-run_pipeline_units_with_status.R,run_pipeline_units_with_status,Unit status preserves structured data infeasibility,2,0,FALSE,FALSE,0,0,0,0,2
+test-run_pipeline_units_with_status.R,run_pipeline_units_with_status,All spatial components block unexpected unit failures,18,0,FALSE,FALSE,0,0.0600000000000005,0.030000000000000027,0.0799999999999983,18
+test-run_pipeline_units_with_status.R,run_pipeline_units_with_status,unit fitting honors resolution-aware requests,2,0,FALSE,FALSE,0,0,0,0,2
+test-common-regularization-sensitivity-pipeline-contract.R,common-regularization-sensitivity-pipeline-contract,common sensitivity excludes expected-infeasible unit stores,4,0,FALSE,FALSE,0,2.7699999999999996,0.5,3.289999999999999,4
+test-common-regularization-sensitivity-pipeline-contract.R,common-regularization-sensitivity-pipeline-contract,common sensitivity loads only inventory-eligible stores,2,0,FALSE,FALSE,0,0,0,0,2
+test-common-regularization-sensitivity-pipeline-contract.R,common-regularization-sensitivity-pipeline-contract,common sensitivity respects partial-resolution production requests,4,0,FALSE,FALSE,0,0.6800000000000015,0,0.7100000000000009,4
+test-load_sjsdm_tuning_summaries.R,load_sjsdm_tuning_summaries,load_sjsdm_tuning_summaries() reads every native v2 summary,3,0,FALSE,FALSE,0,0.21999999999999886,0.010000000000000009,0.1999999999999993,3
+test-load_sjsdm_tuning_summaries.R,load_sjsdm_tuning_summaries,load_sjsdm_tuning_summaries() rejects raw v1 tables,1,0,FALSE,FALSE,0,0.010000000000001563,0,0.019999999999999574,1
+test-load_sjsdm_tuning_summaries.R,load_sjsdm_tuning_summaries,load_sjsdm_tuning_summaries() rejects partial evidence,4,0,FALSE,FALSE,0,0.129999999999999,0,0.14000000000000057,4
+test-load_sjsdm_tuning_summaries.R,load_sjsdm_tuning_summaries,load_sjsdm_tuning_summaries() validates inputs,1,0,FALSE,FALSE,0,0.009999999999999787,0,0,1
+test-load_sjsdm_tuning_summaries.R,load_sjsdm_tuning_summaries,load_sjsdm_tuning_summaries() identifies temporal branches,1,0,FALSE,FALSE,0,0.09999999999999964,0,0.10999999999999943,1
+test-load_sjsdm_tuning_summaries.R,load_sjsdm_tuning_summaries,load_sjsdm_tuning_summaries() reads explicit round targets,2,0,FALSE,FALSE,0,0.11000000000000121,0,0.10999999999999943,2
+test-load_sjsdm_tuning_summaries.R,load_sjsdm_tuning_summaries,load_sjsdm_tuning_summaries() reads exact direct-unit targets,2,0,FALSE,FALSE,0,0.02999999999999936,0.030000000000000027,0.060000000000002274,2
+test-load_sjsdm_tuning_summaries.R,load_sjsdm_tuning_summaries,load_sjsdm_tuning_summaries() validates the target prefix,1,0,FALSE,FALSE,0,0,0,0.019999999999999574,1
+test-load_sjsdm_tuning_summaries.R,load_sjsdm_tuning_summaries,tier pooling uses explicit eligible store-target pairs,4,0,FALSE,FALSE,0,0.15000000000000036,0,0.14000000000000057,4
+test-prepare_sjsdm_tuning_folds.R,prepare_sjsdm_tuning_folds,prepare_sjsdm_tuning_folds() prepares each fold once,4,0,FALSE,FALSE,0,0.0600000000000005,0,0.060000000000002274,4
+test-prepare_sjsdm_tuning_folds.R,prepare_sjsdm_tuning_folds,prepare_sjsdm_tuning_folds() retains preparation failures,2,0,FALSE,FALSE,0,0,0,0.019999999999999574,2
+test-prepare_sjsdm_tuning_folds.R,prepare_sjsdm_tuning_folds,prepared folds preserve verified cached records,14,0,FALSE,FALSE,0,0.08999999999999986,0.020000000000000018,0.10999999999999943,14
+test-prepare_sjsdm_tuning_folds.R,prepare_sjsdm_tuning_folds,prepared folds fail closed on unusable caches,9,0,FALSE,FALSE,0,0.07000000000000028,0,0.05999999999999872,9
+test-prepare_sjsdm_tuning_folds.R,prepare_sjsdm_tuning_folds,verified fold reuse preserves downstream target cache,4,0,FALSE,FALSE,0,0.16999999999999993,0.08999999999999986,10.439999999999998,4
+test-run_sjsdm_common_regularization_sensitivity.R,run_sjsdm_common_regularization_sensitivity,run_sjsdm_common_regularization_sensitivity() retains provenance,24,0,FALSE,FALSE,0,0.5700000000000003,0.020000000000000018,0.5900000000000034,24
+test-run_sjsdm_common_regularization_sensitivity.R,run_sjsdm_common_regularization_sensitivity,run_sjsdm_common_regularization_sensitivity() records fit errors,3,0,FALSE,FALSE,0,0.02999999999999936,0,0.03999999999999915,3
+test-run_sjsdm_tuning_unit_round.R,run_sjsdm_tuning_unit_round,run_sjsdm_tuning_unit_round() sets the cumulative round,1,0,FALSE,FALSE,0,0.009999999999999787,0,0.030000000000001137,1
+test-run_sjsdm_tuning_unit_round.R,run_sjsdm_tuning_unit_round,run_sjsdm_tuning_unit_round() continues after a failed unit,4,0,FALSE,FALSE,0,0.019999999999999574,0,0.020000000000003126,4
+test-run_sjsdm_tuning_unit_round.R,run_sjsdm_tuning_unit_round,tuning rounds request only verified viable targets,2,0,FALSE,FALSE,0,0.009999999999999787,0,0,2
+test-run_sjsdm_tuning_unit_round.R,run_sjsdm_tuning_unit_round,tuning rounds retain typed failures and real errors,1,0,FALSE,FALSE,0,0,0,0.00999999999999801,1
+test-build_sjsdm_unit_fitting_targets.R,build_sjsdm_unit_fitting_targets,target requests retain only viable resolutions,1,0,FALSE,FALSE,0,0.02000000000000135,0,0.020000000000003126,1
+test-build_sjsdm_unit_fitting_targets.R,build_sjsdm_unit_fitting_targets,unresolved target requests fail closed,1,0,FALSE,FALSE,0,0.02999999999999936,0,0.030000000000001137,1
+test-is_sjsdm_cv_preparation_mapping_current.R,is_sjsdm_cv_preparation_mapping_current,mapping proof compares exact analytical content,3,0,FALSE,FALSE,0,0.030000000000001137,0,0.030000000000001137,3
+test-is_sjsdm_cv_prepared_folds_current.R,is_sjsdm_cv_prepared_folds_current,current-fold proof compares full analytical content,3,0,FALSE,FALSE,0,0.02999999999999936,0,0.00999999999999801,3
+test-load_sjsdm_prepared_fold_cache.R,load_sjsdm_prepared_fold_cache,prepared-fold cache loader reads the prior object,2,0,FALSE,FALSE,0,0,0,0,2
+test-load_sjsdm_prepared_fold_cache.R,load_sjsdm_prepared_fold_cache,prepared-fold cache loader fails closed,4,0,FALSE,FALSE,0,0.009999999999999787,0,0.020000000000003126,4
+test-load_sjsdm_prepared_fold_cache.R,load_sjsdm_prepared_fold_cache,prepared-fold cache loader validates arguments,3,0,FALSE,FALSE,0,0.02000000000000135,0,0.00999999999999801,3
+test-prepare_sjsdm_cv_calibration_result_migration.R,prepare_sjsdm_cv_calibration_result_migration,"migration preserves fits, budgets and previous history",7,0,FALSE,FALSE,0,0.1399999999999988,0,0.11999999999999744,7
+test-run_sjsdm_sensitivity_checkpoint.R,run_sjsdm_sensitivity_checkpoint,phase checkpoints reuse only matching successful work,4,0,FALSE,FALSE,0,0.019999999999999574,0,0,4
+test-run_sjsdm_sensitivity_checkpoint.R,run_sjsdm_sensitivity_checkpoint,failed phases are retried without discarding prior work,3,0,FALSE,FALSE,0,0.019999999999999574,0,0.03999999999999915,3
+test-run_sjsdm_sensitivity_checkpoint.R,run_sjsdm_sensitivity_checkpoint,checkpoint arguments and corrupt evidence fail clearly,3,0,FALSE,FALSE,0,0.02999999999999936,0,0.030000000000001137,3
+test-run_sjsdm_unit_fitting_preflight.R,run_sjsdm_unit_fitting_preflight,fitting preflight preserves viable resolutions,2,0,FALSE,FALSE,0,0.08999999999999986,0,0.10000000000000142,2
+test-run_sjsdm_unit_fitting_preflight.R,run_sjsdm_unit_fitting_preflight,shared failure is revalidated once per unit,2,0,FALSE,FALSE,0,0.030000000000001137,0,0.00999999999999801,2
+test-run_sjsdm_unit_fitting_preflight.R,run_sjsdm_unit_fitting_preflight,stale exclusions and unexplained errors block fitting,2,0,FALSE,FALSE,0,0.02999999999999936,0,0.05000000000000426,2
+test-run_sjsdm_unit_fitting_preflight.R,run_sjsdm_unit_fitting_preflight,missing folds block without executing production,1,0,FALSE,FALSE,0,0.030000000000001137,0,0.04999999999999716,1
+test-run_sjsdm_unit_fitting_preflight.R,run_sjsdm_unit_fitting_preflight,warm failures exclude only their own fitting branch,4,0,FALSE,FALSE,0,0.9099999999999984,0.03000000000000025,11.060000000000002,4
+test-run_sjsdm_unit_fitting_preflight.R,run_sjsdm_unit_fitting_preflight,unrequested resolution errors are not shared failures,1,0,FALSE,FALSE,0,0,0,0.00999999999999801,1
+test-validate_sjsdm_cv_preparation_freshness.R,validate_sjsdm_cv_preparation_freshness,freshness validates ancestors without analytical work,4,0,FALSE,FALSE,0,0.16999999999999993,0.020000000000000018,0.19000000000000483,4
+test-validate_sjsdm_cv_preparation_freshness.R,validate_sjsdm_cv_preparation_freshness,freshness detects real upstream function and file edits,4,0,FALSE,FALSE,0,0.6199999999999992,0.06000000000000005,0.6199999999999974,4
+test-validate_sjsdm_cv_preparation_freshness.R,validate_sjsdm_cv_preparation_freshness,freshness refuses unknown always-cued work,1,0,FALSE,FALSE,0,0.030000000000001137,0.020000000000000018,0.060000000000002274,1
+test-validate_sjsdm_cv_preparation_freshness.R,validate_sjsdm_cv_preparation_freshness,missing configuration dependencies name stage recovery,1,0,FALSE,FALSE,0,0.05000000000000071,0.009999999999999787,0.07000000000000028,1
+test-validate_sjsdm_cv_preparation_freshness.R,validate_sjsdm_cv_preparation_freshness,missing cached ancestors block before shortcut checks,4,0,FALSE,FALSE,0,0.13999999999999702,0.03000000000000025,0.10999999999999943,4
+test-validate_sjsdm_cv_preparation_freshness.R,validate_sjsdm_cv_preparation_freshness,a new fold-ladder record has useful real-store recovery,3,0,FALSE,FALSE,0,0.28000000000000114,0.07999999999999963,5.43,3
+test-validate_sjsdm_cv_production_calibration.R,validate_sjsdm_cv_production_calibration,production checks evidence before fitting,2,0,FALSE,FALSE,0,0.05000000000000071,0,0.03999999999999915,2
+test-modern-spatial-convergence-diagnostic-contract.R,modern-spatial-convergence-diagnostic-contract,modern convergence audit reads canonical fitted diagnostics,6,0,FALSE,FALSE,0,0.019999999999999574,0.020000000000000018,0.030000000000001137,6
+test-compute_jsdm_variance_partition_with_progress.R,compute_jsdm_variance_partition_with_progress,progress ANOVA rejects invalid model and draw counts,2,0,FALSE,FALSE,0,0.010000000000001563,0,0.03999999999999915,2
+test-compute_jsdm_variance_partition_with_progress.R,compute_jsdm_variance_partition_with_progress,progress ANOVA leaves the package namespace untouched,3,0,FALSE,FALSE,0,0.019999999999999574,0,0.00999999999999801,3
+test-run_sjsdm_likelihood_sequence.R,run_sjsdm_likelihood_sequence,likelihood iteration preserves values and RNG state,2,0,FALSE,FALSE,0,0.019999999999999574,0,0.00999999999999801,2
+test-run_sjsdm_likelihood_sequence.R,run_sjsdm_likelihood_sequence,likelihood progress identifies starts and completions,3,0,FALSE,FALSE,0,0.029999999999997584,0,0.030000000000001137,3
+test-run_sjsdm_likelihood_sequence.R,run_sjsdm_likelihood_sequence,likelihood mapping keeps empty and list contracts,2,0,FALSE,FALSE,0,0.020000000000003126,0,0,2
+test-run_sjsdm_likelihood_sequence.R,run_sjsdm_likelihood_sequence,likelihood messages distinguish decomposition passes,2,0,FALSE,FALSE,0,0.00999999999999801,0,0.01999999999999602,2

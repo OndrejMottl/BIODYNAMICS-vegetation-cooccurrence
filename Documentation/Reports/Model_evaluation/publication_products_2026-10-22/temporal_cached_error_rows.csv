@@ -1,0 +1,29 @@
+continent_id,scale,scale_id,resolution_id,age,n_samples,n_locations,sample_availability_status,availability_status,infeasibility_reason,root_target,model_error,sample_target_error
+america,temporal,america_timeslice_20000,genus,20000,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_20000,data_sample_ids must be a data frame,NA
+america,temporal,america_timeslice_0,genus,0,22,22,available,unexpected_error,NA,model_jsdm_timeslice_0,ZeroDivisionError: division by zero Run `reticulate::py_last_error()` for details.,NA
+asia,temporal,asia_timeslice_20000,genus,20000,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_20000,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_19500,genus,19500,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_19500,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_19000,genus,19000,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_19000,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_18500,genus,18500,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_18500,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_18000,genus,18000,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_18000,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_17500,genus,17500,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_17500,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_17000,genus,17000,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_17000,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_16500,genus,16500,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_16500,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_16000,genus,16000,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_16000,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_15500,genus,15500,2,2,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_15500,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_15000,genus,15000,3,3,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_15000,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_14500,genus,14500,3,3,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_14500,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_14000,genus,14000,3,3,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_14000,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_13500,genus,13500,4,4,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_13500,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_13000,genus,13000,6,6,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_13000,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_12500,genus,12500,8,8,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_12500,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_12000,genus,12000,8,8,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_12000,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_11500,genus,11500,8,8,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_11500,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_11000,genus,11000,9,9,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_11000,data_sample_ids must be a data frame,NA
+asia,temporal,asia_timeslice_0,genus,0,1,1,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_0,data_sample_ids must be a data frame,NA
+europe,temporal,europe_timeslice_20000,genus,20000,0,0,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_20000,data_sample_ids must be a data frame,NA
+europe,temporal,europe_timeslice_19500,genus,19500,4,4,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_19500,data_sample_ids must be a data frame,NA
+europe,temporal,europe_timeslice_19000,genus,19000,5,5,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_19000,data_sample_ids must be a data frame,NA
+europe,temporal,europe_timeslice_18500,genus,18500,8,8,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_18500,data_sample_ids must be a data frame,NA
+europe,temporal,europe_timeslice_18000,genus,18000,8,8,available,unexpected_error,NA,data_spatial_mev_samples_timeslice_18000,data_sample_ids must be a data frame,NA
+europe,temporal,europe_timeslice_0,genus,0,26,26,available,unexpected_error,NA,model_jsdm_timeslice_0,ZeroDivisionError: division by zero Run `reticulate::py_last_error()` for details.,NA

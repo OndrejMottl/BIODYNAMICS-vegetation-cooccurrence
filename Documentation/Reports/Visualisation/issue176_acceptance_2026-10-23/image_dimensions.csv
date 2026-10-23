@@ -1,0 +1,9 @@
+output_file,width_pixels,height_pixels,density,format
+Outputs/Figures/Spatial/paleo_variance_partitioning_2026-10-23.tiff,4000,3200,600x600,TIFF
+Outputs/Figures/Spatial/paleo_variance_partitioning_2026-10-23.png,2000,1600,118x118,PNG
+Outputs/Figures/Spatial/paleo_variance_partitioning_predictor_inclusive_2026-10-23.tiff,4000,3200,600x600,TIFF
+Outputs/Figures/Spatial/paleo_variance_partitioning_predictor_inclusive_2026-10-23.png,2000,1600,118x118,PNG
+Outputs/Figures/Spatial/modern_variance_partitioning_2026-10-23.tiff,4000,3200,600x600,TIFF
+Outputs/Figures/Spatial/modern_variance_partitioning_2026-10-23.png,2000,1600,118x118,PNG
+Outputs/Figures/Spatial/modern_variance_partitioning_predictor_inclusive_2026-10-23.tiff,4000,3200,600x600,TIFF
+Outputs/Figures/Spatial/modern_variance_partitioning_predictor_inclusive_2026-10-23.png,2000,1600,118x118,PNG

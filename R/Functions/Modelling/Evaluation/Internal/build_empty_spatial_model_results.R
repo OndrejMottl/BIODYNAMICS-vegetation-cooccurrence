@@ -17,6 +17,8 @@
       component = base::character(),
       R2_Nagelkerke_adjusted = base::numeric(),
       R2_Nagelkerke_percentage = base::numeric(),
+      R2_Nagelkerke_predictor_inclusive = base::numeric(),
+      R2_Nagelkerke_predictor_inclusive_percentage = base::numeric(),
       fitted_auc_mean = base::numeric(),
       fitted_auc_median = base::numeric(),
       fitted_auc_n = base::integer(),

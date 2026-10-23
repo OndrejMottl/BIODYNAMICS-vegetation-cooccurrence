@@ -1,0 +1,3 @@
+store_path,n_cached_targets,latest_target_success,latest_metadata_write,no_target_rebuilds_during_benchmark,no_metadata_writes_during_benchmark
+Data/targets/paleo_spatial_regional/eu_r005/pipeline_paleo_spatial_resolution,1736,2026-10-09T02:21:07Z,2026-10-09T02:21:12Z,TRUE,TRUE
+Data/targets/modern_spatial_continental/europe/pipeline_modern_spatial_resolution,7580,2026-10-12T03:14:35Z,2026-10-12T03:14:41Z,TRUE,TRUE

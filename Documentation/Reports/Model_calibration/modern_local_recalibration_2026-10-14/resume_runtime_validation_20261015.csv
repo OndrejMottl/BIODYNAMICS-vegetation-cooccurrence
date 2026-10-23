@@ -1,0 +1,2 @@
+run_id,pid,checked_at_utc,process_identity_verified,operational_hashes_verified,python_path,torch_version,cuda_version,cuda_available,gpu_names
+20261015_090718,1588,2026-10-15 07:08:46 UTC,TRUE,TRUE,C:/Users/ondre/AppData/Local/r-miniconda/envs/r-sjsdm-vscode/python.exe,2.5.1+cu121,12.1,TRUE,NVIDIA GeForce RTX 3050

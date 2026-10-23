@@ -1,0 +1,41 @@
+Compute Versioned Scientific Calibration Input Hashes
+
+Description:
+
+     Hashes analytical input content while retaining raw legacy
+     signatures for verified migrations. Per-fold fingerprints support
+     later recovery audits.
+
+Usage:
+
+     compute_sjsdm_cv_calibration_hashes(
+       data_candidates,
+       list_prepared_folds,
+       sel_abiotic_formula,
+       config_sjsdm_cv_fitting,
+       repeat_confirmation_loss_tolerance = 0.02
+     )
+
+Arguments:
+
+data_candidates, list_prepared_folds, sel_abiotic_formula: Candidate
+          grid, cached prepared folds and environment formula.
+
+config_sjsdm_cv_fitting: Structural CV fitting configuration with the
+          calibration starting budget.
+
+repeat_confirmation_loss_tolerance: Maximum relative loss gap allowed
+          for repeat-two confirmation.
+
+Value:
+
+     Current and legacy input hashes and scientific input fingerprints.
+
+Examples:
+
+     ## Not run:
+
+     compute_sjsdm_cv_calibration_hashes(
+       data_candidates, list_prepared_folds, ~ temperature, config_cv
+     )
+     ## End(Not run)

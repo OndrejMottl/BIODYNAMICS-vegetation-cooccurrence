@@ -143,6 +143,16 @@ testthat::test_that(
       ),
       regexp = "exceed 100"
     )
+
+    testthat::expect_no_error(
+      prepare_spatial_variance_plot_data(
+        data_unit = data_unit,
+        vec_scale_levels = "local",
+        vec_resolution_labels = base::c("genus" = "Genus"),
+        percentage_source_column = "R2_Nagelkerke_percentage",
+        sum_over_100_action = "ignore"
+      )
+    )
   }
 )
 

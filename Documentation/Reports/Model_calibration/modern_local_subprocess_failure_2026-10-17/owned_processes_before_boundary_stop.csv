@@ -1,0 +1,5 @@
+pid,name,command
+16232,Rscript.exe,C:/PROGRA~1/R/R-45~1.1/bin/x64/Rscript R/02_Main_analyses/03_Model_fitting/_components/06_fit_modern_spatial_local.R
+18516,Rterm.exe,C:/PROGRA~1/R/R-45~1.1/bin/x64/Rterm --slave --no-save --no-restore -f C:\Users\ondre\AppData\Local\Temp\RtmpMpS4z7\callr-scr-3f6858bb9df
+25748,conhost.exe,\??\C:\WINDOWS\system32\conhost.exe 0x4
+34332,conhost.exe,\??\C:\WINDOWS\system32\conhost.exe 0x4

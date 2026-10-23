@@ -9,13 +9,13 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Builds the paleo manuscript variance figure from stage 04 synthesis. Panel A
-# shows normalized mean composition; panel B retains unit-level association
-# variation with medians and 95 percent empirical intervals.
+# Builds both paleo manuscript variance views from stage 04 synthesis. The
+# retained Shapley composition splits shared fractions; the companion shows
+# overlapping predictor-inclusive totals without dividing shared fractions.
 # Workflow contract:
 #   Run after paleo spatial synthesis publishes unit and summary tables.
 #   Reads and validates plot-ready tables without opening target stores.
-#   Writes one dated figure as PDF, TIFF, and PNG plus its exact CSV data.
+#   Writes both figures as PDF, TIFF, and PNG plus their exact CSV data.
 
 
 #----------------------------------------------------------#
@@ -81,12 +81,11 @@ data_paleo_plot <-
   ) |>
   dplyr::mutate(
     component_label = dplyr::recode(
-      .data$component_label,
+      .data[["component_label"]],
       Abiotic = "Climate",
-      .default = .data$component_label
+      .default = .data[["component_label"]]
     )
   )
-
 data_paleo_component_summary <-
   summarise_spatial_variance_stack(
     data_plot = data_paleo_plot,
@@ -100,37 +99,85 @@ data_paleo_component_summary <-
 data_paleo_biotic_summary <-
   summarise_spatial_biotic_component(data_paleo_plot)
 
+data_paleo_predictor_inclusive_plot <-
+  prepare_spatial_variance_plot_data(
+    data_unit = data_paleo_unit,
+    vec_scale_levels = base::c("continental", "regional", "local"),
+    vec_resolution_labels = base::c(
+      genus = "Genus",
+      family = "Family",
+      functional_type = "Functional type"
+    ),
+    percentage_source_column =
+      "R2_Nagelkerke_predictor_inclusive_percentage",
+    scale_source_to_percentage = FALSE,
+    sum_over_100_action = "ignore"
+  ) |>
+  dplyr::mutate(
+    component_label = dplyr::recode(
+      .data$component_label,
+      Abiotic = "Climate",
+      .default = .data$component_label
+    ),
+    component_label = base::factor(
+      .data$component_label,
+      levels = base::c(
+        "Climate",
+        "Biotic co-occurrence",
+        "Spatial"
+      )
+    )
+  )
+data_paleo_predictor_inclusive_summary <-
+  summarise_spatial_predictor_inclusive_variance(
+    data_plot = data_paleo_predictor_inclusive_plot
+  )
+
 readr::write_csv(
   data_paleo_plot,
   base::file.path(
     path_output_tables,
-    stringr::str_glue(
-      "paleo_variance_partitioning_unit_{tag_date}.csv"
-    )
+    stringr::str_glue("paleo_variance_partitioning_unit_{tag_date}.csv")
   )
 )
 readr::write_csv(
   data_paleo_component_summary,
   base::file.path(
     path_output_tables,
-    stringr::str_glue(
-      "paleo_variance_partitioning_components_{tag_date}.csv"
-    )
+    stringr::str_glue("paleo_variance_partitioning_components_{tag_date}.csv")
   )
 )
 readr::write_csv(
   data_paleo_biotic_summary,
   base::file.path(
     path_output_tables,
+    stringr::str_glue("paleo_variance_partitioning_associations_{tag_date}.csv")
+  )
+)
+
+readr::write_csv(
+  data_paleo_predictor_inclusive_plot,
+  base::file.path(
+    path_output_tables,
     stringr::str_glue(
-      "paleo_variance_partitioning_associations_{tag_date}.csv"
+      "paleo_variance_partitioning_predictor_inclusive_unit_{tag_date}.csv"
+    )
+  )
+)
+readr::write_csv(
+  data_paleo_predictor_inclusive_summary,
+  base::file.path(
+    path_output_tables,
+    stringr::str_glue(
+      "paleo_variance_partitioning_predictor_inclusive_summary_",
+      "{tag_date}.csv"
     )
   )
 )
 
 
 #----------------------------------------------------------#
-# 2. Build and save manuscript figure -----
+# 2. Build and save manuscript figures -----
 #----------------------------------------------------------#
 
 fig_paleo_variance <-
@@ -146,7 +193,6 @@ fig_paleo_variance <-
     dpi = config_manuscript[["review_dpi"]],
     bg = graphical_options[["bg"]]
   )
-
 file_figure_base <-
   base::file.path(
     path_output_figures,
@@ -159,7 +205,40 @@ vec_figure_files <-
     graphical_options = graphical_options
   )
 
+fig_paleo_predictor_inclusive <-
+  plot_manuscript_predictor_inclusive_variance(
+    data_plot = data_paleo_predictor_inclusive_plot,
+    data_summary = data_paleo_predictor_inclusive_summary
+  ) +
+  ggview::canvas(
+    width = config_manuscript[["width"]],
+    height = config_manuscript[["height"]],
+    units = config_manuscript[["units"]],
+    dpi = config_manuscript[["review_dpi"]],
+    bg = graphical_options[["bg"]]
+  )
+file_predictor_inclusive_figure_base <-
+  base::file.path(
+    path_output_figures,
+    stringr::str_glue(
+      "paleo_variance_partitioning_predictor_inclusive_{tag_date}"
+    )
+  )
+vec_predictor_inclusive_figure_files <-
+  save_manuscript_figure(
+    plot = fig_paleo_predictor_inclusive,
+    file_base = file_predictor_inclusive_figure_base,
+    graphical_options = graphical_options
+  )
+
 base::message(
   "Saved paleo variance partitioning: ",
   stringr::str_c(vec_figure_files, collapse = ", ")
+)
+base::message(
+  "Saved paleo predictor-inclusive variance: ",
+  stringr::str_c(
+    vec_predictor_inclusive_figure_files,
+    collapse = ", "
+  )
 )

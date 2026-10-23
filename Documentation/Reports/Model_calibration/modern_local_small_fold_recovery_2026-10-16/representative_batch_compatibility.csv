@@ -1,0 +1,4 @@
+scale_id,resolution_id,n_prepared_folds,min_training_rows,batch_behavior_unchanged
+am_r007_l008,family,15,1808,TRUE
+am_r007_l008,genus,15,1808,TRUE
+eu_r005_l010,functional_type,15,2196,TRUE

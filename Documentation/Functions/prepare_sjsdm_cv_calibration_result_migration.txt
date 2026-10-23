@@ -1,0 +1,47 @@
+Prepare a Verified Calibration Evidence Migration
+
+Description:
+
+     Migrates content-matched calibration evidence without refitting
+     models.
+
+Usage:
+
+     prepare_sjsdm_cv_calibration_result_migration(
+       list_result,
+       list_prepared_folds,
+       config_model_fitting,
+       list_legacy_prepared_folds = NULL,
+       migrated_at = base::Sys.time()
+     )
+
+Arguments:
+
+list_result: Accepted saved calibration result.
+
+list_prepared_folds, config_model_fitting: Current production fold
+          records and structural model configuration.
+
+list_legacy_prepared_folds: Optional independently reconstructed
+          original folds for operational-only version-four migration.
+          Exact original and current analytical proof is required by
+          [validate_sjsdm_cv_calibration_evidence()].
+
+migrated_at: Explicit timestamp for the migration provenance.
+
+Details:
+
+     This function does not write files. Callers must archive the
+     original evidence before saving its result. An already-current
+     result is unchanged.
+
+Value:
+
+     A migrated result preserving fitting evidence and prior history.
+
+Examples:
+
+     ## Not run:
+
+     prepare_sjsdm_cv_calibration_result_migration(result, folds, config_model)
+     ## End(Not run)

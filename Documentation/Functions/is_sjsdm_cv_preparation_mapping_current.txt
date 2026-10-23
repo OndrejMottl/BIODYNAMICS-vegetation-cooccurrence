@@ -1,0 +1,38 @@
+Test Cached Modern Community Mapping Against Current Inputs
+
+Description:
+
+     Reconstructs the known pure modern-resolution mapping in memory
+     and requires exact equality, without rewriting cached
+     preprocessing or fitting models.
+
+Usage:
+
+     is_sjsdm_cv_preparation_mapping_current(
+       store_path,
+       target_name,
+       command,
+       read_target_function = targets::tar_read_raw,
+       mapping_function = NULL
+     )
+
+Arguments:
+
+store_path, target_name, command: Existing store, mapping endpoint and
+          its current manifest command.
+
+read_target_function: Injectable cached target reader.
+
+mapping_function: Optional test mapping function. Production loads the
+          tracked inline mapper.
+
+Value:
+
+     A logical scalar. Unknown commands and reconstruction errors fail.
+
+Examples:
+
+     ## Not run:
+
+     is_sjsdm_cv_preparation_mapping_current(store, target, manifest_command)
+     ## End(Not run)

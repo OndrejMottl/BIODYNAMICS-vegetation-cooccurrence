@@ -1,0 +1,9 @@
+check,status,detail,source_commit,recorded_at
+focused_regressions,passed,Six focused test files,6483905b,2026-10-12T13:09:47Z
+full_test_suite,passed,Canonical complete suite; final acceptance marker verified,6483905b,2026-10-12T13:09:47Z
+architecture_validator,passed,Zero findings; 19782 manifest rows across 26 profiles,6483905b,2026-10-12T13:09:47Z
+paleo_modern_cz_smoke,passed,"Three smoke stores, zero recorded target errors",6483905b,2026-10-12T13:09:47Z
+configuration_semantic_reference,passed,Generated configuration matches all 26 profiles,6483905b,2026-10-12T13:09:47Z
+diff_whitespace,passed,git diff --check returned zero,6483905b,2026-10-12T13:09:47Z
+required_calibration_compatibility,blocked,10 accepted; 10 pre-existing input mismatches,6483905b,2026-10-12T13:09:47Z
+modern_restart,not_started,Original master confirmed stopped; completed cache preserved,6483905b,2026-10-12T13:09:47Z
