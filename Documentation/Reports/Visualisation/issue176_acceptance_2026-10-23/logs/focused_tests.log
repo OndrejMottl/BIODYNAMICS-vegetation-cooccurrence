@@ -1,0 +1,28 @@
+During startup - Warning messages:
+1: Setting LC_COLLATE=C.UTF-8 failed
+2: Setting LC_CTYPE=C.UTF-8 failed
+3: Setting LC_MONETARY=C.UTF-8 failed
+4: Setting LC_TIME=C.UTF-8 failed
+issue176-predictor-inclusive-workflow-contract: .................................
+
+== DONE ========================================================================
+main-analysis-manuscript-visualisation-contract: .....................
+
+== DONE ========================================================================
+compute_predictor_inclusive_variance_components: .............
+
+== DONE ========================================================================
+load_spatial_model_results: ...........................
+
+== DONE ========================================================================
+prepare_spatial_variance_plot_data: ..............
+
+== DONE ========================================================================
+summarise_spatial_predictor_inclusive_variance: ..........
+
+== DONE ========================================================================
+plot_manuscript_predictor_inclusive_variance: .....
+
+== DONE ========================================================================
+Warning message:
+package 'testthat' was built under R version 4.5.2

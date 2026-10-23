@@ -1,0 +1,51 @@
+During startup - Warning messages:
+1: Setting LC_COLLATE=C.UTF-8 failed
+2: Setting LC_CTYPE=C.UTF-8 failed
+3: Setting LC_MONETARY=C.UTF-8 failed
+4: Setting LC_TIME=C.UTF-8 failed
+Saved paleo variance partitioning: C:\Users\ondre\AppData\Local\Temp\RtmpucRziq\issue176_original_recipe_97f4430dd9b/figures/paleo_variance_partitioning_2026-10-23.pdf, C:\Users\ondre\AppData\Local\Temp\RtmpucRziq\issue176_original_recipe_97f4430dd9b/figures/paleo_variance_partitioning_2026-10-23.tiff, C:\Users\ondre\AppData\Local\Temp\RtmpucRziq\issue176_original_recipe_97f4430dd9b/figures/paleo_variance_partitioning_2026-10-23.png
+# A tibble: 10 x 5
+   comparison                  baseline_commit output_file  rows identical_bytes
+   <chr>                       <chr>           <chr>       <int> <lgl>
+ 1 original_recipe_current_sy~ 3d9442eaf08c3a~ paleo_vari~   687 TRUE
+ 2 original_recipe_current_sy~ 3d9442eaf08c3a~ paleo_vari~    36 TRUE
+ 3 original_recipe_current_sy~ 3d9442eaf08c3a~ paleo_vari~     9 TRUE
+ 4 unchanged_since_2026_10_22  <NA>            paleo_vari~   687 TRUE
+ 5 unchanged_since_2026_10_22  <NA>            paleo_vari~    27 TRUE
+ 6 unchanged_since_2026_10_22  <NA>            modern_var~   825 TRUE
+ 7 unchanged_since_2026_10_22  <NA>            modern_var~    36 TRUE
+ 8 unchanged_since_2026_10_22  <NA>            modern_var~     9 TRUE
+ 9 unchanged_since_2026_10_22  <NA>            modern_var~   825 TRUE
+10 unchanged_since_2026_10_22  <NA>            modern_var~    27 TRUE
+# A tibble: 12 x 5
+   figure_base                                   format output_file  bytes md5
+   <chr>                                         <chr>  <chr>        <dbl> <chr>
+ 1 paleo_variance_partitioning                   pdf    Outputs/Fi~ 1.37e4 8048~
+ 2 paleo_variance_partitioning                   tiff   Outputs/Fi~ 3.84e7 3de9~
+ 3 paleo_variance_partitioning                   png    Outputs/Fi~ 1.40e5 49a3~
+ 4 paleo_variance_partitioning_predictor_inclus~ pdf    Outputs/Fi~ 2.55e4 1913~
+ 5 paleo_variance_partitioning_predictor_inclus~ tiff   Outputs/Fi~ 3.84e7 7956~
+ 6 paleo_variance_partitioning_predictor_inclus~ png    Outputs/Fi~ 2.13e5 e260~
+ 7 modern_variance_partitioning                  pdf    Outputs/Fi~ 1.40e4 2f0c~
+ 8 modern_variance_partitioning                  tiff   Outputs/Fi~ 3.84e7 91af~
+ 9 modern_variance_partitioning                  png    Outputs/Fi~ 1.47e5 3a81~
+10 modern_variance_partitioning_predictor_inclu~ pdf    Outputs/Fi~ 2.60e4 60a5~
+11 modern_variance_partitioning_predictor_inclu~ tiff   Outputs/Fi~ 3.84e7 f411~
+12 modern_variance_partitioning_predictor_inclu~ png    Outputs/Fi~ 2.36e5 5bf9~
+# A tibble: 2 x 4
+  period unit_component_rows tiers resolutions
+  <chr>                <int> <int>       <int>
+1 paleo                  687     3           3
+2 modern                 825     3           3
+# A tibble: 4 x 3
+  figure_base                                      comparison    identical_bytes
+  <chr>                                            <chr>         <lgl>
+1 paleo_variance_partitioning                      original_rec~ TRUE
+2 paleo_variance_partitioning_predictor_inclusive  unchanged_si~ TRUE
+3 modern_variance_partitioning                     unchanged_si~ TRUE
+4 modern_variance_partitioning_predictor_inclusive unchanged_si~ TRUE
+# A tibble: 1 x 5
+  test_directories failures warnings skips passes
+             <int>    <int>    <int> <int>  <int>
+1              117        0        0     1   5564
+All ten source-table equivalence checks passed.
