@@ -59,8 +59,10 @@ testthat::test_that(
           stringr::str_c(collapse = "\n")
         n_expected_figures <-
           if (
-            base::basename(.x) ==
+            base::basename(.x) %in% base::c(
+              "03_plot_paleo_variance_partitioning.R",
               "04_plot_modern_variance_partitioning.R"
+            )
           ) {
             2L
           } else {

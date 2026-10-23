@@ -48,7 +48,7 @@ testthat::test_that(
 
     purrr::walk2(
       .x = vec_plot_files,
-      .y = base::c(1L, 2L),
+      .y = base::c(2L, 2L),
       .f = ~ {
         text_script <-
           base::readLines(.x, warn = FALSE) |>
@@ -61,6 +61,26 @@ testthat::test_that(
         testthat::expect_match(
           text_script,
           "plot_manuscript_predictor_inclusive_variance"
+        )
+        testthat::expect_match(
+          text_script,
+          "plot_manuscript_spatial_variance"
+        )
+        testthat::expect_match(
+          text_script,
+          'percentage_source_column = "R2_Nagelkerke_percentage"'
+        )
+        testthat::expect_match(
+          text_script,
+          "summarise_spatial_variance_stack"
+        )
+        testthat::expect_match(
+          text_script,
+          "variance_partitioning_components_"
+        )
+        testthat::expect_match(
+          text_script,
+          "variance_partitioning_associations_"
         )
         testthat::expect_match(
           text_script,
@@ -78,6 +98,41 @@ testthat::test_that(
           .y
         )
       }
+    )
+  }
+)
+
+testthat::test_that(
+  "overlapping totals do not alter the Shapley composition",
+  {
+    data_fractions <-
+      tibble::tibble(
+        age = 0,
+        component = base::c(
+          "Abiotic", "Associations", "Spatial", "Abiotic&Associations",
+          "Abiotic&Spatial", "Associations&Spatial",
+          "Abiotic&Associations&Spatial"
+        ),
+        R2_Nagelkerke = base::c(0.1, 0.2, 0.3, 0.04, 0.06, 0.08, 0.09)
+      )
+    data_shapley_before <-
+      compute_shapley_variance_components(data_fractions)
+    data_inclusive <-
+      compute_predictor_inclusive_variance_components(data_fractions)
+    data_shapley_after <-
+      compute_shapley_variance_components(data_fractions)
+
+    testthat::expect_identical(data_shapley_after, data_shapley_before)
+    testthat::expect_equal(
+      data_shapley_after[["R2_Nagelkerke_adjusted"]],
+      base::c(0.18, 0.29, 0.4),
+      tolerance = 1e-12
+    )
+    testthat::expect_gt(
+      base::sum(data_inclusive[[
+        "R2_Nagelkerke_predictor_inclusive_percentage"
+      ]]),
+      100
     )
   }
 )
