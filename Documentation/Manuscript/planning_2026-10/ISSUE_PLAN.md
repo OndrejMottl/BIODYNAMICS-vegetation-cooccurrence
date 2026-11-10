@@ -4,13 +4,17 @@
 
 | Plan ID | Issue | Plan ID | Issue | Plan ID | Issue |
 |---|---|---|---|---|---|
-| P0 | #180 | P7 | #187 | P14 | #194 |
-| P1 | #181 | P8 | #188 | P15 | #195 |
-| P2 | #182 | P9 | #189 | P16 | #196 |
-| P3 | #183 | P10 | #190 | C0 | #197 |
-| P4 | #184 | P11 | #191 | C1 | #198 |
-| P5 | #185 | P12 | #192 | C2 | #199 |
-| P6 | #186 | P13 | #193 | C3 | #200 |
+| P0 | [#180] | P7 | [#187] | P14 | [#194] |
+| P1 | [#181] | P8 | [#188] | P15 | [#195] (not planned) |
+| P2 | [#182] | P9 | [#189] | P16 | [#196] |
+| P3 | [#183] | P10 | [#190] | C0 | [#197] |
+| P4 | [#184] | P11 | [#191] | C1 | [#198] |
+| P5 | [#185] | P12 | [#192] (not planned) | C2 | [#199] |
+| P6 | [#186] | P13 | [#193] | C3 | [#200] |
+
+**Revised on 28 October 2026:** `direction_revision_20261028.md` makes time the backbone, replaces the spatial half-distance (P7) with a nested-extent test, reduces P8 to a supplementary projection check, adds family- and functional-type-level reruns of the temporal models and puts a usability constraint on the classification from [#179]. Its §5 lists the edits per issue.
+
+**Revised on 10 November 2026:** the Round 0 report (`Documentation/Reports/Third_report/_Project_status_and_direction.qmd`) splits the paper into two parts that draw on the same models. **Drivers**, the original aim, asks how much climate, spatial structure and residual association contribute and how that changes with extent, through time and with the level of organisation, measured on the same taxa because the association share follows matrix size. **Structure** is the persistence question this plan was written for. The four checks in P4–P6 no longer decide which paper is written, only how the structure part is framed, and their outcome is presented at a methods meeting before Christmas instead of in a separate gate note. P12 ([#192]) and P15 ([#195]) are closed as not planned, [#179] moved to the Round 2 milestone, and [#136] is postponed. The umbrella [#180] holds the current overview, and §3 lists the issues opened since 23 October.
 
 The issue bodies on GitHub are self-contained and take precedence over the descriptions below, which they refine. In particular, component removal uses `R/Pipelines/pipeline_paleo_local_cv_decomposition_reference.R`, not the CZ component pipeline.
 
@@ -32,15 +36,15 @@ The issue bodies on GitHub are self-contained and take precedence over the descr
 
 | Issue | Recommendation | Why |
 |---|---|---|
-| #171 Regenerate CV-backed model results and update the manuscript and website | **Keep and rescope.** Keep the freeze/provenance/results-inventory and website parts. Move "Update manuscript Results/Discussion" to P16 and link it there. Make P1 a sub-issue of #171. | #140 is closed and #177/#178 already regenerated most model outputs. Its manuscript tasks assume the old pipeline-shaped Results section. |
-| #179 Evaluate deep sequential clustering for FT groups | **Keep, promote to the critical path.** Make it a sub-issue of P0 and a blocker of P8. Suggested additions to its body below. | The current FT classification is degenerate: one huge group holding most taxa plus a few highly specialised rare groups. Q4 compares functional with taxonomic and random grouping, and such a split cannot answer that, because the giant group behaves like "everything" and the small ones like noise. |
-| #136 Add future diversity prediction workflow for CMIP6 | **Park.** Not part of this paper. | Off the critical path; competes for GPU time. |
-| #26 Change the binomial model to a hurdle model | **Suggest closing as not planned** (your decision). | Changing the likelihood would invalidate every fitted model the new direction relies on. |
-| #166 Modularise the R architecture diagnostics engine | **Independent.** No change. | Tooling, unrelated to the science. |
+| [#171] Regenerate CV-backed model results and update the manuscript and website | **Keep and rescope.** Keep the freeze/provenance/results-inventory and website parts. Move "Update manuscript Results/Discussion" to P16 and link it there. Make P1 a sub-issue of [#171]. | [#140] is closed and [#177]/[#178] already regenerated most model outputs. Its manuscript tasks assume the old pipeline-shaped Results section. |
+| [#179] Evaluate deep sequential clustering for FT groups | **Keep, promote to the critical path.** Make it a sub-issue of P0 and a blocker of P8. Suggested additions to its body below. | The current FT classification is degenerate: one huge group holding most taxa plus a few highly specialised rare groups. Q4 compares functional with taxonomic and random grouping, and such a split cannot answer that, because the giant group behaves like "everything" and the small ones like noise. |
+| [#136] Add future diversity prediction workflow for CMIP6 | **Park.** Not part of this paper. | Off the critical path; competes for GPU time. |
+| [#26] Change the binomial model to a hurdle model | **Suggest closing as not planned** (your decision). | Changing the likelihood would invalidate every fitted model the new direction relies on. |
+| [#166] Modularise the R architecture diagnostics engine | **Independent.** No change. | Tooling, unrelated to the science. |
 
 Milestones: one per co-author round rather than one for the whole manuscript. See §5–§6.
 
-### Suggested additions to #179 (edit, not a new issue)
+### Suggested additions to [#179] (edit, not a new issue)
 
 - **A cheap baseline benchmark first.** The fallback uses average linkage with silhouette selection over 5–30 groups. Average linkage on Gower distances is prone to chaining, which produces exactly one giant cluster plus outlier singletons, and silhouette can reward that split. Benchmark Ward linkage and PAM (k-medoids) on the same Gower matrix next to the autoencoder variants. If a simple method already gives balanced, coherent groups, the deep-clustering variant has to beat it to be adopted.
 - **Group-balance criteria in the acceptance rule:** largest-group share, effective number of groups (exp of Shannon entropy over group sizes), and the minimum number of usable groups after the community-filter chain. Silhouette alone should not decide.
@@ -55,16 +59,18 @@ Labels use the repository's existing set. "Done when" lines become the acceptanc
 
 ### P0 — Umbrella
 
+**Retitled on 10 November 2026:** Manuscript umbrella: drivers and persistence of residual association across scales.
+
 **Title:** Measure how far residual co-occurrence structure persists across time, space, resolution and observation system
 **Labels:** 📜manuscript, 🧮Modelling
-**Body:** The question, the four axes, the decision table from `STATUS_AND_PLAN.md` Part 4, links to the planning folder, and a checklist of P1–P16 plus the existing #179 as sub-issues. Includes a **decision record** section filled in after P4–P6: which of the three outcome rows applies, and therefore which framing P16 writes.
+**Body:** The question, the four axes, the decision table from `STATUS_AND_PLAN.md` Part 4, links to the planning folder, and a checklist of P1–P16 plus the existing [#179] as sub-issues. Includes a **decision record** section filled in after P4–P6: which of the three outcome rows applies, and therefore which framing P16 writes.
 **Done when:** all non-conditional sub-issues are closed and the decision record is filled in.
 
 ### Foundation
 
 #### P1 — Resolve unexpected errors in cached paleo temporal slices
 
-**Labels:** 🐛 bug, 🔀pipeline, 🧮Modelling — sub-issue of #171
+**Labels:** 🐛 bug, 🔀pipeline, 🧮Modelling — sub-issue of [#171]
 **Scope:** Classify each of the 28 `unexpected_error` slices in `temporal_cached_error_rows.csv`. Reclassify Asia 11–20 ka as expected limitations if they fall outside the configured window. Reproduce and correct the 0 ka failures (all three continents) and the Europe 18–20 ka / America 20 ka failures, following `.ai/debugging.md` (`data_sample_ids must be a data frame`, `ZeroDivisionError`). Refit only the affected slices.
 **Done when:** every slice is either available or has a documented expected status; the 0 ka slice exists for Europe and America; the temporal synthesis reruns without unexpected errors.
 **Depends on:** nothing. **Blocks:** final numbers in P3, P10.
@@ -107,6 +113,8 @@ Labels use the repository's existing set. "Done when" lines become the acceptanc
 **Depends on:** P2, P3.
 
 > **Decision point.** After P4, P5 and P6, fill in the P0 decision record. P7–P10 assume the "ceiling high" rows; if the ceiling is low, P7–P10 are deprioritised and P13 plus the width artefact become the paper.
+>
+> **Since 10 November 2026** the outcome decides how the structure part is framed, not which paper is written; the drivers part goes ahead either way.
 
 ### The open questions
 
@@ -121,8 +129,8 @@ Labels use the repository's existing set. "Done when" lines become the acceptanc
 
 **Labels:** 🧮Modelling, 🏵️Traits and functional groups, 🌿taxonomy
 **Scope:** For each unit, project the genus matrix to family and to FT level using the existing harmonisation and frozen FT tables, and compare with the matrix fitted at that level. Define the projection explicitly (for example the mean member-pair correlation) and justify it, since presence aggregation is a union rather than a sum. Null: random groupings with the same group-size distribution (skeleton item 4, H1b), so the result can say whether functional grouping preserves more than taxonomic or random grouping.
-**Done when:** survival profile genus → family → FT against the random-grouping null, per tier, using the FT classification adopted in #179.
-**Depends on:** P2, P3, **#179 and the FT refits that follow from it**. The genus → family arm can run before #179 closes; the FT arm must wait. Results from the current FT classification may be shown only as a diagnostic of why it was replaced.
+**Done when:** survival profile genus → family → FT against the random-grouping null, per tier, using the FT classification adopted in [#179].
+**Depends on:** P2, P3, **[#179] and the FT refits that follow from it**. The genus → family arm can run before [#179] closes; the FT arm must wait. Results from the current FT classification may be shown only as a diagnostic of why it was replaced.
 
 #### P9 — Compare fossil and modern association structure in the same grid cells (Q5)
 
@@ -149,6 +157,8 @@ Labels use the repository's existing set. "Done when" lines become the acceptanc
 
 #### P12 — Rarefy network metrics per temporal slice
 
+**Closed as not planned on 10 November 2026:** rarefying the large spatial models is not feasible computationally; the question of how the drivers change through time moves to [#211].
+
 **Labels:** 🧮Modelling, 🖼️visualisation
 **Scope:** Repeatedly subsample sites to the smallest per-slice count and recompute `compute_network_metrics()` (modularity, connectance, nestedness) for Europe and America. Settles H3b and Fig 5a. H3c (spatial-to-climatic shift) would need refits and is out of scope; record that in the issue.
 **Done when:** rarefied modularity per slice with intervals; Europe's de-modularisation either survives or is withdrawn.
@@ -170,6 +180,8 @@ Labels use the repository's existing set. "Done when" lines become the acceptanc
 
 #### P15 — Refit spatial units at matched taxon number (conditional)
 
+**Closed as not planned on 10 November 2026:** refitting with taxa removed works against the premise of a joint model; the drivers part compares the same taxa in the existing fits instead ([#210]).
+
 **Labels:** 🧮Modelling, 🔀pipeline
 **Scope:** Taxon-number-matched refits across the spatial grid to replace the regression-adjusted width correction (H1a, Fig 2b, Fig 3a–b). Heavy. Create only if co-authors or reviewers require more than the regression result.
 **Depends on:** nothing technical; a decision.
@@ -178,14 +190,58 @@ Labels use the repository's existing set. "Done when" lines become the acceptanc
 
 #### P16 — Rewrite the manuscript around the persistence scales of residual structure
 
+**Retitled on 10 November 2026:** Rewrite the manuscript in two parts: drivers across scales and persistence of residual structure.
+
 **Labels:** 📜manuscript, 🖼️visualisation, 📝method documentation
-**Scope:** Write Introduction, Results, Discussion and Abstract for the framing chosen in the P0 decision record; add Methods for the extraction, similarity engine, null models and reproducibility ceiling; replace the pipeline-shaped Results outline; all numbers as inline R; figures from committed scripts. Takes over the manuscript tasks of #171.
+**Scope:** Write Introduction, Results, Discussion and Abstract for the framing chosen in the P0 decision record; add Methods for the extraction, similarity engine, null models and reproducibility ceiling; replace the pipeline-shaped Results outline; all numbers as inline R; figures from committed scripts. Takes over the manuscript tasks of [#171].
 **Done when:** a complete draft renders with every number traceable to an artifact.
 **Depends on:** P0 decision record, then P3–P13 as their sections are written.
+
+### Issues opened after 23 October 2026
+
+The bodies on GitHub are complete; this section only places them in the plan.
+
+#### [#202] — Rerun the paleo temporal models at family and functional-type level (28 October 2026)
+
+Carries the aggregation axis in place of P8 (`direction_revision_20261028.md` §6). Blocked by [#181], [#182], [#183] and [#207]; the functional-type arm also waits for [#179].
+
+#### Corrections and refits: [#203]–[#208] (9 November 2026)
+
+Errors found while preparing the Round 0 report, fixed before any final number is computed:
+
+- [#203] carries the association penalty into the variance-partition sub-models. The refits in [#204] and [#205] use the corrected partition.
+- [#204] uses a region-appropriate projection for the spatial predictors, which changes the North American and northern Asian units.
+- [#205] applies a relative-abundance threshold to vegetation-plot records, which changes the modern units.
+- [#206] drops climate × age terms when a model has a single age.
+- [#207] refits the temporal models with the calibrated cross-validated workflow once [#181], [#203], [#204] and [#206] are done. It replaces the June 2026 temporal fits, so the reproduction checks in [#182] and [#183] run on the June stores first.
+- [#208] checks that published results come from up-to-date model stores.
+
+#### Drivers: [#209]–[#211] (10 November 2026)
+
+The drivers part had no issues before the two-part split:
+
+- [#209] freezes the variance-partition definition and the drivers tests before further results are inspected. It blocks [#210] and [#211].
+- [#210] compares the association share of the same genera across nested extents, and the climate–space balance across extents, from the existing fits; nothing is refitted. Blocked by [#209] and [#203]–[#205].
+- [#211] settles the drivers design through time and across levels of organisation at the methods meeting, then runs it. Blocked by [#209] and [#207].
 
 ---
 
 ## 4. Order of work
+
+Revised on 10 November 2026, from the dependencies recorded in the issue bodies:
+
+| When | Work |
+|---|---|
+| Now (November) | Corrections [#203], [#204], [#205], [#206] and [#208]; temporal errors [#181]; P2 extraction [#182]; P4 spatial replicate fits [#184]; reproduction checks of [#182] and [#183] on the June 2026 temporal stores |
+| Then | Spatial refits in [#204] and [#205] (after [#203]); temporal refits [#207]; P3 engine [#183]; drivers definitions frozen in [#209] |
+| Checks | P4, P5 and P6 ([#184], [#185], [#186]), then the decision record in [#180], then the methods meeting in the week of 14 December |
+| Round 1 (11 Jan) | Drivers across extents [#210]; P7 [#187]; P9 [#189]; family arm of [#202]; C1 [#198] |
+| Round 2 (15 Feb) | Drivers through time and organisation [#211]; [#179] and the functional-type refits; functional-type arms of [#189] and [#202]; P8 [#188] (supplementary); P10 [#190]; P11 [#191]; P13 [#193]; P14 [#194]; P16 [#196]; C2 [#199] |
+| Round 3 (15 Mar) | [#171]; C3 [#200] |
+
+The critical path runs from [#181] and the corrections to the temporal refits in [#207], which the temporal replicate fits in [#184] and the shrinkage control in [#186] need, and from there to the methods meeting. Round 1 is the heaviest milestone: it holds the three refit campaigns ([#204], [#205], [#207]) and all four checks. GPU order follows the blockers: the spatial refits after [#203], then [#207], then the temporal replicate fits of P4; the spatial replicate fits of P4 and P13 (after [#204]) fill gaps. The functional-type refits follow [#179] in Round 2.
+
+The order of 23 October 2026, kept for the record:
 
 ```text
 Now, in parallel:   P1 (temporal errors)   P2 (extraction)   P4 fits on GPU   #179 (FT method)
@@ -197,7 +253,7 @@ GPU when free:      P13
 Conditional:        P15
 ```
 
-There are two critical paths. One is P2 → P3 → P4/P5 → decision. The other is #179 → FT refits → P8. Start #179 now: it is independent of the gate, and its refits compete for the same GPU as P4 and P13, so plan the GPU queue as P4 first, then FT refits, then P13. P1 must finish before P10 and before the half-life is quoted as final, because it adds the 0 ka slice.
+There are two critical paths. One is P2 → P3 → P4/P5 → decision. The other is [#179] → FT refits → P8. Start [#179] now: it is independent of the gate, and its refits compete for the same GPU as P4 and P13, so plan the GPU queue as P4 first, then FT refits, then P13. P1 must finish before P10 and before the half-life is quoted as final, because it adds the 0 ka slice.
 
 ---
 
@@ -207,7 +263,7 @@ There are two critical paths. One is P2 → P3 → P4/P5 → decision. The other
 
 | Occasion | Date | What it told them | Status now |
 |---|---|---|---|
-| First report and presentation (`Documentation/Reports/First_report/`) | Oct–Nov 2025 | Technical pipeline, HMSC, Czech test project; next steps included a hurdle model and validation with spOccupancy | Models are now `{sjSDM}`; hurdle model suggested for closure (#26) |
+| First report and presentation (`Documentation/Reports/First_report/`) | Oct–Nov 2025 | Technical pipeline, HMSC, Czech test project; next steps included a hurdle model and validation with spOccupancy | Models are now `{sjSDM}`; hurdle model suggested for closure ([#26]) |
 | Second presentation (`Documentation/Reports/Second_report/`) | Mar 2026 | Q1: is there scale dependence in the *amount* of unexplained variation? Q2: does including biotic interactions improve prediction? Residual co-occurrence presented as "biotic interactions", positive = facilitation, negative = competition | Q1 is answered by the width artefact: the amount cannot be compared across models, and the apparent spatial gradient reverses at matched width. "Interaction" language is dropped. Q2 survives as the component-removal experiment (P13) |
 | IAVS / CSPE 2026 talks (if co-authors attended or saw the slides) | Jun / Aug 2026 | Frozen 31 Aug snapshot | Functional-type fractions moved from 5–8 % to 17–24 % after the trait correction |
 
@@ -219,15 +275,19 @@ Keep the usual three rounds and add a short **Round 0** in front of them, plus o
 
 | Round | When | What is sent | What is asked | Window |
 |---|---|---|---|---|
-| **0 — Direction briefing** | Now, before the gate results | A short report in the style of the first two, `Documentation/Reports/Third_report/`, with a 30–45 min call offered. Content: what changed since March and why (the width artefact, using `figures/taxon_count_confound.png`); the new question about persistence across time, space, resolution and observation system; the preliminary half-life (`figures/assoc_decay.png`, numbers rounded and marked preliminary); the validity gate with its three possible outcomes and the decision rule written before the results; a table "numbers you may remember and what they are now" | Objections to the direction; comments on the decision rule; open decisions (one paper or a series, venue, whether Asia is main text, the functional-type method in #179); expertise for specific questions (pollen–plot taxon harmonisation for Q5, trait grouping for Q4, rate of change for P11) | 2 weeks |
+| **0 — Direction briefing** | Now, before the gate results | A short report in the style of the first two, `Documentation/Reports/Third_report/`, with a 30–45 min call offered. Content: what changed since March and why (the width artefact, using `figures/taxon_count_confound.png`); the new question about persistence across time, space, resolution and observation system; the preliminary half-life (`figures/assoc_decay.png`, numbers rounded and marked preliminary); the validity gate with its three possible outcomes and the decision rule written before the results; a table "numbers you may remember and what they are now" | Objections to the direction; comments on the decision rule; open decisions (one paper or a series, venue, whether Asia is main text, the functional-type method in [#179]); expertise for specific questions (pollen–plot taxon harmonisation for Q5, trait grouping for Q4, rate of change for P11) | 2 weeks |
 | **Gate update** | When P4–P6 close | A one-page note: ceiling, raw co-occurrence contrast, which outcome row applies, and therefore which paper is being written | Objections only, no line comments | 1 week |
 | **1 — Initial stage** | Core results exist: P3–P9 done, at least the genus → family arm of Q4 | Results skeleton as a line-numbered PDF: title, abstract draft, Introduction as paragraph-level claims, Results as claims with real numbers and real Figures 1–4, existing Methods, Discussion outline. Missing pieces are marked, not hidden | Is the story right? Which analysis is missing or unconvincing? Which claim would a reviewer attack first? Mostly Major comments are expected | 2–3 weeks |
 | **2 — Main feedback** | Full draft: P10–P14 done, P16 written, Round 1 comments resolved | Complete manuscript with supplement and figures, plus a response table for Round 1 comments | Full line-by-line review | 3 weeks |
 | **3 — Last check** | Submission package ready | Final manuscript, supplement, cover letter, author contributions (CRediT), data and code availability, list of suggested reviewers | Errors, approval to submit, and author details | 1 week |
 
+**Revised on 10 November 2026:** the Round 0 cover email asks two questions only: whether each co-author stays on, and whether they would join the methods meetings or rather comment on the first draft. The report's "Open questions" section invites further input. The methods meeting in the week of 14 December 2026 replaces the gate update, and Rounds 1 and 2 have two weeks each (see Calendar).
+
 ### Co-authors and targeted asks
 
 Provisional list (not final). Emails are kept out of the repository on purpose. The asks filled in below were confirmed on 2026-10-23; empty rows still need one.
+
+**Revised on 10 November 2026:** Round 0 goes out as one email to all co-authors, without per-person asks. The asks below are kept as notes only.
 
 | Co-author | Possible targeted ask in Round 0 and Round 1 |
 |---|---|
@@ -238,34 +298,34 @@ Provisional list (not final). Emails are kept out of the repository on purpose. 
 | Jack W. Williams (Wisconsin) | North American pollen data and no-analogue communities: whether the half-life and the North American slowdown are plausible, and the pollen–plot comparison in Q5 |
 | Manuel Steinbauer (Bayreuth) | |
 | Suzette Flantua | Pollen data synthesis: site-overlap and sampling controls (P6), and what can be compared between fossil and modern data in Q5 |
-| Irena Šímová | *Suggested, to confirm:* plant functional traits and their macroecology. The functional-type method in #179 (are the groups ecologically coherent, and are the six traits the right basis?) and the aggregation question Q4 (P8) |
+| Irena Šímová | *Suggested, to confirm:* plant functional traits and their macroecology. The functional-type method in [#179] (are the groups ecologically coherent, and are the six traits the right basis?) and the aggregation question Q4 (P8) |
 | Name to add (co-author 9, Charles University) | |
 
 Before Round 1, enter final names, ORCIDs and affiliations in `manuscript.qmd`, and agree CRediT roles roughly at Round 0 so that nobody is surprised at Round 3.
 
 ### Mechanics, reusing what exists
 
-- Each round uses `Documentation/Manuscript/Coauthor_feedback/Round_N/` and `feedback_template.md` unchanged. Round 0 and the gate update are reports rather than manuscript versions, so they don't need the template; collect their replies as `Coauthor_feedback/Round_0/<Name>_feedback.md` or as notes from the call.
+- Each round uses `Documentation/Manuscript/Coauthor_feedback/Round_N/` and `feedback_template.md` unchanged. Round 0 and the methods meeting are not manuscript versions, so they don't need the template; collect their replies as `Coauthor_feedback/Round_0/<Name>_feedback.md` and the meeting as `Coauthor_feedback/Round_0/meeting_notes_YYYY-MM-DD.md`.
 - Before each manuscript round, tag the commit `manuscript-round-N` (you run the tag) and render the PDF with line numbers into the round folder.
 - After each round, consolidate all returned files into one response table in the round folder. Each Major comment becomes either a new issue in the next round's milestone or a reasoned reply in the table. Minor and editorial comments are handled in a single "address Round N comments" issue.
 - Fill in `manuscript.qmd` co-author names and affiliations before Round 1 (they are still `TODO`).
 
 ### Calendar
 
-The grant ends on 31 December 2026. A 12–18 month extension of the final report will be requested, which moves the report deadline to between December 2027 and June 2028. The paper should be published, or at least accepted, by then. Plan for the shorter extension: if only 12 months are granted, the paper needs to be submitted by about May 2027 to leave about seven months for review, revision and one possible resubmission elsewhere.
+The grant ends on 31 December 2026. A 12–18 month extension of the final report will be requested, which moves the report deadline to between December 2027 and June 2028. The paper should be published, or at least accepted, by then. Plan for the shorter extension: submission in March 2027 leaves about nine months before a 12-month extension ends, for review, revision and one possible resubmission elsewhere. The calendar below was revised on 10 November 2026.
 
 | Step | Send | Feedback by | Notes |
 |---|---|---|---|
-| Round 0: direction briefing | Fri 6 Nov 2026 | Fri 20 Nov 2026 | Call in the week of 16 Nov. Also ask co-authors about their availability from January to May 2027 and their preferred venue order |
-| Gate update | about Fri 4 Dec 2026 | Fri 11 Dec 2026 | Needs P2, P3, P4–P6 |
-| Round 1: initial stage | Mon 11 Jan 2027 | Mon 1 Feb 2027 | Sending in mid-December would put the feedback window over Christmas |
-| Round 2: main feedback | Mon 15 Mar 2027 | Mon 5 Apr 2027 | Easter falls on 28 March 2027, inside the window; three weeks covers it |
-| Round 3: last check | Mon 3 May 2027 | Mon 10 May 2027 | |
-| Submission | by Fri 21 May 2027 | | |
+| Round 0: direction briefing | week of 9 Nov 2026 | Fri 20 Nov 2026 | Asks whether each co-author stays on and wants to join the methods meetings. The crucial bug issues ([#203]–[#208]) are worked on in the meantime |
+| Methods meeting | week of 14 Dec 2026 | | Before Christmas, with the co-authors who opted in; replaces the separate gate update, so the outcome of the four checks is presented here. Needs P2, P3, P4–P6 |
+| Round 1: first draft | Mon 11 Jan 2027 | Mon 25 Jan 2027 | Two weeks for comments |
+| Round 2: second draft | Mon 15 Feb 2027 | Mon 1 Mar 2027 | Two weeks for comments |
+| Round 3: last check | Mon 15 Mar 2027 | Mon 22 Mar 2027 | Just before submission |
+| Submission | by Wed 31 Mar 2027 | | Easter falls on 26–29 March 2027 |
 
 Two consequences of the grant ending on 31 December 2026:
 
-- **Do grant-funded work in 2026.** If GPU time, cloud compute or paid help comes from the grant, run the heavy computing before the end of December: the P4 replicate fits, the functional-type refits after #179, P13 component removal, and P15 if it is triggered. Analysis and writing can continue in 2027.
+- **Do grant-funded work in 2026.** If GPU time, cloud compute or paid help comes from the grant, run the heavy computing before the end of December: the refits in [#204], [#205] and [#207], the P4 replicate fits and P13 component removal. The functional-type refits follow [#179], which is in the Round 2 milestone, so they fall in 2026 only if [#179] closes early. Analysis and writing can continue in 2027.
 - **Round 0 doubles as extension evidence.** The briefing report, this plan and the milestone due dates are a concrete work plan to attach to the extension request.
 
 A venue cascade agreed in Round 0 saves time later. A desk rejection costs about one to two months and a rejection after review about three to four, so with a 12-month extension there is room for one of each, not more.
@@ -276,16 +336,18 @@ A venue cascade agreed in Round 0 saves time later. A desk rejection costs about
 
 One milestone per round. A milestone holds the work that must be finished **before** that round is sent; its due date is the planned send date. The round's own communication issue (labelled 🗣️communication) sits in the same milestone and closes when the feedback is consolidated.
 
+Milestone membership as on GitHub on 10 November 2026:
+
 | Milestone | Due (send date) | Issues | Closes when |
 |---|---|---|---|
-| **0️⃣ Co-author round · Direction briefing** | 2026-11-06 | C0 Prepare and send the direction briefing; the decision rule written into P4 | The briefing has been sent and replies consolidated |
-| **1️⃣ Co-author round · Results skeleton** | 2027-01-11 | P1, P2, P3, P4, P5, P6, P7, P8, P9, #179; C1 Send and consolidate Round 1 | The skeleton has been sent and Round 1 comments triaged |
-| **2️⃣ Co-author round · Full draft** | 2027-03-15 | P10, P11, P12, P13, P14, P16; Round 1 follow-up issues; P15 if triggered; C2 Send and consolidate Round 2 | The full draft has been sent and Round 2 comments triaged |
-| **3️⃣ Co-author round · Submission check** | 2027-05-03 | #171 (provenance, results inventory, website); figure polishing from `visual_review.csv`; submission package (cover letter, CRediT, data and code availability, code and data archive); Round 2 follow-up issues; C3 Send and consolidate Round 3 | Co-authors approve submission |
+| **0️⃣ Co-author round · Direction briefing** | 2026-11-13 | C0 [#197] Prepare and send the direction briefing | The briefing has been sent and replies consolidated |
+| **1️⃣ Co-author round · Results skeleton** | 2027-01-11 | Corrections and refits [#181], [#203]–[#208]; P2–P7 and P9 ([#182]–[#187], [#189]); [#202]; drivers [#209], [#210]; C1 [#198] | The first draft has been sent and Round 1 comments triaged |
+| **2️⃣ Co-author round · Full draft** | 2027-02-15 | [#179]; P8 [#188] (supplementary); P10 [#190]; P11 [#191]; P13 [#193]; P14 [#194]; P16 [#196]; drivers [#211]; Round 1 follow-up issues; C2 [#199] | The second draft has been sent and Round 2 comments triaged |
+| **3️⃣ Co-author round · Submission check** | 2027-03-15 | [#171] (provenance, results inventory, website); figure polishing from `visual_review.csv`; submission package (cover letter, CRediT, data and code availability, code and data archive); Round 2 follow-up issues; C3 [#200] | Co-authors approve submission |
 
-The grant-funded computing in P4, the functional-type refits and P13 (and P15 if triggered) should finish by 2026-12-31, even though P13 belongs to the Round 2 milestone.
+The grant-funded computing (the refits in [#204], [#205] and [#207], the P4 replicate fits and P13) should finish by 2026-12-31, even though P13 belongs to the Round 2 milestone.
 
-P0 stays outside the milestones as the umbrella and holds the gate update as a checklist item ("send the gate note within a week of P6 closing"). If Q4's functional-type arm is late, move P8 alone to the Round 2 milestone rather than delaying Round 1.
+P0 ([#180]) stays outside the milestones as the umbrella; its checklist holds the decision record and the methods meeting, which replaced the gate note. [#179] moved to the Round 2 milestone on 10 November 2026, because Round 1 already holds the three refit campaigns and all four checks; the functional-type arms of [#189] and [#202] follow it. [#136] is postponed and [#166] is independent tooling; neither has a milestone.
 
 ### Communication issues
 
@@ -297,3 +359,45 @@ P0 stays outside the milestones as the umbrella and holds the gate update as a c
 | C3 | Share the submission version with co-authors for final approval | 🗣️communication, 📜manuscript |
 
 Each C issue carries the same checklist: material ready and rendered → tag `manuscript-round-N` (manuscript rounds only) → send with deadline → collect replies in the round folder → consolidated response table → Major comments filed as issues in the next milestone.
+
+<!-- Issue and pull-request links -->
+
+[#26]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/26
+[#136]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/136
+[#140]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/140
+[#166]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/166
+[#171]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/171
+[#177]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/177
+[#178]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/178
+[#179]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/179
+[#180]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/180
+[#181]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/181
+[#182]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/182
+[#183]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/183
+[#184]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/184
+[#185]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/185
+[#186]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/186
+[#187]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/187
+[#188]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/188
+[#189]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/189
+[#190]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/190
+[#191]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/191
+[#192]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/192
+[#193]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/193
+[#194]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/194
+[#195]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/195
+[#196]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/196
+[#197]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/197
+[#198]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/198
+[#199]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/199
+[#200]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/200
+[#202]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/202
+[#203]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/203
+[#204]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/204
+[#205]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/205
+[#206]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/206
+[#207]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/207
+[#208]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/208
+[#209]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/209
+[#210]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/210
+[#211]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/211
