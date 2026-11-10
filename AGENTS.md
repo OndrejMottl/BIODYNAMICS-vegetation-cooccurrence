@@ -47,6 +47,15 @@ The 80-character line limit applies only to R source code, including R comments 
 - Add source line breaks only when Markdown structure or meaning requires them, such as headings, blank lines between paragraphs, separate list items, tables, code fences, blockquotes, or intentional hard breaks.
 - In `.qmd` files, follow the sentence-per-line prose convention in `.ai/quarto.md`; complete sentences may be any length and must never be split to satisfy a column limit.
 
+## Runtime Environment
+
+The project is pinned to the R version recorded in `renv.lock` (R 4.5.1), which may differ from the machine's default R. `{sjSDM}` also needs a dedicated Python env with PyTorch; setup and the reasons behind it are in `Documentation/Materials/sjSDM_installation_guide.md`.
+
+- Run R scripts from the repository root with the pinned version, for example `rig run -r 4.5.1 R/03_Supplementary_analyses/Testing/Run_tests.R`. A bare `Rscript` starts the default R, whose renv library may be empty. The `Rscript` commands elsewhere in this guidance assume the pinned R.
+- Quarto renders need `QUARTO_R` set to the pinned R's `bin` folder (for example `C:/Program Files/R/R-4.5.1/bin`) for the same reason.
+- reticulate finds the Python env through `RETICULATE_PYTHON` in the git-ignored project `.Renviron`. Do not change it, and do not run `sjSDM::install_sjSDM()`, `renv::restore()`, `renv::snapshot()`, or pip/uv installs unless the user asks.
+- Check the setup with `diagnose_sjsdm_setup()` after `source("R/___setup_project___.R")`.
+
 ## Private Material
 
 Keep private project material inside the repository in a git-ignored folder, never outside the project. Co-author correspondence (cover emails, per-person questions, replies that include contact details or personal circumstances) goes in `Documentation/Manuscript/Coauthor_feedback/Round_N/Private/`, which `.gitignore` excludes. `Data/Temp/` is disposable by convention and must not hold anything worth keeping.

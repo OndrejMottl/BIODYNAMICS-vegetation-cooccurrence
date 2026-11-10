@@ -33,17 +33,17 @@ The generated [R architecture dependency map](Documentation/Reports/R_architectu
 
 ## Reproducibility Quick Start
 
+The project is pinned to R 4.5.1, the version recorded in `renv.lock`. With several R versions installed, select it through [rig](https://github.com/r-lib/rig) (for example `rig run -r 4.5.1 <script.R>`, or a per-project pin in VS Code).
+
 Restore the R environment:
 
 ```r
 renv::restore()
 ```
 
-Set up and verify the `{sjSDM}` backend:
+`{sjSDM}` needs a separate Python environment with PyTorch. Set it up as described in the [sjSDM installation guide](Documentation/Materials/sjSDM_installation_guide.md), then verify it:
 
 ```r
-sjSDM::install_sjSDM()
-
 source("R/___setup_project___.R")
 diagnose_sjsdm_setup()
 ```

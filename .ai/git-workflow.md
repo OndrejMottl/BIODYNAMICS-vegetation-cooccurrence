@@ -10,7 +10,7 @@ Before suggesting, generating, or reviewing any commit message, read `.github/co
 
 ## CRITICAL: The User Is in Full Control of Version Control
 
-**Never perform any state-changing git operation without explicit user instruction.** The user must ask for it by name (e.g. "please commit", "push this", "merge the branch"). Do not infer intent â€” always wait for a direct request.
+**Never perform any state-changing git operation without explicit user instruction.** The user must ask for it by name (e.g. "please commit", "push this", "merge the branch"). Do not infer intent — always wait for a direct request.
 
 Forbidden without explicit user instruction:
 
@@ -27,7 +27,7 @@ Forbidden without explicit user instruction:
 
 Safe read-only operations that are always permitted: `git status`, `git log`, `git diff`, `git branch` (list), `git worktree list`.
 
-When a workflow step calls for a commit or push (e.g. at the end of the TDD cycle), **stop and tell the user what command to run** â€” do not run it.
+When a workflow step calls for a commit or push (e.g. at the end of the TDD cycle), **stop and tell the user what command to run** — do not run it.
 
 ## Tracked File Moves and Renames
 
@@ -119,6 +119,14 @@ Symlink VegVault to avoid copying the large file. `mklink` requires an elevated 
 mklink "D:\GITHUB\BIODYNAMICS_<feature_name>\Data\Input\VegVault.sqlite" "D:\GITHUB\BIODYNAMICS_vegetation_cooccurrence\Data\Input\VegVault.sqlite"
 ```
 
+Copy the git-ignored machine-local settings, which hold the pinned R version and the `{sjSDM}` Python env (without `.Renviron`, `{sjSDM}` silently falls back to a throwaway Python without PyTorch):
+
+```powershell
+Copy-Item .Renviron ..\BIODYNAMICS_<feature_name>\.Renviron
+New-Item -ItemType Directory -Force ..\BIODYNAMICS_<feature_name>\.vscode | Out-Null
+Copy-Item .vscode\settings.json ..\BIODYNAMICS_<feature_name>\.vscode\settings.json
+```
+
 Then in an R session inside the new worktree:
 
 ```r
@@ -179,3 +187,4 @@ git branch -d <branch_name>
 - **Copy targets store before removing** the linked worktree (step 6 before step 8).
 - **`renv.lock` or `config.yml` changes** committed in one worktree require `git pull` + `renv::restore()` in the other worktree.
 - `Data/Input/VegVault.sqlite` is git-ignored and must be symlinked manually in each new worktree.
+- `.Renviron` and `.vscode/settings.json` are git-ignored and must be copied into each new worktree.
