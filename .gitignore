@@ -58,6 +58,9 @@ Data/targets/
 # Temporary files
 Data/Temp/
 
+# Private co-author correspondence (email drafts, per-person notes)
+Documentation/Manuscript/Coauthor_feedback/**/Private/
+
 # Large input files. See Data/Input/README.md for more information.
 Data/Input/VegVault.sqlite
 

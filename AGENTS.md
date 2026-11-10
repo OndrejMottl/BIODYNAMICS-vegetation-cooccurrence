@@ -47,6 +47,10 @@ The 80-character line limit applies only to R source code, including R comments 
 - Add source line breaks only when Markdown structure or meaning requires them, such as headings, blank lines between paragraphs, separate list items, tables, code fences, blockquotes, or intentional hard breaks.
 - In `.qmd` files, follow the sentence-per-line prose convention in `.ai/quarto.md`; complete sentences may be any length and must never be split to satisfy a column limit.
 
+## Private Material
+
+Keep private project material inside the repository in a git-ignored folder, never outside the project. Co-author correspondence (cover emails, per-person questions, replies that include contact details or personal circumstances) goes in `Documentation/Manuscript/Coauthor_feedback/Round_N/Private/`, which `.gitignore` excludes. `Data/Temp/` is disposable by convention and must not hold anything worth keeping.
+
 ## Repository Architecture Contract
 
 - `R/Functions/` contains reusable capability-owned functions with exactly one top-level function per matching file and an inventoried test.
