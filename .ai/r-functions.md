@@ -52,7 +52,7 @@ See the TDD workflow in the project's `AGENTS.md` for the full step-by-step proc
 
 In various instances, it might be better to not create a new function but to use an anonymous function (e.g. inside of `purrr::map_*()`).
 
-Use tilde (`~`) for anonymous functions in purrr. **Never use the backslash lambda syntax (`\(x) { ... }`) inside purrr calls** â€” always use `~` with `.x`, `.y`, or `..1`/`..2`/etc:
+Use tilde (`~`) for anonymous functions in purrr. **Never use the backslash lambda syntax (`\(x) { ... }`) inside purrr calls** — always use `~` with `.x`, `.y`, or `..1`/`..2`/etc:
 
 ```r
 # Good
@@ -62,7 +62,7 @@ purrr::map(
   }
 )
 
-# NEVER â€” backslash lambda is forbidden inside purrr calls
+# NEVER — backslash lambda is forbidden inside purrr calls
 purrr::map(
   .f = \(x) mean(x)  # wrong
 )
@@ -131,7 +131,7 @@ Do not use `cli::cli_abort()` for routine function argument assertions. Those ch
 
 ## Verbose Argument for Console Output
 
-Any function that prints to the console (via `cli::cli_inform()` or `cli::cli_warn()`) **must** accept a `verbose` argument (default `TRUE`) and guard every print call with it. Only `cli::cli_abort()` (errors) should fire unconditionally â€” errors are never silenced.
+Any function that prints to the console (via `cli::cli_inform()` or `cli::cli_warn()`) **must** accept a `verbose` argument (default `TRUE`) and guard every print call with it. Only `cli::cli_abort()` (errors) should fire unconditionally — errors are never silenced.
 
 ```r
 # Good
@@ -149,7 +149,7 @@ my_function <- function(x, verbose = TRUE) {
   return(res)
 }
 
-# NEVER â€” unconditional informational printing in a function
+# NEVER — unconditional informational printing in a function
 my_function <- function(x) {
   cli::cli_inform("Processing complete.")  # wrong: no verbose guard
   return(res)

@@ -11,7 +11,8 @@ Most analyses also require a local VegVault SQLite database and enough compute r
 
 ## Restore R Packages
 
-The project uses `{renv}` to lock package versions.
+The project uses `{renv}` to lock package versions, and is pinned to R 4.5.1, the version recorded in `renv.lock`.
+With several R versions installed, select it through [rig](https://github.com/r-lib/rig), for example `rig run -r 4.5.1 <script.R>`.
 From the repository root, run:
 
 ```r
@@ -23,11 +24,7 @@ This installs the package versions recorded in `renv.lock`.
 ## Set Up sjSDM
 
 The modelling workflow uses [{sjSDM}](https://theoreticalecology.github.io/s-jSDM/), which depends on a Python and PyTorch backend.
-After restoring R packages, initialise the backend with:
-
-```r
-sjSDM::install_sjSDM()
-```
+The project uses a dedicated Python environment for it, set up as described in the [sjSDM installation guide](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Materials/sjSDM_installation_guide.md).
 
 You can then diagnose the setup with the project helper:
 

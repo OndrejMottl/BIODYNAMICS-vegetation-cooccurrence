@@ -81,14 +81,14 @@ Write prose with **each sentence on its own line** in the source file. A blank l
 **Never break a sentence mid-way through to stay within 80 characters (or any other column limit).** The 80-character line-length rule that applies to R scripts does **not** apply to `.qmd` files. A sentence must be kept whole on one line, regardless of its length.
 
 ```markdown
-<!-- WRONG â€” multiple sentences merged onto one line -->
+<!-- WRONG — multiple sentences merged onto one line -->
 All records were sourced from VegVault. Data were extracted using {vaultkeepr}.
 
-<!-- WRONG â€” sentence broken mid-way to fit 80 characters -->
+<!-- WRONG — sentence broken mid-way to fit 80 characters -->
 All records were sourced from VegVault, a harmonised SQLite database integrating
 fossil pollen archives and modern plot data.
 
-<!-- CORRECT â€” one complete sentence per line -->
+<!-- CORRECT — one complete sentence per line -->
 All records were sourced from VegVault, a harmonised SQLite database integrating fossil pollen archives and modern plot data.
 Data were extracted using {vaultkeepr}.
 ```
@@ -149,16 +149,16 @@ with an average AUC of `r round(mean(model_evaluation$species$AUC), 2)`.
 
 This applies to:
 - counts (number of functions, taxa, datasets, samples)
-- model metrics (AUC, RÂ², RMSE)
+- model metrics (AUC, R², RMSE)
 - summary statistics reported in text
 - any value that could change if data or code changes
-- **analysis parameters and thresholds stored in `config.yml`** â€” these must be read via `load_active_config_value()` or `load_config_value()` in a code chunk and referenced as inline R expressions, even though they are deliberate analysis choices. Hardcoding them in prose means the text silently diverges from the actual values whenever the configuration is updated.
+- **analysis parameters and thresholds stored in `config.yml`** — these must be read via `load_active_config_value()` or `load_config_value()` in a code chunk and referenced as inline R expressions, even though they are deliberate analysis choices. Hardcoding them in prose means the text silently diverges from the actual values whenever the configuration is updated.
 
-The only acceptable literals in prose are values that are truly external constants â€” e.g. a standard geographic projection code such as `EPSG:3035`, or a published database version number that cannot change.
+The only acceptable literals in prose are values that are truly external constants — e.g. a standard geographic projection code such as `EPSG:3035`, or a published database version number that cannot change.
 
 ### Reading `config.yml` values in `.qmd` files
 
-Declare a named setup chunk (e.g. `config-thresholds`) early in the file that reads every parameter you intend to reference:
+Read each parameter in a named hidden chunk (e.g. `config-thresholds`) placed just before the prose that first references it (see [Keep Objects Close to Their Use](#keep-objects-close-to-their-use)). Only values used throughout the document belong in the setup chunk.
 
 ```r
 #| label: config-thresholds
@@ -203,6 +203,25 @@ All code chunks in website pages should use these options unless there is a spec
 ```
 
 Always wrap library calls in `suppressMessages(suppressWarnings({...}))` when loading packages silently inside a rendered `.qmd`.
+
+---
+
+## Keep Objects Close to Their Use
+
+The source order of a `.qmd` file should mirror the order in which a reader meets the content. Do not compute everything in a few large chunks at the top.
+
+- **The setup chunk holds only document-wide infrastructure:** `here::i_am()`, sourcing the project setup, figure paths and canvas settings, colour palettes, shared URLs, and genuinely global constants.
+- **Create every other object in a hidden chunk immediately before the prose, table or figure that first uses it.** This applies to loading and preparing data, fitting models, deriving summaries and inline values, and building plot-specific data. Name each chunk by what it does (`fit-temporal-decay`, `plot-width-artefact`).
+- An object may be reused later when the dependency stays obvious, but it must not be computed many sections ahead of its first use.
+- Build and save a plot in a hidden chunk directly above the figure that displays it.
+
+### No function definitions in `.qmd` files
+
+Do not define functions inside chunks, including small formatting helpers. A function written in a chunk is untested, invisible to the architecture inventory and silently uses objects from the document environment.
+
+- If a document needs real logic, put it in `R/Functions/` as a tested function, following `.ai/r-functions.md`.
+- For small formatting needs, use named vectors read inline (`vec_half_life_kyr[["Europe"]]`, built with `dplyr::pull(value, name = key)`) or a formatter created once from a package function factory in the setup chunk (`label_count <- scales::label_comma()`).
+- Display local figures with `knitr::include_graphics()` and a `here::here()` path directly; see [Displaying local figures](#displaying-local-figures).
 
 ---
 
@@ -274,13 +293,7 @@ ggview::save_ggplot(
 )
 ```
 
-2. Display it in a separate chunk using `include_local_figure()`:
-
-```r
-#| label: display plot
-#| echo: false
-include_local_figure("figure_name.png")
-```
+2. Display it in a separate chunk with `knitr::include_graphics()` (see [Displaying local figures](#displaying-local-figures)).
 
 Rules:
 - Always append `ggview::canvas()` to the plot pipeline. This opens an interactive preview at the exact pixel dimensions during authoring, making it easy to adjust layout before committing. It has no effect at render time.
@@ -291,29 +304,36 @@ Rules:
 - Use `ggplot2::labs(title = "Title text")` instead of `ggtitle()`. This ensures the title is included in the saved image and displayed correctly in the slide.
 - If a plot has a title, do not add a title in the slide  -  use empty `##` markdown heading syntax instead.
 
-### Defining `include_local_figure()` in the setup chunk
+### Displaying local figures
 
-Every `.qmd` file that displays local figures must define the `include_local_figure()` helper once in its setup chunk:
-
-```r
-path_to_materials <-
-  here::here("Documentation/Materials")
-
-include_local_figure <- function(data_source) {
-  knitr::include_graphics(
-    path = here::here(path_to_materials, data_source),
-    error = TRUE
-  )
-}
-```
-
-Then use it consistently throughout the file:
+Define the figure folder once in the setup chunk and call `knitr::include_graphics()` directly; do not wrap it in a helper function:
 
 ```r
-#| label: display-plot
-#| echo: false
-include_local_figure("Figures/my_plot.png")
+#| label: setup
+#| include: false
+path_figures <-
+  here::here("Documentation/Materials/Figures")
 ```
+
+When a figure needs a cross-reference or a caption longer than fits on one 80-character chunk-option line, wrap the display chunk in a figure div and write the caption as Markdown below it, instead of using `#| fig-cap:`:
+
+````markdown
+::: {#fig-width}
+
+```{r}
+#| label: display-width-artefact
+#| out-width: "100%"
+knitr::include_graphics(
+  path = here::here(path_figures, "width_artefact.png")
+)
+```
+
+The caption, written as ordinary Markdown on one source line.
+
+:::
+````
+
+Refer to it in prose as `@fig-width`. Older documents that still define `include_local_figure()` keep it until they are next edited.
 
 ### Combining multiple plots
 

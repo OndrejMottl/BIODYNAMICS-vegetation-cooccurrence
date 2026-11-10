@@ -1,0 +1,2135 @@
+---
+title: "BIODYNAMICS vegetation co-occurrence: project status and direction"
+subtitle: "Autumn 2026"
+author: "Ondřej Mottl"
+date: 2026/11/06
+date-format: long
+date-modified: last-modified
+toc: true
+toc-depth: 2
+number-sections: true
+format:
+  html:
+    theme: default
+    embed-resources: true
+    toc-location: right
+    output-file: Project_status_and_direction.html
+    # The page is served from the project website by link only; keep search
+    # engines from indexing it.
+    include-in-header:
+      text: |
+        <meta name="robots" content="noindex, nofollow">
+  pdf:
+    output-file: Project_status_and_direction.pdf
+    papersize: a4
+    # Latin Modern lacks Greek letters and the >= / <= signs used below.
+    pdf-engine: xelatex
+    mainfont: "Cambria"
+    # More space between table rows than the LaTeX default, and tables kept
+    # where they are written, like the figures (fig-pos below).
+    include-in-header:
+      text: |
+        \renewcommand{\arraystretch}{1.4}
+        \makeatletter
+        \def\fps@table{H}
+        \makeatother
+    geometry:
+      - margin=2.2cm
+    fig-pos: "H"
+---
+
+```{r}
+#| label: setup
+#| include: false
+here::i_am(
+  path = "Documentation/Reports/Third_report/_Project_status_and_direction.qmd"
+)
+
+path_figures <-
+  here::here("Documentation/Materials/Figures")
+
+# All figures in this report share one canvas size.
+config_canvas <-
+  list(
+    width = 1600,
+    height = 760,
+    units = "px",
+    dpi = 200
+  )
+
+vec_tier_levels <- c("local", "regional", "continental")
+
+vec_resolution_levels <- c("genus", "family", "functional_type")
+
+vec_colours_resolution <-
+  c(
+    "Genus" = "#3b7fb6",
+    "Family" = "#d0752f",
+    "Functional type" = "#4f8f45"
+  )
+
+vec_colours_continent <-
+  c(
+    "North America" = "#b1552b",
+    "Europe" = "#2b70b1"
+  )
+
+label_count <-
+  scales::label_comma()
+
+url_website <-
+  "https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/"
+
+url_repository <-
+  "https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence"
+
+url_issues <-
+  stringr::str_glue("{url_repository}/issues")
+
+# Only the configuration loader; the full project setup also requires the
+#    VegVault database.
+base::source(
+  here::here("R/Functions/Pipeline/Configuration/Loading/load_config.R")
+)
+```
+
+```{r}
+#| label: count-models
+#| include: false
+data_paleo_variance_partitioning_raw <-
+  readr::read_csv(
+    file = here::here(
+      "Outputs/Tables/Visualisation",
+      "paleo_variance_partitioning_unit_2026-10-23.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+data_modern_variance_partitioning_raw <-
+  readr::read_csv(
+    file = here::here(
+      "Outputs/Tables/Visualisation",
+      "modern_variance_partitioning_unit_2026-10-23.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+data_temporal_status <-
+  readr::read_csv(
+    file = here::here(
+      "Documentation/Reports/Model_evaluation",
+      "publication_products_2026-10-22",
+      "temporal_slice_status_counts.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+# One row per fitted unit-resolution model and component.
+n_models_paleo_spatial <-
+  data_paleo_variance_partitioning_raw |>
+  dplyr::filter(
+    .data[["data_source"]] == "paleo",
+    .data[["component"]] == "Associations"
+  ) |>
+  base::nrow()
+
+n_models_modern_spatial <-
+  data_modern_variance_partitioning_raw |>
+  dplyr::filter(.data[["component"]] == "Associations") |>
+  base::nrow()
+
+n_models_temporal <-
+  data_temporal_status |>
+  dplyr::filter(.data[["availability_status"]] == "available") |>
+  dplyr::pull("n") |>
+  base::sum()
+
+n_models_total <-
+  n_models_paleo_spatial + n_models_modern_spatial + n_models_temporal
+
+data_git_log <-
+  gert::git_log(
+    repo = here::here(),
+    max = 100000L
+  )
+
+date_first_commit <-
+  data_git_log |>
+  dplyr::pull("time") |>
+  base::min() |>
+  base::format("%B %Y")
+```
+
+## In short {#sec-summary .unnumbered}
+
+If you read one page, read this one and @sec-direction.
+Boxes marked *Technical note* hold the method detail and can be skipped.
+
+1. **Residual association among taxa is found at every scale, but the amount we measure follows the size of the model.** The summer result that continental units carry the most residual association was that effect: continental models hold more taxa. With the same genera compared across nested units and model size accounted for, a first look suggests that association declines with extent in vegetation plots, while fossil pollen shows no clear change (@sec-drivers).
+2. **The balance between climate and space does not suffer from that effect**, so that half of the original question can be answered from the models as they are (@sec-direction).
+3. **Community organisation persists for millennia.** The residual association structure of a continent decays with a half-life on the scale of millennia, and in a preliminary look it did not rewire faster in the late Holocene while composition changed faster (@sec-structure).
+
+Points 1 and 3 are preliminary and not to be quoted yet; @sec-gate lists what could still overturn them.
+
+## The project {#sec-project}
+
+BIODYNAMICS is my project funded by the Czech Science Foundation (GAČR), originally planned for 2023–2025 and extended to the end of 2026 because of parental leave.
+In it, I ask how plant species are organised into communities across scales, using the longest ecological record available: fossil pollen since the Last Glacial Maximum, together with modern vegetation plots.
+
+The project has three objectives:
+
+1. *assemble an interdisciplinary database that integrates present and past vegetation records with their functional traits and abiotic environments since the Last Glacial Maximum* (DONE!);
+2. *identify how co-occurrence structure among plants scales up to form and maintain biodiversity patterns at different spatial, temporal and taxonomic scales* (THIS REPORT); and
+3. *improve the capacity to predict biodiversity patterns by including this scale-dependent information* (POSTPONED, see below).
+
+The first objective is complete: [VegVault](https://bit.ly/VegVault) links fossil pollen, modern vegetation plots, palaeo- and present-day climate, and plant functional traits in one database (published in [Nature Scientific Data](https://doi.org/10.1038/s41597-025-06176-1)), and all analyses below draw from it.
+
+For the second and third objectives, I model every analysis unit with a **Joint Species Distribution Model** (specifically scaled Joint Species Distribution Model, `{sjSDM}`).
+Each model splits the co-occurrence of taxa into three parts: what **climate** explains, what **spatial structure** explains, and the **residual association** among taxa that neither explains.
+I fit the same model along three axes:
+
+- **Space**: local, regional and continental units on three continents, separately for fossil pollen and for modern vegetation plots.
+- **Time**: one model per each 500-year continental slice since the Last Glacial Maximum (Europe, North America and northern Asia).
+- **Biological organisation**: do a model for every spatial unit at genus, family and trait-based functional-type level.
+
+I calibrate the spatial models by spatially stratified cross-validation (the temporal models are next), and the whole workflow runs as reproducible `{targets}` pipelines from a single configuration.
+I document the methods and code on the [project website](`r url_website`), and all code is in the [GitHub repository](`r url_repository`).
+I am still squashing bugs as I find them, and the open ones are listed in the [GitHub issues](`r url_issues`).
+
+## The scale of the work {#sec-scale}
+
+```{r}
+#| label: measure-project-scale
+#| include: false
+n_spatial_units_paleo <-
+  data_paleo_variance_partitioning_raw |>
+  dplyr::filter(.data[["data_source"]] == "paleo") |>
+  dplyr::distinct(.data[["scale_id"]]) |>
+  base::nrow()
+
+# Data volume as presented at the summer 2026 conferences.
+list_snapshot_counts <-
+  jsonlite::read_json(
+    path = here::here(
+      "Documentation/Presentations/CSPE_2026/results_snapshot.json"
+    )
+  ) |>
+  purrr::chuck("summary_counts")
+
+# Size of the code base, counted at render time.
+vec_function_files <-
+  fs::dir_ls(
+    path = here::here("R/Functions"),
+    recurse = TRUE,
+    regexp = "[.]R$"
+  )
+
+vec_test_files <-
+  fs::dir_ls(
+    path = here::here("R"),
+    recurse = TRUE,
+    regexp = "test-[^/]+[.]R$"
+  )
+
+vec_pipeline_files <-
+  fs::dir_ls(
+    path = here::here("R/Pipelines"),
+    recurse = TRUE,
+    regexp = "[.]R$"
+  )
+
+vec_r_files <-
+  fs::dir_ls(
+    path = here::here("R"),
+    recurse = TRUE,
+    regexp = "[.]R$"
+  )
+
+n_expectations <-
+  vec_test_files |>
+  purrr::map_int(
+    .f = ~ readr::read_lines(file = .x) |>
+      stringr::str_count(pattern = stringr::fixed("testthat::expect_")) |>
+      base::sum()
+  ) |>
+  base::sum()
+
+n_lines_r <-
+  vec_r_files |>
+  purrr::map_int(
+    .f = ~ readr::read_lines(file = .x) |>
+      base::length()
+  ) |>
+  base::sum()
+
+pct_test_coverage <-
+  jsonlite::read_json(
+    path = here::here(
+      "Documentation/Functions_test_coverage/covr_report_summary.json"
+    )
+  ) |>
+  purrr::chuck("value")
+
+# Squash-merged pull requests end their subject with "(#<number>)".
+n_merged_changes <-
+  data_git_log |>
+  dplyr::filter(
+    stringr::str_detect(
+      string = .data[["message"]],
+      pattern = "[(]#[0-9]+[)]"
+    )
+  ) |>
+  base::nrow()
+```
+
+This has been a MASSIVE effort on my side, as I have designed, built and run the entire project almost entirely on my own.
+
+```{r}
+#| label: table-project-scale
+data_project_scale <-
+  tibble::tribble(
+    ~item, ~value,
+    "Data used (summer 2026 snapshot)",
+    stringr::str_glue(
+      "{label_count(list_snapshot_counts[['cores']])} pollen cores, ",
+      "{label_count(list_snapshot_counts[['communities']])} ",
+      "spatio-temporal communities, ",
+      "{label_count(list_snapshot_counts[['taxa']])} taxa, ",
+      "{label_count(list_snapshot_counts[['trait_values']])} trait values"
+    ),
+    "Code",
+    stringr::str_glue(
+      "{label_count(n_lines_r)} lines of R, ",
+      "{label_count(base::length(vec_function_files))} documented ",
+      "functions, {base::length(vec_pipeline_files)} pipeline definitions"
+    ),
+    "Tests",
+    stringr::str_glue(
+      "{label_count(base::length(vec_test_files))} test files with ",
+      "{label_count(n_expectations)} checks, ",
+      "{base::round(pct_test_coverage)} % of function code covered"
+    ),
+    "Fitted joint models",
+    stringr::str_glue(
+      "{label_count(n_models_total)}: ",
+      "{n_models_paleo_spatial} fossil-pollen spatial, ",
+      "{n_models_modern_spatial} modern-vegetation spatial and ",
+      "{n_models_temporal} temporal"
+    )
+  )
+
+data_project_scale |>
+  tinytable::tt(
+    width = c(0.3, 0.7),
+    colnames = FALSE,
+    theme = "striped",
+    # Without escaping, "%" starts a LaTeX comment and truncates the table.
+    escape = TRUE
+  ) |>
+  tinytable::style_tt(
+    j = 1,
+    bold = TRUE
+  ) |>
+  tinytable::style_tt(
+    align = "l"
+  ) |>
+  tinytable::theme_latex(
+    placement = "H"
+  )
+```
+
+## What the summer results turned out to mean {#sec-changed}
+
+I designed the project to ask how the drivers of vegetation (climate, spatial structure and the residual association among taxa) depend on spatial, temporal and taxonomic scale, with the **amount** of residual association (its share of explained variance) as the main measure.
+Since the summer I have learned how that measure behaves, and the same work opened a second line of analysis that I had not planned.
+
+```{r}
+#| label: link-conference-talks
+#| include: false
+url_presentation_iavs <-
+  stringr::str_glue(
+    "{url_website}",
+    "Documentation/Presentations/IAVS_2026/_output/index.html"
+  )
+
+url_presentation_cspe <-
+  stringr::str_glue(
+    "{url_website}",
+    "Documentation/Presentations/CSPE_2026/_output/index.html"
+  )
+```
+
+### What I presented in summer 2026
+
+I presented the first results along all three axes at IAVS 2026 ([slides](`r url_presentation_iavs`)) and again at CSPE 2026 ([slides](`r url_presentation_cspe`)), both from a snapshot frozen on 31 August 2026. **I highly recommend checking the IAVS slides, as I went a little crazy with the visualisation and they are fun to browse**.
+
+The three main messages were:
+
+1. **Space**: the residual association signal is detectable at every spatial extent, but it does not decrease from local to continental units as I expected; at genus level, continental units even carry the largest share.
+2. **Biological organisation**: changing from genus to family hardly changes the spatial pattern, and functional types show little association, which I read as their distributions being explained by climate.
+3. **Time**: variance components and network structure change through the last 20,000 years, but with no consistent pattern across continents and no clear response to the deglaciation or to late-Holocene human impact.
+
+@fig-association-extent shows the space and organisation results again, redrawn from the models as they are now, after the checks described below.
+
+```{r}
+#| label: prepare-association-share
+#| include: false
+# One row per fossil-pollen spatial model, with the share of its explained
+#    variance that goes to residual association.
+data_association_share <-
+  data_paleo_variance_partitioning_raw |>
+  dplyr::filter(
+    .data[["data_source"]] == "paleo",
+    .data[["component"]] == "Associations"
+  ) |>
+  dplyr::mutate(
+    association_share = .data[["R2_Nagelkerke_percentage"]],
+    log_n_taxa = base::log(.data[["n_taxa"]]),
+    scale = forcats::fct(
+      x = .data[["scale"]],
+      levels = vec_tier_levels
+    ),
+    resolution_id = forcats::fct(
+      x = .data[["resolution_id"]],
+      levels = vec_resolution_levels
+    ),
+    resolution_label = dplyr::case_when(
+      .data[["resolution_id"]] == "genus" ~ "Genus",
+      .data[["resolution_id"]] == "family" ~ "Family",
+      .data[["resolution_id"]] == "functional_type" ~ "Functional type"
+    ),
+    resolution_label = forcats::fct(
+      x = .data[["resolution_label"]],
+      levels = base::names(vec_colours_resolution)
+    )
+  )
+```
+
+```{r}
+#| label: plot-association-by-extent
+#| include: false
+data_association_median <-
+  data_association_share |>
+  dplyr::group_by(resolution_label, scale) |>
+  dplyr::summarise(
+    share = stats::median(.data[["association_share"]]),
+    .groups = "drop"
+  )
+
+plot_association_by_extent <-
+  ggplot2::ggplot(
+    data = data_association_share,
+    mapping = ggplot2::aes(
+      x = .data[["scale"]],
+      y = .data[["association_share"]],
+      colour = .data[["resolution_label"]]
+    )
+  ) +
+  ggplot2::facet_wrap(
+    facets = ggplot2::vars(.data[["resolution_label"]]),
+    nrow = 1
+  ) +
+  ggplot2::scale_x_discrete(
+    labels = stringr::str_to_sentence
+  ) +
+  ggplot2::scale_colour_manual(
+    values = vec_colours_resolution,
+    guide = "none"
+  ) +
+  ggplot2::labs(
+    title = "The summer pattern holds in the cross-validated models",
+    x = "Spatial extent",
+    y = "Association share (% of R²)"
+  ) +
+  ggplot2::theme_minimal() +
+  ggview::canvas(
+    width = config_canvas[["width"]],
+    height = config_canvas[["height"]],
+    units = config_canvas[["units"]],
+    dpi = config_canvas[["dpi"]],
+    bg = "white"
+  ) +
+  ggplot2::geom_point(
+    position = ggplot2::position_jitter(
+      width = 0.2,
+      height = 0,
+      seed = 900723
+    ),
+    alpha = 0.6,
+    size = 1.6
+  ) +
+  ggplot2::geom_errorbar(
+    data = data_association_median,
+    mapping = ggplot2::aes(
+      x = .data[["scale"]],
+      ymin = .data[["share"]],
+      ymax = .data[["share"]]
+    ),
+    inherit.aes = FALSE,
+    width = 0.6,
+    linewidth = 1,
+    colour = "grey15"
+  )
+
+ggview::save_ggplot(
+  plot = plot_association_by_extent,
+  file = here::here(path_figures, "third_report_association_by_extent.png")
+)
+```
+
+::: {#fig-association-extent}
+
+```{r}
+#| label: display-association-by-extent
+#| out-width: "100%"
+knitr::include_graphics(
+  path = here::here(path_figures, "third_report_association_by_extent.png")
+)
+```
+
+Association share of explained variance by spatial extent and level of biological organisation (panels), in the cross-validated models after the trait correction. This is the plot I presented at IAVS 2026 and CSPE 2026 from the 31 August 2026 snapshot, redrawn from the current models. Each point is one of the `r n_models_paleo_spatial` fossil-pollen spatial models; black bars are medians, which at continental extent rest on only two or three models per panel.
+
+:::
+
+```{r}
+#| label: config-data-preparation
+#| include: false
+# Values quoted in the data-preparation note, read from the generated
+#    configuration and the spatial grid that the pipelines use.
+list_config_paleo_spatial <-
+  vec_tier_levels |>
+  rlang::set_names() |>
+  purrr::map(
+    .f = ~ load_config(
+      config_id = stringr::str_glue("project_paleo_spatial_{.x}"),
+      file = here::here("config.yml")
+    )
+  )
+
+list_config_paleo_temporal <-
+  c("europe", "america", "asia") |>
+  rlang::set_names() |>
+  purrr::map(
+    .f = ~ load_config(
+      config_id = stringr::str_glue("project_paleo_temporal_{.x}"),
+      file = here::here("config.yml")
+    )
+  )
+
+list_config_traits <-
+  load_config(
+    config_id = "project_traits_reference",
+    file = here::here("config.yml")
+  )
+
+list_config_continental <-
+  list_config_paleo_spatial[["continental"]]
+
+vec_age_lim <-
+  list_config_continental |>
+  purrr::chuck("vegvault_data", "age_lim")
+
+time_step <-
+  list_config_continental |>
+  purrr::chuck("data_processing", "time_step")
+
+min_proportion <-
+  list_config_continental |>
+  purrr::chuck("data_processing", "minimal_proportion_of_pollen")
+
+min_n_cores <-
+  list_config_continental |>
+  purrr::chuck("data_processing", "min_n_cores")
+
+vec_min_n_samples <-
+  list_config_paleo_spatial |>
+  purrr::map_dbl(
+    .f = ~ purrr::chuck(.x, "data_processing", "min_n_samples")
+  )
+
+min_n_samples_temporal <-
+  list_config_paleo_temporal |>
+  purrr::map_dbl(
+    .f = ~ purrr::chuck(.x, "data_processing", "min_n_samples")
+  ) |>
+  base::unique()
+
+vec_n_mev <-
+  list_config_paleo_spatial |>
+  purrr::map_dbl(
+    .f = ~ purrr::chuck(.x, "model_fitting", "n_mev")
+  )
+
+n_mev_temporal <-
+  list_config_paleo_temporal |>
+  purrr::map_dbl(
+    .f = ~ purrr::chuck(.x, "model_fitting", "n_mev")
+  ) |>
+  base::unique()
+
+spatial_crs <-
+  list_config_continental |>
+  purrr::chuck("model_fitting", "spatial_crs")
+
+n_exact_max_locations <-
+  list_config_continental |>
+  purrr::chuck("model_fitting", "spatial_mev", "exact_max_locations")
+
+ft_groups_min <-
+  list_config_traits |>
+  purrr::chuck("data_processing", "ft_groups_min")
+
+ft_groups_max <-
+  list_config_traits |>
+  purrr::chuck("data_processing", "ft_groups_max")
+
+# Standard CHELSA (WorldClim) definitions of the bioclimatic variables.
+vec_bioclim_labels <-
+  c(
+    "bio1" = "mean annual temperature",
+    "bio4" = "temperature seasonality",
+    "bio6" = "minimum temperature of the coldest month",
+    "bio12" = "annual precipitation",
+    "bio15" = "precipitation seasonality",
+    "bio18" = "precipitation of the warmest quarter",
+    "bio19" = "precipitation of the coldest quarter"
+  )
+
+vec_abiotic_candidates <-
+  list_config_continental |>
+  purrr::chuck("vegvault_data", "sel_abiotic_var_name")
+
+text_abiotic_candidates <-
+  stringr::str_glue(
+    "{vec_bioclim_labels[vec_abiotic_candidates]} ({vec_abiotic_candidates})"
+  ) |>
+  knitr::combine_words(oxford_comma = FALSE)
+
+data_spatial_grid <-
+  readr::read_csv(
+    file = here::here("Data/Input/spatial_grid.csv"),
+    show_col_types = FALSE
+  )
+
+vec_n_units <-
+  data_spatial_grid |>
+  dplyr::count(.data[["scale"]]) |>
+  dplyr::pull("n", name = "scale")
+
+# Largest tile width in degrees; local tiles are all square.
+vec_tile_size <-
+  data_spatial_grid |>
+  dplyr::group_by(.data[["scale"]]) |>
+  dplyr::summarise(
+    size = base::max(.data[["x_max"]] - .data[["x_min"]])
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::pull("size", name = "scale")
+```
+
+::: {.callout-note collapse="true"}
+## Technical note: from the database to the model input
+Every step below runs inside the `{targets}` pipelines, and every value quoted here is read from the same configuration that the pipelines use.
+All data come from [VegVault](https://bit.ly/VegVault).
+
+**Analysis units.**
+The spatial units form a nested grid: `r vec_n_units[["continental"]]` continental boxes (Europe, North America, northern Asia), `r vec_n_units[["regional"]]` regional tiles of up to `r vec_tile_size[["regional"]]` × `r vec_tile_size[["regional"]]` degrees, clipped at the continent edge, and `r vec_n_units[["local"]]` local tiles of `r vec_tile_size[["local"]]` × `r vec_tile_size[["local"]]` degrees, each inside one regional tile.
+Every unit is a separate pipeline run with its own model, and a unit without enough data is skipped.
+A spatial fossil-pollen model pools all samples from `r label_count(vec_age_lim[1])` to `r label_count(vec_age_lim[2])` years BP, with age as a covariate.
+A temporal model takes one continental box and one `r time_step`-year slice: a sample enters a slice when its interpolated age equals the slice age.
+
+**Extraction.**
+For each unit, the pipeline takes the fossil-pollen archives, or for the modern models the vegetation plots (sPlotOpen and BIEN), inside the unit, and keeps fossil samples aged `r label_count(vec_age_lim[1])`–`r label_count(vec_age_lim[2])` years BP (plots have age 0).
+Each sample gets the climate of the nearest climate gridpoint stored in VegVault (CHELSA, and CHELSA-TraCE21k for the past), as provided by `{vaultkeepr}`.
+The candidate climate predictors are `r text_abiotic_candidates`.
+
+**Fossil pollen.**
+Counts become proportions of the sample's pollen sum.
+Each core is then interpolated linearly to a regular `r time_step`-year grid within its own age range, without extrapolation.
+The interpolation is repeated for every age-model iteration stored in VegVault, and the median across iterations is kept, so age uncertainty enters the interpolated values.
+Only plant taxa are kept.
+
+**Vegetation plots.**
+Plots are checked for impossible values, exact duplicates are removed, and records from the same source at identical coordinates are merged into one plot by averaging.
+Plot abundances are used as recorded, without conversion to proportions or interpolation.
+
+**Taxonomy.**
+Taxon names are matched to the GBIF taxonomy with `{taxospace}`, and a curated table overrides the automatic match where needed.
+Each taxon is resolved to genus, or keeps its coarser rank where genus is not available, and the values of taxa that merge are summed.
+Family matrices are built from the genus table in the same way.
+
+**Functional types.**
+Functional types are built once per continent and data source, from six traits: diaspore mass, leaf area, leaf mass per area, leaf nitrogen per mass, plant height and stem specific density.
+The trait records are first corrected (source-level unit errors and reviewed outliers), and each taxon then gets the median of the trait values of its species.
+Taxa are clustered hierarchically on Gower distances, with the four size-related traits log-transformed, and the number of groups (from `r ft_groups_min` to `r ft_groups_max`) is the one with the highest mean silhouette width among those that leave enough groups after the filters below.
+Regional and local models use their continent's classification, and taxa without trait data drop out of the functional-type models.
+
+**Filters.**
+These run separately for every model and level of organisation.
+A sample–taxon record is kept only if its value reaches `r min_proportion` (`r 100 * min_proportion` % of the pollen sum for fossil pollen).
+A taxon is kept only if it occurs in at least `r min_n_cores` cores or plots and in at least `r vec_min_n_samples[["local"]]` (local), `r vec_min_n_samples[["regional"]]` (regional) or `r vec_min_n_samples[["continental"]]` (continental) samples, or `r min_n_samples_temporal` per temporal slice.
+There is no cap on the number of taxa.
+
+**Climate predictors.**
+Within each unit, invariant variables are dropped and collinear ones are removed with `{collinear}`, whose correlation and variance-inflation thresholds adapt to the data, so the retained set differs between units.
+Fossil-pollen climate is interpolated to the same grid at the cores' consensus ages.
+All predictors, and age, are standardised to zero mean and unit variance.
+
+**Response matrix.**
+Only samples with community data, climate and coordinates all present enter a model, and the minimum number of samples from the filters above applies to the model as a whole as well.
+The community matrix is converted to presence–absence (present means any record left after the filters), and taxa present in all or in no samples are removed.
+
+**Spatial predictors.**
+Coordinates are projected to a metric system (EPSG:`r spatial_crs`) and turned into Moran eigenvector maps (MEMs) from the locations of all cores or plots in the unit.
+The eigenvectors come from an exact decomposition of an inverse-distance weight matrix for up to `r label_count(n_exact_max_locations)` locations, and from a Nyström approximation for more.
+A model uses the first `r vec_n_mev[["local"]]` (local), `r vec_n_mev[["regional"]]` (regional) or `r vec_n_mev[["continental"]]` (continental) eigenvectors, or `r n_mev_temporal` per temporal slice, standardised like the climate predictors.
+:::
+
+### Bigger models, more association
+
+Before building on these results, I tested how robust they are.
+I corrected errors in the trait data behind the functional types (errors inherited from the trait databases) and refitted the models, and then I rebuilt the model fitting around cross-validated calibration and refitted every spatial model, **which was a huge task that took me several months** (!!!).
+The spatial pattern held both times (@fig-association-extent; the functional-type shares rose after the trait correction, but the pattern across extents did not change).
+
+```{r}
+#| label: config-model-fitting
+#| include: false
+# Values quoted in the fitting note, read from the configuration; the
+#    cross-validation settings come from the default profile and are the
+#    same for every spatial tier.
+list_config_cv <-
+  list_config_paleo_spatial[["local"]] |>
+  purrr::chuck("model_fitting", "cross_validation")
+
+list_config_regularization <-
+  list_config_cv |>
+  purrr::chuck("regularization")
+
+alpha_penalty <-
+  list_config_regularization[
+    c("alpha_cov", "alpha_coef", "alpha_spatial")
+  ] |>
+  base::unlist() |>
+  base::unique()
+
+lambda_penalty <-
+  list_config_regularization[
+    c("lambda_cov", "lambda_coef", "lambda_spatial")
+  ] |>
+  base::unlist() |>
+  base::max()
+
+n_regularization_candidates <-
+  list_config_regularization[
+    c("lambda_cov", "lambda_coef", "lambda_spatial")
+  ] |>
+  purrr::map_int(base::length) |>
+  base::prod()
+
+default_folds <-
+  list_config_cv |>
+  purrr::chuck("default_folds")
+
+text_fold_ladder <-
+  list_config_cv |>
+  purrr::chuck("grouped_fold_ladder") |>
+  purrr::keep(.p = ~ .x > default_folds) |>
+  knitr::combine_words(oxford_comma = FALSE)
+
+n_assignment_repeats <-
+  list_config_cv |>
+  purrr::chuck("assignment_repeats")
+
+n_locations_per_cell <-
+  list_config_cv |>
+  purrr::chuck("grid", "target_locations_per_cell")
+
+vec_survivor_counts <-
+  list_config_cv |>
+  purrr::chuck("staged_search", "survivor_counts")
+
+# How each published fossil-pollen spatial model got its penalties.
+data_regularization_source <-
+  data_paleo_variance_partitioning_raw |>
+  dplyr::filter(
+    .data[["data_source"]] == "paleo",
+    .data[["component"]] == "Associations"
+  )
+
+n_models_unit_cv <-
+  data_regularization_source |>
+  dplyr::filter(.data[["regularization_source"]] == "unit_cv") |>
+  base::nrow()
+
+n_models_leave_one_out <-
+  data_regularization_source |>
+  dplyr::filter(.data[["cv_strategy"]] == "leave_one_location_out") |>
+  base::nrow()
+
+n_models_tier_pooled <-
+  data_regularization_source |>
+  dplyr::filter(.data[["regularization_source"]] == "tier_pooled") |>
+  base::nrow()
+```
+
+::: {.callout-note collapse="true"}
+## Technical note: fitting and cross-validation
+The steps below are those of the spatial models, where each model is one unit at one level of organisation; the temporal models will be refitted with the same steps.
+
+**The model.**
+Each model is a joint species distribution model fitted with `{sjSDM}` to the presence–absence matrix, with a binomial response (probit link).
+It has three parts:
+
+- **Climate**: linear effects of the retained climate predictors and, for fossil pollen, their interactions with sample age, so that a climate effect can change through time; vegetation plots, which all have age 0, have no age terms.
+- **Space**: linear effects of the Moran eigenvector maps, as a separate component.
+- **Association**: a residual covariance among all taxa, estimated through latent dimensions (the `{sjSDM}` default of about half the number of taxa).
+
+Each part has its own elastic-net penalty (mixing parameter `r alpha_penalty`), which is either off or set to λ = `r lambda_penalty`; the three penalties together give `r n_regularization_candidates` candidate settings per model.
+
+**Cross-validation design.**
+Cross-validation holds out whole locations: all samples of a pollen core, or a vegetation plot, fall in the same fold.
+Locations are grouped into grid cells sized to hold about `r n_locations_per_cell` locations each, and the locations of each cell are spread across the folds, so that every fold covers the whole unit (spatially stratified, grouped k-fold).
+A held-out location therefore has training neighbours in its own cell, so the design tests prediction at new locations within the unit, not in new regions.
+The default is `r default_folds` folds, repeated `r n_assignment_repeats` times with shifted grids.
+When a training set would fall below the minimum numbers of locations, samples or taxa from the data-preparation note, or below the locations needed for the eigenvector maps, the design moves to `r text_fold_ladder` folds and finally to leaving out one location at a time.
+
+**Choosing the penalties.**
+Each candidate setting is fitted on the training folds and scored by the held-out joint negative log-likelihood per response value.
+To keep the computing affordable, the search is staged across all units of a tier, for example all local fossil-pollen units at genus level.
+All `r n_regularization_candidates` candidates are scored on the first repeat, the best `r vec_survivor_counts[1]` across the tier (every unit weighted equally) continue to the second repeat, and the best `r vec_survivor_counts[2]` to the third.
+Each unit then takes whichever of the final `r vec_survivor_counts[2]` has the lower held-out loss on its own data, and a unit too small for any valid held-out split takes its tier's winner.
+Of the `r n_models_paleo_spatial` fossil-pollen spatial models, `r n_models_unit_cv` chose their penalties by their own cross-validation (`r n_models_leave_one_out` of them by leaving out one location at a time) and `r n_models_tier_pooled` took their tier's winner.
+
+**Iterations and convergence.**
+The number of iterations for the cross-validation fits was calibrated beforehand on the most complex unit of each tier, as the smallest budget at which the fits converged and the ranking of the candidates no longer changed with a larger one.
+A fit counts as converged when its loss has flattened over the last tenth of the iterations, and a fit that has not converged is rerun with twice as many iterations, up to a cap.
+
+**Final model.**
+The final model is refitted on all data of the unit with the selected penalties.
+Its variance is then partitioned with the `{sjSDM}` ANOVA, which refits the model with each combination of the three components; the scale of the shares and the treatment of shared fractions are described in the technical note "The scale of the partition" below.
+The completion audits found every final spatial model converged.
+For models with their own cross-validation, I also record held-out performance (AUC, Tjur R², log loss) from the out-of-fold predictions of the selected setting.
+:::
+
+Then, in a further battery of checks on what drives the association share, I found that the **matrix size** (how many taxa a model contains) is a major driver of the association share (!!!).
+
+```{r}
+#| label: model-matrix-size
+#| include: false
+mod_share_taxa <-
+  stats::lm(
+    formula = association_share ~ log_n_taxa,
+    data = data_association_share
+  )
+
+r2_share_taxa <-
+  broom::glance(mod_share_taxa) |>
+  dplyr::pull("r.squared")
+
+# The model with every design factor, used to adjust the tier medians to
+#    an equal number of taxa.
+mod_share_full <-
+  stats::lm(
+    formula = association_share ~
+      log_n_taxa + resolution_id + scale + continent_id,
+    data = data_association_share
+  )
+```
+
+```{r}
+#| label: model-matrix-size-deviance
+#| include: false
+# The same shares rebuilt from the deviance explained by each component,
+#    written by the per-taxon partition diagnostic in
+#    R/03_Supplementary_analyses/Diagnostics/Modelling/
+#    Variance_partitioning/Taxon_partition/.
+path_taxon_partition <-
+  here::here("Outputs/Tables/Diagnostics/Taxon_variance_partition")
+
+data_share_definitions <-
+  readr::read_csv(
+    file = here::here(
+      path_taxon_partition,
+      "model_share_definitions_2026-11-06.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+data_association_share_deviance <-
+  data_share_definitions |>
+  dplyr::filter(
+    .data[["data_source"]] == "paleo",
+    .data[["scale"]] %in% vec_tier_levels,
+    .data[["definition"]] == "deviance_clamped"
+  ) |>
+  dplyr::mutate(
+    association_share = 100 * .data[["association_share"]],
+    climate_balance = 100 * .data[["climate_balance"]],
+    log_n_taxa = base::log(.data[["n_taxa"]]),
+    resolution_label = dplyr::case_when(
+      .data[["resolution_id"]] == "genus" ~ "Genus",
+      .data[["resolution_id"]] == "family" ~ "Family",
+      .data[["resolution_id"]] == "functional_type" ~ "Functional type"
+    ),
+    resolution_label = forcats::fct(
+      x = .data[["resolution_label"]],
+      levels = base::names(vec_colours_resolution)
+    )
+  )
+
+r2_share_taxa_deviance <-
+  stats::lm(
+    formula = association_share ~ log_n_taxa,
+    data = data_association_share_deviance
+  ) |>
+  broom::glance() |>
+  dplyr::pull("r.squared")
+```
+
+```{r}
+#| label: compare-tier-gradient
+#| include: false
+vec_median_taxa_by_tier <-
+  data_association_share |>
+  dplyr::group_by(scale) |>
+  dplyr::summarise(
+    median_n_taxa = stats::median(.data[["n_taxa"]])
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::pull("median_n_taxa", name = "scale")
+
+n_taxa_common <-
+  data_association_share |>
+  dplyr::pull("n_taxa") |>
+  stats::median()
+
+# Raw genus-level medians against model-adjusted genus-level shares at the
+#    pooled median taxon number, averaged over continents.
+data_tier_raw <-
+  data_association_share |>
+  dplyr::filter(.data[["resolution_id"]] == "genus") |>
+  dplyr::group_by(scale) |>
+  dplyr::summarise(
+    share = stats::median(.data[["association_share"]])
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(
+    estimate = "Raw median"
+  )
+
+data_tier_newdata <-
+  tidyr::expand_grid(
+    scale = forcats::fct(
+      x = vec_tier_levels,
+      levels = vec_tier_levels
+    ),
+    resolution_id = forcats::fct(
+      x = "genus",
+      levels = vec_resolution_levels
+    ),
+    continent_id = data_association_share |>
+      dplyr::distinct(.data[["continent_id"]]) |>
+      dplyr::pull("continent_id"),
+    log_n_taxa = base::log(n_taxa_common)
+  )
+
+data_tier_adjusted <-
+  data_tier_newdata |>
+  dplyr::mutate(
+    share = stats::predict(
+      object = mod_share_full,
+      newdata = data_tier_newdata
+    )
+  ) |>
+  dplyr::group_by(scale) |>
+  dplyr::summarise(
+    share = base::mean(.data[["share"]])
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(
+    estimate = "At equal taxon number"
+  )
+```
+
+```{r}
+#| label: plot-matrix-size
+#| include: false
+data_tier_gradient <-
+  dplyr::bind_rows(
+    data_tier_raw,
+    data_tier_adjusted
+  ) |>
+  dplyr::mutate(
+    estimate = forcats::fct(
+      x = .data[["estimate"]],
+      levels = c("Raw median", "At equal taxon number")
+    )
+  )
+
+plot_share_taxa <-
+  ggplot2::ggplot(
+    data = data_association_share,
+    mapping = ggplot2::aes(
+      x = .data[["n_taxa"]],
+      y = .data[["association_share"]],
+      colour = .data[["resolution_label"]]
+    )
+  ) +
+  ggplot2::scale_x_continuous(
+    transform = "log",
+    breaks = c(3, 5, 10, 20, 50)
+  ) +
+  ggplot2::scale_colour_manual(
+    values = vec_colours_resolution
+  ) +
+  ggplot2::labs(
+    title = "The association share tracks the number of taxa",
+    x = "Taxa in the model (log scale)",
+    y = "Association share (% of R\u00b2)",
+    colour = NULL
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.2, 0.85)
+  ) +
+  ggplot2::geom_point(
+    alpha = 0.7,
+    size = 1.6
+  ) +
+  ggplot2::geom_smooth(
+    method = "lm",
+    formula = y ~ x,
+    se = FALSE,
+    linewidth = 0.9
+  )
+
+plot_tier_gradient <-
+  ggplot2::ggplot(
+    data = data_tier_gradient,
+    mapping = ggplot2::aes(
+      x = .data[["scale"]],
+      y = .data[["share"]],
+      colour = .data[["estimate"]],
+      group = .data[["estimate"]]
+    )
+  ) +
+  ggplot2::scale_x_discrete(
+    labels = stringr::str_to_sentence
+  ) +
+  ggplot2::scale_colour_manual(
+    values = c(
+      "Raw median" = "grey50",
+      "At equal taxon number" = "#8e3b8e"
+    )
+  ) +
+  ggplot2::labs(
+    title = "Equal taxon number reverses the gradient",
+    x = "Spatial extent",
+    y = "Association share (% of R\u00b2)",
+    colour = NULL
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.3, 0.9)
+  ) +
+  ggplot2::geom_line(
+    linewidth = 1
+  ) +
+  ggplot2::geom_point(
+    size = 2.6
+  )
+
+plot_matrix_size <-
+  cowplot::plot_grid(
+    plot_share_taxa,
+    plot_tier_gradient,
+    ncol = 2,
+    labels = c("a", "b")
+  ) +
+  ggview::canvas(
+    width = config_canvas[["width"]],
+    height = config_canvas[["height"]],
+    units = config_canvas[["units"]],
+    dpi = config_canvas[["dpi"]],
+    bg = "white"
+  )
+
+ggview::save_ggplot(
+  plot = plot_matrix_size,
+  file = here::here(path_figures, "third_report_matrix_size.png")
+)
+```
+
+Across the `r n_models_paleo_spatial` fossil-pollen spatial models, the more taxa a model holds, the larger the share of its explained variance that goes to residual association, at every taxonomic resolution (@fig-matrix-size a).
+Ecologically this makes sense: a taxon modelled together with 50 others has more partners that can carry information about it than a taxon modelled with 10.
+But it means that the *amount* of residual association cannot be compared directly between models that hold different numbers of taxa, and it explains the unexpected spatial pattern above: continental units simply carry more taxa than local ones (median `r vec_median_taxa_by_tier[["continental"]]` against `r vec_median_taxa_by_tier[["local"]]`).
+At an equal number of taxa, the gradient reverses into the decline with extent that I originally expected (@fig-matrix-size b).
+
+::: {#fig-matrix-size}
+
+```{r}
+#| label: display-matrix-size
+#| out-width: "100%"
+knitr::include_graphics(
+  path = here::here(path_figures, "third_report_matrix_size.png")
+)
+```
+
+The matrix-size effect. (a) Association share of explained variance against the number of taxa in each fossil spatial model, by taxonomic resolution, with least-squares lines. (b) Genus-level association share by spatial extent: raw medians (grey) and values adjusted to an equal number of taxa (`r n_taxa_common`, the median over all models) with a model that holds taxon number, resolution, extent and continent (purple).
+
+:::
+
+To my knowledge this matrix-size effect has not been reported before, and I consider it a result in its own right.
+It does not make the scale question unanswerable; it says that a comparison across scales has to hold the taxa constant, and that is how the next section is built.
+
+```{r}
+#| label: count-negative-shared-fraction
+#| include: false
+# Share of spatial models in which the fraction shared by climate, space
+#    and associations together (F_ABS) has a negative deviance.
+vec_pct_negative_three_way <-
+  readr::read_csv(
+    file = here::here(
+      path_taxon_partition,
+      "model_variance_partition_2026-11-06.csv"
+    ),
+    show_col_types = FALSE
+  ) |>
+  dplyr::filter(
+    .data[["scale"]] %in% vec_tier_levels,
+    .data[["fraction"]] == "F_ABS"
+  ) |>
+  dplyr::group_by(.data[["data_source"]]) |>
+  dplyr::summarise(
+    pct_negative = 100 * base::mean(.data[["deviance"]] < 0)
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::pull("pct_negative", name = "data_source") |>
+  base::round(digits = 0)
+```
+
+::: {.callout-note collapse="true"}
+## Technical note: the scale of the partition
+The association share is computed from Nagelkerke R², which rises towards 1 as taxa are added to a model, so I repeated the check on the deviance explained by each component, which adds up across taxa.
+On that scale the relation holds as well (log taxon number explains R² = `r round(r2_share_taxa_deviance, 2)` of the association share, against R² = `r round(r2_share_taxa, 2)` on the Nagelkerke scale), so the matrix-size effect is not produced by the R² transform, and I will report both scales in the manuscript.
+The partition itself also needs a decision: the fraction shared by climate, space and associations together is negative in almost every spatial model (`r base::min(vec_pct_negative_three_way)` % or more of them in both data sources), and the current rule sets negative fractions to zero and splits shared ones equally among the three components.
+:::
+
+## The ecological questions the paper will answer {#sec-direction}
+
+The aim remains objective 2: how the assembly of vegetation depends on spatial, temporal and taxonomic scale.
+The matrix-size effect tells me how that question has to be measured, and the fitted models hold a second kind of information that I had not planned to use.
+The paper on the assembly of vegetation since the Last Glacial Maximum therefore has two parts that draw on the same set of models:
+
+1. **Drivers** (the original aim): how much climate, spatial structure and residual association each contribute, and how that changes with spatial extent, through time and with the level of biological organisation.
+2. **Structure** (new): what the residual association consists of, that is the taxon × taxon matrix itself, how long it stays recognisable, and how fast it is rewired compared with the rate of compositional change.
+
+The first part gives the weight of each driver, and the second the content of the association component.
+
+### Does association weaken with extent? {#sec-drivers}
+
+```{r}
+#| label: fit-nested-extent
+#| include: false
+# Each spatial unit against the unit that contains it, on the genera both
+#    models hold, from the per-taxon partition diagnostic (see the
+#    model-matrix-size-deviance chunk). Deviance scale, shared fractions
+#    split equally among the components.
+data_nested_extent <-
+  readr::read_csv(
+    file = here::here(
+      path_taxon_partition,
+      "nested_extent_contrasts_2026-11-06.csv"
+    ),
+    show_col_types = FALSE
+  ) |>
+  dplyr::filter(
+    .data[["resolution_id"]] == "genus",
+    .data[["definition"]] == "equal_split",
+    .data[["transition"]] != "3 local to continental",
+    base::is.finite(.data[["association_difference_shared"]])
+  ) |>
+  dplyr::mutate(
+    difference = 100 * .data[["association_difference_shared"]],
+    data_source_label = dplyr::case_when(
+      .data[["data_source"]] == "paleo" ~ "Fossil pollen",
+      .data[["data_source"]] == "modern" ~ "Modern plots"
+    ),
+    child_tier = dplyr::case_when(
+      .data[["transition"]] == "1 local to regional" ~ "local",
+      .data[["transition"]] == "2 regional to continental" ~ "regional"
+    ),
+    transition_label = dplyr::case_when(
+      .data[["child_tier"]] == "local" ~ "Local to regional",
+      .data[["child_tier"]] == "regional" ~ "Regional to continental"
+    ),
+    contrast_id = stringr::str_c(
+      .data[["data_source"]],
+      .data[["child_tier"]],
+      sep = "_"
+    )
+  )
+
+# Per data source and step in extent: the median difference, and a
+#    regression of the difference on the log ratio of taxon numbers.
+#    Its intercept is the difference expected when parent and child
+#    models hold equally many taxa.
+data_nested_extent_fits <-
+  data_nested_extent |>
+  tidyr::nest(
+    data_group = -dplyr::all_of(
+      c("contrast_id", "data_source_label", "transition_label")
+    )
+  ) |>
+  dplyr::mutate(
+    n_units = purrr::map_int(
+      .x = .data[["data_group"]],
+      .f = ~ base::nrow(.x)
+    ),
+    n_parents = purrr::map_int(
+      .x = .data[["data_group"]],
+      .f = ~ dplyr::n_distinct(.x[["scale_id_parent"]])
+    ),
+    median_difference = purrr::map_dbl(
+      .x = .data[["data_group"]],
+      .f = ~ stats::median(.x[["difference"]])
+    ),
+    data_fit = purrr::map(
+      .x = .data[["data_group"]],
+      .f = ~ stats::lm(
+        formula = difference ~ log_size_ratio,
+        data = .x
+      ) |>
+        broom::tidy(conf.int = TRUE) |>
+        janitor::clean_names()
+    )
+  ) |>
+  dplyr::select(-"data_group") |>
+  tidyr::unnest(cols = "data_fit") |>
+  dplyr::arrange(
+    .data[["data_source_label"]],
+    .data[["transition_label"]]
+  )
+
+# Fitted lines from a ratio of 1 (equal size) to the largest observed ratio,
+#    and the fitted value at equal size.
+data_nested_extent_coefficients <-
+  data_nested_extent_fits |>
+  dplyr::select(
+    "contrast_id",
+    "data_source_label",
+    "transition_label",
+    "term",
+    "estimate"
+  ) |>
+  tidyr::pivot_wider(
+    names_from = "term",
+    values_from = "estimate"
+  ) |>
+  dplyr::rename(
+    intercept = "(Intercept)",
+    slope = "log_size_ratio"
+  )
+
+data_nested_extent_lines <-
+  data_nested_extent |>
+  dplyr::group_by(.data[["contrast_id"]]) |>
+  dplyr::summarise(
+    log_size_ratio_max = base::max(.data[["log_size_ratio"]])
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::inner_join(
+    y = data_nested_extent_coefficients,
+    by = "contrast_id"
+  ) |>
+  dplyr::mutate(
+    log_size_ratio = purrr::map(
+      .x = .data[["log_size_ratio_max"]],
+      .f = ~ base::seq(from = 0, to = .x, length.out = 50)
+    )
+  ) |>
+  tidyr::unnest(cols = "log_size_ratio") |>
+  dplyr::mutate(
+    size_ratio = base::exp(.data[["log_size_ratio"]]),
+    difference = .data[["intercept"]] +
+      .data[["slope"]] * .data[["log_size_ratio"]]
+  )
+
+data_nested_extent_equal_size <-
+  data_nested_extent_coefficients |>
+  dplyr::mutate(
+    size_ratio = 1,
+    difference = .data[["intercept"]]
+  )
+
+# One label per panel with the number of units and of parent units.
+data_nested_extent_counts <-
+  data_nested_extent_fits |>
+  dplyr::filter(.data[["term"]] == "(Intercept)") |>
+  dplyr::group_by(.data[["data_source_label"]]) |>
+  dplyr::summarise(
+    label = stringr::str_c(
+      stringr::str_glue(
+        "{.data[['transition_label']]}: {.data[['n_units']]} units ",
+        "in {.data[['n_parents']]} parent units"
+      ),
+      collapse = "\n"
+    )
+  ) |>
+  dplyr::ungroup()
+```
+
+::: {.callout-warning}
+## First look
+The results below come from an exploratory diagnostic that I wrote this week, at genus level.
+Units that share a parent are not independent, so any interval would be too narrow.
+The value "at equal model size" is a regression intercept.
+In fossil pollen it is an extrapolation, because every parent model holds noticeably more taxa than its child; in modern plots, several local units sit close to equal size and show the decline directly, but from regional to continental the value is extrapolated as well.
+The continental tier has very few models (see the counts in @fig-nested-extent).
+They should not be quoted yet.
+:::
+
+```{r}
+#| label: plot-nested-extent
+#| include: false
+vec_colours_transition <-
+  c(
+    "Local to regional" = "#1f8a70",
+    "Regional to continental" = "#e08a00"
+  )
+
+plot_nested_extent <-
+  ggplot2::ggplot(
+    data = data_nested_extent |>
+      dplyr::mutate(
+        size_ratio = base::exp(.data[["log_size_ratio"]])
+      ),
+    mapping = ggplot2::aes(
+      x = .data[["size_ratio"]],
+      y = .data[["difference"]],
+      colour = .data[["transition_label"]]
+    )
+  ) +
+  ggplot2::facet_wrap(
+    facets = ggplot2::vars(.data[["data_source_label"]])
+  ) +
+  ggplot2::scale_x_continuous(
+    transform = "log",
+    breaks = c(1, 2, 5, 10, 20)
+  ) +
+  ggplot2::scale_colour_manual(
+    values = vec_colours_transition
+  ) +
+  ggplot2::labs(
+    title = stringr::str_c(
+      "Same genera: the rise follows model size; ",
+      "at equal size, only plots decline"
+    ),
+    x = "Taxa in the parent model / taxa in the child model (log scale)",
+    y = "Difference in association share (pp)",
+    colour = NULL
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "bottom"
+  ) +
+  ggview::canvas(
+    width = config_canvas[["width"]],
+    height = config_canvas[["height"]],
+    units = config_canvas[["units"]],
+    dpi = config_canvas[["dpi"]],
+    bg = "white"
+  ) +
+  ggplot2::geom_hline(
+    yintercept = 0,
+    colour = "grey60"
+  ) +
+  ggplot2::geom_vline(
+    xintercept = 1,
+    colour = "grey60",
+    linetype = "dashed"
+  ) +
+  ggplot2::geom_point(
+    alpha = 0.6,
+    size = 1.8
+  ) +
+  ggplot2::geom_line(
+    data = data_nested_extent_lines,
+    linewidth = 1.1
+  ) +
+  ggplot2::geom_point(
+    data = data_nested_extent_equal_size,
+    shape = 21,
+    fill = "white",
+    size = 4.5,
+    stroke = 1.8
+  ) +
+  ggplot2::geom_text(
+    data = data_nested_extent_counts,
+    mapping = ggplot2::aes(
+      x = 1,
+      y = Inf,
+      label = .data[["label"]]
+    ),
+    inherit.aes = FALSE,
+    hjust = 0,
+    vjust = 1.4,
+    size = 3,
+    colour = "grey30"
+  )
+
+ggview::save_ggplot(
+  plot = plot_nested_extent,
+  file = here::here(path_figures, "third_report_nested_extent.png")
+)
+```
+
+To ask the original question without the matrix-size effect, I follow the **same genera** from a local unit to the region and the continent that contain it, and compare how much of their variance each model gives to residual association.
+For the same genera, the larger extent mostly gives a higher association share in both data sources, but the difference grows with how many more taxa the parent model holds, so most of it is the matrix-size effect again (@fig-nested-extent).
+At equal model size (open circles), the difference is about zero in fossil pollen and negative in modern vegetation plots, that is, a decline of association with extent.
+One possible reading, which I do not claim yet, is that the scale-dependence of associations is visible in vegetation plots, which record fine-grain co-occurrence, and blurred in pollen, which integrates over a catchment and over time.
+
+::: {#fig-nested-extent}
+
+```{r}
+#| label: display-nested-extent
+#| out-width: "100%"
+knitr::include_graphics(
+  path = here::here(path_figures, "third_report_nested_extent.png")
+)
+```
+
+Association share of the same genera in a unit and in the unit that contains it (parent minus child, percentage points, deviance scale), against how many more taxa the parent model holds. Each point is one child unit; lines are least-squares fits on the log ratio; open circles mark the fitted difference at equal model size (ratio 1, dashed line).
+
+:::
+
+::: {.callout-note collapse="true"}
+## Technical note: the same taxa across nested units
+Every stored variance partition holds the contribution of each single taxon, not only the model totals, and every local unit sits inside one region and every region inside one continent, each with its own model.
+The comparison therefore reads the per-taxon partition of the existing fits; nothing is refitted and no taxon is removed from any model, because a joint model rests on the idea that taxa carry information about each other, and taking taxa out to make the models equal in size would work against that.
+The value at equal model size is the intercept of a least-squares regression of the difference on the log ratio of taxon numbers, fitted separately for each data source and step in extent.
+:::
+
+### Do climate and space trade off across scales?
+
+```{r}
+#| label: fit-climate-balance
+#| include: false
+# Climate part divided by the sum of the climate and space parts, on the
+#    deviance scale (data from the model-matrix-size-deviance chunk).
+r2_balance_taxa_deviance <-
+  stats::lm(
+    formula = climate_balance ~ log_n_taxa,
+    data = data_association_share_deviance
+  ) |>
+  broom::glance() |>
+  dplyr::pull("r.squared")
+```
+
+```{r}
+#| label: plot-climate-balance
+#| include: false
+plot_climate_balance <-
+  ggplot2::ggplot(
+    data = data_association_share_deviance,
+    mapping = ggplot2::aes(
+      x = .data[["n_taxa"]],
+      y = .data[["climate_balance"]],
+      colour = .data[["resolution_label"]]
+    )
+  ) +
+  ggplot2::scale_x_continuous(
+    transform = "log",
+    breaks = c(3, 5, 10, 20, 50)
+  ) +
+  ggplot2::scale_y_continuous(
+    limits = c(0, 100)
+  ) +
+  ggplot2::scale_colour_manual(
+    values = vec_colours_resolution
+  ) +
+  ggplot2::labs(
+    title = "The climate-to-space balance does not track the number of taxa",
+    x = "Taxa in the model (log scale)",
+    y = "Climate / (climate + space) (%)",
+    colour = NULL
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.85, 0.15)
+  ) +
+  ggview::canvas(
+    width = config_canvas[["width"]],
+    height = config_canvas[["height"]],
+    units = config_canvas[["units"]],
+    dpi = config_canvas[["dpi"]],
+    bg = "white"
+  ) +
+  ggplot2::geom_point(
+    alpha = 0.7,
+    size = 1.6
+  ) +
+  ggplot2::geom_smooth(
+    method = "lm",
+    formula = y ~ x,
+    se = FALSE,
+    linewidth = 0.9
+  )
+
+ggview::save_ggplot(
+  plot = plot_climate_balance,
+  file = here::here(path_figures, "third_report_climate_balance.png")
+)
+```
+
+The other half of the drivers question, how much of the explained variance goes to climate and how much to spatial structure, does not suffer from the matrix-size effect: the balance between the two hardly depends on how many taxa a model holds (@fig-climate-balance).
+That side of the question can therefore be compared between models as they are, across extents, through time and across levels of organisation.
+
+::: {#fig-climate-balance}
+
+```{r}
+#| label: display-climate-balance
+#| out-width: "100%"
+knitr::include_graphics(
+  path = here::here(path_figures, "third_report_climate_balance.png")
+)
+```
+
+Climate part divided by the sum of the climate and space parts, against the number of taxa in each fossil spatial model (deviance scale), by taxonomic resolution, with least-squares lines; log taxon number explains R² = `r round(r2_balance_taxa_deviance, 2)` of its variation.
+
+:::
+
+### Through time and across levels of organisation
+
+```{r}
+#| label: prepare-temporal-shares
+#| include: false
+# One row per 500-year temporal model. The "published" definition is the
+#    Nagelkerke share used for the spatial models in
+#    fig-association-extent, so the two figures are comparable.
+vec_colours_continent_temporal <-
+  c(
+    vec_colours_continent,
+    "Northern Asia" = "#2a8f8f"
+  )
+
+data_temporal_shares <-
+  data_share_definitions |>
+  dplyr::filter(
+    .data[["scale"]] == "temporal",
+    .data[["definition"]] == "published"
+  ) |>
+  dplyr::mutate(
+    association_share = 100 * .data[["association_share"]],
+    age_kyr = .data[["age"]] / 1000,
+    continent_label = dplyr::case_when(
+      .data[["continent_id"]] == "america" ~ "North America",
+      .data[["continent_id"]] == "europe" ~ "Europe",
+      .data[["continent_id"]] == "asia" ~ "Northern Asia"
+    ),
+    continent_label = forcats::fct(
+      x = .data[["continent_label"]],
+      levels = base::names(vec_colours_continent_temporal)
+    )
+  )
+```
+
+```{r}
+#| label: plot-association-through-time
+#| include: false
+plot_association_through_time <-
+  ggplot2::ggplot(
+    data = data_temporal_shares,
+    mapping = ggplot2::aes(
+      x = .data[["age_kyr"]],
+      y = .data[["association_share"]],
+      colour = .data[["continent_label"]]
+    )
+  ) +
+  ggplot2::scale_x_reverse() +
+  ggplot2::scale_colour_manual(
+    values = vec_colours_continent_temporal
+  ) +
+  ggplot2::labs(
+    title = "Through time: low shares in the oldest slices, little trend after",
+    x = "Age of the slice (kyr BP)",
+    y = "Association share (% of R²)",
+    colour = NULL
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "bottom"
+  ) +
+  ggview::canvas(
+    width = config_canvas[["width"]],
+    height = config_canvas[["height"]],
+    units = config_canvas[["units"]],
+    dpi = config_canvas[["dpi"]],
+    bg = "white"
+  ) +
+  ggplot2::geom_line(
+    linewidth = 1
+  ) +
+  ggplot2::geom_point(
+    size = 2
+  )
+
+ggview::save_ggplot(
+  plot = plot_association_through_time,
+  file = here::here(path_figures, "third_report_association_through_time.png")
+)
+```
+
+For time and biological organisation, the association share runs into the same matrix-size effect, and the design that gets around it is not settled yet.
+
+Through time, the association share of the continental slice models is lowest in the oldest slices of Europe and North America and roughly level after that, while in northern Asia it is lower overall and fluctuates (@fig-association-time).
+These temporal models are still my first fits from June 2026, without the cross-validated penalties, and I will refit them with the same workflow as the spatial models.
+
+::: {#fig-association-time}
+
+```{r}
+#| label: display-association-through-time
+#| out-width: "100%"
+knitr::include_graphics(
+  path = here::here(path_figures, "third_report_association_through_time.png")
+)
+```
+
+Association share of explained variance in each 500-year temporal model against the age of its slice, by continent; the temporal counterpart of @fig-association-extent.
+
+:::
+
+But the number of taxa in a slice rises toward the present as well (@fig-taxa-through-time a), which confirms the diversity trends reported by Gordon et al. 2024, and the slices and the continent with the fewest taxa have the lowest shares (@fig-taxa-through-time b), so a trend of the share through time cannot yet be separated from matrix size.
+
+```{r}
+#| label: plot-taxa-through-time
+#| include: false
+plot_taxa_through_time <-
+  ggplot2::ggplot(
+    data = data_temporal_shares,
+    mapping = ggplot2::aes(
+      x = .data[["age_kyr"]],
+      y = .data[["n_taxa"]],
+      colour = .data[["continent_label"]]
+    )
+  ) +
+  ggplot2::scale_x_reverse() +
+  ggplot2::scale_colour_manual(
+    values = vec_colours_continent_temporal
+  ) +
+  ggplot2::labs(
+    title = "More taxa toward the present",
+    x = "Age of the slice (kyr BP)",
+    y = "Taxa in the model",
+    colour = NULL
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.2, 0.85)
+  ) +
+  ggplot2::geom_line(
+    linewidth = 1
+  ) +
+  ggplot2::geom_point(
+    size = 2
+  )
+
+plot_share_taxa_through_time <-
+  ggplot2::ggplot(
+    data = data_temporal_shares,
+    mapping = ggplot2::aes(
+      x = .data[["n_taxa"]],
+      y = .data[["association_share"]],
+      colour = .data[["continent_label"]]
+    )
+  ) +
+  ggplot2::scale_x_continuous(
+    transform = "log",
+    breaks = c(5, 10, 20, 50)
+  ) +
+  ggplot2::scale_colour_manual(
+    values = vec_colours_continent_temporal,
+    guide = "none"
+  ) +
+  ggplot2::labs(
+    title = "Fewest taxa, lowest shares",
+    x = "Taxa in the model (log scale)",
+    y = "Association share (% of R²)"
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::geom_point(
+    alpha = 0.7,
+    size = 2
+  )
+
+plot_taxa_time_combined <-
+  cowplot::plot_grid(
+    plot_taxa_through_time,
+    plot_share_taxa_through_time,
+    ncol = 2,
+    labels = c("a", "b")
+  ) +
+  ggview::canvas(
+    width = config_canvas[["width"]],
+    height = config_canvas[["height"]],
+    units = config_canvas[["units"]],
+    dpi = config_canvas[["dpi"]],
+    bg = "white"
+  )
+
+ggview::save_ggplot(
+  plot = plot_taxa_time_combined,
+  file = here::here(path_figures, "third_report_taxa_through_time.png")
+)
+```
+
+::: {#fig-taxa-through-time}
+
+```{r}
+#| label: display-taxa-through-time
+#| out-width: "100%"
+knitr::include_graphics(
+  path = here::here(path_figures, "third_report_taxa_through_time.png")
+)
+```
+
+The matrix-size effect through time. (a) Number of taxa in each 500-year temporal model against the age of its slice, by continent; the rise toward the present confirms the diversity trends reported by Gordon et al. 2024 (*Nature Ecology & Evolution*). (b) Association share of the same models against their number of taxa.
+
+:::
+
+Across levels of organisation, the association share falls from genus to family to functional type (@fig-association-extent), but the number of groups in a model falls by construction in the same order (@fig-matrix-size a).
+Here the same-taxa comparison does not carry over either, because a genus and its family are different rows of different models.
+
+::: {.callout-note collapse="true"}
+## Technical note: candidate designs
+For time, one candidate is to refit the slices on a fixed set of taxa per continent, which is affordable because the fossil continental fits are cheap; the other is to follow the same taxa through the existing slices, as in the spatial comparison.
+For biological organisation, one candidate is to compare each family or functional-type model with models fitted on random groupings of the same size.
+Both are among the open questions in @sec-open-questions.
+:::
+
+### How long does community organisation persist? {#sec-structure}
+
+The second part asks not how *much* residual structure there is, but what it consists of.
+Every fitted model contains a taxon × taxon residual correlation matrix: the co-occurrence left **after** the climate and spatial components have been accounted for.
+Two such matrices can be compared between any two models, and their similarity does not depend on how much variance the association component explains, so this asks objective 2 in a second way and in units that can be compared: **over what separation does the residual co-occurrence structure of plant communities remain recognisable?**
+
+::: {.callout-note collapse="true"}
+## Technical note: how I compare two matrices
+The matrix is an estimated parameter of the model (from `sjSDM::getCor()`), not the input community data.
+I treat two matrices as a community ecologist treats two localities: both are placed on the union of their taxa, a taxon that is absent from a model gets zero association there (as an absent species gets zero abundance), and the off-diagonal elements are correlated.
+This default counts both the rewiring among taxa that stay and the turnover of taxa between the two models (the whole-network dissimilarity of Poisot et al. 2012, *Ecology Letters*).
+Two supporting versions isolate the rewiring part: the same statistic on the shared taxa only, and on a fixed number of shared taxa drawn at random.
+The difference between the default and the shared-taxa version is the turnover contribution.
+:::
+
+Time is the backbone of this part, because the temporal models are fitted at continental extent per 500-year slice, share most of their taxa and sites from one slice to the next, and have similar matrix sizes, so the comparison is clean.
+
+::: {.callout-warning}
+## Preliminary
+These numbers come from my first exploration with a quick export script on the June 2026 temporal fits, and they use the shared-taxa version of the similarity, not the union default described in the technical note above.
+I will recompute them with tested code from the refitted models, and they mean little until the validity checks in @sec-gate are done.
+They should not be quoted yet.
+:::
+
+```{r}
+#| label: fit-temporal-decay
+#| include: false
+# Decay curves are fitted only beyond this lag, as in the planning analysis,
+#    because adjacent slices share most of their sites.
+lag_min_fit_kyr <- 2
+
+# Probability of a single pair exceeding its own 97.5th percentile by chance.
+pct_chance_exceedance <- 2.5
+
+data_lag_similarity <-
+  readr::read_csv(
+    file = here::here(
+      "Documentation/Manuscript/planning_2026-10/data",
+      "lag_similarity.csv"
+    ),
+    show_col_types = FALSE
+  ) |>
+  dplyr::mutate(
+    lag_kyr = .data[["lag"]] / 1000,
+    continent_label = dplyr::case_when(
+      .data[["continent"]] == "america" ~ "North America",
+      .data[["continent"]] == "europe" ~ "Europe"
+    ),
+    continent_label = forcats::fct(
+      x = .data[["continent_label"]],
+      levels = base::names(vec_colours_continent)
+    ),
+    is_above_null = .data[["obs"]] > .data[["null_hi"]],
+    lag_bin = dplyr::case_when(
+      .data[["lag_kyr"]] <= 1.5 ~ "0.5\u20131.5",
+      .data[["lag_kyr"]] <= 4 ~ "2\u20134",
+      .data[["lag_kyr"]] <= 8 ~ "4.5\u20138",
+      .data[["lag_kyr"]] <= 13 ~ "8.5\u201313",
+      .default = "13.5\u201320"
+    ),
+    lag_bin = forcats::fct(
+      x = .data[["lag_bin"]],
+      levels = c(
+        "0.5\u20131.5", "2\u20134", "4.5\u20138", "8.5\u201313", "13.5\u201320"
+      )
+    )
+  )
+
+data_slice_counts <-
+  data_lag_similarity |>
+  dplyr::group_by(continent_label) |>
+  dplyr::summarise(
+    n_pairs = dplyr::n(),
+    n_slices = dplyr::n_distinct(
+      c(.data[["a1"]], .data[["a2"]])
+    )
+  ) |>
+  dplyr::ungroup()
+
+vec_n_slices <-
+  data_slice_counts |>
+  dplyr::pull("n_slices", name = "continent_label")
+
+n_pairs_total <-
+  data_slice_counts |>
+  dplyr::pull("n_pairs") |>
+  base::sum()
+
+vec_continents <- base::levels(data_lag_similarity[["continent_label"]])
+
+# Exponential decay towards a floor: similarity = floor + amplitude *
+#    exp(-lag / tau); the half-life is tau * log(2).
+list_decay_fits <-
+  vec_continents |>
+  rlang::set_names() |>
+  purrr::map(
+    .f = ~ stats::nls(
+      formula = obs ~ floor_value + amplitude * base::exp(-lag_kyr / tau_kyr),
+      data = data_lag_similarity |>
+        dplyr::filter(
+          .data[["continent_label"]] == .x,
+          .data[["lag_kyr"]] >= lag_min_fit_kyr
+        ),
+      start = list(
+        floor_value = 0.1,
+        amplitude = 0.5,
+        tau_kyr = 3
+      )
+    )
+  )
+
+data_decay_coefficients <-
+  list_decay_fits |>
+  purrr::map(
+    .f = ~ broom::tidy(.x)
+  ) |>
+  purrr::list_rbind(names_to = "continent_label") |>
+  dplyr::select("continent_label", "term", "estimate") |>
+  tidyr::pivot_wider(
+    names_from = "term",
+    values_from = "estimate"
+  ) |>
+  dplyr::mutate(
+    half_life_kyr = .data[["tau_kyr"]] * base::log(2),
+    similarity_at_zero = .data[["floor_value"]] + .data[["amplitude"]]
+  )
+
+vec_half_life_kyr <-
+  data_decay_coefficients |>
+  dplyr::pull("half_life_kyr", name = "continent_label")
+
+data_exceedance <-
+  data_lag_similarity |>
+  dplyr::group_by(continent_label, lag_bin) |>
+  dplyr::summarise(
+    pct_above_null = 100 * base::mean(.data[["is_above_null"]]),
+    .groups = "drop"
+  )
+```
+
+```{r}
+#| label: plot-temporal-decay
+#| include: false
+data_decay_curves <-
+  list_decay_fits |>
+  purrr::imap(
+    .f = ~ {
+      data_grid <-
+        tibble::tibble(
+          lag_kyr = base::seq(
+            from = lag_min_fit_kyr,
+            to = data_lag_similarity |>
+              dplyr::filter(.data[["continent_label"]] == .y) |>
+              dplyr::pull("lag_kyr") |>
+              base::max(),
+            by = 0.1
+          )
+        )
+
+      data_grid |>
+        dplyr::mutate(
+          obs = stats::predict(
+            object = .x,
+            newdata = data_grid
+          )
+        )
+    }
+  ) |>
+  purrr::list_rbind(names_to = "continent_label") |>
+  dplyr::mutate(
+    continent_label = forcats::fct(
+      x = .data[["continent_label"]],
+      levels = vec_continents
+    )
+  )
+
+data_null_envelope <-
+  data_lag_similarity |>
+  dplyr::group_by(continent_label) |>
+  dplyr::summarise(
+    null_hi = stats::median(.data[["null_hi"]])
+  ) |>
+  dplyr::ungroup()
+
+plot_decay <-
+  ggplot2::ggplot(
+    data = data_lag_similarity,
+    mapping = ggplot2::aes(
+      x = .data[["lag_kyr"]],
+      y = .data[["obs"]],
+      colour = .data[["continent_label"]]
+    )
+  ) +
+  ggplot2::scale_colour_manual(
+    values = vec_colours_continent
+  ) +
+  ggplot2::labs(
+    title = "Similarity decays with time between slices",
+    x = "Time between slices (kyr)",
+    y = "Association similarity (Spearman)",
+    colour = NULL
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.75, 0.88)
+  ) +
+  ggplot2::geom_point(
+    alpha = 0.25,
+    size = 0.9
+  ) +
+  ggplot2::geom_hline(
+    data = data_null_envelope,
+    mapping = ggplot2::aes(
+      yintercept = .data[["null_hi"]],
+      colour = .data[["continent_label"]]
+    ),
+    linetype = "dashed",
+    linewidth = 0.6
+  ) +
+  ggplot2::geom_line(
+    data = data_decay_curves,
+    linewidth = 1.3
+  )
+
+plot_exceedance <-
+  ggplot2::ggplot(
+    data = data_exceedance,
+    mapping = ggplot2::aes(
+      x = .data[["lag_bin"]],
+      y = .data[["pct_above_null"]],
+      fill = .data[["continent_label"]]
+    )
+  ) +
+  ggplot2::scale_fill_manual(
+    values = vec_colours_continent
+  ) +
+  ggplot2::scale_y_continuous(
+    limits = c(0, 100)
+  ) +
+  ggplot2::labs(
+    title = "The signal persists, but weakens",
+    x = "Time between slices (kyr)",
+    y = "Slice pairs above their own null (%)",
+    fill = NULL
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.8, 0.9)
+  ) +
+  ggplot2::geom_col(
+    position = ggplot2::position_dodge(width = 0.8),
+    width = 0.75
+  ) +
+  ggplot2::geom_hline(
+    yintercept = pct_chance_exceedance,
+    linetype = "dashed",
+    colour = "#b22222"
+  )
+
+plot_decay_combined <-
+  cowplot::plot_grid(
+    plot_decay,
+    plot_exceedance,
+    ncol = 2,
+    labels = c("a", "b")
+  ) +
+  ggview::canvas(
+    width = config_canvas[["width"]],
+    height = config_canvas[["height"]],
+    units = config_canvas[["units"]],
+    dpi = config_canvas[["dpi"]],
+    bg = "white"
+  )
+
+ggview::save_ggplot(
+  plot = plot_decay_combined,
+  file = here::here(path_figures, "third_report_temporal_decay.png")
+)
+```
+
+When I compare the residual matrices of 500-year slices, similarity decays with the time between slices (@fig-decay a).
+An exponential decay towards a floor gives a half-life of about **`r round(vec_half_life_kyr[["North America"]], 1)` kyr in North America** and **`r round(vec_half_life_kyr[["Europe"]], 1)` kyr in Europe**.
+In a first regression the lag effect was robust to the site count of the sparser slice and to the number of shared taxa.
+
+There is no strong conserved core: at the longest lags, mean similarity falls to the level of a taxon-label permutation null.
+Even so, far more slice pairs than expected by chance still exceed their own null at the longest lags (@fig-decay b).
+
+::: {#fig-decay}
+
+```{r}
+#| label: display-temporal-decay
+#| out-width: "100%"
+knitr::include_graphics(
+  path = here::here(path_figures, "third_report_temporal_decay.png")
+)
+```
+
+Preliminary temporal decay (`r vec_n_slices[["North America"]]` slices in North America, `r vec_n_slices[["Europe"]]` in Europe, `r n_pairs_total` slice pairs). (a) Similarity (shared-taxa version: Spearman correlation of off-diagonal elements on shared taxa) between residual association matrices of 500-year slices against the time between them, with exponential-plus-floor fits on lags of `r lag_min_fit_kyr` kyr and more; dashed lines show the median 97.5th percentile of the taxon-label permutation null. (b) Percentage of slice pairs whose similarity exceeds their own null; the red line marks the `r pct_chance_exceedance` % expected by chance.
+
+:::
+
+The main result of this part is therefore a **temporal half-life** of plant community organisation, and its comparison with the rate of compositional change over the same period.
+
+### Pace: rewiring against the rate of compositional change {#sec-pace}
+
+This is the comparison I am most looking forward to, because it connects the structure part to my earlier work on rates of vegetation change.
+In Mottl et al. 2021 (*Science*) we showed, with `{RRatepol}`, that the rate of compositional change in fossil pollen records began to accelerate between about 4.6 and 2.9 thousand years ago and reached rates higher than during the deglaciation, and Gordon et al. 2024 (*Nature Ecology & Evolution*) tied the late-Holocene changes in floristic diversity to human land use.
+The same pollen records now give me a second rate: how fast the residual association structure was **rewired**, measured as the loss of similarity between slices a fixed time apart, tracked through the last 20,000 years.
+Putting the two side by side asks a question neither could ask alone: when the composition of vegetation changed faster, did its organisation follow?
+
+The preliminary answer is that it did not: rewiring did not accelerate toward the present, while compositional change did.
+If that holds, communities exchanged their members faster than they reorganised, which is a form of persistence of community organisation.
+In North America, however, the apparent slowdown is confounded with the number of shared taxa, which rises with sampling toward the present, so I do not claim it yet.
+
+::: {.callout-note collapse="true"}
+## Technical note: how the pace comparison is built
+I plan the comparison in two layers:
+
+- **Internal control** ([#185](`r url_issues`/185)): from the same binary data and slices, I compute the raw co-occurrence matrix (φ coefficient) and the compositional turnover between slices, and fit them with the same similarity statistic and decay model as the residual matrices. The only difference is whether climate and space were removed, so three decay curves per continent (raw, compositional, residual) show directly whether the residual structure has dynamics of its own.
+- **External corroboration** ([#191](`r url_issues`/191)): rate of change with `{RRatepol}` per pollen sequence in its native design (rarefaction, age uncertainty propagated over age-model iterations), summarised per continent and 500-year bin. It shows that exactly these records reproduce the published acceleration, and it adds what the association pipeline lacks: a test of whether chronological error alone could produce a rewiring signal.
+
+Rate of change and association rewiring do not measure the same thing, so I compare the *shape* of their curves through time, never their magnitudes:
+
+| | Rate of change | Association rewiring |
+|-------------------|-------------------------------|-------------------------------|
+| Unit of analysis | one pollen sequence | one continent per 500-year slice |
+| What it measures | how fast the assemblage at a place changes | how fast the cross-site association structure changes |
+| Spatial scale | local | continental |
+
+The product is one figure with three rows on a shared age axis: raw co-occurrence turnover, residual association rewiring and rate of change.
+The `{RRatepol}` part is self-contained and runs parallel to the main line, and it is one of the tasks I am asking for help with.
+:::
+
+### Is the persistence robust to how the structure is observed?
+
+Three further comparisons test the half-life against the way the structure is observed, aggregated and nested in space:
+
+- **Observation system**: fossil pollen against modern vegetation plots in the same grid cell, at the local and regional tiers where the two have similar matrix sizes.
+- **Aggregation**: the temporal models rerun at family and at functional-type level, and their half-lives compared with the genus-level one.
+- **Nested extent**: whether a local unit's structure is closer to its own region's than to other regions' on the same continent, and a regional structure closer to its own continent's.
+
+Because functional types are shared between fossil pollen and vegetation plots and between continents by construction, they make possible the continental fossil–modern comparison and a cross-continent test of recurring associations.
+My plan is to revise the classification ([#179](`r url_issues`/179)) so that at least 15 reasonably balanced groups are retained in every continental unit and temporal slice, with one mapping applied to pollen and plots alike.
+
+## What could still overturn this {#sec-gate}
+
+I really like where this is heading, but before I write anything up I need to check that both measurements mean what they appear to mean.
+
+### Terminology
+
+In earlier presentations I described residual co-occurrence as "biotic interactions" (positive = facilitation, negative = competition).
+Inferring interactions from co-occurrence is heavily criticised (e.g. Blanchet, Cazelles & Gravel 2020, *Ecology Letters*), because after climate and space are removed, a residual association can still reflect unmeasured environment, dispersal history or sampling.
+I expect reviewers to push back hard on any interaction claim, so I have toned down the vocabulary: I now call it *residual association* and do not interpret single pairs as interactions.
+
+### Four checks before I write anything up {#sec-checks}
+
+Four checks decide whether the half-life is real, and each has a plain meaning:
+
+1. **Reproducibility** ([#184](`r url_issues`/184)): if the same slice refitted with different random seeds does not give the same matrix, the half-life is noise.
+2. **Matrix size and the estimator** ([#184](`r url_issues`/184)): if a slice refitted on a random subset of its taxa gives a different structure for the taxa that stay, matrix size has to be a covariate on every axis.
+3. **Raw co-occurrence control** ([#185](`r url_issues`/185), see @sec-pace): if the raw co-occurrence decays at the same pace as the residual structure, the residual only tracks composition and has no dynamics of its own.
+4. **Site overlap and shrinkage** ([#186](`r url_issues`/186)): if the decay disappears once site overlap, site counts, shared taxa and matrix size are controlled, it is a sampling pattern, not an ecological one.
+
+I set the decision rules **before any result exists**, so that the outcome cannot shape the rule, and I propose them here for comment before freezing them in the GitHub issues.
+The replicate fits may run during the feedback window, but nobody (including me) looks at their similarity values until the rules are frozen.
+The drivers part needs the same discipline: I have already looked at a first result there (@sec-drivers), so before going further I will fix the definition of the partition and the test.
+
+::: {.callout-note collapse="true"}
+## Technical note: decision rules
+1. **Reproducibility ceiling**: a median replicate similarity of 0.85 or more means the measurement is sound; 0.65–0.85 means it is usable but must be corrected for the ceiling; 0.65 or less means the matrices are not reproducible enough to be compared, and the paper then rests on the drivers part and the matrix-size result.
+2. **Matrix size and the estimator**: refit a slice on a random 50 % or 75 % of its taxa. If the similarity between the full and the subset fit, on the retained taxa, is within 0.05 of the seed ceiling, the estimator does not depend on matrix size; otherwise log(taxon number) becomes a mandatory covariate on every axis.
+3. **Raw co-occurrence control**: the difference between the residual and the raw co-occurrence half-life, with a 95 % bootstrap interval over slices. If the interval excludes 0 on both continents, the residual structure has dynamics of its own; if it includes 0 and the half-lives are within a ratio of 0.8–1.25, the residual tracks composition.
+4. **Site overlap and shrinkage**: in a joint regression with site overlap, site counts, shared taxa and matrix size as controls, the lag effect must keep its sign, retain at least 50 % of its size, and keep a 95 % interval that excludes 0 on both continents.
+:::
+
+## Two questions for you {#sec-invitation}
+
+Could you let me know by **Friday 20 November**:
+
+1. whether you would still like to be a co-author, and
+2. whether you would like to join one or more methods meetings on the analysis and its interpretation, or would rather comment on the first draft?
+
+## Plan {#sec-plan}
+
+| Step | Date |
+|-----------------|------|
+| Your replies to the two questions above | by 20 November 2026 |
+| Remaining fixes and refits, and the four checks (@sec-checks) | November and December 2026 |
+| Methods meeting, for those who want to join | before Christmas 2026 |
+| First draft, with two weeks for comments | January 2027 |
+| Second draft and round of comments | February 2027 |
+| Last round of comments, then submission | March 2027 |
+
+The grant ends on 31 December 2026, and I will request an extension of the final report so that the paper can come out before it.
+I will therefore run the heavy computing (the calibrated refit of the genus-level temporal models, replicate and taxon-subset fits, the family-level temporal rerun, component removal, and the functional-type refits and temporal rerun if the revised classification is ready in time) before the end of 2026.
+The spatial axis of the drivers part adds no computing to that list, because the per-taxon partition is read from the models that are already fitted.
+
+Objective 3, predicting biodiversity patterns with the residual association included, is a very attractive topic, but I have to put it aside for now because I am running out of time.
+I keep only the held-out component-removal test (removing the association component from a fitted model and measuring the loss in held-out prediction), because it is the one direct way to show that the residual association carries predictive information at all, whichever way the checks in @sec-gate turn out.
+
+## Open questions {#sec-open-questions}
+
+Most of what is still open is interpretation and method, and this is the stage at which your ideas change the analysis and not only the text.
+I know that for most of you the natural moment to step in is the first draft, and that is completely fine.
+But if any of the questions below is close to what you work on or enjoy, I would be glad to develop it together, in whatever form suits you: a comment by e-mail, a call, a methods meeting, or taking a piece of it on.
+
+Ecological:
+
+1. **Plots against pollen.** If the decline of association with extent is visible in vegetation plots but not in pollen (@sec-drivers), is catchment integration the likely reason, and what would distinguish it from a real difference between modern and past vegetation?
+2. **A millennial clock.** Is a half-life of about `r round(base::mean(vec_half_life_kyr), 1)` kyr, and a late-Holocene rewiring that does not keep pace with compositional change (@sec-pace), ecologically plausible, or more likely an artefact of changing site coverage and no-analogue communities?
+3. **Functional types.** The revised classification ([#179](`r url_issues`/179)) has to deliver at least 15 reasonably balanced groups with one mapping for pollen and plots; which traits should drive it?
+4. **Rate of change.** The `{RRatepol}` corroboration ([#191](`r url_issues`/191), @sec-pace) is self-contained, and I would gladly hand it over or share it.
+
+Methodological:
+
+5. **The scale of the partition.** Nagelkerke R² saturates as taxa are added, while deviance adds up across taxa and fractions but has no upper bound, and negative shared fractions need a rule (technical note in @sec-changed). Is there a better-founded one?
+6. **Extent against the number of partners.** For the same taxa, how can I separate the effect of a wider extent from the effect of being modelled with more taxa, when a parent model almost always holds more taxa than its child and units that share a parent are not independent?
+7. **Drivers through time.** A fixed set of taxa refitted in every slice, the same taxa followed through the existing slices, or something else?
+8. **Levels of biological organisation.** How should genus, family and functional-type models be compared when the number of groups differs by construction?
+9. **Decision rules.** Are the thresholds of the four checks in @sec-checks sensible, and would you add a check?
