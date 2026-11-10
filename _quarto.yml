@@ -7,6 +7,10 @@ project:
     - Documentation/Functions_test_coverage/
     - Documentation/Presentations/IAVS_2026/_output/
     - Documentation/Presentations/CSPE_2026/_output/
+    - Documentation/Reports/First_report/First_presentation/presentation_01.html
+    - Documentation/Reports/Second_report/Second_presentation/presentation_02.html
+    # Served by link only: not in the sidebar, the sitemap or the site search.
+    - Documentation/Reports/Third_report/Project_status_and_direction.html
     - "!Data/**"
   render:
     - "index.qmd"

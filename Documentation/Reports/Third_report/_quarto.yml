@@ -1,0 +1,10 @@
+project:
+  type: default
+  render:
+    - _Project_status_and_direction.qmd
+
+execute:
+  echo: false
+  message: false
+  warning: false
+  error: false
