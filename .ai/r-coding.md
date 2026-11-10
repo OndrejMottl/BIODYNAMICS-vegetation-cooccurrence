@@ -210,8 +210,8 @@ An internal function may begin with one leading dot (for example, `.resolve_roun
 
 Quantile summary columns must use `lwr` (lower) and `upr` (upper) as base names, optionally suffixed with the **interval coverage** as an integer:
 
-- `lwr` / `upr` â€” when no specific interval is implied
-- `lwr_<N>` / `upr_<N>` â€” where `N` is the interval coverage percentage
+- `lwr` / `upr` — when no specific interval is implied
+- `lwr_<N>` / `upr_<N>` — where `N` is the interval coverage percentage
 
 The 95 % interval uses the two-tailed 2.5th and 97.5th percentiles:
 
@@ -318,7 +318,7 @@ Use the **magrittr pipe `%>%`** when the native pipe cannot be used cleanly:
 
 #### 3. After a Function Argument
 
-> **Summary of rules 1â€“4**: prefer vertical code â€” newline after `<-` when RHS is a function call, after every pipe `|>`, after every function argument when there are two or more arguments, and inside every control-flow condition (see rule 5).
+> **Summary of rules 1–4**: prefer vertical code — newline after `<-` when RHS is a function call, after every pipe `|>`, after every function argument when there are two or more arguments, and inside every control-flow condition (see rule 5).
 
 This should be true for both function declaration and usage. The exception is a single argument.
 
@@ -340,7 +340,7 @@ vec_selected_regions <-
 
 #### 5. Inside `if()`, `for()`, and `while()` Conditions
 
-**Always** place the condition / iterator on its own indented line, and put the closing `) {` on its own line at the same indent level as the keyword. This rule applies even when the condition is short and would fit on one line â€” **never write `if (condition) {` on a single line.**
+**Always** place the condition / iterator on its own indented line, and put the closing `) {` on its own line at the same indent level as the keyword. This rule applies even when the condition is short and would fit on one line — **never write `if (condition) {` on a single line.**
 
 ```r
 # Good
@@ -368,7 +368,7 @@ while (
   ...
 }
 
-# WRONG â€” never do this
+# WRONG — never do this
 if (condition) { ... }
 if (base::nrow(x) > 0) { ... }
 for (i in seq_len(n)) { ... }
@@ -441,9 +441,9 @@ try(
 )
 ```
 
-##### `{targets}` `tar_target()` â€” `command` argument
+##### `{targets}` `tar_target()` — `command` argument
 
-When the `command` argument of `targets::tar_target()` is a **single function call**, write it directly â€” do **not** wrap it in `{ }`:
+When the `command` argument of `targets::tar_target()` is a **single function call**, write it directly — do **not** wrap it in `{ }`:
 
 ```r
 # Good
@@ -452,7 +452,7 @@ targets::tar_target(
   command = dplyr::bind_rows(data_traits_continent)
 )
 
-# Bad â€” unnecessary braces around a single call
+# Bad — unnecessary braces around a single call
 targets::tar_target(
   name = data_traits_raw,
   command = {
@@ -464,7 +464,7 @@ targets::tar_target(
 If the logic is complex enough to need multiple statements and `{ }`, **extract it into a dedicated function** in `R/Functions/` and call that function from `command` instead:
 
 ```r
-# Bad â€” inline multi-statement block
+# Bad — inline multi-statement block
 targets::tar_target(
   name = data_processed,
   command = {
@@ -473,7 +473,7 @@ targets::tar_target(
   }
 )
 
-# Good â€” logic lives in a named function
+# Good — logic lives in a named function
 targets::tar_target(
   name = data_processed,
   command = load_and_clean_data(path = path_input)
@@ -482,7 +482,7 @@ targets::tar_target(
 
 This keeps the pipeline readable and the logic testable.
 
-> See **New Lines Â§ 5** above for the mandatory multi-line style for `if()`, `for()`, and `while()` conditions.
+> See **New Lines § 5** above for the mandatory multi-line style for `if()`, `for()`, and `while()` conditions.
 
 ### Assignment
 
@@ -493,7 +493,7 @@ Do **NOT** use:
 - right assignment (`->`)
 - equals (`=`)
 
-**Do NOT use the Unicode arrow character `â†’` anywhere in an R script** â€” not in code, not in comments, and not in roxygen2 documentation blocks. Many R installations and CI environments do not handle non-ASCII characters in source files reliably, and the stray byte causes silent parse or execution failures. Use the plain ASCII two-character sequence `->` whenever you need to express a mapping or transformation in a comment (e.g. `# "Betula sp." -> "Betula"`).
+**Do NOT use the Unicode arrow character `→` anywhere in an R script** — not in code, not in comments, and not in roxygen2 documentation blocks. Many R installations and CI environments do not handle non-ASCII characters in source files reliably, and the stray byte causes silent parse or execution failures. Use the plain ASCII two-character sequence `->` whenever you need to express a mapping or transformation in a comment (e.g. `# "Betula sp." -> "Betula"`).
 
 There should be a new line after the assignment. Note that rarely single-line assignment can be used:
 
@@ -600,7 +600,7 @@ data_diversity$species_richness
 list_params$n_iter
 ```
 
-**Never use `base::attr()` to attach metadata to R objects.** Attributes are invisible, not type-checked, and silently stripped by many tidyverse operations (e.g. `dplyr::mutate()`, `tibble::as_tibble()`). Keep every piece of information as an explicit, named object â€” a column in a data frame, a named element in a list, or, in a `{targets}` pipeline, a dedicated target (see the Pipeline Management section in `AGENTS.md`).
+**Never use `base::attr()` to attach metadata to R objects.** Attributes are invisible, not type-checked, and silently stripped by many tidyverse operations (e.g. `dplyr::mutate()`, `tibble::as_tibble()`). Keep every piece of information as an explicit, named object — a column in a data frame, a named element in a list, or, in a `{targets}` pipeline, a dedicated target (see the Pipeline Management section in `AGENTS.md`).
 
 ```r
 # Avoid
@@ -853,13 +853,13 @@ with(data, mean(get(var)))
 Use the native pipe `|>` to chain operations instead of nesting function calls. Deeply nested calls are hard to read and must be parsed inside-out; pipes read left-to-right in execution order.
 
 ```r
-# Good â€” pipe-based, reads in execution order
+# Good — pipe-based, reads in execution order
 filter_data() |>
   fit_model() |>
   summarise_data() |>
   plot_data()
 
-# Avoid â€” nested, reads inside-out
+# Avoid — nested, reads inside-out
 plot_data(
   summarise_data(
     fit_model(
@@ -869,7 +869,7 @@ plot_data(
 )
 ```
 
-This rule applies to `do.call()` wrappers, `Reduce()`, and any other function that accepts another function plus its inputs as separate arguments â€” prefer piping into `purrr::reduce()` or similar pipe-friendly equivalents instead.
+This rule applies to `do.call()` wrappers, `Reduce()`, and any other function that accepts another function plus its inputs as separate arguments — prefer piping into `purrr::reduce()` or similar pipe-friendly equivalents instead.
 
 ## Performance Conventions
 

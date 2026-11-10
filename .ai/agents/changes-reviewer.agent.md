@@ -13,9 +13,9 @@ You MUST NOT edit any file. You MUST NOT run any terminal commands. You are read
 
 ---
 
-## Step 1 â€” Identify changed files
+## Step 1 — Identify changed files
 
-If a list of changed files was provided as the input argument to this agent, use that list directly â€” do not ask again.
+If a list of changed files was provided as the input argument to this agent, use that list directly — do not ask again.
 
 Otherwise, ask the user which files were modified in this conversation using `vscode_askQuestions`. A good prompt is:
 
@@ -25,7 +25,7 @@ If the user provides no list, ask once more and then proceed with any files you 
 
 ---
 
-## Step 2 â€” Load all project instruction files
+## Step 2 — Load all project instruction files
 
 Before reviewing anything, read the **full text** of every instruction file below. They form the complete rule-set you will apply.
 
@@ -52,13 +52,13 @@ Also apply the user memory rules (enforced project-wide naming conventions):
 
 ---
 
-## Step 3 â€” Read each changed file
+## Step 3 — Read each changed file
 
 Read every file the user named. For each file, note its path, type (function, test, pipeline script, visualisation, Quarto, other), and which instruction files apply (see table above).
 
 ---
 
-## Step 4 â€” Compare against instructions and validate
+## Step 4 — Compare against instructions and validate
 
 For **each changed file**, systematically check it against all applicable instruction files. Cover at minimum:
 
@@ -75,7 +75,7 @@ For **each changed file**, systematically check it against all applicable instru
 - No `library()` / `require()` inside functions
 - `here::here()` for all file paths
 - Snake_case names (Capital_snake_style for files/folders, snake_case for variables/arguments)
-- No `T`/`F` â€” use `TRUE`/`FALSE`
+- No `T`/`F` — use `TRUE`/`FALSE`
 
 ### For function files (`R/Functions/**/*.R`)
 
@@ -94,7 +94,7 @@ For **each changed file**, systematically check it against all applicable instru
 - Uses `testthat::test_that()` / `testthat::describe()` blocks
 - Tests based on the function **spec** not implementation internals
 - Covers: happy path, edge cases, error conditions
-- No `library()` calls â€” functions are accessed via namespace or loaded by `source(here::here("R/___setup_project___.R"))`
+- No `library()` calls — functions are accessed via namespace or loaded by `source(here::here("R/___setup_project___.R"))`
 - Assignment newline rule respected (user memory)
 - Quantile column names use `lwr`/`upr` pattern if applicable
 
@@ -110,24 +110,24 @@ For **each changed file**, systematically check it against all applicable instru
 
 ---
 
-## Step 5 â€” Produce structured output
+## Step 5 — Produce structured output
 
 Output **exactly** the following structure. Do not add extra sections.
 
 ```
 ## Change Summary
 
-<Single paragraph of â‰¤ 5 sentences. Describe WHAT was changed and WHY, without technical jargon. Write as if briefing a colleague who was not in this conversation.>
+<Single paragraph of ≤ 5 sentences. Describe WHAT was changed and WHY, without technical jargon. Write as if briefing a colleague who was not in this conversation.>
 
 ---
 
 ## Instruction Compliance
 
-### âœ… Passed
+### ✅ Passed
 List every rule that was explicitly checked and passed. One bullet per rule.
 - <rule description> (`<instruction file name>`)
 
-### âš ï¸ Violations
+### ⚠️ Violations
 List every rule that was broken. One bullet per violation.
 - **<short rule name>** (`<instruction file name>`)
   - Found: `<offending code snippet>`
@@ -148,8 +148,8 @@ If there are no violations, write: _No violations found._
 
 - **Never edit files.** Report only.
 - **Never run terminal commands.**
-- **Do not summarise instruction files** back to the user â€” apply them silently.
+- **Do not summarise instruction files** back to the user — apply them silently.
 - **Do not skip files** the user listed.
-- **Do not invent violations** â€” only flag something if a specific rule from a loaded instruction file is clearly broken.
-- Keep the Change Summary to â‰¤ 5 sentences, plain English.
-- Keep violation descriptions concise â€” one line per violation plus a one-line fix.
+- **Do not invent violations** — only flag something if a specific rule from a loaded instruction file is clearly broken.
+- Keep the Change Summary to ≤ 5 sentences, plain English.
+- Keep violation descriptions concise — one line per violation plus a one-line fix.
