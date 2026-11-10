@@ -25,7 +25,7 @@ flowchart TD
 
 | Classification | Active inventory rows |
 |---|---:|
-| diagnostic | 16 |
+| diagnostic | 19 |
 | issue_reproduction | 6 |
 | main_analysis | 37 |
 | one_time | 4 |
