@@ -2,26 +2,38 @@
 #'
 #' @description
 #' Comprehensive non-aborting diagnosis of the sjSDM installation, including
-#' Python, PyTorch, CUDA support, and sjSDM functionality.
+#' the R console, Python, PyTorch, CUDA support, and sjSDM functionality.
 #'
 #' @param run_test_model Logical. Should a test model be fitted to
 #' diagnose full functionality? Defaults to `interactive()`.
 #'
-#' @return Invisible list with diagnostic results. Called primarily for
-#' side effects.
+#' @return
+#' Invisible named list of logical flags: `radian_ok`, `python_ok`,
+#' `pytorch_ok`, `cuda_available`, `sjsdm_ok`, and `test_model_ok`.
+#' `radian_ok` is `FALSE` only when R runs inside radian and radian's own
+#' Python cannot import PyTorch; it is `TRUE` in RStudio and plain R.
+#' Called primarily for its printed report.
 #'
 #' @details
 #' This function performs the following checks:
-#' 1. Interactive runtime availability
-#' 2. Python version and location
+#' 1. R console: RStudio, radian, or plain R (`Rscript` or the R console)
+#' 2. Python version and location, with reticulate's message when no
+#'    usable Python is found
 #' 3. PyTorch installation and version
 #' 4. CUDA/GPU availability
 #' 5. sjSDM package installation
 #' 6. sjSDM Python dependencies
 #' 7. Test model fitting (optional)
 #'
+#' R running inside radian shares its process with radian's Python, so
+#' reticulate must use that Python and the project `RETICULATE_PYTHON` is
+#' replaced by it. radian is therefore judged by whether its Python can
+#' import PyTorch, not by whether a radian executable is on `PATH`. Outside
+#' radian, reticulate follows `RETICULATE_PYTHON`.
+#'
 #' All checks print their status with [OK], [WARN], or [FAIL]. Failures are
-#' represented in the returned list rather than raised as errors.
+#' represented in the returned list rather than raised as errors. Fixes point
+#' to `Documentation/Materials/sjSDM_installation_guide.md`.
 #'
 #' @seealso
 #' \code{\link[reticulate]{py_config}}
@@ -29,14 +41,18 @@
 #'
 #' @export
 diagnose_sjsdm_setup <- function(run_test_model = base::interactive()) {
-  # Detect runtime environment
+  # Detect the R console. radian sets RADIAN_VERSION in its own process,
+  #   so a radian executable on PATH says nothing about this session.
   in_rstudio <- base::Sys.getenv("RSTUDIO") == "1"
-  radian_path <- base::Sys.which("radian")
+  radian_version <-
+    base::Sys.getenv("RADIAN_VERSION")
+  in_radian <-
+    isFALSE(in_rstudio) && base::nzchar(radian_version)
 
-  # Initialize results list
+  # Initialize results list. radian_ok is updated after the PyTorch check.
   results <-
     base::list(
-      radian_ok = in_rstudio || base::nzchar(radian_path),
+      radian_ok = TRUE,
       python_ok = FALSE,
       pytorch_ok = FALSE,
       cuda_available = FALSE,
@@ -48,10 +64,16 @@ diagnose_sjsdm_setup <- function(run_test_model = base::interactive()) {
   cat("=============================================================\n")
   cat("           sjSDM Setup Diagnostics\n")
 
-  if (in_rstudio) {
+  if (
+    in_rstudio
+  ) {
     cat("           Running in: RStudio\n")
+  } else if (
+    in_radian
+  ) {
+    cat("           Running in: radian\n")
   } else {
-    cat("           Running in: standard R session\n")
+    cat("           Running in: plain R session\n")
   }
 
   cat("=============================================================\n")
@@ -59,20 +81,25 @@ diagnose_sjsdm_setup <- function(run_test_model = base::interactive()) {
 
 
   #----------------------------------------------------------#
-  # 1. Diagnose interactive runtime -----
+  # 1. Diagnose R console -----
   #----------------------------------------------------------#
 
-  cat("1. Diagnosing Interactive Runtime\n")
+  cat("1. Diagnosing R Console\n")
   cat("   ----------------------------------------\n")
 
-  if (in_rstudio) {
+  if (
+    in_rstudio
+  ) {
     cat("   [OK] Running in RStudio\n")
-  } else if (base::nzchar(radian_path)) {
-    cat("   [OK] Radian is available\n")
-    cat("   Path: ", radian_path, "\n")
+    cat("   reticulate follows RETICULATE_PYTHON\n")
+  } else if (
+    in_radian
+  ) {
+    cat("   [OK] Running in radian", radian_version, "\n")
+    cat("   reticulate must use radian's own Python (see check 2)\n")
   } else {
-    cat("   [WARN] Radian is not available on PATH\n")
-    cat("   This does not prevent sjSDM from running in R\n")
+    cat("   [OK] Running in plain R (Rscript or R console)\n")
+    cat("   reticulate follows RETICULATE_PYTHON\n")
   }
 
   cat("\n")
@@ -96,16 +123,18 @@ diagnose_sjsdm_setup <- function(run_test_model = base::interactive()) {
     return(invisible(results))
   }
 
+  # Keep the error so its message can be shown (e.g. a missing
+  #   RETICULATE_PYTHON target).
   py_conf <-
     tryCatch(
       expr = {
         reticulate::py_config()
       },
-      error = function(e) NULL
+      error = function(e) e
     )
 
   if (
-    isFALSE(is.null(py_conf))
+    isFALSE(base::inherits(py_conf, "error"))
   ) {
     results <-
       results |>
@@ -123,13 +152,22 @@ diagnose_sjsdm_setup <- function(run_test_model = base::interactive()) {
 
     configured_python <- base::Sys.getenv("RETICULATE_PYTHON")
 
-    if (base::nzchar(configured_python)) {
+    if (
+      in_radian
+    ) {
+      # radian replaces RETICULATE_PYTHON with its own Python at start-up.
+      cat("   This is radian's own Python; .Renviron does not apply\n")
+    } else if (
+      base::nzchar(configured_python)
+    ) {
       cat("   [OK] RETICULATE_PYTHON is configured\n")
     } else {
       cat("   [WARN] RETICULATE_PYTHON is not explicitly configured\n")
     }
   } else {
     cat("   [FAIL] Python configuration failed\n")
+    cat("   Reason: ", base::conditionMessage(py_conf), "\n")
+    cat("   Fix: check RETICULATE_PYTHON in the project .Renviron\n")
   }
 
   cat("\n")
@@ -195,8 +233,31 @@ diagnose_sjsdm_setup <- function(run_test_model = base::interactive()) {
     }
   } else {
     cat("   [FAIL] PyTorch not found\n")
-    cat("\n   Install PyTorch in the active Python environment\n")
+
+    if (
+      in_radian
+    ) {
+      cat(
+        "   radian runs on",
+        torch_results |>
+          purrr::chuck("python_path"),
+        "which has no PyTorch\n"
+      )
+      cat("   Fix: start radian from the sjSDM Python environment\n")
+      cat("   (r.consolePath in .vscode/settings.json)\n")
+    } else {
+      cat("   Fix: install PyTorch in the Python set by RETICULATE_PYTHON\n")
+    }
   }
+
+  # radian fails only when its own Python cannot provide PyTorch.
+  results <-
+    results |>
+    purrr::list_modify(
+      radian_ok = isFALSE(in_radian) ||
+        results |>
+          purrr::chuck("pytorch_ok")
+    )
 
   cat("\n")
 
@@ -235,8 +296,8 @@ diagnose_sjsdm_setup <- function(run_test_model = base::interactive()) {
       cat("   All Python dependencies available\n")
     } else {
       cat("   [FAIL] sjSDM failed to load\n")
-      cat("\n   Fix: Reinstall sjSDM dependencies\n")
-      cat("   sjSDM::install_sjSDM()\n")
+      cat("\n   Fix: reinstall the Python dependencies as described in\n")
+      cat("   Documentation/Materials/sjSDM_installation_guide.md\n")
     }
   } else {
     cat("   [FAIL] sjSDM package not installed\n")
@@ -318,11 +379,14 @@ diagnose_sjsdm_setup <- function(run_test_model = base::interactive()) {
   sjsdm_ok <-
     results |>
     purrr::chuck("sjsdm_ok")
+  radian_ok <-
+    results |>
+    purrr::chuck("radian_ok")
   all_critical_ok <-
     python_ok && pytorch_ok && sjsdm_ok
 
-  # In RStudio, radian_ok reflects RETICULATE_PYTHON configuration;
-  # it is informational and doesn't block the critical check.
+  # radian_ok is not part of the critical check: a radian without PyTorch
+  #   already fails pytorch_ok; radian_ok only names the cause.
 
   if (!all_critical_ok) {
     cat("[FAIL] Some critical checks failed\n\n")
@@ -338,6 +402,12 @@ diagnose_sjsdm_setup <- function(run_test_model = base::interactive()) {
       isFALSE(pytorch_ok)
     ) {
       cat("  - PyTorch not available\n")
+    }
+
+    if (
+      isFALSE(radian_ok)
+    ) {
+      cat("  - radian runs on a Python without PyTorch\n")
     }
 
     if (
