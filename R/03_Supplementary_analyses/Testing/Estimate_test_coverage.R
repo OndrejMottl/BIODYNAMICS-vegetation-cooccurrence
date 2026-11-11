@@ -21,31 +21,39 @@ source(
 library(covr)
 library(jsonlite)
 
+# covr sources the test files directly, so testthat does not apply its usual
+# fixed output settings. Without them, cli wraps and colours error messages
+# to the current console, and message-matching tests fail depending on the
+# console width. Apply the same settings that testthat::test_file() uses.
 data_covr <-
-  covr::file_coverage(
-    source_files = list.files(
-      here::here("R/Functions/"),
-      pattern = "\\.R$",
-      recursive = TRUE,
-      full.names = TRUE
-    ) %>%
-      purrr::discard(
-        # Exclude outdated functions (e.g. HMSC-based)
-        ~ stringr::str_detect(.x, "_outdated|_legacy")
-      ),
-    test_files = list.files(
-      here::here(
-        "R/03_Supplementary_analyses/Testing/testthat"
-      ),
-      pattern = "\\.R$",
-      recursive = TRUE,
-      full.names = TRUE
-    ) %>%
-      purrr::discard(
-        # Exclude outdated tests (e.g. HMSC-based)
-        ~ stringr::str_detect(.x, "_outdated|_legacy")
-      )
-  )
+  base::local({
+    testthat::local_reproducible_output(width = 80)
+
+    covr::file_coverage(
+      source_files = list.files(
+        here::here("R/Functions/"),
+        pattern = "\\.R$",
+        recursive = TRUE,
+        full.names = TRUE
+      ) %>%
+        purrr::discard(
+          # Exclude outdated functions (e.g. HMSC-based)
+          ~ stringr::str_detect(.x, "_outdated|_legacy")
+        ),
+      test_files = list.files(
+        here::here(
+          "R/03_Supplementary_analyses/Testing/testthat"
+        ),
+        pattern = "\\.R$",
+        recursive = TRUE,
+        full.names = TRUE
+      ) %>%
+        purrr::discard(
+          # Exclude outdated tests (e.g. HMSC-based)
+          ~ stringr::str_detect(.x, "_outdated|_legacy")
+        )
+    )
+  })
 
 data_covr %>%
   as.data.frame() %>%

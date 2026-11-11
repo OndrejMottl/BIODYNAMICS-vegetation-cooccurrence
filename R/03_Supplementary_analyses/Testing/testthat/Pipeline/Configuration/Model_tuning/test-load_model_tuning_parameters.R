@@ -159,17 +159,20 @@ testthat::test_that(
           fit_stage = "cross_validation"
         )
       )
+    # cli wraps the message at the console width; squish so that multi-word
+    # phrases match regardless of where the line breaks fall.
     error_message <-
-      base::conditionMessage(error_condition)
+      base::conditionMessage(error_condition) |>
+      stringr::str_squish()
 
     testthat::expect_match(
       error_message,
-      "01_run_preparation.R",
+      "R/02_Main_analyses/01_Preparation/01_run_preparation.R",
       fixed = TRUE
     )
     testthat::expect_match(
       error_message,
-      "01_run_model_calibration.R",
+      "R/02_Main_analyses/02_Model_calibration/01_run_model_calibration.R",
       fixed = TRUE
     )
     testthat::expect_match(error_message, "will be reused", fixed = TRUE)

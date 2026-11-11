@@ -86,13 +86,38 @@ base::dir.create(
   showWarnings = FALSE
 )
 
+# Published website pages (docs/) are only rebuilt by Render_website.R, which
+# runs after the test-coverage step in Render_all_documentation.R. The
+# architecture test requires a published page for every active function, so
+# only stale pages (retired or renamed functions) are removed here; active
+# pages stay until the website render overwrites them.
 list_generated_roots <-
   base::list(
-    base::list(path = path_function_documents, extension = "html"),
-    base::list(path = path_function_documents, extension = "txt"),
-    base::list(path = path_function_documents, extension = "pdf"),
-    base::list(path = path_function_qmd, extension = "qmd"),
-    base::list(path = path_function_published, extension = "html")
+    base::list(
+      path = path_function_documents,
+      extension = "html",
+      flag_keep_active = FALSE
+    ),
+    base::list(
+      path = path_function_documents,
+      extension = "txt",
+      flag_keep_active = FALSE
+    ),
+    base::list(
+      path = path_function_documents,
+      extension = "pdf",
+      flag_keep_active = FALSE
+    ),
+    base::list(
+      path = path_function_qmd,
+      extension = "qmd",
+      flag_keep_active = FALSE
+    ),
+    base::list(
+      path = path_function_published,
+      extension = "html",
+      flag_keep_active = TRUE
+    )
   )
 
 purrr::walk(
@@ -108,14 +133,24 @@ purrr::walk(
         type = "file",
         regexp = stringr::str_c("[.]", .x[["extension"]], "$")
       )
+    vec_artifact_names <-
+      fs::path_ext_remove(fs::path_file(vec_artifacts))
+
     if (
+      .x[["flag_keep_active"]] && flag_selective_generation
+    ) {
+      # Selected functions are active, so none of their pages are stale.
+      vec_artifacts <- base::character(0)
+    } else if (
+      .x[["flag_keep_active"]]
+    ) {
+      vec_artifacts <-
+        vec_artifacts[!vec_artifact_names %in% vec_function_names]
+    } else if (
       flag_selective_generation
     ) {
       vec_artifacts <-
-        vec_artifacts[
-          fs::path_ext_remove(fs::path_file(vec_artifacts)) %in%
-            vec_function_names
-        ]
+        vec_artifacts[vec_artifact_names %in% vec_function_names]
     }
     if (base::length(vec_artifacts) > 0L) {
       fs::file_delete(vec_artifacts)
@@ -147,6 +182,16 @@ purrr::walk(
     base::on.exit(
       base::unlink(path_working_directory, recursive = TRUE),
       add = TRUE
+    )
+    # roxygenize() loads the temporary package into this session. Unload it
+    # before its directory is deleted; otherwise utils::sessionInfo() (called
+    # by sjSDM::sjSDM() in later tests) fails on the missing DESCRIPTION.
+    base::on.exit(
+      if (path_package_name %in% base::loadedNamespaces()) {
+        pkgload::unload(path_package_name)
+      },
+      add = TRUE,
+      after = FALSE
     )
     vec_roxygen_code <-
       fritools::get_lines_between_tags(.x)

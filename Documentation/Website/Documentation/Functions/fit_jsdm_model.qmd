@@ -141,7 +141,7 @@ covariance, abiotic coefficients, and spatial coefficients.</p>
 <td>
 <p>Additional arguments passed to 'sjSDM::sjSDM()' (e.g.
 'sampling', 'seed'). Do NOT pass 'iter',
-'control' or 'early_stopping' directly b
+'control' or 'early_stopping' directly — use the dedicated
 'iter' and 'n_early_stopping' parameters instead.</p>
 </td></tr>
 <tr><td><code id="iter">iter</code></td>
