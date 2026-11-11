@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -35,14 +38,15 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../../../figures/Logo FOSSILPOL regular - 600ppi.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="../../../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-5a509305741fcfd5710142364a75df2a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-84f79b5606aa71f2bce8040a618a40e0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-a190e65e7e42b1a32c7037c7b6aeb039.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-1de1689e67cfc0d42ac10b55b13e9f87.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -74,17 +78,17 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar docked quarto-light">
+<body class="nav-sidebar docked quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/prepare_abiotic_for_fit.html">prepare_abiotic_for_fit()</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/prepare_abiotic_for_fit.html">prepare_abiotic_for_fit()</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -95,7 +99,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../../../../">BIODYNAMICS-vegetation-cooccurrence</a>
@@ -134,13 +138,10 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container">
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Code Reference</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a>
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Code Reference</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/documentation.html" class="sidebar-item-text sidebar-link">
@@ -155,13 +156,10 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container">
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Functions</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a>
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Functions</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth2 show">
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html" class="sidebar-item-text sidebar-link">
@@ -590,6 +588,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/build_sjsdm_unit_fitting_targets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">build_sjsdm_unit_fitting_targets()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/build_spatial_cross_validation_assignments.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">build_spatial_cross_validation_assignments()</span></a>
   </div>
@@ -770,6 +774,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_jsdm_variance_partition_with_progress.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compute_jsdm_variance_partition_with_progress()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/compute_network_metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_network_metrics()</span></a>
   </div>
@@ -806,6 +816,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_predictor_inclusive_variance_components.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compute_predictor_inclusive_variance_components()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/compute_shapley_variance_components.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_shapley_variance_components()</span></a>
   </div>
@@ -820,6 +836,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/compute_sjsdm_artifact_content_hash.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">compute_sjsdm_artifact_content_hash()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/compute_sjsdm_cv_calibration_hashes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">compute_sjsdm_cv_calibration_hashes()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1298,6 +1320,18 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/is_sjsdm_cv_preparation_mapping_current.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">is_sjsdm_cv_preparation_mapping_current()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/is_sjsdm_cv_prepared_folds_current.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">is_sjsdm_cv_prepared_folds_current()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/join_sample_ages.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">join_sample_ages()</span></a>
   </div>
@@ -1420,6 +1454,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/load_sjsdm_cv_payload_field.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">load_sjsdm_cv_payload_field()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/load_sjsdm_prepared_fold_cache.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">load_sjsdm_prepared_fold_cache()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1552,6 +1592,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/plot_focal_trait_distribution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">plot_focal_trait_distribution()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/plot_manuscript_predictor_inclusive_variance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot_manuscript_predictor_inclusive_variance()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1718,6 +1764,18 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_cv_calibration_hash_folds.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">prepare_sjsdm_cv_calibration_hash_folds()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_cv_calibration_result_migration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">prepare_sjsdm_cv_calibration_result_migration()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/prepare_sjsdm_guardrail_repeat_metrics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">prepare_sjsdm_guardrail_repeat_metrics()</span></a>
   </div>
@@ -1828,6 +1886,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/resolve_cross_validation_fold_count.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">resolve_cross_validation_fold_count()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/resolve_cross_validation_fold_search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">resolve_cross_validation_fold_search()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2018,6 +2082,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_likelihood_sequence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">run_sjsdm_likelihood_sequence()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_predictor_structure_folds.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_predictor_structure_folds()</span></a>
   </div>
@@ -2038,6 +2108,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_selected_fold.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_selected_fold()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_sensitivity_checkpoint.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">run_sjsdm_sensitivity_checkpoint()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2074,6 +2150,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_tuning_work_item.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">run_sjsdm_tuning_work_item()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/run_sjsdm_unit_fitting_preflight.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">run_sjsdm_unit_fitting_preflight()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2324,6 +2406,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/summarise_spatial_predictor_inclusive_variance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summarise_spatial_predictor_inclusive_variance()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/summarise_spatial_variance_stack.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">summarise_spatial_variance_stack()</span></a>
   </div>
@@ -2438,6 +2526,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_calibration_evidence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">validate_sjsdm_cv_calibration_evidence()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_evaluation_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_cv_evaluation_payload()</span></a>
   </div>
@@ -2446,6 +2540,18 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container">
   <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_prediction_payload.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">validate_sjsdm_cv_prediction_payload()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_preparation_freshness.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">validate_sjsdm_cv_preparation_freshness()</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../../Documentation/Website/Documentation/Functions/validate_sjsdm_cv_production_calibration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">validate_sjsdm_cv_production_calibration()</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -2527,9 +2633,9 @@ ul.task-list li input[type="checkbox"] {
 
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/prepare_abiotic_for_fit.html">prepare_abiotic_for_fit()</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/documentation.html">Code Reference</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/aggregate_colocated_community_records.html">Functions</a></li><li class="breadcrumb-item"><a href="../../../../Documentation/Website/Documentation/Functions/prepare_abiotic_for_fit.html">prepare_abiotic_for_fit()</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">prepare_abiotic_for_fit()</h1>
 </div>
@@ -2546,6 +2652,93 @@ ul.task-list li input[type="checkbox"] {
 
 
 </header>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js" onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css">
+
+
+<div class="container">
+<main>
+<table style="width: 100%;">
+<tbody><tr>
+<td>
+prepare_abiotic_for_fit
+</td>
+<td style="text-align: right;">
+R Documentation
+</td>
+</tr>
+</tbody></table>
+<h2 class="anchored">
+Prepare Abiotic Data for Model Fitting
+</h2>
+<h3 class="anchored">
+Description
+</h3>
+<p>
+Reshapes long-format abiotic data into a wide data frame suitable for downstream scaling, filtering to the canonical sample index supplied by ‘align_sample_ids()’.
+</p>
+<h3 class="anchored">
+Usage
+</h3>
+<pre><code class="language-R">prepare_abiotic_for_fit(data_abiotic_long = NULL, data_sample_ids = NULL)
+</code></pre>
+<h3 class="anchored">
+Arguments
+</h3>
+<table role="presentation">
+<tbody><tr>
+<td>
+<code id="data_abiotic_long">data_abiotic_long</code>
+</td>
+<td>
+<p>
+A data frame in long format with columns ‘dataset_name’, ‘age’, ‘abiotic_variable_name’, and ‘abiotic_value’.
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<code id="data_sample_ids">data_sample_ids</code>
+</td>
+<td>
+<p>
+A data frame of valid ‘(dataset_name, age)’ pairs as returned by ‘align_sample_ids()’.
+</p>
+</td>
+</tr>
+</tbody></table>
+<h3 class="anchored">
+Details
+</h3>
+<p>
+Unlike the former ‘prepare_data_for_fit(type = "abiotic")’, this function retains ‘dataset_name’ and ‘age’ as real columns so that ‘scale_abiotic_for_fit()’ can operate on them without parsing row names. Row names are added by ‘scale_abiotic_for_fit()’ as part of the scaling step.
+</p>
+<h3 class="anchored">
+Value
+</h3>
+<p>
+A data frame in wide format with real columns ‘dataset_name’, ‘age’, and one column per abiotic variable. Rows are ordered by ‘dataset_name’ then ‘age’, matching the order in ‘data_sample_ids’. Missing variable–sample combinations are left as ‘NA’. The ‘age’ column is preserved as a plain numeric column (not encoded in row names) to simplify downstream scaling.
+</p>
+<h3 class="anchored">
+See Also
+</h3>
+<p>
+[align_sample_ids()], [scale_abiotic_for_fit()], [build_jsdm_fit_input()]
+</p>
+</main>
+</div>
 
 
 
@@ -2630,7 +2823,8 @@ ul.task-list li input[type="checkbox"] {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -2639,8 +2833,69 @@ ul.task-list li input[type="checkbox"] {
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -2654,6 +2909,7 @@ ul.task-list li input[type="checkbox"] {
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -2816,44 +3072,54 @@ ul.task-list li input[type="checkbox"] {
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -2951,6 +3217,9 @@ ul.task-list li input[type="checkbox"] {
       }
     }
   });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
   </script>
 </div> <!-- /content -->
 <footer class="footer">

@@ -2,8 +2,10 @@ Select sjSDM Staged-Tuning Survivors
 
 Description:
 
-     Deterministically ranks complete tier-pooled candidate evidence
-     and returns the candidates allowed to enter the next tuning round.
+     Deterministically ranks tier-pooled candidate evidence and returns
+     the candidates allowed to enter the next tuning round. Candidates
+     without complete converged evidence remain in the decision table
+     but are pruned.
 
 Usage:
 
@@ -27,8 +29,9 @@ Value:
 
      Tibble containing `round_id`, `candidate_id`, `candidate_rank`,
      `normalized_loss_equal_id`, and `staged_decision` for every
-     candidate. Candidates are ordered by loss and then candidate
-     identifier.
+     candidate. Eligible candidates are ordered first by loss and then
+     candidate identifier. Ineligible candidates follow and always
+     receive a `prune` decision.
 
 Examples:
 

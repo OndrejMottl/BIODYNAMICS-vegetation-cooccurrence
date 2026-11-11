@@ -20,8 +20,9 @@ function processMathHTML() {
 
 <h3>Description</h3>
 
-<p>Deterministically ranks complete tier-pooled candidate evidence and returns
-the candidates allowed to enter the next tuning round.
+<p>Deterministically ranks tier-pooled candidate evidence and returns the
+candidates allowed to enter the next tuning round. Candidates without
+complete converged evidence remain in the decision table but are pruned.
 </p>
 
 
@@ -58,7 +59,8 @@ the candidates allowed to enter the next tuning round.
 
 <p>Tibble containing 'round_id', 'candidate_id', 'candidate_rank',
 'normalized_loss_equal_id', and 'staged_decision' for every candidate.
-Candidates are ordered by loss and then candidate identifier.
+Eligible candidates are ordered first by loss and then candidate identifier.
+Ineligible candidates follow and always receive a 'prune' decision.
 </p>
 
 

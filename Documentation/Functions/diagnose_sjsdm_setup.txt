@@ -3,7 +3,8 @@ Diagnose the sjSDM Setup
 Description:
 
      Comprehensive non-aborting diagnosis of the sjSDM installation,
-     including Python, PyTorch, CUDA support, and sjSDM functionality.
+     including the R console, Python, PyTorch, CUDA support, and sjSDM
+     functionality.
 
 Usage:
 
@@ -16,20 +17,32 @@ run_test_model: Logical. Should a test model be fitted to diagnose full
 
 Details:
 
-     This function performs the following checks: 1. Interactive
-     runtime availability 2. Python version and location 3. PyTorch
-     installation and version 4. CUDA/GPU availability 5. sjSDM package
-     installation 6. sjSDM Python dependencies 7. Test model fitting
-     (optional)
+     This function performs the following checks: 1. R console:
+     RStudio, radian, or plain R (`Rscript` or the R console) 2. Python
+     version and location, with reticulate's message when no usable
+     Python is found 3. PyTorch installation and version 4. CUDA/GPU
+     availability 5. sjSDM package installation 6. sjSDM Python
+     dependencies 7. Test model fitting (optional)
+
+     R running inside radian shares its process with radian's Python,
+     so reticulate must use that Python and the project
+     `RETICULATE_PYTHON` is replaced by it. radian is therefore judged
+     by whether its Python can import PyTorch, not by whether a radian
+     executable is on `PATH`. Outside radian, reticulate follows
+     `RETICULATE_PYTHON`.
 
      All checks print their status with [OK], [WARN], or [FAIL].
      Failures are represented in the returned list rather than raised
-     as errors.
+     as errors. Fixes point to
+     `Documentation/Materials/sjSDM_installation_guide.md`.
 
 Value:
 
-     Invisible list with diagnostic results. Called primarily for side
-     effects.
+     Invisible named list of logical flags: `radian_ok`, `python_ok`,
+     `pytorch_ok`, `cuda_available`, `sjsdm_ok`, and `test_model_ok`.
+     `radian_ok` is `FALSE` only when R runs inside radian and radian's
+     own Python cannot import PyTorch; it is `TRUE` in RStudio and
+     plain R. Called primarily for its printed report.
 
 See Also:
 

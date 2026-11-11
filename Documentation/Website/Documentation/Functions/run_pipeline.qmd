@@ -65,7 +65,7 @@ only when current execution metadata prove a registered data root.
 <p>Optional character string appended as a sub-directory between the
 config-derived target store root and the pipeline name.
 When 'NULL' (default) the path is
-'target_store/pipeline_name/' b
+'target_store/pipeline_name/' — identical to the original
 behaviour. When set, the path becomes
 'target_store/store_suffix/pipeline_name/'.
 Useful when iterating over many spatial units that share one config

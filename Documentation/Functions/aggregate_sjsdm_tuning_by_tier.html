@@ -56,6 +56,10 @@ the number of observed response values contributed by each source ID.</p>
 predictor structure, and candidate-table hash. Every source ID must provide
 the same candidate identifiers and parameter values. Candidates with an
 incomplete result for any source ID remain visible but are not selectable.
+Staged searches may contribute different repeat counts by candidate and
+source; each source-candidate loss averages all available repeat evidence.
+A source with no complete candidate is omitted from pooled selection, using
+the same eligibility rule as production tier-survivor selection.
 </p>
 
 
