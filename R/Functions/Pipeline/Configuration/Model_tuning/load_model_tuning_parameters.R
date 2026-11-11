@@ -195,15 +195,15 @@ load_model_tuning_parameters <- function(
             "{resolution_id}: ",
             "{stringr::str_c(vec_invalid_cv_columns, collapse = ', ')}."
           ),
-          "1" = paste(
+          "1" = stringr::str_c(
             "Run R/02_Main_analyses/01_Preparation/",
             "01_run_preparation.R to cache current prepared folds."
           ),
-          "2" = paste(
+          "2" = stringr::str_c(
             "Run R/02_Main_analyses/02_Model_calibration/",
             "01_run_model_calibration.R."
           ),
-          "3" = paste(
+          "3" = stringr::str_c(
             "Then run R/02_Main_analyses/03_Model_fitting/",
             "01_run_model_fitting.R; cached preprocessing will be reused."
           ),
