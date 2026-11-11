@@ -285,21 +285,9 @@ Keep the usual three rounds and add a short **Round 0** in front of them, plus o
 
 ### Co-authors and targeted asks
 
-Provisional list (not final). Emails are kept out of the repository on purpose. The asks filled in below were confirmed on 2026-10-23; empty rows still need one.
+The provisional list of nine co-authors (not final), with their institutions, expertise and contact details, is kept out of the repository on purpose, in the git-ignored `Documentation/Manuscript/Coauthor_feedback/Private/coauthors.md`. The per-person asks are in `Coauthor_feedback/Round_0/Private/targeted_asks.md`.
 
-**Revised on 10 November 2026:** Round 0 goes out as one email to all co-authors, without per-person asks. The asks below are kept as notes only.
-
-| Co-author | Possible targeted ask in Round 0 and Round 1 |
-|---|---|
-| Franka Gaiser (Bayreuth) | |
-| Gregor Mathes | |
-| Natalie Hanusová | |
-| Jonathan Gordon (York) | First author of Gordon et al. 2024 (*Nat. Ecol. Evol.*), which the paper uses as the accelerating half of the Q6 contrast: whether our compositional-turnover curve matches theirs, and the design of P11 |
-| Jack W. Williams (Wisconsin) | North American pollen data and no-analogue communities: whether the half-life and the North American slowdown are plausible, and the pollen–plot comparison in Q5 |
-| Manuel Steinbauer (Bayreuth) | |
-| Suzette Flantua | Pollen data synthesis: site-overlap and sampling controls (P6), and what can be compared between fossil and modern data in Q5 |
-| Irena Šímová | *Suggested, to confirm:* plant functional traits and their macroecology. The functional-type method in [#179] (are the groups ecologically coherent, and are the six traits the right basis?) and the aggregation question Q4 (P8) |
-| Name to add (co-author 9, Charles University) | |
+**Revised on 10 November 2026:** Round 0 goes out as one email to all co-authors, without per-person asks. The asks are kept as notes only.
 
 Before Round 1, enter final names, ORCIDs and affiliations in `manuscript.qmd`, and agree CRediT roles roughly at Round 0 so that nobody is surprised at Round 3.
 
