@@ -1,0 +1,44 @@
+Load the Model Store Freshness Ledger
+
+Description:
+
+     Reads and validates the ledger of targets that are knowingly left
+     outdated after a selective rerun.
+
+Usage:
+
+     load_model_store_freshness_ledger(
+       file = here::here("Documentation/Implementation_inventories/Model_stores",
+         "model_store_freshness_ledger.csv")
+     )
+
+Arguments:
+
+    file: Path to the ledger CSV file.
+
+Details:
+
+     `store_path` is relative to the repository root, as in the
+     `store_path_relative` column of [load_model_store_index()].
+     `target_pattern` is a regular expression matched against whole
+     target names. Every field is required, the pair of store path and
+     pattern must be unique, and each pattern must be a valid regular
+     expression. Rows are temporary: each one expires with the issue
+     named in `expiry_issue`.
+
+Value:
+
+     A tibble with character columns `store_path`, `target_pattern`,
+     `reason`, `evidence`, `owner`, and `expiry_issue`. It has zero
+     rows when the ledger only holds its header.
+
+See Also:
+
+     [apply_model_store_freshness_ledger()]
+
+Examples:
+
+     ## Not run:
+
+     load_model_store_freshness_ledger()
+     ## End(Not run)

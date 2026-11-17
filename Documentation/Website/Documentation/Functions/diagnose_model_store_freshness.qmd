@@ -1,0 +1,158 @@
+---
+format: html
+title: diagnose_model_store_freshness()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>diagnose_model_store_freshness</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Diagnose Freshness of One Model Targets Store</h2>
+
+<h3>Description</h3>
+
+<p>Lists the targets of one existing store that would rerun under the current
+code and configuration, without building any target.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>diagnose_model_store_freshness(
+  pipeline_script,
+  store_path,
+  profile_id,
+  data_manifest = NULL,
+  data_edges = NULL,
+  manifest_function = targets::tar_manifest,
+  network_function = targets::tar_network,
+  outdated_function = targets::tar_outdated,
+  read_target_function = targets::tar_read_raw,
+  load_metadata_function = targets::tar_meta
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="pipeline_script">pipeline_script</code></td>
+<td>
+<p>Path to the pipeline definition that owns the store.</p>
+</td></tr>
+<tr><td><code id="store_path">store_path</code></td>
+<td>
+<p>Path to the targets store.</p>
+</td></tr>
+<tr><td><code id="profile_id">profile_id</code></td>
+<td>
+<p>Configuration profile used to define the pipeline ('R_CONFIG_ACTIVE').</p>
+</td></tr>
+<tr><td><code id="data_manifest">data_manifest</code></td>
+<td>
+<p>Optional manifest with 'name', 'command', and 'cue_mode' columns. When
+'NULL' it is read with 'manifest_function'. Pass a cached manifest to
+inspect many stores of one pipeline and profile cheaply.</p>
+</td></tr>
+<tr><td><code id="data_edges">data_edges</code></td>
+<td>
+<p>Optional target-only network edges with 'from' and 'to' columns. When
+'NULL' they are read with 'network_function'.</p>
+</td></tr>
+<tr><td><code id="manifest_function">manifest_function</code>, <code id="network_function">network_function</code>, <code id="outdated_function">outdated_function</code></td>
+<td>
+<p>Injectable 'targets' inspection functions.</p>
+</td></tr>
+<tr><td><code id="read_target_function">read_target_function</code></td>
+<td>
+<p>Injectable cached-target reader used for configuration comparisons.</p>
+</td></tr>
+<tr><td><code id="load_metadata_function">load_metadata_function</code></td>
+<td>
+<p>Injectable metadata reader returning 'name' and 'error' columns.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The method mirrors [validate_sjsdm_cv_preparation_freshness()]. Always-cued
+'config_*' commands are re-evaluated in a private environment with the
+store's cached dependencies, and [resolve_scale_id_from_store()] bound to
+this store, then compared with the cached value. All other built targets
+are checked in one 'tar_outdated(shortcut = TRUE)' call, so unchanged
+always-cued configuration does not propagate false positives, while a
+genuinely outdated target still marks the named targets downstream of it.
+Targets downstream of errored targets that were never built are attributed
+to the error rather than reported as missing.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with columns 'store_path', 'target_name', 'finding_type',
+'flag_blocking', and 'detail'. It has zero rows when every target is
+current. Finding types:
+</p>
+
+<ul>
+<li><p> 'store_missing' (not blocking): the store does not exist.
+</p>
+</li>
+<li><p> 'missing_metadata': a pipeline target was never built.
+</p>
+</li>
+<li><p> 'config_changed': an always-cued 'config_*' target would return a
+different value.
+</p>
+</li>
+<li><p> 'outdated': a target would rerun; includes targets downstream of a
+changed configuration or of a never-built target.
+</p>
+</li>
+<li><p> 'errored_expected' (not blocking) and 'errored_unexpected': cached
+errors classified with [classify_sjsdm_unit_pipeline_error()].
+</p>
+</li>
+<li><p> 'always_cued_not_evaluated' (not blocking): other always-cued
+targets, which 'targets' reruns on every build by design.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>[load_model_store_index()], [apply_model_store_freshness_ledger()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+diagnose_model_store_freshness(
+  pipeline_script = "R/Pipelines/pipeline_paleo_temporal.R",
+  store_path = "Data/targets/paleo_temporal_europe/pipeline_paleo_temporal",
+  profile_id = "project_paleo_temporal_europe"
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

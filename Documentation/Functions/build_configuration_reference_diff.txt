@@ -1,0 +1,49 @@
+Build the Difference Between Resolved Configuration Profiles
+
+Description:
+
+     Lists the key paths at which resolved configuration profiles
+     differ from the semantic reference.
+
+Usage:
+
+     build_configuration_reference_diff(
+       list_profiles_current,
+       list_profiles_reference
+     )
+
+Arguments:
+
+list_profiles_current: Named list of resolved profiles, as compared by
+          the configuration generator.
+
+list_profiles_reference: Named list of reference profiles with the same
+          profile identifiers.
+
+Details:
+
+     Nested named lists are compared key by key; any other value
+     (vector, unnamed list, or `NULL`) is a leaf compared with
+     [base::identical()]. A different order of the shared keys is
+     reported as `<path>[order]` (because the generator compares whole
+     profiles with `identical()`), and the children are still compared
+     key by key.
+
+Value:
+
+     A tibble with columns `profile_id` and `key_path` (keys joined
+     with `.`), one row per differing leaf. A key present on one side
+     only is reported at the level where it is missing. Zero rows mean
+     the profiles are identical.
+
+See Also:
+
+     [save_configuration_profile_reference()],
+     [run_configuration_generation()]
+
+Examples:
+
+     build_configuration_reference_diff(
+       list_profiles_current = list(p = list(a = 1, b = list(c = 2))),
+       list_profiles_reference = list(p = list(a = 1, b = list(c = 3)))
+     )

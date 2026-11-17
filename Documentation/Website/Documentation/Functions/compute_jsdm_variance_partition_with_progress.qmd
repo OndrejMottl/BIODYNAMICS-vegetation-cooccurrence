@@ -58,7 +58,8 @@ No package namespace or installed file is modified.
 </td></tr>
 <tr><td><code id="anova_function">anova_function</code></td>
 <td>
-<p>Injectable ANOVA method; defaults to installed sjSDM.</p>
+<p>Injectable ANOVA method; defaults to the installed
+sjSDM method built by [build_jsdm_variance_partition_method()].</p>
 </td></tr>
 </table>
 
@@ -66,14 +67,17 @@ No package namespace or installed file is modified.
 <h3>Details</h3>
 
 <p>This sensitivity-only adapter fails closed on unsupported dependency versions
-or changed ANOVA and conditional-likelihood bodies. It does not change
+or changed ANOVA and conditional-likelihood bodies. By default it runs the
+same method as [compute_jsdm_variance_partition()], so sub-models carry the
+full model's association penalty and seed (issue #203). It does not change
 prediction calls, RNG order, fitting settings, or batch size.
 </p>
 
 
 <h3>Value</h3>
 
-<p>The installed ANOVA method's result, with unchanged scientific rules.
+<p>The ANOVA method's result, with the scientific rules of
+[compute_jsdm_variance_partition()].
 </p>
 
 

@@ -48,7 +48,8 @@ survivor target, then publishes the existing final tier artifact.
   validate_tuning_targets = base::identical(run_pipeline_function, run_pipeline),
   cache_recovery_attempts = 8L,
   validate_calibration_function = validate_sjsdm_cv_production_calibration,
-  unit_target_names = NULL
+  unit_target_names = NULL,
+  slice_ids = NULL
 )
 </code></pre>
 
@@ -137,6 +138,16 @@ retain '&quot;active&quot;'.</p>
 <td>
 <p>Optional named per-unit tuning requests from verified preparation. The
 exact store-target pairs are persisted for resolution-aware tier pooling.</p>
+</td></tr>
+<tr><td><code id="slice_ids">slice_ids</code></td>
+<td>
+<p>Optional slice identifiers (for example 'timeslice_0') of a temporal
+pipeline run as one non-nested store. When supplied, a store whose run is
+expected-infeasible is classified per slice with
+[classify_sjsdm_timeslice_status()]: expected infeasible slices are dropped
+and only feasible slices are tuned, while an unexpected error in any slice
+still blocks tier selection. The feasible store-target pairs are written to
+the tier requests file, so tier pooling reads only feasible slices.</p>
 </td></tr>
 </table>
 

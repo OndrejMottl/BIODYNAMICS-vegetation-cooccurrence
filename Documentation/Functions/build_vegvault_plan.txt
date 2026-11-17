@@ -50,6 +50,12 @@ Details:
      `biodynamics_vegvault_no_records` condition. Other errors retain
      their original condition as the parent of a contextual error.
 
+     The same typed condition is raised when the plan holds no sample
+     of any requested non-gridpoint dataset type. Gridpoints cover
+     every window, so such a plan builds, but
+     `vaultkeepr::get_abiotic_data()` would later stop with an empty
+     message.
+
 Value:
 
      A vaultkeepr plan object (lazy SQL query) after applying dataset

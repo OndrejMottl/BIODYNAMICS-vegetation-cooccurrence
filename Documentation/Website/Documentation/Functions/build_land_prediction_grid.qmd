@@ -54,7 +54,7 @@ unit, masks it to land, and projects coordinates to a metric CRS.
 </td></tr>
 <tr><td><code id="target_crs">target_crs</code></td>
 <td>
-<p>Integer EPSG code used by [project_coords_to_metric()].</p>
+<p>EPSG integer or CRS string passed to [project_coords_to_metric()].</p>
 </td></tr>
 <tr><td><code id="path_spatial_grid">path_spatial_grid</code></td>
 <td>

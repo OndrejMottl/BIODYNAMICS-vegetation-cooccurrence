@@ -1,0 +1,58 @@
+Resolve the Projection for Spatial Predictors
+
+Description:
+
+     Chooses the coordinate reference system used to project a model
+     unit's coordinates, from the unit's continent and the
+     per-continent projection map.
+
+Usage:
+
+     resolve_spatial_crs(
+       scale_id = NULL,
+       continent_id = NULL,
+       crs_by_continent,
+       file_spatial_grid = here::here("Data/Input/spatial_grid.csv")
+     )
+
+Arguments:
+
+scale_id: Optional spatial-unit identifier from the spatial grid
+          catalogue, as returned by [resolve_scale_id_from_store()].
+          `NULL` for stores that are not spatial units, such as
+          temporal stores.
+
+continent_id: Optional continent identifier from the profile
+          (`continent_id`), used when there is no `scale_id`.
+
+crs_by_continent: Named list mapping continent identifiers to an EPSG
+          integer or a CRS string accepted by
+          [project_coords_to_metric()] (`spatial_crs_by_continent` in
+          the configuration).
+
+file_spatial_grid: Path to the spatial grid catalogue.
+
+Details:
+
+     A `scale_id` is mapped to its continent with
+     [resolve_continent_ids_from_scale_ids()]. When both a `scale_id`
+     and a `continent_id` are given they must agree. The function
+     aborts when no continent can be determined or the continent has no
+     projection, so a missing entry never falls back to the European
+     projection (issue #204).
+
+Value:
+
+     The projection for the unit's continent: an integer EPSG code or
+     one CRS string.
+
+See Also:
+
+     [project_coords_to_metric()]
+
+Examples:
+
+     resolve_spatial_crs(
+       continent_id = "europe",
+       crs_by_continent = list(europe = 3035L)
+     )

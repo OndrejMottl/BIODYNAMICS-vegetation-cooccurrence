@@ -76,7 +76,12 @@ targets are excluded, even when their ANOVA targets remain readable.
 
 <p>A tibble with Shapley and predictor-inclusive ANOVA component values,
 explicitly labelled fitted AUC, and cross-validated predictive Tjur R2,
-AUC, and log loss.
+AUC, and log loss. Provenance columns record the regularisation source and
+candidate, and the build times of the final model
+('final_model_built_at', from 'mod_jsdm_selected_&lt;resolution&gt;') and of the
+variance partition ('variance_partition_built_at', from
+'list_jsdm_variance_partition_&lt;resolution&gt;'), taken from the store
+metadata. Build times are 'NA' when the metadata has no 'time' field.
 </p>
 
 </main>

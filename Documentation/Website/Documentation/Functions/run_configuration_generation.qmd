@@ -33,7 +33,9 @@ function processMathHTML() {
 <pre><code class='language-R'>run_configuration_generation(
   path_manifest = here::here("Configuration/manifest.yml"),
   path_source_root = here::here(),
-  path_destination_root = path_source_root
+  path_destination_root = path_source_root,
+  path_spatial_grid = base::file.path(path_source_root, "Data/Input/spatial_grid.csv"),
+  path_reference_changes = NULL
 )
 </code></pre>
 
@@ -52,6 +54,22 @@ function processMathHTML() {
 <tr><td><code id="path_destination_root">path_destination_root</code></td>
 <td>
 <p>Root under which generated artifact paths are written.</p>
+</td></tr>
+<tr><td><code id="path_spatial_grid">path_spatial_grid</code></td>
+<td>
+<p>Path to the spatial grid catalogue whose 'continent_id' values must all
+have an entry in 'spatial_crs_by_continent'. Defaults to
+'Data/Input/spatial_grid.csv' below 'path_source_root'; generation aborts
+when the file is missing.</p>
+</td></tr>
+<tr><td><code id="path_reference_changes">path_reference_changes</code></td>
+<td>
+<p>Optional path to the declared reference-changes CSV. When 'NULL'
+(default), any difference from the semantic reference aborts. When
+supplied, declared differences are accepted and the updated reference is
+written below 'path_destination_root' with
+[save_configuration_profile_reference()]; undeclared differences still
+abort.</p>
 </td></tr>
 </table>
 

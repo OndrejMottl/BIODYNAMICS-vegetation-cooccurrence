@@ -1,0 +1,62 @@
+Save an Updated Configuration Profile Reference
+
+Description:
+
+     Replaces the resolved profiles of the configuration semantic
+     reference with new ones, but only when every difference was
+     declared in advance.
+
+Usage:
+
+     save_configuration_profile_reference(
+       list_reference,
+       list_profiles_new,
+       data_declared_changes,
+       path_reference
+     )
+
+Arguments:
+
+list_reference: Current semantic reference, as read from its `.rds`
+          file.
+
+list_profiles_new: Named list of new resolved profiles, prepared
+          exactly as the generator compares them with the reference.
+
+data_declared_changes: Data frame with columns `change_id`,
+          `profile_id`, `key_path`, `issue`, and `rationale`.
+          `profile_id` may be `*` to declare a change for every
+          profile.
+
+path_reference: File to write the updated reference to.
+
+Details:
+
+     Differences are found with [build_configuration_reference_diff()].
+     The function aborts when any difference is undeclared. Declared
+     rows without a current difference are treated as already applied.
+     The updated reference keeps its structure: `resolved_profiles`,
+     `semantic_hashes` (SHA-256 of each profile), and
+     `aggregate_semantic_sha256` are recomputed as
+     `create_configuration_profile_reference.R` defined them, and the
+     applied differences are appended to `revision_changes`.
+
+Value:
+
+     Invisibly, the updated reference list.
+
+See Also:
+
+     [run_configuration_generation()]
+
+Examples:
+
+     ## Not run:
+
+     save_configuration_profile_reference(
+       list_reference = readRDS(path_reference),
+       list_profiles_new = list_profiles,
+       data_declared_changes = readr::read_csv(path_changes),
+       path_reference = path_reference
+     )
+     ## End(Not run)

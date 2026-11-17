@@ -31,11 +31,11 @@ flowchart TD
 | one_time | 4 |
 | pipeline_definition | 46 |
 | project_setup | 3 |
-| reference | 13 |
+| reference | 14 |
 | scientific_reference | 2 |
 | sensitivity | 1 |
-| supplementary_or_processing | 42 |
-| test | 462 |
+| supplementary_or_processing | 47 |
+| test | 475 |
 
 ## Function capabilities
 
@@ -49,17 +49,17 @@ flowchart TD
 | Data/Traits | 53 |
 | Data_access/Files | 1 |
 | Data_access/Vegvault | 5 |
-| Modelling/Cross_validation | 142 |
+| Modelling/Cross_validation | 143 |
 | Modelling/Decomposition | 19 |
-| Modelling/Evaluation | 16 |
+| Modelling/Evaluation | 17 |
 | Modelling/Fit_inputs | 11 |
 | Modelling/Fitting | 10 |
 | Modelling/Spatial_effects | 12 |
-| Modelling/Variance_partitioning | 9 |
-| Pipeline/Configuration | 12 |
+| Modelling/Variance_partitioning | 10 |
+| Pipeline/Configuration | 16 |
 | Pipeline/Definitions | 5 |
 | Pipeline/Orchestration | 9 |
-| Pipeline/Stores | 7 |
+| Pipeline/Stores | 13 |
 | Prediction/Climate | 1 |
 | Prediction/Grids | 1 |
 | Prediction/Inference | 2 |
@@ -122,7 +122,8 @@ flowchart TD
 | `R/Pipelines/_pipes/pipe_segment_model_spatial_samples.R` | Modelling/Spatial_effects | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_spatial_shared.R` | Data/Spatial | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_spatial_shared.R` | Modelling/Spatial_effects | 2 |
-| `R/Pipelines/_pipes/pipe_segment_model_spatial_shared.R` | Pipeline/Configuration | 1 |
+| `R/Pipelines/_pipes/pipe_segment_model_spatial_shared.R` | Pipeline/Configuration | 2 |
+| `R/Pipelines/_pipes/pipe_segment_model_spatial_shared.R` | Pipeline/Stores | 1 |
 | `R/Pipelines/_pipes/pipe_segment_model_summary_by_age.R` | Modelling/Variance_partitioning | 2 |
 | `R/Pipelines/_pipes/pipe_segment_network_metrics.R` | Data/Community | 1 |
 | `R/Pipelines/_pipes/pipe_segment_sample_alignment.R` | Data/Samples | 2 |
@@ -177,7 +178,7 @@ flowchart TD
 
 | Contract type | Scope | Contracts |
 |---|---|---:|
-| literal_target | persisted_internal | 400 |
+| literal_target | persisted_internal | 401 |
 | literal_target | public_or_frozen_cv_review | 72 |
 
 ## Architecture exceptions

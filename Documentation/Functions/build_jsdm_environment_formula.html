@@ -55,8 +55,12 @@ in 'data', producing a simple additive formula '~ var1 + var2 + ...'.</p>
 
 <p>The function constructs different formulas based on the presence of an
 'age' column and the 'use_age' flag:
-- With age column and 'use_age = TRUE': ~ (var1 + var2 + ...) * age - age
-- Without age column, or 'use_age = FALSE': ~ var1 + var2 + ...
+- With an age column holding more than one distinct non-missing value and
+'use_age = TRUE': ~ (var1 + var2 + ...) * age - age
+- Without age column, with a single age, or with 'use_age = FALSE':
+~ var1 + var2 + ...
+A single age (for example one time slice) would make every age
+interaction column zero, so age terms are dropped in that case.
 The formula removes intercept terms and individual variable terms when
 interactions are present.
 </p>

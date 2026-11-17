@@ -1,0 +1,104 @@
+<!DOCTYPE html><html><head><title>R: Save an Updated Configuration Profile Reference</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>save_configuration_profile_reference</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Save an Updated Configuration Profile Reference</h2>
+
+<h3>Description</h3>
+
+<p>Replaces the resolved profiles of the configuration semantic reference with
+new ones, but only when every difference was declared in advance.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>save_configuration_profile_reference(
+  list_reference,
+  list_profiles_new,
+  data_declared_changes,
+  path_reference
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="list_reference">list_reference</code></td>
+<td>
+<p>Current semantic reference, as read from its '.rds' file.</p>
+</td></tr>
+<tr><td><code id="list_profiles_new">list_profiles_new</code></td>
+<td>
+<p>Named list of new resolved profiles, prepared exactly as the generator
+compares them with the reference.</p>
+</td></tr>
+<tr><td><code id="data_declared_changes">data_declared_changes</code></td>
+<td>
+<p>Data frame with columns 'change_id', 'profile_id', 'key_path', 'issue',
+and 'rationale'. 'profile_id' may be '*' to declare a change for every
+profile.</p>
+</td></tr>
+<tr><td><code id="path_reference">path_reference</code></td>
+<td>
+<p>File to write the updated reference to.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Differences are found with [build_configuration_reference_diff()]. The
+function aborts when any difference is undeclared. Declared rows without
+a current difference are treated as already applied. The updated reference
+keeps its structure: 'resolved_profiles', 'semantic_hashes' (SHA-256 of
+each profile), and 'aggregate_semantic_sha256' are recomputed as
+'create_configuration_profile_reference.R' defined them, and the applied
+differences are appended to 'revision_changes'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Invisibly, the updated reference list.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[run_configuration_generation()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+save_configuration_profile_reference(
+  list_reference = readRDS(path_reference),
+  list_profiles_new = list_profiles,
+  data_declared_changes = readr::read_csv(path_changes),
+  path_reference = path_reference
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

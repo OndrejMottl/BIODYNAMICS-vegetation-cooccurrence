@@ -1,0 +1,77 @@
+Classify the Status of Each Temporal Slice
+
+Description:
+
+     Classifies every time slice of one temporal store as fitted
+     (`ok`), an expected infeasible slice, an unexpected error, a slice
+     that was not built, or a slice outside the modelled window, from
+     the store's target metadata.
+
+Usage:
+
+     classify_sjsdm_timeslice_status(
+       data_target_errors,
+       vec_slice_ids,
+       vec_window_slice_ids = vec_slice_ids,
+       vec_excluded_slice_ids = base::character(),
+       terminal_target_prefix = NULL
+     )
+
+Arguments:
+
+data_target_errors: Data frame with `name` and `error` columns, such as
+          `targets::tar_meta()` output. Rows without an error count as
+          built targets. May be `NULL`.
+
+vec_slice_ids: Slice identifiers to report, for example `timeslice_0`.
+
+vec_window_slice_ids: Slice identifiers inside the modelled-slice
+          window. Slices in `vec_slice_ids` but not here are labelled
+          `outside_window`. Defaults to `vec_slice_ids`.
+
+vec_excluded_slice_ids: Slice identifiers excluded from modelling in
+          the profile (`temporal_slices.excluded_ages`). They are
+          labelled `expected_infeasible` with reason
+          `excluded_in_configuration`.
+
+terminal_target_prefix: Optional prefix of the last target of each
+          slice, for example `"list_jsdm_variance_partition_"`. When
+          given, a slice without errors is `ok` only if
+          `<prefix><slice_id>` was built without error; otherwise it is
+          `not_built` (reason `terminal_target_missing`). `NULL`
+          (default) skips the check.
+
+Details:
+
+     The errors of each slice are the errored targets whose names end
+     in `_<slice_id>`; they are classified with
+     [classify_sjsdm_unit_pipeline_error()], whose temporal cascade
+     rules accept downstream failures only when the same slice has an
+     expected root.
+
+Value:
+
+     A tibble with columns `slice_id`, `age`, `status`, `reason_code`,
+     `root_target`, and `root_error`, one row per slice. `status` is
+     one of `ok`, `expected_infeasible`, `unexpected_error`,
+     `not_built`, or `outside_window`. When targets shared by all
+     slices errored, one extra row with `slice_id = NA` reports their
+     classification.
+
+See Also:
+
+     [classify_sjsdm_unit_pipeline_error()],
+     [load_temporal_slice_ages()]
+
+Examples:
+
+     classify_sjsdm_timeslice_status(
+       data_target_errors = tibble::tibble(
+         name = "data_sample_ids_checked_timeslice_0",
+         error = stringr::str_c(
+           "Too few samples in this time slice to proceed. ",
+           "Found 1 sample(s) but at least 10 are required."
+         )
+       ),
+       vec_slice_ids = base::c("timeslice_0", "timeslice_500")
+     )

@@ -1,0 +1,55 @@
+Load Paleo Temporal Slice Provenance
+
+Description:
+
+     Reads, for every time slice of one temporal store, the
+     regularisation provenance of its model and the build times of its
+     final model and variance partition.
+
+Usage:
+
+     load_paleo_temporal_slice_provenance(
+       store_path,
+       read_target_fn = targets::tar_read_raw,
+       meta_fn = targets::tar_meta
+     )
+
+Arguments:
+
+store_path: Path to one `pipeline_paleo_temporal` targets store.
+
+read_target_fn: Function used to load one target. Defaults to
+          [targets::tar_read_raw()].
+
+ meta_fn: Function used to load target metadata. Defaults to
+          [targets::tar_meta()].
+
+Details:
+
+     Slices are taken from the `data_sample_ids_timeslice_<age>`
+     targets. Provenance comes from
+     `data_sjsdm_cv_model_provenance_timeslice_<age>`; build times are
+     the metadata `time` of `mod_jsdm_selected_timeslice_<age>` and
+     `list_jsdm_variance_partition_timeslice_<age>`. Targets that
+     errored are treated as absent.
+
+Value:
+
+     A tibble with one row per time slice found in the store metadata
+     and columns `timeslice_id`, `age`, `cv_strategy`,
+     `regularization_source`, `candidate_id`, `final_model_built_at`,
+     and `variance_partition_built_at`. Values are `NA` when a slice
+     has no successful provenance, final model, or partition target.
+
+See Also:
+
+     [load_spatial_model_results()]
+
+Examples:
+
+     ## Not run:
+
+     load_paleo_temporal_slice_provenance(
+       store_path = "Data/targets/paleo_temporal_europe/pipeline_paleo_temporal"
+     )
+     ## End(Not run)
