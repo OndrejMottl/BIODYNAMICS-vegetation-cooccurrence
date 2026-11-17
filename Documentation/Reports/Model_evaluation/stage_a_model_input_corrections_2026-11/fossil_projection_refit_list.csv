@@ -1,0 +1,57 @@
+data_source,continent_id,scale,scale_id,resolution_id,n_samples,n_mev_stored,n_mev_new,r2_min,diagnostic_status,threshold_r2,flag_refit,flag_published
+paleo,america,continental,america,genus,8096,5,5,0.9889005109822542,compared,0.99,TRUE,TRUE
+paleo,america,continental,america,family,8096,5,5,0.9889005109822542,compared,0.99,TRUE,TRUE
+paleo,america,continental,america,functional_type,8096,5,5,0.9889005109822542,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r003,genus,161,2,2,0.9894834925247266,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r005,genus,1087,4,4,0.003179754646255306,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r005,family,1087,4,4,0.003179754646255306,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r005,functional_type,1087,4,4,0.003179754646255306,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r006,genus,86,3,3,0.968607054119825,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r006,functional_type,86,3,3,0.968607054119825,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r007,genus,534,4,4,0.9524740758769615,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r007,family,534,4,4,0.9524740758769615,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r007,functional_type,534,4,4,0.9524740758769615,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r008,genus,1356,4,4,0.9670089988453912,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r008,family,1356,4,4,0.9670089988453912,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r008,functional_type,1356,4,4,0.9670089988453912,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r010,genus,322,4,4,0.9814897424665127,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r010,family,322,4,4,0.9814897424665127,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r010,functional_type,322,4,4,0.9814897424665127,compared,0.99,TRUE,TRUE
+paleo,asia,regional,as_r008,genus,172,3,2,0.9998070020840797,compared,0.99,TRUE,TRUE
+paleo,asia,regional,as_r008,functional_type,172,3,2,0.9998070020840797,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r002_l005,genus,355,3,3,0.6454666963953177,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r002_l005,family,355,3,3,0.6454666963953177,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r002_l005,functional_type,355,3,3,0.6454666963953177,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r004_l006,genus,331,3,3,0.9813023708606222,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r004_l006,family,331,3,3,0.9813023708606222,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r004_l006,functional_type,331,3,3,0.9813023708606222,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l005,genus,271,2,3,0.09637608657554686,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l005,family,271,2,3,0.09637608657554686,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l005,functional_type,271,2,3,0.09637608657554686,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l006,genus,291,3,3,0.9760528906846114,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l006,family,291,3,3,0.9760528906846114,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l006,functional_type,291,3,3,0.9760528906846114,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r007_l005,genus,119,1,1,0.964841828637801,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r007_l005,family,119,1,1,0.964841828637801,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r007_l005,functional_type,119,1,1,0.964841828637801,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l006,genus,206,3,3,0.9727918224670399,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l006,family,206,3,3,0.9727918224670399,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l006,functional_type,206,3,3,0.9727918224670399,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l009,genus,352,3,3,0.9879807077302284,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l009,family,352,3,3,0.9879807077302284,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l009,functional_type,352,3,3,0.9879807077302284,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l010,genus,263,3,3,0.9884029011872661,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l010,family,263,3,3,0.9884029011872661,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l010,functional_type,263,3,3,0.9884029011872661,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r011_l002,genus,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,TRUE
+paleo,america,local,am_r011_l002,family,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,TRUE
+paleo,america,local,am_r011_l002,functional_type,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,TRUE
+paleo,america,local,am_r011_l010,genus,236,2,3,0.015667205804717255,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r011_l010,family,236,2,3,0.015667205804717255,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r011_l010,functional_type,236,2,3,0.015667205804717255,compared,0.99,TRUE,TRUE
