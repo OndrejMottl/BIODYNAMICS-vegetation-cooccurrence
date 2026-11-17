@@ -6,11 +6,15 @@
 #' @param mod Fitted sjSDM object.
 #' @param n_samples Positive Monte Carlo sample count; passed unchanged.
 #' @param verbose Logical; print per-taxon start and completion timestamps.
-#' @param anova_function Injectable ANOVA method; defaults to installed sjSDM.
-#' @return The installed ANOVA method's result, with unchanged scientific rules.
+#' @param anova_function Injectable ANOVA method; defaults to the installed
+#'   sjSDM method built by [build_jsdm_variance_partition_method()].
+#' @return The ANOVA method's result, with the scientific rules of
+#'   [compute_jsdm_variance_partition()].
 #' @details
 #' This sensitivity-only adapter fails closed on unsupported dependency versions
-#' or changed ANOVA and conditional-likelihood bodies. It does not change
+#' or changed ANOVA and conditional-likelihood bodies. By default it runs the
+#' same method as [compute_jsdm_variance_partition()], so sub-models carry the
+#' full model's association penalty and seed (issue #203). It does not change
 #' prediction calls, RNG order, fitting settings, or batch size.
 #' @examples
 #' \dontrun{
@@ -89,7 +93,7 @@ compute_jsdm_variance_partition_with_progress <- function(
     if (
       base::is.null(anova_function)
     ) {
-      method_installed
+      build_jsdm_variance_partition_method(mod = mod)
     } else {
       anova_function
     }
