@@ -46,18 +46,12 @@ interpolation_workers_override <-
 # 1. Prepare time slices -----
 #----------------------------------------------------------#
 
-vec_age_lim <-
-  load_active_config_value(base::c("vegvault_data", "age_lim"))
+# Modelled slices only (temporal_slices.age_window; issue #181).
 vec_target_names <-
   stringr::str_c(
     "list_sjsdm_prepared_tuning_folds_timeslice_",
-    base::seq(
-      from = base::min(vec_age_lim),
-      to = base::max(vec_age_lim),
-      by = load_active_config_value(
-        base::c("data_processing", "time_step")
-      )
-    )
+    load_temporal_slice_ages() |>
+      dplyr::pull("age")
   )
 
 run_sjsdm_cv_preparation_sequence(

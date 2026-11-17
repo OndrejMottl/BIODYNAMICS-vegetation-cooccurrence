@@ -163,7 +163,38 @@ classify_sjsdm_unit_pipeline_error <- function(
       "^data_cross_validation_feasibility_timeslice_[0-9]+$",
       "^`data_partition_diagnostics` must be a data frame[.]$",
       "^list_sjsdm_prepared_tuning_folds_timeslice_[0-9]+$",
-      "^argument is of length zero$"
+      "^argument is of length zero$",
+      # Further cascades observed on 16 Nov 2026 when a one-sample slice
+      #   (Asia 0 ka) was built with the current pipeline (issue #181).
+      "^data_abiotic_scaled_list_timeslice_[0-9]+$",
+      "^data_abiotic_wide must be a data frame$",
+      "^data_community_filtered_timeslice_[0-9]+$",
+      "^data_community_matrix must be a matrix$",
+      "^data_model_input_timeslice_[0-9]+$",
+      "^data_community_filtered must be a matrix$",
+      "^data_spatial_mev_samples_timeslice_[0-9]+$",
+      "^data_sample_ids must be a data frame$",
+      "^data_network_metrics_timeslice_[0-9]+$",
+      "^data_to_fit must be a list$",
+      paste0(
+        "^(?:formula_jsdm_environment|data_cross_validation_assignments|",
+        "data_cross_validation_fold_search|",
+        "data_cross_validation_partition_diagnostics_search)",
+        "_timeslice_[0-9]+$"
+      ),
+      "^Can't pluck from NULL at level 1[.]$",
+      "^list_cross_validation_fold_search_timeslice_[0-9]+$",
+      "^`data_partition_diagnostics` must be a data frame[.]$",
+      "^list_cross_validation_design_artifact_timeslice_[0-9]+$",
+      "^Every data payload field must be a data frame[.]$",
+      paste0(
+        "^(?:data_sjsdm_all_tuning_work_items|data_sjsdm_tuning_work_items|",
+        "data_sjsdm_tier_regularization_artifact|",
+        "list_sjsdm_available_tier_decisions)_timeslice_[0-9]+$"
+      ),
+      "^argument is of length zero$",
+      "^data_sjsdm_tuning_branch_work_items_timeslice_[0-9]+$",
+      "^Tuning work-item schema is incomplete[.]$"
     )
   vec_time_slice <-
     stringr::str_extract(

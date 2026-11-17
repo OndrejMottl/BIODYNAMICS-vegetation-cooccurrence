@@ -116,25 +116,11 @@ c(
 ## 1.2 Build per-slice target map -----
 #--------------------------------------------------#
 
-# Enumerate all age values to run the model on.
-# Derived from the active configuration so it adjusts automatically
-#   when switching between projects (project_cz_paleo,
-#   project_paleo_temporal_europe, ...).
-vec_age_lim <-
-  load_active_config_value(c("vegvault_data", "age_lim"))
-
-vec_time_step <-
-  load_active_config_value(c("data_processing", "time_step"))
-
+# Enumerate the modelled slices from the profile's modelled-slice window
+#   (temporal_slices.age_window). The extraction window vegvault_data.age_lim
+#   is wider; slices outside the modelled window are not part of the pipeline.
 data_to_map_age <-
-  tibble::tibble(
-    age = seq(
-      from = min(vec_age_lim),
-      to = max(vec_age_lim),
-      by = vec_time_step
-    ),
-    age_name = paste0("timeslice_", age)
-  )
+  load_temporal_slice_ages()
 
 # Assemble the per-slice segment list.
 # Each group of targets is namespaced by tarchetypes::tar_map,

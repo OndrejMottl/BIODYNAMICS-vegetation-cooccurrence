@@ -74,6 +74,27 @@ if (
 # 2. Load accepted temporal results -----
 #----------------------------------------------------------#
 
+# Regularisation provenance and build times per slice, so published rows
+#   show which fit and partition they come from.
+data_temporal_provenance <-
+  data_temporal_stores |>
+  purrr::pmap(
+    function(continent_id, store_path, store_exists) {
+      load_paleo_temporal_slice_provenance(store_path = store_path) |>
+        dplyr::mutate(continent_id = continent_id) |>
+        dplyr::select(
+          "continent_id",
+          "age",
+          "cv_strategy",
+          "regularization_source",
+          "candidate_id",
+          "final_model_built_at",
+          "variance_partition_built_at"
+        )
+    }
+  ) |>
+  purrr::list_rbind()
+
 data_temporal_anova <-
   data_temporal_stores |>
   purrr::pmap(
@@ -138,6 +159,11 @@ data_temporal_unit <-
     base::is.finite(.data$value)
   ) |>
   dplyr::mutate(availability_status = "available") |>
+  dplyr::left_join(
+    data_temporal_provenance,
+    by = dplyr::join_by(continent_id, age),
+    relationship = "many-to-one"
+  ) |>
   dplyr::select(
     "continent_id",
     "scale",
@@ -147,7 +173,12 @@ data_temporal_unit <-
     "result_type",
     "series",
     "value",
-    "availability_status"
+    "availability_status",
+    "cv_strategy",
+    "regularization_source",
+    "candidate_id",
+    "final_model_built_at",
+    "variance_partition_built_at"
   ) |>
   dplyr::arrange(
     .data$continent_id,
@@ -194,6 +225,33 @@ data_temporal_density <-
           )
         )
 
+      # Slices outside the profile's modelled window (issue #181) stay in
+      #   the density table but are not models; label them explicitly.
+      data_window_slices <-
+        load_temporal_slice_ages(
+          config_id = stringr::str_glue(
+            "project_paleo_temporal_{continent_id}"
+          ),
+          flag_modelled_only = FALSE
+        )
+      vec_window_slice_ids <-
+        dplyr::pull(data_window_slices, "age_name")
+      # Slices excluded in the profile are known to be infeasible.
+      vec_excluded_slice_ids <-
+        data_window_slices |>
+        dplyr::filter(!.data$flag_modelled) |>
+        dplyr::pull("age_name")
+      data_slice_status <-
+        classify_sjsdm_timeslice_status(
+          data_target_errors = data_target_meta_all,
+          vec_slice_ids = stringr::str_extract(
+            data_target_meta[["name"]],
+            "timeslice_[0-9]+$"
+          ),
+          vec_window_slice_ids = vec_window_slice_ids
+        ) |>
+        dplyr::filter(!base::is.na(.data$slice_id))
+
       data_target_meta |>
         dplyr::mutate(
           age = stringr::str_extract(.data$name, "[0-9]+$") |>
@@ -234,11 +292,40 @@ data_temporal_density <-
           model_error_classification = purrr::map(
             .data$timeslice_id,
             ~ {
+              timeslice_id <- .x
               target_name <-
-                stringr::str_glue("model_anova_{.x}")
+                stringr::str_glue("list_jsdm_variance_partition_{.x}")
+              list_slice_status <-
+                data_slice_status |>
+                dplyr::filter(.data$slice_id == .env$timeslice_id) |>
+                base::as.list()
               data_model_target <-
                 data_target_meta_all |>
                 dplyr::filter(.data$name == .env$target_name)
+              if (
+                timeslice_id %in% vec_excluded_slice_ids
+              ) {
+                return(
+                  base::list(
+                    status = "expected_infeasible",
+                    reason_code = "excluded_in_configuration",
+                    root_target = NA_character_,
+                    root_error = NA_character_
+                  )
+                )
+              }
+              if (
+                list_slice_status[["status"]] == "outside_window"
+              ) {
+                return(
+                  base::list(
+                    status = "outside_window",
+                    reason_code = list_slice_status[["reason_code"]],
+                    root_target = NA_character_,
+                    root_error = NA_character_
+                  )
+                )
+              }
               if (
                 base::nrow(data_model_target) == 0L
               ) {
@@ -266,15 +353,10 @@ data_temporal_density <-
                   )
                 )
               }
-              data_slice_errors <-
-                data_target_meta_all |>
-                dplyr::filter(
-                  stringr::str_ends(.data$name, .env$.x),
-                  !base::is.na(.data$error),
-                  base::nzchar(.data$error)
-                )
-              classify_sjsdm_unit_pipeline_error(
-                data_target_errors = data_slice_errors
+              return(
+                list_slice_status[
+                  base::c("status", "reason_code", "root_target", "root_error")
+                ]
               )
             }
           ),
@@ -365,6 +447,11 @@ data_temporal_density <-
     }
   ) |>
   purrr::list_rbind() |>
+  dplyr::left_join(
+    data_temporal_provenance,
+    by = dplyr::join_by(continent_id, age),
+    relationship = "one-to-one"
+  ) |>
   dplyr::arrange(
     .data$continent_id,
     dplyr::desc(.data$age)

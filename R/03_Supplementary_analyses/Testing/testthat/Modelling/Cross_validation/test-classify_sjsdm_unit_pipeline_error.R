@@ -446,3 +446,124 @@ testthat::test_that("qs fallback requires a registered data root", {
       tibble::tibble(name = "other_root", error = "unexpected GPU error")))[[
         "status"]], "unexpected_error")
 })
+
+testthat::test_that(
+  "classify_sjsdm_unit_pipeline_error() accepts the one-sample cascade",
+  {
+    # Errors recorded on 16 Nov 2026 when Asia 0 ka (1 sample) was built with
+    #   the current temporal pipeline on a store copy (issue #181).
+    data_target_errors <-
+      tibble::tibble(
+        name = base::c(
+          "data_abiotic_scaled_list_timeslice_0",
+          "data_abiotic_wide_timeslice_0",
+          "data_community_filtered_timeslice_0",
+          "data_community_model_matrix_timeslice_0",
+          "data_community_prepared_timeslice_0",
+          "data_cross_validation_assignments_initial_timeslice_0",
+          "data_cross_validation_assignments_timeslice_0",
+          "data_cross_validation_feasibility_timeslice_0",
+          "data_cross_validation_fold_resolution_timeslice_0",
+          "data_cross_validation_fold_search_timeslice_0",
+          "data_cross_validation_grid_calibration_timeslice_0",
+          "data_cross_validation_grid_candidates_timeslice_0",
+          "data_cross_validation_locations_timeslice_0",
+          "data_cross_validation_partition_diagnostics_initial_timeslice_0",
+          "data_cross_validation_partition_diagnostics_search_timeslice_0",
+          "data_cross_validation_partition_diagnostics_timeslice_0",
+          "data_model_input_timeslice_0",
+          "data_network_metrics_timeslice_0",
+          "data_sample_ids_checked_timeslice_0",
+          "data_sjsdm_all_tuning_work_items_timeslice_0",
+          "data_sjsdm_tier_regularization_artifact_timeslice_0",
+          "data_sjsdm_tuning_work_items_timeslice_0",
+          "data_spatial_mev_samples_timeslice_0",
+          "formula_jsdm_environment_timeslice_0",
+          "list_cross_validation_design_artifact_timeslice_0",
+          "list_cross_validation_fold_search_timeslice_0",
+          "list_sjsdm_available_tier_decisions_timeslice_0",
+          "list_sjsdm_prepared_tuning_folds_timeslice_0"
+        ),
+        error = base::c(
+          "data_abiotic_wide must be a data frame",
+          "data_sample_ids must be a data frame",
+          "data_community_matrix must be a matrix",
+          "data_sample_ids must be a data frame",
+          "mat_community must be a matrix",
+          "`data_locations` must be a non-empty data frame.",
+          "Can't pluck from NULL at level 1.",
+          "`data_partition_diagnostics` must be a data frame.",
+          "`n_locations` must be a single positive integer.",
+          "Can't pluck from NULL at level 1.",
+          "`data_fold_resolution` must contain exactly one row.",
+          stringr::str_c(
+            "`data_fold_resolution` must contain one row and a `cv_s",
+            "trategy` column."
+        ),
+        "`data_sample_ids` must be a data frame.",
+        "`data_locations` must be a non-empty data frame.",
+        "Can't pluck from NULL at level 1.",
+        "`data_locations` must be a non-empty data frame.",
+        "data_community_filtered must be a matrix",
+        "data_to_fit must be a list",
+        stringr::str_c(
+          "Too few samples in this time slice to proceed with data",
+          " preparation and model fitting. Found 1 sample(s) but a",
+          "t least 10 are required."
+        ),
+        "argument is of length zero",
+        "argument is of length zero",
+        "argument is of length zero",
+        "data_sample_ids must be a data frame",
+        "Can't pluck from NULL at level 1.",
+        "Every data payload field must be a data frame.",
+        "`data_partition_diagnostics` must be a data frame.",
+        "argument is of length zero",
+        "argument is of length zero"
+        )
+      )
+
+    res <-
+      classify_sjsdm_unit_pipeline_error(
+        data_target_errors = data_target_errors
+      )
+
+    testthat::expect_equal(res[["status"]], "expected_infeasible")
+    testthat::expect_equal(res[["reason_code"]], "insufficient_samples")
+    testthat::expect_equal(
+      res[["root_target"]],
+      "data_sample_ids_checked_timeslice_0"
+    )
+  }
+)
+
+testthat::test_that(
+  "classify_sjsdm_unit_pipeline_error() rejects a cascade without its root",
+  {
+    # The one-sample cascade targets without the insufficient-sample root.
+    data_target_errors <-
+      tibble::tibble(
+        name = base::c(
+          "data_abiotic_scaled_list_timeslice_0",
+          "data_community_filtered_timeslice_0",
+          "data_cross_validation_fold_search_timeslice_0",
+          "data_sjsdm_tuning_work_items_timeslice_0",
+          "formula_jsdm_environment_timeslice_0"
+        ),
+        error = base::c(
+          "data_abiotic_wide must be a data frame",
+          "data_community_matrix must be a matrix",
+          "Can't pluck from NULL at level 1.",
+          "argument is of length zero",
+          "Can't pluck from NULL at level 1."
+        )
+      )
+
+    res <-
+      classify_sjsdm_unit_pipeline_error(
+        data_target_errors = data_target_errors
+      )
+
+    testthat::expect_equal(res[["status"]], "unexpected_error")
+  }
+)

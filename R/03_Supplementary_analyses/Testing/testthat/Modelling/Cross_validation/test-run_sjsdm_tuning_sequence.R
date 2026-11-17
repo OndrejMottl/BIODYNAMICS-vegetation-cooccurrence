@@ -159,3 +159,135 @@ testthat::test_that("unexplained production failure blocks tier selection", {
   )
   testthat::expect_false(flag_tier_called)
 })
+
+testthat::test_that("temporal tuning drops expected infeasible slices only", {
+  path_store <-
+    withr::local_tempdir()
+  vec_unit_requests <- NULL
+  vec_evidence <- NULL
+  flag_tier_called <- FALSE
+
+  run_sjsdm_tuning_sequence(
+    unit_pipeline = "pipeline.R",
+    target_store = path_store,
+    tuning_strategy = "exhaustive",
+    n_rounds = 1L,
+    tuning_target_names = base::c(
+      "list_sjsdm_cv_tuning_artifact_timeslice_0",
+      "list_sjsdm_cv_tuning_artifact_timeslice_500"
+    ),
+    slice_ids = base::c("timeslice_0", "timeslice_500"),
+    validate_tuning_targets = FALSE,
+    run_pipeline_function = function(sel_script, target_names = NULL, ...) {
+      if (
+        sel_script == "pipeline.R"
+      ) {
+        vec_unit_requests <<- target_names
+        # Only a request that includes the infeasible slice fails.
+        if (
+          "list_sjsdm_cv_tuning_artifact_timeslice_0" %in% target_names
+        ) {
+          rlang::abort(
+            "1 target(s) errored",
+            class = "sjsdm_unit_expected_infeasible"
+          )
+        }
+        return(base::invisible(NULL))
+      }
+      flag_tier_called <<- TRUE
+    },
+    load_metadata_function = function(...) {
+      tibble::tibble(
+        name = base::c(
+          "data_sample_ids_checked_timeslice_0",
+          "data_abiotic_wide_timeslice_0"
+        ),
+        error = base::c(
+          stringr::str_c(
+            "Too few samples in this time slice to proceed. ",
+            "Found 1 sample(s) but at least 10 are required."
+          ),
+          "data_sample_ids must be a data frame"
+        ),
+        time = base::Sys.time()
+      )
+    },
+    has_tuning_evidence_function = function(store_paths, target_names) {
+      vec_evidence <<- target_names
+      TRUE
+    }
+  )
+
+  testthat::expect_true(flag_tier_called)
+  # The round is rerun for the feasible slice only.
+  testthat::expect_identical(
+    vec_unit_requests,
+    "list_sjsdm_cv_tuning_artifact_timeslice_500"
+  )
+  testthat::expect_identical(
+    vec_evidence,
+    "list_sjsdm_cv_tuning_artifact_timeslice_500"
+  )
+  data_requests <-
+    readr::read_csv(
+      fs::path(path_store, "sjsdm_tier_unit_requests.csv"),
+      show_col_types = FALSE
+    )
+  testthat::expect_identical(
+    data_requests[["target_name"]],
+    "list_sjsdm_cv_tuning_artifact_timeslice_500"
+  )
+})
+
+testthat::test_that("temporal tuning blocks on an unexpected slice error", {
+  testthat::expect_error(
+    run_sjsdm_tuning_sequence(
+      unit_pipeline = "pipeline.R",
+      target_store = withr::local_tempdir(),
+      tuning_strategy = "exhaustive",
+      n_rounds = 1L,
+      tuning_target_names = "list_sjsdm_cv_tuning_artifact_timeslice_0",
+      slice_ids = "timeslice_0",
+      validate_tuning_targets = TRUE,
+      run_pipeline_function = function(sel_script, ...) {
+        rlang::abort("failed", class = "sjsdm_unit_expected_infeasible")
+      },
+      load_metadata_function = function(...) {
+        tibble::tibble(
+          name = "mod_jsdm_timeslice_0",
+          error = "ZeroDivisionError: division by zero",
+          time = base::Sys.time()
+        )
+      }
+    ),
+    "Unexplained tuning failures"
+  )
+})
+
+testthat::test_that("temporal tuning aborts when no slice is feasible", {
+  testthat::expect_error(
+    run_sjsdm_tuning_sequence(
+      unit_pipeline = "pipeline.R",
+      target_store = withr::local_tempdir(),
+      tuning_strategy = "exhaustive",
+      n_rounds = 1L,
+      tuning_target_names = "list_sjsdm_cv_tuning_artifact_timeslice_0",
+      slice_ids = "timeslice_0",
+      validate_tuning_targets = FALSE,
+      run_pipeline_function = function(sel_script, ...) {
+        rlang::abort("failed", class = "sjsdm_unit_expected_infeasible")
+      },
+      load_metadata_function = function(...) {
+        tibble::tibble(
+          name = "data_sample_ids_checked_timeslice_0",
+          error = stringr::str_c(
+            "Too few samples in this time slice to proceed. ",
+            "Found 1 sample(s) but at least 10 are required."
+          ),
+          time = base::Sys.time()
+        )
+      }
+    ),
+    class = "sjsdm_tuning_no_feasible_slice"
+  )
+})
