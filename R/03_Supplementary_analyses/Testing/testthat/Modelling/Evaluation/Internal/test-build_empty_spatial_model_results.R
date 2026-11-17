@@ -35,7 +35,9 @@ testthat::test_that(
         "n_effective_mev",
         "regularization_source",
         "source_tier",
-        "candidate_id"
+        "candidate_id",
+        "final_model_built_at",
+        "variance_partition_built_at"
       )
     )
   }

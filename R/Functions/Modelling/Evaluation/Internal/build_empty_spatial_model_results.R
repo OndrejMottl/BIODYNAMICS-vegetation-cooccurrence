@@ -34,7 +34,15 @@
       n_effective_mev = base::integer(),
       regularization_source = base::character(),
       source_tier = base::character(),
-      candidate_id = base::character()
+      candidate_id = base::character(),
+      final_model_built_at = base::as.POSIXct(
+        base::character(),
+        tz = "UTC"
+      ),
+      variance_partition_built_at = base::as.POSIXct(
+        base::character(),
+        tz = "UTC"
+      )
     )
 
   return(res)

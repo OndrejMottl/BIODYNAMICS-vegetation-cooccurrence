@@ -20,7 +20,12 @@
 #' @return
 #' A tibble with Shapley and predictor-inclusive ANOVA component values,
 #' explicitly labelled fitted AUC, and cross-validated predictive Tjur R2,
-#' AUC, and log loss.
+#' AUC, and log loss. Provenance columns record the regularisation source and
+#' candidate, and the build times of the final model
+#' (`final_model_built_at`, from `mod_jsdm_selected_<resolution>`) and of the
+#' variance partition (`variance_partition_built_at`, from
+#' `list_jsdm_variance_partition_<resolution>`), taken from the store
+#' metadata. Build times are `NA` when the metadata has no `time` field.
 #' @export
 load_spatial_model_results <- function(
     store_index,
@@ -86,7 +91,7 @@ load_spatial_model_results <- function(
             purrr::possibly(
               .f = function() {
                 meta_fn(
-                  fields = base::c("name", "error"),
+                  fields = base::c("name", "error", "time"),
                   complete_only = FALSE,
                   store = store_path
                 )
@@ -255,6 +260,32 @@ load_spatial_model_results <- function(
                   data_provenance = data_provenance
                 )
 
+              # Build times let published tables show which fits they use.
+              vec_build_times <-
+                base::c(
+                  stringr::str_glue("mod_jsdm_selected_{resolution_id}"),
+                  target_anova
+                ) |>
+                purrr::map(
+                  .f = ~ {
+                    vec_time <-
+                      if (
+                        "time" %in% base::names(data_meta)
+                      ) {
+                        data_meta[["time"]][data_meta[["name"]] == .x]
+                      } else {
+                        base::character()
+                      }
+                    if (
+                      base::length(vec_time) == 1L
+                    ) {
+                      base::as.POSIXct(vec_time, tz = "UTC")
+                    } else {
+                      base::as.POSIXct(NA_character_, tz = "UTC")
+                    }
+                  }
+                )
+
               data_shapley_components <-
                 compute_shapley_variance_components(
                   data_source = data_anova
@@ -334,7 +365,9 @@ load_spatial_model_results <- function(
                     purrr::chuck(1L),
                   candidate_id = data_provenance_summary |>
                     dplyr::pull("candidate_id") |>
-                    purrr::chuck(1L)
+                    purrr::chuck(1L),
+                  final_model_built_at = vec_build_times[[1L]],
+                  variance_partition_built_at = vec_build_times[[2L]]
                 ) |>
                 dplyr::select(
                   "data_source",
@@ -363,7 +396,9 @@ load_spatial_model_results <- function(
                   "n_effective_mev",
                   "regularization_source",
                   "source_tier",
-                  "candidate_id"
+                  "candidate_id",
+                  "final_model_built_at",
+                  "variance_partition_built_at"
                 )
             }
           ) |>

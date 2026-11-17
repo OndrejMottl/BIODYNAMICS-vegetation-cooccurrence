@@ -302,3 +302,54 @@ testthat::test_that("Spatial results reject unreadable metadata safely", {
     )
   testthat::expect_equal(base::nrow(data_result), 0L)
 })
+
+testthat::test_that(
+  "load_spatial_model_results records final-model and partition build times",
+  {
+    data_result <-
+      load_spatial_model_results(
+        store_index = make_test_store_index(store_path = "timed-store"),
+        resolution_ids = "genus",
+        meta_fn = function(...) {
+          tibble::tibble(
+            name = base::c(
+              "list_jsdm_variance_partition_genus",
+              "mod_jsdm_selected_genus"
+            ),
+            error = NA_character_,
+            time = base::as.POSIXct(
+              base::c("2026-11-16 11:00:00", "2026-11-16 10:00:00"),
+              tz = "UTC"
+            )
+          )
+        },
+        read_target_fn = function(...) make_test_anova()
+      )
+
+    testthat::expect_equal(
+      base::unique(data_result[["final_model_built_at"]]),
+      base::as.POSIXct("2026-11-16 10:00:00", tz = "UTC")
+    )
+    testthat::expect_equal(
+      base::unique(data_result[["variance_partition_built_at"]]),
+      base::as.POSIXct("2026-11-16 11:00:00", tz = "UTC")
+    )
+
+    data_result_without_time <-
+      load_spatial_model_results(
+        store_index = make_test_store_index(store_path = "untimed-store"),
+        resolution_ids = "genus",
+        meta_fn = function(...) {
+          tibble::tibble(
+            name = "list_jsdm_variance_partition_genus",
+            error = NA_character_
+          )
+        },
+        read_target_fn = function(...) make_test_anova()
+      )
+
+    testthat::expect_true(
+      base::all(base::is.na(data_result_without_time[["final_model_built_at"]]))
+    )
+  }
+)
